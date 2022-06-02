@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A62053C085
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 23:58:36 +0200 (CEST)
-Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D3153C080
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 23:52:44 +0200 (CEST)
+Received: from localhost ([::1]:48614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwspt-0007CQ-DB
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 17:58:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
+	id 1nwskF-0007mF-2z
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 17:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsge-0004QH-CB
+ id 1nwsge-0004QB-9L
  for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:00 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:53061)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:34302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgb-0008U5-5j
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:00 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id gd1so6024314pjb.2
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:48:56 -0700 (PDT)
+ id 1nwsgc-0008UE-1u
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:48:59 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ nn3-20020a17090b38c300b001e0e091cf03so6655797pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AP39jqbPiQO8vlhvr3vURJ9OZT2UOimjCnaJk3rF7/M=;
- b=UiMz+ICIQZL2tXgVEHPvffEvf6NhyTrNcFana0UdkZRLIaTYWS2USJ9x7XtlppAs0x
- dYgwTK7GrS9xRCAlK4d4edSxTl3JbEnT/08b8T9iryl+W6Kb8vtefmBK8zZPf0HWE0ja
- n3hySf3C/5lzeMzFOdwP/OQPS87eovFyQru3gJimQG7Wh2Dha4iFF4H+8ChP3tcZfLSw
- i0J4NgRkhdi93Y73c1YpVc3DGPa+H2Py612xoOl/+dLwdRHicKXUaPalw7BLuMe+K3Br
- I/Xvj1paETT5bNQ4WxJAlqihxWimlNLU4RbbVNZwusLHA7YON81xbj7BdxMIGSU5W6Kh
- qx2Q==
+ bh=BnYlj1QWtoxKlbicrTFs8TmSm+Qpy+0FoE3R3RxAx04=;
+ b=DPb7AazhBnPiJ/I9UdyRKp+2L6bEJMFCf0lvlhKV4q5ZlmgIY7+c5HI/Ta+Y4EyAmr
+ dTfC5SZyr0mnV3NlyQrcU4eWsAmvSYGEAttlEUF5WMrOgQHR2IPcZroWpdTgQjUYeeld
+ t5uYb41KApfLfA/xcSSBAo19fCrg0MBVO2bWAdk8hXBWGvwciJyPiyGJHEjs/Ag22yme
+ 8aULnzdGjNAXC9j0AfanGOQtD2JzbTAS7SAxPrEOaqNbhuu1vGEB2W29afWRvSLKocs9
+ h5BBz5JXk48RSpRVHHra2l2U8rzzTPCH2Oobxhw5cll/sUhCeKiZPRpZaFXykaPAYgn2
+ 584g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AP39jqbPiQO8vlhvr3vURJ9OZT2UOimjCnaJk3rF7/M=;
- b=SbfRysWFkCJEVxjUFeFZ9R4wSXfaVawbHp5v4kqDfyCsH9TxeuXvbuGpYtVbzzzxu9
- D7r7o3/9wUpdkIFaFo9NChRGUUkGz30cRusrcuQN0Smoiec0fUCEXwQ+1FL5wbOg2BYs
- vtP7FI2NWB8FchVmaq9AuvGlkSIWh0dLLJA5PcWE5zLp4qIyIPKscjhFyh4U2js7smCl
- OZzASrjFHTNQiiHdH/KomWiSD4NtyN8cIJ1lLKZ7cRkx5xraCaa4fH5Vbl79o+NPgIAR
- dflnNFaWTWBeVhi0OiOZSSbVLjFbimMj8rz4kgX3XClv5DEHT9qvUQx15/UXTqV4wI2P
- Qmiw==
-X-Gm-Message-State: AOAM532ZlOq2nSAbaZNsIIKzo/3MJuXOOnW47T3AxsjRRaklXpI5kadd
- kugmJdRKZjB3b7YHB1qWAoQ5fJBlewehsA==
-X-Google-Smtp-Source: ABdhPJzGoqd7Hxm7KLjGxzCKEt97OFZCyzwwbAmxgsMXRsK1vYxg6pLUTSzKIoXGeJiI3wEfUTYSnQ==
-X-Received: by 2002:a17:90b:3510:b0:1e0:b82:7558 with SMTP id
- ls16-20020a17090b351000b001e00b827558mr42390763pjb.21.1654206535719; 
- Thu, 02 Jun 2022 14:48:55 -0700 (PDT)
+ bh=BnYlj1QWtoxKlbicrTFs8TmSm+Qpy+0FoE3R3RxAx04=;
+ b=xbNP0xVNcpzISm8WBSIPoXBUJZviEwNfVXkf0qD+1gg6ySONeYsOWIGDWzTnLSwwXN
+ S1YPKOGEZQaZoOoIeEBiSf0tnLVq2DKYaZumdJf6mi4GRSJJnYA/Z3jzVCiIzFfiC2J8
+ 5wfnulZArtv4E2EGr0fjxRvsJEHtB+Fkc1MHMsD7k8W/Z7eowskusQrLeveUbt964h1X
+ xqhyArKDYQxV19nurlGC0grWi6xIKZPG18kl+xIu7HzFhVG+OiPuGnd3HjWQOj4ghVCy
+ VN47nx5cqcTw8EKfzkcYSUt5c2DQdhJNZeDX0dOVLNQgy+hjr8XRcIZ0+dwY2ecQu3Gp
+ JUkQ==
+X-Gm-Message-State: AOAM531L+tzpudDJDyRkiRI4b4Ulvv24xotq9J/3qyDOduqJ/Z1AtqCH
+ 8IoH8LWZwZZyRKVZVtfVMmQ0a5BcYf3KTg==
+X-Google-Smtp-Source: ABdhPJzWwyyutlrfr1IHjnSEQZyTu2KKgRTvXmJKrN7OnWHJSpCoRB4Wgz/WbVndqr5tHKAeeZjMeg==
+X-Received: by 2002:a17:90a:7e02:b0:1e0:a6a7:6eb with SMTP id
+ i2-20020a17090a7e0200b001e0a6a706ebmr7445024pjl.203.1654206536631; 
+ Thu, 02 Jun 2022 14:48:56 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.48.54
+ bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.48.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 14:48:55 -0700 (PDT)
+ Thu, 02 Jun 2022 14:48:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 01/71] target/arm: Rename TBFLAG_A64 ZCR_LEN to VL
-Date: Thu,  2 Jun 2022 14:47:43 -0700
-Message-Id: <20220602214853.496211-2-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH 02/71] linux-user/aarch64: Introduce sve_vq_cached
+Date: Thu,  2 Jun 2022 14:47:44 -0700
+Message-Id: <20220602214853.496211-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602214853.496211-1-richard.henderson@linaro.org>
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,101 +89,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With SME, the vector length does not only come from ZCR_ELx.
-Comment that this is either NVL or SVL, like the pseudocode.
+Add an interface function to extract the digested vector length
+rather than the raw zcr_el[1] value.  This fixes an incorrect
+return from do_prctl_set_vl where we didn't take into account
+the set of vector lengths supported by the cpu.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Renamed from SVE_LEN to VL.
+v2: Add sve_vq_cached rather than directly access hflags.
 ---
- target/arm/cpu.h           | 3 ++-
- target/arm/translate-a64.h | 2 +-
- target/arm/translate.h     | 2 +-
- target/arm/helper.c        | 2 +-
- target/arm/translate-a64.c | 2 +-
- target/arm/translate-sve.c | 2 +-
- 6 files changed, 7 insertions(+), 6 deletions(-)
+ linux-user/aarch64/target_prctl.h | 20 +++++++++++++-------
+ target/arm/cpu.h                  | 11 +++++++++++
+ linux-user/aarch64/signal.c       |  4 ++--
+ 3 files changed, 26 insertions(+), 9 deletions(-)
 
+diff --git a/linux-user/aarch64/target_prctl.h b/linux-user/aarch64/target_prctl.h
+index 3f5a5d3933..fdd973e07d 100644
+--- a/linux-user/aarch64/target_prctl.h
++++ b/linux-user/aarch64/target_prctl.h
+@@ -10,7 +10,7 @@ static abi_long do_prctl_get_vl(CPUArchState *env)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+     if (cpu_isar_feature(aa64_sve, cpu)) {
+-        return ((cpu->env.vfp.zcr_el[1] & 0xf) + 1) * 16;
++        return sve_vq_cached(env) * 16;
+     }
+     return -TARGET_EINVAL;
+ }
+@@ -25,18 +25,24 @@ static abi_long do_prctl_set_vl(CPUArchState *env, abi_long arg2)
+      */
+     if (cpu_isar_feature(aa64_sve, env_archcpu(env))
+         && arg2 >= 0 && arg2 <= 512 * 16 && !(arg2 & 15)) {
+-        ARMCPU *cpu = env_archcpu(env);
+         uint32_t vq, old_vq;
+ 
+-        old_vq = (env->vfp.zcr_el[1] & 0xf) + 1;
+-        vq = MAX(arg2 / 16, 1);
+-        vq = MIN(vq, cpu->sve_max_vq);
++        old_vq = sve_vq_cached(env);
+ 
++        /*
++         * Bound the value of arg2, so that we know that it fits into
++         * the 4-bit field in ZCR_EL1.  Rely on the hflags rebuild to
++         * sort out the length supported by the cpu.
++         */
++        vq = MAX(arg2 / 16, 1);
++        vq = MIN(vq, ARM_MAX_VQ);
++        env->vfp.zcr_el[1] = vq - 1;
++        arm_rebuild_hflags(env);
++
++        vq = sve_vq_cached(env);
+         if (vq < old_vq) {
+             aarch64_sve_narrow_vq(env, vq);
+         }
+-        env->vfp.zcr_el[1] = vq - 1;
+-        arm_rebuild_hflags(env);
+         return vq * 16;
+     }
+     return -TARGET_EINVAL;
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index c1865ad5da..015ce12fe2 100644
+index 015ce12fe2..830d358d46 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3241,7 +3241,8 @@ FIELD(TBFLAG_M32, MVE_NO_PRED, 5, 1)            /* Not cached. */
-  */
- FIELD(TBFLAG_A64, TBII, 0, 2)
- FIELD(TBFLAG_A64, SVEEXC_EL, 2, 2)
--FIELD(TBFLAG_A64, ZCR_LEN, 4, 4)
-+/* The current vector length, either NVL or SVL. */
-+FIELD(TBFLAG_A64, VL, 4, 4)
- FIELD(TBFLAG_A64, PAUTH_ACTIVE, 8, 1)
- FIELD(TBFLAG_A64, BT, 9, 1)
- FIELD(TBFLAG_A64, BTYPE, 10, 2)         /* Not cached. */
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index f2e8ee0ee1..dbc917ee65 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -104,7 +104,7 @@ static inline TCGv_ptr vec_full_reg_ptr(DisasContext *s, int regno)
- /* Return the byte size of the "whole" vector register, VL / 8.  */
- static inline int vec_full_reg_size(DisasContext *s)
- {
--    return s->sve_len;
-+    return s->vl;
+@@ -3286,6 +3286,17 @@ static inline int cpu_mmu_index(CPUARMState *env, bool ifetch)
+     return EX_TBFLAG_ANY(env->hflags, MMUIDX);
  }
  
- bool disas_sve(DisasContext *, uint32_t);
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 9f0bb270c5..f473a21ed4 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -42,7 +42,7 @@ typedef struct DisasContext {
-     bool ns;        /* Use non-secure CPREG bank on access */
-     int fp_excp_el; /* FP exception EL or 0 if enabled */
-     int sve_excp_el; /* SVE exception EL or 0 if enabled */
--    int sve_len;     /* SVE vector length in bytes */
-+    int vl;          /* current vector length in bytes */
-     /* Flag indicating that exceptions from secure mode are routed to EL3. */
-     bool secure_routed_to_el3;
-     bool vfp_enabled; /* FP enabled via FPSCR.EN */
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 40da63913c..960899022d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -13696,7 +13696,7 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-             zcr_len = sve_zcr_len_for_el(env, el);
-         }
-         DP_TBFLAG_A64(flags, SVEEXC_EL, sve_el);
--        DP_TBFLAG_A64(flags, ZCR_LEN, zcr_len);
-+        DP_TBFLAG_A64(flags, VL, zcr_len);
++/**
++ * sve_vq_cached
++ * @env: the cpu context
++ *
++ * Return the VL cached within env->hflags, in units of quadwords.
++ */
++static inline int sve_vq_cached(CPUARMState *env)
++{
++    return EX_TBFLAG_A64(env->hflags, VL) + 1;
++}
++
+ static inline bool bswap_code(bool sctlr_b)
+ {
+ #ifdef CONFIG_USER_ONLY
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index 7de4c96eb9..30e89f67c8 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -315,7 +315,7 @@ static int target_restore_sigframe(CPUARMState *env,
+ 
+         case TARGET_SVE_MAGIC:
+             if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
+-                vq = (env->vfp.zcr_el[1] & 0xf) + 1;
++                vq = sve_vq_cached(env);
+                 sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
+                 if (!sve && size == sve_size) {
+                     sve = (struct target_sve_context *)ctx;
+@@ -434,7 +434,7 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
+ 
+     /* SVE state needs saving only if it exists.  */
+     if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
+-        vq = (env->vfp.zcr_el[1] & 0xf) + 1;
++        vq = sve_vq_cached(env);
+         sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
+         sve_ofs = alloc_sigframe_space(sve_size, &layout);
      }
- 
-     sctlr = regime_sctlr(env, stage1);
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 935e1929bb..d438fb89e7 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14608,7 +14608,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
-     dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
-     dc->sve_excp_el = EX_TBFLAG_A64(tb_flags, SVEEXC_EL);
--    dc->sve_len = (EX_TBFLAG_A64(tb_flags, ZCR_LEN) + 1) * 16;
-+    dc->vl = (EX_TBFLAG_A64(tb_flags, VL) + 1) * 16;
-     dc->pauth_active = EX_TBFLAG_A64(tb_flags, PAUTH_ACTIVE);
-     dc->bt = EX_TBFLAG_A64(tb_flags, BT);
-     dc->btype = EX_TBFLAG_A64(tb_flags, BTYPE);
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 836511d719..67761bf2cc 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -111,7 +111,7 @@ static inline int pred_full_reg_offset(DisasContext *s, int regno)
- /* Return the byte size of the whole predicate register, VL / 64.  */
- static inline int pred_full_reg_size(DisasContext *s)
- {
--    return s->sve_len >> 3;
-+    return s->vl >> 3;
- }
- 
- /* Round up the size of a register to a size allowed by
 -- 
 2.34.1
 
