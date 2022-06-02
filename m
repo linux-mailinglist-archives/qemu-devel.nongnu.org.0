@@ -2,101 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB5753BEA9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 21:23:59 +0200 (CEST)
-Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D473653BEE7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 21:38:14 +0200 (CEST)
+Received: from localhost ([::1]:48076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwqQH-0007a3-UB
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 15:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37064)
+	id 1nwqe5-0002bS-F0
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 15:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nwqMZ-0005mg-P0; Thu, 02 Jun 2022 15:20:10 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:38859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nwqMX-0005HE-E7; Thu, 02 Jun 2022 15:20:07 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 03A595C024F;
- Thu,  2 Jun 2022 15:20:03 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 02 Jun 2022 15:20:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1654197602; x=1654284002; bh=mr
- 012aGW6nT4gBeC642BNtp2RVJElYSvK9sVFfDJC/A=; b=jJLh6O/UGomNn++nLS
- /cNHPxejfyZuMDjpDIMDNaXBDl2bL7NshXlr5Kvpck2ZBnXkl/AZo02wBkO8bJCg
- cFkOfDrDI1VrSlJS/pd5AwFyR9LBRnD0Cvdd1zKYuXqE86ya91K/ipK7fgH10CBc
- gGyByEP5tZQt7RnEE+WeKdLWieBSWNIUIgoFBiOFIc+TnCaXcT6gdfT6EnXrjNfo
- TTLnaEN9yc7VB9Qk1UxCBHvEHWS3h7hRF4M+UQiqw3jcXA+Avnc03qbm3dUNk4gl
- jqCBM/wVF+HvZuV4J/iaUZP/UArIe6JV/E/8nIuZy7yj2LbNb/4XBUrdHEggJNKA
- SMYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1654197602; x=1654284002; bh=mr012aGW6nT4gBeC642BNtp2RVJE
- lYSvK9sVFfDJC/A=; b=ZaEq8gldZmoxKuE9ZM3oHGy7kN+zNDuNhSF3pAgrDnkM
- Wh1FdeZ0+ejxnJkzUhUnNVCrN1u8ng6jMpE8uBsWHC2LwmsrPHgykFVjfEnFsS93
- rpxtchUuF0mf1ioF1t7G9kqgfryatzUNbuubJq0/4Mqd0/vFSF4LpmjU1wa9Cy9C
- 9EhjUNQkiEqZvdL4roHNFf+AN0kUkgTHvJxQr1p4rZbYpSoUJd0jkpa9sOEkI9HQ
- +vquIhRaM3TKcf73YaTZxvBuw6MV+hD6l8+r2NYGcvJ+hzLNMH7HPLi2L+NchSIz
- xbQg54q8XBaFHif3Fc2WxGK8wNoN4OXHYiKGR3+J7A==
-X-ME-Sender: <xms:YQ2ZYj6xNR_UTdmom8dkLBUstMpo3ILA6D8b_VnkgJS1ZCLRuoRgmQ>
- <xme:YQ2ZYo5HOPj2Zk9Razn3vpECHF15Na1K4yJ7FGK6pSjgfJP5Bygf83sEbVpToVQn4
- dO4YjedkEbJ0p1UZxU>
-X-ME-Received: <xmr:YQ2ZYqdjiFKLfv6Td4Tz0n3Qh47uf6ueYMM-J2v2v-XYl1sIUsd099BNIFVAovmrEVMCw0G-Atsv7lqcgA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeggddthecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeffuddvhfehjedugfeijeeuieelgeevuddvlefhkefhgfettefftddvkeevieel
- feenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:YQ2ZYkLkcaJfCAu9a4f8OjdgMksY6SwUoq2XMyUt4QQW4RDH2W86Gg>
- <xmx:YQ2ZYnJArWLIfHEEGv2WG8ga4F3Szy9cbMwfDzpHae_CDXqlPg25DQ>
- <xmx:YQ2ZYtx4qXEuC2nCjR66XnyADwi5GP6EWRFrUOfZ1pUu-jk9AQoS5A>
- <xmx:Yg2ZYphq8eBbw-bX8f6aGA7OByCVYHdGpT2uciOJMEDdcJaoHf1gOQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Jun 2022 15:19:59 -0400 (EDT)
-Date: Thu, 2 Jun 2022 21:19:57 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Cc: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, qemu-devel@nongnu.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-arm@nongnu.org,
- Peter Delevoryas <pdel@fb.com>, Peter Maydell <peter.maydell@linaro.org>,
- Corey Minyard <cminyard@mvista.com>,
- Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- Damien Hedde <damien.hedde@greensocs.com>,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
- Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
- Klaus Jensen <k.jensen@samsung.com>, Zev Weiss <zev@bewilderbeest.net>
-Subject: Re: [RFC PATCH v2 0/6] hw/i2c: i2c slave mode support
-Message-ID: <YpkNXUkafYQ3ZSpT@apples>
-References: <20220601210831.67259-1-its@irrelevant.dk>
- <6e0eb197-25c2-6b1e-2c19-f93597e29cff@kaod.org>
- <YphzHGNYErSMEfPw@apples>
- <00e2d10a-20f5-8357-5b13-41791940ce19@kaod.org>
- <5683a737-8a15-20c5-5716-f5216d6c33c8@quicinc.com>
- <c796202d-2e57-32b3-3007-343d37dcdb84@kaod.org>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nwqci-0001gI-OC; Thu, 02 Jun 2022 15:36:50 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:35409)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nwqcf-00022W-2G; Thu, 02 Jun 2022 15:36:48 -0400
+Received: by mail-oi1-x235.google.com with SMTP id h188so7807131oia.2;
+ Thu, 02 Jun 2022 12:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=K1e72QWwl+f+VRxQkV/P5EM8YAp2zxqbnof9Wyk3q9o=;
+ b=kCf+KBRn2s8lsR2nB4DHQNH8BvV4huz4MbTQBoKwr0iVNf5YBDKt/EMrdXxP9oIwhq
+ gkaysVDxtbkxJOtpHiP16OiPgtl+xkWLLgll5lw73K+bqpVRwtoAc5XTIu26goBziCkU
+ pzJwQVw7M7224DzhcvvfDvUav5rctGAed/fmSQjXOoeXf+4yfzNCDGobi0RF1xaGb59u
+ YA7/fedxbkXHXHWdbxdwnNMqAoZQx3i3BFBRVuH2JM2X1g6W+tjeA0B7HxtgaC1Yt9EC
+ F598bfz91+ez5OOZivGMzYEH32QEx7fM3S1c3CyUYX1rkNahNa7K2VbShsUatwCWP/pM
+ vPng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=K1e72QWwl+f+VRxQkV/P5EM8YAp2zxqbnof9Wyk3q9o=;
+ b=R3kp/aReBzesi+Mj5CO3qiSIQAgF2HoCiuVUggz6HroDClDyZ8FjgknLBukqxerV2i
+ 18lBAEi7jlln4z9qTi6E7stLlO2CWRWrxpOZW9d3iLtY29RWmlGd9LyYftgzeUiqq/b6
+ DxXnjlTFIP5Y0DJp3/STpkJj4YN93tKbrw2MYON289X8xGlYg8BPBEVYn3q8UXLdsdLE
+ msu8Uou8OSiTPv+ipnAx6wcrUAfu0dsV8062Spnvt+unrBFBZvp1Tfk40P3BUWFfYg4Q
+ r0fXB1A/TT2VG6/VRt8/ni7i6d6hTl/e6LOWQ9uOfI/bhRCQmqd4pma8BjXMCxHpFO6B
+ G5JA==
+X-Gm-Message-State: AOAM5338fhLswAqsi+TYS5NrQPNz/AVlFf/Rk4Nbp3fPjVl8VF6aYKid
+ 6GdLm45vNBqZrFEfdnzi+a0jsqL8ebPPOUIxWMw=
+X-Google-Smtp-Source: ABdhPJxD2HWnPmjqpr24ay80Rzcvtit62vt70ggqUO7jMOoKQWhbuZdfdi4AerXVnVoAIPb63VHMDMojXnvkgM2/YdI=
+X-Received: by 2002:a05:6808:1c0d:b0:32e:493b:1e2 with SMTP id
+ ch13-20020a0568081c0d00b0032e493b01e2mr731280oib.101.1654198598955; Thu, 02
+ Jun 2022 12:36:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8agfdVEGsKIvyPAb"
-Content-Disposition: inline
-In-Reply-To: <c796202d-2e57-32b3-3007-343d37dcdb84@kaod.org>
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <CAAAx-8+ECfznYPcJqPvP=7fzfgQobU1t+kGhGzWvArjm_Xs_yg@mail.gmail.com>
+ <CAJSP0QURQOD79ixL2j__uBCuaJL19sytKpMr6QT2QY_+VnQPtg@mail.gmail.com>
+ <CAAAx-8LsXQ=w7QTz0JHfGp6gbgY5najE0N7K0yBwhdqqH+E6Eg@mail.gmail.com>
+ <be663d15-6db3-1777-0830-60dcc6aa394e@opensource.wdc.com>
+ <CAJSP0QWLn5i9at7vhFdgOysZ0+voKFYRQqRquVaxh_EoZXRDRg@mail.gmail.com>
+ <CAAAx-8JWexta+c396Os_YGAOicf8j6d6A8QVf1n5Su8fHiiGwQ@mail.gmail.com>
+ <CAJSP0QXfUeeGgq7RoXWRpcf-5Yob9BgoJPv4tBwav+xsn_R9OQ@mail.gmail.com>
+ <CAAAx-8JGrhrcD8Nk__jHXx-xDDPy6O8qPppjUpe=is3351VW4w@mail.gmail.com>
+In-Reply-To: <CAAAx-8JGrhrcD8Nk__jHXx-xDDPy6O8qPppjUpe=is3351VW4w@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 2 Jun 2022 20:36:26 +0100
+Message-ID: <CAJSP0QX7Bf4tmm3axEHQZUH_NXKE49BrBdrHpvcf=qABXQPPDA@mail.gmail.com>
+Subject: Re: Outreachy project task: Adding QEMU block layer APIs resembling
+ Linux ZBD ioctls.
+To: Sam Li <faithilikerun@gmail.com>
+Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>, 
+ qemu-devel <qemu-devel@nongnu.org>, qemu block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=stefanha@gmail.com; helo=mail-oi1-x235.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,73 +91,371 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 2 Jun 2022 at 11:28, Sam Li <faithilikerun@gmail.com> wrote:
+>
+> Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=882=E6=
+=97=A5=E5=91=A8=E5=9B=9B 16:05=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Thu, 2 Jun 2022 at 06:43, Sam Li <faithilikerun@gmail.com> wrote:
+> > >
+> > > Hi Stefan,
+> > >
+> > > Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=88=
+1=E6=97=A5=E5=91=A8=E4=B8=89 19:43=E5=86=99=E9=81=93=EF=BC=9A
+> > > >
+> > > > On Wed, 1 Jun 2022 at 06:47, Damien Le Moal
+> > > > <damien.lemoal@opensource.wdc.com> wrote:
+> > > > >
+> > > > > On 6/1/22 11:57, Sam Li wrote:
+> > > > > > Hi Stefan,
+> > > > > >
+> > > > > > Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B45=E6=
+=9C=8830=E6=97=A5=E5=91=A8=E4=B8=80 19:19=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > >
+> > > > > >
+> > > > > >>
+> > > > > >> On Mon, 30 May 2022 at 06:09, Sam Li <faithilikerun@gmail.com>=
+ wrote:
+> > > > > >>>
+> > > > > >>> Hi everyone,
+> > > > > >>> I'm Sam Li, working on the Outreachy project which is to add =
+zoned
+> > > > > >>> device support to QEMU's virtio-blk emulation.
+> > > > > >>>
+> > > > > >>> For the first goal, adding QEMU block layer APIs resembling L=
+inux ZBD
+> > > > > >>> ioctls, I think the naive approach would be to introduce a ne=
+w stable
+> > > > > >>> struct zbd_zone descriptor for the library function interface=
+. More
+> > > > > >>> specifically, what I'd like to add to the BlockDriver struct =
+are:
+> > > > > >>> 1. zbd_info as zone block device information: includes number=
+s of
+> > > > > >>> zones, size of logical blocks, and physical blocks.
+> > > > > >>> 2. zbd_zone_type and zbd_zone_state
+> > > > > >>> 3. zbd_dev_model: host-managed zbd, host-aware zbd
+> > > > > >>> With those basic structs, we can start to implement new funct=
+ions as
+> > > > > >>> bdrv*() APIs for BLOCK*ZONE ioctls.
+> > > > > >>>
+> > > > > >>> I'll start to finish this task based on the above description=
+. If
+> > > > > >>> there is any problem or something I may miss in the design, p=
+lease let
+> > > > > >>> me know.
+> > > > > >>
+> > > > > >> Hi Sam,
+> > > > > >> Can you propose function prototypes for the new BlockDriver ca=
+llbacks
+> > > > > >> needed for zoned devices?
+> > > > > >
+> > > > > > I have made some modifications based on Damien's device in desi=
+gn part
+> > > > > > 1 and added the function prototypes in design part 2. If there =
+is any
+> > > > > > problem or part I missed, please let me know.
+> > > > > >
+> > > > > > Design of Block Layer APIs in BlockDriver:
+> > > > > > 1. introduce a new stable struct zbd_zone descriptor for the li=
+brary
+> > > > > > function interface.
+> > > > > >   a. zbd_info as zone block device information: includes number=
+s of
+> > > > > > zones, size of blocks, write granularity in byte(minimal write =
+size
+> > > > > > and alignment
+> > > > > >     - write granularity: 512e SMRs: writes in units of physical=
+ block
+> > > > > > size, 4096 bytes; NVMe ZNS write granularity is equal to the bl=
+ock
+> > > > > > size.
+> > > > > >     - zone descriptor: start, length, capacity, write pointer, =
+zone type
+> > > > > >   b. zbd_zone_type
+> > > > > >     - zone type: conventional, sequential write required, seque=
+ntial
+> > > > > > write preferred
+> > > > > >   c. zbd_dev_model: host-managed zbd, host-aware zbd
+> > > > >
+> > > > > This explanation is a little hard to understand. It seems to be m=
+ixing up
+> > > > > device level information and per-zone information. I think it wou=
+ld be a
+> > > > > lot simpler to write a struct definition to directly illustrate w=
+hat you
+> > > > > are planning.
+> > > > >
+> > > > > It is something like this ?
+> > > > >
+> > > > > struct zbd_zone {
+> > > > >         enum zone_type  type;
+> > > > >         enum zone_cond  cond;
+> > > > >         uint64_t        start;
+> > > > >         uint32_t        length;
+> > > > >         uint32_t        cap;
+> > > > >         uint64_t        wp;
+> > > > > };
+> > > > >
+> > > > > strcut zbd_dev {
+> > > > >         enum zone_model model;
+> > > > >         uint32_t        block_size;
+> > > > >         uint32_t        write_granularity;
+> > > > >         uint32_t        nr_zones
+> > > > >         struct zbd_zone *zones; /* array of zones */
+> > > > > };
+> > > > >
+> > > > > If yes, then my comments are as follows.
+> > > > >
+> > > > > For the device struct: It may be good to have also the maximum nu=
+mber of
+> > > > > open zones and the maximum number of active zones.
+> > > > >
+> > > > > For the zone struct: You may need to add a read-write lock per zo=
+ne to be
+> > > > > able to write lock zones to ensure a sequential write pattern (vi=
+rtio
+> > > > > devices can be multi-queue and so writes may be coming in from di=
+fferent
+> > > > > contexts) and to correctly emulate zone append operations with an=
+ atomic
+> > > > > update of the wp field.
+> > > > >
+> > > > > These need to be integrated into the generic block driver interfa=
+ce in
+> > > > > include/block/block_int-common.h or include/block/block-common.h.
+> > > >
+> > > > QEMU's block layer has a few ways of exposing information about blo=
+ck devices:
+> > > >
+> > > >     int (*bdrv_get_info)(BlockDriverState *bs, BlockDriverInfo *bdi=
+);
+> > > >     ImageInfoSpecific *(*bdrv_get_specific_info)(BlockDriverState *=
+bs,
+> > > > Error **errp);
+> > > >
+> > > > These fetch information from the BlockDriver and are good when a sm=
+all
+> > > > amount of data is reported occassionally and consumed by the caller=
+.
+> > > >
+> > > > For data that is continuously accessed or that could be large, it m=
+ay
+> > > > be necessary for the data to reside inside BlockDriverState so that=
+ it
+> > > > can be accessed in place (without copying):
+> > > >
+> > > >     void (*bdrv_refresh_limits)(BlockDriverState *bs, Error **errp)=
+;
+> > > >
+> > > > QEMU uses this for the BlockLimits struct (BlockDriverState::bl) th=
+at
+> > > > is continuously accessed by the block layer while processing I/O
+> > > > requests. The "refresh" function updates the data in case the
+> > > > underlying storage device has changed somehow. If no update functio=
+n
+> > > > is necessary then data can simply be populated during .bdrv_open() =
+and
+> > > > no new BlockDriver callback needs to be added.
+> > > >
+> > > > So in the simplest case BlockDriverState can be extended with a str=
+uct
+> > > > zbd_dev field that is populated during .bdrv_open(). If the
+> > > > BlockDriver doesn't support zones then the zbd_dev.nr_zones field i=
+s 0
+> > > > or the model field indicates that this is not a zoned storage devic=
+e.
+> > > >
+> > > > However, a BlockBackend (not BlockDriverState!) API will be needed =
+to
+> > > > expose this data to users like the hw/block/virtio-blk.c emulation
+> > > > code or the qemu-io-cmds.c utility that can be used for testing. A
+> > > > BlockBackend has a root pointer to a BlockDriverState graph (for
+> > > > example, qcow2 on top of file-posix). It will be necessary to
+> > > > propagate zoned storage information from the leaf BlockDriverState =
+all
+> > > > the way up to the BlockBackend. In simple cases the BB root points
+> > > > directly to the file-posix BDS that has Linux ZBD support but the
+> > > > design needs to account for additional BDS graph nodes.
+> > >
+> > > I think a simple way to think BlockBackend APIs is to use following
+> > > callbacks: blk_aio_zone_mgmt() -> blk_aio_prwv() +
+> > > blk_aio_zone_mgmt_entry() -> blk_co_do_zone_mgmt() -> blk_zone_mgmt()=
+.
+> > > The last function call will call bdrv_co_zone_mgmt() in
+> > > block/file-posix.c. If I understand the additional case correctly, th=
+e
+> > > BlockBackend API can expose the zone information to the virtio-blk
+> > > emulation now.
+> >
+> > Yes!
+> >
+> > block/raw-format.c also needs to implement .bdrv_co_zone_mgmt() by
+> > calling bdrv_co_zone_mgmt(bs->file, ...). This is because the
+> > raw-format.c driver usually sits on top of file-posix.c and has to
+> > pass through requests.
+> >
+> > There are filter block drivers like block/throttle.c,
+> > block/blkdebug.c, etc (git grep is_filter block/) that will also need
+> > to be modified to pass through requests in the same way.
+> >
+>
+> Are the filter block drivers also on top of file-posix.c but below
+> block-backend.c? I read that the filter block drivers, and formats are
+> designed to be manageable pieces so as to make block device
+> configuration easier and clearer.
 
---8agfdVEGsKIvyPAb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, the filters are BlockDrivers and each instance has a
+BlockDriverState. They are part of the same BlockDriverState graph as
+file-posix.c.
 
-On Jun  2 17:40, C=C3=A9dric Le Goater wrote:
-> On 6/2/22 16:29, Jae Hyun Yoo wrote:
-> > Hi Klaus,
-> >=20
-> > On 6/2/2022 6:50 AM, C=C3=A9dric Le Goater wrote:
-> > > On 6/2/22 10:21, Klaus Jensen wrote:
-> > > >=20
-> > > > There is an outstanding issue with the SLAVE_ADDR_RX_MATCH interrup=
-t bit
-> > > > (bit 7). Remember from my first series I had a workaround to make s=
-ure
-> > > > it wasnt masked.
-> > > >=20
-> > > > I posted this upstream to linux
-> > > >=20
-> > > > https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant=
-=2Edk/
-> > > >=20
-> > > > Not sure if that is the right way to fix it.
-> > >=20
-> > > That's weird. I would have thought it was already enabled [ Adding Ja=
-e ]
-> >=20
-> > Slave mode support in Aspeed I2C driver is already enabled and it has
-> > worked well so far. The fix Klaus made in the link is incorrect.
-> >=20
-> > https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant.dk/
-> >=20
-> > The patch is adding ASPEED_I2CD_INTR_SLAVE_MATCH as a mask bit for
-> > I2CD0C (Interrupt Control Register) but actually this bit is part of
-> > I2CD10 (Interrupt Status Register). Means that the slave match interrupt
-> > can be enabled without enabling any mask bit in I2CD0C.
->=20
-> Thanks Jae.
->=20
-> So we should enable this interrupt always independently of the
-> Interrupt Control Register value.
->=20
-> I would simply extend the mask value (bus->regs[intr_ctrl_reg])
-> with the SLAVE_ADDR_RX_MATCH bit when interrupts are raised in
-> aspeed_i2c_bus_raise_interrupt().
->=20
+BlockBackend has a "root" BlockDriverState pointer. It points to a
+graph of BlockDriverStates and there are 3 types of nodes:
+- Filter nodes like block/throttle.c that provide some extra
+functionality like I/O throttling.
+- Format nodes like qcow2, raw, or vmdk that implement disk image file form=
+ats.
+- Protocol nodes like file-posix, iSCSI, etc that implement access to
+underlying storage.
 
-Alright, so my "workaround" from v1 was actually the right fix - I'll
-re-add it ;)
+The graph is pretty flexible. It's possible to insert/remove nodes to
+construct arbitrary graphs.
 
+Protocol nodes are the leaf nodes in the graph. Filter and format
+nodes are above protocol nodes.
 
---8agfdVEGsKIvyPAb
-Content-Type: application/pgp-signature; name="signature.asc"
+If we want to open /dev/nullb0 and limit I/O rates to 10 MB/s the
+graph would be:
+throttle (10 MB/s) -> raw-format -> file-posix (/dev/nullb0)
 
------BEGIN PGP SIGNATURE-----
+The BlockBackend root would point at the throttle node. I/O requests
+made using blk_*() APIs will be forwarded to the throttle node using
+bdrv_*() APIs. The throttle node forwards requests to the raw-format
+node using bdrv_*() APIs. The raw-format node forwards I/O requests to
+the file-posix node using bdrv_*() APIs. Here is block/raw-format.c's
+preadv implementation:
+  static int coroutine_fn raw_co_preadv(BlockDriverState *bs, int64_t offse=
+t,
+                                        int64_t bytes, QEMUIOVector *qiov,
+                                        BdrvRequestFlags flags)
+  {
+      int ret;
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKZDVwACgkQTeGvMW1P
-DeljdQf/Vdk3O/anDVQinA92Q3vkMYEvRWn+KSsqIU9n4UKz6MhJ+2qFvbm1M4YU
-SKvk8Vuf1EFlUJrCwoeP03x8xulPWa3u2XTzfqFTsxZ74ctT0bHdcWJ/Jyxjpz9U
-uoyj0lycPIYUddU2g9OoRQPKdqOwiPSHEWkya5AdbCgCoUPf/vHPlFf7HWmCMMuj
-YsFLNrYPV17d3uJrOvJh3eG6kMLjW70MICl/dfvnwTLnEmiuCDVUEKa3b8lAmmO4
-8HkUPACIpj6RDoRrJP9Zt2aIGaazW4BXs4QTBdb0Zv/2qzNvQIbve1QoZSsqvb1B
-7aP9L8DckfkhjLdWmhGqR0BewjgURw==
-=vfwT
------END PGP SIGNATURE-----
+      ret =3D raw_adjust_offset(bs, &offset, bytes, false);
+      if (ret) {
+          return ret;
+      }
 
---8agfdVEGsKIvyPAb--
+      BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+      return bdrv_co_preadv(bs->file, offset, bytes, qiov, flags);
+                 ^^^^^^^^^^^^^^^^^^^^^^^ forward I/O to child graph node
+  }
+
+>
+> > Based on what I've read in Dmitry's virtio-blk spec proposal, the
+> > BlockBackend API could look something like:
+> >
+> > typedef struct { ...model, zone_sectors, max_open_zones, etc... } Block=
+ZoneInfo;
+> > void blk_get_zone_info(BlockBackend *blk, BlockZoneInfo *info);
+> >
+> > virtio-blk.c calls this to fill out configuration space fields and
+> > determine whether the BlockBackend is a zoned device.
+> >
+> > Then there are 3 commands that happen in the I/O code path:
+> >
+> > typedef struct { ... } BlockZoneDescriptor;
+> > BlockAIOCB *blk_aio_zone_report(BlockBackend *blk, int64_t offset,
+> > BlockZoneDescriptor *zones, size_t max_zones, BlockCompletionFunc *cb,
+> > void *opaque);
+> >
+> > typedef enum { ... } BlockZoneMgmtCmd;
+> > BlockAIOCB *blk_aio_zone_mgmt_send(BlockBackend *blk, int64_t offset,
+> > BlockZoneMgmtCmd cmd, bool all, BlockCompletionFunc *cb, void
+> > *opaque);
+> >
+> > typedef void BlockZoneAppendCompletionFunc(void *opaque, int ret,
+> > int64_t new_wp);
+> > BlockAIOCB *blk_aio_zone_append(BlockBackend *blk, int64_t offset,
+> > QEMUIOVector *qiov, BlockZoneAppendCompletionFunc *cb, void *opaque);
+> >
+> > > Besides, comparing blk_aio_flush() with blk_flush() in block-backend.=
+c
+> > > which lead to include/block/block-io.h, we may need consider the case
+> > > when calling block layer API from non-coroutine context. Meanwhile,
+> > > using bdrv_co_writev()/bdrv_co_readv() instead of read-write lock per
+> > > zone may be a option too.
+> >
+> > Yes, device emulation code usually uses the aio versions of the
+> > BlockBackend I/O functions (read, write, flush). The QEMU block layer
+> > runs the aio I/O request inside a coroutine and usually also exposes
+> > coroutine versions of the same functions. For example, block jobs
+> > (e.g. storage mirroring, backup, and migration background tasks)
+> > usually call the coroutine versions of the BlockBackend APIs instead
+> > of the aio ones.
+> >
+> > qemu-io-cmds.c will want synchronous versions of the aio commands
+> > (blk_zone_report(), blk_zone_mgmt_send(), blk_zone_append()) that
+> > block until the command completes. This is because the qemu-io utility
+> > typically executes one command at a time and it's written mostly in
+> > blocking style rather than async callbacks or coroutines.
+> > docs/devel/block-coroutine-wrapper.rst describes how to generate
+> > synchronous versions of coroutine functions.
+> >
+> > Do you want to start implementing blk_get_zone_info()? This will
+> > require blk_*(), bdrv_*(), and BlockDriver (block/file-posix.c)
+> > functions.
+>
+> I want to implement the smallest part that can be tested first and
+> then move on to the next part. And I want to test zone report
+> operation first. Does the qemu io-test require the following part to
+> work: bdrv_co_zone_report in file-pisix.c, blk_get_zone_info() in
+> block-backend.c, blk_aio_zone_report() in io code path and modify some
+> test in test/qemu-iotests? If it does, then yes.
+
+blk_aio_zone_report() can be implemented later. It is not needed by qemu-io=
+.
+
+blk_get_zone_info() will be needed soon but maybe you can skip it
+while working on the first version of blk_co_zone_report().
+
+The steps are:
+1. Add a .bdrv_co_zone_report() callback to BlockDriver and define a
+BlockZoneDescriptor struct.
+2. Implement the .bdrv_co_zone_report() callback in block/file-posix.c
+using ioctl(BLKREPORTZONE).
+3. Implement bdrv_co_zone_report() in block/io.c. It calls
+bs->drv->bdrv_co_zone_report() or returns -ENOTSUP if
+bs->drv->bdrv_co_zone_report is NULL.
+4. Implement blk_co_zone_report() in block/block-backend.c. It calls
+bdrv_co_zone_report(blk->root, ...).
+5. Generate a synchronous blk_zone_report() wrapper. See
+docs/devel/block-coroutine-wrapper.rst.
+
+You now have a working zone report command. It will work with
+--blockdev file,filename=3D/dev/nullb0,node-name=3Dblk0, which creates a
+graph with just one block/file-posix.c BlockDriverState node. It won't
+work with QEMU's older --drive
+if=3Dnone,id=3Dblk0,format=3Draw,file=3D/dev/nullb0 syntax because that
+creates a raw-format -> file-posix graph and you haven't implemented
+.bdrv_co_zone_report() in block/raw-format.c yet (but you can skip it
+for now).
+
+For testing you can add a qemu-io -c zone_report command to
+qemu-io-cmds.c that calls blk_zone_report(). Then you can write a
+tests/qemu-iotests/tests/zoned test script that report zones using
+qemu-io, writes to the first sectors of the disk using qemu-io, and
+then reports zones again to prove that the output has changed. Use the
+qemu-io --image-opts driver=3Dhost_device,filename=3D/dev/nullb0 option to
+open a Linux null_blk device using the block/file-posix.c BlockDriver.
+
+About qemu-iotests: the output from running the test case is diffed
+against a reference file that contains the expected output. This is
+quite convenient because you don't have to write code that checks for
+the expected output, you just provide a
+tests/qemu-iotests/tests/zoned.out file containing the output for a
+passing test. There is documentation about qemu-iotests here:
+https://qemu.readthedocs.io/en/latest/devel/testing.html#qemu-iotests
+
+Stefan
 
