@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F47853B159
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 03:53:07 +0200 (CEST)
-Received: from localhost ([::1]:49566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BD353B15B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 03:55:16 +0200 (CEST)
+Received: from localhost ([::1]:53354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwa1J-0006D8-UV
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 21:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
+	id 1nwa3P-0000k7-Ny
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 21:55:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwZjJ-0002eX-1t
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:34:29 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:33552)
+ id 1nwZjL-0002hL-Av
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:34:31 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:35486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwZj8-0005HW-PW
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:34:20 -0400
-Received: by mail-pg1-x529.google.com with SMTP id r71so3490896pgr.0
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 18:34:18 -0700 (PDT)
+ id 1nwZjI-0005Ht-Q7
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:34:31 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ o6-20020a17090a0a0600b001e2c6566046so7988838pjo.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 18:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Qtzekvw6N/DL8al1dZWPmdZqmx+jbmtvWakWbkZg+40=;
- b=TJuyvYC8lWa82QlATLgcUikJlHMvqfvKnjsdGAfeKO7qDUz8QeO52cmwXE4TzpP97W
- uu007n4NrTJ2ChT/SQzS68OpDTDY0hokA8bn1T0sO/7cCnwKz5OrD8gGlfUDMFbLq2Sv
- 8A/XAH55C3biXd2rpNxOIlIQqxRBveZks7QKJkM2b0h5OhiEskyKu4ruKqHm8n45uCzQ
- vTZacfiiorkfeAlpxodEiJqBWOLmKWvi+sDZn1K+JQ72gYD9IY9H0lKpnC56TghuZVCo
- WyOxxUvwAfCl2j3u+S4nbaRXk1Su8a1CGkhqRTyKNxqkGUZHZHl5gWuuqFb/Snn8hoxR
- 8hWQ==
+ bh=L/s5DB9oA5m3J3r5mnRcmLEGwctJwKQaqGAa+nl3EZs=;
+ b=xwtzXLAhoMju4N5qLw1tZp4zDEkGY2MnVNNFRnFL5fYtcu4T5Ci7yvpHqbd/UXctWB
+ CM0n4SmJqdbGOIpb43GpyJhaxdUhUOvRJzR80VGtde0U5WYa7KHfZF7yiPd+STJD+m/k
+ +kc3dxv0MgskyzudzhvK8fU2J8EA51ZbhgQ3lSqn5entGdqhi7SFjT3eopHvXk8Jmf7p
+ Rnfdp09Yn2e3CAAqszaqxTYKKAROAQVc+apG3Rlwpk9qo2BqrCw6dIrqf/V1SmpfGPOW
+ m0g6eityYLZWmFwM3AjFQa+Iw311sQoz1R+dKgs935u4oa135TVPKG9AIlD0fEQ6q9JG
+ YwQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Qtzekvw6N/DL8al1dZWPmdZqmx+jbmtvWakWbkZg+40=;
- b=SLYkr/XdhSn65elqzWYZbZ/UlzQIDUH4uR32qmLIWUv4OOCBq7cEVvjMaA4Ly5XRHL
- cgg41AMtk4sdskb7DPX4viGNasZDM9NVRpj0i48yEmBj5JZ5rtv5hsKl9YO8PJ9nXRAd
- npp8Lsu3Rxq/gNMYusv4qv7x40t/0ZmjAQ6HI23TA5AoShp1pG/3/Bd9HvUYZ2SLoajE
- aVRVcofrDELiVy8BKe7YV55gsCC2q9k70mU/VbQ5S1SfRaiuTFI2aYFb9F/ZHhteqKlf
- Qwsl3H+wqFmRWpVY+xbTd0fzlWWfFqR+FG0TERN/t2pRmB3gcFfVZ6tSODeorLGxexbR
- i6nw==
-X-Gm-Message-State: AOAM532fdsrJvBs6VbTeMVIqfQ5HZUyX7EvNKdL8jDn6lOTy4IdCHdr4
- Qsl5ZCGVeSu8uLYEpgRtYVdjV43Jfz27lQ==
-X-Google-Smtp-Source: ABdhPJx3JlfzujYU6Dm/qAHl/GyMP89VfJLrxlk5OtRLPA1bduYa/OkBBPqYhq1bWnxeu5nkDgp9Lw==
-X-Received: by 2002:a63:2209:0:b0:3ab:113b:9a2b with SMTP id
- i9-20020a632209000000b003ab113b9a2bmr2000144pgi.235.1654133657465; 
- Wed, 01 Jun 2022 18:34:17 -0700 (PDT)
+ bh=L/s5DB9oA5m3J3r5mnRcmLEGwctJwKQaqGAa+nl3EZs=;
+ b=qQinrN6fbLNaMFzAh1qILcn4xSaN8JhfurzO3dAy8KnMwI7ht4mJBxeVSc62Ckl0yr
+ PX+BC/RnjPZobOITByXmXqUdlTPgGCUi9ghXicMYv7eNhYtPEJdOcXbgTeClxMjJj5lZ
+ 5QEL40V/Fim2i9vF/ez2x4q5LyHZqakmRvs0WXh3vDhiqp5iba0CS7I+fvsm3Xb2K+q4
+ 3oSyMut1GbXbwj2oPcooKTKpds9iK9Wb9MEVdAhnAaAOPhKOC86Lm/hdpqyEBszt2e7q
+ kEZLhqZ1c0ormyOxianrjFxTgPhKCZNDvEbJjMaz2CCbQhRLGVbcl07sPF2CP6WVBiE8
+ p+pA==
+X-Gm-Message-State: AOAM531wEzaWL0EzOhEeMh+iHKRY4LbtF6owO/LJSuJPHINK5g7v+jlY
+ NH/j2OPaPYcq69hSmxD3MPrvyqWdkHizwA==
+X-Google-Smtp-Source: ABdhPJxsayAq0vUrHM3Icu6hBINZa4SrHqImxVegRJk199sEZEQ8Gc6pDJ4bKlTh9tDmHpjWrPV9lQ==
+X-Received: by 2002:a17:90a:fe0d:b0:1e2:e9bf:1139 with SMTP id
+ ck13-20020a17090afe0d00b001e2e9bf1139mr2442184pjb.106.1654133658860; 
+ Wed, 01 Jun 2022 18:34:18 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:1eca:8ee3:9269:e00c])
  by smtp.gmail.com with ESMTPSA id
- l191-20020a6391c8000000b003fc5b1db26fsm1962875pge.52.2022.06.01.18.34.16
+ l191-20020a6391c8000000b003fc5b1db26fsm1962875pge.52.2022.06.01.18.34.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 18:34:16 -0700 (PDT)
+ Wed, 01 Jun 2022 18:34:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v6 11/17] target/m68k: Implement TPF in terms of TRAPcc
-Date: Wed,  1 Jun 2022 18:33:55 -0700
-Message-Id: <20220602013401.303699-12-richard.henderson@linaro.org>
+Cc: laurent@vivier.eu
+Subject: [PATCH v6 12/17] target/m68k: Implement TRAPV
+Date: Wed,  1 Jun 2022 18:33:56 -0700
+Message-Id: <20220602013401.303699-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602013401.303699-1-richard.henderson@linaro.org>
 References: <20220602013401.303699-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,55 +89,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TPF stands for "trap false", and is a long-form nop for ColdFire.
-Re-use the immediate consumption code from trapcc; the insn will
-already expand to a nop because of the TCG_COND_NEVER test
-within do_trapcc.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/translate.c | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
+ target/m68k/translate.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 61b624b3a1..83c2f73063 100644
+index 83c2f73063..fa704e0c25 100644
 --- a/target/m68k/translate.c
 +++ b/target/m68k/translate.c
-@@ -3075,22 +3075,6 @@ DISAS_INSN(addsubq)
-     tcg_temp_free(dest);
+@@ -4910,6 +4910,14 @@ DISAS_INSN(trapcc)
+     do_trapcc(s, &c);
  }
  
--DISAS_INSN(tpf)
--{
--    switch (insn & 7) {
--    case 2: /* One extension word.  */
--        s->pc += 2;
--        break;
--    case 3: /* Two extension words.  */
--        s->pc += 4;
--        break;
--    case 4: /* No extension words.  */
--        break;
--    default:
--        disas_undef(env, s, insn);
--    }
--}
--
- DISAS_INSN(branch)
++DISAS_INSN(trapv)
++{
++    DisasCompare c;
++
++    gen_cc_cond(&c, s, 9); /* V set */
++    do_trapcc(s, &c);
++}
++
+ static void gen_load_fcr(DisasContext *s, TCGv res, int reg)
  {
-     int32_t offset;
-@@ -6099,7 +6083,8 @@ void register_m68k_insns (CPUM68KState *env)
-     INSN(dbcc,      50c8, f0f8, M68000);
-     INSN(trapcc,    50fa, f0fe, TRAPCC);   /* opmode 010, 011 */
-     INSN(trapcc,    50fc, f0ff, TRAPCC);   /* opmode 100 */
--    INSN(tpf,       51f8, fff8, CF_ISA_A);
-+    INSN(trapcc,    51fa, fffe, CF_ISA_A); /* TPF (trapf) opmode 010, 011 */
-+    INSN(trapcc,    51fc, ffff, CF_ISA_A); /* TPF (trapf) opmode 100 */
- 
-     /* Branch instructions.  */
-     BASE(branch,    6000, f000);
+     switch (reg) {
+@@ -6073,6 +6081,7 @@ void register_m68k_insns (CPUM68KState *env)
+     BASE(nop,       4e71, ffff);
+     INSN(rtd,       4e74, ffff, RTD);
+     BASE(rts,       4e75, ffff);
++    INSN(trapv,     4e76, ffff, M68000);
+     INSN(rtr,       4e77, ffff, M68000);
+     BASE(jump,      4e80, ffc0);
+     BASE(jump,      4ec0, ffc0);
 -- 
 2.34.1
 
