@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F048353BC88
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 18:30:35 +0200 (CEST)
-Received: from localhost ([::1]:52492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F151653BC96
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 18:32:45 +0200 (CEST)
+Received: from localhost ([::1]:56354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwniV-0000Qg-1q
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 12:30:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60658)
+	id 1nwnka-0003Ct-SW
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 12:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwneO-0006sY-R3
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 12:26:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39258)
+ (Exim 4.90_1) (envelope-from <qemu@apitman.com>) id 1nwnhu-0001MN-Jl
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 12:29:58 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:38911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwneL-0000a7-Qb
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 12:26:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654187176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ktGGgzIhVBwVpyC83Hh+hpoSpC3LFcqjP9jbtZuIohE=;
- b=TfLk8iV0d5YQTEvbWTQys6P7ha9k+rI/fCT6+T6zzfj0annWhVI3GPI1tiWyjnHJTONMen
- YbiJuBtXPWFPicWQ76uUnuxij7oNU2dfkN87vBgBcL3293VVl+Or2jH8WjuCHf81aTKTt1
- wz+5aMe1Tvnoio+qnbTi71E4c5rXcNc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-U6wNM2TiMwaXeSQiImx8GA-1; Thu, 02 Jun 2022 12:26:14 -0400
-X-MC-Unique: U6wNM2TiMwaXeSQiImx8GA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o3-20020a05600c510300b0039743540ac7so2632895wms.5
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 09:26:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ktGGgzIhVBwVpyC83Hh+hpoSpC3LFcqjP9jbtZuIohE=;
- b=s7s7DcySMEuAg49/e9XX4i0k1zhH9J0SUYYF9e3Eq9v2GiovNYcnt89b3Pu1wcqYm/
- QhkGBpwD8LPeEOEJUBbuqvHU4+BwMaT+cgFeayNDdn2zj2oxc7PkgYYlINgesZ3QHQpY
- N2dzP6zEsWgKXsCjbZbnit1A+YAPrQTDDHoV/nx9gghB4PTi1WJf8XdHSzzCK9D7f/WV
- bgNNLRPS0T5KdTGWyR8w2QWEx9RA4L6KLTvt207m7v1xeUMixwb1HIDAJXekCJ8ex4wG
- cAm1mwm7G4quvlkJ+zt7Om3ihspY4qKg5r90GFAAC9rXPMaxtY0kUX+XP+vIimf3nHiO
- ODIg==
-X-Gm-Message-State: AOAM533df/qPwFQnYVxNZqVVfn1PqUdQsSKdyFXY3JhsNohukmLW9ubO
- G9dNPa8mZfCo6BeFxpeg0tmPEfS/PHLrN0YaCUEfL0196shjSHaYz82Qj1/b2tryM+PMXVVnfhE
- ZAYBFcYbHAtGQeDQ=
-X-Received: by 2002:a05:600c:a47:b0:39c:19b0:84c with SMTP id
- c7-20020a05600c0a4700b0039c19b0084cmr13703322wmq.201.1654187173449; 
- Thu, 02 Jun 2022 09:26:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxE0PvoboN6nVvxK+TBxCOdsi1ecVbfT0JU/NuDX52QJaSyIZQ7RuVkIAjtOA/dNfZvOtYBlQ==
-X-Received: by 2002:a05:600c:a47:b0:39c:19b0:84c with SMTP id
- c7-20020a05600c0a4700b0039c19b0084cmr13703291wmq.201.1654187173206; 
- Thu, 02 Jun 2022 09:26:13 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-213.customers.d1-online.com.
- [80.187.98.213]) by smtp.gmail.com with ESMTPSA id
- e16-20020adffc50000000b0020fdc90aeabsm4722596wrs.82.2022.06.02.09.26.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jun 2022 09:26:12 -0700 (PDT)
-Message-ID: <bc3b9456-8015-bd6f-f738-c1f4476327bf@redhat.com>
-Date: Thu, 2 Jun 2022 18:26:07 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 12/15] tests/qtest: plain g_assert for
- VHOST_USER_F_PROTOCOL_FEATURES
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220524154056.2896913-1-alex.bennee@linaro.org>
- <20220524154056.2896913-13-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220524154056.2896913-13-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+ (Exim 4.90_1) (envelope-from <qemu@apitman.com>) id 1nwnht-0001Hg-0d
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 12:29:58 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 733865C0292
+ for <qemu-devel@nongnu.org>; Thu,  2 Jun 2022 12:29:55 -0400 (EDT)
+Received: from imap46 ([10.202.2.96])
+ by compute4.internal (MEProxy); Thu, 02 Jun 2022 12:29:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apitman.com; h=
+ cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1654187395; x=1654273795; bh=38QwMGgEol
+ Uk5kCcTn5LUaFlMVuHzRltc9YyT0j9RkE=; b=OtOmag85yrr2OiZj/Ka0s35iAA
+ l/rpueHC6oB7y7n04GJq1HCdE5i5wgE7SkR0osoXerh4+WztLoc1x0SAHdmdG3Tu
+ 67hu6iMsIwsmWI0kD8UrOjvWAY0AO2NuIRw88PDEUqzQDLEtRu8xwTYF69EZG/hK
+ iQY/Jp+pzcg/T+4YN4DJ9gHBOYJPVAbFIMzkkrbZ890uVugf3F7/OxPhPF5fOucg
+ jNlI7V+SCc/r1uS6hNu+UIZhj+Xr8MJ7ma+ss9LOeRxoD4gB0NEnNiXWFHLqA76E
+ oYqLC1eKqF6L4ASn2Ec3HIJV+W/URh7HNPTCU1Y78IgQYazbzrhS8IOBboRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1654187395; x=1654273795; bh=38QwMGgEolUk5kCcTn5LUaFlMVuH
+ zRltc9YyT0j9RkE=; b=NG9oFfoU5KRmuCBivXyK3qeTZE4LxUHYdOpXtNlKLCJ1
+ i9MWjf4jaZUjIW/cuvZGCi6Lq5kuNPdqjjX7e/zw6wAuSafL/uvDOtkz7aQv5DS5
+ qYNnhLkOxlvwSQuWnc0+IsTFjZ1wzr9r2c1LWQTr5E/nX7jHwwFC3lETd1s3xTq1
+ ZZMyTiEVUOoBVKRmWCtX+DuT1h98GeGt27P7ICoMrfTscOSPH+uLpU0Iax8yGeJW
+ WjPM3uJbNo0scel8XSQzsog39JBDRq00S7TNQB/oClgNzsxDBboEGetXr8uS6eJ0
+ RTofdGtLmf1LbwKQJYtQSQ7DIzXPOxuRufQetdCh9w==
+X-ME-Sender: <xms:g-WYYv0mqg9p8zVGsjEnssR1sC2ZFM4_U-fm3DbFqOMkuGOa--zdhg>
+ <xme:g-WYYuEDrClf4uGy97NOk0WW0L2HmsCe8GWSlVFXGG9Tqu1g_9htr3tFaywIvZFFS
+ T4v-5gYXVDpCd80gZ8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleefgddtlecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvffutgesrgdtre
+ erreertdenucfhrhhomhepfdetnhguvghrshcurfhithhmrghnfdcuoehqvghmuhesrghp
+ ihhtmhgrnhdrtghomheqnecuggftrfgrthhtvghrnhepvdeuffefueffudeftdfhueegfe
+ duvedtvefhjeffhffgfefggeehuefhvdekhfetnecuvehluhhsthgvrhfuihiivgeptden
+ ucfrrghrrghmpehmrghilhhfrhhomhepqhgvmhhusegrphhithhmrghnrdgtohhm
+X-ME-Proxy: <xmx:g-WYYv4khvIkBxQyhc6o0YX9pWZz3L5cIbiEdc9dre-Fo7w0UEO2Zw>
+ <xmx:g-WYYk1gZWtSIUp6OFIXleZrUF-QF-LGTewhpynxBa221Jb-h-DI3Q>
+ <xmx:g-WYYiHz7pd19H9mvY_RFZVnsf_ihUh08yb4NEDRQy_yGFR2ExFLHg>
+ <xmx:g-WYYmSUBwXAvlbZOS8ET9afVYwciFRkhmiwk-we8WjQLOI49KDY2A>
+Feedback-ID: i354147db:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 3B5EC2A2006C; Thu,  2 Jun 2022 12:29:55 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
+Mime-Version: 1.0
+Message-Id: <454e6308-5cda-498f-98f2-b5ea877721f8@www.fastmail.com>
+In-Reply-To: <5738256e-12f6-4ca6-a551-8815743b4a4b@www.fastmail.com>
+References: <5738256e-12f6-4ca6-a551-8815743b4a4b@www.fastmail.com>
+Date: Thu, 02 Jun 2022 10:29:35 -0600
+From: "Anders Pitman" <qemu@apitman.com>
+To: qemu-devel@nongnu.org
+Subject: Re: Networking multiple guests
+Content-Type: multipart/alternative; boundary=55ae33971c8e4ee08689d53b4b54e3c9
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=qemu@apitman.com;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,33 +96,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/2022 17.40, Alex Bennée wrote:
-> checkpatch.pl warns that non-plain asserts should be avoided so
-> convert the check to a plain g_assert.
+--55ae33971c8e4ee08689d53b4b54e3c9
+Content-Type: text/plain
+
+Typo. I meant that I've tried -netdev socket, not -device socket
+
+On Thu, Jun 2, 2022, at 10:25 AM, Anders Pitman wrote:
+> I'm trying to set up one guest as a SMB file server, and connect to it from several other guests. I tried using -device socket listen/connect, but it appears that only one client can connect at a time to each listener. I don't want to use mcast for security reasons, ie the other guests shouldn't be able to communicate with anyone but the file server. Would I have to set up a separate network interface on the server for each guest, or is there another way to do this?
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tests/qtest/vhost-user-test.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-> index d0fa034601..db18e0b664 100644
-> --- a/tests/qtest/vhost-user-test.c
-> +++ b/tests/qtest/vhost-user-test.c
-> @@ -980,8 +980,7 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
->   static void vu_net_set_features(TestServer *s, CharBackend *chr,
->           VhostUserMsg *msg)
->   {
-> -    g_assert_cmpint(msg->payload.u64 &
-> -            (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES), !=, 0ULL);
-> +    g_assert(msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES));
->       if (s->test_flags == TEST_FLAGS_DISCONNECT) {
->           qemu_chr_fe_disconnect(chr);
->           s->test_flags = TEST_FLAGS_BAD;
+> Thanks,
+> //anders
+--55ae33971c8e4ee08689d53b4b54e3c9
+Content-Type: text/html
 
-Why this? commit 6e9389563 says that this should not trigger for code in 
-tests/ , so I wonder why you ran into this checkpatch warning?
-
-  Thomas
-
+<!DOCTYPE html><html><head><title></title><style type="text/css">
+p.MsoNormal,p.MsoNoSpacing{margin:0}</style></head><body><div>Typo. I meant that I've tried -netdev socket, not -device socket<br></div><div><br></div><div>On Thu, Jun 2, 2022, at 10:25 AM, Anders Pitman wrote:<br></div><blockquote type="cite" id="qt" style=""><div>I'm trying to set up one guest as a SMB file server, and connect to it from several other guests. I tried using -device socket listen/connect, but it appears that only one client can connect at a time to each listener. I don't want to use mcast for security reasons, ie the other guests shouldn't be able to communicate with anyone but the file server. Would I have to set up a separate network interface on the server for each guest, or is there another way to do this?<br></div><div><br></div><div>Thanks,<br></div><div>//anders<br></div></blockquote></body></html>
+--55ae33971c8e4ee08689d53b4b54e3c9--
 
