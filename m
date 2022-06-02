@@ -2,54 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EDD53BBE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 17:54:51 +0200 (CEST)
-Received: from localhost ([::1]:36792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E565253BBEA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 17:55:08 +0200 (CEST)
+Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwn9u-00029f-6G
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 11:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47736)
+	id 1nwnAA-0003QN-5I
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 11:55:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nwn5d-0007UX-8A; Thu, 02 Jun 2022 11:50:25 -0400
-Received: from [187.72.171.209] (port=12413 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nwn5a-0006ER-SA; Thu, 02 Jun 2022 11:50:24 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 2 Jun 2022 12:49:18 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 3AD39800491;
- Thu,  2 Jun 2022 12:49:18 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------30gmPeziKKJAWn3D4BW0yzGd"
-Message-ID: <1b7846ac-2e87-ee27-3bbf-c6e5a4912f5b@eldorado.org.br>
-Date: Thu, 2 Jun 2022 12:49:17 -0300
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1nwn7L-00018g-6p
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:52:11 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:44749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1nwn7J-0006YC-Dz
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:52:10 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-30ec2aa3b6cso55580317b3.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 08:52:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CKZ3l++ApnQ4sX/NJ5ek1OsaYLfMlrpE2AkkkEs6dcI=;
+ b=VWHts6AOFmBHp+49giMdGNDMtmOGInvLa3IbMA4XFb57qycAuunyfhH7uXTC1x26i3
+ N0A89BbmPEY2oWNr1qRKs8kuiEB7ZzS/952sOa5oyU9d4ouujYy69ibnvw8NblG60TNX
+ i5wg9/qh6/X9sUSX11t2nyCArXwvqHdfo/u6U8cLDEu+vUqK0QGkDaIsl++3aMCPkzHW
+ zR9QBO+S+lBrxaJVVdW2v5Y/36CCyLhnga3a2rOX9679a0rra4ZbCDgvIG1FQ08HL1xf
+ xylgYKgWq3/79OQBtEihAtgyq/NZdMhVUFtODj6wNh7/4yLh+OKo39UTVddRSRzLPO4Q
+ 0b+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CKZ3l++ApnQ4sX/NJ5ek1OsaYLfMlrpE2AkkkEs6dcI=;
+ b=BbHcxgnxIBKw5zZt/oVnCOZB73TQjgU7HEsWGUz7/zSINEO1iSTEqhA3DIhbZTISEh
+ QeBLpkMQ2hiIV9krZTm+Y9oFxcZFKkGEhymhssPUhwl9qhEgvSejwuLdftUuUbvVz0/T
+ ZNZa6FKBPHq5BtPm0Mv+oaFKcZYjrkUQdUKWJiTHpMXHGC3MeSmP/QUF/A1lOkwnFQGJ
+ FKXLfWWIlCNmN6Kvvv3KA2N6/nPUpgYgQ/NhXxQhJpq6Cd5VdKMvD3YnRR+YDQ9ZixQP
+ 9Tp+X2Ontqij4Cc5yTwW4lTE9VGGEakfWsJLPurUtUsxbty4qL3zPSXqeVaWQoMHN1Fn
+ +59w==
+X-Gm-Message-State: AOAM530/ZQS0k2W/VlVFOTue5CzbS9kHcSzuxyd5fJF+ICAORaAiw/hp
+ W8Na4Un9yL8MRH9O4Y/EO8xjpRvpU6f82sQXGYLong==
+X-Google-Smtp-Source: ABdhPJxnWbzXXp4qUEJ3OEq8f1Dr1sDJpteUYO2KW3eYhAAF71FoNkTfvXYaDSRlhb42oAS88bLBJXRriXpOjIDMkTc=
+X-Received: by 2002:a81:7256:0:b0:30c:4f4f:5682 with SMTP id
+ n83-20020a817256000000b0030c4f4f5682mr6334574ywc.71.1654185125229; Thu, 02
+ Jun 2022 08:52:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] target/ppc: avoid int32 multiply overflow in int_helper.c
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220602141449.118173-1-danielhb413@gmail.com>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <20220602141449.118173-1-danielhb413@gmail.com>
-X-OriginalArrivalTime: 02 Jun 2022 15:49:18.0454 (UTC)
- FILETIME=[51A89960:01D87698]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220602134017.155357-1-cmuellner@gcc.gnu.org>
+ <1b930ae7-7e7d-b8f5-5202-2242abe994de@linaro.org>
+In-Reply-To: <1b930ae7-7e7d-b8f5-5202-2242abe994de@linaro.org>
+From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
+Date: Thu, 2 Jun 2022 17:51:53 +0200
+Message-ID: <CAEg0e7hAEzmsFNj5WjnsKYV5V7Opw2crcf=TyRN48Gh_j5kNgw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2] RISC-V: Add Zawrs ISA extension support
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Christoph Muellner <cmuellner@gcc.gnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-riscv@nongnu.org, 
+ qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
+ Aaron Durbin <adurbin@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,89 +89,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------30gmPeziKKJAWn3D4BW0yzGd
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-
-On 02/06/2022 11:14, Daniel Henrique Barboza wrote:
-> Coverity is not thrilled about the multiply operations being done in
-> ger_rank8() and ger_rank2(), giving an error like the following:
+On Thu, Jun 2, 2022 at 5:07 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Integer handling issues  (OVERFLOW_BEFORE_WIDEN)
->      Potentially overflowing expression "sextract32(a, 4 * i, 4) *
-> sextract32(b, 4 * i, 4)" with type "int" (32 bits, signed) is evaluated
-> using 32-bit arithmetic, and then used in a context that expects an
-> expression of type "int64_t" (64 bits, signed).
+> On 6/2/22 06:40, Christoph Muellner wrote:
+> > diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc b/target/riscv/insn_trans/trans_rvzawrs.c.inc
+> > new file mode 100644
+> > index 0000000000..38b71d0085
+> > --- /dev/null
+> > +++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc
 >
-> Fix both instances where this occur by adding an int64_t cast in the
-> first operand, forcing the result to be 64 bit.
+> Typo in the filename -- s/rvz/rz/.
+
+This was actually intended as other files are named using the same pattern
+(ext={a,b,d,f,h,i,k,m,v,zfh} -> trans_rv${ext}.c.inc).
+I had the impression that Zawrs would fit into the pattern as well.
+But if you prefer trans_rzawrs.c.inc I can change accordingly.
+
 >
-> Fixes: Coverity CID 1489444, 1489443
-> Fixes: 345531533f26 ("target/ppc: Implemented xvi*ger* instructions")
-> Cc: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
-> Cc: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Daniel Henrique Barboza<danielhb413@gmail.com>
-> ---
-Reviewed-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
--- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------30gmPeziKKJAWn3D4BW0yzGd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+> > +#define REQUIRE_ZAWRS(ctx) do {         \
+> > +    if (!ctx->cfg_ptr->ext_zawrs) {     \
+> > +        return false;                   \
+> > +    }                                   \
+> > +} while (0)
+> > +
+> > +static bool trans_wrs(DisasContext *ctx, arg_sfence_vm *a)
+> > +{
+> > +    REQUIRE_ZAWRS(ctx);
+>
+> No point in the macro for what will only ever be a single user.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 02/06/2022 11:14, Daniel Henrique
-      Barboza wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20220602141449.118173-1-danielhb413@gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-Coverity is not thrilled about the multiply operations being done in
-ger_rank8() and ger_rank2(), giving an error like the following:
+Ok, will change.
 
-Integer handling issues  (OVERFLOW_BEFORE_WIDEN)
-    Potentially overflowing expression "sextract32(a, 4 * i, 4) *
-sextract32(b, 4 * i, 4)" with type "int" (32 bits, signed) is evaluated
-using 32-bit arithmetic, and then used in a context that expects an
-expression of type "int64_t" (64 bits, signed).
+Thanks!
 
-Fix both instances where this occur by adding an int64_t cast in the
-first operand, forcing the result to be 64 bit.
-
-Fixes: Coverity CID 1489444, 1489443
-Fixes: 345531533f26 ("target/ppc: Implemented xvi*ger* instructions")
-Cc: Lucas Mateus Castro (alqotel) <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
-Cc: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
-Signed-off-by: Daniel Henrique Barboza <a class="moz-txt-link-rfc2396E" href="mailto:danielhb413@gmail.com">&lt;danielhb413@gmail.com&gt;</a>
----
-</pre>
-    </blockquote>
-    Reviewed-by: Lucas Mateus Castro (alqotel)
-    <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a><br>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------30gmPeziKKJAWn3D4BW0yzGd--
+>
+> Otherwise, the implementation looks correct.
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+>
+> r~
 
