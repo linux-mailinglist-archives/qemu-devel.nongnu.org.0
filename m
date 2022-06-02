@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A94453C081
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 23:54:08 +0200 (CEST)
-Received: from localhost ([::1]:49472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF2E53C08D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:02:48 +0200 (CEST)
+Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwslZ-0008NM-Mp
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 17:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1nwsty-00050j-Om
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:02:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgf-0004SB-Fh
+ id 1nwsgf-0004Sj-Ka
  for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:01 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:39783)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:35412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgc-0008UL-Tl
+ id 1nwsgd-0008Ug-Jt
  for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:01 -0400
-Received: by mail-pl1-x634.google.com with SMTP id o17so5533764pla.6
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:48:58 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ o6-20020a17090a0a0600b001e2c6566046so10649319pjo.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=80S55FypfkD2P2t6Vkw3PZn9gYfntg1XNKdtyYp1U90=;
- b=DDh1dNJYUj7ab/yKsg7Jp6GsTSGOUo+qthEPoOPyYgwBxq44wGW3N7dSva5qSlc+MP
- FwSsB2KSQHyRNJM8mH8BwVNhJj0sCX7CyAkDm9AV/pe78xRDjcppzOpQUUM1r8XTW8Za
- sk3WuDBruuPIL3i5RngtGXNodvDnFblReRUEOtVkwwcpxuKPCZ90beaAu5M5PE79TAOE
- fuRVQRNon99gv60lmOWJYD7ZAKJf40dbq3crcOO2jPADjIAaYGfo9DLbyViNZTv1TZKo
- uCI6nCpQvdk7BHvxxkh9iqT9zrwNw7/a5ukbMQE8SjtJX2guFAv7ymUDvLEWlN/PMGNC
- /uqw==
+ bh=0e4LsisXhmXFsvM3FU/zvbh2EDjCmsWCEXLT7Sf9YRE=;
+ b=jgFqSxNrIJzy5m5awI4C8iInfwp9rcDciK50cKOXhJZOdZCHMI4QmwZtwyHSKz7wof
+ GdZWLXsAJ/7dNGpRK0IQmg0dhYcTR7OmfDn9oD9G422eA21P2vJgVoAqvf4dzsj67ErI
+ iZKsy7ld5UDoJd1o/HhPLpxLJAfiM6xdU4811Kcz34rQB91fq+uK+xlNJc0d6LE+9+xB
+ dz9OWWLYVTt6oGJgA03JdufCx6X3OvpJTPj9cM0UoCQaXPbOkhJQxHUKzEj6+IV1umIx
+ UmsfGf8fwc1vPG19Ijgh68U/2mNdQIDjRIksfctFkEKLbadnn4KCrCdscFSaSOkUHnwL
+ 2hJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=80S55FypfkD2P2t6Vkw3PZn9gYfntg1XNKdtyYp1U90=;
- b=101C/dLvByXDABKsO+e2AJKxOzRg0DnKwEa1/MPIg2Y9hn5bgdDVSL0KfujogDHrPJ
- SRPezELB2A9/30rEq749q2BItpt2ei1s2wqaQrPZbQ1gNrfpx4v1/xZB2vgZaKIX0nbv
- PZyFMyZGNCJpT12OnIijYbgYMTE37RGGmMuF+hWno0UPn0L3T3AMvq/KECzsl3NnfajB
- vfQGMELjOaJV82XuSTNVXbBI/gThlMaYvEfeqJvOXIFx0J/0MiOKDjrqtTcIBzZxs5AA
- pOHlbDQnXACCw5PGO2uF7H33k2glNwdT1ysoNbUu/Tue7V8IyMLDlKFInIDWPhOS17pe
- Xdqw==
-X-Gm-Message-State: AOAM532PQ4++/yRjJo+Q2poBC2YqFgl609QVryT6MA8FlsIQrU+jDNSJ
- HzyesvTkKB/+1usX+xkjXmG5i5UTzIH+lg==
-X-Google-Smtp-Source: ABdhPJwuIgwoYcZe5mfUy9R4CqL9VDxpZrewkYhXQaiMPTgpWdpKJra0wFrS8m22M0/80JKKLApe1A==
-X-Received: by 2002:a17:90b:2404:b0:1e3:4db0:f32a with SMTP id
- nr4-20020a17090b240400b001e34db0f32amr14706764pjb.201.1654206537513; 
- Thu, 02 Jun 2022 14:48:57 -0700 (PDT)
+ bh=0e4LsisXhmXFsvM3FU/zvbh2EDjCmsWCEXLT7Sf9YRE=;
+ b=U5VRqnb3ooRbgbP4a6eRbQ/kEkMF/7NkeKfG6FD+4joNaej51xoe7BX4SvplTM8bol
+ quJOUu/0/1pCgxVQ7JmkWWVDLMj+Itrk2I0uKUr+JiLPiYPMtusMbZfS0P7A4ZS8SX9C
+ RJ0YJTlbUf4RGZG6paaGQlkg00pTza7pf6suE2a9iKQ6INNZ1LYrnZ519ujQ9NEYq/Eo
+ MxoYcUdhkUmREjRyf/ilHYArgB6F0J4yEhwcFSMYWNreKtGt22230dSKA2ivL+eAja9y
+ OE0ZBPILsmzcvdpA7lkY3sEHngfQuBkSlB66HWZ1rGSVAuITgLhXckt4IHxGB3s9rbiJ
+ wqTw==
+X-Gm-Message-State: AOAM5301khG9TjoefBv/GcW6SSt1CR4l5a2t9MTwZO+Yzzgosy/j1BW9
+ jiTAtYx4hLI6zleq2PbIAsQM9IvcXRRihw==
+X-Google-Smtp-Source: ABdhPJylIuFtKLIGEaBm0nU5frLD2tqhRgPSmp4Gqs2+OedJbsROlIyWA9eeWwLYA4xEguhDpft1IQ==
+X-Received: by 2002:a17:90a:4fe1:b0:1de:fc11:331e with SMTP id
+ q88-20020a17090a4fe100b001defc11331emr7525093pjh.145.1654206538229; 
+ Thu, 02 Jun 2022 14:48:58 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
- bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.48.56
+ bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.48.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 02 Jun 2022 14:48:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 03/71] target/arm: Remove route_to_el2 check from
- sve_exception_el
-Date: Thu,  2 Jun 2022 14:47:45 -0700
-Message-Id: <20220602214853.496211-4-richard.henderson@linaro.org>
+Subject: [PATCH 04/71] target/arm: Remove fp checks from sve_exception_el
+Date: Thu,  2 Jun 2022 14:47:46 -0700
+Message-Id: <20220602214853.496211-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602214853.496211-1-richard.henderson@linaro.org>
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,28 +89,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We handle this routing in raise_exception.  Promoting the value early
-means that we can't directly compare FPEXC_EL and SVEEXC_EL.
+Instead of checking these bits in fp_exception_el and
+also in sve_exception_el, document that we must compare
+the results.  The only place where we have not already
+checked that FP EL is zero is in rebuild_hflags_a64.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/arm/helper.c | 58 +++++++++++++++------------------------------
+ 1 file changed, 19 insertions(+), 39 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 960899022d..8ace3ad533 100644
+index 8ace3ad533..bcf48f1b11 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6159,8 +6159,7 @@ int sve_exception_el(CPUARMState *env, int el)
-             /* fall through */
-         case 0:
-         case 2:
--            /* route_to_el2 */
--            return hcr_el2 & HCR_TGE ? 2 : 1;
-+            return 1;
-         }
+@@ -6139,11 +6139,15 @@ static const ARMCPRegInfo minimal_ras_reginfo[] = {
+       .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.vsesr_el2) },
+ };
  
-         /* Check CPACR.FPEN.  */
+-/* Return the exception level to which exceptions should be taken
+- * via SVEAccessTrap.  If an exception should be routed through
+- * AArch64.AdvSIMDFPAccessTrap, return 0; fp_exception_el should
+- * take care of raising that exception.
+- * C.f. the ARM pseudocode function CheckSVEEnabled.
++/*
++ * Return the exception level to which exceptions should be taken
++ * via SVEAccessTrap.  This excludes the check for whether the exception
++ * should be routed through AArch64.AdvSIMDFPAccessTrap.  That can easily
++ * be found by testing 0 < fp_exception_el < sve_exception_el.
++ *
++ * C.f. the ARM pseudocode function CheckSVEEnabled.  Note that the
++ * pseudocode does *not* separate out the FP trap checks, but has them
++ * all in one function.
+  */
+ int sve_exception_el(CPUARMState *env, int el)
+ {
+@@ -6161,18 +6165,6 @@ int sve_exception_el(CPUARMState *env, int el)
+         case 2:
+             return 1;
+         }
+-
+-        /* Check CPACR.FPEN.  */
+-        switch (FIELD_EX64(env->cp15.cpacr_el1, CPACR_EL1, FPEN)) {
+-        case 1:
+-            if (el != 0) {
+-                break;
+-            }
+-            /* fall through */
+-        case 0:
+-        case 2:
+-            return 0;
+-        }
+     }
+ 
+     /*
+@@ -6190,24 +6182,10 @@ int sve_exception_el(CPUARMState *env, int el)
+             case 2:
+                 return 2;
+             }
+-
+-            switch (FIELD_EX32(env->cp15.cptr_el[2], CPTR_EL2, FPEN)) {
+-            case 1:
+-                if (el == 2 || !(hcr_el2 & HCR_TGE)) {
+-                    break;
+-                }
+-                /* fall through */
+-            case 0:
+-            case 2:
+-                return 0;
+-            }
+         } else if (arm_is_el2_enabled(env)) {
+             if (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, TZ)) {
+                 return 2;
+             }
+-            if (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, TFP)) {
+-                return 0;
+-            }
+         }
+     }
+ 
+@@ -13683,19 +13661,21 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+ 
+     if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
+         int sve_el = sve_exception_el(env, el);
+-        uint32_t zcr_len;
+ 
+         /*
+-         * If SVE is disabled, but FP is enabled,
+-         * then the effective len is 0.
++         * If either FP or SVE are disabled, translator does not need len.
++         * If SVE EL > FP EL, FP exception has precedence, and translator
++         * does not need SVE EL.  Save potential re-translations by forcing
++         * the unneeded data to zero.
+          */
+-        if (sve_el != 0 && fp_el == 0) {
+-            zcr_len = 0;
+-        } else {
+-            zcr_len = sve_zcr_len_for_el(env, el);
++        if (fp_el != 0) {
++            if (sve_el > fp_el) {
++                sve_el = 0;
++            }
++        } else if (sve_el == 0) {
++            DP_TBFLAG_A64(flags, VL, sve_zcr_len_for_el(env, el));
+         }
+         DP_TBFLAG_A64(flags, SVEEXC_EL, sve_el);
+-        DP_TBFLAG_A64(flags, VL, zcr_len);
+     }
+ 
+     sctlr = regime_sctlr(env, stage1);
 -- 
 2.34.1
 
