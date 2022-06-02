@@ -2,75 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6888953BB75
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 17:15:53 +0200 (CEST)
-Received: from localhost ([::1]:47634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8739753BB88
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 17:26:10 +0200 (CEST)
+Received: from localhost ([::1]:36928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwmYC-00039B-4M
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 11:15:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38752)
+	id 1nwmi9-00071s-3e
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 11:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwmVo-0000JF-L8
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:13:24 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:36455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwmVl-0006CV-WD
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:13:24 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id y187so5012554pgd.3
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 08:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pUmdC3xdEpG3uLAArNyfZRtGFvPgvzahQwuoK5N5fKU=;
- b=HLvCvSogigM1pnqBze7MNbTZOFqJnMnf+BK8LeqmiWzfM3blhx5gGuYBKNjCNSUReY
- XdEdyO4mw9Ahm0bgFIvtLYdCUvRI784C+GGW9VtBG+fuzorGn65TDVEcACD8F7JNQhN8
- jnwcbwd72Sn/8WxZC6IqLe9JcTnm9FyRLiES/DIh03twG77oD5rttPD7nmfk1cH7Drua
- aupp5uZoUvk4n0ds9zYWjqVhcH5YQer14pq0lCnEZvn4BER2mDIo1aCPXpxUfixzwGER
- TcyQRY9idgsoScwT37Qq1ux6HfIOMoxybdKSo8ByvBKuPQ4qF/SK2uPw91TO+K77IVfh
- lcgQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nwmcV-0000n3-TV
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:20:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nwmcO-0007QN-8z
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 11:20:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654183211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ONHmbaO2S/00X2VuF3+3J/xtQPom6UHExPuJloh8qJI=;
+ b=SwJk6GNBnoH+OPcaxLTD13/nBbSOwQQ7jb4pEGLFSpN3Pq5qGqqMhJ/11ycnGjmCYiabI2
+ 2jlXW3EF/zy1Ujwtrn2KffPoIx4OIwBoOJp9BfReqs4eoXpM5CJNNLBo3vwh2n3PGuBH+I
+ pQ8W3wkZk0O+8KU6qLHqtyD6ET8uq/8=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-179-SLf0V6wpPkiE1ffnaxtSXg-1; Thu, 02 Jun 2022 11:20:10 -0400
+X-MC-Unique: SLf0V6wpPkiE1ffnaxtSXg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ eh10-20020a0564020f8a00b0042dd9bf7c57so3684824edb.17
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 08:20:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pUmdC3xdEpG3uLAArNyfZRtGFvPgvzahQwuoK5N5fKU=;
- b=7dt02yF52WdgK1uZNHOKGY5GJNgodh4b2Gp21FQLvf5oaIQycn74vnx747XFswmr+A
- /6JC3O1WjvuniFUImxOAXH47xel4DCHSv3UtSr6hS3la3GWEzI3wkyW59BNaPlx8qKP2
- p2gGjVObYdRxpK90ZQpRIwPv/OEy7NuxEM6obHjaJyNF1TbgsQVC2Aoy31cs4xlW3p37
- 9kNpnnhd5EyX/pn+f4uZh2UHUFfqYO2mX00YMsi8/t0hZXSRizbuS5JP+LUWrQWif98h
- VKQ6tdvzh9H/w/QytK7xls05ZWo9F7k+DdDe6Gs8RaMAUGcY/FGvIh6kht9bIUAbq0i6
- AwDw==
-X-Gm-Message-State: AOAM5321IBPGwCtMFMgWAbxmBQeHuCpwpV7O+R4ZsTJVwLoDSJXv1AZJ
- 189hVU9nIeQ8W3Pk1hmZRhUymy1ReIjujoN2
-X-Google-Smtp-Source: ABdhPJz0NvXc3+RDZqDpqCimyWpdOKaSQgpeWx9+RViX6c0212XewNQ4ZsNczkqaRC+Z2bkV5vtlFg==
-X-Received: by 2002:a05:6a00:1690:b0:517:cc9e:3e2d with SMTP id
- k16-20020a056a00169000b00517cc9e3e2dmr5670986pfc.0.1654182800778; 
- Thu, 02 Jun 2022 08:13:20 -0700 (PDT)
-Received: from stoup.. ([2607:fb90:80cd:3d17:bb90:8dda:8cb2:7569])
+ bh=ONHmbaO2S/00X2VuF3+3J/xtQPom6UHExPuJloh8qJI=;
+ b=u7Cj49L4Zu38cEV3xd1Z3dP1AJ5iUAWm9wBnfg9znVLshCYfR8GjH0Ks874zJwqDX6
+ OoD7u0NNx/f+sZC7xJbZKo1McO/ItNRmfrMGRTdMuaoFhaZ0eMCbiALAaWiVDBPuEnBc
+ RhzU+OA7T7740esCJ+K+pvkSZlM4RynyF6SfOUs8VqcfKzq2iT9PeQuT5yuwHYezGjZ+
+ jAXnSIbNATm5GqLSAlRY/1o/o1VeN1GPfqWcFpJQKzF4inzrRAWYeCP9uy9CzXGYMVjn
+ T75hAftXW/+GvQB320D2NaMMGpg7bHRsCHrKQzN693FQzXn8vvx6iRq8KS5MxzR+s0qj
+ SOWA==
+X-Gm-Message-State: AOAM531aKHdflKjPxRaR4/XqhT/kyvWAHRiMPgZg20CkAjWpWIQtZs/D
+ vGY1TUzyjcS91DpqR4iiw0mJ3dBAB4BV2KeV+efUP89siET7Ti2QsBuHfeNVQ2kvfFBXpBfjViU
+ /mSVJNXqWXbhd1Ek=
+X-Received: by 2002:a05:6402:3585:b0:42d:d6d9:385d with SMTP id
+ y5-20020a056402358500b0042dd6d9385dmr5996034edc.334.1654183208901; 
+ Thu, 02 Jun 2022 08:20:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSZpGdhxX/5trssFw7uMXWAzdbv7x/UQWcG8BKK2o88RTxV00dUsKLqxHNp1JyL/FgArSUEw==
+X-Received: by 2002:a05:6402:3585:b0:42d:d6d9:385d with SMTP id
+ y5-20020a056402358500b0042dd6d9385dmr5996001edc.334.1654183208661; 
+ Thu, 02 Jun 2022 08:20:08 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- x1-20020a170902820100b001618383483fsm3625159pln.224.2022.06.02.08.13.19
+ n16-20020aa7c790000000b0042bced44061sm2619160eds.10.2022.06.02.08.20.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 08:13:20 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Joel Stanley <joel@jms.id.au>
-Subject: [PULL 3/3] tcg/aarch64: Fix illegal insn from out-of-range shli
-Date: Thu,  2 Jun 2022 08:13:12 -0700
-Message-Id: <20220602151312.477967-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220602151312.477967-1-richard.henderson@linaro.org>
-References: <20220602151312.477967-1-richard.henderson@linaro.org>
+ Thu, 02 Jun 2022 08:20:08 -0700 (PDT)
+Date: Thu, 2 Jun 2022 17:20:07 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
+ <ani@anisinha.ca>
+Subject: Re: [PATCH 4/5] bios-tables-test: add test for number of cores > 255
+Message-ID: <20220602172007.27cd7e81@redhat.com>
+In-Reply-To: <20220527165651.28092-5-jusual@redhat.com>
+References: <20220527165651.28092-1-jusual@redhat.com>
+ <20220527165651.28092-5-jusual@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,31 +101,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The masking in tcg_out_shl was incorrect, producing an
-illegal instruction, rather than merely unspecified results
-for the out-of-range shift.
+On Fri, 27 May 2022 18:56:50 +0200
+Julia Suvorova <jusual@redhat.com> wrote:
 
-Tested-by: Joel Stanley <joel@jms.id.au>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1051
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/aarch64/tcg-target.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The new test is run with a large number of cpus and checks if the
+> core_count field in smbios_cpu_test (structure type 4) is correct.
+> 
+> Choose q35 as it allows to run with -smp > 255.
+> 
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> ---
+>  tests/qtest/bios-tables-test.c | 35 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 34 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 0ba9d749a5..f2464adaa0 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -100,6 +100,8 @@ typedef struct {
+>      smbios_entry_point smbios_ep_table;
+>      uint16_t smbios_cpu_max_speed;
+>      uint16_t smbios_cpu_curr_speed;
+> +    uint8_t smbios_core_count;
+> +    uint16_t smbios_core_count2;
+>      uint8_t *required_struct_types;
+>      int required_struct_types_len;
+>      QTestState *qts;
+> @@ -640,8 +642,9 @@ static inline bool smbios_single_instance(uint8_t type)
+>  
+>  static bool smbios_cpu_test(test_data *data, uint32_t addr)
+>  {
+> +    uint8_t real_cc, expect_cc = data->smbios_core_count;
 
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 61e284bb5c..d997f7922a 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1261,7 +1261,7 @@ static inline void tcg_out_shl(TCGContext *s, TCGType ext,
- {
-     int bits = ext ? 64 : 32;
-     int max = bits - 1;
--    tcg_out_ubfm(s, ext, rd, rn, bits - (m & max), max - (m & max));
-+    tcg_out_ubfm(s, ext, rd, rn, (bits - m) & max, (max - m) & max);
- }
- 
- static inline void tcg_out_shr(TCGContext *s, TCGType ext,
--- 
-2.34.1
+%s/expect/expected/
+also I'd s/real_cc/core_count/
+
+> +    uint16_t real, real_cc2, expect_cc2 = data->smbios_core_count2;
+ditto
+
+>      uint16_t expect_speed[2];
+> -    uint16_t real;
+>      int offset[2];
+>      int i;
+>  
+> @@ -660,6 +663,20 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
+>          }
+>      }
+>  
+> +    real_cc = qtest_readb(data->qts, addr + offsetof(struct smbios_type_4, core_count));
+> +    real_cc2 = qtest_readw(data->qts, addr + offsetof(struct smbios_type_4, core_count2));
+> +
+> +    if (expect_cc && (real_cc != expect_cc)) {
+> +        fprintf(stderr, "Unexpected SMBIOS CPU count: real %u expect %u\n",
+> +                real_cc, expect_cc);
+> +        return false;
+
+since you are rewriting it anyways, how about 
+if (expect_cc) {
+  g_assert_cmpuint(...)
+}
+
+instead of printing/propagating error
+
+> +    }
+> +    if ((expect_cc == 0xFF) && (real_cc2 != expect_cc2)) {
+> +        fprintf(stderr, "Unexpected SMBIOS CPU count2: real %u expect %u\n",
+> +                real_cc2, expect_cc2);
+> +        return false;
+> +    }
+> +
+>      return true;
+>  }
+>  
+> @@ -905,6 +922,21 @@ static void test_acpi_q35_tcg(void)
+>      free_test_data(&data);
+>  }
+>  
+> +static void test_acpi_q35_tcg_core_count2(void)
+> +{
+> +    test_data data = {
+> +        .machine = MACHINE_Q35,
+> +        .variant = ".core-count2",
+> +        .required_struct_types = base_required_struct_types,
+> +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
+> +        .smbios_core_count = 0xFF,
+> +        .smbios_core_count2 = 275,
+> +    };
+> +
+> +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_q35_tcg_bridge(void)
+>  {
+>      test_data data;
+> @@ -1787,6 +1819,7 @@ int main(int argc, char *argv[])
+>          qtest_add_func("acpi/piix4/pci-hotplug/off",
+>                         test_acpi_piix4_no_acpi_pci_hotplug);
+>          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+> +        qtest_add_func("acpi/q35/core-count2", test_acpi_q35_tcg_core_count2);
+>          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+>          qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+>          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
 
 
