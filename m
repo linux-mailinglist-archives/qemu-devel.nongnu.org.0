@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA6853C092
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:05:09 +0200 (CEST)
-Received: from localhost ([::1]:50364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB00453C08C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 00:01:16 +0200 (CEST)
+Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwswG-00039q-T7
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:05:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
+	id 1nwssW-00017C-1K
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jun 2022 18:01:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgo-0004fr-Hc
- for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:10 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:33133)
+ id 1nwsgp-0004hZ-Cf
+ for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:11 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:45603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwsgk-0008UD-Ky
+ id 1nwsgm-00006r-61
  for qemu-devel@nongnu.org; Thu, 02 Jun 2022 17:49:10 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- hv24-20020a17090ae41800b001e33eebdb5dso6070513pjb.0
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:49:06 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id b135so5775806pfb.12
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 14:49:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F4rHpbD5Ee0Gqq7jh/rhx4dfJgd9LnpoppwR09o1CsY=;
- b=NWY0ctmtTpDldBeAWXB8jEGJcYtIubk5aMg3PW6/k3GtBw+HYdfEJBNnfmbRRDa8B3
- uESckvfxNOoxel7Pu/E/+PramxgrR7qjz+gJkul9KLugCOeEjuaYgfxoQxNDQki0JgEU
- y/3LXTcW3I0CUCb9yeNWQBXec/GySElBb0AvfZaeRBBFWEkv/myo2wDW9KzqOB2jQ/qP
- 2Jqeo6kUIdcrH9bR9HviMOZ9qKEBmKvNN+cKU6+TOq2Q6IgHaDype8VIJzYTxAUPLmmP
- Tkd7D8AiIn3aRkIiYa5bvW1FxP9zqSDLf6CpodtZy5RiI4lhmDB2S84OeosJYTupyl4y
- iXBw==
+ bh=jaTWEUo9dEcM6jmweyaOFnw3wtRMGNYyznA/W1CTYmM=;
+ b=YE38Ne2AkxHzJiKFoOsbogSXuTyLkxPIdtNAGRFpnDi/6vfnFBIfw3QuopPK1uJNd1
+ 9MPLRlJerQOJOXweqHdd5Xtp/sXMYaFGC0BmmI74acCkQuI9jZHI1BXHGV4Nru4okG8a
+ WMCmXVjXYVuQ/gKzRijrOeNIw9djtWjWQO5m8lx9/CwQruKGYw/6uBy4YhDnwaEYoRoL
+ Uz85uAzuXqA0l14ct56TZeje54F6j0+7ekHnIeC2A62hwGL9R9t6f62GiIFkTi039oK3
+ o702noYelw2eBQudgiyTPXX+75RNJVT/kjMTjRVsK2jf71rlOv39XSV91z/1zMXxyBDj
+ 3CiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F4rHpbD5Ee0Gqq7jh/rhx4dfJgd9LnpoppwR09o1CsY=;
- b=vTtjCFpPqDznNqzm6KE2UuOXr/+BOmtgURPwUnLuS4AFLMeJmbzzazxLqxkfsLDG1/
- fQwtFnQGpp5Fbp0iHTdGX8fh3+8GR1JX0OJ3I0OKwnkIUpaKBtAKtPNFZAQSpzU0bdeH
- iEkNhFMged3PMaapyzZewMRsmdD4Nh+PC9XXMQRuaXJgYjU3vloEhwGLKN9bB6QUEbFh
- 7IHywjYVrvO7fv+6s4q3xP7qsMpT8d+E6+L8NzzJd7Bk04jwiZ7v6diVbz351KU7CMSs
- B53EOb9E963cx8jaai7F0wsrJcLiyt0BtXgTVo1O+36ATouvIvKn+Pb+QXrc6BKxTvFQ
- W/Ig==
-X-Gm-Message-State: AOAM531v6dPv3gR2/fDBwV4kIubiBTJANkKLtaxY+jvKdWpVI8RHa3E5
- xw8HzF8NGgSQEzWpFUXrNnXweD/TS2tqdw==
-X-Google-Smtp-Source: ABdhPJwr5S7krxvxKnEqJyrPR1tIKEtG71IMeskEMu1DqU+ucsaLhpebcrO38xb5ggNbXUCVX8zvFg==
-X-Received: by 2002:a17:90b:4c8c:b0:1df:c760:e4af with SMTP id
- my12-20020a17090b4c8c00b001dfc760e4afmr7576996pjb.78.1654206545819; 
- Thu, 02 Jun 2022 14:49:05 -0700 (PDT)
+ bh=jaTWEUo9dEcM6jmweyaOFnw3wtRMGNYyznA/W1CTYmM=;
+ b=qDqVVop+Q745O/sZEAa4YviBZeQCN22X0HNFw7R5oA1Qo61X6eqgEh5XU7r0LoeniK
+ kGp+IRiAStf9np2SRzKP+drCaRJ76oPD82fizfzR6JWV5ETwpm4E0Z9yguEkoMWBh0Fm
+ 1lwfHqdFqag63wnjUYObECh+RIbBAAfxp8J754bUtOHvnNNOKh2qZhucv5WgtLXVQPtY
+ LFml+InTDVI6SKnB1S/O+0oM7j9q/k/vWBop5kTP7kX7qJndbItBy16sQpFjAAq2kJYC
+ 2gOUkYKreN0Bm/w1UdhYo76HaagNs9T2bB8YNqA3VHChydC2rSrVACfmIUW0gjpmBwkR
+ lJAQ==
+X-Gm-Message-State: AOAM53298hXfidPMzsNy3/2cNnus31dj4yj+LxL6SQeNqsowcxi01iCH
+ wOn2E7wS47deN9guZsAgrg8g3OixylvV9w==
+X-Google-Smtp-Source: ABdhPJyLw5LDta804Lw/h2d2libeAeAv9wRk3chofm97r3xhvTlQWtHnz16ujhKILEhHeziooTyYoQ==
+X-Received: by 2002:a05:6a00:2341:b0:51b:dd96:c7c1 with SMTP id
+ j1-20020a056a00234100b0051bdd96c7c1mr1484030pfj.14.1654206546554; 
+ Thu, 02 Jun 2022 14:49:06 -0700 (PDT)
 Received: from stoup.. (174-21-71-225.tukw.qwest.net. [174.21.71.225])
  by smtp.gmail.com with ESMTPSA id
  bf7-20020a170902b90700b00163c6ac211fsm3988760plb.111.2022.06.02.14.49.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 14:49:05 -0700 (PDT)
+ Thu, 02 Jun 2022 14:49:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 13/71] target/arm: Split out load/store primitives to
- sve_ldst_internal.h
-Date: Thu,  2 Jun 2022 14:47:55 -0700
-Message-Id: <20220602214853.496211-14-richard.henderson@linaro.org>
+Subject: [PATCH 14/71] target/arm: Export sve contiguous ldst support functions
+Date: Thu,  2 Jun 2022 14:47:56 -0700
+Message-Id: <20220602214853.496211-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602214853.496211-1-richard.henderson@linaro.org>
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,280 +89,254 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Begin creation of sve_ldst_internal.h by moving the primitives
-that access host and tlb memory.
+Export all of the support functions for performing bulk
+fault analysis on a set of elements at contiguous addresses
+controlled by a predicate.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve_ldst_internal.h | 127 +++++++++++++++++++++++++++++++++
- target/arm/sve_helper.c        | 107 +--------------------------
- 2 files changed, 128 insertions(+), 106 deletions(-)
- create mode 100644 target/arm/sve_ldst_internal.h
+ target/arm/sve_ldst_internal.h | 94 ++++++++++++++++++++++++++++++++++
+ target/arm/sve_helper.c        | 87 ++++++-------------------------
+ 2 files changed, 111 insertions(+), 70 deletions(-)
 
 diff --git a/target/arm/sve_ldst_internal.h b/target/arm/sve_ldst_internal.h
-new file mode 100644
-index 0000000000..ef9117e84c
---- /dev/null
+index ef9117e84c..b5c473fc48 100644
+--- a/target/arm/sve_ldst_internal.h
 +++ b/target/arm/sve_ldst_internal.h
-@@ -0,0 +1,127 @@
+@@ -124,4 +124,98 @@ DO_ST_PRIM_2(dd, H1_8, uint64_t, uint64_t, stq)
+ #undef DO_LD_PRIM_2
+ #undef DO_ST_PRIM_2
+ 
 +/*
-+ * ARM SVE Load/Store Helpers
-+ *
-+ * Copyright (c) 2018-2022 Linaro
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ * Resolve the guest virtual address to info->host and info->flags.
++ * If @nofault, return false if the page is invalid, otherwise
++ * exit via page fault exception.
 + */
 +
-+#ifndef TARGET_ARM_SVE_LDST_INTERNAL_H
-+#define TARGET_ARM_SVE_LDST_INTERNAL_H
++typedef struct {
++    void *host;
++    int flags;
++    MemTxAttrs attrs;
++} SVEHostPage;
 +
-+#include "exec/cpu_ldst.h"
-+
-+/*
-+ * Load one element into @vd + @reg_off from @host.
-+ * The controlling predicate is known to be true.
-+ */
-+typedef void sve_ldst1_host_fn(void *vd, intptr_t reg_off, void *host);
-+
-+/*
-+ * Load one element into @vd + @reg_off from (@env, @vaddr, @ra).
-+ * The controlling predicate is known to be true.
-+ */
-+typedef void sve_ldst1_tlb_fn(CPUARMState *env, void *vd, intptr_t reg_off,
-+                              target_ulong vaddr, uintptr_t retaddr);
++bool sve_probe_page(SVEHostPage *info, bool nofault, CPUARMState *env,
++                    target_ulong addr, int mem_off, MMUAccessType access_type,
++                    int mmu_idx, uintptr_t retaddr);
 +
 +/*
-+ * Generate the above primitives.
++ * Analyse contiguous data, protected by a governing predicate.
 + */
 +
-+#define DO_LD_HOST(NAME, H, TYPEE, TYPEM, HOST)                              \
-+static inline void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host) \
-+{ TYPEM val = HOST(host); *(TYPEE *)(vd + H(reg_off)) = val; }
++typedef enum {
++    FAULT_NO,
++    FAULT_FIRST,
++    FAULT_ALL,
++} SVEContFault;
 +
-+#define DO_ST_HOST(NAME, H, TYPEE, TYPEM, HOST)                              \
-+static inline void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host) \
-+{ TYPEM val = *(TYPEE *)(vd + H(reg_off)); HOST(host, val); }
++typedef struct {
++    /*
++     * First and last element wholly contained within the two pages.
++     * mem_off_first[0] and reg_off_first[0] are always set >= 0.
++     * reg_off_last[0] may be < 0 if the first element crosses pages.
++     * All of mem_off_first[1], reg_off_first[1] and reg_off_last[1]
++     * are set >= 0 only if there are complete elements on a second page.
++     *
++     * The reg_off_* offsets are relative to the internal vector register.
++     * The mem_off_first offset is relative to the memory address; the
++     * two offsets are different when a load operation extends, a store
++     * operation truncates, or for multi-register operations.
++     */
++    int16_t mem_off_first[2];
++    int16_t reg_off_first[2];
++    int16_t reg_off_last[2];
 +
-+#define DO_LD_TLB(NAME, H, TYPEE, TYPEM, TLB)                              \
-+static inline void sve_##NAME##_tlb(CPUARMState *env, void *vd,            \
-+                        intptr_t reg_off, target_ulong addr, uintptr_t ra) \
-+{                                                                          \
-+    TYPEM val = TLB(env, useronly_clean_ptr(addr), ra);                    \
-+    *(TYPEE *)(vd + H(reg_off)) = val;                                     \
-+}
++    /*
++     * One element that is misaligned and spans both pages,
++     * or -1 if there is no such active element.
++     */
++    int16_t mem_off_split;
++    int16_t reg_off_split;
 +
-+#define DO_ST_TLB(NAME, H, TYPEE, TYPEM, TLB)                              \
-+static inline void sve_##NAME##_tlb(CPUARMState *env, void *vd,            \
-+                        intptr_t reg_off, target_ulong addr, uintptr_t ra) \
-+{                                                                          \
-+    TYPEM val = *(TYPEE *)(vd + H(reg_off));                               \
-+    TLB(env, useronly_clean_ptr(addr), val, ra);                           \
-+}
++    /*
++     * The byte offset at which the entire operation crosses a page boundary.
++     * Set >= 0 if and only if the entire operation spans two pages.
++     */
++    int16_t page_split;
 +
-+#define DO_LD_PRIM_1(NAME, H, TE, TM)                   \
-+    DO_LD_HOST(NAME, H, TE, TM, ldub_p)                 \
-+    DO_LD_TLB(NAME, H, TE, TM, cpu_ldub_data_ra)
++    /* TLB data for the two pages. */
++    SVEHostPage page[2];
++} SVEContLdSt;
 +
-+DO_LD_PRIM_1(ld1bb,  H1,   uint8_t,  uint8_t)
-+DO_LD_PRIM_1(ld1bhu, H1_2, uint16_t, uint8_t)
-+DO_LD_PRIM_1(ld1bhs, H1_2, uint16_t,  int8_t)
-+DO_LD_PRIM_1(ld1bsu, H1_4, uint32_t, uint8_t)
-+DO_LD_PRIM_1(ld1bss, H1_4, uint32_t,  int8_t)
-+DO_LD_PRIM_1(ld1bdu, H1_8, uint64_t, uint8_t)
-+DO_LD_PRIM_1(ld1bds, H1_8, uint64_t,  int8_t)
++/*
++ * Find first active element on each page, and a loose bound for the
++ * final element on each page.  Identify any single element that spans
++ * the page boundary.  Return true if there are any active elements.
++ */
++bool sve_cont_ldst_elements(SVEContLdSt *info, target_ulong addr, uint64_t *vg,
++                            intptr_t reg_max, int esz, int msize);
 +
-+#define DO_ST_PRIM_1(NAME, H, TE, TM)                   \
-+    DO_ST_HOST(st1##NAME, H, TE, TM, stb_p)             \
-+    DO_ST_TLB(st1##NAME, H, TE, TM, cpu_stb_data_ra)
++/*
++ * Resolve the guest virtual addresses to info->page[].
++ * Control the generation of page faults with @fault.  Return false if
++ * there is no work to do, which can only happen with @fault == FAULT_NO.
++ */
++bool sve_cont_ldst_pages(SVEContLdSt *info, SVEContFault fault,
++                         CPUARMState *env, target_ulong addr,
++                         MMUAccessType access_type, uintptr_t retaddr);
 +
-+DO_ST_PRIM_1(bb,   H1,  uint8_t, uint8_t)
-+DO_ST_PRIM_1(bh, H1_2, uint16_t, uint8_t)
-+DO_ST_PRIM_1(bs, H1_4, uint32_t, uint8_t)
-+DO_ST_PRIM_1(bd, H1_8, uint64_t, uint8_t)
++#ifdef CONFIG_USER_ONLY
++static inline void
++sve_cont_ldst_watchpoints(SVEContLdSt *info, CPUARMState *env, uint64_t *vg,
++                          target_ulong addr, int esize, int msize,
++                          int wp_access, uintptr_t retaddr)
++{ }
++#else
++void sve_cont_ldst_watchpoints(SVEContLdSt *info, CPUARMState *env,
++                               uint64_t *vg, target_ulong addr,
++                               int esize, int msize, int wp_access,
++                               uintptr_t retaddr);
++#endif
 +
-+#define DO_LD_PRIM_2(NAME, H, TE, TM, LD) \
-+    DO_LD_HOST(ld1##NAME##_be, H, TE, TM, LD##_be_p)    \
-+    DO_LD_HOST(ld1##NAME##_le, H, TE, TM, LD##_le_p)    \
-+    DO_LD_TLB(ld1##NAME##_be, H, TE, TM, cpu_##LD##_be_data_ra) \
-+    DO_LD_TLB(ld1##NAME##_le, H, TE, TM, cpu_##LD##_le_data_ra)
++void sve_cont_ldst_mte_check(SVEContLdSt *info, CPUARMState *env, uint64_t *vg,
++                             target_ulong addr, int esize, int msize,
++                             uint32_t mtedesc, uintptr_t ra);
 +
-+#define DO_ST_PRIM_2(NAME, H, TE, TM, ST) \
-+    DO_ST_HOST(st1##NAME##_be, H, TE, TM, ST##_be_p)    \
-+    DO_ST_HOST(st1##NAME##_le, H, TE, TM, ST##_le_p)    \
-+    DO_ST_TLB(st1##NAME##_be, H, TE, TM, cpu_##ST##_be_data_ra) \
-+    DO_ST_TLB(st1##NAME##_le, H, TE, TM, cpu_##ST##_le_data_ra)
-+
-+DO_LD_PRIM_2(hh,  H1_2, uint16_t, uint16_t, lduw)
-+DO_LD_PRIM_2(hsu, H1_4, uint32_t, uint16_t, lduw)
-+DO_LD_PRIM_2(hss, H1_4, uint32_t,  int16_t, lduw)
-+DO_LD_PRIM_2(hdu, H1_8, uint64_t, uint16_t, lduw)
-+DO_LD_PRIM_2(hds, H1_8, uint64_t,  int16_t, lduw)
-+
-+DO_ST_PRIM_2(hh, H1_2, uint16_t, uint16_t, stw)
-+DO_ST_PRIM_2(hs, H1_4, uint32_t, uint16_t, stw)
-+DO_ST_PRIM_2(hd, H1_8, uint64_t, uint16_t, stw)
-+
-+DO_LD_PRIM_2(ss,  H1_4, uint32_t, uint32_t, ldl)
-+DO_LD_PRIM_2(sdu, H1_8, uint64_t, uint32_t, ldl)
-+DO_LD_PRIM_2(sds, H1_8, uint64_t,  int32_t, ldl)
-+
-+DO_ST_PRIM_2(ss, H1_4, uint32_t, uint32_t, stl)
-+DO_ST_PRIM_2(sd, H1_8, uint64_t, uint32_t, stl)
-+
-+DO_LD_PRIM_2(dd, H1_8, uint64_t, uint64_t, ldq)
-+DO_ST_PRIM_2(dd, H1_8, uint64_t, uint64_t, stq)
-+
-+#undef DO_LD_TLB
-+#undef DO_ST_TLB
-+#undef DO_LD_HOST
-+#undef DO_LD_PRIM_1
-+#undef DO_ST_PRIM_1
-+#undef DO_LD_PRIM_2
-+#undef DO_ST_PRIM_2
-+
-+#endif /* TARGET_ARM_SVE_LDST_INTERNAL_H */
+ #endif /* TARGET_ARM_SVE_LDST_INTERNAL_H */
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 3bdcd4ce9d..0c6dde00aa 100644
+index 0c6dde00aa..8cd371e3e3 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -21,12 +21,12 @@
- #include "cpu.h"
- #include "internals.h"
- #include "exec/exec-all.h"
--#include "exec/cpu_ldst.h"
- #include "exec/helper-proto.h"
- #include "tcg/tcg-gvec-desc.h"
- #include "fpu/softfloat.h"
- #include "tcg/tcg.h"
- #include "vec_internal.h"
-+#include "sve_ldst_internal.h"
- 
- 
- /* Return a value for NZCV as per the ARM PredTest pseudofunction.
-@@ -5301,111 +5301,6 @@ void HELPER(sve_fcmla_zpzzz_d)(void *vd, void *vn, void *vm, void *va,
-  * Load contiguous data, protected by a governing predicate.
+@@ -5341,16 +5341,9 @@ static intptr_t find_next_active(uint64_t *vg, intptr_t reg_off,
+  * exit via page fault exception.
   */
  
--/*
-- * Load one element into @vd + @reg_off from @host.
-- * The controlling predicate is known to be true.
-- */
--typedef void sve_ldst1_host_fn(void *vd, intptr_t reg_off, void *host);
+-typedef struct {
+-    void *host;
+-    int flags;
+-    MemTxAttrs attrs;
+-} SVEHostPage;
+-
+-static bool sve_probe_page(SVEHostPage *info, bool nofault,
+-                           CPUARMState *env, target_ulong addr,
+-                           int mem_off, MMUAccessType access_type,
+-                           int mmu_idx, uintptr_t retaddr)
++bool sve_probe_page(SVEHostPage *info, bool nofault, CPUARMState *env,
++                    target_ulong addr, int mem_off, MMUAccessType access_type,
++                    int mmu_idx, uintptr_t retaddr)
+ {
+     int flags;
+ 
+@@ -5406,59 +5399,13 @@ static bool sve_probe_page(SVEHostPage *info, bool nofault,
+     return true;
+ }
+ 
 -
 -/*
-- * Load one element into @vd + @reg_off from (@env, @vaddr, @ra).
-- * The controlling predicate is known to be true.
-- */
--typedef void sve_ldst1_tlb_fn(CPUARMState *env, void *vd, intptr_t reg_off,
--                              target_ulong vaddr, uintptr_t retaddr);
--
--/*
-- * Generate the above primitives.
+- * Analyse contiguous data, protected by a governing predicate.
 - */
 -
--#define DO_LD_HOST(NAME, H, TYPEE, TYPEM, HOST) \
--static void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host)  \
--{                                                                      \
--    TYPEM val = HOST(host);                                            \
--    *(TYPEE *)(vd + H(reg_off)) = val;                                 \
--}
+-typedef enum {
+-    FAULT_NO,
+-    FAULT_FIRST,
+-    FAULT_ALL,
+-} SVEContFault;
 -
--#define DO_ST_HOST(NAME, H, TYPEE, TYPEM, HOST) \
--static void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host)  \
--{ HOST(host, (TYPEM)*(TYPEE *)(vd + H(reg_off))); }
+-typedef struct {
+-    /*
+-     * First and last element wholly contained within the two pages.
+-     * mem_off_first[0] and reg_off_first[0] are always set >= 0.
+-     * reg_off_last[0] may be < 0 if the first element crosses pages.
+-     * All of mem_off_first[1], reg_off_first[1] and reg_off_last[1]
+-     * are set >= 0 only if there are complete elements on a second page.
+-     *
+-     * The reg_off_* offsets are relative to the internal vector register.
+-     * The mem_off_first offset is relative to the memory address; the
+-     * two offsets are different when a load operation extends, a store
+-     * operation truncates, or for multi-register operations.
+-     */
+-    int16_t mem_off_first[2];
+-    int16_t reg_off_first[2];
+-    int16_t reg_off_last[2];
 -
--#define DO_LD_TLB(NAME, H, TYPEE, TYPEM, TLB) \
--static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
--                             target_ulong addr, uintptr_t ra)               \
--{                                                                           \
--    *(TYPEE *)(vd + H(reg_off)) =                                           \
--        (TYPEM)TLB(env, useronly_clean_ptr(addr), ra);                      \
--}
+-    /*
+-     * One element that is misaligned and spans both pages,
+-     * or -1 if there is no such active element.
+-     */
+-    int16_t mem_off_split;
+-    int16_t reg_off_split;
 -
--#define DO_ST_TLB(NAME, H, TYPEE, TYPEM, TLB) \
--static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
--                             target_ulong addr, uintptr_t ra)               \
--{                                                                           \
--    TLB(env, useronly_clean_ptr(addr),                                      \
--        (TYPEM)*(TYPEE *)(vd + H(reg_off)), ra);                            \
--}
+-    /*
+-     * The byte offset at which the entire operation crosses a page boundary.
+-     * Set >= 0 if and only if the entire operation spans two pages.
+-     */
+-    int16_t page_split;
 -
--#define DO_LD_PRIM_1(NAME, H, TE, TM)                   \
--    DO_LD_HOST(NAME, H, TE, TM, ldub_p)                 \
--    DO_LD_TLB(NAME, H, TE, TM, cpu_ldub_data_ra)
--
--DO_LD_PRIM_1(ld1bb,  H1,   uint8_t,  uint8_t)
--DO_LD_PRIM_1(ld1bhu, H1_2, uint16_t, uint8_t)
--DO_LD_PRIM_1(ld1bhs, H1_2, uint16_t,  int8_t)
--DO_LD_PRIM_1(ld1bsu, H1_4, uint32_t, uint8_t)
--DO_LD_PRIM_1(ld1bss, H1_4, uint32_t,  int8_t)
--DO_LD_PRIM_1(ld1bdu, H1_8, uint64_t, uint8_t)
--DO_LD_PRIM_1(ld1bds, H1_8, uint64_t,  int8_t)
--
--#define DO_ST_PRIM_1(NAME, H, TE, TM)                   \
--    DO_ST_HOST(st1##NAME, H, TE, TM, stb_p)             \
--    DO_ST_TLB(st1##NAME, H, TE, TM, cpu_stb_data_ra)
--
--DO_ST_PRIM_1(bb,   H1,  uint8_t, uint8_t)
--DO_ST_PRIM_1(bh, H1_2, uint16_t, uint8_t)
--DO_ST_PRIM_1(bs, H1_4, uint32_t, uint8_t)
--DO_ST_PRIM_1(bd, H1_8, uint64_t, uint8_t)
--
--#define DO_LD_PRIM_2(NAME, H, TE, TM, LD) \
--    DO_LD_HOST(ld1##NAME##_be, H, TE, TM, LD##_be_p)    \
--    DO_LD_HOST(ld1##NAME##_le, H, TE, TM, LD##_le_p)    \
--    DO_LD_TLB(ld1##NAME##_be, H, TE, TM, cpu_##LD##_be_data_ra) \
--    DO_LD_TLB(ld1##NAME##_le, H, TE, TM, cpu_##LD##_le_data_ra)
--
--#define DO_ST_PRIM_2(NAME, H, TE, TM, ST) \
--    DO_ST_HOST(st1##NAME##_be, H, TE, TM, ST##_be_p)    \
--    DO_ST_HOST(st1##NAME##_le, H, TE, TM, ST##_le_p)    \
--    DO_ST_TLB(st1##NAME##_be, H, TE, TM, cpu_##ST##_be_data_ra) \
--    DO_ST_TLB(st1##NAME##_le, H, TE, TM, cpu_##ST##_le_data_ra)
--
--DO_LD_PRIM_2(hh,  H1_2, uint16_t, uint16_t, lduw)
--DO_LD_PRIM_2(hsu, H1_4, uint32_t, uint16_t, lduw)
--DO_LD_PRIM_2(hss, H1_4, uint32_t,  int16_t, lduw)
--DO_LD_PRIM_2(hdu, H1_8, uint64_t, uint16_t, lduw)
--DO_LD_PRIM_2(hds, H1_8, uint64_t,  int16_t, lduw)
--
--DO_ST_PRIM_2(hh, H1_2, uint16_t, uint16_t, stw)
--DO_ST_PRIM_2(hs, H1_4, uint32_t, uint16_t, stw)
--DO_ST_PRIM_2(hd, H1_8, uint64_t, uint16_t, stw)
--
--DO_LD_PRIM_2(ss,  H1_4, uint32_t, uint32_t, ldl)
--DO_LD_PRIM_2(sdu, H1_8, uint64_t, uint32_t, ldl)
--DO_LD_PRIM_2(sds, H1_8, uint64_t,  int32_t, ldl)
--
--DO_ST_PRIM_2(ss, H1_4, uint32_t, uint32_t, stl)
--DO_ST_PRIM_2(sd, H1_8, uint64_t, uint32_t, stl)
--
--DO_LD_PRIM_2(dd, H1_8, uint64_t, uint64_t, ldq)
--DO_ST_PRIM_2(dd, H1_8, uint64_t, uint64_t, stq)
--
--#undef DO_LD_TLB
--#undef DO_ST_TLB
--#undef DO_LD_HOST
--#undef DO_LD_PRIM_1
--#undef DO_ST_PRIM_1
--#undef DO_LD_PRIM_2
--#undef DO_ST_PRIM_2
+-    /* TLB data for the two pages. */
+-    SVEHostPage page[2];
+-} SVEContLdSt;
 -
  /*
-  * Skip through a sequence of inactive elements in the guarding predicate @vg,
-  * beginning at @reg_off bounded by @reg_max.  Return the offset of the active
+  * Find first active element on each page, and a loose bound for the
+  * final element on each page.  Identify any single element that spans
+  * the page boundary.  Return true if there are any active elements.
+  */
+-static bool sve_cont_ldst_elements(SVEContLdSt *info, target_ulong addr,
+-                                   uint64_t *vg, intptr_t reg_max,
+-                                   int esz, int msize)
++bool sve_cont_ldst_elements(SVEContLdSt *info, target_ulong addr, uint64_t *vg,
++                            intptr_t reg_max, int esz, int msize)
+ {
+     const int esize = 1 << esz;
+     const uint64_t pg_mask = pred_esz_masks[esz];
+@@ -5548,9 +5495,9 @@ static bool sve_cont_ldst_elements(SVEContLdSt *info, target_ulong addr,
+  * Control the generation of page faults with @fault.  Return false if
+  * there is no work to do, which can only happen with @fault == FAULT_NO.
+  */
+-static bool sve_cont_ldst_pages(SVEContLdSt *info, SVEContFault fault,
+-                                CPUARMState *env, target_ulong addr,
+-                                MMUAccessType access_type, uintptr_t retaddr)
++bool sve_cont_ldst_pages(SVEContLdSt *info, SVEContFault fault,
++                         CPUARMState *env, target_ulong addr,
++                         MMUAccessType access_type, uintptr_t retaddr)
+ {
+     int mmu_idx = cpu_mmu_index(env, false);
+     int mem_off = info->mem_off_first[0];
+@@ -5606,12 +5553,12 @@ static bool sve_cont_ldst_pages(SVEContLdSt *info, SVEContFault fault,
+     return have_work;
+ }
+ 
+-static void sve_cont_ldst_watchpoints(SVEContLdSt *info, CPUARMState *env,
+-                                      uint64_t *vg, target_ulong addr,
+-                                      int esize, int msize, int wp_access,
+-                                      uintptr_t retaddr)
+-{
+ #ifndef CONFIG_USER_ONLY
++void sve_cont_ldst_watchpoints(SVEContLdSt *info, CPUARMState *env,
++                               uint64_t *vg, target_ulong addr,
++                               int esize, int msize, int wp_access,
++                               uintptr_t retaddr)
++{
+     intptr_t mem_off, reg_off, reg_last;
+     int flags0 = info->page[0].flags;
+     int flags1 = info->page[1].flags;
+@@ -5667,12 +5614,12 @@ static void sve_cont_ldst_watchpoints(SVEContLdSt *info, CPUARMState *env,
+             } while (reg_off & 63);
+         } while (reg_off <= reg_last);
+     }
+-#endif
+ }
++#endif
+ 
+-static void sve_cont_ldst_mte_check(SVEContLdSt *info, CPUARMState *env,
+-                                    uint64_t *vg, target_ulong addr, int esize,
+-                                    int msize, uint32_t mtedesc, uintptr_t ra)
++void sve_cont_ldst_mte_check(SVEContLdSt *info, CPUARMState *env,
++                             uint64_t *vg, target_ulong addr, int esize,
++                             int msize, uint32_t mtedesc, uintptr_t ra)
+ {
+     intptr_t mem_off, reg_off, reg_last;
+ 
 -- 
 2.34.1
 
