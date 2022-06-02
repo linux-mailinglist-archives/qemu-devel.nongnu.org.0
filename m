@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE13653B152
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 03:44:05 +0200 (CEST)
-Received: from localhost ([::1]:36238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E6D53B153
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jun 2022 03:46:46 +0200 (CEST)
+Received: from localhost ([::1]:41004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwZsa-0004iZ-Um
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 21:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43522)
+	id 1nwZvA-00088C-Lx
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jun 2022 21:46:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwZj4-0002Ot-9f
+ id 1nwZj4-0002Os-9y
  for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:34:14 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40529)
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:35589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nwZiz-0005Ei-IC
- for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:34:12 -0400
-Received: by mail-pl1-x629.google.com with SMTP id i1so3276876plg.7
- for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 18:34:09 -0700 (PDT)
+ id 1nwZj1-0005F5-Qk
+ for qemu-devel@nongnu.org; Wed, 01 Jun 2022 21:34:13 -0400
+Received: by mail-pf1-x433.google.com with SMTP id u2so3480900pfc.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Jun 2022 18:34:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P8QVHsssV/N9S00mQXjYBPgFpjBb96NXM+kaVdZ/lRE=;
- b=Hlsxl02aExRZSOEMZ1YXVMIUwqpkQlJqLtVKC+eDhzgZlmpTslGd7yuZ5sxW7h+WCa
- 7sqbfycVWVJFKPKcf7HpNUYVrlBHZTZsVHZ6mrnj++XOGWmEWQm6pDFiXoq1Y+FbtWV4
- M4P5IBEwJ7PrPCOSg1s65sq3oBXNX3NASZCMbA0fuBKf3OCFLxO4VKtcJloifoEuV0bx
- /ErqLhuoW5rdhJiY3LS3APfGXzKotGWUxoY+KaT4cxQmB1H8MEzDFOFOXYkjLtmq0hDB
- o/2lnOWckDmg/9Wuv3S1sN1JpyeBDfxUNidjm9+rJ9f7FnMhackoAooNJPqXJnOqYxnK
- Delw==
+ bh=dBQmcYvQNWemNoz94qCXnnbynO5dcM+A32yDVQduyko=;
+ b=Yk3723jLF3gTb9CncvWRZv7v4jv30ttiW0r1k86QlT/dwP1HSfirZzaTh890ccF6kP
+ N+5FYcCDchwBpl94epRqAXDSKE2VteAPnkXQ8DwkVzCW8BYCy0WZeijSGTyMxmWD6XzT
+ K1YY0zwpjD6cLorYgOwd5UZDcHB+LeY013IhSvEVdGQMMZX+1kl6pglvB81ElmEocwHX
+ KmBXO+VUwUjOvD15OqH9zp8WnGhdP8cgMN1WwQteqUv9ZnASAgheFRBl0LO8UVodQDuO
+ ijcevWreJXE8byjFeuAErSZ2XGcgKI7nnvqjdkYRD7J0CSUgnG2hUkbzWdJnunObA6KE
+ 5Qyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P8QVHsssV/N9S00mQXjYBPgFpjBb96NXM+kaVdZ/lRE=;
- b=2OwISZjZgDmQvaGlU9/KgrGLlP5pZy0omSQL+JG1qUWSkbxaeqiJJ0QsQcn/HgHQAD
- +kKCMEV6ZtUj70KSS+rSKkgzp1SHUdIuzxBYm4w5/TPRl9XQrHUKybl9oYGVgH/cPDJL
- 0XM/s80PPi8NfdTJAmWovrh5pTI/lxfmeoOvWsqpI46T/pEmnjZXtFq4pXRzPNDUlG1r
- 8cCmRtuQyg0a+7PmPdE/7Y0t7IGAclT6ertQBq++pVSGj5eA+4JmxkzM61zA7qV4OHme
- PftmJv3by/iS7LrOqMxHXmGx0uXlRc7On0dqb5vP44T4JTUf3fwGjxf8jfzSV3Frr7Ay
- mNMg==
-X-Gm-Message-State: AOAM533raPI5MhRwMNxO4HX/5XDc2lHYbpfDiINB6vkDUmqiWXvFi+fp
- imH4SYEsZwj95XivYpVE0EWJFpLtl2yO8A==
-X-Google-Smtp-Source: ABdhPJzwGPZvl63TpqAjgBI3dF59d80sAW9gIfvZzF6E/z5YRMrD1uMGButcaSCHVGrrrKaJu2AOzg==
-X-Received: by 2002:a17:90b:1d90:b0:1df:d0ae:1443 with SMTP id
- pf16-20020a17090b1d9000b001dfd0ae1443mr2418782pjb.122.1654133648114; 
- Wed, 01 Jun 2022 18:34:08 -0700 (PDT)
+ bh=dBQmcYvQNWemNoz94qCXnnbynO5dcM+A32yDVQduyko=;
+ b=ld53qoesoVPgoSLuTqa3UIrvxRW7s4EpheVSHGK5oBVIW9ECWMF9K/TfM12lEMRJXe
+ 3/MOR7DCmPzg0QXEWbl/REKDLWiNcd/ggwv8Tzen18ZoXfL85G/HkZhPtSWDVsiKtHNj
+ ODWuDbhLq2uvHEvGKxlgBzv58QiZOLHWh4CnhtQprjEHGsLsDSPOtHqr0bl8/eFmwD2U
+ gpZqUvPv78YPVxGrxJIELuvhVT5cJM3kvb4z7Lk1uBwYuKw4/dFmcZ+J9bCZ2Ecan32W
+ SVzxVy+MTTO9zKMnwlMriiLDQ5azBqb/IiSexU2LkkfeVWB6EHiTJ1/zkpIwOeKURBx0
+ Pv4g==
+X-Gm-Message-State: AOAM531adC41pTgYc17a8qfiFj/QwzTsr/KoidrFV5G9h4xFOnHB0Yie
+ c2TXmKwLFg5Rs2yfm5dmL0wEmxCnDAs0CQ==
+X-Google-Smtp-Source: ABdhPJwtX9WkB5u8mfvwhrafrfIC38BBQXOH4B/o0AJOZqfkQqFy/hWjv+Y6QoVILNe+5R378g2pmg==
+X-Received: by 2002:a05:6a00:1506:b0:518:bcdd:6a33 with SMTP id
+ q6-20020a056a00150600b00518bcdd6a33mr2335457pfu.27.1654133649569; 
+ Wed, 01 Jun 2022 18:34:09 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:1eca:8ee3:9269:e00c])
  by smtp.gmail.com with ESMTPSA id
- l191-20020a6391c8000000b003fc5b1db26fsm1962875pge.52.2022.06.01.18.34.06
+ l191-20020a6391c8000000b003fc5b1db26fsm1962875pge.52.2022.06.01.18.34.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 18:34:07 -0700 (PDT)
+ Wed, 01 Jun 2022 18:34:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-Subject: [PATCH v6 04/17] linux-user/m68k: Handle EXCP_TRAP1 through
- EXCP_TRAP15
-Date: Wed,  1 Jun 2022 18:33:48 -0700
-Message-Id: <20220602013401.303699-5-richard.henderson@linaro.org>
+Cc: laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v6 05/17] target/m68k: Remove retaddr in m68k_interrupt_all
+Date: Wed,  1 Jun 2022 18:33:49 -0700
+Message-Id: <20220602013401.303699-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602013401.303699-1-richard.henderson@linaro.org>
 References: <20220602013401.303699-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,30 +90,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are raised by guest instructions, and should not
-fall through into the default abort case.
+The only value this variable holds is now env->pc.
 
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/m68k/cpu_loop.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/m68k/op_helper.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
-index 56417f7401..12e5d9cd53 100644
---- a/linux-user/m68k/cpu_loop.c
-+++ b/linux-user/m68k/cpu_loop.c
-@@ -75,7 +75,11 @@ void cpu_loop(CPUM68KState *env)
-         case EXCP_INTERRUPT:
-             /* just indicate that signals should be handled asap */
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index 0f41c2dce3..777869790b 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -287,12 +287,9 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+ {
+     CPUState *cs = env_cpu(env);
+     uint32_t sp;
+-    uint32_t retaddr;
+     uint32_t vector;
+     uint16_t sr, oldsr;
+ 
+-    retaddr = env->pc;
+-
+     if (!is_hw) {
+         switch (cs->exception_index) {
+         case EXCP_RTE:
+@@ -385,7 +382,7 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+         sp -= 4;
+         cpu_stl_mmuidx_ra(env, sp, env->mmu.ar, MMU_KERNEL_IDX, 0);
+ 
+-        do_stack_frame(env, &sp, 7, oldsr, 0, retaddr);
++        do_stack_frame(env, &sp, 7, oldsr, 0, env->pc);
+         env->mmu.fault = false;
+         if (qemu_loglevel_mask(CPU_LOG_INT)) {
+             qemu_log("            "
+@@ -395,7 +392,7 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+         break;
+ 
+     case EXCP_ADDRESS:
+-        do_stack_frame(env, &sp, 2, oldsr, 0, retaddr);
++        do_stack_frame(env, &sp, 2, oldsr, 0, env->pc);
+         break;
+ 
+     case EXCP_ILLEGAL:
+@@ -404,12 +401,12 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+     case EXCP_TRAPCC:
+     case EXCP_TRACE:
+         /* FIXME: addr is not only env->pc */
+-        do_stack_frame(env, &sp, 2, oldsr, env->pc, retaddr);
++        do_stack_frame(env, &sp, 2, oldsr, env->pc, env->pc);
+         break;
+ 
+     case EXCP_SPURIOUS ... EXCP_INT_LEVEL_7:
+         if (is_hw && (oldsr & SR_M)) {
+-            do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
++            do_stack_frame(env, &sp, 0, oldsr, 0, env->pc);
+             oldsr = sr;
+             env->aregs[7] = sp;
+             cpu_m68k_set_sr(env, sr & ~SR_M);
+@@ -417,13 +414,13 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+             if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
+                 sp &= ~1;
+             }
+-            do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
++            do_stack_frame(env, &sp, 1, oldsr, 0, env->pc);
              break;
-+        case EXCP_TRAP0 + 1 ... EXCP_TRAP0 + 14:
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLTRP, env->pc);
-+            break;
-         case EXCP_DEBUG:
-+        case EXCP_TRAP15:
-             force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
-             break;
-         case EXCP_ATOMIC:
+         }
+         /* fall through */
+ 
+     default:
+-        do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
++        do_stack_frame(env, &sp, 0, oldsr, 0, env->pc);
+         break;
+     }
+ 
 -- 
 2.34.1
 
