@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAB153D29B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:06:40 +0200 (CEST)
-Received: from localhost ([::1]:53332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF61853D29C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:06:50 +0200 (CEST)
+Received: from localhost ([::1]:54010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxDZ9-0003lC-5G
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60066)
+	id 1nxDZJ-0004JR-TA
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:06:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDNW-0006V2-Ab; Fri, 03 Jun 2022 15:54:38 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:48699)
+ id 1nxDNc-0006h1-JO; Fri, 03 Jun 2022 15:54:44 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:43129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDNU-0008BR-Pz; Fri, 03 Jun 2022 15:54:38 -0400
+ id 1nxDNZ-0008C7-JL; Fri, 03 Jun 2022 15:54:43 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id DDAAA3200953;
- Fri,  3 Jun 2022 15:54:33 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id A362C320094F;
+ Fri,  3 Jun 2022 15:54:38 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 03 Jun 2022 15:54:35 -0400
+ by compute3.internal (MEProxy); Fri, 03 Jun 2022 15:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1654286073; x=
- 1654372473; bh=Cd7INMBLuY9KTFyd/Zs/QQw6R9xcWyFf4pF78s2B6GU=; b=Z
- srASI7JUsE8tOBJNVVhc7GaEbh4TBuu0z4OFNtC43pT0IVssk1w9VoFDJYks+XTT
- Xd2mArlvW7X8NOVmf24vl+drUFW3a6nZXcyhp+KuApFVV3VvDTu0no6SMR8PId/3
- D9arDRmD447Ozoqb6y7aSCZaXkYfIznNG97kxd0UKKrCsFgDISAlZz/FiWws552d
- 5L5/IQTd48muFL6pn00x/Yx+kdPL+Cc/CsTZnUZqAXoLA9s6zVc1v7H0WHV15voa
- yhl2tNqZs/Bp89xu068BebYvrh/QE0tzTBdCKeGCtpwF5iVZAMdtgtwqOzSgXkrf
- b3gUZHpWNr9u+ENjuzt2g==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1654286078; x=
+ 1654372478; bh=z/L9OSPPnR3dL47BmyRviirXZ57IMkZ4Gb5vJuB4fvQ=; b=C
+ fkMTOXM7i7GSzzsW4gg+ldRTbGiatDX+7unXIOxA65h+rp3LWQKqzD42AD9hOhFI
+ oyRwBFxNM2Lml5wGUuOtM4OqEJRWvYmv9HayLaj8pNMQ5xpYoLlpwjBVPiD7/FGk
+ tLe/r4aFN50E24dkA0WOO0SuAI4PuS+6bv2F6z7v6Z5kuHqR1ksyjI75oQnPIM6R
+ bun9BTiOlp43aNj+uGmFqI+SheuwN5J6z9w7oIE1RRNSto1jzWjTg1IqbXN4wtJA
+ CO3UnU02Q081YLMZbgJQfDMIaAQnecJjV5fkEdZ6tq9aC8JeMCmHfZuLy1XeeZ3h
+ 7ZcjuE9g4VH0frEoNd2ww==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1654286073; x=1654372473; bh=Cd7INMBLuY9KT
- Fyd/Zs/QQw6R9xcWyFf4pF78s2B6GU=; b=zZ6AlW3Xg3NM/TcSwV78QHSge3M/j
- kDQvtYqMo35mDLF+aMgwLatGzKJzV3/3YFjZ4cOVnXJIGCb1uup6/wRGe1ioUoQ7
- ZecJAVAJG/ULwgSfzA4C1mWE4+jqHAWhhVhnNCZxfrdp5fVVaeLoGNhnE+A/n1Sb
- T3zN5VUu05TTo81C6aOOzxftF+XbW78Q9oK75BcEzkOY+3b0BafC4OucTy04h59s
- 2QWaA5L6aJ5mXUhzZed/+ED0MBozw6bawDJO7Bnjb/Knba124NqpLXxSzgCavm5X
- YCqUyfWW3AW3gWQENJqCEYlU7b91RKtxaKi7JT+qj91D6gNLB0nQTxFNQ==
-X-ME-Sender: <xms:-WaaYlaXisCTUFKO7xQJZ4sy2WIdlqc6wSzLnOTO7iIW1jhHQRDfhA>
- <xme:-WaaYsbPN95jyK0uXoj76inkkjAMJTfWjn92R4u2icY2a8qtCOIHB5neoz2C98lf9
- r_erkarbEE0nQSqOfk>
-X-ME-Received: <xmr:-WaaYn-zV_hVKx5zADWnOrwx-iDo2-v91VpZGTwBR-DMh0XIbW_w1MltJjWRQtVjoP5RscuaWLc0NyY9aAk8>
+ :x-sasl-enc; s=fm1; t=1654286078; x=1654372478; bh=z/L9OSPPnR3dL
+ 47BmyRviirXZ57IMkZ4Gb5vJuB4fvQ=; b=lMCunqPTHyFT02YKj0mJaMQBnHfHl
+ yNCeze46eFYap4OO6AnP5vbwDBMJx0Cas1hO7P4UEnEXv00Qf9d+UvA4WOtOh9wU
+ LDdu/Vg6y476tAQvhS4S2GLDLKa90zBjefssglhIBwssMCFc28zQaLMH41Sh7VmT
+ iqjDeGggJbyv/+TSW6Gke9svsPUcBmG85FlMaSL04RztdQ1yK1S4vHkurTBzxd/r
+ RSXEPHHdunfhxLVBDgyqqTirDg9mCYRMdc5Hk00HSie+uCsbeLtbMFdCRj+UeYHx
+ XL+fpFOY71U9LPDka25t6uxR2tvIqI/zYGRoVTXaDKfkr0CTyzimM3vHw==
+X-ME-Sender: <xms:_WaaYsXf2FE0CvayU6B94IRkwHp3oun_uzfotvw8udXOwe9Rz34jig>
+ <xme:_WaaYglh9Bmfu3YJ-l2ivOm5ELbHGW_QZ0TcAd36dPeFkBPpPsIkJvGWBSgi_PQG1
+ sfA_Wb3LZhTAEUE1LY>
+X-ME-Received: <xmr:_WaaYga_59VGlY56ligzwT-9sNPlSUpDDZ9oJwWQleOcfndwdeg8cuh_D-eI92qhpUrvAJqWD4xKTabR7O1Y>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
- udegnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:-WaaYjrzkmgSm6V5n6G57tpGYv8htTNaLT-N6OzzlpEDolrLFTJfIA>
- <xmx:-WaaYgpw005r76D5NsfLMbvw0O5Cbxa-q40ZtQeVPGk0p_eB0Q_P2Q>
- <xmx:-WaaYpRMzvyAxxuA5LfcIGhFtveDzTmMtECbwi1XT8c2WqSrLtADFA>
- <xmx:-WaaYrBx6glb1UvilzLncJmGpVqH8_f5Pl-EYImBHflQoHpugZnRkA>
+ htvghrnhepgffgtdelffetleetieevgfdtvdeuiefgheegveeujeeufefhieekfeetgeev
+ ieeunecuffhomhgrihhnpehuuhhiugdruggrthgrnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:_maaYrUlt9u-7a0WyVqUDRWypskjML6M38x3ssnp67R-2APDMlxO0w>
+ <xmx:_maaYmlw-w2kkBvXC5WCvX5LMJvs5IlrgPWyt43Nav6URwCA0dRJSA>
+ <xmx:_maaYgfPvwprZcimi_DQpGuX_3VK3uWmmM1ddROpvsNUvzezrmkluQ>
+ <xmx:_maaYinXXkA_iRL44J3u5Z30sNdSjXVL_SlGuMJ5xetJmNBgC_hPmQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 15:54:30 -0400 (EDT)
+ 3 Jun 2022 15:54:35 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
@@ -74,10 +74,11 @@ Cc: Yanan Wang <wangyanan55@huawei.com>, Hanna Reitz <hreitz@redhat.com>,
  Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
  Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, Christoph Hellwig <hch@lst.de>
-Subject: [PULL 07/11] hw/nvme: do not auto-generate uuid
-Date: Fri,  3 Jun 2022 21:53:50 +0200
-Message-Id: <20220603195354.705516-8-its@irrelevant.dk>
+ Klaus Jensen <k.jensen@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Subject: [PULL 08/11] hw/nvme: do not report null uuid
+Date: Fri,  3 Jun 2022 21:53:51 +0200
+Message-Id: <20220603195354.705516-9-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220603195354.705516-1-its@irrelevant.dk>
 References: <20220603195354.705516-1-its@irrelevant.dk>
@@ -109,34 +110,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Do not default to generate an UUID for namespaces if it is not
-explicitly specified.
+Do not report the "null uuid" (all zeros) in the namespace
+identification descriptors.
 
-This is a technically a breaking change in behavior. However, since the
-UUID changes on every VM launch, it is not spec compliant and is of
-little use since the UUID cannot be used reliably anyway and the
-behavior prior to this patch must be considered buggy.
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reported-by: Luis Chamberlain <mcgrof@kernel.org>
+Reported-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ns.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/nvme/ctrl.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 06a04131f192..1b9c9d11567f 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -614,7 +614,7 @@ static Property nvme_ns_props[] = {
-     DEFINE_PROP_BOOL("detached", NvmeNamespace, params.detached, false),
-     DEFINE_PROP_BOOL("shared", NvmeNamespace, params.shared, true),
-     DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
--    DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
-+    DEFINE_PROP_UUID_NODEFAULT("uuid", NvmeNamespace, params.uuid),
-     DEFINE_PROP_UINT64("eui64", NvmeNamespace, params.eui64, 0),
-     DEFINE_PROP_UINT16("ms", NvmeNamespace, params.ms, 0),
-     DEFINE_PROP_UINT8("mset", NvmeNamespace, params.mset, 0),
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index a2f6069f7fe1..909e357a7eb9 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4955,16 +4955,13 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
+ 
+-    /*
+-     * If the EUI-64 field is 0 and the NGUID field is 0, the namespace must
+-     * provide a valid Namespace UUID in the Namespace Identification Descriptor
+-     * data structure. QEMU does not yet support setting NGUID.
+-     */
+-    uuid.hdr.nidt = NVME_NIDT_UUID;
+-    uuid.hdr.nidl = NVME_NIDL_UUID;
+-    memcpy(uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
+-    memcpy(pos, &uuid, sizeof(uuid));
+-    pos += sizeof(uuid);
++    if (!qemu_uuid_is_null(&ns->params.uuid)) {
++        uuid.hdr.nidt = NVME_NIDT_UUID;
++        uuid.hdr.nidl = NVME_NIDL_UUID;
++        memcpy(uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
++        memcpy(pos, &uuid, sizeof(uuid));
++        pos += sizeof(uuid);
++    }
+ 
+     if (ns->params.eui64) {
+         eui64.hdr.nidt = NVME_NIDT_EUI64;
 -- 
 2.36.1
 
