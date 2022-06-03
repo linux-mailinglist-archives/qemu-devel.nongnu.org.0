@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA2953C445
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 07:33:26 +0200 (CEST)
-Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730AB53C4D7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 08:21:50 +0200 (CEST)
+Received: from localhost ([::1]:43404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwzw4-0001JO-Vt
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 01:33:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46312)
+	id 1nx0gu-0008WJ-Uv
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 02:21:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nwzuU-0000J9-S6
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 01:31:48 -0400
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:49023)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nwzuR-0005oc-QQ
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 01:31:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 34840215E2;
- Fri,  3 Jun 2022 05:31:38 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 3 Jun 2022
- 07:31:36 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001fbaa5465-ede8-4225-949b-73219cec5dbe,
- 2F375BC487B398842DD9155F09582B226C9A4747) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <0fb7b735-8f14-b570-9ed7-3abbdf654c61@kaod.org>
-Date: Fri, 3 Jun 2022 07:31:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v2 0/6] hw/i2c: i2c slave mode support
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>
-CC: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, <qemu-devel@nongnu.org>, Jonathan
- Cameron <Jonathan.Cameron@huawei.com>, <qemu-arm@nongnu.org>, Peter
- Delevoryas <pdel@fb.com>, Peter Maydell <peter.maydell@linaro.org>, Corey
- Minyard <cminyard@mvista.com>, Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- Damien Hedde <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, Arun Kumar Kashinath Agasar
- <arun.kka@samsung.com>, Klaus Jensen <k.jensen@samsung.com>, Zev Weiss
- <zev@bewilderbeest.net>
-References: <20220601210831.67259-1-its@irrelevant.dk>
- <6e0eb197-25c2-6b1e-2c19-f93597e29cff@kaod.org> <YphzHGNYErSMEfPw@apples>
- <00e2d10a-20f5-8357-5b13-41791940ce19@kaod.org>
- <5683a737-8a15-20c5-5716-f5216d6c33c8@quicinc.com>
- <c796202d-2e57-32b3-3007-343d37dcdb84@kaod.org> <YpkNXUkafYQ3ZSpT@apples>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YpkNXUkafYQ3ZSpT@apples>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: aed4b370-32e3-4a89-a597-debfb0cc7dc7
-X-Ovh-Tracer-Id: 11293339017378106241
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrleehgdelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptdehkeelieetvddtlefgveeuheduheetledvtdfgfeffledvjeekjeegledvkeeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopeiivghvsegsvgifihhluggvrhgsvggvshhtrdhnvghtpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nx0cx-0006Q0-Gu
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:17:49 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nx0cv-0001qB-SQ
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:17:43 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id z7so8847464edm.13
+ for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 23:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=paTXdYrcUBNdxi2xiIrWKH/ehVWsmnkAUYH3fZG3vnY=;
+ b=Es639HS0I9D5rjBNHAGlHBQ7Twa21wz1cZjJjXtSWGjtTLAWBcjm0xvso1uXRW+E+8
+ qwmx4bknZweGULfF4l/6V99cko9a+Wh/mtXp+OyAbvkYgvz4hV4FU0eQyoZ7zZvJMk5d
+ /vntIsc/qV0thdXN5vGDuSTvfEqvSensfPSohto52OnK5UKusQ1lmkzQYyZqGBN1cbi6
+ I1onXZ7UY/oAyBr4C9nnfDhbqXmKLDCX89TaLNlRkWvMLExR4sPj2nwSM+IJ/Hc4AQc1
+ AvxZv76gKqWTOihowdzi5JwCTEsGMIW4jfcM1t0/YsWH3Ft+kZbDIa0XnxXTJpOKrSv5
+ P+mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=paTXdYrcUBNdxi2xiIrWKH/ehVWsmnkAUYH3fZG3vnY=;
+ b=YLznHZZ0QfJUROMCMEVWbUUsRdeHJoxLb22VBI43vOE15UfPDKY84QHvv1O+jawkOM
+ K4VONd0EKMCXfVgurUaJfM9umuMFq8XBZ7x3YY3wqif3mXJSACpgW25e7PZrP/lbo2Wt
+ v0qkTbvCwOqRJPcxWXr1NVM2fNOLoqgp0Z/sfHm/yGZVRwGtytWJ4PRS8JpstHMigJaR
+ 1beRJTylg2GlaaopFS6vcU8QIXKkkSOJfk2tqNBBh1uzmnyg9mCNDmsbn8+lQfUJaMBx
+ zOvvkHKzw/AxkrjDWZG+bnwfdLibjW7pN898hWRuhZ5r1Dh/dkQPvAlFgAbN1dAwkMG6
+ TJzg==
+X-Gm-Message-State: AOAM5312Fad/buQF1ki+YeuFt3kxSv4l4vTRQvJeIgOYmeQVy3J/hnV9
+ 0Rl6uA0cST60MXJ3XnSQvsNLgAPH9b64Uc8U
+X-Google-Smtp-Source: ABdhPJxWxpV3Ap6DwcRrDyl48T68TVGyDRHkYZuqPU+3l1poqIySyDT+3Y/QDtl8R89098yb8x+NNg==
+X-Received: by 2002:a05:6402:51d2:b0:428:48d0:5d05 with SMTP id
+ r18-20020a05640251d200b0042848d05d05mr9238031edd.28.1654237060095; 
+ Thu, 02 Jun 2022 23:17:40 -0700 (PDT)
+Received: from smtpclient.apple ([86.121.23.37])
+ by smtp.gmail.com with ESMTPSA id
+ m25-20020a509999000000b0042bd25ca29asm3457305edb.59.2022.06.02.23.17.38
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 02 Jun 2022 23:17:39 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
+Subject: Re: TARGET_SYS_HEAPINFO and Cortex-A15 memory map
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <8F58FBA7-17C8-44F6-9798-A65FD63E0E78@livius.net>
+Date: Fri, 3 Jun 2022 09:17:37 +0300
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <BE36745B-A3A6-443A-A290-31A5578F36E3@livius.net>
+References: <8F58FBA7-17C8-44F6-9798-A65FD63E0E78@livius.net>
+To: QEMU Developers <qemu-devel@nongnu.org>
+X-Mailer: Apple Mail (2.3696.100.31)
+Received-SPF: none client-ip=2a00:1450:4864:20::52c;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,53 +88,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/22 21:19, Klaus Jensen wrote:
-> On Jun  2 17:40, Cédric Le Goater wrote:
->> On 6/2/22 16:29, Jae Hyun Yoo wrote:
->>> Hi Klaus,
->>>
->>> On 6/2/2022 6:50 AM, Cédric Le Goater wrote:
->>>> On 6/2/22 10:21, Klaus Jensen wrote:
->>>>>
->>>>> There is an outstanding issue with the SLAVE_ADDR_RX_MATCH interrupt bit
->>>>> (bit 7). Remember from my first series I had a workaround to make sure
->>>>> it wasnt masked.
->>>>>
->>>>> I posted this upstream to linux
->>>>>
->>>>> https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant.dk/
->>>>>
->>>>> Not sure if that is the right way to fix it.
->>>>
->>>> That's weird. I would have thought it was already enabled [ Adding Jae ]
->>>
->>> Slave mode support in Aspeed I2C driver is already enabled and it has
->>> worked well so far. The fix Klaus made in the link is incorrect.
->>>
->>> https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant.dk/
->>>
->>> The patch is adding ASPEED_I2CD_INTR_SLAVE_MATCH as a mask bit for
->>> I2CD0C (Interrupt Control Register) but actually this bit is part of
->>> I2CD10 (Interrupt Status Register). Means that the slave match interrupt
->>> can be enabled without enabling any mask bit in I2CD0C.
->>
->> Thanks Jae.
->>
->> So we should enable this interrupt always independently of the
->> Interrupt Control Register value.
->>
->> I would simply extend the mask value (bus->regs[intr_ctrl_reg])
->> with the SLAVE_ADDR_RX_MATCH bit when interrupts are raised in
->> aspeed_i2c_bus_raise_interrupt().
->>
-> 
-> Alright, so my "workaround" from v1 was actually the right fix - I'll
-> re-add it ;)
 
-yes :) but now we know why ! May be add a ALWAYS_ENABLE mask ?
 
-Thanks,
+> On 2 Jun 2022, at 21:36, Liviu Ionescu <ilg@livius.net> wrote:
+>=20
+> ... SYS_HEAPINFO...
+>=20
+> 0x04000000 - heap base
+> 0x08000000 - heap limit
+> 0x08000000 - stack base
+> 0x0 - stack limit
 
-C.
+For Cortex-A72 I see similar values:
+
+0x44000000
+0x48000000
+0x48000000
+0x40000000
+
+just that in this case the memory is writable, and the startup proceeds =
+as expected.
+
+Any idea why in the Cortex-A15 case the memory below 0x08000000 is not =
+writable?
+
+
+Liviu
 
 
