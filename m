@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B0253C669
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:41:39 +0200 (CEST)
-Received: from localhost ([::1]:46884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780C353C6F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 10:37:47 +0200 (CEST)
+Received: from localhost ([::1]:36984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx1wA-00034N-1U
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35968)
+	id 1nx2oT-0000qp-52
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 04:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nx1PR-0003oI-0P
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 03:07:49 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:44711)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nx1PN-0007xK-P6
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 03:07:48 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BD06A10714B9E;
- Fri,  3 Jun 2022 09:07:34 +0200 (CEST)
-Received: from kaod.org (37.59.142.108) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 3 Jun 2022
- 09:07:33 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-108S002247641a2-916c-4550-968a-14e4aceb021e,
- 2F375BC487B398842DD9155F09582B226C9A4747) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <79ba2e1a-569c-6583-6cfd-13389355bfa3@kaod.org>
-Date: Fri, 3 Jun 2022 09:07:32 +0200
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nx2nG-0008RY-C3
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 04:36:30 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:36704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nx2nE-0003CG-IS
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 04:36:30 -0400
+Received: by mail-ej1-x629.google.com with SMTP id s12so7364205ejx.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 01:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=LHyOgOc2SYxjkZq08MTM9nseZGUSo+vWB+xI6JjiK5Y=;
+ b=FuYE0gDzCRv1LBMWewWGtbu3vqQTx6NCstpw6bOHXYSPuke3kkHMco11tzEKD+xPTX
+ MFmFYz3PGMhMt1xekPA6wQQqJYlMzIysPYCDVWXIyNMwQVFwuPPWMh+3d7aUMQgeC782
+ 7hGcVuNxUsphkEuUsSSHyXPjNWB4zloYQl/gEuN0jTLWJqwX98AOP7gSFHFpaRHJPga2
+ cMCJukLoLyo5X4qWe7Zde4VcIFyr0Jnj3ay9/DEPeFl1Y2aukrJIdS648ru55u0XPQMY
+ Ur1kdhOCtkAqkGPfNcSPoT6njcU3fLjADKa3LO3fUU7sk/u3cK4cdqeEuZnGkiwfUxcQ
+ YXog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=LHyOgOc2SYxjkZq08MTM9nseZGUSo+vWB+xI6JjiK5Y=;
+ b=0NAMv9W4SocLDwAU7JDQL0BqIa02D8b4mslJpvPDZPu6wkm6DHGLDysYpuTQxzhqO/
+ Fzy/jmmlfbLcY293qFse4/LCu1d0GJZBiF0OW9kXUZnAfaoOyCU9UlipMLTimVBz0Ydo
+ 6i0g3jhk4bAUVFewMjyHx04LJpCw37RW2w+PDn0fYOOiTxDG34h13nYHxCu3iLeqXVa9
+ JkxK8Pe7WLyY9lC9jva+Z6WFY2AOwTqq1Oic9Bx+cyXMe/jwEOnz0yhFuIlNmclLWoeH
+ FWk9SosoY3/L+rE7vjx7J4EJE9lTZhR9mLrQea76NPs1rdPE7ikZKG4JY4V7K1/JCR6b
+ HFgA==
+X-Gm-Message-State: AOAM531UUQs2SfTRyGwFH+reCUvkJEr15K9o1jq4ZEFoJ4MZCt3pd8ZZ
+ lfC89qq1UpjG+IoxhxlLW85l/8UAweEgQbj7OyYbHw==
+X-Google-Smtp-Source: ABdhPJz4jkpJgy5ylgqtnrTqSBYmvTU+9bhy8+giSVg/9hGOcb9jL4AqDifGCkusYA9s3RVrG/jzBjSi+S5RClH97iI=
+X-Received: by 2002:a17:907:7f9f:b0:6ff:4275:1e4e with SMTP id
+ qk31-20020a1709077f9f00b006ff42751e4emr7410251ejc.121.1654245386888; Fri, 03
+ Jun 2022 01:36:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v2 0/6] hw/i2c: i2c slave mode support
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>
-CC: <qemu-devel@nongnu.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- <qemu-arm@nongnu.org>, Peter Delevoryas <pdel@fb.com>, Peter Maydell
- <peter.maydell@linaro.org>, Corey Minyard <cminyard@mvista.com>, Padmakar
- Kalghatgi <p.kalghatgi@samsung.com>, Damien Hedde
- <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, Arun Kumar Kashinath Agasar <arun.kka@samsung.com>, Klaus
- Jensen <k.jensen@samsung.com>
-References: <20220601210831.67259-1-its@irrelevant.dk>
- <6e0eb197-25c2-6b1e-2c19-f93597e29cff@kaod.org> <YphzHGNYErSMEfPw@apples>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YphzHGNYErSMEfPw@apples>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.108]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: fcea833a-06cf-4488-9e69-873d2eaa6ca6
-X-Ovh-Tracer-Id: 12913508982122515387
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrleehgdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffgefgkeevvedvvdffleefheelfffhhfetgeekudeuveffffekjeeiveffledthfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhmpdfovfetjfhoshhtpehmohehvdel
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 3 Jun 2022 14:06:15 +0530
+Message-ID: <CAARzgwyg-n-u+ATuYWsCu35kqos1z7UwcfCAPz-6LTgbQ3q2VA@mail.gmail.com>
+Subject: Changes for building bits on newer gcc 9.4 compiler
+To: Josh Triplett <josh@joshtriplett.org>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::629;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,53 +77,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>> With this combined I am able to boot up Linux on an emulated Aspeed 2600
->>> evaluation board and have the i2c echo device write into a Linux slave
->>> EEPROM. Assuming the echo device is on address 0x42:
->>>
->>>     # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-15/new_device
->>>     i2c i2c-15: new_device: Instantiated device slave-24c02 at 0x64
->>>     # i2cset -y 15 0x42 0x64 0x00 0xaa i
->>>     # hexdump /sys/bus/i2c/devices/15-1064/slave-eeprom
->>>     0000000 ffaa ffff ffff ffff ffff ffff ffff ffff
->>>     0000010 ffff ffff ffff ffff ffff ffff ffff ffff
->>>     *
->>>     0000100
->>
->> I have started working on buildroot images  :
->>
->>    https://github.com/legoater/buildroot/commits/aspeed
->>
->> The resulting files are quite small :
->>
->>      $ ll output/images/
->>      total 86040
->>      drwxr-xr-x 2 legoater legoater     4096 Jun  1 20:01 ./
->>      drwxrwxr-x 6 legoater legoater     4096 Jun  1 19:40 ../
->>      -rwxr-xr-x 1 legoater legoater    36837 Jun  1 20:01 aspeed-ast2600-evb.dtb*
->>      -rw-r--r-- 1 legoater legoater 67108864 Jun  1 20:01 flash.img
->>      -rw-r--r-- 1 legoater legoater  6682796 Jun  1 20:01 image.itb
->>      -rw-r--r-- 1 legoater legoater     1846 Jun  1 20:01 image.its
->>      -rw-r--r-- 1 legoater legoater  3168768 Jun  1 20:01 rootfs.cpio
->>      -rw-r--r-- 1 legoater legoater  1026660 Jun  1 20:01 rootfs.cpio.xz
->>      -rw-r--r-- 1 legoater legoater  3788800 Jun  1 20:01 rootfs.tar
->>      -rw-r--r-- 1 legoater legoater   653777 Jun  1 20:00 u-boot.bin
->>      -rw-r--r-- 1 legoater legoater  5617280 Jun  1 20:01 zImage
->>
->> I will probably host them on GH and we could use them under avocado
->> to extend the tests.
->>
->>
->> They should boot real HW. I will submit the defconfigs to buildroot
->> after more tests and cleanups.
->>
-> 
-> Nice!
+Hi josh :
+Here are the pull requests. Please feel free to review and merge:
 
-Uploaded here :
+Main bits module:
+https://github.com/biosbits/bits/pull/13
 
-https://github.com/legoater/qemu-aspeed-boot/tree/master/images/ast2600-evb/buildroot-2022.05-rc2
+Submodules:
+https://github.com/biosbits/grub/pull/1
+https://github.com/biosbits/python/pull/1
+https://github.com/biosbits/libffi/pull/1
+https://github.com/biosbits/fdlibm/pull/1
 
-
-C.
+Thanks
+ani
 
