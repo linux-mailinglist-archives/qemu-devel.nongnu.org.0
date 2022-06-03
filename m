@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7484353CC5C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 17:36:16 +0200 (CEST)
-Received: from localhost ([::1]:37874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5093453CC62
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 17:37:32 +0200 (CEST)
+Received: from localhost ([::1]:40536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx9LT-00052u-2j
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 11:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39724)
+	id 1nx9Mh-00071Z-5l
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 11:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nx9Je-0003cj-Gm
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:34:23 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36805)
+ (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
+ id 1nx9KJ-0004C2-1q
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:35:03 -0400
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:35513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nx9Jc-0002q0-Lr
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:34:21 -0400
-Received: by mail-pf1-x432.google.com with SMTP id 15so7443240pfy.3
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 08:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=eu6Ka5fs2jm+BFFRMhEXnnCDkOe9V+sSnXtefqD7zbI=;
- b=JGmtW2ipEnzHH6q5J4O97iBZ42ZCmOCqI9a34Tveqkdek4dfUz4+PKxRUCOkmfPFmy
- ECzuEJpN8IYs7phTitmEAaDMAjgNANRCWDiLDe+k0gheM8PokGmzVLOiC+O/qojtisYG
- lT5E6cy2Pnc6waMX08afnkY3sSmT4y6w3nwJRWz/idr/12BhLglMVnEbxLhoimtug6/K
- 0neRlosvR5E45XNazA2i8aWsxFLFotAb/6wxll5DHWEcwWHD6+Q9fnFLnBJ8xeENyRJ3
- yxRnRMM34pJkaMAhktL62Y6EQp2WZcWYuBMBTKEwvEf1P0MuNnXRh/KXdOXefNp8TC4B
- zu2w==
+ (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
+ id 1nx9KG-0002s8-J1
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:35:02 -0400
+Received: by mail-lf1-x131.google.com with SMTP id a2so13212574lfc.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 08:34:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mhBgz5VeNrkjaQg4Pvm6FiHEFmSLq+aCnc0Jxe0jDns=;
+ b=CHLaSFRETAQ3eTjWswhEVh+xyKCd9Mb55i2S+9W7AvI/dJigAy2S9MN2zm7xvPRlGT
+ fm6a5cRWg3aNrVcXWNDH/dOfDm/EfJYeW3tVZBMolY2rNgspW7/A0qH75lcVsGqiC58Y
+ zuUUxrhUlcLii74z9W2wnatCwu4dZf6IK3uYSHgfkLz4gqbDH7VzQ3seSHqVComc8boJ
+ GVk6P/txOAdYbO65rqiyz8Z+pQkkxI5e70FJ04EmHqkQsqrlAaHSEdmNj7yEd6uNQn+i
+ KFI1vOGurn12DBi1CksudA2OhNev0Ctp4pz2nxsF7ae8Qhy4MRCPwjBFulvfYO0TegHK
+ gsjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eu6Ka5fs2jm+BFFRMhEXnnCDkOe9V+sSnXtefqD7zbI=;
- b=RqHUuZp7+tL3VU31CjggMJ7qKmxQ+P+W+7eyjMO1Tb+RRWpugbUxHBVWSoZaU1kxQ0
- IwQPfUMYWcz0hLE5OGJ/+LlbJKvup8Yo0U24iYuleOCUjiM2sItM0sxfzO2vGWtNr7np
- sY2g2U0Vt8KYCyrJY8wmIAxhS7+WXI3OD/OzQQTmk6cS6CBNyhufDQKY18z46JL5NHjs
- 5KPVKByAwx5kZy753hITpdIEhOyerucnB/iNELISiaQcG0/p+N/kwRI4TIxLa1E02ur4
- HoZ8sBeCw2tm4u9iCCh9a3+kfWeTp8CSLlyC72Hev8VNomLDd1fst2IPqreKuWE3RZgO
- Qg9A==
-X-Gm-Message-State: AOAM5315MD5G/MU+jweU3DbayBVZdxobfh48Flb/qYJUTaFTovuan9xT
- lgWjOG/jtgGUZGOb4JUH+4DMGw==
-X-Google-Smtp-Source: ABdhPJwA4UNLIaN2xceQeUWjr/IWQaBZu0vE+8dWgN+c5EWSD0raEd8TG8hAdr/rOmrj+QUiX21Zig==
-X-Received: by 2002:a05:6a02:19c:b0:3aa:1bf8:7388 with SMTP id
- bj28-20020a056a02019c00b003aa1bf87388mr9420811pgb.455.1654270459233; 
- Fri, 03 Jun 2022 08:34:19 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:3286:cc26:3d5e:3f94?
- ([2602:ae:1547:e101:3286:cc26:3d5e:3f94])
- by smtp.gmail.com with ESMTPSA id
- l5-20020a170902d34500b0015ef27092aasm5537026plk.190.2022.06.03.08.34.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jun 2022 08:34:18 -0700 (PDT)
-Message-ID: <7c4ecea9-3c63-e429-eb6f-44cb32cca147@linaro.org>
-Date: Fri, 3 Jun 2022 08:34:16 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mhBgz5VeNrkjaQg4Pvm6FiHEFmSLq+aCnc0Jxe0jDns=;
+ b=WgrBoOEnmtFfASTFgjdiK4yTBm1ne9phXJWqPqSYaHPlxH8eptCmWKD+svuZWoNgPT
+ R69zX+CSw7N553YP4O3mnTiKSPxxbkkGNdMkvTHY7tHuTSn7/w1QTEC4r9d0wssW0LG1
+ 0fcFqbkkc73vWWgyTqZPW2fbP0JEQXJxVIh4m+1x8G/bz/kGnFdXkc2JU3ATXajwM/91
+ S/Luf6MltgH+tiWVcCwhr4OMjETxWkHpEiHZuuuah5HymSaE2Njl3kmIB/Itu3IN7If2
+ +K34kBJ7fh6TVSLr2yWG4uRkkYeMm1g9HGiDDnmzkIjYWnXjNqFL0otoFiRaXAzZuFzf
+ 7UnQ==
+X-Gm-Message-State: AOAM5322HTLDHanxXJAXyuqKzOdzeNCFcdBaQi5CqIuFsZUnp8P1ZpbM
+ bwOMyCwGO8UrWXhdAWB4aohYAkM/AvbhNCVG7FA1Vg==
+X-Google-Smtp-Source: ABdhPJxdyfSalFq0IExygvZPjovnJulLPsi7AzN/Uf5P25m2+28TuW5enx3gnbHDq9Ft6a1suCvyxFGdxHFGV6Go7Xo=
+X-Received: by 2002:a05:6512:ea7:b0:477:aa40:ef43 with SMTP id
+ bi39-20020a0565120ea700b00477aa40ef43mr7404778lfb.202.1654270498076; Fri, 03
+ Jun 2022 08:34:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] tests/avocado: Prefer max cpu type when using AArch64
- virt machine
-Content-Language: en-US
-To: Andrew Jones <drjones@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, f4bug@amsat.org,
- alex.bennee@linaro.org
-References: <20220603092505.1450350-1-drjones@redhat.com>
- <892b330e-2b7c-0cf7-f7a7-3419ad9ea040@linaro.org>
- <20220603150536.pt5jwmoeoqfkeixu@gator>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220603150536.pt5jwmoeoqfkeixu@gator>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+References: <CAHEcVy7G6HR5=-uVv4GAxryBvdAmtQRo9GDXBO=gj18J+9FwwQ@mail.gmail.com>
+ <616364ca-7ad7-4a3b-6737-3d3d06414b3c@vivier.eu>
+In-Reply-To: <616364ca-7ad7-4a3b-6737-3d3d06414b3c@vivier.eu>
+From: Yu Zhang <yu.zhang@ionos.com>
+Date: Fri, 3 Jun 2022 17:34:47 +0200
+Message-ID: <CAHEcVy4XKUzBR-quVx4w+ttCgFG6ykC-LAVq+UCBmeyy48dgfQ@mail.gmail.com>
+Subject: Fwd: about the current status of Multi-process QEMU / out-of-process
+ emulation
+To: Dongli Zhang <dongli.zhang@oracle.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, 
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, 
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: Jinpu Wang <jinpu.wang@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>
+Content-Type: multipart/alternative; boundary="0000000000006693e405e08cdd96"
+Received-SPF: permerror client-ip=2a00:1450:4864:20::131;
+ envelope-from=yu.zhang@ionos.com; helo=mail-lf1-x131.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,35 +87,233 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/22 08:05, Andrew Jones wrote:
-> On Fri, Jun 03, 2022 at 06:56:41AM -0700, Richard Henderson wrote:
->> On 6/3/22 02:25, Andrew Jones wrote:
->>> The max cpu type is the best default cpu type for tests to use
->>> when specifying the cpu type for AArch64 mach-virt. Switch all
->>> tests to it.
->>
->> This won't work without further changes.
->>
->>> @@ -147,7 +147,7 @@ def test_aarch64_virt(self):
->>>            """
->>>            :avocado: tags=arch:aarch64
->>>            :avocado: tags=machine:virt
->>> -        :avocado: tags=cpu:cortex-a53
->>> +        :avocado: tags=cpu:max
->>>            """
->>>            kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
->>>                          '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
->>
->> For a release this old, we'll see the kernel bugs wrt FEAT_LPA/FEAT_LPA2.
->> See 11593544df6f ("tests/avocado: update aarch64_virt test to exercise -cpu max")
-> 
-> Thanks Richard. How about for each test with guest kernels which don't
-> work, I add a comment about LPA2 and use '-cpu max,lpa2=off' instead?
+--0000000000006693e405e08cdd96
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I would prefer to test new kernels with max, where we might actually test the newer 
-features.  Perhaps keep one older kernel test around, to make sure we don't regress, but 
-don't pretend that it can test more than what it was built for.
+Hello Dongli, Elena, John, and Jagannathan,
+
+I'm interested in the "multi-process QEMU" feature and got the kind reply
+by Mr. Vivier that I may contact you for this.
+On one of the QEMU docs [1] I saw the command line:
+
++      /usr/bin/qemu-system-x86_64                                        \
++      -machine x-remote                                                  \
++      -device lsi53c895a,id=3Dlsi0                                        =
+ \
++      -drive id=3Ddrive_image2,file=3D/build/ol7-nvme-test-1.qcow2        =
+   \
++      -device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi-i=
+d=3D0  \
++      -object x-remote-object,id=3Drobj1,devid=3Dlsi1,fd=3D4,
+
+It seems that the man page of qemu contains no parameter and option yet for
+this feature. The qemu docs, such as [2][3][4] are either not up-to-date or
+"doesn't reflect the current status of the implementation".
+So may I know whether is it still in experimental stage or mature enough
+for use? And even a few further questions:
+
+- When creating the orchestrator, can we specify a machine type such as
+pc-i440fx-7.0 for -machine?
+- Can each device has a dedicated emulation process or shares one process
+for emulating multiple devices?
+- Can we find more command line examples showing the combination of
+orchestrator, remote emulation process, memory-backend-memfd and
+x-pci-proxy-dev?
+
+Thank you very much and all the best
+
+Yu Zhang
+03.06.2022
+
+[1] https://www.qemu.org/docs/master/system/multi-process.html
+[2] https://wiki.qemu.org/Features/MultiProcessQEMU
+[3]
+https://lxr.missinglinkelectronics.com/qemu+v7.0.0/docs/devel/multi-process=
+.rst
+[4] https://qemu.readthedocs.io/en/latest/devel/multi-process.html
+
+---------- Forwarded message ---------
+From: Laurent Vivier <laurent@vivier.eu>
+Date: Fri, Jun 3, 2022 at 4:14 PM
+Subject: Re: about the current status of Multi-process QEMU /
+out-of-process emulation
+To: Yu Zhang <yu.zhang@ionos.com>
 
 
-r~
+Hi Yu,
+
+I'm not the author of this documentation, only the person that has merged
+the last change in the repo.
+
+According to the logs you should contact Dongli Zhang <
+dongli.zhang@oracle.com>, Elena Ufimtseva
+<elena.ufimtseva@oracle.com>, John G Johnson <john.g.johnson@oracle.com> or
+Jagannathan Raman
+<jag.raman@oracle.com> .
+
+Thanks,
+Laurent
+
+Le 03/06/2022 =C3=A0 12:17, Yu Zhang a =C3=A9crit :
+> Dear Mr. Vivier,
+>
+> I saw that you authored the QEMU page for "Multi-process QEMU".
+> (https://www.qemu.org/docs/master/system/multi-process.html
+> <https://www.qemu.org/docs/master/system/multi-process.html>)
+>
+> I'm interested in this feature, but feel a little confused with the
+command line:
+>
+> +      /usr/bin/qemu-system-x86_64
+ \
+> +      -machine x-remote
+ \
+> +      -device lsi53c895a,id=3Dlsi0
+\
+> +      -drive id=3Ddrive_image2,file=3D/build/ol7-nvme-test-1.qcow2
+\
+> +      -device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi=
+-id=3D0
+ \
+> +      -object x-remote-object,id=3Drobj1,devid=3Dlsi1,fd=3D4,
+>
+> It seems that the man page of qemu command contains no parameter and
+option yet for this feature.
+> May I know whether is it still in experimental stage? And even a few more
+questions:
+>
+> - Is "x-remote" a standalone machine type for creating the orchestrator?
+> - Can each device has a dedicated emulation process or shares one process
+for emulating multiple
+> devices?
+> - Can I find more command line examples illustrating the combination of
+orchestrator, remote
+> emulation process, memory-backend-memfd and x-pci-proxy-dev?
+>
+> Thank you very much
+> Kind regard
+>
+> Yu Zhang
+> 03.06.2022
+
+--0000000000006693e405e08cdd96
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello Dongli, Elena, John, and Jagannathan,<br><br>I&#39;m=
+ interested in the &quot;multi-process QEMU&quot; feature and got the kind =
+reply by Mr. Vivier that I may contact you for this.<br>On one of the QEMU =
+docs [1] I saw the command line:<br><br>+ =C2=A0 =C2=A0 =C2=A0/usr/bin/qemu=
+-system-x86_64 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0\<br>+ =C2=A0 =C2=A0 =C2=A0-machine x-remote =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0\<br>+ =C2=A0 =C2=A0 =C2=A0-device lsi53c895a,id=3Dlsi0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>+ =C2=A0 =C2=A0 =
+=C2=A0-drive id=3Ddrive_image2,file=3D/build/ol7-nvme-test-1.qcow2 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>+ =C2=A0 =C2=A0 =C2=A0-device scsi-hd,id=
+=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi-id=3D0 =C2=A0\<br>+ =C2=A0=
+ =C2=A0 =C2=A0-object x-remote-object,id=3Drobj1,devid=3Dlsi1,fd=3D4,<br><b=
+r>It seems that the man page of qemu contains no parameter and option yet f=
+or this feature. The qemu docs, such as [2][3][4] are either not up-to-date=
+ or &quot;doesn&#39;t reflect the current status of the implementation&quot=
+;.=C2=A0<div><div>So may I know whether is it still in experimental stage o=
+r mature enough for use?=C2=A0And even a few further questions:<br><br>- Wh=
+en creating the orchestrator, can we specify a machine type such as pc-i440=
+fx-7.0 for -machine?<br>- Can each device has a dedicated emulation process=
+ or shares one process for emulating multiple devices?<br>- Can we find mor=
+e command line examples showing the combination of orchestrator, remote emu=
+lation process, memory-backend-memfd and x-pci-proxy-dev?</div><div><br></d=
+iv><div>Thank you very much and all the best<br><br>Yu Zhang<br>03.06.2022<=
+/div><div><br></div><div>[1] <a href=3D"https://www.qemu.org/docs/master/sy=
+stem/multi-process.html">https://www.qemu.org/docs/master/system/multi-proc=
+ess.html</a></div><div>[2]=C2=A0<a href=3D"https://wiki.qemu.org/Features/M=
+ultiProcessQEMU">https://wiki.qemu.org/Features/MultiProcessQEMU</a><br><di=
+v>[3] <a href=3D"https://lxr.missinglinkelectronics.com/qemu+v7.0.0/docs/de=
+vel/multi-process.rst">https://lxr.missinglinkelectronics.com/qemu+v7.0.0/d=
+ocs/devel/multi-process.rst</a><br></div><div>[4] <a href=3D"https://qemu.r=
+eadthedocs.io/en/latest/devel/multi-process.html">https://qemu.readthedocs.=
+io/en/latest/devel/multi-process.html</a>=C2=A0</div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message=
+ ---------<br>From: <strong class=3D"gmail_sendername" dir=3D"auto">Laurent=
+ Vivier</strong> <span dir=3D"auto">&lt;<a href=3D"mailto:laurent@vivier.eu=
+">laurent@vivier.eu</a>&gt;</span><br>Date: Fri, Jun 3, 2022 at 4:14 PM<br>=
+Subject: Re: about the current status of Multi-process QEMU / out-of-proces=
+s emulation<br>To: Yu Zhang &lt;<a href=3D"mailto:yu.zhang@ionos.com">yu.zh=
+ang@ionos.com</a>&gt;<br></div><br><br>Hi Yu,<br>
+<br>
+I&#39;m not the author of this documentation, only the person that has merg=
+ed the last change in the repo.<br>
+<br>
+According to the logs you should contact Dongli Zhang &lt;<a href=3D"mailto=
+:dongli.zhang@oracle.com" target=3D"_blank">dongli.zhang@oracle.com</a>&gt;=
+, Elena Ufimtseva <br>
+&lt;<a href=3D"mailto:elena.ufimtseva@oracle.com" target=3D"_blank">elena.u=
+fimtseva@oracle.com</a>&gt;, John G Johnson &lt;<a href=3D"mailto:john.g.jo=
+hnson@oracle.com" target=3D"_blank">john.g.johnson@oracle.com</a>&gt; or Ja=
+gannathan Raman <br>
+&lt;<a href=3D"mailto:jag.raman@oracle.com" target=3D"_blank">jag.raman@ora=
+cle.com</a>&gt; .<br>
+<br>
+Thanks,<br>
+Laurent<br>
+<br>
+Le 03/06/2022 =C3=A0 12:17, Yu Zhang a =C3=A9crit=C2=A0:<br>
+&gt; Dear Mr. Vivier,<br>
+&gt; <br>
+&gt; I saw that you authored the QEMU page for &quot;Multi-process QEMU&quo=
+t;.<br>
+&gt; (<a href=3D"https://www.qemu.org/docs/master/system/multi-process.html=
+" rel=3D"noreferrer" target=3D"_blank">https://www.qemu.org/docs/master/sys=
+tem/multi-process.html</a> <br>
+&gt; &lt;<a href=3D"https://www.qemu.org/docs/master/system/multi-process.h=
+tml" rel=3D"noreferrer" target=3D"_blank">https://www.qemu.org/docs/master/=
+system/multi-process.html</a>&gt;)<br>
+&gt; <br>
+&gt; I&#39;m interested in this feature, but feel a little confused with th=
+e command line:<br>
+&gt; <br>
+&gt; + =C2=A0 =C2=A0 =C2=A0/usr/bin/qemu-system-x86_64 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt; + =C2=A0 =C2=A0 =C2=A0-machine x-remote =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<=
+br>
+&gt; + =C2=A0 =C2=A0 =C2=A0-device lsi53c895a,id=3Dlsi0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt; + =C2=A0 =C2=A0 =C2=A0-drive id=3Ddrive_image2,file=3D/build/ol7-nvme-=
+test-1.qcow2 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt; + =C2=A0 =C2=A0 =C2=A0-device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2=
+,bus=3Dlsi0.0,scsi-id=3D0 =C2=A0\<br>
+&gt; + =C2=A0 =C2=A0 =C2=A0-object x-remote-object,id=3Drobj1,devid=3Dlsi1,=
+fd=3D4,<br>
+&gt; <br>
+&gt; It seems that the man page of qemu command contains no parameter and o=
+ption yet for this feature. <br>
+&gt; May I know whether is it still in experimental stage?=C2=A0And even a =
+few more questions:<br>
+&gt; <br>
+&gt; - Is &quot;x-remote&quot; a standalone machine type for creating the o=
+rchestrator?<br>
+&gt; - Can each device has a dedicated emulation process or shares one proc=
+ess for emulating multiple <br>
+&gt; devices?<br>
+&gt; - Can I find more command line examples illustrating the combination o=
+f orchestrator, remote <br>
+&gt; emulation process, memory-backend-memfd and x-pci-proxy-dev?<br>
+&gt; <br>
+&gt; Thank you very much<br>
+&gt; Kind regard<br>
+&gt; <br>
+&gt; Yu Zhang<br>
+&gt; 03.06.2022<br>
+<br>
+</div></div></div></div>
+
+--0000000000006693e405e08cdd96--
 
