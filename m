@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0105F53CB50
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 16:05:45 +0200 (CEST)
-Received: from localhost ([::1]:51858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0987F53CB73
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 16:19:47 +0200 (CEST)
+Received: from localhost ([::1]:60808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx7vr-0004Mn-IN
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 10:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50462)
+	id 1nx89R-0002wW-Jl
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 10:19:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nx7uJ-0002tb-QZ
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 10:04:07 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:46845)
+ id 1nx88H-00025w-Pg
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 10:18:33 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:40689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nx7uI-0007Z6-6F
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 10:04:07 -0400
-Received: by mail-pg1-x535.google.com with SMTP id c14so7255953pgu.13
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 07:04:04 -0700 (PDT)
+ id 1nx88G-0001pR-7a
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 10:18:33 -0400
+Received: by mail-pf1-x429.google.com with SMTP id z17so7286336pff.7
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 07:18:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sUCDG8ZB37f3JxtItIbiTafcH+tldRv5hwHPRFbKPIs=;
- b=rKUHXXCJBSrSqy6isylWK7oLyQQqd2LiA73SWCwR5BP75XS0oaj4/eStcXemn7f7mG
- GRMe6+38W6CYF//xxKVrjMhbRLIDV5NIgO8G9XqjL9XlFe3kcaUPeJkn/PHrujq1megB
- Hac2/ElcR3wSqyFHUwGT5VFFF4s5Ym72H+V4YwjC79rboNQ2vZKEILErpX0GmuHHfbgI
- sjg5zcftAqZGutg+8dqVuEZqoCMDXcTqcKVsjjGaXPNDVbqW/ouqALLl1kvn9ESd1rfq
- yclWStEfC1HwZgk2EzXk/Nk9XLdyoKb/b4DaugoaSUVHWC9OVlZq8KspWS/xoqAG0jqj
- USWw==
+ bh=IWNgeyZaSSPyB9unYQ+0DY/HhNbNyyWPj5iUZItTOc0=;
+ b=zDc2HraMKQH2Zetl7F/sAzxVph+NXRd6tEAgHmWOI+sxAS0ouBQJYvbmh4KwiMQCPB
+ Obf85domCPY7v2royr/WTsNF/NmaCMddg54DYGyOjSft3TtRM4AHELLy/qMKKWIOX/KS
+ Gl5wYsuv6VGxh8wPq38qXWxQvIIOvUWG+CWCqFThAubheR3vk1iAjMny+ARFXsq6MaCT
+ G4TZ04YTZqWsolRO1CdOGApcemvWq1/nk2+2EYG8960XSgbZCMXXnqIJUqQHCCi86ZaJ
+ HI+d5mnkrra8ZxJbqB9vydnVLDBDa8KBDtDCYrVcIzFMLQAJDlTZtIOsekKIUwTfe+lN
+ 2wfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=sUCDG8ZB37f3JxtItIbiTafcH+tldRv5hwHPRFbKPIs=;
- b=zqZGMs6xvrh2BOodni6uBlqt+G1LbDi7r/3Gvwtd2R0O451yG9cJmYxrC/zzZO8Nmw
- tJkZtWy/esMS+uplSqayy+K59FY3U4YH18yFch5XmnrgL4IsxLYz2QlRDIvfO1dREiCO
- ADLoghppKXQtdJgIq+B2dau4kGZwrPaOPJ94NsKvzkE+Ou6iadzpSyrhUAc8g8Hy9Koy
- VhiVQBTCIyAC8m0s0pDDvL9szIHT+jXwdjStY3eQNn9IwEjDhZTQUxJPY15tSXXGdcN5
- wWCFJtjlDpKofHgAkd0Qii6+a/uh9BSOfP/0HsP0oRNDng126hEVxR20RKySDkI5AMCH
- JxXA==
-X-Gm-Message-State: AOAM531hBaPO2x3+Mkw9me5gmgmr4YxadvbfPEXs1YKMQgkUd12Ocg2u
- 375QyViiMUocnFk6tri7l3jaHg==
-X-Google-Smtp-Source: ABdhPJwAZRkAHYBju760wRgq8IeQGH2moewesed8s4Z9Fk4GJc9nWGBat+1yDhWBSYH1Ae/8iuL1VQ==
-X-Received: by 2002:a05:6a00:803:b0:51b:d3bb:3f0 with SMTP id
- m3-20020a056a00080300b0051bd3bb03f0mr6812225pfk.57.1654265043337; 
- Fri, 03 Jun 2022 07:04:03 -0700 (PDT)
+ bh=IWNgeyZaSSPyB9unYQ+0DY/HhNbNyyWPj5iUZItTOc0=;
+ b=HmngxZTrM0qtZiKFMx9RjnPXoOpcSFCYxMrXO2CK5/ztdSU48P+jLXzL2RIYCOIPmf
+ KU58LibOBD5hYt5o6kgzQRLHf8FkwKl3Ce9xgC5vhAiu9h7wKyLlN/n3AyZxyZxosCWl
+ ZpNLA0wiaYylExrGVO3NSjSKBoNCOP3yUHBVrPcvT+u6/DyekvggNhM7A59PvQ1ArhlN
+ pay9r66VPdxBa2l10HOZb5uKr+gXmtxeJuOlECyEgHBHLSaBcvLqR1fbR3GfX1ClXy+7
+ AHVt1fIfOYvYIuuPMad3fWt8U8YEZrrrsM+Iw4zf0ziOCF39ds+HiVHSXH6up0DC5ZnT
+ EV7w==
+X-Gm-Message-State: AOAM530LbIvZjgTHQ5Grn8mfjFK8ABgU2mH1mHiZu8e3lDRYEGWTbxuu
+ kLsoCZ+VqbmKiBK/vXLsGiBjyA==
+X-Google-Smtp-Source: ABdhPJwYLU22Y+eNKv/nkEPjX+LxY86rSFg/3lO7ufskW8/X1n3PVNX147s500uWwg17BIAfLyTTLw==
+X-Received: by 2002:a63:31d0:0:b0:3fc:5770:e779 with SMTP id
+ x199-20020a6331d0000000b003fc5770e779mr9039182pgx.376.1654265910379; 
+ Fri, 03 Jun 2022 07:18:30 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1547:e101:3286:cc26:3d5e:3f94?
  ([2602:ae:1547:e101:3286:cc26:3d5e:3f94])
  by smtp.gmail.com with ESMTPSA id
- h188-20020a636cc5000000b003f9eacd0684sm5498771pgc.3.2022.06.03.07.04.02
+ n20-20020a170903405400b0016393148c9esm5383067pla.110.2022.06.03.07.18.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jun 2022 07:04:02 -0700 (PDT)
-Message-ID: <8baf9cbc-3cd4-bcd7-c60d-b68bf0784779@linaro.org>
-Date: Fri, 3 Jun 2022 07:04:01 -0700
+ Fri, 03 Jun 2022 07:18:29 -0700 (PDT)
+Message-ID: <6ced0d40-a6bd-41d0-e233-86ba24c1dcab@linaro.org>
+Date: Fri, 3 Jun 2022 07:18:28 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v2] tests: Prefer max cpu type when using AArch64 virt
- machine
+Subject: Re: [PATCH] target/ppc: fix vbpermd in big endian hosts
 Content-Language: en-US
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Cc: f4bug@amsat.org, alex.bennee@linaro.org, cohuck@redhat.com
-References: <20220603111849.1481100-1-drjones@redhat.com>
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org
+References: <20220601125355.1266165-1-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220603111849.1481100-1-drjones@redhat.com>
+In-Reply-To: <20220601125355.1266165-1-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,37 +94,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/22 04:18, Andrew Jones wrote:
-> The max cpu type is the best default cpu type for tests to use
-> when specifying the cpu type for AArch64 mach-virt. Switch all
-> tests to it.
+On 6/1/22 05:53, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > 
-> Cc: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> The extract64 arguments are not endian dependent as they are only used
+> for bitwise operations. The current behavior in little-endian hosts is
+> correct; since the indexes in VRB are in PowerISA-ordering, we should
+> always invert the value before calling extract64. Also, using the VsrD
+> macro, we can have a single EXTRACT_BIT definition for big and
+> little-endian with the correct behavior.
+> 
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+> Found this bug while refactoring VECTOR_FOR_INORDER_I uses. The
+> complete patch series will also use Vsr[DB] instead of VBPERM[DQ]_INDEX,
+> but it will need more testing. For now, we're just changing what is
+> necessary to fix the instruction.
+> ---
+>   target/ppc/int_helper.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 
-For avoidance of doubt, copying v1 comment to v2:
-
-> diff --git a/tests/avocado/replay_kernel.py b/tests/avocado/replay_kernel.py
-> index 0b2b0dc692b1..c19022ea977d 100644
-> --- a/tests/avocado/replay_kernel.py
-> +++ b/tests/avocado/replay_kernel.py
-> @@ -147,7 +147,7 @@ def test_aarch64_virt(self):
->           """
->           :avocado: tags=arch:aarch64
->           :avocado: tags=machine:virt
-> -        :avocado: tags=cpu:cortex-a53
-> +        :avocado: tags=cpu:max
->           """
->           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
->                         '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
-
-This will *not* work without further changes.  Fedora 29 will is old, and will not boot a 
-cpu with FEAT_LPA2 enabled.
-
-See 11593544df6f ("tests/avocado: update aarch64_virt test to exercise -cpu max")
-
-Which makes me wonder if you've actually tested this?
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
