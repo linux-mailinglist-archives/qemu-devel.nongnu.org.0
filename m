@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74B253C655
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:36:34 +0200 (CEST)
-Received: from localhost ([::1]:42384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC6853C5CA
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:14:20 +0200 (CEST)
+Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx1rF-0008E2-U4
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:36:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34340)
+	id 1nx1Vj-0007eO-OU
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:14:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1Ha-0005gt-SS
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HZ-0005gU-LD
  for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49063)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HW-0003MT-DQ
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:42 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HX-0003Ml-HV
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654239577;
+ s=mimecast20190719; t=1654239578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t1S8TUdRNo29A3avwFpEKKxFjlAgBBzDXkObq3CRQ2E=;
- b=Uqb5m6HiMWqTkxjPsKWPbtElemG0x+SSME1LV/T3vyB+GEZVXlm08o7WWBNKquH2Ro6uJO
- axXcFYgwgaOWImgJccIEt/u39bHJ9nT78yUa2oIrtk3L0WMV5DGA7hD2vvUxFjfuaqpvbK
- iRGNiSVt3asOwXbSXBvkO3rNCQyWTBo=
+ bh=sm2tw0lWch+hYG+yFaY5iSwxWMI2ouNWEd1IQwdV7Mg=;
+ b=GdHPKG/RJoBZyEvwwz5b/NhfimEEoZ2+4Qr2wA7B7DinWQXeV5XGJHJrr8KkdXftLRltTb
+ S1RcGiF7JLbPt7dPzcqUVtHjoKdu15Bbq0qr6bTzZbgG0B9sNNNWnh/Q4y0o3jk2vSmJLb
+ CNcH6YTBCWhIIdoZ5Khn36C9atC0bhc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-y8Dr4_QyNFOGsTYJgUZq_Q-1; Fri, 03 Jun 2022 02:59:34 -0400
-X-MC-Unique: y8Dr4_QyNFOGsTYJgUZq_Q-1
+ us-mta-275-9M7PUqHfOfuTm7hgjYYFag-1; Fri, 03 Jun 2022 02:59:35 -0400
+X-MC-Unique: 9M7PUqHfOfuTm7hgjYYFag-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA5273C0F754;
- Fri,  3 Jun 2022 06:59:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B4B1380670E;
+ Fri,  3 Jun 2022 06:59:35 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 449062166B26;
- Fri,  3 Jun 2022 06:59:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 134882166B26;
+ Fri,  3 Jun 2022 06:59:33 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-s390x@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>
-Subject: [PULL 11/12] ui: Switch "-display sdl" to use the QAPI parser
-Date: Fri,  3 Jun 2022 08:59:04 +0200
-Message-Id: <20220603065905.23805-12-thuth@redhat.com>
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PULL 12/12] ui: Remove deprecated options "-sdl" and "-curses"
+Date: Fri,  3 Jun 2022 08:59:05 +0200
+Message-Id: <20220603065905.23805-13-thuth@redhat.com>
 In-Reply-To: <20220603065905.23805-1-thuth@redhat.com>
 References: <20220603065905.23805-1-thuth@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -78,206 +79,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "-display sdl" option still uses a hand-crafted parser for its
-parameters since we didn't want to drag an interface we considered
-somewhat flawed into the QAPI schema. Since the flaws are gone now,
-it's time to QAPIfy.
+We have "-sdl" and "-curses", but no "-gtk" and no "-cocoa" ...
+these old-style options are rather confusing than helpful nowadays.
+Now that the deprecation period is over, let's remove them, so we
+get a cleaner interface (where "-display" is the only way to select
+the user interface).
 
-This introduces the new "DisplaySDL" QAPI struct that is used to hold
-the parameters that are unique to the SDL display. The only specific
-parameter is currently "grab-mod" that is used to specify the required
-modifier keys to escape from the mouse grabbing mode.
-
-Message-Id: <20220519155625.1414365-3-thuth@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220519155625.1414365-4-thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- qapi/ui.json            | 26 ++++++++++++++-
- include/sysemu/sysemu.h |  2 --
- softmmu/globals.c       |  2 --
- softmmu/vl.c            | 70 +----------------------------------------
- ui/sdl2.c               | 10 ++++++
- 5 files changed, 36 insertions(+), 74 deletions(-)
+ docs/about/deprecated.rst       | 10 ----------
+ docs/about/removed-features.rst | 10 ++++++++++
+ softmmu/vl.c                    | 19 -------------------
+ qemu-options.hx                 | 24 ++----------------------
+ 4 files changed, 12 insertions(+), 51 deletions(-)
 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 11a827d10f..413371d5e8 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1295,6 +1295,29 @@
-       '*swap-opt-cmd': 'bool'
-   } }
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 562a133f18..e19bcba242 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -81,16 +81,6 @@ the process listing. This is replaced by the new ``password-secret``
+ option which lets the password be securely provided on the command
+ line using a ``secret`` object instance.
  
-+##
-+# @HotKeyMod:
-+#
-+# Set of modifier keys that need to be held for shortcut key actions.
-+#
-+# Since: 7.1
-+##
-+{ 'enum'  : 'HotKeyMod',
-+  'data'  : [ 'lctrl-lalt', 'lshift-lctrl-lalt', 'rctrl' ] }
-+
-+##
-+# @DisplaySDL:
-+#
-+# SDL2 display options.
-+#
-+# @grab-mod:  Modifier keys that should be pressed together with the
-+#             "G" key to release the mouse grab.
-+#
-+# Since: 7.1
-+##
-+{ 'struct'  : 'DisplaySDL',
-+  'data'    : { '*grab-mod'   : 'HotKeyMod' } }
-+
- ##
- # @DisplayType:
- #
-@@ -1374,7 +1397,8 @@
-       'curses': { 'type': 'DisplayCurses', 'if': 'CONFIG_CURSES' },
-       'egl-headless': { 'type': 'DisplayEGLHeadless',
-                         'if': { 'all': ['CONFIG_OPENGL', 'CONFIG_GBM'] } },
--      'dbus': { 'type': 'DisplayDBus', 'if': 'CONFIG_DBUS_DISPLAY' }
-+      'dbus': { 'type': 'DisplayDBus', 'if': 'CONFIG_DBUS_DISPLAY' },
-+      'sdl': { 'type': 'DisplaySDL', 'if': 'CONFIG_SDL' }
-   }
- }
+-``-sdl`` (since 6.2)
+-''''''''''''''''''''
+-
+-Use ``-display sdl`` instead.
+-
+-``-curses`` (since 6.2)
+-'''''''''''''''''''''''
+-
+-Use ``-display curses`` instead.
+-
+ ``-watchdog`` (since 6.2)
+ '''''''''''''''''''''''''
  
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index b4030acd74..812f66a31a 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -42,8 +42,6 @@ extern int graphic_depth;
- extern int display_opengl;
- extern const char *keyboard_layout;
- extern int win2k_install_hack;
--extern int alt_grab;
--extern int ctrl_grab;
- extern int graphic_rotate;
- extern int old_param;
- extern uint8_t *boot_splash_filedata;
-diff --git a/softmmu/globals.c b/softmmu/globals.c
-index 916bc12e2b..527edbefdd 100644
---- a/softmmu/globals.c
-+++ b/softmmu/globals.c
-@@ -50,8 +50,6 @@ QEMUOptionRom option_rom[MAX_OPTION_ROMS];
- int nb_option_roms;
- int old_param;
- const char *qemu_name;
--int alt_grab;
--int ctrl_grab;
- unsigned int nb_prom_envs;
- const char *prom_envs[MAX_PROM_ENVS];
- uint8_t *boot_splash_filedata;
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index 4c9e001c35..c7b9dadd5d 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -386,6 +386,16 @@ Use ``-display sdl,grab-mod=lshift-lctrl-lalt`` instead.
+ 
+ Use ``-display sdl,grab-mod=rctrl`` instead.
+ 
++``-sdl`` (removed in 7.1)
++'''''''''''''''''''''''''
++
++Use ``-display sdl`` instead.
++
++``-curses`` (removed in 7.1)
++''''''''''''''''''''''''''''
++
++Use ``-display curses`` instead.
++
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 57ab9d5322..484e9d9921 100644
+index 484e9d9921..4c1e94b00e 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -1056,75 +1056,7 @@ static void parse_display(const char *p)
-         exit(0);
-     }
- 
--    if (strstart(p, "sdl", &opts)) {
--        /*
--         * sdl DisplayType needs hand-crafted parser instead of
--         * parse_display_qapi() due to some options not in
--         * DisplayOptions, specifically:
--         *   - ctrl_grab + alt_grab
--         *     They can't be moved into the QAPI since they use underscores,
--         *     thus they will get replaced by "grab-mod" in the long term
--         */
--#if defined(CONFIG_SDL)
--        dpy.type = DISPLAY_TYPE_SDL;
--        while (*opts) {
--            const char *nextopt;
--
--            if (strstart(opts, ",grab-mod=", &nextopt)) {
--                opts = nextopt;
--                if (strstart(opts, "lshift-lctrl-lalt", &nextopt)) {
--                    alt_grab = 1;
--                } else if (strstart(opts, "rctrl", &nextopt)) {
--                    ctrl_grab = 1;
--                } else {
--                    goto invalid_sdl_args;
--                }
--            } else if (strstart(opts, ",window-close=", &nextopt)) {
--                opts = nextopt;
--                dpy.has_window_close = true;
--                if (strstart(opts, "on", &nextopt)) {
--                    dpy.window_close = true;
--                } else if (strstart(opts, "off", &nextopt)) {
--                    dpy.window_close = false;
--                } else {
--                    goto invalid_sdl_args;
--                }
--            } else if (strstart(opts, ",show-cursor=", &nextopt)) {
--                opts = nextopt;
--                dpy.has_show_cursor = true;
--                if (strstart(opts, "on", &nextopt)) {
--                    dpy.show_cursor = true;
--                } else if (strstart(opts, "off", &nextopt)) {
--                    dpy.show_cursor = false;
--                } else {
--                    goto invalid_sdl_args;
--                }
--            } else if (strstart(opts, ",gl=", &nextopt)) {
--                opts = nextopt;
--                dpy.has_gl = true;
--                if (strstart(opts, "on", &nextopt)) {
--                    dpy.gl = DISPLAYGL_MODE_ON;
--                } else if (strstart(opts, "core", &nextopt)) {
--                    dpy.gl = DISPLAYGL_MODE_CORE;
--                } else if (strstart(opts, "es", &nextopt)) {
--                    dpy.gl = DISPLAYGL_MODE_ES;
--                } else if (strstart(opts, "off", &nextopt)) {
--                    dpy.gl = DISPLAYGL_MODE_OFF;
--                } else {
--                    goto invalid_sdl_args;
--                }
--            } else {
--            invalid_sdl_args:
--                error_report("invalid SDL option string");
--                exit(1);
--            }
--            opts = nextopt;
--        }
+@@ -2800,16 +2800,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 nographic = true;
+                 dpy.type = DISPLAY_TYPE_NONE;
+                 break;
+-            case QEMU_OPTION_curses:
+-                warn_report("-curses is deprecated, "
+-                            "use -display curses instead.");
+-#ifdef CONFIG_CURSES
+-                dpy.type = DISPLAY_TYPE_CURSES;
 -#else
--        error_report("SDL display supported is not available in this binary");
--        exit(1);
+-                error_report("curses or iconv support is disabled");
+-                exit(1);
 -#endif
--    } else if (strstart(p, "vnc", &opts)) {
-+    if (strstart(p, "vnc", &opts)) {
-         /*
-          * vnc isn't a (local) DisplayType but a protocol for remote
-          * display access.
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index d3741f9b75..8cb77416af 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -40,6 +40,8 @@ static struct sdl2_console *sdl2_console;
+-                break;
+             case QEMU_OPTION_portrait:
+                 graphic_rotate = 90;
+                 break;
+@@ -3176,15 +3166,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 dpy.has_full_screen = true;
+                 dpy.full_screen = true;
+                 break;
+-            case QEMU_OPTION_sdl:
+-                warn_report("-sdl is deprecated, use -display sdl instead.");
+-#ifdef CONFIG_SDL
+-                dpy.type = DISPLAY_TYPE_SDL;
+-                break;
+-#else
+-                error_report("SDL support is disabled");
+-                exit(1);
+-#endif
+             case QEMU_OPTION_pidfile:
+                 pid_file = optarg;
+                 break;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 726e437a97..60cf188da4 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1981,9 +1981,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+     , QEMU_ARCH_ALL)
+ SRST
+ ``-display type``
+-    Select type of display to use. This option is a replacement for the
+-    old style -sdl/-curses/... options. Use ``-display help`` to list
+-    the available display types. Valid values for type are
++    Select type of display to use. Use ``-display help`` to list the available
++    display types. Valid values for type are
  
- static SDL_Surface *guest_sprite_surface;
- static int gui_grab; /* if true, all keyboard/mouse events are grabbed */
-+static bool alt_grab;
-+static bool ctrl_grab;
+     ``spice-app[,gl=on|off]``
+         Start QEMU as a Spice server and launch the default Spice client
+@@ -2085,25 +2084,6 @@ SRST
+     Use C-a h for help on switching between the console and monitor.
+ ERST
  
- static int gui_saved_grab;
- static int gui_fullscreen;
-@@ -853,6 +855,14 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
- 
-     gui_fullscreen = o->has_full_screen && o->full_screen;
- 
-+    if (o->u.sdl.has_grab_mod) {
-+        if (o->u.sdl.grab_mod == HOT_KEY_MOD_LSHIFT_LCTRL_LALT) {
-+            alt_grab = true;
-+        } else if (o->u.sdl.grab_mod == HOT_KEY_MOD_RCTRL) {
-+            ctrl_grab = true;
-+        }
-+    }
-+
-     for (i = 0;; i++) {
-         QemuConsole *con = qemu_console_lookup_by_index(i);
-         if (!con) {
+-DEF("curses", 0, QEMU_OPTION_curses,
+-    "-curses         shorthand for -display curses\n",
+-    QEMU_ARCH_ALL)
+-SRST
+-``-curses``
+-    Normally, if QEMU is compiled with graphical window support, it
+-    displays output such as guest graphics, guest console, and the QEMU
+-    monitor in a window. With this option, QEMU can display the VGA
+-    output when in text mode using a curses/ncurses interface. Nothing
+-    is displayed in graphical mode.
+-ERST
+-
+-DEF("sdl", 0, QEMU_OPTION_sdl,
+-    "-sdl            shorthand for -display sdl\n", QEMU_ARCH_ALL)
+-SRST
+-``-sdl``
+-    Enable SDL.
+-ERST
+-
+ #ifdef CONFIG_SPICE
+ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+     "-spice [port=port][,tls-port=secured-port][,x509-dir=<dir>]\n"
 -- 
 2.31.1
 
