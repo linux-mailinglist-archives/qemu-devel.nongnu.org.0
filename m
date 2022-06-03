@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D004153C987
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 13:48:03 +0200 (CEST)
-Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BD253C9A0
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 13:59:34 +0200 (CEST)
+Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx5mc-0005i9-TT
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 07:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43212)
+	id 1nx5xk-0007sz-IP
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 07:59:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nx5c7-0002uR-1Y; Fri, 03 Jun 2022 07:37:15 -0400
-Received: from mail-sender-0.a4lg.com
- ([2401:2500:203:30b:4000:6bfe:4757:0]:51156)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nx5uD-00052M-EW
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 07:55:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nx5c5-0002ct-Ef; Fri, 03 Jun 2022 07:37:10 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 3E019300089;
- Fri,  3 Jun 2022 11:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1654256224;
- bh=BHttdtJU5e81MEpKJ1ZDkGGx03lCfRWah1FH+0EKavo=;
- h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
- Mime-Version:Content-Transfer-Encoding;
- b=swni6QOvj2zw5bBMQzcvN0cYB9yOBNf/kwma4h+j+NgBtM+9Z3IwqXmHFLak5LABg
- qY943RHc6oFHczDhEXtDA2toKOOEGjPJxjGRxd9W7+CjerdXZuLA7CmjDriGER28Dv
- QoP92NBKibJkLreefLDkAbQsaxqgfKRDFuSbqWY4=
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-To: Tsukasa OI <research_trasio@irq.a4lg.com>,
- Alistair Francis <alistair23@gmail.com>
-Cc: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v3 3/3] target/riscv: Deprecate capitalized property names
-Date: Fri,  3 Jun 2022 20:36:44 +0900
-Message-Id: <e8d4803196dfc83a48655ddf82bc3f4077be6579.1654256190.git.research_trasio@irq.a4lg.com>
-In-Reply-To: <cover.1654256190.git.research_trasio@irq.a4lg.com>
-References: <cover.1653472385.git.research_trasio@irq.a4lg.com>
- <cover.1654256190.git.research_trasio@irq.a4lg.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nx5uA-0006oC-Mk
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 07:55:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654257349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VhoPSLEifgFBRSvt4oTaKoS3WMrZaT+dJK0LGswuKk8=;
+ b=bc4GhpleJksyG0yxGCQnkk8THCb/0bsMB8fheKWdU0btgXprleeDWUWZ1dOrA9CwnK8dlg
+ QY3HIp+WSmjlVUl8ma8bV7iaztuLCThajBgaPJUAxAR1hj1wG96+60+POWrd6Qti+yqM4E
+ YM29exwjsl/CG2OzjwoGKFyafQ0wh48=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-627-j_G7oe-sP1CIG55D1x6pgA-1; Fri, 03 Jun 2022 07:55:46 -0400
+X-MC-Unique: j_G7oe-sP1CIG55D1x6pgA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 040F61010439;
+ Fri,  3 Jun 2022 11:55:46 +0000 (UTC)
+Received: from localhost (dhcp-192-194.str.redhat.com [10.33.192.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBA9A492C3B;
+ Fri,  3 Jun 2022 11:55:45 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+Cc: f4bug@amsat.org, alex.bennee@linaro.org
+Subject: Re: [PATCH v2] tests: Prefer max cpu type when using AArch64 virt
+ machine
+In-Reply-To: <20220603111849.1481100-1-drjones@redhat.com>
+Organization: Red Hat GmbH
+References: <20220603111849.1481100-1-drjones@redhat.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Fri, 03 Jun 2022 13:55:44 +0200
+Message-ID: <87y1ye7ygv.fsf@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,36 +81,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit adds a deprecation note of capitalized property names of
-RISC-V CPU to documentation.
+On Fri, Jun 03 2022, Andrew Jones <drjones@redhat.com> wrote:
 
-Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
----
- docs/about/deprecated.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> The max cpu type is the best default cpu type for tests to use
+> when specifying the cpu type for AArch64 mach-virt. Switch all
+> tests to it.
+>
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  tests/avocado/boot_xen.py          |  6 +++---
+>  tests/avocado/replay_kernel.py     |  2 +-
+>  tests/avocado/reverse_debugging.py |  2 +-
+>  tests/avocado/tcg_plugins.py       |  6 +++---
+>  tests/qtest/bios-tables-test.c     | 12 ++++++------
+>  tests/qtest/machine-none-test.c    |  4 ++--
+>  tests/vm/aarch64vm.py              |  2 +-
+>  tests/vm/ubuntu.aarch64            |  2 +-
+>  8 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index a92ae0f162..cfc9adcd4b 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -300,6 +300,16 @@ Options are:
- Device options
- --------------
- 
-+CPU options
-+'''''''''''
-+
-+Capitalized property names on RISC-V ``-cpu`` (since 7.1)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Using capitalized RISC-V CPU property names like ``-cpu rv64,Counters=on`` is
-+deprecated.  Use lowercase names instead (e.g. ``-cpu rv64,counters=on``).
-+
-+
- Emulated device options
- '''''''''''''''''''''''
- 
--- 
-2.34.1
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
