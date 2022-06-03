@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F75F53D294
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:03:20 +0200 (CEST)
-Received: from localhost ([::1]:45174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D3453D291
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 21:58:29 +0200 (CEST)
+Received: from localhost ([::1]:37664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxDVu-0006Yj-Pu
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:03:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59998)
+	id 1nxDRE-0001Le-JT
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 15:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDNN-0006A6-0v; Fri, 03 Jun 2022 15:54:30 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:37487)
+ id 1nxDNS-0006K6-PK; Fri, 03 Jun 2022 15:54:35 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:36773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDNL-0008Ak-Dz; Fri, 03 Jun 2022 15:54:28 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 40A283200957;
- Fri,  3 Jun 2022 15:54:24 -0400 (EDT)
+ id 1nxDNQ-0008B6-2S; Fri, 03 Jun 2022 15:54:34 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 34528320095E;
+ Fri,  3 Jun 2022 15:54:29 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 03 Jun 2022 15:54:26 -0400
+ by compute5.internal (MEProxy); Fri, 03 Jun 2022 15:54:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1654286063; x=
- 1654372463; bh=twXrR4+kEWradYjllXM/BQhALki6oX/J6c6EC4q9/4c=; b=B
- gws57zIFxkqNiVMQHEKb1BZv+QcJZ0L7irEKgMOoyBweTFyU/3/pyZovfoPTm3lD
- 69mxGoTVYrLtP1vFsowDX+v4y9hTbQpoEe7hgBOKoHWvKa5F+kk3M4xtGmdaFBoP
- sg2wFh0HUWEgkrFOqwaJZDmeMCiu7wtMXs9AG96Tov/e8XRVEYpkDPgm80BlJz2P
- m9lDBCtZ2aK2NpF0o/L33iNA+TYPP3HjPrXAnRmMO9Iz9N7SUhg1SBdXy4t0pq6l
- sHwSQ9BFr9FC8Hl7ayTAAEjKuMVZqWX5wAhbl51gJyJm8NPUbAkjOccB24BEvGfr
- kr8Cn1lqQrTBsUk9KIzLg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1654286068; x=
+ 1654372468; bh=nG2SVVbNuLoH8KS/Dk9AeoHCWBYlTxx/9iwCVlaBHSg=; b=Y
+ 67ciQhELbAxq0Rf0WOigF8Uxqqh8jT4tXuNVsPxqH8myhZwreG0vma0P30o25WNT
+ greXnhvru4hLwpoSXgmk75ExaLDLhDKv8p1oDN9Nd/Kwqk9qBv9jlBi4TLKdY4kO
+ YKUx/hNsdx4HMkcCpVP0/mG5zI7qcme9wNG9z8tkEgBPV5jdaiC4AriW9uOPDCiw
+ mccHOjQXDiovYFHTIAnj8EH9XaFA2Pl8FaRZ0WvtPNFgmneqPcqDaz6buy+1aP37
+ /b5lbZY+KdyiCiST4alNyjfVZ4MRfb+N8Uo+BAa9SWtNEZ0twBUjDxgLUmLgkL4k
+ fEw+VkTLGOye8xsLfJ5Pw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1654286063; x=1654372463; bh=twXrR4+kEWrad
- YjllXM/BQhALki6oX/J6c6EC4q9/4c=; b=UoFmC/HPUKq5OGgB+407eiNYFtgD0
- CuXhxboBehQ/pTeoRXaEX0y38eyeaQKyE6CbV0HAYnPv348HJqGD3MXjCsyMrdrP
- JcMmzHFQUunvpki4CwZsHhrQorQE1zJfG3JjQhcpv+Cxyp3fcNpDY1APL1BNJ8XI
- WgUmA5SBMXeTPE3PZko6aNKFqgSmc4xVzQRCitkqTuWc6R2IyCsVKt4kaZVQTvID
- SDuQbxpr5z6egxbpegZ3gp5nQIPBERG+ZOdrGD002NgvIdcEEfdWa9XsTVhyUlOi
- n0hFcmY0xbxz8EsQ9HOsuU+tdx4x3htSUrlZTrP9ghefS/KyCJtK5UNig==
-X-ME-Sender: <xms:72aaYtJtox_9UXkkTUwU0pe7Nrq63cs2hWPQymWipTg4gGTtFLoDzg>
- <xme:72aaYpKKzu6fYXHsYLNUFNK3pR3LsZkkn0AJWZnfPEywW6mh7ycRyAsFwydgNCqRY
- Gctv-MrQq4kl-wtGes>
-X-ME-Received: <xmr:72aaYluEaJDbdVb7Gu0u11aCKHt3dP_fli1SH26kDo2PCkWCjCDe8h_optCL1W0TnAa1dmZkAk-aFsUOuzh->
+ :x-sasl-enc; s=fm1; t=1654286068; x=1654372468; bh=nG2SVVbNuLoH8
+ KS/Dk9AeoHCWBYlTxx/9iwCVlaBHSg=; b=MQnZzwF33j/Lu7mchNd9lftWhgogC
+ c2jxdzctG59mP6K2mqKu9w1Wu2tetB3NG1FqvHu4rImtfNBpMvaORL4ghRC+1HWt
+ ITuKPDOEOy5vtXA2vnXg3Mq6l2D5NhqSrAhGXE//npqSPfqB8VtLbYeTLzoTkjJd
+ 3vzPHiVlEXRucHcf65eC3fN4+qtkWBF1a+obZOH0dRj+EwHoIV2AZb8YhidkoB5X
+ l7fgVVikbJ2Rmg0Xah4WuwzGL8iJDAMY11MUeLPxZSxPM5oUG9RuewSZ3qKgybTr
+ eYcQAz0WHNmXp2GzIkNX3akw6gSUJNdLiAW4HULCdZxtRCbIePnslcpfQ==
+X-ME-Sender: <xms:9GaaYkLExaCnNevbBTGcR7w93Rho5674qDl0hv_OZK6zxoG7J-szLA>
+ <xme:9GaaYkL4VZMlqXvktM_j2r0bsTRP4V2QrvUBO1IDKj8K9o0zbYS3sCHIPPSThLDF4
+ QoRe-6viKkihDsmD7Q>
+X-ME-Received: <xmr:9GaaYktY3gh_JLOf3HXg1bAclGf9Ko1Fm9k3IuzdtcRKR3nnAF2dTdltFysMe9V3xVWv-zD8qxjMpWGXDMw6>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -57,13 +57,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugedtucetufdoteggod
  htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
  udegnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:72aaYuaIMZYInaApYD2Dov7iL4HqU0QfG2mpbnuwOH7glkW-OC9FVQ>
- <xmx:72aaYkayYViKzaeOnJgbubovkcMsNG_p7htEs02A00cebfxe9GeCGQ>
- <xmx:72aaYiBoMvXF08Bxd-zoZdLgSJ5aoyzpx5UBDgktrlKQr2EN1fYgmg>
- <xmx:72aaYqySb8Z6M-nkcvmemE7ZgrL0q2KT9vFNA7EYkxuk9E8TIw3DTw>
+X-ME-Proxy: <xmx:9GaaYhZmBj7BdErDce4V16ASqzTiFvsPG0nXWgRfrxpUgUnMedaK_w>
+ <xmx:9GaaYrb__JRza1_jl4n72rEwC9EPkG1fkB6ofocsYidfiODOp12syQ>
+ <xmx:9GaaYtAAJc51TQ8ErAhHwNuGyNXw_cPOiVcFzQbGLfv665PN2S7xFA>
+ <xmx:9GaaYhxDEv2pwUbo6ahqTwbG6O1Y3vDpM-Fhmzh5NZLx168pdpXopg>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 15:54:21 -0400 (EDT)
+ 3 Jun 2022 15:54:26 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
@@ -75,9 +75,9 @@ Cc: Yanan Wang <wangyanan55@huawei.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
  Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
  Klaus Jensen <k.jensen@samsung.com>, Christoph Hellwig <hch@lst.de>
-Subject: [PULL 05/11] hw/nvme: enforce common serial per subsystem
-Date: Fri,  3 Jun 2022 21:53:48 +0200
-Message-Id: <20220603195354.705516-6-its@irrelevant.dk>
+Subject: [PULL 06/11] hw/nvme: do not auto-generate eui64
+Date: Fri,  3 Jun 2022 21:53:49 +0200
+Message-Id: <20220603195354.705516-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220603195354.705516-1-its@irrelevant.dk>
 References: <20220603195354.705516-1-its@irrelevant.dk>
@@ -109,50 +109,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The Identify Controller Serial Number (SN) is the serial number for the
-NVM subsystem and must be the same across all controller in the NVM
-subsystem.
+We cannot provide auto-generated unique or persistent namespace
+identifiers (EUI64, NGUID, UUID) easily. Since 6.1, namespaces have been
+assigned a generated EUI64 of the form "52:54:00:<namespace counter>".
+This is will be unique within a QEMU instance, but not globally.
 
-Enforce this.
+Revert that this is assigned automatically and immediately deprecate the
+compatibility parameter. Users can opt-in to this with the
+`eui64-default=on` device parameter or set it explicitly with
+`eui64=UINT64`.
 
+Cc: libvir-list@redhat.com
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/nvme.h   | 1 +
- hw/nvme/subsys.c | 7 +++++++
- 2 files changed, 8 insertions(+)
+ docs/about/deprecated.rst | 7 +++++++
+ hw/core/machine.c         | 1 +
+ hw/nvme/ns.c              | 2 +-
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 677381932569..e41771604f59 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -48,6 +48,7 @@ typedef struct NvmeSubsystem {
-     DeviceState parent_obj;
-     NvmeBus     bus;
-     uint8_t     subnqn[256];
-+    char        *serial;
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index e19bcba24240..47a8628b5601 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -296,6 +296,13 @@ contains native support for this feature and thus use of the option
+ ROM approach is obsolete. The native SeaBIOS support can be activated
+ by using ``-machine graphics=off``.
  
-     NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
-     NvmeNamespace *namespaces[NVME_MAX_NAMESPACES + 1];
-diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index fb58d639504e..691a90d20947 100644
---- a/hw/nvme/subsys.c
-+++ b/hw/nvme/subsys.c
-@@ -27,6 +27,13 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
-         return -1;
-     }
- 
-+    if (!subsys->serial) {
-+        subsys->serial = g_strdup(n->params.serial);
-+    } else if (strcmp(subsys->serial, n->params.serial)) {
-+        error_setg(errp, "invalid controller serial");
-+        return -1;
-+    }
++``-device nvme-ns,eui64-default=on|off`` (since 7.1)
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-     subsys->ctrls[cntlid] = n;
++In QEMU versions 6.1, 6.2 and 7.0, the ``nvme-ns`` generates an EUI-64
++identifer that is not globally unique. If an EUI-64 identifer is required, the
++user must set it explicitly using the ``nvme-ns`` device parameter ``eui64``.
++
  
-     for (nsid = 1; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
+ Block device options
+ ''''''''''''''''''''
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index bb0dc8f6a93d..c53548d0b138 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -43,6 +43,7 @@
+ 
+ GlobalProperty hw_compat_7_0[] = {
+     { "arm-gicv3-common", "force-8-bit-prio", "on" },
++    { "nvme-ns", "eui64-default", "on"},
+ };
+ const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+ 
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index af6504fad2d8..06a04131f192 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -641,7 +641,7 @@ static Property nvme_ns_props[] = {
+     DEFINE_PROP_SIZE("zoned.zrwas", NvmeNamespace, params.zrwas, 0),
+     DEFINE_PROP_SIZE("zoned.zrwafg", NvmeNamespace, params.zrwafg, -1),
+     DEFINE_PROP_BOOL("eui64-default", NvmeNamespace, params.eui64_default,
+-                     true),
++                     false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.36.1
 
