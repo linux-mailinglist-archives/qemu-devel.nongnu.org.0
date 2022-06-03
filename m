@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5B453C8E3
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 12:44:49 +0200 (CEST)
-Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D6153CAA5
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 15:26:45 +0200 (CEST)
+Received: from localhost ([::1]:50038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx4nP-0007iP-Lg
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 06:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
+	id 1nx7K8-0006t1-FD
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 09:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nx4lf-0006mx-86; Fri, 03 Jun 2022 06:42:59 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:44884)
+ (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
+ id 1nx51N-0005MC-TN
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 06:59:13 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:42655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nx4ld-0005KS-Iz; Fri, 03 Jun 2022 06:42:58 -0400
-Received: by mail-qt1-x831.google.com with SMTP id f35so5215339qtb.11;
- Fri, 03 Jun 2022 03:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X5wyTbJDDRzcsLHpd+6Ks9bUkxFOOcZvsrCWEKQ8jh0=;
- b=ZPsWY6RMHxJVGM8H03R+KWW6kzNogOR/IhJ57hP+yA+XL9ztnpwuvdCY9vNDsGVpLu
- rh/Yrzrnw/kAZnIumFvU/P1UVvEUaj25CcfRzuxUjUnK5sj1hQf23YELx1jLIya9cJKD
- VL5F9qEo/0bGgmd+/srOLYHdFgpGI4NBu1UpQviR7O7paIQMxU3dk6ApdlnVEKs5DSiy
- ZmlkQFQrGaSVW542cJIJBElmXQF92zUarQRNcsTS1uZBu1zaBz2/C2vtK81D+ctqrr/O
- Sw6iNXphaOXzn7RUcb1P3+l2qIkKqjytrUA4eggA/ipmAHc5UkRlMLrmKzF/AQGhDcCM
- od4Q==
+ (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
+ id 1nx51L-00087o-SO
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 06:59:13 -0400
+Received: by mail-lf1-x136.google.com with SMTP id a15so12021368lfb.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 03:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=zERhvxtCqbCrmqBoQ0u6ZYuNHn+j1E8XezA6V/nfqX4=;
+ b=EMZfCmWYZoIpr23oUiUg5Q12zL5evvNna/QswmLkZec/oLuduNYTgGOZRXBkFvCMaV
+ XI7VgnWNux7lo15dEtuf+lvYivz4xzauUo9j2QlmOPDHeV03v0P1PAhtToe9RaXgZ+dt
+ VFfJ4wsPDp7rm7c3iHcpNtUo3gjLANxk/oDT32AT9jqrz+pYkhuYbtZ5xKkzQh/ueMKN
+ CbF6rUzs2/Y+wUMWsMEa5w3WY7e/gwfL6XqJ8VhnHjk8gvsbN040c1tqDUeitqLL8a7P
+ MQnCQ4bPmZ9Iwpkp7MVe2+fmQ3xWXeykGBA86v9fJWCJNadCvvZgedvI89jEpXTVntGb
+ nwuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X5wyTbJDDRzcsLHpd+6Ks9bUkxFOOcZvsrCWEKQ8jh0=;
- b=A1QM0aDbA/D/FZL/Ik0UzJurUnORpWC+nCJBQ+Yg/oz0xlyVY24nv/05kDDqpQOc9n
- 9H8KqAe+b4T7pEqTfJ+BT4IGQAhucM136Kv3ajHmJNJb0Wie95NbHVPMXvtcIUp2/8W3
- lbhMrxHcaaPCNtpcfla9r4orTHOlP/iEWwm+jaib1/m7hdfxvMRt701z7ZWiOfgi3a/q
- ZEwVpMXn6i+UXj13JDemNNDRl4hoZ+8TztQUuCavvWZrYtsFJu7S4USwQAPKpSwo07qW
- tnhf3SWlPxjOSwFLCSlkqyQ4G+ASEyNSiYu1yr2nbCTyuZ9pPar9YDfbIp4wd9cYOofN
- 9Hcg==
-X-Gm-Message-State: AOAM532BSdu40urPthp6mfr1ZeZCz2FZW0YHmESQq4F8mJIhb15lzmDe
- UE4j6cDIpCnwWxqQsW1Kdeej0Gzjni6eBBkdk0g=
-X-Google-Smtp-Source: ABdhPJxlXGx1wviN9k3Cr9x6CbEUodG3ZPzIJDNRrHi1af0t2b2+f/q0ebpk1wGG7985u2u1mM+t5m8o2YtwxYUdJws=
-X-Received: by 2002:a05:622a:1386:b0:2f3:d73d:f5c4 with SMTP id
- o6-20020a05622a138600b002f3d73df5c4mr6800264qtk.658.1654252974107; Fri, 03
- Jun 2022 03:42:54 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=zERhvxtCqbCrmqBoQ0u6ZYuNHn+j1E8XezA6V/nfqX4=;
+ b=0bmOCkKjT3MfDs6aHF4U1JDaHCIQzMyfRkxV8rK5M25mbtYYFh49R1MbJP+dTq1/63
+ goVOO+DwpwPKSwsv75jO5FxBtkPcCRRF15M9cv7Mbcx3Vh8QIHbHMxOfGzOJGTwjDeQO
+ hjjA47xzGg3dvUXTk74MlmwOMZ/PivlIGDuwI1xfb0CFoDchHaJ4Q63BxcBXlCP5znF3
+ wwXHxBFkHiPJ9NLNue74/8y7bbqlWhYYlaizueJ1/a2xbyoqV1szDqHk0tkuKHa9tZ0o
+ W4yNu8qad8kbFo9WA4EqerZYoyXr2BwM8oRGp6iLMW73Ams4qjrwoAhZyYAVn7d+kztp
+ 5nFw==
+X-Gm-Message-State: AOAM533TKWfC1XJxbD9vICZLjokuCkMDZZ5dupLswm9a6AnUROcPwpqa
+ +XfewsK4Gg9QJltbu6xi99bLH31qL554TP8DV9i84w==
+X-Google-Smtp-Source: ABdhPJxCq2AVCD7RfnNVaeMdU+La22owsyDeYJAKMVUwEBop+oe6O0/Vkq2vopoQzvONtumo5eYAaKcjFCRJ5SP8Pd8=
+X-Received: by 2002:a05:6512:2814:b0:478:e80f:3d7 with SMTP id
+ cf20-20020a056512281400b00478e80f03d7mr6266000lfb.208.1654253948222; Fri, 03
+ Jun 2022 03:59:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220520180109.8224-1-shentey@gmail.com>
- <48f571d0-e783-4b31-7c90-3d330629c18c@ilande.co.uk>
-In-Reply-To: <48f571d0-e783-4b31-7c90-3d330629c18c@ilande.co.uk>
-From: Bernhard Beschow <shentey@gmail.com>
-Date: Fri, 3 Jun 2022 12:42:34 +0200
-Message-ID: <CAG4p6K7jHWQEntQ0Tqv=CPufnHMnVA9-UPAbCzKKT142Q+rHZQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] Random cleanup patches
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
- Jason Wang <jasowang@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000e3f02e05e088c887"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=shentey@gmail.com; helo=mail-qt1-x831.google.com
+From: Yu Zhang <yu.zhang@ionos.com>
+Date: Fri, 3 Jun 2022 12:58:57 +0200
+Message-ID: <CAHEcVy4V_1vs-ZX66UrmDa0CR-X6jf9dn=rzk8t5he4XGWB0dA@mail.gmail.com>
+Subject: about the current status of Multi-process QEMU / out-of-process
+ emulation
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: Jinpu Wang <jinpu.wang@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>
+Content-Type: multipart/alternative; boundary="000000000000f3dd0b05e0890224"
+Received-SPF: permerror client-ip=2a00:1450:4864:20::136;
+ envelope-from=yu.zhang@ionos.com; helo=mail-lf1-x136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 03 Jun 2022 09:24:28 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,136 +80,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e3f02e05e088c887
+--000000000000f3dd0b05e0890224
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, May 21, 2022 at 11:55 AM Mark Cave-Ayland <
-mark.cave-ayland@ilande.co.uk> wrote:
+Hi All,
 
-> On 20/05/2022 19:00, Bernhard Beschow wrote:
->
-> > v2:
-> > * Omit removal of isa_connect_gpio_out() (Mark)
-> >
-> > v1:
-> > This patch series contains random cleanups that I made while studying
-> the code.
-> >
-> > Bernhard Beschow (10):
-> >    hw: Reuse TYPE_I8042 define
-> >    hw/audio/cs4231a: Const'ify global tables
-> >    hw/i386/pc: Unexport PC_CPU_MODEL_IDS macro
-> >    hw/i386/pc: Unexport functions used only internally
-> >    hw/i386/pc: Remove orphan declarations
-> >    hw/ppc/e500: Remove unused BINARY_DEVICE_TREE_FILE
-> >    hw/net/fsl_etsec/etsec: Remove obsolete and unused etsec_create()
-> >    accel/tcg/cpu-exec: Unexport dump_drift_info()
-> >    accel/tcg: Inline dump_opcount_info() and remove it
-> >    docs/devel: Fix link to developer mailing lists
-> >
-> >   accel/tcg/cpu-exec.c              |  4 ++--
-> >   accel/tcg/translate-all.c         |  5 -----
-> >   docs/devel/submitting-a-patch.rst |  6 +++---
-> >   hw/audio/cs4231a.c                |  8 ++++----
-> >   hw/i386/pc.c                      | 17 +++++++++++++----
-> >   hw/net/fsl_etsec/etsec.c          | 23 -----------------------
-> >   hw/net/fsl_etsec/etsec.h          |  7 -------
-> >   hw/ppc/e500.c                     |  1 -
-> >   hw/sparc64/sun4u.c                |  2 +-
-> >   include/exec/cpu-all.h            |  3 ---
-> >   include/hw/i386/pc.h              | 14 --------------
-> >   11 files changed, 23 insertions(+), 67 deletions(-)
->
-> In general these changes look okay, so I'd be fine to give an:
->
-> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->
-> for those I haven't already given a Reviewed-by tag for.
->
-> Laurent, are you happy to take these patches with their current tags via
-> qemu-trivial? Or would you prefer an extra set of eyes on the two
-> accel/tcg ones first?
->
+I saw that you authored the QEMU page for "Multi-process QEMU". (
+https://www.qemu.org/docs/master/system/multi-process.html)
 
-Ping
+I'm interested in this feature, but feel a little confused with the command
+line:
 
++      /usr/bin/qemu-system-x86_64                                        \
++      -machine x-remote                                                  \
++      -device lsi53c895a,id=lsi0                                         \
++      -drive id=drive_image2,file=/build/ol7-nvme-test-1.qcow2           \
++      -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0  \
++      -object x-remote-object,id=robj1,devid=lsi1,fd=4,
+(https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg02887.html)
 
-> ATB,
->
-> Mark.
->
+It seems that the man page of qemu command contains no parameter and option
+yet for this feature. May I know whether is it still in experimental
+stage? And even a few more questions:
 
---000000000000e3f02e05e088c887
+- Is "x-remote" a standalone machine type for creating the orchestrator?
+- Can each device has a dedicated emulation process or shares one process
+for emulating multiple devices?
+- Are there more command line examples illustrating the combination of
+orchestrator, remote emulation process, memory-backend-memfd and
+x-pci-proxy-dev?
+
+Thank you very much
+Kind regard
+
+Yu Zhang @ IONOS Compute Platform
+03.06.2022
+
+--000000000000f3dd0b05e0890224
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, May 21, 2022 at 11:55 AM Mark Cav=
-e-Ayland &lt;<a href=3D"mailto:mark.cave-ayland@ilande.co.uk">mark.cave-ayl=
-and@ilande.co.uk</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">On 20/05/2022 19:00, Bernhard Be=
-schow wrote:<br>
-<br>
-&gt; v2:<br>
-&gt; * Omit removal of isa_connect_gpio_out() (Mark)<br>
-&gt; <br>
-&gt; v1:<br>
-&gt; This patch series contains random cleanups that I made while studying =
-the code.<br>
-&gt; <br>
-&gt; Bernhard Beschow (10):<br>
-&gt;=C2=A0 =C2=A0 hw: Reuse TYPE_I8042 define<br>
-&gt;=C2=A0 =C2=A0 hw/audio/cs4231a: Const&#39;ify global tables<br>
-&gt;=C2=A0 =C2=A0 hw/i386/pc: Unexport PC_CPU_MODEL_IDS macro<br>
-&gt;=C2=A0 =C2=A0 hw/i386/pc: Unexport functions used only internally<br>
-&gt;=C2=A0 =C2=A0 hw/i386/pc: Remove orphan declarations<br>
-&gt;=C2=A0 =C2=A0 hw/ppc/e500: Remove unused BINARY_DEVICE_TREE_FILE<br>
-&gt;=C2=A0 =C2=A0 hw/net/fsl_etsec/etsec: Remove obsolete and unused etsec_=
-create()<br>
-&gt;=C2=A0 =C2=A0 accel/tcg/cpu-exec: Unexport dump_drift_info()<br>
-&gt;=C2=A0 =C2=A0 accel/tcg: Inline dump_opcount_info() and remove it<br>
-&gt;=C2=A0 =C2=A0 docs/devel: Fix link to developer mailing lists<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0accel/tcg/cpu-exec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 4 ++--<br>
-&gt;=C2=A0 =C2=A0accel/tcg/translate-all.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 5 -----<br>
-&gt;=C2=A0 =C2=A0docs/devel/submitting-a-patch.rst |=C2=A0 6 +++---<br>
-&gt;=C2=A0 =C2=A0hw/audio/cs4231a.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 8 ++++----<br>
-&gt;=C2=A0 =C2=A0hw/i386/pc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 17 +++++++++++++----<br>
-&gt;=C2=A0 =C2=A0hw/net/fsl_etsec/etsec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- | 23 -----------------------<br>
-&gt;=C2=A0 =C2=A0hw/net/fsl_etsec/etsec.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- |=C2=A0 7 -------<br>
-&gt;=C2=A0 =C2=A0hw/ppc/e500.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 -<br>
-&gt;=C2=A0 =C2=A0hw/sparc64/sun4u.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt;=C2=A0 =C2=A0include/exec/cpu-all.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 3 ---<br>
-&gt;=C2=A0 =C2=A0include/hw/i386/pc.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 14 --------------<br>
-&gt;=C2=A0 =C2=A011 files changed, 23 insertions(+), 67 deletions(-)<br>
-<br>
-In general these changes look okay, so I&#39;d be fine to give an:<br>
-<br>
-Acked-by: Mark Cave-Ayland &lt;<a href=3D"mailto:mark.cave-ayland@ilande.co=
-.uk" target=3D"_blank">mark.cave-ayland@ilande.co.uk</a>&gt;<br>
-<br>
-for those I haven&#39;t already given a Reviewed-by tag for.<br>
-<br>
-Laurent, are you happy to take these patches with their current tags via <b=
-r>
-qemu-trivial? Or would you prefer an extra set of eyes on the two accel/tcg=
- ones first?<br></blockquote><div><br></div><div>Ping</div><div>=C2=A0<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
-ATB,<br>
-<br>
-Mark.<br>
-</blockquote></div></div>
+<div dir=3D"ltr"><div>Hi All,</div><div><br></div>I saw that you authored t=
+he QEMU page for &quot;Multi-process QEMU&quot;. (<a href=3D"https://www.qe=
+mu.org/docs/master/system/multi-process.html" target=3D"_blank">https://www=
+.qemu.org/docs/master/system/multi-process.html</a>)<div><br>I&#39;m intere=
+sted in this feature, but feel a little confused with the command line:<br>=
+<br>+ =C2=A0 =C2=A0 =C2=A0/usr/bin/qemu-system-x86_64 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>+ =C2=A0 =C2=A0 =C2=A0-ma=
+chine x-remote =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>+ =C2=A0 =C2=A0 =C2=A0-device=
+ lsi53c895a,id=3Dlsi0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 \<br>+ =C2=A0 =C2=A0 =C2=A0-drive id=3Ddrive_image2,file=3D/b=
+uild/ol7-nvme-test-1.qcow2 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>+ =C2=A0=
+ =C2=A0 =C2=A0-device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0=
+,scsi-id=3D0 =C2=A0\<br>+ =C2=A0 =C2=A0 =C2=A0-object x-remote-object,id=3D=
+robj1,devid=3Dlsi1,fd=3D4,</div><div>(<a href=3D"https://lists.gnu.org/arch=
+ive/html/qemu-devel/2021-01/msg02887.html">https://lists.gnu.org/archive/ht=
+ml/qemu-devel/2021-01/msg02887.html</a>)<br><br>It seems that the man page =
+of qemu command contains no parameter and option yet for this feature. May =
+I know whether is it still in experimental stage?=C2=A0And even a few more =
+questions:<br><br>- Is &quot;x-remote&quot; a standalone machine type for c=
+reating the orchestrator?<br>- Can each device has a dedicated emulation pr=
+ocess or shares one process for emulating multiple devices?<br>- Are there =
+more command line examples illustrating the combination of orchestrator, re=
+mote emulation process, memory-backend-memfd and x-pci-proxy-dev?</div><div=
+><br>Thank you very much<br>Kind regard<font color=3D"#888888"><br><br>Yu Z=
+hang=C2=A0@ IONOS Compute Platform<br>03.06.2022</font></div></div>
 
---000000000000e3f02e05e088c887--
+--000000000000f3dd0b05e0890224--
 
