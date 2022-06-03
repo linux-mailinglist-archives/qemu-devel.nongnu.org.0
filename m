@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC6853C5CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:14:20 +0200 (CEST)
-Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D550A53C653
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:36:18 +0200 (CEST)
+Received: from localhost ([::1]:41850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx1Vj-0007eO-OU
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34326)
+	id 1nx1qz-0007r8-Ok
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:36:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HZ-0005gU-LD
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HX-0003Ml-HV
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654239578;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sm2tw0lWch+hYG+yFaY5iSwxWMI2ouNWEd1IQwdV7Mg=;
- b=GdHPKG/RJoBZyEvwwz5b/NhfimEEoZ2+4Qr2wA7B7DinWQXeV5XGJHJrr8KkdXftLRltTb
- S1RcGiF7JLbPt7dPzcqUVtHjoKdu15Bbq0qr6bTzZbgG0B9sNNNWnh/Q4y0o3jk2vSmJLb
- CNcH6YTBCWhIIdoZ5Khn36C9atC0bhc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-9M7PUqHfOfuTm7hgjYYFag-1; Fri, 03 Jun 2022 02:59:35 -0400
-X-MC-Unique: 9M7PUqHfOfuTm7hgjYYFag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B4B1380670E;
- Fri,  3 Jun 2022 06:59:35 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 134882166B26;
- Fri,  3 Jun 2022 06:59:33 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-s390x@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 12/12] ui: Remove deprecated options "-sdl" and "-curses"
-Date: Fri,  3 Jun 2022 08:59:05 +0200
-Message-Id: <20220603065905.23805-13-thuth@redhat.com>
-In-Reply-To: <20220603065905.23805-1-thuth@redhat.com>
-References: <20220603065905.23805-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1nx1N6-0001Hd-V9
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 03:05:25 -0400
+Received: from mail-qt1-f177.google.com ([209.85.160.177]:44859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1nx1N5-00056Q-0O
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 03:05:24 -0400
+Received: by mail-qt1-f177.google.com with SMTP id f35so4976614qtb.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 00:05:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sQNOc3aOgp6Rqa9AhVwP0GaUA1O2AOCXJw4YAMIOsV0=;
+ b=wEzlmVI7I42XL4qKzjS9hK5Hk+GN1d1WZZyyetMAo3YAxfiYpOroKZooklYSbeQK4I
+ bCSFspdshCCEoZn7iuB8oeYozs+9oFDyN8lDf8K8iL2uTNd2y9ze9nkB0arcXMvgO6PE
+ b5g6wmfKwAeWQfWcUjPgDVuZPg0/yXYXIHybp+NAUv9EWPzsA32eqICz7MjThHTMIWwP
+ n5Ctht+sgRINOgiGMkbkrgJ935PEvdzdOxGUYFXqoF3x8i/XRRvc5cfDcb9HvQPiyP2Z
+ pYJfZNSQHRLU8/yg4GsK97G/0pz2JaFPSY2BW5X6xWiLQysZG4Q4EUKFi6aLRFXCkAVI
+ /SGg==
+X-Gm-Message-State: AOAM5315C6zJNVJcgYBa+yT5naDIsloN6B8pJmfGDoA5ufmk8+YmzezT
+ wIrQBcLlfXGzqPJW98vxCBk1d/JwpSedHA==
+X-Google-Smtp-Source: ABdhPJzRdno2UGr/n/9LfqQdikEk7mGJBm0OG4/VQK5nJnlcbTFcnGpF4HuePsfGpofA/W3e3c7sNA==
+X-Received: by 2002:a05:622a:454:b0:2f3:d8fe:c650 with SMTP id
+ o20-20020a05622a045400b002f3d8fec650mr6380903qtx.440.1654239921826; 
+ Fri, 03 Jun 2022 00:05:21 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
+ [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
+ u16-20020a05620a121000b0069fc13ce226sm4574318qkj.87.2022.06.03.00.05.21
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jun 2022 00:05:21 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id i11so12214647ybq.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 00:05:21 -0700 (PDT)
+X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
+ s14-20020a056902120e00b006346f296b84mr9710397ybu.604.1654239921003; Fri, 03
+ Jun 2022 00:05:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220527172731.1742837-1-shorne@gmail.com>
+ <20220527172731.1742837-4-shorne@gmail.com>
+ <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
+ <CAMuHMdWF_OwTMZZ=joRsnOAuB5UuKjACt3Ku4-o0--fR6xqQbQ@mail.gmail.com>
+ <YpkWllpTFzb2HHY5@antec>
+In-Reply-To: <YpkWllpTFzb2HHY5@antec>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 3 Jun 2022 09:05:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
+Message-ID: <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
+To: Stafford Horne <shorne@gmail.com>
+Cc: Joel Stanley <joel@jms.id.au>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+ Openrisc <openrisc@lists.librecores.org>,
+ QEMU Development <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.160.177;
+ envelope-from=geert.uytterhoeven@gmail.com; helo=mail-qt1-f177.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,144 +91,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have "-sdl" and "-curses", but no "-gtk" and no "-cocoa" ...
-these old-style options are rather confusing than helpful nowadays.
-Now that the deprecation period is over, let's remove them, so we
-get a cleaner interface (where "-display" is the only way to select
-the user interface).
+Hi Stafford,
 
-Message-Id: <20220519155625.1414365-4-thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/about/deprecated.rst       | 10 ----------
- docs/about/removed-features.rst | 10 ++++++++++
- softmmu/vl.c                    | 19 -------------------
- qemu-options.hx                 | 24 ++----------------------
- 4 files changed, 12 insertions(+), 51 deletions(-)
+On Thu, Jun 2, 2022 at 9:59 PM Stafford Horne <shorne@gmail.com> wrote:
+> On Thu, Jun 02, 2022 at 09:08:52PM +0200, Geert Uytterhoeven wrote:
+> > On Thu, Jun 2, 2022 at 1:42 PM Joel Stanley <joel@jms.id.au> wrote:
+> > > On Fri, 27 May 2022 at 17:27, Stafford Horne <shorne@gmail.com> wrote:
+> > > > This patch add the OpenRISC virtual machine 'virt' for OpenRISC.  This
+> > > > platform allows for a convenient CI platform for toolchain, software
+> > > > ports and the OpenRISC linux kernel port.
+> > > >
+> > > > Much of this has been sourced from the m68k and riscv virt platforms.
+> >
+> > > I enabled the options:
+> > >
+> > > CONFIG_RTC_CLASS=y
+> > > # CONFIG_RTC_SYSTOHC is not set
+> > > # CONFIG_RTC_NVMEM is not set
+> > > CONFIG_RTC_DRV_GOLDFISH=y
+> > >
+> > > But it didn't work. It seems the goldfish rtc model doesn't handle a
+> > > big endian guest running on my little endian host.
+> > >
+> > > Doing this fixes it:
+> > >
+> > > -    .endianness = DEVICE_NATIVE_ENDIAN,
+> > > +    .endianness = DEVICE_HOST_ENDIAN,
+> > >
+> > > [    0.190000] goldfish_rtc 96005000.rtc: registered as rtc0
+> > > [    0.190000] goldfish_rtc 96005000.rtc: setting system clock to
+> > > 2022-06-02T11:16:04 UTC (1654168564)
+> > >
+> > > But literally no other model in the tree does this, so I suspect it's
+> > > not the right fix.
+> >
+> > Goldfish devices are supposed to be little endian.
+> > Unfortunately m68k got this wrong, cfr.
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2e2ac4a3327479f7e2744cdd88a5c823f2057bad
+> > Please don't duplicate this bad behavior for new architectures
+>
+> Thanks for the pointer, I just wired in the goldfish RTC because I wanted to
+> play with it.  I was not attached to it. I can either remove it our find another
+> RTC.
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 562a133f18..e19bcba242 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -81,16 +81,6 @@ the process listing. This is replaced by the new ``password-secret``
- option which lets the password be securely provided on the command
- line using a ``secret`` object instance.
- 
--``-sdl`` (since 6.2)
--''''''''''''''''''''
--
--Use ``-display sdl`` instead.
--
--``-curses`` (since 6.2)
--'''''''''''''''''''''''
--
--Use ``-display curses`` instead.
--
- ``-watchdog`` (since 6.2)
- '''''''''''''''''''''''''
- 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 4c9e001c35..c7b9dadd5d 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -386,6 +386,16 @@ Use ``-display sdl,grab-mod=lshift-lctrl-lalt`` instead.
- 
- Use ``-display sdl,grab-mod=rctrl`` instead.
- 
-+``-sdl`` (removed in 7.1)
-+'''''''''''''''''''''''''
-+
-+Use ``-display sdl`` instead.
-+
-+``-curses`` (removed in 7.1)
-+''''''''''''''''''''''''''''
-+
-+Use ``-display curses`` instead.
-+
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 484e9d9921..4c1e94b00e 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2800,16 +2800,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                 nographic = true;
-                 dpy.type = DISPLAY_TYPE_NONE;
-                 break;
--            case QEMU_OPTION_curses:
--                warn_report("-curses is deprecated, "
--                            "use -display curses instead.");
--#ifdef CONFIG_CURSES
--                dpy.type = DISPLAY_TYPE_CURSES;
--#else
--                error_report("curses or iconv support is disabled");
--                exit(1);
--#endif
--                break;
-             case QEMU_OPTION_portrait:
-                 graphic_rotate = 90;
-                 break;
-@@ -3176,15 +3166,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                 dpy.has_full_screen = true;
-                 dpy.full_screen = true;
-                 break;
--            case QEMU_OPTION_sdl:
--                warn_report("-sdl is deprecated, use -display sdl instead.");
--#ifdef CONFIG_SDL
--                dpy.type = DISPLAY_TYPE_SDL;
--                break;
--#else
--                error_report("SDL support is disabled");
--                exit(1);
--#endif
-             case QEMU_OPTION_pidfile:
-                 pid_file = optarg;
-                 break;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 726e437a97..60cf188da4 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1981,9 +1981,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
-     , QEMU_ARCH_ALL)
- SRST
- ``-display type``
--    Select type of display to use. This option is a replacement for the
--    old style -sdl/-curses/... options. Use ``-display help`` to list
--    the available display types. Valid values for type are
-+    Select type of display to use. Use ``-display help`` to list the available
-+    display types. Valid values for type are
- 
-     ``spice-app[,gl=on|off]``
-         Start QEMU as a Spice server and launch the default Spice client
-@@ -2085,25 +2084,6 @@ SRST
-     Use C-a h for help on switching between the console and monitor.
- ERST
- 
--DEF("curses", 0, QEMU_OPTION_curses,
--    "-curses         shorthand for -display curses\n",
--    QEMU_ARCH_ALL)
--SRST
--``-curses``
--    Normally, if QEMU is compiled with graphical window support, it
--    displays output such as guest graphics, guest console, and the QEMU
--    monitor in a window. With this option, QEMU can display the VGA
--    output when in text mode using a curses/ncurses interface. Nothing
--    is displayed in graphical mode.
--ERST
--
--DEF("sdl", 0, QEMU_OPTION_sdl,
--    "-sdl            shorthand for -display sdl\n", QEMU_ARCH_ALL)
--SRST
--``-sdl``
--    Enable SDL.
--ERST
--
- #ifdef CONFIG_SPICE
- DEF("spice", HAS_ARG, QEMU_OPTION_spice,
-     "-spice [port=port][,tls-port=secured-port][,x509-dir=<dir>]\n"
--- 
-2.31.1
+Sorry for being too unclear: the mistake was not to use the Goldfish
+RTC, but to make its register accesses big-endian.
+Using Goldfish devices as little-endian devices should be fine.
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
