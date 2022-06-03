@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D550A53C653
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:36:18 +0200 (CEST)
-Received: from localhost ([::1]:41850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B0253C669
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:41:39 +0200 (CEST)
+Received: from localhost ([::1]:46884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx1qz-0007r8-Ok
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:36:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
+	id 1nx1wA-00034N-1U
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1nx1N6-0001Hd-V9
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 03:05:25 -0400
-Received: from mail-qt1-f177.google.com ([209.85.160.177]:44859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1nx1N5-00056Q-0O
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 03:05:24 -0400
-Received: by mail-qt1-f177.google.com with SMTP id f35so4976614qtb.11
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 00:05:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sQNOc3aOgp6Rqa9AhVwP0GaUA1O2AOCXJw4YAMIOsV0=;
- b=wEzlmVI7I42XL4qKzjS9hK5Hk+GN1d1WZZyyetMAo3YAxfiYpOroKZooklYSbeQK4I
- bCSFspdshCCEoZn7iuB8oeYozs+9oFDyN8lDf8K8iL2uTNd2y9ze9nkB0arcXMvgO6PE
- b5g6wmfKwAeWQfWcUjPgDVuZPg0/yXYXIHybp+NAUv9EWPzsA32eqICz7MjThHTMIWwP
- n5Ctht+sgRINOgiGMkbkrgJ935PEvdzdOxGUYFXqoF3x8i/XRRvc5cfDcb9HvQPiyP2Z
- pYJfZNSQHRLU8/yg4GsK97G/0pz2JaFPSY2BW5X6xWiLQysZG4Q4EUKFi6aLRFXCkAVI
- /SGg==
-X-Gm-Message-State: AOAM5315C6zJNVJcgYBa+yT5naDIsloN6B8pJmfGDoA5ufmk8+YmzezT
- wIrQBcLlfXGzqPJW98vxCBk1d/JwpSedHA==
-X-Google-Smtp-Source: ABdhPJzRdno2UGr/n/9LfqQdikEk7mGJBm0OG4/VQK5nJnlcbTFcnGpF4HuePsfGpofA/W3e3c7sNA==
-X-Received: by 2002:a05:622a:454:b0:2f3:d8fe:c650 with SMTP id
- o20-20020a05622a045400b002f3d8fec650mr6380903qtx.440.1654239921826; 
- Fri, 03 Jun 2022 00:05:21 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- u16-20020a05620a121000b0069fc13ce226sm4574318qkj.87.2022.06.03.00.05.21
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jun 2022 00:05:21 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id i11so12214647ybq.9
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 00:05:21 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr9710397ybu.604.1654239921003; Fri, 03
- Jun 2022 00:05:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nx1PR-0003oI-0P
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 03:07:49 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:44711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nx1PN-0007xK-P6
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 03:07:48 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BD06A10714B9E;
+ Fri,  3 Jun 2022 09:07:34 +0200 (CEST)
+Received: from kaod.org (37.59.142.108) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 3 Jun 2022
+ 09:07:33 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-108S002247641a2-916c-4550-968a-14e4aceb021e,
+ 2F375BC487B398842DD9155F09582B226C9A4747) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <79ba2e1a-569c-6583-6cfd-13389355bfa3@kaod.org>
+Date: Fri, 3 Jun 2022 09:07:32 +0200
 MIME-Version: 1.0
-References: <20220527172731.1742837-1-shorne@gmail.com>
- <20220527172731.1742837-4-shorne@gmail.com>
- <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
- <CAMuHMdWF_OwTMZZ=joRsnOAuB5UuKjACt3Ku4-o0--fR6xqQbQ@mail.gmail.com>
- <YpkWllpTFzb2HHY5@antec>
-In-Reply-To: <YpkWllpTFzb2HHY5@antec>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 3 Jun 2022 09:05:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
-Message-ID: <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
-To: Stafford Horne <shorne@gmail.com>
-Cc: Joel Stanley <joel@jms.id.au>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
- Openrisc <openrisc@lists.librecores.org>,
- QEMU Development <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.160.177;
- envelope-from=geert.uytterhoeven@gmail.com; helo=mail-qt1-f177.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [RFC PATCH v2 0/6] hw/i2c: i2c slave mode support
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>
+CC: <qemu-devel@nongnu.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ <qemu-arm@nongnu.org>, Peter Delevoryas <pdel@fb.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Corey Minyard <cminyard@mvista.com>, Padmakar
+ Kalghatgi <p.kalghatgi@samsung.com>, Damien Hedde
+ <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
+ <joel@jms.id.au>, Arun Kumar Kashinath Agasar <arun.kka@samsung.com>, Klaus
+ Jensen <k.jensen@samsung.com>
+References: <20220601210831.67259-1-its@irrelevant.dk>
+ <6e0eb197-25c2-6b1e-2c19-f93597e29cff@kaod.org> <YphzHGNYErSMEfPw@apples>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YphzHGNYErSMEfPw@apples>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.108]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: fcea833a-06cf-4488-9e69-873d2eaa6ca6
+X-Ovh-Tracer-Id: 12913508982122515387
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrleehgdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffgefgkeevvedvvdffleefheelfffhhfetgeekudeuveffffekjeeiveffledthfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhmpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,61 +80,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stafford,
+>>> With this combined I am able to boot up Linux on an emulated Aspeed 2600
+>>> evaluation board and have the i2c echo device write into a Linux slave
+>>> EEPROM. Assuming the echo device is on address 0x42:
+>>>
+>>>     # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-15/new_device
+>>>     i2c i2c-15: new_device: Instantiated device slave-24c02 at 0x64
+>>>     # i2cset -y 15 0x42 0x64 0x00 0xaa i
+>>>     # hexdump /sys/bus/i2c/devices/15-1064/slave-eeprom
+>>>     0000000 ffaa ffff ffff ffff ffff ffff ffff ffff
+>>>     0000010 ffff ffff ffff ffff ffff ffff ffff ffff
+>>>     *
+>>>     0000100
+>>
+>> I have started working on buildroot images  :
+>>
+>>    https://github.com/legoater/buildroot/commits/aspeed
+>>
+>> The resulting files are quite small :
+>>
+>>      $ ll output/images/
+>>      total 86040
+>>      drwxr-xr-x 2 legoater legoater     4096 Jun  1 20:01 ./
+>>      drwxrwxr-x 6 legoater legoater     4096 Jun  1 19:40 ../
+>>      -rwxr-xr-x 1 legoater legoater    36837 Jun  1 20:01 aspeed-ast2600-evb.dtb*
+>>      -rw-r--r-- 1 legoater legoater 67108864 Jun  1 20:01 flash.img
+>>      -rw-r--r-- 1 legoater legoater  6682796 Jun  1 20:01 image.itb
+>>      -rw-r--r-- 1 legoater legoater     1846 Jun  1 20:01 image.its
+>>      -rw-r--r-- 1 legoater legoater  3168768 Jun  1 20:01 rootfs.cpio
+>>      -rw-r--r-- 1 legoater legoater  1026660 Jun  1 20:01 rootfs.cpio.xz
+>>      -rw-r--r-- 1 legoater legoater  3788800 Jun  1 20:01 rootfs.tar
+>>      -rw-r--r-- 1 legoater legoater   653777 Jun  1 20:00 u-boot.bin
+>>      -rw-r--r-- 1 legoater legoater  5617280 Jun  1 20:01 zImage
+>>
+>> I will probably host them on GH and we could use them under avocado
+>> to extend the tests.
+>>
+>>
+>> They should boot real HW. I will submit the defconfigs to buildroot
+>> after more tests and cleanups.
+>>
+> 
+> Nice!
 
-On Thu, Jun 2, 2022 at 9:59 PM Stafford Horne <shorne@gmail.com> wrote:
-> On Thu, Jun 02, 2022 at 09:08:52PM +0200, Geert Uytterhoeven wrote:
-> > On Thu, Jun 2, 2022 at 1:42 PM Joel Stanley <joel@jms.id.au> wrote:
-> > > On Fri, 27 May 2022 at 17:27, Stafford Horne <shorne@gmail.com> wrote:
-> > > > This patch add the OpenRISC virtual machine 'virt' for OpenRISC.  This
-> > > > platform allows for a convenient CI platform for toolchain, software
-> > > > ports and the OpenRISC linux kernel port.
-> > > >
-> > > > Much of this has been sourced from the m68k and riscv virt platforms.
-> >
-> > > I enabled the options:
-> > >
-> > > CONFIG_RTC_CLASS=y
-> > > # CONFIG_RTC_SYSTOHC is not set
-> > > # CONFIG_RTC_NVMEM is not set
-> > > CONFIG_RTC_DRV_GOLDFISH=y
-> > >
-> > > But it didn't work. It seems the goldfish rtc model doesn't handle a
-> > > big endian guest running on my little endian host.
-> > >
-> > > Doing this fixes it:
-> > >
-> > > -    .endianness = DEVICE_NATIVE_ENDIAN,
-> > > +    .endianness = DEVICE_HOST_ENDIAN,
-> > >
-> > > [    0.190000] goldfish_rtc 96005000.rtc: registered as rtc0
-> > > [    0.190000] goldfish_rtc 96005000.rtc: setting system clock to
-> > > 2022-06-02T11:16:04 UTC (1654168564)
-> > >
-> > > But literally no other model in the tree does this, so I suspect it's
-> > > not the right fix.
-> >
-> > Goldfish devices are supposed to be little endian.
-> > Unfortunately m68k got this wrong, cfr.
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2e2ac4a3327479f7e2744cdd88a5c823f2057bad
-> > Please don't duplicate this bad behavior for new architectures
->
-> Thanks for the pointer, I just wired in the goldfish RTC because I wanted to
-> play with it.  I was not attached to it. I can either remove it our find another
-> RTC.
+Uploaded here :
 
-Sorry for being too unclear: the mistake was not to use the Goldfish
-RTC, but to make its register accesses big-endian.
-Using Goldfish devices as little-endian devices should be fine.
+https://github.com/legoater/qemu-aspeed-boot/tree/master/images/ast2600-evb/buildroot-2022.05-rc2
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+C.
 
