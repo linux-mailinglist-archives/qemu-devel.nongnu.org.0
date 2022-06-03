@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5093453CC62
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 17:37:32 +0200 (CEST)
-Received: from localhost ([::1]:40536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D9153CCF0
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 18:09:38 +0200 (CEST)
+Received: from localhost ([::1]:53434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx9Mh-00071Z-5l
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 11:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39776)
+	id 1nx9rk-0000Z9-Ja
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 12:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
- id 1nx9KJ-0004C2-1q
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:35:03 -0400
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:35513)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
- id 1nx9KG-0002s8-J1
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:35:02 -0400
-Received: by mail-lf1-x131.google.com with SMTP id a2so13212574lfc.2
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 08:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mhBgz5VeNrkjaQg4Pvm6FiHEFmSLq+aCnc0Jxe0jDns=;
- b=CHLaSFRETAQ3eTjWswhEVh+xyKCd9Mb55i2S+9W7AvI/dJigAy2S9MN2zm7xvPRlGT
- fm6a5cRWg3aNrVcXWNDH/dOfDm/EfJYeW3tVZBMolY2rNgspW7/A0qH75lcVsGqiC58Y
- zuUUxrhUlcLii74z9W2wnatCwu4dZf6IK3uYSHgfkLz4gqbDH7VzQ3seSHqVComc8boJ
- GVk6P/txOAdYbO65rqiyz8Z+pQkkxI5e70FJ04EmHqkQsqrlAaHSEdmNj7yEd6uNQn+i
- KFI1vOGurn12DBi1CksudA2OhNev0Ctp4pz2nxsF7ae8Qhy4MRCPwjBFulvfYO0TegHK
- gsjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mhBgz5VeNrkjaQg4Pvm6FiHEFmSLq+aCnc0Jxe0jDns=;
- b=WgrBoOEnmtFfASTFgjdiK4yTBm1ne9phXJWqPqSYaHPlxH8eptCmWKD+svuZWoNgPT
- R69zX+CSw7N553YP4O3mnTiKSPxxbkkGNdMkvTHY7tHuTSn7/w1QTEC4r9d0wssW0LG1
- 0fcFqbkkc73vWWgyTqZPW2fbP0JEQXJxVIh4m+1x8G/bz/kGnFdXkc2JU3ATXajwM/91
- S/Luf6MltgH+tiWVcCwhr4OMjETxWkHpEiHZuuuah5HymSaE2Njl3kmIB/Itu3IN7If2
- +K34kBJ7fh6TVSLr2yWG4uRkkYeMm1g9HGiDDnmzkIjYWnXjNqFL0otoFiRaXAzZuFzf
- 7UnQ==
-X-Gm-Message-State: AOAM5322HTLDHanxXJAXyuqKzOdzeNCFcdBaQi5CqIuFsZUnp8P1ZpbM
- bwOMyCwGO8UrWXhdAWB4aohYAkM/AvbhNCVG7FA1Vg==
-X-Google-Smtp-Source: ABdhPJxdyfSalFq0IExygvZPjovnJulLPsi7AzN/Uf5P25m2+28TuW5enx3gnbHDq9Ft6a1suCvyxFGdxHFGV6Go7Xo=
-X-Received: by 2002:a05:6512:ea7:b0:477:aa40:ef43 with SMTP id
- bi39-20020a0565120ea700b00477aa40ef43mr7404778lfb.202.1654270498076; Fri, 03
- Jun 2022 08:34:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nx9j7-0003pC-18
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:00:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32169)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nx9j3-0007IB-S4
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:00:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654272028;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=whdWu22mNeCAQUmQLlfp+9Nymbc5mSYLJxmt0wqP6lA=;
+ b=NUWrp3SZpgi0dUF7ibc5ggTejAR96or/N79xPipN4k7gQJPemao/beiEEGZ7qpy8AJlt9c
+ /lSUBbfoMtY/Mx5GW9+3XoWjvV9OpBoz5MPSHyuRPq6/Pe/ziVM8a6AV2vPLueXk9ZbFxL
+ zE2+jYGnjYeuIunPITszANDpN1s3rEY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-653-VOf98Wh2OHGI-Pt5qV5H6Q-1; Fri, 03 Jun 2022 12:00:25 -0400
+X-MC-Unique: VOf98Wh2OHGI-Pt5qV5H6Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB0C585A5B9;
+ Fri,  3 Jun 2022 16:00:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 476A92026D64;
+ Fri,  3 Jun 2022 16:00:22 +0000 (UTC)
+Date: Fri, 3 Jun 2022 18:00:20 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 02/18] job.h: categorize fields in struct Job
+Message-ID: <YpowFFFD0hKOFtWF@redhat.com>
+References: <20220314133707.2206082-1-eesposit@redhat.com>
+ <20220314133707.2206082-3-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <CAHEcVy7G6HR5=-uVv4GAxryBvdAmtQRo9GDXBO=gj18J+9FwwQ@mail.gmail.com>
- <616364ca-7ad7-4a3b-6737-3d3d06414b3c@vivier.eu>
-In-Reply-To: <616364ca-7ad7-4a3b-6737-3d3d06414b3c@vivier.eu>
-From: Yu Zhang <yu.zhang@ionos.com>
-Date: Fri, 3 Jun 2022 17:34:47 +0200
-Message-ID: <CAHEcVy4XKUzBR-quVx4w+ttCgFG6ykC-LAVq+UCBmeyy48dgfQ@mail.gmail.com>
-Subject: Fwd: about the current status of Multi-process QEMU / out-of-process
- emulation
-To: Dongli Zhang <dongli.zhang@oracle.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, 
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, 
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Cc: Jinpu Wang <jinpu.wang@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>
-Content-Type: multipart/alternative; boundary="0000000000006693e405e08cdd96"
-Received-SPF: permerror client-ip=2a00:1450:4864:20::131;
- envelope-from=yu.zhang@ionos.com; helo=mail-lf1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220314133707.2206082-3-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,233 +84,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006693e405e08cdd96
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Am 14.03.2022 um 14:36 hat Emanuele Giuseppe Esposito geschrieben:
+> Categorize the fields in struct Job to understand which ones
+> need to be protected by the job mutex and which don't.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Hello Dongli, Elena, John, and Jagannathan,
+I suppose it might be a result of moving things back and forth between
+patches, but this patch doesn't really define separate categories.
 
-I'm interested in the "multi-process QEMU" feature and got the kind reply
-by Mr. Vivier that I may contact you for this.
-On one of the QEMU docs [1] I saw the command line:
+>  include/qemu/job.h | 59 ++++++++++++++++++++++++++--------------------
+>  1 file changed, 34 insertions(+), 25 deletions(-)
+> 
+> diff --git a/include/qemu/job.h b/include/qemu/job.h
+> index d1192ffd61..86ec46c09e 100644
+> --- a/include/qemu/job.h
+> +++ b/include/qemu/job.h
+> @@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
+>   * Long-running operation.
+>   */
+>  typedef struct Job {
+> +
+> +    /* Fields set at initialization (job_create), and never modified */
 
-+      /usr/bin/qemu-system-x86_64                                        \
-+      -machine x-remote                                                  \
-+      -device lsi53c895a,id=3Dlsi0                                        =
- \
-+      -drive id=3Ddrive_image2,file=3D/build/ol7-nvme-test-1.qcow2        =
-   \
-+      -device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi-i=
-d=3D0  \
-+      -object x-remote-object,id=3Drobj1,devid=3Dlsi1,fd=3D4,
+This is clearly a comment starting a category, but I can't see any other
+comment indicating that another category would start.
 
-It seems that the man page of qemu contains no parameter and option yet for
-this feature. The qemu docs, such as [2][3][4] are either not up-to-date or
-"doesn't reflect the current status of the implementation".
-So may I know whether is it still in experimental stage or mature enough
-for use? And even a few further questions:
+>      /** The ID of the job. May be NULL for internal jobs. */
+>      char *id;
+>  
+> -    /** The type of this job. */
+> +    /**
+> +     * The type of this job.
+> +     * All callbacks are called with job_mutex *not* held.
+> +     */
+>      const JobDriver *driver;
+>  
+> -    /** Reference count of the block job */
+> -    int refcnt;
+> -
+> -    /** Current state; See @JobStatus for details. */
+> -    JobStatus status;
+> -
+> -    /** AioContext to run the job coroutine in */
+> -    AioContext *aio_context;
+> -
+>      /**
+>       * The coroutine that executes the job.  If not NULL, it is reentered when
+>       * busy is false and the job is cancelled.
+> +     * Initialized in job_start()
+>       */
+>      Coroutine *co;
+>  
+> +    /** True if this job should automatically finalize itself */
+> +    bool auto_finalize;
+> +
+> +    /** True if this job should automatically dismiss itself */
+> +    bool auto_dismiss;
+> +
+> +    /** The completion function that will be called when the job completes.  */
+> +    BlockCompletionFunc *cb;
+> +
+> +    /** The opaque value that is passed to the completion function.  */
+> +    void *opaque;
+> +
+> +    /* ProgressMeter API is thread-safe */
+> +    ProgressMeter progress;
+> +
+> +
 
-- When creating the orchestrator, can we specify a machine type such as
-pc-i440fx-7.0 for -machine?
-- Can each device has a dedicated emulation process or shares one process
-for emulating multiple devices?
-- Can we find more command line examples showing the combination of
-orchestrator, remote emulation process, memory-backend-memfd and
-x-pci-proxy-dev?
+And the end of the series, this is where the cutoff is and the rest is:
 
-Thank you very much and all the best
+    /** Protected by job_mutex */
 
-Yu Zhang
-03.06.2022
+With this in mind, it seems correct to me that everything above progress
+is indeed never changed after creating the job. Of course, it's hard to
+tell without looking at the final result, so if you have to respin for
+some reason, it would be good to mark the end of the section more
+clearly for the intermediate state to make sense.
 
-[1] https://www.qemu.org/docs/master/system/multi-process.html
-[2] https://wiki.qemu.org/Features/MultiProcessQEMU
-[3]
-https://lxr.missinglinkelectronics.com/qemu+v7.0.0/docs/devel/multi-process=
-.rst
-[4] https://qemu.readthedocs.io/en/latest/devel/multi-process.html
+Kevin
 
----------- Forwarded message ---------
-From: Laurent Vivier <laurent@vivier.eu>
-Date: Fri, Jun 3, 2022 at 4:14 PM
-Subject: Re: about the current status of Multi-process QEMU /
-out-of-process emulation
-To: Yu Zhang <yu.zhang@ionos.com>
-
-
-Hi Yu,
-
-I'm not the author of this documentation, only the person that has merged
-the last change in the repo.
-
-According to the logs you should contact Dongli Zhang <
-dongli.zhang@oracle.com>, Elena Ufimtseva
-<elena.ufimtseva@oracle.com>, John G Johnson <john.g.johnson@oracle.com> or
-Jagannathan Raman
-<jag.raman@oracle.com> .
-
-Thanks,
-Laurent
-
-Le 03/06/2022 =C3=A0 12:17, Yu Zhang a =C3=A9crit :
-> Dear Mr. Vivier,
->
-> I saw that you authored the QEMU page for "Multi-process QEMU".
-> (https://www.qemu.org/docs/master/system/multi-process.html
-> <https://www.qemu.org/docs/master/system/multi-process.html>)
->
-> I'm interested in this feature, but feel a little confused with the
-command line:
->
-> +      /usr/bin/qemu-system-x86_64
- \
-> +      -machine x-remote
- \
-> +      -device lsi53c895a,id=3Dlsi0
-\
-> +      -drive id=3Ddrive_image2,file=3D/build/ol7-nvme-test-1.qcow2
-\
-> +      -device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi=
--id=3D0
- \
-> +      -object x-remote-object,id=3Drobj1,devid=3Dlsi1,fd=3D4,
->
-> It seems that the man page of qemu command contains no parameter and
-option yet for this feature.
-> May I know whether is it still in experimental stage? And even a few more
-questions:
->
-> - Is "x-remote" a standalone machine type for creating the orchestrator?
-> - Can each device has a dedicated emulation process or shares one process
-for emulating multiple
-> devices?
-> - Can I find more command line examples illustrating the combination of
-orchestrator, remote
-> emulation process, memory-backend-memfd and x-pci-proxy-dev?
->
-> Thank you very much
-> Kind regard
->
-> Yu Zhang
-> 03.06.2022
-
---0000000000006693e405e08cdd96
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello Dongli, Elena, John, and Jagannathan,<br><br>I&#39;m=
- interested in the &quot;multi-process QEMU&quot; feature and got the kind =
-reply by Mr. Vivier that I may contact you for this.<br>On one of the QEMU =
-docs [1] I saw the command line:<br><br>+ =C2=A0 =C2=A0 =C2=A0/usr/bin/qemu=
--system-x86_64 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0\<br>+ =C2=A0 =C2=A0 =C2=A0-machine x-remote =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0\<br>+ =C2=A0 =C2=A0 =C2=A0-device lsi53c895a,id=3Dlsi0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>+ =C2=A0 =C2=A0 =
-=C2=A0-drive id=3Ddrive_image2,file=3D/build/ol7-nvme-test-1.qcow2 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>+ =C2=A0 =C2=A0 =C2=A0-device scsi-hd,id=
-=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi-id=3D0 =C2=A0\<br>+ =C2=A0=
- =C2=A0 =C2=A0-object x-remote-object,id=3Drobj1,devid=3Dlsi1,fd=3D4,<br><b=
-r>It seems that the man page of qemu contains no parameter and option yet f=
-or this feature. The qemu docs, such as [2][3][4] are either not up-to-date=
- or &quot;doesn&#39;t reflect the current status of the implementation&quot=
-;.=C2=A0<div><div>So may I know whether is it still in experimental stage o=
-r mature enough for use?=C2=A0And even a few further questions:<br><br>- Wh=
-en creating the orchestrator, can we specify a machine type such as pc-i440=
-fx-7.0 for -machine?<br>- Can each device has a dedicated emulation process=
- or shares one process for emulating multiple devices?<br>- Can we find mor=
-e command line examples showing the combination of orchestrator, remote emu=
-lation process, memory-backend-memfd and x-pci-proxy-dev?</div><div><br></d=
-iv><div>Thank you very much and all the best<br><br>Yu Zhang<br>03.06.2022<=
-/div><div><br></div><div>[1] <a href=3D"https://www.qemu.org/docs/master/sy=
-stem/multi-process.html">https://www.qemu.org/docs/master/system/multi-proc=
-ess.html</a></div><div>[2]=C2=A0<a href=3D"https://wiki.qemu.org/Features/M=
-ultiProcessQEMU">https://wiki.qemu.org/Features/MultiProcessQEMU</a><br><di=
-v>[3] <a href=3D"https://lxr.missinglinkelectronics.com/qemu+v7.0.0/docs/de=
-vel/multi-process.rst">https://lxr.missinglinkelectronics.com/qemu+v7.0.0/d=
-ocs/devel/multi-process.rst</a><br></div><div>[4] <a href=3D"https://qemu.r=
-eadthedocs.io/en/latest/devel/multi-process.html">https://qemu.readthedocs.=
-io/en/latest/devel/multi-process.html</a>=C2=A0</div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message=
- ---------<br>From: <strong class=3D"gmail_sendername" dir=3D"auto">Laurent=
- Vivier</strong> <span dir=3D"auto">&lt;<a href=3D"mailto:laurent@vivier.eu=
-">laurent@vivier.eu</a>&gt;</span><br>Date: Fri, Jun 3, 2022 at 4:14 PM<br>=
-Subject: Re: about the current status of Multi-process QEMU / out-of-proces=
-s emulation<br>To: Yu Zhang &lt;<a href=3D"mailto:yu.zhang@ionos.com">yu.zh=
-ang@ionos.com</a>&gt;<br></div><br><br>Hi Yu,<br>
-<br>
-I&#39;m not the author of this documentation, only the person that has merg=
-ed the last change in the repo.<br>
-<br>
-According to the logs you should contact Dongli Zhang &lt;<a href=3D"mailto=
-:dongli.zhang@oracle.com" target=3D"_blank">dongli.zhang@oracle.com</a>&gt;=
-, Elena Ufimtseva <br>
-&lt;<a href=3D"mailto:elena.ufimtseva@oracle.com" target=3D"_blank">elena.u=
-fimtseva@oracle.com</a>&gt;, John G Johnson &lt;<a href=3D"mailto:john.g.jo=
-hnson@oracle.com" target=3D"_blank">john.g.johnson@oracle.com</a>&gt; or Ja=
-gannathan Raman <br>
-&lt;<a href=3D"mailto:jag.raman@oracle.com" target=3D"_blank">jag.raman@ora=
-cle.com</a>&gt; .<br>
-<br>
-Thanks,<br>
-Laurent<br>
-<br>
-Le 03/06/2022 =C3=A0 12:17, Yu Zhang a =C3=A9crit=C2=A0:<br>
-&gt; Dear Mr. Vivier,<br>
-&gt; <br>
-&gt; I saw that you authored the QEMU page for &quot;Multi-process QEMU&quo=
-t;.<br>
-&gt; (<a href=3D"https://www.qemu.org/docs/master/system/multi-process.html=
-" rel=3D"noreferrer" target=3D"_blank">https://www.qemu.org/docs/master/sys=
-tem/multi-process.html</a> <br>
-&gt; &lt;<a href=3D"https://www.qemu.org/docs/master/system/multi-process.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://www.qemu.org/docs/master/=
-system/multi-process.html</a>&gt;)<br>
-&gt; <br>
-&gt; I&#39;m interested in this feature, but feel a little confused with th=
-e command line:<br>
-&gt; <br>
-&gt; + =C2=A0 =C2=A0 =C2=A0/usr/bin/qemu-system-x86_64 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt; + =C2=A0 =C2=A0 =C2=A0-machine x-remote =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<=
-br>
-&gt; + =C2=A0 =C2=A0 =C2=A0-device lsi53c895a,id=3Dlsi0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt; + =C2=A0 =C2=A0 =C2=A0-drive id=3Ddrive_image2,file=3D/build/ol7-nvme-=
-test-1.qcow2 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt; + =C2=A0 =C2=A0 =C2=A0-device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2=
-,bus=3Dlsi0.0,scsi-id=3D0 =C2=A0\<br>
-&gt; + =C2=A0 =C2=A0 =C2=A0-object x-remote-object,id=3Drobj1,devid=3Dlsi1,=
-fd=3D4,<br>
-&gt; <br>
-&gt; It seems that the man page of qemu command contains no parameter and o=
-ption yet for this feature. <br>
-&gt; May I know whether is it still in experimental stage?=C2=A0And even a =
-few more questions:<br>
-&gt; <br>
-&gt; - Is &quot;x-remote&quot; a standalone machine type for creating the o=
-rchestrator?<br>
-&gt; - Can each device has a dedicated emulation process or shares one proc=
-ess for emulating multiple <br>
-&gt; devices?<br>
-&gt; - Can I find more command line examples illustrating the combination o=
-f orchestrator, remote <br>
-&gt; emulation process, memory-backend-memfd and x-pci-proxy-dev?<br>
-&gt; <br>
-&gt; Thank you very much<br>
-&gt; Kind regard<br>
-&gt; <br>
-&gt; Yu Zhang<br>
-&gt; 03.06.2022<br>
-<br>
-</div></div></div></div>
-
---0000000000006693e405e08cdd96--
 
