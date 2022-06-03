@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3E053D2CC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:26:43 +0200 (CEST)
-Received: from localhost ([::1]:37132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472BD53D2D8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:34:19 +0200 (CEST)
+Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxDsY-0004QG-CB
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:26:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36362)
+	id 1nxDzt-0007b8-Ul
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDqu-0003WQ-VG; Fri, 03 Jun 2022 16:25:00 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:41235)
+ id 1nxDw3-0005cg-10; Fri, 03 Jun 2022 16:30:19 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:39149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDqt-0004aY-1p; Fri, 03 Jun 2022 16:25:00 -0400
+ id 1nxDw1-0005yf-72; Fri, 03 Jun 2022 16:30:18 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 38DF0320092A;
- Fri,  3 Jun 2022 16:24:56 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id EE8E5320046E;
+ Fri,  3 Jun 2022 16:30:14 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Fri, 03 Jun 2022 16:24:56 -0400
+ by compute5.internal (MEProxy); Fri, 03 Jun 2022 16:30:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1654287895; x=1654374295; bh=J1
- XNePiv2HwoCWOpooEGRFrVXBwJo9M8AS4Tb9xodWI=; b=ZUkvnGvuitKgngsPrp
- qnGr1UWEOyOBPmhbNmp+vPOaTnqfx3B4e9KVFuKRWICBR53ypSzHSJmPnYAgud1o
- 9XlvudXwkAm9sLTrS5Zc1EpdE1q07smquzLXzYanQZS6dX4H4doOTOmVO2PLVYtc
- mfAmtfgb1KokHEzWrftf/hl2o8XNHyxVMPMImKK/W/6FvE9S/LMLYWAaqrSZL3E1
- UDeiTzeyurQgq6QvwjdRodzoSNY22hDEiN3RoQhKDSWqGOWOI29OR8BV+/rGf193
- 7eM147Hlt4lAQwd12uZ1BvGt+XPuvG7attn95nAdHVG3CoSHHFtE1vQowORPyPtY
- c/lQ==
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1654288214; x=1654374614; bh=RSS/i1h/n9
+ oSSeqUjfFeGcgeycBs7veS8/CKJb5kkqs=; b=MLZPoH644hkJrvSv77h73N8Ht6
+ AeOUwFMh0LRNhF/Bn7zhIEEYp5TSJ73JJfflosAOuCw5JtaKq5bfjnnK27EpdxWc
+ aSpw4sux3wSvfh0t55xJ3qiLvuVpEkVRg/6e1HfFm7Jmol9G3ckyYVPoDhHVesEn
+ h679wCY7jK/wsy2CRNGTQNNiPcOqfSbQucnsmmMCCql14pypRhWQlTCfrfVyBxp6
+ FBRzCVgolRYkICvCnYqtGH+oU2vRWXJwkaGCwrkkXfmBxKnuqACyF9mbeKchdPXZ
+ 6yyRvqJZKEvn81dA7XcRu15JzOEWX5MMm609bjRk5YFYMBbY978DnupU4Xdg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1654287895; x=1654374295; bh=J1XNePiv2HwoCWOpooEGRFrVXBwJ
- o9M8AS4Tb9xodWI=; b=rNOO4idBXLYP9O9uW3gwbn0EAiJJEsPlhJkcpN+74by6
- sQfMPRqyU8MsgjOq3JFS1pMZaIIQbck6lF8qPvh1sdWEGUBGhfxkNUvtXj8vWEGW
- 4aL7klhUAtUlrjbVm4NYB0kA26wGyGqSRoogvu9whN3yPlU2oQqKybAdULS51OO3
- IXZSfwYuFq3MwhZxnByoOA87vToqQ2QyspDbt/wo+XKpNq0vh5yUWinSqxlDlLTA
- e+o3PmtH6ST+rjJJ3F9vA3wK74WocUuA1echiitrI+KGKEtrKvs6jDTv1LFQigx8
- lgeiz8Lh7GM7QQEXk/92rRhpOCsTaPtBo8HoZ3F0Ew==
-X-ME-Sender: <xms:Fm6aYjqr0XV4TmfMaT-au9NmwHdwH-2LvtESyz7iixQ_R6ZmcK47MA>
- <xme:Fm6aYtofivfBaNeGmLv-zjdqCT7vUugp3iP1r9gFToT-yHmePsh4TwABvvdyxCogm
- fiRjOzUcNJ2JoiWdyY>
-X-ME-Received: <xmr:Fm6aYgPExd6UDHnRs3I9CG71DqEjO1KHajV1pKzJzObx-fjdugfrzkt5C4dCgp_spaTm6oKiVzy9fvomIg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugeeiucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1654288214; x=1654374614; bh=RSS/i1h/n9oSSeqUjfFeGcgeycBs7veS8/C
+ KJb5kkqs=; b=undbMOwMZ8eROiEMh/JTLfCOiN5ZviCT8HVWZhnRU2dp8gJQuIo
+ 8TdV44dtBytd5Dg0w++nWmQlDIvYF85yP6XxnmN87UgWzbdhDi8UTWz4DBjYTLcA
+ juSefcZhv185vPCOT4wxAvZZV66Qqn8XpaZfRHQr/akg5vsoYNfiUKCg+GaurYHA
+ WPMEl0Uciq+5+gzbkgBCisaJwGjxl91EJSy81zgnZgNyWwaiEagKkC3KL5r2CIiK
+ cAzmsPdB0gQ8qKE0P4UsNeC6XqF2cS+Yi8WCXSHF/CsLFmreURHkP2xb1QfpUeFz
+ Bmmez+6L90l5hS5RphHmzk9yv/dObcFhsDQ==
+X-ME-Sender: <xms:VW-aYv1K0h7266qBDyuqI6zzzsbiegP0tQ1UtpY85n1r0ivkl0_zWQ>
+ <xme:VW-aYuFXG95z7NeKBA3ZbmpQvC_MI8XS1bZkqUSbjZNmwaOhax22Ffn2w6aza6cXd
+ HJhj6cwr2Qho5_dycg>
+X-ME-Received: <xmr:VW-aYv7oZDuTRYMibiaJ394fzP6h1CONM-5ithpJXYU3guY96I4BfDBrPYKjmhkFnKNo06WnNikZdtRdPaFu>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Fm6aYm6T9hmEDhqZr2IP8ckgLw5KrfnMzSE3cQ7s6uEc2KVZ3pzRdg>
- <xmx:Fm6aYi5eHSCd0qkfZwjzYFV46nL_Rkv8Ugg53cebqiRCyzqTXrpK7A>
- <xmx:Fm6aYugJbUZ_ZGD32vPhBJi2kj-wA0ukC-npooqWB_85VHFL5FaOFw>
- <xmx:F26aYkQJo5mnhVsJlDHxEWsKa8bFagEHCFzRAVfxqxwodAq-H0lMYg>
+ cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnheptdeludfhgeelheelledtjefffeejtdeluedvgfetveffgeetvdevkeehieeikeet
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:Vm-aYk3UVkYYtUKpLt-O6i6hiwzGqekqrR_7vRFcpmN5QQ4Jhcz4rQ>
+ <xmx:Vm-aYiFX9a6xjKNASG6D0O1zhjDzlhE-LqQBTlUkmzxG_jHWBQHRpA>
+ <xmx:Vm-aYl9bEFxbMQ6tOLsfqt2kH273owDlAm3ndw4gxUqcOzeh-aSBxA>
+ <xmx:Vm-aYuAtPyKnkKPelDMcjYVxIccTVORdc5AsTWCL1fijfDhfB622tw>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 16:24:53 -0400 (EDT)
-Date: Fri, 3 Jun 2022 22:24:51 +0200
+ 3 Jun 2022 16:30:12 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- lukasz.gieryk@linux.intel.com
-Subject: Re: [PATCH v2] hw/nvme: clean up CC register write logic
-Message-ID: <YppuEyXp/iL06z/C@apples>
-References: <20220525073524.2227333-1-its@irrelevant.dk>
- <YpdpjLHhJDpTn7kP@kzawora-mobl.ger.corp.intel.com>
+To: qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH] Revert "hw/block/nvme: add support for sgl bit bucket
+ descriptor"
+Date: Fri,  3 Jun 2022 22:30:11 +0200
+Message-Id: <20220603203011.711585-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="B8XLn8dLjM/LZs+h"
-Content-Disposition: inline
-In-Reply-To: <YpdpjLHhJDpTn7kP@kzawora-mobl.ger.corp.intel.com>
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
  helo=wout1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -103,40 +98,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Klaus Jensen <k.jensen@samsung.com>
 
---B8XLn8dLjM/LZs+h
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This reverts commit d97eee64fef35655bd06f5c44a07fdb83a6274ae.
 
-On Jun  1 15:28, Lukasz Maniak wrote:
-> On Wed, May 25, 2022 at 09:35:24AM +0200, Klaus Jensen wrote:
-> >=20
-> > +        stl_le_p(&n->bar.intms, 0);
-> > +        stl_le_p(&n->bar.intmc, 0);
-> > +        stl_le_p(&n->bar.cc, 0);
->=20
-> Looks fine, though it seems the NVMe spec says the above registers
-> should be cleared during each reset for VF as well.
->=20
+The emulated controller correctly accounts for not including bit buckets
+in the controller-to-host data transfer, however it doesn't correctly
+account for the holes for the on-disk data offsets.
 
-Aren't the values of all other registers than CSTS just undefined? (NVMe
-v2.0b, Section 8.26.3)
+Reported-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 29 ++++++-----------------------
+ 1 file changed, 6 insertions(+), 23 deletions(-)
 
---B8XLn8dLjM/LZs+h
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 03760ddeae8c..958363e70cfe 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -808,10 +808,6 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, NvmeSg *sg,
+         uint8_t type = NVME_SGL_TYPE(segment[i].type);
+ 
+         switch (type) {
+-        case NVME_SGL_DESCR_TYPE_BIT_BUCKET:
+-            if (cmd->opcode == NVME_CMD_WRITE) {
+-                continue;
+-            }
+         case NVME_SGL_DESCR_TYPE_DATA_BLOCK:
+             break;
+         case NVME_SGL_DESCR_TYPE_SEGMENT:
+@@ -844,10 +840,6 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, NvmeSg *sg,
+ 
+         trans_len = MIN(*len, dlen);
+ 
+-        if (type == NVME_SGL_DESCR_TYPE_BIT_BUCKET) {
+-            goto next;
+-        }
+-
+         addr = le64_to_cpu(segment[i].addr);
+ 
+         if (UINT64_MAX - addr < dlen) {
+@@ -859,7 +851,6 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, NvmeSg *sg,
+             return status;
+         }
+ 
+-next:
+         *len -= trans_len;
+     }
+ 
+@@ -917,8 +908,7 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, NvmeSg *sg, NvmeSglDescriptor sgl,
+         seg_len = le32_to_cpu(sgld->len);
+ 
+         /* check the length of the (Last) Segment descriptor */
+-        if ((!seg_len || seg_len & 0xf) &&
+-            (NVME_SGL_TYPE(sgld->type) != NVME_SGL_DESCR_TYPE_BIT_BUCKET)) {
++        if (!seg_len || seg_len & 0xf) {
+             return NVME_INVALID_SGL_SEG_DESCR | NVME_DNR;
+         }
+ 
+@@ -956,26 +946,20 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, NvmeSg *sg, NvmeSglDescriptor sgl,
+         last_sgld = &segment[nsgld - 1];
+ 
+         /*
+-         * If the segment ends with a Data Block or Bit Bucket Descriptor Type,
+-         * then we are done.
++         * If the segment ends with a Data Block, then we are done.
+          */
+-        switch (NVME_SGL_TYPE(last_sgld->type)) {
+-        case NVME_SGL_DESCR_TYPE_DATA_BLOCK:
+-        case NVME_SGL_DESCR_TYPE_BIT_BUCKET:
++        if (NVME_SGL_TYPE(last_sgld->type) == NVME_SGL_DESCR_TYPE_DATA_BLOCK) {
+             status = nvme_map_sgl_data(n, sg, segment, nsgld, &len, cmd);
+             if (status) {
+                 goto unmap;
+             }
+ 
+             goto out;
+-
+-        default:
+-            break;
+         }
+ 
+         /*
+-         * If the last descriptor was not a Data Block or Bit Bucket, then the
+-         * current segment must not be a Last Segment.
++         * If the last descriptor was not a Data Block, then the current
++         * segment must not be a Last Segment.
+          */
+         if (NVME_SGL_TYPE(sgld->type) == NVME_SGL_DESCR_TYPE_LAST_SEGMENT) {
+             status = NVME_INVALID_SGL_SEG_DESCR | NVME_DNR;
+@@ -6773,8 +6757,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->vwc = NVME_VWC_NSID_BROADCAST_SUPPORT | NVME_VWC_PRESENT;
+ 
+     id->ocfs = cpu_to_le16(NVME_OCFS_COPY_FORMAT_0 | NVME_OCFS_COPY_FORMAT_1);
+-    id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
+-                           NVME_CTRL_SGLS_BITBUCKET);
++    id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN);
+ 
+     nvme_init_subnqn(n);
+ 
+-- 
+2.36.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKabhIACgkQTeGvMW1P
-DenwzggAqezW8jqWSM5+nZjAlPrUJtN4oKQyNQu+xG6iaBBZeO7xLZBZ/pdAPlO9
-YRhG/+TkkXZ+UaIfFAmFJKsRxMHeKRf5Fc9n5bjv5CaTtIOqI6p01rACJiATi8CD
-1T0nk9DWqyhMGb4CFp74Cm/0XjhRwbHu1OKPjLa/7oWTs4cjC//0Il3aTTANuh84
-/5UAHAHKYZPfVO+W/BHCqpqQUelw2RUlhzI/2Fzs9FC49+gz2X2+7XifMtVa+CJK
-Uwtf1vGJudu0zRF7k0KKUNpBZKMqxZRRiyxb0eA/P3JSHw65ahrFC9p0t2emwdUm
-wJYrSd5HVfg2dntfFOOGG6etoO/SZQ==
-=l9hR
------END PGP SIGNATURE-----
-
---B8XLn8dLjM/LZs+h--
 
