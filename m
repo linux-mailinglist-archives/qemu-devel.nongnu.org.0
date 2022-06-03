@@ -2,106 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BA753CA8B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 15:19:46 +0200 (CEST)
-Received: from localhost ([::1]:42372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACEBF53CAE7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 15:51:00 +0200 (CEST)
+Received: from localhost ([::1]:39282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx7DN-0001OS-A1
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 09:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37526)
+	id 1nx7hb-0002vc-Dq
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 09:50:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx7Au-000888-Tj
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 09:17:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34610)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx7Ah-0004Cb-6w
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 09:17:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654262157;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=655T2+LzeLJp6z6kgiBg05Dllmm9oC9oGUuA2ygFv04=;
- b=EraQwnShpjon3LMqyeiw4xyauAiES79X00aXvZHEbkIbhbofURM7nCMKngFLSYAK5iMreA
- ZqwSfOs7dgKn+3MY8va5ebOemrOd4L9XM7NLVqCdUJzONivmEq00j+P+RlV8Lcjr7Zg/is
- DVPKmbOh2RnzMP6197YR6LJwByVZbfQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-183-yvkkR83AOMWqw7X_4VlE5g-1; Fri, 03 Jun 2022 09:15:56 -0400
-X-MC-Unique: yvkkR83AOMWqw7X_4VlE5g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i30-20020a1c541e000000b0039c1bf9739fso3546808wmb.6
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 06:15:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nx7f6-00026y-NL
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 09:48:24 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:37497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nx7f5-000493-9B
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 09:48:24 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ 3-20020a17090a174300b001e426a02ac5so8948278pjm.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 06:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=yYh+eFhyei7CHHhsh1+HQAEf8xIjVa2hFOlIn19ki0U=;
+ b=g6KBfoFUWTTJ5AOXdV4TuOFvJxpDopWtZt02MK67J4WsYcZrt/feDOLLhf2xNvQIFV
+ mj9RLc9qfCowfsVM9Zl3ijo9xBakZD1mlNb87gk8P+wSzprT1rOtrP7fZkN5v+gefkuI
+ UnG6SRsamLbr6uGTwwqynBJyqMOUMuWMA/muC2jVLwpiyxgI2nXlnZYYVQX0N7/4SlHq
+ 405X7Gtl8WAwFkUzv13SRfw/RUr9ojn4E0COSMcTmI7SCjV7HDvqHkDKfh2IrPmy5MBE
+ oX3mkS1rdg4eCXwV7jIQRPFfcucEo7vQRfm8eDS9cRDmEC9MP5C3Wvdt5BYKQ52EXkr4
+ 1rgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=655T2+LzeLJp6z6kgiBg05Dllmm9oC9oGUuA2ygFv04=;
- b=nnLu2b67KsyQRkJFDS0g8SgG5yR3GY12ZmehC9OWQAjY2SJVu2Vrz8T2QRNzA/hSFK
- rI6A7PEsC4pgqG9fQd7f2pLTlqfYnD/p0HyQiAsuLNwj/C68tqC41yb2cALIbNzCVq2o
- jWEpI8dCvil2YsaEEFEMqsVLtLaC1aMf41R0PAfpKRWmEWTAx/YBeKDmO2csQdC2tdq3
- JYrdHoLEtELzTj7BMO4yTj+X/0TPYKUlHI2p918PS9mbV4Gys9m4Q+3fdpI4X76++Pm8
- s1A7x8RjGmI1aEJVxo2ALTVmlBAb44jjzxAy29wnAeSeZwER0H7RjJGe3tUAkexVkfCr
- T8IA==
-X-Gm-Message-State: AOAM532zHHTtA0xofxExyk47cYAToK2BxJ73EA3M+ykkIEzLUfq+a+q7
- 5YAzzWzexzFUiyGCWFxslpRkM8M12JP6NBCg4PqdDnJcBFLZUOGyKr5fphpEUX2RnHY3ZBswE1I
- Mr6+utHBeiJicoCM=
-X-Received: by 2002:a5d:4d07:0:b0:20e:5aa1:3acd with SMTP id
- z7-20020a5d4d07000000b0020e5aa13acdmr8092320wrt.186.1654262155225; 
- Fri, 03 Jun 2022 06:15:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwFyW2OJpNdro+11wBwX5bBvt7+8Mpm3I/drC5D/I3/dKraXi2MwWpoUbKpjNQ22qVfS56Rbg==
-X-Received: by 2002:a5d:4d07:0:b0:20e:5aa1:3acd with SMTP id
- z7-20020a5d4d07000000b0020e5aa13acdmr8092300wrt.186.1654262154924; 
- Fri, 03 Jun 2022 06:15:54 -0700 (PDT)
-Received: from [192.168.0.2] (ip-109-43-176-98.web.vodafone.de.
- [109.43.176.98]) by smtp.gmail.com with ESMTPSA id
- v190-20020a1cacc7000000b003975c7058bfsm8692188wme.12.2022.06.03.06.15.53
+ bh=yYh+eFhyei7CHHhsh1+HQAEf8xIjVa2hFOlIn19ki0U=;
+ b=R/w5JOGmwaX4MbzLvbcznAoPtFbwrTTcstsVVxJN7kG6XQDd+X+3n+oCrqfu2VMIdU
+ 8izH+E0jojDmdykUZ05lgYbQmeAJ4INpzRR14nnlUY6OlRfaXt8b6YiQsq1eWo5pyEph
+ i6zspidV2FRRTG+KdiVXZTE8J4xk9HZfH0C2OQgz0HmS2LTwb/OD5a84D3C5W4d7WBz0
+ 03zI2Dxqqd3KTcEAP8WpoqIeojLbsIipUQHk8Zg+DeEaO3oJhpLjizTVNH8Klwa7X87+
+ dysKBgaeHPaQ73g0pLUfwuDe1DOLs7LejlmGi4+oiHd7kep73JTrheI7Tll2eThnieut
+ nDpw==
+X-Gm-Message-State: AOAM5337YAgBeYDFrUXGB6VdOdQOVEj1F3wR8AEEBsNCtgwYAmT0Leck
+ kxgc0npOS4xIfiG1qEDIzKnnQA==
+X-Google-Smtp-Source: ABdhPJxLy5eRO5IpY7rztwsZSC+klwW39fcd9U6/ksVklV3VU6WZuj30Dt8fkwpD+cRkLrEmCFhiAA==
+X-Received: by 2002:a17:90b:3e8a:b0:1e0:4f19:c63b with SMTP id
+ rj10-20020a17090b3e8a00b001e04f19c63bmr11081079pjb.237.1654264101643; 
+ Fri, 03 Jun 2022 06:48:21 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:3286:cc26:3d5e:3f94?
+ ([2602:ae:1547:e101:3286:cc26:3d5e:3f94])
+ by smtp.gmail.com with ESMTPSA id
+ c142-20020a621c94000000b005180cf8f8c2sm5531699pfc.169.2022.06.03.06.48.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jun 2022 06:15:53 -0700 (PDT)
-Message-ID: <0a3e29b2-5dff-94bb-b4f0-f4f2a7859ece@redhat.com>
-Date: Fri, 3 Jun 2022 15:15:52 +0200
+ Fri, 03 Jun 2022 06:48:20 -0700 (PDT)
+Message-ID: <81c001a9-7709-66e5-fe71-370ebf3cb39b@linaro.org>
+Date: Fri, 3 Jun 2022 06:48:18 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: Debian MinGW cross compilation (was: Re: [PULL 2/3] qga-win32:
- Add support for NVME but type)
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 3/3] capstone: Remove the capstone submodule
 Content-Language: en-US
-To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220523194111.827805-3-kkostiuk@redhat.com>
- <541f46cf-fc45-f7bb-e121-2aad216e11d5@linaro.org>
- <CAPMcbCq7fzubG4ej7p164vwQkCMChjWBubx27R=kVxukWDhuBg@mail.gmail.com>
- <CAPMcbCqeQ_7YuJg+eS9Qqtq9ptRb57_wfT=jGOuHYtx64M5azA@mail.gmail.com>
- <CAMxuvawvaZBp0sxV-jwQuDwxahuFjN10BDcBcgOn88XpN87RPA@mail.gmail.com>
- <f4f5afc8-0b01-e134-bb83-b3d0ded0439a@redhat.com>
- <CAPMcbCr8_zgYcMQ9Q0GSQL-TgvOGY-q16sMoVNxBpvwG4JDEng@mail.gmail.com>
- <449f117b-32c9-e066-55dd-1208313bce3f@redhat.com>
- <CAPMcbCpgyNnggdMTY9K3=nv_BBF8Fbsp_MoAQ6ubeUEA5-aL=A@mail.gmail.com>
- <59b8bdee-ef2f-83b4-fbc7-4283cb964c33@redhat.com>
- <Yozfv2k3dnPy4hEJ@redhat.com>
- <39ab44eb-5115-6af3-37e2-ca79973dad2b@redhat.com>
- <625aa52e-731c-c80c-791f-12ef8a6c5c3d@weilnetz.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <625aa52e-731c-c80c-791f-12ef8a6c5c3d@weilnetz.de>
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>
+References: <20220516145823.148450-1-thuth@redhat.com>
+ <20220516145823.148450-4-thuth@redhat.com>
+ <CAFEAcA8t37wT2D-tT0n0O2HP1sTtYfeS8p2Wd+4QE6jsJ0k9Hw@mail.gmail.com>
+ <f614c7f6-2523-d587-ea44-fe4c70e8c630@redhat.com>
+ <c263a4ca-ceb3-a2f0-0839-b915cf98728e@linaro.org>
+ <5098180d-334f-7631-011f-6beb3a1434ac@linaro.org>
+ <757ff3c0-b77a-b230-6a09-fb3d8c95b1c7@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <757ff3c0-b77a-b230-6a09-fb3d8c95b1c7@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,47 +102,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/06/2022 15.09, Stefan Weil wrote:
-> Am 03.06.22 um 14:56 schrieb Thomas Huth:
-> 
->> On 24/05/2022 15.38, Daniel P. Berrangé wrote:
->>> On Tue, May 24, 2022 at 03:28:37PM +0200, Thomas Huth wrote:
->> ...
->>>>
->>>> Daniel, do you remember whether we supported Debian for MinGW
->>>> cross-compilation in the past?
->>>
->>> At one time we used to have Debian with the 3rd party 'mxe' builds
->>> of mingw added. It broke periodically and we deleted it in the
->>> end. It wasn't adding value over what Fedora mingw could provide
->>> as both more or less tracked the same versions of software in
->>> their mingw packages.
->>
->> I wonder whether anybody still tried to compile with this mxe repo in 
->> recent times...?
->> Should we adjust our support statement and just mention Fedora there? 
->> Otherwise we should maybe explicitly mention MXE there next to "Debian", 
->> too, so that people don't get the impression that QEMU can be compiled 
->> with a vanilla MinGW installation on Debian?
->>
->>  Thomas
-> 
-> 
-> My QEMU for Windows builds are all done on Debian. They use the cross tools 
-> which are provided in the normal Debian distribution. I don't use the (few) 
-> cross libraries from Debian.
-> 
-> Until end of last year, I added library packages from Cygwin (plus a few 
-> self compiled libraries, for example for braille support). See 
-> https://qemu.weilnetz.de/debian/.
-> 
-> In 2022 I switched to using the library packages from msys (I still have to 
-> write some documentation for that).
+On 6/2/22 22:21, Thomas Huth wrote:
+> So is capstone disassembly better now with Ubuntu 20.04 or should we still revert the 
+> submodule removal?
 
-Ok, thanks for the info. Seems like there are multiple ways to get the 
-missing packages for the MinGW installation on Debian, so let's simply keep 
-the support statement in the current shape.
+It's better, yes.  At least it's giving me disassembly of the system registers.
 
-  Thomas
+> Also, if libvixl is so bad, why do we still have that in the repo?
+
+Well, we just removed 3 other old disassemblers -- I think libvixl can be next.
+
+
+r~
 
 
