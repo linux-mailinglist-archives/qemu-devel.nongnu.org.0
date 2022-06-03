@@ -2,99 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA2353CC01
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 17:08:43 +0200 (CEST)
-Received: from localhost ([::1]:42244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A5753CC24
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 17:17:24 +0200 (CEST)
+Received: from localhost ([::1]:48312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx8uo-0004GY-MS
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 11:08:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34378)
+	id 1nx93C-0000YJ-RB
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 11:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx8s6-0002Sp-RH
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:05:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24707)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nx91V-0007Tl-5G
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:15:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx8s3-0005uH-Kv
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:05:53 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nx91Q-0007jI-Jy
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 11:15:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654268750;
+ s=mimecast20190719; t=1654269331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n8JHfiYNcfscpTsqS/f5uG8jf4FjnNFlmS3Qkwe7NpA=;
- b=Niv2JDkcqj6qMKCF56r7WfFqLYdYvQo++LO7exxekRgrugGr9xQQ1SOsVFIWik43Jo9oLK
- jFWv0Zk8QcLvVHpFhDKD0QQmb5dihipQdtS9N8sMlrxrwHddA/kYRCJG+FpBMJKnx0ryPe
- qGxE/Brk1XQS1YEl5t94Z4ShB5TH6QI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JmoCgHGVJ9yyB06tjVGcoAbeAwtCQgCYNssDkl7CgOc=;
+ b=isP11q7FH2H6ZPAHMFxvmvmPTNlUXeJ9VS9RNWrkfKAyjhcgo6XbXfg14FGckv7O5KwmgU
+ +RIdbHsnt49zhcvi63MwUw9hEC2fOTC93IFzM+saGEKFF3lGVIRzs+iTiSpQ7fWWtjUHQh
+ Qg+oNIIRqE3ygMgTTSbk8mGoKabH2ks=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-uFpynrmsN8uEwkaTk9lFbQ-1; Fri, 03 Jun 2022 11:05:49 -0400
-X-MC-Unique: uFpynrmsN8uEwkaTk9lFbQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m19-20020a05600c4f5300b003974eba88c0so4488361wmq.9
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 08:05:49 -0700 (PDT)
+ us-mta-287-RTvYeYLUP7asrdEqg-G9hQ-1; Fri, 03 Jun 2022 11:15:30 -0400
+X-MC-Unique: RTvYeYLUP7asrdEqg-G9hQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ g7-20020a056402424700b0042dee9d11d0so5648743edb.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 08:15:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=n8JHfiYNcfscpTsqS/f5uG8jf4FjnNFlmS3Qkwe7NpA=;
- b=QnYzjiXE4hGK/BtMDBAGMDdcRRvBx9Li2cRsp2ZyJPvNZ0V6wdBxAAkd6MdZAfFnxu
- cp4kZ0xDQYCekqHsVrCuzvnOKR1iNvy92BbWzDM7uFeMQFEeYscSXuKknt5hu4gmtTI5
- WhmTXPZ3bByWIPS4sXsupG4IK2QXzI1RTdsgnCGRPF1Q17lkgASZFIKmk7ybgS1Kye1I
- 8i//LPSxCtPqxNIg14/C90mx7dydPYEcl/X4vAoeN5jUWgQOHYABiIqNsAXg2n7l/Pio
- fldKv1Ws2dswT38EJHGXqNHOJyuXUuSB/AhENdDJXoW6X0aJSagfYpS8RqPa0O9OsSk3
- TRDQ==
-X-Gm-Message-State: AOAM530dkfxGE1/ygPmOuboG632Dcz0MljUbLHHfVPepx/04EY01EtZY
- bxoe8UtEsEABOxZU5avU4Z8dLQ1jse9Ml5LK20Vs4VGasq4AkblkNylZlYdoS+VS8s8DTOcrcoj
- Qoe+HeKKA71HPf7M=
-X-Received: by 2002:a5d:59af:0:b0:20f:d6e8:a5e with SMTP id
- p15-20020a5d59af000000b0020fd6e80a5emr8501901wrr.507.1654268748605; 
- Fri, 03 Jun 2022 08:05:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyTDGRC/oOObswaQEsc/x+Q2CgXn0HWuSyaKB6k8Ogbp8mdeiOe6nbrX2uyyw+LyCD3LcYEOA==
-X-Received: by 2002:a5d:59af:0:b0:20f:d6e8:a5e with SMTP id
- p15-20020a5d59af000000b0020fd6e80a5emr8501814wrr.507.1654268747682; 
- Fri, 03 Jun 2022 08:05:47 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-213.customers.d1-online.com.
- [80.187.98.213]) by smtp.gmail.com with ESMTPSA id
- h42-20020a05600c49aa00b003973d425a7fsm9417657wmp.41.2022.06.03.08.05.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jun 2022 08:05:46 -0700 (PDT)
-Message-ID: <c7274cba-130c-b2fb-f6fa-453787ad8bad@redhat.com>
-Date: Fri, 3 Jun 2022 17:05:45 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=JmoCgHGVJ9yyB06tjVGcoAbeAwtCQgCYNssDkl7CgOc=;
+ b=Di1+zRjZLQUGw0gpyxVgweHWTp16NA+NX4DowMMkkDtzJmKcHiylwqn4QcIoK0MJVe
+ QY8ui96cJtj4KLLgQ0T2Mj4DqpDFyf2yqtatYuFHY0ij6VHGt4SJgV+AnGsHq0t2Joxl
+ myTEP1CT6VB6my3AEwhALEqwL+vtn7aIvWqUZAd05HakC3yAbWyzP6oXFrAZ1piMgKSm
+ +I6PH+jbWiYf/2fkXphgYOq3PtqQI/hNeHM6VdGhgh/QtgAhqORn3Ub/okLOEbc2e4ji
+ B1cGkveV1BQzboL2Yrepg8siiL6QnUvMVaObkBTE4/iqv2O94lELCDtvtK8omycLBNWD
+ 7t9Q==
+X-Gm-Message-State: AOAM531S8l8vHdRhu2rl1EJxOBd2jO19wU/S8b8yUCyoKXGjPH9QvtM6
+ u8Y2oNLQqfUB5+Jnfwazcol35OVETvFv/KQ7RNzNXA9SNNxkCYgKp6yfUmTqpLEYJ5sHtxxJzfH
+ TFf88neGya2mMHTg=
+X-Received: by 2002:a17:906:a219:b0:6e4:86a3:44ea with SMTP id
+ r25-20020a170906a21900b006e486a344eamr9233932ejy.385.1654269329417; 
+ Fri, 03 Jun 2022 08:15:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2vy1O4K9DD0v3jqRz17yt8q8hDqX1gRF1AJPbbjdpcvtVrWonvBymMcFFEZP28lyyGI2h6w==
+X-Received: by 2002:a17:906:a219:b0:6e4:86a3:44ea with SMTP id
+ r25-20020a170906a21900b006e486a344eamr9233906ejy.385.1654269329115; 
+ Fri, 03 Jun 2022 08:15:29 -0700 (PDT)
+Received: from gator (cst2-175-76.cust.vodafone.cz. [31.30.175.76])
+ by smtp.gmail.com with ESMTPSA id
+ b6-20020a17090636c600b006feb6dee4absm2935134ejc.137.2022.06.03.08.15.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jun 2022 08:15:28 -0700 (PDT)
+Date: Fri, 3 Jun 2022 17:15:26 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, f4bug@amsat.org,
+ alex.bennee@linaro.org, cohuck@redhat.com
+Subject: Re: [PATCH v2] tests: Prefer max cpu type when using AArch64 virt
+ machine
+Message-ID: <20220603151526.6wuerkzb664u4qoq@gator>
+References: <20220603111849.1481100-1-drjones@redhat.com>
+ <8baf9cbc-3cd4-bcd7-c60d-b68bf0784779@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20220516145823.148450-1-thuth@redhat.com>
- <20220516145823.148450-4-thuth@redhat.com>
- <CAFEAcA8t37wT2D-tT0n0O2HP1sTtYfeS8p2Wd+4QE6jsJ0k9Hw@mail.gmail.com>
- <f614c7f6-2523-d587-ea44-fe4c70e8c630@redhat.com>
- <c263a4ca-ceb3-a2f0-0839-b915cf98728e@linaro.org>
- <5098180d-334f-7631-011f-6beb3a1434ac@linaro.org>
- <757ff3c0-b77a-b230-6a09-fb3d8c95b1c7@redhat.com>
- <81c001a9-7709-66e5-fe71-370ebf3cb39b@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 3/3] capstone: Remove the capstone submodule
-In-Reply-To: <81c001a9-7709-66e5-fe71-370ebf3cb39b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <8baf9cbc-3cd4-bcd7-c60d-b68bf0784779@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,25 +103,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/06/2022 15.48, Richard Henderson wrote:
-> On 6/2/22 22:21, Thomas Huth wrote:
->> So is capstone disassembly better now with Ubuntu 20.04 or should we still 
->> revert the submodule removal?
+On Fri, Jun 03, 2022 at 07:04:01AM -0700, Richard Henderson wrote:
+> On 6/3/22 04:18, Andrew Jones wrote:
+> > The max cpu type is the best default cpu type for tests to use
+> > when specifying the cpu type for AArch64 mach-virt. Switch all
+> > tests to it.
+> > 
+> > Cc: Alex Bennée <alex.bennee@linaro.org>
+> > Signed-off-by: Andrew Jones <drjones@redhat.com>
 > 
-> It's better, yes.Â  At least it's giving me disassembly of the system registers.
+> For avoidance of doubt, copying v1 comment to v2:
 > 
->> Also, if libvixl is so bad, why do we still have that in the repo?
+> > diff --git a/tests/avocado/replay_kernel.py b/tests/avocado/replay_kernel.py
+> > index 0b2b0dc692b1..c19022ea977d 100644
+> > --- a/tests/avocado/replay_kernel.py
+> > +++ b/tests/avocado/replay_kernel.py
+> > @@ -147,7 +147,7 @@ def test_aarch64_virt(self):
+> >           """
+> >           :avocado: tags=arch:aarch64
+> >           :avocado: tags=machine:virt
+> > -        :avocado: tags=cpu:cortex-a53
+> > +        :avocado: tags=cpu:max
+> >           """
+> >           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> >                         '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
 > 
-> Well, we just removed 3 other old disassemblers -- I think libvixl can be next.
+> This will *not* work without further changes.  Fedora 29 will is old, and
+> will not boot a cpu with FEAT_LPA2 enabled.
+> 
+> See 11593544df6f ("tests/avocado: update aarch64_virt test to exercise -cpu max")
+> 
+> Which makes me wonder if you've actually tested this?
 
-I thought there was a reason for keeping vixl around ... but seems my memory 
-is wrong here. After searching a little bit, I only found this here:
+I only did 'make check'. I'll also do 'make check-avocado' for v3.
 
-  https://lists.nongnu.org/archive/html/qemu-devel/2018-05/msg03416.html
-
-So seems like there was already the idea of removing vixl four years ago... 
-I'll send a patch to remove it.
-
-  Thomas
+Thanks,
+drew
 
 
