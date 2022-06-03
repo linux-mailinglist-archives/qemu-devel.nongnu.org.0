@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D9153CCF0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 18:09:38 +0200 (CEST)
-Received: from localhost ([::1]:53434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3960453CD02
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 18:14:36 +0200 (CEST)
+Received: from localhost ([::1]:33698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx9rk-0000Z9-Ja
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 12:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
+	id 1nx9wZ-0006mF-5r
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 12:14:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nx9j7-0003pC-18
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:00:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32169)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nx9j3-0007IB-S4
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:00:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654272028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=whdWu22mNeCAQUmQLlfp+9Nymbc5mSYLJxmt0wqP6lA=;
- b=NUWrp3SZpgi0dUF7ibc5ggTejAR96or/N79xPipN4k7gQJPemao/beiEEGZ7qpy8AJlt9c
- /lSUBbfoMtY/Mx5GW9+3XoWjvV9OpBoz5MPSHyuRPq6/Pe/ziVM8a6AV2vPLueXk9ZbFxL
- zE2+jYGnjYeuIunPITszANDpN1s3rEY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-VOf98Wh2OHGI-Pt5qV5H6Q-1; Fri, 03 Jun 2022 12:00:25 -0400
-X-MC-Unique: VOf98Wh2OHGI-Pt5qV5H6Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB0C585A5B9;
- Fri,  3 Jun 2022 16:00:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 476A92026D64;
- Fri,  3 Jun 2022 16:00:22 +0000 (UTC)
-Date: Fri, 3 Jun 2022 18:00:20 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 02/18] job.h: categorize fields in struct Job
-Message-ID: <YpowFFFD0hKOFtWF@redhat.com>
-References: <20220314133707.2206082-1-eesposit@redhat.com>
- <20220314133707.2206082-3-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nx9n6-00016a-Fk
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:04:48 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:33536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1nx9n4-0008HY-SH
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:04:48 -0400
+Received: by mail-pg1-x535.google.com with SMTP id r71so7581016pgr.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 09:04:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2aUBvrQlpNzn2WARyXj5t5iAYRyEUGcgIZzag4vLOjU=;
+ b=T0gqJkF2+gAxUuBI3me+vb5sB2cUxpDg1oha7xwODHKqjfMDtvTVgPIfQYFWsGRYaB
+ GuoFFjD8tsZGutz6s+3MydzANP7Aacyj8Tzgt0KRorRiS382kBwNtNdmTScXd0t8EBEx
+ JptgSyD5k5jYuFSDIYMgMrU7F9SUVYXQHpLbe9t1nBPKT29xsYNE+R/UEmwv4rddGOXt
+ T2aRN+0I+2bRc8rFusdaXlxps3g/i0ZiHFa4yvEce5WBnm9SD72MLp37llEJnu7dj0Jz
+ wJzdgkU3WuvH86HCtL+BYWhzlYZSO2QBTzEYZ+k7JnKf6sgyhJafdprtPA0dLAG++Hz0
+ rI9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2aUBvrQlpNzn2WARyXj5t5iAYRyEUGcgIZzag4vLOjU=;
+ b=jh4LBg6jqeYwoMmyYurFea8hBRkArbWRZ5rCNpJxNpqfBRE1phDUXCRaH9SopbRhco
+ +3+7vSxIRXBd5So4hoNs3e2qh/K8gmnJKQim1ZXv+4yxitRkPL0woTPG3iVGGckKkY8X
+ difPUBMuYo9QTk8rJbDYUgn2NCKZd6vOnEHIMEh5gyuJScMPCj3kE3uOaU+0LPuGmghC
+ qgSCWGTuCuH+DnGz2CXST3wAkXnnP2ntvr5i1DvEmrmQg57B+iQsFv/JqZQxAob4+UMc
+ RoE2FxymzD4CvRxjtq4kL/3/TYkMP/I7kLD8vIxLpBdpY2REPKnHHkaChWLVvLDMvnWE
+ gc5Q==
+X-Gm-Message-State: AOAM533htMoGzbB9eA2ELW3NeYVBNy6e8ltTKUDNjUtmwNlHNZGa78I8
+ jJBL/QQSyoPruxvSfDWxzncXyTzNaI6y+g==
+X-Google-Smtp-Source: ABdhPJyaheyB4WmDJIBJxEyDgiHq7Wdp9Cl/40isOzttmuiYYV8ftjNK7/yxt5BZd3IBEO6nScD9ng==
+X-Received: by 2002:a62:3646:0:b0:51b:91c7:fd4a with SMTP id
+ d67-20020a623646000000b0051b91c7fd4amr19598686pfa.78.1654272276894; 
+ Fri, 03 Jun 2022 09:04:36 -0700 (PDT)
+Received: from ThinkPad-T490.dc1.ventanamicro.com ([122.169.0.22])
+ by smtp.googlemail.com with ESMTPSA id
+ z12-20020a1709027e8c00b0016196bd15f4sm5638035pla.15.2022.06.03.09.04.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jun 2022 09:04:36 -0700 (PDT)
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
+	alistair.francis@wdc.com
+Subject: [RFC PATCH v5 0/4] RISC-V Smstateen support
+Date: Fri,  3 Jun 2022 21:34:21 +0530
+Message-Id: <20220603160425.3667456-1-mchitale@ventanamicro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220314133707.2206082-3-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,85 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.03.2022 um 14:36 hat Emanuele Giuseppe Esposito geschrieben:
-> Categorize the fields in struct Job to understand which ones
-> need to be protected by the job mutex and which don't.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+This series adds support for the Smstateen specification which provides
+a mechanism plug potential covert channels which are opened by extensions
+that add to processor state that may not get context-switched. Currently
+access to AIA registers, *envcfg registers and floating point(fcsr) is
+controlled via smstateen.
 
-I suppose it might be a result of moving things back and forth between
-patches, but this patch doesn't really define separate categories.
+These patches can also be found on riscv_smstateen_v5 branch at:
+https://github.com/mdchitale/qemu.git
 
->  include/qemu/job.h | 59 ++++++++++++++++++++++++++--------------------
->  1 file changed, 34 insertions(+), 25 deletions(-)
-> 
-> diff --git a/include/qemu/job.h b/include/qemu/job.h
-> index d1192ffd61..86ec46c09e 100644
-> --- a/include/qemu/job.h
-> +++ b/include/qemu/job.h
-> @@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
->   * Long-running operation.
->   */
->  typedef struct Job {
-> +
-> +    /* Fields set at initialization (job_create), and never modified */
+This series depends on the following series from Anup:
+https://lists.nongnu.org/archive/html/qemu-devel/2022-05/msg05231.html
 
-This is clearly a comment starting a category, but I can't see any other
-comment indicating that another category would start.
+Changes in v5:
+- Fix the order in which smstateen extension is added to the isa_edata_arr as
+described in rule #3 the comment.
 
->      /** The ID of the job. May be NULL for internal jobs. */
->      char *id;
->  
-> -    /** The type of this job. */
-> +    /**
-> +     * The type of this job.
-> +     * All callbacks are called with job_mutex *not* held.
-> +     */
->      const JobDriver *driver;
->  
-> -    /** Reference count of the block job */
-> -    int refcnt;
-> -
-> -    /** Current state; See @JobStatus for details. */
-> -    JobStatus status;
-> -
-> -    /** AioContext to run the job coroutine in */
-> -    AioContext *aio_context;
-> -
->      /**
->       * The coroutine that executes the job.  If not NULL, it is reentered when
->       * busy is false and the job is cancelled.
-> +     * Initialized in job_start()
->       */
->      Coroutine *co;
->  
-> +    /** True if this job should automatically finalize itself */
-> +    bool auto_finalize;
-> +
-> +    /** True if this job should automatically dismiss itself */
-> +    bool auto_dismiss;
-> +
-> +    /** The completion function that will be called when the job completes.  */
-> +    BlockCompletionFunc *cb;
-> +
-> +    /** The opaque value that is passed to the completion function.  */
-> +    void *opaque;
-> +
-> +    /* ProgressMeter API is thread-safe */
-> +    ProgressMeter progress;
-> +
-> +
+Changes in v4:
+- Fix build issue with riscv32/riscv64-linux-user targets
 
-And the end of the series, this is where the cutoff is and the rest is:
+Changes in v3:
+- Fix coding style issues
+- Fix *stateen0h index calculation
 
-    /** Protected by job_mutex */
+Changes in v2:
+- Make h/s/envcfg bits in m/h/stateen registers as writeable by default.
 
-With this in mind, it seems correct to me that everything above progress
-is indeed never changed after creating the job. Of course, it's hard to
-tell without looking at the final result, so if you have to respin for
-some reason, it would be good to mark the end of the section more
-clearly for the intermediate state to make sense.
+Anup Patel (1):
+  target/riscv: Force disable extensions if priv spec version does not
+    match
 
-Kevin
+Mayuresh Chitale (4):
+  target/riscv: Add smstateen support
+  target/riscv: smstateen check for h/senvcfg
+  target/riscv: smstateen check for fcsr
+  target/riscv: smstateen check for AIA/IMSIC
+
+ target/riscv/cpu.c      |   2 +
+ target/riscv/cpu.h      |   4 +
+ target/riscv/cpu_bits.h |  36 +++
+ target/riscv/csr.c      | 555 +++++++++++++++++++++++++++++++++++++++-
+ target/riscv/machine.c  |  21 ++
+ 5 files changed, 615 insertions(+), 3 deletions(-)
+
+-- 
+2.25.1
 
 
