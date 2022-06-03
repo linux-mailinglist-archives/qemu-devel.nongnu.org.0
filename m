@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6602A53CD88
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 18:51:08 +0200 (CEST)
-Received: from localhost ([::1]:42438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F84453CDA2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 19:02:01 +0200 (CEST)
+Received: from localhost ([::1]:45480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxAVv-0000V6-Hb
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 12:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55072)
+	id 1nxAgS-0003PX-4E
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 13:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxAUD-0008Ff-Uq
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:49:21 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:39684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxAUC-00026D-Fk
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:49:21 -0400
-Received: by mail-pg1-x532.google.com with SMTP id q123so7631287pgq.6
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 09:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=FP/0cBWYyQnmV5201R7oVWuaIjv5RaFw70neQP9wz4E=;
- b=i3pzUknT4/OEgAOKAvvi+ws4x88N4ewNMgUN+ot/7zjbQni7H8XI+/vFoC+mHo7U5D
- nMFSTm8TGwqfSOKstYuQGq6UU2VvtGbCyz4V3UGSMJ1p/Ys5015O1ZnF0zTjdgRmDF7E
- MqwJ5efDzcITWeUmgan3ii3H79xEFGZtMzHhfC491BZU1BMRb5YOLra0um+/042HejAu
- VueAPFznK0PwoVerhT8qKGUDaufgoUp50HIOqL/spxubuU49Fe7+/8IcdFKmTO7sKPOx
- lnOIRMrYsnyKE+DlNBr753Wl4ver608fedRs2kNWh8BhT/lH4zR0OyQ09Yjbz1FAk4je
- gQ4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FP/0cBWYyQnmV5201R7oVWuaIjv5RaFw70neQP9wz4E=;
- b=PnlydWO7AYv/l68GQpWSZ9WoI8emAY4u06+lXRUsZawOhiNwgRWSJg9/w3ALCaMAQR
- 3zlTiKKVE1LWA701s3vvY8O49+XAE6eorUjrii+ralxfboOPd0ieqsjMsiYVxUoAVnLL
- lbeRGvyRJRduPWo2fIPXGLSPbsZl3p8DrfXwgBTgx01oN3MljA3R1zR542f6Qs3MFf8J
- IPthocJoxG6yRAe0DV5Yn6SObNd+Csxt8Y/CpjMA0pk+MVmnI/ihVXwLHO9wDwArosnT
- pG/Fqxk/GtbMYEBd58PrLJYZL+n9FtoTZbko84X8t02+s8h5PedyWjEM01YdKTV8rO8y
- U4qA==
-X-Gm-Message-State: AOAM532vIlrBLEs0wK8R3PC1y7QHr3Zg0ELmLO5Dow7A4FTRIOmvyvva
- o4VEqRar0hoq9XM2tuuJ4y0eOYqUnmD/Zw==
-X-Google-Smtp-Source: ABdhPJwBONF4oTCL0DC2ieOHkFNFaeqgH1SCcTULGealDfrZ22wrRZRoqMdp2GVZMrSDkLFz15TdAA==
-X-Received: by 2002:a63:2cc3:0:b0:3db:5e24:67fa with SMTP id
- s186-20020a632cc3000000b003db5e2467famr9587555pgs.46.1654274958866; 
- Fri, 03 Jun 2022 09:49:18 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:3286:cc26:3d5e:3f94?
- ([2602:ae:1547:e101:3286:cc26:3d5e:3f94])
- by smtp.gmail.com with ESMTPSA id
- s204-20020a632cd5000000b003fcc1a5da4csm4567716pgs.28.2022.06.03.09.49.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jun 2022 09:49:18 -0700 (PDT)
-Message-ID: <0a73c592-7ed4-df30-16c2-71fa41dfb474@linaro.org>
-Date: Fri, 3 Jun 2022 09:49:16 -0700
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nxAdu-0002So-Eu
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:59:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nxAdr-0004Tr-E7
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 12:59:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654275551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DbiBVAyrHxAxK/QEy0ZwkTY8yyfM70jxWpQ1jGpyrC8=;
+ b=RJC/29FDAwJBV73yfIfdWHwD9kHoj8P8GqwX4ndvnmlCinpHl922PoQRFAHFaCrYuMiFgW
+ ZwisQPyhWodv0rUC1yBUK65GvxElubD8hUbaPT9iGc9I0q+B0r5q2/tcwFFKSs8LP145yT
+ XRH9lyBcw/mLkLkx83tl8RIVBtHvlmY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-mt114-A-NLejjcOU_j60fg-1; Fri, 03 Jun 2022 12:59:07 -0400
+X-MC-Unique: mt114-A-NLejjcOU_j60fg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B046185A7B2;
+ Fri,  3 Jun 2022 16:59:07 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D47F2026D07;
+ Fri,  3 Jun 2022 16:59:05 +0000 (UTC)
+Date: Fri, 3 Jun 2022 18:59:03 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 15/18] job: detect change of aiocontext within job
+ coroutine
+Message-ID: <Ypo915liDsISLwuW@redhat.com>
+References: <20220314133707.2206082-1-eesposit@redhat.com>
+ <20220314133707.2206082-16-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v6 40/43] hw/loongarch: Add LoongArch power manager support
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, mst@redhat.com,
- imammedo@redhat.com, ani@anisinha.ca, mark.cave-ayland@ilande.co.uk
-References: <20220601102509.985650-1-yangxiaojuan@loongson.cn>
- <20220601102509.985650-41-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220601102509.985650-41-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220314133707.2206082-16-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,47 +85,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/1/22 03:25, Xiaojuan Yang wrote:
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   hw/loongarch/loongson3.c | 45 +++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 44 insertions(+), 1 deletion(-)
+Am 14.03.2022 um 14:37 hat Emanuele Giuseppe Esposito geschrieben:
+> From: Paolo Bonzini <pbonzini@redhat.com>
 > 
+> We want to make sure access of job->aio_context is always done
+> under either BQL or job_mutex. The problem is that using
+> aio_co_enter(job->aiocontext, job->co) in job_start and job_enter_cond
+> makes the coroutine immediately resume, so we can't hold the job lock.
+> And caching it is not safe either, as it might change.
+> 
+> job_start is under BQL, so it can freely read job->aiocontext, but
+> job_enter_cond is not. In order to fix this, use aio_co_wake():
+> the advantage is that it won't use job->aiocontext, but the
+> main disadvantage is that it won't be able to detect a change of
+> job AioContext.
+> 
+> Calling bdrv_try_set_aio_context() will issue the following calls
+> (simplified):
+> * in terms of  bdrv callbacks:
+>   .drained_begin -> .set_aio_context -> .drained_end
+> * in terms of child_job functions:
+>   child_job_drained_begin -> child_job_set_aio_context -> child_job_drained_end
+> * in terms of job functions:
+>   job_pause_locked -> job_set_aio_context -> job_resume_locked
+> 
+> We can see that after setting the new aio_context, job_resume_locked
+> calls again job_enter_cond, which then invokes aio_co_wake(). But
+> while job->aiocontext has been set in job_set_aio_context,
+> job->co->ctx has not changed, so the coroutine would be entering in
+> the wrong aiocontext.
+> 
+> Using aio_co_schedule in job_resume_locked() might seem as a valid
+> alternative, but the problem is that the bh resuming the coroutine
+> is not scheduled immediately, and if in the meanwhile another
+> bdrv_try_set_aio_context() is run (see test_propagate_mirror() in
+> test-block-iothread.c), we would have the first schedule in the
+> wrong aiocontext, and the second set of drains won't even manage
+> to schedule the coroutine, as job->busy would still be true from
+> the previous job_resume_locked().
+> 
+> The solution is to stick with aio_co_wake(), but then detect every time
+> the coroutine resumes back from yielding if job->aio_context
+> has changed. If so, we can reschedule it to the new context.
+> 
+> Check for the aiocontext change in job_do_yield_locked because:
+> 1) aio_co_reschedule_self requires to be in the running coroutine
+> 2) since child_job_set_aio_context allows changing the aiocontext only
+>    while the job is paused, this is the exact place where the coroutine
+>    resumes, before running JobDriver's code.
+> 
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  job.c | 24 +++++++++++++++++++++---
+>  1 file changed, 21 insertions(+), 3 deletions(-)
+> 
+> diff --git a/job.c b/job.c
+> index 89c0e6bed9..10a5981748 100644
+> --- a/job.c
+> +++ b/job.c
+> @@ -543,11 +543,12 @@ void job_enter_cond_locked(Job *job, bool(*fn)(Job *job))
+>          return;
+>      }
+>  
+> -    assert(!job->deferred_to_main_loop);
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Why doesn't this assertion hold true any more?
 
-> +#define PM_BASE 0x10080000
-> +#define PM_SIZE 0x100
-> +#define PM_CTRL 0x10
+>      timer_del(&job->sleep_timer);
+>      job->busy = true;
+>      real_job_unlock();
+> -    aio_co_enter(job->aio_context, job->co);
+> +    job_unlock();
+> +    aio_co_wake(job->co);
+> +    job_lock();
+>  }
+>  
+>  void job_enter(Job *job)
+> @@ -568,6 +569,8 @@ void job_enter(Job *job)
+>   */
+>  static void coroutine_fn job_do_yield_locked(Job *job, uint64_t ns)
+>  {
+> +    AioContext *next_aio_context;
 > +
-> +static uint64_t loongarch_virt_pm_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    return 0;
-> +}
-> +
-> +static void loongarch_virt_pm_write(void *opaque, hwaddr addr,
-> +                               uint64_t val, unsigned size)
-> +{
-> +    if (addr != PM_CTRL) {
-> +        return;
+>      real_job_lock();
+>      if (ns != -1) {
+>          timer_mod(&job->sleep_timer, ns);
+> @@ -579,6 +582,20 @@ static void coroutine_fn job_do_yield_locked(Job *job, uint64_t ns)
+>      qemu_coroutine_yield();
+>      job_lock();
+>  
+> +    next_aio_context = job->aio_context;
+> +    /*
+> +     * Coroutine has resumed, but in the meanwhile the job AioContext
+> +     * might have changed via bdrv_try_set_aio_context(), so we need to move
+> +     * the coroutine too in the new aiocontext.
+> +     */
+> +    while (qemu_get_current_aio_context() != next_aio_context) {
+> +        job_unlock();
+> +        aio_co_reschedule_self(next_aio_context);
+> +        job_lock();
+> +        next_aio_context = job->aio_context;
 > +    }
 > +
-> +    switch (val) {
-> +    case 0x00:
-> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> +        return;
-> +    case 0xff:
-> +        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-> +        return;
-> +    default:
-> +        return;
-> +    }
-> +}
+> +
 
-It would be nice to add a comment that this is a placeholder for missing ACPI, and will 
-eventually be replaced.
+Extra empty line.
 
+>      /* Set by job_enter_cond_locked() before re-entering the coroutine.  */
+>      assert(job->busy);
+>  }
+> @@ -680,7 +697,6 @@ void job_resume_locked(Job *job)
+>      if (job->pause_count) {
+>          return;
+>      }
+> -
+>      /* kick only if no timer is pending */
+>      job_enter_cond_locked(job, job_timer_not_pending_locked);
+>  }
 
-r~
+This hunk looks unrelated.
+
+Kevin
+
 
