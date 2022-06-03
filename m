@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE8A53D1F4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 20:57:12 +0200 (CEST)
-Received: from localhost ([::1]:57784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C9253D1E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 20:54:09 +0200 (CEST)
+Received: from localhost ([::1]:49142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxCTv-0007Bt-OI
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 14:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51038)
+	id 1nxCQx-0001S5-NM
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 14:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nxCO5-00077M-Ea
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 14:51:10 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40620)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nxCO7-00078J-NI
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 14:51:11 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nxCO1-00048B-F7
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 14:51:06 -0400
-Received: by mail-ej1-x636.google.com with SMTP id fu3so16122361ejc.7
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 11:51:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nxCO5-00048p-2F
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 14:51:11 -0400
+Received: by mail-ej1-x633.google.com with SMTP id q21so17644467ejm.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 11:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zsrYs9v+j1ezvORFnoGAQqRmm4nxMzuK/3Qj8II5VG4=;
- b=f03RNSjLDYDV1Xcd8f96z1+MNrrs82v5G1g1ZXYM9gBJsZAKgXrTdi/G6vIgqAhdJU
- yVCTKnNhLm6Tg/EzH+lQ04RUKs5IP46b7qy4/XMgIprA3qHtJGlG0Ks+s6EqIqEOFPD6
- wY8TyIJz4o2K6RsFdgk1yVUhTrM4CQPtBAnYtDHkLMr8sVJ5Yd34r6m6qlS2jQethcNU
- tJ3vPQZTkkmQxy5PadfOrzF7cA/nFSZFNMKIe/wC/dn4YKflweLk13F4sBDvw4R3gYD2
- urAWCJ7QwTy6JUlCK6u+kEUvjorQGYcOb9pZBmPWZo1DHAVEzQ08KyZEdTqPdUalSz2b
- 60oQ==
+ bh=w+VBxhxh0gSBVm9fr937VMDDWJs7ypGS7SXewGU/qvQ=;
+ b=nMBcEmvzYazMSmOM+6PchFb6GHzW4PR+GwBeOLg/ec4KyuXvazUlVwesC3IL+dsqKA
+ FuqRDJcxyqZ5geAFCGVy9HEuakns9XjnT3edMdNedW9fx4h4AZnk8Nwo3RBbqRgnO8rp
+ gnjKnEkfv32jeuYQkKE1kQn7bbMDIrG+NXH36bf0foC2PJJsBfI+jQ0iPwnxGG3HJW8t
+ j9K8+EMFUhayUlWUDR6gQ/fjj/KT+qroWUvLmTQfKqTsbXTcHQFNaSkZpFW6DfspS4zK
+ VwvpiJVwFz/RDwsOMkkhYDlEjilfiSx8HV+1mAgy6WwOG08as/QC+6PlXwZjZMI1SZDu
+ ThPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zsrYs9v+j1ezvORFnoGAQqRmm4nxMzuK/3Qj8II5VG4=;
- b=MRPO6HnwJtjMeX64gDazDX2eyZJUY5RJ3Sg5H93q8BgGSHArF0iWPT0tzFjGAnPhEB
- 0GyNGNlDVW0JD5/4VN4usQuIEELGBxqkqY3YTJgAcVQuV9GB2kTNklqs0U7+y0Rbl4Wb
- dPJkz34oo60duSnc1eSaMFp6mMxP5dMJVlIofYBNRFSSIIDphxPpE3Y1rcLqu6Scvl7n
- gjEM9K1LZtqZkaKeJWyrKBtwTZRdZOcYSNHN5LeZPLRRETx/VVv22m/81RxGx6JSk0sP
- N0DiZs6A4mZvj46xjaBQHA7tUY0jXyJYoKj/mJxm4kRJxE6VLz3MyopjeeJuWbwgSoDX
- jzNA==
-X-Gm-Message-State: AOAM532PRkXTyLj09WUVsLskqbmaV4ohsUlM5F9LyjstTu4IHkRrdeIZ
- CYDr98DiWFHTR9g3VesYRLSMazLKdJ2JSg==
-X-Google-Smtp-Source: ABdhPJxacIlHswXk79YvmaZi/5wEqK6+EQ9ZNgtS4j4dJfc2wtJSQWPB/mmmSrMlbWFzy2kTZY15+g==
-X-Received: by 2002:a17:907:2d2a:b0:710:76a1:4d89 with SMTP id
- gs42-20020a1709072d2a00b0071076a14d89mr300271ejc.307.1654282263816; 
- Fri, 03 Jun 2022 11:51:03 -0700 (PDT)
+ bh=w+VBxhxh0gSBVm9fr937VMDDWJs7ypGS7SXewGU/qvQ=;
+ b=xYiKjhCtuo3edKRzs3xaXUs9J7VPqinSIFzW2GcZqxAZx6qUlhzsJA/y0l0QMsDFhD
+ MQvBgoIoMgnyx93FSqG4qJjqAztRazMn3znMqEHvz9uvff54DeOxW0C0o6PVLuux+p9U
+ owL9DXAJ7tEtMB9TjtMVoYkCoqYjD+0dMF5KourySjZ7Ic0h8OrNeiaWqKdbQmDnuYv2
+ CZSn4y32E7zoWNQyjpBVZv7MyhHk0Akd3d8n4G4OXwQDwd9unfZwK6DHSDByo8+t8dEs
+ c4Pj7+kbf1EKnrOr+ZSXjYDQlqd54z3n8LGpZS/PdONXVuQkE1VLeVxy8wL9sbyQYO91
+ RPpg==
+X-Gm-Message-State: AOAM531l2emVqkzdJJCdpopQA4I2XWuZ8pK0pLX4i0Q6e9lJA88ReGfv
+ HPln1IYe0B3KDwMAP5BYSw2E0+TWcw5wIA==
+X-Google-Smtp-Source: ABdhPJysHlDfP9FYhPKp2znJhlxn4OFCjLsNlBQznkSoblZy7z8Rb3GhGGY9fNEQnDO8jyJRSDDMhg==
+X-Received: by 2002:a17:907:868c:b0:6fe:fd7a:e0d7 with SMTP id
+ qa12-20020a170907868c00b006fefd7ae0d7mr9880899ejc.90.1654282265505; 
+ Fri, 03 Jun 2022 11:51:05 -0700 (PDT)
 Received: from osoxes.fritz.box (pd9ed79c4.dip0.t-ipconnect.de.
  [217.237.121.196]) by smtp.gmail.com with ESMTPSA id
- f25-20020a170906139900b006fe8c831632sm3066160ejc.73.2022.06.03.11.51.02
+ f25-20020a170906139900b006fe8c831632sm3066160ejc.73.2022.06.03.11.51.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jun 2022 11:51:03 -0700 (PDT)
+ Fri, 03 Jun 2022 11:51:04 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Aurelien Jarno <aurelien@aurel32.net>,
@@ -61,19 +61,19 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v4 02/11] hw/isa/piix4: Use object_initialize_child() for
- embedded struct
-Date: Fri,  3 Jun 2022 20:50:36 +0200
-Message-Id: <20220603185045.143789-3-shentey@gmail.com>
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH v4 03/11] hw/isa/piix4: Move pci_map_irq_fn' near
+ pci_set_irq_fn
+Date: Fri,  3 Jun 2022 20:50:37 +0200
+Message-Id: <20220603185045.143789-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220603185045.143789-1-shentey@gmail.com>
 References: <20220603185045.143789-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,26 +96,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+The pci_map_irq_fn was implemented below type_init() which made it
+inaccessible to QOM functions. So move it up.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/piix4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/isa/piix4.c | 50 +++++++++++++++++++++++++-------------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 9a6d981037..1d04fb6a55 100644
+index 1d04fb6a55..18aa24424f 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -224,7 +224,7 @@ static void piix4_init(Object *obj)
- {
-     PIIX4State *s = PIIX4_PCI_DEVICE(obj);
- 
--    object_initialize(&s->rtc, sizeof(s->rtc), TYPE_MC146818_RTC);
-+    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+@@ -74,6 +74,31 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
+     }
  }
  
- static void piix4_class_init(ObjectClass *klass, void *data)
++static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
++{
++    int slot;
++
++    slot = PCI_SLOT(pci_dev->devfn);
++
++    switch (slot) {
++    /* PIIX4 USB */
++    case 10:
++        return 3;
++    /* AMD 79C973 Ethernet */
++    case 11:
++        return 1;
++    /* Crystal 4281 Sound */
++    case 12:
++        return 2;
++    /* PCI slot 1 to 4 */
++    case 18 ... 21:
++        return ((slot - 18) + irq_num) & 0x03;
++    /* Unknown device, don't do any translation */
++    default:
++        return irq_num;
++    }
++}
++
+ static void piix4_isa_reset(DeviceState *dev)
+ {
+     PIIX4State *d = PIIX4_PCI_DEVICE(dev);
+@@ -266,31 +291,6 @@ static void piix4_register_types(void)
+ 
+ type_init(piix4_register_types)
+ 
+-static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
+-{
+-    int slot;
+-
+-    slot = PCI_SLOT(pci_dev->devfn);
+-
+-    switch (slot) {
+-    /* PIIX4 USB */
+-    case 10:
+-        return 3;
+-    /* AMD 79C973 Ethernet */
+-    case 11:
+-        return 1;
+-    /* Crystal 4281 Sound */
+-    case 12:
+-        return 2;
+-    /* PCI slot 1 to 4 */
+-    case 18 ... 21:
+-        return ((slot - 18) + irq_num) & 0x03;
+-    /* Unknown device, don't do any translation */
+-    default:
+-        return irq_num;
+-    }
+-}
+-
+ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+ {
+     PIIX4State *s;
 -- 
 2.36.1
 
