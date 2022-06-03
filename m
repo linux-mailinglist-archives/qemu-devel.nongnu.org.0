@@ -2,89 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE4553D299
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:04:01 +0200 (CEST)
-Received: from localhost ([::1]:46496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727F953D29D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:07:30 +0200 (CEST)
+Received: from localhost ([::1]:56220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxDWa-0007SI-3p
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60146)
+	id 1nxDZx-0005nU-8y
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDNq-0007Eo-Fc; Fri, 03 Jun 2022 15:54:59 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:54219)
+ id 1nxDW2-0000ZU-Ij; Fri, 03 Jun 2022 16:03:27 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:55987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDNo-0008DF-Pz; Fri, 03 Jun 2022 15:54:58 -0400
+ id 1nxDW0-00015E-RS; Fri, 03 Jun 2022 16:03:26 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id D50EB320096D;
- Fri,  3 Jun 2022 15:54:52 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 9C0393200319;
+ Fri,  3 Jun 2022 16:03:22 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 03 Jun 2022 15:54:54 -0400
+ by compute4.internal (MEProxy); Fri, 03 Jun 2022 16:03:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1654286092; x=
- 1654372492; bh=4one0BcLs904Z7IHHedCkaTbGDZICC0tN5jiBZUvycY=; b=W
- 8GkYwO/visLBnZhUHjp8oAHwcv6YHM/JtTRV2koVrw+I4KAiLOCM6GBSfS9txrBg
- sE3UGl0r20Uxovm3gCGa++RI8lRQF5G1Rqr3Elc0KbLEZMGSRfnA43eKh72ruRCg
- h1uaW0FJ3s+32tFBmhjkjgYASBn6T3rzEVZ3xER8cV5Nd+mJt706s8Zm7zMY8yxz
- 1kus3A/wuAhbUufzakGDZ/Kv8isqREg11YuIHsH4Q6a9L8dirTvkZzQOEJOtR7Ay
- Dqq6o+NHCFgZknlyljrdysyVEb/yrQZWBRhyNqrTSzZZnYzRDZkXzQf1Uccgd1GC
- MdkhZcp1Bcw11s/GP9anQ==
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1654286602; x=1654373002; bh=3q
+ UK4C4RussdpJFI2xljUKpEYub7fIu8ZqaukY6DMhA=; b=Nx5niVexqRe9wdojt4
+ MCrSu7IK+jOMGxRq0WZrzGh0x30nbf53OlqdAJpbtFuzOm12+orTRQ0/a18tbayy
+ UwP4cPEv28OcooM1C2/xzOTbdDpUJvVX/pvKI4CS2tOBr0PsZ8Og2OdBQwi6AfT9
+ w8ROT7EYaBB7VDLe1bUX4jKA15OLw7c90RP4ZXiC3C3dLr2/lzK7qajCt1Df++dt
+ x/3YFJYd41wGqNbJMH1icQN6ZWLp6TGATeqOBacuY8kcBiMWJsxXhukz6Wk4gqZk
+ z+3TDOz07+x4knVlyrxhlST/mjMKY4ZTPWDod4r/cVZ0AANQL0IEGF9VTa+ueRfB
+ PDHw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654286092; x=
- 1654372492; bh=4one0BcLs904Z7IHHedCkaTbGDZICC0tN5jiBZUvycY=; b=E
- BGpHhIhxtUpg86TplLFzD8IFBLezxW/nALr6+0NLJccY50sW6+bzVlh43aowlmmm
- 1rAMhG5vLXbkwFp04Juztr3Da7xsoQ+qhp8caijYznYR5qjQZ8wNte4Bq9tR0Hxk
- 65bHhvIaFIUgY5XwYBSVyaPIy0tM8WT+arvR+sEujmaMPvoCM4PaLuzBBTFy96dw
- 4Osszx7O+MKJHWq1hh9Tjy9o8Csc60DW7zVTvC88D1zEEP6wzTtzHY5csVQBwW1c
- myiM+QvMtuJqWnQxqjPh5hr8r3BRapH0a3+xmkYIWbBl2aaYz1T8YV15+fN4I8s4
- v5ChCcZpfFv4nt22QQncg==
-X-ME-Sender: <xms:DGeaYlhLsedD931JcdSABYPPIj1lS0lPgn0SXk8lK_OVfL4D9MNBcg>
- <xme:DGeaYqBARP1_4M2_RaQgeY2Y1ZW77So2IXD1b8jun6gwq2FU1IyqQCtAjL55P1cQs
- h_B-NduWmRwyNnPCF8>
-X-ME-Received: <xmr:DGeaYlGc_3JBmUlU1ZCz70s6nTJK3A-om3n_S2JQLX8W_G6gdQNfirQvcqke7WY8S3gL1UBgBDp_IwSVal1L>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugeduucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1654286602; x=1654373002; bh=3qUK4C4RussdpJFI2xljUKpEYub7
+ fIu8ZqaukY6DMhA=; b=WRPOW3l8iKR0Ys5OwROe+9WgdDlSJ6wh4w7D2ncnsd6B
+ l0bcSaVN9HDTL3L7RA3R/XFDUJFIDb2Ips0f1Nx8DfeInextHRN7hlAJA9Gipxcx
+ 5KmT+JfMdLhWcbbkJLcmU7QNO6qo9Y0iQwoo2sPusvZt4ik3Ky6Udhpo3c/c1B2d
+ NOqKNkwA+wwzDVmb54GuUnmdN8wdpT4jUy2xpsUWl7gFBawkYEKDV4LbQqVZLFOc
+ WcftUI9mLxMM5pzB0BE5b6L0XDQ6QJZUDWLMz5RWte6nlNjTzZ0nZeSh59PCCQ0m
+ cB0qCyQTtUy7thfVCIRuIHzYmDNXSnLSzdCHrgQzgA==
+X-ME-Sender: <xms:CWmaYjFSekdEMZ6nIompm4qIRrPdmSwSRrlHW1r3V_gTJ9ML_Iou5g>
+ <xme:CWmaYgUhD-BqZLTSu_BMpwh0dmicP9LDSMuPxV72jjzNBqRp-UMsavj0kZi_yWfvw
+ nKW8RTr7X0Dt3PAouw>
+X-ME-Received: <xmr:CWmaYlLlF7zBZka4Brlbfz7fggxqijwmBatjUyNRJuYdczLVH38yWBnUk-ArTUOBurXH2VF2oiDcL8VISQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeefvedtueetueduffevgffgtdeftdeuleffhfeigeffkeegfeejfeffteej
- iefhvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:DGeaYqTA1ToaZQGH_a_9-4omzMnt9id9Kr4kvTpY2QWXdvb590AOUA>
- <xmx:DGeaYiwiiiPxulNT9BoFdQvhrk1A-U_HTnS8xxq0rmKw1_A06M4vpQ>
- <xmx:DGeaYg6x-mUux7aveifWuMJG1OUPwi8fIPb94WAgqVyIBPguF-lOsQ>
- <xmx:DGeaYnL45xVkGaB4oBx8HLxOyQFvF8UT3uSO1zdoLXPTHRBtITcEYg>
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:CWmaYhG8r1bM8ukx5gnIDapq_ruT_J-52WMpGIkvQwPvwlQungBgNQ>
+ <xmx:CWmaYpUduiXged7-q2yanPk_Jx8GN_WpQkUJpsfa9jpoPUcGX1tM3w>
+ <xmx:CWmaYsMSFUN5FfSMwuEjem6r3XYjd365Fg6M2Jzm_VYbgcHXU53f5g>
+ <xmx:CmmaYrKlVGSEPVDg4H5pJPeUZxe_ffxw-YAORRi3s3bXmuRgsu6_0A>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 15:54:49 -0400 (EDT)
+ 3 Jun 2022 16:03:20 -0400 (EDT)
+Date: Fri, 3 Jun 2022 22:03:18 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Cc: Yanan Wang <wangyanan55@huawei.com>, Hanna Reitz <hreitz@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, libvir-list@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- Dmitry Tikhov <d.tihov@yadro.com>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 11/11] hw/nvme: add new command abort case
-Date: Fri,  3 Jun 2022 21:53:54 +0200
-Message-Id: <20220603195354.705516-12-its@irrelevant.dk>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220603195354.705516-1-its@irrelevant.dk>
-References: <20220603195354.705516-1-its@irrelevant.dk>
+To: Jonathan Derrick <jonathan.derrick@linux.dev>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Keith Busch <kbusch@kernel.org>,
+ Francis Pravin AntonyX Michael Raj <francis.michael@solidigm.com>,
+ Michael Kropaczek <michael.kropaczek@solidigm.com>,
+ Jonathan Derrick <jonathan.derrick@solidigm.com>
+Subject: Re: [PATCH] hw/nvme: Fix deallocate when metadata is present
+Message-ID: <YpppBsxOJ7aCxgYw@apples>
+References: <20220603191440.3625-1-jonathan.derrick@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4Sa69npZiIfYkUAu"
+Content-Disposition: inline
+In-Reply-To: <20220603191440.3625-1-jonathan.derrick@linux.dev>
 Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
  helo=wout1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -109,56 +104,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dmitry Tikhov <d.tihov@yadro.com>
 
-NVMe command set specification for end-to-end data protection formatted
-namespace states:
+--4Sa69npZiIfYkUAu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    o If the Reference Tag Check bit of the PRCHK field is set to ‘1’ and
-      the namespace is formatted for Type 3 protection, then the
-      controller:
-          ▪ should not compare the protection Information Reference Tag
-            field to the computed reference tag; and
-          ▪ may ignore the ILBRT and EILBRT fields. If a command is
-            aborted as a result of the Reference Tag Check bit of the
-            PRCHK field being set to ‘1’, then that command should be
-            aborted with a status code of Invalid Protection Information,
-            but may be aborted with a status code of Invalid Field in
-            Command.
+On Jun  3 13:14, Jonathan Derrick wrote:
+> When metadata is present in the namespace and deallocates are issued, the=
+ first
+> deallocate could fail to zero the block range, resulting in another
+> deallocation to be issued. Normally after the deallocation completes and =
+the
+> range is checked for zeroes, a deallocation is then issued for the metada=
+ta
+> space. In the failure case where the range is not zeroed, deallocation is
+> reissued for the block range (and followed with metadata deallocation), b=
+ut the
+> original range deallocation task will also issue a metadata deallocation:
+>=20
+> nvme_dsm_cb()
+>   *range deallocation*
+>   nvme_dsm_md_cb()
+>     if (nvme_block_status_all()) (range deallocation failure)
+>       nvme_dsm_cb()
+>       *range deallocation*
+>         nvme_dsm_md_cb()
+>           if (nvme_block_status_all()) (no failure)
+>           *metadata deallocation*
+>     *metadata deallocation*
+>=20
+> This sequence results in reentry of nvme_dsm_cb() before the metadata has=
+ been
+> deallocated. During reentry, the metadata is deallocated in the reentrant=
+ task.
+> nvme_dsm_bh() is called which deletes and sets iocb->bh to NULL. When ree=
+ntry
+> returns from nvme_dsm_cb(), metadata deallocation takes place again, and
+> results in a null pointer dereference on the iocb->bh:
+>=20
+> BH deletion:
+> #0  nvme_dsm_bh (opaque=3D0x55ef893e2f10) at ../hw/nvme/ctrl.c:2316
+> #1  0x000055ef868eb333 in aio_bh_call (bh=3D0x55ef8a441b30) at ../util/as=
+ync.c:141
+> #2  0x000055ef868eb441 in aio_bh_poll (ctx=3D0x55ef892c6e40) at ../util/a=
+sync.c:169
+> #3  0x000055ef868d2789 in aio_dispatch (ctx=3D0x55ef892c6e40) at ../util/=
+aio-posix.c:415
+> #4  0x000055ef868eb896 in aio_ctx_dispatch (source=3D0x55ef892c6e40, call=
+back=3D0x0, user_data=3D0x0) at ../util/async.c:311
+> #5  0x00007f5bfe4ab17d in g_main_context_dispatch () at /lib/x86_64-linux=
+-gnu/libglib-2.0.so.0
+> #6  0x000055ef868fcd98 in glib_pollfds_poll () at ../util/main-loop.c:232
+> #7  0x000055ef868fce16 in os_host_main_loop_wait (timeout=3D0) at ../util=
+/main-loop.c:255
+> #8  0x000055ef868fcf27 in main_loop_wait (nonblocking=3D0) at ../util/mai=
+n-loop.c:531
+> #9  0x000055ef864a2442 in qemu_main_loop () at ../softmmu/runstate.c:726
+> #10 0x000055ef860f957a in main (argc=3D29, argv=3D0x7ffdc9705508, envp=3D=
+0x7ffdc97055f8) at ../softmmu/main.c:50
+>=20
+> nvme_dsm_cb() called for metadata after nvme_dsm_bh() completes from reen=
+trant task:
+> Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+> 0x000055ef868eb07c in aio_bh_enqueue (bh=3D0x0, new_flags=3D2) at ../util=
+/async.c:70
+> 70          AioContext *ctx =3D bh->ctx;
+> (gdb) backtrace
+> #0  0x000055ef868eb07c in aio_bh_enqueue (bh=3D0x0, new_flags=3D2) at ../=
+util/async.c:70
+> #1  0x000055ef868eb4cf in qemu_bh_schedule (bh=3D0x0) at ../util/async.c:=
+186
+> #2  0x000055ef862db21e in nvme_dsm_cb (opaque=3D0x55ef897b41a0, ret=3D0) =
+at ../hw/nvme/ctrl.c:2423
+> #3  0x000055ef8665a662 in blk_aio_complete (acb=3D0x55ef89c6d8c0) at ../b=
+lock/block-backend.c:1419
+> #4  0x000055ef8665a940 in blk_aio_write_entry (opaque=3D0x55ef89c6d8c0) a=
+t ../block/block-backend.c:1486
+> #5  0x000055ef868edcf2 in coroutine_trampoline (i0=3D-536848976, i1=3D326=
+02) at ../util/coroutine-ucontext.c:173
+> #6  0x00007f5bfe0bc510 in __start_context () at ../sysdeps/unix/sysv/linu=
+x/x86_64/__start_context.S:91
+> #7  0x00007f5bf757bb40 in  ()
+> #8  0x0000000000000000 in  ()
+>=20
+> The fix is to return when an nvme_dsm_cb() is reentered due to failure to
+> deallocate the block range, so that metadata deallocate is then only issu=
+ed in
+> the reentrant task and prevent doing it again when the reentrant task ret=
+urns
+> to the original task.
+>=20
+> Reproduction steps (with emulated namespace):
+> nvme format --lbaf=3D1 -f /dev/nvme0n1
+> mkfs.ext4 /dev/nvme0n1
+> mkfs.ext4 -F /dev/nvme0n1
+>=20
+> Signed-off-by: Francis Pravin AntonyX Michael Raj <francis.michael@solidi=
+gm.com>
+> Signed-off-by: Michael Kropaczek <michael.kropaczek@solidigm.com>
+> Signed-off-by: Jonathan Derrick <jonathan.derrick@solidigm.com>
+> ---
+>  hw/nvme/ctrl.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 03760ddeae..74540a03d5 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -2372,6 +2372,7 @@ static void nvme_dsm_md_cb(void *opaque, int ret)
+>          }
+> =20
+>          nvme_dsm_cb(iocb, 0);
+> +        return;
+>      }
+> =20
+>      iocb->aiocb =3D blk_aio_pwrite_zeroes(ns->blkconf.blk, nvme_moff(ns,=
+ slba),
+> --=20
+> 2.25.1
+>=20
 
-Currently qemu compares reftag in the nvme_dif_prchk function whenever
-Reference Tag Check bit is set in the command. For type 3 namespaces
-however, caller of nvme_dif_prchk - nvme_dif_check does not increment
-reftag for each subsequent logical block. That way commands incorporating
-more than one logical block for type 3 formatted namespaces with reftag
-check bit set, always fail with End-to-end Reference Tag Check Error.
-Comply with spec by handling case of set Reference Tag Check
-bit in the type 3 formatted namespace.
+Yeah, thanks for the elaborate analysis!
 
-Fixes: 146f720c5563 ("hw/block/nvme: end-to-end data protection")
-Signed-off-by: Dmitry Tikhov <d.tihov@yadro.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/dif.c | 5 +++++
- 1 file changed, 5 insertions(+)
+A fix for this has been lingering in nvme-next. I sincerely apologize
+for not sending the pull request to master earlier, which might have
+saved you the trouble of tracking this down.
 
-diff --git a/hw/nvme/dif.c b/hw/nvme/dif.c
-index 62d885f83ea4..63c44c86ab55 100644
---- a/hw/nvme/dif.c
-+++ b/hw/nvme/dif.c
-@@ -26,6 +26,11 @@ uint16_t nvme_check_prinfo(NvmeNamespace *ns, uint8_t prinfo, uint64_t slba,
-         return NVME_INVALID_PROT_INFO | NVME_DNR;
-     }
- 
-+    if ((NVME_ID_NS_DPS_TYPE(ns->id_ns.dps) == NVME_ID_NS_DPS_TYPE_3) &&
-+        (prinfo & NVME_PRINFO_PRCHK_REF)) {
-+        return NVME_INVALID_PROT_INFO;
-+    }
-+
-     return NVME_SUCCESS;
- }
- 
--- 
-2.36.1
+I just sent the pull request to Peter.
 
+--4Sa69npZiIfYkUAu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKaaQUACgkQTeGvMW1P
+DelxeQf8CKbGNpNNHYUYQESCLuwgJbjKxe7DYuAWRK8mTmkYs/s674S8jIaaYpiR
+zykXiFylxqR76FSaOfRbaPYxqholqjt+ELLKYvjfF+6weZk1cS93kJKbE4zF3dyk
+LmntUX3+DtVNCzvbgb8GwTpPpl5LED+2/OhisuMFSUaJjWdsrL7ODZ/reQYIwti9
+mIp1lDPjfll1hDpzHvSV9ZAJ2a1wjKlbEvtW3zBcP+ssWDLLt75WwuuytkO/jXzt
+cozw/ektcwEMNZNcDe18lNx/rNhskdjguPwmcFyKkE7MZ6rYO8FvxGBSunw9ihDu
+M9k3MakVj5nYDUm0Uu7QcFf/NZheAw==
+=80ik
+-----END PGP SIGNATURE-----
+
+--4Sa69npZiIfYkUAu--
 
