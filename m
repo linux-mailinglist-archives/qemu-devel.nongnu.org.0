@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AD153C5BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:07:41 +0200 (CEST)
-Received: from localhost ([::1]:38310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D26753C617
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:26:57 +0200 (CEST)
+Received: from localhost ([::1]:60624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx1PI-0001RW-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34222)
+	id 1nx1hv-00011H-HG
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HU-0005g8-Dr
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HV-0005gE-UE
  for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59178)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HS-0003LM-Vm
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:36 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HS-0003L0-W3
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654239574;
+ s=mimecast20190719; t=1654239573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r5bcGBvLaUmdTRJRcSD2ZBtxrphhpjSjepeJdlSaS3o=;
- b=H40p0OXLT9p6Vw+unRwXtQ3lFLw0wRzdzZatbUfT36r0i8KDjcCb3QJsPfMP8UqMsEK+Uq
- C1fuaBEgvImBHEffRNVYTNM8uyyA0kridMXxHvTtBUYHU6G+ex7EAO8+63Z0oBNpZwVjjq
- WVdbCxtLzF5NV0/sFlVYT7uNwX9VIgY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4fC513nknZpChoPx8FUDMYvKuUPSKmQOqHAIZYdILFA=;
+ b=GqW0apfRjhMPrkxgXmNzLoZDXN+EKzycNe8fIV+fu12N8aD+Klw3ojKr1HZVX6OkK372bf
+ m/GoQcR26S+NBAuQYjx8oxz4Fyc6rh8LeY26Oa82trdO9vpDe9ENc1sq65y7f4ab7OTZhg
+ zC9D4S5gMEaLR97R/Krel5ZEgzC+4pM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-W0m8mjcmOMOHyAugJWL2KQ-1; Fri, 03 Jun 2022 02:59:30 -0400
-X-MC-Unique: W0m8mjcmOMOHyAugJWL2KQ-1
+ us-mta-557-tERyoox3MbudFVhnxMsNhQ-1; Fri, 03 Jun 2022 02:59:32 -0400
+X-MC-Unique: tERyoox3MbudFVhnxMsNhQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF5951C06EDD;
- Fri,  3 Jun 2022 06:59:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8D26811E76;
+ Fri,  3 Jun 2022 06:59:31 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C2BB2166B26;
- Fri,  3 Jun 2022 06:59:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A6F42166B26;
+ Fri,  3 Jun 2022 06:59:30 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-s390x@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 09/12] tests/qtest: use g_autofree for test_server_create_chr
-Date: Fri,  3 Jun 2022 08:59:02 +0200
-Message-Id: <20220603065905.23805-10-thuth@redhat.com>
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PULL 10/12] ui: Remove deprecated parameters of the "-display sdl"
+ option
+Date: Fri,  3 Jun 2022 08:59:03 +0200
+Message-Id: <20220603065905.23805-11-thuth@redhat.com>
 In-Reply-To: <20220603065905.23805-1-thuth@redhat.com>
 References: <20220603065905.23805-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -79,37 +81,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+Dropping these deprecated parameters simplifies further refactoring
+(e.g. QAPIfication is easier without underscores in the name).
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220524154056.2896913-12-alex.bennee@linaro.org>
+Message-Id: <20220519155625.1414365-2-thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/vhost-user-test.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ docs/about/deprecated.rst       | 16 -------------
+ docs/about/removed-features.rst | 17 ++++++++++++++
+ softmmu/vl.c                    | 41 +--------------------------------
+ qemu-options.hx                 | 32 ++-----------------------
+ 4 files changed, 20 insertions(+), 86 deletions(-)
 
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index a2cec87684..8bf390be20 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -524,14 +524,13 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index a92ae0f162..562a133f18 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -81,22 +81,6 @@ the process listing. This is replaced by the new ``password-secret``
+ option which lets the password be securely provided on the command
+ line using a ``secret`` object instance.
  
- static void test_server_create_chr(TestServer *server, const gchar *opt)
- {
--    gchar *chr_path;
-+    g_autofree gchar *chr_path = g_strdup_printf("unix:%s%s",
-+                                                 server->socket_path, opt);
-     Chardev *chr;
+-``-display sdl,window_close=...`` (since 6.1)
+-'''''''''''''''''''''''''''''''''''''''''''''
+-
+-Use ``-display sdl,window-close=...`` instead (i.e. with a minus instead of
+-an underscore between "window" and "close").
+-
+-``-alt-grab`` and ``-display sdl,alt_grab=on`` (since 6.2)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-Use ``-display sdl,grab-mod=lshift-lctrl-lalt`` instead.
+-
+-``-ctrl-grab`` and ``-display sdl,ctrl_grab=on`` (since 6.2)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-Use ``-display sdl,grab-mod=rctrl`` instead.
+-
+ ``-sdl`` (since 6.2)
+ ''''''''''''''''''''
  
--    chr_path = g_strdup_printf("unix:%s%s", server->socket_path, opt);
-     chr = qemu_chr_new(server->chr_name, chr_path, server->context);
--    g_free(chr_path);
-+    g_assert(chr);
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index eb76974347..4c9e001c35 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -370,6 +370,23 @@ The ``opened=on`` option in the command line or QMP ``object-add`` either had
+ no effect (if ``opened`` was the last option) or caused errors.  The property
+ is therefore useless and should simply be removed.
  
--    g_assert_nonnull(chr);
-     qemu_chr_fe_init(&server->chr, chr, &error_abort);
-     qemu_chr_fe_set_handlers(&server->chr, chr_can_read, chr_read,
-                              chr_event, NULL, server, server->context, true);
++``-display sdl,window_close=...`` (removed in 7.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use ``-display sdl,window-close=...`` instead (i.e. with a minus instead of
++an underscore between "window" and "close").
++
++``-alt-grab`` and ``-display sdl,alt_grab=on`` (removed in 7.1)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use ``-display sdl,grab-mod=lshift-lctrl-lalt`` instead.
++
++``-ctrl-grab`` and ``-display sdl,ctrl_grab=on`` (removed in 7.1)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use ``-display sdl,grab-mod=rctrl`` instead.
++
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 84a31eba76..57ab9d5322 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1079,32 +1079,7 @@ static void parse_display(const char *p)
+                 } else {
+                     goto invalid_sdl_args;
+                 }
+-            } else if (strstart(opts, ",alt_grab=", &nextopt)) {
+-                opts = nextopt;
+-                if (strstart(opts, "on", &nextopt)) {
+-                    alt_grab = 1;
+-                } else if (strstart(opts, "off", &nextopt)) {
+-                    alt_grab = 0;
+-                } else {
+-                    goto invalid_sdl_args;
+-                }
+-                warn_report("alt_grab is deprecated, use grab-mod instead.");
+-            } else if (strstart(opts, ",ctrl_grab=", &nextopt)) {
+-                opts = nextopt;
+-                if (strstart(opts, "on", &nextopt)) {
+-                    ctrl_grab = 1;
+-                } else if (strstart(opts, "off", &nextopt)) {
+-                    ctrl_grab = 0;
+-                } else {
+-                    goto invalid_sdl_args;
+-                }
+-                warn_report("ctrl_grab is deprecated, use grab-mod instead.");
+-            } else if (strstart(opts, ",window_close=", &nextopt) ||
+-                       strstart(opts, ",window-close=", &nextopt)) {
+-                if (strstart(opts, ",window_close=", NULL)) {
+-                    warn_report("window_close with an underscore is deprecated,"
+-                                " please use window-close instead.");
+-                }
++            } else if (strstart(opts, ",window-close=", &nextopt)) {
+                 opts = nextopt;
+                 dpy.has_window_close = true;
+                 if (strstart(opts, "on", &nextopt)) {
+@@ -1962,10 +1937,6 @@ static void qemu_create_early_backends(void)
+     const bool use_gtk = false;
+ #endif
+ 
+-    if ((alt_grab || ctrl_grab) && !use_sdl) {
+-        error_report("-alt-grab and -ctrl-grab are only valid "
+-                     "for SDL, ignoring option");
+-    }
+     if (dpy.has_window_close && !use_gtk && !use_sdl) {
+         error_report("window-close is only valid for GTK and SDL, "
+                      "ignoring option");
+@@ -3273,16 +3244,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 dpy.has_full_screen = true;
+                 dpy.full_screen = true;
+                 break;
+-            case QEMU_OPTION_alt_grab:
+-                alt_grab = 1;
+-                warn_report("-alt-grab is deprecated, please use "
+-                            "-display sdl,grab-mod=lshift-lctrl-lalt instead.");
+-                break;
+-            case QEMU_OPTION_ctrl_grab:
+-                ctrl_grab = 1;
+-                warn_report("-ctrl-grab is deprecated, please use "
+-                            "-display sdl,grab-mod=rctrl instead.");
+-                break;
+             case QEMU_OPTION_sdl:
+                 warn_report("-sdl is deprecated, use -display sdl instead.");
+ #ifdef CONFIG_SDL
+diff --git a/qemu-options.hx b/qemu-options.hx
+index a664baaa18..726e437a97 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1938,8 +1938,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+     "-display spice-app[,gl=on|off]\n"
+ #endif
+ #if defined(CONFIG_SDL)
+-    "-display sdl[,alt_grab=on|off][,ctrl_grab=on|off][,gl=on|core|es|off]\n"
+-    "            [,grab-mod=<mod>][,show-cursor=on|off][,window-close=on|off]\n"
++    "-display sdl[,gl=on|core|es|off][,grab-mod=<mod>][,show-cursor=on|off]\n"
++    "            [,window-close=on|off]\n"
+ #endif
+ #if defined(CONFIG_GTK)
+     "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
+@@ -2012,12 +2012,6 @@ SRST
+         the mouse grabbing in conjunction with the "g" key. ``<mods>`` can be
+         either ``lshift-lctrl-lalt`` or ``rctrl``.
+ 
+-        ``alt_grab=on|off`` : Use Control+Alt+Shift-g to toggle mouse grabbing.
+-        This parameter is deprecated - use ``grab-mod`` instead.
+-
+-        ``ctrl_grab=on|off`` : Use Right-Control-g to toggle mouse grabbing.
+-        This parameter is deprecated - use ``grab-mod`` instead.
+-
+         ``gl=on|off|core|es`` : Use OpenGL for displaying
+ 
+         ``show-cursor=on|off`` :  Force showing the mouse cursor
+@@ -2103,28 +2097,6 @@ SRST
+     is displayed in graphical mode.
+ ERST
+ 
+-DEF("alt-grab", 0, QEMU_OPTION_alt_grab,
+-    "-alt-grab       use Ctrl-Alt-Shift to grab mouse (instead of Ctrl-Alt)\n",
+-    QEMU_ARCH_ALL)
+-SRST
+-``-alt-grab``
+-    Use Ctrl-Alt-Shift to grab mouse (instead of Ctrl-Alt). Note that
+-    this also affects the special keys (for fullscreen, monitor-mode
+-    switching, etc). This option is deprecated - please use
+-    ``-display sdl,grab-mod=lshift-lctrl-lalt`` instead.
+-ERST
+-
+-DEF("ctrl-grab", 0, QEMU_OPTION_ctrl_grab,
+-    "-ctrl-grab      use Right-Ctrl to grab mouse (instead of Ctrl-Alt)\n",
+-    QEMU_ARCH_ALL)
+-SRST
+-``-ctrl-grab``
+-    Use Right-Ctrl to grab mouse (instead of Ctrl-Alt). Note that this
+-    also affects the special keys (for fullscreen, monitor-mode
+-    switching, etc). This option is deprecated - please use
+-    ``-display sdl,grab-mod=rctrl`` instead.
+-ERST
+-
+ DEF("sdl", 0, QEMU_OPTION_sdl,
+     "-sdl            shorthand for -display sdl\n", QEMU_ARCH_ALL)
+ SRST
 -- 
 2.31.1
 
