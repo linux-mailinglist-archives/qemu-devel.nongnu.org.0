@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C9B53D2A6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:12:00 +0200 (CEST)
-Received: from localhost ([::1]:34650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE4553D299
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:04:01 +0200 (CEST)
+Received: from localhost ([::1]:46496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxDeJ-000250-6y
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60128)
+	id 1nxDWa-0007SI-3p
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDNm-00074D-RZ; Fri, 03 Jun 2022 15:54:54 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:54867)
+ id 1nxDNq-0007Eo-Fc; Fri, 03 Jun 2022 15:54:59 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:54219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDNj-0008Cv-7M; Fri, 03 Jun 2022 15:54:54 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 4F6A7320096B;
- Fri,  3 Jun 2022 15:54:48 -0400 (EDT)
+ id 1nxDNo-0008DF-Pz; Fri, 03 Jun 2022 15:54:58 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id D50EB320096D;
+ Fri,  3 Jun 2022 15:54:52 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 03 Jun 2022 15:54:49 -0400
+ by compute4.internal (MEProxy); Fri, 03 Jun 2022 15:54:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1654286087; x=
- 1654372487; bh=XjAUVaZOs6cVxQitSF42MMUPvVUHVcKYxbYsxg8fDLo=; b=E
- gJ4gd0N1gIrVrJtyAvSrv+x15vMsgI3iqRew3qkWGrQdVKMUfMYh27dd13NFS3S2
- Cu1DotP/DfB4gBLqLDKO+i5OSk2pIeZhU4ga+hcRsYo/jHe5iEScoQV14ZIX7f+5
- FFoEojzoJMzllOyExX/XfSd3ZtGjUyP1Fo7ptXwwdaN5z0Hx7+KUD+0ZMOITwcy3
- 57pjjoTI2+ECV2ERjHP1g7bOt/s+4yz21hsfFfDczs0Q5isgH+tkE2pZ14kWmeX+
- fLuLHRApjjsu2d8aQTzDfutYh/nR7g70xtgWHnvixU4mQ6JGhmdM7i4WW9kcr8fp
- PA9I9O8PxeGW/PPhdRZ3g==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1654286092; x=
+ 1654372492; bh=4one0BcLs904Z7IHHedCkaTbGDZICC0tN5jiBZUvycY=; b=W
+ 8GkYwO/visLBnZhUHjp8oAHwcv6YHM/JtTRV2koVrw+I4KAiLOCM6GBSfS9txrBg
+ sE3UGl0r20Uxovm3gCGa++RI8lRQF5G1Rqr3Elc0KbLEZMGSRfnA43eKh72ruRCg
+ h1uaW0FJ3s+32tFBmhjkjgYASBn6T3rzEVZ3xER8cV5Nd+mJt706s8Zm7zMY8yxz
+ 1kus3A/wuAhbUufzakGDZ/Kv8isqREg11YuIHsH4Q6a9L8dirTvkZzQOEJOtR7Ay
+ Dqq6o+NHCFgZknlyljrdysyVEb/yrQZWBRhyNqrTSzZZnYzRDZkXzQf1Uccgd1GC
+ MdkhZcp1Bcw11s/GP9anQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654286087; x=
- 1654372487; bh=XjAUVaZOs6cVxQitSF42MMUPvVUHVcKYxbYsxg8fDLo=; b=x
- OdokhScowL82bV/NCOhQpxmabT8L9N4B5MzarPRgFlzSnDCCUCEGNDDsCHMZerQ+
- XAc1ud/7ABvBT2Zc4iWM8oCjXdSjm9clBp3WJ8va4MiB0KCf+5BtZEGivrcmrRAU
- NHW4fSHuEVScGX37tQVoJyEhlrhF7pfwCAnoTGFxJc0cjb7qbzgdBRvpOI2f0X4j
- nk2qM84lByUXMyPYQgtteaZkcKvuRQVOhPK80JDmnv8sFrjMbXbxjhI2+lR/J3qQ
- 896VImGyKBOIR482Wrijvd0zuCAk1L+g6hyDycv9qEMnnf9a8Hj1JxPanXIUtG5K
- w9+t6l9EDopm1XuPKxt+Q==
-X-ME-Sender: <xms:B2eaYg3vfv4Aja-bel7yI5e2bh18ECQBKfGajQ-Q0lTKmP2JQKanKg>
- <xme:B2eaYrGSw1Q7-1XO82TADVGeJWqfabDRD3oqj4dK8HOLbP6cdlIol_Qzs6fsWLlk9
- C_cc9byAfMgoJ9bD5E>
-X-ME-Received: <xmr:B2eaYo7TnH15uT93W-saug6SYtn_9w92Yh3TPkWHcOe0FT049jt7qGj7gwCUUtql4rcQf_q9fe1LGNSBDD9H>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugedtucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654286092; x=
+ 1654372492; bh=4one0BcLs904Z7IHHedCkaTbGDZICC0tN5jiBZUvycY=; b=E
+ BGpHhIhxtUpg86TplLFzD8IFBLezxW/nALr6+0NLJccY50sW6+bzVlh43aowlmmm
+ 1rAMhG5vLXbkwFp04Juztr3Da7xsoQ+qhp8caijYznYR5qjQZ8wNte4Bq9tR0Hxk
+ 65bHhvIaFIUgY5XwYBSVyaPIy0tM8WT+arvR+sEujmaMPvoCM4PaLuzBBTFy96dw
+ 4Osszx7O+MKJHWq1hh9Tjy9o8Csc60DW7zVTvC88D1zEEP6wzTtzHY5csVQBwW1c
+ myiM+QvMtuJqWnQxqjPh5hr8r3BRapH0a3+xmkYIWbBl2aaYz1T8YV15+fN4I8s4
+ v5ChCcZpfFv4nt22QQncg==
+X-ME-Sender: <xms:DGeaYlhLsedD931JcdSABYPPIj1lS0lPgn0SXk8lK_OVfL4D9MNBcg>
+ <xme:DGeaYqBARP1_4M2_RaQgeY2Y1ZW77So2IXD1b8jun6gwq2FU1IyqQCtAjL55P1cQs
+ h_B-NduWmRwyNnPCF8>
+X-ME-Received: <xmr:DGeaYlGc_3JBmUlU1ZCz70s6nTJK3A-om3n_S2JQLX8W_G6gdQNfirQvcqke7WY8S3gL1UBgBDp_IwSVal1L>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgr
@@ -58,13 +58,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugedtucetufdoteggod
  htthgvrhhnpeefvedtueetueduffevgffgtdeftdeuleffhfeigeffkeegfeejfeffteej
  iefhvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:B2eaYp0To9GlACoHGEdq7-qVVUMEGLlt6FvsrHcirKEJg4RATcPU-Q>
- <xmx:B2eaYjEsDj24mUhVWvRtIAzNfZiNP7eLnktNRtuFnSBwzWGTcmhzDg>
- <xmx:B2eaYi9zz3YqXB8XfI4zLyqwLlS3j_wS1Sjoj6_h4HROEsVi_3oqpg>
- <xmx:B2eaYjHFabuL-JLt9Zs7LiL0sgIQ8QCwL511leL1RkpEqA8OZXEaYA>
+X-ME-Proxy: <xmx:DGeaYqTA1ToaZQGH_a_9-4omzMnt9id9Kr4kvTpY2QWXdvb590AOUA>
+ <xmx:DGeaYiwiiiPxulNT9BoFdQvhrk1A-U_HTnS8xxq0rmKw1_A06M4vpQ>
+ <xmx:DGeaYg6x-mUux7aveifWuMJG1OUPwi8fIPb94WAgqVyIBPguF-lOsQ>
+ <xmx:DGeaYnL45xVkGaB4oBx8HLxOyQFvF8UT3uSO1zdoLXPTHRBtITcEYg>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 15:54:45 -0400 (EDT)
+ 3 Jun 2022 15:54:49 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
@@ -75,11 +75,10 @@ Cc: Yanan Wang <wangyanan55@huawei.com>, Hanna Reitz <hreitz@redhat.com>,
  Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
  Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 10/11] hw/nvme: deprecate the use-intel-id compatibility
- parameter
-Date: Fri,  3 Jun 2022 21:53:53 +0200
-Message-Id: <20220603195354.705516-11-its@irrelevant.dk>
+ Dmitry Tikhov <d.tihov@yadro.com>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PULL 11/11] hw/nvme: add new command abort case
+Date: Fri,  3 Jun 2022 21:53:54 +0200
+Message-Id: <20220603195354.705516-12-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220603195354.705516-1-its@irrelevant.dk>
 References: <20220603195354.705516-1-its@irrelevant.dk>
@@ -110,40 +109,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Dmitry Tikhov <d.tihov@yadro.com>
 
-Since version 5.2 commit 6eb7a071292a ("hw/block/nvme: change controller
-pci id"), the emulated NVMe controller has defaulted to a non-Intel PCI
-identifier.
+NVMe command set specification for end-to-end data protection formatted
+namespace states:
 
-Deprecate the compatibility parameter so we can get rid of it once and
-for all.
+    o If the Reference Tag Check bit of the PRCHK field is set to ‘1’ and
+      the namespace is formatted for Type 3 protection, then the
+      controller:
+          ▪ should not compare the protection Information Reference Tag
+            field to the computed reference tag; and
+          ▪ may ignore the ILBRT and EILBRT fields. If a command is
+            aborted as a result of the Reference Tag Check bit of the
+            PRCHK field being set to ‘1’, then that command should be
+            aborted with a status code of Invalid Protection Information,
+            but may be aborted with a status code of Invalid Field in
+            Command.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Currently qemu compares reftag in the nvme_dif_prchk function whenever
+Reference Tag Check bit is set in the command. For type 3 namespaces
+however, caller of nvme_dif_prchk - nvme_dif_check does not increment
+reftag for each subsequent logical block. That way commands incorporating
+more than one logical block for type 3 formatted namespaces with reftag
+check bit set, always fail with End-to-end Reference Tag Check Error.
+Comply with spec by handling case of set Reference Tag Check
+bit in the type 3 formatted namespace.
+
+Fixes: 146f720c5563 ("hw/block/nvme: end-to-end data protection")
+Signed-off-by: Dmitry Tikhov <d.tihov@yadro.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- docs/about/deprecated.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/nvme/dif.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 47a8628b5601..aa2e32020707 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -303,6 +303,14 @@ In QEMU versions 6.1, 6.2 and 7.0, the ``nvme-ns`` generates an EUI-64
- identifer that is not globally unique. If an EUI-64 identifer is required, the
- user must set it explicitly using the ``nvme-ns`` device parameter ``eui64``.
+diff --git a/hw/nvme/dif.c b/hw/nvme/dif.c
+index 62d885f83ea4..63c44c86ab55 100644
+--- a/hw/nvme/dif.c
++++ b/hw/nvme/dif.c
+@@ -26,6 +26,11 @@ uint16_t nvme_check_prinfo(NvmeNamespace *ns, uint8_t prinfo, uint64_t slba,
+         return NVME_INVALID_PROT_INFO | NVME_DNR;
+     }
  
-+``-device nvme,use-intel-id=on|off`` (since 7.1)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++    if ((NVME_ID_NS_DPS_TYPE(ns->id_ns.dps) == NVME_ID_NS_DPS_TYPE_3) &&
++        (prinfo & NVME_PRINFO_PRCHK_REF)) {
++        return NVME_INVALID_PROT_INFO;
++    }
 +
-+The ``nvme`` device originally used a PCI Vendor/Device Identifier combination
-+from Intel that was not properly allocated. Since version 5.2, the controller
-+has used a properly allocated identifier. Deprecate the ``use-intel-id``
-+machine compatibility parameter.
-+
+     return NVME_SUCCESS;
+ }
  
- Block device options
- ''''''''''''''''''''
 -- 
 2.36.1
 
