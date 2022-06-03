@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A926F53D2EF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:47:07 +0200 (CEST)
-Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F33D53D2F0
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:48:41 +0200 (CEST)
+Received: from localhost ([::1]:58990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxECH-00017k-TI
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39670)
+	id 1nxEDo-0003nc-Ga
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxE8V-0007wk-NF; Fri, 03 Jun 2022 16:43:11 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:36167)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxE8U-0001CZ-3Y; Fri, 03 Jun 2022 16:43:11 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 937003200406;
- Fri,  3 Jun 2022 16:43:06 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 03 Jun 2022 16:43:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1654288986; x=1654375386; bh=l7
- MIq/7/auiPryd1vsk8dEkkyfMplyn5fdOzuJQyrBc=; b=oLbKEPMQxllMFypVtp
- Un8GQqwNdutVvgp9vSXFQvzZo8mqmRhR7dGIpV8H37fbAHJkTc1+p4lYt1gt7j2S
- 3IJB1CN0QGKjJa5KCA7KLO4iSH3/C3IpOkmkVhfLyVk+6VA9YHqKJWxNgCAr00h6
- LoJnRvw0nZdy3L/bVpLc0vvw/70qvuBLmt6gs+LZrpCICGunNSVBYu+F4BLmXIra
- u67BOcCyPsbyfSzbgniCCBKpTpLO+zrhqW09X17WABK9KwNy16BkvmHBjbqKopj3
- LHxuv7Lr125D4dNojaESIpT9nXZBxhkV1Ti+DniOIM8FeeVHJ6EI1oZGsWNadj69
- ksVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1654288986; x=1654375386; bh=l7MIq/7/auiPryd1vsk8dEkkyfMp
- lyn5fdOzuJQyrBc=; b=yFeL6PXKn9lRNev6aI0oEwIVZLgb3BkGZayJp6PfhsVn
- FxX4Kgp00RhxfBYRPTQHls55So5RZ1Ghy7atNa73/QmHzgoPPDTdJvpFgv2RvOGi
- INIkLOJY33xx56H2vMOiRbmEpTZud+llG/qU8GvXxxw5j4XaWX1v4p2Dj2R08S2e
- iHY2/BD1bbzOfpJ8K+oCABpyBhuJMzpI5Jus9G6f1RqCMFsiLqLTUZiajT6V4w3y
- Ghhw4S7XcTDuOAaYrhzIspgXwG3lN2CNW1kpRIWxIEnvDevrMHgY7G3RBNBKnFcE
- vQ2SFvoBI23T7RT1Dqb6qr6iVOSYKaEp9mpRb0jffQ==
-X-ME-Sender: <xms:WXKaYrNcaP8ItRd30mBtaoJNWLHcSZggOMewdWQpBf2MW3r0YEUe9A>
- <xme:WXKaYl9msnm3smGBex54GnpBRcRkBHKakcyfvRT8ta0WYNRO-C2fLxZx8jGy3H1tl
- eddGgRM7R0KAnPiMrI>
-X-ME-Received: <xmr:WXKaYqRI49H2WXS3ojvjj6a1lpgma2ZMEkYHkVhisRoS2j5CAYZnYx8wh21E8-3LcOjuncZrdzL2owNrMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigdduhedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:WXKaYvuxHAUqh9bV1Vmqq59Yy7tRr4PPwV578kYzCEvjk3YdylBDjQ>
- <xmx:WXKaYjcOx-7AO2wwcr3rEXqjUWMVLM_mfiHn0eKScO70LpxB0Of0qg>
- <xmx:WXKaYr0TIc9z1S7FXL4FCKjcujO-zMkpTO-fawtDVdPFDO8jEJOfoA>
- <xmx:WnKaYv5Tf2ERUwl3nXyDm69reqMLdELzLu5lIghVZ0EEKY49v5Fheg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 16:43:04 -0400 (EDT)
-Date: Fri, 3 Jun 2022 22:43:03 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Wertenbroek Rick <rick.wertenbroek@heig-vd.ch>
-Cc: "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v2] hw/nvme: allow to pass a memory backend object for
- the CMB
-Message-ID: <YppyVy9PDz1B/Cfn@apples>
-References: <80A639CD-2E9C-4574-9557-FE61DDBE0C57@heig-vd.ch>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nxECa-0002lW-1E; Fri, 03 Jun 2022 16:47:24 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:45652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nxECX-0001oz-Do; Fri, 03 Jun 2022 16:47:23 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id k11so11823348oia.12;
+ Fri, 03 Jun 2022 13:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=tgeAebl9jCJ17Kn/BY1QRjj243j6PUkZx178p1WKX3c=;
+ b=CBLtB8JSGGDIQcaGwYDX9vPQYCQ3Nnk4HuIuZo2R3n+yW6Aq/YRck14TGtJKQDuees
+ 3ywH0tN9PZsZ/6hQLydEglp+IwI0hdbhPUciYyRrepOCUOVOlPceIh0fUmwQH8lCA1Bd
+ GfqPDIIc7I8B2X98Q5Hi2WmfC9EpH+mfLc0AIyXkAO+R0zWskgrAVrEJGnf7jNL2gJSB
+ OoO5MuaoEDF/3CcM7ud6Msy+mNTVJb6cbMrsMDsUZKhhIpUdw1rRonpBx3cSv8cPi41e
+ UXhewAA8dkHp/Uf3X4HMpqyRMNEnBD7do8kDlzc9Pi+MiuaUm62R3FgGvvsohBoUG/Pl
+ +3Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tgeAebl9jCJ17Kn/BY1QRjj243j6PUkZx178p1WKX3c=;
+ b=OapaBHZiWxfkXhAJVgl1vust6FRynegUDIIOw7LQaEM+ARUVvfRv54jzlQlDbPO2VH
+ 1TFu2FUWxm2RI9TBC6qjMvpRo+Z+zb9bsJKWvejCLhgNcbDaKPtJfCJ8FaZCGz0Dk8tR
+ nJdSxjdlLgH6dyC2SbVs0bx0SSwaMBcNI6slenRW0V1ewuv2dBiq5RgeeEg0cXu0sm0I
+ 1beFI82wYZmEDaX0dgUJvR8PPMV56E6i6LHq81PhPw9LmbflOaU4J2NhLjNr5UVruJ4u
+ 9yrSHHAv4+eRtsqbZkkzujddqBiCD12AkH5yR6WbpCPv4lVjHnj3tYz4j+Jisb/prbyQ
+ wBpg==
+X-Gm-Message-State: AOAM533AhE8C8oc7nK8Axt5keBzuP+w1e1rMIZKARc9WG1YDzZrkPaW4
+ GpukDz0p09WX8l8YFAM0y8M=
+X-Google-Smtp-Source: ABdhPJw0hbws3ALE7+zJI1B9KhzTmuZ+//LPoc803C0rybqPZehLrBlyutMyRSpjOCbr2sJuAMvGRA==
+X-Received: by 2002:a05:6808:d46:b0:32e:129b:bfb2 with SMTP id
+ w6-20020a0568080d4600b0032e129bbfb2mr10270873oik.66.1654289239546; 
+ Fri, 03 Jun 2022 13:47:19 -0700 (PDT)
+Received: from [192.168.10.102] ([152.250.93.219])
+ by smtp.gmail.com with ESMTPSA id
+ fw11-20020a056870080b00b000f3321caa73sm4058106oab.16.2022.06.03.13.47.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jun 2022 13:47:19 -0700 (PDT)
+Message-ID: <3d6f05aa-8e40-0fc6-e0cb-69c614faddfd@gmail.com>
+Date: Fri, 3 Jun 2022 17:47:15 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OQe/4EKNavdEnSbU"
-Content-Disposition: inline
-In-Reply-To: <80A639CD-2E9C-4574-9557-FE61DDBE0C57@heig-vd.ch>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 11/16] ppc/pnv: add pnv-phb-root-port device
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
+ fbarrat@linux.ibm.com
+References: <20220531214917.31668-1-danielhb413@gmail.com>
+ <20220531214917.31668-12-danielhb413@gmail.com>
+ <84beb434-af3c-d882-bce8-869754828a04@ilande.co.uk>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <84beb434-af3c-d882-bce8-869754828a04@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,46 +95,212 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---OQe/4EKNavdEnSbU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Apr 19 07:20, Wertenbroek Rick wrote:
-> Adds the optional -cmbdev=3D option that takes a QEMU memory backend
-> -object to be used to for the CMB (Controller Memory Buffer).
-> This option takes precedence over cmb_size_mb=3D if both used.
-> (The size will be deduced from the memory backend option).
->=20
-> Signed-off-by: Rick Wertenbroek <rick.wertenbroek@heig-vd.ch>
-> ---
-> hw/nvme/ctrl.c | 65 ++++++++++++++++++++++++++++++++++++++------------
-> hw/nvme/nvme.h |  9 +++----
-> 2 files changed, 55 insertions(+), 19 deletions(-)
->=20
+On 6/2/22 05:12, Mark Cave-Ayland wrote:
+> On 31/05/2022 22:49, Daniel Henrique Barboza wrote:
+> 
+>> We have two very similar root-port devices, pnv-phb3-root-port and
+>> pnv-phb4-root-port. Both consist of a wrapper around the PCIESlot device
+>> that, until now, has no additional attributes.
+>>
+>> The main difference between the PHB3 and PHB4 root ports is that
+>> pnv-phb4-root-port has the pnv_phb4_root_port_reset() callback. All
+>> other differences can be merged in a single device without too much
+>> trouble.
+>>
+>> This patch introduces the unified pnv-phb-root-port that, in time, will
+>> be used as the default root port for the pnv-phb device.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   hw/pci-host/pnv_phb.c | 107 ++++++++++++++++++++++++++++++++++++++----
+>>   hw/pci-host/pnv_phb.h |  17 +++++++
+>>   2 files changed, 116 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+>> index 321c4e768a..5047e90d3a 100644
+>> --- a/hw/pci-host/pnv_phb.c
+>> +++ b/hw/pci-host/pnv_phb.c
+>> @@ -114,15 +114,106 @@ static void pnv_phb_class_init(ObjectClass *klass, void *data)
+>>       dc->user_creatable = true;
+>>   }
+>> -static void pnv_phb_register_type(void)
+>> +static void pnv_phb_root_port_reset(DeviceState *dev)
+>>   {
+>> -    static const TypeInfo pnv_phb_type_info = {
+>> -        .name          = TYPE_PNV_PHB,
+>> -        .parent        = TYPE_PCIE_HOST_BRIDGE,
+>> -        .instance_size = sizeof(PnvPHB),
+>> -        .class_init    = pnv_phb_class_init,
+>> -    };
+>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>> +    PnvPHBRootPort *rootport = PNV_PHB_ROOT_PORT(dev);
+>> +    PCIDevice *d = PCI_DEVICE(dev);
+>> +    uint8_t *conf = d->config;
+>> +    rpc->parent_reset(dev);
+>> +
+>> +    if (rootport->version == 3) {
+>> +        return;
+>> +    }
+>> +
+>> +    /* PHB4 and later requires these extra reset steps */
+>> +    pci_byte_test_and_set_mask(conf + PCI_IO_BASE,
+>> +                               PCI_IO_RANGE_MASK & 0xff);
+>> +    pci_byte_test_and_clear_mask(conf + PCI_IO_LIMIT,
+>> +                                 PCI_IO_RANGE_MASK & 0xff);
+>> +    pci_set_word(conf + PCI_MEMORY_BASE, 0);
+>> +    pci_set_word(conf + PCI_MEMORY_LIMIT, 0xfff0);
+>> +    pci_set_word(conf + PCI_PREF_MEMORY_BASE, 0x1);
+>> +    pci_set_word(conf + PCI_PREF_MEMORY_LIMIT, 0xfff1);
+>> +    pci_set_long(conf + PCI_PREF_BASE_UPPER32, 0x1); /* Hack */
+>> +    pci_set_long(conf + PCI_PREF_LIMIT_UPPER32, 0xffffffff);
+>> +    pci_config_set_interrupt_pin(conf, 0);
+>> +}
+>> +
+>> +static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>> +    PCIDevice *pci = PCI_DEVICE(dev);
+>> +    PCIBus *bus = pci_get_bus(pci);
+>> +    PnvPHB *phb = NULL;
+>> +    Error *local_err = NULL;
+>> +
+>> +    phb = (PnvPHB *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+>> +                                          TYPE_PNV_PHB);
+> 
+> Same here too.
 
-This all looks reasonable enought and straight-forward. But I can't seem
-to apply the patch for some reason. git is complaining about 'patch
-format detection failed.' and trying to apply manually with patch I'm
-getting a 'patch: **** malformed patch at line 55: }'.
 
-Can you try to recreate the patch? Or if you can just put it in a git
-repo somewhere, then I can cherry-pick it from there.
+This case is a bit different than the previous because there's no ->phb_base in
+this device. Doing
 
---OQe/4EKNavdEnSbU
-Content-Type: application/pgp-signature; name="signature.asc"
+PnvPHB *phb = PNV_PHB(PNV_PHB_ROOT_PORT(dev));
 
------BEGIN PGP SIGNATURE-----
+Will somehow retrieve a PnvPHB pointer but with zeroed properties. This makes
+the slot/chassis code down below to fail when adding a second port.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKaclUACgkQTeGvMW1P
-DenMegf/UFiZjRLMnKmJYXHndf+OvXlHXinxUBhwLBe0KSkokh6a54tKaojaeEK6
-KGPvCC/fDzhQv3Jc+A/2+h5JkkYZzYFuIdm4Fj28mw3xDYX/GWhZGHCYd7B1A1Vy
-1jqQqszRwPcY+vZaCDRyRgTRDTjQpd9TM/brD97+13NBDn6gvi4dubcKn9czxTao
-NMvQsnho0kOgcPA4ef70ixJ19DuseWroCxgJvOvxQDnasphLq1PUfEudpq1hYi5R
-iuEgbBve7CjtGyxzhHjdyq8L0NP/EE8rUQ4N++MtsH9SLNsp+6vyba+p+06iR4y0
-Fmi9AmydU6S31frET+V4Br1uL2gsuw==
-=PXWs
------END PGP SIGNATURE-----
+I checked how other parts of the code handles that and the closer I found so
+far is doing something like this:
 
---OQe/4EKNavdEnSbU--
+     PCIDevice *pci = PCI_DEVICE(dev);
+     PnvPHB *phb = PNV_PHB(pci_device_root_bus(pci)->qbus.parent);
+
+This is how pci_bus_bypass_iommu() from hw/pci/pci.c retrieves a PCIHostState
+pointer of a given bus.
+
+Another idea is to simply add a pointer to the parent PnvPHB device that the
+root port is attached to. This would trivialize this part and I could also
+use the already set PnvPHB->version for the root port logic as well since they're
+set to be the same.
+
+
+Thanks,
+
+
+Daniel
+
+
+
+> 
+>> +    if (!phb) {
+>> +        error_setg(errp,
+>> +"pnv_phb_root_port devices must be connected to pnv-phb buses");
+>> +        return;
+>> +    }
+>> +
+>> +    /* Set unique chassis/slot values for the root port */
+>> +    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
+>> +    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
+> 
+> Again this is from older code, but we already have dev so these could be:
+> 
+>      qdev_prop_set_uint8(dev, "chassis", phb->chip_id);
+>      qdev_prop_set_uint16(dev, "slot", phb->phb_id);
+> 
+>> +    rpc->parent_realize(dev, &local_err);
+>> +    if (local_err) {
+>> +        error_propagate(errp, local_err);
+>> +        return;
+>> +    }
+>> +    pci_config_set_interrupt_pin(pci->config, 0);
+>> +}
+>> +
+>> +static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
+>> +
+>> +    dc->desc     = "IBM PHB PCIE Root Port";
+>> +
+>> +    device_class_set_parent_realize(dc, pnv_phb_root_port_realize,
+>> +                                    &rpc->parent_realize);
+>> +
+>> +    device_class_set_parent_reset(dc, pnv_phb_root_port_reset,
+>> +                                  &rpc->parent_reset);
+>> +    dc->reset = &pnv_phb_root_port_reset;
+>> +
+>> +    dc->user_creatable = true;
+>> +
+>> +    k->vendor_id = PCI_VENDOR_ID_IBM;
+>> +    /* device_id represents the latest PHB root port version supported */
+>> +    k->device_id = PNV_PHB5_DEVICE_ID;
+>> +    k->revision  = 0;
+>> +
+>> +    rpc->exp_offset = 0x48;
+>> +    rpc->aer_offset = 0x100;
+>> +}
+>> +
+>> +static const TypeInfo pnv_phb_type_info = {
+>> +    .name          = TYPE_PNV_PHB,
+>> +    .parent        = TYPE_PCIE_HOST_BRIDGE,
+>> +    .instance_size = sizeof(PnvPHB),
+>> +    .class_init    = pnv_phb_class_init,
+>> +};
+>> +
+>> +static const TypeInfo pnv_phb_root_port_info = {
+>> +    .name          = TYPE_PNV_PHB_ROOT_PORT,
+>> +    .parent        = TYPE_PCIE_ROOT_PORT,
+>> +    .instance_size = sizeof(PnvPHBRootPort),
+>> +    .class_init    = pnv_phb_root_port_class_init,
+>> +};
+>> +
+>> +static void pnv_phb_register_types(void)
+>> +{
+>>       type_register_static(&pnv_phb_type_info);
+>> +    type_register_static(&pnv_phb_root_port_info);
+>>   }
+>> -type_init(pnv_phb_register_type)
+>> +
+>> +type_init(pnv_phb_register_types)
+>> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
+>> index a7cc8610e2..c8eab4b767 100644
+>> --- a/hw/pci-host/pnv_phb.h
+>> +++ b/hw/pci-host/pnv_phb.h
+>> @@ -36,4 +36,21 @@ struct PnvPHB {
+>>   #define TYPE_PNV_PHB "pnv-phb"
+>>   OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
+>> +/*
+>> + * PHB PCIe Root port
+>> + */
+>> +#define PNV_PHB3_DEVICE_ID         0x03dc
+>> +#define PNV_PHB4_DEVICE_ID         0x04c1
+>> +#define PNV_PHB5_DEVICE_ID         0x0652
+>> +
+>> +typedef struct PnvPHBRootPort {
+>> +    PCIESlot parent_obj;
+>> +
+>> +    uint32_t version;
+>> +} PnvPHBRootPort;
+>> +
+>> +#define TYPE_PNV_PHB_ROOT_PORT "pnv-phb-root-port"
+>> +#define PNV_PHB_ROOT_PORT(obj) \
+>> +    OBJECT_CHECK(PnvPHBRootPort, obj, TYPE_PNV_PHB_ROOT_PORT)
+>> +
+>>   #endif /* PCI_HOST_PNV_PHB_H */
+> 
+> 
+> ATB,
+> 
+> Mark.
 
