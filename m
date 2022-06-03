@@ -2,58 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CAA53CA31
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 14:49:47 +0200 (CEST)
-Received: from localhost ([::1]:50806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5828853CA48
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 14:58:51 +0200 (CEST)
+Received: from localhost ([::1]:55402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx6kL-0002Pi-O7
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 08:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57436)
+	id 1nx6t7-00068e-Sr
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 08:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx6iz-0001kA-05
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 08:48:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23981)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx6r2-000514-30
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 08:56:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx6iw-0003Pt-0x
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 08:48:19 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx6qx-0005ZG-C5
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 08:56:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654260496;
+ s=mimecast20190719; t=1654260994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=mrY06Vww5lg9zIhQJ8rkB0qybutztvYUtWjhZ19b2co=;
- b=DvURqQmuJnW1LygX608v3dl0e2JSUGuxM332S0aANKR2/bdGQoqTZM4Xo/SYMYVDhz1KY8
- wgofTEslm6N3bqcgKMROgT3ubs7p8JmPk1GEsMJCKZwOEbIUP0vidlhCxuCiZrcBeN/xqY
- 8QI+0DD1JlPmHRkVkDogZYcnCsgNBrE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mAMggLXTiSG29FOpZLoHGLPvinG60BkItCqLLzsknCo=;
+ b=NpN4h6irmbCYSU8MhTyHuveY15PJGiF9g3WGjcEQobdfSIseINZP12ySAYm348ir1QaRrM
+ 0oEa3JKHKWlyYwXf4x1CrjIZ5YWvVRS2NTcgPNTLThzo3fDtJG5gFQpyf+ddISI87GD9hB
+ Hm4IhLDSpUMllafvDDwysBif8dpnYP8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-HAut_R2MP2a5qt4CGA7KWw-1; Fri, 03 Jun 2022 08:48:13 -0400
-X-MC-Unique: HAut_R2MP2a5qt4CGA7KWw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37445101A54E;
- Fri,  3 Jun 2022 12:48:13 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C9A82166B26;
- Fri,  3 Jun 2022 12:48:11 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH] gitlab-ci: Fix the build-cfi-aarch64 and
- build-cfi-ppc64-s390x jobs
-Date: Fri,  3 Jun 2022 14:48:09 +0200
-Message-Id: <20220603124809.70794-1-thuth@redhat.com>
+ us-mta-626-h8caPX9FNpmnvVUSMda9Fw-1; Fri, 03 Jun 2022 08:56:33 -0400
+X-MC-Unique: h8caPX9FNpmnvVUSMda9Fw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o3-20020a05600c510300b0039743540ac7so3551202wms.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 05:56:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mAMggLXTiSG29FOpZLoHGLPvinG60BkItCqLLzsknCo=;
+ b=ZGcXQj7owMmsvZj4WPWuM7XEsqH9gaPo19P/rplUgPN1ZzR/Y2f/5xD3sDGSdN2hQK
+ PcaLvI+30SrZ/UaEVFbW348x8sj63vb8oTsLp0C+LZE7Y4JiUae5sdXibogXmYlD+oL2
+ EoAXeCHayDY1GMl0/1DeYo9Hw+GJaiv9ofZyT3QY2OEP9l59TRr+wVHeHWXoMl6nJE4x
+ 57hfc3W4MxcFa02vAVgaIp8RvW7G4UNygYo5o9SMJwfRzJkaYKU3suTlVMYo3Gqnojwr
+ V+cM/3xSCl3WgSRTsfFmTtn8bJ7HOHwZsnsutxuBQYIxl5srdyGgtQIRDofN41pqt+Nm
+ l+Qw==
+X-Gm-Message-State: AOAM533EForGm/xDE+nFOhT4kD24OdFvNje79R9ksrTDufmq1S/16IU9
+ dp3ZXTYDnoSO7T39Op+PyBERoYVrPPQfR0VFUz6vjDg4GlhW7Z8xI3DY6hbzEWeP2u1XmLBk3g/
+ EbRS5xqkdp7UGdoc=
+X-Received: by 2002:a5d:6651:0:b0:210:3e1c:1343 with SMTP id
+ f17-20020a5d6651000000b002103e1c1343mr8111995wrw.137.1654260992273; 
+ Fri, 03 Jun 2022 05:56:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxriKO6Ci+WTPhWV9C6ZuO6O3b2T7lbmYb7XK550ATNev/D7raoyD7KE3QNBCg4mdQnygFDEA==
+X-Received: by 2002:a5d:6651:0:b0:210:3e1c:1343 with SMTP id
+ f17-20020a5d6651000000b002103e1c1343mr8111976wrw.137.1654260992070; 
+ Fri, 03 Jun 2022 05:56:32 -0700 (PDT)
+Received: from [192.168.0.2] (ip-109-43-176-98.web.vodafone.de.
+ [109.43.176.98]) by smtp.gmail.com with ESMTPSA id
+ d7-20020a5d4f87000000b0020ffa2799f4sm7075948wru.73.2022.06.03.05.56.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jun 2022 05:56:31 -0700 (PDT)
+Message-ID: <39ab44eb-5115-6af3-37e2-ca79973dad2b@redhat.com>
+Date: Fri, 3 Jun 2022 14:56:30 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Debian MinGW cross compilation (was: Re: [PULL 2/3] qga-win32: Add
+ support for NVME but type)
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Konstantin Kostiuk <kkostiuk@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
+References: <20220523194111.827805-3-kkostiuk@redhat.com>
+ <541f46cf-fc45-f7bb-e121-2aad216e11d5@linaro.org>
+ <CAPMcbCq7fzubG4ej7p164vwQkCMChjWBubx27R=kVxukWDhuBg@mail.gmail.com>
+ <CAPMcbCqeQ_7YuJg+eS9Qqtq9ptRb57_wfT=jGOuHYtx64M5azA@mail.gmail.com>
+ <CAMxuvawvaZBp0sxV-jwQuDwxahuFjN10BDcBcgOn88XpN87RPA@mail.gmail.com>
+ <f4f5afc8-0b01-e134-bb83-b3d0ded0439a@redhat.com>
+ <CAPMcbCr8_zgYcMQ9Q0GSQL-TgvOGY-q16sMoVNxBpvwG4JDEng@mail.gmail.com>
+ <449f117b-32c9-e066-55dd-1208313bce3f@redhat.com>
+ <CAPMcbCpgyNnggdMTY9K3=nv_BBF8Fbsp_MoAQ6ubeUEA5-aL=A@mail.gmail.com>
+ <59b8bdee-ef2f-83b4-fbc7-4283cb964c33@redhat.com>
+ <Yozfv2k3dnPy4hEJ@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <Yozfv2k3dnPy4hEJ@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -78,81 +115,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The job definitions recently got a second "variables:" section by
-accident and thus are failing now if one tries to run them. Merge
-the two sections into one again to fix the issue.
+On 24/05/2022 15.38, Daniel P. Berrangé wrote:
+> On Tue, May 24, 2022 at 03:28:37PM +0200, Thomas Huth wrote:
+...
+>>
+>> Daniel, do you remember whether we supported Debian for MinGW
+>> cross-compilation in the past?
+> 
+> At one time we used to have Debian with the 3rd party 'mxe' builds
+> of mingw added. It broke periodically and we deleted it in the
+> end. It wasn't adding value over what Fedora mingw could provide
+> as both more or less tracked the same versions of software in
+> their mingw packages.
 
-And while we're at it, bump the timeout here (70 minutes are currently
-not enough for the aarch64 job). The jobs are marked as manual anyway,
-so if the user starts them, they want to see their result for sure and
-then it's annoying if the job timeouts too early.
+I wonder whether anybody still tried to compile with this mxe repo in recent 
+times...?
+Should we adjust our support statement and just mention Fedora there? 
+Otherwise we should maybe explicitly mention MXE there next to "Debian", 
+too, so that people don't get the impression that QEMU can be compiled with 
+a vanilla MinGW installation on Debian?
 
-Fixes: e312d1fdbb ("gitlab: convert build/container jobs to .base_job_template")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- I wonder whether we should remove the build-cfi-aarch64 job instead.
- When I tried to run it during the past months, it was always failing
- for me. This time, I tried to bump the timeout while I was at it,
- and it takes longer than 80 minutes here to finish - so I asume
- nobody ever ran this successfully in the last months... Is anybody
- using this job at all? I think if we want to have CFI coverage here,
- it should get replaced by a custom runner job that runs on a more
- beefy machine... (the ppc64-s390x job is fine by the way, it often
- only runs a little bit longer than 60 minutes - I still bumped the
- timeout here, too, just to be on the safe side)
-
- .gitlab-ci.d/buildtest.yml | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
-
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index ecac3ec50c..baaa0ebb87 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -355,16 +355,15 @@ build-cfi-aarch64:
-       --enable-safe-stack --enable-slirp=git
-     TARGETS: aarch64-softmmu
-     MAKE_CHECK_ARGS: check-build
--  timeout: 70m
--  artifacts:
--    expire_in: 2 days
--    paths:
--      - build
--  variables:
-     # FIXME: This job is often failing, likely due to out-of-memory problems in
-     # the constrained containers of the shared runners. Thus this is marked as
-     # skipped until the situation has been solved.
-     QEMU_JOB_SKIPPED: 1
-+  timeout: 90m
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
- 
- check-cfi-aarch64:
-   extends: .native_test_job_template
-@@ -396,16 +395,15 @@ build-cfi-ppc64-s390x:
-       --enable-safe-stack --enable-slirp=git
-     TARGETS: ppc64-softmmu s390x-softmmu
-     MAKE_CHECK_ARGS: check-build
--  timeout: 70m
--  artifacts:
--    expire_in: 2 days
--    paths:
--      - build
--  variables:
-     # FIXME: This job is often failing, likely due to out-of-memory problems in
-     # the constrained containers of the shared runners. Thus this is marked as
-     # skipped until the situation has been solved.
-     QEMU_JOB_SKIPPED: 1
-+  timeout: 80m
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
- 
- check-cfi-ppc64-s390x:
-   extends: .native_test_job_template
--- 
-2.31.1
+  Thomas
 
 
