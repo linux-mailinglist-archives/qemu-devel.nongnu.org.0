@@ -2,97 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E2553C423
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 07:23:52 +0200 (CEST)
-Received: from localhost ([::1]:43446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA2953C445
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 07:33:26 +0200 (CEST)
+Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nwzmp-0003AZ-4U
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 01:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44992)
+	id 1nwzw4-0001JO-Vt
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 01:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwzkb-0002SB-Ay
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 01:21:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28278)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nwzuU-0000J9-S6
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 01:31:48 -0400
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:49023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nwzkY-00049g-Lb
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 01:21:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654233689;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9bonZO1IcZlTf/Hfw83qfgYk7wKk2n2AVBdK+P5mjic=;
- b=cMm5rWklo6cQjvMylpNUuHlCINbNEHxbfemb17SLTOO0Db7gHF1BhXeZ7s9v0xEl7oYmU0
- LcWafOXOD7EAAMOmuBwFJn+aD6cawJQDSay9/efNgS10TbjpO3lFcxShzMQw8LAuQyQe9G
- U6sHjTTny1HrhxHj5oJQJbrq9yo3fgs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-ZEV-YZnsMy66m4KOo_Hlxg-1; Fri, 03 Jun 2022 01:21:27 -0400
-X-MC-Unique: ZEV-YZnsMy66m4KOo_Hlxg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- t14-20020a056402020e00b0042bd6f4467cso4732627edv.9
- for <qemu-devel@nongnu.org>; Thu, 02 Jun 2022 22:21:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9bonZO1IcZlTf/Hfw83qfgYk7wKk2n2AVBdK+P5mjic=;
- b=iOd66YKOwVpbmBK7sYVEXpIDI0/XN+6XC69kWH1BGz7qeOxq8jaqgUgI8oE2q9P/LA
- MJ+C27QEp4Hqefi407kCBgiLhbTKo8oTUkLgwxPZpMxTF6GpZIWdv3VUUwYwlNzBeuO1
- 07schb6LzRLd2Uf/QbPrfV8UFNitBQQVURJAjaWEzy1Bujahy6LzF6FHVM7iiKz8NV+3
- eg1YRVaiDzz7oYTRnFm0CrjBVwQBQ4x85zutC6P1PC7paianE/W4r7NJlKsga+1sgtub
- jCGCkRLlL03C1b5n0AOeJLRoZjhzk4gCsz+EdxuZeiYsNoNNAhjwVtb/38n/yTqHoBk0
- NHdA==
-X-Gm-Message-State: AOAM5316cqbu+tQDacSPHNGqvXanUjy95FVSsUtLNv63KzsdkdJ1+c4k
- bb4JLh1XuKj7O1UP58qvtm0Ao96RaOteCkQEJufcEV31waHciw2tyz3/NcE8LWyTrau/QnUmXNJ
- 9RryqKOjx1gr4n+0=
-X-Received: by 2002:a05:6402:90d:b0:428:bda9:3e6b with SMTP id
- g13-20020a056402090d00b00428bda93e6bmr8884719edz.132.1654233686829; 
- Thu, 02 Jun 2022 22:21:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIWRv38riSRVIHcAPvVzZFafYilPuhXjDoGH/GFYhXmMzfQDnAwcI6t1gXrdazrvbSao+3Mg==
-X-Received: by 2002:a05:6402:90d:b0:428:bda9:3e6b with SMTP id
- g13-20020a056402090d00b00428bda93e6bmr8884697edz.132.1654233686610; 
- Thu, 02 Jun 2022 22:21:26 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-213.customers.d1-online.com.
- [80.187.98.213]) by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00705976bcd01sm2430460ejx.206.2022.06.02.22.21.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jun 2022 22:21:26 -0700 (PDT)
-Message-ID: <757ff3c0-b77a-b230-6a09-fb3d8c95b1c7@redhat.com>
-Date: Fri, 3 Jun 2022 07:21:24 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nwzuR-0005oc-QQ
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 01:31:45 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 34840215E2;
+ Fri,  3 Jun 2022 05:31:38 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 3 Jun 2022
+ 07:31:36 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S001fbaa5465-ede8-4225-949b-73219cec5dbe,
+ 2F375BC487B398842DD9155F09582B226C9A4747) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <0fb7b735-8f14-b570-9ed7-3abbdf654c61@kaod.org>
+Date: Fri, 3 Jun 2022 07:31:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/3] capstone: Remove the capstone submodule
+ Thunderbird/91.9.0
+Subject: Re: [RFC PATCH v2 0/6] hw/i2c: i2c slave mode support
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20220516145823.148450-1-thuth@redhat.com>
- <20220516145823.148450-4-thuth@redhat.com>
- <CAFEAcA8t37wT2D-tT0n0O2HP1sTtYfeS8p2Wd+4QE6jsJ0k9Hw@mail.gmail.com>
- <f614c7f6-2523-d587-ea44-fe4c70e8c630@redhat.com>
- <c263a4ca-ceb3-a2f0-0839-b915cf98728e@linaro.org>
- <5098180d-334f-7631-011f-6beb3a1434ac@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <5098180d-334f-7631-011f-6beb3a1434ac@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Klaus Jensen <its@irrelevant.dk>
+CC: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, <qemu-devel@nongnu.org>, Jonathan
+ Cameron <Jonathan.Cameron@huawei.com>, <qemu-arm@nongnu.org>, Peter
+ Delevoryas <pdel@fb.com>, Peter Maydell <peter.maydell@linaro.org>, Corey
+ Minyard <cminyard@mvista.com>, Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
+ Damien Hedde <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, Arun Kumar Kashinath Agasar
+ <arun.kka@samsung.com>, Klaus Jensen <k.jensen@samsung.com>, Zev Weiss
+ <zev@bewilderbeest.net>
+References: <20220601210831.67259-1-its@irrelevant.dk>
+ <6e0eb197-25c2-6b1e-2c19-f93597e29cff@kaod.org> <YphzHGNYErSMEfPw@apples>
+ <00e2d10a-20f5-8357-5b13-41791940ce19@kaod.org>
+ <5683a737-8a15-20c5-5716-f5216d6c33c8@quicinc.com>
+ <c796202d-2e57-32b3-3007-343d37dcdb84@kaod.org> <YpkNXUkafYQ3ZSpT@apples>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YpkNXUkafYQ3ZSpT@apples>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: aed4b370-32e3-4a89-a597-debfb0cc7dc7
+X-Ovh-Tracer-Id: 11293339017378106241
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrleehgdelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptdehkeelieetvddtlefgveeuheduheetledvtdfgfeffledvjeekjeegledvkeeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopeiivghvsegsvgifihhluggvrhgsvggvshhtrdhnvghtpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,49 +84,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/06/2022 02.56, Richard Henderson wrote:
-> On 6/2/22 17:03, Richard Henderson wrote:
->> Ho hum.  So... the first time I try to do any actual debugging after this 
->> has gone in, and I am reminded exactly how terrible capstone 4.0.1 is for 
->> anything except x86.  There was a reason I had chosen a development branch 
->> snapshot, and that's because it was usable.
+On 6/2/22 21:19, Klaus Jensen wrote:
+> On Jun  2 17:40, Cédric Le Goater wrote:
+>> On 6/2/22 16:29, Jae Hyun Yoo wrote:
+>>> Hi Klaus,
+>>>
+>>> On 6/2/2022 6:50 AM, Cédric Le Goater wrote:
+>>>> On 6/2/22 10:21, Klaus Jensen wrote:
+>>>>>
+>>>>> There is an outstanding issue with the SLAVE_ADDR_RX_MATCH interrupt bit
+>>>>> (bit 7). Remember from my first series I had a workaround to make sure
+>>>>> it wasnt masked.
+>>>>>
+>>>>> I posted this upstream to linux
+>>>>>
+>>>>> https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant.dk/
+>>>>>
+>>>>> Not sure if that is the right way to fix it.
+>>>>
+>>>> That's weird. I would have thought it was already enabled [ Adding Jae ]
+>>>
+>>> Slave mode support in Aspeed I2C driver is already enabled and it has
+>>> worked well so far. The fix Klaus made in the link is incorrect.
+>>>
+>>> https://lore.kernel.org/lkml/20220602054842.122271-1-its@irrelevant.dk/
+>>>
+>>> The patch is adding ASPEED_I2CD_INTR_SLAVE_MATCH as a mask bit for
+>>> I2CD0C (Interrupt Control Register) but actually this bit is part of
+>>> I2CD10 (Interrupt Status Register). Means that the slave match interrupt
+>>> can be enabled without enabling any mask bit in I2CD0C.
 >>
->> Here, for instance, is how ubuntu 20.04 capstone disassembles
->> tests/tcg/aarch64/system/boot.S:
+>> Thanks Jae.
 >>
->> 0x00000000400027b0:  10ffc280      adr x0, #-0x7b0 (addr 0x40002000)
+>> So we should enable this interrupt always independently of the
+>> Interrupt Control Register value.
 >>
->> 0x00000000400027b4:  d518c000      msr (unknown), x0
+>> I would simply extend the mask value (bus->regs[intr_ctrl_reg])
+>> with the SLAVE_ADDR_RX_MATCH bit when interrupts are raised in
+>> aspeed_i2c_bus_raise_interrupt().
 >>
->>
->> 0x00000000400027b8:  d0000fe0      adrp x0, #+0x1fe000 (addr 0x40200000)
->>
->> 0x00000000400027bc:  91000000      add x0, x0, #0x0 (0)
->>
->> 0x00000000400027c0:  d5182000      msr (unknown), x0
->>
->> ...
->> 0x0000000040002850:  d5381040      mrs x0, (unknown)
->>
->> 0x0000000040002854:  b26c0400      orr x0, x0, #0x300000
->>
->> 0x0000000040002858:  d5181040      msr (unknown), x0
->>
->>
->> And this is the extremely simple case of ARMv8.0 with no extensions.
->>
->> I am very much tempted to re-instate the capstone submodule, or update 
->> disas/vixl and disable use of capstone for arm.
 > 
-> Double ho-hum.  It would appear that this horrible disassembly *is* vixl, 
-> because I didn't double check that libcapstone was installed.
+> Alright, so my "workaround" from v1 was actually the right fix - I'll
+> re-add it ;)
 
-So is capstone disassembly better now with Ubuntu 20.04 or should we still 
-revert the submodule removal?
+yes :) but now we know why ! May be add a ALWAYS_ENABLE mask ?
 
-Also, if libvixl is so bad, why do we still have that in the repo?
+Thanks,
 
-  Thomas
-
+C.
 
 
