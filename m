@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBF353D2E3
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:39:46 +0200 (CEST)
-Received: from localhost ([::1]:48522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A926F53D2EF
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 22:47:07 +0200 (CEST)
+Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxE5A-0004jV-Tv
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:39:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37662)
+	id 1nxECH-00017k-TI
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 16:47:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDyq-000823-Cw; Fri, 03 Jun 2022 16:33:13 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:47839)
+ id 1nxE8V-0007wk-NF; Fri, 03 Jun 2022 16:43:11 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:36167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nxDyo-0006MA-Nb; Fri, 03 Jun 2022 16:33:12 -0400
+ id 1nxE8U-0001CZ-3Y; Fri, 03 Jun 2022 16:43:11 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id C256F320092C;
- Fri,  3 Jun 2022 16:33:08 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 03 Jun 2022 16:33:09 -0400
+ by mailout.west.internal (Postfix) with ESMTP id 937003200406;
+ Fri,  3 Jun 2022 16:43:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 03 Jun 2022 16:43:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1654288388; x=1654374788; bh=47
- t6K95ZFiypHO3dap/y1iFP5a5j9i8dc9UDjpY4owQ=; b=TYXHQ+w5U4mtOiRBqR
- zwBk/uqmnzEL/AZw6/8L2BGFcwYPu53q6Op56gdJ7qlSJGD4xDdd04R4BhYV9dgM
- ib+hB5hQxJOEne2s77zOG7gCi+KE0eJYAYmbvKmgSzS+fZSK5gOmT2vi5DRWgDRo
- zIiWU5ER13GGx5E1pLQofuv11kJQ1NVYLAjBlY49wOwDU7svAva1YRHZ7Nx/Usw+
- vRyFx5Qcjy4OkJPB/1gtrbR6BIPOROueXbqME2DtxxTFhoru09yBD9mgTrRbmg0K
- V0yDHEgr75tC9OBsQb12fRFDmThqEZKHo+Ug2WKCRlzQLO6NW5XHdPYkcqfwc6Xd
- 83Xw==
+ :subject:subject:to:to; s=fm3; t=1654288986; x=1654375386; bh=l7
+ MIq/7/auiPryd1vsk8dEkkyfMplyn5fdOzuJQyrBc=; b=oLbKEPMQxllMFypVtp
+ Un8GQqwNdutVvgp9vSXFQvzZo8mqmRhR7dGIpV8H37fbAHJkTc1+p4lYt1gt7j2S
+ 3IJB1CN0QGKjJa5KCA7KLO4iSH3/C3IpOkmkVhfLyVk+6VA9YHqKJWxNgCAr00h6
+ LoJnRvw0nZdy3L/bVpLc0vvw/70qvuBLmt6gs+LZrpCICGunNSVBYu+F4BLmXIra
+ u67BOcCyPsbyfSzbgniCCBKpTpLO+zrhqW09X17WABK9KwNy16BkvmHBjbqKopj3
+ LHxuv7Lr125D4dNojaESIpT9nXZBxhkV1Ti+DniOIM8FeeVHJ6EI1oZGsWNadj69
+ ksVw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1654288388; x=1654374788; bh=47t6K95ZFiypHO3dap/y1iFP5a5j
- 9i8dc9UDjpY4owQ=; b=KjEsoYqE8bBRj4tL52HZ52CvhSRKZzEZushr+nhVIwzt
- VQ0Of6ZlEG19gVSXdY2NhHmPd+qT+AZ2Z7IltD0NdIynwUNphxKGCvdMUEyVmsLo
- jAKtVNJdOMJ6VkhRj4aBi8EgUU491MIFORbKM18lPTFHzwkgaOYajgI8/NWK2TAf
- t2ho9UHohKFOPo7bP9vsav1Nd2uUicHelOL3fpPA2x/tRw0bQcrX6WoAhgM1NgbF
- nOPf4pDGMLSEF1Hy/u0ToRvIzPv9cWb64JDeqBtl2zOQMnlxKjV6Y4Q8H3A0F0lm
- gCo+GunZ7v0Co0uO5WlYUs8bxnx+Ua+aXWWExHPY7w==
-X-ME-Sender: <xms:BHCaYo98_cKhQuEjW4Crtt36slxs48KVFW5sWiUmtKI78LC6ddsm0Q>
- <xme:BHCaYgufoOGxuISllP9MEjogCBA_m1rNrFiyS9LnNOKNi8L4U4xXR8yepHqhdSkLz
- qg56VYb7kpg1RmC7qE>
-X-ME-Received: <xmr:BHCaYuDxy388Sl_iaz3Jq-aHcl343GW-50kmcaoNIBC-rh6pIsvjMrxuZZgPClQCIsYuc-eHAWSVNHq7Uw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugeekucetufdoteggodetrfdotf
+ fm1; t=1654288986; x=1654375386; bh=l7MIq/7/auiPryd1vsk8dEkkyfMp
+ lyn5fdOzuJQyrBc=; b=yFeL6PXKn9lRNev6aI0oEwIVZLgb3BkGZayJp6PfhsVn
+ FxX4Kgp00RhxfBYRPTQHls55So5RZ1Ghy7atNa73/QmHzgoPPDTdJvpFgv2RvOGi
+ INIkLOJY33xx56H2vMOiRbmEpTZud+llG/qU8GvXxxw5j4XaWX1v4p2Dj2R08S2e
+ iHY2/BD1bbzOfpJ8K+oCABpyBhuJMzpI5Jus9G6f1RqCMFsiLqLTUZiajT6V4w3y
+ Ghhw4S7XcTDuOAaYrhzIspgXwG3lN2CNW1kpRIWxIEnvDevrMHgY7G3RBNBKnFcE
+ vQ2SFvoBI23T7RT1Dqb6qr6iVOSYKaEp9mpRb0jffQ==
+X-ME-Sender: <xms:WXKaYrNcaP8ItRd30mBtaoJNWLHcSZggOMewdWQpBf2MW3r0YEUe9A>
+ <xme:WXKaYl9msnm3smGBex54GnpBRcRkBHKakcyfvRT8ta0WYNRO-C2fLxZx8jGy3H1tl
+ eddGgRM7R0KAnPiMrI>
+X-ME-Received: <xmr:WXKaYqRI49H2WXS3ojvjj6a1lpgma2ZMEkYHkVhisRoS2j5CAYZnYx8wh21E8-3LcOjuncZrdzL2owNrMg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigdduhedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
@@ -57,26 +57,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigddugeekucetufdoteggod
  htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
  jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:BHCaYoeoiCS_mPmq8To5XNtBcH4AHRGdDtu9TlQwfrCbhIO131u9wg>
- <xmx:BHCaYtPPUADsMz5KuHrF_M3_vdWtGwM76-GUqAW28IaB5VzJE4nPNA>
- <xmx:BHCaYimris4jixbhqkQAWnif_YE2wWrbR0Jp0t9TbE57Ad-kIyJTaw>
- <xmx:BHCaYursw9lDYCnhqoV7kqjppNxNfgLoAA1E2QK84GZ8kVStMTssYg>
+X-ME-Proxy: <xmx:WXKaYvuxHAUqh9bV1Vmqq59Yy7tRr4PPwV578kYzCEvjk3YdylBDjQ>
+ <xmx:WXKaYjcOx-7AO2wwcr3rEXqjUWMVLM_mfiHn0eKScO70LpxB0Of0qg>
+ <xmx:WXKaYr0TIc9z1S7FXL4FCKjcujO-zMkpTO-fawtDVdPFDO8jEJOfoA>
+ <xmx:WnKaYv5Tf2ERUwl3nXyDm69reqMLdELzLu5lIghVZ0EEKY49v5Fheg>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 16:33:07 -0400 (EDT)
-Date: Fri, 3 Jun 2022 22:33:05 +0200
+ 3 Jun 2022 16:43:04 -0400 (EDT)
+Date: Fri, 3 Jun 2022 22:43:03 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH] hw/nvme: clear aen mask on reset
-Message-ID: <YppwAe60M+NOYZ3v@apples>
-References: <20220512093055.726022-1-its@irrelevant.dk>
+To: Wertenbroek Rick <rick.wertenbroek@heig-vd.ch>
+Cc: "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v2] hw/nvme: allow to pass a memory backend object for
+ the CMB
+Message-ID: <YppyVy9PDz1B/Cfn@apples>
+References: <80A639CD-2E9C-4574-9557-FE61DDBE0C57@heig-vd.ch>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iSHCy4RDxSftAsfP"
+ protocol="application/pgp-signature"; boundary="OQe/4EKNavdEnSbU"
 Content-Disposition: inline
-In-Reply-To: <20220512093055.726022-1-its@irrelevant.dk>
+In-Reply-To: <80A639CD-2E9C-4574-9557-FE61DDBE0C57@heig-vd.ch>
 Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
  helo=wout1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -102,53 +104,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---iSHCy4RDxSftAsfP
+--OQe/4EKNavdEnSbU
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On May 12 11:30, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On Apr 19 07:20, Wertenbroek Rick wrote:
+> Adds the optional -cmbdev=3D option that takes a QEMU memory backend
+> -object to be used to for the CMB (Controller Memory Buffer).
+> This option takes precedence over cmb_size_mb=3D if both used.
+> (The size will be deduced from the memory backend option).
 >=20
-> The internally maintained AEN mask is not cleared on reset. Fix this.
->=20
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Signed-off-by: Rick Wertenbroek <rick.wertenbroek@heig-vd.ch>
 > ---
->  hw/nvme/ctrl.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 1e6e0fcad918..4c8200dfb859 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -5889,6 +5889,7 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
->      }
-> =20
->      n->aer_queued =3D 0;
-> +    n->aer_mask =3D 0;
->      n->outstanding_aers =3D 0;
->      n->qs_created =3D false;
->  }
-> --=20
-> 2.36.0
+> hw/nvme/ctrl.c | 65 ++++++++++++++++++++++++++++++++++++++------------
+> hw/nvme/nvme.h |  9 +++----
+> 2 files changed, 55 insertions(+), 19 deletions(-)
 >=20
 
-Gentle bump.
+This all looks reasonable enought and straight-forward. But I can't seem
+to apply the patch for some reason. git is complaining about 'patch
+format detection failed.' and trying to apply manually with patch I'm
+getting a 'patch: **** malformed patch at line 55: }'.
 
---iSHCy4RDxSftAsfP
+Can you try to recreate the patch? Or if you can just put it in a git
+repo somewhere, then I can cherry-pick it from there.
+
+--OQe/4EKNavdEnSbU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKab/8ACgkQTeGvMW1P
-Dema2Qf/XL7Z0ysuEz+bFjeUU8vpV/tFP3hbbgZV5yxSjmXmAUz8ckKshTL9OiIb
-nJaOunWKeqB5i2XUJgO7QQe8m9TWLbCWMPkGhfdrTbZAjwNQ+HlQkkya2ZAKNX0r
-YmHikmOwW6AlOi/dMrr4KnQkuhZzgCxlONjWJfzCpxzfKMRXOCknC3nqnMlC319h
-jghAwHqyuIYpimR8fAvccM63pvDPPWxL0fzU4mInocO9UU+dvCuxf6u7AtNE2+Oq
-CEnNbZbQF9PUrNLFGmIupH45sI1VIkQB7Y0THHRKsmfj3N3lE+iK+8FXLGS94E/C
-Oy+kpKb/JG9jYcUm6ItW75XQX+CtaA==
-=apeK
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKaclUACgkQTeGvMW1P
+DenMegf/UFiZjRLMnKmJYXHndf+OvXlHXinxUBhwLBe0KSkokh6a54tKaojaeEK6
+KGPvCC/fDzhQv3Jc+A/2+h5JkkYZzYFuIdm4Fj28mw3xDYX/GWhZGHCYd7B1A1Vy
+1jqQqszRwPcY+vZaCDRyRgTRDTjQpd9TM/brD97+13NBDn6gvi4dubcKn9czxTao
+NMvQsnho0kOgcPA4ef70ixJ19DuseWroCxgJvOvxQDnasphLq1PUfEudpq1hYi5R
+iuEgbBve7CjtGyxzhHjdyq8L0NP/EE8rUQ4N++MtsH9SLNsp+6vyba+p+06iR4y0
+Fmi9AmydU6S31frET+V4Br1uL2gsuw==
+=PXWs
 -----END PGP SIGNATURE-----
 
---iSHCy4RDxSftAsfP--
+--OQe/4EKNavdEnSbU--
 
