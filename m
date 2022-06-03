@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB53C53C5B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:07:13 +0200 (CEST)
-Received: from localhost ([::1]:37092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B78753C5DB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 09:19:12 +0200 (CEST)
+Received: from localhost ([::1]:52586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx1Oq-0000bI-ET
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:07:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33976)
+	id 1nx1aQ-0003DT-O6
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 03:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HC-0005dS-SL
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21693)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HE-0005e2-R8
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1H9-0003Ha-5B
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:18 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nx1HC-0003I2-Fb
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 02:59:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654239553;
+ s=mimecast20190719; t=1654239556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Po38TlkhPSei0IEAV6dTh8v15AE2DMIhUgzmC4QekMY=;
- b=IVCz4X5pLzy+usun2TrO9IDyTY10wrCIsOjIrNRqmocNwWpKqimkpB+fF2UA/bIVUxtde8
- kOv+QylvCS+YKzdiHbgdkzwwwD1DTypTFZJ0lmr+EwiyINTPJjd9Jaz5tN/zeqD6UOMmmL
- rUsL6sVGGgggiiHXTy9D4z+qdX6hTzA=
+ bh=QUw7z6x9Tgf6A2qRi9nZZdwmOe3FoMGIzHEbW6Rsc9Q=;
+ b=HAbt4FQmkw7gFZU8+gRLLj4TZM5tukHKWSLrF51JK4KhEjm6EVoE4r2PtHsqexPToTTcqF
+ xgnb7xY+jHaG2CBScXdhrihKqOYIZZo+/QzkUoiLsKQEzDFn+RDVEX3folcNqSXo+KGVs7
+ fX7uCYzjneSvNXs8Ek8lrAD3sfHCDuU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-1uIp_tq_N1qEjz9Qose34A-1; Fri, 03 Jun 2022 02:59:11 -0400
-X-MC-Unique: 1uIp_tq_N1qEjz9Qose34A-1
+ us-mta-606-N4wYtu4pNf2hlFxeWLKyDA-1; Fri, 03 Jun 2022 02:59:13 -0400
+X-MC-Unique: N4wYtu4pNf2hlFxeWLKyDA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7EC76802809;
- Fri,  3 Jun 2022 06:59:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8855785A5BC;
+ Fri,  3 Jun 2022 06:59:13 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 075E02166B26;
- Fri,  3 Jun 2022 06:59:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 17BE52166B26;
+ Fri,  3 Jun 2022 06:59:11 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-s390x@nongnu.org,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PULL 01/12] s390: Typo fix FLOATING_POINT_SUPPPORT_ENH
-Date: Fri,  3 Jun 2022 08:58:54 +0200
-Message-Id: <20220603065905.23805-2-thuth@redhat.com>
+	Cornelia Huck <cohuck@redhat.com>
+Subject: [PULL 02/12] hw/s390x/s390-virtio-ccw: Improve the machine
+ description string
+Date: Fri,  3 Jun 2022 08:58:55 +0200
+Message-Id: <20220603065905.23805-3-thuth@redhat.com>
 In-Reply-To: <20220603065905.23805-1-thuth@redhat.com>
 References: <20220603065905.23805-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,89 +79,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+The machine name already contains the words "ccw" and "virtio", so
+using "VirtIO-ccw" in the description likely does not really help
+the average user to get an idea what this machine type is about.
+Thus let's switch to "Virtual s390x machine" now, since "virtual
+machine" should be a familiar term, and "s390x" signals that this
+is about 64-bit guests (unlike S390 which could mean that it is
+31-bit only).
+Also expand "v" to "version", since this makes it easier to use
+this macro also with non-numeric machine names in downstream.
 
-One less P needed.
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20220523115123.150340-1-dgilbert@redhat.com>
+Message-Id: <20220506065026.513590-1-thuth@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/cpu_features_def.h.inc | 2 +-
- target/s390x/gen-features.c         | 6 +++---
- target/s390x/tcg/translate.c        | 8 ++++----
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ hw/s390x/s390-virtio-ccw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
-index e86662bb3b..3603e5fb12 100644
---- a/target/s390x/cpu_features_def.h.inc
-+++ b/target/s390x/cpu_features_def.h.inc
-@@ -58,7 +58,7 @@ DEF_FEAT(ENHANCED_MONITOR, "emon", STFL, 36, "Enhanced-monitor facility")
- DEF_FEAT(FLOATING_POINT_EXT, "fpe", STFL, 37, "Floating-point extension facility")
- DEF_FEAT(ORDER_PRESERVING_COMPRESSION, "opc", STFL, 38, "Order Preserving Compression facility")
- DEF_FEAT(SET_PROGRAM_PARAMETERS, "sprogp", STFL, 40, "Set-program-parameters facility")
--DEF_FEAT(FLOATING_POINT_SUPPPORT_ENH, "fpseh", STFL, 41, "Floating-point-support-enhancement facilities")
-+DEF_FEAT(FLOATING_POINT_SUPPORT_ENH, "fpseh", STFL, 41, "Floating-point-support-enhancement facilities")
- DEF_FEAT(DFP, "dfp", STFL, 42, "DFP (decimal-floating-point) facility")
- DEF_FEAT(DFP_FAST, "dfphp", STFL, 43, "DFP (decimal-floating-point) facility has high performance")
- DEF_FEAT(PFPO, "pfpo", STFL, 44, "PFPO instruction")
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index c03ec2c9a9..ad140184b9 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -374,7 +374,7 @@ static uint16_t base_GEN10_GA1[] = {
-     S390_FEAT_COMPARE_AND_SWAP_AND_STORE_2,
-     S390_FEAT_GENERAL_INSTRUCTIONS_EXT,
-     S390_FEAT_EXECUTE_EXT,
--    S390_FEAT_FLOATING_POINT_SUPPPORT_ENH,
-+    S390_FEAT_FLOATING_POINT_SUPPORT_ENH,
-     S390_FEAT_DFP,
-     S390_FEAT_DFP_FAST,
-     S390_FEAT_PFPO,
-@@ -476,7 +476,7 @@ static uint16_t full_GEN9_GA2[] = {
-     S390_FEAT_MOVE_WITH_OPTIONAL_SPEC,
-     S390_FEAT_EXTRACT_CPU_TIME,
-     S390_FEAT_COMPARE_AND_SWAP_AND_STORE,
--    S390_FEAT_FLOATING_POINT_SUPPPORT_ENH,
-+    S390_FEAT_FLOATING_POINT_SUPPORT_ENH,
-     S390_FEAT_DFP,
- };
- 
-@@ -700,7 +700,7 @@ static uint16_t qemu_V3_1[] = {
-     S390_FEAT_GENERAL_INSTRUCTIONS_EXT,
-     S390_FEAT_EXECUTE_EXT,
-     S390_FEAT_SET_PROGRAM_PARAMETERS,
--    S390_FEAT_FLOATING_POINT_SUPPPORT_ENH,
-+    S390_FEAT_FLOATING_POINT_SUPPORT_ENH,
-     S390_FEAT_STFLE_45,
-     S390_FEAT_STFLE_49,
-     S390_FEAT_LOCAL_TLB_CLEARING,
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index b40cb84bae..fd2433d625 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6185,17 +6185,17 @@ enum DisasInsnEnum {
- #define FAC_Z           S390_FEAT_ZARCH
- #define FAC_CASS        S390_FEAT_COMPARE_AND_SWAP_AND_STORE
- #define FAC_DFP         S390_FEAT_DFP
--#define FAC_DFPR        S390_FEAT_FLOATING_POINT_SUPPPORT_ENH /* DFP-rounding */
-+#define FAC_DFPR        S390_FEAT_FLOATING_POINT_SUPPORT_ENH /* DFP-rounding */
- #define FAC_DO          S390_FEAT_STFLE_45 /* distinct-operands */
- #define FAC_EE          S390_FEAT_EXECUTE_EXT
- #define FAC_EI          S390_FEAT_EXTENDED_IMMEDIATE
- #define FAC_FPE         S390_FEAT_FLOATING_POINT_EXT
--#define FAC_FPSSH       S390_FEAT_FLOATING_POINT_SUPPPORT_ENH /* FPS-sign-handling */
--#define FAC_FPRGR       S390_FEAT_FLOATING_POINT_SUPPPORT_ENH /* FPR-GR-transfer */
-+#define FAC_FPSSH       S390_FEAT_FLOATING_POINT_SUPPORT_ENH /* FPS-sign-handling */
-+#define FAC_FPRGR       S390_FEAT_FLOATING_POINT_SUPPORT_ENH /* FPR-GR-transfer */
- #define FAC_GIE         S390_FEAT_GENERAL_INSTRUCTIONS_EXT
- #define FAC_HFP_MA      S390_FEAT_HFP_MADDSUB
- #define FAC_HW          S390_FEAT_STFLE_45 /* high-word */
--#define FAC_IEEEE_SIM   S390_FEAT_FLOATING_POINT_SUPPPORT_ENH /* IEEE-exception-simulation */
-+#define FAC_IEEEE_SIM   S390_FEAT_FLOATING_POINT_SUPPORT_ENH /* IEEE-exception-simulation */
- #define FAC_MIE         S390_FEAT_STFLE_49 /* misc-instruction-extensions */
- #define FAC_LAT         S390_FEAT_STFLE_49 /* load-and-trap */
- #define FAC_LOC         S390_FEAT_STFLE_45 /* load/store on condition 1 */
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 047cca0487..cc3097bfee 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -768,7 +768,7 @@ bool css_migration_enabled(void)
+     {                                                                         \
+         MachineClass *mc = MACHINE_CLASS(oc);                                 \
+         ccw_machine_##suffix##_class_options(mc);                             \
+-        mc->desc = "VirtIO-ccw based S390 machine v" verstr;                  \
++        mc->desc = "Virtual s390x machine (version " verstr ")";              \
+         if (latest) {                                                         \
+             mc->alias = "s390-ccw-virtio";                                    \
+             mc->is_default = true;                                            \
 -- 
 2.31.1
 
