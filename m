@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2166353C996
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 13:53:40 +0200 (CEST)
-Received: from localhost ([::1]:37118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D004153C987
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 13:48:03 +0200 (CEST)
+Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nx5s1-0001wJ-QY
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 07:53:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43150)
+	id 1nx5mc-0005i9-TT
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 07:48:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nx5c6-0002uP-8u; Fri, 03 Jun 2022 07:37:15 -0400
-Received: from mail-sender.a4lg.com ([153.120.152.154]:64936
- helo=mail-sender-0.a4lg.com)
+ id 1nx5c7-0002uR-1Y; Fri, 03 Jun 2022 07:37:15 -0400
+Received: from mail-sender-0.a4lg.com
+ ([2401:2500:203:30b:4000:6bfe:4757:0]:51156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1nx5bw-0002Wj-Tm; Fri, 03 Jun 2022 07:37:02 -0400
+ id 1nx5c5-0002ct-Ef; Fri, 03 Jun 2022 07:37:10 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id B644D30008B;
- Fri,  3 Jun 2022 11:36:58 +0000 (UTC)
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 3E019300089;
+ Fri,  3 Jun 2022 11:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1654256218;
- bh=8Nn5Zhw/1XD5Dvkf9GOpgoxDYIXc9JhR0kUP1ltqkBE=;
+ s=2017s01; t=1654256224;
+ bh=BHttdtJU5e81MEpKJ1ZDkGGx03lCfRWah1FH+0EKavo=;
  h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
  Mime-Version:Content-Transfer-Encoding;
- b=KastIkm8U1E3OByu4Hd2UXJyUDcIvLAJmq1whTDq4YaT3ItZAYfwj9v7lQnDvdqjQ
- xY8GrnhQzO+zi6FGg9xhd/n8oE1+ci3nvcH+Y6QzAuYg1ZdqrdaDFmUjcrgzw5PP73
- JZpCLXIEUW9a6PJkL/n4rOdSWN/nouTE+YhOv0Vs=
+ b=swni6QOvj2zw5bBMQzcvN0cYB9yOBNf/kwma4h+j+NgBtM+9Z3IwqXmHFLak5LABg
+ qY943RHc6oFHczDhEXtDA2toKOOEGjPJxjGRxd9W7+CjerdXZuLA7CmjDriGER28Dv
+ QoP92NBKibJkLreefLDkAbQsaxqgfKRDFuSbqWY4=
 From: Tsukasa OI <research_trasio@irq.a4lg.com>
 To: Tsukasa OI <research_trasio@irq.a4lg.com>,
  Alistair Francis <alistair23@gmail.com>
 Cc: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v3 2/3] target/riscv: Make CPU property names lowercase
-Date: Fri,  3 Jun 2022 20:36:43 +0900
-Message-Id: <9c2b3ae5456566a098907e1e33c39c98b523ecea.1654256190.git.research_trasio@irq.a4lg.com>
+Subject: [PATCH v3 3/3] target/riscv: Deprecate capitalized property names
+Date: Fri,  3 Jun 2022 20:36:44 +0900
+Message-Id: <e8d4803196dfc83a48655ddf82bc3f4077be6579.1654256190.git.research_trasio@irq.a4lg.com>
 In-Reply-To: <cover.1654256190.git.research_trasio@irq.a4lg.com>
 References: <cover.1653472385.git.research_trasio@irq.a4lg.com>
  <cover.1654256190.git.research_trasio@irq.a4lg.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=153.120.152.154;
+Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
  envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -65,91 +65,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Many CPU properties for RISC-V are in lowercase except those with
-"capitalized" (or CamelCase) names:
-
--   Counters
--   Zifencei
--   Zicsr
--   Zfh
--   Zfhmin
--   Zve32f
--   Zve64f
-
-This commit makes lowercase names primary but keeps capitalized names
-as aliases (for backward compatibility, but with deprecated status).
+This commit adds a deprecation note of capitalized property names of
+RISC-V CPU to documentation.
 
 Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
 ---
- target/riscv/cpu.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ docs/about/deprecated.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 3f21563f2d..83262586e4 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -840,6 +840,10 @@ static void riscv_cpu_init(Object *obj)
- }
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index a92ae0f162..cfc9adcd4b 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -300,6 +300,16 @@ Options are:
+ Device options
+ --------------
  
- static Property riscv_cpu_properties[] = {
-+    /*
-+     * Names for ISA extensions and features should be in lowercase.
-+     */
++CPU options
++'''''''''''
 +
-     /* Base ISA and single-letter standard extensions */
-     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
-     DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
-@@ -855,11 +859,11 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
- 
-     /* Standard unprivileged extensions */
--    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
--    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-+    DEFINE_PROP_BOOL("zicsr", RISCVCPU, cfg.ext_icsr, true),
-+    DEFINE_PROP_BOOL("zifencei", RISCVCPU, cfg.ext_ifencei, true),
- 
--    DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
--    DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-+    DEFINE_PROP_BOOL("zfh", RISCVCPU, cfg.ext_zfh, false),
-+    DEFINE_PROP_BOOL("zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-     DEFINE_PROP_BOOL("zfinx", RISCVCPU, cfg.ext_zfinx, false),
-     DEFINE_PROP_BOOL("zdinx", RISCVCPU, cfg.ext_zdinx, false),
-     DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
-@@ -884,8 +888,8 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
-     DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
- 
--    DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
--    DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
-+    DEFINE_PROP_BOOL("zve32f", RISCVCPU, cfg.ext_zve32f, false),
-+    DEFINE_PROP_BOOL("zve64f", RISCVCPU, cfg.ext_zve64f, false),
- 
-     /* Standard supervisor-level extensions */
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-@@ -893,7 +897,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
- 
-     /* Base features */
--    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-+    DEFINE_PROP_BOOL("counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
-@@ -922,6 +926,15 @@ static Property riscv_cpu_properties[] = {
-     /* Other options */
-     DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string, false),
- 
-+    /* Capitalized aliases (deprecated and will be removed) */
-+    DEFINE_PROP("Counters", RISCVCPU, cfg.ext_counters, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zifencei", RISCVCPU, cfg.ext_ifencei, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zicsr", RISCVCPU, cfg.ext_icsr, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zfh", RISCVCPU, cfg.ext_zfh, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zfhmin", RISCVCPU, cfg.ext_zfhmin, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zve32f", RISCVCPU, cfg.ext_zve32f, qdev_prop_bool, bool),
-+    DEFINE_PROP("Zve64f", RISCVCPU, cfg.ext_zve64f, qdev_prop_bool, bool),
++Capitalized property names on RISC-V ``-cpu`` (since 7.1)
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-     DEFINE_PROP_END_OF_LIST(),
- };
++Using capitalized RISC-V CPU property names like ``-cpu rv64,Counters=on`` is
++deprecated.  Use lowercase names instead (e.g. ``-cpu rv64,counters=on``).
++
++
+ Emulated device options
+ '''''''''''''''''''''''
  
 -- 
 2.34.1
