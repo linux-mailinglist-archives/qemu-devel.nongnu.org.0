@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E76653D347
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jun 2022 23:39:31 +0200 (CEST)
-Received: from localhost ([::1]:47452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D39F53D4E2
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jun 2022 04:32:51 +0200 (CEST)
+Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxF0z-0001GN-Jb
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 17:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47378)
+	id 1nxJar-0005SJ-NK
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jun 2022 22:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxEzq-0000Of-8Z
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 17:38:19 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:42796)
+ id 1nxJa1-0004m5-Sk
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 22:31:57 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:34697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxEzm-00031X-L0
- for qemu-devel@nongnu.org; Fri, 03 Jun 2022 17:38:17 -0400
-Received: by mail-pl1-x631.google.com with SMTP id d22so7662945plr.9
- for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 14:38:04 -0700 (PDT)
+ id 1nxJZz-0001re-WD
+ for qemu-devel@nongnu.org; Fri, 03 Jun 2022 22:31:57 -0400
+Received: by mail-pf1-x432.google.com with SMTP id c196so8450161pfb.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Jun 2022 19:31:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7J8p3wwa03XaanC4oCwrLuqiuI+yQhLiT9J1VYtX2Tw=;
- b=rGZr8vBZjg5gJsbsLKqKtuEASSk4nAGyQhKie/h4vkoBO+LsghLxqP/9rYUoT9AN1p
- ggNNqfBZM8labDSO+HB4CcJ5NeTiFWePpMMBrNOlx2KLSIvNg2iBq4zsoO5WHwRIXxSd
- Cah30ukV0c8XxoYgyVUSd7ctR0xeakwUUuuN+jm8mDBNNqOh35/vY+gayqucnM89rDD/
- S9ELdsotpteLSvGVeg51z5miopNPpjJj7RYtzxHTKZif/vkFxZ7cApLxBDmALG9RLfy/
- SlOpx/YnQfhb+hdgB9ZGlW6NucMRqtt7ZB7VTSmked+hoeOawfTjwa3o3z1on1l8nUjp
- tKOg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=Efa2DEa479X/bOcpVHC+dlAOcqS0rNoHJeAOLMDwJ08=;
+ b=DLpyhvOqRK3QkQOFnqXT6yzb7OMDqi0GKuGVdBaVdUbL5cGWqTLKoVBctips8Xdg1w
+ Wo6QvHz9a6Rh5uyzYVGc8xH9czVYNdmg5cIIHbEE37Up9uQMKxkFFrUBkqFcHOfKdF6y
+ JFsUzKOO8nBq5ZiNe3ED1zFX0S0KnD8sgfZdR11m8uZfL5YSbSvBenfQ7EwLHDur8YBs
+ /HtxjTkQ1rALE9CBwDIBd5bAuL9oCNI6GSD0HX+uO5E7Ctb1CCL93Fmh9R4C9zAqWXNN
+ HYnYWwu3T9U8+XGOMChBfem/SzB9G1kgAoM0kqJ/VINXWiytWpswiRkewO+UCJ7GN9bQ
+ hGyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=7J8p3wwa03XaanC4oCwrLuqiuI+yQhLiT9J1VYtX2Tw=;
- b=MkWDjdD37lkRtHm+oJqjcQBQlkeK577Cu4T+fQvd2s5YfaQPLpL5dxoTSN7pIf0Diz
- /MbhkJgUs0XLdWX/iq73AMyxGp2rR/WRc4giQhX7L02Uo26VIQlzEwxYp/jFBgz4B62C
- r4Si70zukibIZCNAzk/fEzXIzSPmmSD4Xk3K4Udj4MdXENJ2dnyfwAZ8QE7YIsJSFkss
- w+dSoglG79puaV5T1BFDkDcW6/CRDZFxSsIxVB1ogiUJiAG8aIydulGske5thp7RupZX
- FAE8/SNo9p2Fkz0onWQTnfKzu9VFiOfEPOXG/QqUC9K6LQLT7M7RMlUm3ZlDwT5CsATN
- wsyQ==
-X-Gm-Message-State: AOAM532xyCdpC+YYbgnjR/+PzxUepgBBNIjhK/BIjdq4MYsYGzDu7kNH
- D4aftjRatSU1E+QdSOhFy/7020f+qVIXGw==
-X-Google-Smtp-Source: ABdhPJy0Txv0KI+rWvy7GDjzUowe83xqkztQ26o+OR2Bel+bmHiXzlEF7omzlCLblSsYos/Ylw6XgA==
-X-Received: by 2002:a17:902:f34c:b0:163:fa4f:2ff5 with SMTP id
- q12-20020a170902f34c00b00163fa4f2ff5mr11819411ple.174.1654292283725; 
- Fri, 03 Jun 2022 14:38:03 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1547:e101:3286:cc26:3d5e:3f94])
+ bh=Efa2DEa479X/bOcpVHC+dlAOcqS0rNoHJeAOLMDwJ08=;
+ b=d1G7oVuuhPM++ISZxbTBbyj3hpqpz4JBJBBHYJRdoMj6F/Q7t/AIRPVc4bMjNw6iD3
+ 20HzXlxmo2CglWucn7eS4puUj5yNKkxghvoWW6AYDXTkQdBDh2sAr3cUKTZWk7uobO75
+ QEjyIz578GNOxyxfa+AmCNMQmMSH9V6TPnXNnjo7EA9AUfyah5n/TyrOAqo8dQc0Awwj
+ n7Z+hAuytwVYjR1atSCfIhOzrRGzhrZoRnmFq7S78up3EvzObuPCbtofEpkSImkgEK2U
+ 0ujZ1vYHXJ8IzN/u17uD1B5vtBVBIbV4v5B4cKwoFLvqyRO68IQqbXLLm5W9BFLYbbMC
+ T8cA==
+X-Gm-Message-State: AOAM5302VnQhI8QECDffhS3AkJioO/GnrWnZjvQI3SCw0UlibTQsJPFU
+ PjQUl+ZFqhR33c15WfVvYE6VA8jGmOIQlA==
+X-Google-Smtp-Source: ABdhPJweIzhTNAznsOAxOvYNoxAQP1/Q4yg2GKF/oPnoVaq8Ym1y+flESZAn6CFGhuGDdzOsJQsZuA==
+X-Received: by 2002:a63:951b:0:b0:3fc:98c2:4301 with SMTP id
+ p27-20020a63951b000000b003fc98c24301mr11537276pgd.515.1654309913707; 
+ Fri, 03 Jun 2022 19:31:53 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:3286:cc26:3d5e:3f94?
+ ([2602:ae:1547:e101:3286:cc26:3d5e:3f94])
  by smtp.gmail.com with ESMTPSA id
- o13-20020a170902d4cd00b0015e8d4eb2aesm5903523plg.248.2022.06.03.14.38.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jun 2022 14:38:03 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-Subject: [PATCH] linux-user/x86_64: Fix ELF_PLATFORM
-Date: Fri,  3 Jun 2022 14:38:01 -0700
-Message-Id: <20220603213801.64738-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ i63-20020a626d42000000b0050dc762813csm6113239pfc.22.2022.06.03.19.31.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jun 2022 19:31:52 -0700 (PDT)
+Message-ID: <5021fb66-7ae9-30bb-0127-ce6280a90a87@linaro.org>
+Date: Fri, 3 Jun 2022 19:31:50 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/11] hw/nvme updates
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+References: <20220603195354.705516-1-its@irrelevant.dk>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220603195354.705516-1-its@irrelevant.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,70 +92,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We had been using the i686 platform string for x86_64.
+On 6/3/22 12:53, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Hi Peter,
+> 
+> The following changes since commit 70e975203f366f2f30daaeb714bb852562b7b72f:
+> 
+>    Merge tag 'pull-request-2022-06-03' of https://gitlab.com/thuth/qemu into staging (2022-06-03 06:43:38 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
+> 
+> for you to fetch changes up to d7fe639cabf778903f6cab23ff58c905c71375ec:
+> 
+>    hw/nvme: add new command abort case (2022-06-03 21:48:24 +0200)
+> 
+> ----------------------------------------------------------------
+> hw/nvme updates
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1041
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/elfload.c | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index f7eae357f4..163fc8a1ee 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -130,19 +130,6 @@ typedef abi_int         target_pid_t;
- 
- #ifdef TARGET_I386
- 
--#define ELF_PLATFORM get_elf_platform()
--
--static const char *get_elf_platform(void)
--{
--    static char elf_platform[] = "i386";
--    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
--    if (family > 6)
--        family = 6;
--    if (family >= 3)
--        elf_platform[1] = '0' + family;
--    return elf_platform;
--}
--
- #define ELF_HWCAP get_elf_hwcap()
- 
- static uint32_t get_elf_hwcap(void)
-@@ -158,6 +145,8 @@ static uint32_t get_elf_hwcap(void)
- #define ELF_CLASS      ELFCLASS64
- #define ELF_ARCH       EM_X86_64
- 
-+#define ELF_PLATFORM   "x86_64"
-+
- static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-     regs->rax = 0;
-@@ -221,6 +210,21 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUX86State *en
- #define ELF_CLASS       ELFCLASS32
- #define ELF_ARCH        EM_386
- 
-+#define ELF_PLATFORM get_elf_platform()
-+
-+static const char *get_elf_platform(void)
-+{
-+    static char elf_platform[] = "i386";
-+    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
-+    if (family > 6) {
-+        family = 6;
-+    }
-+    if (family >= 3) {
-+        elf_platform[1] = '0' + family;
-+    }
-+    return elf_platform;
-+}
-+
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
- {
--- 
-2.34.1
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> 
+> Dmitry Tikhov (4):
+>    hw/nvme: fix narrowing conversion
+>    hw/nvme: add missing return statement
+>    hw/nvme: fix copy cmd for pi enabled namespaces
+>    hw/nvme: add new command abort case
+> 
+> Klaus Jensen (7):
+>    hw/nvme: fix smart aen
+>    hw/nvme: enforce common serial per subsystem
+>    hw/nvme: do not auto-generate eui64
+>    hw/nvme: do not auto-generate uuid
+>    hw/nvme: do not report null uuid
+>    hw/nvme: bump firmware revision
+>    hw/nvme: deprecate the use-intel-id compatibility parameter
+> 
+>   docs/about/deprecated.rst | 15 +++++++++++++++
+>   hw/core/machine.c         |  1 +
+>   hw/nvme/ctrl.c            | 26 ++++++++++++++------------
+>   hw/nvme/dif.c             |  5 +++++
+>   hw/nvme/ns.c              |  9 +++++----
+>   hw/nvme/nvme.h            |  1 +
+>   hw/nvme/subsys.c          |  7 +++++++
+>   7 files changed, 48 insertions(+), 16 deletions(-)
+> 
 
 
