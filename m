@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC9B53D8CC
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 01:14:23 +0200 (CEST)
-Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED45E53D8CB
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 01:12:57 +0200 (CEST)
+Received: from localhost ([::1]:58886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxcyM-0004uQ-WC
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jun 2022 19:14:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50264)
+	id 1nxcwz-00020B-21
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jun 2022 19:12:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxcv4-0008KX-3B
+ id 1nxcv4-0008KT-2S
  for qemu-devel@nongnu.org; Sat, 04 Jun 2022 19:10:58 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:37438)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxcuw-0004zn-2r
- for qemu-devel@nongnu.org; Sat, 04 Jun 2022 19:10:55 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id h192so3236932pgc.4
- for <qemu-devel@nongnu.org>; Sat, 04 Jun 2022 16:10:08 -0700 (PDT)
+ id 1nxcuw-0004zt-3L
+ for qemu-devel@nongnu.org; Sat, 04 Jun 2022 19:10:56 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ u12-20020a17090a1d4c00b001df78c7c209so14919998pju.1
+ for <qemu-devel@nongnu.org>; Sat, 04 Jun 2022 16:10:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SwpxzSVSdURXSZL6tDOTL8VJqOtYjKYsT4i+YQrSyxQ=;
- b=OTVmxmB2oatkUzmc1/AFsS0kABAwkqbsAQma65vN1fn08zKUmMwAC0x2rjHGQDFsuL
- 00Ufv7UcL+tyZsNfYQhi1OzTkZ96Gieelx/XDi2cRGW+u4s10hZSwMkeShfPndimHqQU
- Uge5Hx+kaP6sU1Bkfe+KkU1zk5pN1EQBcGM4f1R70iD9cEdskNfKK21W77pRj6faPs77
- Yvg4/jqlpZthHpOqT9t+OL87K7631RNSufOoCPo8slkHTzFUwq9m6G/50dMbcOjTAT8J
- 08uOQng+SfmUhOIgLDFPSITTz56Gub+OgyLo06R+enJmZBAyp/Q1s7KR+vLyJDJ7ie5i
- NiYQ==
+ bh=JEMAlLL3NGuLqFLBWL9oqhqscgsFoPyEqTMfa3vc+S8=;
+ b=Frkdx98CZ1FcgCAuEcGM8FPan83brN4LI40wr4L98tOsknCXdceLM+a3M6FIxorhlV
+ VQ0p7IICyQGHTrNKqKuUkgXfXeYzb0DEZLhguFNcBqvWLf9NwdS3xgrOtxtH5uWD/mXz
+ UNJKRkpRYDxV6fgktP1DjD+29JA+wlsfd+Er0d915SRLACJF0hRCwrHJZeg0Y+ucYrru
+ O0WZbrJHLiSbnvdUrzMNcH9lY27g7ScYfP+WhqSGl5yUQcIh4Dg5/Fv4b9lmWGZU603R
+ NDs/xfKEPWSIWRpnMvXstoupVYeyZ/X6m2BEjKI+ZzOohDNVchcXAklJPKWFT2EAvL1s
+ lEXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SwpxzSVSdURXSZL6tDOTL8VJqOtYjKYsT4i+YQrSyxQ=;
- b=A84qvdECx8rfdNvjC8tAbZzHfUO+bG0/I79WMdKIVScRWdjL1HGGeiROrnK1qBmaY6
- 9Vu4/P8yjp8jF4LwWruDbvi5tsGNPuLvHsly8RwXgSKKisOfC9D5Nj7DxE7T/5DSLvA3
- 2vsKQrDTmubJSpInD1PkS9LK5e5Jve5Zvu5ZGyP//DCw7i81RZ7ety4N9vyAU0HyOI6t
- IAGUAysMxMILSfCaxnTQPtJW3Ivh+gsvCC9bo4+uORqdvLJ26aYmF26HrvomSD2bgZEw
- 7VMtBX2r0jZY9iPcGaby8C9UKGh7YP/bz6/kD/P0YdcQHq+Go2KkpIbQZmCw4jVW2RCu
- fIyA==
-X-Gm-Message-State: AOAM533gws2H1G90rH1aKUeYygo4yk7KzQz/QvzXpD7Cp6h30youfq4W
- T1VduKpmegZksDChJf56wX5TnRG79U5OHA==
-X-Google-Smtp-Source: ABdhPJw8ipSFgBm4Yr64bCN/wBxWyQ647KcVVad9uZZbVDP5BAjE+DTuKXk38SqBOWs2wUVsaEUAWA==
-X-Received: by 2002:a63:8a4c:0:b0:3fc:5c99:a195 with SMTP id
- y73-20020a638a4c000000b003fc5c99a195mr14498737pgd.29.1654384207422; 
- Sat, 04 Jun 2022 16:10:07 -0700 (PDT)
+ bh=JEMAlLL3NGuLqFLBWL9oqhqscgsFoPyEqTMfa3vc+S8=;
+ b=DI/fcSFP0qWkEBG4j3HpIFv21akbXQaFOUpLnsbyEzNJ3kJhjbo8fmQrVMGmVg2FvL
+ z510Xm/qFOSmxVM3ZriHVldZaKoWEFSaF4DquGE0JBEDA6i6rAPDuAVakH50NR40zfRM
+ N6fEWrWmeky5dabcVruGezH+Pq4p457yj9aoUrhPc6HVafj9eI6uDn+an8S3ej7zpygf
+ 5EgeQbmWIgGHMN3zQ8B2y2Uzh2Cso8kH5jJRS74nJ+nnaSB4lsX7fC5Wb1IKvs4ztSkW
+ 1iA0yc/0ctBr+eEU+HhN7B1xrPcZHWEm75P1rdzaYEHl6E4IUG8dwgudKQ+jzx0qYRPz
+ N1jw==
+X-Gm-Message-State: AOAM532+3e3k1SDOD19CUkI/wOqsiCsb3T8VX3EeFDitTou3MDJgpqAR
+ VrAFouuppCt8A9YIpAT5GgTfCIMLdKlvbg==
+X-Google-Smtp-Source: ABdhPJxG124SUmYzxT9QXZ1+Sxo8q1Ms9u/L3C19ywLvI9+7Y7Tg/aLk/xnQWkd6pJbKVAquhZEWdg==
+X-Received: by 2002:a17:902:6505:b0:163:b040:829b with SMTP id
+ b5-20020a170902650500b00163b040829bmr16631470plk.173.1654384208130; 
+ Sat, 04 Jun 2022 16:10:08 -0700 (PDT)
 Received: from bigtime.. ([2602:ae:1547:e101:250:b6ff:fe24:58ae])
  by smtp.gmail.com with ESMTPSA id
- 184-20020a6302c1000000b003fcf1279c84sm5562151pgc.33.2022.06.04.16.10.06
+ 184-20020a6302c1000000b003fcf1279c84sm5562151pgc.33.2022.06.04.16.10.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 04 Jun 2022 16:10:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/riscv: Remove generate_exception_mtval
-Date: Sat,  4 Jun 2022 23:10:03 +0000
-Message-Id: <20220604231004.49990-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/3] target/riscv: Minimize the calls to decode_save_opc
+Date: Sat,  4 Jun 2022 23:10:04 +0000
+Message-Id: <20220604231004.49990-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220604231004.49990-1-richard.henderson@linaro.org>
 References: <20220604231004.49990-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,44 +89,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function doesn't set mtval, it sets badaddr. Move the set
-of badaddr directly into gen_exception_inst_addr_mis and use
-generate_exception.
+The set of instructions that require decode_save_opc for
+unwinding is really fairly small -- only insns that can
+raise ILLEGAL_INSN at runtime.  This includes CSR, anything
+that uses a *new* fp rounding mode, and many privileged insns.
+
+Since unwind info is stored as the difference from the
+previous insn, storing a 0 for most insns minimizes the
+size of the unwind info.
+
+Booting a debian kernel image to the missing rootfs panic yields
+
+- gen code size       22226819/1026886656
++ gen code size       21601907/1026886656
+
+on 41k TranslationBlocks, a savings of 610kB or a bit less than 3%.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/translate.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ target/riscv/translate.c                       | 18 +++++++++---------
+ target/riscv/insn_trans/trans_privileged.c.inc |  4 ++++
+ target/riscv/insn_trans/trans_rvh.c.inc        |  2 ++
+ target/riscv/insn_trans/trans_rvi.c.inc        |  2 ++
+ 4 files changed, 17 insertions(+), 9 deletions(-)
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 9196aa71db..6e4bbea1cd 100644
+index 6e4bbea1cd..b328a7b2ff 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -228,14 +228,6 @@ static void generate_exception(DisasContext *ctx, int excp)
-     ctx->base.is_jmp = DISAS_NORETURN;
+@@ -204,6 +204,13 @@ static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
+     tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
  }
  
--static void generate_exception_mtval(DisasContext *ctx, int excp)
++static void decode_save_opc(DisasContext *ctx)
++{
++    assert(ctx->insn_start != NULL);
++    tcg_set_insn_start_param(ctx->insn_start, 1, ctx->opcode);
++    ctx->insn_start = NULL;
++}
++
+ static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
+ {
+     if (get_xl(ctx) == MXL_RV32) {
+@@ -633,6 +640,8 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+         return;
+     }
+ 
++    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
++    decode_save_opc(ctx);
+     gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
+ }
+ 
+@@ -1011,13 +1020,6 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ /* Include decoders for factored-out extensions */
+ #include "decode-XVentanaCondOps.c.inc"
+ 
+-static inline void decode_save_opc(DisasContext *ctx, target_ulong opc)
 -{
--    gen_set_pc_imm(ctx, ctx->base.pc_next);
--    tcg_gen_st_tl(cpu_pc, cpu_env, offsetof(CPURISCVState, badaddr));
--    gen_helper_raise_exception(cpu_env, tcg_constant_i32(excp));
--    ctx->base.is_jmp = DISAS_NORETURN;
+-    assert(ctx->insn_start != NULL);
+-    tcg_set_insn_start_param(ctx->insn_start, 1, opc);
+-    ctx->insn_start = NULL;
 -}
 -
- static void gen_exception_illegal(DisasContext *ctx)
+ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
  {
-     tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
-@@ -245,7 +237,8 @@ static void gen_exception_illegal(DisasContext *ctx)
+     /*
+@@ -1034,7 +1036,6 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
  
- static void gen_exception_inst_addr_mis(DisasContext *ctx)
+     /* Check for compressed insn */
+     if (extract16(opcode, 0, 2) != 3) {
+-        decode_save_opc(ctx, opcode);
+         if (!has_ext(ctx, RVC)) {
+             gen_exception_illegal(ctx);
+         } else {
+@@ -1049,7 +1050,6 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+         opcode32 = deposit32(opcode32, 16, 16,
+                              translator_lduw(env, &ctx->base,
+                                              ctx->base.pc_next + 2));
+-        decode_save_opc(ctx, opcode32);
+         ctx->opcode = opcode32;
+         ctx->pc_succ_insn = ctx->base.pc_next + 4;
+ 
+diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
+index 53613682e8..46f96ad74d 100644
+--- a/target/riscv/insn_trans/trans_privileged.c.inc
++++ b/target/riscv/insn_trans/trans_privileged.c.inc
+@@ -75,6 +75,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
  {
--    generate_exception_mtval(ctx, RISCV_EXCP_INST_ADDR_MIS);
-+    tcg_gen_st_tl(cpu_pc, cpu_env, offsetof(CPURISCVState, badaddr));
-+    generate_exception(ctx, RISCV_EXCP_INST_ADDR_MIS);
- }
+ #ifndef CONFIG_USER_ONLY
+     if (has_ext(ctx, RVS)) {
++        decode_save_opc(ctx);
+         gen_helper_sret(cpu_pc, cpu_env);
+         tcg_gen_exit_tb(NULL, 0); /* no chaining */
+         ctx->base.is_jmp = DISAS_NORETURN;
+@@ -90,6 +91,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
+ static bool trans_mret(DisasContext *ctx, arg_mret *a)
+ {
+ #ifndef CONFIG_USER_ONLY
++    decode_save_opc(ctx);
+     gen_helper_mret(cpu_pc, cpu_env);
+     tcg_gen_exit_tb(NULL, 0); /* no chaining */
+     ctx->base.is_jmp = DISAS_NORETURN;
+@@ -102,6 +104,7 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
+ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
+ {
+ #ifndef CONFIG_USER_ONLY
++    decode_save_opc(ctx);
+     gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+     gen_helper_wfi(cpu_env);
+     return true;
+@@ -113,6 +116,7 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
+ static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
+ {
+ #ifndef CONFIG_USER_ONLY
++    decode_save_opc(ctx);
+     gen_helper_tlb_flush(cpu_env);
+     return true;
+ #endif
+diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
+index cebcb3f8f6..4f8aecddc7 100644
+--- a/target/riscv/insn_trans/trans_rvh.c.inc
++++ b/target/riscv/insn_trans/trans_rvh.c.inc
+@@ -169,6 +169,7 @@ static bool trans_hfence_gvma(DisasContext *ctx, arg_sfence_vma *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+ #ifndef CONFIG_USER_ONLY
++    decode_save_opc(ctx);
+     gen_helper_hyp_gvma_tlb_flush(cpu_env);
+     return true;
+ #endif
+@@ -179,6 +180,7 @@ static bool trans_hfence_vvma(DisasContext *ctx, arg_sfence_vma *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+ #ifndef CONFIG_USER_ONLY
++    decode_save_opc(ctx);
+     gen_helper_hyp_tlb_flush(cpu_env);
+     return true;
+ #endif
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index f1342f30f8..cf17458022 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -822,6 +822,8 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
  
- static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+ static bool do_csr_post(DisasContext *ctx)
+ {
++    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
++    decode_save_opc(ctx);
+     /* We may have changed important cpu state -- exit to main loop. */
+     gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+     tcg_gen_exit_tb(NULL, 0);
 -- 
 2.34.1
 
