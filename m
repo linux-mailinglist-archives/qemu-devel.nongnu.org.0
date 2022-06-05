@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0AD53DCF0
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 18:18:08 +0200 (CEST)
-Received: from localhost ([::1]:39088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E7A53DCF1
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 18:20:00 +0200 (CEST)
+Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxsx5-0001Dw-FI
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jun 2022 12:18:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
+	id 1nxsys-0002e7-UI
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jun 2022 12:19:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxsqH-0004Wj-Es
- for qemu-devel@nongnu.org; Sun, 05 Jun 2022 12:11:07 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:55207)
+ id 1nxssw-00073U-Eh
+ for qemu-devel@nongnu.org; Sun, 05 Jun 2022 12:13:52 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:42934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxsqE-0000Ti-Qw
- for qemu-devel@nongnu.org; Sun, 05 Jun 2022 12:11:04 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id j7so10999479pjn.4
- for <qemu-devel@nongnu.org>; Sun, 05 Jun 2022 09:11:02 -0700 (PDT)
+ id 1nxssu-0000la-VE
+ for qemu-devel@nongnu.org; Sun, 05 Jun 2022 12:13:50 -0400
+Received: by mail-pl1-x636.google.com with SMTP id d22so10381817plr.9
+ for <qemu-devel@nongnu.org>; Sun, 05 Jun 2022 09:13:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BiCy+cPE5Fp9O9R0zWpEP/6dC1PqcMNp2AcNLHCUCp0=;
- b=d1L4lCEgThGbpoyUeAz9yp1S+/oerstTHGDhWx2Fq+NQlyb6TXlBrhXjv2WBdBeP5o
- /tb9QHIGIKdZfaoRlsqzhOM3UEnq0W4zq8bXa2YUWxuFch6P4KyBwHOy7vSHGj+jjFxS
- eqDnFqWmBFV00krWPbRTJ/K2zLt23WcaeYo32YirjITkdTHBydlRYfs49vnNOtpBia7e
- m85QVjTAaNa9KKPaVJjMyL4zkj9IWdu5s/ABy17AeUfqIrw2WnYRWK8h2J8xrH1FLy+2
- lYnjuY3Rhx+ccMKRcJY2e3X9nllmqJfT70Jt35zfBPiahJSMbxKX80Kmlra1ceBJcTCZ
- l0NA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=HWAOQI/LevKC0BiboX4rhAyExDZ1Sp2+bkoqJgXryEk=;
+ b=Rxb2Pp1p64TY/r8q3KuQWZWsbrps0xWs9e1pXApTR9SCQkx0/OTxr2TcFq6X8ZAyD9
+ 4AOQHZ/1ead5icpOzsQ3YVC+TzaKLxkaTbsBv4RzR5/bbi/4YISxA7Vf3saF1uWVWyJM
+ PAWq3wA6lVl8A3PvvbhANFvAIT9AgwSexMFi+kex8qMUx5NtNLaTtJpdRVpZ6tZVaaMt
+ JjQuUK2rc06becwY3/z9HLBBjUKhzy+Yx3HsW2ai4ZpU7NWtVmAaDdPVr2qX8Tyho0tY
+ UQpvsVLc3e+J3BDVWjRU/+PpoFfc22A+FAzJL97yiFQ72UlVmMRAvkY98jDym0MA6SkN
+ 2hPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BiCy+cPE5Fp9O9R0zWpEP/6dC1PqcMNp2AcNLHCUCp0=;
- b=C8XO7icHIvfqujU/2JUi6tmaicUWSjb+PPV8uOKhE8Ov46Itposeg4jg6TEmDVnGNO
- 9jeLRhifPr9XPw1gZPrg7SR3yIi88BnI0x3KHjz523mjUvQg8WqqC44UgL53OTEpxnRs
- /OviNmXqMDgLTcy3I61om4kuihIMn2J4jGqHQYgGdpfiLcyp8FROD6b/tWQCx1SMe/aN
- SH1Bb2uYn/f4L/XDDFN1Q1x8JkAOWZ9vfxLZ9JKvGKc/DulggvO/ONLVcqw1GtD6MjdP
- eOdr7xi5XZmicJ/9jRVw8JUWMQH1Ldv+sekEGyh6oHjpUm83WrBfrJthbCHmTalessDI
- t2Tw==
-X-Gm-Message-State: AOAM530lrU4YV3+AznFu5qsMwFGQf68ioX//XHY+O6qke7zoKFZUf8Oz
- Y2n9vZJAuZryLo/F5Kg2FzKWiNjwhNH8Rg==
-X-Google-Smtp-Source: ABdhPJxhAlqTLLpDEKftTxcvQ9saGLIkkboPPZm0BfuXxaHljz5KlRy8me0328bZ+MW/drDFIMH/Og==
-X-Received: by 2002:a17:902:ef45:b0:155:cede:5a9d with SMTP id
- e5-20020a170902ef4500b00155cede5a9dmr20010175plx.93.1654445461455; 
- Sun, 05 Jun 2022 09:11:01 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1547:e101:3fb8:a3e1:bf34:75a2])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HWAOQI/LevKC0BiboX4rhAyExDZ1Sp2+bkoqJgXryEk=;
+ b=wyzZZ7P3+5XyP0JNFHRFGvVNwcRXrBanIlmA/SYi/N+0FLVrZVTY/UiLDlmntWXP6t
+ CHSMa+2FxLTbDD1gKHpuz3BoI6jLYSz0SdUctKj1FFkih6PMY4OK3+3skmdiBF4Fs8h8
+ q3l7Sl1jHy1fn1IzCtrka/FxWHKDMgQ/3M0q1oCMPxgiySIf2sZKXpdRIvX5qqkBaHmM
+ Excb4wEeq4131Cs8Zp1c3MkCP1J1QbaGK+lJUUNTU5FFj770IJjH2PZNrwp1c/dfbg4D
+ scLpaZwrHf9v6CYdzxAMlSrfHaif3lxp0+1+eSYDhdskLN8dYCgmV65T9+nU0umAajUj
+ MVhA==
+X-Gm-Message-State: AOAM533U89nPcSBsrSEFnWSKmtfqBkHfIgI6nt5NKVMyx0gHFJqv6Hsb
+ 7mencoy8JfbEPgXf95W9Sd7zCcS0stzsww==
+X-Google-Smtp-Source: ABdhPJw/1XtTk8gkB3XIc8mxwvHq1J4HCOek+7eFAAkWl0XtsK3h5SAa8+/b3+kmxiOsuIea4+8cZw==
+X-Received: by 2002:a17:902:ebd1:b0:162:224f:abbb with SMTP id
+ p17-20020a170902ebd100b00162224fabbbmr19856695plg.160.1654445627660; 
+ Sun, 05 Jun 2022 09:13:47 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:3fb8:a3e1:bf34:75a2?
+ ([2602:ae:1547:e101:3fb8:a3e1:bf34:75a2])
  by smtp.gmail.com with ESMTPSA id
- q133-20020a632a8b000000b003c14af505fesm8932165pgq.22.2022.06.05.09.11.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jun 2022 09:11:00 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Subject: [PATCH 2/2] target/arm: SCR_EL3.RW is RAO/WI without AArch32 EL[12]
-Date: Sun,  5 Jun 2022 09:10:56 -0700
-Message-Id: <20220605161056.293920-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220605161056.293920-1-richard.henderson@linaro.org>
-References: <20220605161056.293920-1-richard.henderson@linaro.org>
+ v70-20020a638949000000b003fd3737f167sm4233358pgd.19.2022.06.05.09.13.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 Jun 2022 09:13:47 -0700 (PDT)
+Message-ID: <1584d6f0-4d8c-c72a-583d-e0690265c369@linaro.org>
+Date: Sun, 5 Jun 2022 09:13:44 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] hw/mips/boston: Initialize g_autofree pointers
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Aleksandar Rikalo
+ <aleksandar.rikalo@syrmia.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Paul Burton <paulburton@kernel.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20220605151908.30566-1-shentey@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220605151908.30566-1-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,49 +96,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since DDI0487F.a, the RW bit is RAO/WI.  When specifically
-targeting such a cpu, e.g. cortex-a76, it is legitimate to
-ignore the bit within the secure monitor.
+On 6/5/22 08:19, Bernhard Beschow wrote:
+> Fixes compilation due to false positives with -Werror:
+> 
+>    In file included from /usr/include/glib-2.0/glib.h:114,
+>                     from qemu/src/include/glib-compat.h:32,
+>                     from qemu/src/include/qemu/osdep.h:144,
+>                     from ../src/hw/mips/boston.c:20:
+>    In function ‘g_autoptr_cleanup_generic_gfree’,
+>        inlined from ‘boston_mach_init’ at ../src/hw/mips/boston.c:790:52:
+>    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘dtb_load_data’ may be used uninitialized [-Werror=maybe-uninitialized]
+>       28 |   g_free (*pp);
+>          |   ^~~~~~~~~~~~
+>    ../src/hw/mips/boston.c: In function ‘boston_mach_init’:
+>    ../src/hw/mips/boston.c:790:52: note: ‘dtb_load_data’ was declared here
+>      790 |             g_autofree const void *dtb_file_data, *dtb_load_data;
+>          |                                                    ^~~~~~~~~~~~~
+>    In function ‘g_autoptr_cleanup_generic_gfree’,
+>      inlined from ‘boston_mach_init’ at ../src/hw/mips/boston.c:790:36:
+>    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘dtb_file_data’ may be used uninitialized [-Werror=maybe-uninitialized]
+>       28 |   g_free (*pp);
+>          |   ^~~~~~~~~~~~
+>    ../src/hw/mips/boston.c: In function ‘boston_mach_init’:
+>    ../src/hw/mips/boston.c:790:36: note: ‘dtb_file_data’ was declared here
+>      790 |             g_autofree const void *dtb_file_data, *dtb_load_data;
+>          |                                    ^~~~~~~~~~~~~
+>    cc1: all warnings being treated as errors
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/mips/boston.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1062
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.h    | 5 +++++
- target/arm/helper.c | 4 ++++
- 2 files changed, 9 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index c1865ad5da..a7c45d0d66 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3947,6 +3947,11 @@ static inline bool isar_feature_aa64_aa32_el1(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, EL1) >= 2;
- }
- 
-+static inline bool isar_feature_aa64_aa32_el2(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, EL2) >= 2;
-+}
-+
- static inline bool isar_feature_aa64_ras(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, RAS) != 0;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c262b00c3c..84232a6437 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1755,6 +1755,10 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-         value |= SCR_FW | SCR_AW;      /* RES1 */
-         valid_mask &= ~SCR_NET;        /* RES0 */
- 
-+        if (!cpu_isar_feature(aa64_aa32_el1, cpu) &&
-+            !cpu_isar_feature(aa64_aa32_el2, cpu)) {
-+            value |= SCR_RW;           /* RAO/WI*/
-+        }
-         if (cpu_isar_feature(aa64_ras, cpu)) {
-             valid_mask |= SCR_TERR;
-         }
--- 
-2.34.1
-
+r~
 
