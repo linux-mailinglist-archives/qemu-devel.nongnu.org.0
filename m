@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7AD53DC5B
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 16:50:19 +0200 (CEST)
-Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD4953DC62
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 16:58:49 +0200 (CEST)
+Received: from localhost ([::1]:57896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxra6-0001Z1-3U
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jun 2022 10:50:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
+	id 1nxriK-0003rf-Ob
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jun 2022 10:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1nxrXy-00009x-DW
- for qemu-devel@nongnu.org; Sun, 05 Jun 2022 10:48:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23284)
+ id 1nxrh7-00032A-5Y
+ for qemu-devel@nongnu.org; Sun, 05 Jun 2022 10:57:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1nxrXu-0005We-U5
- for qemu-devel@nongnu.org; Sun, 05 Jun 2022 10:48:04 -0400
+ id 1nxrh2-0006li-Qy
+ for qemu-devel@nongnu.org; Sun, 05 Jun 2022 10:57:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654440480;
+ s=mimecast20190719; t=1654441047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=VZRHxZI4iJx8q+NoMQ9aUfJDqIQH8XYrU6NnYx0qBCU=;
- b=NesrO5rm6kyFuSM40vq8R9ZQDgRNqGdsQE/JRXkumm9go64mmsgXy0VAOwyb4qbX6oIXCe
- vApGvBE/rOGyOEVWts6B7IUFoaJrOMriTuIssy1mJiQwfw8mcsWgEcjl6pyg88ZaOmoluC
- fXNsEkVWKL7LHydqFcKjlhtb+QDBfhc=
+ bh=V61X7UHXMZn1fJuzpZUcF/bPNXUtpQ2kIlC85GtlfeM=;
+ b=DjyQELEVw7slO6ZfsujK7Jbeg542sH21cm2s6uJr6mYADCxuJJm34090c+se1klB8KFLCZ
+ 5lZR9I2h/IIE/+fDN+hvjmPmqaBr+q5CGuVuZUD3dm2h96UrtJgZ7O2luEbvzLtOjnJymt
+ 1bg/rw3e5m0CKCbMUdNPR/xFZKCbtgA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-nmJczcEhO8Od0isMmxo16Q-1; Sun, 05 Jun 2022 10:46:34 -0400
-X-MC-Unique: nmJczcEhO8Od0isMmxo16Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-163-0QtKN7JVPsGcl8rSwOz60Q-1; Sun, 05 Jun 2022 10:57:24 -0400
+X-MC-Unique: 0QtKN7JVPsGcl8rSwOz60Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CDAA801E67
- for <qemu-devel@nongnu.org>; Sun,  5 Jun 2022 14:46:34 +0000 (UTC)
-Received: from [10.22.16.54] (unknown [10.22.16.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1544240CF8EF;
- Sun,  5 Jun 2022 14:46:34 +0000 (UTC)
-Message-ID: <d2847516-b923-5301-f20f-8d4704a41b2c@redhat.com>
-Date: Sun, 5 Jun 2022 10:46:33 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D82280159B;
+ Sun,  5 Jun 2022 14:57:24 +0000 (UTC)
+Received: from worklaptop.redhat.com (unknown [10.22.16.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3189B492C3B;
+ Sun,  5 Jun 2022 14:57:24 +0000 (UTC)
 From: Cole Robinson <crobinso@redhat.com>
-Subject: dbus-display-test is flakey
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset=UTF-8
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org,
+	Cole Robinson <crobinso@redhat.com>
+Subject: [PATCH] qemu-iotests: Discard stderr when probing devices
+Date: Sun,  5 Jun 2022 10:57:17 -0400
+Message-Id: <a535c532fb5a9a607f4e3e187cf386e3eaadf892.1654441037.git.crobinso@redhat.com>
+MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=crobinso@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -63,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,32 +77,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Marc-André,
+./configure --enable-modules --enable-smartcard \
+    --target-list=x86_64-softmmu,s390x-softmmu
+make
+cd build
+QEMU_PROG=`pwd`/s390x-softmmu/qemu-system-s390x \
+    ../tests/check-block.sh qcow2
+...
+--- /home/crobinso/src/qemu/tests/qemu-iotests/127.out
++++ /home/crobinso/src/qemu/build/tests/qemu-iotests/scratch/127.out.bad
+@@ -1,4 +1,18 @@
+ QA output created by 127
++Failed to open module: /home/crobinso/src/qemu/build/hw-usb-smartcard.so: undefined symbol: ccid_card_ccid_attach
+...
+--- /home/crobinso/src/qemu/tests/qemu-iotests/267.out
++++ /home/crobinso/src/qemu/build/tests/qemu-iotests/scratch/267.out.bad
+@@ -1,4 +1,11 @@
+ QA output created by 267
++Failed to open module: /home/crobinso/src/qemu/build/hw-usb-smartcard.so: undefined symbol: ccid_card_ccid_attach
 
-dbus-display-test seems flakey. I'm occasionally seeing:
+The stderr spew is its own known issue, but seems like iotests should
+be discarding stderr in this case.
 
-▶ 692/746
-ERROR:../tests/qtest/dbus-display-test.c:68:test_dbus_display_vm:
-assertion failed
-(qemu_dbus_display1_vm_get_name(QEMU_DBUS_DISPLAY1_VM(vm)) ==
-"dbus-test"): (NULL == "dbus-test") ERROR
+Signed-off-by: Cole Robinson <crobinso@redhat.com>
+---
+ tests/qemu-iotests/common.rc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Examples:
-
-fedora rawhide x86_64:
-https://kojipkgs.fedoraproject.org//work/tasks/4945/87834945/build.log
-fedora rawhide aarch64:
-https://kojipkgs.fedoraproject.org//work/tasks/4946/87834946/build.log
-fedora 35 x86_64:
-https://download.copr.fedorainfracloud.org/results/@virtmaint-sig/virt-preview/fedora-35-x86_64/04491978-qemu/builder-live.log.gz
-
-This is qemu v7.0.0 with some unrelated patches on top. /usr/bin/make -O
--j5 V=1 VERBOSE=1 check
-
-Side question: I know I can patch meson.build to skip the test, or
-similar patch changes, but is there a non-patch way to skip specific tests?
-
-Thanks,
-Cole
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 165b54a61e..db757025cb 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -982,7 +982,7 @@ _require_large_file()
+ #
+ _require_devices()
+ {
+-    available=$($QEMU -M none -device help | \
++    available=$($QEMU -M none -device help 2> /dev/null | \
+                 grep ^name | sed -e 's/^name "//' -e 's/".*$//')
+     for device
+     do
+@@ -994,7 +994,7 @@ _require_devices()
+ 
+ _require_one_device_of()
+ {
+-    available=$($QEMU -M none -device help | \
++    available=$($QEMU -M none -device help 2> /dev/null | \
+                 grep ^name | sed -e 's/^name "//' -e 's/".*$//')
+     for device
+     do
+-- 
+2.36.1
 
 
