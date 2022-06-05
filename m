@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E674753D903
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 02:58:42 +0200 (CEST)
-Received: from localhost ([::1]:52198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCEB53D922
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 03:59:29 +0200 (CEST)
+Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxebJ-0004hz-J8
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jun 2022 20:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
+	id 1nxfY7-0005Ba-Tm
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jun 2022 21:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nxea6-000420-VR
- for qemu-devel@nongnu.org; Sat, 04 Jun 2022 20:57:26 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:40909)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nxfX2-0004De-EB
+ for qemu-devel@nongnu.org; Sat, 04 Jun 2022 21:58:20 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:45816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nxea4-0001hv-Pp
- for qemu-devel@nongnu.org; Sat, 04 Jun 2022 20:57:26 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id x12so10122875pgj.7
- for <qemu-devel@nongnu.org>; Sat, 04 Jun 2022 17:57:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nxfX0-0000u1-Fm
+ for qemu-devel@nongnu.org; Sat, 04 Jun 2022 21:58:20 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id 7so9398909pga.12
+ for <qemu-devel@nongnu.org>; Sat, 04 Jun 2022 18:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=704nB+LTYV6mHO90K6jxpvGVqEdboKazXJjjeT2atxg=;
- b=cTXUd0yaVk2IGSKrzT/K+q0K4mvfFIx5mPu37hZEVkIRQQDGwCnFinRgYC3AgayHLM
- sEvAOlMrKjCV+7dizCX5ctL6Nt+Lm4Up5bwoblcC2mrwfDsu4CUATJPP5tKUQgXOsLf4
- KOa9ED9mJtCfCtG5GhGQPiTZeqIpWjwEGwqTSnk/Zk0qKnXk7x5pPjlPMCt1vAwIC6Ne
- eb54LVXCm2Zv9JxbNqu/+REW/RvvuMqNEdyKE+x6sfbWCWOtYX7ftQ2SD8KPBcjtYP6x
- lK7rqnK/MGUm1MYCkbQLmGwZ9XaEbT8ehtW1tb+mdvePL63WWi9UOeIB8jCk4IOcb4hW
- tEXg==
+ bh=FH7hgVFGKN1ueArYEdTBjcnxNno+hsrovt2TJHN6hd0=;
+ b=G0lqqX2IsH32MAQCUdcPSDhj1/u/MI2nPmeuN5WOj4X/RhGtIgOr2k4Dcl8vih0475
+ yuMyc/gbJUi63zCDHG8j3GgsXUlpiYBRUoJjYuBSVA5CHRAgMdb+wdal6P9/7/yvK3d/
+ 6PKGASjgEiIB+8yC9HGYMwZW8ckPFg2zHPHX9rhwP0xwBqZQcFqCdiihP8oP2OGyfqP5
+ xg/0LhS9AAPQrQ5ZF746ejsdUJOUNhCqvvjkKlXvUCr88VGOx/v1FYVEfLYr/a9fTJgw
+ dlCTYGxyVL/DLkYLH2mvZD6Vk1mWgyGLYEKj3ks2Y1M284LYsQV5lcWa1CSr7JdbCNWW
+ 0gTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=704nB+LTYV6mHO90K6jxpvGVqEdboKazXJjjeT2atxg=;
- b=StsPDg119GhIa01V1vVmxFrif3vLIG9GhOWjXgRf7JQK4Rxxd2wB6eIChvp0s4I6vi
- kaDdk7EwbXYGhiMDZGxeH1KcU1dxT/jNCOOaiUlKcX2InlxJoGt/Yp4K1mOdsL69IYPv
- WzY7I/eW9X0MUv/JZ6ybLt9OgF+ANUHUzrCZ5NCEokNHjf+zlx8QFfE1LPpn1H/DFZVE
- Z+dzUlDFBHRkf6ZtMG5zMu1Ef9EHQ15HLsq+x36onL+cY5zA6oDTrFxZYsUi68GvYx/K
- aiHaZKvG2rcCMzYHlBMoYMblYuRs2ByVzQZyJYcQVGXFB2ZobnLbFkgfGWf11JspvEvI
- gjrw==
-X-Gm-Message-State: AOAM531nh4rCpc0eo9s+yThd2sD651f+77JfPiK/V2Zx9n/7QgSOvUO2
- g4XpfOFzJhyNGrH2FWuah3M=
-X-Google-Smtp-Source: ABdhPJwbi/Ggmw0TKeZ1YTcpF2V0NncSKz/ipKsbpNX6cmT1YkXlw0NoIwdTDIUrFmdQ57wU7XggTA==
-X-Received: by 2002:a62:1553:0:b0:51b:e0fe:ea34 with SMTP id
- 80-20020a621553000000b0051be0feea34mr10126216pfv.23.1654390642293; 
- Sat, 04 Jun 2022 17:57:22 -0700 (PDT)
+ bh=FH7hgVFGKN1ueArYEdTBjcnxNno+hsrovt2TJHN6hd0=;
+ b=PmNa38VzczTcYcV3rYrAkkCpDc9EsglsfkLMGt0ePAyhyLsnKsxjJUJKmcZrjBMuKV
+ k4hkZq3Blgbkep8rE6SgqHtwPT4lSLy6YWcmZcuji1OuKNp30UC9sTsA3wOvqg1VF+Vx
+ tKfNeeOmLJ+ebul6s6B78X/6q3B4zf93JTQV1fsmSYO+Ac3ndU5UbVPYcw17jXEatSqc
+ s4Ycn/YLgplR5AoTU2Rehq4jZZY/85dK5swZm6z65u1mLaN7wbPx94F9E2RQuL88vaog
+ bb5PirQ/cgYiJWGrCEZwZkJP5glDGt7LXtRyeWAnUyIGjzTG/80n32IyF0OHwCkdLf7m
+ v86g==
+X-Gm-Message-State: AOAM532SApB2hgnSNwDzV9LGArWG1XBQ1irLi1EeKrt60koM2nCgAVpr
+ LTxYtMgAUdwlOBOqcKNO1oM=
+X-Google-Smtp-Source: ABdhPJwCcdMFlABqCFWWAa53DQNUv52jnefGm+EgZEADisGj8Li1ABFaPnaJbAYLu6TJ66DwazXS0g==
+X-Received: by 2002:a63:e905:0:b0:3fa:ec8c:9013 with SMTP id
+ i5-20020a63e905000000b003faec8c9013mr14923577pgh.599.1654394296856; 
+ Sat, 04 Jun 2022 18:58:16 -0700 (PDT)
 Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
  by smtp.gmail.com with ESMTPSA id
- w6-20020a1709029a8600b0016760c06b76sm2008234plp.194.2022.06.04.17.57.21
+ q68-20020a632a47000000b003fcc510d789sm6671095pgq.29.2022.06.04.18.58.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jun 2022 17:57:21 -0700 (PDT)
-Date: Sun, 5 Jun 2022 09:57:20 +0900
+ Sat, 04 Jun 2022 18:58:15 -0700 (PDT)
+Date: Sun, 5 Jun 2022 10:58:14 +0900
 From: Stafford Horne <shorne@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: QEMU Development <qemu-devel@nongnu.org>,
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Joel Stanley <joel@jms.id.au>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
  Openrisc <openrisc@lists.librecores.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [RFC PATCH 1/3] target/openrisc: Add basic support for semihosting
-Message-ID: <Ypv/cBqa5CUeXoaj@antec>
+ QEMU Development <qemu-devel@nongnu.org>
+Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
+Message-ID: <YpwNtowUTxRbh2Uq@antec>
 References: <20220527172731.1742837-1-shorne@gmail.com>
- <20220527172731.1742837-2-shorne@gmail.com>
- <0a1051aa-f2f5-02de-693c-2c8b5e002998@linaro.org>
+ <20220527172731.1742837-4-shorne@gmail.com>
+ <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
+ <CAMuHMdWF_OwTMZZ=joRsnOAuB5UuKjACt3Ku4-o0--fR6xqQbQ@mail.gmail.com>
+ <YpkWllpTFzb2HHY5@antec>
+ <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0a1051aa-f2f5-02de-693c-2c8b5e002998@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=shorne@gmail.com; helo=mail-pg1-x52b.google.com
+In-Reply-To: <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=shorne@gmail.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,117 +93,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 02, 2022 at 08:39:21AM -0700, Richard Henderson wrote:
-> On 5/27/22 10:27, Stafford Horne wrote:
-> > +void do_or1k_semihosting(CPUOpenRISCState *env, uint32_t k);
-> ...
-> > +DEF_HELPER_FLAGS_2(nop, 0, void, env, i32)
+On Fri, Jun 03, 2022 at 09:05:09AM +0200, Geert Uytterhoeven wrote:
+> Hi Stafford,
 > 
-> Just call the helper "semihosting" and be done with it.
-> And the helper wants an ifdef for system mode.
+> On Thu, Jun 2, 2022 at 9:59 PM Stafford Horne <shorne@gmail.com> wrote:
+> > On Thu, Jun 02, 2022 at 09:08:52PM +0200, Geert Uytterhoeven wrote:
+> > > On Thu, Jun 2, 2022 at 1:42 PM Joel Stanley <joel@jms.id.au> wrote:
+> > > > On Fri, 27 May 2022 at 17:27, Stafford Horne <shorne@gmail.com> wrote:
+> > > > > This patch add the OpenRISC virtual machine 'virt' for OpenRISC.  This
+> > > > > platform allows for a convenient CI platform for toolchain, software
+> > > > > ports and the OpenRISC linux kernel port.
+> > > > >
+> > > > > Much of this has been sourced from the m68k and riscv virt platforms.
+> > >
+> > > > I enabled the options:
+> > > >
+> > > > CONFIG_RTC_CLASS=y
+> > > > # CONFIG_RTC_SYSTOHC is not set
+> > > > # CONFIG_RTC_NVMEM is not set
+> > > > CONFIG_RTC_DRV_GOLDFISH=y
+> > > >
+> > > > But it didn't work. It seems the goldfish rtc model doesn't handle a
+> > > > big endian guest running on my little endian host.
+> > > >
+> > > > Doing this fixes it:
+> > > >
+> > > > -    .endianness = DEVICE_NATIVE_ENDIAN,
+> > > > +    .endianness = DEVICE_HOST_ENDIAN,
+> > > >
+> > > > [    0.190000] goldfish_rtc 96005000.rtc: registered as rtc0
+> > > > [    0.190000] goldfish_rtc 96005000.rtc: setting system clock to
+> > > > 2022-06-02T11:16:04 UTC (1654168564)
+> > > >
+> > > > But literally no other model in the tree does this, so I suspect it's
+> > > > not the right fix.
+> > >
+> > > Goldfish devices are supposed to be little endian.
+> > > Unfortunately m68k got this wrong, cfr.
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2e2ac4a3327479f7e2744cdd88a5c823f2057bad
+> > > Please don't duplicate this bad behavior for new architectures
+> >
+> > Thanks for the pointer, I just wired in the goldfish RTC because I wanted to
+> > play with it.  I was not attached to it. I can either remove it our find another
+> > RTC.
 > 
-> > @@ -10,6 +10,7 @@ openrisc_ss.add(files(
-> >     'fpu_helper.c',
-> >     'gdbstub.c',
-> >     'interrupt_helper.c',
-> > +  'openrisc-semi.c',
-> >     'sys_helper.c',
-> >     'translate.c',
-> >   ))
-> 
-> You want to add the new file for system mode only.
-> Or, now that I think of it, conditional on CONFIG_SEMIHOSTING itself.
+> Sorry for being too unclear: the mistake was not to use the Goldfish
+> RTC, but to make its register accesses big-endian.
+> Using Goldfish devices as little-endian devices should be fine.
 
-That's right, I'll update it.
+OK, then I would think this patch would be needed on Goldfish.  I tested this
+out and it seems to work:
 
-> > +static void or1k_semi_return_u32(CPUOpenRISCState *env, uint32_t ret)
-> > +{
-> > +    cpu_set_gpr(env, 11, ret);
-> > +}
-> 
-> Let's drop this until you actually use it.  This appears to be attempting to
-> mirror other, more complete semihosting, but missing the third "error"
-> argument
+Patch:
 
-Sure, I did mention I kept these here for future (real) semihosting support.
-But I don't think that will happen.  So I can remove.
+diff --git a/hw/rtc/goldfish_rtc.c b/hw/rtc/goldfish_rtc.c
+index 35e493be31..f1dc5af297 100644
+--- a/hw/rtc/goldfish_rtc.c
++++ b/hw/rtc/goldfish_rtc.c
+@@ -219,7 +219,7 @@ static int goldfish_rtc_post_load(void *opaque, int
+version_id)
+ static const MemoryRegionOps goldfish_rtc_ops = {
+     .read = goldfish_rtc_read,
+     .write = goldfish_rtc_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 4,
+         .max_access_size = 4
 
-> > +void do_or1k_semihosting(CPUOpenRISCState *env, uint32_t k)
-> > +{
-> > +    uint32_t result;
-> > +
-> > +    switch (k) {
-> > +    case HOSTED_EXIT:
-> > +        gdb_exit(cpu_get_gpr(env, 3));
-> > +        exit(cpu_get_gpr(env, 3));
-> > +    case HOSTED_RESET:
-> > +#ifndef CONFIG_USER_ONLY
-> > +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> > +        return;
-> > +#endif
-> 
-> Do you in fact want to exit to the main loop after asking for reset?
-> That's the only way that "no return value" makes sense to me...
+Boot Log:
 
-OK. I'll look at this more.
- 
-> > +    default:
-> > +        qemu_log_mask(LOG_GUEST_ERROR, "or1k-semihosting: unsupported "
-> > +                      "semihosting syscall %d\n", k);
-> 
-> %u.
-
-OK.
-
-> >   static bool trans_l_nop(DisasContext *dc, arg_l_nop *a)
-> >   {
-> > +    if (semihosting_enabled() &&
-> > +        a->k != 0) {
-> > +        gen_helper_nop(cpu_env, tcg_constant_i32(a->k));
-> > +    }
-> 
-> Perhaps cleaner to move the semihosting dispatch switch here, instead of
-> leaving it to the runtime?  The reason we have a runtime switch for other
-> guests is that the semihosting syscall number is in a register.  This would
-> then be
-> 
->     if (semihosting_enabled()) {
->         switch (a->k) {
->         case 0:
->             break; /* normal nop */
->         case HOSTED_EXIT:
->             gen_helper_semihost_exit(cpu_R(dc, 3));
->             break;
->         case HOSTED_RESET:
->             gen_helper_semihost_reset();
->             tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
-> 
->             dc->base.is_jmp = DISAS_EXIT;
->             break;
->         ...
->         }
->     }
-
-Yeah, that makes sense. I had written it in a way that would allow expanding for
-real semi-hosting.  But I don't think we will do that with OpenRISC, so this is
-good enough.
-
-I am not sure if you saw the cover letter. I sent this RFC series to help
-illustrate two options for providing OpenRISC targets that support poweroff and
-reset.
-
-One option being using these NOP's, the second is to create a virt target with
-reset/poweroff hardware.
-
-I am kind of leaning towards dropping the semi-hosting patches and only moving
-forward with the virt patches.  The reason being that 1. we would not need to
-expand the architecture spec to support the qemu virt platform, and we would
-need to document the NOP's formally, and 2. OpenRISC doesn't really support the
-full "semihosting" facilities for file open/close/write etc.
-
-Any thoughts?  I guess this "semihosting" patch is pretty trivial.  But, maybe
-it causes more confusion compared to just going with the virt route.  Also, if
-we have virt I can't imagine anyone using the semihosting much.
+    io scheduler mq-deadline registered
+    io scheduler kyber registered
+    Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
+    90000000.serial: ttyS0 at MMIO 0x90000000 (irq = 2, base_baud = 1250000) is a 16550A
+    printk: console [ttyS0] enabled
+    loop: module loaded
+    virtio_blk virtio1: [vda] 32768 512-byte logical blocks (16.8 MB/16.0 MiB)
+    Freeing initrd memory: 1696K
+   *goldfish_rtc 96005000.rtc: registered as rtc0
+   *goldfish_rtc 96005000.rtc: setting system clock to 2022-06-05T01:49:57 UTC (1654393797)
+    NET: Registered PF_PACKET protocol family
+    random: fast init done
 
 -Stafford
 
