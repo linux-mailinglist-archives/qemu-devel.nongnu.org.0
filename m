@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD92453DAD5
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 10:23:05 +0200 (CEST)
-Received: from localhost ([::1]:40404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3E753DAE8
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 10:54:40 +0200 (CEST)
+Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxlXM-0007j4-Dy
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jun 2022 04:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46082)
+	id 1nxm1v-0005T1-8A
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jun 2022 04:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Mvkp=WM=zx2c4.com=Jason@kernel.org>)
- id 1nxlUQ-0006kq-T7
- for qemu-devel@nongnu.org; Sun, 05 Jun 2022 04:20:02 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:40958)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1nxlxy-00048F-Hg
+ for qemu-devel@nongnu.org; Sun, 05 Jun 2022 04:50:34 -0400
+Received: from mailout03.t-online.de ([194.25.134.81]:47632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Mvkp=WM=zx2c4.com=Jason@kernel.org>)
- id 1nxlUO-0007vK-RX
- for qemu-devel@nongnu.org; Sun, 05 Jun 2022 04:20:02 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2B3B7B80ADE;
- Sun,  5 Jun 2022 08:19:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 510C6C385A5;
- Sun,  5 Jun 2022 08:19:49 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="obdTTv7z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1654417187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=o24HQC0IbzRM+d2f5G9/kKh3ZrByIzzeza7EDocM5ps=;
- b=obdTTv7zxjjhGe+bHzWnn8fouuH2K6Q/9mne/epkE68iRwWm1S+OJS3umy9ytYHJ0dSz3t
- dPLc6m3he+aBEDNvwUxH8Kz4H8HW4cGfUF+XhkcXWK/sc8uy1Pca1yDNb52npYL/HVHuam
- KrCyOBm9Ggyu/1R2XBWiqcLXUcds5yo=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4fc6aae6
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Sun, 5 Jun 2022 08:19:46 +0000 (UTC)
-Date: Sun, 5 Jun 2022 10:19:41 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Stafford Horne <shorne@gmail.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Openrisc <openrisc@lists.librecores.org>,
- QEMU Development <qemu-devel@nongnu.org>
-Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
-Message-ID: <YpxnHaaizsNpOjx8@zx2c4.com>
-References: <20220527172731.1742837-1-shorne@gmail.com>
- <20220527172731.1742837-4-shorne@gmail.com>
- <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
- <CAMuHMdWF_OwTMZZ=joRsnOAuB5UuKjACt3Ku4-o0--fR6xqQbQ@mail.gmail.com>
- <YpkWllpTFzb2HHY5@antec>
- <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
- <YpwNtowUTxRbh2Uq@antec> <Ypxb/VDfYLFg3n2s@antec>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1nxlxw-0003Fx-KX
+ for qemu-devel@nongnu.org; Sun, 05 Jun 2022 04:50:34 -0400
+Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
+ by mailout03.t-online.de (Postfix) with SMTP id A8C9E62D4;
+ Sun,  5 Jun 2022 10:50:28 +0200 (CEST)
+Received: from [192.168.211.200] ([84.175.233.215]) by fwd75.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1nxlxs-14j6oL0; Sun, 5 Jun 2022 10:50:28 +0200
+Message-ID: <e0db9981-fe2f-67ec-63df-ff0c8e4cd690@t-online.de>
+Date: Sun, 5 Jun 2022 10:50:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Ypxb/VDfYLFg3n2s@antec>
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=Mvkp=WM=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: [PATCH 0/2] Fixes for ui/gtk-gl-area
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1654419028-01433199-B9827A3A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 95ece1d4-c2b0-488b-8b23-3ad27ffddb0c
+Received-SPF: none client-ip=194.25.134.81; envelope-from=vr_qemu@t-online.de;
+ helo=mailout03.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,22 +63,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi folks,
+The first patch fixes a GL context leak.
 
-On Sun, Jun 05, 2022 at 04:32:13PM +0900, Stafford Horne wrote:
-> Why can't m68k switch to little-endian in qemu and the kernel?  The m68k virt
-> platform is not that old, 1 year? Are there a lot of users that this would be a big
-> problem?
+The second patch fixes a black guest screen on Wayland with OpenGL 
+accelerated QEMU graphics devices. This bug doesn't seem to be related 
+to issues #910, #865, #671 or #298.
 
-I also share this perspective. AFAICT, m68k virt platform *just*
-shipped. Fix this stuff instead of creating more compatibility bloat for
-a platform with no new silicon. The risks of making life difficult for
-15 minutes for all seven and a half users of that code that only now has
-become operational is vastly dwarfed by the good sense to just fix the
-mistake. Treat the endian thing as a *bug* rather than a sacred ABI.
-Bugs only become sacred if you let them sit for years and large numbers
-of people grow to rely on spacebar heating. Otherwise they're just bugs.
-This can be fixed.
+Volker Rümelin (2):
+   ui/gtk-gl-area: implement GL context destruction
+   ui/gtk-gl-area: create the requested GL context version
 
-Jason
+  ui/gtk-gl-area.c | 39 +++++++++++++++++++++++++++++++++++++--
+  ui/trace-events  |  2 ++
+  2 files changed, 39 insertions(+), 2 deletions(-)
+
+-- 
+2.35.3
+
 
