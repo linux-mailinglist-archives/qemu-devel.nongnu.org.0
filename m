@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657B553DC48
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 16:39:13 +0200 (CEST)
-Received: from localhost ([::1]:47718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7AD53DC5B
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jun 2022 16:50:19 +0200 (CEST)
+Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nxrPM-0004W8-3H
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jun 2022 10:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+	id 1nxra6-0001Z1-3U
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jun 2022 10:50:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxrN8-0003Bb-Rg
- for qemu-devel@nongnu.org; Sun, 05 Jun 2022 10:36:54 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:43983)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nxrMx-00047n-6x
- for qemu-devel@nongnu.org; Sun, 05 Jun 2022 10:36:54 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id s68so10971703pgs.10
- for <qemu-devel@nongnu.org>; Sun, 05 Jun 2022 07:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=9YfmyU4P7skjDpkQBG1bmYhw6LZzt95v+mXiawPiugA=;
- b=J7XwWRx5c0MskeD79xML8QF+nXwda7BrZ9Tnd/38ey4ZwVAOhQQEhgAYuQjAbVH8+m
- f/mNnv0TK54JnfZO9/ofDQJP+GAfqOtN8pd4LWMT/Fl0mu7VVy6fgPdO4SZ18cVWpp6B
- SCfXBM7al1a8L6DbcctXsgmQNjQ8iIN9Fwamk35WDvLV68siA1gkGzQPXfKhLb3kYXyP
- PqjH/CTG7TV5/6LWR9PMc3LVDe4rdKkS+YYgguj4opEZoqMsYXkfbAzaQ4kJP75T0hFP
- ti76+cJRuJO4yOV/GK8s6rmASvPuSWsgr3tC1VaPqFap0a6OYeyrDUnDydMcUd45Qp6U
- xAQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9YfmyU4P7skjDpkQBG1bmYhw6LZzt95v+mXiawPiugA=;
- b=DcNRDtfl4HceEpgUXnbFYQaQYAST0+YC9iMIUV+cps4qT9DWeHtZ1B8WFJo9x+9Fi8
- +KHcbPQlN1zYB67Tcs8jcpd1VQXo1EgP6FEf8hNfMsJHsUMWaluk8pibw0BnGLtxvRM8
- IM2WnYlEpJBBOrz5MO+Jc0BVD9YSIjUMyS/a+XfN7tb6wVSJbg7lgKEg9JlzYW/Ca0ya
- EK+XeNcMlv+D0R92oGgH0/wTjJAVD7+d2OaTdjjuSCpt288D22Guw0QaitYTEEbbDbKG
- TBw8FdJmuJCw3qp1OV4a9zXHFPPjXq49EfxRNBCNpLI9jdUFRMGYoJfkOgoDNfHN1bab
- AzjA==
-X-Gm-Message-State: AOAM532MXy2d/6MB0l6f0GhIeomjr30MRv7HPrRb2OfFhG9ww+GQBNuA
- IQzERSnc5Hp0PJHtyIHSh0kzlw==
-X-Google-Smtp-Source: ABdhPJylo+3fzR7JM/UFfjcZ+yqmV2KJzvj1JerzyrgBTZTKsmyxj4ZkfewzBIMo3/rb3B7vy1a2PA==
-X-Received: by 2002:a63:131b:0:b0:3fc:c051:5a04 with SMTP id
- i27-20020a63131b000000b003fcc0515a04mr17154238pgl.568.1654439800132; 
- Sun, 05 Jun 2022 07:36:40 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:7b92:21dc:74b5:76dd?
- ([2602:ae:1547:e101:7b92:21dc:74b5:76dd])
- by smtp.gmail.com with ESMTPSA id
- g196-20020a6252cd000000b0051b9e224623sm9343173pfb.141.2022.06.05.07.36.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Jun 2022 07:36:39 -0700 (PDT)
-Message-ID: <ac25d80d-d8e6-9120-1609-395d666f0af8@linaro.org>
-Date: Sun, 5 Jun 2022 07:36:37 -0700
+ (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
+ id 1nxrXy-00009x-DW
+ for qemu-devel@nongnu.org; Sun, 05 Jun 2022 10:48:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23284)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
+ id 1nxrXu-0005We-U5
+ for qemu-devel@nongnu.org; Sun, 05 Jun 2022 10:48:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654440480;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VZRHxZI4iJx8q+NoMQ9aUfJDqIQH8XYrU6NnYx0qBCU=;
+ b=NesrO5rm6kyFuSM40vq8R9ZQDgRNqGdsQE/JRXkumm9go64mmsgXy0VAOwyb4qbX6oIXCe
+ vApGvBE/rOGyOEVWts6B7IUFoaJrOMriTuIssy1mJiQwfw8mcsWgEcjl6pyg88ZaOmoluC
+ fXNsEkVWKL7LHydqFcKjlhtb+QDBfhc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-528-nmJczcEhO8Od0isMmxo16Q-1; Sun, 05 Jun 2022 10:46:34 -0400
+X-MC-Unique: nmJczcEhO8Od0isMmxo16Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CDAA801E67
+ for <qemu-devel@nongnu.org>; Sun,  5 Jun 2022 14:46:34 +0000 (UTC)
+Received: from [10.22.16.54] (unknown [10.22.16.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1544240CF8EF;
+ Sun,  5 Jun 2022 14:46:34 +0000 (UTC)
+Message-ID: <d2847516-b923-5301-f20f-8d4704a41b2c@redhat.com>
+Date: Sun, 5 Jun 2022 10:46:33 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC PATCH 1/3] target/openrisc: Add basic support for semihosting
+ Thunderbird/91.9.0
 Content-Language: en-US
-To: Stafford Horne <shorne@gmail.com>
-Cc: QEMU Development <qemu-devel@nongnu.org>,
- Openrisc <openrisc@lists.librecores.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>
-References: <20220527172731.1742837-1-shorne@gmail.com>
- <20220527172731.1742837-2-shorne@gmail.com>
- <0a1051aa-f2f5-02de-693c-2c8b5e002998@linaro.org> <Ypv/cBqa5CUeXoaj@antec>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <Ypv/cBqa5CUeXoaj@antec>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+From: Cole Robinson <crobinso@redhat.com>
+Subject: dbus-display-test is flakey
+Cc: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=crobinso@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,21 +79,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/22 17:57, Stafford Horne wrote:
-> I am kind of leaning towards dropping the semi-hosting patches and only moving
-> forward with the virt patches.  The reason being that 1. we would not need to
-> expand the architecture spec to support the qemu virt platform, and we would
-> need to document the NOP's formally, and 2. OpenRISC doesn't really support the
-> full "semihosting" facilities for file open/close/write etc.
+Hi Marc-André,
 
-I agree that "virt" would to more for openrisc devel than these nops.
+dbus-display-test seems flakey. I'm occasionally seeing:
 
-> Also, if we have virt I can't imagine anyone using the semihosting much.
+▶ 692/746
+ERROR:../tests/qtest/dbus-display-test.c:68:test_dbus_display_vm:
+assertion failed
+(qemu_dbus_display1_vm_get_name(QEMU_DBUS_DISPLAY1_VM(vm)) ==
+"dbus-test"): (NULL == "dbus-test") ERROR
 
-IMO, semihosting is most valuable for writing regression tests and not much more.  (You 
-have no control over the exit status of qemu with normal shutdown, as compared with 
-semihosting exit.)
+Examples:
 
+fedora rawhide x86_64:
+https://kojipkgs.fedoraproject.org//work/tasks/4945/87834945/build.log
+fedora rawhide aarch64:
+https://kojipkgs.fedoraproject.org//work/tasks/4946/87834946/build.log
+fedora 35 x86_64:
+https://download.copr.fedorainfracloud.org/results/@virtmaint-sig/virt-preview/fedora-35-x86_64/04491978-qemu/builder-live.log.gz
 
-r~
+This is qemu v7.0.0 with some unrelated patches on top. /usr/bin/make -O
+-j5 V=1 VERBOSE=1 check
+
+Side question: I know I can patch meson.build to skip the test, or
+similar patch changes, but is there a non-patch way to skip specific tests?
+
+Thanks,
+Cole
+
 
