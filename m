@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CF053E5C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 18:51:17 +0200 (CEST)
-Received: from localhost ([::1]:38214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D358C53E5C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 18:48:15 +0200 (CEST)
+Received: from localhost ([::1]:34942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyFwi-0002b7-3X
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 12:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56100)
+	id 1nyFtm-0000OR-Vf
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 12:48:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nyFpY-0004P9-Aa
+ id 1nyFpY-0004Q6-T8
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 12:43:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49258)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nyFpW-0005SL-0m
+ id 1nyFpW-0005SO-5F
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 12:43:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1654533829;
@@ -25,32 +25,31 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XDXVnAcsOpsv+b+2HJM/fkJg06n/crc6W9X4TaRaAJY=;
- b=iR2I8bBjy5OmLgiQPKNgrh9YbxIvf+M6qAYvkKV64+QEwggzGclhq4hV+YVkWjBN5Bfu9w
- cVtGo9wzQCVQXaJLx3T5dfXdkAQJOBKk3NBMxkSIYAuVQywD39XTdm1elASHKosuCC/CDX
- FwWkA8AIJ5S5g4QQQpQet+w3/BHtHmw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=c80uLVdbxPz7TD7KLJHyzEDrMo9Lz0IWPHyJeQg1VMo=;
+ b=E+Twdo/fsp9m+MykRCjDZJKP1XvAjJBnukq6zkWBrs/ekBC/HmgjVnZ0qH6Mt1o7tACjfj
+ 7VvO90/SbaOVzhYy805YYQ1xKMDEIdrSYJQpgW7PnZnJjSmMlqXRVUam55WzReufaFpoP2
+ IDq6vBcSP2NSThXN1cxonXY4Lcp77dg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-400-5gszSGo8OKqMPzKXX4UbwA-1; Mon, 06 Jun 2022 12:43:46 -0400
-X-MC-Unique: 5gszSGo8OKqMPzKXX4UbwA-1
+ us-mta-364-faR-N126P8ib6vCo2yWxEw-1; Mon, 06 Jun 2022 12:43:48 -0400
+X-MC-Unique: faR-N126P8ib6vCo2yWxEw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0AECA101A54E;
- Mon,  6 Jun 2022 16:43:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4858E3817A60;
+ Mon,  6 Jun 2022 16:43:48 +0000 (UTC)
 Received: from pinwheel.redhat.com (unknown [10.39.192.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F394C15E72;
- Mon,  6 Jun 2022 16:43:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 841E1C15E72;
+ Mon,  6 Jun 2022 16:43:46 +0000 (UTC)
 From: Kashyap Chamarthy <kchamart@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, thuth@redhat.com, peter.maydell@linaro.org,
  eblake@redhat.com, Kashyap Chamarthy <kchamart@redhat.com>
-Subject: [PATCH v3 3/4] docs: rSTify GettingStartedDevelopers wiki;
- move it to QEMU Git
-Date: Mon,  6 Jun 2022 18:43:35 +0200
-Message-Id: <20220606164336.245740-4-kchamart@redhat.com>
+Subject: [PATCH v3 4/4] Add a new doc "contacting-the-project.rst"
+Date: Mon,  6 Jun 2022 18:43:36 +0200
+Message-Id: <20220606164336.245740-5-kchamart@redhat.com>
 In-Reply-To: <20220606164336.245740-1-kchamart@redhat.com>
 References: <20220606164336.245740-1-kchamart@redhat.com>
 MIME-Version: 1.0
@@ -81,241 +80,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Converted the wiki[1] from Markdown to rST using:
+This document slightly duplicates the "support"[1] page here, but
+largely refers to the content in[1].
 
-    $> pandoc -f Mediawiki -t rst getting-started-developers.wiki
-        -o getting-started-developers.rst
+This is based on Peter Maydell's feedback[2] in v2: "there is some
+merit in the documentation being standalone, even if it does mean a bit
+of duplication with the website".
 
-It's a 1-1 conversion (I double-checked to the best I could).  I've also
-checked that the hyperlinks work correctly post-conversion.
-
-[1] https://wiki.qemu.org/Documentation/GettingStartedDevelopers
+[1] https://www.qemu.org/support/
+[2] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg05178.html
 
 Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
 ---
- docs/devel/getting-started-developers.rst | 200 ++++++++++++++++++++++
- docs/devel/index.rst                      |   1 +
- 2 files changed, 201 insertions(+)
- create mode 100644 docs/devel/getting-started-developers.rst
+ docs/about/contacting-the-project.rst | 16 ++++++++++++++++
+ docs/about/index.rst                  |  1 +
+ 2 files changed, 17 insertions(+)
+ create mode 100644 docs/about/contacting-the-project.rst
 
-diff --git a/docs/devel/getting-started-developers.rst b/docs/devel/getting-started-developers.rst
+diff --git a/docs/about/contacting-the-project.rst b/docs/about/contacting-the-project.rst
 new file mode 100644
-index 0000000000..1299e1dfee
+index 0000000000..83c1c50c48
 --- /dev/null
-+++ b/docs/devel/getting-started-developers.rst
-@@ -0,0 +1,200 @@
-+.. _getting-started-developers:
++++ b/docs/about/contacting-the-project.rst
+@@ -0,0 +1,16 @@
++.. _contacting-the-project:
 +
-+Getting Started for Developers
-+==============================
++Contacting the project
++======================
 +
-+You want to contribute code, documentation or patches to QEMU?
++There are a multiple ways to reach out to upstream QEMU project,
++depending on what you're trying to do.
 +
-+Then...
++If you have technical questions on QEMU usage, there are multiple
++channels for it -- mailing lists, real-time chat (IRC, etc).  Refer to
++`this web page <https://www.qemu.org/support>`__ for more precise
++details.
 +
-+-  ... you should probably first join the :ref:`mailing-lists`.
-+
-+   -  Mailing lists are moderated. Non-subscribers may post, so list
-+      policy is reply-to-all to ensure original poster is included.
-+   -  Be prepared for upwards of one thousand messages per week if you
-+      subscribe.
-+   -  First-time posts (whether subscribed or not) are subject to a
-+      moderation delay until a human can whitelist your email address.
-+
-+-  Also check out the `patch
-+   submission <https://www.qemu.org/docs/master/devel/submitting-a-patch.html>`__
-+   page for some hints on mail contributions.
-+
-+Wiki
-+----
-+
-+-  To create an account in the QEMU wiki, you must ask on the mailing
-+   list for someone else to do it on your behalf (self-creation is
-+   prohibited to cut down on spam accounts).
-+-  Start with reading the QEMU wiki.
-+-  Contribute to the QEMU wiki by adding new topics or improving and
-+   expanding existing topics. It should help you and others in the
-+   future.
-+
-+Documentation
-+-------------
-+
-+-  Continue with reading the `existing documentation <Documentation>`__
-+   and `Contributions Guide <Contribute>`__.
-+
-+   Be prepared that all written documentation might be invalid - either
-+   because it is too old or because it was never correct. And it is
-+   never complete...
-+
-+-  If you find bugs in the documentation then fix them and send patches
-+   to the mailing list. See
-+   `Contribute/ReportABug <Contribute/ReportABug>`__.
-+-  If you find problems in the wiki, then fix them if you can, or add
-+   notes to either the applicable page or the Discussion page.
-+-  Depending on how much computer architecture / hardware background you
-+   have, it may help to read some general books. Suggestions include:
-+
-+   -  "Computers as Components, Second Edition: Principles of Embedded
-+      Computing System Design", Wayne Wolf, ISBN-13: 978-0123743978
-+
-+Code
-+----
-+
-+-  Get the code. If you want to be a developer, you almost certainly
-+   want to be building from git (see the
-+   `Download <http://www.qemu-project.org/download/#source>`__ page for
-+   the right tree).
-+-  Compile the code. Here are some instructions how to do this:
-+
-+   -  `QEMU on Linux hosts <Hosts/Linux>`__
-+   -  `QEMU on OS X (macOS) hosts <Hosts/Mac>`__
-+   -  `QEMU on Windows hosts <Hosts/W32>`__
-+
-+-  Run the QEMU system and user mode emulation for different targets
-+   (x86, mips, powerpc, ...). Images can be obtained from the
-+   `Testing <Testing>`__ page.
-+-  QEMU has a lot of different parts (hardware device emulation, target
-+   emulation, code generation for different hosts, configuration, ...).
-+
-+   -  Choose an interesting part and concentrate on it for some time and
-+      read the code. Its going to take some effort, so try to find
-+      something that you are really interested in - something that will
-+      be a least a little bit fun for you.
-+   -  It will be easier if you choose a part of the code that has an
-+      active / responsive maintainer (since this gives you someone to
-+      discuss things with).
-+
-+-  If you find bugs in the code, then fix them and send a patch to the
-+   mailing list (see `patch submission
-+   process <https://www.qemu.org/docs/master/devel/submitting-a-patch.html>`__)
-+
-+   -  Patches need to go the mailing list, and possibly also to a
-+      specific maintainer (read the MAINTAINERS text file in the top of
-+      the source code tree).
-+   -  Read the HACKING and CODING_STYLE text files (in the top of the
-+      source code tree) before writing the patch
-+   -  Run your patch through the . See
-+      http://blog.vmsplice.net/2011/03/how-to-automatically-run-checkpatchpl.html
-+      for how to hook it into git.
-+   -  For very small, simple changes, you can do it as a single patch.
-+      If your change is more complex, you need to break it into smaller,
-+      separate patches (which together form a set of patches, or a
-+      patchset). Each step in the patch process can rely on previous
-+      patches, but not later patches - otherwise "git bisect" will
-+      break. This will require more effort on your part, but it saves a
-+      lot of work for everyone else.
-+   -  If you have a lot of patches in a patchset (say five or more),
-+      then it may help to have a public git tree. You can get hosting
-+      from many places (repo.or.cz and github seem popular).
-+
-+.. _getting_to_know_the_code:
-+
-+Getting to know the code
-+------------------------
-+
-+-  QEMU does not have a high level design description document - only
-+   the source code tells the full story.
-+-  There are some useful (although usually dated) descriptions for
-+   infrastructure code in various parts of the wiki, and sometimes in
-+   mailing list descriptions:
-+
-+   -  Tracing framework is described at
-+      `Features/Tracing <Features/Tracing>`__ and in docs/tracing.txt in
-+      the source tree.
-+   -  Some of the internal functionality (and a bit of the human
-+      monitoring / control interface) is implemented in
-+      `QAPI <Features/QAPI>`__ and `QMP <Documentation/QMP>`__. See also
-+      https://www.linux-kvm.org/images/1/17/2010-forum-qmp-status-talk.pp.pdf
-+   -  If you're into devices (new virtual hardware) it will help to know
-+      about QDEV:
-+      http://www.linux-kvm.org/images/f/fe/2010-forum-armbru-qdev.pdf
-+      and docs/qdev-device-use.txt in the source tree
-+
-+-  Things do change -- we improve our APIs and develop better ways of
-+   doing things all the time. Reading the mailing list is important to
-+   keep on top of these changes. You may also find the
-+   `DeveloperNews <DeveloperNews>`__ wiki page a useful summary. We try
-+   to track API and design changes currently in progress on the
-+   `ToDo/CodeTransitions <ToDo/CodeTransitions>`__ page; this may help
-+   you avoid accidentally copying existing code which is out-of-date or
-+   no longer following best practices.
-+
-+   -  We also maintain a list of
-+      `Contribute/BiteSizedTasks <Contribute/BiteSizedTasks>`__ that can
-+      help
-+
-+getting familiar with the code, and complete those transitions to make
-+things easier for the next person!
-+
-+-  QEMU converts instructions in the guest system into instructions on
-+   the host system via Tiny Code Generator (TCG). See tcg/README in the
-+   source tree as a starting point if you want to understand this.
-+-  Some of QEMU makes extensive use of pre-processor operations
-+   (especially token pasting with ## operation) which can make it harder
-+   to determine where a particular function comes from. Mulyadi Santosa
-+   pointed out that you can use the gcc "--save-temps" option to see the
-+   results of the pre-processor stage - see
-+   http://the-hydra.blogspot.com/2011/04/getting-confused-when-exploring-qemu.html
-+   for more detail.
-+
-+Bugs
-+----
-+
-+-  Read the Bug Tracker.
-+-  Check for topics in it for which you feel capable of handling and try
-+   to fix the issue. Send patches.
-+
-+.. _testing_your_changes:
-+
-+Testing your changes
-+--------------------
-+
-+-  You must compile test for all targets (i.e. don't restrict the
-+   target-list at configure time). Make sure its a clean build if you
-+   are not sure.
-+-  Think about what you've changed (review the patches) and do testing
-+   consistent with those changes. For example:
-+
-+   -  If you've developed a new driver (say an AHCI virtual device -
-+      used for SATA disks), make sure that it works. Make sure anything
-+      related still works (e.g. for AHCI, check the IDE driver, and no
-+      disk configurations). If your new device supports migration, make
-+      sure migration and snapshots work.
-+   -  If you're working on Xen Hardware Virtual Machine (HVM - full
-+      virtualization), then make sure that Xen para-virtualization
-+      works.
-+
-+-  Its OK if your new implementation doesn't do everything (or has some
-+   deficiencies / bugs). You do need to declare that in the patch
-+   submission though.
-+-  Main page for testing resources: `Testing <Testing>`__
-+
-+.. _getting_help:
-+
-+Getting Help
-+------------
-+
-+-  IRC might be useful
-+
-+   -  The #qemu channel is on irc://irc.oftc.net (note: no longer on
-+      Freenode).
-+   -  You may also get a response on the #kvm channel on
-+      irc://irc.freenode.net
-+
-+Please don't post large text dumps on IRC. Use a pastebin service to
-+post logs so the channel doesn't get flooded.
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index fb9d9f3a80..afead67200 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -13,6 +13,7 @@ modifying QEMU's source code.
-    code-of-conduct
-    conflict-resolution
-    mailing-lists
-+   getting-started-developers
-    build-system
-    style
-    kconfig
++If you think you have found a bug in QEMU, please follow the procedure
++outlined in `this document
++<https://www.qemu.org/contribute/report-a-bug>`__ on how to report it.
+diff --git a/docs/about/index.rst b/docs/about/index.rst
+index 5bea653c07..32831eb09a 100644
+--- a/docs/about/index.rst
++++ b/docs/about/index.rst
+@@ -26,3 +26,4 @@ convert and modify disk images.
+    deprecated
+    removed-features
+    license
++   contacting-the-project
 -- 
 2.36.1
 
