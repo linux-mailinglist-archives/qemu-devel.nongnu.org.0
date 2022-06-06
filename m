@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76A453E171
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 09:48:44 +0200 (CEST)
-Received: from localhost ([::1]:54712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6178E53E164
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 09:42:15 +0200 (CEST)
+Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ny7Te-0003k4-RK
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 03:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48750)
+	id 1ny7NO-0006gX-Et
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 03:42:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ny79h-0005LI-Kf; Mon, 06 Jun 2022 03:28:05 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:43242)
+ id 1ny79g-0005I6-DA; Mon, 06 Jun 2022 03:28:04 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:59610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ny79f-0002YH-R0; Mon, 06 Jun 2022 03:28:05 -0400
-Received: from sas1-3cba3404b018.qloud-c.yandex.net
- (sas1-3cba3404b018.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:bd26:0:640:3cba:3404])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id B01792E0929;
- Mon,  6 Jun 2022 10:27:52 +0300 (MSK)
+ id 1ny79e-0002YM-GL; Mon, 06 Jun 2022 03:28:04 -0400
+Received: from sas1-9c28cd37d27b.qloud-c.yandex.net
+ (sas1-9c28cd37d27b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:309b:0:640:9c28:cd37])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id AB8282E122C;
+ Mon,  6 Jun 2022 10:27:53 +0300 (MSK)
 Received: from sas1-7470331623bb.qloud-c.yandex.net
  (sas1-7470331623bb.qloud-c.yandex.net [2a02:6b8:c08:bd1e:0:640:7470:3316])
- by sas1-3cba3404b018.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 2NoPqQAVXo-RqK0p68w; Mon, 06 Jun 2022 10:27:52 +0300
+ by sas1-9c28cd37d27b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ eRYedmAcn8-RrKWV3j2; Mon, 06 Jun 2022 10:27:53 +0300
 X-Yandex-Fwd: 2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1654500472; bh=eLWMfMpL4ZcPp/OcEBqe7eqlTLC8tWbOtZ4hTrOYDng=;
+ t=1654500473; bh=TADhTFiLKHdt4vPuk6AayRTkmTNSfZ9vFdLs//i35hM=;
  h=Message-Id:References:Date:Subject:In-Reply-To:Cc:To:From;
- b=kttPwdTn4+JBJm8Hojjzp10ygG/8JgkP2gog9nssfhAgDl7LoqZ7TLNGcysv3puUd
- rdGIlGBo0ZAiyVSrjvv9EyT+CCVHKw/KOWDVxb/DMCwUZei0GKviDDpigPYPLgLTFh
- pjGihQNMIRgPFYQrihow2wIj78rsWfooZoq/LR3w=
-Authentication-Results: sas1-3cba3404b018.qloud-c.yandex.net;
+ b=oO7cwsiOCJxKeQUugFk5/F0aLmLPcEE84JRuZsAmMCTzZA7x6OBOBL9jQkuEBHl7v
+ lNNdt0IhY2Q3ZtwM1e1LRpTXwF6kt3OtB+h0sRqW/D3fURFsOOwsgBbQd9cbE2rTEP
+ 6W9eETGwkvnZYi8YrRsgW4vwheSlpG2BLsOlWkUk=
+Authentication-Results: sas1-9c28cd37d27b.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:b6b6::1:2c])
  by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- Y8SDrjDjAj-RpM45sso; Mon, 06 Jun 2022 10:27:51 +0300
+ Y8SDrjDjAj-RqM47aBv; Mon, 06 Jun 2022 10:27:53 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@yandex-team.ru, eblake@redhat.com,
- jsnow@redhat.com, Cleber Rosa <crosa@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v2 03/11] python/machine.py: upgrade vm.cmd() method
-Date: Mon,  6 Jun 2022 10:27:23 +0300
-Message-Id: <20220606072731.878226-4-vsementsov@yandex-team.ru>
+ jsnow@redhat.com, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: [PATCH v2 04/11] iotests: QemuStorageDaemon: add cmd() method like in
+ QEMUMachine.
+Date: Mon,  6 Jun 2022 10:27:24 +0300
+Message-Id: <20220606072731.878226-5-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220606072731.878226-1-vsementsov@yandex-team.ru>
 References: <20220606072731.878226-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,44 +80,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The method is not popular in iotests, we prefer use vm.qmp() and then
-check success by hand.. But that's not optimal. To simplify movement to
-vm.cmd() let's support same interface improvements like in vm.qmp().
+Add similar method for consistency.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- python/qemu/machine/machine.py | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 65703176e5..10d3304dcf 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -649,13 +649,23 @@ def qmp(self, cmd: str,
-         return ret
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index c69b10ac82..dd08cd8a2b 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -462,6 +462,10 @@ def qmp(self, cmd: str, args: Optional[Dict[str, object]] = None) \
+         assert self._qmp is not None
+         return self._qmp.cmd_raw(cmd, args)
  
-     def cmd(self, cmd: str,
--            conv_keys: bool = True,
-+            args_dict: Optional[Dict[str, object]] = None,
-+            conv_keys: Optional[bool] = None,
-             **args: Any) -> QMPReturnValue:
-         """
-         Invoke a QMP command.
-         On success return the response dict.
-         On failure raise an exception.
-         """
-+        if args_dict is not None:
-+            assert not args
-+            assert conv_keys is None
-+            args = args_dict
-+            conv_keys = False
++    def cmd(self, cmd: str, args: Optional[Dict[str, object]] = None) \
++            -> QMPMessage:
++        return self._qmp.cmd(cmd, **args)
 +
-+        if conv_keys is None:
-+            conv_keys = True
-+
-         qmp_args = self._qmp_args(conv_keys, args)
-         ret = self._qmp.cmd(cmd, **qmp_args)
-         if cmd == 'quit':
+     def stop(self, kill_signal=15):
+         self._p.send_signal(kill_signal)
+         self._p.wait()
 -- 
 2.25.1
 
