@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8BA53E51C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:42:16 +0200 (CEST)
-Received: from localhost ([::1]:56704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C5E53E528
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:50:49 +0200 (CEST)
+Received: from localhost ([::1]:45648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyDvq-00059H-VD
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50966)
+	id 1nyE48-0000PQ-5R
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDr5-0001xO-Od
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49590)
+ id 1nyDr7-00025V-Qj
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDqn-0000Vq-Hr
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:05 -0400
+ id 1nyDr4-0000Vc-K2
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654526214;
+ s=mimecast20190719; t=1654526211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9hRKYEqLROnnzZvZUlOGxYQw4MEQ7eabgAKIqLl4+sQ=;
- b=gldUPw/91TIIsN05AhmI4uXx6XNB7H2QT86xBaCyDqFuTK5cD+g2AkUm5it9BGjjE9NdS1
- oA9QDrmN2x1N042vKxOzsvGMgjLjFhYCheY2DKjdRCSdcbV4srC592dyjnJk5nQodgnlQ9
- 8T6jtJuCG6ul31JR30pjXk+9tjTIiwo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VzF8PA6ek1MoUJLhlubB3deg/aUiCd4KpJOKWHcRyfQ=;
+ b=TszokRNq9gnCnDih+Xf5PhQgTqwUoGYVeOufST+PSfntXImH2aKoGcjyUillJHkUwyC68O
+ 2svp9dJzrdg8wHqazd+gr1LcDj3aCJyrt3aq62gN187u/XsaKXPunrMdkBMMG1v3mOFcN7
+ qlN5M+qcxFQbbScW6ySposr4dZMUsQI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-466-ESAz_O9eO7qeuiExHxUf9A-1; Mon, 06 Jun 2022 10:36:52 -0400
-X-MC-Unique: ESAz_O9eO7qeuiExHxUf9A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg13-20020a05600c3c8d00b003974d0ff917so7804462wmb.3
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:36:48 -0700 (PDT)
+ us-mta-421-CMVnazMLOHePnDuMYdmhMQ-1; Mon, 06 Jun 2022 10:36:50 -0400
+X-MC-Unique: CMVnazMLOHePnDuMYdmhMQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p24-20020a05600c1d9800b0039c51c2da19so760380wms.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:36:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9hRKYEqLROnnzZvZUlOGxYQw4MEQ7eabgAKIqLl4+sQ=;
- b=D8YS7wi+F6iBwkA0ql+91H8B7Vm6rKxQ6LVCEj0l5Ii6lOmvhs7I31+a44ZTKQHERB
- t4RFrCE9W23XeOHxn2aua64SObHMCWAYRYsnLq2NZPlRjZ82QrFMeGh0K/e6pCIpJC0l
- mod7bOZt54qhAZZCCpHqSjPABSXUisSwW9xP90Sz/+o731MCRewPqOpaZfpXbihGVKos
- UNtgLy7d6UwO8YSI16Mtly2KEonYT8yUt6t+GcWGPvoW9E+TXEAAOBZ2UKkv1SKgdxuF
- F7mdtkFRWosja7maoyVn7KkTaEKo2UbRUars6RhzDlBCnkf3UaQZk0te0T7qkbBNr7Dv
- omRA==
-X-Gm-Message-State: AOAM533ij4I4C/qBmKLGHyZxvqpsxKlZ0sVoStYcHHfnPO0Ndep0L15j
- HA405N69+KfQ8cOluEU9Fwf6j7RHip3FI/Gs0lVDVhiHAYfmOOCl+u60iPHmuE7ZlIIs1998uYj
- mZ0+SwB0e3tI4MGeEekCLM5ykIQZmZrW9/MQHwPjnA3xzd5yo6U7dYi+qwLQ/pjGWQp4=
-X-Received: by 2002:adf:f646:0:b0:210:32ea:e679 with SMTP id
- x6-20020adff646000000b0021032eae679mr21088060wrp.395.1654526206949; 
- Mon, 06 Jun 2022 07:36:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx4Jowv1b+bct5tIHraBBa9BDqjoAfya8XJ5Q9IZ7i0/sn6AHXQBDF/6JbGaJdW4GooH4dHxA==
-X-Received: by 2002:adf:f646:0:b0:210:32ea:e679 with SMTP id
- x6-20020adff646000000b0021032eae679mr21088023wrp.395.1654526206554; 
- Mon, 06 Jun 2022 07:36:46 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- u10-20020adfdd4a000000b002102cc4d63asm18080138wrm.81.2022.06.06.07.36.45
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VzF8PA6ek1MoUJLhlubB3deg/aUiCd4KpJOKWHcRyfQ=;
+ b=EzT42bdEQ6x1T/mBZgoUXPXpt57Uu0TIOxYrG1nWbyN2mk/7L82cJ/BGsx2fAxwir2
+ dioLhd8rKXhvtdGqFxxMJItyFe2SzxdVLrJJkL+xWK9tQg42yl/1/I5yQeWS90fI/vby
+ 8lXD8nvrQuXalUORdOyfQ3zQP+ysGk4NHZ1lBOL0S409fLMY2q5RS+k27LgrW3lvqb/B
+ cuGHG/1i+DVtXLXsOF2YFyohmtthCLkUq5sMy03V1hK84OxwbEyhVWtXmz2TJ7RuLjID
+ TBr0XZTxv+DWcHdfQsh2SEu2CpBkWd/4+BkwozO8frS0JOEdIbgwaGPK2WQuaxyWypid
+ cX6g==
+X-Gm-Message-State: AOAM531vYTrVtu/M/PgyadQDrbgR4EWrwi1Q/F2DbJIx7Fw32bVwxDp2
+ 799PJDO1ndzmsI5DcoRBECR0iaD01nNxASWJJghN+2Zzt5G5G4UTPCwlCe1RqFQxuMU68zKN2zv
+ gvs+flzItdEHVHBPxeyCh9wnlPLq+nEZZcKiIpQnUhtvTfDLfLHuEEx8ff3uyuYwLZ84=
+X-Received: by 2002:a5d:47c1:0:b0:217:1bfc:56c2 with SMTP id
+ o1-20020a5d47c1000000b002171bfc56c2mr9179980wrc.336.1654526208290; 
+ Mon, 06 Jun 2022 07:36:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzv9/cGwHN2A+ficzzDjm0CXYh8OesQAaD5UB6hoHSCv47nJxhKHWjl9HeXyIDp8T4FgUETxQ==
+X-Received: by 2002:a5d:47c1:0:b0:217:1bfc:56c2 with SMTP id
+ o1-20020a5d47c1000000b002171bfc56c2mr9179949wrc.336.1654526207953; 
+ Mon, 06 Jun 2022 07:36:47 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ c7-20020a05600c0a4700b003973c54bd69sm25016268wmq.1.2022.06.06.07.36.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:36:45 -0700 (PDT)
+ Mon, 06 Jun 2022 07:36:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/29] Misc patches for 2022-06-06
-Date: Mon,  6 Jun 2022 16:36:15 +0200
-Message-Id: <20220606143644.1151112-1-pbonzini@redhat.com>
+Cc: Stephen Michael Jothen <sjothen@gmail.com>
+Subject: [PULL 01/29] target/i386/tcg: Fix masking of real-mode addresses with
+ A20 bit
+Date: Mon,  6 Jun 2022 16:36:16 +0200
+Message-Id: <20220606143644.1151112-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220606143644.1151112-1-pbonzini@redhat.com>
+References: <20220606143644.1151112-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -97,132 +99,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ca127b3fc247517ec7d4dad291f2c0f90602ce5b:
+From: Stephen Michael Jothen <sjothen@gmail.com>
 
-  Merge tag 'nvme-next-pull-request' of git://git.infradead.org/qemu-nvme into staging (2022-06-03 14:14:24 -0700)
+The correct A20 masking is done if paging is enabled (protected mode) but it
+seems to have been forgotten in real mode. For example from the AMD64 APM Vol. 2
+section 1.2.4:
 
-are available in the Git repository at:
+> If the sum of the segment base and effective address carries over into bit 20,
+> that bit can be optionally truncated to mimic the 20-bit address wrapping of the
+> 8086 processor by using the A20M# input signal to mask the A20 address bit.
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+Most BIOSes will enable the A20 line on boot, but I found by disabling the A20 line
+afterwards, the correct wrapping wasn't taking place.
 
-for you to fetch changes up to ca5765c8521b8284b8277ed4b811ac0ab9010fc8:
+`handle_mmu_fault' in target/i386/tcg/sysemu/excp_helper.c seems to be the culprit.
+In real mode, it fills the TLB with the raw unmasked address. However, for the
+protected mode, the `mmu_translate' function does the correct A20 masking.
 
-  meson: qga: do not use deprecated meson.build_root() (2022-06-06 16:04:08 +0200)
+The fix then should be to just apply the A20 mask in the first branch of the if
+statement.
 
-----------------------------------------------------------------
-* prepare to expand usage of test venv
-* fix CPUID when passing through host cache information
-* a20 fix
-* SGX fix
-* generate per-target modinfo
-* replay cleanups and simplifications
-* "make modules" target
+Signed-off-by: Stephen Michael Jothen <sjothen@gmail.com>
+Message-Id: <Yo5MUMSz80jXtvt9@air-old.local>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/tcg/sysemu/excp_helper.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Dario Faggioli (1):
-      tests/Makefile.include: Fix 'make check-help' output
-
-Igor Mammedov (2):
-      x86: cpu: make sure number of addressable IDs for processor cores meets the spec
-      x86: cpu: fixup number of addressable IDs for logical processors sharing cache
-
-John Snow (9):
-      python: update for mypy 0.950
-      tests: add "TESTS_PYTHON" variable to Makefile
-      tests: use python3 as the python executable name
-      tests: silence pip upgrade warnings during venv creation
-      tests: add quiet-venv-pip macro
-      tests: install "qemu" namespace package into venv
-      tests: use tests/venv to run basevm.py-based scripts
-      tests: add python3-venv to debian10.docker
-      tests: run 'device-crash-test' from tests/venv
-
-Jose R. Ziviani (2):
-      modules: introduces module_kconfig directive
-      modules: generates per-target modinfo
-
-Paolo Bonzini (4):
-      build: add a "make modules" target
-      regenerate meson-buildoptions.sh
-      configure: remove reference to removed option
-      meson: qga: do not use deprecated meson.build_root()
-
-Pavel Dovgalyuk (9):
-      replay: fix event queue flush for qemu shutdown
-      replay: notify vCPU when BH is scheduled
-      replay: rewrite async event handling
-      replay: simplify async event processing
-      docs: convert docs/devel/replay page to rst
-      docs: move replay docs to docs/system/replay.rst
-      tests/avocado: update replay_linux test
-      tests/avocado: add replay Linux tests for virtio machine
-      tests/avocado: add replay Linux test for Aarch64 machines
-
-Stephen Michael Jothen (1):
-      target/i386/tcg: Fix masking of real-mode addresses with A20 bit
-
-Yang Zhong (1):
-      target/i386: Fix wrong count setting
-
- .gitlab-ci.d/buildtest.yml               |   8 +-
- accel/tcg/tcg-accel-ops-icount.c         |   5 +-
- configure                                |   1 -
- docs/devel/index-tcg.rst                 |   1 +
- docs/devel/replay.rst                    | 306 +++++++++++++++++++++++
- docs/devel/replay.txt                    |  46 ----
- docs/replay.txt                          | 410 -------------------------------
- docs/system/index.rst                    |   1 +
- docs/system/replay.rst                   | 237 ++++++++++++++++++
- hw/display/qxl.c                         |   1 +
- hw/display/vhost-user-gpu-pci.c          |   1 +
- hw/display/vhost-user-gpu.c              |   1 +
- hw/display/vhost-user-vga.c              |   1 +
- hw/display/virtio-gpu-base.c             |   1 +
- hw/display/virtio-gpu-gl.c               |   1 +
- hw/display/virtio-gpu-pci-gl.c           |   1 +
- hw/display/virtio-gpu-pci.c              |   1 +
- hw/display/virtio-gpu.c                  |   1 +
- hw/display/virtio-vga-gl.c               |   1 +
- hw/display/virtio-vga.c                  |   1 +
- hw/s390x/virtio-ccw-gpu.c                |   1 +
- hw/usb/ccid-card-emulated.c              |   1 +
- hw/usb/ccid-card-passthru.c              |   1 +
- hw/usb/host-libusb.c                     |   1 +
- hw/usb/redirect.c                        |   1 +
- include/qemu/module.h                    |  10 +
- include/sysemu/cpu-timers.h              |   1 +
- include/sysemu/replay.h                  |   9 +-
- meson.build                              |  28 ++-
- python/qemu/qmp/util.py                  |   4 +-
- python/setup.cfg                         |   1 +
- qga/meson.build                          |   2 +-
- replay/replay-events.c                   |  56 ++---
- replay/replay-internal.h                 |  37 ++-
- replay/replay-snapshot.c                 |   2 -
- replay/replay.c                          |  78 +++---
- scripts/device-crash-test                |  14 +-
- scripts/meson-buildoptions.sh            |   4 +-
- scripts/modinfo-generate.py              |  49 +++-
- softmmu/icount.c                         |  12 +-
- stubs/icount.c                           |   4 +
- target/i386/cpu.c                        |  22 +-
- target/i386/tcg/sysemu/excp_helper.c     |   4 +-
- tests/Makefile.include                   |  48 ++--
- tests/avocado/avocado_qemu/__init__.py   |  11 +-
- tests/avocado/replay_linux.py            |  85 ++++++-
- tests/avocado/virtio_check_params.py     |   1 -
- tests/avocado/virtio_version.py          |   1 -
- tests/docker/dockerfiles/debian10.docker |   1 +
- tests/requirements.txt                   |   1 +
- tests/vm/Makefile.include                |  13 +-
- tests/vm/basevm.py                       |   6 +-
- util/async.c                             |   8 +
- 53 files changed, 894 insertions(+), 649 deletions(-)
- create mode 100644 docs/devel/replay.rst
- delete mode 100644 docs/devel/replay.txt
- delete mode 100644 docs/replay.txt
- create mode 100644 docs/system/replay.rst
+diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
+index e1b6d88683..48feba7e75 100644
+--- a/target/i386/tcg/sysemu/excp_helper.c
++++ b/target/i386/tcg/sysemu/excp_helper.c
+@@ -359,6 +359,7 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
+     CPUX86State *env = &cpu->env;
+     int error_code = PG_ERROR_OK;
+     int pg_mode, prot, page_size;
++    int32_t a20_mask;
+     hwaddr paddr;
+     hwaddr vaddr;
+ 
+@@ -368,7 +369,8 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
+ #endif
+ 
+     if (!(env->cr[0] & CR0_PG_MASK)) {
+-        paddr = addr;
++        a20_mask = x86_get_a20_mask(env);
++        paddr = addr & a20_mask;
+ #ifdef TARGET_X86_64
+         if (!(env->hflags & HF_LMA_MASK)) {
+             /* Without long mode we can only address 32bits in real mode */
 -- 
 2.36.1
+
 
 
