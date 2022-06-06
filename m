@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660C153E580
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:41:43 +0200 (CEST)
-Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7075E53E55A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:20:16 +0200 (CEST)
+Received: from localhost ([::1]:55576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyErO-0005WJ-FK
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57722)
+	id 1nyEWd-0004qI-IC
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:20:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nyEHa-0007vq-7B; Mon, 06 Jun 2022 11:04:42 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nyEHY-0005Fn-Fc; Mon, 06 Jun 2022 11:04:41 -0400
-Received: by mail-pg1-x533.google.com with SMTP id f65so2921809pgc.7;
- Mon, 06 Jun 2022 08:04:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7Cb1sA/JkZlj0zcH8NeaNHv3Zd1DdDn+G8TauC+eGFc=;
- b=MHCbnpV0+4Shupap0jb3BMRvahQWiZpS2IRZ9vQcB/5Bu1+WmxKWEeSCKKpMFKGupz
- peOQ9gjNOQK/COZ7PzUlPxWJEV1C6Cv6VgbJeNBksEPGEi3rUGXSEIyENZGJwru6KMGj
- ilnAXvLyweMWEn3UnzKj6o3K+U2JPPyCfHJ/iNkL7/oeBPpPsuP8oMR82e6DhHsBl8g0
- vn5mnKvxFYYLba41RCkEVEe8iyxzDXY9ppdSEAN4N1Uj4puaQq5w8vnsrq4ZngE/6ebG
- 4V4CgTLTel5gp/mlxjfR2JhZitkdEZ/yOFIdsyqP+nLjirrx/dyi8zJx0p6MazILlpio
- nhEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7Cb1sA/JkZlj0zcH8NeaNHv3Zd1DdDn+G8TauC+eGFc=;
- b=c4WE4bwpMdg0y121MofS+dexcE6kw6p8f8inDIFux3VpAsGbXF/CCvlQrThF0WVdYk
- YsYAoQj1WjpxiUhxbzIk5AOGF7X6QH50mFiDLCyT4aVMwQT7//vLwAAGXGLD401nW4UF
- R6+M0PRN6koYg+FwZxpexuwnCgfVRIJPQe8EsdEbzLQ93PJEla+wq6isFral9Rgw+Q7x
- fGeR2hD2O5kDXK/tIrBtEVuEi/x/xF12zEoMgne1JAjCtrk9sx+r1hbjhGht5TpXRDfU
- e2EvPkmVXa3tkJXCifhFvCM0SOao5WBeYPoz7KGlX5GUqflCFhM34c9M/EMbc61xozBu
- jeXg==
-X-Gm-Message-State: AOAM531vsThj7DIbXvPL3egf6M59RehHqTX//TYpFZGBmQHkccQ3Bavk
- ZWErYpOriqKGqX6Hj8iKC3I=
-X-Google-Smtp-Source: ABdhPJyCJpRQeQidSPkb1c5314aTveY8/mxsGxeKroqPw9xsFwzvAyhjsYMYBC3nA54Umvo59pHgFw==
-X-Received: by 2002:a62:db81:0:b0:51b:ed38:c409 with SMTP id
- f123-20020a62db81000000b0051bed38c409mr15298191pfg.37.1654527878646; 
- Mon, 06 Jun 2022 08:04:38 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- u6-20020a170902e80600b00163fbb1eec5sm10612669plg.229.2022.06.06.08.04.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 08:04:37 -0700 (PDT)
-Message-ID: <b8e21692-0ee7-79b0-c2f7-04a1420795cd@amsat.org>
-Date: Mon, 6 Jun 2022 17:04:33 +0200
+ (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
+ id 1nyEKq-0004ph-UI; Mon, 06 Jun 2022 11:08:04 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:45919
+ helo=gandalf.ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
+ id 1nyEKo-0005ws-Cy; Mon, 06 Jun 2022 11:08:04 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxgT4p5fz4xDK;
+ Tue,  7 Jun 2022 01:07:49 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxgF0mrqz4xD5;
+ Tue,  7 Jun 2022 01:07:36 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
+ Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>,
+ Steven Lee <steven_lee@aspeedtech.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Peter Delevoryas <pdel@fb.com>,
+ Corey Minyard <cminyard@mvista.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH 00/21] aspeed: Extend ast2600 I2C model with new mode 
+Date: Mon,  6 Jun 2022 17:07:11 +0200
+Message-Id: <20220606150732.2282041-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH] hw/mips/boston: Initialize g_autofree pointers
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Aleksandar Rikalo
- <aleksandar.rikalo@syrmia.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Paul Burton <paulburton@kernel.org>
-References: <20220605151908.30566-1-shentey@gmail.com>
-In-Reply-To: <20220605151908.30566-1-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,57 +73,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 5/6/22 17:19, Bernhard Beschow wrote:
-> Fixes compilation due to false positives with -Werror:
-> 
->    In file included from /usr/include/glib-2.0/glib.h:114,
->                     from qemu/src/include/glib-compat.h:32,
->                     from qemu/src/include/qemu/osdep.h:144,
->                     from ../src/hw/mips/boston.c:20:
->    In function ‘g_autoptr_cleanup_generic_gfree’,
->        inlined from ‘boston_mach_init’ at ../src/hw/mips/boston.c:790:52:
->    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘dtb_load_data’ may be used uninitialized [-Werror=maybe-uninitialized]
->       28 |   g_free (*pp);
->          |   ^~~~~~~~~~~~
->    ../src/hw/mips/boston.c: In function ‘boston_mach_init’:
->    ../src/hw/mips/boston.c:790:52: note: ‘dtb_load_data’ was declared here
->      790 |             g_autofree const void *dtb_file_data, *dtb_load_data;
->          |                                                    ^~~~~~~~~~~~~
->    In function ‘g_autoptr_cleanup_generic_gfree’,
->      inlined from ‘boston_mach_init’ at ../src/hw/mips/boston.c:790:36:
->    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘dtb_file_data’ may be used uninitialized [-Werror=maybe-uninitialized]
->       28 |   g_free (*pp);
->          |   ^~~~~~~~~~~~
->    ../src/hw/mips/boston.c: In function ‘boston_mach_init’:
->    ../src/hw/mips/boston.c:790:36: note: ‘dtb_file_data’ was declared here
->      790 |             g_autofree const void *dtb_file_data, *dtb_load_data;
->          |                                    ^~~~~~~~~~~~~
->    cc1: all warnings being treated as errors
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/mips/boston.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-> index 59ca08b93a..1debca18ec 100644
-> --- a/hw/mips/boston.c
-> +++ b/hw/mips/boston.c
-> @@ -787,7 +787,8 @@ static void boston_mach_init(MachineState *machine)
->   
->           if (kernel_size > 0) {
->               int dt_size;
-> -            g_autofree const void *dtb_file_data, *dtb_load_data;
-> +            g_autofree const void *dtb_file_data = NULL;
-> +            g_autofree const void *dtb_load_data = NULL;
->               hwaddr dtb_paddr = QEMU_ALIGN_UP(kernel_high, 64 * KiB);
->               hwaddr dtb_vaddr = cpu_mips_phys_to_kseg0(NULL, dtb_paddr);
->   
+Hello,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Here is a series aggregating recent changes proposed on the Aspeed
+ast2600 I2C controller model. 
 
-Queued to mips-next.
+First comes a large set of changes converting the model to use the
+registerfield interface and adding the I2C new register mode
+(Joe). Since this is complex to review, extra tests are added to the
+acceptance test suite to check that I2C devices are still functional
+in the ast2600-evb machine. These tests use small buildroot images
+available on GH. 
+
+The ast1030 and ast2600 SoC share the same I2C logic. This series adds
+I2C support to the ast1030 now that new register mode is supported.
+There was a previous proposal from Troy doing the same but Joe's
+patchset covers the same need (and converts the model to registerfield)
+
+Follows a proposal from Klaus adding support for multi master in the
+I2C core and the Aspeed I2C model, for the old register mode only. The
+new register mode still needs to be addressed but this shouldn't take
+too long once old register mode is merged.
+
+Last, I have added the I2C echo device and test provided by Klaus. I
+think it would be interesting to keep them for tests. Please, tell me.
+
+Thanks,
+
+C.
+
+Cédric Le Goater (7):
+  test/avocado/machine_aspeed.py: Move OpenBMC tests
+  test/avocado/machine_aspeed.py: Add tests using buildroot images
+  test/avocado/machine_aspeed.py: Add I2C tests to ast2600-evb
+  test/avocado/machine_aspeed.py: Add an I2C RTC test
+  aspeed/i2c: Add ast1030 controller models
+  aspeed/i2c: Enable SLAVE_ADDR_RX_MATCH always
+  test/avocado/machine_aspeed.py: Add I2C slave tests
+
+Joe Komlodi (7):
+  hw/registerfields: Add shared fields macros
+  aspeed: i2c: Add ctrl_global_rsvd property
+  aspeed: i2c: Migrate to registerfields API
+  aspeed: i2c: Use reg array instead of individual vars
+  aspeed: i2c: Add new mode support
+  aspeed: i2c: Add PKT_DONE IRQ to trace
+  aspeed: i2c: Move regs and helpers to header file
+
+Klaus Jensen (6):
+  hw/i2c/aspeed: rework raise interrupt trace event
+  hw/i2c/aspeed: add DEV_ADDR in old register mode
+  hw/i2c: support multiple masters
+  hw/i2c: add asynchronous send
+  hw/i2c/aspeed: add slave device in old register mode
+  hw/misc: add a toy i2c echo device [DO NOT PULL]
+
+Troy Lee (1):
+  aspeed: Add I2C buses to AST1030 model
+
+ include/hw/i2c/aspeed_i2c.h         | 299 ++++++++-
+ include/hw/i2c/i2c.h                |  30 +
+ include/hw/registerfields.h         |  70 +++
+ hw/arm/aspeed.c                     |  13 +
+ hw/arm/aspeed_ast10x0.c             |  18 +
+ hw/arm/aspeed_ast2600.c             |   2 +
+ hw/arm/pxa2xx.c                     |   2 +
+ hw/display/sii9022.c                |   2 +
+ hw/display/ssd0303.c                |   2 +
+ hw/i2c/aspeed_i2c.c                 | 901 ++++++++++++++++++----------
+ hw/i2c/core.c                       |  70 ++-
+ hw/i2c/smbus_slave.c                |   4 +
+ hw/misc/i2c-echo.c                  | 162 +++++
+ hw/nvram/eeprom_at24c.c             |   2 +
+ hw/sensor/lsm303dlhc_mag.c          |   2 +
+ hw/i2c/trace-events                 |   4 +-
+ hw/misc/meson.build                 |   2 +
+ tests/avocado/boot_linux_console.py |  43 --
+ tests/avocado/machine_aspeed.py     | 128 ++++
+ 19 files changed, 1393 insertions(+), 363 deletions(-)
+ create mode 100644 hw/misc/i2c-echo.c
+
+-- 
+2.35.3
+
 
