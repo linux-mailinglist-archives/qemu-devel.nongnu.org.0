@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6358053EDF6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 20:39:03 +0200 (CEST)
-Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D21453E5CC
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 18:57:26 +0200 (CEST)
+Received: from localhost ([::1]:51180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyHd0-0006CA-A5
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 14:39:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47476)
+	id 1nyG2f-0004F0-5l
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 12:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyHaZ-0004ns-R1
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 14:36:31 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyHaY-0005p2-0f
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 14:36:31 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id g205so13360673pfb.11
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 11:36:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OjOOGVLnPH2vWP2wTHBhloqMc7lXhV+RIAhsYXRiH3U=;
- b=ak5z4z5Gl0ym0KDnaQnsxgdChTOrh7bgT6VbYIXlbcNfeqTS8pG/ViqZvJToToKBv8
- rZVojbqermoAktYyA8kVzTLdQZMwh15vJPvaEiW0BfiB2SznhZ76RuSCJTmbcKs0rpez
- 9xQb7+MP9c1/NvkLNUuFl/lkrBdjYnX9mhx0vnCKLNwTGI/AXgDWigGkeDge5OnUenwH
- 4ZI2GXXE6FF7ZaGs94NATvv50r7tHSrIFkYz1eCmwlSu01IYP9dzzSmdL2vx0tULRO8m
- /FHfT7m3wGNtOtb7Q75gAgJ0dcEnjsoQVJf+qaayyilDJIFzEN82SG36v7k2oRXu3p9j
- pY3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OjOOGVLnPH2vWP2wTHBhloqMc7lXhV+RIAhsYXRiH3U=;
- b=r6ikxIFE5RnKrzIaSTQFi3Lz9SyhF3j0jOflbwQ+9zJ9UL+0spLOmhDi9Xk5rFAJes
- 2KAuEiDrkJzbmYh0tlNXrCD28vMU99SXnVtxIY9tPc5h8N98a2e+RhERzxDFrzL6Jt90
- 60VIGrIj5vI16V7K7XMgEHJbokmfvD3JGbqNvqInmUcQF4f/Vh7BdDHWydz804Hu+31O
- OdUuIf3ACkn26utMROi1Cdp/J/3k0fU8GfxToES/yGx0JLg1+Oy008BFQ89PT3qmXWbR
- 4uF12czBGQMCXIZtMfHNhH/fSlZ2Bk9UPFZX0jFyIpFRkDX/swlvKCFha5/+sBZj2RYz
- 8H3Q==
-X-Gm-Message-State: AOAM531HMy87mb7Y54gPFPZ9p7Wyo/6GqcWReGdEk9Rb5tnRUPwZTE1R
- xbwWQmlZ/X08o8Qwu2yhJk1fnA==
-X-Google-Smtp-Source: ABdhPJzdAc2ZphveGz9cx1/Erk5gB6OZB0UecQVCTuAbbxYNWkHT2yzOruQ7JJxoPhOVbEigaOsHYg==
-X-Received: by 2002:aa7:88cc:0:b0:51c:319e:772c with SMTP id
- k12-20020aa788cc000000b0051c319e772cmr1378035pff.41.1654540588513; 
- Mon, 06 Jun 2022 11:36:28 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:dd1c:9738:3e40:ffe0?
- ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
- by smtp.gmail.com with ESMTPSA id
- a4-20020a1709027e4400b00163ac8673edsm10865885pln.35.2022.06.06.11.36.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 11:36:28 -0700 (PDT)
-Message-ID: <16e44159-089c-8967-6746-906649ae2f91@linaro.org>
-Date: Mon, 6 Jun 2022 09:50:37 -0700
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1nyG1H-0003Xc-9L
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 12:55:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45779)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1nyG1D-0007WM-OR
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 12:55:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654534554;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kawOapNpPPcyK8mOkdROooUp7S0XiK9HZ21fxUvXXBY=;
+ b=BWTCqI1vJK9trkJ3yCgomUF5d0ZvnD0UNHPdjJt1teo4tzBfUg/kq3XbiaKUyLghwHEjcs
+ 3LG4m5CnWsQBqXXEylDsNSygJwqMlUKEIkUHd5HxpDvt0ssmBA0IbXmBlK3ApnpxD6RHF6
+ BRpO0yHw91x3TgRksqfmSpRgZH8Pecw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-452-llcNh1rJNseOm8zbfqCnUA-1; Mon, 06 Jun 2022 12:55:52 -0400
+X-MC-Unique: llcNh1rJNseOm8zbfqCnUA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 44466100BAB9;
+ Mon,  6 Jun 2022 16:55:52 +0000 (UTC)
+Received: from pinwheel (unknown [10.39.192.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9905240CF8EA;
+ Mon,  6 Jun 2022 16:55:50 +0000 (UTC)
+Date: Mon, 6 Jun 2022 18:55:47 +0200
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, thuth@redhat.com, peter.maydell@linaro.org,
+ eblake@redhat.com
+Subject: [PATCH v3 0/4] rSTify a few more docs; move them to QEMU Git
+Message-ID: <Yp4xk2+JeNkZ5eTv@pinwheel>
+References: <20220606164336.245740-1-kchamart@redhat.com>
+ <Yp4wKGhyMtAj/Jx2@pinwheel>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 28/71] target/arm: Add PSTATE.{SM,ZA} to TB flags
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220602214853.496211-1-richard.henderson@linaro.org>
- <20220602214853.496211-29-richard.henderson@linaro.org>
- <CAFEAcA_+-xbJkN8uBCL0UyJUmu+wrU1i5EMnwSu6pjC++gjg5Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_+-xbJkN8uBCL0UyJUmu+wrU1i5EMnwSu6pjC++gjg5Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yp4wKGhyMtAj/Jx2@pinwheel>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,24 +80,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/22 08:58, Peter Maydell wrote:
->> +        if (FIELD_EX64(env->svcr, SVCR, SM)) {
->> +            DP_TBFLAG_A64(flags, PSTATE_SM, 1);
->> +        }
->> +        DP_TBFLAG_A64(flags, PSTATE_ZA, FIELD_EX64(env->svcr, SVCR, ZA));
-> 
-> Why did you write these two differently? Don't they do the same
-> thing (set the tb flag to the value of the bit in env->svcr) ?
+On Mon, Jun 06, 2022 at 06:49:49PM +0200, Kashyap Chamarthy wrote:
+> Oops, messed up v3's cover-letter subject; now fixed.  Sorry.
 
-A later patch adds to the IF.
+Sigh, instead of "v3", I accidentally wrote "v4" in the cover-letter
+subject.  Now fix that too; sorry for the noise.
 
-r~
+> On Mon, Jun 06, 2022 at 06:43:32PM +0200, Kashyap Chamarthy wrote:
+> > - Add back the "<commit hash/link>" fragment in security-process.rst
+> >   [Thomas]
+> > - Add a docs/about/contacting-the-project.rst as per Peter's feedback
+> >   here:
+> >   https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg05178.html
+> >   [pm215]
+> > - Keep Thomas' R-by for "docs: rSTify MailingLists wiki; move it to QEMU
+> >   Git"
+> > 
+> > v2 cover letter:
+> > -----------------------------------------------------------------------
+> > rSTify a few more docs; move them to QEMU Git
+> > 
+> > This series rST-ifies:
+> > 
+> >   - security-process[1]
+> >   - MailingLists[2]
+> >   - GettingStartedDevelopers[3]
+> > 
+> > The 'security-process' page is from the QEMU web and is moved to
+> > docs/devel/ in QEMU Git.  This is based on Paolo's feedback here[4].
+> > The next two docs are converted from the Wiki.
+> > 
+> > [1] https://www.qemu.org/contribute/security-process
+> > [2] https://wiki.qemu.org/Contribute/MailingLists
+> > [3] https://wiki.qemu.org/Documentation/GettingStartedDevelopers
+> > [4] https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg04002.html
+> > -----------------------------------------------------------------------
+> > 
+> > Kashyap Chamarthy (4):
+> >   docs: rSTify "security-process" page; move it to QEMU Git
+> >   docs: rSTify MailingLists wiki; move it to QEMU Git
+> >   docs: rSTify GettingStartedDevelopers wiki; move it to QEMU Git
+> >   Add a new doc "contacting-the-project.rst"
+> > 
+> >  docs/about/contacting-the-project.rst     |  16 ++
+> >  docs/about/index.rst                      |   1 +
+> >  docs/devel/getting-started-developers.rst | 200 ++++++++++++++++++++++
+> >  docs/devel/index.rst                      |   3 +
+> >  docs/devel/mailing-lists.rst              |  51 ++++++
+> >  docs/devel/security-process.rst           | 190 ++++++++++++++++++++
+> >  6 files changed, 461 insertions(+)
+> >  create mode 100644 docs/about/contacting-the-project.rst
+> >  create mode 100644 docs/devel/getting-started-developers.rst
+> >  create mode 100644 docs/devel/mailing-lists.rst
+> >  create mode 100644 docs/devel/security-process.rst
+> > 
+> > -- 
+> > 2.36.1
+> > 
+> 
+> -- 
+> /kashyap
 
-> 
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> thanks
-> -- PMM
+-- 
+/kashyap
 
 
