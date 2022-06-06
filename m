@@ -2,166 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E28753E138
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 09:01:33 +0200 (CEST)
-Received: from localhost ([::1]:40156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BA253E145
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 09:28:05 +0200 (CEST)
+Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ny6jz-0006ZO-Bx
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 03:01:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
+	id 1ny79f-0003M2-PR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 03:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@intel.com>)
- id 1ny6DR-000103-7b
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 02:27:57 -0400
-Received: from mga03.intel.com ([134.134.136.65]:1744)
+ (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
+ id 1ny6ho-0007V9-25
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 02:59:18 -0400
+Received: from corp-ob09.yahoo-corp.jp ([182.22.125.216]:51792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@intel.com>)
- id 1ny6DL-0002Em-Rp
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 02:27:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654496867; x=1686032867;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=3W9akdXJq/vphoscbASXhh8F+E2/qDH7gO0ZR74XGrY=;
- b=fFyJupYIBZxe9lF+USGIfM0QzKVssXC1XHlNDyPBQJ1RTs8jo4bWecJK
- bDpWfOqHhC5g0vjDdfeKxFiSJ34sLoYMD/AtfAGADP+G4aEniSpf6oumv
- jq+TPNo8TLXQD2cuB8FEZkN4d3IWqLFU7UOWgYv8IUFj1lggaVIR9Zk2S
- W0xIjBRvFrUkbSaTMLLPBGnUiN9gYoC/tgKxbLJCi/32iaYO/fXSH6+Dg
- qdJR9ERTHmBREA631vS81HwyXTdsH1nqfC7YcHJDgnkB1QlCizvwAsEU+
- W3swRItxXCsRlEumUk0pfxmbLN4lH3C2xAK0B0szgN7zJUIA0p6udMRvJ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10369"; a="276795446"
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; d="scan'208";a="276795446"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2022 23:26:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; d="scan'208";a="906393627"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga005.fm.intel.com with ESMTP; 05 Jun 2022 23:26:42 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Sun, 5 Jun 2022 23:26:42 -0700
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Sun, 5 Jun 2022 23:26:41 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Sun, 5 Jun 2022 23:26:41 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.46) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Sun, 5 Jun 2022 23:26:41 -0700
+ (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
+ id 1ny6hk-0006Ws-4F
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 02:59:15 -0400
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01lp2171.outbound.protection.outlook.com [104.47.23.171])
+ by corp-ob09.yahoo-corp.jp (Postfix) with ESMTPS id 7C04119FB184;
+ Mon,  6 Jun 2022 15:59:05 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo-corp.jp;
+ s=default; t=1654498745;
+ bh=XIlYW9nWlsYd+tZW+4r7QARQO1LAguXHKhqMUJWlJYs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=bw18kam8R+jjZ2usV6Opnq+naBycVwz129YP0Tl9m4fEbTIGGwjx82HhRo9NVFIFC
+ 1bzl/WQu5wU4kWG06u1etaiahloS4nYdhurakuBki+h1jA1AE42z1rGLVU/pnuqYqn
+ trc2rIvPIEQKEjnWehDFz4/++6+kB0VPxZhni2AI=
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RltsQcYmbe8DwYs5UnIvC34HdpDSm7Md3dTr/AHG00eGJ9X0A8rGw9StNiSP1539M4WDJNEIRCT+Dh+t00FRB5tkPZxdsy83gt+4v6wDTgApP5VI4/elCibs+ubzPj5AqLnGy9LgZvUlRbKJoMNBh+pUkmGvtGVpm8a1+A9rsaAq/EszY+Y+lJP5OccFL2n+yolvAZz3o4Rv5N4FGRx2TLpVrkmNLPCjhybnWdQ3gy5dLrQ6t4JxfRJV3dRdeJvuS/fyv1TiVr5RGFhUAtnE4peSNdmLCPyGOYQunLgUUuwBa52NPBrrvmhjs26ScLRYFSBTJNb46rXxorHOJRwO6A==
+ b=QLcObU0UTCSXu92L43ZLVxMNFITuBX1AOpZK+L4rlH6n078DjaQarWvxEfTCmWCSrhKMzWB69X8lDkZjzI77ij8307yMGgw2epWYZ97cetkNiYG5QQcnLvfom2bROpHH7gJu4aY08WH485sNc/hnD0wkKYA2+O/IM89FknM/KFhIhkFDgosh6ToZFWisiFTgzAe39Hv/Lc0RQPP8vu4ixnICJGEup0UJLqNkO1bn4xIOzVgP7leOGiadmwwpIYV/aCYSCI1g9WS6RYViCdL6qEsKjF+JXGeqMrtbrSKW1pL0bMNicbe0prj3tgiGm49O8BG9b+Aw1904S1KhYzamdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9sDAqDKcRHq6NFlcwJLj/qTqoAbiZ1qs7KxJ4OCTPC8=;
- b=EyE1FtUE5wUW9pt2IVoP4jl+5DmI6mrM6Eujl8G2pmLndFVjxLQbJUtqt3EUC3Bge//QcG1kAcgj7HJQ/S1ZE1JfDtv2+o2+bFxT25Nv5vRPbKk+NmGfpIWjP3k5yTzOfqhmKrzxMqb8H5QKC6N6RMvZLNuGRwUhQ/SF00g777xurLYBhXKYuAEQRR4X0jjC9yr/zcJllrDoHIT2t8IIxC7N4NyYHXCGDzxr7vPtF8jRDy9mLjUhUFxxQEmxfhCcYN4BIg9rCL8UMrEJEsIVJ8bz/6mlpd2FsZaU3a1uBiJQ0B5OeN3cXGdp1lZaR25s9O8Voeu14YH2FhMN74QFBA==
+ bh=XIlYW9nWlsYd+tZW+4r7QARQO1LAguXHKhqMUJWlJYs=;
+ b=QzZ2RtLNEogT05f+1xFY9jcKLlcXE/0Ru/K4TqEdt9druGCe+IDvfDCEj6X/ezdYMM93KWwVUzNlJV9AIpNFmQEz4joW52epxt6939LfDJ1K5vIOZ9b0yx8SRkUwKEnQkDx+YjbWGNmPMQggBogLDN/sZ5ePcTHZDDpE/d2/npLdn2UMEN1Fw9tqtx6NKw3SKOQ8Wqpfd6RM4oFVOq0ingC57b0mTBLAtQYhwQ7kXv9nAhDh3ngR52s7viiht4KYqOBlHIiH7f0qd6rKcaYHbgVeTeDkY+010XrGW4sYub7qmACceOUFTWR5WdEo+HPQe7I1cexSH2M0dDIQ+b9lUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB5453.namprd11.prod.outlook.com (2603:10b6:5:398::15)
- by LV2PR11MB5975.namprd11.prod.outlook.com (2603:10b6:408:17d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.16; Mon, 6 Jun
- 2022 06:26:38 +0000
-Received: from DM4PR11MB5453.namprd11.prod.outlook.com
- ([fe80::851a:a55e:1b13:748d]) by DM4PR11MB5453.namprd11.prod.outlook.com
- ([fe80::851a:a55e:1b13:748d%3]) with mapi id 15.20.5314.019; Mon, 6 Jun 2022
- 06:26:38 +0000
-From: "Hu, Robert" <robert.hu@intel.com>
-To: Robert Hoo <robert.hu@linux.intel.com>, "imammedo@redhat.com"
- <imammedo@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
- "ani@anisinha.ca" <ani@anisinha.ca>, "Williams, Dan J"
- <dan.j.williams@intel.com>, "Liu, Jingqi" <jingqi.liu@intel.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [QEMU PATCH v2 0/6] Support ACPI NVDIMM Label Methods
-Thread-Topic: [QEMU PATCH v2 0/6] Support ACPI NVDIMM Label Methods
-Thread-Index: AQHYc9cRg/tP0R+YoUCIQ5bZ5sgyH61B9QMQ
-Date: Mon, 6 Jun 2022 06:26:38 +0000
-Message-ID: <DM4PR11MB5453B7809D32D982A9437503E0A29@DM4PR11MB5453.namprd11.prod.outlook.com>
-References: <20220530034047.730356-1-robert.hu@linux.intel.com>
-In-Reply-To: <20220530034047.730356-1-robert.hu@linux.intel.com>
-Accept-Language: en-US
+ smtp.mailfrom=yahoo-corp.jp; dmarc=pass action=none
+ header.from=yahoo-corp.jp; dkim=pass header.d=yahoo-corp.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=yjcorp.onmicrosoft.com; s=selector1-yjcorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XIlYW9nWlsYd+tZW+4r7QARQO1LAguXHKhqMUJWlJYs=;
+ b=NKJfNWYO4f/0FtAlHPhzn40xqvH3Qu6BJLCHsU3/nl7YUDOcOtvsMxM2F58Sj6WKSnI1tIeZVlkLY07uKmpeCOJaPkpcquproXM5+zkyqtXtMLIY5rTucPOcnSOK/H6csaGUNZAgpkpXQVdFEih/6nEJ0t3dZGMVHj/2YsOhRY8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=yahoo-corp.jp;
+Received: from TYWPR01MB10194.jpnprd01.prod.outlook.com (2603:1096:400:1e6::5)
+ by TYAPR01MB4992.jpnprd01.prod.outlook.com (2603:1096:404:127::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Mon, 6 Jun
+ 2022 06:59:04 +0000
+Received: from TYWPR01MB10194.jpnprd01.prod.outlook.com
+ ([fe80::9d9a:354d:e1f6:70c1]) by TYWPR01MB10194.jpnprd01.prod.outlook.com
+ ([fe80::9d9a:354d:e1f6:70c1%7]) with mapi id 15.20.5314.019; Mon, 6 Jun 2022
+ 06:59:04 +0000
+Message-ID: <cf3f35af-2f0e-4ff5-e596-3ad1f3adf523@yahoo-corp.jp>
+Date: Mon, 6 Jun 2022 15:59:02 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 0/1] Fix occasional test fail on multithread
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.500.17
-dlp-reaction: no-action
-dlp-product: dlpe-windows
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2cbb0ffd-d324-4084-4969-08da4785832f
-x-ms-traffictypediagnostic: LV2PR11MB5975:EE_
-x-microsoft-antispam-prvs: <LV2PR11MB5975C2CC9B429F2D3B91A4F5E0A29@LV2PR11MB5975.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Sf7R6yUNdlPCW1xf5KwUql8XVbk/Al42z/SCbRh7lGeZMrk3dd/95RoIxAQfl6rKRmtThjbU/xkz8LWmr1WsmWWlLQ+s5Gea3jSaRljGcIAVlahaJviOHxTDhvvWkMExEPwOigtMD+ErX+niICBs8YTD7/2OxAjl+JVI8Zjpb2j+Scl1VBwCcv4X4gHdpQuMHi+GzVap8zd53ZRUttJrF29yK4m0jXY5Hqb7n3OTEpBd3ZN4UNcIcCwRyG9qJu5vNzofmUcxf0kIrOK/q8JcX5Huwlhp1NdaaE4LcNLuTkCYVwtqV4tQjZPqZCY0jdkN4S/ivGyLC4quxaWn0saRpswAVUVzFKIVX8lXfadSih/7WsJ6sGiVs2iL5K+jAVHHtTJHBwMT34Qa/jY4NPZb11UWNpM/HotClFBgWwqyeHJ7ZTSsMdbn+O2gac3F1J1FZGtYT4wQIi1NRUwy8US6O9qHiU4ywtDyY29FXvKX9xYOBFJY/qvrOr6uI3QMbB8yDoAeVM4m7Gjkwb/MJdAeacPn/NYNaeQWtIr5j5Gc3qtLYj9hwSynes6Lzs6h6q7ZrLLb2jokFCD0BuNPdX99m6LbvWgb6fn48XfXyN1dJSMfVdBjOJ+s2W8TK8BcednatR5warnypWagKFTLC/tQDGN2EJJZZT2dXfaXHRY4c9z3fyrfDQIk1yFJVnYDBEk79sCWaw/lJf60PknC12tovBG6oKaVezwD1QRAu6Wim218siO7prfNeK2sZyWuhFw2F6Z6rMX8AQhs4LRTjPynVYMpRySxSbyrkfgr5dM3nG4nYZXg+Jn59NwYST50SWHsVaHMmtuR3nBy+2XkWX2TDQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5453.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(38100700002)(26005)(508600001)(8936002)(38070700005)(9686003)(82960400001)(7696005)(6506007)(966005)(53546011)(66556008)(76116006)(64756008)(66946007)(8676002)(66446008)(66476007)(4326008)(122000001)(86362001)(71200400001)(110136005)(52536014)(5660300002)(83380400001)(316002)(2906002)(6636002)(55016003)(33656002)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pbMYhxIwbQXOHGmZbmvub8kv5KxzlY0dOxElV7ODj7M9r6dTK47s+q4mRo6B?=
- =?us-ascii?Q?pUtZzdU0xaSABTksVk/g0sVv4U0BZFAcAobwbW4rEHA8Grmf/QQAO+12oKN7?=
- =?us-ascii?Q?pP+RXvBaee66k+xlY+rprUlJlIDJZ9cQDAQtOT3VyN64k+H527Kwo+DcTFU7?=
- =?us-ascii?Q?KR5OrgsJQWBao6ZkfzMQVpwZkqusPJdJq5ItAbcH0iMaaN3kJ4iVn5mnd/VI?=
- =?us-ascii?Q?OllIywW67oEi3Xybp6JdBQoGXDjP2u+KnMmpZFEVfR2FxJF79TRPdsCpJmPr?=
- =?us-ascii?Q?bjF7h49RxhiD93RVM3KoE5sDDgNouJg4VVWsOpAVDgDhswlD3YRTpeCICJuf?=
- =?us-ascii?Q?7dUTru+ooaJDV2blQOrcPYUPCobduUeSAgBeemujrzC+24fsfVZGapNZgEwX?=
- =?us-ascii?Q?AZtvzBKSV1cSSk7VNrnn5LaAOZlvSqChIo2hI0ZYGdht35QO+AvKSw0xMojk?=
- =?us-ascii?Q?+Pgh2ilz9BYYXQ5oZoOJSp2tBKXbwg6gsm4saMr2MCMkd0/vZRG5BokemtR4?=
- =?us-ascii?Q?s29aIpxPQBklEZCDZaq0wTP5wggtBpC1o8FekrE8vxhs1TBnzxVlRqcr7SZi?=
- =?us-ascii?Q?tCZNOZB+uXdGBK6B33TeXHAMAnV8naVq0rL+CRfpg5DQ6dsuCN0LhhX/uMpx?=
- =?us-ascii?Q?BUYyBk8LwK8IExSb1GUUrpIG8/6rDl3Yga3DDIyR85OM/9JLqYAT9qfrNSS2?=
- =?us-ascii?Q?ssR3F0KbOhd5OCbqCtToS3NM6lLhh4Gu522ND3aLqhBX+S0ort7pNCgG8uUi?=
- =?us-ascii?Q?2M7MXwekAPa7uT82uQ8lHhMgCyHctNB2Yw2Hb0zbInLg3TsIHNdNYgp2eZTk?=
- =?us-ascii?Q?5f1jCbec0aeFIS4N3DmNtKWWptuSUgNJyZ5tOj+5WVtNPzV7+W94Q1/E7rzi?=
- =?us-ascii?Q?qTWDHSoXS4f5gpa6sZwoBt9jqEPI1sgahhZkPSbuPAZBy/5M56w8d/eGjA8u?=
- =?us-ascii?Q?Lags2GSLG0CO60O8Jk3PrLa2KM+ZFXVRg6UdPvMcs1jSM5+VIwkEFxN3smxC?=
- =?us-ascii?Q?mAIrhZg2VzSo64FbkIbmzvJY5j66pfdon+n3R3gZLIQf/5bZjloXkDOLwX1x?=
- =?us-ascii?Q?X2XXpi/z9E9wWtZFqByitemdmVh6Mt79b38D2OD/S+5dMDhYgtS4Hz3WW/+L?=
- =?us-ascii?Q?j+8PaDWxR9ZV7m1emnEyGO0eonnejngAueySCTUL7+YT2jHUlCotJm5g1YxC?=
- =?us-ascii?Q?X0DbN6/phw+XhoLNcbwnrNgCdKFxrKvyYojvW09P5ctGdS6H3T+y1/tlQdWH?=
- =?us-ascii?Q?llPno4xI8FFirdqdirztt80U1By6eeGMBOqydGD/rgFdV1DUTkV5YBwjKnvA?=
- =?us-ascii?Q?GPoGti+rdy/s3FDonvJkOvmT1k+p1+n1t0YSlHF+VN7Q1vxNqTRNorWJ8Rak?=
- =?us-ascii?Q?fdX78Xf/P13xDCGqyo/1Nenilv3r55pVgOAd/ORe4dLhkZdejZDvdW58fcyl?=
- =?us-ascii?Q?KO/WlNnLVaeibJ/BxaPRf4fyQ9u41xQQfGy/nAe2w3jyY1zhCcgfK7kagEKI?=
- =?us-ascii?Q?u8z36hAEMclHee4IyLlln0NCC+b3yKcCjgqJUmqbEYf52Fd104HcDAu17+py?=
- =?us-ascii?Q?pBdPwFeV/WYxrsnZbdy8MlRyN/7LoXhOgIUt175tDlivDGLZDTUotODk9iSJ?=
- =?us-ascii?Q?ANXp4THd+LoWbBmlW6mrGvsgOW5dcnH1jIryF8w4r+egqAVOluoJheZhSEyL?=
- =?us-ascii?Q?Rf3ftPr9xHqzWYDnXeUrgPrekDfL8AmId4YlNu1l6BjkmJTBafLQiM61Oiq9?=
- =?us-ascii?Q?MRQtkeP0pw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, aoiwa@yahoo-corp.jp
+References: <20220517082954.1566-1-hnarukaw@yahoo-corp.jp>
+From: =?UTF-8?B?5oiQ5bedIOW8mOaouQ==?= <hnarukaw@yahoo-corp.jp>
+In-Reply-To: <20220517082954.1566-1-hnarukaw@yahoo-corp.jp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYWPR01CA0046.jpnprd01.prod.outlook.com
+ (2603:1096:400:17f::10) To TYWPR01MB10194.jpnprd01.prod.outlook.com
+ (2603:1096:400:1e6::5)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 714948a1-7961-4472-8345-08da478a0b14
+X-MS-TrafficTypeDiagnostic: TYAPR01MB4992:EE_
+X-Microsoft-Antispam-PRVS: <TYAPR01MB49924C4E9AB04B3140E5545A80A29@TYAPR01MB4992.jpnprd01.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Qo/sJuCX6fKTVrVCbnkRdQccSoCh3mJukApxU8tZwbZJ/LQqP/x1e/wOmZzoJ0Md4+mdcjNBTblEBkjAszbax7Q81u+juO33g7ndA+8IE5AfTcz6k3asGusJAn9cDqWuHNAnjRHiDSpjm8okl6FJiyoZquhW6/fcXIjFt0qo/uE7T0Mqa2ybbf20mR0JsWh13yNs30LfV5um8cu1TD2jAosZ2cZ3XMEwDYwmgqTevb6BUHqCM0I+VLMIq0WOQY0ykp18zh+CWPQzppm8eWgAt341J/I5P6rXljWj9yR/8RpM8PgjpPR8yiVxITUt7te8DZ6ghYrCMAMbKZhV5hqHWZ7aLoHGPClWksLbKPxC5zSJQ99nZIRDNpiFh+qq62rRa/rUjOjCEYh8hDJz/lRP9vyEnqEELJNYwztdIrHt6vtpKFn1BNrXIcJqtyZ9aBcDHyE3Wd8CJ8jVPJ50bcHvvTOfBgC8WeEHN8yYcxNeizwSOST3LnN5NLqr8Tb+pvTp8rw69tByo/XxiFIrDTVKrhgl00Vu3Slqo9GPqnNMNCJtzdrmSpk08SRVjHfTscC9bVct7U6rU1RgQvclpq1+HKeLiAoOlvl0mTYHLuyQRdKXMgvie6knCPXVW3nlPsqTGvJ3bzMNFYSHz5QjTF9MB7kSJABx/CWOBRFNLAt/QaaDCKJkD/+hjO/x2l3Z8KNRvxmDUe16pTuV6EffptwHM2FrQy+Ccg/0YdWd2L1/1gxKZiZ4hX5KrrPgvfPscLY5
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYWPR01MB10194.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(186003)(86362001)(4744005)(316002)(8936002)(2616005)(66946007)(508600001)(66476007)(8676002)(66556008)(31696002)(107886003)(6916009)(4326008)(82960400001)(85182001)(52116002)(2906002)(5660300002)(38100700002)(26005)(6512007)(6486002)(31686004)(36756003)(38350700002)(83380400001)(53546011)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L1J3d3hnYlRIenBzcWg1WURoLzlMMWE4R2ZIb2lPNmdnbjBjelhIVVZjME9D?=
+ =?utf-8?B?ZW84YlZ2ZEJJVm1ZTlVqTXlmMlU3allnaWJvSHJBZUpTaVh6MktxaG16L1NW?=
+ =?utf-8?B?eTVVcVd3ckdseFZ0SHVYSG9xNW9LNmZOR29sdlpWWCs2b2dlOWZSZjl3OG1r?=
+ =?utf-8?B?RTNCRTgwN3JyZW1rdVhhOFp6Si91VGJEdGExUWlWN3krV2w0WFg4NFo1REhG?=
+ =?utf-8?B?SW16eWhSa0l5blZNZXRVbEVDNzVJeCs3SDVPVCtWRVRyaG5OZlBjcHhOMGJr?=
+ =?utf-8?B?OHg3Z2xSejZPWmJtOStCdHRuMU5YRFp1dTFCZmNNTFdwdGR2Wm1IVWNXcGdL?=
+ =?utf-8?B?bWRVSm1uMFlKd2Q5MlQ5enJnbGlxWVp1a2MzZFZyc0pEbFEyQitrUldyRGlO?=
+ =?utf-8?B?cnQ3amhMcTR5Z1lzODVzbUdUN28wTzVTWmdHNUUrc3ZZNlA0NlppUGNVMUJQ?=
+ =?utf-8?B?WVVBWjY0VGg4YnZGVmlJdmczamtnVm5UcG43T0dBMHhkUFZ5NGlFR3VnNXNy?=
+ =?utf-8?B?RDRuM1VpOFRJdE1BZ3FGLzlBMEdIRTljQlU0TWk0MTQ1cWtNbFA1WndpanU3?=
+ =?utf-8?B?eUEvY0JiT2RraDVJMHFjREtreDc4aXhDZjhJaWR6THduUU9jRXZJa28veEJ2?=
+ =?utf-8?B?SUVjNWQzYktXejI0VFRLcS9kQ2VraSt1UjB6TTRCNXBBM1I1Znl3S1RFVFZi?=
+ =?utf-8?B?UXBMdnVwZWtDZG80bTVpMGlZcnRBSWh0YmllYkEwSlErcUZNZkJqd3lpdUtY?=
+ =?utf-8?B?YnJQbDRJOXR5eFdiRk96OHc1ZmhkWVZXUnJaa3RKc0p5ZUVoY2ZLSGorcE1h?=
+ =?utf-8?B?Mnpjd3MvTXdDUGRFZ2VxUzVLNStaTVZrdmpJQTdlVWdDWVhqQjNYUERFL0cz?=
+ =?utf-8?B?QW8wRnJ1NlhJNnlPZmVnTUcvblhyMHVUUDdJRXpoT09lakdndHorZ2RqZDEr?=
+ =?utf-8?B?cE9QL1pyaE1yZ3RZQ25Cd29NTnV6YUVzMUFudkxKU0xRaDFzVjJkQzJMODYw?=
+ =?utf-8?B?bkIzWFErWHZtc1ZJd21CR2tVYWF0QjR3eXlzNlJ5aURSR3Z1ZCtrUEczVE9s?=
+ =?utf-8?B?L21JN21acVNJd3BDaWpka3puOEdsc1lzaDllbmthS25YN0lCaTdQRFF0dnE1?=
+ =?utf-8?B?N012VU8yVTllcjhXN2ExemZBVTd5ZFl5dFViaDdIeFVKZFMwUHNOT3VudlAw?=
+ =?utf-8?B?RzZ6a0grS3J1cDFsWUJqRDh0STBDdWQwaS8rTHQvclBUaFJaQlk1RVVQV3hv?=
+ =?utf-8?B?SWo1bmRndFJlbWd3dnVqQ0JFL3h4cUgrNWRLczFxS1lhOUEyOHlvUTNpcFhG?=
+ =?utf-8?B?RlBod2xzY0JWd3dsQm1FbTdycjhmeVk4V1VLRVRQNGV0cDExTXoweDhIYUxL?=
+ =?utf-8?B?Nm45NDlITTBvaTVRbGlVS0hTWDNzZXlZYXZkNStsM2VVanhORGtESDZNTHd2?=
+ =?utf-8?B?NTdOODBuYVJoMUJzRzhjekdRZ3AxK1Q3eXM5WHNVQU1SNjVhOVIxbTRNYlVl?=
+ =?utf-8?B?dE5TVGMyVE1kaVRyMk9TYmJZc3VROElIMUJFK1h4V0pORk1ud1hZL3lRaFZs?=
+ =?utf-8?B?MXcrenBLbTRCNklPRGg2LzBqamRjeTNqemNMMmtJN05TRWY5czhqVURZVWNP?=
+ =?utf-8?B?REV2dmdpUDZtc2J6aUUwVUtyaFVKSTVPVDdjanA4RXlNdGNpN2Z4T3M2N2NL?=
+ =?utf-8?B?RnY0SWlXa0EwK1FuYjlJQ2hTZVE5YjZlQ0xCZmRramJKdHFTb0Z3bk9xaTFS?=
+ =?utf-8?B?REFiYWsxVHhHK0lQd2xDd1d2R3d4VEkrREIwUGJtV21iaEpLUTdvdWtvWEUr?=
+ =?utf-8?B?VGhveGJBTGJzdEEzaCtKNVluZlkyU0ZkOVJQRDVobFpkelZXc2xZMjMxampv?=
+ =?utf-8?B?eEY5TWtGSzhWRWRPeFZVdldsa3pVVFFsNERGWFF6N3lwcm5BMzQ3YzdDQ3hZ?=
+ =?utf-8?B?dDk3UXpFWmx1Ri8xalNQT28reDgxVUJZaXdteUtGVGlnUGhrRFJjOFMwYXZm?=
+ =?utf-8?B?dGhmclZKK0hZR1pKUDllV3lML1Z3eFRXaVhGVnlCeDR0TEpYanZ0TXVOR2Y5?=
+ =?utf-8?B?b1RSZTM3VmdJUTROL0t3VWhDVWhBNzhDNUI3LzBadVEzR0dBdVc0b01Bd1M3?=
+ =?utf-8?B?V1A3ckU1ZVRlTjJTV2dQUnkwK2h5T3Q3S05DN2Fmc25SdWdsbUNJQWJsS08z?=
+ =?utf-8?B?dzF0STUxTEM3bVNqMTZoWlJVVE45eFM3UVBDM2JxTzgxN0dReGFUYjBwbENY?=
+ =?utf-8?B?cUJQTWo3M29weXhmNFRaWlBMUERBY09qei9xcjhvdzhDVjRVL3JsSVhpVmFU?=
+ =?utf-8?B?R0Q5YkVjeHdpRHNjL2E0ejZ3VE0vZzF3Ym9PajZvMUwxd1hSRytLdz09?=
+X-OriginatorOrg: yahoo-corp.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 714948a1-7961-4472-8345-08da478a0b14
+X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB10194.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5453.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cbb0ffd-d324-4084-4969-08da4785832f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2022 06:26:38.3014 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n1S4cLLr+DEIdH/zdYCXX/iZb8guXttVzBoiQpm4C4PQ6ysRURFNn4uXjsNTn0KGBmAkmDEffz+SYJ3sLdvsUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB5975
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=robert.hu@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2022 06:59:04.4236 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a208d369-cd4e-4f87-b119-98eaf31df2c3
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yCER35c/WGS0p4MCZXe48PGVskkq9mjkxknhduSt2XM43wmJdc/3hstjjq51oOqGYSQH7TiBqYweg/2n/acceA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4992
+Received-SPF: pass client-ip=182.22.125.216;
+ envelope-from=hnarukaw@yahoo-corp.jp; helo=corp-ob09.yahoo-corp.jp
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -178,84 +159,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping...
+ping, how is the status of this patch?
 
-Best Regards,
-Robert Hoo
-
-> -----Original Message-----
-> From: Robert Hoo <robert.hu@linux.intel.com>
-> Sent: Monday, May 30, 2022 11:41
-> To: imammedo@redhat.com; mst@redhat.com;
-> xiaoguangrong.eric@gmail.com; ani@anisinha.ca; Williams, Dan J
-> <dan.j.williams@intel.com>; Liu, Jingqi <jingqi.liu@intel.com>
-> Cc: qemu-devel@nongnu.org; Hu, Robert <robert.hu@intel.com>
-> Subject: [QEMU PATCH v2 0/6] Support ACPI NVDIMM Label Methods
->=20
-> (v1 Subject was "acpi/nvdimm: support NVDIMM _LS{I,R,W} methods")
->=20
-> Originally NVDIMM Label methods was defined in Intel PMEM _DSM Interface
-> Spec [1], of function index 4, 5 and 6.
-> Recent ACPI spec [2] has deprecated those _DSM methods with ACPI NVDIMM
-> Label Methods _LS{I,R,W}. The essence of these functions has no changes.
->=20
-> This patch set is to update QEMU emulation on this, as well as update bio=
-s-
-> table-test binaries, and substitute trace events for nvdimm_debug().
->=20
-> Patch 1 and 5, the opening and closing parenthesis patches for changes
-> affecting ACPI tables. Details see tests/qtest/bios-tables-test.c.
-> Patch 2, a trivial fix on aml_or()/aml_and() usage.
-> Patch 3, allow NVDIMM _DSM revision 2 to get in.
-> Patch 4, main body, which implements the virtual _LS{I,R,W} methods and a=
-lso
-> generalize QEMU <--> ACPI NVDIMM method interface, which paves the way
-> for future necessary methods implementation, not only _DSM. The result SS=
-DT
-> table changes in ASL can be found in Patch 5's commit message.
-> Patch 6, define trace events for acpi/nvdimm, replace nvdimm_debug()
->=20
-> Test
-> Tested Linux guest of recent Kernel 5.18.0-rc4, create/destroy namespace,=
- init
-> labels, etc. works as before.
-> Tested Windows 10 (1607) guest, and Windows server 2019, but seems
-> vNVDIMM in Windows guest hasn't ever been supported. Before and after thi=
-s
-> patch set, no difference on guest boot up and other functions.
->=20
-> [1] Intel PMEM _DSM Interface Spec v2.0, 3.10 Deprecated Functions
-> https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
-> [2] ACPI Spec v6.4, 6.5.10 NVDIMM Label Methods
-> https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
->=20
-> ---
-> Change Log:
-> v2:
-> Almost rewritten
-> Separate Patch 2
-> Dance with tests/qtest/bios-table-tests
-> Add trace events
->=20
-> Robert Hoo (6):
->   tests/acpi: allow SSDT changes
->   acpi/ssdt: Fix aml_or() and aml_and() in if clause
->   acpi/nvdimm: NVDIMM _DSM Spec supports revision 2
->   nvdimm: Implement ACPI NVDIMM Label Methods
->   test/acpi/bios-tables-test: SSDT: update standard AML binaries
->   acpi/nvdimm: Define trace events for NVDIMM and substitute
->     nvdimm_debug()
->=20
->  hw/acpi/nvdimm.c                 | 434 +++++++++++++++++++++++--------
->  hw/acpi/trace-events             |  14 +
->  include/hw/mem/nvdimm.h          |  12 +-
->  tests/data/acpi/pc/SSDT.dimmpxm  | Bin 734 -> 1829 bytes
-> tests/data/acpi/q35/SSDT.dimmpxm | Bin 734 -> 1829 bytes
->  5 files changed, 344 insertions(+), 116 deletions(-)
->=20
->=20
-> base-commit: 58b53669e87fed0d70903e05cd42079fbbdbc195
-> --
-> 2.31.1
-
+On 2022/05/17 17:29, Hiroki Narukawa wrote:
+> In some of our environment, sometimes test did not pass due to multithreading behavior.
+> 
+> I think this fix will check correct behavior. Could you review this patch?
+> 
+> Hiroki Narukawa (1):
+>    test-thread-pool: Fix occasional test fail
+> 
+>   tests/unit/test-thread-pool.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
 
