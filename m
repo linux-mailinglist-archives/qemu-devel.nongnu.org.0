@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6057753E4F6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:07:36 +0200 (CEST)
-Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816D853E4DA
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 15:48:16 +0200 (CEST)
+Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyDOI-00063H-Cz
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54308)
+	id 1nyD5b-00059b-16
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 09:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nyCGs-0004Ij-3g
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:55:50 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:39480)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nyCQ5-0006s1-TF
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 09:05:21 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:41619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nyCGm-0006iz-QU
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:55:46 -0400
-Received: by mail-ej1-x630.google.com with SMTP id y19so28778510ejq.6
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 05:55:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nyCQ2-0007yK-AN
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 09:05:20 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-30ce6492a60so142109487b3.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 06:05:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i2/euUzs3oFLtdPIBS8OnmvUgXJ7HkWnRRpg/Xz3kkk=;
- b=KSVQZIXYetXyVrw2b29sQp31U1CnmpbAsgJnO1Ps9QEDKcFTY4smAdUyifPXD8Ez1o
- +VtRipOkvEPDo2pQQB/LlW/n8xCPPMx3uXv497dIvIrWe4lN8uDQppXYMxeqoEkMDWP6
- qfkE3zhR7KSOVuElO94jorxy0ZLHJtEGByamsf+DGiNL0j09fGbL+34cFbDo+wIiFlL0
- lHMkdxRSraUrGOHpDelEvKZSN4LsdeSnolzQtSav5ltgUkMx+BSombNETBBiYUjPkUkk
- RWm6vWruvY0dsLOkLHVJZgcnSQApYW1R8hvMgAdF/UXxDMQbYH9qPHpUPk6VbEc3r5lF
- dOkQ==
+ :cc; bh=fwc/xxhdclU4+nctShI1c44+1rZCvhoekq+8YBPYj74=;
+ b=S41rEUClZYtaosCgY6/yX+PHpIfJh5Q4stLGC1LFOSUjnx1ODopmG/Y3rTPVC3JqfV
+ CbK6jabNraSmwQMZHA7fhuuXHAuDabvEmROficmFKiaYkqF0Xvku4t1mv043cdeVlZdb
+ crWM3hF/bChhUTdjSm+KbzBbU89fXm/vo9j024rNpqr3U8/IUAJG/ldrgLNvltIj4o1B
+ 0cC8w94skb06Z8bz2c5d87vCXNx75u+x0i0pYJzzAHtSlUDNziDIgfj+eKlranmErIaP
+ nwZ26exB6vUQe+qzhfvthdX2YyXQgNjK0tG6aYzuSlPVihqL4IvBo+fFN3GWy5+yl6mt
+ /l4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=i2/euUzs3oFLtdPIBS8OnmvUgXJ7HkWnRRpg/Xz3kkk=;
- b=qtukpJuftfgd/EShG+iCE6egeG4GskhcchHxau6bbkLeZObj+vLUBdSu7VTJ7T9xz2
- kBW84o7rvAdTcJTlwo8kaDRnWfB8Q4XhIZ2xdlS5hxZoJQPQvuiYvOCLVomaxmXORjNW
- SCuH2pcwLu1zVStJ5wB4vuI57RdwMLpKjuefLlfu6QQ/NNz5H+ZGGad30RkXzx4lhJAj
- Phmo2jKL2xlKFFipK2vm1uqn8X8suBrdVyh7/lZZrrM0u8m2SYUFH3qFdWCoEclvy8w1
- YbOVmUKlGhSI3XEfMfK4BYUCVHhkxcHZMk2jwP//gQ66lilPOlIuTZJOW9SJhqPBYu9F
- 1W0Q==
-X-Gm-Message-State: AOAM5302PePa0yMLsX3K1rNr1GnVpd5DYDylLHiK1RuuTn4qKyDxazIx
- JF1tmFiS5BxqFAD/wNJK4LM0zzxLMCmoEEMqNdMy
-X-Google-Smtp-Source: ABdhPJyGnhHuUsNyA751jR7pNktfFQKbYgyqAoGwJOgtXObhz6aBgLLUgpx3aciIkw7VVuHJGn8mCe02qpTlUqyuFtg=
-X-Received: by 2002:a17:907:6e25:b0:711:c6ce:b7bc with SMTP id
- sd37-20020a1709076e2500b00711c6ceb7bcmr7095410ejc.752.1654520142640; Mon, 06
- Jun 2022 05:55:42 -0700 (PDT)
+ bh=fwc/xxhdclU4+nctShI1c44+1rZCvhoekq+8YBPYj74=;
+ b=dYM/0fTDSQRIGnxgTmEPtPI9UcnkQn+hUCJCQcG1arfF7+tlRP4S39lktZhlp47lMy
+ yku1YQpKPLqAnIe5oxFV90wwoizapJGvCYQjY/tHqsgsEMM+T29kBTUjv5QMmwkopZnp
+ wysICPezX/JgDJiBN4hkcynoWaTeGMCIeZHT+MrhR80MjDDhLxBl5lSrh+fiAEabVY7w
+ XnKAUTvAKelcWMvUif02o1Hooq3OiPVzofwRI+hdG+WpURzaZomx34egX1ZaG4XM6dAH
+ jxYequ9h4FGmj4fFzw5l8yIEWjHa/tVoyoAFzYvzWKNCePLDhsPQ/kKKI3bDWzvcqoHC
+ qDuA==
+X-Gm-Message-State: AOAM532C8K/9m0zHF8k5PP3+GctWQOCgqU5gd+6wLYLW8LGP/P0ahT+z
+ e3bc/RwMkU1p+ZankCSCSWAseKJUx1lO7eNzGeyJnQ==
+X-Google-Smtp-Source: ABdhPJxfCmMc26+Z09hsDYe2bobxxI23JT0SrJGy/jiwyRIi+1vGvKV12i3fX4eGqE+pqAX5ACyGJ7hUudU9njvCm/M=
+X-Received: by 2002:a81:6589:0:b0:2ff:e11d:3fb3 with SMTP id
+ z131-20020a816589000000b002ffe11d3fb3mr26007674ywb.10.1654520717219; Mon, 06
+ Jun 2022 06:05:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220523084611.91-1-xieyongji@bytedance.com>
- <20220523084611.91-6-xieyongji@bytedance.com>
- <0fec2667-88ce-7388-086f-2dfc7d6bf9d7@redhat.com>
-In-Reply-To: <0fec2667-88ce-7388-086f-2dfc7d6bf9d7@redhat.com>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Mon, 6 Jun 2022 20:56:39 +0800
-Message-ID: <CACycT3sthK-3d1=2AfoZnO8tMRcXU0vTiXWNe+p2f4HCF9G6Fw@mail.gmail.com>
-Subject: Re: [PATCH v6 5/8] libvduse: Add VDUSE (vDPA Device in Userspace)
- library
-To: Maxime Coquelin <maxime.coquelin@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
- mreitz@redhat.com, mlureau@redhat.com, jsnow@redhat.com, 
- Eric Blake <eblake@redhat.com>, Coiby.Xu@gmail.com, hreitz@redhat.com, 
- qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20220602214853.496211-1-richard.henderson@linaro.org>
+ <20220602214853.496211-21-richard.henderson@linaro.org>
+In-Reply-To: <20220602214853.496211-21-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Jun 2022 14:05:06 +0100
+Message-ID: <CAFEAcA_HoMLWudYorTmJTgqGPv1mwi8jZ3GkhjQB3TorZCOrWg@mail.gmail.com>
+Subject: Re: [PATCH 20/71] target/arm: Add ID_AA64SMFR0_EL1
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,75 +83,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 3, 2022 at 7:25 PM Maxime Coquelin
-<maxime.coquelin@redhat.com> wrote:
+On Thu, 2 Jun 2022 at 23:17, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Hi Yongji,
+> This register is allocated from the existing block of id registers,
+> so it is already RES0 for cpus that do not implement SME.
 >
-> On 5/23/22 10:46, Xie Yongji wrote:
-> > VDUSE [1] is a linux framework that makes it possible to implement
-> > software-emulated vDPA devices in userspace. This adds a library
-> > as a subproject to help implementing VDUSE backends in QEMU.
-> >
-> > [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
-> >
-> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> > ---
-> >   MAINTAINERS                                 |    5 +
-> >   meson.build                                 |   15 +
-> >   meson_options.txt                           |    2 +
-> >   scripts/meson-buildoptions.sh               |    3 +
-> >   subprojects/libvduse/include/atomic.h       |    1 +
-> >   subprojects/libvduse/include/compiler.h     |    1 +
-> >   subprojects/libvduse/libvduse.c             | 1167 +++++++++++++++++++
-> >   subprojects/libvduse/libvduse.h             |  235 ++++
-> >   subprojects/libvduse/linux-headers/linux    |    1 +
-> >   subprojects/libvduse/meson.build            |   10 +
-> >   subprojects/libvduse/standard-headers/linux |    1 +
-> >   11 files changed, 1441 insertions(+)
-> >   create mode 120000 subprojects/libvduse/include/atomic.h
-> >   create mode 120000 subprojects/libvduse/include/compiler.h
-> >   create mode 100644 subprojects/libvduse/libvduse.c
-> >   create mode 100644 subprojects/libvduse/libvduse.h
-> >   create mode 120000 subprojects/libvduse/linux-headers/linux
-> >   create mode 100644 subprojects/libvduse/meson.build
-> >   create mode 120000 subprojects/libvduse/standard-headers/linux
-> >
->
-> ...
->
-> > diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-> > new file mode 100644
-> > index 0000000000..fa4822b9a9
-> > --- /dev/null
-> > +++ b/subprojects/libvduse/libvduse.c
-> > @@ -0,0 +1,1167 @@
->
-> ...
->
-> > +
-> > +int vduse_dev_destroy(VduseDev *dev)
-> > +{
-> > +    int ret = 0;
-> > +
-> > +    free(dev->vqs);
-> > +    if (dev->fd > 0) {
->
-> if (dev->fd >= 0) {
->
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-OK.
-
-> > +        close(dev->fd);
-> > +        dev->fd = -1;
-> > +    }
-> > +    if (dev->ctrl_fd > 0) {
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -682,13 +682,14 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+>          ahcf->isar.id_aa64pfr0 = t;
 >
-> if (dev->ctrl_fd >= 0) {
->
+>          /*
+> -         * Before v5.1, KVM did not support SVE and did not expose
+> -         * ID_AA64ZFR0_EL1 even as RAZ.  After v5.1, KVM still does
+> -         * not expose the register to "user" requests like this
+> -         * unless the host supports SVE.
+> +         * KVM began exposing the unallocated ID registers as RAZ in 4.15.
+> +         * Using SVE supported is an easy way to tell if these registers
+> +         * are exposed, since both of these depend on SVE anyway.
+>           */
 
-Thanks for the review. I will fix them.
+This slightly loses context described in the old comment, though the
+old comment isn't quite correct either. Between kernel commits 73433762fcae
+(part of the initial implementation of SVE support) and f81cb2c3ad41 (which
+fixed this bug), the kernel did indeed not expose ID_AA64ZFR0_EL1 as RAZ if
+SVE was not implemented. So there's a range of kernels that had this
+bug and for which we need to guard the access to ID_AA64ZFR0_EL1.
+This isn't the case for ID_AA64SMFR0_EL1, though, which all kernels
+should handle correctly (ignoring the pre-4.15 case).
 
-Thanks,
-Yongji
+So I think:
+ (1) we should read ID_AA64SMFR0_EL1 further up in the same code
+block where we read all the other ID registers like id_aa64mmfr0 etc.
+
+ (2) separately, we should update this comment to read something like:
+
+/*
+ * There is a range of kernels between kernel commit 73433762fcae
+ * and f81cb2c3ad41 which have a bug where the kernel doesn't expose
+ * SYS_ID_AA64ZFR0_EL1 via the ONE_REG API unless the VM has enabled
+ * SVE support, so we only read it here, rather than together with all
+ * the other ID registers earlier.
+ */
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
