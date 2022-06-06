@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D98A53E4C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 15:32:02 +0200 (CEST)
-Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E870853E4C6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 15:34:07 +0200 (CEST)
+Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyCps-0008Da-OE
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 09:32:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51620)
+	id 1nyCrv-0004fI-1Z
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 09:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nyC5y-0000E9-FV
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:44:34 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:40374 helo=loongson.cn)
+ id 1nyC5y-0000Ff-UY
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:44:35 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:40382 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nyC5w-0004V7-0z
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nyC5w-0004Vv-Vj
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:44:34 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cxr+Z29p1ishIXAA--.3714S44; 
- Mon, 06 Jun 2022 20:44:16 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cxr+Z29p1ishIXAA--.3714S45; 
+ Mon, 06 Jun 2022 20:44:17 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
- ani@anisinha.ca, maobibo@loongson.cn
-Subject: [PATCH v7 42/43] tests/tcg/loongarch64: Add hello/memory test in
- loongarch64 system
-Date: Mon,  6 Jun 2022 20:43:32 +0800
-Message-Id: <20220606124333.2060567-43-yangxiaojuan@loongson.cn>
+ ani@anisinha.ca, maobibo@loongson.cn,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v7 43/43] target/loongarch: 'make check-tcg' support
+Date: Mon,  6 Jun 2022 20:43:33 +0800
+Message-Id: <20220606124333.2060567-44-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220606124333.2060567-1-yangxiaojuan@loongson.cn>
 References: <20220606124333.2060567-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Cxr+Z29p1ishIXAA--.3714S44
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw43Kw4Dury5WF1UJFy5urg_yoWxXr18pw
- 4akFyrKrs7JFZrGw1IgF1rGF13Jry8CF1Uua43Xr40vFs7Ww1vqw1FgrW5JFy2qws5GrWI
- v3ZYyw1Y9F97G37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9Cxr+Z29p1ishIXAA--.3714S45
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw4DCr43uF4UGr47Kr4DArb_yoWfCwc_Aa
+ yftrZ5Cr15Kr4xC3WFgFs5CFyrAw43XFZ5Wwn8Z348Jw42qr4aqw1xAFWDur4ayw42y3Zx
+ Xas7tr4xC3W8ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -63,266 +65,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- We write a very minimal softmmu harness.
-- This is a very simple smoke test with no need to run a full Linux/kernel.
-- The Makefile.softmmu-target record the rule to run.
+From: Song Gao <gaosong@loongson.cn>
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- MAINTAINERS                                   |  1 +
- tests/tcg/loongarch64/Makefile.softmmu-target | 33 +++++++
- tests/tcg/loongarch64/system/boot.S           | 56 ++++++++++++
- tests/tcg/loongarch64/system/kernel.ld        | 30 +++++++
- tests/tcg/loongarch64/system/regdef.h         | 86 +++++++++++++++++++
- 5 files changed, 206 insertions(+)
- create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
- create mode 100644 tests/tcg/loongarch64/system/boot.S
- create mode 100644 tests/tcg/loongarch64/system/kernel.ld
- create mode 100644 tests/tcg/loongarch64/system/regdef.h
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 954fb95218..5580a36b68 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -217,6 +217,7 @@ M: Song Gao <gaosong@loongson.cn>
- M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
- S: Maintained
- F: target/loongarch/
-+F: tests/tcg/loongarch64/
- 
- M68K TCG CPUs
- M: Laurent Vivier <laurent@vivier.eu>
-diff --git a/tests/tcg/loongarch64/Makefile.softmmu-target b/tests/tcg/loongarch64/Makefile.softmmu-target
-new file mode 100644
-index 0000000000..908f3a8c0f
---- /dev/null
-+++ b/tests/tcg/loongarch64/Makefile.softmmu-target
-@@ -0,0 +1,33 @@
-+#
-+# Loongarch64 system tests
-+#
-+
-+LOONGARCH64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/loongarch64/system
-+VPATH+=$(LOONGARCH64_SYSTEM_SRC)
-+
-+# These objects provide the basic boot code and helper functions for all tests
-+CRT_OBJS=boot.o
-+
-+LOONGARCH64_TEST_SRCS=$(wildcard $(LOONGARCH64_SYSTEM_SRC)/*.c)
-+LOONGARCH64_TESTS = $(patsubst $(LOONGARCH64_SYSTEM_SRC)/%.c, %, $(LOONGARCH64_TEST_SRCS))
-+
-+CRT_PATH=$(LOONGARCH64_SYSTEM_SRC)
-+LINK_SCRIPT=$(LOONGARCH64_SYSTEM_SRC)/kernel.ld
-+LDFLAGS=-Wl,-T$(LINK_SCRIPT)
-+TESTS+=$(LOONGARCH64_TESTS) $(MULTIARCH_TESTS)
-+CFLAGS+=-nostdlib -g -O1 -march=loongarch64 -mabi=lp64d $(MINILIB_INC)
-+LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
-+
-+# building head blobs
-+.PRECIOUS: $(CRT_OBJS)
-+
-+%.o: $(CRT_PATH)/%.S
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
-+
-+# Build and link the tests
-+%: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+memory: CFLAGS+=-DCHECK_UNALIGNED=0
-+# Running
-+QEMU_OPTS+=-serial chardev:output -kernel
-diff --git a/tests/tcg/loongarch64/system/boot.S b/tests/tcg/loongarch64/system/boot.S
-new file mode 100644
-index 0000000000..67eb1c04ce
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/boot.S
-@@ -0,0 +1,56 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Minimal LoongArch system boot code.
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#include "regdef.h"
-+
-+	.global _start
-+	.align 16
-+_start:
-+	la.local t0, stack_end
-+	move sp, t0
-+	bl main
-+
-+	.type _start 2
-+	.size _start, .-_start
-+
-+	.global _exit
-+	.align 16
-+_exit:
-+2:      /* QEMU ACPI poweroff */
-+	li.w  t0, 0xff
-+	li.w  t1, 0x10080010
-+	st.w  t0, t1, 0
-+	idle  0
-+	bl    2b
-+
-+	.type _exit 2
-+	.size _exit, .-_exit
-+
-+	.global __sys_outc
-+__sys_outc:
-+	li.d t1, 1000000
-+loop:
-+	lu12i.w	t2, 0x1fe00
-+	ori	t0, t2, 0x1e5
-+	ld.bu	t0, t0, 0
-+	andi	t0, t0, 0x20
-+	ext.w.b	t0, t0
-+	bnez	t0, in
-+	addi.w	t1, t1, -1
-+	bnez	t1, loop
-+in:
-+	ext.w.b	a0, a0
-+	lu12i.w	t0, 0x1fe00
-+	ori	t0, t0, 0x1e0
-+	st.b	a0, t0, 0
-+	jirl	$r0, ra, 0
-+
-+	.data
-+	.align 4
-+stack:
-+	.space	65536
-+stack_end:
-diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
-new file mode 100644
-index 0000000000..f1a7c0168c
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/kernel.ld
-@@ -0,0 +1,30 @@
-+ENTRY(_start)
-+
-+SECTIONS
-+{
-+    /* Linux kernel legacy start address.  */
-+    . = 0x9000000000200000;
-+    _text = .;
-+    .text : {
-+        *(.text)
-+    }
-+    .rodata : {
-+        *(.rodata)
-+    }
-+    _etext = .;
-+
-+    . = ALIGN(8192);
-+    _data = .;
-+    .got : {
-+        *(.got)
-+    }
-+    .data : {
-+	*(.sdata)
-+        *(.data)
-+    }
-+    _edata = .;
-+    .bss : {
-+        *(.bss)
-+    }
-+    _end = .;
-+}
-diff --git a/tests/tcg/loongarch64/system/regdef.h b/tests/tcg/loongarch64/system/regdef.h
-new file mode 100644
-index 0000000000..faa09b2377
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/regdef.h
-@@ -0,0 +1,86 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+#ifndef _ASM_REGDEF_H
-+#define _ASM_REGDEF_H
-+
-+#define zero    $r0     /* wired zero */
-+#define ra      $r1     /* return address */
-+#define tp      $r2
-+#define sp      $r3     /* stack pointer */
-+#define v0      $r4     /* return value - caller saved */
-+#define v1      $r5
-+#define a0      $r4     /* argument registers */
-+#define a1      $r5
-+#define a2      $r6
-+#define a3      $r7
-+#define a4      $r8
-+#define a5      $r9
-+#define a6      $r10
-+#define a7      $r11
-+#define t0      $r12    /* caller saved */
-+#define t1      $r13
-+#define t2      $r14
-+#define t3      $r15
-+#define t4      $r16
-+#define t5      $r17
-+#define t6      $r18
-+#define t7      $r19
-+#define t8      $r20
-+                        /* $r21: Temporarily reserved */
-+#define fp      $r22    /* frame pointer */
-+#define s0      $r23    /* callee saved */
-+#define s1      $r24
-+#define s2      $r25
-+#define s3      $r26
-+#define s4      $r27
-+#define s5      $r28
-+#define s6      $r29
-+#define s7      $r30
-+#define s8      $r31
-+
-+#define gr0     $r0
-+#define gr1     $r1
-+#define gr2     $r2
-+#define gr3     $r3
-+#define gr4     $r4
-+#define gr5     $r5
-+#define gr6     $r6
-+#define gr7     $r7
-+#define gr8     $r8
-+#define gr9     $r9
-+#define gr10    $r10
-+#define gr11    $r11
-+#define gr12    $r12
-+#define gr13    $r13
-+#define gr14    $r14
-+#define gr15    $r15
-+#define gr16    $r16
-+#define gr17    $r17
-+#define gr18    $r18
-+#define gr19    $r19
-+#define gr20    $r20
-+#define gr21    $r21
-+#define gr22    $r22
-+#define gr23    $r23
-+#define gr24    $r24
-+#define gr25    $r25
-+#define gr26    $r26
-+#define gr27    $r27
-+#define gr28    $r28
-+#define gr29    $r29
-+#define gr30    $r30
-+#define gr31    $r31
-+
-+#define STT_NOTYPE  0
-+#define STT_OBJECT  1
-+#define STT_FUNC    2
-+#define STT_SECTION 3
-+#define STT_FILE    4
-+#define STT_COMMON  5
-+#define STT_TLS     6
-+
-+#define ASM_NL           ;
-+
-+#endif /* _ASM_REGDEF_H */
+diff --git a/configure b/configure
+index b9ccff9067..4cc145beee 100755
+--- a/configure
++++ b/configure
+@@ -1832,6 +1832,7 @@ fi
+ : ${cross_prefix_arm="arm-linux-gnueabihf-"}
+ : ${cross_prefix_armeb="$cross_prefix_arm"}
+ : ${cross_prefix_hexagon="hexagon-unknown-linux-musl-"}
++: ${cross_prefix_loongarch64="loongarch64-unknown-linux-gnu-"}
+ : ${cross_prefix_hppa="hppa-linux-gnu-"}
+ : ${cross_prefix_i386="i686-linux-gnu-"}
+ : ${cross_prefix_m68k="m68k-linux-gnu-"}
 -- 
 2.31.1
 
