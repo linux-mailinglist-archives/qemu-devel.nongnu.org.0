@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C3C53E570
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:26:19 +0200 (CEST)
-Received: from localhost ([::1]:40974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0DE53E55B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:20:58 +0200 (CEST)
+Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEcU-0005fS-4R
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:26:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56158)
+	id 1nyEXJ-000626-4V
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:20:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nyEB3-0006FS-7Q
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:57:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40189)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nyEB0-00044E-DZ
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:57:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654527473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=oEg/BxrxwpIVrTIgkNOexZzCDMRvekqGaXNned4YxC8=;
- b=a3h6T0XrFJFRTpBSeHHtk2MdtC74VzEMjUKQ4llOHyGw7u/KerHVG0u780I2RjAh+viu5L
- V2Fst/70VSKmCgcNnSN5Z5/dt4xrjwW5YavnquNdjcReIx//OBOJJjqK2GEvBzVgaLC1Qk
- 9P9TA5wVGQ2Ta32LPJ6Ej3Kb0pn5tr8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-CxbHyxR_P92L9-eFDrIRXg-1; Mon, 06 Jun 2022 10:57:50 -0400
-X-MC-Unique: CxbHyxR_P92L9-eFDrIRXg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 806A929ABA35;
- Mon,  6 Jun 2022 14:57:49 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F36CA2026D64;
- Mon,  6 Jun 2022 14:57:48 +0000 (UTC)
-Date: Mon, 6 Jun 2022 15:57:47 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Cc: qemu-devel@nongnu.org, jag.raman@oracle.com, john.g.johnson@oracle.com,
- john.levon@nutanix.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org
-Subject: ioregionfd with io_uring IORING_OP_URING_CMD
-Message-ID: <Yp4V61lfTTN3QsT4@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nyEDI-0001CH-MI
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 11:00:19 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:43789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nyEDG-0004WW-VM
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 11:00:16 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ l7-20020a17090aaa8700b001dd1a5b9965so12774246pjq.2
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 08:00:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=c6hOvDYsbmFCJxmyGzlE+tsvXKBA4ymld0jrJ5cSFtU=;
+ b=kyaEZs+YlIa60buMMC4o3cL7l69nZhHWis78tFsqlEvMwWCG21Q4sr8g3SI8tuTh1x
+ 563Hpt8Vk7RlRAg9ElPd0Pew//o4tWq1egI9If+zIKVyzHiHrOSVgc5Q40wNFQN43YG9
+ S7TklE9TlgCPs63mNqF9su37xOf/G/2BcYpKFfJMoLsuEoHB9EiP27XJxJv7LFvDc+5Q
+ uw8DZWol+EugGvY37iTnvMIW4mbmaFih7cQLsoG646jJErjFzsA+i9MLNg+Q1B8kpXnZ
+ ll57SHheRxzREIwbdKnmXz3bepTjHeLg6Shd33xixD6+tGG4SNGCtllQUsNFhNzBZDbH
+ BV6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=c6hOvDYsbmFCJxmyGzlE+tsvXKBA4ymld0jrJ5cSFtU=;
+ b=rLQSO3ocrbRUKAvFwP+kdwcmC7HFfpBXrNjHmkSdJCvTw8jK8xC/TpvfRf/0r+oOyd
+ HjR3LshHbRtB+UDhCCPfSjFwe3B+R4r5rId8QgfeiaAnTQqLuwk1FYfMWCco9IyMEybX
+ /6xwZRvBF/4X1rxSH4XT6a7vNWBR7+zJMFke8F5YwyOafKjQdN48XP2Cepf4nHsHjB9n
+ W8Utz+EFRzND98OClwebjy27M0T+4EGnaMp01Iq+Cm3Ae7yUW51K9OMw+PSRHKriiP5u
+ JTNXD3d7eeaLbHUi1vskeYM6DtzENLtWGktFhu0VTL/h/4NyD/YSSrhuYGEok1qF0CRw
+ 7tXg==
+X-Gm-Message-State: AOAM531jHqCQ4pS5P6hNOuAnA36T84zxoZesrYf9Z1Ihjgf9N4qAqTYq
+ U7bI1X4WPokU304hSIiUO+w=
+X-Google-Smtp-Source: ABdhPJzGAI4mdPZFlzm8Ul2KBp0OOqz9YFaxXASH2WYxUzROt8Yt2qsMjD/PmuVuSecrJKboQHSD5w==
+X-Received: by 2002:a17:902:9006:b0:167:5c8c:4d37 with SMTP id
+ a6-20020a170902900600b001675c8c4d37mr13990561plp.109.1654527612950; 
+ Mon, 06 Jun 2022 08:00:12 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ f82-20020a623855000000b005184031963bsm10834695pfa.85.2022.06.06.08.00.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jun 2022 08:00:12 -0700 (PDT)
+Message-ID: <086849d4-759e-c600-a8db-2bdb0fbf5aea@amsat.org>
+Date: Mon, 6 Jun 2022 17:00:07 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NmJ6ra3KB8tnU5hE"
-Content-Disposition: inline
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH] configure: remove reference to removed option
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220606104701.1107015-1-pbonzini@redhat.com>
+In-Reply-To: <20220606104701.1107015-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,64 +92,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
+On 6/6/22 12:47, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   configure | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index b9ccff9067..ac18ed4f3a 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1035,7 +1035,6 @@ Advanced options (experts only):
+>     --with-git-submodules=ignore   do not update or check git submodules (default if no .git dir)
+>     --static                 enable static build [$static]
+>     --bindir=PATH            install binaries in PATH
+> -  --efi-aarch64=PATH       PATH of efi file to use for aarch64 VMs.
+>     --with-suffix=SUFFIX     suffix for QEMU data inside datadir/libdir/sysconfdir/docdir [$qemu_suffix]
+>     --without-default-features default all --enable-* options to "disabled"
+>     --without-default-devices  do not include any device that is not needed to
 
---NmJ6ra3KB8tnU5hE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Leftover from commit f5c730698a ("tests/vm: do not pollute configure 
+with --efi-aarch64").
 
-Hi,
-During Elena Afanasova's Outreachy project we discussed whether
-ioregionfd should be a custom struct file_operations (anon inode) or a
-userspace-provided file (socketpair, UNIX domain socket, etc).
-
-Back then it seemed more flexible and simpler to let userspace provide
-the file. It may be worth revisiting this decision in light of the
-recent io_uring IORING_OP_URING_CMD feature, which fits for this
-performance-critical interface.
-
-IORING_OP_URING_CMD involves a new struct file_operations->uring_cmd()
-callback. It's a flexible userspace interface like ioctl(2) but designed
-to be asynchronous. ioregionfd can provide a uring_cmd() that reads a
-ioregionfd response from userspace and then writes the next ioregionfd
-request to userspace.
-
-This single operation merges the request/response so only 1 syscall is
-necessary per KVM MMIO/PIO exit instead of a read() + write(). Bypassing
-the net/socket infrastructure is likely to help too.
-
-It would be interesting to benchmark this and compare it against the
-existing userspace-provided file approach. Although it's not the same
-scenario, results for the Linux NVMe driver using ->uring_cmd() are
-promising:
-https://www.snia.org/educational-library/enabling-asynchronous-i-o-passthru-nvme-native-applications-2021
-
-The downside is it requires more code than general purpose I/O. In
-addition to ->uring_cmd(), it's also worth implementing struct
-file_operations read/write/poll so traditional file I/O syscalls work
-for simple applications that don't want to use io_uring.
-
-It's possible to add ->uring_cmd() later but as a userspace developer I
-would prefer the ->uring_cmd() approach, so I'm not sure it's worth
-committing to the existing userspace-provided file approach?
-
-Stefan
-
---NmJ6ra3KB8tnU5hE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKeFesACgkQnKSrs4Gr
-c8hW6gf6Ax8Kb1dAPiFcem5nK7bYZToPIS5yL03lRrOaVh6bIxS28nct3RZM9Z7v
-RhlJfDY8xSFQdlocOZVeKJjUMu34RyDCi26BbBKjUgvbFHDsGvIi0gje/43VUQuI
-CNVE/GLA0s6q0DUMY+Dl9h+v0tttVMaKJA9aGAbOuSAhRMidg1WvmBdVW7ZBmtsz
-FmZrretiXj8jBUl+kdfUSnHJJWLJz3y9RfOHIwYOH7bKzZyJxOSqcXo1zKm3OXO9
-WKCgl6jGrL1laYdpjZGPdFLewLav9yr1kdr823vfnDT/f9jcD/liHzvSF8NmmIGa
-GcUS4sPyc6XaRQU1GI9G9+RVe+3cZw==
-=hUCX
------END PGP SIGNATURE-----
-
---NmJ6ra3KB8tnU5hE--
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
