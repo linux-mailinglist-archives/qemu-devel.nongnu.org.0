@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD1053EDD9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 20:26:13 +0200 (CEST)
-Received: from localhost ([::1]:35804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B84153EDEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 20:34:45 +0200 (CEST)
+Received: from localhost ([::1]:41128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyHQa-00088k-C6
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 14:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45168)
+	id 1nyHYp-0003ds-Qv
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 14:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyHP7-0006Pj-NM
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 14:24:41 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41623)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1nyHWq-0002xK-Fe
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 14:32:40 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:41703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyHP5-0003mL-D5
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 14:24:41 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id p8so13355111pfh.8
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 11:24:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lW0I3Ia6SUG8ZL9CBoA9FfBSQDc/uwvV0C98pSDWlfo=;
- b=BqhKLP8PMegOpBqTFM5GB0d4wzmJoLVIA1vBqiarj6DEk63A9FvKeSSvG7vwN6RRYM
- TN1U9poQwPj22dELxZIr29n+yzIfKyi0kyYdMU1A8E6P6HsiSZlpK5jop9Cfkdh9qdY6
- Nu/nPocZn65H/ON3Vlv8bB0D/b1QjVTGXQEEyWggzFNQisGDUKH6evY+PN7X64b53vrA
- qYBMwSZgx57xCPVGvuf3aUOWxnQj/tJ/U1PcoglTJ0JcNawmmdMJqyDKuTE09yY2Iboa
- 5noTcR+I0JfTMpy3LFQ/o6Ix/6CHOqs/NvxCUbBeokF6fAzdTZ/s6+N+qhnfk/CJX7NX
- th0g==
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1nyHWo-0005AZ-Ov
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 14:32:40 -0400
+Received: by mail-ej1-x634.google.com with SMTP id u12so30629768eja.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 11:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3dohZYkOb/bvPmu5KZ/g7GchcrFWKszAAU21OtF1n/4=;
+ b=MrhCbWAV43TM9XWEBtMNbPPuBk6jZ3LpU/WvxRpA9dV2LGmN1RytpqlP5Bgsh+IgzD
+ jVmty+EN+27Ike7SCMx/eXRI4/bkO2sqePmygEvIN4VDNaLGsXlzA0whhkDQU9LeyrtY
+ iz7b3ikDi9KJBdBdGlmCp93nl5I04xNPltZL5ZKdrhPsbOAgp7tYm98ZmGIpRYb+5vCN
+ 7ig+yRWdOCPxCk538/EQoITfFXqToKaMh5JtH+8CsebebeB0UJy9vi18rITADIpmEObO
+ 88j/vCTmJOZcn/0gXdEFrdTwHUJaMQl+E+YRt9xnAvk/lxdRZ8HIFf7JbwzJn6K99nvj
+ wcpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lW0I3Ia6SUG8ZL9CBoA9FfBSQDc/uwvV0C98pSDWlfo=;
- b=A/fJiOGoM5qo+53wQrSNw6cdQDmSkisYONPp4GenKNH+MS6IkrOKsHXb+06j5cB3J5
- zmDr/jKDzuYj0hcDx1NeJwE05be207imxG5gRNIDaUROiGjO3LFJUEzAcAadWcvn7ymv
- HZJ31L85V8a/lu483lesGLt1GAgneXhJWh7TS69RqBh4NqvFekHdBmtPAcxaBi3FTb7m
- OH5pf6YjzisSGfvCKNCGzY+MQIfezGROkM/k1rgm99WT2vGJzErMYFENP7vSHg2oC7nJ
- Kl5xetxudoTRiZSKZvTO9ueSRnl7Qw3PTMSgo/7QsJVEe4Q9nQOIESUaT3kXQ8hv9SLD
- /bUQ==
-X-Gm-Message-State: AOAM530AesqeOVm3k1gMePDvOO4+QUGuDc4UPbJyv2uwgHeCEGX2PWEq
- QA0Nk/YDKlkaUY1VBr8j/HBM1u5WTyFCEQ==
-X-Google-Smtp-Source: ABdhPJzIGjehsT0rcUlJTDzrLXiePoOKi8X11IH/P+D6QZazMFfO2Qa36/Mk/13exljtY8aDrwG7ig==
-X-Received: by 2002:a63:5a41:0:b0:3fb:bd55:5871 with SMTP id
- k1-20020a635a41000000b003fbbd555871mr21848178pgm.449.1654539877963; 
- Mon, 06 Jun 2022 11:24:37 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
- by smtp.gmail.com with ESMTPSA id
- y188-20020a6232c5000000b0051bb79437f7sm10896813pfy.37.2022.06.06.11.24.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 11:24:37 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org,
-	thuth@redhat.com
-Subject: [PATCH] gitlab-ci: Extend timeout for ubuntu-20.04-s390x-all to 75m
-Date: Mon,  6 Jun 2022 11:24:36 -0700
-Message-Id: <20220606182436.410053-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3dohZYkOb/bvPmu5KZ/g7GchcrFWKszAAU21OtF1n/4=;
+ b=U+7LZXZVVyKhZMUsPHVrXAXywgXhN7jCGwcCXCMSZImSQKuIn0xmMBL8BY3abaX3g+
+ Xa0tVYMEkLXouqrebxboROzXguVWDjWBJ1nx5Ivs8fsx3V9/5YrxhJ/qPqbYbv+jVRF4
+ JLZMuuBJpY02kRgfrs1EvM/jt9WSABYSeAxD22aMgcFkgf7dt0vzIN/7frYJK58L8clU
+ AQKk7VAxRV9YIok+I3HELhHXbtwPZcvuTclTgA/4em1agjg3U+n0P2tl4VhwFWAzo9fB
+ x/69c8qRUK1zZ+Qvx22bRj/7P1UUgEwvE0uKCgS1Q0deHPQ41XuZDgpMQy1F9gazGK1Z
+ fwrw==
+X-Gm-Message-State: AOAM531i6cuyNYu+K6MSU3cyK9WbIca/nIf+WBE4mcOVhKIAca0V4zEL
+ Y/8kXF77O5zpAvI26bPfmYGzpXHWtk7ForTTP5M=
+X-Google-Smtp-Source: ABdhPJwzRy55F6AR0VPj9m82BDXdSELauyDwyILqRIy5tODj4SQrnIj6/tx02K1Dpttnu+IObRKblCWFqQ9yUSUXAXE=
+X-Received: by 2002:a17:907:6d92:b0:6ff:11bb:cce7 with SMTP id
+ sb18-20020a1709076d9200b006ff11bbcce7mr22350020ejc.166.1654540356475; Mon, 06
+ Jun 2022 11:32:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+References: <cover.1653404595.git.jag.raman@oracle.com>
+ <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
+In-Reply-To: <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Mon, 6 Jun 2022 11:32:25 -0700
+Message-ID: <CAKgT0UdnSjUqubFT2pjB1KiVcE42ScPjBMSvV8cNf=S=1U7n=g@mail.gmail.com>
+Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
+To: Jagannathan Raman <jag.raman@oracle.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, 
+ "Michael S. Tsirkin" <mst@redhat.com>, f4bug@amsat.org,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ marcandre.lureau@redhat.com, thuth@redhat.com, bleal@redhat.com, 
+ berrange@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ eduardo@habkost.net, 
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com, 
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, imammedo@redhat.com, 
+ Peter Xu <peterx@redhat.com>, john.levon@nutanix.com,
+ thanos.makatos@nutanix.com, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>, kanth.ghatraju@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,26 +93,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent runs have been taking just over the 60m default.
+On Tue, May 24, 2022 at 9:11 AM Jagannathan Raman <jag.raman@oracle.com> wrote:
+>
+> Forward remote device's interrupts to the guest
+>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  include/hw/pci/pci.h              |  13 ++++
+>  include/hw/remote/vfio-user-obj.h |   6 ++
+>  hw/pci/msi.c                      |  16 ++--
+>  hw/pci/msix.c                     |  10 ++-
+>  hw/pci/pci.c                      |  13 ++++
+>  hw/remote/machine.c               |  14 +++-
+>  hw/remote/vfio-user-obj.c         | 123 ++++++++++++++++++++++++++++++
+>  stubs/vfio-user-obj.c             |   6 ++
+>  MAINTAINERS                       |   1 +
+>  hw/remote/trace-events            |   1 +
+>  stubs/meson.build                 |   1 +
+>  11 files changed, 193 insertions(+), 11 deletions(-)
+>  create mode 100644 include/hw/remote/vfio-user-obj.h
+>  create mode 100644 stubs/vfio-user-obj.c
+>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 1 +
- 1 file changed, 1 insertion(+)
+So I had a question about a few bits below. Specifically I ran into
+issues when I had setup two devices to be assigned to the same VM via
+two vfio-user-pci/x-vfio-user-server interfaces.
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index 4f292a8a5b..9f1fe9e7dc 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -31,6 +31,7 @@ ubuntu-20.04-s390x-all:
-  - s390x
-  variables:
-     DFLTCC: 0
-+ timeout: 75m
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-  - if: "$S390X_RUNNER_AVAILABLE"
--- 
-2.34.1
+What I am hitting is an assert(irq_num < bus->nirq) in
+pci_bus_change_irq_level in the server.
 
+> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+> index 645b54343d..75d550daae 100644
+> --- a/hw/remote/machine.c
+> +++ b/hw/remote/machine.c
+> @@ -23,6 +23,8 @@
+>  #include "hw/remote/iommu.h"
+>  #include "hw/qdev-core.h"
+>  #include "hw/remote/iommu.h"
+> +#include "hw/remote/vfio-user-obj.h"
+> +#include "hw/pci/msi.h"
+>
+>  static void remote_machine_init(MachineState *machine)
+>  {
+> @@ -54,12 +56,16 @@ static void remote_machine_init(MachineState *machine)
+>
+>      if (s->vfio_user) {
+>          remote_iommu_setup(pci_host->bus);
+> -    }
+>
+> -    remote_iohub_init(&s->iohub);
+> +        msi_nonbroken = true;
+> +
+> +        vfu_object_set_bus_irq(pci_host->bus);
+> +    } else {
+> +        remote_iohub_init(&s->iohub);
+>
+> -    pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
+> -                 &s->iohub, REMOTE_IOHUB_NB_PIRQS);
+> +        pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
+> +                     &s->iohub, REMOTE_IOHUB_NB_PIRQS);
+> +    }
+>
+>      qbus_set_hotplug_handler(BUS(pci_host->bus), OBJECT(s));
+>  }
+
+If I am reading the code right this limits us to one legacy interrupt
+in the vfio_user case, irq 0, correct? Is this intentional? Just
+wanted to verify as this seems to limit us to supporting only one
+device based on the mapping below.
+
+> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+> index ee28a93782..eeb165a805 100644
+> --- a/hw/remote/vfio-user-obj.c
+> +++ b/hw/remote/vfio-user-obj.c
+> @@ -53,6 +53,9 @@
+>  #include "hw/pci/pci.h"
+>  #include "qemu/timer.h"
+>  #include "exec/memory.h"
+> +#include "hw/pci/msi.h"
+> +#include "hw/pci/msix.h"
+> +#include "hw/remote/vfio-user-obj.h"
+>
+>  #define TYPE_VFU_OBJECT "x-vfio-user-server"
+>  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
+> @@ -96,6 +99,10 @@ struct VfuObject {
+>      Error *unplug_blocker;
+>
+>      int vfu_poll_fd;
+> +
+> +    MSITriggerFunc *default_msi_trigger;
+> +    MSIPrepareMessageFunc *default_msi_prepare_message;
+> +    MSIxPrepareMessageFunc *default_msix_prepare_message;
+>  };
+>
+>  static void vfu_object_init_ctx(VfuObject *o, Error **errp);
+> @@ -520,6 +527,111 @@ static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
+>      }
+>  }
+>
+> +static int vfu_object_map_irq(PCIDevice *pci_dev, int intx)
+> +{
+> +    int pci_bdf = PCI_BUILD_BDF(pci_bus_num(pci_get_bus(pci_dev)),
+> +                                pci_dev->devfn);
+> +
+> +    return pci_bdf;
+> +}
+> +
+
+This bit ends up mapping it so that the BDF ends up setting the IRQ
+number. So for example device 0, function 0 will be IRQ 0, and device
+1, function 0 will be IRQ 8. Just wondering why it is implemented this
+way if we only intend to support one device. Also I am wondering if we
+should support some sort of IRQ sharing?
+
+> +static int vfu_object_setup_irqs(VfuObject *o, PCIDevice *pci_dev)
+> +{
+> +    vfu_ctx_t *vfu_ctx = o->vfu_ctx;
+> +    int ret;
+> +
+> +    ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_INTX_IRQ, 1);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    if (msix_nr_vectors_allocated(pci_dev)) {
+> +        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSIX_IRQ,
+> +                                       msix_nr_vectors_allocated(pci_dev));
+> +    } else if (msi_nr_vectors_allocated(pci_dev)) {
+> +        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSI_IRQ,
+> +                                       msi_nr_vectors_allocated(pci_dev));
+> +    }
+> +
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    vfu_object_setup_msi_cbs(o);
+> +
+> +    pci_dev->irq_opaque = vfu_ctx;
+> +
+> +    return 0;
+> +}
+> +
+> +void vfu_object_set_bus_irq(PCIBus *pci_bus)
+> +{
+> +    pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus, 1);
+> +}
+> +
+>  /*
+>   * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
+>   * properties. It also depends on devices instantiated in QEMU. These
+
+So this is the code that was called earlier that is being used to
+assign 1 interrupt to the bus. I am just wondering if that is
+intentional and if the expected behavior is to only support one device
+per server for now?
 
