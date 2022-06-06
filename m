@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAC353E46A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 14:36:15 +0200 (CEST)
-Received: from localhost ([::1]:40864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4BD53E476
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 14:44:42 +0200 (CEST)
+Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyBxu-0004OY-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 08:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48184)
+	id 1nyC64-0006Yr-D8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 08:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nyBtG-0001HK-8u
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:31:26 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:39746)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nyC1t-000303-Ot
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:40:22 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:46622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nyBtE-00025j-PP
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:31:26 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id f34so25402999ybj.6
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 05:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nyC1n-0003jo-7P
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:40:18 -0400
+Received: by mail-ed1-x530.google.com with SMTP id z7so18622337edm.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 05:40:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NO4iBUT4R56gTwZUn3mm6mUPBHqFo41z6tVR3s+4GZQ=;
- b=Q8Bx2w+9FAn+Uwgsd8AZU7WbfoBcQily8AkpfZJdhl2pTI8ogbRVOZh9cPb5/0zg2D
- /2I52tnYiQuQrSzFhhs29FmFI+rBI4Ow+474x+cJp1cTQscrMqeWHIZHNRFAh/Fr8GOL
- YNi1LQfH7hBPutVlLp3CTPXS3At9DrkgHVSr+eKARvvL2fY7tvlE4LU202snLleZnN2q
- gUSD6xBXflf2ZtvmzAyGd6R1EM1mtAmQlURHoMddpXp0obrStAwHgwQlUBM1CiRWNNDH
- QI7Go0AlOwDiiE5FEj3JgVV9+LjsPs9BYtXojIXPQouJbnXOBc8BjJT2zwWr4/vUX9X6
- QLlA==
+ :cc; bh=iUQk8LjdKRxpSwB7GLGk+VL5mXUdTnmd6B0PiGOh/Tk=;
+ b=UK0QW0tq3/xOaxBuExr+UxSeARXVSTgSeDfp9lIF3/WtZVbp3YVHFymGN8zhPY4u4M
+ KGCAlnNttuwrj9qrVcSHpzc60YELVTGydTTsQXuTFLLAfLI8ryEd00QV77zNhWNDYsNo
+ yqh9SDJ9DfqlSSYOE5SZGshLjSbpOT/RBm4U7gMDfcH4uVi0otHuqvCmE/5uWClb9B5o
+ POKA3lhodGilI6KwAXcj8PXa5F+S9aYoardPMwj2L+x64tGOtDmI5imbuzqIcrcf9kWw
+ 62fi+ODoXaoP/3vI8kTQjKL1W++zBFGWeom/bqT0U3gR4S87rcfUT3S+HbXXrBezyQ3x
+ JlqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NO4iBUT4R56gTwZUn3mm6mUPBHqFo41z6tVR3s+4GZQ=;
- b=upc2N44ej1Sey+PvGXkD393rzKcIF1t0qaMe3AaxEYcaQePevCI8U1fhGB55P71d/O
- yOWlC4IORvBlEMdWdbF4VdN9yFG0kLChpJmlZwFQorAfVIaXiReH3zhm7tRdV/ks9F8T
- uyU7RJR7z8lB4qldrlr8kYcd+eZEchZh2FOQUr/Y0R8aPkrkqKugDWmJTWaKE/FCV91o
- QioeJROeo+82adfoToJeYYjVcrO8UYFc05Klp831XYOPAx4WxMgUZ0uQ4KJ4N1GO2jZD
- 6nHE/tm0VkvX6mx688ihxf+8jtDGXbwITuiNxqHUhJgTICoMH2XC7K6HwYIqWH6eSlzf
- 6mkw==
-X-Gm-Message-State: AOAM532tvbEs5zzVDmRit08N7Z2HqQy96CAbxjie3LID+mYwkvIyWR3u
- NG1JshkpHkYPbmCCyoFTysBfcEqXdswDMjFiLWhsig==
-X-Google-Smtp-Source: ABdhPJxsEPXEnJnO6Q0KtNhK4F3zK+b+Ge5RSNVPMfeQto/quMqpcQTkHFrudICokTBI1M+oLOC/HwLnItCM5CdbqlU=
-X-Received: by 2002:a25:47d4:0:b0:65d:510e:c8de with SMTP id
- u203-20020a2547d4000000b0065d510ec8demr24569834yba.39.1654518683196; Mon, 06
- Jun 2022 05:31:23 -0700 (PDT)
+ bh=iUQk8LjdKRxpSwB7GLGk+VL5mXUdTnmd6B0PiGOh/Tk=;
+ b=mIYP1PK5ruI6NVEuo7XBfxN4Z3aScyHxAH3qm4ceP/vW7ZkDGvAmDl8g0ZG1GBvjpb
+ tpx0oyFvtSGr7IYln8jAVr25WyWdTUIkztbLfFDS/iuPDQM+xnx2Vd3dNC6QvvCjcG4u
+ LaUYMbfJN8W82nhwT2U/hV6SzZYDh3Ubs191kPj02k/Z/N+ANhz2683T7hzJwxXaidpv
+ DPWwBrhqEnKZLBl8PhmqgluVuoGM+besZ4aWUuViFMjF0qd9ej5nSqrMg02G58R2sEEp
+ Og2MWQpcX7mpjg2BFObdzHTDaMs/TtDvfzjSmJj3losQJw7Nm3Zz3Jq1p2r73lAYRrar
+ XMrg==
+X-Gm-Message-State: AOAM532aRQIZDP2RyfsN7nMgLbe1kxfM1B+a3bivAdRJ9TpIGL9Vqc/Q
+ 8UCC9gcLskqhRV6wNgfpIBhTLepnfBbnliJtNhN2
+X-Google-Smtp-Source: ABdhPJyFwxDNNa9FR1rb3QzJv95sYpFlDiR2WtJEaFvTyLKIx/VY/vYa2XoPaU1iu71lI5WtOFOpDMPFNtMuEI94TBY=
+X-Received: by 2002:a05:6402:524a:b0:431:51b3:bc7 with SMTP id
+ t10-20020a056402524a00b0043151b30bc7mr7643129edd.5.1654519211147; Mon, 06 Jun
+ 2022 05:40:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220602214853.496211-1-richard.henderson@linaro.org>
- <20220602214853.496211-20-richard.henderson@linaro.org>
-In-Reply-To: <20220602214853.496211-20-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Jun 2022 13:31:12 +0100
-Message-ID: <CAFEAcA8-O3-nC4y9ckmK_WX8B9CT9cjb_je1Yr2PXherRsvJEA@mail.gmail.com>
-Subject: Re: [PATCH 19/71] target/arm: Add isar_feature_aa64_sme
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220531095221.114-1-xieyongji@bytedance.com>
+ <Ypdjr4UO+XrBbM09@stefanha-x1.localdomain>
+ <CACycT3vR4rb+R5Z-SYMW1q1S1hhFZPPDJAVb82_5vnxgVr7WiA@mail.gmail.com>
+ <Yp3fhbvlXqeJwA9L@stefanha-x1.localdomain>
+In-Reply-To: <Yp3fhbvlXqeJwA9L@stefanha-x1.localdomain>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Mon, 6 Jun 2022 20:41:08 +0800
+Message-ID: <CACycT3sGu95yEqmF0ex9wPGcXQfosdMuA=G7T9zoZtXEv5z14g@mail.gmail.com>
+Subject: Re: [PATCH v2] vduse-blk: Add name option
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,15 +84,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Jun 2022 at 23:04, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, Jun 6, 2022 at 7:05 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> This will be used for implementing FEAT_SME.
+> On Wed, Jun 01, 2022 at 09:10:58PM +0800, Yongji Xie wrote:
+> > On Wed, Jun 1, 2022 at 9:03 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >
+> > > On Tue, May 31, 2022 at 05:52:21PM +0800, Xie Yongji wrote:
+> > > > Currently we use 'id' option as the name of VDUSE device.
+> > > > It's a bit confusing since we use one value for two different
+> > > > purposes: the ID to identfy the export within QEMU (must be
+> > > > distinct from any other exports in the same QEMU process, but
+> > > > can overlap with names used by other processes), and the VDUSE
+> > > > name to uniquely identify it on the host (must be distinct from
+> > > > other VDUSE devices on the same host, but can overlap with other
+> > > > export types like NBD in the same process). To make it clear,
+> > > > this patch adds a separate 'name ' option to specify the VDUSE
+> > > > name for the vduse-blk export instead.
+> > > >
+> > > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > > > ---
+> > > >  block/export/vduse-blk.c             | 9 ++++++---
+> > > >  docs/tools/qemu-storage-daemon.rst   | 5 +++--
+> > > >  qapi/block-export.json               | 7 ++++---
+> > > >  storage-daemon/qemu-storage-daemon.c | 8 ++++----
+> > > >  4 files changed, 17 insertions(+), 12 deletions(-)
+> > > >
+> > > > diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+> > > > index 3b10349173..d96993bdf5 100644
+> > > > --- a/block/export/vduse-blk.c
+> > > > +++ b/block/export/vduse-blk.c
+> > > > @@ -245,7 +245,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+> > > >      }
+> > > >      vblk_exp->num_queues = num_queues;
+> > > >      vblk_exp->handler.blk = exp->blk;
+> > > > -    vblk_exp->handler.serial = exp->id;
+> > > > +    vblk_exp->handler.serial = g_strdup(vblk_opts->name);
+> > >
+> > > Do we want to expose the VDUSE device name to the guest? Maybe the
+> > > serial string should be a separate parameter.
+> > >
+> >
+> > OK, it makes sense to me. But we might need a default value. Any suggestions?
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> hw/block/virtio-blk.c defaults to the empty string:
+>
+>   const char *serial = s->conf.serial ? s->conf.serial : "";
+>
+> I think it's reasonable to say that anyone who wants to use serial will
+> also want to set the value explicitly.
+>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+LGTM.
 
-thanks
--- PMM
+Thanks,
+Yongji
 
