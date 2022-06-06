@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C641E53E54A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:05:15 +0200 (CEST)
-Received: from localhost ([::1]:50240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BEF53E54B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:05:52 +0200 (CEST)
+Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEI6-0006eZ-KU
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:05:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51148)
+	id 1nyEIh-0007HY-By
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:05:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDrF-0002O9-HP
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41270)
+ id 1nyDrM-0002a2-T8
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDr6-0000aS-IC
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:29 -0400
+ id 1nyDr6-0000aZ-Mp
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654526239;
+ s=mimecast20190719; t=1654526240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kM387v1WsabA4prRH3l5I9WuqejFFO0SIdWUvFlOYXs=;
- b=TRdEROjVluuUFRuGMT7TRF8co1q/OMGjoUE85n5sXBoBqKNVi7acjUceB2jAv+MD9hHHaV
- UVIVRGexyDn89/Uamx+X632Z2aZFNDNJZq5QKONy9KmJyP1Rv/TrqczCbASjioo1aKR1hL
- BTG1BY2cZNojCygyHo8WBPbqZC1Hjow=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xA/i6g37O3wV+vzWwv6rsvsUuDKo9ad/3Fy9sdDIcr0=;
+ b=XbvtxOTludWlZ1aSqNeT0XUmGR9qzE07U8aU4A8NcqO3Cy73eSEgEDVh0UQVwIgVSyKWMl
+ iVMWh88x/WiIyGpnmfBGSCk3tGNMkLYXDOpLrflMD/Yx/RBho+XfqVAXRRJbpSW6akCd7+
+ yOlL1xrgFE+axQc6mw1KrBBUDvc590c=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-Q32B0ZCTPnCbL3ywODBvpQ-1; Mon, 06 Jun 2022 10:37:17 -0400
-X-MC-Unique: Q32B0ZCTPnCbL3ywODBvpQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d9-20020adfe849000000b00213375a746aso2396029wrn.18
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:17 -0700 (PDT)
+ us-mta-496-X8pGle4JMnCh5aqIEgIquQ-1; Mon, 06 Jun 2022 10:37:19 -0400
+X-MC-Unique: X8pGle4JMnCh5aqIEgIquQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n18-20020a05600c3b9200b00397335edc7dso11308534wms.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kM387v1WsabA4prRH3l5I9WuqejFFO0SIdWUvFlOYXs=;
- b=fwaAu8BphpJBzg5NM28oG1O+bY+NVKGToB8uYu7aBBMsE4YBKufMKXLTyDnX1W68fp
- 2P4OXgR5bOU7hhbWIiLtsaYr8Z1/Agxd0h3KwK+dBoIyMa2FAuXfOPLJymnRwF1wlU31
- syzk1YPU46eK1i8j9gwT/sLztRU6/9A0391bjzkjt6gH0Yv71LbcfB+nKvay+0aXs+Il
- 6/QiWzjQUitOmiV6mXrvfPQpHHuY0kAL1HPNYI8r02t4bo1pTgi2mdkJajhAR/zrBoWA
- 1JU7z9AqHTdEjs+KTlKRwtwFG2HepORUZmOVBQVT++NUaghn1cB/s4LabgS2jYfQnjfO
- X3Dw==
-X-Gm-Message-State: AOAM530EZFdcnHWiPpDxkR7toF2M/RkiDmN18ax7sxD5tVboq1eulbiF
- nLOsW/v8tIljT4qsU/55eFUcyG3cnYwZXl0jhH0cXYORwZP59biJCCKIQUaM8wLZHtvk4W/E5PP
- t/I0BvWwybB+BJslAJSmMyDmjBaIMhzxrwTaWXNPJVV6Pl8+zzV6bq5XK5kH1Fnz6iLQ=
-X-Received: by 2002:a05:600c:4ec9:b0:397:750a:798a with SMTP id
- g9-20020a05600c4ec900b00397750a798amr51975877wmq.169.1654526235525; 
- Mon, 06 Jun 2022 07:37:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZo/4+Ty8kyv3wS9kujdFV6YEXj4aPI/G9D8MnVdvQjyIm2hS2NJXpcp47apaSUQDQ+rh1RA==
-X-Received: by 2002:a05:600c:4ec9:b0:397:750a:798a with SMTP id
- g9-20020a05600c4ec900b00397750a798amr51975818wmq.169.1654526235058; 
- Mon, 06 Jun 2022 07:37:15 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- o17-20020a5d6711000000b00218453adaefsm1551558wru.101.2022.06.06.07.37.13
+ bh=xA/i6g37O3wV+vzWwv6rsvsUuDKo9ad/3Fy9sdDIcr0=;
+ b=Qo2FI/bD7uipZ6ApxgR6+Lp/gWo6pFOlv8jkxfKG9UFRkErhbfeP3WHlcdnym8L9NA
+ rWmIkOd971dBQEArqOkB9KIb4gM7XDnKHhSXDMJiRjn1HafiMjfqNNsaiigs1eYFN9x7
+ BUXND2YyNS5y6QvMMAMo+gsRCQeUfFhs0JSz5TnjkBrq+NNm9aezpZXQx0aanKlIT0Zo
+ Hw/AP50T7lktdGrBlYqI8g/OZgqwACjB4q8+RaTVFZaIjw+1wY1hTFVSCjFdJqY0EvbH
+ 1P0ONFMzjJNYUttpAA92h9EjQZt6r2UZGquJ90dP3kM89gPkW+S3Q3IAsMeaw6Nku4wS
+ 5eIA==
+X-Gm-Message-State: AOAM533PnW3oCFdho6pwFlVzwoDZ7B5LCqpnv8OWChS2OuVtXeZz8RIx
+ MDNewtqFR7/+jyOodmRaJuum6VHCu1dMUtDxhJ3NXq60Q1ORbf9YeMSgNYMVt2YD17Ue8OKlQX/
+ bSgXHOOvE2QTMvJ0ILRH1uLTNksNBkSalIHNArSGVqF2Asrm3I11y1IjmfTM9vp1CbBc=
+X-Received: by 2002:a05:600c:190b:b0:394:880f:ae2c with SMTP id
+ j11-20020a05600c190b00b00394880fae2cmr22769341wmq.79.1654526237239; 
+ Mon, 06 Jun 2022 07:37:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNj298zCXzULXjjBPHChhDO2nYNTFoQ9ObBTRKB1Udlb9bA3DIq8R+oNtjG1BFi1PsiCCOfQ==
+X-Received: by 2002:a05:600c:190b:b0:394:880f:ae2c with SMTP id
+ j11-20020a05600c190b00b00394880fae2cmr22769304wmq.79.1654526236898; 
+ Mon, 06 Jun 2022 07:37:16 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ s8-20020a5d69c8000000b002102b16b9a4sm15343292wrw.110.2022.06.06.07.37.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:37:14 -0700 (PDT)
+ Mon, 06 Jun 2022 07:37:15 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Dario Faggioli <dfaggioli@suse.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 15/29] tests/Makefile.include: Fix 'make check-help' output
-Date: Mon,  6 Jun 2022 16:36:30 +0200
-Message-Id: <20220606143644.1151112-16-pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Subject: [PULL 16/29] x86: cpu: make sure number of addressable IDs for
+ processor cores meets the spec
+Date: Mon,  6 Jun 2022 16:36:31 +0200
+Message-Id: <20220606143644.1151112-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220606143644.1151112-1-pbonzini@redhat.com>
 References: <20220606143644.1151112-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,71 +100,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dario Faggioli <dfaggioli@suse.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-Since commit 3d2f73ef75e ("build: use "meson test" as the test harness"),
-check-report.tap is no more, and we have check-report.junit.xml.
+Accourding Intel's CPUID[EAX=04H] resulting bits 31 - 26 in EAX
+should be:
+"
+ **** The nearest power-of-2 integer that is not smaller than (1 + EAX[31:26]) is the number of unique
+    Core_IDs reserved for addressing different processor cores in a physical package. Core ID is a subset of
+    bits of the initial APIC ID.
+"
 
-Update the output of 'make check-help', which was still listing
-'check-report.tap', accordingly.
+ensure that values stored in EAX[31-26] always meets this condition.
 
-Fixes: 3d2f73ef75e
-Signed-off-by: Dario Faggioli <dfaggioli@suse.com>
-Message-Id: <165366545439.6869.11633009118019728798.stgit@work>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20220524151020.2541698-2-imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/Makefile.include | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 6a1688e33e..2a1c77440a 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -3,28 +3,28 @@
- .PHONY: check-help
- check-help:
- 	@echo "Regression testing targets:"
--	@echo " $(MAKE) check                Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
--	@echo " $(MAKE) bench                Run speed tests"
-+	@echo " $(MAKE) check                  Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
-+	@echo " $(MAKE) bench                  Run speed tests"
- 	@echo
- 	@echo "Individual test suites:"
--	@echo " $(MAKE) check-qtest-TARGET   Run qtest tests for given target"
--	@echo " $(MAKE) check-qtest          Run qtest tests"
--	@echo " $(MAKE) check-unit           Run qobject tests"
--	@echo " $(MAKE) check-qapi-schema    Run QAPI schema tests"
--	@echo " $(MAKE) check-block          Run block tests"
-+	@echo " $(MAKE) check-qtest-TARGET     Run qtest tests for given target"
-+	@echo " $(MAKE) check-qtest            Run qtest tests"
-+	@echo " $(MAKE) check-unit             Run qobject tests"
-+	@echo " $(MAKE) check-qapi-schema      Run QAPI schema tests"
-+	@echo " $(MAKE) check-block            Run block tests"
- ifneq ($(filter $(all-check-targets), check-softfloat),)
--	@echo " $(MAKE) check-tcg            Run TCG tests"
--	@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
-+	@echo " $(MAKE) check-tcg              Run TCG tests"
-+	@echo " $(MAKE) check-softfloat        Run FPU emulation tests"
- endif
--	@echo " $(MAKE) check-avocado        Run avocado (integration) tests for currently configured targets"
-+	@echo " $(MAKE) check-avocado          Run avocado (integration) tests for currently configured targets"
- 	@echo
--	@echo " $(MAKE) check-report.tap     Generates an aggregated TAP test report"
--	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
--	@echo " $(MAKE) check-clean          Clean the tests and related data"
-+	@echo " $(MAKE) check-report.junit.xml Generates an aggregated XML test report"
-+	@echo " $(MAKE) check-venv             Creates a Python venv for tests"
-+	@echo " $(MAKE) check-clean            Clean the tests and related data"
- 	@echo
- 	@echo "The following are useful for CI builds"
--	@echo " $(MAKE) check-build          Build most test binaries"
--	@echo " $(MAKE) get-vm-images        Downloads all images used by avocado tests, according to configured targets (~350 MB each, 1.5 GB max)"
-+	@echo " $(MAKE) check-build            Build most test binaries"
-+	@echo " $(MAKE) get-vm-images          Downloads all images used by avocado tests, according to configured targets (~350 MB each, 1.5 GB max)"
- 	@echo
- 	@echo
- 	@echo "The variable SPEED can be set to control the gtester speed setting."
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 9fdfec9d8b..94cc4a8700 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5287,7 +5287,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+             /* QEMU gives out its own APIC IDs, never pass down bits 31..26.  */
+             *eax &= ~0xFC000000;
+             if ((*eax & 31) && cs->nr_cores > 1) {
+-                *eax |= (cs->nr_cores - 1) << 26;
++                *eax |= (pow2ceil(cs->nr_cores) - 1) << 26;
+             }
+         } else if (cpu->vendor_cpuid_only && IS_AMD_CPU(env)) {
+             *eax = *ebx = *ecx = *edx = 0;
 -- 
 2.36.1
 
