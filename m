@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092C253F28E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 01:31:16 +0200 (CEST)
-Received: from localhost ([::1]:53196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7F453F2AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 01:41:58 +0200 (CEST)
+Received: from localhost ([::1]:49978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyMBn-00038V-4O
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 19:31:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35150)
+	id 1nyMM8-0003g6-Mx
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 19:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyLwR-0001k4-UG
+ id 1nyLwR-0001k6-Vd
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:15:27 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:35673)
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:45981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyLwN-0003xA-Qt
+ id 1nyLwN-0003zH-Ql
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:15:23 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id u2so13942608pfc.2
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 16:15:17 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id q18so13309973pln.12
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 16:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=omlqCXIBeWldPF1seQmFfxj9kZYc5pGyxPDvC/bHbAc=;
- b=YOEzCiPH1XeXB08pk+aAalUSkoN6aoxWcr+xeHgchujKTZC5jfLqtpV5TU+PvCABVV
- FmntuMkeHzWaH5CysGGPrqK4IrIGi6jy1tnhZKrJsEIxpy/gcfT4/842yzh2xePX4VnL
- SeqlCBWAs/EPOdxGcW5hEBPlyED7XsWDMyr3qHRgsof9KmEdWUBHKkcrduw6wv7jqMJi
- cBpDgWL5NPOICdEDd37lNx4yfgOZlk9cCIT048O3ToPhgkE6qaY7gblPxd6D/9ZIjR3k
- 8VvAQUagF6ehpOg9j65Odw5laOU0nNgZOJVb7bTAladPqAFTP7w26cGj6gHWJGSBY5mq
- ggGw==
+ bh=/0ZbQXuEFmyjFek4/op6/9j6LfhL0eq+BsKCGudbeW8=;
+ b=LSu360VXEtseNqO378kLw6TQ9hc92zk3N6VMTANuCegY49xvcxTEXbAbJnFd7Uxe1P
+ oHvN8uyaRjDSBJrK51Gcj/zzUThKf8cySOyutKWhF5XaurwLzxA7lPoxEGf6dyii+mn1
+ ZXRFQDolVEhQRPg3MmZyYiXJhMMMEFaR3F4EOTrdVvaEDajI1wnLuqBYi2L9qs329F1a
+ OU47TOTh7S4l47q/imQAfinYVjN90Jd+GD+t9JVgx+5MRvPC3izpt/9su5W4sAKkdmOl
+ TgVaJFVGRmrQVAtYuRqiHVYpzKCYChPrVZzqdOkvq/CCEEXmf+7V3D9/XhlKkHj3iBv8
+ GQlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=omlqCXIBeWldPF1seQmFfxj9kZYc5pGyxPDvC/bHbAc=;
- b=B96o9B+tVTJ5lHMnYSDtvSLgLsOaorLTVKfFZizm2ebj5Z/iueMtmHB27RoK9lgyt1
- xkZskOOgXxjTBxTyQdOIuZrW07g/BWrkxJ1bHANDGlTU1qz4xEVXxKurS1QnG2mUB8WY
- /DyrCNWx3VKPJO8VYW8AQOjgTQQNQrDLVYeds8p5rt9bRoW2UX3Uh44abBLZY+yIxp6O
- rSAYCAj4r/dLJ0jfJWDA6jxtzFkhgs/3ix93k06kQgEin7zumtcYV6u/2SIJfab520cA
- IZvNskHdCdSud4WezyeecSjyVZHKWUpou6L3ew7lbUtXzChfBg4wylDtHLbYzC7P8kr1
- nHXg==
-X-Gm-Message-State: AOAM530IQM16VYKe0TFREnsCJrL8HYOkTuN6JcgYhyXZ2KTGO7Kp5Ouv
- vrnI4KTi2VtU/htO9+5qcJpX7W4Pa4ysdA==
-X-Google-Smtp-Source: ABdhPJxD9aVcDA81ADQaMvM78Y2NLM02KJRkF0DilLBPQdmOQVBAYNfYM4ZeT6kWXK5683WE/lg9sQ==
-X-Received: by 2002:a63:1708:0:b0:3fd:8a03:dcd2 with SMTP id
- x8-20020a631708000000b003fd8a03dcd2mr9793140pgl.556.1654557316941; 
- Mon, 06 Jun 2022 16:15:16 -0700 (PDT)
+ bh=/0ZbQXuEFmyjFek4/op6/9j6LfhL0eq+BsKCGudbeW8=;
+ b=kXcjlEpnHsYZxdaQtOT5VL/5PGmMbHihYAQrCCI6kEvVTsJiMazD02MDglbnmFr4WJ
+ kes3k6IkD1iNwqbjh0CE8O0mmSse2RMcjooV6SXz9J8mYS16w61HBEUfhxK08d7XBNt/
+ THwLnn7O5+m0MMEZwNV/rMOS/icjxEVEJGPtl8e1VOwxyzq3OJGUEMpX+W56xUVxxb1C
+ KrdgKaLoQLFWIi7PL6ARHmwfAKucHiqwUxGk0jl3AKU9xl+tWOqZGcGyKJHuCvmmnwY4
+ 4pGxqyOYapxyhqPwqJdJJtt3DfRamY6v6Db7m+Jopu98zl6MQ6ZdLDSG2LSifRx6Kvl4
+ HB7g==
+X-Gm-Message-State: AOAM533LeQqA90xHXE7xHc8Gk+gUQxo/kdjIOGM46VcUpZ2kVpABhxSN
+ B8Bht3q4sBR+Pxv4jayAw5AkUPLGCSVFqw==
+X-Google-Smtp-Source: ABdhPJy2OJLZdb1r7flwj/7i0tAs4Y3LBahoZRDie9aEXwg5WTVQp4X1RrMsrfnrPs6frhJLDbSytQ==
+X-Received: by 2002:a17:903:11cd:b0:167:90e6:5d83 with SMTP id
+ q13-20020a17090311cd00b0016790e65d83mr1685622plh.136.1654557317846; 
+ Mon, 06 Jun 2022 16:15:17 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a170902c24200b00162523fdb8fsm10954623plg.252.2022.06.06.16.15.16
+ 2-20020a170902c24200b00162523fdb8fsm10954623plg.252.2022.06.06.16.15.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 16:15:16 -0700 (PDT)
+ Mon, 06 Jun 2022 16:15:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =gaosong@loongson.cn, yangxiaojuan@loongson.cn,
  Song Gao <gaosong@loongson.cn>
-Subject: [PULL 27/43] target/loongarch: Add TLB instruction support
-Date: Mon,  6 Jun 2022 16:14:34 -0700
-Message-Id: <20220606231450.448443-28-richard.henderson@linaro.org>
+Subject: [PULL 28/43] target/loongarch: Add other core instructions support
+Date: Mon,  6 Jun 2022 16:14:35 -0700
+Message-Id: <20220606231450.448443-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220606231450.448443-1-richard.henderson@linaro.org>
 References: <20220606231450.448443-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,601 +92,363 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
 This includes:
-- TLBSRCH
-- TLBRD
-- TLBWR
-- TLBFILL
-- TLBCLR
-- TLBFLUSH
-- INVTLB
+-CACOP
+-LDDIR
+-LDPTE
+-ERTN
+-DBCL
+-IDLE
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220606124333.2060567-28-yangxiaojuan@loongson.cn>
+Message-Id: <20220606124333.2060567-29-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/helper.h                     |  13 +
- target/loongarch/insns.decode                 |  11 +
- target/loongarch/disas.c                      |  18 +
- target/loongarch/tlb_helper.c                 | 355 ++++++++++++++++++
- .../insn_trans/trans_privileged.c.inc         | 102 +++++
- 5 files changed, 499 insertions(+)
+ target/loongarch/helper.h                     |  5 +
+ target/loongarch/internals.h                  |  5 +
+ target/loongarch/insns.decode                 | 11 +++
+ target/loongarch/disas.c                      | 17 ++++
+ target/loongarch/op_helper.c                  | 37 ++++++++
+ target/loongarch/tlb_helper.c                 | 93 +++++++++++++++++++
+ .../insn_trans/trans_privileged.c.inc         | 65 +++++++++++++
+ 7 files changed, 233 insertions(+)
 
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 4664a02dcf..b092ca75fe 100644
+index b092ca75fe..626fc32e1e 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -108,3 +108,16 @@ DEF_HELPER_3(iocsrwr_b, void, env, tl, tl)
- DEF_HELPER_3(iocsrwr_h, void, env, tl, tl)
- DEF_HELPER_3(iocsrwr_w, void, env, tl, tl)
- DEF_HELPER_3(iocsrwr_d, void, env, tl, tl)
+@@ -121,3 +121,8 @@ DEF_HELPER_2(invtlb_all_g, void, env, i32)
+ DEF_HELPER_2(invtlb_all_asid, void, env, tl)
+ DEF_HELPER_3(invtlb_page_asid, void, env, tl, tl)
+ DEF_HELPER_3(invtlb_page_asid_or_g, void, env, tl, tl)
 +
-+/* TLB helper */
-+DEF_HELPER_1(tlbwr, void, env)
-+DEF_HELPER_1(tlbfill, void, env)
-+DEF_HELPER_1(tlbsrch, void, env)
-+DEF_HELPER_1(tlbrd, void, env)
-+DEF_HELPER_1(tlbclr, void, env)
-+DEF_HELPER_1(tlbflush, void, env)
-+DEF_HELPER_1(invtlb_all, void, env)
-+DEF_HELPER_2(invtlb_all_g, void, env, i32)
-+DEF_HELPER_2(invtlb_all_asid, void, env, tl)
-+DEF_HELPER_3(invtlb_page_asid, void, env, tl, tl)
-+DEF_HELPER_3(invtlb_page_asid_or_g, void, env, tl, tl)
++DEF_HELPER_4(lddir, tl, env, tl, tl, i32)
++DEF_HELPER_4(ldpte, void, env, tl, tl, i32)
++DEF_HELPER_1(ertn, void, env)
++DEF_HELPER_1(idle, void, env)
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+index 4b1bcd7c0f..a410c41c37 100644
+--- a/target/loongarch/internals.h
++++ b/target/loongarch/internals.h
+@@ -16,6 +16,11 @@
+ #define TARGET_PHYS_MASK MAKE_64BIT_MASK(0, TARGET_PHYS_ADDR_SPACE_BITS)
+ #define TARGET_VIRT_MASK MAKE_64BIT_MASK(0, TARGET_VIRT_ADDR_SPACE_BITS)
+ 
++/* Global bit used for lddir/ldpte */
++#define LOONGARCH_PAGE_HUGE_SHIFT   6
++/* Global bit for huge page */
++#define LOONGARCH_HGLOBAL_SHIFT     12
++
+ void loongarch_translate_init(void);
+ 
+ void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 2b436d3cd6..f8ed11d83e 100644
+index f8ed11d83e..ebd3d505fb 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -47,6 +47,8 @@
- &rr_offs      rj rd offs
- &r_csr        rd csr
+@@ -49,6 +49,8 @@
  &rr_csr       rd rj csr
-+&empty
-+&i_rr         imm rj rk
+ &empty
+ &i_rr         imm rj rk
++&cop_r_i      cop rj imm
++&j_i          rj imm
  
  #
  # Formats
-@@ -89,6 +91,8 @@
- @rr_offs16         .... .. ................ rj:5 rd:5    &rr_offs     offs=%offs16
- @r_csr                    .... .... csr:14 ..... rd:5    &r_csr
+@@ -60,6 +62,7 @@
+ @r_i20                          .... ... imm:s20 rd:5    &r_i
+ @rr_ui5           .... ........ ..... imm:5 rj:5 rd:5    &rr_i
+ @rr_ui6            .... ........ .... imm:6 rj:5 rd:5    &rr_i
++@rr_ui8              .. ........ .... imm:8 rj:5 rd:5    &rr_i
+ @rr_i12                 .... ...... imm:s12 rj:5 rd:5    &rr_i
+ @rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
+ @rr_i14s2         .... ....  .............. rj:5 rd:5    &rr_i imm=%i14s2
+@@ -93,6 +96,8 @@
  @rr_csr                    .... .... csr:14 rj:5 rd:5    &rr_csr
-+@empty          .... ........ ..... ..... ..... .....    &empty
-+@i_rr             ...... ...... ..... rk:5 rj:5 imm:5    &i_rr
+ @empty          .... ........ ..... ..... ..... .....    &empty
+ @i_rr             ...... ...... ..... rk:5 rj:5 imm:5    &i_rr
++@cop_r_i              .... ......  imm:s12 rj:5 cop:5    &cop_r_i
++@j_i               .... ........ .. imm:8 rj:5 .....    &j_i
  
  #
  # Fixed point arithmetic operation instruction
-@@ -459,3 +463,10 @@ iocsrwr_b        0000 01100100 10000 00100 ..... .....    @rr
- iocsrwr_h        0000 01100100 10000 00101 ..... .....    @rr
- iocsrwr_w        0000 01100100 10000 00110 ..... .....    @rr
- iocsrwr_d        0000 01100100 10000 00111 ..... .....    @rr
-+tlbsrch          0000 01100100 10000 01010 00000 00000    @empty
-+tlbrd            0000 01100100 10000 01011 00000 00000    @empty
-+tlbwr            0000 01100100 10000 01100 00000 00000    @empty
-+tlbfill          0000 01100100 10000 01101 00000 00000    @empty
-+tlbclr           0000 01100100 10000 01000 00000 00000    @empty
-+tlbflush         0000 01100100 10000 01001 00000 00000    @empty
-+invtlb           0000 01100100 10011 ..... ..... .....    @i_rr
+@@ -470,3 +475,9 @@ tlbfill          0000 01100100 10000 01101 00000 00000    @empty
+ tlbclr           0000 01100100 10000 01000 00000 00000    @empty
+ tlbflush         0000 01100100 10000 01001 00000 00000    @empty
+ invtlb           0000 01100100 10011 ..... ..... .....    @i_rr
++cacop            0000 011000 ............ ..... .....     @cop_r_i
++lddir            0000 01100100 00 ........ ..... .....    @rr_ui8
++ldpte            0000 01100100 01 ........ ..... 00000    @j_i
++ertn             0000 01100100 10000 01110 00000 00000    @empty
++idle             0000 01100100 10001 ...............      @i15
++dbcl             0000 00000010 10101 ...............      @i15
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index ea26aea728..6a56607302 100644
+index 6a56607302..9d790b172c 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -303,6 +303,17 @@ static void output_rr_csr(DisasContext *ctx, arg_rr_csr *a,
-            a->rd, a->rj, a->csr, get_csr_name(a->csr));
+@@ -314,6 +314,17 @@ static void output_i_rr(DisasContext *ctx, arg_i_rr *a, const char *mnemonic)
+     output(ctx, mnemonic, "%d, r%d, r%d", a->imm, a->rj, a->rk);
  }
  
-+static void output_empty(DisasContext *ctx, arg_empty *a,
-+                         const char *mnemonic)
++static void output_cop_r_i(DisasContext *ctx, arg_cop_r_i *a,
++                           const char *mnemonic)
 +{
-+    output(ctx, mnemonic, "");
++    output(ctx, mnemonic, "%d, r%d, %d", a->cop, a->rj, a->imm);
 +}
 +
-+static void output_i_rr(DisasContext *ctx, arg_i_rr *a, const char *mnemonic)
++static void output_j_i(DisasContext *ctx, arg_j_i *a, const char *mnemonic)
 +{
-+    output(ctx, mnemonic, "%d, r%d, r%d", a->imm, a->rj, a->rk);
++    output(ctx, mnemonic, "r%d, %d", a->rj, a->imm);
 +}
 +
  #define INSN(insn, type)                                    \
  static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
  {                                                           \
-@@ -623,6 +634,13 @@ INSN(iocsrwr_b,    rr)
- INSN(iocsrwr_h,    rr)
- INSN(iocsrwr_w,    rr)
- INSN(iocsrwr_d,    rr)
-+INSN(tlbsrch,      empty)
-+INSN(tlbrd,        empty)
-+INSN(tlbwr,        empty)
-+INSN(tlbfill,      empty)
-+INSN(tlbclr,       empty)
-+INSN(tlbflush,     empty)
-+INSN(invtlb,       i_rr)
+@@ -641,6 +652,12 @@ INSN(tlbfill,      empty)
+ INSN(tlbclr,       empty)
+ INSN(tlbflush,     empty)
+ INSN(invtlb,       i_rr)
++INSN(cacop,        cop_r_i)
++INSN(lddir,        rr_i)
++INSN(ldpte,        j_i)
++INSN(ertn,         empty)
++INSN(idle,         i)
++INSN(dbcl,         i)
  
  #define output_fcmp(C, PREFIX, SUFFIX)                                         \
  {                                                                              \
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index fad8bc7746..4f84ef3e4b 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -7,9 +7,11 @@
+diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+index 18e565ce7f..a9ba72d5b2 100644
+--- a/target/loongarch/op_helper.c
++++ b/target/loongarch/op_helper.c
+@@ -6,6 +6,7 @@
   */
  
  #include "qemu/osdep.h"
-+#include "qemu/guest-random.h"
- 
++#include "qemu/log.h"
+ #include "qemu/main-loop.h"
  #include "cpu.h"
+ #include "qemu/host-utils.h"
+@@ -15,6 +16,7 @@
  #include "internals.h"
-+#include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- #include "exec/log.h"
-@@ -280,6 +282,359 @@ static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
-    }
- }
+ #include "qemu/crc32c.h"
+ #include <zlib.h>
++#include "cpu-csr.h"
  
-+static void invalidate_tlb_entry(CPULoongArchState *env, int index)
+ /* Exceptions helpers */
+ void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
+@@ -81,3 +83,38 @@ target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
+ {
+     return rj > 21 ? 0 : env->cpucfg[rj];
+ }
++
++void helper_ertn(CPULoongArchState *env)
 +{
-+    target_ulong addr, mask, pagesize;
-+    uint8_t tlb_ps;
-+    LoongArchTLB *tlb = &env->tlb[index];
-+
-+    int mmu_idx = cpu_mmu_index(env, false);
-+    uint8_t tlb_v0 = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, V);
-+    uint8_t tlb_v1 = FIELD_EX64(tlb->tlb_entry1, TLBENTRY, V);
-+    uint64_t tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
-+
-+    if (index >= LOONGARCH_STLB) {
-+        tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+    } else {
-+        tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+    }
-+    pagesize = 1 << tlb_ps;
-+    mask = MAKE_64BIT_MASK(0, tlb_ps + 1);
-+
-+    if (tlb_v0) {
-+        addr = (tlb_vppn << R_TLB_MISC_VPPN_SHIFT) & ~mask;    /* even */
-+        tlb_flush_range_by_mmuidx(env_cpu(env), addr, pagesize,
-+                                  mmu_idx, TARGET_LONG_BITS);
-+    }
-+
-+    if (tlb_v1) {
-+        addr = (tlb_vppn << R_TLB_MISC_VPPN_SHIFT) & pagesize;    /* odd */
-+        tlb_flush_range_by_mmuidx(env_cpu(env), addr, pagesize,
-+                                  mmu_idx, TARGET_LONG_BITS);
-+    }
-+}
-+
-+static void invalidate_tlb(CPULoongArchState *env, int index)
-+{
-+    LoongArchTLB *tlb;
-+    uint16_t csr_asid, tlb_asid, tlb_g;
-+
-+    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
-+    tlb = &env->tlb[index];
-+    tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+    tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+    if (tlb_g == 0 && tlb_asid != csr_asid) {
-+        return;
-+    }
-+    invalidate_tlb_entry(env, index);
-+}
-+
-+static void fill_tlb_entry(CPULoongArchState *env, int index)
-+{
-+    LoongArchTLB *tlb = &env->tlb[index];
-+    uint64_t lo0, lo1, csr_vppn;
-+    uint16_t csr_asid;
-+    uint8_t csr_ps;
-+
++    uint64_t csr_pplv, csr_pie;
 +    if (FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR)) {
-+        csr_ps = FIELD_EX64(env->CSR_TLBREHI, CSR_TLBREHI, PS);
-+        csr_vppn = FIELD_EX64(env->CSR_TLBREHI, CSR_TLBREHI, VPPN);
-+        lo0 = env->CSR_TLBRELO0;
-+        lo1 = env->CSR_TLBRELO1;
++        csr_pplv = FIELD_EX64(env->CSR_TLBRPRMD, CSR_TLBRPRMD, PPLV);
++        csr_pie = FIELD_EX64(env->CSR_TLBRPRMD, CSR_TLBRPRMD, PIE);
++
++        env->CSR_TLBRERA = FIELD_DP64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR, 0);
++        env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, DA, 0);
++        env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PG, 1);
++        env->pc = env->CSR_TLBRERA;
++        qemu_log_mask(CPU_LOG_INT, "%s: TLBRERA " TARGET_FMT_lx "\n",
++                      __func__, env->CSR_TLBRERA);
 +    } else {
-+        csr_ps = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, PS);
-+        csr_vppn = FIELD_EX64(env->CSR_TLBEHI, CSR_TLBEHI, VPPN);
-+        lo0 = env->CSR_TLBELO0;
-+        lo1 = env->CSR_TLBELO1;
++        csr_pplv = FIELD_EX64(env->CSR_PRMD, CSR_PRMD, PPLV);
++        csr_pie = FIELD_EX64(env->CSR_PRMD, CSR_PRMD, PIE);
++
++        env->pc = env->CSR_ERA;
++        qemu_log_mask(CPU_LOG_INT, "%s: ERA " TARGET_FMT_lx "\n",
++                      __func__, env->CSR_ERA);
 +    }
++    env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PLV, csr_pplv);
++    env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, IE, csr_pie);
 +
-+    if (csr_ps == 0) {
-+        qemu_log_mask(CPU_LOG_MMU, "page size is 0\n");
-+    }
-+
-+    /* Only MTLB has the ps fields */
-+    if (index >= LOONGARCH_STLB) {
-+        tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, PS, csr_ps);
-+    }
-+
-+    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, VPPN, csr_vppn);
-+    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 1);
-+    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
-+    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, ASID, csr_asid);
-+
-+    tlb->tlb_entry0 = lo0;
-+    tlb->tlb_entry1 = lo1;
++    env->lladdr = 1;
 +}
 +
-+/* Return an random value between low and high */
-+static uint32_t get_random_tlb(uint32_t low, uint32_t high)
++void helper_idle(CPULoongArchState *env)
 +{
-+    uint32_t val;
++    CPUState *cs = env_cpu(env);
 +
-+    qemu_guest_getrandom_nofail(&val, sizeof(val));
-+    return val % (high - low + 1) + low;
++    cs->halted = 1;
++    do_raise_exception(env, EXCP_HLT, 0);
 +}
+diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
+index 4f84ef3e4b..bab19c7e05 100644
+--- a/target/loongarch/tlb_helper.c
++++ b/target/loongarch/tlb_helper.c
+@@ -668,3 +668,96 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     raise_mmu_exception(env, address, access_type, ret);
+     cpu_loop_exit_restore(cs, retaddr);
+ }
 +
-+void helper_tlbsrch(CPULoongArchState *env)
++target_ulong helper_lddir(CPULoongArchState *env, target_ulong base,
++                          target_ulong level, uint32_t mem_idx)
 +{
-+    int index, match;
++    CPUState *cs = env_cpu(env);
++    target_ulong badvaddr, index, phys, ret;
++    int shift;
++    uint64_t dir_base, dir_width;
++    bool huge = (base >> LOONGARCH_PAGE_HUGE_SHIFT) & 0x1;
 +
-+    if (FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR)) {
-+        match = loongarch_tlb_search(env, env->CSR_TLBREHI, &index);
-+    } else {
-+        match = loongarch_tlb_search(env, env->CSR_TLBEHI, &index);
++    badvaddr = env->CSR_TLBRBADV;
++    base = base & TARGET_PHYS_MASK;
++
++    /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
++    shift = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTEWIDTH);
++    shift = (shift + 1) * 3;
++
++    if (huge) {
++        return base;
 +    }
-+
-+    if (match) {
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX, index);
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 0);
-+        return;
-+    }
-+
-+    env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 1);
-+}
-+
-+void helper_tlbrd(CPULoongArchState *env)
-+{
-+    LoongArchTLB *tlb;
-+    int index;
-+    uint8_t tlb_ps, tlb_e;
-+
-+    index = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
-+    tlb = &env->tlb[index];
-+
-+    if (index >= LOONGARCH_STLB) {
-+        tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+    } else {
-+        tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+    }
-+    tlb_e = FIELD_EX64(tlb->tlb_misc, TLB_MISC, E);
-+
-+    if (!tlb_e) {
-+        /* Invalid TLB entry */
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 1);
-+        env->CSR_ASID  = FIELD_DP64(env->CSR_ASID, CSR_ASID, ASID, 0);
-+        env->CSR_TLBEHI = 0;
-+        env->CSR_TLBELO0 = 0;
-+        env->CSR_TLBELO1 = 0;
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, PS, 0);
-+    } else {
-+        /* Valid TLB entry */
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 0);
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX,
-+                                     PS, (tlb_ps & 0x3f));
-+        env->CSR_TLBEHI = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN) <<
-+                                     R_TLB_MISC_VPPN_SHIFT;
-+        env->CSR_TLBELO0 = tlb->tlb_entry0;
-+        env->CSR_TLBELO1 = tlb->tlb_entry1;
-+    }
-+}
-+
-+void helper_tlbwr(CPULoongArchState *env)
-+{
-+    int index = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
-+
-+    invalidate_tlb(env, index);
-+
-+    if (FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, NE)) {
-+        env->tlb[index].tlb_misc = FIELD_DP64(env->tlb[index].tlb_misc,
-+                                              TLB_MISC, E, 0);
-+        return;
-+    }
-+
-+    fill_tlb_entry(env, index);
-+}
-+
-+void helper_tlbfill(CPULoongArchState *env)
-+{
-+    uint64_t address, entryhi;
-+    int index, set, stlb_idx;
-+    uint16_t pagesize, stlb_ps;
-+
-+    if (FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR)) {
-+        entryhi = env->CSR_TLBREHI;
-+        pagesize = FIELD_EX64(env->CSR_TLBREHI, CSR_TLBREHI, PS);
-+    } else {
-+        entryhi = env->CSR_TLBEHI;
-+        pagesize = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, PS);
-+    }
-+
-+    stlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+
-+    if (pagesize == stlb_ps) {
-+        /* Only write into STLB bits [47:13] */
-+        address = entryhi & ~MAKE_64BIT_MASK(0, R_CSR_TLBEHI_VPPN_SHIFT);
-+
-+        /* Choose one set ramdomly */
-+        set = get_random_tlb(0, 7);
-+
-+        /* Index in one set */
-+        stlb_idx = (address >> (stlb_ps + 1)) & 0xff; /* [0,255] */
-+
-+        index = set * 256 + stlb_idx;
-+    } else {
-+        /* Only write into MTLB */
-+        index = get_random_tlb(LOONGARCH_STLB, LOONGARCH_TLB_MAX - 1);
-+    }
-+
-+    invalidate_tlb(env, index);
-+    fill_tlb_entry(env, index);
-+}
-+
-+void helper_tlbclr(CPULoongArchState *env)
-+{
-+    LoongArchTLB *tlb;
-+    int i, index;
-+    uint16_t csr_asid, tlb_asid, tlb_g;
-+
-+    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
-+    index = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
-+
-+    if (index < LOONGARCH_STLB) {
-+        /* STLB. One line per operation */
-+        for (i = 0; i < 8; i++) {
-+            tlb = &env->tlb[i * 256 + (index % 256)];
-+            tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+            tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+            if (!tlb_g && tlb_asid == csr_asid) {
-+                tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+            }
-+        }
-+    } else if (index < LOONGARCH_TLB_MAX) {
-+        /* All MTLB entries */
-+        for (i = LOONGARCH_STLB; i < LOONGARCH_TLB_MAX; i++) {
-+            tlb = &env->tlb[i];
-+            tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+            tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+            if (!tlb_g && tlb_asid == csr_asid) {
-+                tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+            }
-+        }
-+    }
-+
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_tlbflush(CPULoongArchState *env)
-+{
-+    int i, index;
-+
-+    index = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
-+
-+    if (index < LOONGARCH_STLB) {
-+        /* STLB. One line per operation */
-+        for (i = 0; i < 8; i++) {
-+            int s_idx = i * 256 + (index % 256);
-+            env->tlb[s_idx].tlb_misc = FIELD_DP64(env->tlb[s_idx].tlb_misc,
-+                                                  TLB_MISC, E, 0);
-+        }
-+    } else if (index < LOONGARCH_TLB_MAX) {
-+        /* All MTLB entries */
-+        for (i = LOONGARCH_STLB; i < LOONGARCH_TLB_MAX; i++) {
-+            env->tlb[i].tlb_misc = FIELD_DP64(env->tlb[i].tlb_misc,
-+                                              TLB_MISC, E, 0);
-+        }
-+    }
-+
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_all(CPULoongArchState *env)
-+{
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        env->tlb[i].tlb_misc = FIELD_DP64(env->tlb[i].tlb_misc,
-+                                          TLB_MISC, E, 0);
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_all_g(CPULoongArchState *env, uint32_t g)
-+{
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        LoongArchTLB *tlb = &env->tlb[i];
-+        uint8_t tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+
-+        if (tlb_g == g) {
-+            tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+        }
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_all_asid(CPULoongArchState *env, target_ulong info)
-+{
-+    uint16_t asid = info & R_CSR_ASID_ASID_MASK;
-+
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        LoongArchTLB *tlb = &env->tlb[i];
-+        uint8_t tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+        uint16_t tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+
-+        if (!tlb_g && (tlb_asid == asid)) {
-+            tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+        }
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_page_asid(CPULoongArchState *env, target_ulong info,
-+                             target_ulong addr)
-+{
-+    uint16_t asid = info & 0x3ff;
-+
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        LoongArchTLB *tlb = &env->tlb[i];
-+        uint8_t tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+        uint16_t tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+        uint64_t vpn, tlb_vppn;
-+        uint8_t tlb_ps, compare_shift;
-+
-+        if (i >= LOONGARCH_STLB) {
-+            tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+        } else {
-+            tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+        }
-+        tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
-+        vpn = (addr & TARGET_VIRT_MASK) >> (tlb_ps + 1);
-+        compare_shift = tlb_ps + 1 - R_TLB_MISC_VPPN_SHIFT;
-+
-+        if (!tlb_g && (tlb_asid == asid) &&
-+           (vpn == (tlb_vppn >> compare_shift))) {
-+            tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+        }
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_page_asid_or_g(CPULoongArchState *env,
-+                                  target_ulong info, target_ulong addr)
-+{
-+    uint16_t asid = info & 0x3ff;
-+
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        LoongArchTLB *tlb = &env->tlb[i];
-+        uint8_t tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+        uint16_t tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+        uint64_t vpn, tlb_vppn;
-+        uint8_t tlb_ps, compare_shift;
-+
-+        if (i >= LOONGARCH_STLB) {
-+            tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+        } else {
-+            tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+        }
-+        tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
-+        vpn = (addr & TARGET_VIRT_MASK) >> (tlb_ps + 1);
-+        compare_shift = tlb_ps + 1 - R_TLB_MISC_VPPN_SHIFT;
-+
-+        if ((tlb_g || (tlb_asid == asid)) &&
-+            (vpn == (tlb_vppn >> compare_shift))) {
-+            tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+        }
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
- bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                             MMUAccessType access_type, int mmu_idx,
-                             bool probe, uintptr_t retaddr)
-diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
-index 3e50cd3ac6..d47918785b 100644
---- a/target/loongarch/insn_trans/trans_privileged.c.inc
-+++ b/target/loongarch/insn_trans/trans_privileged.c.inc
-@@ -297,3 +297,105 @@ TRANS(iocsrwr_b, gen_iocsrwr, gen_helper_iocsrwr_b)
- TRANS(iocsrwr_h, gen_iocsrwr, gen_helper_iocsrwr_h)
- TRANS(iocsrwr_w, gen_iocsrwr, gen_helper_iocsrwr_w)
- TRANS(iocsrwr_d, gen_iocsrwr, gen_helper_iocsrwr_d)
-+
-+static void check_mmu_idx(DisasContext *ctx)
-+{
-+    if (ctx->mem_idx != MMU_DA_IDX) {
-+        tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-+        ctx->base.is_jmp = DISAS_EXIT;
-+    }
-+}
-+
-+static bool trans_tlbsrch(DisasContext *ctx, arg_tlbsrch *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbsrch(cpu_env);
-+    return true;
-+}
-+
-+static bool trans_tlbrd(DisasContext *ctx, arg_tlbrd *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbrd(cpu_env);
-+    return true;
-+}
-+
-+static bool trans_tlbwr(DisasContext *ctx, arg_tlbwr *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbwr(cpu_env);
-+    check_mmu_idx(ctx);
-+    return true;
-+}
-+
-+static bool trans_tlbfill(DisasContext *ctx, arg_tlbfill *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbfill(cpu_env);
-+    check_mmu_idx(ctx);
-+    return true;
-+}
-+
-+static bool trans_tlbclr(DisasContext *ctx, arg_tlbclr *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbclr(cpu_env);
-+    check_mmu_idx(ctx);
-+    return true;
-+}
-+
-+static bool trans_tlbflush(DisasContext *ctx, arg_tlbflush *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbflush(cpu_env);
-+    check_mmu_idx(ctx);
-+    return true;
-+}
-+
-+static bool trans_invtlb(DisasContext *ctx, arg_invtlb *a)
-+{
-+    TCGv rj = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv rk = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+
-+    switch (a->imm) {
-+    case 0:
++    switch (level) {
 +    case 1:
-+        gen_helper_invtlb_all(cpu_env);
++        dir_base = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR1_BASE);
++        dir_width = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR1_WIDTH);
 +        break;
 +    case 2:
-+        gen_helper_invtlb_all_g(cpu_env, tcg_constant_i32(1));
++        dir_base = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR2_BASE);
++        dir_width = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR2_WIDTH);
 +        break;
 +    case 3:
-+        gen_helper_invtlb_all_g(cpu_env, tcg_constant_i32(0));
++        dir_base = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR3_BASE);
++        dir_width = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR3_WIDTH);
 +        break;
 +    case 4:
-+        gen_helper_invtlb_all_asid(cpu_env, rj);
-+        break;
-+    case 5:
-+        gen_helper_invtlb_page_asid(cpu_env, rj, rk);
-+        break;
-+    case 6:
-+        gen_helper_invtlb_page_asid_or_g(cpu_env, rj, rk);
++        dir_base = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR4_BASE);
++        dir_width = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR4_WIDTH);
 +        break;
 +    default:
++        do_raise_exception(env, EXCCODE_INE, GETPC());
++        return 0;
++    }
++    index = (badvaddr >> dir_base) & ((1 << dir_width) - 1);
++    phys = base | index << shift;
++    ret = ldq_phys(cs->as, phys) & TARGET_PHYS_MASK;
++    return ret;
++}
++
++void helper_ldpte(CPULoongArchState *env, target_ulong base, target_ulong odd,
++                  uint32_t mem_idx)
++{
++    CPUState *cs = env_cpu(env);
++    target_ulong phys, tmp0, ptindex, ptoffset0, ptoffset1, ps, badv;
++    int shift;
++    bool huge = (base >> LOONGARCH_PAGE_HUGE_SHIFT) & 0x1;
++    uint64_t ptbase = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTBASE);
++    uint64_t ptwidth = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTWIDTH);
++
++    base = base & TARGET_PHYS_MASK;
++
++    if (huge) {
++        /* Huge Page. base is paddr */
++        tmp0 = base ^ (1 << LOONGARCH_PAGE_HUGE_SHIFT);
++        /* Move Global bit */
++        tmp0 = ((tmp0 & (1 << LOONGARCH_HGLOBAL_SHIFT))  >>
++                LOONGARCH_HGLOBAL_SHIFT) << R_TLBENTRY_G_SHIFT |
++                (tmp0 & (~(1 << R_TLBENTRY_G_SHIFT)));
++        ps = ptbase + ptwidth - 1;
++        if (odd) {
++            tmp0 += (1 << ps);
++        }
++    } else {
++        /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
++        shift = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTEWIDTH);
++        shift = (shift + 1) * 3;
++        badv = env->CSR_TLBRBADV;
++
++        ptindex = (badv >> ptbase) & ((1 << ptwidth) - 1);
++        ptindex = ptindex & ~0x1;   /* clear bit 0 */
++        ptoffset0 = ptindex << shift;
++        ptoffset1 = (ptindex + 1) << shift;
++
++        phys = base | (odd ? ptoffset1 : ptoffset0);
++        tmp0 = ldq_phys(cs->as, phys) & TARGET_PHYS_MASK;
++        ps = ptbase;
++    }
++
++    if (odd) {
++        env->CSR_TLBRELO1 = tmp0;
++    } else {
++        env->CSR_TLBRELO0 = tmp0;
++    }
++    env->CSR_TLBREHI = FIELD_DP64(env->CSR_TLBREHI, CSR_TLBREHI, PS, ps);
++}
+diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
+index d47918785b..53596c4f77 100644
+--- a/target/loongarch/insn_trans/trans_privileged.c.inc
++++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+@@ -399,3 +399,68 @@ static bool trans_invtlb(DisasContext *ctx, arg_invtlb *a)
+     ctx->base.is_jmp = DISAS_STOP;
+     return true;
+ }
++
++static bool trans_cacop(DisasContext *ctx, arg_cacop *a)
++{
++    /* Treat the cacop as a nop */
++    if (check_plv(ctx)) {
 +        return false;
 +    }
-+    ctx->base.is_jmp = DISAS_STOP;
++    return true;
++}
++
++static bool trans_ldpte(DisasContext *ctx, arg_ldpte *a)
++{
++    TCGv_i32 mem_idx = tcg_constant_i32(ctx->mem_idx);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_ldpte(cpu_env, src1, tcg_constant_tl(a->imm), mem_idx);
++    return true;
++}
++
++static bool trans_lddir(DisasContext *ctx, arg_lddir *a)
++{
++    TCGv_i32 mem_idx = tcg_constant_i32(ctx->mem_idx);
++    TCGv src = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_lddir(dest, cpu_env, src, tcg_constant_tl(a->imm), mem_idx);
++    return true;
++}
++
++static bool trans_ertn(DisasContext *ctx, arg_ertn *a)
++{
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_ertn(cpu_env);
++    ctx->base.is_jmp = DISAS_EXIT;
++    return true;
++}
++
++static bool trans_dbcl(DisasContext *ctx, arg_dbcl *a)
++{
++    if (check_plv(ctx)) {
++        return false;
++    }
++    generate_exception(ctx, EXCCODE_DBP);
++    return true;
++}
++
++static bool trans_idle(DisasContext *ctx, arg_idle *a)
++{
++    if (check_plv(ctx)) {
++        return false;
++    }
++
++    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
++    gen_helper_idle(cpu_env);
++    ctx->base.is_jmp = DISAS_NORETURN;
 +    return true;
 +}
 -- 
