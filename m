@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C2153E4C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 15:35:19 +0200 (CEST)
-Received: from localhost ([::1]:39322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F279F53E4FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:14:44 +0200 (CEST)
+Received: from localhost ([::1]:51576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyCt5-0006Nx-0u
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 09:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34772)
+	id 1nyDVD-0006jS-K1
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nyCqy-0003kB-N5
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 09:33:08 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:34490)
+ id 1nyCyE-00078H-Pq
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 09:40:38 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:35936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nyCqx-00043e-1Q
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 09:33:08 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-30fdbe7467cso107763097b3.1
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 06:33:06 -0700 (PDT)
+ id 1nyCyC-0005ie-U7
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 09:40:38 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-30c143c41e5so143265707b3.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 06:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LhChXr5C1Y29wP0vR+7yG0IPFznToHZx0o7exPvq3Bs=;
- b=GlO8RP0f2vtCH0rUTxLGaiXnrMeo2HHqCsItWHAkrSIki6kSs7WX8n14xy5KZXR3q9
- C8sI7OGfMLii6TMTbB1mVKW9kI3/jtV6GB6D34cslR8sfFWoJwiIWuwSb6z1LsCDq5dH
- V0y/S7xaR1XAWszvdKK972PU+EbOTtJReP8C/F8iABedxSUszSI+LghpHrYtbXC99Qsw
- MzlvTsSe25tXoFfcE/D+sybhmv5AtgYW5wMMYqqC2PBZzGGk4D7Tl4UyPS1AnwJD/4i7
- lljt8A8LP/3VTcm7Hfgi1LjEnIwF/UHgcMddIOvE4AGMiig/xLqnT8X0wiwVG0iEyzEI
- Y32g==
+ :cc; bh=JNqGft807Lv8IOJGLml4i3T41e3Ai7izXNrCGoQno4Y=;
+ b=Ow9tlB1oSsBn5f8KrGb7qUTiqXWdA1DE5EeFgAtHRRP1rs5yESPMFkSr3gBugDoxlA
+ 3akcK0qrJxqApvL61k9JgInYALSbgqguLEODVtJMeW9CM2rNWuJgBx/R8lBbHCw3HJYe
+ 0kEtuaqVPaG8CmMxAHf7HtFOb0czTiqwDytA3Jbf6nffQTYe3KTK6bCF5RjlJkVNw1At
+ VfcSkl7NWxxspLYK42ChSsNT+h8jOiCeAYwyEMv0bd9mOVDlCWADP/p2yzj07PuzpY5g
+ 1L8FlntFTX1NqkUvkldbdHxElWc4D5AeyhzOO16P01HbEMwM744bXsS5ZZRQDYPY79hk
+ qv+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LhChXr5C1Y29wP0vR+7yG0IPFznToHZx0o7exPvq3Bs=;
- b=cqz5JrEwC21DFNxrxFlij1EGr98yOg/zutS2LqUCuDcP5lPGkwWrnoCw9Gw68FYF9N
- O1WRchxIhY8vOERMcxcWchTO9j0BIUwtwhfUn2qn17rHgQSw5YNWppcFe5at3ZjDkChx
- uDLTku+/OQQ7T6AMVBn9Px3FMEo51cKJsFrN2BioSYHDEnUo/bW/1RZmH/yBqQJMHJdy
- DnyqzrUuY76Hgc/rTIei6+FgcJZfuZXedzXn60SHuC1OOqnShJSoEpQYCdofpZ6OMQhI
- qGhsi6yLDIEaHPbuXj+SGnuSm871bEtEJt2Lp4uzWtD4ePx8eZvJCcu0BbLwxpTEbuEh
- 3hvQ==
-X-Gm-Message-State: AOAM53123fvx4GlNEY7RoZnEs4usXB5LHbLTJiv5xnzrl5DbhaTR5Zt3
- wHN4ArjeciulRgGo7XOjXo1xrucHb06NSX+1rXauww==
-X-Google-Smtp-Source: ABdhPJzQ6o0Wq1rxfJ8xLTODiPbYuf7fXhSuZ6NZIcQul8aR6mDr1CUzLGIIsc7F0w1MXRYDqTPF2lIdXiRXGE3Dd1M=
+ bh=JNqGft807Lv8IOJGLml4i3T41e3Ai7izXNrCGoQno4Y=;
+ b=QmZgMAgWLIIz54zuYOTRQpBQ9tPxf6hSTfS4Gee+oRASxQ2ivOlY8GsHx8+zNrj7lq
+ Lzkj1201CZi27bGvvheDCY/qablMomA8uJlggtCi9VFyDZPk3VOLgRqeEj5Ex2LeXXvo
+ R/FuROGzl5kMimcfOUXEBpGSCQ4Jp44NS+VyehRmr+EC8SKaytSF0LvZwdnizYDm2v8j
+ 4nhJkJ1ibNH+uGLBHu9e8X6KKj6LLVs/OCGAAmx4HCFt1b2lijpqs7zg29WSPA62bXeJ
+ gjnelM3MsRm//WR6hByXbDr7ShYneU2RSfFAHh6pMaH+fFX+WX8wgPavUiEvpwmr85Q/
+ Sn9A==
+X-Gm-Message-State: AOAM533KcNcmUXhRY7YEfBaUij3CR3vV+lmkeuZaK9Al8ZofA1qhm11q
+ Xi1/864qi/MH+l1sJmrLgT5CrrpF2Z+WbL4tqlJmXw==
+X-Google-Smtp-Source: ABdhPJzDq16jSr8FBKN8QCM/W+1XMjE5372wAo4/T0WB8WvKIqU0gD/uBnJu+C+ht2axv1fIN4aoSKeuRPvYomtj8Iw=
 X-Received: by 2002:a81:6904:0:b0:2fe:e670:318a with SMTP id
- e4-20020a816904000000b002fee670318amr25574433ywc.329.1654522385069; Mon, 06
- Jun 2022 06:33:05 -0700 (PDT)
+ e4-20020a816904000000b002fee670318amr25607513ywc.329.1654522834877; Mon, 06
+ Jun 2022 06:40:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
- <20220602214853.496211-25-richard.henderson@linaro.org>
-In-Reply-To: <20220602214853.496211-25-richard.henderson@linaro.org>
+ <20220602214853.496211-26-richard.henderson@linaro.org>
+In-Reply-To: <20220602214853.496211-26-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Jun 2022 14:32:54 +0100
-Message-ID: <CAFEAcA-zJMxJX2x0PVLycb1fJ5=W=HwKSTaSqpxfZOg-GnGKAA@mail.gmail.com>
-Subject: Re: [PATCH 24/71] target/arm: Add ARM_CP_SME
+Date: Mon, 6 Jun 2022 14:40:24 +0100
+Message-ID: <CAFEAcA80uRfdLR+4pJU6p8wDBgottFUaKDOCmgiHPj7B-qL=qQ@mail.gmail.com>
+Subject: Re: [PATCH 25/71] target/arm: Add SVCR
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,10 +86,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Thu, 2 Jun 2022 at 23:19, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> This will be used for controlling access to SME cpregs.
+> This cpreg is used to access two new bits of PSTATE
+> that are not visible via any other mechanism.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/cpu.h    |  6 ++++++
+>  target/arm/helper.c | 13 +++++++++++++
+>  2 files changed, 19 insertions(+)
+>
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 31f812eda7..31b764556c 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -258,6 +258,7 @@ typedef struct CPUArchState {
+>       *  nRW (also known as M[4]) is kept, inverted, in env->aarch64
+>       *  DAIF (exception masks) are kept in env->daif
+>       *  BTYPE is kept in env->btype
+> +     *  SM and ZA are kept in env->svcr
+>       *  all other bits are stored in their correct places in env->pstate
+>       */
+>      uint32_t pstate;
+> @@ -292,6 +293,7 @@ typedef struct CPUArchState {
+>      uint32_t condexec_bits; /* IT bits.  cpsr[15:10,26:25].  */
+>      uint32_t btype;  /* BTI branch type.  spsr[11:10].  */
+>      uint64_t daif; /* exception masks, in the bits they are in PSTATE */
+> +    uint64_t svcr; /* PSTATE.{SM,ZA} in the bits they are in SVCR */
+>
+>      uint64_t elr_el[4]; /* AArch64 exception link regs  */
+>      uint64_t sp_el[4]; /* AArch64 banked stack pointers */
+> @@ -1428,6 +1430,10 @@ FIELD(CPTR_EL3, TCPAC, 31, 1)
+>  #define PSTATE_MODE_EL1t 4
+>  #define PSTATE_MODE_EL0t 0
+>
+> +/* PSTATE bits that are accessed via SVCR and not stored in SPRS_ELx. */
+
+"SPSR"
+
+> +FIELD(SVCR, SM, 0, 1)
+> +FIELD(SVCR, ZA, 1, 1)
+> +
+>  /* Write a new value to v7m.exception, thus transitioning into or out
+>   * of Handler mode; this may result in a change of active stack pointer.
+>   */
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 98de2c797f..366420385a 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -6353,11 +6353,24 @@ static CPAccessResult access_tpidr2(CPUARMState *env, const ARMCPRegInfo *ri,
+>      return CP_ACCESS_OK;
+>  }
+>
+> +static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> +                       uint64_t value)
+> +{
+> +    value &= R_SVCR_SM_MASK | R_SVCR_ZA_MASK;
+> +    /* TODO: Side effects. */
+> +    env->svcr = value;
+> +}
+> +
+>  static const ARMCPRegInfo sme_reginfo[] = {
+>      { .name = "TPIDR2_EL0", .state = ARM_CP_STATE_AA64,
+>        .opc0 = 3, .opc1 = 3, .crn = 13, .crm = 0, .opc2 = 5,
+>        .access = PL0_RW, .accessfn = access_tpidr2,
+>        .fieldoffset = offsetof(CPUARMState, cp15.tpidr2_el0) },
+> +    { .name = "SVCR", .state = ARM_CP_STATE_AA64,
+> +      .opc0 = 3, .opc1 = 3, .crn = 4, .crm = 2, .opc2 = 2,
+> +      .access = PL0_RW, .type = ARM_CP_SME,
+> +      .fieldoffset = offsetof(CPUARMState, svcr),
+> +      .writefn = svcr_write, .raw_writefn = raw_write },
+>  };
+>  #endif /* TARGET_AARCH64 */
+
+What about the "MSR SVCR*, #<imm>" forms ? I had a quick scan
+through the subject lines of the rest of the patchset and didn't
+see them.
 
 thanks
 -- PMM
