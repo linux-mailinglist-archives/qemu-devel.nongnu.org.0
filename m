@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F9953E57F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:40:10 +0200 (CEST)
-Received: from localhost ([::1]:43256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5395C53E55F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:23:37 +0200 (CEST)
+Received: from localhost ([::1]:35762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEps-0002LZ-W5
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58602)
+	id 1nyEZs-0002AL-EV
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:23:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
- id 1nyEKz-0005BB-8K; Mon, 06 Jun 2022 11:08:13 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:40007)
+ id 1nyEL5-0005HI-0R; Mon, 06 Jun 2022 11:08:20 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:43829
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
- id 1nyEKv-0005y5-Sr; Mon, 06 Jun 2022 11:08:12 -0400
+ id 1nyEL1-0005ye-RF; Mon, 06 Jun 2022 11:08:18 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxgq3ZYvz4xD5;
- Tue,  7 Jun 2022 01:08:07 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxgx2dCbz4xZ8;
+ Tue,  7 Jun 2022 01:08:13 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxgj6XzXz4xZ0;
- Tue,  7 Jun 2022 01:08:01 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxgr0Dy8z4xXj;
+ Tue,  7 Jun 2022 01:08:07 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -43,16 +44,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 03/21] aspeed: i2c: Migrate to registerfields API
-Date: Mon,  6 Jun 2022 17:07:14 +0200
-Message-Id: <20220606150732.2282041-4-clg@kaod.org>
+Subject: [PATCH 04/21] aspeed: i2c: Use reg array instead of individual vars
+Date: Mon,  6 Jun 2022 17:07:15 +0200
+Message-Id: <20220606150732.2282041-5-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220606150732.2282041-1-clg@kaod.org>
 References: <20220606150732.2282041-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -16
 X-Spam_score: -1.7
@@ -77,718 +78,630 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joe Komlodi <komlodi@google.com>
 
-This cleans up some of the field accessing, setting, and clearing
-bitwise operations, and wraps them in macros instead.
+Using a register array will allow us to represent old-mode and new-mode
+I2C registers by using the same underlying register array, instead of
+adding an entire new set of variables to represent new mode.
+
+As part of this, we also do additional cleanup to use ARRAY_FIELD_
+macros instead of FIELD_ macros on registers.
 
 Signed-off-by: Joe Komlodi <komlodi@google.com>
-Change-Id: I33018d6325fa04376e7c29dc4a49ab389a8e333a
-Message-Id: <20220331043248.2237838-4-komlodi@google.com>
+Change-Id: Ib94996b17c361b8490c042b43c99d8abc69332e3
+Message-Id: <20220331043248.2237838-5-komlodi@google.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/i2c/aspeed_i2c.c | 393 ++++++++++++++++++++++----------------------
- 1 file changed, 196 insertions(+), 197 deletions(-)
+ include/hw/i2c/aspeed_i2c.h |  11 +-
+ hw/i2c/aspeed_i2c.c         | 286 +++++++++++++++++-------------------
+ 2 files changed, 133 insertions(+), 164 deletions(-)
 
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 3912fcc3ff53..e9f83a954096 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -33,6 +33,7 @@ OBJECT_DECLARE_TYPE(AspeedI2CState, AspeedI2CClass, ASPEED_I2C)
+ 
+ #define ASPEED_I2C_NR_BUSSES 16
+ #define ASPEED_I2C_MAX_POOL_SIZE 0x800
++#define ASPEED_I2C_OLD_NUM_REG 11
+ 
+ struct AspeedI2CState;
+ 
+@@ -49,15 +50,7 @@ struct AspeedI2CBus {
+     uint8_t id;
+     qemu_irq irq;
+ 
+-    uint32_t ctrl;
+-    uint32_t timing[2];
+-    uint32_t intr_ctrl;
+-    uint32_t intr_status;
+-    uint32_t cmd;
+-    uint32_t buf;
+-    uint32_t pool_ctrl;
+-    uint32_t dma_addr;
+-    uint32_t dma_len;
++    uint32_t regs[ASPEED_I2C_OLD_NUM_REG];
+ };
+ 
+ struct AspeedI2CState {
 diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 97eb9d57929c..be81a798cc35 100644
+index be81a798cc35..e93805515082 100644
 --- a/hw/i2c/aspeed_i2c.c
 +++ b/hw/i2c/aspeed_i2c.c
-@@ -28,70 +28,61 @@
- #include "hw/i2c/aspeed_i2c.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-+#include "hw/registerfields.h"
- #include "trace.h"
- 
- /* I2C Global Register */
--
--#define I2C_CTRL_STATUS         0x00        /* Device Interrupt Status */
--#define I2C_CTRL_ASSIGN         0x08        /* Device Interrupt Target
--                                               Assignment */
--#define I2C_CTRL_GLOBAL         0x0C        /* Global Control Register */
--#define   I2C_CTRL_SRAM_EN                 BIT(0)
-+REG32(I2C_CTRL_STATUS, 0x0) /* Device Interrupt Status */
-+REG32(I2C_CTRL_ASSIGN, 0x8) /* Device Interrupt Target Assignment */
-+REG32(I2C_CTRL_GLOBAL, 0xC) /* Global Control Register */
-+    FIELD(I2C_CTRL_GLOBAL, SRAM_EN, 0, 1)
- 
- /* I2C Device (Bus) Register */
--
--#define I2CD_FUN_CTRL_REG       0x00       /* I2CD Function Control  */
--#define   I2CD_POOL_PAGE_SEL(x)            (((x) >> 20) & 0x7)  /* AST2400 */
--#define   I2CD_M_SDA_LOCK_EN               (0x1 << 16)
--#define   I2CD_MULTI_MASTER_DIS            (0x1 << 15)
--#define   I2CD_M_SCL_DRIVE_EN              (0x1 << 14)
--#define   I2CD_MSB_STS                     (0x1 << 9)
--#define   I2CD_SDA_DRIVE_1T_EN             (0x1 << 8)
--#define   I2CD_M_SDA_DRIVE_1T_EN           (0x1 << 7)
--#define   I2CD_M_HIGH_SPEED_EN             (0x1 << 6)
--#define   I2CD_DEF_ADDR_EN                 (0x1 << 5)
--#define   I2CD_DEF_ALERT_EN                (0x1 << 4)
--#define   I2CD_DEF_ARP_EN                  (0x1 << 3)
--#define   I2CD_DEF_GCALL_EN                (0x1 << 2)
--#define   I2CD_SLAVE_EN                    (0x1 << 1)
--#define   I2CD_MASTER_EN                   (0x1)
--
--#define I2CD_AC_TIMING_REG1     0x04       /* Clock and AC Timing Control #1 */
--#define I2CD_AC_TIMING_REG2     0x08       /* Clock and AC Timing Control #1 */
--#define I2CD_INTR_CTRL_REG      0x0c       /* I2CD Interrupt Control */
--#define I2CD_INTR_STS_REG       0x10       /* I2CD Interrupt Status */
--
--#define   I2CD_INTR_SLAVE_ADDR_MATCH       (0x1 << 31) /* 0: addr1 1: addr2 */
--#define   I2CD_INTR_SLAVE_ADDR_RX_PENDING  (0x1 << 30)
--/* bits[19-16] Reserved */
--
--/* All bits below are cleared by writing 1 */
--#define   I2CD_INTR_SLAVE_INACTIVE_TIMEOUT (0x1 << 15)
--#define   I2CD_INTR_SDA_DL_TIMEOUT         (0x1 << 14)
--#define   I2CD_INTR_BUS_RECOVER_DONE       (0x1 << 13)
--#define   I2CD_INTR_SMBUS_ALERT            (0x1 << 12) /* Bus [0-3] only */
--#define   I2CD_INTR_SMBUS_ARP_ADDR         (0x1 << 11) /* Removed */
--#define   I2CD_INTR_SMBUS_DEV_ALERT_ADDR   (0x1 << 10) /* Removed */
--#define   I2CD_INTR_SMBUS_DEF_ADDR         (0x1 << 9)  /* Removed */
--#define   I2CD_INTR_GCALL_ADDR             (0x1 << 8)  /* Removed */
--#define   I2CD_INTR_SLAVE_ADDR_RX_MATCH    (0x1 << 7)  /* use RX_DONE */
--#define   I2CD_INTR_SCL_TIMEOUT            (0x1 << 6)
--#define   I2CD_INTR_ABNORMAL               (0x1 << 5)
--#define   I2CD_INTR_NORMAL_STOP            (0x1 << 4)
--#define   I2CD_INTR_ARBIT_LOSS             (0x1 << 3)
--#define   I2CD_INTR_RX_DONE                (0x1 << 2)
--#define   I2CD_INTR_TX_NAK                 (0x1 << 1)
--#define   I2CD_INTR_TX_ACK                 (0x1 << 0)
--
--#define I2CD_CMD_REG            0x14       /* I2CD Command/Status */
--#define   I2CD_SDA_OE                      (0x1 << 28)
--#define   I2CD_SDA_O                       (0x1 << 27)
--#define   I2CD_SCL_OE                      (0x1 << 26)
--#define   I2CD_SCL_O                       (0x1 << 25)
--#define   I2CD_TX_TIMING                   (0x1 << 24)
--#define   I2CD_TX_STATUS                   (0x1 << 23)
--
--#define   I2CD_TX_STATE_SHIFT              19 /* Tx State Machine */
-+REG32(I2CD_FUN_CTRL, 0x0) /* I2CD Function Control  */
-+    FIELD(I2CD_FUN_CTRL, POOL_PAGE_SEL, 20, 3) /* AST2400 */
-+    FIELD(I2CD_FUN_CTRL, M_SDA_LOCK_EN, 16, 1)
-+    FIELD(I2CD_FUN_CTRL, MULTI_MASTER_DIS, 15, 1)
-+    FIELD(I2CD_FUN_CTRL, M_SCL_DRIVE_EN, 14, 1)
-+    FIELD(I2CD_FUN_CTRL, MSB_STS, 9, 1)
-+    FIELD(I2CD_FUN_CTRL, SDA_DRIVE_IT_EN, 8, 1)
-+    FIELD(I2CD_FUN_CTRL, M_SDA_DRIVE_IT_EN, 7, 1)
-+    FIELD(I2CD_FUN_CTRL, M_HIGH_SPEED_EN, 6, 1)
-+    FIELD(I2CD_FUN_CTRL, DEF_ADDR_EN, 5, 1)
-+    FIELD(I2CD_FUN_CTRL, DEF_ALERT_EN, 4, 1)
-+    FIELD(I2CD_FUN_CTRL, DEF_ARP_EN, 3, 1)
-+    FIELD(I2CD_FUN_CTRL, DEF_GCALL_EN, 2, 1)
-+    FIELD(I2CD_FUN_CTRL, SLAVE_EN, 1, 1)
-+    FIELD(I2CD_FUN_CTRL, MASTER_EN, 0, 1)
-+REG32(I2CD_AC_TIMING1, 0x04) /* Clock and AC Timing Control #1 */
-+REG32(I2CD_AC_TIMING2, 0x08) /* Clock and AC Timing Control #2 */
-+REG32(I2CD_INTR_CTRL, 0x0C)  /* I2CD Interrupt Control */
-+REG32(I2CD_INTR_STS, 0x10)   /* I2CD Interrupt Status */
-+    FIELD(I2CD_INTR_STS, SLAVE_ADDR_MATCH, 31, 1)    /* 0: addr1 1: addr2 */
-+    FIELD(I2CD_INTR_STS, SLAVE_ADDR_RX_PENDING, 29, 1)
-+    FIELD(I2CD_INTR_STS, SLAVE_INACTIVE_TIMEOUT, 15, 1)
-+    FIELD(I2CD_INTR_STS, SDA_DL_TIMEOUT, 14, 1)
-+    FIELD(I2CD_INTR_STS, BUS_RECOVER_DONE, 13, 1)
-+    FIELD(I2CD_INTR_STS, SMBUS_ALERT, 12, 1)            /* Bus [0-3] only */
-+    FIELD(I2CD_INTR_STS, SMBUS_ARP_ADDR, 11, 1)         /* Removed */
-+    FIELD(I2CD_INTR_STS, SMBUS_DEV_ALERT_ADDR, 10, 1)   /* Removed */
-+    FIELD(I2CD_INTR_STS, SMBUS_DEF_ADDR, 9, 1)          /* Removed */
-+    FIELD(I2CD_INTR_STS, GCALL_ADDR, 8, 1)              /* Removed */
-+    FIELD(I2CD_INTR_STS, SLAVE_ADDR_RX_MATCH, 7, 1)     /* use RX_DONE */
-+    FIELD(I2CD_INTR_STS, SCL_TIMEOUT, 6, 1)
-+    FIELD(I2CD_INTR_STS, ABNORMAL, 5, 1)
-+    FIELD(I2CD_INTR_STS, NORMAL_STOP, 4, 1)
-+    FIELD(I2CD_INTR_STS, ARBIT_LOSS, 3, 1)
-+    FIELD(I2CD_INTR_STS, RX_DONE, 2, 1)
-+    FIELD(I2CD_INTR_STS, TX_NAK, 1, 1)
-+    FIELD(I2CD_INTR_STS, TX_ACK, 0, 1)
-+REG32(I2CD_CMD, 0x14) /* I2CD Command/Status */
-+    FIELD(I2CD_CMD, SDA_OE, 28, 1)
-+    FIELD(I2CD_CMD, SDA_O, 27, 1)
-+    FIELD(I2CD_CMD, SCL_OE, 26, 1)
-+    FIELD(I2CD_CMD, SCL_O, 25, 1)
-+    FIELD(I2CD_CMD, TX_TIMING, 23, 2)
-+    FIELD(I2CD_CMD, TX_STATE, 19, 4)
-+/* Tx State Machine */
- #define   I2CD_TX_STATE_MASK                  0xf
- #define     I2CD_IDLE                         0x0
- #define     I2CD_MACTIVE                      0x8
-@@ -108,51 +99,47 @@
- #define     I2CD_STXD                         0x6
- #define     I2CD_SRXACK                       0x7
- #define     I2CD_RECOVER                      0x3
--
--#define   I2CD_SCL_LINE_STS                (0x1 << 18)
--#define   I2CD_SDA_LINE_STS                (0x1 << 17)
--#define   I2CD_BUS_BUSY_STS                (0x1 << 16)
--#define   I2CD_SDA_OE_OUT_DIR              (0x1 << 15)
--#define   I2CD_SDA_O_OUT_DIR               (0x1 << 14)
--#define   I2CD_SCL_OE_OUT_DIR              (0x1 << 13)
--#define   I2CD_SCL_O_OUT_DIR               (0x1 << 12)
--#define   I2CD_BUS_RECOVER_CMD_EN          (0x1 << 11)
--#define   I2CD_S_ALT_EN                    (0x1 << 10)
--
--/* Command Bit */
--#define   I2CD_RX_DMA_ENABLE               (0x1 << 9)
--#define   I2CD_TX_DMA_ENABLE               (0x1 << 8)
--#define   I2CD_RX_BUFF_ENABLE              (0x1 << 7)
--#define   I2CD_TX_BUFF_ENABLE              (0x1 << 6)
--#define   I2CD_M_STOP_CMD                  (0x1 << 5)
--#define   I2CD_M_S_RX_CMD_LAST             (0x1 << 4)
--#define   I2CD_M_RX_CMD                    (0x1 << 3)
--#define   I2CD_S_TX_CMD                    (0x1 << 2)
--#define   I2CD_M_TX_CMD                    (0x1 << 1)
--#define   I2CD_M_START_CMD                 (0x1)
--
--#define I2CD_DEV_ADDR_REG       0x18       /* Slave Device Address */
--#define I2CD_POOL_CTRL_REG      0x1c       /* Pool Buffer Control */
--#define   I2CD_POOL_RX_COUNT(x)            (((x) >> 24) & 0xff)
--#define   I2CD_POOL_RX_SIZE(x)             ((((x) >> 16) & 0xff) + 1)
--#define   I2CD_POOL_TX_COUNT(x)            ((((x) >> 8) & 0xff) + 1)
--#define   I2CD_POOL_OFFSET(x)              (((x) & 0x3f) << 2)  /* AST2400 */
--#define I2CD_BYTE_BUF_REG       0x20       /* Transmit/Receive Byte Buffer */
--#define   I2CD_BYTE_BUF_TX_SHIFT           0
--#define   I2CD_BYTE_BUF_TX_MASK            0xff
--#define   I2CD_BYTE_BUF_RX_SHIFT           8
--#define   I2CD_BYTE_BUF_RX_MASK            0xff
--#define I2CD_DMA_ADDR           0x24       /* DMA Buffer Address */
--#define I2CD_DMA_LEN            0x28       /* DMA Transfer Length < 4KB */
-+    FIELD(I2CD_CMD, SCL_LINE_STS, 18, 1)
-+    FIELD(I2CD_CMD, SDA_LINE_STS, 17, 1)
-+    FIELD(I2CD_CMD, BUS_BUSY_STS, 16, 1)
-+    FIELD(I2CD_CMD, SDA_OE_OUT_DIR, 15, 1)
-+    FIELD(I2CD_CMD, SDA_O_OUT_DIR, 14, 1)
-+    FIELD(I2CD_CMD, SCL_OE_OUT_DIR, 13, 1)
-+    FIELD(I2CD_CMD, SCL_O_OUT_DIR, 12, 1)
-+    FIELD(I2CD_CMD, BUS_RECOVER_CMD_EN, 11, 1)
-+    FIELD(I2CD_CMD, S_ALT_EN, 10, 1)
-+    /* Command Bits */
-+    FIELD(I2CD_CMD, RX_DMA_EN, 9, 1)
-+    FIELD(I2CD_CMD, TX_DMA_EN, 8, 1)
-+    FIELD(I2CD_CMD, RX_BUFF_EN, 7, 1)
-+    FIELD(I2CD_CMD, TX_BUFF_EN, 6, 1)
-+    FIELD(I2CD_CMD, M_STOP_CMD, 5, 1)
-+    FIELD(I2CD_CMD, M_S_RX_CMD_LAST, 4, 1)
-+    FIELD(I2CD_CMD, M_RX_CMD, 3, 1)
-+    FIELD(I2CD_CMD, S_TX_CMD, 2, 1)
-+    FIELD(I2CD_CMD, M_TX_CMD, 1, 1)
-+    FIELD(I2CD_CMD, M_START_CMD, 0, 1)
-+REG32(I2CD_DEV_ADDR, 0x18) /* Slave Device Address */
-+REG32(I2CD_POOL_CTRL, 0x1C) /* Pool Buffer Control */
-+    FIELD(I2CD_POOL_CTRL, RX_COUNT, 24, 5)
-+    FIELD(I2CD_POOL_CTRL, RX_SIZE, 16, 5)
-+    FIELD(I2CD_POOL_CTRL, TX_COUNT, 9, 5)
-+    FIELD(I2CD_POOL_CTRL, OFFSET, 2, 6) /* AST2400 */
-+REG32(I2CD_BYTE_BUF, 0x20) /* Transmit/Receive Byte Buffer */
-+    FIELD(I2CD_BYTE_BUF, RX_BUF, 8, 8)
-+    FIELD(I2CD_BYTE_BUF, TX_BUF, 0, 8)
-+REG32(I2CD_DMA_ADDR, 0x24) /* DMA Buffer Address */
-+REG32(I2CD_DMA_LEN, 0x28) /* DMA Transfer Length < 4KB */
+@@ -133,30 +133,30 @@ REG32(I2CD_DMA_LEN, 0x28) /* DMA Transfer Length < 4KB */
  
  static inline bool aspeed_i2c_bus_is_master(AspeedI2CBus *bus)
  {
--    return bus->ctrl & I2CD_MASTER_EN;
-+    return FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, MASTER_EN);
+-    return FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, MASTER_EN);
++    return ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL, MASTER_EN);
  }
  
  static inline bool aspeed_i2c_bus_is_enabled(AspeedI2CBus *bus)
  {
--    return bus->ctrl & (I2CD_MASTER_EN | I2CD_SLAVE_EN);
-+    return FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, MASTER_EN) ||
-+           FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, SLAVE_EN);
+-    return FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, MASTER_EN) ||
+-           FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, SLAVE_EN);
++    return ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL, MASTER_EN) ||
++           ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL, SLAVE_EN);
  }
  
  static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
-@@ -160,11 +147,13 @@ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
+ {
      AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
  
-     trace_aspeed_i2c_bus_raise_interrupt(bus->intr_status,
--          bus->intr_status & I2CD_INTR_TX_NAK ? "nak|" : "",
--          bus->intr_status & I2CD_INTR_TX_ACK ? "ack|" : "",
--          bus->intr_status & I2CD_INTR_RX_DONE ? "done|" : "",
--          bus->intr_status & I2CD_INTR_NORMAL_STOP ? "normal|" : "",
--          bus->intr_status & I2CD_INTR_ABNORMAL ? "abnormal" : "");
-+        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, TX_NAK) ? "nak|" : "",
-+        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, TX_ACK) ? "ack|" : "",
-+        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE) ? "done|" : "",
-+        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, NORMAL_STOP) ? "normal|"
-+                                                                 : "",
-+        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, ABNORMAL) ? "abnormal"
-+                                                              : "");
- 
-     bus->intr_status &= bus->intr_ctrl;
-     if (bus->intr_status) {
-@@ -181,38 +170,38 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
-     uint64_t value = -1;
+-    trace_aspeed_i2c_bus_raise_interrupt(bus->intr_status,
+-        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, TX_NAK) ? "nak|" : "",
+-        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, TX_ACK) ? "ack|" : "",
+-        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE) ? "done|" : "",
+-        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, NORMAL_STOP) ? "normal|"
+-                                                                 : "",
+-        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, ABNORMAL) ? "abnormal"
+-                                                              : "");
+-
+-    bus->intr_status &= bus->intr_ctrl;
+-    if (bus->intr_status) {
++    trace_aspeed_i2c_bus_raise_interrupt(bus->regs[R_I2CD_INTR_STS],
++          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, TX_NAK) ? "nak|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, TX_ACK) ? "ack|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, RX_DONE) ? "done|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, NORMAL_STOP) ? "normal|"
++                                                                  : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, ABNORMAL) ? "abnormal"
++                                                               : "");
++
++    bus->regs[R_I2CD_INTR_STS] &= bus->regs[R_I2CD_INTR_CTRL];
++    if (bus->regs[R_I2CD_INTR_STS]) {
+         bus->controller->intr_status |= 1 << bus->id;
+         qemu_irq_raise(aic->bus_get_irq(bus));
+     }
+@@ -167,46 +167,33 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
+ {
+     AspeedI2CBus *bus = opaque;
+     AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+-    uint64_t value = -1;
++    uint64_t value = bus->regs[offset / sizeof(*bus->regs)];
  
      switch (offset) {
--    case I2CD_FUN_CTRL_REG:
-+    case A_I2CD_FUN_CTRL:
-         value = bus->ctrl;
+     case A_I2CD_FUN_CTRL:
+-        value = bus->ctrl;
+-        break;
+     case A_I2CD_AC_TIMING1:
+-        value = bus->timing[0];
+-        break;
+     case A_I2CD_AC_TIMING2:
+-        value = bus->timing[1];
+-        break;
+     case A_I2CD_INTR_CTRL:
+-        value = bus->intr_ctrl;
+-        break;
+     case A_I2CD_INTR_STS:
+-        value = bus->intr_status;
+-        break;
+     case A_I2CD_POOL_CTRL:
+-        value = bus->pool_ctrl;
+-        break;
+     case A_I2CD_BYTE_BUF:
+-        value = bus->buf;
++        /* Value is already set, don't do anything. */
          break;
--    case I2CD_AC_TIMING_REG1:
-+    case A_I2CD_AC_TIMING1:
-         value = bus->timing[0];
+     case A_I2CD_CMD:
+-        value = bus->cmd | (i2c_bus_busy(bus->bus) << 16);
++        value = FIELD_DP32(value, I2CD_CMD, BUS_BUSY_STS,
++                           i2c_bus_busy(bus->bus));
          break;
--    case I2CD_AC_TIMING_REG2:
-+    case A_I2CD_AC_TIMING2:
-         value = bus->timing[1];
-         break;
--    case I2CD_INTR_CTRL_REG:
-+    case A_I2CD_INTR_CTRL:
-         value = bus->intr_ctrl;
-         break;
--    case I2CD_INTR_STS_REG:
-+    case A_I2CD_INTR_STS:
-         value = bus->intr_status;
-         break;
--    case I2CD_POOL_CTRL_REG:
-+    case A_I2CD_POOL_CTRL:
-         value = bus->pool_ctrl;
-         break;
--    case I2CD_BYTE_BUF_REG:
-+    case A_I2CD_BYTE_BUF:
-         value = bus->buf;
-         break;
--    case I2CD_CMD_REG:
-+    case A_I2CD_CMD:
-         value = bus->cmd | (i2c_bus_busy(bus->bus) << 16);
-         break;
--    case I2CD_DMA_ADDR:
-+    case A_I2CD_DMA_ADDR:
+     case A_I2CD_DMA_ADDR:
          if (!aic->has_dma) {
              qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
-             break;
+-            break;
++            value = -1;
          }
-         value = bus->dma_addr;
+-        value = bus->dma_addr;
          break;
--    case I2CD_DMA_LEN:
-+    case A_I2CD_DMA_LEN:
+     case A_I2CD_DMA_LEN:
          if (!aic->has_dma) {
              qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
-             break;
-@@ -233,13 +222,12 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
+-            break;
++            value = -1;
+         }
+-        value = bus->dma_len;
+         break;
+ 
+     default:
+@@ -222,12 +209,12 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
  
  static void aspeed_i2c_set_state(AspeedI2CBus *bus, uint8_t state)
  {
--    bus->cmd &= ~(I2CD_TX_STATE_MASK << I2CD_TX_STATE_SHIFT);
--    bus->cmd |= (state & I2CD_TX_STATE_MASK) << I2CD_TX_STATE_SHIFT;
-+    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_STATE, state);
+-    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_STATE, state);
++    ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, TX_STATE, state);
  }
  
  static uint8_t aspeed_i2c_get_state(AspeedI2CBus *bus)
  {
--    return (bus->cmd >> I2CD_TX_STATE_SHIFT) & I2CD_TX_STATE_MASK;
-+    return FIELD_EX32(bus->cmd, I2CD_CMD, TX_STATE);
+-    return FIELD_EX32(bus->cmd, I2CD_CMD, TX_STATE);
++    return ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_STATE);
  }
  
  static int aspeed_i2c_dma_read(AspeedI2CBus *bus, uint8_t *data)
-@@ -265,21 +253,21 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uint8_t pool_start)
+@@ -235,16 +222,16 @@ static int aspeed_i2c_dma_read(AspeedI2CBus *bus, uint8_t *data)
+     MemTxResult result;
+     AspeedI2CState *s = bus->controller;
+ 
+-    result = address_space_read(&s->dram_as, bus->dma_addr,
++    result = address_space_read(&s->dram_as, bus->regs[R_I2CD_DMA_ADDR],
+                                 MEMTXATTRS_UNSPECIFIED, data, 1);
+     if (result != MEMTX_OK) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM read failed @%08x\n",
+-                      __func__, bus->dma_addr);
++                      __func__, bus->regs[R_I2CD_DMA_ADDR]);
+         return -1;
+     }
+ 
+-    bus->dma_addr++;
+-    bus->dma_len--;
++    bus->regs[R_I2CD_DMA_ADDR]++;
++    bus->regs[R_I2CD_DMA_LEN]--;
+     return 0;
+ }
+ 
+@@ -253,9 +240,9 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uint8_t pool_start)
      AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
      int ret = -1;
      int i;
-+    int pool_tx_count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT);
+-    int pool_tx_count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT);
++    int pool_tx_count = ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, TX_COUNT);
  
--    if (bus->cmd & I2CD_TX_BUFF_ENABLE) {
--        for (i = pool_start; i < I2CD_POOL_TX_COUNT(bus->pool_ctrl); i++) {
-+    if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
-+        for (i = pool_start; i < pool_tx_count; i++) {
+-    if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
++    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN)) {
+         for (i = pool_start; i < pool_tx_count; i++) {
              uint8_t *pool_base = aic->bus_pool_base(bus);
  
--            trace_aspeed_i2c_bus_send("BUF", i + 1,
--                                      I2CD_POOL_TX_COUNT(bus->pool_ctrl),
-+            trace_aspeed_i2c_bus_send("BUF", i + 1, pool_tx_count,
-                                       pool_base[i]);
-             ret = i2c_send(bus->bus, pool_base[i]);
+@@ -266,21 +253,23 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uint8_t pool_start)
+                 break;
+             }
+         }
+-        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_BUFF_EN, 0);
+-    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
+-        while (bus->dma_len) {
++        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, TX_BUFF_EN, 0);
++    } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN)) {
++        while (bus->regs[R_I2CD_DMA_LEN]) {
+             uint8_t data;
+             aspeed_i2c_dma_read(bus, &data);
+-            trace_aspeed_i2c_bus_send("DMA", bus->dma_len, bus->dma_len, data);
++            trace_aspeed_i2c_bus_send("DMA", bus->regs[R_I2CD_DMA_LEN],
++                                      bus->regs[R_I2CD_DMA_LEN], data);
+             ret = i2c_send(bus->bus, data);
              if (ret) {
                  break;
              }
          }
--        bus->cmd &= ~I2CD_TX_BUFF_ENABLE;
--    } else if (bus->cmd & I2CD_TX_DMA_ENABLE) {
-+        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_BUFF_EN, 0);
-+    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
-         while (bus->dma_len) {
-             uint8_t data;
-             aspeed_i2c_dma_read(bus, &data);
-@@ -289,7 +277,7 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uint8_t pool_start)
-                 break;
-             }
-         }
--        bus->cmd &= ~I2CD_TX_DMA_ENABLE;
-+        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_DMA_EN, 0);
+-        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_DMA_EN, 0);
++        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, TX_DMA_EN, 0);
      } else {
-         trace_aspeed_i2c_bus_send("BYTE", pool_start, 1, bus->buf);
-         ret = i2c_send(bus->bus, bus->buf);
-@@ -304,22 +292,22 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
+-        trace_aspeed_i2c_bus_send("BYTE", pool_start, 1, bus->buf);
+-        ret = i2c_send(bus->bus, bus->buf);
++        trace_aspeed_i2c_bus_send("BYTE", pool_start, 1,
++                                  bus->regs[R_I2CD_BYTE_BUF]);
++        ret = i2c_send(bus->bus, bus->regs[R_I2CD_BYTE_BUF]);
+     }
+ 
+     return ret;
+@@ -292,9 +281,9 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
      AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
      uint8_t data;
      int i;
-+    int pool_rx_count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, RX_COUNT);
+-    int pool_rx_count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, RX_COUNT);
++    int pool_rx_count = ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, RX_COUNT);
  
--    if (bus->cmd & I2CD_RX_BUFF_ENABLE) {
-+    if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN)) {
+-    if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN)) {
++    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_BUFF_EN)) {
          uint8_t *pool_base = aic->bus_pool_base(bus);
  
--        for (i = 0; i < I2CD_POOL_RX_SIZE(bus->pool_ctrl); i++) {
-+        for (i = 0; i < pool_rx_count; i++) {
-             pool_base[i] = i2c_recv(bus->bus);
--            trace_aspeed_i2c_bus_recv("BUF", i + 1,
--                                      I2CD_POOL_RX_SIZE(bus->pool_ctrl),
-+            trace_aspeed_i2c_bus_recv("BUF", i + 1, pool_rx_count,
-                                       pool_base[i]);
+         for (i = 0; i < pool_rx_count; i++) {
+@@ -304,32 +293,33 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
          }
  
          /* Update RX count */
--        bus->pool_ctrl &= ~(0xff << 24);
--        bus->pool_ctrl |= (i & 0xff) << 24;
--        bus->cmd &= ~I2CD_RX_BUFF_ENABLE;
--    } else if (bus->cmd & I2CD_RX_DMA_ENABLE) {
-+        bus->pool_ctrl = FIELD_DP32(bus->pool_ctrl, I2CD_POOL_CTRL, RX_COUNT,
-+                                    i & 0xff);
-+        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, RX_BUFF_EN, 0);
-+    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)) {
+-        bus->pool_ctrl = FIELD_DP32(bus->pool_ctrl, I2CD_POOL_CTRL, RX_COUNT,
+-                                    i & 0xff);
+-        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, RX_BUFF_EN, 0);
+-    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)) {
++        ARRAY_FIELD_DP32(bus->regs, I2CD_POOL_CTRL, RX_COUNT, i & 0xff);
++        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, RX_BUFF_EN, 0);
++    } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_DMA_EN)) {
          uint8_t data;
  
-         while (bus->dma_len) {
-@@ -337,11 +325,11 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
-             bus->dma_addr++;
-             bus->dma_len--;
+-        while (bus->dma_len) {
++        while (bus->regs[R_I2CD_DMA_LEN]) {
+             MemTxResult result;
+ 
+             data = i2c_recv(bus->bus);
+-            trace_aspeed_i2c_bus_recv("DMA", bus->dma_len, bus->dma_len, data);
+-            result = address_space_write(&s->dram_as, bus->dma_addr,
++            trace_aspeed_i2c_bus_recv("DMA", bus->regs[R_I2CD_DMA_LEN],
++                                      bus->regs[R_I2CD_DMA_LEN], data);
++            result = address_space_write(&s->dram_as,
++                                         bus->regs[R_I2CD_DMA_ADDR],
+                                          MEMTXATTRS_UNSPECIFIED, &data, 1);
+             if (result != MEMTX_OK) {
+                 qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM write failed @%08x\n",
+-                              __func__, bus->dma_addr);
++                              __func__, bus->regs[R_I2CD_DMA_ADDR]);
+                 return;
+             }
+-            bus->dma_addr++;
+-            bus->dma_len--;
++            bus->regs[R_I2CD_DMA_ADDR]++;
++            bus->regs[R_I2CD_DMA_LEN]--;
          }
--        bus->cmd &= ~I2CD_RX_DMA_ENABLE;
-+        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, RX_DMA_EN, 0);
+-        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, RX_DMA_EN, 0);
++        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, RX_DMA_EN, 0);
      } else {
          data = i2c_recv(bus->bus);
-         trace_aspeed_i2c_bus_recv("BYTE", 1, 1, bus->buf);
--        bus->buf = (data & I2CD_BYTE_BUF_RX_MASK) << I2CD_BYTE_BUF_RX_SHIFT;
-+        bus->buf = FIELD_DP32(bus->buf, I2CD_BYTE_BUF, RX_BUF, data);
+-        trace_aspeed_i2c_bus_recv("BYTE", 1, 1, bus->buf);
+-        bus->buf = FIELD_DP32(bus->buf, I2CD_BYTE_BUF, RX_BUF, data);
++        trace_aspeed_i2c_bus_recv("BYTE", 1, 1, bus->regs[R_I2CD_BYTE_BUF]);
++        ARRAY_FIELD_DP32(bus->regs, I2CD_BYTE_BUF, RX_BUF, data);
      }
  }
  
-@@ -349,11 +337,12 @@ static void aspeed_i2c_handle_rx_cmd(AspeedI2CBus *bus)
+@@ -337,12 +327,12 @@ static void aspeed_i2c_handle_rx_cmd(AspeedI2CBus *bus)
  {
      aspeed_i2c_set_state(bus, I2CD_MRXD);
      aspeed_i2c_bus_recv(bus);
--    bus->intr_status |= I2CD_INTR_RX_DONE;
--    if (bus->cmd & I2CD_M_S_RX_CMD_LAST) {
-+    bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS, RX_DONE, 1);
-+    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST)) {
+-    bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS, RX_DONE, 1);
+-    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST)) {
++    ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, RX_DONE, 1);
++    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST)) {
          i2c_nack(bus->bus);
      }
--    bus->cmd &= ~(I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST);
-+    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_RX_CMD, 0);
-+    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST, 0);
+-    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_RX_CMD, 0);
+-    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST, 0);
++    ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_RX_CMD, 0);
++    ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST, 0);
      aspeed_i2c_set_state(bus, I2CD_MACTIVE);
  }
  
-@@ -361,11 +350,11 @@ static uint8_t aspeed_i2c_get_addr(AspeedI2CBus *bus)
+@@ -350,17 +340,17 @@ static uint8_t aspeed_i2c_get_addr(AspeedI2CBus *bus)
  {
      AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
  
--    if (bus->cmd & I2CD_TX_BUFF_ENABLE) {
-+    if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
+-    if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
++    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN)) {
          uint8_t *pool_base = aic->bus_pool_base(bus);
  
          return pool_base[0];
--    } else if (bus->cmd & I2CD_TX_DMA_ENABLE) {
-+    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
+-    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
++    } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN)) {
          uint8_t data;
  
          aspeed_i2c_dma_read(bus, &data);
-@@ -379,7 +368,10 @@ static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
+         return data;
+     } else {
+-        return bus->buf;
++        return bus->regs[R_I2CD_BYTE_BUF];
+     }
+ }
+ 
+@@ -368,10 +358,10 @@ static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
  {
      AspeedI2CState *s = bus->controller;
      AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
--
-+    bool dma_en = FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)  ||
-+                  FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)  ||
-+                  FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN) ||
-+                  FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN);
+-    bool dma_en = FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)  ||
+-                  FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)  ||
+-                  FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN) ||
+-                  FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN);
++    bool dma_en = ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_DMA_EN)  ||
++                  ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN)  ||
++                  ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_BUFF_EN) ||
++                  ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN);
      if (!aic->check_sram) {
          return true;
      }
-@@ -388,9 +380,7 @@ static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
-      * AST2500: SRAM must be enabled before using the Buffer Pool or
-      * DMA mode.
-      */
--    if (!(s->ctrl_global & I2C_CTRL_SRAM_EN) &&
--        (bus->cmd & (I2CD_RX_DMA_ENABLE | I2CD_TX_DMA_ENABLE |
--                     I2CD_RX_BUFF_ENABLE | I2CD_TX_BUFF_ENABLE))) {
-+    if (!FIELD_EX32(s->ctrl_global, I2C_CTRL_GLOBAL, SRAM_EN) && dma_en) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: SRAM is not enabled\n", __func__);
-         return false;
-     }
-@@ -402,25 +392,24 @@ static void aspeed_i2c_bus_cmd_dump(AspeedI2CBus *bus)
+@@ -392,26 +382,27 @@ static void aspeed_i2c_bus_cmd_dump(AspeedI2CBus *bus)
  {
      g_autofree char *cmd_flags = NULL;
      uint32_t count;
--
--    if (bus->cmd & (I2CD_RX_BUFF_ENABLE | I2CD_RX_BUFF_ENABLE)) {
--        count = I2CD_POOL_TX_COUNT(bus->pool_ctrl);
--    } else if (bus->cmd & (I2CD_RX_DMA_ENABLE | I2CD_RX_DMA_ENABLE)) {
-+    if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN)) {
-+        count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT);
-+    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)) {
-         count = bus->dma_len;
+-    if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN)) {
+-        count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT);
+-    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)) {
+-        count = bus->dma_len;
++    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_BUFF_EN)) {
++        count = ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, TX_COUNT);
++    } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_DMA_EN)) {
++        count = bus->regs[R_I2CD_DMA_LEN];
      } else { /* BYTE mode */
          count = 1;
      }
  
      cmd_flags = g_strdup_printf("%s%s%s%s%s%s%s%s%s",
--                                bus->cmd & I2CD_M_START_CMD ? "start|" : "",
--                                bus->cmd & I2CD_RX_DMA_ENABLE ? "rxdma|" : "",
--                                bus->cmd & I2CD_TX_DMA_ENABLE ? "txdma|" : "",
--                                bus->cmd & I2CD_RX_BUFF_ENABLE ? "rxbuf|" : "",
--                                bus->cmd & I2CD_TX_BUFF_ENABLE ? "txbuf|" : "",
--                                bus->cmd & I2CD_M_TX_CMD ? "tx|" : "",
--                                bus->cmd & I2CD_M_RX_CMD ? "rx|" : "",
--                                bus->cmd & I2CD_M_S_RX_CMD_LAST ? "last|" : "",
--                                bus->cmd & I2CD_M_STOP_CMD ? "stop" : "");
-+             FIELD_EX32(bus->cmd, I2CD_CMD, M_START_CMD) ? "start|" : "",
-+             FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN) ? "rxdma|" : "",
-+             FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN) ? "txdma|" : "",
-+             FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN) ? "rxbuf|" : "",
-+             FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN) ? "txbuf|" : "",
-+             FIELD_EX32(bus->cmd, I2CD_CMD, M_TX_CMD) ? "tx|" : "",
-+             FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ? "rx|" : "",
-+             FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST) ? "last|" : "",
-+             FIELD_EX32(bus->cmd, I2CD_CMD, M_STOP_CMD) ? "stop" : "");
- 
-     trace_aspeed_i2c_bus_cmd(bus->cmd, cmd_flags, count, bus->intr_status);
+-             FIELD_EX32(bus->cmd, I2CD_CMD, M_START_CMD) ? "start|" : "",
+-             FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN) ? "rxdma|" : "",
+-             FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN) ? "txdma|" : "",
+-             FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN) ? "rxbuf|" : "",
+-             FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN) ? "txbuf|" : "",
+-             FIELD_EX32(bus->cmd, I2CD_CMD, M_TX_CMD) ? "tx|" : "",
+-             FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ? "rx|" : "",
+-             FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST) ? "last|" : "",
+-             FIELD_EX32(bus->cmd, I2CD_CMD, M_STOP_CMD) ? "stop" : "");
+-
+-    trace_aspeed_i2c_bus_cmd(bus->cmd, cmd_flags, count, bus->intr_status);
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_START_CMD) ? "start|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_DMA_EN) ? "rxdma|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN) ? "txdma|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_BUFF_EN) ? "rxbuf|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN) ? "txbuf|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_TX_CMD) ? "tx|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_RX_CMD) ? "rx|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST) ? "last|" : "",
++          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_STOP_CMD) ? "stop" : "");
++
++    trace_aspeed_i2c_bus_cmd(bus->regs[R_I2CD_CMD], cmd_flags, count,
++                             bus->regs[R_I2CD_INTR_STS]);
  }
-@@ -444,7 +433,7 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+ 
+ /*
+@@ -422,8 +413,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+ {
+     uint8_t pool_start = 0;
+ 
+-    bus->cmd &= ~0xFFFF;
+-    bus->cmd |= value & 0xFFFF;
++    bus->regs[R_I2CD_CMD] &= ~0xFFFF;
++    bus->regs[R_I2CD_CMD] |= value & 0xFFFF;
+ 
+     if (!aspeed_i2c_check_sram(bus)) {
+         return;
+@@ -433,7 +424,7 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
          aspeed_i2c_bus_cmd_dump(bus);
      }
  
--    if (bus->cmd & I2CD_M_START_CMD) {
-+    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_START_CMD)) {
+-    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_START_CMD)) {
++    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_START_CMD)) {
          uint8_t state = aspeed_i2c_get_state(bus) & I2CD_MACTIVE ?
              I2CD_MSTARTR : I2CD_MSTART;
          uint8_t addr;
-@@ -455,21 +444,23 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+@@ -444,23 +435,21 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
  
          if (i2c_start_transfer(bus->bus, extract32(addr, 1, 7),
                                 extract32(addr, 0, 1))) {
--            bus->intr_status |= I2CD_INTR_TX_NAK;
-+            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
-+                                          TX_NAK, 1);
+-            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+-                                          TX_NAK, 1);
++            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, TX_NAK, 1);
          } else {
--            bus->intr_status |= I2CD_INTR_TX_ACK;
-+            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
-+                                          TX_ACK, 1);
+-            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+-                                          TX_ACK, 1);
++            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, TX_ACK, 1);
          }
  
--        bus->cmd &= ~I2CD_M_START_CMD;
-+        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_START_CMD, 0);
+-        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_START_CMD, 0);
++        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_START_CMD, 0);
  
          /*
           * The START command is also a TX command, as the slave
           * address is sent on the bus. Drop the TX flag if nothing
           * else needs to be sent in this sequence.
           */
--        if (bus->cmd & I2CD_TX_BUFF_ENABLE) {
--            if (I2CD_POOL_TX_COUNT(bus->pool_ctrl) == 1) {
--                bus->cmd &= ~I2CD_M_TX_CMD;
-+        if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
-+            if (FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT) == 1) {
-+                bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
+-        if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
+-            if (FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT) == 1) {
+-                bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
++        if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN)) {
++            if (ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, TX_COUNT) == 1) {
++                ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_TX_CMD, 0);
              } else {
                  /*
                   * Increase the start index in the TX pool buffer to
-@@ -477,12 +468,12 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+@@ -468,12 +457,12 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
                   */
                  pool_start++;
              }
--        } else if (bus->cmd & I2CD_TX_DMA_ENABLE) {
-+        } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
-             if (bus->dma_len == 0) {
--                bus->cmd &= ~I2CD_M_TX_CMD;
-+                bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
+-        } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
+-            if (bus->dma_len == 0) {
+-                bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
++        } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN)) {
++            if (bus->regs[R_I2CD_DMA_LEN] == 0) {
++                ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_TX_CMD, 0);
              }
          } else {
--            bus->cmd &= ~I2CD_M_TX_CMD;
-+            bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
+-            bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
++            ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_TX_CMD, 0);
          }
  
          /* No slave found */
-@@ -492,33 +483,38 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+@@ -483,38 +472,34 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
          aspeed_i2c_set_state(bus, I2CD_MACTIVE);
      }
  
--    if (bus->cmd & I2CD_M_TX_CMD) {
-+    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_TX_CMD)) {
+-    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_TX_CMD)) {
++    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_TX_CMD)) {
          aspeed_i2c_set_state(bus, I2CD_MTXD);
          if (aspeed_i2c_bus_send(bus, pool_start)) {
--            bus->intr_status |= (I2CD_INTR_TX_NAK);
-+            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
-+                                          TX_NAK, 1);
+-            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+-                                          TX_NAK, 1);
++            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, TX_NAK, 1);
              i2c_end_transfer(bus->bus);
          } else {
--            bus->intr_status |= I2CD_INTR_TX_ACK;
-+            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
-+                                          TX_ACK, 1);
+-            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+-                                          TX_ACK, 1);
++            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, TX_ACK, 1);
          }
--        bus->cmd &= ~I2CD_M_TX_CMD;
-+        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
+-        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
++        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_TX_CMD, 0);
          aspeed_i2c_set_state(bus, I2CD_MACTIVE);
      }
  
--    if ((bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST)) &&
--        !(bus->intr_status & I2CD_INTR_RX_DONE)) {
-+    if ((FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ||
-+         FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST)) &&
-+        !FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE)) {
+-    if ((FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ||
+-         FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST)) &&
+-        !FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE)) {
++    if ((ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_RX_CMD) ||
++         ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST)) &&
++        !ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, RX_DONE)) {
          aspeed_i2c_handle_rx_cmd(bus);
      }
  
--    if (bus->cmd & I2CD_M_STOP_CMD) {
-+    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_STOP_CMD)) {
+-    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_STOP_CMD)) {
++    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_STOP_CMD)) {
          if (!(aspeed_i2c_get_state(bus) & I2CD_MACTIVE)) {
              qemu_log_mask(LOG_GUEST_ERROR, "%s: abnormal stop\n", __func__);
--            bus->intr_status |= I2CD_INTR_ABNORMAL;
-+            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
-+                                          ABNORMAL, 1);
+-            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+-                                          ABNORMAL, 1);
++            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, ABNORMAL, 1);
          } else {
              aspeed_i2c_set_state(bus, I2CD_MSTOP);
              i2c_end_transfer(bus->bus);
--            bus->intr_status |= I2CD_INTR_NORMAL_STOP;
-+            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
-+                                          NORMAL_STOP, 1);
+-            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+-                                          NORMAL_STOP, 1);
++            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, NORMAL_STOP, 1);
          }
--        bus->cmd &= ~I2CD_M_STOP_CMD;
-+        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_STOP_CMD, 0);
+-        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_STOP_CMD, 0);
++        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_STOP_CMD, 0);
          aspeed_i2c_set_state(bus, I2CD_IDLE);
      }
  }
-@@ -533,49 +529,50 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
-     trace_aspeed_i2c_bus_write(bus->id, offset, size, value);
- 
-     switch (offset) {
--    case I2CD_FUN_CTRL_REG:
--        if (value & I2CD_SLAVE_EN) {
-+    case A_I2CD_FUN_CTRL:
-+        if (FIELD_EX32(value, I2CD_FUN_CTRL, SLAVE_EN)) {
-             qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
+@@ -535,27 +520,27 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
                            __func__);
              break;
          }
-         bus->ctrl = value & 0x0071C3FF;
+-        bus->ctrl = value & 0x0071C3FF;
++        bus->regs[R_I2CD_FUN_CTRL] = value & 0x0071C3FF;
          break;
--    case I2CD_AC_TIMING_REG1:
-+    case A_I2CD_AC_TIMING1:
-         bus->timing[0] = value & 0xFFFFF0F;
+     case A_I2CD_AC_TIMING1:
+-        bus->timing[0] = value & 0xFFFFF0F;
++        bus->regs[R_I2CD_AC_TIMING1] = value & 0xFFFFF0F;
          break;
--    case I2CD_AC_TIMING_REG2:
-+    case A_I2CD_AC_TIMING2:
-         bus->timing[1] = value & 0x7;
+     case A_I2CD_AC_TIMING2:
+-        bus->timing[1] = value & 0x7;
++        bus->regs[R_I2CD_AC_TIMING2] = value & 0x7;
          break;
--    case I2CD_INTR_CTRL_REG:
-+    case A_I2CD_INTR_CTRL:
-         bus->intr_ctrl = value & 0x7FFF;
+     case A_I2CD_INTR_CTRL:
+-        bus->intr_ctrl = value & 0x7FFF;
++        bus->regs[R_I2CD_INTR_CTRL] = value & 0x7FFF;
          break;
--    case I2CD_INTR_STS_REG:
--        handle_rx = (bus->intr_status & I2CD_INTR_RX_DONE) &&
--                (value & I2CD_INTR_RX_DONE);
-+    case A_I2CD_INTR_STS:
-+        handle_rx = FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE) &&
-+                    FIELD_EX32(value, I2CD_INTR_STS, RX_DONE);
-         bus->intr_status &= ~(value & 0x7FFF);
-         if (!bus->intr_status) {
+     case A_I2CD_INTR_STS:
+-        handle_rx = FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE) &&
++        handle_rx = ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, RX_DONE) &&
+                     FIELD_EX32(value, I2CD_INTR_STS, RX_DONE);
+-        bus->intr_status &= ~(value & 0x7FFF);
+-        if (!bus->intr_status) {
++        bus->regs[R_I2CD_INTR_STS] &= ~(value & 0x7FFF);
++        if (!bus->regs[R_I2CD_INTR_STS]) {
              bus->controller->intr_status &= ~(1 << bus->id);
              qemu_irq_lower(aic->bus_get_irq(bus));
          }
--        if (handle_rx && (bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST))) {
-+        if (handle_rx && (FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ||
-+                         FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST))) {
+-        if (handle_rx && (FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ||
+-                         FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST))) {
++        if (handle_rx && (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_RX_CMD) ||
++                      ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST))) {
              aspeed_i2c_handle_rx_cmd(bus);
              aspeed_i2c_bus_raise_interrupt(bus);
          }
-         break;
--    case I2CD_DEV_ADDR_REG:
-+    case A_I2CD_DEV_ADDR:
-         qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
+@@ -565,12 +550,12 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
                        __func__);
          break;
--    case I2CD_POOL_CTRL_REG:
-+    case A_I2CD_POOL_CTRL:
-         bus->pool_ctrl &= ~0xffffff;
-         bus->pool_ctrl |= (value & 0xffffff);
+     case A_I2CD_POOL_CTRL:
+-        bus->pool_ctrl &= ~0xffffff;
+-        bus->pool_ctrl |= (value & 0xffffff);
++        bus->regs[R_I2CD_POOL_CTRL] &= ~0xffffff;
++        bus->regs[R_I2CD_POOL_CTRL] |= (value & 0xffffff);
          break;
  
--    case I2CD_BYTE_BUF_REG:
--        bus->buf = (value & I2CD_BYTE_BUF_TX_MASK) << I2CD_BYTE_BUF_TX_SHIFT;
-+    case A_I2CD_BYTE_BUF:
-+        bus->buf = FIELD_DP32(bus->buf, I2CD_BYTE_BUF, TX_BUF, value);
+     case A_I2CD_BYTE_BUF:
+-        bus->buf = FIELD_DP32(bus->buf, I2CD_BYTE_BUF, TX_BUF, value);
++        ARRAY_FIELD_DP32(bus->regs, I2CD_BYTE_BUF, TX_BUF, value);
          break;
--    case I2CD_CMD_REG:
-+    case A_I2CD_CMD:
+     case A_I2CD_CMD:
          if (!aspeed_i2c_bus_is_enabled(bus)) {
+@@ -599,7 +584,7 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
              break;
          }
-@@ -587,7 +584,8 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
-         }
  
-         if (!aic->has_dma &&
--            value & (I2CD_RX_DMA_ENABLE | I2CD_TX_DMA_ENABLE)) {
-+            (FIELD_EX32(value, I2CD_CMD, RX_DMA_EN) ||
-+             FIELD_EX32(value, I2CD_CMD, TX_DMA_EN))) {
-             qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
+-        bus->dma_addr = value & 0x3ffffffc;
++        bus->regs[R_I2CD_DMA_ADDR] = value & 0x3ffffffc;
+         break;
+ 
+     case A_I2CD_DMA_LEN:
+@@ -608,8 +593,8 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
              break;
          }
-@@ -595,7 +593,7 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
-         aspeed_i2c_bus_handle_cmd(bus, value);
-         aspeed_i2c_bus_raise_interrupt(bus);
-         break;
--    case I2CD_DMA_ADDR:
-+    case A_I2CD_DMA_ADDR:
-         if (!aic->has_dma) {
-             qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
-             break;
-@@ -604,7 +602,7 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
-         bus->dma_addr = value & 0x3ffffffc;
-         break;
  
--    case I2CD_DMA_LEN:
-+    case A_I2CD_DMA_LEN:
-         if (!aic->has_dma) {
-             qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
-             break;
-@@ -628,9 +626,9 @@ static uint64_t aspeed_i2c_ctrl_read(void *opaque, hwaddr offset,
-     AspeedI2CState *s = opaque;
- 
-     switch (offset) {
--    case I2C_CTRL_STATUS:
-+    case A_I2C_CTRL_STATUS:
-         return s->intr_status;
--    case I2C_CTRL_GLOBAL:
-+    case A_I2C_CTRL_GLOBAL:
-         return s->ctrl_global;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-@@ -647,11 +645,11 @@ static void aspeed_i2c_ctrl_write(void *opaque, hwaddr offset,
-     AspeedI2CState *s = opaque;
- 
-     switch (offset) {
--    case I2C_CTRL_GLOBAL:
-+    case A_I2C_CTRL_GLOBAL:
-         value &= ~s->ctrl_global_rsvd;
-         s->ctrl_global = value;
+-        bus->dma_len = value & 0xfff;
+-        if (!bus->dma_len) {
++        bus->regs[R_I2CD_DMA_LEN] = value & 0xfff;
++        if (!bus->regs[R_I2CD_DMA_LEN]) {
+             qemu_log_mask(LOG_UNIMP, "%s: invalid DMA length\n",  __func__);
+         }
          break;
--    case I2C_CTRL_STATUS:
-+    case A_I2C_CTRL_STATUS:
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-                       __func__, offset);
-@@ -923,9 +921,10 @@ static qemu_irq aspeed_2400_i2c_bus_get_irq(AspeedI2CBus *bus)
+@@ -706,19 +691,10 @@ static const MemoryRegionOps aspeed_i2c_pool_ops = {
+ 
+ static const VMStateDescription aspeed_i2c_bus_vmstate = {
+     .name = TYPE_ASPEED_I2C,
+-    .version_id = 3,
+-    .minimum_version_id = 3,
++    .version_id = 4,
++    .minimum_version_id = 4,
+     .fields = (VMStateField[]) {
+-        VMSTATE_UINT8(id, AspeedI2CBus),
+-        VMSTATE_UINT32(ctrl, AspeedI2CBus),
+-        VMSTATE_UINT32_ARRAY(timing, AspeedI2CBus, 2),
+-        VMSTATE_UINT32(intr_ctrl, AspeedI2CBus),
+-        VMSTATE_UINT32(intr_status, AspeedI2CBus),
+-        VMSTATE_UINT32(cmd, AspeedI2CBus),
+-        VMSTATE_UINT32(buf, AspeedI2CBus),
+-        VMSTATE_UINT32(pool_ctrl, AspeedI2CBus),
+-        VMSTATE_UINT32(dma_addr, AspeedI2CBus),
+-        VMSTATE_UINT32(dma_len, AspeedI2CBus),
++        VMSTATE_UINT32_ARRAY(regs, AspeedI2CBus, ASPEED_I2C_OLD_NUM_REG),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -858,12 +834,12 @@ static void aspeed_i2c_bus_reset(DeviceState *dev)
+ {
+     AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
+ 
+-    s->intr_ctrl = 0;
+-    s->intr_status = 0;
+-    s->cmd = 0;
+-    s->buf = 0;
+-    s->dma_addr = 0;
+-    s->dma_len = 0;
++    s->regs[R_I2CD_INTR_CTRL] = 0;
++    s->regs[R_I2CD_INTR_STS] = 0;
++    s->regs[R_I2CD_CMD] = 0;
++    s->regs[R_I2CD_BYTE_BUF] = 0;
++    s->regs[R_I2CD_DMA_ADDR] = 0;
++    s->regs[R_I2CD_DMA_LEN] = 0;
+     i2c_end_transfer(s->bus);
+ }
+ 
+@@ -921,10 +897,10 @@ static qemu_irq aspeed_2400_i2c_bus_get_irq(AspeedI2CBus *bus)
  static uint8_t *aspeed_2400_i2c_bus_pool_base(AspeedI2CBus *bus)
  {
      uint8_t *pool_page =
--        &bus->controller->pool[I2CD_POOL_PAGE_SEL(bus->ctrl) * 0x100];
-+        &bus->controller->pool[FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL,
-+                                          POOL_PAGE_SEL) * 0x100];
+-        &bus->controller->pool[FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL,
+-                                          POOL_PAGE_SEL) * 0x100];
++        &bus->controller->pool[ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL,
++                                                POOL_PAGE_SEL) * 0x100];
  
--    return &pool_page[I2CD_POOL_OFFSET(bus->pool_ctrl)];
-+    return &pool_page[FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, OFFSET)];
+-    return &pool_page[FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, OFFSET)];
++    return &pool_page[ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, OFFSET)];
  }
  
  static void aspeed_2400_i2c_class_init(ObjectClass *klass, void *data)
