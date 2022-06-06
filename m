@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD2E53F290
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 01:31:35 +0200 (CEST)
-Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1A053F284
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 01:25:00 +0200 (CEST)
+Received: from localhost ([::1]:37888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyMC6-0004Hp-Mn
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 19:31:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35004)
+	id 1nyM5f-0001Fh-PL
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 19:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyLwK-0001ga-FJ
+ id 1nyLwK-0001gb-FS
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:15:16 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:36647)
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:38784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyLwE-0003xh-CY
+ id 1nyLwE-0003xp-FZ
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:15:13 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id 15so13944844pfy.3
+Received: by mail-pg1-x52d.google.com with SMTP id 123so3823775pgb.5
  for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 16:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=orDJBcxXhPFgqlL4Stw6ZA+/WM99GbM6modqMxMEw+8=;
- b=mO9tmX9GLRtxTaLGnx7pyBcXAFGvJPHtJxyn9mxN7hnv6jzZYREA7ST1PZX4oPfY6v
- VEkzk3+1n9rFvP/rvUVpPjD+Az2UVsmD82B8tN13CIBGz+sHGgsqBAgSXrsluT6qK4SS
- Vz/ghWEcOM/Wde0SLI5HiOywMr4I056ZSOa/KRpe1UiFPNjuN4RVpbUdPZjjp6dkqWFS
- jk5lce++pJOGSoLkUwB1wZ8cd2/IKTCjbYNgChExoqGihrt6mqp60GUPVtTkVwrj03bt
- K4Hbxdh3S299GMnH219t4R9nKn041kYt9MD+C5kIh6VJc89vyg196fXEWpJPGrBzmn22
- TD7w==
+ bh=cDpcSfPbAq8nwtiRx5EO7FVR2edeY3xIlH+Px2B17Z4=;
+ b=ZjX+5/ACbJ+Q35KFUpRuq5ddD2aK82Y9Kqg3x73ahqUZ+YYrf9rIgGCuSdnLcjdSBS
+ 4KkbY47P9A+OVHdqvoNkBrZlQGPKXgwqPOiiKXAC+V1ebHdGBMTkLqwVQAmpAekO/EkF
+ efvpXgaiwPhZmSOIGWjf/LN78/qQ6IYBOGhupedJnigsluAekCEtAYTsNgP+xc8C74H0
+ CS9v4HIk590EYtGEQMhzCwyf1jJ5M+M2TaGIaellZGRag0QrAK7xKbh6dRL4xyt1yBQe
+ MeyVeQjRq0FgSUHupLobl0PClvZPeItjeiKO5ihnoKZiP5gik4OkuUqYsZsjJGdiEtlm
+ apSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=orDJBcxXhPFgqlL4Stw6ZA+/WM99GbM6modqMxMEw+8=;
- b=xlVFUIyiCKl/aS6jDe2tVP2363XCZscaVIORITj6JBh2DvtUBreU0h03YSTluVTDov
- 4QsZwjhA50OX8KEqK83yiKk9UeHu9md7Vq7oNz49Nh/lrXJovj+V0R741uCF2lsX5PRg
- ZidRTbCFcv+VRo4AsnvAwUeJtbZ9I2zfNt/vuW690lu2fQ7hTlngGIvp6amxccIimi0b
- q7AYb7NYf73OEQX1uitSBQOhfFQGye/GE/c4+Wq5d7m9DM9pRy+PpiM7kemGBKsStx5N
- xULwzLYkiE6zLPBLNbPqpYCuzLJ8dq847yOQfyhEn9SipUgd/TN8SYu3q5SOjO1kiQnV
- gBdQ==
-X-Gm-Message-State: AOAM530S0V6ew5HV1MlM2C6JJLfKkwifsxKffHEk53iOdMoPBSSc/BCM
- bG8vk/+g9+umPUozWauTy2Yv+XkNk5UvhA==
-X-Google-Smtp-Source: ABdhPJyiUkH5MQSrKaySQKBG3S8WAsbrFB+F9gfdR1j3Z31/uEoq5jKRZ3f/4FIOmq4Bb55cz2ItGQ==
-X-Received: by 2002:a05:6a00:4503:b0:51b:de97:7f2c with SMTP id
- cw3-20020a056a00450300b0051bde977f2cmr20539593pfb.12.1654557308115; 
+ bh=cDpcSfPbAq8nwtiRx5EO7FVR2edeY3xIlH+Px2B17Z4=;
+ b=HEY1GhmRM3MPRqZivTIXiMTjxq4zE5UJ5qbP1hQfEChlsZFlUfV5v11ZoYNzvo4U+r
+ 1DpHKK1XEz6ja0NouspzQfjV56c29Xyy1t3YTk8FzvApCLw6aTF7tXb1EQZTAUX77j/6
+ p6tRX1aj1MIIbOXBDUOrfBz2MFhrQC2SbP4mkhzZHsecpugg8a+e61oPskKZiBhWMk2A
+ 4u7BucPOftPOigoNX/pqTO61VQ0NR20S4Zt7ReLcC2wiU7LtalK1dEGawIWLl35gPifC
+ aigzTMev81OoXXsZvJczuikurKa8QucevNcfBqruaBkcuyCJZv0rrxHYYRMjxNOkxRcJ
+ 9TrA==
+X-Gm-Message-State: AOAM5329UdZ7GfmkIo3v59RmulGpGD5SfjaJm0Pj1PjWIZhX2b8VUYXa
+ DxrWevA9RCQtxcSx+RcOwf8UQJO/XSTuew==
+X-Google-Smtp-Source: ABdhPJyVJd6gusuNcgz0ruLqS+7T4BemfHceFQeCyhQq2YXJYfQ9DRLv0gCQCaPxe6d/duw/eVOnDw==
+X-Received: by 2002:a65:62d0:0:b0:3fa:c6aa:6901 with SMTP id
+ m16-20020a6562d0000000b003fac6aa6901mr22573282pgv.314.1654557308887; 
  Mon, 06 Jun 2022 16:15:08 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a170902c24200b00162523fdb8fsm10954623plg.252.2022.06.06.16.15.07
+ 2-20020a170902c24200b00162523fdb8fsm10954623plg.252.2022.06.06.16.15.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 16:15:07 -0700 (PDT)
+ Mon, 06 Jun 2022 16:15:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =gaosong@loongson.cn, yangxiaojuan@loongson.cn,
- Song Gao <gaosong@loongson.cn>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 17/43] target/loongarch: Add target build suport
-Date: Mon,  6 Jun 2022 16:14:24 -0700
-Message-Id: <20220606231450.448443-18-richard.henderson@linaro.org>
+ Song Gao <gaosong@loongson.cn>
+Subject: [PULL 18/43] target/loongarch: Add system emulation introduction
+Date: Mon,  6 Jun 2022 16:14:25 -0700
+Message-Id: <20220606231450.448443-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220606231450.448443-1-richard.henderson@linaro.org>
 References: <20220606231450.448443-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,57 +89,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Song Gao <gaosong@loongson.cn>
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Signed-off-by: Song Gao <gaosong@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220606124333.2060567-18-yangxiaojuan@loongson.cn>
+Message-Id: <20220606124333.2060567-19-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/meson.build | 19 +++++++++++++++++++
- target/meson.build           |  1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 target/loongarch/meson.build
+ docs/system/loongarch/loongson3.rst | 41 ++++++++++++++++++++++
+ MAINTAINERS                         |  8 +++++
+ target/loongarch/README             | 54 +++++++++++++++++++++++++++++
+ 3 files changed, 103 insertions(+)
+ create mode 100644 docs/system/loongarch/loongson3.rst
 
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+diff --git a/docs/system/loongarch/loongson3.rst b/docs/system/loongarch/loongson3.rst
 new file mode 100644
-index 0000000000..bcb076e55f
+index 0000000000..fa3acd01c0
 --- /dev/null
-+++ b/target/loongarch/meson.build
-@@ -0,0 +1,19 @@
-+gen = decodetree.process('insns.decode')
++++ b/docs/system/loongarch/loongson3.rst
+@@ -0,0 +1,41 @@
++:orphan:
 +
-+loongarch_ss = ss.source_set()
-+loongarch_ss.add(files(
-+  'cpu.c',
-+  'disas.c',
-+))
-+loongarch_tcg_ss = ss.source_set()
-+loongarch_tcg_ss.add(gen)
-+loongarch_tcg_ss.add(files(
-+  'fpu_helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+loongarch_tcg_ss.add(zlib)
++==========================================
++loongson3 virt generic platform (``virt``)
++==========================================
 +
-+loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
++The ``virt`` machine use gpex host bridge, and there are some
++emulated devices on virt board, such as loongson7a RTC device,
++IOAPIC device, ACPI device and so on.
 +
-+target_arch += {'loongarch': loongarch_ss}
-diff --git a/target/meson.build b/target/meson.build
-index 2f6940255e..a53a60486f 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -5,6 +5,7 @@ subdir('cris')
- subdir('hexagon')
- subdir('hppa')
- subdir('i386')
-+subdir('loongarch')
- subdir('m68k')
- subdir('microblaze')
- subdir('mips')
++Supported devices
++-----------------
++
++The ``virt`` machine supports:
++- Gpex host bridge
++- Ls7a RTC device
++- Ls7a IOAPIC device
++- Ls7a ACPI device
++- Fw_cfg device
++- PCI/PCIe devices
++- Memory device
++- CPU device. Type: Loongson-3A5000.
++
++CPU and machine Type
++--------------------
++
++The ``qemu-system-loongarch64`` provides emulation for virt
++machine. You can specify the machine type ``virt`` and
++cpu type ``Loongson-3A5000``.
++
++Boot options
++------------
++
++Now the ``virt`` machine can run test program in ELF format and the
++method of compiling is in target/loongarch/README.
++
++.. code-block:: bash
++
++  $ qemu-system-loongarch64 -machine virt -m 4G -cpu Loongson-3A5000 \
++      -smp 1 -kernel hello -monitor none -display none \
++      -chardev file,path=hello.out,id=output -serial chardev:output
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 319a5d805a..e3f875071a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1122,6 +1122,14 @@ F: include/hw/net/lasi_82596.h
+ F: include/hw/pci-host/dino.h
+ F: pc-bios/hppa-firmware.img
+ 
++LoongArch Machines
++------------------
++Virt
++M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
++M: Song Gao <gaosong@loongson.cn>
++S: Maintained
++F: docs/system/loongarch/loongson3.rst
++
+ M68K Machines
+ -------------
+ an5206
+diff --git a/target/loongarch/README b/target/loongarch/README
+index de141c1a58..4dcd0f1682 100644
+--- a/target/loongarch/README
++++ b/target/loongarch/README
+@@ -8,3 +8,57 @@
+ 
+   We can get the latest loongarch documents at https://github.com/loongson/LoongArch-Documentation/tags.
+ 
++
++- System emulation
++
++  Mainly emulate a virt 3A5000 board and ls7a bridge that is not exactly the same as the host.
++  3A5000 support multiple interrupt cascading while here we just emulate the extioi interrupt
++  cascading. LS7A1000 host bridge support multiple devices, such as sata, gmac, uart, rtc
++  and so on. But we just realize the rtc. Others use the qemu common devices. It does not affect
++  the general use. We also introduced the emulation of devices at docs/system/loongarch/loongson3.rst.
++
++  This version only supports running binary files in ELF format, and does not depend on BIOS and kernel file.
++  You can compile the test program with 'make & make check-tcg' and run the test case with the following command:
++
++  1. Install LoongArch cross-tools on X86 machines.
++
++    Download cross-tools.
++
++      wget https://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-20211202-cross-tools.tar.xz
++
++      tar -vxf loongarch64-clfs-20211202-cross-tools.tar.xz -C /opt
++
++    Config cross-tools env.
++
++      . setenv.sh
++
++      setenv.sh:
++
++          #!/bin/sh
++          set -x
++          CC_PREFIX=/opt/cross-tools
++
++          export PATH=$CC_PREFIX/bin:$PATH
++          export LD_LIBRARY_PATH=$CC_PREFIX/lib:$LD_LIBRARY_PATH
++          export LD_LIBRARY_PATH=$CC_PREFIX/loongarch64-unknown-linux-gnu/lib/:$LD_LIBRARY_PATH
++          set +x
++
++  2. Test tests/tcg/multiarch.
++
++    ./configure --disable-rdma --disable-pvrdma --prefix=/usr  \
++            --target-list="loongarch64-softmmu"  \
++            --disable-libiscsi --disable-libnfs --disable-libpmem \
++            --disable-glusterfs --enable-libusb --enable-usb-redir \
++            --disable-opengl --disable-xen --enable-spice --disable-werror \
++            --enable-debug --disable-capstone --disable-kvm --enable-profiler
++
++    cd  build/
++
++    make && make check-tcg
++
++    or
++
++    ./build/qemu-system-loongarch64 -machine virt -m 4G -cpu Loongson-3A5000 -smp 1 -kernel build/tests/tcg/loongarch64-softmmu/hello -monitor none -display none -chardev file,path=hello.out,id=output -serial chardev:output
++
++- Note.
++  We can get the latest LoongArch documents or LoongArch tools at https://github.com/loongson/
 -- 
 2.34.1
 
