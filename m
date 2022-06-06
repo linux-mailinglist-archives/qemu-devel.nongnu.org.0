@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8377E53E42B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 13:13:05 +0200 (CEST)
-Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C98453E42C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 13:15:55 +0200 (CEST)
+Received: from localhost ([::1]:56158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyAfQ-0003Ly-Ka
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 07:13:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33676)
+	id 1nyAiA-0004eT-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 07:15:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1nyAZg-0007vr-AO
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 07:07:08 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:45992 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1nyAZd-0004ah-LS
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 07:07:08 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxX+bP351i0e0WAA--.6420S3;
- Mon, 06 Jun 2022 19:06:55 +0800 (CST)
-Subject: Re: qemu-iotest 267 got a FPE error when TARGET_PAGE_BITS 16K
-From: gaosong <gaosong@loongson.cn>
-To: quintela@redhat.com, dgilbert@redhat.com
-Cc: Richard Henderson <richard.henderson@linaro.org>, kwolf@redhat.com,
- hreitz@redhat.com, maobibo <maobibo@loongson.cn>, qemu-devel@nongnu.org
-References: <60071e6b-35fd-25c7-225d-5bcf71116afb@loongson.cn>
-Message-ID: <b0751b0a-98e6-854e-3d8b-eed49bddbf0b@loongson.cn>
-Date: Mon, 6 Jun 2022 19:06:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1nyAeG-0002xI-AI
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 07:11:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1nyAeE-0005Hj-H9
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 07:11:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654513909;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PPKxuuZBW2WzslCSPdHLg2g4dfteHqfQqyEQn5W5UhQ=;
+ b=Qo6QvGm8mkQ7kSoiaH24gMG8if4kX7RmIPCm3IMEUHde10SeBC9Z9cvcA2cXvi734SQ/Sx
+ RZ/nrhr4D/Wzfq3bnz5qy9E28wzmAwNVL0BIgjxfkcpXDbqbQC1vIQMGsmQ3X8mZu8meqz
+ 8srAE2y2U9znjOotAAAjA7QBqFLeWLA=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-655-o9VfDsoVMuC6wRfCYfc84w-1; Mon, 06 Jun 2022 07:11:48 -0400
+X-MC-Unique: o9VfDsoVMuC6wRfCYfc84w-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ c8-20020a9d67c8000000b0060bf699241cso1426982otn.16
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 04:11:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PPKxuuZBW2WzslCSPdHLg2g4dfteHqfQqyEQn5W5UhQ=;
+ b=JKUg2B/FQ0zXAwCqDkl7yJvDrN1Q4hYiaXo20scPGX2O79aHvByzK0G7+X3Gc2DN79
+ m3PDtc2eTcuyeOvuQ9kFxFdXCY4a0x0dWUN9DTHJcqxsu/fiFsbvOZKXIK1V9EwlD9r6
+ x4HKvmN8M7RQ5F4CfqSfPNsbD3ERqAdrq9niK01FvnCkPE9I+2yM5SE7Jv4B3hxWisuB
+ Ot4hC3RgU4e6ixDxcYbDdNWribaOUxIxiuSdfhqcJdiOY67RbEL/NwWulmv9xbx9SkJm
+ rI+p9mWVmMi0Yac5ZqRL5BbcdXOXfAMerKQXOWucEb5oeG3PkIGV3//q3/P5sa9oFJps
+ OmoA==
+X-Gm-Message-State: AOAM533fvAYwA7NNt+Yc7FoTDxSTg8iOXPP1D7HgNG601Cr/3CA2o0g9
+ vgYJuo4N46a2xElQsTZihiPRkTyB0zVwxOjrm7zq9cZty06G4zwzTxLobT/soz81N0gG4sQ+jWt
+ 3RpOIsadjIW63rYXXkNp5U5Ow85dB0dk=
+X-Received: by 2002:a9d:c24:0:b0:608:c7a1:5908 with SMTP id
+ 33-20020a9d0c24000000b00608c7a15908mr10072382otr.88.1654513907822; 
+ Mon, 06 Jun 2022 04:11:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYH7fSxdlp4SdT8FLaFaThs2sURouIdIpUOqvKLFUGeU4EUgDi/zFxyCRs8VlOsz7cytb+wtAbTvsLsbeVomY=
+X-Received: by 2002:a9d:c24:0:b0:608:c7a1:5908 with SMTP id
+ 33-20020a9d0c24000000b00608c7a15908mr10072366otr.88.1654513907590; Mon, 06
+ Jun 2022 04:11:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <60071e6b-35fd-25c7-225d-5bcf71116afb@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9CxX+bP351i0e0WAA--.6420S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxAr43CrW5Zw4fJFWUuFWruFg_yoWrCry5pr
- 97Jr93Gry8Jr95ur1kGw1Iyr9rJr48tay2kr1xWFy0kr4DGwnIqr40gryqgFs8Wr4vyw4U
- Xr17Xr43Zr45JFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9j1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
- x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
- GwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4
- x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF
- 04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
- C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+References: <20220527165651.28092-1-jusual@redhat.com>
+ <20220527165651.28092-2-jusual@redhat.com>
+ <alpine.DEB.2.22.394.2205280950260.153682@anisinha-lenovo>
+ <CAMDeoFUdUXs++V7yoDcaMTSdxD4BJAhQbFr7p_pSbymJM=5nHg@mail.gmail.com>
+ <20220602163125.59794556@redhat.com> <20220602163549.45e83221@redhat.com>
+In-Reply-To: <20220602163549.45e83221@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Mon, 6 Jun 2022 13:11:36 +0200
+Message-ID: <CAMDeoFU=BLqbD3H3RWY_QYqkP1MioM96coJ69Q6b7v0BsgjnmA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] hw/smbios: add core_count2 to smbios table type 4
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, QEMU Developers <qemu-devel@nongnu.org>, 
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsuvorov@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,102 +96,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: qemu-devel
+On Thu, Jun 2, 2022 at 4:35 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Thu, 2 Jun 2022 16:31:25 +0200
+> Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> > On Tue, 31 May 2022 14:40:15 +0200
+> > Julia Suvorova <jusual@redhat.com> wrote:
+> >
+> > > On Sat, May 28, 2022 at 6:34 AM Ani Sinha <ani@anisinha.ca> wrote:
+> > > >
+> > > >
+> > > >
+> > > > On Fri, 27 May 2022, Julia Suvorova wrote:
+> > > >
+> > > > > In order to use the increased number of cpus, we need to bring smbios
+> > > > > tables in line with the SMBIOS 3.0 specification. This allows us to
+> > > > > introduce core_count2 which acts as a duplicate of core_count if we have
+> > > > > fewer cores than 256, and contains the actual core number per socket if
+> > > > > we have more.
+> > > > >
+> > > > > core_enabled2 and thread_count2 fields work the same way.
+> > > > >
+> > > > > Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > > >
+> > > > Other than the comment below,
+> > > > Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> > > >
+> > > > > ---
+> > > > >  include/hw/firmware/smbios.h |  3 +++
+> > > > >  hw/smbios/smbios.c           | 11 +++++++++--
+> > > > >  2 files changed, 12 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
+> > > > > index 4b7ad77a44..c427ae5558 100644
+> > > > > --- a/include/hw/firmware/smbios.h
+> > > > > +++ b/include/hw/firmware/smbios.h
+> > > > > @@ -187,6 +187,9 @@ struct smbios_type_4 {
+> > > > >      uint8_t thread_count;
+> > > > >      uint16_t processor_characteristics;
+> > > > >      uint16_t processor_family2;
+> > > > > +    uint16_t core_count2;
+> > > > > +    uint16_t core_enabled2;
+> > > > > +    uint16_t thread_count2;
+>
+> on the other hand,
+> is it ok unconditionally extend type 4 and use v3 structure
+> if qemu was started with v2 smbios?
 
-On 2022/6/6 下午5:19, gaosong wrote:
-> Hi.
->     I run './tests/qemu-iotests/check -qcow2 267 '  got a FPE error on 
-> x86 host emulation LoongArch , The log is :
+We have a flag for the entry point type, not the smbios version per
+se. Additional fields added to structures were not previously tracked
+(for instance, processor_family2 is v2.6 and status is v2.0). AFAIU it
+can affect only the total table length and the maximum structure size
+(word). But if you like, I can raise an error (warning) if someone
+tries to start a vm with cpus > 255 and smbios v2.
+
+Best regards, Julia Suvorova.
+
+> > > >
+> > > > I would add a comment along the lines of
+> > > > /* section 7.5, table 21 smbios spec version 3.0.0 */
+> > >
+> > > Ok
+> >
+> > With Ani's comment fixed
+> >
+> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> >
+> > >
+> > > > >  } QEMU_PACKED;
+> > > > >
+> > > > >  /* SMBIOS type 11 - OEM strings */
+> > > > > diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+> > > > > index 60349ee402..45d7be6b30 100644
+> > > > > --- a/hw/smbios/smbios.c
+> > > > > +++ b/hw/smbios/smbios.c
+> > > > > @@ -709,8 +709,15 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+> > > > >      SMBIOS_TABLE_SET_STR(4, serial_number_str, type4.serial);
+> > > > >      SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
+> > > > >      SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
+> > > > > -    t->core_count = t->core_enabled = ms->smp.cores;
+> > > > > -    t->thread_count = ms->smp.threads;
+> > > > > +
+> > > > > +    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
+> > > > > +    t->core_enabled = t->core_count;
+> > > > > +
+> > > > > +    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
+> > > > > +
+> > > > > +    t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
+> > > > > +    t->thread_count2 = cpu_to_le16(ms->smp.threads);
+> > > > > +
+> > > > >      t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
+> > > > >      t->processor_family2 = cpu_to_le16(0x01); /* Other */
+> > > > >
+> > > > > --
+> > > > > 2.35.1
+> > > > >
+> > > > >
+> > > >
+> > >
+> >
 >
-> ...
->
-> +../migration/ram.c:2205:9: runtime error: division by zero
-> +AddressSanitizer:DEADLYSIGNAL
-> +=================================================================
-> +==1685462==ERROR: AddressSanitizer: FPE on unknown address 
-> 0x556e650eed6e (pc 0x556e650eed6e bp 0x7ffcba14ae20 sp 0x7ffcba14adc0 T0)
-> +    #0 0x556e650eed6d in ram_save_host_page ../migration/ram.c:2205
-> +    #1 0x556e650ef78f in ram_find_and_save_block ../migration/ram.c:2284
-> +    #2 0x556e650f53a1 in ram_save_iterate ../migration/ram.c:3010
-> +    #3 0x556e64c03aa2 in qemu_savevm_state_iterate 
-> ../migration/savevm.c:1296
-> +    #4 0x556e64c06ccc in qemu_savevm_state ../migration/savevm.c:1580
-> +    #5 0x556e64c0d497 in save_snapshot ../migration/savevm.c:2889
-> +    #6 0x556e64c29221 in hmp_savevm ../monitor/hmp-cmds.c:1095
-> +    #7 0x556e64c41b31 in handle_hmp_command_exec ../monitor/hmp.c:1103
-> +    #8 0x556e64c4234c in handle_hmp_command ../monitor/hmp.c:1155
-> +    #9 0x556e64c38292 in monitor_command_cb ../monitor/hmp.c:49
-> +    #10 0x556e6596ceca in readline_handle_byte ../util/readline.c:411
-> +    #11 0x556e64c44b78 in monitor_read ../monitor/hmp.c:1393
-> +    #12 0x556e656aa41e in qemu_chr_be_write_impl ../chardev/char.c:201
-> +    #13 0x556e656aa4c5 in qemu_chr_be_write ../chardev/char.c:213
-> +    #14 0x556e656b1302 in fd_chr_read ../chardev/char-fd.c:72
-> +    #15 0x556e652b635f in qio_channel_fd_source_dispatch 
-> ../io/channel-watch.c:84
-> +    #16 0x7f2b425c104d in g_main_context_dispatch 
-> (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x5204d)
-> +    #17 0x556e65949fac in glib_pollfds_poll ../util/main-loop.c:297
-> +    #18 0x556e6594a18a in os_host_main_loop_wait ../util/main-loop.c:320
-> +    #19 0x556e6594a486 in main_loop_wait ../util/main-loop.c:596
-> +    #20 0x556e64b2bb6b in qemu_main_loop ../softmmu/runstate.c:726
-> +    #21 0x556e64255a69 in qemu_main ../softmmu/main.c:36
-> +    #22 0x556e64255a9e in main ../softmmu/main.c:45
-> +    #23 0x7f2b40304082 in __libc_start_main ../csu/libc-start.c:308
-> +    #24 0x556e6425597d in _start 
-> (/root/code/github/qemu/build/qemu-system-loongarch64+0x236e97d)
-> +
-> +AddressSanitizer can not provide additional info.
-> +SUMMARY: AddressSanitizer: FPE ../migration/ram.c:2205 in 
-> ram_save_host_page
-> +==1685462==ABORTING
->
-> ...
->
-> the ram.c
->
-> 2199 static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-> 2200 {
-> 2201     int tmppages, pages = 0;
-> 2202     size_t pagesize_bits =
-> 2203         qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
-> 2204     unsigned long hostpage_boundary =
-> 2205         QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
-> 2206     unsigned long start_page = pss->page;
-> 2207     int res;
-> ...
->
-> qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;   === >  4096 >> 14
-> So  QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);  got a FPE error,
->
-> I am not familar with qcow2,   Could you help me?
->
-> Steps to reproduce:
->
-> 1  get code
->
->     git clone https://github.com/loongson/qemu/tree/tcg-dev
->
-> 2  build
->
->     ./configure   --disable-rdma --disable-pvrdma --prefix=/usr \
->             --target-list="loongarch64-softmmu"  \
->             --disable-libiscsi --disable-libnfs --disable-libpmem \
->             --disable-glusterfs --enable-libusb --enable-usb-redir \
->             --disable-opengl --disable-xen --enable-spice 
-> --enable-werror \
->             --disable-capstone --disable-kvm --enable-debug 
-> --enable-sanitizers
->
->     cd build
->
->     make -j32
->
-> 3  test
->
->     ./tests/qemu-iotests/check -qcow2 267
->
->
-> Thanks.
-> Song Gao
 
 
