@@ -2,51 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8A853E576
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:29:17 +0200 (CEST)
-Received: from localhost ([::1]:49344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660C153E580
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:41:43 +0200 (CEST)
+Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEfM-0003Ng-5U
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57512)
+	id 1nyErO-0005WJ-FK
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nyEG6-0004j4-E6; Mon, 06 Jun 2022 11:03:10 -0400
-Received: from [187.72.171.209] (port=49794 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nyEG4-000524-M2; Mon, 06 Jun 2022 11:03:10 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 6 Jun 2022 12:01:36 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 914F2801301;
- Mon,  6 Jun 2022 12:01:36 -0300 (-03)
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org,
- Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH 7/7] target/ppc: use int128.h methods in vsubcuq
-Date: Mon,  6 Jun 2022 12:00:37 -0300
-Message-Id: <20220606150037.338931-8-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220606150037.338931-1-matheus.ferst@eldorado.org.br>
-References: <20220606150037.338931-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nyEHa-0007vq-7B; Mon, 06 Jun 2022 11:04:42 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nyEHY-0005Fn-Fc; Mon, 06 Jun 2022 11:04:41 -0400
+Received: by mail-pg1-x533.google.com with SMTP id f65so2921809pgc.7;
+ Mon, 06 Jun 2022 08:04:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7Cb1sA/JkZlj0zcH8NeaNHv3Zd1DdDn+G8TauC+eGFc=;
+ b=MHCbnpV0+4Shupap0jb3BMRvahQWiZpS2IRZ9vQcB/5Bu1+WmxKWEeSCKKpMFKGupz
+ peOQ9gjNOQK/COZ7PzUlPxWJEV1C6Cv6VgbJeNBksEPGEi3rUGXSEIyENZGJwru6KMGj
+ ilnAXvLyweMWEn3UnzKj6o3K+U2JPPyCfHJ/iNkL7/oeBPpPsuP8oMR82e6DhHsBl8g0
+ vn5mnKvxFYYLba41RCkEVEe8iyxzDXY9ppdSEAN4N1Uj4puaQq5w8vnsrq4ZngE/6ebG
+ 4V4CgTLTel5gp/mlxjfR2JhZitkdEZ/yOFIdsyqP+nLjirrx/dyi8zJx0p6MazILlpio
+ nhEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7Cb1sA/JkZlj0zcH8NeaNHv3Zd1DdDn+G8TauC+eGFc=;
+ b=c4WE4bwpMdg0y121MofS+dexcE6kw6p8f8inDIFux3VpAsGbXF/CCvlQrThF0WVdYk
+ YsYAoQj1WjpxiUhxbzIk5AOGF7X6QH50mFiDLCyT4aVMwQT7//vLwAAGXGLD401nW4UF
+ R6+M0PRN6koYg+FwZxpexuwnCgfVRIJPQe8EsdEbzLQ93PJEla+wq6isFral9Rgw+Q7x
+ fGeR2hD2O5kDXK/tIrBtEVuEi/x/xF12zEoMgne1JAjCtrk9sx+r1hbjhGht5TpXRDfU
+ e2EvPkmVXa3tkJXCifhFvCM0SOao5WBeYPoz7KGlX5GUqflCFhM34c9M/EMbc61xozBu
+ jeXg==
+X-Gm-Message-State: AOAM531vsThj7DIbXvPL3egf6M59RehHqTX//TYpFZGBmQHkccQ3Bavk
+ ZWErYpOriqKGqX6Hj8iKC3I=
+X-Google-Smtp-Source: ABdhPJyCJpRQeQidSPkb1c5314aTveY8/mxsGxeKroqPw9xsFwzvAyhjsYMYBC3nA54Umvo59pHgFw==
+X-Received: by 2002:a62:db81:0:b0:51b:ed38:c409 with SMTP id
+ f123-20020a62db81000000b0051bed38c409mr15298191pfg.37.1654527878646; 
+ Mon, 06 Jun 2022 08:04:38 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ u6-20020a170902e80600b00163fbb1eec5sm10612669plg.229.2022.06.06.08.04.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jun 2022 08:04:37 -0700 (PDT)
+Message-ID: <b8e21692-0ee7-79b0-c2f7-04a1420795cd@amsat.org>
+Date: Mon, 6 Jun 2022 17:04:33 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH] hw/mips/boston: Initialize g_autofree pointers
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Aleksandar Rikalo
+ <aleksandar.rikalo@syrmia.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Paul Burton <paulburton@kernel.org>
+References: <20220605151908.30566-1-shentey@gmail.com>
+In-Reply-To: <20220605151908.30566-1-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 06 Jun 2022 15:01:36.0824 (UTC)
- FILETIME=[51A58380:01D879B6]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,159 +92,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-And also move the insn to decodetree and remove the now unused
-avr_qw_not, avr_qw_cmpu, and avr_qw_add methods.
+On 5/6/22 17:19, Bernhard Beschow wrote:
+> Fixes compilation due to false positives with -Werror:
+> 
+>    In file included from /usr/include/glib-2.0/glib.h:114,
+>                     from qemu/src/include/glib-compat.h:32,
+>                     from qemu/src/include/qemu/osdep.h:144,
+>                     from ../src/hw/mips/boston.c:20:
+>    In function ‘g_autoptr_cleanup_generic_gfree’,
+>        inlined from ‘boston_mach_init’ at ../src/hw/mips/boston.c:790:52:
+>    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘dtb_load_data’ may be used uninitialized [-Werror=maybe-uninitialized]
+>       28 |   g_free (*pp);
+>          |   ^~~~~~~~~~~~
+>    ../src/hw/mips/boston.c: In function ‘boston_mach_init’:
+>    ../src/hw/mips/boston.c:790:52: note: ‘dtb_load_data’ was declared here
+>      790 |             g_autofree const void *dtb_file_data, *dtb_load_data;
+>          |                                                    ^~~~~~~~~~~~~
+>    In function ‘g_autoptr_cleanup_generic_gfree’,
+>      inlined from ‘boston_mach_init’ at ../src/hw/mips/boston.c:790:36:
+>    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘dtb_file_data’ may be used uninitialized [-Werror=maybe-uninitialized]
+>       28 |   g_free (*pp);
+>          |   ^~~~~~~~~~~~
+>    ../src/hw/mips/boston.c: In function ‘boston_mach_init’:
+>    ../src/hw/mips/boston.c:790:36: note: ‘dtb_file_data’ was declared here
+>      790 |             g_autofree const void *dtb_file_data, *dtb_load_data;
+>          |                                    ^~~~~~~~~~~~~
+>    cc1: all warnings being treated as errors
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/mips/boston.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+> index 59ca08b93a..1debca18ec 100644
+> --- a/hw/mips/boston.c
+> +++ b/hw/mips/boston.c
+> @@ -787,7 +787,8 @@ static void boston_mach_init(MachineState *machine)
+>   
+>           if (kernel_size > 0) {
+>               int dt_size;
+> -            g_autofree const void *dtb_file_data, *dtb_load_data;
+> +            g_autofree const void *dtb_file_data = NULL;
+> +            g_autofree const void *dtb_load_data = NULL;
+>               hwaddr dtb_paddr = QEMU_ALIGN_UP(kernel_high, 64 * KiB);
+>               hwaddr dtb_vaddr = cpu_mips_phys_to_kseg0(NULL, dtb_paddr);
+>   
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/helper.h                 |  2 +-
- target/ppc/insn32.decode            |  1 +
- target/ppc/int_helper.c             | 51 +++--------------------------
- target/ppc/translate/vmx-impl.c.inc |  5 +--
- target/ppc/translate/vmx-ops.c.inc  |  2 +-
- 5 files changed, 9 insertions(+), 52 deletions(-)
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 04ced6ef70..84a41d85b0 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -211,7 +211,7 @@ DEF_HELPER_FLAGS_3(VADDCUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VSUBUQM, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_4(VSUBECUQ, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
- DEF_HELPER_FLAGS_4(VSUBEUQM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vsubcuq, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VSUBCUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_4(vsldoi, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_FLAGS_3(vextractub, TCG_CALL_NO_RWG, void, avr, avr, i32)
- DEF_HELPER_FLAGS_3(vextractuh, TCG_CALL_NO_RWG, void, avr, avr, i32)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 5e6f3b668e..65a6a42f78 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -556,6 +556,7 @@ VADDUQM         000100 ..... ..... ..... 00100000000    @VX
- VADDEUQM        000100 ..... ..... ..... ..... 111100   @VA
- VADDECUQ        000100 ..... ..... ..... ..... 111101   @VA
- 
-+VSUBCUQ         000100 ..... ..... ..... 10101000000    @VX
- VSUBUQM         000100 ..... ..... ..... 10100000000    @VX
- 
- VSUBECUQ        000100 ..... ..... ..... ..... 111111   @VA
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index c995f8de77..f1a9fbf0c5 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -2176,38 +2176,6 @@ VGENERIC_DO(popcntd, u64)
- 
- #undef VGENERIC_DO
- 
--#ifndef CONFIG_INT128
--
--static inline void avr_qw_not(ppc_avr_t *t, ppc_avr_t a)
--{
--    t->u64[0] = ~a.u64[0];
--    t->u64[1] = ~a.u64[1];
--}
--
--static int avr_qw_cmpu(ppc_avr_t a, ppc_avr_t b)
--{
--    if (a.VsrD(0) < b.VsrD(0)) {
--        return -1;
--    } else if (a.VsrD(0) > b.VsrD(0)) {
--        return 1;
--    } else if (a.VsrD(1) < b.VsrD(1)) {
--        return -1;
--    } else if (a.VsrD(1) > b.VsrD(1)) {
--        return 1;
--    } else {
--        return 0;
--    }
--}
--
--static void avr_qw_add(ppc_avr_t *t, ppc_avr_t a, ppc_avr_t b)
--{
--    t->VsrD(1) = a.VsrD(1) + b.VsrD(1);
--    t->VsrD(0) = a.VsrD(0) + b.VsrD(0) +
--                     (~a.VsrD(1) < b.VsrD(1));
--}
--
--#endif
--
- void helper_VADDUQM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
- {
-     r->s128 = int128_add(a->s128, b->s128);
-@@ -2250,22 +2218,13 @@ void helper_VSUBEUQM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-                          int128_make64(int128_getlo(c->s128) & 1));
- }
- 
--void helper_vsubcuq(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-+void helper_VSUBCUQ(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
- {
--#ifdef CONFIG_INT128
--    r->u128 = (~a->u128 < ~b->u128) ||
--                 (a->u128 + ~b->u128 == (__uint128_t)-1);
--#else
--    int carry = (avr_qw_cmpu(*a, *b) > 0);
--    if (!carry) {
--        ppc_avr_t tmp;
--        avr_qw_not(&tmp, *b);
--        avr_qw_add(&tmp, *a, tmp);
--        carry = ((tmp.VsrSD(0) == -1ull) && (tmp.VsrSD(1) == -1ull));
--    }
-+    Int128 tmp = int128_not(b->s128);
-+
-+    r->VsrD(1) = int128_ult(int128_not(a->s128), tmp) ||
-+                 int128_eq(int128_add(a->s128, tmp), int128_makes64(-1));
-     r->VsrD(0) = 0;
--    r->VsrD(1) = carry;
--#endif
- }
- 
- void helper_VSUBECUQ(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 671992f7d1..e644ad3236 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1234,7 +1234,6 @@ GEN_VXFORM_SAT(vsubuws, MO_32, sub, ussub, 0, 26);
- GEN_VXFORM_SAT(vsubsbs, MO_8, sub, sssub, 0, 28);
- GEN_VXFORM_SAT(vsubshs, MO_16, sub, sssub, 0, 29);
- GEN_VXFORM_SAT(vsubsws, MO_32, sub, sssub, 0, 30);
--GEN_VXFORM(vsubcuq, 0, 21);
- GEN_VXFORM_TRANS(vsl, 2, 7);
- GEN_VXFORM_TRANS(vsr, 2, 11);
- GEN_VXFORM_ENV(vpkuhum, 7, 0);
-@@ -2856,9 +2855,6 @@ GEN_VXFORM_DUAL(vsubuwm, PPC_ALTIVEC, PPC_NONE, \
-                 bcdus, PPC_NONE, PPC2_ISA300)
- GEN_VXFORM_DUAL(vsubsbs, PPC_ALTIVEC, PPC_NONE, \
-                 bcdtrunc, PPC_NONE, PPC2_ISA300)
--GEN_VXFORM_DUAL(vsubcuq, PPC2_ALTIVEC_207, PPC_NONE, \
--                bcdutrunc, PPC_NONE, PPC2_ISA300)
--
- 
- static void gen_vsbox(DisasContext *ctx)
- {
-@@ -3098,6 +3094,7 @@ TRANS_FLAGS2(ALTIVEC_207, VADDUQM, do_vx_helper, gen_helper_VADDUQM)
- 
- TRANS_FLAGS2(ALTIVEC_207, VPMSUMD, do_vx_helper, gen_helper_VPMSUMD)
- 
-+TRANS_FLAGS2(ALTIVEC_207, VSUBCUQ, do_vx_helper, gen_helper_VSUBCUQ)
- TRANS_FLAGS2(ALTIVEC_207, VSUBUQM, do_vx_helper, gen_helper_VSUBUQM)
- 
- static bool do_vx_vmuleo(DisasContext *ctx, arg_VX *a, bool even,
-diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index 9395806f3d..a3a0fd0650 100644
---- a/target/ppc/translate/vmx-ops.c.inc
-+++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -127,7 +127,7 @@ GEN_VXFORM_DUAL(vsubsbs, bcdtrunc, 0, 28, PPC_ALTIVEC, PPC2_ISA300),
- GEN_VXFORM(vsubshs, 0, 29),
- GEN_VXFORM_DUAL(vsubsws, xpnd04_2, 0, 30, PPC_ALTIVEC, PPC_NONE),
- GEN_VXFORM_300(bcdtrunc, 0, 20),
--GEN_VXFORM_DUAL(vsubcuq, bcdutrunc, 0, 21, PPC2_ALTIVEC_207, PPC2_ISA300),
-+GEN_VXFORM_300(bcdutrunc, 0, 21),
- GEN_VXFORM(vsl, 2, 7),
- GEN_VXFORM(vsr, 2, 11),
- GEN_VXFORM(vpkuhum, 7, 0),
--- 
-2.25.1
-
+Queued to mips-next.
 
