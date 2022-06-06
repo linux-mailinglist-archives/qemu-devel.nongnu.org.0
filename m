@@ -2,94 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC2853EF47
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 22:12:35 +0200 (CEST)
-Received: from localhost ([::1]:59100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF6C53F041
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 22:41:39 +0200 (CEST)
+Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyJ5V-0007z5-Qk
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 16:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34544)
+	id 1nyJXc-0003Wu-VG
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 16:41:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1nyJ39-0006RN-2T
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 16:10:08 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1nyJ36-0002eT-8v
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 16:10:06 -0400
-Received: by mail-pf1-x429.google.com with SMTP id g205so13556846pfb.11
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 13:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oQFpDXi6bD7+wKzTyAPy27GXXUSscdFak0V6JCay3LM=;
- b=Lt8bn1CKv27NBAN2LZ6a3kjXi7zTNT9n5YC6qdlDRRz27wSGX169ro34tJXroQ4ylw
- 9Wh5AtBkZYrRJCB6VOaJC0MlhiSdzn1C4PqwPfP5C2UQ58ClSnY1eORDsS+jz9o2IDri
- ni9cn1KDaMb5LTVmi0K48gTlOfkMsvw04FEVxngHWMm311dg/8tSsLNw8NZngXEjzLdm
- MRj2v0erbTuphncL4y5iv8ZG1Wuu7I1voO3ifQtd6JmL8xCnR4egkVJv67k8mCcsucuy
- B7Vorowmpt94+GNwzICo6EQEcNJyTDkVWQJuYGl9kQjzC8CdwmuVUJOWPEVPDexxdgNI
- LvRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oQFpDXi6bD7+wKzTyAPy27GXXUSscdFak0V6JCay3LM=;
- b=ZU00Hbv8FVXipRPlTsuv771hIe3Jc7zrHgP1Ufp3ByK2bpdnuoSoL2VDnELrjWdpa7
- CKEXA0/2CWuR0v27FVg3TY3sCo6qcy6syx08oATJdcxie9FCnPviewi0mhxyWDXplpH9
- 3jbv7xuUHs4NWTDV1XL7sjcpUeel8U52e/SefCiTBfvoHtIdehP45MT+UF0nq9xYp+9n
- eH8el2tl3No/PeoKlDD31jzg//EXTtq1rRPXNfnnh3zAvOmmmoGTJQNXCE3sKEhJPGjw
- 6ZTPFYvmxVAtYCoXiBI3PDVceT0ztEZ0wb+Ge75oa3zQinzDqPn1QQoMhdrwkhZr+IjM
- gASg==
-X-Gm-Message-State: AOAM532B5bl/IwYsAZiXXOAGgcPlmi7+ixRIuexhDcSb56LSo1dv8a5Q
- 8kDRaVrPBzZGiPVTp5rs8JLhjTLFcZnWRYesDqhMXw==
-X-Google-Smtp-Source: ABdhPJz71kp7wjsXPjRB2ML7eIa2fwB82eNGfeI62OXeQw8INa+MLyq06Q2ncMec3mjRtswZPQ72CnuvPkBz4ir4YOc=
-X-Received: by 2002:a63:69c2:0:b0:3fa:78b5:d991 with SMTP id
- e185-20020a6369c2000000b003fa78b5d991mr23043411pgc.40.1654546201400; Mon, 06
- Jun 2022 13:10:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nyJSi-0000UP-8R; Mon, 06 Jun 2022 16:36:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nyJSg-0006W4-1w; Mon, 06 Jun 2022 16:36:31 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 256KUtFN038532;
+ Mon, 6 Jun 2022 20:36:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=CC6JtraPwaG1BaPQbsXEnimCvQdPEEqWr8I+1T+e0TE=;
+ b=lVCjHXgwA369hZMaaLF8A4Uc9PlgrFBA+lgiuWwep0SapewZILqTLYlbPRfg0qacRjdF
+ 4BEfCho+H9i8i20E0VUDHUuFdzWL2s0vKCSWa+xuenh3aYchXnuLB+V77WKPrBJL1z/Q
+ zj8jU5YSH7SX2SZw5d8WYXaM2k0kwYj6KPhj8Oe+r6HdG4s0dndIAtN4Q/a4+PykE0fY
+ wpOTLTPkuH+VnCqaaQTIO/oh8r7Vbuf7jk/8clSym205ugQOGgvjN8rG9kjUa5phkV4y
+ YXmm6ngTX36dYwrbctoNaVfXD2r9K7A3JQa0RGFhfryGeoCYeYPf35uroy3FGlHEXuRB Yw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ghqs614h8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Jun 2022 20:36:25 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 256KVKkd039825;
+ Mon, 6 Jun 2022 20:36:25 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ghqs614h0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Jun 2022 20:36:25 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 256KKNw5006013;
+ Mon, 6 Jun 2022 20:36:24 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02wdc.us.ibm.com with ESMTP id 3gfy19ftuc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Jun 2022 20:36:24 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 256KaNt622479290
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 6 Jun 2022 20:36:24 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DC5752805C;
+ Mon,  6 Jun 2022 20:36:23 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 489FD28058;
+ Mon,  6 Jun 2022 20:36:20 +0000 (GMT)
+Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown
+ [9.163.20.188]) by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon,  6 Jun 2022 20:36:20 +0000 (GMT)
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
+ thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+Subject: [PATCH v7 0/8] s390x/pci: zPCI interpretation support 
+Date: Mon,  6 Jun 2022 16:36:06 -0400
+Message-Id: <20220606203614.110928-1-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: v2xkGrF6LlBfedhNUcgX8o6RscFVfsDE
+X-Proofpoint-GUID: xNYFqqktEf4OuBhrjTxwbfw2Gl2sXPc8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Mon, 6 Jun 2022 13:09:50 -0700
-Message-ID: <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, 
- Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
- ak@linux.intel.com, 
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=vannapurve@google.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-06_06,2022-06-03_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=711 impostorscore=0
+ priorityscore=1501 clxscore=1015 spamscore=0 mlxscore=0 phishscore=0
+ bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206060081
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,53 +113,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->
-> Private memory map/unmap and conversion
-> ---------------------------------------
-> Userspace's map/unmap operations are done by fallocate() ioctl on the
-> backing store fd.
->   - map: default fallocate() with mode=0.
->   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
-> The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
-> secondary MMU page tables.
->
-....
->    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
->
-> An example QEMU command line for TDX test:
-> -object tdx-guest,id=tdx \
-> -object memory-backend-memfd-private,id=ram1,size=2G \
-> -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
->
+For QEMU, the majority of the work in enabling instruction interpretation
+is handled via SHM bit settings (to indicate to firmware whether or not
+interpretive execution facilities are to be used) + a new KVM ioctl is
+used to setup firmware-interpreted forwarding of Adapter Event
+Notifications.
 
-There should be more discussion around double allocation scenarios
-when using the private fd approach. A malicious guest or buggy
-userspace VMM can cause physical memory getting allocated for both
-shared (memory accessible from host) and private fds backing the guest
-memory.
-Userspace VMM will need to unback the shared guest memory while
-handling the conversion from shared to private in order to prevent
-double allocation even with malicious guests or bugs in userspace VMM.
+This series also adds a new, optional 'interpret' parameter to zpci which
+can be used to disable interpretation support (interpret=off) as well as
+an 'forwarding_assist' parameter to determine whether or not the firmware
+assist will be used for adapter event delivery (default when
+interpretation is in use) or whether the host will be responsible for
+delivering all adapter event notifications (forwarding_assist=off).
 
-Options to unback shared guest memory seem to be:
-1) madvise(.., MADV_DONTNEED/MADV_REMOVE) - This option won't stop
-kernel from backing the shared memory on subsequent write accesses
-2) fallocate(..., FALLOC_FL_PUNCH_HOLE...) - For file backed shared
-guest memory, this option still is similar to madvice since this would
-still allow shared memory to get backed on write accesses
-3) munmap - This would give away the contiguous virtual memory region
-reservation with holes in the guest backing memory, which might make
-guest memory management difficult.
-4) mprotect(... PROT_NONE) - This would keep the virtual memory
-address range backing the guest memory preserved
+The zpcii-disable machine property is added to allow disabling use of
+zPCI interpretation facilities for a guest. This property is set to on
+for older (pre-7.1 compat machines), but defaults to off for 7.1 and
+newer. This allows newer machines to use interpretation by default if
+the necessary kernel interfaces and hardware facilities are available,
+but also provides a mechanism for disabling interpretation completely
+for debug purposes.
 
-ram_block_discard_range_fd from reference implementation:
-https://github.com/chao-p/qemu/tree/privmem-v6 seems to be relying on
-fallocate/madvise.
+As a consequence of implementing zPCI interpretation, ISM devices now
+become eligible for passthrough (but only when zPCI interpretation is
+available).
 
-Any thoughts/suggestions around better ways to unback the shared
-memory in order to avoid double allocation scenarios?
+From the perspective of guest configuration, you passthrough zPCI devices
+in the same manner as before, with intepretation support being used by
+default if available in kernel+qemu.
 
-Regards,
-Vishal
+Associated kernel series:
+https://lore.kernel.org/kvm/20220606203325.110625-1-mjrosato@linux.ibm.com/
+
+Changelog v6->v7:
+- update linux header sync to 5.19-rc1 + latest kernel series
+- Drop 'target/s390x: add zpci-interp to cpu models' (David)
+- Add a new patch that adds the zpcii-disable machine property.
+  zpcii-disable=on can be used to force interpretation facilities off
+  for the guest.  With this series, 7.1 machine and newer will default
+  this to off, meaning interpretation will be allowed if available by
+  default.  7.0 and older machines will default to zpcii-disable=on.
+  zPCI interpretation will only be used when the underlying kernel
+  supports it, hardware facilties are available and zpcii-disable=off.
+
+Matthew Rosato (8):
+  Update linux headers
+  s390x/pci: add routine to get host function handle from CLP info
+  s390x/pci: enable for load/store intepretation
+  s390x/pci: don't fence interpreted devices without MSI-X
+  s390x/pci: enable adapter event notification for interpreted devices
+  s390x/pci: let intercept devices have separate PCI groups
+  s390x/pci: reflect proper maxstbl for groups of interpreted devices
+  s390x/s390-virtio-ccw: add zpcii-disable machine property
+
+ hw/s390x/meson.build                         |   1 +
+ hw/s390x/s390-pci-bus.c                      | 111 +++++++++++++++-
+ hw/s390x/s390-pci-inst.c                     |  56 +++++++-
+ hw/s390x/s390-pci-kvm.c                      |  54 ++++++++
+ hw/s390x/s390-pci-vfio.c                     | 129 ++++++++++++++++---
+ hw/s390x/s390-virtio-ccw.c                   |  24 ++++
+ include/hw/s390x/s390-pci-bus.h              |   8 +-
+ include/hw/s390x/s390-pci-kvm.h              |  38 ++++++
+ include/hw/s390x/s390-pci-vfio.h             |   5 +
+ include/hw/s390x/s390-virtio-ccw.h           |   1 +
+ include/standard-headers/asm-x86/bootparam.h |   1 +
+ include/standard-headers/drm/drm_fourcc.h    |  69 ++++++++++
+ include/standard-headers/linux/ethtool.h     |   1 +
+ include/standard-headers/linux/input.h       |   1 +
+ include/standard-headers/linux/pci_regs.h    |   1 +
+ include/standard-headers/linux/vhost_types.h |  11 +-
+ include/standard-headers/linux/virtio_ids.h  |  14 +-
+ linux-headers/asm-arm64/kvm.h                |  27 ++++
+ linux-headers/asm-generic/unistd.h           |   4 +-
+ linux-headers/asm-riscv/kvm.h                |  20 +++
+ linux-headers/asm-riscv/unistd.h             |   3 +-
+ linux-headers/asm-x86/kvm.h                  |  11 +-
+ linux-headers/asm-x86/mman.h                 |  14 --
+ linux-headers/linux/kvm.h                    |  85 +++++++++++-
+ linux-headers/linux/userfaultfd.h            |  10 +-
+ linux-headers/linux/vfio.h                   |   4 +-
+ linux-headers/linux/vfio_zdev.h              |   7 +
+ linux-headers/linux/vhost.h                  |  26 +++-
+ qemu-options.hx                              |   8 +-
+ target/s390x/kvm/kvm.c                       |   7 +
+ target/s390x/kvm/kvm_s390x.h                 |   1 +
+ util/qemu-config.c                           |   4 +
+ 32 files changed, 683 insertions(+), 73 deletions(-)
+ create mode 100644 hw/s390x/s390-pci-kvm.c
+ create mode 100644 include/hw/s390x/s390-pci-kvm.h
+
+-- 
+2.27.0
+
 
