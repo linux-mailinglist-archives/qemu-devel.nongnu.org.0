@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E6153F1E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 23:55:58 +0200 (CEST)
-Received: from localhost ([::1]:46416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB7F53F203
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 00:13:30 +0200 (CEST)
+Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyKhY-0004Ao-R7
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 17:55:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51330)
+	id 1nyKyX-00088l-8i
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 18:13:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nyKfp-0003Tf-6M
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 17:54:09 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:41615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nyKfk-0000od-1Q
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 17:54:08 -0400
-Received: by mail-oi1-x235.google.com with SMTP id r206so21500279oib.8
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 14:54:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mkMvfuAuKoA8LcUTpu4NmVqmwW6rgWnAdCTvXbEw5Vk=;
- b=mQK61u+Hs4DMs9c5DbSND+2oolIzP+5oHk5Cf8OnikxOyk5oW3JtWIhFyVMsbqwUIl
- +b+KGfUqNR/zC0Ren6CLdvJNhEkgiqvKH3JFhg+pan5mEXziUURCBNadTMsKO5O07xC8
- zBg2Vbp1arYthyyyL/EdyWYwQyHmWaTnDQ88nSNb+BSeEmnI0jd9lyuPWRAndRE+XCzt
- cgExAmUavz+JYX6+yNoaVR7YsjfxUYEICfwAYNE0XDACqCr1aDYrHzdW0m4Q1FnaRMTc
- KtbuGtq6p8C5s5XoDPwqqWg5glwc8AFysZ86byKOmYsHKi5VZazqNZ1hzBS1qwZBgtvy
- Ev5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mkMvfuAuKoA8LcUTpu4NmVqmwW6rgWnAdCTvXbEw5Vk=;
- b=RUhlC8nAFG5T7AhabAWnDqIPEiQQxppNniRysPXg76RFsiDK4Qzf/3Hd6EwG7jE1Rj
- txSRTNXzSiWa+2fJc1Lb/9wz3UOGvN/AcyrHq5q2Bf8oMYO/zxAYfB49cRQpP8XI6Abt
- XbFoAcks/l2FLyaYAYa4+6f1jV7p7wexiuSq6a0Pdk3zkX287+2JSbS97S/rkXl9qUAB
- USIjn84WM75gJt/Px1o7APTQkCeCMvdfXHZqztI+BrQxFPZD4U50r8YQvokwhUjg+oIQ
- 1c0bv50M86psFb2tEn7VPiQk5Cvda5+nhI/iH2SyGH3q8PFeiTGLNELGpgzWdQ1j7Dgd
- zV5w==
-X-Gm-Message-State: AOAM533z6K+PbwshxOjA3AvdCi8f6U0h2oWyrvLWDeSRzk9YoU3+zJSY
- Dw2EEs2bDxGNvDl6A4FYGWrha1OMrb+syW2bAQw=
-X-Google-Smtp-Source: ABdhPJyyaWHj9f+Uf4ID2IAiJr8vntEDXkSDs6hu0Ppgf/VELU3XkNUVI+PvilKUstq645LC+Y2MHtVQGlCosuGifeY=
-X-Received: by 2002:a05:6808:2126:b0:32e:a750:f8b4 with SMTP id
- r38-20020a056808212600b0032ea750f8b4mr2370256oiw.278.1654552442775; Mon, 06
- Jun 2022 14:54:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1nyKxR-0007Tc-Vv
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 18:12:22 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:26495)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1nyKxP-0003Zq-FJ
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 18:12:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1654553539; x=1686089539;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zKW2CpuxScjTvBcDtpnGFgIdI/6rYa/kAO/nCFERLFU=;
+ b=dqZj9muPBNuZSjgvrzxumrDUSm6HxC5Hn5IRDIqTLNzQVQJRk5xl3gBX
+ jw7m298RD/3OtYjurSqXhmBHFR2ORIiCixVtWGWgKMW1u1vXZcn7zlOiL
+ 5l2YQoobeArq8wbRwaOpEe2uSSdqsjR6Fw62WSf1ZZvdC613jkDxn3Nla w=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 06 Jun 2022 15:12:15 -0700
+X-QCInternal: smtphost
+Received: from hu-tsimpson-lv.qualcomm.com (HELO
+ hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
+ by ironmsg09-lv.qualcomm.com with ESMTP; 06 Jun 2022 15:12:00 -0700
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id 0F0525005B6; Mon,  6 Jun 2022 15:11:00 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ ale@rev.ng, bcain@quicinc.com, mlambert@quicinc.com
+Subject: [PATCH] Hexagon (target/hexagon) fix store w/mem_noshuf & predicated
+ load
+Date: Mon,  6 Jun 2022 15:10:43 -0700
+Message-Id: <20220606221043.11425-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20220606164336.245740-1-kchamart@redhat.com>
- <20220606164336.245740-3-kchamart@redhat.com>
-In-Reply-To: <20220606164336.245740-3-kchamart@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 7 Jun 2022 07:53:36 +1000
-Message-ID: <CAKmqyKPjUStYAuUUhBO3y69Fb5EPEyVDWMK9imDExRUES_5AjA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] docs: rSTify MailingLists wiki; move it to QEMU Git
-To: Kashyap Chamarthy <kchamart@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=alistair23@gmail.com; helo=mail-oi1-x235.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
+ helo=alexa-out.qualcomm.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,108 +72,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 7, 2022 at 2:46 AM Kashyap Chamarthy <kchamart@redhat.com> wrote:
->
-> This document is referred to from the GettingStartedDevelopers wiki
-> which will be rSTified in a follow-up commit.
->
-> Converted from Mediawiki to rST using:
->
->     $> pandoc -f Mediawiki -t rst MailingLists.wiki
->         -o mailing-lists.rst
->
-> The only change in this coversion is that I have removed the users
-> mailing list, as it will be referred to from a different document from
-> the docs/about/ directory.
->
-> Besides that, this is almost a 1-1 conversion (I double-checked to the
-> best I could).  I've also checked that the hyperlinks work correctly
-> post-conversion.
->
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->  docs/devel/index.rst         |  1 +
->  docs/devel/mailing-lists.rst | 51 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 52 insertions(+)
->  create mode 100644 docs/devel/mailing-lists.rst
->
-> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-> index 424eff9294..fb9d9f3a80 100644
-> --- a/docs/devel/index.rst
-> +++ b/docs/devel/index.rst
-> @@ -12,6 +12,7 @@ modifying QEMU's source code.
->
->     code-of-conduct
->     conflict-resolution
-> +   mailing-lists
->     build-system
->     style
->     kconfig
-> diff --git a/docs/devel/mailing-lists.rst b/docs/devel/mailing-lists.rst
-> new file mode 100644
-> index 0000000000..4533179f1f
-> --- /dev/null
-> +++ b/docs/devel/mailing-lists.rst
-> @@ -0,0 +1,51 @@
-> +.. _mailing-lists:
-> +
-> +Mailing lists
-> +=============
-> +
-> +-  `QEMU developers mailing
-> +   list <http://lists.nongnu.org/mailman/listinfo/qemu-devel>`__
-> +-  `QEMU stable mailing
-> +   list <http://lists.nongnu.org/mailman/listinfo/qemu-stable>`__
-> +-  `QEMU trivial patch mailing
-> +   list <http://lists.nongnu.org/mailman/listinfo/qemu-trivial>`__
-> +
-> +.. _subsystem_specific_lists:
-> +
-> +Subsystem Specific Lists
-> +------------------------
-> +
-> +These exist to make it a little easier to follow subsystem specific
-> +patches. You should however continue to CC qemu-devel so your series
-> +gets wide visibility.
-> +
-> +-  `QEMU ARM mailing
-> +   list <https://lists.nongnu.org/mailman/listinfo/qemu-arm>`__
-> +-  `QEMU block devices mailing
-> +   list <https://lists.nongnu.org/mailman/listinfo/qemu-block>`__
-> +-  `QEMU PowerPC mailing
-> +   list <https://lists.nongnu.org/mailman/listinfo/qemu-ppc>`__
-> +-  `QEMU RISC-V mailing
-> +   list <https://lists.nongnu.org/mailman/listinfo/qemu-riscv>`__
-> +-  `QEMU s390x mailing
-> +   list <https://lists.nongnu.org/mailman/listinfo/qemu-s390x>`__
-> +
-> +If a subsystem maintainer thinks that a new mailing list for their
-> +subsystem would make life easier, we're happy to create one -- mail
-> +qemu-devel to suggest it (ideally cc'ing the people listed as Savannah
-> +project admins in our `AdminContacts <AdminContacts>`__ page, as they
-> +are the ones with the ability to make the change).
-> +
-> +If you are a Savannah project admin, you may want the `technical notes
-> +on how to create and configure a new
-> +list <Contribute/MailingLists/Creation>`__.
-> +
-> +.. _access_via_lore.kernel.org:
-> +
-> +Access via lore.kernel.org
-> +--------------------------
-> +
-> +The qemu-devel mailing list is also archived via
-> +`public-inbox <https://public-inbox.org/>`__ on
-> +https://lore.kernel.org/qemu-devel/ and accessible via NNTP at
-> +nntp.lore.kernel.org (newsgroup org.nongnu.qemu-devel).
-> --
-> 2.36.1
->
->
+Q2FsbCB0aGUgQ0hFQ0tfTk9TSFVGIG1hY3JvIG11bHRpcGxlIHRpbWVzOiBvbmNlIGluIHRoZQpm
+R0VOX1RDR19QUkVEX0xPQUQoKSBhbmQgYWdhaW4gaW4gZkxPQUQoKS4KCkJlZm9yZSB0aGlzIGNv
+bW1pdCwgYSBwYWNrZXQgd2l0aCBhIHN0b3JlIGFuZCBhIHByZWRpY2F0ZWQKbG9hZCB3aXRoIG1l
+bV9ub3NodWYgdGhhdCBnZXRzIGVuY29kZWQgbGlrZSB0aGlzOgoKICAgIHsgUDAgPSBjbXAuZXEo
+UjE3LCMweDApCiAgICAgIG1lbXcoUjE4KyMweDApID0gUjIKICAgICAgaWYgKCFQMC5uZXcpIFIz
+ID0gbWVtdyhSMTcrIzB4NCkgfQoKLi4uIHdvdWxkIGVuZCB1cCBnZW5lcmF0aW5nIGEgYnJhbmNo
+IG92ZXIgYm90aCB0aGUgbG9hZAphbmQgdGhlIHN0b3JlIGxpa2Ugc286CgogICAgLi4uCiAgICBi
+cmNvbmRfaTMyIGxvYzE3LCQweDAsZXEsJEwxCiAgICBtb3ZfaTMyIGxvYzE4LHN0b3JlX2FkZHJf
+MQogICAgcWVtdV9zdF9pMzIgc3RvcmVfdmFsMzJfMSxzdG9yZV9hZGRyXzEsbGV1bCwwCiAgICBx
+ZW11X2xkX2kzMiBsb2MxNixsb2M3LGxldWwsMAogICAgc2V0X2xhYmVsICRMMQogICAgLi4uCgpU
+ZXN0IGNhc2VzIGFkZGVkIHRvIHRlc3RzL3RjZy9oZXhhZ29uL21lbV9ub3NodWYuYwoKQ28tYXV0
+aG9yZWQtYnk6IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT4KU2lnbmVkLW9m
+Zi1ieTogQnJpYW4gQ2FpbiA8YmNhaW5AcXVpY2luYy5jb20+ClNpZ25lZC1vZmYtYnk6IFRheWxv
+ciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT4KLS0tCiB0YXJnZXQvaGV4YWdvbi9nZW5f
+dGNnLmggICAgICAgfCAgIDIgKwogdGVzdHMvdGNnL2hleGFnb24vbWVtX25vc2h1Zi5jIHwgMTIy
+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLQogMiBmaWxlcyBjaGFuZ2VkLCAxMTkg
+aW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdv
+bi9nZW5fdGNnLmggYi90YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmgKaW5kZXggYzZmMDg3OWI2ZS4u
+YjBiNmIzNjQ0ZSAxMDA2NDQKLS0tIGEvdGFyZ2V0L2hleGFnb24vZ2VuX3RjZy5oCisrKyBiL3Rh
+cmdldC9oZXhhZ29uL2dlbl90Y2cuaApAQCAtMzQzLDYgKzM0Myw3IEBACiAgICAgICAgIFBSRUQ7
+ICBcCiAgICAgICAgIFBSRURfTE9BRF9DQU5DRUwoTFNCLCBFQSk7IFwKICAgICAgICAgdGNnX2dl
+bl9tb3ZpX3RsKFJkViwgMCk7IFwKKyAgICAgICAgQ0hFQ0tfTk9TSFVGOyBcCiAgICAgICAgIHRj
+Z19nZW5fYnJjb25kaV90bChUQ0dfQ09ORF9FUSwgTFNCLCAwLCBsYWJlbCk7IFwKICAgICAgICAg
+ICAgIGZMT0FEKDEsIFNJWkUsIFNJR04sIEVBLCBSZFYpOyBcCiAgICAgICAgIGdlbl9zZXRfbGFi
+ZWwobGFiZWwpOyBcCkBAIC00MDIsNiArNDAzLDcgQEAKICAgICAgICAgUFJFRDsgIFwKICAgICAg
+ICAgUFJFRF9MT0FEX0NBTkNFTChMU0IsIEVBKTsgXAogICAgICAgICB0Y2dfZ2VuX21vdmlfaTY0
+KFJkZFYsIDApOyBcCisgICAgICAgIENIRUNLX05PU0hVRjsgXAogICAgICAgICB0Y2dfZ2VuX2Jy
+Y29uZGlfdGwoVENHX0NPTkRfRVEsIExTQiwgMCwgbGFiZWwpOyBcCiAgICAgICAgICAgICBmTE9B
+RCgxLCA4LCB1LCBFQSwgUmRkVik7IFwKICAgICAgICAgZ2VuX3NldF9sYWJlbChsYWJlbCk7IFwK
+ZGlmZiAtLWdpdCBhL3Rlc3RzL3RjZy9oZXhhZ29uL21lbV9ub3NodWYuYyBiL3Rlc3RzL3RjZy9o
+ZXhhZ29uL21lbV9ub3NodWYuYwppbmRleCBkZDcxNGQ1ZTk4Li4wZjQwNjRlNzAwIDEwMDY0NAot
+LS0gYS90ZXN0cy90Y2cvaGV4YWdvbi9tZW1fbm9zaHVmLmMKKysrIGIvdGVzdHMvdGNnL2hleGFn
+b24vbWVtX25vc2h1Zi5jCkBAIC0xLDUgKzEsNSBAQAogLyoKLSAqICBDb3B5cmlnaHQoYykgMjAx
+OS0yMDIxIFF1YWxjb21tIElubm92YXRpb24gQ2VudGVyLCBJbmMuIEFsbCBSaWdodHMgUmVzZXJ2
+ZWQuCisgKiAgQ29weXJpZ2h0KGMpIDIwMTktMjAyMiBRdWFsY29tbSBJbm5vdmF0aW9uIENlbnRl
+ciwgSW5jLiBBbGwgUmlnaHRzIFJlc2VydmVkLgogICoKICAqICBUaGlzIHByb2dyYW0gaXMgZnJl
+ZSBzb2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yIG1vZGlmeQogICogIGl0
+IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgYXMgcHVi
+bGlzaGVkIGJ5CkBAIC04NCw2ICs4NCw3MCBAQCBNRU1fTk9TSFVGMzIobWVtX25vc2h1Zl9zZF9s
+dWgsIGxvbmcgbG9uZywgICAgdW5zaWduZWQgc2hvcnQsICAgbWVtZCwgbWVtdWgpCiBNRU1fTk9T
+SFVGMzIobWVtX25vc2h1Zl9zZF9sdywgIGxvbmcgbG9uZywgICAgc2lnbmVkIGludCwgICAgICAg
+bWVtZCwgbWVtdykKIE1FTV9OT1NIVUY2NChtZW1fbm9zaHVmX3NkX2xkLCAgbG9uZyBsb25nLCAg
+ICBzaWduZWQgbG9uZyBsb25nLCBtZW1kLCBtZW1kKQogCitzdGF0aWMgaW5saW5lIGludCBwcmVk
+X2x3X3N3KGludCBwcmVkLCBpbnQgKnAsIGludCAqcSwgaW50IHgsIGludCB5KQoreworICAgIGlu
+dCByZXQ7CisgICAgYXNtIHZvbGF0aWxlKCJwMCA9IGNtcC5lcSglNSwgIzApXG5cdCIKKyAgICAg
+ICAgICAgICAgICAgIiUwID0gJTNcblx0IgorICAgICAgICAgICAgICAgICAie1xuXHQiCisgICAg
+ICAgICAgICAgICAgICIgICAgbWVtdyglMSkgPSAlNFxuXHQiCisgICAgICAgICAgICAgICAgICIg
+ICAgaWYgKCFwMCkgJTAgPSBtZW13KCUyKVxuXHQiCisgICAgICAgICAgICAgICAgICJ9Om1lbV9u
+b3NodWZcbiIKKyAgICAgICAgICAgICAgICAgOiAiPSZyIihyZXQpCisgICAgICAgICAgICAgICAg
+IDogInIiKHApLCAiciIocSksICJyIih4KSwgInIiKHkpLCAiciIocHJlZCkKKyAgICAgICAgICAg
+ICAgICAgOiAicDAiLCAibWVtb3J5Iik7CisgICAgcmV0dXJuIHJldDsKK30KKworc3RhdGljIGlu
+bGluZSBpbnQgcHJlZF9sd19zd19waShpbnQgcHJlZCwgaW50ICpwLCBpbnQgKnEsIGludCB4LCBp
+bnQgeSkKK3sKKyAgICBpbnQgcmV0OworICAgIGFzbSB2b2xhdGlsZSgicDAgPSBjbXAuZXEoJTUs
+ICMwKVxuXHQiCisgICAgICAgICAgICAgICAgICIlMCA9ICUzXG5cdCIKKyAgICAgICAgICAgICAg
+ICAgInI3ID0gJTJcblx0IgorICAgICAgICAgICAgICAgICAie1xuXHQiCisgICAgICAgICAgICAg
+ICAgICIgICAgbWVtdyglMSkgPSAlNFxuXHQiCisgICAgICAgICAgICAgICAgICIgICAgaWYgKCFw
+MCkgJTAgPSBtZW13KHI3KysjNClcblx0IgorICAgICAgICAgICAgICAgICAifTptZW1fbm9zaHVm
+XG4iCisgICAgICAgICAgICAgICAgIDogIj0mciIocmV0KQorICAgICAgICAgICAgICAgICA6ICJy
+IihwKSwgInIiKHEpLCAiciIoeCksICJyIih5KSwgInIiKHByZWQpCisgICAgICAgICAgICAgICAg
+IDogInI3IiwgInAwIiwgIm1lbW9yeSIpOworICAgIHJldHVybiByZXQ7Cit9CisKK3N0YXRpYyBp
+bmxpbmUgbG9uZyBsb25nIHByZWRfbGRfc2QoaW50IHByZWQsIGxvbmcgbG9uZyAqcCwgbG9uZyBs
+b25nICpxLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb25nIGxvbmcgeCwg
+bG9uZyBsb25nIHkpCit7CisgICAgdW5zaWduZWQgbG9uZyBsb25nIHJldDsKKyAgICBhc20gdm9s
+YXRpbGUoInAwID0gY21wLmVxKCU1LCAjMClcblx0IgorICAgICAgICAgICAgICAgICAiJTAgPSAl
+M1xuXHQiCisgICAgICAgICAgICAgICAgICJ7XG5cdCIKKyAgICAgICAgICAgICAgICAgIiAgICBt
+ZW1kKCUxKSA9ICU0XG5cdCIKKyAgICAgICAgICAgICAgICAgIiAgICBpZiAoIXAwKSAlMCA9IG1l
+bWQoJTIpXG5cdCIKKyAgICAgICAgICAgICAgICAgIn06bWVtX25vc2h1ZlxuIgorICAgICAgICAg
+ICAgICAgICA6ICI9JnIiKHJldCkKKyAgICAgICAgICAgICAgICAgOiAiciIocCksICJyIihxKSwg
+InIiKHgpLCAiciIoeSksICJyIihwcmVkKQorICAgICAgICAgICAgICAgICA6ICJwMCIsICJtZW1v
+cnkiKTsKKyAgICByZXR1cm4gcmV0OworfQorCitzdGF0aWMgaW5saW5lIGxvbmcgbG9uZyBwcmVk
+X2xkX3NkX3BpKGludCBwcmVkLCBsb25nIGxvbmcgKnAsIGxvbmcgbG9uZyAqcSwKKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbG9uZyBsb25nIHgsIGxvbmcgbG9uZyB5KQor
+eworICAgIGxvbmcgbG9uZyByZXQ7CisgICAgYXNtIHZvbGF0aWxlKCJwMCA9IGNtcC5lcSglNSwg
+IzApXG5cdCIKKyAgICAgICAgICAgICAgICAgIiUwID0gJTNcblx0IgorICAgICAgICAgICAgICAg
+ICAicjcgPSAlMlxuXHQiCisgICAgICAgICAgICAgICAgICJ7XG5cdCIKKyAgICAgICAgICAgICAg
+ICAgIiAgICBtZW1kKCUxKSA9ICU0XG5cdCIKKyAgICAgICAgICAgICAgICAgIiAgICBpZiAoIXAw
+KSAlMCA9IG1lbWQocjcrKyM4KVxuXHQiCisgICAgICAgICAgICAgICAgICJ9Om1lbV9ub3NodWZc
+biIKKyAgICAgICAgICAgICAgICAgOiAiPSZyIihyZXQpCisgICAgICAgICAgICAgICAgIDogInIi
+KHApLCAiciIocSksICJyIih4KSwgInIiKHkpLCAiciIocHJlZCkKKyAgICAgICAgICAgICAgICAg
+OiAicDAiLCAibWVtb3J5Iik7CisgICAgcmV0dXJuIHJldDsKK30KKwogc3RhdGljIGlubGluZSB1
+bnNpZ25lZCBpbnQgY2FuY2VsX3N3X2xiKGludCBwcmVkLCBpbnQgKnAsIHNpZ25lZCBjaGFyICpx
+LCBpbnQgeCkKIHsKICAgICB1bnNpZ25lZCBpbnQgcmV0OwpAQCAtMTI2LDE4ICsxOTAsMjIgQEAg
+dHlwZWRlZiB1bmlvbiB7CiAKIGludCBlcnI7CiAKLXN0YXRpYyB2b2lkIGNoZWNrMzIoaW50IG4s
+IGludCBleHBlY3QpCisjZGVmaW5lIGNoZWNrMzIobiwgZXhwZWN0KSBjaGVjazMyXyhuLCBleHBl
+Y3QsIF9fTElORV9fKQorCitzdGF0aWMgdm9pZCBjaGVjazMyXyhpbnQgbiwgaW50IGV4cGVjdCwg
+aW50IGxpbmUpCiB7CiAgICAgaWYgKG4gIT0gZXhwZWN0KSB7Ci0gICAgICAgIHByaW50ZigiRVJS
+T1I6IDB4JTA4eCAhPSAweCUwOHhcbiIsIG4sIGV4cGVjdCk7CisgICAgICAgIHByaW50ZigiRVJS
+T1I6IDB4JTA4eCAhPSAweCUwOHgsIGxpbmUgJWRcbiIsIG4sIGV4cGVjdCwgbGluZSk7CiAgICAg
+ICAgIGVycisrOwogICAgIH0KIH0KIAotc3RhdGljIHZvaWQgY2hlY2s2NChsb25nIGxvbmcgbiwg
+bG9uZyBsb25nIGV4cGVjdCkKKyNkZWZpbmUgY2hlY2s2NChuLCBleHBlY3QpIGNoZWNrNjRfKG4s
+IGV4cGVjdCwgX19MSU5FX18pCisKK3N0YXRpYyB2b2lkIGNoZWNrNjRfKGxvbmcgbG9uZyBuLCBs
+b25nIGxvbmcgZXhwZWN0LCBpbnQgbGluZSkKIHsKICAgICBpZiAobiAhPSBleHBlY3QpIHsKLSAg
+ICAgICAgcHJpbnRmKCJFUlJPUjogMHglMDhsbHggIT0gMHglMDhsbHhcbiIsIG4sIGV4cGVjdCk7
+CisgICAgICAgIHByaW50ZigiRVJST1I6IDB4JTA4bGx4ICE9IDB4JTA4bGx4LCBsaW5lICVkXG4i
+LCBuLCBleHBlY3QsIGxpbmUpOwogICAgICAgICBlcnIrKzsKICAgICB9CiB9CkBAIC0zMjMsNiAr
+MzkxLDUwIEBAIGludCBtYWluKCkKICAgICByZXM2NCA9IG1lbV9ub3NodWZfc2RfbGQoJm4uZFsw
+XSwgJm4uZFsxXSwgMHgxMjM0NTY3ODlhYmNkZWYwTEwpOwogICAgIGNoZWNrNjQocmVzNjQsIDB4
+ZmZmZmZmZmZmZmZmZmZmZkxMKTsKIAorICAgIG4ud1swXSA9IH4wOworICAgIHJlczMyID0gcHJl
+ZF9sd19zdygwLCAmbi53WzBdLCAmbi53WzBdLCAweDEyMzQ1Njc4LCAweGMwZmZlZWRhKTsKKyAg
+ICBjaGVjazMyKHJlczMyLCAweDEyMzQ1Njc4KTsKKyAgICBjaGVjazMyKG4ud1swXSwgMHhjMGZm
+ZWVkYSk7CisKKyAgICBuLndbMF0gPSB+MDsKKyAgICByZXMzMiA9IHByZWRfbHdfc3coMSwgJm4u
+d1swXSwgJm4ud1swXSwgMHgxMjM0NTY3OCwgMHhjMGZmZWVkYSk7CisgICAgY2hlY2szMihyZXMz
+MiwgMHhjMGZmZWVkYSk7CisgICAgY2hlY2szMihuLndbMF0sIDB4YzBmZmVlZGEpOworCisgICAg
+bi53WzBdID0gfjA7CisgICAgcmVzMzIgPSBwcmVkX2x3X3N3X3BpKDAsICZuLndbMF0sICZuLndb
+MF0sIDB4MTIzNDU2NzgsIDB4YzBmZmVlZGEpOworICAgIGNoZWNrMzIocmVzMzIsIDB4MTIzNDU2
+NzgpOworICAgIGNoZWNrMzIobi53WzBdLCAweGMwZmZlZWRhKTsKKworICAgIG4ud1swXSA9IH4w
+OworICAgIHJlczMyID0gcHJlZF9sd19zd19waSgxLCAmbi53WzBdLCAmbi53WzBdLCAweDEyMzQ1
+Njc4LCAweGMwZmZlZWRhKTsKKyAgICBjaGVjazMyKHJlczMyLCAweGMwZmZlZWRhKTsKKyAgICBj
+aGVjazMyKG4ud1swXSwgMHhjMGZmZWVkYSk7CisKKyAgICBuLmRbMF0gPSB+MExMOworICAgIHJl
+czY0ID0gcHJlZF9sZF9zZCgwLCAmbi5kWzBdLCAmbi5kWzBdLAorICAgICAgICAgICAgICAgICAg
+ICAgICAweDEyMzQ1Njc4MTIzNDU2NzhMTCwgMHhjMGZmZWVkYWMwZmZlZWRhTEwpOworICAgIGNo
+ZWNrNjQocmVzNjQsIDB4MTIzNDU2NzgxMjM0NTY3OExMKTsKKyAgICBjaGVjazY0KG4uZFswXSwg
+MHhjMGZmZWVkYWMwZmZlZWRhTEwpOworCisgICAgbi5kWzBdID0gfjBMTDsKKyAgICByZXM2NCA9
+IHByZWRfbGRfc2QoMSwgJm4uZFswXSwgJm4uZFswXSwKKyAgICAgICAgICAgICAgICAgICAgICAg
+MHgxMjM0NTY3ODEyMzQ1Njc4TEwsIDB4YzBmZmVlZGFjMGZmZWVkYUxMKTsKKyAgICBjaGVjazY0
+KHJlczY0LCAweGMwZmZlZWRhYzBmZmVlZGFMTCk7CisgICAgY2hlY2s2NChuLmRbMF0sIDB4YzBm
+ZmVlZGFjMGZmZWVkYUxMKTsKKworICAgIG4uZFswXSA9IH4wTEw7CisgICAgcmVzNjQgPSBwcmVk
+X2xkX3NkX3BpKDAsICZuLmRbMF0sICZuLmRbMF0sCisgICAgICAgICAgICAgICAgICAgICAgICAg
+IDB4MTIzNDU2NzgxMjM0NTY3OExMLCAweGMwZmZlZWRhYzBmZmVlZGFMTCk7CisgICAgY2hlY2s2
+NChyZXM2NCwgMHgxMjM0NTY3ODEyMzQ1Njc4TEwpOworICAgIGNoZWNrNjQobi5kWzBdLCAweGMw
+ZmZlZWRhYzBmZmVlZGFMTCk7CisKKyAgICBuLmRbMF0gPSB+MExMOworICAgIHJlczY0ID0gcHJl
+ZF9sZF9zZF9waSgxLCAmbi5kWzBdLCAmbi5kWzBdLAorICAgICAgICAgICAgICAgICAgICAgICAg
+ICAweDEyMzQ1Njc4MTIzNDU2NzhMTCwgMHhjMGZmZWVkYWMwZmZlZWRhTEwpOworICAgIGNoZWNr
+NjQocmVzNjQsIDB4YzBmZmVlZGFjMGZmZWVkYUxMKTsKKyAgICBjaGVjazY0KG4uZFswXSwgMHhj
+MGZmZWVkYWMwZmZlZWRhTEwpOworCiAgICAgcHV0cyhlcnIgPyAiRkFJTCIgOiAiUEFTUyIpOwog
+ICAgIHJldHVybiBlcnI7CiB9Ci0tIAoyLjE3LjEKCg==
 
