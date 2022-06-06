@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255EE53E44F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 14:15:46 +0200 (CEST)
-Received: from localhost ([::1]:44432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8241353E454
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 14:21:42 +0200 (CEST)
+Received: from localhost ([::1]:50700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyBe4-0003AT-NK
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 08:15:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45254)
+	id 1nyBjn-0007xB-A7
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 08:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nyBcd-0002G7-7s
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:14:15 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:42629)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nyBcW-0007Xm-Qq
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:14:11 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2ef5380669cso140756197b3.9
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 05:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JIdPmc1YBJ8vzAMfiIbKjD7kCmqo5jCkHEkoAgC8fak=;
- b=beJmeu6meGCdJSi4T/koKo8a7JGLcZS8H2xKGOZH5zsSu9xOjV2BC6OQSlvkqH6CuS
- 8cZxo/ONffwF58mSOiBdesmFOB5N3iDfZBEMn/awHQu9RG6/jaBRCLwQQf5XMkxop2L9
- ey6QfbgMZFHLFOIYGL3kkyvFUAWSckeLhJuBxd7b1djact/qH+sAsJA2Pvn05mvG3lXh
- c3Vx/wmHviFhE5eSvBWtmuaaEAPklzV99ad6svdU0OAwKMQRFRYVYjuUbseMRbcQG+Y/
- HmiQwrhOAjHUaZXHfqdmL39B1ceLaZMI+foAe0hZGAQZbQ8KeLQUGCaDrvX27sf1eVNy
- Snog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JIdPmc1YBJ8vzAMfiIbKjD7kCmqo5jCkHEkoAgC8fak=;
- b=P4RmD/5nX+xw9wDXvaVT4tUJhUvelmce2Hy6+Yh/og/po3NfFxVRuScut2wOmtcurP
- MgOVUYocYUTHJKlTDLhovYjko+pDYFF7OIyRoONwtTa3Fj52iq1vLVHGnM3GE8LKhIit
- zV//pFlp9gqgQuqxf9bUljnAVtq5yfdReGDZDJXp886ReoFtkGFDdcOZ/VCfGJuNT7jf
- Kap6q0poLwJ5eVs9GCylXfhmDa9Z369PSK62bGC2BsQkE8tdCG1SVlkdv7mm3jauXjAQ
- xJB8BVkP08KxzJXPFAxsvOSQy+273U5iqqtyDqhjXOagsuNiB+VYVmjKl6Lh/xlQwnNb
- Qq3w==
-X-Gm-Message-State: AOAM533K58XnA6HkXZXTxLCjQ4tHDT/qR/IA/wD1QhTXP9AVFsAzpJXA
- 0dk3A5D6SMeL3jwRxsQhnuFrFNXU/qJ9MoD29Ryzvg==
-X-Google-Smtp-Source: ABdhPJz9cTe3PzNh/zCU3+/tCGx/vIDhJt3VK72TiV6Hk/e/TpegKyCWcE4dyiwlpgldzIlijFK63se8GSGrr2Ik8y4=
-X-Received: by 2002:a81:1a4c:0:b0:30c:8363:e170 with SMTP id
- a73-20020a811a4c000000b0030c8363e170mr25132481ywa.455.1654517647602; Mon, 06
- Jun 2022 05:14:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nyBhJ-000670-1b; Mon, 06 Jun 2022 08:19:05 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nyBhH-0008Rr-Dc; Mon, 06 Jun 2022 08:19:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=OrP+F/JT1CcwCfiZevyO2ifnU/JeK9YkhwK0CConis8=; b=UHXPrNjXmWnHJFcLH7AHFAByua
+ 8ooY5mJ/kS/Bd0W9VaTsE6CPH9GmC1jXd08VK039zdF33G/pe0Ft/IIPTa4L7GABvC/enycrY4tpt
+ ZW9rYX3QPcaZQvhcwGUJyb9HmcgtyleeustNzf/6pUwGhbHqIX9f/TVR6Vn80Ng54NDXY80UPZSZA
+ 45xeAx75RPBVrTSzoq428LuhTJajl8hfsmvxhJ/RSHavz1VDeYRjPxeWq2XSayR7mzHu7sZ2i3OT2
+ dheR0nexu39cp4HcFZ7PrEEt5id9byuAKQkog9KKAG2gtAs1aJHKB/f8O2q5eDhSjv/AsTYjV/dnp
+ CGdrJhp+JehKNv0WxAklnqzCo0puM49X5BcN3Sy7mh9wNs9MCdagG+6l3TlZVEKggbfb2k4YNUhIj
+ 8XuI5y0lwwrFEiWZdLXH9JLp04/JjzMsQFeTeNqWrJBbZ5KrZbZAXmeXduNiQWy0CcEurvSvMhItL
+ Ywrrih/O6zCHJlfe9xjF7HkkhXvyTTeGhrbBc+18hyDjTeMuj4k8X9AoEYNclGQIv55e0+d0OjoXh
+ QuQT+PcPSQqa0xnCcTC3txlO9MUNczseZnRixFXfw94ve0BX/HKyymBUBRjb5x9h433hMQ/1SkuLs
+ 6KHEARtgZaRAgLe2QbrjQcDs1qo4LaxRI2RCQInaA=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nyBg7-0003qY-Ty; Mon, 06 Jun 2022 13:17:56 +0100
+Message-ID: <f343e944-9223-d104-1723-0c88fc4a04ff@ilande.co.uk>
+Date: Mon, 6 Jun 2022 13:18:55 +0100
 MIME-Version: 1.0
-References: <20220602214853.496211-1-richard.henderson@linaro.org>
- <20220602214853.496211-4-richard.henderson@linaro.org>
-In-Reply-To: <20220602214853.496211-4-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Jun 2022 13:13:57 +0100
-Message-ID: <CAFEAcA9ZCSHakozNwoN+LiKG6vpJM8QqBPsJm0oRBJi0SqYVRg@mail.gmail.com>
-Subject: Re: [PATCH 03/71] target/arm: Remove route_to_el2 check from
- sve_exception_el
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org
+References: <20220602215351.149910-1-danielhb413@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220602215351.149910-1-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] ppc/pnv: fix extra indent spaces with DEFINE_PROP*
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,15 +79,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Jun 2022 at 22:51, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We handle this routing in raise_exception.  Promoting the value early
-> means that we can't directly compare FPEXC_EL and SVEEXC_EL.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+On 02/06/2022 22:53, Daniel Henrique Barboza wrote:
 
-thanks
--- PMM
+> The DEFINE_PROP* macros in pnv files are using extra spaces for no good
+> reason.
+> 
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   hw/pci-host/pnv_phb3.c     |  8 ++++----
+>   hw/pci-host/pnv_phb4.c     | 10 +++++-----
+>   hw/pci-host/pnv_phb4_pec.c | 10 +++++-----
+>   3 files changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+> index 3f03467dde..26ac9b7123 100644
+> --- a/hw/pci-host/pnv_phb3.c
+> +++ b/hw/pci-host/pnv_phb3.c
+> @@ -1088,10 +1088,10 @@ static const char *pnv_phb3_root_bus_path(PCIHostState *host_bridge,
+>   }
+>   
+>   static Property pnv_phb3_properties[] = {
+> -        DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
+> -        DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
+> -        DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
+> -        DEFINE_PROP_END_OF_LIST(),
+> +    DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
+> +    DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
+> +    DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
+> +    DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+>   static void pnv_phb3_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index 13ba9e45d8..6594016121 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1692,11 +1692,11 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
+>   }
+>   
+>   static Property pnv_phb4_properties[] = {
+> -        DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
+> -        DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
+> -        DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
+> -                         PnvPhb4PecState *),
+> -        DEFINE_PROP_END_OF_LIST(),
+> +    DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
+> +    DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
+> +    DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
+> +                     PnvPhb4PecState *),
+> +    DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+>   static void pnv_phb4_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 61bc0b503e..8b7e823fa5 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -215,11 +215,11 @@ static int pnv_pec_dt_xscom(PnvXScomInterface *dev, void *fdt,
+>   }
+>   
+>   static Property pnv_pec_properties[] = {
+> -        DEFINE_PROP_UINT32("index", PnvPhb4PecState, index, 0),
+> -        DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
+> -        DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
+> -                         PnvChip *),
+> -        DEFINE_PROP_END_OF_LIST(),
+> +    DEFINE_PROP_UINT32("index", PnvPhb4PecState, index, 0),
+> +    DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
+> +    DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
+> +                     PnvChip *),
+> +    DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+>   static uint32_t pnv_pec_xscom_pci_base(PnvPhb4PecState *pec)
+
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+
+ATB,
+
+Mark.
 
