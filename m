@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2A953E552
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:12:07 +0200 (CEST)
-Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6963B53E534
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:58:48 +0200 (CEST)
+Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEOk-0001c5-Iw
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51344)
+	id 1nyEBr-0005nH-GS
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDrW-0002il-1O
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20419)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDrU-0000fq-H4
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654526263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=REGlmdVS1lYdUH1ngn7i4jdmEYP4WYH5gSTgDPDmR4w=;
- b=hjmF3M92HVSRndGVv67cAQlQVIPHpi+pc4sKU1zTW+bWxkgHLIq1m2b3P8rhAIW9Y2ykVN
- 5FE/b1/hXwphNGjPba0w47jhm7s+ZpMWAS+kJVX4Rg2spAk8y98UNVB+inUttIzUJ/Fm18
- DWzqB8WawNPYclJDRa+EQkEGLlIeMoo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-LbYUEg3GOfS4ux-6Y8SgJg-1; Mon, 06 Jun 2022 10:37:42 -0400
-X-MC-Unique: LbYUEg3GOfS4ux-6Y8SgJg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- az7-20020a05600c600700b0039c3ed7fa89so5529366wmb.8
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyDsL-0003za-H3
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:38:39 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyDsF-0000oI-JA
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:38:37 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ v11-20020a17090a4ecb00b001e2c5b837ccso18020186pjl.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:38:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=0fHEwGcdjeEU1fGQ+84Um05tCKjCXvmlD3g+5THTYlQ=;
+ b=KcBp9vwSRxY4QvjG7ZfvR13vJgDuwwe5h8Stlwuym/K4AqxXfPkytKEK4L0YX6FKzW
+ QHetAqJP1i0puJaVOPdRIGsByElXuXSsVNrJ6zPsGJ6iornBOTzTm7is9IX2Ck4SX1JB
+ TwD+PEzvei8imx7YdUbb4Rq+t0IZxmZ02Og5gt8XSN2I15QLfy6rjGradIDcmfQX2Bx1
+ RKJTzxrbVz/M3XDITjFuk8NgP4Bpg95ZM01ZLGP/me43YQ6U/tXvHorMR1DAQpqPpQxh
+ zG2PPZmj4m9tVRi0eUapZOZaaFvHHJBi3d5TM8UkZrH8IcSI5flkSUquohOE0KBCzJ7E
+ plmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=REGlmdVS1lYdUH1ngn7i4jdmEYP4WYH5gSTgDPDmR4w=;
- b=afTRYibquXJ4mnWeSDECuhcbooYmNCkPj5PTZkdVc6aoGAQeI64+yYv9VbLrvf/A1d
- uyXdgtsILGSvkvg3VhTu+RT7kFDqU3ySalWmBGwMtlg3+mpYXZp6YlflDBD/WFB9IrwJ
- Q+38GLWkvplM6w5JU8lb6a3ntABIZdMLxGuf2GihbaKqBZQPxB+kvV042gWtDugwKJUP
- cHpJMdwrag+GfiXLiVjbjkzoSehr54HdpeH5z9owG4eFQ5X14B7hUDitFpW/Basu6mAq
- /7puW/r1Zpqu2HNAkQG5gdDvqwe5w3KV2i30aSyAV635E3nKcHx0L9plF1JfnC7aOF9o
- mdgA==
-X-Gm-Message-State: AOAM530xqI7VSp/0svFRyNFEh1qjbhJ4quFCeZkn/3RPsFGIlXYyhTd+
- 6yglp+ceFu6Lg0yHTlj28oVLZF8Ck8py+57sdoIVDZiXWZ9SeVy3h9VrarXh1YcX706FcVwvAic
- bfnS6tGrP/qKVeQI0hAEttAUZgkXHz3oJIW9f3UkRdGKOTH5+9w40rlQvXuEkgIRkFdA=
-X-Received: by 2002:adf:fb0c:0:b0:215:6216:6ed2 with SMTP id
- c12-20020adffb0c000000b0021562166ed2mr15175682wrr.450.1654526261108; 
- Mon, 06 Jun 2022 07:37:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAWEixaPtJHV0Kg7d8kP08xZSm/UJxEAtR2tsijKje1PWeF3MmhVSVfNsDoLoEtlpKQ8whpQ==
-X-Received: by 2002:adf:fb0c:0:b0:215:6216:6ed2 with SMTP id
- c12-20020adffb0c000000b0021562166ed2mr15175651wrr.450.1654526260750; 
- Mon, 06 Jun 2022 07:37:40 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0fHEwGcdjeEU1fGQ+84Um05tCKjCXvmlD3g+5THTYlQ=;
+ b=biVrHNyLOMCQiu01MNf4MZuZ7MNujqwrm88GZ6GemcjaF+zIXX1F9LNqenhP5jKKZX
+ Uf43KmgnrIj4W6t50+7IdIo5sV/Qzuy7e3Qg/82Tvr1e/En4jz15DMIzbK5NS4SGZsVJ
+ t4je9A1rT83jowtfMFFuzJxxB85tDAQ5CeoA+wm9vadr6W2gc5WigVIRb+trE7YD5i7A
+ O8HT4iYHZ4ZGETIBVbINhSBqF0VgDORnDl+jRRBQmApPovSBmZxIlJcbeetddVqzqDBg
+ knuHwUWqI+Yu0tFUXZKqeWqqnmNNEJWv1iUK0C2Y2gjcplk2YS0Axt4qN8CyiYFi6fCZ
+ b9Bg==
+X-Gm-Message-State: AOAM533MU9F5SQzrQD2WvKk35zbxJyvoreqO2Ts8zBga/GmihRaNOCtE
+ 4Hkds+Hze8ZqMge814TYiehysQ==
+X-Google-Smtp-Source: ABdhPJwQeYeJuThAYEoLKLdjaOwaqINP761Z9Msh9E11kEIESs8EgFVwL4DL6AcpVwALzcf3/evavQ==
+X-Received: by 2002:a17:902:bf4c:b0:15c:3d1b:8a47 with SMTP id
+ u12-20020a170902bf4c00b0015c3d1b8a47mr25112815pls.118.1654526308728; 
+ Mon, 06 Jun 2022 07:38:28 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:dd1c:9738:3e40:ffe0?
+ ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
  by smtp.gmail.com with ESMTPSA id
- t22-20020a05600c41d600b00397550b387bsm20841082wmh.23.2022.06.06.07.37.39
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:37:40 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 29/29] meson: qga: do not use deprecated meson.build_root()
-Date: Mon,  6 Jun 2022 16:36:44 +0200
-Message-Id: <20220606143644.1151112-30-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220606143644.1151112-1-pbonzini@redhat.com>
-References: <20220606143644.1151112-1-pbonzini@redhat.com>
+ g6-20020a170902c38600b00163de9e9342sm10676729plg.17.2022.06.06.07.38.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jun 2022 07:38:28 -0700 (PDT)
+Message-ID: <66c22a01-5d92-4e0a-7a8d-bb4ce89151f0@linaro.org>
+Date: Mon, 6 Jun 2022 07:38:25 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 21/71] target/arm: Implement TPIDR2_EL0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220602214853.496211-1-richard.henderson@linaro.org>
+ <20220602214853.496211-22-richard.henderson@linaro.org>
+ <CAFEAcA-WQOhsEJnQ1f1_91=ReBCkKkHgkgDh=kyQq6pFY78hQw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-WQOhsEJnQ1f1_91=ReBCkKkHgkgDh=kyQq6pFY78hQw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,30 +96,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function will return the build root of the parent project if called from a
-subproject; that is irrelevant for QEMU's usage but rarely desirable, and
-therefore the function was deprecated and replaced by two functions
-project_build_root() and global_build_root().  Replace it with the former.
+On 6/6/22 06:18, Peter Maydell wrote:
+>> +        if (!(sctlr & SCTLR_EnTP2)) {
+>> +            uint64_t hcr = arm_hcr_el2_eff(env);
+>> +            return hcr & HCR_TGE ? CP_ACCESS_TRAP_EL2 : CP_ACCESS_TRAP;
+> 
+> Do we really need to do this rather than just returning
+> CP_ACCESS_TRAP and letting the "take trap to EL2 if TGE
+> enabled" check in raise_exception() do the TGE routing?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- qga/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+No, you're right.
 
-diff --git a/qga/meson.build b/qga/meson.build
-index 619ff095bc..65c1e93846 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -125,7 +125,7 @@ if targetos == 'windows'
-                               wixl, '-o', '@OUTPUT0@', '@INPUT0@',
-                               qemu_ga_msi_arch[cpu],
-                               qemu_ga_msi_vss,
--                              '-D', 'BUILD_DIR=' + meson.build_root(),
-+                              '-D', 'BUILD_DIR=' + meson.project_build_root(),
-                               '-D', 'BIN_DIR=' + glib.get_variable('bindir'),
-                               '-D', 'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
-                               '-D', 'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
--- 
-2.36.1
-
+r~
 
