@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0971853E425
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 12:58:11 +0200 (CEST)
-Received: from localhost ([::1]:35746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C4153E41D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 12:52:45 +0200 (CEST)
+Received: from localhost ([::1]:56620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyAR0-0007ke-2J
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 06:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58408)
+	id 1nyALk-0002Jc-AV
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 06:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyAGN-0007f3-3Y
+ id 1nyAGM-0007f2-Le
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:47:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54067)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyAGJ-0001cT-Qt
+ id 1nyAGJ-0001ca-R8
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:47:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654512424;
+ s=mimecast20190719; t=1654512426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=IggI1/QSoMlPqgNfMZWIr+E2XBEF7Oe16zLTSBey4e4=;
- b=cP7nHoREau0CWtdE7+UK+aqJCsAG9BsRncp4GMVWU4Zk3aktiImenmbzinqAdSaa9EIouc
- EOOU2Y6DeGfiWw9pfRXbbKSUOrmNbnlvEQ5h9ZWFNyESeeOQ9593U79F7o89gmJjsBzpJj
- CMCZjCmlX9gzIhNpF0p1DeGvLpJrQO0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qGkxBUipSzfB6+E2sZAGdDLFTlTNb1Nue4FDrBmMfFQ=;
+ b=JJqxlQ13MT2TUqd6Ndy+dth2A43qk0wFIdLh/zCYTiXd908Z+WsWsmF/+0HX/GnFU0vtKN
+ 9h8jkdZ68rLCV8TKUR8FX6qrRrRS0t0ORBIarLVSYyov0zB48P+yocOvdD48gjTF816sHj
+ 6uLK/hzbUCwYUzwNUgluktWUidlGi/M=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-yhC3riS0MVyEGyfr4i6OQw-1; Mon, 06 Jun 2022 06:47:03 -0400
-X-MC-Unique: yhC3riS0MVyEGyfr4i6OQw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n15-20020a05600c4f8f00b0039c3e76d646so4184204wmq.7
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 03:47:03 -0700 (PDT)
+ us-mta-606-Plab0sLLPMG0tarlkubS9g-1; Mon, 06 Jun 2022 06:47:05 -0400
+X-MC-Unique: Plab0sLLPMG0tarlkubS9g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d9-20020adfe849000000b00213375a746aso2184529wrn.18
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 03:47:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IggI1/QSoMlPqgNfMZWIr+E2XBEF7Oe16zLTSBey4e4=;
- b=uq4OqkEd1Rhmg9eb9d4f26dhHHlnfNl0mWwqSCwPpt3D3Vi4gLoho1laL8Xv4scQxE
- Xs9l8l8CGh2MKoyO83U0Wp1qxq/zXkTKIzVprU6t7gk+BDdjI3dlz5sK67FH91lqReVn
- v3M6LTEGvQCG6/37HnfNge7XjzEwaLMCEzSyrS3j9uhXJIjINHIX7aXVvK7QMoKsd9vM
- iQqLjyRvKAga9Tp2hG/6rnTNjJO7+uvfFLTsMJ9UGqzin0BTCyDuiKMyFsHcB7v3+0Qc
- U1l6IPEtOMnOkoRq1TFU6gC7Ofxo9EfkWtWOrxiifBdEy0LWdH9PrbTCLCDoDXcvRW+N
- CsMA==
-X-Gm-Message-State: AOAM531cquSz1p+q5usvzHCpJSZ4RZoy7q9ZQQIC6Xd8aBxw7P/DBET4
- UPAy3sBXkciogIQT7ZFARsKrdap0yDNo+bGSilR6JgvNMZbJl4wcK9xx8iR9ZkRBM+7fawPJ+RR
- k43WJXSE+XUB8UlKVRwX19ECZhoEQzcDdGk/hKKf4TNKZ8DLmkrxeOAayVQuPqyGd9Xg=
-X-Received: by 2002:adf:fc01:0:b0:20c:ff9a:2c53 with SMTP id
- i1-20020adffc01000000b0020cff9a2c53mr20539859wrr.142.1654512422064; 
- Mon, 06 Jun 2022 03:47:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzY/yktRI5tmyum6026B7mF7goQ8okJWi3FMxtxiCKhOFIpB30/oqLloOD8jT5It135CSnJtQ==
-X-Received: by 2002:adf:fc01:0:b0:20c:ff9a:2c53 with SMTP id
- i1-20020adffc01000000b0020cff9a2c53mr20539827wrr.142.1654512421577; 
- Mon, 06 Jun 2022 03:47:01 -0700 (PDT)
+ bh=qGkxBUipSzfB6+E2sZAGdDLFTlTNb1Nue4FDrBmMfFQ=;
+ b=BpW3zoW7DjjWa7kGg/2T/v5Dmnrnjnu/LvKiZuittZKIwKPWo334X7C+rzMO5NAfqt
+ ZUjjEoXcVGiO8xBpiQQcR1IigI0QZWEmSTbY+8skIwG+otrJQytZVesX2kXS6CFVaKXg
+ dMam9ioaAHnLv92xmvlhZ9rorL5k7cHhuXRal7n/eHQ3p60oOr52q9x9HJvxax7w2n4M
+ 7/n38gXpw+HGEnwnrC9QYh+CqD/BkGdvEGHE58P0kI4WIEkLGQ2dJ5VRgUQzE1Y4coIw
+ uf6Br/cNRYhB+CMQzSByM8u5X7hjFPk8YwBrzE1jIq8/qh4zET3Hbh4Qg6f4f5094cmD
+ nUxw==
+X-Gm-Message-State: AOAM53394PyahpS2Q8Yt92sPXa3y3qU3R1AZ3+epdHAT1CgbpSmpJGvs
+ f9Ff71lXvGhjZ8m1l5iOjy2JnJz/QFv89R9DQxNsL9A3Z/zQ2ne0dbRGr+9SS954c4/elNh2H4q
+ OO6+nv/g6UEeBWh6qdwnNcCT7AS6p4s9Q1ALlQD95rRK4Gz9SJvAj5kleNW+SKvnQj8I=
+X-Received: by 2002:adf:f00c:0:b0:210:3430:5fdd with SMTP id
+ j12-20020adff00c000000b0021034305fddmr20813431wro.448.1654512423712; 
+ Mon, 06 Jun 2022 03:47:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXGa95xmZzH3YroJbHLs5HQOpm+nB/36E2rwl/6krhxZlaDVRYFK31ibXv5MyZpr4ACnogXA==
+X-Received: by 2002:adf:f00c:0:b0:210:3430:5fdd with SMTP id
+ j12-20020adff00c000000b0021034305fddmr20813409wro.448.1654512423368; 
+ Mon, 06 Jun 2022 03:47:03 -0700 (PDT)
 Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- l1-20020a1c2501000000b0039c4d022a44sm3861152wml.1.2022.06.06.03.47.00
+ t10-20020a5d460a000000b0021552eebde6sm8773197wrq.32.2022.06.06.03.47.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 03:47:00 -0700 (PDT)
+ Mon, 06 Jun 2022 03:47:02 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] regenerate meson-buildoptions.sh
-Date: Mon,  6 Jun 2022 12:47:00 +0200
-Message-Id: <20220606104700.1106971-1-pbonzini@redhat.com>
+Subject: [PATCH] configure: remove reference to removed option
+Date: Mon,  6 Jun 2022 12:47:01 +0200
+Message-Id: <20220606104701.1107015-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -97,37 +97,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/meson-buildoptions.sh | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ configure | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 731e5ea1cf..00ea4d8cd1 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -156,13 +156,13 @@ meson_options_help() {
-   printf "%s\n" '  vhost-kernel    vhost kernel backend support'
-   printf "%s\n" '  vhost-net       vhost-net kernel acceleration support'
-   printf "%s\n" '  vhost-user      vhost-user backend support'
--  printf "%s\n" '  vmnet           vmnet.framework network backend support'
-   printf "%s\n" '  vhost-user-blk-server'
-   printf "%s\n" '                  build vhost-user-blk server'
-   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
-   printf "%s\n" '  virglrenderer   virgl rendering support'
-   printf "%s\n" '  virtfs          virtio-9p support'
-   printf "%s\n" '  virtiofsd       build virtiofs daemon (virtiofsd)'
-+  printf "%s\n" '  vmnet           vmnet.framework network backend support'
-   printf "%s\n" '  vnc             VNC server'
-   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
-   printf "%s\n" '  vnc-sasl        SASL authentication for VNC server'
-@@ -430,6 +430,8 @@ _meson_option_parse() {
-     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
-     --enable-virtiofsd) printf "%s" -Dvirtiofsd=enabled ;;
-     --disable-virtiofsd) printf "%s" -Dvirtiofsd=disabled ;;
-+    --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
-+    --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
-     --enable-vnc) printf "%s" -Dvnc=enabled ;;
-     --disable-vnc) printf "%s" -Dvnc=disabled ;;
-     --enable-vnc-jpeg) printf "%s" -Dvnc_jpeg=enabled ;;
+diff --git a/configure b/configure
+index b9ccff9067..ac18ed4f3a 100755
+--- a/configure
++++ b/configure
+@@ -1035,7 +1035,6 @@ Advanced options (experts only):
+   --with-git-submodules=ignore   do not update or check git submodules (default if no .git dir)
+   --static                 enable static build [$static]
+   --bindir=PATH            install binaries in PATH
+-  --efi-aarch64=PATH       PATH of efi file to use for aarch64 VMs.
+   --with-suffix=SUFFIX     suffix for QEMU data inside datadir/libdir/sysconfdir/docdir [$qemu_suffix]
+   --without-default-features default all --enable-* options to "disabled"
+   --without-default-devices  do not include any device that is not needed to
 -- 
 2.36.1
 
