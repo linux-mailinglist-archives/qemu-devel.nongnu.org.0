@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7758953E52A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:53:59 +0200 (CEST)
-Received: from localhost ([::1]:52882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EDB53E527
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:50:00 +0200 (CEST)
+Received: from localhost ([::1]:45302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyE7C-0005R5-H6
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:53:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51072)
+	id 1nyE3L-0000AK-KB
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDr8-00026b-8D
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34742)
+ id 1nyDr7-00025Z-Pm
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDr4-0000Xd-IZ
+ id 1nyDr4-0000Xj-I2
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654526227;
+ s=mimecast20190719; t=1654526229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sIPOhTLQlwR5isH3e+n1CCQhooUx4MPtdUkaeU4PXWw=;
- b=SyBdzxIbjjKhCj3hVFbsmsq1bOyU9Myin+Ct5XBhdNJyaucLb/fdS3+Ln9vlYBbU8xsLKz
- DxtCmvLQI35TSgWuYDqpdSX8229HffZXVI6cGynCI4upEg88yp+rd/SD/mcFiKnR2D4Rg5
- 41xN2HaCBEv7vnYPp+nSiTENGvORE3U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GFkVwteKGaTzycRQEQZ+I1GrqbQDodeFp5/XE96lH98=;
+ b=W/kPJmQNn/CxUk2kHc7tewYpIZh3WnS3QTNf9GsKS0q+Fn6ESu7l2e3PQptajSzy3sBWmy
+ AXXAsJPNUvNUzkQHRGnKnJdUohyY4chDEG3qkO0uxe8hYJmCtq+XDdwyrVBAjX1ysH4gWf
+ cy4pOUYaLOAU8f1VhdcYO6bON6nDnp0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-108-A7BOTl4cNwevuML-Wk4cUA-1; Mon, 06 Jun 2022 10:37:06 -0400
-X-MC-Unique: A7BOTl4cNwevuML-Wk4cUA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- e19-20020a05600c4e5300b0039c4b6acd83so2800488wmq.2
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:06 -0700 (PDT)
+ us-mta-284-RE04WKSVMW-iO9FNIeVYjw-1; Mon, 06 Jun 2022 10:37:08 -0400
+X-MC-Unique: RE04WKSVMW-iO9FNIeVYjw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003974d0ff917so7804831wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sIPOhTLQlwR5isH3e+n1CCQhooUx4MPtdUkaeU4PXWw=;
- b=2TCGZrsGIDXCF6/oR8xuetkkmwDdx9JjhuItLPgo7I66J1lm1apEav2EBN5Aq8JbBf
- aYszRxCMrVh1T34Oj/AFCyvvHfrxoGZaTx6/d8YqzQo18nd3YHT40qkUXSXMNuz72GfH
- wfB5uAVxvjshHcQ4AZXVwQBnc2Zt/btDlJK8+tkzwQn+NjfZnGxxVQhPI5YnK6cq+O4L
- lXjrZP4a2QSU0F3MkWAN23IiweE9rzrFQqJ5TsQ254ULbXSLT2AuZhRMlSHydGHnf45b
- CVmzlMaJKoKlxY29YMPL7HVYr3IUEXo3vbVgq30ByCcJiDcG5JdXKp5bftYt5fwAU4eM
- PwhA==
-X-Gm-Message-State: AOAM531jf4wj10hUOAVVkYvozI42z6wFXl5azU1/7bgfS1eLyUGWTjxf
- xFXPxeAxbdXYm9XwV40BDslm08QRpPeHV1JbPZVjXjr9AgWjZ2MO/xZP287WBCUWJHuDbuWxGdO
- 3N8ozKrp7R9hed0Y/ixTnABcxKNy2ysboE3d0M3TIv7VQ1SCQ+oAAHwrHg7ltFOw34eI=
-X-Received: by 2002:adf:eacb:0:b0:217:dd5:445f with SMTP id
- o11-20020adfeacb000000b002170dd5445fmr9428641wrn.359.1654526224587; 
- Mon, 06 Jun 2022 07:37:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzV/zNxifT+hyxptKe/NJ3tqLuC6+3T0YzPzSIK/Ml5jCBKxgBrmv0luari4S+KW7HNv18nUw==
-X-Received: by 2002:adf:eacb:0:b0:217:dd5:445f with SMTP id
- o11-20020adfeacb000000b002170dd5445fmr9428610wrn.359.1654526224296; 
- Mon, 06 Jun 2022 07:37:04 -0700 (PDT)
+ bh=GFkVwteKGaTzycRQEQZ+I1GrqbQDodeFp5/XE96lH98=;
+ b=QyKH//G1EtJZ/07HqG4EY3Vc8yxWOb7QtnNjYIizDTTJmw0uj0vkZMK0iE46fWNUg3
+ 9kCOzb8LekrbUROzNnpbYpTJzf0pXyo8YFRRx1dIvv8WsX8cY19aagc/ZB7fSvhqq9gW
+ kIbq/Jtz611FQsT8NkVIDFVz2UH5VNIqZUhEAo0pFeIclyKGJidkFXw2fR5UIsZCFKV+
+ ap4ydC/uXViI9sofz2zq1Tm9tQJg0aK1iIpA/snLqq1LEb7KiWcdj8XGzs40FcCx+3i+
+ qiU7SC98AyMUX5JlJI69rj6ZQcgmSGt6lpCakvrdc9GwPAK8XckniAm0A0VzX1YxJsmq
+ O6FA==
+X-Gm-Message-State: AOAM533ngtt4QUIayHo9JMGMURdpVCLQ0xX8LQzW9qS/OXWXIMzRr0hZ
+ sKqkuALJJroA6zZa8xcts8CJu3h57vkNGFV83toUISx4birKcKWhUOc6GeWIgH5G/2BxXBf2yrf
+ vXsQ42CpJAZSB+GirvVsIpzQnpmnuPvQgAx47gvLIakwDpjOf8uQ9Je618dnLa/NfDuc=
+X-Received: by 2002:a1c:3b56:0:b0:39c:472a:4aff with SMTP id
+ i83-20020a1c3b56000000b0039c472a4affmr12421136wma.23.1654526226568; 
+ Mon, 06 Jun 2022 07:37:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6VAkbYgTNbw7/qi1kIVDgm58akEsOMuwpoWEe1ol3Fd2/6Q/og/bSlNCO3cJ5o7WCm1oZXw==
+X-Received: by 2002:a1c:3b56:0:b0:39c:472a:4aff with SMTP id
+ i83-20020a1c3b56000000b0039c472a4affmr12421088wma.23.1654526226123; 
+ Mon, 06 Jun 2022 07:37:06 -0700 (PDT)
 Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- u18-20020a5d5152000000b0020cdcb0efa2sm15380031wrt.34.2022.06.06.07.37.03
+ t17-20020adfeb91000000b0021031c894d3sm16359452wrn.94.2022.06.06.07.37.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:37:03 -0700 (PDT)
+ Mon, 06 Jun 2022 07:37:05 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
  Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 09/29] replay: simplify async event processing
-Date: Mon,  6 Jun 2022 16:36:24 +0200
-Message-Id: <20220606143644.1151112-10-pbonzini@redhat.com>
+Subject: [PULL 10/29] docs: convert docs/devel/replay page to rst
+Date: Mon,  6 Jun 2022 16:36:25 +0200
+Message-Id: <20220606143644.1151112-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220606143644.1151112-1-pbonzini@redhat.com>
 References: <20220606143644.1151112-1-pbonzini@redhat.com>
@@ -102,236 +102,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
-This patch joins replay event id and async event id into single byte in the log.
-It makes processing a bit faster and log a bit smaller.
+This patch converts prior .txt replay devel documentation to .rst.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
---
-
-v2: minor enum fixes (suggested by Richard Henderson)
-Message-Id: <165364838393.688121.8191379555130516329.stgit@pasha-ThinkPad-X280>
+Message-Id: <165364839013.688121.11935249420738873044.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- replay/replay-events.c   | 36 ++++++++++++++----------------------
- replay/replay-internal.h | 31 ++++++++++++++-----------------
- replay/replay-snapshot.c |  1 -
- replay/replay.c          |  5 +++--
- 4 files changed, 31 insertions(+), 42 deletions(-)
+ docs/devel/index-tcg.rst              |  1 +
+ docs/devel/{replay.txt => replay.rst} | 16 ++++++++++++----
+ 2 files changed, 13 insertions(+), 4 deletions(-)
+ rename docs/devel/{replay.txt => replay.rst} (90%)
 
-diff --git a/replay/replay-events.c b/replay/replay-events.c
-index db1decf9dd..af0721cc1a 100644
---- a/replay/replay-events.c
-+++ b/replay/replay-events.c
-@@ -174,8 +174,8 @@ static void replay_save_event(Event *event)
- {
-     if (replay_mode != REPLAY_MODE_PLAY) {
-         /* put the event into the file */
--        replay_put_event(EVENT_ASYNC);
--        replay_put_byte(event->event_kind);
-+        g_assert(event->event_kind < REPLAY_ASYNC_COUNT);
-+        replay_put_event(EVENT_ASYNC + event->event_kind);
- 
-         /* save event-specific data */
-         switch (event->event_kind) {
-@@ -220,14 +220,10 @@ void replay_save_events(void)
- static Event *replay_read_event(void)
- {
-     Event *event;
--    if (replay_state.read_event_kind == -1) {
--        replay_state.read_event_kind = replay_get_byte();
--        replay_state.read_event_id = -1;
--        replay_check_error();
--    }
-+    ReplayAsyncEventKind event_kind = replay_state.data_kind - EVENT_ASYNC;
- 
-     /* Events that has not to be in the queue */
--    switch (replay_state.read_event_kind) {
-+    switch (event_kind) {
-     case REPLAY_ASYNC_EVENT_BH:
-     case REPLAY_ASYNC_EVENT_BH_ONESHOT:
-         if (replay_state.read_event_id == -1) {
-@@ -236,17 +232,17 @@ static Event *replay_read_event(void)
-         break;
-     case REPLAY_ASYNC_EVENT_INPUT:
-         event = g_new0(Event, 1);
--        event->event_kind = replay_state.read_event_kind;
-+        event->event_kind = event_kind;
-         event->opaque = replay_read_input_event();
-         return event;
-     case REPLAY_ASYNC_EVENT_INPUT_SYNC:
-         event = g_new0(Event, 1);
--        event->event_kind = replay_state.read_event_kind;
-+        event->event_kind = event_kind;
-         event->opaque = 0;
-         return event;
-     case REPLAY_ASYNC_EVENT_CHAR_READ:
-         event = g_new0(Event, 1);
--        event->event_kind = replay_state.read_event_kind;
-+        event->event_kind = event_kind;
-         event->opaque = replay_event_char_read_load();
-         return event;
-     case REPLAY_ASYNC_EVENT_BLOCK:
-@@ -256,18 +252,17 @@ static Event *replay_read_event(void)
-         break;
-     case REPLAY_ASYNC_EVENT_NET:
-         event = g_new0(Event, 1);
--        event->event_kind = replay_state.read_event_kind;
-+        event->event_kind = event_kind;
-         event->opaque = replay_event_net_load();
-         return event;
-     default:
--        error_report("Unknown ID %d of replay event",
--            replay_state.read_event_kind);
-+        error_report("Unknown ID %d of replay event", event_kind);
-         exit(1);
-         break;
-     }
- 
-     QTAILQ_FOREACH(event, &events_list, events) {
--        if (event->event_kind == replay_state.read_event_kind
-+        if (event->event_kind == event_kind
-             && (replay_state.read_event_id == -1
-                 || replay_state.read_event_id == event->id)) {
-             break;
-@@ -276,12 +271,8 @@ static Event *replay_read_event(void)
- 
-     if (event) {
-         QTAILQ_REMOVE(&events_list, event, events);
--    } else {
--        return NULL;
-     }
- 
--    /* Read event-specific data */
--
-     return event;
- }
- 
-@@ -289,13 +280,14 @@ static Event *replay_read_event(void)
- void replay_read_events(void)
- {
-     g_assert(replay_mutex_locked());
--    while (replay_state.data_kind == EVENT_ASYNC) {
-+    while (replay_state.data_kind >= EVENT_ASYNC
-+        && replay_state.data_kind <= EVENT_ASYNC_LAST) {
-         Event *event = replay_read_event();
-         if (!event) {
-             break;
-         }
-         replay_finish_event();
--        replay_state.read_event_kind = -1;
-+        replay_state.read_event_id = -1;
-         replay_run_event(event);
- 
-         g_free(event);
-@@ -304,7 +296,7 @@ void replay_read_events(void)
- 
- void replay_init_events(void)
- {
--    replay_state.read_event_kind = -1;
-+    replay_state.read_event_id = -1;
- }
- 
- void replay_finish_events(void)
-diff --git a/replay/replay-internal.h b/replay/replay-internal.h
-index d6e631a394..89e377be90 100644
---- a/replay/replay-internal.h
-+++ b/replay/replay-internal.h
-@@ -12,6 +12,19 @@
-  *
-  */
- 
-+/* Asynchronous events IDs */
+diff --git a/docs/devel/index-tcg.rst b/docs/devel/index-tcg.rst
+index 0b0ad12c22..7b9760b26f 100644
+--- a/docs/devel/index-tcg.rst
++++ b/docs/devel/index-tcg.rst
+@@ -13,3 +13,4 @@ are only implementing things for HW accelerated hypervisors.
+    multi-thread-tcg
+    tcg-icount
+    tcg-plugins
++   replay
+diff --git a/docs/devel/replay.txt b/docs/devel/replay.rst
+similarity index 90%
+rename from docs/devel/replay.txt
+rename to docs/devel/replay.rst
+index e641c35add..dd8bf3b195 100644
+--- a/docs/devel/replay.txt
++++ b/docs/devel/replay.rst
+@@ -1,3 +1,11 @@
++..
++   Copyright (c) 2022, ISP RAS
++   Written by Pavel Dovgalyuk
 +
-+typedef enum ReplayAsyncEventKind {
-+    REPLAY_ASYNC_EVENT_BH,
-+    REPLAY_ASYNC_EVENT_BH_ONESHOT,
-+    REPLAY_ASYNC_EVENT_INPUT,
-+    REPLAY_ASYNC_EVENT_INPUT_SYNC,
-+    REPLAY_ASYNC_EVENT_CHAR_READ,
-+    REPLAY_ASYNC_EVENT_BLOCK,
-+    REPLAY_ASYNC_EVENT_NET,
-+    REPLAY_ASYNC_COUNT
-+} ReplayAsyncEventKind;
++=======================
++Execution Record/Replay
++=======================
 +
- /* Any changes to order/number of events will need to bump REPLAY_VERSION */
- enum ReplayEvents {
-     /* for instruction event */
-@@ -22,6 +35,7 @@ enum ReplayEvents {
-     EVENT_EXCEPTION,
-     /* for async events */
-     EVENT_ASYNC,
-+    EVENT_ASYNC_LAST = EVENT_ASYNC + REPLAY_ASYNC_COUNT - 1,
-     /* for shutdown requests, range allows recovery of ShutdownCause */
-     EVENT_SHUTDOWN,
-     EVENT_SHUTDOWN_LAST = EVENT_SHUTDOWN + SHUTDOWN_CAUSE__MAX,
-@@ -49,21 +63,6 @@ enum ReplayEvents {
-     EVENT_COUNT
- };
+ Record/replay mechanism, that could be enabled through icount mode, expects
+ the virtual devices to satisfy the following requirements.
  
--/* Asynchronous events IDs */
--
--enum ReplayAsyncEventKind {
--    REPLAY_ASYNC_EVENT_BH,
--    REPLAY_ASYNC_EVENT_BH_ONESHOT,
--    REPLAY_ASYNC_EVENT_INPUT,
--    REPLAY_ASYNC_EVENT_INPUT_SYNC,
--    REPLAY_ASYNC_EVENT_CHAR_READ,
--    REPLAY_ASYNC_EVENT_BLOCK,
--    REPLAY_ASYNC_EVENT_NET,
--    REPLAY_ASYNC_COUNT
--};
--
--typedef enum ReplayAsyncEventKind ReplayAsyncEventKind;
--
- typedef struct ReplayState {
-     /*! Cached clock values. */
-     int64_t cached_clock[REPLAY_CLOCK_COUNT];
-@@ -83,8 +82,6 @@ typedef struct ReplayState {
-     uint64_t block_request_id;
-     /*! Prior value of the host clock */
-     uint64_t host_clock_last;
--    /*! Asynchronous event type read from the log */
--    int32_t read_event_kind;
-     /*! Asynchronous event id read from the log */
-     uint64_t read_event_id;
- } ReplayState;
-diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
-index 7e935deb15..10a7cf7992 100644
---- a/replay/replay-snapshot.c
-+++ b/replay/replay-snapshot.c
-@@ -59,7 +59,6 @@ static const VMStateDescription vmstate_replay = {
-         VMSTATE_UINT32(has_unread_data, ReplayState),
-         VMSTATE_UINT64(file_offset, ReplayState),
-         VMSTATE_UINT64(block_request_id, ReplayState),
--        VMSTATE_INT32(read_event_kind, ReplayState),
-         VMSTATE_UINT64(read_event_id, ReplayState),
-         VMSTATE_END_OF_LIST()
-     },
-diff --git a/replay/replay.c b/replay/replay.c
-index ccd7edec76..4c396bb376 100644
---- a/replay/replay.c
-+++ b/replay/replay.c
-@@ -22,7 +22,7 @@
+@@ -5,7 +13,7 @@ The main idea behind this document is that everything that affects
+ the guest state during execution in icount mode should be deterministic.
  
- /* Current version of the replay mechanism.
-    Increase it when file format changes. */
--#define REPLAY_VERSION              0xe0200b
-+#define REPLAY_VERSION              0xe0200c
- /* Size of replay log header */
- #define HEADER_SIZE                 (sizeof(uint32_t) + sizeof(uint64_t))
+ Timers
+-======
++------
  
-@@ -221,7 +221,8 @@ bool replay_has_event(void)
-         replay_account_executed_instructions();
-         res = EVENT_CHECKPOINT <= replay_state.data_kind
-               && replay_state.data_kind <= EVENT_CHECKPOINT_LAST;
--        res = res || replay_state.data_kind == EVENT_ASYNC;
-+        res = res || (EVENT_ASYNC <= replay_state.data_kind
-+                     && replay_state.data_kind <= EVENT_ASYNC_LAST);
-     }
-     return res;
- }
+ All virtual devices should use virtual clock for timers that change the guest
+ state. Virtual clock is deterministic, therefore such timers are deterministic
+@@ -19,7 +27,7 @@ the virtual devices (e.g., slirp routing device) that lie outside the
+ replayed guest.
+ 
+ Bottom halves
+-=============
++-------------
+ 
+ Bottom half callbacks, that affect the guest state, should be invoked through
+ replay_bh_schedule_event or replay_bh_schedule_oneshot_event functions.
+@@ -27,7 +35,7 @@ Their invocations are saved in record mode and synchronized with the existing
+ log in replay mode.
+ 
+ Saving/restoring the VM state
+-=============================
++-----------------------------
+ 
+ All fields in the device state structure (including virtual timers)
+ should be restored by loadvm to the same values they had before savevm.
+@@ -38,7 +46,7 @@ is not defined. It means that you should not call functions like
+ the dependencies that may make restoring the VM state non-deterministic.
+ 
+ Stopping the VM
+-===============
++---------------
+ 
+ Stopping the guest should not interfere with its state (with the exception
+ of the network connections, that could be broken by the remote timeouts).
 -- 
 2.36.1
 
