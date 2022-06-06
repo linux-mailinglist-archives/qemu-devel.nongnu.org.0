@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6042F53E52F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:57:28 +0200 (CEST)
-Received: from localhost ([::1]:33100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C641E53E54A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:05:15 +0200 (CEST)
+Received: from localhost ([::1]:50240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEAZ-0002oi-4v
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51094)
+	id 1nyEI6-0006eZ-KU
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDr9-00029K-5V
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39333)
+ id 1nyDrF-0002O9-HP
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDr4-0000YW-Od
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:22 -0400
+ id 1nyDr6-0000aS-IC
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654526236;
+ s=mimecast20190719; t=1654526239;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8L7JgI2F5oBbZ3TmKr5ty/PB+j+A2om4APNZtjbcNQU=;
- b=S2iBQOO8oHpmtb2C05QlMfP1zXTP8vHyj6W5RddmjA2Xb6F3cDkPvmIsYvVzAu3Qo+qUVk
- JqLPQVxoyzDICdHXd4bq8CsDex8Bjsjbq6ieAUv3a43V0J/DqSWVNDcIJFclDWLJzZ8YBj
- skvzj2W9fRH0RGxzuXI5/JFlcoZJqek=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kM387v1WsabA4prRH3l5I9WuqejFFO0SIdWUvFlOYXs=;
+ b=TRdEROjVluuUFRuGMT7TRF8co1q/OMGjoUE85n5sXBoBqKNVi7acjUceB2jAv+MD9hHHaV
+ UVIVRGexyDn89/Uamx+X632Z2aZFNDNJZq5QKONy9KmJyP1Rv/TrqczCbASjioo1aKR1hL
+ BTG1BY2cZNojCygyHo8WBPbqZC1Hjow=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-rsRQwwntPCi9fqoIAkuJwQ-1; Mon, 06 Jun 2022 10:37:15 -0400
-X-MC-Unique: rsRQwwntPCi9fqoIAkuJwQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so7822488wmj.0
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:15 -0700 (PDT)
+ us-mta-300-Q32B0ZCTPnCbL3ywODBvpQ-1; Mon, 06 Jun 2022 10:37:17 -0400
+X-MC-Unique: Q32B0ZCTPnCbL3ywODBvpQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d9-20020adfe849000000b00213375a746aso2396029wrn.18
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8L7JgI2F5oBbZ3TmKr5ty/PB+j+A2om4APNZtjbcNQU=;
- b=NkWBu8nldxF6/TZN2OC6wH6owTFAYvADekua0BoANpUADgg0WzZN7wZP4z2mrAgAhy
- 8D5AuAkFx538tQIRHFGF4tdsY9lkC8WjDQhlEywbHBniuGsPvS7sGWZnyHSpqLze+7Wg
- Lr7mrzNLk2/KlVCb0vgr4WSY/lutmEnoUWl3NcIZcezkP0WEDBFwbG/KLVKoHDkWCbIC
- askDYUVXKiBA2IUNFKReGRQIAOnTg2FXxKaybR+sFKYjrbkmqYD5HJbuUAcfl6/Ucw7M
- fyyqciAKfZ1bTT9lJ6+jPGLgToLxeJI0oXAoNb+8gIZRnbo1KETSSUa4drEx3ZfxTMDT
- S4qg==
-X-Gm-Message-State: AOAM530MqVeUn38MjHA5O1Uwto4AhsBK6wRUmEt5TySr5MEaN/kI/aE/
- bOlR8a+Wd3TXIIAlRhJQNdFhTlscSlxhlQdDeT9V/NnFQTiBnUb5u1xi7s1mXLm4+wk12z9PYwV
- dGgMcPwmA7zEtBJIgmoa72uuQy6axFgKu4NCJpDvwrg3ywoHDy2PLDKF0pDPbzuXnjkA=
-X-Received: by 2002:adf:d1ca:0:b0:218:47c0:c4d2 with SMTP id
- b10-20020adfd1ca000000b0021847c0c4d2mr2017432wrd.639.1654526233763; 
- Mon, 06 Jun 2022 07:37:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEu2jNBALN6ezVTbKZjoeNpN7R+6cnXGbMiNigYCAX+g1Ts/Qnx5b/s/sm+sTBXnUyAYq3sw==
-X-Received: by 2002:adf:d1ca:0:b0:218:47c0:c4d2 with SMTP id
- b10-20020adfd1ca000000b0021847c0c4d2mr2017393wrd.639.1654526233335; 
- Mon, 06 Jun 2022 07:37:13 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- u4-20020adff884000000b00210288c55d0sm15501769wrp.52.2022.06.06.07.37.12
+ bh=kM387v1WsabA4prRH3l5I9WuqejFFO0SIdWUvFlOYXs=;
+ b=fwaAu8BphpJBzg5NM28oG1O+bY+NVKGToB8uYu7aBBMsE4YBKufMKXLTyDnX1W68fp
+ 2P4OXgR5bOU7hhbWIiLtsaYr8Z1/Agxd0h3KwK+dBoIyMa2FAuXfOPLJymnRwF1wlU31
+ syzk1YPU46eK1i8j9gwT/sLztRU6/9A0391bjzkjt6gH0Yv71LbcfB+nKvay+0aXs+Il
+ 6/QiWzjQUitOmiV6mXrvfPQpHHuY0kAL1HPNYI8r02t4bo1pTgi2mdkJajhAR/zrBoWA
+ 1JU7z9AqHTdEjs+KTlKRwtwFG2HepORUZmOVBQVT++NUaghn1cB/s4LabgS2jYfQnjfO
+ X3Dw==
+X-Gm-Message-State: AOAM530EZFdcnHWiPpDxkR7toF2M/RkiDmN18ax7sxD5tVboq1eulbiF
+ nLOsW/v8tIljT4qsU/55eFUcyG3cnYwZXl0jhH0cXYORwZP59biJCCKIQUaM8wLZHtvk4W/E5PP
+ t/I0BvWwybB+BJslAJSmMyDmjBaIMhzxrwTaWXNPJVV6Pl8+zzV6bq5XK5kH1Fnz6iLQ=
+X-Received: by 2002:a05:600c:4ec9:b0:397:750a:798a with SMTP id
+ g9-20020a05600c4ec900b00397750a798amr51975877wmq.169.1654526235525; 
+ Mon, 06 Jun 2022 07:37:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZo/4+Ty8kyv3wS9kujdFV6YEXj4aPI/G9D8MnVdvQjyIm2hS2NJXpcp47apaSUQDQ+rh1RA==
+X-Received: by 2002:a05:600c:4ec9:b0:397:750a:798a with SMTP id
+ g9-20020a05600c4ec900b00397750a798amr51975818wmq.169.1654526235058; 
+ Mon, 06 Jun 2022 07:37:15 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ o17-20020a5d6711000000b00218453adaefsm1551558wru.101.2022.06.06.07.37.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:37:12 -0700 (PDT)
+ Mon, 06 Jun 2022 07:37:14 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
- Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Subject: [PULL 14/29] tests/avocado: add replay Linux test for Aarch64 machines
-Date: Mon,  6 Jun 2022 16:36:29 +0200
-Message-Id: <20220606143644.1151112-15-pbonzini@redhat.com>
+Cc: Dario Faggioli <dfaggioli@suse.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 15/29] tests/Makefile.include: Fix 'make check-help' output
+Date: Mon,  6 Jun 2022 16:36:30 +0200
+Message-Id: <20220606143644.1151112-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220606143644.1151112-1-pbonzini@redhat.com>
 References: <20220606143644.1151112-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,73 +100,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+From: Dario Faggioli <dfaggioli@suse.com>
 
-This patch adds two tests for replaying Linux boot process
-on Aarch64 platform.
+Since commit 3d2f73ef75e ("build: use "meson test" as the test harness"),
+check-report.tap is no more, and we have check-report.junit.xml.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <165364841373.688121.8868079200312201658.stgit@pasha-ThinkPad-X280>
+Update the output of 'make check-help', which was still listing
+'check-report.tap', accordingly.
+
+Fixes: 3d2f73ef75e
+Signed-off-by: Dario Faggioli <dfaggioli@suse.com>
+Message-Id: <165366545439.6869.11633009118019728798.stgit@work>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/avocado/replay_linux.py | 40 +++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ tests/Makefile.include | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/tests/avocado/replay_linux.py b/tests/avocado/replay_linux.py
-index 3bb1bc8816..40e4f6908e 100644
---- a/tests/avocado/replay_linux.py
-+++ b/tests/avocado/replay_linux.py
-@@ -13,6 +13,7 @@
- import time
- 
- from avocado import skipUnless
-+from avocado_qemu import BUILD_DIR
- from avocado.utils import cloudinit
- from avocado.utils import network
- from avocado.utils import vmimage
-@@ -149,3 +150,42 @@ def test_pc_q35(self):
-         :avocado: tags=machine:q35
-         """
-         self.run_rr(shift=3)
-+
-+@skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-+class ReplayLinuxAarch64(ReplayLinux):
-+    """
-+    :avocado: tags=accel:tcg
-+    :avocado: tags=arch:aarch64
-+    :avocado: tags=machine:virt
-+    :avocado: tags=cpu:max
-+    """
-+
-+    chksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
-+
-+    hdd = 'virtio-blk-device'
-+    cd = 'virtio-blk-device'
-+    bus = None
-+
-+    def get_common_args(self):
-+        return ('-bios',
-+                os.path.join(BUILD_DIR, 'pc-bios', 'edk2-aarch64-code.fd'),
-+                "-cpu", "max,lpa2=off",
-+                '-device', 'virtio-rng-pci,rng=rng0',
-+                '-object', 'rng-builtin,id=rng0')
-+
-+    def test_virt_gicv2(self):
-+        """
-+        :avocado: tags=machine:gic-version=2
-+        """
-+
-+        self.run_rr(shift=3,
-+                    args=(*self.get_common_args(),
-+                          "-machine", "virt,gic-version=2"))
-+
-+    def test_virt_gicv3(self):
-+        """
-+        :avocado: tags=machine:gic-version=3
-+        """
-+
-+        self.run_rr(shift=3,
-+                    args=(*self.get_common_args(),
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 6a1688e33e..2a1c77440a 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -3,28 +3,28 @@
+ .PHONY: check-help
+ check-help:
+ 	@echo "Regression testing targets:"
+-	@echo " $(MAKE) check                Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
+-	@echo " $(MAKE) bench                Run speed tests"
++	@echo " $(MAKE) check                  Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
++	@echo " $(MAKE) bench                  Run speed tests"
+ 	@echo
+ 	@echo "Individual test suites:"
+-	@echo " $(MAKE) check-qtest-TARGET   Run qtest tests for given target"
+-	@echo " $(MAKE) check-qtest          Run qtest tests"
+-	@echo " $(MAKE) check-unit           Run qobject tests"
+-	@echo " $(MAKE) check-qapi-schema    Run QAPI schema tests"
+-	@echo " $(MAKE) check-block          Run block tests"
++	@echo " $(MAKE) check-qtest-TARGET     Run qtest tests for given target"
++	@echo " $(MAKE) check-qtest            Run qtest tests"
++	@echo " $(MAKE) check-unit             Run qobject tests"
++	@echo " $(MAKE) check-qapi-schema      Run QAPI schema tests"
++	@echo " $(MAKE) check-block            Run block tests"
+ ifneq ($(filter $(all-check-targets), check-softfloat),)
+-	@echo " $(MAKE) check-tcg            Run TCG tests"
+-	@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
++	@echo " $(MAKE) check-tcg              Run TCG tests"
++	@echo " $(MAKE) check-softfloat        Run FPU emulation tests"
+ endif
+-	@echo " $(MAKE) check-avocado        Run avocado (integration) tests for currently configured targets"
++	@echo " $(MAKE) check-avocado          Run avocado (integration) tests for currently configured targets"
+ 	@echo
+-	@echo " $(MAKE) check-report.tap     Generates an aggregated TAP test report"
+-	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
+-	@echo " $(MAKE) check-clean          Clean the tests and related data"
++	@echo " $(MAKE) check-report.junit.xml Generates an aggregated XML test report"
++	@echo " $(MAKE) check-venv             Creates a Python venv for tests"
++	@echo " $(MAKE) check-clean            Clean the tests and related data"
+ 	@echo
+ 	@echo "The following are useful for CI builds"
+-	@echo " $(MAKE) check-build          Build most test binaries"
+-	@echo " $(MAKE) get-vm-images        Downloads all images used by avocado tests, according to configured targets (~350 MB each, 1.5 GB max)"
++	@echo " $(MAKE) check-build            Build most test binaries"
++	@echo " $(MAKE) get-vm-images          Downloads all images used by avocado tests, according to configured targets (~350 MB each, 1.5 GB max)"
+ 	@echo
+ 	@echo
+ 	@echo "The variable SPEED can be set to control the gtester speed setting."
 -- 
 2.36.1
 
