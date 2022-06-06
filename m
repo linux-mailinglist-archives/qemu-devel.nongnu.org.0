@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BFE53E529
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:53:13 +0200 (CEST)
-Received: from localhost ([::1]:50700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6042F53E52F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:57:28 +0200 (CEST)
+Received: from localhost ([::1]:33100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyE6S-0003xc-CN
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51060)
+	id 1nyEAZ-0002oi-4v
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDr7-00025e-Ri
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28174)
+ id 1nyDr9-00029K-5V
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDr4-0000Y0-Mg
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:21 -0400
+ id 1nyDr4-0000YW-Od
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654526234;
+ s=mimecast20190719; t=1654526236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+t3gkwgGwLSHvcNvt1joAtKEz1aMI4Lc04QL7sM58NE=;
- b=EofvFlICZzbvC/sFpu9uXlC/YDOPNA1rYu9D8bt2KI1snCuNY/UEc68aW0LHfUhQYfyqdT
- AgNdCv+lHmfmZ0LFcelj9H03BeeH8gpK94CCwc1m9HgSwunge0sH9BXRsTukAjN4xuVHGs
- KSD+gmWenC36k/88GN7rj20TzNF2nGo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8L7JgI2F5oBbZ3TmKr5ty/PB+j+A2om4APNZtjbcNQU=;
+ b=S2iBQOO8oHpmtb2C05QlMfP1zXTP8vHyj6W5RddmjA2Xb6F3cDkPvmIsYvVzAu3Qo+qUVk
+ JqLPQVxoyzDICdHXd4bq8CsDex8Bjsjbq6ieAUv3a43V0J/DqSWVNDcIJFclDWLJzZ8YBj
+ skvzj2W9fRH0RGxzuXI5/JFlcoZJqek=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-t_RliPABNi2qUlqAq2byxw-1; Mon, 06 Jun 2022 10:37:13 -0400
-X-MC-Unique: t_RliPABNi2qUlqAq2byxw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o23-20020a05600c511700b0039743cd8093so7797860wms.6
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:13 -0700 (PDT)
+ us-mta-212-rsRQwwntPCi9fqoIAkuJwQ-1; Mon, 06 Jun 2022 10:37:15 -0400
+X-MC-Unique: rsRQwwntPCi9fqoIAkuJwQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k16-20020a7bc310000000b0038e6cf00439so7822488wmj.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+t3gkwgGwLSHvcNvt1joAtKEz1aMI4Lc04QL7sM58NE=;
- b=fRNuGS0szGWHTCmQ5xMZZVYVd/b0hUDwWzy+dFN+HvwyBD42G00YCMOvOBg1DNf94k
- CqBWKoKyewhEiv+WVsdk3n/L5Qoy4PAZ+1zjOK5r4S0bjw5+x+IQDvM+zk3m7GqT/DK0
- d/pbu4AZoXSQiZ6uxccZeBl6k79Mh6biprLZeMr2JMk+t0G7cA42DiC8sS4cge8wf/1l
- HXrkz9kD7I/7QtO/R4TwaKUqWf4cDOif9Raie/4g5BxF9Xc8JEUCDSLYT9Av8CKhCApR
- wE6AWkLWqIJbSiNq51Tyj83nzyENm7Aq7o9bnnyp2/M4Fr1Bp11iZLQNlicJhW7lRxQs
- IXiQ==
-X-Gm-Message-State: AOAM5321xHKviSWDEVfYd7fYDUypsyuBFPwsrNauworbDtySjWdkgL5Z
- 4xFKX7JOgSZ+B9IkRWqu6nLvVrzuk1SvdSge4QQJl39jzwheIcK9pGQjZtJ3lyES5aDrYD+17Zm
- yagC5YWyClKi9YQVm7sF8L29+k5TiqDJDMblGskEh1Hz0dAC1qdrsi0DJL5g+ZCbQ0co=
-X-Received: by 2002:a05:6000:244:b0:210:cc02:889a with SMTP id
- m4-20020a056000024400b00210cc02889amr22564052wrz.141.1654526231731; 
- Mon, 06 Jun 2022 07:37:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrXkIGSYB8gyNcDxqlYhKfftHY1+ntg1RcE3h1KbikZh40jqf/nPhptAaZb1Z11xquLGmDrw==
-X-Received: by 2002:a05:6000:244:b0:210:cc02:889a with SMTP id
- m4-20020a056000024400b00210cc02889amr22564018wrz.141.1654526231400; 
- Mon, 06 Jun 2022 07:37:11 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- bv18-20020a0560001f1200b002183cedbf34sm3176040wrb.73.2022.06.06.07.37.10
+ bh=8L7JgI2F5oBbZ3TmKr5ty/PB+j+A2om4APNZtjbcNQU=;
+ b=NkWBu8nldxF6/TZN2OC6wH6owTFAYvADekua0BoANpUADgg0WzZN7wZP4z2mrAgAhy
+ 8D5AuAkFx538tQIRHFGF4tdsY9lkC8WjDQhlEywbHBniuGsPvS7sGWZnyHSpqLze+7Wg
+ Lr7mrzNLk2/KlVCb0vgr4WSY/lutmEnoUWl3NcIZcezkP0WEDBFwbG/KLVKoHDkWCbIC
+ askDYUVXKiBA2IUNFKReGRQIAOnTg2FXxKaybR+sFKYjrbkmqYD5HJbuUAcfl6/Ucw7M
+ fyyqciAKfZ1bTT9lJ6+jPGLgToLxeJI0oXAoNb+8gIZRnbo1KETSSUa4drEx3ZfxTMDT
+ S4qg==
+X-Gm-Message-State: AOAM530MqVeUn38MjHA5O1Uwto4AhsBK6wRUmEt5TySr5MEaN/kI/aE/
+ bOlR8a+Wd3TXIIAlRhJQNdFhTlscSlxhlQdDeT9V/NnFQTiBnUb5u1xi7s1mXLm4+wk12z9PYwV
+ dGgMcPwmA7zEtBJIgmoa72uuQy6axFgKu4NCJpDvwrg3ywoHDy2PLDKF0pDPbzuXnjkA=
+X-Received: by 2002:adf:d1ca:0:b0:218:47c0:c4d2 with SMTP id
+ b10-20020adfd1ca000000b0021847c0c4d2mr2017432wrd.639.1654526233763; 
+ Mon, 06 Jun 2022 07:37:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEu2jNBALN6ezVTbKZjoeNpN7R+6cnXGbMiNigYCAX+g1Ts/Qnx5b/s/sm+sTBXnUyAYq3sw==
+X-Received: by 2002:adf:d1ca:0:b0:218:47c0:c4d2 with SMTP id
+ b10-20020adfd1ca000000b0021847c0c4d2mr2017393wrd.639.1654526233335; 
+ Mon, 06 Jun 2022 07:37:13 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ u4-20020adff884000000b00210288c55d0sm15501769wrp.52.2022.06.06.07.37.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:37:10 -0700 (PDT)
+ Mon, 06 Jun 2022 07:37:12 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
  Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Subject: [PULL 13/29] tests/avocado: add replay Linux tests for virtio machine
-Date: Mon,  6 Jun 2022 16:36:28 +0200
-Message-Id: <20220606143644.1151112-14-pbonzini@redhat.com>
+Subject: [PULL 14/29] tests/avocado: add replay Linux test for Aarch64 machines
+Date: Mon,  6 Jun 2022 16:36:29 +0200
+Message-Id: <20220606143644.1151112-15-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220606143644.1151112-1-pbonzini@redhat.com>
 References: <20220606143644.1151112-1-pbonzini@redhat.com>
@@ -102,49 +103,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
 This patch adds two tests for replaying Linux boot process
-on x86_64 virtio platform.
+on Aarch64 platform.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <165364840811.688121.11931681195199516354.stgit@pasha-ThinkPad-X280>
+Message-Id: <165364841373.688121.8868079200312201658.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/avocado/replay_linux.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ tests/avocado/replay_linux.py | 40 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
 diff --git a/tests/avocado/replay_linux.py b/tests/avocado/replay_linux.py
-index 1099b5647f..3bb1bc8816 100644
+index 3bb1bc8816..40e4f6908e 100644
 --- a/tests/avocado/replay_linux.py
 +++ b/tests/avocado/replay_linux.py
-@@ -123,3 +123,29 @@ def test_pc_q35(self):
+@@ -13,6 +13,7 @@
+ import time
+ 
+ from avocado import skipUnless
++from avocado_qemu import BUILD_DIR
+ from avocado.utils import cloudinit
+ from avocado.utils import network
+ from avocado.utils import vmimage
+@@ -149,3 +150,42 @@ def test_pc_q35(self):
          :avocado: tags=machine:q35
          """
          self.run_rr(shift=3)
 +
 +@skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-+class ReplayLinuxX8664Virtio(ReplayLinux):
++class ReplayLinuxAarch64(ReplayLinux):
 +    """
-+    :avocado: tags=arch:x86_64
-+    :avocado: tags=virtio
 +    :avocado: tags=accel:tcg
++    :avocado: tags=arch:aarch64
++    :avocado: tags=machine:virt
++    :avocado: tags=cpu:max
 +    """
 +
-+    hdd = 'virtio-blk-pci'
-+    cd = 'virtio-blk-pci'
++    chksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
++
++    hdd = 'virtio-blk-device'
++    cd = 'virtio-blk-device'
 +    bus = None
 +
-+    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
++    def get_common_args(self):
++        return ('-bios',
++                os.path.join(BUILD_DIR, 'pc-bios', 'edk2-aarch64-code.fd'),
++                "-cpu", "max,lpa2=off",
++                '-device', 'virtio-rng-pci,rng=rng0',
++                '-object', 'rng-builtin,id=rng0')
 +
-+    def test_pc_i440fx(self):
++    def test_virt_gicv2(self):
 +        """
-+        :avocado: tags=machine:pc
++        :avocado: tags=machine:gic-version=2
 +        """
-+        self.run_rr(shift=1)
 +
-+    def test_pc_q35(self):
++        self.run_rr(shift=3,
++                    args=(*self.get_common_args(),
++                          "-machine", "virt,gic-version=2"))
++
++    def test_virt_gicv3(self):
 +        """
-+        :avocado: tags=machine:q35
++        :avocado: tags=machine:gic-version=3
 +        """
-+        self.run_rr(shift=3)
++
++        self.run_rr(shift=3,
++                    args=(*self.get_common_args(),
 -- 
 2.36.1
 
