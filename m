@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A5653ED4C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 19:54:37 +0200 (CEST)
-Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD1053EDD9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 20:26:13 +0200 (CEST)
+Received: from localhost ([::1]:35804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyGw0-0002HL-Jb
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 13:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40454)
+	id 1nyHQa-00088k-C6
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 14:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nyGtK-0007fV-Qs; Mon, 06 Jun 2022 13:51:51 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:45029)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyHP7-0006Pj-NM
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 14:24:41 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nyGtI-0007pr-Pn; Mon, 06 Jun 2022 13:51:50 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-f2cbceefb8so20012687fac.11; 
- Mon, 06 Jun 2022 10:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=kuEQwMeJGfo076ZIv74azWQc0dWd1lfjYK85vv6c43c=;
- b=Pn9MNAIzIghphByg7Fxzf8kC9LELfP61MBjX7mgawqGC8QyZQl+fcZOBqmXqyLzcCI
- RxzG+J2WWJSKnzt8ub8GjX3uFwi8oqtsAW/c4TbK0WXFwRxfmfEn6wQ4ZI2/EdMLMWIX
- VDAgDXm3FC242JxygYqF4jYZuLYa6+oewdUKLpH6iNYQaW1jp9T7Ql7RWZloeR9zlTfy
- 4y1ITyuIvXWN2Ra1MzHBssJtBFrkX+sePEg5ASL/DHWwyNd7y9CpPSVF3OwMKSKiapJy
- ykGFMCUSX3ouwwzj3zqFsIawiXehjiTGdSxFGfGF8GGt1hPv+D+zSl/OyCsnhBW/4cRG
- tKVw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyHP5-0003mL-D5
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 14:24:41 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id p8so13355111pfh.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 11:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lW0I3Ia6SUG8ZL9CBoA9FfBSQDc/uwvV0C98pSDWlfo=;
+ b=BqhKLP8PMegOpBqTFM5GB0d4wzmJoLVIA1vBqiarj6DEk63A9FvKeSSvG7vwN6RRYM
+ TN1U9poQwPj22dELxZIr29n+yzIfKyi0kyYdMU1A8E6P6HsiSZlpK5jop9Cfkdh9qdY6
+ Nu/nPocZn65H/ON3Vlv8bB0D/b1QjVTGXQEEyWggzFNQisGDUKH6evY+PN7X64b53vrA
+ qYBMwSZgx57xCPVGvuf3aUOWxnQj/tJ/U1PcoglTJ0JcNawmmdMJqyDKuTE09yY2Iboa
+ 5noTcR+I0JfTMpy3LFQ/o6Ix/6CHOqs/NvxCUbBeokF6fAzdTZ/s6+N+qhnfk/CJX7NX
+ th0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=kuEQwMeJGfo076ZIv74azWQc0dWd1lfjYK85vv6c43c=;
- b=Tmw58Xm5vUeruvtfShGV8ZfGyYnQfttRzTVwhwQDiHaovKr4UjS1KulIf7YUcTVDA+
- 3UKI5elXdoxFH2Tiu6nLETu9QX8f+G4HIWjlqMAqLDKEiSn5a81fpCsVvjEtoCT03wvn
- ZnXjDGz6NYa++aQ1kGEAgaJa3dwA4VNzozWouE63OMwaiSZTyZzqr2NHz7C2ZkMTY5Mc
- iCaFfhPZHhBL+fAe06/1iRd6Rwp4f8KBfSa4zUwkzztbXZiDAi9BgxjgD61f+Q2zGhNE
- Dfv150Xw1iJxJtdkKKWy9eIykHkjhbclny9yFvx/EUujM0IZLgu4j+y6jLap5yZBZ1aa
- 9ylg==
-X-Gm-Message-State: AOAM530IcioDmmwe4vQ7+xL36w2+xe2OjAXr8gbIo7EiKWnzps8RX/4j
- ePwnKpNJLuhX9cOcuH6QAAQ=
-X-Google-Smtp-Source: ABdhPJy4/5Uff8dCLEybGeulasz+gzP3azboV5XTFKYcKTUts89yJ4LWMGUIsrUyma5F0mEboBmIYw==
-X-Received: by 2002:a05:6870:f224:b0:e5:c30a:fa4f with SMTP id
- t36-20020a056870f22400b000e5c30afa4fmr14340432oao.252.1654537907357; 
- Mon, 06 Jun 2022 10:51:47 -0700 (PDT)
-Received: from [192.168.10.102] ([177.45.165.74])
+ bh=lW0I3Ia6SUG8ZL9CBoA9FfBSQDc/uwvV0C98pSDWlfo=;
+ b=A/fJiOGoM5qo+53wQrSNw6cdQDmSkisYONPp4GenKNH+MS6IkrOKsHXb+06j5cB3J5
+ zmDr/jKDzuYj0hcDx1NeJwE05be207imxG5gRNIDaUROiGjO3LFJUEzAcAadWcvn7ymv
+ HZJ31L85V8a/lu483lesGLt1GAgneXhJWh7TS69RqBh4NqvFekHdBmtPAcxaBi3FTb7m
+ OH5pf6YjzisSGfvCKNCGzY+MQIfezGROkM/k1rgm99WT2vGJzErMYFENP7vSHg2oC7nJ
+ Kl5xetxudoTRiZSKZvTO9ueSRnl7Qw3PTMSgo/7QsJVEe4Q9nQOIESUaT3kXQ8hv9SLD
+ /bUQ==
+X-Gm-Message-State: AOAM530AesqeOVm3k1gMePDvOO4+QUGuDc4UPbJyv2uwgHeCEGX2PWEq
+ QA0Nk/YDKlkaUY1VBr8j/HBM1u5WTyFCEQ==
+X-Google-Smtp-Source: ABdhPJzIGjehsT0rcUlJTDzrLXiePoOKi8X11IH/P+D6QZazMFfO2Qa36/Mk/13exljtY8aDrwG7ig==
+X-Received: by 2002:a63:5a41:0:b0:3fb:bd55:5871 with SMTP id
+ k1-20020a635a41000000b003fbbd555871mr21848178pgm.449.1654539877963; 
+ Mon, 06 Jun 2022 11:24:37 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
  by smtp.gmail.com with ESMTPSA id
- j9-20020a056870530900b000f33b23a030sm6886031oan.57.2022.06.06.10.51.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 10:51:47 -0700 (PDT)
-Message-ID: <cce95347-746d-7e4f-7d0b-4856f77c9f65@gmail.com>
-Date: Mon, 6 Jun 2022 14:51:44 -0300
+ y188-20020a6232c5000000b0051bb79437f7sm10896813pfy.37.2022.06.06.11.24.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jun 2022 11:24:37 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org,
+	thuth@redhat.com
+Subject: [PATCH] gitlab-ci: Extend timeout for ubuntu-20.04-s390x-all to 75m
+Date: Mon,  6 Jun 2022 11:24:36 -0700
+Message-Id: <20220606182436.410053-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] pnv/xive2: Access direct mapped thread contexts from all
- chips
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20220602165310.558810-1-fbarrat@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220602165310.558810-1-fbarrat@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,71 +87,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+Recent runs have been taking just over the 60m default.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Daniel
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+index 4f292a8a5b..9f1fe9e7dc 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+@@ -31,6 +31,7 @@ ubuntu-20.04-s390x-all:
+  - s390x
+  variables:
+     DFLTCC: 0
++ timeout: 75m
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+  - if: "$S390X_RUNNER_AVAILABLE"
+-- 
+2.34.1
 
-On 6/2/22 13:53, Frederic Barrat wrote:
-> When accessing a thread context through the IC BAR, the offset of the
-> page in the BAR identifies the CPU. From that offset, we can compute
-> the PIR (processor ID register) of the CPU to do the data structure
-> lookup. On P10, the current code assumes an access for node 0 when
-> computing the PIR. Everything is almost in place to allow access for
-> other nodes though. So this patch reworks how the PIR value is
-> computed so that we can access all thread contexts through the IC BAR.
-> 
-> The PIR is already correct on P9, so no need to modify anything there.
-> 
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-> ---
->   hw/intc/pnv_xive2.c | 18 ++++++++++++++----
->   1 file changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-> index a39e070e82..f31c53c28d 100644
-> --- a/hw/intc/pnv_xive2.c
-> +++ b/hw/intc/pnv_xive2.c
-> @@ -1574,6 +1574,12 @@ static const MemoryRegionOps pnv_xive2_ic_sync_ops = {
->    * When the TM direct pages of the IC controller are accessed, the
->    * target HW thread is deduced from the page offset.
->    */
-> +static uint32_t pnv_xive2_ic_tm_get_pir(PnvXive2 *xive, hwaddr offset)
-> +{
-> +    /* On P10, the node ID shift in the PIR register is 8 bits */
-> +    return xive->chip->chip_id << 8 | offset >> xive->ic_shift;
-> +}
-> +
->   static XiveTCTX *pnv_xive2_get_indirect_tctx(PnvXive2 *xive, uint32_t pir)
->   {
->       PnvChip *chip = xive->chip;
-> @@ -1596,10 +1602,12 @@ static uint64_t pnv_xive2_ic_tm_indirect_read(void *opaque, hwaddr offset,
->                                                 unsigned size)
->   {
->       PnvXive2 *xive = PNV_XIVE2(opaque);
-> -    uint32_t pir = offset >> xive->ic_shift;
-> -    XiveTCTX *tctx = pnv_xive2_get_indirect_tctx(xive, pir);
-> +    uint32_t pir;
-> +    XiveTCTX *tctx;
->       uint64_t val = -1;
->   
-> +    pir = pnv_xive2_ic_tm_get_pir(xive, offset);
-> +    tctx = pnv_xive2_get_indirect_tctx(xive, pir);
->       if (tctx) {
->           val = xive_tctx_tm_read(NULL, tctx, offset, size);
->       }
-> @@ -1611,9 +1619,11 @@ static void pnv_xive2_ic_tm_indirect_write(void *opaque, hwaddr offset,
->                                              uint64_t val, unsigned size)
->   {
->       PnvXive2 *xive = PNV_XIVE2(opaque);
-> -    uint32_t pir = offset >> xive->ic_shift;
-> -    XiveTCTX *tctx = pnv_xive2_get_indirect_tctx(xive, pir);
-> +    uint32_t pir;
-> +    XiveTCTX *tctx;
->   
-> +    pir = pnv_xive2_ic_tm_get_pir(xive, offset);
-> +    tctx = pnv_xive2_get_indirect_tctx(xive, pir);
->       if (tctx) {
->           xive_tctx_tm_write(NULL, tctx, offset, val, size);
->       }
 
