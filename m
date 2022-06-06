@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51B753E4B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 15:24:57 +0200 (CEST)
-Received: from localhost ([::1]:41902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F8253E4C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 15:35:18 +0200 (CEST)
+Received: from localhost ([::1]:39306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyCj2-0005jn-OX
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 09:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
+	id 1nyCt3-0006NQ-NN
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 09:35:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nyC5x-0000AF-4A
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:44:33 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:40320 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nyC5u-0004UK-Gs
+ id 1nyC5v-00007Q-WF
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:44:32 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:40252 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nyC5t-0004U2-6s
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:44:31 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cxr+Z29p1ishIXAA--.3714S38; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cxr+Z29p1ishIXAA--.3714S39; 
  Mon, 06 Jun 2022 20:44:14 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, maobibo@loongson.cn
-Subject: [PATCH v7 36/43] Enable common virtio pci support for LoongArch
-Date: Mon,  6 Jun 2022 20:43:26 +0800
-Message-Id: <20220606124333.2060567-37-yangxiaojuan@loongson.cn>
+Subject: [PATCH v7 37/43] hw/loongarch: Add some devices support for 3A5000.
+Date: Mon,  6 Jun 2022 20:43:27 +0800
+Message-Id: <20220606124333.2060567-38-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220606124333.2060567-1-yangxiaojuan@loongson.cn>
 References: <20220606124333.2060567-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Cxr+Z29p1ishIXAA--.3714S38
-X-Coremail-Antispam: 1UD129KBjvdXoWrKr1fZFW3KFyfXr4xCr4rZrb_yoW3trbEy3
- WSyryrurWkJw4xZrn8WFW7Xa40g3yUua1DW3y2qw18Xw1YvwsrJr15tr15u3s8XFy7CF13
- Gan2vr15Zw13JjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
+X-CM-TRANSID: AQAAf9Cxr+Z29p1ishIXAA--.3714S39
+X-Coremail-Antispam: 1UD129KBjvJXoWxKr4xuFW7Jr13Ary5XrWrZrb_yoW7ArWkpF
+ 15Ca93GrW8tFsrXr93tr1fWFn8Xan7Ca47uayfZa4vkr1xCr1DZw4kKa98tFWUJFWkXryY
+ gFykGwnag3WUZw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,27 +62,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+1.Add uart,virtio-net,vga and usb for 3A5000.
+2.Add irq set and map for the pci host. Non pci device
+use irq 0-16, pci device use 16-64.
+3.Add some unimplented device to emulate guest unused
+memory space.
+
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- softmmu/qdev-monitor.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/loongarch/Kconfig       |  7 ++++
+ hw/loongarch/loongson3.c   | 77 ++++++++++++++++++++++++++++++++++++++
+ include/hw/pci-host/ls7a.h |  7 ++++
+ 3 files changed, 91 insertions(+)
 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 12fe60c467..bb5897fc76 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -60,7 +60,8 @@ typedef struct QDevAlias
-                               QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
-                               QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
-                               QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
--                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
-+                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA | \
-+                              QEMU_ARCH_LOONGARCH)
- #define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
- #define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index f779087416..8552ff4bee 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -2,6 +2,13 @@ config LOONGARCH_VIRT
+     bool
+     select PCI
+     select PCI_EXPRESS_GENERIC_BRIDGE
++    imply VGA_PCI
++    imply VIRTIO_VGA
++    imply PCI_DEVICES
++    select ISA_BUS
++    select SERIAL
++    select SERIAL_ISA
++    select VIRTIO_PCI
+     select LOONGARCH_IPI
+     select LOONGARCH_PCH_PIC
+     select LOONGARCH_PCH_MSI
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+index 7a5c61e2df..7bc17113dc 100644
+--- a/hw/loongarch/loongson3.c
++++ b/hw/loongarch/loongson3.c
+@@ -9,6 +9,7 @@
+ #include "qemu/datadir.h"
+ #include "qapi/error.h"
+ #include "hw/boards.h"
++#include "hw/char/serial.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/qtest.h"
+ #include "sysemu/runstate.h"
+@@ -16,14 +17,88 @@
+ #include "sysemu/rtc.h"
+ #include "hw/loongarch/virt.h"
+ #include "exec/address-spaces.h"
++#include "hw/irq.h"
++#include "net/net.h"
+ #include "hw/intc/loongarch_ipi.h"
+ #include "hw/intc/loongarch_extioi.h"
+ #include "hw/intc/loongarch_pch_pic.h"
+ #include "hw/intc/loongarch_pch_msi.h"
+ #include "hw/pci-host/ls7a.h"
++#include "hw/pci-host/gpex.h"
++#include "hw/misc/unimp.h"
  
+ #include "target/loongarch/cpu.h"
+ 
++static void loongarch_devices_init(DeviceState *pch_pic)
++{
++    DeviceState *gpex_dev;
++    SysBusDevice *d;
++    PCIBus *pci_bus;
++    MemoryRegion *ecam_alias, *ecam_reg, *pio_alias, *pio_reg;
++    MemoryRegion *mmio_alias, *mmio_reg;
++    int i;
++
++    gpex_dev = qdev_new(TYPE_GPEX_HOST);
++    d = SYS_BUS_DEVICE(gpex_dev);
++    sysbus_realize_and_unref(d, &error_fatal);
++    pci_bus = PCI_HOST_BRIDGE(gpex_dev)->bus;
++
++    /* Map only part size_ecam bytes of ECAM space */
++    ecam_alias = g_new0(MemoryRegion, 1);
++    ecam_reg = sysbus_mmio_get_region(d, 0);
++    memory_region_init_alias(ecam_alias, OBJECT(gpex_dev), "pcie-ecam",
++                             ecam_reg, 0, LS_PCIECFG_SIZE);
++    memory_region_add_subregion(get_system_memory(), LS_PCIECFG_BASE,
++                                ecam_alias);
++
++    /* Map PCI mem space */
++    mmio_alias = g_new0(MemoryRegion, 1);
++    mmio_reg = sysbus_mmio_get_region(d, 1);
++    memory_region_init_alias(mmio_alias, OBJECT(gpex_dev), "pcie-mmio",
++                             mmio_reg, LS7A_PCI_MEM_BASE, LS7A_PCI_MEM_SIZE);
++    memory_region_add_subregion(get_system_memory(), LS7A_PCI_MEM_BASE,
++                                mmio_alias);
++
++    /* Map PCI IO port space. */
++    pio_alias = g_new0(MemoryRegion, 1);
++    pio_reg = sysbus_mmio_get_region(d, 2);
++    memory_region_init_alias(pio_alias, OBJECT(gpex_dev), "pcie-io", pio_reg,
++                             LS7A_PCI_IO_OFFSET, LS7A_PCI_IO_SIZE);
++    memory_region_add_subregion(get_system_memory(), LS7A_PCI_IO_BASE,
++                                pio_alias);
++
++    for (i = 0; i < GPEX_NUM_IRQS; i++) {
++        sysbus_connect_irq(d, i,
++                           qdev_get_gpio_in(pch_pic, 16 + i));
++        gpex_set_irq_num(GPEX_HOST(gpex_dev), i, 16 + i);
++    }
++
++    serial_mm_init(get_system_memory(), LS7A_UART_BASE, 0,
++                   qdev_get_gpio_in(pch_pic,
++                                    LS7A_UART_IRQ - PCH_PIC_IRQ_OFFSET),
++                   115200, serial_hd(0), DEVICE_LITTLE_ENDIAN);
++
++    /* Network init */
++    for (i = 0; i < nb_nics; i++) {
++        NICInfo *nd = &nd_table[i];
++
++        if (!nd->model) {
++            nd->model = g_strdup("virtio");
++        }
++
++        pci_nic_init_nofail(nd, pci_bus, nd->model, NULL);
++    }
++
++    /* VGA setup */
++    pci_vga_init(pci_bus);
++
++    /*
++     * There are some invalid guest memory access.
++     * Create some unimplemented devices to emulate this.
++     */
++    create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
++}
++
+ static void loongarch_irq_init(LoongArchMachineState *lams)
+ {
+     MachineState *ms = MACHINE(lams);
+@@ -118,6 +193,8 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+         qdev_connect_gpio_out(DEVICE(d), i,
+                               qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
+     }
++
++    loongarch_devices_init(pch_pic);
+ }
+ 
+ static void loongarch_init(MachineState *machine)
+diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+index 089d3e5438..5c653527f0 100644
+--- a/include/hw/pci-host/ls7a.h
++++ b/include/hw/pci-host/ls7a.h
+@@ -17,6 +17,11 @@
+ 
+ #define LS7A_PCI_MEM_BASE        0x40000000UL
+ #define LS7A_PCI_MEM_SIZE        0x40000000UL
++#define LS7A_PCI_IO_OFFSET      0x4000
++#define LS_PCIECFG_BASE         0x20000000
++#define LS_PCIECFG_SIZE         0x08000000
++#define LS7A_PCI_IO_BASE        0x18004000UL
++#define LS7A_PCI_IO_SIZE        0xC000
+ 
+ #define LS7A_PCH_REG_BASE       0x10000000UL
+ #define LS7A_IOAPIC_REG_BASE    (LS7A_PCH_REG_BASE)
+@@ -30,4 +35,6 @@
+ #define PCH_PIC_IRQ_OFFSET      64
+ #define LS7A_DEVICE_IRQS        16
+ #define LS7A_PCI_IRQS           48
++#define LS7A_UART_IRQ           (PCH_PIC_IRQ_OFFSET + 2)
++#define LS7A_UART_BASE          0x1fe001e0
+ #endif
 -- 
 2.31.1
 
