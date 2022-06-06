@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F74853E41C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 12:50:41 +0200 (CEST)
-Received: from localhost ([::1]:54058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0971853E425
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 12:58:11 +0200 (CEST)
+Received: from localhost ([::1]:35746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyAJi-0000Yk-6J
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 06:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56570)
+	id 1nyAR0-0007ke-2J
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 06:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nyA8I-0003x7-VF
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:38:51 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40442)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nyAGN-0007f3-3Y
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:47:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nyA8G-00008O-OV
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:38:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YesdsvhjzmrlRNf+RbzsGhvUlBJ8e7pClOzXXVEXgQw=; b=ZRJXTKZz0ChcPnVo82Xr6YXL4r
- xeY4r9b6/B2Ty6kah71Ow1Eolmk8E5VBo3ne3nS7fqKrcrMVb3KeQVH0jbE+Vn+hKOPbvX1S9kzHG
- bJsp7OJr3q4rNBvCd3jd8R060RiBuWyMK2TjsbXPqZs00LcjYDedHVqQd29MTeHPnaytcVcMV9xCy
- 9iS3tpbmrsFVAkRmgV1UvnK8Fsr9pdUzJgvxuTPE/dc07uT+0NvZ7bqOOZpH0UmMZN8l4hcrX3Jne
- 2JPzqBWTU+nYH2rki3DRU/RD85ZTjaoumYGEsx4nrElcWPOXLtaGcfJpDj+Jmyjz7MO5kCDapirBz
- D1vutF0dlsPRF/qzUr3xM8FBBYZt3a4S/TPk3J/W9j0v/G/mrEpnp2wnK4f9HmyqBMoLo8fkr1x0L
- Kwyi2f8+woqxFtePBnXZORuEiOAQqAWpc9DpE5kT0WDnVgnFb9mkgAI6FtP+whOQdb1Xv7iptZtwZ
- Z+PA4ReaojPBzkmTCwXRBZ/tiknf7V9F+ZOBIdf/BbKnrVudtXk7Y0nDsmYPQbRg+ZsN4+fs+/2OO
- 3ih7/vQt2QAi0wBLJa3o2oi/15nufmXrkC+IgMZrhUMXWZqMnpik7A8q7Rc0wz6nel0CIWvdcwlf1
- P3kgVh0kuEqg0xPkKb8jX0VZXvwkZnVYJLP/wloJw=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nyA75-0003Ab-Mn; Mon, 06 Jun 2022 11:37:39 +0100
-Message-ID: <9af4ae02-002e-4283-2517-2672a1effb8d@ilande.co.uk>
-Date: Mon, 6 Jun 2022 11:38:39 +0100
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nyAGJ-0001cT-Qt
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:47:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654512424;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IggI1/QSoMlPqgNfMZWIr+E2XBEF7Oe16zLTSBey4e4=;
+ b=cP7nHoREau0CWtdE7+UK+aqJCsAG9BsRncp4GMVWU4Zk3aktiImenmbzinqAdSaa9EIouc
+ EOOU2Y6DeGfiWw9pfRXbbKSUOrmNbnlvEQ5h9ZWFNyESeeOQ9593U79F7o89gmJjsBzpJj
+ CMCZjCmlX9gzIhNpF0p1DeGvLpJrQO0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-604-yhC3riS0MVyEGyfr4i6OQw-1; Mon, 06 Jun 2022 06:47:03 -0400
+X-MC-Unique: yhC3riS0MVyEGyfr4i6OQw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n15-20020a05600c4f8f00b0039c3e76d646so4184204wmq.7
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 03:47:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IggI1/QSoMlPqgNfMZWIr+E2XBEF7Oe16zLTSBey4e4=;
+ b=uq4OqkEd1Rhmg9eb9d4f26dhHHlnfNl0mWwqSCwPpt3D3Vi4gLoho1laL8Xv4scQxE
+ Xs9l8l8CGh2MKoyO83U0Wp1qxq/zXkTKIzVprU6t7gk+BDdjI3dlz5sK67FH91lqReVn
+ v3M6LTEGvQCG6/37HnfNge7XjzEwaLMCEzSyrS3j9uhXJIjINHIX7aXVvK7QMoKsd9vM
+ iQqLjyRvKAga9Tp2hG/6rnTNjJO7+uvfFLTsMJ9UGqzin0BTCyDuiKMyFsHcB7v3+0Qc
+ U1l6IPEtOMnOkoRq1TFU6gC7Ofxo9EfkWtWOrxiifBdEy0LWdH9PrbTCLCDoDXcvRW+N
+ CsMA==
+X-Gm-Message-State: AOAM531cquSz1p+q5usvzHCpJSZ4RZoy7q9ZQQIC6Xd8aBxw7P/DBET4
+ UPAy3sBXkciogIQT7ZFARsKrdap0yDNo+bGSilR6JgvNMZbJl4wcK9xx8iR9ZkRBM+7fawPJ+RR
+ k43WJXSE+XUB8UlKVRwX19ECZhoEQzcDdGk/hKKf4TNKZ8DLmkrxeOAayVQuPqyGd9Xg=
+X-Received: by 2002:adf:fc01:0:b0:20c:ff9a:2c53 with SMTP id
+ i1-20020adffc01000000b0020cff9a2c53mr20539859wrr.142.1654512422064; 
+ Mon, 06 Jun 2022 03:47:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzY/yktRI5tmyum6026B7mF7goQ8okJWi3FMxtxiCKhOFIpB30/oqLloOD8jT5It135CSnJtQ==
+X-Received: by 2002:adf:fc01:0:b0:20c:ff9a:2c53 with SMTP id
+ i1-20020adffc01000000b0020cff9a2c53mr20539827wrr.142.1654512421577; 
+ Mon, 06 Jun 2022 03:47:01 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ l1-20020a1c2501000000b0039c4d022a44sm3861152wml.1.2022.06.06.03.47.00
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jun 2022 03:47:00 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] regenerate meson-buildoptions.sh
+Date: Mon,  6 Jun 2022 12:47:00 +0200
+Message-Id: <20220606104700.1106971-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220603185045.143789-1-shentey@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220603185045.143789-1-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v4 00/11] QOM'ify PIIX southbridge creation
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,98 +95,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/06/2022 19:50, Bernhard Beschow wrote:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/meson-buildoptions.sh | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> v4:
-> * Rebase onto https://patchew.org/QEMU/20220530112718.26582-1-philippe.mathieu.daude@gmail.com/
-> * Cosmetics (fix typo, omit "include") (Mark, Philippe)
-> * Split piix3 and piix4 (Philippe)
-> * s/Found-by/Reported-by/ (Philippe)
-> * Don't alias smbus (Mark)
-> 
-> v3:
-> * Rebase onto 'hw/acpi/piix4: remove legacy piix4_pm_init() function' (Mark) [1]
-> * Use embedded structs for touched PCI devices (Mark)
-> * Fix piix4's rtc embedded struct to be initialized by
->    object_initialize_child() (Peter) [2]
-> 
-> Testing done:
-> 
-> 1)
-> `make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
-> Result: All pass.
-> 
-> 2)
-> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
-> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
->    debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
-> 
-> In both cases the system booted successfully and it was possible to shut down
-> the system using the `poweroff` command.
-> 
-> v2:
-> * Preserve `DeviceState *` as return value of piix4_create() (Mark)
-> * Aggregate all type name movements into first commit (Mark)
-> * Have piix4 southbridge rather than malta board instantiate piix4 pm (me)
-> 
-> Testing done:
-> 
-> 1)
-> `make check-avocado` for --target-list=x86_64-softmmu,mips-softmmu
-> Result: All pass.
-> 
-> 2)
-> Modify pci_piix3_realize() to start with
->      error_setg(errp, "This is a test");
-> Then start `qemu-system-x86_64 -M pc -m 1G -accel kvm -cpu host -cdrom
-> archlinux-2022.05.01-x86_64.iso`.
-> Result: qemu-system-x86_64 aborts with: "This is a test"
-> 
-> v1:
-> The piix3 and piix4 southbridge devices still rely on create() functions which
-> are deprecated. This series resolves these functions piece by piece to
-> modernize the code.
-> 
-> Both devices are modified in lockstep where possible to provide more context.
-> 
-> Testing done:
-> * `qemu-system-x86_64 -M pc -m 2G -cdrom archlinux-2022.05.01-x86_64.iso`
-> * `qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda
->    debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"`
-> 
-> In both cases the system booted successfully and it was possible to shut down
-> the system using the `poweroff` command.
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg05686.html
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01128.html
-> 
-> Bernhard Beschow (11):
->    hw/southbridge/piix: Aggregate all PIIX southbridge type names
->    hw/isa/piix4: Use object_initialize_child() for embedded struct
->    hw/isa/piix4: Move pci_map_irq_fn' near pci_set_irq_fn
->    hw/isa/piix4: QOM'ify PCI device creation and wiring
->    hw/isa/piix4: Factor out ISABus retrieval from piix4_create()
->    hw/isa/piix4: QOM'ify PIIX4 PM creation
->    hw/isa/piix4: Inline and remove piix4_create()
->    hw/isa/piix3: Move pci_map_irq_fn near pci_set_irq_fn
->    hw/isa/piix3: QOM'ify PCI device creation and wiring
->    hw/isa/piix3: Factor out ISABus retrieval from piix3_create()
->    hw/isa/piix3: Inline and remove piix3_create()
-> 
->   hw/i386/pc_piix.c             |   7 +-
->   hw/isa/piix3.c                |  98 +++++++++++++++-------------
->   hw/isa/piix4.c                | 119 +++++++++++++++++-----------------
->   hw/mips/malta.c               |   9 ++-
->   include/hw/isa/isa.h          |   2 -
->   include/hw/southbridge/piix.h |   6 +-
->   6 files changed, 128 insertions(+), 113 deletions(-)
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 731e5ea1cf..00ea4d8cd1 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -156,13 +156,13 @@ meson_options_help() {
+   printf "%s\n" '  vhost-kernel    vhost kernel backend support'
+   printf "%s\n" '  vhost-net       vhost-net kernel acceleration support'
+   printf "%s\n" '  vhost-user      vhost-user backend support'
+-  printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vhost-user-blk-server'
+   printf "%s\n" '                  build vhost-user-blk server'
+   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
+   printf "%s\n" '  virglrenderer   virgl rendering support'
+   printf "%s\n" '  virtfs          virtio-9p support'
+   printf "%s\n" '  virtiofsd       build virtiofs daemon (virtiofsd)'
++  printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vnc             VNC server'
+   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
+   printf "%s\n" '  vnc-sasl        SASL authentication for VNC server'
+@@ -430,6 +430,8 @@ _meson_option_parse() {
+     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
+     --enable-virtiofsd) printf "%s" -Dvirtiofsd=enabled ;;
+     --disable-virtiofsd) printf "%s" -Dvirtiofsd=disabled ;;
++    --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
++    --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
+     --enable-vnc) printf "%s" -Dvnc=enabled ;;
+     --disable-vnc) printf "%s" -Dvnc=disabled ;;
+     --enable-vnc-jpeg) printf "%s" -Dvnc_jpeg=enabled ;;
+-- 
+2.36.1
 
-I've had quick look over this and it seems fine to me, so for the entire series:
-
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-
-ATB,
-
-Mark.
 
