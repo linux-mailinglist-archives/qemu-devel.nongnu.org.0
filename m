@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC3D53ED4A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 19:54:08 +0200 (CEST)
-Received: from localhost ([::1]:46674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49B253ED4B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 19:54:24 +0200 (CEST)
+Received: from localhost ([::1]:47910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyGvX-0000k7-8G
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 13:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40276)
+	id 1nyGvn-0001ZN-SN
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 13:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nyGsc-0006PY-H4; Mon, 06 Jun 2022 13:51:06 -0400
-Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:36178)
+ id 1nyGsy-00073i-H1; Mon, 06 Jun 2022 13:51:28 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:36643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nyGsa-0007nI-QW; Mon, 06 Jun 2022 13:51:06 -0400
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-edeb6c3642so20049502fac.3; 
- Mon, 06 Jun 2022 10:51:04 -0700 (PDT)
+ id 1nyGsw-0007om-VT; Mon, 06 Jun 2022 13:51:28 -0400
+Received: by mail-oi1-x236.google.com with SMTP id p129so16003036oig.3;
+ Mon, 06 Jun 2022 10:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6R2AOZAoR7Dln6WoAAmDCpU/kaPB7BaX25+Cqed+C5Y=;
- b=cvivOtC4UJVMtk8QNDa6Vcov+1eBW8Un/zR5pf/MQOYDbvNFWEh4nPQk3Z9xORRe34
- 4tGBWUTWYrpzVoNxTjLpuzw/X0NSQeCugxujN2srjhgSHqeHTELoQtiZY2bdAeRoJy39
- rHXoQ2xUY/CdQ8j7Ue5Pml1f80nXGsEb7NchuyjUORABjfBbyvQbIGziFLWIY6ktXU1J
- /JNBrEPEPKZNO/EV5XMt34POzeiFinIItFSOiHnNMEFDi/Kg4bj6NZ1joj4P+y0Nbktw
- SgBjcQJ8IjqMVhi1zVGR5enGEzs5L2rhshvL0uNPMI7Zvl4M+RN4rqzfYdmzy3d1VLOf
- uCkQ==
+ bh=fLIp6fo2r66IBvnuOw8BhFCTY37fBZdy9Sg10PdHTcU=;
+ b=ii/4JfEw2DhHqSoKlxlj46fSB4cpXGO62GBKDoVE2J9Lfx+xe5+OhTkrSwAGQYYZjm
+ gntSz1rc3+WU3+gRZkSphmGaW1XNf9EPBMc/OiDSQ81Bl7KAGRDQWrzoYpgtaANzSR5Q
+ sYFUOC1jShhC3pSfpbip42iN7uJyeQ8jnL8eu3N9yKtGTDHla8QS1oc0+COijl84583k
+ fNNeGWFCjJ/cOQSr48bcbIsROB2Jf94odttW0qsY5NQH4ORtXBY/PLMxAOH9YtxTrSsV
+ jqRwkBsMU6NiuyYTnMR76t96mU2bsH0ihrgwHfdQFzy9Oq68bHOmfNKxP5mhzrdLNlZL
+ KRhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6R2AOZAoR7Dln6WoAAmDCpU/kaPB7BaX25+Cqed+C5Y=;
- b=A3J3ZRzUkpxvvNQEcJrbPdA0wdIR7vLmgBzVW8LHbbKbzlJ7uw0gkQQCXm6fYfdhrQ
- oHmpbWFbAbd1+ROW2kKmeNtGmGnAsKBNDu/A8uM6nmDEBFHqfQmOf8ldlTi7l5WmDZOv
- 9wtd8av/+/ccmHXOPNMnFhVxOZO9Uxxiy72xpj8ixSAjqnVNMpJ6rjMkFDZn1mMj3dXF
- 1bbEK0AJzbgsp8iLXqncoHbckHwsrfCLr0LtS7SjggeBjfj3IWvlINI3CxQM9zjUUPA5
- TS8gkPaaOk8uHMmR+vwrBCF/U10Dr6E0I97Y33hb74sRiO+hlZSRnNAZwGVVgqgnVGZ7
- BG8w==
-X-Gm-Message-State: AOAM5314TzGGBY42UoykURH/G2qvIzdFYoT4rZqrpv6QaB0Kd9UpWakt
- IwyFDWGFZ2idZXaaZ0xySc+JCURbCxo=
-X-Google-Smtp-Source: ABdhPJyoZdIo6K7vAAS/LyNC5I73bGTiIMq3AQIc0UnumZBdi7C2SNGx1powHpj2Rt/JBgXjwmaioQ==
-X-Received: by 2002:a05:6870:3482:b0:e2:d03a:41e8 with SMTP id
- n2-20020a056870348200b000e2d03a41e8mr30671370oah.79.1654537863162; 
- Mon, 06 Jun 2022 10:51:03 -0700 (PDT)
+ bh=fLIp6fo2r66IBvnuOw8BhFCTY37fBZdy9Sg10PdHTcU=;
+ b=WsHcIGREyetU8g8bDGip23ta3MhwIy4nJFI7u97Ak2iPVGYc2HNmeg+ks2rfpOd6u2
+ MUKEb/aV1iL0zq6heNBVnFwPyRSCpUhbxgCKldOl/YwSlB9eTxxeGOU++wlyPAb9PLtA
+ AaxcpBAd9r/m+TQb8Yow5UqAXw4BsXw5R74yOcLAa6RkP/qEmCki8jWPyu2iVoTK+5aq
+ Zuv+SCiJvGWyeNGY1CUBq2zlznfzSx3jfLodKlxstrFoUlfmzEzGzFONHGv/A/S7ZfIu
+ cExAYY8h1pFkKb+8D10nxYA3CNQ03NP7+WKNPJ1G7B54ZCmw3kmnPIL7lpZSiR3vVmU7
+ Q1Tw==
+X-Gm-Message-State: AOAM533uVxolZPLqmIsZ/obw6Kbfz8QT++a8gziUI6WDX3udnmWUSoL/
+ e9rz+Vv/3xODFm5mOl8vWY0sqkLEISo=
+X-Google-Smtp-Source: ABdhPJx5KgJHVngJQ4zRh6AImkThxTzwKj9QWdZugwBFse6hwIY2nRotvqetu3kaR2ld/BIvSdHTEg==
+X-Received: by 2002:a05:6808:1599:b0:32b:18e3:3e04 with SMTP id
+ t25-20020a056808159900b0032b18e33e04mr30404783oiw.227.1654537885280; 
+ Mon, 06 Jun 2022 10:51:25 -0700 (PDT)
 Received: from [192.168.10.102] ([177.45.165.74])
  by smtp.gmail.com with ESMTPSA id
- f71-20020a9d03cd000000b0060be7487954sm4031460otf.26.2022.06.06.10.51.01
+ t7-20020a05687044c700b000f34dacf350sm6987454oai.6.2022.06.06.10.51.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 10:51:02 -0700 (PDT)
-Message-ID: <add7db64-071d-ad4a-cd4a-1924a8e7cfdf@gmail.com>
-Date: Mon, 6 Jun 2022 14:50:59 -0300
+ Mon, 06 Jun 2022 10:51:24 -0700 (PDT)
+Message-ID: <c18b4a0e-85fb-aa16-3e7e-7e15724bc629@gmail.com>
+Date: Mon, 6 Jun 2022 14:51:21 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] target/ppc: fix unreachable code in fpu_helper.c
+Subject: Re: [PATCH] target/ppc: avoid int32 multiply overflow in int_helper.c
 Content-Language: en-US
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org,
  Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
  Richard Henderson <richard.henderson@linaro.org>
-References: <20220602191048.137511-1-danielhb413@gmail.com>
+References: <20220602141449.118173-1-danielhb413@gmail.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220602191048.137511-1-danielhb413@gmail.com>
+In-Reply-To: <20220602141449.118173-1-danielhb413@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,42 +98,49 @@ Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 Daniel
 
-On 6/2/22 16:10, Daniel Henrique Barboza wrote:
-> Commit c29018cc7395 added an env->fpscr OR operation using a ternary
-> that checks if 'error' is not zero:
+On 6/2/22 11:14, Daniel Henrique Barboza wrote:
+> Coverity is not thrilled about the multiply operations being done in
+> ger_rank8() and ger_rank2(), giving an error like the following:
 > 
->      env->fpscr |= error ? FP_FEX : 0;
+> Integer handling issues  (OVERFLOW_BEFORE_WIDEN)
+>      Potentially overflowing expression "sextract32(a, 4 * i, 4) *
+> sextract32(b, 4 * i, 4)" with type "int" (32 bits, signed) is evaluated
+> using 32-bit arithmetic, and then used in a context that expects an
+> expression of type "int64_t" (64 bits, signed).
 > 
-> However, in the current body of do_fpscr_check_status(), 'error' is
-> granted to be always non-zero at that point. The result is that Coverity
-> is less than pleased:
+> Fix both instances where this occur by adding an int64_t cast in the
+> first operand, forcing the result to be 64 bit.
 > 
->    Control flow issues  (DEADCODE)
-> Execution cannot reach the expression "0ULL" inside this statement:
-> "env->fpscr |= (error ? 1073...".
-> 
-> Remove the ternary and always make env->fpscr |= FP_FEX.
-> 
+> Fixes: Coverity CID 1489444, 1489443
+> Fixes: 345531533f26 ("target/ppc: Implemented xvi*ger* instructions")
 > Cc: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 > Cc: Richard Henderson <richard.henderson@linaro.org>
-> Fixes: Coverity CID 1489442
-> Fixes: c29018cc7395 ("target/ppc: Implemented xvf*ger*")
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   target/ppc/fpu_helper.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   target/ppc/int_helper.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index fed0ce420a..7ab6beadad 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -464,7 +464,7 @@ static void do_fpscr_check_status(CPUPPCState *env, uintptr_t raddr)
+> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+> index 105b626d1b..eb65ab4d82 100644
+> --- a/target/ppc/int_helper.c
+> +++ b/target/ppc/int_helper.c
+> @@ -789,7 +789,7 @@ static int64_t ger_rank8(uint32_t a, uint32_t b, uint32_t mask)
+>       int64_t psum = 0;
+>       for (int i = 0; i < 8; i++, mask >>= 1) {
+>           if (mask & 1) {
+> -            psum += sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
+> +            psum += (int64_t)sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
+>           }
 >       }
->       cs->exception_index = POWERPC_EXCP_PROGRAM;
->       env->error_code = error | POWERPC_EXCP_FP;
-> -    env->fpscr |= error ? FP_FEX : 0;
-> +    env->fpscr |= FP_FEX;
->       /* Deferred floating-point exception after target FPSCR update */
->       if (fp_exceptions_enabled(env)) {
->           raise_exception_err_ra(env, cs->exception_index,
+>       return psum;
+> @@ -811,7 +811,8 @@ static int64_t ger_rank2(uint32_t a, uint32_t b, uint32_t mask)
+>       int64_t psum = 0;
+>       for (int i = 0; i < 2; i++, mask >>= 1) {
+>           if (mask & 1) {
+> -            psum += sextract32(a, 16 * i, 16) * sextract32(b, 16 * i, 16);
+> +            psum += (int64_t)sextract32(a, 16 * i, 16) *
+> +                             sextract32(b, 16 * i, 16);
+>           }
+>       }
+>       return psum;
 
