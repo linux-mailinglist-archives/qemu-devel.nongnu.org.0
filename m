@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6963B53E534
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:58:48 +0200 (CEST)
-Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEC953E558
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:20:04 +0200 (CEST)
+Received: from localhost ([::1]:54686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEBr-0005nH-GS
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:58:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51650)
+	id 1nyEWQ-0004FB-Tf
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:20:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyDsL-0003za-H3
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:38:39 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38542)
+ id 1nyDv6-0006Gx-La
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:41:28 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:38827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyDsF-0000oI-JA
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:38:37 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- v11-20020a17090a4ecb00b001e2c5b837ccso18020186pjl.3
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:38:29 -0700 (PDT)
+ id 1nyDv5-0001Vy-1g
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:41:28 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id e11so12866346pfj.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:41:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0fHEwGcdjeEU1fGQ+84Um05tCKjCXvmlD3g+5THTYlQ=;
- b=KcBp9vwSRxY4QvjG7ZfvR13vJgDuwwe5h8Stlwuym/K4AqxXfPkytKEK4L0YX6FKzW
- QHetAqJP1i0puJaVOPdRIGsByElXuXSsVNrJ6zPsGJ6iornBOTzTm7is9IX2Ck4SX1JB
- TwD+PEzvei8imx7YdUbb4Rq+t0IZxmZ02Og5gt8XSN2I15QLfy6rjGradIDcmfQX2Bx1
- RKJTzxrbVz/M3XDITjFuk8NgP4Bpg95ZM01ZLGP/me43YQ6U/tXvHorMR1DAQpqPpQxh
- zG2PPZmj4m9tVRi0eUapZOZaaFvHHJBi3d5TM8UkZrH8IcSI5flkSUquohOE0KBCzJ7E
- plmA==
+ bh=LAZqLghCm/i7dTss0BdB9gKflCCyU1Ag7Sq14FLF994=;
+ b=pMdwACp6ng+/BaldQcMtW0QS5u+pqN++hblyik8Y9VW2NHmSJNkksx5vqr+729+sYr
+ /BDMaH1nPdtaUvRAeN4aGjxZtueH0qNW1MEc0UFTxpjN8y7uWvlEQirlQZTCbxX/9qJx
+ 5JvqV6D/Vl+9EDLbRjWYanv0Gl6FmquxU1N3IfZJzmkesVBN8/wLDjbEZF7jTw2c7RFv
+ gq67WsHAWWHlT9iyPSgsFKPA44vgcvvrcX9OX9ICRfL+WW1aoNjVZFOHn+F9zCpgy9jR
+ aiP9jpGuSfCMjZ+NeZ1h7ufFFEE9+N3IvJ/HdHhrvKGlKm6PZtazTKBjgq2vf2phSS+D
+ 0vWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0fHEwGcdjeEU1fGQ+84Um05tCKjCXvmlD3g+5THTYlQ=;
- b=biVrHNyLOMCQiu01MNf4MZuZ7MNujqwrm88GZ6GemcjaF+zIXX1F9LNqenhP5jKKZX
- Uf43KmgnrIj4W6t50+7IdIo5sV/Qzuy7e3Qg/82Tvr1e/En4jz15DMIzbK5NS4SGZsVJ
- t4je9A1rT83jowtfMFFuzJxxB85tDAQ5CeoA+wm9vadr6W2gc5WigVIRb+trE7YD5i7A
- O8HT4iYHZ4ZGETIBVbINhSBqF0VgDORnDl+jRRBQmApPovSBmZxIlJcbeetddVqzqDBg
- knuHwUWqI+Yu0tFUXZKqeWqqnmNNEJWv1iUK0C2Y2gjcplk2YS0Axt4qN8CyiYFi6fCZ
- b9Bg==
-X-Gm-Message-State: AOAM533MU9F5SQzrQD2WvKk35zbxJyvoreqO2Ts8zBga/GmihRaNOCtE
- 4Hkds+Hze8ZqMge814TYiehysQ==
-X-Google-Smtp-Source: ABdhPJwQeYeJuThAYEoLKLdjaOwaqINP761Z9Msh9E11kEIESs8EgFVwL4DL6AcpVwALzcf3/evavQ==
-X-Received: by 2002:a17:902:bf4c:b0:15c:3d1b:8a47 with SMTP id
- u12-20020a170902bf4c00b0015c3d1b8a47mr25112815pls.118.1654526308728; 
- Mon, 06 Jun 2022 07:38:28 -0700 (PDT)
+ bh=LAZqLghCm/i7dTss0BdB9gKflCCyU1Ag7Sq14FLF994=;
+ b=x2jxcXaBgCwdpXq2FLo4WknkYVP2KZx8j/cGCGtmoRNF1kb4/bB6Hgl5ZAol7h001w
+ ijrpf4UscBtT2K4JwuJajCF9JlqskwocsUylkUqBdEzwu2N2K2EYJ0H1yQCuBhS3XIFV
+ Tq5dxTk5vV39REuiSzCCKlVW/Wj5qrBZ6n5ukFbL+tTsMLO/+Q3bbNhnVMpyRorm/AqC
+ JBF6kX+d1uU31Sa4vlPvWmvcRaNji9bLq4gjGvJiZ3xNqsAybOE15GiyOly8IluoqQrU
+ K7DGakHHo+VRTtZs3HwhT7kzJVGFcFdI/ZlH55Y908fvt40E1uENAga+xalVPY7o6uAF
+ CyVQ==
+X-Gm-Message-State: AOAM532BjNPuoe2UGn8tUGij/Bxgt86P1Wm61sSTB1SBlXn0nKaPword
+ y/9oTieJet1qZI0a/DStyBq6cg==
+X-Google-Smtp-Source: ABdhPJz8BZTOkG5h5kVraeZo/7httBnvrkCpVbH0/8egEDgzba+mF0IrtSOKlBoPO5euw1wt5F9OCQ==
+X-Received: by 2002:a63:e114:0:b0:3fd:97a1:7a5 with SMTP id
+ z20-20020a63e114000000b003fd97a107a5mr7566843pgh.178.1654526485456; 
+ Mon, 06 Jun 2022 07:41:25 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1547:e101:dd1c:9738:3e40:ffe0?
  ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
  by smtp.gmail.com with ESMTPSA id
- g6-20020a170902c38600b00163de9e9342sm10676729plg.17.2022.06.06.07.38.27
+ q6-20020a170902a3c600b00163f36005e1sm10628503plb.42.2022.06.06.07.41.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 07:38:28 -0700 (PDT)
-Message-ID: <66c22a01-5d92-4e0a-7a8d-bb4ce89151f0@linaro.org>
-Date: Mon, 6 Jun 2022 07:38:25 -0700
+ Mon, 06 Jun 2022 07:41:25 -0700 (PDT)
+Message-ID: <14816c96-e9bc-2c12-a558-eda3df15f36e@linaro.org>
+Date: Mon, 6 Jun 2022 07:41:22 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 21/71] target/arm: Implement TPIDR2_EL0
+Subject: Re: [PATCH 25/71] target/arm: Add SVCR
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
- <20220602214853.496211-22-richard.henderson@linaro.org>
- <CAFEAcA-WQOhsEJnQ1f1_91=ReBCkKkHgkgDh=kyQq6pFY78hQw@mail.gmail.com>
+ <20220602214853.496211-26-richard.henderson@linaro.org>
+ <CAFEAcA80uRfdLR+4pJU6p8wDBgottFUaKDOCmgiHPj7B-qL=qQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-WQOhsEJnQ1f1_91=ReBCkKkHgkgDh=kyQq6pFY78hQw@mail.gmail.com>
+In-Reply-To: <CAFEAcA80uRfdLR+4pJU6p8wDBgottFUaKDOCmgiHPj7B-qL=qQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,16 +95,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/22 06:18, Peter Maydell wrote:
->> +        if (!(sctlr & SCTLR_EnTP2)) {
->> +            uint64_t hcr = arm_hcr_el2_eff(env);
->> +            return hcr & HCR_TGE ? CP_ACCESS_TRAP_EL2 : CP_ACCESS_TRAP;
-> 
-> Do we really need to do this rather than just returning
-> CP_ACCESS_TRAP and letting the "take trap to EL2 if TGE
-> enabled" check in raise_exception() do the TGE routing?
+On 6/6/22 06:40, Peter Maydell wrote:
+> What about the "MSR SVCR*, #<imm>" forms ? I had a quick scan
+> through the subject lines of the rest of the patchset and didn't
+> see them.
 
-No, you're right.
+They get alias names of SMSTART and SMSTOP.  Patch 30.
+
 
 r~
 
