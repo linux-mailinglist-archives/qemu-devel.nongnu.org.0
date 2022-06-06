@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F6A53E420
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 12:57:13 +0200 (CEST)
-Received: from localhost ([::1]:34804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A8153E41F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 12:57:08 +0200 (CEST)
+Received: from localhost ([::1]:34478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyAQ4-0006uw-2o
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 06:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58856)
+	id 1nyAPz-0006dj-EI
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 06:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nyAJf-0002YU-P5
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:50:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26499)
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1nyALJ-0004Ld-LJ
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:52:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nyAJd-00025z-Oo
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:50:35 -0400
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1nyALH-0002IS-1w
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 06:52:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654512632;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1654512733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GYW+g4YSCYnn/h1agY8Gj1QhbVA8ZDC2TpBkoNg3Elo=;
- b=WGJZBrJoEzYA2cmHNK4XPHjInEwMrzz3KcVL7Rr/2JZYdWpXbeYQuFZef3UG80jlG0LDhj
- AAIti+gm72DBCRker9q/u3iHAL8BrhXG0QsHljAX7prHgLmlLZ1h6zNFA3CBtLSxMjwVaD
- ZWZRgDtu7WZi2qh6Cj7zAQAbpykNje0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=z1vXm+GHpcrgfnCKrCr6cfuVJfhrVn6GXerWTdVx5EE=;
+ b=OfPfCRiG3PObLEUKxkXwjHERSDuOvMMOC3AzC2a+fM35w5fxKGw6keeBfxYsRvJD4+5yoS
+ iF6z17OpuXHMStW0jZqCYAtG6k1hE4n9KY3g2MMiTKSV4Pp3m4DLQldYa2t+IbSFIXpsib
+ 3jJ+UfvdVtsJRaTbeZxhFaAWwQraDIE=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-281-VjZvFcTCNO2jRBCAIn0dEQ-1; Mon, 06 Jun 2022 06:50:30 -0400
-X-MC-Unique: VjZvFcTCNO2jRBCAIn0dEQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FA0F802809;
- Mon,  6 Jun 2022 10:50:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FE8C492C3B;
- Mon,  6 Jun 2022 10:50:29 +0000 (UTC)
-Date: Mon, 6 Jun 2022 11:50:27 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH 4/5] gitlab: convert build/container jobs to
- .base_job_template
-Message-ID: <Yp3b879bfJG6mT76@redhat.com>
-References: <20220526110705.59952-1-berrange@redhat.com>
- <20220526110705.59952-5-berrange@redhat.com>
- <05ef1192-eb81-c49f-d08c-61ed2ac7072b@redhat.com>
+ us-mta-455-n1BFZ1m-Ng6Se6vhRSibwQ-1; Mon, 06 Jun 2022 06:52:12 -0400
+X-MC-Unique: n1BFZ1m-Ng6Se6vhRSibwQ-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ q15-20020a056808200f00b0032e4d7099eeso5664457oiw.15
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 03:52:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z1vXm+GHpcrgfnCKrCr6cfuVJfhrVn6GXerWTdVx5EE=;
+ b=ix0Dbhh2+LVZ9DYDGmsRd30shDfWdAcsDTaSmHvA9/5k6NKYq8Otx4OLviR+/2ZBik
+ GQASkX+iN10ko/2tA0fu12cJMxcLtCF1LS2oDb5BIQNCE2lRzvsMRyvTotZJoKSzi8Ay
+ 78dtAL0VJ6Xidz3KebQkJPWEz62aLhuqZil4F87VS2GLV6EC6SZ4DZ6h2xM1dgrPePRW
+ O2OfVMrPbTjW+ppwN1TA43mWvt9EqSw0JBANq2gwsTH61GXTPhb6Q6N9i/Dw1Xb/V8No
+ Iqrsvi83V9ggeP64Wpg1zCOgAEU/aPB7Pk9AWJvVmpf48GpoQ9jugXUDvE38OOtnvqpL
+ /eog==
+X-Gm-Message-State: AOAM531Ynex7h3r1MKWyu4t/UghRDNP8uvf3MeyVmPp3/G1pm1npkpnP
+ t32RutN41Lb61Ll7aYO941rT/DSlqpi9+7aDB774AGVSAVOcT37buBcrsStGg5AXVdPX1xd+apM
+ VgPvt92GWHC6lv1DLQYazygjC2wvMa70=
+X-Received: by 2002:a05:6870:a108:b0:f5:f6fd:9940 with SMTP id
+ m8-20020a056870a10800b000f5f6fd9940mr13396312oae.251.1654512731641; 
+ Mon, 06 Jun 2022 03:52:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzo8iDNid6ucRbA7umbUrKfWZJKTlNDY/mgwiyO2WUaqePpJmAtsFvc069hrA8Mwk4TFd/OP8eWjdG8h5T/WIA=
+X-Received: by 2002:a05:6870:a108:b0:f5:f6fd:9940 with SMTP id
+ m8-20020a056870a10800b000f5f6fd9940mr13396301oae.251.1654512731401; Mon, 06
+ Jun 2022 03:52:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <05ef1192-eb81-c49f-d08c-61ed2ac7072b@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+References: <20220527165651.28092-1-jusual@redhat.com>
+ <20220527165651.28092-3-jusual@redhat.com>
+ <20220602170405.29ec7149@redhat.com>
+In-Reply-To: <20220602170405.29ec7149@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Mon, 6 Jun 2022 12:52:00 +0200
+Message-ID: <CAMDeoFXP=wtarQdjFs3i_aDVgKGegAa=ho09v_DWG9xnLcOSNg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] bios-tables-test: teach test to use smbios 3.0 tables
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsuvorov@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -85,82 +91,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 02, 2022 at 07:41:59PM +0200, Thomas Huth wrote:
-> On 26/05/2022 13.07, Daniel P. Berrangé wrote:
-> > This converts the main build and container jobs to use the
-> > base job rules, defining the following new variables
-> > 
-> >   - QEMU_JOB_SKIPPED - jobs that are known to be currently
-> >     broken and should not be run. Can still be manually
-> >     launched if desired.
-> > 
-> >   - QEMU_JOB_AVOCADO - jobs that run the Avocado integration
-> >     test harness.
-> > 
-> >   - QEMU_JOB_PUBLISH - jobs that publish content after the
-> >     branch is merged upstream
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On Thu, Jun 2, 2022 at 5:04 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Fri, 27 May 2022 18:56:48 +0200
+> Julia Suvorova <jusual@redhat.com> wrote:
+>
+> > Introduce the 64-bit entry point. Since we no longer have a total
+> > number of structures, stop checking for the new ones at the EOF
+> > structure (type 127).
+> >
+> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
 > > ---
-> >   .gitlab-ci.d/base.yml                | 22 ++++++++++++++++++++++
-> >   .gitlab-ci.d/buildtest-template.yml  | 16 ++++------------
-> >   .gitlab-ci.d/buildtest.yml           | 28 +++++++++++++---------------
-> >   .gitlab-ci.d/container-cross.yml     |  6 ++----
-> >   .gitlab-ci.d/container-template.yml  |  1 +
-> >   .gitlab-ci.d/crossbuild-template.yml |  3 +++
-> >   .gitlab-ci.d/windows.yml             |  1 +
-> >   docs/devel/ci-jobs.rst.inc           | 19 +++++++++++++++++++
-> >   8 files changed, 65 insertions(+), 31 deletions(-)
-> ...
-> > diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> > index e9620c3074..ecac3ec50c 100644
-> > --- a/.gitlab-ci.d/buildtest.yml
-> > +++ b/.gitlab-ci.d/buildtest.yml
-> > @@ -360,12 +360,11 @@ build-cfi-aarch64:
-> >       expire_in: 2 days
-> >       paths:
-> >         - build
-> > -  rules:
-> > +  variables:
-> >       # FIXME: This job is often failing, likely due to out-of-memory problems in
-> >       # the constrained containers of the shared runners. Thus this is marked as
-> > -    # manual until the situation has been solved.
-> > -    - when: manual
-> > -      allow_failure: true
-> > +    # skipped until the situation has been solved.
-> > +    QEMU_JOB_SKIPPED: 1
-> >   check-cfi-aarch64:
-> >     extends: .native_test_job_template
-> > @@ -402,12 +401,11 @@ build-cfi-ppc64-s390x:
-> >       expire_in: 2 days
-> >       paths:
-> >         - build
-> > -  rules:
-> > +  variables:
-> >       # FIXME: This job is often failing, likely due to out-of-memory problems in
-> >       # the constrained containers of the shared runners. Thus this is marked as
-> > -    # manual until the situation has been solved.
-> > -    - when: manual
-> > -      allow_failure: true
-> > +    # skipped until the situation has been solved.
-> > +    QEMU_JOB_SKIPPED: 1
-> 
-> FYI, this patch broke the build-cfi-aarch64 and build-cfi-ppc64-s390x jobs
-> since they've now got two "variables:" sections and apparently only the
-> second one is taken into account...
+> >  tests/qtest/bios-tables-test.c | 101 ++++++++++++++++++++++++---------
+> >  1 file changed, 75 insertions(+), 26 deletions(-)
+> >
+> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > index a4a46e97f0..0ba9d749a5 100644
+> > --- a/tests/qtest/bios-tables-test.c
+> > +++ b/tests/qtest/bios-tables-test.c
+> > @@ -75,6 +75,14 @@
+> >  #define OEM_TEST_ARGS      "-machine x-oem-id=" OEM_ID ",x-oem-table-id=" \
+> >                             OEM_TABLE_ID
+> >
+> > +#define SMBIOS_VER21 0
+> > +#define SMBIOS_VER30 1
+> > +
+> > +typedef struct {
+> > +    struct smbios_21_entry_point ep21;
+> > +    struct smbios_30_entry_point ep30;
+> > +} smbios_entry_point;
+> > +
+> >  typedef struct {
+> >      bool tcg_only;
+> >      const char *machine;
+> > @@ -88,8 +96,8 @@ typedef struct {
+> >      uint64_t rsdp_addr;
+> >      uint8_t rsdp_table[36 /* ACPI 2.0+ RSDP size */];
+> >      GArray *tables;
+> > -    uint32_t smbios_ep_addr;
+> > -    struct smbios_21_entry_point smbios_ep_table;
+> > +    uint64_t smbios_ep_addr[2];
+> > +    smbios_entry_point smbios_ep_table;
+> >      uint16_t smbios_cpu_max_speed;
+> >      uint16_t smbios_cpu_curr_speed;
+> >      uint8_t *required_struct_types;
+> > @@ -533,10 +541,10 @@ static void test_acpi_asl(test_data *data)
+> >      free_test_data(&exp_data);
+> >  }
+> >
+> > -static bool smbios_ep_table_ok(test_data *data)
+> > +static bool smbios_ep2_table_ok(test_data *data)
+> >  {
+> > -    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table;
+> > -    uint32_t addr = data->smbios_ep_addr;
+> > +    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table.ep21;
+> > +    uint32_t addr = data->smbios_ep_addr[SMBIOS_VER21];
+> >
+> >      qtest_memread(data->qts, addr, ep_table, sizeof(*ep_table));
+> >      if (memcmp(ep_table->anchor_string, "_SM_", 4)) {
+> > @@ -559,29 +567,59 @@ static bool smbios_ep_table_ok(test_data *data)
+> >      return true;
+> >  }
+> >
+> > -static void test_smbios_entry_point(test_data *data)
+> > +static bool smbios_ep3_table_ok(test_data *data)
+> > +{
+> > +    struct smbios_30_entry_point *ep_table = &data->smbios_ep_table.ep30;
+> > +    uint64_t addr = data->smbios_ep_addr[SMBIOS_VER30];
+> > +
+> > +    qtest_memread(data->qts, addr, ep_table, sizeof(*ep_table));
+> > +    if (memcmp(ep_table->anchor_string, "_SM3_", 5)) {
+> > +        return false;
+> > +    }
+> > +
+> > +    if (acpi_calc_checksum((uint8_t *)ep_table, sizeof *ep_table)) {
+> > +        return false;
+> > +    }
+> > +
+> > +    return true;
+> > +}
+> > +
+> > +static int test_smbios_entry_point(test_data *data)
+> >  {
+> >      uint32_t off;
+> > +    bool found_ep2 = false, found_ep3 = false;
+> >
+> >      /* find smbios entry point structure */
+> >      for (off = 0xf0000; off < 0x100000; off += 0x10) {
+> > -        uint8_t sig[] = "_SM_";
+> > +        uint8_t sig[] = "_SM3_";
+>
+> well I'd just add a separate sig3
 
-Opps, sorry about that, and of course I didn't notice as it is a skipped
-job and I forgot to try running it :-(
+Ok
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> >          int i;
+> >
+> >          for (i = 0; i < sizeof sig - 1; ++i) {
+> >              sig[i] = qtest_readb(data->qts, off + i);
+> >          }
+> >
+> > -        if (!memcmp(sig, "_SM_", sizeof sig)) {
+> > +        if (!found_ep2 && !memcmp(sig, "_SM_", sizeof sig - 2)) {
+>
+> keep original v2 code and just add similar chunk for v3,
+> drop found_foo locals,
+> that should make it easier to read/follow
+> (i.e. less conditions to think about and no magic fiddling with the length of signature)
+
+The idea was to reuse existing code, but since it doesn't improve
+things much, it makes sense to repeat it.
+
+> >              /* signature match, but is this a valid entry point? */
+> > -            data->smbios_ep_addr = off;
+> > -            if (smbios_ep_table_ok(data)) {
+> > -                break;
+> > +            data->smbios_ep_addr[SMBIOS_VER21] = off;
+> > +            if (smbios_ep2_table_ok(data)) {
+> > +                found_ep2 = true;
+> > +            }
+> > +        } else if (!found_ep3 && !memcmp(sig, "_SM3_", sizeof sig - 1)) {
+> > +            data->smbios_ep_addr[SMBIOS_VER30] = off;
+> > +            if (smbios_ep3_table_ok(data)) {
+> > +                found_ep3 = true;
+> >              }
+> >          }
+> > +
+> > +        if (found_ep2 || found_ep3) {
+> > +            break;
+> > +        }
+> >      }
+> >
+> > -    g_assert_cmphex(off, <, 0x100000);
+> > +    g_assert_cmphex(data->smbios_ep_addr[SMBIOS_VER21], <, 0x100000);
+> > +    g_assert_cmphex(data->smbios_ep_addr[SMBIOS_VER30], <, 0x100000);
+> > +
+> > +    return found_ep3 ? SMBIOS_VER30 : SMBIOS_VER21;
+>
+> and use content of data->smbios_ep_addr[] to return found version
+
+You mean check if it's initialized?
+
+> >  }
+> >
+> >  static inline bool smbios_single_instance(uint8_t type)
+> > @@ -625,16 +663,23 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
+> >      return true;
+> >  }
+> >
+> > -static void test_smbios_structs(test_data *data)
+> > +static void test_smbios_structs(test_data *data, int ver)
+> >  {
+> >      DECLARE_BITMAP(struct_bitmap, SMBIOS_MAX_TYPE+1) = { 0 };
+> > -    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table;
+> > -    uint32_t addr = le32_to_cpu(ep_table->structure_table_address);
+> > -    int i, len, max_len = 0;
+> > +
+> > +    smbios_entry_point *ep_table = &data->smbios_ep_table;
+> > +    int i = 0, len, max_len = 0;
+> >      uint8_t type, prv, crt;
+> > +    uint64_t addr;
+> > +
+> > +    if (ver == SMBIOS_VER21) {
+> > +        addr = le32_to_cpu(ep_table->ep21.structure_table_address);
+> > +    } else {
+> > +        addr = le64_to_cpu(ep_table->ep30.structure_table_address);
+> > +    }
+> >
+> >      /* walk the smbios tables */
+> > -    for (i = 0; i < le16_to_cpu(ep_table->number_of_structures); i++) {
+> > +    do {
+> >
+> >          /* grab type and formatted area length from struct header */
+> >          type = qtest_readb(data->qts, addr);
+> > @@ -660,19 +705,23 @@ static void test_smbios_structs(test_data *data)
+> >          }
+> >
+> >          /* keep track of max. struct size */
+> > -        if (max_len < len) {
+> > +        if (ver == SMBIOS_VER21 && max_len < len) {
+> >              max_len = len;
+> > -            g_assert_cmpuint(max_len, <=, ep_table->max_structure_size);
+> > +            g_assert_cmpuint(max_len, <=, ep_table->ep21.max_structure_size);
+> >          }
+> >
+> >          /* start of next structure */
+> >          addr += len;
+> > -    }
+> >
+> > -    /* total table length and max struct size must match entry point values */
+> > -    g_assert_cmpuint(le16_to_cpu(ep_table->structure_table_length), ==,
+> > -                     addr - le32_to_cpu(ep_table->structure_table_address));
+> > -    g_assert_cmpuint(le16_to_cpu(ep_table->max_structure_size), ==, max_len);
+> > +    } while (ver == SMBIOS_VER21 ?
+> > +                (++i < le16_to_cpu(ep_table->ep21.number_of_structures)) : (type != 127));
+> > +
+> > +    if (ver == SMBIOS_VER21) {
+> > +        /* total table length and max struct size must match entry point values */
+> > +        g_assert_cmpuint(le16_to_cpu(ep_table->ep21.structure_table_length), ==,
+> > +                         addr - le32_to_cpu(ep_table->ep21.structure_table_address));
+> > +        g_assert_cmpuint(le16_to_cpu(ep_table->ep21.max_structure_size), ==, max_len);
+> > +    }
+> >
+> >      /* required struct types must all be present */
+> >      for (i = 0; i < data->required_struct_types_len; i++) {
+> > @@ -756,8 +805,8 @@ static void test_acpi_one(const char *params, test_data *data)
+> >       * https://bugs.launchpad.net/qemu/+bug/1821884
+> >       */
+> >      if (!use_uefi) {
+> > -        test_smbios_entry_point(data);
+> > -        test_smbios_structs(data);
+> > +        int ver = test_smbios_entry_point(data);
+> > +        test_smbios_structs(data, ver);
+> >      }
+> >
+> >      qtest_quit(data->qts);
+>
 
 
