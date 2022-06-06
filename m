@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7075E53E55A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:20:16 +0200 (CEST)
-Received: from localhost ([::1]:55576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AA053E57C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:34:22 +0200 (CEST)
+Received: from localhost ([::1]:57978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEWd-0004qI-IC
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58526)
+	id 1nyEkH-0001cJ-6g
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
- id 1nyEKq-0004ph-UI; Mon, 06 Jun 2022 11:08:04 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:45919
- helo=gandalf.ozlabs.org)
+ id 1nyEKq-0004pq-V6; Mon, 06 Jun 2022 11:08:04 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:39045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
- id 1nyEKo-0005ws-Cy; Mon, 06 Jun 2022 11:08:04 -0400
+ id 1nyEKo-0005wx-UY; Mon, 06 Jun 2022 11:08:04 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxgT4p5fz4xDK;
- Tue,  7 Jun 2022 01:07:49 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxgb3rlWz4xYX;
+ Tue,  7 Jun 2022 01:07:55 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxgF0mrqz4xD5;
- Tue,  7 Jun 2022 01:07:36 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxgV1Gxrz4xD5;
+ Tue,  7 Jun 2022 01:07:49 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -44,14 +43,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 00/21] aspeed: Extend ast2600 I2C model with new mode 
-Date: Mon,  6 Jun 2022 17:07:11 +0200
-Message-Id: <20220606150732.2282041-1-clg@kaod.org>
+Subject: [PATCH 01/21] hw/registerfields: Add shared fields macros
+Date: Mon,  6 Jun 2022 17:07:12 +0200
+Message-Id: <20220606150732.2282041-2-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220606150732.2282041-1-clg@kaod.org>
+References: <20220606150732.2282041-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -16
 X-Spam_score: -1.7
@@ -74,86 +75,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+From: Joe Komlodi <komlodi@google.com>
 
-Here is a series aggregating recent changes proposed on the Aspeed
-ast2600 I2C controller model. 
+Occasionally a peripheral will have different operating modes, where the
+MMIO layout changes, but some of the register fields have the same offsets
+and behaviors.
 
-First comes a large set of changes converting the model to use the
-registerfield interface and adding the I2C new register mode
-(Joe). Since this is complex to review, extra tests are added to the
-acceptance test suite to check that I2C devices are still functional
-in the ast2600-evb machine. These tests use small buildroot images
-available on GH. 
+To help support this, we add SHARED_FIELD_XX macros that create SHIFT,
+LENGTH, and MASK macros for the fields that are shared across registers,
+and accessors for these fields.
 
-The ast1030 and ast2600 SoC share the same I2C logic. This series adds
-I2C support to the ast1030 now that new register mode is supported.
-There was a previous proposal from Troy doing the same but Joe's
-patchset covers the same need (and converts the model to registerfield)
+An example use may look as follows:
+There is a peripheral with registers REG_MODE1 and REG_MODE2 at
+different addreses, and both have a field FIELD1 initialized by
+SHARED_FIELD().
 
-Follows a proposal from Klaus adding support for multi master in the
-I2C core and the Aspeed I2C model, for the old register mode only. The
-new register mode still needs to be addressed but this shouldn't take
-too long once old register mode is merged.
+Depending on what mode the peripheral is operating in, the user could
+extract FIELD1 via
+SHARED_ARRAY_FIELD_EX32(s->regs, R_REG_MODE1, FIELD1)
+or
+SHARED_ARRAY_FIELD_EX32(s->regs, R_REG_MODE2, FIELD1)
 
-Last, I have added the I2C echo device and test provided by Klaus. I
-think it would be interesting to keep them for tests. Please, tell me.
+Signed-off-by: Joe Komlodi <komlodi@google.com>
+Change-Id: Id3dc53e7d2f8741c95697cbae69a81bb699fa3cb
+Message-Id: <20220331043248.2237838-2-komlodi@google.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ include/hw/registerfields.h | 70 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-Thanks,
-
-C.
-
-Cédric Le Goater (7):
-  test/avocado/machine_aspeed.py: Move OpenBMC tests
-  test/avocado/machine_aspeed.py: Add tests using buildroot images
-  test/avocado/machine_aspeed.py: Add I2C tests to ast2600-evb
-  test/avocado/machine_aspeed.py: Add an I2C RTC test
-  aspeed/i2c: Add ast1030 controller models
-  aspeed/i2c: Enable SLAVE_ADDR_RX_MATCH always
-  test/avocado/machine_aspeed.py: Add I2C slave tests
-
-Joe Komlodi (7):
-  hw/registerfields: Add shared fields macros
-  aspeed: i2c: Add ctrl_global_rsvd property
-  aspeed: i2c: Migrate to registerfields API
-  aspeed: i2c: Use reg array instead of individual vars
-  aspeed: i2c: Add new mode support
-  aspeed: i2c: Add PKT_DONE IRQ to trace
-  aspeed: i2c: Move regs and helpers to header file
-
-Klaus Jensen (6):
-  hw/i2c/aspeed: rework raise interrupt trace event
-  hw/i2c/aspeed: add DEV_ADDR in old register mode
-  hw/i2c: support multiple masters
-  hw/i2c: add asynchronous send
-  hw/i2c/aspeed: add slave device in old register mode
-  hw/misc: add a toy i2c echo device [DO NOT PULL]
-
-Troy Lee (1):
-  aspeed: Add I2C buses to AST1030 model
-
- include/hw/i2c/aspeed_i2c.h         | 299 ++++++++-
- include/hw/i2c/i2c.h                |  30 +
- include/hw/registerfields.h         |  70 +++
- hw/arm/aspeed.c                     |  13 +
- hw/arm/aspeed_ast10x0.c             |  18 +
- hw/arm/aspeed_ast2600.c             |   2 +
- hw/arm/pxa2xx.c                     |   2 +
- hw/display/sii9022.c                |   2 +
- hw/display/ssd0303.c                |   2 +
- hw/i2c/aspeed_i2c.c                 | 901 ++++++++++++++++++----------
- hw/i2c/core.c                       |  70 ++-
- hw/i2c/smbus_slave.c                |   4 +
- hw/misc/i2c-echo.c                  | 162 +++++
- hw/nvram/eeprom_at24c.c             |   2 +
- hw/sensor/lsm303dlhc_mag.c          |   2 +
- hw/i2c/trace-events                 |   4 +-
- hw/misc/meson.build                 |   2 +
- tests/avocado/boot_linux_console.py |  43 --
- tests/avocado/machine_aspeed.py     | 128 ++++
- 19 files changed, 1393 insertions(+), 363 deletions(-)
- create mode 100644 hw/misc/i2c-echo.c
-
+diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
+index 3a88e135d025..1330ca77de61 100644
+--- a/include/hw/registerfields.h
++++ b/include/hw/registerfields.h
+@@ -154,4 +154,74 @@
+ #define ARRAY_FIELD_DP64(regs, reg, field, val)                           \
+     (regs)[R_ ## reg] = FIELD_DP64((regs)[R_ ## reg], reg, field, val);
+ 
++
++/*
++ * These macros can be used for defining and extracting fields that have the
++ * same bit position across multiple registers.
++ */
++
++/* Define shared SHIFT, LENGTH, and MASK constants */
++#define SHARED_FIELD(name, shift, length)   \
++    enum { name ## _ ## SHIFT = (shift)};   \
++    enum { name ## _ ## LENGTH = (length)}; \
++    enum { name ## _ ## MASK = MAKE_64BIT_MASK(shift, length)};
++
++/* Extract a shared field */
++#define SHARED_FIELD_EX8(storage, field) \
++    extract8((storage), field ## _SHIFT, field ## _LENGTH)
++
++#define SHARED_FIELD_EX16(storage, field) \
++    extract16((storage), field ## _SHIFT, field ## _LENGTH)
++
++#define SHARED_FIELD_EX32(storage, field) \
++    extract32((storage), field ## _SHIFT, field ## _LENGTH)
++
++#define SHARED_FIELD_EX64(storage, field) \
++    extract64((storage), field ## _SHIFT, field ## _LENGTH)
++
++/* Extract a shared field from a register array */
++#define SHARED_ARRAY_FIELD_EX32(regs, offset, field) \
++    SHARED_FIELD_EX32((regs)[(offset)], field)
++#define SHARED_ARRAY_FIELD_EX64(regs, offset, field) \
++    SHARED_FIELD_EX64((regs)[(offset)], field)
++
++/* Deposit a shared field */
++#define SHARED_FIELD_DP8(storage, field, val) ({                        \
++    struct {                                                            \
++        unsigned int v:field ## _LENGTH;                                \
++    } _v = { .v = val };                                                \
++    uint8_t _d;                                                         \
++    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
++    _d; })
++
++#define SHARED_FIELD_DP16(storage, field, val) ({                       \
++    struct {                                                            \
++        unsigned int v:field ## _LENGTH;                                \
++    } _v = { .v = val };                                                \
++    uint16_t _d;                                                        \
++    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
++    _d; })
++
++#define SHARED_FIELD_DP32(storage, field, val) ({                       \
++    struct {                                                            \
++        unsigned int v:field ## _LENGTH;                                \
++    } _v = { .v = val };                                                \
++    uint32_t _d;                                                        \
++    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
++    _d; })
++
++#define SHARED_FIELD_DP64(storage, field, val) ({                       \
++    struct {                                                            \
++        uint64_t v:field ## _LENGTH;                                    \
++    } _v = { .v = val };                                                \
++    uint64_t _d;                                                        \
++    _d = deposit64((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
++    _d; })
++
++/* Deposit a shared field to a register array */
++#define SHARED_ARRAY_FIELD_DP32(regs, offset, field, val) \
++    (regs)[(offset)] = SHARED_FIELD_DP32((regs)[(offset)], field, val);
++#define SHARED_ARRAY_FIELD_DP64(regs, offset, field, val) \
++    (regs)[(offset)] = SHARED_FIELD_DP64((regs)[(offset)], field, val);
++
+ #endif
 -- 
 2.35.3
 
