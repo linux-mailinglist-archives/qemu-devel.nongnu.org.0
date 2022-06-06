@@ -2,104 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5062753F0DF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 22:49:45 +0200 (CEST)
-Received: from localhost ([::1]:32844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53EB953F0F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 22:52:17 +0200 (CEST)
+Received: from localhost ([::1]:36620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyJfU-0006EO-FN
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 16:49:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38956)
+	id 1nyJhw-0000aV-Fs
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 16:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1nyJT9-0001Cs-73; Mon, 06 Jun 2022 16:36:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48672
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1nyJT7-0006dd-C9; Mon, 06 Jun 2022 16:36:58 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 256KXYa5001956;
- Mon, 6 Jun 2022 20:36:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=QT59XG4yFEdaUJP8CL+P9u/550+JpgHD6CVebJvzSEc=;
- b=Y9/uR17lM2s+pefCuKPBH9pwafjgsY9zr744eoqT9ArHY8UModa++iosOoMbcwExI3bH
- VIlSzJ8Q3Bt8990L+z97VfsCJkOAMzrjeBUBIXdFf8uQNg2NDtAz529ZkvbPDg8KXEBL
- lrmmMR0t0tVEKdgcSG72qH08/whYOntuYC+W4/Pkzl4qO3zungLi255yx+M/VCnacuag
- ScIxK7E+BZ4NgeouZ7Lb3QEYk8Q/w8teGjfArMie9uYvALd/5Zzog6MllYTaeZzY+EkE
- 1qvuJW7j2+5nX1Bs78+pCcqnjHvf12gwiyK76OeOupaiVzJVCBjHyjmxygTUL+2q8t0w bA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ghqj1h9d9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jun 2022 20:36:55 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 256KXcGe002483;
- Mon, 6 Jun 2022 20:36:55 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ghqj1h9d2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jun 2022 20:36:55 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 256KLO5b007310;
- Mon, 6 Jun 2022 20:36:54 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02dal.us.ibm.com with ESMTP id 3gfy1abrqt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jun 2022 20:36:54 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 256Karqa8847618
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Jun 2022 20:36:53 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5051328059;
- Mon,  6 Jun 2022 20:36:53 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 797C828058;
- Mon,  6 Jun 2022 20:36:50 +0000 (GMT)
-Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown
- [9.163.20.188]) by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon,  6 Jun 2022 20:36:50 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
- thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-Subject: [PATCH v7 8/8] s390x/s390-virtio-ccw: add zpcii-disable machine
- property
-Date: Mon,  6 Jun 2022 16:36:14 -0400
-Message-Id: <20220606203614.110928-9-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220606203614.110928-1-mjrosato@linux.ibm.com>
-References: <20220606203614.110928-1-mjrosato@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1nyJVB-0003F9-Pf
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 16:39:05 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:36580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1nyJUv-0006jx-Ay
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 16:39:03 -0400
+Received: by mail-ej1-x636.google.com with SMTP id s12so23995551ejx.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 13:38:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WXzWkSKyDGkg51htMGQ7iVLxq8zQQCq1Mxef8R/uVrg=;
+ b=J+ssGxwFOg6UZxfCse797e++GjUm8U9ylpAGJbMe8urafNBs53Dj0IB4C6OfK6HGb+
+ lf1DHpj1wtPEV5VE/nIgnMukdcL8StXWlA5IvIID0bQ8rIPqGBk3cMLXC4ZFd+L/4+t6
+ Si0ab7+iOt2KK4/Cez8XQhjFEGIC3ARO4M03B2awcI2JWf1Mv5KfiHMFyoFTerwWRfQq
+ s4jc9OZq7+sNc46v3o+qp3EIcfkSfrO/mBo2WTMgeDldWNsPMCljgSbl06GXxeUuodyi
+ zSymn/uEBXdGCO5WTkb3C4wOSUvWkOj60+STni9sC4TgGy4ZfAHwaYTo5lykiDfHfshV
+ WY5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WXzWkSKyDGkg51htMGQ7iVLxq8zQQCq1Mxef8R/uVrg=;
+ b=rEtUsKBTgjjEB9sscbEM2v2eEC2v7TsHMC30XqgZVUsW7PVwku3Whh7y9F820zqGds
+ Dh19omsv+vfLabIUYKxs1s0QfFS8cOrsksIA6MU5GwXFNXzeR+9aA0e6LogT+xcWzc5a
+ flECW595CMWko7utl9ruD9Ec0wzubSAzdfLnjPQwO52XXSJvanfGxddwqvE2GyxO9cVb
+ 57ZnFplxkEzoDaB5pP8metj9cASl5B+0WQQbXSKB+S7qeCNNDVKrbLUd53IjTwhfA+LE
+ h1CZtSvH1yDtu+cpUG6ILAb4qlkThk+6bR9mkqgU7Mkqi1oNcZ8lWlQQxsTdrMj6c6mv
+ xzWA==
+X-Gm-Message-State: AOAM530zaL1IywDthFajcANsPjbQSqdWpD9hrECtBsKzY1wFcDMlaNjw
+ iTIMpR9UiQLDFND3+5+F3pvzpeuY9ijwKqaysmc=
+X-Google-Smtp-Source: ABdhPJxkEb0uVJODatLWuKuh3ZhV5U50TXemblMIQJoaTqugIb+9xoTWlGzBLa/F9TXY3R8wW6epZsURNfQGMUIHkLM=
+X-Received: by 2002:a17:906:586:b0:70d:9052:fdf0 with SMTP id
+ 6-20020a170906058600b0070d9052fdf0mr18142271ejn.633.1654547922187; Mon, 06
+ Jun 2022 13:38:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: RqrgQHz1AakKiU08n6mHz-c9-atM2Bk2
-X-Proofpoint-GUID: sMrpFmRQ60iCiPPu6ur9SZCM-FRZRXJJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-06_06,2022-06-03_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- adultscore=0 suspectscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
- bulkscore=0 clxscore=1015 spamscore=0 malwarescore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206060081
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <cover.1653404595.git.jag.raman@oracle.com>
+ <2a492c16e0464f70f7be1fd9c04172f4f18d14ca.1653404595.git.jag.raman@oracle.com>
+ <CAKgT0UdnSjUqubFT2pjB1KiVcE42ScPjBMSvV8cNf=S=1U7n=g@mail.gmail.com>
+ <7F3721E6-A29D-4B74-872C-6648BC6E97E7@oracle.com>
+In-Reply-To: <7F3721E6-A29D-4B74-872C-6648BC6E97E7@oracle.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Mon, 6 Jun 2022 13:38:30 -0700
+Message-ID: <CAKgT0Uf9KYAFfuoaCWv1_GwTH6kcwgpdFwrd4AUSSpnPkyu73w@mail.gmail.com>
+Subject: Re: [PATCH v10 13/14] vfio-user: handle device interrupts
+To: Jag Raman <jag.raman@oracle.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, "f4bug@amsat.org" <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, 
+ "bleal@redhat.com" <bleal@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ "eduardo@habkost.net" <eduardo@habkost.net>, 
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "eblake@redhat.com" <eblake@redhat.com>, 
+ "armbru@redhat.com" <armbru@redhat.com>, Juan Quintela <quintela@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ "john.levon@nutanix.com" <john.levon@nutanix.com>, 
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, 
+ John Johnson <john.g.johnson@oracle.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -117,140 +104,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The zpcii-disable machine property can be used to force-disable the use
-of zPCI interpretation facilities for a VM.  By default, this setting
-will be off for machine 7.1 and newer.
+On Mon, Jun 6, 2022 at 12:29 PM Jag Raman <jag.raman@oracle.com> wrote:
+>
+>
+>
+> > On Jun 6, 2022, at 2:32 PM, Alexander Duyck <alexander.duyck@gmail.com>=
+ wrote:
+> >
+> > On Tue, May 24, 2022 at 9:11 AM Jagannathan Raman <jag.raman@oracle.com=
+> wrote:
+> >>
+> >> Forward remote device's interrupts to the guest
+> >>
+> >> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> >> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> >> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> >> ---
+> >> include/hw/pci/pci.h              |  13 ++++
+> >> include/hw/remote/vfio-user-obj.h |   6 ++
+> >> hw/pci/msi.c                      |  16 ++--
+> >> hw/pci/msix.c                     |  10 ++-
+> >> hw/pci/pci.c                      |  13 ++++
+> >> hw/remote/machine.c               |  14 +++-
+> >> hw/remote/vfio-user-obj.c         | 123 ++++++++++++++++++++++++++++++
+> >> stubs/vfio-user-obj.c             |   6 ++
+> >> MAINTAINERS                       |   1 +
+> >> hw/remote/trace-events            |   1 +
+> >> stubs/meson.build                 |   1 +
+> >> 11 files changed, 193 insertions(+), 11 deletions(-)
+> >> create mode 100644 include/hw/remote/vfio-user-obj.h
+> >> create mode 100644 stubs/vfio-user-obj.c
+> >>
+> >
+> > So I had a question about a few bits below. Specifically I ran into
+> > issues when I had setup two devices to be assigned to the same VM via
+> > two vfio-user-pci/x-vfio-user-server interfaces.
+>
+> Thanks for the heads up, Alexander!
+>
+> >
+> > What I am hitting is an assert(irq_num < bus->nirq) in
+> > pci_bus_change_irq_level in the server.
+>
+> That is issue is because we are only initializing only one
+> IRQ for the PCI bus - but it should be more. We will update
+> it and when the bus initializes interrupts and get back to you.
+>
+> We only tested MSI/x devices for the multi-device config. We
+> should also test INTx - could you please confirm which device
+> you=E2=80=99re using so we could verify that it works before posting
+> the next revision.
+>
+> Thank you!
+> --
+> Jag
 
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-kvm.c            |  4 +++-
- hw/s390x/s390-virtio-ccw.c         | 24 ++++++++++++++++++++++++
- include/hw/s390x/s390-virtio-ccw.h |  1 +
- qemu-options.hx                    |  8 +++++++-
- util/qemu-config.c                 |  4 ++++
- 5 files changed, 39 insertions(+), 2 deletions(-)
+I was testing an MSI-X capable NIC, so you can reproduce with e1000e.
+During the device enumeration before the driver was even loaded it
+threw the error:
+qemu-system-x86_64: ../hw/pci/pci.c:276: pci_bus_change_irq_level:
+Assertion `irq_num < bus->nirq' failed.
 
-diff --git a/hw/s390x/s390-pci-kvm.c b/hw/s390x/s390-pci-kvm.c
-index 9134fe185f..5eb7fd12e2 100644
---- a/hw/s390x/s390-pci-kvm.c
-+++ b/hw/s390x/s390-pci-kvm.c
-@@ -22,7 +22,9 @@
- 
- bool s390_pci_kvm_interp_allowed(void)
- {
--    return kvm_s390_get_zpci_op() && !s390_is_pv();
-+    return (kvm_s390_get_zpci_op() && !s390_is_pv() &&
-+            !object_property_get_bool(OBJECT(qdev_get_machine()),
-+                                      "zpcii-disable", NULL));
- }
- 
- int s390_pci_kvm_aif_enable(S390PCIBusDevice *pbdev, ZpciFib *fib, bool assist)
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index cc3097bfee..70229b102b 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -645,6 +645,21 @@ static inline void machine_set_dea_key_wrap(Object *obj, bool value,
-     ms->dea_key_wrap = value;
- }
- 
-+static inline bool machine_get_zpcii_disable(Object *obj, Error **errp)
-+{
-+    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-+
-+    return ms->zpcii_disable;
-+}
-+
-+static inline void machine_set_zpcii_disable(Object *obj, bool value,
-+                                             Error **errp)
-+{
-+    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-+
-+    ms->zpcii_disable = value;
-+}
-+
- static S390CcwMachineClass *current_mc;
- 
- /*
-@@ -740,6 +755,13 @@ static inline void s390_machine_initfn(Object *obj)
-             "Up to 8 chars in set of [A-Za-z0-9. ] (lower case chars converted"
-             " to upper case) to pass to machine loader, boot manager,"
-             " and guest kernel");
-+
-+    object_property_add_bool(obj, "zpcii-disable",
-+                             machine_get_zpcii_disable,
-+                             machine_set_zpcii_disable);
-+    object_property_set_description(obj, "zpcii-disable",
-+            "disable zPCI interpretation facilties");
-+    object_property_set_bool(obj, "zpcii-disable", false, NULL);
- }
- 
- static const TypeInfo ccw_machine_info = {
-@@ -804,9 +826,11 @@ DEFINE_CCW_MACHINE(7_1, "7.1", true);
- static void ccw_machine_7_0_instance_options(MachineState *machine)
- {
-     static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
-+    S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
- 
-     ccw_machine_7_1_instance_options(machine);
-     s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
-+    ms->zpcii_disable = true;
- }
- 
- static void ccw_machine_7_0_class_options(MachineClass *mc)
-diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-index 3331990e02..8a0090a071 100644
---- a/include/hw/s390x/s390-virtio-ccw.h
-+++ b/include/hw/s390x/s390-virtio-ccw.h
-@@ -27,6 +27,7 @@ struct S390CcwMachineState {
-     bool aes_key_wrap;
-     bool dea_key_wrap;
-     bool pv;
-+    bool zpcii_disable;
-     uint8_t loadparm[8];
- };
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 60cf188da4..fafe335b4a 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -36,7 +36,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-     "                nvdimm=on|off controls NVDIMM support (default=off)\n"
-     "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
-     "                hmat=on|off controls ACPI HMAT support (default=off)\n"
--    "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n",
-+    "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
-+    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
-     QEMU_ARCH_ALL)
- SRST
- ``-machine [type=]name[,prop=value[,...]]``
-@@ -124,6 +125,11 @@ SRST
-             -object memory-backend-ram,id=pc.ram,size=512M,x-use-canonical-path-for-ramblock-id=off
-             -machine memory-backend=pc.ram
-             -m 512M
-+
-+    ``zpcii-disable=on|off``
-+        Disables zPCI interpretation facilties on s390-ccw hosts.
-+        This feature can be used to disable hardware virtual assists
-+        related to zPCI devices. The default is off.
- ERST
- 
- DEF("M", HAS_ARG, QEMU_OPTION_M,
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 433488aa56..5325f6bf80 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -236,6 +236,10 @@ static QemuOptsList machine_opts = {
-             .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
-                     " converted to upper case) to pass to machine"
-                     " loader, boot manager, and guest kernel",
-+        },{
-+            .name = "zpcii-disable",
-+            .type = QEMU_OPT_BOOL,
-+            .help = "disable zPCI interpretation facilities",
-         },
-         { /* End of list */ }
-     }
--- 
-2.27.0
+All it really takes is attaching to the second device, that is enough
+to trigger the error since the irq_num will be non-zero.
 
+If I recall, all the kernel is doing is unmasking the interrupt via
+the config space and it is triggering the error which then shuts down
+the server.
 
