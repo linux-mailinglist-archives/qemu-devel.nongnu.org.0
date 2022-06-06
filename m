@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501A353E547
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:02:35 +0200 (CEST)
-Received: from localhost ([::1]:42858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCC853E556
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:14:57 +0200 (CEST)
+Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEFW-0001G1-3g
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:02:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51154)
+	id 1nyERU-0006rx-Nl
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDrG-0002S3-CS
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29950)
+ id 1nyDrV-0002ik-TZ
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDrD-0000cF-OA
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:30 -0400
+ id 1nyDrH-0000dt-Ni
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654526247;
+ s=mimecast20190719; t=1654526251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eHFAZa0D1mkGaSFNbR5sBnh3O6dLrWaXXrtFWWPw/AY=;
- b=NMaRBC8QxhC7k0mVEzhmuG1RBHj4t3/ePVNVAk7AjgZOFZTLcxAS/JRZB7P7Hf//aBKSbM
- JlMJn6sWCdxUyUTZczxuw2/Iu+E5gKDyL2KamRoLOxPm2ZcLSFZ3TIzbXo8CYErFEY+go8
- zPNaWTN3yVRjs/ELqCr+5mEjVG9nkAg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TZAV0eg6lDmmxM3ixA7TzgAPz7jYzxfHainhH3CBCcM=;
+ b=gF7Vfzib8KFhK9En8NpxkS9/yiJwQpA0O5YAgPYqQGBO0hF2WOl/iDP/9/J/64ImzOIWnV
+ 7ox4+0G+544IQ/E6Uv1WF56ntr8WeemwE+8bXggJdaQYdkRw9jEH7FaF4FdkcrNy1hJJ6W
+ d/tZEwzV06xg1/q5L1kxSVIvykurvQk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-438-9KxOL5P0PpC5TSkNl7emqA-1; Mon, 06 Jun 2022 10:37:25 -0400
-X-MC-Unique: 9KxOL5P0PpC5TSkNl7emqA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg40-20020a05600c3ca800b00394779649b1so11305069wmb.3
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:25 -0700 (PDT)
+ us-mta-592-i8kKrhiTON6oUNnKc750RQ-1; Mon, 06 Jun 2022 10:37:28 -0400
+X-MC-Unique: i8kKrhiTON6oUNnKc750RQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ bv8-20020a0560001f0800b002183c5d5c26so745915wrb.20
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eHFAZa0D1mkGaSFNbR5sBnh3O6dLrWaXXrtFWWPw/AY=;
- b=NF5B4lZZk+WyBvVnWGttzS1AWrIJk6jCLgxLPRbW6L7On5ZLvz/K8cmWcX6gI9ldl0
- Nb8xPQTVMGc9exwqpbFuOdSuI4annN5IiX3gcX9749aII/MMEFPYLHZUzdQbO3+xTsGi
- ltkhpZCybqQW1k2W+Xx1/vIQjW+YyRFFlfKo+eEDk34s5hZEMEnEnH41/2sDk6YcVysS
- QNgMGp1ep6dVPxz0H0qtumrt2gYf255qMllmo7IqHWaGNrmqHrImVbz9MOE2CCt10iXi
- n0yRvBhuJk19xU1fY5wK49G58LAaZzNTOx//JbLQ5FwoMGaAoMuM2dP6cANkezdXYunX
- D/0w==
-X-Gm-Message-State: AOAM530d/Q3Et/PUvFE8aX6/R0z4TBVaxJQJJVJWw+bT4Xmjdx1cxJM2
- AiBrD5gNmNRaKIa2eGkoYd03J0G/iV7fYgt5oiQEx/zw8MBTLHxAasjIMSHS1oWA+oNgkFgReGB
- D9X/xJGkRpFC/DnefSb+kdwDFKl0D+aQg3ZFGkKddm2sCGbUEHtLhqNSFd21pnb4qRjk=
-X-Received: by 2002:a05:6000:1091:b0:213:b515:f46f with SMTP id
- y17-20020a056000109100b00213b515f46fmr18841307wrw.632.1654526244458; 
- Mon, 06 Jun 2022 07:37:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyGb/evxNnlR9mIEqlUMt1srJhU4QGP1rj7Zuq9PnvyE5QMbnwNWZZHpgi34YVJNn7NwG0RUg==
-X-Received: by 2002:a05:6000:1091:b0:213:b515:f46f with SMTP id
- y17-20020a056000109100b00213b515f46fmr18841278wrw.632.1654526244135; 
- Mon, 06 Jun 2022 07:37:24 -0700 (PDT)
+ bh=TZAV0eg6lDmmxM3ixA7TzgAPz7jYzxfHainhH3CBCcM=;
+ b=o8CMmI7VzrnfqRhCRD5ZnzRcroVvOCbOb06HX5ese+vxHyhj4Um5JBVi5267ep+MhV
+ /Cxsbc1r6POOefPu+kjylSbMzlC/QMEKNPle6VpzImPH5A6omUbdSI4zwMDe9Cm7AKGA
+ t62t773Dywkqe75Sq78sCoLQQ/HumQPRJolVSuTdOCowtO3I9KAzY5oRSYPnCjkzzUtL
+ +OEkD8+unCZR5oFxng4X4AqEccm/TDr6K3PXjchINxY+jjH8to/sUUQ/j5n1ZIc8Lkq1
+ luE3gLSIRGhKZgVvg+Uddcy8jbzMDwRFyFgaAW/hkgSSEBTWNY/9u+2DLtqLhISbzbM5
+ +tOQ==
+X-Gm-Message-State: AOAM533+sZuUWZ91FcJyCwbZnGohN1Mj0Hl7t+yFIzQCUocEKBgTzsfK
+ N2g9Kp0FOog+oIijqGxGAsDU5NttmwysGOyTHZB4R6caxIt/EQGek5v+BzqKJkhwNRj5GmyYCJL
+ KqRIEM91REp+9Xbob1K0EmbouE6e/KasW+L0tRWCTWP58axLYt83oNZoYOhKavtJrS98=
+X-Received: by 2002:a05:600c:4f0c:b0:397:6a3a:d3f9 with SMTP id
+ l12-20020a05600c4f0c00b003976a3ad3f9mr23082656wmq.103.1654526246710; 
+ Mon, 06 Jun 2022 07:37:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgr46egaN94aMXw/ugNsSW7VemMYiVF+Taa6jN+4cCe/qVEGVaK8uPNj1eLZQnyvvBau3nXw==
+X-Received: by 2002:a05:600c:4f0c:b0:397:6a3a:d3f9 with SMTP id
+ l12-20020a05600c4f0c00b003976a3ad3f9mr23082621wmq.103.1654526246380; 
+ Mon, 06 Jun 2022 07:37:26 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a05600c4f0d00b0039c55bc2c97sm809048wmq.16.2022.06.06.07.37.22
+ m11-20020a5d624b000000b0020ff3a2a925sm19169075wrv.63.2022.06.06.07.37.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:37:23 -0700 (PDT)
+ Mon, 06 Jun 2022 07:37:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: John Snow <jsnow@redhat.com>
-Subject: [PULL 20/29] tests: use python3 as the python executable name
-Date: Mon,  6 Jun 2022 16:36:35 +0200
-Message-Id: <20220606143644.1151112-21-pbonzini@redhat.com>
+Subject: [PULL 21/29] tests: silence pip upgrade warnings during venv creation
+Date: Mon,  6 Jun 2022 16:36:36 +0200
+Message-Id: <20220606143644.1151112-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220606143644.1151112-1-pbonzini@redhat.com>
 References: <20220606143644.1151112-1-pbonzini@redhat.com>
@@ -82,7 +82,7 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,33 +101,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Use "python3" instead of "python" as per PEP0394:
-https://peps.python.org/pep-0394/
-
-This should always be defined (in a venv, at least!), matching the
-preferred python shebang of "#!/usr/bin/env python3".
+Turn off the nag warning coaxing us to upgrade pip. It's not really that
+interesting to see in CI logs, and as long as nothing is broken --
+nothing is broken.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220526000921.1581503-4-jsnow@redhat.com>
+Message-Id: <20220526000921.1581503-5-jsnow@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/Makefile.include | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 50237f073a..fae2dd0f3c 100644
+index fae2dd0f3c..ba9f5bd65c 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -89,7 +89,7 @@ TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
- TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
- TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
- TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
--TESTS_PYTHON=$(TESTS_VENV_DIR)/bin/python
-+TESTS_PYTHON=$(TESTS_VENV_DIR)/bin/python3
- ifndef AVOCADO_TESTS
- 	AVOCADO_TESTS=tests/avocado
- endif
+@@ -109,8 +109,8 @@ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+             $(PYTHON) -m venv $@, \
+             VENV, $@)
+ 	$(call quiet-command, \
+-            $(TESTS_PYTHON) -m pip -q install -r $(TESTS_VENV_REQ), \
+-            PIP, $(TESTS_VENV_REQ))
++            $(TESTS_PYTHON) -m pip -q --disable-pip-version-check install \
++            -r $(TESTS_VENV_REQ), PIP, $(TESTS_VENV_REQ))
+ 	$(call quiet-command, touch $@)
+ 
+ $(TESTS_RESULTS_DIR):
 -- 
 2.36.1
 
