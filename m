@@ -2,84 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E56B53E50C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:24:52 +0200 (CEST)
-Received: from localhost ([::1]:42250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7087253E518
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 16:38:46 +0200 (CEST)
+Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyDf0-0002bA-Tu
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:24:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42302)
+	id 1nyDsS-0001TU-Rw
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 10:38:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDKi-0001iY-AJ
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:03:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDKf-00028i-1q
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:03:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654524228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=REGlmdVS1lYdUH1ngn7i4jdmEYP4WYH5gSTgDPDmR4w=;
- b=L9KzhTM2DK6VZahNuuS1gqK9uRXVoLgK8O8d2iivnGJvvyHw+oSGWM0EkabGAPwbGcVV+u
- nztdPCCzgB0y00Qpw+7u348/1OPPzisVx13ZR1CYBUdt+E+jwxbWZW5vRnRVQNSLQ/PRKW
- V76+qLRoMIWasCWmSEjtwXA2c/IAa2o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-92-0mgEC4nSMO-NEFpRjcbJPA-1; Mon, 06 Jun 2022 10:03:46 -0400
-X-MC-Unique: 0mgEC4nSMO-NEFpRjcbJPA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- ay1-20020a05600c1e0100b0039c3a3fc6a4so4825517wmb.4
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:03:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=REGlmdVS1lYdUH1ngn7i4jdmEYP4WYH5gSTgDPDmR4w=;
- b=M/1zCeNDvW0dj3Ngcz58bu7XXNKRW2YoUg82z78KLtNmwZh6/yRc3bXFRgFovbnpat
- j/duBmS2NlQtBIwv0m6GrXi43kJh2fo7E3PGPw4PpoCXi+yFKCxWsMmIjgQ8L6SNAFPl
- iw+acBNzdBgcZX6WE1YYZ0cS3BRwUab75Qz7u5uTB2KkTj0EhDRJgFp/N6ZD12IjTk1q
- zNZk1k79glHU9NwG5UcYmQ6AONMyJqJ5sVkQA9GnWWUkHFFcZK1xh7xSWzlbS7z8pqtb
- xTgMhZdOUVCV71kvjGxa7pFxiCTDw7/JP1n3436T9bbqlFEv0AXik5mhHtFWN/0w0Neb
- AP5w==
-X-Gm-Message-State: AOAM531LW0g029rOc7fg4YRMKAmK6RH9CBdBkLLX/auj9w5hd8sPEjHe
- wwdKZhleyL6KtuNmCZ0Jixq0tFxE34Mbn+0OQONJgCu9dvotYXAn5GafoZ7r43boTaZbHTJAJgl
- vnHJZiFSqo4A95YBDkZmT+m+wkHJnsvoTvs52AIhaDzY7NaQWXC5bSWm2EtMOH7hShuI=
-X-Received: by 2002:a05:6000:2cd:b0:216:2dc5:f454 with SMTP id
- o13-20020a05600002cd00b002162dc5f454mr11850887wry.626.1654524225068; 
- Mon, 06 Jun 2022 07:03:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzv2/eq1p5BctSuAQ7YoUSms74dpmakrIs2Zqlup/Il7pCzMfciv3Gpd7krz8auZ0r6IV/7Yg==
-X-Received: by 2002:a05:6000:2cd:b0:216:2dc5:f454 with SMTP id
- o13-20020a05600002cd00b002162dc5f454mr11850842wry.626.1654524224607; 
- Mon, 06 Jun 2022 07:03:44 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- p9-20020a5d4589000000b0020fcf070f61sm15345256wrq.59.2022.06.06.07.03.43
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:03:43 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nyDoN-0000Qy-L5
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:34:31 -0400
+Received: from [187.72.171.209] (port=41042 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>) id 1nyDoK-0008Jj-PK
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:34:30 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 6 Jun 2022 11:34:21 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 8E6F38000CB;
+ Mon,  6 Jun 2022 11:34:21 -0300 (-03)
+From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: qga: do not use deprecated meson.build_root()
-Date: Mon,  6 Jun 2022 16:03:42 +0200
-Message-Id: <20220606140342.1147411-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
+Cc: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
+ Gan Qixin <ganqixin@huawei.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [RFC PATCH RESEND] scripts/checkpatch.pl: Change line limit warning
+Date: Mon,  6 Jun 2022 11:34:18 -0300
+Message-Id: <20220606143419.656598-1-lucas.araujo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 06 Jun 2022 14:34:21.0825 (UTC)
+ FILETIME=[831C7710:01D879B2]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,30 +64,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function will return the build root of the parent project if called from a
-subproject; that is irrelevant for QEMU's usage but rarely desirable, and
-therefore the function was deprecated and replaced by two functions
-project_build_root() and global_build_root().  Replace it with the former.
+The QEMU documentation mentions that lines should be up to 80
+characters and that the script checkpatch will warn at 100 characters,
+but the script warns at 80 characters and throw and error at 90, so
+this commit changes to warn at 100.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+As to why extend, the argument that resulted in the change of the
+docs was that trying to always wrap to 80 columns could result in less
+readable code, so sometimes not wrapping was the better choice and in
+those circumstances checkpatch could nudge people into creating less
+readable code.
+
+A 132 error limit is put to catch overly big lines.
+
+Based-on: 20201105154208.12442-1-ganqixin@huawei.com
+Signed-off-by: Lucas Mateus Castro(alqotel) <lucas.araujo@eldorado.org.br>
 ---
- qga/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Currently there's a disagreement between the checkpatch code and the
+documentation, this RFC just changes the checkpatch to match the
+documentation.
+But there was a discussion in 2020 as the best way to deal with this,
+some alternatives mentioned are: change the warning to remind people to
+not blindly wrap just because of the warning, change to warn at 90 columns
+(which would mean changing the column limit for the error as well). If any
+of those are preferred I'll send a next version updating the documentation
+as well as changing checkpatch.pl to the preferred behavior.
+---
+ scripts/checkpatch.pl | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/qga/meson.build b/qga/meson.build
-index 619ff095bc..65c1e93846 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -125,7 +125,7 @@ if targetos == 'windows'
-                               wixl, '-o', '@OUTPUT0@', '@INPUT0@',
-                               qemu_ga_msi_arch[cpu],
-                               qemu_ga_msi_vss,
--                              '-D', 'BUILD_DIR=' + meson.build_root(),
-+                              '-D', 'BUILD_DIR=' + meson.project_build_root(),
-                               '-D', 'BIN_DIR=' + glib.get_variable('bindir'),
-                               '-D', 'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
-                               '-D', 'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index d900d18048..2c2d7b31ab 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -1639,12 +1639,12 @@ sub process {
+ 		if ($line =~ /^\+/ &&
+ 		    !($line =~ /^\+\s*"[^"]*"\s*(?:\s*|,|\)\s*;)\s*$/) &&
+ 		    !($rawline =~ /^[^[:alnum:]]*https?:\S*$/) &&
+-		    $length > 80)
++		    $length > 100)
+ 		{
+-			if ($length > 90) {
+-				ERROR("line over 90 characters\n" . $herecurr);
++			if ($length > 132) {
++				ERROR("line over 132 characters\n" . $herecurr);
+ 			} else {
+-				WARN("line over 80 characters\n" . $herecurr);
++				WARN("line over 100 characters\n" . $herecurr);
+ 			}
+ 		}
+ 
+@@ -1838,13 +1838,8 @@ sub process {
+ 			#print "realcnt<$realcnt> ctx_cnt<$ctx_cnt>\n";
+ 			#print "pre<$pre_ctx>\nline<$line>\nctx<$ctx>\nnext<$lines[$ctx_ln - 1]>\n";
+ 
+-			# The length of the "previous line" is checked against 80 because it
+-			# includes the + at the beginning of the line (if the actual line has
+-			# 79 or 80 characters, it is no longer possible to add a space and an
+-			# opening brace there)
+ 			if ($#ctx == 0 && $ctx !~ /{\s*/ &&
+-			    defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*\{/ &&
+-			    defined($lines[$ctx_ln - 2]) && length($lines[$ctx_ln - 2]) < 80) {
++			    defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*\{/) {
+ 				ERROR("that open brace { should be on the previous line\n" .
+ 					"$here\n$ctx\n$rawlines[$ctx_ln - 1]\n");
+ 			}
 -- 
-2.36.1
+2.25.1
 
 
