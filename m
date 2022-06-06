@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E30F53E589
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:46:44 +0200 (CEST)
-Received: from localhost ([::1]:60138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCC153E591
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:49:06 +0200 (CEST)
+Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEwF-0005PO-Ad
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:46:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58872)
+	id 1nyEyX-00023x-23
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
- id 1nyELk-0006G3-2w; Mon, 06 Jun 2022 11:09:01 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:33747
+ id 1nyELp-0006KC-7P; Mon, 06 Jun 2022 11:09:05 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:47037
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
- id 1nyELh-00068y-RB; Mon, 06 Jun 2022 11:08:59 -0400
+ id 1nyELn-00069K-5i; Mon, 06 Jun 2022 11:09:04 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxhk3lZMz4xZZ;
- Tue,  7 Jun 2022 01:08:54 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxhr2sC9z4xZf;
+ Tue,  7 Jun 2022 01:09:00 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxhd1Nfvz4xZY;
- Tue,  7 Jun 2022 01:08:48 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxhl0XYDz4xZY;
+ Tue,  7 Jun 2022 01:08:54 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -44,9 +44,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 11/21] test/avocado/machine_aspeed.py: Add an I2C RTC test
-Date: Mon,  6 Jun 2022 17:07:22 +0200
-Message-Id: <20220606150732.2282041-12-clg@kaod.org>
+Subject: [PATCH 12/21] aspeed/i2c: Add ast1030 controller models
+Date: Mon,  6 Jun 2022 17:07:23 +0200
+Message-Id: <20220606150732.2282041-13-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220606150732.2282041-1-clg@kaod.org>
 References: <20220606150732.2282041-1-clg@kaod.org>
@@ -76,37 +76,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a RTC device on bus 15 and check that the ouput of the hwclock
-command matches the current year.
+Based on :
+  https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg06017.html
 
+Cc: Troy Lee <troy_lee@aspeedtech.com>
+Cc: Jamin Lin <jamin_lin@aspeedtech.com>
+Cc: Steven Lee <steven_lee@aspeedtech.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/avocado/machine_aspeed.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ include/hw/i2c/aspeed_i2c.h |  1 +
+ hw/i2c/aspeed_i2c.c         | 24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-index a3b4b9e5093c..28b8a4c8124b 100644
---- a/tests/avocado/machine_aspeed.py
-+++ b/tests/avocado/machine_aspeed.py
-@@ -136,10 +136,18 @@ def test_arm_ast2600_evb_builroot(self):
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 506bcf1a9daf..79c6779c6c1e 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -30,6 +30,7 @@
+ #define TYPE_ASPEED_2400_I2C TYPE_ASPEED_I2C "-ast2400"
+ #define TYPE_ASPEED_2500_I2C TYPE_ASPEED_I2C "-ast2500"
+ #define TYPE_ASPEED_2600_I2C TYPE_ASPEED_I2C "-ast2600"
++#define TYPE_ASPEED_1030_I2C TYPE_ASPEED_I2C "-ast1030"
+ OBJECT_DECLARE_TYPE(AspeedI2CState, AspeedI2CClass, ASPEED_I2C)
  
-         self.vm.add_args('-device',
-                          'tmp423,bus=aspeed.i2c.bus.15,address=0x4c');
-+        self.vm.add_args('-device',
-+                         'ds1338,bus=aspeed.i2c.bus.15,address=0x32');
-         self.do_test_arm_aspeed_buidroot_start(image_path, '0xf00')
-         exec_command_and_wait_for_pattern(self,
-                                           'i2cget -y 15 0x4c 0xff', '0x23');
-         exec_command_and_wait_for_pattern(self,
-                                           'i2cget -y 15 0x4c 0xfe', '0x55');
+ #define ASPEED_I2C_NR_BUSSES 16
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index 8425e928890a..5fce516517a5 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -1185,6 +1185,29 @@ static const TypeInfo aspeed_2600_i2c_info = {
+     .class_init = aspeed_2600_i2c_class_init,
+ };
  
-+        exec_command_and_wait_for_pattern(self,
-+             'echo ds1307 0x32 > /sys/class/i2c-dev/i2c-15/device/new_device',
-+             'i2c i2c-15: new_device: Instantiated device ds1307 at 0x32');
-+        year = time.strftime("%Y")
-+        exec_command_and_wait_for_pattern(self, 'hwclock -f /dev/rtc1', year);
++static void aspeed_1030_i2c_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedI2CClass *aic = ASPEED_I2C_CLASS(klass);
 +
-         self.do_test_arm_aspeed_buidroot_poweroff()
++    dc->desc = "ASPEED 1030 I2C Controller";
++
++    aic->num_busses = 14;
++    aic->reg_size = 0x80;
++    aic->gap = -1; /* no gap */
++    aic->bus_get_irq = aspeed_2600_i2c_bus_get_irq;
++    aic->pool_size = 0x200;
++    aic->pool_base = 0xC00;
++    aic->bus_pool_base = aspeed_2600_i2c_bus_pool_base;
++    aic->has_dma = true;
++}
++
++static const TypeInfo aspeed_1030_i2c_info = {
++    .name = TYPE_ASPEED_1030_I2C,
++    .parent = TYPE_ASPEED_I2C,
++    .class_init = aspeed_1030_i2c_class_init,
++};
++
+ static void aspeed_i2c_register_types(void)
+ {
+     type_register_static(&aspeed_i2c_bus_info);
+@@ -1192,6 +1215,7 @@ static void aspeed_i2c_register_types(void)
+     type_register_static(&aspeed_2400_i2c_info);
+     type_register_static(&aspeed_2500_i2c_info);
+     type_register_static(&aspeed_2600_i2c_info);
++    type_register_static(&aspeed_1030_i2c_info);
+ }
+ 
+ type_init(aspeed_i2c_register_types)
 -- 
 2.35.3
 
