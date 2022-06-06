@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F9153F277
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 01:20:13 +0200 (CEST)
-Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD90453F294
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 01:33:44 +0200 (CEST)
+Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyM16-0002AV-AG
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 19:20:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34810)
+	id 1nyMEB-0000JU-Ss
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 19:33:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyLw8-0001W3-Ss
+ id 1nyLw9-0001WQ-SU
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:15:05 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:52063)
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:44633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyLw7-0003l4-18
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:15:04 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id cx11so14086318pjb.1
+ id 1nyLw7-0003l6-1d
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:15:05 -0400
+Received: by mail-pl1-x632.google.com with SMTP id h1so13317277plf.11
  for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 16:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gNwHQp+abnGkbVRbVu1pbGFEEh9vqf8MUlQTWlzs6xU=;
- b=Q65ZwXGd95QWinMFgQkNT+Bgbd61LUQCxXguvM6nGw+vbV7FP8Cl32J9S9X64SocO8
- rpLBqiRJK0nzXGu+AOSazUOTUNTjaVZ3teI1E3X7BBao9p3zCT902nDfDy2T1MkM1tmg
- l80RJTZqe5FQUl6bmQAeu9IvbHjuA8C48JlbI9h+AH7B9Q5fzE63f4O64Wuj0Vzj/4PQ
- E1Q428QOOj9A8UJIvOU91Yp1mVU6flUGKGGSY2D3FPikfIY4ALkkcALiZTppwoRsrGD+
- h12SMKBedN5HnkgQeK6mQouzDwzfbbyEphDRHPxM5yQ8S5lVKu5OMVQHS2uy+E2XAsXQ
- PHIA==
+ bh=hiqGjrIkX6QQ7Oiw6yGU3Z6lxy7JlrTw+wz3wNT4pRI=;
+ b=Xn9pPLCTxVB9KMml0NRy5bKbExEykmsDPx+tQBs+GDmx8mWiV6rBArD56q/Qo8wF/T
+ kmJZd2mCZwJkenmI56hjHi7CVvD0LN1WfhyEQbjIluS5XKmrSSUUYqoBqtuzHa5rEntv
+ BXiLl4TuaRXefXlvK5I5GQJsc1dJH4qcjN6ymTZZu9jvzyd20ao9DDh4eTGOzYW/YJQC
+ 8t6OwHp4AJUNG03PpOR8lXbERTWoZA/mS52u7WV4bYDMk7/o+X8LnrqfavGvPe57HxcX
+ 6oHvqEbBSFWmz7VToGOqLf/s11Pd0y4vF/VhLoK/QXm7RhdrVIHoGPoLQ3YorFG6anJt
+ Nj9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gNwHQp+abnGkbVRbVu1pbGFEEh9vqf8MUlQTWlzs6xU=;
- b=g8EsLtpzqMy5B4wO8+lUJ1rstXn3GTpftgMKfpFPHo0rOuFroa6koOQDgv9NNq9VHT
- Ojv1euIJC6Sf20+8g3zvJjej57PDkqOLg2XpWJOJ4qrhCmor88B2AEVVudDiQ7RFVakZ
- Gcm2O8hXUCSh3XXqDRgM+idHosMnlX1VedGGtiN73J013z+65FtCmyu5zyRK+28/JgVO
- G9B9w/c/HPtI7jxqbZiuNLRT8DWGxNcMwWwJuJO87pUCsslbd+JUWbc1tWT1nNx3I3xx
- Csk9WsOCcuMQWXkfMUEJEQOMg/v2Mwf8Q9zbSFPlifavNqOuCiIcvck8z7nrLk3uODaE
- mAsA==
-X-Gm-Message-State: AOAM531/ZYbTCsnD1b6qSXnC6aaBRBqz3h3n9VXKUW9Z2G+t8TK2hjZO
- 7QzBRqPZOYyf7hAR8ZHrZbbyaRXhS9qnbw==
-X-Google-Smtp-Source: ABdhPJwhH0MBWi45mkFW5m9NgS0DQVHBJczhzVSeBAFGirDPsRl5x06zFTuzx1ItwSfAwR+8Ws4VbA==
-X-Received: by 2002:a17:90a:2f84:b0:1dd:940:50e7 with SMTP id
- t4-20020a17090a2f8400b001dd094050e7mr63398243pjd.210.1654557300429; 
- Mon, 06 Jun 2022 16:15:00 -0700 (PDT)
+ bh=hiqGjrIkX6QQ7Oiw6yGU3Z6lxy7JlrTw+wz3wNT4pRI=;
+ b=clWGG8M842NZCxxUHjpPN1gr5gXmNJE10eXrvfK1S5IMwr5sUy47DW7t0d89w90n37
+ AUYvyzsa9pwrr3fW6DcfV17FV+IEAY1ZgTYKhS/XUXaeiaEhPTssu6SksaG6XHCNZMYK
+ k3VaeX7BrUKsepLLNfIvfmK5Wy0QnPsTopUVH3BQ5Ckc2T8wxrgqrY4V6Nc2AHZAqm/V
+ wtoZrPyUmS6Bdv68sta+y0zrlB1CWw3WTBCUwCA1BV6wWNX/8yOOyDvSjnrbZJxU/Fz4
+ z06hDa0xC5bGh8+h8zrCEtzCYWrLh3xFLtGC72aRXB4ao3+/b6kVOksEdLZShzcLTdDG
+ awZw==
+X-Gm-Message-State: AOAM5314TdFSkplkAYxfW+QCgtivubM0lscIAfOezM5DGuHI1/Tcp9R4
+ THQg8QqKk+G0yXhAdEVcHyu8IyZyLL/NHg==
+X-Google-Smtp-Source: ABdhPJwHl0bggrkS/E6vRrxkVhFbvTuU4nGKmT+fzRTzGZP+5kn0hNyFKPedhgyav/463nzwHLI4pw==
+X-Received: by 2002:a17:90a:4209:b0:1df:b907:ed3d with SMTP id
+ o9-20020a17090a420900b001dfb907ed3dmr29339740pjg.40.1654557301462; 
+ Mon, 06 Jun 2022 16:15:01 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a170902c24200b00162523fdb8fsm10954623plg.252.2022.06.06.16.14.59
+ 2-20020a170902c24200b00162523fdb8fsm10954623plg.252.2022.06.06.16.15.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 06 Jun 2022 16:15:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =gaosong@loongson.cn, yangxiaojuan@loongson.cn,
  Song Gao <gaosong@loongson.cn>
-Subject: [PULL 09/43] target/loongarch: Add fixed point extra instruction
- translation
-Date: Mon,  6 Jun 2022 16:14:16 -0700
-Message-Id: <20220606231450.448443-10-richard.henderson@linaro.org>
+Subject: [PULL 10/43] target/loongarch: Add floating point arithmetic
+ instruction translation
+Date: Mon,  6 Jun 2022 16:14:17 -0700
+Message-Id: <20220606231450.448443-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220606231450.448443-1-richard.henderson@linaro.org>
 References: <20220606231450.448443-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,207 +93,730 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Song Gao <gaosong@loongson.cn>
 
 This includes:
-- CRC[C].W.{B/H/W/D}.W
-- SYSCALL
-- BREAK
-- ASRT{LE/GT}.D
-- RDTIME{L/H}.W, RDTIME.D
-- CPUCFG
+- F{ADD/SUB/MUL/DIV}.{S/D}
+- F{MADD/MSUB/NMADD/NMSUB}.{S/D}
+- F{MAX/MIN}.{S/D}
+- F{MAXA/MINA}.{S/D}
+- F{ABS/NEG}.{S/D}
+- F{SQRT/RECIP/RSQRT}.{S/D}
+- F{SCALEB/LOGB/COPYSIGN}.{S/D}
+- FCLASS.{S/D}
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220606124333.2060567-10-yangxiaojuan@loongson.cn>
+Message-Id: <20220606124333.2060567-11-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/helper.h                     |  4 ++
- target/loongarch/insns.decode                 | 19 ++++++
- target/loongarch/op_helper.c                  | 26 +++++++
- target/loongarch/translate.c                  |  1 +
- target/loongarch/insn_trans/trans_extra.c.inc | 68 +++++++++++++++++++
- 5 files changed, 118 insertions(+)
- create mode 100644 target/loongarch/insn_trans/trans_extra.c.inc
+ target/loongarch/helper.h                     |  37 ++
+ target/loongarch/internals.h                  |   2 +
+ target/loongarch/insns.decode                 |  52 +++
+ target/loongarch/cpu.c                        |   1 +
+ target/loongarch/fpu_helper.c                 | 403 ++++++++++++++++++
+ target/loongarch/translate.c                  |  11 +
+ .../loongarch/insn_trans/trans_farith.c.inc   | 105 +++++
+ 7 files changed, 611 insertions(+)
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c.inc
 
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 100622bfc2..638c2efc51 100644
+index 638c2efc51..840bad9b2f 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -11,3 +11,7 @@ DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
- 
- DEF_HELPER_FLAGS_3(asrtle_d, TCG_CALL_NO_WG, void, env, tl, tl)
- DEF_HELPER_FLAGS_3(asrtgt_d, TCG_CALL_NO_WG, void, env, tl, tl)
+@@ -15,3 +15,40 @@ DEF_HELPER_FLAGS_3(asrtgt_d, TCG_CALL_NO_WG, void, env, tl, tl)
+ DEF_HELPER_FLAGS_3(crc32, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
+ DEF_HELPER_FLAGS_3(crc32c, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(cpucfg, TCG_CALL_NO_RWG_SE, tl, env, tl)
 +
-+DEF_HELPER_FLAGS_3(crc32, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(crc32c, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(cpucfg, TCG_CALL_NO_RWG_SE, tl, env, tl)
++/* Floating-point helper */
++DEF_HELPER_FLAGS_3(fadd_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fadd_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fsub_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fsub_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmul_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmul_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fdiv_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fdiv_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmax_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmax_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmin_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmin_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmaxa_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmaxa_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmina_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fmina_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++
++DEF_HELPER_FLAGS_5(fmuladd_s, TCG_CALL_NO_WG, i64, env, i64, i64, i64, i32)
++DEF_HELPER_FLAGS_5(fmuladd_d, TCG_CALL_NO_WG, i64, env, i64, i64, i64, i32)
++
++DEF_HELPER_FLAGS_3(fscaleb_s, TCG_CALL_NO_WG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_3(fscaleb_d, TCG_CALL_NO_WG, i64, env, i64, i64)
++
++DEF_HELPER_FLAGS_2(flogb_s, TCG_CALL_NO_WG, i64, env, i64)
++DEF_HELPER_FLAGS_2(flogb_d, TCG_CALL_NO_WG, i64, env, i64)
++
++DEF_HELPER_FLAGS_2(fsqrt_s, TCG_CALL_NO_WG, i64, env, i64)
++DEF_HELPER_FLAGS_2(fsqrt_d, TCG_CALL_NO_WG, i64, env, i64)
++DEF_HELPER_FLAGS_2(frsqrt_s, TCG_CALL_NO_WG, i64, env, i64)
++DEF_HELPER_FLAGS_2(frsqrt_d, TCG_CALL_NO_WG, i64, env, i64)
++DEF_HELPER_FLAGS_2(frecip_s, TCG_CALL_NO_WG, i64, env, i64)
++DEF_HELPER_FLAGS_2(frecip_d, TCG_CALL_NO_WG, i64, env, i64)
++
++DEF_HELPER_FLAGS_2(fclass_s, TCG_CALL_NO_RWG_SE, i64, env, i64)
++DEF_HELPER_FLAGS_2(fclass_d, TCG_CALL_NO_RWG_SE, i64, env, i64)
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+index 9f02287a90..43b865ec21 100644
+--- a/target/loongarch/internals.h
++++ b/target/loongarch/internals.h
+@@ -18,4 +18,6 @@ void G_NORETURN do_raise_exception(CPULoongArchState *env,
+ 
+ const char *loongarch_exception_name(int32_t exception);
+ 
++void restore_fp_status(CPULoongArchState *env);
++
+ #endif
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 8d247aa68c..98774dbddb 100644
+index 98774dbddb..6455e09ebe 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -17,6 +17,7 @@
- &i            imm
- &r_i          rd imm
- &rr           rd rj
-+&rr_jk        rj rk
- &rrr          rd rj rk
- &rr_i         rd rj imm
+@@ -23,6 +23,9 @@
  &hint_r_i     hint rj imm
-@@ -28,6 +29,7 @@
- #
- @i15                       .... ........ ..... imm:15    &i
- @rr               .... ........ ..... ..... rj:5 rd:5    &rr
-+@rr_jk            .... ........ ..... rk:5 rj:5 .....    &rr_jk
- @rrr               .... ........ ..... rk:5 rj:5 rd:5    &rrr
- @r_i20                          .... ... imm:s20 rd:5    &r_i
- @rr_ui5           .... ........ ..... imm:5 rj:5 rd:5    &rr_i
-@@ -237,3 +239,20 @@ ammax_db_wu     0011 10000111 00000 ..... ..... .....    @rrr
- ammax_db_du     0011 10000111 00001 ..... ..... .....    @rrr
- ammin_db_wu     0011 10000111 00010 ..... ..... .....    @rrr
- ammin_db_du     0011 10000111 00011 ..... ..... .....    @rrr
-+
-+#
-+# Fixed point extra instruction
-+#
-+crc_w_b_w       0000 00000010 01000 ..... ..... .....    @rrr
-+crc_w_h_w       0000 00000010 01001 ..... ..... .....    @rrr
-+crc_w_w_w       0000 00000010 01010 ..... ..... .....    @rrr
-+crc_w_d_w       0000 00000010 01011 ..... ..... .....    @rrr
-+crcc_w_b_w      0000 00000010 01100 ..... ..... .....    @rrr
-+crcc_w_h_w      0000 00000010 01101 ..... ..... .....    @rrr
-+crcc_w_w_w      0000 00000010 01110 ..... ..... .....    @rrr
-+crcc_w_d_w      0000 00000010 01111 ..... ..... .....    @rrr
-+break           0000 00000010 10100 ...............      @i15
-+syscall         0000 00000010 10110 ...............      @i15
-+asrtle_d        0000 00000000 00010 ..... ..... 00000    @rr_jk
-+asrtgt_d        0000 00000000 00011 ..... ..... 00000    @rr_jk
-+cpucfg          0000 00000000 00000 11011 ..... .....    @rr
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index bd2db783c9..18e565ce7f 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -13,6 +13,8 @@
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- #include "internals.h"
-+#include "qemu/crc32c.h"
-+#include <zlib.h>
+ &rrr_sa       rd rj rk sa
+ &rr_ms_ls     rd rj ms ls
++&ff           fd fj
++&fff          fd fj fk
++&ffff         fd fj fk fa
  
- /* Exceptions helpers */
- void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
-@@ -55,3 +57,27 @@ void helper_asrtgt_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
-         do_raise_exception(env, EXCCODE_ADEM, GETPC());
-     }
+ #
+ # Formats
+@@ -44,6 +47,9 @@
+ @rrr_sa3         .... ........ .. sa:3 rk:5 rj:5 rd:5    &rrr_sa
+ @rr_2bw            .... ....... ms:5 . ls:5 rj:5 rd:5    &rr_ms_ls
+ @rr_2bd               .... ...... ms:6 ls:6 rj:5 rd:5    &rr_ms_ls
++@ff               .... ........ ..... ..... fj:5 fd:5    &ff
++@fff               .... ........ ..... fk:5 fj:5 fd:5    &fff
++@ffff               .... ........ fa:5 fk:5 fj:5 fd:5    &ffff
+ 
+ #
+ # Fixed point arithmetic operation instruction
+@@ -256,3 +262,49 @@ syscall         0000 00000010 10110 ...............      @i15
+ asrtle_d        0000 00000000 00010 ..... ..... 00000    @rr_jk
+ asrtgt_d        0000 00000000 00011 ..... ..... 00000    @rr_jk
+ cpucfg          0000 00000000 00000 11011 ..... .....    @rr
++
++#
++# Floating point arithmetic operation instruction
++#
++fadd_s          0000 00010000 00001 ..... ..... .....    @fff
++fadd_d          0000 00010000 00010 ..... ..... .....    @fff
++fsub_s          0000 00010000 00101 ..... ..... .....    @fff
++fsub_d          0000 00010000 00110 ..... ..... .....    @fff
++fmul_s          0000 00010000 01001 ..... ..... .....    @fff
++fmul_d          0000 00010000 01010 ..... ..... .....    @fff
++fdiv_s          0000 00010000 01101 ..... ..... .....    @fff
++fdiv_d          0000 00010000 01110 ..... ..... .....    @fff
++fmadd_s         0000 10000001 ..... ..... ..... .....    @ffff
++fmadd_d         0000 10000010 ..... ..... ..... .....    @ffff
++fmsub_s         0000 10000101 ..... ..... ..... .....    @ffff
++fmsub_d         0000 10000110 ..... ..... ..... .....    @ffff
++fnmadd_s        0000 10001001 ..... ..... ..... .....    @ffff
++fnmadd_d        0000 10001010 ..... ..... ..... .....    @ffff
++fnmsub_s        0000 10001101 ..... ..... ..... .....    @ffff
++fnmsub_d        0000 10001110 ..... ..... ..... .....    @ffff
++fmax_s          0000 00010000 10001 ..... ..... .....    @fff
++fmax_d          0000 00010000 10010 ..... ..... .....    @fff
++fmin_s          0000 00010000 10101 ..... ..... .....    @fff
++fmin_d          0000 00010000 10110 ..... ..... .....    @fff
++fmaxa_s         0000 00010000 11001 ..... ..... .....    @fff
++fmaxa_d         0000 00010000 11010 ..... ..... .....    @fff
++fmina_s         0000 00010000 11101 ..... ..... .....    @fff
++fmina_d         0000 00010000 11110 ..... ..... .....    @fff
++fabs_s          0000 00010001 01000 00001 ..... .....    @ff
++fabs_d          0000 00010001 01000 00010 ..... .....    @ff
++fneg_s          0000 00010001 01000 00101 ..... .....    @ff
++fneg_d          0000 00010001 01000 00110 ..... .....    @ff
++fsqrt_s         0000 00010001 01000 10001 ..... .....    @ff
++fsqrt_d         0000 00010001 01000 10010 ..... .....    @ff
++frecip_s        0000 00010001 01000 10101 ..... .....    @ff
++frecip_d        0000 00010001 01000 10110 ..... .....    @ff
++frsqrt_s        0000 00010001 01000 11001 ..... .....    @ff
++frsqrt_d        0000 00010001 01000 11010 ..... .....    @ff
++fscaleb_s       0000 00010001 00001 ..... ..... .....    @fff
++fscaleb_d       0000 00010001 00010 ..... ..... .....    @fff
++flogb_s         0000 00010001 01000 01001 ..... .....    @ff
++flogb_d         0000 00010001 01000 01010 ..... .....    @ff
++fcopysign_s     0000 00010001 00101 ..... ..... .....    @fff
++fcopysign_d     0000 00010001 00110 ..... ..... .....    @fff
++fclass_s        0000 00010001 01000 01101 ..... .....    @ff
++fclass_d        0000 00010001 01000 01110 ..... .....    @ff
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 1f8e37906a..95900be257 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -196,6 +196,7 @@ static void loongarch_cpu_reset(DeviceState *dev)
+     env->fcsr0_mask = FCSR0_M1 | FCSR0_M2 | FCSR0_M3;
+     env->fcsr0 = 0x0;
+ 
++    restore_fp_status(env);
+     cs->exception_index = -1;
  }
+ 
+diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
+new file mode 100644
+index 0000000000..d7442cc188
+--- /dev/null
++++ b/target/loongarch/fpu_helper.c
+@@ -0,0 +1,403 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * LoongArch float point emulation helpers for QEMU
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
 +
-+target_ulong helper_crc32(target_ulong val, target_ulong m, uint64_t sz)
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/helper-proto.h"
++#include "exec/exec-all.h"
++#include "exec/cpu_ldst.h"
++#include "fpu/softfloat.h"
++#include "internals.h"
++
++#define FLOAT_TO_INT32_OVERFLOW 0x7fffffff
++#define FLOAT_TO_INT64_OVERFLOW 0x7fffffffffffffffULL
++
++static inline uint64_t nanbox_s(float32 fp)
 +{
-+    uint8_t buf[8];
-+    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
-+
-+    m &= mask;
-+    stq_le_p(buf, m);
-+    return (int32_t) (crc32(val ^ 0xffffffff, buf, sz) ^ 0xffffffff);
++    return fp | MAKE_64BIT_MASK(32, 32);
 +}
 +
-+target_ulong helper_crc32c(target_ulong val, target_ulong m, uint64_t sz)
++/* Convert loongarch rounding mode in fcsr0 to IEEE library */
++static const FloatRoundMode ieee_rm[4] = {
++    float_round_nearest_even,
++    float_round_to_zero,
++    float_round_up,
++    float_round_down
++};
++
++void restore_fp_status(CPULoongArchState *env)
 +{
-+    uint8_t buf[8];
-+    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
-+    m &= mask;
-+    stq_le_p(buf, m);
-+    return (int32_t) (crc32c(val, buf, sz) ^ 0xffffffff);
++    set_float_rounding_mode(ieee_rm[(env->fcsr0 >> FCSR0_RM) & 0x3],
++                            &env->fp_status);
++    set_flush_to_zero(0, &env->fp_status);
 +}
 +
-+target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
++static int ieee_ex_to_loongarch(int xcpt)
 +{
-+    return rj > 21 ? 0 : env->cpucfg[rj];
++    int ret = 0;
++    if (xcpt & float_flag_invalid) {
++        ret |= FP_INVALID;
++    }
++    if (xcpt & float_flag_overflow) {
++        ret |= FP_OVERFLOW;
++    }
++    if (xcpt & float_flag_underflow) {
++        ret |= FP_UNDERFLOW;
++    }
++    if (xcpt & float_flag_divbyzero) {
++        ret |= FP_DIV0;
++    }
++    if (xcpt & float_flag_inexact) {
++        ret |= FP_INEXACT;
++    }
++    return ret;
++}
++
++static void update_fcsr0_mask(CPULoongArchState *env, uintptr_t pc, int mask)
++{
++    int flags = get_float_exception_flags(&env->fp_status);
++
++    set_float_exception_flags(0, &env->fp_status);
++
++    flags &= ~mask;
++
++    if (!flags) {
++        SET_FP_CAUSE(env->fcsr0, flags);
++        return;
++    } else {
++        flags = ieee_ex_to_loongarch(flags);
++        SET_FP_CAUSE(env->fcsr0, flags);
++    }
++
++    if (GET_FP_ENABLES(env->fcsr0) & flags) {
++        do_raise_exception(env, EXCCODE_FPE, pc);
++    } else {
++        UPDATE_FP_FLAGS(env->fcsr0, flags);
++    }
++}
++
++static void update_fcsr0(CPULoongArchState *env, uintptr_t pc)
++{
++    update_fcsr0_mask(env, pc, 0);
++}
++
++uint64_t helper_fadd_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_add((uint32_t)fj, (uint32_t)fk, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fadd_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = float64_add(fj, fk, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fsub_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_sub((uint32_t)fj, (uint32_t)fk, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fsub_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = float64_sub(fj, fk, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmul_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_mul((uint32_t)fj, (uint32_t)fk, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmul_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = float64_mul(fj, fk, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fdiv_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_div((uint32_t)fj, (uint32_t)fk, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fdiv_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = float64_div(fj, fk, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmax_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_maxnum((uint32_t)fj, (uint32_t)fk, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmax_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = float64_maxnum(fj, fk, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmin_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_minnum((uint32_t)fj, (uint32_t)fk, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmin_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = float64_minnum(fj, fk, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmaxa_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_maxnummag((uint32_t)fj,
++                                    (uint32_t)fk, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmaxa_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = float64_maxnummag(fj, fk, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmina_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_minnummag((uint32_t)fj,
++                                    (uint32_t)fk, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmina_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++
++    fd = float64_minnummag(fj, fk, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fscaleb_s(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++    int32_t n = (int32_t)fk;
++
++    fd = nanbox_s(float32_scalbn((uint32_t)fj,
++                                 n >  0x200 ?  0x200 :
++                                 n < -0x200 ? -0x200 : n,
++                                 &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fscaleb_d(CPULoongArchState *env, uint64_t fj, uint64_t fk)
++{
++    uint64_t fd;
++    int64_t n = (int64_t)fk;
++
++    fd = float64_scalbn(fj,
++                        n >  0x1000 ?  0x1000 :
++                        n < -0x1000 ? -0x1000 : n,
++                        &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fsqrt_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_sqrt((uint32_t)fj, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fsqrt_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float64_sqrt(fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_frecip_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_div(float32_one, (uint32_t)fj, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_frecip_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float64_div(float64_one, fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_frsqrt_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    uint32_t fp;
++
++    fp = float32_sqrt((uint32_t)fj, &env->fp_status);
++    fd = nanbox_s(float32_div(float32_one, fp, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_frsqrt_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fp, fd;
++
++    fp = float64_sqrt(fj, &env->fp_status);
++    fd = float64_div(float64_one, fp, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_flogb_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    uint32_t fp;
++    float_status *status = &env->fp_status;
++    FloatRoundMode old_mode = get_float_rounding_mode(status);
++
++    set_float_rounding_mode(float_round_down, status);
++    fp = float32_log2((uint32_t)fj, status);
++    fd = nanbox_s(float32_round_to_int(fp, status));
++    set_float_rounding_mode(old_mode, status);
++    update_fcsr0_mask(env, GETPC(), float_flag_inexact);
++    return fd;
++}
++
++uint64_t helper_flogb_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    float_status *status = &env->fp_status;
++    FloatRoundMode old_mode = get_float_rounding_mode(status);
++
++    set_float_rounding_mode(float_round_down, status);
++    fd = float64_log2(fj, status);
++    fd = float64_round_to_int(fd, status);
++    set_float_rounding_mode(old_mode, status);
++    update_fcsr0_mask(env, GETPC(), float_flag_inexact);
++    return fd;
++}
++
++uint64_t helper_fclass_s(CPULoongArchState *env, uint64_t fj)
++{
++    float32 f = fj;
++    bool sign = float32_is_neg(f);
++
++    if (float32_is_infinity(f)) {
++        return sign ? 1 << 2 : 1 << 6;
++    } else if (float32_is_zero(f)) {
++        return sign ? 1 << 5 : 1 << 9;
++    } else if (float32_is_zero_or_denormal(f)) {
++        return sign ? 1 << 4 : 1 << 8;
++    } else if (float32_is_any_nan(f)) {
++        float_status s = { }; /* for snan_bit_is_one */
++        return float32_is_quiet_nan(f, &s) ? 1 << 1 : 1 << 0;
++    } else {
++        return sign ? 1 << 3 : 1 << 7;
++    }
++}
++
++uint64_t helper_fclass_d(CPULoongArchState *env, uint64_t fj)
++{
++    float64 f = fj;
++    bool sign = float64_is_neg(f);
++
++    if (float64_is_infinity(f)) {
++        return sign ? 1 << 2 : 1 << 6;
++    } else if (float64_is_zero(f)) {
++        return sign ? 1 << 5 : 1 << 9;
++    } else if (float64_is_zero_or_denormal(f)) {
++        return sign ? 1 << 4 : 1 << 8;
++    } else if (float64_is_any_nan(f)) {
++        float_status s = { }; /* for snan_bit_is_one */
++        return float64_is_quiet_nan(f, &s) ? 1 << 1 : 1 << 0;
++    } else {
++        return sign ? 1 << 3 : 1 << 7;
++    }
++}
++
++uint64_t helper_fmuladd_s(CPULoongArchState *env, uint64_t fj,
++                          uint64_t fk, uint64_t fa, uint32_t flag)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(float32_muladd((uint32_t)fj, (uint32_t)fk,
++                                 (uint32_t)fa, flag, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fmuladd_d(CPULoongArchState *env, uint64_t fj,
++                          uint64_t fk, uint64_t fa, uint32_t flag)
++{
++    uint64_t fd;
++
++    fd = float64_muladd(fj, fk, fa, flag, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
 +}
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 01791bf1a2..b946dc4d5f 100644
+index b946dc4d5f..050d5f2c3b 100644
 --- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -155,6 +155,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
- #include "insn_trans/trans_bit.c.inc"
+@@ -15,6 +15,7 @@
+ #include "exec/translator.h"
+ #include "exec/log.h"
+ #include "qemu/qemu-print.h"
++#include "fpu/softfloat.h"
+ #include "translate.h"
+ #include "internals.h"
+ 
+@@ -36,6 +37,15 @@ static inline int shl_2(DisasContext *ctx, int x)
+     return x << 2;
+ }
+ 
++/*
++ * LoongArch the upper 32 bits are undefined ("can be any value").
++ * QEMU chooses to nanbox, because it is most likely to show guest bugs early.
++ */
++static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
++{
++    tcg_gen_ori_i64(out, in, MAKE_64BIT_MASK(32, 32));
++}
++
+ void generate_exception(DisasContext *ctx, int excp)
+ {
+     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+@@ -156,6 +166,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
  #include "insn_trans/trans_memory.c.inc"
  #include "insn_trans/trans_atomic.c.inc"
-+#include "insn_trans/trans_extra.c.inc"
+ #include "insn_trans/trans_extra.c.inc"
++#include "insn_trans/trans_farith.c.inc"
  
  static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
  {
-diff --git a/target/loongarch/insn_trans/trans_extra.c.inc b/target/loongarch/insn_trans/trans_extra.c.inc
+diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
 new file mode 100644
-index 0000000000..549f75a867
+index 0000000000..65ad2ffab8
 --- /dev/null
-+++ b/target/loongarch/insn_trans/trans_extra.c.inc
-@@ -0,0 +1,68 @@
++++ b/target/loongarch/insn_trans/trans_farith.c.inc
+@@ -0,0 +1,105 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+static bool trans_break(DisasContext *ctx, arg_break *a)
++static bool gen_fff(DisasContext *ctx, arg_fff *a,
++                    void (*func)(TCGv, TCGv_env, TCGv, TCGv))
 +{
-+    generate_exception(ctx, EXCCODE_BRK);
++    func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk]);
 +    return true;
 +}
 +
-+static bool trans_syscall(DisasContext *ctx, arg_syscall *a)
++static bool gen_ff(DisasContext *ctx, arg_ff *a,
++                   void (*func)(TCGv, TCGv_env, TCGv))
 +{
-+    generate_exception(ctx, EXCCODE_SYS);
++    func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj]);
 +    return true;
 +}
 +
-+static bool trans_asrtle_d(DisasContext *ctx, arg_asrtle_d * a)
++static bool gen_muladd(DisasContext *ctx, arg_ffff *a,
++                       void (*func)(TCGv, TCGv_env, TCGv, TCGv, TCGv, TCGv_i32),
++                       int flag)
 +{
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    gen_helper_asrtle_d(cpu_env, src1, src2);
++    TCGv_i32 tflag = tcg_constant_i32(flag);
++    func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj],
++         cpu_fpr[a->fk], cpu_fpr[a->fa], tflag);
 +    return true;
 +}
 +
-+static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
++static bool trans_fcopysign_s(DisasContext *ctx, arg_fcopysign_s *a)
 +{
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    gen_helper_asrtgt_d(cpu_env, src1, src2);
++    tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 31);
 +    return true;
 +}
 +
-+static bool trans_cpucfg(DisasContext *ctx, arg_cpucfg *a)
++static bool trans_fcopysign_d(DisasContext *ctx, arg_fcopysign_d *a)
 +{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+
-+    gen_helper_cpucfg(dest, cpu_env, src1);
-+    gen_set_gpr(a->rd, dest, EXT_NONE);
-+
++    tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 63);
 +    return true;
 +}
 +
-+static bool gen_crc(DisasContext *ctx, arg_rrr *a,
-+                    void (*func)(TCGv, TCGv, TCGv, TCGv),
-+                    TCGv tsz)
++static bool trans_fabs_s(DisasContext *ctx, arg_fabs_s *a)
 +{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_SIGN);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    func(dest, src2, src1, tsz);
-+    gen_set_gpr(a->rd, dest, EXT_SIGN);
-+
++    tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 31));
++    gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
 +    return true;
 +}
 +
-+TRANS(crc_w_b_w, gen_crc, gen_helper_crc32, tcg_constant_tl(1))
-+TRANS(crc_w_h_w, gen_crc, gen_helper_crc32, tcg_constant_tl(2))
-+TRANS(crc_w_w_w, gen_crc, gen_helper_crc32, tcg_constant_tl(4))
-+TRANS(crc_w_d_w, gen_crc, gen_helper_crc32, tcg_constant_tl(8))
-+TRANS(crcc_w_b_w, gen_crc, gen_helper_crc32c, tcg_constant_tl(1))
-+TRANS(crcc_w_h_w, gen_crc, gen_helper_crc32c, tcg_constant_tl(2))
-+TRANS(crcc_w_w_w, gen_crc, gen_helper_crc32c, tcg_constant_tl(4))
-+TRANS(crcc_w_d_w, gen_crc, gen_helper_crc32c, tcg_constant_tl(8))
++static bool trans_fabs_d(DisasContext *ctx, arg_fabs_d *a)
++{
++    tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 63));
++    return true;
++}
++
++static bool trans_fneg_s(DisasContext *ctx, arg_fneg_s *a)
++{
++    tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x80000000);
++    gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
++    return true;
++}
++
++static bool trans_fneg_d(DisasContext *ctx, arg_fneg_d *a)
++{
++    tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x8000000000000000LL);
++    return true;
++}
++
++TRANS(fadd_s, gen_fff, gen_helper_fadd_s)
++TRANS(fadd_d, gen_fff, gen_helper_fadd_d)
++TRANS(fsub_s, gen_fff, gen_helper_fsub_s)
++TRANS(fsub_d, gen_fff, gen_helper_fsub_d)
++TRANS(fmul_s, gen_fff, gen_helper_fmul_s)
++TRANS(fmul_d, gen_fff, gen_helper_fmul_d)
++TRANS(fdiv_s, gen_fff, gen_helper_fdiv_s)
++TRANS(fdiv_d, gen_fff, gen_helper_fdiv_d)
++TRANS(fmax_s, gen_fff, gen_helper_fmax_s)
++TRANS(fmax_d, gen_fff, gen_helper_fmax_d)
++TRANS(fmin_s, gen_fff, gen_helper_fmin_s)
++TRANS(fmin_d, gen_fff, gen_helper_fmin_d)
++TRANS(fmaxa_s, gen_fff, gen_helper_fmaxa_s)
++TRANS(fmaxa_d, gen_fff, gen_helper_fmaxa_d)
++TRANS(fmina_s, gen_fff, gen_helper_fmina_s)
++TRANS(fmina_d, gen_fff, gen_helper_fmina_d)
++TRANS(fscaleb_s, gen_fff, gen_helper_fscaleb_s)
++TRANS(fscaleb_d, gen_fff, gen_helper_fscaleb_d)
++TRANS(fsqrt_s, gen_ff, gen_helper_fsqrt_s)
++TRANS(fsqrt_d, gen_ff, gen_helper_fsqrt_d)
++TRANS(frecip_s, gen_ff, gen_helper_frecip_s)
++TRANS(frecip_d, gen_ff, gen_helper_frecip_d)
++TRANS(frsqrt_s, gen_ff, gen_helper_frsqrt_s)
++TRANS(frsqrt_d, gen_ff, gen_helper_frsqrt_d)
++TRANS(flogb_s, gen_ff, gen_helper_flogb_s)
++TRANS(flogb_d, gen_ff, gen_helper_flogb_d)
++TRANS(fclass_s, gen_ff, gen_helper_fclass_s)
++TRANS(fclass_d, gen_ff, gen_helper_fclass_d)
++TRANS(fmadd_s, gen_muladd, gen_helper_fmuladd_s, 0)
++TRANS(fmadd_d, gen_muladd, gen_helper_fmuladd_d, 0)
++TRANS(fmsub_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_c)
++TRANS(fmsub_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_c)
++TRANS(fnmadd_s, gen_muladd, gen_helper_fmuladd_s,
++      float_muladd_negate_product | float_muladd_negate_c)
++TRANS(fnmadd_d, gen_muladd, gen_helper_fmuladd_d,
++      float_muladd_negate_product | float_muladd_negate_c)
++TRANS(fnmsub_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_product)
++TRANS(fnmsub_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_product)
 -- 
 2.34.1
 
