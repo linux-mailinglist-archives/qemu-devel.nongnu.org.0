@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4BD53E476
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 14:44:42 +0200 (CEST)
-Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8FDF53E477
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 14:44:55 +0200 (CEST)
+Received: from localhost ([::1]:56708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyC64-0006Yr-D8
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 08:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50444)
+	id 1nyC6I-00079d-Im
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 08:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nyC1t-000303-Ot
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:40:22 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:46622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nyC1n-0003jo-7P
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:40:18 -0400
-Received: by mail-ed1-x530.google.com with SMTP id z7so18622337edm.13
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 05:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iUQk8LjdKRxpSwB7GLGk+VL5mXUdTnmd6B0PiGOh/Tk=;
- b=UK0QW0tq3/xOaxBuExr+UxSeARXVSTgSeDfp9lIF3/WtZVbp3YVHFymGN8zhPY4u4M
- KGCAlnNttuwrj9qrVcSHpzc60YELVTGydTTsQXuTFLLAfLI8ryEd00QV77zNhWNDYsNo
- yqh9SDJ9DfqlSSYOE5SZGshLjSbpOT/RBm4U7gMDfcH4uVi0otHuqvCmE/5uWClb9B5o
- POKA3lhodGilI6KwAXcj8PXa5F+S9aYoardPMwj2L+x64tGOtDmI5imbuzqIcrcf9kWw
- 62fi+ODoXaoP/3vI8kTQjKL1W++zBFGWeom/bqT0U3gR4S87rcfUT3S+HbXXrBezyQ3x
- JlqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iUQk8LjdKRxpSwB7GLGk+VL5mXUdTnmd6B0PiGOh/Tk=;
- b=mIYP1PK5ruI6NVEuo7XBfxN4Z3aScyHxAH3qm4ceP/vW7ZkDGvAmDl8g0ZG1GBvjpb
- tpx0oyFvtSGr7IYln8jAVr25WyWdTUIkztbLfFDS/iuPDQM+xnx2Vd3dNC6QvvCjcG4u
- LaUYMbfJN8W82nhwT2U/hV6SzZYDh3Ubs191kPj02k/Z/N+ANhz2683T7hzJwxXaidpv
- DPWwBrhqEnKZLBl8PhmqgluVuoGM+besZ4aWUuViFMjF0qd9ej5nSqrMg02G58R2sEEp
- Og2MWQpcX7mpjg2BFObdzHTDaMs/TtDvfzjSmJj3losQJw7Nm3Zz3Jq1p2r73lAYRrar
- XMrg==
-X-Gm-Message-State: AOAM532aRQIZDP2RyfsN7nMgLbe1kxfM1B+a3bivAdRJ9TpIGL9Vqc/Q
- 8UCC9gcLskqhRV6wNgfpIBhTLepnfBbnliJtNhN2
-X-Google-Smtp-Source: ABdhPJyFwxDNNa9FR1rb3QzJv95sYpFlDiR2WtJEaFvTyLKIx/VY/vYa2XoPaU1iu71lI5WtOFOpDMPFNtMuEI94TBY=
-X-Received: by 2002:a05:6402:524a:b0:431:51b3:bc7 with SMTP id
- t10-20020a056402524a00b0043151b30bc7mr7643129edd.5.1654519211147; Mon, 06 Jun
- 2022 05:40:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nyC3E-0004J8-86; Mon, 06 Jun 2022 08:41:44 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nyC36-00045e-Kz; Mon, 06 Jun 2022 08:41:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KNvx5F1aRmwgnCV3cHuCjrW9Djws3Ur+k10GDpKt+A4=; b=PrQWM6NuV4Cr3KauwZaxx4GfXS
+ mkIkWFjv72TN7aNma47YDtSfZAP/PCrxu5JXKCthRSpIl1vOb5vR3g5gwTLZppZWMXAu7av4VseL9
+ UoUY6eIpXp9/Hj4OoLpZv7OQ0JMeo8Jl26jX7Oc0Nt5iql0EpEJv7L98gUtPCsurYXm9/63dk89Uy
+ SJxRvn36Yshj+OguylTxvB+vcQTP8biEzndv9ueb5TvJjk0KaW1BjQxOEyh4dplvYq9DGfIZhMCox
+ rQTJpDao89s6udwpYGCApPF3aLBUofyYnaCJefCIb08gJWFeezkr9Aj0ne6BYwIYtmWk+3wV5BeII
+ dzCcI/qtReVa+k/gVyg+vLL7v3W/nOgQr5qrJu8geLiWBbb1+NA1y2Gmxg6c+scYeQYH4HZmvuVQy
+ aApLVR+BPfE46zhQzBYYXLA/cN7Qq8O8nMpfz8hnKIboeJRVGsbgku/ZHTm6o+1rQRyyBUNiZSTUM
+ M066oKM6RafkbGZ3FsB45+XOXwVqAmdvQvaqjyh57aBETGTyGKJP0vWaAJo8sTh/BRH5TMUOc03Xo
+ QOOJXHHXrIYcPoGoSEcnI9DkDBQaDO3B+1nl1FRZY3mRL5JnXc8vKbng0E8CTpKrdZzBHFkhcdyIA
+ Yvdf9Fv+0COmvMrDcA/h2WckAve6gFD/xkB09opf4=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nyC20-00044P-1o; Mon, 06 Jun 2022 13:40:28 +0100
+Message-ID: <f8d7a430-fdf2-f4d6-1807-4a6c40b9c0c1@ilande.co.uk>
+Date: Mon, 6 Jun 2022 13:41:30 +0100
 MIME-Version: 1.0
-References: <20220531095221.114-1-xieyongji@bytedance.com>
- <Ypdjr4UO+XrBbM09@stefanha-x1.localdomain>
- <CACycT3vR4rb+R5Z-SYMW1q1S1hhFZPPDJAVb82_5vnxgVr7WiA@mail.gmail.com>
- <Yp3fhbvlXqeJwA9L@stefanha-x1.localdomain>
-In-Reply-To: <Yp3fhbvlXqeJwA9L@stefanha-x1.localdomain>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Mon, 6 Jun 2022 20:41:08 +0800
-Message-ID: <CACycT3sGu95yEqmF0ex9wPGcXQfosdMuA=G7T9zoZtXEv5z14g@mail.gmail.com>
-Subject: Re: [PATCH v2] vduse-blk: Add name option
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=xieyongji@bytedance.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
+ fbarrat@linux.ibm.com
+References: <20220531214917.31668-1-danielhb413@gmail.com>
+ <20220531214917.31668-12-danielhb413@gmail.com>
+ <84beb434-af3c-d882-bce8-869754828a04@ilande.co.uk>
+ <3d6f05aa-8e40-0fc6-e0cb-69c614faddfd@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <3d6f05aa-8e40-0fc6-e0cb-69c614faddfd@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 11/16] ppc/pnv: add pnv-phb-root-port device
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,58 +83,213 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 6, 2022 at 7:05 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Wed, Jun 01, 2022 at 09:10:58PM +0800, Yongji Xie wrote:
-> > On Wed, Jun 1, 2022 at 9:03 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > On Tue, May 31, 2022 at 05:52:21PM +0800, Xie Yongji wrote:
-> > > > Currently we use 'id' option as the name of VDUSE device.
-> > > > It's a bit confusing since we use one value for two different
-> > > > purposes: the ID to identfy the export within QEMU (must be
-> > > > distinct from any other exports in the same QEMU process, but
-> > > > can overlap with names used by other processes), and the VDUSE
-> > > > name to uniquely identify it on the host (must be distinct from
-> > > > other VDUSE devices on the same host, but can overlap with other
-> > > > export types like NBD in the same process). To make it clear,
-> > > > this patch adds a separate 'name ' option to specify the VDUSE
-> > > > name for the vduse-blk export instead.
-> > > >
-> > > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> > > > ---
-> > > >  block/export/vduse-blk.c             | 9 ++++++---
-> > > >  docs/tools/qemu-storage-daemon.rst   | 5 +++--
-> > > >  qapi/block-export.json               | 7 ++++---
-> > > >  storage-daemon/qemu-storage-daemon.c | 8 ++++----
-> > > >  4 files changed, 17 insertions(+), 12 deletions(-)
-> > > >
-> > > > diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-> > > > index 3b10349173..d96993bdf5 100644
-> > > > --- a/block/export/vduse-blk.c
-> > > > +++ b/block/export/vduse-blk.c
-> > > > @@ -245,7 +245,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-> > > >      }
-> > > >      vblk_exp->num_queues = num_queues;
-> > > >      vblk_exp->handler.blk = exp->blk;
-> > > > -    vblk_exp->handler.serial = exp->id;
-> > > > +    vblk_exp->handler.serial = g_strdup(vblk_opts->name);
-> > >
-> > > Do we want to expose the VDUSE device name to the guest? Maybe the
-> > > serial string should be a separate parameter.
-> > >
-> >
-> > OK, it makes sense to me. But we might need a default value. Any suggestions?
->
-> hw/block/virtio-blk.c defaults to the empty string:
->
->   const char *serial = s->conf.serial ? s->conf.serial : "";
->
-> I think it's reasonable to say that anyone who wants to use serial will
-> also want to set the value explicitly.
->
+On 03/06/2022 21:47, Daniel Henrique Barboza wrote:
 
-LGTM.
+> On 6/2/22 05:12, Mark Cave-Ayland wrote:
+>> On 31/05/2022 22:49, Daniel Henrique Barboza wrote:
+>>
+>>> We have two very similar root-port devices, pnv-phb3-root-port and
+>>> pnv-phb4-root-port. Both consist of a wrapper around the PCIESlot device
+>>> that, until now, has no additional attributes.
+>>>
+>>> The main difference between the PHB3 and PHB4 root ports is that
+>>> pnv-phb4-root-port has the pnv_phb4_root_port_reset() callback. All
+>>> other differences can be merged in a single device without too much
+>>> trouble.
+>>>
+>>> This patch introduces the unified pnv-phb-root-port that, in time, will
+>>> be used as the default root port for the pnv-phb device.
+>>>
+>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> ---
+>>>   hw/pci-host/pnv_phb.c | 107 ++++++++++++++++++++++++++++++++++++++----
+>>>   hw/pci-host/pnv_phb.h |  17 +++++++
+>>>   2 files changed, 116 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+>>> index 321c4e768a..5047e90d3a 100644
+>>> --- a/hw/pci-host/pnv_phb.c
+>>> +++ b/hw/pci-host/pnv_phb.c
+>>> @@ -114,15 +114,106 @@ static void pnv_phb_class_init(ObjectClass *klass, void *data)
+>>>       dc->user_creatable = true;
+>>>   }
+>>> -static void pnv_phb_register_type(void)
+>>> +static void pnv_phb_root_port_reset(DeviceState *dev)
+>>>   {
+>>> -    static const TypeInfo pnv_phb_type_info = {
+>>> -        .name          = TYPE_PNV_PHB,
+>>> -        .parent        = TYPE_PCIE_HOST_BRIDGE,
+>>> -        .instance_size = sizeof(PnvPHB),
+>>> -        .class_init    = pnv_phb_class_init,
+>>> -    };
+>>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>>> +    PnvPHBRootPort *rootport = PNV_PHB_ROOT_PORT(dev);
+>>> +    PCIDevice *d = PCI_DEVICE(dev);
+>>> +    uint8_t *conf = d->config;
+>>> +    rpc->parent_reset(dev);
+>>> +
+>>> +    if (rootport->version == 3) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    /* PHB4 and later requires these extra reset steps */
+>>> +    pci_byte_test_and_set_mask(conf + PCI_IO_BASE,
+>>> +                               PCI_IO_RANGE_MASK & 0xff);
+>>> +    pci_byte_test_and_clear_mask(conf + PCI_IO_LIMIT,
+>>> +                                 PCI_IO_RANGE_MASK & 0xff);
+>>> +    pci_set_word(conf + PCI_MEMORY_BASE, 0);
+>>> +    pci_set_word(conf + PCI_MEMORY_LIMIT, 0xfff0);
+>>> +    pci_set_word(conf + PCI_PREF_MEMORY_BASE, 0x1);
+>>> +    pci_set_word(conf + PCI_PREF_MEMORY_LIMIT, 0xfff1);
+>>> +    pci_set_long(conf + PCI_PREF_BASE_UPPER32, 0x1); /* Hack */
+>>> +    pci_set_long(conf + PCI_PREF_LIMIT_UPPER32, 0xffffffff);
+>>> +    pci_config_set_interrupt_pin(conf, 0);
+>>> +}
+>>> +
+>>> +static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+>>> +{
+>>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>>> +    PCIDevice *pci = PCI_DEVICE(dev);
+>>> +    PCIBus *bus = pci_get_bus(pci);
+>>> +    PnvPHB *phb = NULL;
+>>> +    Error *local_err = NULL;
+>>> +
+>>> +    phb = (PnvPHB *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+>>> +                                          TYPE_PNV_PHB);
+>>
+>> Same here too.
+> 
+> 
+> This case is a bit different than the previous because there's no ->phb_base in
+> this device. Doing
+> 
+> PnvPHB *phb = PNV_PHB(PNV_PHB_ROOT_PORT(dev));
+> 
+> Will somehow retrieve a PnvPHB pointer but with zeroed properties. This makes
+> the slot/chassis code down below to fail when adding a second port.
 
-Thanks,
-Yongji
+Hmmm that's odd.
+
+> I checked how other parts of the code handles that and the closer I found so
+> far is doing something like this:
+> 
+>      PCIDevice *pci = PCI_DEVICE(dev);
+>      PnvPHB *phb = PNV_PHB(pci_device_root_bus(pci)->qbus.parent);
+> 
+> This is how pci_bus_bypass_iommu() from hw/pci/pci.c retrieves a PCIHostState
+> pointer of a given bus.
+> 
+> Another idea is to simply add a pointer to the parent PnvPHB device that the
+> root port is attached to. This would trivialize this part and I could also
+> use the already set PnvPHB->version for the root port logic as well since they're
+> set to be the same.
+
+I think what should happen is that the parent device should instantiate the pnv_phb 
+root port via object_initialize_child() so it is embedded within it, at which point 
+the pnv_phb root port device can just use container_of() to obtain the reference to 
+the parent device state.
+
+But certainly dereferencing the internal qbus object is not the right long-term solution.
+
+>>> +    if (!phb) {
+>>> +        error_setg(errp,
+>>> +"pnv_phb_root_port devices must be connected to pnv-phb buses");
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    /* Set unique chassis/slot values for the root port */
+>>> +    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
+>>> +    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
+>>
+>> Again this is from older code, but we already have dev so these could be:
+>>
+>>      qdev_prop_set_uint8(dev, "chassis", phb->chip_id);
+>>      qdev_prop_set_uint16(dev, "slot", phb->phb_id);
+>>
+>>> +    rpc->parent_realize(dev, &local_err);
+>>> +    if (local_err) {
+>>> +        error_propagate(errp, local_err);
+>>> +        return;
+>>> +    }
+>>> +    pci_config_set_interrupt_pin(pci->config, 0);
+>>> +}
+>>> +
+>>> +static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
+>>> +{
+>>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>>> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
+>>> +
+>>> +    dc->desc     = "IBM PHB PCIE Root Port";
+>>> +
+>>> +    device_class_set_parent_realize(dc, pnv_phb_root_port_realize,
+>>> +                                    &rpc->parent_realize);
+>>> +
+>>> +    device_class_set_parent_reset(dc, pnv_phb_root_port_reset,
+>>> +                                  &rpc->parent_reset);
+>>> +    dc->reset = &pnv_phb_root_port_reset;
+>>> +
+>>> +    dc->user_creatable = true;
+>>> +
+>>> +    k->vendor_id = PCI_VENDOR_ID_IBM;
+>>> +    /* device_id represents the latest PHB root port version supported */
+>>> +    k->device_id = PNV_PHB5_DEVICE_ID;
+>>> +    k->revision  = 0;
+>>> +
+>>> +    rpc->exp_offset = 0x48;
+>>> +    rpc->aer_offset = 0x100;
+>>> +}
+>>> +
+>>> +static const TypeInfo pnv_phb_type_info = {
+>>> +    .name          = TYPE_PNV_PHB,
+>>> +    .parent        = TYPE_PCIE_HOST_BRIDGE,
+>>> +    .instance_size = sizeof(PnvPHB),
+>>> +    .class_init    = pnv_phb_class_init,
+>>> +};
+>>> +
+>>> +static const TypeInfo pnv_phb_root_port_info = {
+>>> +    .name          = TYPE_PNV_PHB_ROOT_PORT,
+>>> +    .parent        = TYPE_PCIE_ROOT_PORT,
+>>> +    .instance_size = sizeof(PnvPHBRootPort),
+>>> +    .class_init    = pnv_phb_root_port_class_init,
+>>> +};
+>>> +
+>>> +static void pnv_phb_register_types(void)
+>>> +{
+>>>       type_register_static(&pnv_phb_type_info);
+>>> +    type_register_static(&pnv_phb_root_port_info);
+>>>   }
+>>> -type_init(pnv_phb_register_type)
+>>> +
+>>> +type_init(pnv_phb_register_types)
+>>> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
+>>> index a7cc8610e2..c8eab4b767 100644
+>>> --- a/hw/pci-host/pnv_phb.h
+>>> +++ b/hw/pci-host/pnv_phb.h
+>>> @@ -36,4 +36,21 @@ struct PnvPHB {
+>>>   #define TYPE_PNV_PHB "pnv-phb"
+>>>   OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
+>>> +/*
+>>> + * PHB PCIe Root port
+>>> + */
+>>> +#define PNV_PHB3_DEVICE_ID         0x03dc
+>>> +#define PNV_PHB4_DEVICE_ID         0x04c1
+>>> +#define PNV_PHB5_DEVICE_ID         0x0652
+>>> +
+>>> +typedef struct PnvPHBRootPort {
+>>> +    PCIESlot parent_obj;
+>>> +
+>>> +    uint32_t version;
+>>> +} PnvPHBRootPort;
+>>> +
+>>> +#define TYPE_PNV_PHB_ROOT_PORT "pnv-phb-root-port"
+>>> +#define PNV_PHB_ROOT_PORT(obj) \
+>>> +    OBJECT_CHECK(PnvPHBRootPort, obj, TYPE_PNV_PHB_ROOT_PORT)
+>>> +
+>>>   #endif /* PCI_HOST_PNV_PHB_H */
+
+
+ATB,
+
+Mark.
 
