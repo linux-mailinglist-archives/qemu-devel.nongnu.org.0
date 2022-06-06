@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86D153E42F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 13:20:03 +0200 (CEST)
-Received: from localhost ([::1]:60282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F45453E43D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 13:44:59 +0200 (CEST)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyAmA-0007nt-TU
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 07:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35492)
+	id 1nyBAH-0004HR-6C
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 07:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nyAjs-0006V1-AV
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 07:17:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29203)
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1nyB4l-0003HE-9G
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 07:39:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nyAjq-0006XF-HP
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 07:17:39 -0400
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1nyB4i-00022R-RW
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 07:39:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654514257;
+ s=mimecast20190719; t=1654515551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OT6bcpYsbEHxM9MHMIB6Lz3HLiSkZQr9MRcqr5uLOJY=;
- b=Nn1acpTsZHraFMWKbbWMJMDO+XvV2AFJVU2tT0+Wx2yZ9LFipQ3aV9BPulQxGJeYd6Oqcg
- aw0fAIRKsS/0S04wxMyPLdNAwHkvjalr9JLfR2LncpwvvT4Hp9TTm+iU7ajDAWaQYX6jGN
- GFM79fy1wy7lz9xGuD4oFHqCG3CG+l4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/dkJ/50IT1chfIPJoiIuxaMeoiGaeAPagSaxshNDN5s=;
+ b=FOJhjLxozGsJVeDiS/o0+gZgshrgvXbx7NmW4GCFDo7xnqQWD8EEjvsi4OlCZYGdNCWxLr
+ pyPDrxK1q6TZ1KHlON0mx6VcW5lpoNfPRT6rvt7gv5I3fgcnbHdA+o4ALaR6h/DaCEEPxN
+ hqgh05OlA1lA33PUMdW+/4LyzmAlwxY=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-s0oAY4baO4uAO0StObGSRA-1; Mon, 06 Jun 2022 07:17:36 -0400
-X-MC-Unique: s0oAY4baO4uAO0StObGSRA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o23-20020a05600c511700b0039743cd8093so7590824wms.6
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 04:17:36 -0700 (PDT)
+ us-mta-659-003ZmLuCNhui7Cn05EWz5g-1; Mon, 06 Jun 2022 07:39:10 -0400
+X-MC-Unique: 003ZmLuCNhui7Cn05EWz5g-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ bf2-20020a056808190200b0032ea485bb7dso486641oib.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 04:39:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=OT6bcpYsbEHxM9MHMIB6Lz3HLiSkZQr9MRcqr5uLOJY=;
- b=l2feDGs8CbDgjhtAiwGZGtn7p7n2+YYe0n541tuRM6me7+r35dyi296qJBRNeSnHj3
- AvNsroh6nj7jwSkC9nR/7s1DFNQ15bY3cqjx08S1cgOebYIUCbeXAdY7pDKse7fSYnBq
- /9DqgJuxT6o33mUJBqgJlM0Y/4Dy+nHisPWTjVKgUyoy8GKS99uxL8bLVC3PqWE6ySGs
- QHafWQ/POVnZP8t7hh22Z2Wll+8hjyVrmxlP6qokMbE0O77oaXBTAoRlGSN6O3ZynVEz
- t3g5ogY9RrgNpLsnLpnsLuucJy6pFaz/pHo1USYpWTnVSSQy7IeRhz18djJh5g/5Z94N
- I9aQ==
-X-Gm-Message-State: AOAM531iaJa+Opf2TxtCFGXc92JzjLblKI27r+1L2e4fhlNM+IheSjZS
- NjyhtJ0BcGJgcLrBWxSUIdmQ2QBpap2VTL7GwyoTasGAvsQPpybrSVdXHlKpkzVDJPxC59/CS/D
- lAOZK/6qoTnrg6Ro=
-X-Received: by 2002:a05:600c:2312:b0:397:7647:2ac4 with SMTP id
- 18-20020a05600c231200b0039776472ac4mr21913935wmo.125.1654514255507; 
- Mon, 06 Jun 2022 04:17:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwB9sW0yMkHvWlUNtbjrYQlP71KAYBVsLcqBkQxeQgTHaxT5LwFwBzHxMURQTr1art04+wMhg==
-X-Received: by 2002:a05:600c:2312:b0:397:7647:2ac4 with SMTP id
- 18-20020a05600c231200b0039776472ac4mr21913910wmo.125.1654514255200; 
- Mon, 06 Jun 2022 04:17:35 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- g19-20020a05600c4ed300b0039c4506bd25sm10005964wmq.14.2022.06.06.04.17.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 04:17:34 -0700 (PDT)
-Date: Mon, 6 Jun 2022 12:17:32 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: quintela@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- kwolf@redhat.com, hreitz@redhat.com, maobibo <maobibo@loongson.cn>
-Subject: Re: qemu-iotest 267 got a FPE error when TARGET_PAGE_BITS 16K
-Message-ID: <Yp3iTLMVHGEAa6pb@work-vm>
-References: <60071e6b-35fd-25c7-225d-5bcf71116afb@loongson.cn>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/dkJ/50IT1chfIPJoiIuxaMeoiGaeAPagSaxshNDN5s=;
+ b=ctZ85gmn/NSc3rs6rGoB3ntxn/WKqhWpe/7eFYc/Q/pVqBY9EOQkEI9Yx/6WL4NgFC
+ tDgwwq4an8Mb/lvtvzsIo2ovH+puiubAt97j9Fp31WwVefRPxwXWDZG2Ppik5ICr9GLi
+ T3/xGww0NvQVrX5rm++KTMw4VN0GH/7zWtnIIxCcCHw11OJ7e+PUXqnWdQ/fdGohw81M
+ FZZqquSZGHzQDurFqjFl8dGbbFZ5bHVpPIL/NUkWZwYw2cuNIt+WktiAb+kHEeanIGaY
+ +Z1NYXF2KOAxSDBjodbAhUusz2OpqpyLcvqOwhnMUhZtvsHOWwig6ZypmtcD7A2vGX3r
+ 6Fug==
+X-Gm-Message-State: AOAM533fVXa+Hv0/1QY302sMxkBIynRmrSMQ2Gxknubnwb7BDyjdO+dp
+ DK8/Qbg9phuGYqSJjodlOtq03qYxCbTLdpEeQEXEKeMEQxkbMJV5nNdAjZYgeROK0OmGilB5ApJ
+ FeXhroaiGooQr/9VGEOBcjZQ96FLXnNA=
+X-Received: by 2002:a05:6830:2708:b0:606:621f:b634 with SMTP id
+ j8-20020a056830270800b00606621fb634mr10091740otu.1.1654515548621; 
+ Mon, 06 Jun 2022 04:39:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0y4j+l7Mc9ii4ZcW36LRfJhf+fOwjogoegD1tzzh1hzpYDOtjGyHzg2iSRIbYCAIxy4XnScVgls8LFnzJooI=
+X-Received: by 2002:a05:6830:2708:b0:606:621f:b634 with SMTP id
+ j8-20020a056830270800b00606621fb634mr10091733otu.1.1654515548325; Mon, 06 Jun
+ 2022 04:39:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <60071e6b-35fd-25c7-225d-5bcf71116afb@loongson.cn>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+References: <20220527165651.28092-1-jusual@redhat.com>
+ <20220527165651.28092-5-jusual@redhat.com>
+ <20220602172007.27cd7e81@redhat.com>
+In-Reply-To: <20220602172007.27cd7e81@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Mon, 6 Jun 2022 13:38:57 +0200
+Message-ID: <CAMDeoFXrgTbG846RfURzEHZv+W+t9LmJ-M-p1uSk07NW_UR9Dg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] bios-tables-test: add test for number of cores > 255
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsuvorov@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -102,118 +94,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* gaosong (gaosong@loongson.cn) wrote:
-> Hi.
->     I run './tests/qemu-iotests/check -qcow2 267 '  got a FPE error on x86
-> host emulation LoongArch , The log is :
-> 
-> ...
-> 
-> +../migration/ram.c:2205:9: runtime error: division by zero
-> +AddressSanitizer:DEADLYSIGNAL
+On Thu, Jun 2, 2022 at 5:20 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Fri, 27 May 2022 18:56:50 +0200
+> Julia Suvorova <jusual@redhat.com> wrote:
+>
+> > The new test is run with a large number of cpus and checks if the
+> > core_count field in smbios_cpu_test (structure type 4) is correct.
+> >
+> > Choose q35 as it allows to run with -smp > 255.
+> >
+> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > ---
+> >  tests/qtest/bios-tables-test.c | 35 +++++++++++++++++++++++++++++++++-
+> >  1 file changed, 34 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > index 0ba9d749a5..f2464adaa0 100644
+> > --- a/tests/qtest/bios-tables-test.c
+> > +++ b/tests/qtest/bios-tables-test.c
+> > @@ -100,6 +100,8 @@ typedef struct {
+> >      smbios_entry_point smbios_ep_table;
+> >      uint16_t smbios_cpu_max_speed;
+> >      uint16_t smbios_cpu_curr_speed;
+> > +    uint8_t smbios_core_count;
+> > +    uint16_t smbios_core_count2;
+> >      uint8_t *required_struct_types;
+> >      int required_struct_types_len;
+> >      QTestState *qts;
+> > @@ -640,8 +642,9 @@ static inline bool smbios_single_instance(uint8_t type)
+> >
+> >  static bool smbios_cpu_test(test_data *data, uint32_t addr)
+> >  {
+> > +    uint8_t real_cc, expect_cc = data->smbios_core_count;
+>
+> %s/expect/expected/
+> also I'd s/real_cc/core_count/
+>
+> > +    uint16_t real, real_cc2, expect_cc2 = data->smbios_core_count2;
+> ditto
+>
+> >      uint16_t expect_speed[2];
+> > -    uint16_t real;
+> >      int offset[2];
+> >      int i;
+> >
+> > @@ -660,6 +663,20 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
+> >          }
+> >      }
+> >
+> > +    real_cc = qtest_readb(data->qts, addr + offsetof(struct smbios_type_4, core_count));
+> > +    real_cc2 = qtest_readw(data->qts, addr + offsetof(struct smbios_type_4, core_count2));
+> > +
+> > +    if (expect_cc && (real_cc != expect_cc)) {
+> > +        fprintf(stderr, "Unexpected SMBIOS CPU count: real %u expect %u\n",
+> > +                real_cc, expect_cc);
+> > +        return false;
+>
+> since you are rewriting it anyways, how about
+> if (expect_cc) {
+>   g_assert_cmpuint(...)
+> }
+>
+> instead of printing/propagating error
 
-Interesting.
+That works. But I still need to return something, unless you want to
+change the original code too.
 
-> +=================================================================
-> +==1685462==ERROR: AddressSanitizer: FPE on unknown address 0x556e650eed6e
-> (pc 0x556e650eed6e bp 0x7ffcba14ae20 sp 0x7ffcba14adc0 T0)
-> +    #0 0x556e650eed6d in ram_save_host_page ../migration/ram.c:2205
-> +    #1 0x556e650ef78f in ram_find_and_save_block ../migration/ram.c:2284
-> +    #2 0x556e650f53a1 in ram_save_iterate ../migration/ram.c:3010
-> +    #3 0x556e64c03aa2 in qemu_savevm_state_iterate
-> ../migration/savevm.c:1296
-> +    #4 0x556e64c06ccc in qemu_savevm_state ../migration/savevm.c:1580
-> +    #5 0x556e64c0d497 in save_snapshot ../migration/savevm.c:2889
-> +    #6 0x556e64c29221 in hmp_savevm ../monitor/hmp-cmds.c:1095
-> +    #7 0x556e64c41b31 in handle_hmp_command_exec ../monitor/hmp.c:1103
-> +    #8 0x556e64c4234c in handle_hmp_command ../monitor/hmp.c:1155
-> +    #9 0x556e64c38292 in monitor_command_cb ../monitor/hmp.c:49
-> +    #10 0x556e6596ceca in readline_handle_byte ../util/readline.c:411
-> +    #11 0x556e64c44b78 in monitor_read ../monitor/hmp.c:1393
-> +    #12 0x556e656aa41e in qemu_chr_be_write_impl ../chardev/char.c:201
-> +    #13 0x556e656aa4c5 in qemu_chr_be_write ../chardev/char.c:213
-> +    #14 0x556e656b1302 in fd_chr_read ../chardev/char-fd.c:72
-> +    #15 0x556e652b635f in qio_channel_fd_source_dispatch
-> ../io/channel-watch.c:84
-> +    #16 0x7f2b425c104d in g_main_context_dispatch
-> (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x5204d)
-> +    #17 0x556e65949fac in glib_pollfds_poll ../util/main-loop.c:297
-> +    #18 0x556e6594a18a in os_host_main_loop_wait ../util/main-loop.c:320
-> +    #19 0x556e6594a486 in main_loop_wait ../util/main-loop.c:596
-> +    #20 0x556e64b2bb6b in qemu_main_loop ../softmmu/runstate.c:726
-> +    #21 0x556e64255a69 in qemu_main ../softmmu/main.c:36
-> +    #22 0x556e64255a9e in main ../softmmu/main.c:45
-> +    #23 0x7f2b40304082 in __libc_start_main ../csu/libc-start.c:308
-> +    #24 0x556e6425597d in _start
-> (/root/code/github/qemu/build/qemu-system-loongarch64+0x236e97d)
-> +
-> +AddressSanitizer can not provide additional info.
-> +SUMMARY: AddressSanitizer: FPE ../migration/ram.c:2205 in
-> ram_save_host_page
-> +==1685462==ABORTING
-> 
-> ...
-> 
-> the ram.c
-> 
-> 2199 static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-> 2200 {
-> 2201     int tmppages, pages = 0;
-> 2202     size_t pagesize_bits =
-> 2203         qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
-> 2204     unsigned long hostpage_boundary =
-> 2205         QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
-> 2206     unsigned long start_page = pss->page;
-> 2207     int res;
-> ...
-> 
-> qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;   === >  4096 >> 14
-> So  QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);  got a FPE error,
-> 
-> I am not familar with qcow2,   Could you help me?
+Best regards, Julia Suvorova.
 
-This is not qcow2, this is general live migration code.
-
-The problem here is that TARGET_PAGE_BITS is set by the target,
-but under emulation we're running with the smaller host page size.
-That never happens under kvm, but sounds reasonable I guess for
-emulation.
-
-Now, I wonder what the fix is? Should we always send and align to the
-larger of host page/target page, rather than always host?
-
-Dave
-
-
-> Steps to reproduce:
-> 
-> 1  get code
-> 
->     git clone https://github.com/loongson/qemu/tree/tcg-dev
-> 
-> 2  build
-> 
->     ./configure   --disable-rdma --disable-pvrdma --prefix=/usr \
->             --target-list="loongarch64-softmmu"  \
->             --disable-libiscsi --disable-libnfs --disable-libpmem \
->             --disable-glusterfs --enable-libusb --enable-usb-redir \
->             --disable-opengl --disable-xen --enable-spice --enable-werror \
->             --disable-capstone --disable-kvm --enable-debug
-> --enable-sanitizers
-> 
->     cd build
-> 
->     make -j32
-> 
-> 3  test
-> 
->     ./tests/qemu-iotests/check -qcow2 267
-> 
-> 
-> Thanks.
-> Song Gao
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > +    }
+> > +    if ((expect_cc == 0xFF) && (real_cc2 != expect_cc2)) {
+> > +        fprintf(stderr, "Unexpected SMBIOS CPU count2: real %u expect %u\n",
+> > +                real_cc2, expect_cc2);
+> > +        return false;
+> > +    }
+> > +
+> >      return true;
+> >  }
+> >
+> > @@ -905,6 +922,21 @@ static void test_acpi_q35_tcg(void)
+> >      free_test_data(&data);
+> >  }
+> >
+> > +static void test_acpi_q35_tcg_core_count2(void)
+> > +{
+> > +    test_data data = {
+> > +        .machine = MACHINE_Q35,
+> > +        .variant = ".core-count2",
+> > +        .required_struct_types = base_required_struct_types,
+> > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
+> > +        .smbios_core_count = 0xFF,
+> > +        .smbios_core_count2 = 275,
+> > +    };
+> > +
+> > +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
+> > +    free_test_data(&data);
+> > +}
+> > +
+> >  static void test_acpi_q35_tcg_bridge(void)
+> >  {
+> >      test_data data;
+> > @@ -1787,6 +1819,7 @@ int main(int argc, char *argv[])
+> >          qtest_add_func("acpi/piix4/pci-hotplug/off",
+> >                         test_acpi_piix4_no_acpi_pci_hotplug);
+> >          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+> > +        qtest_add_func("acpi/q35/core-count2", test_acpi_q35_tcg_core_count2);
+> >          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+> >          qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+> >          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+>
 
 
