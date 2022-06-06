@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8FDF53E477
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 14:44:55 +0200 (CEST)
-Received: from localhost ([::1]:56708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EBF053E47F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 14:50:31 +0200 (CEST)
+Received: from localhost ([::1]:37044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyC6I-00079d-Im
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 08:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
+	id 1nyCBi-0004oI-Fd
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 08:50:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nyC3E-0004J8-86; Mon, 06 Jun 2022 08:41:44 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nyC36-00045e-Kz; Mon, 06 Jun 2022 08:41:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KNvx5F1aRmwgnCV3cHuCjrW9Djws3Ur+k10GDpKt+A4=; b=PrQWM6NuV4Cr3KauwZaxx4GfXS
- mkIkWFjv72TN7aNma47YDtSfZAP/PCrxu5JXKCthRSpIl1vOb5vR3g5gwTLZppZWMXAu7av4VseL9
- UoUY6eIpXp9/Hj4OoLpZv7OQ0JMeo8Jl26jX7Oc0Nt5iql0EpEJv7L98gUtPCsurYXm9/63dk89Uy
- SJxRvn36Yshj+OguylTxvB+vcQTP8biEzndv9ueb5TvJjk0KaW1BjQxOEyh4dplvYq9DGfIZhMCox
- rQTJpDao89s6udwpYGCApPF3aLBUofyYnaCJefCIb08gJWFeezkr9Aj0ne6BYwIYtmWk+3wV5BeII
- dzCcI/qtReVa+k/gVyg+vLL7v3W/nOgQr5qrJu8geLiWBbb1+NA1y2Gmxg6c+scYeQYH4HZmvuVQy
- aApLVR+BPfE46zhQzBYYXLA/cN7Qq8O8nMpfz8hnKIboeJRVGsbgku/ZHTm6o+1rQRyyBUNiZSTUM
- M066oKM6RafkbGZ3FsB45+XOXwVqAmdvQvaqjyh57aBETGTyGKJP0vWaAJo8sTh/BRH5TMUOc03Xo
- QOOJXHHXrIYcPoGoSEcnI9DkDBQaDO3B+1nl1FRZY3mRL5JnXc8vKbng0E8CTpKrdZzBHFkhcdyIA
- Yvdf9Fv+0COmvMrDcA/h2WckAve6gFD/xkB09opf4=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nyC20-00044P-1o; Mon, 06 Jun 2022 13:40:28 +0100
-Message-ID: <f8d7a430-fdf2-f4d6-1807-4a6c40b9c0c1@ilande.co.uk>
-Date: Mon, 6 Jun 2022 13:41:30 +0100
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1nyC5G-0007D0-N4
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:43:50 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:39422 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nyC5D-0004MV-7R
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 08:43:50 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cxr+Z29p1ishIXAA--.3714S2;
+ Mon, 06 Jun 2022 20:43:34 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn,
+ mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
+ ani@anisinha.ca, maobibo@loongson.cn
+Subject: [PATCH v7 00/43] Add LoongArch softmmu support
+Date: Mon,  6 Jun 2022 20:42:50 +0800
+Message-Id: <20220606124333.2060567-1-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, clg@kaod.org,
- fbarrat@linux.ibm.com
-References: <20220531214917.31668-1-danielhb413@gmail.com>
- <20220531214917.31668-12-danielhb413@gmail.com>
- <84beb434-af3c-d882-bce8-869754828a04@ilande.co.uk>
- <3d6f05aa-8e40-0fc6-e0cb-69c614faddfd@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <3d6f05aa-8e40-0fc6-e0cb-69c614faddfd@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 11/16] ppc/pnv: add pnv-phb-root-port device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf9Cxr+Z29p1ishIXAA--.3714S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3Zr15Kr4kJr4fZFyfCF1UAwb_yoW8Jr17Go
+ WrAFWUXw4xGr1Fkr10k3sxXrWYgr97Cr48Aa9ru345WF4rCa45XFy7Kws0y343ZrnrGrW5
+ G347Wa1DJrZ7Jr93n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,213 +61,298 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/06/2022 21:47, Daniel Henrique Barboza wrote:
+Hi All,
 
-> On 6/2/22 05:12, Mark Cave-Ayland wrote:
->> On 31/05/2022 22:49, Daniel Henrique Barboza wrote:
->>
->>> We have two very similar root-port devices, pnv-phb3-root-port and
->>> pnv-phb4-root-port. Both consist of a wrapper around the PCIESlot device
->>> that, until now, has no additional attributes.
->>>
->>> The main difference between the PHB3 and PHB4 root ports is that
->>> pnv-phb4-root-port has the pnv_phb4_root_port_reset() callback. All
->>> other differences can be merged in a single device without too much
->>> trouble.
->>>
->>> This patch introduces the unified pnv-phb-root-port that, in time, will
->>> be used as the default root port for the pnv-phb device.
->>>
->>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> ---
->>>   hw/pci-host/pnv_phb.c | 107 ++++++++++++++++++++++++++++++++++++++----
->>>   hw/pci-host/pnv_phb.h |  17 +++++++
->>>   2 files changed, 116 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
->>> index 321c4e768a..5047e90d3a 100644
->>> --- a/hw/pci-host/pnv_phb.c
->>> +++ b/hw/pci-host/pnv_phb.c
->>> @@ -114,15 +114,106 @@ static void pnv_phb_class_init(ObjectClass *klass, void *data)
->>>       dc->user_creatable = true;
->>>   }
->>> -static void pnv_phb_register_type(void)
->>> +static void pnv_phb_root_port_reset(DeviceState *dev)
->>>   {
->>> -    static const TypeInfo pnv_phb_type_info = {
->>> -        .name          = TYPE_PNV_PHB,
->>> -        .parent        = TYPE_PCIE_HOST_BRIDGE,
->>> -        .instance_size = sizeof(PnvPHB),
->>> -        .class_init    = pnv_phb_class_init,
->>> -    };
->>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
->>> +    PnvPHBRootPort *rootport = PNV_PHB_ROOT_PORT(dev);
->>> +    PCIDevice *d = PCI_DEVICE(dev);
->>> +    uint8_t *conf = d->config;
->>> +    rpc->parent_reset(dev);
->>> +
->>> +    if (rootport->version == 3) {
->>> +        return;
->>> +    }
->>> +
->>> +    /* PHB4 and later requires these extra reset steps */
->>> +    pci_byte_test_and_set_mask(conf + PCI_IO_BASE,
->>> +                               PCI_IO_RANGE_MASK & 0xff);
->>> +    pci_byte_test_and_clear_mask(conf + PCI_IO_LIMIT,
->>> +                                 PCI_IO_RANGE_MASK & 0xff);
->>> +    pci_set_word(conf + PCI_MEMORY_BASE, 0);
->>> +    pci_set_word(conf + PCI_MEMORY_LIMIT, 0xfff0);
->>> +    pci_set_word(conf + PCI_PREF_MEMORY_BASE, 0x1);
->>> +    pci_set_word(conf + PCI_PREF_MEMORY_LIMIT, 0xfff1);
->>> +    pci_set_long(conf + PCI_PREF_BASE_UPPER32, 0x1); /* Hack */
->>> +    pci_set_long(conf + PCI_PREF_LIMIT_UPPER32, 0xffffffff);
->>> +    pci_config_set_interrupt_pin(conf, 0);
->>> +}
->>> +
->>> +static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
->>> +{
->>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
->>> +    PCIDevice *pci = PCI_DEVICE(dev);
->>> +    PCIBus *bus = pci_get_bus(pci);
->>> +    PnvPHB *phb = NULL;
->>> +    Error *local_err = NULL;
->>> +
->>> +    phb = (PnvPHB *) object_dynamic_cast(OBJECT(bus->qbus.parent),
->>> +                                          TYPE_PNV_PHB);
->>
->> Same here too.
-> 
-> 
-> This case is a bit different than the previous because there's no ->phb_base in
-> this device. Doing
-> 
-> PnvPHB *phb = PNV_PHB(PNV_PHB_ROOT_PORT(dev));
-> 
-> Will somehow retrieve a PnvPHB pointer but with zeroed properties. This makes
-> the slot/chassis code down below to fail when adding a second port.
-
-Hmmm that's odd.
-
-> I checked how other parts of the code handles that and the closer I found so
-> far is doing something like this:
-> 
->      PCIDevice *pci = PCI_DEVICE(dev);
->      PnvPHB *phb = PNV_PHB(pci_device_root_bus(pci)->qbus.parent);
-> 
-> This is how pci_bus_bypass_iommu() from hw/pci/pci.c retrieves a PCIHostState
-> pointer of a given bus.
-> 
-> Another idea is to simply add a pointer to the parent PnvPHB device that the
-> root port is attached to. This would trivialize this part and I could also
-> use the already set PnvPHB->version for the root port logic as well since they're
-> set to be the same.
-
-I think what should happen is that the parent device should instantiate the pnv_phb 
-root port via object_initialize_child() so it is embedded within it, at which point 
-the pnv_phb root port device can just use container_of() to obtain the reference to 
-the parent device state.
-
-But certainly dereferencing the internal qbus object is not the right long-term solution.
-
->>> +    if (!phb) {
->>> +        error_setg(errp,
->>> +"pnv_phb_root_port devices must be connected to pnv-phb buses");
->>> +        return;
->>> +    }
->>> +
->>> +    /* Set unique chassis/slot values for the root port */
->>> +    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
->>> +    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
->>
->> Again this is from older code, but we already have dev so these could be:
->>
->>      qdev_prop_set_uint8(dev, "chassis", phb->chip_id);
->>      qdev_prop_set_uint16(dev, "slot", phb->phb_id);
->>
->>> +    rpc->parent_realize(dev, &local_err);
->>> +    if (local_err) {
->>> +        error_propagate(errp, local_err);
->>> +        return;
->>> +    }
->>> +    pci_config_set_interrupt_pin(pci->config, 0);
->>> +}
->>> +
->>> +static void pnv_phb_root_port_class_init(ObjectClass *klass, void *data)
->>> +{
->>> +    DeviceClass *dc = DEVICE_CLASS(klass);
->>> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->>> +    PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
->>> +
->>> +    dc->desc     = "IBM PHB PCIE Root Port";
->>> +
->>> +    device_class_set_parent_realize(dc, pnv_phb_root_port_realize,
->>> +                                    &rpc->parent_realize);
->>> +
->>> +    device_class_set_parent_reset(dc, pnv_phb_root_port_reset,
->>> +                                  &rpc->parent_reset);
->>> +    dc->reset = &pnv_phb_root_port_reset;
->>> +
->>> +    dc->user_creatable = true;
->>> +
->>> +    k->vendor_id = PCI_VENDOR_ID_IBM;
->>> +    /* device_id represents the latest PHB root port version supported */
->>> +    k->device_id = PNV_PHB5_DEVICE_ID;
->>> +    k->revision  = 0;
->>> +
->>> +    rpc->exp_offset = 0x48;
->>> +    rpc->aer_offset = 0x100;
->>> +}
->>> +
->>> +static const TypeInfo pnv_phb_type_info = {
->>> +    .name          = TYPE_PNV_PHB,
->>> +    .parent        = TYPE_PCIE_HOST_BRIDGE,
->>> +    .instance_size = sizeof(PnvPHB),
->>> +    .class_init    = pnv_phb_class_init,
->>> +};
->>> +
->>> +static const TypeInfo pnv_phb_root_port_info = {
->>> +    .name          = TYPE_PNV_PHB_ROOT_PORT,
->>> +    .parent        = TYPE_PCIE_ROOT_PORT,
->>> +    .instance_size = sizeof(PnvPHBRootPort),
->>> +    .class_init    = pnv_phb_root_port_class_init,
->>> +};
->>> +
->>> +static void pnv_phb_register_types(void)
->>> +{
->>>       type_register_static(&pnv_phb_type_info);
->>> +    type_register_static(&pnv_phb_root_port_info);
->>>   }
->>> -type_init(pnv_phb_register_type)
->>> +
->>> +type_init(pnv_phb_register_types)
->>> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
->>> index a7cc8610e2..c8eab4b767 100644
->>> --- a/hw/pci-host/pnv_phb.h
->>> +++ b/hw/pci-host/pnv_phb.h
->>> @@ -36,4 +36,21 @@ struct PnvPHB {
->>>   #define TYPE_PNV_PHB "pnv-phb"
->>>   OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
->>> +/*
->>> + * PHB PCIe Root port
->>> + */
->>> +#define PNV_PHB3_DEVICE_ID         0x03dc
->>> +#define PNV_PHB4_DEVICE_ID         0x04c1
->>> +#define PNV_PHB5_DEVICE_ID         0x0652
->>> +
->>> +typedef struct PnvPHBRootPort {
->>> +    PCIESlot parent_obj;
->>> +
->>> +    uint32_t version;
->>> +} PnvPHBRootPort;
->>> +
->>> +#define TYPE_PNV_PHB_ROOT_PORT "pnv-phb-root-port"
->>> +#define PNV_PHB_ROOT_PORT(obj) \
->>> +    OBJECT_CHECK(PnvPHBRootPort, obj, TYPE_PNV_PHB_ROOT_PORT)
->>> +
->>>   #endif /* PCI_HOST_PNV_PHB_H */
+As this series only supports running binary files in ELF format, and
+does not depend on BIOS and kernel file. so this series are changed from
+RFC to patch vX.
 
 
-ATB,
+The manual:
+  - https://github.com/loongson/LoongArch-Documentation/releases/tag/2022.03.17
 
-Mark.
+Old series:
+  - https://patchew.org/QEMU/20220328125749.2918087-1-yangxiaojuan@loongson.cn/
+  - https://patchew.org/QEMU/20220106094200.1801206-1-gaosong@loongson.cn/
+
+This version we have done the following tests
+
+configure with --enable-sanitizers
+
+- make check  
+   Ok:                 117
+   Expected Fail:      0   
+   Fail:               0
+   Unexpected Pass:    0   
+   Skipped:            2
+   Timeout:            0
+   
+- make check-tcg
+
+   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
+ tests/fp/berkeley-softfloat-3 dtc slirp
+   BUILD   loongarch64-softmmu guest-tests
+   RUN     loongarch64-softmmu guest-tests
+   TEST    hello on loongarch64
+ ==559429==WARNING: ASan doesn't fully support makecontext/swapcontext
+ functions and may produce false positives in some cases!
+   TEST    memory on loongarch64
+ ==559435==WARNING: ASan doesn't fully support makecontext/swapcontext
+ functions and may produce false positives in some cases!
+
+
+- IMAGES='fedora-i386-cross fedora-win32-cross fedora-win64-cross' \
+  make docker-test-build
+
+  build success
+
+- QTEST_QEMU_BINARY='./qemu-system-loongarch64' \
+   ./tests/qtest/device-introspect-test -v
+
+  ok 6 /loongarch64/device/introspect/concrete/defaults/none
+  # End of defaults tests
+  # End of concrete tests
+  # End of introspect tests
+  # End of device tests
+  # End of loongarch64 tests
+
+Need review patches:
+
+  0034-hw-intc-Add-LoongArch-extioi-interrupt-controller-EI.patch
+
+
+Thanks.
+Xiaojuan
+
+----
+
+v7:
+  - Rebase
+  - Fixed extioi device emulation according to v6 advice.
+
+v6:
+  - Fixed ipi device check errors when enabled sanitizers. (patch 31)
+
+  - Removed acpi device emulation temporarily, and replaced it with virt
+power manager. (patch 40)
+
+v5:
+  - Fixed loongarch extioi device emulation.
+  - Fixed loongarch rtc device emulation.
+  - Fixed 'make docker-test-build' error.
+
+v4:
+  - Use 'la464' cpu type.
+  - Fixed loongarch extioi device emulation.
+  - Fixed loongarch rtc device emulation.
+  - Fixed loongarch load elf function.
+
+v3:
+  - Add Check csr_names.
+  - Drop CSR_CPUID, use cpu->cpu_index.
+  - Fixed loongarch extioi device emulation. ipmap and coremap register
+    change to 32bits.
+  - Check_iocsr() function moved to loongarch_ipi_writel().
+  - Pch_pic/msi use qdev_init_gpio_out() to init irq, and use
+    qdev_connect_gpio_out() to connect irq.
+  - Load elf function moved to hw/loongarch/loongson.c
+
+v2:
+  - Improvents to CSR/IOCSR instructions translation.
+  - Fixed extioi device emulation. It is represented by only one memory
+    region.
+  - Fixed IPI device emulation. The registers are represented with
+    uint64_t.
+  - Use do_cpu_reset() and cpu_set_pc() to specify the load address.
+
+v6: https://patchew.org/QEMU/20220601102509.985650-1-yangxiaojuan@loongson.cn/
+
+Song Gao (18):
+  target/loongarch: Add README
+  target/loongarch: Add core definition
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  target/loongarch: Add target build suport
+  target/loongarch: 'make check-tcg' support
+
+Xiaojuan Yang (25):
+  target/loongarch: Add system emulation introduction
+  target/loongarch: Add CSRs definition
+  target/loongarch: Add basic vmstate description of CPU.
+  target/loongarch: Implement qmp_query_cpu_definitions()
+  target/loongarch: Add MMU support for LoongArch CPU.
+  target/loongarch: Add LoongArch interrupt and exception handle
+  target/loongarch: Add constant timer support
+  target/loongarch: Add LoongArch CSR instruction
+  target/loongarch: Add LoongArch IOCSR instruction
+  target/loongarch: Add TLB instruction support
+  target/loongarch: Add other core instructions support
+  target/loongarch: Add timer related instructions support.
+  hw/loongarch: Add support loongson3 virt machine type.
+  hw/loongarch: Add LoongArch ipi interrupt support(IPI)
+  hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
+  hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
+  hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
+  hw/loongarch: Add irq hierarchy for the system
+  Enable common virtio pci support for LoongArch
+  hw/loongarch: Add some devices support for 3A5000.
+  hw/loongarch: Add LoongArch ls7a rtc device support
+  hw/loongarch: Add LoongArch load elf function.
+  hw/loongarch: Add LoongArch virt power manager support.
+  target/loongarch: Add gdb support.
+  tests/tcg/loongarch64: Add hello/memory test in loongarch64 system
+
+ MAINTAINERS                                   |  24 +
+ .../devices/loongarch64-softmmu/default.mak   |   3 +
+ configs/targets/loongarch64-softmmu.mak       |   4 +
+ configure                                     |   1 +
+ docs/system/loongarch/loongson3.rst           |  41 +
+ gdb-xml/loongarch-base64.xml                  |  44 +
+ gdb-xml/loongarch-fpu64.xml                   |  57 ++
+ hw/Kconfig                                    |   1 +
+ hw/intc/Kconfig                               |  15 +
+ hw/intc/loongarch_extioi.c                    | 312 +++++++
+ hw/intc/loongarch_ipi.c                       | 242 +++++
+ hw/intc/loongarch_pch_msi.c                   |  73 ++
+ hw/intc/loongarch_pch_pic.c                   | 431 +++++++++
+ hw/intc/meson.build                           |   4 +
+ hw/intc/trace-events                          |  22 +
+ hw/loongarch/Kconfig                          |  16 +
+ hw/loongarch/loongson3.c                      | 382 ++++++++
+ hw/loongarch/meson.build                      |   4 +
+ hw/meson.build                                |   1 +
+ hw/rtc/Kconfig                                |   3 +
+ hw/rtc/ls7a_rtc.c                             | 528 +++++++++++
+ hw/rtc/meson.build                            |   1 +
+ include/disas/dis-asm.h                       |   2 +
+ include/exec/poison.h                         |   2 +
+ include/hw/intc/loongarch_extioi.h            |  62 ++
+ include/hw/intc/loongarch_ipi.h               |  52 ++
+ include/hw/intc/loongarch_pch_msi.h           |  20 +
+ include/hw/intc/loongarch_pch_pic.h           |  69 ++
+ include/hw/loongarch/virt.h                   |  33 +
+ include/hw/pci-host/ls7a.h                    |  44 +
+ include/sysemu/arch_init.h                    |   1 +
+ meson.build                                   |   1 +
+ qapi/machine-target.json                      |   6 +-
+ qapi/machine.json                             |   2 +-
+ softmmu/qdev-monitor.c                        |   3 +-
+ target/Kconfig                                |   1 +
+ target/loongarch/Kconfig                      |   2 +
+ target/loongarch/README                       |  64 ++
+ target/loongarch/constant_timer.c             |  64 ++
+ target/loongarch/cpu-csr.h                    | 208 +++++
+ target/loongarch/cpu-param.h                  |  18 +
+ target/loongarch/cpu.c                        | 704 ++++++++++++++
+ target/loongarch/cpu.h                        | 391 ++++++++
+ target/loongarch/csr_helper.c                 |  87 ++
+ target/loongarch/disas.c                      | 757 +++++++++++++++
+ target/loongarch/fpu_helper.c                 | 862 ++++++++++++++++++
+ target/loongarch/gdbstub.c                    |  81 ++
+ target/loongarch/helper.h                     | 130 +++
+ target/loongarch/insn_trans/trans_arith.c.inc | 304 ++++++
+ .../loongarch/insn_trans/trans_atomic.c.inc   | 113 +++
+ target/loongarch/insn_trans/trans_bit.c.inc   | 212 +++++
+ .../loongarch/insn_trans/trans_branch.c.inc   |  83 ++
+ target/loongarch/insn_trans/trans_extra.c.inc | 101 ++
+ .../loongarch/insn_trans/trans_farith.c.inc   | 105 +++
+ target/loongarch/insn_trans/trans_fcmp.c.inc  |  56 ++
+ target/loongarch/insn_trans/trans_fcnv.c.inc  |  33 +
+ .../loongarch/insn_trans/trans_fmemory.c.inc  | 153 ++++
+ target/loongarch/insn_trans/trans_fmov.c.inc  | 157 ++++
+ .../loongarch/insn_trans/trans_memory.c.inc   | 229 +++++
+ .../insn_trans/trans_privileged.c.inc         | 466 ++++++++++
+ target/loongarch/insn_trans/trans_shift.c.inc | 106 +++
+ target/loongarch/insns.decode                 | 486 ++++++++++
+ target/loongarch/internals.h                  |  56 ++
+ target/loongarch/iocsr_helper.c               |  67 ++
+ target/loongarch/machine.c                    | 102 +++
+ target/loongarch/meson.build                  |  30 +
+ target/loongarch/op_helper.c                  | 133 +++
+ target/loongarch/tlb_helper.c                 | 763 ++++++++++++++++
+ target/loongarch/translate.c                  | 281 ++++++
+ target/loongarch/translate.h                  |  45 +
+ target/meson.build                            |   1 +
+ tests/tcg/loongarch64/Makefile.softmmu-target |  33 +
+ tests/tcg/loongarch64/system/boot.S           |  56 ++
+ tests/tcg/loongarch64/system/kernel.ld        |  30 +
+ tests/tcg/loongarch64/system/regdef.h         |  86 ++
+ 75 files changed, 10158 insertions(+), 4 deletions(-)
+ create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+ create mode 100644 configs/targets/loongarch64-softmmu.mak
+ create mode 100644 docs/system/loongarch/loongson3.rst
+ create mode 100644 gdb-xml/loongarch-base64.xml
+ create mode 100644 gdb-xml/loongarch-fpu64.xml
+ create mode 100644 hw/intc/loongarch_extioi.c
+ create mode 100644 hw/intc/loongarch_ipi.c
+ create mode 100644 hw/intc/loongarch_pch_msi.c
+ create mode 100644 hw/intc/loongarch_pch_pic.c
+ create mode 100644 hw/loongarch/Kconfig
+ create mode 100644 hw/loongarch/loongson3.c
+ create mode 100644 hw/loongarch/meson.build
+ create mode 100644 hw/rtc/ls7a_rtc.c
+ create mode 100644 include/hw/intc/loongarch_extioi.h
+ create mode 100644 include/hw/intc/loongarch_ipi.h
+ create mode 100644 include/hw/intc/loongarch_pch_msi.h
+ create mode 100644 include/hw/intc/loongarch_pch_pic.h
+ create mode 100644 include/hw/loongarch/virt.h
+ create mode 100644 include/hw/pci-host/ls7a.h
+ create mode 100644 target/loongarch/Kconfig
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/constant_timer.c
+ create mode 100644 target/loongarch/cpu-csr.h
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/csr_helper.c
+ create mode 100644 target/loongarch/disas.c
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/gdbstub.c
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insn_trans/trans_arith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_extra.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmemory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmov.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_privileged.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_shift.c.inc
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/internals.h
+ create mode 100644 target/loongarch/iocsr_helper.c
+ create mode 100644 target/loongarch/machine.c
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/tlb_helper.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+ create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/loongarch64/system/boot.S
+ create mode 100644 tests/tcg/loongarch64/system/kernel.ld
+ create mode 100644 tests/tcg/loongarch64/system/regdef.h
+
+-- 
+2.31.1
+
 
