@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BAF653F2A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 01:38:31 +0200 (CEST)
-Received: from localhost ([::1]:45264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 000F853F2D6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 01:56:54 +0200 (CEST)
+Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyMIo-0000NW-1P
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 19:38:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35722)
+	id 1nyMac-0006lH-33
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 19:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyLzV-0000Tj-Bz
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:18:33 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:43757)
+ id 1nyLzW-0000ZH-V5
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:18:35 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:56032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyLzT-0004NX-Op
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:18:33 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id b5so13322889plx.10
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 16:18:31 -0700 (PDT)
+ id 1nyLzU-0004Nj-NJ
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 19:18:34 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id e9so3542882pju.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 16:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8VWxIbgIWtKhvuM65y86UvIUmUsFnOFX5fQVBZHjKso=;
- b=XhzJ486jm6M07wrYWYqFPyv3Rm1qhoV0l0c4XqG3OnHEVkd5pkv9VmMNaLgH0dVz0I
- mYs85rwGzsEiq6DzlDdNmurHzCUdtV/qoROTtrR9qfDSx7vhnJ53kF10b8LSpMBpfi+d
- MylgptyaBU5CxTgD52C/gG2DpMKcuJSudcTIBMyYXyC4i/Jmcaawu7KHjqNZlro0bffX
- vEz/oCpVpW6D42hnoQ/ZKZNaVi8MFuVfiazBmMt+T9i6MvU+2BiVysMdRZDO5ED2tTWf
- OQQB5lv48QpiDEw0HNYum1Ry2QNOxFOB2sRbrsUVvoTv7bqszMO86xG9xpAwos5hNzPJ
- ebcw==
+ bh=g3yVdEIbzNz0nkWJnatTGUJhYKdGU1mfq+6qw+Sj0W0=;
+ b=scOU2Z1GB2tKHj3LYsesDcc9NMn/sVaS+NiVV34MSQyc1Hcmd++Ut6i/CGqoWAQSIL
+ IPadAsMKMH+HcySkkcqCBExwVITVDWdj+DJVkHOyn9CamBUvh4/JqyeMTrMmDsqfQCAt
+ leBrsh1s9oQkysPb9jYKGaxYKEnVpVqpdXBbguMQqE5ESenJO/yVSrdtfPgACsFHauKW
+ Fjy3k/Gw1zw4EphcaDtxrnDq1mu5IY/QnB6T4z8/3Yio/4KGMuGj5BfJ0iVzdRRL9ajg
+ hXtxDJFUH4r/TeYF1+/9ncxwZxG97PbCIOV8fztsHtVVoP7JVNegwLG54ygkttk6sIo7
+ oB5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8VWxIbgIWtKhvuM65y86UvIUmUsFnOFX5fQVBZHjKso=;
- b=Pba9ddV0MbHNw92WJg/7qQzo8Mz+HQcqBEhFW/AzO9eBctgEmx1rysRRL7IZjEj0bo
- qVzxo/eI+ruNWnlEQEGZlYUJiXwPaSoUw5yOWUJH0qcGG+8ZG+R6jBSB2QEsJq54Tr7a
- T43aQ+AG3EaidRPJiUGFCzvbEc524MrAwEFZSyszMmo8ywJ3bMnq0e3wX4mmfvwct28A
- bK4ug6Rcph0Euf7weH3/b1u+Lxx2tfTlvTZ9hRjN89l6pr2biNzgdFlmkUmkdtly0pQQ
- TeKKPBDqlRGKV7iJCL/ceRlG5uUa1PY78P7I+ktTZ4nT5TQ4l8q8WQbry/wVnBxLg1YF
- 3hLw==
-X-Gm-Message-State: AOAM532xD8LKkZ/hG9QbnyXOl0Yy+GjhCEoxLme6kJnV5YTVwmpGl7Dy
- jAbLMTRFIrKAFvSBMTqtoTfZZwmkXPh7tA==
-X-Google-Smtp-Source: ABdhPJzTTyNppuqP5ujv2cs0iuIfkKs+jzL7/xRQip8oZrHDNO2ilmju1xxbs5SFHDO+7L2ZcxNmyg==
-X-Received: by 2002:a17:903:120a:b0:15f:99f:95bc with SMTP id
- l10-20020a170903120a00b0015f099f95bcmr26252044plh.48.1654557510078; 
+ bh=g3yVdEIbzNz0nkWJnatTGUJhYKdGU1mfq+6qw+Sj0W0=;
+ b=I4FV4bHs1d2RZUslGA40k+WrfY7gri3sZ3pXaXQF4BNnrgsHca+Ne+6s1po7hgIQl7
+ YI7NH6M1ZO/PAqLyrZYg2VDeId3cjY/whsemKaFpKZ6z2y0GmRTY5Ja1S4sUpiecDobd
+ p6cezUawoKmeC9aS4eTxP7tZLcyZwQmwG5+SGsOx5VzESwCcNPuwQ8mlgqwH9pHynFf4
+ K8DEzJn8lu2Zi1dx0iEY10X9TSGNb+7asb8AN4uM4pbs/ljGqmp/ErQkN9nWJsGyr/jI
+ 7C1FFwtLurMdNfJ+IJKvLr1B+KIK+5uDIoKLe1qdFtoTjVCp/XneZJ03ckunOvTjYuBh
+ +n4g==
+X-Gm-Message-State: AOAM533TOZWXq4fDLACmaNWddg81fRGeOgId4BE33QO6hbqW+mmYRDfA
+ Glp2h8JHPdDOGBgh8jxNDsK7nROAQ0va0w==
+X-Google-Smtp-Source: ABdhPJzw6lDfsjarRDLFc3sQrslXQQgPSuJuMMd/lEtddNHk+zAn3jm6rMievM9Srplu1405NHUleg==
+X-Received: by 2002:a17:902:ee54:b0:163:bdf4:1112 with SMTP id
+ 20-20020a170902ee5400b00163bdf41112mr26121761plo.89.1654557510984; 
  Mon, 06 Jun 2022 16:18:30 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:dd1c:9738:3e40:ffe0])
  by smtp.gmail.com with ESMTPSA id
- z14-20020a17090a170e00b001df239bab14sm10667754pjd.46.2022.06.06.16.18.29
+ z14-20020a17090a170e00b001df239bab14sm10667754pjd.46.2022.06.06.16.18.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 16:18:29 -0700 (PDT)
+ Mon, 06 Jun 2022 16:18:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =gaosong@loongson.cn, yangxiaojuan@loongson.cn,
  Song Gao <gaosong@loongson.cn>
-Subject: [PULL 40/43] hw/loongarch: Add LoongArch virt power manager support.
-Date: Mon,  6 Jun 2022 16:14:47 -0700
-Message-Id: <20220606231450.448443-41-richard.henderson@linaro.org>
+Subject: [PULL 41/43] target/loongarch: Add gdb support.
+Date: Mon,  6 Jun 2022 16:14:48 -0700
+Message-Id: <20220606231450.448443-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220606231450.448443-1-richard.henderson@linaro.org>
 References: <20220606231450.448443-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,91 +91,298 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-This is a placeholder for missing ACPI, and will eventually be replaced.
-
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220606124333.2060567-41-yangxiaojuan@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220606124333.2060567-42-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/loongarch/loongson3.c | 49 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 48 insertions(+), 1 deletion(-)
+ configs/targets/loongarch64-softmmu.mak |  1 +
+ target/loongarch/internals.h            |  4 ++
+ target/loongarch/cpu.c                  |  9 +++
+ target/loongarch/gdbstub.c              | 81 +++++++++++++++++++++++++
+ MAINTAINERS                             |  1 +
+ gdb-xml/loongarch-base64.xml            | 44 ++++++++++++++
+ gdb-xml/loongarch-fpu64.xml             | 57 +++++++++++++++++
+ target/loongarch/meson.build            |  1 +
+ 8 files changed, 198 insertions(+)
+ create mode 100644 target/loongarch/gdbstub.c
+ create mode 100644 gdb-xml/loongarch-base64.xml
+ create mode 100644 gdb-xml/loongarch-fpu64.xml
 
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 3c8fcb828c..bd20ebbb78 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -31,6 +31,48 @@
+diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+index 666154022f..7bc06c850c 100644
+--- a/configs/targets/loongarch64-softmmu.mak
++++ b/configs/targets/loongarch64-softmmu.mak
+@@ -1,3 +1,4 @@
+ TARGET_ARCH=loongarch64
+ TARGET_BASE_ARCH=loongarch
+ TARGET_SUPPORTS_MTTCG=y
++TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+index a410c41c37..9d50fbdd81 100644
+--- a/target/loongarch/internals.h
++++ b/target/loongarch/internals.h
+@@ -49,4 +49,8 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
  
- #include "target/loongarch/cpu.h"
+ hwaddr loongarch_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
  
-+#define PM_BASE 0x10080000
-+#define PM_SIZE 0x100
-+#define PM_CTRL 0x10
++int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n);
++int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n);
++void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs);
 +
+ #endif
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 3b7d6289d2..4c8f96bc3a 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -487,6 +487,8 @@ static void loongarch_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    loongarch_cpu_register_gdb_regs_for_features(cs);
++
+     cpu_reset(cs);
+     qemu_init_vcpu(cs);
+ 
+@@ -640,6 +642,13 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+     dc->vmsd = &vmstate_loongarch_cpu;
+     cc->sysemu_ops = &loongarch_sysemu_ops;
+     cc->disas_set_info = loongarch_cpu_disas_set_info;
++    cc->gdb_read_register = loongarch_cpu_gdb_read_register;
++    cc->gdb_write_register = loongarch_cpu_gdb_write_register;
++    cc->disas_set_info = loongarch_cpu_disas_set_info;
++    cc->gdb_num_core_regs = 34;
++    cc->gdb_core_xml_file = "loongarch-base64.xml";
++    cc->gdb_stop_before_watchpoint = true;
++
+ #ifdef CONFIG_TCG
+     cc->tcg_ops = &loongarch_tcg_ops;
+ #endif
+diff --git a/target/loongarch/gdbstub.c b/target/loongarch/gdbstub.c
+new file mode 100644
+index 0000000000..0c48834201
+--- /dev/null
++++ b/target/loongarch/gdbstub.c
+@@ -0,0 +1,81 @@
 +/*
-+ * This is a placeholder for missing ACPI,
-+ * and will eventually be replaced.
++ * LOONGARCH gdb server stub
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
 + */
-+static uint64_t loongarch_virt_pm_read(void *opaque, hwaddr addr, unsigned size)
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "internals.h"
++#include "exec/gdbstub.h"
++
++int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 +{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++
++    if (0 <= n && n < 32) {
++        return gdb_get_regl(mem_buf, env->gpr[n]);
++    } else if (n == 32) {
++        return gdb_get_regl(mem_buf, env->pc);
++    } else if (n == 33) {
++        return gdb_get_regl(mem_buf, env->badaddr);
++    }
 +    return 0;
 +}
 +
-+static void loongarch_virt_pm_write(void *opaque, hwaddr addr,
-+                               uint64_t val, unsigned size)
++int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
 +{
-+    if (addr != PM_CTRL) {
-+        return;
-+    }
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++    target_ulong tmp = ldtul_p(mem_buf);
++    int length = 0;
 +
-+    switch (val) {
-+    case 0x00:
-+        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+        return;
-+    case 0xff:
-+        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+        return;
-+    default:
-+        return;
++    if (0 <= n && n < 32) {
++        env->gpr[n] = tmp;
++        length = sizeof(target_ulong);
++    } else if (n == 32) {
++        env->pc = tmp;
++        length = sizeof(target_ulong);
 +    }
++    return length;
 +}
 +
-+static const MemoryRegionOps loongarch_virt_pm_ops = {
-+    .read  = loongarch_virt_pm_read,
-+    .write = loongarch_virt_pm_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 1
++static int loongarch_gdb_get_fpu(CPULoongArchState *env,
++                                 GByteArray *mem_buf, int n)
++{
++    if (0 <= n && n < 32) {
++        return gdb_get_reg64(mem_buf, env->fpr[n]);
++    } else if (32 <= n && n < 40) {
++        return gdb_get_reg8(mem_buf, env->cf[n - 32]);
++    } else if (n == 40) {
++        return gdb_get_reg32(mem_buf, env->fcsr0);
 +    }
-+};
++    return 0;
++}
 +
- static struct _loaderparams {
-     uint64_t ram_size;
-     const char *kernel_filename;
-@@ -67,7 +109,7 @@ static void loongarch_devices_init(DeviceState *pch_pic)
-     SysBusDevice *d;
-     PCIBus *pci_bus;
-     MemoryRegion *ecam_alias, *ecam_reg, *pio_alias, *pio_reg;
--    MemoryRegion *mmio_alias, *mmio_reg;
-+    MemoryRegion *mmio_alias, *mmio_reg, *pm_mem;
-     int i;
- 
-     gpex_dev = qdev_new(TYPE_GPEX_HOST);
-@@ -132,6 +174,11 @@ static void loongarch_devices_init(DeviceState *pch_pic)
-     sysbus_create_simple("ls7a_rtc", LS7A_RTC_REG_BASE,
-                          qdev_get_gpio_in(pch_pic,
-                          LS7A_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
++static int loongarch_gdb_set_fpu(CPULoongArchState *env,
++                                 uint8_t *mem_buf, int n)
++{
++    int length = 0;
 +
-+    pm_mem = g_new(MemoryRegion, 1);
-+    memory_region_init_io(pm_mem, NULL, &loongarch_virt_pm_ops,
-+                          NULL, "loongarch_virt_pm", PM_SIZE);
-+    memory_region_add_subregion(get_system_memory(), PM_BASE, pm_mem);
- }
++    if (0 <= n && n < 32) {
++        env->fpr[n] = ldq_p(mem_buf);
++        length = 8;
++    } else if (32 <= n && n < 40) {
++        env->cf[n - 32] = ldub_p(mem_buf);
++        length = 1;
++    } else if (n == 40) {
++        env->fcsr0 = ldl_p(mem_buf);
++        length = 4;
++    }
++    return length;
++}
++
++void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs)
++{
++    gdb_register_coprocessor(cs, loongarch_gdb_get_fpu, loongarch_gdb_set_fpu,
++                             41, "loongarch-fpu64.xml", 0);
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e8938db694..954fb95218 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1137,6 +1137,7 @@ F: include/hw/intc/loongarch_*.h
+ F: hw/intc/loongarch_*.c
+ F: include/hw/pci-host/ls7a.h
+ F: hw/rtc/ls7a_rtc.c
++F: gdb-xml/loongarch*.xml
  
- static void loongarch_irq_init(LoongArchMachineState *lams)
+ M68K Machines
+ -------------
+diff --git a/gdb-xml/loongarch-base64.xml b/gdb-xml/loongarch-base64.xml
+new file mode 100644
+index 0000000000..4962bdbd28
+--- /dev/null
++++ b/gdb-xml/loongarch-base64.xml
+@@ -0,0 +1,44 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2021 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.loongarch.base">
++  <reg name="r0" bitsize="64" type="uint64" group="general"/>
++  <reg name="r1" bitsize="64" type="uint64" group="general"/>
++  <reg name="r2" bitsize="64" type="uint64" group="general"/>
++  <reg name="r3" bitsize="64" type="uint64" group="general"/>
++  <reg name="r4" bitsize="64" type="uint64" group="general"/>
++  <reg name="r5" bitsize="64" type="uint64" group="general"/>
++  <reg name="r6" bitsize="64" type="uint64" group="general"/>
++  <reg name="r7" bitsize="64" type="uint64" group="general"/>
++  <reg name="r8" bitsize="64" type="uint64" group="general"/>
++  <reg name="r9" bitsize="64" type="uint64" group="general"/>
++  <reg name="r10" bitsize="64" type="uint64" group="general"/>
++  <reg name="r11" bitsize="64" type="uint64" group="general"/>
++  <reg name="r12" bitsize="64" type="uint64" group="general"/>
++  <reg name="r13" bitsize="64" type="uint64" group="general"/>
++  <reg name="r14" bitsize="64" type="uint64" group="general"/>
++  <reg name="r15" bitsize="64" type="uint64" group="general"/>
++  <reg name="r16" bitsize="64" type="uint64" group="general"/>
++  <reg name="r17" bitsize="64" type="uint64" group="general"/>
++  <reg name="r18" bitsize="64" type="uint64" group="general"/>
++  <reg name="r19" bitsize="64" type="uint64" group="general"/>
++  <reg name="r20" bitsize="64" type="uint64" group="general"/>
++  <reg name="r21" bitsize="64" type="uint64" group="general"/>
++  <reg name="r22" bitsize="64" type="uint64" group="general"/>
++  <reg name="r23" bitsize="64" type="uint64" group="general"/>
++  <reg name="r24" bitsize="64" type="uint64" group="general"/>
++  <reg name="r25" bitsize="64" type="uint64" group="general"/>
++  <reg name="r26" bitsize="64" type="uint64" group="general"/>
++  <reg name="r27" bitsize="64" type="uint64" group="general"/>
++  <reg name="r28" bitsize="64" type="uint64" group="general"/>
++  <reg name="r29" bitsize="64" type="uint64" group="general"/>
++  <reg name="r30" bitsize="64" type="uint64" group="general"/>
++  <reg name="r31" bitsize="64" type="uint64" group="general"/>
++  <reg name="pc" bitsize="64" type="code_ptr" group="general"/>
++  <reg name="badvaddr" bitsize="64" type="code_ptr" group="general"/>
++</feature>
+diff --git a/gdb-xml/loongarch-fpu64.xml b/gdb-xml/loongarch-fpu64.xml
+new file mode 100644
+index 0000000000..e52cf89fbc
+--- /dev/null
++++ b/gdb-xml/loongarch-fpu64.xml
+@@ -0,0 +1,57 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2021 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.loongarch.fpu">
++
++  <union id="fpu64type">
++    <field name="f" type="ieee_single"/>
++    <field name="d" type="ieee_double"/>
++  </union>
++
++  <reg name="f0" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f1" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f2" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f3" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f4" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f5" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f6" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f7" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f8" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f9" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f10" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f11" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f12" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f13" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f14" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f15" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f16" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f17" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f18" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f19" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f20" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f21" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f22" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f23" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f24" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f25" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f26" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f27" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f28" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f29" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f30" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="f31" bitsize="64" type="fpu64type" group="float"/>
++  <reg name="fcc0" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc1" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc2" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc3" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc4" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc5" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc6" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcc7" bitsize="8" type="uint8" group="float"/>
++  <reg name="fcsr" bitsize="32" type="uint32" group="float"/>
++</feature>
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 74e5f3b2a7..6376f9e84b 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -11,6 +11,7 @@ loongarch_tcg_ss.add(files(
+   'fpu_helper.c',
+   'op_helper.c',
+   'translate.c',
++  'gdbstub.c',
+ ))
+ loongarch_tcg_ss.add(zlib)
+ 
 -- 
 2.34.1
 
