@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49B253ED4B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 19:54:24 +0200 (CEST)
-Received: from localhost ([::1]:47910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A5653ED4C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 19:54:37 +0200 (CEST)
+Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyGvn-0001ZN-SN
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 13:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40382)
+	id 1nyGw0-0002HL-Jb
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 13:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nyGsy-00073i-H1; Mon, 06 Jun 2022 13:51:28 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:36643)
+ id 1nyGtK-0007fV-Qs; Mon, 06 Jun 2022 13:51:51 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:45029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nyGsw-0007om-VT; Mon, 06 Jun 2022 13:51:28 -0400
-Received: by mail-oi1-x236.google.com with SMTP id p129so16003036oig.3;
- Mon, 06 Jun 2022 10:51:26 -0700 (PDT)
+ id 1nyGtI-0007pr-Pn; Mon, 06 Jun 2022 13:51:50 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-f2cbceefb8so20012687fac.11; 
+ Mon, 06 Jun 2022 10:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=fLIp6fo2r66IBvnuOw8BhFCTY37fBZdy9Sg10PdHTcU=;
- b=ii/4JfEw2DhHqSoKlxlj46fSB4cpXGO62GBKDoVE2J9Lfx+xe5+OhTkrSwAGQYYZjm
- gntSz1rc3+WU3+gRZkSphmGaW1XNf9EPBMc/OiDSQ81Bl7KAGRDQWrzoYpgtaANzSR5Q
- sYFUOC1jShhC3pSfpbip42iN7uJyeQ8jnL8eu3N9yKtGTDHla8QS1oc0+COijl84583k
- fNNeGWFCjJ/cOQSr48bcbIsROB2Jf94odttW0qsY5NQH4ORtXBY/PLMxAOH9YtxTrSsV
- jqRwkBsMU6NiuyYTnMR76t96mU2bsH0ihrgwHfdQFzy9Oq68bHOmfNKxP5mhzrdLNlZL
- KRhA==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=kuEQwMeJGfo076ZIv74azWQc0dWd1lfjYK85vv6c43c=;
+ b=Pn9MNAIzIghphByg7Fxzf8kC9LELfP61MBjX7mgawqGC8QyZQl+fcZOBqmXqyLzcCI
+ RxzG+J2WWJSKnzt8ub8GjX3uFwi8oqtsAW/c4TbK0WXFwRxfmfEn6wQ4ZI2/EdMLMWIX
+ VDAgDXm3FC242JxygYqF4jYZuLYa6+oewdUKLpH6iNYQaW1jp9T7Ql7RWZloeR9zlTfy
+ 4y1ITyuIvXWN2Ra1MzHBssJtBFrkX+sePEg5ASL/DHWwyNd7y9CpPSVF3OwMKSKiapJy
+ ykGFMCUSX3ouwwzj3zqFsIawiXehjiTGdSxFGfGF8GGt1hPv+D+zSl/OyCsnhBW/4cRG
+ tKVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fLIp6fo2r66IBvnuOw8BhFCTY37fBZdy9Sg10PdHTcU=;
- b=WsHcIGREyetU8g8bDGip23ta3MhwIy4nJFI7u97Ak2iPVGYc2HNmeg+ks2rfpOd6u2
- MUKEb/aV1iL0zq6heNBVnFwPyRSCpUhbxgCKldOl/YwSlB9eTxxeGOU++wlyPAb9PLtA
- AaxcpBAd9r/m+TQb8Yow5UqAXw4BsXw5R74yOcLAa6RkP/qEmCki8jWPyu2iVoTK+5aq
- Zuv+SCiJvGWyeNGY1CUBq2zlznfzSx3jfLodKlxstrFoUlfmzEzGzFONHGv/A/S7ZfIu
- cExAYY8h1pFkKb+8D10nxYA3CNQ03NP7+WKNPJ1G7B54ZCmw3kmnPIL7lpZSiR3vVmU7
- Q1Tw==
-X-Gm-Message-State: AOAM533uVxolZPLqmIsZ/obw6Kbfz8QT++a8gziUI6WDX3udnmWUSoL/
- e9rz+Vv/3xODFm5mOl8vWY0sqkLEISo=
-X-Google-Smtp-Source: ABdhPJx5KgJHVngJQ4zRh6AImkThxTzwKj9QWdZugwBFse6hwIY2nRotvqetu3kaR2ld/BIvSdHTEg==
-X-Received: by 2002:a05:6808:1599:b0:32b:18e3:3e04 with SMTP id
- t25-20020a056808159900b0032b18e33e04mr30404783oiw.227.1654537885280; 
- Mon, 06 Jun 2022 10:51:25 -0700 (PDT)
+ bh=kuEQwMeJGfo076ZIv74azWQc0dWd1lfjYK85vv6c43c=;
+ b=Tmw58Xm5vUeruvtfShGV8ZfGyYnQfttRzTVwhwQDiHaovKr4UjS1KulIf7YUcTVDA+
+ 3UKI5elXdoxFH2Tiu6nLETu9QX8f+G4HIWjlqMAqLDKEiSn5a81fpCsVvjEtoCT03wvn
+ ZnXjDGz6NYa++aQ1kGEAgaJa3dwA4VNzozWouE63OMwaiSZTyZzqr2NHz7C2ZkMTY5Mc
+ iCaFfhPZHhBL+fAe06/1iRd6Rwp4f8KBfSa4zUwkzztbXZiDAi9BgxjgD61f+Q2zGhNE
+ Dfv150Xw1iJxJtdkKKWy9eIykHkjhbclny9yFvx/EUujM0IZLgu4j+y6jLap5yZBZ1aa
+ 9ylg==
+X-Gm-Message-State: AOAM530IcioDmmwe4vQ7+xL36w2+xe2OjAXr8gbIo7EiKWnzps8RX/4j
+ ePwnKpNJLuhX9cOcuH6QAAQ=
+X-Google-Smtp-Source: ABdhPJy4/5Uff8dCLEybGeulasz+gzP3azboV5XTFKYcKTUts89yJ4LWMGUIsrUyma5F0mEboBmIYw==
+X-Received: by 2002:a05:6870:f224:b0:e5:c30a:fa4f with SMTP id
+ t36-20020a056870f22400b000e5c30afa4fmr14340432oao.252.1654537907357; 
+ Mon, 06 Jun 2022 10:51:47 -0700 (PDT)
 Received: from [192.168.10.102] ([177.45.165.74])
  by smtp.gmail.com with ESMTPSA id
- t7-20020a05687044c700b000f34dacf350sm6987454oai.6.2022.06.06.10.51.22
+ j9-20020a056870530900b000f33b23a030sm6886031oan.57.2022.06.06.10.51.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 10:51:24 -0700 (PDT)
-Message-ID: <c18b4a0e-85fb-aa16-3e7e-7e15724bc629@gmail.com>
-Date: Mon, 6 Jun 2022 14:51:21 -0300
+ Mon, 06 Jun 2022 10:51:47 -0700 (PDT)
+Message-ID: <cce95347-746d-7e4f-7d0b-4856f77c9f65@gmail.com>
+Date: Mon, 6 Jun 2022 14:51:44 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] target/ppc: avoid int32 multiply overflow in int_helper.c
+Subject: Re: [PATCH] pnv/xive2: Access direct mapped thread contexts from all
+ chips
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220602141449.118173-1-danielhb413@gmail.com>
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20220602165310.558810-1-fbarrat@linux.ibm.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220602141449.118173-1-danielhb413@gmail.com>
+In-Reply-To: <20220602165310.558810-1-fbarrat@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -98,49 +98,66 @@ Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 Daniel
 
-On 6/2/22 11:14, Daniel Henrique Barboza wrote:
-> Coverity is not thrilled about the multiply operations being done in
-> ger_rank8() and ger_rank2(), giving an error like the following:
+On 6/2/22 13:53, Frederic Barrat wrote:
+> When accessing a thread context through the IC BAR, the offset of the
+> page in the BAR identifies the CPU. From that offset, we can compute
+> the PIR (processor ID register) of the CPU to do the data structure
+> lookup. On P10, the current code assumes an access for node 0 when
+> computing the PIR. Everything is almost in place to allow access for
+> other nodes though. So this patch reworks how the PIR value is
+> computed so that we can access all thread contexts through the IC BAR.
 > 
-> Integer handling issues  (OVERFLOW_BEFORE_WIDEN)
->      Potentially overflowing expression "sextract32(a, 4 * i, 4) *
-> sextract32(b, 4 * i, 4)" with type "int" (32 bits, signed) is evaluated
-> using 32-bit arithmetic, and then used in a context that expects an
-> expression of type "int64_t" (64 bits, signed).
+> The PIR is already correct on P9, so no need to modify anything there.
 > 
-> Fix both instances where this occur by adding an int64_t cast in the
-> first operand, forcing the result to be 64 bit.
-> 
-> Fixes: Coverity CID 1489444, 1489443
-> Fixes: 345531533f26 ("target/ppc: Implemented xvi*ger* instructions")
-> Cc: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
 > ---
->   target/ppc/int_helper.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+>   hw/intc/pnv_xive2.c | 18 ++++++++++++++----
+>   1 file changed, 14 insertions(+), 4 deletions(-)
 > 
-> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-> index 105b626d1b..eb65ab4d82 100644
-> --- a/target/ppc/int_helper.c
-> +++ b/target/ppc/int_helper.c
-> @@ -789,7 +789,7 @@ static int64_t ger_rank8(uint32_t a, uint32_t b, uint32_t mask)
->       int64_t psum = 0;
->       for (int i = 0; i < 8; i++, mask >>= 1) {
->           if (mask & 1) {
-> -            psum += sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
-> +            psum += (int64_t)sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
->           }
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index a39e070e82..f31c53c28d 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -1574,6 +1574,12 @@ static const MemoryRegionOps pnv_xive2_ic_sync_ops = {
+>    * When the TM direct pages of the IC controller are accessed, the
+>    * target HW thread is deduced from the page offset.
+>    */
+> +static uint32_t pnv_xive2_ic_tm_get_pir(PnvXive2 *xive, hwaddr offset)
+> +{
+> +    /* On P10, the node ID shift in the PIR register is 8 bits */
+> +    return xive->chip->chip_id << 8 | offset >> xive->ic_shift;
+> +}
+> +
+>   static XiveTCTX *pnv_xive2_get_indirect_tctx(PnvXive2 *xive, uint32_t pir)
+>   {
+>       PnvChip *chip = xive->chip;
+> @@ -1596,10 +1602,12 @@ static uint64_t pnv_xive2_ic_tm_indirect_read(void *opaque, hwaddr offset,
+>                                                 unsigned size)
+>   {
+>       PnvXive2 *xive = PNV_XIVE2(opaque);
+> -    uint32_t pir = offset >> xive->ic_shift;
+> -    XiveTCTX *tctx = pnv_xive2_get_indirect_tctx(xive, pir);
+> +    uint32_t pir;
+> +    XiveTCTX *tctx;
+>       uint64_t val = -1;
+>   
+> +    pir = pnv_xive2_ic_tm_get_pir(xive, offset);
+> +    tctx = pnv_xive2_get_indirect_tctx(xive, pir);
+>       if (tctx) {
+>           val = xive_tctx_tm_read(NULL, tctx, offset, size);
 >       }
->       return psum;
-> @@ -811,7 +811,8 @@ static int64_t ger_rank2(uint32_t a, uint32_t b, uint32_t mask)
->       int64_t psum = 0;
->       for (int i = 0; i < 2; i++, mask >>= 1) {
->           if (mask & 1) {
-> -            psum += sextract32(a, 16 * i, 16) * sextract32(b, 16 * i, 16);
-> +            psum += (int64_t)sextract32(a, 16 * i, 16) *
-> +                             sextract32(b, 16 * i, 16);
->           }
+> @@ -1611,9 +1619,11 @@ static void pnv_xive2_ic_tm_indirect_write(void *opaque, hwaddr offset,
+>                                              uint64_t val, unsigned size)
+>   {
+>       PnvXive2 *xive = PNV_XIVE2(opaque);
+> -    uint32_t pir = offset >> xive->ic_shift;
+> -    XiveTCTX *tctx = pnv_xive2_get_indirect_tctx(xive, pir);
+> +    uint32_t pir;
+> +    XiveTCTX *tctx;
+>   
+> +    pir = pnv_xive2_ic_tm_get_pir(xive, offset);
+> +    tctx = pnv_xive2_get_indirect_tctx(xive, pir);
+>       if (tctx) {
+>           xive_tctx_tm_write(NULL, tctx, offset, val, size);
 >       }
->       return psum;
 
