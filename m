@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E1953E553
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:12:27 +0200 (CEST)
-Received: from localhost ([::1]:38832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CECF53E551
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:12:01 +0200 (CEST)
+Received: from localhost ([::1]:38418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyEP3-0001p0-GL
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51328)
+	id 1nyEOd-0001Y1-T4
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDrU-0002i8-Rq
- for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54290)
+ id 1nyDrU-0002i1-Qx
+ for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyDrQ-0000fI-VY
+ id 1nyDrS-0000fR-KT
  for qemu-devel@nongnu.org; Mon, 06 Jun 2022 10:37:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654526260;
+ s=mimecast20190719; t=1654526262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IggI1/QSoMlPqgNfMZWIr+E2XBEF7Oe16zLTSBey4e4=;
- b=TfGtnEM11EDG1Uu1wIrTJIvoQIFwRQRXQ/5snUe2ivjMT4BPNF4mC1itCNOkb1E6jKhp5R
- LDFr6FcHC4s8P9P859BmSmdhVAF/ygUx5KxYoZOV/y/TDHac1LrOKQQLGjeHOW0wzo0jaV
- IAcVq+u+9l85oBk/UfJ9u4gQieDhiDc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qGkxBUipSzfB6+E2sZAGdDLFTlTNb1Nue4FDrBmMfFQ=;
+ b=ODJcnZ1tryuw7v8mBrEin42eHlPSlIpL8HUj5iamCUXZ0NbxwlzzvO2/phtMYAEARQGyTn
+ uv/5aCFmSgrH2Lb0i/6VapAsfj0tC2QS6rIpXJcj7URiOrN+do3h3V++TJ8XqLmmh8zGlP
+ em+qUwDHxt8DDQzpuGUhmXUpJhqzANA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-168-GpBd3rx3PkOMsMs9bH6Ggg-1; Mon, 06 Jun 2022 10:37:39 -0400
-X-MC-Unique: GpBd3rx3PkOMsMs9bH6Ggg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- p8-20020a5d4588000000b0021033f1f79aso2883997wrq.5
- for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:39 -0700 (PDT)
+ us-mta-578-ofJzuCo-OUS-Vqqfn6mBUg-1; Mon, 06 Jun 2022 10:37:41 -0400
+X-MC-Unique: ofJzuCo-OUS-Vqqfn6mBUg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ c16-20020a5d4cd0000000b00213b1d4a96cso2301202wrt.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Jun 2022 07:37:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IggI1/QSoMlPqgNfMZWIr+E2XBEF7Oe16zLTSBey4e4=;
- b=N7J3nrSTyUETzM82PWz1KvjZX/oPviNp/OaBsE6fqEpT+SSc4gbC8rM1PuO1E2TL+/
- QPurH3CzrM8LlPh7tgmTa+tSCAbuVGr3s63DsKpinJpqnw+/T4i0pV8c+dnB330yT3Tl
- zDewBUj7lNM68pTdK4eQ7RarnU8qnWSBua/waAS5CshtVgXSezeZIEWyD5epBo//EONH
- EQzl7E8PO76fPlvYeZ2w2dN5PnuSAQ0RvlZ7K99/b5R8V3YOaIPA1ZWb+6XPCqb5s0eT
- WmTPc1cHGBXY5dJ/mtRZ4jcW92bYUXNTyfYP0+tMvYfdEMZoyykxjc5yGLtLVqa0biam
- FbDg==
-X-Gm-Message-State: AOAM530JWk9Qp83+9Np8SN3OhxHqtQVbfjiwlB9vzQcAbumaHkQFTGOc
- 2y3LqgHrHPivoi0oD04C11FryLNtDajVBtdxEyJPldNDOJAM3sDmZVkSMkSQojXoqeCc8m5gzqr
- k7X6BtupxWoNCpHyX9oZlNMmSIO5duSPG2JlW5LD+uxRfRjKsaR72ZBZ0sWtfcTr0wQU=
-X-Received: by 2002:a05:600c:3d8d:b0:39c:5232:107a with SMTP id
- bi13-20020a05600c3d8d00b0039c5232107amr3887519wmb.191.1654526257650; 
- Mon, 06 Jun 2022 07:37:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz78bDXzp5uQ5drUA1gLJQYSOgQiSNhs9xKKZ6BLDT8i5XjDA2asd0pPoclA/I5X8SYFlCdPw==
-X-Received: by 2002:a05:600c:3d8d:b0:39c:5232:107a with SMTP id
- bi13-20020a05600c3d8d00b0039c5232107amr3887486wmb.191.1654526257322; 
- Mon, 06 Jun 2022 07:37:37 -0700 (PDT)
+ bh=qGkxBUipSzfB6+E2sZAGdDLFTlTNb1Nue4FDrBmMfFQ=;
+ b=lt744QUDn20m8rWwGZDxXTD6OKltrroeovxoLqjLJdApEUwKe+EihAV/0uyD4KJfMM
+ Ao60cw//O4IEUm7A9GWtBJC8trlK9ZC3aH8DTIFhlKpOW/vZ6FZ3i6Oe6d2MX/FS/4wX
+ PvrJQ1fmBGRJOBsmh1TrJcc8lRveW9nfV5oHJtH/1J+Zd9awpjw6WBlHExsMN3Splwv7
+ t4+epvUwGtYCvRTaFCxoRZ50PO7h4ZGjEqHwkgh1TBZkerclPWxBqy5VtBnt+SXxPpZX
+ ucT4vy8YpwZgYDtxB8I/u5zl3C+8dRXdW23Nq1IjCQ7OdL1IszObnYQdZWla3V3ULJtk
+ tdtQ==
+X-Gm-Message-State: AOAM531EVm8+iIbSw+asmwUHYAc8QSFYsMMp2jkcsxrv0lPT4G0SA8JX
+ MC13sb5E7uTeAI+kt1ET45uTgwcV4WdQ6xWK0Oiih6svVOHdaKRsj2MUrp3S8V9G8A02XdejpGA
+ Sn0nYLDq9TypuLBbU8Xivl1V9d7VtRP+BBpG9dUuqJFy49c9t7WgK16QLr27C41WWCs0=
+X-Received: by 2002:a7b:c3c2:0:b0:394:9229:3b40 with SMTP id
+ t2-20020a7bc3c2000000b0039492293b40mr23719280wmj.195.1654526259577; 
+ Mon, 06 Jun 2022 07:37:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpqeqvt1dlbmYZmlsjo1TQPyb7e/6xbiqogn0B1DXD3ObGGrItzbZBtU46aW01DjIBrm3+Rw==
+X-Received: by 2002:a7b:c3c2:0:b0:394:9229:3b40 with SMTP id
+ t2-20020a7bc3c2000000b0039492293b40mr23719253wmj.195.1654526259299; 
+ Mon, 06 Jun 2022 07:37:39 -0700 (PDT)
 Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- h24-20020a05600c145800b0039c54bb28f2sm1633051wmi.36.2022.06.06.07.37.36
+ i19-20020a1c5413000000b0039c457cea21sm7768036wmb.34.2022.06.06.07.37.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 07:37:36 -0700 (PDT)
+ Mon, 06 Jun 2022 07:37:38 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/29] regenerate meson-buildoptions.sh
-Date: Mon,  6 Jun 2022 16:36:42 +0200
-Message-Id: <20220606143644.1151112-28-pbonzini@redhat.com>
+Subject: [PULL 28/29] configure: remove reference to removed option
+Date: Mon,  6 Jun 2022 16:36:43 +0200
+Message-Id: <20220606143644.1151112-29-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220606143644.1151112-1-pbonzini@redhat.com>
 References: <20220606143644.1151112-1-pbonzini@redhat.com>
@@ -100,37 +100,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/meson-buildoptions.sh | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ configure | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 731e5ea1cf..00ea4d8cd1 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -156,13 +156,13 @@ meson_options_help() {
-   printf "%s\n" '  vhost-kernel    vhost kernel backend support'
-   printf "%s\n" '  vhost-net       vhost-net kernel acceleration support'
-   printf "%s\n" '  vhost-user      vhost-user backend support'
--  printf "%s\n" '  vmnet           vmnet.framework network backend support'
-   printf "%s\n" '  vhost-user-blk-server'
-   printf "%s\n" '                  build vhost-user-blk server'
-   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
-   printf "%s\n" '  virglrenderer   virgl rendering support'
-   printf "%s\n" '  virtfs          virtio-9p support'
-   printf "%s\n" '  virtiofsd       build virtiofs daemon (virtiofsd)'
-+  printf "%s\n" '  vmnet           vmnet.framework network backend support'
-   printf "%s\n" '  vnc             VNC server'
-   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
-   printf "%s\n" '  vnc-sasl        SASL authentication for VNC server'
-@@ -430,6 +430,8 @@ _meson_option_parse() {
-     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
-     --enable-virtiofsd) printf "%s" -Dvirtiofsd=enabled ;;
-     --disable-virtiofsd) printf "%s" -Dvirtiofsd=disabled ;;
-+    --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
-+    --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
-     --enable-vnc) printf "%s" -Dvnc=enabled ;;
-     --disable-vnc) printf "%s" -Dvnc=disabled ;;
-     --enable-vnc-jpeg) printf "%s" -Dvnc_jpeg=enabled ;;
+diff --git a/configure b/configure
+index b9ccff9067..ac18ed4f3a 100755
+--- a/configure
++++ b/configure
+@@ -1035,7 +1035,6 @@ Advanced options (experts only):
+   --with-git-submodules=ignore   do not update or check git submodules (default if no .git dir)
+   --static                 enable static build [$static]
+   --bindir=PATH            install binaries in PATH
+-  --efi-aarch64=PATH       PATH of efi file to use for aarch64 VMs.
+   --with-suffix=SUFFIX     suffix for QEMU data inside datadir/libdir/sysconfdir/docdir [$qemu_suffix]
+   --without-default-features default all --enable-* options to "disabled"
+   --without-default-devices  do not include any device that is not needed to
 -- 
 2.36.1
 
