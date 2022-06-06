@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D7053E595
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:52:04 +0200 (CEST)
-Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8832D53E575
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jun 2022 17:28:10 +0200 (CEST)
+Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyF1P-00075n-6m
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59008)
+	id 1nyEeH-0000dh-MS
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jun 2022 11:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
- id 1nyEM7-0006yg-0p; Mon, 06 Jun 2022 11:09:23 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:37631
+ id 1nyEMC-00073Q-BA; Mon, 06 Jun 2022 11:09:28 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:43439
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gtQ3=WN=kaod.org=clg@ozlabs.org>)
- id 1nyEM5-0006BK-2V; Mon, 06 Jun 2022 11:09:22 -0400
+ id 1nyEMA-0006Bq-A1; Mon, 06 Jun 2022 11:09:28 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxj96mYHz4xZZ;
- Tue,  7 Jun 2022 01:09:17 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LGxjH5jCBz4xZf;
+ Tue,  7 Jun 2022 01:09:23 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxj44KXZz4xZY;
- Tue,  7 Jun 2022 01:09:12 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LGxjB3MSFz4xZY;
+ Tue,  7 Jun 2022 01:09:18 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -44,9 +44,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 15/21] hw/i2c/aspeed: add DEV_ADDR in old register mode
-Date: Mon,  6 Jun 2022 17:07:26 +0200
-Message-Id: <20220606150732.2282041-16-clg@kaod.org>
+Subject: [PATCH 16/21] hw/i2c: support multiple masters
+Date: Mon,  6 Jun 2022 17:07:27 +0200
+Message-Id: <20220606150732.2282041-17-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220606150732.2282041-1-clg@kaod.org>
 References: <20220606150732.2282041-1-clg@kaod.org>
@@ -78,87 +78,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add support for writing and reading the device address register in old
-register mode.
-
-On the AST2400 (only 1 slave address)
-
-  * no upper bits
-
-On the AST2500 (2 possible slave addresses),
-
-  * bit[31] : Slave Address match indicator
-  * bit[30] : Slave Address Receiving pending
-
-On the AST2600 (3 possible slave addresses),
-
-  * bit[31-30] : Slave Address match indicator
-  * bit[29] : Slave Address Receiving pending
-
-The model could be more precise to take into account all fields but
-since the Linux driver is masking the register value being set, it
-should be fine. See commit 3fb2e2aeafb2 ("i2c: aspeed: disable
-additional device addresses on ast2[56]xx") from Zeiv. This can be
-addressed later.
+Allow slaves to master the bus by registering a bottom halve. If the bus
+is busy, the bottom half is queued up. When a slave has succesfully
+mastered the bus, the bottom half is scheduled.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-[ clg: add details to commit log ]
-Message-Id: <20220601210831.67259-3-its@irrelevant.dk>
+[ clg : - fixed typos in commit log ]
+Message-Id: <20220601210831.67259-4-its@irrelevant.dk>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/i2c/aspeed_i2c.h | 8 ++++++++
- hw/i2c/aspeed_i2c.c         | 5 +++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ include/hw/i2c/i2c.h | 14 ++++++++++++++
+ hw/i2c/core.c        | 34 +++++++++++++++++++++++++++++++++-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index 79c6779c6c1e..03fe829a3a57 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -297,6 +297,14 @@ static inline uint32_t aspeed_i2c_bus_cmd_offset(AspeedI2CBus *bus)
-     return R_I2CD_CMD;
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index 5ca3b708c0be..be8bb8b78a60 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -69,13 +69,25 @@ struct I2CNode {
+     QLIST_ENTRY(I2CNode) next;
+ };
+ 
++typedef struct I2CPendingMaster I2CPendingMaster;
++
++struct I2CPendingMaster {
++    QEMUBH *bh;
++    QSIMPLEQ_ENTRY(I2CPendingMaster) entry;
++};
++
+ typedef QLIST_HEAD(I2CNodeList, I2CNode) I2CNodeList;
++typedef QSIMPLEQ_HEAD(I2CPendingMasters, I2CPendingMaster) I2CPendingMasters;
+ 
+ struct I2CBus {
+     BusState qbus;
+     I2CNodeList current_devs;
++    I2CPendingMasters pending_masters;
+     uint8_t saved_address;
+     bool broadcast;
++
++    /* Set from slave currently mastering the bus. */
++    QEMUBH *bh;
+ };
+ 
+ I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
+@@ -117,6 +129,8 @@ int i2c_start_send(I2CBus *bus, uint8_t address);
+ 
+ void i2c_end_transfer(I2CBus *bus);
+ void i2c_nack(I2CBus *bus);
++void i2c_bus_master(I2CBus *bus, QEMUBH *bh);
++void i2c_bus_release(I2CBus *bus);
+ int i2c_send(I2CBus *bus, uint8_t data);
+ uint8_t i2c_recv(I2CBus *bus);
+ bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index d0cb2d32fa44..145dce60782a 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -13,6 +13,7 @@
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
++#include "qemu/main-loop.h"
+ #include "trace.h"
+ 
+ #define I2C_BROADCAST 0x00
+@@ -62,6 +63,7 @@ I2CBus *i2c_init_bus(DeviceState *parent, const char *name)
+ 
+     bus = I2C_BUS(qbus_new(TYPE_I2C_BUS, parent, name));
+     QLIST_INIT(&bus->current_devs);
++    QSIMPLEQ_INIT(&bus->pending_masters);
+     vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_i2c_bus, bus);
+     return bus;
+ }
+@@ -74,7 +76,7 @@ void i2c_slave_set_address(I2CSlave *dev, uint8_t address)
+ /* Return nonzero if bus is busy.  */
+ int i2c_bus_busy(I2CBus *bus)
+ {
+-    return !QLIST_EMPTY(&bus->current_devs);
++    return !QLIST_EMPTY(&bus->current_devs) || bus->bh;
  }
  
-+static inline uint32_t aspeed_i2c_bus_dev_addr_offset(AspeedI2CBus *bus)
+ bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
+@@ -180,6 +182,26 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
+                                                : I2C_START_SEND);
+ }
+ 
++void i2c_bus_master(I2CBus *bus, QEMUBH *bh)
 +{
-+    if (aspeed_i2c_is_new_mode(bus->controller)) {
-+        return R_I2CS_DEV_ADDR;
++    if (i2c_bus_busy(bus)) {
++        I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
++        node->bh = bh;
++
++        QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
++
++        return;
 +    }
-+    return R_I2CD_DEV_ADDR;
++
++    bus->bh = bh;
++    qemu_bh_schedule(bus->bh);
 +}
 +
- static inline uint32_t aspeed_i2c_bus_intr_ctrl_offset(AspeedI2CBus *bus)
++void i2c_bus_release(I2CBus *bus)
++{
++    bus->bh = NULL;
++}
++
+ int i2c_start_recv(I2CBus *bus, uint8_t address)
  {
-     if (aspeed_i2c_is_new_mode(bus->controller)) {
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index b70276a87360..379dbc1379cb 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -83,6 +83,7 @@ static uint64_t aspeed_i2c_bus_old_read(AspeedI2CBus *bus, hwaddr offset,
-     case A_I2CD_AC_TIMING2:
-     case A_I2CD_INTR_CTRL:
-     case A_I2CD_INTR_STS:
-+    case A_I2CD_DEV_ADDR:
-     case A_I2CD_POOL_CTRL:
-     case A_I2CD_BYTE_BUF:
-         /* Value is already set, don't do anything. */
-@@ -720,8 +721,7 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *bus, hwaddr offset,
-         }
-         break;
-     case A_I2CD_DEV_ADDR:
--        qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
--                      __func__);
-+        bus->regs[R_I2CD_DEV_ADDR] = value;
-         break;
-     case A_I2CD_POOL_CTRL:
-         bus->regs[R_I2CD_POOL_CTRL] &= ~0xffffff;
-@@ -1039,6 +1039,7 @@ static void aspeed_i2c_bus_reset(DeviceState *dev)
+     return i2c_do_start_transfer(bus, address, I2C_START_RECV);
+@@ -206,6 +228,16 @@ void i2c_end_transfer(I2CBus *bus)
+         g_free(node);
+     }
+     bus->broadcast = false;
++
++    if (!QSIMPLEQ_EMPTY(&bus->pending_masters)) {
++        I2CPendingMaster *node = QSIMPLEQ_FIRST(&bus->pending_masters);
++        bus->bh = node->bh;
++
++        QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
++        g_free(node);
++
++        qemu_bh_schedule(bus->bh);
++    }
+ }
  
-     s->regs[R_I2CD_INTR_CTRL] = 0;
-     s->regs[R_I2CD_INTR_STS] = 0;
-+    s->regs[R_I2CD_DEV_ADDR] = 0;
-     s->regs[R_I2CD_CMD] = 0;
-     s->regs[R_I2CD_BYTE_BUF] = 0;
-     s->regs[R_I2CD_DMA_ADDR] = 0;
+ int i2c_send(I2CBus *bus, uint8_t data)
 -- 
 2.35.3
 
