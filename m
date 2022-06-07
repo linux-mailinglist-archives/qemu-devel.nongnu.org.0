@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8959A5400A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 16:03:31 +0200 (CEST)
-Received: from localhost ([::1]:53606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4605400A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 16:03:23 +0200 (CEST)
+Received: from localhost ([::1]:53290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyZnu-0003yf-Ip
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 10:03:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44136)
+	id 1nyZnm-0003jd-DE
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 10:03:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nyZlG-0000x3-4G
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 10:00:47 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46663)
+ (Exim 4.90_1) (envelope-from <redha.gouicem@gmail.com>)
+ id 1nyZlr-0001bk-BN; Tue, 07 Jun 2022 10:01:23 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:36365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nyZlE-0006Nr-0i
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 10:00:45 -0400
-Received: by mail-wr1-x433.google.com with SMTP id u8so19973971wrm.13
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 07:00:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=W+UstAfSJiXFEtsDgwEx0lKKEf1AzgKeAaciQOsmrxw=;
- b=DNys//0q1+OBGIV+DOh4/hmrLTo+dwhz9xBY09EhxEFGWeRIf0f8P6expKmrZaJYII
- 0AznBkKrIT9VljeSMTCW3rfuizoBSzPe7zZ89UYMmhIr2Np3m5BUZEY9TTPtoUydxh/K
- hi17246WGcJ95HBPVjtXNtu4en6hzGNolxsB8FBh3L4Rg9AeC73R9idmBUMmEPImoEcQ
- iGjsTpJ/LzRK6eGG9KmMtsm+BHZ3tPxbRouqWKkVKTRmDmrhPX/BTy0QkwzNRXKHX04h
- IWdXfWZIv9b0yMXqlu31Slsrx+AAcPudAcDPwmP1tzzfIq8+pG1eoxzqhe3kb5U55xeo
- Kapg==
+ (Exim 4.90_1) (envelope-from <redha.gouicem@gmail.com>)
+ id 1nyZll-0006ZN-K5; Tue, 07 Jun 2022 10:01:23 -0400
+Received: by mail-ej1-x635.google.com with SMTP id s12so28191798ejx.3;
+ Tue, 07 Jun 2022 07:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=oXgybdcYtYZuzCG91L7ihvaqawohrOipKmT+HQ/vK0A=;
+ b=pg5GM3XRTV8jecwFeWNuEjp456TSy3SmiTFl1REyinlma1KYgztVa/Ah29ny7Wnyht
+ xzaLJu8dxJZalZx6s2fKiK77ojAFZa9cjdKmMjqsyxpKQ13Ln3vI5MfaQgCVrEu/Rj4j
+ 976i6+OrPGC8QA8iJN5kVJyKo2vJDMm5/f/3X2MqLzHkcblIqvyRmkVtvE8Clkeg+8QB
+ tFskOwfoRQ0BNJST5/T8Qeg1xVZNaWSkhwPGD69+eKdoEru6k5uPenbKtHDoJgGBNn63
+ Z3cxeJTAIVRKVrK5kxjS4Bw+7HzetQb+WXo75PcvJ62hpehUFS155IweAR6L1eSwVQQ7
+ wSsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=W+UstAfSJiXFEtsDgwEx0lKKEf1AzgKeAaciQOsmrxw=;
- b=L6X4JEJA6UkYcBzWmQjst7C7MhUqAcnvpu/ILnq4A/FMaugOhvVj9MgHDsNFk97PUk
- y6sRiviEyHAZlOGby46oNqPIZUlp3PiR57LtapMqWpdLUps8q7+ucOW3YHH/eREZgoAp
- 76tnt7x1jLdQ3Fk1DSNrasPlg/L/0SLmZM1RiXZ/sMatqZwjqSknUAETYyNSLlRZEfiW
- /GlevbjfFbjvoize7RqcZd1RK1cKpHoFd4XPC8UzDFBj1I6j++A35jG8kT6RbtTWjbiV
- fiM8Z9jD4PqmhLWIAB+WnGkwGiqLqhmkOj22UbTfcS/zPz8IFM+dSyNHCS55SnIZ/y6D
- neLw==
-X-Gm-Message-State: AOAM532TpX/2ZzMtAieHW454ILXf8eCmm1rkaEaAwcESS05FPQwtdJ/E
- ZtASb4IyOe7TPk7uHh7jfkVUlvFVcBXKGA==
-X-Google-Smtp-Source: ABdhPJwTP3fXEH/1300kPFhIry7LzC+sPiWqHcLWMZK9fggXp80Yj38bhR7UvColKRu042AW9IQEow==
-X-Received: by 2002:a5d:6c64:0:b0:20f:f2ad:6623 with SMTP id
- r4-20020a5d6c64000000b0020ff2ad6623mr28276689wrz.28.1654610442137; 
- Tue, 07 Jun 2022 07:00:42 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oXgybdcYtYZuzCG91L7ihvaqawohrOipKmT+HQ/vK0A=;
+ b=VggL7rdwPSSDWWFB9I3ulSvMbpFfyMFXTjM/jAChFyefttIC0z3y1SFWLuEJLtMqfO
+ JEiZzWyajhoGzBKFuKPNDtA8DJkdsLOp8QqCRvzt0mPAgISLl3auQ26eWw+Nymc1Hc0H
+ UXm4i5Uv6/s8Tb3vgiLkSqfcIJrb4AYvGCLkwvr+bAQv0TW6yINfDc+/ml0IBZMWTvAt
+ SSn/ZigQl6hQ+ysfhYPDuy+d2Qg3Pd+90gTDqquEduwYHUGJS6YRnA34JCESutxELXqg
+ d47ie6svFpwCAowihNUBvULF5hDtXI2KZOaijsPa43s3xh9KTT4ccSoeUfxd/u6DSYiE
+ iiDg==
+X-Gm-Message-State: AOAM531fFjoEWczxUHfnFaCwp+9duf8Gaib4/LRp0IM8l4wul3lR6HL2
+ Wg14IgbhjB6JRgy+SD5iloE=
+X-Google-Smtp-Source: ABdhPJwZBcfsxTJjCrIXN/5VROkTmDWHaNmgGr/hpUOEhXNaobd4P5Q2E+v+DX7bqF3zCnniPY+o+w==
+X-Received: by 2002:a17:907:7212:b0:706:fd77:86cb with SMTP id
+ dr18-20020a170907721200b00706fd7786cbmr26603497ejc.69.1654610473863; 
+ Tue, 07 Jun 2022 07:01:13 -0700 (PDT)
+Received: from ?IPV6:2001:a61:240a:e01:3b2e:e985:60ef:f421?
+ ([2001:a61:240a:e01:3b2e:e985:60ef:f421])
  by smtp.gmail.com with ESMTPSA id
- l14-20020a05600c2cce00b0039751bb8c62sm26816987wmc.24.2022.06.07.07.00.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 07:00:41 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 844EC1FFB7;
- Tue,  7 Jun 2022 15:00:40 +0100 (BST)
-References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-16-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.26; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-Subject: Re: [PATCH v3 15/49] include/exec: Move gdb_stat and gdb_timeval to
- gdbstub.h
-Date: Tue, 07 Jun 2022 14:59:31 +0100
-In-reply-to: <20220521000400.454525-16-richard.henderson@linaro.org>
-Message-ID: <874k0wvaif.fsf@linaro.org>
+ e1-20020a1709062c0100b0070bdc059ab2sm6277467ejh.138.2022.06.07.07.01.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 07:01:13 -0700 (PDT)
+Message-ID: <d1916722-6a1a-4e21-cd95-4ffbd09e943c@gmail.com>
+Date: Tue, 7 Jun 2022 16:01:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] tcg: Special case split barriers before/after load
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org
+References: <20220430234534.446733-1-richard.henderson@linaro.org>
+ <e22c20ff-d6dd-66e6-4143-d60f81609261@amsat.org>
+From: Redha <redha.gouicem@gmail.com>
+In-Reply-To: <e22c20ff-d6dd-66e6-4143-d60f81609261@amsat.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=redha.gouicem@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,110 +93,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Richard and Philippe,
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+I was finally able to test the patch.
 
-> We have two copies of these structures, and require them
-> in semihosting/ going forward.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/gdbstub.h    | 25 +++++++++++++++++++++++++
->  target/m68k/m68k-semi.c   | 30 +++---------------------------
->  target/nios2/nios2-semi.c | 30 +++---------------------------
->  3 files changed, 31 insertions(+), 54 deletions(-)
->
-> diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-> index 2aaba9c723..33a262a5a3 100644
-> --- a/include/exec/gdbstub.h
-> +++ b/include/exec/gdbstub.h
-> @@ -20,6 +20,31 @@
->  #define GDB_O_TRUNC   0x400
->  #define GDB_O_EXCL    0x800
->=20=20
-> +/* For gdb file i/o stat/fstat. */
-> +typedef uint32_t gdb_mode_t;
-> +typedef uint32_t gdb_time_t;
-> +
-> +struct gdb_stat {
-> +  uint32_t    gdb_st_dev;     /* device */
-> +  uint32_t    gdb_st_ino;     /* inode */
-> +  gdb_mode_t  gdb_st_mode;    /* protection */
-> +  uint32_t    gdb_st_nlink;   /* number of hard links */
-> +  uint32_t    gdb_st_uid;     /* user ID of owner */
-> +  uint32_t    gdb_st_gid;     /* group ID of owner */
-> +  uint32_t    gdb_st_rdev;    /* device type (if inode device) */
-> +  uint64_t    gdb_st_size;    /* total size, in bytes */
-> +  uint64_t    gdb_st_blksize; /* blocksize for filesystem I/O */
-> +  uint64_t    gdb_st_blocks;  /* number of blocks allocated */
-> +  gdb_time_t  gdb_st_atime;   /* time of last access */
-> +  gdb_time_t  gdb_st_mtime;   /* time of last modification */
-> +  gdb_time_t  gdb_st_ctime;   /* time of last change */
-> +} QEMU_PACKED;
-> +
-> +struct gdb_timeval {
-> +  gdb_time_t tv_sec;  /* second */
-> +  uint64_t tv_usec;   /* microsecond */
-> +} QEMU_PACKED;
-> +
->  #ifdef NEED_CPU_H
->  #include "cpu.h"
->=20=20
-> diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-> index 475a6b13b7..da0186f3ef 100644
-> --- a/target/m68k/m68k-semi.c
-> +++ b/target/m68k/m68k-semi.c
-> @@ -45,30 +45,6 @@
->  #define HOSTED_ISATTY 12
->  #define HOSTED_SYSTEM 13
->=20=20
-> -typedef uint32_t gdb_mode_t;
-> -typedef uint32_t gdb_time_t;
-> -
-> -struct m68k_gdb_stat {
-> -  uint32_t    gdb_st_dev;     /* device */
-> -  uint32_t    gdb_st_ino;     /* inode */
-> -  gdb_mode_t  gdb_st_mode;    /* protection */
-> -  uint32_t    gdb_st_nlink;   /* number of hard links */
-> -  uint32_t    gdb_st_uid;     /* user ID of owner */
-> -  uint32_t    gdb_st_gid;     /* group ID of owner */
-> -  uint32_t    gdb_st_rdev;    /* device type (if inode device) */
-> -  uint64_t    gdb_st_size;    /* total size, in bytes */
-> -  uint64_t    gdb_st_blksize; /* blocksize for filesystem I/O */
-> -  uint64_t    gdb_st_blocks;  /* number of blocks allocated */
-> -  gdb_time_t  gdb_st_atime;   /* time of last access */
-> -  gdb_time_t  gdb_st_mtime;   /* time of last modification */
-> -  gdb_time_t  gdb_st_ctime;   /* time of last change */
-> -} QEMU_PACKED;
-> -
-> -struct gdb_timeval {
-> -  gdb_time_t tv_sec;  /* second */
-> -  uint64_t tv_usec;   /* microsecond */
-> -} QEMU_PACKED;
-> -
->  static int translate_openflags(int flags)
->  {
->      int hf;
-> @@ -90,9 +66,9 @@ static int translate_openflags(int flags)
->=20=20
->  static void translate_stat(CPUM68KState *env, target_ulong addr, struct =
-stat *s)
->  {
-> -    struct m68k_gdb_stat *p;
-> +    struct gdb_stat *p;
->=20=20
-> -    if (!(p =3D lock_user(VERIFY_WRITE, addr, sizeof(struct m68k_gdb_sta=
-t), 0)))
-> +    if (!(p =3D lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat),
-> 0)))
+As expected, the fences generated by TCG with your patch are the same
+ones as in mine.
 
-checkpatch hard fails on the assignment in an if condition so it's
-probably worth cleaning that up while you go.
+However, I was not able to reproduce the failure with the ahci-test on
+my ARM system (2x 28-core Thunder X2, 4 threads per core).  I ran 500
+tests concurrently to load the system, but I did not get the assert
+failure.  However, I got another qemu error 229 times:
 
-Otherwise:
+  qemu-system-x86_64: Failed to get "write" lock
+  Is another process using the image [/tmp/qtest.IksKVs]?
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Each time with a different temporary path. Not sure if that is directly 
+related to the actual test.
 
---=20
-Alex Benn=C3=A9e
+Also, are we sure the test failure on the gitlab runner is due to memory
+ordering issues with regular memory accesses?  Is there a way to check
+the code generated by TCG for this test, similar to `-d op,out_asm`?
+
+
+Redha
+
+
+
+On 30/05/2022 17:10, Philippe Mathieu-Daudé wrote:
+> Hi Richard,
+> 
+> On 1/5/22 01:45, Richard Henderson wrote:
+>> When st:ld is not required by the guest but ld:st is, we can
+>> put ld:ld+ld:st barriers after loads, and then st:st barriers
+>> before stores to enforce all required barriers.
+>>
+>> The st:st barrier is often special cased by hosts, and that
+>> is expected to be more efficient than a full barrier.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>
+>> Redha, I expect this to produce exactly the same barriers as you
+>> did with your 'fix guest memory ordering enforcement' patch.
+>>
+>> While this compiles, it does not fix the failures that I see
+>> occasionally with our private gitlab runner.  The standalone
+>> version of this failure is
+>>
+>>    export QTEST_QEMU_BINARY=./qemu-system-i386
+>>    for i in `seq 1 100`; do
+>>      ./tests/qtest/ahci-test > /dev/null &
+>>    done
+>>    wait
+>>
+>> About 10 to 15% of the runs will fail with
+>>
+>> ERROR:../src/tests/qtest/ahci-test.c:92:verify_state: assertion failed (ahci_fingerprint == ahci->fingerprint): (0xe0000000 == 0x29228086)
+>>
+>> Note that this test never seems to fail unless the system is under
+>> load, thus starting 100 tests on my 80 core neoverse-n1 system.
+>>
+>>
+>> r~
+>>
+>>
+>> ---
+>>   tcg/tcg-op.c | 55 +++++++++++++++++++++++++++++++++++++++++++++-------
+>>   1 file changed, 48 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+>> index 5d48537927..4c568a2592 100644
+>> --- a/tcg/tcg-op.c
+>> +++ b/tcg/tcg-op.c
+>> @@ -2834,9 +2834,6 @@ static void gen_ldst_i64(TCGOpcode opc, TCGv_i64 val, TCGv addr,
+>>     static void tcg_gen_req_mo(TCGBar type)
+>>   {
+>> -#ifdef TCG_GUEST_DEFAULT_MO
+>> -    type &= TCG_GUEST_DEFAULT_MO;
+>> -#endif
+>>       type &= ~TCG_TARGET_DEFAULT_MO;
+>>       if (type) {
+>>           tcg_gen_mb(type | TCG_BAR_SC);
+>> @@ -2868,12 +2865,49 @@ static void plugin_gen_mem_callbacks(TCGv vaddr, MemOpIdx oi,
+>>   #endif
+>>   }
+>>   +typedef enum {
+>> +    BAR_LD_BEFORE,
+>> +    BAR_LD_AFTER,
+>> +    BAR_ST_BEFORE,
+>> +} ChooseBarrier;
+>> +
+>> +static TCGBar choose_barrier(ChooseBarrier which)
+>> +{
+>> +#ifdef TCG_GUEST_DEFAULT_MO
+>> +    const TCGBar guest_mo = TCG_GUEST_DEFAULT_MO;
+>> +#else
+>> +    const TCGBar guest_mo = TCG_MO_ALL;
+>> +#endif
+>> +    TCGBar ret[3];
+>> +
+>> +    if (guest_mo == 0) {
+>> +        return 0;
+>> +    }
+> 
+> This part ...:
+> 
+>> +    /*
+>> +     * Special case for i386 and s390x.  Because store-load is not
+>> +     * required by the guest, we can split the barriers such that we
+>> +     * wind up with a store-store barrier, which is expected to be
+>> +     * quicker on some hosts.
+>> +     */
+>> +    if (guest_mo == (TCG_MO_ALL & ~TCG_MO_ST_LD)) {
+>> +        ret[BAR_LD_BEFORE] = 0;
+>> +        ret[BAR_LD_AFTER]  = TCG_MO_LD_LD | TCG_MO_LD_ST;
+>> +        ret[BAR_ST_BEFORE] = TCG_MO_ST_ST;
+>> +    } else {
+> 
+> ... could deserve another patch.
+> 
+>> +        ret[BAR_LD_BEFORE] = (TCG_MO_LD_LD | TCG_MO_ST_LD) & guest_mo;
+>> +        ret[BAR_ST_BEFORE] = (TCG_MO_LD_ST | TCG_MO_ST_ST) & guest_mo;
+>> +        ret[BAR_LD_AFTER]  = 0;
+>> +    }
+>> +    return ret[which];
+>> +}
+>> +
+>>   void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+>>   {
+>>       MemOp orig_memop;
+>>       MemOpIdx oi;
+>>   -    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+>> +    tcg_gen_req_mo(choose_barrier(BAR_LD_BEFORE));
+>> +
+>>       memop = tcg_canonicalize_memop(memop, 0, 0);
+>>       oi = make_memop_idx(memop, idx);
+>>   @@ -2904,6 +2938,8 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+>>               g_assert_not_reached();
+>>           }
+>>       }
+>> +
+>> +    tcg_gen_req_mo(choose_barrier(BAR_LD_AFTER));
+>>   }
+>>     void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+>> @@ -2911,7 +2947,8 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+>>       TCGv_i32 swap = NULL;
+>>       MemOpIdx oi;
+>>   -    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+>> +    tcg_gen_req_mo(choose_barrier(BAR_ST_BEFORE));
+>> +
+>>       memop = tcg_canonicalize_memop(memop, 0, 1);
+>>       oi = make_memop_idx(memop, idx);
+>>   @@ -2959,7 +2996,8 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+>>           return;
+>>       }
+>>   -    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+>> +    tcg_gen_req_mo(choose_barrier(BAR_LD_BEFORE));
+>> +
+>>       memop = tcg_canonicalize_memop(memop, 1, 0);
+>>       oi = make_memop_idx(memop, idx);
+>>   @@ -2994,6 +3032,8 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+>>               g_assert_not_reached();
+>>           }
+>>       }
+>> +
+>> +    tcg_gen_req_mo(choose_barrier(BAR_LD_AFTER));
+>>   }
+>>     void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+>> @@ -3006,7 +3046,8 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+>>           return;
+>>       }
+>>   -    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+>> +    tcg_gen_req_mo(choose_barrier(BAR_ST_BEFORE));
+>> +
+>>       memop = tcg_canonicalize_memop(memop, 1, 1);
+>>       oi = make_memop_idx(memop, idx);
+>>   
+> 
+> Redha, could you test this patch?
+> 
+> Regards,
+> 
+> Phil.
 
