@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3007053FADD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:09:47 +0200 (CEST)
-Received: from localhost ([::1]:40178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2F753FB0B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:18:13 +0200 (CEST)
+Received: from localhost ([::1]:50934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyW9h-0001dJ-MH
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51008)
+	id 1nyWHs-0001Pn-Bn
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:18:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyVhm-0007sw-LV
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:40:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyVhi-0008Ph-IV
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:40:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654594849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RBa30ACYz9QuuLohYqZ+WJU4FHLga/MdEYHQP4kcIkU=;
- b=HtmUuzFP8NSuWnjyBmXHI64i4V8Oul9hKQ19hklxNHQVX98cVD7h/V6/mO8kK36m2+V71D
- Ehs/nHw+nkKpm3cn9zTri2rI9cmzTCQP/cPM4+2h2QeQ8pRZEgTa14h7Ab0YM8quz5arJP
- qr0W+8nUEewT8/4nVh8aE4+pgn2uLqo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-574-CXaVp-kkPBGEl0pMfzgSAg-1; Tue, 07 Jun 2022 05:40:49 -0400
-X-MC-Unique: CXaVp-kkPBGEl0pMfzgSAg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k32-20020a05600c1ca000b0039c4cf75023so3549561wms.9
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:40:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nyVo1-0006dH-37
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:47:21 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:37443)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nyVnz-0001vv-91
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:47:20 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id r1so1634444ybd.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:47:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sQ1y+POZFERm2M8RDVYbpWuJXGCmk4JLi4ssYqpuC7I=;
+ b=ExFpT5kMwHLrlCWZwkYNqXWXSDNkzJA3o2IfAR2Zban92q8ddLpHFBpiW5d26RW+Ap
+ jy1IDrER6zg4g6p3KvcMFCkp7nVMK8ilAXQ04tQzwzUPHyR/2ZzSVXem/K3IgVoXrR8Q
+ stBuNALtFmyUzaE5Yu/RThXq53PGtOn2oWhjdIBraRs+ouP9UqEbaGV/W5pW7GdLOC1N
+ 186BUQ4L0g3MlzcD2a7/G2OLh1NN5C2U+QenAkYiovMUR5TGiXirNj9y7B4UB+SEoJot
+ Q0dvx0mtGB/YVAEL2UsYORk9vXwzNjBT9Vv09ovBy1T9fHzbxRHDmbQSd9db1PHunSsR
+ 0UQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RBa30ACYz9QuuLohYqZ+WJU4FHLga/MdEYHQP4kcIkU=;
- b=BrQOnE/OKepJsNZMgtjoEJtLIn5xwOJkxacoGfJr3L5K6GLYI3WxGlJem3F7qvnnSa
- K7HuCK/0hhz0/TJGaEzA/1hoJ5k3FKxoJ7cyqOYJ2RS8wATet8iqPQPBoG1HjB+gA6Wx
- rNvnajDfimnKYt1L93d8eAbPdOqBONl5a6Z2QcwNhvj65/TcCGZKHM/ePQFr6H5aqqss
- AQ9A8abQTdjgiFP3SO14Tz5T8mzXQuzJqy5cWwtbVZDxGn2MT543JFNzwxwTk2VfU0lm
- f9X/Hm5JOE1yYKP57WULI23ANJcxpndNDklDEe8YPw9MqbODXSOsES7q+wL4TQ/rA6lV
- D+Vg==
-X-Gm-Message-State: AOAM531BgwYVHqKNdhqNX23geyxa/H0q8VBcCa4GRSPd+N00HozLznrJ
- iT6TO9noOED3dPKcqxQm7eUZkrrtPXUkj3BNtPab9lfmBkirIORBvnXgkVXtNIrH+tfhM/V3W07
- qUHfXI3T/YMjCYetoQCNFKQxlqqPPj9z9orlkflDzs3oJQJrpKCev+0eboHlhj1SPwAw=
-X-Received: by 2002:a05:600c:3ba7:b0:39c:5b80:3b76 with SMTP id
- n39-20020a05600c3ba700b0039c5b803b76mr1205402wms.35.1654594847209; 
- Tue, 07 Jun 2022 02:40:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzm0V2fmm4YvE1tQjx9GbFdsua6SJBVl8TK2jgFq00XUouk2GjuOgUJC1ctLSSwK7JsmW4tTQ==
-X-Received: by 2002:a05:600c:3ba7:b0:39c:5b80:3b76 with SMTP id
- n39-20020a05600c3ba700b0039c5b803b76mr1205374wms.35.1654594846780; 
- Tue, 07 Jun 2022 02:40:46 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- h13-20020a05600c2cad00b00397623ff335sm21756167wmc.10.2022.06.07.02.40.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 02:40:45 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org,
-	richard.henderson@linaro.org
-Subject: [PATCH 7/7] tests/tcg: remove -f from Makefile invocation
-Date: Tue,  7 Jun 2022 11:40:31 +0200
-Message-Id: <20220607094031.1227714-8-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220607094031.1227714-1-pbonzini@redhat.com>
-References: <20220607094031.1227714-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sQ1y+POZFERm2M8RDVYbpWuJXGCmk4JLi4ssYqpuC7I=;
+ b=vrde2KVvwSwr2KK3J+YBv7TuvPw6dl5I4LCtp+Y8oqinWdrngKBLfBzgE9ExzOS3OY
+ YXoKZBpNke/C1zX9+oaKuus0s8vIhrUnnuaysnz+LFB+EAYNJYFvkqOGLGPOzIVNKpqS
+ jwvuRfspV+qZ971vVbW86rnYRrOyMpA/P2cn3r9oULoHH/0JUNdPveCzOMx7sIW3trgH
+ YgDsyWaQY6XQR+mlTqUU2aXxPh3oIdw9LcrXjz5Q5ggZfyrRTW+CG2OAgDK9WLdP95nk
+ ImDmzjx04J79RAH/lpGimB5Im09aajYErxqV0bxTmqz45iPUAucQVzPY+Jn5dnMp9KTH
+ FY6w==
+X-Gm-Message-State: AOAM533RSX/EOApw4qVQZyjaaO/orNlxxf/24iZoxWTmcUebuHi0KjnY
+ 2yb+hpcGx7ERVJAFrHJeWWC4ansOXKDoHb6Zd4dVDQ==
+X-Google-Smtp-Source: ABdhPJyazqMp57MINQllDOotu4xOtiiWF5jOBBbsh2qUqEQMUW9RGDHElCgJv2sqWKr4WR14yT9CbDG6Wdrix1CVkpA=
+X-Received: by 2002:a25:1bc3:0:b0:65d:46e8:6322 with SMTP id
+ b186-20020a251bc3000000b0065d46e86322mr27877345ybb.140.1654595237514; Tue, 07
+ Jun 2022 02:47:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220602214853.496211-1-richard.henderson@linaro.org>
+ <20220602214853.496211-38-richard.henderson@linaro.org>
+In-Reply-To: <20220602214853.496211-38-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jun 2022 10:47:07 +0100
+Message-ID: <CAFEAcA-JFvMM3yY=q=nBbrs_Y47056NLgtQTqdYqTKmgLZfWYA@mail.gmail.com>
+Subject: Re: [PATCH 37/71] target/arm: Add cpu properties for SME
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,71 +82,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Name the symbolic link "Makefile" and place it in the target subdirectory.
+On Thu, 2 Jun 2022 at 23:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Mirror the properties for SVE.  The main difference is
+> that any arbitrary set of powers of 2 may be supported,
+> and not the stricter constraints that apply to SVE.
+>
+> Include a property to control FEAT_SME_FA64, as failing
+> to restrict the runtime to the proper subset of insns
+> could be a major point for bugs.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure              | 3 ++-
- tests/Makefile.include | 7 +++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+> @@ -589,10 +589,13 @@ static void cpu_arm_get_vq(Object *obj, Visitor *v, const char *name,
+>      ARMCPU *cpu = ARM_CPU(obj);
+>      ARMVQMap *vq_map = opaque;
+>      uint32_t vq = atoi(&name[3]) / 128;
+> +    bool sve = vq_map == &cpu->sve_vq;
+>      bool value;
+>
+> -    /* All vector lengths are disabled when SVE is off. */
+> -    if (!cpu_isar_feature(aa64_sve, cpu)) {
+> +    /* All vector lengths are disabled when feature is off. */
+> +    if (sve
+> +        ? !cpu_isar_feature(aa64_sve, cpu)
+> +        : !cpu_isar_feature(aa64_sme, cpu)) {
+>          value = false;
+>      } else {
+>          value = extract32(vq_map->map, vq - 1, 1);
 
-diff --git a/configure b/configure
-index 9d49ea4c5b..f35847c3cd 100755
---- a/configure
-+++ b/configure
-@@ -2224,7 +2224,6 @@ fi
- # tests might fail. Prefer to keep the relevant files in their own
- # directory and symlink the directory instead.
- LINKS="Makefile"
--LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS pc-bios/optionrom/Makefile"
- LINKS="$LINKS pc-bios/s390-ccw/Makefile"
- LINKS="$LINKS pc-bios/vof/Makefile"
-@@ -2483,6 +2482,7 @@ fi
- 
- # tests/tcg configuration
- (config_host_mak=tests/tcg/config-host.mak
-+mkdir -p tests/tcg
- echo "# Automatically generated by configure - do not modify" > $config_host_mak
- echo "SRC_PATH=$source_path" >> $config_host_mak
- echo "HOST_CC=$host_cc" >> $config_host_mak
-@@ -2600,6 +2600,7 @@ for target in $target_list; do
-   fi
-   if test $got_cross_cc = yes; then
-       mkdir -p tests/tcg/$target
-+      ln -sf $source_path/tests/tcg/Makefile.target tests/tcg/$target/Makefile
-       ln -sf ../config-$target.mak tests/tcg/$target/config-target.mak
-       echo "TARGET=$target" >> $config_target_mak
-       echo "QEMU=$PWD/$qemu" >> $config_target_mak
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index f2182ead1e..8f44a20da3 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -47,20 +47,19 @@ $(foreach TARGET,$(TCG_TESTS_TARGETS), \
- .PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
- $(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/tcg/config-%.mak
- 	$(call quiet-command, \
--            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS), \
-+            $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS), \
-         "BUILD","$* guest-tests")
- 
- .PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
- $(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-%
- 	$(call quiet-command, \
--           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
--                        SPEED=$(SPEED) run, \
-+           $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS) SPEED=$(SPEED) run, \
-         "RUN", "$* guest-tests")
- 
- .PHONY: $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%)
- $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
- 	$(call quiet-command, \
--           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) clean, \
-+           $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS) clean, \
-         "CLEAN", "$* guest-tests")
- 
- .PHONY: build-tcg
--- 
-2.36.1
+I was wondering what you were going to do about this bit; the
+comparison against &cpu->sve_vq feels a bit awkward but I guess
+it's the simplest thing.
 
+> +void arm_cpu_sme_finalize(ARMCPU *cpu, Error **errp)
+> +{
+> +    uint32_t vq_map = cpu->sme_vq.map;
+> +    uint32_t vq_init = cpu->sme_vq.init;
+> +    uint32_t vq_supported = cpu->sme_vq.supported;
+> +    uint32_t vq;
+> +
+> +    if (vq_map == 0) {
+> +        if (!cpu_isar_feature(aa64_sme, cpu)) {
+> +            cpu->isar.id_aa64smfr0 = 0;
+> +            return;
+> +        }
+> +
+> +        /* TODO: KVM will require limitations via SMCR_EL2. */
+> +        vq_map = vq_supported & ~vq_init;
+
+Do we currently forbid setting these properties entirely for KVM
+(or just not provide them) ?
+
+> +static void aarch64_add_sme_properties(Object *obj)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +    uint32_t vq;
+> +
+> +    object_property_add_bool(obj, "sme", cpu_arm_get_sme, cpu_arm_set_sme);
+> +    object_property_add_bool(obj, "sme_fa64", cpu_arm_get_sme_fa64,
+> +                             cpu_arm_set_sme_fa64);
+> +
+> +    for (vq = 1; vq <= ARM_MAX_VQ; vq <<= 1) {
+> +        char name[8];
+> +        sprintf(name, "sme%d", vq * 128);
+> +        object_property_add(obj, name, "bool", cpu_arm_get_vq,
+> +                            cpu_arm_set_vq, NULL, &cpu->sme_vq);
+> +    }
+> +
+> +#ifdef CONFIG_USER_ONLY
+> +    /* Mirror linux /proc/sys/abi/sme_default_vector_length. */
+> +    object_property_add(obj, "sme-default-vector-length", "int32",
+> +                        cpu_arm_get_default_vec_len,
+> +                        cpu_arm_set_default_vec_len, NULL,
+> +                        &cpu->sme_default_vq);
+> +#endif
+> +}
+
+These new properties should be documented in
+docs/system/arm/cpu-features.rst, similar to the SVE ones.
+
+thanks
+-- PMM
 
