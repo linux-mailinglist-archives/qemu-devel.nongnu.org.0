@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1435401D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 16:55:59 +0200 (CEST)
-Received: from localhost ([::1]:57552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B15E54022A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 17:12:24 +0200 (CEST)
+Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyacg-0006He-Ja
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 10:55:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59128)
+	id 1nyasY-0006jU-Ng
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 11:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyaZZ-0004MK-Ix
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 10:52:45 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:36374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyaZT-0008Ip-SM
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 10:52:45 -0400
-Received: by mail-pg1-x530.google.com with SMTP id y187so16097893pgd.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 07:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=9lew3Vab93rATq9CB9iMw4gJdt0bjCsmFQH31nXWRRI=;
- b=mNC9Es6hEOll3dLCiA28pYnkXWK3EuYMXsB83X6QJ7UWTAuPSacBp0lXVuva7oaveg
- wsrFrOzrjoyJBHT23JRodPrIoWrjNEevnN+rsaUdSwBP6pSFO2s9D/N1s+Ee2UComdXj
- K0WvrnX4Zlt6x20h10j+X6Xi796Fi1xv7RgKf8Dy+rZg02gCQKkoLgAZ6LXTH1Bt5xPL
- nT6D+P42tcaxoZy6ogOdvxsjwvnfobjNyRAX2Gcq7BVyDootgb5Y9RvYlq+TOmLBTYbv
- Hm+xv4ISUgr7s+tKcLi3J1Nk+96n+jIjBX1ZlUoOd1uakPuVzVFQ2gjEQUGJGEqozvsN
- yUxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9lew3Vab93rATq9CB9iMw4gJdt0bjCsmFQH31nXWRRI=;
- b=ObDAeo+Q5YLZhUrRMjolQmX8oH7u5x45B04YM2me0Xld4foh3whtpgbaUmubW42WTd
- /m9t5f1YF/Gbtqgtg6iFGnJ65adXnCwoXcMOtdYWuhFQi77XHFnCWa4az0KFocPA0BDc
- EvnCNs4YrrdM3RC1slFQDtm/dtorHeCkGlcptUWinnz/uop6Tm6uYhNZFVLWrnZVFRPd
- X1e8ZubxonHi7M0Pn/bG6TrNLINBYGTNRzQsGHokocq3qZF2ZXbgOJZRXIkzy6tdpwf4
- fb+JdEDmzouxopzRtbZSMEvtYlIfnOW99O1fW0K02qT6e2gPs7Km36OweZ8SCSv+NYVx
- 6LNg==
-X-Gm-Message-State: AOAM533XqfSneCDW/fFISReRMrlkHc2QKZ4AjMdTgmBUPFnrrwrtvf45
- mEdCOJjT1ddvDR5+6+PzSvIK7g==
-X-Google-Smtp-Source: ABdhPJwyQ47M413CL25sZYys+6lLhlH6dJTKC35/v2EWhDprjmoGcVQnHUbSQujGreaO2aTHJ/te/w==
-X-Received: by 2002:a63:594c:0:b0:3fd:9b8b:863d with SMTP id
- j12-20020a63594c000000b003fd9b8b863dmr12058114pgm.250.1654613558357; 
- Tue, 07 Jun 2022 07:52:38 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
- ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
- by smtp.gmail.com with ESMTPSA id
- a6-20020a170902710600b00163a6e1416dsm12701059pll.32.2022.06.07.07.52.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 07:52:37 -0700 (PDT)
-Message-ID: <c2d17836-bc74-6c55-251b-0aabe223ac27@linaro.org>
-Date: Tue, 7 Jun 2022 07:52:35 -0700
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nyaq4-0005mF-J0; Tue, 07 Jun 2022 11:09:48 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:53376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nyaq0-0002kK-Gc; Tue, 07 Jun 2022 11:09:47 -0400
+Received: from vla3-850de775f4df.qloud-c.yandex.net
+ (vla3-850de775f4df.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c15:341d:0:640:850d:e775])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 722B92E12A3;
+ Tue,  7 Jun 2022 18:09:29 +0300 (MSK)
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by vla3-850de775f4df.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ N4nqR4Bylm-9TKSxn28; Tue, 07 Jun 2022 18:09:29 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1654614569; bh=ZB03jvDWsO/qGdHOhBWW2QgtuBuRdDHwyjuHIJkxA2o=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=guB2RLOtY9CRqhr0bmjMr1UTB1HN5t1Y81OFkIMNoMQCMgNb0M5rmb3QMB4JcrYH8
+ T26jKiblVbrgAsssJnJqh51OVSpq6w4Y43i4K1hwI+q7iH/MCw8Ug8qlOs90oov0uX
+ f1Z87MEpv+mCG0ZuKcHkLhdhBlgLjeV1WXstW2Kk=
+Authentication-Results: vla3-850de775f4df.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:b6b6::1:2c] (unknown
+ [2a02:6b8:b081:b6b6::1:2c])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ FuFl9nFiUg-9SMqipTq; Tue, 07 Jun 2022 18:09:28 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <1742ad75-c5c2-5932-5c97-e524795da675@yandex-team.ru>
+Date: Tue, 7 Jun 2022 18:09:28 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 41/71] target/arm: Add infrastructure for disas_sme
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v5 09/45] Revert "block: Let replace_child_noperm free
+ children"
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220602214853.496211-1-richard.henderson@linaro.org>
- <20220602214853.496211-42-richard.henderson@linaro.org>
- <CAFEAcA8fKsmQLqeNOJYiJ+dDTLWLnfTXiVO+wMt4OR2+ixzodw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8fKsmQLqeNOJYiJ+dDTLWLnfTXiVO+wMt4OR2+ixzodw@mail.gmail.com>
+To: Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
+ v.sementsov-og@mail.ru
+References: <20220330212902.590099-1-vsementsov@openvz.org>
+ <20220330212902.590099-10-vsementsov@openvz.org>
+ <eed85de7-a6d1-b6c0-14d7-e1eb236517a2@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <eed85de7-a6d1-b6c0-14d7-e1eb236517a2@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,45 +86,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/22 03:03, Peter Maydell wrote:
-> On Thu, 2 Jun 2022 at 23:41, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+On 6/7/22 17:03, Hanna Reitz wrote:
+> On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
+>> We are going to reimplement this behavior (clear bs->file / bs->backing
+>> pointers automatically when child->bs is cleared) in a nicer way.
 >>
->> This includes the build rules for the decoder, and the
->> new file for translation, but excludes any instructions.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> This reverts commit b0a9f6fed3d80de610dcd04a7e66f9f30a04174f.
 > 
->> @@ -14814,7 +14814,12 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
->>       }
->>
->>       switch (extract32(insn, 25, 4)) {
->> -    case 0x0: case 0x1: case 0x3: /* UNALLOCATED */
->> +    case 0x0:
->> +        if (!disas_sme(s, insn)) {
->> +            unallocated_encoding(s);
->> +        }
->> +        break;
->> +    case 0x1: case 0x3: /* UNALLOCATED */
->>           unallocated_encoding(s);
->>           break;
->>       case 0x2:
+> This doesn’t really explain why it’s fine to revert this commit here. As far as I understand, the bug that was fixed in that commit will resurface when it is reverted without the proposed reimplementation, so technically, we cannot revert before reimplementing.
 > 
-> This is grabbing slightly more of the encoding space than it should
-> according to the Arm ARM Table C4-1 "Main encoding table": SME
-> encodings require bit 31 == 1 (unlike SVE where bit 31 is not decoded
-> at this level).
+> As far as I can guess, it’d be unwieldy to do the reimplementation while these existing changes are in the way, and it’d be one bomb of a patch to squash these five patches (9 to 14) into one, and that’s why you’ve chosen to do it this way around.
 
-Yeah, well, full and proper decode is done in the generated decoder.
-I don't feel the need to distinguish that bit here.
-
-r~
+Yes, that's the reason
 
 > 
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> thanks
-> -- PMM
+> But technically, we can’t willingly break something just to keep patches nicer.  We can make exceptions, but then there needs to be justification here in the commit message.
 
+Agree, will add.
+
+As far as I remember (and after re-reading commit message) b0a9f6fed3d80de610dc was not a direct fix of some concrete bug. It was a measure to prevent theoretic problems. And we don't have any test for it. So I think, breaking bisect at this point for some future test is not too bad.
+
+> 
+> (Or perhaps I’m wrong and it is fine at this point to revert the patch, but then I’d like to see the explanation for that, too, because I can’t see it myself.)
+> 
+> Hanna
+> 
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
