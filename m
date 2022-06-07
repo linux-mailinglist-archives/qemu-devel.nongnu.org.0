@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53431541F11
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 00:43:03 +0200 (CEST)
-Received: from localhost ([::1]:56900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8069E541F2F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 00:46:13 +0200 (CEST)
+Received: from localhost ([::1]:36392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyhug-0005jL-Dx
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 18:43:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40188)
+	id 1nyhxh-0002WW-1u
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 18:46:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyg9A-0005wq-5r
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:49:52 -0400
-Received: from mail-vk1-xa2b.google.com ([2607:f8b0:4864:20::a2b]:41520)
+ id 1nyg95-0005hI-U5
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:49:47 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:38714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyg98-0001rE-8Q
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:49:51 -0400
-Received: by mail-vk1-xa2b.google.com with SMTP id q186so8116786vkh.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:49:49 -0700 (PDT)
+ id 1nyg90-0001ou-5o
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:49:45 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 123so6623311pgb.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=j01lT8Q4E68jFuT4Pz7GQEcDH7i1+c/TQbDUhFVhsPY=;
- b=bVnBSiYKKn0qVclhEAwUrTuszyxAR3S1oqdm027yjHJW7eqRcCguQNYeScigg8Q8i9
- jLJR8opD43WeyLVnHiRsYRXLxVpJqaIiZ7knRv5Vsea+m82HenGKXUKHpZuCoU1KYWRH
- 0u2CbDPGFQi9beOhFNdNCzNLMk5qD8qmpje1XUhMvnH+gKuvUYYr+LehQNsr+1PVGbWJ
- Tlrs5cUSuSWqPMGoJXD5M8taObWWXEJOp/XWX5oh+DDfOOI55ZaXV5CHfQzNm8t0cfNU
- higFcECfZiqD3PxKk0aegoKN2rlml6exIgjEG5tuWJhWwDRfuk0Y+85S+qJca1e13heo
- ZILw==
+ bh=U2oK2ipOEqoaAfOulrRTtOQB2zK3TVTPXCClS/WGFgs=;
+ b=F0BOKFecdt+2QKnW2z307Udrhov0h9WFL3JJonmPhgnMa4lhU8tFTKBmUr2t2b0UIp
+ ePi4F2pFvomjCLLkYd91SS9zaQUI3+GgLIUqYuNbofcmkldbKKhcvQ22fPRChOGtiMWd
+ usZM+OKDhLMQ2S3d3wEu7B/6Rp7mvsW8sTSd/TY8JtkOp8tjZWrvgvsXC10jPS4hFlj9
+ Y+xxoaa53bHEGaFqFXUDx4RJNt8qO98N4Alpy9dXllHb341f4Z2zKQHd/EsCQ62D2gK2
+ Ysui85VtVnMi0oE8E/nTJe52NZUOQ3OqW3lsqhoseGwlVTmsUq8+2YZkB8p2kRYEqgzP
+ Pw7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=j01lT8Q4E68jFuT4Pz7GQEcDH7i1+c/TQbDUhFVhsPY=;
- b=Fpu0fsQGKv45UybFLSZuWPJXMZuxk7W+Emd+wgv/4he3Zw26xGXeXzR5QQPEZLBiX/
- QDgfeNPRBTVuOhcDbPmDvE2MwYquqpsh5pquE0regDFajZhuHi9qjk/8fSDk3P8dGRmY
- oorSDWgJxWq7DX1O9AOSs6EsTK9k7Q6tRfBDboII/U7cT7wPS9gL+zZfscmcdn/5Q5pZ
- 8GRd13MD6NhJVOswT2Px/ZcDBcGDVMUvSRAGcfct1wvAyqfk1Ytzz46j+dVw4N2vp8j7
- Y+URnB61KiMJRqpqBk1G1EB+zhhrN03YVfjOkVNYHJkqg9lkDTG5SWlbyFAu7GkrSPEN
- j8RA==
-X-Gm-Message-State: AOAM532NMR7gUphZk5u/lERusAfqmon1YJwlq8gqxEmiK2/VObI2YG8m
- pFpNG1SSyEZwXoYfLDwTrJ+YhFMM6T5pug==
-X-Google-Smtp-Source: ABdhPJz0pudj5pGTlSJJB4+3rDC45hxVncXiTYZ10ucgrXw7Yfq89yN5Oq98zw/SV8KW3bQgItQoPg==
-X-Received: by 2002:a17:902:c941:b0:164:14cb:ce5f with SMTP id
- i1-20020a170902c94100b0016414cbce5fmr30097651pla.127.1654634978870; 
- Tue, 07 Jun 2022 13:49:38 -0700 (PDT)
+ bh=U2oK2ipOEqoaAfOulrRTtOQB2zK3TVTPXCClS/WGFgs=;
+ b=UTCYwMpCLuGxRqE0XslEcWXj6bIKLx3rGpu47O1IUFgTpvgm4MSQDHjyK5M94g5mSd
+ ZYyEvnfN7FJXY+1JyNmOQZTAk3vG+zxYkkeMr394qpR2J2+RCbtnkfWk2AnYLi/lpPSQ
+ BDKxqdBCYot5BXD7vqFeRhHXILt0f0XB98VD23XNpMoijvoIcTSVZRwoCMPqmsdCW73t
+ jJeGeSovGbpU8kstrqDTvKN23rIxMwxVWVcA6ra/OFNgv9d8VqLRsrua4jpnvMnu/yFC
+ /5K8VGIhFw+d5tYNVHqBbyrsbSrMCjKbie2bTdqEz9twvFUbBRTvTs1hy/w7pQqeF8he
+ EUBg==
+X-Gm-Message-State: AOAM532RnEF7NV/w5uv/6fjVtn6lKURRwnHxxwltT1/Y3FGRzl/peTdP
+ ECZ4YGqrsA0cICGr6q5jtEJWR8tooHKTlg==
+X-Google-Smtp-Source: ABdhPJx1N1ZeCf2pSpG9hDVm83wCJH1zcyXyzHiJ0vymAEYum/DhS2anQNbuMPhWQ06i/3FIJsI+/g==
+X-Received: by 2002:a62:e116:0:b0:51b:c452:47e6 with SMTP id
+ q22-20020a62e116000000b0051bc45247e6mr30680011pfh.25.1654634979605; 
+ Tue, 07 Jun 2022 13:49:39 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
  128-20020a620686000000b00518b4cfbbe0sm13152327pfg.203.2022.06.07.13.49.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:49:38 -0700 (PDT)
+ Tue, 07 Jun 2022 13:49:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 44/53] semihosting: Cleanup chardev init
-Date: Tue,  7 Jun 2022 13:45:48 -0700
-Message-Id: <20220607204557.658541-45-richard.henderson@linaro.org>
+Subject: [PATCH v4 45/53] semihosting: Create qemu_semihosting_console_write
+Date: Tue,  7 Jun 2022 13:45:49 -0700
+Message-Id: <20220607204557.658541-46-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220607204557.658541-1-richard.henderson@linaro.org>
 References: <20220607204557.658541-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-vk1-xa2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,194 +88,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename qemu_semihosting_connect_chardevs to
-qemu_semihosting_chardev_init; pass the result
-directly to qemu_semihosting_console_init.
-
-Store the chardev in SemihostingConsole instead
-of SemihostingConfig, which lets us drop
-semihosting_get_chardev.
+Will replace qemu_semihosting_console_{outs,outc},
+but we need more plumbing first.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/semihost.h | 13 ++-----------
- semihosting/config.c           | 17 +++++++----------
- semihosting/console.c          | 31 +++++++++++++++----------------
- softmmu/vl.c                   |  3 +--
- stubs/semihost.c               |  6 +-----
- 5 files changed, 26 insertions(+), 44 deletions(-)
+ include/semihosting/console.h | 12 ++++++++++++
+ linux-user/semihost.c         |  5 +++++
+ semihosting/console.c         |  9 +++++++++
+ 3 files changed, 26 insertions(+)
 
-diff --git a/include/semihosting/semihost.h b/include/semihosting/semihost.h
-index 0c55ade3ac..5b36a76f08 100644
---- a/include/semihosting/semihost.h
-+++ b/include/semihosting/semihost.h
-@@ -51,14 +51,6 @@ static inline const char *semihosting_get_cmdline(void)
- {
-     return NULL;
- }
--
--static inline Chardev *semihosting_get_chardev(void)
--{
--    return NULL;
--}
--static inline void qemu_semihosting_console_init(void)
--{
--}
- #else /* !CONFIG_USER_ONLY */
- bool semihosting_enabled(void);
- SemihostingTarget semihosting_get_target(void);
-@@ -66,12 +58,11 @@ const char *semihosting_get_arg(int i);
- int semihosting_get_argc(void);
- const char *semihosting_get_cmdline(void);
- void semihosting_arg_fallback(const char *file, const char *cmd);
--Chardev *semihosting_get_chardev(void);
- /* for vl.c hooks */
- void qemu_semihosting_enable(void);
- int qemu_semihosting_config_options(const char *opt);
--void qemu_semihosting_connect_chardevs(void);
--void qemu_semihosting_console_init(void);
-+void qemu_semihosting_chardev_init(void);
-+void qemu_semihosting_console_init(Chardev *);
- #endif /* CONFIG_USER_ONLY */
+diff --git a/include/semihosting/console.h b/include/semihosting/console.h
+index 39dbf1b062..6994f23c82 100644
+--- a/include/semihosting/console.h
++++ b/include/semihosting/console.h
+@@ -54,6 +54,18 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
+  */
+ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len);
  
- #endif /* SEMIHOST_H */
-diff --git a/semihosting/config.c b/semihosting/config.c
-index 50d82108e6..4bca769fad 100644
---- a/semihosting/config.c
-+++ b/semihosting/config.c
-@@ -50,7 +50,6 @@ QemuOptsList qemu_semihosting_config_opts = {
- typedef struct SemihostingConfig {
-     bool enabled;
-     SemihostingTarget target;
--    Chardev *chardev;
-     char **argv;
-     int argc;
-     const char *cmdline; /* concatenated argv */
-@@ -121,11 +120,6 @@ void semihosting_arg_fallback(const char *file, const char *cmd)
-     }
- }
- 
--Chardev *semihosting_get_chardev(void)
--{
--    return semihosting.chardev;
--}
--
- void qemu_semihosting_enable(void)
- {
-     semihosting.enabled = true;
-@@ -171,16 +165,19 @@ int qemu_semihosting_config_options(const char *optarg)
-     return 0;
- }
- 
--void qemu_semihosting_connect_chardevs(void)
-+/* We had to defer this until chardevs were created */
-+void qemu_semihosting_chardev_init(void)
- {
--    /* We had to defer this until chardevs were created */
-+    Chardev *chr = NULL;
++/**
++ * qemu_semihosting_console_write:
++ * @buf: host buffer
++ * @len: buffer size
++ *
++ * Write len bytes from buf to the debug console.
++ *
++ * Returns: number of bytes written -- this should only ever be short
++ * on some sort of i/o error.
++ */
++int qemu_semihosting_console_write(void *buf, int len);
 +
-     if (semihost_chardev) {
--        Chardev *chr = qemu_chr_find(semihost_chardev);
-+        chr = qemu_chr_find(semihost_chardev);
-         if (chr == NULL) {
-             error_report("semihosting chardev '%s' not found",
-                          semihost_chardev);
-             exit(1);
-         }
--        semihosting.chardev = chr;
-     }
-+
-+    qemu_semihosting_console_init(chr);
+ /**
+  * qemu_semihosting_log_out:
+  * @s: pointer to string
+diff --git a/linux-user/semihost.c b/linux-user/semihost.c
+index 2029fb674c..871edf993a 100644
+--- a/linux-user/semihost.c
++++ b/linux-user/semihost.c
+@@ -76,3 +76,8 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
+ 
+     return ret;
  }
++
++int qemu_semihosting_console_write(void *buf, int len)
++{
++    return fwrite(buf, 1, len, stderr);
++}
 diff --git a/semihosting/console.c b/semihosting/console.c
-index df618a28a4..4088192842 100644
+index 4088192842..b6a342744d 100644
 --- a/semihosting/console.c
 +++ b/semihosting/console.c
-@@ -27,11 +27,21 @@
- #include "qapi/error.h"
- #include "qemu/fifo8.h"
- 
-+/* Access to this structure is protected by the BQL */
-+typedef struct SemihostingConsole {
-+    CharBackend         backend;
-+    Chardev             *chr;
-+    GSList              *sleeping_cpus;
-+    bool                got;
-+    Fifo8               fifo;
-+} SemihostingConsole;
-+
-+static SemihostingConsole console;
-+
- int qemu_semihosting_log_out(const char *s, int len)
- {
--    Chardev *chardev = semihosting_get_chardev();
--    if (chardev) {
--        return qemu_chr_write_all(chardev, (uint8_t *) s, len);
-+    if (console.chr) {
-+        return qemu_chr_write_all(console.chr, (uint8_t *) s, len);
-     } else {
-         return write(STDERR_FILENO, s, len);
-     }
-@@ -106,16 +116,6 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
- 
- #define FIFO_SIZE   1024
- 
--/* Access to this structure is protected by the BQL */
--typedef struct SemihostingConsole {
--    CharBackend         backend;
--    GSList              *sleeping_cpus;
--    bool                got;
--    Fifo8               fifo;
--} SemihostingConsole;
--
--static SemihostingConsole console;
--
- static int console_can_read(void *opaque)
- {
-     SemihostingConsole *c = opaque;
-@@ -169,10 +169,9 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
+@@ -169,6 +169,15 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
      return ret;
  }
  
--void qemu_semihosting_console_init(void)
-+void qemu_semihosting_console_init(Chardev *chr)
++int qemu_semihosting_console_write(void *buf, int len)
++{
++    if (console.chr) {
++        return qemu_chr_write_all(console.chr, (uint8_t *)buf, len);
++    } else {
++        return fwrite(buf, 1, len, stderr);
++    }
++}
++
+ void qemu_semihosting_console_init(Chardev *chr)
  {
--    Chardev *chr = semihosting_get_chardev();
--
-+    console.chr = chr;
-     if  (chr) {
-         fifo8_create(&console.fifo, FIFO_SIZE);
-         qemu_chr_fe_init(&console.backend, chr, &error_abort);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 4c1e94b00e..83e2af4eab 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1944,8 +1944,7 @@ static void qemu_create_late_backends(void)
-         exit(1);
- 
-     /* now chardevs have been created we may have semihosting to connect */
--    qemu_semihosting_connect_chardevs();
--    qemu_semihosting_console_init();
-+    qemu_semihosting_chardev_init();
- }
- 
- static void cxl_set_opts(void)
-diff --git a/stubs/semihost.c b/stubs/semihost.c
-index 4bf2cf71b9..f486651afb 100644
---- a/stubs/semihost.c
-+++ b/stubs/semihost.c
-@@ -65,10 +65,6 @@ void semihosting_arg_fallback(const char *file, const char *cmd)
- {
- }
- 
--void qemu_semihosting_connect_chardevs(void)
--{
--}
--
--void qemu_semihosting_console_init(void)
-+void qemu_semihosting_chardev_init(void)
- {
- }
+     console.chr = chr;
 -- 
 2.34.1
 
