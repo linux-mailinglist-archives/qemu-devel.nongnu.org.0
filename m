@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544015401CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 16:52:29 +0200 (CEST)
-Received: from localhost ([::1]:52396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1435401D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 16:55:59 +0200 (CEST)
+Received: from localhost ([::1]:57552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyaZH-0002L0-Kj
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 10:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58108)
+	id 1nyacg-0006He-Ja
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 10:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyaWG-0000H0-AJ
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 10:49:20 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:36389)
+ id 1nyaZZ-0004MK-Ix
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 10:52:45 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:36374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyaWE-0007Dw-Pg
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 10:49:20 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- u12-20020a17090a1d4c00b001df78c7c209so21061663pju.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 07:49:18 -0700 (PDT)
+ id 1nyaZT-0008Ip-SM
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 10:52:45 -0400
+Received: by mail-pg1-x530.google.com with SMTP id y187so16097893pgd.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 07:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jQRGzO8DdCIYlCZO3zF52ovUfz2vFJg0xZIRdvotHNE=;
- b=yT7h2nmgTkI/2KdaScN2QDA+dvXh4TMEjeyo5B2nuFEUIDESdCZkfNEDE3n32LxwdK
- 9huGnN+SWXCNhCtDYqVkJZvzvsKtfJJMDghJv/O7pXlshVKFwZ7oY9yU6oVwmAErVq7m
- Zp0o0+Q9ez/xT/8yqUQKVaNuaBewUsXIF5nK8o+zvDo91Ug+peDSH/6ulblRM5Gj+S8L
- Tn5sBoNpbl84DJolEc7z/+ujcjeciElD2NVifG6raJacTNWonp6PSN5JQI/OwyQkBOC3
- P4FS8FstlAx3TIm52Ngzf+8rdrJi/gCHhJoRon1g6HxprBrBdCI/6NTyDASdE9RFlh0x
- 84fA==
+ bh=9lew3Vab93rATq9CB9iMw4gJdt0bjCsmFQH31nXWRRI=;
+ b=mNC9Es6hEOll3dLCiA28pYnkXWK3EuYMXsB83X6QJ7UWTAuPSacBp0lXVuva7oaveg
+ wsrFrOzrjoyJBHT23JRodPrIoWrjNEevnN+rsaUdSwBP6pSFO2s9D/N1s+Ee2UComdXj
+ K0WvrnX4Zlt6x20h10j+X6Xi796Fi1xv7RgKf8Dy+rZg02gCQKkoLgAZ6LXTH1Bt5xPL
+ nT6D+P42tcaxoZy6ogOdvxsjwvnfobjNyRAX2Gcq7BVyDootgb5Y9RvYlq+TOmLBTYbv
+ Hm+xv4ISUgr7s+tKcLi3J1Nk+96n+jIjBX1ZlUoOd1uakPuVzVFQ2gjEQUGJGEqozvsN
+ yUxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jQRGzO8DdCIYlCZO3zF52ovUfz2vFJg0xZIRdvotHNE=;
- b=A/D5wiBuobnMFhSn3Bm+u+K2Yx3xxRtRHN2fB9t0JUUrjb+/S+1kndmhy3/2N1mnQt
- mVESZx/HYfJSdMMLr9QpCSN9LvwTBSDK2Z5xsQnZ6z2ld+WiofgYU8InTs1/vwlWbJZ6
- 2/lr0Q4xZSTdbRNyCteW6ParlqdsZ9NIHgQbMBTKLq0lc7AV+1dSetmaBFrgiBVqtRdD
- YTLyNN9ROl1nkgl6E61VBmpsoyM/b/7HGZKmZbfmp6RinqhzVPxZZm6w/f+7buKvEhat
- HA+lWwHQfDpV54cnl4klX5ZeVFwyikKC8OtfKKF24ePqN4naKR3pu7zuMbwcwRVq+o1b
- /nJg==
-X-Gm-Message-State: AOAM5306Qd37KPsDWZhRpl9B9Kc0MYJNozk6Mj7eLlfmfRCFL4PnDz66
- pGA1wUIj5UVi+eMBnZx1kK3Szg==
-X-Google-Smtp-Source: ABdhPJxd5Gdsm+iV236omBQZ6X+io8CPmC8tmBNvwfjyZRYllXW1suLQU20owf8T0z20hAjEE0p7dw==
-X-Received: by 2002:a17:90b:4390:b0:1e3:3caa:8f78 with SMTP id
- in16-20020a17090b439000b001e33caa8f78mr42326323pjb.213.1654613357163; 
- Tue, 07 Jun 2022 07:49:17 -0700 (PDT)
+ bh=9lew3Vab93rATq9CB9iMw4gJdt0bjCsmFQH31nXWRRI=;
+ b=ObDAeo+Q5YLZhUrRMjolQmX8oH7u5x45B04YM2me0Xld4foh3whtpgbaUmubW42WTd
+ /m9t5f1YF/Gbtqgtg6iFGnJ65adXnCwoXcMOtdYWuhFQi77XHFnCWa4az0KFocPA0BDc
+ EvnCNs4YrrdM3RC1slFQDtm/dtorHeCkGlcptUWinnz/uop6Tm6uYhNZFVLWrnZVFRPd
+ X1e8ZubxonHi7M0Pn/bG6TrNLINBYGTNRzQsGHokocq3qZF2ZXbgOJZRXIkzy6tdpwf4
+ fb+JdEDmzouxopzRtbZSMEvtYlIfnOW99O1fW0K02qT6e2gPs7Km36OweZ8SCSv+NYVx
+ 6LNg==
+X-Gm-Message-State: AOAM533XqfSneCDW/fFISReRMrlkHc2QKZ4AjMdTgmBUPFnrrwrtvf45
+ mEdCOJjT1ddvDR5+6+PzSvIK7g==
+X-Google-Smtp-Source: ABdhPJwyQ47M413CL25sZYys+6lLhlH6dJTKC35/v2EWhDprjmoGcVQnHUbSQujGreaO2aTHJ/te/w==
+X-Received: by 2002:a63:594c:0:b0:3fd:9b8b:863d with SMTP id
+ j12-20020a63594c000000b003fd9b8b863dmr12058114pgm.250.1654613558357; 
+ Tue, 07 Jun 2022 07:52:38 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
  ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
- v24-20020a634658000000b003fad46ceb85sm13074005pgk.7.2022.06.07.07.49.16
+ a6-20020a170902710600b00163a6e1416dsm12701059pll.32.2022.06.07.07.52.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 07:49:16 -0700 (PDT)
-Message-ID: <d120705b-2653-5732-668f-7dd889d590c6@linaro.org>
-Date: Tue, 7 Jun 2022 07:49:14 -0700
+ Tue, 07 Jun 2022 07:52:37 -0700 (PDT)
+Message-ID: <c2d17836-bc74-6c55-251b-0aabe223ac27@linaro.org>
+Date: Tue, 7 Jun 2022 07:52:35 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 39/71] target/arm: Add SVL to TB flags
+Subject: Re: [PATCH 41/71] target/arm: Add infrastructure for disas_sme
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 References: <20220602214853.496211-1-richard.henderson@linaro.org>
- <20220602214853.496211-40-richard.henderson@linaro.org>
- <CAFEAcA-UeGqXp4wUSoR73pCUBm9_WEB_MeAKsdXQOvnK+ajWVg@mail.gmail.com>
+ <20220602214853.496211-42-richard.henderson@linaro.org>
+ <CAFEAcA8fKsmQLqeNOJYiJ+dDTLWLnfTXiVO+wMt4OR2+ixzodw@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-UeGqXp4wUSoR73pCUBm9_WEB_MeAKsdXQOvnK+ajWVg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8fKsmQLqeNOJYiJ+dDTLWLnfTXiVO+wMt4OR2+ixzodw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,26 +95,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/22 02:58, Peter Maydell wrote:
->> @@ -3292,6 +3292,7 @@ FIELD(TBFLAG_A64, MTE0_ACTIVE, 19, 1)
->>   FIELD(TBFLAG_A64, SMEEXC_EL, 20, 2)
->>   FIELD(TBFLAG_A64, PSTATE_SM, 22, 1)
->>   FIELD(TBFLAG_A64, PSTATE_ZA, 23, 1)
->> +FIELD(TBFLAG_A64, SVL, 24, 4)
+On 6/7/22 03:03, Peter Maydell wrote:
+> On Thu, 2 Jun 2022 at 23:41, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> This includes the build rules for the decoder, and the
+>> new file for translation, but excludes any instructions.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > 
-> Given that both SVE and SME start with an 'S', maybe
-> "SME_VL" would be less prone to confusion? On the other hand,
-> SVL is the architectural name, so maybe that's best.
-
-Yeah, my first version used SME_LEN, but in the end I thought using the architectural name 
-was best.  Just above, there's commentary using the other architectural names "VL" and "NVL".
-
->> +static inline int sme_vq_cached(CPUARMState *env)
+>> @@ -14814,7 +14814,12 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>>       }
+>>
+>>       switch (extract32(insn, 25, 4)) {
+>> -    case 0x0: case 0x1: case 0x3: /* UNALLOCATED */
+>> +    case 0x0:
+>> +        if (!disas_sme(s, insn)) {
+>> +            unallocated_encoding(s);
+>> +        }
+>> +        break;
+>> +    case 0x1: case 0x3: /* UNALLOCATED */
+>>           unallocated_encoding(s);
+>>           break;
+>>       case 0x2:
 > 
-> Same remark as earlier about not needing to put "cached" in the function name.
+> This is grabbing slightly more of the encoding space than it should
+> according to the Arm ARM Table C4-1 "Main encoding table": SME
+> encodings require bit 31 == 1 (unlike SVE where bit 31 is not decoded
+> at this level).
 
-Already fixed.  :-)
-
+Yeah, well, full and proper decode is done in the generated decoder.
+I don't feel the need to distinguish that bit here.
 
 r~
+
+> 
+> Otherwise
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> thanks
+> -- PMM
+
 
