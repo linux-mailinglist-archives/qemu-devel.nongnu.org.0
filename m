@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDF35414EF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 22:24:33 +0200 (CEST)
-Received: from localhost ([::1]:60816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10A654152C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 22:35:03 +0200 (CEST)
+Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyfkf-00021n-0Y
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 16:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
+	id 1nyfuo-0001na-SV
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 16:35:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nyfbG-0006RO-Km
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:14:50 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:36761)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyft1-00078Q-Ny
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:11 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:34720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nyfb5-0004Nq-NM
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:14:49 -0400
-Received: by mail-io1-xd32.google.com with SMTP id s26so6819165ioa.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/5GRLhuryvhFCNL7Z2U0IxtJCZm43srKeThQEapvKBc=;
- b=do4D4MJmsE6smWqbstnNw9gRaM0xV1/0pkXMyQKgl9qbA99krXLeQcCI+iCj4DnzIj
- ljuvNbE1/RKySseGCphMNXgHAawYaVNGRbXchh64/+TOwjkHh6Yv7FXk9/0ZZkTz3sAo
- yyipHxzSb4+73MmJMRaqFdLgCzljEJJc14l/acyxyxu5HeHEX7UBja+qQ5M77hZlFHTM
- jSX0/uNY+0Jm56JzKNj44HhvcsCAm3XEQnKgHoqPV3eQ4Q+DVqfM/UgfVJBntWHKSHMz
- 6+PspOgDA7DAyLEXy4NRDsom8+xZAohAVTOS+T15IWxEkUDkZUNxWgOxtizWPfUJvFn4
- 81RQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyfsz-0007BX-Lk
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:11 -0400
+Received: by mail-pf1-x433.google.com with SMTP id c196so16521128pfb.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:33:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ed9JFTEYd7SsdzZGCE/RmvNlZJcvRGpiz4cIrZPdhw0=;
+ b=hkzGjbASxIT0IT5Hoj7la51uCMyheqffS6F1V3p0Zn6TOF1eyNeKlsqxO6LaSZ0AVU
+ Zm5d/wKkD9PMGs1AWKLN2hyHt+sqmIs6K1j5e3cZQ4eZwnXJryL/2C5zkXhtVt+AewWd
+ HkjeaC5pXFrS+A/nkJIsAHDCWhcDgKIwNX67R3aDhW1ZJ6btAtFtDSm7Zy3i80Mnn/MV
+ D2A1YkKo3pqQC6zx5CdC8EpOWdHsXkPm5OCjpWkwrtDogtGsZGMmeQ0jkojkVReZBvqk
+ YZF4NU9RmRffL+5flHpsHujSgF0i3qBi8Yebx1X2Alr0+YqNEB0BHcBd9ddazjvou+5F
+ MzRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/5GRLhuryvhFCNL7Z2U0IxtJCZm43srKeThQEapvKBc=;
- b=4b0lUukgBEmX/8JzY78mbYmksn1Gbs43r78baHGCIiodyzBSkNHno+sgtv+gAltoZp
- H1FGupRvXZt3fUksowadoGIvLu07B90QF7BsPtyLSjUdnbqDbPJXI9252P0DVM60LwvY
- IU+LRZsEhQHuI8VkWsfFWPfIskuFc2oanfHtby7UbP+7TlHJ5XPKOEZCJ9+8ZiF7UCg/
- O541dABQdLiSC3cJkgv4CRoFANtXAqpwYRIoz69DenyD9gpwB1IYzroYldzsAfYZDGGG
- hEcFoMKJv9fJv9tU4ovkrqyp0t7xoyg6P4y8/BQUzcfLet+Tu4xFC/VPc5z/9fZgee+K
- bgfA==
-X-Gm-Message-State: AOAM532/sLo7yMIZm6nX/sZJ/pkZjRTFx5+lVV/NHo3S0B1FdkRvxzfF
- +/aiNbjl9o6QiRAIj/tJEYWSp111DRnFXg==
-X-Google-Smtp-Source: ABdhPJw5F62FLv8VA0HO0JVzElui1peHZUyOEP3XEQ03wviW4wNkelc2iB5LmolzYYUljgn4o23x9g==
-X-Received: by 2002:a02:2124:0:b0:32d:beca:e5ab with SMTP id
- e36-20020a022124000000b0032dbecae5abmr16793683jaa.119.1654632878351; 
- Tue, 07 Jun 2022 13:14:38 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- cp5-20020a056638480500b0032ea3ba170dsm7053024jab.86.2022.06.07.13.14.37
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ed9JFTEYd7SsdzZGCE/RmvNlZJcvRGpiz4cIrZPdhw0=;
+ b=VfuVT4hdZut5coP7DMw0/hhZAcqu3kqiylBo8rHSJV5UFw2K5t4gTEBoZxjRUQdXIg
+ yqDXKamaUShsBbVhGlS4oNcGnMLuECmPlrP44OmDlyJ637vSWbQcq6tJTqGucKSDHot4
+ fovW8763sBEDXKrjfAr8lMlzagAsGXk1TNmswTXeifyXI/qK4RFhPpsDgQ1GGq8rR+nb
+ +do5dAoGUeRcKbt4HQGoOzdLRVLpVA6HhgpkiTBFRtO6QcANQzHTkujmGlI6TCno99fW
+ g6zr64tZIkNP1vu5gTSHkw2WcfZBEGi+vBdcQn3cHTMftYUQhedNt+/G16KcyHgrNia/
+ IChw==
+X-Gm-Message-State: AOAM532EYMzWMiIUI0khh3bFcwRHpcwzzE+MUbHbJrXi8K10ikmyFI58
+ ieFQKoj/2MO4zPWsTJf5XdXTi2/6UIfxwA==
+X-Google-Smtp-Source: ABdhPJy/lE5NRK2InAoEaQvMAialPV0RfGGZCtQ2xHhC9Maych9aFp6iNjOWWXdkvyqKKaCA6MK80A==
+X-Received: by 2002:a63:84c3:0:b0:3fc:8810:f0a7 with SMTP id
+ k186-20020a6384c3000000b003fc8810f0a7mr27773068pgd.605.1654633988049; 
+ Tue, 07 Jun 2022 13:33:08 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
+ by smtp.gmail.com with ESMTPSA id
+ s22-20020a17090aba1600b001d9780b7779sm4227856pjr.15.2022.06.07.13.33.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:14:37 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
+ Tue, 07 Jun 2022 13:33:07 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: arrowd@freebsd.org, def@freebsd.org, jrtc27@FreeBSD.org,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- Stacey Son <sson@FreeBSD.org>, Kyle Evans <kevans@FreeBSD.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 6/6] bsd-user/freebsd/os-syscall.c: Implement exit
-Date: Tue,  7 Jun 2022 14:14:40 -0600
-Message-Id: <20220607201440.41464-7-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220607201440.41464-1-imp@bsdimp.com>
-References: <20220607201440.41464-1-imp@bsdimp.com>
+Cc: peter.maydell@linaro.org,
+	qemu-arm@nongnu.org
+Subject: [PATCH v2 00/71] target/arm: Scalable Matrix Extension
+Date: Tue,  7 Jun 2022 13:31:55 -0700
+Message-Id: <20220607203306.657998-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,94 +87,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the exit system call. Bring in bsd-proc.h to contain all the
-process system call implementation and helper routines.
+Changes for v2: 
+  * Incorporate feedback from v1.
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- bsd-user/bsd-proc.h           | 43 +++++++++++++++++++++++++++++++++++
- bsd-user/freebsd/os-syscall.c |  7 ++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 bsd-user/bsd-proc.h
+Richard Henderson (71):
+  target/arm: Rename TBFLAG_A64 ZCR_LEN to VL
+  linux-user/aarch64: Introduce sve_vq
+  target/arm: Remove route_to_el2 check from sve_exception_el
+  target/arm: Remove fp checks from sve_exception_el
+  target/arm: Add el_is_in_host
+  target/arm: Use el_is_in_host for sve_zcr_len_for_el
+  target/arm: Use el_is_in_host for sve_exception_el
+  target/arm: Hoist arm_is_el2_enabled check in sve_exception_el
+  target/arm: Do not use aarch64_sve_zcr_get_valid_len in reset
+  target/arm: Merge aarch64_sve_zcr_get_valid_len into caller
+  target/arm: Use uint32_t instead of bitmap for sve vq's
+  target/arm: Rename sve_zcr_len_for_el to sve_vqm1_for_el
+  target/arm: Split out load/store primitives to sve_ldst_internal.h
+  target/arm: Export sve contiguous ldst support functions
+  target/arm: Move expand_pred_b to vec_internal.h
+  target/arm: Use expand_pred_b in mve_helper.c
+  target/arm: Move expand_pred_h to vec_internal.h
+  target/arm: Export bfdotadd from vec_helper.c
+  target/arm: Add isar_feature_aa64_sme
+  target/arm: Add ID_AA64SMFR0_EL1
+  target/arm: Implement TPIDR2_EL0
+  target/arm: Add SMEEXC_EL to TB flags
+  target/arm: Add syn_smetrap
+  target/arm: Add ARM_CP_SME
+  target/arm: Add SVCR
+  target/arm: Add SMCR_ELx
+  target/arm: Add SMIDR_EL1, SMPRI_EL1, SMPRIMAP_EL2
+  target/arm: Add PSTATE.{SM,ZA} to TB flags
+  target/arm: Add the SME ZA storage to CPUARMState
+  target/arm: Implement SMSTART, SMSTOP
+  target/arm: Move error for sve%d property to arm_cpu_sve_finalize
+  target/arm: Create ARMVQMap
+  target/arm: Generalize cpu_arm_{get,set}_vq
+  target/arm: Generalize cpu_arm_{get,set}_default_vec_len
+  target/arm: Move arm_cpu_*_finalize to internals.h
+  target/arm: Unexport aarch64_add_*_properties
+  target/arm: Add cpu properties for SME
+  target/arm: Introduce sve_vqm1_for_el_sm
+  target/arm: Add SVL to TB flags
+  target/arm: Move pred_{full,gvec}_reg_{offset,size} to translate-a64.h
+  target/arm: Add infrastructure for disas_sme
+  target/arm: Trap AdvSIMD usage when Streaming SVE is active
+  target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
+  target/arm: Implement SME ZERO
+  target/arm: Implement SME MOVA
+  target/arm: Implement SME LD1, ST1
+  target/arm: Export unpredicated ld/st from translate-sve.c
+  target/arm: Implement SME LDR, STR
+  target/arm: Implement SME ADDHA, ADDVA
+  target/arm: Implement FMOPA, FMOPS (non-widening)
+  target/arm: Implement BFMOPA, BFMOPS
+  target/arm: Implement FMOPA, FMOPS (widening)
+  target/arm: Implement SME integer outer product
+  target/arm: Implement PSEL
+  target/arm: Implement REVD
+  target/arm: Implement SCLAMP, UCLAMP
+  target/arm: Reset streaming sve state on exception boundaries
+  target/arm: Enable SME for -cpu max
+  linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
+  linux-user/aarch64: Reset PSTATE.SM on syscalls
+  linux-user/aarch64: Add SM bit to SVE signal context
+  linux-user/aarch64: Tidy target_restore_sigframe error return
+  linux-user/aarch64: Do not allow duplicate or short sve records
+  linux-user/aarch64: Verify extra record lock succeeded
+  linux-user/aarch64: Move sve record checks into restore
+  linux-user/aarch64: Implement SME signal handling
+  linux-user: Rename sve prctls
+  linux-user/aarch64: Implement PR_SME_GET_VL, PR_SME_SET_VL
+  target/arm: Only set ZEN in reset if SVE present
+  target/arm: Enable SME for user-only
+  linux-user/aarch64: Add SME related hwcap entries
 
-diff --git a/bsd-user/bsd-proc.h b/bsd-user/bsd-proc.h
-new file mode 100644
-index 00000000000..8f0b6990d14
---- /dev/null
-+++ b/bsd-user/bsd-proc.h
-@@ -0,0 +1,43 @@
-+/*
-+ *  process related system call shims and definitions
-+ *
-+ *  Copyright (c) 2013-2014 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef BSD_PROC_H_
-+#define BSD_PROC_H_
-+
-+#include <sys/types.h>
-+#include <sys/stat.h>
-+#include <sys/time.h>
-+#include <sys/resource.h>
-+#include <unistd.h>
-+
-+/* exit(2) */
-+static inline abi_long do_bsd_exit(void *cpu_env, abi_long arg1)
-+{
-+#ifdef TARGET_GPROF
-+    _mcleanup();
-+#endif
-+    gdb_exit(arg1);
-+    qemu_plugin_user_exit();
-+    /* XXX: should free thread stack and CPU env here  */
-+    _exit(arg1);
-+
-+    return 0;
-+}
-+
-+#endif /* !BSD_PROC_H_ */
-diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index 4c7c32daa56..2daba0e623c 100644
---- a/bsd-user/freebsd/os-syscall.c
-+++ b/bsd-user/freebsd/os-syscall.c
-@@ -41,6 +41,7 @@
- #include "user/syscall-trace.h"
- 
- #include "bsd-file.h"
-+#include "bsd-proc.h"
- 
- /* I/O */
- safe_syscall3(ssize_t, read, int, fd, void *, buf, size_t, nbytes);
-@@ -226,6 +227,12 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-     abi_long ret;
- 
-     switch (num) {
-+        /*
-+         * process system calls
-+         */
-+    case TARGET_FREEBSD_NR_exit: /* exit(2) */
-+        ret = do_bsd_exit(cpu_env, arg1);
-+        break;
- 
-         /*
-          * File system calls.
+ linux-user/aarch64/target_cpu.h   |    5 +-
+ linux-user/aarch64/target_prctl.h |   76 +-
+ target/arm/cpregs.h               |    5 +
+ target/arm/cpu.h                  |  146 +++-
+ target/arm/helper-sme.h           |  146 ++++
+ target/arm/helper-sve.h           |    4 +
+ target/arm/helper.h               |   19 +
+ target/arm/internals.h            |   22 +-
+ target/arm/kvm_arm.h              |    7 +-
+ target/arm/sve_ldst_internal.h    |  221 ++++++
+ target/arm/syndrome.h             |   14 +
+ target/arm/translate-a64.h        |   55 +-
+ target/arm/translate.h            |   16 +-
+ target/arm/vec_internal.h         |   28 +-
+ linux-user/aarch64/cpu_loop.c     |    9 +
+ linux-user/aarch64/signal.c       |  242 +++++-
+ linux-user/elfload.c              |   20 +
+ linux-user/syscall.c              |   28 +-
+ target/arm/arch_dump.c            |    2 +-
+ target/arm/cpu.c                  |   39 +-
+ target/arm/cpu64.c                |  311 +++++---
+ target/arm/gdbstub64.c            |    2 +-
+ target/arm/helper.c               |  395 ++++++++--
+ target/arm/kvm64.c                |   47 +-
+ target/arm/machine.c              |   34 +
+ target/arm/mve_helper.c           |    6 +-
+ target/arm/sme_helper.c           | 1174 +++++++++++++++++++++++++++++
+ target/arm/sve_helper.c           |  260 ++-----
+ target/arm/translate-a64.c        |  147 +++-
+ target/arm/translate-sme.c        |  353 +++++++++
+ target/arm/translate-sve.c        |  283 +++++--
+ target/arm/translate-vfp.c        |   13 +
+ target/arm/translate.c            |    1 +
+ target/arm/vec_helper.c           |   52 +-
+ docs/system/arm/emulation.rst     |    4 +
+ target/arm/meson.build            |    4 +
+ target/arm/sme-fa64.decode        |   89 +++
+ target/arm/sme.decode             |   88 +++
+ target/arm/sve.decode             |   31 +-
+ 39 files changed, 3804 insertions(+), 594 deletions(-)
+ create mode 100644 target/arm/helper-sme.h
+ create mode 100644 target/arm/sve_ldst_internal.h
+ create mode 100644 target/arm/sme_helper.c
+ create mode 100644 target/arm/translate-sme.c
+ create mode 100644 target/arm/sme-fa64.decode
+ create mode 100644 target/arm/sme.decode
+
 -- 
-2.33.1
+2.34.1
 
 
