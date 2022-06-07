@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82556541B47
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 23:47:11 +0200 (CEST)
-Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E86E541BE4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 23:56:33 +0200 (CEST)
+Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyh2c-0005we-JR
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 17:47:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36430)
+	id 1nyhBg-00038Z-Cu
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 17:56:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyfwy-0007SV-I7
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:37:16 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:43954)
+ id 1nyfwx-0007Q5-VU
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:37:15 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:43879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyfwp-0008Ln-TP
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:37:16 -0400
-Received: by mail-pg1-x529.google.com with SMTP id s135so1321361pgs.10
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:37:06 -0700 (PDT)
+ id 1nyfwp-0008EG-KU
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:37:15 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ l7-20020a17090aaa8700b001dd1a5b9965so16437566pjq.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Khgw4zesO+K18d95Nf0OQk5x631DSo+q5LDKVsiqTz0=;
- b=N9gZLZL0XzwCu+XWXFvYMP66wJtfVAkHIA8iEBlADwAqwOsUqlWMc/E8i83Hi1uirJ
- wW8q9Mt4vHtZhyMZXTCXLJzAJKyordQwIIefMScAK1qusuP0Urk71IT7KNQKpJ5OjJNA
- 9MAcV8TMI0cvoFuqQO59zUzmJr1y0KLqjZSIzWmrJBiFgoPfFLw73zKPalDCqW2MZXi5
- wjjkYRwvURAaoiLuq8+GTHC5In1ye4r6OI6mhoNSMqv8TG1dUyIAx4U7zIJc70FpB0up
- RLJJJPO21n1V82aCQ7RP5g8RBofeQVrsMW6EpcZ5iHTfSeHirJ0WopZYC6VrlbHWKPKx
- xnFA==
+ bh=jX6jS4dtrhW1QeYx18wps/PVKx5vjATldMSj/oHyJlI=;
+ b=QNhECIZfk7oXX4TE9R87booFQt9t/T50LAmiq+zoqQAZWrgkT2o3S0mGBjzposkb3R
+ mjlJu02Yf2dyBm4Qk8xn5vqhrpZoX+NSPyRjYV2+33wvHUyUrvsajSKKQR/01XZZfJh7
+ 6UKU7JjIf38Lqwjgfdb9gbT7gZf2G7t2GbM6BntHq58P/hPgSXbeusjsYQckeA/WtA6n
+ w4ebrTZUJKCRutmsTRUn7ngtRmcJptOYxYewcJUCQ1392Df3avAEEfuuEvRRhCMkHVDt
+ R1PmDBkVhgBDyOd9I6+wtQFj+cYYFV3hppR0yDqZbsa1Z0wTIlg09E0aOxCJE0Lpfpmc
+ sOzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Khgw4zesO+K18d95Nf0OQk5x631DSo+q5LDKVsiqTz0=;
- b=B3X2vrdSFtyVdXZLx5iq8C4mY25yW4PbCMmRRhRS6/Q3PBVr+5oZ9OT/avtmGZ3sTZ
- Hp7yV/y74Hv+4eCe1uJCOX78rv7gvYMvXfmvGE4CgVVcpw87zcjs/jAtpaplhHtZD1pf
- fWrkFd6t3QKwN2t6vPo3vY1RbH6BV/4wg+loqjO0KgnAegIt/D5CHRT91dh+UUNw03BF
- tWsmdFXcOs2wIknyOfkkPk6jZnndk1oD04X2RlYa3CHyqSEmW4A5EnQBUe+m6COlewKg
- hgTDJpcKhXckWY+Zu4zBAEXE9CzDtXxD0BFqGU+nDpPiQJ7KVfdPYax5LsOI+L3CrNMV
- Z5BA==
-X-Gm-Message-State: AOAM531ztl5SFPYPKtJYVwA6dCeW+F+jp39s931kSUAENQ0ss7wEGO52
- YW/+tm6MunBEX0tFmARpQQ+h+5Oqg3w9Jw==
-X-Google-Smtp-Source: ABdhPJzfgWi/dB/dlLJgpKzbeEhPUMpb4l5Lo0mAoRsL5E/OB2hD81t+O8ImkoOo6pqJumW6chwdng==
-X-Received: by 2002:a63:524a:0:b0:3fc:7f18:685d with SMTP id
- s10-20020a63524a000000b003fc7f18685dmr27469956pgl.387.1654634226114; 
+ bh=jX6jS4dtrhW1QeYx18wps/PVKx5vjATldMSj/oHyJlI=;
+ b=Se8IwUeqDnipzfdbm/yTcoJ0BJvsqhqc55HGhWMpz81ecKW2t7ccfvNKB6XAH4Htyr
+ LlmkimwSJ0XkEd8Ui3GHwduB/WE2y/U7xoo5fAAAk/J85AHRPlZOt6zMhAara5sFt/nT
+ xh5O2j3fPTOBJ4lAP5BTVEfNFsOtBseur8zD0raSvBQsfWx+iQYKXHriiW9t7OlqPf/U
+ G83jDm+Ufz9cIE0Ik/QvK+FYo0irIkXQy79Fz+ooNoOenqZh4DXSAaeOAZge6Qtjhoz8
+ 43tkZL+L2Oqhc7m9pPCu3lle7KN+DWGsuJkQTnIl2yY8g7B0lSW4gfCDykzSS6F1TlY8
+ EPQA==
+X-Gm-Message-State: AOAM532thAfos7zLdGF6e5QDbT2qFGHIyHghw2MPVVGhY8MB9r7yXYPi
+ R4/rID7MGKAjrwYB+PHCqovHSD6QAMAzOw==
+X-Google-Smtp-Source: ABdhPJyYDX8Sz9L6YeNXCXmAX0L+YGForVYpAU+/sm8dtYydW71MxkGOC+xpb+HTi+I9m/7OF/3v8A==
+X-Received: by 2002:a17:90a:fb93:b0:1e8:a809:af4d with SMTP id
+ cp19-20020a17090afb9300b001e8a809af4dmr4690771pjb.7.1654634226886; 
  Tue, 07 Jun 2022 13:37:06 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
- s18-20020aa78d52000000b0050dc76281fdsm13235645pfe.215.2022.06.07.13.37.05
+ s18-20020aa78d52000000b0050dc76281fdsm13235645pfe.215.2022.06.07.13.37.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:37:05 -0700 (PDT)
+ Tue, 07 Jun 2022 13:37:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v2 63/71] linux-user/aarch64: Do not allow duplicate or short
- sve records
-Date: Tue,  7 Jun 2022 13:32:58 -0700
-Message-Id: <20220607203306.657998-64-richard.henderson@linaro.org>
+Subject: [PATCH v2 64/71] linux-user/aarch64: Verify extra record lock
+ succeeded
+Date: Tue,  7 Jun 2022 13:32:59 -0700
+Message-Id: <20220607203306.657998-65-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220607203306.657998-1-richard.henderson@linaro.org>
 References: <20220607203306.657998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,34 +91,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In parse_user_sigframe, the kernel rejects duplicate sve records,
-or records that are smaller than the header.  We were silently
-allowing these cases to pass, dropping the record.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/signal.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ linux-user/aarch64/signal.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index 8b352abb97..8fbe98d72f 100644
+index 8fbe98d72f..9ff79da4be 100644
 --- a/linux-user/aarch64/signal.c
 +++ b/linux-user/aarch64/signal.c
-@@ -318,10 +318,13 @@ static int target_restore_sigframe(CPUARMState *env,
+@@ -340,6 +340,9 @@ static int target_restore_sigframe(CPUARMState *env,
+             __get_user(extra_size,
+                        &((struct target_extra_context *)ctx)->size);
+             extra = lock_user(VERIFY_READ, extra_datap, extra_size, 0);
++            if (!extra) {
++                return 1;
++            }
              break;
  
-         case TARGET_SVE_MAGIC:
-+            if (sve || size < sizeof(struct target_sve_context)) {
-+                goto err;
-+            }
-             if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
-                 vq = sve_vq(env);
-                 sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
--                if (!sve && size == sve_size) {
-+                if (size == sve_size) {
-                     sve = (struct target_sve_context *)ctx;
-                     break;
-                 }
+         default:
 -- 
 2.34.1
 
