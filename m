@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A355403F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 18:41:32 +0200 (CEST)
-Received: from localhost ([::1]:48854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178E8540404
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 18:44:27 +0200 (CEST)
+Received: from localhost ([::1]:51792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nycGp-0007Fy-3k
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 12:41:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60062)
+	id 1nycJe-0000te-6H
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 12:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nycCk-0004VO-Ld
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 12:37:19 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:37551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nycCj-0001ru-4j
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 12:37:18 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- 3-20020a17090a174300b001e426a02ac5so18167711pjm.2
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 09:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DFtfFcOJ+bx364w5ODxCzMgY5LhxI/+p0J6AJC/GJfU=;
- b=vr+ygewGvoOf8GeSXAEnn/J8cs4AfJ+H/aiZJyfVNo7MP3Yy3F4jyWNElRIua3DAev
- Nb88V+eO79kBzPFi7JYu1pgxoV4yASNKne07AAOuCC4JVi9ugE7J06kT9RIuLQzg7W4m
- 2mPnZFShwIpfzOE5NhU+RWTbDxg6DyfW3kYMd3MiM0YqYkSSkQFYDM1Bl3ekBoZNvzff
- Qw4HWqnmivB/0Codq1R8ekbXOCBLBnzXJafx/1SoyHkEyPG+ReYHMFf/swfHLmjFcCX2
- mKWeaV87XB4uBCfohE7KwhwQYkkcwQX/p7I7pd3UX6jpm1haxI5khyXLU0B3WZvsMeS6
- dK7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DFtfFcOJ+bx364w5ODxCzMgY5LhxI/+p0J6AJC/GJfU=;
- b=nu/Z/fRnID02M+e8UnHlxH43c6+ig3JdL4E+1aqlAlzQ50/TIz1uDZUwyfh0ABeImt
- iK5kw2rYDVqo9/201QmGLMC69m3Ac+qBRONcVLeSttWNpgcsqUq2Zws3XWvnhlYQSBzT
- LDdbxCC+Frtk2PkPrbD7hOzpJzF6l4Vd7bhKnwlpYSPlzdw5vKr05HBxX1StZIxUbwbc
- jFss9hxncvqg7MG3a5jqHpzv8Ug+1pBVWJS/MhGzU8InZX5p4zP1dcZ2UBBlt+z62FT5
- yRMKz9+IWB5BLhMkbR7h7Vw/iZb7WqgB10+uY/iMaen+5q5T/gXo1csyLyGwbxmZRFIJ
- qcPw==
-X-Gm-Message-State: AOAM5307pOXhfD2ByL7tcxAFa4/KTdOl6ELOiuk/KJBbZRYd1lnXYUz3
- 44Tvkz4/aPDtVz5P3p6hc0j65A==
-X-Google-Smtp-Source: ABdhPJxKWA6IzZzSMme5vx2WFUlcZghpEP2/nwqic825j2/C1pw4y/f+de+10V6eJTzwnoOxFmGU9A==
-X-Received: by 2002:a17:90a:2c0c:b0:1ea:14c0:f0ca with SMTP id
- m12-20020a17090a2c0c00b001ea14c0f0camr1887843pjd.143.1654619835375; 
- Tue, 07 Jun 2022 09:37:15 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
- ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
- by smtp.gmail.com with ESMTPSA id
- ie12-20020a17090b400c00b001e2f0333a86sm12313232pjb.12.2022.06.07.09.37.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 09:37:14 -0700 (PDT)
-Message-ID: <731a436b-5272-e103-28f1-3211dc57332d@linaro.org>
-Date: Tue, 7 Jun 2022 09:37:12 -0700
+ (Exim 4.90_1) (envelope-from <bwidawsk@kernel.org>)
+ id 1nycGi-0008Ah-9t
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 12:41:24 -0400
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1]:41690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bwidawsk@kernel.org>)
+ id 1nycGf-0002XH-RK
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 12:41:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id EBB36CE2366;
+ Tue,  7 Jun 2022 16:41:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD1AC385A5;
+ Tue,  7 Jun 2022 16:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1654620076;
+ bh=nzfxWt+CAzao4R1WE/AQaZXGtbOyttsgCG+UyjdkIew=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jL1e2c+l6kI5XP4DJHkQJNVnBD8DXqYSoSjV5QY/M2va5fKha6dAm+8hkGymlJ+LB
+ mKN17En9iB1EDDLtQraWYVZJ/Yp7bXKqx5oTdjhHVSYER0gYGgW2ggjwnq+UyeJlIz
+ 8pCVr+zRo7CRJow/YK3M2Cg15JWDqLSnh+frjUB1i1pg+Xb2vHmQuqlWAqFTrqyrWU
+ ON8gkvNsFdjMBpgxPFrHGz71eckL4E/ueijBKwT2A3ONKN+D73DGkIftygGFP+skig
+ D6S+ok2gPyWdc/+DhABr0738p8P6mLZes1QzDsWJuQQtolMhzggkbHMVwdCKkUAcI3
+ tyfTnETNll7IQ==
+Date: Tue, 7 Jun 2022 09:41:14 -0700
+From: Ben Widawsky <bwidawsk@kernel.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, linux-cxl@vger.kernel.org,
+ linuxarm@huawei.com, alex.bennee@linaro.org,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Adam Manzanares <a.manzanares@samsung.com>,
+ Tong Zhang <ztong0001@gmail.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+Subject: Re: [PATCH v3] hw/cxl: Fix missing write mask for HDM decoder target
+ list registers
+Message-ID: <20220607164114.mbwcqk4wxekhzxfo@bwidawsk-mobl5>
+References: <20220607160747.21084-1-Jonathan.Cameron@huawei.com>
+ <20220607161928.364mrju2mvzcvs56@bwidawsk-mobl5>
+ <20220607173702.00005ccf@Huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/3] target/mips: introduce generic Cavium Octeon CPU model
-Content-Language: en-US
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, jiaxun.yang@flygoat.com, aurelien@aurel32.net,
- aleksandar.rikalo@syrmia.com
-References: <165459235408.143371.17715826203190085295.stgit@pasha-ThinkPad-X280>
- <165459235959.143371.13189201469172149052.stgit@pasha-ThinkPad-X280>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <165459235959.143371.13189201469172149052.stgit@pasha-ThinkPad-X280>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220607173702.00005ccf@Huawei.com>
+Received-SPF: pass client-ip=2604:1380:40e1:4800::1;
+ envelope-from=bwidawsk@kernel.org; helo=sin.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,16 +82,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/22 01:59, Pavel Dovgalyuk wrote:
-> +    {
-> +        /*
-> +         * A generic CPU providing MIPS64 Cavium Octeon features.
-> +         * PRid is taken from Octeon 68xx CPUs
-> +         * FIXME: Eventually this should be replaced by a real CPU model.
-> +         */
+On 22-06-07 17:37:02, Jonathan Cameron wrote:
+> On Tue, 7 Jun 2022 09:19:28 -0700
+> Ben Widawsky <bwidawsk@kernel.org> wrote:
+> 
+> > On 22-06-07 17:07:47, Jonathan Cameron wrote:
+> > > Without being able to write these registers, no interleaving is possible.
+> > > More refined checks of HDM register state on commit to follow.
+> > > 
+> > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > ---
+> > > v3: Actually pass the parameter to the call...
+> > > v2: (Ben Widawsky)
+> > > - Correctly set a tighter write mask for the endpoint devices where this
+> > >   register has a different use.
+> > >   
+> > >  hw/cxl/cxl-component-utils.c | 11 +++++++++--
+> > >  1 file changed, 9 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+> > > index 7985c9bfca..2208284ee6 100644
+> > > --- a/hw/cxl/cxl-component-utils.c
+> > > +++ b/hw/cxl/cxl-component-utils.c
+> > > @@ -154,7 +154,8 @@ static void ras_init_common(uint32_t *reg_state, uint32_t *write_msk)
+> > >      reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0x00;
+> > >  }
+> > >  
+> > > -static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk)
+> > > +static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk,
+> > > +                            enum reg_type type)
+> > >  {
+> > >      int decoder_count = 1;
+> > >      int i;
+> > > @@ -174,6 +175,12 @@ static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk)
+> > >          write_msk[R_CXL_HDM_DECODER0_SIZE_LO + i * 0x20] = 0xf0000000;
+> > >          write_msk[R_CXL_HDM_DECODER0_SIZE_HI + i * 0x20] = 0xffffffff;
+> > >          write_msk[R_CXL_HDM_DECODER0_CTRL + i * 0x20] = 0x13ff;
+> > > +        if (type == CXL2_DEVICE) {
+> > > +            write_msk[R_CXL_HDM_DECODER0_TARGET_LIST_LO + i * 0x20] = 0xf0000000;
+> > > +        } else {
+> > > +            write_msk[R_CXL_HDM_DECODER0_TARGET_LIST_LO + i * 0x20] = 0xffffffff;
+> > > +        }
+> > > +        write_msk[R_CXL_HDM_DECODER0_TARGET_LIST_HI + i * 0x20] = 0xffffffff;  
+> > 
+> > Should it be (type == CXL2_DEVICE || type == CXL2_TYPE3_DEVICE) ?
+> 
+> Good point, but also for consistency I think we need 
+> type == CXL2_LOGICAL_DEVICE as well.
 
-You should just add the real cpu model.  No one will ever address this FIXME otherwise.
+I was looking at this and I am not sure, but I defer to you.
 
+> 
+> We will only exercise the match to CXL2_TYPE3_DEVICE currently
+> as we don't have any emulation for MLDs (and hence LD) or type 1/2 devices
+> (CXL2_DEVICE).
+> 
+> I'll send a v4 out tomorrow.
+> 
 
-r~
+Sounds good, feel free to keep the r-b tag.
+
+> > 
+> > Otherwise,
+> > Reviewed-by: Ben Widawsky <ben@bwidawsk.net>
+> > 
+> > >      }
+> > >  }
+> > >  
+> > > @@ -239,7 +246,7 @@ void cxl_component_register_init_common(uint32_t *reg_state, uint32_t *write_msk
+> > >      }
+> > >  
+> > >      init_cap_reg(HDM, 5, 1);
+> > > -    hdm_init_common(reg_state, write_msk);
+> > > +    hdm_init_common(reg_state, write_msk, type);
+> > >  
+> > >      if (caps < 5) {
+> > >          return;
+> > > -- 
+> > > 2.32.0
+> > >   
+> 
 
