@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6359541F3C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 00:54:40 +0200 (CEST)
-Received: from localhost ([::1]:53354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2F9541EC7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 00:36:14 +0200 (CEST)
+Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyi5v-0006pm-Cc
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 18:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40116)
+	id 1nyho5-0002UV-D2
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 18:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyg95-0005hO-Vs
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:49:48 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:42522)
+ id 1nyg95-0005h9-U1
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:49:47 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:47036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyg92-0001pQ-A8
+ id 1nyg92-0001pV-A0
  for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:49:47 -0400
-Received: by mail-pf1-x433.google.com with SMTP id 187so16522924pfu.9
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:49:42 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ k5-20020a17090a404500b001e8875e6242so5710596pjg.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XuRf9bJf1hNLRNL4iGsT+A0xXkRPFyPz8HZJ2puRP7Q=;
- b=qekqq+PqXFkc5xBfMWWLfcwmRU6DjJUw9x9T12bxrBM8Bd7s+5Fvr5lewr8DNONU3J
- y+RuFJDt1fyMRPf7+qlUv1ETqBT4qU9FJDBZy9mp9bOLnFjkP1gjVqD2XaiD2Fn4D+DE
- 5EvbukDxu4WaKjGSV1+z2RMQ971F9xxiXTpLkNefEYvUdgSVt/bMHwhF9cOWM87Pguzr
- A/lyuO4yXl+fqmT7O7UKXUgkZ8Y7kNDxqzPCjMRnL+JdQDp/OOAD0zZczOXkYgbLoK2t
- MGr0Rsa98V5DcmZvdmx5Z9JlxmXk/ZrnSkNTdgZeggkskAWuvRHIgh8HjcfTHrd7NmQE
- g1tQ==
+ bh=ppeRKC6qAerZueLBefgCmuJe5thbQMtdR2XWJoewkwU=;
+ b=l1eiWw9vLIWgWaKfbqmmmmUYAOhIdZOUGLDrls2J/zgJiA5KDhhf6TB4Uj0+bVVqAx
+ zKrl58iU2z5gUKEpCZyaov0bu6C5QWVZCvycg9P1Bg/QqUcEQb7StZOTD+TFPovSg86R
+ hM/3g9ZiwR1CQvTilSnt2xAeM6OiEJXHQw/px0J7Ew5GFHhf97pi2M/db8SQ8tdM+oqp
+ t5HzzfySvLXkxb3L6WU955S9srXWffhlJ5Rqzlk7UJ4QHzZPrxBBXkOVWefWvaPekJGv
+ Yt+uOPniKmViO6M+JDC2708QBJqvm+4XohugOJInwzrnaKuMRIwVuuktHMmuRwg+0GE4
+ i/sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XuRf9bJf1hNLRNL4iGsT+A0xXkRPFyPz8HZJ2puRP7Q=;
- b=nQY4SuK2zk8NBAQSgXvSm5CEFSQbtcMyyTuhO5DgQdHquAcha1G1U33fmRV2lRjcYG
- Ntj/V9OGhWAZOscMXDM5RxgEco1HXTYfWkY1GtfgizD9zgd4vi8RepRoBFhSwWzNjTTj
- w7l/l3ABRdQJubEahj3KzmvE+DtmkRIVyJaemVEFMSy2e7K3JfkAmGCUTbs9983qOZLS
- Z7urGchmRifjHV4dIUZHOehNonLOr70H0Elr9jGWnUTtKYwFh0n7BIou5lm8AuvjP3VC
- OkXtT3JVN2GoF1BGaCXBBHEN2rMRE0iNcJ6M7Ef+iA5S8NXIRXiNotTvYYKnyDSgwzsj
- Br/w==
-X-Gm-Message-State: AOAM5300yKrG5IJglDVDCtU8CE3vficNrV9wN72WGYCBkjcSEHiWB7jI
- 6xe+YNhRKsBGXCe9WWmPj7aNIAqBClLEMQ==
-X-Google-Smtp-Source: ABdhPJwU05xV6Njm/oIx+kLgDoWH/dY28zq/u1cGkR2rZdL4ZfJ62fOHhAFvQmFbkumxT1kYTvB92Q==
-X-Received: by 2002:a65:5188:0:b0:3fa:6081:7393 with SMTP id
- h8-20020a655188000000b003fa60817393mr26561690pgq.72.1654634982108; 
+ bh=ppeRKC6qAerZueLBefgCmuJe5thbQMtdR2XWJoewkwU=;
+ b=BFZ5qZVCxQJILTMBaZacYH99od29z6Hbd8JkVkvoEp/cT+CT8Ir0cIMkpp8pAeo7Ux
+ nNwfDS7B184umiU5dCeorm9p9BuvXwRdf4NVUXqN8FXV+9vP/nf5LrqNz/5RIgue1r4p
+ p0IUnghf+f6c0Qur+WTn9lKo5Jw+/CRDCrR2U4eJzOwrA6qt80ay0fvvjVKTkWOCQLzT
+ s2/DiBA4XaERY4gYLiX8QgiATyxuVcbjdYEEM03vM9BUufc+8YycI9BekKVpB/RRLYUf
+ B985wrZWHuCFq5+H5gc0JsT/vxuTsQ6ldBS14iQjsCY3HQG44n6ZHR8ahK2Q1xFm2X8N
+ 7yTw==
+X-Gm-Message-State: AOAM530svM1VEEN/rAoacVzvI6Tf/E9HMxal/wkEPCIdTRTb5Sf43CY8
+ OOaghGg/FtfUv8/kFEh0sx0Jk8rlSwn0cA==
+X-Google-Smtp-Source: ABdhPJwfhlAv6U2Nn4zZQi7kKIpjbLNp8cw6Wh8MI/TOdhpHt6jnHgGKkq/kiOJxN6FGyf+6GskUvA==
+X-Received: by 2002:a17:902:e804:b0:164:466:e488 with SMTP id
+ u4-20020a170902e80400b001640466e488mr30933793plg.161.1654634982958; 
  Tue, 07 Jun 2022 13:49:42 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
- 128-20020a620686000000b00518b4cfbbe0sm13152327pfg.203.2022.06.07.13.49.41
+ 128-20020a620686000000b00518b4cfbbe0sm13152327pfg.203.2022.06.07.13.49.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:49:41 -0700 (PDT)
+ Tue, 07 Jun 2022 13:49:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 48/53] semihosting: Use console_in_gf for SYS_READC
-Date: Tue,  7 Jun 2022 13:45:52 -0700
-Message-Id: <20220607204557.658541-49-richard.henderson@linaro.org>
+Subject: [PATCH v4 49/53] semihosting: Use console_out_gf for SYS_WRITEC
+Date: Tue,  7 Jun 2022 13:45:53 -0700
+Message-Id: <20220607204557.658541-50-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220607204557.658541-1-richard.henderson@linaro.org>
 References: <20220607204557.658541-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,54 +91,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ semihosting/arm-compat-semi.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 20e99cdcc0..4c8932ad54 100644
+index 4c8932ad54..dea5b2de8d 100644
 --- a/semihosting/arm-compat-semi.c
 +++ b/semihosting/arm-compat-semi.c
-@@ -302,6 +302,22 @@ common_semi_flen_fstat_cb(CPUState *cs, uint64_t ret, int err)
-     common_semi_cb(cs, ret, err);
+@@ -228,6 +228,15 @@ static void common_semi_cb(CPUState *cs, uint64_t ret, int err)
+     common_semi_set_ret(cs, ret);
  }
  
-+static void
-+common_semi_readc_cb(CPUState *cs, uint64_t ret, int err)
++/*
++ * Use 0xdeadbeef as the return value when there isn't a defined
++ * return value for the call.
++ */
++static void common_semi_dead_cb(CPUState *cs, uint64_t ret, int err)
 +{
-+    if (!err) {
-+        CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+        uint8_t ch;
-+
-+        if (get_user_u8(ch, common_semi_stack_bottom(cs) - 1)) {
-+            ret = -1, err = EFAULT;
-+        } else {
-+            ret = ch;
-+        }
-+    }
-+    common_semi_cb(cs, ret, err);
++    common_semi_set_ret(cs, 0xdeadbeef);
 +}
 +
- #define SHFB_MAGIC_0 0x53
- #define SHFB_MAGIC_1 0x48
- #define SHFB_MAGIC_2 0x46
-@@ -427,15 +443,8 @@ void do_common_semihosting(CPUState *cs)
+ /*
+  * SYS_READ and SYS_WRITE always return the number of bytes not read/written.
+  * There is no error condition, other than returning the original length.
+@@ -341,8 +350,7 @@ static const uint8_t featurefile_data[] = {
+  * The specification always says that the "return register" either
+  * returns a specific value or is corrupted, so we don't need to
+  * report to our caller whether we are returning a value or trying to
+- * leave the register unchanged. We use 0xdeadbeef as the return value
+- * when there isn't a defined return value for the call.
++ * leave the register unchanged.
+  */
+ void do_common_semihosting(CPUState *cs)
+ {
+@@ -419,8 +427,12 @@ void do_common_semihosting(CPUState *cs)
          break;
  
-     case TARGET_SYS_READC:
--        {
--            uint8_t ch;
--            int ret = qemu_semihosting_console_read(cs, &ch, 1);
--            if (ret == 1) {
--                common_semi_cb(cs, ch, 0);
--            } else {
--                common_semi_cb(cs, -1, EIO);
--            }
--        }
-+        semihost_sys_read_gf(cs, common_semi_readc_cb, &console_in_gf,
-+                             common_semi_stack_bottom(cs) - 1, 1);
+     case TARGET_SYS_WRITEC:
+-        qemu_semihosting_console_outc(env, args);
+-        common_semi_set_ret(cs, 0xdeadbeef);
++        /*
++         * FIXME: the byte to be written is in a target_ulong slot,
++         * which means this is wrong for a big-endian guest.
++         */
++        semihost_sys_write_gf(cs, common_semi_dead_cb,
++                              &console_out_gf, args, 1);
          break;
  
-     case TARGET_SYS_ISERROR:
+     case TARGET_SYS_WRITE0:
 -- 
 2.34.1
 
