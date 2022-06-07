@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C098153F96A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 11:18:54 +0200 (CEST)
-Received: from localhost ([::1]:35284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 452E153FA16
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 11:44:43 +0200 (CEST)
+Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyVMS-0006N3-RH
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 05:18:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60494)
+	id 1nyVlS-0002eE-Ao
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 05:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nyVCM-0003Kl-9G
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:08:26 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nyVCJ-0007gI-Rb
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:08:25 -0400
-Received: by mail-wm1-x332.google.com with SMTP id a10so6406863wmj.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:08:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=wRdkeZsWqeJa2kaycluG0XG2OYwK2p6fl5w8x5cwQl0=;
- b=P/ctc1lHbGzKAQno05JcrJDlL00AOHM1wRpABR9fLhvf9xnAlMIL4BC/TS/nuJVccD
- 6tp5ii4OyYkug/IHragTZiRvannbLPK0D8dLdB/e/9ujq3VzwyDPPiJCNZR8UoK5zVxi
- Vd1Sv9XfxhXH86cKtCSql9sM5sU2/61qlmYHa/fCXt54LwP6bfdDoOQsMkXst4ZN+Dys
- td7hrDhvn82taL6Qzg5e9WwvZvbpz8QNb9ezLCGehZhqmISxY62XoYWdw4pPsRAica1E
- I48WZYyGiqgB4dY427LbOEdqRyRT+ghWFVQM86uwbO/+aDanbSU0mCwZsylxeaVUH5dS
- 2+AQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nyVha-0007ri-Rw
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:40:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nyVhX-0008Mf-IZ
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:40:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654594837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Y8n3f/Py+omgUs4vRdWAW0LdwEQDp5dY5gBRtbYvT6k=;
+ b=VhaPrEm/SaP2kSktbgDR2kjOKsmaB9NTa120apolZg9F9Hi58OaSlg3zo5J5nilN/oFJpm
+ m/B4pOEoYNeUX6845zRXBJVgBYpSflaE6vQ0bUvPqaDHZhiZZPF6W9bKJfmOQU+5D4T442
+ uQquV3FwpK9vYA2L1X4ONYNjA40s+TQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-224-f-clLBKvNvGW9GthuUnTEw-1; Tue, 07 Jun 2022 05:40:35 -0400
+X-MC-Unique: f-clLBKvNvGW9GthuUnTEw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ o18-20020a5d4a92000000b00213b4eebc25so3044503wrq.21
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:40:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=wRdkeZsWqeJa2kaycluG0XG2OYwK2p6fl5w8x5cwQl0=;
- b=S5BiHK7DaPfZjllE8FhjD07tgQElgUjJuFZXZQNrJY21FkynW1w+UhMDeP3oe0EhUE
- bozREvW83USdTZ/ZmF4moBCTKnm7sucnbbDgZiewJuEqyxBm05T+YqPu13o0A9AqEtaE
- w4GWAYmm9xQzUls1CvW5L3ATeIJjnW+D3XaHFblSxKb2++8xyycJ8BOulwXVcrO3eJJh
- ELDQFPuMduitk7Wkzo0r1NR0Aa9uoNKuPSWqq6fCQJg4KC2QHu1muxhljtvpVNPVklG1
- PtEjhRQvH17J1V4Pcw6b6wV1cJ+PxGVRIanZbmU4gOjOANocf9prJjcDYzkYuzze4YAQ
- QLUQ==
-X-Gm-Message-State: AOAM533Nh7mdQ19bF4bPhswXdA9oXIpaLK2Iiw3OBUE9MdTcTIyP1BEp
- wJ05xaKO43e3hnQzzguBefqIhg==
-X-Google-Smtp-Source: ABdhPJw2H2LVuTcvmxusMS2cwK1jnWpvfbRZ4ayr/0qCm3Jv52BMlPDd5931q3pZZaN68svJLxmlPQ==
-X-Received: by 2002:a05:600c:3209:b0:39c:51c7:58db with SMTP id
- r9-20020a05600c320900b0039c51c758dbmr8790654wmp.20.1654592901817; 
- Tue, 07 Jun 2022 02:08:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Y8n3f/Py+omgUs4vRdWAW0LdwEQDp5dY5gBRtbYvT6k=;
+ b=skSnXA68+mnWwcWOA3G39gAWXAxPGU608mv+hGO76DC19SvhPZJGytHcPQAydWoBlO
+ K0tiXZi1+pEO5ukOuzM1xZewANcX9acqsCxK5R/j3ktDd2yRiVUi0/R91nHpk43xxUbf
+ wEpBabkyUrHBhpI/1O/efuCwM+gRMIzL29mtirU84TOSGcBrsmYEAz5Olp0iOdo8WluV
+ rnumML1o69x/JhAaNGCuGLGIciJ3J4Z96cJr/2IBbheoxQsF4FO/EcbnDpEDMzwWaZrZ
+ O1FN4olgexNw0Kw+TbMsGRgvFRcUPTgj/4/nm1XQRm4XGJr/dOrPV3wveIDfX1iJlORB
+ 6A1w==
+X-Gm-Message-State: AOAM530j76hiNWPZW2EoB5p798Hv9rdkl/Qbw8XFh6NmTvOb+CUBZC3Y
+ mF6iEmdN4fdYJVowRVDgVZBQzMSwNuH4wEEzM7iZtQqNW8uJao1YXnfGGG7NdhqD0iuiFmDO4nW
+ MlGciYHUJcFPjLIJm3LJciVMhM92aAu7p7QKN851ai8xWCIj9j4FIK028XJ5nRNH5++4=
+X-Received: by 2002:adf:e88c:0:b0:214:b72b:73e1 with SMTP id
+ d12-20020adfe88c000000b00214b72b73e1mr19372413wrm.135.1654594834387; 
+ Tue, 07 Jun 2022 02:40:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwic3v+GRf32bgRGe8+FzLDo54BYi29QP2IMOJbq9Pr0PS/qYawt74EOT8F93blrzszpafbRQ==
+X-Received: by 2002:adf:e88c:0:b0:214:b72b:73e1 with SMTP id
+ d12-20020adfe88c000000b00214b72b73e1mr19372394wrm.135.1654594834114; 
+ Tue, 07 Jun 2022 02:40:34 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- o34-20020a05600c512200b003944821105esm21912794wms.2.2022.06.07.02.08.20
+ s8-20020a5d69c8000000b002102b16b9a4sm17371275wrw.110.2022.06.07.02.40.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 02:08:20 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CBEC91FFB7;
- Tue,  7 Jun 2022 10:08:19 +0100 (BST)
-References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-11-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.26; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-Subject: Re: [PATCH v3 10/49] semihosting: Clean up common_semi_flen_cb
-Date: Tue, 07 Jun 2022 10:05:40 +0100
-In-reply-to: <20220521000400.454525-11-richard.henderson@linaro.org>
-Message-ID: <87h74wvo1o.fsf@linaro.org>
+ Tue, 07 Jun 2022 02:40:33 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org,
+	richard.henderson@linaro.org
+Subject: [PATCH 0/7] More tests/tcg cleanups
+Date: Tue,  7 Jun 2022 11:40:24 +0200
+Message-Id: <20220607094031.1227714-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,63 +97,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Building on the introduction of config-$target.mak, make tests/tcg a
+"regular" subdirectory that is entered simply with "make -C", like the
+ROMs or the plugins.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+The next step could be to unify all the sub-make rules; this series
+stops short of that.
 
-> Do not read from the gdb struct stat buffer if the callback is
-> reporting an error. Use common_semi_cb to finish returning results.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  semihosting/arm-compat-semi.c | 20 +++++++++++---------
->  1 file changed, 11 insertions(+), 9 deletions(-)
->
-> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-> index 88e1c286ba..8792180974 100644
-> --- a/semihosting/arm-compat-semi.c
-> +++ b/semihosting/arm-compat-semi.c
-> @@ -346,15 +346,17 @@ static target_ulong common_semi_flen_buf(CPUState *=
-cs)
->  static void
->  common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
->  {
-> -    /* The size is always stored in big-endian order, extract
-> -       the value. We assume the size always fit in 32 bits.  */
-> -    uint32_t size;
-> -    cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) + 32,
-> -                        (uint8_t *)&size, 4, 0);
-> -    size =3D be32_to_cpu(size);
-> -    common_semi_set_ret(cs, size);
-> -    errno =3D err;
-> -    set_swi_errno(cs, -1);
-> +    if (!err) {
-> +        /*
-> +         * The size is always stored in big-endian order, extract
-> +         * the value. We assume the size always fit in 32 bits.
-> +         */
-> +        uint32_t size;
-> +        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) + 32,
-> +                            (uint8_t *)&size, 4, 0);
+Paolo
 
-I did a double take but compared to the actual code it calls I guess
-its fine. Technically I think:=20
+Paolo Bonzini (7):
+  meson: put cross compiler info in a separate section
+  build: include pc-bios/ part in the ROMS variable
+  configure: allow more host/target combos to use the host compiler
+  configure: move tests/tcg/Makefile.prereqs to root build directory
+  configure: store container engine in config-host.mak
+  tests: simplify Makefile invocation for tests/tcg
+  tests/tcg: remove -f from Makefile invocation
 
-        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) + 32,
-                            (void *) &size, sizeof(size), 0);
+ Makefile                      | 17 +++----
+ configure                     | 90 +++++++++++++++++++++--------------
+ meson.build                   | 15 +++---
+ tests/Makefile.include        | 13 ++---
+ tests/docker/Makefile.include |  2 +-
+ tests/tcg/Makefile.target     |  2 +-
+ 6 files changed, 77 insertions(+), 62 deletions(-)
 
-might be slightly cleaner but whatever:
+-- 
+2.36.1
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-
-> +        ret =3D be32_to_cpu(size);
-> +    }
-> +    common_semi_cb(cs, ret, err);
->  }
->=20=20
->  static int common_semi_open_guestfd;
-
-
---=20
-Alex Benn=C3=A9e
 
