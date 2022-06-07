@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DE553F69A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 08:55:13 +0200 (CEST)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0567053F697
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 08:54:38 +0200 (CEST)
+Received: from localhost ([::1]:56206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyT7P-0003xI-Mz
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 02:55:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
+	id 1nyT6q-0003K6-Lx
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 02:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nySxP-0007Ab-Q0
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 02:44:52 -0400
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:37429)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nyT0k-0000RR-Gc
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 02:48:21 -0400
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:56765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nySxN-0003Oy-Nr
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 02:44:51 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 30447225D8;
- Tue,  7 Jun 2022 06:44:47 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nyT0i-00049b-DA
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 02:48:18 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.217])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6C001225F8;
+ Tue,  7 Jun 2022 06:48:12 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 7 Jun 2022
- 08:44:46 +0200
+ 08:48:11 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-109S0033e7b6792-2636-419a-a82b-89f0a7dcd126,
+ (GARM-103G005c6ae8c24-fbf3-4847-9e61-3b6185c864eb,
  B3A9F5ABA359FFEAA5F192A1B4EC97B2EEB111D0) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <c6f53e8e-22a8-451d-409d-e371f39da08c@kaod.org>
-Date: Tue, 7 Jun 2022 08:44:45 +0200
+Message-ID: <65bccd8a-a75d-3b9f-d749-ae27165a1e98@kaod.org>
+Date: Tue, 7 Jun 2022 08:48:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2 08/16] ppc/pnv: user created pnv-phb for powernv9
+Subject: Re: Help: How do I make a machine with 2 separate ARM SoC's?
 Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: Peter Delevoryas <pdel@fb.com>, Cameron Esfahani via
+ <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
+References: <8C1AB09A-AFB3-469A-8333-C3D1802D14AE@fb.com>
+ <CAFEAcA8LnnAnTqSw5Mm_01KAORn9qVnNsWbouXpJ6X_B=sZ0hw@mail.gmail.com>
+ <ec17bc9d-e1cb-3315-6b5e-88ec6d75c7bb@kaod.org>
+ <CAFEAcA_vo-WmhpjpXcqE6qzS5xwoTfOm=d+jk9e2bG3Ob3Ye1g@mail.gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, Frederic Barrat
- <fbarrat@linux.ibm.com>, <qemu-devel@nongnu.org>
-CC: <qemu-ppc@nongnu.org>, <david@gibson.dropbear.id.au>,
- <mark.cave-ayland@ilande.co.uk>
-References: <20220531214917.31668-1-danielhb413@gmail.com>
- <20220531214917.31668-9-danielhb413@gmail.com>
- <d2ae2236-7a49-22e7-3950-cb635697721a@linux.ibm.com>
- <edef4577-c7d1-51aa-01c2-cd5846f7ba40@gmail.com>
- <bbbb71c0-c4bd-0c87-5d44-f6398d64cf36@kaod.org>
-In-Reply-To: <bbbb71c0-c4bd-0c87-5d44-f6398d64cf36@kaod.org>
+In-Reply-To: <CAFEAcA_vo-WmhpjpXcqE6qzS5xwoTfOm=d+jk9e2bG3Ob3Ye1g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b55b9df4-0c54-4491-b36c-a4e58400aa73
-X-Ovh-Tracer-Id: 17572764271435221798
+X-Ovh-Tracer-GUID: f27ff6c3-ec8c-4c47-b732-20b21e64d2e7
+X-Ovh-Tracer-Id: 17630466645117144032
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddtgedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuhffvvehfjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgffhteevuedugfekgeehgeejueehgeekgfetiefggfeiteduteevvefguedufeefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhgrrhhkrdgtrghvvgdqrgihlhgrnhgusehilhgrnhguvgdrtghordhukhdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddtgedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegke
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -79,16 +77,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>> Also, the comment seems wrong to me. The qom parenting doesn't matter when building the device tree. 
+On 6/6/22 19:02, Peter Maydell wrote:
+> On Mon, 6 Jun 2022 at 16:37, Cédric Le Goater <clg@kaod.org> wrote:
+>> On the CPU topic, I think we will need to change the GIC device
+>> to stop using qemu_get_cpu() in the CPU interface init routine
+>> and in the GIC realize routine, since this is global to the machine.
+>> I am having the same problem when trying to model a multi SoC board
+>> with a GIC device on each chip.
+>>
+>> What would be a good approach to loop only on the CPUs related
+>> to a GIC device ? Could we tag the CPUs and the GIC in some way
+>> to filter the unrelated CPUs ? Or pass a CPU list to the GIC
+>> device ?
 > 
-> it does. See pnv_dt_xscom()
+> GICv2 or GICv3 ?
 
-And this is the root cause of many headaches for user-created devices.
-Could it be done differently ?
+v3 yes. sorry.
+
+> Guessing GICv3, I think probably the right approach is to
+> have the GICv3 device have an array of QOM link properties,
+> and then the SoC or board code links up the CPUs to the
+> GIC device object.
+
+I will look at this.
 
 Thanks,
 
 C.
   
-
 
