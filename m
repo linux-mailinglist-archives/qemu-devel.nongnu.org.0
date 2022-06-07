@@ -2,83 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406CE53FBD7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:47:05 +0200 (CEST)
-Received: from localhost ([::1]:53998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DF453FAF6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:14:21 +0200 (CEST)
+Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyWjm-0000Uz-IA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:47:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38390)
+	id 1nyWE8-0007Ls-2q
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:14:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnd@arndb.de>) id 1nyW4i-0000o5-Hf
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:04:36 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:45387)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyW5f-0001Cy-AM
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:05:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnd@arndb.de>) id 1nyW4g-0006G8-J2
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:04:36 -0400
-Received: from mail-yb1-f175.google.com ([209.85.219.175]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1N9MlG-1nkPUS0S6G-015HRX for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022
- 12:04:32 +0200
-Received: by mail-yb1-f175.google.com with SMTP id p13so30292778ybm.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 03:04:31 -0700 (PDT)
-X-Gm-Message-State: AOAM533cQzHaM1bLqu5tMsqyWERqKHm82i0GzvIBXxyHJFc9AWmH2TAO
- H3OQgMIGr2qFmoTj8gSFbxLh6md3pFALEN+o1ag=
-X-Google-Smtp-Source: ABdhPJzwRpYKwEkLLVAKUKAZ7ioUX6Kw8vDMVEignXpaaC9z+dzb6hkZrFCGT4AEYJViKABnTFhsrvkryOQS+qR8XLM=
-X-Received: by 2002:a25:31c2:0:b0:641:660f:230f with SMTP id
- x185-20020a2531c2000000b00641660f230fmr28771253ybx.472.1654596270741; Tue, 07
- Jun 2022 03:04:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyW5a-0006do-HA
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:05:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654596319;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xFCQVelYEOI/B5ogxulzH2GdmJpolbFgNiKE24Qrr6Q=;
+ b=hgcPYnDwieaurylCi0f+7l4HKjqhMZGDbd8Ng3CFgBfmhkrVQ/ASgatTs6J6jefZaIlUZ2
+ 5KMNZ3ZA4D4tzy8FFfQNzUtS4jQA+ZO9V5MSc/FUqF67WIDc9doT1scluuvher0S2kmT9A
+ AvRjt69qidhieMnZT0IS1qLWXNKb2ds=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-322-K2UpZ7HKPqGtg-z3uEvOJw-1; Tue, 07 Jun 2022 06:05:18 -0400
+X-MC-Unique: K2UpZ7HKPqGtg-z3uEvOJw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h14-20020adfa4ce000000b00218518b622eso406265wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 03:05:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xFCQVelYEOI/B5ogxulzH2GdmJpolbFgNiKE24Qrr6Q=;
+ b=mReWWu8znADgsQIWhXRO7noH8ECeMxvhNd0X1Mj/EC28vOen6ulxIivVDQMFKvVy//
+ xAsHuoHJlzJdRzDI41UX2uq4jG1s+meK0EkwzFMeEAYsicOBf59pQseVbC/2M21TthER
+ H56QkeSDWlnyeHvxhj8m6U5gHfGoy1NCjrWym/c8HWbxE/Jg6sAnkDvXaMVPZLaM+98f
+ Z0MTwkhEq3+fNuVrCzw7u0BLRovgZC+quh9yD581RzKrElYI8rMq34LZb1KjRGhDMGVa
+ Jn/aGn9wRUHXlzrkeFhYLeJTnTwvwY8Q3tciQZvl7oyrBtJrsUuJ1lKsTvAAJJ7QPgyo
+ FQkw==
+X-Gm-Message-State: AOAM530TUZSUFEhSwRSE8MjbuuLaW5oSP4ZF2ekw6kpX9SLxABPJLRWB
+ oq/kNGMvE1UMVlk31AkU+wGn5IOb9VBYqQJlW5QsO+UAB6YpeJsLMr0fLifIhVqUvMZKC76u/U0
+ VUa8lzd9wQx+CICY=
+X-Received: by 2002:a5d:4646:0:b0:210:3e3c:86dc with SMTP id
+ j6-20020a5d4646000000b002103e3c86dcmr26535948wrs.277.1654596316096; 
+ Tue, 07 Jun 2022 03:05:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqChYxqAtnFQVqUh7buwxIj6lWs8l3GQd9TGzKbzJo9ERJqi6Nso5jcyEZyNdD9tlIh9jeUA==
+X-Received: by 2002:a5d:4646:0:b0:210:3e3c:86dc with SMTP id
+ j6-20020a5d4646000000b002103e3c86dcmr26535922wrs.277.1654596315900; 
+ Tue, 07 Jun 2022 03:05:15 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
+ ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
+ by smtp.gmail.com with ESMTPSA id
+ x4-20020adfffc4000000b0021018642ff8sm17532857wrs.76.2022.06.07.03.05.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 03:05:15 -0700 (PDT)
+Message-ID: <bceb3388-4533-e9f7-b90d-7b207b1f05a6@redhat.com>
+Date: Tue, 7 Jun 2022 12:05:14 +0200
 MIME-Version: 1.0
-References: <20220527172731.1742837-1-shorne@gmail.com>
- <20220527172731.1742837-4-shorne@gmail.com>
- <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
- <CAMuHMdWF_OwTMZZ=joRsnOAuB5UuKjACt3Ku4-o0--fR6xqQbQ@mail.gmail.com>
- <YpkWllpTFzb2HHY5@antec>
- <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
- <YpwNtowUTxRbh2Uq@antec> <Ypxb/VDfYLFg3n2s@antec>
- <CAMuHMdVwAzbAOBDcv4y1WmYgCaFOMdywxUZvwMtDccOgDMN+mw@mail.gmail.com>
- <CAK8P3a3Vpn02uDe3rdXSNXANY=u4ZM+wjm-qqszTXzjOKkAeEg@mail.gmail.com>
- <Yp8epZsizfKMEVZV@antec>
-In-Reply-To: <Yp8epZsizfKMEVZV@antec>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 7 Jun 2022 12:04:14 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3MDDE3ko93E0fMmHoXXveTUeYJXdEJbf0DEy3kcBFn0g@mail.gmail.com>
-Message-ID: <CAK8P3a3MDDE3ko93E0fMmHoXXveTUeYJXdEJbf0DEy3kcBFn0g@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
-To: Stafford Horne <shorne@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Joel Stanley <joel@jms.id.au>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Openrisc <openrisc@lists.librecores.org>, 
- QEMU Development <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8gLpXKZ6Z6LoShQ8myuVvDAEmY7BpqnJ351JFWHQ7nUV7eRq4Bv
- bnkUcnzO/dPjmJLs6k1SrgTRVzfIff5E8kJ1CGDUWNRoiJfZtKWT3blTPfjkNtwuf/9hqUn
- B27tM5BFEiUf6u+izF4hbGhWFz4UIvYkjNaAZy8RqH6z0aVLmWSKDusy0linAKvvHMnJkpu
- GVrgVOawMukwVw8Qzm03Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ACPVPgLd7IY=:KftE5dgwI5U9ILGuGf/C8N
- RFYvsLFBQuYUs3O+dsGxUhjJ67cVH5D5y4ldG+XoeRtWGpN3O9n0g+eSgu/4EtjCaXMk4j57n
- KE8ONiX7aX4YFw5bet4dihS1t+wnSAug30ySgAhysUkwqOyAHSsIdgZSpfX9Sd94rlMQoT3OU
- MFIbmnM6qRs/oQ5gFjm12I62Cr8Wo0pLEjuiPsJiVGxxeT6d4mJv7Se3M8PVvwsbuL3r5YzVW
- ckG+h8MqmiP7RaxewLn+sPjUC5f1/su/7XumtVQWl5Mdl16EfyHdcfJmsKlVXTfD/FMOVQ0v3
- gEFgdOkYQtiIy0tAe3AeGPj0Amq6tC/lc9+O3/psJ3/Z5GThITHjnThM5Ea+vhmvLDd7gIeIa
- /bqeLvtYVnKmwDIiiFlyvKImA247xbrN1AjEwHancSsEvCDlWfnAyiukDuWfoGScWLGloF9xv
- s3v4P2VPUIBbVAwlLR3qg3yDFtvppFoG9Uvhfnjr4I8+XB02wNjQt3ev1N/znRrtKdLXCz90N
- vbf8zF7Wapilna/ZUWljX3a3djRhrQ8wexSe3pElGXnI5dabCb/M5BFuRxMYOfLKqBtBcWjCV
- utiXW0ljdy60wS1V7XLViW3qgS5uW6yylqhhJf51t3lYi5bpcVAssoS1fvyIeuscNrQEbi+r+
- qIzHyR6/P0VPbpSC0SyF0LR2M0KSaiF5rlUIPANQQ2/kbPzHpOnwIXvAw5jT64qUNnZDZhZIv
- WA5ycyN6PuKVIMTl767eRxjguBO6ai1g3TFjhu72A2X2+WLRKtZq1i6ryDB6Zr6Nv7GMTju78
- s7FOaepTrqLF7LPqEW5JyyWnOA+msGPIdVnbMKNx8bRqlyx+vkR9/FLZvLsgIhCjLxUFnQVjg
- QPHvdgdizXtTStAAaxbtb/fj9t16l1e8kjUXBifOY=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=arnd@arndb.de;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v5 03/45] block/blklogwrites: don't care to remove
+ bs->file child on failure
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
+ v.sementsov-og@mail.ru, Ari Sundholm <ari@tuxera.com>
+References: <20220330212902.590099-1-vsementsov@openvz.org>
+ <20220330212902.590099-4-vsementsov@openvz.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220330212902.590099-4-vsementsov@openvz.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,75 +106,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 7, 2022 at 11:47 AM Stafford Horne <shorne@gmail.com> wrote:
-> On Tue, Jun 07, 2022 at 10:42:08AM +0200, Arnd Bergmann wrote:
+On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
+> We don't need to remove bs->file, generic layer takes care of it. No
+> other driver cares to remove bs->file on failure by hand.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+> ---
+>   block/blklogwrites.c | 4 ----
+>   1 file changed, 4 deletions(-)
 
-> > Goldfish is a very old platform, as far as I know only the kernel port =
-is new.
-> > I don't know when qemu started shipping goldfish, but changing it now w=
-ould
-> > surely break compatibility with whatever OS the port was originally mad=
-e for.
->
-> Hi Arnd,
->
-> As far as I can tell goldfish in qemu is not very old. There are 3 device=
-s, 2 were
-> added for the m68k virt machine, and 1 for riscv virt.
->
->     $ git lo -- hw/char/goldfish_tty.c
->     2021-11-09 65b4c8c759 Philippe Mathieu-Daud=C3=A9 hw/m68k: Fix typo i=
-n SPDX tag
->     2021-03-15 8c6df16ff6 Laurent Vivier   hw/char: add goldfish-tty
->
->     $  git lo -- hw/intc/goldfish_pic.c
->     2021-11-09 65b4c8c759 Philippe Mathieu-Daud=C3=A9 hw/m68k: Fix typo i=
-n SPDX tag
->     2021-03-15 8785559390 Laurent Vivier   hw/intc: add goldfish-pic
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-That is much younger than Laurent made it appear, from his earlier explanat=
-ions
-I expected this to have shipped a long time ago and been used in other
-OSs to the
-point where it cannot be fixed.
-
-> The mips/loongson3_virt machine now also uses the goldfish_rtc.
->
-> The problem with the goldfish device models is that they were defined as
-> DEVICE_NATIVE_ENDIAN.
->
->     $ grep endianness hw/*/goldfish*
->     hw/char/goldfish_tty.c:    .endianness =3D DEVICE_NATIVE_ENDIAN,
->     hw/intc/goldfish_pic.c:    .endianness =3D DEVICE_NATIVE_ENDIAN,
->     hw/rtc/goldfish_rtc.c:    .endianness =3D DEVICE_NATIVE_ENDIAN,
->
-> RISC-V is little-endian so when it was added there was no problem with ru=
-nning
-> linux goldfish drivers.
->
-> MIPS Longson3, added last year, seems to be running as little-endian well=
-, I
-> understand MIPS can support both big and little endian. However according=
- to
-> this all Loongson cores are little-endian.
->
->     https://en.wikipedia.org/wiki/Loongson
->
-> As I understand when endianness of the devices in qemu are defined as
-> DEVICE_NATIVE_ENDIAN the device endian takes the endian of the target CPU=
-.
->
-> This means that MIPS Loongson3 and RISC-V are affectively running as
-> little-endian which is what would be expected.
-
-Not really, the definition of DEVICE_NATIVE_ENDIAN in qemu is much less
-well-defined than that as I understand, it is just whatever the person addi=
-ng
-support for that CPU thought would be the right one. A lot of CPUs can
-run either big-endian or little-endian code, and e.g. on ARM, qemu
-DEVICE_NATIVE_ENDIAN is just always little-endian, regardless of
-what the CPU runs, while I think on MIPS it would be whatever the CPU
-is actually executing.
-
-      Arnd
 
