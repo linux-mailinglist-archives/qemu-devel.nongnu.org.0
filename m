@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7364F541D15
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 00:07:59 +0200 (CEST)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB4D541B42
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 23:44:27 +0200 (CEST)
+Received: from localhost ([::1]:46958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyhMk-0001LJ-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 18:07:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36578)
+	id 1nygzy-0001bW-Fh
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 17:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyfx2-0007hY-9W
+ id 1nyfx2-0007jf-TM
  for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:37:20 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44683)
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyfwu-0008IQ-5R
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:37:19 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id h1so15783303plf.11
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:37:11 -0700 (PDT)
+ id 1nyfwv-0008DU-5e
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:37:20 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id d22so15786850plr.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:37:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8ss3EaTY1TKvXRQ5t3puVtJ4SylwysppKIF75i7g6zo=;
- b=HoAqVqWW+Wh81IE7Dp8FnwFSqUG7cgPPRTxVSCo7lKL7aKKceTvMGUAMK8E51eALOV
- Tga7x5rRLYKLGcQDWXRSK8X1A4nDUdeVbMSF/ssdfeidJq71Qq88E0XjcWFGSI08QQ7b
- fPNjOnmDBB4k26NC947+iWl3OOlDV0ISDT1oNtFHcu5gzEvQ2zgUUfERZFjyc3igSfEo
- mKwmVk7YDw1vDv4yg2JfXfu3c5KIDoTVvplKXcyOYeHu2yfpw69313GcMQvmP2VUNrYJ
- SeN/icEIT89X8gPY+E4PhJYmWzRDwMQc7Tn9ikOSIW0s1ExqcaFx5y5R5UwSjk7eRwtW
- MGpQ==
+ bh=gRUKfNIQaiiNP0vvAyDKnRSVA5VX9NVJiBVrOsiCdko=;
+ b=zADOhNo9A4xia2NWmohK53fkDMn9otAZ+9BOR2nwpwHn530Pf8cRakwQO06goIg3Vk
+ mBDFwuyxtdtjve9WZK0s+Wu6VG+5s7j677zMgv2jNPhRAfm32DuEFeG0cR7rdXDSTxIH
+ F6k4jCXLi10KA+bTZXKhjmM1/y5zSqezMJKEB7lJG8DbiEv2oZ6QSqvB7hra68SWjnyj
+ aCbnsPjJEaDUTk/1MLZWVCzsNRs1qsVNEdP1VMeWPAxjvrzf/k8d5t4tJIjZoHeROclj
+ DXlZ7NHsqsOO4sj0fFN+dZSR7dQMB7bD4MlzJKDNQrgqqjg3bVMNj30XvWWO3xpqrgJt
+ wibA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8ss3EaTY1TKvXRQ5t3puVtJ4SylwysppKIF75i7g6zo=;
- b=TVN44ZnYBZtfS0Usl/4dHiL99s+SVlfRi5TpZUwot2CJ8FiQILfgF7J716xe7IdPwo
- jh8TW8VOA+KOyegpiHCOkEAE+wWk5aryPAdQ70LW2LhSIboOliPQJMEu+vdE98EM/SGK
- wLCHNVTg4hZzcs9Vr0iIOineFAOmsf96SGrderuAvKiFLvzRrBdLZvBwfqMXeCqdenLy
- qiRvlPFGwAaPFVNgG9m9whCyTQpHyd8d4YvLjN4NVLSBSMuAQWVy0YYunCtARPkV+iob
- 2S7OXR7BAq0L4ebPJ7pL6V5cNIwCV/0KTVc1lVkl1fyVwJX/4c82o9BQ5nwaTQg4QfbM
- i85Q==
-X-Gm-Message-State: AOAM532VVMX1ArwDr5fG5kfuAqEXnzfYgidUb7urOP1W+MzcNDV0O67D
- 0soCVp1QpDi/HzJMCQVAcSe8YsxC3oOyVg==
-X-Google-Smtp-Source: ABdhPJxlWuoJdWiPrZTAo6pMPQh2y9rJClr05c5ijEOZaQ/FhW8Q0Qj8xuJh/JDM9R2wRRHmYIWbrg==
-X-Received: by 2002:a17:902:ecc9:b0:163:e41c:bf12 with SMTP id
- a9-20020a170902ecc900b00163e41cbf12mr30359335plh.164.1654634231437; 
- Tue, 07 Jun 2022 13:37:11 -0700 (PDT)
+ bh=gRUKfNIQaiiNP0vvAyDKnRSVA5VX9NVJiBVrOsiCdko=;
+ b=DFwNcwIKZBob5X25QGY5NpLUo+T04aefspJ+V1qOiSGpkOtlZt7fBX7Q2bN17lrE/Q
+ XY1lafM/GwhzDNbi4X89yZYPTiYIO2xQIUFwJTx27WqAOgrPRnpQXgWa6S7Buc+3khoo
+ 75Jt4I5aO8tvle745T8ajhwdaq4cKuRySUGurUdcBFRoyta1cgk04NPYzYlaeavNUxEy
+ b4p2GETVYpixdoN8T3Ko32j9kOcrNu/vekTAdK8z5iLvyaWcWOpu+dY09NXmMIvvidL+
+ PICVLNv3HTwgRgaAGn6SdlBx1Lz73lRsEyfncwsy0wJ2klqGHXUutSYHRuHVjfollGJC
+ +HCA==
+X-Gm-Message-State: AOAM533HqEwkX/TyKN/JSAVYpWKdg3WBlIsqhHrzvHsp4rNjvP8BLKoD
+ 9QK3tedAXMW7M3bMRoQ1aQYcPc4KRdE8dg==
+X-Google-Smtp-Source: ABdhPJypCmXWOrdJLgE5AksW0rGIa2c3ezGVwUOgW3DdCFU8tUOYnrdYxC+VFggcuQyjbDXx/J2XRw==
+X-Received: by 2002:a17:903:2312:b0:163:daf7:83a9 with SMTP id
+ d18-20020a170903231200b00163daf783a9mr30791150plh.160.1654634232387; 
+ Tue, 07 Jun 2022 13:37:12 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
- s18-20020aa78d52000000b0050dc76281fdsm13235645pfe.215.2022.06.07.13.37.10
+ s18-20020aa78d52000000b0050dc76281fdsm13235645pfe.215.2022.06.07.13.37.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 07 Jun 2022 13:37:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v2 69/71] target/arm: Only set ZEN in reset if SVE present
-Date: Tue,  7 Jun 2022 13:33:04 -0700
-Message-Id: <20220607203306.657998-70-richard.henderson@linaro.org>
+Subject: [PATCH v2 70/71] target/arm: Enable SME for user-only
+Date: Tue,  7 Jun 2022 13:33:05 -0700
+Message-Id: <20220607203306.657998-71-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220607203306.657998-1-richard.henderson@linaro.org>
 References: <20220607203306.657998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,32 +89,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's no reason to set CPACR_EL1.ZEN if SVE disabled.
+Enable SME, TPIDR2_EL0, and FA64 if supported by the cpu.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ target/arm/cpu.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 75295a14a3..5cb9f9f02c 100644
+index 5cb9f9f02c..13b008547e 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -203,11 +203,10 @@ static void arm_cpu_reset(DeviceState *dev)
-         /* and to the FP/Neon instructions */
-         env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
-                                          CPACR_EL1, FPEN, 3);
--        /* and to the SVE instructions */
--        env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
--                                         CPACR_EL1, ZEN, 3);
--        /* with reasonable vector length */
-+        /* and to the SVE instructions, with default vector length */
-         if (cpu_isar_feature(aa64_sve, cpu)) {
-+            env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
-+                                             CPACR_EL1, ZEN, 3);
+@@ -209,6 +209,17 @@ static void arm_cpu_reset(DeviceState *dev)
+                                              CPACR_EL1, ZEN, 3);
              env->vfp.zcr_el[1] = cpu->sve_default_vq - 1;
          }
++        /* and for SME instructions, with default vector length, and TPIDR2 */
++        if (cpu_isar_feature(aa64_sme, cpu)) {
++            env->cp15.sctlr_el[1] |= SCTLR_EnTP2;
++            env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
++                                             CPACR_EL1, SMEN, 3);
++            env->vfp.smcr_el[1] = cpu->sme_default_vq - 1;
++            if (cpu_isar_feature(aa64_sme_fa64, cpu)) {
++                env->vfp.smcr_el[1] = FIELD_DP64(env->vfp.smcr_el[1],
++                                                 SMCR, FA64, 1);
++            }
++        }
          /*
+          * Enable 48-bit address space (TODO: take reserved_va into account).
+          * Enable TBI0 but not TBI1.
 -- 
 2.34.1
 
