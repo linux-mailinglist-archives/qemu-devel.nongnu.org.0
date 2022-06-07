@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82E85414F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 22:27:27 +0200 (CEST)
-Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3557540477
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 19:13:29 +0200 (CEST)
+Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyfnS-0005DS-Q2
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 16:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35708)
+	id 1nyclk-0005Xa-9z
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 13:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1nycU3-0005yB-OY
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 12:55:12 -0400
-Received: from mail.bwidawsk.net ([107.170.211.233]:53914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1nycU1-0004O9-RO
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 12:55:11 -0400
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id 3580F12328E; Tue,  7 Jun 2022 09:55:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=bwidawsk.net;
- s=zangief; t=1654620908;
- bh=eiDbfThOHCxyHENIDjtw1uqOJTLTKa8NgedrdNXk4QE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=rLVeTN3jhVE4z8xi4DFNgx34OK4fg2SerNB0X/p1STjOSA9xNIA7/5Af58ks+KnO0
- 85Zbzjzj07JQbr9rfF/3oRdssa6k5hszGLMWaX9N2IVuJUB8zJUg/00lB54HfYeJ1k
- c4P3+3TF1FnFpGsnG3f3G4ziWyuZ0AKHakL0S6DM=
-X-Spam-ASN: 
-Received: from mail.bwidawsk.net (c-73-25-157-11.hsd1.or.comcast.net
- [73.25.157.11])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id 978AF12281D;
- Tue,  7 Jun 2022 09:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=bwidawsk.net;
- s=zangief; t=1654620903;
- bh=eiDbfThOHCxyHENIDjtw1uqOJTLTKa8NgedrdNXk4QE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=buHhF6TG0BNJsX+rXsgUwwPfpBdepohW/rb1NsO/DFdYt66FgIctprX38t5hMaGHu
- oAqlnnff7N2HlSZ2/c1YCGfER3yfyizyKgCNRiljNVRtbKUnKnV+Cl/vdi5qQY956L
- yBNBWGjcqlJ3GY36QltrZKsO6wQULtOAS7hpfp8Q=
-Date: Tue, 7 Jun 2022 09:55:01 -0700
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] MAINTAINERS: change Ben Widawsky's email address
-Message-ID: <20220607165501.nfftyyyrr7fmylxi@mail.bwidawsk.net>
-References: <20220607162628.372400-1-ben@bwidawsk.net>
- <20220607175035.00006c64@Huawei.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nycf2-0004mY-OR
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:06:34 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:36501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nycf0-0006GM-Jq
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:06:31 -0400
+Received: by mail-pf1-x436.google.com with SMTP id 15so16069287pfy.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 10:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=7dPrc/FHT+ZJ8++/SoEkQNi1Jx8plBxqSbckYaPsmsg=;
+ b=z1xBGuWufmPsXF70zFOlgx+u3bIPKQ46bKkPL+Uv5IREHucGty/iaLq2vov06/YDxA
+ s1OxjDXyd8x6aF5WBUHzTGJvJtSvP4WbyEfKQauZnH3+x4tDcMs4ibvQDNG/YVROxhA2
+ kB51JGpAtM3+o2Ne3IQ99fBcefNEfZBaH+P759Ul5Q54moDhmIr7xEJLK/oIxKfGFYK4
+ hUOcPzCFpUaWRHpKpz8jpkMRTDm3sPmUFftABYv5rL/3K2ksezahgiGJ/H33FZjwFkKO
+ HRgHLsNB36wkcaqy51JNux6Lg3UZxGxHXskmUY9axaZN2V2a2b/GL6P2sMuIRr7E7SMd
+ wQpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7dPrc/FHT+ZJ8++/SoEkQNi1Jx8plBxqSbckYaPsmsg=;
+ b=pirFf8Y5o/pmdMhJPloaR+bOJrnnYQOrV8WOWu0o73TzX1U5SCX9siNWJTWZq6nLQ8
+ kPSyfWCGcoo29cuje/QAi0v4HB5XXFLIgLbKlwoKqa1HWaeqIvDjoNq8eH6KxyUlHmyI
+ xXbynM2Ori6azhQ/3wLagAafUeDLxjAe1R6p9FeObdSYfVq/6Zl17INj7h28piJa0Ulw
+ 7tIwkIziVv2+y4f9938yJgHGGBm5xQaD8qqJH6bejU6hkxt6RDDXhiN/Sd2Q0cLU5HJ7
+ Q9asG5S0TRd+41vtyYKPjuXjyx4ZVuFxRDExWy7+f01rcPbJgiXNB259KbV9ARJSHNEq
+ xhgg==
+X-Gm-Message-State: AOAM532SQRxbFGw1BWiK6ccSY1xtMyqWwY7GPpEg7ILX2Gmn1KP/zWEI
+ S0VL5KyYYemKLZxkbxojrwCLtpfEY48VKA==
+X-Google-Smtp-Source: ABdhPJzuvaagdpFrOBYnaA8RkmDUBI4pQADP1FuZn7uhfcHSO9dvNb86ZAv9n/5zNgwcK3zTSLFDXA==
+X-Received: by 2002:a05:6a00:140e:b0:4e1:c81a:625c with SMTP id
+ l14-20020a056a00140e00b004e1c81a625cmr30536295pfu.39.1654621587999; 
+ Tue, 07 Jun 2022 10:06:27 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
+ ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
+ by smtp.gmail.com with ESMTPSA id
+ t27-20020aa7947b000000b0051c0fe8fb8csm5397619pfq.95.2022.06.07.10.06.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 10:06:27 -0700 (PDT)
+Message-ID: <e168c1d2-ad41-5d6a-396a-c04af3831e30@linaro.org>
+Date: Tue, 7 Jun 2022 10:06:25 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220607175035.00006c64@Huawei.com>
-Received-SPF: pass client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 2/3] target/mips: implement Octeon-specific BBIT
+ instructions
+Content-Language: en-US
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, jiaxun.yang@flygoat.com, aurelien@aurel32.net,
+ aleksandar.rikalo@syrmia.com
+References: <165459235408.143371.17715826203190085295.stgit@pasha-ThinkPad-X280>
+ <165459236498.143371.12833007759486308114.stgit@pasha-ThinkPad-X280>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <165459236498.143371.12833007759486308114.stgit@pasha-ThinkPad-X280>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 07 Jun 2022 16:22:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,75 +95,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Ben Widawsky <ben@bwidawsk.net>
-From:  Ben Widawsky via <qemu-devel@nongnu.org>
 
-On 22-06-07 17:50:35, Jonathan Cameron wrote:
-> On Tue, 7 Jun 2022 09:26:28 -0700
-> Ben Widawsky <ben@bwidawsk.net> wrote:
-> 
-> > ben@widawsky@intel.com will stop working on 2022-06-20, change it to my
-> > personal email address.
-> > 
-> > Update .mailmap to handle previously authored commits.
-> > 
-> > Signed-off-by: Ben Widawsky <ben@bwidawsk.net>
-> 
-> With below question addressed,
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> 
-> Probably cc Michael Tsirkin as well given he picked up the
-> patch that introduced this maintainers entry recently.
+On 6/7/22 01:59, Pavel Dovgalyuk wrote:
+> +# Branch on bit set or clear
+> +# BBIT0      110010 ..... ..... ................
+> +# BBIT032    110110 ..... ..... ................
+> +# BBIT1      111010 ..... ..... ................
+> +# BBIT132    111110 ..... ..... ................
+> +
+> +BBIT         11 set:1 shift:1 10 rs:5 p:5 offset:16
 
-Okay. Luckily I had a typo in the commit message anyway, so it needed a respin.
+shift + p are logically one field -- all you need to do is concatenate them.
 
-> 
-> Thanks,
-> 
-> Jonathan
-> 
-> 
-> > ---
-> >  .mailmap    | 1 +
-> >  MAINTAINERS | 2 +-
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/.mailmap b/.mailmap
-> > index 8c326709cfab..0dec7b156999 100644
-> > --- a/.mailmap
-> > +++ b/.mailmap
-> > @@ -54,6 +54,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
-> >  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
-> >  Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
-> >  Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
-> > +Ben Widawsky <ben.widawsky@intel.com> <ben@bwidawsk.net>
-> 
-> Is this backwards as you will (I think) want scripts to output ben@bwidawsk.net 
-> as your canonical email address going forwards?
+%bbit_p         28:1 16:5
+BBIT            11 set:1 . 10 rs:5 ..... offset:16  p=%bbit_p
 
-I guess? I simply read the comment to determine order. I should have gone with
-what I knew rather than tried to figure out what was meant.
+> +    if (ctx->hflags & MIPS_HFLAG_BMASK) {
+> +#ifdef MIPS_DEBUG_DISAS
+> +        LOG_DISAS("Branch in delay / forbidden slot at PC 0x"
+> +                  TARGET_FMT_lx "\n", ctx->base.pc_next);
+> +#endif
 
-"# Next, replace old addresses by a more recent one."
+Ifdef isn't needed -- it's always defined, even to 0.
 
-> 
-> >  Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
-> >  Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
-> >  Frederic Konrad <konrad.frederic@yahoo.fr> <fred.konrad@greensocs.com>
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 5580a36b68e1..89da5755116b 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -2574,7 +2574,7 @@ F: qapi/transaction.json
-> >  T: git https://repo.or.cz/qemu/armbru.git block-next
-> >  
-> >  Compute Express Link
-> > -M: Ben Widawsky <ben.widawsky@intel.com>
-> > +M: Ben Widawsky <ben@bwidawsk.net>
-> >  M: Jonathan Cameron <jonathan.cameron@huawei.com>
-> >  S: Supported
-> >  F: hw/cxl/
-> > 
-> > base-commit: 9b1f58854959c5a9bdb347e3e04c252ab7fc9ef5
-> 
+> +    tcg_gen_andi_tl(t0, t0, 1ULL << p);
+> +
+> +    /* Jump conditions */
+> +    if (a->set) {
+> +        tcg_gen_setcondi_tl(TCG_COND_NE, bcond, t0, 0);
+> +    } else {
+> +        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, t0, 0);
+> +    }
+
+You don't need to produce a boolean, MIPS_HFLAG_BC tests for non-zero.  Thus you can 
+simplify this to
+
+     p = tcg_constant_tl(1ull << a->p);
+     if (a->set) {
+         tcg_gen_and_tl(bcond, rs, p);
+     } else {
+         tcg_gen_andc_tl(bcond, p, rs);
+     }
+
+
+r~
 
