@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A391953FF44
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 14:46:15 +0200 (CEST)
-Received: from localhost ([::1]:44184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B7253FFAF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 15:09:45 +0200 (CEST)
+Received: from localhost ([::1]:51100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyYb8-0003PD-Db
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 08:46:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54066)
+	id 1nyYxs-0001R9-Bu
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 09:09:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nyY4E-0007Gz-8Z
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 08:12:14 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:44937)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nyY4B-0005jw-VE
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 08:12:14 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id c18so7350475pgh.11
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 05:12:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=GijARRYnxL8YO0+sEq7CgmOSfAqFvvakkFBsv6at5Ao=;
- b=QjzQzhgN46s/kESurvy5S4WXixwl3Jm+2nFPnTlxnjoSrWHmBxRXLsMr3HMecO2Vnr
- lfVnS8JFp0oF1rJXEjgZEkvnIK3V1pb+p2LJLKQCKwpe1GJTL5x9JAVxRpf5ZZSmyFC8
- Qh91hc5xUPBJfy0S1PAulnlR8qZAEFmhM6vCI8l+iCJmD8MzC3lj2njzB1l0jgKRoVLj
- +J6d+GMrx8b4RUDTxxHQNafJTXpvnQGSbkhaqCIebWwJEFADOyWOQumc0WlnZasuDu85
- uC1xwpDV4Vg2XPBCEjsn4vm412qsUYFOKz9mZyIPWK5l3s30sdhQltu2bDmO8pbGa9PK
- kiVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=GijARRYnxL8YO0+sEq7CgmOSfAqFvvakkFBsv6at5Ao=;
- b=w4roO+VOsAjb3vA6+bWc+bMDa59F2GaCmu+kPBf9u2EzF7zGAFE8nIkz0wv4pwUf5K
- /iXJiCT5HT38c6I9R1GhsTvmRqkuCBeb2jJNm9mmHPFmNRiuXPnGToFAHew9m3C5vtkJ
- NGPdjeMnhHI3rUJrv7ZZo4Mry0Ne865hYTxR6mGNEbx6AcadB7UcVbIRjIHBYM965CEv
- 6TZx4ojI1F6kW/J1/sEzAOYHjK8az5rkVH5Qr2GQCb8E6XR4yabSQ4pRekoF4XGYzS44
- y6xfBYTfvKS63zXVcT0iEnCmCkojZcKtjpxXt7ed8bVXAM1TOSUrGYNLWqSc1U5Cp39L
- 9b+Q==
-X-Gm-Message-State: AOAM531bk0YE070YjWdmr8bcDxZ9/t3Fj0hCpSkegjgD40KNVlhQcPqo
- mdYI/YMKEekXfCDo0pMXIF4=
-X-Google-Smtp-Source: ABdhPJwCSCn5Byw+9714s59/vTRyhGwy+WF9gUTl/b+De7VI8bPEHCvQiZzq5tYWiT59Mdr5aE1XgA==
-X-Received: by 2002:a63:f003:0:b0:3db:84d3:743d with SMTP id
- k3-20020a63f003000000b003db84d3743dmr25232916pgh.97.1654603930382; 
- Tue, 07 Jun 2022 05:12:10 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- jh13-20020a170903328d00b0015eab1b097dsm12335643plb.22.2022.06.07.05.12.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 05:12:09 -0700 (PDT)
-Date: Tue, 7 Jun 2022 21:12:07 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Joel Stanley <joel@jms.id.au>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Openrisc <openrisc@lists.librecores.org>,
- QEMU Development <qemu-devel@nongnu.org>
-Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
-Message-ID: <Yp9Al1UfqvIzStI7@antec>
-References: <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
- <CAMuHMdWF_OwTMZZ=joRsnOAuB5UuKjACt3Ku4-o0--fR6xqQbQ@mail.gmail.com>
- <YpkWllpTFzb2HHY5@antec>
- <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
- <YpwNtowUTxRbh2Uq@antec> <Ypxb/VDfYLFg3n2s@antec>
- <CAMuHMdVwAzbAOBDcv4y1WmYgCaFOMdywxUZvwMtDccOgDMN+mw@mail.gmail.com>
- <CAK8P3a3Vpn02uDe3rdXSNXANY=u4ZM+wjm-qqszTXzjOKkAeEg@mail.gmail.com>
- <Yp8epZsizfKMEVZV@antec>
- <CAFEAcA97oraa5OSdqmubmJ2-ONTCTF4ZszwfTcZ9VhqKRFhogA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nyYF7-0000Sz-DT; Tue, 07 Jun 2022 08:23:29 -0400
+Received: from mga12.intel.com ([192.55.52.136]:19495)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nyYF0-00088o-T8; Tue, 07 Jun 2022 08:23:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654604602; x=1686140602;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=EY8GPt89rNIjCxuozpwEWpjJtiSFidkUYBTBGiHQKdM=;
+ b=nq+krJOjenNYlHrxjL5IAVsz1LnojFGUjq7Qsvjsg/9eUbheTh7fFJ0S
+ 2nrWU0cygoxn2f6QcmIYStIMwfPqZ9XrD4fosu046EM60I0ze/J9zcV6t
+ kPFSL7Fp+JhFoGFPSGW/3s+wOqdNXjAGit6jveJrDEW1taPOcHCqHhlyX
+ WVyUugdMgLSOfUxHf7gsS248vWtnaHHOchZz7Tm8QvT9cTjCogc1ll2k9
+ xvEgZ46dWmgqsZG89PYC6ZLQO4nZltPZ/yxXyaWYeJ5rCV+ehC3+8A0mD
+ L0tWaopxNn8KzKKNIcLs7rTTTRiLlP8M1aMR5rGRjVtYstukc5p7tXb70 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="256556049"
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="256556049"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 05:23:17 -0700
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="614903289"
+Received: from hmowinsk-mobl2.ger.corp.intel.com (HELO
+ kzawora-mobl.ger.corp.intel.com) ([10.213.29.246])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 05:23:12 -0700
+Date: Tue, 7 Jun 2022 14:23:08 +0200
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: qemu-devel@nongnu.org, Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
+Subject: Re: [PATCH v3] hw/nvme: clean up CC register write logic
+Message-ID: <Yp9DLD5QFWNBFIZT@kzawora-mobl.ger.corp.intel.com>
+References: <20220607112320.58532-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA97oraa5OSdqmubmJ2-ONTCTF4ZszwfTcZ9VhqKRFhogA@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=shorne@gmail.com; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220607112320.58532-1-its@irrelevant.dk>
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,47 +76,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 07, 2022 at 11:43:08AM +0100, Peter Maydell wrote:
-> So I don't have a strong view on whether these devices should
-> be DEVICE_NATIVE_ENDIAN or DEVICE_LITTLE_ENDIAN (except that
-> my impression is that a DEVICE_LITTLE_ENDIAN device on a
-> big-endian system is a bit weird, because it means the guest
-> has to byteswap everything. You see that with PCI devices because
-> the PCI spec mandates LE, but not often elsewhere).
+On Tue, Jun 07, 2022 at 01:23:20PM +0200, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> If there's an official-ish spec for how goldfish devices are
-> supposed to behave (does anybody have a pointer to one?) and it says
-> "always little-endian" then that would probably suggest that fixing
-> m68k would be nice if we can.
+> The SRIOV series exposed an issued with how CC register writes are
+> handled and how CSTS is set in response to that. Specifically, after
+> applying the SRIOV series, the controller could end up in a state with
+> CC.EN set to '1' but with CSTS.RDY cleared to '0', causing drivers to
+> expect CSTS.RDY to transition to '1' but timing out.
+> 
+> Clean this up.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+> v3:
+>   * clear intms/intmc/cc regardless of reset type
+> 
+>  hw/nvme/ctrl.c | 38 ++++++++++++++++----------------------
+>  1 file changed, 16 insertions(+), 22 deletions(-)
+> 
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 658584d417fe..a558f5cb29c1 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -6190,10 +6190,15 @@ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
+>  
+>      if (pci_is_vf(pci_dev)) {
+>          sctrl = nvme_sctrl(n);
+> +
+>          stl_le_p(&n->bar.csts, sctrl->scs ? 0 : NVME_CSTS_FAILED);
+>      } else {
+>          stl_le_p(&n->bar.csts, 0);
+>      }
+> +
+> +    stl_le_p(&n->bar.intms, 0);
+> +    stl_le_p(&n->bar.intmc, 0);
+> +    stl_le_p(&n->bar.cc, 0);
+>  }
+>  
+>  static void nvme_ctrl_shutdown(NvmeCtrl *n)
+> @@ -6405,20 +6410,21 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+>          nvme_irq_check(n);
+>          break;
+>      case NVME_REG_CC:
+> +        stl_le_p(&n->bar.cc, data);
+> +
+>          trace_pci_nvme_mmio_cfg(data & 0xffffffff);
+>  
+> -        /* Windows first sends data, then sends enable bit */
+> -        if (!NVME_CC_EN(data) && !NVME_CC_EN(cc) &&
+> -            !NVME_CC_SHN(data) && !NVME_CC_SHN(cc))
+> -        {
+> -            cc = data;
+> +        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
+> +            trace_pci_nvme_mmio_shutdown_set();
+> +            nvme_ctrl_shutdown(n);
+> +            csts &= ~(CSTS_SHST_MASK << CSTS_SHST_SHIFT);
+> +            csts |= NVME_CSTS_SHST_COMPLETE;
+> +        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
+> +            trace_pci_nvme_mmio_shutdown_cleared();
+> +            csts &= ~(CSTS_SHST_MASK << CSTS_SHST_SHIFT);
+>          }
+>  
+>          if (NVME_CC_EN(data) && !NVME_CC_EN(cc)) {
+> -            cc = data;
+> -
+> -            /* flush CC since nvme_start_ctrl() needs the value */
+> -            stl_le_p(&n->bar.cc, cc);
+>              if (unlikely(nvme_start_ctrl(n))) {
+>                  trace_pci_nvme_err_startfail();
+>                  csts = NVME_CSTS_FAILED;
+> @@ -6429,22 +6435,10 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+>          } else if (!NVME_CC_EN(data) && NVME_CC_EN(cc)) {
+>              trace_pci_nvme_mmio_stopped();
+>              nvme_ctrl_reset(n, NVME_RESET_CONTROLLER);
+> -            cc = 0;
+> -            csts &= ~NVME_CSTS_READY;
+> -        }
+>  
+> -        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
+> -            trace_pci_nvme_mmio_shutdown_set();
+> -            nvme_ctrl_shutdown(n);
+> -            cc = data;
+> -            csts |= NVME_CSTS_SHST_COMPLETE;
+> -        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
+> -            trace_pci_nvme_mmio_shutdown_cleared();
+> -            csts &= ~NVME_CSTS_SHST_COMPLETE;
+> -            cc = data;
+> +            break;
+>          }
+>  
+> -        stl_le_p(&n->bar.cc, cc);
+>          stl_le_p(&n->bar.csts, csts);
+>  
+>          break;
+> -- 
+> 2.36.1
+> 
 
-I think there are some conflicting thoughts on this.
-
-In Geert's he mentioned:
-
-  Using Goldfish devices as little-endian devices should be fine.
-
-In Arnd's mail he mentions:
-
-  https://lore.kernel.org/lkml/CAK8P3a1oN8NrUjkh2X8jHQbyz42Xo6GSa=5n0gD6vQcXRjmq1Q@mail.gmail.com/#t
-
-  ... the device was clearly defined as having little-endian
-  registers,
-
-Based on that I was thinking that switching to DEVICE_LITTLE_ENDIAN would make
-sense.
-
-However, in a followup mail from Laurent we see:
-
-  https://lore.kernel.org/lkml/cb884368-0226-e913-80d2-62d2b7b2e761@vivier.eu/
-
-  The reference document[1] doesn't define the endianness of goldfish.
-
-  [1] https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
-
-
-The documentation does not clearly specify it.  So maybe maybe or1k should just
-be updated on the linux side and add gf_ioread32/gf_iowrite32 big-endian
-accessors.
-
--Stafford
+Reviewed-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 
