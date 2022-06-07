@@ -2,92 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E26353FB3F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:30:33 +0200 (CEST)
-Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8033253FB40
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:30:36 +0200 (CEST)
+Received: from localhost ([::1]:36244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyWTo-0003Lz-0J
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60392)
+	id 1nyWTr-0003XT-J1
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyVvn-0008T8-SI
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:55:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55861)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyVxi-0001Th-5O
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:57:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyVvj-0003p9-PC
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:55:22 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyVxc-0004L4-BT
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:57:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654595718;
+ s=mimecast20190719; t=1654595831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gq5/H0xkgpSldEk5Z0wIV6NF7QnQEC2F/6U4QRimfFA=;
- b=G0x0ayf/827IrfVRgjqN1E6dky4HJD5h88+S/dposfU41U7BZ8Y9X7ZXhNYKvyQSrLDX/d
- 3jQ7LuIOJoRnkwYeKXL0IlAD7Fc/ciiapeXlXpd65b3aygxC1fbzjfIIi4RqgD3L21aAx6
- eZqk8gbJ2oz7sBOMfwecmOBVuyW2kR0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4SFhOw4sXMrFeNxmXYbVkXTOGc+UhN3ElsHE0hV6jJ0=;
+ b=LH7c7sLSMuyAHVPbiqoQ4QGPfi6FpkkEN9BCzC/BKd4VUegG3MFUzplMeU6avO74G/YhPK
+ Lc3089QEaFjiF2bdSaC57VPaa5iAgjBnmij7g/Lyk3KX/WpM8A6B9ThGmBrnZTArY+Hvm5
+ fThzDa4TEsJ9EV8PZBzxbJ4+QGMxTOA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-_4MA7eZ2NImfYcWEbjOyDA-1; Tue, 07 Jun 2022 05:55:17 -0400
-X-MC-Unique: _4MA7eZ2NImfYcWEbjOyDA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y13-20020a056402358d00b0042dfb820070so12081414edc.6
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:55:17 -0700 (PDT)
+ us-mta-538-WJrB0qMrMpqmJeXCRXtvtw-1; Tue, 07 Jun 2022 05:57:09 -0400
+X-MC-Unique: WJrB0qMrMpqmJeXCRXtvtw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n18-20020a05600c3b9200b00397335edc7dso12546422wms.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:57:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Gq5/H0xkgpSldEk5Z0wIV6NF7QnQEC2F/6U4QRimfFA=;
- b=eReQnnQcC4V1rw+M8TtE6x/oxzDkAGwPUyYY2W4yvU3IvlOBEfbVsWp9CqdeSe35Uv
- vDiJRF0t9zNWFZ3aohNsrjGTYypZomt/dBHVMT4eX5rQl3qB4Un2lXYF0Ib9y7PSUKmk
- XEkAE/8hJgaF4LVpQAOmcplck45XxACZ2fjjZszcL+Y/lGuNC0C6nVSNWlT04Wk4GOSs
- 9uiW666rmXpKYPnqr4pR8CgtdivEfR1ZYi8xaweBiRJQrjZC8MvoNWbYyH2tJ1Nz5TLW
- m6YUjQ349n0qEvgyHKg4/uwLnzno1NozQQdUjQnRs4T1T9EHrfnr7RxdigjGczIw+YpD
- YkCw==
-X-Gm-Message-State: AOAM533lk/7+FWDPEvuoeP92kMDfn/p+whXQpUWctWy0/4J8fc0FziKk
- DVuNzKTnhHTsKEbP9pPKI81/0R318kBW+DuEHKFwmlwd1q4VMAkkm8SNVXaaPgTQF1RCm5GrSz3
- Mw/oV6MHrml6671g=
-X-Received: by 2002:a05:6402:51d4:b0:42f:b38d:dbb9 with SMTP id
- r20-20020a05640251d400b0042fb38ddbb9mr21067359edd.255.1654595716478; 
- Tue, 07 Jun 2022 02:55:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZv5hUtHXQy4j9gNRNMY8Y/umrgIo9c8YtWvBOhT6wmBIWd5KSRc5fZVDOBMFDjzTS6wuz4g==
-X-Received: by 2002:a05:6402:51d4:b0:42f:b38d:dbb9 with SMTP id
- r20-20020a05640251d400b0042fb38ddbb9mr21067341edd.255.1654595716201; 
- Tue, 07 Jun 2022 02:55:16 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4SFhOw4sXMrFeNxmXYbVkXTOGc+UhN3ElsHE0hV6jJ0=;
+ b=5G0AvwcF1VJUnBuyBQvSYXMI40WfYtlBNijbK3xFyhNcI5Q7sdkRFwQAhrbz10AK1t
+ 3W9hVNIbQpiWP3XIEGnuG9PObL+kdAeITzvbLOzi1aqX9P7lBbXeGKIzlU0YZ2SmlNtZ
+ l37I/Wh0s2vMOvQouZ2phXHllczGYpsE+AzUMzMCPH0bLH4QVBeE2tk3b0qvLS0WhJt5
+ imcbo5GRpUk67kWaKzwSTDyiZIU0/7YLmcLHYfSlRGHAECG9qZbBMK6/dzRzLyy24wqT
+ 1b2TZCeL7+KeV1yekqrUteO0Hr2iKykvStNbfEeAxxGFro6nWaM+kaYlWzfIaKyn9GL8
+ Q8hA==
+X-Gm-Message-State: AOAM5309NIl5YU0AGY6f/d+JJH8tqkPsl3nUYgZbt847cw2jpwzRiAG4
+ N3t4KRVvU5j6bo4GOC/y5W3ir4ASHVI9xcerXFLTlU1zun/I9RDK//gad6T6bFbER4oETKzAFrv
+ GbQGpeSfoQzBX+xI=
+X-Received: by 2002:a5d:64a5:0:b0:210:1328:b5e2 with SMTP id
+ m5-20020a5d64a5000000b002101328b5e2mr26509797wrp.191.1654595828498; 
+ Tue, 07 Jun 2022 02:57:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/fjDnwVQoEDlqD4eodVbTXSESvRrQLXzWG6iyqqimaNRK/ujLD9TXpGN+yqyruEcVhzyQjw==
+X-Received: by 2002:a5d:64a5:0:b0:210:1328:b5e2 with SMTP id
+ m5-20020a5d64a5000000b002101328b5e2mr26509772wrp.191.1654595828296; 
+ Tue, 07 Jun 2022 02:57:08 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
+ ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
  by smtp.gmail.com with ESMTPSA id
- e18-20020a1709062d5200b006f3ef214da6sm7450708eji.12.2022.06.07.02.55.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 02:55:15 -0700 (PDT)
-Date: Tue, 7 Jun 2022 11:55:14 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH 2/5] bios-tables-test: teach test to use smbios 3.0 tables
-Message-ID: <20220607115514.4b9bd0b9@redhat.com>
-In-Reply-To: <CAMDeoFXP=wtarQdjFs3i_aDVgKGegAa=ho09v_DWG9xnLcOSNg@mail.gmail.com>
-References: <20220527165651.28092-1-jusual@redhat.com>
- <20220527165651.28092-3-jusual@redhat.com>
- <20220602170405.29ec7149@redhat.com>
- <CAMDeoFXP=wtarQdjFs3i_aDVgKGegAa=ho09v_DWG9xnLcOSNg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ o18-20020a05600c4fd200b0039744bd664esm24143607wmq.13.2022.06.07.02.57.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 02:57:07 -0700 (PDT)
+Message-ID: <c09ec47f-c11b-d634-0a18-fc54750d1f3d@redhat.com>
+Date: Tue, 7 Jun 2022 11:57:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v5 02/45] block: introduce bdrv_open_file_child() helper
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
+ v.sementsov-og@mail.ru, Ari Sundholm <ari@tuxera.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Jeff Cody <codyprime@gmail.com>, Fam Zheng <fam@euphon.net>
+References: <20220330212902.590099-1-vsementsov@openvz.org>
+ <20220330212902.590099-3-vsementsov@openvz.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220330212902.590099-3-vsementsov@openvz.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,230 +111,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jun 2022 12:52:00 +0200
-Julia Suvorova <jusual@redhat.com> wrote:
+On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
+> Almost all drivers call bdrv_open_child() similarly. Let's create a
+> helper for this.
+>
+> The only not updated driver that call bdrv_open_child() to set
+> bs->file is raw-format, as it sometimes want to have filtered child but
+> don't set drv->is_filter to true.
 
-> On Thu, Jun 2, 2022 at 5:04 PM Igor Mammedov <imammedo@redhat.com> wrote:
-> >
-> > On Fri, 27 May 2022 18:56:48 +0200
-> > Julia Suvorova <jusual@redhat.com> wrote:
-> >  
-> > > Introduce the 64-bit entry point. Since we no longer have a total
-> > > number of structures, stop checking for the new ones at the EOF
-> > > structure (type 127).
-> > >
-> > > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > > ---
-> > >  tests/qtest/bios-tables-test.c | 101 ++++++++++++++++++++++++---------
-> > >  1 file changed, 75 insertions(+), 26 deletions(-)
-> > >
-> > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > > index a4a46e97f0..0ba9d749a5 100644
-> > > --- a/tests/qtest/bios-tables-test.c
-> > > +++ b/tests/qtest/bios-tables-test.c
-> > > @@ -75,6 +75,14 @@
-> > >  #define OEM_TEST_ARGS      "-machine x-oem-id=" OEM_ID ",x-oem-table-id=" \
-> > >                             OEM_TABLE_ID
-> > >
-> > > +#define SMBIOS_VER21 0
-> > > +#define SMBIOS_VER30 1
-> > > +
-> > > +typedef struct {
-> > > +    struct smbios_21_entry_point ep21;
-> > > +    struct smbios_30_entry_point ep30;
-> > > +} smbios_entry_point;
-> > > +
-> > >  typedef struct {
-> > >      bool tcg_only;
-> > >      const char *machine;
-> > > @@ -88,8 +96,8 @@ typedef struct {
-> > >      uint64_t rsdp_addr;
-> > >      uint8_t rsdp_table[36 /* ACPI 2.0+ RSDP size */];
-> > >      GArray *tables;
-> > > -    uint32_t smbios_ep_addr;
-> > > -    struct smbios_21_entry_point smbios_ep_table;
-> > > +    uint64_t smbios_ep_addr[2];
-> > > +    smbios_entry_point smbios_ep_table;
-> > >      uint16_t smbios_cpu_max_speed;
-> > >      uint16_t smbios_cpu_curr_speed;
-> > >      uint8_t *required_struct_types;
-> > > @@ -533,10 +541,10 @@ static void test_acpi_asl(test_data *data)
-> > >      free_test_data(&exp_data);
-> > >  }
-> > >
-> > > -static bool smbios_ep_table_ok(test_data *data)
-> > > +static bool smbios_ep2_table_ok(test_data *data)
-> > >  {
-> > > -    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table;
-> > > -    uint32_t addr = data->smbios_ep_addr;
-> > > +    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table.ep21;
-> > > +    uint32_t addr = data->smbios_ep_addr[SMBIOS_VER21];
-> > >
-> > >      qtest_memread(data->qts, addr, ep_table, sizeof(*ep_table));
-> > >      if (memcmp(ep_table->anchor_string, "_SM_", 4)) {
-> > > @@ -559,29 +567,59 @@ static bool smbios_ep_table_ok(test_data *data)
-> > >      return true;
-> > >  }
-> > >
-> > > -static void test_smbios_entry_point(test_data *data)
-> > > +static bool smbios_ep3_table_ok(test_data *data)
-> > > +{
-> > > +    struct smbios_30_entry_point *ep_table = &data->smbios_ep_table.ep30;
-> > > +    uint64_t addr = data->smbios_ep_addr[SMBIOS_VER30];
-> > > +
-> > > +    qtest_memread(data->qts, addr, ep_table, sizeof(*ep_table));
-> > > +    if (memcmp(ep_table->anchor_string, "_SM3_", 5)) {
-> > > +        return false;
-> > > +    }
-> > > +
-> > > +    if (acpi_calc_checksum((uint8_t *)ep_table, sizeof *ep_table)) {
-> > > +        return false;
-> > > +    }
-> > > +
-> > > +    return true;
-> > > +}
-> > > +
-> > > +static int test_smbios_entry_point(test_data *data)
-> > >  {
-> > >      uint32_t off;
-> > > +    bool found_ep2 = false, found_ep3 = false;
-> > >
-> > >      /* find smbios entry point structure */
-> > >      for (off = 0xf0000; off < 0x100000; off += 0x10) {
-> > > -        uint8_t sig[] = "_SM_";
-> > > +        uint8_t sig[] = "_SM3_";  
-> >
-> > well I'd just add a separate sig3  
-> 
-> Ok
-> 
-> > >          int i;
-> > >
-> > >          for (i = 0; i < sizeof sig - 1; ++i) {
-> > >              sig[i] = qtest_readb(data->qts, off + i);
-> > >          }
-> > >
-> > > -        if (!memcmp(sig, "_SM_", sizeof sig)) {
-> > > +        if (!found_ep2 && !memcmp(sig, "_SM_", sizeof sig - 2)) {  
-> >
-> > keep original v2 code and just add similar chunk for v3,
-> > drop found_foo locals,
-> > that should make it easier to read/follow
-> > (i.e. less conditions to think about and no magic fiddling with the length of signature)  
-> 
-> The idea was to reuse existing code, but since it doesn't improve
-> things much, it makes sense to repeat it.
-> 
-> > >              /* signature match, but is this a valid entry point? */
-> > > -            data->smbios_ep_addr = off;
-> > > -            if (smbios_ep_table_ok(data)) {
-> > > -                break;
-> > > +            data->smbios_ep_addr[SMBIOS_VER21] = off;
-> > > +            if (smbios_ep2_table_ok(data)) {
-> > > +                found_ep2 = true;
-> > > +            }
-> > > +        } else if (!found_ep3 && !memcmp(sig, "_SM3_", sizeof sig - 1)) {
-> > > +            data->smbios_ep_addr[SMBIOS_VER30] = off;
-> > > +            if (smbios_ep3_table_ok(data)) {
-> > > +                found_ep3 = true;
-> > >              }
-> > >          }
-> > > +
-> > > +        if (found_ep2 || found_ep3) {
-> > > +            break;
-> > > +        }
-> > >      }
-> > >
-> > > -    g_assert_cmphex(off, <, 0x100000);
-> > > +    g_assert_cmphex(data->smbios_ep_addr[SMBIOS_VER21], <, 0x100000);
-> > > +    g_assert_cmphex(data->smbios_ep_addr[SMBIOS_VER30], <, 0x100000);
-> > > +
-> > > +    return found_ep3 ? SMBIOS_VER30 : SMBIOS_VER21;  
-> >
-> > and use content of data->smbios_ep_addr[] to return found version  
-> 
-> You mean check if it's initialized?
+Also snapshot-access, which uses DATA | PRIMARY.
 
-yep, it's zeroed out initially and you can check if it's set to something else
-after detection phase
+> Possibly we should implement drv->is_filter_func() handler, to consider
+> raw-format as filter when it works as filter.. But it's another story.
+>
+> Note also, that we decrease assignments to bs->file in code: it helps
+> us restrict modifying this field in further commit.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+> ---
 
+[...]
 
-> 
-> > >  }
-> > >
-> > >  static inline bool smbios_single_instance(uint8_t type)
-> > > @@ -625,16 +663,23 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
-> > >      return true;
-> > >  }
-> > >
-> > > -static void test_smbios_structs(test_data *data)
-> > > +static void test_smbios_structs(test_data *data, int ver)
-> > >  {
-> > >      DECLARE_BITMAP(struct_bitmap, SMBIOS_MAX_TYPE+1) = { 0 };
-> > > -    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table;
-> > > -    uint32_t addr = le32_to_cpu(ep_table->structure_table_address);
-> > > -    int i, len, max_len = 0;
-> > > +
-> > > +    smbios_entry_point *ep_table = &data->smbios_ep_table;
-> > > +    int i = 0, len, max_len = 0;
-> > >      uint8_t type, prv, crt;
-> > > +    uint64_t addr;
-> > > +
-> > > +    if (ver == SMBIOS_VER21) {
-> > > +        addr = le32_to_cpu(ep_table->ep21.structure_table_address);
-> > > +    } else {
-> > > +        addr = le64_to_cpu(ep_table->ep30.structure_table_address);
-> > > +    }
-> > >
-> > >      /* walk the smbios tables */
-> > > -    for (i = 0; i < le16_to_cpu(ep_table->number_of_structures); i++) {
-> > > +    do {
-> > >
-> > >          /* grab type and formatted area length from struct header */
-> > >          type = qtest_readb(data->qts, addr);
-> > > @@ -660,19 +705,23 @@ static void test_smbios_structs(test_data *data)
-> > >          }
-> > >
-> > >          /* keep track of max. struct size */
-> > > -        if (max_len < len) {
-> > > +        if (ver == SMBIOS_VER21 && max_len < len) {
-> > >              max_len = len;
-> > > -            g_assert_cmpuint(max_len, <=, ep_table->max_structure_size);
-> > > +            g_assert_cmpuint(max_len, <=, ep_table->ep21.max_structure_size);
-> > >          }
-> > >
-> > >          /* start of next structure */
-> > >          addr += len;
-> > > -    }
-> > >
-> > > -    /* total table length and max struct size must match entry point values */
-> > > -    g_assert_cmpuint(le16_to_cpu(ep_table->structure_table_length), ==,
-> > > -                     addr - le32_to_cpu(ep_table->structure_table_address));
-> > > -    g_assert_cmpuint(le16_to_cpu(ep_table->max_structure_size), ==, max_len);
-> > > +    } while (ver == SMBIOS_VER21 ?
-> > > +                (++i < le16_to_cpu(ep_table->ep21.number_of_structures)) : (type != 127));
-> > > +
-> > > +    if (ver == SMBIOS_VER21) {
-> > > +        /* total table length and max struct size must match entry point values */
-> > > +        g_assert_cmpuint(le16_to_cpu(ep_table->ep21.structure_table_length), ==,
-> > > +                         addr - le32_to_cpu(ep_table->ep21.structure_table_address));
-> > > +        g_assert_cmpuint(le16_to_cpu(ep_table->ep21.max_structure_size), ==, max_len);
-> > > +    }
-> > >
-> > >      /* required struct types must all be present */
-> > >      for (i = 0; i < data->required_struct_types_len; i++) {
-> > > @@ -756,8 +805,8 @@ static void test_acpi_one(const char *params, test_data *data)
-> > >       * https://bugs.launchpad.net/qemu/+bug/1821884
-> > >       */
-> > >      if (!use_uefi) {
-> > > -        test_smbios_entry_point(data);
-> > > -        test_smbios_structs(data);
-> > > +        int ver = test_smbios_entry_point(data);
-> > > +        test_smbios_structs(data, ver);
-> > >      }
-> > >
-> > >      qtest_quit(data->qts);  
-> >  
-> 
+> diff --git a/block/filter-compress.c b/block/filter-compress.c
+> index d5be538619..b2cfa9a9a5 100644
+> --- a/block/filter-compress.c
+> +++ b/block/filter-compress.c
+> @@ -30,10 +30,8 @@
+>   static int compress_open(BlockDriverState *bs, QDict *options, int flags,
+>                            Error **errp)
+>   {
+> -    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+> -                               BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+> -                               false, errp);
+> -    if (!bs->file) {
+> +    int ret = bdrv_open_file_child(NULL, options, "file", bs, errp);
+> +    if (ret < 0) {
+>           return -EINVAL;
+
+Should probably be `return ret;` like elsewhere.
+
+With that done:
+
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
