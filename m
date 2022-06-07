@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82B2541F76
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:24:57 +0200 (CEST)
-Received: from localhost ([::1]:33356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353FC541F78
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:25:47 +0200 (CEST)
+Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyiZE-0000NQ-RT
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56190)
+	id 1nyia0-00018I-Hh
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:25:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nyhPI-0008Ll-Fp; Tue, 07 Jun 2022 18:10:38 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:35609)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyhbe-00084w-93
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 18:23:22 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nyhPG-0005xM-On; Tue, 07 Jun 2022 18:10:36 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id h188so25773090oia.2;
- Tue, 07 Jun 2022 15:10:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=od9CPu0KQJvt1whmshMNSXWlsqPt54sDgWq1/kdLM98=;
- b=BOYbaGM48zQeLQ2ibCUz15uyG2gqFN0HCmGnuhIHltPRF5VHsbsT4jce2ylAcwSgQm
- mMYX64qFwy3BGxrUtUMtkpeJNGZnygRS/K0KvOJL74477j0eaX5yht8THFkw3TMW5uME
- jqdeupARjLdKJr8EJ1GWkzRiWn0brOgK/B7qLjypJM0irj617ZidO+gUd3O1lCa/zP94
- CAj6P5AK9z9bDbrGBIFNmcq6yjcuOVvExfwZKmSwa8sAY7EX3WN1IuNXzUDDPsXbxvN6
- j89Sab9PLIvtVe/pFHlZKXydbkNwpOJhNVdtX+Gl39iY3Jei+QEBKdv1mXCCQ70S2DUv
- Hbhw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyhbc-0007V1-OU
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 18:23:22 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id f9so5551200plg.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 15:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=q66yRfoRNu/P2XPKSObPOd4KY8fvv5FhIw/05WBJnLA=;
+ b=TK7BZCLOhPGJnfI+Qn4zvm+wIA9RNLdM7ssFLwc9F6H8mNdubztF68i08xDQTiGLBY
+ BK2dy75a1i/tWrbuve6vz2rTdYUqzRwcOfHpfC69uCRbPc3YcOwRn9W1D1+VlxcZXiH2
+ i5FX13CukC4prjOcBcM/VzxVBx6Wj0lGpjR1j2ikn0R8EMi+YkWr3n1OPDbK5SJfBf3U
+ VkVMjtmFSEfvJOR0SNOT5RLHxYOjzT1dPiXUX3U9fE4EqUYrnLtK+9qe+oCe7UUzckus
+ yHkis9fBm4xAnsTe7p6ZyYIlOfNTfdM2uO9SgrzqgT+rio4L5Lms/0H1Zu4+phHuN9sg
+ Cg3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=od9CPu0KQJvt1whmshMNSXWlsqPt54sDgWq1/kdLM98=;
- b=VUnRFkfIhiZOSk23bnsJJdz2hUFNxjhbWj47wyceGkg/4zLzaY7VNo+CJU9DAaKat4
- nIhl8arXa/dewdkv9v3XZYUML/ZiY8cJpiPJeQYNviuNhDZ5eguHSCFu8GwD2hsAtDcv
- HU3V5HRexiS9S/KKLnU4nudIGYP1GaVZrDgWZ8VZ4YlsiJxCD4DV23uGNvu1z9USpUyu
- Pu1HcO0Ah9Pvkt2HPury2kpiSeBGjpknu5lk40QAohcSGKodaSkIYWm1zUVWq+lZgFqh
- u13yBvXuVip9LY29hnKNnoWJ3PzXhrrFYSNtTae4iDK4c+tmVION0+NWLLB8je5VgejT
- GmCw==
-X-Gm-Message-State: AOAM530Wbn9j5qTa6NGNh+K8P2FrO9pAc9AZGxbKfEEftOvr56dPwPd8
- 1jJ1i4n83gN+FXXrDpXbEft86ZqmOv2TEbtUveU=
-X-Google-Smtp-Source: ABdhPJwbCWYXQ0g3Q3gYBanP3y9LtAv1yJ6L5uyFX3QtUkbJt9ppgm3tm5PpEWlbyM4jUk/2kk7iCM/0oVGtFM1bjSM=
-X-Received: by 2002:a05:6808:2126:b0:32e:a750:f8b4 with SMTP id
- r38-20020a056808212600b0032ea750f8b4mr644935oiw.278.1654639833221; Tue, 07
- Jun 2022 15:10:33 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=q66yRfoRNu/P2XPKSObPOd4KY8fvv5FhIw/05WBJnLA=;
+ b=HZ//Gqxi359JYvgcC2CA11yXe/gw+XF4+1v8AC2cR0bU/9M/moFMIXCec30+/nSwik
+ 2NvhT5Ewn+q+O3ngazcqyGmDO0St4n+g7w7h3N0p9geK9nFK+QT9CXkz6T04jbu0VQq+
+ IM73vTw/ExCHedAeXii6I85RcGYqGrU0OH7JewMMmGiW28P8jmLWOoH128gk3ovF52es
+ zA06/gBmzxKVGY8BVpeB4IlKBTu8uIQHql3BxZIK4aCzBFyV1xmjzzI5ZpWRC+YwLENr
+ FfvxoZDJ8eMzwZTwKhrz9Ht7LVJavMdX6J59aydVAkJIrWpFBNoCB91tWjMCRiIpzc8A
+ 15fQ==
+X-Gm-Message-State: AOAM533AdlDkDuYSBRW80GG7BSGB5oEawozf54rkm23M2dMxWdQyKwNS
+ kGg6qwyx8zfsqlg7II3O1okMjQ==
+X-Google-Smtp-Source: ABdhPJwDrShPlaJYgo/UJVCexiILw2ninouLVSmgQiXJGfgGw7oqV67p2EiVI5Q6yJCoAScA9b3RwA==
+X-Received: by 2002:a17:902:70c1:b0:163:5a8f:9df9 with SMTP id
+ l1-20020a17090270c100b001635a8f9df9mr31020737plt.9.1654640599118; 
+ Tue, 07 Jun 2022 15:23:19 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
+ ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020a170902ea4a00b00163e459be9asm6051467plg.136.2022.06.07.15.23.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 15:23:18 -0700 (PDT)
+Message-ID: <35407e39-ac93-b5c0-c634-975ab8609a92@linaro.org>
+Date: Tue, 7 Jun 2022 15:23:16 -0700
 MIME-Version: 1.0
-References: <20220601013657.197358-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220601013657.197358-1-alistair.francis@opensource.wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 8 Jun 2022 08:10:07 +1000
-Message-ID: <CAKmqyKMTq_KVt=m0Z7BtqueXJa=KJvrVWBVNEh3i-rbhy27GXg@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: Don't expose the CPU properties on names
- CPUs
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>, 
- Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=alistair23@gmail.com; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 2/6] bsd-user/freebsd/os-syscall.c: unlock_iovec
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gleb Popov <arrowd@freebsd.org>, 
+ Konrad Witaszczyk <def@freebsd.org>, Jessica Clarke <jrtc27@freebsd.org>, 
+ Kyle Evans <kevans@freebsd.org>
+References: <20220607201440.41464-1-imp@bsdimp.com>
+ <20220607201440.41464-3-imp@bsdimp.com>
+ <4279f170-76df-c329-24ec-26e1e68446eb@linaro.org>
+ <CANCZdfq5L5Q3ePmdF6_ap73h5CGgtc6ZVK0e+tPfUOqW5SKBkw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CANCZdfq5L5Q3ePmdF6_ap73h5CGgtc6ZVK0e+tPfUOqW5SKBkw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,30 +98,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 1, 2022 at 11:37 AM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> There are currently two types of RISC-V CPUs:
->  - Generic CPUs (base or any) that allow complete custimisation
->  - "Named" CPUs that match existing hardware
->
-> Users can use the base CPUs to custimise the extensions that they want, for
-> example -cpu rv64,v=true.
->
-> We originally exposed these as part of the named CPUs as well, but that was
-> by accident.
->
-> Exposing the CPU properties to named CPUs means that we accidently
-> enable extensinos that don't exist on the CPUs by default. For example
-> the SiFive E CPU currently support the zba extension, which is a bug.
->
-> This patch instead only expose the CPU extensions to the generic CPUs.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On 6/7/22 14:51, Warner Losh wrote:
+>     void unlock_iovec(IOVecMap *map, bool copy_out)
+>     {
+>           for (int i = 0, count = map->count; i < count; ++i) {
+>               if (map->host[i].iov_base) {
+>                   abi_ulong target_base = tswapal(map->target[i].iov_base);
+>                   unlock_user(map->host[i].iov_base, target_base,
+>                               copy_out ? map->host[i].iov_len : 0);
+>               }
+> 
+> 
+> And wouldn't we want to filter out the iov_base that == 0 since
+> we may terminate the loop before we get to the count. When the
+> I/O is done, we'll call it not with the number we mapped, but with
+> the original number...  Or am I not understanding something here...
 
-Any thoughts?
+I'm not following -- when and why are you adjusting count?
 
-Alistair
+
+r~
 
