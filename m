@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E084541F8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:44:12 +0200 (CEST)
-Received: from localhost ([::1]:36504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A819E541F8B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:39:51 +0200 (CEST)
+Received: from localhost ([::1]:60712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyirr-0005Sp-8v
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35396)
+	id 1nyind-0002dE-VB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHo-0007UM-Hh
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43332)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHn-0007Tt-UO
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHk-0005FM-MF
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHk-0005FR-U6
  for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654643210;
+ s=mimecast20190719; t=1654643212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/nsVzLqKpD8/hwbcooIPoQU7v9mpGX6uZpbH2P3/PzU=;
- b=FgA+OEmiq7R+RvS+xAHPCP6eft2QDIr0zTlbr/fHHMWOJ6sb4LKB43bDP9P3NNcjDkfeM+
- u9mXvNFog0u4hrB571FworZGgPE7m4zsoejA0pnIcICXi73qlLi8xhv/T1ttt2r4qS3vca
- e1KTNj/wf5N9Giv6Er+azBtkV95amwM=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C5SDL/3f9u/neTqnxCPoh9gqsnwEb6tm3hePdNROKyA=;
+ b=Z5fICTPiyvDJGqPawY7nKeOgxgn1bNIR1KKm/goJNoqtpE+SzCfJqBrfS0dTsH5y+njzBB
+ oqpwgD2tLKWgyIdpogjT1Sxbq9+pFmChnxvGLKL/xcQdRAf4JofikVlkwg/SFhf9TRvyKK
+ 2kMYcqS6PljZ09IABchVuohSLXddnUw=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-fM0vcGTxMKWLohw31UQ91g-1; Tue, 07 Jun 2022 19:06:49 -0400
-X-MC-Unique: fM0vcGTxMKWLohw31UQ91g-1
-Received: by mail-io1-f70.google.com with SMTP id
- n19-20020a056602341300b0066850b49e09so8810347ioz.12
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 16:06:49 -0700 (PDT)
+ us-mta-26-OEDYHVomNu25aMqEn_3TqQ-1; Tue, 07 Jun 2022 19:06:51 -0400
+X-MC-Unique: OEDYHVomNu25aMqEn_3TqQ-1
+Received: by mail-il1-f200.google.com with SMTP id
+ g8-20020a92cda8000000b002d15f63967eso14632609ild.21
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 16:06:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/nsVzLqKpD8/hwbcooIPoQU7v9mpGX6uZpbH2P3/PzU=;
- b=WPrk0CW5CvXvhhusvYt+ElvU2APk5HsGiLLattfrj3hqYhOWN8k8HyfaWQUNAe1Ayb
- YC67Hxzf+HplEIW4/jRLu0CEoZyorDjrlax6d1j6Im1tIvl0tTqdfFMl3HooJq8/B2y2
- szaG+kuXs4SX38VgfTXRktwDyhsN24yZ10cLWPMt9G3hvZFJXPaU2VzSy1dmZMWIghWl
- Y3GKkHme4bVSuYcsJAlsbLw+LaD8zSWztDUM5eaYCnXF2LOiUhEILVqMD0k40+lG0P6P
- TedYdcyvLgFkLeQ4MiCnGsidrpG85Q+qKf3V/5ggIfbKcuP4Uu1wUEfzmL8RMQHUQFGf
- V0bQ==
-X-Gm-Message-State: AOAM530kMLja0wY1k1QzI6QXxlLKjrDJrG8HSpTxW91MRiN1d+5ToVat
- wynC+S0ah1reuS4iRg9ozmZoL/N0I7N+ezGmO7vd8PrE1PDQZsIFyfiD0UPJZSRDOP2ssnEYqAp
- xCv19/+S3BRTw9jxs0ocjgtsb1lT9q3qDRr4buEdUQ08qtjnH0/hfXogXSAQw/IdM
-X-Received: by 2002:a05:6638:d4b:b0:330:f5f8:2521 with SMTP id
- d11-20020a0566380d4b00b00330f5f82521mr17342814jak.149.1654643208854; 
- Tue, 07 Jun 2022 16:06:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJygfdJq6wUxWuc+mqb89gljdmvPi7oK2XSmeWlCcq0JLp6FMR7SoKodYVORYGqJSatAaXnymA==
-X-Received: by 2002:a05:6638:d4b:b0:330:f5f8:2521 with SMTP id
- d11-20020a0566380d4b00b00330f5f82521mr17342798jak.149.1654643208525; 
- Tue, 07 Jun 2022 16:06:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=C5SDL/3f9u/neTqnxCPoh9gqsnwEb6tm3hePdNROKyA=;
+ b=eeFC+jbhzhaZoXAvXbF0E6RVkTs+Bni6Fl4oBRuYtYNyGccKpVicAi+WluAy8WurJN
+ Q8LhfrKd6+f8qL9mvxoyruCIV14rUJed5wzsVRdwi0h5uOckKZSoOxpt8aoojPKVpgDP
+ sh6fRrrPIUAC1p6aFZ0lL8Kx3mnYS+6Bwu0yFAuri2ZmR8GNZz1zDeYk9b0gC4dAmWsr
+ eE17oke3h3FPUEEeIqdvV0AValSzfYF/1+jngMnOYG4cBKpA7gy6A2UgNtdAiN8OpWol
+ f1dXxRHtbr9Nly7ApzBySChuecrINT5HHnSJD6y9BWZYD1TVQSbXfNW8ubfP2iry1a3c
+ dyOQ==
+X-Gm-Message-State: AOAM530t3Bpkb+zIZwDFF2AG4Q1G4NvWJAZPrukrXbpZOIS7nvMOveiC
+ 69FtquTna26MVDVtVnXL5kzBsBDGkhb2fc3b2qsC9v8CLl0h/LWLBfxUeNykiWgNpZ1QZ0KKtXH
+ 3Si4FLD5NaMG3MOl673g71eZFuAT0+bq3knaq0E/JZCQ1uc3ZJhKplKBQKY+30Dud
+X-Received: by 2002:a05:6638:3e1b:b0:331:d0b5:18e9 with SMTP id
+ co27-20020a0566383e1b00b00331d0b518e9mr2996910jab.207.1654643210350; 
+ Tue, 07 Jun 2022 16:06:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgWQRzlAa4dG9MPJCKK5HjtIA8xeducuSvtMdAXx7FoSdy9ojAaY+bYB++9BYXLiBD4jrFjw==
+X-Received: by 2002:a05:6638:3e1b:b0:331:d0b5:18e9 with SMTP id
+ co27-20020a0566383e1b00b00331d0b518e9mr2996898jab.207.1654643210101; 
+ Tue, 07 Jun 2022 16:06:50 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- f6-20020a056602038600b00665862d12bbsm7035375iov.46.2022.06.07.16.06.47
+ f6-20020a056602038600b00665862d12bbsm7035375iov.46.2022.06.07.16.06.48
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 07 Jun 2022 16:06:47 -0700 (PDT)
+ Tue, 07 Jun 2022 16:06:49 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>,
@@ -69,12 +70,15 @@ Cc: Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Igor Mammedov <imammedo@redhat.com>, peterx@redhat.com
-Subject: [PATCH RFC 0/5] CPU: Detect put cpu register errors for migrations
-Date: Tue,  7 Jun 2022 19:06:40 -0400
-Message-Id: <20220607230645.53950-1-peterx@redhat.com>
+Subject: [PATCH RFC 1/5] cpus-common: Introduce run_on_cpu_func2 which allows
+ error returns
+Date: Tue,  7 Jun 2022 19:06:41 -0400
+Message-Id: <20220607230645.53950-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220607230645.53950-1-peterx@redhat.com>
+References: <20220607230645.53950-1-peterx@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -100,81 +104,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Marking this as RFC]
+run_on_cpu API does not yet support any way to pass over an error message
+to above.  Add a new run_on_cpu_func2 hook to grant possibility of that.
 
-This series teaches QEMU to detect errors when e.g. putting registers from
-QEMU to KVM, and fail migrations properly.
+Note that this only changes the cpus-common core, no API is yet introduced
+for v2 of the run_on_cpu_func function.
 
-For the rational of this series and why it was posted, please refer to the
-bug report here:
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ cpus-common.c         | 28 +++++++++++++++++++++++++---
+ include/hw/core/cpu.h |  2 ++
+ 2 files changed, 27 insertions(+), 3 deletions(-)
 
-https://lore.kernel.org/all/YppVupW+IWsm7Osr@xz-m1.local/
-
-But I'd rather not go into that if the reviewer doesn't have that context,
-because we don't really need that complexity..  It can be simple as we
-should fail migration early when we see issues happening already, so:
-
-  1) We fail explicitly, rather than afterward with some weird guest
-     errors.  In my bug report, it was a guest double fault.  There's
-     another bug report that Sean mentioned in the thread from Mike Tancsa
-     that can have other sympotons rather than double fault, but anyway
-     they'll be hard to diagnose since the processor state can be corrupted
-     (please refer to kvm_arch_put_registers() where we stop putting more
-     registers to KVM when we see any error).
-
-  2) For precopy, with this early failure the VM won't crash itself since
-     we still have a chance to keep running it on src host, while if
-     without this patch we will fail later, and it can crash the VM.
-
-In this specific case, when KVM_SET_XSAVE ioctl failed on dest host before
-start running the VM there, we should fail the migration already.
-
-After the patchset applied, the above "double fault" issue will become
-migration failures, and...
-
-For precopy, we can see some error dumped for precopy on dest, then the VM
-will be kept running on src host:
-
-2022-06-07T22:48:48.804234Z qemu-system-x86_64: kvm_arch_put_registers() failed with retval=-22
-2022-06-07T22:48:48.804588Z qemu-system-x86_64: load of migration failed: Invalid argument
-
-For postcopy, currently we'll pause the VM immediately for admin to decide
-what to do:
-
-2022-06-07T22:47:49.448192Z qemu-system-x86_64: kvm_arch_put_registers() failed with retval=-22
-13072@1654642069.518993:runstate_set current_run_state 1 (inmigrate) new_state 4 (paused)
-
-If something like this series is welcomed, we could do better in the future
-by telling the src host about this issue and keep running, because
-put-register happens right at the switch-over, so we actually have this
-chance (no dirty page on dest host yet).
-
-Comments welcomed.  Thanks,
-
-Peter Xu (5):
-  cpus-common: Introduce run_on_cpu_func2 which allows error returns
-  cpus-common: Add run_on_cpu2()
-  accel: Allow synchronize_post_init() to take an Error**
-  cpu: Allow cpu_synchronize_all_post_init() to take an errp
-  KVM: Hook kvm_arch_put_registers() errors to the caller
-
- accel/hvf/hvf-accel-ops.c     |  2 +-
- accel/kvm/kvm-all.c           | 15 +++++++---
- accel/kvm/kvm-cpus.h          |  2 +-
- cpus-common.c                 | 55 +++++++++++++++++++++++++++++++++--
- hw/core/machine.c             |  2 +-
- include/hw/core/cpu.h         | 28 ++++++++++++++++++
- include/sysemu/accel-ops.h    |  2 +-
- include/sysemu/cpus.h         |  2 +-
- include/sysemu/hw_accel.h     |  1 +
- migration/savevm.c            | 20 +++++++++++--
- softmmu/cpus.c                | 23 ++++++++++++---
- stubs/cpu-synchronize-state.c |  3 ++
- target/i386/hax/hax-all.c     |  2 +-
- target/i386/nvmm/nvmm-all.c   |  2 +-
- target/i386/whpx/whpx-all.c   |  2 +-
- 15 files changed, 139 insertions(+), 22 deletions(-)
-
+diff --git a/cpus-common.c b/cpus-common.c
+index db459b41ce..1db7bbbb88 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -116,9 +116,20 @@ __thread CPUState *current_cpu;
+ 
+ struct qemu_work_item {
+     QSIMPLEQ_ENTRY(qemu_work_item) node;
+-    run_on_cpu_func func;
++    union {
++        run_on_cpu_func func;     /* When has_errp==false */
++        run_on_cpu_func2 func2;   /* When has_errp==true  */
++    };
+     run_on_cpu_data data;
+     bool free, exclusive, done;
++
++    /*
++     * Below are only used by v2 of work item, where we allow to return
++     * errors for cpu work items.  When has_errp==true, then: (1) we call
++     * func2 rather than func, and (2) we pass in errp into func2() call.
++     */
++    bool has_errp;
++    Error **errp;
+ };
+ 
+ static void queue_work_on_cpu(CPUState *cpu, struct qemu_work_item *wi)
+@@ -314,6 +325,17 @@ void async_safe_run_on_cpu(CPUState *cpu, run_on_cpu_func func,
+     queue_work_on_cpu(cpu, wi);
+ }
+ 
++static void process_one_work_item(struct qemu_work_item *wi, CPUState *cpu)
++{
++    if (wi->has_errp) {
++        /* V2 of work item, allows errors */
++        wi->func2(cpu, wi->data, wi->errp);
++    } else {
++        /* Old version of work item, no error returned */
++        wi->func(cpu, wi->data);
++    }
++}
++
+ void process_queued_cpu_work(CPUState *cpu)
+ {
+     struct qemu_work_item *wi;
+@@ -336,11 +358,11 @@ void process_queued_cpu_work(CPUState *cpu)
+              */
+             qemu_mutex_unlock_iothread();
+             start_exclusive();
+-            wi->func(cpu, wi->data);
++            process_one_work_item(wi, cpu);
+             end_exclusive();
+             qemu_mutex_lock_iothread();
+         } else {
+-            wi->func(cpu, wi->data);
++            process_one_work_item(wi, cpu);
+         }
+         qemu_mutex_lock(&cpu->work_mutex);
+         if (wi->free) {
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 996f94059f..7a303576d0 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -252,6 +252,8 @@ typedef union {
+ #define RUN_ON_CPU_NULL           RUN_ON_CPU_HOST_PTR(NULL)
+ 
+ typedef void (*run_on_cpu_func)(CPUState *cpu, run_on_cpu_data data);
++/* Same as run_on_cpu_func but allows to return an error */
++typedef void (*run_on_cpu_func2)(CPUState *cpu, run_on_cpu_data data, Error **errp);
+ 
+ struct qemu_work_item;
+ 
 -- 
 2.32.0
 
