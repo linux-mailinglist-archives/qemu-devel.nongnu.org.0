@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5D754060E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 19:34:26 +0200 (CEST)
-Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1768854072A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 19:44:06 +0200 (CEST)
+Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyd60-0007KN-M6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 13:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
+	id 1nydFM-0001UM-Lg
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 13:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nyd4B-0006Pp-3M; Tue, 07 Jun 2022 13:32:31 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:57263)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nyd48-0001wJ-4T; Tue, 07 Jun 2022 13:32:30 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.109])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C16F110883CE0;
- Tue,  7 Jun 2022 19:32:15 +0200 (CEST)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 7 Jun 2022
- 19:32:13 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S0013f56a9fe-e4e8-4b64-b0cb-32386039e059,
- B3A9F5ABA359FFEAA5F192A1B4EC97B2EEB111D0) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <567f9a16-9ebc-0140-5137-378f6923968d@kaod.org>
-Date: Tue, 7 Jun 2022 19:32:12 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nydCX-0000jM-Ea
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:41:10 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:37404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nydCT-0003ds-AG
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:41:08 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ 3-20020a17090a174300b001e426a02ac5so18335737pjm.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 10:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=hLNaa181H8ZV34t+mYn6dZSDjvN0Yj6tUPG8NXR6U/8=;
+ b=nb5gqojJsfk2hOLsDZRy2JKfC6GeKe96zDKtLlHpjfpoci2ItDVqsiQ508Orc0oKYx
+ Q9tbMH7+MUTnfZX5LeSa9IA6Genvn3ODR7eJ/d2adIcRzXJIkQ3A6Abp24znvxDIv45J
+ i0y+ELRIaXic9sUFwB+ulmdq/XO0okjtvaoeXPx1zwc57zuLSgXhGNovwJj4WYt+RxKu
+ ZDhevGezFY7Xo+FdV1iJHT4mV6fACpZC3ds9pBYgMoiCERkGQcETvUShxt1zGQ/SGstX
+ IiI0ZVP/xmZifHwHS7f322qfnYPM1Y/oTbRZvICxvE926Gp+58zVe0K7sgET4XQj/9p/
+ kMiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=hLNaa181H8ZV34t+mYn6dZSDjvN0Yj6tUPG8NXR6U/8=;
+ b=fvNEG5iDpeXYio8hoN3k4S92g4goB+mB4EUgbru0MdsEkFgGEi2A1SjNROxZgMq3lc
+ xvtu1h1OX0K6aZFPUt8emnCVg8C4bzuzR2fK09UJuT70bPYYAnrHKXn7WAYg/edzWywg
+ sGS37OXSFgF6jk80aTdN7MbLKi3MRd8Jdp3zb8jlBALWNzxr37hpaNPM6bCdmBrDiYwn
+ CYOv4ZBEu2cRfFJa+bBb1gia42yzS4ooYQh2wv/Xsuz9ciCl8QEmGtllbC82a3J13kT6
+ 188E/KqqFAnhdknAaICbP/+MGMr9W+Ejia0rs19E7E+PXMpDqMdqm9oYjpWiSU+swtYD
+ b/5w==
+X-Gm-Message-State: AOAM530C88tOrTDhV2dWbrJi4D0tbvjPJZ4TDIiIffp+EXqbOCnVIYAA
+ XzJB0dl7LydbBwf3RPycI7Q19A==
+X-Google-Smtp-Source: ABdhPJwjpW2D5KmbTLpOit87YXGtzM+tvYVfLqCi74rC92TLGKAI2wRfrvjHSM8QTG737S3Nrd/0cw==
+X-Received: by 2002:a17:902:8ecc:b0:15e:f63f:233f with SMTP id
+ x12-20020a1709028ecc00b0015ef63f233fmr30167171plo.86.1654623663566; 
+ Tue, 07 Jun 2022 10:41:03 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
+ ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
+ by smtp.gmail.com with ESMTPSA id
+ p2-20020a170902c70200b001617541c94fsm12828847plp.60.2022.06.07.10.41.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 10:41:02 -0700 (PDT)
+Message-ID: <dcc045e3-93c6-35ce-e378-fa4e73fe9a12@linaro.org>
+Date: Tue, 7 Jun 2022 10:41:00 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 02/21] aspeed: i2c: Add ctrl_global_rsvd property
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 09/49] semihosting: Adjust error checking in
+ common_semi_cb
 Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>
-CC: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
- Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>,
- Steven Lee <steven_lee@aspeedtech.com>, Klaus Jensen <k.jensen@samsung.com>,
- Peter Delevoryas <pdel@fb.com>, Corey Minyard <cminyard@mvista.com>, Jonathan
- Cameron <Jonathan.Cameron@huawei.com>, Damien Hedde
- <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>, Cleber Rosa
- <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
- Leal <bleal@redhat.com>
-References: <20220606150732.2282041-1-clg@kaod.org>
- <20220606150732.2282041-3-clg@kaod.org>
- <CACPK8Xe_9octsmpZwbGQFpYijgVWyED_n1UjXxjUj-fDRHdp1Q@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CACPK8Xe_9octsmpZwbGQFpYijgVWyED_n1UjXxjUj-fDRHdp1Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
+References: <20220521000400.454525-1-richard.henderson@linaro.org>
+ <20220521000400.454525-10-richard.henderson@linaro.org>
+ <CAFEAcA9x+xCFkLQX8wMnTr4JfFLN0nOnLan6y-Qt-tmzRe5mpA@mail.gmail.com>
+ <840c75f7-069b-9c53-37ca-399489989758@linaro.org>
+In-Reply-To: <840c75f7-069b-9c53-37ca-399489989758@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 7df6c07e-7525-4083-9ece-e8599fda4a62
-X-Ovh-Tracer-Id: 10060760093656386506
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsghlvggrlhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdel
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,108 +98,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Joe,
-
-On 6/7/22 02:05, Joel Stanley wrote:
-> On Mon, 6 Jun 2022 at 15:08, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> From: Joe Komlodi <komlodi@google.com>
->>
->> The Aspeed I2C controller is used across other SKUs that have different
->> reserved bits for the ctrl_global_rsvd register.
+On 5/23/22 08:35, Richard Henderson wrote:
+>> That implies that our current code is right, in that the
+>> way to check for "did the call fail" is to look at the
+>> retcode, not the errno (in the same way that if you make a
+>> native syscall or library call you look first at its return
+>> value, not at errno). There's nothing in the protocol text
+>> that makes a guarantee that the errno value is non-0 if and
+>> only if the call failed.
 > 
-> I think rsvd stands for reserved? Lets spell out the full name in the
-> variable to keep it clear.
-> 
-> You could also call global_control_mask (or ctrl_global_mask if you
-> prefer), as it's a mask of valid bits.
-> 
->>
->> Signed-off-by: Joe Komlodi <komlodi@google.com>
->> Change-Id: I606c5933c527274a9d2b0afe559b2e895767636c
->> Message-Id: <20220331043248.2237838-3-komlodi@google.com>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>   include/hw/i2c/aspeed_i2c.h | 2 ++
->>   hw/arm/aspeed_ast2600.c     | 2 ++
->>   hw/i2c/aspeed_i2c.c         | 4 ++++
->>   3 files changed, 8 insertions(+)
->>
->> diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
->> index 4b9be09274c7..3912fcc3ff53 100644
->> --- a/include/hw/i2c/aspeed_i2c.h
->> +++ b/include/hw/i2c/aspeed_i2c.h
->> @@ -71,6 +71,8 @@ struct AspeedI2CState {
->>       MemoryRegion pool_iomem;
->>       uint8_t pool[ASPEED_I2C_MAX_POOL_SIZE];
->>
->> +    uint32_t ctrl_global_rsvd;
->> +
->>       AspeedI2CBus busses[ASPEED_I2C_NR_BUSSES];
->>       MemoryRegion *dram_mr;
->>       AddressSpace dram_as;
->> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
->> index b0a4199b6960..cc57c8b437d8 100644
->> --- a/hw/arm/aspeed_ast2600.c
->> +++ b/hw/arm/aspeed_ast2600.c
->> @@ -375,6 +375,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
->>       aspeed_soc_uart_init(s);
->>
->>       /* I2C */
->> +    object_property_set_int(OBJECT(&s->i2c), "ctrl-global-rsvd", 0xfffc3e00,
->> +                            &error_abort);
->>       object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
->>                                &error_abort);
->>       if (!sysbus_realize(SYS_BUS_DEVICE(&s->i2c), errp)) {
->> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
->> index 03a4f5a91010..97eb9d57929c 100644
->> --- a/hw/i2c/aspeed_i2c.c
->> +++ b/hw/i2c/aspeed_i2c.c
->> @@ -648,6 +648,7 @@ static void aspeed_i2c_ctrl_write(void *opaque, hwaddr offset,
->>
->>       switch (offset) {
->>       case I2C_CTRL_GLOBAL:
->> +        value &= ~s->ctrl_global_rsvd;
-> 
-> Is there value in printing a guest error when the reserved bits are set?
-> 
-> If not, is it worth having this property at all? It doesn't affect the
-> ability to model it.
+> I admit that I didn't check the gdb code.  I looked at our side and saw that when the 
+> second result is missing that we'd supply 0, and interpreted "can be omitted" as "will be 
+> omitted" on success.
+
+Checking, can->will is actually correct, and gdb will omit the errno parameter on success.
+
+https://sourceware.org/git?p=binutils-gdb.git;a=blob;f=gdb/remote-fileio.c;h=fe191fb6069a53a3844656a81e77069afa781946;hb=HEAD#l328
+
+So I think checking err != 0 is a good change.
 
 
-Could you tell us more about the 0xfffc3e00 value. It doesn't match
-any documents I have access to. If it is for a specific board, then
-it should be added to QEMU. We can keep the property to begin with,
-if that helps
-
-Thanks,
-
-C.
-
-
-> 
->>           s->ctrl_global = value;
->>           break;
->>       case I2C_CTRL_STATUS:
->> @@ -730,6 +731,7 @@ static const VMStateDescription aspeed_i2c_vmstate = {
->>       .minimum_version_id = 2,
->>       .fields = (VMStateField[]) {
->>           VMSTATE_UINT32(intr_status, AspeedI2CState),
->> +        VMSTATE_UINT32(ctrl_global_rsvd, AspeedI2CState),
->>           VMSTATE_STRUCT_ARRAY(busses, AspeedI2CState,
->>                                ASPEED_I2C_NR_BUSSES, 1, aspeed_i2c_bus_vmstate,
->>                                AspeedI2CBus),
->> @@ -828,6 +830,8 @@ static void aspeed_i2c_realize(DeviceState *dev, Error **errp)
->>   static Property aspeed_i2c_properties[] = {
->>       DEFINE_PROP_LINK("dram", AspeedI2CState, dram_mr,
->>                        TYPE_MEMORY_REGION, MemoryRegion *),
->> +    DEFINE_PROP_UINT32("ctrl-global-rsvd", AspeedI2CState, ctrl_global_rsvd,
->> +                       0xfffffffe),
->>       DEFINE_PROP_END_OF_LIST(),
->>   };
->>
->> --
->> 2.35.3
->>
-
+r~
 
