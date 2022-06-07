@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CF3541E54
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 00:29:15 +0200 (CEST)
-Received: from localhost ([::1]:50876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E60541D2C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 00:09:16 +0200 (CEST)
+Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyhhK-0007Vg-JH
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 18:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39034)
+	id 1nyhNz-0004Xf-MS
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 18:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyg5l-0007H3-Tn
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:46:23 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44016)
+ id 1nyg5n-0007IP-T1
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:46:25 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:44667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyg5k-0001P6-9R
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:46:21 -0400
-Received: by mail-pg1-x536.google.com with SMTP id s135so1341699pgs.10
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:46:19 -0700 (PDT)
+ id 1nyg5l-0001Pj-BX
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:46:22 -0400
+Received: by mail-pf1-x432.google.com with SMTP id g205so16507992pfb.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:46:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zVpqLWTsPExWd6f8jF1EY/VDSSozWoVLxOFKhLPqh5c=;
- b=SJknkGx8/pq3lb6/gLJhL5UIi8p3mx6c+Syrkssfa6HTjwfxO/RpyTMHGGucB/Mc+J
- 2mgK6QA3TUB3I1VZj9Z6aDt2u5yBNWsSigGIXTDOqRBxI3yAGg0Tm8z9dJ9Ujgxr4HiI
- acREI4cU041T48qwwToCodtav5vaGwpxTREivyi/agY+7NqIrfsM3xJYpxG/sp5b3FJz
- nTeCeHJV3Y5NwFhPkly8MrbGUS8t4Kenu8wUjwD7DCiPXRklRJTzKegZ1bM86R842xAG
- 8NopC2f7EGxooYxB8QeSiO90iEq/M0LPD3lt2V91hDOd/4fq2QVPndbaTdJWuFCsbv5L
- qn8Q==
+ bh=Lkal5KDK4537KjIiM5DwOIkXPoQZ/flNccQ9lkg/eXQ=;
+ b=BKwrP/V6wehA/E0kailighFLe4S1AMzDd9JRJgXCdGcGeDLfC4D8ZA1Zux5xTCMOEV
+ GRbRCa9MFxWg8DsQfmeU8YJZ4h1rav7y0YnpOEUax8/j3vc2dA0FGNYWDeO4psesf/74
+ bvxdK9GpNtcQ1lraq7bWcT3LOCJjKeupAZK6el4gSzO7Z34orK7mwsZCOqU1SYMTii1q
+ ER5uGJ0nj0+NqHT8AuTb7I0Ei9dOe/ez1kvDxmBnN8vjgeWeNC3OhKznMa6+4u38oRJe
+ ODCdiEykNQxeZg2ZYsd91KfnQgNPElov7n1ZViVF+G7EXoJCGhpAHhd+Ojh/jtrrVbTy
+ IbWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zVpqLWTsPExWd6f8jF1EY/VDSSozWoVLxOFKhLPqh5c=;
- b=VFM98XspYR+ZR+9nhY9FYtwRg18/tVAd4Zk21JocaK/XNVUSZEvRL4CGLcbeoghwoa
- jW1kkf9YjATejushQxww44NmQxhX8U3JxyldP9XjFiiZU6f8CO/ip4pdbqIq3bozKG8C
- cIh7IfwaXyqbPeC8nQBiOcfVSors8eDD+LdjI01bz6qwVSdI0lqtQOdGfs7fBCPk5CEg
- I6I3yn6ZulV/3JHziTH5gA7z8aQfeyqUqn3Xj1ppKzD0UD7JjNnB5RXWH9rxqgL6pihZ
- 7SyaTwWW8oei3KnRwpPEcBTR+opYGnId536lqAm/w98l54bAOZSzEJCSTiuCDvUGKD63
- maow==
-X-Gm-Message-State: AOAM530ceP6KL9/IukCb7rEhW0wc4ZWAQbdw6vZPabTQ1c3Lan+vcT2E
- qWlEKtJoh+IZGgpj0eDFZ9pNoYzyKGqgPw==
-X-Google-Smtp-Source: ABdhPJz2gQf9UDXhWV8N9aDCeSaVYxjWbMM5rZOCyjwVnwfHfobuZNcjL9N0z31Tby4DrgbTMzRsDg==
-X-Received: by 2002:a63:4a4b:0:b0:3fa:8a72:b2 with SMTP id
- j11-20020a634a4b000000b003fa8a7200b2mr27283079pgl.544.1654634779024; 
+ bh=Lkal5KDK4537KjIiM5DwOIkXPoQZ/flNccQ9lkg/eXQ=;
+ b=YqkcBHx3TSmDHo6M2/qu+k6xgTKHdLOPzjiw4urOJDbnumnt3O/Wuaiz5JHMV+wLx1
+ cAH30XKHFsYu+YXPgzLVnSWkGpuhH98f7tYIgLDV+A8tv8vIcLfVPJSWEXFLvo9nJ64b
+ atf7+5YOJTsc+pCyuTsjU12ZWXipP5BPnbrnnxSyBCOuhHXurjB5B9zo7x1TWiB+ojgn
+ 1Cv8v6hjb0LhTvmUYZz0WU+E4m8MxMRwwRG31k8ULGSlTIc5r6c8pLcgLJF6v93eKXuU
+ C/OmzojzRooL3aAanRRIZi8jQtfckIhkzi90Xeov7ZGUbGT7ai+Ex9E0EWRWi6ejdoKo
+ /y/A==
+X-Gm-Message-State: AOAM530K4H7OUR+c8qWlfUreaogH0BV9tdomZ14aAeyityFuQyA5W4Lo
+ nJImVl/wLhzXrz3/lZjn+Aes6uIDNa8xGQ==
+X-Google-Smtp-Source: ABdhPJzREz8uQPaYulNHQGczUUTiEl7EhOoDs8JxOiPA2iGEflfIwJ8KvlBrd1hDzLcljzNxITHF0w==
+X-Received: by 2002:a05:6a00:194d:b0:51b:eb84:49b1 with SMTP id
+ s13-20020a056a00194d00b0051beb8449b1mr21619672pfk.77.1654634779972; 
  Tue, 07 Jun 2022 13:46:19 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
- r6-20020a170902be0600b00162037fbacdsm12971279pls.187.2022.06.07.13.46.18
+ r6-20020a170902be0600b00162037fbacdsm12971279pls.187.2022.06.07.13.46.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:46:18 -0700 (PDT)
+ Tue, 07 Jun 2022 13:46:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v4 22/53] semihosting: Split common_semi_flen_buf per target
-Date: Tue,  7 Jun 2022 13:45:26 -0700
-Message-Id: <20220607204557.658541-23-richard.henderson@linaro.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v4 23/53] semihosting: Split out common_semi_has_synccache
+Date: Tue,  7 Jun 2022 13:45:27 -0700
+Message-Id: <20220607204557.658541-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220607204557.658541-1-richard.henderson@linaro.org>
 References: <20220607204557.658541-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,86 +89,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 We already have some larger ifdef blocks for ARM and RISCV;
-split out common_semi_stack_bottom per target.
+split out a boolean test for SYS_SYNCCACHE.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 44 +++++++++++++++++------------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ semihosting/arm-compat-semi.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index d2ce214078..7550dce622 100644
+index 7550dce622..50f40a2a1a 100644
 --- a/semihosting/arm-compat-semi.c
 +++ b/semihosting/arm-compat-semi.c
-@@ -217,6 +217,13 @@ static inline bool is_64bit_semihosting(CPUArchState *env)
- {
-     return is_a64(env);
+@@ -224,6 +224,12 @@ static inline target_ulong common_semi_stack_bottom(CPUState *cs)
+     CPUARMState *env = &cpu->env;
+     return is_a64(env) ? env->xregs[31] : env->regs[13];
  }
 +
-+static inline target_ulong common_semi_stack_bottom(CPUState *cs)
++static inline bool common_semi_has_synccache(CPUArchState *env)
 +{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-+    return is_a64(env) ? env->xregs[31] : env->regs[13];
++    /* Ok for A64, invalid for A32/T32. */
++    return is_a64(env);
 +}
  #endif /* TARGET_ARM */
  
  #ifdef TARGET_RISCV
-@@ -246,6 +253,13 @@ static inline bool is_64bit_semihosting(CPUArchState *env)
- {
-     return riscv_cpu_mxl(env) != MXL_RV32;
+@@ -260,6 +266,11 @@ static inline target_ulong common_semi_stack_bottom(CPUState *cs)
+     CPURISCVState *env = &cpu->env;
+     return env->gpr[xSP];
  }
 +
-+static inline target_ulong common_semi_stack_bottom(CPUState *cs)
++static inline bool common_semi_has_synccache(CPUArchState *env)
 +{
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+    CPURISCVState *env = &cpu->env;
-+    return env->gpr[xSP];
++    return true;
 +}
  #endif
  
  /*
-@@ -301,31 +315,15 @@ static void common_semi_cb(CPUState *cs, target_ulong ret, target_ulong err)
-     common_semi_set_ret(cs, ret);
- }
- 
-+/*
-+ * Return an address in target memory of 64 bytes where the remote
-+ * gdb should write its stat struct. (The format of this structure
-+ * is defined by GDB's remote protocol and is not target-specific.)
-+ * We put this on the guest's stack just below SP.
-+ */
- static target_ulong common_semi_flen_buf(CPUState *cs)
- {
--    target_ulong sp;
+@@ -1102,16 +1113,11 @@ void do_common_semihosting(CPUState *cs)
+          * virtual address range. This is a nop for us since we don't
+          * implement caches. This is only present on A64.
+          */
 -#ifdef TARGET_ARM
--    /* Return an address in target memory of 64 bytes where the remote
--     * gdb should write its stat struct. (The format of this structure
--     * is defined by GDB's remote protocol and is not target-specific.)
--     * We put this on the guest's stack just below SP.
--     */
--    ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
--
--    if (is_a64(env)) {
--        sp = env->xregs[31];
--    } else {
--        sp = env->regs[13];
--    }
+-        if (is_a64(cs->env_ptr)) {
++        if (common_semi_has_synccache(env)) {
+             common_semi_set_ret(cs, 0);
+             break;
+         }
 -#endif
 -#ifdef TARGET_RISCV
--    RISCVCPU *cpu = RISCV_CPU(cs);
--    CPURISCVState *env = &cpu->env;
--
--    sp = env->gpr[xSP];
+-        common_semi_set_ret(cs, 0);
 -#endif
--
-+    target_ulong sp = common_semi_stack_bottom(cs);
-     return sp - 64;
- }
- 
+-        /* fall through -- invalid for A32/T32 */
++        /* fall through */
+     default:
+         fprintf(stderr, "qemu: Unsupported SemiHosting SWI 0x%02x\n", nr);
+         cpu_dump_state(cs, stderr, 0);
 -- 
 2.34.1
 
