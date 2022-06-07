@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3256453FAF1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:12:23 +0200 (CEST)
-Received: from localhost ([::1]:44010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B60C53FAAB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:01:19 +0200 (CEST)
+Received: from localhost ([::1]:60344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyWCE-0004fz-8a
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56088)
+	id 1nyW1W-0003PN-8h
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:01:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nyVo3-0006i0-AE
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:47:23 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:46994)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nyVo1-0001wX-K7
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:47:23 -0400
-Received: by mail-pl1-x629.google.com with SMTP id w3so14356364plp.13
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=vJeVlnCDcDz6DV7yPj6XjrXJb6IuJLm4zpoWwv7zQ98=;
- b=Su6FwvMfw0jEP76hjVyitakSMSM56Gr2iGL/OEE6NVjEfHVDkhNkmt4g9wqprju1Dq
- JqHGVJT9O00DUDi77BrmjaKUOyoD8PmBe1rdn38FN5qVwTfpIp92aftp+yJoxWU3vpx3
- 3IweOEmsztXbEEDzporQRyatF1r2bWHFBjNmXbV043sF9v40M0xcWUQS5X7h159MJ3pP
- LcbievtprPhKXOEQ/9gisyY42TDUJ6KW4DQ58NfyfIkwBtKeojOmgrcSWdCTJEGMuLqK
- PHc0l6YEarjP/Gy2iHdlgAHCc8pXWU8roWUTbuorVt+jzSoVwPXrbnHbAAVJbBqnOuJ3
- yPag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=vJeVlnCDcDz6DV7yPj6XjrXJb6IuJLm4zpoWwv7zQ98=;
- b=X3jXeeLCIX4+AcNzlRcvwt1uTmP6sl1+yeDLD9jR9MSaKMAF1L5JwHfl8QgC4Jr6AZ
- tOH5K6IZK7DPcKTG4ybrou6CEtv3H5JdtO61lRLFYkowccIynbgIYht8voGMfJjFX9iO
- MIkf3qfWIHYqF0CLRPVhQ8L8UN4j7Njtn3VjI44Jhzrm2ycxfP6uRizDuo3SkLFJ/ubh
- wtIINIjP3reHugHjXUZpXYFOH+01i8XMFt6L6dHW25xK7IxaMPYBGO3JkdezGpS+dkLP
- Pq3VgUf9jfgAw0xo9PJpq6X2y1lc9YML70GH7PqhmtUe7hn8HMkIXFuyJl0L3/khDd/5
- y5vA==
-X-Gm-Message-State: AOAM531X9VWirz7AvXLSkevKQAV4B/2suwO2nwo5Rkk6BYZxDbi+ZGS/
- jsVbU2aiCT4CwFx5Jfh7Y/s=
-X-Google-Smtp-Source: ABdhPJx0rjBMo9UkTnVPNMyh8ONOrBjwJ5wHVHlGfkHzzm2AuOZlTLaZPj9HY1iwLp8XbyxiFVeLwg==
-X-Received: by 2002:a17:90a:5301:b0:1e8:41d8:d0f5 with SMTP id
- x1-20020a17090a530100b001e841d8d0f5mr21638858pjh.175.1654595239511; 
- Tue, 07 Jun 2022 02:47:19 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- s5-20020a170903214500b0015ea95948ebsm11918049ple.134.2022.06.07.02.47.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 02:47:18 -0700 (PDT)
-Date: Tue, 7 Jun 2022 18:47:17 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Joel Stanley <joel@jms.id.au>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Openrisc <openrisc@lists.librecores.org>,
- QEMU Development <qemu-devel@nongnu.org>
-Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
-Message-ID: <Yp8epZsizfKMEVZV@antec>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=w5i/=WO=zx2c4.com=Jason@kernel.org>)
+ id 1nyVp4-0007lI-7P
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:48:26 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:43582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=w5i/=WO=zx2c4.com=Jason@kernel.org>)
+ id 1nyVp1-00026O-5n
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:48:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6F4B161252
+ for <qemu-devel@nongnu.org>; Tue,  7 Jun 2022 09:48:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87403C385A5
+ for <qemu-devel@nongnu.org>; Tue,  7 Jun 2022 09:48:18 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="oYzlwAoY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1654595296;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EXnEGOlOoorlOymfhfFprGYEDfkZN+Y3S5++2IMnflg=;
+ b=oYzlwAoYMurtDwIUicLccT0qm1Ifoi4Y53LhnxHwIEbDkPCJUangLvd6YSCP3zUbpxbhSA
+ uXgl+106M2HytA5sAGgRZkYJxtaFx+YEzvXaiQsjLcH8A+WaB4Wk7MJ7/opiQNuT2ounQk
+ raVYiOMz3g+huCNwsBsEWO1AlTxglsQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 21234db5
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Tue, 7 Jun 2022 09:48:16 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id p13so30231139ybm.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:48:16 -0700 (PDT)
+X-Gm-Message-State: AOAM5300UFwkCU6unoT2nb0KYJSD3z4k3Z7sHxvX5hkgBXTIYWkViLm1
+ cJ/p0b2YWKlw27sZ+W0tsyTVuGgQHpDnps2xZiA=
+X-Google-Smtp-Source: ABdhPJyDTNxIehXogC1xLFjIVfBlEKeEQ7GDh9XwX2Nm/yBzVZ7RIfuFIMK2CDmTGpPFzqVCmrfz2YvUgpRVDOBqp8M=
+X-Received: by 2002:a25:8d92:0:b0:656:a73e:a7f with SMTP id
+ o18-20020a258d92000000b00656a73e0a7fmr28007746ybl.382.1654595295799; Tue, 07
+ Jun 2022 02:48:15 -0700 (PDT)
+MIME-Version: 1.0
 References: <20220527172731.1742837-1-shorne@gmail.com>
  <20220527172731.1742837-4-shorne@gmail.com>
  <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
  <CAMuHMdWF_OwTMZZ=joRsnOAuB5UuKjACt3Ku4-o0--fR6xqQbQ@mail.gmail.com>
  <YpkWllpTFzb2HHY5@antec>
  <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
- <YpwNtowUTxRbh2Uq@antec> <Ypxb/VDfYLFg3n2s@antec>
- <CAMuHMdVwAzbAOBDcv4y1WmYgCaFOMdywxUZvwMtDccOgDMN+mw@mail.gmail.com>
- <CAK8P3a3Vpn02uDe3rdXSNXANY=u4ZM+wjm-qqszTXzjOKkAeEg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK8P3a3Vpn02uDe3rdXSNXANY=u4ZM+wjm-qqszTXzjOKkAeEg@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=shorne@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ <YpwNtowUTxRbh2Uq@antec> <Ypxb/VDfYLFg3n2s@antec> <YpxnHaaizsNpOjx8@zx2c4.com>
+In-Reply-To: <YpxnHaaizsNpOjx8@zx2c4.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Tue, 7 Jun 2022 11:48:04 +0200
+X-Gmail-Original-Message-ID: <CAHmME9r2qGQxh9TXZ+zyytJpqQL3uyV1+=9V32LVNXFaUud3ag@mail.gmail.com>
+Message-ID: <CAHmME9r2qGQxh9TXZ+zyytJpqQL3uyV1+=9V32LVNXFaUud3ag@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Openrisc <openrisc@lists.librecores.org>, 
+ QEMU Development <qemu-devel@nongnu.org>, Stafford Horne <shorne@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=w5i/=WO=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,89 +95,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 07, 2022 at 10:42:08AM +0200, Arnd Bergmann wrote:
-> On Tue, Jun 7, 2022 at 10:11 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Sun, Jun 5, 2022 at 9:32 AM Stafford Horne <shorne@gmail.com> wrote:
-> > > On Sun, Jun 05, 2022 at 10:58:14AM +0900, Stafford Horne wrote:
-> > >     It might be a good idea to revisit the qemu implementation and make
-> > >     sure that the extra byteswap is only inserted on m68k and not on
-> > >     other targets, but hopefully there are no new targets based on goldfish
-> > >     anymore and we don't need to care.
-> > >
-> > > So, it seems that in addition to my patch we would need something in m68k to
-> > > switch it back to 'native' (big) endian?
-> > >
-> > > Looking at the m68k kernel/qemu interface I see:
-> > >
-> > > Pre 5.19:
-> > >    (data) <-- kernel(readl / little) <-- m68k qemu (native / big) - RTC/PIC
-> > >    (data) <-- kernel(__raw_readl / big) <-- m68k qemu (native / big) - TTY
-> > >
-> > > 5.19:
-> > >    (data) <-- kernel(gf_ioread32 / big) <-- m68k qemu (native / big) - all
-> > >
-> > > The new fixes to add gf_ioread32/gf_iowrite32 fix this for goldfish and m68k.
-> > > This wouldn't have been an issue for little-endian platforms where readl/writel
-> > > were originally used.
-> > >
-> > > Why can't m68k switch to little-endian in qemu and the kernel?  The m68k virt
-> > > platform is not that old, 1 year? Are there a lot of users that this would be a big
-> > > problem?
-> > >
-> > > [1] https://lore.kernel.org/lkml/CAK8P3a1oN8NrUjkh2X8jHQbyz42Xo6GSa=5n0gD6vQcXRjmq1Q@mail.gmail.com/
-> 
-> Goldfish is a very old platform, as far as I know only the kernel port is new.
-> I don't know when qemu started shipping goldfish, but changing it now would
-> surely break compatibility with whatever OS the port was originally made for.
++ Arnd
 
-Hi Arnd,
-
-As far as I can tell goldfish in qemu is not very old. There are 3 devices, 2 were
-added for the m68k virt machine, and 1 for riscv virt.
-
-    $ git lo -- hw/rtc/goldfish_rtc.c
-    2022-01-28 2f93d8b04a Peter Maydell    rtc: Move RTC function prototypes to their own header 
-    2021-03-04 6b9409ba5f Laurent Vivier   goldfish_rtc: re-arm the alarm after migration 
-    2020-10-13 16b66c5626 Laurent Vivier   goldfish_rtc: change MemoryRegionOps endianness to DEVICE_NATIVE_ENDIAN 
-    2020-07-22 8380b3a453 Jessica Clarke   goldfish_rtc: Fix non-atomic read behaviour of TIME_LOW/TIME_HIGH 
-    2020-02-10 9a5b40b842 Anup Patel       hw: rtc: Add Goldfish RTC device 
-
-    $ git lo -- hw/char/goldfish_tty.c
-    2021-11-09 65b4c8c759 Philippe Mathieu-Daudé hw/m68k: Fix typo in SPDX tag 
-    2021-03-15 8c6df16ff6 Laurent Vivier   hw/char: add goldfish-tty 
-
-    $  git lo -- hw/intc/goldfish_pic.c
-    2021-11-09 65b4c8c759 Philippe Mathieu-Daudé hw/m68k: Fix typo in SPDX tag 
-    2021-03-15 8785559390 Laurent Vivier   hw/intc: add goldfish-pic 
-
-The mips/loongson3_virt machine now also uses the goldfish_rtc.
-
-The problem with the goldfish device models is that they were defined as
-DEVICE_NATIVE_ENDIAN.
-
-    $ grep endianness hw/*/goldfish*
-    hw/char/goldfish_tty.c:    .endianness = DEVICE_NATIVE_ENDIAN,
-    hw/intc/goldfish_pic.c:    .endianness = DEVICE_NATIVE_ENDIAN,
-    hw/rtc/goldfish_rtc.c:    .endianness = DEVICE_NATIVE_ENDIAN,
-
-RISC-V is little-endian so when it was added there was no problem with running
-linux goldfish drivers.
-
-MIPS Longson3, added last year, seems to be running as little-endian well, I
-understand MIPS can support both big and little endian. However according to
-this all Loongson cores are little-endian.
-
-    https://en.wikipedia.org/wiki/Loongson
-
-As I understand when endianness of the devices in qemu are defined as
-DEVICE_NATIVE_ENDIAN the device endian takes the endian of the target CPU.
-This means that MIPS Loongson3 and RISC-V are affectively running as
-little-endian which is what would be expected.
-
-So it appears to me that in qemu that m68k is the only architecture that is
-providing goldfish devices on a big-endian architecture.  Also, as far as I
-know Linux is the only OS that was updated to cater for that.  If there are
-other firmware/bootloaders that expect that maybe they could be updated too?
-
--Stafford
+On Sun, Jun 5, 2022 at 10:19 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> Hi folks,
+>
+> On Sun, Jun 05, 2022 at 04:32:13PM +0900, Stafford Horne wrote:
+> > Why can't m68k switch to little-endian in qemu and the kernel?  The m68k virt
+> > platform is not that old, 1 year? Are there a lot of users that this would be a big
+> > problem?
+>
+> I also share this perspective. AFAICT, m68k virt platform *just*
+> shipped. Fix this stuff instead of creating more compatibility bloat for
+> a platform with no new silicon. The risks of making life difficult for
+> 15 minutes for all seven and a half users of that code that only now has
+> become operational is vastly dwarfed by the good sense to just fix the
+> mistake. Treat the endian thing as a *bug* rather than a sacred ABI.
+> Bugs only become sacred if you let them sit for years and large numbers
+> of people grow to rely on spacebar heating. Otherwise they're just bugs.
+> This can be fixed.
+>
+> Jason
 
