@@ -2,101 +2,164 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701AB53FFFF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 15:26:49 +0200 (CEST)
-Received: from localhost ([::1]:45384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32248540018
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 15:34:12 +0200 (CEST)
+Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyZEO-0001zA-95
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 09:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
+	id 1nyZLX-0002Pc-9b
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 09:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nyZB1-0007c8-S2
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:23:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24377)
+ (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
+ id 1nyZEI-0003MB-7p
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:26:42 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:13316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nyZAz-0006d1-Ri
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:23:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654608197;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qu8zyYdO0C9hxlnRF/9jBkCimUJ+oRQ+KxYe9dI2az4=;
- b=YoUjJwgeDFoRSJaYpbbLobCRf497M9RECx3mgc32FtljcvCUeZBRzVqiyTpVIfiuRCnyxw
- 3HbjaoqHjgpfkewFKfSyiBoUhS/UbBOfT/DSbCcIhA2SoEKqXo/xWibCwzT8v5YUAv2ahS
- tpUi7yMWI1Qk99UANWKSICyQSeGbk/U=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-dGbr0PhkOw2gD-Omdtmjeg-1; Tue, 07 Jun 2022 09:23:16 -0400
-X-MC-Unique: dGbr0PhkOw2gD-Omdtmjeg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k32-20020a05600c1ca000b0039c4cf75023so3784577wms.9
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 06:23:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Qu8zyYdO0C9hxlnRF/9jBkCimUJ+oRQ+KxYe9dI2az4=;
- b=W3JW2sZC8occ/0ZQcyhUTJ85E65x0yKRH9ExplF25d8cTY+6ai7tHHnlbOMPrdh1s4
- vJp2PNvh/2ylSHgUGTPLNJkYnZILAzCM3RQIkM406txQxF4pZ/mzha76ZOLMR5tSxkl5
- 58tKXt8KY9EvCWhuMTwzRdG4dGBFQ11JY3LVKMmTAsC7yKzdQ0r00M6DBhg+PmRmn591
- 4DWNmnKssWjrooPmM9aPaNUmZZxoP09cu44xbYRytfmctTt7KEL9AvReZGtdJuOSpCU5
- eHGOrFQLycWqJTpUgPwuKyrATY1iVnEoifnK5Fjioyd2aKHMmc7zt0rcunm3ZrRpcrO3
- rUCQ==
-X-Gm-Message-State: AOAM531Rc6Dg9qG+NWjqdhv94kyQ3uprYtk99f/qHxSvV1QiCow4tBhW
- 22Ew4Oa3BBOuqdguHNyH/f7oSR3OZ14BFNa2zyBywKBYuyUxsWMHmCoz8DLhP18Qa72ovNbK16o
- HbBSJoEqFbGpxZI4=
-X-Received: by 2002:a7b:c205:0:b0:39c:506d:e294 with SMTP id
- x5-20020a7bc205000000b0039c506de294mr10455133wmi.159.1654608194013; 
- Tue, 07 Jun 2022 06:23:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/JWAU9O6SxyqxJDMfs8a0WOIgt99LbmojtSW/OWbXK4pTUBoXcDxtPnqTSlTSMvh/M8bgkw==
-X-Received: by 2002:a7b:c205:0:b0:39c:506d:e294 with SMTP id
- x5-20020a7bc205000000b0039c506de294mr10455088wmi.159.1654608193739; 
- Tue, 07 Jun 2022 06:23:13 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- o34-20020a05600c512200b003944821105esm22681672wms.2.2022.06.07.06.23.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 06:23:13 -0700 (PDT)
-Message-ID: <6521dd2c-74ae-4b91-089e-9fb4aad74714@redhat.com>
-Date: Tue, 7 Jun 2022 15:23:12 +0200
+ (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
+ id 1nyZED-0007iE-BC
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:26:41 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2579ejUJ027046;
+ Tue, 7 Jun 2022 13:26:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=9uITkF2uU2TJ7clSii/loo2NKU3z3MQDlZxxr76CmnE=;
+ b=wuqAsverWUZ/tI7IaqvjESmbGxFzGYwFeqA2aMvPh9qAyHtHATur0SM9TaLXy5oniNaD
+ hWxcmOJ2O8IgjmJVtvJEJ2Isb/wY91/A5hTrfpYBF+1dabiJ6i8ygee0T2dLwYZvsH4a
+ QBMxkRvUZqCmucK+9rKxb757xAZSa3KUF9KVOmbcgo4OKM6lGxJVBNsBPQizb5cnbUvO
+ gC0yYRsAUI8YReqxvZgcK0uXBdnxIEhR5gYU5vOqAjgvyjt2y0EVYE0ClSJVukJA4BG7
+ Z6ithksnulymhnzck0kcF6r1BG/BXrObYDJIsECIOV8kGy8nJ9dJpCvOCGjRwkptXoSD KA== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gfydqnrku-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Jun 2022 13:26:32 +0000
+Received: from pps.filterd
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 257DC8xT028666; Tue, 7 Jun 2022 13:26:30 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2108.outbound.protection.outlook.com [104.47.58.108])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3gfwu2ngpm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Jun 2022 13:26:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YMsPclhagjdX/1JfoUiI1bgNtSmH+gYN9b1ZogroM84VvxfYZknChr1liT8+FZJyv5+6dIgUy2VGN4etD1FH10qAio6LJbLp0Ppx4vzvxPoUOjqY0S6YO/Yco+/Mhmg1Dx4S+DEsFmodxJ4VX+1d0iyJ3VCpRq56miK7vkFf4ALaCruLzCeHf1RbHbCmbJ9SJMgFYOFhpls76sKwuxnPAGK3RJVZEnCCpSzqDt/ol31Sy0a6fl7zDuR3RT56f4B3uwCbtG//HRD2/wyjajtnpVDxl8qylbNSxGolPW75AoJUvRF6OMSo097tWA5ZAXC4S/V91g/5gGjCq69JWuweQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9uITkF2uU2TJ7clSii/loo2NKU3z3MQDlZxxr76CmnE=;
+ b=Xm3nWlXgmQvRAvWdKq0z+6AavbIX+vAG3xMwjb42uiBv0catrrb5Q/phwxa6xQ+ScXT/kxGBITxeXqFzYiy6DitaCTXnYCggfdTQb9fQ8eZK+3ov3uXwWbPeAIv4kjXLScmFhViAKPJkekXU2484e2JKBfuIhgVDjMXckVrbI73l56MFZ8XLFDVOXFvB3yTmM9HfMRUJ9fK4FwBPhCVRKPRw7qF1Mj7BITemyW6kZYB9KYxVonQBBvzdhaB6QWw7RkWWgkxcCSOvxMb2ez+HzF6bLhXe3Ab+tbmtM1wlnc/WsFoF7UcnWFaXS/aCQEbrYFATvFYGnUSUlAdhp7jvRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9uITkF2uU2TJ7clSii/loo2NKU3z3MQDlZxxr76CmnE=;
+ b=TcrZ7l0m1PWks+DScczjNBFNizqsx0x808ZNWsbGGd72xbR71BMpsfA+yYyquTJMDtxBkeNlwSpVcDKCu+gv8GYnqrBXs/N8AYuv6TdQFV7cbM8mz2Z5Y4aL9s5RbnmqkxbYkLvhvcS3S7MkpOv6vHjzWWCEtK1wdr5YDtY/CW4=
+Received: from BYAPR10MB2869.namprd10.prod.outlook.com (2603:10b6:a03:85::17)
+ by CY4PR10MB1976.namprd10.prod.outlook.com (2603:10b6:903:11f::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.18; Tue, 7 Jun
+ 2022 13:26:28 +0000
+Received: from BYAPR10MB2869.namprd10.prod.outlook.com
+ ([fe80::9d7b:4d6c:8fd9:766b]) by BYAPR10MB2869.namprd10.prod.outlook.com
+ ([fe80::9d7b:4d6c:8fd9:766b%7]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
+ 13:26:28 +0000
+Date: Tue, 7 Jun 2022 06:26:25 -0700
+From: Elena <elena.ufimtseva@oracle.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, jag.raman@oracle.com, john.g.johnson@oracle.com,
+ john.levon@nutanix.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org
+Subject: Re: ioregionfd with io_uring IORING_OP_URING_CMD
+Message-ID: <20220607132625.GA181696@heatpiped>
+References: <Yp4V61lfTTN3QsT4@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yp4V61lfTTN3QsT4@stefanha-x1.localdomain>
+X-ClientProxiedBy: SJ0PR13CA0132.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::17) To BYAPR10MB2869.namprd10.prod.outlook.com
+ (2603:10b6:a03:85::17)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v6 05/18] job.h: add _locked duplicates for job API
- functions called with and without job_mutex
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220314133707.2206082-1-eesposit@redhat.com>
- <20220314133707.2206082-6-eesposit@redhat.com> <Ypo0G0/jK+mLOuAm@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <Ypo0G0/jK+mLOuAm@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 03acdee1-d457-42f7-4f2d-08da48895400
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1976:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR10MB1976AEAFA04720281D7B494B8CA59@CY4PR10MB1976.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3l7fd7z3uXoxkwDqE+tqWY17gZ+hpGEVd2BNjJ6R9ALu5mr0kizoXvHtBdaC5CtME0l4tLvHYIJGP8pKP98e/BOl2v7oGNx+E+AqAJ7D/SHfQzWHTbaqQDcRZpGqHlnotmBm2zLjqo42AGrdSuatj6RT01NvM4VNBkFFDpOud1NYti/N3STMlmQu7bYB9XEpfRTIdsR1A5bq5G/G2Uq7TKO7E8z6H0gBtz+q8wSiKltK/CUbpAZpX7uHpFdavr12FWB1rJxrrBpOkFZRvDRD/Lou8+0N++DsyJai+WGHh3oF20HKBUhkkfve8rCLz6WSOElTLLQJxbEI0nHnpN5Wp/YOdIeZA+ng1jtm+uoBGKT9rjtRlCdf437eXG4ZSxV+Y3YqHGwROmdBHBF8rnq1EkH2V1bvd+jIFqenrVYK6exDzhFGdyXMHJZdpvobs07ueOhEKuEEKJ9nVHa1xSKmwzfQAEQSD3GutRSmnUAuF23BiWPl4qnm+N1Jt8yqixrz1O+PUCnBzVhQg+Oo4wUbE9TwqNU97wkQs0iRHX1AR6NoiNOrhUeeUNuyeIXx4wxx5Tit2aGflt67sikqskPUQ4IrQGzDtPLDX2Zw+9pzNcSLmX431O5ahBRwMmeBZTRaiN1SouK3aK0wOBBKcne5ShIkCEQyj/wZ66dGu2WrwzGSq3vsDScsciHPEVNsYBMNZy0vuaeLyrKQ7aDpDk/JbHzEZWTw36TtZmyd4HeXrDU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB2869.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(366004)(6486002)(33656002)(316002)(186003)(33716001)(2906002)(1076003)(9686003)(6512007)(6506007)(86362001)(52116002)(6666004)(38100700002)(6916009)(966005)(5660300002)(83380400001)(8936002)(66476007)(8676002)(66556008)(4326008)(508600001)(66946007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3A/VZjvMvor2TZZ8PP7QOjmt2zjst13PyAusYO/fzlFWL0v6+vU0oIii1+ep?=
+ =?us-ascii?Q?/TTtIayLrN4vrttX+Q4Si+cCdjkLktuJuCzUT++RDbqKiN/K8nOGK6ykrFXK?=
+ =?us-ascii?Q?R0oze+vtddWDyJyWz3dlOWUV5+CO9tVbtYksM59TO0Hw7yG0YJ29aGdYXcEB?=
+ =?us-ascii?Q?HKgdKPV4vQCJsFY5/pP+mTWpv0tAHq4iA7/aexaNhSBq4ed00mXXwOWjHKIx?=
+ =?us-ascii?Q?zWcm94ZLbJnisPkrYmy8nrlpdvisGibnPNH2gZH5hQ7rGx3rk2wsB2+6JRcY?=
+ =?us-ascii?Q?j9z8MbFlt8vjRAkYf1gnVJU3PoqVydhUmi8US0AZ/5TEnG/UDXAeOLvB1s8l?=
+ =?us-ascii?Q?GPVBUiBbNF4zrgsB6QBwC8HYvG2B4fqOs8DskjCkSJuq0lu7v3nIBd7HynqL?=
+ =?us-ascii?Q?/ReRf0VEmLhR5CC1Fik43RC/ipP4a23/CG4Dbt5KkMZ1lknBmnmw9y1HsTN6?=
+ =?us-ascii?Q?4kRhBVb+2kpxHQQG0N8ls0vFeiwFnKoyZVxCbHvPpW5WaSqVIHLKLbshtPjj?=
+ =?us-ascii?Q?VxnG0LkoWdosNRMfwq8M8lQLBVNVJDB7asa/iFOdi0+ZmeekOTbnyWrz3iUI?=
+ =?us-ascii?Q?pVy6lt1g12DPTuFaXZewT5FxMmEj2VIEwdCCLduNpen5Osc9iuAjagnYFprm?=
+ =?us-ascii?Q?FkSQPd/ws55yY0bvsYB74m5jvdMf+CbefHxxm7uKxBOjuBAfry19nMN7zbOj?=
+ =?us-ascii?Q?sFk+L9s8iykEfacjfDrBdCZJ2s+sDzfbS49QNZznvUG5md2QCUq89wp2TiBN?=
+ =?us-ascii?Q?ssjyV6iZqFWEspTneRAa9E93wwIYCmmZDcYQGMrBZQ4jciEf5CpxGUhYHTJn?=
+ =?us-ascii?Q?EvrHM6tJ7daYQfTr4KX9UILNEgqxgqx5DIi1YRIH9PxvweSGONxksJ1H164r?=
+ =?us-ascii?Q?z2wuJwZwVSR55URWJ0NtZo0lN3WhOVvt7/W92fNxE/XoJiP9tSabCgubUAHC?=
+ =?us-ascii?Q?fe2et2jlA9U4CYT6/zP1PUL589Vh3s0x4S4iUg6wMUYsUrtXp7MoyEoaaoD4?=
+ =?us-ascii?Q?aAVXdyM/YYbYwb8OXReNTEuzuAFNkOmhQr1oUSS3CsOQHt1CgsXeDiXPNeKi?=
+ =?us-ascii?Q?OCFC56eOp1avrUiLUOyb0L37V274gyqh44KB1JxHZ4i3G3cdMjNg+InR05Dd?=
+ =?us-ascii?Q?/vW7fVkEnYhD+tb5dVz4OLlsfUKGMG0Z/VZWTX3a16BHyGqcuAPzdYpme6wr?=
+ =?us-ascii?Q?sPutckfdA1pjvM3IpgvQ6viNG4AlWGjDY5XlIFPbqKtYJBg1mFLMATEJxSxC?=
+ =?us-ascii?Q?+ru304Wl0S6fxsIiULRJddyoCeM/YLqaqbXdGxYnmV0X8C8HwMoBQ1cX4BCD?=
+ =?us-ascii?Q?Hg0chgv/VJs5OlBzfVpbywEuyAB2vkqXhxaYMAuvxnWly1v0UH9iX2GemwV7?=
+ =?us-ascii?Q?ghh6mAh4QiOahyTnzkj6rd0OoyYS21Q63DLSpP6rlO3ywqC1PwOvEY7N9+xo?=
+ =?us-ascii?Q?sIh3FqZH9WTGGjNiyGiluDWwP5rTbqK1QPd7MhSVKI+WsDEVn2/n0YrrgqFv?=
+ =?us-ascii?Q?qmicIYOfAaqh2aFE4Yb8r/QpYSO+GDV/kgEBkpcqFMaUvvIiUNTSyuMWr2pg?=
+ =?us-ascii?Q?PLDuMe56PRzJQ5bHm674zP/eq67IZK+hCKSlywa7LWKgYtmLAVu2vIW1J6W3?=
+ =?us-ascii?Q?KKQlrbos8OZrNjGRyd4F19YtFVrwqrT97eVnp3HjVFPGTC9WxYlE7lREZ3Ih?=
+ =?us-ascii?Q?G0ZtdwbCY3r1mhCdKu3m5zgCD+JwCu+HWT1/ck2T8ghl3kT3scCuC0rFTGTr?=
+ =?us-ascii?Q?1gcfkWxl7VIRcT79OAe1jvG+Pu4PMwfYzpEMbBuKg1ov9+s9fO3mz/abHk95?=
+X-MS-Exchange-AntiSpam-MessageData-1: cNeXcY0yE3kzqOY2rQwO7gdAD8kZOBhWQtk=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03acdee1-d457-42f7-4f2d-08da48895400
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2869.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 13:26:28.6340 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 02uis73BQ/cN7Yw2QYx6NIgV5BigAT4iCHjTqBA1WGhfavQc/Z6HFVcYuRq8vXLXBzRkoosly97yE0dNhaVUMB6hD9lVyOF7mEF04YCOAgM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1976
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.874
+ definitions=2022-06-07_06:2022-06-07,
+ 2022-06-07 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxscore=0 adultscore=0
+ spamscore=0 suspectscore=0 bulkscore=0 malwarescore=0 mlxlogscore=918
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206070055
+X-Proofpoint-GUID: HZMiFalGreTTYxv5a7K4i2D55U4j9_hQ
+X-Proofpoint-ORIG-GUID: HZMiFalGreTTYxv5a7K4i2D55U4j9_hQ
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=elena.ufimtseva@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,100 +175,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jun 06, 2022 at 03:57:47PM +0100, Stefan Hajnoczi wrote:
+> Hi,
+> During Elena Afanasova's Outreachy project we discussed whether
+> ioregionfd should be a custom struct file_operations (anon inode) or a
+> userspace-provided file (socketpair, UNIX domain socket, etc).
+>
 
+Hello Stefan,
 
-Am 03/06/2022 um 18:17 schrieb Kevin Wolf:
-> Am 14.03.2022 um 14:36 hat Emanuele Giuseppe Esposito geschrieben:
->> In preparation to the job_lock/unlock usage, create _locked
->> duplicates of some functions, since they will be sometimes called with
->> job_mutex held (mostly within job.c),
->> and sometimes without (mostly from JobDrivers using the job API).
->>
->> Therefore create a _locked version of such function, so that it
->> can be used in both cases.
->>
->> List of functions duplicated as _locked:
->> job_is_ready (both versions are public)
->> job_is_completed (both versions are public)
->> job_is_cancelled (_locked version is public, needed by mirror.c)
->> job_pause_point (_locked version is static, purely done to simplify the code)
->> job_cancel_requested (_locked version is static)
->>
->> Note: at this stage, job_{lock/unlock} and job lock guard macros
->> are *nop*.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>  include/qemu/job.h | 25 +++++++++++++++++++++---
->>  job.c              | 48 ++++++++++++++++++++++++++++++++++++++++------
->>  2 files changed, 64 insertions(+), 9 deletions(-)
->>
->> diff --git a/include/qemu/job.h b/include/qemu/job.h
->> index 6000463126..aa33d091b1 100644
->> --- a/include/qemu/job.h
->> +++ b/include/qemu/job.h
->> @@ -473,21 +473,40 @@ const char *job_type_str(const Job *job);
->>  /** Returns true if the job should not be visible to the management layer. */
->>  bool job_is_internal(Job *job);
->>  
->> -/** Returns whether the job is being cancelled. */
->> +/**
->> + * Returns whether the job is being cancelled.
->> + * Called with job_mutex *not* held.
->> + */
->>  bool job_is_cancelled(Job *job);
->>  
->> +/** Just like job_is_cancelled, but called between job_lock and job_unlock */
->> +bool job_is_cancelled_locked(Job *job);
->> +
->>  /**
->>   * Returns whether the job is scheduled for cancellation (at an
->>   * indefinite point).
->> + * Called with job_mutex *not* held.
->>   */
->>  bool job_cancel_requested(Job *job);
->>  
->> -/** Returns whether the job is in a completed state. */
->> +/**
->> + * Returns whether the job is in a completed state.
->> + * Called with job_mutex *not* held.
->> + */
->>  bool job_is_completed(Job *job);
->>  
->> -/** Returns whether the job is ready to be completed. */
->> +/** Same as job_is_completed(), but assumes job_lock is held. */
->> +bool job_is_completed_locked(Job *job);
-> 
-> Any reason why this comment is phrased differently than for
-> job_is_cancelled_locked()? I don't mind which one we use, but if they
-> should express the same thing, it would be better to have the same
-> wording. If they should express different things, it need to be clearer
-> what they are.
-> 
+> Back then it seemed more flexible and simpler to let userspace provide
+> the file. It may be worth revisiting this decision in light of the
+> recent io_uring IORING_OP_URING_CMD feature, which fits for this
+> performance-critical interface.
+>
+And Paolo was asking about io_uring in the review of the initial
+patches.
 
-Makes sense, I will switch to the same format as job_is_cancelled_locked().
+> IORING_OP_URING_CMD involves a new struct file_operations->uring_cmd()
+> callback. It's a flexible userspace interface like ioctl(2) but designed
+> to be asynchronous. ioregionfd can provide a uring_cmd() that reads a
+> ioregionfd response from userspace and then writes the next ioregionfd
+> request to userspace.
+> 
+> This single operation merges the request/response so only 1 syscall is
+> necessary per KVM MMIO/PIO exit instead of a read() + write(). Bypassing
+> the net/socket infrastructure is likely to help too.
+> 
+> It would be interesting to benchmark this and compare it against the
+> existing userspace-provided file approach. Although it's not the same
+> scenario, results for the Linux NVMe driver using ->uring_cmd() are
+> promising:
+> https://www.snia.org/educational-library/enabling-asynchronous-i-o-passthru-nvme-native-applications-2021
+> 
+Yes, looks interesting, we were thinking about adding this.
 
-Emanuele
+> The downside is it requires more code than general purpose I/O. In
+> addition to ->uring_cmd(), it's also worth implementing struct
+> file_operations read/write/poll so traditional file I/O syscalls work
+> for simple applications that don't want to use io_uring.
+> 
+> It's possible to add ->uring_cmd() later but as a userspace developer I
+> would prefer the ->uring_cmd() approach, so I'm not sure it's worth
+> committing to the existing userspace-provided file approach?
 
-> Also, I assume job_mutex is meant because job_lock() is a function, not
-> the lock that is held.
+Makes total sense. I am going to start working on this and will
+come back with more questions.
+
+Thank you!
+Elena
 > 
->> +/**
->> + * Returns whether the job is ready to be completed.
->> + * Called with job_mutex *not* held.
->> + */
->>  bool job_is_ready(Job *job);
->>  
->> +/** Same as job_is_ready(), but assumes job_lock is held. */
->> +bool job_is_ready_locked(Job *job);
-> 
-> Same as above.
-> 
->>  /**
->>   * Request @job to pause at the next pause point. Must be paired with
->>   * job_resume(). If the job is supposed to be resumed by user action, call
-> 
-> Kevin
-> 
+> Stefan
+
 
 
