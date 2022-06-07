@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C4B541F8E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:45:29 +0200 (CEST)
-Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795E0541F80
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:33:13 +0200 (CEST)
+Received: from localhost ([::1]:51160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyit6-0007f9-A1
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:45:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35410)
+	id 1nyihE-0004Qd-D9
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHo-0007ZF-Hl
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31713)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHr-0007mD-O7
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHm-0005FX-ML
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:56 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHq-0005GC-39
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654643214;
+ s=mimecast20190719; t=1654643217;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M/PXw7pEzuqwylRIsTPT0+m7UJmDqzIPfq4d+hlw3f0=;
- b=VZQPz5D0O49u30/alNdpH/X7hh12Wh7zRWng3UZfVdaDToQLHEyymd2bX3ewkOzUElfjkm
- Cc4tt+Y8NK47BmP0/nUm2AFrCsc9fC2YR+h2q50K/Dw1qHDcDbGk17ugWs4C+stayXZS8M
- 3upcP+KQodxm08NuC130vgfhdXiHHMs=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hVuTnZmfWtxZ4QXxya2rZaIVRCmdCqRL6AV8ufV87M0=;
+ b=OlXcntBcd0DLHYIbEwqs3gkXq0f4JR+ZQfDyg4clX/fzyekBTlQGKAV/j66F5csFuO+zK/
+ mVPWJqkelCwCt79ICMg+gnf8xbhyGudG/fGDR0PM7v2/8AfomLq3DuppRF/oHJ5ReD8b95
+ qWJzDlNjJRh5VgCriVYdWlh5CJoX4pY=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-_5spUCrpPVqjvfbi_JS8PQ-1; Tue, 07 Jun 2022 19:06:53 -0400
-X-MC-Unique: _5spUCrpPVqjvfbi_JS8PQ-1
-Received: by mail-io1-f69.google.com with SMTP id
- i126-20020a6bb884000000b006691e030971so6364039iof.15
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 16:06:53 -0700 (PDT)
+ us-mta-318-aZWRwcXrN3qzYCIzyK6DWg-1; Tue, 07 Jun 2022 19:06:56 -0400
+X-MC-Unique: aZWRwcXrN3qzYCIzyK6DWg-1
+Received: by mail-io1-f72.google.com with SMTP id
+ w16-20020a5d8450000000b00669877b9ce2so1077008ior.20
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 16:06:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M/PXw7pEzuqwylRIsTPT0+m7UJmDqzIPfq4d+hlw3f0=;
- b=wXXBuaF6PZU3EBzhEiGdXfrhJyJSwkFLOBbtauOW01AH3BotapwWRoBwm7NhGDEGck
- qF4iynuSYMjzUzLoAYVYAbmGRotYfeU6lM3kUiJrQisXUNy99JkuEoPJLYsEnZH1ylbF
- X8viyY4uaJ23W88b24WRex5LCUlzE7Bzuh1sHoPSqEKKz0qDU6+0lwSjDZDfBBTX+mE/
- oDaruK8i+G0LaDHQJOwz9quKuYf4c+OcFnmZ/yvl/F7aCfMieWgUUvRK1Pc8rYa30qAo
- hkeFQuYW4tZbAhHQERddp2pPCte2uMZvN9O8q2RTpRAy/VPGP7aXtqoMOI1nzwtUptCs
- gY2w==
-X-Gm-Message-State: AOAM531es3Ip4QbICYqb0LPLtxJxSUnTmzYtpsZrRuq0XYzRlP+z12F9
- VdSNTNJzpfxav7xXCrNTifNBUvOavtnaDatPgFUVXY0cWqzRlqHhN102vuoT/2QlMtS1OaRWNRl
- B5hHE+a1Aeov3A24PB2oTcr21kBtALOHL4fQFq5wiQSZvfCiGWMfOESWjSDZ0UBWW
-X-Received: by 2002:a05:6638:22c9:b0:32e:d436:be11 with SMTP id
- j9-20020a05663822c900b0032ed436be11mr18426247jat.156.1654643212130; 
- Tue, 07 Jun 2022 16:06:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxcj7Rewtqj/LcT3QJRssRrF2eeqRuF5tEJR/NjQDlZrKx115ZotgCu/7VwER6C0aPyq1AWpQ==
-X-Received: by 2002:a05:6638:22c9:b0:32e:d436:be11 with SMTP id
- j9-20020a05663822c900b0032ed436be11mr18426233jat.156.1654643211800; 
- Tue, 07 Jun 2022 16:06:51 -0700 (PDT)
+ bh=hVuTnZmfWtxZ4QXxya2rZaIVRCmdCqRL6AV8ufV87M0=;
+ b=stVug6r6lX/eEmoXwgGsw5wmV7KL19eqQNM8xq1YhQi/3dyRyIWN7iTk8YTdo+7vL+
+ YWnDC/U/BDdycZvWwD2lu+ojEvWn8CDzWTlxMFku73WeaqzMyLmJ0M4dj8LDBNJxIC6W
+ 3LxQluoTQeG42k08xcvMs/bznJCWqaKNevWKQAGzrtXJ7IQIX9oKDbxUGMXblBmTdBXw
+ S/JavpwIhsZ1YcfeQCPDbjTQ2qUdSGJXWb9JHE8eqUsER00zD/QyEete+gKBWZhLcGvl
+ KK64GzsMRYnhGO1r0VNzIYlkkLdKH0jiw2jKlW0vR2jXo37loNFFJ1a2B7WeuYE++VB5
+ qx1w==
+X-Gm-Message-State: AOAM533Esg6IDBrovumdWU7FrZ/agzp+IM4eRgMg4Krv+71+Nfc/w07Q
+ HZ7y3Fkc/tbgrZLis+ZavvyXj+WjzlGE+XizJXr5TKBE7tHLVK1CWn9GvbSlfPfaRebB5nhY5GY
+ v3ACL+LncU0gVpGMzekoo5uNjFLYY5c+5JUw1m+4bd7eJ75ZpKjCI/y4+NMLTsBAP
+X-Received: by 2002:a05:6e02:1b0c:b0:2d3:bfdf:e3c5 with SMTP id
+ i12-20020a056e021b0c00b002d3bfdfe3c5mr18242846ilv.138.1654643215633; 
+ Tue, 07 Jun 2022 16:06:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzReFK3G/dsvopsshu544F2UsRS33cSv536GmHPdfgfoMZhppkKoZ0NlkPik9D6MRTZpBQ60A==
+X-Received: by 2002:a05:6e02:1b0c:b0:2d3:bfdf:e3c5 with SMTP id
+ i12-20020a056e021b0c00b002d3bfdfe3c5mr18242826ilv.138.1654643215337; 
+ Tue, 07 Jun 2022 16:06:55 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- f6-20020a056602038600b00665862d12bbsm7035375iov.46.2022.06.07.16.06.50
+ f6-20020a056602038600b00665862d12bbsm7035375iov.46.2022.06.07.16.06.53
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 07 Jun 2022 16:06:51 -0700 (PDT)
+ Tue, 07 Jun 2022 16:06:54 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>,
@@ -70,9 +70,10 @@ Cc: Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Igor Mammedov <imammedo@redhat.com>, peterx@redhat.com
-Subject: [PATCH RFC 2/5] cpus-common: Add run_on_cpu2()
-Date: Tue,  7 Jun 2022 19:06:42 -0400
-Message-Id: <20220607230645.53950-3-peterx@redhat.com>
+Subject: [PATCH RFC 4/5] cpu: Allow cpu_synchronize_all_post_init() to take an
+ errp
+Date: Tue,  7 Jun 2022 19:06:44 -0400
+Message-Id: <20220607230645.53950-5-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220607230645.53950-1-peterx@redhat.com>
 References: <20220607230645.53950-1-peterx@redhat.com>
@@ -103,114 +104,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This version of run_on_cpu() allows to take an Error** to detect errors.
+Allow cpu_synchronize_all_post_init() to fail with an errp when it's set.
+Modify both precopy and postcopy to try to detect such error.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- cpus-common.c         | 27 +++++++++++++++++++++++++++
- include/hw/core/cpu.h | 26 ++++++++++++++++++++++++++
- softmmu/cpus.c        |  6 ++++++
- 3 files changed, 59 insertions(+)
+ hw/core/machine.c     |  2 +-
+ include/sysemu/cpus.h |  2 +-
+ migration/savevm.c    | 20 +++++++++++++++++---
+ softmmu/cpus.c        |  2 +-
+ 4 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/cpus-common.c b/cpus-common.c
-index 1db7bbbb88..1d67c0c655 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -167,6 +167,33 @@ void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index c53548d0b1..b5daad82f8 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1447,7 +1447,7 @@ void qemu_remove_machine_init_done_notifier(Notifier *notify)
+ 
+ void qdev_machine_creation_done(void)
+ {
+-    cpu_synchronize_all_post_init();
++    cpu_synchronize_all_post_init(NULL);
+ 
+     if (current_machine->boot_config.has_once) {
+         qemu_boot_set(current_machine->boot_config.once, &error_fatal);
+diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+index b5c87d48b3..a51ee46441 100644
+--- a/include/sysemu/cpus.h
++++ b/include/sysemu/cpus.h
+@@ -45,7 +45,7 @@ bool cpus_are_resettable(void);
+ 
+ void cpu_synchronize_all_states(void);
+ void cpu_synchronize_all_post_reset(void);
+-void cpu_synchronize_all_post_init(void);
++void cpu_synchronize_all_post_init(Error **errp);
+ void cpu_synchronize_all_pre_loadvm(void);
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/migration/savevm.c b/migration/savevm.c
+index d9076897b8..1175ddefd4 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2005,7 +2005,17 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+     /* TODO we should move all of this lot into postcopy_ram.c or a shared code
+      * in migration.c
+      */
+-    cpu_synchronize_all_post_init();
++    cpu_synchronize_all_post_init(&local_err);
++    if (local_err) {
++        /*
++         * TODO: a better way to do this is to tell the src that we cannot
++         * run the VM here so hopefully we can keep the VM running on src
++         * and immediately halt the switch-over.  But that needs work.
++         */
++        error_report_err(local_err);
++        local_err = NULL;
++        autostart = false;
++    }
+ 
+     trace_loadvm_postcopy_handle_run_bh("after cpu sync");
+ 
+@@ -2772,7 +2782,11 @@ int qemu_loadvm_state(QEMUFile *f)
+     }
+ 
+     qemu_loadvm_state_cleanup();
+-    cpu_synchronize_all_post_init();
++    cpu_synchronize_all_post_init(&local_err);
++    if (local_err) {
++        error_report_err(local_err);
++        return -EINVAL;
++    }
+ 
+     return ret;
+ }
+@@ -2789,7 +2803,7 @@ int qemu_load_device_state(QEMUFile *f)
+         return ret;
+     }
+ 
+-    cpu_synchronize_all_post_init();
++    cpu_synchronize_all_post_init(NULL);
+     return 0;
+ }
+ 
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 464c06201c..59c70fd496 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -146,7 +146,7 @@ void cpu_synchronize_all_post_reset(void)
      }
  }
  
-+void do_run_on_cpu2(CPUState *cpu, run_on_cpu_func2 func2, run_on_cpu_data data,
-+                    QemuMutex *mutex, Error **errp)
-+{
-+    struct qemu_work_item wi;
-+
-+    if (qemu_cpu_is_self(cpu)) {
-+        func2(cpu, data, errp);
-+        return;
-+    }
-+
-+    wi.func2 = func2;
-+    wi.data = data;
-+    wi.done = false;
-+    wi.free = false;
-+    wi.exclusive = false;
-+    wi.has_errp = true;
-+    wi.errp = errp;
-+
-+    queue_work_on_cpu(cpu, &wi);
-+    while (!qatomic_mb_read(&wi.done)) {
-+        CPUState *self_cpu = current_cpu;
-+
-+        qemu_cond_wait(&qemu_work_cond, mutex);
-+        current_cpu = self_cpu;
-+    }
-+}
-+
- void async_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
+-void cpu_synchronize_all_post_init(void)
++void cpu_synchronize_all_post_init(Error **errp)
  {
-     struct qemu_work_item *wi;
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 7a303576d0..4bb40a03cf 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -709,6 +709,19 @@ bool cpu_is_stopped(CPUState *cpu);
- void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
-                    QemuMutex *mutex);
+     CPUState *cpu;
  
-+/**
-+ * do_run_on_cpu2:
-+ * @cpu: The vCPU to run on.
-+ * @func2: The function to be executed.
-+ * @data: Data to pass to the function.
-+ * @mutex: Mutex to release while waiting for @func2 to run.
-+ * @errp: The Error** pointer to be passed into @func2.
-+ *
-+ * Used internally in the implementation of run_on_cpu2.
-+ */
-+void do_run_on_cpu2(CPUState *cpu, run_on_cpu_func2 func2, run_on_cpu_data data,
-+                    QemuMutex *mutex, Error **errp);
-+
- /**
-  * run_on_cpu:
-  * @cpu: The vCPU to run on.
-@@ -719,6 +732,19 @@ void do_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data,
-  */
- void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data);
- 
-+/**
-+ * run_on_cpu2:
-+ * @cpu: The vCPU to run on.
-+ * @func: The function to be executed.
-+ * @data: Data to pass to the function.
-+ * @errp: The Error** pointer to be passed into @func2.
-+ *
-+ * Schedules the function @func2 for execution on the vCPU @cpu, capture
-+ * any error and put it into *@errp when provided.
-+ */
-+void run_on_cpu2(CPUState *cpu, run_on_cpu_func2 func2, run_on_cpu_data data,
-+                 Error **errp);
-+
- /**
-  * async_run_on_cpu:
-  * @cpu: The vCPU to run on.
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 23b30484b2..898363a1d0 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -391,6 +391,12 @@ void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
-     do_run_on_cpu(cpu, func, data, &qemu_global_mutex);
- }
- 
-+void run_on_cpu2(CPUState *cpu, run_on_cpu_func2 func2, run_on_cpu_data data,
-+                 Error **errp)
-+{
-+    do_run_on_cpu2(cpu, func2, data, &qemu_global_mutex, errp);
-+}
-+
- static void qemu_cpu_stop(CPUState *cpu, bool exit)
- {
-     g_assert(qemu_cpu_is_self(cpu));
 -- 
 2.32.0
 
