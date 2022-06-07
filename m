@@ -2,164 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32248540018
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 15:34:12 +0200 (CEST)
-Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7018C540032
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 15:36:53 +0200 (CEST)
+Received: from localhost ([::1]:60810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyZLX-0002Pc-9b
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 09:34:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58704)
+	id 1nyZO8-0004GS-IK
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 09:36:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1nyZEI-0003MB-7p
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:26:42 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:13316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1nyZED-0007iE-BC
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:26:41 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2579ejUJ027046;
- Tue, 7 Jun 2022 13:26:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=9uITkF2uU2TJ7clSii/loo2NKU3z3MQDlZxxr76CmnE=;
- b=wuqAsverWUZ/tI7IaqvjESmbGxFzGYwFeqA2aMvPh9qAyHtHATur0SM9TaLXy5oniNaD
- hWxcmOJ2O8IgjmJVtvJEJ2Isb/wY91/A5hTrfpYBF+1dabiJ6i8ygee0T2dLwYZvsH4a
- QBMxkRvUZqCmucK+9rKxb757xAZSa3KUF9KVOmbcgo4OKM6lGxJVBNsBPQizb5cnbUvO
- gC0yYRsAUI8YReqxvZgcK0uXBdnxIEhR5gYU5vOqAjgvyjt2y0EVYE0ClSJVukJA4BG7
- Z6ithksnulymhnzck0kcF6r1BG/BXrObYDJIsECIOV8kGy8nJ9dJpCvOCGjRwkptXoSD KA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gfydqnrku-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Jun 2022 13:26:32 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 257DC8xT028666; Tue, 7 Jun 2022 13:26:30 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2108.outbound.protection.outlook.com [104.47.58.108])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3gfwu2ngpm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Jun 2022 13:26:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YMsPclhagjdX/1JfoUiI1bgNtSmH+gYN9b1ZogroM84VvxfYZknChr1liT8+FZJyv5+6dIgUy2VGN4etD1FH10qAio6LJbLp0Ppx4vzvxPoUOjqY0S6YO/Yco+/Mhmg1Dx4S+DEsFmodxJ4VX+1d0iyJ3VCpRq56miK7vkFf4ALaCruLzCeHf1RbHbCmbJ9SJMgFYOFhpls76sKwuxnPAGK3RJVZEnCCpSzqDt/ol31Sy0a6fl7zDuR3RT56f4B3uwCbtG//HRD2/wyjajtnpVDxl8qylbNSxGolPW75AoJUvRF6OMSo097tWA5ZAXC4S/V91g/5gGjCq69JWuweQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9uITkF2uU2TJ7clSii/loo2NKU3z3MQDlZxxr76CmnE=;
- b=Xm3nWlXgmQvRAvWdKq0z+6AavbIX+vAG3xMwjb42uiBv0catrrb5Q/phwxa6xQ+ScXT/kxGBITxeXqFzYiy6DitaCTXnYCggfdTQb9fQ8eZK+3ov3uXwWbPeAIv4kjXLScmFhViAKPJkekXU2484e2JKBfuIhgVDjMXckVrbI73l56MFZ8XLFDVOXFvB3yTmM9HfMRUJ9fK4FwBPhCVRKPRw7qF1Mj7BITemyW6kZYB9KYxVonQBBvzdhaB6QWw7RkWWgkxcCSOvxMb2ez+HzF6bLhXe3Ab+tbmtM1wlnc/WsFoF7UcnWFaXS/aCQEbrYFATvFYGnUSUlAdhp7jvRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9uITkF2uU2TJ7clSii/loo2NKU3z3MQDlZxxr76CmnE=;
- b=TcrZ7l0m1PWks+DScczjNBFNizqsx0x808ZNWsbGGd72xbR71BMpsfA+yYyquTJMDtxBkeNlwSpVcDKCu+gv8GYnqrBXs/N8AYuv6TdQFV7cbM8mz2Z5Y4aL9s5RbnmqkxbYkLvhvcS3S7MkpOv6vHjzWWCEtK1wdr5YDtY/CW4=
-Received: from BYAPR10MB2869.namprd10.prod.outlook.com (2603:10b6:a03:85::17)
- by CY4PR10MB1976.namprd10.prod.outlook.com (2603:10b6:903:11f::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.18; Tue, 7 Jun
- 2022 13:26:28 +0000
-Received: from BYAPR10MB2869.namprd10.prod.outlook.com
- ([fe80::9d7b:4d6c:8fd9:766b]) by BYAPR10MB2869.namprd10.prod.outlook.com
- ([fe80::9d7b:4d6c:8fd9:766b%7]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
- 13:26:28 +0000
-Date: Tue, 7 Jun 2022 06:26:25 -0700
-From: Elena <elena.ufimtseva@oracle.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, jag.raman@oracle.com, john.g.johnson@oracle.com,
- john.levon@nutanix.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org
-Subject: Re: ioregionfd with io_uring IORING_OP_URING_CMD
-Message-ID: <20220607132625.GA181696@heatpiped>
-References: <Yp4V61lfTTN3QsT4@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yp4V61lfTTN3QsT4@stefanha-x1.localdomain>
-X-ClientProxiedBy: SJ0PR13CA0132.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::17) To BYAPR10MB2869.namprd10.prod.outlook.com
- (2603:10b6:a03:85::17)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nyZEx-0004Df-Kr; Tue, 07 Jun 2022 09:27:24 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:47002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nyZEu-0007tO-Qq; Tue, 07 Jun 2022 09:27:23 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-fb1ae0cd9cso12540775fac.13; 
+ Tue, 07 Jun 2022 06:27:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=x7XOFK4IC1fMkwAAgAdY3pVTkFDgeAlaUD2pmf9fDfs=;
+ b=Pr/eXOAVkmbfIQcoSdX7EqJnJMeLR2r10gkijP/Os/Q4lXLIy8caH/DIHkEwoSbRag
+ G7LbsASbSGcQR/I9eVqqdQJOnpT2j/xpKRmuWDRuRDB2SKrsHEmMqDze3Wn7A7nTtQEo
+ cNde9W+cM0Lq9YbfKnz4MOhMT/TjcGfpXhbDgYXfaU9MHc2rmKqpKkDWMHCx5Yay9mwT
+ ZskRCqKb7SG/bGB/HepT0Eq4dRUZ5CfByggmwmqpWjqqi/cJVvd6pC51NNkopnh3RwGV
+ RIBeymuawgP52dxNCUH/jKSxhFj9jeMV8IxeYhH1AlzMx45I2PSlccgWo7ayxyWOJdnD
+ MrQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=x7XOFK4IC1fMkwAAgAdY3pVTkFDgeAlaUD2pmf9fDfs=;
+ b=GrndzNg0HjOQR0zEnIWYcjuwuxl+cXEoAWjkHGBHwN/QOL/qaqbH2wka/5lvfp09VT
+ dcn4Jfds+Vl+uhr2VSwwsrvV0+y/BkUkNyuo5ZmIyEuGCd2K/3h5ePJD4DKiEuVVIF7L
+ kVZJgOlfOcdWzqbTNqCc/Ks4CyVC5iemYrdvUOct/tSx0oj0t0b8uo8Wk3hmF6k7ilu0
+ 4B0zuXfDkkc8UnIR8mZWn9Jvlx+im5tXGqT7GtPuHX3IsuyFiw2bWWczL7Xxgmy7sqC8
+ 9UHcUpQfYei1z1TeHRTiAUaUsUd4clLyxiX9j5dfon6F6L0t6zwt0QyHWUUChr++SNXU
+ uFtw==
+X-Gm-Message-State: AOAM532CcWQX9Csn1vqOIx00DjMBn2fQC+tbyliHN81pTyNE6ILO16/M
+ vv6UKjQkXzMgAZZXXZ46YHY=
+X-Google-Smtp-Source: ABdhPJwIVTR30PjJik1s9B+9hz4pcIbqHSv4/B7Vij5SbxCsDy6O6ZFoy7dbJU6ql8vpLwaVvHI0gA==
+X-Received: by 2002:a05:6871:10b:b0:f5:d68b:bc70 with SMTP id
+ y11-20020a056871010b00b000f5d68bbc70mr19803191oab.17.1654608438559; 
+ Tue, 07 Jun 2022 06:27:18 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:b502:536:aba9:ff15:cc50?
+ ([2804:431:c7c7:b502:536:aba9:ff15:cc50])
+ by smtp.gmail.com with ESMTPSA id
+ z11-20020a4a984b000000b0035ef3da8387sm9180285ooi.4.2022.06.07.06.27.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 06:27:18 -0700 (PDT)
+Message-ID: <0175005e-a8fd-718f-13f9-f916df6a64e0@gmail.com>
+Date: Tue, 7 Jun 2022 10:27:14 -0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 03acdee1-d457-42f7-4f2d-08da48895400
-X-MS-TrafficTypeDiagnostic: CY4PR10MB1976:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR10MB1976AEAFA04720281D7B494B8CA59@CY4PR10MB1976.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3l7fd7z3uXoxkwDqE+tqWY17gZ+hpGEVd2BNjJ6R9ALu5mr0kizoXvHtBdaC5CtME0l4tLvHYIJGP8pKP98e/BOl2v7oGNx+E+AqAJ7D/SHfQzWHTbaqQDcRZpGqHlnotmBm2zLjqo42AGrdSuatj6RT01NvM4VNBkFFDpOud1NYti/N3STMlmQu7bYB9XEpfRTIdsR1A5bq5G/G2Uq7TKO7E8z6H0gBtz+q8wSiKltK/CUbpAZpX7uHpFdavr12FWB1rJxrrBpOkFZRvDRD/Lou8+0N++DsyJai+WGHh3oF20HKBUhkkfve8rCLz6WSOElTLLQJxbEI0nHnpN5Wp/YOdIeZA+ng1jtm+uoBGKT9rjtRlCdf437eXG4ZSxV+Y3YqHGwROmdBHBF8rnq1EkH2V1bvd+jIFqenrVYK6exDzhFGdyXMHJZdpvobs07ueOhEKuEEKJ9nVHa1xSKmwzfQAEQSD3GutRSmnUAuF23BiWPl4qnm+N1Jt8yqixrz1O+PUCnBzVhQg+Oo4wUbE9TwqNU97wkQs0iRHX1AR6NoiNOrhUeeUNuyeIXx4wxx5Tit2aGflt67sikqskPUQ4IrQGzDtPLDX2Zw+9pzNcSLmX431O5ahBRwMmeBZTRaiN1SouK3aK0wOBBKcne5ShIkCEQyj/wZ66dGu2WrwzGSq3vsDScsciHPEVNsYBMNZy0vuaeLyrKQ7aDpDk/JbHzEZWTw36TtZmyd4HeXrDU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2869.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(6486002)(33656002)(316002)(186003)(33716001)(2906002)(1076003)(9686003)(6512007)(6506007)(86362001)(52116002)(6666004)(38100700002)(6916009)(966005)(5660300002)(83380400001)(8936002)(66476007)(8676002)(66556008)(4326008)(508600001)(66946007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3A/VZjvMvor2TZZ8PP7QOjmt2zjst13PyAusYO/fzlFWL0v6+vU0oIii1+ep?=
- =?us-ascii?Q?/TTtIayLrN4vrttX+Q4Si+cCdjkLktuJuCzUT++RDbqKiN/K8nOGK6ykrFXK?=
- =?us-ascii?Q?R0oze+vtddWDyJyWz3dlOWUV5+CO9tVbtYksM59TO0Hw7yG0YJ29aGdYXcEB?=
- =?us-ascii?Q?HKgdKPV4vQCJsFY5/pP+mTWpv0tAHq4iA7/aexaNhSBq4ed00mXXwOWjHKIx?=
- =?us-ascii?Q?zWcm94ZLbJnisPkrYmy8nrlpdvisGibnPNH2gZH5hQ7rGx3rk2wsB2+6JRcY?=
- =?us-ascii?Q?j9z8MbFlt8vjRAkYf1gnVJU3PoqVydhUmi8US0AZ/5TEnG/UDXAeOLvB1s8l?=
- =?us-ascii?Q?GPVBUiBbNF4zrgsB6QBwC8HYvG2B4fqOs8DskjCkSJuq0lu7v3nIBd7HynqL?=
- =?us-ascii?Q?/ReRf0VEmLhR5CC1Fik43RC/ipP4a23/CG4Dbt5KkMZ1lknBmnmw9y1HsTN6?=
- =?us-ascii?Q?4kRhBVb+2kpxHQQG0N8ls0vFeiwFnKoyZVxCbHvPpW5WaSqVIHLKLbshtPjj?=
- =?us-ascii?Q?VxnG0LkoWdosNRMfwq8M8lQLBVNVJDB7asa/iFOdi0+ZmeekOTbnyWrz3iUI?=
- =?us-ascii?Q?pVy6lt1g12DPTuFaXZewT5FxMmEj2VIEwdCCLduNpen5Osc9iuAjagnYFprm?=
- =?us-ascii?Q?FkSQPd/ws55yY0bvsYB74m5jvdMf+CbefHxxm7uKxBOjuBAfry19nMN7zbOj?=
- =?us-ascii?Q?sFk+L9s8iykEfacjfDrBdCZJ2s+sDzfbS49QNZznvUG5md2QCUq89wp2TiBN?=
- =?us-ascii?Q?ssjyV6iZqFWEspTneRAa9E93wwIYCmmZDcYQGMrBZQ4jciEf5CpxGUhYHTJn?=
- =?us-ascii?Q?EvrHM6tJ7daYQfTr4KX9UILNEgqxgqx5DIi1YRIH9PxvweSGONxksJ1H164r?=
- =?us-ascii?Q?z2wuJwZwVSR55URWJ0NtZo0lN3WhOVvt7/W92fNxE/XoJiP9tSabCgubUAHC?=
- =?us-ascii?Q?fe2et2jlA9U4CYT6/zP1PUL589Vh3s0x4S4iUg6wMUYsUrtXp7MoyEoaaoD4?=
- =?us-ascii?Q?aAVXdyM/YYbYwb8OXReNTEuzuAFNkOmhQr1oUSS3CsOQHt1CgsXeDiXPNeKi?=
- =?us-ascii?Q?OCFC56eOp1avrUiLUOyb0L37V274gyqh44KB1JxHZ4i3G3cdMjNg+InR05Dd?=
- =?us-ascii?Q?/vW7fVkEnYhD+tb5dVz4OLlsfUKGMG0Z/VZWTX3a16BHyGqcuAPzdYpme6wr?=
- =?us-ascii?Q?sPutckfdA1pjvM3IpgvQ6viNG4AlWGjDY5XlIFPbqKtYJBg1mFLMATEJxSxC?=
- =?us-ascii?Q?+ru304Wl0S6fxsIiULRJddyoCeM/YLqaqbXdGxYnmV0X8C8HwMoBQ1cX4BCD?=
- =?us-ascii?Q?Hg0chgv/VJs5OlBzfVpbywEuyAB2vkqXhxaYMAuvxnWly1v0UH9iX2GemwV7?=
- =?us-ascii?Q?ghh6mAh4QiOahyTnzkj6rd0OoyYS21Q63DLSpP6rlO3ywqC1PwOvEY7N9+xo?=
- =?us-ascii?Q?sIh3FqZH9WTGGjNiyGiluDWwP5rTbqK1QPd7MhSVKI+WsDEVn2/n0YrrgqFv?=
- =?us-ascii?Q?qmicIYOfAaqh2aFE4Yb8r/QpYSO+GDV/kgEBkpcqFMaUvvIiUNTSyuMWr2pg?=
- =?us-ascii?Q?PLDuMe56PRzJQ5bHm674zP/eq67IZK+hCKSlywa7LWKgYtmLAVu2vIW1J6W3?=
- =?us-ascii?Q?KKQlrbos8OZrNjGRyd4F19YtFVrwqrT97eVnp3HjVFPGTC9WxYlE7lREZ3Ih?=
- =?us-ascii?Q?G0ZtdwbCY3r1mhCdKu3m5zgCD+JwCu+HWT1/ck2T8ghl3kT3scCuC0rFTGTr?=
- =?us-ascii?Q?1gcfkWxl7VIRcT79OAe1jvG+Pu4PMwfYzpEMbBuKg1ov9+s9fO3mz/abHk95?=
-X-MS-Exchange-AntiSpam-MessageData-1: cNeXcY0yE3kzqOY2rQwO7gdAD8kZOBhWQtk=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03acdee1-d457-42f7-4f2d-08da48895400
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2869.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 13:26:28.6340 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 02uis73BQ/cN7Yw2QYx6NIgV5BigAT4iCHjTqBA1WGhfavQc/Z6HFVcYuRq8vXLXBzRkoosly97yE0dNhaVUMB6hD9lVyOF7mEF04YCOAgM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1976
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.874
- definitions=2022-06-07_06:2022-06-07,
- 2022-06-07 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 adultscore=0
- spamscore=0 suspectscore=0 bulkscore=0 malwarescore=0 mlxlogscore=918
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206070055
-X-Proofpoint-GUID: HZMiFalGreTTYxv5a7K4i2D55U4j9_hQ
-X-Proofpoint-ORIG-GUID: HZMiFalGreTTYxv5a7K4i2D55U4j9_hQ
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=elena.ufimtseva@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 03/16] ppc/pnv: add PnvPHB base/proxy device
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
+ mark.cave-ayland@ilande.co.uk
+References: <20220531214917.31668-1-danielhb413@gmail.com>
+ <20220531214917.31668-4-danielhb413@gmail.com>
+ <fd2aa961-6f79-3628-ef3c-f22ac23e5052@linux.ibm.com>
+ <9868398e-8785-7718-dc37-f6300f66fd19@kaod.org>
+ <6004d6d5-544d-352f-d889-bf5d60f7e9d6@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <6004d6d5-544d-352f-d889-bf5d60f7e9d6@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -175,57 +99,274 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 06, 2022 at 03:57:47PM +0100, Stefan Hajnoczi wrote:
-> Hi,
-> During Elena Afanasova's Outreachy project we discussed whether
-> ioregionfd should be a custom struct file_operations (anon inode) or a
-> userspace-provided file (socketpair, UNIX domain socket, etc).
->
 
-Hello Stefan,
 
-> Back then it seemed more flexible and simpler to let userspace provide
-> the file. It may be worth revisiting this decision in light of the
-> recent io_uring IORING_OP_URING_CMD feature, which fits for this
-> performance-critical interface.
->
-And Paolo was asking about io_uring in the review of the initial
-patches.
-
-> IORING_OP_URING_CMD involves a new struct file_operations->uring_cmd()
-> callback. It's a flexible userspace interface like ioctl(2) but designed
-> to be asynchronous. ioregionfd can provide a uring_cmd() that reads a
-> ioregionfd response from userspace and then writes the next ioregionfd
-> request to userspace.
+On 6/7/22 05:44, Frederic Barrat wrote:
 > 
-> This single operation merges the request/response so only 1 syscall is
-> necessary per KVM MMIO/PIO exit instead of a read() + write(). Bypassing
-> the net/socket infrastructure is likely to help too.
 > 
-> It would be interesting to benchmark this and compare it against the
-> existing userspace-provided file approach. Although it's not the same
-> scenario, results for the Linux NVMe driver using ->uring_cmd() are
-> promising:
-> https://www.snia.org/educational-library/enabling-asynchronous-i-o-passthru-nvme-native-applications-2021
+> On 07/06/2022 08:42, Cédric Le Goater wrote:
+>> On 6/2/22 18:16, Frederic Barrat wrote:
+>>>
+>>>
+>>> On 31/05/2022 23:49, Daniel Henrique Barboza wrote:
+>>>> The PnvPHB device is going to be the base device for all other powernv
+>>>> PHBs. It consists of a device that has the same user API as the other
+>>>> PHB, namely being a PCIHostBridge and having chip-id and index
+>>>> properties. It also has a 'backend' pointer that will be initialized
+>>>> with the PHB implementation that the device is going to use.
+>>>>
+>>>> The initialization of the PHB backend is done by checking the PHB
+>>>> version via a 'version' attribute that can be set via a global machine
+>>>> property.  The 'version' field will be used to make adjustments based on
+>>>> the running version, e.g. PHB3 uses a 'chip' reference while PHB4 uses
+>>>> 'pec'. To init the PnvPHB bus we'll rely on helpers for each version.
+>>>> The version 3 helper is already added (pnv_phb3_bus_init), the PHB4
+>>>> helper will be added later on.
+>>>>
+>>>> For now let's add the basic logic of the PnvPHB object, which consists
+>>>> mostly of pnv_phb_realize() doing all the work of checking the
+>>>> phb->version set, initializing the proper backend, passing through its
+>>>> attributes to the chosen backend, finalizing the backend realize and
+>>>> adding a root port in the end.
+>>>>
+>>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>>> ---
+>>>>   hw/pci-host/meson.build |   3 +-
+>>>>   hw/pci-host/pnv_phb.c   | 123 ++++++++++++++++++++++++++++++++++++++++
+>>>>   hw/pci-host/pnv_phb.h   |  39 +++++++++++++
+>>>>   3 files changed, 164 insertions(+), 1 deletion(-)
+>>>>   create mode 100644 hw/pci-host/pnv_phb.c
+>>>>   create mode 100644 hw/pci-host/pnv_phb.h
+>>>>
+>>>> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+>>>> index c07596d0d1..e832babc9d 100644
+>>>> --- a/hw/pci-host/meson.build
+>>>> +++ b/hw/pci-host/meson.build
+>>>> @@ -35,5 +35,6 @@ specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
+>>>>     'pnv_phb3_msi.c',
+>>>>     'pnv_phb3_pbcq.c',
+>>>>     'pnv_phb4.c',
+>>>> -  'pnv_phb4_pec.c'
+>>>> +  'pnv_phb4_pec.c',
+>>>> +  'pnv_phb.c',
+>>>>   ))
+>>>> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+>>>> new file mode 100644
+>>>> index 0000000000..fa8472622f
+>>>> --- /dev/null
+>>>> +++ b/hw/pci-host/pnv_phb.c
+>>>> @@ -0,0 +1,123 @@
+>>>> +/*
+>>>> + * QEMU PowerPC PowerNV Proxy PHB model
+>>>> + *
+>>>> + * Copyright (c) 2022, IBM Corporation.
+>>>> + *
+>>>> + * This code is licensed under the GPL version 2 or later. See the
+>>>> + * COPYING file in the top-level directory.
+>>>> + */
+>>>> +
+>>>> +#include "qemu/osdep.h"
+>>>> +#include "qemu/log.h"
+>>>> +#include "qapi/visitor.h"
+>>>> +#include "qapi/error.h"
+>>>> +#include "hw/pci-host/pnv_phb.h"
+>>>> +#include "hw/pci-host/pnv_phb3.h"
+>>>> +#include "hw/pci-host/pnv_phb4.h"
+>>>> +#include "hw/ppc/pnv.h"
+>>>> +#include "hw/qdev-properties.h"
+>>>> +#include "qom/object.h"
+>>>> +
+>>>> +
+>>>> +static void pnv_phb_realize(DeviceState *dev, Error **errp)
+>>>> +{
+>>>> +    PnvPHB *phb = PNV_PHB(dev);
+>>>> +    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
+>>>> +    g_autofree char *phb_typename = NULL;
+>>>> +    g_autofree char *phb_rootport_typename = NULL;
+>>>> +
+>>>> +    if (!phb->version) {
+>>>> +        error_setg(errp, "version not specified");
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    switch (phb->version) {
+>>>> +    case 3:
+>>>> +        phb_typename = g_strdup(TYPE_PNV_PHB3);
+>>>> +        phb_rootport_typename = g_strdup(TYPE_PNV_PHB3_ROOT_PORT);
+>>>> +        break;
+>>>> +    case 4:
+>>>> +        phb_typename = g_strdup(TYPE_PNV_PHB4);
+>>>> +        phb_rootport_typename = g_strdup(TYPE_PNV_PHB4_ROOT_PORT);
+>>>> +        break;
+>>>> +    case 5:
+>>>> +        phb_typename = g_strdup(TYPE_PNV_PHB5);
+>>>> +        phb_rootport_typename = g_strdup(TYPE_PNV_PHB5_ROOT_PORT);
+>>>> +        break;
+>>>> +    default:
+>>>> +        g_assert_not_reached();
+>>>> +    }
+>>>> +
+>>>> +    phb->backend = object_new(phb_typename);
+>>>> +    object_property_add_child(OBJECT(dev), "phb-device", phb->backend);
+>>>> +
+>>>> +    /* Passthrough child device properties to the proxy device */
+>>>> +    object_property_set_uint(phb->backend, "index", phb->phb_id, errp);
+>>>> +    object_property_set_uint(phb->backend, "chip-id", phb->chip_id, errp);
+>>>> +    object_property_set_link(phb->backend, "phb-base", OBJECT(phb), errp);
+>>>> +
+>>>> +    if (phb->version == 3) {
+>>>> +        object_property_set_link(phb->backend, "chip",
+>>>> +                                 OBJECT(phb->chip), errp);
+>>>> +    } else {
+>>>> +        object_property_set_link(phb->backend, "pec", OBJECT(phb->pec), errp);
+>>>> +    }
+>>>
+>>>
+>>> The patch is fine, but it just highlights that we're doing something wrong. I don't believe there's any reason for the chip/pec/phb relationship to be different between P8 and P9/P10. One day, a brave soul could try to unify the models, it would avoid test like that.
+>>
+>> I think this is the first thing to do: introduce a PEC model to match
+>> P8 HW and unify PHB3/4/5. We have been dragging this for too long (2014 ...)
 > 
-Yes, looks interesting, we were thinking about adding this.
-
-> The downside is it requires more code than general purpose I/O. In
-> addition to ->uring_cmd(), it's also worth implementing struct
-> file_operations read/write/poll so traditional file I/O syscalls work
-> for simple applications that don't want to use io_uring.
 > 
-> It's possible to add ->uring_cmd() later but as a userspace developer I
-> would prefer the ->uring_cmd() approach, so I'm not sure it's worth
-> committing to the existing userspace-provided file approach?
+> I agree it's needed, but it's also orthogonal to this series. And I wouldn't force it on Daniel since we're getting into PCI territory.
 
-Makes total sense. I am going to start working on this and will
-come back with more questions.
+I don't mind doing it after this series lands.
 
-Thank you!
-Elena
+
+Thanks,
+
+
+Daniel
+
 > 
-> Stefan
-
-
+>    Fred
+> 
+> 
+>>
+>> It shouldn't be that complex with all the cleanups that have been done.
+>>
+>> Thanks,
+>>
+>> C.
+>>
+>>
+>>> It would be a good cleanup series to do if we ever extend the model with yet another version :-)
+>>>
+>>>
+>>>
+>>>
+>>>> +
+>>>> +    if (!qdev_realize(DEVICE(phb->backend), NULL, errp)) {
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    if (phb->version == 3) {
+>>>> +        pnv_phb3_bus_init(dev, (PnvPHB3 *)phb->backend);
+>>>> +    }
+>>>> +
+>>>> +    pnv_phb_attach_root_port(pci, phb_rootport_typename);
+>>>
+>>>
+>>>
+>>> After we've removed the other instances (done in later patches), we could move pnv_phb_attach_root_port() to pnv_phb.c instead of pnv.c. It would be the perfect home for it as it starts looking off in pnv.c
+>>>
+>>>    Fred
+>>>
+>>>
+>>>
+>>>> +}
+>>>> +
+>>>> +static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
+>>>> +                                         PCIBus *rootbus)
+>>>> +{
+>>>> +    PnvPHB *phb = PNV_PHB(host_bridge);
+>>>> +
+>>>> +    snprintf(phb->bus_path, sizeof(phb->bus_path), "00%02x:%02x",
+>>>> +             phb->chip_id, phb->phb_id);
+>>>> +    return phb->bus_path;
+>>>> +}
+>>>> +
+>>>> +static Property pnv_phb_properties[] = {
+>>>> +        DEFINE_PROP_UINT32("index", PnvPHB, phb_id, 0),
+>>>> +        DEFINE_PROP_UINT32("chip-id", PnvPHB, chip_id, 0),
+>>>> +        DEFINE_PROP_UINT32("version", PnvPHB, version, 0),
+>>>> +
+>>>> +        DEFINE_PROP_LINK("chip", PnvPHB, chip, TYPE_PNV_CHIP, PnvChip *),
+>>>> +
+>>>> +        DEFINE_PROP_LINK("pec", PnvPHB, pec, TYPE_PNV_PHB4_PEC,
+>>>> +                         PnvPhb4PecState *),
+>>>> +
+>>>> +        DEFINE_PROP_END_OF_LIST(),
+>>>> +};
+>>>> +
+>>>> +static void pnv_phb_class_init(ObjectClass *klass, void *data)
+>>>> +{
+>>>> +    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
+>>>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>>>> +
+>>>> +    hc->root_bus_path = pnv_phb_root_bus_path;
+>>>> +    dc->realize = pnv_phb_realize;
+>>>> +    device_class_set_props(dc, pnv_phb_properties);
+>>>> +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>>>> +    dc->user_creatable = true;
+>>>> +}
+>>>> +
+>>>> +static void pnv_phb_register_type(void)
+>>>> +{
+>>>> +    static const TypeInfo pnv_phb_type_info = {
+>>>> +        .name          = TYPE_PNV_PHB,
+>>>> +        .parent        = TYPE_PCIE_HOST_BRIDGE,
+>>>> +        .instance_size = sizeof(PnvPHB),
+>>>> +        .class_init    = pnv_phb_class_init,
+>>>> +    };
+>>>> +
+>>>> +    type_register_static(&pnv_phb_type_info);
+>>>> +}
+>>>> +type_init(pnv_phb_register_type)
+>>>> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
+>>>> new file mode 100644
+>>>> index 0000000000..a7cc8610e2
+>>>> --- /dev/null
+>>>> +++ b/hw/pci-host/pnv_phb.h
+>>>> @@ -0,0 +1,39 @@
+>>>> +/*
+>>>> + * QEMU PowerPC PowerNV Proxy PHB model
+>>>> + *
+>>>> + * Copyright (c) 2022, IBM Corporation.
+>>>> + *
+>>>> + * This code is licensed under the GPL version 2 or later. See the
+>>>> + * COPYING file in the top-level directory.
+>>>> + */
+>>>> +
+>>>> +#ifndef PCI_HOST_PNV_PHB_H
+>>>> +#define PCI_HOST_PNV_PHB_H
+>>>> +
+>>>> +#include "hw/pci/pcie_host.h"
+>>>> +#include "hw/pci/pcie_port.h"
+>>>> +#include "qom/object.h"
+>>>> +
+>>>> +typedef struct PnvChip PnvChip;
+>>>> +typedef struct PnvPhb4PecState PnvPhb4PecState;
+>>>> +
+>>>> +struct PnvPHB {
+>>>> +    PCIExpressHost parent_obj;
+>>>> +
+>>>> +    uint32_t chip_id;
+>>>> +    uint32_t phb_id;
+>>>> +    uint32_t version;
+>>>> +    char bus_path[8];
+>>>> +
+>>>> +    PnvChip *chip;
+>>>> +
+>>>> +    PnvPhb4PecState *pec;
+>>>> +
+>>>> +    /* The PHB backend (PnvPHB3, PnvPHB4 ...) being used */
+>>>> +    Object *backend;
+>>>> +};
+>>>> +
+>>>> +#define TYPE_PNV_PHB "pnv-phb"
+>>>> +OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
+>>>> +
+>>>> +#endif /* PCI_HOST_PNV_PHB_H */
+>>
 
