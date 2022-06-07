@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309CD53FEC2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 14:28:08 +0200 (CEST)
-Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A391953FF44
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 14:46:15 +0200 (CEST)
+Received: from localhost ([::1]:44184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyYJb-0002xO-8V
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 08:28:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54002)
+	id 1nyYb8-0003PD-Db
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 08:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyY3y-0006zY-Ju
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 08:12:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37165)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyY3t-0005it-PD
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 08:11:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654603913;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yYS/aqTColfq7mavFI4QmOrup+y9SpG/O9LadVXCLrU=;
- b=DBRxcZKFzS5ttSrw0mlClbMMOM2entfTvdMxwYr9GLvXm3Iv9Yyi1hBGQINBWfddf2/9qq
- rdXfh+QtpmPOUTyM6mjuyoCUNaR/m8sqTzgNzTkhw5FMT0JKXHftQeGLg9wcfuTXrRh7OO
- FfqSD/nSsza5PrqBP/6J7T8uQBaGzrw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-145-SwHYp55lPp6GP537gxjeUA-1; Tue, 07 Jun 2022 08:11:52 -0400
-X-MC-Unique: SwHYp55lPp6GP537gxjeUA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n18-20020a05600c3b9200b0039746f3d9faso5711159wms.4
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 05:11:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nyY4E-0007Gz-8Z
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 08:12:14 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:44937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nyY4B-0005jw-VE
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 08:12:14 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id c18so7350475pgh.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 05:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=GijARRYnxL8YO0+sEq7CgmOSfAqFvvakkFBsv6at5Ao=;
+ b=QjzQzhgN46s/kESurvy5S4WXixwl3Jm+2nFPnTlxnjoSrWHmBxRXLsMr3HMecO2Vnr
+ lfVnS8JFp0oF1rJXEjgZEkvnIK3V1pb+p2LJLKQCKwpe1GJTL5x9JAVxRpf5ZZSmyFC8
+ Qh91hc5xUPBJfy0S1PAulnlR8qZAEFmhM6vCI8l+iCJmD8MzC3lj2njzB1l0jgKRoVLj
+ +J6d+GMrx8b4RUDTxxHQNafJTXpvnQGSbkhaqCIebWwJEFADOyWOQumc0WlnZasuDu85
+ uC1xwpDV4Vg2XPBCEjsn4vm412qsUYFOKz9mZyIPWK5l3s30sdhQltu2bDmO8pbGa9PK
+ kiVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=yYS/aqTColfq7mavFI4QmOrup+y9SpG/O9LadVXCLrU=;
- b=X2yumE0RYPPgivYKYBPK1HEnSxkd/C9OmUV1+iR2IhB8HjtAw4QBi+pTHIJWMkyvcL
- XSWKdXoWJaTaSGVcEhRs+N+A7NFRuHd1v3raEVB78vq/38E0P/qXdVv7DBma8RqIBdaz
- WpEC6ZS2/xTZkUeiZ8XYPgWzO/rvpmTISmzoYnjDtaI39w0MQh24htR2dhI2V+w9PXHW
- v1PiY+fNz8/vrBc8pzD+Y+/UFpcHd2tsiMGMu29pb1KaWoOQvTgJeMlMNeDXvL5+HV2K
- LlT0sal0a9UpYhtdoBFYBMGfI4OEq1J0Rlnbw54PK0mWaFbePsR5nNkXckQzPJNC2oGE
- uA0A==
-X-Gm-Message-State: AOAM531j+zssZEbGYw8OtE7uHj4e8S0AYWtzjN6Fr82H5OsQh+yJaNsh
- 1Q0f78aeLzK1HDxBOuCw8VaITYaM7qEwJoIMoMivvAOc/tCLujmdLic0EjI9A10igxEn2xYZHLx
- mfdSnKd0nv7txeeY=
-X-Received: by 2002:a7b:c10d:0:b0:39c:4a17:1e90 with SMTP id
- w13-20020a7bc10d000000b0039c4a171e90mr14818718wmi.108.1654603909981; 
- Tue, 07 Jun 2022 05:11:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxfMMc6JI38A+NU3AsX8Ba3GfV0nvFlAgaEWSkiw/HM5xglJy7cxRZCSFnufnXqp6nC01smYQ==
-X-Received: by 2002:a7b:c10d:0:b0:39c:4a17:1e90 with SMTP id
- w13-20020a7bc10d000000b0039c4a171e90mr14818658wmi.108.1654603909362; 
- Tue, 07 Jun 2022 05:11:49 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=GijARRYnxL8YO0+sEq7CgmOSfAqFvvakkFBsv6at5Ao=;
+ b=w4roO+VOsAjb3vA6+bWc+bMDa59F2GaCmu+kPBf9u2EzF7zGAFE8nIkz0wv4pwUf5K
+ /iXJiCT5HT38c6I9R1GhsTvmRqkuCBeb2jJNm9mmHPFmNRiuXPnGToFAHew9m3C5vtkJ
+ NGPdjeMnhHI3rUJrv7ZZo4Mry0Ne865hYTxR6mGNEbx6AcadB7UcVbIRjIHBYM965CEv
+ 6TZx4ojI1F6kW/J1/sEzAOYHjK8az5rkVH5Qr2GQCb8E6XR4yabSQ4pRekoF4XGYzS44
+ y6xfBYTfvKS63zXVcT0iEnCmCkojZcKtjpxXt7ed8bVXAM1TOSUrGYNLWqSc1U5Cp39L
+ 9b+Q==
+X-Gm-Message-State: AOAM531bk0YE070YjWdmr8bcDxZ9/t3Fj0hCpSkegjgD40KNVlhQcPqo
+ mdYI/YMKEekXfCDo0pMXIF4=
+X-Google-Smtp-Source: ABdhPJwCSCn5Byw+9714s59/vTRyhGwy+WF9gUTl/b+De7VI8bPEHCvQiZzq5tYWiT59Mdr5aE1XgA==
+X-Received: by 2002:a63:f003:0:b0:3db:84d3:743d with SMTP id
+ k3-20020a63f003000000b003db84d3743dmr25232916pgh.97.1654603930382; 
+ Tue, 07 Jun 2022 05:12:10 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
  by smtp.gmail.com with ESMTPSA id
- k7-20020a7bc407000000b00397402ae674sm1860624wmi.11.2022.06.07.05.11.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 05:11:48 -0700 (PDT)
-Message-ID: <cda0091d-65ac-f23a-4e12-7b681d655ea2@redhat.com>
-Date: Tue, 7 Jun 2022 14:11:48 +0200
+ jh13-20020a170903328d00b0015eab1b097dsm12335643plb.22.2022.06.07.05.12.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jun 2022 05:12:09 -0700 (PDT)
+Date: Tue, 7 Jun 2022 21:12:07 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Joel Stanley <joel@jms.id.au>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Openrisc <openrisc@lists.librecores.org>,
+ QEMU Development <qemu-devel@nongnu.org>
+Subject: Re: [RFC PATCH 3/3] hw/openrisc: Add the OpenRISC virtual machine
+Message-ID: <Yp9Al1UfqvIzStI7@antec>
+References: <CACPK8XexaTREY3Y-jp8urTAE+UmQWgygFx1MAss9KcJw5tGMtw@mail.gmail.com>
+ <CAMuHMdWF_OwTMZZ=joRsnOAuB5UuKjACt3Ku4-o0--fR6xqQbQ@mail.gmail.com>
+ <YpkWllpTFzb2HHY5@antec>
+ <CAMuHMdXBtihLpdOYn7nj_fH2g08nDUiUd-_zCZ_EdEyvw1UxWA@mail.gmail.com>
+ <YpwNtowUTxRbh2Uq@antec> <Ypxb/VDfYLFg3n2s@antec>
+ <CAMuHMdVwAzbAOBDcv4y1WmYgCaFOMdywxUZvwMtDccOgDMN+mw@mail.gmail.com>
+ <CAK8P3a3Vpn02uDe3rdXSNXANY=u4ZM+wjm-qqszTXzjOKkAeEg@mail.gmail.com>
+ <Yp8epZsizfKMEVZV@antec>
+ <CAFEAcA97oraa5OSdqmubmJ2-ONTCTF4ZszwfTcZ9VhqKRFhogA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v5 07/45] block: document connection between child roles
- and bs->backing/bs->file
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
- v.sementsov-og@mail.ru
-References: <20220330212902.590099-1-vsementsov@openvz.org>
- <20220330212902.590099-8-vsementsov@openvz.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220330212902.590099-8-vsementsov@openvz.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA97oraa5OSdqmubmJ2-ONTCTF4ZszwfTcZ9VhqKRFhogA@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=shorne@gmail.com; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,119 +97,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
-> Make the informal rules formal. In further commit we'll add
-> corresponding assertions.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-> ---
->   include/block/block-common.h | 42 ++++++++++++++++++++++++++++++++++++
->   1 file changed, 42 insertions(+)
->
-> diff --git a/include/block/block-common.h b/include/block/block-common.h
-> index fdb7306e78..2687a2519c 100644
-> --- a/include/block/block-common.h
-> +++ b/include/block/block-common.h
-> @@ -313,6 +313,48 @@ enum {
->    *
->    * At least one of DATA, METADATA, FILTERED, or COW must be set for
->    * every child.
-> + *
-> + *
-> + * = Connection with bs->children, bs->file and bs->backing fields =
-> + *
-> + * 1. Filters
-> + *
-> + * Filter drivers has drv->is_filter = true.
+On Tue, Jun 07, 2022 at 11:43:08AM +0100, Peter Maydell wrote:
+> So I don't have a strong view on whether these devices should
+> be DEVICE_NATIVE_ENDIAN or DEVICE_LITTLE_ENDIAN (except that
+> my impression is that a DEVICE_LITTLE_ENDIAN device on a
+> big-endian system is a bit weird, because it means the guest
+> has to byteswap everything. You see that with PCI devices because
+> the PCI spec mandates LE, but not often elsewhere).
+> 
+> If there's an official-ish spec for how goldfish devices are
+> supposed to behave (does anybody have a pointer to one?) and it says
+> "always little-endian" then that would probably suggest that fixing
+> m68k would be nice if we can.
 
-s/has/have/
+I think there are some conflicting thoughts on this.
 
-> + *
-> + * Filter driver has exactly one FILTERED|PRIMARY child, any may have other
+In Geert's he mentioned:
 
-s/Filter driver/A filter node/?
+  Using Goldfish devices as little-endian devices should be fine.
 
-And s/any/and/, I think.
+In Arnd's mail he mentions:
 
-> + * children which must not have these bits (the example is copy-before-write
-> + * filter that also has target DATA child).
+  https://lore.kernel.org/lkml/CAK8P3a1oN8NrUjkh2X8jHQbyz42Xo6GSa=5n0gD6vQcXRjmq1Q@mail.gmail.com/#t
 
-Mild style suggestion: “one example is the copy-before write filter, 
-which also has its target DATA child”
+  ... the device was clearly defined as having little-endian
+  registers,
 
-> + *
-> + * Filter driver never has COW children.
+Based on that I was thinking that switching to DEVICE_LITTLE_ENDIAN would make
+sense.
 
-Maybe “Filter nodes never have COW children.”?
+However, in a followup mail from Laurent we see:
 
-> + *
-> + * For all filters except for mirror_top and commit_top, the filtered child is
-> + * linked in bs->file, bs->backing is NULL.
-> + *
-> + * For mirror_top and commit_top filtered child is linked in bs->backing and
+  https://lore.kernel.org/lkml/cb884368-0226-e913-80d2-62d2b7b2e761@vivier.eu/
 
-s/commit_top filtered/commit_top, the filtered/ (like in the paragraph 
-above)
+  The reference document[1] doesn't define the endianness of goldfish.
 
-> + * their bs->file is NULL. These two filters has drv->filtered_child_is_backing
+  [1] https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
 
-s/has/have/
 
-> + * = true.
+The documentation does not clearly specify it.  So maybe maybe or1k should just
+be updated on the linux side and add gf_ioread32/gf_iowrite32 big-endian
+accessors.
 
-This also applies to the two test drivers in test-bdrv-graph-mod; should 
-that be mentioned, too?
-
-Or should we just link to filtered_child_is_backing when it comes to the 
-list of drivers for which this applies, e.g. by rephrasing the two 
-paragraphs as follows:
-
-For most filters, the filtered child is linked in bs->file, bs->backing 
-is NULL.  For some filters (as an exception), it is the other way 
-around; those drivers will have drv->filtered_child_is_backing set to 
-true (see that field’s documentation for what drivers this concerns).
-
-(Just so we don’t duplicate the list of drivers.)
-
-> + *
-> + * 2. "raw" driver (block/raw-format.c)
-> + *
-> + * Formally it's not a filter (drv->is_filter = false)
-> + *
-> + * bs->backing is always NULL
-> + *
-> + * Only has one child, linked in bs->file. It's role is either FILTERED|PRIMARY
-
-s/it's/its/
-
-> + * (like filter) either DATA|PRIMARY depending on options.
-
-s/either/or/
-
-> + *
-> + * 3. Other drivers
-> + *
-> + * Doesn't have any FILTERED children.
-
-s/Doesn't/Don't/ (because “drivers” was in plural)
-
-> + *
-> + * May have at most one COW child. In this case it's linked in bs->backing.
-> + * Otherwise bs->backing is NULL. COW child is never PRIMARY.
-> + *
-> + * May have at most one PRIMARY child. In this case it's linked in bs->file.
-> + * Otherwise bs->file is NULL.
-> + *
-> + * May also have some other children that don't have neither PRIMARY nor COW
-> + * bits set.
-
-I think either “that don't have the PRIMARY or COW bit set" or "that 
-have neither the PRIMARY nor the COW bit set".
-
->    */
->   enum BdrvChildRoleBits {
->       /*
-
-Aside from typo/style nit picks, sounds good!
-
+-Stafford
 
