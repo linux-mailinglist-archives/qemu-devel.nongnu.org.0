@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEB2541F52
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:06:27 +0200 (CEST)
-Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC90541F4F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:04:43 +0200 (CEST)
+Received: from localhost ([::1]:42334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyiHK-0004sx-1I
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
+	id 1nyiFe-0002k1-OL
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:04:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nygKl-00057e-E8
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 17:01:51 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:40479)
+ (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
+ id 1nygaJ-0001qs-Qn
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 17:17:55 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:33410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nygKj-0003nQ-LE
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 17:01:50 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id i1so15849470plg.7
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 14:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Yf9/p/hKkh0EOCcYQXIh3lhJ7eqzIxzFsx+/f/VzhnA=;
- b=qTmfJ8qm2OZNFc9i5PvG+v4sXfz/p7nWCQ8jNgM/uv+oTSiIw19LFWesIyHY2KYYB/
- 5ANhacDaZG23e2Af4Gm06UHmhDV5VW9fZJ9k4UxF9XtRUT0s/bjsd9dMsdgMcyZg7Gwv
- 7tFEUHL4yvZ57y/dLZZ2ykjtVAQQHA9AMRdG77c/RUkQGdWCgW9wusPfLD3uAIZYQRMu
- k4I2BES/prsvm58HhK2YsEcUiNrX9rTO83pr7V5ivIQzhYv0nr6OserDU8XSxQOGjtp7
- Qn1MWrRqNHZW7rlcrT+Ja/Z1wBIALawJ4JqG2fFMzcD7svqFu1o32JYRVbnBFlpj5LSu
- lr0Q==
+ (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
+ id 1nygaH-0006KS-Gw
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 17:17:55 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ hv24-20020a17090ae41800b001e33eebdb5dso14660988pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 14:17:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HQpzIjqm2Z7NYHnECe0WedSpG9SrTZLDXt9SwpdfwHs=;
+ b=W+CKRMaFHziZ/ALwQe04LFlIxY+EXHc29CnVyuqA5rZ20dFs2SJvO04etVOB6zfOd5
+ 5YynNWDlXxgDIWnKeAsiH5FjndbI/Yifg48zB4O5on6241UeXw2ejJuf8iGhSIEvdPQy
+ aDRn0t8xC1lMLWhUKKGxD9yacBni1lcjEUItdIxz+4IZRybqY0f0me7P/ZjUGAXzPHP9
+ 11upEZ40Zetbq+YNPwZXXw/7VmeKxoTI9+VOmpV7Nfk9gFKVFUdOzbfTRZ4QHdaj9oJ3
+ E21Plvw2zT1zBTPAAWtHmljwcEn65ODuipHInkyWJJ3pD3zeBJfdxkIhnfBwOi0p57ik
+ QyGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Yf9/p/hKkh0EOCcYQXIh3lhJ7eqzIxzFsx+/f/VzhnA=;
- b=Xi3lWOkMU+vEkOFcO90nBXMGacXzOcOJQeczp0Re8wKU4496EOwTYA5cWjlrYh60a/
- vJDEzLofqymP8UaPcEHOHXlbBCUpa4t3OZEdgEK/X3Kn+1EgMr9nfG2c7UeL7RhoY9jx
- sVYJx9KxG8PZInFOT5Y/afjJjzANamDMDxBmmLOwC12ymg+buoZx+lzhmdBT4HEltGCS
- lWTwPXIYe3ZGf3ohJXSLOVcrECmtTvoiQ/wRrn/Vwpc2JrcWFK9mPhGXVddhqdXbeFvg
- sycQAwbVsHa9WeRm40C2e0WWnPXOpHeL8x9yEBc81bZ234zY6rJt9CtPUvty3Rchn6Mr
- pKTw==
-X-Gm-Message-State: AOAM533WjGOzbVs1rOo63wVLMiQMkrqwWtViNoVuo3RjBPqTIhoqLAuj
- 10mGj7KDhzDchMLzFw/AktZ09A==
-X-Google-Smtp-Source: ABdhPJyiQ5XGeuIbIG99bjD6XUiogJjfIQiAZjoYYFFBiGq6MCK3stTA7Ji1vp3PjMYw5AD/zhU6ww==
-X-Received: by 2002:a17:90b:1101:b0:1e8:5df5:b2ac with SMTP id
- gi1-20020a17090b110100b001e85df5b2acmr19741220pjb.239.1654635708025; 
- Tue, 07 Jun 2022 14:01:48 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
- ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
- by smtp.gmail.com with ESMTPSA id
- ja17-20020a170902efd100b0015e8d4eb219sm1835270plb.99.2022.06.07.14.01.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 14:01:47 -0700 (PDT)
-Message-ID: <90234281-b315-f6b6-270c-19cdcbf4c8ee@linaro.org>
-Date: Tue, 7 Jun 2022 14:01:45 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HQpzIjqm2Z7NYHnECe0WedSpG9SrTZLDXt9SwpdfwHs=;
+ b=YuRbuWWcMuoE2YWMoSnurI1qILX3hBieTXRfRFIpswbKT8oPQ3RjaXYX9xgLku1JFc
+ vAP0IRg1VOptIlHMQj9WALF8oPAWRDAqkgjrQuObkGACululatxmzFxXUJB3qocvaICt
+ N0ByAReAHmU6B0v5eSbykx9YJFke5zRQP6UvScG1o1ETF3KSBOLQ6Rq3f/dKadRphcsd
+ cGBSVNiZTdoyeZmPeSbfZXuFJG7xfSp3K5GSEVB47a7zVSeHwbHLfUDNJ60/yiLpTKEf
+ H/J9cM7oBsfUCG6ha/ZzMW5bn18NWmXYvIcOOBJtv4mHTlvj1i9QWEgfAEMjT7c142EK
+ lOiA==
+X-Gm-Message-State: AOAM5331LgXNugPuv4K3v+l21fB521yL5jzbfICrHlIEI9jmYOfwVeDz
+ OvbdjxPUv1Z4+kBgoMGG2c9bCqit83SuqQEbJhJLBoKrgp8=
+X-Google-Smtp-Source: ABdhPJwBbe2ZXsJ9VBUpMpwy7qzanUzJGca5n2a1tUZpmeZbmECytU0EEVrcCvqbtIiD4GYAwbF2px+vIdU4bFkg/BY=
+X-Received: by 2002:a17:90b:682:b0:1e3:142:a562 with SMTP id
+ m2-20020a17090b068200b001e30142a562mr49816155pjz.91.1654636671399; Tue, 07
+ Jun 2022 14:17:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/6] bsd-user/freebsd/os-syscall.c: lock_iovec
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: arrowd@freebsd.org, def@freebsd.org, jrtc27@FreeBSD.org,
- Kyle Evans <kevans@freebsd.org>
-References: <20220607201440.41464-1-imp@bsdimp.com>
- <20220607201440.41464-2-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220607201440.41464-2-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220524203647.31435-1-daolu@rivosinc.com>
+ <20220524203647.31435-2-daolu@rivosinc.com>
+In-Reply-To: <20220524203647.31435-2-daolu@rivosinc.com>
+From: Dao Lu <daolu@rivosinc.com>
+Date: Tue, 7 Jun 2022 14:17:40 -0700
+Message-ID: <CAKh7v-Se705qE16UgV92UsrfhkcJCUtKByOt6Hs80MhV1Wh88w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] target/riscv: Add Zihintpause support
+To: qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, 
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Heiko Stuebner <heiko@sntech.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=daolu@rivosinc.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,37 +87,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/22 13:14, Warner Losh wrote:
-> +static void helper_unlock_iovec(struct target_iovec *target_vec,
-> +                                abi_ulong target_addr, struct iovec *vec,
-> +                                int count, int copy)
+Ping
+
+On Tue, May 24, 2022 at 1:36 PM Dao Lu <daolu@rivosinc.com> wrote:
+>
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Dao Lu <daolu@rivosinc.com>
+> ---
+>  target/riscv/cpu.c                      |  2 ++
+>  target/riscv/cpu.h                      |  1 +
+>  target/riscv/insn32.decode              |  7 ++++++-
+>  target/riscv/insn_trans/trans_rvi.c.inc | 18 ++++++++++++++++++
+>  4 files changed, 27 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ccacdee215..183fb37fdf 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> +    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
+>      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+>      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+>      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> @@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+>       *    extensions by an underscore.
+>       */
+>      struct isa_ext_data isa_edata_arr[] = {
+> +        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
+>          ISA_EDATA_ENTRY(zfh, ext_zfh),
+>          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+>          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index fe6c9a2c92..e466a04a59 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -394,6 +394,7 @@ struct RISCVCPUConfig {
+>      bool ext_counters;
+>      bool ext_ifencei;
+>      bool ext_icsr;
+> +    bool ext_zihintpause;
+>      bool ext_svinval;
+>      bool ext_svnapot;
+>      bool ext_svpbmt;
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 4033565393..595fdcdad8 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
+>  sra      0100000 .....    ..... 101 ..... 0110011 @r
+>  or       0000000 .....    ..... 110 ..... 0110011 @r
+>  and      0000000 .....    ..... 111 ..... 0110011 @r
+> -fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
+> +
 > +{
-> +    for (int i = 0; i < count; i++) {
-> +        abi_ulong base = tswapal(target_vec[i].iov_base);
-> +        abi_long len = tswapal(target_vec[i].iov_len);
-> +        if (len < 0) {
-> +            /*
-> +             * Can't really happen: we'll fail to lock if any elements have a
-> +             * length < 0. Better to fail-safe though.
-> +             */
-> +            break;
-> +        }
-
-I think this is over-complicated, could be fixed by...
-
-> +    vec = g_try_new(struct iovec, count);
-
-... using g_try_new0.
-
+> +  pause  0000 0001   0000   00000 000 00000 0001111
+> +  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
+> +}
+> +
+>  fence_i  ---- ----   ----   ----- 001 ----- 0001111
+>  csrrw    ............     ..... 001 ..... 1110011 @csr
+>  csrrs    ............     ..... 010 ..... 1110011 @csr
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index f1342f30f8..ca75e05f4b 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -796,6 +796,24 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
+>      return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
+>  }
+>
+> +static bool trans_pause(DisasContext *ctx, arg_pause *a)
+> +{
+> +    if (!ctx->cfg_ptr->ext_zihintpause) {
+> +        return false;
+> +    }
+> +
 > +    /*
-> +     * ??? If host page size > target page size, this will result in a value
-> +     * larger than what we can actually support.
-> +     * ??? Should we just assert something for new 16k page size on aarch64?
+> +     * PAUSE is a no-op in QEMU,
+> +     * however we need to clear the reservation,
+> +     * end the TB and return to main loop
 > +     */
-> +    max_len = 0x7fffffff & TARGET_PAGE_MASK;
-
-Use minimum value, I think.
-
-
-r~
+> +    tcg_gen_movi_tl(load_res, -1);
+> +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+> +    tcg_gen_exit_tb(NULL, 0);
+> +    ctx->base.is_jmp = DISAS_NORETURN;
+> +
+> +    return true;
+> +}
+>
+>  static bool trans_fence(DisasContext *ctx, arg_fence *a)
+>  {
+> --
+> 2.30.1 (Apple Git-130)
+>
 
