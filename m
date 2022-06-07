@@ -2,110 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D638353F89C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 10:50:18 +0200 (CEST)
-Received: from localhost ([::1]:38930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C543453F8CC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 10:54:16 +0200 (CEST)
+Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyUun-0005a5-TZ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 04:50:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
+	id 1nyUyd-0001xM-PS
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 04:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1nyUpB-00014Q-Ti; Tue, 07 Jun 2022 04:44:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24174
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1nyUp9-0002bT-PP; Tue, 07 Jun 2022 04:44:29 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2578bnq0022563;
- Tue, 7 Jun 2022 08:44:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8NS2ekZnmRnJG6Bn9BbBpJJ8crUqmj17XTdzo1rjDsI=;
- b=LLk6OSElhFRc4VSW2tQi3Ff5rhfs7hCf92nUTpYpz/h5vy5N3nRKdnVJseWmXuF0LaKq
- Sff/+8FaS46AwBDP93xByiWOScY3xBmSFMw6+3VmsYyqfNOyCa9QstTFvf3aT9heokqO
- +uN5D4VCfsqV2/vPIkYgrLG2SgzLz11wYYj5jkhROg5sF88nleAk3A6cgJ1pXUyG+nph
- qlQ3obXONut4j/2gygl+zOHUMYs9w1fQPwVsMdje97rqDR2hmdOnM+QlHWMf+JamUC2d
- xKlqITfwZ5tcSYvfXMi3eHAH6O/0uGFx+oXPuGfDZJDS8iOW6sDnv4ueTyU2asxVE8n9 qA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gj2yn0g31-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Jun 2022 08:44:16 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2578buN8023942;
- Tue, 7 Jun 2022 08:44:16 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gj2yn0g2n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Jun 2022 08:44:16 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2578aCEA006329;
- Tue, 7 Jun 2022 08:44:14 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 3gfy19aqef-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Jun 2022 08:44:14 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2578iCcC22872396
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 7 Jun 2022 08:44:12 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1684311C052;
- Tue,  7 Jun 2022 08:44:12 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A35A411C04A;
- Tue,  7 Jun 2022 08:44:11 +0000 (GMT)
-Received: from [9.171.53.11] (unknown [9.171.53.11])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  7 Jun 2022 08:44:11 +0000 (GMT)
-Message-ID: <6004d6d5-544d-352f-d889-bf5d60f7e9d6@linux.ibm.com>
-Date: Tue, 7 Jun 2022 10:44:11 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nyUpG-0001E7-63
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 04:44:34 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:41939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nyUpE-0002cW-Ih
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 04:44:33 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id e184so29967858ybf.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 01:44:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iyISAeioh2CaW8L/inA2jGkm3DFaAWCMGjH+BtYaVTA=;
+ b=eKGdEPlr74ZIb0j97Zf3F7/K9xeSK94WqZbeMr0U+tw1/FxS8BTmfU2Lgium5TqvfI
+ 3oh5Z/LJyFsQc1pPNibqQrHKxuQuBNDFK8wDKcs8FYjocJBYtRnepzS1n4QFzsrlDj98
+ r5FOdezCx+9ToXSozRcGsNMvypPF6EeRRGjKrPSQ7xjiK8dSj0xerCFfu/GCX//3n0U2
+ wUes+UQvMQ812CUIVv+Zfb4ffYVIA2kyFJZfO0GmyzAQ3tMMJNIHIJmSrsq9PEbE/i8W
+ nIcKU73Sr3JgkObR33ky7orlZb1rSHFmq7y4IpgpPDrAin+Uh4JKJl4lazVL4ft1ZWMT
+ z4Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iyISAeioh2CaW8L/inA2jGkm3DFaAWCMGjH+BtYaVTA=;
+ b=urzdM7D5j0KuO14VBUDpxPVavFMuj8f5zO7/75/GH323hpHspDimemARGrV4uUFeeK
+ sdS5+KsdnAn4tF2nDvoYqCCqYfvEr8yAWqgNmRyajeIKUK2FRQWyLkNuj9Tg2Bff6af8
+ yrPZguCI5WDKpKtuKE4ooN4yBL1aGbloBx/gyZA/v21/0QOjio2Y7DuUQYf/k1X1iOru
+ Evm/ivarTyCjjUsLzIScijh7wfE9YQDaBewrg4K3i1E1wkqLOeP38+TCWxfcvdL4L3h2
+ r5wkX2KNaQPG5Ka0qd4MPdGP0PntAvmJIq5tNGtqmAt1eF0D4LN85gSQh9o43PK18Ioi
+ oE+A==
+X-Gm-Message-State: AOAM533zqKiPrGz7qvT28OvH6o4MTrhJk3prsY98sUZyQ16Y7XgB+Lgp
+ x38GDJ1oaEEoeBL6i8tWwD39orYhiTFqbXTDJRZN+Q==
+X-Google-Smtp-Source: ABdhPJwX13rDjzItZgsvvagWeRrU3yeyQ1u+BYZgEK/2g7XgvSOiTSRDcryPXSPP4TdiojvVfHa+PnILkQnYyyxlTk4=
+X-Received: by 2002:a25:47d4:0:b0:65d:510e:c8de with SMTP id
+ u203-20020a2547d4000000b0065d510ec8demr28896849yba.39.1654591471695; Tue, 07
+ Jun 2022 01:44:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 03/16] ppc/pnv: add PnvPHB base/proxy device
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
- mark.cave-ayland@ilande.co.uk
-References: <20220531214917.31668-1-danielhb413@gmail.com>
- <20220531214917.31668-4-danielhb413@gmail.com>
- <fd2aa961-6f79-3628-ef3c-f22ac23e5052@linux.ibm.com>
- <9868398e-8785-7718-dc37-f6300f66fd19@kaod.org>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <9868398e-8785-7718-dc37-f6300f66fd19@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 6OrEmPU70w-mnTB6_Az5FF1mChTEmp_H
-X-Proofpoint-ORIG-GUID: 8D42r2DMm5RN2Z_d8TjDH8xHpVb-V669
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-07_02,2022-06-03_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- lowpriorityscore=0 impostorscore=0 malwarescore=0 phishscore=0
- adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206070035
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220602214853.496211-1-richard.henderson@linaro.org>
+ <20220602214853.496211-32-richard.henderson@linaro.org>
+In-Reply-To: <20220602214853.496211-32-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jun 2022 09:44:21 +0100
+Message-ID: <CAFEAcA_uU32pw0Z4hQ1rmL3irhjvVFhchVL7is0LLzWcSgLSeA@mail.gmail.com>
+Subject: Re: [PATCH 31/71] target/arm: Move error for sve%d property to
+ arm_cpu_sve_finalize
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,275 +83,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 2 Jun 2022 at 23:10, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Keep all of the error messages together.  This does mean that
+> when setting many sve length properties we'll only generate
+> one error, but we only really need one.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu64.c | 15 +++++++--------
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-
-On 07/06/2022 08:42, Cédric Le Goater wrote:
-> On 6/2/22 18:16, Frederic Barrat wrote:
->>
->>
->> On 31/05/2022 23:49, Daniel Henrique Barboza wrote:
->>> The PnvPHB device is going to be the base device for all other powernv
->>> PHBs. It consists of a device that has the same user API as the other
->>> PHB, namely being a PCIHostBridge and having chip-id and index
->>> properties. It also has a 'backend' pointer that will be initialized
->>> with the PHB implementation that the device is going to use.
->>>
->>> The initialization of the PHB backend is done by checking the PHB
->>> version via a 'version' attribute that can be set via a global machine
->>> property.  The 'version' field will be used to make adjustments based on
->>> the running version, e.g. PHB3 uses a 'chip' reference while PHB4 uses
->>> 'pec'. To init the PnvPHB bus we'll rely on helpers for each version.
->>> The version 3 helper is already added (pnv_phb3_bus_init), the PHB4
->>> helper will be added later on.
->>>
->>> For now let's add the basic logic of the PnvPHB object, which consists
->>> mostly of pnv_phb_realize() doing all the work of checking the
->>> phb->version set, initializing the proper backend, passing through its
->>> attributes to the chosen backend, finalizing the backend realize and
->>> adding a root port in the end.
->>>
->>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> ---
->>>   hw/pci-host/meson.build |   3 +-
->>>   hw/pci-host/pnv_phb.c   | 123 ++++++++++++++++++++++++++++++++++++++++
->>>   hw/pci-host/pnv_phb.h   |  39 +++++++++++++
->>>   3 files changed, 164 insertions(+), 1 deletion(-)
->>>   create mode 100644 hw/pci-host/pnv_phb.c
->>>   create mode 100644 hw/pci-host/pnv_phb.h
->>>
->>> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
->>> index c07596d0d1..e832babc9d 100644
->>> --- a/hw/pci-host/meson.build
->>> +++ b/hw/pci-host/meson.build
->>> @@ -35,5 +35,6 @@ specific_ss.add(when: 'CONFIG_PCI_POWERNV', 
->>> if_true: files(
->>>     'pnv_phb3_msi.c',
->>>     'pnv_phb3_pbcq.c',
->>>     'pnv_phb4.c',
->>> -  'pnv_phb4_pec.c'
->>> +  'pnv_phb4_pec.c',
->>> +  'pnv_phb.c',
->>>   ))
->>> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
->>> new file mode 100644
->>> index 0000000000..fa8472622f
->>> --- /dev/null
->>> +++ b/hw/pci-host/pnv_phb.c
->>> @@ -0,0 +1,123 @@
->>> +/*
->>> + * QEMU PowerPC PowerNV Proxy PHB model
->>> + *
->>> + * Copyright (c) 2022, IBM Corporation.
->>> + *
->>> + * This code is licensed under the GPL version 2 or later. See the
->>> + * COPYING file in the top-level directory.
->>> + */
->>> +
->>> +#include "qemu/osdep.h"
->>> +#include "qemu/log.h"
->>> +#include "qapi/visitor.h"
->>> +#include "qapi/error.h"
->>> +#include "hw/pci-host/pnv_phb.h"
->>> +#include "hw/pci-host/pnv_phb3.h"
->>> +#include "hw/pci-host/pnv_phb4.h"
->>> +#include "hw/ppc/pnv.h"
->>> +#include "hw/qdev-properties.h"
->>> +#include "qom/object.h"
->>> +
->>> +
->>> +static void pnv_phb_realize(DeviceState *dev, Error **errp)
->>> +{
->>> +    PnvPHB *phb = PNV_PHB(dev);
->>> +    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
->>> +    g_autofree char *phb_typename = NULL;
->>> +    g_autofree char *phb_rootport_typename = NULL;
->>> +
->>> +    if (!phb->version) {
->>> +        error_setg(errp, "version not specified");
->>> +        return;
->>> +    }
->>> +
->>> +    switch (phb->version) {
->>> +    case 3:
->>> +        phb_typename = g_strdup(TYPE_PNV_PHB3);
->>> +        phb_rootport_typename = g_strdup(TYPE_PNV_PHB3_ROOT_PORT);
->>> +        break;
->>> +    case 4:
->>> +        phb_typename = g_strdup(TYPE_PNV_PHB4);
->>> +        phb_rootport_typename = g_strdup(TYPE_PNV_PHB4_ROOT_PORT);
->>> +        break;
->>> +    case 5:
->>> +        phb_typename = g_strdup(TYPE_PNV_PHB5);
->>> +        phb_rootport_typename = g_strdup(TYPE_PNV_PHB5_ROOT_PORT);
->>> +        break;
->>> +    default:
->>> +        g_assert_not_reached();
->>> +    }
->>> +
->>> +    phb->backend = object_new(phb_typename);
->>> +    object_property_add_child(OBJECT(dev), "phb-device", phb->backend);
->>> +
->>> +    /* Passthrough child device properties to the proxy device */
->>> +    object_property_set_uint(phb->backend, "index", phb->phb_id, errp);
->>> +    object_property_set_uint(phb->backend, "chip-id", phb->chip_id, 
->>> errp);
->>> +    object_property_set_link(phb->backend, "phb-base", OBJECT(phb), 
->>> errp);
->>> +
->>> +    if (phb->version == 3) {
->>> +        object_property_set_link(phb->backend, "chip",
->>> +                                 OBJECT(phb->chip), errp);
->>> +    } else {
->>> +        object_property_set_link(phb->backend, "pec", 
->>> OBJECT(phb->pec), errp);
->>> +    }
->>
->>
->> The patch is fine, but it just highlights that we're doing something 
->> wrong. I don't believe there's any reason for the chip/pec/phb 
->> relationship to be different between P8 and P9/P10. One day, a brave 
->> soul could try to unify the models, it would avoid test like that.
-> 
-> I think this is the first thing to do: introduce a PEC model to match
-> P8 HW and unify PHB3/4/5. We have been dragging this for too long (2014 
-> ...)
-
-
-I agree it's needed, but it's also orthogonal to this series. And I 
-wouldn't force it on Daniel since we're getting into PCI territory.
-
-   Fred
-
-
-> 
-> It shouldn't be that complex with all the cleanups that have been done.
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
->> It would be a good cleanup series to do if we ever extend the model 
->> with yet another version :-)
->>
->>
->>
->>
->>> +
->>> +    if (!qdev_realize(DEVICE(phb->backend), NULL, errp)) {
->>> +        return;
->>> +    }
->>> +
->>> +    if (phb->version == 3) {
->>> +        pnv_phb3_bus_init(dev, (PnvPHB3 *)phb->backend);
->>> +    }
->>> +
->>> +    pnv_phb_attach_root_port(pci, phb_rootport_typename);
->>
->>
->>
->> After we've removed the other instances (done in later patches), we 
->> could move pnv_phb_attach_root_port() to pnv_phb.c instead of pnv.c. 
->> It would be the perfect home for it as it starts looking off in pnv.c
->>
->>    Fred
->>
->>
->>
->>> +}
->>> +
->>> +static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
->>> +                                         PCIBus *rootbus)
->>> +{
->>> +    PnvPHB *phb = PNV_PHB(host_bridge);
->>> +
->>> +    snprintf(phb->bus_path, sizeof(phb->bus_path), "00%02x:%02x",
->>> +             phb->chip_id, phb->phb_id);
->>> +    return phb->bus_path;
->>> +}
->>> +
->>> +static Property pnv_phb_properties[] = {
->>> +        DEFINE_PROP_UINT32("index", PnvPHB, phb_id, 0),
->>> +        DEFINE_PROP_UINT32("chip-id", PnvPHB, chip_id, 0),
->>> +        DEFINE_PROP_UINT32("version", PnvPHB, version, 0),
->>> +
->>> +        DEFINE_PROP_LINK("chip", PnvPHB, chip, TYPE_PNV_CHIP, 
->>> PnvChip *),
->>> +
->>> +        DEFINE_PROP_LINK("pec", PnvPHB, pec, TYPE_PNV_PHB4_PEC,
->>> +                         PnvPhb4PecState *),
->>> +
->>> +        DEFINE_PROP_END_OF_LIST(),
->>> +};
->>> +
->>> +static void pnv_phb_class_init(ObjectClass *klass, void *data)
->>> +{
->>> +    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
->>> +    DeviceClass *dc = DEVICE_CLASS(klass);
->>> +
->>> +    hc->root_bus_path = pnv_phb_root_bus_path;
->>> +    dc->realize = pnv_phb_realize;
->>> +    device_class_set_props(dc, pnv_phb_properties);
->>> +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->>> +    dc->user_creatable = true;
->>> +}
->>> +
->>> +static void pnv_phb_register_type(void)
->>> +{
->>> +    static const TypeInfo pnv_phb_type_info = {
->>> +        .name          = TYPE_PNV_PHB,
->>> +        .parent        = TYPE_PCIE_HOST_BRIDGE,
->>> +        .instance_size = sizeof(PnvPHB),
->>> +        .class_init    = pnv_phb_class_init,
->>> +    };
->>> +
->>> +    type_register_static(&pnv_phb_type_info);
->>> +}
->>> +type_init(pnv_phb_register_type)
->>> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
->>> new file mode 100644
->>> index 0000000000..a7cc8610e2
->>> --- /dev/null
->>> +++ b/hw/pci-host/pnv_phb.h
->>> @@ -0,0 +1,39 @@
->>> +/*
->>> + * QEMU PowerPC PowerNV Proxy PHB model
->>> + *
->>> + * Copyright (c) 2022, IBM Corporation.
->>> + *
->>> + * This code is licensed under the GPL version 2 or later. See the
->>> + * COPYING file in the top-level directory.
->>> + */
->>> +
->>> +#ifndef PCI_HOST_PNV_PHB_H
->>> +#define PCI_HOST_PNV_PHB_H
->>> +
->>> +#include "hw/pci/pcie_host.h"
->>> +#include "hw/pci/pcie_port.h"
->>> +#include "qom/object.h"
->>> +
->>> +typedef struct PnvChip PnvChip;
->>> +typedef struct PnvPhb4PecState PnvPhb4PecState;
->>> +
->>> +struct PnvPHB {
->>> +    PCIExpressHost parent_obj;
->>> +
->>> +    uint32_t chip_id;
->>> +    uint32_t phb_id;
->>> +    uint32_t version;
->>> +    char bus_path[8];
->>> +
->>> +    PnvChip *chip;
->>> +
->>> +    PnvPhb4PecState *pec;
->>> +
->>> +    /* The PHB backend (PnvPHB3, PnvPHB4 ...) being used */
->>> +    Object *backend;
->>> +};
->>> +
->>> +#define TYPE_PNV_PHB "pnv-phb"
->>> +OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB, PNV_PHB)
->>> +
->>> +#endif /* PCI_HOST_PNV_PHB_H */
-> 
+thanks
+-- PMM
 
