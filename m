@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1768854072A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 19:44:06 +0200 (CEST)
-Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0882B54077D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 19:49:29 +0200 (CEST)
+Received: from localhost ([::1]:54964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nydFM-0001UM-Lg
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 13:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46586)
+	id 1nydKa-0003nk-39
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 13:49:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nydCX-0000jM-Ea
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:41:10 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:37404)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nydCT-0003ds-AG
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:41:08 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- 3-20020a17090a174300b001e426a02ac5so18335737pjm.2
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 10:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=hLNaa181H8ZV34t+mYn6dZSDjvN0Yj6tUPG8NXR6U/8=;
- b=nb5gqojJsfk2hOLsDZRy2JKfC6GeKe96zDKtLlHpjfpoci2ItDVqsiQ508Orc0oKYx
- Q9tbMH7+MUTnfZX5LeSa9IA6Genvn3ODR7eJ/d2adIcRzXJIkQ3A6Abp24znvxDIv45J
- i0y+ELRIaXic9sUFwB+ulmdq/XO0okjtvaoeXPx1zwc57zuLSgXhGNovwJj4WYt+RxKu
- ZDhevGezFY7Xo+FdV1iJHT4mV6fACpZC3ds9pBYgMoiCERkGQcETvUShxt1zGQ/SGstX
- IiI0ZVP/xmZifHwHS7f322qfnYPM1Y/oTbRZvICxvE926Gp+58zVe0K7sgET4XQj/9p/
- kMiw==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nydFi-0002LX-9p
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:44:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nydFd-0003t0-Ak
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:44:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654623860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ttqNb9kd3B8KibQkKcvtq8xUVq/DwFMgmlRoLdYsSuE=;
+ b=WcYgavGSM6BaGZRNJ6f6pptONtfQ3dCQyh2aUQg6QIgjaSmk2Tbv9GD3+1PWsFVUzTgMX0
+ NDm/p79rZoOQToTL/Q6qDKp1wBfVRjoopLr9AwM4pT6JjemmRetQBTOZMH6ihkD2T7XjNp
+ AmuOb8qlLE57WGlj8moxWkMvDtrnD+o=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-284-xjl1Yo6cM-ygl9LjyWlumw-1; Tue, 07 Jun 2022 13:44:18 -0400
+X-MC-Unique: xjl1Yo6cM-ygl9LjyWlumw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v4-20020adfebc4000000b002102c69be5eso4158849wrn.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 10:44:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=hLNaa181H8ZV34t+mYn6dZSDjvN0Yj6tUPG8NXR6U/8=;
- b=fvNEG5iDpeXYio8hoN3k4S92g4goB+mB4EUgbru0MdsEkFgGEi2A1SjNROxZgMq3lc
- xvtu1h1OX0K6aZFPUt8emnCVg8C4bzuzR2fK09UJuT70bPYYAnrHKXn7WAYg/edzWywg
- sGS37OXSFgF6jk80aTdN7MbLKi3MRd8Jdp3zb8jlBALWNzxr37hpaNPM6bCdmBrDiYwn
- CYOv4ZBEu2cRfFJa+bBb1gia42yzS4ooYQh2wv/Xsuz9ciCl8QEmGtllbC82a3J13kT6
- 188E/KqqFAnhdknAaICbP/+MGMr9W+Ejia0rs19E7E+PXMpDqMdqm9oYjpWiSU+swtYD
- b/5w==
-X-Gm-Message-State: AOAM530C88tOrTDhV2dWbrJi4D0tbvjPJZ4TDIiIffp+EXqbOCnVIYAA
- XzJB0dl7LydbBwf3RPycI7Q19A==
-X-Google-Smtp-Source: ABdhPJwjpW2D5KmbTLpOit87YXGtzM+tvYVfLqCi74rC92TLGKAI2wRfrvjHSM8QTG737S3Nrd/0cw==
-X-Received: by 2002:a17:902:8ecc:b0:15e:f63f:233f with SMTP id
- x12-20020a1709028ecc00b0015ef63f233fmr30167171plo.86.1654623663566; 
- Tue, 07 Jun 2022 10:41:03 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
- ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
- by smtp.gmail.com with ESMTPSA id
- p2-20020a170902c70200b001617541c94fsm12828847plp.60.2022.06.07.10.41.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 10:41:02 -0700 (PDT)
-Message-ID: <dcc045e3-93c6-35ce-e378-fa4e73fe9a12@linaro.org>
-Date: Tue, 7 Jun 2022 10:41:00 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ttqNb9kd3B8KibQkKcvtq8xUVq/DwFMgmlRoLdYsSuE=;
+ b=OqzSHdCbz9NSuthYAvX5SEbNufn1jmocsB2hskQPlPoCdRCPlAudG4YhJ4yJBv0jQO
+ XaC1HxiI820QhvT5sRXEgWrK7o/ikdsNCyOMbVN/CEOdtC1zYpXM416VChUYbYL4ONq1
+ sUBSOYP4EfkESGVAmArvtvka3u4KrGaYgvcclUrFW39hLqheQ16Ti6001tQxgTTxdpD4
+ oagiN9aGVPKLA4QhFUZNfb+sQnSYMeMwVCdw/JrvVqBdIC6SU58kW0sw8stQJq1CKwFX
+ h3B0TO7WxQWJoYiD7YSnswjKDsSIsdgrhIE2+As/7YtIkWyKNm/vgNOd80FW0Qs+Oawk
+ xwsA==
+X-Gm-Message-State: AOAM533rQt1E+RMBAG4EWGtXSgtw2gdDUv6ddV1m8J0G3+9EiSqlgNoK
+ LEJ4qaPjg4j/iTKBgRbCXuEMrwLnoFbWu+f+X4VbLpJZr6T/XM+8cwbp66Ar2WVV1OHYA5oqJzg
+ 0gMEiKhegqK5wvkU=
+X-Received: by 2002:a05:600c:600d:b0:397:3801:3787 with SMTP id
+ az13-20020a05600c600d00b0039738013787mr60221118wmb.113.1654623857330; 
+ Tue, 07 Jun 2022 10:44:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRpdDle8nWoql7EVJCbdJhI8LfjPb7AUygLzCiKVZW/VpCZpJV4u9kcDs44mqWLT5WnwrFKA==
+X-Received: by 2002:a05:600c:600d:b0:397:3801:3787 with SMTP id
+ az13-20020a05600c600d00b0039738013787mr60221086wmb.113.1654623856945; 
+ Tue, 07 Jun 2022 10:44:16 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ h9-20020a5d4309000000b002102af52a2csm23257733wrq.9.2022.06.07.10.44.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jun 2022 10:44:16 -0700 (PDT)
+Date: Tue, 7 Jun 2022 18:44:13 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com,
+ Mark Kanda <mark.kanda@oracle.com>
+Subject: Re: [PATCH v5 02/10] kvm: Support for querying fd-based stats
+Message-ID: <Yp+ObQxOi/EXc6PZ@work-vm>
+References: <20220530150714.756954-1-pbonzini@redhat.com>
+ <20220530150714.756954-3-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 09/49] semihosting: Adjust error checking in
- common_semi_cb
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
-References: <20220521000400.454525-1-richard.henderson@linaro.org>
- <20220521000400.454525-10-richard.henderson@linaro.org>
- <CAFEAcA9x+xCFkLQX8wMnTr4JfFLN0nOnLan6y-Qt-tmzRe5mpA@mail.gmail.com>
- <840c75f7-069b-9c53-37ca-399489989758@linaro.org>
-In-Reply-To: <840c75f7-069b-9c53-37ca-399489989758@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220530150714.756954-3-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,25 +100,483 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/23/22 08:35, Richard Henderson wrote:
->> That implies that our current code is right, in that the
->> way to check for "did the call fail" is to look at the
->> retcode, not the errno (in the same way that if you make a
->> native syscall or library call you look first at its return
->> value, not at errno). There's nothing in the protocol text
->> that makes a guarantee that the errno value is non-0 if and
->> only if the call failed.
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> From: Mark Kanda <mark.kanda@oracle.com>
 > 
-> I admit that I didn't check the gdb code.  I looked at our side and saw that when the 
-> second result is missing that we'd supply 0, and interpreted "can be omitted" as "will be 
-> omitted" on success.
+> Add support for querying fd-based KVM stats - as introduced by Linux kernel
+> commit:
+> 
+> cb082bfab59a ("KVM: stats: Add fd-based API to read binary stats data")
+> 
+> This allows the user to analyze the behavior of the VM without access
+> to debugfs.
+> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  accel/kvm/kvm-all.c | 397 ++++++++++++++++++++++++++++++++++++++++++++
+>  qapi/stats.json     |   2 +-
+>  2 files changed, 398 insertions(+), 1 deletion(-)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 32e177bd26..c027536419 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -47,6 +47,7 @@
+>  #include "kvm-cpus.h"
+>  
+>  #include "hw/boards.h"
+> +#include "monitor/stats.h"
+>  
+>  /* This check must be after config-host.h is included */
+>  #ifdef CONFIG_EVENTFD
+> @@ -2310,6 +2311,9 @@ bool kvm_dirty_ring_enabled(void)
+>      return kvm_state->kvm_dirty_ring_size ? true : false;
+>  }
+>  
+> +static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp);
+> +static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
+> +
+>  static int kvm_init(MachineState *ms)
+>  {
+>      MachineClass *mc = MACHINE_GET_CLASS(ms);
+> @@ -2638,6 +2642,10 @@ static int kvm_init(MachineState *ms)
+>          }
+>      }
+>  
+> +    if (kvm_check_extension(kvm_state, KVM_CAP_BINARY_STATS_FD)) {
+> +        add_stats_callbacks(query_stats_cb, query_stats_schemas_cb);
+> +    }
+> +
+>      return 0;
+>  
+>  err:
+> @@ -3697,3 +3705,392 @@ static void kvm_type_init(void)
+>  }
+>  
+>  type_init(kvm_type_init);
+> +
+> +typedef struct StatsArgs {
+> +    union StatsResultsType {
+> +        StatsResultList **stats;
+> +        StatsSchemaList **schema;
+> +    } result;
+> +    Error **errp;
+> +} StatsArgs;
+> +
+> +static StatsList *add_kvmstat_entry(struct kvm_stats_desc *pdesc,
+> +                                    uint64_t *stats_data,
+> +                                    StatsList *stats_list,
+> +                                    Error **errp)
+> +{
+> +
+> +    Stats *stats;
+> +    uint64List *val_list = NULL;
+> +
+> +    /* Only add stats that we understand.  */
+> +    switch (pdesc->flags & KVM_STATS_TYPE_MASK) {
+> +    case KVM_STATS_TYPE_CUMULATIVE:
+> +    case KVM_STATS_TYPE_INSTANT:
+> +    case KVM_STATS_TYPE_PEAK:
+> +    case KVM_STATS_TYPE_LINEAR_HIST:
+> +    case KVM_STATS_TYPE_LOG_HIST:
+> +        break;
+> +    default:
+> +        return stats_list;
+> +    }
+> +
+> +    switch (pdesc->flags & KVM_STATS_UNIT_MASK) {
+> +    case KVM_STATS_UNIT_NONE:
+> +    case KVM_STATS_UNIT_BYTES:
+> +    case KVM_STATS_UNIT_CYCLES:
+> +    case KVM_STATS_UNIT_SECONDS:
+> +        break;
+> +    default:
+> +        return stats_list;
+> +    }
+> +
+> +    switch (pdesc->flags & KVM_STATS_BASE_MASK) {
+> +    case KVM_STATS_BASE_POW10:
+> +    case KVM_STATS_BASE_POW2:
+> +        break;
+> +    default:
+> +        return stats_list;
+> +    }
+> +
+> +    /* Alloc and populate data list */
+> +    stats = g_new0(Stats, 1);
+> +    stats->name = g_strdup(pdesc->name);
+> +    stats->value = g_new0(StatsValue, 1);;
+> +
+> +    if (pdesc->size == 1) {
+> +        stats->value->u.scalar = *stats_data;
+> +        stats->value->type = QTYPE_QNUM;
+> +    } else {
+> +        int i;
+> +        for (i = 0; i < pdesc->size; i++) {
+> +            QAPI_LIST_PREPEND(val_list, stats_data[i]);
+> +        }
+> +        stats->value->u.list = val_list;
+> +        stats->value->type = QTYPE_QLIST;
+> +    }
+> +
+> +    QAPI_LIST_PREPEND(stats_list, stats);
+> +    return stats_list;
+> +}
+> +
+> +static StatsSchemaValueList *add_kvmschema_entry(struct kvm_stats_desc *pdesc,
+> +                                                 StatsSchemaValueList *list,
+> +                                                 Error **errp)
+> +{
+> +    StatsSchemaValueList *schema_entry = g_new0(StatsSchemaValueList, 1);
+> +    schema_entry->value = g_new0(StatsSchemaValue, 1);
+> +
+> +    switch (pdesc->flags & KVM_STATS_TYPE_MASK) {
+> +    case KVM_STATS_TYPE_CUMULATIVE:
+> +        schema_entry->value->type = STATS_TYPE_CUMULATIVE;
+> +        break;
+> +    case KVM_STATS_TYPE_INSTANT:
+> +        schema_entry->value->type = STATS_TYPE_INSTANT;
+> +        break;
+> +    case KVM_STATS_TYPE_PEAK:
+> +        schema_entry->value->type = STATS_TYPE_PEAK;
+> +        break;
+> +    case KVM_STATS_TYPE_LINEAR_HIST:
+> +        schema_entry->value->type = STATS_TYPE_LINEAR_HISTOGRAM;
+> +        schema_entry->value->bucket_size = pdesc->bucket_size;
+> +        schema_entry->value->has_bucket_size = true;
+> +        break;
+> +    case KVM_STATS_TYPE_LOG_HIST:
+> +        schema_entry->value->type = STATS_TYPE_LOG2_HISTOGRAM;
+> +        break;
+> +    default:
+> +        goto exit;
+> +    }
+> +
+> +    switch (pdesc->flags & KVM_STATS_UNIT_MASK) {
+> +    case KVM_STATS_UNIT_NONE:
+> +        break;
+> +    case KVM_STATS_UNIT_BYTES:
+> +        schema_entry->value->has_unit = true;
+> +        schema_entry->value->unit = STATS_UNIT_BYTES;
+> +        break;
+> +    case KVM_STATS_UNIT_CYCLES:
+> +        schema_entry->value->has_unit = true;
+> +        schema_entry->value->unit = STATS_UNIT_CYCLES;
+> +        break;
+> +    case KVM_STATS_UNIT_SECONDS:
+> +        schema_entry->value->has_unit = true;
+> +        schema_entry->value->unit = STATS_UNIT_SECONDS;
+> +        break;
+> +    default:
+> +        goto exit;
+> +    }
+> +
+> +    schema_entry->value->exponent = pdesc->exponent;
+> +    if (pdesc->exponent) {
+> +        switch (pdesc->flags & KVM_STATS_BASE_MASK) {
+> +        case KVM_STATS_BASE_POW10:
+> +            schema_entry->value->has_base = true;
+> +            schema_entry->value->base = 10;
+> +            break;
+> +        case KVM_STATS_BASE_POW2:
+> +            schema_entry->value->has_base = true;
+> +            schema_entry->value->base = 2;
+> +            break;
+> +        default:
+> +            goto exit;
+> +        }
+> +    }
+> +
+> +    schema_entry->value->name = g_strdup(pdesc->name);
+> +    schema_entry->next = list;
+> +    return schema_entry;
+> +exit:
+> +    g_free(schema_entry->value);
+> +    g_free(schema_entry);
+> +    return list;
+> +}
+> +
+> +/* Cached stats descriptors */
+> +typedef struct StatsDescriptors {
+> +    char *ident; /* 'vm' or vCPU qom path */
+> +    struct kvm_stats_desc *kvm_stats_desc;
+> +    struct kvm_stats_header *kvm_stats_header;
+> +    QTAILQ_ENTRY(StatsDescriptors) next;
+> +} StatsDescriptors;
+> +
+> +static QTAILQ_HEAD(, StatsDescriptors) stats_descriptors =
+> +    QTAILQ_HEAD_INITIALIZER(stats_descriptors);
+> +
+> +static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd,
+> +                                                Error **errp)
+> +{
+> +    StatsDescriptors *descriptors;
+> +    const char *ident;
+> +    struct kvm_stats_desc *kvm_stats_desc;
+> +    struct kvm_stats_header *kvm_stats_header;
+> +    size_t size_desc;
+> +    ssize_t ret;
+> +
+> +    switch (target) {
+> +    case STATS_TARGET_VM:
+> +        ident = StatsTarget_str(STATS_TARGET_VM);
+> +        break;
+> +    case STATS_TARGET_VCPU:
+> +        ident = current_cpu->parent_obj.canonical_path;
+> +        break;
+> +    default:
+> +        abort();
+> +    }
+> +
+> +    QTAILQ_FOREACH(descriptors, &stats_descriptors, next) {
+> +        if (g_str_equal(descriptors->ident, ident)) {
+> +            return descriptors;
+> +        }
+> +    }
+> +
+> +    descriptors = g_new0(StatsDescriptors, 1);
+> +
+> +    /* Read stats header */
+> +    kvm_stats_header = g_malloc(sizeof(*kvm_stats_header));
+> +    ret = read(stats_fd, kvm_stats_header, sizeof(*kvm_stats_header));
+> +    if (ret != sizeof(*kvm_stats_header)) {
+> +        error_setg(errp, "KVM stats: failed to read stats header: "
+> +                   "expected %zu actual %zu",
+> +                   sizeof(*kvm_stats_header), ret);
+> +        return NULL;
+> +    }
+> +    size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
+> +
+> +    /* Read stats descriptors */
+> +    kvm_stats_desc = g_malloc0_n(kvm_stats_header->num_desc, size_desc);
+> +    ret = pread(stats_fd, kvm_stats_desc,
+> +                size_desc * kvm_stats_header->num_desc,
+> +                kvm_stats_header->desc_offset);
+> +
+> +    if (ret != size_desc * kvm_stats_header->num_desc) {
+> +        error_setg(errp, "KVM stats: failed to read stats descriptors: "
+> +                   "expected %zu actual %zu",
+> +                   size_desc * kvm_stats_header->num_desc, ret);
+> +        g_free(descriptors);
 
-Checking, can->will is actually correct, and gdb will omit the errno parameter on success.
+That's missing a free of kvm_stats_desc
+(Sorry, I missed that last time)
 
-https://sourceware.org/git?p=binutils-gdb.git;a=blob;f=gdb/remote-fileio.c;h=fe191fb6069a53a3844656a81e77069afa781946;hb=HEAD#l328
+> +        return NULL;
+> +    }
+> +    descriptors->kvm_stats_header = kvm_stats_header;
+> +    descriptors->kvm_stats_desc = kvm_stats_desc;
+> +    descriptors->ident = g_strdup(ident);
 
-So I think checking err != 0 is a good change.
+There's something that confuses me here; you check your set of
+descriptors above to find any with the matching ident, and if you've
+already got it you return it; OK.  Now, if you don't match then you
+read some stats and store it with that ident - but I don't see
+when you read the stats from the fd, what makes it read the stats that
+correspond to 'ident' ?
 
+> +    QTAILQ_INSERT_TAIL(&stats_descriptors, descriptors, next);
+> +    return descriptors;
+> +}
+> +
+> +static void query_stats(StatsResultList **result, StatsTarget target,
+> +                        int stats_fd, Error **errp)
+> +{
+> +    struct kvm_stats_desc *kvm_stats_desc;
+> +    struct kvm_stats_header *kvm_stats_header;
+> +    StatsDescriptors *descriptors;
+> +    g_autofree uint64_t *stats_data = NULL;
+> +    struct kvm_stats_desc *pdesc;
+> +    StatsList *stats_list = NULL;
+> +    size_t size_desc, size_data = 0;
+> +    ssize_t ret;
+> +    int i;
+> +
+> +    descriptors = find_stats_descriptors(target, stats_fd, errp);
+> +    if (!descriptors) {
+> +        return;
+> +    }
+> +
+> +    kvm_stats_header = descriptors->kvm_stats_header;
+> +    kvm_stats_desc = descriptors->kvm_stats_desc;
+> +    size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
+> +
+> +    /* Tally the total data size; read schema data */
+> +    for (i = 0; i < kvm_stats_header->num_desc; ++i) {
+> +        pdesc = (void *)kvm_stats_desc + i * size_desc;
+> +        size_data += pdesc->size * sizeof(*stats_data);
+> +    }
+> +
+> +    stats_data = g_malloc0(size_data);
+> +    ret = pread(stats_fd, stats_data, size_data, kvm_stats_header->data_offset);
+> +
+> +    if (ret != size_data) {
+> +        error_setg(errp, "KVM stats: failed to read data: "
+> +                   "expected %zu actual %zu", size_data, ret);
+> +        return;
+> +    }
+> +
+> +    for (i = 0; i < kvm_stats_header->num_desc; ++i) {
+> +        uint64_t *stats;
+> +        pdesc = (void *)kvm_stats_desc + i * size_desc;
+> +
+> +        /* Add entry to the list */
+> +        stats = (void *)stats_data + pdesc->offset;
+> +        stats_list = add_kvmstat_entry(pdesc, stats, stats_list, errp);
+> +    }
+> +
+> +    if (!stats_list) {
+> +        return;
+> +    }
+> +
+> +    switch (target) {
+> +    case STATS_TARGET_VM:
+> +        add_stats_entry(result, STATS_PROVIDER_KVM, NULL, stats_list);
+> +        break;
+> +    case STATS_TARGET_VCPU:
+> +        add_stats_entry(result, STATS_PROVIDER_KVM,
+> +                        current_cpu->parent_obj.canonical_path,
+> +                        stats_list);
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +static void query_stats_schema(StatsSchemaList **result, StatsTarget target,
+> +                               int stats_fd, Error **errp)
+> +{
+> +    struct kvm_stats_desc *kvm_stats_desc;
+> +    struct kvm_stats_header *kvm_stats_header;
+> +    StatsDescriptors *descriptors;
+> +    struct kvm_stats_desc *pdesc;
+> +    StatsSchemaValueList *stats_list = NULL;
+> +    size_t size_desc;
+> +    int i;
+> +
+> +    descriptors = find_stats_descriptors(target, stats_fd, errp);
+> +    if (!descriptors) {
+> +        return;
+> +    }
+> +
+> +    kvm_stats_header = descriptors->kvm_stats_header;
+> +    kvm_stats_desc = descriptors->kvm_stats_desc;
+> +    size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
+> +
+> +    /* Tally the total data size; read schema data */
+> +    for (i = 0; i < kvm_stats_header->num_desc; ++i) {
+> +        pdesc = (void *)kvm_stats_desc + i * size_desc;
+> +        stats_list = add_kvmschema_entry(pdesc, stats_list, errp);
+> +    }
+> +
+> +    add_stats_schema(result, STATS_PROVIDER_KVM, target, stats_list);
+> +}
+> +
+> +static void query_stats_vcpu(CPUState *cpu, run_on_cpu_data data)
+> +{
+> +    StatsArgs *kvm_stats_args = (StatsArgs *) data.host_ptr;
+> +    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
+> +    Error *local_err = NULL;
+> +
+> +    if (stats_fd == -1) {
+> +        error_setg_errno(&local_err, errno, "KVM stats: ioctl failed");
+> +        error_propagate(kvm_stats_args->errp, local_err);
+> +        return;
+> +    }
+> +    query_stats(kvm_stats_args->result.stats, STATS_TARGET_VCPU, stats_fd,
+> +                kvm_stats_args->errp);
+> +    close(stats_fd);
+> +}
+> +
+> +static void query_stats_schema_vcpu(CPUState *cpu, run_on_cpu_data data)
+> +{
+> +    StatsArgs *kvm_stats_args = (StatsArgs *) data.host_ptr;
+> +    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
+> +    Error *local_err = NULL;
+> +
+> +    if (stats_fd == -1) {
+> +        error_setg_errno(&local_err, errno, "KVM stats: ioctl failed");
+> +        error_propagate(kvm_stats_args->errp, local_err);
+> +        return;
+> +    }
+> +    query_stats_schema(kvm_stats_args->result.schema, STATS_TARGET_VCPU, stats_fd,
+> +                       kvm_stats_args->errp);
+> +    close(stats_fd);
+> +}
+> +
+> +static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp)
+> +{
+> +    KVMState *s = kvm_state;
+> +    CPUState *cpu;
+> +    int stats_fd;
+> +
+> +    switch (target) {
+> +    case STATS_TARGET_VM:
+> +    {
+> +        stats_fd = kvm_vm_ioctl(s, KVM_GET_STATS_FD, NULL);
+> +        if (stats_fd == -1) {
+> +            error_setg_errno(errp, errno, "KVM errno, stats: ioctl failed");
+> +            return;
+> +        }
+> +        query_stats(result, target, stats_fd, errp);
+> +        close(stats_fd);
+> +        break;
+> +    }
+> +    case STATS_TARGET_VCPU:
+> +    {
+> +        StatsArgs stats_args;
+> +        stats_args.result.stats = result;
+> +        stats_args.errp = errp;
+> +        CPU_FOREACH(cpu) {
+> +            run_on_cpu(cpu, query_stats_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
+> +        }
+> +        break;
+> +    }
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +void query_stats_schemas_cb(StatsSchemaList **result, Error **errp)
+> +{
+> +    StatsArgs stats_args;
+> +    KVMState *s = kvm_state;
+> +    int stats_fd;
+> +
+> +    stats_fd = kvm_vm_ioctl(s, KVM_GET_STATS_FD, NULL);
+> +    if (stats_fd == -1) {
+> +        error_setg(errp, "KVM stats: ioctl failed");
 
-r~
+missed an _errno
+
+> +        return;
+> +    }
+> +    query_stats_schema(result, STATS_TARGET_VM, stats_fd, errp);
+> +    close(stats_fd);
+> +
+> +    stats_args.result.schema = result;
+> +    stats_args.errp = errp;
+> +    run_on_cpu(first_cpu, query_stats_schema_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
+> +}
+> diff --git a/qapi/stats.json b/qapi/stats.json
+> index ada0fbf26f..df7c4d886c 100644
+> --- a/qapi/stats.json
+> +++ b/qapi/stats.json
+> @@ -52,7 +52,7 @@
+>  # Since: 7.1
+>  ##
+>  { 'enum': 'StatsProvider',
+> -  'data': [ ] }
+> +  'data': [ 'kvm' ] }
+>  
+>  ##
+>  # @StatsTarget:
+> -- 
+> 2.36.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
