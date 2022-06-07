@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1E8541F3A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 00:52:28 +0200 (CEST)
-Received: from localhost ([::1]:49630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A471F541F5E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:18:07 +0200 (CEST)
+Received: from localhost ([::1]:47110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyi3m-0003XF-Jo
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 18:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49276)
+	id 1nyiSc-0007EX-Og
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:18:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nygqp-0006HX-31
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 17:35:00 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:44021)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nyh0s-0006CI-Nz; Tue, 07 Jun 2022 17:45:22 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:44848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nygqn-0000Fq-FS
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 17:34:58 -0400
-Received: by mail-pl1-x633.google.com with SMTP id b5so15899299plx.10
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 14:34:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3QlZSnFTstM3ZbOiBW3B542JqPoo9HgOWvulELSNtXg=;
- b=O2P21ONNKdu9F9hKdOvaWPHZEV2YgllVytPTAO1pppQtd0Y34wF4s86GEa7oY7nhnL
- DsM9gyYzKK9uPeYq3ECTSfHFovBQUKu0q99hj8HY70UgIYGmJ9tJUu1g9nlxWS4LXrB9
- MMFbbZrmCPBO+IR7MEqXYeA94ZtQeGVNZXrf19aGTSgAxF7FyKmRaCQ7ygU6Issh/FQq
- Z220v0pyrBGxi4ZrGwKcJTNPiC5FRgSuL7PMQEmc88GPSxXxmxuMR0U2dErYjV0sXLVv
- P10xorNmLYi15rLWps7R9fF+E87boea65/qHvpQnbXi9ER5l3NC5bmcQGvi4exSaTxRk
- romQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nyh0q-0001zn-Jd; Tue, 07 Jun 2022 17:45:22 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id i66so25638076oia.11;
+ Tue, 07 Jun 2022 14:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l1ODZxGZ+O8p1LF2TKsryp2FNeroVk6V8r89PMf0cBs=;
+ b=clsn0+5uTQZ2jQkkLwK47YqihBa0pkD2LG7eYHYm7fuWvbFl7Kp+qshWUYTtrD22Df
+ p83JJFLKcJkTac/HYjHvF+onNOGyDGE7LP9Oiiqe1yJ2SntB95Qey5WEBlFD6UGEjQWK
+ 1oIXTvUSwll6CionYQN4IlLJq+AOz9qhyC4dLLnnhMH9ojqmf5SUVUoObTJl7URiwbBN
+ cN+F1AMIyF+5UCTQYekQQG3V+XHM2QZBYC59EcuOgEhX/YO3xg99UEiwf6OM8xGnvonl
+ SaRjHPbaxYuFniXdxgONbq5sPX2mmhEfoDw/VIXXzx2KQDbIz6n2tMHOVF3GWWp6FFQP
+ Ncyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3QlZSnFTstM3ZbOiBW3B542JqPoo9HgOWvulELSNtXg=;
- b=W9FgOeL/rtI6x1WVSMFhZwYp9LBLpzKDum0OdkTQ2so+TwWG9wP2yOR2Ec2MAz82u0
- OIohDZKY7G94JkWo21Tddq/a4CtXZwgwNVTxNDZ+FAXqLqWuLDmrECrWM701OzeGG1K3
- nuOkr/orSJ76Bh0SoTkLUPzz2mDQpFuwGlwqMcJtzFrhNvdUL7HUubXRwB0dpaQuJOH5
- KaHp34XQk8+ZPHYTggn22hiq1Wqz9gBkcUjEJ7v3soGcMd1vQzdQeOwODiQPSkSbTPjr
- +7p32ZjOvwIlLoVrahvp0kMcZMIS7aDOjRTqQVmOqI1O8dPtNAjqHWPx6q1ka15tj95o
- o+uA==
-X-Gm-Message-State: AOAM531iXNVYoIk67AHWHsBh32OJZ1eFy1oc6ZmUGrTygfiTmYGCp2LI
- 4e7mEvw9UOIZAfmIlyBJTRC0KA==
-X-Google-Smtp-Source: ABdhPJxcHb2YxUXLVR75fYCwFlUhZ+ZwEXQsjy/4d3wl14BTJtFGsF6eR2gNXipOkv+YVbUS5oP6Ig==
-X-Received: by 2002:a17:90a:d3d2:b0:1dd:30bb:6a45 with SMTP id
- d18-20020a17090ad3d200b001dd30bb6a45mr70045759pjw.206.1654637695968; 
- Tue, 07 Jun 2022 14:34:55 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:3cf2:c634:5b19:25f6?
- ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
- by smtp.gmail.com with ESMTPSA id
- t4-20020a1709027fc400b0015e8d4eb28esm13058400plb.216.2022.06.07.14.34.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 14:34:55 -0700 (PDT)
-Message-ID: <d00133d6-4c1f-637e-6a36-a68558bbefb0@linaro.org>
-Date: Tue, 7 Jun 2022 14:34:53 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l1ODZxGZ+O8p1LF2TKsryp2FNeroVk6V8r89PMf0cBs=;
+ b=TleifSjrEIN4tYdwpPkGQCNgYyBo9o05n7I/xXU52WgyjCJ3XRdBiTAIDTByTQDsDC
+ Bqyiz4kv8kczlMYGdn431YvxUIX+wmERFpXni4RCZxURy7nOQ1QSl7tVh0gGv2+mnXry
+ hPWt6Gswzlpgsf46S8xzBztuLAiVMOFcThAFUO8MBNS8hx7jc5aHl1HjFUnbB0uj3E1o
+ ETzEfeeGCpitChs+onaXIgRgGDHlFZ29Ib6DAWEq0d6hFmdiW0J2W/i3PB90W7X/kBOY
+ qHZtUKiKD7g9jnJ9XxWHCZhjrwosyiZr3RoJBed+nzLD3/1UAaC28IPaoaoVFw/HQk8a
+ zORQ==
+X-Gm-Message-State: AOAM532hLXOO9OMoj29uuLWzZdclvC/gkIJp78lMyhPKO9AiqJHrNZum
+ 0bCbZVc6a2nno8F75vAvpeGeLeFUWZuATgFYYUU=
+X-Google-Smtp-Source: ABdhPJx47BLC9RwDBCcucRJXpeuBuWavJS8EP9sY6f/56UUdRzgr+aJHRwgUyuvJ9Y3UFomR96RtI4m2ALJevYx2sCs=
+X-Received: by 2002:a05:6808:2126:b0:32e:a750:f8b4 with SMTP id
+ r38-20020a056808212600b0032ea750f8b4mr590456oiw.278.1654638318619; Tue, 07
+ Jun 2022 14:45:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/6] bsd-user/freebsd/os-syscall.c: Tracing and error
- boilerplate
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: arrowd@freebsd.org, def@freebsd.org, jrtc27@FreeBSD.org,
- Kyle Evans <kevans@freebsd.org>
-References: <20220607201440.41464-1-imp@bsdimp.com>
- <20220607201440.41464-4-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220607201440.41464-4-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <165449614532.19704.7000832880482980398-0@git.sr.ht>
+In-Reply-To: <165449614532.19704.7000832880482980398-0@git.sr.ht>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 8 Jun 2022 07:44:52 +1000
+Message-ID: <CAKmqyKMBqcFjYaaE-cuVNGrKDkYJLZfjAb70MFfsa7aC_KAQsg@mail.gmail.com>
+Subject: Re: [PATCH qemu v19 00/16] Add tail agnostic behavior for rvv
+ instructions
+To: "~eopxd" <yueh.ting.chen@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>, 
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=alistair23@gmail.com; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,30 +86,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/22 13:14, Warner Losh wrote:
-> +static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-> +                                abi_long arg2, abi_long arg3, abi_long arg4,
-> +                                abi_long arg5, abi_long arg6, abi_long arg7,
-> +                                abi_long arg8)
-> +{
-> +    abi_long ret;
-> +
-> +    switch (num) {
-> +    default:
-> +        gemu_log("qemu: unsupported syscall: %d\n", num);
+On Mon, Jun 6, 2022 at 4:22 PM ~eopxd <eopxd@git.sr.ht> wrote:
+>
+> According to v-spec, tail agnostic behavior can be either kept as
+> undisturbed or set elements' bits to all 1s. To distinguish the
+> difference of tail policies, QEMU should be able to simulate the tail
+> agnostic behavior as "set tail elements' bits to all 1s". An option
+> 'rvv_ta_all_1s' is added to enable the behavior, it is default as
+> disabled.
+>
+> There are multiple possibility for agnostic elements according to
+> v-spec. The main intent of this patch-set tries to add option that
+> can distinguish between tail policies. Setting agnostic elements to
+> all 1s makes things simple and allow QEMU to express this.
+>
+> We may explore other possibility of agnostic behavior by adding
+> other options in the future. Please understand that this patch-set
+> is limited.
+>
+> v2 updates:
+> - Addressed comments from Weiwei Li
+> - Added commit tail agnostic on load / store instructions (which
+>   I forgot to include into the patch-set)
+>
+> v3 updates:
+> - Missed the very 1st commit, adding it back
+>
+> v4 updates:
+> - Renamed vlmax to total_elems
+> - Deal with tail element when vl_eq_vlmax == true
+>
+> v5 updates:
+> - Let `vext_get_total_elems` take `desc` and `esz`
+> - Utilize `simd_maxsz(desc)` to get `vlenb`
+> - Fix alignments to code
+>
+> v6 updates:
+> - Fix `vext_get_total_elems`
+>
+> v7 updates:
+> - Reuse `max_elems` for vector load / store helper functions. The
+>   translation sets desc's `lmul` to `min(1, lmul)`, making
+>   `vext_max_elems` equivalent to `vext_get_total_elems`.
+>
+> v8 updates:
+> - Simplify `vext_set_elems_1s`, don't need `vext_set_elems_1s_fns`
+> - Fix `vext_get_total_elems`, it should derive upon EMUL instead
+>   of LMUL
+>
+> v9 updates:
+> - Let instructions that is tail agnostic regardless of vta respect the
+>   option and not the vta.
+>
+> v10 updates:
+> - Correct range to set element to 1s for load instructions
+>
+> v11 updates:
+> - Separate addition of option 'rvv_ta_all_1s' as a new (last) commit
+> - Add description to show intent of the option in first commit for the
+>   optional tail agnostic behavior
+> - Tag WeiWei as Reviewed-by for all commits
+> - Tag Alistair as Reviewed-by for commit 01, 02
+> - Tag Alistair as Acked-by for commit 03
+>
+> v12 updates:
+> - Add missing space in WeiWei's Reviewed-by tag
+>
+> v13 updates:
+> - Fix tail agnostic for vext_ldst_us. The function operates on input
+>   parameter 'evl' rather than 'env->vl'.
+> - Fix tail elements for vector segment load / store instructions
+>   A vector segment load / store instruction may contain fractional
+>   lmul with nf * lmul > 1. The rest of the elements in the last
+>   register should be treated as tail elements.
+> - Fix tail agnostic length for instructions with mask destination
+>   register. Instructions with mask destination register should have
+>   'vlen - vl' tail elements.
+>
+> v14 updates:
+> - Pass lmul information to into vector helper function.
+>   `vext_get_total_elems` needs it.
+>
+> v15 updates:
+> - Rebase to latest `master`
+> - Tag Alistair as Acked-by for commit 04 ~ 14
+> - Tag Alistair as Acked-by for commit 15
+>
+> v16 updates:
+> - Fix bug, when encountering situation when lmul < 0 and vl_eq_vlmax,
+>   the original version will override on `vd` but the computation will
+>   override again, meaning the tail elements will not be set correctly.
+>   Now, we don't use TCG functions if we are trying to simulate all 1s
+>   for agnostic and use vector helpers instead.
+>
+> v17 updates:
+> - Add "Prune access_type parameter" commit to cleanup vector load/
+>   store functions. Then add parameter `is_load` in vector helper
+>   functions to enable vta behavior in the commit for adding vta on
+>   vector load/store functions.
+>
+> v18 updates:
+> - Don't use `is_load` parameter in vector helper. Don't let vta pass
+>    through in `trans_rvv.inc`
+>
+> v19 updates:
+> - Tag Alistair as Reviewed by for commit 02
+> - Rebase to alistair23/qemu/riscv-to-apply.next
+>
+> eopXD (16):
+>   target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
+>   target/riscv: rvv: Prune redundant access_type parameter passed
+>   target/riscv: rvv: Rename ambiguous esz
+>   target/riscv: rvv: Early exit when vstart >= vl
+>   target/riscv: rvv: Add tail agnostic for vv instructions
+>   target/riscv: rvv: Add tail agnostic for vector load / store
+>     instructions
+>   target/riscv: rvv: Add tail agnostic for vx, vvm, vxm instructions
+>   target/riscv: rvv: Add tail agnostic for vector integer shift
+>     instructions
+>   target/riscv: rvv: Add tail agnostic for vector integer comparison
+>     instructions
+>   target/riscv: rvv: Add tail agnostic for vector integer merge and move
+>     instructions
+>   target/riscv: rvv: Add tail agnostic for vector fix-point arithmetic
+>     instructions
+>   target/riscv: rvv: Add tail agnostic for vector floating-point
+>     instructions
+>   target/riscv: rvv: Add tail agnostic for vector reduction instructions
+>   target/riscv: rvv: Add tail agnostic for vector mask instructions
+>   target/riscv: rvv: Add tail agnostic for vector permutation
+>     instructions
+>   target/riscv: rvv: Add option 'rvv_ta_all_1s' to enable optional tail
+>     agnostic behavior
+>
+>  target/riscv/cpu.c                      |    2 +
+>  target/riscv/cpu.h                      |    2 +
+>  target/riscv/cpu_helper.c               |    2 +
+>  target/riscv/insn_trans/trans_rvv.c.inc |   94 +-
+>  target/riscv/internals.h                |    6 +-
+>  target/riscv/translate.c                |    4 +
+>  target/riscv/vector_helper.c            | 1587 ++++++++++++++---------
+>  7 files changed, 1054 insertions(+), 643 deletions(-)
 
-qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+Thanks!
 
+Applied to riscv-to-apply.next
 
-> +#ifdef DEBUG
-> +    gemu_log("freebsd syscall %d\n", num);
-> +#endif
+Alistair
 
-Drop this.  It's redundant with strace.
-
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+>
+> --
+> 2.34.2
+>
 
