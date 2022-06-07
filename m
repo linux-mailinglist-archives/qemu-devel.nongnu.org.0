@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55787541F77
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:25:34 +0200 (CEST)
-Received: from localhost ([::1]:34342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B6F541F7D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 01:30:55 +0200 (CEST)
+Received: from localhost ([::1]:44626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyiZp-00014J-34
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
+	id 1nyif0-0008B1-NH
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 19:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHq-0007gX-AE
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyiHo-0005Fo-Id
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:06:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654643215;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jhsaJl6DZcSKy+hQsn73Ph11xFbQ58wRWae9eT8xHuk=;
- b=LHSrciRD3GUtjRSIMoiGSeCM0h39+VfcJOJMwAgR59dAuuUY2/YrJ6STFCD/adi6gDObdC
- i8LeANOp58HxLSICNnghGeAexWEnCQGWyjxYDo5US2qnEiBzv1B49Bpvx/f5NznjBJ/7I8
- y0EimgxsLznxbaTcnbSEhNof1FPg1/E=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-417-U4CTROG8NeWIcgu6euCjJQ-1; Tue, 07 Jun 2022 19:06:54 -0400
-X-MC-Unique: U4CTROG8NeWIcgu6euCjJQ-1
-Received: by mail-io1-f70.google.com with SMTP id
- q5-20020a6b2a05000000b006696f97731aso2689892ioq.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 16:06:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
+ id 1nyiV4-0004Wc-Di
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:20:40 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:55176)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
+ id 1nyiV2-0007hp-7V
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 19:20:38 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id j7so16987935pjn.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 16:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EQ0rPehSIl/PBwJNGYHoHle9Lo+SzJ5moSGb9M9dufo=;
+ b=DpFXI5euaEwGKT4T7dZBrjjKMWP+lyGLtd2cU+dKpYJIMeP1SjhD7OW0w0dD8aQn+l
+ IEgSv8asaHP7Y+WnoS8XGuKFaOLziNC98j9JqcGRbIqM2r319wmxWaobxJOqyS+htOil
+ JLSRnstjcwVMOCUB0yB2rKN0pPC+xKCkp3DZSt0pNtdIfGqKO8svLml9CKe2Uq0WYviM
+ 09Z5gq1OgC89+J+d18dOkQWB12oWoBzZq4lVIy+/VUmtpam8WgoN5qJs0zaN3Hdo7GvT
+ MpqtB8n5kE7hYCQbdlhNky+zpkN5UmFof7VykLMNJGL3w5wQdi7/3RNEPwDlmyotw6V2
+ N3mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jhsaJl6DZcSKy+hQsn73Ph11xFbQ58wRWae9eT8xHuk=;
- b=SFdA+IpJwf6e4PmMwduQMq46l8yCZf2UxNrn7aL1qfs5RWsS1J4clMU9jjUHCa4lPK
- XCN4wgrpSDdjnzGL6RPSsMZ0baqB4ClVF3/g5mwtRGhq4Ao+tkPNW0/J7TxDo5SFbeub
- hP5eHODWc2jjI14LkS0i/k5kkK9iC136A5yiuf3pXnvNp3hCUn0+iQRK83sXkEFCk6jB
- wab5acN/bKjUlB8Y+h5fs+k9aXUgAlgsaa7crefgF6ehl+UF0GYH2CqLgSVeR2lY2lSe
- zc+cfiXZjSFxD/GvLBSmOS1qFCba7fmNFBeVlDFRoLVHubmvjwxwf/bfMwTRia54p0SI
- ut9w==
-X-Gm-Message-State: AOAM5318SebCrOYwAZuCeY9pMf4dRY4Y8Sbj2690Dg/O/zQR+fQ6vpY/
- /H9Ad0frDL7RYAbvUXDXJ+oaUzoElx47K8ivufpqaNtFntOiD6c+rKc3wHk9Yg5rXw/wvwMA2QN
- VlDCkumzCMdEorVlN3Khs+e06S0LS14EVekRrn42x4+LaapXjgjh+wIUL0qJrnIpT
-X-Received: by 2002:a92:ca91:0:b0:2d3:b54f:d83b with SMTP id
- t17-20020a92ca91000000b002d3b54fd83bmr17647178ilo.89.1654643213684; 
- Tue, 07 Jun 2022 16:06:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDPPznbuFxlq2cq2OIUiAsc0Pj83Pti5cBy/kG4Q1DPxMDfOJ03BD3q3NBN9AozI+m2iAMAw==
-X-Received: by 2002:a92:ca91:0:b0:2d3:b54f:d83b with SMTP id
- t17-20020a92ca91000000b002d3b54fd83bmr17647164ilo.89.1654643213399; 
- Tue, 07 Jun 2022 16:06:53 -0700 (PDT)
-Received: from localhost.localdomain
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- f6-20020a056602038600b00665862d12bbsm7035375iov.46.2022.06.07.16.06.51
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 07 Jun 2022 16:06:52 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>,
- Sean Christopherson <seanjc@google.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Igor Mammedov <imammedo@redhat.com>, peterx@redhat.com
-Subject: [PATCH RFC 3/5] accel: Allow synchronize_post_init() to take an
- Error**
-Date: Tue,  7 Jun 2022 19:06:43 -0400
-Message-Id: <20220607230645.53950-4-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220607230645.53950-1-peterx@redhat.com>
-References: <20220607230645.53950-1-peterx@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EQ0rPehSIl/PBwJNGYHoHle9Lo+SzJ5moSGb9M9dufo=;
+ b=vlBffbseMU6FVG7xsi/IBCwCXzsJKM4LWTDczuClypGBbCyecxdX8eJ+KTDbH+6kcn
+ U2FkRQ6uZ3FXeWfzfUDA5b3/bXXEf0xRES3EqO91OMd6unWUZTCRPLKDnQpYnFTzu7uJ
+ vzfqia0/C8Smca5ycg6WaJ50vkQyNPRG/S0dFgjoQINGeEkrRJVWlVZYCwa/Q45ew+NC
+ JOSKBx95XNntLaF+l8ZUoeyWU1SzdW44ktKhVQyUz9sTQTTAokVHnfQ0jN6Ua2stcTK5
+ 582AdT1eG0G2e2khIRrhZeC0FxsdFmYEaCRa8xBgEJeVFHU6dcBLWZ9qUKKQWnPn8TkR
+ q1Iw==
+X-Gm-Message-State: AOAM531x/qA2QvzBZJQR7qARu6PrSocWVScszzrPWebjz+QPEepeDN/U
+ OeTz8VOBOi3Do9/je8EbrW1UNCQyI1Gol99yuKjcCA==
+X-Google-Smtp-Source: ABdhPJx4mbFRMkbv6j2Voa8QnRFtem+nX4QW+2nzSDulHm+R/Sp3pq4Tmu01OMQ5SE3z4JTBtkFKIV9vRMBRkmRq4t4=
+X-Received: by 2002:a17:903:187:b0:166:4360:a4fa with SMTP id
+ z7-20020a170903018700b001664360a4famr29171754plg.87.1654644034722; Tue, 07
+ Jun 2022 16:20:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220524203647.31435-1-daolu@rivosinc.com>
+ <20220524203647.31435-2-daolu@rivosinc.com>
+ <CAKh7v-Se705qE16UgV92UsrfhkcJCUtKByOt6Hs80MhV1Wh88w@mail.gmail.com>
+ <CAKmqyKPHjHR0xsJq6-A3b28LZuRCWNT8UyMKqgmnST4mJF7fWA@mail.gmail.com>
+In-Reply-To: <CAKmqyKPHjHR0xsJq6-A3b28LZuRCWNT8UyMKqgmnST4mJF7fWA@mail.gmail.com>
+From: Dao Lu <daolu@rivosinc.com>
+Date: Tue, 7 Jun 2022 16:20:23 -0700
+Message-ID: <CAKh7v-S4n=pP53Bzo1=4Jg6wSn3wSjQdxkpWLDa9368jOF0g8w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] target/riscv: Add Zihintpause support
+To: Alistair Francis <alistair23@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Heiko Stuebner <heiko@sntech.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=daolu@rivosinc.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,151 +89,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It allows accel->synchronize_post_init() hook to return an error upwards.
-Add a new cpu_synchronize_post_init_full() for it, then let the existing
-cpu_synchronize_post_init() to call it with errp==NULL.
+Hi Alistair,
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- accel/hvf/hvf-accel-ops.c     |  2 +-
- accel/kvm/kvm-all.c           |  2 +-
- include/sysemu/accel-ops.h    |  2 +-
- include/sysemu/hw_accel.h     |  1 +
- softmmu/cpus.c                | 10 ++++++++--
- stubs/cpu-synchronize-state.c |  3 +++
- target/i386/hax/hax-all.c     |  2 +-
- target/i386/nvmm/nvmm-all.c   |  2 +-
- target/i386/whpx/whpx-all.c   |  2 +-
- 9 files changed, 18 insertions(+), 8 deletions(-)
+Thanks for the response. I don't think I can find any comments
+on this patch though, could you help point me to them?
 
-diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index a70e2eb375..b439e0c104 100644
---- a/accel/hvf/hvf-accel-ops.c
-+++ b/accel/hvf/hvf-accel-ops.c
-@@ -228,7 +228,7 @@ static void hvf_cpu_synchronize_post_reset(CPUState *cpu)
-     run_on_cpu(cpu, do_hvf_cpu_synchronize_set_dirty, RUN_ON_CPU_NULL);
- }
- 
--static void hvf_cpu_synchronize_post_init(CPUState *cpu)
-+static void hvf_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_hvf_cpu_synchronize_set_dirty, RUN_ON_CPU_NULL);
- }
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 32e177bd26..1caed1a295 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2767,7 +2767,7 @@ static void do_kvm_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
-     cpu->vcpu_dirty = false;
- }
- 
--void kvm_cpu_synchronize_post_init(CPUState *cpu)
-+void kvm_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_kvm_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
-diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index a0572ea87a..7e526d3c65 100644
---- a/include/sysemu/accel-ops.h
-+++ b/include/sysemu/accel-ops.h
-@@ -35,7 +35,7 @@ struct AccelOpsClass {
-     bool (*cpu_thread_is_idle)(CPUState *cpu);
- 
-     void (*synchronize_post_reset)(CPUState *cpu);
--    void (*synchronize_post_init)(CPUState *cpu);
-+    void (*synchronize_post_init)(CPUState *cpu, Error **errp);
-     void (*synchronize_state)(CPUState *cpu);
-     void (*synchronize_pre_loadvm)(CPUState *cpu);
-     void (*synchronize_pre_resume)(bool step_pending);
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 22903a55f7..3ee3508411 100644
---- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -21,6 +21,7 @@
- void cpu_synchronize_state(CPUState *cpu);
- void cpu_synchronize_post_reset(CPUState *cpu);
- void cpu_synchronize_post_init(CPUState *cpu);
-+void cpu_synchronize_post_init_full(CPUState *cpu, Error **errp);
- void cpu_synchronize_pre_loadvm(CPUState *cpu);
- 
- #endif /* QEMU_HW_ACCEL_H */
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 898363a1d0..464c06201c 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -178,13 +178,19 @@ void cpu_synchronize_post_reset(CPUState *cpu)
-     }
- }
- 
--void cpu_synchronize_post_init(CPUState *cpu)
-+void cpu_synchronize_post_init_full(CPUState *cpu, Error **errp)
- {
-     if (cpus_accel->synchronize_post_init) {
--        cpus_accel->synchronize_post_init(cpu);
-+        cpus_accel->synchronize_post_init(cpu, errp);
-     }
- }
- 
-+void cpu_synchronize_post_init(CPUState *cpu)
-+{
-+    /* errp=NULL means we won't capture any error */
-+    cpu_synchronize_post_init_full(cpu, NULL);
-+}
-+
- void cpu_synchronize_pre_loadvm(CPUState *cpu)
- {
-     if (cpus_accel->synchronize_pre_loadvm) {
-diff --git a/stubs/cpu-synchronize-state.c b/stubs/cpu-synchronize-state.c
-index d9211da66c..6d2c9f509a 100644
---- a/stubs/cpu-synchronize-state.c
-+++ b/stubs/cpu-synchronize-state.c
-@@ -7,3 +7,6 @@ void cpu_synchronize_state(CPUState *cpu)
- void cpu_synchronize_post_init(CPUState *cpu)
- {
- }
-+void cpu_synchronize_post_init_full(CPUState *cpu, Error **errp)
-+{
-+}
-diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
-index b185ee8de4..782d83b531 100644
---- a/target/i386/hax/hax-all.c
-+++ b/target/i386/hax/hax-all.c
-@@ -651,7 +651,7 @@ static void do_hax_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
-     cpu->vcpu_dirty = false;
- }
- 
--void hax_cpu_synchronize_post_init(CPUState *cpu)
-+void hax_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_hax_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
-diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
-index b75738ee9c..f429e940af 100644
---- a/target/i386/nvmm/nvmm-all.c
-+++ b/target/i386/nvmm/nvmm-all.c
-@@ -869,7 +869,7 @@ void nvmm_cpu_synchronize_post_reset(CPUState *cpu)
-     run_on_cpu(cpu, do_nvmm_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
- }
- 
--void nvmm_cpu_synchronize_post_init(CPUState *cpu)
-+void nvmm_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_nvmm_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index b22a3314b4..09bf5681ce 100644
---- a/target/i386/whpx/whpx-all.c
-+++ b/target/i386/whpx/whpx-all.c
-@@ -2123,7 +2123,7 @@ void whpx_cpu_synchronize_post_reset(CPUState *cpu)
-     run_on_cpu(cpu, do_whpx_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
- }
- 
--void whpx_cpu_synchronize_post_init(CPUState *cpu)
-+void whpx_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_whpx_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
--- 
-2.32.0
+Thanks,
+Dao
 
+On Tue, Jun 7, 2022 at 4:04 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Wed, Jun 8, 2022 at 8:59 AM Dao Lu <daolu@rivosinc.com> wrote:
+> >
+> > Ping
+>
+> The latest version of this patch on the mailing list has comments that
+> need to be addressed
+>
+> Alistair
+>
+> >
+> > On Tue, May 24, 2022 at 1:36 PM Dao Lu <daolu@rivosinc.com> wrote:
+> > >
+> > > Tested-by: Heiko Stuebner <heiko@sntech.de>
+> > > Signed-off-by: Dao Lu <daolu@rivosinc.com>
+> > > ---
+> > >  target/riscv/cpu.c                      |  2 ++
+> > >  target/riscv/cpu.h                      |  1 +
+> > >  target/riscv/insn32.decode              |  7 ++++++-
+> > >  target/riscv/insn_trans/trans_rvi.c.inc | 18 ++++++++++++++++++
+> > >  4 files changed, 27 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > index ccacdee215..183fb37fdf 100644
+> > > --- a/target/riscv/cpu.c
+> > > +++ b/target/riscv/cpu.c
+> > > @@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
+> > >      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+> > >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> > >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> > > +    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
+> > >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+> > >      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+> > >      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> > > @@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+> > >       *    extensions by an underscore.
+> > >       */
+> > >      struct isa_ext_data isa_edata_arr[] = {
+> > > +        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
+> > >          ISA_EDATA_ENTRY(zfh, ext_zfh),
+> > >          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+> > >          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > > index fe6c9a2c92..e466a04a59 100644
+> > > --- a/target/riscv/cpu.h
+> > > +++ b/target/riscv/cpu.h
+> > > @@ -394,6 +394,7 @@ struct RISCVCPUConfig {
+> > >      bool ext_counters;
+> > >      bool ext_ifencei;
+> > >      bool ext_icsr;
+> > > +    bool ext_zihintpause;
+> > >      bool ext_svinval;
+> > >      bool ext_svnapot;
+> > >      bool ext_svpbmt;
+> > > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> > > index 4033565393..595fdcdad8 100644
+> > > --- a/target/riscv/insn32.decode
+> > > +++ b/target/riscv/insn32.decode
+> > > @@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
+> > >  sra      0100000 .....    ..... 101 ..... 0110011 @r
+> > >  or       0000000 .....    ..... 110 ..... 0110011 @r
+> > >  and      0000000 .....    ..... 111 ..... 0110011 @r
+> > > -fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
+> > > +
+> > > +{
+> > > +  pause  0000 0001   0000   00000 000 00000 0001111
+> > > +  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
+> > > +}
+> > > +
+> > >  fence_i  ---- ----   ----   ----- 001 ----- 0001111
+> > >  csrrw    ............     ..... 001 ..... 1110011 @csr
+> > >  csrrs    ............     ..... 010 ..... 1110011 @csr
+> > > diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> > > index f1342f30f8..ca75e05f4b 100644
+> > > --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> > > +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> > > @@ -796,6 +796,24 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
+> > >      return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
+> > >  }
+> > >
+> > > +static bool trans_pause(DisasContext *ctx, arg_pause *a)
+> > > +{
+> > > +    if (!ctx->cfg_ptr->ext_zihintpause) {
+> > > +        return false;
+> > > +    }
+> > > +
+> > > +    /*
+> > > +     * PAUSE is a no-op in QEMU,
+> > > +     * however we need to clear the reservation,
+> > > +     * end the TB and return to main loop
+> > > +     */
+> > > +    tcg_gen_movi_tl(load_res, -1);
+> > > +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+> > > +    tcg_gen_exit_tb(NULL, 0);
+> > > +    ctx->base.is_jmp = DISAS_NORETURN;
+> > > +
+> > > +    return true;
+> > > +}
+> > >
+> > >  static bool trans_fence(DisasContext *ctx, arg_fence *a)
+> > >  {
+> > > --
+> > > 2.30.1 (Apple Git-130)
+> > >
+> >
 
