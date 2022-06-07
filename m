@@ -2,94 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDCF54005C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 15:44:44 +0200 (CEST)
-Received: from localhost ([::1]:37592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F52654009C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 16:01:11 +0200 (CEST)
+Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyZVi-0008Qs-Oh
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 09:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36328)
+	id 1nyZlc-0000Tj-7j
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 10:01:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyZTf-0007Wu-Ti
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:42:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27178)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyZTd-0002XA-81
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:42:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654609352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C+g5Dylw/CWDQ4xk1lGH3h2tf6kjN2urgB0bwbNP9rI=;
- b=DmUk2LMwtd+/BTYa+f6SvcsM7PqsCyLXTertG7v21dfymtbiHrVIhwt8cqtC7jekB5hcOh
- FI2N8PH4qgTzdTrwnPijBOVis3W+Mi1uFvBQBj1bR1h8ps1aDaXixgFV2lKT24nsb9iS1+
- IWMbH5rM/mULPCp6YuCNabFm4hwhszE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-dyZ0OPT8MDuEXYwNd1BbHA-1; Tue, 07 Jun 2022 09:42:31 -0400
-X-MC-Unique: dyZ0OPT8MDuEXYwNd1BbHA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h2-20020adfe982000000b002102da95c71so3909379wrm.23
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 06:42:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nyZjh-000866-PC
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:59:09 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nyZjg-00060T-9J
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 09:59:09 -0400
+Received: by mail-wr1-x429.google.com with SMTP id d14so15312206wra.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 06:59:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=hoPEt8eIrv1b3Tjsqgv/wDN59lmx5DAGpPXTM89l3wE=;
+ b=DGlBPE0onL67Z5fX0nfaeaF2f/nwLpYZTXBUn3ptdiv2LqZwzCHb6I9zf3AzXZLq/3
+ WQ/5vq0Uo0ftrKBe83NgQm1V6TYQtESAW1xEa6AA8H8bcuTsbH0a3safDhPbO3PpDBuO
+ 9vOlFh+ob2eE4MKbT4/GKKNbQoqHgUZIsAoqceKWgPtsfBe9CW0KK63pK68C/FN/Qwyk
+ wcGHLKpvJ8/2YwcZYSlD5IwWSSUgZBWv/FQZre6IxhBLPppRT6hXmfjYeXzQ4Ai2ZOv+
+ 9+h4GoqkaXhC4qLXOBsXeqtbwR98WPKS39OeJMVGT3Vz6nhrVKmVhesZ4il3vZqTt79u
+ 5rbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=C+g5Dylw/CWDQ4xk1lGH3h2tf6kjN2urgB0bwbNP9rI=;
- b=6qs1wwhQqeUR4arLf1qSr2k8zCtYB3BGKiD9lHbhk+jWkfm5uF3fITSNSbaOpaHHIS
- Jqsg5fPjARbo9RDWk85DIuyMS9yoM58CW8n424sYzc2DLd41s3x9kD73dJmA6cjwk/IB
- xE78u/4nKpLqbmy0pElljgAEDxFNcsYrI74bx6mSptGRyYEtJRzg2+B471q6bXVz3XhA
- sFrKtl+wdHW16Sm4/316I9sqDulrcjOfiEQhfVee0qgCLZRRNfrCuziAFCrx9x2wcl/s
- Tr6hy2phtAAID3ZgbehUe3J/ELCPGrmkEWvNVvbJd8vDeZTHf3pPDkMvKIY2PLTo3FAB
- SewQ==
-X-Gm-Message-State: AOAM533SLT9fBQAgLosL3FkTzKbDpcij5NfXdsn/hODcFcl1CALC+jqE
- 3JCSYYcJf1CMSAq6oSgIOcodFAFu82cLgm8JumePGY0/3mYBGg3uFxRcQxjqPPSCJ6MNdvhfWYu
- nzoWHdpb8uKXGr3o=
-X-Received: by 2002:a7b:c401:0:b0:397:26fb:ebf7 with SMTP id
- k1-20020a7bc401000000b0039726fbebf7mr29280609wmi.90.1654609349885; 
- Tue, 07 Jun 2022 06:42:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/urRKROzGDHq4FbKEdgy8/1ZXVwSpmyMqUvupKcIm/Gj5AiL/Tqa0iVqmRd8ZIAEBdfPyqw==
-X-Received: by 2002:a7b:c401:0:b0:397:26fb:ebf7 with SMTP id
- k1-20020a7bc401000000b0039726fbebf7mr29280582wmi.90.1654609349662; 
- Tue, 07 Jun 2022 06:42:29 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=hoPEt8eIrv1b3Tjsqgv/wDN59lmx5DAGpPXTM89l3wE=;
+ b=o84ll48GZxv1dn66cf6MV4Q0OQhWnVGUuqnnsk0UQTE0WxDt4LUDmDvSH8M1WrvSzy
+ PpCmvjmasTu2I7mmwTlHg74TZvhR8Tw7FTINcjigcDL4by0whVLPrZI1+vN6CH/X94RK
+ 6eoOwwudZu08Y7+bSXSCtGh/H37WqD5WM0ovT4XW8kah75u8DwRNnKpeS1GU/Te1kqv0
+ GkbFESyB4jIm3uBgudLHwRP+Wc96+KFJiDpJB44FPV+nCQ2Mc3p8H1As8ZIhyctiXLHG
+ gwB/E7j6sAjFihLGMEEB3k/VHS/bw2yz88dYMFdD/1xihtXV64EMz0x9PU2EdKNC2B3G
+ VblA==
+X-Gm-Message-State: AOAM530XzV0RZb8LxV//jjApIN+KCNE5s/gY/84BzjaARhu1ePFPJpaR
+ 7ANWLen3PAZPUw2u9Vf1KwekEQ==
+X-Google-Smtp-Source: ABdhPJzTLBNC5w/HlxkA0YYRh6QlUDLYM55ufThoqZGdxQUEAJKKbDaVDqZ7ozlYfNcGdB1Khixa+A==
+X-Received: by 2002:a5d:69d2:0:b0:217:5ad1:e61f with SMTP id
+ s18-20020a5d69d2000000b002175ad1e61fmr13888752wrw.602.1654610346264; 
+ Tue, 07 Jun 2022 06:59:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002100316b126sm18565910wru.6.2022.06.07.06.42.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 06:42:29 -0700 (PDT)
-Message-ID: <92f0e0ec-6e96-ea70-a024-db8e225e0095@redhat.com>
-Date: Tue, 7 Jun 2022 15:42:28 +0200
+ u15-20020a05600c19cf00b003973b9d0447sm21538977wmq.36.2022.06.07.06.59.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jun 2022 06:59:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A13A11FFB7;
+ Tue,  7 Jun 2022 14:59:03 +0100 (BST)
+References: <20220521000400.454525-1-richard.henderson@linaro.org>
+ <20220521000400.454525-15-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.26; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
+Subject: Re: [PATCH v3 14/49] include/exec: Move gdb open flags to gdbstub.h
+Date: Tue, 07 Jun 2022 14:58:58 +0100
+In-reply-to: <20220521000400.454525-15-richard.henderson@linaro.org>
+Message-ID: <878rq8val4.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v5 08/45] block/snapshot: stress that we fallback to
- primary child
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
- v.sementsov-og@mail.ru
-References: <20220330212902.590099-1-vsementsov@openvz.org>
- <20220330212902.590099-9-vsementsov@openvz.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220330212902.590099-9-vsementsov@openvz.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,74 +93,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
-> Actually what we chose is a primary child. Let's stress it in the code.
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> There were 3 copies of these flags.  Place them in the
+> file with gdb_do_syscall, with which they belong.
 >
-> We are going to drop indirect pointer logic here in future. Actually
-> this commit simplifies the future work: we drop use of indirection in
-> the assertion now.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-> ---
->   block/snapshot.c | 30 ++++++++++--------------------
->   1 file changed, 10 insertions(+), 20 deletions(-)
->
-> diff --git a/block/snapshot.c b/block/snapshot.c
-> index d6f53c3065..f4ec4f9ef3 100644
-> --- a/block/snapshot.c
-> +++ b/block/snapshot.c
-> @@ -161,21 +161,14 @@ bool bdrv_snapshot_find_by_id_and_name(BlockDriverState *bs,
->   static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
->   {
->       BdrvChild **fallback;
-> -    BdrvChild *child;
-> +    BdrvChild *child = bdrv_primary_child(bs);
->   
-> -    /*
-> -     * The only BdrvChild pointers that are safe to modify (and which
-> -     * we can thus return a reference to) are bs->file and
-> -     * bs->backing.
-> -     */
-> -    fallback = &bs->file;
-> -    if (!*fallback && bs->drv && bs->drv->is_filter) {
-> -        fallback = &bs->backing;
-> -    }
-> -
-> -    if (!*fallback) {
-> +    /* We allow fallback only to primary child */
-> +    if (!child) {
->           return NULL;
->       }
-> +    fallback = (child == bs->file ? &bs->file : &bs->backing);
-> +    assert(*fallback == child);
->   
->       /*
->        * Check that there are no other children that would need to be
-> @@ -309,15 +302,12 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
->           }
->   
->           /*
-> -         * fallback_ptr is &bs->file or &bs->backing.  *fallback_ptr
-> -         * was closed above and set to NULL, but the .bdrv_open() call
-> -         * has opened it again, because we set the respective option
-> -         * (with the qdict_put_str() call above).
-> -         * Assert that .bdrv_open() has attached some child on
-> -         * *fallback_ptr, and that it has attached the one we wanted
-> -         * it to (i.e., fallback_bs).
-> +         * fallback was a primary child. It was closed above and set to NULL,
-> +         * but the .bdrv_open() call has opened it again, because we set the
-> +         * respective option (with the qdict_put_str() call above).
-> +         * Assert that .bdrv_open() has attached some BDS as primary child.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-s/some/the right/?
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-
->            */
-> -        assert(*fallback_ptr && fallback_bs == (*fallback_ptr)->bs);
-> +        assert(bdrv_primary_bs(bs) == fallback_bs);
->           bdrv_unref(fallback_bs);
->           return ret;
->       }
-
+--=20
+Alex Benn=C3=A9e
 
