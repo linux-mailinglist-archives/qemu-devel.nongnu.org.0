@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9785A540350
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 18:03:37 +0200 (CEST)
-Received: from localhost ([::1]:36388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE3C54034D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 18:03:02 +0200 (CEST)
+Received: from localhost ([::1]:35208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nybg8-00023S-LA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 12:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47034)
+	id 1nybfY-0000z0-KL
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 12:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nybXc-0006Gt-Sl; Tue, 07 Jun 2022 11:54:51 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42660)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nybYL-0006VM-Qr
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 11:55:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nybXa-0002H7-F6; Tue, 07 Jun 2022 11:54:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:References:To:From:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=pos+A1pHWAkXmIS7vGyryCyUTnZ8914n4P0L3/TSQ+I=; b=GFd8jVSc004fuzJIm/jenyIOHT
- YqLNjEiZclnnjbChRqUyNXqFvXjVuujH8MOzeBMWQijvueFRilgCdAuHSstFZvTnvCCZ1fyHINVom
- qci4HUdcRst5BTF/6Dtc2lZ1KfMM8a7dzVepBxmnYQ8WlsFb01oEBTe4evFud/WObGEbduZbnaMal
- SD7St/eH8k9Dtw533fH3G2e+lLPiQX0u2wW3oS+FKqO19da7JGU7EZ2tISZx1oMpWHEWOcRO6NlLw
- xYyVSUyCN6amYiZmB6adAPBqmpLRsYSi4Ji2bybcNuVyXkuH3mQS+Fp2xFOC6FSTrqHFa5Md5R19l
- 1rgTAPXmUTnF49bAVMG8sATonkmylovRHDi3HdLq3Xh9P8e2CGFrKObeKXL1jG4JKGsKyTXW3YqeJ
- RjVVPFYwCAiWj2Hvu1LQwR+KrawmcnfWFR69o+KPu2yhDntUC0DUr/f71fz9mbpxL8Ox33gHoz64p
- ++/sJNIj8Z9Ua0mnUnKulh1HwZxCqg50PgY+tiUbCMEh/Xj+iJm/SGRw2K8Refu66NmBH/mFdO4qy
- xBsG3AvTAo07d1hiO8f0U1TBmVHTuYXe2YlFahPdoGxE/SIboJcJfwzDmunq2sQ9vH/k/x+eUcz/T
- 4fCojIHcD9+9rRDBDxK2A9hKPDuPtFaPNQsNdPpIw=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nybWE-0000mi-R2; Tue, 07 Jun 2022 16:53:27 +0100
-Message-ID: <9608d355-8582-69e0-50ee-de48e0ef561f@ilande.co.uk>
-Date: Tue, 7 Jun 2022 16:54:23 +0100
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nybYI-0002Vb-8c
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 11:55:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654617329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Liq5FNiSyh5gm9NzmDC4C72Uxbs+Ar6WV7dzIXyCMuI=;
+ b=cNYZsOO2m5E3br/wpGzVK2qkDmYdGI/0k5mJCfQfvv13uWChj+b44g6bVT5uk3klQo05a5
+ kJWZROXxTZfSAhEwzf/5ODTHDGj/l7/kyeoft2hCxk9v5OiGwp4e3z3okcu57FxN/Mvaw6
+ UhEuhWlpHxLYUSlrGE82btOrtUWWB1I=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-351-h79US_uEPmmIJ6Vy90PU_g-1; Tue, 07 Jun 2022 11:55:28 -0400
+X-MC-Unique: h79US_uEPmmIJ6Vy90PU_g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ y2-20020adff142000000b0021581245fa1so2913383wro.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 08:55:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Liq5FNiSyh5gm9NzmDC4C72Uxbs+Ar6WV7dzIXyCMuI=;
+ b=1gRYrap8rfeFqdH8Qrfk4NJ5EIysvL98e7tMwD8+rauhM2b6lI50o69lgsK+w095eg
+ j381QWLaAqBOGyW+SquTTM0ZRyrPsUFwsW5A//UibIL/jKVuhCeVhmWgYvanN1TGGJ4T
+ /bWp8Zn+NNjXRkKwcBX5jVuF/deUKPoRV5uFB7rk3ATsjFpdkB4qDJ7929de0RinVwRo
+ 4DJodwLnYUUQG+/M9GQa583OkEmgbyjrRESmxG4F/G//K1dDzeKN+oxioqKmziFyY4de
+ Wb1Ab3TnFJop7z5NfzItSLq95JDdQzEDWkLBF5Qoi2V3hTgPG0cLH0JB2uk5bDjlKUWq
+ oqIA==
+X-Gm-Message-State: AOAM532cnpzx6lKCSZJIX1LEiM+AacQNQ6SgSNatwftjxX/gPRkvIpQ2
+ FE3JBf4oN+pWnpgKDStQkEeYrxaDFKSHrGrycOlXW/V1SN66bCfdv2S7dk/H92qEiertUCRZbz1
+ 0/cjNfu3uhu5UuRQ=
+X-Received: by 2002:a05:600c:2194:b0:39c:419c:1a24 with SMTP id
+ e20-20020a05600c219400b0039c419c1a24mr22326761wme.186.1654617326578; 
+ Tue, 07 Jun 2022 08:55:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJww0CXVQGjMt26ZAudCfv3Ose3/g6bvZKJLm1M0kJUlRi7yQS+UA55kYDRm2wmy79pqCo6dYg==
+X-Received: by 2002:a05:600c:2194:b0:39c:419c:1a24 with SMTP id
+ e20-20020a05600c219400b0039c419c1a24mr22326711wme.186.1654617326098; 
+ Tue, 07 Jun 2022 08:55:26 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
+ ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
+ by smtp.gmail.com with ESMTPSA id
+ be5-20020a05600c1e8500b003942a244ee6sm20995476wmb.43.2022.06.07.08.55.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 08:55:25 -0700 (PDT)
+Message-ID: <7a406052-6b47-982e-3480-6aac9a8393bc@redhat.com>
+Date: Tue, 7 Jun 2022 17:55:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v5 13/45] block: Manipulate bs->file / bs->backing
+ pointers in .attach/.detach
 Content-Language: en-US
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
- aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
+ v.sementsov-og@mail.ru
+References: <20220330212902.590099-1-vsementsov@openvz.org>
+ <20220330212902.590099-14-vsementsov@openvz.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220330212902.590099-14-vsementsov@openvz.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 00/50] PS2 device QOMification - part 1
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,132 +105,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/05/2022 19:17, Mark Cave-Ayland wrote:
+On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
+> bs->file and bs->backing are a kind of duplication of part of
+> bs->children. But very useful diplication, so let's not drop them at
+> all:)
+>
+> We should manage bs->file and bs->backing in same place, where we
+> manage bs->children, to keep them in sync.
+>
+> Moreover, generic io paths are unprepared to BdrvChild without a bs, so
+> it's double good to clear bs->file / bs->backing when we detach the
+> child.
 
-> This series came about when looking at improving the LASI PS2 device for
-> the HPPA machine: there were improvements that I was keen to make, but
-> was restricted because the PS2 device(s) weren't QOMified.
-> 
-> Trying to do everything in a single patchset would be a very large series
-> indeed, so here is part 1 of the series which does the basic QOMification
-> process and consists of:
-> 
-> - QOMifying the basic PS2, PS2 keyboard and PS2 mouse types
-> 
-> - Moving any functionality that exists in a global device init function
->    directly into the relevant device, so that all device behaviour is
->    configured using qdev properties and QOM
-> 
-> - Introducing a new I8042_MMIO type for use by the MIPS magnum machine
-> 
-> - Switch all PS2 devices to use qdev gpios for IRQs instead of using the
->    update_irq() callback function along with the update_arg opaque
-> 
-> Once this work has been done, a follow-up part 2 series will finish the
-> remainder of the work which involves i) improving the QOM object model
-> now QOMification is complete and ii) removing the legacy global device
-> init functions for PS2 and related devices.
-> 
-> Testing for this series has comprised of booting a machine with each type
-> of PS2 device and confirming that i) the machine responds to keypresses
-> when using a graphical console and ii) completing a successful migration
-> from a machine with this series applies back to a machine running latest
-> git master. The test machines I used were:
-> 
-> - qemu-system-x86_64 -M pc for the I8042 device
-> - qemu-system-hppa for the LASIPS2 device
-> - qemu-system-arm -M versatilepb for the PL050 device
-> - qemu-system-mips64el -M magnum for the I8042_MMIO device
-> 
-> Finally the QOM tree changes caused by QOMification of the PS2 devices
-> trigger a failure due to a bug in the bios-tables-test qtest for subtest
-> /x86_64/acpi/q35/viot. This can be fixed by applying the series at
-> https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg04266.html
-> "hw/acpi/viot: generate stable VIOT ACPI tables" first.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> 
-> 
-> Mark Cave-Ayland (50):
->    ps2: checkpatch fixes
->    ps2: QOMify PS2State
->    ps2: QOMify PS2KbdState
->    ps2: QOMify PS2MouseState
->    ps2: move QOM type definitions from ps2.c to ps2.h
->    ps2: improve function prototypes in ps2.c and ps2.h
->    ps2: introduce PS2DeviceClass
->    ps2: implement ps2_reset() for the PS2_DEVICE QOM type based upon
->      ps2_common_reset()
->    ps2: remove duplicate setting of scancode_set in ps2_kbd_init()
->    ps2: implement ps2_kbd_realize() and use it to register
->      ps2_keyboard_handler
->    ps2: implement ps2_mouse_realize() and use it to register
->      ps2_mouse_handler
->    ps2: don't use vmstate_register() in ps2_kbd_init()
->    ps2: don't use vmstate_register() in ps2_mouse_init()
->    pl050: checkpatch fixes
->    pl050: split pl050_update_irq() into separate pl050_set_irq() and
->      pl050_update_irq() functions
->    lasips2: spacing fixes
->    lasips2: rename ps2dev_update_irq() to lasips2_port_set_irq()
->    pckbd: checkpatch fixes
->    pckbd: move KBDState from pckbd.c to i8042.h
->    pckbd: move ISAKBDState from pckbd.c to i8042.h
->    pckbd: introduce new I8042_MMIO QOM type
->    pckbd: implement i8042_mmio_reset() for I8042_MMIO device
->    pckbd: add mask qdev property to I8042_MMIO device
->    pckbd: add size qdev property to I8042_MMIO device
->    pckbd: implement i8042_mmio_realize() function
->    pckbd: implement i8042_mmio_init() function
->    pckbd: alter i8042_mm_init() to return a I8042_MMIO device
->    pckbd: move mapping of I8042_MMIO registers to MIPS magnum machine
->    pckbd: more vmstate_register() from i8042_mm_init() to
->      i8042_mmio_realize()
->    pckbd: move ps2_kbd_init() and ps2_mouse_init() to
->      i8042_mmio_realize()
->    ps2: make ps2_raise_irq() function static
->    ps2: use ps2_raise_irq() instead of calling update_irq() directly
->    ps2: introduce ps2_lower_irq() instead of calling update_irq()
->      directly
->    ps2: add gpio for output IRQ and optionally use it in ps2_raise_irq()
->      and ps2_lower_irq()
->    pckbd: replace irq_kbd and irq_mouse with qemu_irq array in KBDState
->    pl050: switch over from update_irq() function to PS2 device gpio
->    lasips2: QOMify LASIPS2State
->    lasips2: move lasips2 QOM types from lasips2.c to lasips2.h
->    lasips2: rename lasips2_init() to lasips2_initfn() and update it to
->      return the LASIPS2 device
->    lasips2: implement lasips2_init() function
->    lasips2: move mapping of LASIPS2 registers to HPPA machine
->    lasips2: move initialisation of PS2 ports from lasi_initfn() to
->      lasi_init()
->    lasips2: add base property
->    lasips2: implement lasips2_realize()
->    lasips2: use qdev gpio for output IRQ
->    lasips2: switch over from update_irq() function to PS2 device gpio
->    pckbd: switch I8042_MMIO device from update_irq() function to PS2
->      device gpio
->    pckbd: add i8042_reset() function to I8042 device
->    pckbd: switch I8042 device from update_irq() function to PS2 device
->      gpio
->    ps2: remove update_irq() function and update_arg parameter
-> 
->   hw/hppa/machine.c          |  11 +-
->   hw/input/lasips2.c         | 110 +++++---
->   hw/input/pckbd.c           | 321 ++++++++++++++++--------
->   hw/input/pl050.c           |  50 ++--
->   hw/input/ps2.c             | 500 +++++++++++++++++++++----------------
->   hw/mips/jazz.c             |  11 +-
->   include/hw/input/i8042.h   |  54 +++-
->   include/hw/input/lasips2.h |  27 +-
->   include/hw/input/ps2.h     |  79 +++++-
->   9 files changed, 775 insertions(+), 388 deletions(-)
+I think this was reproducible (rarely) with 030, but I can’t reproduce 
+it now.  Oh well.
 
-Ping? I've had an R-B from Phil for patches 1-20 along with a Tested-by from Helge 
-for the entire series, but that still leaves the last 30 patches unreviewed...
+> Detach is simple: if we detach bs->file or bs->backing child, just
+> set corresponding field to NULL.
+>
+> Attach is a bit more complicated. But we still can precisely detect
+> should we set one of bs->file / bs->backing or not:
+>
+> - if role is BDRV_CHILD_COW, we definitely deal with bs->backing
+> - else, if role is BDRV_CHILD_FILTERED (it must be also
+>    BDRV_CHILD_PRIMARY), it's a filtered child. Use
+>    bs->drv->filtered_child_is_backing to chose the pointer field to
+>    modify.
+> - else, if role is BDRV_CHILD_PRIMARY, we deal with bs->file
+> - in all other cases, it's neither bs->backing nor bs->file. It's some
+>    other child and we shouldn't care
 
+Sounds correct.
 
-ATB,
+> OK. This change brings one more good thing: we can (and should) get rid
+> of all indirect pointers in the block-graph-change transactions:
+>
+> bdrv_attach_child_common() stores BdrvChild** into transaction to clear
+> it on abort.
+>
+> bdrv_attach_child_common() has two callers: bdrv_attach_child_noperm()
+> just pass-through this feature, bdrv_root_attach_child() doesn't need
+> the feature.
+>
+> Look at bdrv_attach_child_noperm() callers:
+>    - bdrv_attach_child() doesn't need the feature
+>    - bdrv_set_file_or_backing_noperm() uses the feature to manage
+>      bs->file and bs->backing, we don't want it anymore
+>    - bdrv_append() uses the feature to manage bs->backing, again we
+>      don't want it anymore
+>
+> So, we should drop this stuff! Great!
+>
+> We still keep BdrvChild** argument to return the child and int return
+> value, and not move to simply returning BdrvChild*, as we don't want to
+> lose int return values.
+>
+> However we don't require *@child to be NULL anymore, and even allow
+> @child to be NULL, if caller don't need the new child pointer.
+>
+> Finally, we now set .file / .backing automatically in generic code and
+> want to restring setting them by hand outside of .attach/.detach.
+> So, this patch cleanups all remaining places where they were set.
+> To find such places I use:
+>
+>    git grep '\->file ='
+>    git grep '\->backing ='
+>    git grep '&.*\<backing\>'
+>    git grep '&.*\<file\>'
 
-Mark.
+Awesome.
+
+block/snapshot-access.c needs a touchup, but other than that, this still 
+seems to hold.
+
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+> ---
+>   block.c                          | 156 ++++++++++++++-----------------
+>   block/raw-format.c               |   4 +-
+>   block/snapshot.c                 |   1 -
+>   include/block/block_int-common.h |  15 ++-
+>   tests/unit/test-bdrv-drain.c     |  10 +-
+>   5 files changed, 89 insertions(+), 97 deletions(-)
+>
+> diff --git a/block.c b/block.c
+> index 8e8ed639fe..6b43e101a1 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -1438,9 +1438,33 @@ static void bdrv_child_cb_attach(BdrvChild *child)
+>   
+>       assert_bdrv_graph_writable(bs);
+>       QLIST_INSERT_HEAD(&bs->children, child, next);
+> -
+> -    if (child->role & BDRV_CHILD_COW) {
+> +    if (bs->drv->is_filter | (child->role & BDRV_CHILD_FILTERED)) {
+
+Should be `||`.
+
+> +        /*
+> +         * Here we handle filters and block/raw-format.c when it behave like
+> +         * filter.
+
+I’d like this comment to expand on how they are handled.
+
+For example, that they generally have a single PRIMARY child, which is 
+also the FILTERED child, and that they may have multiple more children, 
+but none of them will be a COW child.  So bs->file will be the PRIMARY 
+child, unless the PRIMARY child goes into bs->backing on exceptional 
+cases; and bs->backing will be nothing else.  (Which is why we ignore 
+all other children.)
+
+> +         */
+> +        assert(!(child->role & BDRV_CHILD_COW));
+> +        if (child->role & (BDRV_CHILD_PRIMARY | BDRV_CHILD_FILTERED)) {
+
+Why do we check for FILTERED here?  It appears to me that PRIMARY is the 
+flag that tells us to put this child into bs->file (but for filters, 
+sometimes we have to make an exception and put it into bs->backing).
+
+Is the check for FILTERED just a safeguard, so that filter drivers 
+always set the two in tandem?  If so, I’d make the condition just `role 
+& PRIMARY` and then in an `else` path assert that `!(role & FILTERED)`.
+
+> +            assert(child->role & BDRV_CHILD_PRIMARY);
+> +            assert(child->role & BDRV_CHILD_FILTERED);
+> +            assert(!bs->backing);
+> +            assert(!bs->file);
+> +
+> +            if (bs->drv->filtered_child_is_backing) {
+> +                bs->backing = child;
+> +            } else {
+> +                bs->file = child;
+> +            }
+> +        }
+
+[...]
+
+> @@ -2897,11 +2925,11 @@ static TransactionActionDrv bdrv_attach_child_common_drv = {
+>   /*
+>    * Common part of attaching bdrv child to bs or to blk or to job
+>    *
+> - * Resulting new child is returned through @child.
+> - * At start *@child must be NULL.
+> - * @child is saved to a new entry of @tran, so that *@child could be reverted to
+> - * NULL on abort(). So referenced variable must live at least until transaction
+> - * end.
+> + * If @child is not NULL, it's set to new created child. Note, that @child
+> + * pointer is stored in the transaction and therefore not cleared on abort.
+
+I can’t quite parse this comment.  It doesn’t look like `child` is 
+stored in the transaction.  I mean, `new_child` is, which is what 
+`*child` is, but there’s a difference between `@child` and `*child` (or 
+`*@child`) after all.
+
+Or is there a “not” missing, i.e. “that the @child pointer is not stored 
+in the transaction”?  That would also make more sense, why it isn’t 
+cleared on abort.
+
+I’d also like to ask for this to be even more clear, e.g. by adding a 
+sentence “When this transaction is aborted, the pointer stored in 
+*@child becomes invalid.”
+
+> + * Consider @child as part of return value: we may change the return value of
+> + * the function to BdrvChild* and return child directly, but this way we lose
+> + * different return codes.
+
+I mean, do we even care about return codes?  I hope not, but maybe we 
+do?  We do have `errp` for a description, and I think the only 
+distinction we make in the block layer based on error codes is ENOSPC 
+vs. anything else.  I hope this function never returns ENOSPC, so I 
+think the return value shouldn’t matter.
+
+(I can understand that it seems like a loss if we can no longer decide 
+between e.g. EINVAL and EPERM, but I don’t think it really is.  We could 
+just make it EINVAL always and it shouldn’t matter.)
+
+>    *
+>    * Function doesn't update permissions, caller is responsible for this.
+>    */
+
 
