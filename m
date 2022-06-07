@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10A654152C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 22:35:03 +0200 (CEST)
-Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B10854152D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 22:35:08 +0200 (CEST)
+Received: from localhost ([::1]:44092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyfuo-0001na-SV
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 16:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
+	id 1nyfut-0001xz-26
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 16:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyft1-00078Q-Ny
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:11 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:34720)
+ id 1nyft3-00079g-8m
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:13 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:40865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyfsz-0007BX-Lk
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:11 -0400
-Received: by mail-pf1-x433.google.com with SMTP id c196so16521128pfb.1
+ id 1nyft0-0007Be-9R
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:13 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id i1so15790395plg.7
  for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:33:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ed9JFTEYd7SsdzZGCE/RmvNlZJcvRGpiz4cIrZPdhw0=;
- b=hkzGjbASxIT0IT5Hoj7la51uCMyheqffS6F1V3p0Zn6TOF1eyNeKlsqxO6LaSZ0AVU
- Zm5d/wKkD9PMGs1AWKLN2hyHt+sqmIs6K1j5e3cZQ4eZwnXJryL/2C5zkXhtVt+AewWd
- HkjeaC5pXFrS+A/nkJIsAHDCWhcDgKIwNX67R3aDhW1ZJ6btAtFtDSm7Zy3i80Mnn/MV
- D2A1YkKo3pqQC6zx5CdC8EpOWdHsXkPm5OCjpWkwrtDogtGsZGMmeQ0jkojkVReZBvqk
- YZF4NU9RmRffL+5flHpsHujSgF0i3qBi8Yebx1X2Alr0+YqNEB0BHcBd9ddazjvou+5F
- MzRw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=AP39jqbPiQO8vlhvr3vURJ9OZT2UOimjCnaJk3rF7/M=;
+ b=vgpfk3mvjUZkTNqm14QMdfVoDea50YkP5uMEOvtQveYB27Nhy5EZPwMEvKGinwdbtq
+ nxBUiCr3Gn0GHsBcv3o7WK3CwhTsyT8nArc78e3XPYLM3J1+p1YTabdk1VNUSpYT+gma
+ GgR3hVMVszxrDG5rduz049TuYZ9hrzitYoDtgBZFEokFubTk0aR3MBGFL1EVhKcLPaKI
+ AJbYE2Vuc1QPw1wUIM6+rdco7DgmaH0yL15/lT0vpZl+jR0xioEYNV6wWT03PgnDQIdH
+ icvpaWhuUcOCXnNCOniu/8w5OEErQ6WMbJzpZZzFl1aDDJyoPfH68HqPCXKyGkXvtXm9
+ XFmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ed9JFTEYd7SsdzZGCE/RmvNlZJcvRGpiz4cIrZPdhw0=;
- b=VfuVT4hdZut5coP7DMw0/hhZAcqu3kqiylBo8rHSJV5UFw2K5t4gTEBoZxjRUQdXIg
- yqDXKamaUShsBbVhGlS4oNcGnMLuECmPlrP44OmDlyJ637vSWbQcq6tJTqGucKSDHot4
- fovW8763sBEDXKrjfAr8lMlzagAsGXk1TNmswTXeifyXI/qK4RFhPpsDgQ1GGq8rR+nb
- +do5dAoGUeRcKbt4HQGoOzdLRVLpVA6HhgpkiTBFRtO6QcANQzHTkujmGlI6TCno99fW
- g6zr64tZIkNP1vu5gTSHkw2WcfZBEGi+vBdcQn3cHTMftYUQhedNt+/G16KcyHgrNia/
- IChw==
-X-Gm-Message-State: AOAM532EYMzWMiIUI0khh3bFcwRHpcwzzE+MUbHbJrXi8K10ikmyFI58
- ieFQKoj/2MO4zPWsTJf5XdXTi2/6UIfxwA==
-X-Google-Smtp-Source: ABdhPJy/lE5NRK2InAoEaQvMAialPV0RfGGZCtQ2xHhC9Maych9aFp6iNjOWWXdkvyqKKaCA6MK80A==
-X-Received: by 2002:a63:84c3:0:b0:3fc:8810:f0a7 with SMTP id
- k186-20020a6384c3000000b003fc8810f0a7mr27773068pgd.605.1654633988049; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=AP39jqbPiQO8vlhvr3vURJ9OZT2UOimjCnaJk3rF7/M=;
+ b=BYYhZHKhDqThsXj1spEuXjKBJJpUj2ZzO8S/oZhuhh/HjbqBgDOdoMHzLYKqxzt3JO
+ KaUshkMM/7aXQAOmyy2Ovc1I4TK2Ce09CewiYUzh02FoEBU0hmtrIvCHuwLB0fmWk2nE
+ /RAVJnhuvt8tB/27qVDEAPAtOq+bui53iITpbfasCzp+yLRmgXZHEL6XvhRcZ8P88uwz
+ zUVIQq4D4ao6O9s/oBik5qRPf9uI/pZLJAkprpjaMCGTfB1uArMTtl9V80m8zRz4LoKT
+ nRMzaXOAXuzEtFbj9KPqh+lZJ5vEAr9fZGJRsM06xahUcOskYqKsb/+ABUn0ySHmBo7i
+ ESag==
+X-Gm-Message-State: AOAM532cW4DM3UkU6sserWOLonBbATOyNmjhzmLtWkPYgo1Q3hlo3KZy
+ abr3MW3BePedLWZXTAH+8xoXZO8/YcR34Q==
+X-Google-Smtp-Source: ABdhPJy+vNI48R8/zdRdjTVIxUBUfZ8iXa60SBN5W9uhw+zqbAHCwYGwVnDKeI/KbshJp9UUzk7sDA==
+X-Received: by 2002:a17:90a:4413:b0:1cd:2d00:9d0b with SMTP id
+ s19-20020a17090a441300b001cd2d009d0bmr33784931pjg.81.1654633988849; 
  Tue, 07 Jun 2022 13:33:08 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
- s22-20020a17090aba1600b001d9780b7779sm4227856pjr.15.2022.06.07.13.33.07
+ s22-20020a17090aba1600b001d9780b7779sm4227856pjr.15.2022.06.07.13.33.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:33:07 -0700 (PDT)
+ Tue, 07 Jun 2022 13:33:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v2 00/71] target/arm: Scalable Matrix Extension
-Date: Tue,  7 Jun 2022 13:31:55 -0700
-Message-Id: <20220607203306.657998-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 01/71] target/arm: Rename TBFLAG_A64 ZCR_LEN to VL
+Date: Tue,  7 Jun 2022 13:31:56 -0700
+Message-Id: <20220607203306.657998-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220607203306.657998-1-richard.henderson@linaro.org>
+References: <20220607203306.657998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,129 +89,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v2: 
-  * Incorporate feedback from v1.
+With SME, the vector length does not only come from ZCR_ELx.
+Comment that this is either NVL or SVL, like the pseudocode.
 
-Richard Henderson (71):
-  target/arm: Rename TBFLAG_A64 ZCR_LEN to VL
-  linux-user/aarch64: Introduce sve_vq
-  target/arm: Remove route_to_el2 check from sve_exception_el
-  target/arm: Remove fp checks from sve_exception_el
-  target/arm: Add el_is_in_host
-  target/arm: Use el_is_in_host for sve_zcr_len_for_el
-  target/arm: Use el_is_in_host for sve_exception_el
-  target/arm: Hoist arm_is_el2_enabled check in sve_exception_el
-  target/arm: Do not use aarch64_sve_zcr_get_valid_len in reset
-  target/arm: Merge aarch64_sve_zcr_get_valid_len into caller
-  target/arm: Use uint32_t instead of bitmap for sve vq's
-  target/arm: Rename sve_zcr_len_for_el to sve_vqm1_for_el
-  target/arm: Split out load/store primitives to sve_ldst_internal.h
-  target/arm: Export sve contiguous ldst support functions
-  target/arm: Move expand_pred_b to vec_internal.h
-  target/arm: Use expand_pred_b in mve_helper.c
-  target/arm: Move expand_pred_h to vec_internal.h
-  target/arm: Export bfdotadd from vec_helper.c
-  target/arm: Add isar_feature_aa64_sme
-  target/arm: Add ID_AA64SMFR0_EL1
-  target/arm: Implement TPIDR2_EL0
-  target/arm: Add SMEEXC_EL to TB flags
-  target/arm: Add syn_smetrap
-  target/arm: Add ARM_CP_SME
-  target/arm: Add SVCR
-  target/arm: Add SMCR_ELx
-  target/arm: Add SMIDR_EL1, SMPRI_EL1, SMPRIMAP_EL2
-  target/arm: Add PSTATE.{SM,ZA} to TB flags
-  target/arm: Add the SME ZA storage to CPUARMState
-  target/arm: Implement SMSTART, SMSTOP
-  target/arm: Move error for sve%d property to arm_cpu_sve_finalize
-  target/arm: Create ARMVQMap
-  target/arm: Generalize cpu_arm_{get,set}_vq
-  target/arm: Generalize cpu_arm_{get,set}_default_vec_len
-  target/arm: Move arm_cpu_*_finalize to internals.h
-  target/arm: Unexport aarch64_add_*_properties
-  target/arm: Add cpu properties for SME
-  target/arm: Introduce sve_vqm1_for_el_sm
-  target/arm: Add SVL to TB flags
-  target/arm: Move pred_{full,gvec}_reg_{offset,size} to translate-a64.h
-  target/arm: Add infrastructure for disas_sme
-  target/arm: Trap AdvSIMD usage when Streaming SVE is active
-  target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
-  target/arm: Implement SME ZERO
-  target/arm: Implement SME MOVA
-  target/arm: Implement SME LD1, ST1
-  target/arm: Export unpredicated ld/st from translate-sve.c
-  target/arm: Implement SME LDR, STR
-  target/arm: Implement SME ADDHA, ADDVA
-  target/arm: Implement FMOPA, FMOPS (non-widening)
-  target/arm: Implement BFMOPA, BFMOPS
-  target/arm: Implement FMOPA, FMOPS (widening)
-  target/arm: Implement SME integer outer product
-  target/arm: Implement PSEL
-  target/arm: Implement REVD
-  target/arm: Implement SCLAMP, UCLAMP
-  target/arm: Reset streaming sve state on exception boundaries
-  target/arm: Enable SME for -cpu max
-  linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
-  linux-user/aarch64: Reset PSTATE.SM on syscalls
-  linux-user/aarch64: Add SM bit to SVE signal context
-  linux-user/aarch64: Tidy target_restore_sigframe error return
-  linux-user/aarch64: Do not allow duplicate or short sve records
-  linux-user/aarch64: Verify extra record lock succeeded
-  linux-user/aarch64: Move sve record checks into restore
-  linux-user/aarch64: Implement SME signal handling
-  linux-user: Rename sve prctls
-  linux-user/aarch64: Implement PR_SME_GET_VL, PR_SME_SET_VL
-  target/arm: Only set ZEN in reset if SVE present
-  target/arm: Enable SME for user-only
-  linux-user/aarch64: Add SME related hwcap entries
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v2: Renamed from SVE_LEN to VL.
+---
+ target/arm/cpu.h           | 3 ++-
+ target/arm/translate-a64.h | 2 +-
+ target/arm/translate.h     | 2 +-
+ target/arm/helper.c        | 2 +-
+ target/arm/translate-a64.c | 2 +-
+ target/arm/translate-sve.c | 2 +-
+ 6 files changed, 7 insertions(+), 6 deletions(-)
 
- linux-user/aarch64/target_cpu.h   |    5 +-
- linux-user/aarch64/target_prctl.h |   76 +-
- target/arm/cpregs.h               |    5 +
- target/arm/cpu.h                  |  146 +++-
- target/arm/helper-sme.h           |  146 ++++
- target/arm/helper-sve.h           |    4 +
- target/arm/helper.h               |   19 +
- target/arm/internals.h            |   22 +-
- target/arm/kvm_arm.h              |    7 +-
- target/arm/sve_ldst_internal.h    |  221 ++++++
- target/arm/syndrome.h             |   14 +
- target/arm/translate-a64.h        |   55 +-
- target/arm/translate.h            |   16 +-
- target/arm/vec_internal.h         |   28 +-
- linux-user/aarch64/cpu_loop.c     |    9 +
- linux-user/aarch64/signal.c       |  242 +++++-
- linux-user/elfload.c              |   20 +
- linux-user/syscall.c              |   28 +-
- target/arm/arch_dump.c            |    2 +-
- target/arm/cpu.c                  |   39 +-
- target/arm/cpu64.c                |  311 +++++---
- target/arm/gdbstub64.c            |    2 +-
- target/arm/helper.c               |  395 ++++++++--
- target/arm/kvm64.c                |   47 +-
- target/arm/machine.c              |   34 +
- target/arm/mve_helper.c           |    6 +-
- target/arm/sme_helper.c           | 1174 +++++++++++++++++++++++++++++
- target/arm/sve_helper.c           |  260 ++-----
- target/arm/translate-a64.c        |  147 +++-
- target/arm/translate-sme.c        |  353 +++++++++
- target/arm/translate-sve.c        |  283 +++++--
- target/arm/translate-vfp.c        |   13 +
- target/arm/translate.c            |    1 +
- target/arm/vec_helper.c           |   52 +-
- docs/system/arm/emulation.rst     |    4 +
- target/arm/meson.build            |    4 +
- target/arm/sme-fa64.decode        |   89 +++
- target/arm/sme.decode             |   88 +++
- target/arm/sve.decode             |   31 +-
- 39 files changed, 3804 insertions(+), 594 deletions(-)
- create mode 100644 target/arm/helper-sme.h
- create mode 100644 target/arm/sve_ldst_internal.h
- create mode 100644 target/arm/sme_helper.c
- create mode 100644 target/arm/translate-sme.c
- create mode 100644 target/arm/sme-fa64.decode
- create mode 100644 target/arm/sme.decode
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index c1865ad5da..015ce12fe2 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3241,7 +3241,8 @@ FIELD(TBFLAG_M32, MVE_NO_PRED, 5, 1)            /* Not cached. */
+  */
+ FIELD(TBFLAG_A64, TBII, 0, 2)
+ FIELD(TBFLAG_A64, SVEEXC_EL, 2, 2)
+-FIELD(TBFLAG_A64, ZCR_LEN, 4, 4)
++/* The current vector length, either NVL or SVL. */
++FIELD(TBFLAG_A64, VL, 4, 4)
+ FIELD(TBFLAG_A64, PAUTH_ACTIVE, 8, 1)
+ FIELD(TBFLAG_A64, BT, 9, 1)
+ FIELD(TBFLAG_A64, BTYPE, 10, 2)         /* Not cached. */
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index f2e8ee0ee1..dbc917ee65 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -104,7 +104,7 @@ static inline TCGv_ptr vec_full_reg_ptr(DisasContext *s, int regno)
+ /* Return the byte size of the "whole" vector register, VL / 8.  */
+ static inline int vec_full_reg_size(DisasContext *s)
+ {
+-    return s->sve_len;
++    return s->vl;
+ }
+ 
+ bool disas_sve(DisasContext *, uint32_t);
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 9f0bb270c5..f473a21ed4 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -42,7 +42,7 @@ typedef struct DisasContext {
+     bool ns;        /* Use non-secure CPREG bank on access */
+     int fp_excp_el; /* FP exception EL or 0 if enabled */
+     int sve_excp_el; /* SVE exception EL or 0 if enabled */
+-    int sve_len;     /* SVE vector length in bytes */
++    int vl;          /* current vector length in bytes */
+     /* Flag indicating that exceptions from secure mode are routed to EL3. */
+     bool secure_routed_to_el3;
+     bool vfp_enabled; /* FP enabled via FPSCR.EN */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 40da63913c..960899022d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -13696,7 +13696,7 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+             zcr_len = sve_zcr_len_for_el(env, el);
+         }
+         DP_TBFLAG_A64(flags, SVEEXC_EL, sve_el);
+-        DP_TBFLAG_A64(flags, ZCR_LEN, zcr_len);
++        DP_TBFLAG_A64(flags, VL, zcr_len);
+     }
+ 
+     sctlr = regime_sctlr(env, stage1);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 935e1929bb..d438fb89e7 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14608,7 +14608,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
+     dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
+     dc->sve_excp_el = EX_TBFLAG_A64(tb_flags, SVEEXC_EL);
+-    dc->sve_len = (EX_TBFLAG_A64(tb_flags, ZCR_LEN) + 1) * 16;
++    dc->vl = (EX_TBFLAG_A64(tb_flags, VL) + 1) * 16;
+     dc->pauth_active = EX_TBFLAG_A64(tb_flags, PAUTH_ACTIVE);
+     dc->bt = EX_TBFLAG_A64(tb_flags, BT);
+     dc->btype = EX_TBFLAG_A64(tb_flags, BTYPE);
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 836511d719..67761bf2cc 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -111,7 +111,7 @@ static inline int pred_full_reg_offset(DisasContext *s, int regno)
+ /* Return the byte size of the whole predicate register, VL / 64.  */
+ static inline int pred_full_reg_size(DisasContext *s)
+ {
+-    return s->sve_len >> 3;
++    return s->vl >> 3;
+ }
+ 
+ /* Round up the size of a register to a size allowed by
 -- 
 2.34.1
 
