@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44155416F4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 22:57:11 +0200 (CEST)
-Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB465418BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 23:17:21 +0200 (CEST)
+Received: from localhost ([::1]:48790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nygGE-00044m-W9
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 16:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34418)
+	id 1nygZl-0006E0-08
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 17:17:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyfta-0000AP-Ow
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:47 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:33553)
+ id 1nyftc-0000E9-3o
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:48 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:40825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyftT-0007Ms-3S
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:46 -0400
-Received: by mail-pl1-x630.google.com with SMTP id f9so5339118plg.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:33:38 -0700 (PDT)
+ id 1nyftU-0007Gf-0X
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:47 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id f65so6752127pgc.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fwPtvhYNG8jCnQ1cI9YW7usJn3JNHfnrq4zhCHsHE5Y=;
- b=MxzIYGceoED1CJ08IWUi6OjSG25mVg4ylwRQhErbf9lLok8srKuaPxpeep2mrZdbIr
- NrI7c9+IH5VpWUm0JhAYtT3lEE0SaUhwYUalsivPofNKAjr8m/VueWx+uRjt+P1jJ/yW
- BL7oZ6JuMWy8qvUXdRSUib/taHgPQ4cTHtoqO+XIF0VI4yh0JCs1aFVhpNGl0qyMCXdY
- kFxMir93dEooyb2fIUEIvST+x4QbtSwYJywO/Bi0/767uRksw9SLMta9hfWTct7tQJBD
- /cb+BKaO+WY7U+p6DVNEkW3Wr3fAGy8t1veCwPibG2dsPURqmGmhoqUQN8bpPCRDNIoO
- x1Fg==
+ bh=7xdazpoc98KTxU+Hkap6hV74hgs0EjjQuCmdWfoKk1g=;
+ b=uHv8x/Nf/neIA93S+wbDDYJYsPsV/MqtVTAQmTlIjXJiapyq7dFbfboMwxhIW827Y4
+ zQrm8DKH+1VqIjniD92OQjvoUddABJrw7B0rOC5bne6gsrwvPrALbPETZhDKBUoDeYgc
+ T77DDXDUWI5ebZlsUPT4xrWrahIX6BgEYaqkPQ+9OExvG4MARHI3TKr99BhlijmBdsFH
+ b6oOelGO/QptVsLP2zlPKPKvcsZrIX0ZhV90LbFaJJkb6nIUQ91tXeVQGOR1fRGJ90w/
+ oletdaoLZeMQmxlHyMbEJEKUiQPl9XjKXGeSSt1OhAJDp14niW24dP6NYcv4Cr9wqyxx
+ Mi+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fwPtvhYNG8jCnQ1cI9YW7usJn3JNHfnrq4zhCHsHE5Y=;
- b=msklAAKdEOcIfJryGzKj8XenwxeOwJGB6Ok7/RmNww7pqDbvVHSXijGJ0uSJPNO2s7
- FRsSQrN5VYSZaEywrXi9c9Zx+rS3b+EzmR1xCyi3OdVBeCeB6Mnh+nQVr/jU0cj5rEpP
- 2Mns+petXHerO4vDex8f84TXC/XFlh1CVnlhHLxQFnGE04R+o+zU9hhM3r6BhxbdAW7C
- voLabpN7UorvCkZc8PA8JZL9XG8VD+bisRA1Lh61IhCHdP/dkSLe3unT0UYC4KznaFp5
- +X1iLKDMqZgMul/sU9yFHDwq9XylSZgyevmxPcH/cI2u3IQPX873hSKBYCnbAGdLxC1C
- fN7Q==
-X-Gm-Message-State: AOAM532XE4KRRK+PBbFOJ7yHGMmPReiSRqQq/NbHSUU0T1OnHq5gJTHL
- xI1VLBLEJFs3Sg5ooT5wxGkoYOWQ9gTSBg==
-X-Google-Smtp-Source: ABdhPJwQrlRRBNjA1xMMMZy+KMUj0jNQCr4IKubTZo4dhwsrHMxEJUing+MafXPvksYFglEHgUbnLA==
-X-Received: by 2002:a17:902:efcc:b0:163:f35b:2a99 with SMTP id
- ja12-20020a170902efcc00b00163f35b2a99mr29975966plb.42.1654634018260; 
- Tue, 07 Jun 2022 13:33:38 -0700 (PDT)
+ bh=7xdazpoc98KTxU+Hkap6hV74hgs0EjjQuCmdWfoKk1g=;
+ b=6IHTh22HWPrl9LbURcxEFLEkQ5j2ORwc7JxMCNDi1x6856UN0ONgemNizePIRZJ2vG
+ H6AJLl+oQdujmoYJwcx3Gv0/CxMZk8Wct8S7en2FJ7AtgwF+82YBAdaVyKCBViBDdEjZ
+ MAiliKEgWcAl78CsJcGQFI74bweaGzwnwd9KrSesxi45TPoSipAqFVOUCoVXcuOSU3jY
+ 8zVKt/xJ/FWgcBrCEv5QS3P7JJxdPbpU6/RkkTz2g62LN/hTi+b7pomZx3k6qCQ4aLJ1
+ gaGKStww8KREasf6nvxdqdPEiUxHHEJ7B5ifE0w0cXjcMsjYR3ACdFILR6N8TgcxbnzC
+ J8FQ==
+X-Gm-Message-State: AOAM533d7a+szqVoAni4Ge0f05U1mPrsm5PhKsAfrtxHs7hj0M3j3uYA
+ MyKkQBLhUbcVx7kY0Fn6qpVWhRle0m0pxQ==
+X-Google-Smtp-Source: ABdhPJw9SlGCccT/591rCxQn/fjxDfdwg5CPPElfsbHOkT/UgDXxAPjzCPEMtGo8sKY6wQpccXsenA==
+X-Received: by 2002:a63:b55:0:b0:3fd:a384:bd10 with SMTP id
+ a21-20020a630b55000000b003fda384bd10mr12291615pgl.534.1654634019154; 
+ Tue, 07 Jun 2022 13:33:39 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
- s22-20020a17090aba1600b001d9780b7779sm4227856pjr.15.2022.06.07.13.33.37
+ s22-20020a17090aba1600b001d9780b7779sm4227856pjr.15.2022.06.07.13.33.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:33:37 -0700 (PDT)
+ Tue, 07 Jun 2022 13:33:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v2 33/71] target/arm: Generalize cpu_arm_{get,set}_vq
-Date: Tue,  7 Jun 2022 13:32:28 -0700
-Message-Id: <20220607203306.657998-34-richard.henderson@linaro.org>
+Subject: [PATCH v2 34/71] target/arm: Generalize cpu_arm_{get,
+ set}_default_vec_len
+Date: Tue,  7 Jun 2022 13:32:29 -0700
+Message-Id: <20220607203306.657998-35-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220607203306.657998-1-richard.henderson@linaro.org>
 References: <20220607203306.657998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,90 +90,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename from cpu_arm_{get,set}_sve_vq, and take the
-ARMVQMap as the opaque parameter.
+Rename from cpu_arm_{get,set}_sve_default_vec_len,
+and take the pointer to default_vq from opaque.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu64.c | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+ target/arm/cpu64.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 0a2f4f3170..dcec0a6559 100644
+index dcec0a6559..c5bfc3d082 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -579,15 +579,15 @@ static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
- }
+@@ -638,11 +638,11 @@ static void cpu_arm_set_sve(Object *obj, bool value, Error **errp)
  
- /*
-- * Note that cpu_arm_get/set_sve_vq cannot use the simpler
-- * object_property_add_bool interface because they make use
-- * of the contents of "name" to determine which bit on which
-- * to operate.
-+ * Note that cpu_arm_{get,set}_vq cannot use the simpler
-+ * object_property_add_bool interface because they make use of the
-+ * contents of "name" to determine which bit on which to operate.
-  */
--static void cpu_arm_get_sve_vq(Object *obj, Visitor *v, const char *name,
--                               void *opaque, Error **errp)
-+static void cpu_arm_get_vq(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-+    ARMVQMap *vq_map = opaque;
-     uint32_t vq = atoi(&name[3]) / 128;
-     bool value;
- 
-@@ -595,15 +595,15 @@ static void cpu_arm_get_sve_vq(Object *obj, Visitor *v, const char *name,
-     if (!cpu_isar_feature(aa64_sve, cpu)) {
-         value = false;
-     } else {
--        value = extract32(cpu->sve_vq.map, vq - 1, 1);
-+        value = extract32(vq_map->map, vq - 1, 1);
-     }
-     visit_type_bool(v, name, &value, errp);
- }
- 
--static void cpu_arm_set_sve_vq(Object *obj, Visitor *v, const char *name,
--                               void *opaque, Error **errp)
-+static void cpu_arm_set_vq(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
+ #ifdef CONFIG_USER_ONLY
+ /* Mirror linux /proc/sys/abi/sve_default_vector_length. */
+-static void cpu_arm_set_sve_default_vec_len(Object *obj, Visitor *v,
+-                                            const char *name, void *opaque,
+-                                            Error **errp)
++static void cpu_arm_set_default_vec_len(Object *obj, Visitor *v,
++                                        const char *name, void *opaque,
++                                        Error **errp)
  {
 -    ARMCPU *cpu = ARM_CPU(obj);
-+    ARMVQMap *vq_map = opaque;
-     uint32_t vq = atoi(&name[3]) / 128;
-     bool value;
++    uint32_t *ptr_default_vq = opaque;
+     int32_t default_len, default_vq, remainder;
  
-@@ -611,8 +611,8 @@ static void cpu_arm_set_sve_vq(Object *obj, Visitor *v, const char *name,
+     if (!visit_type_int32(v, name, &default_len, errp)) {
+@@ -651,7 +651,7 @@ static void cpu_arm_set_sve_default_vec_len(Object *obj, Visitor *v,
+ 
+     /* Undocumented, but the kernel allows -1 to indicate "maximum". */
+     if (default_len == -1) {
+-        cpu->sve_default_vq = ARM_MAX_VQ;
++        *ptr_default_vq = ARM_MAX_VQ;
          return;
      }
  
--    cpu->sve_vq.map = deposit32(cpu->sve_vq.map, vq - 1, 1, value);
--    cpu->sve_vq.init |= 1 << (vq - 1);
-+    vq_map->map = deposit32(vq_map->map, vq - 1, 1, value);
-+    vq_map->init |= 1 << (vq - 1);
- }
- 
- static bool cpu_arm_get_sve(Object *obj, Error **errp)
-@@ -691,6 +691,7 @@ static void cpu_arm_get_sve_default_vec_len(Object *obj, Visitor *v,
- 
- void aarch64_add_sve_properties(Object *obj)
- {
-+    ARMCPU *cpu = ARM_CPU(obj);
-     uint32_t vq;
- 
-     object_property_add_bool(obj, "sve", cpu_arm_get_sve, cpu_arm_set_sve);
-@@ -698,8 +699,8 @@ void aarch64_add_sve_properties(Object *obj)
-     for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
-         char name[8];
-         sprintf(name, "sve%d", vq * 128);
--        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
--                            cpu_arm_set_sve_vq, NULL, NULL);
-+        object_property_add(obj, name, "bool", cpu_arm_get_vq,
-+                            cpu_arm_set_vq, NULL, &cpu->sve_vq);
+@@ -675,15 +675,15 @@ static void cpu_arm_set_sve_default_vec_len(Object *obj, Visitor *v,
+         return;
      }
  
+-    cpu->sve_default_vq = default_vq;
++    *ptr_default_vq = default_vq;
+ }
+ 
+-static void cpu_arm_get_sve_default_vec_len(Object *obj, Visitor *v,
+-                                            const char *name, void *opaque,
+-                                            Error **errp)
++static void cpu_arm_get_default_vec_len(Object *obj, Visitor *v,
++                                        const char *name, void *opaque,
++                                        Error **errp)
+ {
+-    ARMCPU *cpu = ARM_CPU(obj);
+-    int32_t value = cpu->sve_default_vq * 16;
++    uint32_t *ptr_default_vq = opaque;
++    int32_t value = *ptr_default_vq * 16;
+ 
+     visit_type_int32(v, name, &value, errp);
+ }
+@@ -706,8 +706,9 @@ void aarch64_add_sve_properties(Object *obj)
  #ifdef CONFIG_USER_ONLY
+     /* Mirror linux /proc/sys/abi/sve_default_vector_length. */
+     object_property_add(obj, "sve-default-vector-length", "int32",
+-                        cpu_arm_get_sve_default_vec_len,
+-                        cpu_arm_set_sve_default_vec_len, NULL, NULL);
++                        cpu_arm_get_default_vec_len,
++                        cpu_arm_set_default_vec_len, NULL,
++                        &cpu->sve_default_vq);
+ #endif
+ }
+ 
 -- 
 2.34.1
 
