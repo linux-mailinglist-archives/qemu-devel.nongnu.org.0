@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EB153FD6E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 13:24:27 +0200 (CEST)
-Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D5A53FD81
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 13:31:56 +0200 (CEST)
+Received: from localhost ([::1]:41800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyXJy-0004Ez-B4
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 07:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
+	id 1nyXRB-0000yS-LT
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 07:31:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyWm1-0004fL-4b
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:49:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55060)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nyWnP-0006Ac-ME
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:50:47 -0400
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:43561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyWlx-0002Au-W3
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:49:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654598957;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=l/W+CEIYQ8URkTPoAhBblBhQXXZ+E/ys6d4F/qrbVxk=;
- b=K+msG3w6qqH9UY+lwy0x7jWJ1srYQG+z8CwqNuRb9Qk/ypbt9AGLQFTGk9Nw46+eRt+d5S
- 8lbhtss0ezCIqU+GSZ9YOtDee76aLwQwqmTyNZbUzg2Xs5ny72Mo+4CA3gyHaWlJwtvgxA
- 6+2L1PWSJtG1n6luy1yVQAeJ21NQ7LA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-211-h8Qa_usDOri2yZVmeTvwaw-1; Tue, 07 Jun 2022 06:49:15 -0400
-X-MC-Unique: h8Qa_usDOri2yZVmeTvwaw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z13-20020a7bc7cd000000b0039c4a238eadso1311761wmk.9
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 03:49:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=l/W+CEIYQ8URkTPoAhBblBhQXXZ+E/ys6d4F/qrbVxk=;
- b=Qoqp7PJ8FGuxjXjYLaHWJHbwWofWI2iBnNIcu9mIt6OoBfkoWyDiLHlkvZG18jKk/d
- clgNLlhsm82Lv6T4cDcXx7NVnvqz56cco9e4k4MPjTvAOGbn2TNrIRTA9ozRxjAA3j+l
- 7r7gFpmNP/EG2KwJl6xGtz9qfcfz3nVw9A0fYjmHIDfD/wp7oOONRUrfG3bINmJeNaSs
- FymsTjDhsLaZeawkRjkT+TY6z7+0PGHpDuY+Kzb46131wQR4ZPz85EAr0WhS1okjmAs6
- kka1zpH8n9JkT9WKJ1RgOo1EQ0J52J80KRN8CkWTqMI+uJBv7XBOXHagqj4yuSDMMbCk
- jKBg==
-X-Gm-Message-State: AOAM533+QNTqJe3YRBCCRnluSReQhHpcuToUZ7WcCMwAvBNt8dX8j2+l
- LlEzl6z3j4LHUgPFlGry3d7KPdn4j5FrkPjWNeKvLaRe5EaGFpO3oQQf22fQvpqGKtDe4vSktbQ
- wG5zUdzKuF5iG7oNPswe7Ss0qE8HYbA6U+z4fg0gMCvqk1JqKl2StR7mcGrFsRUyZj/E=
-X-Received: by 2002:a7b:c5d0:0:b0:355:482a:6f44 with SMTP id
- n16-20020a7bc5d0000000b00355482a6f44mr28117897wmk.58.1654598954185; 
- Tue, 07 Jun 2022 03:49:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzWeQkvt61nnmWSxGWozRLFvVhkHYqc7FaA+o3EoFaYx+Lk/2b19TTChm4alAB6dBuB6RtvhA==
-X-Received: by 2002:a7b:c5d0:0:b0:355:482a:6f44 with SMTP id
- n16-20020a7bc5d0000000b00355482a6f44mr28117847wmk.58.1654598953616; 
- Tue, 07 Jun 2022 03:49:13 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- o22-20020a1c7516000000b003942a244ed1sm19381808wmc.22.2022.06.07.03.49.12
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 03:49:12 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: ignore --make
-Date: Tue,  7 Jun 2022 12:49:08 +0200
-Message-Id: <20220607104908.1263321-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nyWnM-0002cX-TS
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:50:46 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.158])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8175F22993;
+ Tue,  7 Jun 2022 10:50:41 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 7 Jun 2022
+ 12:50:40 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001593f8578-42fc-4912-a4d0-2a1f41553a43,
+ B3A9F5ABA359FFEAA5F192A1B4EC97B2EEB111D0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <e138ec80-bf43-4940-90b9-7406f9e710e8@kaod.org>
+Date: Tue, 7 Jun 2022 12:50:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 04/21] aspeed: i2c: Use reg array instead of individual
+ vars
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>
+CC: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
+ Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>,
+ Steven Lee <steven_lee@aspeedtech.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Peter Delevoryas <pdel@fb.com>, Corey Minyard <cminyard@mvista.com>, Jonathan
+ Cameron <Jonathan.Cameron@huawei.com>, Damien Hedde
+ <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>, Cleber Rosa
+ <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
+ Leal <bleal@redhat.com>
+References: <20220606150732.2282041-1-clg@kaod.org>
+ <20220606150732.2282041-5-clg@kaod.org>
+ <CACPK8Xe1n-N157r9Ea8DR_7TK6qDbe4Z-9z+qvRfOWU+RxJuSg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CACPK8Xe1n-N157r9Ea8DR_7TK6qDbe4Z-9z+qvRfOWU+RxJuSg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: f70b497b-484b-4f26-8fb7-3bed862c4505
+X-Ovh-Tracer-Id: 3278902007257271242
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedgfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsghlvggrlhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,102 +85,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setting the MAKE variable to a GNU Make executable does not really have
-any effect: if a non-GNU Make is used, the QEMU Makefile will fail to
-parse.  Just remove everything related to --make and $make as dead code.
+On 6/7/22 01:49, Joel Stanley wrote:
+> On Mon, 6 Jun 2022 at 15:08, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> From: Joe Komlodi <komlodi@google.com>
+>>
+>> Using a register array will allow us to represent old-mode and new-mode
+>> I2C registers by using the same underlying register array, instead of
+>> adding an entire new set of variables to represent new mode.
+> 
+> The downside of this approach is you lose the safety of having
+> discrete types. A write to s->regs[R_FOO] can overwrite R_BAR.
+> 
+> 
+>>
+>> As part of this, we also do additional cleanup to use ARRAY_FIELD_
+>> macros instead of FIELD_ macros on registers.
+>>
+>> Signed-off-by: Joe Komlodi <komlodi@google.com>
+>> Change-Id: Ib94996b17c361b8490c042b43c99d8abc69332e3
+>> Message-Id: <20220331043248.2237838-5-komlodi@google.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   include/hw/i2c/aspeed_i2c.h |  11 +-
+>>   hw/i2c/aspeed_i2c.c         | 286 +++++++++++++++++-------------------
+>>   2 files changed, 133 insertions(+), 164 deletions(-)
+> 
+>> @@ -858,12 +834,12 @@ static void aspeed_i2c_bus_reset(DeviceState *dev)
+>>   {
+>>       AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
+>>
+>> -    s->intr_ctrl = 0;
+>> -    s->intr_status = 0;
+>> -    s->cmd = 0;
+>> -    s->buf = 0;
+>> -    s->dma_addr = 0;
+>> -    s->dma_len = 0;
+>> +    s->regs[R_I2CD_INTR_CTRL] = 0;
+>> +    s->regs[R_I2CD_INTR_STS] = 0;
+>> +    s->regs[R_I2CD_CMD] = 0;
+>> +    s->regs[R_I2CD_BYTE_BUF] = 0;
+>> +    s->regs[R_I2CD_DMA_ADDR] = 0;
+>> +    s->regs[R_I2CD_DMA_LEN] = 0;
+> 
+> Could this become a memset of s->regs?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+yes. I will do it.
 
-diff --git a/configure b/configure
-index ce81419629..154e041b8e 100755
---- a/configure
-+++ b/configure
-@@ -493,20 +493,16 @@ gnu/kfreebsd)
- ;;
- freebsd)
-   bsd="yes"
--  make="${MAKE-gmake}"
-   # needed for kinfo_getvmmap(3) in libutil.h
- ;;
- dragonfly)
-   bsd="yes"
--  make="${MAKE-gmake}"
- ;;
- netbsd)
-   bsd="yes"
--  make="${MAKE-gmake}"
- ;;
- openbsd)
-   bsd="yes"
--  make="${MAKE-gmake}"
- ;;
- darwin)
-   bsd="yes"
-@@ -517,7 +513,6 @@ darwin)
- ;;
- sunos)
-   solaris="yes"
--  make="${MAKE-gmake}"
- # needed for CMSG_ macros in sys/socket.h
-   QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
- # needed for TIOCWIN* defines in termios.h
-@@ -628,8 +623,6 @@ case "$cpu" in
-     CPU_CFLAGS="-m64 -mcpu=ultrasparc" ;;
- esac
- 
--: ${make=${MAKE-make}}
--
- # We prefer python 3.x. A bare 'python' is traditionally
- # python 2.x, but some distros have it as python 3.x, so
- # we check that too
-@@ -709,7 +702,7 @@ for opt do
-   ;;
-   --objcc=*) objcc="$optarg"
-   ;;
--  --make=*) make="$optarg"
-+  --make=*)
-   ;;
-   --install=*)
-   ;;
-@@ -1024,7 +1017,6 @@ Advanced options (experts only):
-   --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
-   --cross-cc-cflags-ARCH=  use compiler flags when building ARCH guest tests
-   --cross-prefix-ARCH=PREFIX cross compiler prefix when building ARCH guest test cases
--  --make=MAKE              use specified make [$make]
-   --python=PYTHON          use specified python [$python]
-   --meson=MESON            use specified meson [$meson]
-   --ninja=NINJA            use specified ninja [$ninja]
-@@ -1079,10 +1071,6 @@ if test -z "$python"
- then
-     error_exit "Python not found. Use --python=/path/to/python"
- fi
--if ! has "$make"
--then
--    error_exit "GNU make ($make) not found"
--fi
- 
- # Note that if the Python conditional here evaluates True we will exit
- # with status 1 which is a shell 'false' value.
-@@ -2409,7 +2397,6 @@ if test "$container" != no; then
-     echo "ENGINE=$container" >> $config_host_mak
- fi
- echo "ROMS=$roms" >> $config_host_mak
--echo "MAKE=$make" >> $config_host_mak
- echo "PYTHON=$python" >> $config_host_mak
- echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
- echo "MESON=$meson" >> $config_host_mak
-@@ -2740,7 +2727,6 @@ preserve_env CXXFLAGS
- preserve_env LD
- preserve_env LDFLAGS
- preserve_env LD_LIBRARY_PATH
--preserve_env MAKE
- preserve_env NM
- preserve_env OBJCFLAGS
- preserve_env OBJCOPY
--- 
-2.36.1
+Thanks,
+
+C.
+
+> 
+>>       i2c_end_transfer(s->bus);
+>>   }
+>>
+>> @@ -921,10 +897,10 @@ static qemu_irq aspeed_2400_i2c_bus_get_irq(AspeedI2CBus *bus)
+>>   static uint8_t *aspeed_2400_i2c_bus_pool_base(AspeedI2CBus *bus)
+>>   {
+>>       uint8_t *pool_page =
+>> -        &bus->controller->pool[FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL,
+>> -                                          POOL_PAGE_SEL) * 0x100];
+>> +        &bus->controller->pool[ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL,
+>> +                                                POOL_PAGE_SEL) * 0x100];
+>>
+>> -    return &pool_page[FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, OFFSET)];
+>> +    return &pool_page[ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, OFFSET)];
+>>   }
+>>
+>>   static void aspeed_2400_i2c_class_init(ObjectClass *klass, void *data)
+>> --
+>> 2.35.3
+>>
 
 
