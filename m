@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CFB54164F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 22:51:13 +0200 (CEST)
-Received: from localhost ([::1]:57830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A4E5416D6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 22:56:35 +0200 (CEST)
+Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nygAS-0005gl-0B
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 16:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33850)
+	id 1nygFe-0003iK-JC
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 16:56:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyftK-0007mr-LN
+ id 1nyftK-0007mq-KB
  for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:30 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:42528)
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:44580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyftD-0007HM-Dy
+ id 1nyftE-0007Ib-EM
  for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:33:30 -0400
-Received: by mail-pl1-x631.google.com with SMTP id d22so15779427plr.9
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:33:22 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id c18so8624792pgh.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:33:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OVdCbtqKJB+BGb16fkMGEP1znoVx5B0GA093B8K9G20=;
- b=mu92fmZFW7YpiAu2rsNYFPmj6eW/FkAnDyXoUJQ89YmLNE3BIkOXrLebH1Fc8Bm8C8
- 2QNSva+iExlPDk2cIbn4ye0e7g57X19c7u1qYqEt8lE2YjKjFlh0PWwBvegY0GJLVx7U
- 1EvP2wAA6z9i8s2l/uJ3V83ueS2jqqon71TN2F5c6My6B6SNUf4A8TWVJNwuppTE7HiF
- 3zaZiXh2Db3mPiTcuoZnTQphOAgWD4oyIhPjh0uK7P6nrAEN8l9b3bnWuv80vCe2kFd5
- LZmVuxYO+HmXeZlcIl30HlEZkEdBH8Ju6sLM8jyMfcvDeVu4fiOFoglSQu72gQ2ltJFs
- 6XDQ==
+ bh=lRGebQyqBWSguPRywmTvdJmhpPUXlvnLMmD10I0JmJc=;
+ b=njsjEDYZIdYXaH4KHNwLvVJ4Z/KS7gL8bkgcQrrOlH6KoF9XNgc53hAELH0UbCPLPQ
+ wHpXzzogvzyPvZ3S/E/LMNQYWgPV9xyQP0XB8/WWJoUmqMWiLjukp4neXdlqQHbJsmaB
+ L6TArS7eGpa2pa2pebjebA+QgANpMEF958Or6OZ/U466ihJJ2vTuZ0o81cLXzB/HUr3N
+ eGwcBT/dWXjU2faEX+WudyhnTtWzhmBHRRET5i2w5Nx/LlR5NJtEn+mGUHDi0j5LkX0I
+ 8+OfmEnL6jCajwaxJrkQkaKHKs4z4yrCAYFlgDdLaiL0dDTtHBHpwrLsSlHMmzaZEI/c
+ WUDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OVdCbtqKJB+BGb16fkMGEP1znoVx5B0GA093B8K9G20=;
- b=pn+1M429zMU0+v3MOM3ny1auvx7GwidTi85N7aYssDt5S5ZDYRLR7jM2uOm4ScA/TU
- hFfPUVF2XkJPziqrLtX68k/D89wxIc0vZu8K//cYOZwERRnhDWN2g1WkusYJhk+pwmNZ
- n6shbL4G2EB/UyRzmJJ0O8zgmsK0qk2ouwfzPqa0vBe4In+CTmdS4/bIvTjkkXkA8Mgs
- 1/x4HZw4vlH7gbPXXOfXzFVOMQeo2vGitnEN6BMzpLwTsjwqsme4dzj29R/Qf0XXV4LP
- u4KIyI0HmV5H9ZfYwbF6OEwUg8YjzYXnmmghaZpeRYsiE/lV2MreOgP2XHgtDalYu2mi
- 8D8w==
-X-Gm-Message-State: AOAM532/0X+famEmE2HTaylrW5wYGEIkfIiRj+uDUt3inH3Rulkfut3q
- Dj5/0EvhCTT7iXghZIKEAG34iz4cRkVtGQ==
-X-Google-Smtp-Source: ABdhPJwzWqiHR/PDkjglhNHDV2sg9WWjsVhLi7GfpMYSK5YB3DNZlSRo09dY4dv7fPZYc4Od4LaX+Q==
-X-Received: by 2002:a17:902:da8d:b0:165:7c1b:6803 with SMTP id
- j13-20020a170902da8d00b001657c1b6803mr30618586plx.157.1654634002145; 
- Tue, 07 Jun 2022 13:33:22 -0700 (PDT)
+ bh=lRGebQyqBWSguPRywmTvdJmhpPUXlvnLMmD10I0JmJc=;
+ b=AMleJFXcI5njbZ3bSGBee9CF3nc2O+6oeqZ1OoHH0DrSJfzicsJ5/L5FEnJNkzu1XP
+ R4T0w2urDzDi+SMZbcu7/9wzxQh3XEysPW2+0FFRJNqurCgZSeXR/fSdMRyChtL7Vhs8
+ LG9pVyR1zLU3LDqjA9c9k2+mYs1FQctz5hSGZoK7Je5ITf7c7QIo5d+NadwjtculsB/9
+ fmke5I+QJT/Dx/dEmL8Zzu1T6h1hXAqBfez/rVL9I4Max8WEMS/wp4xcROiYvVspZZuA
+ 77tvmmmX4eenmM25YL4Z23jc53o5cVIsEtLh/1LD9WrUoSQ/Wjwcqydtj+xSmyR1ktDn
+ H8jg==
+X-Gm-Message-State: AOAM533UoMdKUv36pXFTySIy0Jila5PCbCvfW+iTQc1uihnJoVD6kKfe
+ /3YVabPj+T3X0QkwfUNdB2ULAlXqi0u/zw==
+X-Google-Smtp-Source: ABdhPJwV/RRjhxz7f/PfiuWaeF4boljpvDZyfMHRmILesOBnYVS0A17U6N7Chltxn5Bfz0VR7wZ2CA==
+X-Received: by 2002:a63:6901:0:b0:3f9:caa5:cffc with SMTP id
+ e1-20020a636901000000b003f9caa5cffcmr27421380pgc.324.1654634003018; 
+ Tue, 07 Jun 2022 13:33:23 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
- s22-20020a17090aba1600b001d9780b7779sm4227856pjr.15.2022.06.07.13.33.21
+ s22-20020a17090aba1600b001d9780b7779sm4227856pjr.15.2022.06.07.13.33.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:33:21 -0700 (PDT)
+ Tue, 07 Jun 2022 13:33:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v2 16/71] target/arm: Use expand_pred_b in mve_helper.c
-Date: Tue,  7 Jun 2022 13:32:11 -0700
-Message-Id: <20220607203306.657998-17-richard.henderson@linaro.org>
+Subject: [PATCH v2 17/71] target/arm: Move expand_pred_h to vec_internal.h
+Date: Tue,  7 Jun 2022 13:32:12 -0700
+Message-Id: <20220607203306.657998-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220607203306.657998-1-richard.henderson@linaro.org>
 References: <20220607203306.657998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,51 +89,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the function instead of the array directly.
-
-Because the function performs its own masking, via the uint8_t
-parameter, we need to do nothing extra within the users: the bits
-above the first 2 (_uh) or 4 (_uw) will be discarded by assignment
-to the local bmask variables, and of course _uq uses the entire
-uint64_t result.
+Move the data to vec_helper.c and the inline to vec_internal.h.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/mve_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/arm/vec_internal.h |  7 +++++++
+ target/arm/sve_helper.c   | 29 -----------------------------
+ target/arm/vec_helper.c   | 26 ++++++++++++++++++++++++++
+ 3 files changed, 33 insertions(+), 29 deletions(-)
 
-diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 846962bf4c..403b345ea3 100644
---- a/target/arm/mve_helper.c
-+++ b/target/arm/mve_helper.c
-@@ -726,7 +726,7 @@ static void mergemask_sb(int8_t *d, int8_t r, uint16_t mask)
- 
- static void mergemask_uh(uint16_t *d, uint16_t r, uint16_t mask)
- {
--    uint16_t bmask = expand_pred_b_data[mask & 3];
-+    uint16_t bmask = expand_pred_b(mask);
-     *d = (*d & ~bmask) | (r & bmask);
+diff --git a/target/arm/vec_internal.h b/target/arm/vec_internal.h
+index d1a1ea4a66..1d527fadac 100644
+--- a/target/arm/vec_internal.h
++++ b/target/arm/vec_internal.h
+@@ -59,6 +59,13 @@ static inline uint64_t expand_pred_b(uint8_t byte)
+     return expand_pred_b_data[byte];
  }
  
-@@ -737,7 +737,7 @@ static void mergemask_sh(int16_t *d, int16_t r, uint16_t mask)
- 
- static void mergemask_uw(uint32_t *d, uint32_t r, uint16_t mask)
++/* Similarly for half-word elements. */
++extern const uint64_t expand_pred_h_data[0x55 + 1];
++static inline uint64_t expand_pred_h(uint8_t byte)
++{
++    return expand_pred_h_data[byte & 0x55];
++}
++
+ static inline void clear_tail(void *vd, uintptr_t opr_sz, uintptr_t max_sz)
  {
--    uint32_t bmask = expand_pred_b_data[mask & 0xf];
-+    uint32_t bmask = expand_pred_b(mask);
-     *d = (*d & ~bmask) | (r & bmask);
+     uint64_t *d = vd + opr_sz;
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index e865c12527..1654c0bbf9 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -103,35 +103,6 @@ uint32_t HELPER(sve_predtest)(void *vd, void *vg, uint32_t words)
+     return flags;
  }
  
-@@ -748,7 +748,7 @@ static void mergemask_sw(int32_t *d, int32_t r, uint16_t mask)
- 
- static void mergemask_uq(uint64_t *d, uint64_t r, uint16_t mask)
+-/* Similarly for half-word elements.
+- *  for (i = 0; i < 256; ++i) {
+- *      unsigned long m = 0;
+- *      if (i & 0xaa) {
+- *          continue;
+- *      }
+- *      for (j = 0; j < 8; j += 2) {
+- *          if ((i >> j) & 1) {
+- *              m |= 0xfffful << (j << 3);
+- *          }
+- *      }
+- *      printf("[0x%x] = 0x%016lx,\n", i, m);
+- *  }
+- */
+-static inline uint64_t expand_pred_h(uint8_t byte)
+-{
+-    static const uint64_t word[] = {
+-        [0x01] = 0x000000000000ffff, [0x04] = 0x00000000ffff0000,
+-        [0x05] = 0x00000000ffffffff, [0x10] = 0x0000ffff00000000,
+-        [0x11] = 0x0000ffff0000ffff, [0x14] = 0x0000ffffffff0000,
+-        [0x15] = 0x0000ffffffffffff, [0x40] = 0xffff000000000000,
+-        [0x41] = 0xffff00000000ffff, [0x44] = 0xffff0000ffff0000,
+-        [0x45] = 0xffff0000ffffffff, [0x50] = 0xffffffff00000000,
+-        [0x51] = 0xffffffff0000ffff, [0x54] = 0xffffffffffff0000,
+-        [0x55] = 0xffffffffffffffff,
+-    };
+-    return word[byte & 0x55];
+-}
+-
+ /* Similarly for single word elements.  */
+ static inline uint64_t expand_pred_s(uint8_t byte)
  {
--    uint64_t bmask = expand_pred_b_data[mask & 0xff];
-+    uint64_t bmask = expand_pred_b(mask);
-     *d = (*d & ~bmask) | (r & bmask);
- }
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index 17fb158362..26c373e522 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -127,6 +127,32 @@ const uint64_t expand_pred_b_data[256] = {
+     0xffffffffffffffff,
+ };
  
++/*
++ * Similarly for half-word elements.
++ *  for (i = 0; i < 256; ++i) {
++ *      unsigned long m = 0;
++ *      if (i & 0xaa) {
++ *          continue;
++ *      }
++ *      for (j = 0; j < 8; j += 2) {
++ *          if ((i >> j) & 1) {
++ *              m |= 0xfffful << (j << 3);
++ *          }
++ *      }
++ *      printf("[0x%x] = 0x%016lx,\n", i, m);
++ *  }
++ */
++const uint64_t expand_pred_h_data[0x55 + 1] = {
++    [0x01] = 0x000000000000ffff, [0x04] = 0x00000000ffff0000,
++    [0x05] = 0x00000000ffffffff, [0x10] = 0x0000ffff00000000,
++    [0x11] = 0x0000ffff0000ffff, [0x14] = 0x0000ffffffff0000,
++    [0x15] = 0x0000ffffffffffff, [0x40] = 0xffff000000000000,
++    [0x41] = 0xffff00000000ffff, [0x44] = 0xffff0000ffff0000,
++    [0x45] = 0xffff0000ffffffff, [0x50] = 0xffffffff00000000,
++    [0x51] = 0xffffffff0000ffff, [0x54] = 0xffffffffffff0000,
++    [0x55] = 0xffffffffffffffff,
++};
++
+ /* Signed saturating rounding doubling multiply-accumulate high half, 8-bit */
+ int8_t do_sqrdmlah_b(int8_t src1, int8_t src2, int8_t src3,
+                      bool neg, bool round)
 -- 
 2.34.1
 
