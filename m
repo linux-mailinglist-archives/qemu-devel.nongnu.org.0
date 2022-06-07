@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19F45407BB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 19:52:34 +0200 (CEST)
-Received: from localhost ([::1]:59002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A96A2540820
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 19:56:08 +0200 (CEST)
+Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nydNZ-0006r1-JG
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 13:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
+	id 1nydR1-0001nc-IN
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 13:56:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1nydKm-0004ih-9o
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:49:40 -0400
-Received: from mail-bn7nam10on2087.outbound.protection.outlook.com
- ([40.107.92.87]:16993 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ id 1nydOk-0000cP-UU
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:53:46 -0400
+Received: from mail-dm3nam02on20630.outbound.protection.outlook.com
+ ([2a01:111:f400:7e83::630]:20492
+ helo=NAM02-DM3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1nydKj-0004cg-E9
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:49:39 -0400
+ id 1nydOi-0005Lk-CI
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 13:53:46 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EA9uQy/wudlgC2173BQql7oHU4UM+ERkMMfBi/8aBPsz7eqhMMzF6yhUcXiRwqsDpM+kP1Z8KZZW/FNb4Mzq+L/yOXRaIPlUlhOfAB6CGpDYFxpRPOdlFYxNs5A4u2jNj4YvMcsM2jEN5qwcYQ6onaVpfXM6q/5jbkBeRbog7Etcmec/pDfqxru0zpeQYQZbFUIbiUC+Wy4uDmcz35ucCVk42b5T0G4Vzs0vNvvqg1FQijpKQDiOmLMhNuHJNgsHx2ir9muq2prCzf0z4FVVVtBFaVkbXIeBKyWIw/VYCmvXNzSbJNnAhM66JRUnJZaGMRgcD0gFq0oY996sb5mQnQ==
+ b=kPCO7yIVyUtBdoLjcKD/oaSSRTHUbPPshbnQMThQzDvGsp9PMvI83RyWFeWjDCiZEGV/oC3T0enaFHN4my65GyrVEF0k6zV7KlMF4/odcyvpPuAMMyoI5uZoE3foSpc+rd5db3tlioV3D+duvh70wLjHTx2ucMW1QEv9vThTcX+pCXsyLpKItadzwjrXrYooqYtXzoHhw4FNGpQJxYCCNdk3KjbuJVnF4UqUFw7GyVlxOKsxiE3qixPBNw2s3cFq6YXgVV+rj3nad8YBK4oY1QLTJyzN8aGpWHlzdej+4jn/a29F3gNX07joUfohUWuQCG9X6oAaR2Zxkyo8V5GZBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RW7RNGhjYy36SpjJeV0u2ZwMUrtidR+zBW9B/ou/08E=;
- b=kQfbWNRz4GiRezYdMqBKLuNk7iagjK7fgPn0qH0V2YeXMq0Ys4+kCcAP18Q3rXQyQGOXheywAe8/lt++7dxWRQDilAUPpoin+DBZEyyB9qXqiQNUNlUd4iKMqMZeol3LTicUWsMJId3cgOlri6vxmivuS1U5c1LYoaTMkTa7TRWyYEC4EMJcrwlByAMTl5pGvs1prBTr+hFF+lC4WG03vcIxgzmfoTOvXFPQ1LPby9rUaP7B8rGE/gKHizm2/GdND4kGOGxj/mEZG4UEs/RpTYyLBTi/Bazz+IvOz7fnEepOzh06mq+6shxKj24xupc1RprNc/Uf7JtMc+pxTErj6g==
+ bh=tODv9m1ej0rfDUmWz6Ny8MDpLvrEkumGZ9pneyvwhhI=;
+ b=Rle0buEJTsoENUv/1BB0h+WOL0A8u7O0Z8w+65g8+Wb8cQzF2bOM6DstUVJpyYWMfzKW0zM3hhmuBSa+X5VaNU88/AyaAyRaYl7aKbHrIHecISDIwN03Y5sFYRtG/kW6kU4n913/rZRB4fpisIv8vbqlYrZg17Q/tAxwnwak8BjNA7QE1e0n04Wc6ui3RGrt7IjF8iLMmVOOAihvIE0NcDOmDWRUQrToH+Y9BNpXbD9EV7mfIW0dOmSCeQ+lTONnWdZfMsk7iCAy2wOGgOxZibS6y7hz+rlmyytxLcw+VToePvbaRlfRnirvVht2ho8Sm89Fb15y+TbF9AgEsSSVGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RW7RNGhjYy36SpjJeV0u2ZwMUrtidR+zBW9B/ou/08E=;
- b=rl96E27o8U9i8vemhMl/PoZLyt80SHCRyj7vE5fHl/q6DKt/H7Upud4WRrvmjMZTNhu7w+BDRg/xZQMgAxm8dd4VeRP2XuHT8ZlZ1vihF0iEZIfiNkWWFfRk2hPSg9RKd78aeW2kWMxavDED4mp8oedivFXaXi4rHIE0gOlizr/BwxldtoXHy0R0kExPr32riiltoydqGGvWyNL0onfEBMvM1U9dRaEsIFbR+5+kCDq1rok3AHqaVjkxAq3aPX5UaxuxVe/l328dR8OlF5lRoA5K/FMjpZzeQ5ueic/ea2Z0eoA6cifjwtQ4Wrb3Ao6Z1Y8sn38GAJ9gTg5D3ghPgQ==
+ bh=tODv9m1ej0rfDUmWz6Ny8MDpLvrEkumGZ9pneyvwhhI=;
+ b=skJZvwByIkWcvaQDe1rktpNp3DuPz/W44Hq348mrMRRRuj9rzwpcIPmJfmYAiI4bDS7UQF+mnxb50sGd4Xlin4g0NoZbvWiPSeYaTbJQyrmK2pQUmNbOQAge2ZfKOpYn8IRNRuyp262sqFnejhw//nhGZNwo6f3RupFiK8SFwt/nO+p2vX/hsiwLRkRM2bjSCMEQU5/NEgWjvrPvumalMGRkkpzm1tUK54wguwuEEbVDcfP1vnXdEk+NvEbEeC2oQ0UajMqV0YHmW18pCAUPQkNPswXlPViE6EcgIAIKuF4Ng6OvfOIp4LsK/hrQZAuP32mmDdfFbNNeMdEVduLeFQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by SN6PR12MB4766.namprd12.prod.outlook.com (2603:10b6:805:e2::26) with
+ by BN6PR1201MB0082.namprd12.prod.outlook.com (2603:10b6:405:53::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Tue, 7 Jun
- 2022 17:44:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.15; Tue, 7 Jun
+ 2022 17:53:40 +0000
 Received: from DM6PR12MB5549.namprd12.prod.outlook.com
  ([fe80::bc8f:cb9f:6062:34ec]) by DM6PR12MB5549.namprd12.prod.outlook.com
  ([fe80::bc8f:cb9f:6062:34ec%7]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
- 17:44:32 +0000
-Message-ID: <a3c0e7ca-4707-5154-d270-c1034881462a@nvidia.com>
-Date: Tue, 7 Jun 2022 20:44:23 +0300
+ 17:53:40 +0000
+Message-ID: <38eaae24-a293-119b-4037-7f253272f646@nvidia.com>
+Date: Tue, 7 Jun 2022 20:53:32 +0300
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v2 00/11] vfio/migration: Implement VFIO migration
- protocol v2
+Subject: Re: [PATCH v2 02/11] vfio/migration: Skip pre-copy if dirty page
+ tracking is not supported
 Content-Language: en-US
+From: Avihai Horon <avihaih@nvidia.com>
 To: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
@@ -62,85 +64,86 @@ Cc: Joao Martins <joao.m.martins@oracle.com>,
  Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
  Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
 References: <20220530170739.19072-1-avihaih@nvidia.com>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <20220530170739.19072-1-avihaih@nvidia.com>
+ <20220530170739.19072-3-avihaih@nvidia.com>
+ <4c9fc435-1ebd-2bc1-823c-9b20f423ab44@nvidia.com>
+In-Reply-To: <4c9fc435-1ebd-2bc1-823c-9b20f423ab44@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0183.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:311::6) To DM6PR12MB5549.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0411.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:189::20) To DM6PR12MB5549.namprd12.prod.outlook.com
  (2603:10b6:5:209::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 60687649-2e70-41aa-48e1-08da48ad60f7
-X-MS-TrafficTypeDiagnostic: SN6PR12MB4766:EE_
-X-Microsoft-Antispam-PRVS: <SN6PR12MB4766E408D3F4139E9A901D27DEA59@SN6PR12MB4766.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: a18bf421-b2b1-44ac-b666-08da48aea76d
+X-MS-TrafficTypeDiagnostic: BN6PR1201MB0082:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR1201MB00820D4D2F5709903D15DF8BDEA59@BN6PR1201MB0082.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: m7CdKmcXMgiak7inAKvtMMkt3SHriBsaCJIanEDr4VD8YDTAx5iq/eMQDdvsyRLZ95G7C5xuKakdubyAGu7Suy6oj7gFQUVWE18cpBmfcLoi2NqqzRAVM0bKiyWD6a8Ed1hFiw2uCzv0vSTdlL2uOtSofJkDCBzPjpiG1mPe2Q0Id4JFaaLZ0sjpKsfmQFgeOmwxdJp4fqCFomNYhBc25MQj1yLFOkaS/xFBfjpKnnZdrjQ5Q0AAUDMq/rd1FXZuYLd3fAyMOQwoqeGr+uD1fh2ce7YtNFzHL7xmzbl6XhtxImk6Djqlq+WcUPPZmkUgqeccrCuv9wfD59PquQdzFcNvtF+q2holTnTo8jFElxPCZSJhfJ1iPCz92LS43/fZjAgdRUimodl+LV1cISKVX6Df09WIxzpZmCYaSyCo6W4ZDSrom0ALt7vNNChq82L9sP8DHefcN8Y2AfABu/HTKgXdFxrHM/9h2N7VmZwSrI/s2vND8JrdimxVy7Z4p2C8Mr4lYppKGu2ZD8ci5KusHSPMqP6tUYt0TOBPV9e6bbGfek261lmh/aovO3adOdZuIoAoCPASU+JQ9hO5mHMoRKR7H8yNPCb765WDxREQn48U0OfPiyArAIVKFW4waj0HlxXs5nj9/EYQxRHRpNkGBFWSanRkbk+lhQ0MG1/8VpS540xT4mSJHWFGHDfwxCRKvnzkKRsy9dIRv2JJX/rGrLSjL+DDPrHw5fpXQHvjrfpiZrpGma3mh0e497riBF/3ols6p92RJRNSjAJAST9tBkIhq8lhX2QZOsXZNIfiAr+s53yGwKHuQaKwQUVsUj9FFbau4pxCUsrCcXMT9OxKqNmiP+dMGXiN/8XlWK5xD+U=
+X-Microsoft-Antispam-Message-Info: ZleRw9BL1qnTimSwvLv1OirGBlcUh1dQiZoRdPw4TLFxIm8WZ15yIXE8SKNr+BFRz5bTy9iy1g1YC2soZUHxzW2mRJICuGln11OqjHoOCd5Ht/jJCKP2C+JNz9t5sDpuUZdozXNBcGNf4jySZx58k97UU+2WdJ9Y/Axj0r5+ecIrSBZ6C57pvIEuAHU+BoLxC1onm7LgVGdKmGQMkB2j/8Oc2kLJ3y1MnqcOMXMtcefjVqL57OQLvdDcbUiRMjjcNolJkIug9VPFDw2EvzdrDkwfZFPyIvy4gJaC1Bfyqz2nQwGiWOtL3CVqN6euN9JLOoShuN6mVZL3DgaW+/xDbcjt3Gg1cYRBynynehcTb6doU0Qyv2ztkICPcejpQW2OxlsYXmA48pdlm4XaV3neqnqtfI18E79bZk4Zx1vU1zf2fV9XPI17MzwunrA+ewHqE22KTcrlBwkGwDf2NpYsjBfusSa1X/aTkh8ImgaZeD3XLH/yaPgxazSyooD7mcP4WEYqpgDtDE3USXSFiuRuc4GY4ZNb2P/wt5j25nl026tIF427uo9YicIA4I25/RgTmYONqvb7NkKhF2yjS/XwOI1nKQ3OIlupgeP48sqo+Sl4UAZylzx8OEj69VkB70c4+7FHzKQVdWaLV6aOSTFzxLO1aJyrGp0f58ZZ1mpGYx+K6r1zMWUiJX90ycXhgBaXPAhLM79lerwpw+/UWZDMmUOqYArAmnEULovNLsCnohKPxNVjt6QZ1l9D1wEw3Bkj90o3/GMe7Wof+J3Mnkm9aQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(110136005)(5660300002)(316002)(8676002)(36756003)(2906002)(53546011)(8936002)(6506007)(4326008)(2616005)(66946007)(66556008)(83380400001)(66476007)(31696002)(186003)(54906003)(6666004)(107886003)(38100700002)(6512007)(26005)(31686004)(966005)(86362001)(6486002)(508600001)(43740500002)(45980500001);
+ SFS:(13230001)(4636009)(366004)(2616005)(31696002)(2906002)(186003)(31686004)(38100700002)(4326008)(6506007)(6666004)(316002)(107886003)(8676002)(66556008)(66946007)(26005)(54906003)(86362001)(66476007)(36756003)(110136005)(6486002)(6512007)(53546011)(83380400001)(508600001)(5660300002)(8936002)(14143004)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aU1BQkRKVlE4T2FXVnVzYnl3YlFCb2w3WWtZdzBMYjJhNDJjNHJPNmxoVjIy?=
- =?utf-8?B?VjBoOXR5NVc3S21BeFc2NXEvRmFjMDFieWlkZWUwb0hpVS91SlZSZjBTRTBn?=
- =?utf-8?B?SnpwbnFNNTB1YzZVMDhaQmFXRjhwaHB0RmZMQTlBUHNtQjc4RGVFNjJWZ1Fz?=
- =?utf-8?B?R1pSNTFjSktUZG9zenk3V1Q0U2Erbk1NcXNkVkRSM2pHeWgrOXhDVmN0cFFP?=
- =?utf-8?B?V1RYTFY3dFplWXFhaGF4aVNmNk9LdHlPMURUSTRZZit6cFFFcFBQN0ZtRGx0?=
- =?utf-8?B?ODc2RHExbDBKdXVsejZ2Nk9hdHZRMTJaM1ZGLzkrV0dpMkg4NDlaVllRRC9M?=
- =?utf-8?B?MTV2YU9tVW82dDk4Mzdrckp3akZ3ZzVtNXJOUzlleWMxRkhoQnY3NnZMY05M?=
- =?utf-8?B?R3pwendqQXh5OUlLWWxPMDlpWklKeWpWQkRuUjdtUi8xKzBJSUJOell0Q3g1?=
- =?utf-8?B?Um9yWm1VOHNJV2VVak9ZOXgwTVVrTk8xenJzcEN5dWI5WHc1ZEVxZFVQeUs5?=
- =?utf-8?B?SzZZRDBUNnczN3o4eHIrT1pVV09PU2Vrc1lNbEo5TU04SzQ3V2ZhUURNMEcy?=
- =?utf-8?B?bHFYZk82V1VISkpPMVppUGtqMkJ1clo2UlFXMENTTm5YZEh4OXJCOG5YcVVh?=
- =?utf-8?B?aWhMYW5lRlhkTUtPelFOUlpwMjV6TU9QdEZBY0dqYjVhK0hUV1l4c0lrZjg5?=
- =?utf-8?B?WGhBWkV2Qk9vb1JGbUZIQkp3TlcwRUJiYi85S2YwNFBwVzJaYWgyWUNpMll0?=
- =?utf-8?B?NkwyeWl0YlRyYy9FcHV1K1NVUWw0bm9SZGZ5YjRkdTgvbUpUS3VjQm9OOHRJ?=
- =?utf-8?B?ZzNoVDVvUDlKTDA2aWR5OENXOTVxcFZKU3NLS0RDSHNDOEVaL3R5VmFSMXlS?=
- =?utf-8?B?VWlrTE5rZjE0YUZVeEoydEVodWo1ZHpNNGlRbnFCZkxCVGwyL3ArWHAzaVFX?=
- =?utf-8?B?RkM4TUtvRk81dkVmWHEyRE94OFlDOElvdWdVSm93Z3E0MHZqYWxHRmE1eVlP?=
- =?utf-8?B?MkkvT1NKcXhVa09reWh3aVNHSFdkVFJzRzdWRlZ3Yk9TRmJKT0hxd0pMRDlL?=
- =?utf-8?B?ZzYrcWN4U3NMMjBrVGFoRjdrNlM3Yk9MT0pkUFIyZnZDd2djbGJXb3NkVlFB?=
- =?utf-8?B?WjBsZ1JUYkR5cjJ5QmJzTGl1bUc4cm5yL0FNODlVMExtVWFwTzJWVEpMaHR3?=
- =?utf-8?B?Rlg0MUMwQngreHhlRVEvb1ZEdWF4NExUK2xZejRTYms3YktSVjhiU2I4UXJx?=
- =?utf-8?B?ZTVZZk1aeUExK2RRMlBjbkp4ZEduTTk1UVQvQ1I3VVFIckpya3Vtbk56bERt?=
- =?utf-8?B?Y3VjUG1jZ05WTjAxZzkyNlRhbDI5aVJBclhabEw1NjNHMjM3RVRaVmlCWGdv?=
- =?utf-8?B?d2kyekpGNlhqSWs0T1E5MThSZzE1enNneFBIWGhzSVBKUmFOY1Zibks0K3NM?=
- =?utf-8?B?Nk9TSlJuNGVtZ1lOa2xMTjBTSTlDQ0ZtWnBaeGZXMzFmSUVhSStHbWtHWFND?=
- =?utf-8?B?Z2xQd2N1T1Bpd0wxd0FrQlgrVE5TODhyMFoxU0pnMVZqSDEzKzNQbkRidHd4?=
- =?utf-8?B?SDM2VTd1d3JNSkV0ZGlIc1JNZjNGeGRWbC9MYjZkb1B4dGloN0NlNjRqYWFY?=
- =?utf-8?B?ek05SnZaanhHK3VUL2VkWlZraVhMd3hkQlFFVG5FMlIzU2pmaWg2L3l6ZGlK?=
- =?utf-8?B?V2dhU1d2djFySlNQbjFpK3UyWHJURXRNeTF4OFAvUUJhRDFmRVV3RCtyNVNn?=
- =?utf-8?B?aE40ZDNHZUVSeGsvZHpVcysvWkpVZUxkZG96ZlM0NkZ0c1Z5dXRSNXM1V1dU?=
- =?utf-8?B?MDQvV3A3eUwvZUVna2lhcDQ2NHA2czJxZmY2bmtrSnVTRDNjUUVhdlloUlE1?=
- =?utf-8?B?bzhia1E1OVFCNDY0MGVmWVNtdWpHTXpxRWZCWlRZakthS2xXeTNUN00zL1NH?=
- =?utf-8?B?enNRWkJhb3B0dDdFN0tlaXMyOHptU01HcHlnSjBzb1I2QjU5dkZiOEdDVkE2?=
- =?utf-8?B?Unc1Y3FVVkVmZTJxSXlyRnVkZGY0a3BSY3pKZDgwVmE3KzRpcEl0U1hyZlow?=
- =?utf-8?B?Uzg3cWF3cVFvd1RrcytET1JWem4rNUJRN1E0UFM2SkFtNEYzSHBwSlFjd0Yy?=
- =?utf-8?B?Ly93MlJ0ejZUV1BFTGhnWG1JK1FtandSbWtnbmx6eEF6bVkydUI0dnovYUZT?=
- =?utf-8?B?cXlDM3JXVjczM2ErUHJESFZleEQ0NGdFU2U1UzFhN3dSZFVrNXM1K2ZtTW4y?=
- =?utf-8?B?SmNBa0xHYWNGS2lzK1ZJNG9ENVBzOUpGUTRramQ4bWV6RnoyZU95UHBwYm9u?=
- =?utf-8?B?VWZxcGJvTE8xUkpiblNtWG5SOXo0aTl4b2h4eGtMU0lMaWM5akljQT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTZrb3FCa0w1UVNIMXNraFU2dzlTWHFQK3Q2emFmeEFucHZIdFdselRQcWQr?=
+ =?utf-8?B?YnpMU3lHS0NHT01DbzV6K0tNcy9BSlBQL0pVbXozWWwwWTIvRlNqWm9udVNV?=
+ =?utf-8?B?YnhiZ3BZUkxOVjVyejFLT0J1WnlwU0szMnIyVFE1ZmJQRm1EQVNqNjFQaDY5?=
+ =?utf-8?B?WjNzdnZ6Y0JqeVFWT3RHcVdmYjVRSTZFUlF2S0FlL1VkUFpsRDhHaHQwemhE?=
+ =?utf-8?B?eFg0c0ZwRTdZOTZoU29uWE1GWmxJRCszN2YrN2h1OEk3RTZaNHBpV0F3OCtD?=
+ =?utf-8?B?WERQcEd0VVkvc3RVc2tNckNVcmpWV1JTZTRsY1BHSDZ4T0JkT1NPbGEwcHVj?=
+ =?utf-8?B?NUU1MHNyMmthZVdzTFh0QTgrRENHdUM1QUxMbnRpZkNodWFCVFR2WEVOTmcx?=
+ =?utf-8?B?ZjBnYURqdzlXVlE4UHZlQlpodWRmWE1kNnNEQm13NFFGZ05ibTZkcm8vUGZB?=
+ =?utf-8?B?NXNZbFZuTnhpMjBsc2tBOFFBUXViaHE2S29ZT0d2VGpwOGwydGxlS0V2WWxF?=
+ =?utf-8?B?amg4Um1NMkZPMTRVMllTMC9DcG1EVFowZXBZdVlMTWttRjdqSjhmckVkYndV?=
+ =?utf-8?B?TlZsMUZZOGw4Sy9oNHVYSjFqQzdJZWNiNll5QkJ0b0V5cTdJZlg4TFpNTndL?=
+ =?utf-8?B?ekZuMkJIaEZCZU5mWkVsYlJUcDVQRmdUQlg1TUxKei9NVHJuQXJPL3BNK3px?=
+ =?utf-8?B?OWkyQS9wb1VKMThpR0RBeUUrS3BMaVJTN0tMbk5NOVNPT1MwMmRxU2ovZXoz?=
+ =?utf-8?B?S1J6M3VMemN1b2YvcDh4UjZGbGNGVW1zTnBwTTAwY3BHUi9GSE5KVWlDWFRX?=
+ =?utf-8?B?dGZtdC9lcUxhRUJnQ2lYb3FpNTUrSkFTZFJlbTlJa0tsMlh6VWc5cnZrR202?=
+ =?utf-8?B?M21LRzdhRmVsdGVDaDhDSUtVbWFJYmNOcjh2bEF1UFp0YUFFMUtYWXpIdkVB?=
+ =?utf-8?B?VjJvMG1NUFAzTXhlN2ZuaWhqK1NCaGl1STY1aWtJeVBuV0ZzU1Q1WHFpQWV1?=
+ =?utf-8?B?Y2lzUmdRcWtsZ2ZhWDFESk5mbnVJZERNdzNKdUxxOStBL0VrWTFQd3JQc2Rp?=
+ =?utf-8?B?OXdDOTZNcUZ4OU84bWtvMGZGc0RhcGs2b3FCNzdFTEgrY2lIUWxLRGRQa0RG?=
+ =?utf-8?B?Tm5FQ3gvZ21VTXJEb25YeXdVNVVuMHZRRFM5Q0R1OFRCbnlSUENKcnRDMlY1?=
+ =?utf-8?B?djVqVEw1UXJ5NkN5ZDBFRzZEdVY5aWtkUmhYendHMm9FNGpBL25CQktIcCtq?=
+ =?utf-8?B?SHMwOWJRZytYRFRxU3R4UWZ3TzhMUmhqQ2JTOWQ0a1pEWkRHazlFYWRJaFp6?=
+ =?utf-8?B?eU5ENmlaM2d6NWhuQnIzdU1iZVBaaExxdHFna3B3Wmk5SmhFY2pxbXlpY3BJ?=
+ =?utf-8?B?Y1NxN0pSMDZNODN1YWU2OXc3M1hVUzBiTHJWRHN0OWRFaGJ6UkdLVDNINndV?=
+ =?utf-8?B?UWJOYkxMMTlYTzJnV3ZXQmllWVc4UVRuakJHTUFIZVdGKzkwUlYxT3lha0Q2?=
+ =?utf-8?B?TEl3d3NMemlrQVdrc2lGS3ZiNi9yd0txREQ1TzcrMFZ1TGlaLzdydnpMTURQ?=
+ =?utf-8?B?UU93SS9iT05oSGljalphT3c4WlptSWh4YVprMHhJTVJxWUdkMDIvTTBVYVZR?=
+ =?utf-8?B?S003U1VOY2xYWVlyRUZxbkRRTXdnaHh6RmlxNjA1QWprUW40aHAwYmQzNk9S?=
+ =?utf-8?B?anQvNzF4b0w5NXNDQXV3dXVxOHJEWVF2ZjY2VDNUTHhPMitVMjk1TC9jWVRQ?=
+ =?utf-8?B?cU9kZ2RwK3RBWlZ1UEx0QWgvU3JaclJBcEYzVkIwSHhZenJsVUpYR1BaS3Vv?=
+ =?utf-8?B?YXgyaTF1NUxTYjR0MDllV0ZGYUUvRTZpUVBDbG56MmRVRHpub3R2M1NVYkda?=
+ =?utf-8?B?QUpiWW54eGVGYTgwQ1htSEMyZDIxMi9XampXa0pGSzc0N0F3QVVRaEgvZVhV?=
+ =?utf-8?B?cnVaWVlxSjAwVkJ2YzZCWE9WaUc3dkpCamNaZTJXbVE2ZFVxcHh2UWN0VEY2?=
+ =?utf-8?B?WmlST1BkTmx3UGtKRm10aWRsRWVHTGxnSk5hL1orUkVDY1JaNk5MMDFEYk4r?=
+ =?utf-8?B?R1JXMFZ4ajhyZ3c0MDFBUnN0eFQ2T3UzVGhFMmlHeGRMbkIrSmZKeVRiNWNZ?=
+ =?utf-8?B?dEFzQnBmRGszVUpGcTJRZDRybmRGcllmdXRsaXVKTm50NU9XYTIxMkZJQjRP?=
+ =?utf-8?B?Si9BMytyNDJVY1V2N0FmMTM5dkZCNksyUDIzbzFVQ0RQekhoM2E3dUE4ci9Z?=
+ =?utf-8?B?anV3ci9iaXFiWkZ3NWZnSW1yYkJ6Si9WT2xwWEpGQVNjZTRnRi9qZTJDMCt6?=
+ =?utf-8?B?YmU4bTI3SkwrSGI1dkkvMlkyVjkwSHFwZGtQMDRlNjlTZnMyenpFUT09?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60687649-2e70-41aa-48e1-08da48ad60f7
+X-MS-Exchange-CrossTenant-Network-Message-Id: a18bf421-b2b1-44ac-b666-08da48aea76d
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 17:44:32.6424 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 17:53:39.9040 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1W5W3UutF2hu19UdbwuhaLe5rzUeasZ8A8KROFAQ3tvY4nTT8hA/oiY9x/PnGDjpO4A1KQ0F7MOGO2KkF7AL+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB4766
-Received-SPF: softfail client-ip=40.107.92.87; envelope-from=avihaih@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: spVG37wJtKW0SWyJ50ooZ9DTLsn1wGVVGuIhIkX5iQcFbudyYRVD2WD3tXkKAB9602TUAV7FdeXE67wqsdGPHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0082
+Received-SPF: softfail client-ip=2a01:111:f400:7e83::630;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM02-DM3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -158,72 +161,98 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 5/30/2022 8:07 PM, Avihai Horon wrote:
-> Hello,
+On 5/30/2022 8:12 PM, Avihai Horon wrote:
 >
-> Following VFIO migration protocol v2 acceptance in kernel, this series
-> implements VFIO migration according to the new v2 protocol and replaces
-> the now deprecated v1 implementation.
+> On 5/30/2022 8:07 PM, Avihai Horon wrote:
+>> Currently, if IOMMU of a VFIO container doesn't support dirty page
+>> tracking, migration is blocked completely. This is because a DMA-able
+>> VFIO device can dirty RAM pages without updating QEMU about it, thus
+>> breaking the migration.
+>>
+>> However, this doesn't mean that migration can't be done at all. If
+>> migration pre-copy phase is skipped, the VFIO device doesn't have a
+>> chance to dirty RAM pages that have been migrated already, thus
+>> eliminating the problem previously mentioned.
+>>
+>> Hence, in such case allow migration but skip pre-copy phase.
+>>
+>> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+>> ---
+>>   hw/vfio/migration.c   | 9 ++++++++-
+>>   migration/migration.c | 5 +++++
+>>   migration/migration.h | 3 +++
+>>   3 files changed, 16 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+>> index 34f9f894ed..d8f9b086c2 100644
+>> --- a/hw/vfio/migration.c
+>> +++ b/hw/vfio/migration.c
+>> @@ -863,10 +863,17 @@ int vfio_migration_probe(VFIODevice *vbasedev, 
+>> Error **errp)
+>>       struct vfio_region_info *info = NULL;
+>>       int ret = -ENOTSUP;
+>>   -    if (!vbasedev->enable_migration || 
+>> !container->dirty_pages_supported) {
+>> +    if (!vbasedev->enable_migration) {
+>>           goto add_blocker;
+>>       }
+>>   +    if (!container->dirty_pages_supported) {
+>> +        warn_report_once(
+>> +            "%s: IOMMU of the device's VFIO container doesn't 
+>> support dirty page tracking, migration pre-copy phase will be skipped",
+>> +            vbasedev->name);
+>> +        migrate_get_current()->skip_precopy = true;
+>> +    }
+>> +
+>>       ret = vfio_get_dev_region_info(vbasedev,
+>> VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
+>> VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index 31739b2af9..217f0e3e94 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -3636,6 +3636,11 @@ static MigIterateState 
+>> migration_iteration_run(MigrationState *s)
+>>       uint64_t pending_size, pend_pre, pend_compat, pend_post;
+>>       bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
+>>   +    if (s->skip_precopy) {
+>> +        migration_completion(s);
+>> +        return MIG_ITERATE_BREAK;
+>> +    }
+>> +
+>>       qemu_savevm_state_pending(s->to_dst_file, s->threshold_size, 
+>> &pend_pre,
+>>                                 &pend_compat, &pend_post);
+>>       pending_size = pend_pre + pend_compat + pend_post;
+>> diff --git a/migration/migration.h b/migration/migration.h
+>> index 485d58b95f..0920a0950e 100644
+>> --- a/migration/migration.h
+>> +++ b/migration/migration.h
+>> @@ -332,6 +332,9 @@ struct MigrationState {
+>>        * This save hostname when out-going migration starts
+>>        */
+>>       char *hostname;
+>> +
+>> +    /* Whether to skip pre-copy phase of migration or not */
+>> +    bool skip_precopy;
+>>   };
+>>     void migrate_set_state(int *state, int old_state, int new_state);
 >
-> The main differences between v1 and v2 migration protocols are:
-> 1. VFIO device state is represented as a finite state machine instead of
->     a bitmap.
+> This patch still has the problem that it doesn't respect configured 
+> downtime limit.
 >
-> 2. The migration interface with kernel is done using VFIO_DEVICE_FEATURE
->     ioctl and normal read() and write() instead of the migration region
->     used in v1.
+> Maybe adding an option to set "no downtime limit" will solve it?
+> Then we can allow migration with VFIO device that doesn't support 
+> dirty tracking only if this option is set.
+> Can we use migration param downtime_limit with value 0 to mark "no 
+> downtime limit"? Does it make sense?
 >
-> 3. Migration protocol v2 currently doesn't support the pre-copy phase of
->     migration.
+> Do you have other ideas how to solve this issue?
 >
-> Full description of the v2 protocol and the differences from v1 can be
-> found here [1].
->
-> Patches 1-3 are prep patches fixing bugs and adding QEMUFile function
-> that will be used later.
->
-> Patches 4-6 refactor v1 protocol code to make it easier to add v2
-> protocol.
->
-> Patches 7-11 implement v2 protocol and remove v1 protocol.
->
-> Thanks.
->
-> [1]
-> https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.com/
->
-> Changes from v1: https://lore.kernel.org/all/20220512154320.19697-1-avihaih@nvidia.com/
-> - Split the big patch that replaced v1 with v2 into several patches as
->    suggested by Joao, to make review easier.
-> - Change warn_report to warn_report_once when container doesn't support
->    dirty tracking.
-> - Add Reviewed-by tag.
->
-> Avihai Horon (11):
->    vfio/migration: Fix NULL pointer dereference bug
->    vfio/migration: Skip pre-copy if dirty page tracking is not supported
->    migration/qemu-file: Add qemu_file_get_to_fd()
->    vfio/common: Change vfio_devices_all_running_and_saving() logic to
->      equivalent one
->    vfio/migration: Move migration v1 logic to vfio_migration_init()
->    vfio/migration: Rename functions/structs related to v1 protocol
->    vfio/migration: Implement VFIO migration protocol v2
->    vfio/migration: Remove VFIO migration protocol v1
->    vfio/migration: Reset device if setting recover state fails
->    vfio: Alphabetize migration section of VFIO trace-events file
->    docs/devel: Align vfio-migration docs to VFIO migration v2
->
->   docs/devel/vfio-migration.rst |  77 ++--
->   hw/vfio/common.c              |  21 +-
->   hw/vfio/migration.c           | 640 ++++++++--------------------------
->   hw/vfio/trace-events          |  25 +-
->   include/hw/vfio/vfio-common.h |   8 +-
->   migration/migration.c         |   5 +
->   migration/migration.h         |   3 +
->   migration/qemu-file.c         |  34 ++
->   migration/qemu-file.h         |   1 +
->   9 files changed, 252 insertions(+), 562 deletions(-)
->
-Ping.
+What about letting QEMU mark all RAM dirty instead of kernel? Same 
+effect but no need for kernel support.
+Is this a reasonable approach?
+
+Thanks.
 
 
