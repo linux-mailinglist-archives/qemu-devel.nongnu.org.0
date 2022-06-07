@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB92F53FA67
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 11:54:31 +0200 (CEST)
-Received: from localhost ([::1]:52096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9365853FA15
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 11:44:39 +0200 (CEST)
+Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyVuw-0005UG-P0
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 05:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50950)
+	id 1nyVlN-0002aO-VD
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 05:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyVhg-0007sQ-Gn
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:40:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58516)
+ id 1nyVhi-0007sa-SV
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:40:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyVhe-0008P6-Sm
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:40:48 -0400
+ id 1nyVhg-0008PT-VG
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:40:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654594846;
+ s=mimecast20190719; t=1654594848;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q2LoqMCM/ZwdCe5KGPIkrHcczM4rhqTUZVWHnA+3UtE=;
- b=J8ulHi59WzYpbiedZUrurNSpp5WqpEnG1kL9/87OLC1oIHXsf9uWMiZSnm14M43DhCsv5y
- vr8N2R59Fg2CeuGnbI+Q6mnw8K0pdPJYkLflH6j/sS7UbHTJqPkOBfjrYi08pchbYHbEuw
- G6jatiisTUbCcnl6xzgh64V3I44TjwA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mn9CKLXxBusFji1dUgXJShmDAf/CuJ2dsTOawN0KEbU=;
+ b=MO5ycVWWFFpPiA8WPYa7y53kJeAxm7U2fe/JPWAwEB7WfNpJkxw1yC7IBp1yfeKeFdpwv9
+ j5lqE0lcWWWlZQOrY3ElhwGEtwO9sZ+lhcKJJF+hEEucvMG4xUzP6OZvb5WA1PjYqyz4SL
+ 1jL1z5HV3tmvrxcs8yAwHn+gXzoafJk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-Y4iGGGIsOkCOXYRDpppFfw-1; Tue, 07 Jun 2022 05:40:45 -0400
-X-MC-Unique: Y4iGGGIsOkCOXYRDpppFfw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p24-20020a05600c1d9800b0039c51c2da19so1513792wms.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:40:45 -0700 (PDT)
+ us-mta-248-mRPg25ODMk-W0-UOuyd8Uw-1; Tue, 07 Jun 2022 05:40:47 -0400
+X-MC-Unique: mRPg25ODMk-W0-UOuyd8Uw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i30-20020a1c541e000000b0039c1bf9739fso5541338wmb.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:40:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q2LoqMCM/ZwdCe5KGPIkrHcczM4rhqTUZVWHnA+3UtE=;
- b=QWXLbaNBeLAQF7W+6KS+Y205pDEyDsJ7wYKLs9nSU6l5WGMT+udrEPrQ3hpLXo8kcm
- SkS6Frb1ahmi8gx77mRC7lSwU5s6mBngN4HeodoIo9z5KsZ60iZZLAEmKSXjRla7b95D
- 58mTWBvQHIr9GtY+jJFxWVcskzUdu6Y1Gv9PgHUe7zbZ4qiZAM9ZSk6gZjWJdHwyzXJT
- LIR3o+q75AldKAlTNvfNjRGhQYWwAJFuc7q6qIAYdfX49A1XmKVQZItzYD7MqoYQJg0j
- JPeG46/6iBQGeYHnXL/X008QH44ZUD4SkWuPJriCjpWORltSyVxPjf/d+bIuBJTmBQUu
- SIHg==
-X-Gm-Message-State: AOAM531Bywa9bgr0vFNEzG+2cXnecNQZZ0QmzcnwUfw4pdhwBB6Y8WH4
- NX48pujBI4Qyxfjz+S/++X8TAN/rzT90hzCajtFq2y5y+fiFpatLZFr8LrbOlt+hiOOLhAZX/6R
- 7mNd4YN1XpSIT47+8wVnvkbIAm3Qwq4OHiTU7lC+xWm00PZYqAWOUt6x0gRZFDvCP0tM=
-X-Received: by 2002:a05:600c:2194:b0:39c:419c:1a24 with SMTP id
- e20-20020a05600c219400b0039c419c1a24mr20409469wme.186.1654594843636; 
- Tue, 07 Jun 2022 02:40:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmW1KOPjYWoJBAinRQfiFsEpWn2WzzNeIqMD+Bnh4KV+48WCOSum39p/Nf8qB47TstFAGZFA==
-X-Received: by 2002:a05:600c:2194:b0:39c:419c:1a24 with SMTP id
- e20-20020a05600c219400b0039c419c1a24mr20409434wme.186.1654594843129; 
- Tue, 07 Jun 2022 02:40:43 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- n16-20020a1c7210000000b0039c4d9737f3sm6424724wmc.34.2022.06.07.02.40.41
+ bh=mn9CKLXxBusFji1dUgXJShmDAf/CuJ2dsTOawN0KEbU=;
+ b=4kje2GwPxg4Aj3acv/Le+OccgR8Wd/Kb/9B1hbqrPRxno6n+EuYleirJrh4FEtRpsM
+ 2VAidCgQDyqCoom7ZBDwGycxiXQChJTSDUT6+O8NdaplCsONCef9olz32WhBTdCxqdFf
+ o/eEwL1D0oTqtQgmLL70Gz+RQgniPuJ9H1l/RTSGHDdhH38wm29jm6o2HNmCH9SrM2a7
+ gMZ1miAg//KrmC9OCBhc0Yf9kaQMssS9rqZgWT65oEj49XSnneD/BeUaxyDS6U1VWEPr
+ ttO/HClfBQLntmjNMfT7rPKodUsUi8LGyROIuYdkHFJIT/lLewd+ykF59IybYz65gmbs
+ 8h1w==
+X-Gm-Message-State: AOAM532ItjsBevnNwzXRJyeLemc0Xojnk9r2CK195p7mOtZqJvEzbK39
+ mKqlSh1GZ5mCQQCkvhNHuEHrFob7FPzko6dcyWo98LiaQ4Vk1IPOqZNTQzk2P5RM8BpzDyWWLG8
+ CBl5f1VqnBn9LS2GDqdfQBuGEH0wlSIGivbfZUDvjGCwG+wwYc9JR0NiEzrDD+JU5aOg=
+X-Received: by 2002:a5d:6786:0:b0:215:3cb5:b16c with SMTP id
+ v6-20020a5d6786000000b002153cb5b16cmr19600653wru.6.1654594845385; 
+ Tue, 07 Jun 2022 02:40:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwsuxWpYDEu0zCNDbwOxJJDqfcJt2Xt3DYTxeXy27nY+d1NrYYIuSML87wkPSX6mV6A5tDpQ==
+X-Received: by 2002:a5d:6786:0:b0:215:3cb5:b16c with SMTP id
+ v6-20020a5d6786000000b002153cb5b16cmr19600616wru.6.1654594844894; 
+ Tue, 07 Jun 2022 02:40:44 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ l13-20020a05600c4f0d00b0039c55bc2c97sm3162247wmq.16.2022.06.07.02.40.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 02:40:42 -0700 (PDT)
+ Tue, 07 Jun 2022 02:40:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 5/7] configure: store container engine in config-host.mak
-Date: Tue,  7 Jun 2022 11:40:29 +0200
-Message-Id: <20220607094031.1227714-6-pbonzini@redhat.com>
+Subject: [PATCH 6/7] tests: simplify Makefile invocation for tests/tcg
+Date: Tue,  7 Jun 2022 11:40:30 +0200
+Message-Id: <20220607094031.1227714-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220607094031.1227714-1-pbonzini@redhat.com>
 References: <20220607094031.1227714-1-pbonzini@redhat.com>
@@ -100,58 +99,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In preparation for removing $(DOCKER_SCRIPT) from the tests/tcg configuration
-files, have Make use the same container engine that had been probed at
-configure time.
+The tests/tcg Makefile invocation contains the paths to DOCKER_SCRIPT
+and TARGET.
+
+One can just resolve the path to docker.py in configure so that submakes
+do not need the DOCKER_SCRIPT variable.  In order to remove the TARGET
+variable, create a config-target.mak file in tests/tcg/$TARGET.  For now
+config-$target.mak is created before the check for compiler presence,
+while tests/tcg/$TARGET is created afterwards.  This is temporary.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 11 ++++++++---
- tests/docker/Makefile.include |  2 +-
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ configure                 | 23 ++++++++++++++---------
+ tests/Makefile.include    |  9 +++------
+ tests/tcg/Makefile.target |  2 +-
+ 3 files changed, 18 insertions(+), 16 deletions(-)
 
 diff --git a/configure b/configure
-index 6b38b0815c..0fd5a3cfad 100755
+index 0fd5a3cfad..9d49ea4c5b 100755
 --- a/configure
 +++ b/configure
-@@ -1819,9 +1819,11 @@ esac
- 
- container="no"
- if test $use_containers = "yes"; then
--    if has "docker" || has "podman"; then
--        container=$($python $source_path/tests/docker/docker.py probe)
--    fi
-+    case $($python $source_path/tests/docker/docker.py probe) in
-+        *docker) container=docker ;;
-+        podman) container=podman ;;
-+        no) container=no ;;
-+    esac
+@@ -1824,6 +1824,9 @@ if test $use_containers = "yes"; then
+         podman) container=podman ;;
+         no) container=no ;;
+     esac
++    if test "$container" != "no"; then
++        docker_py="$python $source_path/tests/docker/docker.py --engine $container"
++    fi
  fi
  
  # cross compilers defaults, can be overridden with --cross-cc-ARCH
-@@ -2401,6 +2403,9 @@ if test -n "$gdb_bin"; then
-     fi
- fi
+@@ -2130,16 +2133,16 @@ write_target_makefile() {
+ write_container_target_makefile() {
+   echo "$1: docker-image-$container_image" >> Makefile.prereqs
+   if test -n "$container_cross_cc"; then
+-    echo "CC=\$(DOCKER_SCRIPT) cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
+-    echo "CCAS=\$(DOCKER_SCRIPT) cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
++    echo "CC=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
++    echo "CCAS=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
+   fi
+-  echo "AR=\$(DOCKER_SCRIPT) cc --cc $container_cross_ar -i qemu/$container_image -s $source_path --"
+-  echo "AS=\$(DOCKER_SCRIPT) cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
+-  echo "LD=\$(DOCKER_SCRIPT) cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
+-  echo "NM=\$(DOCKER_SCRIPT) cc --cc $container_cross_nm -i qemu/$container_image -s $source_path --"
+-  echo "OBJCOPY=\$(DOCKER_SCRIPT) cc --cc $container_cross_objcopy -i qemu/$container_image -s $source_path --"
+-  echo "RANLIB=\$(DOCKER_SCRIPT) cc --cc $container_cross_ranlib -i qemu/$container_image -s $source_path --"
+-  echo "STRIP=\$(DOCKER_SCRIPT) cc --cc $container_cross_strip -i qemu/$container_image -s $source_path --"
++  echo "AR=$docker_py cc --cc $container_cross_ar -i qemu/$container_image -s $source_path --"
++  echo "AS=$docker_py cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
++  echo "LD=$docker_py cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
++  echo "NM=$docker_py cc --cc $container_cross_nm -i qemu/$container_image -s $source_path --"
++  echo "OBJCOPY=$docker_py cc --cc $container_cross_objcopy -i qemu/$container_image -s $source_path --"
++  echo "RANLIB=$docker_py cc --cc $container_cross_ranlib -i qemu/$container_image -s $source_path --"
++  echo "STRIP=$docker_py cc --cc $container_cross_strip -i qemu/$container_image -s $source_path --"
+ }
  
-+if test "$container" != no; then
-+    echo "ENGINE=$container" >> $config_host_mak
-+fi
- echo "ROMS=$roms" >> $config_host_mak
- echo "MAKE=$make" >> $config_host_mak
- echo "PYTHON=$python" >> $config_host_mak
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index e68f91b853..d9b6ab7b41 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -14,7 +14,7 @@ DOCKER_DEFAULT_REGISTRY := registry.gitlab.com/qemu-project/qemu
- endif
- DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),$(DOCKER_DEFAULT_REGISTRY))
  
--ENGINE := auto
-+ENGINE ?= auto
- DOCKER_SCRIPT=$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
+@@ -2597,6 +2600,8 @@ for target in $target_list; do
+   fi
+   if test $got_cross_cc = yes; then
+       mkdir -p tests/tcg/$target
++      ln -sf ../config-$target.mak tests/tcg/$target/config-target.mak
++      echo "TARGET=$target" >> $config_target_mak
+       echo "QEMU=$PWD/$qemu" >> $config_target_mak
+       echo "EXTRA_CFLAGS=$target_cflags" >> $config_target_mak
+       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> Makefile.prereqs
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index f4ba4027ea..f2182ead1e 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -47,23 +47,20 @@ $(foreach TARGET,$(TCG_TESTS_TARGETS), \
+ .PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
+ $(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/tcg/config-%.mak
+ 	$(call quiet-command, \
+-            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
+-                        DOCKER_SCRIPT="$(DOCKER_SCRIPT)" \
+-                        TARGET="$*" SRC_PATH="$(SRC_PATH)", \
++            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS), \
+         "BUILD","$* guest-tests")
  
- CUR_TIME := $(shell date +%Y-%m-%d-%H.%M.%S.$$$$)
+ .PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
+ $(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-%
+ 	$(call quiet-command, \
+            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
+-                        TARGET="$*" SRC_PATH="$(SRC_PATH)" SPEED=$(SPEED) run, \
++                        SPEED=$(SPEED) run, \
+         "RUN", "$* guest-tests")
+ 
+ .PHONY: $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%)
+ $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
+ 	$(call quiet-command, \
+-           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
+-                        TARGET="$*" SRC_PATH="$(SRC_PATH)" clean, \
++           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) clean, \
+         "CLEAN", "$* guest-tests")
+ 
+ .PHONY: build-tcg
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index f427a0304e..1e1c7097c6 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -31,7 +31,7 @@
+ 
+ all:
+ -include ../config-host.mak
+--include ../config-$(TARGET).mak
++-include config-target.mak
+ 
+ # Get semihosting definitions for user-mode emulation
+ ifeq ($(filter %-softmmu, $(TARGET)),)
 -- 
 2.36.1
 
