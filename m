@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADA1541A1D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 23:30:57 +0200 (CEST)
-Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478B65419B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 23:26:26 +0200 (CEST)
+Received: from localhost ([::1]:36362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nygmu-0006Xk-C9
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 17:30:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35600)
+	id 1nygiX-0000Pb-CR
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 17:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyfwb-0006O1-UG
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:36:54 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:35697)
+ id 1nyfwY-0006M4-EL
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:36:51 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyfwU-0008DH-5b
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:36:53 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- o6-20020a17090a0a0600b001e2c6566046so21938892pjo.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:36:45 -0700 (PDT)
+ id 1nyfwV-0008DU-0y
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 16:36:49 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id d22so15786850plr.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 13:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nRiBuDw8xOiappiLJwDebAsj0dPMzIOBq+w1XQpJT0Q=;
- b=QLDWXpE8up/O5B4CSnNCMsB3GaGriyBjzSU1f6JAX9+dwTlN0N4NRfotk3OZhZYM4I
- WY1dECOkMy0TgaiCagsKQ6aJoF8mqlm+nfe+pfpJV1/yxcRKu1VJEtdA3YgReXesMbzL
- Wd0thSlToEiJWbVJOwboxqiDL4gwvZiCXZ0DIQUKR7YhJ3Ub3NxjVVZ/alf50rgRx2dK
- Y62lc9DZtkxGaHl8x6i5hMfnGwvBGQyjQIyLsHkUHEvhBnAIY+zZTDVtPgJQhvcwRmSd
- 8cV/O4tvceXzA2dnc7UDPvJynsBJ3hvunqM1gQwXWA1aI5Mr2R/Q71xM7zaEMiv44RhJ
- PMqQ==
+ bh=cAXNgU4itZ2dsKiiTmySi2ECsBUf4c+rnmlAuTmxdmU=;
+ b=shkv9biQ1xROZfbWiQQAtQJu+TZv880hKnX232zJm2FcEt7nUhCvgU33I9oyHPxLTS
+ CNPLAOj9BwVyeC+zbXO8LI9kJH5c4Nc1hBP6Hbb6eY5yDpnB0mqSd2YFRcX1dvb/7LrM
+ LpDdIFDaSJlifduZShcm5WiNa8cNPGxYQkGl7W9n5NDBeONlxz2SXeiR0daJzQsGyP8a
+ gBsS/9jWOn6ljOv2vf+g3sZ9RaHvjeV/clda+ShVaF9NAx0GGX/4miDBREnc69IudhOj
+ IbXOPfpMAySj9Bp5ZD6w/rDBpPJjfca1w08nQEM2qvBZJGU1r/dNBSuS7fjuOu3sYd1M
+ LBdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nRiBuDw8xOiappiLJwDebAsj0dPMzIOBq+w1XQpJT0Q=;
- b=EP+FsVEJ9nNNiTcKGHa0gAPQuIRyv7FjzlJsh9ib7Lm7e+PJ37rPVlOwcFRkEATUFS
- 2Uy/b4Rb7UP7sYEuSc+kNcZrvK3AiPPTTLMh4/dZtTPW5ttmSmKj7T5bHYTTgCU581wQ
- rSRU4i6Wjoxv+bBDjUR8CELPUKFrFQxtnudJjJQlRGx/7afZSgIp8H3H5Q+6qLl/CEdH
- xj8FcaOsB++sauZz7t5v+a3FoqNQjPC2AvCeYdkvKOMFZ4c65SeHJq5dJkdOEJ3S0LN/
- GzbP3/DOLzfz800VJYHEp7hapB7w9oNhunfSlCBiMMYmYjydewBezUxcXkKAX9x9ZWSW
- Jaow==
-X-Gm-Message-State: AOAM533pey4FILRpv8kv3DLJAmHOvKt+WaiKj+IzVzxo6SbNUZCCXTqA
- kQ0MQJJ90QYtbOkWZN/rHn8DPXOR5H7OiQ==
-X-Google-Smtp-Source: ABdhPJyozaHS2c5RVDkClduirJi6YzlQ2vXBcvYqiWdsY8d4Lg2JhOrqJBXHQ1RvgSzvsZFuTVZGyA==
-X-Received: by 2002:a17:90b:1d0a:b0:1e8:7f14:8db with SMTP id
- on10-20020a17090b1d0a00b001e87f1408dbmr13665038pjb.218.1654634204738; 
- Tue, 07 Jun 2022 13:36:44 -0700 (PDT)
+ bh=cAXNgU4itZ2dsKiiTmySi2ECsBUf4c+rnmlAuTmxdmU=;
+ b=wAFJ6RiYdIqta2m+pgBsxENrA1WaMnqfGFEc2ejClXZLct2j4NR7Kb7GQQiKFpkceJ
+ 8PTe6i7VCBVP/wx/a0fbR5xmfVIgMaE3URntXF9V6R/2tlo64OlJcyPw9Fswur5IbqM7
+ H4XvmTDxhQ3tTHRyA5AHe5rbzPqE4UeuMvlXPCQXgrvCOXwQTXxxDZJxdjaYQSZpLiaN
+ ScokjyutBgOpjhmCGuxG9Xp8FsGqylyGuhDk8DiyaFumTdPJ8/5J4N8vP/XUUSQ1y133
+ sHDpS+z1fKZ9BFOBXLoVX86RYfMGYWI/o7qpWdPyn/S6a+7PoUOkPWwEFyN9WIwJ1pgQ
+ GfbA==
+X-Gm-Message-State: AOAM533ulmo/S2k8YqnZKQricslEfnppn04cTxlyukND/a6v70VExLo3
+ SviZQ/oYx8SABV5TzqiVPEv5CHJ2j32Pog==
+X-Google-Smtp-Source: ABdhPJwg8ACbGqywDLBJu/xZNWd6ZSlREg/9sitDGbmjTPqSDJYQzqY2dc2d/3xJ+RH0fenItah20A==
+X-Received: by 2002:a17:903:248b:b0:160:f4b0:e663 with SMTP id
+ p11-20020a170903248b00b00160f4b0e663mr30490511plw.49.1654634205692; 
+ Tue, 07 Jun 2022 13:36:45 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:3cf2:c634:5b19:25f6])
  by smtp.gmail.com with ESMTPSA id
  s18-20020aa78d52000000b0050dc76281fdsm13235645pfe.215.2022.06.07.13.36.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 13:36:44 -0700 (PDT)
+ Tue, 07 Jun 2022 13:36:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v2 40/71] target/arm: Move pred_{full, gvec}_reg_{offset,
- size} to translate-a64.h
-Date: Tue,  7 Jun 2022 13:32:35 -0700
-Message-Id: <20220607203306.657998-41-richard.henderson@linaro.org>
+Subject: [PATCH v2 41/71] target/arm: Add infrastructure for disas_sme
+Date: Tue,  7 Jun 2022 13:32:36 -0700
+Message-Id: <20220607203306.657998-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220607203306.657998-1-richard.henderson@linaro.org>
 References: <20220607203306.657998-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,110 +89,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will need these functions in translate-sme.c.
+This includes the build rules for the decoder, and the
+new file for translation, but excludes any instructions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.h | 38 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-sve.c | 36 ------------------------------------
- 2 files changed, 38 insertions(+), 36 deletions(-)
+ target/arm/translate-a64.h |  1 +
+ target/arm/translate-a64.c |  7 ++++++-
+ target/arm/translate-sme.c | 35 +++++++++++++++++++++++++++++++++++
+ target/arm/meson.build     |  2 ++
+ target/arm/sme.decode      | 20 ++++++++++++++++++++
+ 5 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 target/arm/translate-sme.c
+ create mode 100644 target/arm/sme.decode
 
 diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index dbc917ee65..f0970c6b8c 100644
+index f0970c6b8c..789b6e8e78 100644
 --- a/target/arm/translate-a64.h
 +++ b/target/arm/translate-a64.h
-@@ -107,6 +107,44 @@ static inline int vec_full_reg_size(DisasContext *s)
-     return s->vl;
+@@ -146,6 +146,7 @@ static inline int pred_gvec_reg_size(DisasContext *s)
  }
  
-+/*
-+ * Return the offset info CPUARMState of the predicate vector register Pn.
-+ * Note for this purpose, FFR is P16.
-+ */
-+static inline int pred_full_reg_offset(DisasContext *s, int regno)
-+{
-+    return offsetof(CPUARMState, vfp.pregs[regno]);
-+}
-+
-+/* Return the byte size of the whole predicate register, VL / 64.  */
-+static inline int pred_full_reg_size(DisasContext *s)
-+{
-+    return s->vl >> 3;
-+}
-+
-+/*
-+ * Round up the size of a register to a size allowed by
-+ * the tcg vector infrastructure.  Any operation which uses this
-+ * size may assume that the bits above pred_full_reg_size are zero,
-+ * and must leave them the same way.
-+ *
-+ * Note that this is not needed for the vector registers as they
-+ * are always properly sized for tcg vectors.
-+ */
-+static inline int size_for_gvec(int size)
-+{
-+    if (size <= 8) {
-+        return 8;
-+    } else {
-+        return QEMU_ALIGN_UP(size, 16);
-+    }
-+}
-+
-+static inline int pred_gvec_reg_size(DisasContext *s)
-+{
-+    return size_for_gvec(pred_full_reg_size(s));
-+}
-+
  bool disas_sve(DisasContext *, uint32_t);
++bool disas_sme(DisasContext *, uint32_t);
  
  void gen_gvec_rax1(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 67761bf2cc..62b5f3040c 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -100,42 +100,6 @@ static inline int msz_dtype(DisasContext *s, int msz)
-  * Implement all of the translator functions referenced by the decoder.
-  */
+                    uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index b1d2840819..8a38fbc33b 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14814,7 +14814,12 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     }
  
--/* Return the offset info CPUARMState of the predicate vector register Pn.
-- * Note for this purpose, FFR is P16.
-- */
--static inline int pred_full_reg_offset(DisasContext *s, int regno)
--{
--    return offsetof(CPUARMState, vfp.pregs[regno]);
--}
--
--/* Return the byte size of the whole predicate register, VL / 64.  */
--static inline int pred_full_reg_size(DisasContext *s)
--{
--    return s->vl >> 3;
--}
--
--/* Round up the size of a register to a size allowed by
-- * the tcg vector infrastructure.  Any operation which uses this
-- * size may assume that the bits above pred_full_reg_size are zero,
-- * and must leave them the same way.
-- *
-- * Note that this is not needed for the vector registers as they
-- * are always properly sized for tcg vectors.
-- */
--static int size_for_gvec(int size)
--{
--    if (size <= 8) {
--        return 8;
--    } else {
--        return QEMU_ALIGN_UP(size, 16);
--    }
--}
--
--static int pred_gvec_reg_size(DisasContext *s)
--{
--    return size_for_gvec(pred_full_reg_size(s));
--}
--
- /* Invoke an out-of-line helper on 2 Zregs. */
- static bool gen_gvec_ool_zz(DisasContext *s, gen_helper_gvec_2 *fn,
-                             int rd, int rn, int data)
+     switch (extract32(insn, 25, 4)) {
+-    case 0x0: case 0x1: case 0x3: /* UNALLOCATED */
++    case 0x0:
++        if (!disas_sme(s, insn)) {
++            unallocated_encoding(s);
++        }
++        break;
++    case 0x1: case 0x3: /* UNALLOCATED */
+         unallocated_encoding(s);
+         break;
+     case 0x2:
+diff --git a/target/arm/translate-sme.c b/target/arm/translate-sme.c
+new file mode 100644
+index 0000000000..786c93fb2d
+--- /dev/null
++++ b/target/arm/translate-sme.c
+@@ -0,0 +1,35 @@
++/*
++ * AArch64 SME translation
++ *
++ * Copyright (c) 2022 Linaro, Ltd
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "tcg/tcg-op.h"
++#include "tcg/tcg-op-gvec.h"
++#include "tcg/tcg-gvec-desc.h"
++#include "translate.h"
++#include "exec/helper-gen.h"
++#include "translate-a64.h"
++#include "fpu/softfloat.h"
++
++
++/*
++ * Include the generated decoder.
++ */
++
++#include "decode-sme.c.inc"
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 02c91f72bb..c47d86c609 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -1,5 +1,6 @@
+ gen = [
+   decodetree.process('sve.decode', extra_args: '--decode=disas_sve'),
++  decodetree.process('sme.decode', extra_args: '--decode=disas_sme'),
+   decodetree.process('neon-shared.decode', extra_args: '--decode=disas_neon_shared'),
+   decodetree.process('neon-dp.decode', extra_args: '--decode=disas_neon_dp'),
+   decodetree.process('neon-ls.decode', extra_args: '--decode=disas_neon_ls'),
+@@ -50,6 +51,7 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'sme_helper.c',
+   'translate-a64.c',
+   'translate-sve.c',
++  'translate-sme.c',
+ ))
+ 
+ arm_softmmu_ss = ss.source_set()
+diff --git a/target/arm/sme.decode b/target/arm/sme.decode
+new file mode 100644
+index 0000000000..c25c031a71
+--- /dev/null
++++ b/target/arm/sme.decode
+@@ -0,0 +1,20 @@
++# AArch64 SME instruction descriptions
++#
++#  Copyright (c) 2022 Linaro, Ltd
++#
++# This library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# This library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library; if not, see <http://www.gnu.org/licenses/>.
++
++#
++# This file is processed by scripts/decodetree.py
++#
 -- 
 2.34.1
 
