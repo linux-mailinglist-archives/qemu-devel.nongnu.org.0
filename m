@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B15E54022A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 17:12:24 +0200 (CEST)
-Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D715402AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 17:43:16 +0200 (CEST)
+Received: from localhost ([::1]:54490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyasY-0006jU-Ng
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 11:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35010)
+	id 1nybMR-00028M-8f
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 11:43:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1nyaq4-0005mF-J0; Tue, 07 Jun 2022 11:09:48 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:53376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1nyaq0-0002kK-Gc; Tue, 07 Jun 2022 11:09:47 -0400
-Received: from vla3-850de775f4df.qloud-c.yandex.net
- (vla3-850de775f4df.qloud-c.yandex.net
- [IPv6:2a02:6b8:c15:341d:0:640:850d:e775])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 722B92E12A3;
- Tue,  7 Jun 2022 18:09:29 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla3-850de775f4df.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- N4nqR4Bylm-9TKSxn28; Tue, 07 Jun 2022 18:09:29 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1654614569; bh=ZB03jvDWsO/qGdHOhBWW2QgtuBuRdDHwyjuHIJkxA2o=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=guB2RLOtY9CRqhr0bmjMr1UTB1HN5t1Y81OFkIMNoMQCMgNb0M5rmb3QMB4JcrYH8
- T26jKiblVbrgAsssJnJqh51OVSpq6w4Y43i4K1hwI+q7iH/MCw8Ug8qlOs90oov0uX
- f1Z87MEpv+mCG0ZuKcHkLhdhBlgLjeV1WXstW2Kk=
-Authentication-Results: vla3-850de775f4df.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:b6b6::1:2c] (unknown
- [2a02:6b8:b081:b6b6::1:2c])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- FuFl9nFiUg-9SMqipTq; Tue, 07 Jun 2022 18:09:28 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <1742ad75-c5c2-5932-5c97-e524795da675@yandex-team.ru>
-Date: Tue, 7 Jun 2022 18:09:28 +0300
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nybKc-00019L-K6; Tue, 07 Jun 2022 11:41:22 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37848)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nybKa-0000Hl-8z; Tue, 07 Jun 2022 11:41:21 -0400
+Received: by mail-wr1-x431.google.com with SMTP id m26so13300037wrb.4;
+ Tue, 07 Jun 2022 08:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lctIiD2qfu7sDwJUw/JmNCqPAQZg/65+uJMVD0fdgI8=;
+ b=K3XIwAekFWHXtTBfx5RMWNHOmLrH6O+YX9K6jzNEaLt7h/cTpalSqJFRPWgerbFdNA
+ jej+86c0xPpDypgX6NxyJ2LSjiJRL+Hibt/ShHuWj8/+D+3MTjt5SsWOVB8kxdu1StcZ
+ M/vcytejC7fajPoM7jbP7V5lBNp0ZCNbD3vs9N9CYEl/qixk7uAPInKhHzLJ8zyENVI2
+ HUVXKdH+8Ce3H/2xF1whu1YRF0PbAi0plLIVSxaQ/w9G4ypSFSq6rpzjT32bHocqKgDC
+ NCYHi4XJB+7LLFefMef+D15T7qEh/okjsr95OA+ug5EmFxYDwBq1PCy4NyhiKrx1AgZk
+ RUBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lctIiD2qfu7sDwJUw/JmNCqPAQZg/65+uJMVD0fdgI8=;
+ b=L4aZJVJ1fYGjYxrFWPAXazkn6j00eXC35i2Yp5haIQovNrxtulthtJWntSecuW1mCT
+ KwZFtUgLHuAZvVwJcvMIzUH59tam5Hl3eAwUIrbTDp+pvswedYdvclr1p3WzxnwISXEu
+ /r5lKdmkEmHGIMCDDaRyhIWG2YxMMUNMXC89CVzbDjo77hC0veO+3+1tJ8nDBucG0TSi
+ RL/eoWnwgyvIUPC6vRJ/cKDt8M1z6kVwlIJZ1GQW958v5RgE4ujC1hZINozeJn2gJID/
+ 5WLL4DT9jykDkUvzEVQIxiV/SSe4dCcphfBduWXy59N2d4GiXwsL0KBf5M5gcnkMLeg5
+ jQXA==
+X-Gm-Message-State: AOAM531XJq36T74K0XFCmtpjyQu1itafqL1s1ghDtIUm6z+gbLBkJANj
+ fpiGHqfaP/pg+TS4zdT1y+w=
+X-Google-Smtp-Source: ABdhPJx29whvKkI+hd+DfE0AwtGs3S2lmiGDAk7yY/nkkohrMr9qi5TluKFUHs6vspMSvkV2o1QG+g==
+X-Received: by 2002:a5d:5686:0:b0:217:7da8:8c5a with SMTP id
+ f6-20020a5d5686000000b002177da88c5amr13972365wrv.3.1654616477793; 
+ Tue, 07 Jun 2022 08:41:17 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ s8-20020a5d69c8000000b002102b16b9a4sm18152152wrw.110.2022.06.07.08.41.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 08:41:17 -0700 (PDT)
+Message-ID: <581e7327-9615-08f2-afeb-cba13058a8aa@redhat.com>
+Date: Tue, 7 Jun 2022 17:41:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v5 09/45] Revert "block: Let replace_child_noperm free
- children"
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v6 02/18] job.h: categorize fields in struct Job
 Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
- v.sementsov-og@mail.ru
-References: <20220330212902.590099-1-vsementsov@openvz.org>
- <20220330212902.590099-10-vsementsov@openvz.org>
- <eed85de7-a6d1-b6c0-14d7-e1eb236517a2@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <eed85de7-a6d1-b6c0-14d7-e1eb236517a2@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220314133707.2206082-1-eesposit@redhat.com>
+ <20220314133707.2206082-3-eesposit@redhat.com> <YpowFFFD0hKOFtWF@redhat.com>
+ <5ec6428c-a2b2-3d85-cece-46f78fa80ce3@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <5ec6428c-a2b2-3d85-cece-46f78fa80ce3@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,35 +102,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/22 17:03, Hanna Reitz wrote:
-> On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
->> We are going to reimplement this behavior (clear bs->file / bs->backing
->> pointers automatically when child->bs is cleared) in a nicer way.
+On 6/7/22 15:20, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 03/06/2022 um 18:00 schrieb Kevin Wolf:
+>> Am 14.03.2022 um 14:36 hat Emanuele Giuseppe Esposito geschrieben:
+>>> Categorize the fields in struct Job to understand which ones
+>>> need to be protected by the job mutex and which don't.
+>>>
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 >>
->> This reverts commit b0a9f6fed3d80de610dcd04a7e66f9f30a04174f.
+>> I suppose it might be a result of moving things back and forth between
+>> patches, but this patch doesn't really define separate categories.
+>>
+>>>   include/qemu/job.h | 59 ++++++++++++++++++++++++++--------------------
+>>>   1 file changed, 34 insertions(+), 25 deletions(-)
+>>>
+>>> diff --git a/include/qemu/job.h b/include/qemu/job.h
+>>> index d1192ffd61..86ec46c09e 100644
+>>> --- a/include/qemu/job.h
+>>> +++ b/include/qemu/job.h
+>>> @@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
+>>>    * Long-running operation.
+>>>    */
+>>>   typedef struct Job {
+>>> +
+>>> +    /* Fields set at initialization (job_create), and never modified */
+>>
+>> This is clearly a comment starting a category, but I can't see any other
+>> comment indicating that another category would start.
+>>
+>>>       /** The ID of the job. May be NULL for internal jobs. */
+>>>       char *id;
+>>>   
+>>> -    /** The type of this job. */
+>>> +    /**
+>>> +     * The type of this job.
+>>> +     * All callbacks are called with job_mutex *not* held.
+>>> +     */
+>>>       const JobDriver *driver;
+>>>   
+>>> -    /** Reference count of the block job */
+>>> -    int refcnt;
+>>> -
+>>> -    /** Current state; See @JobStatus for details. */
+>>> -    JobStatus status;
+>>> -
+>>> -    /** AioContext to run the job coroutine in */
+>>> -    AioContext *aio_context;
+>>> -
+>>>       /**
+>>>        * The coroutine that executes the job.  If not NULL, it is reentered when
+>>>        * busy is false and the job is cancelled.
+>>> +     * Initialized in job_start()
+>>>        */
+>>>       Coroutine *co;
+>>>   
+>>> +    /** True if this job should automatically finalize itself */
+>>> +    bool auto_finalize;
+>>> +
+>>> +    /** True if this job should automatically dismiss itself */
+>>> +    bool auto_dismiss;
+>>> +
+>>> +    /** The completion function that will be called when the job completes.  */
+>>> +    BlockCompletionFunc *cb;
+>>> +
+>>> +    /** The opaque value that is passed to the completion function.  */
+>>> +    void *opaque;
+>>> +
+>>> +    /* ProgressMeter API is thread-safe */
+>>> +    ProgressMeter progress;
+>>> +
+>>> +
+>>
+>> And the end of the series, this is where the cutoff is and the rest is:
+>>
+>>      /** Protected by job_mutex */
+>>
+>> With this in mind, it seems correct to me that everything above progress
+>> is indeed never changed after creating the job. Of course, it's hard to
+>> tell without looking at the final result, so if you have to respin for
+>> some reason, it would be good to mark the end of the section more
+>> clearly for the intermediate state to make sense.
 > 
-> This doesn’t really explain why it’s fine to revert this commit here. As far as I understand, the bug that was fixed in that commit will resurface when it is reverted without the proposed reimplementation, so technically, we cannot revert before reimplementing.
-> 
-> As far as I can guess, it’d be unwieldy to do the reimplementation while these existing changes are in the way, and it’d be one bomb of a patch to squash these five patches (9 to 14) into one, and that’s why you’ve chosen to do it this way around.
+> How can I do that? I left two empty lines in this patch, I don't know
+> what to use to signal the end of this category.
 
-Yes, that's the reason
+Can you already add "/** Protected by AioContext lock */" in this patch 
+and then change it later?
 
-> 
-> But technically, we can’t willingly break something just to keep patches nicer.  We can make exceptions, but then there needs to be justification here in the commit message.
-
-Agree, will add.
-
-As far as I remember (and after re-reading commit message) b0a9f6fed3d80de610dc was not a direct fix of some concrete bug. It was a measure to prevent theoretic problems. And we don't have any test for it. So I think, breaking bisect at this point for some future test is not too bad.
-
-> 
-> (Or perhaps I’m wrong and it is fine at this point to revert the patch, but then I’d like to see the explanation for that, too, because I can’t see it myself.)
-> 
-> Hanna
-> 
-> 
-
-
--- 
-Best regards,
-Vladimir
+Paolo
 
