@@ -2,72 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABD053F8F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 10:59:02 +0200 (CEST)
-Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CC853F91B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 11:09:03 +0200 (CEST)
+Received: from localhost ([::1]:56338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyV3E-000411-Ua
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 04:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53536)
+	id 1nyVCw-0001Re-52
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 05:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nyUw1-0007zF-Sd
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 04:51:36 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:34369)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nyUw0-0003vU-0Y
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 04:51:33 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-30fdbe7467cso132675577b3.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 01:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xomun+qoifso+6ucaHGJGCGP8DAiSzl4a9PWzZmQdeI=;
- b=LIR8btJYIrapSvruBkcmq81D2u5gRYlZ2nvJbHAbT9NdWDhHyAKvjUktRzZSqjtpF0
- oiDOROE9c3TA3gl4LjOk8F0Zo7/vk5pqBA0hEksVqPgR07EagI04xwHS+Fh+1Ax5cRrG
- 4B3yXpjSeFoAwBfQUMXR4czWv1w3vNikpHk7kWXJkj8x+LGSHvJoPaxIM1BA09y3sPpP
- RHLRWRisJ6kx1sfGHzIabnZyhl/xXOoe9/HUYJ83lkiGkJh/8krj1/GanrUKMtiDmzzo
- 3/Jhx4W8KkI/o0Z35UbNk+ZyuP7Rx4y28nWfaHQwL2fr9nTUCWgZ7NbJvsFWMLVHwsU2
- rGXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xomun+qoifso+6ucaHGJGCGP8DAiSzl4a9PWzZmQdeI=;
- b=vUXsqc2WryhQgnA1n9u8chBWgbvlZ1bV3T6E5bv5Iy208UyjG5E3yuyDZ7mlvS+01p
- 5x3Lftc8Q1yCwqsecs294Ji3aLVQFZUn9kiL9otHLeVzwkiQbuCRq6CvDeIywr53wKHM
- G5fLWlxDX0VK+tgnnr/PNuAg6TEiUsn7QwR0c++7uQwy68bkX6g8J/6tUgtcLfVxZAAk
- krK7U7B6rxyv8ToCdkukYsxmxdKPP9BfN+dioatGiGyn/IxGyTZJ5L4XpcbHjnElV8fw
- mGXLlbqWgt8s9WnqsMWEmpKhu5yBWvWVX5EpRcAXes5LRPYBDzFGkqZpa7WeTGgV3ba2
- a1wQ==
-X-Gm-Message-State: AOAM533fRfCbINRdzF5skVYH6PARpAq8iIOqfeTEp/KwWTz5yG0krhdy
- iE+pBX/7nzu6fRPrDGlbsjPfV35VY5l9ZbyDIg1m9w==
-X-Google-Smtp-Source: ABdhPJxEj2A4lDfQKyQsk3vfFa2lC9kLQYyQ078mkajL2th+W/3fdrUyPkmA0OYPfy/QMAJ8uasxg0BkE1JzKTmxwII=
-X-Received: by 2002:a0d:cc8e:0:b0:30c:1230:90c with SMTP id
- o136-20020a0dcc8e000000b0030c1230090cmr31633618ywd.469.1654591890546; Tue, 07
- Jun 2022 01:51:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1nyUxo-0001nV-5Q; Tue, 07 Jun 2022 04:53:25 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1nyUxm-0004Bq-66; Tue, 07 Jun 2022 04:53:23 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2578o46W006873;
+ Tue, 7 Jun 2022 08:53:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=9r6cPafSUMPBu58Uj3KaSB+u4cvSJxNLfB8SyureBVU=;
+ b=QfEVKQG+xsVE7PyaP0XR1wluNsT8mHijD6+ZY3HhXeBB80bVrRS0VwvQ6MkNatpwfBGf
+ lDsGORbDpBQELAr2M/levgxzSpQAhzHgLdHn5qHE25mjFRvCFX+W/pWirFKPoZzRZcjJ
+ YoBgApKziq4zVCOBCo7QheZd45IkNo6HgXXi4c7l7BjBEt3aLy0H0QwqLA6WrwC1Y/1Q
+ a2LeRntcaGkZ+GlR5ziitaMuUlNlxKHmFKJ7aFwkD/J7EPcr5k+HuB6LyJk1vY5MVqpY
+ 3TqCMeM7XHL5k7uStmT1botuXMSC58AHfea/6rI7OnpY9c1CHRi3H7XZ21TDQILfdYbh xA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gj3gw811w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jun 2022 08:53:02 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2578pT9A015643;
+ Tue, 7 Jun 2022 08:53:02 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gj3gw811a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jun 2022 08:53:02 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2578q5AB003529;
+ Tue, 7 Jun 2022 08:52:59 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3gfy19bg0b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jun 2022 08:52:59 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2578qvE621758208
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Jun 2022 08:52:57 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4A8F311C058;
+ Tue,  7 Jun 2022 08:52:57 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E598D11C052;
+ Tue,  7 Jun 2022 08:52:56 +0000 (GMT)
+Received: from [9.171.53.11] (unknown [9.171.53.11])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Jun 2022 08:52:56 +0000 (GMT)
+Message-ID: <655a8025-1bbe-dd08-6150-9462a65b925d@linux.ibm.com>
+Date: Tue, 7 Jun 2022 10:52:56 +0200
 MIME-Version: 1.0
-References: <20220602214853.496211-1-richard.henderson@linaro.org>
- <20220602214853.496211-37-richard.henderson@linaro.org>
-In-Reply-To: <20220602214853.496211-37-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jun 2022 09:51:20 +0100
-Message-ID: <CAFEAcA9quqX4ZGbS5qY7wKuPz+DBJTHgFv8cQ_MZBYSKbW960A@mail.gmail.com>
-Subject: Re: [PATCH 36/71] target/arm: Unexport aarch64_add_*_properties
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 08/16] ppc/pnv: user created pnv-phb for powernv9
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
+ mark.cave-ayland@ilande.co.uk
+References: <20220531214917.31668-1-danielhb413@gmail.com>
+ <20220531214917.31668-9-danielhb413@gmail.com>
+ <d2ae2236-7a49-22e7-3950-cb635697721a@linux.ibm.com>
+ <edef4577-c7d1-51aa-01c2-cd5846f7ba40@gmail.com>
+ <bbbb71c0-c4bd-0c87-5d44-f6398d64cf36@kaod.org>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <bbbb71c0-c4bd-0c87-5d44-f6398d64cf36@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: x_3CWnc-V0qXCsFRL_aQs4xl6JG72Xcd
+X-Proofpoint-ORIG-GUID: bTNrQ-sLtaP0BOALpK7rKzqEZip7Oxiu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-07_03,2022-06-03_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ impostorscore=0 mlxscore=0 clxscore=1015 adultscore=0 spamscore=0
+ mlxlogscore=791 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2204290000 definitions=main-2206070035
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,20 +121,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Jun 2022 at 23:17, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> These functions are not used outside cpu64.c,
-> so make them static.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h   | 3 ---
->  target/arm/cpu64.c | 4 ++--
->  2 files changed, 2 insertions(+), 5 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+On 07/06/2022 08:35, Cédric Le Goater wrote:
+>>
+>>> Also, the comment seems wrong to me. The qom parenting doesn't matter 
+>>> when building the device tree. 
+> 
+> it does. See pnv_dt_xscom()
+
+
+Yeah, what I meant is that on P9, there's no "dt_scom" method for the 
+PHB. The PHBs are added by the dt_scom() of the PEC. So the parenting of 
+the PHB doesn't really matter.
+
+I was actually wondering why it was done that way. If we have a clean 
+qom tree (again, only on P9/P10 because P8 is wrong), then the PEC could 
+add the "pbcq@xxxxxx" layer in the device tree, then call the qom 
+children, i.e. the PHBs, and they would each add themselves (each phb 
+adds the 'stack@xxxxxx' entry in the device tree).
+
+But then I see your comment about giving headaches for user-created 
+devices. So something else to discuss...
+
+   Fred
 
