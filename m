@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BEF53FADE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:09:59 +0200 (CEST)
-Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AF453FAF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:15:11 +0200 (CEST)
+Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyW9t-000265-VU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33960)
+	id 1nyWEn-00006m-3R
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:15:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyVy6-00020u-OI
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:57:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47985)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nyVyG-00023k-VY
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:58:01 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:56263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nyVxt-0004Tl-Dl
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:57:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654595852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x57Qw6JKSglEY76ieNetgEtpUIMazMZP7E4lL6z2Cbk=;
- b=eUv5M9It9dTno7O8qm4ZVLqqdtktPWyrYHmaUW5NxGRsv/C8suQgdB8qX+S7A+KYRw1KOz
- bWuy0Mu0hnjzYrjeTOcD/g3N3TrQhcM3Ztr7oTO2f1T4XkeeFNVXkCeEfCxzEJer4ghcsJ
- xUvGey1B98Oc4LDGa/ge9kDwMGvgQUQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-92-ztGzMfnUNI-fYu3FEVVXvQ-1; Tue, 07 Jun 2022 05:57:31 -0400
-X-MC-Unique: ztGzMfnUNI-fYu3FEVVXvQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- o18-20020a5d4a92000000b00213b4eebc25so3059090wrq.21
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:57:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x57Qw6JKSglEY76ieNetgEtpUIMazMZP7E4lL6z2Cbk=;
- b=UcAHhOS0IXXVDBlO96C3nylRw4YzJrGdTJCzR8IdY1AkksXVP9fSvTunRuwzr33PEz
- Gio6tIHQI3Vst8EPezd0mvoU/YpRbvnvhFESrj/y5B8jKkrYSvAYqA12XomEWHlpV1l8
- veu5qWQEVX67DSxmNtSHEGrUYeY35iA7KpRMRNf9wFkVg3Y1Qn7I1d/L8cWxO22QGjR5
- Y9779Of8hDDLP5O7bHSEQPJXVRnAiFXwpBUw2rNdeboDWZiBbq4tGB1kDdap9ieXCn+k
- fAq5Cb63lPIXT52mbpDPq/CRnmiGZViLsU8hxp6ums9FzTfpRrSA4EKZ89I8jDbaYrJr
- 7xwg==
-X-Gm-Message-State: AOAM533azgQ9YahHJgsTSsC7vZSXugeNf4Ro6zxiKoHeiNVdFn+SGpDq
- Rskls/mR53yFCqFQgNlDHiHVZ0tnc8fRPhobiTsdIzGKhCEUGHv92h1JHIoy6SJFG4IofE9ElTE
- Yam0HxxHG/lhCEy4=
-X-Received: by 2002:a05:6000:1883:b0:205:c0cb:33c6 with SMTP id
- a3-20020a056000188300b00205c0cb33c6mr27335621wri.39.1654595850115; 
- Tue, 07 Jun 2022 02:57:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy6rZer92bvI1LsFOQZqvAugZpfGLpUnQez18t0eXbyxaSXSZkPn1BilUmqRgaCbbXTdS5Zgw==
-X-Received: by 2002:a05:6000:1883:b0:205:c0cb:33c6 with SMTP id
- a3-20020a056000188300b00205c0cb33c6mr27335600wri.39.1654595849949; 
- Tue, 07 Jun 2022 02:57:29 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
- by smtp.gmail.com with ESMTPSA id
- l24-20020a05600c1d1800b00397342bcfb7sm20550146wms.46.2022.06.07.02.57.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 02:57:29 -0700 (PDT)
-Message-ID: <369d4c33-1905-fac0-1f9f-81e8e1ef46a7@redhat.com>
-Date: Tue, 7 Jun 2022 11:57:28 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nyVyD-0004Wx-Ck
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:57:56 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.12])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 82DAF10858136;
+ Tue,  7 Jun 2022 11:57:44 +0200 (CEST)
+Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 7 Jun 2022
+ 11:57:42 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S00394ed4ecc-cff8-4b05-95fa-e8513ab5fe67,
+ B3A9F5ABA359FFEAA5F192A1B4EC97B2EEB111D0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d244b9d9-3907-132c-cad3-ff31393b31fe@kaod.org>
+Date: Tue, 7 Jun 2022 11:57:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v5 01/45] block: BlockDriver: add
- .filtered_child_is_backing field
+Subject: Re: [PATCH 04/21] aspeed: i2c: Use reg array instead of individual
+ vars
 Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
- v.sementsov-og@mail.ru, John Snow <jsnow@redhat.com>
-References: <20220330212902.590099-1-vsementsov@openvz.org>
- <20220330212902.590099-2-vsementsov@openvz.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220330212902.590099-2-vsementsov@openvz.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Joel Stanley <joel@jms.id.au>
+CC: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
+ Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>,
+ Steven Lee <steven_lee@aspeedtech.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Peter Delevoryas <pdel@fb.com>, Corey Minyard <cminyard@mvista.com>, Jonathan
+ Cameron <Jonathan.Cameron@huawei.com>, Damien Hedde
+ <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>, Cleber Rosa
+ <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
+ Leal <bleal@redhat.com>
+References: <20220606150732.2282041-1-clg@kaod.org>
+ <20220606150732.2282041-5-clg@kaod.org>
+ <CACPK8Xe1n-N157r9Ea8DR_7TK6qDbe4Z-9z+qvRfOWU+RxJuSg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CACPK8Xe1n-N157r9Ea8DR_7TK6qDbe4Z-9z+qvRfOWU+RxJuSg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: df2abb35-4f88-4d2f-b4de-a344acc4b0b2
+X-Ovh-Tracer-Id: 2384656005477338058
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegslhgvrghlsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,25 +85,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
-> Unfortunately not all filters use .file child as filtered child. Two
-> exclusions are mirror_top and commit_top. Happily they both are private
-> filters. Bad thing is that this inconsistency is observable through qmp
-> commands query-block / query-named-block-nodes. So, could we just
-> change mirror_top and commit_top to use file child as all other filter
-> driver is an open question. Probably, we could do that with some kind
-> of deprecation period, but how to warn users during it?
->
-> For now, let's just add a field so we can distinguish them in generic
-> code, it will be used in further commits.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-> ---
->   block/commit.c                   |  1 +
->   block/mirror.c                   |  1 +
->   include/block/block_int-common.h | 13 +++++++++++++
->   3 files changed, 15 insertions(+)
+On 6/7/22 01:49, Joel Stanley wrote:
+> On Mon, 6 Jun 2022 at 15:08, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> From: Joe Komlodi <komlodi@google.com>
+>>
+>> Using a register array will allow us to represent old-mode and new-mode
+>> I2C registers by using the same underlying register array, instead of
+>> adding an entire new set of variables to represent new mode.
+> 
+> The downside of this approach is you lose the safety of having
+> discrete types. A write to s->regs[R_FOO] can overwrite R_BAR.
+> 
+> 
+>>
+>> As part of this, we also do additional cleanup to use ARRAY_FIELD_
+>> macros instead of FIELD_ macros on registers.
+>>
+>> Signed-off-by: Joe Komlodi <komlodi@google.com>
+>> Change-Id: Ib94996b17c361b8490c042b43c99d8abc69332e3
+>> Message-Id: <20220331043248.2237838-5-komlodi@google.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   include/hw/i2c/aspeed_i2c.h |  11 +-
+>>   hw/i2c/aspeed_i2c.c         | 286 +++++++++++++++++-------------------
+>>   2 files changed, 133 insertions(+), 164 deletions(-)
+> 
+>> @@ -858,12 +834,12 @@ static void aspeed_i2c_bus_reset(DeviceState *dev)
+>>   {
+>>       AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
+>>
+>> -    s->intr_ctrl = 0;
+>> -    s->intr_status = 0;
+>> -    s->cmd = 0;
+>> -    s->buf = 0;
+>> -    s->dma_addr = 0;
+>> -    s->dma_len = 0;
+>> +    s->regs[R_I2CD_INTR_CTRL] = 0;
+>> +    s->regs[R_I2CD_INTR_STS] = 0;
+>> +    s->regs[R_I2CD_CMD] = 0;
+>> +    s->regs[R_I2CD_BYTE_BUF] = 0;
+>> +    s->regs[R_I2CD_DMA_ADDR] = 0;
+>> +    s->regs[R_I2CD_DMA_LEN] = 0;
+> 
+> Could this become a memset of s->regs?
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+yes. It should. I can take care of it.
+
+Thanks,
+
+C.
+
+> 
+>>       i2c_end_transfer(s->bus);
+>>   }
+>>
+>> @@ -921,10 +897,10 @@ static qemu_irq aspeed_2400_i2c_bus_get_irq(AspeedI2CBus *bus)
+>>   static uint8_t *aspeed_2400_i2c_bus_pool_base(AspeedI2CBus *bus)
+>>   {
+>>       uint8_t *pool_page =
+>> -        &bus->controller->pool[FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL,
+>> -                                          POOL_PAGE_SEL) * 0x100];
+>> +        &bus->controller->pool[ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL,
+>> +                                                POOL_PAGE_SEL) * 0x100];
+>>
+>> -    return &pool_page[FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, OFFSET)];
+>> +    return &pool_page[ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, OFFSET)];
+>>   }
+>>
+>>   static void aspeed_2400_i2c_class_init(ObjectClass *klass, void *data)
+>> --
+>> 2.35.3
+>>
 
 
