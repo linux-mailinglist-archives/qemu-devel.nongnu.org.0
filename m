@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E9253FB10
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:19:14 +0200 (CEST)
-Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6422153FAA6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 11:59:15 +0200 (CEST)
+Received: from localhost ([::1]:59112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyWIq-00038O-Lx
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:19:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58646)
+	id 1nyVzV-0002a8-VK
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 05:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyVs3-0002F0-Qh
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:51:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyVs0-00030U-9k
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:51:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654595485;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3Bb1KhEKiZOEQrDqXd58+dBqDUMn9Hsb1z3XiRWKlrw=;
- b=O8OwXTqOSxUqAEgpqkbPrraUM6Zt4BNQ2LBqIhWV0IGBQbHPZ/fmzCYwTu5Lch7u9bqYcF
- Avv/JtdDSEDQqYDeTvFVGfnkl0Zl8LBKpOaFd0Nwr3kYJv+Omda9SBNBCiwscM1NVtRGmX
- G/S0xMD/91gSUh/33tvUJwZNo0O+WNI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-386-k5Qg_5DVPCyPdi5mTiYwQQ-1; Tue, 07 Jun 2022 05:51:23 -0400
-X-MC-Unique: k5Qg_5DVPCyPdi5mTiYwQQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- cy18-20020a0564021c9200b0042dc7b4f36fso12287829edb.4
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:51:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nyVvA-0007Zs-NU
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:54:44 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:34768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nyVv5-0003Wz-GB
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 05:54:44 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-30fdbe7467cso134263347b3.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 02:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ny3tMLV3lK+PSTk3NPnQGfhKomzaHenxVLPmgZphLrQ=;
+ b=QBV3Rx9mJ7rCJJ7QyjQuXu8mv2YTZyNV8zjwLn11GAZ6Q08dNiXAOmCrrOOE/6UlwT
+ MMHsXzdqcjIy79rp/P/C0NPPhh9C+dV519IWYauM2Sup0x7UkvahF9NtsKQ3Cc4D+gf9
+ cvkgxYlA/6CP3FU+cgPF7+3HHApVkTYhvVpf2hdtNIqU+9HqTke46K3uGe078aQ+Oojd
+ cdSXAKVfftAcpx0Pri81ut+IrwGsU/W7/Nkx8mqn6TA0i02+gp5Iz/OebQYVSElh5ajz
+ 6ln4eKTcrTu7EpMmN8duPGW5yTODhUX2muiAO3D2+SWlS703uGaydYvqLRvtAAEHEpkQ
+ +4KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3Bb1KhEKiZOEQrDqXd58+dBqDUMn9Hsb1z3XiRWKlrw=;
- b=WJwTHuSDK+nlNKdHMCknOGm8WYGXBzEY3T1GkeHhPjCTWW6055CdHLwkuXcc692VmY
- UnrqtXf8sk/1POywGZ6z3tWZ5NjnyPIBaNwkUi7SOitDF1tc7fjKjoAZFwxby11wh8J6
- MDfBqJ6sBsATldWud3jlWFbZDQefQeA1yT5ypXvbmNEcT5wKmvKhdEakOiDm477b7prw
- UsgtMJ7LOjmVOAvUBZwDI71Nremd16W3pY6m6CFgNxQ2Bii5WmN4QmHYtO431ciFBOrH
- hgz1xd0z7NQdQufHzLm7i29TfBmWX2FcorbILg5MpEanuO9cGLD9Q1+MrVqR2Q+MsI0m
- ZDQw==
-X-Gm-Message-State: AOAM533l65f0nE3GW4yT8oWhHPF00uqnD6O4FCk+TfFBSqD6v48gLTLr
- 95q8hh+1FUDdA1bgzcwMROloDRVmD72vhjmZXRfQdOzr8LPHvGXK50UwS85pBCbB+R53bcg3lGo
- uZ9g2rX9yNPsz6vU=
-X-Received: by 2002:a17:906:58cf:b0:711:7acb:821f with SMTP id
- e15-20020a17090658cf00b007117acb821fmr12724000ejs.588.1654595482572; 
- Tue, 07 Jun 2022 02:51:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXSqr0gw6SukPmJvEHvN9b2RK9xeop1IvTmvaGR3YGtg8umGCbZ0Ks5TfXAyRg4CnNMmHsIw==
-X-Received: by 2002:a17:906:58cf:b0:711:7acb:821f with SMTP id
- e15-20020a17090658cf00b007117acb821fmr12723975ejs.588.1654595482289; 
- Tue, 07 Jun 2022 02:51:22 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- kx1-20020a170907774100b0070776750bc5sm7304902ejc.109.2022.06.07.02.51.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 02:51:21 -0700 (PDT)
-Date: Tue, 7 Jun 2022 11:51:20 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 1/5] hw/smbios: add core_count2 to smbios table type 4
-Message-ID: <20220607115120.47084ee3@redhat.com>
-In-Reply-To: <CAMDeoFU=BLqbD3H3RWY_QYqkP1MioM96coJ69Q6b7v0BsgjnmA@mail.gmail.com>
-References: <20220527165651.28092-1-jusual@redhat.com>
- <20220527165651.28092-2-jusual@redhat.com>
- <alpine.DEB.2.22.394.2205280950260.153682@anisinha-lenovo>
- <CAMDeoFUdUXs++V7yoDcaMTSdxD4BJAhQbFr7p_pSbymJM=5nHg@mail.gmail.com>
- <20220602163125.59794556@redhat.com>
- <20220602163549.45e83221@redhat.com>
- <CAMDeoFU=BLqbD3H3RWY_QYqkP1MioM96coJ69Q6b7v0BsgjnmA@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ny3tMLV3lK+PSTk3NPnQGfhKomzaHenxVLPmgZphLrQ=;
+ b=xvjOqcnRgbjx1eSdLZpDes8Ip0Vo6lW2djabjJ+9OnrU3rWPH1pmuj3HiOwswsZ4W7
+ As5HyrwMfB9/o8bL8+hweGziasHgVBKTmV3nAI6a8StqrCN/0MBf5b/i6ehjzscRz/10
+ anTfDRfuxlmBfQU9MNghkTIH6R+J5Kn+TDi+Iqqwsc3Is6Dc2WijgjIre6tegl/Q6RV7
+ Rb6TICYppZCwiWvkwpFyIjO3T9lG4OR2Z7LxDv8MzqqenJNGVUTRH0hmzVeusFV47RY6
+ aCWSWYPgfWNkhMQeDN8GG5lQsREU/bLhY9ivZ7xudKUFyMdJMQncpBFsWVHAIO0JMVvl
+ YogA==
+X-Gm-Message-State: AOAM5337dryoYoDIB6VwVQI7LpEEHYlJaRqqBzuMyD0WHwE1yOMf7JGV
+ oQTamNo4THvqnX0n1/hrh2cRm+xYyXztNR1+bQpo0g==
+X-Google-Smtp-Source: ABdhPJyhT5IB56AS0dP/xgYVTmdoeU9LfmjNwIOJXBCwaGswKGMq1oZ6n9qGH8z/VGtSTsw2PZeTlwtmBycDAEdu0YY=
+X-Received: by 2002:a81:6904:0:b0:2fe:e670:318a with SMTP id
+ e4-20020a816904000000b002fee670318amr29957437ywc.329.1654595678284; Tue, 07
+ Jun 2022 02:54:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220602214853.496211-1-richard.henderson@linaro.org>
+ <20220602214853.496211-39-richard.henderson@linaro.org>
+In-Reply-To: <20220602214853.496211-39-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jun 2022 10:54:27 +0100
+Message-ID: <CAFEAcA_1T3SPwWrBJgem9S3mtT1RZNYnbuc79aVoTiYf26yuog@mail.gmail.com>
+Subject: Re: [PATCH 38/71] target/arm: Introduce sve_vqm1_for_el_sm
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -106,126 +83,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jun 2022 13:11:36 +0200
-Julia Suvorova <jusual@redhat.com> wrote:
+On Thu, 2 Jun 2022 at 23:28, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> When Streaming SVE mode is enabled, the size is taken from
+> SMCR_ELx instead of ZCR_ELx.  The format is shared, but the
+> set of vector lengths is not.  Further, Streaming SVE does
+> not require any particular length to be supported.
+>
+> Adjust sve_vqm1_for_el to pass the current value of PSTATE.SM
+> to the new function.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> On Thu, Jun 2, 2022 at 4:35 PM Igor Mammedov <imammedo@redhat.com> wrote:
-> >
-> > On Thu, 2 Jun 2022 16:31:25 +0200
-> > Igor Mammedov <imammedo@redhat.com> wrote:
-> >  
-> > > On Tue, 31 May 2022 14:40:15 +0200
-> > > Julia Suvorova <jusual@redhat.com> wrote:
-> > >  
-> > > > On Sat, May 28, 2022 at 6:34 AM Ani Sinha <ani@anisinha.ca> wrote:  
-> > > > >
-> > > > >
-> > > > >
-> > > > > On Fri, 27 May 2022, Julia Suvorova wrote:
-> > > > >  
-> > > > > > In order to use the increased number of cpus, we need to bring smbios
-> > > > > > tables in line with the SMBIOS 3.0 specification. This allows us to
-> > > > > > introduce core_count2 which acts as a duplicate of core_count if we have
-> > > > > > fewer cores than 256, and contains the actual core number per socket if
-> > > > > > we have more.
-> > > > > >
-> > > > > > core_enabled2 and thread_count2 fields work the same way.
-> > > > > >
-> > > > > > Signed-off-by: Julia Suvorova <jusual@redhat.com>  
-> > > > >
-> > > > > Other than the comment below,
-> > > > > Reviewed-by: Ani Sinha <ani@anisinha.ca>
-> > > > >  
-> > > > > > ---
-> > > > > >  include/hw/firmware/smbios.h |  3 +++
-> > > > > >  hw/smbios/smbios.c           | 11 +++++++++--
-> > > > > >  2 files changed, 12 insertions(+), 2 deletions(-)
-> > > > > >
-> > > > > > diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
-> > > > > > index 4b7ad77a44..c427ae5558 100644
-> > > > > > --- a/include/hw/firmware/smbios.h
-> > > > > > +++ b/include/hw/firmware/smbios.h
-> > > > > > @@ -187,6 +187,9 @@ struct smbios_type_4 {
-> > > > > >      uint8_t thread_count;
-> > > > > >      uint16_t processor_characteristics;
-> > > > > >      uint16_t processor_family2;
-> > > > > > +    uint16_t core_count2;
-> > > > > > +    uint16_t core_enabled2;
-> > > > > > +    uint16_t thread_count2;  
-> >
-> > on the other hand,
-> > is it ok unconditionally extend type 4 and use v3 structure
-> > if qemu was started with v2 smbios?  
-> 
-> We have a flag for the entry point type, not the smbios version per
-> se. Additional fields added to structures were not previously tracked
-> (for instance, processor_family2 is v2.6 and status is v2.0). AFAIU it
-that's a bug, unless there is a very good reason to keep doing that,
-I'd not do that.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> can affect only the total table length and the maximum structure size
-
-table length is fixed depending on used version,
-so if we follow it, we should set length and use part of structure
-correctly if old version is specified (i.e.
-   1. old structure + v30 structure,
-   2. copy only a relevant part of v30 structure and
-      fixup length when v2 version is asked for
-though, I'd prefer #1
-
-> (word). But if you like, I can raise an error (warning) if someone
-> tries to start a vm with cpus > 255 and smbios v2.
-
-it's a separate thing, I'd error out
-(it will break users that use v2 with too may CPUs but then
-they should fix their configuration to use v3)
-
-> Best regards, Julia Suvorova.
-> 
-> > > > >
-> > > > > I would add a comment along the lines of
-> > > > > /* section 7.5, table 21 smbios spec version 3.0.0 */  
-> > > >
-> > > > Ok  
-> > >
-> > > With Ani's comment fixed
-> > >
-> > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> > >  
-> > > >  
-> > > > > >  } QEMU_PACKED;
-> > > > > >
-> > > > > >  /* SMBIOS type 11 - OEM strings */
-> > > > > > diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> > > > > > index 60349ee402..45d7be6b30 100644
-> > > > > > --- a/hw/smbios/smbios.c
-> > > > > > +++ b/hw/smbios/smbios.c
-> > > > > > @@ -709,8 +709,15 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
-> > > > > >      SMBIOS_TABLE_SET_STR(4, serial_number_str, type4.serial);
-> > > > > >      SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
-> > > > > >      SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
-> > > > > > -    t->core_count = t->core_enabled = ms->smp.cores;
-> > > > > > -    t->thread_count = ms->smp.threads;
-> > > > > > +
-> > > > > > +    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
-> > > > > > +    t->core_enabled = t->core_count;
-> > > > > > +
-> > > > > > +    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-> > > > > > +
-> > > > > > +    t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
-> > > > > > +    t->thread_count2 = cpu_to_le16(ms->smp.threads);
-> > > > > > +
-> > > > > >      t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
-> > > > > >      t->processor_family2 = cpu_to_le16(0x01); /* Other */
-> > > > > >
-> > > > > > --
-> > > > > > 2.35.1
-> > > > > >
-> > > > > >  
-> > > > >  
-> > > >  
-> > >  
-> >  
-> 
-
+thanks
+-- PMM
 
