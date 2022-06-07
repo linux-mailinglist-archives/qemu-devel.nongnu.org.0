@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336B753FC60
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:53:13 +0200 (CEST)
-Received: from localhost ([::1]:59960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBCE53FCA8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 13:01:29 +0200 (CEST)
+Received: from localhost ([::1]:40402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyWpj-00062N-LT
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45230)
+	id 1nyWxj-00047X-TD
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 07:01:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nyWFT-0002vf-Ba
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:15:43 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:44687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nyWFN-0000uf-Dq
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:15:39 -0400
-Received: by mail-pg1-x530.google.com with SMTP id c18so7097401pgh.11
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 03:15:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LcqUrbLLv9pourVUGYNlorfjZMqVl7gUhGIMxPivgys=;
- b=KwTr9Zf/05qn/3czBhylaFMhjtI3DO2FOaftAppnTzeZJY8pTcmWZytwFZ85WOnPV2
- 3Uox9/uJSEmDEpzuPhhBQd/lFEuuiAcFCJQX4Obrc0mxkDDQHYcdB8zAPFIRB2SxfVJE
- pIuhz8ETeACA6YNCan1Ne9x3jDlJB9Ech2WWLhvjfr9s9spShOCt6bW/Meam3Ysq9cyT
- +zAA6ZMIqMRMfSfEqiJAPen5O6YRFQGr7hcZ60u8qtrcparoTPs10VSCI00RE4/4qqdf
- JtUoXotQGYBbAoW4ZRW3YsNyQUBnRBY8oj1pmsOvSBgqGZ9XodLt8Md27eGoXrHdpN9z
- sGVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LcqUrbLLv9pourVUGYNlorfjZMqVl7gUhGIMxPivgys=;
- b=bp7uR88fuuZkf8SOf2F+bgj/EQ+ar+wUdn5Q/CCjDbG0Prq43RF4MHrGJBuy66jhG9
- +z4h1hgrBAf9WkJNGUVd6jK9V2sgK7bwyKyrA8uAbMlj2a75t00hxHo699/jq7maYEMw
- lh+URnr+e5YVeHTadXFL/K83OYL0asmEjyqsDXVka6x1LkE2TUHQbZeIFfld/0hP2LQw
- 9iMta9sJthwxDKEkkbIrNqpNaf95lMngfVmw5rAPsjLV/m6KuLef3GjTDrCpnCCbs2OP
- Q/EX+7jN2jQzwUD8V7+bEunQ9dPKbis4gqXIQM9Oqd8Q+hVy/4NBg0APR/YzLdTuV0kF
- /mUg==
-X-Gm-Message-State: AOAM533e0uhVb7jEde/JZJ6OM425aWAj85dvz6TgHC4VIlopO1apAvv4
- aEJE2eZjReN5h0VjgrsnBAs=
-X-Google-Smtp-Source: ABdhPJwF7euhPbu6mznzPI/mjL/fBupYUrbeqn1YL+Sc0Abu2sUU6r5jFIDf4xE7do0ZNmx289d5HQ==
-X-Received: by 2002:a63:90c9:0:b0:3fc:f0c9:d0f with SMTP id
- a192-20020a6390c9000000b003fcf0c90d0fmr22035338pge.608.1654596935852; 
- Tue, 07 Jun 2022 03:15:35 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- jh22-20020a170903329600b0015e8d4eb25bsm12096312plb.165.2022.06.07.03.15.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 03:15:35 -0700 (PDT)
-Message-ID: <d0d8c975-9e85-adb0-8331-554d8b8fa30c@amsat.org>
-Date: Tue, 7 Jun 2022 12:15:31 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nyWH8-0003ow-8W
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:17:27 -0400
+Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:45337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nyWH4-0001JT-UF
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:17:25 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.48])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E5ED922703;
+ Tue,  7 Jun 2022 10:17:13 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 7 Jun 2022
+ 12:17:12 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003bcc5a754-5cd4-4884-a550-0cdbde7567fd,
+ B3A9F5ABA359FFEAA5F192A1B4EC97B2EEB111D0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <5daa279e-1b1f-9efc-a6f3-6ddb44004ed3@kaod.org>
+Date: Tue, 7 Jun 2022 12:17:12 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [PATCH] Hexagon (target/hexagon) make VyV operands use a unique
- temp
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 11/21] test/avocado/machine_aspeed.py: Add an I2C RTC test
 Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, ale@rev.ng, bcain@quicinc.com,
- mlambert@quicinc.com
-References: <20220606222327.7682-1-tsimpson@quicinc.com>
- <20220606222327.7682-2-tsimpson@quicinc.com>
-In-Reply-To: <20220606222327.7682-2-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Joel Stanley <joel@jms.id.au>
+CC: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
+ Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>,
+ Steven Lee <steven_lee@aspeedtech.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Peter Delevoryas <pdel@fb.com>, Corey Minyard <cminyard@mvista.com>, Jonathan
+ Cameron <Jonathan.Cameron@huawei.com>, Damien Hedde
+ <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>, Cleber Rosa
+ <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
+ Leal <bleal@redhat.com>
+References: <20220606150732.2282041-1-clg@kaod.org>
+ <20220606150732.2282041-12-clg@kaod.org>
+ <CACPK8Xerxw2s20971XBVVGbSruwAgbJAi=84DGhnKnnXQJzMXg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CACPK8Xerxw2s20971XBVVGbSruwAgbJAi=84DGhnKnnXQJzMXg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 3ee6b95a-9116-4cc4-92dc-049e1be145a0
+X-Ovh-Tracer-Id: 2713700252486831050
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedgvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsghlvggrlhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,52 +83,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 7/6/22 00:23, Taylor Simpson wrote:
-> VyV operand is only used in the vshuff and vdeal instructions.  These
-> instructions write to both VyV and VxV operands.  In the case where
-> both operands are the same register, we need a separate location for
-> VyV.  We use the existing vtmp field in CPUHexagonState.
+On 6/7/22 01:16, Joel Stanley wrote:
+> On Mon, 6 Jun 2022 at 15:08, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> Add a RTC device on bus 15 and check that the ouput of the hwclock
 > 
-> Test case added in tests/tcg/hexagon/hvx_misc.c
+> spelling: output
 > 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->   tests/tcg/hexagon/hvx_misc.c    | 45 +++++++++++++++++++++++++++++++++
->   target/hexagon/gen_tcg_funcs.py |  9 +++----
->   2 files changed, 49 insertions(+), 5 deletions(-)
+>> command matches the current year.
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> 
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> 
+>> ---
+>>   tests/avocado/machine_aspeed.py | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+>> index a3b4b9e5093c..28b8a4c8124b 100644
+>> --- a/tests/avocado/machine_aspeed.py
+>> +++ b/tests/avocado/machine_aspeed.py
+>> @@ -136,10 +136,18 @@ def test_arm_ast2600_evb_builroot(self):
+>>
+>>           self.vm.add_args('-device',
+>>                            'tmp423,bus=aspeed.i2c.bus.15,address=0x4c');
+>> +        self.vm.add_args('-device',
+>> +                         'ds1338,bus=aspeed.i2c.bus.15,address=0x32');
+> 
+> Is there any value running this on the 2400 and 2500 machine types
+> too?
 
-> +static void test_vshuff(void)
-> +{
-> +    /* Test that vshuff works when the two operands are the same register */
-> +    const uint32_t splat = 0x089be55c;
-> +    const uint32_t shuff = 0x454fa926;
-> +    MMVector v0, v1;
-> +
-> +    memset(expect, 0x12, sizeof(MMVector));
-> +    memset(output, 0x34, sizeof(MMVector));
-> +
-> +    asm volatile("v25 = vsplat(%0)\n\t"
-> +                 "vshuff(v25, v25, %1)\n\t"
-> +                 "vmem(%2 + #0) = v25\n\t"
-> +                 : /* no outputs */
-> +                 : "r"(splat), "r"(shuff), "r"(output)
-> +                 : "v25", "memory");
-> +
-> +    /*
-> +     * The semantics of Hexagon are the operands are pass-by-value, so create
-> +     * two copies of the vsplat result.
-> +     */
-> +    for (int i = 0; i < MAX_VEC_SIZE_BYTES / 4; i++) {
+We could do that, yes. Send patches !
 
-Nitpicking, possibly 4 -> sizeof(v0.uw[0]).
+> They all use the same model so perhaps not?
 
-> +        v0.uw[i] = splat;
-> +        v1.uw[i] = splat;
-> +    }
+Currently, all models are exercised more or less in the same way by
+the upstream Linux driver. Things are different for the AST1030 using
+Zephir and for the AST2600 when using newer drivers from the SDK.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+These images seem to be using the new AST2600 register mode:
+
+   https://github.com/AspeedTech-BMC/openbmc/releases/
+
+   root@ast2600-default:~# dmesg | grep i2c
+   [    0.211289] i2c global registered
+   [    1.442027] i2c_dev: i2c /dev entries driver
+   [    1.447944] i2c_new_aspeed 1e78a280.i2c-bus: NEW-I2C: i2c-bus [4]: adapter [100 khz] mode [2]
+   [    1.451158] ipmb-dev 5-0010: i2c_slave_register: client slave flag not set. You might see address collisions
+   [    1.451660] i2c_new_aspeed 1e78a300.i2c-bus: NEW-I2C: i2c-bus [5]: adapter [100 khz] mode [2]
+   [    1.454567] ipmb-dev 6-0012: i2c_slave_register: client slave flag not set. You might see address collisions
+   [    1.454938] i2c_new_aspeed 1e78a380.i2c-bus: NEW-I2C: i2c-bus [6]: adapter [100 khz] mode [2]
+   [    1.462953] i2c_new_aspeed 1e78a400.i2c-bus: NEW-I2C: i2c-bus [7]: adapter [95 khz] mode [2]
+   [    1.466394] i2c_new_aspeed 1e78a480.i2c-bus: NEW-I2C: i2c-bus [8]: adapter [100 khz] mode [2]
+   [    1.468394] i2c_new_aspeed 1e78a500.i2c-bus: NEW-I2C: i2c-bus [9]: adapter [100 khz] mode [2]
+
+It could be an additional avocado test.
+
+
+C.
+
+
+>>           self.do_test_arm_aspeed_buidroot_start(image_path, '0xf00')
+>>           exec_command_and_wait_for_pattern(self,
+>>                                             'i2cget -y 15 0x4c 0xff', '0x23');
+>>           exec_command_and_wait_for_pattern(self,
+>>                                             'i2cget -y 15 0x4c 0xfe', '0x55');
+>>
+>> +        exec_command_and_wait_for_pattern(self,
+>> +             'echo ds1307 0x32 > /sys/class/i2c-dev/i2c-15/device/new_device',
+>> +             'i2c i2c-15: new_device: Instantiated device ds1307 at 0x32');
+>> +        year = time.strftime("%Y")
+>> +        exec_command_and_wait_for_pattern(self, 'hwclock -f /dev/rtc1', year);
+>> +
+>>           self.do_test_arm_aspeed_buidroot_poweroff()
+>> --
+>> 2.35.3
+>>
 
 
