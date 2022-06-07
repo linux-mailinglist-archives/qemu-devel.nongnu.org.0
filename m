@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6FB53FC85
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:56:48 +0200 (CEST)
-Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336B753FC60
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jun 2022 12:53:13 +0200 (CEST)
+Received: from localhost ([::1]:59960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyWtE-0000LE-0X
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40784)
+	id 1nyWpj-00062N-LT
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 06:53:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyW98-000374-NI
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:09:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyW91-0007JH-Oa
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:09:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654596521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mn0pa1DsbMz4rbWGbUK/YCcSSQ95PW/TzTo/6L0WWHU=;
- b=dZkFy0Zx4oLmbpBtvh7qfW+P532Ubc2WVPHA5ZcvAfhoCUz0HfcFfFVjy/Wk4dCltTJRv8
- m1c9H39IXoi+CJZdN/4vUURdKVIJzl5v7DT7aFbMGe6DLZFSgo/veecnqgVqm3ekDhr23z
- T4LiEuJhj+MJYQhrd9O9enGEpMzCM5k=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-k2hPXKUOMVi2n4bEkqp0YQ-1; Tue, 07 Jun 2022 06:08:38 -0400
-X-MC-Unique: k2hPXKUOMVi2n4bEkqp0YQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- t5-20020a056402524500b0042deddb84c2so12420133edd.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 03:08:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nyWFT-0002vf-Ba
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:15:43 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:44687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nyWFN-0000uf-Dq
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 06:15:39 -0400
+Received: by mail-pg1-x530.google.com with SMTP id c18so7097401pgh.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 03:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LcqUrbLLv9pourVUGYNlorfjZMqVl7gUhGIMxPivgys=;
+ b=KwTr9Zf/05qn/3czBhylaFMhjtI3DO2FOaftAppnTzeZJY8pTcmWZytwFZ85WOnPV2
+ 3Uox9/uJSEmDEpzuPhhBQd/lFEuuiAcFCJQX4Obrc0mxkDDQHYcdB8zAPFIRB2SxfVJE
+ pIuhz8ETeACA6YNCan1Ne9x3jDlJB9Ech2WWLhvjfr9s9spShOCt6bW/Meam3Ysq9cyT
+ +zAA6ZMIqMRMfSfEqiJAPen5O6YRFQGr7hcZ60u8qtrcparoTPs10VSCI00RE4/4qqdf
+ JtUoXotQGYBbAoW4ZRW3YsNyQUBnRBY8oj1pmsOvSBgqGZ9XodLt8Md27eGoXrHdpN9z
+ sGVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mn0pa1DsbMz4rbWGbUK/YCcSSQ95PW/TzTo/6L0WWHU=;
- b=FQmjgrctqkahikOavWJmotqNJ+eDnJhk8hummdq3W2CbWyej8mxKKuhXxkffVHBG/N
- 3Ksap2HDzvSTswNWGexGZK/4ajE7wvKGPnWwjw3rk8RRFTt2qYNSYQnDmmSnqdCCwu1L
- Mb0xhVO7MDeQJlUBbezbQ97/w3PL+XnnnKHULjgyAGCToxtm0He04Aa330weT295Xzgt
- ToZhVkhwyMCpL0zU2yO5bMYms/4WbGWp850O7AuQmNwupz4E6NlkgAorTAxi7KHqMLer
- YW/Puu/yQAoBVvWjxiqx0aJL7NacbVpqpmfKDvocfI27Vn/NRBvfoqhgGXm74Amq3h3U
- dxUw==
-X-Gm-Message-State: AOAM531IT/6zJ7gddXVgN//B4nL16tT7aE5OOfZgS0RhwFptFB/zNvdL
- Xy5uj2iIIvJtelZ4YJD38tem9851obJU9xzQ1aGAMhydt0uG4F62CQTWKghYJCcb1lJHTcfvpSM
- 2oSWgM0S7w7QVb8s=
-X-Received: by 2002:a17:906:7315:b0:711:db45:af4c with SMTP id
- di21-20020a170906731500b00711db45af4cmr4656937ejc.412.1654596516836; 
- Tue, 07 Jun 2022 03:08:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyb/IppuoJrEP5env+J/ioxTRSL8/2OjuDrMEn519oOv36XwzxMsxKn4P0sncRAoERPd4Dvgw==
-X-Received: by 2002:a17:906:7315:b0:711:db45:af4c with SMTP id
- di21-20020a170906731500b00711db45af4cmr4656909ejc.412.1654596516563; 
- Tue, 07 Jun 2022 03:08:36 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LcqUrbLLv9pourVUGYNlorfjZMqVl7gUhGIMxPivgys=;
+ b=bp7uR88fuuZkf8SOf2F+bgj/EQ+ar+wUdn5Q/CCjDbG0Prq43RF4MHrGJBuy66jhG9
+ +z4h1hgrBAf9WkJNGUVd6jK9V2sgK7bwyKyrA8uAbMlj2a75t00hxHo699/jq7maYEMw
+ lh+URnr+e5YVeHTadXFL/K83OYL0asmEjyqsDXVka6x1LkE2TUHQbZeIFfld/0hP2LQw
+ 9iMta9sJthwxDKEkkbIrNqpNaf95lMngfVmw5rAPsjLV/m6KuLef3GjTDrCpnCCbs2OP
+ Q/EX+7jN2jQzwUD8V7+bEunQ9dPKbis4gqXIQM9Oqd8Q+hVy/4NBg0APR/YzLdTuV0kF
+ /mUg==
+X-Gm-Message-State: AOAM533e0uhVb7jEde/JZJ6OM425aWAj85dvz6TgHC4VIlopO1apAvv4
+ aEJE2eZjReN5h0VjgrsnBAs=
+X-Google-Smtp-Source: ABdhPJwF7euhPbu6mznzPI/mjL/fBupYUrbeqn1YL+Sc0Abu2sUU6r5jFIDf4xE7do0ZNmx289d5HQ==
+X-Received: by 2002:a63:90c9:0:b0:3fc:f0c9:d0f with SMTP id
+ a192-20020a6390c9000000b003fcf0c90d0fmr22035338pge.608.1654596935852; 
+ Tue, 07 Jun 2022 03:15:35 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- rl7-20020a170907216700b006f3ef214e27sm7527992ejb.141.2022.06.07.03.08.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 03:08:36 -0700 (PDT)
-Date: Tue, 7 Jun 2022 12:08:35 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH 4/5] bios-tables-test: add test for number of cores > 255
-Message-ID: <20220607120835.0b9e9cfb@redhat.com>
-In-Reply-To: <CAMDeoFXrgTbG846RfURzEHZv+W+t9LmJ-M-p1uSk07NW_UR9Dg@mail.gmail.com>
-References: <20220527165651.28092-1-jusual@redhat.com>
- <20220527165651.28092-5-jusual@redhat.com>
- <20220602172007.27cd7e81@redhat.com>
- <CAMDeoFXrgTbG846RfURzEHZv+W+t9LmJ-M-p1uSk07NW_UR9Dg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-redhat-linux-gnu)
+ jh22-20020a170903329600b0015e8d4eb25bsm12096312plb.165.2022.06.07.03.15.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 03:15:35 -0700 (PDT)
+Message-ID: <d0d8c975-9e85-adb0-8331-554d8b8fa30c@amsat.org>
+Date: Tue, 7 Jun 2022 12:15:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [PATCH] Hexagon (target/hexagon) make VyV operands use a unique
+ temp
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, ale@rev.ng, bcain@quicinc.com,
+ mlambert@quicinc.com
+References: <20220606222327.7682-1-tsimpson@quicinc.com>
+ <20220606222327.7682-2-tsimpson@quicinc.com>
+In-Reply-To: <20220606222327.7682-2-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,124 +95,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Mon, 6 Jun 2022 13:38:57 +0200
-Julia Suvorova <jusual@redhat.com> wrote:
+On 7/6/22 00:23, Taylor Simpson wrote:
+> VyV operand is only used in the vshuff and vdeal instructions.  These
+> instructions write to both VyV and VxV operands.  In the case where
+> both operands are the same register, we need a separate location for
+> VyV.  We use the existing vtmp field in CPUHexagonState.
+> 
+> Test case added in tests/tcg/hexagon/hvx_misc.c
+> 
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   tests/tcg/hexagon/hvx_misc.c    | 45 +++++++++++++++++++++++++++++++++
+>   target/hexagon/gen_tcg_funcs.py |  9 +++----
+>   2 files changed, 49 insertions(+), 5 deletions(-)
 
-> On Thu, Jun 2, 2022 at 5:20 PM Igor Mammedov <imammedo@redhat.com> wrote:
-> >
-> > On Fri, 27 May 2022 18:56:50 +0200
-> > Julia Suvorova <jusual@redhat.com> wrote:
-> >  
-> > > The new test is run with a large number of cpus and checks if the
-> > > core_count field in smbios_cpu_test (structure type 4) is correct.
-> > >
-> > > Choose q35 as it allows to run with -smp > 255.
-> > >
-> > > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > > ---
-> > >  tests/qtest/bios-tables-test.c | 35 +++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 34 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > > index 0ba9d749a5..f2464adaa0 100644
-> > > --- a/tests/qtest/bios-tables-test.c
-> > > +++ b/tests/qtest/bios-tables-test.c
-> > > @@ -100,6 +100,8 @@ typedef struct {
-> > >      smbios_entry_point smbios_ep_table;
-> > >      uint16_t smbios_cpu_max_speed;
-> > >      uint16_t smbios_cpu_curr_speed;
-> > > +    uint8_t smbios_core_count;
-> > > +    uint16_t smbios_core_count2;
-> > >      uint8_t *required_struct_types;
-> > >      int required_struct_types_len;
-> > >      QTestState *qts;
-> > > @@ -640,8 +642,9 @@ static inline bool smbios_single_instance(uint8_t type)
-> > >
-> > >  static bool smbios_cpu_test(test_data *data, uint32_t addr)
-> > >  {
-> > > +    uint8_t real_cc, expect_cc = data->smbios_core_count;  
-> >
-> > %s/expect/expected/
-> > also I'd s/real_cc/core_count/
-> >  
-> > > +    uint16_t real, real_cc2, expect_cc2 = data->smbios_core_count2;  
-> > ditto
-> >  
-> > >      uint16_t expect_speed[2];
-> > > -    uint16_t real;
-> > >      int offset[2];
-> > >      int i;
-> > >
-> > > @@ -660,6 +663,20 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
-> > >          }
-> > >      }
-> > >
-> > > +    real_cc = qtest_readb(data->qts, addr + offsetof(struct smbios_type_4, core_count));
-> > > +    real_cc2 = qtest_readw(data->qts, addr + offsetof(struct smbios_type_4, core_count2));
-> > > +
-> > > +    if (expect_cc && (real_cc != expect_cc)) {
-> > > +        fprintf(stderr, "Unexpected SMBIOS CPU count: real %u expect %u\n",
-> > > +                real_cc, expect_cc);
-> > > +        return false;  
-> >
-> > since you are rewriting it anyways, how about
-> > if (expect_cc) {
-> >   g_assert_cmpuint(...)
-> > }
-> >
-> > instead of printing/propagating error  
-> 
-> That works. But I still need to return something, unless you want to
-> change the original code too.
+> +static void test_vshuff(void)
+> +{
+> +    /* Test that vshuff works when the two operands are the same register */
+> +    const uint32_t splat = 0x089be55c;
+> +    const uint32_t shuff = 0x454fa926;
+> +    MMVector v0, v1;
+> +
+> +    memset(expect, 0x12, sizeof(MMVector));
+> +    memset(output, 0x34, sizeof(MMVector));
+> +
+> +    asm volatile("v25 = vsplat(%0)\n\t"
+> +                 "vshuff(v25, v25, %1)\n\t"
+> +                 "vmem(%2 + #0) = v25\n\t"
+> +                 : /* no outputs */
+> +                 : "r"(splat), "r"(shuff), "r"(output)
+> +                 : "v25", "memory");
+> +
+> +    /*
+> +     * The semantics of Hexagon are the operands are pass-by-value, so create
+> +     * two copies of the vsplat result.
+> +     */
+> +    for (int i = 0; i < MAX_VEC_SIZE_BYTES / 4; i++) {
 
-just change it, as it makes code simpler (maybe a separate patch
-that should go before this one)
+Nitpicking, possibly 4 -> sizeof(v0.uw[0]).
 
-> 
-> Best regards, Julia Suvorova.
-> 
-> > > +    }
-> > > +    if ((expect_cc == 0xFF) && (real_cc2 != expect_cc2)) {
-> > > +        fprintf(stderr, "Unexpected SMBIOS CPU count2: real %u expect %u\n",
-> > > +                real_cc2, expect_cc2);
-> > > +        return false;
-> > > +    }
-> > > +
-> > >      return true;
-> > >  }
-> > >
-> > > @@ -905,6 +922,21 @@ static void test_acpi_q35_tcg(void)
-> > >      free_test_data(&data);
-> > >  }
-> > >
-> > > +static void test_acpi_q35_tcg_core_count2(void)
-> > > +{
-> > > +    test_data data = {
-> > > +        .machine = MACHINE_Q35,
-> > > +        .variant = ".core-count2",
-> > > +        .required_struct_types = base_required_struct_types,
-> > > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
-> > > +        .smbios_core_count = 0xFF,
-> > > +        .smbios_core_count2 = 275,
-> > > +    };
-> > > +
-> > > +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
-> > > +    free_test_data(&data);
-> > > +}
-> > > +
-> > >  static void test_acpi_q35_tcg_bridge(void)
-> > >  {
-> > >      test_data data;
-> > > @@ -1787,6 +1819,7 @@ int main(int argc, char *argv[])
-> > >          qtest_add_func("acpi/piix4/pci-hotplug/off",
-> > >                         test_acpi_piix4_no_acpi_pci_hotplug);
-> > >          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
-> > > +        qtest_add_func("acpi/q35/core-count2", test_acpi_q35_tcg_core_count2);
-> > >          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
-> > >          qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
-> > >          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);  
-> >  
-> 
+> +        v0.uw[i] = splat;
+> +        v1.uw[i] = splat;
+> +    }
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
