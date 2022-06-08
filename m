@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AEF54322E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:05:13 +0200 (CEST)
-Received: from localhost ([::1]:36496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8994254323C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:10:38 +0200 (CEST)
+Received: from localhost ([::1]:45046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywJ6-0007ix-Ax
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:05:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48278)
+	id 1nywOL-0005Zc-BR
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:10:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8L-0001hi-0p
+ id 1nyw8L-0001j4-RI
  for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31297)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8J-0004PE-Bo
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:04 -0400
+ id 1nyw8J-0004Pm-Sk
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696442;
+ s=mimecast20190719; t=1654696443;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FrKiq3NSniqbxMNWDUR+sAjJiBC1+eIVkP4rcGWzxPc=;
- b=K1NQdq3hnWQvx2cXnvQ6fbUTGE8Jz8ei0b+lvXpe2rlGLzzGbuE3Ii3R+8i5GT1DUpF+tB
- cmJNcwJH9WbwD7J7nuXxbsbLysNd/eOtfBxuPLg8sWt3aCYkqfc363UGAAIblsU+LJAxxi
- FB4rRtaswos1aPh+snpYUm4b1qeD1DE=
+ bh=HrMxyr0XcHNQ8sY+5pW/KagV+i2RckZD/0L3NU4WVHs=;
+ b=TaLw1F/YHC0tKSKDkfUTYlUcXOA+FwIpNJsYktUD9tN/alTfsYDxynufRTCYee4u93JRxf
+ /Jc3DpWWUyD55YWWKKIU4GfAnx7bCWfh3QVwsz9RIAQa2tPt0m513ZzHOMqYWobpgtUPdo
+ yc4YpNpeXQZ4CCpb/AbgQScC4vGUzcM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-576-V9ynqi5_NgiiXVAl-nfy_g-1; Wed, 08 Jun 2022 09:54:01 -0400
-X-MC-Unique: V9ynqi5_NgiiXVAl-nfy_g-1
+ us-mta-164-Xo8VhKJOM2OxoWW7xYJOlA-1; Wed, 08 Jun 2022 09:54:02 -0400
+X-MC-Unique: Xo8VhKJOM2OxoWW7xYJOlA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA76618E0044
- for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:54:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1A9080A0AD
+ for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:54:01 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64ABEC28117;
- Wed,  8 Jun 2022 13:54:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D385C27E97;
+ Wed,  8 Jun 2022 13:54:01 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: mst@redhat.com
-Subject: [PATCH v2 22/35] tests: acpi: add and white-list DSDT.applesmc
- expected blob
-Date: Wed,  8 Jun 2022 09:53:27 -0400
-Message-Id: <20220608135340.3304695-23-imammedo@redhat.com>
+Cc: mst@redhat.com,
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 23/35] tests: acpi: add applesmc testcase
+Date: Wed,  8 Jun 2022 09:53:28 -0400
+Message-Id: <20220608135340.3304695-24-imammedo@redhat.com>
 In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
 References: <20220608135340.3304695-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -82,22 +82,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- tests/data/acpi/q35/DSDT.applesmc           | 0
- 2 files changed, 1 insertion(+)
- create mode 100644 tests/data/acpi/q35/DSDT.applesmc
+ tests/qtest/bios-tables-test.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..e893029d87 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.applesmc",
-diff --git a/tests/data/acpi/q35/DSDT.applesmc b/tests/data/acpi/q35/DSDT.applesmc
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index d896840270..7d238218ca 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1625,6 +1625,17 @@ static void test_acpi_q35_slic(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_applesmc(void)
++{
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".applesmc",
++    };
++
++    test_acpi_one("-device isa-applesmc", &data);
++    free_test_data(&data);
++}
++
+ static void test_oem_fields(test_data *data)
+ {
+     int i;
+@@ -1783,6 +1794,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
+         qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
+         qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
++        qtest_add_func("acpi/q35/applesmc", test_acpi_q35_applesmc);
+         qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
+         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
+         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
 -- 
 2.31.1
 
