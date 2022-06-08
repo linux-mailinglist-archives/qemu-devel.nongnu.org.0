@@ -2,81 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F765434A9
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:51:06 +0200 (CEST)
-Received: from localhost ([::1]:44914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337B75435B6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:54:48 +0200 (CEST)
+Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyx1S-0008Fc-VB
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:51:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59140)
+	id 1nyx55-0005Ih-7C
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nywre-0003eS-Td
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 10:40:56 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:44999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nywrd-0003b3-4h
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 10:40:54 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- gc3-20020a17090b310300b001e33092c737so18484661pjb.3
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 07:40:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+jcT/IjzMHYGq3GxRAipvpamQCh7jVv1rhJIA+tZpZU=;
- b=dVoCZM2/hAmYf031aP7zNOfnwmkmEMatw7ebj3zpzJ03HnZs5GiTJ0eiaUK4fFqQ5V
- WhiwGi89W6Iwe+k06f2DlQcCqAT0PcZLblRPzvOGnhAbGg2XqNwpehajTyNE1oaECFMI
- WuNjy7GBs1GzzcJVY7LEJuNcIOIReIiybI6mLLyaf+A0smjcv7UxETvDOQjJG6Z3ua8h
- 8uXQDqNP4zeJ+/IiNmzNKZiRv/LHs2VtYsspqCaA2uFZwvVLpOiYxBY7S2m0a71CXuXn
- pt5X55PNIhzFJIuW0OpscP4B7CMG8Tuni9fobNfsSfFpHa+FZ+zWd8tnjyAuBMOj/Z4h
- DPZQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nyx34-0002v0-0f
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 10:52:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nyx2r-0005oC-7f
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 10:52:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654699947;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kLbonrqfjBFSX4EF7LWn0O3eL4PGVkmmODN6ZOnFDGc=;
+ b=XwpM76HHf4LA73EyMyc1pSgSBDMh3I9jhmtjSr+bN5Jo0HptKWo2R73HdqRKUBOAQTkCMC
+ 112JRTOv3in2OxCJUtqclgvb/giACDmYH/INbj0oF7DglkCe6riI6Ijs/GqYWtKt1mW/zn
+ 9qFQp33aZZSgo9WUxZxMLry24XwMnew=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-633-BWPpXarZNwGVQgYCVVtgnQ-1; Wed, 08 Jun 2022 10:52:26 -0400
+X-MC-Unique: BWPpXarZNwGVQgYCVVtgnQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 130-20020a1c0288000000b0039c6608296dso377734wmc.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 07:52:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+jcT/IjzMHYGq3GxRAipvpamQCh7jVv1rhJIA+tZpZU=;
- b=34mvH6Nv0y2ffoqtGTOunuPNxqU1DYGXKRI7ObGWnS2+mHqmKzCtLVj7hHDNWYWKUn
- 2UoRoOQbkpeXhIybzu20tUa+0+4hUgr4RtplCMF1Fz2iDN6AYPKha5PkIdP3e7IXsyph
- dCSzIFKRil9OgZbTA22IIsjkIcN2ikL0hpMy4CeHqGckpfz2iGHQYnk5DJxQmWThN8py
- HUq0qeCcYbFgOPV8ED2vl8LHDmfdfYo7xnB8BscBx0JYlMBgUoy0XS0Q9PHOXjOJLnlt
- +ZEFa1nXRenrDGhHFd0CVUKpfcsV8e4ltriT7Xz1P+bhj6clF7tzzewNovxdnMYUZHXM
- Ii4w==
-X-Gm-Message-State: AOAM532s280y29RlOu0KLTka2SArAz91l6GH12RXCX36kH/qQMctAw9K
- 3KTsXWHG3hNz+pSCcUrNfpmelA==
-X-Google-Smtp-Source: ABdhPJyWOlKbiuIW6NRSUbNyzB9NUUpGuWU+JyKv4CVtDqLWdVcd5e4Yc8Y3Zjqa5WeezKLW7TPDtQ==
-X-Received: by 2002:a17:90a:4414:b0:1df:9b8f:c3cc with SMTP id
- s20-20020a17090a441400b001df9b8fc3ccmr72658569pjg.56.1654699251447; 
- Wed, 08 Jun 2022 07:40:51 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:6812:d08e:b22c:43d7?
- ([2602:ae:1547:e101:6812:d08e:b22c:43d7])
- by smtp.gmail.com with ESMTPSA id
- t21-20020aa79475000000b0051bbe085f16sm13966960pfq.104.2022.06.08.07.40.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 07:40:50 -0700 (PDT)
-Message-ID: <0fc46d21-9eba-51d3-1d94-fed7dc5aff24@linaro.org>
-Date: Wed, 8 Jun 2022 07:40:48 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=kLbonrqfjBFSX4EF7LWn0O3eL4PGVkmmODN6ZOnFDGc=;
+ b=8CLST8kzl15bDuUgleTj7VyzuESjAED25R4LeV8ezd9D9+g9Ruc6tBivft82EyuvOZ
+ Qjwz/2/dLpzMxQeKsIkIe1F13cLxTFqXDjJnjWrcOj6gtVYiWi9ha7jCs5jTs3vjkThE
+ W9Vyx+8ulr48hJBxFz7tbXoMq/KYxwQMWz1nJNEbnCipcKBXQef0AjoMlYTCoWBFT+qV
+ T/JzzzryRVdArx678552trAo5ByEGKOgQAVDCI9oNvbqxOziovX5ezLDkqqBceEMDtBS
+ JzXraBeEN2kujVlVis14j+A6UVsv9Tl6rc2z0MQ+aS2K7gZeGV1FBBco6KK8clCdNK4D
+ COhA==
+X-Gm-Message-State: AOAM533FVzTQwo7TEyh1ho+w1DEKjDZ52U5fUtLd0zybhwBgbhHFv1O+
+ lc07YeL7HKV1c2HflrQkvacA0kI/okMgASSFtsjEU7BYDMJ8zj44EOCCSVz+vKokab0sggB7mj9
+ g0/PSNj3g86ayrFs=
+X-Received: by 2002:a05:6000:1542:b0:218:549a:2a8e with SMTP id
+ 2-20020a056000154200b00218549a2a8emr8048155wry.314.1654699945044; 
+ Wed, 08 Jun 2022 07:52:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwRlk9mAdz7DVUMvdqM7xLbS2CLg/oCEob/ARPEUbyBUdvzF/OGM5IvFPRPaAPGjwJpni0JA==
+X-Received: by 2002:a05:6000:1542:b0:218:549a:2a8e with SMTP id
+ 2-20020a056000154200b00218549a2a8emr8048134wry.314.1654699944853; 
+ Wed, 08 Jun 2022 07:52:24 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ n20-20020a7bc5d4000000b0039aef592ca0sm23957775wmk.35.2022.06.08.07.52.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jun 2022 07:52:24 -0700 (PDT)
+Date: Wed, 8 Jun 2022 15:52:22 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com,
+ Mark Kanda <mark.kanda@oracle.com>
+Subject: Re: [PATCH v5 02/10] kvm: Support for querying fd-based stats
+Message-ID: <YqC3pocwSjcp2y/3@work-vm>
+References: <20220530150714.756954-1-pbonzini@redhat.com>
+ <20220530150714.756954-3-pbonzini@redhat.com>
+ <Yp+ObQxOi/EXc6PZ@work-vm>
+ <758db6b4-5786-adf4-d293-d8dc7793a21b@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL v1 0/2] Merge tpm 2022/06/07 v1
-Content-Language: en-US
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-References: <20220608010006.2122022-1-stefanb@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220608010006.2122022-1-stefanb@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <758db6b4-5786-adf4-d293-d8dc7793a21b@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,43 +102,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/22 18:00, Stefan Berger wrote:
-> Hi!
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 6/7/22 19:44, Dr. David Alan Gilbert wrote:
 > 
-> The patches in this PR resolve several Coverity issues and mark a memory
-> region with TPM response data as dirty so that it does not get lost during
-> migration.
+> > > +        return NULL;
+> > > +    }
+> > > +    descriptors->kvm_stats_header = kvm_stats_header;
+> > > +    descriptors->kvm_stats_desc = kvm_stats_desc;
+> > > +    descriptors->ident = g_strdup(ident);
+> > 
+> > There's something that confuses me here; you check your set of
+> > descriptors above to find any with the matching ident, and if you've
+> > already got it you return it; OK.  Now, if you don't match then you
+> > read some stats and store it with that ident - but I don't see
+> > when you read the stats from the fd, what makes it read the stats that
+> > correspond to 'ident' ?
 > 
->     Stefan
+> If you mean why not some other source, each source has a different file
+> descriptor:
+> 
+> +    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
+> 
+> but the descriptors are consistent every time KVM_GET_STATS_FD is called, so
+> basically "ident" can be used as a cache key.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Ah OK, this is what I was after; it's a little weird that the caller
+does the ioctl to get the stats-fd, but it does the lookup internally
+with current_cpu for the ident.
 
+Some comments would help!
 
-r~
+Dave
 
-
+> If you mean how does it access the right stat, here it uses the offset
+> field in the descriptor
 > 
-> The following changes since commit 7077fcb9b68f058809c9dd9fd1dacae1881e886c:
+>     ret = pread(stats_fd, stats_data, size_data,
+> kvm_stats_header->data_offset);
+>     ...
+>     for (i = 0; i < kvm_stats_header->num_desc; ++i) {
+>         uint64_t *stats;
+>         pdesc = (void *)kvm_stats_desc + i * size_desc;
 > 
->    Merge tag 'vmbus-maint-20220530' of https://github.com/maciejsszmigiero/qemu into staging (2022-05-30 12:40:36 -0700)
+>         /* Add entry to the list */
+>         stats = (void *)stats_data + pdesc->offset;
 > 
-> are available in the Git repository at:
+> Paolo
 > 
->    https://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2022-06-07-1
-> 
-> for you to fetch changes up to e37a0ef4605e5d2041785ff3fc89ca6021faf7a0:
-> 
->    tpm_crb: mark command buffer as dirty on request completion (2022-06-07 20:37:25 -0400)
-> 
-> Anthony PERARD (1):
->        tpm_crb: mark command buffer as dirty on request completion
-> 
-> Peter Maydell (1):
->        hw/tpm/tpm_tis_common.c: Assert that locty is in range
-> 
->   hw/tpm/tpm_crb.c        | 1 +
->   hw/tpm/tpm_tis_common.c | 7 ++++++-
->   2 files changed, 7 insertions(+), 1 deletion(-)
-> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
