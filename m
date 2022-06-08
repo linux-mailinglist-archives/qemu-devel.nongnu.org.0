@@ -2,97 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E67542F64
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 13:42:35 +0200 (CEST)
-Received: from localhost ([::1]:38302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C996542F78
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 13:51:56 +0200 (CEST)
+Received: from localhost ([::1]:43174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyu4y-0000KG-Cm
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 07:42:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44450)
+	id 1nyuE6-0004jK-21
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 07:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nytwM-0006jG-Ev; Wed, 08 Jun 2022 07:33:35 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37174)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyu3q-0001fu-As
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 07:41:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nytwI-0003Xm-EY; Wed, 08 Jun 2022 07:33:33 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 258BXQ7Q007317;
- Wed, 8 Jun 2022 11:33:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=fLivfP9V/utToS+WOT0UQo/TaP6znGXgfyMMVmyh41I=;
- b=WKILsziVG9ZwkBvfZZROMpna1qBficvyaoDqhGRrVMsD0shPrGj/A3E2pxNoDuLEifI8
- DFH7cD/F3H/vnkZ8o0vEcUMaIZBUHryyfyHjAHpMSf7d6Mb5UghMF6vl/RfL34c9NsRp
- BF4KtM7PJYtAkP8ZwJOQcTXwHaX+egVlq5KfMfMSVnzhHP4MsI/UduZU7QN+eY2YLPQC
- l4N2OYyLlsaGGC8zqu3DvLpQMhn+dlDacVWMrUKlDZHY+RgTzzThm/Ak3EovkHwxTGv9
- 9qdn2KT+4T/jl5Evlg9L3CM1vCJdPtW/YSCMu9qljjrcqmXqBC9Is9Py98AXn36M4Hx+ Kg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjtqb8a8j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Jun 2022 11:33:26 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 258BXPbd007196;
- Wed, 8 Jun 2022 11:33:25 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjtqb8a6e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Jun 2022 11:33:25 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 258BLLRX013765;
- Wed, 8 Jun 2022 11:33:14 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04wdc.us.ibm.com with ESMTP id 3gfy19tvye-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Jun 2022 11:33:14 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 258BXDsD15598008
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 8 Jun 2022 11:33:13 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F48913604F;
- Wed,  8 Jun 2022 11:33:13 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CA6E0136055;
- Wed,  8 Jun 2022 11:33:12 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  8 Jun 2022 11:33:12 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, gerd@kraxel.org
-Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH] edk2: Use TPM2_ENABLE and TPM2_CONFIG_ENABLE for newer edk2
-Date: Wed,  8 Jun 2022 07:33:11 -0400
-Message-Id: <20220608113311.2144610-1-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nyu3n-0004vP-HW
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 07:41:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654688474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wbACJzlgy+F4tnHKUWkA5u+1JxD/8oJ27sTvLw2bDEo=;
+ b=MrxZQyL4Xe9M5XVIUXdnDHsQZm3pzbTRa3SM74VCsCI+J64LmrmZOsaa1DLKAZX32AB3dD
+ f+9jYQ44Yj3g4fRnPRy0nkhdLGj4vEuXsq5OzRvWsOXzKuEhDfQF6sulByyeb9aVGa+db/
+ Aek9/TA/noOI2pFqT3Rly2WbvG4u9dU=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-142-tFGraTqJOXaZdzM_zERi8w-1; Wed, 08 Jun 2022 07:41:13 -0400
+X-MC-Unique: tFGraTqJOXaZdzM_zERi8w-1
+Received: by mail-io1-f69.google.com with SMTP id
+ j12-20020a5d93cc000000b006692aee869fso6030464ioo.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 04:41:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wbACJzlgy+F4tnHKUWkA5u+1JxD/8oJ27sTvLw2bDEo=;
+ b=vE5g70svo8TViFeCVh1YS4nsWV/RetZSCu+vawfoyEZZe/oY1R1d2uDJLWHqqbwbfs
+ oQXKHr2vcgwXTvsXDl/t+Dji9UPUuuIiE3W9OgZ1gSDZlTvJNrNuPjO4pU74PB7Mbhmk
+ 9pYVSaa4z+H49QzRiTmgOKHuVeVaKClCqgAuaKi5BEcYL5AS6LtsqkAd57UsiAnZjSyk
+ Mek1BljulmcWmogtTNa29fwrRXU59p0Lbo6HD2rDcAP1LeML5Hn5n24EbUMguxlP2hDQ
+ P//Lgkke7x2TEHV8yS+QMVCgK+pMb+6JPdF7+Vo4SudOMtJpVtHXIqRIfFKTB28HPOZT
+ UU2w==
+X-Gm-Message-State: AOAM532f6hchJuCX+hzLdKU3gu+JqsTqRzVyaS786kRN7ZcueRlQ9qt2
+ S0xPsH0YdSgHH877yS4g7+VD6pXQ50Z7p9edWmwUcPAIq/iUcJVo5IH7gzOPNCECS6Ao36DaAwU
+ Rel4W+AiGW/lhzDk=
+X-Received: by 2002:a05:6638:250c:b0:331:591f:98ee with SMTP id
+ v12-20020a056638250c00b00331591f98eemr18021978jat.23.1654688472851; 
+ Wed, 08 Jun 2022 04:41:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7DE3MAHBp0Am3ofWd8BXB3Go9pZLMH5eh4KCMfCPrbthsluphHN9yhmeFoC2JZ/CejTkgaQ==
+X-Received: by 2002:a05:6638:250c:b0:331:591f:98ee with SMTP id
+ v12-20020a056638250c00b00331591f98eemr18021954jat.23.1654688472636; 
+ Wed, 08 Jun 2022 04:41:12 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ j7-20020a056e02124700b002d4099d2377sm6357702ilq.26.2022.06.08.04.41.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jun 2022 04:41:11 -0700 (PDT)
+Date: Wed, 8 Jun 2022 07:41:09 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
+ Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ lizefan.x@bytedance.com, zhouyibo@bytedance.com
+Subject: Re: [External] [PATCH v13 3/8] QIOChannelSocket: Implement io_writev
+ zero copy flag & io_flush for CONFIG_LINUX
+Message-ID: <YqCK1UBLjXzo+nm7@xz-m1.local>
+References: <20220513062836.965425-1-leobras@redhat.com>
+ <20220513062836.965425-4-leobras@redhat.com>
+ <b2fae41c-7f47-9bf1-21b9-1b123818a262@bytedance.com>
+ <YpdwcHu7I8dGDimt@xz-m1.local>
+ <CAJ6HWG7vxRzEN5CRf93m_afHPn9zvMdYe=DZ4pGKKBQ8gyTY+Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Nk3siXOd97uE_8cf-rbih6FJvlE_4-ZC
-X-Proofpoint-ORIG-GUID: 0YU5nVHOFsqpQ8zc5-MhGfZgAOCRlqxp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-08_03,2022-06-07_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=857 adultscore=0
- spamscore=0 clxscore=1011 priorityscore=1501 bulkscore=0 impostorscore=0
- phishscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206080049
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJ6HWG7vxRzEN5CRf93m_afHPn9zvMdYe=DZ4pGKKBQ8gyTY+Q@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,61 +112,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent changes to edk2 switched the x86_64 build from using TPM_ENABLE
-to TPM2_ENABLE and TPM1_ENABLE to be similar to the ARM build. Adapt
-the QEMU edk2 Makefile to build with TPM2_ENABLE. QEMU v7.0.0 had lost
-the TPM 2 support in edk2 and this restores it.
+On Wed, Jun 08, 2022 at 02:37:28AM -0300, Leonardo Bras Soares Passos wrote:
+> (1) is not an option, as the interface currently uses ret=1 to make
+> sure MSG_ZEROCOPY is getting used,
+> I added that so the user of qio_channel can switch off zero-copy if
+> it's not getting used, and save some cpu.
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- roms/Makefile.edk2 | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+Yes (1) is not, but could you explain what do you mean by making sure
+MSG_ZEROCOPY being used?  Why is it relevant to the retval here?
 
-diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-index 485f2244b1..a6eb14f215 100644
---- a/roms/Makefile.edk2
-+++ b/roms/Makefile.edk2
-@@ -101,8 +101,7 @@ submodules:
- 		-D NETWORK_IP6_ENABLE \
- 		-D NETWORK_HTTP_BOOT_ENABLE \
- 		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
--		-D TPM_CONFIG_ENABLE
-+		-D TPM2_ENABLE
- 	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
- 
- ../pc-bios/edk2-i386-secure-code.fd: submodules
-@@ -113,8 +112,7 @@ submodules:
- 		-D NETWORK_IP6_ENABLE \
- 		-D NETWORK_HTTP_BOOT_ENABLE \
- 		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
--		-D TPM_CONFIG_ENABLE \
-+		-D TPM2_ENABLE \
- 		-D SECURE_BOOT_ENABLE \
- 		-D SMM_REQUIRE
- 	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
-@@ -127,8 +125,7 @@ submodules:
- 		-D NETWORK_IP6_ENABLE \
- 		-D NETWORK_HTTP_BOOT_ENABLE \
- 		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
--		-D TPM_CONFIG_ENABLE
-+		-D TPM2_ENABLE
- 	cp edk2/Build/OvmfX64/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
- 
- ../pc-bios/edk2-x86_64-secure-code.fd: submodules
-@@ -140,8 +137,7 @@ submodules:
- 		-D NETWORK_IP6_ENABLE \
- 		-D NETWORK_HTTP_BOOT_ENABLE \
- 		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
--		-D TPM_CONFIG_ENABLE \
-+		-D TPM2_ENABLE \
- 		-D SECURE_BOOT_ENABLE \
- 		-D SMM_REQUIRE
- 	cp edk2/Build/Ovmf3264/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
+I just figured it's a bit weird to return >0 here in flush().
+
+> 
+> (2) is not a problem, but I fail to see how useful that would be. Is
+> the idea manually keeping track of flush happening?
+
+Yes if we can check this up it'll be good enough to me.  The trace point
+could help in some case in the future too to monitor the behavior of kernel
+MSG_ERRQUEUE but if you don't like it then it's okay.
+
 -- 
-2.35.3
+Peter Xu
 
 
