@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8611B5420A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 03:36:02 +0200 (CEST)
-Received: from localhost ([::1]:60668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098AF5420A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 03:49:10 +0200 (CEST)
+Received: from localhost ([::1]:41712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nykc5-0000go-Ao
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 21:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55694)
+	id 1nykom-0000UL-Ki
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 21:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=151ed2091=niklas.cassel@wdc.com>)
- id 1nykVS-0001Qw-3V; Tue, 07 Jun 2022 21:29:10 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:39781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=151ed2091=niklas.cassel@wdc.com>)
- id 1nykVQ-0001Ir-6V; Tue, 07 Jun 2022 21:29:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1654651746; x=1686187746;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=OjCah1WltRoY+yqHfnDl82yaz6jwcP6eJqmBLQtv5Q8=;
- b=pmZDkWY2ubrCZeCULu44UlTh8TLgSQSnoEhTwNtAe+6JCRo4BAQcvIfp
- akuM/FfDsnjhiQ4DXoNzbjOKu+SRk/tVkdkPqseDRyEoUxymcDl9zvacI
- nMZQtjOBjf7rvlpQ2ZgWcumAG2k9gHITjwU9gqFSr1rRjap4Hvinxsphs
- 6wvcpyuFiBAKzK8lzyTv1bkFMQG3M7j1nRr9XmJRv0Mn9HKAFWtQzF/rQ
- 29TfArKisZj+/OaV3wfw6uNdqBPSWTs7dmgwqubv4e/YibckUu93P8GSF
- 0UTK5BSq6nCIeGL9dQ5KrcTvycGeJN+eFwxk3kz+12EW5DPLp+I3tEVvz A==;
-X-IronPort-AV: E=Sophos;i="5.91,284,1647273600"; d="scan'208";a="207399241"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2022 09:29:05 +0800
-IronPort-SDR: Vw5bHdJOsTSu6nYtzAQ8ecgHGIUnd6rEFglPnyUHiWNMdLe5UwOsjTJMG05dqLBxKrVB6LNBmo
- QuXp0bpw4D6mXWYv4SOR3NWhcFd9CtW/ksnPQB5miUd7DJ13ZDqEZdGXLAn0FoAix1MIL5bTI+
- 1M0nU8M5AfFpgOc+KMsEiLrEIOJnJQz4vxmwAJ1oOcJ5fLbJsxJN3TUsU7A+aHn4SrPYahgKHt
- L0tLIA3w78+iegSBV7AMEeO1htl9+eDswwlU/5Xq4Mw364k4+rGQ+ISmyDuylvRZppU0266Vsw
- ZkRjsjBNIcMDNT0XYcC98z9l
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Jun 2022 17:47:55 -0700
-IronPort-SDR: sf0va/U10umJ1A2vg5In+yY1HfvrfYBhFT7BOE7F+1CzB6IJ4Lbly3GdjQbdzBdU1JQgcfjRYF
- uLZNKs/RlNQKFhR2PiZKyz81Q0l8UE/XorhTUUUTd5tLn2dI3L5nGGRt1yvWDYo2zI83uej38R
- C0lK2DC1UC33HfW4ImagjM+6JszX7/2889Ua3JRGe/OZKwdTEsFDRkaiVslbNCNP2b+OaMted0
- EyC8wQs8pA9wTZx2hDiMKaraE+xnS0Htm/Ybf4br3FoitmTEupEGApUerrBlh+fz7gukGnlddk
- Ezc=
-WDCIronportException: Internal
-Received: from unknown (HELO x1-carbon.lan) ([10.225.164.64])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2022 18:29:04 -0700
-To: kbusch@kernel.org,
-	its@irrelevant.dk
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>
-Subject: [PATCH 4/4] hw/nvme: add new never_ready parameter to test the DNR bit
-Date: Wed,  8 Jun 2022 03:28:50 +0200
-Message-Id: <20220608012850.668695-5-niklas.cassel@wdc.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220608012850.668695-1-niklas.cassel@wdc.com>
-References: <20220608012850.668695-1-niklas.cassel@wdc.com>
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1nykdi-000213-32
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:37:42 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:44654 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1nykde-0002eG-J6
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:37:41 -0400
+Received: from localhost.localdomain (unknown [159.226.43.7])
+ by APP-05 (Coremail) with SMTP id zQCowABHaX5F_Z9ii+lgAA--.9773S2;
+ Wed, 08 Jun 2022 09:37:14 +0800 (CST)
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+To: qemu-devel@nongnu.org
+Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Subject: [PATCH 0/2] hw/nvme: Add shadow doorbell buffer support
+Date: Wed,  8 Jun 2022 09:36:57 +0800
+Message-Id: <20220608013659.472500-1-fanjinhao21s@ict.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=151ed2091=niklas.cassel@wdc.com; helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: zQCowABHaX5F_Z9ii+lgAA--.9773S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4UXFWrAF13ArWkXw1UZFb_yoW8uw17pa
+ yYgF15WF4kuw1xGws3Ga1xXryrXan3XFs8CanrJw47JFn8KFy7XFW3KF1UZryYvr4Igr1S
+ yF43KFy7Gw1UArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
+ KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
+ 1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij
+ 64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
+ 0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoUDGUUUUU
+X-Originating-IP: [159.226.43.7]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 07 Jun 2022 21:47:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,139 +70,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Niklas Cassel <niklas.cassel@wdc.com>
-From:  Niklas Cassel via <qemu-devel@nongnu.org>
 
-Since we verify that "ready_delay" parameter has to be smaller than CRWMT,
-we know that the namespace will always become ready.
-Therefore the "Namespace Not Ready" status code will never have the DNR
-bit set.
+This patch adds shadow doorbell buffer support in NVMe 1.3 to QEMU
+NVMe. The Doorbell Buffer Config admin command is implemented for the
+guest to enable shadow doobell buffer. When this feature is enabled, each
+SQ/CQ is associated with two buffers, i.e., Shadow Doorbell buffer and
+EventIdx buffer. According to the Spec, each queue's doorbell register
+is only updated when the Shadow Doorbell buffer value changes from being
+less than or equal to the value of the corresponding EventIdx buffer
+entry to being greater than that value. Therefore, the number of MMIO's
+on the doorbell registers is greatly reduced.
 
-Add a new parameter "never_ready" that can be used to emulate a namespace
-that never gets ready, such that the DNR bit gets set after CRWMT amount
-of time.
+This patch is adapted from Huaicheng Li's patch[1] in 2018.
 
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
----
- hw/nvme/ctrl.c | 28 +++++++++++++++++++++++++++-
- hw/nvme/ns.c   |  1 +
- hw/nvme/nvme.h |  2 ++
- 3 files changed, 30 insertions(+), 1 deletion(-)
+[1] https://patchwork.kernel.org/project/qemu-devel/patch/20180305194906.GA3630@gmail.com/
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 66d96714c3..5ec22ff13d 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -134,6 +134,12 @@
-  *   before being marked ready. Only applicable if CC.CRIME is set by the user.
-  *   The value is in units of 500 milliseconds (to be consistent with `crwmt`).
-  *
-+ * - `never_ready`
-+ *   This parameter specifies that a namespace should never be marked as ready.
-+ *   When `crwmt` amount of time has passed after enabling the controller,
-+ *   status code "Namespace Not Ready" will have the DNR bit set. If specified
-+ *   together with `ready_delay`, `never_ready` will take precedence.
-+ *
-  * Setting `zoned` to true selects Zoned Command Set at the namespace.
-  * In this case, the following namespace properties are available to configure
-  * zoned operation:
-@@ -4118,6 +4124,14 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
-     return status;
- }
- 
-+static bool nvme_ready_has_passed_timeout(NvmeCtrl *n)
-+{
-+    int64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-+    int64_t elapsed_time = current_time - n->cc_enable_timestamp;
-+
-+    return elapsed_time > n->params.crwmt * 500;
-+}
-+
- static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeNamespace *ns;
-@@ -4164,7 +4178,11 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     }
- 
-     if (!(ns->id_indep_ns.nstat & NVME_NSTAT_NRDY)) {
--        return NVME_NS_NOT_READY;
-+        uint16_t ret = NVME_NS_NOT_READY;
-+        if (ns->params.never_ready && nvme_ready_has_passed_timeout(n)) {
-+            ret |= NVME_DNR;
-+        }
-+        return ret;
-     }
- 
-     if (ns->status) {
-@@ -5537,6 +5555,10 @@ static void nvme_set_ready_or_start_timer(NvmeCtrl *n, NvmeNamespace *ns)
- {
-     int64_t expire_time;
- 
-+    if (ns->params.never_ready) {
-+        return;
-+    }
-+
-     if (!NVME_CC_CRIME(ldl_le_p(&n->bar.cc)) || ns->params.ready_delay == 0) {
-         ns->id_indep_ns.nstat |= NVME_NSTAT_NRDY;
-         return;
-@@ -5979,6 +6001,7 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
-     n->aer_queued = 0;
-     n->outstanding_aers = 0;
-     n->qs_created = false;
-+    n->cc_enable_timestamp = 0;
- }
- 
- static void nvme_ctrl_shutdown(NvmeCtrl *n)
-@@ -6000,6 +6023,8 @@ static void nvme_ctrl_shutdown(NvmeCtrl *n)
- 
-         nvme_ns_shutdown(ns);
-     }
-+
-+    n->cc_enable_timestamp = 0;
- }
- 
- static void nvme_ctrl_per_ns_action_on_start(NvmeCtrl *n)
-@@ -6109,6 +6134,7 @@ static int nvme_start_ctrl(NvmeCtrl *n)
-     NVME_CAP_SET_TO(cap, new_cap_timeout);
-     stq_le_p(&n->bar.cap, cap);
- 
-+    n->cc_enable_timestamp = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-     n->page_bits = page_bits;
-     n->page_size = page_size;
-     n->max_prp_ents = n->page_size / sizeof(uint64_t);
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index c4e9f0e5c8..89c31658de 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -658,6 +658,7 @@ static Property nvme_ns_props[] = {
-     DEFINE_PROP_BOOL("eui64-default", NvmeNamespace, params.eui64_default,
-                      false),
-     DEFINE_PROP_UINT16("ready_delay", NvmeNamespace, params.ready_delay, 0),
-+    DEFINE_PROP_BOOL("never_ready", NvmeNamespace, params.never_ready, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index c9934d0097..6ff9725f21 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -122,6 +122,7 @@ typedef struct NvmeNamespaceParams {
-     uint64_t zrwafg;
- 
-     uint16_t ready_delay;
-+    bool     never_ready;
- } NvmeNamespaceParams;
- 
- typedef struct NvmeNamespace {
-@@ -436,6 +437,7 @@ typedef struct NvmeCtrl {
-     int         cq_pending;
-     uint64_t    host_timestamp;                 /* Timestamp sent by the host */
-     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-+    uint64_t    cc_enable_timestamp;            /* QEMU clock time */
-     uint64_t    starttime_ms;
-     uint16_t    temperature;
-     uint8_t     smart_critical_warning;
+IOPS comparison with FIO:
+
+iodepth    1      2      4      8
+  QEMU   25.1k  25.9k  24.5k  24.0k
+ +dbbuf  29.1k  60.1k  99.8k  82.5k
+
+MMIO's per IO measured by perf-kvm:
+
+iodepth    1      2      4      8
+  QEMU   2.01   1.99   1.99   1.99
+ +dbbuf  1.00   0.52   0.27   0.46
+
+The tests are done on Ubuntu 22.04 with 5.15.0-33 kernel with Intel(R) 
+Xeon(R) Gold 6248R CPU @ 3.00GHz.
+
+QEMU set up:
+
+bin/x86_64-softmmu/qemu-system-x86_64 \
+    -name "nvme-test" \
+    -machine accel=kvm \
+    -cpu host \
+    -smp 4 \
+    -m 8G \
+    -daemonize \
+    -device virtio-scsi-pci,id=scsi0 \
+    -device scsi-hd,drive=hd0 \
+    -drive file=$OSIMGF,if=none,aio=native,cache=none,format=qcow2,id=hd0,snapshot=on \
+    -drive "id=nvm,if=none,file=null-co://,file.read-zeroes=on,format=raw" \
+    -device nvme,serial=deadbeef,drive=nvm \
+    -net user,hostfwd=tcp::8080-:22 \
+    -net nic,model=virtio
+
+FIO configuration:
+
+[global]
+ioengine=libaio
+filename=/dev/nvme0n1
+thread=1
+group_reporting=1
+direct=1
+verify=0
+time_based=1
+ramp_time=0
+runtime=30
+;size=1G
+;iodepth=1
+rw=randread
+bs=4k
+
+[test]
+numjobs=1
+
+Jinhao Fan (2):
+  hw/nvme: Implement shadow doorbell buffer support
+  hw/nvme: Add trace events for shadow doorbell buffer
+
+ hw/nvme/ctrl.c       | 100 +++++++++++++++++++++++++++++++++++++++++--
+ hw/nvme/nvme.h       |   8 ++++
+ hw/nvme/trace-events |   5 +++
+ include/block/nvme.h |   2 +
+ 4 files changed, 112 insertions(+), 3 deletions(-)
+
 -- 
-2.36.1
+2.25.1
 
 
