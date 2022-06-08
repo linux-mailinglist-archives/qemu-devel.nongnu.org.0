@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695A0543861
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 18:08:08 +0200 (CEST)
-Received: from localhost ([::1]:34030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2FD5543862
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 18:08:37 +0200 (CEST)
+Received: from localhost ([::1]:34986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyyE2-0005is-FP
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 12:08:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52818)
+	id 1nyyEV-0006MC-NE
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 12:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nyy82-0005vf-7L
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:01:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37817)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nyyCd-0004ca-7q
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:06:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nyy7z-0000Y1-Bh
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:01:53 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nyyCa-0001Ia-KJ
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:06:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654704110;
+ s=mimecast20190719; t=1654704394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=946KQXL/MuGthlZ6auNsGhR0l6y4iAXQdOAkiL9ls3E=;
- b=PfEyW4Hzf0SKZtAHJbUbzglwdDQY70XSwHJIA5IaPFtuBJ+WVOdom3nKninM2a8fzLfS32
- MG5xeDvux+fANQIW73XayuiF40L0+ql7c4OIpr3IzEuTZXMaRCr3wD7RM6GQKFQknpVtPu
- q9GrJ9eDG8VUNzA7v8sHYpLMey5AWdQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ezqFEJN0nLL4VZti5cQmcgbWOh4nV0LXx3wYfDebEBw=;
+ b=S+RblvZ9QDrLVr+Vr4cANP15NdbVKlROWHN+7MAJixH2In45xO5+vCCDAjVYtp8Dz85Z6e
+ iJtNjrXfygfFtS8a8PSmq8zND23XBAcGTJ7DNwzLILkt0ZEvGGhundQiUEtjrEzCdEzGxX
+ yErdjLFhKbmk2G5aH5Ww3xbWvToKXKA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-dXcnWegSNdeNJckTHXcDqA-1; Wed, 08 Jun 2022 12:01:48 -0400
-X-MC-Unique: dXcnWegSNdeNJckTHXcDqA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so10086254wmj.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 09:01:48 -0700 (PDT)
+ us-mta-267-ysnNYm_lP1Gtg4RlXUlIlg-1; Wed, 08 Jun 2022 12:06:25 -0400
+X-MC-Unique: ysnNYm_lP1Gtg4RlXUlIlg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p18-20020a05600c23d200b0039c40c05687so4013397wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 09:06:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=946KQXL/MuGthlZ6auNsGhR0l6y4iAXQdOAkiL9ls3E=;
- b=qs9l8THSSva5AoWcpQ6Y2AXUpPx6uNwhqUKZsL7MC8xlsDkrsPmXUehYq9Luo3coco
- GEHOdz6RF4k7Q0eHasVflXOS08yU3fpv88M1XmR0JXODUL6UB6iPrI/n2yFBjzNi6CnE
- wVX5H8QK3NtlPYIh+KBnqq71f+u9FLLIceFq7lCGXKz2lOYI0O0Uouh2fdNRI61UBnBY
- sp7NiaC/TNVinp90vaSo4GxOfvEfIXLfd7bN0dFd8lXXBEK9+24Hf03zWCmEMRb3R+BA
- JY2mh2msgxa95rri/mHw6TW+gEIhAmwej3wn7HE0YTk9hKMaFw3kdtdLFxXQdXPBzicS
- zPmg==
-X-Gm-Message-State: AOAM530caoyaKZSpeMIXEV7ZlPe5ULJ+1iLzsn6UjYGEdWTlnOiYhQG2
- EllTAJSCe/3VkC9j48mC4WzbLWWwHaIn7gSP782PBzB2t2YVlA92L04eoUYgxHJWrKInhEKfNGz
- xxbfPTQa4X9HfFVw=
-X-Received: by 2002:adf:fa81:0:b0:20e:69df:5f06 with SMTP id
- h1-20020adffa81000000b0020e69df5f06mr34347579wrr.188.1654704107534; 
- Wed, 08 Jun 2022 09:01:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwPpJb/7IQ/F6g1/qmNfAq/4wEmKFM+Pnkwmq7PW0rMSbBDlyAHcMlZmaZyPo+syL5QbktLLg==
-X-Received: by 2002:adf:fa81:0:b0:20e:69df:5f06 with SMTP id
- h1-20020adffa81000000b0020e69df5f06mr34347546wrr.188.1654704107235; 
- Wed, 08 Jun 2022 09:01:47 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- x8-20020adff0c8000000b00210a6bd8019sm21122792wro.8.2022.06.08.09.01.46
+ :mime-version:content-disposition:in-reply-to;
+ bh=ezqFEJN0nLL4VZti5cQmcgbWOh4nV0LXx3wYfDebEBw=;
+ b=nrZTmm/5GknLDK+3RISJqNSkddAknBIOF+6+12d/dwnC4bmVOQp0jwqe24hynqLEzi
+ DHEYhzbfDONAZdtXbP6WocCYdqA7g4gINBxVs2YefDcWmaHAaijlwJza/YIuGueLjj43
+ yd9NtE3gtHLwG13kq+AQdMWVNYg/sDzNNTKs6eIfePYD1jeoMIKzh+uvnLHjv9f61yxM
+ Kfu8s/9VEn114GJrRMv8IF8lqSfHv0ulFubMWi6qTWrEMggSHHWcieD8twH9uJnoK4f1
+ ScvlhlwX/KVPkbR5Vsbz0bSEIyoF8cM8PL9mncnAhY1rOE2FJJBbcYIUc0dNXXhC0PVD
+ ckZA==
+X-Gm-Message-State: AOAM5320W0ov41ZVb/U5hlVWzkoNFnI1rien1P2EcXca1efB4r+HwLZ0
+ /SNmNtapSbx6iM33zqyGmC86bbUjYJg8gYQdQgerp5Hn6EOpIgFZzIYvHe21BFDNaqO6SI5xeZY
+ ri4pndqaAMUWmSMI=
+X-Received: by 2002:a05:600c:34d2:b0:397:7209:c1f0 with SMTP id
+ d18-20020a05600c34d200b003977209c1f0mr35708507wmq.132.1654704384211; 
+ Wed, 08 Jun 2022 09:06:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCp0xInp5kqEy50QES5wCv8FQFGsKUg38U95UUrDZhnzzv9C7hdZoR+SrpxzxO4tVo9jq96w==
+X-Received: by 2002:a05:600c:34d2:b0:397:7209:c1f0 with SMTP id
+ d18-20020a05600c34d200b003977209c1f0mr35708477wmq.132.1654704383922; 
+ Wed, 08 Jun 2022 09:06:23 -0700 (PDT)
+Received: from redhat.com ([176.12.150.13]) by smtp.gmail.com with ESMTPSA id
+ l19-20020a1ced13000000b0039c1396b495sm24219403wmh.9.2022.06.08.09.06.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 09:01:46 -0700 (PDT)
-Date: Wed, 8 Jun 2022 17:01:44 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com,
- Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH v5 02/10] kvm: Support for querying fd-based stats
-Message-ID: <YqDH6Ec/6937BTT/@work-vm>
-References: <20220530150714.756954-1-pbonzini@redhat.com>
- <20220530150714.756954-3-pbonzini@redhat.com>
- <Yp+ObQxOi/EXc6PZ@work-vm>
- <758db6b4-5786-adf4-d293-d8dc7793a21b@redhat.com>
- <YqC3pocwSjcp2y/3@work-vm>
- <686d6426-f035-4218-25a2-c212af38ce58@redhat.com>
+ Wed, 08 Jun 2022 09:06:23 -0700 (PDT)
+Date: Wed, 8 Jun 2022 12:06:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH] microvm: turn off io reservations for pcie root ports
+Message-ID: <20220608120505-mutt-send-email-mst@kernel.org>
+References: <20220603085920.604323-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <686d6426-f035-4218-25a2-c212af38ce58@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+In-Reply-To: <20220603085920.604323-1-kraxel@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -104,70 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> On 6/8/22 16:52, Dr. David Alan Gilbert wrote:
-> > > If you mean why not some other source, each source has a different file
-> > > descriptor:
-> > > 
-> > > +    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
-> > > 
-> > > but the descriptors are consistent every time KVM_GET_STATS_FD is called, so
-> > > basically "ident" can be used as a cache key.
-> > 
-> > Ah OK, this is what I was after; it's a little weird that the caller
-> > does the ioctl to get the stats-fd, but it does the lookup internally
-> > with current_cpu for the ident.
+On Fri, Jun 03, 2022 at 10:59:20AM +0200, Gerd Hoffmann wrote:
+> The pcie host bridge has no io window on microvm,
+> so io reservations will not work.
 > 
-> Oh yeah that's weird.
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+I don't much like overriding user like this. We end up users
+setting it to silly values and then if we do want to
+support this things just break. Thoughts?
+
+> ---
+>  hw/i386/microvm.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> Let me squash in this:
-
-Yeh that's nicer; a comment something like:
-
-'Find descriptors for 'target', either that have already been read or
- query 'stats_fd' to read them from kvm'
-
-?
-
-Dave
-
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 023bf4ea79..71896ad173 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -3871,17 +3871,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
->      size_t size_desc;
->      ssize_t ret;
-> -    switch (target) {
-> -    case STATS_TARGET_VM:
-> -        ident = StatsTarget_str(STATS_TARGET_VM);
-> -        break;
-> -    case STATS_TARGET_VCPU:
-> -        ident = current_cpu->parent_obj.canonical_path;
-> -        break;
-> -    default:
-> -        abort();
-> -    }
-> -
-> +    ident = StatsTarget_str(target);
->      QTAILQ_FOREACH(descriptors, &stats_descriptors, next) {
->          if (g_str_equal(descriptors->ident, ident)) {
->              return descriptors;
-> @@ -3917,7 +3907,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
->      }
->      descriptors->kvm_stats_header = kvm_stats_header;
->      descriptors->kvm_stats_desc = kvm_stats_desc;
-> -    descriptors->ident = g_strdup(ident);
-> +    descriptors->ident = ident;
->      QTAILQ_INSERT_TAIL(&stats_descriptors, descriptors, next);
->      return descriptors;
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 4b3b1dd262f1..f01d972f5d28 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -757,6 +757,12 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+>          "Set off to disable adding virtio-mmio devices to the kernel cmdline");
+>  
+>      machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
+> +
+> +    /*
+> +     * pcie host bridge (gpex) on microvm has no io address window,
+> +     * so reserving io space is not going to work.  Turn it off.
+> +     */
+> +    object_register_sugar_prop("pcie-root-port", "io-reserve", "0", true);
 >  }
-> 
-> (once I test it).
-> 
-> Paolo
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  
+>  static const TypeInfo microvm_machine_info = {
+> -- 
+> 2.36.1
 
 
