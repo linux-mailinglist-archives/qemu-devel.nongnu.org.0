@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0BA5432AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:37:05 +0200 (CEST)
-Received: from localhost ([::1]:42760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A9C54329B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:32:01 +0200 (CEST)
+Received: from localhost ([::1]:34784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywnx-0002jg-0d
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
+	id 1nywj1-0005YB-9u
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:31:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nywAK-0005sw-Dz
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:56:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35211)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1nywBb-0007GN-J1
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:57:31 -0400
+Received: from mail.bwidawsk.net ([107.170.211.233]:60326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nywAI-0004xG-Pk
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:56:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696566;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y3GTIcrik+pI4w5E2pRnRXAdLJA1m8WfGOgWT57e8sg=;
- b=Spw9BovhRwPmtYtkkgm15Go50PC/isYr3dCud30Mh4snSmob8908sIaeSbwrUzKb9JBu0G
- IN7tRGyMdr2f5KxwwDi5bYbZx84oUESpjTLQASq9nyE7T0aJtchbkvJCbliD94awu4Iv2X
- 8aS6sT4Gid+tRz9XS9AgcnrqwWRKtf0=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-211-QLvlxFf6Plu_XzTWL5O0dA-1; Wed, 08 Jun 2022 09:56:04 -0400
-X-MC-Unique: QLvlxFf6Plu_XzTWL5O0dA-1
-Received: by mail-oi1-f197.google.com with SMTP id
- i129-20020aca3b87000000b0032e75128546so7179059oia.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 06:56:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=y3GTIcrik+pI4w5E2pRnRXAdLJA1m8WfGOgWT57e8sg=;
- b=sCT2ONRi33MUtitxWPasklHoexskS/gVzssfaFzVJGOhNsLCnx9L5tPCr7QiZCXYHQ
- +fUsKosteZSk1ADsmeyh8WiT0FasRxtNMSY08JF3Q8oEb/xnv8UnhNoREPGPiMHfmwMT
- C0S7GzbSEvxYIqxEyvkFoBBX44DtsFq5jRRMuZV54xAAQ7IoKKybBp83PrgPECr+KMJW
- EF9iiWDSLCX0Kl7wo/1On690ZzNv+0BQFhuqi25650jKO2CdOdPRznm/LTy8nEDSQ6S+
- ewUoy2XpS6Zg+lUf1l/9jCDyMvQIzyMxL9CX4YEyEsIFXij3OQ8Gb8w9+q004k6ojjYv
- lQhA==
-X-Gm-Message-State: AOAM532NwuXRR0SqnNfA7gu0+0vDZeXpGWh1wI6BUakEfRlQzzQu2UEP
- MK1z+vcgFQ5GevKWCYjQElEDTDOOzjyGwkp1rrM+Qwbyqr9B4kKK9uBMLIroJWOltLd8VQPCf1Y
- LD7QKUpJ1TB+u6PfApszoWojZV01nWYw=
-X-Received: by 2002:a9d:19aa:0:b0:60b:d2ce:2eed with SMTP id
- k39-20020a9d19aa000000b0060bd2ce2eedmr11447589otk.38.1654696564032; 
- Wed, 08 Jun 2022 06:56:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxiw03wQJgkWT2p3OX39HP4vvdtn2idE12KzmNeUxg3oOdnmDQ/f8nKwGRv0RfZWgoCMYIwMmkE0gDrFTnyqK4=
-X-Received: by 2002:a9d:19aa:0:b0:60b:d2ce:2eed with SMTP id
- k39-20020a9d19aa000000b0060bd2ce2eedmr11447580otk.38.1654696563776; Wed, 08
- Jun 2022 06:56:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1nywBZ-00053M-EQ
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:57:26 -0400
+Received: by mail.bwidawsk.net (Postfix, from userid 5001)
+ id 1906C123290; Wed,  8 Jun 2022 06:57:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=bwidawsk.net;
+ s=zangief; t=1654696643;
+ bh=aDQLqr0vrF2R3oiCtdY65kALwj6c7m7w71NWjftZyUc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=ff7drHpjKalNaiJqn6+QIoPEoxKsebqz9qV5j3Dxsu78R5XnxBXhQHEnTjOa6DqeH
+ hNDzzPOaGjFGp5QHuHFXePpi0L5+uWkgmmLdgC42Kd73qJtccCnzutGfcOuZNRn7Hx
+ mrpSzniJhskUWVpqcc17qNdYVfE6iEiCbHPSG3mo=
+X-Spam-ASN: 
+Received: from saberhagen.. (c-73-25-157-11.hsd1.or.comcast.net [73.25.157.11])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.bwidawsk.net (Postfix) with ESMTPSA id CC8C912322C;
+ Wed,  8 Jun 2022 06:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=bwidawsk.net;
+ s=zangief; t=1654696637;
+ bh=aDQLqr0vrF2R3oiCtdY65kALwj6c7m7w71NWjftZyUc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=snIDwyCUtU6Cq7qOpJTteK8tNPeSY/XoXz/QK5+hkd0I7FzS+xcA8qc0M7ao5ugpo
+ l8vH7aIcPqNCjcPlfqCTzbfDEFR6VI46suTf+il6AE31Pbu4XpeKz6fR143ayxJZvw
+ oMcfLkS9509z9iSre9Qoeh61zT151dGGAQBD15jw=
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	qemu-devel@nongnu.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+	Ben Widawsky <ben@bwidawsk.net>
+Subject: [PATCH v2] MAINTAINERS: change Ben Widawsky's email address
+Date: Wed,  8 Jun 2022 06:57:06 -0700
+Message-Id: <20220608135706.503956-1-ben@bwidawsk.net>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220607162628.372400-1-ben@bwidawsk.net>
+References: <20220607162628.372400-1-ben@bwidawsk.net>
 MIME-Version: 1.0
-References: <20220608113311.2144610-1-stefanb@linux.ibm.com>
-In-Reply-To: <20220608113311.2144610-1-stefanb@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 8 Jun 2022 17:55:52 +0400
-Message-ID: <CAMxuvaw-+E3mYe1OOmbaV5GKJuYW_jm5D9kUaYPMq6qQ5sFq2w@mail.gmail.com>
-Subject: Re: [PATCH] edk2: Use TPM2_ENABLE and TPM2_CONFIG_ENABLE for newer
- edk2
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-trivial <qemu-trivial@nongnu.org>,
- Gerd Hoffmann <gerd@kraxel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
+ helo=mail.bwidawsk.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,78 +74,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Ben Widawsky <ben@bwidawsk.net>
+From:  Ben Widawsky via <qemu-devel@nongnu.org>
 
-Hi
+ben.widawsky@intel.com will stop working on 2022-06-20, change it to my
+personal email address.
 
-On Wed, Jun 8, 2022 at 3:33 PM Stefan Berger <stefanb@linux.ibm.com> wrote:
->
-> Recent changes to edk2 switched the x86_64 build from using TPM_ENABLE
+Update .mailmap to handle previously authored commits.
 
-You can quote the relevant change: commit 4de8d61bcec ("OvmfPkg:
-rework TPM configuration")
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Ben Widawsky <ben@bwidawsk.net>
 
-> to TPM2_ENABLE and TPM1_ENABLE to be similar to the ARM build. Adapt
-> the QEMU edk2 Makefile to build with TPM2_ENABLE. QEMU v7.0.0 had lost
-> the TPM 2 support in edk2 and this restores it.
->
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+---
+v2:
+  Fix typo in commit message
+  change author to ben@bwidawsk.net from @intel.com
+  Swap mailmap direction (Jonathan)
+---
+ .mailmap    | 1 +
+ MAINTAINERS | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+diff --git a/.mailmap b/.mailmap
+index 8c326709cfab..e92e268b9230 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -54,6 +54,7 @@ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
++Ben Widawsky <ben@bwidawsk.net> <ben.widawsky@intel.com>
+ Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ Frederic Konrad <konrad.frederic@yahoo.fr> <fred.konrad@greensocs.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5580a36b68e1..89da5755116b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2574,7 +2574,7 @@ F: qapi/transaction.json
+ T: git https://repo.or.cz/qemu/armbru.git block-next
+ 
+ Compute Express Link
+-M: Ben Widawsky <ben.widawsky@intel.com>
++M: Ben Widawsky <ben@bwidawsk.net>
+ M: Jonathan Cameron <jonathan.cameron@huawei.com>
+ S: Supported
+ F: hw/cxl/
 
-> ---
->  roms/Makefile.edk2 | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-> index 485f2244b1..a6eb14f215 100644
-> --- a/roms/Makefile.edk2
-> +++ b/roms/Makefile.edk2
-> @@ -101,8 +101,7 @@ submodules:
->                 -D NETWORK_IP6_ENABLE \
->                 -D NETWORK_HTTP_BOOT_ENABLE \
->                 -D NETWORK_TLS_ENABLE \
-> -               -D TPM_ENABLE \
-> -               -D TPM_CONFIG_ENABLE
-> +               -D TPM2_ENABLE
->         cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_C=
-ODE.fd $@
->
->  ../pc-bios/edk2-i386-secure-code.fd: submodules
-> @@ -113,8 +112,7 @@ submodules:
->                 -D NETWORK_IP6_ENABLE \
->                 -D NETWORK_HTTP_BOOT_ENABLE \
->                 -D NETWORK_TLS_ENABLE \
-> -               -D TPM_ENABLE \
-> -               -D TPM_CONFIG_ENABLE \
-> +               -D TPM2_ENABLE \
->                 -D SECURE_BOOT_ENABLE \
->                 -D SMM_REQUIRE
->         cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_C=
-ODE.fd $@
-> @@ -127,8 +125,7 @@ submodules:
->                 -D NETWORK_IP6_ENABLE \
->                 -D NETWORK_HTTP_BOOT_ENABLE \
->                 -D NETWORK_TLS_ENABLE \
-> -               -D TPM_ENABLE \
-> -               -D TPM_CONFIG_ENABLE
-> +               -D TPM2_ENABLE
->         cp edk2/Build/OvmfX64/$(target)_$(call toolchain,x86_64)/FV/OVMF_=
-CODE.fd $@
->
->  ../pc-bios/edk2-x86_64-secure-code.fd: submodules
-> @@ -140,8 +137,7 @@ submodules:
->                 -D NETWORK_IP6_ENABLE \
->                 -D NETWORK_HTTP_BOOT_ENABLE \
->                 -D NETWORK_TLS_ENABLE \
-> -               -D TPM_ENABLE \
-> -               -D TPM_CONFIG_ENABLE \
-> +               -D TPM2_ENABLE \
->                 -D SECURE_BOOT_ENABLE \
->                 -D SMM_REQUIRE
->         cp edk2/Build/Ovmf3264/$(target)_$(call toolchain,x86_64)/FV/OVMF=
-_CODE.fd $@
-> --
-> 2.35.3
->
+base-commit: 9b1f58854959c5a9bdb347e3e04c252ab7fc9ef5
+-- 
+2.36.1
 
 
