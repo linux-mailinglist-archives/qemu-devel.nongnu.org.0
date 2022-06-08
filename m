@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC1C542141
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 07:30:07 +0200 (CEST)
-Received: from localhost ([::1]:48526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B11C3542154
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 07:41:55 +0200 (CEST)
+Received: from localhost ([::1]:35232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyoGb-0000w3-WD
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 01:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34300)
+	id 1nyoS2-0002xa-Pw
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 01:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nyoBH-0004Fp-Er
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 01:24:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nyoBE-0002dj-UB
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 01:24:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654665871;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hYl43kYCywf4f6G38/lwCKsBZAXisqf7hrLC3NKx+ak=;
- b=J1MNJKtOkPQznQ2dh2xkmCmiwKHs9H2aU22k5sMZgxeXJOM/I8M7T6jxhhhb7i2cZjWhwc
- YKGzrLPkZM5RlZwkrpSe/IahARbrS+otUcjo/eD7I1w2jIG9id+091PRCELuNlzVEDQRbf
- o+QXXRwVEWpEqZOUBX1je1EvYF7h4sQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-CM8InKTAPkKFPQ-TUykXUA-1; Wed, 08 Jun 2022 01:24:30 -0400
-X-MC-Unique: CM8InKTAPkKFPQ-TUykXUA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cy18-20020a0564021c9200b0042dc7b4f36fso14004293edb.4
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 22:24:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyoNF-0000LK-Qe
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 01:36:58 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:39438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyoNB-0004cX-Lw
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 01:36:57 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id q140so2871948pgq.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 22:36:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MnQrOAjzL/E38dXvym3OX7h70hOrLcs50bzurVXKR7c=;
+ b=wTxP9ssWzggSC0NZJZLOuARynfuHmwCzSFM/c4eZ3PJ7fcxK1iBOQkLzp9QVz52wrF
+ xeJDFkFvFZ1NJm5xIsS6Z/eRK2xQ6lusn/qlh+ThoAoZoCcSKnI5L4AyI1tuq70H4UCM
+ Oln7YwAIM5Okp80XHigemXfPj4oHS5Bg856lM0sAnR0IKFyyY6XnKnyrrt19ZnCY6RRM
+ 5m3KY5Pmk9nApWIq9Stt/SD0lZrbHrar0+eZs55NH6UIwFy5tiR6rYrPJOQPwYGvPlAb
+ d8El5bMKtmaUXSAzr6xEOFP5UVrT3TCRqxJcwGFUhWs/ltTaLp97vQe9p4iYGdzCYywI
+ +r3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hYl43kYCywf4f6G38/lwCKsBZAXisqf7hrLC3NKx+ak=;
- b=bFUYkx7gnH6IVDVTPmTIDd1KQNfvLlST+JGcgUVJPizG1XHvh7xyHjCXmHe5LtJCdm
- dbd6kJXoOoN5bNxxSQ6kBJ4KeSVCcW8S01zHQPjEXOH5kiV1OZnVGtHdIoRPl6Q33jIv
- 6S2lGNiUnlkjBMpzmHO+XHMhl7Uh2YBgsDafJPMKxTBFrzdKQziIUeaXf0ss0trqA/Zj
- U9EOHcXh30Fq3b9mmSxamo9n2ctUa7Ff03ys9/gNW+uFtpaTI0nkyHviQdCylUTaPDQV
- xCf8OrV0s92ImlRN9ua4JhOIFrl5oqDMDFsNOwnQP1H5hY/xVUMQh2GC3BXuuIMcOKPD
- deyw==
-X-Gm-Message-State: AOAM530hRaLxZEQf1nHS1y/hhXwfrFIpGKPab74k9VXsZ1MRXqEy1hIw
- knF1n4IUZmXtLXmcdq78zY+czoweJtnxVSM5lCCgJQJLeu0d/24gzxkN6bToVlHaEG6VAOHgaJS
- gKc2kL7UJB0g706+s8PqbegwytKvizlM=
-X-Received: by 2002:a17:906:824a:b0:70f:4c58:6ec6 with SMTP id
- f10-20020a170906824a00b0070f4c586ec6mr22733615ejx.648.1654665869335; 
- Tue, 07 Jun 2022 22:24:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRVQKdcw/0jryphAIbJR902+Ah+nFseWc9111zA10BU1y+Y8W4dTBZJmBEa5X2vMPOEtIT0XCEjQGTbEhyWwM=
-X-Received: by 2002:a17:906:824a:b0:70f:4c58:6ec6 with SMTP id
- f10-20020a170906824a00b0070f4c586ec6mr22733589ejx.648.1654665868967; Tue, 07
- Jun 2022 22:24:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MnQrOAjzL/E38dXvym3OX7h70hOrLcs50bzurVXKR7c=;
+ b=jRJpHnc/yuHjR57FI6wc7EFB4C19Bvmje5ttZDdl9VRtar1AArXcHb5ErArFVQlh2j
+ nLGgajjMfcOmR5KRcRqtR5x/sgeyJIm2GgtSKEvGDkyxCo3VD4/Utd9SgFC1IpO+ZJUK
+ Q/VffWXLGYumWe4Tvj0sgBzcZD4lFOw47OI+lvP149yJQ5B3qVHfCt2ozmJEzmO5EGvU
+ TxaEbPiIvMqhgJ35y0Rf1JrmmXPk8dT1Bygm/IW8vlgGSpbXy1QhCBQn5PKX44X1M8yT
+ nL4+UYZxE9LV0h7Neu1kOB9MvRjJ3/2kFs0eXocs9mYBtTdFGMJiTfY+9NiHb8jyLkQe
+ K22A==
+X-Gm-Message-State: AOAM530Y0vR5paHHDW0jRyq9U7462nI1MezMAJLtMvqNI8CgCGfPK9Hb
+ oFaH+gTiO4114nYFK+L0COKLlcOyXpmyxA==
+X-Google-Smtp-Source: ABdhPJySpZ/6HYj4eWpEhV7p2EX/KO+chj9AFNKsDZFcEqDWbMGK4u/Tbc1BH3IKL83hDbd/Q5WkPA==
+X-Received: by 2002:a05:6a00:2244:b0:51b:b974:4294 with SMTP id
+ i4-20020a056a00224400b0051bb9744294mr33052983pfu.67.1654666611487; 
+ Tue, 07 Jun 2022 22:36:51 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1547:e101:c626:2f70:ac99:7c97])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020a1709028c8600b001636c0b98a7sm13507703plo.226.2022.06.07.22.36.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jun 2022 22:36:51 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: jcmvbkbc@gmail.com
+Subject: [PATCH v4 0/2] target/xtensa: semihosting cleanup
+Date: Tue,  7 Jun 2022 22:36:48 -0700
+Message-Id: <20220608053650.811947-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220513062836.965425-1-leobras@redhat.com>
- <20220513062836.965425-4-leobras@redhat.com>
- <b2fae41c-7f47-9bf1-21b9-1b123818a262@bytedance.com>
-In-Reply-To: <b2fae41c-7f47-9bf1-21b9-1b123818a262@bytedance.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 8 Jun 2022 02:24:18 -0300
-Message-ID: <CAJ6HWG447LyNpwwZJ_bYsT=MzY9K3mDwJ_Bh6EnGs0Cr7NJvYQ@mail.gmail.com>
-Subject: Re: [External] [PATCH v13 3/8] QIOChannelSocket: Implement io_writev
- zero copy flag & io_flush for CONFIG_LINUX
-To: =?UTF-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org, 
- Peter Xu <peterx@redhat.com>, Fam Zheng <fam@euphon.net>, 
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, 
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- lizefan.x@bytedance.com, zhouyibo@bytedance.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -107,33 +86,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello =E5=BE=90=E9=97=AF,
+Based-on: <20220607204557.658541-1-richard.henderson@linaro.org>
+("[PATCH v4 00/53] semihosting cleanup")
 
-Thanks for reviewing!
+Changes for v4:
+  * Split out of v2.
+  * Undo the gdb errno thing; continue to convert between host and xtensa.
 
-On Wed, Jun 1, 2022 at 6:37 AM =E5=BE=90=E9=97=AF <xuchuangxclwt@bytedance.=
-com> wrote:
-[...]
-> Hi, Leonardo. I'm also paying attention to the application of
-> MSG_ZEROCOPY in live migration recently. I noticed that you defined a
-> member `zero_copy_queued` in the struct QIOChannelSocket, but I can't
-> find out where the value of this member has been changed in your patch.
-> Can you answer it for me?
->
 
-You are right.
-This was being correctly implemented until v6, and then the increment
-just vanished.
+r~
 
-Since v6 there  were a lot of changes both in the patch and in the
-base repository, so I think I completely missed it in some change
-iteration.
 
-I will send a fix shortly.
-Is that ok if I include a "Reported-by:  =E5=BE=90=E9=97=AF
-<xuchuangxclwt@bytedance.com>" in the patch?
+Richard Henderson (2):
+  target/xtensa: Use an exception for semihosting
+  target/xtensa: Use semihosting/syscalls.h
 
-Best regards,
-Leo
+ target/xtensa/cpu.h         |   3 +-
+ target/xtensa/helper.h      |   3 -
+ hw/xtensa/sim.c             |   3 -
+ target/xtensa/exc_helper.c  |   4 +
+ target/xtensa/translate.c   |   3 +-
+ target/xtensa/xtensa-semi.c | 326 +++++++++++-------------------------
+ 6 files changed, 106 insertions(+), 236 deletions(-)
+
+-- 
+2.34.1
 
 
