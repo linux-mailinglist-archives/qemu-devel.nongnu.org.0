@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FD5543862
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 18:08:37 +0200 (CEST)
-Received: from localhost ([::1]:34986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26DD543888
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 18:13:42 +0200 (CEST)
+Received: from localhost ([::1]:42506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyyEV-0006MC-NE
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 12:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54218)
+	id 1nyyJS-00039v-28
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 12:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nyyCd-0004ca-7q
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:06:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31662)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nyyCy-00059M-3q
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:07:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nyyCa-0001Ia-KJ
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:06:38 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nyyCv-0001Kb-0F
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:06:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654704394;
+ s=mimecast20190719; t=1654704416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ezqFEJN0nLL4VZti5cQmcgbWOh4nV0LXx3wYfDebEBw=;
- b=S+RblvZ9QDrLVr+Vr4cANP15NdbVKlROWHN+7MAJixH2In45xO5+vCCDAjVYtp8Dz85Z6e
- iJtNjrXfygfFtS8a8PSmq8zND23XBAcGTJ7DNwzLILkt0ZEvGGhundQiUEtjrEzCdEzGxX
- yErdjLFhKbmk2G5aH5Ww3xbWvToKXKA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Lvk0mk8WUCuLS9ONkc+yJTlaYgAmIafYfWqW1oSiZJk=;
+ b=NnBjMXe/frAei34gCASoqmNOJia/70GGMUUgCetTQAHqzlP7N2XNBNyipunz1L4llpRRuG
+ IHm91B6AvPRd3guE0kMX5FxXgC3Cg7Nq51YORA8k21ER+iTJii32WLuJWvD/9PDx8nBTim
+ Z1GpbHO805xhHuKWZhkLN2ZZqhXhuQo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-267-ysnNYm_lP1Gtg4RlXUlIlg-1; Wed, 08 Jun 2022 12:06:25 -0400
-X-MC-Unique: ysnNYm_lP1Gtg4RlXUlIlg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p18-20020a05600c23d200b0039c40c05687so4013397wmb.2
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 09:06:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ezqFEJN0nLL4VZti5cQmcgbWOh4nV0LXx3wYfDebEBw=;
- b=nrZTmm/5GknLDK+3RISJqNSkddAknBIOF+6+12d/dwnC4bmVOQp0jwqe24hynqLEzi
- DHEYhzbfDONAZdtXbP6WocCYdqA7g4gINBxVs2YefDcWmaHAaijlwJza/YIuGueLjj43
- yd9NtE3gtHLwG13kq+AQdMWVNYg/sDzNNTKs6eIfePYD1jeoMIKzh+uvnLHjv9f61yxM
- Kfu8s/9VEn114GJrRMv8IF8lqSfHv0ulFubMWi6qTWrEMggSHHWcieD8twH9uJnoK4f1
- ScvlhlwX/KVPkbR5Vsbz0bSEIyoF8cM8PL9mncnAhY1rOE2FJJBbcYIUc0dNXXhC0PVD
- ckZA==
-X-Gm-Message-State: AOAM5320W0ov41ZVb/U5hlVWzkoNFnI1rien1P2EcXca1efB4r+HwLZ0
- /SNmNtapSbx6iM33zqyGmC86bbUjYJg8gYQdQgerp5Hn6EOpIgFZzIYvHe21BFDNaqO6SI5xeZY
- ri4pndqaAMUWmSMI=
-X-Received: by 2002:a05:600c:34d2:b0:397:7209:c1f0 with SMTP id
- d18-20020a05600c34d200b003977209c1f0mr35708507wmq.132.1654704384211; 
- Wed, 08 Jun 2022 09:06:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCp0xInp5kqEy50QES5wCv8FQFGsKUg38U95UUrDZhnzzv9C7hdZoR+SrpxzxO4tVo9jq96w==
-X-Received: by 2002:a05:600c:34d2:b0:397:7209:c1f0 with SMTP id
- d18-20020a05600c34d200b003977209c1f0mr35708477wmq.132.1654704383922; 
- Wed, 08 Jun 2022 09:06:23 -0700 (PDT)
-Received: from redhat.com ([176.12.150.13]) by smtp.gmail.com with ESMTPSA id
- l19-20020a1ced13000000b0039c1396b495sm24219403wmh.9.2022.06.08.09.06.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 09:06:23 -0700 (PDT)
-Date: Wed, 8 Jun 2022 12:06:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sergio Lopez <slp@redhat.com>,
+ us-mta-49-wURvQyCOOReH0Qm4FuNqYQ-1; Wed, 08 Jun 2022 12:06:54 -0400
+X-MC-Unique: wURvQyCOOReH0Qm4FuNqYQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FE0A811E83;
+ Wed,  8 Jun 2022 16:06:53 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E17440CF8E8;
+ Wed,  8 Jun 2022 16:06:52 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH] microvm: turn off io reservations for pcie root ports
-Message-ID: <20220608120505-mutt-send-email-mst@kernel.org>
-References: <20220603085920.604323-1-kraxel@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH] gitlab: compare CIRRUS_nn vars against 'null' not ""
+Date: Wed,  8 Jun 2022 17:06:51 +0100
+Message-Id: <20220608160651.248781-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220603085920.604323-1-kraxel@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -98,38 +81,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 03, 2022 at 10:59:20AM +0200, Gerd Hoffmann wrote:
-> The pcie host bridge has no io window on microvm,
-> so io reservations will not work.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+The GitLab variable comparisons don't have shell like semantics where
+an unset variable compares equal to empty string. We need to explicitly
+test against 'null' to detect an unset variable.
 
-I don't much like overriding user like this. We end up users
-setting it to silly values and then if we do want to
-support this things just break. Thoughts?
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ .gitlab-ci.d/base.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  hw/i386/microvm.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 4b3b1dd262f1..f01d972f5d28 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -757,6 +757,12 @@ static void microvm_class_init(ObjectClass *oc, void *data)
->          "Set off to disable adding virtio-mmio devices to the kernel cmdline");
->  
->      machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-> +
-> +    /*
-> +     * pcie host bridge (gpex) on microvm has no io address window,
-> +     * so reserving io space is not going to work.  Turn it off.
-> +     */
-> +    object_register_sugar_prop("pcie-root-port", "io-reserve", "0", true);
->  }
->  
->  static const TypeInfo microvm_machine_info = {
-> -- 
-> 2.36.1
+diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
+index f334f3ded7..69b36c148a 100644
+--- a/.gitlab-ci.d/base.yml
++++ b/.gitlab-ci.d/base.yml
+@@ -13,7 +13,7 @@
+     #############################################################
+ 
+     # Cirrus jobs can't run unless the creds / target repo are set
+-    - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == "" || $CIRRUS_API_TOKEN == "")'
++    - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null)'
+       when: never
+ 
+     # Publishing jobs should only run on the default branch in upstream
+-- 
+2.36.1
 
 
