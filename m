@@ -2,78 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD73B5420C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 04:40:31 +0200 (CEST)
-Received: from localhost ([::1]:46218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016A25420CD
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 05:03:28 +0200 (CEST)
+Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nylcU-0001L7-NU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 22:40:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41470)
+	id 1nylyh-0001SB-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 23:03:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nylaR-0007ja-SR
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 22:38:24 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:36613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nylaP-0004hN-Q6
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 22:38:23 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- u12-20020a17090a1d4c00b001df78c7c209so22579419pju.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 19:38:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=A64dW+WaFyjb845Uk+CMOuiOMbXND0hnQD9JlPmA29k=;
- b=n0yGGemfa6lY7iX0SbA+4Lt8CkKeEentA+WeHr1K4/HBKv1f4SOKNDSImu/ahtLQEt
- tcDUHOlj1+17RpvITIKLB1UNgqNgfslI+r2s93NmxlvMjfOuTZ7OYmtUFyTrW0oVgDA+
- RJLh3RkrXCdpPUMm9HeXnFT1oJ0i0YtsEaXVfIq/oomLSM/80OAtOpYjvQ1zKCc2KOFI
- yJ3Ll7f+J1Mi2Ji20GHiJl8YmXLkFk4xiZgaF5BKb390BjGVzWEJI84wR2Sw0d2otTmR
- oLIpr2AJNg4o6lBwetYXZyiK24y8GyjHS53eZQ1p6X/C1HmcYZG2TDcy6SNaTpExSDWk
- cbJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=A64dW+WaFyjb845Uk+CMOuiOMbXND0hnQD9JlPmA29k=;
- b=E3Vqgceaf+nKCTcIj3a6dWz7/q5X8yInGR96p0pPcyyspopvr094gPEoPOcSrlpdc7
- e1ZZsgmnuN1g3LAHEinE0Y08HdL2E/PrSTRZs2Rgbx/h01jQjiiSHov0aJ5TiVVF642K
- PnVg57DJGqC6fxOKnTPcCu9uqUzOKNxhHcLlzTndl18GLevaasbbXwG3l4oOeW93OOFx
- KxBJPqJO3VDzFypjSwQe24Bkf9Xp2FyW+GT+YjDVOdTTAYbu5sE7LrgbiuKGWNujdLAB
- vkwF/i1KXMTfrQqugn3OPjM4KXhG9B7sP76/YbVqPDe8yD0RTSeoCUFGLuZ3tQNkq2ct
- AUQQ==
-X-Gm-Message-State: AOAM533CW1SY87QK90XeHXnUhpCk9p24mmB0akMd2AU31GfK0lerinJD
- Z6sQrYntwDQ4bfAJ2kLx8l8fCcnumVvBgA==
-X-Google-Smtp-Source: ABdhPJzzfvp6fIx4HNTYHpYJh7kwbMY9xJANM6rVQCUqpWaUoeFRWFjOzWq3N6+5/Gzu0f9xGRsNRA==
-X-Received: by 2002:a17:902:e484:b0:167:5b79:2b61 with SMTP id
- i4-20020a170902e48400b001675b792b61mr20812337ple.132.1654655900291; 
- Tue, 07 Jun 2022 19:38:20 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1547:e101:c626:2f70:ac99:7c97])
- by smtp.gmail.com with ESMTPSA id
- b19-20020a63d813000000b003f66a518e48sm13607398pgh.86.2022.06.07.19.38.19
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 19:38:19 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] target/nios2: Use semihosting/syscalls.h
-Date: Tue,  7 Jun 2022 19:38:16 -0700
-Message-Id: <20220608023816.759426-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220608023816.759426-1-richard.henderson@linaro.org>
-References: <20220608023816.759426-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>)
+ id 1nylxQ-00005q-7E; Tue, 07 Jun 2022 23:02:08 -0400
+Received: from ozlabs.ru ([107.174.27.60]:40216)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <aik@ozlabs.ru>)
+ id 1nylxN-0008VI-9K; Tue, 07 Jun 2022 23:02:07 -0400
+Received: from fstn1-p1.ozlabs.ibm.com. (localhost [IPv6:::1])
+ by ozlabs.ru (Postfix) with ESMTP id 0A61A80B29;
+ Tue,  7 Jun 2022 23:01:57 -0400 (EDT)
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: qemu-ppc@nongnu.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ Scott Cheloha <cheloha@linux.ibm.com>
+Subject: [PATCH qemu] ppc/spapr: Implement H_WATCHDOG
+Date: Wed,  8 Jun 2022 13:01:53 +1000
+Message-Id: <20220608030153.1862335-1-aik@ozlabs.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=107.174.27.60; envelope-from=aik@ozlabs.ru;
+ helo=ozlabs.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,443 +52,402 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This separates guest file descriptors from host file descriptors,
-and utilizes shared infrastructure for integration with gdbstub.
+The new PAPR 2.12 defines a watchdog facility managed via the new
+H_WATCHDOG hypercall.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+This adds H_WATCHDOG support which a proposed driver for pseries uses:
+https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=303120
+
+This was tested by running QEMU with a debug kernel and command line:
+-append \
+ "pseries-wdt.timeout=60 pseries-wdt.nowayout=1 pseries-wdt.action=2"
+
+and running "echo V > /dev/watchdog0" inside the VM.
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 ---
- target/nios2/nios2-semi.c | 321 +++++++++-----------------------------
- 1 file changed, 77 insertions(+), 244 deletions(-)
+ include/hw/ppc/spapr.h  |  23 +++-
+ hw/ppc/spapr.c          |   5 +
+ hw/ppc/spapr_watchdog.c | 239 ++++++++++++++++++++++++++++++++++++++++
+ hw/ppc/meson.build      |   1 +
+ hw/ppc/trace-events     |   7 ++
+ 5 files changed, 274 insertions(+), 1 deletion(-)
+ create mode 100644 hw/ppc/spapr_watchdog.c
 
-diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index 55061bb2dc..f76e8588c5 100644
---- a/target/nios2/nios2-semi.c
-+++ b/target/nios2/nios2-semi.c
-@@ -24,6 +24,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/gdbstub.h"
-+#include "semihosting/syscalls.h"
- #include "semihosting/softmmu-uaccess.h"
- #include "qemu/log.h"
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 072dda2c7265..39aa8609df7b 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -164,6 +164,19 @@ struct SpaprMachineClass {
+     SpaprIrq *irq;
+ };
  
-@@ -42,65 +43,33 @@
- #define HOSTED_ISATTY 12
- #define HOSTED_SYSTEM 13
- 
--static int translate_openflags(int flags)
-+static int host_to_gdb_errno(int err)
- {
--    int hf;
--
--    if (flags & GDB_O_WRONLY) {
--        hf = O_WRONLY;
--    } else if (flags & GDB_O_RDWR) {
--        hf = O_RDWR;
--    } else {
--        hf = O_RDONLY;
-+#define E(X)  case E##X: return GDB_E##X
-+    switch (err) {
-+    E(PERM);
-+    E(NOENT);
-+    E(INTR);
-+    E(BADF);
-+    E(ACCES);
-+    E(FAULT);
-+    E(BUSY);
-+    E(EXIST);
-+    E(NODEV);
-+    E(NOTDIR);
-+    E(ISDIR);
-+    E(INVAL);
-+    E(NFILE);
-+    E(MFILE);
-+    E(FBIG);
-+    E(NOSPC);
-+    E(SPIPE);
-+    E(ROFS);
-+    E(NAMETOOLONG);
-+    default:
-+        return GDB_EUNKNOWN;
-     }
--
--    if (flags & GDB_O_APPEND) {
--        hf |= O_APPEND;
--    }
--    if (flags & GDB_O_CREAT) {
--        hf |= O_CREAT;
--    }
--    if (flags & GDB_O_TRUNC) {
--        hf |= O_TRUNC;
--    }
--    if (flags & GDB_O_EXCL) {
--        hf |= O_EXCL;
--    }
--
--    return hf;
--}
--
--static bool translate_stat(CPUNios2State *env, target_ulong addr,
--                           struct stat *s)
--{
--    struct gdb_stat *p;
--
--    p = lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat), 0);
--
--    if (!p) {
--        return false;
--    }
--    p->gdb_st_dev = cpu_to_be32(s->st_dev);
--    p->gdb_st_ino = cpu_to_be32(s->st_ino);
--    p->gdb_st_mode = cpu_to_be32(s->st_mode);
--    p->gdb_st_nlink = cpu_to_be32(s->st_nlink);
--    p->gdb_st_uid = cpu_to_be32(s->st_uid);
--    p->gdb_st_gid = cpu_to_be32(s->st_gid);
--    p->gdb_st_rdev = cpu_to_be32(s->st_rdev);
--    p->gdb_st_size = cpu_to_be64(s->st_size);
--#ifdef _WIN32
--    /* Windows stat is missing some fields.  */
--    p->gdb_st_blksize = 0;
--    p->gdb_st_blocks = 0;
--#else
--    p->gdb_st_blksize = cpu_to_be64(s->st_blksize);
--    p->gdb_st_blocks = cpu_to_be64(s->st_blocks);
--#endif
--    p->gdb_st_atime = cpu_to_be32(s->st_atime);
--    p->gdb_st_mtime = cpu_to_be32(s->st_mtime);
--    p->gdb_st_ctime = cpu_to_be32(s->st_ctime);
--    unlock_user(p, addr, sizeof(struct gdb_stat));
--    return true;
-+#undef E
- }
- 
- static void nios2_semi_u32_cb(CPUState *cs, uint64_t ret, int err)
-@@ -110,7 +79,7 @@ static void nios2_semi_u32_cb(CPUState *cs, uint64_t ret, int err)
-     target_ulong args = env->regs[R_ARG1];
- 
-     if (put_user_u32(ret, args) ||
--        put_user_u32(err, args + 4)) {
-+        put_user_u32(host_to_gdb_errno(err), args + 4)) {
-         /*
-          * The nios2 semihosting ABI does not provide any way to report this
-          * error to the guest, so the best we can do is log it in qemu.
-@@ -129,7 +98,7 @@ static void nios2_semi_u64_cb(CPUState *cs, uint64_t ret, int err)
- 
-     if (put_user_u32(ret >> 32, args) ||
-         put_user_u32(ret, args + 4) ||
--        put_user_u32(err, args + 8)) {
-+        put_user_u32(host_to_gdb_errno(err), args + 8)) {
-         /* No way to report this via nios2 semihosting ABI; just log it */
-         qemu_log_mask(LOG_GUEST_ERROR, "nios2-semihosting: return value "
-                       "discarded because argument block not writable\n");
-@@ -142,22 +111,22 @@ static void nios2_semi_u64_cb(CPUState *cs, uint64_t ret, int err)
++#define WDT_MAX_WATCHDOGS       4      /* Maximum number of watchdog devices */
++
++#define WDT_HARD_POWER_OFF      0
++#define WDT_HARD_RESTART        1
++#define WDT_DUMP_RESTART        2
++
++typedef struct SpaprWatchdog {
++    unsigned num;
++    QEMUTimer timer;
++    uint8_t action;
++    uint64_t timeout;
++} SpaprWatchdog;
++
+ /**
+  * SpaprMachineState:
   */
- #define GET_ARG(n) do {                                 \
-     if (get_user_ual(arg ## n, args + (n) * 4)) {       \
--        result = -1;                                    \
--        errno = EFAULT;                                 \
-         goto failed;                                    \
-     }                                                   \
- } while (0)
+@@ -264,6 +277,8 @@ struct SpaprMachineState {
+     uint32_t FORM2_assoc_array[NUMA_NODES_MAX_NUM][FORM2_NUMA_ASSOC_SIZE];
  
-+#define GET_ARG64(n) do {                               \
-+    if (get_user_ual(arg ## n, args + (n) * 4)) {       \
-+        goto failed64;                                  \
-+    }                                                   \
-+} while (0)
+     Error *fwnmi_migration_blocker;
 +
- void do_nios2_semihosting(CPUNios2State *env)
++    SpaprWatchdog wds[WDT_MAX_WATCHDOGS];
+ };
+ 
+ #define H_SUCCESS         0
+@@ -344,6 +359,7 @@ struct SpaprMachineState {
+ #define H_P7              -60
+ #define H_P8              -61
+ #define H_P9              -62
++#define H_NOOP            -63
+ #define H_UNSUPPORTED     -67
+ #define H_OVERLAP         -68
+ #define H_UNSUPPORTED_FLAG -256
+@@ -564,8 +580,9 @@ struct SpaprMachineState {
+ #define H_SCM_HEALTH            0x400
+ #define H_RPT_INVALIDATE        0x448
+ #define H_SCM_FLUSH             0x44C
++#define H_WATCHDOG              0x45C
+ 
+-#define MAX_HCALL_OPCODE        H_SCM_FLUSH
++#define MAX_HCALL_OPCODE        H_WATCHDOG
+ 
+ /* The hcalls above are standardized in PAPR and implemented by pHyp
+  * as well.
+@@ -1027,6 +1044,7 @@ extern const VMStateDescription vmstate_spapr_cap_large_decr;
+ extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
+ extern const VMStateDescription vmstate_spapr_cap_fwnmi;
+ extern const VMStateDescription vmstate_spapr_cap_rpt_invalidate;
++extern const VMStateDescription vmstate_spapr_wdt;
+ 
+ static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int cap)
  {
-     CPUState *cs = env_cpu(env);
-     int nr;
-     uint32_t args;
-     target_ulong arg0, arg1, arg2, arg3;
--    void *p;
--    void *q;
--    uint32_t len;
--    uint32_t result;
+@@ -1063,4 +1081,7 @@ target_ulong spapr_vof_client_architecture_support(MachineState *ms,
+                                                    target_ulong ovec_addr);
+ void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt);
  
-     nr = env->regs[R_ARG0];
-     args = env->regs[R_ARG1];
-@@ -165,234 +134,98 @@ void do_nios2_semihosting(CPUNios2State *env)
-     case HOSTED_EXIT:
-         gdb_exit(env->regs[R_ARG0]);
-         exit(env->regs[R_ARG0]);
++/* H_WATCHDOG */
++void spapr_watchdog_init(SpaprMachineState *spapr);
 +
-     case HOSTED_OPEN:
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
-         GET_ARG(3);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "open,%s,%x,%x", arg0, (int)arg1,
--                           arg2, arg3);
--            return;
--        } else {
--            p = lock_user_string(arg0);
--            if (!p) {
--                result = -1;
--                errno = EFAULT;
--            } else {
--                result = open(p, translate_openflags(arg2), arg3);
--                unlock_user(p, arg0, 0);
--            }
--        }
-+        semihost_sys_open(cs, nios2_semi_u32_cb, arg0, arg1, arg2, arg3);
-         break;
-+
-     case HOSTED_CLOSE:
--        {
--            /* Ignore attempts to close stdin/out/err.  */
--            GET_ARG(0);
--            int fd = arg0;
--            if (fd > 2) {
--                if (use_gdb_syscalls()) {
--                    gdb_do_syscall(nios2_semi_u32_cb, "close,%x", arg0);
--                    return;
--                } else {
--                    result = close(fd);
--                }
--            } else {
--                result = 0;
--            }
--            break;
--        }
-+        GET_ARG(0);
-+        semihost_sys_close(cs, nios2_semi_u32_cb, arg0);
-+        break;
-+
-     case HOSTED_READ:
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
--        len = arg2;
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "read,%x,%x,%x",
--                           arg0, arg1, len);
--            return;
--        } else {
--            p = lock_user(VERIFY_WRITE, arg1, len, 0);
--            if (!p) {
--                result = -1;
--                errno = EFAULT;
--            } else {
--                result = read(arg0, p, len);
--                unlock_user(p, arg1, len);
--            }
--        }
-+        semihost_sys_read(cs, nios2_semi_u32_cb, arg0, arg1, arg2);
-         break;
-+
-     case HOSTED_WRITE:
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
--        len = arg2;
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "write,%x,%x,%x",
--                           arg0, arg1, len);
--            return;
--        } else {
--            p = lock_user(VERIFY_READ, arg1, len, 1);
--            if (!p) {
--                result = -1;
--                errno = EFAULT;
--            } else {
--                result = write(arg0, p, len);
--                unlock_user(p, arg0, 0);
--            }
--        }
-+        semihost_sys_write(cs, nios2_semi_u32_cb, arg0, arg1, arg2);
-         break;
-+
-     case HOSTED_LSEEK:
--        {
--            uint64_t off;
--            GET_ARG(0);
--            GET_ARG(1);
--            GET_ARG(2);
--            GET_ARG(3);
--            off = (uint32_t)arg2 | ((uint64_t)arg1 << 32);
--            if (use_gdb_syscalls()) {
--                gdb_do_syscall(nios2_semi_u64_cb, "lseek,%x,%lx,%x",
--                               arg0, off, arg3);
--            } else {
--                off = lseek(arg0, off, arg3);
--                nios2_semi_u64_cb(cs, off, errno);
--            }
--            return;
--        }
-+        GET_ARG64(0);
-+        GET_ARG64(1);
-+        GET_ARG64(2);
-+        GET_ARG64(3);
-+        semihost_sys_lseek(cs, nios2_semi_u64_cb, arg0,
-+                           deposit64(arg2, arg1, 32, 32), arg3);
-+        break;
-+
-     case HOSTED_RENAME:
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
-         GET_ARG(3);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "rename,%s,%s",
--                           arg0, (int)arg1, arg2, (int)arg3);
--            return;
--        } else {
--            p = lock_user_string(arg0);
--            q = lock_user_string(arg2);
--            if (!p || !q) {
--                result = -1;
--                errno = EFAULT;
--            } else {
--                result = rename(p, q);
--            }
--            unlock_user(p, arg0, 0);
--            unlock_user(q, arg2, 0);
--        }
-+        semihost_sys_rename(cs, nios2_semi_u32_cb, arg0, arg1, arg2, arg3);
-         break;
-+
-     case HOSTED_UNLINK:
-         GET_ARG(0);
-         GET_ARG(1);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "unlink,%s",
--                           arg0, (int)arg1);
--            return;
--        } else {
--            p = lock_user_string(arg0);
--            if (!p) {
--                result = -1;
--                errno = EFAULT;
--            } else {
--                result = unlink(p);
--                unlock_user(p, arg0, 0);
--            }
--        }
-+        semihost_sys_remove(cs, nios2_semi_u32_cb, arg0, arg1);
-         break;
-+
-     case HOSTED_STAT:
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "stat,%s,%x",
--                           arg0, (int)arg1, arg2);
--            return;
--        } else {
--            struct stat s;
--            p = lock_user_string(arg0);
--            if (!p) {
--                result = -1;
--                errno = EFAULT;
--            } else {
--                result = stat(p, &s);
--                unlock_user(p, arg0, 0);
--            }
--            if (result == 0 && !translate_stat(env, arg2, &s)) {
--                result = -1;
--                errno = EFAULT;
--            }
--        }
-+        semihost_sys_stat(cs, nios2_semi_u32_cb, arg0, arg1, arg2);
-         break;
-+
-     case HOSTED_FSTAT:
-         GET_ARG(0);
-         GET_ARG(1);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "fstat,%x,%x",
--                           arg0, arg1);
--            return;
--        } else {
--            struct stat s;
--            result = fstat(arg0, &s);
--            if (result == 0 && !translate_stat(env, arg1, &s)) {
--                result = -1;
--                errno = EFAULT;
--            }
--        }
-+        semihost_sys_fstat(cs, nios2_semi_u32_cb, arg0, arg1);
-         break;
-+
-     case HOSTED_GETTIMEOFDAY:
--        /* Only the tv parameter is used.  tz is assumed NULL.  */
-         GET_ARG(0);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "gettimeofday,%x,%x",
--                           arg0, 0);
--            return;
--        } else {
--            struct gdb_timeval *p;
--            int64_t rt = g_get_real_time();
--            p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval), 0);
--            if (!p) {
--                result = -1;
--                errno = EFAULT;
--            } else {
--                result = 0;
--                p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
--                p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
--                unlock_user(p, arg0, sizeof(struct gdb_timeval));
--            }
--        }
-+        GET_ARG(1);
-+        semihost_sys_gettimeofday(cs, nios2_semi_u32_cb, arg0, arg1);
-         break;
-+
-     case HOSTED_ISATTY:
-         GET_ARG(0);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "isatty,%x", arg0);
--            return;
--        } else {
--            result = isatty(arg0);
--        }
-+        semihost_sys_isatty(cs, nios2_semi_u32_cb, arg0);
-         break;
-+
-     case HOSTED_SYSTEM:
-         GET_ARG(0);
-         GET_ARG(1);
--        if (use_gdb_syscalls()) {
--            gdb_do_syscall(nios2_semi_u32_cb, "system,%s",
--                           arg0, (int)arg1);
--            return;
--        } else {
--            p = lock_user_string(arg0);
--            if (!p) {
--                result = -1;
--                errno = EFAULT;
--            } else {
--                result = system(p);
--                unlock_user(p, arg0, 0);
--            }
--        }
-+        semihost_sys_system(cs, nios2_semi_u32_cb, arg0, arg1);
-         break;
-+
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "nios2-semihosting: unsupported "
-                       "semihosting syscall %d\n", nr);
--        result = 0;
-+        nios2_semi_u32_cb(cs, -1, ENOSYS);
-+        break;
-+
-+    failed:
-+        nios2_semi_u32_cb(cs, -1, EFAULT);
-+        break;
-+    failed64:
-+        nios2_semi_u64_cb(cs, -1, EFAULT);
-+        break;
+ #endif /* HW_SPAPR_H */
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index fd4942e8813c..eaa75f5afd02 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -898,6 +898,8 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+         add_str(hypertas, "hcall-hpt-resize");
      }
--failed:
--    nios2_semi_u32_cb(cs, result, errno);
+ 
++    add_str(hypertas, "hcall-watchdog");
++
+     _FDT(fdt_setprop(fdt, rtas, "ibm,hypertas-functions",
+                      hypertas->str, hypertas->len));
+     g_string_free(hypertas, TRUE);
+@@ -2067,6 +2069,7 @@ static const VMStateDescription vmstate_spapr = {
+         &vmstate_spapr_cap_fwnmi,
+         &vmstate_spapr_fwnmi,
+         &vmstate_spapr_cap_rpt_invalidate,
++        &vmstate_spapr_wdt,
+         NULL
+     }
+ };
+@@ -3051,6 +3054,8 @@ static void spapr_machine_init(MachineState *machine)
+         spapr->vof->fw_size = fw_size; /* for claim() on itself */
+         spapr_register_hypercall(KVMPPC_H_VOF_CLIENT, spapr_h_vof_client);
+     }
++
++    spapr_watchdog_init(spapr);
  }
+ 
+ #define DEFAULT_KVM_TYPE "auto"
+diff --git a/hw/ppc/spapr_watchdog.c b/hw/ppc/spapr_watchdog.c
+new file mode 100644
+index 000000000000..5206e40078b5
+--- /dev/null
++++ b/hw/ppc/spapr_watchdog.c
+@@ -0,0 +1,239 @@
++/*
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/runstate.h"
++#include "migration/vmstate.h"
++#include "trace.h"
++
++#include "hw/ppc/spapr.h"
++
++#define PPC_BITLSHIFT(be)       (BITS_PER_LONG - 1 - (be))
++
++#define SETFIELD(val, start, end)   \
++    (((unsigned long)(val) << PPC_BITLSHIFT(end)) & PPC_BITMASK(start, end))
++#define GETFIELD(val, start, end)   \
++    (((unsigned long)(val) & PPC_BITMASK(start, end)) >> PPC_BITLSHIFT(end))
++
++/*
++ * Bits 47: "leaveOtherWatchdogsRunningOnTimeout", specified on
++ * the "Start watchdog" operation,
++ * 0 - stop out-standing watchdogs on timeout,
++ * 1 - leave outstanding watchdogs running on timeout
++ */
++#define PSERIES_WDTF_LEAVE_OTHER    PPC_BIT(47)
++
++/*    Bits 48-55: "operation" */
++#define PSERIES_WDTF_OP(op)             SETFIELD((op), 48, 55)
++#define PSERIES_WDTF_OP_START           PSERIES_WDTF_OP(0x1)
++#define PSERIES_WDTF_OP_STOP            PSERIES_WDTF_OP(0x2)
++#define PSERIES_WDTF_OP_QUERY           PSERIES_WDTF_OP(0x3)
++#define PSERIES_WDTF_OP_QUERY_LPM       PSERIES_WDTF_OP(0x4)
++
++/*    Bits 56-63: "timeoutAction" */
++#define PSERIES_WDTF_ACTION(ac)             SETFIELD(ac, 56, 63)
++#define PSERIES_WDTF_ACTION_HARD_POWER_OFF  PSERIES_WDTF_ACTION(0x1)
++#define PSERIES_WDTF_ACTION_HARD_RESTART    PSERIES_WDTF_ACTION(0x2)
++#define PSERIES_WDTF_ACTION_DUMP_RESTART    PSERIES_WDTF_ACTION(0x3)
++
++#define PSERIES_WDTF_RESERVED           PPC_BITMASK(0, 46)
++
++/*
++ * For the "Query watchdog capabilities" operation, a uint64 structure
++ * defined as:
++ * Bits 0-15: The minimum supported timeout in milliseconds
++ * Bits 16-31: The number of watchdogs supported
++ * Bits 32-63: Reserved
++ */
++#define PSERIES_WDTQ_MIN_TIMEOUT(ms)    SETFIELD((ms), 0, 15)
++#define PSERIES_WDTQ_NUM(n)             SETFIELD((n), 16, 31)
++#define PSERIES_WDTQ_RESERVED           PPC_BITMASK(32, 63)
++
++/*
++ * For the "Query watchdog LPM requirement" operation:
++ * 1 = The given "watchdogNumber" must be stopped prior to suspending
++ * 2 = The given "watchdogNumber" does not have to be stopped prior to
++ * suspending
++ */
++#define PSERIES_WDTQL_STOPPED               1
++#define PSERIES_WDTQL_QUERY_NOT_STOPPED     2
++
++#define WDT_MIN_TIMEOUT 1 /* 1ms */
++
++static void watchdog_expired(void *pw)
++{
++    struct SpaprWatchdog *w = pw;
++    CPUState *cs;
++
++    trace_spapr_watchdog_expired(w->num, w->action);
++    switch (w->action) {
++    case WDT_HARD_POWER_OFF:
++        qemu_system_vmstop_request(RUN_STATE_SHUTDOWN);
++        break;
++    case WDT_HARD_RESTART:
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        break;
++    case WDT_DUMP_RESTART:
++        CPU_FOREACH(cs) {
++            async_run_on_cpu(cs, spapr_do_system_reset_on_cpu, RUN_ON_CPU_NULL);
++        }
++        break;
++    }
++}
++
++static target_ulong watchdog_stop(unsigned watchdogNumber,
++                                  struct SpaprWatchdog *w)
++{
++    target_ulong ret = H_NOOP;
++
++    if (timer_pending(&w->timer)) {
++        timer_del(&w->timer);
++        ret = H_SUCCESS;
++    }
++    trace_spapr_watchdog_stop(watchdogNumber, ret);
++
++    return ret;
++}
++
++static target_ulong h_watchdog(PowerPCCPU *cpu,
++                               SpaprMachineState *spapr,
++                               target_ulong opcode, target_ulong *args)
++{
++    target_ulong flags = args[0];
++    target_ulong watchdogNumber = args[1];
++    target_ulong timeoutInMs = args[2];
++    unsigned operation = flags & PSERIES_WDTF_OP(~0);
++    unsigned timeoutAction = flags & PSERIES_WDTF_ACTION(~0);
++    struct SpaprWatchdog *w;
++
++    if (flags & PSERIES_WDTF_RESERVED || watchdogNumber == 0) {
++        return H_PARAMETER;
++    }
++
++    switch (operation) {
++    case PSERIES_WDTF_OP_START:
++        if (watchdogNumber > ARRAY_SIZE(spapr->wds)) {
++            return H_P2;
++        }
++        if (timeoutInMs <= WDT_MIN_TIMEOUT) {
++            return H_P3;
++        }
++
++        w = &spapr->wds[watchdogNumber - 1];
++        switch (timeoutAction) {
++        case PSERIES_WDTF_ACTION_HARD_POWER_OFF:
++            w->action = WDT_HARD_POWER_OFF;
++            break;
++        case PSERIES_WDTF_ACTION_HARD_RESTART:
++            w->action = WDT_HARD_RESTART;
++            break;
++        case PSERIES_WDTF_ACTION_DUMP_RESTART:
++            w->action = WDT_DUMP_RESTART;
++            break;
++        default:
++            return H_PARAMETER;
++        }
++        timer_mod(&w->timer,
++                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + timeoutInMs);
++        trace_spapr_watchdog_start(flags, watchdogNumber, timeoutInMs);
++        break;
++    case PSERIES_WDTF_OP_STOP:
++        if (watchdogNumber == (uint64_t) ~0) {
++            int i;
++
++            for (i = 1; i <= ARRAY_SIZE(spapr->wds); ++i) {
++                watchdog_stop(i, &spapr->wds[i - 1]);
++            }
++        } else if (watchdogNumber <= ARRAY_SIZE(spapr->wds)) {
++            watchdog_stop(watchdogNumber, &spapr->wds[watchdogNumber - 1]);
++        } else {
++            return H_P2;
++        }
++        break;
++    case PSERIES_WDTF_OP_QUERY:
++        args[0] = PSERIES_WDTQ_MIN_TIMEOUT(WDT_MIN_TIMEOUT) |
++            PSERIES_WDTQ_NUM(ARRAY_SIZE(spapr->wds));
++        trace_spapr_watchdog_query(args[0]);
++        break;
++    case PSERIES_WDTF_OP_QUERY_LPM:
++        if (watchdogNumber > ARRAY_SIZE(spapr->wds)) {
++            return H_P2;
++        }
++        args[0] = PSERIES_WDTQL_QUERY_NOT_STOPPED;
++        trace_spapr_watchdog_query_lpm(args[0]);
++        break;
++    default:
++        return H_PARAMETER;
++    }
++
++    return H_SUCCESS;
++}
++
++void spapr_watchdog_init(SpaprMachineState *spapr)
++{
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(spapr->wds); ++i) {
++        SpaprWatchdog *w = &spapr->wds[i];
++
++        w->num = i + 1;
++        timer_init_ms(&w->timer, QEMU_CLOCK_VIRTUAL, watchdog_expired, w);
++    }
++}
++
++static const VMStateDescription vmstate_wdt = {
++    .name = "spapr_watchdog",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT8(action, SpaprWatchdog),
++        VMSTATE_UINT64(timeout, SpaprWatchdog),
++        VMSTATE_TIMER(timer, SpaprWatchdog),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool watchdog_needed(void *opaque)
++{
++    SpaprMachineState *spapr = opaque;
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(spapr->wds); ++i) {
++        if (timer_pending(&spapr->wds[i].timer)) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
++const VMStateDescription vmstate_spapr_wdt = {
++    .name = "spapr_watchdogs",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = watchdog_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT_ARRAY(wds, SpaprMachineState, WDT_MAX_WATCHDOGS, 0,
++                             vmstate_wdt, SpaprWatchdog),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static void spapr_watchdog_register_types(void)
++{
++    spapr_register_hypercall(H_WATCHDOG, h_watchdog);
++}
++
++type_init(spapr_watchdog_register_types)
+diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+index aa4c8e6a2eac..2d1f6c262ce9 100644
+--- a/hw/ppc/meson.build
++++ b/hw/ppc/meson.build
+@@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
+   'spapr_nvdimm.c',
+   'spapr_rtas_ddw.c',
+   'spapr_numa.c',
++  'spapr_watchdog.c',
+   'pef.c',
+ ))
+ ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_TCG'], if_true: files(
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index 5c0a215cad90..24f2eca26da0 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -71,6 +71,13 @@ spapr_rtas_ibm_configure_connector_invalid(uint32_t index) "DRC index: 0x%"PRIx3
+ spapr_vio_h_reg_crq(uint64_t reg, uint64_t queue_addr, uint64_t queue_len) "CRQ for dev 0x%" PRIx64 " registered at 0x%" PRIx64 "/0x%" PRIx64
+ spapr_vio_free_crq(uint32_t reg) "CRQ for dev 0x%" PRIx32 " freed"
+ 
++# spapr_watchdog.c
++spapr_watchdog_start(uint64_t flags, uint64_t num, uint64_t timeout) "Flags 0x%" PRIx64 " num=%" PRId64 " %" PRIu64 "ms"
++spapr_watchdog_stop(uint64_t num, uint64_t ret) "num=%" PRIu64 " ret=%" PRId64
++spapr_watchdog_query(uint64_t caps) "caps=0x%" PRIx64
++spapr_watchdog_query_lpm(uint64_t caps) "caps=0x%" PRIx64
++spapr_watchdog_expired(uint64_t num, unsigned action) "num=%" PRIu64 " action=%u"
++
+ # vof.c
+ vof_error_str_truncated(const char *s, int len) "%s truncated to %d"
+ vof_error_param(const char *method, int nargscheck, int nretcheck, int nargs, int nret) "%s takes/returns %d/%d, not %d/%d"
 -- 
-2.34.1
+2.30.2
 
 
