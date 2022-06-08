@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6524543E19
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 23:02:55 +0200 (CEST)
-Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CD3543E32
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 23:07:01 +0200 (CEST)
+Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz2pK-0000vp-C4
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 17:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54842)
+	id 1nz2tI-0003Bc-5S
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 17:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nz2nm-0000D8-7Y
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:01:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59157)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1nz2qj-0001lX-L3
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:04:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1nz2na-0003wS-8W
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:01:08 -0400
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1nz2qi-00048J-6N
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:04:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654722064;
+ s=mimecast20190719; t=1654722259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sQqCAKqmtt3PHDQ9fKMCD9pst0jh5CmgUlUKqiiSI8k=;
- b=Z59wXWKHskPmlTnfzxIw3NL1W//0QbHczOIF6Do6xU7iGXjsyhr/C6Ryw4P6a+uWq04t1W
- AaqFKPBCP/5FxmvrOfnst9utQit+yQxWMzuDYiml6fgbaexQ4hI6qwlsDVPbT1jt9rCRfI
- ANGQE70zQW6zow+U4iCGUCgLeRXsMm8=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=j3Nz/ACzzNuOiSk8tGSrM9ZLKWcQ64Xrz23dnSYVlps=;
+ b=aU+7lcd6MMLw+AgQEClMP6n9H18/o2OyAMKbA6qIUWDSazjG7fOCKW54eWETEjJatoSYrd
+ Xh3j1QSq/h0+wCdSfr28fyT3Q0gQVed6Lwl/B+I9PfQ6lbN+9TNaskikoymWva61PIwq6z
+ aC9KMcwsLMZzfz/EDbOrGSroHvSUx80=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-4W-EMfsRP4CtJZkEUdOzYQ-1; Wed, 08 Jun 2022 17:01:03 -0400
-X-MC-Unique: 4W-EMfsRP4CtJZkEUdOzYQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- kf3-20020a17090776c300b0070d149300e9so7543060ejc.15
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 14:01:03 -0700 (PDT)
+ us-mta-195-cAPV3E_VO06XEQAVfp0GLw-1; Wed, 08 Jun 2022 17:04:18 -0400
+X-MC-Unique: cAPV3E_VO06XEQAVfp0GLw-1
+Received: by mail-oa1-f69.google.com with SMTP id
+ 586e51a60fabf-f2bdeb5298so12906242fac.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 14:04:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sQqCAKqmtt3PHDQ9fKMCD9pst0jh5CmgUlUKqiiSI8k=;
- b=JLL7IvESMjVUXqwkBW1+16oBfMNUZ591A1TFQAIJ90LvidPoaQDPOddJD7K0bwFK4T
- vJcHCZfYswVS47vjGsdSyNQL+ss7rZaHsVslVG41yWLYJWS4e80WyWhdAMZoL9PgAB6L
- t6fuH2y4Si9rfMto82lttdu2RKX0G6mTdkZ05sjsEb+koK1REE7e1w61MxPY9jxg5krj
- 4TgpKy23GOwNdXauHyFu7CbaOwmnK+rw+9q8TLSHZRZETaJjkpFjJ6ULFYvfU5SHmpqw
- GrqMf3s2RRuKnhQoNpidamu1AyChbKBRRD8VQEIjAPWjuxS+B10ZRS+LcuQQM0nwHcvm
- gnjQ==
-X-Gm-Message-State: AOAM531N6qDpnCkZH/UdlSrDT2i7Xw5DnH2GMivzK+OdnEPB6GrlZ+pb
- Xw8+Z2AiG0JGQ+Bx/iZFNDWk+qsM+9ZjM6jD9kmDikL22ADlO7h64VoIR870V4UJc8V1nIH1fwj
- ychZMW+RdsVUWOcFZ0xYaICI4Qan1otg=
-X-Received: by 2002:a17:906:aad9:b0:711:d024:4b9b with SMTP id
- kt25-20020a170906aad900b00711d0244b9bmr16523978ejb.490.1654722062217; 
- Wed, 08 Jun 2022 14:01:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKQwVPnP5Ya20NTu3gPx5vUqgqxEqajJTwnk+25CGmpxN1yiYTzM0kgcf/Pb6vITd0wPSi12xgbIPeVnq9s0A=
-X-Received: by 2002:a17:906:aad9:b0:711:d024:4b9b with SMTP id
- kt25-20020a170906aad900b00711d0244b9bmr16523968ejb.490.1654722062011; Wed, 08
- Jun 2022 14:01:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j3Nz/ACzzNuOiSk8tGSrM9ZLKWcQ64Xrz23dnSYVlps=;
+ b=Lx6A4CGWR4cWp3svQTqsN4XxfoM5uORPpVB2jjN4wc0s76hE7uU3nw2PsQGSS7nFMX
+ zAfpu4EC5Wu9QYK4A8cVOZ80Gbzb7jmtxHRRFenkxjzYl73Ut4H7MB3h0QeZPbC8pwv2
+ jRykfJt0j3+4ux9DWTN0cs+L3qRw90uHpKdSH0nYrJGe+y2B2i29TfHuXAV1G/69AYz0
+ xFYaoTlzOaSA6po9QR/j1IGTaOQncTQA3mSaP5NB3QHEwy/BmHQhk1rZOCUPaNaPKG4b
+ 334jT1+gjRkOoIHqkl1mSguoNFhxyuI5eVRfGMCu2vmrFEC4aEat7EF+mIT+e/X42sJw
+ e2NA==
+X-Gm-Message-State: AOAM531665HYaR8hXZurzuzrgO7ICgf0ut49e9PJrLEB22w8wB22E8w1
+ Aq6ePNC/gUYt3LZzmI6P8m+MDOpycU0ai4jnFdmiaGMjtm/R86w22c97ucX0YABDAG2f9cnGond
+ BHtVikKO3Nq3xJTE=
+X-Received: by 2002:a05:6808:159a:b0:32b:80e3:f746 with SMTP id
+ t26-20020a056808159a00b0032b80e3f746mr3605477oiw.144.1654722257208; 
+ Wed, 08 Jun 2022 14:04:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrAa/ICAXvJ0vleNQxcdmKaA3kqbKS9J1VM/FPsc4wakmb7wLyPkpK0Nz6HbKp/skNnDUROA==
+X-Received: by 2002:a05:6808:159a:b0:32b:80e3:f746 with SMTP id
+ t26-20020a056808159a00b0032b80e3f746mr3605469oiw.144.1654722257029; 
+ Wed, 08 Jun 2022 14:04:17 -0700 (PDT)
+Received: from localhost.localdomain ([2804:431:c7f1:d1b1:8b15:218b:6b0e:5260])
+ by smtp.gmail.com with ESMTPSA id
+ l14-20020a0568302b0e00b0060b66e2eaaesm11382384otv.38.2022.06.08.14.04.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jun 2022 14:04:16 -0700 (PDT)
+From: Leonardo Bras <leobras@redhat.com>
+To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?q?=E5=BE=90=E9=97=AF?= <xuchuangxclwt@bytedance.com>,
+ David Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>
+Cc: Leonardo Bras <leobras@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] QIOChannelSocket: Reduce ifdefs to improve readability
+Date: Wed,  8 Jun 2022 18:04:02 -0300
+Message-Id: <20220608210403.84006-1-leobras@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220608181808.79364-1-leobras@redhat.com>
- <YqEF4ikvnsizTQGO@xz-m1.local> <YqEMw4NWo3POMK47@xz-m1.local>
-In-Reply-To: <YqEMw4NWo3POMK47@xz-m1.local>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 8 Jun 2022 18:00:51 -0300
-Message-ID: <CAJ6HWG7cEP9f=hifs7rsxdG3789+kSRgDkVJXUY=n3i-U_57AQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] QIOChannelSocket: Fix zero-copy send so socket
- flush works
-To: Peter Xu <peterx@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>, 
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -99,42 +99,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 8, 2022 at 5:55 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Wed, Jun 08, 2022 at 04:26:10PM -0400, Peter Xu wrote:
-> > On Wed, Jun 08, 2022 at 03:18:09PM -0300, Leonardo Bras wrote:
-> > > Somewhere between v6 and v7 the of the zero-copy-send patchset a cruc=
-ial
-> > > part of the flushing mechanism got missing: incrementing zero_copy_qu=
-eued.
-> > >
-> > > Without that, the flushing interface becomes a no-op, and there is no
-> > > garantee the buffer is really sent.
-> > >
-> > > This can go as bad as causing a corruption in RAM during migration.
-> > >
-> > > Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy=
- flag & io_flush for CONFIG_LINUX")
-> > > Reported-by: =E5=BE=90=E9=97=AF <xuchuangxclwt@bytedance.com>
-> > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> >
-> > Copy Dave/Juan; Leo please remember to do so in the next posts, or no o=
-ne
-> > will be picking this up. :)
->
+During implementation of MSG_ZEROCOPY feature, a lot of #ifdefs were
+introduced, particularly at qio_channel_socket_writev().
 
-Thanks for letting me know.
+Rewrite some of those changes so it's easier to read.
+									...
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
+---
+ io/channel-socket.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> My fault, it's an io channel patch.  But still good to copy relevant
-> developers..
-
-Np. Sure, I will keep in mind to add them in the next version.
-
-Oh, BTW: I will be sending a v2 shortly.
-
->
-> --
-> Peter Xu
->
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index dc9c165de1..ef7c7cfbac 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -554,6 +554,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+     size_t fdsize = sizeof(int) * nfds;
+     struct cmsghdr *cmsg;
+     int sflags = 0;
++    bool zero_copy_enabled = false;
+ 
+     memset(control, 0, CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS));
+ 
+@@ -581,6 +582,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+ #ifdef QEMU_MSG_ZEROCOPY
+     if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+         sflags = MSG_ZEROCOPY;
++        zero_copy_enabled = true;
+     }
+ #endif
+ 
+@@ -592,15 +594,13 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+             return QIO_CHANNEL_ERR_BLOCK;
+         case EINTR:
+             goto retry;
+-#ifdef QEMU_MSG_ZEROCOPY
+         case ENOBUFS:
+-            if (sflags & MSG_ZEROCOPY) {
++            if (zero_copy_enabled) {
+                 error_setg_errno(errp, errno,
+                                  "Process can't lock enough memory for using MSG_ZEROCOPY");
+                 return -1;
+             }
+             break;
+-#endif
+         }
+ 
+         error_setg_errno(errp, errno,
+-- 
+2.36.1
 
 
