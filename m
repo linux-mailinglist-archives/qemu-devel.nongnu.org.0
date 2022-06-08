@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDE0543CBB
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 21:25:50 +0200 (CEST)
-Received: from localhost ([::1]:54056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635C6543CE5
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 21:30:49 +0200 (CEST)
+Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz1JN-00022L-Fu
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 15:25:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39106)
+	id 1nz1OA-0006le-5v
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 15:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nz1HN-0000P6-LV
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:23:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58970)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nz1ME-0005cx-4r
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:28:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nz1HL-0006Z6-Rc
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:23:45 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nz1MB-0007FZ-0H
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:28:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654716222;
+ s=mimecast20190719; t=1654716522;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZmOX2TYVZx+LQoPB1+OfmQTMvrMRdEFqIly6KfSjrmc=;
- b=DYFj2NYWySYHktczQp3szjGU4gNlYIiuVsbeNCW/x1Woq9Yg9TlFBU+kyLob0E0LFHTQdD
- 2JAwWmYxK7oAspTZC4Ky0lDfjENdNC70PS2S/04IAuL9fwL23W1wXvBtT4hTOBhYCLhOf0
- MyoYQuWkB9Uhz4zQ8mtBQmQRli4qSWc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=I+J3gxvxhFOMhsCMj5i3+Fatu9A40xnbxg98ZuOk0/s=;
+ b=R+4VPE+mPoXwjoGqQJHllAXtuCY4FceA1eVmzxQzLly1MIX1QW0iz0Fs6v4VnnXG9Kc8Bw
+ qv85R4WNOkEa5l5SGN5xkFyClbgv1AJUXhHpfKi4etpvcs5fvAyl3cJpVS+NWUYLuV8uZ7
+ SZfjYtV7ebeuJEzg95iG+I0ZYJ3aQKI=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-pF4OKHcqP3CO3iA3DbdjRA-1; Wed, 08 Jun 2022 15:23:41 -0400
-X-MC-Unique: pF4OKHcqP3CO3iA3DbdjRA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F31438149AB
- for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 19:23:41 +0000 (UTC)
-Received: from [172.30.41.16] (unknown [10.22.35.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 576801731B;
- Wed,  8 Jun 2022 19:23:41 +0000 (UTC)
-Subject: [PULL 1/1] vfio/common: remove spurious warning on
- vfio_listener_region_del
-From: Alex Williamson <alex.williamson@redhat.com>
-To: qemu-devel@nongnu.org, alex.williamson@redhat.com
-Cc: eric.auger@redhat.com
-Date: Wed, 08 Jun 2022 13:23:41 -0600
-Message-ID: <165471620962.206382.12129223070303260958.stgit@omen>
-In-Reply-To: <165471611818.206382.17518111383201260657.stgit@omen>
-References: <165471611818.206382.17518111383201260657.stgit@omen>
-User-Agent: StGit/1.5.dev2+g9ce680a52bd9
+ us-mta-6-x86NU6qMNKKdXxH1HqVzBg-1; Wed, 08 Jun 2022 15:28:41 -0400
+X-MC-Unique: x86NU6qMNKKdXxH1HqVzBg-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ gw7-20020a0562140f0700b0046c1b8431d5so1400757qvb.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 12:28:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=I+J3gxvxhFOMhsCMj5i3+Fatu9A40xnbxg98ZuOk0/s=;
+ b=Hc+4za2b5MtwTXgLBbeQ3nXuTH04gQDGhf0g0Rg75L3IobrGvpd5QfxU6TmKcpR0U5
+ K6K41PnfsrPzfm/J/3/gWHwynnsaKzhLY2rz0ILLxjzVwDJNm3/71eYpSN9n9HoEhdBS
+ 9tFrUrmFta7GS6EZnnt7IpGLOMAVM3zYAAwlFeJGGpeXIQTQ9S4GxKRqOWBMN+Up9y5A
+ J2Ty0Xe8vLr+9zBFugOBq97bU2FLsJq+Ey9iO9gOnULvL0RsQDurw/Ntw6+q6K3K59eQ
+ HfT7HAXEPCYO4Ic+WnBO8qFtQehnsnGvhEOeYvK1AGQc5iWo7f5q+HADfLUr5+SrPEW1
+ ReAw==
+X-Gm-Message-State: AOAM531PTjypIQw956bHvHAohSKgUW6L66Jq/RcnFl1OfLiok6li6ApF
+ 5W3oZ9TApvdB/FsM90HrnCrYBRWgQrz7JL0P9s9xiQfeNSjpWy0nT/cDfJhak8GFkZq/ZyrgVmY
+ DitNAwSQbcUICZpUTShX//pEsjvyCNtM=
+X-Received: by 2002:a05:622a:14c6:b0:2f4:730e:40fa with SMTP id
+ u6-20020a05622a14c600b002f4730e40famr28690965qtx.495.1654716519298; 
+ Wed, 08 Jun 2022 12:28:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybNvPhzvl0C83K/l8CFP8Od/8fkpvk0Zg0c1Qyl/flK60m8QMPWn+SJmVDBoRJvt+dcz9R52Z3WoNvtbB/908=
+X-Received: by 2002:a05:622a:14c6:b0:2f4:730e:40fa with SMTP id
+ u6-20020a05622a14c600b002f4730e40famr28690907qtx.495.1654716518272; Wed, 08
+ Jun 2022 12:28:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
+References: <20220519191306.821774-1-eperezma@redhat.com>
+ <d34131b7-4193-d82c-056f-23b9d99f897a@redhat.com>
+In-Reply-To: <d34131b7-4193-d82c-056f-23b9d99f897a@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 8 Jun 2022 21:28:02 +0200
+Message-ID: <CAJaqyWefgjYioDsV4jraPLah_Ty_RPRm9r3etVYEu5Dade9feg@mail.gmail.com>
+Subject: Re: [RFC PATCH v8 00/21] Net Control VQ support with asid in vDPA SVQ
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Eric Blake <eblake@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -82,59 +102,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+On Wed, Jun 8, 2022 at 7:51 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/5/20 03:12, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > Control virtqueue is used by networking device for accepting various
+> > commands from the driver. It's a must to support multiqueue and other
+> > configurations.
+> >
+> > Shadow VirtQueue (SVQ) already makes possible migration of virtqueue
+> > states, effectively intercepting them so qemu can track what regions of=
+ memory
+> > are dirty because device action and needs migration. However, this does=
+ not
+> > solve networking device state seen by the driver because CVQ messages, =
+like
+> > changes on MAC addresses from the driver.
+> >
+> > To solve that, this series uses SVQ infraestructure proposed to interce=
+pt
+> > networking control messages used by the device. This way, qemu is able =
+to
+> > update VirtIONet device model and to migrate it.
+> >
+> > However, to intercept all queues would slow device data forwarding. To =
+solve
+> > that, only the CVQ must be intercepted all the time. This is achieved u=
+sing
+> > the ASID infraestructure, that allows different translations for differ=
+ent
+> > virtqueues. The most updated kernel part of ASID is proposed at [1].
+> >
+> > You can run qemu in two modes after applying this series: only intercep=
+ting
+> > cvq with x-cvq-svq=3Don or intercept all the virtqueues adding cmdline =
+x-svq=3Don:
+> >
+> > -netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdpa-0,id=3Dvhost-vdpa0=
+,x-cvq-svq=3Don,x-svq=3Don
+> >
+> > First three patches enable the update of the virtio-net device model fo=
+r each
+> > CVQ message acknoledged by the device.
+> >
+> > Patches from 5 to 9 enables individual SVQ to copy the buffers to QEMU'=
+s VA.
+> > This allows simplyfing the memory mapping, instead of map all the guest=
+'s
+> > memory like in the data virtqueues.
+> >
+> > Patch 10 allows to inject control messages to the device. This allows t=
+o set
+> > state to the device both at QEMU startup and at live migration destinat=
+ion. In
+> > the future, this may also be used to emulate _F_ANNOUNCE.
+> >
+> > Patch 11 updates kernel headers, but it assign random numbers to needed=
+ ioctls
+> > because they are still not accepted in the kernel.
+> >
+> > Patches 12-16 enables the set of the features of the net device model t=
+o the
+> > vdpa device at device start.
+> >
+> > Last ones enables the sepparated ASID and SVQ.
+> >
+> > Comments are welcomed.
+>
+>
+> As discussed, I think we need to split this huge series into smaller ones=
+:
+>
+> 1) shadow CVQ only, this makes rx-filter-event work
+> 2) ASID support for CVQ
+>
+> And for 1) we need consider whether or not it could be simplified.
+>
+> Or do it in reverse order, since if we do 1) first, we may have security
+> issues.
+>
 
-851d6d1a0f ("vfio/common: remove spurious tpm-crb-cmd misalignment
-warning") removed the warning on vfio_listener_region_add() path.
+I'm ok with both, but I also think 2) before 1) might make more sense.
+There is no way to only shadow CVQ otherwise ATM.
 
-However the same warning also hits on region_del path. Let's remove
-it and reword the dynamic trace as this can be called on both
-map and unmap path.
+Can we do as with previous base SVQ patches? they were merged although
+there is still no way to enable SVQ.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Link: https://lore.kernel.org/r/20220524091405.416256-1-eric.auger@redhat.com
-Fixes: 851d6d1a0ff2 ("vfio/common: remove spurious tpm-crb-cmd misalignment warning")
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
- hw/vfio/common.c     |   10 +++++++++-
- hw/vfio/trace-events |    2 +-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+Thanks!
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 29982c7af8c4..ace9562a9ba1 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1145,7 +1145,15 @@ static void vfio_listener_region_del(MemoryListener *listener,
-     if (unlikely((section->offset_within_address_space &
-                   ~qemu_real_host_page_mask()) !=
-                  (section->offset_within_region & ~qemu_real_host_page_mask()))) {
--        error_report("%s received unaligned region", __func__);
-+        if (!vfio_known_safe_misalignment(section)) {
-+            error_report("%s received unaligned region %s iova=0x%"PRIx64
-+                         " offset_within_region=0x%"PRIx64
-+                         " qemu_real_host_page_size=0x%"PRIxPTR,
-+                         __func__, memory_region_name(section->mr),
-+                         section->offset_within_address_space,
-+                         section->offset_within_region,
-+                         qemu_real_host_page_size());
-+        }
-         return;
-     }
- 
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 582882db91c3..73dffe9e00d5 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -100,7 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
- vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
- vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
--vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_within_region, uintptr_t page_size) "Region \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64" qemu_real_host_page_size=0x%"PRIxPTR ": cannot be mapped for DMA"
-+vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_within_region, uintptr_t page_size) "Region \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64" qemu_real_host_page_size=0x%"PRIxPTR
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
- vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
- vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
-
+> Thoughts?
+>
+> Thanks
+>
+>
+> >
+> > TODO:
+> > * Fallback on regular CVQ if QEMU cannot isolate in its own ASID by any
+> >    reason, blocking migration. This is tricky, since it can cause that =
+the VM
+> >    cannot be migrated anymore, so some way of block it must be used.
+> > * Review failure paths, some are with TODO notes, other don't.
+> >
+> > Changes from rfc v7:
+> > * Don't map all guest space in ASID 1 but copy all the buffers. No need=
+ for
+> >    more memory listeners.
+> > * Move net backend start callback to SVQ.
+> > * Wait for device CVQ commands used by the device at SVQ start, avoidin=
+g races.
+> > * Changed ioctls, but they're provisional anyway.
+> > * Reorder commits so refactor and code adding ones are closer to usage.
+> > * Usual cleaning: better tracing, doc, patches messages, ...
+> >
+> > Changes from rfc v6:
+> > * Fix bad iotlb updates order when batching was enabled
+> > * Add reference counting to iova_tree so cleaning is simpler.
+> >
+> > Changes from rfc v5:
+> > * Fixes bad calculus of cvq end group when MQ is not acked by the guest=
+.
+> >
+> > Changes from rfc v4:
+> > * Add missing tracing
+> > * Add multiqueue support
+> > * Use already sent version for replacing g_memdup
+> > * Care with memory management
+> >
+> > Changes from rfc v3:
+> > * Fix bad returning of descriptors to SVQ list.
+> >
+> > Changes from rfc v2:
+> > * Fix use-after-free.
+> >
+> > Changes from rfc v1:
+> > * Rebase to latest master.
+> > * Configure ASID instead of assuming cvq asid !=3D data vqs asid.
+> > * Update device model so (MAC) state can be migrated too.
+> >
+> > [1] https://lkml.kernel.org/kvm/20220224212314.1326-1-gdawar@xilinx.com=
+/
+> >
+> > Eugenio P=C3=A9rez (21):
+> >    virtio-net: Expose ctrl virtqueue logic
+> >    vhost: Add custom used buffer callback
+> >    vdpa: control virtqueue support on shadow virtqueue
+> >    virtio: Make virtqueue_alloc_element non-static
+> >    vhost: Add vhost_iova_tree_find
+> >    vdpa: Add map/unmap operation callback to SVQ
+> >    vhost: move descriptor translation to vhost_svq_vring_write_descs
+> >    vhost: Add SVQElement
+> >    vhost: Add svq copy desc mode
+> >    vhost: Add vhost_svq_inject
+> >    vhost: Update kernel headers
+> >    vdpa: delay set_vring_ready after DRIVER_OK
+> >    vhost: Add ShadowVirtQueueStart operation
+> >    vhost: Make possible to check for device exclusive vq group
+> >    vhost: add vhost_svq_poll
+> >    vdpa: Add vhost_vdpa_start_control_svq
+> >    vdpa: Add asid attribute to vdpa device
+> >    vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs
+> >    vhost: Add reference counting to vhost_iova_tree
+> >    vdpa: Add x-svq to NetdevVhostVDPAOptions
+> >    vdpa: Add x-cvq-svq
+> >
+> >   qapi/net.json                                |  13 +-
+> >   hw/virtio/vhost-iova-tree.h                  |   7 +-
+> >   hw/virtio/vhost-shadow-virtqueue.h           |  61 ++-
+> >   include/hw/virtio/vhost-vdpa.h               |   3 +
+> >   include/hw/virtio/vhost.h                    |   3 +
+> >   include/hw/virtio/virtio-net.h               |   4 +
+> >   include/hw/virtio/virtio.h                   |   1 +
+> >   include/standard-headers/linux/vhost_types.h |  11 +-
+> >   linux-headers/linux/vhost.h                  |  25 +-
+> >   hw/net/vhost_net.c                           |   5 +-
+> >   hw/net/virtio-net.c                          |  84 +++--
+> >   hw/virtio/vhost-iova-tree.c                  |  35 +-
+> >   hw/virtio/vhost-shadow-virtqueue.c           | 378 ++++++++++++++++--=
+-
+> >   hw/virtio/vhost-vdpa.c                       | 206 +++++++++-
+> >   hw/virtio/virtio.c                           |   2 +-
+> >   net/vhost-vdpa.c                             | 294 ++++++++++++++-
+> >   hw/virtio/trace-events                       |  10 +-
+> >   17 files changed, 1012 insertions(+), 130 deletions(-)
+> >
+>
 
 
