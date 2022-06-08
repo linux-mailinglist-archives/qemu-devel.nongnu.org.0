@@ -2,88 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D93543D87
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 22:24:58 +0200 (CEST)
-Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96378543D92
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 22:26:50 +0200 (CEST)
+Received: from localhost ([::1]:52810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz2Ea-0005t8-PJ
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 16:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48154)
+	id 1nz2GP-0000Si-KX
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 16:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nz2CM-0004bR-4p; Wed, 08 Jun 2022 16:22:38 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:35460)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nz2CK-0006VR-Ff; Wed, 08 Jun 2022 16:22:37 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-f16a3e0529so28693279fac.2; 
- Wed, 08 Jun 2022 13:22:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Cm1N737UB1pI7WtpuFkb+ivRdyWy3TDPTkpLHSy5Lgs=;
- b=kv6GuOBHJXNmYVBEiNOBMGf8dJcN2HRmZ4RSeW+aP1copWJHl/c15/ha4qs0SUmF/8
- UAuEOnh+tyQKp1TQtXvBOe8nEafT03gQBx3Dd/mQ9/oQpL8nOZXRD8kTwQEhVUCdZwvn
- 3Dzw9K/k7b23QBqZxhwPXWtNeF8EoyJYMuXYzI+sVtyjIfABkD4/gM52YWtvgimwdcCZ
- N6vHYv5txdpPKtGefTS9uKTK2pRuNDMQQTgrmkd62tI8mf6gcDSwjSyYl1sYUYhydOPq
- 91Mr/M5tQHTWpXqzqHF0l8eJibdUyh6DbYSnRb6kpMf3qLK36eEIS8DWJGgLz9PEkhzO
- wRvQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nz2D4-00052V-C7
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:23:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54995)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nz2D1-0006YW-M1
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:23:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654719798;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c9lz+LW0K/FfoUtKhTlhZGFvriSHmUbGH9cYr4gah/w=;
+ b=ih7qi0WhLUhD+ZVrLHPqypMvC5bGW+fm/sDZN9Qj00ctN60wsQl0z9D524qGLqo3k2oHYz
+ hD1JS/rc0QpyTpDMOAcApV7PD6wUIjbBGig+eQjDMBi1V80YjIM88g5jo3/SrBCaMJ5Mk4
+ CbZjd5F41xapW8r5snYTq6XrSXESU64=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-646-LOlOfnOVOeG4cTKdCMNoYQ-1; Wed, 08 Jun 2022 16:23:17 -0400
+X-MC-Unique: LOlOfnOVOeG4cTKdCMNoYQ-1
+Received: by mail-il1-f197.google.com with SMTP id
+ g8-20020a92cda8000000b002d15f63967eso16341418ild.21
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 13:23:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Cm1N737UB1pI7WtpuFkb+ivRdyWy3TDPTkpLHSy5Lgs=;
- b=qWMSBxQqvUkw6xvfLWWvJW0kkAZOD4/g5hBOiP1/p2i/xsz9Gbdo/1K/cXH7qsNA1L
- idg3jxebbDZ165smSsMzlArym14+IVXAngn0BBUlG2xl19HsZ0c8+8XXXcs/Clxk2p8i
- QDDqxrt6UGMjLhZwUcVmHTDq3SyNHOGcb/xQcqDBFhba4LGVEmF17F2H264GBf2OzRBK
- Gu4hI9uRyem4pzD9kGDOF/bOroQiop4VkqtELGDoJ0CqUmQRJroF5w3vXxaZgD8DhGmU
- ITVslnZVF2H/3kDdovTBglrOZBF3ZaFkOfaOq3/1kXr8uqw3E9lAuh9eXU92UbkuZci2
- HW/A==
-X-Gm-Message-State: AOAM533VhTqXLB/0gAQQDCNOt2pHB9/jBIHnn4mzM+TZAxvz3ER3YYv/
- v+RE4J2v2k3JlDautNorPDE=
-X-Google-Smtp-Source: ABdhPJxgnfWoIpa2i+TeqjTv9k4oiU6HoBhrVqePlRrPBubSJhPI/2L9dNRpGQwYH26RWFrNEc5eWg==
-X-Received: by 2002:a05:6870:240d:b0:f1:b878:e97c with SMTP id
- n13-20020a056870240d00b000f1b878e97cmr3293838oap.193.1654719754289; 
- Wed, 08 Jun 2022 13:22:34 -0700 (PDT)
-Received: from [192.168.10.102] (189-68-152-128.dsl.telesp.net.br.
- [189.68.152.128]) by smtp.gmail.com with ESMTPSA id
- y14-20020a0568302a0e00b006060322127bsm10742179otu.75.2022.06.08.13.22.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 13:22:34 -0700 (PDT)
-Message-ID: <a011976f-714a-86ed-126c-5ed5857d8a8a@gmail.com>
-Date: Wed, 8 Jun 2022 17:22:05 -0300
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=c9lz+LW0K/FfoUtKhTlhZGFvriSHmUbGH9cYr4gah/w=;
+ b=xi8JuYOt4dccWSwF+NGu9AxyRe63r5cydmoZzmKa5LTVGDh11EnvtYr3ccwTBL1Cg/
+ hBxTXq6+AlR6dSmtaFqxsLMM9hYTUQdSwDnNF/lTF6mhzPnmmNKnMEFWmRjylUEnWyvG
+ nFHpBCKCB94eQFOXhkRcrfcefHqyhhQzUTDkuq1Dx/ObhdGCku/YjYF9rx6BLZV+Hc8s
+ zRgp5tHcZDknvE/UwFMgvrjTI7ZTn0uNuNESZ3uXBXgu2/JeHWu/nDE/tkXAbC55VDKD
+ LcCak5oz8WrbFZTVX+qV9u4m74lw9GKDz7MqfLhV1nJga7c5dEU7cqF1QvM56YXzOCEE
+ d/Ug==
+X-Gm-Message-State: AOAM530e1MwGIw/FjCZkGqyDmqq8d+4Dzb0Kmv8fH1JRZsWFiDw5bQ0O
+ ExNUSCFSwln/HC+0/c2AvhSdT+sNF3RZkAKJB4UXn96aAC0WSMAaDN+AQff0zmXwpE9IMOIdWCt
+ zQlP6WYhScIdKqpo=
+X-Received: by 2002:a05:6e02:194d:b0:2d3:c5aa:a9f4 with SMTP id
+ x13-20020a056e02194d00b002d3c5aaa9f4mr21455456ilu.172.1654719796624; 
+ Wed, 08 Jun 2022 13:23:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZLH0vE7YBnAzPSfAsuN2Q4BxyEaIiaWccGX5mjfLaR5QrNB/feLUlVz1b5auWHVlfmbAAUQ==
+X-Received: by 2002:a05:6e02:194d:b0:2d3:c5aa:a9f4 with SMTP id
+ x13-20020a056e02194d00b002d3c5aaa9f4mr21455438ilu.172.1654719796357; 
+ Wed, 08 Jun 2022 13:23:16 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ i25-20020a5d8419000000b00657b1ff6556sm8462968ion.2.2022.06.08.13.23.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jun 2022 13:23:15 -0700 (PDT)
+Date: Wed, 8 Jun 2022 16:23:13 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
+ Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ lizefan.x@bytedance.com, zhouyibo@bytedance.com
+Subject: Re: [External] [PATCH v13 3/8] QIOChannelSocket: Implement io_writev
+ zero copy flag & io_flush for CONFIG_LINUX
+Message-ID: <YqEFMXnMb8FlhvRe@xz-m1.local>
+References: <20220513062836.965425-1-leobras@redhat.com>
+ <20220513062836.965425-4-leobras@redhat.com>
+ <b2fae41c-7f47-9bf1-21b9-1b123818a262@bytedance.com>
+ <YpdwcHu7I8dGDimt@xz-m1.local>
+ <CAJ6HWG7vxRzEN5CRf93m_afHPn9zvMdYe=DZ4pGKKBQ8gyTY+Q@mail.gmail.com>
+ <YqCK1UBLjXzo+nm7@xz-m1.local>
+ <CAJ6HWG4UwU+em4pgk+uBLNZRx1jBThzYWXXp-nZg3EVLjuHVHQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 08/16] ppc/pnv: user created pnv-phb for powernv9
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
- mark.cave-ayland@ilande.co.uk
-References: <20220531214917.31668-1-danielhb413@gmail.com>
- <20220531214917.31668-9-danielhb413@gmail.com>
- <d2ae2236-7a49-22e7-3950-cb635697721a@linux.ibm.com>
- <edef4577-c7d1-51aa-01c2-cd5846f7ba40@gmail.com>
- <bbbb71c0-c4bd-0c87-5d44-f6398d64cf36@kaod.org>
- <c6f53e8e-22a8-451d-409d-e371f39da08c@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <c6f53e8e-22a8-451d-409d-e371f39da08c@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJ6HWG4UwU+em4pgk+uBLNZRx1jBThzYWXXp-nZg3EVLjuHVHQ@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,63 +114,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 6/7/22 03:44, Cédric Le Goater wrote:
->>>> Also, the comment seems wrong to me. The qom parenting doesn't matter when building the device tree. 
->>
->> it does. See pnv_dt_xscom()
+On Wed, Jun 08, 2022 at 03:14:36PM -0300, Leonardo Bras Soares Passos wrote:
+> On Wed, Jun 8, 2022 at 8:41 AM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Wed, Jun 08, 2022 at 02:37:28AM -0300, Leonardo Bras Soares Passos wrote:
+> > > (1) is not an option, as the interface currently uses ret=1 to make
+> > > sure MSG_ZEROCOPY is getting used,
+> > > I added that so the user of qio_channel can switch off zero-copy if
+> > > it's not getting used, and save some cpu.
+> >
+> > Yes (1) is not, but could you explain what do you mean by making sure
+> > MSG_ZEROCOPY being used?  Why is it relevant to the retval here?
 > 
-> And this is the root cause of many headaches for user-created devices.
-> Could it be done differently ?
+> If sendmsg() is called with MSG_ZEROCOPY, and everything is configured
+> correctly, the kernel will attempt to send the buffer using zero-copy.
+> 
+> Even with the right configuration on a recent enough kernel, there are
+> factors that can prevent zero-copy from happening, and the kernel will
+> fall back to the copying mechanism.
+> An example being the net device not supporting 'Scatter-Gather'
+> feature (NETIF_F_SG).
+> 
+> When this happens, there is an overhead for 'trying zero-copy first',
+> instead of just opting for the copying mechanism.
+> 
+> In a previous iteration of the patchset, it was made clear that it's
+> desirable to detect when the kernel falls back to copying mechanism,
+> so the user of 'QIOChannelSocket' can switch to copying and avoid the
+> overhead. This was done by the return value of flush(), which is 1 if
+> that occurs.
 
-Just tried to do a related change based on the review you gave in patch 07:
+Two questions..
 
-----
-But it would assert if child is not of the correct type. The routine
-above is called from a object_child_foreach() which loops on all
-children.
+  1) When that happens, will MSG_ERRQUEUE keeps working just like zerocopy
+     is functional?
 
-I think it could be improved by using directly &chip*->phbs[i].
+     If the answer is yes, I don't see how ret=1 will ever be
+     returned.. because we'll also go into the same loop in
+     qio_channel_socket_flush() anyway.
 
-C.
------
+     If the answer is no, then since we'll have non-zero zero_copy_queued,
+     will the loop in qio_channel_socket_flush() go into a dead one?  How
+     could it return?
 
-This doesn't work out of the gate because, for user creatable devices, we
-are not setting the phbs back into the chip->phbs[] array. In fact we're
-not even incrementing chip->num_phbs. We were getting away with all of it
-because we are parenting the PHBs to the chip during realize.
-
-Considering that, and also how pnv_dt_xscom() works, I´d rather stick with
-most of the the QOM usage we already have. Otherwise we would need, for example,
-to change xscom_dt_child to go through each device we want in the DT. And
-there's no clear benefit aside from using less QOM, but that can be amended
-by adding more documentation here and there.
-
-I can make an exception for powernv8 and pnv_ics_get_child()/pnv_ics_resend_child(),
-where we're cycling through all child elements every time. For those cases it's worth
-to access the phbs directly via chip->phbs[], and for user creatable phb3s I'll add
-the created phb in the array.
-
-I also believe that I can do more to make the current handling of default phb3/phb4
-closer to what user creatable devices does. This will ease the work to be done
-by this series and will also make the design easier to understand. I might also do
-some changes that Mark pointed out in the phb3/4 root ports as well. This series can
-then be more about the PnvPHB proxy.
-
+  2) Even if we have the correct ret=1 returned when that happens, which
+     caller is detecting that ret==1 and warn the admin?
 
 Thanks,
 
+-- 
+Peter Xu
 
-Daniel
-
-
-
-
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
 
