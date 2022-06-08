@@ -2,93 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9115B543E33
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 23:07:03 +0200 (CEST)
-Received: from localhost ([::1]:59756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F14B543E70
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 23:19:53 +0200 (CEST)
+Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz2tK-0003GZ-Kw
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 17:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55384)
+	id 1nz35j-0004lv-Ap
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 17:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nz2ql-0001mi-Ks
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:04:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24141)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1nz2qk-00048T-6U
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:04:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654722261;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NWOcKXALzYETQDPwBBeoZE/GQdWJfvnn2yDZFDnjDr0=;
- b=C1K9CNo1uF8wms8x50D79or7A0I/X7U/1Sn9gqSYsHKgwbooOOTbMfk0uL6FAn3QwnZ3IU
- epJjAOKjc1oHDX6iHSzyCQY2uPnLeXvQMGrwg8/sXKXyAjQhQGV8PQknLGNjYGujHcKUd/
- KHjFKgSLm9o7AenzFRidcGNQ8/vR6t0=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-pjK6Rc-oOBux6agkkVqVuw-1; Wed, 08 Jun 2022 17:04:20 -0400
-X-MC-Unique: pjK6Rc-oOBux6agkkVqVuw-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-f344ea88d9so12921876fac.11
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 14:04:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nz336-00017n-C3
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:17:08 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:35433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1nz333-000698-9b
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:17:08 -0400
+Received: by mail-io1-xd32.google.com with SMTP id y79so1718870iof.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 14:17:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yHn4bD+T/kjxOdFTFg0Wx8Q6xxBzVenEU9DxlhDoVhI=;
+ b=Nj04MBeuIhqgK+emAzLfGVRlTVp5uriKxYwqpTHcDMM/FkDDehQzpQ7wqhRw0ZKh59
+ unVzgkp+UwydJxhX0BSlF1ju3Ze+UxUFTI5fm7oQoKd1+Kzz0irXCdL9z+Z24FmF2GqJ
+ MN09BZ3K5JWT7oXQuHzmH5IhgPO7w1XDYVKAQzPrwEosh0YeRo8S+JjW6aktsh7eDpBf
+ WVW+A1SVsGquaq6tmgZpaebwWRHwH4r+iiz8MLbnlvo5di45GMqmE4vhOX/Sx9hWHFr2
+ 0P5h486mk3DnjXb7yVXUyShFyRHbj8KwPu0nJUU33DcOwHafrDAQ0Dx4KNXAY3vFAJqe
+ znFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NWOcKXALzYETQDPwBBeoZE/GQdWJfvnn2yDZFDnjDr0=;
- b=TOLy72myHyurD5hymcm9EhdLz6bUrwhglvAQQr31C5lWC6XcR1w8Ykmu5nHSA7AFqE
- l6svXpRQ7ighP1YUPSiwyhIYFMecqHuuOW240R0AuHBX+kRIkNm2Ek6A2fAncoGTwJia
- NLz7Af4e+hPMHYNU9VlaoQBlYRoCW9DtZeWRxEW6xXG38yLB5gBtcOWeFInavY4N1GY6
- 8hpp02PCVKrL6T/DRIACAlnLJ6o4YRjqAlmycJlIIqI+0F0RwbiNqWG2qpGZqdNqQjj4
- HTkJedyBi08m4LpXdboeKqzO+IRJpckYY9iTW+6Gy4qXUKB2aFbQ4zUg9MxU7IqqrEqz
- JLrQ==
-X-Gm-Message-State: AOAM532QtGi+OmxBTzyg9oaRtJxBXrC8LaOoMArv+RkmgHCgk6/d9ejG
- xzGpt2yiXe3knc7l4weB+mHGLMyYv822wFdE7GCXkGRFdVa4Oie/uvWvAKzuusz+9YfvDRwa9UT
- z2xHfEFy/LKud2XI=
-X-Received: by 2002:a05:6808:e8d:b0:32e:1e76:a60b with SMTP id
- k13-20020a0568080e8d00b0032e1e76a60bmr3624958oil.21.1654722259742; 
- Wed, 08 Jun 2022 14:04:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQ3+H+5wvUXc1bHnGjmfkAGin6JwcmpzMr4nX2M7aCR53gI3lB3tgN0ty5zpF9a34WbjPb4A==
-X-Received: by 2002:a05:6808:e8d:b0:32e:1e76:a60b with SMTP id
- k13-20020a0568080e8d00b0032e1e76a60bmr3624946oil.21.1654722259592; 
- Wed, 08 Jun 2022 14:04:19 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:c7f1:d1b1:8b15:218b:6b0e:5260])
- by smtp.gmail.com with ESMTPSA id
- l14-20020a0568302b0e00b0060b66e2eaaesm11382384otv.38.2022.06.08.14.04.17
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yHn4bD+T/kjxOdFTFg0Wx8Q6xxBzVenEU9DxlhDoVhI=;
+ b=x6vZMpz/jyKHZD4Z2XZQ+5Pz78yw9GFdzijIeh8sHly1v7nsuNgRmO8GKUDej1pd2i
+ DfqwnRKWYiGQvM96Ua7Ob3PG5zx5+XqA30W2ZmntS/WO1eErKlZYbJY+v42KNq0kN5nb
+ nI8xvRTIBmvVOCgz7ApHA52Fo3r58GJs4QZHyOixNf84oUp2l+EWEjvbtrBPpCWMkKkw
+ NPDydXt2i9yWNZY+DkVLQGbz54GzTOTEU6a9wA/FvisIWqyzoGcvGI3CWM+4V0QLPesd
+ rwhuaFvMuK9ORAa0zcp1VuCAE4sHL24QEK9o0tOvKr1HPqb75i1Kz/dIVeXUKRksnIy/
+ d2YQ==
+X-Gm-Message-State: AOAM5312dRlQiRuq4RJxW/rY/lvAVwdH+QoFD7w2CHcLxGMQQOuTxyPN
+ hkjiYLyBC0kgM8UYW2hB3IUeBWyBTEtgow==
+X-Google-Smtp-Source: ABdhPJwhxD65ZgpA1PzB8DhU6O6oRkjRX0qLh42D3EpKdrHxO2d/XpRy8sYBrsMHrlhm2qkq1uG99g==
+X-Received: by 2002:a05:6638:1409:b0:331:53:a88c with SMTP id
+ k9-20020a056638140900b003310053a88cmr20002349jad.27.1654723022159; 
+ Wed, 08 Jun 2022 14:17:02 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
+ k29-20020a02661d000000b0032ead96ee5csm8418552jac.165.2022.06.08.14.17.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 14:04:19 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?=E5=BE=90=E9=97=AF?= <xuchuangxclwt@bytedance.com>,
- David Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] QIOChannelSocket: Fix zero-copy send so socket flush
- works
-Date: Wed,  8 Jun 2022 18:04:03 -0300
-Message-Id: <20220608210403.84006-2-leobras@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220608210403.84006-1-leobras@redhat.com>
-References: <20220608210403.84006-1-leobras@redhat.com>
+ Wed, 08 Jun 2022 14:17:01 -0700 (PDT)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Cc: jrtc27@FreeBSD.org, def@freebsd.org, Warner Losh <imp@bsdimp.com>,
+ arrowd@freebsd.org, Kyle Evans <kevans@freebsd.org>
+Subject: [PATCH v2 0/6] bsd-user upstreaming: read, write and exit
+Date: Wed,  8 Jun 2022 15:17:05 -0600
+Message-Id: <20220608211711.56158-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,38 +86,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Somewhere between v6 and v7 the of the zero-copy-send patchset a crucial
-part of the flushing mechanism got missing: incrementing zero_copy_queued.
+This series of patches continues the effort to get system calls working
+upstream. This series was cleaved off a prior series to give me time to rework
+based on the feedback from the first time I posted these.
 
-Without that, the flushing interface becomes a no-op, and there is no
-guarantee the buffer is really sent.
+       o bsd-user/freebsd/os-syscall.c: lock_iovec
+I rewored to use g_try_new, as well as fixing bugs in the 'after a FAULT
+handling code' Created a common routine to cleanup after errors that can
+be used for the unlock_iovec.
 
-This can go as bad as causing a corruption in RAM during migration.
+       o bsd-user/freebsd/os-syscall.c: unlock_iovec
+Fixed the error handling to be consistent with a normal unlock_iovec.
 
-Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
-Reported-by: 徐闯 <xuchuangxclwt@bytedance.com>
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- io/channel-socket.c | 5 +++++
- 1 file changed, 5 insertions(+)
+       o bsd-user/freebsd/os-syscall.c: Tracing and error boilerplate
+Created the wrapper function as suggested in prior reviews.
 
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index ef7c7cfbac..ca4cae930f 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -607,6 +607,11 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-                          "Unable to write to socket");
-         return -1;
-     }
-+
-+    if (zero_copy_enabled) {
-+        sioc->zero_copy_queued++;
-+    }
-+
-     return ret;
- }
- #else /* WIN32 */
+V2: Use g_try_new0 and simplify based on not needing to initialize things
+to zero that are already zero. Only affects the 'lock_iovec' hunk.
+
+V2: Remove inline tags from do_bsd_* routines.
+
+V2: Clean up logging a little
+
+Now all the patches, except the last one, need to be reviewed.
+
+Warner Losh (6):
+  bsd-user/freebsd/os-syscall.c: lock_iovec
+  bsd-user/freebsd/os-syscall.c: unlock_iovec
+  bsd-user/freebsd/os-syscall.c: Tracing and error boilerplate
+  bsd-user/bsd-file.h: Add implementations for read, pread, readv and
+    preadv
+  bsd-user/bsd-file.h: Meat of the write system calls
+  bsd-user/freebsd/os-syscall.c: Implement exit
+
+ bsd-user/bsd-file.h           | 163 +++++++++++++++++++++++++
+ bsd-user/bsd-proc.h           |  43 +++++++
+ bsd-user/freebsd/os-syscall.c | 217 +++++++++++++++++++++++++++++++++-
+ 3 files changed, 419 insertions(+), 4 deletions(-)
+ create mode 100644 bsd-user/bsd-proc.h
+
 -- 
-2.36.1
+2.33.1
 
 
