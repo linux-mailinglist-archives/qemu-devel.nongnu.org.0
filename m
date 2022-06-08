@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BD15430F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 15:04:06 +0200 (CEST)
-Received: from localhost ([::1]:38158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37756543135
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 15:19:43 +0200 (CEST)
+Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyvLw-00060n-Vd
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 09:04:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58186)
+	id 1nyvb3-0003fT-P3
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 09:19:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1nyurP-0001NA-2Y
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 08:32:31 -0400
-Received: from mga05.intel.com ([192.55.52.43]:56952)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nyv9x-00045b-2O
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 08:51:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1nyurN-0005kl-56
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 08:32:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654691549; x=1686227549;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Wbr6N/45Rts/aHBvR6LbIKg6keUVNwa4C9q2Z+KpQtw=;
- b=alzXnTrllnanHfO/agbpk0B+Cl24JtsHlhTrS1UU/Vi3FUEIJbam7Y9a
- fx7Y64LR6zwLa9XvSuHJob8K+/YWtwuDafleqOCN9CQMSMl/ABx2ZQq6A
- bX02gJ2xKWLH4wGPiQYGgLl+rnoMgXzP/PvrsSHBmWt9O2HbrmzDVmZYQ
- go2i9BPzBkuPPDVZ2qWZgAg+YTsrKbZsXPeoBtvNHX5EjJfOh29JM4mQS
- bdwAv/O56E70m2APk5pbtCIWKMP+OJ1tR95Ehm9NC90MR1o29Jmj8NW3x
- dcukw6qX+JffhpA5Pyp6GLbLwlDQyYp6Ed5n0c/Jxennl+eoJrMSTpUAa w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="363210177"
-X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="363210177"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2022 05:31:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="670529911"
-Received: from 984fee00a4c6.jf.intel.com ([10.165.58.231])
- by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2022 05:31:50 -0700
-From: Yi Liu <yi.l.liu@intel.com>
-To: alex.williamson@redhat.com,
-	cohuck@redhat.com,
-	qemu-devel@nongnu.org
-Cc: david@gibson.dropbear.id.au, thuth@redhat.com, farman@linux.ibm.com,
- mjrosato@linux.ibm.com, akrowiak@linux.ibm.com, pasic@linux.ibm.com,
- jjherne@linux.ibm.com, jasowang@redhat.com, kvm@vger.kernel.org,
- jgg@nvidia.com, nicolinc@nvidia.com, eric.auger@redhat.com,
- eric.auger.pro@gmail.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- chao.p.peng@intel.com, yi.y.sun@intel.com, peterx@redhat.com,
- shameerali.kolothum.thodi@huawei.com, zhangfei.gao@linaro.org,
- berrange@redhat.com
-Subject: [RFC v2 15/15] vfio/as: Allow the selection of a given iommu backend
-Date: Wed,  8 Jun 2022 05:31:39 -0700
-Message-Id: <20220608123139.19356-16-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220608123139.19356-1-yi.l.liu@intel.com>
-References: <20220608123139.19356-1-yi.l.liu@intel.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nyv9l-0000PC-0h
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 08:51:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654692628;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O9K296j1AQJUvWv4X2E5lcaEhQPLywuWyxVOnlgSS+Y=;
+ b=QRDVhhBIIR2XzmMH8OaKamat33pWmfHEbePC5BYBBnipDpcg26zpSMVn7vPrmIs3RCt0Yr
+ UAi19HLo6PzzVluYhBd5bJ4QTZgWsU0eR7gi+h2NCxOGAoJSbyLsPx766a/eezLTaCgR3C
+ 7RIK+JYErgxUwoBXveHPj5IpLviApHQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-546-ix1ylmh6P0i0-6qm67tQvQ-1; Wed, 08 Jun 2022 08:50:24 -0400
+X-MC-Unique: ix1ylmh6P0i0-6qm67tQvQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBCCB811E7A;
+ Wed,  8 Jun 2022 12:50:23 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42BC0C33AE6;
+ Wed,  8 Jun 2022 12:50:23 +0000 (UTC)
+Date: Wed, 8 Jun 2022 13:50:21 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alberto Faria <afaria@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
+ Fam Zheng <fam@euphon.net>, Ari Sundholm <ari@tuxera.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 07/10] block: Implement
+ bdrv_{pread,pwrite,pwrite_zeroes}() using generated_co_wrapper
+Message-ID: <YqCbDWy4kdBSzd43@stefanha-x1.localdomain>
+References: <20220519144841.784780-1-afaria@redhat.com>
+ <20220519144841.784780-8-afaria@redhat.com>
+ <Yo9AhsmzrQlzIr/z@stefanha-x1.localdomain>
+ <CAELaAXy-Pp75sdkEDiaUEfg-SL5FF1LKTJ7ntajNcz75+FpiaQ@mail.gmail.com>
+ <20220527142506.wkl2al5vtle45qji@redhat.com>
+ <YpS9Y0p18HJSNFsq@stefanha-x1.localdomain>
+ <CAELaAXx23BK86W6oEzo9DANj=KCTpXAwDu0E85BGj19UW0M3VQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=yi.l.liu@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Pon0V5yUbVIY/eb1"
+Content-Disposition: inline
+In-Reply-To: <CAELaAXx23BK86W6oEzo9DANj=KCTpXAwDu0E85BGj19UW0M3VQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,123 +94,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
 
-Now we support two types of iommu backends, let's add the capability
-to select one of them. This depends on whether an iommufd object has
-been linked with the vfio-pci device:
+--Pon0V5yUbVIY/eb1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-if the user wants to use the legacy backend, it shall not
-link the vfio-pci device with any iommufd object:
+On Mon, Jun 06, 2022 at 05:10:38PM +0100, Alberto Faria wrote:
+> Thanks for the feedback, and apologies for the delayed response.
+>=20
+> On Mon, May 30, 2022 at 1:49 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> > If you find it's safe to change to -EINVAL then that's consistent with
+> > how file I/O syscalls work and I think it would be nice.
+>=20
+> Switching to -EINVAL on negative bytes sounds good to me, but perhaps
+> it should be done as a separate series. For now, switching just
+> bdrv_{pread,pwrite}() to -EIO will make them consistent with all of
+> bdrv_{preadv,pwritev}() and bdrv_co_{pread,pwrite,preadv,pwritev}(),
+> accomplishing the purpose of this series with less changes and
+> auditing.
+>=20
+> I can work on a subsequent series that changes -EIO to -EINVAL on
+> negative bytes for all the bdrv_...() and blk_...() functions.
+>=20
+> Would this make sense?
 
--device vfio-pci,host=0000:02:00.0
+Yes, that's fine. My main concern is that callers have been audited when
+errnos are changed. If you switch bdrv_{pread,pwrite}() to -EIO and have
+audited callers, then I'm happy.
 
-This is called the legacy mode/backend.
+Consistent -EINVAL would be nice in the future, but I think it's lower
+priority and it doesn't have to be done any time soon.
 
-If the user wants to use the iommufd backend (/dev/iommu) it
-shall pass an iommufd object id in the vfio-pci device options:
+Stefan
 
- -object iommufd,id=iommufd0
- -device vfio-pci,host=0000:02:00.0,iommufd=iommufd0
+--Pon0V5yUbVIY/eb1
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Note the /dev/iommu device may have been pre-opened by a
-management tool such as libvirt. This mode is no more considered
-for the legacy backend. So let's remove the "TODO" comment.
+-----BEGIN PGP SIGNATURE-----
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Yi Liu <yi.l.liu@intel.com>
-Suggested-by: Alex Williamson <alex.williamson@redhat.com>
----
- hw/vfio/as.c  |  9 ++++++---
- hw/vfio/pci.c | 19 ++++++++++++++-----
- 2 files changed, 20 insertions(+), 8 deletions(-)
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKgmw0ACgkQnKSrs4Gr
+c8hILAf+IY/0s2r8hPa5VenosRFxr7r27QDQLApEQIBXttlQloy+aN7hqi6FLe20
+ons+xMUI1/+NbHzwbq1fko/LB+XTu9cPi5YXE49aRZBuaTYw4OSfe8WXI9g8h4yJ
+XElNGfE7CiOo/q6PCz5P4CVRDAIITMmoLOj68qh893OBfVF+Zv0Sh1pfXlxnuuez
+shIzPaxw9Ovzr04mrYgmu6VSx5bNsSxrvAvQY6RhwTgi00YPBIkFwsuUY06i0CfZ
+VQN4xebSPjsRsXo3GObMBxVjMNPADv+D73b5GEs6Lqn9ACoJGh8YHe+VSzDDRgHS
+MBBPdCj+Qst844Q+5ROeJcHK1dUIxg==
+=AXtK
+-----END PGP SIGNATURE-----
 
-diff --git a/hw/vfio/as.c b/hw/vfio/as.c
-index 56485f9299..e799750104 100644
---- a/hw/vfio/as.c
-+++ b/hw/vfio/as.c
-@@ -1007,6 +1007,8 @@ vfio_get_container_ops(VFIOIOMMUBackendType be)
-     switch (be) {
-     case VFIO_IOMMU_BACKEND_TYPE_LEGACY:
-         return &legacy_container_ops;
-+    case VFIO_IOMMU_BACKEND_TYPE_IOMMUFD:
-+        return &iommufd_container_ops;
-     default:
-         return NULL;
-     }
-@@ -1016,9 +1018,10 @@ int vfio_attach_device(VFIODevice *vbasedev, AddressSpace *as, Error **errp)
- {
-     const VFIOContainerOps *ops;
- 
--    ops = vfio_get_container_ops(VFIO_IOMMU_BACKEND_TYPE_LEGACY);
--    if (!ops) {
--        return -ENOENT;
-+    if (vbasedev->iommufd) {
-+        ops = vfio_get_container_ops(VFIO_IOMMU_BACKEND_TYPE_IOMMUFD);
-+    } else {
-+        ops = vfio_get_container_ops(VFIO_IOMMU_BACKEND_TYPE_LEGACY);
-     }
-     return ops->attach_device(vbasedev, as, errp);
- }
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 6d10e86331..7efd3382ca 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -42,6 +42,7 @@
- #include "qapi/error.h"
- #include "migration/blocker.h"
- #include "migration/qemu-file.h"
-+#include "sysemu/iommufd.h"
- 
- #define TYPE_VFIO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
- 
-@@ -2852,6 +2853,13 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     int i, ret;
-     bool is_mdev;
- 
-+    if (vbasedev->iommufd) {
-+        iommufd_backend_connect(vbasedev->iommufd, errp);
-+        if (*errp) {
-+            return;
-+        }
-+    }
-+
-     if (!vbasedev->sysfsdev) {
-         if (!(~vdev->host.domain || ~vdev->host.bus ||
-               ~vdev->host.slot || ~vdev->host.function)) {
-@@ -3134,6 +3142,7 @@ error:
- static void vfio_instance_finalize(Object *obj)
- {
-     VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIODevice *vbasedev = &vdev->vbasedev;
- 
-     vfio_display_finalize(vdev);
-     vfio_bars_finalize(vdev);
-@@ -3146,6 +3155,9 @@ static void vfio_instance_finalize(Object *obj)
-      *
-      * g_free(vdev->igd_opregion);
-      */
-+    if (vbasedev->iommufd) {
-+        iommufd_backend_disconnect(vbasedev->iommufd);
-+    }
-     vfio_put_device(vdev);
- }
- 
-@@ -3281,11 +3293,8 @@ static Property vfio_pci_dev_properties[] = {
-                                    qdev_prop_nv_gpudirect_clique, uint8_t),
-     DEFINE_PROP_OFF_AUTO_PCIBAR("x-msix-relocation", VFIOPCIDevice, msix_relo,
-                                 OFF_AUTOPCIBAR_OFF),
--    /*
--     * TODO - support passed fds... is this necessary?
--     * DEFINE_PROP_STRING("vfiofd", VFIOPCIDevice, vfiofd_name),
--     * DEFINE_PROP_STRING("vfiogroupfd, VFIOPCIDevice, vfiogroupfd_name),
--     */
-+    DEFINE_PROP_LINK("iommufd", VFIOPCIDevice, vbasedev.iommufd,
-+                     TYPE_IOMMUFD_BACKEND, IOMMUFDBackend *),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--- 
-2.27.0
+--Pon0V5yUbVIY/eb1--
 
 
