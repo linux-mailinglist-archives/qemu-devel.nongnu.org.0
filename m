@@ -2,90 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3762F543D96
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 22:28:58 +0200 (CEST)
-Received: from localhost ([::1]:56646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8450A543DA1
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 22:38:14 +0200 (CEST)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz2IS-0003UM-UT
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 16:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48736)
+	id 1nz2RR-0002CV-3T
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 16:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nz2Ft-0000AI-MY
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:26:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nz2Fq-0006zq-Ps
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:26:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654719974;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eN6ESWXnx7fBwEiILywQZAqx+TxGJzNMdOy6d2qYTGM=;
- b=It+2GJh59yIiRHpYYfaCByueFfIJg5XnxAIGjb7FQPPf+Dgfearn6cVoo6r5W2XjoFzTY1
- gs/Ok5kQLXXxF+gBBY9gbtrv4h2Ng6QCs7UZqOR3Flh3bBbPsDFMYw7eNgfAWhwEhvI/h6
- cLacsmfPzG6uTMO2kwOHFShmrqZ+Sgs=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-kvEyzLFTPsq1SzpzYyWIYA-1; Wed, 08 Jun 2022 16:26:12 -0400
-X-MC-Unique: kvEyzLFTPsq1SzpzYyWIYA-1
-Received: by mail-il1-f199.google.com with SMTP id
- g8-20020a92cda8000000b002d15f63967eso16345684ild.21
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 13:26:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nz2Po-0000L6-Km
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:36:32 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:40643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nz2Pn-0000M2-4D
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:36:32 -0400
+Received: by mail-pf1-x429.google.com with SMTP id z17so19316521pff.7
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 13:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:references:in-reply-to:content-transfer-encoding;
+ bh=kzioIfEAq+h4MU3hIWFLmIACptZ6QuXuyYqa0BMKlEY=;
+ b=NYkDsXNG39ZpmwIaA65B/FmSME1m9/3KChuoUb4jrBhs5ebJ2f029NwrW0lz7ZPu+2
+ ySyLET4/AGdOVGK25kq+lPtUj8o2t/uOTVntqETTfAtlJN3MGZW0R+5sS8EmMAsY91q1
+ q+11jlfOszysy9NhPj+tU4j6EsiFmXTI+3404foLgQdYcyr4IjjHdVhKhJyTFMoaQPF5
+ A4PCT2FnnxwHQN6so8vmjnXP2V39BjxfIzeKctMKWXjvjx4yLBShaM8WyyMjtFj/WNlJ
+ 2739BH6solAjYTQr+jprQ/7upWlhVOxisWOKluUvv5/DlDDcQbIrMrG0z3XdFX1tIGv4
+ Zrng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=eN6ESWXnx7fBwEiILywQZAqx+TxGJzNMdOy6d2qYTGM=;
- b=a73ldlCJbhXUCY27s51nWpWyrPVXCuYhDpWoVnYzZ4YVFoQvoG7W3QWLna/tXs208N
- yUfwbi/wOYUdZeU4Hx8hut08P5fNIoMTJf0L70S9CRTB/ZhtQA56LXPd7mP2w6IY0OvD
- 3lVlN4FAxUOCAFEZzNZuutOEtjyyxmKJGsYe5bCvvwkzv0h2p4ALuDRNcpDTYaBkKp7K
- sAMcGADON14UJ+nBfAWUp0LBcnOJnr2DuSTCA8mA86MvlJWTb4vTP1TOe2DNnDSayuEA
- S52RQ9SiWlYymgFbiGjdX+YOJGPUDYGvIFdkUtnsgbecyPHppG/2cGZgwk9DLd8lKX4w
- K+Mw==
-X-Gm-Message-State: AOAM530/ja8K+1fTv5o5xlnJnt7yQSNlRyOC446i7KwElF97IjSLKAhj
- YkcIyttyQPBg7Xy/n+UKXUH0y/k9oVadb6gNMp/lB1hamRUvVAJdseH2DQoGsxieVtl9zHlgsfS
- 6KYDFHvx8wxPgqA8=
-X-Received: by 2002:a05:6602:2d90:b0:63d:b41e:e4e4 with SMTP id
- k16-20020a0566022d9000b0063db41ee4e4mr16643530iow.172.1654719972267; 
- Wed, 08 Jun 2022 13:26:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzP/hSy54fFBJdenwanoziKGdEX08IbunCpXgefFSwcafsWPnZenHVY9WhQXhPCB0vxJLAnXA==
-X-Received: by 2002:a05:6602:2d90:b0:63d:b41e:e4e4 with SMTP id
- k16-20020a0566022d9000b0063db41ee4e4mr16643518iow.172.1654719972035; 
- Wed, 08 Jun 2022 13:26:12 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=kzioIfEAq+h4MU3hIWFLmIACptZ6QuXuyYqa0BMKlEY=;
+ b=Rzig+DDWZDx/1y2UezAagfIKNL9APHjlgyOFwP7ZswjRr+tuFHnARPxSsyan3D9pNG
+ VJQij6N/iWK14iXETkte4qbXiEYfVyoGUG3fVHlILkid/ExGwdTbTxhIo2RWQ4K9nf5i
+ qq7MprODlp9l9ZQzqwOUMr8GTENyTrV2a4U1ijBzVowbzA/E5wgOBQGpqmP2DCeL+70i
+ SUBEgpxVQDyxjmUHqQBQE2w8tzRbwdsQkSL2HBzHiNSPNMdDb3gVlM2krfhMxUUz5w4O
+ GcHwp555sU2nle3rJvbZ+52NjQ0K+MRzVtH+XD/ID9qxoWdSezD0ws8FklHlFdFIELDX
+ pUaQ==
+X-Gm-Message-State: AOAM53149AefTssRK3sjyCSfQa0i/SQljETGfs8JuQuEjEM5NTVkvaeJ
+ JCLPD6yluDwZIZJGM2/HQ1Ffpw==
+X-Google-Smtp-Source: ABdhPJzAAopIIRNRbGrdoMbRDsPKoGYfnEbXsq8laYBJZFkc+Y5HKMWqbbvRRkQ5xAbeZVpTUc64JA==
+X-Received: by 2002:a63:3184:0:b0:3fc:5893:c866 with SMTP id
+ x126-20020a633184000000b003fc5893c866mr31826000pgx.56.1654720588381; 
+ Wed, 08 Jun 2022 13:36:28 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:4c43:7957:a690:ed36?
+ ([2602:ae:1547:e101:4c43:7957:a690:ed36])
  by smtp.gmail.com with ESMTPSA id
- f5-20020a056e020b4500b002d39f548bdasm5624959ilu.55.2022.06.08.13.26.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 13:26:11 -0700 (PDT)
-Date: Wed, 8 Jun 2022 16:26:10 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v1 1/1] QIOChannelSocket: Fix zero-copy send so socket
- flush works
-Message-ID: <YqEF4ikvnsizTQGO@xz-m1.local>
-References: <20220608181808.79364-1-leobras@redhat.com>
+ h7-20020aa786c7000000b0051bf246ca2bsm9786756pfo.100.2022.06.08.13.36.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 13:36:27 -0700 (PDT)
+Message-ID: <17af101c-d8e4-0335-41d8-e54ae67e13a3@linaro.org>
+Date: Wed, 8 Jun 2022 13:36:25 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 0/3] target/m68k: semihosting cleanup
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220607222616.717435-1-richard.henderson@linaro.org>
+ <56b31126-41c5-e7b6-5b32-2b64ba1cce67@vivier.eu>
+ <8f833280-b1bb-d4f4-6603-5be44ee8e9b7@linaro.org>
+ <09f9a931-6873-bd98-74ed-e1d17318d76e@vivier.eu>
+ <9c42516d-a238-a1d6-3f01-aaa8fc018eda@linaro.org>
+In-Reply-To: <9c42516d-a238-a1d6-3f01-aaa8fc018eda@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220608181808.79364-1-leobras@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,23 +96,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 08, 2022 at 03:18:09PM -0300, Leonardo Bras wrote:
-> Somewhere between v6 and v7 the of the zero-copy-send patchset a crucial
-> part of the flushing mechanism got missing: incrementing zero_copy_queued.
+On 6/8/22 12:05, Richard Henderson wrote:
+>> But what is the use case of semihosting on m68k?
+>> Is there a kernel implementation available for that?
 > 
-> Without that, the flushing interface becomes a no-op, and there is no
-> garantee the buffer is really sent.
-> 
-> This can go as bad as causing a corruption in RAM during migration.
-> 
-> Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
-> Reported-by: 徐闯 <xuchuangxclwt@bytedance.com>
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> Not that I'm aware of.  Do you want to remove it entirely instead?
+> Leaving it as-is should not be an option...
 
-Copy Dave/Juan; Leo please remember to do so in the next posts, or no one
-will be picking this up. :)
+Oh, duh.  The "kernel" implementation is libgloss itself.
+The use-case is running the gcc testsuite for coldfire under qemu.
 
--- 
-Peter Xu
 
+r~
 
