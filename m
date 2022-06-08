@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5AB543245
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:13:32 +0200 (CEST)
-Received: from localhost ([::1]:53552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347F854325C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:21:43 +0200 (CEST)
+Received: from localhost ([::1]:41842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywR8-00030t-QI
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48362)
+	id 1nywZ4-0007Ot-6a
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:21:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8O-0001qZ-BZ
+ id 1nyw8O-0001r4-El
  for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34867)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8M-0004QL-2Q
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:07 -0400
+ id 1nyw8M-0004QZ-Ru
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696445;
+ s=mimecast20190719; t=1654696446;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l9bsR4I2ghp8WKhdV5uXjK81EpWP1et/uSiLe8Paw/E=;
- b=a5m4orvZq+pgEIksLr6GqCHteZkW6cLoAsI+8TfZtYzkiAzFu8Ap5+1x5SegzBxeSxtTwq
- 7/zeHpX1tv7fHq2zmzDq2wxPx7QAPhVAcCPDTtzhaP8Ek/GdYzNvDvebeC9rokXWrhY2bl
- oM6R5WRXmX6b8iaB6wuofrwTbsanHIE=
+ bh=+Uq5RtdHlZF/1wdrUfiViEqHLed0DS91l5F7EfJ/4hU=;
+ b=T8KANKPMDNF7Z8I5bHTvpqhOvbeG1wHpAbeg78E3P/wag20mM2cmNHnCTaYQb8cWVlhXcW
+ 9ZtbMmpzMDSg4fVhaZiTh1LHqZaW2ExqdnzkUSndKpf4JE6NWVgKw8fsuFXKYycPvLD8C1
+ cDlYuoBLkVb8c90ZLhOhOdcmgpfJ6xQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-TTThHuPmMOCBv-AXzErwUw-1; Wed, 08 Jun 2022 09:54:04 -0400
-X-MC-Unique: TTThHuPmMOCBv-AXzErwUw-1
+ us-mta-318-LLRn4swQNlW1ZxUIrFGn-A-1; Wed, 08 Jun 2022 09:54:05 -0400
+X-MC-Unique: LLRn4swQNlW1ZxUIrFGn-A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EFB4418E004E
- for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:54:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6072185A7BA
+ for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:54:04 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7910EC27E97;
- Wed,  8 Jun 2022 13:54:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 322E2C28117;
+ Wed,  8 Jun 2022 13:54:04 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: mst@redhat.com
-Subject: [PATCH v2 26/35] tests: acpi: white-lists expected DSDT.pvpanic-isa
- blob
-Date: Wed,  8 Jun 2022 09:53:31 -0400
-Message-Id: <20220608135340.3304695-27-imammedo@redhat.com>
+Cc: mst@redhat.com,
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 27/35] tests: acpi: add pvpanic-isa: testcase
+Date: Wed,  8 Jun 2022 09:53:32 -0400
+Message-Id: <20220608135340.3304695-28-imammedo@redhat.com>
 In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
 References: <20220608135340.3304695-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -82,22 +82,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- tests/data/acpi/q35/DSDT.pvpanic-isa        | 0
- 2 files changed, 1 insertion(+)
- create mode 100644 tests/data/acpi/q35/DSDT.pvpanic-isa
+ tests/qtest/bios-tables-test.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..d5cd7aa4f5 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.pvpanic-isa",
-diff --git a/tests/data/acpi/q35/DSDT.pvpanic-isa b/tests/data/acpi/q35/DSDT.pvpanic-isa
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 7d238218ca..56498bbcc8 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1636,6 +1636,17 @@ static void test_acpi_q35_applesmc(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_pvpanic_isa(void)
++{
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".pvpanic-isa",
++    };
++
++    test_acpi_one("-device pvpanic", &data);
++    free_test_data(&data);
++}
++
+ static void test_oem_fields(test_data *data)
+ {
+     int i;
+@@ -1795,6 +1806,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
+         qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
+         qtest_add_func("acpi/q35/applesmc", test_acpi_q35_applesmc);
++        qtest_add_func("acpi/q35/pvpanic-isa", test_acpi_q35_pvpanic_isa);
+         qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
+         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
+         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
 -- 
 2.31.1
 
