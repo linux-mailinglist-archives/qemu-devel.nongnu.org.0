@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C84D54363A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 17:12:12 +0200 (CEST)
-Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD220543725
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 17:20:42 +0200 (CEST)
+Received: from localhost ([::1]:41820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyxLu-00027H-Hl
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 11:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36194)
+	id 1nyxU9-0002n5-BN
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 11:20:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nyx8N-0003IS-EZ
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 10:58:11 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:46953)
+ id 1nyxAK-0006DH-4R
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:00:13 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nyx8L-0006r9-Ok
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 10:58:10 -0400
-Received: by mail-ej1-x635.google.com with SMTP id v1so31323518ejg.13
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 07:58:09 -0700 (PDT)
+ id 1nyxAE-0007Ce-Or
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:00:11 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ h62-20020a1c2141000000b0039aa4d054e2so13533875wmh.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 08:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=vP5ZdqxLwmCkJi6GZU2PlqY7NQswDa+l07J1FeR7k/8=;
- b=ZkVwRzMUOCnHO5nsmwC1g5472wQyp+GkIRh3rIEjfryYHNnIadmzxn5+kYwhhdWYZk
- GpRIMqHPYRc3zc0Mw/0rWt91gNoCL+q2gZ6ul0SdUH/JXtjbJf2nxlC4YoF9R0yjB7YH
- qVF47wlTCGVaLRqpu0LFZV0BdaZe6tUBGw9Hq63BhsioiUd4qk7ApLPUSHjNL7vixoK8
- MZ6pr0DPr/R17h8IIv1IJ3FtIKylbexu94jF8+0qj62SeBq0Ovq4nHzweRsFwBKxoik0
- m2KFXtJuS1iuUb18OuaXskVRGu+1k/lw8/FgzEbaTPoINa8Ek49yC1VgQFOttG5NZYRx
- KMMA==
+ bh=Iobf/xuIklDjBwSCoMpDZHzacKRiHtlXiMnfrshFh5c=;
+ b=sjkVcS2EFmvDYcVbTb4asPsqVzIvq6QK9zkT1qhahrnsMOe/Bu5vhJgsjKOYkIcpOJ
+ UFdXx6iirFeMj1/tURSGWC4hcMwRjJeXmXD/ICVIDuM3/c7PmnXa/F39o5aU0So87O7A
+ Ar14NSraQFKtWGCwUgArG3XQZDW+agN8Xjck5UxjG2P64ZePd3XaHOEl6dVqGsMUKbI0
+ CJtqctyA5MDfBqR7wXxFTSISsGV83M/PCC8zzz306c39yJ730K/L3zguqbou+B0f/KMI
+ cflA+FFI4T5z3aD4QLBzCuwgtVs8jrBzD1G4CbRoFp2Vq+2DjXWbzoAucXbLzpqr78bs
+ ckqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=vP5ZdqxLwmCkJi6GZU2PlqY7NQswDa+l07J1FeR7k/8=;
- b=CkStlhZCtVfka7A40ptPWymkKgLUydPT8LltjXEnZ2Xg3jKaB10OxEp17H21bDO4BO
- 7vqLe/Ybbge6HE2oc27ojJlz/inuZOgMkEJfrw5+c5ljKsOYufMtDtisLG0TPQleymxW
- ERUKtDXX60wy67g6LFRFqWBXVqocZZ55A/Cmyhr02Vlt2X+RzDr1Y7qz9cAOWuoilntc
- TB0AHOSAyA7MhRNXoC6BDayY3/Eb2peYraORQ/2525XBn5tTxHePSqMIQOMVrk7W4avy
- F/QrwZALtZD2vIEUMF0LbvO+DY7Bt+9Wb9Ym9WMWNinJgOV/kYGZmD54/TJtxcSIGGPi
- B71Q==
-X-Gm-Message-State: AOAM532p1UbR6Egg56490Sx/ovJr19TWZ8PEwclCqakYw8DwU8r8p2pC
- n8iZfWhM0zgZV1TD6DnxU3y4Uw==
-X-Google-Smtp-Source: ABdhPJxBznpRzO9kDoaCZUF4kjIcf4geD1Pu28WipWhTqiy4INoFYbWoKLXjN11T60RWnYjLlbm5pQ==
-X-Received: by 2002:a17:906:a45a:b0:711:d546:478f with SMTP id
- cb26-20020a170906a45a00b00711d546478fmr12840288ejb.741.1654700288153; 
- Wed, 08 Jun 2022 07:58:08 -0700 (PDT)
+ bh=Iobf/xuIklDjBwSCoMpDZHzacKRiHtlXiMnfrshFh5c=;
+ b=i8eOhcokiSzGLSs1ueoU9zz2wjbj3/M7ZDehjIR3FyW0PwQ5RYquPOFcYThL1jp07c
+ XiIZuG6h7Bm5nF4FRRKHKy125cj0z4Y1NJ19BpKfZKEsapspGpU95YVKrSycSQw40l2Z
+ it8pVuq+iIsil9PkDA5e0zaKpMPsuyAsRs2/NNQ+Vv1075lCOLFkzNWvVpeyFoVAxXz3
+ vt/Nn2MDsZPeABpouVGjuygBCexNpkUiYKE11DuX+zY76wXdR/Cg8WZvNp6Qz7niTQg1
+ rKi/gFZ/lA01bJbytpIsn1fjalZvGHVatAzI9o8RTPfGoROW5WNrWGyP9EuSoYwD6o3f
+ K3Jw==
+X-Gm-Message-State: AOAM531roXxtRFhv6g2HlaqUa/yDQtD3XsQ9vmyEvBVIYH2i5krfa3L7
+ 1XZjAGB3mh6TosQYClVymdP92Q==
+X-Google-Smtp-Source: ABdhPJzg2orILEV+3qphrazBmNcxglTPxSs04eFJ7VDML+eMf4nrXvM8mrJU8gOIXbZgZkEoAlvTUQ==
+X-Received: by 2002:a05:600c:1c10:b0:39c:4708:648d with SMTP id
+ j16-20020a05600c1c1000b0039c4708648dmr24070172wms.85.1654700403987; 
+ Wed, 08 Jun 2022 08:00:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- s23-20020aa7d797000000b0042bc54296a1sm12295354edq.91.2022.06.08.07.58.06
+ m11-20020a5d624b000000b0020ff3a2a925sm26808578wrv.63.2022.06.08.08.00.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 07:58:06 -0700 (PDT)
+ Wed, 08 Jun 2022 08:00:02 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2D35B1FFB7;
- Wed,  8 Jun 2022 15:58:06 +0100 (BST)
-References: <20220604032713.174976-1-richard.henderson@linaro.org>
+ by zen.linaroharston (Postfix) with ESMTP id 060711FFB7;
+ Wed,  8 Jun 2022 16:00:02 +0100 (BST)
+References: <20220603124809.70794-1-thuth@redhat.com>
 User-agent: mu4e 1.7.26; emacs 28.1.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] test/tcg/arm: Use -mfloat-abi=soft for test-armv6m-undef
-Date: Wed, 08 Jun 2022 15:58:01 +0100
-In-reply-to: <20220604032713.174976-1-richard.henderson@linaro.org>
-Message-ID: <87ilpbtd6p.fsf@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>, "Daniel
+ P . Berrange" <berrange@redhat.com>, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: Re: [PATCH] gitlab-ci: Fix the build-cfi-aarch64 and
+ build-cfi-ppc64-s390x jobs
+Date: Wed, 08 Jun 2022 15:59:58 +0100
+In-reply-to: <20220603124809.70794-1-thuth@redhat.com>
+Message-ID: <87edzztd3i.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,13 +98,87 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Thomas Huth <thuth@redhat.com> writes:
 
-> GCC11 from crossbuild-essential-armhf from ubuntu 22.04 errors:
-> cc1: error: =E2=80=98-mfloat-abi=3Dhard=E2=80=99: selected architecture l=
-acks an FPU
+> The job definitions recently got a second "variables:" section by
+> accident and thus are failing now if one tries to run them. Merge
+> the two sections into one again to fix the issue.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> And while we're at it, bump the timeout here (70 minutes are currently
+> not enough for the aarch64 job). The jobs are marked as manual anyway,
+> so if the user starts them, they want to see their result for sure and
+> then it's annoying if the job timeouts too early.
+>
+> Fixes: e312d1fdbb ("gitlab: convert build/container jobs to .base_job_tem=
+plate")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  I wonder whether we should remove the build-cfi-aarch64 job instead.
+>  When I tried to run it during the past months, it was always failing
+>  for me. This time, I tried to bump the timeout while I was at it,
+>  and it takes longer than 80 minutes here to finish - so I asume
+>  nobody ever ran this successfully in the last months... Is anybody
+>  using this job at all? I think if we want to have CFI coverage here,
+>  it should get replaced by a custom runner job that runs on a more
+>  beefy machine... (the ppc64-s390x job is fine by the way, it often
+>  only runs a little bit longer than 60 minutes - I still bumped the
+>  timeout here, too, just to be on the safe side)
+>
+>  .gitlab-ci.d/buildtest.yml | 22 ++++++++++------------
+>  1 file changed, 10 insertions(+), 12 deletions(-)
+>
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index ecac3ec50c..baaa0ebb87 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -355,16 +355,15 @@ build-cfi-aarch64:
+>        --enable-safe-stack --enable-slirp=3Dgit
+>      TARGETS: aarch64-softmmu
+>      MAKE_CHECK_ARGS: check-build
+> -  timeout: 70m
+> -  artifacts:
+> -    expire_in: 2 days
+> -    paths:
+> -      - build
+> -  variables:
+>      # FIXME: This job is often failing, likely due to out-of-memory prob=
+lems in
+>      # the constrained containers of the shared runners. Thus this is mar=
+ked as
+>      # skipped until the situation has been solved.
+>      QEMU_JOB_SKIPPED: 1
+> +  timeout: 90m
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+>=20=20
+>  check-cfi-aarch64:
+>    extends: .native_test_job_template
+> @@ -396,16 +395,15 @@ build-cfi-ppc64-s390x:
+>        --enable-safe-stack --enable-slirp=3Dgit
+>      TARGETS: ppc64-softmmu s390x-softmmu
+>      MAKE_CHECK_ARGS: check-build
+> -  timeout: 70m
+> -  artifacts:
+> -    expire_in: 2 days
+> -    paths:
+> -      - build
+> -  variables:
+>      # FIXME: This job is often failing, likely due to out-of-memory prob=
+lems in
+>      # the constrained containers of the shared runners. Thus this is mar=
+ked as
+>      # skipped until the situation has been solved.
+>      QEMU_JOB_SKIPPED: 1
+> +  timeout: 80m
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+>=20=20
+>  check-cfi-ppc64-s390x:
+>    extends: .native_test_job_template
 
 Queued to testing/next, thanks.
 
