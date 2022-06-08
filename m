@@ -2,52 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA14A542F0B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 13:19:42 +0200 (CEST)
-Received: from localhost ([::1]:57564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA62542F3E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 13:33:59 +0200 (CEST)
+Received: from localhost ([::1]:34152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nytiv-0008Ei-GJ
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 07:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39626)
+	id 1nytwj-0005f1-L0
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 07:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nytcs-000719-HW
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 07:13:26 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:53744)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nytcp-0007VP-Sc
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 07:13:26 -0400
-Received: from [10.12.102.111] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 270A64076254;
- Wed,  8 Jun 2022 11:12:56 +0000 (UTC)
-Message-ID: <3ad663e2-13eb-5f96-966a-d1a5b1a7ce9e@ispras.ru>
-Date: Wed, 8 Jun 2022 14:12:55 +0300
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nytqo-0002ba-Sf
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 07:27:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nytql-0001TR-Op
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 07:27:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654687666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eAsvzzX08PZj7jFd2mM+vhJk8dfuzNH4ajNg4EYOH9o=;
+ b=eSwXHEtTTsVrbk/Mo8U2CVFmpJsU+gVEQvtEMkedEBzLIr35w/NorpiStWmMWHPjXsyGOP
+ wcXomlDZTrUZzP38pdWOZLnrPQbyn2Ih1OStCTYBYiTj9i7R4dOXxjJov5xwNcVQ11jqC/
+ 7IiH4j0JJ8GgtXuRZSH39/fpcfz8PaM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-278-sgZ_BUj0PCyOBIorKxLvEw-1; Wed, 08 Jun 2022 07:27:45 -0400
+X-MC-Unique: sgZ_BUj0PCyOBIorKxLvEw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ m18-20020adff392000000b0021848a78a53so2186436wro.19
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 04:27:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=eAsvzzX08PZj7jFd2mM+vhJk8dfuzNH4ajNg4EYOH9o=;
+ b=cXKkqjwUsTg6jDDo6bI6SNKinNwQVRltavjR3KO+3bzWhFVhkFisxkzoIQY8+/StNe
+ y8s0xu2NWUoaJbNT5PXMxEenDN3BFzf7DFbk/wTRdoVaz1Evmd9Nqi+q7JeNvZFkiEW2
+ /F+CAGNWYgy5vV6sB/LqfSUunUw1yaGxRP7+euUMM8SblSAOkz45fNKNsSUOtA8M6THs
+ SutC2WrwYYXBkNEIOUhW126UH2jv3Bg3rq3QyADAFIVaeAgTP1nMxMPHFAsNuv5DvVZA
+ j4TSjf+RGG8Uq+NnOCQWZXUldD5X648QnhV83RbnscGKppeagW0vJB+iZraaVtI1MrIl
+ n4Rw==
+X-Gm-Message-State: AOAM531hvSxvXx1L7pucnqmQZ34k3MR8JTKWwq8XeJ7UQCemcFCL0r+y
+ e6AO1FXJsuA5bhzx5GgMSbJXIQvYLPRZieBBsNx1EfqBnaIKq05OrGsReiu5OLR3VFiz8TXuvMQ
+ Tx38IbU37YTdXhFc=
+X-Received: by 2002:a05:6000:15c6:b0:216:7615:f00d with SMTP id
+ y6-20020a05600015c600b002167615f00dmr22152648wry.327.1654687663934; 
+ Wed, 08 Jun 2022 04:27:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSxa7S/xQs0+E7IMhzFTr4Jf+TS8m8cauhqW5hPv3nRt2CZVh3NDdfwAihczXG12VwP6aE5A==
+X-Received: by 2002:a05:6000:15c6:b0:216:7615:f00d with SMTP id
+ y6-20020a05600015c600b002167615f00dmr22152621wry.327.1654687663670; 
+ Wed, 08 Jun 2022 04:27:43 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
+ ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
+ by smtp.gmail.com with ESMTPSA id
+ s13-20020a5d6a8d000000b0020c5253d8f7sm20844252wru.67.2022.06.08.04.27.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 04:27:43 -0700 (PDT)
+Message-ID: <d4595686-6cda-56ec-bf0e-e3a9a9ef0d9e@redhat.com>
+Date: Wed, 8 Jun 2022 13:27:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 2/3] target/mips: implement Octeon-specific BBIT
- instructions
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v5 19/45] block: refactor bdrv_list_refresh_perms to allow
+ any list of nodes
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, jiaxun.yang@flygoat.com, aurelien@aurel32.net,
- aleksandar.rikalo@syrmia.com
-References: <165459235408.143371.17715826203190085295.stgit@pasha-ThinkPad-X280>
- <165459236498.143371.12833007759486308114.stgit@pasha-ThinkPad-X280>
- <e168c1d2-ad41-5d6a-396a-c04af3831e30@linaro.org>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-In-Reply-To: <e168c1d2-ad41-5d6a-396a-c04af3831e30@linaro.org>
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
+ v.sementsov-og@mail.ru
+References: <20220330212902.590099-1-vsementsov@openvz.org>
+ <20220330212902.590099-20-vsementsov@openvz.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220330212902.590099-20-vsementsov@openvz.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,54 +105,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.06.2022 20:06, Richard Henderson wrote:
-> On 6/7/22 01:59, Pavel Dovgalyuk wrote:
->> +# Branch on bit set or clear
->> +# BBIT0      110010 ..... ..... ................
->> +# BBIT032    110110 ..... ..... ................
->> +# BBIT1      111010 ..... ..... ................
->> +# BBIT132    111110 ..... ..... ................
->> +
->> +BBIT         11 set:1 shift:1 10 rs:5 p:5 offset:16
-> 
-> shift + p are logically one field -- all you need to do is concatenate 
-> them.
-> 
-> %bbit_p         28:1 16:5
-> BBIT            11 set:1 . 10 rs:5 ..... offset:16  p=%bbit_p
+On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to increase usage of collecting nodes in a list to then
+> update, and calling bdrv_topological_dfs() each time is not convenient,
+> and not correct as we are going to interleave graph modifying with
+> filling the node list.
+>
+> So, let's switch to a function that takes any list of nodes, adds all
+> their subtrees and do topological sort. And finally, refresh
+> permissions.
+>
+> While being here, make the function public, as we'll want to use it
+> from blockdev.c in near future.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+> ---
+>   block.c | 51 ++++++++++++++++++++++++++++++++-------------------
+>   1 file changed, 32 insertions(+), 19 deletions(-)
+>
+> diff --git a/block.c b/block.c
+> index f3ed351360..9009f73534 100644
+> --- a/block.c
+> +++ b/block.c
 
-Thank you.
-I will make a new version soon.
+[...]
 
-> 
->> +    if (ctx->hflags & MIPS_HFLAG_BMASK) {
->> +#ifdef MIPS_DEBUG_DISAS
->> +        LOG_DISAS("Branch in delay / forbidden slot at PC 0x"
->> +                  TARGET_FMT_lx "\n", ctx->base.pc_next);
->> +#endif
-> 
-> Ifdef isn't needed -- it's always defined, even to 0.
-> 
->> +    tcg_gen_andi_tl(t0, t0, 1ULL << p);
->> +
->> +    /* Jump conditions */
->> +    if (a->set) {
->> +        tcg_gen_setcondi_tl(TCG_COND_NE, bcond, t0, 0);
->> +    } else {
->> +        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, t0, 0);
->> +    }
-> 
-> You don't need to produce a boolean, MIPS_HFLAG_BC tests for non-zero.  
-> Thus you can simplify this to
-> 
->      p = tcg_constant_tl(1ull << a->p);
->      if (a->set) {
->          tcg_gen_and_tl(bcond, rs, p);
->      } else {
->          tcg_gen_andc_tl(bcond, p, rs);
->      }
-> 
-> 
-> r~
+> @@ -2510,6 +2514,24 @@ static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
+>       return 0;
+>   }
+>   
+> +/*
+> + * @list is any list of nodes. List is completed by all subtreees and
+
+*subtrees
+
+With that fixed:
+
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+
+> + * topologically sorted. It's not a problem if some node occurs in the @list
+> + * several times.
+> + */
+> +static int bdrv_list_refresh_perms(GSList *list, BlockReopenQueue *q,
+> +                                   Transaction *tran, Error **errp)
+> +{
+> +    g_autoptr(GHashTable) found = g_hash_table_new(NULL, NULL);
+> +    g_autoptr(GSList) refresh_list = NULL;
+> +
+> +    for ( ; list; list = list->next) {
+> +        refresh_list = bdrv_topological_dfs(refresh_list, found, list->data);
+> +    }
+> +
+> +    return bdrv_do_refresh_perms(refresh_list, q, tran, errp);
+> +}
+> +
 
 
