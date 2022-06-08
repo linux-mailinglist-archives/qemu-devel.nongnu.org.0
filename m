@@ -2,76 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6133543948
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 18:41:51 +0200 (CEST)
-Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3261E543934
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 18:41:28 +0200 (CEST)
+Received: from localhost ([::1]:55126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyykg-0000ai-H6
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 12:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
+	id 1nyykI-0008H3-PV
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 12:41:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nyybe-0001uC-MG
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:32:30 -0400
-Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31]:34346)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nyybb-0005VK-Q8
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:32:29 -0400
-Received: by mail-vk1-xa31.google.com with SMTP id b81so9234049vkf.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 09:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Zt+HGVQV0BUUJcMyJxol2ei+8VFqS5isXr4RZbmNk7c=;
- b=cmBMonRlknwMIVLfZ9UN8+Zbj+iWrJIjNDV3k0EKs4xUll2SBMgCFUg5FTV9WMftWv
- 4wMMUq45rJhNOPwLxDEdlY95HoP8XUIX1zrpg0vL/6HApUop7kCApELR+MbHykoi5z2A
- Gocl5Xu8hP/6xQF9PZVe13Sc74LoHG1PXokkeKN6sssAJCgCZcYdajK9IrwLx+7/e98P
- v+Vf7uMLTRLG7L20RFoNKDTRKSiwM8pAGLefF6y0x++/OwwrSAZaSlsArASZCmE9UTdn
- /IfaFf8C0WRTQ22Oh6TwPQdN3apAMtcVYuqExINy7bPJN9XApoVBy89zJIfU8X+pQZ78
- 8Yjg==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nyyi1-0006pN-Aa
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:39:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35893)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nyyhw-0006cs-2X
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:39:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654706338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/UEeq6xat0rDpbKpKugX4cDGM0zQ94k3gGebsyVZJ0M=;
+ b=OvFLjpGbWOMhVn1dicSKBRyZeUwQD+sO080ooWuXTnTuGUhryFNRhUTF3dFpQxE89Rtupv
+ w8qUcGFrUQp4LKChiiRXqqeOKw+AZoW1V1o/Ht5m4EE9fs9rGxQvRTuduUN6ASNp3sdOi/
+ VnIQKOr0K86v2u7gZxuiGEmyBjtntGE=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-301-RP9WMcaLNieCRqC5ynLLww-1; Wed, 08 Jun 2022 12:38:57 -0400
+X-MC-Unique: RP9WMcaLNieCRqC5ynLLww-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ u24-20020a05622a199800b0030500f8e1bcso1879407qtc.16
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 09:38:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Zt+HGVQV0BUUJcMyJxol2ei+8VFqS5isXr4RZbmNk7c=;
- b=m+g1uimHap6kqqRPwWAplC4+imxp40bxkBKYphs5GC/Um7/85UEfRRa3qvkTaGIFvJ
- lYj2XcjVIB2oQW/TsAhyNFBb9+mM7kl7T0GYRcRTgi4DswjNcsPidhowokmFr0PiVQak
- 55euRuweGeWLJo43Smn01gLg3nGZrw9cH5OuqNvw4TbQYQQoHnHtIfdrDWcwMdj2F9Av
- cGa5yzI8P6lO+yp7+2lLHdavczLgGodDRbOzTFWbw9qHr7+AsWasKT7SXxgZMBEvHnBK
- GeysQYLfFbAy/Ky9JNZ1VB2XMiyjY3I1OYI6ULA9AJtYf5rqnJ4Utgv5re9s3F6IGUvy
- 7YzQ==
-X-Gm-Message-State: AOAM533qHQY0eNG7fuyDOM4ygW83lyy0Z0q7662lUWHEBPyOrvlW9GuW
- Br+zrdjtbkFzkNJJjLbcMmNf6TH67SJtdpnfXqKSxw==
-X-Google-Smtp-Source: ABdhPJyuP1InOSGgItRKNxH6DkyTZ8EGFhEwFiLkBmhQdxd1RJD/sTQ9lMjfA41+6B373kqDn3Ij0vnzXPYNbTT/L1k=
-X-Received: by 2002:ac5:cb56:0:b0:35d:f905:e98a with SMTP id
- s22-20020ac5cb56000000b0035df905e98amr7788109vkl.29.1654705944799; Wed, 08
- Jun 2022 09:32:24 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/UEeq6xat0rDpbKpKugX4cDGM0zQ94k3gGebsyVZJ0M=;
+ b=KBBWkmnBGWw5FfmHpe1gwyrDoZlS7L6LzyIfCd22u8ep4WkrVvMFun+1LeEjVNjJ5A
+ /13Kls8dZQs4AeOBuGfGxNunMDVDkJc4VhbKACNtXqWvMBwtmrHLiaCsJQzwrq5gNEoD
+ C6vvjrgK/vGrBNGwJPjM/FvDVt5ZcUiht8IgUwfcMoTTCb9v3BxJu5P0PjX3AwTnlsF3
+ 9pLD+DDQVR3uddOhBLqjv7B8j8lgxIZ1HZkbOHbx1MSTDn/9L+S71JqUItz2h5SgAPAZ
+ JBVniLSdLQ4rdoVhYhtF2wKsVgXUTqFKoM+yMXDIDhQK0qEIj5/Yd9nAikBNi7wusbfz
+ IQ7w==
+X-Gm-Message-State: AOAM5306+95RYuP5fy8YhHmxc+X+7+iPe+rD87s1043hX0bZxNNHt8eL
+ I3TeLXYPKjTuWZJUrtwf3cJW5Eavvd7eb8La1CyHwGNsr7ymeDne8TQcd+fFVq6jZRNuN7tDmUF
+ kuQCJSuTxuqILHu0zjGgxBHtRIkm3Ys8=
+X-Received: by 2002:a05:620a:1a0d:b0:6a6:ba92:d82b with SMTP id
+ bk13-20020a05620a1a0d00b006a6ba92d82bmr11910509qkb.522.1654706337158; 
+ Wed, 08 Jun 2022 09:38:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYP1Ee48eMw4K4gAhxDsLm+pO14zNSDFZd2KjpCpSw5H8B1HGsqSOi74uP66pwF+ZPT+u/nau/BCcFeg+E5r0=
+X-Received: by 2002:a05:620a:1a0d:b0:6a6:ba92:d82b with SMTP id
+ bk13-20020a05620a1a0d00b006a6ba92d82bmr11910475qkb.522.1654706336902; Wed, 08
+ Jun 2022 09:38:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220607201440.41464-1-imp@bsdimp.com>
- <20220607201440.41464-3-imp@bsdimp.com>
- <4279f170-76df-c329-24ec-26e1e68446eb@linaro.org>
- <CANCZdfq5L5Q3ePmdF6_ap73h5CGgtc6ZVK0e+tPfUOqW5SKBkw@mail.gmail.com>
- <35407e39-ac93-b5c0-c634-975ab8609a92@linaro.org>
- <7CD189F5-3536-4B7D-B7C1-AE5E74B90D03@bsdimp.com>
- <3bfb791b-f6fa-ebad-8195-43ce653a73be@linaro.org>
-In-Reply-To: <3bfb791b-f6fa-ebad-8195-43ce653a73be@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 8 Jun 2022 09:32:14 -0700
-Message-ID: <CANCZdfrxxZ2edahbAmaBGXq8-sYQ-=xYZ+Mdo1j4c34pjGSHtA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] bsd-user/freebsd/os-syscall.c: unlock_iovec
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gleb Popov <arrowd@freebsd.org>, 
- Konrad Witaszczyk <def@freebsd.org>, Jessica Clarke <jrtc27@freebsd.org>,
- Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="0000000000000c415405e0f240d9"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a31;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa31.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+References: <20220519191306.821774-1-eperezma@redhat.com>
+ <20220519191306.821774-4-eperezma@redhat.com>
+ <050a3bc5-911b-4478-1d5c-8064a1c2fae4@redhat.com>
+In-Reply-To: <050a3bc5-911b-4478-1d5c-8064a1c2fae4@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 8 Jun 2022 18:38:20 +0200
+Message-ID: <CAJaqyWfWiRyyjytXUmehk7+T6_KAF40d9gFgqrp_gaFxLU_pMw@mail.gmail.com>
+Subject: Re: [RFC PATCH v8 03/21] vdpa: control virtqueue support on shadow
+ virtqueue
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Eric Blake <eblake@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,139 +104,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000c415405e0f240d9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 7, 2022 at 7:02 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 6/7/22 16:35, Warner Losh wrote:
-> >
-> >
-> >> On Jun 7, 2022, at 3:23 PM, Richard Henderson <
-> richard.henderson@linaro.org> wrote:
-> >>
-> >> On 6/7/22 14:51, Warner Losh wrote:
-> >>>     void unlock_iovec(IOVecMap *map, bool copy_out)
-> >>>     {
-> >>>           for (int i =3D 0, count =3D map->count; i < count; ++i) {
-> >>>               if (map->host[i].iov_base) {
-> >>>                   abi_ulong target_base =3D
-> tswapal(map->target[i].iov_base);
-> >>>                   unlock_user(map->host[i].iov_base, target_base,
-> >>>                               copy_out ? map->host[i].iov_len : 0);
-> >>>               }
-> >>> And wouldn't we want to filter out the iov_base that =3D=3D 0 since
-> >>> we may terminate the loop before we get to the count. When the
-> >>> I/O is done, we'll call it not with the number we mapped, but with
-> >>> the original number...  Or am I not understanding something here...
-> >>
-> >> I'm not following -- when and why are you adjusting count?
-> >
-> > When we hit a memory range we can=E2=80=99t map after the first one,
-> > we effectively stop mapping in (in the current linux code we
-> > do map after, but then destroy the length). So that means
-> > we=E2=80=99ll have entries in the iovec that are zero, and this code
-> > doesn=E2=80=99t account for that. We=E2=80=99re not changing the count,=
- per
-> > se, but have a scenario where they might wind up NULL.
+On Tue, Jun 7, 2022 at 8:05 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> ... and so skip them with the if.
 >
-> I mean, I suppose you could set map->count on error, as you say, so that
-> we don't iterate
-> so far, but... duh, error case.  So long as you don't actively fail,
-> there's no point in
-> optimizing for it.
+> =E5=9C=A8 2022/5/20 03:12, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > Introduce the control virtqueue support for vDPA shadow virtqueue. This
+> > is needed for advanced networking features like multiqueue.
+> >
+> > To demonstrate command handling, VIRTIO_NET_F_CTRL_MACADDR and
+> > VIRTIO_NET_CTRL_MQ are implemented. If vDPA device is started with SVQ
+> > support and virtio-net driver changes MAC or the number of queues
+> > virtio-net device model will be updated with the new one.
+> >
+> > Others cvq commands could be added here straightforwardly but they have
+> > been not tested.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   net/vhost-vdpa.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 44 insertions(+)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index df1e69ee72..ef12fc284c 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -11,6 +11,7 @@
+> >
+> >   #include "qemu/osdep.h"
+> >   #include "clients.h"
+> > +#include "hw/virtio/virtio-net.h"
+> >   #include "net/vhost_net.h"
+> >   #include "net/vhost-vdpa.h"
+> >   #include "hw/virtio/vhost-vdpa.h"
+> > @@ -187,6 +188,46 @@ static NetClientInfo net_vhost_vdpa_info =3D {
+> >           .check_peer_type =3D vhost_vdpa_check_peer_type,
+> >   };
+> >
+> > +static void vhost_vdpa_net_handle_ctrl(VirtIODevice *vdev,
+> > +                                       const VirtQueueElement *elem)
+> > +{
+> > +    struct virtio_net_ctrl_hdr ctrl;
+> > +    virtio_net_ctrl_ack status =3D VIRTIO_NET_ERR;
+> > +    size_t s;
+> > +    struct iovec in =3D {
+> > +        .iov_base =3D &status,
+> > +        .iov_len =3D sizeof(status),
+> > +    };
+> > +
+> > +    s =3D iov_to_buf(elem->out_sg, elem->out_num, 0, &ctrl, sizeof(ctr=
+l.class));
+> > +    if (s !=3D sizeof(ctrl.class)) {
+> > +        return;
+> > +    }
+> > +
+> > +    switch (ctrl.class) {
+> > +    case VIRTIO_NET_CTRL_MAC_ADDR_SET:
+> > +    case VIRTIO_NET_CTRL_MQ:
+> > +        break;
+> > +    default:
+> > +        return;
+> > +    };
+>
+>
+> I think we can probably remove the whitelist here since it is expected
+> to work for any kind of command?
 >
 
-Setting the count would be hard because we'd have to allocate and free
-state that we're not currently doing. Better to just skip it with an if. We
-allocate
-a vector that's used in a number of places, and we'd have to change that
-code if we did things differently. While I'm open to suggestions here, I
-think
-that just accounting for the possible error with an if is our best bet for
-now.
-I have a lot of code to get in, and am hoping to not rewrite things unless
-there's
-some clear benefit over the existing structure (like fixing bugs, matching
-linux-user,
-or increasing performance).
+SVQ is expected to inject virtio device status at startup
+(specifically, at live migration destination startup). This code is
+specific per command.
 
-Warner
+Thanks!
 
---0000000000000c415405e0f240d9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Thanks
+>
+>
+> > +
+> > +    s =3D iov_to_buf(elem->in_sg, elem->in_num, 0, &status, sizeof(sta=
+tus));
+> > +    if (s !=3D sizeof(status) || status !=3D VIRTIO_NET_OK) {
+> > +        return;
+> > +    }
+> > +
+> > +    status =3D VIRTIO_NET_ERR;
+> > +    virtio_net_handle_ctrl_iov(vdev, &in, 1, elem->out_sg, elem->out_n=
+um);
+> > +    if (status !=3D VIRTIO_NET_OK) {
+> > +        error_report("Bad CVQ processing in model");
+> > +    }
+> > +}
+> > +
+> > +static const VhostShadowVirtqueueOps vhost_vdpa_net_svq_ops =3D {
+> > +    .used_elem_handler =3D vhost_vdpa_net_handle_ctrl,
+> > +};
+> > +
+> >   static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+> >                                              const char *device,
+> >                                              const char *name,
+> > @@ -211,6 +252,9 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
+tState *peer,
+> >
+> >       s->vhost_vdpa.device_fd =3D vdpa_device_fd;
+> >       s->vhost_vdpa.index =3D queue_pair_index;
+> > +    if (!is_datapath) {
+> > +        s->vhost_vdpa.shadow_vq_ops =3D &vhost_vdpa_net_svq_ops;
+> > +    }
+> >       ret =3D vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_ind=
+ex, nvqs);
+> >       if (ret) {
+> >           qemu_del_net_client(nc);
+>
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 7, 2022 at 7:02 PM Richar=
-d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
-derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On 6/7/22 16:35, Warner Losh wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt;&gt; On Jun 7, 2022, at 3:23 PM, Richard Henderson &lt;<a href=3D"mailt=
-o:richard.henderson@linaro.org" target=3D"_blank">richard.henderson@linaro.=
-org</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On 6/7/22 14:51, Warner Losh wrote:<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0void unlock_iovec(IOVecMap *map, bool copy_=
-out)<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0{<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (int i =3D 0, coun=
-t =3D map-&gt;count; i &lt; count; ++i) {<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (map-=
-&gt;host[i].iov_base) {<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0abi_ulong target_base =3D tswapal(map-&gt;target[i].iov_base);<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0unlock_user(map-&gt;host[i].iov_base, target_base,<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0copy_out ? map-&gt;host[i].=
-iov_len : 0);<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;&gt;&gt; And wouldn&#39;t we want to filter out the iov_base that =3D=
-=3D 0 since<br>
-&gt;&gt;&gt; we may terminate the loop before we get to the count. When the=
-<br>
-&gt;&gt;&gt; I/O is done, we&#39;ll call it not with the number we mapped, =
-but with<br>
-&gt;&gt;&gt; the original number...=C2=A0 Or am I not understanding somethi=
-ng here...<br>
-&gt;&gt;<br>
-&gt;&gt; I&#39;m not following -- when and why are you adjusting count?<br>
-&gt; <br>
-&gt; When we hit a memory range we can=E2=80=99t map after the first one,<b=
-r>
-&gt; we effectively stop mapping in (in the current linux code we<br>
-&gt; do map after, but then destroy the length). So that means<br>
-&gt; we=E2=80=99ll have entries in the iovec that are zero, and this code<b=
-r>
-&gt; doesn=E2=80=99t account for that. We=E2=80=99re not changing the count=
-, per<br>
-&gt; se, but have a scenario where they might wind up NULL.<br>
-<br>
-... and so skip them with the if.<br>
-<br>
-I mean, I suppose you could set map-&gt;count on error, as you say, so that=
- we don&#39;t iterate <br>
-so far, but... duh, error case.=C2=A0 So long as you don&#39;t actively fai=
-l, there&#39;s no point in <br>
-optimizing for it.<br></blockquote><div><br></div><div>Setting the count wo=
-uld be hard because we&#39;d have to allocate and free</div><div>state that=
- we&#39;re not currently doing. Better to just skip it with an if. We alloc=
-ate</div><div>a vector that&#39;s used in a number of places, and we&#39;d =
-have to change that</div><div>code if we did things differently. While I&#3=
-9;m open to suggestions here, I think</div><div>that just accounting for th=
-e possible error with an if is our best bet for now.</div><div>I have a lot=
- of code to get in, and am hoping to not rewrite things unless there&#39;s<=
-/div><div>some clear benefit over the existing structure (like fixing bugs,=
- matching linux-user,</div><div>or increasing performance).</div><div><br><=
-/div><div>Warner=C2=A0</div></div></div>
-
---0000000000000c415405e0f240d9--
 
