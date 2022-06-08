@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF725420AE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 03:54:05 +0200 (CEST)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFAA5420B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 04:07:01 +0200 (CEST)
+Received: from localhost ([::1]:55544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyktY-0005Uu-Pm
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 21:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
+	id 1nyl64-0002AN-PL
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 22:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nykqZ-0003Xw-Df
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:50:59 -0400
-Received: from mga05.intel.com ([192.55.52.43]:49860)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nykqW-0004gO-9k
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:50:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654653056; x=1686189056;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=2nQ38fddFLZDd8gkGjJtsrfacBKUhyjbYVezamAfui8=;
- b=OdGzkmP+5tOv3QmQevljW+BCrBVAML3iwyjC8YOmOj1dV8iyfzMnNcpV
- QnoAjCc+i0SdVmbgGUw2X2SoDED/YTe+9t2r+Kmx9Y+r4M2cYXLeRWWyH
- dkyG/WMII3ICdKMsaLf5YO6d7T9hvavgXmMi1izkzTeG58SxGFPzxv5B+
- VXACJMekmX5gk4himK8BIZZiX3Yn9OilE/42jxnpfcPhy/To218dNMJSg
- UUlhqZbTGQKK0wPYttt+7apNaGzoe79Z5QZ2UtHbnWDziy3JpKXayvubi
- M3+3ynS2H0rCzaB1r4aBSd4LCyl6lADao9DBvl9/eKYePZn0oRziSDcJi Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="363116071"
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="363116071"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 18:50:49 -0700
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="636468942"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.31.211])
- ([10.255.31.211])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 18:50:44 -0700
-Message-ID: <83f56255-f15d-f36b-4897-06d8f954061c@intel.com>
-Date: Wed, 8 Jun 2022 09:50:42 +0800
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nyl1s-00074u-IS
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 22:02:40 -0400
+Received: from mail-ua1-x932.google.com ([2607:f8b0:4864:20::932]:37407)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nyl1q-00064G-6a
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 22:02:40 -0400
+Received: by mail-ua1-x932.google.com with SMTP id i4so192488uaq.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 19:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6MwJLoEg4o+XnX5J3MKqvIpog8SQtbhnZGON02exT6k=;
+ b=rn5a8dFRgxpvMHnDrEhygKDcxxDUOVGLq88Roy8NIlf8y8vJ1eKlzaeRgFjuBc7tXG
+ B1YC6skJAQzPMHYvjjev28DR7+7Qkf4mqH4OnRGhiIGzKMOxj2+PSxFIGELLT4u5odnH
+ wECtqsW2gcD1sBBc/UvECmCyXiEGgIP/aVyhmG3eF7sdHqiT9Bd4W/rg1lkrTDe7YC5k
+ 3IxXsRc5I2PKk3pNFMs3hldY301F7HDFv+ItXgb99FeAqJTMc2VBxokTlxMalZjcdKVZ
+ yKSUComfrJ3GBhlrGb4f8JZjggd5AELJiQnqC5y51z+iQLswLfvpB8WUlNtempVL+kJH
+ UjaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6MwJLoEg4o+XnX5J3MKqvIpog8SQtbhnZGON02exT6k=;
+ b=crpd37w60NR6epCtuhnzd0l7jRWyapl2wSD+0WtsFiUSByRipwwzIs5+TD1EYnnAjX
+ eU0ZtU8W/dnp54czy96LJyuoHwVHuxTa7qx+LVxjghvHfhVdR+IV9RFCwyITeb6W8G4n
+ 4wQYj05rLvzz1Cx4J4u/MWQgwAmkhvMs1hR1VtRXSCe0iAk+OpSDxRgAQyZ7peaoS5Ry
+ W6gfmu/3aAXm+838B7NNjWf8SlMpOCQAz986V+2cC64uhBSBZQJyhZSBsn7grUDdc48l
+ 0XvdYI2dhNIdokk4H/bcduIEa7guw/yx+Wm94N2qy0H5DvyaAg+AT3ASxlVn9cll8J4O
+ OE8Q==
+X-Gm-Message-State: AOAM530TLfRKj5kPyWdDhhrm+6f9PKV6tLExpWhfbrP1afIinfihWu6O
+ 7D045BHaLk8CcWzL7EMxaY+OrFtDUYJ2I623zX+gJQ==
+X-Google-Smtp-Source: ABdhPJxE3RlDo44ZaYp/usbYhqihBktdsM3Ggf13iNOgORp7Og1zVBVF+oGB8IgUpaMLWWHEdXLJu6jaQ9QlZbKHehQ=
+X-Received: by 2002:ab0:6907:0:b0:371:521c:7a1c with SMTP id
+ b7-20020ab06907000000b00371521c7a1cmr19376648uas.48.1654653756979; Tue, 07
+ Jun 2022 19:02:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v4 11/36] i386/tdx: Initialize TDX before creating TD
- vcpus
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
-References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
- <20220512031803.3315890-12-xiaoyao.li@intel.com>
- <20220523092003.lm4vzfpfh4ezfcmy@sirius.home.kraxel.org>
- <d3e967f3-917f-27ce-1367-2dba23e5c241@intel.com>
- <20220524065719.wyyoba2ke73tx3nc@sirius.home.kraxel.org>
- <39341481-67b6-aba4-a25a-10abb398bec4@intel.com>
- <20220601075453.7qyd5z22ejgp37iz@sirius.home.kraxel.org>
- <9d00fd58-b957-3b8e-22ab-12214dcbbe97@intel.com>
- <20220607111651.2zjm7mx2gz3irqxo@sirius.home.kraxel.org>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220607111651.2zjm7mx2gz3irqxo@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=xiaoyao.li@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220607201440.41464-1-imp@bsdimp.com>
+ <20220607201440.41464-5-imp@bsdimp.com>
+ <575c6936-c0e0-2c9f-8c5d-e9184001804b@linaro.org>
+In-Reply-To: <575c6936-c0e0-2c9f-8c5d-e9184001804b@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 7 Jun 2022 19:02:26 -0700
+Message-ID: <CANCZdfrca-pwZDLsr77YkkOPH6aTOEjEXR9iSCF+GPeASc0LzQ@mail.gmail.com>
+Subject: Re: [PATCH 4/6] bsd-user/bsd-file.h: Add implementations for read,
+ pread, readv and preadv
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gleb Popov <arrowd@freebsd.org>, 
+ Konrad Witaszczyk <def@freebsd.org>, Jessica Clarke <jrtc27@freebsd.org>,
+ Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>
+Content-Type: multipart/alternative; boundary="000000000000694fbf05e0e6198d"
+Received-SPF: none client-ip=2607:f8b0:4864:20::932;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x932.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,60 +85,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/2022 7:16 PM, Gerd Hoffmann wrote:
->    Hi,
-> 
->>> I guess it could be helpful for the discussion when you can outine the
->>> 'big picture' for tdx initialization.  How does kvm accel setup look
->>> like without TDX, and what additional actions are needed for TDX?  What
->>> ordering requirements and other constrains exist?
->>
->> To boot a TDX VM, it requires several changes/additional steps in the flow:
->>
->>   1. specify the vm type KVM_X86_TDX_VM when creating VM with
->>      IOCTL(KVM_CREATE_VM);
->> 	- When initializing KVM accel
->>
->>   2. initialize VM scope configuration before creating any VCPU;
->>
->>   3. initialize VCPU scope configuration;
->> 	- done inside machine_init_done_notifier;
->>
->>   4. initialize virtual firmware in guest private memory before vcpu running;
->> 	- done inside machine_init_done_notifier;
->>
->>   5. finalize the TD's measurement;
->> 	- done inside machine init_done_notifier;
->>
->>
->> And we are discussing where to do step 2).
->>
->> We can find from the code of tdx_pre_create_vcpu(), that it needs
->> cpuid entries[] and attributes as input to KVM.
->>
->>    cpuid entries[] is set up by kvm_x86_arch_cpuid() mainly based on
->>    'CPUX86State *env'
->>
->>    attributes.pks is retrieved from env->features[]
->>    and attributes.pmu is retrieved from x86cpu->enable_pmu
->>
->> to make VM-socpe data is consistent with VCPU data, we do choose the point
->> late enough to ensure all the info/configurations from VCPU are settle down,
->> that just before calling KVM API to do VCPU-scope configuration.
-> 
-> So essentially tdx defines (some) vcpu properties at vm scope?  
+--000000000000694fbf05e0e6198d
+Content-Type: text/plain; charset="UTF-8"
 
-Not TDX, but QEMU. Most of the CPU features are configrued by "-cpu" 
-option not "-machine" option.
+On Tue, Jun 7, 2022 at 2:45 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-> Given
-> that all vcpus typically identical (and maybe tdx even enforces this)
-> this makes sense.
-> 
-> A comment in the source code explaining this would be good.
-> 
-> thanks,
->    Gerd
-> 
+> On 6/7/22 13:14, Warner Losh wrote:
+> > +/* read(2) */
+> > +static inline abi_long do_bsd_read(abi_long arg1, abi_long arg2,
+> abi_long arg3)
+>
+> Why the inline markers?  Best to drop them.
+>
 
+static inline ensures that we don't get a warning if bsd-file.h is included
+in multiple places and these routines aren't used.
+
+Though it turns out....
+
+
+> > +        /*
+> > +         * File system calls.
+> > +         */
+> > +    case TARGET_FREEBSD_NR_read: /* read(2) */
+> > +        ret = do_bsd_read(arg1, arg2, arg3);
+> > +        break;
+> > +
+> > +    case TARGET_FREEBSD_NR_pread: /* pread(2) */
+> > +        ret = do_bsd_pread(cpu_env, arg1, arg2, arg3, arg4, arg5, arg6);
+> > +        break;
+> > +
+> > +    case TARGET_FREEBSD_NR_readv: /* readv(2) */
+> > +        ret = do_bsd_readv(arg1, arg2, arg3);
+> > +        break;
+>
+> Missing preadv, which you added above.
+
+
+It would have caught this :)  I'll update this and the write changes...
+
+Warner
+
+--000000000000694fbf05e0e6198d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 7, 2022 at 2:45 PM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
+derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 6/7/22 13:14, Warner Losh wrote:<br>
+&gt; +/* read(2) */<br>
+&gt; +static inline abi_long do_bsd_read(abi_long arg1, abi_long arg2, abi_=
+long arg3)<br>
+<br>
+Why the inline markers?=C2=A0 Best to drop them.<br></blockquote><div><br><=
+/div><div>static inline ensures that we don&#39;t get a warning if bsd-file=
+.h is included in multiple places and these routines aren&#39;t used.</div>=
+<div><br></div><div>Though it turns out....</div><div>=C2=A0</div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* File system calls.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 case TARGET_FREEBSD_NR_read: /* read(2) */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D do_bsd_read(arg1, arg2, arg3);<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 case TARGET_FREEBSD_NR_pread: /* pread(2) */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D do_bsd_pread(cpu_env, arg1, arg2,=
+ arg3, arg4, arg5, arg6);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 case TARGET_FREEBSD_NR_readv: /* readv(2) */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D do_bsd_readv(arg1, arg2, arg3);<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+<br>
+Missing preadv, which you added above.</blockquote><div><br></div><div>It w=
+ould have caught this :)=C2=A0 I&#39;ll update this and the write changes..=
+.</div><div><br></div><div>Warner=C2=A0</div></div></div>
+
+--000000000000694fbf05e0e6198d--
 
