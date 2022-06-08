@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64948543C76
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 21:08:03 +0200 (CEST)
-Received: from localhost ([::1]:41934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79989543C83
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 21:10:37 +0200 (CEST)
+Received: from localhost ([::1]:46036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz12A-0000Pn-4z
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 15:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36128)
+	id 1nz14e-0003HJ-CL
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 15:10:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nz0z1-0006Qq-N4
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:04:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nz0yy-0003hT-ME
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:04:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654715083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XJqoslDcvOLQJTWS5JKdivyDQ+IEvlonWLmphzKkguc=;
- b=UT7vazpp+O50EsLcmgKc/RMAr+HbI6WkEjXngYLqFthIn6wvEEvIB6DBLIByA8a64VUs7L
- plbms32ybopbHeobQJnRUYgZXkPco0IL2Zvg5vzuzBnWca0UyHTmrKjf4iVcZFRk+RS3MR
- /BEuOmKTnSzfaJRA3VvHhs4fK5qL/MQ=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-ViyeHxKZOKSpbShPBO3T9w-1; Wed, 08 Jun 2022 15:04:42 -0400
-X-MC-Unique: ViyeHxKZOKSpbShPBO3T9w-1
-Received: by mail-qt1-f198.google.com with SMTP id
- v1-20020a05622a014100b002f93e6b1e8cso17015873qtw.9
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 12:04:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nz10O-0007uQ-1W
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:06:13 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:55276)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nz10F-00045M-4D
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:06:07 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id j7so19436427pjn.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 12:06:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=QVIZ0FndJV/7ObXDf7PFnuv7IOpwJmAkLNju7hQdi5w=;
+ b=mzbxPe4nNB7XROGME5dVxYLt90F4Odlj4T05m8zJDy0pFQwuSq67w4hG5svFYcnGvP
+ UYv0aRwgCz707ZxQmSQLPaDGKhIiDe99WoQv7sovgqZ0uCEFEvmStLBOMfIEyB6TupJU
+ /VSC4+d98BY0p4KIAILiqmAs6o74cIjL5EgDsndla9ZptmmUG6cRyqvAQQMlT8T9xU2S
+ tFtChSy+so9b6FMJOU5OUbhEXcdpYZEsk8IqCq9SZ2qjOgQwBlwdMAgfOeQP1mfMKM8k
+ U4x3SQntsUvmsFyGec30VQWYw8COLBX5ji+fhhblnNi2j+/2GHyJY9hKSxpezRq0Y1ri
+ 3r0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XJqoslDcvOLQJTWS5JKdivyDQ+IEvlonWLmphzKkguc=;
- b=reJ/2gXe/KvCXRwTTFtyrb+RWoZfqlMqhz4W5abxduGipQNUMuWWuttbLVywdbVdpM
- YS28dd65T1GYPUwVh17kFjVnT9YrB1tNYMzCTHKCHkkTMVqkaikKYtPpAg0yG8KC3NvQ
- E8OqxbWZ8U9CZ/mWP/nZtXUvy7JqrKB/a1omSIGNWV9l1pkxA7oZHZjhzwWWkaVi/Bdv
- 1xmb0DvOJ3C71HhMHncGZdtuHPrxw/F0jkZKb/iNzKWX3E52mBVmLHtS15tcPE4F9p1P
- +5b5v61dfwkG0t6heN6kgja/ahuaBiAX3NuVSjwc6zjlbvya/HoLmspyky8GWsuKnC1v
- 3eyQ==
-X-Gm-Message-State: AOAM5326POsZF95s0WIK4kwaB22Ijip9KeoR0vYMtY1RFzk3WRWb4oWS
- GuOfftrqjhE91unX95uF66f+3Lw1nL57kzZfoqg6IccI+NIbFh7jm7Q6PcYXlA2eoXYAYkdRzP0
- 4Z2Quwpz6scngGes0bZKEnXH79JQd2Q4=
-X-Received: by 2002:ac8:598f:0:b0:305:8f8:2069 with SMTP id
- e15-20020ac8598f000000b0030508f82069mr1959807qte.370.1654715081214; 
- Wed, 08 Jun 2022 12:04:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3imRhza4wzL0Tjcei3mPBBrFngQfbHqF6nqCjc/ScF9lNaYiH3eMymL9aRU1Qk0D4woKAnFozNlywe8wpM2U=
-X-Received: by 2002:ac8:598f:0:b0:305:8f8:2069 with SMTP id
- e15-20020ac8598f000000b0030508f82069mr1959770qte.370.1654715080834; Wed, 08
- Jun 2022 12:04:40 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QVIZ0FndJV/7ObXDf7PFnuv7IOpwJmAkLNju7hQdi5w=;
+ b=Lled3Cv1z2UriJ1YDKU7Dr894OSXSPkhwa+Qx9vhItm5vO1Vr/drEXK2+YOa+PRycS
+ u5RxUkIF2kM4wSG/XBVS+pSZdjgkGSiqX7kd5kcTljbS7ypFeTg2seoIs23tYVClizqq
+ LpfDP05c+9ErdHwVbDq4cRaXLlSzeGg9YmV9aF5iwXyOYUZsfXCihd483aYRBMZuk41o
+ ig1wyrjn0h1BgHtQhRs0FW17fd4GhnoTHqqaXypoU+nHGO0l1G2P5M0i3GJGHs8fExLJ
+ VwMScnSsXnQke7jqF89snJN/9YkNbFLGVL+0jRdBU91sHAuJdyaNmWhjI84DH+ZRpYw7
+ XHbQ==
+X-Gm-Message-State: AOAM531aibpgaL4Xo3ayqbiA9Weh0A8H3FXk9S+06+c3eptmIfB+5A2H
+ BJKhxVcDgRzYVuZyIF0sl5BWUA==
+X-Google-Smtp-Source: ABdhPJxchP4nNBx1Q9csdcB7Y/jG5DIaIXAqzNHOAmClqT/tHHuO2Z9HjvbnfBYnF2VCocvEmGrqiA==
+X-Received: by 2002:a17:902:d504:b0:167:756a:f992 with SMTP id
+ b4-20020a170902d50400b00167756af992mr19672816plg.160.1654715160755; 
+ Wed, 08 Jun 2022 12:06:00 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:6812:d08e:b22c:43d7?
+ ([2602:ae:1547:e101:6812:d08e:b22c:43d7])
+ by smtp.gmail.com with ESMTPSA id
+ 4-20020a170902c10400b001677fa34a07sm6545212pli.43.2022.06.08.12.05.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 12:06:00 -0700 (PDT)
+Message-ID: <9c42516d-a238-a1d6-3f01-aaa8fc018eda@linaro.org>
+Date: Wed, 8 Jun 2022 12:05:58 -0700
 MIME-Version: 1.0
-References: <20220519191306.821774-1-eperezma@redhat.com>
- <20220519191306.821774-12-eperezma@redhat.com>
- <4e097d14-9422-bff5-d52c-74ae9fceede1@redhat.com>
-In-Reply-To: <4e097d14-9422-bff5-d52c-74ae9fceede1@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 8 Jun 2022 21:04:04 +0200
-Message-ID: <CAJaqyWf9bnGOWE47u-GogFykpc4tqjfJMrFzv9JRFiEFy_4pkA@mail.gmail.com>
-Subject: Re: [RFC PATCH v8 11/21] vhost: Update kernel headers
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, 
- Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Eric Blake <eblake@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 0/3] target/m68k: semihosting cleanup
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220607222616.717435-1-richard.henderson@linaro.org>
+ <56b31126-41c5-e7b6-5b32-2b64ba1cce67@vivier.eu>
+ <8f833280-b1bb-d4f4-6603-5be44ee8e9b7@linaro.org>
+ <09f9a931-6873-bd98-74ed-e1d17318d76e@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <09f9a931-6873-bd98-74ed-e1d17318d76e@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,106 +95,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 8, 2022 at 6:19 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/5/20 03:12, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
->
->
-> It's better to use the helpers in scripts/ and mentioned to which
-> version is this synced.
->
+On 6/8/22 11:08, Laurent Vivier wrote:
+> Le 08/06/2022 à 16:53, Richard Henderson a écrit :
+>> On 6/8/22 02:36, Laurent Vivier wrote:
+>>> Le 08/06/2022 à 00:26, Richard Henderson a écrit :
+>>>> Based-on: <20220607204557.658541-1-richard.henderson@linaro.org>
+>>>> ("[PATCH v4 00/53] semihosting cleanup")
+>>>>
+>>>> Changes for v4:
+>>>>    * Split out of v2.
+>>>>    * Convert host errno to gdb errno, which for m68k is guest errno.
+>>>>
+>>>
+>>> How do you test semihosting on m68k?
+>>
+>> I have only compiled this.  I had been working on adding something to tests/tcg/m68k/, 
+>> which is where those halt patches came from, but haven't finished.
+>>
+> 
+> But what is the use case of semihosting on m68k?
+> Is there a kernel implementation available for that?
 
-Right, I should have written somewhere this was in the meantime it was
-accepted in Linux master :). I'll use the scripts for the next
-version.
+Not that I'm aware of.  Do you want to remove it entirely instead?
+Leaving it as-is should not be an option...
 
-Thanks!
 
-> Thanks
->
->
-> >   include/standard-headers/linux/vhost_types.h | 11 ++++++++-
-> >   linux-headers/linux/vhost.h                  | 25 ++++++++++++++++---=
--
-> >   2 files changed, 30 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/include/standard-headers/linux/vhost_types.h b/include/sta=
-ndard-headers/linux/vhost_types.h
-> > index 0bd2684a2a..ce78551b0f 100644
-> > --- a/include/standard-headers/linux/vhost_types.h
-> > +++ b/include/standard-headers/linux/vhost_types.h
-> > @@ -87,7 +87,7 @@ struct vhost_msg {
-> >
-> >   struct vhost_msg_v2 {
-> >       uint32_t type;
-> > -     uint32_t reserved;
-> > +     uint32_t asid;
-> >       union {
-> >               struct vhost_iotlb_msg iotlb;
-> >               uint8_t padding[64];
-> > @@ -153,4 +153,13 @@ struct vhost_vdpa_iova_range {
-> >   /* vhost-net should add virtio_net_hdr for RX, and strip for TX packe=
-ts. */
-> >   #define VHOST_NET_F_VIRTIO_NET_HDR 27
-> >
-> > +/* Use message type V2 */
-> > +#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
-> > +/* IOTLB can accept batching hints */
-> > +#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
-> > +/* IOTLB can accept address space identifier through V2 type of IOTLB
-> > + * message
-> > + */
-> > +#define VHOST_BACKEND_F_IOTLB_ASID  0x3
-> > +
-> >   #endif
-> > diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
-> > index 5d99e7c242..d42eb46efd 100644
-> > --- a/linux-headers/linux/vhost.h
-> > +++ b/linux-headers/linux/vhost.h
-> > @@ -89,11 +89,6 @@
-> >
-> >   /* Set or get vhost backend capability */
-> >
-> > -/* Use message type V2 */
-> > -#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
-> > -/* IOTLB can accept batching hints */
-> > -#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
-> > -
-> >   #define VHOST_SET_BACKEND_FEATURES _IOW(VHOST_VIRTIO, 0x25, __u64)
-> >   #define VHOST_GET_BACKEND_FEATURES _IOR(VHOST_VIRTIO, 0x26, __u64)
-> >
-> > @@ -154,6 +149,26 @@
-> >   /* Get the config size */
-> >   #define VHOST_VDPA_GET_CONFIG_SIZE  _IOR(VHOST_VIRTIO, 0x79, __u32)
-> >
-> > +/* Get the number of virtqueue groups. */
-> > +#define VHOST_VDPA_GET_GROUP_NUM     _IOR(VHOST_VIRTIO, 0x7A, unsigned=
- int)
-> > +
-> > +/* Get the number of address spaces. */
-> > +#define VHOST_VDPA_GET_AS_NUM                _IOR(VHOST_VIRTIO, 0x7B, =
-unsigned int)
-> > +
-> > +/* Get the group for a virtqueue: read index, write group in num,
-> > + * The virtqueue index is stored in the index field of
-> > + * vhost_vring_state. The group for this specific virtqueue is
-> > + * returned via num field of vhost_vring_state.
-> > + */
-> > +#define VHOST_VDPA_GET_VRING_GROUP   _IOWR(VHOST_VIRTIO, 0x7C,       \
-> > +                                           struct vhost_vring_state)
-> > +/* Set the ASID for a virtqueue group. The group index is stored in
-> > + * the index field of vhost_vring_state, the ASID associated with this
-> > + * group is stored at num field of vhost_vring_state.
-> > + */
-> > +#define VHOST_VDPA_SET_GROUP_ASID    _IOW(VHOST_VIRTIO, 0x7D, \
-> > +                                          struct vhost_vring_state)
-> > +
-> >   /* Get the count of all virtqueues */
-> >   #define VHOST_VDPA_GET_VQS_COUNT    _IOR(VHOST_VIRTIO, 0x80, __u32)
-> >
->
-
+r~
 
