@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D6354323A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:10:20 +0200 (CEST)
-Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3723543244
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:13:28 +0200 (CEST)
+Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywO3-0005Qf-QG
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48012)
+	id 1nywR5-0002vp-VW
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8A-00016B-F4
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32446)
+ id 1nyw8B-0001AM-BF
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw88-0004Ki-RI
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:54 -0400
+ id 1nyw89-0004LC-OD
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696432;
+ s=mimecast20190719; t=1654696433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vmuQVRI+Np215C1SqYX98jzZmkqio5bFoG8B5zNlrIQ=;
- b=BB0cHEl97Bc/vCPQ30m4E/wSetLKVscrtBRpXoVq2Y18blvBrxyOUIQua5iMspkWspgK11
- wpx43C6hfinTC36/Qt1tzaXHDnmzBNVqNRGZU1rPgotHspqw2RdWg3/5cUSKcGrcrbX/KW
- KJ+sSqm171qdUko3pHTinPv5F2MpXl8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DYEJEWvBcCHnlvwJhL/5WHvh5ynjhLa4YtDtrpzjP3Q=;
+ b=FAZWLDPDpQM2dVNsdbMDNhtRyB7/0mXq5hAMWLPSvRrMcC7FxNZ7jR02JL7XvM7QCQyymA
+ Gm5HLkUqwvueSmTG4Ahk8pGm/nTdltqVnmTGrbx2E/4MUGEC78/7C3azgfBgwpbxXHr9zc
+ 213Y3s0pmvDj+Q1xsdHPb4aCPCCMQeE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-kdoIKD7kNomDpdKuHM6XzA-1; Wed, 08 Jun 2022 09:53:51 -0400
-X-MC-Unique: kdoIKD7kNomDpdKuHM6XzA-1
+ us-mta-9-HU5RaEJAMt2URyRyEf5UwA-1; Wed, 08 Jun 2022 09:53:51 -0400
+X-MC-Unique: HU5RaEJAMt2URyRyEf5UwA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC42C29DD9A2
- for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:53:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82C5F101E989
+ for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:53:51 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35D30C28117;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2823C28119;
  Wed,  8 Jun 2022 13:53:50 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: mst@redhat.com
-Subject: [PATCH v2 09/35] tests: acpi: add and whitelist DSDT.ipmismbus
- expected blob
-Date: Wed,  8 Jun 2022 09:53:14 -0400
-Message-Id: <20220608135340.3304695-10-imammedo@redhat.com>
+Cc: mst@redhat.com,
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 10/35] tests: acpi: q35: add test for smbus-ipmi device
+Date: Wed,  8 Jun 2022 09:53:15 -0400
+Message-Id: <20220608135340.3304695-11-imammedo@redhat.com>
 In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
 References: <20220608135340.3304695-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,25 +81,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-.. which will be used by follow up smbus-ipmi test-case
+expected new device node:
+
+    Device (MI1)
+    {
+        Name (_HID, EisaId ("IPI0001"))  // _HID: Hardware ID
+        Name (_STR, "ipmi_smbus")  // _STR: Description String
+        Name (_UID, One)  // _UID: Unique ID
+        Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+        {
+            I2cSerialBusV2 (0x0000, ControllerInitiated, 0x000186A0,
+                AddressingMode7Bit, "\\_SB.PCI0.SMB0",
+                0x00, ResourceProducer, , Exclusive,
+                )
+        })
+        Name (_IFT, 0x04)  // _IFT: IPMI Interface Type
+        Name (_SRV, 0x0200)  // _SRV: IPMI Spec Revision
+    }
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- tests/data/acpi/q35/DSDT.ipmismbus          | 0
- 2 files changed, 1 insertion(+)
- create mode 100644 tests/data/acpi/q35/DSDT.ipmismbus
+ tests/qtest/bios-tables-test.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..b4687d1cc8 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.ipmismbus",
-diff --git a/tests/data/acpi/q35/DSDT.ipmismbus b/tests/data/acpi/q35/DSDT.ipmismbus
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index a4a46e97f0..d896840270 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -955,6 +955,21 @@ static void test_acpi_q35_tcg_ipmi(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_tcg_smbus_ipmi(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_Q35;
++    data.variant = ".ipmismbus";
++    data.required_struct_types = ipmi_required_struct_types;
++    data.required_struct_types_len = ARRAY_SIZE(ipmi_required_struct_types);
++    test_acpi_one("-device ipmi-bmc-sim,id=bmc0"
++                  " -device smbus-ipmi,bmc=bmc0",
++                  &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_piix4_tcg_ipmi(void)
+ {
+     test_data data;
+@@ -1743,6 +1758,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+         qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
+         qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
++        qtest_add_func("acpi/q35/smbus/ipmi", test_acpi_q35_tcg_smbus_ipmi);
+         qtest_add_func("acpi/piix4/cpuhp", test_acpi_piix4_tcg_cphp);
+         qtest_add_func("acpi/q35/cpuhp", test_acpi_q35_tcg_cphp);
+         qtest_add_func("acpi/piix4/memhp", test_acpi_piix4_tcg_memhp);
 -- 
 2.31.1
 
