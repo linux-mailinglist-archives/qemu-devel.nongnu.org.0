@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BAF54328D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:29:34 +0200 (CEST)
-Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0BA5432AD
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:37:05 +0200 (CEST)
+Received: from localhost ([::1]:42760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywge-0002aa-N6
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48516)
+	id 1nywnx-0002jg-0d
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8V-0002FJ-DW
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59316)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nywAK-0005sw-Dz
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:56:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8T-0004TZ-Sz
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:15 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nywAI-0004xG-Pk
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:56:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696453;
+ s=mimecast20190719; t=1654696566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m/au5X9nSKlzergWVZjnXe2ShfoOaI8Bh8STEDKisko=;
- b=MCYywHZhucpVcBiPDW3LW7k49XntJ463VIFCMuQswLEYOcE+S9+xzI915qmE3ZnR5MI0I6
- lxZaHsfFttv++6kDhyqlPw1fN9AlyvBIrMymgO8WwlBV4Bt5v+BY2M1avApyJ/+EGeQ20E
- X8ymk7jXF0kpjVJEe9ApO8gg0F4Z2R0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=y3GTIcrik+pI4w5E2pRnRXAdLJA1m8WfGOgWT57e8sg=;
+ b=Spw9BovhRwPmtYtkkgm15Go50PC/isYr3dCud30Mh4snSmob8908sIaeSbwrUzKb9JBu0G
+ IN7tRGyMdr2f5KxwwDi5bYbZx84oUESpjTLQASq9nyE7T0aJtchbkvJCbliD94awu4Iv2X
+ 8aS6sT4Gid+tRz9XS9AgcnrqwWRKtf0=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-_j6Ug6HsMZ6WMcWE77E8Og-1; Wed, 08 Jun 2022 09:54:12 -0400
-X-MC-Unique: _j6Ug6HsMZ6WMcWE77E8Og-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A60C81C0518D
- for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:54:11 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1263AC28117;
- Wed,  8 Jun 2022 13:54:10 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 35/35] x86: acpi-build: do not include hw/isa/isa.h directly
-Date: Wed,  8 Jun 2022 09:53:40 -0400
-Message-Id: <20220608135340.3304695-36-imammedo@redhat.com>
-In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
-References: <20220608135340.3304695-1-imammedo@redhat.com>
+ us-mta-211-QLvlxFf6Plu_XzTWL5O0dA-1; Wed, 08 Jun 2022 09:56:04 -0400
+X-MC-Unique: QLvlxFf6Plu_XzTWL5O0dA-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ i129-20020aca3b87000000b0032e75128546so7179059oia.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 06:56:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=y3GTIcrik+pI4w5E2pRnRXAdLJA1m8WfGOgWT57e8sg=;
+ b=sCT2ONRi33MUtitxWPasklHoexskS/gVzssfaFzVJGOhNsLCnx9L5tPCr7QiZCXYHQ
+ +fUsKosteZSk1ADsmeyh8WiT0FasRxtNMSY08JF3Q8oEb/xnv8UnhNoREPGPiMHfmwMT
+ C0S7GzbSEvxYIqxEyvkFoBBX44DtsFq5jRRMuZV54xAAQ7IoKKybBp83PrgPECr+KMJW
+ EF9iiWDSLCX0Kl7wo/1On690ZzNv+0BQFhuqi25650jKO2CdOdPRznm/LTy8nEDSQ6S+
+ ewUoy2XpS6Zg+lUf1l/9jCDyMvQIzyMxL9CX4YEyEsIFXij3OQ8Gb8w9+q004k6ojjYv
+ lQhA==
+X-Gm-Message-State: AOAM532NwuXRR0SqnNfA7gu0+0vDZeXpGWh1wI6BUakEfRlQzzQu2UEP
+ MK1z+vcgFQ5GevKWCYjQElEDTDOOzjyGwkp1rrM+Qwbyqr9B4kKK9uBMLIroJWOltLd8VQPCf1Y
+ LD7QKUpJ1TB+u6PfApszoWojZV01nWYw=
+X-Received: by 2002:a9d:19aa:0:b0:60b:d2ce:2eed with SMTP id
+ k39-20020a9d19aa000000b0060bd2ce2eedmr11447589otk.38.1654696564032; 
+ Wed, 08 Jun 2022 06:56:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxiw03wQJgkWT2p3OX39HP4vvdtn2idE12KzmNeUxg3oOdnmDQ/f8nKwGRv0RfZWgoCMYIwMmkE0gDrFTnyqK4=
+X-Received: by 2002:a9d:19aa:0:b0:60b:d2ce:2eed with SMTP id
+ k39-20020a9d19aa000000b0060bd2ce2eedmr11447580otk.38.1654696563776; Wed, 08
+ Jun 2022 06:56:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+References: <20220608113311.2144610-1-stefanb@linux.ibm.com>
+In-Reply-To: <20220608113311.2144610-1-stefanb@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 8 Jun 2022 17:55:52 +0400
+Message-ID: <CAMxuvaw-+E3mYe1OOmbaV5GKJuYW_jm5D9kUaYPMq6qQ5sFq2w@mail.gmail.com>
+Subject: Re: [PATCH] edk2: Use TPM2_ENABLE and TPM2_CONFIG_ENABLE for newer
+ edk2
+To: Stefan Berger <stefanb@linux.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-trivial <qemu-trivial@nongnu.org>,
+ Gerd Hoffmann <gerd@kraxel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,31 +95,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the last remaining dependency on ISA in acpi-build.c
-is iapc_boot_arch_8042() which pulls in in isa.h
-in its own header hw/input/i8042.h. Clean up
-not longer needed direct inclusion of isa.h in
-acpi-build.c
+Hi
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/i386/acpi-build.c | 1 -
- 1 file changed, 1 deletion(-)
+On Wed, Jun 8, 2022 at 3:33 PM Stefan Berger <stefanb@linux.ibm.com> wrote:
+>
+> Recent changes to edk2 switched the x86_64 build from using TPM_ENABLE
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 0b65fc99cd..f41e14a469 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -37,7 +37,6 @@
- #include "hw/acpi/cpu.h"
- #include "hw/nvram/fw_cfg.h"
- #include "hw/acpi/bios-linker-loader.h"
--#include "hw/isa/isa.h"
- #include "hw/acpi/acpi_aml_interface.h"
- #include "hw/input/i8042.h"
- #include "hw/acpi/memory_hotplug.h"
--- 
-2.31.1
+You can quote the relevant change: commit 4de8d61bcec ("OvmfPkg:
+rework TPM configuration")
+
+> to TPM2_ENABLE and TPM1_ENABLE to be similar to the ARM build. Adapt
+> the QEMU edk2 Makefile to build with TPM2_ENABLE. QEMU v7.0.0 had lost
+> the TPM 2 support in edk2 and this restores it.
+>
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+> ---
+>  roms/Makefile.edk2 | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
+> index 485f2244b1..a6eb14f215 100644
+> --- a/roms/Makefile.edk2
+> +++ b/roms/Makefile.edk2
+> @@ -101,8 +101,7 @@ submodules:
+>                 -D NETWORK_IP6_ENABLE \
+>                 -D NETWORK_HTTP_BOOT_ENABLE \
+>                 -D NETWORK_TLS_ENABLE \
+> -               -D TPM_ENABLE \
+> -               -D TPM_CONFIG_ENABLE
+> +               -D TPM2_ENABLE
+>         cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_C=
+ODE.fd $@
+>
+>  ../pc-bios/edk2-i386-secure-code.fd: submodules
+> @@ -113,8 +112,7 @@ submodules:
+>                 -D NETWORK_IP6_ENABLE \
+>                 -D NETWORK_HTTP_BOOT_ENABLE \
+>                 -D NETWORK_TLS_ENABLE \
+> -               -D TPM_ENABLE \
+> -               -D TPM_CONFIG_ENABLE \
+> +               -D TPM2_ENABLE \
+>                 -D SECURE_BOOT_ENABLE \
+>                 -D SMM_REQUIRE
+>         cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_C=
+ODE.fd $@
+> @@ -127,8 +125,7 @@ submodules:
+>                 -D NETWORK_IP6_ENABLE \
+>                 -D NETWORK_HTTP_BOOT_ENABLE \
+>                 -D NETWORK_TLS_ENABLE \
+> -               -D TPM_ENABLE \
+> -               -D TPM_CONFIG_ENABLE
+> +               -D TPM2_ENABLE
+>         cp edk2/Build/OvmfX64/$(target)_$(call toolchain,x86_64)/FV/OVMF_=
+CODE.fd $@
+>
+>  ../pc-bios/edk2-x86_64-secure-code.fd: submodules
+> @@ -140,8 +137,7 @@ submodules:
+>                 -D NETWORK_IP6_ENABLE \
+>                 -D NETWORK_HTTP_BOOT_ENABLE \
+>                 -D NETWORK_TLS_ENABLE \
+> -               -D TPM_ENABLE \
+> -               -D TPM_CONFIG_ENABLE \
+> +               -D TPM2_ENABLE \
+>                 -D SECURE_BOOT_ENABLE \
+>                 -D SMM_REQUIRE
+>         cp edk2/Build/Ovmf3264/$(target)_$(call toolchain,x86_64)/FV/OVMF=
+_CODE.fd $@
+> --
+> 2.35.3
+>
 
 
