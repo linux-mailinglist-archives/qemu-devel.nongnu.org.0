@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AD454322C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:05:11 +0200 (CEST)
-Received: from localhost ([::1]:36190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D9054323B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:10:22 +0200 (CEST)
+Received: from localhost ([::1]:44842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywJ4-0007UN-L4
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:05:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48112)
+	id 1nywO5-0005Pq-K6
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:10:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8D-0001J9-QR
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49286)
+ id 1nyw8E-0001KO-6O
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8B-0004ME-TI
+ id 1nyw8C-0004MS-IX
  for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696435;
+ s=mimecast20190719; t=1654696436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OuwtbFTOdOvzd84hsP3hI1Uey/BdnTsltd8kmMeBHjk=;
- b=VSBi0uem2k5pgrAJDXygUEuSCxC+cUwkGFsVU4+0l5Dj5VdX2Azdjjq4nkj4QyJ8Qj1bmW
- FFjcmE1G825JKiI+WbhaFnra9Gc86WZzTK9Mz8GzOml8CHXw5XpSdcccHCU9m65o4lyZsg
- 02/cAbPf8wJrodZNu+uRwzTBNgfM+Kw=
+ bh=ptFUpuIkr5Kyb0YUhh7l1chPE7ecpkCUFV48TCbwp9Q=;
+ b=LVdcC+BYqttfx+D/5lgQxJbhk0aFWiG3uWFRnwIjRuu9yB0zJwbDedkhOneHkSG3c6IxQs
+ 4wQHRxCPKJ1h2pjmtY4BeaaZRbTqqDT+GUWu410NyH5bbEgdWn3w3hZA7mCHR6m4lCKE7S
+ upVIAjaYN95ZbzByNvKCyAwzC1pBlOQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-PbghpG6kNqm1BjgCHiKj0A-1; Wed, 08 Jun 2022 09:53:54 -0400
-X-MC-Unique: PbghpG6kNqm1BjgCHiKj0A-1
+ us-mta-250-cHfI2BlSPhq1Lsb6fec4hA-1; Wed, 08 Jun 2022 09:53:54 -0400
+X-MC-Unique: cHfI2BlSPhq1Lsb6fec4hA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE28B80B90D
- for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:53:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 770A680159B
+ for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:53:54 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AC59C28117;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 009AEC2811A;
  Wed,  8 Jun 2022 13:53:53 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: mst@redhat.com,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 13/35] ipmi: acpi: use relative path to resource source
-Date: Wed,  8 Jun 2022 09:53:18 -0400
-Message-Id: <20220608135340.3304695-14-imammedo@redhat.com>
+Cc: mst@redhat.com
+Subject: [PATCH v2 14/35] tests: acpi: update expected DSDT.ipmismbus blob
+Date: Wed,  8 Jun 2022 09:53:19 -0400
+Message-Id: <20220608135340.3304695-15-imammedo@redhat.com>
 In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
 References: <20220608135340.3304695-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,137 +80,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-smbus-ipmi AML description needs to specify a path to its parent
-node in _CRS. The rest of IPMI inplementations (ISA based)
-do not need path at all. Instead of passing through a full path
-use relative path to point to smbus-ipmi's parent node, it will
-let follow up patches to create IPMI device AML in a generic
-way instead of current ad-hoc way. (i.e. AML will be generated
-the same way it's done for other ISA device, and smbus will be
-converted to generate AML for its slave devices the same way
-as ISA)
-
 expected AML change:
-     Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-     {
-        I2cSerialBusV2 (0x0000, ControllerInitiated, 0x000186A0,
--           AddressingMode7Bit, "\\_SB.PCI0.SMB0",
-+           AddressingMode7Bit, "^",
-            0x00, ResourceProducer, , Exclusive,
-            )
-      })
+         Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+         {
+            I2cSerialBusV2 (0x0000, ControllerInitiated, 0x000186A0,
+    -           AddressingMode7Bit, "\\_SB.PCI0.SMB0",
+    +           AddressingMode7Bit, "^",
+                0x00, ResourceProducer, , Exclusive,
+                )
+          })
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/acpi/ipmi.h |  2 +-
- hw/acpi/ipmi-stub.c    |  2 +-
- hw/acpi/ipmi.c         | 12 ++++++------
- hw/i386/acpi-build.c   |  4 ++--
- 4 files changed, 10 insertions(+), 10 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+ tests/data/acpi/q35/DSDT.ipmismbus          | Bin 8391 -> 8378 bytes
+ 2 files changed, 1 deletion(-)
 
-diff --git a/include/hw/acpi/ipmi.h b/include/hw/acpi/ipmi.h
-index c14ad682ac..c38483565c 100644
---- a/include/hw/acpi/ipmi.h
-+++ b/include/hw/acpi/ipmi.h
-@@ -16,6 +16,6 @@
-  * bus matches the given bus.  The resource is the ACPI resource that
-  * contains the IPMI device, this is required for the I2C CRS.
-  */
--void build_acpi_ipmi_devices(Aml *table, BusState *bus, const char *resource);
-+void build_acpi_ipmi_devices(Aml *table, BusState *bus);
- 
- #endif /* HW_ACPI_IPMI_H */
-diff --git a/hw/acpi/ipmi-stub.c b/hw/acpi/ipmi-stub.c
-index 8634fb325c..f525f71c2d 100644
---- a/hw/acpi/ipmi-stub.c
-+++ b/hw/acpi/ipmi-stub.c
-@@ -10,6 +10,6 @@
- #include "qemu/osdep.h"
- #include "hw/acpi/ipmi.h"
- 
--void build_acpi_ipmi_devices(Aml *table, BusState *bus, const char *resource)
-+void build_acpi_ipmi_devices(Aml *table, BusState *bus)
- {
- }
-diff --git a/hw/acpi/ipmi.c b/hw/acpi/ipmi.c
-index 96e48eba15..c30b44fcf5 100644
---- a/hw/acpi/ipmi.c
-+++ b/hw/acpi/ipmi.c
-@@ -13,7 +13,7 @@
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/ipmi.h"
- 
--static Aml *aml_ipmi_crs(IPMIFwInfo *info, const char *resource)
-+static Aml *aml_ipmi_crs(IPMIFwInfo *info)
- {
-     Aml *crs = aml_resource_template();
- 
-@@ -49,7 +49,7 @@ static Aml *aml_ipmi_crs(IPMIFwInfo *info, const char *resource)
-         break;
-     case IPMI_MEMSPACE_SMBUS:
-         aml_append(crs, aml_i2c_serial_bus_device(info->base_address,
--                                                  resource));
-+                                                  "^"));
-         break;
-     default:
-         abort();
-@@ -62,7 +62,7 @@ static Aml *aml_ipmi_crs(IPMIFwInfo *info, const char *resource)
-     return crs;
- }
- 
--static Aml *aml_ipmi_device(IPMIFwInfo *info, const char *resource)
-+static Aml *aml_ipmi_device(IPMIFwInfo *info)
- {
-     Aml *dev;
-     uint16_t version = ((info->ipmi_spec_major_revision << 8)
-@@ -75,14 +75,14 @@ static Aml *aml_ipmi_device(IPMIFwInfo *info, const char *resource)
-     aml_append(dev, aml_name_decl("_STR", aml_string("ipmi_%s",
-                                                      info->interface_name)));
-     aml_append(dev, aml_name_decl("_UID", aml_int(info->uuid)));
--    aml_append(dev, aml_name_decl("_CRS", aml_ipmi_crs(info, resource)));
-+    aml_append(dev, aml_name_decl("_CRS", aml_ipmi_crs(info)));
-     aml_append(dev, aml_name_decl("_IFT", aml_int(info->interface_type)));
-     aml_append(dev, aml_name_decl("_SRV", aml_int(version)));
- 
-     return dev;
- }
- 
--void build_acpi_ipmi_devices(Aml *scope, BusState *bus, const char *resource)
-+void build_acpi_ipmi_devices(Aml *scope, BusState *bus)
- {
- 
-     BusChild *kid;
-@@ -102,6 +102,6 @@ void build_acpi_ipmi_devices(Aml *scope, BusState *bus, const char *resource)
-         iic = IPMI_INTERFACE_GET_CLASS(obj);
-         memset(&info, 0, sizeof(info));
-         iic->get_fwinfo(ii, &info);
--        aml_append(scope, aml_ipmi_device(&info, resource));
-+        aml_append(scope, aml_ipmi_device(&info));
-     }
- }
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 1449832aa9..88506d563f 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -873,7 +873,7 @@ static void build_isa_devices_aml(Aml *table)
-     assert(obj && !ambiguous);
- 
-     scope = aml_scope("_SB.PCI0.ISA");
--    build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
-+    build_acpi_ipmi_devices(scope, BUS(obj));
-     isa_build_aml(ISA_BUS(obj), scope);
- 
-     aml_append(table, scope);
-@@ -1406,7 +1406,7 @@ static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
-     Aml *dev = aml_device("SMB0");
- 
-     aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
--    build_acpi_ipmi_devices(dev, BUS(smbus), "\\_SB.PCI0.SMB0");
-+    build_acpi_ipmi_devices(dev, BUS(smbus));
-     aml_append(scope, dev);
-     aml_append(table, scope);
- }
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index b4687d1cc8..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,2 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/q35/DSDT.ipmismbus",
+diff --git a/tests/data/acpi/q35/DSDT.ipmismbus b/tests/data/acpi/q35/DSDT.ipmismbus
+index 07ba873b79caadd73ed9721fcbeee84c57676e2a..415fe08a407690c0e118743d872de79d22f01a4c 100644
+GIT binary patch
+delta 85
+zcmX@^xXY2tCD<iomjVL=W93G!vyzG~?0WIRPVoWGo(9oP?rg!nP6izDjxIqw%nb4j
+k(M_(blYdBRi%D{c^$9XC0wGW%8^eM&5F>80n^Yqk0Lq6G-v9sr
+
+delta 98
+zcmdnxc-)c8CD<k8xB>$M<Nb|XXC)OKIrQR#o#F$WJq@CpT-bwsoeVhQ9bJNWm>J|5
+sqMMx9CjXGsR#xLu?vrC+1VW%jHiiXlAVv&OqaH}39!S?_OQ}XS01jdo-v9sr
+
 -- 
 2.31.1
 
