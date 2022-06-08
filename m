@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62D5542145
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 07:33:02 +0200 (CEST)
-Received: from localhost ([::1]:53984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9077F542151
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 07:39:56 +0200 (CEST)
+Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyoJS-0004kY-0Y
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 01:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
+	id 1nyoQ7-0000iv-LK
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 01:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyo6p-0006zg-Nf
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 01:19:59 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:34584)
+ id 1nyo6q-000725-Oy
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 01:20:00 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:55988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyo6n-00023x-5Y
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 01:19:59 -0400
-Received: by mail-pf1-x436.google.com with SMTP id c196so17413536pfb.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 22:19:56 -0700 (PDT)
+ id 1nyo6p-00024B-3U
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 01:20:00 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id e9so7052436pju.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 22:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qIoo0LzyvHSUbYXwQZj3nHuBOs19Duk2E4Vx8ekmqlk=;
- b=q6r5wPFTvsqXnIBveexZxvp4k6gm/9xxQXvVVoMje8uveB2lxPwPsG49B9BexbOwbe
- 4yjy4sOopC+2wb+JYmzrXXMbYTwc1odjZWsV1McE6X0OPyg/oLOSHd/9ug3jgCS+Rkvz
- Srtp+XCA/QbqDRML/R+diJO242a9/eRWwTv/EshsHDM8cdCfofvLyvpTzLUPW4X04Pn+
- E5rqktwNLSrAEOGdUmouiotxF5pC6BOxg5T9C20DbAkWMXeS8fIRkcM6TW9nKuTwXSBz
- 2XXdDvWi+9yPBt385RoXvxUX9OyQGU3N/sLX/WaWdh94Cv7pgSljWuCbNKy5EWAKHXXg
- gbQw==
+ bh=Lf36jiR6VUIV3UBN1JaIb1RW/v6kW3v6qxzzklReehI=;
+ b=fow0+1f9ayyYKmSkThePoL8Y3P73mC7rcuJXJkWsf7KoealjAQcaoBnEsTfq3PSJ55
+ 3QJQ4boEC2CS346e0vbpTbQx+gJmKGsmASXWMEQW887/AtShwPXIF6EBSjk75NUUC3cz
+ VZJLslrIgX+Fkqh9/77EFB29E8RXLrrLQZSH772463hfLxhRduXKhyvDtrIPCal1cbtl
+ 9QJU7BgZgYxL4RLOPmLq5YtnMnlu5vDMKuZn6BqT+nkkeAfLi2uFumMM4bceH7o97QqL
+ Q5Xd8RM8Um8Z9+3UEVjMtj84wYKEo9WjuKWl+Ijxu4+43zUwowOkfOCH+bSevGxCHD+N
+ VgZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qIoo0LzyvHSUbYXwQZj3nHuBOs19Duk2E4Vx8ekmqlk=;
- b=xTQpgEk8Sa42TrBYYnLO0CAIzcNFT1A7tmEBqzZRekEubCYrozSQV55Fk/3yvSX2PV
- Bg05LOZaE4FJxXQNNcZTUDOV6WWGRKfbUFjgjk2pryvXdiPr4JTYUWg3RL/ZA2AhrPa1
- EEcy4tZM/dMEEeO8QI6JH+sAYgdPgyBDns9VEpm1OL40xHWrCMJNvzBpDVa4/hRzIHlw
- FeE3L84gf7R0OcnhRGiVWhpxq1RUmpc5+7gPPYGFBlRkL+hrWUh4x+vQMbRxfoC2X3uV
- 39KbXKqpVwRFkLE3+A+822rAd7rGBPauyGZ580rXDNrGatLMvIxFpS95Ousn5X8Gf+Nl
- ETgg==
-X-Gm-Message-State: AOAM531P3dmokzNBBypVNIPGshOT61vBiO92xXV7X2bhLTP2/IkbhzYW
- bkIrJHywLFp5F4U/GOSq1MYauaX3DR48zQ==
-X-Google-Smtp-Source: ABdhPJzInboqWhAneSHUeg9CAylmFnAHeM0uqaLj35N62Y04XMwOg+0H24stJtE0fKRx25grKG0nUA==
-X-Received: by 2002:a63:210e:0:b0:3fd:9c07:7670 with SMTP id
- h14-20020a63210e000000b003fd9c077670mr14256096pgh.222.1654665595764; 
- Tue, 07 Jun 2022 22:19:55 -0700 (PDT)
+ bh=Lf36jiR6VUIV3UBN1JaIb1RW/v6kW3v6qxzzklReehI=;
+ b=qUvo5T0BS6gsBxF1sah5BHQPznkFq/UKSfhOn12oQvM34c/iqZ8i9KW7qnYw0/bgrp
+ FwdAv6wrCdV5Wx/7SIvekiGrdjrW9r8euhWRv6/Wzf+NEn/jsQ4uO8uCVoBQ9sRTO3QK
+ ohFW94utZKzED4FO5ru4to7EjHXsjQwn/6d8f1I/IMzi8+/IMLl8lvY8W/z1VtzCu2sO
+ MX1J+jItjcv22rzfU0LK/jA5PmOU1PodNi49BszacsR/hEYXl7aByOl/9m2caXp+Uqeu
+ C2q+/OV3N+7CiE7uMRmlumz4/ccG2v0JnYJ9O7qjcxLv+L78gGaIDUuBLYPkDQa0iaNI
+ 48Hw==
+X-Gm-Message-State: AOAM533n32+r8keN9Mdw2rzSFpCwA8o0sIZw7u/Kr6H9txmDsdQDoc1C
+ Y9eGwR/DXNvcX7nybrygx0sHpCVOuHwAoQ==
+X-Google-Smtp-Source: ABdhPJxrme25t6It1RukM4lJiiAR1rGBOtvAOmzPYgP0rJ3btIuqPFEQAGrLAYs6XtOKA5q0QKRGIw==
+X-Received: by 2002:a17:902:d4cf:b0:167:735a:e7a1 with SMTP id
+ o15-20020a170902d4cf00b00167735ae7a1mr16233082plg.161.1654665596774; 
+ Tue, 07 Jun 2022 22:19:56 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:c626:2f70:ac99:7c97])
  by smtp.gmail.com with ESMTPSA id
- k8-20020a170902d58800b001641244d051sm13378807plh.257.2022.06.07.22.19.54
+ k8-20020a170902d58800b001641244d051sm13378807plh.257.2022.06.07.22.19.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 22:19:55 -0700 (PDT)
+ Tue, 07 Jun 2022 22:19:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org
-Subject: [PATCH v4 10/11] target/mips: Simplify UHI_argnlen and UHI_argn
-Date: Tue,  7 Jun 2022 22:19:44 -0700
-Message-Id: <20220608051945.802339-11-richard.henderson@linaro.org>
+Subject: [PATCH v4 11/11] target/mips: Remove GET_TARGET_STRING and
+ FREE_TARGET_STRING
+Date: Tue,  7 Jun 2022 22:19:45 -0700
+Message-Id: <20220608051945.802339-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220608051945.802339-1-richard.henderson@linaro.org>
 References: <20220608051945.802339-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,81 +89,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With semihosting_get_arg, we already have a check vs argc, so
-there's no point replicating it -- just check the result vs NULL.
-Merge copy_argn_to_target into its caller.
+Inline these macros into the only two callers.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/sysemu/mips-semi.c | 44 ++++++++++++++----------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ target/mips/tcg/sysemu/mips-semi.c | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
 
 diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
-index ae4b8849b1..b54267681e 100644
+index b54267681e..5fb1ad9092 100644
 --- a/target/mips/tcg/sysemu/mips-semi.c
 +++ b/target/mips/tcg/sysemu/mips-semi.c
-@@ -198,21 +198,6 @@ static void uhi_fstat_cb(CPUState *cs, uint64_t ret, int err)
+@@ -198,19 +198,6 @@ static void uhi_fstat_cb(CPUState *cs, uint64_t ret, int err)
      uhi_cb(cs, ret, err);
  }
  
--static int copy_argn_to_target(CPUMIPSState *env, int arg_num,
--                               target_ulong vaddr)
--{
--    int strsize = strlen(semihosting_get_arg(arg_num)) + 1;
--    char *dst = lock_user(VERIFY_WRITE, vaddr, strsize, 0);
--    if (!dst) {
--        report_fault(env);
--    }
+-#define GET_TARGET_STRING(p, addr)              \
+-    do {                                        \
+-        p = lock_user_string(addr);             \
+-        if (!p) {                               \
+-            report_fault(env);                  \
+-        }                                       \
+-    } while (0)
 -
--    strcpy(dst, semihosting_get_arg(arg_num));
+-#define FREE_TARGET_STRING(p, gpr)              \
+-    do {                                        \
+-        unlock_user(p, gpr, 0);                 \
+-    } while (0)
 -
--    unlock_user(dst, vaddr, strsize);
--    return 0;
--}
--
- #define GET_TARGET_STRING(p, addr)              \
-     do {                                        \
-         p = lock_user_string(addr);             \
-@@ -285,18 +270,31 @@ void mips_semihosting(CPUMIPSState *env)
-         gpr[2] = semihosting_get_argc();
-         break;
-     case UHI_argnlen:
--        if (gpr[4] >= semihosting_get_argc()) {
--            gpr[2] = -1;
--            return;
-+        {
-+            const char *s = semihosting_get_arg(gpr[4]);
-+            gpr[2] = s ? strlen(s) : -1;
-         }
--        gpr[2] = strlen(semihosting_get_arg(gpr[4]));
-         break;
-     case UHI_argn:
--        if (gpr[4] >= semihosting_get_argc()) {
--            gpr[2] = -1;
--            return;
-+        {
-+            const char *s = semihosting_get_arg(gpr[4]);
-+            target_ulong addr;
-+            size_t len;
-+
-+            if (!s) {
-+                gpr[2] = -1;
-+                break;
-+            }
-+            len = strlen(s) + 1;
-+            addr = gpr[5];
-+            p = lock_user(VERIFY_WRITE, addr, len, 0);
+ void mips_semihosting(CPUMIPSState *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -225,9 +212,13 @@ void mips_semihosting(CPUMIPSState *env)
+ 
+     case UHI_open:
+         {
++            target_ulong fname = gpr[4];
+             int ret = -1;
+ 
+-            GET_TARGET_STRING(p, gpr[4]);
++            p = lock_user_string(fname);
 +            if (!p) {
 +                report_fault(env);
 +            }
-+            memcpy(p, s, len);
-+            unlock_user(p, addr, len);
-+            gpr[2] = 0;
+             if (!strcmp("/dev/stdin", p)) {
+                 ret = 0;
+             } else if (!strcmp("/dev/stdout", p)) {
+@@ -235,7 +226,7 @@ void mips_semihosting(CPUMIPSState *env)
+             } else if (!strcmp("/dev/stderr", p)) {
+                 ret = 2;
+             }
+-            FREE_TARGET_STRING(p, gpr[4]);
++            unlock_user(p, fname, 0);
+ 
+             /* FIXME: reusing a guest fd doesn't seem correct. */
+             if (ret >= 0) {
+@@ -243,7 +234,7 @@ void mips_semihosting(CPUMIPSState *env)
+                 break;
+             }
+ 
+-            semihost_sys_open(cs, uhi_cb, gpr[4], 0, gpr[5], gpr[6]);
++            semihost_sys_open(cs, uhi_cb, fname, 0, gpr[5], gpr[6]);
          }
--        gpr[2] = copy_argn_to_target(env, gpr[4], gpr[5]);
          break;
  
-     case UHI_plog:
+@@ -314,14 +305,14 @@ void mips_semihosting(CPUMIPSState *env)
+ 
+             pct_d = strstr(p, "%d");
+             if (!pct_d) {
+-                FREE_TARGET_STRING(p, addr);
++                unlock_user(p, addr, 0);
+                 semihost_sys_write(cs, uhi_cb, 2, addr, len);
+                 break;
+             }
+ 
+             str = g_string_new_len(p, pct_d - p);
+             g_string_append_printf(str, "%d%s", (int)gpr[5], pct_d + 2);
+-            FREE_TARGET_STRING(p, addr);
++            unlock_user(p, addr, 0);
+ 
+             /*
+              * When we're using gdb, we need a guest address, so
 -- 
 2.34.1
 
