@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8450A543DA1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 22:38:14 +0200 (CEST)
-Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85770543DCC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 22:50:45 +0200 (CEST)
+Received: from localhost ([::1]:44266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz2RR-0002CV-3T
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 16:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50342)
+	id 1nz2dY-00081Y-1n
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 16:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nz2Po-0000L6-Km
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:36:32 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:40643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nz2Pn-0000M2-4D
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:36:32 -0400
-Received: by mail-pf1-x429.google.com with SMTP id z17so19316521pff.7
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 13:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:references:in-reply-to:content-transfer-encoding;
- bh=kzioIfEAq+h4MU3hIWFLmIACptZ6QuXuyYqa0BMKlEY=;
- b=NYkDsXNG39ZpmwIaA65B/FmSME1m9/3KChuoUb4jrBhs5ebJ2f029NwrW0lz7ZPu+2
- ySyLET4/AGdOVGK25kq+lPtUj8o2t/uOTVntqETTfAtlJN3MGZW0R+5sS8EmMAsY91q1
- q+11jlfOszysy9NhPj+tU4j6EsiFmXTI+3404foLgQdYcyr4IjjHdVhKhJyTFMoaQPF5
- A4PCT2FnnxwHQN6so8vmjnXP2V39BjxfIzeKctMKWXjvjx4yLBShaM8WyyMjtFj/WNlJ
- 2739BH6solAjYTQr+jprQ/7upWlhVOxisWOKluUvv5/DlDDcQbIrMrG0z3XdFX1tIGv4
- Zrng==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nz2bm-0007C0-GQ
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:48:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nz2bj-0001tY-6s
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:48:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654721330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VoykUVyassFujcqErgh6J1fUij4lLHn00ERUIzuvA3Y=;
+ b=EC84RYF8QZGMSXlVgCh0vziJrqG9ZWBEVkMGtqBIk5eCHMBClvoS4vKkqZ2yUCbQB2mEZs
+ AmPKqYu7EMTHBE1eMBuZLdMOUEuO3bwi2h+OHVvYVMCnBbBALVUHWCu86sbomClOQIoxKT
+ pt+osxRvvytHBkOMNa+bXxswVQv/nZI=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-151-92r2lDgXNwa0GFCg9YO0TA-1; Wed, 08 Jun 2022 16:48:48 -0400
+X-MC-Unique: 92r2lDgXNwa0GFCg9YO0TA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ k7-20020a1709062a4700b006fe92440164so9990489eje.23
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 13:48:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:references:in-reply-to
- :content-transfer-encoding;
- bh=kzioIfEAq+h4MU3hIWFLmIACptZ6QuXuyYqa0BMKlEY=;
- b=Rzig+DDWZDx/1y2UezAagfIKNL9APHjlgyOFwP7ZswjRr+tuFHnARPxSsyan3D9pNG
- VJQij6N/iWK14iXETkte4qbXiEYfVyoGUG3fVHlILkid/ExGwdTbTxhIo2RWQ4K9nf5i
- qq7MprODlp9l9ZQzqwOUMr8GTENyTrV2a4U1ijBzVowbzA/E5wgOBQGpqmP2DCeL+70i
- SUBEgpxVQDyxjmUHqQBQE2w8tzRbwdsQkSL2HBzHiNSPNMdDb3gVlM2krfhMxUUz5w4O
- GcHwp555sU2nle3rJvbZ+52NjQ0K+MRzVtH+XD/ID9qxoWdSezD0ws8FklHlFdFIELDX
- pUaQ==
-X-Gm-Message-State: AOAM53149AefTssRK3sjyCSfQa0i/SQljETGfs8JuQuEjEM5NTVkvaeJ
- JCLPD6yluDwZIZJGM2/HQ1Ffpw==
-X-Google-Smtp-Source: ABdhPJzAAopIIRNRbGrdoMbRDsPKoGYfnEbXsq8laYBJZFkc+Y5HKMWqbbvRRkQ5xAbeZVpTUc64JA==
-X-Received: by 2002:a63:3184:0:b0:3fc:5893:c866 with SMTP id
- x126-20020a633184000000b003fc5893c866mr31826000pgx.56.1654720588381; 
- Wed, 08 Jun 2022 13:36:28 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:4c43:7957:a690:ed36?
- ([2602:ae:1547:e101:4c43:7957:a690:ed36])
- by smtp.gmail.com with ESMTPSA id
- h7-20020aa786c7000000b0051bf246ca2bsm9786756pfo.100.2022.06.08.13.36.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 13:36:27 -0700 (PDT)
-Message-ID: <17af101c-d8e4-0335-41d8-e54ae67e13a3@linaro.org>
-Date: Wed, 8 Jun 2022 13:36:25 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VoykUVyassFujcqErgh6J1fUij4lLHn00ERUIzuvA3Y=;
+ b=M4/gxPX5j0gQlpUUjDNCYZeI5zCf58W0zi+kCloTbuT4mLJm7VNTaPVaBJrLtEK5+p
+ fqbItY1RsGYgRo+oqy0A8aozp6jKhKwQG2S+3oq1lGmxruUIHuV+kh/KiZnctLqIISm1
+ G117sxme9aKljPtKfdDu6H++IT1F2ctDiAlZpbvlUy7vyhC0HcNutrJyMCoiN2eLeAC1
+ gBN/QSQHEcJk247xYq08hLSSj8aHrs8630TYYXs/w23gw7ndhxp3t4YnREXnqhw31e6R
+ 1ORtedMgXM6LtaT0h4WPXimBQzkPwC3qfzFk0o248oXy+SCkpiPXNkeG1RAvvSS1Xgfj
+ rdOw==
+X-Gm-Message-State: AOAM530UNrzAmfSB9BqnPCEvwyisvdUX6t5JGbQOqzXLQQs6RKgmNiEn
+ B/iiRC93W7T11G6DcYfQaipIaHiNBfCvFD42TsU9gi0TjGfN5bR1uTckPWgc/49fHgTBWlVDeeS
+ 2Gy0bjfN6dT83kba/jzvYJvRfANyDWSM=
+X-Received: by 2002:aa7:d895:0:b0:42e:985:40f7 with SMTP id
+ u21-20020aa7d895000000b0042e098540f7mr40803111edq.351.1654721327703; 
+ Wed, 08 Jun 2022 13:48:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxBaeDXjBK6Vv+DfknDPJQH3+wi6GvtTik1ez+F3leAnmXkqgZ5B5rW/hGPlEU0TwuhRykTm1hMxo5z1qkErj0=
+X-Received: by 2002:aa7:d895:0:b0:42e:985:40f7 with SMTP id
+ u21-20020aa7d895000000b0042e098540f7mr40803094edq.351.1654721327430; Wed, 08
+ Jun 2022 13:48:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v4 0/3] target/m68k: semihosting cleanup
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20220607222616.717435-1-richard.henderson@linaro.org>
- <56b31126-41c5-e7b6-5b32-2b64ba1cce67@vivier.eu>
- <8f833280-b1bb-d4f4-6603-5be44ee8e9b7@linaro.org>
- <09f9a931-6873-bd98-74ed-e1d17318d76e@vivier.eu>
- <9c42516d-a238-a1d6-3f01-aaa8fc018eda@linaro.org>
-In-Reply-To: <9c42516d-a238-a1d6-3f01-aaa8fc018eda@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220608181808.79364-1-leobras@redhat.com>
+ <YqDuk+ZCwMdXRXBH@redhat.com>
+In-Reply-To: <YqDuk+ZCwMdXRXBH@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Wed, 8 Jun 2022 17:48:36 -0300
+Message-ID: <CAJ6HWG5Cb934xeDkkAx8wQG3vp4wz9gcCSjiPU=McfxpfzZzFw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] QIOChannelSocket: Fix zero-copy send so socket
+ flush works
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>, 
+ =?UTF-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>, 
+ David Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,16 +97,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/22 12:05, Richard Henderson wrote:
->> But what is the use case of semihosting on m68k?
->> Is there a kernel implementation available for that?
-> 
-> Not that I'm aware of.  Do you want to remove it entirely instead?
-> Leaving it as-is should not be an option...
+Hello Daniel,
 
-Oh, duh.  The "kernel" implementation is libgloss itself.
-The use-case is running the gcc testsuite for coldfire under qemu.
+On Wed, Jun 8, 2022 at 3:46 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Wed, Jun 08, 2022 at 03:18:09PM -0300, Leonardo Bras wrote:
+> > Somewhere between v6 and v7 the of the zero-copy-send patchset a crucia=
+l
+> > part of the flushing mechanism got missing: incrementing zero_copy_queu=
+ed.
+> >
+> > Without that, the flushing interface becomes a no-op, and there is no
+> > garantee the buffer is really sent.
+> >
+> > This can go as bad as causing a corruption in RAM during migration.
+> >
+> > Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy f=
+lag & io_flush for CONFIG_LINUX")
+> > Reported-by: =E5=BE=90=E9=97=AF <xuchuangxclwt@bytedance.com>
+> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > ---
+> >  io/channel-socket.c | 11 ++++++++---
+> >  1 file changed, 8 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/io/channel-socket.c b/io/channel-socket.c
+> > index dc9c165de1..ca4cae930f 100644
+> > --- a/io/channel-socket.c
+> > +++ b/io/channel-socket.c
+> > @@ -554,6 +554,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel=
+ *ioc,
+> >      size_t fdsize =3D sizeof(int) * nfds;
+> >      struct cmsghdr *cmsg;
+> >      int sflags =3D 0;
+> > +    bool zero_copy_enabled =3D false;
+> >
+> >      memset(control, 0, CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS));
+> >
+> > @@ -581,6 +582,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel=
+ *ioc,
+> >  #ifdef QEMU_MSG_ZEROCOPY
+> >      if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+> >          sflags =3D MSG_ZEROCOPY;
+> > +        zero_copy_enabled =3D true;
+> >      }
+> >  #endif
+> >
+> > @@ -592,21 +594,24 @@ static ssize_t qio_channel_socket_writev(QIOChann=
+el *ioc,
+> >              return QIO_CHANNEL_ERR_BLOCK;
+> >          case EINTR:
+> >              goto retry;
+> > -#ifdef QEMU_MSG_ZEROCOPY
+>
+> Removing this ifdef appears incidental to the change. If this is
+> redundant just remove it in its own patch.
 
+The idea is to reduce the amount of #ifdefs as Peter suggested,
+because adding another ifdef here
+would introduce extra noise. But sure, I see no problem adding this
+change as a previous patch.
 
-r~
+>
+> >          case ENOBUFS:
+> > -            if (sflags & MSG_ZEROCOPY) {
+> > +            if (zero_copy_enabled) {
+> >                  error_setg_errno(errp, errno,
+> >                                   "Process can't lock enough memory for=
+ using MSG_ZEROCOPY");
+> >                  return -1;
+> >              }
+> >              break;
+> > -#endif
+> >          }
+> >
+> >          error_setg_errno(errp, errno,
+> >                           "Unable to write to socket");
+> >          return -1;
+> >      }
+> > +
+> > +    if (zero_copy_enabled) {
+>
+> What's wrong with
+>
+>    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+>         sioc->zero_copy_queued++;
+>     }
+
+There is nothing wrong with it, but using zero_copy_enabled as
+presented here will
+compile-out this 'if()'  block if the user does not support MSG_ZEROCOPY.
+
+Best regards,
+Leo
+
+>
+>
+> Introducing another local variable doesn't really add value IMHO.
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
+
 
