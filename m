@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07AF45421C0
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 08:44:43 +0200 (CEST)
-Received: from localhost ([::1]:57496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A0E542694
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 08:57:50 +0200 (CEST)
+Received: from localhost ([::1]:41040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nypQn-0006CF-EY
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 02:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43942)
+	id 1nypdV-0007C7-CR
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 02:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nypNT-0004eC-SF; Wed, 08 Jun 2022 02:41:15 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:37749)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1nypUp-00018k-Tf
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 02:48:52 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:38540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nypNS-0005Z8-5y; Wed, 08 Jun 2022 02:41:15 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id r1so6301296ybd.4;
- Tue, 07 Jun 2022 23:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p6UqpizbMJnCkLf1rENQfBvFUibWj7ooX7crD6BqjZ4=;
- b=oY+jdufyznvYTirik0w0Fytjzui9MFGo7yWbafd+ReHnlZJ1zAf8HwxUVKFFlXyp7u
- 8mc6e5o8h8y8Zn7WuvVjeulD1A8uMF4vA5Dl/1fqbcwXbaIrqYKvr4RdK/drxMyY27E7
- qbRM3avINUptWPNkPfn8vm4weWO+h1yAPQp9ZJVRkS6mRAcgMcwXrj5Si3qYdKt+lfg0
- 2IIBqYA4cDrsOcB0R1soM5TDxczyQsYqB7yi7q7kEUreEMsr/L1cKbCBrpPlJPLT8kHY
- UT4IZwCysdy+Xw1ooWdET59NzC92djNPHEOaq2hQbDNG5Qk6K64gJZ4Kdtu3TDbMUwEP
- giXw==
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1nypUl-0006iR-79
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 02:48:49 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id e11so17542410pfj.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 23:48:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:to:cc:references
+ :from:in-reply-to:content-transfer-encoding;
+ bh=itOe94WIOKW5X8AnnTxqCuhqO0DkqS27nUmaeLZxTn8=;
+ b=HWttiNmd5hB1tMNFS59F1s2naJt2WRCvQ/hwyEtXavanMCTI9YBnLtr6iZc08RIECv
+ qfawZcfmoFqH6WxgMWvQuh2EWkRMRzHd75slvNw3BEVsA0lv516r+pIqdIpdeUTa/0uA
+ 3QeHYlAVAjsQKVJRw4FFf5D0GKvJ4/ohj4TSiDeTxoNvZClEkopn59lwtc0t7XlinGut
+ p2qKLjA15oOyR6eH3/e0nqrF4oCmsd4ffBGaWhXl97md0qyKo/UNsUhaP/COX42qhdCe
+ WQTup4REWDBeq7NwueFQg7eGitvwzT/3LkYYDmwBG1QeJORFCt6uNw+9mfIWm6VT4Bhy
+ kOZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=p6UqpizbMJnCkLf1rENQfBvFUibWj7ooX7crD6BqjZ4=;
- b=6MSyv0Wrix1CkqpbP9gGPM1uveMKBWEFZz3tzNEYVdzIgxW2shoacoSJkWskd6eSk7
- tVbiKgO0DD/4zdrDZ0NOXSQcyFh370gtV1zW1vsJtN1IuYT5O6qGO8zPTceZgQKlv15F
- P+SfRqkgCV9lNeywf8jDPUB0wqpmrk9Qf6gUUd9L8WVOWwVuhRaz7SkvKobjWoCIjAWF
- nZyw47qzZ40B6GwFBYC8GYX+Ra1JWtw7AVeTJ6VaMSFgLm2y9U7Gujlpzl8Fu7V3A50o
- 9MZw+YIxhP5/omVjW3TUIa9K7Y4lHdNuOTWq5oO8ACE1PNT1yE2BSqbzKXtAMRrwW8/S
- Y9pw==
-X-Gm-Message-State: AOAM532luptSghTJQ3mGvxTSXdbqYsiqqAMDQGmurKUjXGTeCQJ8/QDD
- z6fULIRQbprK9tLNPjZ1GVjM9wKoMrViGVbULpU=
-X-Google-Smtp-Source: ABdhPJyV0eWtnEAlcn3QeGk6N6bCQW+RfF7oRmk1HdqG1zYnUW02DTSXF7pC57Z8nnA6DyoUj9gAXhiMDFPGj0F4+Mg=
-X-Received: by 2002:a25:ba46:0:b0:64f:e0f5:11b3 with SMTP id
- z6-20020a25ba46000000b0064fe0f511b3mr33126404ybj.643.1654670472909; Tue, 07
- Jun 2022 23:41:12 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :to:cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=itOe94WIOKW5X8AnnTxqCuhqO0DkqS27nUmaeLZxTn8=;
+ b=PR2KrBxI+hCi36AIloC1Gv5pLMjTiCRJEiuUOZF67fBfFStjRFlHKu7MT5hpV/hTAs
+ sx3NEOS32QmxIa6JZ3A1ERSWl+GcvrwqfeigRBXlrHgLY7LWdO0AD2Y/yzsZUxUMMjtJ
+ L7IFuNJOO7NS+PVYtpw7/qFJxD77sbHpfRR6arNTno+li563HkzSdMcn8uelje0a2aJ5
+ TY3XFs1TrsjB1LrI6/X0kKlykd1qKx4nj1pml1sDh/IRvpx3+myC83cU3IMPGuxtpT5h
+ BC1zemBxRi89m0VWxfHceenOZP3VTvEmtsqoaMEPMdNbEzykoJyWnt0bukBsyntz6Ee2
+ igGQ==
+X-Gm-Message-State: AOAM533RXyUMy83kN2CUMKUjCafvEhb4yG5/xeb3MH4IjaAmtn9y+SrS
+ Ayc2DrG/SGn1LeouFbcinO31Yw==
+X-Google-Smtp-Source: ABdhPJxOYIW6p7zvbei1BJx2UHduK+w0YsXdbqIrdKkVYwt/5FOUs8SUsojVC953yAodQcvoycbKGA==
+X-Received: by 2002:a05:6a00:14c1:b0:51b:eed4:c571 with SMTP id
+ w1-20020a056a0014c100b0051beed4c571mr22972212pfu.72.1654670924778; 
+ Tue, 07 Jun 2022 23:48:44 -0700 (PDT)
+Received: from [10.94.53.13] ([139.177.225.233])
+ by smtp.gmail.com with ESMTPSA id
+ t4-20020a1709027fc400b0015e8d4eb28esm13794623plb.216.2022.06.07.23.48.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 23:48:44 -0700 (PDT)
+Message-ID: <8eb53a3f-79ee-cf64-96b8-96719082b826@bytedance.com>
+Date: Wed, 8 Jun 2022 14:48:36 +0800
 MIME-Version: 1.0
-References: <20220608062015.317894-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220608062015.317894-1-alistair.francis@opensource.wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 8 Jun 2022 14:41:01 +0800
-Message-ID: <CAEUhbmXukS+zH=pjiF9NQWBkYguGCDiDAjOOjeZteOzR6xWK=Q@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: boot: Reduce FDT address alignment constraints
-To: Alistair Francis <alistair.francis@opensource.wdc.com>,
- Atish Patra <atishp@rivosinc.com>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [External] [PATCH v13 3/8] QIOChannelSocket: Implement io_writev
+ zero copy flag & io_flush for CONFIG_LINUX
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ lizefan.x@bytedance.com, zhouyibo@bytedance.com
+References: <20220513062836.965425-1-leobras@redhat.com>
+ <20220513062836.965425-4-leobras@redhat.com>
+ <b2fae41c-7f47-9bf1-21b9-1b123818a262@bytedance.com>
+ <CAJ6HWG447LyNpwwZJ_bYsT=MzY9K3mDwJ_Bh6EnGs0Cr7NJvYQ@mail.gmail.com>
+From: chuang xu <xuchuangxclwt@bytedance.com>
+In-Reply-To: <CAJ6HWG447LyNpwwZJ_bYsT=MzY9K3mDwJ_Bh6EnGs0Cr7NJvYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,44 +106,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Atish
 
-On Wed, Jun 8, 2022 at 2:20 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> We previously stored the device tree at a 16MB alignment from the end of
-> memory (or 3GB). This means we need at least 16MB of memory to be able
-> to do this. We don't actually need the FDT to be 16MB aligned, so let's
-> drop it down to 2MB so that we can support systems with less memory,
-> while also allowing FDT size expansion.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/992
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/boot.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 57a41df8e9..e476d8f491 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -226,11 +226,11 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
->      /*
->       * We should put fdt as far as possible to avoid kernel/initrd overwriting
->       * its content. But it should be addressable by 32 bit system as well.
-> -     * Thus, put it at an 16MB aligned address that less than fdt size from the
-> +     * Thus, put it at an 2MB aligned address that less than fdt size from the
->       * end of dram or 3GB whichever is lesser.
->       */
->      temp = (dram_base < 3072 * MiB) ? MIN(dram_end, 3072 * MiB) : dram_end;
-> -    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
-> +    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
->
+On 2022/6/8 下午1:24, Leonardo Bras Soares Passos wrote:
+> I will send a fix shortly.
+> Is that ok if I include a "Reported-by:  徐闯
+> <xuchuangxclwt@bytedance.com>" in the patch?
 
-@Atish Patra  may have some pointers about the 16MiB alignment requirement.
+okay.
 
-Regards,
-Bin
+Best Regards,
+
+chuang xu
+
 
