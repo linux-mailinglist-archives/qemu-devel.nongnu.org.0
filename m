@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D585431FC
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 15:56:10 +0200 (CEST)
-Received: from localhost ([::1]:47012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26BE543218
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:01:46 +0200 (CEST)
+Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywAK-0003cU-HJ
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 09:56:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
+	id 1nywFl-0001X7-Pm
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:01:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw84-0000ts-J3
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40697)
+ id 1nyw86-0000uJ-EJ
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw81-0004Iy-Pf
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:47 -0400
+ id 1nyw84-0004JI-7V
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696424;
+ s=mimecast20190719; t=1654696427;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lw7AypASA3yNSoKszlk1I0+29Y2t8m8PXqRjBxO88dk=;
- b=Usjd1viDUuhnP0PumSwUP+HeN7VzWSyLl90E30jOHVpvOnQzsl0tdlcnisfnQ72ndWa+qS
- HXM1vrAITO8KHu6H96cwXtWw2pdSs8H8IPuNLZWWJKeP1t56uw+xG4dXNw9xrev9VKabnd
- 6ucc2hlLfxEEdpfdMtBYYwGcAFt7R8k=
+ bh=AtunewxEEVm8Yh4wp9lNGuDIfKIaHkkqybPsYObKd4A=;
+ b=F1Z7vN2/XnyoBcpupUgiPSwE4GEdyd0Uv3sC8zbpc4kFmJ5fPVba058a+rVaTWJG1r7iEG
+ N/kFXgDtbT1K5KW31wWOvlvLURVwt5bPilz3WFIhkJxRRFkzB3/j90/H306PSHFL1WXP6R
+ fCGLRn05w7I8GNAKI4PlIaJOz5o6FeQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-uC_DKfssMeuCesG0WH67FQ-1; Wed, 08 Jun 2022 09:53:43 -0400
-X-MC-Unique: uC_DKfssMeuCesG0WH67FQ-1
+ us-mta-315-rGZ8qXhuP0OSgEKWK8cDgA-1; Wed, 08 Jun 2022 09:53:44 -0400
+X-MC-Unique: rGZ8qXhuP0OSgEKWK8cDgA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3042B1C0512F
- for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:53:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 230C4380451B;
+ Wed,  8 Jun 2022 13:53:44 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CEE3C27E97;
- Wed,  8 Jun 2022 13:53:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66A4BC27E97;
+ Wed,  8 Jun 2022 13:53:43 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: mst@redhat.com,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 01/35] acpi: add interface to build device specific AML
-Date: Wed,  8 Jun 2022 09:53:06 -0400
-Message-Id: <20220608135340.3304695-2-imammedo@redhat.com>
+Cc: mst@redhat.com, Ani Sinha <ani@anisinha.ca>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 02/35] acpi: make isa_build_aml() support AcpiDevAmlIf
+ interface
+Date: Wed,  8 Jun 2022 09:53:07 -0400
+Message-Id: <20220608135340.3304695-3-imammedo@redhat.com>
 In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
 References: <20220608135340.3304695-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,110 +82,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is already ISADeviceClass::build_aml() callback which
-builds device specific AML blob for some ISA devices.
-To extend the same idea to other devices, add TYPE_ACPI_DEV_AML_IF
-Interface that will provide a more generic callback which
-will be used not only for ISA but other devices. It will
-allow get rid of some data-mining and ad-hoc AML building,
-by asking device(s) to generate its own AML blob like it's
-done for ISA devices.
+To allow incremental conversion from ISADeviceClass::build_aml
+to AcpiDevAmlIf, add support for the later without removing
+the former. Once conversion is complete, another commit will
+drop ISADeviceClass::build_aml related code.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/acpi/acpi_aml_interface.h | 40 ++++++++++++++++++++++++++++
- hw/acpi/acpi_interface.c             |  8 ++++++
- hw/acpi/meson.build                  |  2 +-
- 3 files changed, 49 insertions(+), 1 deletion(-)
- create mode 100644 include/hw/acpi/acpi_aml_interface.h
+ hw/isa/isa-bus.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
-new file mode 100644
-index 0000000000..ab76f0e55d
---- /dev/null
-+++ b/include/hw/acpi/acpi_aml_interface.h
-@@ -0,0 +1,40 @@
-+#ifndef ACPI_AML_INTERFACE_H
-+#define ACPI_AML_INTERFACE_H
-+
-+#include "qom/object.h"
-+#include "hw/acpi/aml-build.h"
-+
-+#define TYPE_ACPI_DEV_AML_IF "acpi-dev-aml-interface"
-+typedef struct AcpiDevAmlIfClass AcpiDevAmlIfClass;
-+DECLARE_CLASS_CHECKERS(AcpiDevAmlIfClass, ACPI_DEV_AML_IF, TYPE_ACPI_DEV_AML_IF)
-+#define ACPI_DEV_AML_IF(obj) \
-+     INTERFACE_CHECK(AcpiDevAmlIf, (obj), TYPE_ACPI_DEV_AML_IF)
-+
-+typedef struct AcpiDevAmlIf AcpiDevAmlIf;
-+typedef void (*dev_aml_fn)(AcpiDevAmlIf *adev, Aml *scope);
-+
-+/**
-+ * AcpiDevAmlIfClass:
-+ *
-+ * build_dev_aml: adds device specific AML blob to provided scope
-+ *
-+ * Interface is designed for providing generic callback that builds device
-+ * specific AML blob.
-+ */
-+struct AcpiDevAmlIfClass {
-+    /* <private> */
-+    InterfaceClass parent_class;
-+
-+    /* <public> */
-+    dev_aml_fn build_dev_aml;
-+};
-+
-+static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
-+{
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_ACPI_DEV_AML_IF)) {
-+        AcpiDevAmlIfClass *klass = ACPI_DEV_AML_IF_GET_CLASS(dev);
-+        klass->build_dev_aml(ACPI_DEV_AML_IF(dev), scope);
-+    }
-+}
-+
-+#endif
-diff --git a/hw/acpi/acpi_interface.c b/hw/acpi/acpi_interface.c
-index 6583917b8e..c668d361f6 100644
---- a/hw/acpi/acpi_interface.c
-+++ b/hw/acpi/acpi_interface.c
-@@ -1,5 +1,6 @@
- #include "qemu/osdep.h"
- #include "hw/acpi/acpi_dev_interface.h"
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index cd5ad3687d..237e2cee12 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -24,6 +24,7 @@
+ #include "hw/sysbus.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/isa/isa.h"
 +#include "hw/acpi/acpi_aml_interface.h"
- #include "qemu/module.h"
  
- void acpi_send_event(DeviceState *dev, AcpiEventStatusBits event)
-@@ -18,8 +19,15 @@ static void register_types(void)
-         .parent        = TYPE_INTERFACE,
-         .class_size = sizeof(AcpiDeviceIfClass),
-     };
-+    static const TypeInfo acpi_dev_aml_if_info = {
-+        .name          = TYPE_ACPI_DEV_AML_IF,
-+        .parent        = TYPE_INTERFACE,
-+        .class_size = sizeof(AcpiDevAmlIfClass),
-+    };
-+
+ static ISABus *isabus;
  
-     type_register_static(&acpi_dev_if_info);
-+    type_register_static(&acpi_dev_aml_if_info);
+@@ -196,8 +197,12 @@ void isa_build_aml(ISABus *bus, Aml *scope)
+     QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
+         dev = ISA_DEVICE(kid->child);
+         dc = ISA_DEVICE_GET_CLASS(dev);
++        bool has_build_dev_aml = !!object_dynamic_cast(OBJECT(dev),
++                                                       TYPE_ACPI_DEV_AML_IF);
+         if (dc->build_aml) {
+             dc->build_aml(dev, scope);
++        } else if (has_build_dev_aml) {
++            call_dev_aml_func(DEVICE(dev), scope);
+         }
+     }
  }
- 
- type_init(register_types)
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-index cea2f5f93a..f8c820ca94 100644
---- a/hw/acpi/meson.build
-+++ b/hw/acpi/meson.build
-@@ -29,7 +29,7 @@ acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
- if have_tpm
-   acpi_ss.add(files('tpm.c'))
- endif
--softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c', 'acpi_interface.c'))
- softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
-                                                   'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c',
 -- 
 2.31.1
 
