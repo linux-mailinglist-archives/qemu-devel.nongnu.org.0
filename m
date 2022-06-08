@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D1B543DFD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 22:57:34 +0200 (CEST)
-Received: from localhost ([::1]:49104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6524543E19
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 23:02:55 +0200 (CEST)
+Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz2k9-000462-CY
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 16:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53626)
+	id 1nz2pK-0000vp-C4
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 17:02:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nz2iH-0001pq-Aw
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:55:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60930)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nz2nm-0000D8-7Y
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:01:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nz2iF-0002sU-Tp
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 16:55:37 -0400
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nz2na-0003wS-8W
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 17:01:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654721735;
+ s=mimecast20190719; t=1654722064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RQAyacIGWA2VuxBreF0Nztd2ShyV4ltWLxSA/UnYKRk=;
- b=Z4Rl84sAPC7IzMuch5bGBGkw6LRcUL0nI933Gbc6osJeU2U3Ip8+ndz58huxS2j5yZkkYL
- VSbgAtNU4OxVcSuRCNb69b8fdYf99UW1n6jgbhuEPQf37KQeXyJPOz1OLER4frk6IdO6UM
- DwPtoSoNuwU4Jz3bOEBazJUzl5Npu/c=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sQqCAKqmtt3PHDQ9fKMCD9pst0jh5CmgUlUKqiiSI8k=;
+ b=Z59wXWKHskPmlTnfzxIw3NL1W//0QbHczOIF6Do6xU7iGXjsyhr/C6Ryw4P6a+uWq04t1W
+ AaqFKPBCP/5FxmvrOfnst9utQit+yQxWMzuDYiml6fgbaexQ4hI6qwlsDVPbT1jt9rCRfI
+ ANGQE70zQW6zow+U4iCGUCgLeRXsMm8=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-308-RLGCSL-NP86QgbJLpOpxRg-1; Wed, 08 Jun 2022 16:55:33 -0400
-X-MC-Unique: RLGCSL-NP86QgbJLpOpxRg-1
-Received: by mail-io1-f72.google.com with SMTP id
- l3-20020a05660227c300b0065a8c141580so10389832ios.19
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 13:55:33 -0700 (PDT)
+ us-mta-462-4W-EMfsRP4CtJZkEUdOzYQ-1; Wed, 08 Jun 2022 17:01:03 -0400
+X-MC-Unique: 4W-EMfsRP4CtJZkEUdOzYQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ kf3-20020a17090776c300b0070d149300e9so7543060ejc.15
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 14:01:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RQAyacIGWA2VuxBreF0Nztd2ShyV4ltWLxSA/UnYKRk=;
- b=qd+qNAdcq6qSJ4fNRU07okDEKQ1qFIYtBnWCZyJs2808Du71ONvxKONqFiGnOWA+H3
- yHuwJdaIXtVdxT1Klc0kmwKFFHygn1I4lGRSKI5emcHvwY7ZdTY+sTty1nmLGV5lT7gD
- giSS55SXOOk17O+BPRWKMLOG/6Uy/LSNx3KlIG3BRob7uUfmqkenVjQZH5qWGCVVeUPS
- 2Bmox92uTPyzAiH4izlZV17DGgrQ3pLvj1jaEki0Xe02s2wVYJRRF89ujhJnonO7SDP6
- RKBWkfkHqXL88OSjhaNNgP6bTl7mGzjADeRrVuHrRe2jlWwakTUbuJf0G9uqjRGbeEmt
- xnKA==
-X-Gm-Message-State: AOAM5339HqGLN3uPa+QG3Grqic4PR7BWxb3hg/hbbb9ENanVR4iGcmdB
- qwb9/c2KuOow50h+vU9Q8sXAmYILls8ynqWegsQQNZalrHaEKxqUK3G4++CisNMP8xSmAoaevy3
- JAWaU2NDHmdNv03Y=
-X-Received: by 2002:a5d:94c2:0:b0:60b:bd34:bb6f with SMTP id
- y2-20020a5d94c2000000b0060bbd34bb6fmr16671893ior.32.1654721733140; 
- Wed, 08 Jun 2022 13:55:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxA2oxLbsn+jWmkkDB3k5Cth5LecRztoQoXydTqhR/OpXcQLXQ6C2pZHh21m7FhNH8G1npPaQ==
-X-Received: by 2002:a5d:94c2:0:b0:60b:bd34:bb6f with SMTP id
- y2-20020a5d94c2000000b0060bbd34bb6fmr16671882ior.32.1654721732915; 
- Wed, 08 Jun 2022 13:55:32 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- n23-20020a02cc17000000b0032e2c859d8esm8484314jap.138.2022.06.08.13.55.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 13:55:32 -0700 (PDT)
-Date: Wed, 8 Jun 2022 16:55:31 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sQqCAKqmtt3PHDQ9fKMCD9pst0jh5CmgUlUKqiiSI8k=;
+ b=JLL7IvESMjVUXqwkBW1+16oBfMNUZ591A1TFQAIJ90LvidPoaQDPOddJD7K0bwFK4T
+ vJcHCZfYswVS47vjGsdSyNQL+ss7rZaHsVslVG41yWLYJWS4e80WyWhdAMZoL9PgAB6L
+ t6fuH2y4Si9rfMto82lttdu2RKX0G6mTdkZ05sjsEb+koK1REE7e1w61MxPY9jxg5krj
+ 4TgpKy23GOwNdXauHyFu7CbaOwmnK+rw+9q8TLSHZRZETaJjkpFjJ6ULFYvfU5SHmpqw
+ GrqMf3s2RRuKnhQoNpidamu1AyChbKBRRD8VQEIjAPWjuxS+B10ZRS+LcuQQM0nwHcvm
+ gnjQ==
+X-Gm-Message-State: AOAM531N6qDpnCkZH/UdlSrDT2i7Xw5DnH2GMivzK+OdnEPB6GrlZ+pb
+ Xw8+Z2AiG0JGQ+Bx/iZFNDWk+qsM+9ZjM6jD9kmDikL22ADlO7h64VoIR870V4UJc8V1nIH1fwj
+ ychZMW+RdsVUWOcFZ0xYaICI4Qan1otg=
+X-Received: by 2002:a17:906:aad9:b0:711:d024:4b9b with SMTP id
+ kt25-20020a170906aad900b00711d0244b9bmr16523978ejb.490.1654722062217; 
+ Wed, 08 Jun 2022 14:01:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyKQwVPnP5Ya20NTu3gPx5vUqgqxEqajJTwnk+25CGmpxN1yiYTzM0kgcf/Pb6vITd0wPSi12xgbIPeVnq9s0A=
+X-Received: by 2002:a17:906:aad9:b0:711:d024:4b9b with SMTP id
+ kt25-20020a170906aad900b00711d0244b9bmr16523968ejb.490.1654722062011; Wed, 08
+ Jun 2022 14:01:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220608181808.79364-1-leobras@redhat.com>
+ <YqEF4ikvnsizTQGO@xz-m1.local> <YqEMw4NWo3POMK47@xz-m1.local>
+In-Reply-To: <YqEMw4NWo3POMK47@xz-m1.local>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Wed, 8 Jun 2022 18:00:51 -0300
+Message-ID: <CAJ6HWG7cEP9f=hifs7rsxdG3789+kSRgDkVJXUY=n3i-U_57AQ@mail.gmail.com>
 Subject: Re: [PATCH v1 1/1] QIOChannelSocket: Fix zero-copy send so socket
  flush works
-Message-ID: <YqEMw4NWo3POMK47@xz-m1.local>
-References: <20220608181808.79364-1-leobras@redhat.com>
- <YqEF4ikvnsizTQGO@xz-m1.local>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YqEF4ikvnsizTQGO@xz-m1.local>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+To: Peter Xu <peterx@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>, 
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -104,27 +99,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 08, 2022 at 04:26:10PM -0400, Peter Xu wrote:
-> On Wed, Jun 08, 2022 at 03:18:09PM -0300, Leonardo Bras wrote:
-> > Somewhere between v6 and v7 the of the zero-copy-send patchset a crucial
-> > part of the flushing mechanism got missing: incrementing zero_copy_queued.
-> > 
-> > Without that, the flushing interface becomes a no-op, and there is no
-> > garantee the buffer is really sent.
-> > 
-> > This can go as bad as causing a corruption in RAM during migration.
-> > 
-> > Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
-> > Reported-by: 徐闯 <xuchuangxclwt@bytedance.com>
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> 
-> Copy Dave/Juan; Leo please remember to do so in the next posts, or no one
-> will be picking this up. :)
+On Wed, Jun 8, 2022 at 5:55 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Wed, Jun 08, 2022 at 04:26:10PM -0400, Peter Xu wrote:
+> > On Wed, Jun 08, 2022 at 03:18:09PM -0300, Leonardo Bras wrote:
+> > > Somewhere between v6 and v7 the of the zero-copy-send patchset a cruc=
+ial
+> > > part of the flushing mechanism got missing: incrementing zero_copy_qu=
+eued.
+> > >
+> > > Without that, the flushing interface becomes a no-op, and there is no
+> > > garantee the buffer is really sent.
+> > >
+> > > This can go as bad as causing a corruption in RAM during migration.
+> > >
+> > > Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy=
+ flag & io_flush for CONFIG_LINUX")
+> > > Reported-by: =E5=BE=90=E9=97=AF <xuchuangxclwt@bytedance.com>
+> > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> >
+> > Copy Dave/Juan; Leo please remember to do so in the next posts, or no o=
+ne
+> > will be picking this up. :)
+>
 
-My fault, it's an io channel patch.  But still good to copy relevant
-developers..
+Thanks for letting me know.
 
--- 
-Peter Xu
+> My fault, it's an io channel patch.  But still good to copy relevant
+> developers..
+
+Np. Sure, I will keep in mind to add them in the next version.
+
+Oh, BTW: I will be sending a v2 shortly.
+
+>
+> --
+> Peter Xu
+>
 
 
