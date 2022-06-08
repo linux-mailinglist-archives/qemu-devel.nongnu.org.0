@@ -2,89 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBE6543746
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 17:25:45 +0200 (CEST)
-Received: from localhost ([::1]:50286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C7B54377E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 17:34:46 +0200 (CEST)
+Received: from localhost ([::1]:54530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyxZ2-0000ba-AT
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 11:25:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43114)
+	id 1nyxhk-0004Ci-LU
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 11:34:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nyxXS-0007fp-EU
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:24:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nyxXO-0002nO-0d
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:24:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654701840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xZy2j8/C9TOspXxe56CaAJbUyqp4VGqeNb7kka+Oawo=;
- b=KULXfyiVtUbXp1HUAKVSGtw6xgPCyT8Grdr2NyZCEVWV7J5XsqSemKXh/8Wtu5ZFOP0gg9
- f41iF0z3AHKIkZxboi9cwAMUb1RqcfM0Uln8UG1LwwrheUroVvUiIzNR5/vvf7lhXfMGqS
- GAvXFKDpXgd2YpBNJA75DV1J3JNADBQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-geIeP0X6NoW-aXxLU7f-zg-1; Wed, 08 Jun 2022 11:23:59 -0400
-X-MC-Unique: geIeP0X6NoW-aXxLU7f-zg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c187-20020a1c35c4000000b003970013833aso7069562wma.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 08:23:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyxfx-0003Lv-FE
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:32:53 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:33439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nyxfv-0004E2-Tp
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:32:53 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id f9so7485229plg.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 08:32:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:references:in-reply-to:content-transfer-encoding;
+ bh=7CZJWvqggkk2uqqiZuFG+w6RRIhJtfgtWWi36sDt+Vc=;
+ b=BT46hp4Y54bKpndAjQBFnNgAyFQSG/ke+MlY1dGhwJcqfH+3VA4KM1J7ulE9+wbct4
+ WwsHFLu2xHbEm3Qxe/Hhzhy5S/Q7u9/A8EP3wANzmlRPeoAPeqLqH8ysYUK/h5OndSVM
+ n4qvXOb3025f7tChNP/4NCfKP0Q89HqHL+V6evmlsjltcNe5iv5Rj8JxTvGtEx+HEhgI
+ YEj4YY9uK8yAPjvwL9teptA7FVuzndGnY/AwEESWRVwAxBumO+UPeX++EJaWcKJXSc2F
+ 3V4qlqIgrP2AILgQrAFFXl1fB9g85cvOgCAoavJFpVVfdgvL5GLI8u7P2grliGJAx74G
+ WCZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xZy2j8/C9TOspXxe56CaAJbUyqp4VGqeNb7kka+Oawo=;
- b=pQKRE4HRPuNq2jLGyRHDjF06KZoLOh0N81mS7LZckkbXgJUJF6+jMlY9qKdumNX//6
- kTo+J4FPOakUFX6e3wd8CxKCtSUvShHJSX24UkeXyIUIooMQ6gnbKiHNY+STFkBrAKea
- naBCZMvWEJl/TgXbsviIVgYljo3snUoHcmHV0FhuJOPXO9SlwDbkpiUmkfeUcV7Un4+w
- y05JygASrHCnahuUMLlrt8IYWQcqsqye/0+/cSh1OYGx1MuJvLg2Os2kwSetVTmxEQ2V
- 710j7n2GZ92prk+iAPddZTTgJD45sH3n/NTa+S6hMYMMKPJbEldWPacFH9SKh5zjG2VT
- H4AQ==
-X-Gm-Message-State: AOAM531qGH4OmWMOUNcSLh6nAoOOP+Tur+16K4PqftZzVsCgqpbi/rrd
- 1eHoG8OoKi5FsdVZrnDrRqSw7rLhAbCCm/Jy8rNPAxU52TO/2Ft1Sy2arB2GHBAK6ZhJXJM552J
- s+07xpm5a/6XfKik=
-X-Received: by 2002:a05:600c:d0:b0:39c:5927:3fa7 with SMTP id
- u16-20020a05600c00d000b0039c59273fa7mr10440602wmm.36.1654701838192; 
- Wed, 08 Jun 2022 08:23:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwoKRKkkCv/LH1/ExPCuCeHOVgrL7hRr8CFaqUafjXFfb9/vwTjDTNOsoDgWQzpeHsayNAbzQ==
-X-Received: by 2002:a05:600c:d0:b0:39c:5927:3fa7 with SMTP id
- u16-20020a05600c00d000b0039c59273fa7mr10440584wmm.36.1654701837995; 
- Wed, 08 Jun 2022 08:23:57 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- j22-20020a05600c485600b0039756cdc8e1sm24770475wmo.37.2022.06.08.08.23.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 08:23:57 -0700 (PDT)
-Date: Wed, 8 Jun 2022 16:23:55 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com,
- Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH v5 06/10] hmp: add basic "info stats" implementation
-Message-ID: <YqC/C0JnLwiZ2OOk@work-vm>
-References: <20220530150714.756954-1-pbonzini@redhat.com>
- <20220530150714.756954-7-pbonzini@redhat.com>
- <Yp+aha8olzKWwOCz@work-vm>
- <97f0df53-73fa-0ddb-d6df-088a41fb5588@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=7CZJWvqggkk2uqqiZuFG+w6RRIhJtfgtWWi36sDt+Vc=;
+ b=EkdKguc1GMuQ58/d+1dLrxNrAbqtX0rIsGywHSZdMiYxxnlZQaHhxSJF0xoLtRC4s4
+ zc9mg1UW/OR++oPdZZ4Hl2Tu2KRfkQnBjjSgn2oGCgjhnCBeVwLSlRTRRlJBdLhuzHf5
+ EHcNQcQdqRrtjBdFfyhoIv+8WkXnNjYZedcbaF8OBPaULxJGnE/hDmSk2PvZumSCE62n
+ x0MW5XHe9Nx/O95ZNsmtzSu2C9lyNIO+Ft7DmgIN0xG+buScga2hCgdlimG6TfVqR/6F
+ bF2WW6nGLE8o9mOFTtrulDI557CVttSCmvuiNC7IWVLW25ZgQUEINkL9lImxX3Mlud6J
+ it5g==
+X-Gm-Message-State: AOAM530XJdR7BMeVcmjPfsFajm1RA3MRTU0y7Air6xBW1ALtHE6xhH//
+ Q68k2NZqC8pBk18rd3BR0/iAIMitVKWblg==
+X-Google-Smtp-Source: ABdhPJwM4Q7uuXlE7u4j1SMpHLS8NBgESgZkLaBTu8IDakCyJ4HjuDcPH6ehKyerVeCLUZgX6jyxyA==
+X-Received: by 2002:a17:902:cf0f:b0:15a:24e0:d9b0 with SMTP id
+ i15-20020a170902cf0f00b0015a24e0d9b0mr34002854plg.42.1654702369651; 
+ Wed, 08 Jun 2022 08:32:49 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:6812:d08e:b22c:43d7?
+ ([2602:ae:1547:e101:6812:d08e:b22c:43d7])
+ by smtp.gmail.com with ESMTPSA id
+ bi17-20020a056a00311100b0051c31cc3ca7sm4375367pfb.4.2022.06.08.08.32.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 08:32:49 -0700 (PDT)
+Message-ID: <243be739-c6b7-8baa-af72-cd667b09e302@linaro.org>
+Date: Wed, 8 Jun 2022 08:32:47 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <97f0df53-73fa-0ddb-d6df-088a41fb5588@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 0/3] target/riscv: Fix issue 1060
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>, apatel@ventanamicro.com
+References: <20220604231004.49990-1-richard.henderson@linaro.org>
+In-Reply-To: <20220604231004.49990-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,41 +93,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> On 6/7/22 20:35, Dr. David Alan Gilbert wrote:
-> > > +        monitor_printf(mon, "%s", iec_binary_prefix(value->exponent));
-> > OK that's better; but it's a shame the limits don't come from something
-> > shared; iec_binary_prefix goes upto 60 and si_prefix goes way below -9
-> > 
-> > Reviewed-by: Dr. David Alan Gilbert<dgilbert@redhat.com>
-> > 
+I just realized I failed add the proper cc's for this patch set.
+
+r~
+
+
+On 6/4/22 16:10, Richard Henderson wrote:
+> This issue concerns the value of mtval for illegal
+> instruction exceptions, and came with a great test case.
+> The fix is just two lines, in the first patch, but
+> I noticed some cleanups on the way.
 > 
-> I can remove the limits altogether, and consider it a bug of the provider if
-> they're not respected, but it's a bit ugly to have an assertion failure in
-> that case.
-
-[I just noticed si_prefix is declared to take 'unsigned int' which is
-probably wrong)
-
-Why don't you change the si_prefix/iec_binary_prefix to return NULL
-rather than asserting, then we end up with something like:
-
-   exponentstr = NULL;
-   if (unit && value->base == 10) {
-       exponentstr = si_prefix(value->exponent);
-   } else if (unit && value->base == 2) {
-       exponentstr = iec_binary_prefix(value->exponent);
-   }
-   if (exponentstr) {
-       monitor_printf(mon, "%s", exponentstr);
-   } else if (value->exponent) {
-
-Dave
-
-> Paolo
-
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> r~
+> 
+> 
+> Richard Henderson (3):
+>    target/riscv: Set env->bins in gen_exception_illegal
+>    target/riscv: Remove generate_exception_mtval
+>    target/riscv: Minimize the calls to decode_save_opc
+> 
+>   target/riscv/translate.c                      | 31 +++++------
+>   .../riscv/insn_trans/trans_privileged.c.inc   |  4 ++
+>   target/riscv/insn_trans/trans_rvh.c.inc       |  2 +
+>   target/riscv/insn_trans/trans_rvi.c.inc       |  2 +
+>   tests/tcg/riscv64/Makefile.softmmu-target     | 21 ++++++++
+>   tests/tcg/riscv64/issue1060.S                 | 53 +++++++++++++++++++
+>   tests/tcg/riscv64/semihost.ld                 | 21 ++++++++
+>   7 files changed, 116 insertions(+), 18 deletions(-)
+>   create mode 100644 tests/tcg/riscv64/Makefile.softmmu-target
+>   create mode 100644 tests/tcg/riscv64/issue1060.S
+>   create mode 100644 tests/tcg/riscv64/semihost.ld
+> 
 
 
