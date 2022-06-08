@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77075543239
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:10:16 +0200 (CEST)
-Received: from localhost ([::1]:44538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B872E54327B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:25:56 +0200 (CEST)
+Received: from localhost ([::1]:50756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywNz-0005DG-I8
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:10:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48120)
+	id 1nywd9-0005Ci-Rr
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8E-0001KP-4v
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40709)
+ id 1nyw8H-0001WZ-Ap
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8C-0004MN-Hp
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:53:57 -0400
+ id 1nyw8F-0004NO-M1
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696436;
+ s=mimecast20190719; t=1654696439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xA01AZkGxUg0CMtZHHhtXIKHvsiOITLMKf6i/URq3ww=;
- b=EJESMfO3/MTJPZsRtTOq4nhj8ybOMrTX5SpDKLKqFncO722HxHy44fylkgu2tC2MXV4TUG
- 6J76ZFXId+8qmPF7WNLhFR1taJNDPWIKz4C+IPcsQjKFVy+YhYXmJ2YJXoot957EQgxait
- um7yyc6GDtRyFoReCG4lsFX0vvubV/Q=
+ bh=EstnbRZGDPthLSwj6xPNYgG1hEjEJOS79wSfjsUG+ig=;
+ b=DanEAG4sUcLabG8xHxrptOj3DZhulBUzRRUqoHsePb5a76ZK9bD3EB75geJJ3xiaBKSkDm
+ CcP++2S/u7WMUlzcLkpySq9VeB+BBodIygiKxRBdZcWHJ5vP50NsxeDwDTdCPCZlCMN/Aj
+ h02hortdSlGwa5vRvOChaRdFa6rJamg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-soIBCuviMgikPmRkv9Y1Xw-1; Wed, 08 Jun 2022 09:53:46 -0400
-X-MC-Unique: soIBCuviMgikPmRkv9Y1Xw-1
+ us-mta-290-pmewYdgeOFGrBmgU99mBlQ-1; Wed, 08 Jun 2022 09:53:48 -0400
+X-MC-Unique: pmewYdgeOFGrBmgU99mBlQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D47880159B
- for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:53:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52432803B22
+ for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:53:48 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07E5CC28119;
- Wed,  8 Jun 2022 13:53:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D3017C28119;
+ Wed,  8 Jun 2022 13:53:46 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 05/35] acpi: serial-is: replace ISADeviceClass::build_aml
+Subject: [PATCH v2 06/35] acpi: mc146818rtc: replace ISADeviceClass::build_aml
  with AcpiDevAmlIfClass:build_dev_aml
-Date: Wed,  8 Jun 2022 09:53:10 -0400
-Message-Id: <20220608135340.3304695-6-imammedo@redhat.com>
+Date: Wed,  8 Jun 2022 09:53:11 -0400
+Message-Id: <20220608135340.3304695-7-imammedo@redhat.com>
 In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
 References: <20220608135340.3304695-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -85,59 +85,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/char/serial-isa.c | 14 +++++++++-----
+ hw/rtc/mc146818rtc.c | 14 +++++++++-----
  1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
-index 7a7ed239cd..141a6cb168 100644
---- a/hw/char/serial-isa.c
-+++ b/hw/char/serial-isa.c
-@@ -27,7 +27,7 @@
- #include "qapi/error.h"
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index f235c2ddbe..ef9765bb8f 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -26,7 +26,7 @@
+ #include "qemu/cutils.h"
  #include "qemu/module.h"
- #include "sysemu/sysemu.h"
+ #include "qemu/bcd.h"
 -#include "hw/acpi/aml-build.h"
 +#include "hw/acpi/acpi_aml_interface.h"
- #include "hw/char/serial.h"
- #include "hw/isa/isa.h"
+ #include "hw/irq.h"
  #include "hw/qdev-properties.h"
-@@ -83,9 +83,9 @@ static void serial_isa_realizefn(DeviceState *dev, Error **errp)
-     isa_register_ioport(isadev, &s->io, isa->iobase);
+ #include "hw/qdev-properties-system.h"
+@@ -1017,9 +1017,9 @@ static void rtc_reset_hold(Object *obj)
+     qemu_irq_lower(s->irq);
  }
  
--static void serial_isa_build_aml(ISADevice *isadev, Aml *scope)
-+static void serial_isa_build_aml(AcpiDevAmlIf *adev, Aml *scope)
+-static void rtc_build_aml(ISADevice *isadev, Aml *scope)
++static void rtc_build_aml(AcpiDevAmlIf *adev, Aml *scope)
  {
--    ISASerialState *isa = ISA_SERIAL(isadev);
-+    ISASerialState *isa = ISA_SERIAL(adev);
+-    RTCState *s = MC146818_RTC(isadev);
++    RTCState *s = MC146818_RTC(adev);
      Aml *dev;
      Aml *crs;
  
-@@ -122,11 +122,11 @@ static Property serial_isa_properties[] = {
- static void serial_isa_class_initfn(ObjectClass *klass, void *data)
+@@ -1043,13 +1043,13 @@ static void rtc_class_initfn(ObjectClass *klass, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(klass);
+     ResettableClass *rc = RESETTABLE_CLASS(klass);
 -    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
 +    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
  
-     dc->realize = serial_isa_realizefn;
-     dc->vmsd = &vmstate_isa_serial;
--    isa->build_aml = serial_isa_build_aml;
-+    adevc->build_dev_aml = serial_isa_build_aml;
-     device_class_set_props(dc, serial_isa_properties);
-     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+     dc->realize = rtc_realizefn;
+     dc->vmsd = &vmstate_rtc;
+     rc->phases.enter = rtc_reset_enter;
+     rc->phases.hold = rtc_reset_hold;
+-    isa->build_aml = rtc_build_aml;
++    adevc->build_dev_aml = rtc_build_aml;
+     device_class_set_props(dc, mc146818rtc_properties);
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
  }
-@@ -146,6 +146,10 @@ static const TypeInfo serial_isa_info = {
-     .instance_size = sizeof(ISASerialState),
-     .instance_init = serial_isa_initfn,
-     .class_init    = serial_isa_class_initfn,
+@@ -1059,6 +1059,10 @@ static const TypeInfo mc146818rtc_info = {
+     .parent        = TYPE_ISA_DEVICE,
+     .instance_size = sizeof(RTCState),
+     .class_init    = rtc_class_initfn,
 +    .interfaces = (InterfaceInfo[]) {
 +        { TYPE_ACPI_DEV_AML_IF },
 +        { },
 +    },
  };
  
- static void serial_register_types(void)
+ static void mc146818rtc_register_types(void)
 -- 
 2.31.1
 
