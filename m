@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB14A5439EA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 19:08:23 +0200 (CEST)
-Received: from localhost ([::1]:44032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4541C543A23
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 19:21:03 +0200 (CEST)
+Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyzAM-0005zG-8J
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 13:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39810)
+	id 1nyzMb-00055K-HG
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 13:21:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nyz7u-0004fu-0O
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 13:05:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48143)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nyz7p-0002Gb-Mi
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 13:05:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654707944;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RBPUMwmh0JKnBnb2yTEuUczXvGtgtx64GVa9F2GpfoU=;
- b=c++N+ZghrALqsUoCTNGaBW0Y4/5tB8u2AT8Qx4txpVmOpQE1jOJb06/P19KgyV1ALiCPG0
- LftGZfhKxUFeUtOGho6BUwc4kdRImgrtEaQcseTRvHzGmDGcZYmtKVfh7K00rwjailHtQ1
- g6SFL4/WzNFAr8XXLvOIeba1kHv1GBU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-493-ExOMJnjtNr6bALE2b2WjhA-1; Wed, 08 Jun 2022 13:05:33 -0400
-X-MC-Unique: ExOMJnjtNr6bALE2b2WjhA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o3-20020a05600c510300b0039743540ac7so7168173wms.5
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 10:05:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nyzL7-00045I-V5
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 13:19:29 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:46047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nyzL5-0004Yz-7Y
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 13:19:28 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ x6-20020a1c7c06000000b003972dfca96cso100740wmc.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 10:19:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=q6b8s89tcwA+JwxjhOZJ3VEsMFYSG66jvhzQ9ZYiuYk=;
+ b=w3CSDM2YHoOGQMvpeTHcKIwUNZ+spByH9KvGv1f5fEBaMcPEaR38M5zQOy0OCv50ea
+ Bs4NVT5jxFyFy+ae7hMxaKsyUhMR9dgLyaOvh1WeBfrhRFc76N0lHhFz8ZY+b0e+Otwx
+ tYs9Y2xW665MUl9+vZTX7Jws1+tQ9e/72S6R0w+1OETvWngpGBY3oQb3CIYFvgTc7PIv
+ 25jNdI5jvlBinkUQsnGiD+kRMX9zQONTS60QamT9daafE/aICf2Tg2yV6E6yK7ZPbYn7
+ ZM3zYNNJXj48axb/cKHzEQYjT0kmK91TQBx3m3Bmt0VX6pk9qR00vysgl30OMnq5f9IX
+ wSww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=RBPUMwmh0JKnBnb2yTEuUczXvGtgtx64GVa9F2GpfoU=;
- b=bPB0bRshIVWVBe4OATppSAzBFD2o8T7M9u3Ag6viTqTrxphIT8OetjqzAcEYYoPieu
- hR40X1lk/vWF+6KWkL+ZWCkAnrcp+xlMuiaISBVbir8CSEaM8T1D32B+7a8n+DtHbs7m
- Gtuk2BtL9oXYtsS8zYR3mBen0pmMSft1CGmu3MUwR9N2cJrSXt+qpEbghZIGJ79fYupZ
- vu90GBr4SSdtWTlsgsbLOHVBZ739TdropZmHtYrub1MPkUHoCG9fC7jdz3Kbf31YqlEl
- l0zpHlihhOT9YK4yqgpQ3UtGHwAATwsDGVKE/TKKtAr6mlfM8yM53mdwFfuvwYt8B9yW
- 3bqg==
-X-Gm-Message-State: AOAM532kVWPLXoZrZ1HnE94O3AiyMqJF3kyI3GmVN8W4dS+epNqvZZ3K
- 13ftCU1cqO0k+xaUQKcbXgFwkEc5iQF6Wy8jyUSJGx/0OXidItrgcs5bjqO/lJb90OV0qGhcSpU
- gglTXr4TY/r3BYNM=
-X-Received: by 2002:a05:600c:42c9:b0:39c:3808:5479 with SMTP id
- j9-20020a05600c42c900b0039c38085479mr226161wme.4.1654707932034; 
- Wed, 08 Jun 2022 10:05:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+92eBxo59gUTPtkGwSamQ0frRPta2bgWTU5kyHIFOm6EO9xtM8l5ZvWWSITU2pnKwNvFEkg==
-X-Received: by 2002:a05:600c:42c9:b0:39c:3808:5479 with SMTP id
- j9-20020a05600c42c900b0039c38085479mr226127wme.4.1654707931727; 
- Wed, 08 Jun 2022 10:05:31 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- c186-20020a1c35c3000000b0039bc95cf4b2sm24780569wma.11.2022.06.08.10.05.30
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=q6b8s89tcwA+JwxjhOZJ3VEsMFYSG66jvhzQ9ZYiuYk=;
+ b=5dxDUfNFAwIG9yKyF7YeSugBZ/QBwLsXj3+FS4s3MGXZe99OzblFCyOOhs9wXwl+oK
+ eC6J/tBWqsEtTJudsLxbhu2bP5pldfSj+/WVg0D0d3MQd7ctgcRxz/Eff4OVYAL25ral
+ 9er8N1NAGxMyrVGAdW7SH/yKUQf+6l++EnittdSu0en24WsyRnq4SZ584OhT/dG8VoB9
+ 4hLB6zhkLdUctu6Aa0vMXxaD76NhTsn9KHWH/15DRBsFhaZnfmli+/TYCLLxTEXA5uNi
+ ghX56ho8E02YuQG7e6AXTv2gQXZAZkU8bUKyBbRIIXoDtMIVh9MqwqJYcbNjB0eIC/8m
+ AEsA==
+X-Gm-Message-State: AOAM531ko8lYxmuXK9V7aB0Zq2SRDG9ku/dHziki9xNrkxN7JVPLeJle
+ jwSSycNOAMTvIxrPHEqlER8PNw==
+X-Google-Smtp-Source: ABdhPJyQJXdSR9hYfP42BISTndgaBB8c8UUqhs4ZVrYGjReoacZra+VDHOhBfoX8Yn8SOphBzSX8xw==
+X-Received: by 2002:a05:600c:4f45:b0:397:710e:4c6e with SMTP id
+ m5-20020a05600c4f4500b00397710e4c6emr219814wmq.143.1654708765242; 
+ Wed, 08 Jun 2022 10:19:25 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ n8-20020a05600c4f8800b0039c325eaff2sm21631584wmq.26.2022.06.08.10.19.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 10:05:31 -0700 (PDT)
-Date: Wed, 8 Jun 2022 18:05:28 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Sean Christopherson <seanjc@google.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH RFC 4/5] cpu: Allow cpu_synchronize_all_post_init() to
- take an errp
-Message-ID: <YqDW2AZDb3buF9YQ@work-vm>
-References: <20220607230645.53950-1-peterx@redhat.com>
- <20220607230645.53950-5-peterx@redhat.com>
+ Wed, 08 Jun 2022 10:19:24 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8D2AD1FFB7;
+ Wed,  8 Jun 2022 18:19:23 +0100 (BST)
+References: <20220607204557.658541-1-richard.henderson@linaro.org>
+ <20220607204557.658541-11-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.26; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 10/53] semihosting: Adjust error checking in
+ common_semi_cb
+Date: Wed, 08 Jun 2022 18:19:18 +0100
+In-reply-to: <20220607204557.658541-11-richard.henderson@linaro.org>
+Message-ID: <871qvzt6n8.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220607230645.53950-5-peterx@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -104,118 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Allow cpu_synchronize_all_post_init() to fail with an errp when it's set.
-> Modify both precopy and postcopy to try to detect such error.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  hw/core/machine.c     |  2 +-
->  include/sysemu/cpus.h |  2 +-
->  migration/savevm.c    | 20 +++++++++++++++++---
->  softmmu/cpus.c        |  2 +-
->  4 files changed, 20 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index c53548d0b1..b5daad82f8 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -1447,7 +1447,7 @@ void qemu_remove_machine_init_done_notifier(Notifier *notify)
->  
->  void qdev_machine_creation_done(void)
->  {
-> -    cpu_synchronize_all_post_init();
-> +    cpu_synchronize_all_post_init(NULL);
->  
->      if (current_machine->boot_config.has_once) {
->          qemu_boot_set(current_machine->boot_config.once, &error_fatal);
-> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-> index b5c87d48b3..a51ee46441 100644
-> --- a/include/sysemu/cpus.h
-> +++ b/include/sysemu/cpus.h
-> @@ -45,7 +45,7 @@ bool cpus_are_resettable(void);
->  
->  void cpu_synchronize_all_states(void);
->  void cpu_synchronize_all_post_reset(void);
-> -void cpu_synchronize_all_post_init(void);
-> +void cpu_synchronize_all_post_init(Error **errp);
->  void cpu_synchronize_all_pre_loadvm(void);
->  
->  #ifndef CONFIG_USER_ONLY
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index d9076897b8..1175ddefd4 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2005,7 +2005,17 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
->      /* TODO we should move all of this lot into postcopy_ram.c or a shared code
->       * in migration.c
->       */
-> -    cpu_synchronize_all_post_init();
-> +    cpu_synchronize_all_post_init(&local_err);
-> +    if (local_err) {
-> +        /*
-> +         * TODO: a better way to do this is to tell the src that we cannot
-> +         * run the VM here so hopefully we can keep the VM running on src
-> +         * and immediately halt the switch-over.  But that needs work.
 
-Yes, I think it is possible; unlike some of the later errors in the same
-function, in this case we know no disks/network/etc have been touched,
-so we should be able to recover.
-I wonder if we can move the postcopy_state_set(POSTCOPY_INCOMING_RUNNING)
-out of loadvm_postcopy_handle_run to after this point.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-We've already got the return path, so we should be able to signal the
-failure unless we're very unlucky.
+> The err parameter is non-zero if and only if an error occured.
+> Use this instead of ret =3D=3D -1 for determining if we need to
+> update the saved errno.
+>
+> This fixes the errno setting of SYS_ISTTY, which returns 0 on
+> error, not -1.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Dave
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> +         */
-> +        error_report_err(local_err);
-> +        local_err = NULL;
-> +        autostart = false;
-> +    }
->  
->      trace_loadvm_postcopy_handle_run_bh("after cpu sync");
->  
-> @@ -2772,7 +2782,11 @@ int qemu_loadvm_state(QEMUFile *f)
->      }
->  
->      qemu_loadvm_state_cleanup();
-> -    cpu_synchronize_all_post_init();
-> +    cpu_synchronize_all_post_init(&local_err);
-> +    if (local_err) {
-> +        error_report_err(local_err);
-> +        return -EINVAL;
-> +    }
->  
->      return ret;
->  }
-> @@ -2789,7 +2803,7 @@ int qemu_load_device_state(QEMUFile *f)
->          return ret;
->      }
->  
-> -    cpu_synchronize_all_post_init();
-> +    cpu_synchronize_all_post_init(NULL);
->      return 0;
->  }
->  
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index 464c06201c..59c70fd496 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -146,7 +146,7 @@ void cpu_synchronize_all_post_reset(void)
->      }
->  }
->  
-> -void cpu_synchronize_all_post_init(void)
-> +void cpu_synchronize_all_post_init(Error **errp)
->  {
->      CPUState *cpu;
->  
-> -- 
-> 2.32.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+--=20
+Alex Benn=C3=A9e
 
