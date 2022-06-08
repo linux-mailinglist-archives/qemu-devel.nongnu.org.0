@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885AF54325D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:21:50 +0200 (CEST)
-Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBED6543243
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:13:25 +0200 (CEST)
+Received: from localhost ([::1]:53050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywZB-0007gz-Ji
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48162)
+	id 1nywR3-0002fV-1A
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8G-0001Tt-BQ
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54607)
+ id 1nyw8H-0001VV-3Y
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8E-0004Mw-6w
+ id 1nyw8F-0004NF-5J
  for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696437;
+ s=mimecast20190719; t=1654696438;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rW8N/C7O4W3jW665dpkCAqTrPnPdD47RqR1xFWQHir8=;
- b=PCz0gUNDo2fjhWSL5nOepv0BxqplE5MRzlhndV6a7egSmXii5jEHpaXhcI7MaPIjLiHBnu
- 3cw1NXO6uw3l9o6N/KRYUJkmITJY1fDr8Hn++shtFhH51B1JG+HJyVUUlodRiqusEEQ/5R
- grVg0bK9zK1gjOctl6o5AQc8DkwUvnw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WH1b7JwKvFXpEwjGioUvxwtQ+UrFYj67gwLDXtD9Clc=;
+ b=dGNIv9MMFRvxBy4i0D2wmiqqU5v6LvG7vtxOjSXvWceOEwg7vD9Av/J+TitguT7JUiOTek
+ LP4dliuCctCpaTp6eZUq1VO6jS+iRxKNZDzwmRP2O12u/BWE3hg7C1lY1JbaML1gkWkNZR
+ aQRoWpRlwLsYj/XOe/TPFQlhaALDQQQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-287-DPsnjQCPM5uKSbKIqasUGg-1; Wed, 08 Jun 2022 09:53:56 -0400
-X-MC-Unique: DPsnjQCPM5uKSbKIqasUGg-1
+ us-mta-383-XyBbkNnZMJK7q3panxqu5Q-1; Wed, 08 Jun 2022 09:53:57 -0400
+X-MC-Unique: XyBbkNnZMJK7q3panxqu5Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 252883C0218C
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F014F803B22
  for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:53:56 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84547C27E97;
- Wed,  8 Jun 2022 13:53:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BBDCC28117;
+ Wed,  8 Jun 2022 13:53:56 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 16/35] acpi: ipmi: use AcpiDevAmlIf interface to build IPMI
- device descriptors
-Date: Wed,  8 Jun 2022 09:53:21 -0400
-Message-Id: <20220608135340.3304695-17-imammedo@redhat.com>
+Subject: [PATCH v2 17/35] q35: acpi: drop not needed
+ PCMachineClass::do_not_add_smb_acpi
+Date: Wed,  8 Jun 2022 09:53:22 -0400
+Message-Id: <20220608135340.3304695-18-imammedo@redhat.com>
 In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
 References: <20220608135340.3304695-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -82,289 +82,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-convert ad-hoc way we use to generate AML for ISA/SMB IPMI devices
-to a generic approach (i.e. make devices provide its own AML blobs
-like it is done with other ISA devices (ex. KBD))
+by default we do not version ACPI AML as it's considered
+a part of firmware. Drop do_not_add_smb_acpi that blocked
+SMBUS AML description on 3.1 and older machine types without
+providing justification.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/acpi/ipmi.h |  9 ++------
- hw/acpi/ipmi-stub.c    |  2 +-
- hw/acpi/ipmi.c         | 49 +++++++++++++-----------------------------
- hw/i386/acpi-build.c   | 17 ++++++++++-----
- hw/ipmi/isa_ipmi_bt.c  |  4 ++++
- hw/ipmi/isa_ipmi_kcs.c |  4 ++++
- hw/ipmi/smbus_ipmi.c   |  4 ++++
- 7 files changed, 42 insertions(+), 47 deletions(-)
+we can keep this bit if anyone can prove/report adverse effect
+on VM.
+---
+ include/hw/i386/pc.h | 1 -
+ hw/i386/acpi-build.c | 2 +-
+ hw/i386/pc_piix.c    | 1 -
+ hw/i386/pc_q35.c     | 1 -
+ 4 files changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/include/hw/acpi/ipmi.h b/include/hw/acpi/ipmi.h
-index c38483565c..6c8079c97a 100644
---- a/include/hw/acpi/ipmi.h
-+++ b/include/hw/acpi/ipmi.h
-@@ -9,13 +9,8 @@
- #ifndef HW_ACPI_IPMI_H
- #define HW_ACPI_IPMI_H
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index ffcac5121e..dee38cfac4 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -104,7 +104,6 @@ struct PCMachineClass {
+     bool rsdp_in_ram;
+     int legacy_acpi_table_size;
+     unsigned acpi_data_size;
+-    bool do_not_add_smb_acpi;
+     int pci_root_uid;
  
--#include "hw/acpi/aml-build.h"
-+#include "hw/acpi/acpi_aml_interface.h"
- 
--/*
-- * Add ACPI IPMI entries for all registered IPMI devices whose parent
-- * bus matches the given bus.  The resource is the ACPI resource that
-- * contains the IPMI device, this is required for the I2C CRS.
-- */
--void build_acpi_ipmi_devices(Aml *table, BusState *bus);
-+void build_ipmi_dev_aml(AcpiDevAmlIf *adev, Aml *scope);
- 
- #endif /* HW_ACPI_IPMI_H */
-diff --git a/hw/acpi/ipmi-stub.c b/hw/acpi/ipmi-stub.c
-index f525f71c2d..befaf0a882 100644
---- a/hw/acpi/ipmi-stub.c
-+++ b/hw/acpi/ipmi-stub.c
-@@ -10,6 +10,6 @@
- #include "qemu/osdep.h"
- #include "hw/acpi/ipmi.h"
- 
--void build_acpi_ipmi_devices(Aml *table, BusState *bus)
-+void build_ipmi_dev_aml(AcpiDevAmlIf *adev, Aml *scope)
- {
- }
-diff --git a/hw/acpi/ipmi.c b/hw/acpi/ipmi.c
-index c30b44fcf5..a20e57d465 100644
---- a/hw/acpi/ipmi.c
-+++ b/hw/acpi/ipmi.c
-@@ -62,46 +62,27 @@ static Aml *aml_ipmi_crs(IPMIFwInfo *info)
-     return crs;
- }
- 
--static Aml *aml_ipmi_device(IPMIFwInfo *info)
-+void build_ipmi_dev_aml(AcpiDevAmlIf *adev, Aml *scope)
- {
-     Aml *dev;
--    uint16_t version = ((info->ipmi_spec_major_revision << 8)
--                        | (info->ipmi_spec_minor_revision << 4));
-+    IPMIFwInfo info = {};
-+    IPMIInterface *ii = IPMI_INTERFACE(adev);
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+    uint16_t version;
- 
--    assert(info->ipmi_spec_minor_revision <= 15);
-+    iic->get_fwinfo(ii, &info);
-+    assert(info.ipmi_spec_minor_revision <= 15);
-+    version = ((info.ipmi_spec_major_revision << 8)
-+              | (info.ipmi_spec_minor_revision << 4));
- 
--    dev = aml_device("MI%d", info->uuid);
-+    dev = aml_device("MI%d", info.uuid);
-     aml_append(dev, aml_name_decl("_HID", aml_eisaid("IPI0001")));
-     aml_append(dev, aml_name_decl("_STR", aml_string("ipmi_%s",
--                                                     info->interface_name)));
--    aml_append(dev, aml_name_decl("_UID", aml_int(info->uuid)));
--    aml_append(dev, aml_name_decl("_CRS", aml_ipmi_crs(info)));
--    aml_append(dev, aml_name_decl("_IFT", aml_int(info->interface_type)));
-+                                                     info.interface_name)));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(info.uuid)));
-+    aml_append(dev, aml_name_decl("_CRS", aml_ipmi_crs(&info)));
-+    aml_append(dev, aml_name_decl("_IFT", aml_int(info.interface_type)));
-     aml_append(dev, aml_name_decl("_SRV", aml_int(version)));
- 
--    return dev;
--}
--
--void build_acpi_ipmi_devices(Aml *scope, BusState *bus)
--{
--
--    BusChild *kid;
--
--    QTAILQ_FOREACH(kid, &bus->children,  sibling) {
--        IPMIInterface *ii;
--        IPMIInterfaceClass *iic;
--        IPMIFwInfo info;
--        Object *obj = object_dynamic_cast(OBJECT(kid->child),
--                                          TYPE_IPMI_INTERFACE);
--
--        if (!obj) {
--            continue;
--        }
--
--        ii = IPMI_INTERFACE(obj);
--        iic = IPMI_INTERFACE_GET_CLASS(obj);
--        memset(&info, 0, sizeof(info));
--        iic->get_fwinfo(ii, &info);
--        aml_append(scope, aml_ipmi_device(&info));
--    }
-+    aml_append(scope, dev);
- }
+     /* SMBIOS compat: */
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 88506d563f..5b963cca32 100644
+index 5b963cca32..d943354999 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -39,6 +39,7 @@
- #include "hw/nvram/fw_cfg.h"
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/isa/isa.h"
-+#include "hw/acpi/acpi_aml_interface.h"
- #include "hw/input/i8042.h"
- #include "hw/acpi/memory_hotplug.h"
- #include "sysemu/tpm.h"
-@@ -73,7 +74,6 @@
- #include "hw/i386/intel_iommu.h"
- #include "hw/virtio/virtio-iommu.h"
- 
--#include "hw/acpi/ipmi.h"
- #include "hw/acpi/hmat.h"
- #include "hw/acpi/viot.h"
- #include "hw/acpi/cxl.h"
-@@ -873,7 +873,6 @@ static void build_isa_devices_aml(Aml *table)
-     assert(obj && !ambiguous);
- 
-     scope = aml_scope("_SB.PCI0.ISA");
--    build_acpi_ipmi_devices(scope, BUS(obj));
-     isa_build_aml(ISA_BUS(obj), scope);
- 
-     aml_append(table, scope);
-@@ -1400,13 +1399,21 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
-     return method;
- }
- 
--static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
-+static void build_smb0(Aml *table, int devnr, int func)
- {
-     Aml *scope = aml_scope("_SB.PCI0");
-     Aml *dev = aml_device("SMB0");
-+    bool ambiguous;
-+    Object *obj;
-+    /*
-+     * temporarily fish out device hosting SMBUS, build_smb0 will be gone once
-+     * PCI enumeration will be switched to call_dev_aml_func()
-+     */
-+    obj = object_resolve_path_type("", TYPE_ICH9_SMB_DEVICE, &ambiguous);
-+    assert(obj && !ambiguous);
- 
-     aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
--    build_acpi_ipmi_devices(dev, BUS(smbus));
-+    call_dev_aml_func(DEVICE(obj), dev);
-     aml_append(scope, dev);
-     aml_append(table, scope);
- }
-@@ -1524,7 +1531,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+@@ -1530,7 +1530,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
          }
          build_q35_pci0_int(dsdt);
-         if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
--            build_smb0(dsdt, pcms->smbus, ICH9_SMB_DEV, ICH9_SMB_FUNC);
-+            build_smb0(dsdt, ICH9_SMB_DEV, ICH9_SMB_FUNC);
+-        if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
++        if (pcms->smbus) {
+             build_smb0(dsdt, ICH9_SMB_DEV, ICH9_SMB_FUNC);
          }
      }
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 578e537b35..7f777f7aed 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -564,7 +564,6 @@ static void pc_i440fx_3_1_machine_options(MachineClass *m)
  
-diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
-index 88aa734e9e..a83e7243d6 100644
---- a/hw/ipmi/isa_ipmi_bt.c
-+++ b/hw/ipmi/isa_ipmi_bt.c
-@@ -31,6 +31,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qom/object.h"
-+#include "hw/acpi/ipmi.h"
+     pc_i440fx_4_0_machine_options(m);
+     m->is_default = false;
+-    pcmc->do_not_add_smb_acpi = true;
+     m->smbus_no_migration_support = true;
+     m->alias = NULL;
+     pcmc->pvh_enabled = false;
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 42eb8b9707..f96cbd04e2 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -514,7 +514,6 @@ static void pc_q35_3_1_machine_options(MachineClass *m)
  
- #define TYPE_ISA_IPMI_BT "isa-ipmi-bt"
- OBJECT_DECLARE_SIMPLE_TYPE(ISAIPMIBTDevice, ISA_IPMI_BT)
-@@ -144,6 +145,7 @@ static void isa_ipmi_bt_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
-+    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(oc);
- 
-     dc->realize = isa_ipmi_bt_realize;
-     device_class_set_props(dc, ipmi_isa_properties);
-@@ -151,6 +153,7 @@ static void isa_ipmi_bt_class_init(ObjectClass *oc, void *data)
-     iic->get_backend_data = isa_ipmi_bt_get_backend_data;
-     ipmi_bt_class_init(iic);
-     iic->get_fwinfo = isa_ipmi_bt_get_fwinfo;
-+    adevc->build_dev_aml = build_ipmi_dev_aml;
- }
- 
- static const TypeInfo isa_ipmi_bt_info = {
-@@ -161,6 +164,7 @@ static const TypeInfo isa_ipmi_bt_info = {
-     .class_init    = isa_ipmi_bt_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_IPMI_INTERFACE },
-+        { TYPE_ACPI_DEV_AML_IF },
-         { }
-     }
- };
-diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
-index afabb95ebe..b2ed70b9da 100644
---- a/hw/ipmi/isa_ipmi_kcs.c
-+++ b/hw/ipmi/isa_ipmi_kcs.c
-@@ -31,6 +31,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qom/object.h"
-+#include "hw/acpi/ipmi.h"
- 
- #define TYPE_ISA_IPMI_KCS "isa-ipmi-kcs"
- OBJECT_DECLARE_SIMPLE_TYPE(ISAIPMIKCSDevice, ISA_IPMI_KCS)
-@@ -151,6 +152,7 @@ static void isa_ipmi_kcs_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
-+    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(oc);
- 
-     dc->realize = ipmi_isa_realize;
-     device_class_set_props(dc, ipmi_isa_properties);
-@@ -158,6 +160,7 @@ static void isa_ipmi_kcs_class_init(ObjectClass *oc, void *data)
-     iic->get_backend_data = isa_ipmi_kcs_get_backend_data;
-     ipmi_kcs_class_init(iic);
-     iic->get_fwinfo = isa_ipmi_kcs_get_fwinfo;
-+    adevc->build_dev_aml = build_ipmi_dev_aml;
- }
- 
- static const TypeInfo isa_ipmi_kcs_info = {
-@@ -168,6 +171,7 @@ static const TypeInfo isa_ipmi_kcs_info = {
-     .class_init    = isa_ipmi_kcs_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_IPMI_INTERFACE },
-+        { TYPE_ACPI_DEV_AML_IF },
-         { }
-     }
- };
-diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
-index 1fdf0a66b6..9ef9112dd5 100644
---- a/hw/ipmi/smbus_ipmi.c
-+++ b/hw/ipmi/smbus_ipmi.c
-@@ -28,6 +28,7 @@
- #include "qemu/error-report.h"
- #include "hw/ipmi/ipmi.h"
- #include "qom/object.h"
-+#include "hw/acpi/ipmi.h"
- 
- #define TYPE_SMBUS_IPMI "smbus-ipmi"
- OBJECT_DECLARE_SIMPLE_TYPE(SMBusIPMIDevice, SMBUS_IPMI)
-@@ -353,6 +354,7 @@ static void smbus_ipmi_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
-     SMBusDeviceClass *sc = SMBUS_DEVICE_CLASS(oc);
-+    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(oc);
- 
-     sc->receive_byte = ipmi_receive_byte;
-     sc->write_data = ipmi_write_data;
-@@ -363,6 +365,7 @@ static void smbus_ipmi_class_init(ObjectClass *oc, void *data)
-     iic->handle_if_event = smbus_ipmi_handle_event;
-     iic->set_irq_enable = smbus_ipmi_set_irq_enable;
-     iic->get_fwinfo = smbus_ipmi_get_fwinfo;
-+    adevc->build_dev_aml = build_ipmi_dev_aml;
- }
- 
- static const TypeInfo smbus_ipmi_info = {
-@@ -373,6 +376,7 @@ static const TypeInfo smbus_ipmi_info = {
-     .class_init    = smbus_ipmi_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_IPMI_INTERFACE },
-+        { TYPE_ACPI_DEV_AML_IF },
-         { }
-     }
- };
+     pc_q35_4_0_machine_options(m);
+     m->default_kernel_irqchip_split = false;
+-    pcmc->do_not_add_smb_acpi = true;
+     m->smbus_no_migration_support = true;
+     m->alias = NULL;
+     pcmc->pvh_enabled = false;
 -- 
 2.31.1
 
