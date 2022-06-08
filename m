@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F275432AA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:36:02 +0200 (CEST)
-Received: from localhost ([::1]:40756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C645432DA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:42:54 +0200 (CEST)
+Received: from localhost ([::1]:55430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nywmv-0001HE-2F
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49260)
+	id 1nywtZ-00032y-AO
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nywBl-0007KK-EG
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:57:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60089)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nywBj-000542-7w
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:57:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696653;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=31CY+EoQN84K6MYiaS3e0Hb93woU91yLJOsjheLuUnQ=;
- b=bQJTV4CglfmAv18c6VlNLtwR/VUbb7W+AUA+IdB2hQIjyGOt2Ch6HpAfgPDCxYSzuBL56s
- 9CTg1pJd7BaUNDHTFV1/4jDuNSsaY3KJ/s9/BAVR0Jkqt0daw3b4N/CFO2XoqCEc7uRgkk
- 6II7QgQN0cQi9S0vjCyzCZ2kt7605kY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-eFrzikTSO0-94fdQQn3o-Q-1; Wed, 08 Jun 2022 09:57:32 -0400
-X-MC-Unique: eFrzikTSO0-94fdQQn3o-Q-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a9-20020a17090682c900b0070b513b9dc4so7711224ejy.4
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 06:57:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nywRK-0005rO-JA
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 10:13:42 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nywRI-0007il-Uq
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 10:13:42 -0400
+Received: by mail-ej1-x635.google.com with SMTP id h23so30673007ejj.12
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 07:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dUiY10kJ3SWNb5am+hka4/vL3JkTd2j/XWvoryNovLA=;
+ b=VY6jE+M88hrsQbxJD5gfhWb7zzvutycvOhMGSPfUyAPgqUY1VWyus+4ePRVWQz6tXQ
+ SwKu3WYCCVZxX4dflgecMtcpc3ITb7RMmu0UQNKKNeQ+PxpbA5eEfMFGlYlYEDh3b99c
+ KF+m6Qu1aYwazR5dCHBkyaqTQzP5p4resSUjK1UkogzWWPGKKCSO/E5OyFZUfMBw9rwa
+ gnc3WxGxNiei6gE8XiAtCd9yKHNY5XuyOYhX5Oadp44rwD/liXf/0Ea+QbwLqaQ4VDPm
+ itLHReCgULqcejJEkvuUDv4RxvvljV4wDY/Lzy9oT5Cr0pMylqdZa2VvzAFhEFlW8O35
+ c/aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=31CY+EoQN84K6MYiaS3e0Hb93woU91yLJOsjheLuUnQ=;
- b=z4Ux/CXKhIk/Y9oyqLJG2YIFprqm/BCYMJRzl3Cyo2LtFHcOQSNJMXgHNB8xz/j0k7
- C8Z/j20L86TZHdwwn0PMpncnRuJrvGVxLMLz3c68OIIBKe/nuZbxLoD/Bp0Q8MczrhO1
- 9yi4gqzfJTindzKtBgMZh1LLShjMEVY4Vuq4Z4qO691TpaGzMZB35TdqzSkiVeFrBmVW
- 5g0D+uVbFvQ01R8xoFu+UGfXZgJu97Jj7aSj8uswh7u7PoYDGDpI2psJWSnlZmKTlmaM
- f4EJO4Hv7vieQypulyrI34A2bZj0XmRETZQ4kPdqEBT0ninHfaOOuzqeXOXcby6nkeBz
- LU2A==
-X-Gm-Message-State: AOAM530yfbWZWWk3uOKlCNvli31U85EkD4/QjcWU0UNCkCBpn0GtLSmK
- +TVIXD2FaoXc2yAXS1Wx/bWoCocYhHgyHPYD3+fB5Ap6ZfuYucVm5vIbDEKCrkQPZAXdArglazd
- lbgScF+Bkz3WPt/ZOv4f6efKCL2uszJkPXye7O0Zhl387CZROISvsvorQX2NjFkh4cfw=
-X-Received: by 2002:a17:906:b881:b0:709:80e9:8c0b with SMTP id
- hb1-20020a170906b88100b0070980e98c0bmr30921752ejb.110.1654696650631; 
- Wed, 08 Jun 2022 06:57:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJykXYwVFuFpIG466Rb+k5dYxK5tnjJQA8wgPdR/6RibjXtPfae5lZkLuIj9F0HMoeXjwc0ntw==
-X-Received: by 2002:a17:906:b881:b0:709:80e9:8c0b with SMTP id
- hb1-20020a170906b88100b0070980e98c0bmr30921730ejb.110.1654696650322; 
- Wed, 08 Jun 2022 06:57:30 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- rn13-20020a170906d92d00b006f3ef214df2sm9101771ejb.88.2022.06.08.06.57.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 06:57:29 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH untested] tests/tcg: disable xtensa-linux-user again
-Date: Wed,  8 Jun 2022 15:57:27 +0200
-Message-Id: <20220608135727.1341946-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
+ bh=dUiY10kJ3SWNb5am+hka4/vL3JkTd2j/XWvoryNovLA=;
+ b=ERPnEoiYmSTtehjg22rcruSOT+NdAHqE+etVOMNjzYrMG8rrYF3SAhUe9KqTE/LL0D
+ dQS7zdrnHuY/+DtkaRkxUKY8lS1Po0Wsg36DuYuUDAh/C3EZmttQGvup5RkzDCuH4PbK
+ xMS2oYxOwOWhd0o4hhjhtoWdkyHBHpF7zgsqUVB+TF/dHFEyiyREm6T07aLpoX2+ReaI
+ KUFtkyEAsw/Qyba4WqfgZVCtQ3KaULeiOnypqixKdcZTzzR3UgNdoYjnCd5VHkW+XjRM
+ +J2b/hqdTStVuPCVmTBY4HuTWCPhiib/Hn00aRiwU9AXE4B9KTgk2SO2Z8z7LQwKeAZw
+ UbsA==
+X-Gm-Message-State: AOAM533pVkdY6RO6Xt4xjkP9eMntn96RPRIQ2fsfajU2I8DPAK+hQwii
+ LcQbjWkxLO6IiiWbMbA+2AM=
+X-Google-Smtp-Source: ABdhPJw7uUJQqgLde3rs+9LfiMpJnPATcBbhfJ0uxD3sbttH+VvpxMRFUNKLZz18Kpv1oRron7KCIA==
+X-Received: by 2002:a17:907:7f06:b0:6fe:b81f:f885 with SMTP id
+ qf6-20020a1709077f0600b006feb81ff885mr31727328ejc.621.1654697618381; 
+ Wed, 08 Jun 2022 07:13:38 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ n19-20020a05640205d300b0042de8155fa1sm12657536edx.0.2022.06.08.07.13.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 07:13:37 -0700 (PDT)
+Message-ID: <758db6b4-5786-adf4-d293-d8dc7793a21b@redhat.com>
+Date: Wed, 8 Jun 2022 16:13:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 02/10] kvm: Support for querying fd-based stats
+Content-Language: en-US
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com,
+ Mark Kanda <mark.kanda@oracle.com>
+References: <20220530150714.756954-1-pbonzini@redhat.com>
+ <20220530150714.756954-3-pbonzini@redhat.com> <Yp+ObQxOi/EXc6PZ@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Yp+ObQxOi/EXc6PZ@work-vm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,43 +97,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The move from tests/tcg/configure.sh started enabling the container image
-for xtensa-linux-user, which fails because the compiler does not have
-the full set of headers.  The cause is the "xtensa*-softmmu)" case
-in tests/tcg/configure.sh which became just "xtensa*)" in the new
-probe_target_compiler shell function.  Look out for xtensa*-linux-user
-and do not configure it.
+On 6/7/22 19:44, Dr. David Alan Gilbert wrote:
 
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+>> +        return NULL;
+>> +    }
+>> +    descriptors->kvm_stats_header = kvm_stats_header;
+>> +    descriptors->kvm_stats_desc = kvm_stats_desc;
+>> +    descriptors->ident = g_strdup(ident);
+> 
+> There's something that confuses me here; you check your set of
+> descriptors above to find any with the matching ident, and if you've
+> already got it you return it; OK.  Now, if you don't match then you
+> read some stats and store it with that ident - but I don't see
+> when you read the stats from the fd, what makes it read the stats that
+> correspond to 'ident' ?
 
-diff --git a/configure b/configure
-index 7d021a4014..e9822ff56c 100755
---- a/configure
-+++ b/configure
-@@ -1923,7 +1923,6 @@ probe_target_compiler() {
-         container_cross_prefix=x86_64-linux-gnu-
-         ;;
-       xtensa*)
--        # FIXME: xtensa-linux-user?
-         container_hosts=x86_64
-         container_image=debian-xtensa-cross
- 
-@@ -2352,6 +2351,10 @@ for target in $target_list; do
-   probe_target_compiler ${arch}
- 
-   case $target in
-+    xtensa*-linux-user)
-+      # the toolchain is not complete with headers, only build softmmu tests
-+      continue
-+      ;;
-     *-softmmu)
-       test -f $source_path/tests/tcg/$arch/Makefile.softmmu-target || continue
-       qemu="qemu-system-$arch"
--- 
-2.36.1
+If you mean why not some other source, each source has a different file 
+descriptor:
 
++    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
+
+but the descriptors are consistent every time KVM_GET_STATS_FD is 
+called, so basically "ident" can be used as a cache key.
+
+If you mean how does it access the right stat, here it uses the offset
+field in the descriptor
+
+     ret = pread(stats_fd, stats_data, size_data, 
+kvm_stats_header->data_offset);
+     ...
+     for (i = 0; i < kvm_stats_header->num_desc; ++i) {
+         uint64_t *stats;
+         pdesc = (void *)kvm_stats_desc + i * size_desc;
+
+         /* Add entry to the list */
+         stats = (void *)stats_data + pdesc->offset;
+
+Paolo
 
