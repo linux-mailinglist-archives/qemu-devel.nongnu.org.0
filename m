@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDAE543D05
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 21:41:18 +0200 (CEST)
-Received: from localhost ([::1]:37294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D93543D87
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 22:24:58 +0200 (CEST)
+Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz1YK-0002MA-1L
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 15:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41482)
+	id 1nz2Ea-0005t8-PJ
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 16:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nz1Wj-0001ap-3x
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:39:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nz1Wg-0000Gp-Lf
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 15:39:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654717173;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JrZezDLTPm6B8RFtAtbbXWE+RJEJkGCfuLtTxaR201E=;
- b=OcOuyhDKwhoqMjqw4muX3t0l73R5F7TiqsmBeLEMJAFpEXPM7yAeAp/joiJwlsmhoA7W0q
- ILOyLGmsrdfTW5fAyJq8XDQAiusH5D30lOVAhdSiK+Y/exSeQElvxH/zuCRvx9OA8hSY++
- ztq1uj56LQxZrFtNaQ4Vu89VlByaawA=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-570-wzUXFKOINT6WWe81Ddx_cQ-1; Wed, 08 Jun 2022 15:39:32 -0400
-X-MC-Unique: wzUXFKOINT6WWe81Ddx_cQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- x18-20020a0ce0d2000000b0046458e0e18bso13598204qvk.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 12:39:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nz2CM-0004bR-4p; Wed, 08 Jun 2022 16:22:38 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:35460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nz2CK-0006VR-Ff; Wed, 08 Jun 2022 16:22:37 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-f16a3e0529so28693279fac.2; 
+ Wed, 08 Jun 2022 13:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Cm1N737UB1pI7WtpuFkb+ivRdyWy3TDPTkpLHSy5Lgs=;
+ b=kv6GuOBHJXNmYVBEiNOBMGf8dJcN2HRmZ4RSeW+aP1copWJHl/c15/ha4qs0SUmF/8
+ UAuEOnh+tyQKp1TQtXvBOe8nEafT03gQBx3Dd/mQ9/oQpL8nOZXRD8kTwQEhVUCdZwvn
+ 3Dzw9K/k7b23QBqZxhwPXWtNeF8EoyJYMuXYzI+sVtyjIfABkD4/gM52YWtvgimwdcCZ
+ N6vHYv5txdpPKtGefTS9uKTK2pRuNDMQQTgrmkd62tI8mf6gcDSwjSyYl1sYUYhydOPq
+ 91Mr/M5tQHTWpXqzqHF0l8eJibdUyh6DbYSnRb6kpMf3qLK36eEIS8DWJGgLz9PEkhzO
+ wRvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JrZezDLTPm6B8RFtAtbbXWE+RJEJkGCfuLtTxaR201E=;
- b=pQwPVfBl/FHJvhPv+FqZcWZ4mTKHw+p1U6A0ZX9y7Uzw7w5828ptE9iwwQDuXfAvjU
- K0uKMpcBWD9KklTndDQ62sQug1vXwtLuz2s2UWEfKt+Ox04E/OmEZKaBYZ3OM9IFSA8c
- jEWQ3k2XVOvw3Mne53of4t8TxlPEJBZ5GAXMqcaRwZZ9ix3rYCcpu9XrTS9JtV61dbAn
- iyMoFoShf3bMvRgoZd7cBr92qpd8HMb+lHLEaTwmmQ3jH6WvEmRZxUi+zUZp1XSWENnC
- qS/Ert1QxTfPtWoI3HHUcjV8Cl9HRr1r/UkNzFZYPiRcWsA58z/R4TbkKEDZx/Z4ZCqs
- rL0Q==
-X-Gm-Message-State: AOAM530Tk9JoOuUuMRCxRxHkkpi0q8OB12OJeOO7t1hNimkUaGzg3DWm
- yIekS/MqLPxBERlr3YPWb4qqJjczWDmSCSBFl4RzvYPZsAP18G0G6v1qGx7+ONzI6rPBJLoK/0S
- 2abGwVtoGkqLtLRho7d3SqRjZAdKGFJo=
-X-Received: by 2002:a05:622a:14c6:b0:2f4:730e:40fa with SMTP id
- u6-20020a05622a14c600b002f4730e40famr28733057qtx.495.1654717172063; 
- Wed, 08 Jun 2022 12:39:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKYkrXhmILT/ipzNyY4Mtl7Bm1F+kvMbw4gmrZiHsbPGJ7qcLfOh1rDZA6COc+Nf9LIx3JftAPJVyVpZEexgQ=
-X-Received: by 2002:a05:622a:14c6:b0:2f4:730e:40fa with SMTP id
- u6-20020a05622a14c600b002f4730e40famr28733020qtx.495.1654717171615; Wed, 08
- Jun 2022 12:39:31 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Cm1N737UB1pI7WtpuFkb+ivRdyWy3TDPTkpLHSy5Lgs=;
+ b=qWMSBxQqvUkw6xvfLWWvJW0kkAZOD4/g5hBOiP1/p2i/xsz9Gbdo/1K/cXH7qsNA1L
+ idg3jxebbDZ165smSsMzlArym14+IVXAngn0BBUlG2xl19HsZ0c8+8XXXcs/Clxk2p8i
+ QDDqxrt6UGMjLhZwUcVmHTDq3SyNHOGcb/xQcqDBFhba4LGVEmF17F2H264GBf2OzRBK
+ Gu4hI9uRyem4pzD9kGDOF/bOroQiop4VkqtELGDoJ0CqUmQRJroF5w3vXxaZgD8DhGmU
+ ITVslnZVF2H/3kDdovTBglrOZBF3ZaFkOfaOq3/1kXr8uqw3E9lAuh9eXU92UbkuZci2
+ HW/A==
+X-Gm-Message-State: AOAM533VhTqXLB/0gAQQDCNOt2pHB9/jBIHnn4mzM+TZAxvz3ER3YYv/
+ v+RE4J2v2k3JlDautNorPDE=
+X-Google-Smtp-Source: ABdhPJxgnfWoIpa2i+TeqjTv9k4oiU6HoBhrVqePlRrPBubSJhPI/2L9dNRpGQwYH26RWFrNEc5eWg==
+X-Received: by 2002:a05:6870:240d:b0:f1:b878:e97c with SMTP id
+ n13-20020a056870240d00b000f1b878e97cmr3293838oap.193.1654719754289; 
+ Wed, 08 Jun 2022 13:22:34 -0700 (PDT)
+Received: from [192.168.10.102] (189-68-152-128.dsl.telesp.net.br.
+ [189.68.152.128]) by smtp.gmail.com with ESMTPSA id
+ y14-20020a0568302a0e00b006060322127bsm10742179otu.75.2022.06.08.13.22.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 13:22:34 -0700 (PDT)
+Message-ID: <a011976f-714a-86ed-126c-5ed5857d8a8a@gmail.com>
+Date: Wed, 8 Jun 2022 17:22:05 -0300
 MIME-Version: 1.0
-References: <20220519191306.821774-1-eperezma@redhat.com>
- <20220519191306.821774-3-eperezma@redhat.com>
- <73865506-4df0-f9ed-d30c-718d352f700c@redhat.com>
-In-Reply-To: <73865506-4df0-f9ed-d30c-718d352f700c@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 8 Jun 2022 21:38:55 +0200
-Message-ID: <CAJaqyWeBhwEaVKe8YpXGnuxocrVBXJqKw6OFrR5cC22vJxif0w@mail.gmail.com>
-Subject: Re: [RFC PATCH v8 02/21] vhost: Add custom used buffer callback
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, 
- Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Eric Blake <eblake@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 08/16] ppc/pnv: user created pnv-phb for powernv9
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
+ mark.cave-ayland@ilande.co.uk
+References: <20220531214917.31668-1-danielhb413@gmail.com>
+ <20220531214917.31668-9-danielhb413@gmail.com>
+ <d2ae2236-7a49-22e7-3950-cb635697721a@linux.ibm.com>
+ <edef4577-c7d1-51aa-01c2-cd5846f7ba40@gmail.com>
+ <bbbb71c0-c4bd-0c87-5d44-f6398d64cf36@kaod.org>
+ <c6f53e8e-22a8-451d-409d-e371f39da08c@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <c6f53e8e-22a8-451d-409d-e371f39da08c@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,192 +99,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 7, 2022 at 8:12 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/5/20 03:12, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > The callback allows SVQ users to know the VirtQueue requests and
-> > responses. QEMU can use this to synchronize virtio device model state,
-> > allowing to migrate it with minimum changes to the migration code.
-> >
-> > In the case of networking, this will be used to inspect control
-> > virtqueue messages.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-shadow-virtqueue.h | 16 +++++++++++++++-
-> >   include/hw/virtio/vhost-vdpa.h     |  2 ++
-> >   hw/virtio/vhost-shadow-virtqueue.c |  9 ++++++++-
-> >   hw/virtio/vhost-vdpa.c             |  3 ++-
-> >   4 files changed, 27 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
-w-virtqueue.h
-> > index c132c994e9..6593f07db3 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > @@ -15,6 +15,13 @@
-> >   #include "standard-headers/linux/vhost_types.h"
-> >   #include "hw/virtio/vhost-iova-tree.h"
-> >
-> > +typedef void (*VirtQueueElementCallback)(VirtIODevice *vdev,
-> > +                                         const VirtQueueElement *elem)=
-;
->
->
-> Nit: I wonder if something like "VirtQueueCallback" is sufficient (e.g
-> kernel use "callback" directly)
->
 
-I didn't think about the notification part of the "callback" but more
-on the function callback, to notify the net or vhost-vdpa net
-subsystem :). But I think it can be named your way for sure.
 
-If we ever have other callbacks closer to vq than to vq elements to
-rename it later shouldn't be a big deal.
+On 6/7/22 03:44, Cédric Le Goater wrote:
+>>>> Also, the comment seems wrong to me. The qom parenting doesn't matter when building the device tree. 
+>>
+>> it does. See pnv_dt_xscom()
+> 
+> And this is the root cause of many headaches for user-created devices.
+> Could it be done differently ?
 
->
-> > +
-> > +typedef struct VhostShadowVirtqueueOps {
-> > +    VirtQueueElementCallback used_elem_handler;
-> > +} VhostShadowVirtqueueOps;
-> > +
-> >   /* Shadow virtqueue to relay notifications */
-> >   typedef struct VhostShadowVirtqueue {
-> >       /* Shadow vring */
-> > @@ -59,6 +66,12 @@ typedef struct VhostShadowVirtqueue {
-> >        */
-> >       uint16_t *desc_next;
-> >
-> > +    /* Optional callbacks */
-> > +    const VhostShadowVirtqueueOps *ops;
->
->
-> Can we merge map_ops to ops?
->
+Just tried to do a related change based on the review you gave in patch 07:
 
-It can be merged, but they are set by different actors.
+----
+But it would assert if child is not of the correct type. The routine
+above is called from a object_child_foreach() which loops on all
+children.
 
-map_ops is received by hw/virtio/vhost-vdpa, while this ops depends on
-the kind of device. Is it ok to fill the ops members "by chunks"?
+I think it could be improved by using directly &chip*->phbs[i].
 
->
-> > +
-> > +    /* Optional custom used virtqueue element handler */
-> > +    VirtQueueElementCallback used_elem_cb;
->
->
-> This seems not used in this series.
->
+C.
+-----
 
-Right, this is a leftover. Thanks for pointing it out!
+This doesn't work out of the gate because, for user creatable devices, we
+are not setting the phbs back into the chip->phbs[] array. In fact we're
+not even incrementing chip->num_phbs. We were getting away with all of it
+because we are parenting the PHBs to the chip during realize.
 
-Thanks!
+Considering that, and also how pnv_dt_xscom() works, I´d rather stick with
+most of the the QOM usage we already have. Otherwise we would need, for example,
+to change xscom_dt_child to go through each device we want in the DT. And
+there's no clear benefit aside from using less QOM, but that can be amended
+by adding more documentation here and there.
 
-> Thanks
->
->
-> > +
-> >       /* Next head to expose to the device */
-> >       uint16_t shadow_avail_idx;
-> >
-> > @@ -85,7 +98,8 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtI=
-ODevice *vdev,
-> >                        VirtQueue *vq);
-> >   void vhost_svq_stop(VhostShadowVirtqueue *svq);
-> >
-> > -VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree);
-> > +VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree,
-> > +                                    const VhostShadowVirtqueueOps *ops=
-);
-> >
-> >   void vhost_svq_free(gpointer vq);
-> >   G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostShadowVirtqueue, vhost_svq_free);
-> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
-dpa.h
-> > index a29dbb3f53..f1ba46a860 100644
-> > --- a/include/hw/virtio/vhost-vdpa.h
-> > +++ b/include/hw/virtio/vhost-vdpa.h
-> > @@ -17,6 +17,7 @@
-> >   #include "hw/virtio/vhost-iova-tree.h"
-> >   #include "hw/virtio/virtio.h"
-> >   #include "standard-headers/linux/vhost_types.h"
-> > +#include "hw/virtio/vhost-shadow-virtqueue.h"
-> >
-> >   typedef struct VhostVDPAHostNotifier {
-> >       MemoryRegion mr;
-> > @@ -35,6 +36,7 @@ typedef struct vhost_vdpa {
-> >       /* IOVA mapping used by the Shadow Virtqueue */
-> >       VhostIOVATree *iova_tree;
-> >       GPtrArray *shadow_vqs;
-> > +    const VhostShadowVirtqueueOps *shadow_vq_ops;
-> >       struct vhost_dev *dev;
-> >       VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> >   } VhostVDPA;
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
-w-virtqueue.c
-> > index 56c96ebd13..167db8be45 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > @@ -410,6 +410,10 @@ static void vhost_svq_flush(VhostShadowVirtqueue *=
-svq,
-> >                   break;
-> >               }
-> >
-> > +            if (svq->ops && svq->ops->used_elem_handler) {
-> > +                svq->ops->used_elem_handler(svq->vdev, elem);
-> > +            }
-> > +
-> >               if (unlikely(i >=3D svq->vring.num)) {
-> >                   qemu_log_mask(LOG_GUEST_ERROR,
-> >                            "More than %u used buffers obtained in a %u =
-size SVQ",
-> > @@ -607,12 +611,14 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
-> >    * shadow methods and file descriptors.
-> >    *
-> >    * @iova_tree: Tree to perform descriptors translations
-> > + * @ops: SVQ operations hooks
-> >    *
-> >    * Returns the new virtqueue or NULL.
-> >    *
-> >    * In case of error, reason is reported through error_report.
-> >    */
-> > -VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree)
-> > +VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree,
-> > +                                    const VhostShadowVirtqueueOps *ops=
-)
-> >   {
-> >       g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqu=
-eue, 1);
-> >       int r;
-> > @@ -634,6 +640,7 @@ VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *=
-iova_tree)
-> >       event_notifier_init_fd(&svq->svq_kick, VHOST_FILE_UNBIND);
-> >       event_notifier_set_handler(&svq->hdev_call, vhost_svq_handle_call=
-);
-> >       svq->iova_tree =3D iova_tree;
-> > +    svq->ops =3D ops;
-> >       return g_steal_pointer(&svq);
-> >
-> >   err_init_hdev_call:
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 66f054a12c..7677b337e6 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -418,7 +418,8 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hd=
-ev, struct vhost_vdpa *v,
-> >
-> >       shadow_vqs =3D g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
-> >       for (unsigned n =3D 0; n < hdev->nvqs; ++n) {
-> > -        g_autoptr(VhostShadowVirtqueue) svq =3D vhost_svq_new(v->iova_=
-tree);
-> > +        g_autoptr(VhostShadowVirtqueue) svq =3D vhost_svq_new(v->iova_=
-tree,
-> > +                                                            v->shadow_=
-vq_ops);
-> >
-> >           if (unlikely(!svq)) {
-> >               error_setg(errp, "Cannot create svq %u", n);
->
+I can make an exception for powernv8 and pnv_ics_get_child()/pnv_ics_resend_child(),
+where we're cycling through all child elements every time. For those cases it's worth
+to access the phbs directly via chip->phbs[], and for user creatable phb3s I'll add
+the created phb in the array.
 
+I also believe that I can do more to make the current handling of default phb3/phb4
+closer to what user creatable devices does. This will ease the work to be done
+by this series and will also make the design easier to understand. I might also do
+some changes that Mark pointed out in the phb3/4 root ports as well. This series can
+then be more about the PnvPHB proxy.
+
+
+Thanks,
+
+
+Daniel
+
+
+
+
+> 
+> Thanks,
+> 
+> C.
+> 
+> 
 
