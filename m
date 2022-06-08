@@ -2,89 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836E6542093
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 03:04:14 +0200 (CEST)
-Received: from localhost ([::1]:41268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B4A54208F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 03:01:55 +0200 (CEST)
+Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyk7J-0001s1-LK
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 21:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
+	id 1nyk54-0000QS-4W
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 21:01:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nyk3i-00083i-QV
+ id 1nyk3i-00083g-Mo
  for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:00:30 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24702
- helo=mx0a-001b2d01.pphosted.com)
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1nyk3g-0005t4-Qf
+ id 1nyk3g-0005t3-Lv
  for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:00:30 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2580TwO8024735;
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2580Tu93007906;
  Wed, 8 Jun 2022 01:00:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=JwmvaW3RRv+3pSMCOYaUTmvpbqMyFXIEL7t2IPOmPeE=;
- b=Oh7hMMyVVDhYHCeyjG8v2Puif5AKrO4f6Fln6DCtD0a7qJePDw05szx1bhGVrSnPYhJW
- f3M3/+KMHWDjabUhqXfvCM9gSpOOcPAEyhEyuRnp3iL2USoLqcw69XEv9XvZCJNDORNg
- QebGTvUQod1ecKRjvV7YS6czFUNihEd9xCcOX6gMW8WAXJ8U+9uek3eYO2DhJLt6YyRD
- RNAr6O4DDquxY9oyhpPge5CZ1+AiEstc5GQzwN5ctpwnxuAhHqWrVXkvsGgsuokFp5o8
- NeJMIXL/BKGLKSyeTNxLCAOP3Nn0g1PrVjnFNnG6ujugwc4CtfVP1x+7EYrygtSJC73E MQ== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjh748dsu-1
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=6uw873q0A7qKpxTEc1UaqCNpYgGTnrnwmDuJKzruvDU=;
+ b=TUFwPQNtai6WlgXTd+l9gPMl5vs8D4NGPwbqEgQrpICULFdXn/Y9DmocmQoyc/Cm1dMB
+ d8N3sgmwMJcAzGHYNxN4lXoC4zcWebCBIkG58zpnmiUvve9Wcxwg3H96/ZAssfqeuXNq
+ TzXY8ubPzU9g3imu5uF/mLH0xN7cGsGZSlw8xapb0Ue9CXRMyCZXXDArFNdeUpkGJrQg
+ iVq618NPjlzKUpfLXtFueTcLTdjk3eFCW/x5raFliCAZ/yy1+mXGwHxDBVvlzZWPVP6E
+ F5AZar4Nn6eQ3ur0hIyz/0N0KoF5Gq6qdXPCebv8hS7LzDXoSGisjo7inMjLbPgcdTuZ XQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjg5r1cuy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 08 Jun 2022 01:00:25 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2580oalG007652;
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2580rYZ0018880;
+ Wed, 8 Jun 2022 01:00:24 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjg5r1cup-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jun 2022 01:00:24 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2580oOKs006078;
  Wed, 8 Jun 2022 01:00:24 GMT
 Received: from b03cxnp08026.gho.boulder.ibm.com
  (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01dal.us.ibm.com with ESMTP id 3gfy1a5qwf-1
+ by ppma02wdc.us.ibm.com with ESMTP id 3gfy19qsqp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 08 Jun 2022 01:00:24 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
  by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25810N9019267976
+ 25810NRf31719738
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 8 Jun 2022 01:00:23 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E860DBE051;
- Wed,  8 Jun 2022 01:00:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 55D15BE051;
+ Wed,  8 Jun 2022 01:00:23 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 91F95BE05A;
- Wed,  8 Jun 2022 01:00:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 07C70BE054;
+ Wed,  8 Jun 2022 01:00:23 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
  Wed,  8 Jun 2022 01:00:22 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PULL v1 0/2] Merge tpm 2022/06/07 v1
-Date: Tue,  7 Jun 2022 21:00:04 -0400
-Message-Id: <20220608010006.2122022-1-stefanb@linux.ibm.com>
+Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.ibm.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL v1 1/2] hw/tpm/tpm_tis_common.c: Assert that locty is in range
+Date: Tue,  7 Jun 2022 21:00:05 -0400
+Message-Id: <20220608010006.2122022-2-stefanb@linux.ibm.com>
 X-Mailer: git-send-email 2.35.3
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GUJX7MXnxNRI_eS0nGPxPL8bFIOFjwlv
-X-Proofpoint-ORIG-GUID: GUJX7MXnxNRI_eS0nGPxPL8bFIOFjwlv
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20220608010006.2122022-1-stefanb@linux.ibm.com>
+References: <20220608010006.2122022-1-stefanb@linux.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: L_9dCSW6Df5I-xIwDsco0cCPqnZBVxVT
+X-Proofpoint-ORIG-GUID: kXfk1PxSwLrgxpMb_UkpydJVYzOcLgoF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-07_11,2022-06-07_02,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015
- suspectscore=0 priorityscore=1501 mlxlogscore=665 malwarescore=0
- spamscore=0 adultscore=0 mlxscore=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 spamscore=0
+ priorityscore=1501 malwarescore=0 mlxlogscore=986 impostorscore=0
+ lowpriorityscore=0 mlxscore=0 adultscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2204290000 definitions=main-2206080000
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -107,36 +116,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
+From: Peter Maydell <peter.maydell@linaro.org>
 
-The patches in this PR resolve several Coverity issues and mark a memory
-region with TPM response data as dirty so that it does not get lost during 
-migration.
+In tpm_tis_mmio_read(), tpm_tis_mmio_write() and
+tpm_tis_dump_state(), we calculate a locality index with
+tpm_tis_locality_from_addr() and then use it as an index into the
+s->loc[] array.  In all these cases, the array index can't overflow
+because the MemoryRegion is sized to be TPM_TIS_NUM_LOCALITIES <<
+TPM_TIS_LOCALITY_SHIFT bytes.  However, Coverity can't see that, and
+it complains (CID 1487138, 1487180, 1487188, 1487198, 1487240).
 
-   Stefan
+Add an assertion to tpm_tis_locality_from_addr() that the calculated
+locality index is valid, which will help Coverity and also catch any
+potential future bug where the MemoryRegion isn't sized exactly.
 
-The following changes since commit 7077fcb9b68f058809c9dd9fd1dacae1881e886c:
-
-  Merge tag 'vmbus-maint-20220530' of https://github.com/maciejsszmigiero/qemu into staging (2022-05-30 12:40:36 -0700)
-
-are available in the Git repository at:
-
-  https://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2022-06-07-1
-
-for you to fetch changes up to e37a0ef4605e5d2041785ff3fc89ca6021faf7a0:
-
-  tpm_crb: mark command buffer as dirty on request completion (2022-06-07 20:37:25 -0400)
-
-Anthony PERARD (1):
-      tpm_crb: mark command buffer as dirty on request completion
-
-Peter Maydell (1):
-      hw/tpm/tpm_tis_common.c: Assert that locty is in range
-
- hw/tpm/tpm_crb.c        | 1 +
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-id: 20220525125904.483075-1-stefanb@linux.ibm.com
+---
  hw/tpm/tpm_tis_common.c | 7 ++++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
+index e700d82181..503be2a541 100644
+--- a/hw/tpm/tpm_tis_common.c
++++ b/hw/tpm/tpm_tis_common.c
+@@ -50,7 +50,12 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwaddr addr,
+ 
+ static uint8_t tpm_tis_locality_from_addr(hwaddr addr)
+ {
+-    return (uint8_t)((addr >> TPM_TIS_LOCALITY_SHIFT) & 0x7);
++    uint8_t locty;
++
++    locty = (uint8_t)((addr >> TPM_TIS_LOCALITY_SHIFT) & 0x7);
++    assert(TPM_TIS_IS_VALID_LOCTY(locty));
++
++    return locty;
+ }
+ 
+ 
 -- 
 2.35.3
+
 
