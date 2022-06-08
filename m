@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1D15420EE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 06:21:08 +0200 (CEST)
-Received: from localhost ([::1]:43196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9685420EF
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 06:22:29 +0200 (CEST)
+Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nynBr-0007vj-9A
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 00:21:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54718)
+	id 1nynDA-0001Ab-Bc
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 00:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nyn9t-00078E-4X
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 00:19:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44993)
+ id 1nynBq-0008Uy-Hu
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 00:21:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nyn9q-0002D9-NM
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 00:19:04 -0400
+ id 1nynBo-0002gi-Kj
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 00:21:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654661941;
+ s=mimecast20190719; t=1654662063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vSz4FMpXwCR5kBJF/zfY8Ms2NKL7B4j/W6zB+WEduAM=;
- b=Mnl8+QW87tW7AqQ4tayI1YjRGqp1ANbWSSsgF/PRqOyeBLVQHCqT/tbb1RKmoMW/7HadY0
- CdiXn45qsl/6525hAQV++pCrliRv5BasThE9BtZQRJMDq2xJYXO+jzc1Wtiqx7Hg+resUY
- NCm5yA4DhTgJjrUvCW9G97zMS0bxxTI=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eoHa6z8vHjIiDBmej5zMCDtj7BeQa/duYVRHa1SGMXQ=;
+ b=dV5qxO/3zHdezRt0CHXpMnRERGVpD6wiUg3FkflsRosv8Lgrv3s3hq6aDCAhIoz33Hc0zf
+ RwkOlvlBL8kHRnMcFACbvn6P5b6+t7CmQYRqH389AV+cqXS9G25llYFWxHU1Kfn2pU9Mqy
+ iWBNVD/NYxSWekYZK8l7/z65pM8EwbI=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-n2pkUoizPt-rj_ra_lpahQ-1; Wed, 08 Jun 2022 00:19:00 -0400
-X-MC-Unique: n2pkUoizPt-rj_ra_lpahQ-1
-Received: by mail-pg1-f197.google.com with SMTP id
- e18-20020a656492000000b003fa4033f9a7so9607619pgv.17
- for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 21:19:00 -0700 (PDT)
+ us-mta-488-BE3DIQvXPa6IJx7RhMk06Q-1; Wed, 08 Jun 2022 00:21:00 -0400
+X-MC-Unique: BE3DIQvXPa6IJx7RhMk06Q-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ e19-20020aa79813000000b0051bba91468eso9716407pfl.14
+ for <qemu-devel@nongnu.org>; Tue, 07 Jun 2022 21:20:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vSz4FMpXwCR5kBJF/zfY8Ms2NKL7B4j/W6zB+WEduAM=;
- b=ZMWIG3sT2c52VmvikT6p2ctqdMf9wj/5StIBCzkWq4Ce4mh7lqfx4gnn9ReZdF3Ssc
- lR+OgZuQ6G1znxFdsoyDlM5S7/6mE4kuNSeR/RSa5rtK5W2uPOBp95GnPI+LkYrxqjGL
- TdNWcbvJRywfY1f7uHVV+fRju3yky1JTugTWovIhVoN83pncp7/JfTvF0WZu77Fs2XQG
- KDWSoDlH4zf3C1GfRALtpCRSYLwYlXE0Kne8A0HRev+u+g4swolDbE9uugdQbQNZBpsM
- ioS3ntNGn+IXos+aJs0n7cr4O1Ed0ImCb5Wi45fyFuMoneSa+2uI2uJzw085r9yMKI/i
- s97g==
-X-Gm-Message-State: AOAM530crcXscRO7QJRh2Ght1UwO1TKSfjmitd/VoOY9spJTdQAR/28d
- 9hXy5ffANCAt8AhEz1S8VSmtlo7R5KhfbCr2p4eZvaLBGEsKKx6XmjTjrmjZaWTGb+f5aAMfzQP
- Vhg82IMuuTP7njw0=
-X-Received: by 2002:a63:8bc7:0:b0:3fc:bd28:c819 with SMTP id
- j190-20020a638bc7000000b003fcbd28c819mr27452606pge.378.1654661939508; 
- Tue, 07 Jun 2022 21:18:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLokpdAElRas6Y6XO9s93LT2qtPmBA72w6naSuyl2wjxyWP5ypdt0bGOYjyxmSWwhrA+ZDrA==
-X-Received: by 2002:a63:8bc7:0:b0:3fc:bd28:c819 with SMTP id
- j190-20020a638bc7000000b003fcbd28c819mr27452588pge.378.1654661939222; 
- Tue, 07 Jun 2022 21:18:59 -0700 (PDT)
+ bh=eoHa6z8vHjIiDBmej5zMCDtj7BeQa/duYVRHa1SGMXQ=;
+ b=h6+I8r5nfqZZOIabqZ/FFPY3MQ4QxlwROXXhIKE1AXhvI0RGcxOlsWSQqDp4bIs16P
+ uycPSVNmuzDzimoNApPOoEWkjGR8jmwpKZUxvvaKouhfFaVw3NW1ThSfAhtkjzB+VYSq
+ ViNBqSMtj5LyolzFhnzM92QangRVmMlE2TWwMDkF3yb+jo6wRYPIqz4iib43enBg7Acx
+ 2mN3F9kV2xKnO/PWeCqazQnzVEtWW+HL36FIwcNNxSU88EHYPAaC3aMYS5HCjPiHKh5S
+ uEM99sK1cIxZaTQgOdQq6zUdCfHSld3eq300Qm92s0glGaihWDJC8sjq8w9u+uYZNSE7
+ a+dg==
+X-Gm-Message-State: AOAM531Lk731SKh1aucbyeiLXNHgeAshEwR1bdMaJDX3cQB823O4eaaY
+ RZ2GUS0WcrEeShJmIp9RRfp1ugOs8FWc7warFfqYfkxghAIdTWjFAZiJp1SL33FZt281bx/TkAa
+ yIU1AnShg7VeVT6k=
+X-Received: by 2002:a17:902:d551:b0:168:93b6:a94a with SMTP id
+ z17-20020a170902d55100b0016893b6a94amr1728540plf.149.1654662057586; 
+ Tue, 07 Jun 2022 21:20:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzKjr79mtVMRgOXUwHmbT6hdIypHQhBtkOsMxQRdTGXylvDsnwEuMM3mToBLGa5cKgey6ffw==
+X-Received: by 2002:a17:902:d551:b0:168:93b6:a94a with SMTP id
+ z17-20020a170902d55100b0016893b6a94amr1728505plf.149.1654662057307; 
+ Tue, 07 Jun 2022 21:20:57 -0700 (PDT)
 Received: from [10.72.13.97] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- t27-20020aa7947b000000b0051c0fe8fb8csm5996734pfq.95.2022.06.07.21.18.53
+ s11-20020a170902a50b00b001661f9ada6dsm13112189plq.143.2022.06.07.21.20.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 21:18:58 -0700 (PDT)
-Message-ID: <4e097d14-9422-bff5-d52c-74ae9fceede1@redhat.com>
-Date: Wed, 8 Jun 2022 12:18:51 +0800
+ Tue, 07 Jun 2022 21:20:56 -0700 (PDT)
+Message-ID: <21204df4-3e92-d1b7-042c-30f769c97893@redhat.com>
+Date: Wed, 8 Jun 2022 12:20:50 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.9.1
-Subject: Re: [RFC PATCH v8 11/21] vhost: Update kernel headers
+Subject: Re: [RFC PATCH v8 12/21] vdpa: delay set_vring_ready after DRIVER_OK
 Content-Language: en-US
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 Cc: Gautam Dawar <gdawar@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -81,9 +81,9 @@ Cc: Gautam Dawar <gdawar@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Eric Blake <eblake@redhat.com>,
  Cindy Lu <lulu@redhat.com>, Parav Pandit <parav@mellanox.com>
 References: <20220519191306.821774-1-eperezma@redhat.com>
- <20220519191306.821774-12-eperezma@redhat.com>
+ <20220519191306.821774-13-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220519191306.821774-12-eperezma@redhat.com>
+In-Reply-To: <20220519191306.821774-13-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
@@ -112,89 +112,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/5/20 03:12, Eugenio Pérez 写道:
+> To restore the device in the destination of a live migration we send the
+> commands through control virtqueue. For a device to read CVQ it must
+> have received DRIVER_OK status bit.
+>
+> However this open a window where the device could start receiving
+> packets in rx queue 0 before it receive the RSS configuration. To avoid
+> that, we will not send vring_enable until all configuration is used by
+> the device.
+>
+> As a first step, reverse the DRIVER_OK and SET_VRING_ENABLE steps.
+>
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
 
 
-It's better to use the helpers in scripts/ and mentioned to which 
-version is this synced.
+I may miss something, but it looks to me this should be an independent 
+patch or it should depend on live migration series.
 
 Thanks
 
 
->   include/standard-headers/linux/vhost_types.h | 11 ++++++++-
->   linux-headers/linux/vhost.h                  | 25 ++++++++++++++++----
->   2 files changed, 30 insertions(+), 6 deletions(-)
+> ---
+>   hw/virtio/vhost-vdpa.c | 20 +++++++++++++++-----
+>   1 file changed, 15 insertions(+), 5 deletions(-)
 >
-> diff --git a/include/standard-headers/linux/vhost_types.h b/include/standard-headers/linux/vhost_types.h
-> index 0bd2684a2a..ce78551b0f 100644
-> --- a/include/standard-headers/linux/vhost_types.h
-> +++ b/include/standard-headers/linux/vhost_types.h
-> @@ -87,7 +87,7 @@ struct vhost_msg {
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 31b3d4d013..13e5e2a061 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -748,13 +748,18 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
+>       return idx;
+>   }
 >   
->   struct vhost_msg_v2 {
->   	uint32_t type;
-> -	uint32_t reserved;
-> +	uint32_t asid;
->   	union {
->   		struct vhost_iotlb_msg iotlb;
->   		uint8_t padding[64];
-> @@ -153,4 +153,13 @@ struct vhost_vdpa_iova_range {
->   /* vhost-net should add virtio_net_hdr for RX, and strip for TX packets. */
->   #define VHOST_NET_F_VIRTIO_NET_HDR 27
->   
-> +/* Use message type V2 */
-> +#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
-> +/* IOTLB can accept batching hints */
-> +#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
-> +/* IOTLB can accept address space identifier through V2 type of IOTLB
-> + * message
+> +/**
+> + * Set ready all vring of the device
+> + *
+> + * @dev: Vhost device
 > + */
-> +#define VHOST_BACKEND_F_IOTLB_ASID  0x3
+>   static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+>   {
+>       int i;
+>       trace_vhost_vdpa_set_vring_ready(dev);
+> -    for (i = 0; i < dev->nvqs; ++i) {
+> +    for (i = 0; i < dev->vq_index_end; ++i) {
+>           struct vhost_vring_state state = {
+> -            .index = dev->vq_index + i,
+> +            .index = i,
+>               .num = 1,
+>           };
+>           vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
+> @@ -1117,7 +1122,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>           if (unlikely(!ok)) {
+>               return -1;
+>           }
+> -        vhost_vdpa_set_vring_ready(dev);
+>       } else {
+>           ok = vhost_vdpa_svqs_stop(dev);
+>           if (unlikely(!ok)) {
+> @@ -1131,16 +1135,22 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>       }
+>   
+>       if (started) {
+> +        int r;
+>           memory_listener_register(&v->listener, &address_space_memory);
+> -        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> +        r = vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> +        if (unlikely(r)) {
+> +            return r;
+> +        }
+> +        vhost_vdpa_set_vring_ready(dev);
+>       } else {
+>           vhost_vdpa_reset_device(dev);
+>           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+>                                      VIRTIO_CONFIG_S_DRIVER);
+>           memory_listener_unregister(&v->listener);
+>   
+> -        return 0;
+>       }
 > +
->   #endif
-> diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
-> index 5d99e7c242..d42eb46efd 100644
-> --- a/linux-headers/linux/vhost.h
-> +++ b/linux-headers/linux/vhost.h
-> @@ -89,11 +89,6 @@
+> +    return 0;
+>   }
 >   
->   /* Set or get vhost backend capability */
->   
-> -/* Use message type V2 */
-> -#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
-> -/* IOTLB can accept batching hints */
-> -#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
-> -
->   #define VHOST_SET_BACKEND_FEATURES _IOW(VHOST_VIRTIO, 0x25, __u64)
->   #define VHOST_GET_BACKEND_FEATURES _IOR(VHOST_VIRTIO, 0x26, __u64)
->   
-> @@ -154,6 +149,26 @@
->   /* Get the config size */
->   #define VHOST_VDPA_GET_CONFIG_SIZE	_IOR(VHOST_VIRTIO, 0x79, __u32)
->   
-> +/* Get the number of virtqueue groups. */
-> +#define VHOST_VDPA_GET_GROUP_NUM	_IOR(VHOST_VIRTIO, 0x7A, unsigned int)
-> +
-> +/* Get the number of address spaces. */
-> +#define VHOST_VDPA_GET_AS_NUM		_IOR(VHOST_VIRTIO, 0x7B, unsigned int)
-> +
-> +/* Get the group for a virtqueue: read index, write group in num,
-> + * The virtqueue index is stored in the index field of
-> + * vhost_vring_state. The group for this specific virtqueue is
-> + * returned via num field of vhost_vring_state.
-> + */
-> +#define VHOST_VDPA_GET_VRING_GROUP	_IOWR(VHOST_VIRTIO, 0x7C,	\
-> +					      struct vhost_vring_state)
-> +/* Set the ASID for a virtqueue group. The group index is stored in
-> + * the index field of vhost_vring_state, the ASID associated with this
-> + * group is stored at num field of vhost_vring_state.
-> + */
-> +#define VHOST_VDPA_SET_GROUP_ASID	_IOW(VHOST_VIRTIO, 0x7D, \
-> +					     struct vhost_vring_state)
-> +
->   /* Get the count of all virtqueues */
->   #define VHOST_VDPA_GET_VQS_COUNT	_IOR(VHOST_VIRTIO, 0x80, __u32)
->   
+>   static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
 
 
