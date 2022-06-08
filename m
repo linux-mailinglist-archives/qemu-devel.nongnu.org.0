@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9CB5420AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 03:52:36 +0200 (CEST)
-Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF725420AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 03:54:05 +0200 (CEST)
+Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyks7-00042Y-Tu
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 21:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56488)
+	id 1nyktY-0005Uu-Pm
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jun 2022 21:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1nykdi-000212-32
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:37:42 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:44668 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1nykde-0002eU-Ii
- for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:37:41 -0400
-Received: from localhost.localdomain (unknown [159.226.43.7])
- by APP-05 (Coremail) with SMTP id zQCowABHaX5F_Z9ii+lgAA--.9773S4;
- Wed, 08 Jun 2022 09:37:25 +0800 (CST)
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-To: qemu-devel@nongnu.org
-Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Subject: [PATCH 2/2] hw/nvme: Add trace events for shadow doorbell buffer
-Date: Wed,  8 Jun 2022 09:36:59 +0800
-Message-Id: <20220608013659.472500-3-fanjinhao21s@ict.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220608013659.472500-1-fanjinhao21s@ict.ac.cn>
-References: <20220608013659.472500-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nykqZ-0003Xw-Df
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:50:59 -0400
+Received: from mga05.intel.com ([192.55.52.43]:49860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nykqW-0004gO-9k
+ for qemu-devel@nongnu.org; Tue, 07 Jun 2022 21:50:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654653056; x=1686189056;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=2nQ38fddFLZDd8gkGjJtsrfacBKUhyjbYVezamAfui8=;
+ b=OdGzkmP+5tOv3QmQevljW+BCrBVAML3iwyjC8YOmOj1dV8iyfzMnNcpV
+ QnoAjCc+i0SdVmbgGUw2X2SoDED/YTe+9t2r+Kmx9Y+r4M2cYXLeRWWyH
+ dkyG/WMII3ICdKMsaLf5YO6d7T9hvavgXmMi1izkzTeG58SxGFPzxv5B+
+ VXACJMekmX5gk4himK8BIZZiX3Yn9OilE/42jxnpfcPhy/To218dNMJSg
+ UUlhqZbTGQKK0wPYttt+7apNaGzoe79Z5QZ2UtHbnWDziy3JpKXayvubi
+ M3+3ynS2H0rCzaB1r4aBSd4LCyl6lADao9DBvl9/eKYePZn0oRziSDcJi Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="363116071"
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="363116071"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 18:50:49 -0700
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="636468942"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.31.211])
+ ([10.255.31.211])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 18:50:44 -0700
+Message-ID: <83f56255-f15d-f36b-4897-06d8f954061c@intel.com>
+Date: Wed, 8 Jun 2022 09:50:42 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABHaX5F_Z9ii+lgAA--.9773S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxXF1Dtr15Jw15Ar1DCFW3Jrb_yoWrZFyrpF
- WaqFnxA34SkFZ2q34DZrnrJr18Xw4qqry0kwsrtr1xta929ry2vFyxt34rZr15WFs7Jr45
- uas3tr42qr9rXFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBq14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
- x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
- ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
- v20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
- F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVWkMxAIw2
- 8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
- x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrw
- CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI
- 42IY6xAIw20EY4v20xvaj40_JFI_Gr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbpnQUUUUUU==
-X-Originating-IP: [159.226.43.7]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.9.0
+Subject: Re: [RFC PATCH v4 11/36] i386/tdx: Initialize TDX before creating TD
+ vcpus
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, isaku.yamahata@intel.com,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+References: <20220512031803.3315890-1-xiaoyao.li@intel.com>
+ <20220512031803.3315890-12-xiaoyao.li@intel.com>
+ <20220523092003.lm4vzfpfh4ezfcmy@sirius.home.kraxel.org>
+ <d3e967f3-917f-27ce-1367-2dba23e5c241@intel.com>
+ <20220524065719.wyyoba2ke73tx3nc@sirius.home.kraxel.org>
+ <39341481-67b6-aba4-a25a-10abb398bec4@intel.com>
+ <20220601075453.7qyd5z22ejgp37iz@sirius.home.kraxel.org>
+ <9d00fd58-b957-3b8e-22ab-12214dcbbe97@intel.com>
+ <20220607111651.2zjm7mx2gz3irqxo@sirius.home.kraxel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220607111651.2zjm7mx2gz3irqxo@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=xiaoyao.li@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 07 Jun 2022 21:47:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,86 +99,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When shadow doorbell buffer is enabled, doorbell registers are lazily
-updated. The actual queue head and tail pointers are stored in Shadow
-Doorbell buffers.
+On 6/7/2022 7:16 PM, Gerd Hoffmann wrote:
+>    Hi,
+> 
+>>> I guess it could be helpful for the discussion when you can outine the
+>>> 'big picture' for tdx initialization.  How does kvm accel setup look
+>>> like without TDX, and what additional actions are needed for TDX?  What
+>>> ordering requirements and other constrains exist?
+>>
+>> To boot a TDX VM, it requires several changes/additional steps in the flow:
+>>
+>>   1. specify the vm type KVM_X86_TDX_VM when creating VM with
+>>      IOCTL(KVM_CREATE_VM);
+>> 	- When initializing KVM accel
+>>
+>>   2. initialize VM scope configuration before creating any VCPU;
+>>
+>>   3. initialize VCPU scope configuration;
+>> 	- done inside machine_init_done_notifier;
+>>
+>>   4. initialize virtual firmware in guest private memory before vcpu running;
+>> 	- done inside machine_init_done_notifier;
+>>
+>>   5. finalize the TD's measurement;
+>> 	- done inside machine init_done_notifier;
+>>
+>>
+>> And we are discussing where to do step 2).
+>>
+>> We can find from the code of tdx_pre_create_vcpu(), that it needs
+>> cpuid entries[] and attributes as input to KVM.
+>>
+>>    cpuid entries[] is set up by kvm_x86_arch_cpuid() mainly based on
+>>    'CPUX86State *env'
+>>
+>>    attributes.pks is retrieved from env->features[]
+>>    and attributes.pmu is retrieved from x86cpu->enable_pmu
+>>
+>> to make VM-socpe data is consistent with VCPU data, we do choose the point
+>> late enough to ensure all the info/configurations from VCPU are settle down,
+>> that just before calling KVM API to do VCPU-scope configuration.
+> 
+> So essentially tdx defines (some) vcpu properties at vm scope?  
 
-Add trace events for updates on the Shadow Doorbell buffers and EventIdx
-buffers. Also add trace event for the Doorbell Buffer Config command.
+Not TDX, but QEMU. Most of the CPU features are configrued by "-cpu" 
+option not "-machine" option.
 
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
----
- hw/nvme/ctrl.c       | 5 +++++
- hw/nvme/trace-events | 5 +++++
- 2 files changed, 10 insertions(+)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index d3f6c432df..7df52d204d 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1309,6 +1309,7 @@ static void nvme_update_cq_head(NvmeCQueue *cq)
- {
-     pci_dma_read(&cq->ctrl->parent_obj, cq->db_addr, &cq->head,
-             sizeof(cq->head));
-+    trace_pci_nvme_shadow_doorbell_cq(cq->cqid, cq->head);
- }
- 
- static void nvme_post_cqes(void *opaque)
-@@ -5823,6 +5824,8 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-         }
-     }
- 
-+    trace_pci_nvme_dbbuf_config(dbs_addr, eis_addr);
-+
-     return NVME_SUCCESS;
- }
- 
-@@ -5883,12 +5886,14 @@ static void nvme_update_sq_eventidx(const NvmeSQueue *sq)
- {
-     pci_dma_write(&sq->ctrl->parent_obj, sq->ei_addr, &sq->tail,
-                   sizeof(sq->tail));
-+    trace_pci_nvme_eventidx_sq(sq->sqid, sq->tail);
- }
- 
- static void nvme_update_sq_tail(NvmeSQueue *sq)
- {
-     pci_dma_read(&sq->ctrl->parent_obj, sq->db_addr, &sq->tail,
-                  sizeof(sq->tail));
-+    trace_pci_nvme_shadow_doorbell_sq(sq->sqid, sq->tail);
- }
- 
- static void nvme_process_sq(void *opaque)
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index ff1b458969..00ee42f475 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -3,6 +3,7 @@ pci_nvme_irq_msix(uint32_t vector) "raising MSI-X IRQ vector %u"
- pci_nvme_irq_pin(void) "pulsing IRQ pin"
- pci_nvme_irq_masked(void) "IRQ is masked"
- pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2=0x%"PRIx64""
-+pci_nvme_dbbuf_config(uint64_t dbs_addr, uint64_t eis_addr) "dbs_addr=0x%"PRIx64" eis_addr=0x%"PRIx64""
- pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_addr_cmb(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2, int num_prps) "trans_len %"PRIu64" len %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64" num_prps %d"
-@@ -81,6 +82,8 @@ pci_nvme_enqueue_event_noqueue(int queued) "queued %d"
- pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
- pci_nvme_no_outstanding_aers(void) "ignoring event; no outstanding AERs"
- pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint32_t dw0, uint32_t dw1, uint16_t status) "cid %"PRIu16" cqid %"PRIu16" dw0 0x%"PRIx32" dw1 0x%"PRIx32" status 0x%"PRIx16""
-+pci_nvme_eventidx_cq(uint16_t cqid, uint16_t new_eventidx) "cqid %"PRIu16" new_eventidx %"PRIu16""
-+pci_nvme_eventidx_sq(uint16_t sqid, uint16_t new_eventidx) "sqid %"PRIu16" new_eventidx %"PRIu16""
- pci_nvme_mmio_read(uint64_t addr, unsigned size) "addr 0x%"PRIx64" size %d"
- pci_nvme_mmio_write(uint64_t addr, uint64_t data, unsigned size) "addr 0x%"PRIx64" data 0x%"PRIx64" size %d"
- pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
-@@ -97,6 +100,8 @@ pci_nvme_mmio_start_success(void) "setting controller enable bit succeeded"
- pci_nvme_mmio_stopped(void) "cleared controller enable bit"
- pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
- pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
-+pci_nvme_shadow_doorbell_cq(uint16_t cqid, uint16_t new_shadow_doorbell) "cqid %"PRIu16" new_shadow_doorbell %"PRIu16""
-+pci_nvme_shadow_doorbell_sq(uint16_t sqid, uint16_t new_shadow_doorbell) "sqid %"PRIu16" new_shadow_doorbell %"PRIu16""
- pci_nvme_open_zone(uint64_t slba, uint32_t zone_idx, int all) "open zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_close_zone(uint64_t slba, uint32_t zone_idx, int all) "close zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_finish_zone(uint64_t slba, uint32_t zone_idx, int all) "finish zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
--- 
-2.25.1
+> Given
+> that all vcpus typically identical (and maybe tdx even enforces this)
+> this makes sense.
+> 
+> A comment in the source code explaining this would be good.
+> 
+> thanks,
+>    Gerd
+> 
 
 
