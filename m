@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9CF543286
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:27:32 +0200 (CEST)
-Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BAF54328D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 16:29:34 +0200 (CEST)
+Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyweh-0007vc-6q
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48596)
+	id 1nywge-0002aa-N6
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 10:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8Z-0002Ts-Mr
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48100)
+ id 1nyw8V-0002FJ-DW
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nyw8V-0004To-3R
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:19 -0400
+ id 1nyw8T-0004TZ-Sz
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:54:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654696454;
+ s=mimecast20190719; t=1654696453;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PjHLQk1QaOLCjZkLQT7YZLxu3bFUU4J0uLJZnlOSmXs=;
- b=FN9oYCjDAqAXHW5t1iYrr8tW3CZxRouCLkHpzf4RHv5dB6FQzqVSYN7Zu/2NEbuz4fK9Z7
- mZdd+JGM3wEWa3w9tGBQc3CudSuIkrWpez7UxbLTgOX/rfVB7dMPs4SawLhQqhz8LybkGj
- 1c3ll6Fd6U+EsszomhLu9xNHTXk/pGQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=m/au5X9nSKlzergWVZjnXe2ShfoOaI8Bh8STEDKisko=;
+ b=MCYywHZhucpVcBiPDW3LW7k49XntJ463VIFCMuQswLEYOcE+S9+xzI915qmE3ZnR5MI0I6
+ lxZaHsfFttv++6kDhyqlPw1fN9AlyvBIrMymgO8WwlBV4Bt5v+BY2M1avApyJ/+EGeQ20E
+ X8ymk7jXF0kpjVJEe9ApO8gg0F4Z2R0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-I4Al4I_fOJit0D17blraZQ-1; Wed, 08 Jun 2022 09:54:11 -0400
-X-MC-Unique: I4Al4I_fOJit0D17blraZQ-1
+ us-mta-516-_j6Ug6HsMZ6WMcWE77E8Og-1; Wed, 08 Jun 2022 09:54:12 -0400
+X-MC-Unique: _j6Ug6HsMZ6WMcWE77E8Og-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFBC6811E7A;
- Wed,  8 Jun 2022 13:54:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A60C81C0518D
+ for <qemu-devel@nongnu.org>; Wed,  8 Jun 2022 13:54:11 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CA23C28117;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1263AC28117;
  Wed,  8 Jun 2022 13:54:10 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
-	Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH v2 34/35] tests: acpi: update expected
- DSDT.tis.tpm2/DSDT.tis.tpm12 blobs
-Date: Wed,  8 Jun 2022 09:53:39 -0400
-Message-Id: <20220608135340.3304695-35-imammedo@redhat.com>
+	Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 35/35] x86: acpi-build: do not include hw/isa/isa.h directly
+Date: Wed,  8 Jun 2022 09:53:40 -0400
+Message-Id: <20220608135340.3304695-36-imammedo@redhat.com>
 In-Reply-To: <20220608135340.3304695-1-imammedo@redhat.com>
 References: <20220608135340.3304695-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -82,103 +81,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-expected move of tmp-tis device description directly under
-Device(ISA) node.
-
-for tpm-tis 2.0:
-
-  @@ -145,6 +145,189 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
-           {
-               Name (_ADR, 0x001F0000)  // _ADR: Address
-               OperationRegion (PIRQ, PCI_Config, 0x60, 0x0C)
-  +            Device (TPM)
-  +            {
-  +                Name (_HID, "MSFT0101" /* TPM 2.0 Security Device */)  // _HID: Hardware ID
-  +                Name (_STR, "TPM 2.0 Device")  // _STR: Description String
-  +                Name (_UID, One)  // _UID: Unique ID
-  +                Name (_STA, 0x0F)  // _STA: Status
-    ...
-  +            }
-
-  @@ -3281,189 +3464,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
-               Method (PCNT, 0, NotSerialized)
-               {
-               }
-  -
-  -            Device (TPM)
-  -            {
-  -                Name (_HID, "MSFT0101" /* TPM 2.0 Security Device */)  // _HID: Hardware ID
-  -                Name (_STR, "TPM 2.0 Device")  // _STR: Description String
-  -                Name (_UID, One)  // _UID: Unique ID
-  -                Name (_STA, 0x0F)  // _STA: Status
-    ...
-  -            }
-
-for tpm-tis 1.2:
-
-  @@ -145,6 +145,188 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
-           {
-               Name (_ADR, 0x001F0000)  // _ADR: Address
-               OperationRegion (PIRQ, PCI_Config, 0x60, 0x0C)
-  +            Device (TPM)
-  +            {
-  +                Name (_HID, EisaId ("PNP0C31"))  // _HID: Hardware ID
-  +                Name (_UID, One)  // _UID: Unique ID
-  +                Name (_STA, 0x0F)  // _STA: Status
-    ...
-  +            }
-
-  @@ -3281,188 +3463,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
-               Method (PCNT, 0, NotSerialized)
-               {
-               }
-  -
-  -            Device (ISA.TPM)
-  -            {
-  -                Name (_HID, EisaId ("PNP0C31"))  // _HID: Hardware ID
-  -                Name (_UID, One)  // _UID: Unique ID
-  -                Name (_STA, 0x0F)  // _STA: Status
-    ...
-  -            }
+the last remaining dependency on ISA in acpi-build.c
+is iapc_boot_arch_8042() which pulls in in isa.h
+in its own header hw/input/i8042.h. Clean up
+not longer needed direct inclusion of isa.h in
+acpi-build.c
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Ani Sinha <ani@anisinha.ca>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   2 --
- tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 8885 -> 8880 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 8906 -> 8906 bytes
- 3 files changed, 2 deletions(-)
+ hw/i386/acpi-build.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 7b3bf9a207..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT.tis.tpm2",
--"tests/data/acpi/q35/DSDT.tis.tpm12",
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-index 0b5c97fdb5da8b7b55d6b5f2af498a447fda7bf8..a97d884c50485f848054c6ac95ecfa055ff59e5b 100644
-GIT binary patch
-delta 89
-zcmdn$y1|vpCD<iogAxM+quxfYn~XZHW_t0#PVoWGo(9oP9;Tkbj`1AvjxIqw3=HxN
-r(G3BfL4izM30yqUO%AG?(-r)fHghwv%5nLz#DKI3xUo!@Qg8tPLai3C
-
-delta 95
-zcmdnsy497-CD<ios}chP<Nl3YHyJgY1@+>Co#F$WJq@Cp+yp#>9pgFT9bJNW7#QRk
-vq8kD{g94ej61aFa$Fi`>ak*;6fK&_kYEI5ka^Z|_a#hs>Y1z!r<i`X6>g5>c
-
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
-index 4e16b126cc1c32f2346078fa69c5261c245d15e8..1f5392919b5ea69696b49ff13aab5c37d0615919 100644
-GIT binary patch
-delta 85
-zcmX@*ddii{CD<k8loA62<JFB^HyJhj&Gq7go#F$WJq@CpoXkCg9pgFT9bJNW7#QRk
-nq8kD{g94ej61aFa$0_76ZRTcTmE-bbi2-R5aATP)rQiYpDU=p=
-
-delta 85
-zcmX@*ddii{CD<k8loA62<CBeCHyJgY1@+>Co#F$WJq@Cp+yp#>9pgFT9bJNW7#QRk
-nq8kD{g94ej61aFam$R_Sad~OSfK&@OX-{rba@owyl*0r7A8!`n
-
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 0b65fc99cd..f41e14a469 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -37,7 +37,6 @@
+ #include "hw/acpi/cpu.h"
+ #include "hw/nvram/fw_cfg.h"
+ #include "hw/acpi/bios-linker-loader.h"
+-#include "hw/isa/isa.h"
+ #include "hw/acpi/acpi_aml_interface.h"
+ #include "hw/input/i8042.h"
+ #include "hw/acpi/memory_hotplug.h"
 -- 
 2.31.1
 
