@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37756543135
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 15:19:43 +0200 (CEST)
-Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C80F543156
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 15:31:06 +0200 (CEST)
+Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyvb3-0003fT-P3
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 09:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
+	id 1nyvm4-0000vH-S9
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 09:31:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nyv9x-00045b-2O
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 08:51:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52915)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nyvQ2-0003q8-V1
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:08:18 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nyv9l-0000PC-0h
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 08:51:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654692628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=O9K296j1AQJUvWv4X2E5lcaEhQPLywuWyxVOnlgSS+Y=;
- b=QRDVhhBIIR2XzmMH8OaKamat33pWmfHEbePC5BYBBnipDpcg26zpSMVn7vPrmIs3RCt0Yr
- UAi19HLo6PzzVluYhBd5bJ4QTZgWsU0eR7gi+h2NCxOGAoJSbyLsPx766a/eezLTaCgR3C
- 7RIK+JYErgxUwoBXveHPj5IpLviApHQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-ix1ylmh6P0i0-6qm67tQvQ-1; Wed, 08 Jun 2022 08:50:24 -0400
-X-MC-Unique: ix1ylmh6P0i0-6qm67tQvQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBCCB811E7A;
- Wed,  8 Jun 2022 12:50:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 42BC0C33AE6;
- Wed,  8 Jun 2022 12:50:23 +0000 (UTC)
-Date: Wed, 8 Jun 2022 13:50:21 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alberto Faria <afaria@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
- Fam Zheng <fam@euphon.net>, Ari Sundholm <ari@tuxera.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 07/10] block: Implement
- bdrv_{pread,pwrite,pwrite_zeroes}() using generated_co_wrapper
-Message-ID: <YqCbDWy4kdBSzd43@stefanha-x1.localdomain>
-References: <20220519144841.784780-1-afaria@redhat.com>
- <20220519144841.784780-8-afaria@redhat.com>
- <Yo9AhsmzrQlzIr/z@stefanha-x1.localdomain>
- <CAELaAXy-Pp75sdkEDiaUEfg-SL5FF1LKTJ7ntajNcz75+FpiaQ@mail.gmail.com>
- <20220527142506.wkl2al5vtle45qji@redhat.com>
- <YpS9Y0p18HJSNFsq@stefanha-x1.localdomain>
- <CAELaAXx23BK86W6oEzo9DANj=KCTpXAwDu0E85BGj19UW0M3VQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nyvPz-0004Db-GN
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 09:08:18 -0400
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LJ6py3wWJz67lbv;
+ Wed,  8 Jun 2022 21:03:22 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 8 Jun 2022 15:08:07 +0200
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2375.24; Wed, 8 Jun 2022 14:08:07 +0100
+To: <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>, "Ben
+ Widawsky" <bwidawsk@kernel.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, <alex.bennee@linaro.org>, Marcel Apfelbaum
+ <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, "Adam
+ Manzanares" <a.manzanares@samsung.com>, Tong Zhang <ztong0001@gmail.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+Subject: [PATCH v4] hw/cxl: Fix missing write mask for HDM decoder target list
+ registers
+Date: Wed, 8 Jun 2022 14:08:04 +0100
+Message-ID: <20220608130804.25795-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Pon0V5yUbVIY/eb1"
-Content-Disposition: inline
-In-Reply-To: <CAELaAXx23BK86W6oEzo9DANj=KCTpXAwDu0E85BGj19UW0M3VQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml703-chm.china.huawei.com (10.201.108.52) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,57 +72,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
+Without being able to write these registers, no interleaving is possible.
+More refined checks of HDM register state on commit to follow.
 
---Pon0V5yUbVIY/eb1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reviewed-by: Ben Widawsky <ben@bwidawsk.net>
+---
+v4: (Ben Widawsky review responses - thanks!)
+ - Expand list of matched types for 'skip' usages (with more restrictive
+   write mask) to include all CXL device types (type 3, type 1/2 and LD).
+   We only emulate type 3 so far but good for the function implementation
+   to be correct for the other types.
+ - Added Ben's RB.
+ 
+ hw/cxl/cxl-component-utils.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-On Mon, Jun 06, 2022 at 05:10:38PM +0100, Alberto Faria wrote:
-> Thanks for the feedback, and apologies for the delayed response.
->=20
-> On Mon, May 30, 2022 at 1:49 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> > If you find it's safe to change to -EINVAL then that's consistent with
-> > how file I/O syscalls work and I think it would be nice.
->=20
-> Switching to -EINVAL on negative bytes sounds good to me, but perhaps
-> it should be done as a separate series. For now, switching just
-> bdrv_{pread,pwrite}() to -EIO will make them consistent with all of
-> bdrv_{preadv,pwritev}() and bdrv_co_{pread,pwrite,preadv,pwritev}(),
-> accomplishing the purpose of this series with less changes and
-> auditing.
->=20
-> I can work on a subsequent series that changes -EIO to -EINVAL on
-> negative bytes for all the bdrv_...() and blk_...() functions.
->=20
-> Would this make sense?
-
-Yes, that's fine. My main concern is that callers have been audited when
-errnos are changed. If you switch bdrv_{pread,pwrite}() to -EIO and have
-audited callers, then I'm happy.
-
-Consistent -EINVAL would be nice in the future, but I think it's lower
-priority and it doesn't have to be done any time soon.
-
-Stefan
-
---Pon0V5yUbVIY/eb1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKgmw0ACgkQnKSrs4Gr
-c8hILAf+IY/0s2r8hPa5VenosRFxr7r27QDQLApEQIBXttlQloy+aN7hqi6FLe20
-ons+xMUI1/+NbHzwbq1fko/LB+XTu9cPi5YXE49aRZBuaTYw4OSfe8WXI9g8h4yJ
-XElNGfE7CiOo/q6PCz5P4CVRDAIITMmoLOj68qh893OBfVF+Zv0Sh1pfXlxnuuez
-shIzPaxw9Ovzr04mrYgmu6VSx5bNsSxrvAvQY6RhwTgi00YPBIkFwsuUY06i0CfZ
-VQN4xebSPjsRsXo3GObMBxVjMNPADv+D73b5GEs6Lqn9ACoJGh8YHe+VSzDDRgHS
-MBBPdCj+Qst844Q+5ROeJcHK1dUIxg==
-=AXtK
------END PGP SIGNATURE-----
-
---Pon0V5yUbVIY/eb1--
+diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+index 7985c9bfca..3edd303a33 100644
+--- a/hw/cxl/cxl-component-utils.c
++++ b/hw/cxl/cxl-component-utils.c
+@@ -154,7 +154,8 @@ static void ras_init_common(uint32_t *reg_state, uint32_t *write_msk)
+     reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0x00;
+ }
+ 
+-static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk)
++static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk,
++                            enum reg_type type)
+ {
+     int decoder_count = 1;
+     int i;
+@@ -174,6 +175,14 @@ static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk)
+         write_msk[R_CXL_HDM_DECODER0_SIZE_LO + i * 0x20] = 0xf0000000;
+         write_msk[R_CXL_HDM_DECODER0_SIZE_HI + i * 0x20] = 0xffffffff;
+         write_msk[R_CXL_HDM_DECODER0_CTRL + i * 0x20] = 0x13ff;
++        if (type == CXL2_DEVICE ||
++            type == CXL2_TYPE3_DEVICE ||
++            type == CXL2_LOGICAL_DEVICE) {
++            write_msk[R_CXL_HDM_DECODER0_TARGET_LIST_LO + i * 0x20] = 0xf0000000;
++        } else {
++            write_msk[R_CXL_HDM_DECODER0_TARGET_LIST_LO + i * 0x20] = 0xffffffff;
++        }
++        write_msk[R_CXL_HDM_DECODER0_TARGET_LIST_HI + i * 0x20] = 0xffffffff;
+     }
+ }
+ 
+@@ -239,7 +248,7 @@ void cxl_component_register_init_common(uint32_t *reg_state, uint32_t *write_msk
+     }
+ 
+     init_cap_reg(HDM, 5, 1);
+-    hdm_init_common(reg_state, write_msk);
++    hdm_init_common(reg_state, write_msk, type);
+ 
+     if (caps < 5) {
+         return;
+-- 
+2.32.0
 
 
