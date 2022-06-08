@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C278B5439DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 18:59:27 +0200 (CEST)
-Received: from localhost ([::1]:38556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB14A5439EA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 19:08:23 +0200 (CEST)
+Received: from localhost ([::1]:44032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyz1i-00015h-7C
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 12:59:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38372)
+	id 1nyzAM-0005zG-8J
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 13:08:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyz0I-0000My-J1
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:57:58 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:36814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyz0G-00018n-0X
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 12:57:58 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- u12-20020a17090a1d4c00b001df78c7c209so24389548pju.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 09:57:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=wyb4WDp8qPmibGe0MpwAnMOux6Tb0qmKegBV6t52XOQ=;
- b=Vo580w1Pav2fqKg31Zj5/YCml0qU8TtbdeDucJW05P3RwzoT/5611jr2Sh4IvSz38N
- WmS2aPo90jSFaS9+YOd7zmJDVKZ2vsOncJHa2ZXj7zlnj3s90dFiW9K93wgkIuQFJW8f
- qfx6jjV971oIvVMUURbyq/WuzCplGMKG++gWto2ydAAfnkiWdYOPICtDQKZhtX47TjHR
- QHCn/c7UAmS8Etyv3VHHXYJoZ7/UW4Go+jsV7gdwfdYjtQCMTf0lz5WnZPeBSgAJ1OWm
- ojk9pwfhyhttgaeGaNi0bG5HhS/vUFpOiPKRYD+FgxuFrYPzE3CRzv8PddOU1FoaapHp
- byyA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nyz7u-0004fu-0O
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 13:05:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48143)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nyz7p-0002Gb-Mi
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 13:05:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654707944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RBPUMwmh0JKnBnb2yTEuUczXvGtgtx64GVa9F2GpfoU=;
+ b=c++N+ZghrALqsUoCTNGaBW0Y4/5tB8u2AT8Qx4txpVmOpQE1jOJb06/P19KgyV1ALiCPG0
+ LftGZfhKxUFeUtOGho6BUwc4kdRImgrtEaQcseTRvHzGmDGcZYmtKVfh7K00rwjailHtQ1
+ g6SFL4/WzNFAr8XXLvOIeba1kHv1GBU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-493-ExOMJnjtNr6bALE2b2WjhA-1; Wed, 08 Jun 2022 13:05:33 -0400
+X-MC-Unique: ExOMJnjtNr6bALE2b2WjhA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o3-20020a05600c510300b0039743540ac7so7168173wms.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 10:05:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wyb4WDp8qPmibGe0MpwAnMOux6Tb0qmKegBV6t52XOQ=;
- b=7F2kOEBmptIMzaQVvojGdPGa8EGhylzylmdFPkujfvmUS/NSYLv1u3ATStGNmVD9c+
- XULSBqGI/9lGzmwzruhhV5w7vyKZto1gcpyKiHZ6Xa9uxW4cbPP/MYqR1BgyVihb5GT8
- EKNfLOTFSToJArNHHWmQMS+3X+hUommIc/722eqDbRuPHRP1GpOREAiS4bdavmkMbm3q
- 7dko6jEhWvD9b8t49MqupxaM3fCMoLbSPE69SuXCUDcV6xQ2elyFaaA84xJ0YbITPo3W
- kYpkmE7H4Upj2MTAzXmJhuRaXSkQEdedbCFMFwRor1ihE8028jGW4o0ZqF5zk5A3G/Q2
- GbmA==
-X-Gm-Message-State: AOAM530AJEwkERWPMgh9nSffgp7RFZwAIe5VTnUzvobotZpXt4WE2tST
- nbstWuqzQU09CapNwpTFJyDPz5XEOxWNpQ==
-X-Google-Smtp-Source: ABdhPJwYD+b0JePrfmKnn+sLFDgLGl+uesROqsY/hQBaCKFbLEGTDPUvLrPkbJlJzfajRUSA9w3aIg==
-X-Received: by 2002:a17:90b:4f4a:b0:1e3:49c9:aab0 with SMTP id
- pj10-20020a17090b4f4a00b001e349c9aab0mr112467pjb.223.1654707473027; 
- Wed, 08 Jun 2022 09:57:53 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:6812:d08e:b22c:43d7?
- ([2602:ae:1547:e101:6812:d08e:b22c:43d7])
- by smtp.gmail.com with ESMTPSA id
- r2-20020a056a00216200b0051bd9981cacsm11864608pff.123.2022.06.08.09.57.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 09:57:52 -0700 (PDT)
-Message-ID: <bc93cdcc-549f-28fb-fa33-5c1ba268d6b9@linaro.org>
-Date: Wed, 8 Jun 2022 09:57:50 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=RBPUMwmh0JKnBnb2yTEuUczXvGtgtx64GVa9F2GpfoU=;
+ b=bPB0bRshIVWVBe4OATppSAzBFD2o8T7M9u3Ag6viTqTrxphIT8OetjqzAcEYYoPieu
+ hR40X1lk/vWF+6KWkL+ZWCkAnrcp+xlMuiaISBVbir8CSEaM8T1D32B+7a8n+DtHbs7m
+ Gtuk2BtL9oXYtsS8zYR3mBen0pmMSft1CGmu3MUwR9N2cJrSXt+qpEbghZIGJ79fYupZ
+ vu90GBr4SSdtWTlsgsbLOHVBZ739TdropZmHtYrub1MPkUHoCG9fC7jdz3Kbf31YqlEl
+ l0zpHlihhOT9YK4yqgpQ3UtGHwAATwsDGVKE/TKKtAr6mlfM8yM53mdwFfuvwYt8B9yW
+ 3bqg==
+X-Gm-Message-State: AOAM532kVWPLXoZrZ1HnE94O3AiyMqJF3kyI3GmVN8W4dS+epNqvZZ3K
+ 13ftCU1cqO0k+xaUQKcbXgFwkEc5iQF6Wy8jyUSJGx/0OXidItrgcs5bjqO/lJb90OV0qGhcSpU
+ gglTXr4TY/r3BYNM=
+X-Received: by 2002:a05:600c:42c9:b0:39c:3808:5479 with SMTP id
+ j9-20020a05600c42c900b0039c38085479mr226161wme.4.1654707932034; 
+ Wed, 08 Jun 2022 10:05:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+92eBxo59gUTPtkGwSamQ0frRPta2bgWTU5kyHIFOm6EO9xtM8l5ZvWWSITU2pnKwNvFEkg==
+X-Received: by 2002:a05:600c:42c9:b0:39c:3808:5479 with SMTP id
+ j9-20020a05600c42c900b0039c38085479mr226127wme.4.1654707931727; 
+ Wed, 08 Jun 2022 10:05:31 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ c186-20020a1c35c3000000b0039bc95cf4b2sm24780569wma.11.2022.06.08.10.05.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jun 2022 10:05:31 -0700 (PDT)
+Date: Wed, 8 Jun 2022 18:05:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH RFC 4/5] cpu: Allow cpu_synchronize_all_post_init() to
+ take an errp
+Message-ID: <YqDW2AZDb3buF9YQ@work-vm>
+References: <20220607230645.53950-1-peterx@redhat.com>
+ <20220607230645.53950-5-peterx@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] gitlab: compare CIRRUS_nn vars against 'null' not ""
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20220608160651.248781-1-berrange@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220608160651.248781-1-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220607230645.53950-5-peterx@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,32 +104,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/22 09:06, Daniel P. Berrangé wrote:
-> The GitLab variable comparisons don't have shell like semantics where
-> an unset variable compares equal to empty string. We need to explicitly
-> test against 'null' to detect an unset variable.
+* Peter Xu (peterx@redhat.com) wrote:
+> Allow cpu_synchronize_all_post_init() to fail with an errp when it's set.
+> Modify both precopy and postcopy to try to detect such error.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->   .gitlab-ci.d/base.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/core/machine.c     |  2 +-
+>  include/sysemu/cpus.h |  2 +-
+>  migration/savevm.c    | 20 +++++++++++++++++---
+>  softmmu/cpus.c        |  2 +-
+>  4 files changed, 20 insertions(+), 6 deletions(-)
 > 
-> diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
-> index f334f3ded7..69b36c148a 100644
-> --- a/.gitlab-ci.d/base.yml
-> +++ b/.gitlab-ci.d/base.yml
-> @@ -13,7 +13,7 @@
->       #############################################################
->   
->       # Cirrus jobs can't run unless the creds / target repo are set
-> -    - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == "" || $CIRRUS_API_TOKEN == "")'
-> +    - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null)'
->         when: never
->   
->       # Publishing jobs should only run on the default branch in upstream
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index c53548d0b1..b5daad82f8 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1447,7 +1447,7 @@ void qemu_remove_machine_init_done_notifier(Notifier *notify)
+>  
+>  void qdev_machine_creation_done(void)
+>  {
+> -    cpu_synchronize_all_post_init();
+> +    cpu_synchronize_all_post_init(NULL);
+>  
+>      if (current_machine->boot_config.has_once) {
+>          qemu_boot_set(current_machine->boot_config.once, &error_fatal);
+> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+> index b5c87d48b3..a51ee46441 100644
+> --- a/include/sysemu/cpus.h
+> +++ b/include/sysemu/cpus.h
+> @@ -45,7 +45,7 @@ bool cpus_are_resettable(void);
+>  
+>  void cpu_synchronize_all_states(void);
+>  void cpu_synchronize_all_post_reset(void);
+> -void cpu_synchronize_all_post_init(void);
+> +void cpu_synchronize_all_post_init(Error **errp);
+>  void cpu_synchronize_all_pre_loadvm(void);
+>  
+>  #ifndef CONFIG_USER_ONLY
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index d9076897b8..1175ddefd4 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2005,7 +2005,17 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+>      /* TODO we should move all of this lot into postcopy_ram.c or a shared code
+>       * in migration.c
+>       */
+> -    cpu_synchronize_all_post_init();
+> +    cpu_synchronize_all_post_init(&local_err);
+> +    if (local_err) {
+> +        /*
+> +         * TODO: a better way to do this is to tell the src that we cannot
+> +         * run the VM here so hopefully we can keep the VM running on src
+> +         * and immediately halt the switch-over.  But that needs work.
 
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Yes, I think it is possible; unlike some of the later errors in the same
+function, in this case we know no disks/network/etc have been touched,
+so we should be able to recover.
+I wonder if we can move the postcopy_state_set(POSTCOPY_INCOMING_RUNNING)
+out of loadvm_postcopy_handle_run to after this point.
 
-r~
+We've already got the return path, so we should be able to signal the
+failure unless we're very unlucky.
+
+Dave
+
+> +         */
+> +        error_report_err(local_err);
+> +        local_err = NULL;
+> +        autostart = false;
+> +    }
+>  
+>      trace_loadvm_postcopy_handle_run_bh("after cpu sync");
+>  
+> @@ -2772,7 +2782,11 @@ int qemu_loadvm_state(QEMUFile *f)
+>      }
+>  
+>      qemu_loadvm_state_cleanup();
+> -    cpu_synchronize_all_post_init();
+> +    cpu_synchronize_all_post_init(&local_err);
+> +    if (local_err) {
+> +        error_report_err(local_err);
+> +        return -EINVAL;
+> +    }
+>  
+>      return ret;
+>  }
+> @@ -2789,7 +2803,7 @@ int qemu_load_device_state(QEMUFile *f)
+>          return ret;
+>      }
+>  
+> -    cpu_synchronize_all_post_init();
+> +    cpu_synchronize_all_post_init(NULL);
+>      return 0;
+>  }
+>  
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index 464c06201c..59c70fd496 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -146,7 +146,7 @@ void cpu_synchronize_all_post_reset(void)
+>      }
+>  }
+>  
+> -void cpu_synchronize_all_post_init(void)
+> +void cpu_synchronize_all_post_init(Error **errp)
+>  {
+>      CPUState *cpu;
+>  
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
