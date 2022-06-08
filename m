@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D711C54382D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 17:57:39 +0200 (CEST)
-Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE4A543841
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 18:01:49 +0200 (CEST)
+Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyy3u-0002NS-TN
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 11:57:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51414)
+	id 1nyy7w-00049Z-Jh
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 12:01:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyy1F-0000wR-41
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:54:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58423)
+ id 1nyy4Y-0003NX-2s
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:58:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nyy1D-0007lt-Ga
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:54:52 -0400
+ id 1nyy4W-0008OF-GQ
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:58:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654703690;
+ s=mimecast20190719; t=1654703895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QtYXAya6ud65ttRBoOWWrlc1MbmNiiop6K/KIFml8PI=;
- b=PFTnALQ9pnR7eXSQUU6KJpIz1zAouzbbMsRf7ruJMSIfSJKZMYIqzWcZltTPcNSkF+nILb
- KThUYSSLxAvKjDcAUGkMnspGO6A0C/6NJMMPVmCr7xB+bySz0uASVKGeOMQ6Nsf5rzU9/u
- 9kuCjOYs8nBy7HUdPc/DV3+m0EBFCHA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SihQ1xlYFgCcg9jLtuHelwC7iwUpKFsfbr8sd/0N9wk=;
+ b=anWIdo2mCgEg19aYx94EgDvp3ghHsGBFPn0PrxPkI8GaafcUKBljGo8Reeko0ILDBoIY2E
+ bDkgHd7e3nC3qJJ/V/qCrK2v7yDpEdSE1G1YsKNzT9RNc9KjAqh2OgfoLuBG/QpO4mW5Mz
+ k1BeArDgLLC30Hj7i4MJZJV/Gy7P11Y=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-45-hdgAwbHaOiurzD3cVaSmGQ-1; Wed, 08 Jun 2022 11:54:49 -0400
-X-MC-Unique: hdgAwbHaOiurzD3cVaSmGQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- p7-20020a170906614700b006f87f866117so9612191ejl.21
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 08:54:49 -0700 (PDT)
+ us-mta-92-zoHkZyB4NbmKei4z6MLFaA-1; Wed, 08 Jun 2022 11:58:14 -0400
+X-MC-Unique: zoHkZyB4NbmKei4z6MLFaA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ x15-20020a05640226cf00b004318eab9feaso3899200edd.12
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 08:58:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=QtYXAya6ud65ttRBoOWWrlc1MbmNiiop6K/KIFml8PI=;
- b=aSaa7DaMZkqlFruxVeUhFbavyk0uDrFHh3LR9zsDehnDEUjt/nrLdw5V6xif9hPtw9
- mg2zzygmujFKnBS7hXLhOtSnDS2qW1pW9rYtg6qCk4/fRKARt/WUT3ktU2Ybm6rKihRy
- FZIS55UcIFroh96lxmiq/zSPRPHNE6GDrWQNXG77MMg22K8/z/iUM1hg5z7Ii7iz4/Sh
- IUzzWiYZkKbBTJpOdL7AmDIbToOqVqzrFS3fPk9q6j0GNiJwbTY2treIpHM0yzCdLlDl
- G2KlzQkKNKdHQXRyixG2u6uBkNrOPBVRBw6xbgIYTLC9hErlFgec4dM304MOzjOdvend
- oX8w==
-X-Gm-Message-State: AOAM533S23L49tiDdi0Rqzx/+asClpld/2RmCV3ioxTvE3Gq0q5GGczQ
- DM3a30dvXQB8A2nK3tuuygUGLP07wjpuYl9JMqSvsaUuyP0GcJ5ynawfvW74X6mCr154ylilFwN
- ZKVtKk3VqdOGh/w4=
-X-Received: by 2002:a50:fc10:0:b0:42d:cbd2:4477 with SMTP id
- i16-20020a50fc10000000b0042dcbd24477mr39759342edr.363.1654703688384; 
- Wed, 08 Jun 2022 08:54:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyxmNUM8s6u48hXHHo7+AH8mu58M58N6lizd254YPLCEpezsTByxJwfuRfldRC7sTAZvAxEg==
-X-Received: by 2002:a50:fc10:0:b0:42d:cbd2:4477 with SMTP id
- i16-20020a50fc10000000b0042dcbd24477mr39759330edr.363.1654703688156; 
- Wed, 08 Jun 2022 08:54:48 -0700 (PDT)
+ bh=SihQ1xlYFgCcg9jLtuHelwC7iwUpKFsfbr8sd/0N9wk=;
+ b=zpIXUvymRZUeyRZ6trTnQrATr21Ax3XFuxtyZ9ZL1om2uRV8jNey9K+l/cOGiph0EY
+ J3Lw3OKEqaj4jq0k2RwWFcQCmL7q2X3iFs1Y/gAWuXOH+yCSXT5X2iH+G6VoT/Bjs2Wp
+ f1oEoWYGKnodgNCs9V8/MQvnRl/Clm4cAdVD6b9BGsuDG+jmhyVOvGHLXb2CWR+35Qvv
+ /dw37LQv31I9/RyQJdDSApUmi8UM1RmqA6eAil1vBkgo4of7QXtSF6GFMmvuACVydXpq
+ F3be60GW6MJtyiiMsDaCkDdsB27SSbr5ATPgkA50TLk0rweQI/PA129PNST7A6dyl48E
+ fxUA==
+X-Gm-Message-State: AOAM532MdLndR4/tw2X9E1AwZDVXXPpYD6vvUgtsScOdAGsX8ZC+YmyY
+ I9g4uXBK0yhN/WqnYUYCFMlsxbEndwsucnzS1OinUpW1pZjcrurawvUPTAn8T/ImcnoIYLow3xv
+ uR9zxRsyvF2NblNw=
+X-Received: by 2002:a05:6402:3312:b0:42d:bf2e:1869 with SMTP id
+ e18-20020a056402331200b0042dbf2e1869mr40587290eda.348.1654703893302; 
+ Wed, 08 Jun 2022 08:58:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjeu1YbKF6e+sLTTsoGy+htS946TupB2ZbF9kCNP9I2GmDrZCaqgACj/c8GMbbfvNQAvmdXg==
+X-Received: by 2002:a05:6402:3312:b0:42d:bf2e:1869 with SMTP id
+ e18-20020a056402331200b0042dbf2e1869mr40587272eda.348.1654703893077; 
+ Wed, 08 Jun 2022 08:58:13 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- u17-20020a056402111100b004316f94ec4esm4758387edv.66.2022.06.08.08.54.47
+ a25-20020a50c319000000b0042dd2f2bec7sm12471820edb.56.2022.06.08.08.58.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 08:54:47 -0700 (PDT)
-Message-ID: <2f19b91a-e641-9d20-0158-c7bb71693ad5@redhat.com>
-Date: Wed, 8 Jun 2022 17:54:46 +0200
+ Wed, 08 Jun 2022 08:58:12 -0700 (PDT)
+Message-ID: <686d6426-f035-4218-25a2-c212af38ce58@redhat.com>
+Date: Wed, 8 Jun 2022 17:58:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] configure: ignore --make
+Subject: Re: [PATCH v5 02/10] kvm: Support for querying fd-based stats
 Content-Language: en-US
-To: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20220607104908.1263321-2-pbonzini@redhat.com>
- <75ed39ec-ed5c-a9b6-c51e-94e26a333316@eldorado.org.br>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com,
+ Mark Kanda <mark.kanda@oracle.com>
+References: <20220530150714.756954-1-pbonzini@redhat.com>
+ <20220530150714.756954-3-pbonzini@redhat.com> <Yp+ObQxOi/EXc6PZ@work-vm>
+ <758db6b4-5786-adf4-d293-d8dc7793a21b@redhat.com> <YqC3pocwSjcp2y/3@work-vm>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <75ed39ec-ed5c-a9b6-c51e-94e26a333316@eldorado.org.br>
+In-Reply-To: <YqC3pocwSjcp2y/3@work-vm>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -104,27 +106,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/22 16:21, Matheus Kowalczuk Ferst wrote:
-> On a clean build on FreeBSD with this patch, I got:
-> 
-> ../meson.build:3641:0: ERROR: Key MAKE is not in dict
-> 
-> So it seems that we need to remove the use of MAKE in meson.build too.
+On 6/8/22 16:52, Dr. David Alan Gilbert wrote:
+>> If you mean why not some other source, each source has a different file
+>> descriptor:
+>>
+>> +    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
+>>
+>> but the descriptors are consistent every time KVM_GET_STATS_FD is called, so
+>> basically "ident" can be used as a cache key.
+>
+> Ah OK, this is what I was after; it's a little weird that the caller
+> does the ioctl to get the stats-fd, but it does the lookup internally
+> with current_cpu for the ident.
 
-Oops, yes.  That's the typical "forget git commit --amend before sending 
-out" mistake for me.
+Oh yeah that's weird.
 
-> Also, we will not have this error at configure-time anymore, but I 
-> suppose that *BSD users will identify the problem if they try to build 
-> with non-gnu make.
+Let me squash in this:
 
-Yeah, my guess was that "try ./configure && make" with GNU Make 
-installed is the more common failure mode, since QEMU is certainly not 
-the only package that requires GNU Make.
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 023bf4ea79..71896ad173 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -3871,17 +3871,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
+      size_t size_desc;
+      ssize_t ret;
+  
+-    switch (target) {
+-    case STATS_TARGET_VM:
+-        ident = StatsTarget_str(STATS_TARGET_VM);
+-        break;
+-    case STATS_TARGET_VCPU:
+-        ident = current_cpu->parent_obj.canonical_path;
+-        break;
+-    default:
+-        abort();
+-    }
+-
++    ident = StatsTarget_str(target);
+      QTAILQ_FOREACH(descriptors, &stats_descriptors, next) {
+          if (g_str_equal(descriptors->ident, ident)) {
+              return descriptors;
+@@ -3917,7 +3907,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
+      }
+      descriptors->kvm_stats_header = kvm_stats_header;
+      descriptors->kvm_stats_desc = kvm_stats_desc;
+-    descriptors->ident = g_strdup(ident);
++    descriptors->ident = ident;
+      QTAILQ_INSERT_TAIL(&stats_descriptors, descriptors, next);
+      return descriptors;
+  }
 
-Alternatively, I can leave in the check for GNU Make, or move it to 
-meson as a "now type "make" to build QEMU" kind of message, and still 
-remove the unused --make option.
+(once I test it).
 
 Paolo
 
