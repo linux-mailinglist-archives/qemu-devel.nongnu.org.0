@@ -2,79 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F24454380D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 17:50:27 +0200 (CEST)
-Received: from localhost ([::1]:41070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29D354381F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 17:53:26 +0200 (CEST)
+Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyxww-00067h-99
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 11:50:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49636)
+	id 1nyxzp-0008KY-Ke
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 11:53:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyxvS-0004ew-0E
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:48:54 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:45970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nyxvQ-0006wL-E2
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:48:53 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id q18so17959722pln.12
- for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 08:48:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:content-language:to:cc:from
- :subject:content-transfer-encoding;
- bh=Qf/zEMFyBf8RQYSQ/ZkZQvTC3M2L/r6z/8b3U/YYt5s=;
- b=RfL/OS3OSj2lDFuvBVFBjAFXNSdcIOdlLsmRdTTs00tZMqlVafkmr3WtaGBQcmRv9C
- Z2Qnz+kmtmIf7H5B8rLgMmJpb1AYhzXI1+tTDV6tsx8EjsjegRXyi3q6q492y7/Tlmek
- fLRwppwSNwn0dHhv2RepplUPHmzJ1e2etK3FQ+Z7j28It8u9SgTEZMDD7EnHDi4ykEB0
- 4XBwYp4vvFxqGPFBSMfmbvL7LErQkz/mXOJZ1A12Jixtfy8+Z0x5P7iWD3ABz3ZUc++L
- gpH3b4Q05KLL9noFNkoZvsBTHp39wpOTg/Ve+nlgvKO1m7dhs8xX00ugW1afR/3tkHog
- G7KA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nyxyP-0007Kt-4A
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:51:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nyxyM-0007Wx-No
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 11:51:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654703514;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LKRLPv86HaCSXVBFMJB9KPcreAytf0aEM85cLJ+gTo0=;
+ b=FD+gxYtjA5qs/sy3XYdFADblVLxVLCvlSMrhd93Q/Q62W7Zr5eslHU2tsjMjML3J+Of9B/
+ UcA+fmS4aJL/EpF2FP3TsXofQQhI00OJnLfNavqiFD9dQaqATV1iI6W20rM3qtjH+9KGJA
+ jmELTYxKYYKMhs/Ww8OwfiF/S/SY8nM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-221-7kt0xpYFO5KuDlWT4qFt7Q-1; Wed, 08 Jun 2022 11:51:52 -0400
+X-MC-Unique: 7kt0xpYFO5KuDlWT4qFt7Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ v8-20020a056402348800b004315c52b92cso6419569edc.19
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 08:51:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:from:subject:content-transfer-encoding;
- bh=Qf/zEMFyBf8RQYSQ/ZkZQvTC3M2L/r6z/8b3U/YYt5s=;
- b=uS6IHRJZtHJIplFga44U2wmc3py2dAX5jLRan4uYN275pSJPndGxdtKWeSmrKS8zI9
- 8vP74FT2cmSkdr6TnubDSOTeFHP4odpznvVBfn9X04iRGozwUxWvJuMzlhNKnvRdBb6a
- Fw1JtNrlWQZgcQLWA5O4PwoYZTqu4h+PRNeU67idls+bJb26PMygOiRD/KPqJ/Op329j
- phGwg0eUEfp0cM5o4Nu+kqGV15og861pWbYF8Ja83JhNgLlZxT+MbfrMlpRNBN0Ai/x0
- NVz0Ioyr2tGuOhLtgtR0pIghFxH4sqHtDi3ZTb+wVkm3/hNMAC2iL/Bb8z91ULzQ0Jtp
- /SCg==
-X-Gm-Message-State: AOAM533W/6FmT+eo3GSyBMts2Yh9SX+TPowl757Q4tQK52TaFMs5y/xa
- b8zVjRk9l2kfQESRLf2xIAlnOA==
-X-Google-Smtp-Source: ABdhPJzZ5xn5Gb8nTr9LXjTctbTP0LlOHpeBAAp+EeNf5+2tx0Jo/LSPk1NPkm/FUmy5qPtY0ZkCow==
-X-Received: by 2002:a17:902:f2ca:b0:167:8898:bad0 with SMTP id
- h10-20020a170902f2ca00b001678898bad0mr12493142plc.170.1654703330835; 
- Wed, 08 Jun 2022 08:48:50 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:6812:d08e:b22c:43d7?
- ([2602:ae:1547:e101:6812:d08e:b22c:43d7])
- by smtp.gmail.com with ESMTPSA id
- 187-20020a6204c4000000b0051bc721b838sm13487505pfe.188.2022.06.08.08.48.49
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LKRLPv86HaCSXVBFMJB9KPcreAytf0aEM85cLJ+gTo0=;
+ b=R/gFq2JtTKLEUWB7kaoLNWa1U5Hq1dlWRy/VqQsBjZYnU2/uq3egok+gS6wOLynDjc
+ YSk9ODzNFyhgUqxPkuUy2NbaeMfBSurs1Pv/TR2PhXphMhDVSFcaLWXbvNZGSQ6ROYIE
+ EXl2zzhiUC48fRNuqj5Av91QYUu3L4Fndy9M4kxDCw5WlLxj27MPTfMeClYs1IAN7pXC
+ KDmKmzUj2rse9sH6gPbhRNFUX/zfM4fguIwiP8Yfja6xKVUyaLSgsfGKrihb5RtjH2d1
+ ClQ2exncWBtanqpDtG6uaAwmAvMlt44oTQkJj4sVy9g3DO0/Bo/PyfGNyXA0xjbWObkH
+ 9rkA==
+X-Gm-Message-State: AOAM532RVwCP0SaNbcCNvgUs36Etc4PjQeZp5ran3tJASRmfpLy+xXhJ
+ Qr4TnYv7goo0zglHRVd7IFjoRYb+Y3NPPMTNgUBDXqb8vQJTvrNxR8QLhPVmZ7q0mR0fbP9zvVr
+ 8xZ7QkY6CKhg4ReE=
+X-Received: by 2002:a17:907:160f:b0:70f:cceb:d78c with SMTP id
+ hb15-20020a170907160f00b0070fccebd78cmr24314288ejc.247.1654703511748; 
+ Wed, 08 Jun 2022 08:51:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfncr1XUcQqGB76NBpT2kzdVI8YjlNaW/l9obgdLFkJkEfjsczULyVL2qiN0y1yI556PK0YQ==
+X-Received: by 2002:a17:907:160f:b0:70f:cceb:d78c with SMTP id
+ hb15-20020a170907160f00b0070fccebd78cmr24314261ejc.247.1654703511434; 
+ Wed, 08 Jun 2022 08:51:51 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ g2-20020a1709063b0200b0070a5ba0669dsm8488865ejf.218.2022.06.08.08.51.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 08:48:50 -0700 (PDT)
-Message-ID: <7909a6e5-3c7c-5859-a1cd-075302fc18f8@linaro.org>
-Date: Wed, 8 Jun 2022 08:48:48 -0700
+ Wed, 08 Jun 2022 08:51:50 -0700 (PDT)
+Message-ID: <7ae17984-89c4-2247-57a7-fde6206e41e0@redhat.com>
+Date: Wed, 8 Jun 2022 17:51:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] disas: Remove libvixl disassembler
 Content-Language: en-US
-To: "Daniel P. Berrange" <berrange@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: gitlab: convert Cirrus jobs to .base_job_template
+To: Thomas Huth <thuth@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Stefan Weil <sw@weilnetz.de>
+References: <20220603164249.112459-1-thuth@redhat.com>
+ <07f021e7-1346-c6b3-3bd1-ef0d0f0e2ff5@suse.de>
+ <52c51ac4-5598-faf2-d5e5-638cab0dc1fd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <52c51ac4-5598-faf2-d5e5-638cab0dc1fd@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FAKE_REPLY_A1=0.384,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,13 +108,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 00125414ba1 is not working as intended.  E.g.
+On 6/3/22 19:35, Thomas Huth wrote:
+> On 03/06/2022 19.26, Claudio Fontana wrote:
+>> On 6/3/22 18:42, Thomas Huth wrote:
+>>> The disassembly via capstone should be superiour to our old vixl
+>>> sources nowadays, so let's finally cut this old disassembler out
+>>> of the QEMU source tree.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>
+>> agreed, one thought: at the time I added this thing, I had to add C++ 
+>> compilation support,
+>> maybe something we can now drop if there are no more C++ users?
+> 
+> I thought about that, too, but we still have disas/nanomips.cpp left and 
+> the Windows-related files in qga/vss-win32/* .
 
-https://gitlab.com/rth7680/qemu/-/jobs/2558862885
+That is pure C++ so it does not need the extra complication of "detect 
+whether the C and C++ compiler are ABI-compatible" (typically due to 
+different libasan/libtsan implementation between gcc and clang).  So 
+it's really just nanoMIPS that's left.
 
-where I have neither CIRRUS_GITHUB_REPO nor CIRRUS_API_TOKEN set, but the job tries to run 
-anyway.  Then fails, predictably, with "token not defined".
+> And I think Paolo was 
+> considering to use C++ for coroutine fixes - not sure whether that still 
+> is planned, though.
 
+No, that was just an experiment.
 
-r~
+Paolo
+
 
