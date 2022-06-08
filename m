@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407C6542B9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 11:33:53 +0200 (CEST)
-Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E01542BB5
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 11:42:06 +0200 (CEST)
+Received: from localhost ([::1]:38242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nys4W-00015L-98
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 05:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46632)
+	id 1nysCR-0002r4-Mp
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 05:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nys2D-0000Ld-HX
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 05:31:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:42047)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nys75-0001wx-Bi
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 05:36:31 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:33907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nys28-00075t-1v
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 05:31:29 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nys73-0007tO-OC
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 05:36:31 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M2Nm2-1o2i3F3CWs-003to1; Wed, 08 Jun 2022 11:31:19 +0200
-Message-ID: <f0f09e0f-48db-7031-f8ae-17ab71ad8834@vivier.eu>
-Date: Wed, 8 Jun 2022 11:31:18 +0200
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MWixU-1oEB0a1dOK-00X3RL; Wed, 08 Jun 2022 11:36:24 +0200
+Message-ID: <56b31126-41c5-e7b6-5b32-2b64ba1cce67@vivier.eu>
+Date: Wed, 8 Jun 2022 11:36:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v4 3/3] target/m68k: Use semihosting/syscalls.h
+Subject: Re: [PATCH v4 0/3] target/m68k: semihosting cleanup
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220607222616.717435-1-richard.henderson@linaro.org>
- <20220607222616.717435-4-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220607222616.717435-4-richard.henderson@linaro.org>
+In-Reply-To: <20220607222616.717435-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:xR4NjJP/d4r3Vx6SNUkL8UiQY6Id7feehLjsKqW1boq5GiLBMwd
- yZYZ4yxQbgckXikPp6dUjtRDNba+naFaRK6ZZr+d8fGMtrWjdQwGC05ByV7UuVZOQ19UrC1
- 94PDIF0Mhdy9175BZYeMsVmsWboOq0lc5LMRShV0KRQfRFFTCo7+lzUCcmRX7cktPx+4Nms
- kj7+r33V54r7Ell/gJeQg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3Nj1sOV1gwA=:ub1mpZbu36iavxy0s0tzJx
- TWPF4RaSk7e3CZwJoEckihFHvqaqrDQMr3RhgnZCbhov0Zuqf069z0SDTuomvq5n/VMy5AHEb
- U97eZhsPjqrwEW8cMcSEbrUE4LKDt3ftfj677Ti3IhpTaxujDi87DJRsgt/BPiaozeM2aP/Pg
- GBLYXJ7Lel/isdqpSWdHLKT//fw7CsA/meeogOJKoQQ633bqXZhv0E04q94f+JZ+ur5JAKPCp
- ME3wMz+8bKd4+Wk5Sz6mnPGr3eHTyeFV6Wg0FKQxP+PnUPsTN5VJfXFTfITv5aURdiHIBA/mP
- uHMiQpmPhY4sFZ+iYhokum2iNF9pahcG4JLjut4/uhpM+Ift2agZ+tTgtdGW6Pz/sCh5LQ6lM
- qxbnRCbsbOW8ht0mA1XtHzzvJyaThgDj9hetWFmz9H3hJIboSDqqYkqRVlpF3u2EcU2QlCijp
- CecDWmvOCEmD2ZghMf9+jUUgOfiGtscbmcF00iLgXeq1veaAgTh1UOHqFZXIX3cktnEIuizmq
- 3RT14Q/PyJDWwTmywjYs7r47J7vikE1EskWXcWiqbEx3Z+FEbdaGLEcZwUGys2eU/azKSei3b
- Y9ikOTnLWnWILlzqtKQ3OOcOKXglPXDkT+fY3EVK6/ZqW4/YireyoEpUGv+wqO1JA62PjVj4d
- doudpvXtnORDwCxWPWlFvfAWU9t7NBwqRUGcG+Gn/w6wnCOvVSQJfjz5WWBtK0b4A1ljB54BG
- NmC0eQKIoc1NoxEWuoxyYYiVbbup3Yqbj5lSjw==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:wCspNcgp64/Bm/UVS5cb+ByKGda/FmbtQZcUrCMzgB0iMPHxBBB
+ f5MUcWOk2eBpkH7Bf+4HsIUkoQzE/rZuIhANne/74li+cwadth5QtjgQ+lbGUxDtm9djOOc
+ W35Rhby8b/TVCnmnMGZ+M98F3c/KLZXP4oYKT067ZNozZEZJ4toYDvHZ9N5QPXZo1iGaBUn
+ bDwQT/5sx3VBin01AIQLg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fgoLodf4CY4=:4HK5LEfleNTHf4KB+EfDBt
+ 71t/ubnohHu+j5e7AAL47ai08X8RjA1/Jrnuff0zjgwRp3hy+v/Pk3P1rqZVTPwwngIqRDppe
+ owYnDC4ywrkt7+GMHsFYnJYPMvw+xBHEZjvbKR3UcGyLsFooNmQtiWbxtlpHs5elOvEjflA/v
+ xdXH2cR0Ud+IkxU6GChPtrTt5+sTNi3vGNlyD/MRUyWHsOGfD96+kjQ1PFH1J1hTR77iT3+M7
+ YBTLtFzpBKWnwx44lc25Nbngo4HJuIL6SlFo0Hii9IPg80TTiB+PmbvxdIEyUIF1Ib04e1FJN
+ pnRfzi71xoXJ7lwRIg1bzNZfaPoQV4hhzqjQl0aAMW5VSp1SBpDrKYvB4vgUriqLa5cKVqfU+
+ oHtPEaKuw6VBjvEIqtaW9c1g8TTgXJX/MB2IW/WXobgebPmqm/XbUpaebWUjQHc8N3vWsrzbI
+ qH9zhUFU6mem8Zw2R19tXeAbvaWisTKEAK280W8W4FbNVoCPkIYAw+4LeN3CvzLDRX5JySS7H
+ qYH6A1E4baSz4bRRzSg6Q7aNg1Y+/Zah8f1NW3vYME3muAePSqnxkK/LltX+h7LmIM0bzRLfS
+ zC8Ux5BhACIo5JsPPn5PyOqeZnG72WgKPvf03sybhC4NZyMjocFX3QWzaMElvU/rWjlYhdFzn
+ TMsxyk6L8FWLDRE9ftjCs2TB2x4NGYi2UTSA5YOS0WLigi5Vh6YRA3Tug14igUcESiyJTTLTD
+ USMrefug6G0KIcBig2BVEF8Svj47s2GJx1cKDA==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,15 +73,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 08/06/2022 à 00:26, Richard Henderson a écrit :
-> This separates guest file descriptors from host file descriptors,
-> and utilizes shared infrastructure for integration with gdbstub.
+> Based-on: <20220607204557.658541-1-richard.henderson@linaro.org>
+> ("[PATCH v4 00/53] semihosting cleanup")
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/m68k/m68k-semi.c | 306 ++++++++++------------------------------
->   1 file changed, 76 insertions(+), 230 deletions(-)
+> Changes for v4:
+>    * Split out of v2.
+>    * Convert host errno to gdb errno, which for m68k is guest errno.
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+How do you test semihosting on m68k?
 
+Thanks,
+Laurent
 
