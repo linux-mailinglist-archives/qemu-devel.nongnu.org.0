@@ -2,76 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4DF542794
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 09:23:53 +0200 (CEST)
-Received: from localhost ([::1]:54368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41EA2542795
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jun 2022 09:31:23 +0200 (CEST)
+Received: from localhost ([::1]:58910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nyq2h-00015F-PF
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 03:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48474)
+	id 1nyq9x-0004pA-OD
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 03:31:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nypyR-00084K-Te; Wed, 08 Jun 2022 03:19:27 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:35520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nypyP-0002hA-5p; Wed, 08 Jun 2022 03:19:27 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id k24so275701oij.2;
- Wed, 08 Jun 2022 00:19:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y39n6zI8fQzye53ZBROP9gF2qmmxU+5M2MOTASdSw0M=;
- b=gclaRhc/W/7YyO7NYBfdPG1hvPuZQ6TIaMaitGowHXLt80h41QSxatBsVpFiR3dc0P
- S+BKllFwLn6h65RuXHb+Ddtk3Y8oByH4vIHyac+ekW8ff0mqycH7KptVty9stfTcANFD
- 3o8ptGdpdK3MFKrYP+wda1YdpYtHLDps1/YnrDv7UwBrmj+MkU1gbO3MzCwWIo6r2Tlo
- IwtcDsiYKqN5YaBdrggMQsXxHpENRp+MAnuPxqQzAgUrJCNYRpt3R6QhDl1MKlu/epc4
- SnG6Rs4Skb4cNmWqnVQ5vzPi/kpLPTkPvMgiGMnitpd9gRIKPJ4BgUGEXajRudrk1UA9
- sNdQ==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nyq6w-0003xr-6z
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 03:28:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nyq6t-0003vs-CI
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 03:28:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654673290;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AIvAxGSfU9RW28tAD4GhmT/WzIgk61HnRqRU9NkURuE=;
+ b=J6WhVrC3t3SKWRdPZM2fys1NQ+HipbxLeH0wXkVc792/f41dTDfKH71Eh154nmfJHsbHOI
+ adTJ0g54Ewk9Et3Ii7VnudtShTlXQ3Z/zxA3OnKfsWkqFQZKpCm+NqWK68v9cPIWW7agM2
+ RtVOsy60B/WdrMdQKfpgKZFqLKYJXtM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-323-H8mx7taIOkOzm-IQLOrDiQ-1; Wed, 08 Jun 2022 03:28:08 -0400
+X-MC-Unique: H8mx7taIOkOzm-IQLOrDiQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d9-20020adfe849000000b00213375a746aso3990058wrn.18
+ for <qemu-devel@nongnu.org>; Wed, 08 Jun 2022 00:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=y39n6zI8fQzye53ZBROP9gF2qmmxU+5M2MOTASdSw0M=;
- b=UZLna/Rs46XZ2GTDxmyBP3VE0YxWy6Coh6l2f6Kn+sd4a4vC7fnGLndbQEb8Ud4oXR
- OSpoWcoRqDW829+86GvPE/0YDbrLVRhQnaU8Z1CCwCwsDxhcaH7DgR/A8BxxFO6wsjcQ
- Nt/xRpcYU1SlB9L2sLnywUhnImue2Ahj95SnWMOzVKBbzAIH0PP1hrZE4e1hKHz0/ThX
- i3dz5sLo5WQmCzxWg96jtNSE+QRIJssXVL5ZvlrNY6CsnEb1CQW5JEZPXTAmepcELWTE
- 0cZBMaGRfiNmRzioNMCxv1PX5ee+tMnM1LiYIJ6GtbEVWkEo6OZWPbRt8OM1Vzap01Cx
- 7hMA==
-X-Gm-Message-State: AOAM533fcItivuAHffTUx0w7pI8i0csFefjupNR+uP/y2fiHqhmjI6+b
- 2bFarK1tL57lEyxCIoe8V8emg5cYXYhCWjSFFpo=
-X-Google-Smtp-Source: ABdhPJz+GM76YSap2ol4v3fL/VD3kw96H6PPOryI60CYvpydkM1Jcfi9hgPDLa+t4/wFg6ulVvGw1xPfaam6q9g00Dg=
-X-Received: by 2002:a54:4e8a:0:b0:32e:bdbb:c562 with SMTP id
- c10-20020a544e8a000000b0032ebdbbc562mr1702414oiy.64.1654672763662; Wed, 08
- Jun 2022 00:19:23 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AIvAxGSfU9RW28tAD4GhmT/WzIgk61HnRqRU9NkURuE=;
+ b=DozgP1lqJ/875boAkR8q9Q//10j6e/qYoBaHr2w8qyeHdmEcZqBikCWDN7RerQ7B5o
+ VqzkMoYHedqb6kPb3FN3pLgcT34NdllFhUmpyF6B4PMAckxh4prt5Hqo8M4mSIh+mBQx
+ eI83MSSuQ1KICW58pbMwzky4WtrH3KhyoCuOZinsO+sLRmlKKmHNpnbMJhQgTBbnIRXD
+ 6et4CuNnFpaW5FTEQIt/VYE9b3e1XYRFX2PKNGsjZkLBiQcmLrW36SnxncYGKrfE/Q3o
+ CgksHmEoXksP7YaMwXR2GTGvskTsW5WAwGnO0A7gAfw2OM3YUHe7LRsH4d5tQ7XMg6hA
+ 5hbQ==
+X-Gm-Message-State: AOAM530M/GzgDl2ZP/i21S0Ym1rzB+fCXGgwEQbtTlB50Nvb7sgetW7/
+ taYI7s3/DnfshepsXxF30hr3N92iLXUL1pzKarJ23dWTU4ZwKZKls0PjWIqVcQHfpL/impT9z37
+ owTBHpi8vUUp0/UA=
+X-Received: by 2002:a5d:59a4:0:b0:218:4a29:f12b with SMTP id
+ p4-20020a5d59a4000000b002184a29f12bmr10829255wrr.145.1654673287737; 
+ Wed, 08 Jun 2022 00:28:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywMTXWvhyjkficYaH78yUdU01Z13m6RurYsnDWl5yUpp9ZLpBKimx/4eLVVLCKR/n3B8ztZQ==
+X-Received: by 2002:a5d:59a4:0:b0:218:4a29:f12b with SMTP id
+ p4-20020a5d59a4000000b002184a29f12bmr10829226wrr.145.1654673287473; 
+ Wed, 08 Jun 2022 00:28:07 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ w7-20020adfee47000000b002185631adf0sm2892616wro.23.2022.06.08.00.28.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 00:28:06 -0700 (PDT)
+Message-ID: <68e90a12-6dee-d26f-43bd-03b8289bdab8@redhat.com>
+Date: Wed, 8 Jun 2022 09:28:05 +0200
 MIME-Version: 1.0
-References: <20220531180321.34942-1-atishp@rivosinc.com>
- <20220531180321.34942-3-atishp@rivosinc.com>
- <CAKmqyKNLKB-kZQrSK-7sKJ3HQzSBxGFR_4V2=L0iBEa4MmuwQg@mail.gmail.com>
- <CAOnJCU+YdOPRqYNtwsMu8Q2o4onkMqXJppudBwLwUhjWvoe5Xg@mail.gmail.com>
-In-Reply-To: <CAOnJCU+YdOPRqYNtwsMu8Q2o4onkMqXJppudBwLwUhjWvoe5Xg@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 8 Jun 2022 17:18:57 +1000
-Message-ID: <CAKmqyKOt67aWFFNu3CNS+NfiLFk4gtE_7SncPrunFDmtKe_98g@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] target/riscv: Add stimecmp support
-To: Atish Patra <atishp@atishpatra.org>
-Cc: Atish Patra <atishp@rivosinc.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=alistair23@gmail.com; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 02/18] job.h: categorize fields in struct Job
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220314133707.2206082-1-eesposit@redhat.com>
+ <20220314133707.2206082-3-eesposit@redhat.com> <YpowFFFD0hKOFtWF@redhat.com>
+ <5ec6428c-a2b2-3d85-cece-46f78fa80ce3@redhat.com>
+ <581e7327-9615-08f2-afeb-cba13058a8aa@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <581e7327-9615-08f2-afeb-cba13058a8aa@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,490 +112,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 6, 2022 at 2:23 AM Atish Patra <atishp@atishpatra.org> wrote:
->
-> On Thu, Jun 2, 2022 at 12:02 AM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Wed, Jun 1, 2022 at 4:16 AM Atish Patra <atishp@rivosinc.com> wrote:
-> > >
-> > > stimecmp allows the supervisor mode to update stimecmp CSR directly
-> > > to program the next timer interrupt. This CSR is part of the Sstc
-> > > extension which was ratified recently.
-> > >
-> > > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > > ---
-> > >  target/riscv/cpu.c         |  8 ++++
-> > >  target/riscv/cpu.h         |  5 ++
-> > >  target/riscv/cpu_bits.h    |  4 ++
-> > >  target/riscv/csr.c         | 81 +++++++++++++++++++++++++++++++
-> > >  target/riscv/machine.c     |  1 +
-> > >  target/riscv/meson.build   |  3 +-
-> > >  target/riscv/time_helper.c | 98 ++++++++++++++++++++++++++++++++++++++
-> > >  target/riscv/time_helper.h | 30 ++++++++++++
-> > >  8 files changed, 229 insertions(+), 1 deletion(-)
-> > >  create mode 100644 target/riscv/time_helper.c
-> > >  create mode 100644 target/riscv/time_helper.h
-> > >
-> > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > > index 19f4e8294042..d58dd2f857a7 100644
-> > > --- a/target/riscv/cpu.c
-> > > +++ b/target/riscv/cpu.c
-> > > @@ -23,6 +23,7 @@
-> > >  #include "qemu/log.h"
-> > >  #include "cpu.h"
-> > >  #include "internals.h"
-> > > +#include "time_helper.h"
-> > >  #include "exec/exec-all.h"
-> > >  #include "qapi/error.h"
-> > >  #include "qemu/error-report.h"
-> > > @@ -779,7 +780,12 @@ static void riscv_cpu_init(Object *obj)
-> > >  #ifndef CONFIG_USER_ONLY
-> > >      qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq,
-> > >                        IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX);
-> > > +
-> > > +    if (cpu->cfg.ext_sstc) {
-> > > +        riscv_timer_init(cpu);
-> > > +    }
-> > >  #endif /* CONFIG_USER_ONLY */
-> > > +
-> > >  }
-> > >
-> > >  static Property riscv_cpu_properties[] = {
-> > > @@ -806,6 +812,7 @@ static Property riscv_cpu_properties[] = {
-> > >      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-> > >      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> > >      DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
-> > > +    DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
-> >
-> > Do we want this enabled by default?
-> >
->
-> sstc extension will result in performance improvements as it avoids
-> the SBI calls & interrupt forwarding
-> path. That's why I think it should be enabled by default.
->
-> > >
-> > >      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-> > >      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-> > > @@ -965,6 +972,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-> > >          ISA_EDATA_ENTRY(zbs, ext_zbs),
-> > >          ISA_EDATA_ENTRY(zve32f, ext_zve32f),
-> > >          ISA_EDATA_ENTRY(zve64f, ext_zve64f),
-> > > +        ISA_EDATA_ENTRY(sstc, ext_sstc),
-> > >          ISA_EDATA_ENTRY(svinval, ext_svinval),
-> > >          ISA_EDATA_ENTRY(svnapot, ext_svnapot),
-> > >          ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
-> > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > > index 1119d5201066..9a5e02f217ba 100644
-> > > --- a/target/riscv/cpu.h
-> > > +++ b/target/riscv/cpu.h
-> > > @@ -276,6 +276,9 @@ struct CPUArchState {
-> > >      uint64_t mfromhost;
-> > >      uint64_t mtohost;
-> > >
-> > > +    /* Sstc CSRs */
-> > > +    uint64_t stimecmp;
-> > > +
-> > >      /* physical memory protection */
-> > >      pmp_table_t pmp_state;
-> > >      target_ulong mseccfg;
-> > > @@ -329,6 +332,7 @@ struct CPUArchState {
-> > >      float_status fp_status;
-> > >
-> > >      /* Fields from here on are preserved across CPU reset. */
-> > > +    QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-> > >
-> > >      hwaddr kernel_addr;
-> > >      hwaddr fdt_addr;
-> > > @@ -379,6 +383,7 @@ struct RISCVCPUConfig {
-> > >      bool ext_counters;
-> > >      bool ext_ifencei;
-> > >      bool ext_icsr;
-> > > +    bool ext_sstc;
-> > >      bool ext_svinval;
-> > >      bool ext_svnapot;
-> > >      bool ext_svpbmt;
-> > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > > index 4e5b630f5965..29d0e4a1be01 100644
-> > > --- a/target/riscv/cpu_bits.h
-> > > +++ b/target/riscv/cpu_bits.h
-> > > @@ -215,6 +215,10 @@
-> > >  #define CSR_STVAL           0x143
-> > >  #define CSR_SIP             0x144
-> > >
-> > > +/* Sstc supervisor CSRs */
-> > > +#define CSR_STIMECMP        0x14D
-> > > +#define CSR_STIMECMPH       0x15D
-> > > +
-> > >  /* Supervisor Protection and Translation */
-> > >  #define CSR_SPTBR           0x180
-> > >  #define CSR_SATP            0x180
-> > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > > index 245f007e66e1..48d07911ae14 100644
-> > > --- a/target/riscv/csr.c
-> > > +++ b/target/riscv/csr.c
-> > > @@ -21,6 +21,7 @@
-> > >  #include "qemu/log.h"
-> > >  #include "qemu/timer.h"
-> > >  #include "cpu.h"
-> > > +#include "time_helper.h"
-> > >  #include "qemu/main-loop.h"
-> > >  #include "exec/exec-all.h"
-> > >  #include "sysemu/cpu-timers.h"
-> > > @@ -537,6 +538,76 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
-> > >      return RISCV_EXCP_NONE;
-> > >  }
-> > >
-> > > +static RISCVException sstc(CPURISCVState *env, int csrno)
-> > > +{
-> > > +    CPUState *cs = env_cpu(env);
-> > > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > > +
-> > > +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-> > > +        return RISCV_EXCP_ILLEGAL_INST;
-> > > +    }
-> > > +
-> > > +    if (env->priv == PRV_M) {
-> > > +        return RISCV_EXCP_NONE;
-> > > +    }
-> > > +
-> > > +    if (env->priv != PRV_S) {
-> > > +        return RISCV_EXCP_ILLEGAL_INST;
-> > > +    }
-> > > +
-> > > +    /*
-> > > +     * No need of separate function for rv32 as menvcfg stores both menvcfg
-> > > +     * menvcfgh for RV32.
-> > > +     */
-> > > +    if (!(get_field(env->mcounteren, COUNTEREN_TM) &&
-> > > +          get_field(env->menvcfg, MENVCFG_STCE))) {
-> > > +        return RISCV_EXCP_ILLEGAL_INST;
-> > > +    }
-> > > +
-> > > +    return RISCV_EXCP_NONE;
-> > > +}
-> > > +
-> > > +static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
-> > > +                                    target_ulong *val)
-> > > +{
-> > > +    *val = env->stimecmp;
-> > > +    return RISCV_EXCP_NONE;
-> > > +}
-> > > +
-> > > +static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
-> > > +                                    target_ulong *val)
-> > > +{
-> > > +    *val = env->stimecmp >> 32;
-> > > +    return RISCV_EXCP_NONE;
-> > > +}
-> > > +
-> > > +static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
-> > > +                                    target_ulong val)
-> > > +{
-> > > +    RISCVCPU *cpu = env_archcpu(env);
-> > > +
-> > > +    if (riscv_cpu_mxl(env) == MXL_RV32) {
-> > > +        env->stimecmp = deposit64(env->stimecmp, 0, 32, (uint64_t)val);
-> > > +    } else {
-> > > +        env->stimecmp = val;
-> > > +    }
-> > > +
-> > > +    riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
-> > > +
-> > > +    return RISCV_EXCP_NONE;
-> > > +}
-> > > +
-> > > +static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
-> > > +                                    target_ulong val)
-> > > +{
-> > > +    RISCVCPU *cpu = env_archcpu(env);
-> > > +
-> > > +    env->stimecmp = deposit64(env->stimecmp, 32, 32, (uint64_t)val);
-> > > +    riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
-> > > +
-> > > +    return RISCV_EXCP_NONE;
-> > > +}
-> > > +
-> > >  /* Machine constants */
-> > >
-> > >  #define M_MODE_INTERRUPTS  ((uint64_t)(MIP_MSIP | MIP_MTIP | MIP_MEIP))
-> > > @@ -1515,6 +1586,12 @@ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
-> > >          new_val |= env->external_seip * MIP_SEIP;
-> > >      }
-> > >
-> > > +    if (cpu->cfg.ext_sstc && (env->priv == PRV_M) &&
-> > > +        get_field(env->menvcfg, MENVCFG_STCE)) {
-> > > +        /* sstc extension forbids STIP & VSTIP to be writeable in mip */
-> > > +        mask = mask & ~(MIP_STIP | MIP_VSTIP);
-> > > +    }
-> > > +
-> > >      if (mask) {
-> > >          old_mip = riscv_cpu_update_mip(cpu, mask, (new_val & mask));
-> > >      } else {
-> > > @@ -3341,6 +3418,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> > >      [CSR_SCAUSE]   = { "scause",   smode, read_scause,   write_scause   },
-> > >      [CSR_STVAL]    = { "stval",    smode, read_stval,   write_stval   },
-> > >      [CSR_SIP]      = { "sip",      smode, NULL,    NULL, rmw_sip        },
-> > > +    [CSR_STIMECMP] = { "stimecmp", sstc, read_stimecmp, write_stimecmp,
-> > > +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> > > +    [CSR_STIMECMPH] = { "stimecmph", sstc, read_stimecmph, write_stimecmph,
-> > > +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> > >
-> > >      /* Supervisor Protection and Translation */
-> > >      [CSR_SATP]     = { "satp",     smode, read_satp,    write_satp      },
-> > > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> > > index 7d85de0b1d49..ee02bfc18916 100644
-> > > --- a/target/riscv/machine.c
-> > > +++ b/target/riscv/machine.c
-> > > @@ -334,6 +334,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-> > >          VMSTATE_UINTTL(env.mscratch, RISCVCPU),
-> > >          VMSTATE_UINT64(env.mfromhost, RISCVCPU),
-> > >          VMSTATE_UINT64(env.mtohost, RISCVCPU),
-> > > +        VMSTATE_UINT64(env.stimecmp, RISCVCPU),
-> > >
-> > >          VMSTATE_END_OF_LIST()
-> > >      },
-> > > diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-> > > index 2c20f3dd8e9c..1243d019148e 100644
-> > > --- a/target/riscv/meson.build
-> > > +++ b/target/riscv/meson.build
-> > > @@ -29,7 +29,8 @@ riscv_softmmu_ss.add(files(
-> > >    'pmp.c',
-> > >    'debug.c',
-> > >    'monitor.c',
-> > > -  'machine.c'
-> > > +  'machine.c',
-> > > +  'time_helper.c'
-> > >  ))
-> > >
-> > >  target_arch += {'riscv': riscv_ss}
-> > > diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
-> > > new file mode 100644
-> > > index 000000000000..f3fb5eac7b7b
-> > > --- /dev/null
-> > > +++ b/target/riscv/time_helper.c
-> > > @@ -0,0 +1,98 @@
-> > > +/*
-> > > + * RISC-V timer helper implementation.
-> > > + *
-> > > + * Copyright (c) 2022 Rivos Inc.
-> > > + *
-> > > + * This program is free software; you can redistribute it and/or modify it
-> > > + * under the terms and conditions of the GNU General Public License,
-> > > + * version 2 or later, as published by the Free Software Foundation.
-> > > + *
-> > > + * This program is distributed in the hope it will be useful, but WITHOUT
-> > > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> > > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> > > + * more details.
-> > > + *
-> > > + * You should have received a copy of the GNU General Public License along with
-> > > + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> > > + */
-> > > +
-> > > +#include "qemu/osdep.h"
-> > > +#include "qemu/log.h"
-> > > +#include "cpu_bits.h"
-> > > +#include "time_helper.h"
-> > > +#include "hw/intc/riscv_aclint.h"
-> > > +
-> > > +static void riscv_stimer_cb(void *opaque)
-> > > +{
-> > > +    RISCVCPU *cpu = opaque;
-> > > +    riscv_cpu_update_mip(cpu, MIP_STIP, BOOL_TO_MASK(1));
-> > > +}
-> > > +
-> > > +/*
-> > > + * Called when timecmp is written to update the QEMU timer or immediately
-> > > + * trigger timer interrupt if mtimecmp <= current timer value.
-> > > + */
-> > > +void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
-> > > +                               uint64_t timecmp, uint64_t delta,
-> > > +                               uint32_t timer_irq)
-> > > +{
-> > > +    uint64_t diff, ns_diff, next
-> > > +    CPURISCVState *env = &cpu->env;
-> > > +    RISCVAclintMTimerState *mtimer = env->rdtime_fn_arg;
-> > > +    uint32_t timebase_freq = mtimer->timebase_freq;
-> > > +    uint64_t rtc_r = env->rdtime_fn(env->rdtime_fn_arg) + delta;
-> >
-> > Can't we just pass mtimer here directly?
-> >
->
-> Yeah. rank's recent patch changed the argument to mtimer instead of
-> timebase_freq.
-> I forgot to change here while rebasing. I will change this.
->
-> > Ok, so I realise this is based on the aclint, but I've now confused myself.
-> >
-> > So rtc_r is the current time in ticks
-> >
-> > > +
-> > > +    if (timecmp <= rtc_r) {
-> > > +        /*
-> > > +         * If we're setting an stimecmp value in the "past",
-> > > +         * immediately raise the timer interrupt
-> > > +         */
-> > > +        riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    /* Clear the [V]STIP bit in mip */
-> > > +    riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
-> > > +
-> > > +    /* otherwise, set up the future timer interrupt */
-> > > +    diff = timecmp - rtc_r;
-> >
-> > timecmp is the absolute time we want the interrupt in ticks
-> >
-> > > +    /* back to ns (note args switched in muldiv64) */
-> > > +    ns_diff = muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
-> >
-> > ns_diff is the amount of ns in the future we want the interrupt to occur
-> >
-> > > +
-> > > +    /*
-> > > +     * check if ns_diff overflowed and check if the addition would potentially
-> > > +     * overflow
-> > > +     */
-> > > +    if ((NANOSECONDS_PER_SECOND > timebase_freq && ns_diff < diff) ||
-> > > +        ns_diff > INT64_MAX) {
-> > > +        next = INT64_MAX;
-> > > +    } else {
-> > > +        /*
-> > > +         * as it is very unlikely qemu_clock_get_ns will return a value
-> > > +         * greater than INT64_MAX, no additional check is needed for an
-> > > +         * unsigned integer overflow.
-> >
-> > I don't think qemu_clock_get_ns() can return a value larger than INT64_MAX
-> >
->
-> Yup as the return type is int64_t :)
->
-> > > +         */
-> > > +        next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + ns_diff;
-> >
-> > next is the absolute time (in ns) that we want the interrupt to occur.
-> >
-> > So we end up performing
-> >
-> > ((timecmp - now_in_ticks) in ns) + now_in_ns
-> >
-> > Can't we just convert timecmp to ns and then set that directly with timer_mod()?
-> >
->
-> That should work for all the case except
-> if ((NANOSECONDS_PER_SECOND > timebase_freq && ns_diff < diff)
->
-> where we cap the next to INT64_MAX.
 
-Couldn't we catch that with this?
 
-/* Convert to ns */
-timecmp_ns = muldiv64(timecmp, NANOSECONDS_PER_SECOND, timebase_freq);
+Am 07/06/2022 um 17:41 schrieb Paolo Bonzini:
+> On 6/7/22 15:20, Emanuele Giuseppe Esposito wrote:
+>>
+>>
+>> Am 03/06/2022 um 18:00 schrieb Kevin Wolf:
+>>> Am 14.03.2022 um 14:36 hat Emanuele Giuseppe Esposito geschrieben:
+>>>> Categorize the fields in struct Job to understand which ones
+>>>> need to be protected by the job mutex and which don't.
+>>>>
+>>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>>
+>>> I suppose it might be a result of moving things back and forth between
+>>> patches, but this patch doesn't really define separate categories.
+>>>
+>>>>   include/qemu/job.h | 59
+>>>> ++++++++++++++++++++++++++--------------------
+>>>>   1 file changed, 34 insertions(+), 25 deletions(-)
+>>>>
+>>>> diff --git a/include/qemu/job.h b/include/qemu/job.h
+>>>> index d1192ffd61..86ec46c09e 100644
+>>>> --- a/include/qemu/job.h
+>>>> +++ b/include/qemu/job.h
+>>>> @@ -40,27 +40,50 @@ typedef struct JobTxn JobTxn;
+>>>>    * Long-running operation.
+>>>>    */
+>>>>   typedef struct Job {
+>>>> +
+>>>> +    /* Fields set at initialization (job_create), and never
+>>>> modified */
+>>>
+>>> This is clearly a comment starting a category, but I can't see any other
+>>> comment indicating that another category would start.
+>>>
+>>>>       /** The ID of the job. May be NULL for internal jobs. */
+>>>>       char *id;
+>>>>   -    /** The type of this job. */
+>>>> +    /**
+>>>> +     * The type of this job.
+>>>> +     * All callbacks are called with job_mutex *not* held.
+>>>> +     */
+>>>>       const JobDriver *driver;
+>>>>   -    /** Reference count of the block job */
+>>>> -    int refcnt;
+>>>> -
+>>>> -    /** Current state; See @JobStatus for details. */
+>>>> -    JobStatus status;
+>>>> -
+>>>> -    /** AioContext to run the job coroutine in */
+>>>> -    AioContext *aio_context;
+>>>> -
+>>>>       /**
+>>>>        * The coroutine that executes the job.  If not NULL, it is
+>>>> reentered when
+>>>>        * busy is false and the job is cancelled.
+>>>> +     * Initialized in job_start()
+>>>>        */
+>>>>       Coroutine *co;
+>>>>   +    /** True if this job should automatically finalize itself */
+>>>> +    bool auto_finalize;
+>>>> +
+>>>> +    /** True if this job should automatically dismiss itself */
+>>>> +    bool auto_dismiss;
+>>>> +
+>>>> +    /** The completion function that will be called when the job
+>>>> completes.  */
+>>>> +    BlockCompletionFunc *cb;
+>>>> +
+>>>> +    /** The opaque value that is passed to the completion
+>>>> function.  */
+>>>> +    void *opaque;
+>>>> +
+>>>> +    /* ProgressMeter API is thread-safe */
+>>>> +    ProgressMeter progress;
+>>>> +
+>>>> +
+>>>
+>>> And the end of the series, this is where the cutoff is and the rest is:
+>>>
+>>>      /** Protected by job_mutex */
+>>>
+>>> With this in mind, it seems correct to me that everything above progress
+>>> is indeed never changed after creating the job. Of course, it's hard to
+>>> tell without looking at the final result, so if you have to respin for
+>>> some reason, it would be good to mark the end of the section more
+>>> clearly for the intermediate state to make sense.
+>>
+>> How can I do that? I left two empty lines in this patch, I don't know
+>> what to use to signal the end of this category.
+> 
+> Can you already add "/** Protected by AioContext lock */" in this patch
+> and then change it later?
 
-if ((NANOSECONDS_PER_SECOND > timebase_freq && timecmp_ns < timecmp)
+Makes sense, thanks.
 
->
-> Don't we need this condition to check ? If yes, we have to compute
-> ns_diff anyways.
->
-> > > +        /*
-> > > +         * if ns_diff is INT64_MAX next may still be outside the range
-> > > +         * of a signed integer.
-> > > +         */
-> > > +        next = MIN(next, INT64_MAX);
-> >
-> > Also, what happens if the guest sets a timecmp larger than INT64_MAX?
-> > We will then end up rounding it down, maybe we should store the
-> > timecmp and check it in riscv_stimer_cb?
-> >
->
-> The 'cpu' is passed as an opaque parameter. Thus, we can retrieve the timecmp in
-> riscv_stimer_cb.
->
-> At that point, if stimecmp > INT64_MAX, we need to reprogram the
-> counter with the overflow amount
-> instead of triggering the interrupt. Correct ?
+Emanuele
+> 
+> Paolo
+> 
 
-Yep! Exactly
-
->
-> It is probably unlikely to hit that condition, we should do what is
-> correct. It should be fixed for mtimecmp in aclint driver
-> as well.
-
-Yeah, I agree it's unlikely, but this extension is expected to be used
-by higher performance implements, like servers, where it *could*
-happen
-
-Alistair
-
->
-> > Alistair
-> >
-> > > +    }
-> > > +
-> > > +    timer_mod(timer, next);
-> > > +}
-> > > +
-> > > +void riscv_timer_init(RISCVCPU *cpu)
-> > > +{
-> > > +    CPURISCVState *env;
-> > > +
-> > > +    if (!cpu) {
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    env = &cpu->env;
-> > > +    env->stimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb, cpu);
-> > > +    env->stimecmp = 0;
-> > > +
-> > > +}
-> > > diff --git a/target/riscv/time_helper.h b/target/riscv/time_helper.h
-> > > new file mode 100644
-> > > index 000000000000..7b3cdcc35020
-> > > --- /dev/null
-> > > +++ b/target/riscv/time_helper.h
-> > > @@ -0,0 +1,30 @@
-> > > +/*
-> > > + * RISC-V timer header file.
-> > > + *
-> > > + * Copyright (c) 2022 Rivos Inc.
-> > > + *
-> > > + * This program is free software; you can redistribute it and/or modify it
-> > > + * under the terms and conditions of the GNU General Public License,
-> > > + * version 2 or later, as published by the Free Software Foundation.
-> > > + *
-> > > + * This program is distributed in the hope it will be useful, but WITHOUT
-> > > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> > > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> > > + * more details.
-> > > + *
-> > > + * You should have received a copy of the GNU General Public License along with
-> > > + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> > > + */
-> > > +
-> > > +#ifndef RISCV_TIME_HELPER_H
-> > > +#define RISCV_TIME_HELPER_H
-> > > +
-> > > +#include "cpu.h"
-> > > +#include "qemu/timer.h"
-> > > +
-> > > +void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
-> > > +                               uint64_t timecmp, uint64_t delta,
-> > > +                               uint32_t timer_irq);
-> > > +void riscv_timer_init(RISCVCPU *cpu);
-> > > +
-> > > +#endif
-> > > --
-> > > 2.25.1
-> > >
-> > >
-> >
->
->
-> --
-> Regards,
-> Atish
 
