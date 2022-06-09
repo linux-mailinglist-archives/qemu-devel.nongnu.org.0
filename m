@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9283544B29
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:02:03 +0200 (CEST)
-Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406FC544B41
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:04:54 +0200 (CEST)
+Received: from localhost ([::1]:53400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzGrS-000230-7y
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:02:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51896)
+	id 1nzGuC-0004sh-3w
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzEl2-0003nQ-0V
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:47:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzEl0-0004C0-Gp
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:47:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654768033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HQVVVn66N7gMj7+Kk/39dgly1iha0gUlmQO80YJkiPo=;
- b=TGpmNwfvS7uqejmi33J9GKcvItsS7zx7Z3/A6BzxEHJpvXHxTXiwMB/IwzfLGzYMoYLNo4
- at4F5WEfPuhBg/7ZOu8S0cl408KDFmryh8CfoMnmVtnZTULEIH4/n/PHCk+sTH6yUUPGU9
- KUmm+GPRiVUnaTJg3L3bBgpcfHteaow=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-368-HJNFU630OUWkHAk7y70iPQ-1; Thu, 09 Jun 2022 05:47:12 -0400
-X-MC-Unique: HJNFU630OUWkHAk7y70iPQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DC6885A580;
- Thu,  9 Jun 2022 09:47:11 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B30C2166B26;
- Thu,  9 Jun 2022 09:47:09 +0000 (UTC)
-Date: Thu, 9 Jun 2022 10:47:08 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 12/18] block_job: rename block_job functions called
- with job_mutex held
-Message-ID: <YqHBnDfz5ZyyAHE3@stefanha-x1.localdomain>
-References: <20220314133707.2206082-1-eesposit@redhat.com>
- <20220314133707.2206082-13-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzE7k-0001oz-A9
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:40 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzE7i-00063a-9r
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:40 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h5so31518410wrb.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=AJUvIhNABE7+bpF4sZrKJZdKNVK1oDZ/5Hrds64VDKo=;
+ b=yCJDWWLBX8grHJ4kdbYX8pcy0jMpbW6pyqvqAWJedSJ+mPEfUKYOEH1kqqbSNGVx4T
+ xwxRPLIvaRUibpw9yCDXsHI/pB6kqmsqsvVosbZcF0WnG6vIdfeoLuKs4qxL9Np0VVC9
+ IRcYo2C1b3keoWXeTMdLPcTX4acK3xdxO6lzy1Avubv7vLUfxve+DMC0lNjEqNEmucYU
+ LXXJRZpVnUi9t9vFnoS480ZM0iyua1Fzx7aInfz3sVpe90n6bvvuGC+EkMry04G4g2V+
+ mBFv+IfaRRsivsiFlrgARm4PhEzPJGMDResMrgeNStsMCZIz6RbGeMRs1OPMRPjD1k/h
+ 6+yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=AJUvIhNABE7+bpF4sZrKJZdKNVK1oDZ/5Hrds64VDKo=;
+ b=ErzC7E2acdr1kCcFD6MkpZdWIqs2ETLDHTbbW19oIp4HuI9IJSsKbe/9fa+YKPYd4H
+ LPxw4e874y/jLJqh/j630ZUMN9ORV/R5WwwBcEWFJCCrGrVh0njAt/q6nQJLp+tTI8ed
+ uyf4pCs2SJPgSOHBQ6wPuSuTsFK6ELFIyrpR34iA7b+Oo1mkj3v2plyu2so4R0mXLcMa
+ jUbCYXKB/7R/qZFYB4mT5zfbotPvSOxofnST8t0WgzH+CsR2jmT9llHLNIrtNzFK6rDF
+ ZiJILsWLxQ+0FMudoYoOZ3IcNB1weKSS8DgXuZ82YYg5+rI6g2VYWfuvL28DBWMz5ykF
+ Wr4g==
+X-Gm-Message-State: AOAM532CQk/GTTC0cA4OSgecFXaQ+PtVKEpCPA8Tz0UCqveVs0B3dKH/
+ jeir+FYuiO8+jKW4/yFHWABbTgejxR1cUg==
+X-Google-Smtp-Source: ABdhPJwv47Q4cTbzMP0aU9Bh09xprI2YfnL5honM1/klNspZrmZXAdssd6mPbC3XNoFcjq2dUi4SxQ==
+X-Received: by 2002:adf:eccd:0:b0:212:fbbc:79de with SMTP id
+ s13-20020adfeccd000000b00212fbbc79demr35777097wro.520.1654765597488; 
+ Thu, 09 Jun 2022 02:06:37 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.36
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 02:06:36 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 55/55] target/arm: Add ID_AA64SMFR0_EL1
+Date: Thu,  9 Jun 2022 10:05:37 +0100
+Message-Id: <20220609090537.1971756-56-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
+References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yJfPnPy4NimfosWC"
-Content-Disposition: inline
-In-Reply-To: <20220314133707.2206082-13-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,45 +88,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Richard Henderson <richard.henderson@linaro.org>
 
---yJfPnPy4NimfosWC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This register is allocated from the existing block of id registers,
+so it is already RES0 for cpus that do not implement SME.
 
-On Mon, Mar 14, 2022 at 09:37:01AM -0400, Emanuele Giuseppe Esposito wrote:
-> @@ -135,32 +137,37 @@ void block_job_remove_all_bdrv(BlockJob *job);
->  bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs);
-> =20
->  /**
-> - * block_job_set_speed:
-> + * block_job_set_speed_locked:
->   * @job: The job to set the speed for.
->   * @speed: The new value
->   * @errp: Error object.
->   *
->   * Set a rate-limiting parameter for the job; the actual meaning may
->   * vary depending on the job type.
-> + *
-> + * Called with job_mutex lock held. May temporarly release the lock.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220607203306.657998-21-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.h    | 25 +++++++++++++++++++++++++
+ target/arm/helper.c |  4 ++--
+ target/arm/kvm64.c  | 11 +++++++----
+ 3 files changed, 34 insertions(+), 6 deletions(-)
 
-s/temporarly/temporarily/
-
---yJfPnPy4NimfosWC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKhwZwACgkQnKSrs4Gr
-c8jOGgf+OdiF4QMwyb+xcZHuKXlBicYsuQ3AXm9+fL7iX+2W52FJ0cUEwsWn5n1l
-KBhVRQDYCjemZBbbSkYMa3tECpNfPkgvpb9x67StrcPnaPhEOgU2H9jEqYxlIEl1
-pTLap4EiGziancpkl+Fxwr4BEGLbn7/JoeHD0TNZRXK6JMxoJMHabLdT6OHeP1XU
-b+AjM9ggjDS9INPF6kQUOqU2MZiR9039oalcBCShHSpnLoZ287OgHaI9PXvG4KFA
-SfLZeb/X2AdPgeQRpyH+xJoCPzzLFAVVYJctg3TgVy1qhuwIAdCk+VhwFDNFsSJ/
-Ca9wP9Yw3eu4Xc5WwUZvag25y1G5zw==
-=ZTAe
------END PGP SIGNATURE-----
-
---yJfPnPy4NimfosWC--
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 2e6153c5409..78dbcb5592c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -966,6 +966,7 @@ struct ArchCPU {
+         uint64_t id_aa64dfr0;
+         uint64_t id_aa64dfr1;
+         uint64_t id_aa64zfr0;
++        uint64_t id_aa64smfr0;
+         uint64_t reset_pmcr_el0;
+     } isar;
+     uint64_t midr;
+@@ -2190,6 +2191,15 @@ FIELD(ID_AA64ZFR0, I8MM, 44, 4)
+ FIELD(ID_AA64ZFR0, F32MM, 52, 4)
+ FIELD(ID_AA64ZFR0, F64MM, 56, 4)
+ 
++FIELD(ID_AA64SMFR0, F32F32, 32, 1)
++FIELD(ID_AA64SMFR0, B16F32, 34, 1)
++FIELD(ID_AA64SMFR0, F16F32, 35, 1)
++FIELD(ID_AA64SMFR0, I8I32, 36, 4)
++FIELD(ID_AA64SMFR0, F64F64, 48, 1)
++FIELD(ID_AA64SMFR0, I16I64, 52, 4)
++FIELD(ID_AA64SMFR0, SMEVER, 56, 4)
++FIELD(ID_AA64SMFR0, FA64, 63, 1)
++
+ FIELD(ID_DFR0, COPDBG, 0, 4)
+ FIELD(ID_DFR0, COPSDBG, 4, 4)
+ FIELD(ID_DFR0, MMAPDBG, 8, 4)
+@@ -4195,6 +4205,21 @@ static inline bool isar_feature_aa64_sve_f64mm(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, F64MM) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_sme_f64f64(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64smfr0, ID_AA64SMFR0, F64F64);
++}
++
++static inline bool isar_feature_aa64_sme_i16i64(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64smfr0, ID_AA64SMFR0, I16I64) == 0xf;
++}
++
++static inline bool isar_feature_aa64_sme_fa64(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64smfr0, ID_AA64SMFR0, FA64);
++}
++
+ /*
+  * Feature tests for "does this exist in either 32-bit or 64-bit?"
+  */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 400f7cd1dba..ac9942d750d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7722,11 +7722,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+               .resetvalue = cpu->isar.id_aa64zfr0 },
+-            { .name = "ID_AA64PFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
++            { .name = "ID_AA64SMFR0_EL1", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 5,
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+-              .resetvalue = 0 },
++              .resetvalue = cpu->isar.id_aa64smfr0 },
+             { .name = "ID_AA64PFR6_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 6,
+               .access = PL1_R, .type = ARM_CP_CONST,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index b3f635fc952..ff8f65da22f 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -574,6 +574,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+     } else {
+         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64pfr1,
+                               ARM64_SYS_REG(3, 0, 0, 4, 1));
++        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64smfr0,
++                              ARM64_SYS_REG(3, 0, 0, 4, 5));
+         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64dfr0,
+                               ARM64_SYS_REG(3, 0, 0, 5, 0));
+         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64dfr1,
+@@ -682,10 +684,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+         ahcf->isar.id_aa64pfr0 = t;
+ 
+         /*
+-         * Before v5.1, KVM did not support SVE and did not expose
+-         * ID_AA64ZFR0_EL1 even as RAZ.  After v5.1, KVM still does
+-         * not expose the register to "user" requests like this
+-         * unless the host supports SVE.
++         * There is a range of kernels between kernel commit 73433762fcae
++         * and f81cb2c3ad41 which have a bug where the kernel doesn't expose
++         * SYS_ID_AA64ZFR0_EL1 via the ONE_REG API unless the VM has enabled
++         * SVE support, so we only read it here, rather than together with all
++         * the other ID registers earlier.
+          */
+         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
+                               ARM64_SYS_REG(3, 0, 0, 4, 4));
+-- 
+2.25.1
 
 
