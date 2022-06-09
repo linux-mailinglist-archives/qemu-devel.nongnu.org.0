@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281AC545632
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:09:15 +0200 (CEST)
-Received: from localhost ([::1]:38304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA00A54565F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:15:46 +0200 (CEST)
+Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzPP0-0005nZ-5o
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:09:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43626)
+	id 1nzPVJ-0003Ah-Pe
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:15:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzOmT-0004CF-E8
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:25 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:43543)
+ id 1nzOmX-0004G3-0Z
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:29 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:36519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzOmP-00006j-WE
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:25 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id x4so13473051pfj.10
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:21 -0700 (PDT)
+ id 1nzOmR-0008Qi-Li
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:26 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ u12-20020a17090a1d4c00b001df78c7c209so379259pju.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NNURr0Aht9d3sVCPfMyWxRyw8UmQdVCrRycp0Xr9WSw=;
- b=SWzOqtuTgh4aufDOFdAO2VRhFLaSfi+bad40b0nEpx4v1wdexz4ihb7vfF7BAbMEX3
- 6Ags2WacphEl0Cloz8pZFpuLlfRvczxNJyULz+4/oECzpMxJ3oNJoR0nZAd7uE0jXURa
- 2LRuJabiylTPnIFjsTirxm69BeUgNfW4dWlYvb9fgDFmEil3gl2j+guzQHCyQ2auqOYf
- HdlQT7GNobyBq90+bYUlhymMmzTsyI8tDtJTu1wMhXLJu4mmbZqKG/Zxw4jRVWQmsDe4
- nUcyKr576RsoLhJtUaNgdxniZhpdlc9wzBlBLvxzaeA1nKmFTcs5vOchHiEf6PYpOCeE
- JsxA==
+ bh=ZvVhJ9luWKkwdZYjhq+lmyv/sw3Hp1aeF2mDU3UCb9I=;
+ b=DPulRIgojQCZy6t5X9+M99Rqkf7yq/DJOkd1kZalEiFRDXJog77c/qCzgTuJ08CDhh
+ UNGE6JeqZudQ6EfcoWeEBglJCaVjq4f5yrZ9R4WWCNIWc5fcuevs+DiI8w+zzpeCopP3
+ OWDdxvIAwUqSjFVtFjfdyflfZdAbcXOIX60mx07rf5lQdSujthQfjCddAK3SYnykzLii
+ EFdPnJOAw2FhPYCze5CEwFhWrZBGAqfr+xGU2eGgXl8JocGWVgEeWM/BVH6KlOZdCTNG
+ kG2igrLOgkXxoa29sTMpBbjNqeVCZwWASDFq+VYjg6daRt5fKaMYR3TW/HGO2VpSs6AP
+ L60A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NNURr0Aht9d3sVCPfMyWxRyw8UmQdVCrRycp0Xr9WSw=;
- b=vhY5ig5dy/6dJCqh1gxyBDq0NMPve6XCdhhtDvUlvPPu93Z+3mHCUR/yBZkeCGEKOT
- xiPEXGirMVnjxL/pl7VFGOwAhVF8ATVJ8+xEb3Cc2V5Yqv2ehi+XtwBocGLX6eNXd2f6
- jJjVAUMSoIrG6SwzHJ+1FqX6+6dbXJ+jRc5Ptr+LqXT8UTVLSzx2u6Zi1QdAytd6xrmj
- eD7YlcSR3sIKPM4eSY44l6SY1eYY+LO8BGOyjMS7CK68BU3YFRBZBt2rrddpwe0S1CoO
- 8eVuYEpKeTgWWdLN5djMbcwAfvShrNX4xmPATSlbE3Kjn5nFgL7dlG44pP4N3vXZx45n
- 1PVA==
-X-Gm-Message-State: AOAM532MTIyj8/siJ6KHe1ZYX0IoDLjLJvzRqxQNeB0O3EKTrrnu5Lq9
- uiJqmaGsnsRpyIAXGJFAInTATSAkRO5CkQ==
-X-Google-Smtp-Source: ABdhPJyolm1M9LSSswmGAcKa97OJr7nx1TleUjERO6h+6QJVdbuY6L5T+Hb3saUXDRn4dvqhmCUDsA==
-X-Received: by 2002:a63:1a0f:0:b0:3fe:4da7:1a38 with SMTP id
- a15-20020a631a0f000000b003fe4da71a38mr6055172pga.332.1654806560598; 
- Thu, 09 Jun 2022 13:29:20 -0700 (PDT)
+ bh=ZvVhJ9luWKkwdZYjhq+lmyv/sw3Hp1aeF2mDU3UCb9I=;
+ b=5QYevd1rpA+q03jgN95vxSCfeRiMa9A9fjlaFd2q3dZ9hyCviWq1/oJZW2xJQ5pb3v
+ AT7ekJsW27DuK3gW/RsbkQ/TOsvs7xX0YU9RKdJG51Qcd+xVyCQAiHUDTudCoOps/aZS
+ wV/7arxcoMkx7CGz4Ds3g22ScztR/DGO3EkEQ5lmvbmVUkvmfVvslg86z8usDrek2NJA
+ TBghcXzyGgZuaUpKqrRQL/A7w4Xy1EA6pXuXnGFjf49PGR8+xxwZHx8L3ptUxlca0m9r
+ uUs0wxGa9ejjwdeRNXHNmNOIwgEDQvkqj6sXvnxY9AKbtGShFhf6LUlqnLGeR0IdTiO3
+ L06w==
+X-Gm-Message-State: AOAM533+6J2fENwmT8gvTg5whuY9OHMsFlpVQLsHVszz5KGiXKcHmEcI
+ BmxVKgQC2Vl8CNb47KhWMr7wHQYryzdUvw==
+X-Google-Smtp-Source: ABdhPJye3YztWSG6SnWKnZKXgTw4NoZz/leGXGiMdA/IJzHaqRUKxVO/v+fxYEsk1UWNJ1/P8DD0+g==
+X-Received: by 2002:a17:903:32c1:b0:166:3f58:c1b3 with SMTP id
+ i1-20020a17090332c100b001663f58c1b3mr39938291plr.108.1654806561573; 
+ Thu, 09 Jun 2022 13:29:21 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:839f:476f:678:38a])
  by smtp.gmail.com with ESMTPSA id
- r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.19
+ r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 13:29:20 -0700 (PDT)
+ Thu, 09 Jun 2022 13:29:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 20/23] target/arm: Remove default_exception_el
-Date: Thu,  9 Jun 2022 13:28:58 -0700
-Message-Id: <20220609202901.1177572-21-richard.henderson@linaro.org>
+Subject: [PATCH v3 21/23] target/arm: Create raise_exception_debug
+Date: Thu,  9 Jun 2022 13:28:59 -0700
+Message-Id: <20220609202901.1177572-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220609202901.1177572-1-richard.henderson@linaro.org>
 References: <20220609202901.1177572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,83 +90,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function is no longer used.  At the same time, remove
-DisasContext.secure_routed_to_el3, as it in turn becomes unused.
+Handle the debug vs current el exception test in one place.
+Leave EXCP_BKPT alone, since that treats debug < current differently.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.h     | 16 ----------------
- target/arm/translate-a64.c |  5 -----
- target/arm/translate.c     |  5 -----
- 3 files changed, 26 deletions(-)
+ target/arm/debug_helper.c | 44 +++++++++++++++++++++------------------
+ 1 file changed, 24 insertions(+), 20 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 850bcdc155..88dc18a034 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -43,8 +43,6 @@ typedef struct DisasContext {
-     int fp_excp_el; /* FP exception EL or 0 if enabled */
-     int sve_excp_el; /* SVE exception EL or 0 if enabled */
-     int vl;          /* current vector length in bytes */
--    /* Flag indicating that exceptions from secure mode are routed to EL3. */
--    bool secure_routed_to_el3;
-     bool vfp_enabled; /* FP enabled via FPSCR.EN */
-     int vec_len;
-     int vec_stride;
-@@ -199,20 +197,6 @@ static inline int get_mem_index(DisasContext *s)
-     return arm_to_core_mmu_idx(s->mmu_idx);
+diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+index a3a1b98de2..26004df99b 100644
+--- a/target/arm/debug_helper.c
++++ b/target/arm/debug_helper.c
+@@ -12,6 +12,26 @@
+ #include "exec/helper-proto.h"
+ 
+ 
++/*
++ * Raise an exception to the debug target el.
++ * Modify syndrome to indicate when origin and target EL are the same.
++ */
++G_NORETURN static void
++raise_exception_debug(CPUARMState *env, uint32_t excp, uint32_t syndrome)
++{
++    int debug_el = arm_debug_target_el(env);
++    int cur_el = arm_current_el(env);
++
++    /*
++     * If singlestep is targeting a lower EL than the current one, then
++     * DisasContext.ss_active must be false and we can never get here.
++     * Similarly for watchpoint and breakpoint matches.
++     */
++    assert(debug_el >= cur_el);
++    syndrome |= (debug_el == cur_el) << ARM_EL_EC_SHIFT;
++    raise_exception(env, excp, syndrome, debug_el);
++}
++
+ /* See AArch64.GenerateDebugExceptionsFrom() in ARM ARM pseudocode */
+ static bool aa64_generate_debug_exceptions(CPUARMState *env)
+ {
+@@ -418,19 +438,16 @@ void arm_debug_excp_handler(CPUState *cs)
+     if (wp_hit) {
+         if (wp_hit->flags & BP_CPU) {
+             bool wnr = (wp_hit->flags & BP_WATCHPOINT_HIT_WRITE) != 0;
+-            bool same_el = arm_debug_target_el(env) == arm_current_el(env);
+ 
+             cs->watchpoint_hit = NULL;
+ 
+             env->exception.fsr = arm_debug_exception_fsr(env);
+             env->exception.vaddress = wp_hit->hitaddr;
+-            raise_exception(env, EXCP_DATA_ABORT,
+-                    syn_watchpoint(same_el, 0, wnr),
+-                    arm_debug_target_el(env));
++            raise_exception_debug(env, EXCP_DATA_ABORT,
++                                  syn_watchpoint(0, 0, wnr));
+         }
+     } else {
+         uint64_t pc = is_a64(env) ? env->pc : env->regs[15];
+-        bool same_el = (arm_debug_target_el(env) == arm_current_el(env));
+ 
+         /*
+          * (1) GDB breakpoints should be handled first.
+@@ -450,9 +467,7 @@ void arm_debug_excp_handler(CPUState *cs)
+          * exception/security level.
+          */
+         env->exception.vaddress = 0;
+-        raise_exception(env, EXCP_PREFETCH_ABORT,
+-                        syn_breakpoint(same_el),
+-                        arm_debug_target_el(env));
++        raise_exception_debug(env, EXCP_PREFETCH_ABORT, syn_breakpoint(0));
+     }
  }
  
--/* Function used to determine the target exception EL when otherwise not known
-- * or default.
-- */
--static inline int default_exception_el(DisasContext *s)
--{
--    /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
--     * there is no secure EL1, so we route exceptions to EL3.  Otherwise,
--     * exceptions can only be routed to ELs above 1, so we target the higher of
--     * 1 or the current EL.
--     */
--    return (s->mmu_idx == ARMMMUIdx_SE10_0 && s->secure_routed_to_el3)
--            ? 3 : MAX(1, s->current_el);
--}
--
- static inline void disas_set_insn_syndrome(DisasContext *s, uint32_t syn)
+@@ -489,18 +504,7 @@ void HELPER(exception_bkpt_insn)(CPUARMState *env, uint32_t syndrome)
+ 
+ void HELPER(exception_swstep)(CPUARMState *env, uint32_t syndrome)
  {
-     /* We don't need to save all of the syndrome so we mask and shift
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 4f6181a548..4c64546090 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14585,11 +14585,6 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->condjmp = 0;
- 
-     dc->aarch64 = true;
--    /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
--     * there is no secure EL1, so we route exceptions to EL3.
+-    int debug_el = arm_debug_target_el(env);
+-    int cur_el = arm_current_el(env);
+-
+-    /*
+-     * If singlestep is targeting a lower EL than the current one, then
+-     * DisasContext.ss_active must be false and we can never get here.
 -     */
--    dc->secure_routed_to_el3 = arm_feature(env, ARM_FEATURE_EL3) &&
--                               !arm_el_is_aa64(env, 3);
-     dc->thumb = false;
-     dc->sctlr_b = 0;
-     dc->be_data = EX_TBFLAG_ANY(tb_flags, BE_DATA) ? MO_BE : MO_LE;
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 81c27e7c70..6617de775f 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -9319,11 +9319,6 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     dc->condjmp = 0;
+-    assert(debug_el >= cur_el);
+-    if (debug_el == cur_el) {
+-        syndrome |= 1 << ARM_EL_EC_SHIFT;
+-    }
+-    raise_exception(env, EXCP_UDEF, syndrome, debug_el);
++    raise_exception_debug(env, EXCP_UDEF, syndrome);
+ }
  
-     dc->aarch64 = false;
--    /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
--     * there is no secure EL1, so we route exceptions to EL3.
--     */
--    dc->secure_routed_to_el3 = arm_feature(env, ARM_FEATURE_EL3) &&
--                               !arm_el_is_aa64(env, 3);
-     dc->thumb = EX_TBFLAG_AM32(tb_flags, THUMB);
-     dc->be_data = EX_TBFLAG_ANY(tb_flags, BE_DATA) ? MO_BE : MO_LE;
-     condexec = EX_TBFLAG_AM32(tb_flags, CONDEXEC);
+ #if !defined(CONFIG_USER_ONLY)
 -- 
 2.34.1
 
