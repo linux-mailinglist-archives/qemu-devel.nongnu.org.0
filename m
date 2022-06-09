@@ -2,90 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B76544FB9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:46:24 +0200 (CEST)
-Received: from localhost ([::1]:57548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770BE54507C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:17:53 +0200 (CEST)
+Received: from localhost ([::1]:40066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzJQV-0002sc-5y
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52336)
+	id 1nzJuy-0007Jy-8O
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:17:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=1525abdf4=anthony.perard@citrix.com>)
- id 1nzIkE-0001WK-Hu; Thu, 09 Jun 2022 10:02:42 -0400
-Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:27721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=1525abdf4=anthony.perard@citrix.com>)
- id 1nzIkC-00083G-5T; Thu, 09 Jun 2022 10:02:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1654783360;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2U3jUoNslZi3eqK5NFra4Ihi53xzZqdKWsALmkjx8cU=;
- b=OzqedZhKRcFnTMLL3xZrAJQ2x7vC09+KJzrJJ/SFmOns6R6jAFqL1HZw
- lW1c5oC6qS7fOWDYZy7gD4W4J9PptwgpFC65qTQc9NXRM8xUbINQAbYix
- Ak5iI5tvpUFGuhwbbMqlQ1o5nzvJahZbNLP8xgcFW9Z2HPxrwkXfXtyQQ A=;
-Authentication-Results: esa5.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 5.1
-X-MesageID: 72584691
-X-Ironport-Server: esa5.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-IronPort-Data: A9a23:/nEWgK+ZETWmMnB+WLlxDrUDJ36TJUtcMsCJ2f8bNWPcYEJGY0x3m
- jEdWDiPM/yNMGP9edF2aN+xpE1TusCAydVnQVFp/n88E34SpcT7XtnIdU2Y0wF+jyHgoOCLy
- +1EN7Es+ehtFie0Si+Fa+Sn9T8mvU2xbuKU5NTsY0idfic5DnZ44f5fs7Rh2NQw34DpW1jlV
- e7a+KUzBnf0g1aYDUpMg06zgEsHUCPa4W5wUvQWPJinjXeG/5UnJMt3yZKZdhMUdrJ8DO+iL
- 9sv+Znilo/vE7XBPfv++lrzWhVirrc/pmFigFIOM0SpqkAqSiDfTs/XnRfTAKtao2zhojx/9
- DlCnczoTDksMKzyo7wyCCtjHwh5BYZL46CSdBBTseTLp6HHW37lwvEoB0AqJ4wIvO1wBAmi9
- 9RBdmpLNErawbvrnvTrEYGAhex6RCXvFIoZpnFnyyCfFfs8SIrPa67L+cVZzHE7gcUm8fP2O
- JBEOWYxPU2ojxtnancZCJEag+eTl2TOeH5n80mTi7sM7D2GpOB2+Oe0a4eEEjCQfu1Ql1yTq
- 2aA9nz3DxUQPcGa4TWA+3OowOTImEvTXZkOPKe1+v5jnBuYwWl7IBAaSFKhrf6Rike0WNVEN
- woS9zZGhbE/8VHuRN36VB6QpnmCsRgBHd1KHIUS+AyLj6bZ/QudLmwFVSJaLswrstcsQj4n3
- UPPmMnmbRRtq7uSVlqH+7uUpC/0Mi8QRUcZfjMNRwYB59jloakwgwjJQ9IlF7S65vXuGTz23
- z2bhCc7jrQXy8UM0s2T5F3Cnnegq4bESiYz4QPYWH/j6Rl2DKa/Zoeo4ELXq/ZNKoqUVEKGu
- lAAms6X9udICouC/ASVSuILDrCv5t6fPTHciEIpFJ4knxy18mOnVZBd5nd5PkgBDyofUWa3O
- gmJ41oXvcINeivxBUNqX26vI5RyyJblG9Xbbaj7Neh1brF2TCSK5z47MCZ8wFvRfFgQfbAXY
- MnGLZjxVypKVsyL3xLtGb5DjOZDKjQWgDqKGMull0nPPa+2Pib9dFsTDLeZggnVBougqR6dz
- dtQPtDiJ/53ALynOXm/HWL+wDk3wZkH6XPe8ZU/mhareFYOJY3YI6a5LUkdU4Jkhb9JsezD4
- 2uwXERVoHKm2yCbdlzRMCA/Nui3NXqakZ7cFXV0VWtEJlB5Odr/hEvhX8BfkUYbGBxLkqcvE
- qhtlzSoCfVTUDXXkwkggW3GhNU6LnyD3FvWVwL8OWRXV8MxHGThp467FjYDAQFTV0JbQ+Nl+
- +3+vu4aKLJeLzlf4DH+OKr1nwrg5ihE8A+wNmORSuRulIzX2NACA0TMYjUfeqng9T2rKuOm6
- jur
-IronPort-HdrOrdr: A9a23:F79vfakFKVUIC4pgni6YLoKgTvnpDfIq3DAbv31ZSRFFG/Fxl6
- iV88jzsiWE7gr5OUtQ/uxoV5PgfZqxz/NICMwqTNWftWrdyQ+VxeNZjbcKqgeIc0aVygce79
- YET0EXMqyIMbEQt6jHCWeDf+rIuOP3k5yVuQ==
-X-IronPort-AV: E=Sophos;i="5.91,287,1647316800"; d="scan'208";a="72584691"
-To: <qemu-devel@nongnu.org>
-CC: Bernhard Beschow <shentey@gmail.com>, Anthony PERARD
- <anthony.perard@citrix.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>, "Richard
- Henderson" <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, "Marcel
- Apfelbaum" <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>,
- <xen-devel@lists.xenproject.org>, <qemu-block@nongnu.org>
-Subject: [PULL 3/3] include/hw/ide: Unexport pci_piix3_xen_ide_unplug()
-Date: Thu, 9 Jun 2022 15:02:02 +0100
-Message-ID: <20220609140202.45227-4-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220609140202.45227-1-anthony.perard@citrix.com>
-References: <20220609140202.45227-1-anthony.perard@citrix.com>
+ (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
+ id 1nzIlR-0003oa-PM
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:04:01 -0400
+Received: from vulcan.kevinlocke.name
+ ([2001:19f0:5:727:1e84:17da:7c52:5ab4]:48549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
+ id 1nzIlK-0008Id-QH
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:03:57 -0400
+Received: from kevinolos.kevinlocke.name
+ (2600-6c67-5000-3d1b-c8c1-cd06-7ee8-5d26.res6.spectrum.com
+ [IPv6:2600:6c67:5000:3d1b:c8c1:cd06:7ee8:5d26])
+ (Authenticated sender: kevin@kevinlocke.name)
+ by vulcan.kevinlocke.name (Postfix) with ESMTPSA id 8C1402EFA4EC;
+ Thu,  9 Jun 2022 14:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kevinlocke.name;
+ s=vulcan; t=1654783429;
+ bh=Q/G9WFFXIWgV6v32upzJGLWnz6pHWbPm1nSdvFhgbrc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DIDkNqJP/BVSN3/7HKNRxAQxJLOTOdI73i59Rakcv9ARs4/Re0fX7qWlnLOhYgSso
+ loKti15YM98FCQSBZ1Adf5W1IMxz7bgXPyISYKGlfdhF6MVARGqTHIlfVkBYMUy2LV
+ 81cTL3fnyzzXFsr2ehQqIbdzuUwg229Heq0GYsKw=
+Received: by kevinolos.kevinlocke.name (Postfix, from userid 1000)
+ id 3FA48130015A; Thu,  9 Jun 2022 08:03:46 -0600 (MDT)
+Date: Thu, 9 Jun 2022 08:03:46 -0600
+From: Kevin Locke <kevin@kevinlocke.name>
+To: Laszlo Ersek <lersek@redhat.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel@redhat.com>,
+ Laine Stump <laine@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [RFC][PATCH] docs: note exception for PCIe IO port access
+Message-ID: <YqH9wt/L7vcmFe8T@kevinlocke.name>
+References: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
+ <63e991af-0dd2-3aea-2f15-7460a6fb87db@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.155.168;
- envelope-from=prvs=1525abdf4=anthony.perard@citrix.com;
- helo=esa5.hc3370-68.iphmx.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63e991af-0dd2-3aea-2f15-7460a6fb87db@redhat.com>
+Received-SPF: pass client-ip=2001:19f0:5:727:1e84:17da:7c52:5ab4;
+ envelope-from=kevin@kevinlocke.name; helo=vulcan.kevinlocke.name
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 09 Jun 2022 10:58:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,177 +73,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-From: Bernhard Beschow <shentey@gmail.com>
+Thanks Laszlo, I really appreciate the detailed explanation and
+feedback!
 
-This function was declared in a generic and public header, implemented
-in a device-specific source file but only used in xen_platform. Given its
-'aux' parameter, this function is more xen-specific than piix-specific.
-Also, the hardcoded magic constants seem to be generic and related to
-PCIIDEState and IDEBus rather than piix.
+On Thu, 2022-06-09 at 09:45 +0200, Laszlo Ersek wrote:
+> (a) your original (non-functional) use case:
+> 
+> qemu-system-x86_64 \
+>     -no-user-config \
+>     -nodefaults \
+>     -machine q35,accel=kvm \
+>     -m 1G \
+>     -cdrom "$iso" \
+>     -device pcie-root-port,id=pci.1,bus=pcie.0 \
+>     -device VGA,bus=pci.1
+> 
+> violates the following part of "pcie.txt":
+> 
+>> Plugging a PCI device into a PCI Express slot might not always work and
+>> is weird anyway since it cannot be done for "bare metal".
+> 
+> AIUI, what Gerd explains in that SeaBIOS thread is why and how exactly
+> such an attempt breaks. The statement that it would break is already
+> spelled out in "pcie.txt".
+> 
+> So I think that, given strictly your original report on the SeaBIOS
+> list, no updates to "pcie.txt" are necessary.
+> 
+> Note that your original (functional) use case:
+> 
+> qemu-system-x86_64 \
+>     -no-user-config \
+>     -nodefaults \
+>     -machine q35,accel=kvm \
+>     -m 1G \
+>     -cdrom "$iso" \
+>     -device VGA
+> 
+> does not conflict with
+> 
+>> Place only the following kinds of devices directly on the Root Complex:
+>>     (1) PCI Devices (e.g. network card, graphics card, IDE controller),
+>>         not controllers. Place only legacy PCI devices on
+>>         the Root Complex. These will be considered Integrated Endpoints.
+>>         Note: Integrated Endpoints are not hot-pluggable.
+>>
+>>         Although the PCI Express spec does not forbid PCI Express devices as
+>>         Integrated Endpoints, existing hardware mostly integrates legacy PCI
+>>         devices with the Root Complex. Guest OSes are suspected to behave
+>>         strangely when PCI Express devices are integrated
+>>         with the Root Complex.
+> 
+> because "-device VGA" is a legacy PCI device, not a PCI Express device.
+> So the second quoted paragraph does not apply to it at all, and the
+> first paragraph is in sync with your functional use case.
 
-Therefore, move this function to xen_platform, unexport it, and drop the
-"piix3" in the function name as well.
+Ah, right you are.  My mistake.  Sorry for the noise.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Acked-by: Anthony PERARD <anthony.perard@citrix.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220513180957.90514-4-shentey@gmail.com>
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
- hw/i386/xen/xen_platform.c | 48 +++++++++++++++++++++++++++++++++++++-
- hw/ide/piix.c              | 46 ------------------------------------
- include/hw/ide.h           |  3 ---
- 3 files changed, 47 insertions(+), 50 deletions(-)
+I had thought virtio-vga might be an exception, since there was
+discussion about changing virtio-vga to PCIe when connected to the
+Root Complex[4], but it looks like the change was not made due to
+compatibility concerns[5].  As you note below, this is currently the
+case for all devices with VGA compatibility, so this docs change is
+mostly a non-issue as long as this continues to be the case.
 
-diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
-index 72028449ba..a64265cca0 100644
---- a/hw/i386/xen/xen_platform.c
-+++ b/hw/i386/xen/xen_platform.c
-@@ -26,6 +26,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/ide.h"
-+#include "hw/ide/pci.h"
- #include "hw/pci/pci.h"
- #include "hw/xen/xen_common.h"
- #include "migration/vmstate.h"
-@@ -134,6 +135,51 @@ static void pci_unplug_nics(PCIBus *bus)
-     pci_for_each_device(bus, 0, unplug_nic, NULL);
- }
- 
-+/*
-+ * The Xen HVM unplug protocol [1] specifies a mechanism to allow guests to
-+ * request unplug of 'aux' disks (which is stated to mean all IDE disks,
-+ * except the primary master).
-+ *
-+ * NOTE: The semantics of what happens if unplug of all disks and 'aux' disks
-+ *       is simultaneously requested is not clear. The implementation assumes
-+ *       that an 'all' request overrides an 'aux' request.
-+ *
-+ * [1] https://xenbits.xen.org/gitweb/?p=xen.git;a=blob;f=docs/misc/hvm-emulated-unplug.pandoc
-+ */
-+static void pci_xen_ide_unplug(DeviceState *dev, bool aux)
-+{
-+    PCIIDEState *pci_ide;
-+    int i;
-+    IDEDevice *idedev;
-+    IDEBus *idebus;
-+    BlockBackend *blk;
-+
-+    pci_ide = PCI_IDE(dev);
-+
-+    for (i = aux ? 1 : 0; i < 4; i++) {
-+        idebus = &pci_ide->bus[i / 2];
-+        blk = idebus->ifs[i % 2].blk;
-+
-+        if (blk && idebus->ifs[i % 2].drive_kind != IDE_CD) {
-+            if (!(i % 2)) {
-+                idedev = idebus->master;
-+            } else {
-+                idedev = idebus->slave;
-+            }
-+
-+            blk_drain(blk);
-+            blk_flush(blk);
-+
-+            blk_detach_dev(blk, DEVICE(idedev));
-+            idebus->ifs[i % 2].blk = NULL;
-+            idedev->conf.blk = NULL;
-+            monitor_remove_blk(blk);
-+            blk_unref(blk);
-+        }
-+    }
-+    qdev_reset_all(dev);
-+}
-+
- static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
- {
-     uint32_t flags = *(uint32_t *)opaque;
-@@ -147,7 +193,7 @@ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
- 
-     switch (pci_get_word(d->config + PCI_CLASS_DEVICE)) {
-     case PCI_CLASS_STORAGE_IDE:
--        pci_piix3_xen_ide_unplug(DEVICE(d), aux);
-+        pci_xen_ide_unplug(DEVICE(d), aux);
-         break;
- 
-     case PCI_CLASS_STORAGE_SCSI:
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index bc1b37512a..9a9b28078e 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -173,52 +173,6 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
-     }
- }
- 
--/*
-- * The Xen HVM unplug protocol [1] specifies a mechanism to allow guests to
-- * request unplug of 'aux' disks (which is stated to mean all IDE disks,
-- * except the primary master).
-- *
-- * NOTE: The semantics of what happens if unplug of all disks and 'aux' disks
-- *       is simultaneously requested is not clear. The implementation assumes
-- *       that an 'all' request overrides an 'aux' request.
-- *
-- * [1] https://xenbits.xen.org/gitweb/?p=xen.git;a=blob;f=docs/misc/hvm-emulated-unplug.pandoc
-- */
--int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
--{
--    PCIIDEState *pci_ide;
--    int i;
--    IDEDevice *idedev;
--    IDEBus *idebus;
--    BlockBackend *blk;
--
--    pci_ide = PCI_IDE(dev);
--
--    for (i = aux ? 1 : 0; i < 4; i++) {
--        idebus = &pci_ide->bus[i / 2];
--        blk = idebus->ifs[i % 2].blk;
--
--        if (blk && idebus->ifs[i % 2].drive_kind != IDE_CD) {
--            if (!(i % 2)) {
--                idedev = idebus->master;
--            } else {
--                idedev = idebus->slave;
--            }
--
--            blk_drain(blk);
--            blk_flush(blk);
--
--            blk_detach_dev(blk, DEVICE(idedev));
--            idebus->ifs[i % 2].blk = NULL;
--            idedev->conf.blk = NULL;
--            monitor_remove_blk(blk);
--            blk_unref(blk);
--        }
--    }
--    qdev_reset_all(dev);
--    return 0;
--}
--
- static void pci_piix_ide_exitfn(PCIDevice *dev)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index c5ce5da4f4..60f1f4f714 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -8,9 +8,6 @@
- ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
-                         DriveInfo *hd0, DriveInfo *hd1);
- 
--/* ide-pci.c */
--int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
--
- /* ide-mmio.c */
- void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
- 
--- 
-Anthony PERARD
+On Thu, 2022-06-09 at 09:45 +0200, Laszlo Ersek wrote:
+> While VGA is quirky ("there was only ever intended to be one device" --
+> see
+> <http://vfio.blogspot.com/2014/08/whats-deal-with-vga-arbitration.html>),
+> I maintain that it's sufficiently covered already (although not
+> specifically) by "pcie.txt"; see above. "-device VGA" is a legacy PCI
+> device, you can't plug it in an Express slot (root complex or port
+> alike).
+> 
+> In the blog post at
+> <https://www.kraxel.org/blog/2019/09/display-devices-in-qemu/>, Gerd
+> explains that (effectively) only "bochs-display" and "virtio-gpu-pci"
+> (from QEMU's emulated devices) may be placed in PCI Express slots (root
+> complex or separate port, alike).
 
+Those posts are both enlightening, thanks!
+
+On Thu, 2022-06-09 at 09:45 +0200, Laszlo Ersek wrote:
+> On 06/09/22 04:00, Kevin Locke wrote:
+>> and whether "Guest OSes are suspected to behave strangely when PCI
+>> Express devices are integrated with the Root Complex" is still the case.
+> 
+> I vaguely recall that Alex didn't fully agree with this statement when
+> the document was being reviewed.
+> 
+>> David Gibson had previously noted that graphics cards appear on the Root
+>> Complex on real hardware.[3]
+> 
+> You forgot to provide the link for [3].
+
+Whoops.  Links to my qemu-discuss post[2] and David Gibson's post[3]
+mentioning "the GPU shows up as an integrated PCI Express endpoint" on
+his laptop are included in this email below.
+
+On Thu, 2022-06-09 at 09:45 +0200, Laszlo Ersek wrote:
+> On 06/09/22 04:00, Kevin Locke wrote:
+> Anyway, the full paragraph in the document goes like
+> 
+>>         Although the PCI Express spec does not forbid PCI Express devices as
+>>         Integrated Endpoints, existing hardware mostly integrates legacy PCI
+>>         devices with the Root Complex. Guest OSes are suspected to behave
+>>         strangely when PCI Express devices are integrated
+>>         with the Root Complex.
+> 
+> So the recommendation is based on motherboards seen in the wild, and the
+> potential consequent assumptions in OSes. Whether that still holds up
+> with today's motherboards (and OSes), I have no clue about.
+> 
+> [...]
+> 
+>> --- a/docs/pcie.txt
+>> +++ b/docs/pcie.txt
+>> @@ -48,6 +48,11 @@ Place only the following kinds of devices directly on the Root Complex:
+>>          strangely when PCI Express devices are integrated
+>>          with the Root Complex.
+>>
+>> +        An exception to this rule is PCI Express devices which will be
+>> +        accessed using IO ports.
+> 
+> I find this too general; a PCI Express device is supposed to work
+> without IO resources. Graphics cards with legacy VGA compatibility are
+> the exception AIUI (see again Alex's blog about VGA arbitration), so we
+> should spell that out.
+> 
+> Furthermore, from QEMU's emulated graphics cards, all device models that
+> provide VGA compatibility are legacy PCI (not PCI Express) devices (see
+> again Gerd's post: VGA, virtio-vga, qxl-vga, cirrus-vga, ati-vga), so
+> I'd even restrict this docs update to assigned GPUs.
+> 
+> [...]
+> 
+> How about inserting a new paragraph here, instead:
+> 
+>     (2) Assigned PCI Express GPUs that offer legacy VGA compatibility,
+>         and that such compatibility is expected of (due to booting with
+>         SeaBIOS, or due to UEFI driver bugs or native OS driver bugs).
+
+That sounds great to me.  Would you like me to send that as a v2
+patch, or would you prefer to make the change?
+
+Thanks again,
+Kevin
+
+[2]: https://lists.nongnu.org/archive/html/qemu-discuss/2022-05/msg00053.html
+[3]: https://lore.kernel.org/qemu-devel/20170209041634.GC14524@umbus/
+[4]: https://lore.kernel.org/qemu-devel/20170208061602.17666-1-david@gibson.dropbear.id.au/T/
+[5]: https://lore.kernel.org/qemu-devel/5ea3785c-b979-8b8c-3ab0-243d69384697@redhat.com/
 
