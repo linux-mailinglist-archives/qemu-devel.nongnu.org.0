@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42F4545117
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:42:28 +0200 (CEST)
-Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF01545034
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:09:16 +0200 (CEST)
+Received: from localhost ([::1]:45472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKIl-00081d-PQ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:42:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
+	id 1nzJmc-0008MN-OT
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzIxI-00054m-4w
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:16:13 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35556)
+ id 1nzJ0c-0004ib-Nn
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:19:40 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:38772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzIxG-0002Hw-8I
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:16:11 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- o6-20020a17090a0a0600b001e2c6566046so26817663pjo.0
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 07:16:09 -0700 (PDT)
+ id 1nzJ0a-00031u-GK
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:19:37 -0400
+Received: by mail-pf1-x431.google.com with SMTP id e11so21203682pfj.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 07:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vSlrE/+0zbFsRq4FDYKwVMpBwc/ORg6zCFPMkF9xVGE=;
- b=JrVzxZueTFm4Diruq+Hx/jo31TblmninxPpT5oEhsBj8bIZoeHXIpuxjE/y+LJ7da0
- KXgNgm0FNUfbQAk6HXD0VhiPM+0BnnnwrnCEhA9otVSgaI/6b0ac/dIDzg0+o3cqChgn
- /9PJrXiLENIsijUmuymp56HZQHkai2gktNGlTEWI4nq947g9n5kEy7DOhqBEUwPRVgPT
- LcMc45JfIDMZhBBu2QbEfPI5oFteHLXxJzpHlzPtAbRc8fR0EOYnsqDWQpE6ilcxZyVd
- 8DO1CHEjIq4zuZX/GnNjXELhnErdwVEFCiAQRtzMjl44itE2qvsDjRPsCkIAvRpgIXJ3
- pbIA==
+ bh=+PrMyUy6GCFvuUHKZVr4II4IgDjVG6WtNnDce63QCvM=;
+ b=xjw+iuHURw/hekTo9JauR15g/B2nf3eQbj4/TwY5SeW9Vcr3v5e6vjmnyTWFbSPRjN
+ LhhplHE2XGweE2Rpy8bE50a5H7QQuL15hMODqPtL8iy3eCa1TeneLFRIo2GbiywDg00L
+ 6RLwaC7jJAoTB1Ac2wwWJVMhuKOjkeQy45M5T2JimTTQVu2kj2frH+/uM6ZvU/zFhN+m
+ PJrAKFlStsc0FMNIuwN7zMtKKFc4qK8R5+0dL/ugE5jnD0iOlLa0ASjgrT1UqvnJZuzI
+ cgl5v5R9KfeHkbfHsc+3LGiL/pF5ibyNE+jEXiUB4tTO3LTx71N0en1tHU86RL9/yIuL
+ S26w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vSlrE/+0zbFsRq4FDYKwVMpBwc/ORg6zCFPMkF9xVGE=;
- b=u5Oem2sQbeZ0DuPMcq4v9FqcNg2o+OUCblNB2FnbDJnnb65IW1hDh3lpvfBQ0cNN6z
- ACRjVhbOWwAciXXYelh1f/wi4LpFN7xdyjzdPmnJOK9IT+puG9oyrAf8sU+X0g+FnMHP
- 1Ipr9wtEf5E5sEfjNw2ks43ZcPYlk2btTBVB8pQ3B1I85a8mO8JtgNGwS3Pf2x2vwZDh
- Jz4LRJWH/T1WcPjAfcRSc7Exk85INnpOSWg4R7T5YYWna5ko7JVl+MuyHryCeinh+q4W
- D5kk/lNLR0GzFjwh7V8eLjrItjCCWb0RmCq8O9LAEK8m9Q2Iz9iekscw9jAPkK/JO993
- G9+g==
-X-Gm-Message-State: AOAM531L35ogklrdaqejL8sOmXs692cfWdRcd05SMvbs5FVx1zAFJFkA
- AdZu6TpqFlzIFUj90KLt1g9bhg==
-X-Google-Smtp-Source: ABdhPJzx6TVWwzNZz1ANPnceaIifPjXvhAuz+EzKZ21lYYDZPdKVvjujDgERtVffWaJFN8YY6gjojg==
-X-Received: by 2002:a17:902:d650:b0:168:b027:1a58 with SMTP id
- y16-20020a170902d65000b00168b0271a58mr1609466plh.60.1654784168698; 
- Thu, 09 Jun 2022 07:16:08 -0700 (PDT)
+ bh=+PrMyUy6GCFvuUHKZVr4II4IgDjVG6WtNnDce63QCvM=;
+ b=FK7ep1aYUXlPRlg92B4XAbSMhFgDzEfZqFn0legORfc7o5eORt2pMVQG2eIjO5LyBe
+ CMEIFxn0bbVwyZDn07OF8Wgwz5FocSzE6xk++j8JAS+2iYRWgtt+QMvhRUeNild+h4AP
+ U51bKDeTvUPesY49Vt5pnxlzrT2FnmnbSi7mBzPfnIWlpnL+r7cz0IO13SPs7TdkCi6m
+ d/zqqqTmyxBhVv9Gqy0R+s0P03tWlvocIBKuBC9oDM37QWvAItLKjeaQigjVfoRWpWfx
+ ukQ8g8EX4pRqqc85sStgcWhJsygKt8m37M2J43RNxmjz2OUEzmloHCu+coo4FcgiEYuV
+ FJuQ==
+X-Gm-Message-State: AOAM533DHM0ZoizgpeXPxqiR/DsbG3RLI3cZVDXqllsQOFfGFZIRwBzc
+ qmOETinLWI+CWBSNrv7kstoNxQ==
+X-Google-Smtp-Source: ABdhPJygCg3Yq0KZoO6VmmwZ+3rXFQ6RjqTAfgGDWO2E+coW80i6JFWjeplNKGOGPaHoUqOwsP0t5Q==
+X-Received: by 2002:a63:f453:0:b0:3fc:7939:9654 with SMTP id
+ p19-20020a63f453000000b003fc79399654mr35000178pgk.341.1654784374622; 
+ Thu, 09 Jun 2022 07:19:34 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1547:e101:839f:476f:678:38a?
  ([2602:ae:1547:e101:839f:476f:678:38a])
  by smtp.gmail.com with ESMTPSA id
- c143-20020a621c95000000b005187c4d53c9sm17207137pfc.160.2022.06.09.07.16.07
+ mn1-20020a17090b188100b001e2f383110bsm18758059pjb.11.2022.06.09.07.19.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jun 2022 07:16:08 -0700 (PDT)
-Message-ID: <78bae634-18c7-a8bb-fb6c-9b86d80e6be4@linaro.org>
-Date: Thu, 9 Jun 2022 07:16:06 -0700
+ Thu, 09 Jun 2022 07:19:34 -0700 (PDT)
+Message-ID: <92b9cd22-a1a7-ae82-1421-e023e6c18d81@linaro.org>
+Date: Thu, 9 Jun 2022 07:19:32 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v2 0/6] bsd-user upstreaming: read, write and exit
+Subject: Re: [PATCH v2 2/3] target/mips: implement Octeon-specific BBIT
+ instructions
 Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: jrtc27@FreeBSD.org, def@freebsd.org, arrowd@freebsd.org,
- Kyle Evans <kevans@freebsd.org>
-References: <20220608211711.56158-1-imp@bsdimp.com>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, jiaxun.yang@flygoat.com, aurelien@aurel32.net,
+ aleksandar.rikalo@syrmia.com
+References: <165476301211.40568.5713018312386387782.stgit@pasha-ThinkPad-X280>
+ <165476302289.40568.18287487542170689158.stgit@pasha-ThinkPad-X280>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220608211711.56158-1-imp@bsdimp.com>
+In-Reply-To: <165476302289.40568.18287487542170689158.stgit@pasha-ThinkPad-X280>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,24 +96,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/22 14:17, Warner Losh wrote:
-> Warner Losh (6):
->    bsd-user/freebsd/os-syscall.c: lock_iovec
->    bsd-user/freebsd/os-syscall.c: unlock_iovec
->    bsd-user/freebsd/os-syscall.c: Tracing and error boilerplate
->    bsd-user/bsd-file.h: Add implementations for read, pread, readv and
->      preadv
->    bsd-user/bsd-file.h: Meat of the write system calls
->    bsd-user/freebsd/os-syscall.c: Implement exit
+On 6/9/22 01:23, Pavel Dovgalyuk wrote:
+> This patch introduces Octeon-specific decoder and implements
+> check-bit-and-jump instructions.
 > 
->   bsd-user/bsd-file.h           | 163 +++++++++++++++++++++++++
->   bsd-user/bsd-proc.h           |  43 +++++++
->   bsd-user/freebsd/os-syscall.c | 217 +++++++++++++++++++++++++++++++++-
->   3 files changed, 419 insertions(+), 4 deletions(-)
->   create mode 100644 bsd-user/bsd-proc.h
+> Signed-off-by: Pavel Dovgalyuk<Pavel.Dovgalyuk@ispras.ru>
 > 
+> --
+> 
+> v2 changes:
+>       - Changed insn field description and simplified the jumps
+>         (suggested by Richard Henderson)
+> ---
+>   target/mips/tcg/meson.build        |    2 ++
+>   target/mips/tcg/octeon.decode      |   15 ++++++++++++
+>   target/mips/tcg/octeon_translate.c |   46 ++++++++++++++++++++++++++++++++++++
+>   target/mips/tcg/translate.c        |    5 ++++
+>   target/mips/tcg/translate.h        |    1 +
+>   5 files changed, 69 insertions(+)
+>   create mode 100644 target/mips/tcg/octeon.decode
+>   create mode 100644 target/mips/tcg/octeon_translate.c
 
-Series,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
