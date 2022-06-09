@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6254A544DF7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:44:52 +0200 (CEST)
-Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDC9544E11
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:52:01 +0200 (CEST)
+Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzISx-0005wQ-DW
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:44:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
+	id 1nzIZs-0003ws-6w
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:52:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzGEs-0002Tk-EN
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:22:11 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:33577)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1nzGJl-0004ub-3s; Thu, 09 Jun 2022 07:27:13 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:38348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzGEq-0003pJ-HB
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:22:09 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id s39so13664128ybi.0
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 04:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/sn5gRsmHvbLD9QTGSt9nQdjQR/B45Zfvt7DYoR5SJs=;
- b=RsEU4bIGS2+98XqdbgTYLwgYyamyqjMz+OH/0XspiHGlFEwo+InynZnwMGhveq/ASK
- MF0/MbpheGYwFiINtQfm9XZlHwQe8PaEqOrIe91Lpi0wIBPynC3ci9CQixVZurRR83xK
- BxT+GfbqrW0JrZHc5ABBAwAtG3GO3x7YxnuhkFPazgXcbexIkLk7ov2/eZ6wMkW17MC1
- y0x6bwW915+zju254dOszYVjoh2tUx3E7KXtFe9H0lq420lOJ8u4yR9S/Gt0Xm9Jk2Qw
- GwpGBMewd8flY6DFO4moDmS8xIU8dyv0flsxyJ+peCo36kSTRezojroIUT81oqfvpsjL
- 8mUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/sn5gRsmHvbLD9QTGSt9nQdjQR/B45Zfvt7DYoR5SJs=;
- b=ZNYdomglbC3K9xv2FixAtMwpE8EiJE+3bNWKGO4ImBW+XlBLIlPaSdkHB7aAV4jzxz
- V5SaWl113d5bnlTPQQrKNt6NiNeLrDIvJGKPA9MXZ9PCHxbTfPB7CzT/d/+ZQgBZUqkP
- HKhLxv7tdjZjkVloJvU4v0Kb9sUcP7Rx6zZvcbAJxMWrMXlxmwu8C9DueWmaKq9LiDG0
- ZzmEtpTswBF0i8FAjJg+DFnweYAOCnut5RDjfNukpnIBfY+k3MDfpMpVMzuyxVrfFDB1
- 3uxSw2/gyzecqDfXVp3vPYhW8LVzYuLevzUSoEv1Rg3rj2MeqFf0ZXk2eDE6HaUlxQpR
- Ku7w==
-X-Gm-Message-State: AOAM533iPYgJU/WZMZzzjh7RZCm+2hRdZyFzx2402a6XdDRq2j0SnZ0s
- MFikf2wTv9d1NVCSTb5uV8neovmul9WG2WKSk7+Fyg==
-X-Google-Smtp-Source: ABdhPJxSqKc7fKJckycjjCYU9xI5ww7E5IlP1Te3Q//3wChDWYtupQ4VPvDTRqIqV9tK0OaZLWWRDY0fLg5B6TsGmgU=
-X-Received: by 2002:a5b:d42:0:b0:65c:a0d7:4c6 with SMTP id
- f2-20020a5b0d42000000b0065ca0d704c6mr39013087ybr.193.1654773724148; 
- Thu, 09 Jun 2022 04:22:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1nzGJi-0004iV-Mn; Thu, 09 Jun 2022 07:27:12 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6C9C51FE15;
+ Thu,  9 Jun 2022 11:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1654774028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GCcpzS+5lWmo8xsVxkXG21BoNPtcEJ5wooOWoIPeqDM=;
+ b=uIJ2yJBaL+kIcuKDN2YsjQQc9KwqWf4GRACkxUq6BleYXl8FOh3SzaWdiDAND32v0j0gKo
+ yRwnQuNDYjABwZEUDeWsorH+lMN9rFPXTllfaj1EfKPIGjJFiI0igLJ20L3413tCzjS8TQ
+ WBlWk0GFtUoRFOpgLTV6ki/CNUypqgQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1654774028;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GCcpzS+5lWmo8xsVxkXG21BoNPtcEJ5wooOWoIPeqDM=;
+ b=Gjx247ccut+HWg93xdZvQjs+J/YxzFoTtsoGknZuSSG8DxoolZBQ6gD4NExzr6zXxPjQk1
+ 2Q/xrrEMqm/LFdBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1AB5B13456;
+ Thu,  9 Jun 2022 11:27:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id zkOwBAzZoWJvHwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 09 Jun 2022 11:27:08 +0000
+Message-ID: <209c7aaf-bc7b-cbc2-c6d0-002bbe31258a@suse.de>
+Date: Thu, 9 Jun 2022 13:27:07 +0200
 MIME-Version: 1.0
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-47-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-47-mark.cave-ayland@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 12:21:53 +0100
-Message-ID: <CAFEAcA83dJAtnRskscBAk7qCXtA-xOS7LQR_uimaWgSbHuHivQ@mail.gmail.com>
-Subject: Re: [PATCH 46/50] lasips2: switch over from update_irq() function to
- PS2 device gpio
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com, 
- pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, 
- f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] disas: Remove libvixl disassembler
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+References: <20220603164249.112459-1-thuth@redhat.com>
+ <07f021e7-1346-c6b3-3bd1-ef0d0f0e2ff5@suse.de>
+ <52c51ac4-5598-faf2-d5e5-638cab0dc1fd@redhat.com>
+ <7ae17984-89c4-2247-57a7-fde6206e41e0@redhat.com>
+ <03a1e04e-45c7-5002-6920-d04e29fd48fd@redhat.com>
+ <YqG2Anwtba+MfxfH@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <YqG2Anwtba+MfxfH@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,81 +98,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 22 May 2022 at 19:20, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> Add a qdev gpio input in lasips2_init() by taking the existing lasips2_port_set_irq()
-> function, updating it accordingly and then renaming to lasips2_set_irq(). Use these
-> new qdev gpio inputs to wire up the PS2 keyboard and mouse devices.
->
-> At the same time set update_irq() and update_arg to NULL in ps2_kbd_init() and
-> ps2_mouse_init() to ensure that any accidental attempt to use the legacy update_irq()
-> function will cause a NULL pointer dereference.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/input/lasips2.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-> index 644cf70955..12ff95a05f 100644
-> --- a/hw/input/lasips2.c
-> +++ b/hw/input/lasips2.c
-> @@ -117,6 +117,9 @@ static const char *lasips2_write_reg_name(uint64_t addr)
->      }
->  }
->
-> +#define LASIPS2_KBD_INPUT_IRQ      0
-> +#define LASIPS2_MOUSE_INPUT_IRQ    1
-> +
->  static void lasips2_update_irq(LASIPS2State *s)
->  {
->      trace_lasips2_intr(s->kbd.irq | s->mouse.irq);
-> @@ -237,9 +240,10 @@ static const MemoryRegionOps lasips2_reg_ops = {
->      .endianness = DEVICE_NATIVE_ENDIAN,
->  };
->
-> -static void lasips2_port_set_irq(void *opaque, int level)
-> +static void lasips2_set_irq(void *opaque, int n, int level)
->  {
-> -    LASIPS2Port *port = opaque;
-> +    LASIPS2State *s = LASIPS2(opaque);
-> +    LASIPS2Port *port = (n ? &s->mouse : &s->kbd);
->
->      port->irq = level;
->      lasips2_update_irq(port->parent);
-> @@ -263,8 +267,12 @@ static void lasips2_realize(DeviceState *dev, Error **errp)
->
->      vmstate_register(NULL, s->base, &vmstate_lasips2, s);
->
-> -    s->kbd.dev = ps2_kbd_init(lasips2_port_set_irq, &s->kbd);
-> -    s->mouse.dev = ps2_mouse_init(lasips2_port_set_irq, &s->mouse);
-> +    s->kbd.dev = ps2_kbd_init(NULL, NULL);
-> +    qdev_connect_gpio_out(DEVICE(s->kbd.dev), PS2_DEVICE_IRQ,
-> +                          qdev_get_gpio_in(dev, LASIPS2_KBD_INPUT_IRQ));
-> +    s->mouse.dev = ps2_mouse_init(NULL, NULL);
-> +    qdev_connect_gpio_out(DEVICE(s->mouse.dev), PS2_DEVICE_IRQ,
-> +                          qdev_get_gpio_in(dev, LASIPS2_MOUSE_INPUT_IRQ));
->  }
->
->  static void lasips2_init(Object *obj)
-> @@ -285,6 +293,7 @@ static void lasips2_init(Object *obj)
->      sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mouse.reg);
->
->      qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
-> +    qdev_init_gpio_in(DEVICE(obj), lasips2_set_irq, 2);
->  }
+On 6/9/22 10:57, Daniel P. Berrangé wrote:
+> On Thu, Jun 09, 2022 at 10:47:24AM +0200, Thomas Huth wrote:
+>> On 08/06/2022 17.51, Paolo Bonzini wrote:
+>>> On 6/3/22 19:35, Thomas Huth wrote:
+>>>> On 03/06/2022 19.26, Claudio Fontana wrote:
+>>>>> On 6/3/22 18:42, Thomas Huth wrote:
+>>>>>> The disassembly via capstone should be superiour to our old vixl
+>>>>>> sources nowadays, so let's finally cut this old disassembler out
+>>>>>> of the QEMU source tree.
+>>>>>>
+>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>>
+>>>>> agreed, one thought: at the time I added this thing, I had to
+>>>>> add C++ compilation support,
+>>>>> maybe something we can now drop if there are no more C++ users?
+>>>>
+>>>> I thought about that, too, but we still have disas/nanomips.cpp left
+>>>> and the Windows-related files in qga/vss-win32/* .
+>>>
+>>> That is pure C++ so it does not need the extra complication of "detect
+>>> whether the C and C++ compiler are ABI-compatible" (typically due to
+>>> different libasan/libtsan implementation between gcc and clang).  So
+>>> it's really just nanoMIPS that's left.
+>>
+>> Ok, so the next theoretical question is: If we get rid of the nanomips.cpp
+>> file or convert it to plain C, would we then simplify the code in configure
+>> again (and forbid C++ for the main QEMU code), or would we rather keep the
+>> current settings in case we want to re-introduce more C++ code again in the
+>> future?
+> 
+> It doesn't feel very compelling to have just 1 source file that's
+> C++ in QEMU. I'm curious how we ended up with this nanomips.cpp
+> file - perhaps it originated from another project that was C++
+> based ?
+> 
+> The code itself doesn't look like it especially needs to be using
+> C++. There's just 1 class there and every method is associated
+> with that class, and external entry point from the rest of QEMU
+> is just one boring method. Feels like it could easily have been
+> done in C.
+> 
+> Personally I'd prefer it to be converted to C, and if we want to
+> add any C++ in future it should be justified & debated on its
+> merits, rather than as an artifact of any historical artifacts
+> such as the code in configure happening to still exist.
+> 
+> With regards,
+> Daniel
 
-These definitely should be named GPIO inputs, as with the pl050.
+I'll take a look at it, maybe I can turn it to C fairly quickly.
 
-Aside, if you felt like adding "QEMU interface" comments to these
-devices that summarize what the various sysbus IRQs, MMIOs,
-qdev GPIOs, etc do, that would be nice, and then gives you a
-place to document that these GPIO lines are part of the internal
-implementation rather than externally-facing. include/hw/intc/ppc-uic.h
-is one example but you can find lots by grepping for "QEMU interface"
-in include/hw/.
+Ciao,
 
-thanks
--- PMM
+Claudio
 
