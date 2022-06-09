@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06142544909
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:38:31 +0200 (CEST)
-Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52E354484A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:08:07 +0200 (CEST)
+Received: from localhost ([::1]:53844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzFYc-0004LO-1R
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:38:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39890)
+	id 1nzF5C-0002It-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7Y-0001d9-4O
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:28 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36485)
+ id 1nzE7Z-0001e8-IM
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:29 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7W-00062j-Lu
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:27 -0400
-Received: by mail-wr1-x431.google.com with SMTP id o8so3625311wro.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:26 -0700 (PDT)
+ id 1nzE7Y-000687-4S
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:29 -0400
+Received: by mail-wm1-x329.google.com with SMTP id n185so12106857wmn.4
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mf8AdCDhGe88lxvbihB81XSJ6frI4E36LSXViphWNvA=;
- b=fhkawx0VuNJ92c0NYT4sqHx/3AXzhkL7Hbw0A1MglNgQ8isWqSEmJhaINdD6x7rub5
- mOj+N9+CgBavt8uNwB9c8hvRJhosjKKpx59/M8HPwCmWFlpnSMEveEH+Gkm4YznUOTVl
- gDmJ9YLUcsGjeTnW/Dx420CvYgOKuozhI1nFzhsHRmhJyWJDj4JKfcAnmksAJN4pGvk+
- e7E6DqGd5y3Y9BOzszfcduHFTes1YOI3PsGWBAdPoSNziupslK00tC2RCd01Nnr7t95N
- 9s1wiAmNY+epPeUyQOGr5TxYnkrL+319uGtTnfz8u5+QdGDriy0XhyF31zkCgeUI6coz
- dEwQ==
+ bh=1m/UJxXLmktUI528IS17AqpDYaE8Ds5euhmbpvoO2wI=;
+ b=xQFAqMwdkDeVs1JZLigxCqno2jD16chXRNKDQigIDXF6X461NKYq5Z3DGy25jEnNKt
+ y0t4LtaR0+VtOLKAMfdT0QPfDou1vzp4opggtlMi0Pe0o4BUTmdlR5eYd1ojm4m+6zs+
+ DCGbilr2gd6Izkawl4sMdM29qU4XNsk8QMcsOXoAPc4NG3ZzYeSsE/T5Rxs/5dOUMe1k
+ Pz9OYnZPwfeyQuTf+f7QWLZ013YcQBjqrkxrcAh+ORTh+vefQhY36CRwu0n43oQZyn9+
+ H1QgW4NYqjKeX4i5Hcez4LKTqpMn8pvVeDU8ZwvWEv3ib+0O50H3Ouq0KnUwcTzGExeu
+ UqvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mf8AdCDhGe88lxvbihB81XSJ6frI4E36LSXViphWNvA=;
- b=HTpt/jVwCtUhQuKdQ+mpKa8QLTwhMCzbjjWMZ4K/TNuotydz7cOsr5bJlqnilE4dfz
- 0O3KwfNViTB3ztEWmnRguq37fp1HwihtSUf4x9klf+ga1Bx+cxDMpuc3rzoic0eLb8dt
- 4R6H50cv2lo3IjlzpCFfBVz/l6QrxB+Aej6cn0eZAU03ArsFZ3Nx03s8XAdc4bjKSxOX
- LUg+3W4dyA0OjCEpextdxyscTLcwznRzbtG/XTIGc/bcKOWyos1IVpdVmm0MbLOSwG4K
- yaNXDdJQ2W/t0ZbqgRytY3Nb4kBIOIXv26Lhg01Gd7amG9+Z/HN1XwR5JVSihe0v2k2o
- haSw==
-X-Gm-Message-State: AOAM5313zIwUxqb6g5yxg4S6kif9rQu9q8zM7lEDijooRwh+kkkkns19
- J8SpkckTnSdbQGDaRWN/LZYKZ9cs5vhV6A==
-X-Google-Smtp-Source: ABdhPJxwx8+jezwyFCFrMbGIWNavaWtdRE7WKR4UxnujdsVZd8k36O8fWjAFngC4X/gHs+EI+vzdPg==
-X-Received: by 2002:a5d:4344:0:b0:20c:cad4:9e9b with SMTP id
- u4-20020a5d4344000000b0020ccad49e9bmr36843473wrr.187.1654765585953; 
- Thu, 09 Jun 2022 02:06:25 -0700 (PDT)
+ bh=1m/UJxXLmktUI528IS17AqpDYaE8Ds5euhmbpvoO2wI=;
+ b=Skq3+rg9Y4KK9UTG/7hyFzZZYlEvBW/J/fFw5bYVa+HTy0ZvOLzIzXBcB0EWs/jDaE
+ qvJcFY9IEoBwmy82AlYNeFswRzDW/FNCAAEhk+t8cVYFUSlAlLENf8jlbKl4ZCZ5PWDg
+ 1hRIo6DusI/PKE9ClOZS51tM2T7iwZi11Xhg4jg7ukSKkvXI874+eQfjAslnfWVS71+e
+ cQQw+t/f6kfanjl4Gj+FJZ77dtFujJR46KHvVmjYsvxZ1bwnO/kaBDL7g+Iif8UgqfK1
+ W+vG9sDFEwzGjJM1g+VlvXqjQ7+7W5J5CjNOL6kKMP6ZiXv8wfuZ2PwRYCNmo3aNLw+V
+ zZOA==
+X-Gm-Message-State: AOAM532K/scpHb2RTS7fX/fRstYlP93XfRD5l3+PjxW/kOjszAOzf/3e
+ lRHRDNZ46GodP2hkdHP2zi/VRfnTv9QtXA==
+X-Google-Smtp-Source: ABdhPJxKuqJxjTlfIOsU6xbI3MoroA9ijYHpM5iXuRU4UscpNb8fi81fD/PkDkEI1s3WHW3JLRpAYw==
+X-Received: by 2002:a1c:19c4:0:b0:397:88a6:6 with SMTP id
+ 187-20020a1c19c4000000b0039788a60006mr2265383wmz.138.1654765586789; 
+ Thu, 09 Jun 2022 02:06:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.25
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:06:25 -0700 (PDT)
+ Thu, 09 Jun 2022 02:06:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/55] target/arm: Hoist arm_is_el2_enabled check in
- sve_exception_el
-Date: Thu,  9 Jun 2022 10:05:25 +0100
-Message-Id: <20220609090537.1971756-44-peter.maydell@linaro.org>
+Subject: [PULL 44/55] target/arm: Do not use aarch64_sve_zcr_get_valid_len in
+ reset
+Date: Thu,  9 Jun 2022 10:05:26 +0100
+Message-Id: <20220609090537.1971756-45-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,54 +91,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This check is buried within arm_hcr_el2_eff(), but since we
-have to have the explicit check for CPTR_EL2.TZ, we might as
-well just check it once at the beginning of the block.
-
-Once this is done, we can test HCR_EL2.{E2H,TGE} directly,
-rather than going through arm_hcr_el2_eff().
+We don't need to constrain the value set in zcr_el[1],
+because it will be done by sve_zcr_len_for_el.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220607203306.657998-9-richard.henderson@linaro.org
+Message-id: 20220607203306.657998-10-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ target/arm/cpu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 40b60b1eea2..61e8026d0e3 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6183,15 +6183,12 @@ int sve_exception_el(CPUARMState *env, int el)
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index d2bd74c2ed4..06219441674 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -208,8 +208,7 @@ static void arm_cpu_reset(DeviceState *dev)
+                                          CPACR_EL1, ZEN, 3);
+         /* with reasonable vector length */
+         if (cpu_isar_feature(aa64_sve, cpu)) {
+-            env->vfp.zcr_el[1] =
+-                aarch64_sve_zcr_get_valid_len(cpu, cpu->sve_default_vq - 1);
++            env->vfp.zcr_el[1] = cpu->sve_default_vq - 1;
          }
-     }
- 
--    /*
--     * CPTR_EL2 changes format with HCR_EL2.E2H (regardless of TGE).
--     */
--    if (el <= 2) {
--        uint64_t hcr_el2 = arm_hcr_el2_eff(env);
--        if (hcr_el2 & HCR_E2H) {
-+    if (el <= 2 && arm_is_el2_enabled(env)) {
-+        /* CPTR_EL2 changes format with HCR_EL2.E2H (regardless of TGE). */
-+        if (env->cp15.hcr_el2 & HCR_E2H) {
-             switch (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, ZEN)) {
-             case 1:
--                if (el != 0 || !(hcr_el2 & HCR_TGE)) {
-+                if (el != 0 || !(env->cp15.hcr_el2 & HCR_TGE)) {
-                     break;
-                 }
-                 /* fall through */
-@@ -6199,7 +6196,7 @@ int sve_exception_el(CPUARMState *env, int el)
-             case 2:
-                 return 2;
-             }
--        } else if (arm_is_el2_enabled(env)) {
-+        } else {
-             if (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, TZ)) {
-                 return 2;
-             }
+         /*
+          * Enable 48-bit address space (TODO: take reserved_va into account).
 -- 
 2.25.1
 
