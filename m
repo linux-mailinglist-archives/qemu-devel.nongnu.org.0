@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B845455D7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 22:43:38 +0200 (CEST)
-Received: from localhost ([::1]:55564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1C3545619
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:03:30 +0200 (CEST)
+Received: from localhost ([::1]:54922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzP0D-0001xx-ET
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 16:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43096)
+	id 1nzPJP-00061v-J1
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzOmG-0003eU-3C
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:12 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:36435)
+ id 1nzOmH-0003hI-08
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:13 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:46701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzOmE-0008SQ-8z
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:11 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id u18so21154957plb.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:09 -0700 (PDT)
+ id 1nzOmF-0008Sc-8W
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:12 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id d13so5474678plh.13
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kj2ZYfRQGSWcXMLkNM8zljFGjh4Y1FzFkf5hNzLBiyI=;
- b=QmusMp69D93YwXt/7TOjJMXhkbte6nFaynuJ6DlS9+82QVE5I5dDyJD5/7g7pdGmyE
- xmhHthrgXobgre1xJCfHsEetJzDucay2DV2f9WO+dOWK+IxmHFNNe1nkmqQmE5WQlWtX
- AdlXXmxOfJL2DOWKlZjpZnIuufHv1yzuaqtqcVoHolZUaG0e8+QWTuMvxL0wPNjrq/xO
- Pb4ldVG9UXXj3axqtqKb4e9sFuc8hAjTzLQAU39ChG1itLNDaz/WtszMs7hSRO8q+FgV
- 1CNinAGTpSyub7lZjUuwJCXTkmsgVIIoM7YdF2FQ8dAbbOPbmRFWLGh+3JHX4iiE4Lir
- gEAw==
+ bh=BCzxefNxcQpSTLu01BysmYqWqiN0wU9rTXU9xeYcYo4=;
+ b=I0oSIx0klTiW3S4pgqntyDI0vnJqmBCJfakF7r0jgq2+dVNp9oQWP8l5oLBMNtXWrh
+ 544RdYEnW0eOJxadDliU16Ib4J8GDV9y1NJ+lXi2lkhjdBkTLDuOMoi4eyJSz0jdGEuR
+ wq8z7CJuKzuZmgOtr/cblqG5z/IPzckzPG2oAImTIl+rXG97MsovcpU6XkjyFS0poiXH
+ gzLrigs05uAZD5LbxxhhxIw9idKtRDVX3qdWpZBg2wOliSRZ33F/gMNV8qttAkE1pnTE
+ ertdmkg6fHo8mmhYE5DZRICiWPtslOXqLmRA9GURK16I9LtLFxfaHXnXkrDi30KCCUk0
+ jE9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kj2ZYfRQGSWcXMLkNM8zljFGjh4Y1FzFkf5hNzLBiyI=;
- b=cYgROeCw3XH//fliES6OpmAobaYxeXtb0I8vL5MoLhmgGB42AoJTrsphwg/wwVT6Vm
- jw39C0XygKN6LSFngUyr+IyPBjda6kg8i08CHzG2ivdA51OgremkLnGpD+32eq7DJ+7e
- hdKBDEwiLAFlbyjZHYqepId48t3Dt5woSGPrGgMUfVF2Uc/FQKCDqn7BNS0b45nZWACH
- BHTq1m0/6aifVbMJrI/o/uZb3ySCLtYoJ/HfkbUa83H77+P+GuG4bTtg/GEX283xhwDD
- SNJIr2bDE8JA0y7bn/98cDsf62QLYZK6rFX7MgJtaKVz9RqQMeMGxHDoIY1b7+PL7smn
- ZYjw==
-X-Gm-Message-State: AOAM5313DTAkxYJxgKgnRrer5cfG70h+lEBAOa22Xf9IMavRTIXH8o6b
- Qx0L8fcnNc9ytUdJ+9yRR/iT+3/nnRzzVg==
-X-Google-Smtp-Source: ABdhPJzqRD/1COz0wfFbQYvgycVPwRKq9C3FUKEuTk5axjE/l9VKeKdfAkaDIsEF2uTfmpbX1CNQ4Q==
-X-Received: by 2002:a17:902:eb85:b0:167:987e:2686 with SMTP id
- q5-20020a170902eb8500b00167987e2686mr14360987plg.33.1654806548944; 
- Thu, 09 Jun 2022 13:29:08 -0700 (PDT)
+ bh=BCzxefNxcQpSTLu01BysmYqWqiN0wU9rTXU9xeYcYo4=;
+ b=pyOdW/X5QD3QWWg/djGRT0vkEb2U4hlQXYzx5EbFwZ4gH9ouZuuFfiZGQjrlEEXUSc
+ ij+UO4yglLMRX1sZGzar/amQYd9XxmlypwYhbA8G/LRmcDqp0BdqCLx+7e5AETGuVDJ3
+ In9JzksXxwP70rCrELNMvp96y8LFfFGSD6R/pr+Zklk4BxUEmZlZn+wfsJ8MSBQasqX+
+ 0nz2l3rs0Qv6B/kmxlAsKDfFtjoK3f1ancqrZIGc54bw1UtHg32ZEoMRGdM0Nkqa1j2a
+ hc5c4O0hAnZreiVEAajTFD2Cuh6aHnqDwOq8Ni+psXZxaecXi0AjoXm+mVPEtkgHMC75
+ o+Ug==
+X-Gm-Message-State: AOAM533ATAFy1hFxFGrnAE2BP0ABagvgiwGSTc8Mm+BoCMkyhcm1ZIpN
+ kI0D+LFb6LHHzPXowiUA99moyn4ZA9T74A==
+X-Google-Smtp-Source: ABdhPJzPXKskCwkyYJHxjRMMAXvUqgNeAhOdEUXUghZamq6OFMrJpEeY3fJSh97Z7Zaoz2p0ZRPUrA==
+X-Received: by 2002:a17:902:c945:b0:163:c3c3:aff8 with SMTP id
+ i5-20020a170902c94500b00163c3c3aff8mr41494569pla.56.1654806549951; 
+ Thu, 09 Jun 2022 13:29:09 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:839f:476f:678:38a])
  by smtp.gmail.com with ESMTPSA id
- r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.08
+ r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 13:29:08 -0700 (PDT)
+ Thu, 09 Jun 2022 13:29:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 07/23] target/arm: Move exception_bkpt_insn to
+Subject: [PATCH v3 08/23] target/arm: Move arm_debug_exception_fsr to
  debug_helper.c
-Date: Thu,  9 Jun 2022 13:28:45 -0700
-Message-Id: <20220609202901.1177572-8-richard.henderson@linaro.org>
+Date: Thu,  9 Jun 2022 13:28:46 -0700
+Message-Id: <20220609202901.1177572-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220609202901.1177572-1-richard.henderson@linaro.org>
 References: <20220609202901.1177572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,95 +90,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This function now now only used in debug_helper.c, so there is
+no reason to have a declaration in a header.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/debug_helper.c | 31 +++++++++++++++++++++++++++++++
- target/arm/op_helper.c    | 29 -----------------------------
- 2 files changed, 31 insertions(+), 29 deletions(-)
+ target/arm/internals.h    | 25 -------------------------
+ target/arm/debug_helper.c | 26 ++++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 25 deletions(-)
 
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 02fa70f75a..6f94f3019d 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -793,31 +793,6 @@ static inline TCR *regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
+     return &env->cp15.tcr_el[regime_el(env, mmu_idx)];
+ }
+ 
+-/* Return the FSR value for a debug exception (watchpoint, hardware
+- * breakpoint or BKPT insn) targeting the specified exception level.
+- */
+-static inline uint32_t arm_debug_exception_fsr(CPUARMState *env)
+-{
+-    ARMMMUFaultInfo fi = { .type = ARMFault_Debug };
+-    int target_el = arm_debug_target_el(env);
+-    bool using_lpae = false;
+-
+-    if (target_el == 2 || arm_el_is_aa64(env, target_el)) {
+-        using_lpae = true;
+-    } else {
+-        if (arm_feature(env, ARM_FEATURE_LPAE) &&
+-            (env->cp15.tcr_el[target_el].raw_tcr & TTBCR_EAE)) {
+-            using_lpae = true;
+-        }
+-    }
+-
+-    if (using_lpae) {
+-        return arm_fi_to_lfsc(&fi);
+-    } else {
+-        return arm_fi_to_sfsc(&fi);
+-    }
+-}
+-
+ /**
+  * arm_num_brps: Return number of implemented breakpoints.
+  * Note that the ID register BRPS field is "number of bps - 1",
 diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index a18a09a0c3..80dff0788b 100644
+index 80dff0788b..a743061e89 100644
 --- a/target/arm/debug_helper.c
 +++ b/target/arm/debug_helper.c
-@@ -430,6 +430,37 @@ void arm_debug_excp_handler(CPUState *cs)
-     }
+@@ -379,6 +379,32 @@ bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
+     return check_watchpoints(cpu);
  }
  
 +/*
-+ * Raise an EXCP_BKPT with the specified syndrome register value,
-+ * targeting the correct exception level for debug exceptions.
++ * Return the FSR value for a debug exception (watchpoint, hardware
++ * breakpoint or BKPT insn) targeting the specified exception level.
 + */
-+void HELPER(exception_bkpt_insn)(CPUARMState *env, uint32_t syndrome)
++static uint32_t arm_debug_exception_fsr(CPUARMState *env)
 +{
-+    int debug_el = arm_debug_target_el(env);
-+    int cur_el = arm_current_el(env);
++    ARMMMUFaultInfo fi = { .type = ARMFault_Debug };
++    int target_el = arm_debug_target_el(env);
++    bool using_lpae = false;
 +
-+    /* FSR will only be used if the debug target EL is AArch32. */
-+    env->exception.fsr = arm_debug_exception_fsr(env);
-+    /*
-+     * FAR is UNKNOWN: clear vaddress to avoid potentially exposing
-+     * values to the guest that it shouldn't be able to see at its
-+     * exception/security level.
-+     */
-+    env->exception.vaddress = 0;
-+    /*
-+     * Other kinds of architectural debug exception are ignored if
-+     * they target an exception level below the current one (in QEMU
-+     * this is checked by arm_generate_debug_exceptions()). Breakpoint
-+     * instructions are special because they always generate an exception
-+     * to somewhere: if they can't go to the configured debug exception
-+     * level they are taken to the current exception level.
-+     */
-+    if (debug_el < cur_el) {
-+        debug_el = cur_el;
++    if (target_el == 2 || arm_el_is_aa64(env, target_el)) {
++        using_lpae = true;
++    } else {
++        if (arm_feature(env, ARM_FEATURE_LPAE) &&
++            (env->cp15.tcr_el[target_el].raw_tcr & TTBCR_EAE)) {
++            using_lpae = true;
++        }
 +    }
-+    raise_exception(env, EXCP_BKPT, syndrome, debug_el);
++
++    if (using_lpae) {
++        return arm_fi_to_lfsc(&fi);
++    } else {
++        return arm_fi_to_sfsc(&fi);
++    }
 +}
 +
- #if !defined(CONFIG_USER_ONLY)
- 
- vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 97c8c9ec77..2a8bdc2cbf 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -399,35 +399,6 @@ void HELPER(exception_with_syndrome)(CPUARMState *env, uint32_t excp,
-     raise_exception(env, excp, syndrome, target_el);
- }
- 
--/* Raise an EXCP_BKPT with the specified syndrome register value,
-- * targeting the correct exception level for debug exceptions.
-- */
--void HELPER(exception_bkpt_insn)(CPUARMState *env, uint32_t syndrome)
--{
--    int debug_el = arm_debug_target_el(env);
--    int cur_el = arm_current_el(env);
--
--    /* FSR will only be used if the debug target EL is AArch32. */
--    env->exception.fsr = arm_debug_exception_fsr(env);
--    /* FAR is UNKNOWN: clear vaddress to avoid potentially exposing
--     * values to the guest that it shouldn't be able to see at its
--     * exception/security level.
--     */
--    env->exception.vaddress = 0;
--    /*
--     * Other kinds of architectural debug exception are ignored if
--     * they target an exception level below the current one (in QEMU
--     * this is checked by arm_generate_debug_exceptions()). Breakpoint
--     * instructions are special because they always generate an exception
--     * to somewhere: if they can't go to the configured debug exception
--     * level they are taken to the current exception level.
--     */
--    if (debug_el < cur_el) {
--        debug_el = cur_el;
--    }
--    raise_exception(env, EXCP_BKPT, syndrome, debug_el);
--}
--
- uint32_t HELPER(cpsr_read)(CPUARMState *env)
+ void arm_debug_excp_handler(CPUState *cs)
  {
-     return cpsr_read(env) & ~CPSR_EXEC;
+     /*
 -- 
 2.34.1
 
