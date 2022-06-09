@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F13544F08
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:29:37 +0200 (CEST)
-Received: from localhost ([::1]:53664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F039544F11
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:31:04 +0200 (CEST)
+Received: from localhost ([::1]:56730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzJAG-0005kv-Kg
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:29:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36166)
+	id 1nzJBf-0007pG-8V
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzHcO-0002eE-Af
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 08:50:35 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:40523)
+ id 1nzHcw-0002u3-Sr
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 08:51:06 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:43643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzHcL-0003Gi-K2
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 08:50:30 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id i1so20164028plg.7
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 05:50:29 -0700 (PDT)
+ id 1nzHcv-0003L6-7Y
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 08:51:06 -0400
+Received: by mail-pg1-x531.google.com with SMTP id s135so6115054pgs.10
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 05:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qVNZfRY74nrsw3BKedvtnR0OOFztiB2FWQkpeU/LUWE=;
- b=ZznWU+MjFIux7dMTljOb8dEVXJWkKdD0mjFWJj+JJ0/+9umr8ycQYQOZPIlsewKaf8
- 3BSvb/uU7i+FkIecbfXa3Vw2RLiVqMd+cxlNyE7q+NzuPQGUJ7/YRela0ydrTE9YeKz1
- NEm5WvGA0uymRw1uMArb/ZymOBFw3e4wAPpYxrej145sW42AiVy6QeaPkRUupzXNfIW1
- XvkT6sMSAIzQDYcp53KjForHEHNiEMfnvtMBKb3WDdWuBDg2884LtaBiomZVKSfKxEv5
- zDdGazODbp/Ylz/D2TR1MaNuSOOTzL3kkgOjqhi3a6xRSjqEjOhOWF3Nm8xocqG6X0hc
- oW4w==
+ :cc; bh=JqJh9ldDOdnw1d8r4xxmGvYmKoHHf1z2/a0A31HRdCA=;
+ b=JACOnmbSvjmwvbxzgetA37SehZjkghbMFLqDgQT22ugEu+Ilrg10CxnLmK4/+ZwPKe
+ qlJuqA2Q9tuVRJFJiPeY4Y08QXO4+Tc+51N0M7PO5wjUVnGQdfEQnTuXh1cWIeZ4opej
+ tfU7wNffSnVY5SmzJh9f8GuBxpk+OokjqMs7cekjqwq1+OkvEhuTG0B4BpGfY3nkF/Uo
+ zomrxkqZCZl2CZF8F+NYaqkLFaRXjzF7HPGa4aKr4pF00SC+vwrIC+aYsotnql9hwThz
+ CNY1awRGZg3qMCUfBcGPX0LvNeGWP8QID5cYqVI+gkFi6m1xdgs90oJb8w3eDFX+Vnv/
+ O/Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qVNZfRY74nrsw3BKedvtnR0OOFztiB2FWQkpeU/LUWE=;
- b=opw/5R3w2qlsNqq9JzvSwWA2vCCfRs38STPcXpM/aG4IoxbPL3HK/hf8VCjSupPQlq
- PCZjnPGua6sO1d3god9KGsfIcvBIKQfDVYtxpQ0GjDu5Diwo4gz9N/DEg0Q4bDpxKhda
- ls9gC2Mr2sGkzcdq28sxaBmFxa6LwptByz7yOz88HJKen0G+d1NI1dwiVNf/4I7RXGXy
- zQ1t/wgDFUY7e9WOATc8beHao5sfmcohDSnA2LNZC1MQ1mD1/Q7ehKUORc4lyG94fs6L
- u6RNgBlcIX+z5nwP6kSKKWWaDdT7IhtUpBGPKNbbkHZjbc3SD1PqRQV+0Yt++4ugVNPn
- 1QzQ==
-X-Gm-Message-State: AOAM531PR51QbF5/gAQhDlgf/mTv05VkZpS13m226a0b3pi5rYEaPDWZ
- nmGBjSaIEusrcCB9kqtsQT89hl0+ocEA92potRFK2Q==
-X-Google-Smtp-Source: ABdhPJyp1xkhr8nOu4UhyV7nREewI1s/RdESwED/4f1vUbUVRdbIeFaR9mNZP8qI8LmYVz10uqFwcSl5BUJx3jQ9tOs=
-X-Received: by 2002:a17:903:1205:b0:15e:804c:fab4 with SMTP id
- l5-20020a170903120500b0015e804cfab4mr39545730plh.112.1654779027991; Thu, 09
- Jun 2022 05:50:27 -0700 (PDT)
+ bh=JqJh9ldDOdnw1d8r4xxmGvYmKoHHf1z2/a0A31HRdCA=;
+ b=a23tTL7Wzi8H13iT24sdjZ/7QBRdbWn2bjxNg+akHQ17cpMV6uWINw83J/Hjhj+lEd
+ ADPA8TlfT5pB1dxxtdBOZkmcN1jjOtV2MFKM/KGtnVW+8HSL3mus+5XNLym9HoFOfWpu
+ IhKUeTsmeIuq2Ilg6fUpvhZHm/oIFEiJNyZxLhr1uvsOSY8Owxo/wtb+UBHeKgf68tUr
+ JAT8L1VV+pW3B3DypbwADqVcB5y2TVfI5X8EYF0CK5kGSNldlVvxAAkMgfJlxI2XkuU2
+ aHHlbRokWvntcN1A2+U6zn2WfV4z+yGDsxXLciiAp5ERh4WEyZ5pCIUgliHW1zvOjvbr
+ rskw==
+X-Gm-Message-State: AOAM532ABdlfwNyKbc6nKtZ1HUQ4RfzwL5tS3IHO50xcw6tZfsafIe39
+ D5Lw0qsl5marzKDGKKbp7syhJpkVSc/l35IVxLSACg==
+X-Google-Smtp-Source: ABdhPJwoVimUIrxJhKjmpL+veWb5qE2xhJspM5I9z7cOK/rZ6tJrj98rlFDH/HaXYRPQfuFsOwCE3QfK1NvBzJZ/oz0=
+X-Received: by 2002:a05:6a00:1f1a:b0:51b:fac8:e00c with SMTP id
+ be26-20020a056a001f1a00b0051bfac8e00cmr26903077pfb.26.1654779063893; Thu, 09
+ Jun 2022 05:51:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-49-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-49-mark.cave-ayland@ilande.co.uk>
+ <20220522181836.864-51-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220522181836.864-51-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 13:50:16 +0100
-Message-ID: <CAFEAcA_RiYABeiioTdHOL50F+zw5uQ53yJkf=Q0CmWaUc4zq+Q@mail.gmail.com>
-Subject: Re: [PATCH 48/50] pckbd: add i8042_reset() function to I8042 device
+Date: Thu, 9 Jun 2022 13:50:53 +0100
+Message-ID: <CAFEAcA8-2NAvWPE5qtedPmfwAY+TBu-pWLhNo4R1njEoKUHSyg@mail.gmail.com>
+Subject: Re: [PATCH 50/50] ps2: remove update_irq() function and update_arg
+ parameter
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com, 
  pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, 
  f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org, 
  qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,16 +86,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 22 May 2022 at 19:20, Mark Cave-Ayland
+On Sun, 22 May 2022 at 19:23, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> This means that it is no longer necessary to call qemu_register_reset() manually
-> within i8042_realizefn().
+> Now that all the PS2 devices have been converted to use GPIOs the update_irq()
+> callback function and the update_arg parameter can be removed.
+>
+> This allows these arguments to be completely removed from ps2_kbd_init() and
+> ps2_mouse_init(), along with the transitional logic that was added to
+> ps2_raise_irq() and ps2_lower_irq().
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/input/pckbd.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
