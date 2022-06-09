@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FBE544906
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:36:49 +0200 (CEST)
-Received: from localhost ([::1]:47586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29ABA544963
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:42:28 +0200 (CEST)
+Received: from localhost ([::1]:56428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzFWx-0002Kj-Sy
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39980)
+	id 1nzFcM-0000A6-H7
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:42:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7d-0001hH-UD
+ id 1nzE7d-0001gU-SN
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:34 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51017)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:47100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7a-00068f-K9
+ id 1nzE7b-00061B-0P
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:32 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id e5so5272909wma.0
+Received: by mail-wm1-x32e.google.com with SMTP id
+ r123-20020a1c2b81000000b0039c1439c33cso12264463wmr.5
  for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=RzISLAIsm/HQUCbU5drdl/7AuVQMoSI54OKREy/L1no=;
- b=pdT8R7UOBjH98ntFTJOA7FaJDD6BEFL5G79O1tegmwEz6IqpA2E4Oiiry7DFGrsTwA
- QH8dPxU6xbWjiG6+HZUsTqUr7xGMjng9pUbU+VHramWqxsD+S6rsLBOTkVNGiVLCPNCJ
- kg/Us/yjM7z5zBNyVLk+9fmqllesCGQdCKytrFeh5rMFZhAHi4fevbAE+ygjAOlXmarU
- xE2wI+lfTnUcVZ2rkJRE6kuP3QvAPPBhGC6tJpKWLOd6Jv1Af/gJVFjHt5sNMPfY80tr
- ma8kyagHy6kAh9mprQ0k4oWW3JQyJtx0FVZQ2Y57hCgjreB7CRpTr8fmYD0i/6k7A0Qm
- TIQQ==
+ bh=ln4NarpB9GXHE3SSoQy0ZUBfyqzyJv95N2jOXflbDEs=;
+ b=EWhynYWPJGb3hPXk6/XiW86PShAFbDRSonRdil7h/KJulzf3n5xajMNv53PEghwhkt
+ dRdoIRJ3sguC+yM90+usvvuEVq5U+DTx2ocWe1d40gye0vruVZjEcQ0R9Z1jfaKo/ib5
+ KWokqu8v4tm0mjmz9ag+9xtqn3zXncCU68EuqDX4RfmseW5QXeh76HswJCQSB/PQCWXQ
+ VjmGThLOM27jEaYTs6fHqXxUPgkjMp1e559531OqscmuHMdtc2qts5JIaydoogrTKLUY
+ 4e31FtyZzgw3swherBq0jjOVJzDp8LzUs1ntwlmiUYesaXihwM88PZhG89NE00Y5wdRI
+ lPnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RzISLAIsm/HQUCbU5drdl/7AuVQMoSI54OKREy/L1no=;
- b=W13HTntDtOrrFRpKWGX/NOm9eGA5oWrRkclJ3ScCu6DM+RWBrQB8lUj3OYorodrsEC
- Jr6ADiEgBklqzd38ZYze/jTlJlLGSqdNAmUPKixRUZIP4tzvk8AX2DdRAQHgQGteUvLM
- Dg+J4HD9iUPtrnpz3M9dm1VTqsz6Wkd2pGkt7hOFtwWuW9MMdqLeOTME0Tnnb24DtEHt
- Clg2du58sjc4Dm9BJAjeMPGoOiFiE6Wa86hZnFUNwi84wZoBbnmQKsqfVrIA9qzyKH80
- /VWHBZ+OmPkKh+nGMRP0MfZcmpWDuqpRuu3h4t3cx/+JSV3Z9auqXlKOdiduUT/rdGud
- +5Uw==
-X-Gm-Message-State: AOAM532LKONF2qITHCZZHlJOExbR1frzRjBCo0bgVzCu8HEZLxbayeez
- qLvfO7XlsBT5aBsZNkYa1rVlB3//NnZMgg==
-X-Google-Smtp-Source: ABdhPJw8QsGio6qUDKOo4+AJhiyeSnmwgfCYuGan/TwutpvXFoQ1umKDLPDvrTb5b3XazkqugS0pZA==
-X-Received: by 2002:a1c:4682:0:b0:39c:4459:6a84 with SMTP id
- t124-20020a1c4682000000b0039c44596a84mr2213102wma.167.1654765589048; 
- Thu, 09 Jun 2022 02:06:29 -0700 (PDT)
+ bh=ln4NarpB9GXHE3SSoQy0ZUBfyqzyJv95N2jOXflbDEs=;
+ b=Zeb3ERLV9o2CH3wPOry2sn5UXTv+WSJhWjTiC0ivXe2DPr5ERUpxdQhjW8eq/nxmu3
+ IGU+ZdoSLFXAchdp/LCiTiuBfZlor/0h9l2Ia5c2dnQvVnl+uhyT6TVIMDx+gCzu8/+n
+ Rxxzl2SBojWxxp9o9u8yI9olYXOETMRCq44RAx/ID0O+reoy+wQKUScbjkQXPC4bBQSQ
+ h9FHRKwLhpbeuBcjBu0ufUxrjvZMwKBx3ptHyhm0mRX+9226Cq8Eros95I/MPoBAXIAG
+ Ob5+Trs2vK46WoBvMS+iQATOmW8sPHjBIvRoRUz/m1W2/fyQoUHJncUuBVkjEMl7J6XR
+ FDkw==
+X-Gm-Message-State: AOAM531HZcXhUim1h/8BV7MqUPkg4LfT3XAKz0YmN1Eq3eZd8HUhCtcj
+ K1Ms4lvuvp2KYapw1YHFZxJm/f0jZOQYBg==
+X-Google-Smtp-Source: ABdhPJzJcGK9QZuiBfEMECR5cG7J7BCVTEjZ4zrOWeuTNRu8GXA01ZhMThN8v/6uU/Y2UyKw/CBU0g==
+X-Received: by 2002:a05:600c:4fd2:b0:39b:893e:ff79 with SMTP id
+ o18-20020a05600c4fd200b0039b893eff79mr2295531wmq.73.1654765590191; 
+ Thu, 09 Jun 2022 02:06:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.27
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:06:28 -0700 (PDT)
+ Thu, 09 Jun 2022 02:06:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 46/55] target/arm: Use uint32_t instead of bitmap for sve vq's
-Date: Thu,  9 Jun 2022 10:05:28 +0100
-Message-Id: <20220609090537.1971756-47-peter.maydell@linaro.org>
+Subject: [PULL 47/55] target/arm: Rename sve_zcr_len_for_el to sve_vqm1_for_el
+Date: Thu,  9 Jun 2022 10:05:29 +0100
+Message-Id: <20220609090537.1971756-48-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,424 +91,142 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The bitmap need only hold 15 bits; bitmap is over-complicated.
-We can simplify operations quite a bit with plain logical ops.
+This will be used for both Normal and Streaming SVE, and the value
+does not necessarily come from ZCR_ELx.  While we're at it, emphasize
+the units in which the value is returned.
 
-The introduction of SVE_VQ_POW2_MAP eliminates the need for
-looping in order to search for powers of two.  Simply perform
-the logical ops and use count leading or trailing zeros as
-required to find the result.
+Patch produced by
+    git grep -l sve_zcr_len_for_el | \
+    xargs -n1 sed -i 's/sve_zcr_len_for_el/sve_vqm1_for_el/g'
+
+and then adding a function comment.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220607203306.657998-12-richard.henderson@linaro.org
+Message-id: 20220607203306.657998-13-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h       |   6 +--
- target/arm/internals.h |   5 ++
- target/arm/kvm_arm.h   |   7 ++-
- target/arm/cpu64.c     | 117 ++++++++++++++++++++---------------------
- target/arm/helper.c    |   9 +---
- target/arm/kvm64.c     |  36 +++----------
- 6 files changed, 75 insertions(+), 105 deletions(-)
+ target/arm/cpu.h       | 11 ++++++++++-
+ target/arm/arch_dump.c |  2 +-
+ target/arm/cpu.c       |  2 +-
+ target/arm/gdbstub64.c |  2 +-
+ target/arm/helper.c    | 12 ++++++------
+ 5 files changed, 19 insertions(+), 10 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index f5af88b686d..73f24a57603 100644
+index 73f24a57603..e45b5cb7fe1 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -1041,9 +1041,9 @@ struct ArchCPU {
-      * Bits set in sve_vq_supported represent valid vector lengths for
-      * the CPU type.
-      */
--    DECLARE_BITMAP(sve_vq_map, ARM_MAX_VQ);
--    DECLARE_BITMAP(sve_vq_init, ARM_MAX_VQ);
--    DECLARE_BITMAP(sve_vq_supported, ARM_MAX_VQ);
-+    uint32_t sve_vq_map;
-+    uint32_t sve_vq_init;
-+    uint32_t sve_vq_supported;
+@@ -1132,7 +1132,16 @@ void aarch64_sync_64_to_32(CPUARMState *env);
  
-     /* Generic timer counter frequency, in Hz */
-     uint64_t gt_cntfrq_hz;
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 79eb4637538..a1bae4588ae 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1340,4 +1340,9 @@ bool el_is_in_host(CPUARMState *env, int el);
- 
- void aa32_max_features(ARMCPU *cpu);
- 
-+/* Powers of 2 for sve_vq_map et al. */
-+#define SVE_VQ_POW2_MAP                                 \
-+    ((1 << (1 - 1)) | (1 << (2 - 1)) |                  \
-+     (1 << (4 - 1)) | (1 << (8 - 1)) | (1 << (16 - 1)))
+ int fp_exception_el(CPUARMState *env, int cur_el);
+ int sve_exception_el(CPUARMState *env, int cur_el);
+-uint32_t sve_zcr_len_for_el(CPUARMState *env, int el);
 +
- #endif
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index b7f78b52154..99017b635ce 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -239,13 +239,12 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf);
- /**
-  * kvm_arm_sve_get_vls:
-  * @cs: CPUState
-- * @map: bitmap to fill in
-  *
-  * Get all the SVE vector lengths supported by the KVM host, setting
-  * the bits corresponding to their length in quadwords minus one
-- * (vq - 1) in @map up to ARM_MAX_VQ.
-+ * (vq - 1) up to ARM_MAX_VQ.  Return the resulting map.
-  */
--void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map);
-+uint32_t kvm_arm_sve_get_vls(CPUState *cs);
++/**
++ * sve_vqm1_for_el:
++ * @env: CPUARMState
++ * @el: exception level
++ *
++ * Compute the current SVE vector length for @el, in units of
++ * Quadwords Minus 1 -- the same scale used for ZCR_ELx.LEN.
++ */
++uint32_t sve_vqm1_for_el(CPUARMState *env, int el);
  
- /**
-  * kvm_arm_set_cpu_features_from_host:
-@@ -439,7 +438,7 @@ static inline void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
-     g_assert_not_reached();
- }
- 
--static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
-+static inline uint32_t kvm_arm_sve_get_vls(CPUState *cs)
+ static inline bool is_a64(CPUARMState *env)
  {
-     g_assert_not_reached();
- }
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index cce68dd82a2..15665c962b2 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -355,8 +355,11 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-      * any of the above.  Finally, if SVE is not disabled, then at least one
-      * vector length must be enabled.
-      */
--    DECLARE_BITMAP(tmp, ARM_MAX_VQ);
--    uint32_t vq, max_vq = 0;
-+    uint32_t vq_map = cpu->sve_vq_map;
-+    uint32_t vq_init = cpu->sve_vq_init;
-+    uint32_t vq_supported;
-+    uint32_t vq_mask = 0;
-+    uint32_t tmp, vq, max_vq = 0;
+diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
+index 01848453109..b1f040e69f2 100644
+--- a/target/arm/arch_dump.c
++++ b/target/arm/arch_dump.c
+@@ -166,7 +166,7 @@ static off_t sve_fpcr_offset(uint32_t vq)
  
-     /*
-      * CPU models specify a set of supported vector lengths which are
-@@ -364,10 +367,16 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-      * in the supported bitmap results in an error.  When KVM is enabled we
-      * fetch the supported bitmap from the host.
-      */
--    if (kvm_enabled() && kvm_arm_sve_supported()) {
--        kvm_arm_sve_get_vls(CPU(cpu), cpu->sve_vq_supported);
--    } else if (kvm_enabled()) {
--        assert(!cpu_isar_feature(aa64_sve, cpu));
-+    if (kvm_enabled()) {
-+        if (kvm_arm_sve_supported()) {
-+            cpu->sve_vq_supported = kvm_arm_sve_get_vls(CPU(cpu));
-+            vq_supported = cpu->sve_vq_supported;
-+        } else {
-+            assert(!cpu_isar_feature(aa64_sve, cpu));
-+            vq_supported = 0;
-+        }
-+    } else {
-+        vq_supported = cpu->sve_vq_supported;
-     }
- 
-     /*
-@@ -375,8 +384,9 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-      * From the properties, sve_vq_map<N> implies sve_vq_init<N>.
-      * Check first for any sve<N> enabled.
-      */
--    if (!bitmap_empty(cpu->sve_vq_map, ARM_MAX_VQ)) {
--        max_vq = find_last_bit(cpu->sve_vq_map, ARM_MAX_VQ) + 1;
-+    if (vq_map != 0) {
-+        max_vq = 32 - clz32(vq_map);
-+        vq_mask = MAKE_64BIT_MASK(0, max_vq);
- 
-         if (cpu->sve_max_vq && max_vq > cpu->sve_max_vq) {
-             error_setg(errp, "cannot enable sve%d", max_vq * 128);
-@@ -392,15 +402,10 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-              * For KVM we have to automatically enable all supported unitialized
-              * lengths, even when the smaller lengths are not all powers-of-two.
-              */
--            bitmap_andnot(tmp, cpu->sve_vq_supported, cpu->sve_vq_init, max_vq);
--            bitmap_or(cpu->sve_vq_map, cpu->sve_vq_map, tmp, max_vq);
-+            vq_map |= vq_supported & ~vq_init & vq_mask;
-         } else {
-             /* Propagate enabled bits down through required powers-of-two. */
--            for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
--                if (!test_bit(vq - 1, cpu->sve_vq_init)) {
--                    set_bit(vq - 1, cpu->sve_vq_map);
--                }
--            }
-+            vq_map |= SVE_VQ_POW2_MAP & ~vq_init & vq_mask;
-         }
-     } else if (cpu->sve_max_vq == 0) {
-         /*
-@@ -413,25 +418,18 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
- 
-         if (kvm_enabled()) {
-             /* Disabling a supported length disables all larger lengths. */
--            for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
--                if (test_bit(vq - 1, cpu->sve_vq_init) &&
--                    test_bit(vq - 1, cpu->sve_vq_supported)) {
--                    break;
--                }
--            }
-+            tmp = vq_init & vq_supported;
-         } else {
-             /* Disabling a power-of-two disables all larger lengths. */
--            for (vq = 1; vq <= ARM_MAX_VQ; vq <<= 1) {
--                if (test_bit(vq - 1, cpu->sve_vq_init)) {
--                    break;
--                }
--            }
-+            tmp = vq_init & SVE_VQ_POW2_MAP;
-         }
-+        vq = ctz32(tmp) + 1;
- 
-         max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
--        bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
--                      cpu->sve_vq_init, max_vq);
--        if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
-+        vq_mask = MAKE_64BIT_MASK(0, max_vq);
-+        vq_map = vq_supported & ~vq_init & vq_mask;
-+
-+        if (max_vq == 0 || vq_map == 0) {
-             error_setg(errp, "cannot disable sve%d", vq * 128);
-             error_append_hint(errp, "Disabling sve%d results in all "
-                               "vector lengths being disabled.\n",
-@@ -441,7 +439,8 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-             return;
-         }
- 
--        max_vq = find_last_bit(cpu->sve_vq_map, max_vq) + 1;
-+        max_vq = 32 - clz32(vq_map);
-+        vq_mask = MAKE_64BIT_MASK(0, max_vq);
-     }
- 
-     /*
-@@ -451,9 +450,9 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-      */
-     if (cpu->sve_max_vq != 0) {
-         max_vq = cpu->sve_max_vq;
-+        vq_mask = MAKE_64BIT_MASK(0, max_vq);
- 
--        if (!test_bit(max_vq - 1, cpu->sve_vq_map) &&
--            test_bit(max_vq - 1, cpu->sve_vq_init)) {
-+        if (vq_init & ~vq_map & (1 << (max_vq - 1))) {
-             error_setg(errp, "cannot disable sve%d", max_vq * 128);
-             error_append_hint(errp, "The maximum vector length must be "
-                               "enabled, sve-max-vq=%d (%d bits)\n",
-@@ -462,8 +461,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-         }
- 
-         /* Set all bits not explicitly set within sve-max-vq. */
--        bitmap_complement(tmp, cpu->sve_vq_init, max_vq);
--        bitmap_or(cpu->sve_vq_map, cpu->sve_vq_map, tmp, max_vq);
-+        vq_map |= ~vq_init & vq_mask;
-     }
- 
-     /*
-@@ -472,13 +470,14 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-      * are clear, just in case anybody looks.
-      */
-     assert(max_vq != 0);
--    bitmap_clear(cpu->sve_vq_map, max_vq, ARM_MAX_VQ - max_vq);
-+    assert(vq_mask != 0);
-+    vq_map &= vq_mask;
- 
-     /* Ensure the set of lengths matches what is supported. */
--    bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
--    if (!bitmap_empty(tmp, max_vq)) {
--        vq = find_last_bit(tmp, max_vq) + 1;
--        if (test_bit(vq - 1, cpu->sve_vq_map)) {
-+    tmp = vq_map ^ (vq_supported & vq_mask);
-+    if (tmp) {
-+        vq = 32 - clz32(tmp);
-+        if (vq_map & (1 << (vq - 1))) {
-             if (cpu->sve_max_vq) {
-                 error_setg(errp, "cannot set sve-max-vq=%d", cpu->sve_max_vq);
-                 error_append_hint(errp, "This CPU does not support "
-@@ -502,15 +501,15 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-                 return;
-             } else {
-                 /* Ensure all required powers-of-two are enabled. */
--                for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
--                    if (!test_bit(vq - 1, cpu->sve_vq_map)) {
--                        error_setg(errp, "cannot disable sve%d", vq * 128);
--                        error_append_hint(errp, "sve%d is required as it "
--                                          "is a power-of-two length smaller "
--                                          "than the maximum, sve%d\n",
--                                          vq * 128, max_vq * 128);
--                        return;
--                    }
-+                tmp = SVE_VQ_POW2_MAP & vq_mask & ~vq_map;
-+                if (tmp) {
-+                    vq = 32 - clz32(tmp);
-+                    error_setg(errp, "cannot disable sve%d", vq * 128);
-+                    error_append_hint(errp, "sve%d is required as it "
-+                                      "is a power-of-two length smaller "
-+                                      "than the maximum, sve%d\n",
-+                                      vq * 128, max_vq * 128);
-+                    return;
-                 }
-             }
-         }
-@@ -530,6 +529,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
- 
-     /* From now on sve_max_vq is the actual maximum supported length. */
-     cpu->sve_max_vq = max_vq;
-+    cpu->sve_vq_map = vq_map;
+ static uint32_t sve_current_vq(CPUARMState *env)
+ {
+-    return sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
++    return sve_vqm1_for_el(env, arm_current_el(env)) + 1;
  }
  
- static void cpu_max_get_sve_max_vq(Object *obj, Visitor *v, const char *name,
-@@ -590,7 +590,7 @@ static void cpu_arm_get_sve_vq(Object *obj, Visitor *v, const char *name,
-     if (!cpu_isar_feature(aa64_sve, cpu)) {
-         value = false;
-     } else {
--        value = test_bit(vq - 1, cpu->sve_vq_map);
-+        value = extract32(cpu->sve_vq_map, vq - 1, 1);
+ static size_t sve_size_vq(uint32_t vq)
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 06219441674..1b5d5357880 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -925,7 +925,7 @@ static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+                  vfp_get_fpcr(env), vfp_get_fpsr(env));
+ 
+     if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) == 0) {
+-        int j, zcr_len = sve_zcr_len_for_el(env, el);
++        int j, zcr_len = sve_vqm1_for_el(env, el);
+ 
+         for (i = 0; i <= FFR_PRED_NUM; i++) {
+             bool eol;
+diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
+index 596878666d7..07a6746944d 100644
+--- a/target/arm/gdbstub64.c
++++ b/target/arm/gdbstub64.c
+@@ -152,7 +152,7 @@ int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
+          * We report in Vector Granules (VG) which is 64bit in a Z reg
+          * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
+          */
+-        int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
++        int vq = sve_vqm1_for_el(env, arm_current_el(env)) + 1;
+         return gdb_get_reg64(buf, vq * 2);
      }
-     visit_type_bool(v, name, &value, errp);
- }
-@@ -612,12 +612,8 @@ static void cpu_arm_set_sve_vq(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    if (value) {
--        set_bit(vq - 1, cpu->sve_vq_map);
--    } else {
--        clear_bit(vq - 1, cpu->sve_vq_map);
--    }
--    set_bit(vq - 1, cpu->sve_vq_init);
-+    cpu->sve_vq_map = deposit32(cpu->sve_vq_map, vq - 1, 1, value);
-+    cpu->sve_vq_init |= 1 << (vq - 1);
- }
- 
- static bool cpu_arm_get_sve(Object *obj, Error **errp)
-@@ -979,7 +975,7 @@ static void aarch64_max_initfn(Object *obj)
-     cpu->dcz_blocksize = 7; /*  512 bytes */
- #endif
- 
--    bitmap_fill(cpu->sve_vq_supported, ARM_MAX_VQ);
-+    cpu->sve_vq_supported = MAKE_64BIT_MASK(0, ARM_MAX_VQ);
- 
-     aarch64_add_pauth_properties(obj);
-     aarch64_add_sve_properties(obj);
-@@ -1026,12 +1022,11 @@ static void aarch64_a64fx_initfn(Object *obj)
-     cpu->gic_vprebits = 5;
-     cpu->gic_pribits = 5;
- 
--    /* Suppport of A64FX's vector length are 128,256 and 512bit only */
-+    /* The A64FX supports only 128, 256 and 512 bit vector lengths */
-     aarch64_add_sve_properties(obj);
--    bitmap_zero(cpu->sve_vq_supported, ARM_MAX_VQ);
--    set_bit(0, cpu->sve_vq_supported); /* 128bit */
--    set_bit(1, cpu->sve_vq_supported); /* 256bit */
--    set_bit(3, cpu->sve_vq_supported); /* 512bit */
-+    cpu->sve_vq_supported = (1 << 0)  /* 128bit */
-+                          | (1 << 1)  /* 256bit */
-+                          | (1 << 3); /* 512bit */
- 
-     cpu->isar.reset_pmcr_el0 = 0x46014040;
- 
+     default:
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index de159c644cd..90aac6bc12d 100644
+index 90aac6bc12d..400f7cd1dba 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6219,7 +6219,6 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+@@ -6215,7 +6215,7 @@ int sve_exception_el(CPUARMState *env, int el)
+ /*
+  * Given that SVE is enabled, return the vector length for EL.
+  */
+-uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
++uint32_t sve_vqm1_for_el(CPUARMState *env, int el)
  {
      ARMCPU *cpu = env_archcpu(env);
      uint32_t len = cpu->sve_max_vq - 1;
--    uint32_t end_len;
- 
-     if (el <= 1 && !el_is_in_host(env, el)) {
-         len = MIN(len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
-@@ -6231,12 +6230,8 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
-         len = MIN(len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
-     }
- 
--    end_len = len;
--    if (!test_bit(len, cpu->sve_vq_map)) {
--        end_len = find_last_bit(cpu->sve_vq_map, len);
--        assert(end_len < len);
--    }
--    return end_len;
-+    len = 31 - clz32(cpu->sve_vq_map & MAKE_64BIT_MASK(0, len + 1));
-+    return len;
- }
- 
- static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 363032da903..b3f635fc952 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -760,15 +760,13 @@ bool kvm_arm_steal_time_supported(void)
- 
- QEMU_BUILD_BUG_ON(KVM_ARM64_SVE_VQ_MIN != 1);
- 
--void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
-+uint32_t kvm_arm_sve_get_vls(CPUState *cs)
+@@ -6238,7 +6238,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                       uint64_t value)
  {
-     /* Only call this function if kvm_arm_sve_supported() returns true. */
-     static uint64_t vls[KVM_ARM64_SVE_VLS_WORDS];
-     static bool probed;
-     uint32_t vq = 0;
--    int i, j;
--
--    bitmap_zero(map, ARM_MAX_VQ);
-+    int i;
+     int cur_el = arm_current_el(env);
+-    int old_len = sve_zcr_len_for_el(env, cur_el);
++    int old_len = sve_vqm1_for_el(env, cur_el);
+     int new_len;
  
-     /*
-      * KVM ensures all host CPUs support the same set of vector lengths.
-@@ -809,46 +807,24 @@ void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
-         if (vq > ARM_MAX_VQ) {
-             warn_report("KVM supports vector lengths larger than "
-                         "QEMU can enable");
-+            vls[0] &= MAKE_64BIT_MASK(0, ARM_MAX_VQ);
+     /* Bits other than [3:0] are RAZ/WI.  */
+@@ -6249,7 +6249,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+      * Because we arrived here, we know both FP and SVE are enabled;
+      * otherwise we would have trapped access to the ZCR_ELn register.
+      */
+-    new_len = sve_zcr_len_for_el(env, cur_el);
++    new_len = sve_vqm1_for_el(env, cur_el);
+     if (new_len < old_len) {
+         aarch64_sve_narrow_vq(env, new_len + 1);
+     }
+@@ -11168,7 +11168,7 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+                 sve_el = 0;
+             }
+         } else if (sve_el == 0) {
+-            DP_TBFLAG_A64(flags, VL, sve_zcr_len_for_el(env, el));
++            DP_TBFLAG_A64(flags, VL, sve_vqm1_for_el(env, el));
          }
+         DP_TBFLAG_A64(flags, SVEEXC_EL, sve_el);
      }
+@@ -11534,10 +11534,10 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+      */
+     old_a64 = old_el ? arm_el_is_aa64(env, old_el) : el0_a64;
+     old_len = (old_a64 && !sve_exception_el(env, old_el)
+-               ? sve_zcr_len_for_el(env, old_el) : 0);
++               ? sve_vqm1_for_el(env, old_el) : 0);
+     new_a64 = new_el ? arm_el_is_aa64(env, new_el) : el0_a64;
+     new_len = (new_a64 && !sve_exception_el(env, new_el)
+-               ? sve_zcr_len_for_el(env, new_el) : 0);
++               ? sve_vqm1_for_el(env, new_el) : 0);
  
--    for (i = 0; i < KVM_ARM64_SVE_VLS_WORDS; ++i) {
--        if (!vls[i]) {
--            continue;
--        }
--        for (j = 1; j <= 64; ++j) {
--            vq = j + i * 64;
--            if (vq > ARM_MAX_VQ) {
--                return;
--            }
--            if (vls[i] & (1UL << (j - 1))) {
--                set_bit(vq - 1, map);
--            }
--        }
--    }
-+    return vls[0];
- }
- 
- static int kvm_arm_sve_set_vls(CPUState *cs)
- {
--    uint64_t vls[KVM_ARM64_SVE_VLS_WORDS] = {0};
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    uint64_t vls[KVM_ARM64_SVE_VLS_WORDS] = { cpu->sve_vq_map };
-     struct kvm_one_reg reg = {
-         .id = KVM_REG_ARM64_SVE_VLS,
-         .addr = (uint64_t)&vls[0],
-     };
--    ARMCPU *cpu = ARM_CPU(cs);
--    uint32_t vq;
--    int i, j;
- 
-     assert(cpu->sve_max_vq <= KVM_ARM64_SVE_VQ_MAX);
- 
--    for (vq = 1; vq <= cpu->sve_max_vq; ++vq) {
--        if (test_bit(vq - 1, cpu->sve_vq_map)) {
--            i = (vq - 1) / 64;
--            j = (vq - 1) % 64;
--            vls[i] |= 1UL << j;
--        }
--    }
--
-     return kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
- }
- 
+     /* When changing vector length, clear inaccessible state.  */
+     if (new_len < old_len) {
 -- 
 2.25.1
 
