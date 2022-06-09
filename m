@@ -2,105 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FE3545628
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:08:12 +0200 (CEST)
-Received: from localhost ([::1]:35896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF96A545667
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:20:21 +0200 (CEST)
+Received: from localhost ([::1]:52490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzPNz-00042G-Dg
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43298)
+	id 1nzPZk-0007sR-47
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nzOmN-0003ty-7Y
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:19 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:46705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nzOmH-0008Tl-TR
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:17 -0400
-Received: by mail-pl1-x633.google.com with SMTP id d13so5474726plh.13
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=C4/yJYyLya7rE6Jieokr56CujDpfPfuLcGNiEECS+QU=;
- b=CjppovKB2YLi+/umkUgs7TGbUGFHqjbhz+/vuQpURnYcTn7Y/XOYbzw0Ykj8khDf1D
- lU6118PzbLcDnYEohwwuQpWRqLnFFor88HMkhxJnTWzVFPYmlDCWI4t25w0FcOY9LsJ3
- Xx+fRvY97K5Q4b9fyl2wIJsNDu8BFxuzsJC2MBkEM8rOua9Xl2avo9S7S1w8ygcb6WQp
- l07wjz7O+ipoSddpByuvOEx8LLG0at/WFa44rE+IaodvVFqdep6gbL1AbyDvvOmSNBeS
- GcNHdTH1imkTwWGYIM5B+u73KBCppBXzzkigAH/N4DrtNRxqLpENGyWxu6onk+j5isHM
- 5lXw==
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1nzP95-0003fu-Pd
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:52:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32214)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1nzP91-00042P-Sg
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:52:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654807961;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KmGtJ+z0uxqtZARm1e++PYWcnDb0B2zAgj2YP2NlTI0=;
+ b=ZqaeLgpeIbGpgH2/DUbTuaJsLjuvMXrTKRj+J75s9QS6/JGZW9CL7mAfWtcSQtH8YE1HQ5
+ qBgmBtcBvgAmVr3yLYPACtJPkhZnwtNwABkkKWBeObjOsSAkur2r6yMN7bSTBg5X2iS7IV
+ WZLmNh/s4cAGCUTZfHLGiZWB4D16qp4=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-SVdTVdbyMGqCWs-_ng-UCA-1; Thu, 09 Jun 2022 16:52:40 -0400
+X-MC-Unique: SVdTVdbyMGqCWs-_ng-UCA-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ 15-20020ac8570f000000b00304e9e3b19aso11371697qtw.8
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:52:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=C4/yJYyLya7rE6Jieokr56CujDpfPfuLcGNiEECS+QU=;
- b=QX7Jy1xjOEnk4slb3eIh8dy97wu9W2wjlTZHYqNA+xomhYTyEMiszUTnm2VVQP/1rL
- g4+66eqR2QFyJeBESGD6mYkg09vmLKJYOPUdBBfp9ZgL/S+KywLj4YQy3dOplrDuyzXJ
- dbWyggS4GjuJ4hG6FK2O/afKO/LmunBNbiMrs+pQL2HU/mblvSaSQs6YLxCTQtS1SRo6
- cTMksjqidmkU7lbFhhS/Ti5yghD70Xg1hL89NG7rw4FvLkAW1sQP48wJKTogHkiSq0ru
- YkB00ab8gJV3lne58dX917u0B/CT1GYT7MaK3qc8/P/N7y9TqjJ3RcjO6AioYNW8ukUJ
- ZtFw==
-X-Gm-Message-State: AOAM5326FzXhDRf6LFRm7YmKPEpmApBjm4pGWUJgwN7m47ug0Ja4C6m4
- itXUzC7DqI5g/oHXV2gWUq6hTfdFks/iUg==
-X-Google-Smtp-Source: ABdhPJx0nBU6Y+TUh04OO6/IROXMWJ7hUc76Ud455mDwfSNlb8nAgIObkwH4NgXB0NSx9cPem36m4g==
-X-Received: by 2002:a17:90a:b284:b0:1e3:826b:d11d with SMTP id
- c4-20020a17090ab28400b001e3826bd11dmr5147277pjr.79.1654806551448; 
- Thu, 09 Jun 2022 13:29:11 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
- e3-20020a17090301c300b0016511314b94sm17748369plh.159.2022.06.09.13.29.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 13:29:10 -0700 (PDT)
-Date: Thu, 9 Jun 2022 20:29:06 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Vishal Annapurve <vannapurve@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, Marc Orr <marcorr@google.com>,
- kvm list <kvm@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Jun Nakajima <jun.nakajima@intel.com>,
- Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YqJYEheLiGI4KqXF@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
- <20220607065749.GA1513445@chaop.bj.intel.com>
- <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
- <20220608021820.GA1548172@chaop.bj.intel.com>
- <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KmGtJ+z0uxqtZARm1e++PYWcnDb0B2zAgj2YP2NlTI0=;
+ b=zMxXelGYcHU3rkvSPfEEbHCs1myniVeJXKYV0p8H8l2J2tVHCco4iNpEH4R6JKHX9g
+ Dm+8sLOUUf9mYgKRyflxUzMZh7PAUgoIcijtYsr4iLPFKYQ4JcAcvzA8bj0Dr3rJgVUU
+ 8Y3tfOdmsNoQGPXn2mTk5pgIpW1P5JZb523rJkqTCxkr7DmL4m1ESpLFQUTvLTXGQIw2
+ mC3mgki1YgSnnp5v7/N0MnNPo1+ke4tbcSBSNWaVLaOXiMGFtOkjNB93nDttM28X2C9/
+ ffy0WUNCo8RY5FjbnPwil1/ZeFBmWstvo9vLIu1ymwv6s1ZAffNt4bg/yKVxM2k7zhIb
+ 3z5w==
+X-Gm-Message-State: AOAM5303Lou+DxZKo85O1+BdtOHWyGapjA4VR3Z8egyl+Y7Myh2sivlT
+ HopuHcLX8IDvbt5Eh32yctLOjCUjtQgCQgAdcUr/nhLbcZyOkABkyZ9tg458vhZN5FBrfnKJKUg
+ 132pJSl24xhUrnsM=
+X-Received: by 2002:a05:620a:4155:b0:6a5:76e5:82c6 with SMTP id
+ k21-20020a05620a415500b006a576e582c6mr28003152qko.420.1654807960194; 
+ Thu, 09 Jun 2022 13:52:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzsAMlZpo/SvG8VQ3hCZ9eOhpMVjm/VOk+xd2VMlvsB47ZH65nHfJuPGgGIe3ES/q9lrKsJrQ==
+X-Received: by 2002:a05:620a:4155:b0:6a5:76e5:82c6 with SMTP id
+ k21-20020a05620a415500b006a576e582c6mr28003140qko.420.1654807959832; 
+ Thu, 09 Jun 2022 13:52:39 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ g4-20020a05620a40c400b006a74458410csm141261qko.123.2022.06.09.13.52.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jun 2022 13:52:39 -0700 (PDT)
+Message-ID: <81563e7d-7743-beab-6eaa-3bb20be1b0df@redhat.com>
+Date: Thu, 9 Jun 2022 22:52:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=seanjc@google.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [RFC PATCH v2 2/8] qapi: net: introduce a way to bypass
+ qemu_opts_parse_noisily()
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20220512080932.735962-1-lvivier@redhat.com>
+ <20220512080932.735962-3-lvivier@redhat.com> <87v8u91xwd.fsf@pond.sub.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <87v8u91xwd.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,69 +105,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 08, 2022, Vishal Annapurve wrote:
-> ...
-> > With this patch series, it's actually even not possible for userspace VMM
-> > to allocate private page by a direct write, it's basically unmapped from
-> > there. If it really wants to, it should so something special, by intention,
-> > that's basically the conversion, which we should allow.
-> >
+On 13/05/2022 13:21, Markus Armbruster wrote:
+> Laurent Vivier <lvivier@redhat.com> writes:
 > 
-> A VM can pass GPA backed by private pages to userspace VMM and when
-> Userspace VMM accesses the backing hva there will be pages allocated
-> to back the shared fd causing 2 sets of pages backing the same guest
-> memory range.
+>> As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
+>> of Netdev structure can collides with "type" field of SocketAddress),
 > 
-> > Thanks for bringing this up. But in my mind I still think userspace VMM
-> > can do and it's its responsibility to guarantee that, if that is hard
-> > required.
-
-That was my initial reaction too, but there are unfortunate side effects to punting
-this to userspace. 
-
-> By design, userspace VMM is the decision-maker for page
-> > conversion and has all the necessary information to know which page is
-> > shared/private. It also has the necessary knobs to allocate/free the
-> > physical pages for guest memory. Definitely, we should make userspace
-> > VMM more robust.
+> To remember how this works, I have to write a more verbose version of
+> the above.  Why not post it then, so here goes.
 > 
-> Making Userspace VMM more robust to avoid double allocation can get
-> complex, it will have to keep track of all in-use (by Userspace VMM)
-> shared fd memory to disallow conversion from shared to private and
-> will have to ensure that all guest supplied addresses belong to shared
-> GPA ranges.
+> qemu_init() passes the argument of -netdev, -nic, and -net to
+> net_client_parse().
+> 
+> net_client_parse() parses with qemu_opts_parse_noisily(), passing
+> QemuOptsList qemu_netdev_opts for -netdev, qemu_nic_opts for -nic, and
+> qemu_net_opts for -net.  Their desc[] are all empty, which means any
+> keys are accepted.  The result of the parse (a QemuOpts) is stored in
+> the QemuOptsList.
+> 
+> Note that QemuOpts is flat by design.  In some places, we layer non-flat
+> on top using dotted keys convention, but not here.
+> 
+> net_init_clients() iterates over the stored QemuOpts, and passes them to
+> net_init_netdev(), net_param_nic(), or net_init_client(), respectively.
+> 
+> These functions pass the QemuOpts to net_client_init().  They also do
+> other things with the QemuOpts, which we can ignore here.
+> 
+> net_client_init() uses the opts visitor to convert the (flat) QemOpts to
+> a (non-flat) QAPI object Netdev.  Netdev is also the argument of QMP
+> command netdev_add.
+> 
+> The opts visitor was an early attempt to support QAPI in
+> (QemuOpts-based) CLI.  It restricts QAPI types to a certain shape; see
+> commit eb7ee2cbeb "qapi: introduce OptsVisitor".
+> 
+> A more modern way to support QAPI is qobject_input_visitor_new_str().
+> It uses keyval_parse() instead of QemuOpts for KEY=VALUE,... syntax, and
+> it also supports JSON syntax.  The former isn't quite as expressive as
+> JSON, but it's a lot closer than QemuOpts + opts visitor.
+> 
+>> we introduce a way to bypass qemu_opts_parse_noisily() and use directly
+>> visit_type_Netdev() to parse the backend parameters.
+> 
+> This commit paves the way to use of the modern way instead.
 
-IMO, the complexity argument isn't sufficient justfication for introducing new
-kernel functionality.  If multiple processes are accessing guest memory then there
-already needs to be some amount of coordination, i.e. it can't be _that_ complex.
+I'm going to copy your analysis to the commit message of the patch.
 
-My concern with forcing userspace to fully handle unmapping shared memory is that
-it may lead to additional performance overhead and/or noisy neighbor issues, even
-if all guests are well-behaved.
+> 
+>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>> ---
+>>   net/net.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 54 insertions(+)
+>>
+>> diff --git a/net/net.c b/net/net.c
+>> index 58c05c200622..2aab7167316c 100644
+>> --- a/net/net.c
+>> +++ b/net/net.c
+>> @@ -54,6 +54,7 @@
+>>   #include "net/colo-compare.h"
+>>   #include "net/filter.h"
+>>   #include "qapi/string-output-visitor.h"
+>> +#include "qapi/qobject-input-visitor.h"
+>>   
+>>   /* Net bridge is currently not supported for W32. */
+>>   #if !defined(_WIN32)
+>> @@ -63,6 +64,17 @@
+>>   static VMChangeStateEntry *net_change_state_entry;
+>>   static QTAILQ_HEAD(, NetClientState) net_clients;
+>>   
+>> +typedef struct NetdevQueueEntry {
+>> +    bool is_netdev;
+>> +    Netdev *nd;
+>> +    Location loc;
+>> +    QSIMPLEQ_ENTRY(NetdevQueueEntry) entry;
+>> +} NetdevQueueEntry;
+>> +
+>> +typedef QSIMPLEQ_HEAD(, NetdevQueueEntry) NetdevQueue;
+>> +
+>> +static NetdevQueue nd_queue = QSIMPLEQ_HEAD_INITIALIZER(nd_queue);
+>> +
+>>   /***********************************************************/
+>>   /* network device redirectors */
+>>   
+>> @@ -1559,6 +1571,19 @@ int net_init_clients(Error **errp)
+>>   
+>>       QTAILQ_INIT(&net_clients);
+>>   
+>> +    while (!QSIMPLEQ_EMPTY(&nd_queue)) {
+>> +        NetdevQueueEntry *nd = QSIMPLEQ_FIRST(&nd_queue);
+>> +
+>> +        QSIMPLEQ_REMOVE_HEAD(&nd_queue, entry);
+>> +        loc_push_restore(&nd->loc);
+>> +        if (net_client_init1(nd->nd, nd->is_netdev, errp) < 0) {
+> 
+> I think you need to loc_pop() here.
+> 
+>> +            return -1;
+>> +        }
+> 
+> Since the only caller passes &error_fatal, I'd be tempted to ditch the
+> @errp argument, and simply do
+> 
+>             net_client_init1(nd->nd, nd->is_netdev, &error_fatal);
+> 
+> It's what we do for -blockdev, -device, and -object.
 
-Unnmapping arbitrary ranges will fragment the virtual address space and consume
-more memory for all the result VMAs.  The extra memory consumption isn't that big
-of a deal, and it will be self-healing to some extent as VMAs will get merged when
-the holes are filled back in (if the guest converts back to shared), but it's still
-less than desirable.
+I've added a patch to remove the @errp from the net_init_clients() arguments.
 
-More concerning is having to take mmap_lock for write for every conversion, which
-is very problematic for configurations where a single userspace process maps memory
-belong to multiple VMs.  Unmapping and remapping on every conversion will create a
-bottleneck, especially if a VM has sub-optimal behavior and is converting pages at
-a high rate.
+> 
+>> +        loc_pop(&nd->loc);
+>> +        qapi_free_Netdev(nd->nd);
+>> +        g_free(nd);
+>> +    }
+>> +
+>>       if (qemu_opts_foreach(qemu_find_opts("netdev"),
+>>                             net_init_netdev, NULL, errp)) {
+>>           return -1;
+>> @@ -1575,8 +1600,37 @@ int net_init_clients(Error **errp)
+>>       return 0;
+>>   }
+>>   
+>> +/*
+>> + * netdev_is_modern() returns true when the backend needs to bypass
+>> + * qemu_opts_parse_noisily()
+>> + */
+>> +static bool netdev_is_modern(const char *optarg)
+>> +{
+>> +    return false;
+>> +}
+>> +
+>>   int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+>>   {
+>> +    if (netdev_is_modern(optarg)) {
+>> +            /*
+>> +             * We need to bypass qemu_opts_parse_noisily() to accept
+>> +             * new style object like addr.type=inet in SocketAddress
+>> +             */
+> 
+> I'm not sure this will makes sense to future readers.
+> 
+> What about "Use modern, more expressive syntax"?
 
-One argument is that userspace can simply rely on cgroups to detect misbehaving
-guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
-kill from the host is typically considered a _host_ issue and will be treated as
-a missed SLO.
+Done.
 
-An idea for handling this in the kernel without too much complexity would be to
-add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
-allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
-faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
-still work, but writes to previously unreserved/unallocated memory would get a
-SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
-unintentional allocations without having to coordinate unmapping/remapping across
-multiple processes.
+> 
+>> +            Visitor *v;
+>> +            NetdevQueueEntry *nd;
+>> +
+>> +            v = qobject_input_visitor_new_str(optarg, "type",
+>> +                                              &error_fatal);
+>> +            nd = g_new(NetdevQueueEntry, 1);
+>> +            visit_type_Netdev(v, NULL, &nd->nd, &error_fatal);
+>> +            visit_free(v);
+>> +            loc_save(&nd->loc);
+>> +            nd->is_netdev = strcmp(opts_list->name, "netdev") == 0;
+>> +
+>> +            QSIMPLEQ_INSERT_TAIL(&nd_queue, nd, entry);
+>> +            return 0;
+>> +    }
+> 
+> Matches what we do for -blockdev, except we additionally have
+> nd->is_netdev.  We need it for calling net_client_init1().
+> 
+> If netdev_is_modern(optarg), then the only use of parameter @opts_list
+> is opts_list->name in the initialization of nd->is_netdev.
+> 
+> There's a bit of code smell, I'm afraid.
+
+I don't see what is the problem.
+
+> 
+> I believe @is_netdev needs to be true for -netdev, -nic, and netdev_add;
+> false for -net.
+> 
+> Will we ever use the modern syntax with -net?
+
+Yes, I think we should support the same syntax with -netdev and -net.
+
+My first iteration was to pass is_netdev=true to net_client_init1() and Stefano reported a 
+problem with "-net" with things like that:
+
+     -net dgram,id=socket0,local.type=inet,local.host=localhost,local.port=1234,\
+                           remote.type=inet,remote.host=localhost,remote.port=1235
+     -net nic,model=virtio,macaddr=9a:2b:2c:2d:2e:2f
+
+> 
+> Any chance we can deprecate -net?
+
+Who can decide of that?
+
+> 
+>> +
+>>       if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
+>>           return -1;
+>>       }
+> 
+
+Thanks,
+Laurent
+
 
