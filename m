@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE785458CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 01:46:28 +0200 (CEST)
-Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB7A545919
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 02:18:53 +0200 (CEST)
+Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzRr9-0001Zz-55
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 19:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
+	id 1nzSMU-0005ls-En
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 20:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nzRoR-0008VR-CM; Thu, 09 Jun 2022 19:43:39 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:38416)
+ (Exim 4.90_1) (envelope-from <pobloxdev@gmail.com>)
+ id 1nzRki-00083z-Lq
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 19:39:49 -0400
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:36717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nzRoP-0004Dl-OF; Thu, 09 Jun 2022 19:43:39 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id
- c3-20020a9d6843000000b0060c2c63c337so1401411oto.5; 
- Thu, 09 Jun 2022 16:43:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pobloxdev@gmail.com>)
+ id 1nzRkh-0003fM-5Q
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 19:39:48 -0400
+Received: by mail-qt1-x830.google.com with SMTP id x18so15443077qtj.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 16:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+MKVbyJiIg9VO9382YHO/BuVJMdUH0lEIY/DAyV3uWE=;
- b=l22P1eSfCWtG5LnZDJAw13I/hfEkwQnbfwrSQKhNl4TEJOM5SM9gXHTxG6MMKTWvZx
- Lu/tUGYhZUT+4s9LTCc4N243Np9yk7Am8YkvAZvo/5eqnOMi4Jyi62pfPmoiAlqCTmea
- NN7PuJE8ddEGuDEAz2WnNeCnEuT5fuGqfHwho0JwbcLvGe9cWncVwluKj79kA1HSrFgG
- Wr+TmLOj8wTdU7iCavWZM8x1r1+mFTwliECA09fmlzA86k6MNT5/iU1imFEwzmD50dUM
- fralw8zvmRvYo29tLsKx67gZxkdX7r9y8vo5I3LFISAgPQ8YlD//tsKdw6DxQdbUXan8
- dZxg==
+ h=mime-version:date:from:subject:thread-topic:message-id:to
+ :content-transfer-encoding;
+ bh=ovbfQFgkUoJAIclcbbyTEJJHP6GOFKEZHPto2B6xk/4=;
+ b=A6Ox75TLXzigywdXhB4R4eTtAMNRVpP/EoSv+GHB912PyVaTjLbjb3YkO8twp7ypPx
+ SDAKP/JUqSJFSqgxbJa0r8dXrYQJeJ7VkfL8MlIRz5luLbsvZnnwjq7rsgblDeP7jAB9
+ DsPYny4D8I9fnRKAx23ep2w7N0Nx1Ot07E/y9J+9/H1Gc+XbCnWT7Z185AzB6s/3lJOT
+ l8Pj3hmvitEQgmybBa7d8LQ7cB1/qOFViP82wQQxjIaFA8JfKVUU3AIpewm8xLpjCY8l
+ xwVXkAftFxARc/zbSvGBF1fwSIV+SanCQc5V19HXKeim693TsTanf82qepyfjkNmwntV
+ agug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+MKVbyJiIg9VO9382YHO/BuVJMdUH0lEIY/DAyV3uWE=;
- b=AG2c7Arcc37BZSDvSnkj9m1gNKppk/HrO1QoTCp0m8vncjDsDFlzvjuYFaIvyH6U46
- GRe1CWwVHSYWqhnCLgGNJ6WfDk/zKl4b90HS1f76TXdfth5Y6Ol2cD6SWu0Xcc8BKmyl
- nvBi9ZSS/0Vza9SzxKy77enfMPin9WRUxeubE5GVCrsG8FfpiP1OYlT0i86ZdxjXTniG
- pmOxH83YjhS1Gc0566FTFSE0cXCmxpYOpkIN6KN8Lwh0u5YaTv0BXaBGcM6RUmlPhDxE
- Rvojri1J7rFHEBxru6KTRS42lDLCQ6vTgufGsatZcYMT121ppeO4V7rbHI2JBl9QEQ95
- TnwQ==
-X-Gm-Message-State: AOAM530k07MrYAIrvaGVcuTQnNYOn6YjEVkB8yLLjQJE0yV966TfIikR
- EWCy2CJB10K6oC57OWR+V6hiIiyUWOSnIkB2qXs=
-X-Google-Smtp-Source: ABdhPJwVVEHXp+7O5crogUZrlrKPTa+Cwec9pRItWrh674zi+99/vdkqYK7nwjqQnqwuKYC45UtlQOEGUHyHEIk8Z7M=
-X-Received: by 2002:a05:6830:448e:b0:60b:254e:7439 with SMTP id
- r14-20020a056830448e00b0060b254e7439mr18242219otv.338.1654818215928; Thu, 09
- Jun 2022 16:43:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:date:from:subject:thread-topic
+ :message-id:to:content-transfer-encoding;
+ bh=ovbfQFgkUoJAIclcbbyTEJJHP6GOFKEZHPto2B6xk/4=;
+ b=I3KduQpYjzxvax7XwOXBCWCUeQ9fqyI++sh4EPguejYr/8XQwufspJG8Xw8gRUAqr/
+ 3JlkUPv8UpcG2DgD2Z2S5kZ1XtqUuHFfdbQc6X24FRx60nJ+Dvj1Ruq9bLer+lQGHiuq
+ B3g4ip8Fq+XUiRfbQwSC4Aak3biHwnGUIHhgjUJ0hKsLah5+2dKlkIhFuZtXVYA4vtXw
+ fKQn6Wmct2C+948lv5qYdnJrPv/iYHTF186NZlUyJDd2AhGU70V/UR6zyctFWNm0b2fw
+ iGQxYMNCJSfbOKgImQ+rj+zUiJ8NKGAlY9SgHGkiameGncpAyp+ygJch2DE5nmmhVbFw
+ KEBw==
+X-Gm-Message-State: AOAM532gsQE/kHfyc2Izqpi/qDCcfzEh4nJpkm8FITfWIp7sDllO8kcO
+ d2hCsjvY579iEQ6UM/WA5gzymnjt8dMyhqsN/TsndA==
+X-Google-Smtp-Source: ABdhPJxSgX8DhnmkGlBf0sTBw3PveX6dahcDT3+UMCV4UmSk7l89gpDx4MMFej97IdchJj9RrsGgeA==
+X-Received: by 2002:ac8:7f4a:0:b0:305:8af:a789 with SMTP id
+ g10-20020ac87f4a000000b0030508afa789mr7718415qtk.528.1654817984723; 
+ Thu, 09 Jun 2022 16:39:44 -0700 (PDT)
+Received: from win10 ([20.114.164.41]) by smtp.gmail.com with ESMTPSA id
+ q6-20020a05620a0d8600b006a693e46d5csm18209146qkl.11.2022.06.09.16.39.44
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 09 Jun 2022 16:39:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220608234701.369536-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220608234701.369536-1-alistair.francis@opensource.wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 Jun 2022 09:43:09 +1000
-Message-ID: <CAKmqyKM+bJLTfhXTyRNddE=gEeWfTjw9-pQ1dozhRCS+NSbU4w@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: trans_rvv: Avoid assert for RV32 and e64
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Bin Meng <bin.meng@windriver.com>, Bin Meng <bmeng.cn@gmail.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Robert Bu <robert.bu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=alistair23@gmail.com; helo=mail-ot1-x32f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Date: Thu, 9 Jun 2022 23:39:42 +0000
+From: Block Roads <pobloxdev@gmail.com>
+Subject: hw/display: Add nVidia GeForce (NV25) emulation
+Thread-Topic: hw/display: Add nVidia GeForce (NV25) emulation
+Message-ID: <B33FD4F7-739E-44FA-8331-67C844BCD713@hxcore.ol>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="utf-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=pobloxdev@gmail.com; helo=mail-qt1-x830.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 09 Jun 2022 20:15:56 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,56 +88,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 9, 2022 at 9:47 AM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> When running a 32-bit guest, with a e64 vmv.v.x and vl_eq_vlmax set to
-> true the `tcg_debug_assert(vece <= MO_32)` will be triggered inside
-> tcg_gen_gvec_dup_i32().
->
-> This patch checks that condition and instead uses tcg_gen_gvec_dup_i64()
-> is required.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1028
-> Suggested-by: Robert Bu <robert.bu@gmail.com>
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta ht=
+tp-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=
+=3DGenerator content=3D"Microsoft Word 15 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style></head><body lang=3DEN-US style=3D'word-wrap:break-word'><div cl=
+ass=3DWordSection1><p class=3DMsoNormal>Hello, At least one machines, the P=
+C (i440fx machine), have an NV25 graphic chip by default (GeForce4 Ti 4200)=
+ and It must be pbus, pcrtc, pfb, pfifo, pgraph, pmc, pramdac, and ptimer s=
+ame as NV2A GPU. It must be NV25 vendor ID and device ID to 10DE:0253.</p><=
+p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>But sadly, I =
+don<span lang=3DPT-BR>=E2=80=99t have an patch emulation of NV25 VGA chips,=
+ but QEMU devs will create NV25 emulation.<o:p></o:p></span></p><p class=3D=
+MsoNormal><span lang=3DPT-BR><o:p>&nbsp;</o:p></span></p><p class=3DMsoNorm=
+al><span lang=3DPT-BR>It must be 2D</span>/3D card support to play any game=
+s.</p></div></body></html>=
 
-Thanks!
-
-Applied to riscv-to-apply.next
-
-Alistair
-
-> ---
->  target/riscv/insn_trans/trans_rvv.c.inc | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 391c61fe93..6b27d8e91e 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -2097,8 +2097,16 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
->          s1 = get_gpr(s, a->rs1, EXT_SIGN);
->
->          if (s->vl_eq_vlmax) {
-> -            tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
-> -                                MAXSZ(s), MAXSZ(s), s1);
-> +            if (get_xl(s) == MXL_RV32 && s->sew == MO_64) {
-> +                TCGv_i64 s1_i64 = tcg_temp_new_i64();
-> +                tcg_gen_ext_tl_i64(s1_i64, s1);
-> +                tcg_gen_gvec_dup_i64(s->sew, vreg_ofs(s, a->rd),
-> +                                     MAXSZ(s), MAXSZ(s), s1_i64);
-> +                tcg_temp_free_i64(s1_i64);
-> +            } else {
-> +                tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
-> +                                    MAXSZ(s), MAXSZ(s), s1);
-> +            }
->          } else {
->              TCGv_i32 desc;
->              TCGv_i64 s1_i64 = tcg_temp_new_i64();
-> --
-> 2.36.1
->
 
