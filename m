@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D02A54517F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:04:13 +0200 (CEST)
-Received: from localhost ([::1]:54304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706B954518F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:08:27 +0200 (CEST)
+Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKdo-0002mf-8I
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:04:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36276)
+	id 1nzKhu-0000R0-E8
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nzJI3-0002LN-G0
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23753)
+ id 1nzJI6-0002NY-2I
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nzJI1-00071F-06
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:38 -0400
+ id 1nzJI2-000722-O2
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654785456;
+ s=mimecast20190719; t=1654785458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RVc7XR7kpnny0nqauPvV9154qT6oVpDZKpDaKGgGkLg=;
- b=TAZtHYKUI4EEbjgxlazb83t1iMbzUsTkn94MgKEr6vq5xqG79emyOJofX3EgWoDdozBzcU
- RlhyyB9nvTRl+mSd6cTjUGzgG6hEP0gmoovZzg5EZJfAJB2hWe0Jm1ZtEQqzmtqkh6K5d2
- IEZPB0eeFtAwmm4EoJFqFNEsrhe9Bwk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BM9aMGqOaRDN5U237HJSVr0+I59u3uXikeSGvgQOrR8=;
+ b=bqB8MPzp50W7MYRMkdPii5QgI8yArwluFFRGsO1lptc0fa295V9SzbXRb7xDOh5WRAVFQx
+ D8m/SNm2Wxhds5j2V+QAalQ7DcFRaQhRocKvUjm5fHIMAKi+V/nGLfcLOI22QmrSj57P5b
+ i6ZolqE6sXqsULOn842DOVwJNJe+r6M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-UgBpQm4YO2etoaiLXJuXFQ-1; Thu, 09 Jun 2022 10:37:33 -0400
-X-MC-Unique: UgBpQm4YO2etoaiLXJuXFQ-1
+ us-mta-668-KJpGgirxN5C4YgzjaY6G9w-1; Thu, 09 Jun 2022 10:37:34 -0400
+X-MC-Unique: KJpGgirxN5C4YgzjaY6G9w-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16CC538005C8;
- Thu,  9 Jun 2022 14:37:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8AF20811E75;
+ Thu,  9 Jun 2022 14:37:34 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CAC4C492C3B;
- Thu,  9 Jun 2022 14:37:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A567492C3B;
+ Thu,  9 Jun 2022 14:37:34 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -51,9 +51,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 3/8] virtio_blk_process_queued_requests: always run in a bh
-Date: Thu,  9 Jun 2022 10:37:22 -0400
-Message-Id: <20220609143727.1151816-4-eesposit@redhat.com>
+Subject: [PATCH 8/8] virtio-blk: remove unnecessary AioContext lock from
+ function already safe
+Date: Thu,  9 Jun 2022 10:37:27 -0400
+Message-Id: <20220609143727.1151816-9-eesposit@redhat.com>
 In-Reply-To: <20220609143727.1151816-1-eesposit@redhat.com>
 References: <20220609143727.1151816-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -83,80 +84,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function in virtio_blk_data_plane_start is directly
-invoked, accessing the queued requests from the main loop,
-while the device has already switched to the iothread context.
+AioContext lock was introduced in b9e413dd375 and in this instance
+it is used to protect these 3 functions:
+- virtio_blk_handle_rw_error
+- virtio_blk_req_complete
+- block_acct_done
 
-The only place where calling virtio_blk_process_queued_requests
-from the main loop is allowed is when blk_set_aio_context fails,
-and we still need to process the requests.
-
-Since the logic of the bh is exactly the same as
-virtio_blk_dma_restart, so rename the function and make it public
-so that we can utilize it here too.
+Now that all three of the above functions are protected with
+their own locks, we can get rid of the AioContext lock.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- hw/block/dataplane/virtio-blk.c | 10 +++++++++-
- hw/block/virtio-blk.c           |  4 ++--
- include/hw/virtio/virtio-blk.h  |  1 +
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ hw/block/virtio-blk.c | 18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-index f9224f23d2..03e10a36a4 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -234,8 +234,16 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-         goto fail_aio_context;
-     }
- 
-+    blk_inc_in_flight(s->conf->conf.blk);
-+    /*
-+     * vblk->bh is only set in virtio_blk_dma_restart_cb, which
-+     * is called only on vcpu start or stop.
-+     * Therefore it must be null.
-+     */
-+    assert(vblk->bh == NULL);
-     /* Process queued requests before the ones in vring */
--    virtio_blk_process_queued_requests(vblk, false);
-+    vblk->bh = aio_bh_new(blk_get_aio_context(s->conf->conf.blk),
-+                          virtio_blk_restart_bh, vblk);
- 
-     /* Kick right away to begin processing requests already in vring */
-     for (i = 0; i < nvqs; i++) {
 diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 191f75ce25..29a9c53ebc 100644
+index 88c61457e1..ce8efd8381 100644
 --- a/hw/block/virtio-blk.c
 +++ b/hw/block/virtio-blk.c
-@@ -855,7 +855,7 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
-     aio_context_release(blk_get_aio_context(s->conf.conf.blk));
+@@ -133,7 +133,6 @@ static void virtio_blk_rw_complete(void *opaque, int ret)
+ 
+     IO_CODE();
+ 
+-    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
+     while (next) {
+         VirtIOBlockReq *req = next;
+         next = req->mr_next;
+@@ -166,7 +165,6 @@ static void virtio_blk_rw_complete(void *opaque, int ret)
+         block_acct_done(blk_get_stats(s->blk), &req->acct);
+         virtio_blk_free_request(req);
+     }
+-    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
  }
  
--static void virtio_blk_dma_restart_bh(void *opaque)
-+void virtio_blk_restart_bh(void *opaque)
- {
-     VirtIOBlock *s = opaque;
+ static void virtio_blk_flush_complete(void *opaque, int ret)
+@@ -175,20 +173,16 @@ static void virtio_blk_flush_complete(void *opaque, int ret)
+     VirtIOBlock *s = req->dev;
  
-@@ -882,7 +882,7 @@ static void virtio_blk_dma_restart_cb(void *opaque, bool running,
-      */
-     if (!s->bh && !virtio_bus_ioeventfd_enabled(bus)) {
-         s->bh = aio_bh_new(blk_get_aio_context(s->conf.conf.blk),
--                           virtio_blk_dma_restart_bh, s);
-+                           virtio_blk_restart_bh, s);
-         blk_inc_in_flight(s->conf.conf.blk);
-         qemu_bh_schedule(s->bh);
+     IO_CODE();
+-    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
+ 
+     if (ret) {
+         if (virtio_blk_handle_rw_error(req, -ret, 0, true)) {
+-            goto out;
++            return;
+         }
      }
-diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.h
-index d311c57cca..c334353b5a 100644
---- a/include/hw/virtio/virtio-blk.h
-+++ b/include/hw/virtio/virtio-blk.h
-@@ -92,5 +92,6 @@ typedef struct MultiReqBuffer {
  
- void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq);
- void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh);
-+void virtio_blk_restart_bh(void *opaque);
+     virtio_blk_req_complete(req, VIRTIO_BLK_S_OK);
+     block_acct_done(blk_get_stats(s->blk), &req->acct);
+     virtio_blk_free_request(req);
+-
+-out:
+-    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
+ }
  
- #endif
+ static void virtio_blk_discard_write_zeroes_complete(void *opaque, int ret)
+@@ -199,11 +193,10 @@ static void virtio_blk_discard_write_zeroes_complete(void *opaque, int ret)
+                             ~VIRTIO_BLK_T_BARRIER) == VIRTIO_BLK_T_WRITE_ZEROES;
+ 
+     IO_CODE();
+-    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
+ 
+     if (ret) {
+         if (virtio_blk_handle_rw_error(req, -ret, false, is_write_zeroes)) {
+-            goto out;
++            return;
+         }
+     }
+ 
+@@ -212,9 +205,6 @@ static void virtio_blk_discard_write_zeroes_complete(void *opaque, int ret)
+         block_acct_done(blk_get_stats(s->blk), &req->acct);
+     }
+     virtio_blk_free_request(req);
+-
+-out:
+-    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
+ }
+ 
+ #ifdef __linux__
+@@ -263,10 +253,8 @@ static void virtio_blk_ioctl_complete(void *opaque, int status)
+     virtio_stl_p(vdev, &scsi->data_len, hdr->dxfer_len);
+ 
+ out:
+-    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
+     virtio_blk_req_complete(req, status);
+     virtio_blk_free_request(req);
+-    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
+     g_free(ioctl_req);
+ }
+ 
+@@ -873,7 +861,6 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
+         s->rq = NULL;
+     }
+ 
+-    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
+     while (req) {
+         VirtIOBlockReq *next = req->next;
+         if (virtio_blk_handle_request(req, &mrb)) {
+@@ -897,7 +884,6 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
+     if (is_bh) {
+         blk_dec_in_flight(s->conf.conf.blk);
+     }
+-    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
+ }
+ 
+ void virtio_blk_restart_bh(void *opaque)
 -- 
 2.31.1
 
