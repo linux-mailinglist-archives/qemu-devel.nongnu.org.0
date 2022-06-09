@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D46544DE2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:40:39 +0200 (CEST)
-Received: from localhost ([::1]:38952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4EE544DE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:41:25 +0200 (CEST)
+Received: from localhost ([::1]:40400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzIOs-0007hm-H5
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:40:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52318)
+	id 1nzIPc-0000DQ-Sy
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nzGez-0003sZ-MK
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nzGez-0003ud-JA
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:49:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50678)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nzGex-0001R9-34
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:49:08 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nzGey-0001RD-1M
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:49:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654775346;
+ s=mimecast20190719; t=1654775347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4OyHKw8fNi6Eg9lwpb82Yav0l/Ru9Iv5zkOsP4DP5to=;
- b=LhnR6oMqPA0ANNPghoP/PutgwoWTEEa2oMK06sZ/VblBUmf0Ghrq4DSPSoLkly6qXvTH7e
- jDzG+Y1zMsBiOAzcIVcHrVm06RoouAHvjrajZn3eu411xO9V8ZDp2EbdsL/4gDN+q1j6FZ
- NV96CBsnC7TLA0RG+Xb6wJi91Hmrfd0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sJ5pzCaJf35gEX9rll2Q9GFir5IWQp0fowQIbRFjC3g=;
+ b=EuJzW2d4VPa5h8jI2hJLe3ngBpSw5F9GnbnCPSA2x+BdwUVlyNTi+IJ0FDTxH+aVhth9oF
+ 8vLA+lbE0Cy1aoeQQeykBZb1mBkG2UPKYBTOBXOt4006sv6VxHOv66SzCvzGuHzESUeJcJ
+ Xul8xzWrnoGMxl3aZCBtz5RQBPXQd9w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-bpBG5E1xOc2wjH2WcIeUeQ-1; Thu, 09 Jun 2022 07:48:57 -0400
-X-MC-Unique: bpBG5E1xOc2wjH2WcIeUeQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-569-qIxqX2Q1MDCU0v8pWlyedw-1; Thu, 09 Jun 2022 07:49:06 -0400
+X-MC-Unique: qIxqX2Q1MDCU0v8pWlyedw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A46A8058A4
- for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 11:48:57 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 157F9492C3B;
- Thu,  9 Jun 2022 11:48:56 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com
-Subject: [PATCH v3 18/35] tests: acpi: white-list to be re-factored pc/q35 DSDT
-Date: Thu,  9 Jun 2022 07:48:55 -0400
-Message-Id: <20220609114855.3477822-1-imammedo@redhat.com>
-In-Reply-To: <20220608135340.3304695-19-imammedo@redhat.com>
-References: <20220608135340.3304695-19-imammedo@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A67C61D33870
+ for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 11:49:05 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FEBDC23DBF;
+ Thu,  9 Jun 2022 11:49:05 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, thuth@redhat.com
+Subject: Re: [PATCH 2/4] virtio-mmio: stop ioeventfd on legacy reset
+In-Reply-To: <20220609091534.1416909-3-pbonzini@redhat.com>
+Organization: Red Hat GmbH
+References: <20220609091534.1416909-1-pbonzini@redhat.com>
+ <20220609091534.1416909-3-pbonzini@redhat.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Thu, 09 Jun 2022 13:49:04 +0200
+Message-ID: <87o7z29hvz.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -80,53 +78,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v3:
-   - count in DSDT.cxl that just was merged upstream
----
- tests/qtest/bios-tables-test-allowed-diff.h | 32 +++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+On Thu, Jun 09 2022, Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..666e257bf9 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,33 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpierst",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.ivrs",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/DSDT.xapic",
-+"tests/data/acpi/q35/DSDT.ipmismbus",
-+"tests/data/acpi/q35/DSDT.cxl",
--- 
-2.31.1
+> If the queue PFN is set to zero on a virtio-mmio device, the device is reset.
+> In that case however the virtio_bus_stop_ioeventfd function was not
+> called; add it so that the behavior is similar to when status is set to 0.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/virtio/virtio-mmio.c | 1 +
+>  1 file changed, 1 insertion(+)
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
