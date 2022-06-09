@@ -2,116 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0035B544FC0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:47:21 +0200 (CEST)
-Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE75544FD4
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:51:59 +0200 (CEST)
+Received: from localhost ([::1]:39546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzJRR-0003jR-2I
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:47:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51560)
+	id 1nzJVu-0001dU-MS
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1nzIgn-00069J-3y
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:59:11 -0400
-Received: from esa16.hc2706-39.iphmx.com ([216.71.140.205]:49005)
+ (Exim 4.90_1)
+ (envelope-from <prvs=1525abdf4=anthony.perard@citrix.com>)
+ id 1nzIkD-0001Sm-8T
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:02:41 -0400
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:46741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1nzIgj-0007Ox-IF
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:59:07 -0400
-X-IronPort-RemoteIP: 209.85.222.197
-X-IronPort-MID: 202756399
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:kWG2Oqu9j2OGyhoIbG6Rpn/xSefnVMJcMUV32f8akzHdYApBsoF/q
- tZmKWmFOPyCajb2KYx2bYvj9xxQscKDndc1SgNuri9mEitG9ZOVVN+UEBzMMnLJJKUvbq7GA
- +byyDXkBJppJpMJjk71atANlVEliefQAOCU5NfsYkidfyc9IMsaoU8lyrdRbrJA24DjWVvT4
- YOq+KUzBXf+s9JKGjNMg068gE431BjCkGtwUosWPK0jUPf2zhH5PbpGTU2DByKQrrp8R4ZWc
- 93+IISRpQs1yfuM5uSNyd4XemVSKlLb0JPnZnB+AsBOiTAbzsA+PzpS2FPxpi67hh3Q9+2dx
- umhurTpRQNwDu7Xgd0fbCgGLj5cJvR7/ebudC3XXcy7lyUqclPpyvRqSVg1ZMgWo7coR25J8
- vMcJXYGaRXra+CemurqDLkxwJ55do+ybdx3VnJIlFk1Cd4vRYDFT7/i78Ie0Tst7ixLNayGP
- ZVEN2E+PXwsZTUXIX0yCrMAgN6rh1OmVRBejHS4+Ikotj27IAtZleKF3MDuUsWHQNgQkkuGq
- 2bu+WP/DRcHctuFxlK4HmmEg+bOmWbiW9tXGuTpqbhlh1qcwmFVAxoTPbemncSEZoeFc4o3A
- yQpFuAG9MDeKGTDogHBYiCF
-IronPort-HdrOrdr: A9a23:rJtuZ6AYuQheOLTlHel255DYdb4zR+YMi2TDGXoBLSC9Ffbo7f
- xG+c5w6faaskd2ZJhNo6HjBEDiewKmyXcK2/hpAV7KZmCP0xrKEGgL1+vfKlbbakrDH4BmpM
- JdWpk7IvHLSXZBsebGzD+RL+sAqeP3jZxARt2z856ud2xXgm1bgTuRcjzranGejTMoZKYEKA
- ==
-Received: from mail-qk1-f197.google.com ([209.85.222.197])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 09 Jun 2022 09:59:00 -0400
-Received: by mail-qk1-f197.google.com with SMTP id
- bq11-20020a05620a468b00b006a71592a2abso3036029qkb.21
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 06:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cqz0qi+RyoM3hvQXOUwLmH8xeCdAe1SxfMxb5T1r5EM=;
- b=i1q0Ug6PrLWZVDqlCBD3i5SO1xUrpfx56+eoqCCUk4dcXizTAb0Fjw2uM7U6G23NX8
- I7KjEjH5JKhaGhtMEpz3yMrkgioWT0mz24stuxO4HYXFtmhkxKTIu7oeHFDnG5TB127q
- P7oBiBLyClmF4wit8W1WYePji1k0kSuNWcomcHG9DAic+l0NHWhZFNodgeZMl4oh6DHz
- 7SJLTyAEBsC7OcMG/3xC0tk36Tci2E5pLMXoOv5KplFAQOm9YrRy4D4K3gh7VjyZuOnc
- yX/4ngUMAXJwEfBcV/Y+pCM3b6vUoc8MH8YvyGeB0kp53lQvQ40IqG5OhRBBwGbjXX3B
- SROg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cqz0qi+RyoM3hvQXOUwLmH8xeCdAe1SxfMxb5T1r5EM=;
- b=tm35OLgZb8++klJK1mZH0m7Dy/sGiuvU5PqkbiHQS4K9y2mHdkY7WLbbdldvJZOrjF
- 751Z4reJWELm5NPkyDg1NZzf15R1JWt4/rOvlQZzStrA+v6GG5G4bt7sO0i31FNAYXkq
- zOiyISX1JkzeozIYYAeplF4J8XSJz0/zLxL+qtSSgV+Xmq0jfBljR/NmoOwg/62/+EmY
- y2WEtl4U4F4Dll6UG0pWPiQRVUC9rEtoQTj/Lx408paefI2e2QCsqmFWkQU8LPSoIecu
- FROPlH3l5UTTmrCN94E6Sy9Lvk/HJRgCtSum+wXHc5lkpKj5ubMLYjVdq0ZZzxnakw7/
- ALZA==
-X-Gm-Message-State: AOAM533z3Lx/yFcPVDEgk3wgTQUlfdK+vkUObEHUx4q/KjJLiGcFsUXv
- cwa4gJx4c9dhAJ45AehkoyzJ1MlppYyTLrD4SAidWrR2kyieCxoWgiPg0vUKfcke+9AdsyhGnM/
- Ho0WL9Pwawl9IgYhfmDgbu7FiP8XulA==
-X-Received: by 2002:a05:622a:1208:b0:304:cb1c:8b0d with SMTP id
- y8-20020a05622a120800b00304cb1c8b0dmr32317196qtx.615.1654783138845; 
- Thu, 09 Jun 2022 06:58:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYT8xs5IDRD2mzikk+NF0mIgx6rHXeOnMcWGJAOaSuzGib34RSmu2SD/L4ZIcscXG56TJIUw==
-X-Received: by 2002:a05:622a:1208:b0:304:cb1c:8b0d with SMTP id
- y8-20020a05622a120800b00304cb1c8b0dmr32317160qtx.615.1654783138521; 
- Thu, 09 Jun 2022 06:58:58 -0700 (PDT)
-Received: from stormtrooper.vrmnet (pool-72-70-35-75.bstnma.fios.verizon.net.
- [72.70.35.75]) by smtp.gmail.com with ESMTPSA id
- e185-20020a3769c2000000b006a5d4f32e5dsm18763169qkc.128.2022.06.09.06.58.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 06:58:58 -0700 (PDT)
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v2] memory: prevent dma-reentracy issues
-Date: Thu,  9 Jun 2022 09:58:51 -0400
-Message-Id: <20220609135851.42193-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.33.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=1525abdf4=anthony.perard@citrix.com>)
+ id 1nzIkA-000834-VO
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:02:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1654783358;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tm58TKjl3SzrbwqM6a6QyPw1368Tng6ggDmDzdobK1U=;
+ b=Zc+aN0cS37KDN+gjfKjuWZL0MM/uPtlu272s/Ouv2NTYhpTLBVKbkd1E
+ 4Q7OwppW4tle0fiykBE9Y+nniANXTOdWj6ozo5L2GZt3lvf5GwRP1cHqs
+ 1Hf76G/joVL4k7ntHFQyvq+45ZN3q7eBlqnV4erXRjsCCo9KIe3yC/s3p 8=;
+Authentication-Results: esa4.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 5.1
+X-MesageID: 75787859
+X-Ironport-Server: esa4.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:+UfaC6ha5bP4FVmQPpvCR2sLX161yREKZh0ujC45NGQN5FlHY01je
+ htvWmzUbPyMZmPwfopwaNzi8UxXvZLTmtA2GgprqS88Fiwb9cadCdqndUqhZCn6wu8v7a5EA
+ 2fyTvGacajYm1eF/k/F3oDJ9CU6jefSLlbFILas1hpZHGeIcw98z0M68wIFqtQw24LhXVvd4
+ YiaT/D3YzdJ5RYlagr41IrbwP9flKyaVOQw5wFWiVhj5TcyplFNZH4tDfjZw0jQG+G4KtWSV
+ efbpIxVy0uCl/sb5nFJpZ6gGqECaua60QFjERO6UYD66vRJjnRaPqrWqJPwwKqY4tmEt4kZ9
+ TlDiXC/YToYeYPjwMkPaCV3DxN7E5Rn2bTaLHfq5KR/z2WeG5ft6/BnDUVwNowE4OdnR2pJ8
+ JT0KhhUMErF3bjvhuvmFK883azPL+GyVG8bknhm0THeC+dgWZ3ZSr/GzdRZwC0xloZFGvO2i
+ 88xNmcwPEuQPkwn1lE/Opk0p72Bg2LFVywJqkrPhrM02Enzw1kkuFTqGIWMIYHbLSlPpW6Bq
+ 2fbumj0HBweHNqYzzWD7zSrnOCnoM/gcNtMTvvirKcs2QDNgDxIYPELabelicSIzWCRA/9NE
+ HA75hgrg5ET1Ue2Q9aoCnVUv0W4Ug4gt8t4SrNntF/QkPaEvG51FUBfEGcfNYVOWNseAGVzi
+ wTXx46B6SlH6uX9dJ6LyluDQdpe0wAxJHRKWyILRBBtDzLL8NBq1UKnojqO/ceIYjzJ9dLYm
+ WniQNAW3el7sCLy//zTEar7qzytvIPVaQU++x/aWGmohisgOtP5ONXzswiHs60YRGp8crVml
+ CFc8/VyEchUVc3d/MBzaL5l8E6VCwatb2SH3A8H82gJ/DWx4X+zFb1tDMVFDB4xaK4sIGaxC
+ GeK4F85zMICZxOCMP4oC79d/ux3lMAM4/y+DqCKBjePC7AsHDK6ENZGNRbKjzm8yxh1+Uz9U
+ L/CGfuR4b8hIfwP5FKLqy01itfHGghWKbvveK3G
+IronPort-HdrOrdr: A9a23:Wf/a/KFcOUk6wu/KpLqE5MeALOsnbusQ8zAXP0AYc3Jom6uj5q
+ eTdZUgpHvJYVkqOE3I9ertBEDiewK4yXcW2/hzAV7KZmCP0wHEEGgL1/qF/9SKIUzDH4Bmup
+ uIC5IOauHNMQ==
+X-IronPort-AV: E=Sophos;i="5.91,287,1647316800"; d="scan'208";a="75787859"
+To: <qemu-devel@nongnu.org>
+CC: Anthony PERARD <anthony.perard@citrix.com>
+Subject: [PULL 0/3] xen queue 2022-06-09
+Date: Thu, 9 Jun 2022 15:01:59 +0100
+Message-ID: <20220609140202.45227-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.205; envelope-from=alxndr@bu.edu;
- helo=esa16.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.71.155.144;
+ envelope-from=prvs=1525abdf4=anthony.perard@citrix.com;
+ helo=esa4.hc3370-68.iphmx.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,159 +88,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-This flag is set/checked prior to calling a device's MemoryRegion
-handlers, and set when device code initiates DMA.  The purpose of this
-flag is to prevent two types of DMA-based reentrancy issues:
+The following changes since commit 05911658cb46d907fb38cbc0b48d2b652237dc28:
 
-1.) mmio -> dma -> mmio case
-2.) bh -> dma write -> mmio case
+  Merge tag 'vfio-updates-20220608.0' of https://gitlab.com/alex.williamson/qemu into staging (2022-06-08 13:38:54 -0700)
 
-These issues have led to problems such as stack-exhaustion and
-use-after-frees.
+are available in the Git repository at:
 
-Summary of the problem from Peter Maydell:
-https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
+  https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20220609
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- include/hw/pci/pci.h   | 13 +++++++++++--
- include/hw/qdev-core.h |  3 +++
- softmmu/dma-helpers.c  | 12 ++++++++++++
- softmmu/memory.c       | 15 +++++++++++++++
- softmmu/trace-events   |  1 +
- 5 files changed, 42 insertions(+), 2 deletions(-)
+for you to fetch changes up to 6a8a8b62bdc8e3d7c5fc0f82ef4583707183b12f:
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 44dacfa224..ab1ad0f7a8 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-                                      void *buf, dma_addr_t len,
-                                      DMADirection dir, MemTxAttrs attrs)
- {
--    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
--                         dir, attrs);
-+    bool prior_engaged_state;
-+    MemTxResult result;
-+
-+    prior_engaged_state = dev->qdev.engaged_in_io;
-+
-+    dev->qdev.engaged_in_io = true;
-+    result = dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-+                           dir, attrs);
-+    dev->qdev.engaged_in_io = prior_engaged_state;
-+
-+    return result;
- }
- 
- /**
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 92c3d65208..6474dc51fa 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -193,6 +193,9 @@ struct DeviceState {
-     int instance_id_alias;
-     int alias_required_for_version;
-     ResettableState reset;
-+
-+    /* Is the device currently in mmio/pio/dma? Used to prevent re-entrancy */
-+    int engaged_in_io;
- };
- 
- struct DeviceListener {
-diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-index 7820fec54c..7a4f1fb9b3 100644
---- a/softmmu/dma-helpers.c
-+++ b/softmmu/dma-helpers.c
-@@ -288,8 +288,16 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
-     uint8_t *ptr = buf;
-     dma_addr_t xresidual;
-     int sg_cur_index;
-+    DeviceState *dev;
-+    bool prior_engaged_state;
-     MemTxResult res = MEMTX_OK;
- 
-+    dev = sg->dev;
-+    if (dev) {
-+        prior_engaged_state = dev->engaged_in_io;
-+        dev->engaged_in_io = true;
-+    }
-+
-     xresidual = sg->size;
-     sg_cur_index = 0;
-     len = MIN(len, xresidual);
-@@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
-         xresidual -= xfer;
-     }
- 
-+    if (dev) {
-+        dev->engaged_in_io = prior_engaged_state;
-+    }
-+
-     if (residual) {
-         *residual = xresidual;
-     }
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 7ba2048836..44a14bb4f5 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -532,6 +532,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-     uint64_t access_mask;
-     unsigned access_size;
-     unsigned i;
-+    DeviceState *dev = NULL;
-     MemTxResult r = MEMTX_OK;
- 
-     if (!access_size_min) {
-@@ -541,6 +542,17 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-         access_size_max = 4;
-     }
- 
-+    /* Do not allow more than one simultanous access to a device's IO Regions */
-+    if (mr->owner &&
-+        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
-+        dev = (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEVICE);
-+        if (dev->engaged_in_io) {
-+            trace_memory_region_reentrant_io(get_cpu_index(), mr, addr, size);
-+            return MEMTX_ERROR;
-+        }
-+        dev->engaged_in_io = true;
-+    }
-+
-     /* FIXME: support unaligned access? */
-     access_size = MAX(MIN(size, access_size_max), access_size_min);
-     access_mask = MAKE_64BIT_MASK(0, access_size * 8);
-@@ -555,6 +567,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-                         access_mask, attrs);
-         }
-     }
-+    if (dev) {
-+        dev->engaged_in_io = false;
-+    }
-     return r;
- }
- 
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 9c88887b3c..d7228316db 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -13,6 +13,7 @@ memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, u
- memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
- memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
-+memory_region_reentrant_io(int cpu_index, void *mr, uint64_t offset, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" size %u"
- memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '%s' listener '%s' synced (global=%d)"
--- 
-2.33.0
+  include/hw/ide: Unexport pci_piix3_xen_ide_unplug() (2022-06-09 14:47:42 +0100)
 
+----------------------------------------------------------------
+Xen patches
+
+- PIIX3-IDE Xen cleanup
+
+----------------------------------------------------------------
+Bernhard Beschow (3):
+      hw/ide/piix: Remove redundant "piix3-ide-xen" device class
+      hw/ide/piix: Add some documentation to pci_piix3_xen_ide_unplug()
+      include/hw/ide: Unexport pci_piix3_xen_ide_unplug()
+
+ hw/i386/pc_piix.c          |  3 +--
+ hw/i386/xen/xen_platform.c | 48 +++++++++++++++++++++++++++++++++++++++++++++-
+ hw/ide/piix.c              | 42 ----------------------------------------
+ include/hw/ide.h           |  3 ---
+ 4 files changed, 48 insertions(+), 48 deletions(-)
 
