@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE4654476D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:29:38 +0200 (CEST)
-Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28DAF544831
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:01:24 +0200 (CEST)
+Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzETx-0000cg-CN
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39648)
+	id 1nzEyh-0005Eo-59
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:01:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7O-0001Z0-C6
+ id 1nzE7O-0001Yz-Ba
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:21 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33709)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7J-00063a-3z
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:16 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h5so31518410wrb.0
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:12 -0700 (PDT)
+ id 1nzE7J-00063j-W3
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:17 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id o8so3625877wro.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NDy5L1j1NFeCwxkRreoifiteCmt9uSlmxDgPX55fTNU=;
- b=rn1tLAMCWtRlYx+ukNHwDCZj515mfgswJ40a7U18/L+lO0lftUle6LtLJeyoL/RR0U
- RD6fk/Zm9bLDbnBO0SJrf4oNqdRMTWGVuqPjxxWUDrXcf18+rGC76tauOmVJ9qoxL/z+
- NJozbTPGz3tExs0djCv+dhNvWukoUPtLIaYGqaG3g85gqbV8ITy3roqwoKTO/axTWtM4
- 1v3+j1zlAo0EZbXcgWmtPpG3mZ1fAwvb94GZj3fdFF/Pw66G0yQWV6rX8NxIsCCMBGXc
- x7KzeEnGwSJR0cCmw1TDKcrZd2Wyv/Sz79GkKx6DFIhAjX/CLJ18Taz4eXwCG+2KfLVF
- mwVQ==
+ bh=rd6uuNfniFNZ5ZxqrHQJZxW1BzKlfPz7FzEjKvWSCtE=;
+ b=Ll+e0oo1jaPvSjSMft05R2FgQe3K2SnfuIImWHyZwiGxoMJItgjYQBROhhOjGG2nqn
+ AYV20Mecjp7DyZRGA+/isTvkovKsTKB2zGYEQMqiN6H67gesoqkMHpUDC+Pw/OkwkapN
+ ZfXMWvvMbTBc0MQ4PQUT12AwQeE4Z1nyfrRbKX84CTq1saP8XfQk51qY7pqFCbwPI/ir
+ Tj2YQHTzfMDzDZqAl2COkOBq+YfvQDjlQuYWaT8cQ2SFu1P1VIkCdTx38I0Fim5bTpvX
+ KOgeyetWNZ+I74gpv53TzEBFr873f70mRJvnVfpajNdlR1k6jrz4U6+43ds11rudXd+9
+ Ji9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NDy5L1j1NFeCwxkRreoifiteCmt9uSlmxDgPX55fTNU=;
- b=WhLQMpp7OIQHBXsMowJqVTSIO7QcY5dx+I+GuW+lwEEnIeTXHcnqab4J5AP4GaI932
- 7S2iXKOlbBn59uyFs40KAqWZAU2MjIRDY7hd0Lb1eN9iZYxJGFU5EA+Dkh5hxWR3meoj
- R6EhNqaAF2atUNBJmpCJKuVBzyPKczlvM520bqKWkWVcNu0fj+mJ44ZfwcHgfybkM7i3
- oaQxm/+zW5gAK9qH8lEQ+Ov/q3e16Ya+bAAbtjK/Hol5NuarvSS1kwybzCS1IpSI4BGL
- YC9XCiB7KZj2DtxtYkwqULB1sjAi8wpj+5/TPpogKVK57OBVngj9v1FcYh4LFaBob2r1
- SodQ==
-X-Gm-Message-State: AOAM532dr2dVZwx7VrKHUczcnH8slD8ALASykhDSD/wiSom4VY6K/yku
- qkLPUThqEqUDCl1Fjbv+LkYMKlee3jUhhg==
-X-Google-Smtp-Source: ABdhPJw2cm5vmwzhLab6HGqMUR3tpPm+LGIbL3V9Psip9Bd2IgmrtJSU+GjPiQllWwe/KcgDKdLTBw==
-X-Received: by 2002:adf:eccd:0:b0:212:fbbc:79de with SMTP id
- s13-20020adfeccd000000b00212fbbc79demr35774935wro.520.1654765571489; 
- Thu, 09 Jun 2022 02:06:11 -0700 (PDT)
+ bh=rd6uuNfniFNZ5ZxqrHQJZxW1BzKlfPz7FzEjKvWSCtE=;
+ b=UjQR4uSY0ruf7oMwEV6UyvqmyqDtCkkXVh6lvDrHevG02iuzVQu1u05kRvR5DuBnOX
+ AJaPJfCWQAUW/poTa1k+CRh2BRQ/lxdo33eGKioDcUVUvVS3QtzDlynDCvlCiLSxZlwR
+ RdX17nrIgVmJE6hgTm080WtxC4F1A8iyWZEM2cBEULV6//IVMY2uGQzC3mPJZyBeyDsQ
+ FYwrkPVywU4sd6nV9caTC8AtFLuh2wrV6lVcbYzuYWWwBet7vcrfFioFTCm9LM3xDlvz
+ 9Qkq6qUrlJSQRKzHNp238xCMhNG3BkuwnTmUMA8d/lYPOnEJwVcQm4kXOwmXtDTC+TaZ
+ Pywg==
+X-Gm-Message-State: AOAM531CEgXAnhSJl3ArALCPrP4jYh4Lelb3G2OQ4PXleX2YuJv3RScy
+ JkG4XHUq3ssku2XXMlxEF8vvyvzAgZ7cNw==
+X-Google-Smtp-Source: ABdhPJzMlQehlTKvbt5PFwGDtm/1/IckpECetxalOVR92XObXKeYVPiDa7sywLnNB/Bh00sFP4gzVw==
+X-Received: by 2002:adf:f90f:0:b0:20e:5fd4:5d06 with SMTP id
+ b15-20020adff90f000000b0020e5fd45d06mr37551453wrr.371.1654765572394; 
+ Thu, 09 Jun 2022 02:06:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.10
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:06:10 -0700 (PDT)
+ Thu, 09 Jun 2022 02:06:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/55] target/arm: Move aa32_va_parameters to ptw.c
-Date: Thu,  9 Jun 2022 10:05:10 +0100
-Message-Id: <20220609090537.1971756-29-peter.maydell@linaro.org>
+Subject: [PULL 29/55] target/arm: Move ap_to_tw_prot etc to ptw.c
+Date: Thu,  9 Jun 2022 10:05:11 +0100
+Message-Id: <20220609090537.1971756-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,178 +91,215 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220604040607.269301-22-richard.henderson@linaro.org
+Message-id: 20220604040607.269301-23-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/ptw.h    |  3 ---
- target/arm/helper.c | 64 ---------------------------------------------
- target/arm/ptw.c    | 64 +++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 64 insertions(+), 67 deletions(-)
+ target/arm/ptw.h    | 10 ------
+ target/arm/helper.c | 77 ------------------------------------------
+ target/arm/ptw.c    | 81 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 81 insertions(+), 87 deletions(-)
 
 diff --git a/target/arm/ptw.h b/target/arm/ptw.h
-index a71161b01bd..9314fb4d23c 100644
+index 9314fb4d23c..85ad5767944 100644
 --- a/target/arm/ptw.h
 +++ b/target/arm/ptw.h
-@@ -25,8 +25,5 @@ simple_ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx, int ap)
-     return simple_ap_to_rw_prot_is_user(ap, regime_is_user(env, mmu_idx));
- }
+@@ -15,15 +15,5 @@ bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx);
+ bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx);
+ uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn);
  
--ARMVAParameters aa32_va_parameters(CPUARMState *env, uint32_t va,
--                                   ARMMMUIdx mmu_idx);
+-int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                  int ap, int domain_prot);
+-int simple_ap_to_rw_prot_is_user(int ap, bool is_user);
+-
+-static inline int
+-simple_ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx, int ap)
+-{
+-    return simple_ap_to_rw_prot_is_user(ap, regime_is_user(env, mmu_idx));
+-}
 -
  #endif /* !CONFIG_USER_ONLY */
  #endif /* TARGET_ARM_PTW_H */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 2526f4c6c4a..f61f1da61e4 100644
+index f61f1da61e4..e894afcb491 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -10771,70 +10771,6 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+@@ -10537,83 +10537,6 @@ bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
+         g_assert_not_reached();
+     }
  }
- 
- #ifndef CONFIG_USER_ONLY
--ARMVAParameters aa32_va_parameters(CPUARMState *env, uint32_t va,
--                                   ARMMMUIdx mmu_idx)
+-
+-/* Translate section/page access permissions to page
+- * R/W protection flags
+- *
+- * @env:         CPUARMState
+- * @mmu_idx:     MMU index indicating required translation regime
+- * @ap:          The 3-bit access permissions (AP[2:0])
+- * @domain_prot: The 2-bit domain access permissions
+- */
+-int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx, int ap, int domain_prot)
 -{
--    uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
--    uint32_t el = regime_el(env, mmu_idx);
--    int select, tsz;
--    bool epd, hpd;
+-    bool is_user = regime_is_user(env, mmu_idx);
 -
--    assert(mmu_idx != ARMMMUIdx_Stage2_S);
--
--    if (mmu_idx == ARMMMUIdx_Stage2) {
--        /* VTCR */
--        bool sext = extract32(tcr, 4, 1);
--        bool sign = extract32(tcr, 3, 1);
--
--        /*
--         * If the sign-extend bit is not the same as t0sz[3], the result
--         * is unpredictable. Flag this as a guest error.
--         */
--        if (sign != sext) {
--            qemu_log_mask(LOG_GUEST_ERROR,
--                          "AArch32: VTCR.S / VTCR.T0SZ[3] mismatch\n");
--        }
--        tsz = sextract32(tcr, 0, 4) + 8;
--        select = 0;
--        hpd = false;
--        epd = false;
--    } else if (el == 2) {
--        /* HTCR */
--        tsz = extract32(tcr, 0, 3);
--        select = 0;
--        hpd = extract64(tcr, 24, 1);
--        epd = false;
--    } else {
--        int t0sz = extract32(tcr, 0, 3);
--        int t1sz = extract32(tcr, 16, 3);
--
--        if (t1sz == 0) {
--            select = va > (0xffffffffu >> t0sz);
--        } else {
--            /* Note that we will detect errors later.  */
--            select = va >= ~(0xffffffffu >> t1sz);
--        }
--        if (!select) {
--            tsz = t0sz;
--            epd = extract32(tcr, 7, 1);
--            hpd = extract64(tcr, 41, 1);
--        } else {
--            tsz = t1sz;
--            epd = extract32(tcr, 23, 1);
--            hpd = extract64(tcr, 42, 1);
--        }
--        /* For aarch32, hpd0 is not enabled without t2e as well.  */
--        hpd &= extract32(tcr, 6, 1);
+-    if (domain_prot == 3) {
+-        return PAGE_READ | PAGE_WRITE;
 -    }
 -
--    return (ARMVAParameters) {
--        .tsz = tsz,
--        .select = select,
--        .epd = epd,
--        .hpd = hpd,
--    };
+-    switch (ap) {
+-    case 0:
+-        if (arm_feature(env, ARM_FEATURE_V7)) {
+-            return 0;
+-        }
+-        switch (regime_sctlr(env, mmu_idx) & (SCTLR_S | SCTLR_R)) {
+-        case SCTLR_S:
+-            return is_user ? 0 : PAGE_READ;
+-        case SCTLR_R:
+-            return PAGE_READ;
+-        default:
+-            return 0;
+-        }
+-    case 1:
+-        return is_user ? 0 : PAGE_READ | PAGE_WRITE;
+-    case 2:
+-        if (is_user) {
+-            return PAGE_READ;
+-        } else {
+-            return PAGE_READ | PAGE_WRITE;
+-        }
+-    case 3:
+-        return PAGE_READ | PAGE_WRITE;
+-    case 4: /* Reserved.  */
+-        return 0;
+-    case 5:
+-        return is_user ? 0 : PAGE_READ;
+-    case 6:
+-        return PAGE_READ;
+-    case 7:
+-        if (!arm_feature(env, ARM_FEATURE_V6K)) {
+-            return 0;
+-        }
+-        return PAGE_READ;
+-    default:
+-        g_assert_not_reached();
+-    }
 -}
 -
- hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-                                          MemTxAttrs *attrs)
- {
+-/* Translate section/page access permissions to page
+- * R/W protection flags.
+- *
+- * @ap:      The 2-bit simple AP (AP[2:1])
+- * @is_user: TRUE if accessing from PL0
+- */
+-int simple_ap_to_rw_prot_is_user(int ap, bool is_user)
+-{
+-    switch (ap) {
+-    case 0:
+-        return is_user ? 0 : PAGE_READ | PAGE_WRITE;
+-    case 1:
+-        return PAGE_READ | PAGE_WRITE;
+-    case 2:
+-        return is_user ? 0 : PAGE_READ;
+-    case 3:
+-        return PAGE_READ;
+-    default:
+-        g_assert_not_reached();
+-    }
+-}
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx)
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 525272e99af..427813ea563 100644
+index 427813ea563..9ab77c39980 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -615,6 +615,70 @@ static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
-     return prot_rw | PAGE_EXEC;
+@@ -211,6 +211,87 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
+     return true;
  }
  
-+static ARMVAParameters aa32_va_parameters(CPUARMState *env, uint32_t va,
-+                                          ARMMMUIdx mmu_idx)
++/*
++ * Translate section/page access permissions to page R/W protection flags
++ * @env:         CPUARMState
++ * @mmu_idx:     MMU index indicating required translation regime
++ * @ap:          The 3-bit access permissions (AP[2:0])
++ * @domain_prot: The 2-bit domain access permissions
++ */
++static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
++                         int ap, int domain_prot)
 +{
-+    uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
-+    uint32_t el = regime_el(env, mmu_idx);
-+    int select, tsz;
-+    bool epd, hpd;
++    bool is_user = regime_is_user(env, mmu_idx);
 +
-+    assert(mmu_idx != ARMMMUIdx_Stage2_S);
-+
-+    if (mmu_idx == ARMMMUIdx_Stage2) {
-+        /* VTCR */
-+        bool sext = extract32(tcr, 4, 1);
-+        bool sign = extract32(tcr, 3, 1);
-+
-+        /*
-+         * If the sign-extend bit is not the same as t0sz[3], the result
-+         * is unpredictable. Flag this as a guest error.
-+         */
-+        if (sign != sext) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "AArch32: VTCR.S / VTCR.T0SZ[3] mismatch\n");
-+        }
-+        tsz = sextract32(tcr, 0, 4) + 8;
-+        select = 0;
-+        hpd = false;
-+        epd = false;
-+    } else if (el == 2) {
-+        /* HTCR */
-+        tsz = extract32(tcr, 0, 3);
-+        select = 0;
-+        hpd = extract64(tcr, 24, 1);
-+        epd = false;
-+    } else {
-+        int t0sz = extract32(tcr, 0, 3);
-+        int t1sz = extract32(tcr, 16, 3);
-+
-+        if (t1sz == 0) {
-+            select = va > (0xffffffffu >> t0sz);
-+        } else {
-+            /* Note that we will detect errors later.  */
-+            select = va >= ~(0xffffffffu >> t1sz);
-+        }
-+        if (!select) {
-+            tsz = t0sz;
-+            epd = extract32(tcr, 7, 1);
-+            hpd = extract64(tcr, 41, 1);
-+        } else {
-+            tsz = t1sz;
-+            epd = extract32(tcr, 23, 1);
-+            hpd = extract64(tcr, 42, 1);
-+        }
-+        /* For aarch32, hpd0 is not enabled without t2e as well.  */
-+        hpd &= extract32(tcr, 6, 1);
++    if (domain_prot == 3) {
++        return PAGE_READ | PAGE_WRITE;
 +    }
 +
-+    return (ARMVAParameters) {
-+        .tsz = tsz,
-+        .select = select,
-+        .epd = epd,
-+        .hpd = hpd,
-+    };
++    switch (ap) {
++    case 0:
++        if (arm_feature(env, ARM_FEATURE_V7)) {
++            return 0;
++        }
++        switch (regime_sctlr(env, mmu_idx) & (SCTLR_S | SCTLR_R)) {
++        case SCTLR_S:
++            return is_user ? 0 : PAGE_READ;
++        case SCTLR_R:
++            return PAGE_READ;
++        default:
++            return 0;
++        }
++    case 1:
++        return is_user ? 0 : PAGE_READ | PAGE_WRITE;
++    case 2:
++        if (is_user) {
++            return PAGE_READ;
++        } else {
++            return PAGE_READ | PAGE_WRITE;
++        }
++    case 3:
++        return PAGE_READ | PAGE_WRITE;
++    case 4: /* Reserved.  */
++        return 0;
++    case 5:
++        return is_user ? 0 : PAGE_READ;
++    case 6:
++        return PAGE_READ;
++    case 7:
++        if (!arm_feature(env, ARM_FEATURE_V6K)) {
++            return 0;
++        }
++        return PAGE_READ;
++    default:
++        g_assert_not_reached();
++    }
 +}
 +
- /*
-  * check_s2_mmu_setup
-  * @cpu:        ARMCPU
++/*
++ * Translate section/page access permissions to page R/W protection flags.
++ * @ap:      The 2-bit simple AP (AP[2:1])
++ * @is_user: TRUE if accessing from PL0
++ */
++static int simple_ap_to_rw_prot_is_user(int ap, bool is_user)
++{
++    switch (ap) {
++    case 0:
++        return is_user ? 0 : PAGE_READ | PAGE_WRITE;
++    case 1:
++        return PAGE_READ | PAGE_WRITE;
++    case 2:
++        return is_user ? 0 : PAGE_READ;
++    case 3:
++        return PAGE_READ;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static int simple_ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx, int ap)
++{
++    return simple_ap_to_rw_prot_is_user(ap, regime_is_user(env, mmu_idx));
++}
++
+ static bool get_phys_addr_v5(CPUARMState *env, uint32_t address,
+                              MMUAccessType access_type, ARMMMUIdx mmu_idx,
+                              hwaddr *phys_ptr, int *prot,
 -- 
 2.25.1
 
