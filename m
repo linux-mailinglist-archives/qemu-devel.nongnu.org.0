@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D66C54561F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:05:49 +0200 (CEST)
-Received: from localhost ([::1]:58896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281AC545632
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:09:15 +0200 (CEST)
+Received: from localhost ([::1]:38304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzPLg-0000JI-EF
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:05:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43596)
+	id 1nzPP0-0005nZ-5o
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzOmS-0004BO-VN
+ id 1nzOmT-0004CF-E8
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:25 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:45050)
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:43543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzOmO-0008SR-FK
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:24 -0400
-Received: by mail-pl1-x635.google.com with SMTP id h1so21111454plf.11
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:20 -0700 (PDT)
+ id 1nzOmP-00006j-WE
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:25 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id x4so13473051pfj.10
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DZfUsxzMa6ISMCnyMY5oUW8yvE0MgIXecjoPtJTXdCc=;
- b=N/PtKLN+DaNyYNedI38JkBBybfI/cMSzKWB3QEhzyg417e4BFkf1xVVLnfI4tRj0WV
- LrkL/ZrqBzxIBYOAXCsFEjV/aZ5O+6b1rQaKXSlq75EzZZ8zj5977f2DgWfUiCdjNlsf
- 5or23/Dzy9q6SbhkrP5nEwOn8ccNCVL2B/cQgs+Sl1WmbexpWxbVkfbl3FZSfeJ3XpKJ
- bg/IZ1knuYh1yvIN/vp+1TZBYcZXF+DlIQVA6+D9E74mnmzn+n9tHZDeD5/LqCn9/0U1
- PMOkR92bk/83Ttjt94yGcD79kIOQvcy7p/SMTgMZAwJ8QKvxPYBuFy325LgZAYqYoY5n
- dDnw==
+ bh=NNURr0Aht9d3sVCPfMyWxRyw8UmQdVCrRycp0Xr9WSw=;
+ b=SWzOqtuTgh4aufDOFdAO2VRhFLaSfi+bad40b0nEpx4v1wdexz4ihb7vfF7BAbMEX3
+ 6Ags2WacphEl0Cloz8pZFpuLlfRvczxNJyULz+4/oECzpMxJ3oNJoR0nZAd7uE0jXURa
+ 2LRuJabiylTPnIFjsTirxm69BeUgNfW4dWlYvb9fgDFmEil3gl2j+guzQHCyQ2auqOYf
+ HdlQT7GNobyBq90+bYUlhymMmzTsyI8tDtJTu1wMhXLJu4mmbZqKG/Zxw4jRVWQmsDe4
+ nUcyKr576RsoLhJtUaNgdxniZhpdlc9wzBlBLvxzaeA1nKmFTcs5vOchHiEf6PYpOCeE
+ JsxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DZfUsxzMa6ISMCnyMY5oUW8yvE0MgIXecjoPtJTXdCc=;
- b=Q7AYDMasH+xhskqLApp/jdScunfOclzOTAYl8q0X9KsKbxEjcMbGXeEPkTwE6jQ7x/
- JnzjbxMAZNwzTelZgTjqf6EzATbXjNUrt8p/M7G+M/nxEOhxPc3Y4rET4/LVi0VaWFs6
- U+K1QQObFsgPvZWbMCZAyqpv1zxrrps44AwSZzFqt2MFOpGyM3xWNutrMER+vNdr6Mz9
- dBIja3w/defY49AQRSNc/d0x6+3ipdpYwjVx0loQ5jru6UYHrgpzQ3pBNF+arq1LDfDt
- +12lGYCEPoX1zsZiL1b8ahFlk6Nrftvv8GyUhALf8o0A+65C7M8B/mrnvc5FtQDLtStT
- BC+g==
-X-Gm-Message-State: AOAM5330CWEsLQyi4QZVgUcDg9tPB6p8ohPWK5VfjClUoZaA4buS/F7/
- ztRBxqq+I+J3PhgTMp9LLn+D5s6R78Fc8w==
-X-Google-Smtp-Source: ABdhPJxeymeShwUT3saSlmkIV+GkroNZjyraDxNmsjKg3EZCwkhnelmBKWcASvmn8Y2k07fVfEJAdw==
-X-Received: by 2002:a17:902:f149:b0:167:8569:ec00 with SMTP id
- d9-20020a170902f14900b001678569ec00mr20336312plb.8.1654806559701; 
- Thu, 09 Jun 2022 13:29:19 -0700 (PDT)
+ bh=NNURr0Aht9d3sVCPfMyWxRyw8UmQdVCrRycp0Xr9WSw=;
+ b=vhY5ig5dy/6dJCqh1gxyBDq0NMPve6XCdhhtDvUlvPPu93Z+3mHCUR/yBZkeCGEKOT
+ xiPEXGirMVnjxL/pl7VFGOwAhVF8ATVJ8+xEb3Cc2V5Yqv2ehi+XtwBocGLX6eNXd2f6
+ jJjVAUMSoIrG6SwzHJ+1FqX6+6dbXJ+jRc5Ptr+LqXT8UTVLSzx2u6Zi1QdAytd6xrmj
+ eD7YlcSR3sIKPM4eSY44l6SY1eYY+LO8BGOyjMS7CK68BU3YFRBZBt2rrddpwe0S1CoO
+ 8eVuYEpKeTgWWdLN5djMbcwAfvShrNX4xmPATSlbE3Kjn5nFgL7dlG44pP4N3vXZx45n
+ 1PVA==
+X-Gm-Message-State: AOAM532MTIyj8/siJ6KHe1ZYX0IoDLjLJvzRqxQNeB0O3EKTrrnu5Lq9
+ uiJqmaGsnsRpyIAXGJFAInTATSAkRO5CkQ==
+X-Google-Smtp-Source: ABdhPJyolm1M9LSSswmGAcKa97OJr7nx1TleUjERO6h+6QJVdbuY6L5T+Hb3saUXDRn4dvqhmCUDsA==
+X-Received: by 2002:a63:1a0f:0:b0:3fe:4da7:1a38 with SMTP id
+ a15-20020a631a0f000000b003fe4da71a38mr6055172pga.332.1654806560598; 
+ Thu, 09 Jun 2022 13:29:20 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:839f:476f:678:38a])
  by smtp.gmail.com with ESMTPSA id
- r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.18
+ r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 13:29:19 -0700 (PDT)
+ Thu, 09 Jun 2022 13:29:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 19/23] target/arm: Introduce helper_exception_with_syndrome
-Date: Thu,  9 Jun 2022 13:28:57 -0700
-Message-Id: <20220609202901.1177572-20-richard.henderson@linaro.org>
+Subject: [PATCH v3 20/23] target/arm: Remove default_exception_el
+Date: Thu,  9 Jun 2022 13:28:58 -0700
+Message-Id: <20220609202901.1177572-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220609202901.1177572-1-richard.henderson@linaro.org>
 References: <20220609202901.1177572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,103 +89,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the helper we can use exception_target_el at runtime,
-instead of default_exception_el at translate time.
-While we're at it, remove the DisasContext parameter from
-gen_exception, as it is no longer used.
+This function is no longer used.  At the same time, remove
+DisasContext.secure_routed_to_el3, as it in turn becomes unused.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.h    |  1 +
- target/arm/op_helper.c | 10 ++++++++++
- target/arm/translate.c | 18 +++++++++++++-----
- 3 files changed, 24 insertions(+), 5 deletions(-)
+ target/arm/translate.h     | 16 ----------------
+ target/arm/translate-a64.c |  5 -----
+ target/arm/translate.c     |  5 -----
+ 3 files changed, 26 deletions(-)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index db7447d233..07d45faf49 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -45,6 +45,7 @@ DEF_HELPER_FLAGS_2(usad8, TCG_CALL_NO_RWG_SE, i32, i32, i32)
- DEF_HELPER_FLAGS_3(sel_flags, TCG_CALL_NO_RWG_SE,
-                    i32, i32, i32, i32)
- DEF_HELPER_2(exception_internal, noreturn, env, i32)
-+DEF_HELPER_3(exception_with_syndrome, noreturn, env, i32, i32)
- DEF_HELPER_4(exception_with_syndrome_el, noreturn, env, i32, i32, i32)
- DEF_HELPER_2(exception_bkpt_insn, noreturn, env, i32)
- DEF_HELPER_2(exception_swstep, noreturn, env, i32)
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 8a6a3b8551..c5bde1cfcc 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -399,6 +399,16 @@ void HELPER(exception_with_syndrome_el)(CPUARMState *env, uint32_t excp,
-     raise_exception(env, excp, syndrome, target_el);
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 850bcdc155..88dc18a034 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -43,8 +43,6 @@ typedef struct DisasContext {
+     int fp_excp_el; /* FP exception EL or 0 if enabled */
+     int sve_excp_el; /* SVE exception EL or 0 if enabled */
+     int vl;          /* current vector length in bytes */
+-    /* Flag indicating that exceptions from secure mode are routed to EL3. */
+-    bool secure_routed_to_el3;
+     bool vfp_enabled; /* FP enabled via FPSCR.EN */
+     int vec_len;
+     int vec_stride;
+@@ -199,20 +197,6 @@ static inline int get_mem_index(DisasContext *s)
+     return arm_to_core_mmu_idx(s->mmu_idx);
  }
  
-+/*
-+ * Raise an exception with the specified syndrome register value
-+ * to the default target el.
-+ */
-+void HELPER(exception_with_syndrome)(CPUARMState *env, uint32_t excp,
-+                                     uint32_t syndrome)
-+{
-+    raise_exception(env, excp, syndrome, exception_target_el(env));
-+}
-+
- uint32_t HELPER(cpsr_read)(CPUARMState *env)
+-/* Function used to determine the target exception EL when otherwise not known
+- * or default.
+- */
+-static inline int default_exception_el(DisasContext *s)
+-{
+-    /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
+-     * there is no secure EL1, so we route exceptions to EL3.  Otherwise,
+-     * exceptions can only be routed to ELs above 1, so we target the higher of
+-     * 1 or the current EL.
+-     */
+-    return (s->mmu_idx == ARMMMUIdx_SE10_0 && s->secure_routed_to_el3)
+-            ? 3 : MAX(1, s->current_el);
+-}
+-
+ static inline void disas_set_insn_syndrome(DisasContext *s, uint32_t syn)
  {
-     return cpsr_read(env) & ~CPSR_EXEC;
+     /* We don't need to save all of the syndrome so we mask and shift
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 4f6181a548..4c64546090 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14585,11 +14585,6 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->condjmp = 0;
+ 
+     dc->aarch64 = true;
+-    /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
+-     * there is no secure EL1, so we route exceptions to EL3.
+-     */
+-    dc->secure_routed_to_el3 = arm_feature(env, ARM_FEATURE_EL3) &&
+-                               !arm_el_is_aa64(env, 3);
+     dc->thumb = false;
+     dc->sctlr_b = 0;
+     dc->be_data = EX_TBFLAG_ANY(tb_flags, BE_DATA) ? MO_BE : MO_LE;
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index fcb6ee648b..81c27e7c70 100644
+index 81c27e7c70..6617de775f 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1097,9 +1097,10 @@ static void gen_exception_el(int excp, uint32_t syndrome, uint32_t target_el)
-     gen_exception_el_v(excp, syndrome, tcg_constant_i32(target_el));
- }
+@@ -9319,11 +9319,6 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     dc->condjmp = 0;
  
--static void gen_exception(DisasContext *s, int excp, uint32_t syndrome)
-+static void gen_exception(int excp, uint32_t syndrome)
- {
--    gen_exception_el(excp, syndrome, default_exception_el(s));
-+    gen_helper_exception_with_syndrome(cpu_env, tcg_constant_i32(excp),
-+                                       tcg_constant_i32(syndrome));
- }
- 
- static void gen_exception_insn_el_v(DisasContext *s, uint64_t pc, int excp,
-@@ -1123,7 +1124,14 @@ void gen_exception_insn_el(DisasContext *s, uint64_t pc, int excp,
- 
- void gen_exception_insn(DisasContext *s, uint64_t pc, int excp, uint32_t syn)
- {
--    gen_exception_insn_el(s, pc, excp, syn, default_exception_el(s));
-+    if (s->aarch64) {
-+        gen_a64_set_pc_im(pc);
-+    } else {
-+        gen_set_condexec(s);
-+        gen_set_pc_im(s, pc);
-+    }
-+    gen_exception(excp, syn);
-+    s->base.is_jmp = DISAS_NORETURN;
- }
- 
- static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
-@@ -9766,7 +9774,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-         switch (dc->base.is_jmp) {
-         case DISAS_SWI:
-             gen_ss_advance(dc);
--            gen_exception(dc, EXCP_SWI, syn_aa32_svc(dc->svc_imm, dc->thumb));
-+            gen_exception(EXCP_SWI, syn_aa32_svc(dc->svc_imm, dc->thumb));
-             break;
-         case DISAS_HVC:
-             gen_ss_advance(dc);
-@@ -9835,7 +9843,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-             gen_helper_yield(cpu_env);
-             break;
-         case DISAS_SWI:
--            gen_exception(dc, EXCP_SWI, syn_aa32_svc(dc->svc_imm, dc->thumb));
-+            gen_exception(EXCP_SWI, syn_aa32_svc(dc->svc_imm, dc->thumb));
-             break;
-         case DISAS_HVC:
-             gen_exception_el(EXCP_HVC, syn_aa32_hvc(dc->svc_imm), 2);
+     dc->aarch64 = false;
+-    /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
+-     * there is no secure EL1, so we route exceptions to EL3.
+-     */
+-    dc->secure_routed_to_el3 = arm_feature(env, ARM_FEATURE_EL3) &&
+-                               !arm_el_is_aa64(env, 3);
+     dc->thumb = EX_TBFLAG_AM32(tb_flags, THUMB);
+     dc->be_data = EX_TBFLAG_ANY(tb_flags, BE_DATA) ? MO_BE : MO_LE;
+     condexec = EX_TBFLAG_AM32(tb_flags, CONDEXEC);
 -- 
 2.34.1
 
