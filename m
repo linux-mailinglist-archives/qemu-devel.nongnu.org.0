@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED81E544192
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 04:44:59 +0200 (CEST)
-Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521AF54419A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 04:48:34 +0200 (CEST)
+Received: from localhost ([::1]:49746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz8AN-0000kI-0O
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 22:44:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42478)
+	id 1nz8Dp-00019E-CA
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 22:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1nz87r-0005GS-T8
+ id 1nz87r-0005GQ-SS
  for qemu-devel@nongnu.org; Wed, 08 Jun 2022 22:42:25 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:43456 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:43464 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1nz87o-0008VD-HZ
+ (envelope-from <gaosong@loongson.cn>) id 1nz87o-0008VF-Lr
  for qemu-devel@nongnu.org; Wed, 08 Jun 2022 22:42:23 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxWeQBXqFiaLAyAA--.53544S7; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxWeQBXqFiaLAyAA--.53544S8; 
  Thu, 09 Jun 2022 10:42:18 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, laurent@vivier.eu, gaosong@loongson.cn,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PATCH v15 5/9] linux-user: Add LoongArch cpu_loop support
-Date: Thu,  9 Jun 2022 10:42:05 +0800
-Message-Id: <20220609024209.2406188-6-gaosong@loongson.cn>
+Subject: [PATCH v15 6/9] default-configs: Add loongarch linux-user support
+Date: Thu,  9 Jun 2022 10:42:06 +0800
+Message-Id: <20220609024209.2406188-7-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220609024209.2406188-1-gaosong@loongson.cn>
 References: <20220609024209.2406188-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9BxWeQBXqFiaLAyAA--.53544S7
-X-Coremail-Antispam: 1UD129KBjvJXoWxXrWUGr48XryDJw45CryrCrg_yoWrXFyrpF
- yxCr43Kr4xJ3y2gw4fJ3s8WF1rZr4I939rGaySkFWrAay7Jryrur1qgr9rtFy7C3yUWFyx
- ur9Iva1q9F4rWFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9BxWeQBXqFiaLAyAA--.53544S8
+X-Coremail-Antispam: 1UD129KBjvdXoWrZry3Cw13tryUtFWxtw48Xrb_yoW3Cwb_uF
+ yfJr4kKFWUZryjkw10v3y5Ar4rC3WxAF1rZF4Dtw4xXwsrXr43tw1vva1fZa4ay393urnx
+ ZrWkJrn8Cr10qjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -61,155 +61,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch adds loongarch64 linux-user default configs file.
+
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/loongarch64/cpu_loop.c   | 93 +++++++++++++++++++++++++++++
- linux-user/loongarch64/target_cpu.h | 34 +++++++++++
- 2 files changed, 127 insertions(+)
- create mode 100644 linux-user/loongarch64/cpu_loop.c
- create mode 100644 linux-user/loongarch64/target_cpu.h
+ configs/targets/loongarch64-linux-user.mak | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
 
-diff --git a/linux-user/loongarch64/cpu_loop.c b/linux-user/loongarch64/cpu_loop.c
+diff --git a/configs/targets/loongarch64-linux-user.mak b/configs/targets/loongarch64-linux-user.mak
 new file mode 100644
-index 0000000000..cfae1ba48e
+index 0000000000..7d1b964020
 --- /dev/null
-+++ b/linux-user/loongarch64/cpu_loop.c
-@@ -0,0 +1,93 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU LoongArch user cpu_loop.
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu.h"
-+#include "user-internals.h"
-+#include "cpu_loop-common.h"
-+#include "signal-common.h"
-+
-+void cpu_loop(CPULoongArchState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+    int trapnr, si_code;
-+    abi_long ret;
-+
-+    for (;;) {
-+        cpu_exec_start(cs);
-+        trapnr = cpu_exec(cs);
-+        cpu_exec_end(cs);
-+        process_queued_cpu_work(cs);
-+
-+        switch (trapnr) {
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+        case EXCCODE_SYS:
-+            env->pc += 4;
-+            ret = do_syscall(env, env->gpr[11],
-+                             env->gpr[4], env->gpr[5],
-+                             env->gpr[6], env->gpr[7],
-+                             env->gpr[8], env->gpr[9],
-+                             -1, -1);
-+            if (ret == -QEMU_ERESTARTSYS) {
-+                env->pc -= 4;
-+                break;
-+            }
-+            if (ret == -QEMU_ESIGRETURN) {
-+                /*
-+                 * Returning from a successful sigreturn syscall.
-+                 * Avoid clobbering register state.
-+                 */
-+                break;
-+            }
-+            env->gpr[4] = ret;
-+            break;
-+        case EXCCODE_INE:
-+            force_sig_fault(TARGET_SIGILL, 0, env->pc);
-+            break;
-+        case EXCCODE_FPE:
-+            si_code = TARGET_FPE_FLTUNK;
-+            if (GET_FP_CAUSE(env->fcsr0) & FP_INVALID) {
-+                si_code = TARGET_FPE_FLTINV;
-+            } else if (GET_FP_CAUSE(env->fcsr0) & FP_DIV0) {
-+                si_code = TARGET_FPE_FLTDIV;
-+            } else if (GET_FP_CAUSE(env->fcsr0) & FP_OVERFLOW) {
-+                si_code = TARGET_FPE_FLTOVF;
-+            } else if (GET_FP_CAUSE(env->fcsr0) & FP_UNDERFLOW) {
-+                si_code = TARGET_FPE_FLTUND;
-+            } else if (GET_FP_CAUSE(env->fcsr0) & FP_INEXACT) {
-+                si_code = TARGET_FPE_FLTRES;
-+            }
-+            force_sig_fault(TARGET_SIGFPE, si_code, env->pc);
-+            break;
-+        case EXCP_DEBUG:
-+        case EXCCODE_BRK:
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
-+            break;
-+        case EXCP_ATOMIC:
-+            cpu_exec_step_atomic(cs);
-+            break;
-+        default:
-+            EXCP_DUMP(env, "qemu: unhandled CPU exception 0x%x - aborting\n",
-+                      trapnr);
-+            exit(EXIT_FAILURE);
-+        }
-+        process_pending_signals(env);
-+    }
-+}
-+
-+void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-+{
-+    int i;
-+
-+    for (i = 0; i < 32; i++) {
-+        env->gpr[i] = regs->regs[i];
-+    }
-+    env->pc = regs->csr.era;
-+
-+}
-diff --git a/linux-user/loongarch64/target_cpu.h b/linux-user/loongarch64/target_cpu.h
-new file mode 100644
-index 0000000000..a29af66156
---- /dev/null
-+++ b/linux-user/loongarch64/target_cpu.h
-@@ -0,0 +1,34 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * LoongArch specific CPU ABI and functions for linux-user
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#ifndef LOONGARCH_TARGET_CPU_H
-+#define LOONGARCH_TARGET_CPU_H
-+
-+static inline void cpu_clone_regs_child(CPULoongArchState *env,
-+                                        target_ulong newsp, unsigned flags)
-+{
-+    if (newsp) {
-+        env->gpr[3] = newsp;
-+    }
-+    env->gpr[4] = 0;
-+}
-+
-+static inline void cpu_clone_regs_parent(CPULoongArchState *env,
-+                                         unsigned flags)
-+{
-+}
-+
-+static inline void cpu_set_tls(CPULoongArchState *env, target_ulong newtls)
-+{
-+    env->gpr[2] = newtls;
-+}
-+
-+static inline abi_ulong get_sp_from_cpustate(CPULoongArchState *state)
-+{
-+    return state->gpr[3];
-+}
-+#endif
++++ b/configs/targets/loongarch64-linux-user.mak
+@@ -0,0 +1,3 @@
++# Default configuration for loongarch64-linux-user
++TARGET_ARCH=loongarch64
++TARGET_BASE_ARCH=loongarch
 -- 
 2.31.1
 
