@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1AF5453B8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:09:37 +0200 (CEST)
-Received: from localhost ([::1]:41140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50995453B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:08:26 +0200 (CEST)
+Received: from localhost ([::1]:38516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzMbA-00066p-Mg
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37410)
+	id 1nzMa1-0004GD-74
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzKfI-0005q2-AJ
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:05:47 -0400
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:36047)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzKfF-0008F3-03
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:05:43 -0400
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-30c143c41e5so246082787b3.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 09:05:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W1eZeSLTwKkrvIeTP0WqrQdKj7CWhHK0y0yXcwNChMI=;
- b=E/pzjpbdnXVHXQwj8mmZuoI5UltV8CUUhEBjwTP58NrehUuAy3xyX0/H1avdICWqkY
- pEU3fQYJfKLlWCrmUm5uJADnkPBEnGCDHWe6XjKhzUo7x8OgOPgHnZA+ctEArW0fddbW
- X78qoDGvG0dZPxUUpOUpF31PH4MuoeFWxmPTkQH+tB4RwB1Qej84bmRkd4BXIisDp1KM
- +zNO9dFt1j0kuYuJRyJUNaKS256moCQGe6PMZYtY1qMmxEcM58+9kt1V943Vxyxqmovy
- /2UpM2L/WJPACUoRidbN0ized2ybjiy+FiOPgWnXy326yR5Ze0VEJqRA6VCZrdkYTe2Y
- 6jCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W1eZeSLTwKkrvIeTP0WqrQdKj7CWhHK0y0yXcwNChMI=;
- b=WjH2SFue/ML9vGyertKPpOFpPVVt976nhRnV6qUbQpubP2Pg49hYbFDvt/De1l5tsB
- RAVhI26tQLB5JGVSfXFvd2ebRKuoDKrtGgqYItvJg3QfULV+6ejBjLf0x6pQNVZQ4232
- LVD2SWs0FIlivRKhBSobJJDulamNu3O4VeFNiprz7F16jbHp5SvWsA1mjTb+cer57mtb
- EuxvP8JVXyvW66p2cjw9wqGzKhGdtWnKQsnXdYdm9E0C3JNIaWsLyxeGmuhg/KDV9jbR
- OOG9XMx9qz/bVgPZZzZurahTtDnfYn47wrXa5W9BiT8EkOE8hk8lHpOPkuXoQHEHZLFd
- X7Tg==
-X-Gm-Message-State: AOAM533ndRsbl4xjh1zcK0xQq/sOmBaTpJ8uQzerjOfF2A2UhutIgaro
- xIiPBwouyHMxJTle6J7/hiAGz7n72V1M3Il8i76qcg==
-X-Google-Smtp-Source: ABdhPJytGWmHi7XBKjxFJ9ZFulQtY0Li+m8vLEGU8aJbFy68Gf5wrU5lK7Jm17x0a457aSNxxamkoId4CrR2M34fSPc=
-X-Received: by 2002:a81:6589:0:b0:2ff:e11d:3fb3 with SMTP id
- z131-20020a816589000000b002ffe11d3fb3mr43259606ywb.10.1654790738926; Thu, 09
- Jun 2022 09:05:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nzKoU-00083a-Nw
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:15:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31001)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nzKoR-0001Bx-Us
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:15:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654791306;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LncLNhOAOqU2EPrxxDlHqK9O+IVMbs4XQXpRqZN7ZEo=;
+ b=NQTmtBPdSnkjeOO5vM18qA9bo96ZSmGZQnI2g9ZWm/H+7HJgbe4EWerHksFj48NUVMQPJG
+ RTi8NgUCB/4cp4CtlEsulncwGbEc/wE0c2dqfdWTyU53ZrLLYlh8Y75yntYGtUpGCyp+wt
+ 3Vjl6WSy+Yq//QML4z5qxKi4LinjAAw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-259-7ZIhleBpPre0i5GHdsKWWA-1; Thu, 09 Jun 2022 12:15:03 -0400
+X-MC-Unique: 7ZIhleBpPre0i5GHdsKWWA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88C81101E165;
+ Thu,  9 Jun 2022 16:15:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A2D382166B26;
+ Thu,  9 Jun 2022 16:15:00 +0000 (UTC)
+Date: Thu, 9 Jun 2022 17:14:57 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
+Subject: Re: [PATCH 14/20] migration: remove the QEMUFileOps 'shut_down'
+ callback
+Message-ID: <YqIcgc7J9d/kLBOu@redhat.com>
+References: <20220524110235.145079-1-berrange@redhat.com>
+ <20220524110235.145079-15-berrange@redhat.com>
+ <YqIb+S+UlgJMXkSa@work-vm>
 MIME-Version: 1.0
-References: <20220607024734.541321-1-richard.henderson@linaro.org>
- <20220607024734.541321-13-richard.henderson@linaro.org>
-In-Reply-To: <20220607024734.541321-13-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 17:05:28 +0100
-Message-ID: <CAFEAcA8QVv16QPjnDdBFhw--2fHHVV3U8v+jg2Zan=mT3hGmvg@mail.gmail.com>
-Subject: Re: [PATCH v2 12/25] target/arm: Rename gen_exception_insn to
- gen_exception_insn_el
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YqIb+S+UlgJMXkSa@work-vm>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,24 +85,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Jun 2022 at 03:51, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate.h        |  4 ++--
->  target/arm/translate-a64.c    | 30 +++++++++++++--------------
->  target/arm/translate-m-nocp.c | 16 +++++++-------
->  target/arm/translate-mve.c    |  4 ++--
->  target/arm/translate-vfp.c    |  4 ++--
->  target/arm/translate.c        | 39 ++++++++++++++++++-----------------
->  6 files changed, 49 insertions(+), 48 deletions(-)
+On Thu, Jun 09, 2022 at 05:12:41PM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > This directly implements the shutdown logic using QIOChannel APIs.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  migration/qemu-file-channel.c | 27 ---------------------------
+> >  migration/qemu-file.c         | 10 +++++++---
+> >  migration/qemu-file.h         | 10 ----------
+> >  3 files changed, 7 insertions(+), 40 deletions(-)
+> > 
+> > diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+> > index 5cb8ac93c0..80f05dc371 100644
+> > --- a/migration/qemu-file-channel.c
+> > +++ b/migration/qemu-file-channel.c
+> > @@ -112,31 +112,6 @@ static int channel_close(void *opaque, Error **errp)
+> >  }
+> >  
+> >  
+> > -static int channel_shutdown(void *opaque,
+> > -                            bool rd,
+> > -                            bool wr,
+> > -                            Error **errp)
+> > -{
+> > -    QIOChannel *ioc = QIO_CHANNEL(opaque);
+> > -
+> > -    if (qio_channel_has_feature(ioc,
+> > -                                QIO_CHANNEL_FEATURE_SHUTDOWN)) {
+> > -        QIOChannelShutdown mode;
+> > -        if (rd && wr) {
+> > -            mode = QIO_CHANNEL_SHUTDOWN_BOTH;
+> > -        } else if (rd) {
+> > -            mode = QIO_CHANNEL_SHUTDOWN_READ;
+> > -        } else {
+> > -            mode = QIO_CHANNEL_SHUTDOWN_WRITE;
+> > -        }
+> > -        if (qio_channel_shutdown(ioc, mode, errp) < 0) {
+> > -            return -EIO;
+> > -        }
+> > -    }
+> > -    return 0;
+> > -}
+> > -
+> > -
+> >  static int channel_set_blocking(void *opaque,
+> >                                  bool enabled,
+> >                                  Error **errp)
+> > @@ -166,7 +141,6 @@ static QEMUFile *channel_get_output_return_path(void *opaque)
+> >  static const QEMUFileOps channel_input_ops = {
+> >      .get_buffer = channel_get_buffer,
+> >      .close = channel_close,
+> > -    .shut_down = channel_shutdown,
+> >      .set_blocking = channel_set_blocking,
+> >      .get_return_path = channel_get_input_return_path,
+> >  };
+> > @@ -175,7 +149,6 @@ static const QEMUFileOps channel_input_ops = {
+> >  static const QEMUFileOps channel_output_ops = {
+> >      .writev_buffer = channel_writev_buffer,
+> >      .close = channel_close,
+> > -    .shut_down = channel_shutdown,
+> >      .set_blocking = channel_set_blocking,
+> >      .get_return_path = channel_get_output_return_path,
+> >  };
+> > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> > index 5548e1abf3..fd9f060c02 100644
+> > --- a/migration/qemu-file.c
+> > +++ b/migration/qemu-file.c
+> > @@ -74,13 +74,17 @@ struct QEMUFile {
+> >   */
+> >  int qemu_file_shutdown(QEMUFile *f)
+> >  {
+> > -    int ret;
+> > +    int ret = 0;
+> >  
+> >      f->shutdown = true;
+> > -    if (!f->ops->shut_down) {
+> > +    if (!qio_channel_has_feature(f->ioc,
+> > +                                 QIO_CHANNEL_FEATURE_SHUTDOWN)) {
+> >          return -ENOSYS;
+> >      }
+> > -    ret = f->ops->shut_down(f->ioc, true, true, NULL);
+> > +
+> > +    if (qio_channel_shutdown(f->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL) < 0) {
+> > +        ret = -EIO;
+> > +    }
+> 
+> OK, so this is following the code you're flattening; so:
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+>  I wonder if there's any reason it doesn't just pass the return value through to ret rather
+> than flattening it to -EIO?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+qio methods never return errno values just positive integer or -1.
 
-thanks
--- PMM
+Since qemu_file_shutdown seems to want an errno, I picked EIO
+
+Better would be for qemu_file_shutdown to have an Error **errp
+param instead but that could come later.
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
