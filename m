@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D88544CDD
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:02:02 +0200 (CEST)
-Received: from localhost ([::1]:50068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68CC544C96
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:51:26 +0200 (CEST)
+Received: from localhost ([::1]:60786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzHnR-00060o-D5
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59376)
+	id 1nzHdF-000119-RW
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzFOn-0000ni-MO
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:28:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52463)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nzFPt-0000t9-0B
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:29:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzFOj-0001tX-Ty
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:28:20 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nzFPr-0001zd-BZ
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:29:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654770490;
+ s=mimecast20190719; t=1654770566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gTg5vlQmIJu4b20Pu0C1H0E0ALbjaRUIwY0jnF9uY2Q=;
- b=ISsgwOrVZ+zz2ODNNFtchATqJh9iS+bwfTZ6SnXlfO3YfRWl9bk0Rlx6qIDehTfjV/He7Y
- mjDH3uWs2NtNHHlOrjmIzdSsSze2GqDt2M89WxrALk4cYA25ga0ZJuI2WsJyJKDA9LoCyH
- HHodfZ+K12ZV2UmXU09X2G2ny2C2nXM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=F70o4K3WckAkYqzq9pfETNuPlH49hvzy93Z3t3uqzEk=;
+ b=OFSmMQ1agWDlSM7uZHGeBmA44RTORh14g5xmQ9Kdx15LOdRH3TDiQ6sIbO7eilBU/wM4hS
+ IErGMBKH6Rz8F97RNwIXNBDLBgjpDb8cqevqyYIwytFFCZIZzFJfVki1AfDsCvscQR7vIo
+ Z2c8IwuC/avtty18YIHQCyLVSEa5xhI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-538-mZyfLHhaM-GD1Jv_Xb-K4Q-1; Thu, 09 Jun 2022 06:28:07 -0400
-X-MC-Unique: mZyfLHhaM-GD1Jv_Xb-K4Q-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8EC529AA2E7;
- Thu,  9 Jun 2022 10:28:06 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 935C3492C3B;
- Thu,  9 Jun 2022 10:28:06 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1B42E1800094; Thu,  9 Jun 2022 12:28:05 +0200 (CEST)
-Date: Thu, 9 Jun 2022 12:28:05 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu Developers <qemu-devel@nongnu.org>, xen-devel@lists.xenproject.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Subject: Re: [PATCH v3 2/3] ui: Deliver refresh rate via QemuUIInfo
-Message-ID: <20220609102805.qz2xrnd6ms6cigir@sirius.home.kraxel.org>
-References: <20220226115516.59830-1-akihiko.odaki@gmail.com>
- <20220226115516.59830-3-akihiko.odaki@gmail.com>
+ us-mta-589-2Fgz0RMeNOKtFb5FHJUGaA-1; Thu, 09 Jun 2022 06:29:25 -0400
+X-MC-Unique: 2Fgz0RMeNOKtFb5FHJUGaA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg40-20020a05600c3ca800b00394779649b1so15789109wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 03:29:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=F70o4K3WckAkYqzq9pfETNuPlH49hvzy93Z3t3uqzEk=;
+ b=x9CCRpR2oA4qpxlb2+fUY0twL4YOc6amG1WBSxj12GgP9snyZJH80WHVgdiatlR0ME
+ CcaNlMHVb4gnUbhL3ejAdY5s/tINlBUgwFIOQOO4Unw0rAZ0+Lh94y4AQebPuMILoHVw
+ 5yypnV3sE8TT3VeWUm5xoHPMJkPXnr9ZR1gcxME/aytAfzgiZLyEsi+VmR4+S/c6mQLL
+ BQx/aXctymHmzmn4R2/XUCii9M2X2ogaKdNrf36tQHMuI/IFd8pvBRVtQt/IOBlAldS7
+ 5GXOciAWwOJz5MTIr51Q0aUR8g1/WEwAGSUQhsB4W8Il0qDdqxqvkG9+SC3Ohj0DXa/g
+ w1Wg==
+X-Gm-Message-State: AOAM530dJ+P7oJuXiOYtcol9MK7kWk/B5PGAVWq09Ef/vcbK+WnyDDp5
+ KNup0UzC8FXRlXxVfXNj7PZSHzIQXeipdOU3A4R/FHW7fkkdfNtdd33xw/n2Up/oIoVpZVTKjUs
+ 6KIDGsl57xDoF2mc=
+X-Received: by 2002:a05:6000:1786:b0:217:c304:9f6b with SMTP id
+ e6-20020a056000178600b00217c3049f6bmr23422830wrg.323.1654770562804; 
+ Thu, 09 Jun 2022 03:29:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybG2LP8dxr7sDLgT8W2vbztLxN1VwxwFr4LWf00WMj6q3XEC890ijX6v0tLxh2pRSSVht4mA==
+X-Received: by 2002:a05:6000:1786:b0:217:c304:9f6b with SMTP id
+ e6-20020a056000178600b00217c3049f6bmr23422796wrg.323.1654770562495; 
+ Thu, 09 Jun 2022 03:29:22 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ x11-20020a5d6b4b000000b00219c46089f6sm176217wrw.64.2022.06.09.03.29.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 03:29:21 -0700 (PDT)
+Date: Thu, 9 Jun 2022 11:29:20 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
+Subject: Re: [PATCH 07/20] migration: rename qemu_update_position to
+ qemu_file_credit_transfer
+Message-ID: <YqHLf9grjT46lnpI@work-vm>
+References: <20220524110235.145079-1-berrange@redhat.com>
+ <20220524110235.145079-8-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220226115516.59830-3-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220524110235.145079-8-berrange@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -82,33 +106,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> --- a/include/ui/console.h
-> +++ b/include/ui/console.h
-> @@ -139,6 +139,7 @@ typedef struct QemuUIInfo {
->      int       yoff;
->      uint32_t  width;
->      uint32_t  height;
-> +    uint32_t  refresh_rate;
->  } QemuUIInfo;
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> The qemu_update_position method name gives the misleading impression
+> that it is changing the current file offset. Most of the files are
+> just streams, however, so there's no concept of a file offset in the
+> general case.
+> 
+> What this method is actually used for is to report on the number of
+> bytes that have been transferred out of band from the main I/O methods.
+> This new name better reflects this purpose.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  migration/qemu-file.c | 4 ++--
+>  migration/qemu-file.h | 8 +++++++-
+>  migration/ram.c       | 2 +-
+>  3 files changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> index 664ac77067..9a7f715e17 100644
+> --- a/migration/qemu-file.c
+> +++ b/migration/qemu-file.c
+> @@ -319,7 +319,7 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
+>          if (ret != RAM_SAVE_CONTROL_DELAYED &&
+>              ret != RAM_SAVE_CONTROL_NOT_SUPP) {
+>              if (bytes_sent && *bytes_sent > 0) {
+> -                qemu_update_position(f, *bytes_sent);
+> +                qemu_file_credit_transfer(f, *bytes_sent);
+>              } else if (ret < 0) {
+>                  qemu_file_set_error(f, ret);
+>              }
+> @@ -374,7 +374,7 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+>      return len;
+>  }
 >  
->  /* cursor data format is 32bit RGBA */
-> @@ -426,7 +427,6 @@ typedef struct GraphicHwOps {
->      void (*gfx_update)(void *opaque);
->      bool gfx_update_async; /* if true, calls graphic_hw_update_done() */
->      void (*text_update)(void *opaque, console_ch_t *text);
-> -    void (*update_interval)(void *opaque, uint64_t interval);
->      void (*ui_info)(void *opaque, uint32_t head, QemuUIInfo *info);
->      void (*gl_block)(void *opaque, bool block);
->  } GraphicHwOps;
-
-So you are dropping update_interval, which isn't mentioned in the commit
-message at all.  Also this patch is rather big.  I'd suggest:
-
-(1) add refresh_rate
-(2) update users one by one
-(3) finally drop update_interval when no user is left.
-
-thanks,
-  Gerd
+> -void qemu_update_position(QEMUFile *f, size_t size)
+> +void qemu_file_credit_transfer(QEMUFile *f, size_t size)
+>  {
+>      f->total_transferred += size;
+>  }
+> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+> index febc961aa9..81f6fd7db8 100644
+> --- a/migration/qemu-file.h
+> +++ b/migration/qemu-file.h
+> @@ -186,7 +186,13 @@ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src);
+>   */
+>  int qemu_peek_byte(QEMUFile *f, int offset);
+>  void qemu_file_skip(QEMUFile *f, int size);
+> -void qemu_update_position(QEMUFile *f, size_t size);
+> +/*
+> + * qemu_file_credit_transfer:
+> + *
+> + * Report on a number of bytes that have been transferred
+> + * out of band from the main file object I/O methods.
+> + */
+> +void qemu_file_credit_transfer(QEMUFile *f, size_t size);
+>  void qemu_file_reset_rate_limit(QEMUFile *f);
+>  void qemu_file_update_transfer(QEMUFile *f, int64_t len);
+>  void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 89082716d6..bf321e1e72 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2301,7 +2301,7 @@ void acct_update_position(QEMUFile *f, size_t size, bool zero)
+>      } else {
+>          ram_counters.normal += pages;
+>          ram_transferred_add(size);
+> -        qemu_update_position(f, size);
+> +        qemu_file_credit_transfer(f, size);
+>      }
+>  }
+>  
+> -- 
+> 2.36.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
