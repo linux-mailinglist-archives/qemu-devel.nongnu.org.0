@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FE5545254
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:51:00 +0200 (CEST)
-Received: from localhost ([::1]:60314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F214C5452DF
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 19:23:56 +0200 (CEST)
+Received: from localhost ([::1]:32818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzLN5-0000df-9A
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:50:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58814)
+	id 1nzLsy-0007au-1a
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 13:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzKCH-0002SI-HM
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:35:45 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:47071)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nzKJL-0002Yx-EB
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:43:03 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzKCF-0002o9-84
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:35:45 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id r82so42333676ybc.13
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:35:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nzKJJ-00042j-VF
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:43:03 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id o7so14985243eja.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7RyrKD33/Nh1oTqfp2KPkfxJKWqGtPCiPeeEOQuP+Xg=;
- b=rXNBLcGuMprbY/ZB+xuXOV41cyZXzIqtKzd6fIrhfoQk15c9MvqYiKd7y8sYHQosuv
- ixI8dVGdPMquoXlfwaMrStd2S6m/skKWIvPINr0tFveYWOEg48CYVMax6Lk0PNVN4QF7
- 1uQW24fgp/JdcU+LfARTyAb8Dei2W0VQyT2jAWYCJfZf91AZizNOU+abfff5EGvYOlES
- YX2iFs5qJGnDZ4NnoQYwFB7kkFDq1L8EWYgaqO6sQAYHbe+VsBJGMWfQej3E/2yiq912
- WzTIrXic2Afq0raZLBVTEKuR2TW0LFXrg+ortiEu3m3UHvZUfEcSZGLjkIWIOcpfvKgY
- PUIQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BGK4hDaw/jG9yRD/qZWrM6XiDndlUO9LQdEFQdUUI+Q=;
+ b=rRY4IBRXIoRG2fhY9fhtZ+GlK/11VvGpnFe9LBwDGrE+VjdYMNfYpGCh+/JXGsYFLk
+ fvtNvtqOt0/5CgIIORhoLOOmLNHHEMg+ZScNhq9vp7OMsEeguv3YYl85J8I+lOuoTV/C
+ ylwC6MBl9cESLiqCAw9TwVuP/orhec+cE2GWzeyWylgJx5MKQnAE3PYe6ar7YLtZbF8x
+ sUDfRq+HZeqv/KLGtZABzsXI38+7HGqaY5T7qs1P76TG1uzhQ9t+aNTs8VJlTVx3FqPF
+ GdVlUNCyb7yprfMr1HBtQY92vFKt1H8uC8RCnekf/kn3gpxCOKZHwe8RQW0jHYiAWhZ2
+ Yprg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7RyrKD33/Nh1oTqfp2KPkfxJKWqGtPCiPeeEOQuP+Xg=;
- b=pfVuefEuV1iaaXHk6f1HJc+HqoBjF1+qTvIZ2i/jDG+m0hZUexR7K124A/22ZaYQnu
- vyv7XkyFVIxgd5pKvSuTy/I2IzmNnVd8JgIJSvrQ8iagU3vj7BujHAb2u6/zb6Cxj5mV
- cz42EhAx5C6ODQk6jQYdMaQnE0XCms0b11heWGQT42P3nElNYpCPa+hGpF055NDW2FWA
- lnuYbYXXJxbAV+kgZ8nNdN2aIYemit8doQh5nPMtGx18Dk8U3739kEOX7CSyUZaPumCQ
- xcODZWgkzdJ/E7mBr1dSp2jnWff8enNg46JuQFYKQxuVQOXdHBwFD6usgrQnjYMUI5D2
- N9MQ==
-X-Gm-Message-State: AOAM533aPD5mW1bYPMpBkx/ezUJ+Ryc4k9Z1tc1OfMVN1tio4xLK8ge8
- WWuCmum8YUEReY7pJvoHKlZS2PY9XnTC4yKOlj0Rag==
-X-Google-Smtp-Source: ABdhPJxAVJb/jhxrYN9EKV0yn6zvTky7l7Ref9wzaaf/p/pfEs/NyZAj9BeNoTXkpbKZvef7fEP/QgAdbhjo/b9dQ0Q=
-X-Received: by 2002:a5b:d42:0:b0:65c:a0d7:4c6 with SMTP id
- f2-20020a5b0d42000000b0065ca0d704c6mr40056375ybr.193.1654788942163; 
- Thu, 09 Jun 2022 08:35:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220607203306.657998-1-richard.henderson@linaro.org>
- <20220607203306.657998-42-richard.henderson@linaro.org>
-In-Reply-To: <20220607203306.657998-42-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 16:35:31 +0100
-Message-ID: <CAFEAcA9jEYarLY_srx8bo5EUhW5+-pP_3pcbv+H4MomYve25ZQ@mail.gmail.com>
-Subject: Re: [PATCH v2 41/71] target/arm: Add infrastructure for disas_sme
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=BGK4hDaw/jG9yRD/qZWrM6XiDndlUO9LQdEFQdUUI+Q=;
+ b=E0Zl/mdCCWvWNRC1AXN1Tl4KvEMeAtzYYxLtDKM/lFMaFUWVPD1hEE4pjs2degOtiA
+ Tq3OR19bJeo2fQSDngLlM7/8pN57id2kuun64CkznKRHqZ6nATTmFnvxX8YRrM1uvMxt
+ eonuBkG4ouHS0lE0okBD1DP1QTWUYgSy4sq3t2IEpWEzdqyGr0Aq1sZXyfUlen9Wstu9
+ 8v8ilUAAJa9aAJPvsuvHYoJXnH/tsRhchdqpaAt7djpKsi++ioOs0HT5uGeolOUwDmFL
+ q+IdrhVKYbI5RbtkhNQvbfLkTysvrEn15m3grDkaEYMDjRkRtis7osuRuJwUW5CU6iC0
+ SABQ==
+X-Gm-Message-State: AOAM533psik5dRLdpmFgl3QhfdT/YiFFnwkm9Sj4gCj5boMuEOIbkFS+
+ iVyk9EKmQSWahuQa5PF8tkjfaA==
+X-Google-Smtp-Source: ABdhPJxYEtbBmSj5ghfU8TGu5D1AVa8Cdvg203hELhpMm4GKCRoWsBgu22GxhrL17IOGKjS402VY7w==
+X-Received: by 2002:a17:907:1b19:b0:6f0:1022:1430 with SMTP id
+ mp25-20020a1709071b1900b006f010221430mr37612985ejc.13.1654789380570; 
+ Thu, 09 Jun 2022 08:43:00 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ p9-20020a170906614900b00711c7cca428sm6513565ejl.155.2022.06.09.08.42.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 08:42:59 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A28231FFB7;
+ Thu,  9 Jun 2022 16:42:58 +0100 (BST)
+References: <20220607204557.658541-1-richard.henderson@linaro.org>
+ <20220607204557.658541-15-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.26; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 14/53] semihosting: Move common-semi.h to
+ include/semihosting/
+Date: Thu, 09 Jun 2022 16:42:52 +0100
+In-reply-to: <20220607204557.658541-15-richard.henderson@linaro.org>
+Message-ID: <87k09psv0d.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,56 +94,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Jun 2022 at 21:36, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This includes the build rules for the decoder, and the
-> new file for translation, but excludes any instructions.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate-a64.h |  1 +
->  target/arm/translate-a64.c |  7 ++++++-
->  target/arm/translate-sme.c | 35 +++++++++++++++++++++++++++++++++++
->  target/arm/meson.build     |  2 ++
->  target/arm/sme.decode      | 20 ++++++++++++++++++++
->  5 files changed, 64 insertions(+), 1 deletion(-)
->  create mode 100644 target/arm/translate-sme.c
->  create mode 100644 target/arm/sme.decode
->
-> diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-> index f0970c6b8c..789b6e8e78 100644
-> --- a/target/arm/translate-a64.h
-> +++ b/target/arm/translate-a64.h
-> @@ -146,6 +146,7 @@ static inline int pred_gvec_reg_size(DisasContext *s)
->  }
->
->  bool disas_sve(DisasContext *, uint32_t);
-> +bool disas_sme(DisasContext *, uint32_t);
->
->  void gen_gvec_rax1(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
->                     uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index b1d2840819..8a38fbc33b 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -14814,7 +14814,12 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
->      }
->
->      switch (extract32(insn, 25, 4)) {
-> -    case 0x0: case 0x1: case 0x3: /* UNALLOCATED */
-> +    case 0x0:
-> +        if (!disas_sme(s, insn)) {
-> +            unallocated_encoding(s);
-> +        }
-> +        break;
 
-I still think we should check bit 31 here.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
+> This header is not private to the top-level semihosting directory,
+> so place it in the public include directory.
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
