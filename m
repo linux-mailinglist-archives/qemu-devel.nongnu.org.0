@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4755450D5
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:29:23 +0200 (CEST)
-Received: from localhost ([::1]:34092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C5B54511B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:43:48 +0200 (CEST)
+Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzK66-0007DV-5a
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49242)
+	id 1nzKK3-0001mn-20
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJrJ-0002Lb-7s
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:14:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJr5-0006Jo-K5
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:14:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654787630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/1NBaD1L2eAVL+8PZ9lU9oZfnpy1NfGUmrmO8j9nZ9E=;
- b=bZUw4Df4OQQiSJpxy8BE7QRwe0Gppgl6gWfXpoUzD8abm+2gwppcgrI30TpdrX9n0QUjSt
- OAN98JRZsxmTaqA8Cv0CMku/e6Dpj9YlAWH0K9YX4vxjmEvwAUpJpj/H5dcqCzBoL5f/Ew
- /QOETQTymYSOIifF6wm4iKA4Sf7ywvA=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-VC8t9A_MOJ6AzyutwzB8IQ-1; Thu, 09 Jun 2022 11:13:47 -0400
-X-MC-Unique: VC8t9A_MOJ6AzyutwzB8IQ-1
-Received: by mail-il1-f200.google.com with SMTP id
- e4-20020a056e020b2400b002d5509de6f3so6217962ilu.6
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:13:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzJqu-0002AD-1C
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:13:42 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:40346)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzJqs-0006J1-8O
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:13:39 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-30c2f288f13so244280567b3.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:13:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AyICTKbmfFWPtVchwZ2x5SPndxhOMyGcxD9CcnVxnmE=;
+ b=eaLOjCEybBW6jWcLR6qZjYg2TrJLZcgvhYjBhdJ3OIKrpkG4K3rh4sB59RSlqj3IcP
+ evmT+/gQl5iMEzDA2vQrb5M0VDWSgcF8lEN+uqEw7WkPZjG83mz1lnyz2coFFni8xQ0L
+ T4WwFMGG02i10pgJW/wkvFCF8incizJXe1kVM+3BSSzqjOvKtkhIBou7eDlPlYWKxUUI
+ J7uIUae2M3QHDODodHYgotlsQr8nMVgj9va/s3FrA7wZl9K95Udgsos6MP3rTcYLp+Ik
+ uYlinx0ovZjfDFbiLYv9CNL4w9S5g8ru2AjBDJfUoQ5WtGcfREgiXPR+nmDLsou6hiGW
+ Bfpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/1NBaD1L2eAVL+8PZ9lU9oZfnpy1NfGUmrmO8j9nZ9E=;
- b=RnnZ4bYTFck9KLhzKQOLBlRZne0o3iRNcY70Mby4U+x4FHj72sFGGie3v9Ud+0vdVB
- oB0csWT4BemmFAfoEW0HxGDLzNqgykGsworXcZH4GAJR+5dj/cwbP4G7yabH8T3QS0Wp
- vqKjguAv0M+Qr3Z2Uduj4MTkSUYVK8n9Qm+sGkSmsadX/VlcvsWZ1O60PDwvIXFyW9h9
- MGnQwERWhmAqczo0QFiNZh3zTHRI2cRs4pku9xQFE/JBxYh0+Yu3fWs0WAYBWvD2FAyS
- 654wB6zQZzHZINtGvt/0G0qMVIOgJf3cgfWAuUJxINYybeDF0m2qCuPBKVp9WbLUiCtO
- EPhg==
-X-Gm-Message-State: AOAM530Omx5Jo4Iy7YngfKC2sfyhu1u63fuHEG276ffak1lKDmBX9hte
- qqTC7zZR+SlqXaNYrzJ4M+o4Ndtte6jxsx9foIBMUARj4oh1cSl0p9akaemJBhXrr2Q41I8Muaj
- 7xzlefcTrczqKOPqrMvwbDGvQiaL9EvQ=
-X-Received: by 2002:a05:6638:1649:b0:331:b3c5:159b with SMTP id
- a9-20020a056638164900b00331b3c5159bmr7116964jat.130.1654787626629; 
- Thu, 09 Jun 2022 08:13:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTbiD20PS/ci02zYl3i6wRVShEzuBHBekciM1NxkrQ1Px+WS2hp+FWWd1AeVohLho8OtFIRaTvGhUWqvApKqA=
-X-Received: by 2002:a05:6638:1649:b0:331:b3c5:159b with SMTP id
- a9-20020a056638164900b00331b3c5159bmr7116953jat.130.1654787626409; Thu, 09
- Jun 2022 08:13:46 -0700 (PDT)
+ bh=AyICTKbmfFWPtVchwZ2x5SPndxhOMyGcxD9CcnVxnmE=;
+ b=JbNqgPPcl4xqAsSvlke3tyZOPcA57Mzg+YlQ05RZUsXhdxPeXHfdKlFd0vZu10Ps8N
+ wmcnufFmLzjIoxvyjf25lpFIRW2yJkWoG4anrgmTmF9vjNh1c1CTFJibdRqTO6/rYzMk
+ +hzGjy5Ekfcw7vvAERiZDIyO+y8/w1P35FNN4R0QHJvv98ECBJN42ryu/ImfR5hdFDP+
+ zvjjUqzZQR3VqC4ZORuRw9QgTDEDqHJoVF8qdx/Tj/thY1FBSIC2h2Tsv8woVKebBalG
+ Ai3zkzZkNDpWTpEdaqECTEO0tN01VV8okcK6Vgg6kg/D48gtXR5bc4oYL5LH1RI/h0KF
+ 9LJA==
+X-Gm-Message-State: AOAM533B2OfUBtuZn+vwsxGWlMwdB5R4R1o//SnHLzJ0fupWF7uuzdfT
+ jF+Hmw6dga2EYZfFZbVM4cfTO2G18oy51vlwf6tiuQ==
+X-Google-Smtp-Source: ABdhPJzudn+nH7Ms2rwfNitILqDgqCaTT1nOeetvS6Z4Hjq6rg5nP3owcLETTFZBtpXSl4N5SezDifRFaWv5+zNNMyQ=
+X-Received: by 2002:a81:6904:0:b0:2fe:e670:318a with SMTP id
+ e4-20020a816904000000b002fee670318amr42262598ywc.329.1654787616959; Thu, 09
+ Jun 2022 08:13:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220519144841.784780-1-afaria@redhat.com>
- <20220519144841.784780-8-afaria@redhat.com>
- <Yo9AhsmzrQlzIr/z@stefanha-x1.localdomain>
- <CAELaAXy-Pp75sdkEDiaUEfg-SL5FF1LKTJ7ntajNcz75+FpiaQ@mail.gmail.com>
- <20220527142506.wkl2al5vtle45qji@redhat.com>
- <YpS9Y0p18HJSNFsq@stefanha-x1.localdomain>
- <CAELaAXx23BK86W6oEzo9DANj=KCTpXAwDu0E85BGj19UW0M3VQ@mail.gmail.com>
- <YqCbDWy4kdBSzd43@stefanha-x1.localdomain>
-In-Reply-To: <YqCbDWy4kdBSzd43@stefanha-x1.localdomain>
-From: Alberto Faria <afaria@redhat.com>
-Date: Thu, 9 Jun 2022 16:13:10 +0100
-Message-ID: <CAELaAXxtQ_Nodtu_2xQJXgT6DmwamObqDZOkzogUQuzhPMKzTA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/10] block: Implement bdrv_{pread, pwrite,
- pwrite_zeroes}() using generated_co_wrapper
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org, 
- "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org, 
- Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, 
- Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
- Fam Zheng <fam@euphon.net>, 
- Ari Sundholm <ari@tuxera.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220605161056.293920-1-richard.henderson@linaro.org>
+ <20220605161056.293920-3-richard.henderson@linaro.org>
+In-Reply-To: <20220605161056.293920-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jun 2022 16:13:26 +0100
+Message-ID: <CAFEAcA-YtGEHj5vsnK31qUXDvc8WerVafPBYzEOA5NH5kyL1-g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/arm: SCR_EL3.RW is RAO/WI without AArch32
+ EL[12]
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,19 +84,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 8, 2022 at 1:50 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> Yes, that's fine. My main concern is that callers have been audited when
-> errnos are changed. If you switch bdrv_{pread,pwrite}() to -EIO and have
-> audited callers, then I'm happy.
+On Sun, 5 Jun 2022 at 17:16, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Consistent -EINVAL would be nice in the future, but I think it's lower
-> priority and it doesn't have to be done any time soon.
+> Since DDI0487F.a, the RW bit is RAO/WI.  When specifically
+> targeting such a cpu, e.g. cortex-a76, it is legitimate to
+> ignore the bit within the secure monitor.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1062
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h    | 5 +++++
+>  target/arm/helper.c | 4 ++++
+>  2 files changed, 9 insertions(+)
+>
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index c1865ad5da..a7c45d0d66 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -3947,6 +3947,11 @@ static inline bool isar_feature_aa64_aa32_el1(const ARMISARegisters *id)
+>      return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, EL1) >= 2;
+>  }
+>
+> +static inline bool isar_feature_aa64_aa32_el2(const ARMISARegisters *id)
+> +{
+> +    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, EL2) >= 2;
+> +}
+> +
+>  static inline bool isar_feature_aa64_ras(const ARMISARegisters *id)
+>  {
+>      return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, RAS) != 0;
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index c262b00c3c..84232a6437 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -1755,6 +1755,10 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+>          value |= SCR_FW | SCR_AW;      /* RES1 */
+>          valid_mask &= ~SCR_NET;        /* RES0 */
+>
+> +        if (!cpu_isar_feature(aa64_aa32_el1, cpu) &&
+> +            !cpu_isar_feature(aa64_aa32_el2, cpu)) {
+> +            value |= SCR_RW;           /* RAO/WI*/
+> +        }
 
-Great. I'll send a v4 with the small change to patch 06/10 that
-remains, and note in the email for this patch (07/10) that it required
-quite a bit of auditing. As mentioned, there were ~140 call sites, so
-I'm not positive I didn't make a mistake. Hopefully someone more
-accustomed to the code base will have enough time to double-check
-this.
+True in principle, but we probably need to do something to handle
+the reset case for AArch32 CPUs, where cpu_isar_feature() will
+return false becaese id_aa64pfr0 is zero but the bit should
+nonetheless be RES0.
 
+thanks
+-- PMM
 
