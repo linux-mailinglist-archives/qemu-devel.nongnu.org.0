@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E8B544F98
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:42:18 +0200 (CEST)
-Received: from localhost ([::1]:51204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69797544FC3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:47:47 +0200 (CEST)
+Received: from localhost ([::1]:59528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzJMX-0006uF-4i
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36680)
+	id 1nzJRq-0004D5-GJ
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzHf3-0005Lg-9j
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 08:53:17 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56106)
+ id 1nzHhu-0007Jy-1A
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 08:56:14 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:41958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzHev-0003iu-NS
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 08:53:10 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id e9so10738980pju.5
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 05:53:09 -0700 (PDT)
+ id 1nzHhs-0004b2-BD
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 08:56:13 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ l20-20020a17090a409400b001dd2a9d555bso20990771pjg.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 05:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QX7WSOmfdAj+2a76Ls2sUy1xnxRT9B8UXZTQolxAxBs=;
- b=uI/vbidic7dE019LE9d24kUwWbq82wrBKPv2yRUh9NxP5NF3WnFlj9SYppRkTWlVcA
- S2VrYOI64B3W3kh6evEqlDFvrYBqPJf5D2AoNsNl5tbcpl/XY7FWbwknUwaYurBR9L23
- ncZinSSsAcUSRmBjjzX1tcrK2Fmq8Y8nD0YS2ccg1bSWjImiB1v1myQcNETNDRm8MAoO
- kfgxRnOAknvVT0RIssiopK1C+FnG/07yQ4vLrcqpUu1GLekXXI11YhIIxW3NnWH4+oFZ
- c2viN5SICaO6cFuC61P1hvFmNHJ96EZ7LAm5iqlsM+Y7VLJoJlsxQs6DVeyjwCophVXw
- WfqA==
+ :cc:content-transfer-encoding;
+ bh=KfIRm17UYIFjEfN3ubXFf0+/OYQFgp7VCczp8lGobOg=;
+ b=jzweONoA1hTWXwO7z5VmE+ruBn0TJEtQoehTFx4aYRQPQhXkYUP9pJPrgQUUF+z9t7
+ RO7GYUCnRgQpWMsDrUV0JJQAe7f4Br7VPTmotgkMVUZ3L4AHzXgMNMbYMXc1gcA/TsR0
+ cIaDY3DSREjfddfD2RrxXZJncyrSnEhQ2jU2A5nfBxQgZ4bgoC9gaS0YU2HDPcLWxH0r
+ UdCIvEQ4ClDtZOdF2i+3dX93tM+puftu/7yTP1nwfKAhD5BjH8XfJ7nTkXK3B31qtmF8
+ NE0vVgHzrd/c15++N62RVlkPA4Nd/2wripUdR8W4f/ikLJX1IZ3djbY4ueZyvCtdhCue
+ 3HNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QX7WSOmfdAj+2a76Ls2sUy1xnxRT9B8UXZTQolxAxBs=;
- b=ktILbluTuRaC9bEtQQ4ebLm/RufWrQtMK6zbJc+rgCiwcHMk32PqXFMpGSFO0kricU
- k0KjbumGUs9BYBmESdqr9987zcN0OhaN0bExQykfk4kRaw9SGEfaNdpHQUM0dwrY5I2P
- uk4h7KmzMNoOvpL8OWKNwKgmXgKlSkgr4d98nIWaAW6JR2UHpYxFexy5fWToVWm0cZKn
- zSvDdZLdD+ZWEsm4MetfgLkQ5HB/zPJgukyRcqarYLr+Ezo5Kx2Fsi73ICURDLX0s1m3
- KBoS6oaZnvzlZn5c+wXUrktdk9AJYQoUnP4vjsTpuTR8jf2V2fdlIjCoXZ5iqPvgus4+
- UrSQ==
-X-Gm-Message-State: AOAM533AJMGIO/v+XsQrAoD2CQLQxk0UDwcbferaWKWZrJ2rk+2WkqFM
- iCpTt2CFlTauKbZ7Q8D3abOqlrsi42smmWSiBi/STw==
-X-Google-Smtp-Source: ABdhPJyIS0KURCG4tzTYiNH3eJekdj3ODSAI/cD4zlByl5/Sn62AjkYKYQpGA5mdv1K+9rFSJGssHwi3UdzDnoyyKmg=
-X-Received: by 2002:a17:902:e80d:b0:167:5e77:e695 with SMTP id
- u13-20020a170902e80d00b001675e77e695mr28344121plg.144.1654779188165; Thu, 09
- Jun 2022 05:53:08 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KfIRm17UYIFjEfN3ubXFf0+/OYQFgp7VCczp8lGobOg=;
+ b=ufbM8kzLPWVyX8K9MJAZLU6AFcuPfbvczINMlcIyTSyyx813jLpPTJgN3f0GiA3JbF
+ PlV+xQJpsHttyQWBANYb+9f/4q9GGpROJINtGz1WZPtWW3k/dzwn3+mTkSgZ0noLVfdZ
+ gXPRSU17hlPpTR4Cu2rUsp0DbvTtmI/aXi1G7cEzq5vPpRwmhHVCiA7qRkeD+9JIqrdD
+ RSdyFhy3fkhFgrr28D7awT9uNuqwi3ct/6bGItDTiAOox+rHEZ+ECtuv4Jc6bOlvDEqG
+ VYNQXM1AJX/MKTGri9tF3fIVSPHyD+I/K7LGrkadBAOZciuB3UxAdLymODaZ7eO+i58q
+ TpMA==
+X-Gm-Message-State: AOAM531giC67BAnzrRdqv2RWytsh9PyWoJliFu1j730Telgw6bM/m/Ki
+ Hca90eQU4i76QWG6Yt8noDT/oTyswc1SYaeypK7mEQ==
+X-Google-Smtp-Source: ABdhPJzzsPj1wMCqD+hQIub1yHyr8mxDdDHKQkACPIoejGgvQwK8YWwrbMcB/PMf1cf187XtVlka0IzaO2975qQQ5ZQ=
+X-Received: by 2002:a17:902:930c:b0:167:8960:2c39 with SMTP id
+ bc12-20020a170902930c00b0016789602c39mr17563019plb.33.1654779370339; Thu, 09
+ Jun 2022 05:56:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-50-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-50-mark.cave-ayland@ilande.co.uk>
+References: <20220524110235.145079-1-berrange@redhat.com>
+ <20220524110235.145079-8-berrange@redhat.com>
+In-Reply-To: <20220524110235.145079-8-berrange@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 13:52:57 +0100
-Message-ID: <CAFEAcA_zHBc1FTYa6++8jtOJ42rsedcF01ryk-_3zYgLr=Ptug@mail.gmail.com>
-Subject: Re: [PATCH 49/50] pckbd: switch I8042 device from update_irq()
- function to PS2 device gpio
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com, 
- pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, 
- f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org
+Date: Thu, 9 Jun 2022 13:56:00 +0100
+Message-ID: <CAFEAcA-nv+chmz1ih7FQp-Ptyx9qLSy8AbxRitcafiWNbDZUNQ@mail.gmail.com>
+Subject: Re: [PATCH 07/20] migration: rename qemu_update_position to
+ qemu_file_credit_transfer
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>, 
+ Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,55 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 22 May 2022 at 19:20, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
+On Tue, 24 May 2022 at 12:46, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
 >
-> Define a new qdev input gpio for handling incoming PS2 IRQs, and then wire up the
-> PS2 keyboard and mouse devices to use it. At the same time set update_irq() and
-> update_arg to NULL in ps2_kbd_init() and ps2_mouse_init() to ensure that any
-> accidental attempt to use the legacy update_irq() function will cause a NULL
-> pointer dereference.
+> The qemu_update_position method name gives the misleading impression
+> that it is changing the current file offset. Most of the files are
+> just streams, however, so there's no concept of a file offset in the
+> general case.
 >
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/input/pckbd.c | 27 +++++++++++++++++++++++----
->  1 file changed, 23 insertions(+), 4 deletions(-)
+> What this method is actually used for is to report on the number of
+> bytes that have been transferred out of band from the main I/O methods.
+> This new name better reflects this purpose.
 >
-> diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-> index b2fdd1c999..f1eeab9952 100644
-> --- a/hw/input/pckbd.c
-> +++ b/hw/input/pckbd.c
-> @@ -801,6 +801,18 @@ static const MemoryRegionOps i8042_cmd_ops = {
->      .endianness = DEVICE_LITTLE_ENDIAN,
->  };
->
-> +static void i8042_set_irq(void *opaque, int n, int level)
-> +{
-> +    ISAKBDState *s = I8042(opaque);
-> +    KBDState *ks = &s->kbd;
-> +
-> +    if (n) {
-> +        kbd_update_aux_irq(ks, level);
-> +    } else {
-> +        kbd_update_kbd_irq(ks, level);
-> +    }
-> +}
-> +
->  static void i8042_reset(DeviceState *dev)
->  {
->      ISAKBDState *s = I8042(dev);
-> @@ -820,6 +832,9 @@ static void i8042_initfn(Object *obj)
->                            "i8042-cmd", 1);
->
->      qdev_init_gpio_out_named(DEVICE(obj), &s->a20_out, I8042_A20_LINE, 1);
-> +
-> +    qdev_init_gpio_out(DEVICE(obj), s->irqs, 2);
-> +    qdev_init_gpio_in(DEVICE(obj), i8042_set_irq, 2);
->  }
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-named gpio inputs, otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>  int qemu_peek_byte(QEMUFile *f, int offset);
+>  void qemu_file_skip(QEMUFile *f, int size);
+> -void qemu_update_position(QEMUFile *f, size_t size);
+> +/*
+> + * qemu_file_credit_transfer:
+> + *
+> + * Report on a number of bytes that have been transferred
+> + * out of band from the main file object I/O methods.
+> + */
+> +void qemu_file_credit_transfer(QEMUFile *f, size_t size);
+>  void qemu_file_reset_rate_limit(QEMUFile *f);
+>  void qemu_file_update_transfer(QEMUFile *f, int64_t len);
+>  void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
 
-thanks
+What's the difference between "credit transfer" and "update
+transfer" ? The latter also seems to just be adding a number
+to a count of bytes-transferred...
+
 -- PMM
 
