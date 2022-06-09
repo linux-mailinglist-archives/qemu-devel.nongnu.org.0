@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1678E54472A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:18:39 +0200 (CEST)
-Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3886554476E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:29:44 +0200 (CEST)
+Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzEJJ-00078E-RG
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39222)
+	id 1nzEU3-00010R-7W
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:29:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE6v-0001Ov-5P
+ id 1nzE6w-0001P2-17
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:50 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46819)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE6t-0005xd-8W
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:48 -0400
-Received: by mail-wr1-x435.google.com with SMTP id u8so27137707wrm.13
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:05:46 -0700 (PDT)
+ id 1nzE6u-0005y0-1E
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:49 -0400
+Received: by mail-wr1-x435.google.com with SMTP id a15so22952820wrh.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:05:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=815PqLyO6+Q2xJdxQZlA76V7TTOTcj2SZ6F7/EiLTo0=;
- b=zhjXtb+TnQRYQTfulh//qntXvpj6PXAqQQ2mn31XIawjv9WtorBmvM5GQFk3d0HTFI
- lah41ldMiLnJBAf42J7toiOBxje0NiRGKvgWmCgaP0+vZnoiGOu0A1j3tCOaW1DZ6Zlu
- bAoK0VjfPCGiYtPyG35jWUrrs4kufWN2nBzZyTXwFi62k6MLWA69pU/cwORT8S18ArjC
- mY0Vk0Oj52hvsc0CaDioKutP+25wr1sqfcoKYjduZkIRuGS9qm5NOXLhQQ6PES3yWLbs
- 108P+8VwvAzjwyBFMmor0jy5B+a3Eeboq1oDTxGUmL2G/2yV5wCS3r3gB8MyZaetMn5S
- oX7w==
+ bh=v6Qr9bE25ltpawAcQgSfkzrSpXI1MycLCG8XufyC2js=;
+ b=bKA17z9ZQuuNoWzip2SlJ844IpZsf7Gb7WyDu2G8duXJxRa39m9YZpaDdkXr88xfpq
+ atdfYK9AUTa1HRrK2IUb8jHK5yb/9+lu2XL9rNsRJshwdvyjiC/CzQzjwiKpqFR2nPFa
+ bo/ngXemLA17moqfZ4GaJTcRK1aXA6qzE0IdHbJmfHKb/iB71sbeLjPLuPPiAyW9Gt8i
+ OSgVRZxkTWCKSzqrh7qOrLWDjoh46Qn2Jdvopi5k38ceNrdNt81b3b56p2G5PGy5QUKl
+ QxPTM72k1phA8vw+seTTC5AV772uMQZjeWDXlK6f+yehzOEuETcMT0vDH9FoQEF7DHQH
+ ZpOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=815PqLyO6+Q2xJdxQZlA76V7TTOTcj2SZ6F7/EiLTo0=;
- b=duFyBLNzIogCoaaWnVoqVmhlgyhtBhy74CL/PfyH8bQVGACc7XSLx+tvgLkYb9HZFj
- 1+Cv4pyjIjaX6uOU5WM/pU1GvKhURRNc0iEZLDFXenlCbqWJvCfMOiwM3FIDfn4UpbOI
- Rqu7hViM5dOM2rRJG4cMqRsQAKG7hLrRFcQ9WQmy2C2sJfjkTF5eCuAbVRNHAve4AzTw
- QqopOlramslBz9f82/nvjduuLsyCthBw+JzVvzvCytZGQBcCHtVWykN/dgaIPZFBpl67
- dvmQfhJceALBy2/WvBcqehcQqJKklcPrOBknNFqSAgTC81eshgJEjzxAA5udgaLXmsVE
- 6wOw==
-X-Gm-Message-State: AOAM532jd3KpjEcYQ8mLdijmlogrFfHVZrx6DZmltcAggYTQBDvK/HJC
- CHfR8yslN6/9tIHHY+rIvKbsAJrdJwibvA==
-X-Google-Smtp-Source: ABdhPJyqh8wPZ2i6KtAjNeG0lAaJg173vR95N380obJrfkhR06UKpPwoE9aK7AaUwaik6fWo9dxCJg==
-X-Received: by 2002:a5d:59a6:0:b0:218:49ff:2712 with SMTP id
- p6-20020a5d59a6000000b0021849ff2712mr16631531wrr.106.1654765545792; 
- Thu, 09 Jun 2022 02:05:45 -0700 (PDT)
+ bh=v6Qr9bE25ltpawAcQgSfkzrSpXI1MycLCG8XufyC2js=;
+ b=DTc0/uVEiZQRyaVmMk4diVgpo5cdmXUFLhWJrMf5AEXdTOSKqLoTUnzal+rViSSpxK
+ GuTQu20UfoJ40a6qDRmbppRXSxR9buLN81A7Gw2Yln5KTXdngLVFAgjzymRbhiB5AlXh
+ /rfDtpka3L01kWA3J7xfbJlzcknsoWNxescNk1+Y8UEEjULxmhZQNzXf5NJON4jNE066
+ p+TYgO0lbzaRfec5Wov5oFIS7Xf5am9zpVUHNTvty9PIreWCwFYZiRGtYNG+g/YBAAq5
+ uqqE98Tqy6i8KrT6INARLRJgaVpHaFMylNAulBWizZDZ1cbsRuw1TM6z5Yyv8/GPtAbT
+ PTHg==
+X-Gm-Message-State: AOAM531NuW3LmLFnP11IYLInNVHwvC3XLyfssjJuTpeVSzSxKcnhhjMF
+ N5/HB9gel2kO6GebHf3R/29CASQ6wtQDBg==
+X-Google-Smtp-Source: ABdhPJwWv0/Eg6nc53WFZoCrjYWlqjsd46B7PRybMAs0DyG+q9pkeuwrrpxOCGXzL2PySxNzQoUaIg==
+X-Received: by 2002:a05:6000:152:b0:216:160:2e60 with SMTP id
+ r18-20020a056000015200b0021601602e60mr27313060wrx.663.1654765546692; 
+ Thu, 09 Jun 2022 02:05:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.05.44
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.05.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:05:45 -0700 (PDT)
+ Thu, 09 Jun 2022 02:05:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/55] xlnx_dp: Introduce a vblank signal
-Date: Thu,  9 Jun 2022 10:04:47 +0100
-Message-Id: <20220609090537.1971756-6-peter.maydell@linaro.org>
+Subject: [PULL 06/55] xlnx_dp: Fix the interrupt disable logic
+Date: Thu,  9 Jun 2022 10:04:48 +0100
+Message-Id: <20220609090537.1971756-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
@@ -90,137 +90,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
-Add a periodic timer which raises vblank at a frequency of 30Hz.
-
-Note that this is a migration compatibility break for the
-xlnx-zcu102 board type.
+Fix interrupt disable logic. Mask value 1 indicates that interrupts are
+disabled.
 
 Signed-off-by: Sai Pavan Boddu <saipava@xilinx.com>
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Frederic Konrad <fkonrad@amd.com>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220601172353.3220232-3-fkonrad@xilinx.com
-Changes by fkonrad:
-  - Switched to transaction-based ptimer API.
-  - Added the DP_INT_VBLNK_START macro.
-Signed-off-by: Frederic Konrad <fkonrad@amd.com>
-[PMM: bump vmstate version, add commit message note about
- compat break]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20220601172353.3220232-4-fkonrad@xilinx.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/display/xlnx_dp.h |  3 +++
- hw/display/xlnx_dp.c         | 30 ++++++++++++++++++++++++++----
- 2 files changed, 29 insertions(+), 4 deletions(-)
+ hw/display/xlnx_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/display/xlnx_dp.h b/include/hw/display/xlnx_dp.h
-index 1ef5a89ee74..e86a87f235e 100644
---- a/include/hw/display/xlnx_dp.h
-+++ b/include/hw/display/xlnx_dp.h
-@@ -35,6 +35,7 @@
- #include "hw/dma/xlnx_dpdma.h"
- #include "audio/audio.h"
- #include "qom/object.h"
-+#include "hw/ptimer.h"
- 
- #define AUD_CHBUF_MAX_DEPTH                 (32 * KiB)
- #define MAX_QEMU_BUFFER_SIZE                (4 * KiB)
-@@ -107,6 +108,8 @@ struct XlnxDPState {
-      */
-     DPCDState *dpcd;
-     I2CDDCState *edid;
-+
-+    ptimer_state *vblank;
- };
- 
- #define TYPE_XLNX_DP "xlnx.v-dp"
 diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 0378570459d..ed856b596da 100644
+index ed856b596da..a071c818833 100644
 --- a/hw/display/xlnx_dp.c
 +++ b/hw/display/xlnx_dp.c
-@@ -114,6 +114,7 @@
- #define DP_TX_N_AUD                         (0x032C >> 2)
- #define DP_TX_AUDIO_EXT_DATA(n)             ((0x0330 + 4 * n) >> 2)
- #define DP_INT_STATUS                       (0x03A0 >> 2)
-+#define DP_INT_VBLNK_START                  (1 << 13)
- #define DP_INT_MASK                         (0x03A4 >> 2)
- #define DP_INT_EN                           (0x03A8 >> 2)
- #define DP_INT_DS                           (0x03AC >> 2)
-@@ -260,7 +261,7 @@ typedef enum DPVideoFmt DPVideoFmt;
- 
- static const VMStateDescription vmstate_dp = {
-     .name = TYPE_XLNX_DP,
--    .version_id = 1,
-+    .version_id = 2,
-     .fields = (VMStateField[]){
-         VMSTATE_UINT32_ARRAY(core_registers, XlnxDPState,
-                              DP_CORE_REG_ARRAY_SIZE),
-@@ -270,10 +271,15 @@ static const VMStateDescription vmstate_dp = {
-                              DP_VBLEND_REG_ARRAY_SIZE),
-         VMSTATE_UINT32_ARRAY(audio_registers, XlnxDPState,
-                              DP_AUDIO_REG_ARRAY_SIZE),
-+        VMSTATE_PTIMER(vblank, XlnxDPState),
-         VMSTATE_END_OF_LIST()
-     }
- };
- 
-+#define DP_VBLANK_PTIMER_POLICY (PTIMER_POLICY_WRAP_AFTER_ONE_PERIOD | \
-+                                 PTIMER_POLICY_CONTINUOUS_TRIGGER |    \
-+                                 PTIMER_POLICY_NO_IMMEDIATE_TRIGGER)
-+
- static void xlnx_dp_update_irq(XlnxDPState *s);
- 
- static uint64_t xlnx_dp_audio_read(void *opaque, hwaddr offset, unsigned size)
-@@ -773,6 +779,13 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
+@@ -889,7 +889,7 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
+         xlnx_dp_update_irq(s);
          break;
-     case DP_TRANSMITTER_ENABLE:
-         s->core_registers[offset] = value & 0x01;
-+        ptimer_transaction_begin(s->vblank);
-+        if (value & 0x1) {
-+            ptimer_run(s->vblank, 0);
-+        } else {
-+            ptimer_stop(s->vblank);
-+        }
-+        ptimer_transaction_commit(s->vblank);
+     case DP_INT_DS:
+-        s->core_registers[DP_INT_MASK] |= ~value;
++        s->core_registers[DP_INT_MASK] |= value;
+         xlnx_dp_update_irq(s);
          break;
-     case DP_FORCE_SCRAMBLER_RESET:
-         /*
-@@ -1177,9 +1190,6 @@ static void xlnx_dp_update_display(void *opaque)
-         return;
-     }
- 
--    s->core_registers[DP_INT_STATUS] |= (1 << 13);
--    xlnx_dp_update_irq(s);
--
-     xlnx_dpdma_trigger_vsync_irq(s->dpdma);
- 
-     /*
-@@ -1275,6 +1285,14 @@ static void xlnx_dp_finalize(Object *obj)
-     fifo8_destroy(&s->rx_fifo);
- }
- 
-+static void vblank_hit(void *opaque)
-+{
-+    XlnxDPState *s = XLNX_DP(opaque);
-+
-+    s->core_registers[DP_INT_STATUS] |= DP_INT_VBLNK_START;
-+    xlnx_dp_update_irq(s);
-+}
-+
- static void xlnx_dp_realize(DeviceState *dev, Error **errp)
- {
-     XlnxDPState *s = XLNX_DP(dev);
-@@ -1309,6 +1327,10 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
-                                            &as);
-     AUD_set_volume_out(s->amixer_output_stream, 0, 255, 255);
-     xlnx_dp_audio_activate(s);
-+    s->vblank = ptimer_init(vblank_hit, s, DP_VBLANK_PTIMER_POLICY);
-+    ptimer_transaction_begin(s->vblank);
-+    ptimer_set_freq(s->vblank, 30);
-+    ptimer_transaction_commit(s->vblank);
- }
- 
- static void xlnx_dp_reset(DeviceState *dev)
+     default:
 -- 
 2.25.1
 
