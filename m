@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B953544875
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:14:52 +0200 (CEST)
-Received: from localhost ([::1]:34454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B513544946
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:39:48 +0200 (CEST)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzFBj-0000Qm-B9
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:14:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39406)
+	id 1nzFZr-0005M2-7q
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:39:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE78-0001Xj-DK
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:06 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46807)
+ id 1nzE7J-0001Yd-9E
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:18 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE76-0005v7-GQ
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:02 -0400
-Received: by mail-wr1-x429.google.com with SMTP id u8so27137454wrm.13
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:05:59 -0700 (PDT)
+ id 1nzE7B-00062j-TP
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:13 -0400
+Received: by mail-wr1-x431.google.com with SMTP id o8so3625311wro.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EUZ/tNvP5WO5oV5qgdTYHUfZb+lkPxFhWBi0KRDzQ54=;
- b=OpoQr7bAeWcoudBuNJFoIyB0bBeEnTOXTh5O2Oo/GSnqeByeknfak96HCpU5qNLrVa
- mCNy+IMhwcj5NUs5vs2VD/bBNlIEM7k197t+JGt2fd9jEoqbDYhYlTV7hOoq6B83WuAt
- 26NCs/NVhF7VW2un4XXQT2A53kyhtXtmDxV0//YhxpEPYDNw/9f+ca3WUrzp49jyufLX
- EhYgNP/4ScZlFjVd8KD7pViHdwyh8YNQuPvH0k3+lf6U6GViuiKpn+Kb+9iivTfXbIZE
- DUZQEvqnJ7GbHUkJGppHZfynaeNRsUB+1L9PoBFJUXgSQ2QQ4ivF/R9FtMdQ6yS5KWIW
- /0gg==
+ bh=TD1PLdCagSw5QrlgIXtULFKaHs2aOf+o891C3P6EsSQ=;
+ b=j0TKzAGApZF0gBczopLtY9dfGeA9G24MSE6bd8q5WZ9INxwNEVAHb5ZlHlb2uZSqHj
+ xW1dEkkQxA+Pjpn70kE4930ySQsmj784eZdX+9zKcXbkdX/J+oCGP9yJh0Jb+45U5TTd
+ WdhYRBxT3V4ciMpAf6zssDYCn7jV/+D9RgMISVu/oEMzucugWVu5h/Ky5/0WneE2jTrW
+ W/cuOa38nylOvpZomInaEHjnRMisNcMmEnj8K/uaOavJjm+n8y2neZesFlE5owAEICKM
+ LBEXaSGXb1MDMxfHiTT0ljY951MvQ5suLAYj2wdHM72wWc64YfjbpRy6Ti+xu3To5MUG
+ uiww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EUZ/tNvP5WO5oV5qgdTYHUfZb+lkPxFhWBi0KRDzQ54=;
- b=ZLAp3AJX/4h3k0bb1ToU+9rOeT20QUyXFKg0/aurqQ5HV4fj38PJFYy7ZwnxzoPnQX
- nCBVQMJS52spn+gamLBvnU7GiGSfi8grZVm62YGbV2j7Scfc7bGNuk9qgoueuTfzNdx6
- MtEyN+ZTGfz5WfeH+uFTRLutltVhbcIcN0t3DzhCmZ72CT98/N24up7UlE44GhM4IOWQ
- Sag6HgrnQ+CfIwUO+uOysnK8CpTgPBrQFOvFe6mdAz4Dz8X3JJ2sKKig2JHB7dh4969z
- 01IehT9T4Kh6ysnFtExhTSRtyJMoiqzqRFrJcnhyAltqBQ97IWNwH3dl2jlBpz/TPOWK
- fCBQ==
-X-Gm-Message-State: AOAM530U5h4xuGZMQPMOqgfbD86kegzVkdQwrW+A+3GX+V2rBebkhzy4
- 4sIBtJBelf+j4ZeI/Y0et2EvtdCLhjY3ng==
-X-Google-Smtp-Source: ABdhPJwWyn3iyr/30BUKubxVyG/qD9HsTxn2XcVHmC+tuG78udBbjiq76PjIy0Ae/nQbFov8AdZGag==
-X-Received: by 2002:a5d:620b:0:b0:210:11d9:770 with SMTP id
- y11-20020a5d620b000000b0021011d90770mr37269450wru.11.1654765559590; 
- Thu, 09 Jun 2022 02:05:59 -0700 (PDT)
+ bh=TD1PLdCagSw5QrlgIXtULFKaHs2aOf+o891C3P6EsSQ=;
+ b=jpTvf9PzjDHsdzThD/XiMOZpdDeiulno3TZE1H4C6MRG+NQizpEY+4eL3FGwefpK+g
+ Rxij+Btq+NKaD4UcSjDwATUjZbvgwT+EPfCeVvUqQeEeDAJ62AvYL8PLh7JbrnG1noGe
+ PRaEs6JWBtQId042Dpq35AjM4Z2OFg46cTH5rKMqM7VN6wWAy1kIh5UshSNRCVk+Bd+H
+ q81MD0DIwBK7BkEv5LtA0BxUdGDrDZGn+HSTCMj/P31tEI7KfBZgJrdH+MON+tQmM0L1
+ OGuuXm+hRRpCQ4l+wfBtaeufAAwNT9LAkw8jvlWwp1/ZGr2LBU31N8QVr1tmS4eNL8rX
+ 4E3w==
+X-Gm-Message-State: AOAM530srhmuhIoHuvzbt5NCdmqvyIbeQ+XJhW277+KOubwL7wjBSitY
+ y9TxyUhnUWD+UPLOPpwuNK/7TEE8hUR5yA==
+X-Google-Smtp-Source: ABdhPJzj4MHZ7o4UXRvrpqkecPR3Ke0NOSNGXPltfsNXBCCK3wx8a8hrNuaO2+DRUkhkZIyv81fwGg==
+X-Received: by 2002:a05:6000:184f:b0:218:555e:6b69 with SMTP id
+ c15-20020a056000184f00b00218555e6b69mr11528701wri.562.1654765562794; 
+ Thu, 09 Jun 2022 02:06:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.05.58
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:05:59 -0700 (PDT)
+ Thu, 09 Jun 2022 02:06:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/55] target/arm: Move pmsav7_use_background_region to ptw.c
-Date: Thu,  9 Jun 2022 10:04:59 +0100
-Message-Id: <20220609090537.1971756-18-peter.maydell@linaro.org>
+Subject: [PULL 20/55] target/arm: Move get_level1_table_address to ptw.c
+Date: Thu,  9 Jun 2022 10:05:02 +0100
+Message-Id: <20220609090537.1971756-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,90 +91,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220604040607.269301-11-richard.henderson@linaro.org
+Message-id: 20220604040607.269301-14-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/ptw.h    |  2 --
- target/arm/helper.c | 19 -------------------
- target/arm/ptw.c    | 21 +++++++++++++++++++++
- 3 files changed, 21 insertions(+), 21 deletions(-)
+ target/arm/ptw.h    |  4 ++--
+ target/arm/helper.c | 26 +-------------------------
+ target/arm/ptw.c    | 23 +++++++++++++++++++++++
+ 3 files changed, 26 insertions(+), 27 deletions(-)
 
 diff --git a/target/arm/ptw.h b/target/arm/ptw.h
-index 8d2e2397147..d2d27119082 100644
+index 6c47a575991..dd6fb93f336 100644
 --- a/target/arm/ptw.h
 +++ b/target/arm/ptw.h
-@@ -36,8 +36,6 @@ simple_ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx, int ap)
- bool m_is_ppb_region(CPUARMState *env, uint32_t address);
- bool m_is_system_region(CPUARMState *env, uint32_t address);
+@@ -18,11 +18,11 @@ uint64_t arm_ldq_ptw(CPUState *cs, hwaddr addr, bool is_secure,
  
--bool pmsav7_use_background_region(ARMCPU *cpu, ARMMMUIdx mmu_idx, bool is_user);
--
- bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-                         MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                         bool s1_is_el0,
+ bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx);
+ bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx);
++uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn);
++
+ ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
+                                  ARMCacheAttrs s1, ARMCacheAttrs s2);
+ 
+-bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                              uint32_t *table, uint32_t address);
+ int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
+                   int ap, int domain_prot);
+ int simple_ap_to_rw_prot_is_user(int ap, bool is_user);
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index cb23413d8e5..62e48f0925c 100644
+index d2ef12346b6..a144cb26413 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11678,25 +11678,6 @@ do_fault:
-     return true;
+@@ -10482,8 +10482,7 @@ static inline bool regime_translation_big_endian(CPUARMState *env,
  }
  
--bool pmsav7_use_background_region(ARMCPU *cpu, ARMMMUIdx mmu_idx, bool is_user)
+ /* Return the TTBR associated with this translation regime */
+-static inline uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                                   int ttbrn)
++uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn)
+ {
+     if (mmu_idx == ARMMMUIdx_Stage2) {
+         return env->cp15.vttbr_el2;
+@@ -10774,29 +10773,6 @@ static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
+     return prot_rw | PAGE_EXEC;
+ }
+ 
+-bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                              uint32_t *table, uint32_t address)
 -{
--    /* Return true if we should use the default memory map as a
--     * "background" region if there are no hits against any MPU regions.
--     */
--    CPUARMState *env = &cpu->env;
+-    /* Note that we can only get here for an AArch32 PL0/PL1 lookup */
+-    TCR *tcr = regime_tcr(env, mmu_idx);
 -
--    if (is_user) {
--        return false;
--    }
--
--    if (arm_feature(env, ARM_FEATURE_M)) {
--        return env->v7m.mpu_ctrl[regime_is_secure(env, mmu_idx)]
--            & R_V7M_MPU_CTRL_PRIVDEFENA_MASK;
+-    if (address & tcr->mask) {
+-        if (tcr->raw_tcr & TTBCR_PD1) {
+-            /* Translation table walk disabled for TTBR1 */
+-            return false;
+-        }
+-        *table = regime_ttbr(env, mmu_idx, 1) & 0xffffc000;
 -    } else {
--        return regime_sctlr(env, mmu_idx) & SCTLR_BR;
+-        if (tcr->raw_tcr & TTBCR_PD0) {
+-            /* Translation table walk disabled for TTBR0 */
+-            return false;
+-        }
+-        *table = regime_ttbr(env, mmu_idx, 0) & tcr->base_mask;
 -    }
+-    *table |= (address >> 18) & 0x3ffc;
+-    return true;
 -}
 -
- bool m_is_ppb_region(CPUARMState *env, uint32_t address)
+ static bool ptw_attrs_are_device(CPUARMState *env, ARMCacheAttrs cacheattrs)
  {
-     /* True if address is in the M profile PPB region 0xe0000000 - 0xe00fffff */
+     /*
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 989e783cce9..b82638b5a06 100644
+index 32ba2e5e8bf..5737a3976b8 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -415,6 +415,27 @@ static void get_phys_addr_pmsav7_default(CPUARMState *env, ARMMMUIdx mmu_idx,
-     }
- }
+@@ -15,6 +15,29 @@
+ #include "ptw.h"
  
-+static bool pmsav7_use_background_region(ARMCPU *cpu, ARMMMUIdx mmu_idx,
-+                                         bool is_user)
+ 
++static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
++                                     uint32_t *table, uint32_t address)
 +{
-+    /*
-+     * Return true if we should use the default memory map as a
-+     * "background" region if there are no hits against any MPU regions.
-+     */
-+    CPUARMState *env = &cpu->env;
++    /* Note that we can only get here for an AArch32 PL0/PL1 lookup */
++    TCR *tcr = regime_tcr(env, mmu_idx);
 +
-+    if (is_user) {
-+        return false;
-+    }
-+
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        return env->v7m.mpu_ctrl[regime_is_secure(env, mmu_idx)]
-+            & R_V7M_MPU_CTRL_PRIVDEFENA_MASK;
++    if (address & tcr->mask) {
++        if (tcr->raw_tcr & TTBCR_PD1) {
++            /* Translation table walk disabled for TTBR1 */
++            return false;
++        }
++        *table = regime_ttbr(env, mmu_idx, 1) & 0xffffc000;
 +    } else {
-+        return regime_sctlr(env, mmu_idx) & SCTLR_BR;
++        if (tcr->raw_tcr & TTBCR_PD0) {
++            /* Translation table walk disabled for TTBR0 */
++            return false;
++        }
++        *table = regime_ttbr(env, mmu_idx, 0) & tcr->base_mask;
 +    }
++    *table |= (address >> 18) & 0x3ffc;
++    return true;
 +}
 +
- static bool get_phys_addr_pmsav7(CPUARMState *env, uint32_t address,
-                                  MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                                  hwaddr *phys_ptr, int *prot,
+ static bool get_phys_addr_v5(CPUARMState *env, uint32_t address,
+                              MMUAccessType access_type, ARMMMUIdx mmu_idx,
+                              hwaddr *phys_ptr, int *prot,
 -- 
 2.25.1
 
