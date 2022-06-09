@@ -2,90 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24FA54553D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 22:01:45 +0200 (CEST)
-Received: from localhost ([::1]:55220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24305545483
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:57:08 +0200 (CEST)
+Received: from localhost ([::1]:53446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzOLg-0004ZJ-AA
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 16:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33156)
+	id 1nzNL9-0005Nf-69
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nzMFY-0007vA-UL
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:47:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nzMFX-0007cG-IR
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:47:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654796833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0TcShtKseNfv4CjN3KzcuSxpvQwAFlYO/Mfg30O9w+k=;
- b=NGGRhYW9cQqDs752pY4VmB6ioDo4syyEQ8dUBSQFWtyoKCNbKOZgEz4d+m+Smrz5XBm0tk
- hgRzy+PJeQcWfgmybijWfnOplEl2/6+AWUdqZWhzBYcEx4Gq9HeuE4lHVr5n/NrX6SkyE0
- ChgJE1xMsbWxIvHdFuvb/Vxnoj96Ndo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-He4vit-9OBypKnkR2sCEmA-1; Thu, 09 Jun 2022 13:47:12 -0400
-X-MC-Unique: He4vit-9OBypKnkR2sCEmA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j31-20020a05600c1c1f00b0039c481c4664so4405794wms.7
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 10:47:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nzMSQ-0006a3-Ur
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 14:00:35 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:36428)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nzMSP-00010O-6F
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 14:00:34 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id 15so21737580pfy.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 11:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=vuvxq4kbXxNpj4VNPWX4gS5U5NGjgIP0ngH3zQGcWt4=;
+ b=iEuyLxnQNm47fxMEVnH/o3VbHYZRYKhzLhBd67hAVmR8N2a6YH/rG4JgstgI1I0EY2
+ q4JVsCjg+PApU0TD2o8/96nphYD46YQfOvcFogNr9B+OflxTaaHKiEB1WC60QuyVFK/V
+ Faz1NPhR19tDRbTzme8n+FH7qbXH/7OdxgKAgxNulkeLnBx25Y8Tn0j3/8BI4o+ohskg
+ zkoyvGg9XAqOGmwwt026BpsyIvZV/ZZh04e7l8ebCjw2ooA3+I0c6gZPeo2xJ70lzZFK
+ 07Kygr3LfGPwhkHup+Xpi/Cv1K15RfXJF5UbL/plSWS3V/TOWPoZ202qc5ZSuEMxVYxz
+ oD6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0TcShtKseNfv4CjN3KzcuSxpvQwAFlYO/Mfg30O9w+k=;
- b=0KPhDkMTZJW3GBM4ezHH31hdWwEZTuAXBiE1nue5LNPXTZZNljOB8nukiughHw7eLN
- 8zxKjPzillo1/Y9DvdOp7SLCveJWWOXqN2iYCRu73+PIgZ//DHF8aT1qwaXQjSaCvbNF
- c3fwpab7+XWiTXE5Eg7QmBDcbbEGL4v3kaMe5vJb7YyifbCETEsiUzfalaR+pB1MsR0z
- 0en865x6cIDBVZOB6cRARZTESx2PRhDn8xbwRf6WFmfRXfGRTvy6+7o5UYTYu3ZGMEsI
- AmLiIlaCm5sSHlTxle3bE8Z71VYaEEsB4xm4U/EsVi0X9h4fR6nPKpD+JY+UNScmqTOJ
- Cv5w==
-X-Gm-Message-State: AOAM531r813X+JlLX7dKblYtpnDpTr58nSejRqhUKarYj0XiGGpyAilh
- 23FMzuuk0dbeBP1J9JWwJqsmqQt217VbWtUp1GtoW2qbevIG0yNGFIhkXuOdz8ObGo6hvuCJQH7
- 2MpRMJeScJb6Zeb4=
-X-Received: by 2002:adf:ed01:0:b0:20c:c137:aaeb with SMTP id
- a1-20020adfed01000000b0020cc137aaebmr40540662wro.638.1654796831295; 
- Thu, 09 Jun 2022 10:47:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzsTElKm4lPMuSFA86dcl02ERf/IPBKLvzUQxkEIAoV+GHFEsCP4fWcQgqle49n6qAeXJzXMQ==
-X-Received: by 2002:adf:ed01:0:b0:20c:c137:aaeb with SMTP id
- a1-20020adfed01000000b0020cc137aaebmr40540646wro.638.1654796831115; 
- Thu, 09 Jun 2022 10:47:11 -0700 (PDT)
-Received: from sgarzare-redhat (host-79-46-200-40.retail.telecomitalia.it.
- [79.46.200.40]) by smtp.gmail.com with ESMTPSA id
- j37-20020a05600c1c2500b0039c235fb6a5sm29388941wms.8.2022.06.09.10.47.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 10:47:10 -0700 (PDT)
-Date: Thu, 9 Jun 2022 19:47:07 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- qemu-stable@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH 2/2] linux-aio: explain why max batch is checked in
- laio_io_unplug()
-Message-ID: <20220609174707.xilti37x5xaevhwj@sgarzare-redhat>
-References: <20220609164712.1539045-1-stefanha@redhat.com>
- <20220609164712.1539045-3-stefanha@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vuvxq4kbXxNpj4VNPWX4gS5U5NGjgIP0ngH3zQGcWt4=;
+ b=deU/iEkhwSSd78qpxxGg7JsCCICTvyfGqVD9ukZyPi5lEYVyLzW2R5cwAYqHApbg+a
+ bvkuSOTZqCAwGf60uRhTS0LnK7J0wauekh5+vfwt19Kv09yXs1Zpo5SDOpkKRm5a4p9z
+ wg8LR0Wh32TruBlFXQFZXE9XGE9e1NfSI9uR2P4m3FsfpSPr5eZQX0f4TTnhLuofu2R6
+ 3pS+afZ8sSx3eO8tp/cDyZA1e/fsx5pNv3uoCwpF6b5wJYtgZ/bgykJ6E/LfYTu6EAn1
+ QedDQh5VangwCprecuTX0VoWsFsHWW/WleMbnX703UU/gJBaBLMhssqmAWc23Nmb9WLN
+ NT+g==
+X-Gm-Message-State: AOAM5334FehnA5pq76Arq2tEpuSqYUsRzgM8EKnqcS9iRavaTWqSbmmD
+ pm2EkdoCGjXTigGacR8R+BAglQ==
+X-Google-Smtp-Source: ABdhPJzRpR7TkgFqrEal47SGvuwOT7z1NzIZZhUM+gDTvaQmgYGWAptSrus3JPxbYbVlFmcm5TxpCA==
+X-Received: by 2002:a65:4188:0:b0:39d:2197:13b5 with SMTP id
+ a8-20020a654188000000b0039d219713b5mr35656901pgq.368.1654797631504; 
+ Thu, 09 Jun 2022 11:00:31 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:839f:476f:678:38a?
+ ([2602:ae:1547:e101:839f:476f:678:38a])
+ by smtp.gmail.com with ESMTPSA id
+ h1-20020a655181000000b003fbaae74971sm17514472pgq.72.2022.06.09.11.00.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jun 2022 11:00:30 -0700 (PDT)
+Message-ID: <81369530-2c9f-478a-9dfc-1f5f0ba026a1@linaro.org>
+Date: Thu, 9 Jun 2022 11:00:29 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220609164712.1539045-3-stefanha@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v15 2/9] linux-user: Add LoongArch signal support
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20220609024209.2406188-1-gaosong@loongson.cn>
+ <20220609024209.2406188-3-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220609024209.2406188-3-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,40 +94,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 09, 2022 at 05:47:12PM +0100, Stefan Hajnoczi wrote:
->It may not be obvious why laio_io_unplug() checks max batch. I discussed
->this with Stefano and have added a comment summarizing the reason.
->
->Cc: Stefano Garzarella <sgarzare@redhat.com>
->Cc: Kevin Wolf <kwolf@redhat.com>
->Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->---
-> block/linux-aio.c | 6 ++++++
-> 1 file changed, 6 insertions(+)
->
->diff --git a/block/linux-aio.c b/block/linux-aio.c
->index 6078da7e42..9c2393a2f7 100644
->--- a/block/linux-aio.c
->+++ b/block/linux-aio.c
->@@ -365,6 +365,12 @@ void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s,
->     assert(s->io_q.plugged);
->     s->io_q.plugged--;
->
->+    /*
->+     * Why max batch checking is performed here:
->+     * Another BDS may have queued requests with a higher dev_max_batch and
->+     * therefore in_queue could now exceed our dev_max_batch. Re-check the max
->+     * batch so we can honor our device's dev_max_batch.
->+     */
->     if (s->io_q.in_queue >= laio_max_batch(s, dev_max_batch) ||
->         (!s->io_q.plugged &&
->          !s->io_q.blocked && !QSIMPLEQ_EMPTY(&s->io_q.pending))) {
->-- 
->2.36.1
->
+On 6/8/22 19:42, Song Gao wrote:
+> +struct target_sigcontext {
+> +    uint64_t sc_pc;
+> +    uint64_t sc_regs[32];
+> +    uint32_t sc_flags;
+> +    uint64_t sc_extcontext[0] __attribute__((aligned(16)));
+> +};
+> +
+> +struct target_fpu_context {
+> +    uint64_t fc_regs[32];
+> +    uint64_t fc_fcc;
+> +    uint32_t fc_fcsr;
+> +};
+> +
+> +struct target_ucontext {
+> +    target_ulong tuc_flags;
+> +    struct target_ucontext *tuc_link;
+> +    target_stack_t tuc_stack;
+> +    target_sigset_t tuc_sigmask;
+> +    uint8_t __unused[1024 / 8 - sizeof(target_sigset_t)];
+> +    struct target_sigcontext tuc_mcontext;
+> +};
+> +
+> +struct target_rt_sigframe {
+> +    struct target_siginfo rs_info;
+> +    struct target_ucontext rs_uc;
+> +    struct target_fpu_context rs_fc;
+> +};
 
-I should have added that...
+This is missing sctx_info.  In the kernel, see setup_extcontext and parse_extcontext.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
+r~
 
