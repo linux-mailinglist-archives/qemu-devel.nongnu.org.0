@@ -2,55 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08AB5450DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:31:43 +0200 (CEST)
-Received: from localhost ([::1]:39890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DB7545019
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:04:32 +0200 (CEST)
+Received: from localhost ([::1]:33948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzK8M-00039r-J3
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55276)
+	id 1nzJi3-0000Qj-9g
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nzItn-00005n-Ge
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:12:38 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:61892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nzIti-0001e7-8S
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:12:34 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0769274579D;
- Thu,  9 Jun 2022 16:12:26 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 57A88746324; Thu,  9 Jun 2022 16:12:25 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 55BB47462D3;
- Thu,  9 Jun 2022 16:12:25 +0200 (CEST)
-Date: Thu, 9 Jun 2022 16:12:25 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Gerd Hoffmann <kraxel@redhat.com>
-cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 0/3] Misc AC97 clean ups
-In-Reply-To: <20220609101720.bf6s2uusjaivcru2@sirius.home.kraxel.org>
-Message-ID: <c6a4a4-bbae-cec-4caa-3dbb3df19f1a@eik.bme.hu>
-References: <cover.1650706617.git.balaton@eik.bme.hu>
- <6ff58395-65a8-a50-90ee-571ccb131a8@eik.bme.hu>
- <255fbc8f-3b2d-f121-472-91f4d5e36b81@eik.bme.hu>
- <bc93f5ae-a9a-d9ef-4022-fcb0169863@eik.bme.hu>
- <204fa7f7-6b15-e77e-ecec-c06b1873ef5e@redhat.com>
- <20220609101720.bf6s2uusjaivcru2@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1nzIwN-0004TJ-S6; Thu, 09 Jun 2022 10:15:17 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:33526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1nzIwM-0002Bv-3A; Thu, 09 Jun 2022 10:15:15 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0213021F84;
+ Thu,  9 Jun 2022 14:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1654784112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NmOq+fvygi/FvByq9zbYWD0F5BFMT3OHiN8pPHGE1hs=;
+ b=mllZVMuVGAToISp469iObplqyZy9FmJAiY7FHD1dQlFvQhCbXdioveD8p7Qv7X9wQeLs7P
+ Yj6Ih6JjFczFfQXxQhRx5EHJjwPzYJ3tUHlTEyUjiSPcu5u8wc5JKqM2A0wvEZ9Mdt8pwD
+ UiYvS3zcEXCxcvEJcSRthLqnIMc0fDQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1654784112;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NmOq+fvygi/FvByq9zbYWD0F5BFMT3OHiN8pPHGE1hs=;
+ b=665HxNJCJ3MIE5CJ++Y/oKiQwFULQM7CXvN2Yw7A/XdA1JfuVtRrORhl3OX3cXeV7bY8HA
+ oYielmwME481+ODQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92E2913A8C;
+ Thu,  9 Jun 2022 14:15:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id lVkIIm8AomLNawAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 09 Jun 2022 14:15:11 +0000
+Message-ID: <e29d83e6-e7bb-b370-33d0-88d22aa2eddb@suse.de>
+Date: Thu, 9 Jun 2022 16:15:11 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-951608989-1654783945=:26668"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] disas: Remove libvixl disassembler
+Content-Language: en-US
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Matthew Fortune <matthew.fortune@mips.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+References: <20220603164249.112459-1-thuth@redhat.com>
+ <07f021e7-1346-c6b3-3bd1-ef0d0f0e2ff5@suse.de>
+ <52c51ac4-5598-faf2-d5e5-638cab0dc1fd@redhat.com>
+ <7ae17984-89c4-2247-57a7-fde6206e41e0@redhat.com>
+ <03a1e04e-45c7-5002-6920-d04e29fd48fd@redhat.com>
+ <YqG2Anwtba+MfxfH@redhat.com> <209c7aaf-bc7b-cbc2-c6d0-002bbe31258a@suse.de>
+In-Reply-To: <209c7aaf-bc7b-cbc2-c6d0-002bbe31258a@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,48 +99,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-951608989-1654783945=:26668
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Thu, 9 Jun 2022, Gerd Hoffmann wrote:
-> On Wed, May 18, 2022 at 12:37:18PM +0200, Paolo Bonzini wrote:
->> On 5/17/22 21:47, BALATON Zoltan wrote:
->>> On Mon, 9 May 2022, BALATON Zoltan wrote:
->>>> On Mon, 2 May 2022, BALATON Zoltan wrote:
->>>>> On Sat, 23 Apr 2022, BALATON Zoltan wrote:
->>>>>> During trying to implement via-ac97 I did some small clean ups to ac97
->>>>>> which is in this series. The via-ac97 is not working yet so that's not
->>>>>> included but these unrelated clean ups could be merged now.
+On 6/9/22 13:27, Claudio Fontana wrote:
+> On 6/9/22 10:57, Daniel P. Berrangé wrote:
+>> On Thu, Jun 09, 2022 at 10:47:24AM +0200, Thomas Huth wrote:
+>>> On 08/06/2022 17.51, Paolo Bonzini wrote:
+>>>> On 6/3/22 19:35, Thomas Huth wrote:
+>>>>> On 03/06/2022 19.26, Claudio Fontana wrote:
+>>>>>> On 6/3/22 18:42, Thomas Huth wrote:
+>>>>>>> The disassembly via capstone should be superiour to our old vixl
+>>>>>>> sources nowadays, so let's finally cut this old disassembler out
+>>>>>>> of the QEMU source tree.
+>>>>>>>
+>>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
 >>>>>>
->>>>>> v3: Fixed misalignments and drop spaces before commas (V�ctor Colombo)
->>>>>> v2: Added R-b and changes from Peter Maydell
+>>>>>> agreed, one thought: at the time I added this thing, I had to
+>>>>>> add C++ compilation support,
+>>>>>> maybe something we can now drop if there are no more C++ users?
 >>>>>
->>>>> Ping?
->>>>>
->>>>> https://patchew.org/QEMU/cover.1650706617.git.balaton@eik.bme.hu/
+>>>>> I thought about that, too, but we still have disas/nanomips.cpp left
+>>>>> and the Windows-related files in qga/vss-win32/* .
 >>>>
->>>> Ping2
->>>>
->>>> Gerd, are you getting these messages?
+>>>> That is pure C++ so it does not need the extra complication of "detect
+>>>> whether the C and C++ compiler are ABI-compatible" (typically due to
+>>>> different libasan/libtsan implementation between gcc and clang).  So
+>>>> it's really just nanoMIPS that's left.
 >>>
->>> I got no reply to this so far so I think Gerd is not seeing my messages.
->>> Could someone who can reach him bring it to his attention please?
+>>> Ok, so the next theoretical question is: If we get rid of the nanomips.cpp
+>>> file or convert it to plain C, would we then simplify the code in configure
+>>> again (and forbid C++ for the main QEMU code), or would we rather keep the
+>>> current settings in case we want to re-introduce more C++ code again in the
+>>> future?
 >>
->> I'll queue these in his stead.
->
-> [ /me cleaning up my mailbox, looking for pending patches along the way ]
->
-> Thanks.  It seems to not have landed in master yet even though.  Still
-> sitting in your queue?  Or should I take it?
+>> It doesn't feel very compelling to have just 1 source file that's
+>> C++ in QEMU. I'm curious how we ended up with this nanomips.cpp
+>> file - perhaps it originated from another project that was C++
+>> based ?
+>>
+>> The code itself doesn't look like it especially needs to be using
+>> C++. There's just 1 class there and every method is associated
+>> with that class, and external entry point from the rest of QEMU
+>> is just one boring method. Feels like it could easily have been
+>> done in C.
+>>
+>> Personally I'd prefer it to be converted to C, and if we want to
+>> add any C++ in future it should be justified & debated on its
+>> merits, rather than as an artifact of any historical artifacts
+>> such as the code in configure happening to still exist.
+>>
+>> With regards,
+>> Daniel
+> 
+> I'll take a look at it, maybe I can turn it to C fairly quickly.
+> 
+> Ciao,
+> 
+> Claudio
+> 
 
-I think they are already in master as commits ab9f0f7d44d...dba2b2941ca so 
-all is fine.
+It seems to be generated code, getting the original authors involved in the thread.
 
-Regards,
-BALATON Zoltan
---3866299591-951608989-1654783945=:26668--
+Thanks,
+
+Claudio
+
 
