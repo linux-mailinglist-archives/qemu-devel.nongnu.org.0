@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC5E544A5C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 13:37:48 +0200 (CEST)
-Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B2C5448AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:21:32 +0200 (CEST)
+Received: from localhost ([::1]:38862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzGTy-0002WR-BR
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 07:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39806)
+	id 1nzFIB-0003ar-KQ
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7U-0001by-MH
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:24 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36483)
+ id 1nzE7V-0001cT-U4
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:26 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7S-00063j-WC
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:24 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id o8so3625877wro.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:20 -0700 (PDT)
+ id 1nzE7T-00066W-Dy
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:25 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id k16so31480008wrg.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=aIxMiFOj5OlkrMNI1jLiszeJAUOpuEVyCOWF9sP0Y2w=;
- b=ZC2m5FbCfDchAohCh+UlgwvHp2J/t873YzrMo6IFMAN9+gJvfhwOkbmJ2P0QABjLmY
- nJOWXN3pusATWYgARANTam9uSrR6CgjXHEf1cRsLX1V2nw2QJgC0yqEVhHXVhVB7UDBN
- AQ2Zi1Ovk55YuyXHvS7xSav3xNhdu7vDjQGeoB8Um4SAlD2iLvyDrwc7yIuPmcuTxA0A
- WCc8QjFcUNz/78CVEl9ly1FKvseMuP2teBu6akkxWA7vasDNP9on8bFv0ZTZO2qQjjVr
- a7RjAmgCZe+E9PDvwSx4vM2JpzKLrelM4oR4mHYWHpl9h1YzsvtxD2b/uKrDc8pLkyCi
- d+TQ==
+ bh=kIvAW33Xnjg8FxQHlUQZrjhFZhed2xMGpf7iSMt46Cs=;
+ b=Tfv6rHlgIQ/2qLYdA8pWVP7TGSU4nNZVGiLLKJSm9BEFY4fTJg2KLdNJ0bYdriMPt9
+ Lg6DO5vuD7SmOw83Pg+urgl7Z6bVayOkOIk8wt0LxFYG6mwXNj2Z69OTtkxF8r0boihL
+ qeysuxJShUZq2lKLkbHTL8qMnSGv7qL+tgvUZPjVezdE1GyGT5PFk7Cwv4tNNG8VWsW5
+ HTwEM/+VlbYRoZbGTpZYWr40b9gW57czGf02C7Aecezd5euPvhGHDPDJEBQqjCmXDVPz
+ Qgl9MixPO0rhrCvRcY0+bfE22EfNFpJKrFsAWAGx5gXrTVZ/7rqWdVS0mt2YZsdq2iVr
+ YjyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aIxMiFOj5OlkrMNI1jLiszeJAUOpuEVyCOWF9sP0Y2w=;
- b=yuiFcMp9+lnCRhTcJkvtmRouAGLdWvlQPkdsOmNvagGO8q5xK8CkTYp1J+1GHCYSpc
- FLLdNrtJpmPSP51BITY5QiBSz3mxiRk16TcYYy8yPjqGtRjJtK9zPBQ68+9nLf937Qj9
- M4bjW7RuUECdGASkOwcn/wKimgiqcG02OCUK/SnPsIMyccL8I6QiCZ+CX8Ue2VxdzM5+
- pu3u+sU4yPnG4lRwF/5rKpmMHK6EEbOXt+8Exb+UUImXJWAWzEOJr5A4EvKvuz5nhMXK
- l/Mi3IEDBs9CCKtH2mRXkA0Lh0+nFTm9ehYUXCEPrecwyGJYofiQYSiH2clcCqC2cdPG
- ja0w==
-X-Gm-Message-State: AOAM532zRD+XeiXPYBUcGiJfM85PlRh7VAYfLLDqUIfec2x8GsBMhsD9
- uj7poBVoKb0y8QDLY7EsU4O8TkKrXY6jgw==
-X-Google-Smtp-Source: ABdhPJx21/fkSsDQUwFjcrjDGYqxWZ2x32SPamIkAE6zS51/GOnDeWVR3l89BqFcBz3exc2T9m6olQ==
-X-Received: by 2002:a05:6000:1888:b0:218:3fab:c510 with SMTP id
- a8-20020a056000188800b002183fabc510mr19871078wri.473.1654765580495; 
- Thu, 09 Jun 2022 02:06:20 -0700 (PDT)
+ bh=kIvAW33Xnjg8FxQHlUQZrjhFZhed2xMGpf7iSMt46Cs=;
+ b=VL0/XBE0VkT7k1wdb8GSgNCFyqT82/JIrkOh4mJm1euDJyw9pylAmN1NSQpiJ232EK
+ l1M5trT11ladn5eF9v6ZrR1Ffvd8WS6wO26fbvbj530I41vvyajf1gnpbjfbjExOIvGH
+ RC7/jNt44aL/okNMTir0dsCTkPdQcTuQGxKl0t/tubIyV1hkmIA3fI1Axkm8G0dPeCJj
+ f62NjcCqGgSkehcgigKhmlUknJgxJvIh2P5cH7H9b1THHnTQn7U9j+FZnPXFwztOCNBP
+ zhQ5dk8vJmR4ycxfDUjDfEJMN2BnvKOxyZZSkhCCz+KKjnhJJt20jxZnyN4BPMo4wOE9
+ jpig==
+X-Gm-Message-State: AOAM533ocCqU7tpvdSZfy+C1ZnRITn/XJF7Vz6up/yiEN1rA3mTHHIMF
+ 5lDWg+4wOt+KL4Hb3tdlU4CFfG+6PxZXSw==
+X-Google-Smtp-Source: ABdhPJx3CIh2KjQEjjFunJFfwehGEGpKoWzpLyQoOu62Yr5k2gQPiwvbbKTaouPKARoDU4Twq8AB4Q==
+X-Received: by 2002:a5d:6945:0:b0:211:7de7:7247 with SMTP id
+ r5-20020a5d6945000000b002117de77247mr37017126wrw.169.1654765581358; 
+ Thu, 09 Jun 2022 02:06:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.19
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Jun 2022 02:06:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/55] linux-user/aarch64: Introduce sve_vq
-Date: Thu,  9 Jun 2022 10:05:19 +0100
-Message-Id: <20220609090537.1971756-38-peter.maydell@linaro.org>
+Subject: [PULL 38/55] target/arm: Remove route_to_el2 check from
+ sve_exception_el
+Date: Thu,  9 Jun 2022 10:05:20 +0100
+Message-Id: <20220609090537.1971756-39-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,109 +91,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Add an interface function to extract the digested vector length
-rather than the raw zcr_el[1] value.  This fixes an incorrect
-return from do_prctl_set_vl where we didn't take into account
-the set of vector lengths supported by the cpu.
+We handle this routing in raise_exception.  Promoting the value early
+means that we can't directly compare FPEXC_EL and SVEEXC_EL.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220607203306.657998-3-richard.henderson@linaro.org
+Message-id: 20220607203306.657998-4-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/aarch64/target_prctl.h | 20 +++++++++++++-------
- target/arm/cpu.h                  | 11 +++++++++++
- linux-user/aarch64/signal.c       |  4 ++--
- 3 files changed, 26 insertions(+), 9 deletions(-)
+ target/arm/helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/linux-user/aarch64/target_prctl.h b/linux-user/aarch64/target_prctl.h
-index 3f5a5d3933a..1d440ffbea4 100644
---- a/linux-user/aarch64/target_prctl.h
-+++ b/linux-user/aarch64/target_prctl.h
-@@ -10,7 +10,7 @@ static abi_long do_prctl_get_vl(CPUArchState *env)
- {
-     ARMCPU *cpu = env_archcpu(env);
-     if (cpu_isar_feature(aa64_sve, cpu)) {
--        return ((cpu->env.vfp.zcr_el[1] & 0xf) + 1) * 16;
-+        return sve_vq(env) * 16;
-     }
-     return -TARGET_EINVAL;
- }
-@@ -25,18 +25,24 @@ static abi_long do_prctl_set_vl(CPUArchState *env, abi_long arg2)
-      */
-     if (cpu_isar_feature(aa64_sve, env_archcpu(env))
-         && arg2 >= 0 && arg2 <= 512 * 16 && !(arg2 & 15)) {
--        ARMCPU *cpu = env_archcpu(env);
-         uint32_t vq, old_vq;
- 
--        old_vq = (env->vfp.zcr_el[1] & 0xf) + 1;
--        vq = MAX(arg2 / 16, 1);
--        vq = MIN(vq, cpu->sve_max_vq);
-+        old_vq = sve_vq(env);
- 
-+        /*
-+         * Bound the value of arg2, so that we know that it fits into
-+         * the 4-bit field in ZCR_EL1.  Rely on the hflags rebuild to
-+         * sort out the length supported by the cpu.
-+         */
-+        vq = MAX(arg2 / 16, 1);
-+        vq = MIN(vq, ARM_MAX_VQ);
-+        env->vfp.zcr_el[1] = vq - 1;
-+        arm_rebuild_hflags(env);
-+
-+        vq = sve_vq(env);
-         if (vq < old_vq) {
-             aarch64_sve_narrow_vq(env, vq);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c228deca755..1bd77af7e50 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6149,8 +6149,7 @@ int sve_exception_el(CPUARMState *env, int el)
+             /* fall through */
+         case 0:
+         case 2:
+-            /* route_to_el2 */
+-            return hcr_el2 & HCR_TGE ? 2 : 1;
++            return 1;
          }
--        env->vfp.zcr_el[1] = vq - 1;
--        arm_rebuild_hflags(env);
-         return vq * 16;
-     }
-     return -TARGET_EINVAL;
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e791ffdd6b6..f5af88b686d 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3286,6 +3286,17 @@ static inline int cpu_mmu_index(CPUARMState *env, bool ifetch)
-     return EX_TBFLAG_ANY(env->hflags, MMUIDX);
- }
  
-+/**
-+ * sve_vq
-+ * @env: the cpu context
-+ *
-+ * Return the VL cached within env->hflags, in units of quadwords.
-+ */
-+static inline int sve_vq(CPUARMState *env)
-+{
-+    return EX_TBFLAG_A64(env->hflags, VL) + 1;
-+}
-+
- static inline bool bswap_code(bool sctlr_b)
- {
- #ifdef CONFIG_USER_ONLY
-diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index 7de4c96eb9d..7da0e36c6d4 100644
---- a/linux-user/aarch64/signal.c
-+++ b/linux-user/aarch64/signal.c
-@@ -315,7 +315,7 @@ static int target_restore_sigframe(CPUARMState *env,
- 
-         case TARGET_SVE_MAGIC:
-             if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
--                vq = (env->vfp.zcr_el[1] & 0xf) + 1;
-+                vq = sve_vq(env);
-                 sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
-                 if (!sve && size == sve_size) {
-                     sve = (struct target_sve_context *)ctx;
-@@ -434,7 +434,7 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
- 
-     /* SVE state needs saving only if it exists.  */
-     if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
--        vq = (env->vfp.zcr_el[1] & 0xf) + 1;
-+        vq = sve_vq(env);
-         sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
-         sve_ofs = alloc_sigframe_space(sve_size, &layout);
-     }
+         /* Check CPACR.FPEN.  */
 -- 
 2.25.1
 
