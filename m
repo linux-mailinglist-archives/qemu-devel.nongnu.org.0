@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733EA544B1F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 13:58:04 +0200 (CEST)
-Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BE954498E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:58:12 +0200 (CEST)
+Received: from localhost ([::1]:48708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzGnb-0008FI-9g
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 07:58:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42786)
+	id 1nzFrf-0007LW-D9
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzEP0-0005LR-OL
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:24:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48317)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzERr-0008Ub-LT
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:27:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzEOz-0008Ri-F9
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:24:30 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzERq-0000aq-12
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:27:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654766668;
+ s=mimecast20190719; t=1654766845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=weSV4riuwA/1yKba5L1mNdOw/RmXkQhUtB4JZWtu61A=;
- b=bdenuYsUGRdDU8CKCcjr3lSZt/sWIibhy7gEaxmT8vWwumrVaHKGHK8SiROQPkNBmyZpD8
- ngHBNHMPqNCb4/C4xU8G43ZZUwb4O164FUFwaATxgu8upanyQr8jjtKnSQsS7eoi7iiNoF
- N9XNOvqqhQyrUbYz02rgiFR3KPNJEu0=
+ bh=T5XI5suyby+/GeRvV84EdopcSlk8+hltCiDr2zvgpwc=;
+ b=IQZrk1bNOojeyjmARERwTyXKiumV2U0Rc/P73Y4utQsfAhez3KskMwvc7EDX+qylB30ZgV
+ i/lG2+HCQtYE9ZnQHVoo83/hLcZNZAeYGs6yigBskp3OPJAFCsrDomKPruoo62Ir/cIXIK
+ gTzU4JxxXHtgQ88Xofums9UiXjwxiGo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-jubZT1EWMAClZSGmwtQXyA-1; Thu, 09 Jun 2022 05:24:25 -0400
-X-MC-Unique: jubZT1EWMAClZSGmwtQXyA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-323-M4hrypNAOS20D6nOtSNykQ-1; Thu, 09 Jun 2022 05:27:22 -0400
+X-MC-Unique: M4hrypNAOS20D6nOtSNykQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6D10800882;
- Thu,  9 Jun 2022 09:24:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F4B318E0043;
+ Thu,  9 Jun 2022 09:27:21 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8342840E80E0;
- Thu,  9 Jun 2022 09:24:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FDF7492C3B;
+ Thu,  9 Jun 2022 09:27:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 245691800094; Thu,  9 Jun 2022 11:24:23 +0200 (CEST)
-Date: Thu, 9 Jun 2022 11:24:23 +0200
+ id E7D9A1800094; Thu,  9 Jun 2022 11:27:19 +0200 (CEST)
+Date: Thu, 9 Jun 2022 11:27:19 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] Fixes for ui/gtk-gl-area
-Message-ID: <20220609092423.beoirvkmeextihhp@sirius.home.kraxel.org>
-References: <e0db9981-fe2f-67ec-63df-ff0c8e4cd690@t-online.de>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] ui/cocoa: Fix poweroff request code
+Message-ID: <20220609092719.tibrgqefqc4i4xhp@sirius.home.kraxel.org>
+References: <20220529082508.89097-1-akihiko.odaki@gmail.com>
+ <30afbc95-4e8e-ade0-da24-e85ec1f98397@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e0db9981-fe2f-67ec-63df-ff0c8e4cd690@t-online.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+In-Reply-To: <30afbc95-4e8e-ade0-da24-e85ec1f98397@amsat.org>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -80,14 +83,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 05, 2022 at 10:50:28AM +0200, Volker Rümelin wrote:
-> The first patch fixes a GL context leak.
+On Sun, May 29, 2022 at 12:45:06PM +0200, Philippe Mathieu-Daudé wrote:
+> On 29/5/22 10:25, Akihiko Odaki wrote:
+> > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> > ---
+> >   ui/cocoa.m | 6 +++++-
+> >   1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/ui/cocoa.m b/ui/cocoa.m
+> > index 09a62817f2a..84c84e98fc5 100644
+> > --- a/ui/cocoa.m
+> > +++ b/ui/cocoa.m
+> > @@ -35,6 +35,7 @@
+> >   #include "ui/kbd-state.h"
+> >   #include "sysemu/sysemu.h"
+> >   #include "sysemu/runstate.h"
+> > +#include "sysemu/runstate-action.h"
+> >   #include "sysemu/cpu-throttle.h"
+> >   #include "qapi/error.h"
+> >   #include "qapi/qapi-commands-block.h"
+> > @@ -1290,7 +1291,10 @@ - (void)applicationWillTerminate:(NSNotification *)aNotification
+> >   {
+> >       COCOA_DEBUG("QemuCocoaAppController: applicationWillTerminate\n");
+> > -    qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_UI);
+> > +    with_iothread_lock(^{
+> > +        shutdown_action = SHUTDOWN_ACTION_POWEROFF;
+> > +        qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_UI);
+> > +    });
+> >       /*
+> >        * Sleep here, because returning will cause OSX to kill us
 > 
-> The second patch fixes a black guest screen on Wayland with OpenGL
-> accelerated QEMU graphics devices. This bug doesn't seem to be related to
-> issues #910, #865, #671 or #298.
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Both queueed up.
+Added to queue.
 
 thanks,
   Gerd
