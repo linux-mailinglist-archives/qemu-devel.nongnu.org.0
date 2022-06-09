@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF63544660
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 10:50:21 +0200 (CEST)
-Received: from localhost ([::1]:42940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA525446E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:08:42 +0200 (CEST)
+Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzDrw-0001mM-DK
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 04:50:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36032)
+	id 1nzE9h-0000bs-7g
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nzDpU-0000oa-1a
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:47:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34313)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nzDzD-0005EN-NJ
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:57:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nzDpE-0002uA-Dh
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:47:36 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nzDz9-0004OP-UQ
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:57:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654764449;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1654765066;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ERxAYTdhpUt8CYXaZyaocUzR0FM58D4CfNk3bbLsjRo=;
- b=eor+j5sh/O0s1qwhvny51o9on35SEIgLTZuN2+wwAoFbx03en6tgQT8OnXKzlZfKd/xRT3
- 4d6o0HWZT9iuH9iGMeME8HCHPE+U3J/hCbrL5An4Y49Bxf0CP4P7h+yDcrBugiBSFho32V
- tOWdSa7q7dPa/4WtDvjVQVjmAk2moiQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+Amsd0AoymkbUWequQY81Msti8gG+grDOfS9h8imk2s=;
+ b=fUaAwJpm0bdMl70BSWbHni0TLuORu742k4sM5C+Cp0B08CQPF4XO4++2Q+WfbvQniGEHKx
+ /8tWoGWs0afWVV3CtaS/TD5Yjp04gcoqKRCSimynHgE+ezq1/64u/AjG4hzEE42SsamEXL
+ NA/7JWPku3F0rNwNHBpaPuDlAn2MATM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-p-m5IGJPPkaMIVPuyEbYfw-1; Thu, 09 Jun 2022 04:47:28 -0400
-X-MC-Unique: p-m5IGJPPkaMIVPuyEbYfw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k5-20020a05600c1c8500b003974c5d636dso11085020wms.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 01:47:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ERxAYTdhpUt8CYXaZyaocUzR0FM58D4CfNk3bbLsjRo=;
- b=lircktGjhDxAw+eUCkQ1dTD76ktPlMdCOhP8GCPx40jvP8toxtgV0XmWx6GKo9C10N
- mIXtqbzMnqdaT2x6xfLJtIRkSDcthaBSeAz4eoJIQuBy0odlm5BSh7cLWXmr5zdv70zv
- 3Vwhvqbbi8KctYLIcdR2Iv18fzvEWKCgBKlHI0RgWZApHTH1YNC8vyKKLqyX4TqK0/6i
- c3rOHqNo6SGiRTP1Vq/FCO4sVoMeep55GvYRIAo8yIAV3V4W8HWJmRvG236RUBSQicyG
- FWhVk4e2slZmZI4xnyxaXABr1/NS1fXkKMDSGqujdLJwPxnOVGLJiHdKVlJf+ZJ0WjOq
- n3rw==
-X-Gm-Message-State: AOAM532gKLa2Ub0aTmjluBgFkg6Fs1CyqULQGEQpSGkkMgjM1KHyJSKm
- mVE+sFwNBFCDnjsbkzINS5HNm4jsEAPqJshEKusAuSYJrOcc3uZc1XZ/opxFVRaJ3SF7TBXoT5n
- ejYV+nx39FdenDA8=
-X-Received: by 2002:a5d:64c5:0:b0:218:3fcb:d909 with SMTP id
- f5-20020a5d64c5000000b002183fcbd909mr20161832wri.308.1654764446769; 
- Thu, 09 Jun 2022 01:47:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy7vFhwbC/xPKfRRgEYVgB7itfNnU3aBdIyU33BeLYjF6Ha6jT88+AZb/Ql4gucHqgm/ogG9Q==
-X-Received: by 2002:a5d:64c5:0:b0:218:3fcb:d909 with SMTP id
- f5-20020a5d64c5000000b002183fcbd909mr20161799wri.308.1654764446370; 
- Thu, 09 Jun 2022 01:47:26 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-42-115-130.web.vodafone.de.
- [109.42.115.130]) by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c4e8e00b0039c5642e430sm10925811wmq.20.2022.06.09.01.47.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jun 2022 01:47:25 -0700 (PDT)
-Message-ID: <03a1e04e-45c7-5002-6920-d04e29fd48fd@redhat.com>
-Date: Thu, 9 Jun 2022 10:47:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] disas: Remove libvixl disassembler
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ us-mta-597-CuLvEevZOsChvm-uSgJC4g-1; Thu, 09 Jun 2022 04:57:45 -0400
+X-MC-Unique: CuLvEevZOsChvm-uSgJC4g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DEBEC100BABC;
+ Thu,  9 Jun 2022 08:57:44 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EF1A1415100;
+ Thu,  9 Jun 2022 08:57:42 +0000 (UTC)
+Date: Thu, 9 Jun 2022 09:57:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Stefan Weil <sw@weilnetz.de>
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH] disas: Remove libvixl disassembler
+Message-ID: <YqG2Anwtba+MfxfH@redhat.com>
 References: <20220603164249.112459-1-thuth@redhat.com>
  <07f021e7-1346-c6b3-3bd1-ef0d0f0e2ff5@suse.de>
  <52c51ac4-5598-faf2-d5e5-638cab0dc1fd@redhat.com>
  <7ae17984-89c4-2247-57a7-fde6206e41e0@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <7ae17984-89c4-2247-57a7-fde6206e41e0@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <03a1e04e-45c7-5002-6920-d04e29fd48fd@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <03a1e04e-45c7-5002-6920-d04e29fd48fd@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,37 +87,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/2022 17.51, Paolo Bonzini wrote:
-> On 6/3/22 19:35, Thomas Huth wrote:
->> On 03/06/2022 19.26, Claudio Fontana wrote:
->>> On 6/3/22 18:42, Thomas Huth wrote:
->>>> The disassembly via capstone should be superiour to our old vixl
->>>> sources nowadays, so let's finally cut this old disassembler out
->>>> of the QEMU source tree.
->>>>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>
->>> agreed, one thought: at the time I added this thing, I had to add C++ 
->>> compilation support,
->>> maybe something we can now drop if there are no more C++ users?
->>
->> I thought about that, too, but we still have disas/nanomips.cpp left and 
->> the Windows-related files in qga/vss-win32/* .
+On Thu, Jun 09, 2022 at 10:47:24AM +0200, Thomas Huth wrote:
+> On 08/06/2022 17.51, Paolo Bonzini wrote:
+> > On 6/3/22 19:35, Thomas Huth wrote:
+> > > On 03/06/2022 19.26, Claudio Fontana wrote:
+> > > > On 6/3/22 18:42, Thomas Huth wrote:
+> > > > > The disassembly via capstone should be superiour to our old vixl
+> > > > > sources nowadays, so let's finally cut this old disassembler out
+> > > > > of the QEMU source tree.
+> > > > > 
+> > > > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > > > 
+> > > > agreed, one thought: at the time I added this thing, I had to
+> > > > add C++ compilation support,
+> > > > maybe something we can now drop if there are no more C++ users?
+> > > 
+> > > I thought about that, too, but we still have disas/nanomips.cpp left
+> > > and the Windows-related files in qga/vss-win32/* .
+> > 
+> > That is pure C++ so it does not need the extra complication of "detect
+> > whether the C and C++ compiler are ABI-compatible" (typically due to
+> > different libasan/libtsan implementation between gcc and clang).  So
+> > it's really just nanoMIPS that's left.
 > 
-> That is pure C++ so it does not need the extra complication of "detect 
-> whether the C and C++ compiler are ABI-compatible" (typically due to 
-> different libasan/libtsan implementation between gcc and clang).  So it's 
-> really just nanoMIPS that's left.
+> Ok, so the next theoretical question is: If we get rid of the nanomips.cpp
+> file or convert it to plain C, would we then simplify the code in configure
+> again (and forbid C++ for the main QEMU code), or would we rather keep the
+> current settings in case we want to re-introduce more C++ code again in the
+> future?
 
-Ok, so the next theoretical question is: If we get rid of the nanomips.cpp 
-file or convert it to plain C, would we then simplify the code in configure 
-again (and forbid C++ for the main QEMU code), or would we rather keep the 
-current settings in case we want to re-introduce more C++ code again in the 
-future?
+It doesn't feel very compelling to have just 1 source file that's
+C++ in QEMU. I'm curious how we ended up with this nanomips.cpp
+file - perhaps it originated from another project that was C++
+based ?
 
-  Thomas
+The code itself doesn't look like it especially needs to be using
+C++. There's just 1 class there and every method is associated
+with that class, and external entry point from the rest of QEMU
+is just one boring method. Feels like it could easily have been
+done in C.
+
+Personally I'd prefer it to be converted to C, and if we want to
+add any C++ in future it should be justified & debated on its
+merits, rather than as an artifact of any historical artifacts
+such as the code in configure happening to still exist.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
