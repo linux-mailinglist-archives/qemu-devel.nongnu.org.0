@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEFC54525D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:51:44 +0200 (CEST)
-Received: from localhost ([::1]:33624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7BD5451BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:21:02 +0200 (CEST)
+Received: from localhost ([::1]:54860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzLNn-0001lv-9G
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
+	id 1nzKu4-0006G5-2j
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:21:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJso-00051Q-D6
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:15:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22000)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nzJtI-0005gJ-Vk; Thu, 09 Jun 2022 11:16:09 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:35776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJsm-0006lv-Om
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:15:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654787736;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FYkBzLLtmlIkJEpoQJ4WaoAUoOIG4EPcEIw6zgksXzY=;
- b=jKjpc2cSnPnf2OOFnd7S2/DmcuuM9JmpjbuqsisYJl3GKZeB8C+1Rgn2Ws447bPOorms8S
- 0hjIpp0bi7m6nma+QLtyAhft8ce2ErcmAWPMmSsJTAVDzYihUeSE4qvjdngyCfWcZ0cfPZ
- po3u6GlhQshUGJXEI4QK2CELit3w4n8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-424-efJv-8cuOdWoghnHzoEB_A-1; Thu, 09 Jun 2022 11:15:32 -0400
-X-MC-Unique: efJv-8cuOdWoghnHzoEB_A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 846BC811E75;
- Thu,  9 Jun 2022 15:15:31 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B81E62026D64;
- Thu,  9 Jun 2022 15:15:28 +0000 (UTC)
-From: Alberto Faria <afaria@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Ari Sundholm <ari@tuxera.com>, qemu-block@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Eric Blake <eblake@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>,
- Jeff Cody <codyprime@gmail.com>, Alberto Faria <afaria@redhat.com>
-Subject: [PATCH v4 10/10] block/qcow2: Use bdrv_pwrite_sync() in
- qcow2_mark_dirty()
-Date: Thu,  9 Jun 2022 16:14:51 +0100
-Message-Id: <20220609151451.3883195-11-afaria@redhat.com>
-In-Reply-To: <20220609151451.3883195-1-afaria@redhat.com>
-References: <20220609151451.3883195-1-afaria@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nzJtC-0006rj-Fk; Thu, 09 Jun 2022 11:16:07 -0400
+Received: from iva4-7f38d418d11a.qloud-c.yandex.net
+ (iva4-7f38d418d11a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:740d:0:640:7f38:d418])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id A40232E2018;
+ Thu,  9 Jun 2022 18:15:50 +0300 (MSK)
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by iva4-7f38d418d11a.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ R2vKMWRJ1h-FmKWMIde; Thu, 09 Jun 2022 18:15:50 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1654787750; bh=Rm5OVW8KR5ELhtSZd7ji3+4kEQzRezptZSEGTefjFyo=;
+ h=In-Reply-To:To:From:Subject:Cc:Message-ID:References:Date;
+ b=fWDEaD1pZ21yubBUSDdkf31yLw7XkHUNrRSNO/k85jTFc5kuGNpeGbglLD5YZBb7N
+ w/w7uUmoaDSvyie2eOCGzBHWQYMdrKPvO2mbCQAbBXAdJsXiXypG9aj6CajpyXny+u
+ VO3IkXN8g8vZsPXuCt82bViREmH/52cZ/6kjc2TU=
+Authentication-Results: iva4-7f38d418d11a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:219::1:1f] (unknown
+ [2a02:6b8:b081:219::1:1f])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ zcsSjAcDOx-FmN00oVP; Thu, 09 Jun 2022 18:15:48 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <fe529c46-4b0f-d70a-be1d-f352ae7c030c@yandex-team.ru>
+Date: Thu, 9 Jun 2022 18:15:48 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 0/7] copy-before-write: on-cbw-error and cbw-timeout
+Content-Language: en-US
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
+ stefanha@redhat.com, hreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ vsementsov@openvz.org
+References: <20220407132726.85114-1-vsementsov@openvz.org>
+ <e9bb5d3a-edd4-d259-fd9b-ca03e71d0760@yandex-team.ru>
+ <d4f15897-2509-34dc-8b26-8ee2a3f5f2a5@yandex-team.ru>
+In-Reply-To: <d4f15897-2509-34dc-8b26-8ee2a3f5f2a5@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,36 +85,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use bdrv_pwrite_sync() instead of calling bdrv_pwrite() and bdrv_flush()
-separately.
+On 5/26/22 21:51, Vladimir Sementsov-Ogievskiy wrote:
+> On 5/26/22 19:46, Vladimir Sementsov-Ogievskiy wrote:
+>> On 4/7/22 16:27, Vladimir Sementsov-Ogievskiy wrote:
+>>> Hi all!
+>>>
+>>> v4: Now based on master
+>>> 01: add assertion and r-b
+>>> 02: s/7.0/7.1/ and r-b
+>>> 03: switch to QEMUMachine, touch-up pylintrc,  drop r-b
+>>> 04,05,06: add r-b
+>>> 07: switch to QEMUMachine
+>>>
+>>>
+>>> Here are two new options for copy-before-write filter:
+>>>
+>>> on-cbw-error allows to alter the behavior on copy-before-write operation
+>>> failure: not break guest write but break the snapshot (and therefore
+>>> backup process)
+>>>
+>>> cbw-timeout allows to limit cbw operation by some timeout.
+>>>
+>>> So, for example, using cbw-timeout=60 and on-cbw-error=break-snapshot
+>>> you can be sure that guest write will not stuck for more than 60
+>>> seconds and will never fail due to backup problems.
+>>>
+>>> Vladimir Sementsov-Ogievskiy (7):
+>>>    block/copy-before-write: refactor option parsing
+>>>    block/copy-before-write: add on-cbw-error open parameter
+>>>    iotests: add copy-before-write: on-cbw-error tests
+>>>    util: add qemu-co-timeout
+>>>    block/block-copy: block_copy(): add timeout_ns parameter
+>>>    block/copy-before-write: implement cbw-timeout option
+>>>    iotests: copy-before-write: add cases for cbw-timeout option
+>>>
+>>>   qapi/block-core.json                          |  31 ++-
+>>>   include/block/block-copy.h                    |   4 +-
+>>>   include/qemu/coroutine.h                      |  13 ++
+>>>   block/block-copy.c                            |  33 ++-
+>>>   block/copy-before-write.c                     | 111 ++++++---
+>>>   util/qemu-co-timeout.c                        |  89 ++++++++
+>>>   tests/qemu-iotests/pylintrc                   |   5 +
+>>>   tests/qemu-iotests/tests/copy-before-write    | 213 ++++++++++++++++++
+>>>   .../qemu-iotests/tests/copy-before-write.out  |   5 +
+>>>   util/meson.build                              |   1 +
+>>>   10 files changed, 466 insertions(+), 39 deletions(-)
+>>>   create mode 100644 util/qemu-co-timeout.c
+>>>   create mode 100755 tests/qemu-iotests/tests/copy-before-write
+>>>   create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
+>>>
+>>
+>> Thanks for review, applied to my new block branch at https://gitlab.com/vsementsov/qemu.git
+>>
+> 
+> Or not. I still need an acc for QAPI interface (Eric or Markus could you please look?).
+> 
+> Also, may be I should rename qemu-co-timeout.c to qemu-coroutine-timeout.c, to match "F: util/*coroutine*" in MAINTAINERS.. Stefan, Kevin, could you please look at it?
+> 
+> 
 
-Signed-off-by: Alberto Faria <afaria@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- block/qcow2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+OK, I think, I can stage it, if no more comments. API changes are quite usual and new qemu_co_timeout is isolated. Applied to my block branch https://gitlab.com/vsementsov/qemu/-/commits/block
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index f2fb54c51f..90a2dd406b 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -516,12 +516,9 @@ int qcow2_mark_dirty(BlockDriverState *bs)
-     }
- 
-     val = cpu_to_be64(s->incompatible_features | QCOW2_INCOMPAT_DIRTY);
--    ret = bdrv_pwrite(bs->file, offsetof(QCowHeader, incompatible_features),
--                      sizeof(val), &val, 0);
--    if (ret < 0) {
--        return ret;
--    }
--    ret = bdrv_flush(bs->file->bs);
-+    ret = bdrv_pwrite_sync(bs->file,
-+                           offsetof(QCowHeader, incompatible_features),
-+                           sizeof(val), &val, 0);
-     if (ret < 0) {
-         return ret;
-     }
+I think, I'll prepare a pull request on Monday, and include also my "[PATCH] MAINTAINERS: update Vladimir's address and repositories" if Stefan don't send it earlier.
+
 -- 
-2.35.3
-
+Best regards,
+Vladimir
 
