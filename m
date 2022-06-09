@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFCE545151
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:54:29 +0200 (CEST)
-Received: from localhost ([::1]:57120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4CE545173
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:59:45 +0200 (CEST)
+Received: from localhost ([::1]:42604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKUO-0001qq-Oz
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44620)
+	id 1nzKZU-0002zI-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:59:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nzJdv-0004tb-Tj
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:00:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25417)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nzJjG-00052C-ID
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:05:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nzJdt-0003SJ-Ka
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:00:15 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nzJjE-0004tQ-1G
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:05:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654786812;
+ s=mimecast20190719; t=1654787142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=udIdzfOpyAAmvYcOTpioYE/yhfH3wi+c6KDJJMoNDiw=;
- b=hkvDHreNW7I3CD0TGRDz5Xn2zaXkzwbJZkmzqFubmV74JjxvUdo4Orb7vb5yoM4dpY7kcW
- Fl//ECUCyAcd2tGBoMhZOLJocSCVa467upfWGWeb2XWrqeT7Gz4vDtHVuDnKb9rT+fjOIx
- DgQH7oCNxDHU5rjgACItZMVAoLb07L8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=K7Z24AVMyIsfHC3tbcmEThb80iPRSRajG58JZesqixo=;
+ b=bkJ5Nun/G/y7kU5vFAE+PMxjwlXraxoqPrDrJX5glYaecacMcgBN3rS/80kaRHBxejpyIy
+ IM605AHnliTlDfZPrTMXg6d5PAcqzT9rqFMdBIiXnBP4ILmdoSo5K6AGjnLK5NkUEJh22F
+ Kjqv9pEvhrUyJLZXpLpouG/Aa19WiyU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-28-to81PyvkOu6FC3LpAaFArQ-1; Thu, 09 Jun 2022 11:00:10 -0400
-X-MC-Unique: to81PyvkOu6FC3LpAaFArQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- bw25-20020a0560001f9900b002175d64fd29so3770165wrb.9
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:00:10 -0700 (PDT)
+ us-mta-381-Id5A0Y0ZOR6YpgnWRbYvVA-1; Thu, 09 Jun 2022 11:05:29 -0400
+X-MC-Unique: Id5A0Y0ZOR6YpgnWRbYvVA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ az7-20020a05600c600700b0039c3ed7fa89so10311431wmb.8
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:05:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=udIdzfOpyAAmvYcOTpioYE/yhfH3wi+c6KDJJMoNDiw=;
- b=3HV1J38xi5/LbUjD9SlIsaBwAnCRG9anknWGujlTuJREq1APo2Csj8ukF0/vTvCINd
- fFMo8p4wExwytMBg9AY/vlKn8OEerTggOUZYolSA3PpvqrFECcWeuf4d0vek5FoDvu+n
- BxsbniNy3w+WW++Rj2UXhA79uujek89ItX/AWNeidtnk6y64DiVMxILyP2DN4dFVJWEY
- 9b3V4KJ6DrK8W/xOdYxM8QIdK7U3PIcfLn0vYj6lM2+ChGw6iOVrs/bAmQNBSEmStxrK
- i+mwoZXhWEoSjjooUBpPrkgeF6D1mmWCnLbzXe6aHAQtez8Ipf4/NznniWtTSLLtHat+
- V9qg==
-X-Gm-Message-State: AOAM531/yk8UUJfUKk8gFTq9p8uWhaFgHmefJc0VGV7FJx7xcxrFv409
- vkhX1FmQztrhRNcy/pzNiTvSUTRbdNZDQGdKLF4Hd/4ddeBxIavES/9kf8igJeeNql/30L683m+
- GFZ8VPcUbqvcWm8Y=
-X-Received: by 2002:a5d:6da8:0:b0:218:510a:be9f with SMTP id
- u8-20020a5d6da8000000b00218510abe9fmr13913148wrs.352.1654786808572; 
- Thu, 09 Jun 2022 08:00:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwX5OC7SDzXA/ipuruYS1cW6TLedzaUs/atF0hhfW8HNIzx8HWcvjaukiMlosFZwoF5/Bgcug==
-X-Received: by 2002:a5d:6da8:0:b0:218:510a:be9f with SMTP id
- u8-20020a5d6da8000000b00218510abe9fmr13913122wrs.352.1654786808348; 
- Thu, 09 Jun 2022 08:00:08 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- bi11-20020a05600c3d8b00b0039c3ecdca66sm19895229wmb.23.2022.06.09.08.00.07
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=K7Z24AVMyIsfHC3tbcmEThb80iPRSRajG58JZesqixo=;
+ b=dlGZeIpTC4if7SMIKWl4bzX9ketN1rgWeAu3Pge90jV3P36g4MC6rp20YwrBzpa2di
+ S3rj8ugXpXxnvcu1xABtX9eva7gRL56BJ8qAMx/0ta/pGtnMTqzcD9OrWn6/RNM3zLxa
+ 3zuI0a8uY9gmOVqWivrWdigB5qO1vMBjP8jcOg4Jph8VmkTHetD1NCiyngQkH/k//ZiS
+ c+toyb5l0yt0B/UI5b1Ha7gIgfsYKg9/WiVbAthoVdQ3xlSAscOPw3DXg050b+nkzWIV
+ Mq4XPesyy0L1wKOC4LgzPmMUTeJhFSAHOn/v8gXJAdTZbO8ou8CSkCeMQGoxiED7l+xh
+ +gyA==
+X-Gm-Message-State: AOAM530Xhn1DkyRhnnSX7s2+JXrUjthRvMrfwUJQW8wJO1PTfawg3ILg
+ oyc7l+mWhzBEWH48mY3hTud+PqaVOaUI5Auadpdn8ZC5j6o04arEZsP4BOCvZpmiyeyiWStOwBx
+ 2Kq/aYagBKoj1UQo=
+X-Received: by 2002:a5d:40c7:0:b0:210:3135:e662 with SMTP id
+ b7-20020a5d40c7000000b002103135e662mr38237293wrq.280.1654787127794; 
+ Thu, 09 Jun 2022 08:05:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxn3MrFMH8I6FX1Mk0fe0Z9k9pdLTj/1xdg14QQBYOIG2c5qC9WGx19pZm7UmcblYeHUMRfVQ==
+X-Received: by 2002:a5d:40c7:0:b0:210:3135:e662 with SMTP id
+ b7-20020a5d40c7000000b002103135e662mr38237215wrq.280.1654787127031; 
+ Thu, 09 Jun 2022 08:05:27 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ 63-20020a1c1942000000b003974cb37a94sm31816282wmz.22.2022.06.09.08.05.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 08:00:07 -0700 (PDT)
-Date: Thu, 9 Jun 2022 16:00:05 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 10/20] migration: stop passing 'opaque' parameter to
- QEMUFile hooks
-Message-ID: <YqIK9Y2tW+PnBR7p@work-vm>
-References: <20220524110235.145079-1-berrange@redhat.com>
- <20220524110235.145079-11-berrange@redhat.com>
+ Thu, 09 Jun 2022 08:05:26 -0700 (PDT)
+Date: Thu, 9 Jun 2022 17:05:25 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Li Zhang <lizhang@suse.de>
+Cc: eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/1] Fix the coredump when memory backend id
+ conflicts with default_ram_id
+Message-ID: <20220609170525.22eb992d@redhat.com>
+In-Reply-To: <20220520095602.17379-1-lizhang@suse.de>
+References: <20220520095602.17379-1-lizhang@suse.de>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220524110235.145079-11-berrange@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -106,161 +101,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> The only user of the hooks is RDMA which provides a QIOChannel backed
-> impl of QEMUFile. It can thus use the qemu_file_get_ioc() method.
+On Fri, 20 May 2022 11:56:02 +0200
+Li Zhang <lizhang@suse.de> wrote:
+
+> When no memory backend is specified in machine options,
+> a default memory device will be added with default_ram_id.
+> However, if a memory backend object is added in QEMU options
+> and id is the same as default_ram_id, a coredump happens.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> Command line:
+> qemu-system-x86_64 -name guest=vmtest,debug-threads=on \
+> -machine pc-q35-6.0,accel=kvm,usb=off,vmport=off \
+> -smp 16,sockets=16,cores=1,threads=1 \
+> -m 4G \
+> -object memory-backend-ram,id=pc.ram,size=4G \
+> -no-user-config -nodefaults -nographic
+> 
+> Stack trace of thread 16903:
+>     #0  0x00007fb109a9318b raise (libc.so.6 + 0x3a18b)
+>     #1  0x00007fb109a94585 abort (libc.so.6 + 0x3b585)
+>     #2  0x0000558c34bc89be error_handle_fatal (qemu-system-x86_64 + 0x9c89be)
+>     #3  0x0000558c34bc8aee error_setv (qemu-system-x86_64 + 0x9c8aee)
+>     #4  0x0000558c34bc8ccf error_setg_internal (qemu-system-x86_64 + 0x9c8ccf)
+>     #5  0x0000558c349f6899 object_property_try_add (qemu-system-x86_64 + 0x7f6899)
+>     #6  0x0000558c349f7df8 object_property_try_add_child (qemu-system-x86_64 + 0x7f7df8)
+>     #7  0x0000558c349f7e91 object_property_add_child (qemu-system-x86_64 + 0x7f7e91)
+>     #8  0x0000558c3454686d create_default_memdev (qemu-system-x86_64 + 0x34686d)
+>     #9  0x0000558c34546f58 qemu_init_board (qemu-system-x86_64 + 0x346f58)
+>     #10 0x0000558c345471b9 qmp_x_exit_preconfig (qemu-system-x86_64 + 0x3471b9)
+>     #11 0x0000558c345497d9 qemu_init (qemu-system-x86_64 + 0x3497d9)
+>     #12 0x0000558c344e54c2 main (qemu-system-x86_64 + 0x2e54c2)
+>     #13 0x00007fb109a7e34d __libc_start_main (libc.so.6 + 0x2534d)
+>     #14 0x0000558c344e53ba _start (qemu-system-x86_64 + 0x2e53ba)
+> 
+> Signed-off-by: Li Zhang <lizhang@suse.de>
 > ---
->  migration/qemu-file.c |  8 ++++----
->  migration/qemu-file.h | 14 ++++++--------
->  migration/rdma.c      | 19 ++++++++++---------
->  3 files changed, 20 insertions(+), 21 deletions(-)
+>  hw/core/machine.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 9a7f715e17..6badc8b0ec 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -266,7 +266,7 @@ void ram_control_before_iterate(QEMUFile *f, uint64_t flags)
->      int ret = 0;
->  
->      if (f->hooks && f->hooks->before_ram_iterate) {
-> -        ret = f->hooks->before_ram_iterate(f, f->opaque, flags, NULL);
-> +        ret = f->hooks->before_ram_iterate(f, flags, NULL);
->          if (ret < 0) {
->              qemu_file_set_error(f, ret);
->          }
-> @@ -278,7 +278,7 @@ void ram_control_after_iterate(QEMUFile *f, uint64_t flags)
->      int ret = 0;
->  
->      if (f->hooks && f->hooks->after_ram_iterate) {
-> -        ret = f->hooks->after_ram_iterate(f, f->opaque, flags, NULL);
-> +        ret = f->hooks->after_ram_iterate(f, flags, NULL);
->          if (ret < 0) {
->              qemu_file_set_error(f, ret);
->          }
-> @@ -290,7 +290,7 @@ void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data)
->      int ret = -EINVAL;
->  
->      if (f->hooks && f->hooks->hook_ram_load) {
-> -        ret = f->hooks->hook_ram_load(f, f->opaque, flags, data);
-> +        ret = f->hooks->hook_ram_load(f, flags, data);
->          if (ret < 0) {
->              qemu_file_set_error(f, ret);
->          }
-> @@ -310,7 +310,7 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
->                               uint64_t *bytes_sent)
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index b03d9192ba..3867af7a8a 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1290,9 +1290,17 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
+>  static bool create_default_memdev(MachineState *ms, const char *path, Error **errp)
 >  {
->      if (f->hooks && f->hooks->save_page) {
-> -        int ret = f->hooks->save_page(f, f->opaque, block_offset,
-> +        int ret = f->hooks->save_page(f, block_offset,
->                                        offset, size, bytes_sent);
->          if (ret != RAM_SAVE_CONTROL_NOT_SUPP) {
->              f->rate_limit_used += size;
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index 81f6fd7db8..6310071f90 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -65,11 +65,9 @@ typedef ssize_t (QEMUFileWritevBufferFunc)(void *opaque, struct iovec *iov,
->  /*
->   * This function provides hooks around different
->   * stages of RAM migration.
-> - * 'opaque' is the backend specific data in QEMUFile
->   * 'data' is call specific data associated with the 'flags' value
->   */
-> -typedef int (QEMURamHookFunc)(QEMUFile *f, void *opaque, uint64_t flags,
-> -                              void *data);
-> +typedef int (QEMURamHookFunc)(QEMUFile *f, uint64_t flags, void *data);
+>      Object *obj;
+> +    ObjectProperty *prop;
+>      MachineClass *mc = MACHINE_GET_CLASS(ms);
+>      bool r = false;
 >  
->  /*
->   * Constants used by ram_control_* hooks
-> @@ -84,11 +82,11 @@ typedef int (QEMURamHookFunc)(QEMUFile *f, void *opaque, uint64_t flags,
->   * This function allows override of where the RAM page
->   * is saved (such as RDMA, for example.)
->   */
-> -typedef size_t (QEMURamSaveFunc)(QEMUFile *f, void *opaque,
-> -                               ram_addr_t block_offset,
-> -                               ram_addr_t offset,
-> -                               size_t size,
-> -                               uint64_t *bytes_sent);
-> +typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
-> +                                 ram_addr_t block_offset,
-> +                                 ram_addr_t offset,
-> +                                 size_t size,
-> +                                 uint64_t *bytes_sent);
->  
->  /*
->   * Return a QEMUFile for comms in the opposite direction
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index 6e7756bee7..83265513d9 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -3256,11 +3256,11 @@ qio_channel_rdma_shutdown(QIOChannel *ioc,
->   *                  sent. Usually, this will not be more than a few bytes of
->   *                  the protocol because most transfers are sent asynchronously.
->   */
-> -static size_t qemu_rdma_save_page(QEMUFile *f, void *opaque,
-> +static size_t qemu_rdma_save_page(QEMUFile *f,
->                                    ram_addr_t block_offset, ram_addr_t offset,
->                                    size_t size, uint64_t *bytes_sent)
->  {
-> -    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(opaque);
-> +    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(qemu_file_get_ioc(f));
->      RDMAContext *rdma;
->      int ret;
->  
-> @@ -3872,14 +3872,15 @@ rdma_block_notification_handle(QIOChannelRDMA *rioc, const char *name)
->      return 0;
->  }
->  
-> -static int rdma_load_hook(QEMUFile *f, void *opaque, uint64_t flags, void *data)
-> +static int rdma_load_hook(QEMUFile *f, uint64_t flags, void *data)
->  {
-> +    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(qemu_file_get_ioc(f));
->      switch (flags) {
->      case RAM_CONTROL_BLOCK_REG:
-> -        return rdma_block_notification_handle(opaque, data);
-> +        return rdma_block_notification_handle(rioc, data);
->  
->      case RAM_CONTROL_HOOK:
-> -        return qemu_rdma_registration_handle(f, opaque);
-> +        return qemu_rdma_registration_handle(f, rioc);
->  
->      default:
->          /* Shouldn't be called with any other values */
-> @@ -3887,10 +3888,10 @@ static int rdma_load_hook(QEMUFile *f, void *opaque, uint64_t flags, void *data)
->      }
->  }
->  
-> -static int qemu_rdma_registration_start(QEMUFile *f, void *opaque,
-> +static int qemu_rdma_registration_start(QEMUFile *f,
->                                          uint64_t flags, void *data)
->  {
-> -    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(opaque);
-> +    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(qemu_file_get_ioc(f));
->      RDMAContext *rdma;
->  
->      RCU_READ_LOCK_GUARD();
-> @@ -3916,10 +3917,10 @@ static int qemu_rdma_registration_start(QEMUFile *f, void *opaque,
->   * Inform dest that dynamic registrations are done for now.
->   * First, flush writes, if any.
->   */
-> -static int qemu_rdma_registration_stop(QEMUFile *f, void *opaque,
-> +static int qemu_rdma_registration_stop(QEMUFile *f,
->                                         uint64_t flags, void *data)
->  {
-> -    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(opaque);
-> +    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(qemu_file_get_ioc(f));
->      RDMAContext *rdma;
->      RDMAControlHeader head = { .len = 0, .repeat = 1 };
->      int ret = 0;
-> -- 
-> 2.36.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> +    prop = object_property_find(object_get_objects_root(), mc->default_ram_id);
+> +    if (prop) {
+> +        error_report("Memory backend id conflicts with default_ram_id %s",
+> +                     mc->default_ram_id);
+
+maybe something like this would be better:
+ A memory backend with id '%s' already exists, cannot create default RAM backend with the same id.
+ Either change id of the offending backend or provide system RAM backend explicitly using
+ '-machine memory-backend' option.
+ 
+
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+>      obj = object_new(path ? TYPE_MEMORY_BACKEND_FILE : TYPE_MEMORY_BACKEND_RAM);
+>      if (path) {
+>          if (!object_property_set_str(obj, "mem-path", path, errp)) {
 
 
