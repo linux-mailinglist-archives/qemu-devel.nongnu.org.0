@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2123A5445B8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 10:31:04 +0200 (CEST)
-Received: from localhost ([::1]:57228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321875445AC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 10:27:39 +0200 (CEST)
+Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzDZH-0007oU-3O
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 04:31:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60300)
+	id 1nzDVx-0003jd-Un
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 04:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nzDSH-0001F1-9W
+ id 1nzDSM-0001FD-Tv
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:23:55 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:50272)
+Received: from mail.ispras.ru ([83.149.199.84]:50296)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nzDSC-0007W4-IO
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:23:46 -0400
+ id 1nzDSH-0007WC-Vk
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:23:52 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 193F540737C0;
- Thu,  9 Jun 2022 08:23:43 +0000 (UTC)
-Subject: [PATCH v2 2/3] target/mips: implement Octeon-specific BBIT
+ by mail.ispras.ru (Postfix) with ESMTPSA id 7A6A140737C1;
+ Thu,  9 Jun 2022 08:23:48 +0000 (UTC)
+Subject: [PATCH v2 3/3] target/mips: implement Octeon-specific arithmetic
  instructions
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
 Cc: pavel.dovgalyuk@ispras.ru, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  aurelien@aurel32.net, aleksandar.rikalo@syrmia.com
-Date: Thu, 09 Jun 2022 11:23:42 +0300
-Message-ID: <165476302289.40568.18287487542170689158.stgit@pasha-ThinkPad-X280>
+Date: Thu, 09 Jun 2022 11:23:48 +0300
+Message-ID: <165476302832.40568.14732977026786901317.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <165476301211.40568.5713018312386387782.stgit@pasha-ThinkPad-X280>
 References: <165476301211.40568.5713018312386387782.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -58,146 +58,223 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch introduces Octeon-specific decoder and implements
-check-bit-and-jump instructions.
+This patch implements several Octeon-specific instructions:
+- BADDU
+- DMUL
+- EXTS/EXTS32
+- CINS/CINS32
+- POP/DPOP
+- SEQ/SEQI
+- SNE/SNEI
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 
 --
 
 v2 changes:
-     - Changed insn field description and simplified the jumps
-       (suggested by Richard Henderson)
+   - Using existing tcg instructions for exts, cins, pop
+     (suggested by Richard Henderson)
 ---
- target/mips/tcg/meson.build        |    2 ++
- target/mips/tcg/octeon.decode      |   15 ++++++++++++
- target/mips/tcg/octeon_translate.c |   46 ++++++++++++++++++++++++++++++++++++
- target/mips/tcg/translate.c        |    5 ++++
- target/mips/tcg/translate.h        |    1 +
- 5 files changed, 69 insertions(+)
- create mode 100644 target/mips/tcg/octeon.decode
- create mode 100644 target/mips/tcg/octeon_translate.c
+ target/mips/tcg/octeon.decode      |   26 ++++++
+ target/mips/tcg/octeon_translate.c |  155 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 181 insertions(+)
 
-diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
-index 98003779ae..7ee969ec8f 100644
---- a/target/mips/tcg/meson.build
-+++ b/target/mips/tcg/meson.build
-@@ -3,6 +3,7 @@ gen = [
-   decodetree.process('msa.decode', extra_args: '--decode=decode_ase_msa'),
-   decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
-   decodetree.process('vr54xx.decode', extra_args: '--decode=decode_ext_vr54xx'),
-+  decodetree.process('octeon.decode', extra_args: '--decode=decode_ext_octeon'),
- ]
- 
- mips_ss.add(gen)
-@@ -24,6 +25,7 @@ mips_ss.add(files(
- ))
- mips_ss.add(when: 'TARGET_MIPS64', if_true: files(
-   'tx79_translate.c',
-+  'octeon_translate.c',
- ), if_false: files(
-   'mxu_translate.c',
- ))
 diff --git a/target/mips/tcg/octeon.decode b/target/mips/tcg/octeon.decode
-new file mode 100644
-index 0000000000..8062715578
---- /dev/null
+index 8062715578..8929ad088e 100644
+--- a/target/mips/tcg/octeon.decode
 +++ b/target/mips/tcg/octeon.decode
-@@ -0,0 +1,15 @@
-+# Octeon Architecture Module instruction set
-+#
-+# Copyright (C) 2022 Pavel Dovgalyuk
-+#
-+# SPDX-License-Identifier: LGPL-2.1-or-later
-+#
+@@ -13,3 +13,29 @@
+ 
+ %bbit_p      28:1 16:5
+ BBIT         11 set:1 . 10 rs:5 ..... offset:16 p=%bbit_p
 +
-+# Branch on bit set or clear
-+# BBIT0      110010 ..... ..... ................
-+# BBIT032    110110 ..... ..... ................
-+# BBIT1      111010 ..... ..... ................
-+# BBIT132    111110 ..... ..... ................
++# Arithmetic
++# BADDU rd, rs, rt
++# DMUL rd, rs, rt
++# EXTS rt, rs, p, lenm1
++# EXTS32 rt, rs, p, lenm1
++# CINS rt, rs, p, lenm1
++# CINS32 rt, rs, p, lenm1
++# DPOP rd, rs
++# POP rd, rs
++# SEQ rd, rs, rt
++# SEQI rt, rs, immediate
++# SNE rd, rs, rt
++# SNEI rt, rs, immediate
 +
-+%bbit_p      28:1 16:5
-+BBIT         11 set:1 . 10 rs:5 ..... offset:16 p=%bbit_p
++@r3          ...... rs:5 rt:5 rd:5 ..... ......
++%bitfield_p  0:1 6:5
++@bitfield    ...... rs:5 rt:5 lenm1:5 ..... ..... . p=%bitfield_p
++
++BADDU        011100 ..... ..... ..... 00000 101000 @r3
++DMUL         011100 ..... ..... ..... 00000 000011 @r3
++EXTS         011100 ..... ..... ..... ..... 11101 . @bitfield
++CINS         011100 ..... ..... ..... ..... 11001 . @bitfield
++POP          011100 rs:5 00000 rd:5 00000 10110 dw:1
++SEQNE        011100 rs:5 rt:5 rd:5 00000 10101 ne:1
++SEQNEI       011100 rs:5 rt:5 imm:s10 10111 ne:1
 diff --git a/target/mips/tcg/octeon_translate.c b/target/mips/tcg/octeon_translate.c
-new file mode 100644
-index 0000000000..1558f74a8e
---- /dev/null
+index 1558f74a8e..0470605e1e 100644
+--- a/target/mips/tcg/octeon_translate.c
 +++ b/target/mips/tcg/octeon_translate.c
-@@ -0,0 +1,46 @@
-+/*
-+ * Octeon-specific instructions translation routines
-+ *
-+ *  Copyright (c) 2022 Pavel Dovgalyuk
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
+@@ -44,3 +44,158 @@ static bool trans_BBIT(DisasContext *ctx, arg_BBIT *a)
+     tcg_temp_free(t0);
+     return true;
+ }
 +
-+#include "qemu/osdep.h"
-+#include "tcg/tcg-op.h"
-+#include "tcg/tcg-op-gvec.h"
-+#include "exec/helper-gen.h"
-+#include "translate.h"
-+
-+/* Include the auto-generated decoder.  */
-+#include "decode-octeon.c.inc"
-+
-+static bool trans_BBIT(DisasContext *ctx, arg_BBIT *a)
++static bool trans_BADDU(DisasContext *ctx, arg_BADDU *a)
 +{
-+    TCGv p;
++    TCGv t0, t1;
 +
-+    if (ctx->hflags & MIPS_HFLAG_BMASK) {
-+        LOG_DISAS("Branch in delay / forbidden slot at PC 0x"
-+                  TARGET_FMT_lx "\n", ctx->base.pc_next);
-+        generate_exception_end(ctx, EXCP_RI);
++    if (a->rt == 0) {
++        /* nop */
 +        return true;
 +    }
 +
-+    /* Load needed operands */
-+    TCGv t0 = tcg_temp_new();
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
 +    gen_load_gpr(t0, a->rs);
++    gen_load_gpr(t1, a->rt);
 +
-+    p = tcg_constant_tl(1ULL << a->p);
-+    if (a->set) {
-+        tcg_gen_and_tl(bcond, p, t0);
-+    } else {
-+        tcg_gen_andc_tl(bcond, p, t0);
-+    }
-+
-+    ctx->hflags |= MIPS_HFLAG_BC;
-+    ctx->btarget = ctx->base.pc_next + 4 + a->offset * 4;
-+    ctx->hflags |= MIPS_HFLAG_BDS32;
++    tcg_gen_add_tl(t0, t0, t1);
++    tcg_gen_andi_i64(cpu_gpr[a->rd], t0, 0xff);
 +
 +    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
 +    return true;
 +}
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 6de5b66650..4f41a9b00a 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -15963,6 +15963,11 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-     if (cpu_supports_isa(env, INSN_VR54XX) && decode_ext_vr54xx(ctx, ctx->opcode)) {
-         return;
-     }
-+#if defined(TARGET_MIPS64)
-+    if (cpu_supports_isa(env, INSN_OCTEON) && decode_ext_octeon(ctx, ctx->opcode)) {
-+        return;
++
++static bool trans_DMUL(DisasContext *ctx, arg_DMUL *a)
++{
++    TCGv t0, t1;
++
++    if (a->rt == 0) {
++        /* nop */
++        return true;
 +    }
-+#endif
- 
-     /* ISA extensions */
-     if (ase_msa_available(env) && decode_ase_msa(ctx, ctx->opcode)) {
-diff --git a/target/mips/tcg/translate.h b/target/mips/tcg/translate.h
-index 9997fe2f3c..55053226ae 100644
---- a/target/mips/tcg/translate.h
-+++ b/target/mips/tcg/translate.h
-@@ -215,6 +215,7 @@ bool decode_ase_msa(DisasContext *ctx, uint32_t insn);
- bool decode_ext_txx9(DisasContext *ctx, uint32_t insn);
- #if defined(TARGET_MIPS64)
- bool decode_ext_tx79(DisasContext *ctx, uint32_t insn);
-+bool decode_ext_octeon(DisasContext *ctx, uint32_t insn);
- #endif
- bool decode_ext_vr54xx(DisasContext *ctx, uint32_t insn);
- 
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++    gen_load_gpr(t0, a->rs);
++    gen_load_gpr(t1, a->rt);
++
++    tcg_gen_mul_i64(cpu_gpr[a->rd], t0, t1);
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_EXTS(DisasContext *ctx, arg_EXTS *a)
++{
++    TCGv t0;
++
++    if (a->rt == 0) {
++        /* nop */
++        return true;
++    }
++
++    t0 = tcg_temp_new();
++    gen_load_gpr(t0, a->rs);
++    tcg_gen_sextract_tl(t0, t0, a->p, a->lenm1);
++    gen_store_gpr(t0, a->rt);
++    tcg_temp_free(t0);
++
++    return true;
++}
++
++static bool trans_CINS(DisasContext *ctx, arg_CINS *a)
++{
++    TCGv t0;
++
++    if (a->rt == 0) {
++        /* nop */
++        return true;
++    }
++
++    t0 = tcg_temp_new();
++    gen_load_gpr(t0, a->rs);
++    tcg_gen_deposit_z_tl(t0, t0, a->p, a->lenm1);
++    gen_store_gpr(t0, a->rt);
++    tcg_temp_free(t0);
++
++    return true;
++}
++
++static bool trans_POP(DisasContext *ctx, arg_POP *a)
++{
++    TCGv t0;
++
++    if (a->rd == 0) {
++        /* nop */
++        return true;
++    }
++
++    t0 = tcg_temp_new();
++    gen_load_gpr(t0, a->rs);
++    if (!a->dw) {
++        tcg_gen_andi_i64(t0, t0, 0xffffffff);
++    }
++    tcg_gen_ctpop_tl(t0, t0);
++    gen_store_gpr(t0, a->rd);
++    tcg_temp_free(t0);
++
++    return true;
++}
++
++static bool trans_SEQNE(DisasContext *ctx, arg_SEQNE *a)
++{
++    TCGv t0, t1;
++
++    if (a->rd == 0) {
++        /* nop */
++        return true;
++    }
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rs);
++    gen_load_gpr(t1, a->rt);
++
++    if (a->ne) {
++        tcg_gen_setcond_tl(TCG_COND_NE, cpu_gpr[a->rd], t1, t0);
++    } else {
++        tcg_gen_setcond_tl(TCG_COND_EQ, cpu_gpr[a->rd], t1, t0);
++    }
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++
++    return true;
++}
++
++static bool trans_SEQNEI(DisasContext *ctx, arg_SEQNEI *a)
++{
++    TCGv t0;
++
++    if (a->rt == 0) {
++        /* nop */
++        return true;
++    }
++
++    t0 = tcg_temp_new();
++
++    gen_load_gpr(t0, a->rs);
++
++    /* Sign-extend to 64 bit value */
++    target_ulong imm = a->imm;
++    if (a->ne) {
++        tcg_gen_setcondi_tl(TCG_COND_NE, cpu_gpr[a->rt], t0, imm);
++    } else {
++        tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_gpr[a->rt], t0, imm);
++    }
++
++    tcg_temp_free(t0);
++
++    return true;
++}
 
 
