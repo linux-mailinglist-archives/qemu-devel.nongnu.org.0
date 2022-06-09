@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A829545391
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 19:59:01 +0200 (CEST)
-Received: from localhost ([::1]:53304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1AF5453B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:09:37 +0200 (CEST)
+Received: from localhost ([::1]:41140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzMQu-0002Qy-FX
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 13:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56312)
+	id 1nzMbA-00066p-Mg
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLro-0007sy-Qj
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38064)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLrd-0003hE-T4
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654795348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RmSk+tUEqXiBalaaOmEjXLxaJWQNJUFlikSGSiwR69g=;
- b=XtzxBJVmX5hpU8Mucz/z5FRVgWf4iDIMhqu5Gdzu/0Hx/AFyPMg/8By2Wsc+V0iXvqaRih
- JbdeS0iuPXaqrbi+npmyo0DaNOzk5e1+nOWr1Pz8IT9Gnk7m/XgqbW3cZrZOT+mEI1uuDu
- bhz/7VrPQ85JNWsorqGkzNjut01sNMA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-GVsLWVGBPuu0z39dViz82g-1; Thu, 09 Jun 2022 13:22:25 -0400
-X-MC-Unique: GVsLWVGBPuu0z39dViz82g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F01BB80159B;
- Thu,  9 Jun 2022 17:22:24 +0000 (UTC)
-Received: from merkur.redhat.com (unknown [10.39.195.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58210404E4B5;
- Thu,  9 Jun 2022 17:22:24 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PULL 14/18] qsd: document vduse-blk exports
-Date: Thu,  9 Jun 2022 19:21:45 +0200
-Message-Id: <20220609172149.293877-15-kwolf@redhat.com>
-In-Reply-To: <20220609172149.293877-1-kwolf@redhat.com>
-References: <20220609172149.293877-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzKfI-0005q2-AJ
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:05:47 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:36047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzKfF-0008F3-03
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:05:43 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-30c143c41e5so246082787b3.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 09:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=W1eZeSLTwKkrvIeTP0WqrQdKj7CWhHK0y0yXcwNChMI=;
+ b=E/pzjpbdnXVHXQwj8mmZuoI5UltV8CUUhEBjwTP58NrehUuAy3xyX0/H1avdICWqkY
+ pEU3fQYJfKLlWCrmUm5uJADnkPBEnGCDHWe6XjKhzUo7x8OgOPgHnZA+ctEArW0fddbW
+ X78qoDGvG0dZPxUUpOUpF31PH4MuoeFWxmPTkQH+tB4RwB1Qej84bmRkd4BXIisDp1KM
+ +zNO9dFt1j0kuYuJRyJUNaKS256moCQGe6PMZYtY1qMmxEcM58+9kt1V943Vxyxqmovy
+ /2UpM2L/WJPACUoRidbN0ized2ybjiy+FiOPgWnXy326yR5Ze0VEJqRA6VCZrdkYTe2Y
+ 6jCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W1eZeSLTwKkrvIeTP0WqrQdKj7CWhHK0y0yXcwNChMI=;
+ b=WjH2SFue/ML9vGyertKPpOFpPVVt976nhRnV6qUbQpubP2Pg49hYbFDvt/De1l5tsB
+ RAVhI26tQLB5JGVSfXFvd2ebRKuoDKrtGgqYItvJg3QfULV+6ejBjLf0x6pQNVZQ4232
+ LVD2SWs0FIlivRKhBSobJJDulamNu3O4VeFNiprz7F16jbHp5SvWsA1mjTb+cer57mtb
+ EuxvP8JVXyvW66p2cjw9wqGzKhGdtWnKQsnXdYdm9E0C3JNIaWsLyxeGmuhg/KDV9jbR
+ OOG9XMx9qz/bVgPZZzZurahTtDnfYn47wrXa5W9BiT8EkOE8hk8lHpOPkuXoQHEHZLFd
+ X7Tg==
+X-Gm-Message-State: AOAM533ndRsbl4xjh1zcK0xQq/sOmBaTpJ8uQzerjOfF2A2UhutIgaro
+ xIiPBwouyHMxJTle6J7/hiAGz7n72V1M3Il8i76qcg==
+X-Google-Smtp-Source: ABdhPJytGWmHi7XBKjxFJ9ZFulQtY0Li+m8vLEGU8aJbFy68Gf5wrU5lK7Jm17x0a457aSNxxamkoId4CrR2M34fSPc=
+X-Received: by 2002:a81:6589:0:b0:2ff:e11d:3fb3 with SMTP id
+ z131-20020a816589000000b002ffe11d3fb3mr43259606ywb.10.1654790738926; Thu, 09
+ Jun 2022 09:05:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220607024734.541321-1-richard.henderson@linaro.org>
+ <20220607024734.541321-13-richard.henderson@linaro.org>
+In-Reply-To: <20220607024734.541321-13-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jun 2022 17:05:28 +0100
+Message-ID: <CAFEAcA8QVv16QPjnDdBFhw--2fHHVV3U8v+jg2Zan=mT3hGmvg@mail.gmail.com>
+Subject: Re: [PATCH v2 12/25] target/arm: Rename gen_exception_insn to
+ gen_exception_insn_el
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,81 +84,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+On Tue, 7 Jun 2022 at 03:51, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate.h        |  4 ++--
+>  target/arm/translate-a64.c    | 30 +++++++++++++--------------
+>  target/arm/translate-m-nocp.c | 16 +++++++-------
+>  target/arm/translate-mve.c    |  4 ++--
+>  target/arm/translate-vfp.c    |  4 ++--
+>  target/arm/translate.c        | 39 ++++++++++++++++++-----------------
+>  6 files changed, 49 insertions(+), 48 deletions(-)
 
-Document vduse-blk exports in qemu-storage-daemon --help and the
-qemu-storage-daemon(1) man page.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Based-on: <20220523084611.91-1-xieyongji@bytedance.com>
-Cc: Xie Yongji <xieyongji@bytedance.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220525121947.859820-1-stefanha@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- docs/tools/qemu-storage-daemon.rst   | 21 +++++++++++++++++++++
- storage-daemon/qemu-storage-daemon.c |  9 +++++++++
- 2 files changed, 30 insertions(+)
-
-diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index 8b97592663..fbeaf76954 100644
---- a/docs/tools/qemu-storage-daemon.rst
-+++ b/docs/tools/qemu-storage-daemon.rst
-@@ -77,6 +77,7 @@ Standard options:
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=unix,addr.path=<socket-path>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=fd,addr.str=<fd>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-   --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off][,allow-other=on|off|auto]
-+  --export [type=]vduse-blk,id=<id>,node-name=<node-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>]
- 
-   is a block export definition. ``node-name`` is the block node that should be
-   exported. ``writable`` determines whether or not the export allows write
-@@ -110,6 +111,26 @@ Standard options:
-   ``allow-other`` to auto (the default) will try enabling this option, and on
-   error fall back to disabling it.
- 
-+  The ``vduse-blk`` export type uses the ``id`` as the VDUSE device name.
-+  ``num-queues`` sets the number of virtqueues (the default is 1).
-+  ``queue-size`` sets the virtqueue descriptor table size (the default is 256).
-+
-+  The instantiated VDUSE device must then be added to the vDPA bus using the
-+  vdpa(8) command from the iproute2 project::
-+
-+  # vdpa dev add name <id> mgmtdev vduse
-+
-+  The device can be removed from the vDPA bus later as follows::
-+
-+  # vdpa dev del <id>
-+
-+  For more information about attaching vDPA devices to the host with
-+  virtio_vdpa.ko or attaching them to guests with vhost_vdpa.ko, see
-+  https://vdpa-dev.gitlab.io/.
-+
-+  For more information about VDUSE, see
-+  https://docs.kernel.org/userspace-api/vduse.html.
-+
- .. option:: --monitor MONITORDEF
- 
-   is a QMP monitor definition. See the :manpage:`qemu(1)` manual page for
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index c104817cdd..17fd3f2f5f 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -121,6 +121,15 @@ static void help(void)
- "                         vhost-user-blk device over file descriptor\n"
- "\n"
- #endif /* CONFIG_VHOST_USER_BLK_SERVER */
-+#ifdef CONFIG_VDUSE_BLK_EXPORT
-+"  --export [type=]vduse-blk,id=<id>,node-name=<node-name>\n"
-+"           [,writable=on|off][,num-queues=<num-queues>]\n"
-+"           [,queue-size=<queue-size>]\n"
-+"           [,logical-block-size=<logical-block-size>]\n"
-+"                         export the specified block node as a vduse-blk\n"
-+"                         device using the id as the VDUSE device name\n"
-+"\n"
-+#endif /* CONFIG_VDUSE_BLK_EXPORT */
- "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
- "                         configure a QMP monitor\n"
- "\n"
--- 
-2.35.3
-
+thanks
+-- PMM
 
