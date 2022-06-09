@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1641D544D3F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:14:35 +0200 (CEST)
-Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF348544DBC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:33:11 +0200 (CEST)
+Received: from localhost ([::1]:55690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzHze-0000Yo-3R
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:14:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44624)
+	id 1nzIHe-00083i-Aa
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nzG25-00025F-LV
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:08:57 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37657)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzG2h-0002a1-4B
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:09:38 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:45882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nzG24-00014Y-61
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:08:57 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- o37-20020a05600c512500b0039c4ba4c64dso6748017wms.2
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 04:08:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzG2d-00019m-UN
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:09:34 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-3137eb64b67so35670647b3.12
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 04:09:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=QnZqULlHV1bFVxHB7Feo2yV82MISzAxw0oCeS+yGpa4=;
- b=K3qJN3HluJz/JOGOirwcWyOADWWzcb80Tlo6ITgIzuxs/vcvWVxhvLSlmRYdnCs9XH
- JYCbPlhtjQ4mQaH59dDjvmTY9K7q1aTAblN/YeZuBrqJrTbwpj+bZhF1tZJtnE1sRiKr
- tMhx4RGaUaikCnlya82XDtdv0WYtSQvxV2qjEq4hoiC7My0g2NR/C1ez0OWfzaOTkP3u
- bbZdHm4Ctp8gSHoyhoJI/IeRG0SXkTK3n5EORhfAH/qE5Rhk/bXptYBjYpIERmgRcEx7
- Lmph2cPfXMu2MnFWvZI51SQtwzeebbaZfdpxo/rgK5rd2Sv0fCuBXlY2xn6/nmRyttFX
- yl7g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y4RIo8lMEbYK3e591RWrfwNxeZleLc7RAKGzQTE9Jlc=;
+ b=T218kZECvPMuSoGpT9GTxuH82rY2oeoCXGn/cHIR52Vt/Qkznnv9wEqh49h1UO5VPk
+ S3cv9VBGC2Cb/hv+uhbPTEDiwxLurl+B4Gm9bUona+aAuWHHAFX5gweIixBjdwDjtyT8
+ m8PzWTU+jeCCThJ1qdIxVrCK1SMGprRJ1NEHMvrV7+/zl7QdXSZUsd3Z5wpVQP3b7AHZ
+ Ev9hsowwNc7I5FMik5PeLgbebNsaSDLLvaeOmoBLnnYGj6V0iqS+vfeBRPrMZexaDLvk
+ SGbbb7udhFxPYb0lDL9jHwwhsZaOLu3BZOCSF2Tjsf6ShknU/1+eEPNcykND2WS5Gyq8
+ TGAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=QnZqULlHV1bFVxHB7Feo2yV82MISzAxw0oCeS+yGpa4=;
- b=KxhYM/1S7Dzb+ZG/moXAn7/2bqpNN6Ti42uSdy4pfV+n8U09A4UAs44rLR+s+QkwAG
- bKflZJc6rzr/Y5sNN4JwZMRF/SzIrMf9OonFeC3A/c36kQAyy/8CTmbiQKER0xwkS3za
- Rbiz42Ut6fQZzyilVuVs1BctbvN+4UWEY2t7U8uh3UlpULfcPrCKK4KOAx7txet9RTsQ
- pZ3wNwJPa6rXTtHPpDXYmhw8pnSokRpk5WkccovqDGjKbf6vBIVsaG1gE5m/iTENw3/V
- ArxGhsmFS6EGjSnSdbwqZPvwZ3u5RIp2FE/bhoKR2thlO7/P6t4zhoWmBJi5bMwffhXJ
- gfbQ==
-X-Gm-Message-State: AOAM5317KFX/gXRG7qBuGSD/4+B//fFJAkDkJ7fLtoRugYZI5LoLxjlz
- wKXelSoyn4vI/5fZP2g+nzIcLw==
-X-Google-Smtp-Source: ABdhPJxI3zcJc7f2mWZDDw2RR8h+lqVNsiMqpBVCUVJ5pLZUUfG1x1fmH6J4/Wp8CF7AnHhaByOzfQ==
-X-Received: by 2002:a05:600c:1d19:b0:39c:4aee:fe3a with SMTP id
- l25-20020a05600c1d1900b0039c4aeefe3amr2799107wms.89.1654772934279; 
- Thu, 09 Jun 2022 04:08:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- t15-20020a05600c198f00b003942a244f40sm33539233wmq.25.2022.06.09.04.08.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 04:08:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F08C01FFB7;
- Thu,  9 Jun 2022 12:08:51 +0100 (BST)
-References: <20220608160651.248781-1-berrange@redhat.com>
-User-agent: mu4e 1.7.26; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>, Thomas Huth
- <thuth@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Wainer dos
- Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH] gitlab: compare CIRRUS_nn vars against 'null' not ""
-Date: Thu, 09 Jun 2022 12:08:46 +0100
-In-reply-to: <20220608160651.248781-1-berrange@redhat.com>
-Message-ID: <87sfoert4s.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y4RIo8lMEbYK3e591RWrfwNxeZleLc7RAKGzQTE9Jlc=;
+ b=RyR4he7Jdi3L5ssrIlZ3qCPlQVO9EVf6m9sUya0Iw+82AA9Ug7MB/TizNwM3GJakmX
+ aYpz869ABS0wHN3UPYEZARJGqarxWUs0Qs9vaK/IW9A8cifG6ckX9E+AF3RY4KPxZkL7
+ jeDwRrTMJOXbnuD3sYZVSFds5ym4Gt/Lv9+VHMezhpjLn/1eKDJxrxqGeiYfxd9HSIxu
+ yRNLUWELidAgkfu2RLtG6h3edqTZGn5sTq6f4chQ0FbTu68Cyb1uEefVfDfHtiEVNL8Y
+ S2EhsiV3Gms7onjiw8gzI4WITm395IA/5yBoQOorqBK8x3IkdJpPAGWg7+/jpFao4qUd
+ 1ZBA==
+X-Gm-Message-State: AOAM5318kmbNNUIkT0Y3hpDanxhYLgrQUavZDMIxTg/xgWpeVT9rfL9Z
+ njdCZ4MU2JzAHXiLmOpLU4DLY/RW031BmLL6PPt9MA==
+X-Google-Smtp-Source: ABdhPJxrNL/zEKyid2JjWej2I0Yhdi+2U+KiSRkrepmNUBZOiCOm5LZ26zzLmzD2dhabLoEEJeO5p+yWPCxq9xf+BSM=
+X-Received: by 2002:a81:1a4c:0:b0:30c:8363:e170 with SMTP id
+ a73-20020a811a4c000000b0030c8363e170mr40968081ywa.455.1654772970121; Thu, 09
+ Jun 2022 04:09:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
+ <20220522181836.864-38-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220522181836.864-38-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jun 2022 12:09:19 +0100
+Message-ID: <CAFEAcA9rx0iz0FA2C8nefWtHtYKf5-OviyqzuG+_PLGJc-mfzA@mail.gmail.com>
+Subject: Re: [PATCH 37/50] lasips2: QOMify LASIPS2State
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com, 
+ pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, 
+ f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,17 +86,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-> The GitLab variable comparisons don't have shell like semantics where
-> an unset variable compares equal to empty string. We need to explicitly
-> test against 'null' to detect an unset variable.
+On Sun, 22 May 2022 at 19:20, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
 >
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Currently lasip2_init() creates a new LASIPS2State directly which is used by the HPPA
+> machine. Introduce a new LASIPS2 QOM type that will soon be used to allow the HPPA
+> machine to be wired up using standard qdev GPIOs.
+>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Queued to testing/next, thanks.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
