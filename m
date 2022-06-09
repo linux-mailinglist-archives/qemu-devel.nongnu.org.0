@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494E054557D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 22:22:12 +0200 (CEST)
-Received: from localhost ([::1]:54492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463DC5455B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 22:33:32 +0200 (CEST)
+Received: from localhost ([::1]:37716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzOfS-0006lp-Su
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 16:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40310)
+	id 1nzOqQ-0006Zj-Id
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 16:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzObn-0004lL-4B
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:18:23 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:54058)
+ id 1nzOmA-0003OO-6d
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:06 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:35822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzObl-0006oP-CA
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:18:22 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id a10so22288476pju.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:18:19 -0700 (PDT)
+ id 1nzOm8-0008Ps-H7
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:05 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id u2so22052257pfc.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=QNQgm+cW6Gv7mdifYLUFJlGVLq+XhHVP82xFs87VHws=;
- b=M6W1DQMfaZ6Vaa35pwi4rsk9XMeFxdtQ1sLrBOQM3ioOTD0tA6lwOFkA9eZTddiUK9
- ztWqu4m2V9L8cwG40mLDR/flU7+gH+4QwzmXAVNDe3ipPXaeOwBCo3LqQ3NnVFv19UXi
- myB1fKdW76ShhqCMab+rPvzJA3NKaInOMRph6NWzFnxeNoiXonAskqamhnaSUivE7Zqk
- 62UXy3LonIkZLh3TODO1SykXvtU8lG+zrR6jvh8zX3R8pENkqLAjW5RxGqq7YhNK4at9
- 7CPegjC2xCv5h3b4VS/+SfcE3nkd1RlvxOZ59g5HmQxulJd66yeZVqSd9eOKbjnFSIoy
- chkQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WdNppBEdbei6b2OSfenKY9YTOl+LPHyij0Nj78kSrVk=;
+ b=MHE3v9iRYf+IdpS992xroHLdQDwd7J56/Petr+KNDwKj9ARy5sc5Lq7aETvjvC8INB
+ oOobSQb46eW7IPAZs8DjxR4Neg7Xv/Z8qauxXqOxbIf1IfVP5+5lXKLp/7E21pRxbfXZ
+ v6J0LKgz4rXy/65MlXtPE65y1i//nQiB7LNAv9spLzHQRVsoGI6SH+1QjvWV/M0plRCC
+ kc6Zxu0TJHuVQnAWr+WhcUhW69jFzwZHe4AGxRVLGx46u8V4Ob38DAksMfASX3WShMOR
+ bdn43gOnc1TI5buJnbXr2Qy6V/O9ez1OJJnC5H3tWm3v9WPasUFwsiJe9QUWPTrdB4Ze
+ F26g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=QNQgm+cW6Gv7mdifYLUFJlGVLq+XhHVP82xFs87VHws=;
- b=F/IdFD5xHUueHhe+Wsxya58SkfgfgLiPi5bSbZ3CjtNXRqT+43eJY9PJuaMlMUjnvP
- JNn4g4bWo0ppM8ewTEwgnADSyyqSLEOBzVmjeS3tg223F4b6c4o8uUcaPp8U8Hh20WFi
- WEm2173N9gIZeutCkNi5bSz9GojAd8XObCp4e+uimbH2pdAl5n3X0gif7cvuCxQjNymV
- syqQQuPzmiB6O4ZtU2cZhr9bQ/4YactWxIKTWLbiYtUcfOBvQALOhdRoQgI2432mhcA8
- x2eJrfC81C+zqJtyCjXM32aPy0E1btI4ZfT5hAMH/lCMBF14Qz4HBxJ/ZbI+BxF+77Rg
- 0cOA==
-X-Gm-Message-State: AOAM5316ZnYluZFAYWI8PF68OqGn/qrIfPFXAnCU9aIh9sl0i/02LNiH
- /gVE9llxLgrlUsfsz1MOhGIr5g==
-X-Google-Smtp-Source: ABdhPJzXxwZVEcSSsTqBVRVzEBLxHO7n0lIHlwRf8LAyda2KM8RCTGJWAo9r3Xw5NPvih4vsSd0WSQ==
-X-Received: by 2002:a17:903:187:b0:166:4360:a4fa with SMTP id
- z7-20020a170903018700b001664360a4famr39122877plg.87.1654805898664; 
- Thu, 09 Jun 2022 13:18:18 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1547:e101:839f:476f:678:38a?
- ([2602:ae:1547:e101:839f:476f:678:38a])
+ bh=WdNppBEdbei6b2OSfenKY9YTOl+LPHyij0Nj78kSrVk=;
+ b=j+aytDDPaE2tEJOkmqFkTiQkfH2F2mC3wb5jqv2/D6KI9k8hY8Go9uvMtWYLm7CyLJ
+ hOM7sVfo7BfQMrjV71ieP/D9eQstCyl/9wwfqERgxAjX7aFUCvnxMwzEhY/+ZMLYBeX/
+ j6tibqdxG3kDAWG/hbHhmhW5Bp8dHmnNwfDWFFQstq22DdnIB9PJBfw6bVuImjwGlxHr
+ Nkp8mgKygZPDgyaIGGT7eKVxnnIVVy54izY6zDLtkYVsuvLo0K1PakyOl68MliJISnqr
+ DDS99OVKlUI1EN9TwoYgbySbaOnWSvNWObnf2+LQTBnwpoRrORM1eABNXA6yieMwdET7
+ YTyw==
+X-Gm-Message-State: AOAM530B5EM6ZmpO9DsS+ANvdw/z2C3g9iB1P9fMuf5ThPNkzjA+e2UT
+ bF6r+03cL2+bR0oX7nquWEZ5n0VS0+AByg==
+X-Google-Smtp-Source: ABdhPJw12JVdLDIYoBaM+efr3/KF8GMI6OVAh3FXwWzCxl5o1Y5y43CqFLeKxixQFAl5MSrLhPDI3Q==
+X-Received: by 2002:a05:6a00:2148:b0:4fa:92f2:bae3 with SMTP id
+ o8-20020a056a00214800b004fa92f2bae3mr42053364pfk.69.1654806542696; 
+ Thu, 09 Jun 2022 13:29:02 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1547:e101:839f:476f:678:38a])
  by smtp.gmail.com with ESMTPSA id
- x25-20020aa78f19000000b0051bfd13809fsm11201753pfr.119.2022.06.09.13.18.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jun 2022 13:18:18 -0700 (PDT)
-Message-ID: <a8b15969-fafa-e088-d778-278891c3970e@linaro.org>
-Date: Thu, 9 Jun 2022 13:18:16 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/18] Block layer patches
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20220609172149.293877-1-kwolf@redhat.com>
+ r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 13:29:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220609172149.293877-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v3 00/23] target/arm: tidy exception routing
+Date: Thu,  9 Jun 2022 13:28:38 -0700
+Message-Id: <20220609202901.1177572-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,67 +86,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/22 10:21, Kevin Wolf wrote:
-> The following changes since commit 028f2361d0c2d28d6f918fe618f389228ac22b60:
-> 
->    Merge tag 'pull-target-arm-20220609' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-06-09 06:47:03 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://repo.or.cz/qemu/kevin.git tags/for-upstream
-> 
-> for you to fetch changes up to 7f9a8b3342ff00d3398fdc08264948762d748edb:
-> 
->    nbd: Drop dead code spotted by Coverity (2022-06-09 18:07:17 +0200)
-> 
-> ----------------------------------------------------------------
-> Block layer patches
-> 
-> - Add vduse-blk export
-> - Dirty bitmaps: Fix and improve bitmap merge
-> - gluster: correctly set max_pdiscard
-> - rbd: report a better error when namespace does not exist
-> - aio_wait_kick: add missing memory barrier
-> - Code cleanups
+This is mostly code movement at this point, out of headers
+and into op_helper.c and debug_helper.c.
 
-Several sets of compile failures:
+Changes for v3:
+  * Drop helper_exception_advsimdfp_access.
+  * Drop Rearrange Secure PL1 test in arm_debug_target_el.
+  * Improve patch comment for helper_exception_swstep.
 
-https://gitlab.com/qemu-project/qemu/-/jobs/2571008901
-
-../subprojects/libvduse/libvduse.c:578:20: error: unused function 
-'vring_used_flags_set_bit' [-Werror,-Wunused-function]
-static inline void vring_used_flags_set_bit(VduseVirtq *vq, int mask)
-                    ^
-../subprojects/libvduse/libvduse.c:587:20: error: unused function 
-'vring_used_flags_unset_bit' [-Werror,-Wunused-function]
-static inline void vring_used_flags_unset_bit(VduseVirtq *vq, int mask)
-                    ^
-
-https://gitlab.com/qemu-project/qemu/-/jobs/2571008908
-
-../meson.build:1652:2: ERROR: Tried to use 'add_global_arguments' after a build target has 
-been declared.
-
-https://gitlab.com/qemu-project/qemu/-/jobs/2571008833
-
-../subprojects/libvduse/libvduse.c:325:20: error: cast to pointer from integer of 
-different size [-Werror=int-to-pointer-cast]
-   325 |             munmap((void *)dev->regions[i].mmap_addr,
-       |                    ^
-../subprojects/libvduse/libvduse.c: In function 'vduse_dev_create':
-../subprojects/libvduse/libvduse.c:1318:54: error: format '%lu' expects argument of type 
-'long unsigned int', but argument 3 has type 'uint64_t' {aka 'long long unsigned int'} 
-[-Werror=format=]
-  1318 |         fprintf(stderr, "Failed to set api version %lu: %s\n",
-       |                                                    ~~^
-       |                                                      |
-       |                                                      long unsigned int
-       |                                                    %llu
-  1319 |                 version, strerror(errno));
-       |                 ~~~~~~~
-       |                 |
-       |                 uint64_t {aka long long unsigned int}
+All patches are reviewed.
 
 
 r~
+
+
+Richard Henderson (23):
+  target/arm: Mark exception helpers as noreturn
+  target/arm: Add coproc parameter to syn_fp_access_trap
+  target/arm: Move exception_target_el out of line
+  target/arm: Move arm_singlestep_active out of line
+  target/arm: Move arm_generate_debug_exceptions out of line
+  target/arm: Use is_a64 in arm_generate_debug_exceptions
+  target/arm: Move exception_bkpt_insn to debug_helper.c
+  target/arm: Move arm_debug_exception_fsr to debug_helper.c
+  target/arm: Rename helper_exception_with_syndrome
+  target/arm: Introduce gen_exception_insn_el_v
+  target/arm: Rename gen_exception_insn to gen_exception_insn_el
+  target/arm: Introduce gen_exception_insn
+  target/arm: Create helper_exception_swstep
+  target/arm: Remove TBFLAG_ANY.DEBUG_TARGET_EL
+  target/arm: Move gen_exception to translate.c
+  target/arm: Rename gen_exception to gen_exception_el
+  target/arm: Introduce gen_exception
+  target/arm: Introduce gen_exception_el_v
+  target/arm: Introduce helper_exception_with_syndrome
+  target/arm: Remove default_exception_el
+  target/arm: Create raise_exception_debug
+  target/arm: Move arm_debug_target_el to debug_helper.c
+  target/arm: Fix Secure PL1 tests in fp_exception_el
+
+ target/arm/cpu.h              | 128 +-------------------
+ target/arm/helper.h           |   8 +-
+ target/arm/internals.h        |  43 +------
+ target/arm/syndrome.h         |   7 +-
+ target/arm/translate.h        |  43 +------
+ target/arm/debug_helper.c     | 220 ++++++++++++++++++++++++++++++++--
+ target/arm/helper.c           |  35 ++----
+ target/arm/op_helper.c        |  52 ++++----
+ target/arm/translate-a64.c    |  34 ++----
+ target/arm/translate-m-nocp.c |  15 ++-
+ target/arm/translate-mve.c    |   3 +-
+ target/arm/translate-vfp.c    |  18 ++-
+ target/arm/translate.c        | 106 ++++++++--------
+ 13 files changed, 360 insertions(+), 352 deletions(-)
+
+-- 
+2.34.1
+
 
