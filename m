@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B823E54528D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:58:59 +0200 (CEST)
-Received: from localhost ([::1]:46314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4C554525F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:51:47 +0200 (CEST)
+Received: from localhost ([::1]:33602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzLUo-0002OZ-QG
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54904)
+	id 1nzLNq-0001lL-Mt
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzK55-0008EV-Tu
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:28:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53774)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzK5B-0008HQ-L5
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:28:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzK53-0000uS-0Q
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:28:18 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzK57-0000v8-G9
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:28:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654788496;
+ s=mimecast20190719; t=1654788499;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W74xPxHx/l/Ha5Xz0Wto2YjD6dtAGeNbL1hNCzhV0oA=;
- b=aW6vyjac7fSlU4AJpf8DfXE/4ZFs7X/RqGv5BVVOgCQ9YziFpIMNeBMVJ5l1gTHqG/sdwl
- NhhutHbAOMQtf1OUdoLTWdZImij1XcgReY4t6A6tksU1n/E41tuGgv3S3B0pwSqLVI4kzY
- 5xLDHiX+7grX0NY7pdLwK/D0nqVrq7o=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YL134j3R5w+D6AlN+KbCQB/Wy6KEfUaEe41oGm63UXw=;
+ b=R21IjlsMPzkVYT/3GO+AcCgVVnnxaR1w1n6/n2IpyEN4mIAj6n1KPkt7+oRhO4cu8GFCA+
+ UZ561YaLpb6JrXkgRgY64W9GHLf5zi3GtxAmZ+XzkZHr94IWrWjyhKq9RTNmmQyCcrXOim
+ hTUSaO7F7hDspzTflGIKqAHMLrQnY50=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-IRQOjrNJO6qhARAC24iqaA-1; Thu, 09 Jun 2022 11:28:13 -0400
-X-MC-Unique: IRQOjrNJO6qhARAC24iqaA-1
+ us-mta-250-zt_9mdIBMTOxiNqAug1mtg-1; Thu, 09 Jun 2022 11:28:16 -0400
+X-MC-Unique: zt_9mdIBMTOxiNqAug1mtg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4454E1C18272;
- Thu,  9 Jun 2022 15:28:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3241C185A7B2;
+ Thu,  9 Jun 2022 15:28:16 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.39.192.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B31E492C3B;
- Thu,  9 Jun 2022 15:28:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0518492C3B;
+ Thu,  9 Jun 2022 15:28:12 +0000 (UTC)
 From: Alberto Faria <afaria@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
@@ -52,16 +52,15 @@ Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
  Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Alberto Faria <afaria@redhat.com>
-Subject: [PATCH v5 07/10] block: Implement bdrv_{pread, pwrite,
- pwrite_zeroes}() using generated_co_wrapper
-Date: Thu,  9 Jun 2022 16:27:41 +0100
-Message-Id: <20220609152744.3891847-8-afaria@redhat.com>
+Subject: [PATCH v5 08/10] block: Add bdrv_co_pwrite_sync()
+Date: Thu,  9 Jun 2022 16:27:42 +0100
+Message-Id: <20220609152744.3891847-9-afaria@redhat.com>
 In-Reply-To: <20220609152744.3891847-1-afaria@redhat.com>
 References: <20220609152744.3891847-1-afaria@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -85,115 +84,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_{pread,pwrite}() now return -EIO instead of -EINVAL when 'bytes' is
-negative, making them consistent with bdrv_{preadv,pwritev}() and
-bdrv_co_{pread,pwrite,preadv,pwritev}().
-
-bdrv_pwrite_zeroes() now also calls trace_bdrv_co_pwrite_zeroes() and
-clears the BDRV_REQ_MAY_UNMAP flag when appropriate, which it didn't
-previously.
+Also convert bdrv_pwrite_sync() to being implemented using
+generated_co_wrapper.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
-
-I audited all bdrv_{pread,pwrite}() callers to make sure that changing
-the -EINVAL return code to -EIO wont't break things. However, there are
-about 140 call sites, so the probability of me having missed something
-isn't negligible. If someone more accustomed to the code base is able to
-double-check this, that would be very much appreciated.
-
-As a precaution, I also dropped Paolo's R-b.
-
- block/io.c               | 41 ----------------------------------------
- include/block/block-io.h | 15 +++++++++------
- 2 files changed, 9 insertions(+), 47 deletions(-)
+ block/io.c               | 9 +++++----
+ include/block/block-io.h | 8 ++++++--
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/block/io.c b/block/io.c
-index 78a289192e..ecd1c2a53c 100644
+index ecd1c2a53c..b2e35dbe23 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -1061,14 +1061,6 @@ static int bdrv_check_request32(int64_t offset, int64_t bytes,
-     return 0;
- }
+@@ -1109,18 +1109,19 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
+  *
+  * Returns 0 on success, -errno in error cases.
+  */
+-int bdrv_pwrite_sync(BdrvChild *child, int64_t offset, int64_t bytes,
+-                     const void *buf, BdrvRequestFlags flags)
++int coroutine_fn bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset,
++                                     int64_t bytes, const void *buf,
++                                     BdrvRequestFlags flags)
+ {
+     int ret;
+     IO_CODE();
  
--int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
--                       int64_t bytes, BdrvRequestFlags flags)
--{
--    IO_CODE();
--    return bdrv_pwritev(child, offset, bytes, NULL,
--                        BDRV_REQ_ZERO_WRITE | flags);
--}
--
- /*
-  * Completely zero out a block device with the help of bdrv_pwrite_zeroes.
-  * The operation is sped up by checking the block status and only writing
-@@ -1111,39 +1103,6 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
+-    ret = bdrv_pwrite(child, offset, bytes, buf, flags);
++    ret = bdrv_co_pwrite(child, offset, bytes, buf, flags);
+     if (ret < 0) {
+         return ret;
      }
- }
  
--/* See bdrv_pwrite() for the return codes */
--int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
--               BdrvRequestFlags flags)
--{
--    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
--    IO_CODE();
--
--    if (bytes < 0) {
--        return -EINVAL;
--    }
--
--    return bdrv_preadv(child, offset, bytes, &qiov, flags);
--}
--
--/* Return no. of bytes on success or < 0 on error. Important errors are:
--  -EIO         generic I/O error (may happen for all errors)
--  -ENOMEDIUM   No media inserted.
--  -EINVAL      Invalid offset or number of bytes
--  -EACCES      Trying to write a read-only device
--*/
--int bdrv_pwrite(BdrvChild *child, int64_t offset, int64_t bytes,
--                const void *buf, BdrvRequestFlags flags)
--{
--    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
--    IO_CODE();
--
--    if (bytes < 0) {
--        return -EINVAL;
--    }
--
--    return bdrv_pwritev(child, offset, bytes, &qiov, flags);
--}
--
- /*
-  * Writes to the file and ensures that no writes are reordered across this
-  * request (acts as a barrier)
+-    ret = bdrv_flush(child->bs);
++    ret = bdrv_co_flush(child->bs);
+     if (ret < 0) {
+         return ret;
+     }
 diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 879221cebe..c81739ad16 100644
+index c81739ad16..ae90d1e588 100644
 --- a/include/block/block-io.h
 +++ b/include/block/block-io.h
-@@ -39,13 +39,16 @@
-  * to catch when they are accidentally called by the wrong API.
-  */
- 
--int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
--                       int64_t bytes, BdrvRequestFlags flags);
-+int generated_co_wrapper bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
-+                                            int64_t bytes,
-+                                            BdrvRequestFlags flags);
- int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags);
--int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
--               BdrvRequestFlags flags);
--int bdrv_pwrite(BdrvChild *child, int64_t offset, int64_t bytes,
--                const void *buf, BdrvRequestFlags flags);
-+int generated_co_wrapper bdrv_pread(BdrvChild *child, int64_t offset,
-+                                    int64_t bytes, void *buf,
-+                                    BdrvRequestFlags flags);
-+int generated_co_wrapper bdrv_pwrite(BdrvChild *child, int64_t offset,
+@@ -49,8 +49,12 @@ int generated_co_wrapper bdrv_pread(BdrvChild *child, int64_t offset,
+ int generated_co_wrapper bdrv_pwrite(BdrvChild *child, int64_t offset,
+                                      int64_t bytes, const void *buf,
+                                      BdrvRequestFlags flags);
+-int bdrv_pwrite_sync(BdrvChild *child, int64_t offset, int64_t bytes,
+-                     const void *buf, BdrvRequestFlags flags);
++int generated_co_wrapper bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
++                                          int64_t bytes, const void *buf,
++                                          BdrvRequestFlags flags);
++int coroutine_fn bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset,
 +                                     int64_t bytes, const void *buf,
 +                                     BdrvRequestFlags flags);
- int bdrv_pwrite_sync(BdrvChild *child, int64_t offset, int64_t bytes,
-                      const void *buf, BdrvRequestFlags flags);
  /*
+  * Efficiently zero a region of the disk image.  Note that this is a regular
+  * I/O request like read or write and should have a reasonable size.  This
 -- 
 2.35.3
 
