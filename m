@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0091545101
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:38:26 +0200 (CEST)
-Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4755450D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:29:23 +0200 (CEST)
+Received: from localhost ([::1]:34092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKEr-0003Jr-Jk
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47548)
+	id 1nzK66-0007DV-5a
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:29:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzJm9-0001Jj-3G
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:08:45 -0400
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:43301)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzJm7-0005Jq-Ae
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:08:44 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-3137316bb69so49425367b3.10
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:08:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TaFoQcve8acmP52lu0Er4yQIz3oAJg3YqjK8k1Js8pU=;
- b=OksIUKCR616bNE4uvdj47MeK2U3Y0o986Kl6jB0E/pXFaLStNxRzxJC+xzVGiU/OwX
- MMbezHyDHd1crICqsDyfBy5XJP6MvlRLsLdqGYVEPHH5GFrTv45ECnuSRxoe97tKfK5U
- M+rwB77QuGBKQs+CUFtxDzh+6rApPeYK+smGSYRLKiXEuNbVrdkT0uIO+OG20a+QkBCu
- PX0CTp4SwuwRzkvUC4WDQYoxirjOPSD+fNq9G49l6hjZaGIDMRVi+onWaByN0geY+28D
- sdQzG7x2i3ShYBVZiGFpjTTX/+EHdp6eQ7loCZ7GJbcZmudTsHK9oPKcO3PvvNlliFhr
- LPtQ==
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJrJ-0002Lb-7s
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:14:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJr5-0006Jo-K5
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:14:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654787630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/1NBaD1L2eAVL+8PZ9lU9oZfnpy1NfGUmrmO8j9nZ9E=;
+ b=bZUw4Df4OQQiSJpxy8BE7QRwe0Gppgl6gWfXpoUzD8abm+2gwppcgrI30TpdrX9n0QUjSt
+ OAN98JRZsxmTaqA8Cv0CMku/e6Dpj9YlAWH0K9YX4vxjmEvwAUpJpj/H5dcqCzBoL5f/Ew
+ /QOETQTymYSOIifF6wm4iKA4Sf7ywvA=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-389-VC8t9A_MOJ6AzyutwzB8IQ-1; Thu, 09 Jun 2022 11:13:47 -0400
+X-MC-Unique: VC8t9A_MOJ6AzyutwzB8IQ-1
+Received: by mail-il1-f200.google.com with SMTP id
+ e4-20020a056e020b2400b002d5509de6f3so6217962ilu.6
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:13:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TaFoQcve8acmP52lu0Er4yQIz3oAJg3YqjK8k1Js8pU=;
- b=EJEgZZyGqts9ac5uS5dDYmFiEc3uGrgCBeXdOW+6qfdo46QPMj4n1CAQFBBvLnVaI2
- 43Zaj6RnoFG/HJkqkUNHQVNWg+Kgc4kHf25S8gozG95XPlIa59D2wVcXhr3uQScJlmws
- jWrBN8uKvxmzgr0LvyhIJ6rJIfHoE0yiIkhZGVZu95b32sVwJYeFTuaip4zYwz28CiqB
- F1ajHh1MtUiyDzEN9z4ZdGWAQI7WtKHwj6NwSNWnuSJiPCAS6Q2hq24CK1uTx2ST1zGl
- 9p0PODU6siliDngrt1y92nPhuHqmDvpeeShmPkUu5RUh7dwbmNUKLsBwAW6RFxbNjeQ7
- PIyQ==
-X-Gm-Message-State: AOAM531ASQwBe0ejpSpxE57th9aUrm/mxVLY1gFJG0DXuK+JGKltYaZJ
- uzq3IJHjNELDn8YTEZRn9tWdXyA7g1PMapRfT9Xq7Q==
-X-Google-Smtp-Source: ABdhPJyQFlmRXLnbV6DdpnjN6syTQgQKLPo3Nm77zgFp/p6tZlXl1RgYYDuzb/wmk9bBl8JEUSF4q6usdAUlNUEknXQ=
-X-Received: by 2002:a0d:cc8e:0:b0:30c:1230:90c with SMTP id
- o136-20020a0dcc8e000000b0030c1230090cmr45090247ywd.469.1654787321915; Thu, 09
- Jun 2022 08:08:41 -0700 (PDT)
+ bh=/1NBaD1L2eAVL+8PZ9lU9oZfnpy1NfGUmrmO8j9nZ9E=;
+ b=RnnZ4bYTFck9KLhzKQOLBlRZne0o3iRNcY70Mby4U+x4FHj72sFGGie3v9Ud+0vdVB
+ oB0csWT4BemmFAfoEW0HxGDLzNqgykGsworXcZH4GAJR+5dj/cwbP4G7yabH8T3QS0Wp
+ vqKjguAv0M+Qr3Z2Uduj4MTkSUYVK8n9Qm+sGkSmsadX/VlcvsWZ1O60PDwvIXFyW9h9
+ MGnQwERWhmAqczo0QFiNZh3zTHRI2cRs4pku9xQFE/JBxYh0+Yu3fWs0WAYBWvD2FAyS
+ 654wB6zQZzHZINtGvt/0G0qMVIOgJf3cgfWAuUJxINYybeDF0m2qCuPBKVp9WbLUiCtO
+ EPhg==
+X-Gm-Message-State: AOAM530Omx5Jo4Iy7YngfKC2sfyhu1u63fuHEG276ffak1lKDmBX9hte
+ qqTC7zZR+SlqXaNYrzJ4M+o4Ndtte6jxsx9foIBMUARj4oh1cSl0p9akaemJBhXrr2Q41I8Muaj
+ 7xzlefcTrczqKOPqrMvwbDGvQiaL9EvQ=
+X-Received: by 2002:a05:6638:1649:b0:331:b3c5:159b with SMTP id
+ a9-20020a056638164900b00331b3c5159bmr7116964jat.130.1654787626629; 
+ Thu, 09 Jun 2022 08:13:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTbiD20PS/ci02zYl3i6wRVShEzuBHBekciM1NxkrQ1Px+WS2hp+FWWd1AeVohLho8OtFIRaTvGhUWqvApKqA=
+X-Received: by 2002:a05:6638:1649:b0:331:b3c5:159b with SMTP id
+ a9-20020a056638164900b00331b3c5159bmr7116953jat.130.1654787626409; Thu, 09
+ Jun 2022 08:13:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220605161056.293920-1-richard.henderson@linaro.org>
- <20220605161056.293920-2-richard.henderson@linaro.org>
-In-Reply-To: <20220605161056.293920-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 16:08:31 +0100
-Message-ID: <CAFEAcA-Op2HUJmibWeg0okHeS12SSYvz3mmf+9YE43hc48n6uA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/arm: SCR_EL3 bits 4,5 are always res0
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220519144841.784780-1-afaria@redhat.com>
+ <20220519144841.784780-8-afaria@redhat.com>
+ <Yo9AhsmzrQlzIr/z@stefanha-x1.localdomain>
+ <CAELaAXy-Pp75sdkEDiaUEfg-SL5FF1LKTJ7ntajNcz75+FpiaQ@mail.gmail.com>
+ <20220527142506.wkl2al5vtle45qji@redhat.com>
+ <YpS9Y0p18HJSNFsq@stefanha-x1.localdomain>
+ <CAELaAXx23BK86W6oEzo9DANj=KCTpXAwDu0E85BGj19UW0M3VQ@mail.gmail.com>
+ <YqCbDWy4kdBSzd43@stefanha-x1.localdomain>
+In-Reply-To: <YqCbDWy4kdBSzd43@stefanha-x1.localdomain>
+From: Alberto Faria <afaria@redhat.com>
+Date: Thu, 9 Jun 2022 16:13:10 +0100
+Message-ID: <CAELaAXxtQ_Nodtu_2xQJXgT6DmwamObqDZOkzogUQuzhPMKzTA@mail.gmail.com>
+Subject: Re: [PATCH v3 07/10] block: Implement bdrv_{pread, pwrite,
+ pwrite_zeroes}() using generated_co_wrapper
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org, 
+ "Denis V. Lunev" <den@openvz.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org, 
+ Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ Stefan Weil <sw@weilnetz.de>, Jeff Cody <codyprime@gmail.com>,
+ Fam Zheng <fam@euphon.net>, 
+ Ari Sundholm <ari@tuxera.com>, Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,29 +105,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 5 Jun 2022 at 17:14, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Wed, Jun 8, 2022 at 1:50 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> Yes, that's fine. My main concern is that callers have been audited when
+> errnos are changed. If you switch bdrv_{pread,pwrite}() to -EIO and have
+> audited callers, then I'm happy.
 >
-> These bits do not depend on whether or not el1 supports aa32.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Consistent -EINVAL would be nice in the future, but I think it's lower
+> priority and it doesn't have to be done any time soon.
 
-Isn't this effectively reverting commit 10d0ef3e6cfe2, which
-got applied as a bug fix last year ?
+Great. I'll send a v4 with the small change to patch 06/10 that
+remains, and note in the email for this patch (07/10) that it required
+quite a bit of auditing. As mentioned, there were ~140 call sites, so
+I'm not positive I didn't make a mistake. Hopefully someone more
+accustomed to the code base will have enough time to double-check
+this.
 
-In particular, the reason we need to check something is that even
-if the CPU is entirely AArch32-only, reset of the register is
-handled by scr_reset() on the AArch64 reginfo struct, so on reset
-we need to give the correct answer for the CPU and not assume
-"regdef is AA64" implies "EL3 is AA64".
-
-We should probably be checking "is EL3 AArch64 or AArch32" rather
-than "does EL1 support AArch32", though...
-
-There's a testcase in the original patch cover letter for the
-bug it's trying to fix:
-https://lore.kernel.org/qemu-devel/20210203165552.16306-1-michael.nawrocki@gtri.gatech.edu/
-
-thanks
--- PMM
 
