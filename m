@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4153A545120
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:44:25 +0200 (CEST)
-Received: from localhost ([::1]:35234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B07154513B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:50:44 +0200 (CEST)
+Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKKe-0003We-9R
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:44:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55046)
+	id 1nzKQl-000484-Ce
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:50:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzK5D-0008HY-P7
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:28:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29295)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzK5B-0000vw-CN
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:28:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654788503;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EolcNd+EbkDu3M5k3Rz1LtOOnBr2DmUQhEgC8hrZV5E=;
- b=d+vDzAjK3Y4iibj5S4K6eqaWGzE2usmNLm19I4m2K9BbIVYJ3qlP0ojfDWuN7A8CFnNTYc
- yNT+NoqClY8ziSF0mWza0jrkJxdGmFDa2l03Aqkl+l3mkouaE5cgOn1MbmxRIYtgZUN3Vr
- z7Al5ehxSAeQIwigWITsLyjJdRE4xzo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-7CK3c65WM1yJjiT2Sh-LlQ-1; Thu, 09 Jun 2022 11:28:23 -0400
-X-MC-Unique: 7CK3c65WM1yJjiT2Sh-LlQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D2A618E0043;
- Thu,  9 Jun 2022 15:28:22 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BD3F492CA3;
- Thu,  9 Jun 2022 15:28:19 +0000 (UTC)
-From: Alberto Faria <afaria@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Ari Sundholm <ari@tuxera.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>, Fam Zheng <fam@euphon.net>,
- Jeff Cody <codyprime@gmail.com>, qemu-block@nongnu.org,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Alberto Faria <afaria@redhat.com>
-Subject: [PATCH v5 10/10] block/qcow2: Use bdrv_pwrite_sync() in
- qcow2_mark_dirty()
-Date: Thu,  9 Jun 2022 16:27:44 +0100
-Message-Id: <20220609152744.3891847-11-afaria@redhat.com>
-In-Reply-To: <20220609152744.3891847-1-afaria@redhat.com>
-References: <20220609152744.3891847-1-afaria@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzK98-0007FQ-Eb
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:32:31 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:35744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzK95-0001zk-U5
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:32:30 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-31336535373so94159857b3.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RMDRtXscsbGYkR4Uv79n2h9y++K9vAWqtBZBaIGPY1c=;
+ b=D/KxfNfsxkThjHqlaEgOt8KQcyN3yMKeOKiCBHAUirnhqFJCmeCJjf8Rqei+5L+cns
+ VtaOzN6fOMSUAWDkfffX7zOcIIFS0Kuhie2ug5q8XAYSDM3kKTfqAhYFwGL4oK6v4C5Q
+ rLVNivmRN/7oxmjKopWEgzd3n2pp6uGKN8mAEkShB8JXw8ASH46hH4XbCP9d+DZCn6vy
+ 1We4Sol8KIM5/qGIy+Yf5H87YxaSUE+cySXQ0wFBlvsvARuIl0cGRjAUudziAqaAfOte
+ XvYUd2QDjVJ/b8lFKQxbd2oEXwCC1AbXeURZSH0+ltjjuy9OP23ZZ/HyrLW8tHsYv1wU
+ 8Tew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RMDRtXscsbGYkR4Uv79n2h9y++K9vAWqtBZBaIGPY1c=;
+ b=eQLseYJLP1dWqedxGlpUOOtxhnKzvGsKBJUP7YbC0gsAPmNMgXxRQTFmU/76N1uQOx
+ BmOaaB4UzAt1+oCkMUTCMDKNzbSImQvdASGHT+Uzlg9kCfNT7URNL5GO/9MwV9BX3nXu
+ 1UHZk+pDwKFv1n5hLlIQMuGHOxc4gf3vlZTrT9j/wEnZlIukCNgxrmVaUXg2oEoz0vuZ
+ AlAvlq1T+G8QzJmrzTUwGiRbEjZsCxcyOOcbSG5oT6vnTob/AF7l7+QY6HkVmW/ANs0w
+ /cABiiA90u4grP88KjxiszP7wwdSlOaWm7eVs5RRedms/LLswbOBIhhVHvEZ1QmkQg/4
+ 92GQ==
+X-Gm-Message-State: AOAM5333ZVHO+VriKNbIRbi5E+E5AbWBSKP4qRw/q12IngR7U6bCmzDB
+ 4J4HCe9+0XB1ev3Rw2qOpdraZw3RZ+fS18NW/KVD/A==
+X-Google-Smtp-Source: ABdhPJyQGKSaKeyBGZe0+0uKdQLSVRGt/PR8PmvetUjiBktP6vrxWwhc7H4lDuQig7VAg9Bazxgt1+b3aA3EFpHKFH0=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr43786100ywb.257.1654788746496; Thu, 09
+ Jun 2022 08:32:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220607203306.657998-1-richard.henderson@linaro.org>
+ <20220607203306.657998-37-richard.henderson@linaro.org>
+In-Reply-To: <20220607203306.657998-37-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jun 2022 16:32:16 +0100
+Message-ID: <CAFEAcA_zntaK1+Pc1UFxM+Yn7G4tuNwkCvw25chWjbjg1yqQ4g@mail.gmail.com>
+Subject: Re: [PATCH v2 36/71] target/arm: Unexport aarch64_add_*_properties
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,37 +83,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use bdrv_pwrite_sync() instead of calling bdrv_pwrite() and bdrv_flush()
-separately.
+On Tue, 7 Jun 2022 at 21:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> These functions are not used outside cpu64.c,
+> so make them static.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h   | 3 ---
+>  target/arm/cpu64.c | 4 ++--
+>  2 files changed, 2 insertions(+), 5 deletions(-)
+>
 
-Signed-off-by: Alberto Faria <afaria@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/qcow2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index f2fb54c51f..90a2dd406b 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -516,12 +516,9 @@ int qcow2_mark_dirty(BlockDriverState *bs)
-     }
- 
-     val = cpu_to_be64(s->incompatible_features | QCOW2_INCOMPAT_DIRTY);
--    ret = bdrv_pwrite(bs->file, offsetof(QCowHeader, incompatible_features),
--                      sizeof(val), &val, 0);
--    if (ret < 0) {
--        return ret;
--    }
--    ret = bdrv_flush(bs->file->bs);
-+    ret = bdrv_pwrite_sync(bs->file,
-+                           offsetof(QCowHeader, incompatible_features),
-+                           sizeof(val), &val, 0);
-     if (ret < 0) {
-         return ret;
-     }
--- 
-2.35.3
-
+thanks
+-- PMM
 
