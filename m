@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FEE544E23
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:56:41 +0200 (CEST)
-Received: from localhost ([::1]:37318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D46544DE2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:40:39 +0200 (CEST)
+Received: from localhost ([::1]:38952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzIeO-0001E1-J2
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:56:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49426)
+	id 1nzIOs-0007hm-H5
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:40:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nzGPA-00010z-Lw
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:32:48 -0400
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:33117)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nzGez-0003sZ-MK
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:49:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nzGP8-0007Bs-Gm
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:32:48 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 7BE1F289E9;
- Thu,  9 Jun 2022 11:32:31 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 9 Jun 2022
- 13:32:30 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003e2829381-84b6-4d5d-aba9-152f874ae2a8,
- 376DE8092D82845C1A21469494DE4B9390A12E85) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <5581ada3-958c-ebc5-71b8-71fa08465bae@kaod.org>
-Date: Thu, 9 Jun 2022 13:32:29 +0200
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nzGex-0001R9-34
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:49:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654775346;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4OyHKw8fNi6Eg9lwpb82Yav0l/Ru9Iv5zkOsP4DP5to=;
+ b=LhnR6oMqPA0ANNPghoP/PutgwoWTEEa2oMK06sZ/VblBUmf0Ghrq4DSPSoLkly6qXvTH7e
+ jDzG+Y1zMsBiOAzcIVcHrVm06RoouAHvjrajZn3eu411xO9V8ZDp2EbdsL/4gDN+q1j6FZ
+ NV96CBsnC7TLA0RG+Xb6wJi91Hmrfd0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-528-bpBG5E1xOc2wjH2WcIeUeQ-1; Thu, 09 Jun 2022 07:48:57 -0400
+X-MC-Unique: bpBG5E1xOc2wjH2WcIeUeQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A46A8058A4
+ for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 11:48:57 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 157F9492C3B;
+ Thu,  9 Jun 2022 11:48:56 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com
+Subject: [PATCH v3 18/35] tests: acpi: white-list to be re-factored pc/q35 DSDT
+Date: Thu,  9 Jun 2022 07:48:55 -0400
+Message-Id: <20220609114855.3477822-1-imammedo@redhat.com>
+In-Reply-To: <20220608135340.3304695-19-imammedo@redhat.com>
+References: <20220608135340.3304695-19-imammedo@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 1/2] hw: m25p80: add WP# pin and SRWD bit for write
- protection
-Content-Language: en-US
-To: Iris Chen <irischenlj@fb.com>
-CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <patrick@stwcx.xyz>, <alistair@alistair23.me>, <kwolf@redhat.com>,
- <hreitz@redhat.com>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
- <joel@jms.id.au>, <thuth@redhat.com>, <lvivier@redhat.com>,
- <pbonzini@redhat.com>, <qemu-block@nongnu.org>, Iris Chen
- <irischenlj@gmail.com>
-References: <20220609031320.2212468-1-irischenlj@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220609031320.2212468-1-irischenlj@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: cab5aaf0-755c-4fdf-93e5-a98715db6ff1
-X-Ovh-Tracer-Id: 15730792026717522820
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddtledgfeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehirhhishgthhgvnhhljhesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,146 +80,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/22 05:13, Iris Chen wrote:
-> From: Iris Chen <irischenlj@gmail.com>
-> 
-> Signed-off-by: Iris Chen <irischenlj@gmail.com>
-> ---
-> Addressed all comments from V1. The biggest change: removed object_class_property_add.
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+v3:
+   - count in DSDT.cxl that just was merged upstream
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 32 +++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
-> 
->   hw/block/m25p80.c             | 37 +++++++++++++++++++++++++++++++++++
->   tests/qtest/aspeed_smc-test.c |  2 ++
->   2 files changed, 39 insertions(+)
-> 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 81ba3da4df..1a20bd55d4 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -27,12 +27,14 @@
->   #include "hw/qdev-properties.h"
->   #include "hw/qdev-properties-system.h"
->   #include "hw/ssi/ssi.h"
-> +#include "hw/irq.h"
->   #include "migration/vmstate.h"
->   #include "qemu/bitops.h"
->   #include "qemu/log.h"
->   #include "qemu/module.h"
->   #include "qemu/error-report.h"
->   #include "qapi/error.h"
-> +#include "qapi/visitor.h"
->   #include "trace.h"
->   #include "qom/object.h"
->   
-> @@ -472,11 +474,13 @@ struct Flash {
->       uint8_t spansion_cr2v;
->       uint8_t spansion_cr3v;
->       uint8_t spansion_cr4v;
-> +    bool wp_level;
->       bool write_enable;
->       bool four_bytes_address_mode;
->       bool reset_enable;
->       bool quad_enable;
->       bool aai_enable;
-> +    bool status_register_write_disabled;
->       uint8_t ear;
->   
->       int64_t dirty_page;
-> @@ -723,6 +727,21 @@ static void complete_collecting_data(Flash *s)
->           flash_erase(s, s->cur_addr, s->cmd_in_progress);
->           break;
->       case WRSR:
-> +        /*
-> +         * If WP# is low and status_register_write_disabled is high,
-> +         * status register writes are disabled.
-> +         * This is also called "hardware protected mode" (HPM). All other
-> +         * combinations of the two states are called "software protected mode"
-> +         * (SPM), and status register writes are permitted.
-> +         */
-> +        if ((s->wp_level == 0 && s->status_register_write_disabled)
-> +            || !s->write_enable) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "M25P80: Status register write is disabled!\n");
-> +            break;
-> +        }
-> +        s->status_register_write_disabled = extract32(s->data[0], 7, 1);
-> +
->           switch (get_man(s)) {
->           case MAN_SPANSION:
->               s->quad_enable = !!(s->data[1] & 0x02);
-> @@ -1195,6 +1214,8 @@ static void decode_new_cmd(Flash *s, uint32_t value)
->   
->       case RDSR:
->           s->data[0] = (!!s->write_enable) << 1;
-> +        s->data[0] |= (!!s->status_register_write_disabled) << 7;
-> +
->           if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
->               s->data[0] |= (!!s->quad_enable) << 6;
->           }
-> @@ -1484,6 +1505,14 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
->       return r;
->   }
->   
-> +static void m25p80_write_protect_pin_irq_handler(void *opaque, int n, int level)
-> +{
-> +    Flash *s = M25P80(opaque);
-> +    /* WP# is just a single pin. */
-> +    assert(n == 0);
-> +    s->wp_level = !!level;
-> +}
-> +
->   static void m25p80_realize(SSIPeripheral *ss, Error **errp)
->   {
->       Flash *s = M25P80(ss);
-> @@ -1515,12 +1544,18 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
->           s->storage = blk_blockalign(NULL, s->size);
->           memset(s->storage, 0xFF, s->size);
->       }
-> +
-> +    qdev_init_gpio_in_named(DEVICE(s),
-> +                            m25p80_write_protect_pin_irq_handler, "WP#", 1);
->   }
->   
->   static void m25p80_reset(DeviceState *d)
->   {
->       Flash *s = M25P80(d);
->   
-> +    s->wp_level = true;
-> +    s->status_register_write_disabled = false;
-> +
->       reset_memory(s);
->   }
->   
-> @@ -1601,6 +1636,8 @@ static const VMStateDescription vmstate_m25p80 = {
->           VMSTATE_UINT8(needed_bytes, Flash),
->           VMSTATE_UINT8(cmd_in_progress, Flash),
->           VMSTATE_UINT32(cur_addr, Flash),
-> +        VMSTATE_BOOL(wp_level, Flash),
-> +        VMSTATE_BOOL(status_register_write_disabled, Flash),
->           VMSTATE_BOOL(write_enable, Flash),
->           VMSTATE_BOOL(reset_enable, Flash),
->           VMSTATE_UINT8(ear, Flash),
-> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-> index ec233315e6..c5d97d4410 100644
-> --- a/tests/qtest/aspeed_smc-test.c
-> +++ b/tests/qtest/aspeed_smc-test.c
-> @@ -56,7 +56,9 @@ enum {
->       BULK_ERASE = 0xc7,
->       READ = 0x03,
->       PP = 0x02,
-> +    WRSR = 0x1,
->       WREN = 0x6,
-> +    SRWD = 0x80,
->       RESET_ENABLE = 0x66,
->       RESET_MEMORY = 0x99,
->       EN_4BYTE_ADDR = 0xB7,
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..666e257bf9 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,33 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.acpierst",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.nohpet",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.roothp",
++"tests/data/acpi/pc/DSDT.hpbrroot",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.acpierst",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.ivrs",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.multi-bridge",
++"tests/data/acpi/q35/DSDT.nohpet",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.tis.tpm12",
++"tests/data/acpi/q35/DSDT.tis.tpm2",
++"tests/data/acpi/q35/DSDT.viot",
++"tests/data/acpi/q35/DSDT.xapic",
++"tests/data/acpi/q35/DSDT.ipmismbus",
++"tests/data/acpi/q35/DSDT.cxl",
+-- 
+2.31.1
 
 
