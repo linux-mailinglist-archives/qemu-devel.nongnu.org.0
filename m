@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D42544991
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:59:23 +0200 (CEST)
-Received: from localhost ([::1]:50852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E81D544AF0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 13:48:00 +0200 (CEST)
+Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzFso-0000M6-8s
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40084)
+	id 1nzGdr-0000Na-31
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 07:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7j-0001oY-Qd
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:40 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51890)
+ id 1nzE7W-0001cl-Q9
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:28 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7U-000638-17
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:39 -0400
-Received: by mail-wm1-x331.google.com with SMTP id z17so7275188wmi.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:23 -0700 (PDT)
+ id 1nzE7V-00067I-Ao
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:26 -0400
+Received: by mail-wm1-x331.google.com with SMTP id z9so5330339wmf.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OrRqWRQp9nOhwyO9OA3TSRIbMZMtkcOgDSH8VMFZG2E=;
- b=SxV8Gfp4Wp7VVIZr1yL5BVHOPT6Ya4UDxFBBrDHQugd19quJmIS0Vpk4f5+KRahsix
- gW2p/+C2ywCZzUVbx2+K07xciYAujlijQwd30zlw4jDZkkmqDq1yrfvRvddB1g2YB8uz
- L9NKIxGZ1pyz54Y9J3RSOVVDhy73KUu+QI+bLikJ7bx1d9BQPTNBIuWVwnQVEgSXJxYM
- 64IdaARQw0MPXKkz9+f7yoTm1oZekOxq0st5KIP39QM+CHXeP9uqtEr4AB3NRbQGwuZ5
- c08vT8h4x0DpWdmJsHhS/Bc+CSOK0fjFKz5Ru7dOP8pbwt9amTK+L6yS4pSNYr/nSW1t
- 2xLg==
+ bh=lq+u7f2f7YE5vmdKlLixcNnaKlj2/xU4nnWKz5bhpYE=;
+ b=MUrD7RXva30XHSMxqFTV9lc8x1KlHVijSZRf+PibyhYch/MRfG/ERrlbrAMa5K7Lbi
+ Zh0hCq8gpwkTmWCCAEoIwIa/YBKI+MJsBSdTRikbaHwPDzOHrSci16Y27NIGCezsFy17
+ 1lDwisM/ONvYtEi0W+U6a4Y2FxskNC1W5x5DaHm1u1AFO3WSeqjYNxIjWoWulRmdwoXc
+ U7axr4SlRTm0QDriWRDmArFhMgsXjN5hCxhyIatTPpERVJo68ecmxRtH373ThXDxLM/+
+ xS6UMNisK67Tsm07sZkl+t5muA0hOT2q8Y9L9oRDBEcCsr1ngmMVPZbIj6k4D0+2RSB+
+ BgVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OrRqWRQp9nOhwyO9OA3TSRIbMZMtkcOgDSH8VMFZG2E=;
- b=nlF981IbsNvQ+UCxwF688XjqQuqoDq96lzw0EvlVpCYEfc29djuWDSIFm/YfJkPYQX
- hl0TWj/i7mG0iV/HGzrdQe4LWqZbDhnHpfVUp/RqdO6r00gDAJv9b4jtX85I7wWV6mEv
- 0RGgfvKWJMvt4R5FegGn2I+AfVMe8BDiATEb0W2FBgr5znwzQS+n8n5xLHEZ2BI1K0rb
- FSwhN2UyCIAY0ncAkuGVRyOs9+IQEkV13EN7v2+3gJC+/2tt2IOjVsr/Q5TVNJmn11o5
- LmzcC8pwlXATWz5+PXTCFGw1adbxdzrImTLFW+hDKy2ryiInltN74up4n7o2ZV0Uwv3b
- AaMg==
-X-Gm-Message-State: AOAM532GY1JrEhBs3aVPWUTY/s9YzSkXFZq9QNpo8/KDuQ+tjIWFWhpP
- N1kbQIgMHUST2APNYfxPUMo1Gifu5Ilwjw==
-X-Google-Smtp-Source: ABdhPJwBlrpQkFdcSqO4Y9kyjrZDqA8FxG9KL6L3pQuKxKScmEQH/bHrbYQP161+lOfhX7mr/j4yRg==
-X-Received: by 2002:a05:600c:3845:b0:39c:6ea9:ed34 with SMTP id
- s5-20020a05600c384500b0039c6ea9ed34mr1403163wmr.175.1654765583187; 
+ bh=lq+u7f2f7YE5vmdKlLixcNnaKlj2/xU4nnWKz5bhpYE=;
+ b=1Gneaqf0TGKtLDPRQIEPtsTrtedTTu6DjzUILgmn8QsQix8vg/kgNqnnMFJQ29H9/W
+ 1vjD54e2jovsTiKfbLcuQzP2chLBFIqmL56VAzMiPqLyjQI86bqGW/s6wM29H7zmRkru
+ +cU4KNpnS6CXOYY92dTI8I2XrwCuqU3bqvrVryR04RGLYbiurPOrdTNW5DrxidhiuvDW
+ QsVoiy5JxFZzrd2Jlc/6Btd8SvqeHjvQcKILHhR6dGM46BLy5l4XBg5iHx6NPrRtnjd/
+ JNCLVAtgGTVNpiI8HhPywjbyv7tLyT8ZWPaBQPnf+/LzJEccRhGsQ9ZkMBK1KVFZCSL7
+ AWVQ==
+X-Gm-Message-State: AOAM530gua54tczfeA2qlyqeoH9hSSzm7uPt5EN+Ru2IqpP1IUjcRY43
+ TO5/5dZm1KcAbgrYVpO+JfvH1iGY82n3aQ==
+X-Google-Smtp-Source: ABdhPJxQ17r9VyzK3KbQyjLZWjSci/tpSPqH0J+HQXEcG3gDFo+qef0lJRGFgwkiR1CGoz6NRwCsNQ==
+X-Received: by 2002:a05:600c:a42:b0:393:d831:bf05 with SMTP id
+ c2-20020a05600c0a4200b00393d831bf05mr2190206wmq.187.1654765583991; 
  Thu, 09 Jun 2022 02:06:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.22
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:06:22 -0700 (PDT)
+ Thu, 09 Jun 2022 02:06:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/55] target/arm: Add el_is_in_host
-Date: Thu,  9 Jun 2022 10:05:22 +0100
-Message-Id: <20220609090537.1971756-41-peter.maydell@linaro.org>
+Subject: [PULL 41/55] target/arm: Use el_is_in_host for sve_zcr_len_for_el
+Date: Thu,  9 Jun 2022 10:05:23 +0100
+Message-Id: <20220609090537.1971756-42-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
@@ -70,8 +70,9 @@ X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,71 +90,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This (newish) ARM pseudocode function is easier to work with
-than open-coded tests for HCR_E2H etc.  Use of the function
-will be staged into the code base in parts.
+The ARM pseudocode function NVL uses this predicate now,
+and I think it's a bit clearer.  Simplify the pseudocode
+condition by noting that IsInHost is always false for EL1.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220607203306.657998-6-richard.henderson@linaro.org
+Message-id: 20220607203306.657998-7-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h |  2 ++
- target/arm/helper.c    | 28 ++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
+ target/arm/helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 1d83146d565..ceaddcbfd6e 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1347,6 +1347,8 @@ static inline void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu) { }
- void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu);
- #endif
- 
-+bool el_is_in_host(CPUARMState *env, int el);
-+
- void aa32_max_features(ARMCPU *cpu);
- 
- #endif
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 4f4044c688d..322508170e3 100644
+index 322508170e3..6b17c0f507f 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5282,6 +5282,34 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
-     return ret;
- }
+@@ -6238,8 +6238,7 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+     ARMCPU *cpu = env_archcpu(env);
+     uint32_t zcr_len = cpu->sve_max_vq - 1;
  
-+/*
-+ * Corresponds to ARM pseudocode function ELIsInHost().
-+ */
-+bool el_is_in_host(CPUARMState *env, int el)
-+{
-+    uint64_t mask;
-+
-+    /*
-+     * Since we only care about E2H and TGE, we can skip arm_hcr_el2_eff().
-+     * Perform the simplest bit tests first, and validate EL2 afterward.
-+     */
-+    if (el & 1) {
-+        return false; /* EL1 or EL3 */
-+    }
-+
-+    /*
-+     * Note that hcr_write() checks isar_feature_aa64_vh(),
-+     * aka HaveVirtHostExt(), in allowing HCR_E2H to be set.
-+     */
-+    mask = el ? HCR_E2H : HCR_E2H | HCR_TGE;
-+    if ((env->cp15.hcr_el2 & mask) != mask) {
-+        return false;
-+    }
-+
-+    /* TGE and/or E2H set: double check those bits are currently legal. */
-+    return arm_is_el2_enabled(env) && arm_el_is_aa64(env, 2);
-+}
-+
- static void hcrx_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                        uint64_t value)
- {
+-    if (el <= 1 &&
+-        (arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
++    if (el <= 1 && !el_is_in_host(env, el)) {
+         zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
+     }
+     if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
 -- 
 2.25.1
 
