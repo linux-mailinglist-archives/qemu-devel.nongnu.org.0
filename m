@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E500754512F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:47:14 +0200 (CEST)
-Received: from localhost ([::1]:41160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F29545141
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:51:47 +0200 (CEST)
+Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKNN-0007Xl-IG
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:47:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49716)
+	id 1nzKRm-0005YC-Er
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJsU-0004QB-2x
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:15:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46232)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJsY-0004Tb-U2
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:15:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJsO-0006fF-9R
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:15:17 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1nzJsW-0006gt-5m
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:15:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654787711;
+ s=mimecast20190719; t=1654787719;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2dSrVcjvWGbPjvKOoFvwRPiMAoMY8ZsrRmMQ4iX5vOA=;
- b=OOxw/7jv7vqH0KDrYV9SYlDiIHra1LX3L8kNbVneTVGc48/76MvtaMwFf+p8SR55JC0cla
- B+ctSVvR7dv5LMlwhsSy2bHvh86dUiWBqC0GSMGToJFgyEJpjv4x9KNfwTJ3qCyGSJ9Hcw
- Ck8YwjS/x+WuUdpXNHG5yi6si51Uthc=
+ bh=GpampNajM5UgtrwDmiLk0bVq9KGYx4aWYW3nYWLwC4w=;
+ b=iNihJukqUEXSNmjkdxVkVX8oQfGumiZ3EJgyQGCK4n+6aIo1X6JQPWl7PalGgJeR8XkVKm
+ uiAGMAurhLhCC5y/1GVevZpOwXZsfjjuqNQyCNoBhPZwjW3V13ZIKC9Hu0dQk7djzQflwt
+ fKtS+cMqsExWHLtxUBtjSTN10athZ9A=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-n_YclL98OGq5GoCNbeFDnA-1; Thu, 09 Jun 2022 11:15:08 -0400
-X-MC-Unique: n_YclL98OGq5GoCNbeFDnA-1
+ us-mta-265-VSl8-519ODGsvI_fwHRh7A-1; Thu, 09 Jun 2022 11:15:16 -0400
+X-MC-Unique: VSl8-519ODGsvI_fwHRh7A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D56181C00131;
- Thu,  9 Jun 2022 15:15:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 691113C0F72F;
+ Thu,  9 Jun 2022 15:15:15 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.39.192.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 852232024CB6;
- Thu,  9 Jun 2022 15:15:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99FF02026D64;
+ Thu,  9 Jun 2022 15:15:12 +0000 (UTC)
 From: Alberto Faria <afaria@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Ari Sundholm <ari@tuxera.com>, qemu-block@nongnu.org,
@@ -53,16 +53,15 @@ Cc: Ari Sundholm <ari@tuxera.com>, qemu-block@nongnu.org,
  Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>,
  Jeff Cody <codyprime@gmail.com>, Alberto Faria <afaria@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 03/10] block: Make bdrv_{pread,
- pwrite}() return 0 on success
-Date: Thu,  9 Jun 2022 16:14:44 +0100
-Message-Id: <20220609151451.3883195-4-afaria@redhat.com>
+Subject: [PATCH v4 05/10] block: Make bdrv_co_pwrite() take a const buffer
+Date: Thu,  9 Jun 2022 16:14:46 +0100
+Message-Id: <20220609151451.3883195-6-afaria@redhat.com>
 In-Reply-To: <20220609151451.3883195-1-afaria@redhat.com>
 References: <20220609151451.3883195-1-afaria@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -86,276 +85,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They currently return the value of their 'bytes' parameter on success.
-
-Make them return 0 instead, for consistency with other I/O functions and
-in preparation to implement them using generated_co_wrapper. This also
-makes it clear that short reads/writes are not possible.
-
-The few callers that rely on the previous behavior are adjusted
-accordingly by hand.
+It does not mutate the buffer.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/cloop.c                    |  2 +-
- block/crypto.c                   |  4 ++--
- block/dmg.c                      | 10 +++++-----
- block/io.c                       | 10 ++--------
- block/qcow.c                     |  2 +-
- block/qcow2.c                    |  4 ++--
- block/qed.c                      |  7 +------
- block/vdi.c                      |  2 +-
- block/vmdk.c                     |  5 ++---
- tests/unit/test-block-iothread.c |  4 ++--
- 10 files changed, 19 insertions(+), 31 deletions(-)
+ include/block/block_int-io.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/cloop.c b/block/cloop.c
-index 9a2334495e..40b146e714 100644
---- a/block/cloop.c
-+++ b/block/cloop.c
-@@ -222,7 +222,7 @@ static inline int cloop_read_block(BlockDriverState *bs, int block_num)
- 
-         ret = bdrv_pread(bs->file, s->offsets[block_num], bytes,
-                          s->compressed_block, 0);
--        if (ret != bytes) {
-+        if (ret < 0) {
-             return -1;
-         }
- 
-diff --git a/block/crypto.c b/block/crypto.c
-index deec7fae2f..e7f5c4e31a 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -70,7 +70,7 @@ static ssize_t block_crypto_read_func(QCryptoBlock *block,
-         error_setg_errno(errp, -ret, "Could not read encryption header");
-         return ret;
-     }
--    return ret;
-+    return buflen;
+diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
+index bb454200e5..d4d3bed783 100644
+--- a/include/block/block_int-io.h
++++ b/include/block/block_int-io.h
+@@ -65,7 +65,7 @@ static inline int coroutine_fn bdrv_co_pread(BdrvChild *child,
  }
  
- static ssize_t block_crypto_write_func(QCryptoBlock *block,
-@@ -88,7 +88,7 @@ static ssize_t block_crypto_write_func(QCryptoBlock *block,
-         error_setg_errno(errp, -ret, "Could not write encryption header");
-         return ret;
-     }
--    return ret;
-+    return buflen;
- }
- 
- 
-diff --git a/block/dmg.c b/block/dmg.c
-index 5a460c3eb1..98db18d82a 100644
---- a/block/dmg.c
-+++ b/block/dmg.c
-@@ -390,7 +390,7 @@ static int dmg_read_plist_xml(BlockDriverState *bs, DmgHeaderState *ds,
-     buffer = g_malloc(info_length + 1);
-     buffer[info_length] = '\0';
-     ret = bdrv_pread(bs->file, info_begin, info_length, buffer, 0);
--    if (ret != info_length) {
-+    if (ret < 0) {
-         ret = -EINVAL;
-         goto fail;
-     }
-@@ -611,7 +611,7 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
-              * inflated. */
-             ret = bdrv_pread(bs->file, s->offsets[chunk], s->lengths[chunk],
-                              s->compressed_chunk, 0);
--            if (ret != s->lengths[chunk]) {
-+            if (ret < 0) {
-                 return -1;
-             }
- 
-@@ -637,7 +637,7 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
-              * inflated. */
-             ret = bdrv_pread(bs->file, s->offsets[chunk], s->lengths[chunk],
-                              s->compressed_chunk, 0);
--            if (ret != s->lengths[chunk]) {
-+            if (ret < 0) {
-                 return -1;
-             }
- 
-@@ -658,7 +658,7 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
-              * inflated. */
-             ret = bdrv_pread(bs->file, s->offsets[chunk], s->lengths[chunk],
-                              s->compressed_chunk, 0);
--            if (ret != s->lengths[chunk]) {
-+            if (ret < 0) {
-                 return -1;
-             }
- 
-@@ -674,7 +674,7 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
-         case UDRW: /* copy */
-             ret = bdrv_pread(bs->file, s->offsets[chunk], s->lengths[chunk],
-                              s->uncompressed_chunk, 0);
--            if (ret != s->lengths[chunk]) {
-+            if (ret < 0) {
-                 return -1;
-             }
-             break;
-diff --git a/block/io.c b/block/io.c
-index 2ed963d9e0..78a289192e 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1115,7 +1115,6 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
- int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
-                BdrvRequestFlags flags)
+ static inline int coroutine_fn bdrv_co_pwrite(BdrvChild *child,
+-    int64_t offset, unsigned int bytes, void *buf, BdrvRequestFlags flags)
++    int64_t offset, unsigned int bytes, const void *buf, BdrvRequestFlags flags)
  {
--    int ret;
      QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
      IO_CODE();
- 
-@@ -1123,9 +1122,7 @@ int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
-         return -EINVAL;
-     }
- 
--    ret = bdrv_preadv(child, offset, bytes, &qiov, flags);
--
--    return ret < 0 ? ret : bytes;
-+    return bdrv_preadv(child, offset, bytes, &qiov, flags);
- }
- 
- /* Return no. of bytes on success or < 0 on error. Important errors are:
-@@ -1137,7 +1134,6 @@ int bdrv_pread(BdrvChild *child, int64_t offset, int64_t bytes, void *buf,
- int bdrv_pwrite(BdrvChild *child, int64_t offset, int64_t bytes,
-                 const void *buf, BdrvRequestFlags flags)
- {
--    int ret;
-     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
-     IO_CODE();
- 
-@@ -1145,9 +1141,7 @@ int bdrv_pwrite(BdrvChild *child, int64_t offset, int64_t bytes,
-         return -EINVAL;
-     }
- 
--    ret = bdrv_pwritev(child, offset, bytes, &qiov, flags);
--
--    return ret < 0 ? ret : bytes;
-+    return bdrv_pwritev(child, offset, bytes, &qiov, flags);
- }
- 
- /*
-diff --git a/block/qcow.c b/block/qcow.c
-index c94524b814..c646d6b16d 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -597,7 +597,7 @@ static int decompress_cluster(BlockDriverState *bs, uint64_t cluster_offset)
-         csize &= (s->cluster_size - 1);
-         BLKDBG_EVENT(bs->file, BLKDBG_READ_COMPRESSED);
-         ret = bdrv_pread(bs->file, coffset, csize, s->cluster_data, 0);
--        if (ret != csize)
-+        if (ret < 0)
-             return -1;
-         if (decompress_buffer(s->cluster_cache, s->cluster_size,
-                               s->cluster_data, csize) < 0) {
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 5493e6b847..d5a1e8bc43 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -113,7 +113,7 @@ static ssize_t qcow2_crypto_hdr_read_func(QCryptoBlock *block, size_t offset,
-         error_setg_errno(errp, -ret, "Could not read encryption header");
-         return -1;
-     }
--    return ret;
-+    return buflen;
- }
- 
- 
-@@ -174,7 +174,7 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBlock *block, size_t offset,
-         error_setg_errno(errp, -ret, "Could not read encryption header");
-         return -1;
-     }
--    return ret;
-+    return buflen;
- }
- 
- static QDict*
-diff --git a/block/qed.c b/block/qed.c
-index ba93e99570..55da91eb72 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -87,14 +87,9 @@ static void qed_header_cpu_to_le(const QEDHeader *cpu, QEDHeader *le)
- int qed_write_header_sync(BDRVQEDState *s)
- {
-     QEDHeader le;
--    int ret;
- 
-     qed_header_cpu_to_le(&s->header, &le);
--    ret = bdrv_pwrite(s->bs->file, 0, sizeof(le), &le, 0);
--    if (ret != sizeof(le)) {
--        return ret;
--    }
--    return 0;
-+    return bdrv_pwrite(s->bs->file, 0, sizeof(le), &le, 0);
- }
- 
- /**
-diff --git a/block/vdi.c b/block/vdi.c
-index 9ef55a117a..a0be2a23b9 100644
---- a/block/vdi.c
-+++ b/block/vdi.c
-@@ -730,7 +730,7 @@ nonallocating_write:
-                           n_sectors * SECTOR_SIZE, base, 0);
-     }
- 
--    return ret < 0 ? ret : 0;
-+    return ret;
- }
- 
- static int coroutine_fn vdi_co_do_create(BlockdevCreateOptions *create_options,
-diff --git a/block/vmdk.c b/block/vmdk.c
-index aacea1095f..332565c80f 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -473,7 +473,6 @@ static int vmdk_parent_open(BlockDriverState *bs)
-     if (ret < 0) {
-         goto out;
-     }
--    ret = 0;
- 
-     p_name = strstr(desc, "parentFileNameHint");
-     if (p_name != NULL) {
-@@ -905,7 +904,7 @@ static char *vmdk_read_desc(BdrvChild *file, uint64_t desc_offset, Error **errp)
-         g_free(buf);
-         return NULL;
-     }
--    buf[ret] = 0;
-+    buf[size] = 0;
- 
-     return buf;
- }
-@@ -1630,7 +1629,7 @@ static int get_cluster_offset(BlockDriverState *bs,
-                 l2_size_bytes,
-                 l2_table,
-                 0
--            ) != l2_size_bytes) {
-+            ) < 0) {
-         return VMDK_ERROR;
-     }
- 
-diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
-index 49fb1ef1ea..a5c163af7e 100644
---- a/tests/unit/test-block-iothread.c
-+++ b/tests/unit/test-block-iothread.c
-@@ -89,7 +89,7 @@ static void test_sync_op_pread(BdrvChild *c)
- 
-     /* Success */
-     ret = bdrv_pread(c, 0, sizeof(buf), buf, 0);
--    g_assert_cmpint(ret, ==, 512);
-+    g_assert_cmpint(ret, ==, 0);
- 
-     /* Early error: Negative offset */
-     ret = bdrv_pread(c, -2, sizeof(buf), buf, 0);
-@@ -103,7 +103,7 @@ static void test_sync_op_pwrite(BdrvChild *c)
- 
-     /* Success */
-     ret = bdrv_pwrite(c, 0, sizeof(buf), buf, 0);
--    g_assert_cmpint(ret, ==, 512);
-+    g_assert_cmpint(ret, ==, 0);
- 
-     /* Early error: Negative offset */
-     ret = bdrv_pwrite(c, -2, sizeof(buf), buf, 0);
 -- 
 2.35.3
 
