@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850085453BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:10:11 +0200 (CEST)
-Received: from localhost ([::1]:42404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7935454B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 21:12:34 +0200 (CEST)
+Received: from localhost ([::1]:50992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzMbi-0006yQ-HW
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:10:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56320)
+	id 1nzNa5-0008GW-H5
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 15:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLro-0007t7-Qx
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42867)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLrs-00089Y-MY
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLrd-0003g3-OG
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:36 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLrn-0003iI-6v
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654795341;
+ s=mimecast20190719; t=1654795357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z2sEueBGe3ySqwZK07WR8VHIPFvz27D7/GKoH4EZVsk=;
- b=DwxDV9PaU3VDSHEAqSA79Z9MeJwcb1NQgPIbtEHXzyyhkJSDQYwoaWQE2/N/FDLJOtsy8Q
- +fAaePXY5x6g2UDYRvz2DzNV5/Cvf7ZFWLg5uNB+Ft7AOvTJR4PdtKu4dSttVShTmoMOPA
- MuhaNsnHH0Rv/PkMOvcIfL/u/otCKXo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KulIdqnCXOwmrFKFOjNkQBZYtj8LF+MH5GfD619kfaA=;
+ b=AFwE96+TXYJ1FII8QTIppiNJ3WdX8Y2WgL5S5Sn1yVGkT0pWl26gJ6YmNpdpAtY71bRunF
+ zB9NeX2S2v4gH6EpTicMkb4FuYGpHQ0tkmDBvv2d6NLbblcYEC0P6XJH8Pi0XL184QDlMu
+ bu2jkTRGsn4lmCOgXxm1YyyMlD78amw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-26-px4zIj1DOgaxZiFy_tXInw-1; Thu, 09 Jun 2022 13:22:20 -0400
-X-MC-Unique: px4zIj1DOgaxZiFy_tXInw-1
+ us-mta-147-ZTGBUXcRPAOeRP8bA_tcGw-1; Thu, 09 Jun 2022 13:22:32 -0400
+X-MC-Unique: ZTGBUXcRPAOeRP8bA_tcGw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9C85294EDDD;
- Thu,  9 Jun 2022 17:22:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92792811E75;
+ Thu,  9 Jun 2022 17:22:21 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.195.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04D9340D2827;
- Thu,  9 Jun 2022 17:22:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D423C4010E32;
+ Thu,  9 Jun 2022 17:22:20 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 08/18] block/export: Abstract out the logic of virtio-blk I/O
- process
-Date: Thu,  9 Jun 2022 19:21:39 +0200
-Message-Id: <20220609172149.293877-9-kwolf@redhat.com>
+Subject: [PULL 10/18] libvduse: Add VDUSE (vDPA Device in Userspace) library
+Date: Thu,  9 Jun 2022 19:21:41 +0200
+Message-Id: <20220609172149.293877-11-kwolf@redhat.com>
 In-Reply-To: <20220609172149.293877-1-kwolf@redhat.com>
 References: <20220609172149.293877-1-kwolf@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -80,31 +80,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xie Yongji <xieyongji@bytedance.com>
 
-Abstract the common logic of virtio-blk I/O process to a function
-named virtio_blk_process_req(). It's needed for the following commit.
+VDUSE [1] is a linux framework that makes it possible to implement
+software-emulated vDPA devices in userspace. This adds a library
+as a subproject to help implementing VDUSE backends in QEMU.
+
+[1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-Message-Id: <20220523084611.91-4-xieyongji@bytedance.com>
+Message-Id: <20220523084611.91-6-xieyongji@bytedance.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/export/virtio-blk-handler.h    |  37 ++++
- block/export/vhost-user-blk-server.c | 259 +++------------------------
- block/export/virtio-blk-handler.c    | 240 +++++++++++++++++++++++++
- MAINTAINERS                          |   2 +
- block/export/meson.build             |   2 +-
- 5 files changed, 301 insertions(+), 239 deletions(-)
- create mode 100644 block/export/virtio-blk-handler.h
- create mode 100644 block/export/virtio-blk-handler.c
+ meson_options.txt                           |    2 +
+ subprojects/libvduse/include/atomic.h       |    1 +
+ subprojects/libvduse/include/compiler.h     |    1 +
+ subprojects/libvduse/libvduse.h             |  235 ++++
+ subprojects/libvduse/libvduse.c             | 1167 +++++++++++++++++++
+ MAINTAINERS                                 |    5 +
+ meson.build                                 |   15 +
+ scripts/meson-buildoptions.sh               |    3 +
+ subprojects/libvduse/linux-headers/linux    |    1 +
+ subprojects/libvduse/meson.build            |   10 +
+ subprojects/libvduse/standard-headers/linux |    1 +
+ 11 files changed, 1441 insertions(+)
+ create mode 120000 subprojects/libvduse/include/atomic.h
+ create mode 120000 subprojects/libvduse/include/compiler.h
+ create mode 100644 subprojects/libvduse/libvduse.h
+ create mode 100644 subprojects/libvduse/libvduse.c
+ create mode 120000 subprojects/libvduse/linux-headers/linux
+ create mode 100644 subprojects/libvduse/meson.build
+ create mode 120000 subprojects/libvduse/standard-headers/linux
 
-diff --git a/block/export/virtio-blk-handler.h b/block/export/virtio-blk-handler.h
-new file mode 100644
-index 0000000000..1c7a5e32ad
+diff --git a/meson_options.txt b/meson_options.txt
+index 2de94af037..50da8dea94 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -253,6 +253,8 @@ option('virtfs', type: 'feature', value: 'auto',
+        description: 'virtio-9p support')
+ option('virtiofsd', type: 'feature', value: 'auto',
+        description: 'build virtiofs daemon (virtiofsd)')
++option('libvduse', type: 'feature', value: 'auto',
++       description: 'build VDUSE Library')
+ 
+ option('capstone', type: 'feature', value: 'auto',
+        description: 'Whether and how to find the capstone library')
+diff --git a/subprojects/libvduse/include/atomic.h b/subprojects/libvduse/include/atomic.h
+new file mode 120000
+index 0000000000..8c2be64f7b
 --- /dev/null
-+++ b/block/export/virtio-blk-handler.h
-@@ -0,0 +1,37 @@
++++ b/subprojects/libvduse/include/atomic.h
+@@ -0,0 +1 @@
++../../../include/qemu/atomic.h
+\ No newline at end of file
+diff --git a/subprojects/libvduse/include/compiler.h b/subprojects/libvduse/include/compiler.h
+new file mode 120000
+index 0000000000..de7b70697c
+--- /dev/null
++++ b/subprojects/libvduse/include/compiler.h
+@@ -0,0 +1 @@
++../../../include/qemu/compiler.h
+\ No newline at end of file
+diff --git a/subprojects/libvduse/libvduse.h b/subprojects/libvduse/libvduse.h
+new file mode 100644
+index 0000000000..6c2fe98213
+--- /dev/null
++++ b/subprojects/libvduse/libvduse.h
+@@ -0,0 +1,235 @@
 +/*
-+ * Handler for virtio-blk I/O
++ * VDUSE (vDPA Device in Userspace) library
 + *
 + * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights reserved.
 + *
@@ -115,652 +158,1497 @@ index 0000000000..1c7a5e32ad
 + * later.  See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef VIRTIO_BLK_HANDLER_H
-+#define VIRTIO_BLK_HANDLER_H
++#ifndef LIBVDUSE_H
++#define LIBVDUSE_H
 +
-+#include "sysemu/block-backend.h"
++#include <stdint.h>
++#include <sys/uio.h>
 +
-+#define VIRTIO_BLK_SECTOR_BITS 9
-+#define VIRTIO_BLK_SECTOR_SIZE (1ULL << VIRTIO_BLK_SECTOR_BITS)
++#define VIRTQUEUE_MAX_SIZE 1024
 +
-+#define VIRTIO_BLK_MAX_DISCARD_SECTORS 32768
-+#define VIRTIO_BLK_MAX_WRITE_ZEROES_SECTORS 32768
++/* VDUSE device structure */
++typedef struct VduseDev VduseDev;
 +
-+typedef struct {
-+    BlockBackend *blk;
-+    const char *serial;
-+    uint32_t logical_block_size;
-+    bool writable;
-+} VirtioBlkHandler;
++/* Virtqueue structure */
++typedef struct VduseVirtq VduseVirtq;
 +
-+int coroutine_fn virtio_blk_process_req(VirtioBlkHandler *handler,
-+                                        struct iovec *in_iov,
-+                                        struct iovec *out_iov,
-+                                        unsigned int in_num,
-+                                        unsigned int out_num);
++/* Some operation of VDUSE backend */
++typedef struct VduseOps {
++    /* Called when virtqueue can be processed */
++    void (*enable_queue)(VduseDev *dev, VduseVirtq *vq);
++    /* Called when virtqueue processing should be stopped */
++    void (*disable_queue)(VduseDev *dev, VduseVirtq *vq);
++} VduseOps;
 +
-+#endif /* VIRTIO_BLK_HANDLER_H */
-diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
-index 19c6ee51d3..c9c290cc4c 100644
---- a/block/export/vhost-user-blk-server.c
-+++ b/block/export/vhost-user-blk-server.c
-@@ -17,31 +17,15 @@
- #include "vhost-user-blk-server.h"
- #include "qapi/error.h"
- #include "qom/object_interfaces.h"
--#include "sysemu/block-backend.h"
- #include "util/block-helpers.h"
--
--/*
-- * Sector units are 512 bytes regardless of the
-- * virtio_blk_config->blk_size value.
-- */
--#define VIRTIO_BLK_SECTOR_BITS 9
--#define VIRTIO_BLK_SECTOR_SIZE (1ull << VIRTIO_BLK_SECTOR_BITS)
-+#include "virtio-blk-handler.h"
- 
- enum {
-     VHOST_USER_BLK_NUM_QUEUES_DEFAULT = 1,
--    VHOST_USER_BLK_MAX_DISCARD_SECTORS = 32768,
--    VHOST_USER_BLK_MAX_WRITE_ZEROES_SECTORS = 32768,
--};
--struct virtio_blk_inhdr {
--    unsigned char status;
- };
- 
- typedef struct VuBlkReq {
-     VuVirtqElement elem;
--    int64_t sector_num;
--    size_t size;
--    struct virtio_blk_inhdr *in;
--    struct virtio_blk_outhdr out;
-     VuServer *server;
-     struct VuVirtq *vq;
- } VuBlkReq;
-@@ -50,247 +34,44 @@ typedef struct VuBlkReq {
- typedef struct {
-     BlockExport export;
-     VuServer vu_server;
--    uint32_t blk_size;
-+    VirtioBlkHandler handler;
-     QIOChannelSocket *sioc;
-     struct virtio_blk_config blkcfg;
--    bool writable;
- } VuBlkExport;
- 
--static void vu_blk_req_complete(VuBlkReq *req)
-+static void vu_blk_req_complete(VuBlkReq *req, size_t in_len)
- {
-     VuDev *vu_dev = &req->server->vu_dev;
- 
--    vu_queue_push(vu_dev, req->vq, &req->elem, req->size);
-+    vu_queue_push(vu_dev, req->vq, &req->elem, in_len);
-     vu_queue_notify(vu_dev, req->vq);
- 
-     free(req);
- }
- 
--static bool vu_blk_sect_range_ok(VuBlkExport *vexp, uint64_t sector,
--                                 size_t size)
--{
--    uint64_t nb_sectors;
--    uint64_t total_sectors;
--
--    if (size % VIRTIO_BLK_SECTOR_SIZE) {
--        return false;
--    }
--
--    nb_sectors = size >> VIRTIO_BLK_SECTOR_BITS;
--
--    QEMU_BUILD_BUG_ON(BDRV_SECTOR_SIZE != VIRTIO_BLK_SECTOR_SIZE);
--    if (nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
--        return false;
--    }
--    if ((sector << VIRTIO_BLK_SECTOR_BITS) % vexp->blk_size) {
--        return false;
--    }
--    blk_get_geometry(vexp->export.blk, &total_sectors);
--    if (sector > total_sectors || nb_sectors > total_sectors - sector) {
--        return false;
--    }
--    return true;
--}
--
--static int coroutine_fn
--vu_blk_discard_write_zeroes(VuBlkExport *vexp, struct iovec *iov,
--                            uint32_t iovcnt, uint32_t type)
--{
--    BlockBackend *blk = vexp->export.blk;
--    struct virtio_blk_discard_write_zeroes desc;
--    ssize_t size;
--    uint64_t sector;
--    uint32_t num_sectors;
--    uint32_t max_sectors;
--    uint32_t flags;
--    int bytes;
--
--    /* Only one desc is currently supported */
--    if (unlikely(iov_size(iov, iovcnt) > sizeof(desc))) {
--        return VIRTIO_BLK_S_UNSUPP;
--    }
--
--    size = iov_to_buf(iov, iovcnt, 0, &desc, sizeof(desc));
--    if (unlikely(size != sizeof(desc))) {
--        error_report("Invalid size %zd, expected %zu", size, sizeof(desc));
--        return VIRTIO_BLK_S_IOERR;
--    }
--
--    sector = le64_to_cpu(desc.sector);
--    num_sectors = le32_to_cpu(desc.num_sectors);
--    flags = le32_to_cpu(desc.flags);
--    max_sectors = (type == VIRTIO_BLK_T_WRITE_ZEROES) ?
--                  VHOST_USER_BLK_MAX_WRITE_ZEROES_SECTORS :
--                  VHOST_USER_BLK_MAX_DISCARD_SECTORS;
--
--    /* This check ensures that 'bytes' fits in an int */
--    if (unlikely(num_sectors > max_sectors)) {
--        return VIRTIO_BLK_S_IOERR;
--    }
--
--    bytes = num_sectors << VIRTIO_BLK_SECTOR_BITS;
--
--    if (unlikely(!vu_blk_sect_range_ok(vexp, sector, bytes))) {
--        return VIRTIO_BLK_S_IOERR;
--    }
--
--    /*
--     * The device MUST set the status byte to VIRTIO_BLK_S_UNSUPP for discard
--     * and write zeroes commands if any unknown flag is set.
--     */
--    if (unlikely(flags & ~VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP)) {
--        return VIRTIO_BLK_S_UNSUPP;
--    }
--
--    if (type == VIRTIO_BLK_T_WRITE_ZEROES) {
--        int blk_flags = 0;
--
--        if (flags & VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP) {
--            blk_flags |= BDRV_REQ_MAY_UNMAP;
--        }
--
--        if (blk_co_pwrite_zeroes(blk, sector << VIRTIO_BLK_SECTOR_BITS,
--                                 bytes, blk_flags) == 0) {
--            return VIRTIO_BLK_S_OK;
--        }
--    } else if (type == VIRTIO_BLK_T_DISCARD) {
--        /*
--         * The device MUST set the status byte to VIRTIO_BLK_S_UNSUPP for
--         * discard commands if the unmap flag is set.
--         */
--        if (unlikely(flags & VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP)) {
--            return VIRTIO_BLK_S_UNSUPP;
--        }
--
--        if (blk_co_pdiscard(blk, sector << VIRTIO_BLK_SECTOR_BITS,
--                            bytes) == 0) {
--            return VIRTIO_BLK_S_OK;
--        }
--    }
--
--    return VIRTIO_BLK_S_IOERR;
--}
--
- /* Called with server refcount increased, must decrease before returning */
- static void coroutine_fn vu_blk_virtio_process_req(void *opaque)
- {
-     VuBlkReq *req = opaque;
-     VuServer *server = req->server;
-     VuVirtqElement *elem = &req->elem;
--    uint32_t type;
--
-     VuBlkExport *vexp = container_of(server, VuBlkExport, vu_server);
--    BlockBackend *blk = vexp->export.blk;
--
-+    VirtioBlkHandler *handler = &vexp->handler;
-     struct iovec *in_iov = elem->in_sg;
-     struct iovec *out_iov = elem->out_sg;
-     unsigned in_num = elem->in_num;
-     unsigned out_num = elem->out_num;
--
--    /* refer to hw/block/virtio_blk.c */
--    if (elem->out_num < 1 || elem->in_num < 1) {
--        error_report("virtio-blk request missing headers");
--        goto err;
--    }
--
--    if (unlikely(iov_to_buf(out_iov, out_num, 0, &req->out,
--                            sizeof(req->out)) != sizeof(req->out))) {
--        error_report("virtio-blk request outhdr too short");
--        goto err;
--    }
--
--    iov_discard_front(&out_iov, &out_num, sizeof(req->out));
--
--    if (in_iov[in_num - 1].iov_len < sizeof(struct virtio_blk_inhdr)) {
--        error_report("virtio-blk request inhdr too short");
--        goto err;
--    }
--
--    req->size = iov_size(in_iov, in_num);
--    /* We always touch the last byte, so just see how big in_iov is.  */
--    req->in = (void *)in_iov[in_num - 1].iov_base
--              + in_iov[in_num - 1].iov_len
--              - sizeof(struct virtio_blk_inhdr);
--    iov_discard_back(in_iov, &in_num, sizeof(struct virtio_blk_inhdr));
--
--    type = le32_to_cpu(req->out.type);
--    switch (type & ~VIRTIO_BLK_T_BARRIER) {
--    case VIRTIO_BLK_T_IN:
--    case VIRTIO_BLK_T_OUT: {
--        QEMUIOVector qiov;
--        int64_t offset;
--        ssize_t ret = 0;
--        bool is_write = type & VIRTIO_BLK_T_OUT;
--        req->sector_num = le64_to_cpu(req->out.sector);
--
--        if (is_write && !vexp->writable) {
--            req->in->status = VIRTIO_BLK_S_IOERR;
--            break;
--        }
--
--        if (is_write) {
--            qemu_iovec_init_external(&qiov, out_iov, out_num);
--        } else {
--            qemu_iovec_init_external(&qiov, in_iov, in_num);
--        }
--
--        if (unlikely(!vu_blk_sect_range_ok(vexp,
--                                           req->sector_num,
--                                           qiov.size))) {
--            req->in->status = VIRTIO_BLK_S_IOERR;
--            break;
--        }
--
--        offset = req->sector_num << VIRTIO_BLK_SECTOR_BITS;
--
--        if (is_write) {
--            ret = blk_co_pwritev(blk, offset, qiov.size, &qiov, 0);
--        } else {
--            ret = blk_co_preadv(blk, offset, qiov.size, &qiov, 0);
--        }
--        if (ret >= 0) {
--            req->in->status = VIRTIO_BLK_S_OK;
--        } else {
--            req->in->status = VIRTIO_BLK_S_IOERR;
--        }
--        break;
--    }
--    case VIRTIO_BLK_T_FLUSH:
--        if (blk_co_flush(blk) == 0) {
--            req->in->status = VIRTIO_BLK_S_OK;
--        } else {
--            req->in->status = VIRTIO_BLK_S_IOERR;
--        }
--        break;
--    case VIRTIO_BLK_T_GET_ID: {
--        size_t size = MIN(iov_size(&elem->in_sg[0], in_num),
--                          VIRTIO_BLK_ID_BYTES);
--        snprintf(elem->in_sg[0].iov_base, size, "%s", "vhost_user_blk");
--        req->in->status = VIRTIO_BLK_S_OK;
--        break;
-+    int in_len;
++/* Describing elements of the I/O buffer */
++typedef struct VduseVirtqElement {
++    /* Descriptor table index */
++    unsigned int index;
++    /* Number of physically-contiguous device-readable descriptors */
++    unsigned int out_num;
++    /* Number of physically-contiguous device-writable descriptors */
++    unsigned int in_num;
++    /* Array to store physically-contiguous device-writable descriptors */
++    struct iovec *in_sg;
++    /* Array to store physically-contiguous device-readable descriptors */
++    struct iovec *out_sg;
++} VduseVirtqElement;
 +
-+    in_len = virtio_blk_process_req(handler, in_iov, out_iov,
-+                                    in_num, out_num);
-+    if (in_len < 0) {
-+        free(req);
-+        vhost_user_server_unref(server);
-+        return;
-     }
--    case VIRTIO_BLK_T_DISCARD:
--    case VIRTIO_BLK_T_WRITE_ZEROES: {
--        if (!vexp->writable) {
--            req->in->status = VIRTIO_BLK_S_IOERR;
--            break;
--        }
--
--        req->in->status = vu_blk_discard_write_zeroes(vexp, out_iov, out_num,
--                                                      type);
--        break;
--    }
--    default:
--        req->in->status = VIRTIO_BLK_S_UNSUPP;
--        break;
--    }
--
--    vu_blk_req_complete(req);
--    vhost_user_server_unref(server);
--    return;
- 
--err:
--    free(req);
-+    vu_blk_req_complete(req, in_len);
-     vhost_user_server_unref(server);
- }
- 
-@@ -347,7 +128,7 @@ static uint64_t vu_blk_get_features(VuDev *dev)
-                1ull << VIRTIO_RING_F_EVENT_IDX |
-                1ull << VHOST_USER_F_PROTOCOL_FEATURES;
- 
--    if (!vexp->writable) {
-+    if (!vexp->handler.writable) {
-         features |= 1ull << VIRTIO_BLK_F_RO;
-     }
- 
-@@ -454,12 +235,12 @@ vu_blk_initialize_config(BlockDriverState *bs,
-     config->opt_io_size = cpu_to_le32(1);
-     config->num_queues = cpu_to_le16(num_queues);
-     config->max_discard_sectors =
--        cpu_to_le32(VHOST_USER_BLK_MAX_DISCARD_SECTORS);
-+        cpu_to_le32(VIRTIO_BLK_MAX_DISCARD_SECTORS);
-     config->max_discard_seg = cpu_to_le32(1);
-     config->discard_sector_alignment =
-         cpu_to_le32(blk_size >> VIRTIO_BLK_SECTOR_BITS);
-     config->max_write_zeroes_sectors
--        = cpu_to_le32(VHOST_USER_BLK_MAX_WRITE_ZEROES_SECTORS);
-+        = cpu_to_le32(VIRTIO_BLK_MAX_WRITE_ZEROES_SECTORS);
-     config->max_write_zeroes_seg = cpu_to_le32(1);
- }
- 
-@@ -479,7 +260,6 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     uint64_t logical_block_size;
-     uint16_t num_queues = VHOST_USER_BLK_NUM_QUEUES_DEFAULT;
- 
--    vexp->writable = opts->writable;
-     vexp->blkcfg.wce = 0;
- 
-     if (vu_opts->has_logical_block_size) {
-@@ -493,7 +273,6 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-         error_propagate(errp, local_err);
-         return -EINVAL;
-     }
--    vexp->blk_size = logical_block_size;
- 
-     if (vu_opts->has_num_queues) {
-         num_queues = vu_opts->num_queues;
-@@ -502,6 +281,10 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-         error_setg(errp, "num-queues must be greater than 0");
-         return -EINVAL;
-     }
-+    vexp->handler.blk = exp->blk;
-+    vexp->handler.serial = "vhost_user_blk";
-+    vexp->handler.logical_block_size = logical_block_size;
-+    vexp->handler.writable = opts->writable;
- 
-     vu_blk_initialize_config(blk_bs(exp->blk), &vexp->blkcfg,
-                              logical_block_size, num_queues);
-diff --git a/block/export/virtio-blk-handler.c b/block/export/virtio-blk-handler.c
-new file mode 100644
-index 0000000000..313666e8ab
---- /dev/null
-+++ b/block/export/virtio-blk-handler.c
-@@ -0,0 +1,240 @@
-+/*
-+ * Handler for virtio-blk I/O
++
++/**
++ * vduse_get_virtio_features:
 + *
-+ * Copyright (c) 2020 Red Hat, Inc.
++ * Get supported virtio features
++ *
++ * Returns: supported feature bits
++ */
++uint64_t vduse_get_virtio_features(void);
++
++/**
++ * vduse_queue_get_dev:
++ * @vq: specified virtqueue
++ *
++ * Get corresponding VDUSE device from the virtqueue.
++ *
++ * Returns: a pointer to VDUSE device on success, NULL on failure.
++ */
++VduseDev *vduse_queue_get_dev(VduseVirtq *vq);
++
++/**
++ * vduse_queue_get_fd:
++ * @vq: specified virtqueue
++ *
++ * Get the kick fd for the virtqueue.
++ *
++ * Returns: file descriptor on success, -1 on failure.
++ */
++int vduse_queue_get_fd(VduseVirtq *vq);
++
++/**
++ * vduse_queue_pop:
++ * @vq: specified virtqueue
++ * @sz: the size of struct to return (must be >= VduseVirtqElement)
++ *
++ * Pop an element from virtqueue available ring.
++ *
++ * Returns: a pointer to a structure containing VduseVirtqElement on success,
++ * NULL on failure.
++ */
++void *vduse_queue_pop(VduseVirtq *vq, size_t sz);
++
++/**
++ * vduse_queue_push:
++ * @vq: specified virtqueue
++ * @elem: pointer to VduseVirtqElement returned by vduse_queue_pop()
++ * @len: length in bytes to write
++ *
++ * Push an element to virtqueue used ring.
++ */
++void vduse_queue_push(VduseVirtq *vq, const VduseVirtqElement *elem,
++                      unsigned int len);
++/**
++ * vduse_queue_notify:
++ * @vq: specified virtqueue
++ *
++ * Request to notify the queue.
++ */
++void vduse_queue_notify(VduseVirtq *vq);
++
++/**
++ * vduse_dev_get_priv:
++ * @dev: VDUSE device
++ *
++ * Get the private pointer passed to vduse_dev_create().
++ *
++ * Returns: private pointer on success, NULL on failure.
++ */
++void *vduse_dev_get_priv(VduseDev *dev);
++
++/**
++ * vduse_dev_get_queue:
++ * @dev: VDUSE device
++ * @index: virtqueue index
++ *
++ * Get the specified virtqueue.
++ *
++ * Returns: a pointer to the virtqueue on success, NULL on failure.
++ */
++VduseVirtq *vduse_dev_get_queue(VduseDev *dev, int index);
++
++/**
++ * vduse_dev_get_fd:
++ * @dev: VDUSE device
++ *
++ * Get the control message fd for the VDUSE device.
++ *
++ * Returns: file descriptor on success, -1 on failure.
++ */
++int vduse_dev_get_fd(VduseDev *dev);
++
++/**
++ * vduse_dev_handler:
++ * @dev: VDUSE device
++ *
++ * Used to process the control message.
++ *
++ * Returns: file descriptor on success, -errno on failure.
++ */
++int vduse_dev_handler(VduseDev *dev);
++
++/**
++ * vduse_dev_update_config:
++ * @dev: VDUSE device
++ * @size: the size to write to configuration space
++ * @offset: the offset from the beginning of configuration space
++ * @buffer: the buffer used to write from
++ *
++ * Update device configuration space and inject a config interrupt.
++ *
++ * Returns: 0 on success, -errno on failure.
++ */
++int vduse_dev_update_config(VduseDev *dev, uint32_t size,
++                            uint32_t offset, char *buffer);
++
++/**
++ * vduse_dev_setup_queue:
++ * @dev: VDUSE device
++ * @index: virtqueue index
++ * @max_size: the max size of virtqueue
++ *
++ * Setup the specified virtqueue.
++ *
++ * Returns: 0 on success, -errno on failure.
++ */
++int vduse_dev_setup_queue(VduseDev *dev, int index, int max_size);
++
++/**
++ * vduse_dev_create_by_fd:
++ * @fd: passed file descriptor
++ * @num_queues: the number of virtqueues
++ * @ops: the operation of VDUSE backend
++ * @priv: private pointer
++ *
++ * Create VDUSE device from a passed file descriptor.
++ *
++ * Returns: pointer to VDUSE device on success, NULL on failure.
++ */
++VduseDev *vduse_dev_create_by_fd(int fd, uint16_t num_queues,
++                                 const VduseOps *ops, void *priv);
++
++/**
++ * vduse_dev_create_by_name:
++ * @name: VDUSE device name
++ * @num_queues: the number of virtqueues
++ * @ops: the operation of VDUSE backend
++ * @priv: private pointer
++ *
++ * Create VDUSE device on /dev/vduse/$NAME.
++ *
++ * Returns: pointer to VDUSE device on success, NULL on failure.
++ */
++VduseDev *vduse_dev_create_by_name(const char *name, uint16_t num_queues,
++                                   const VduseOps *ops, void *priv);
++
++/**
++ * vduse_dev_create:
++ * @name: VDUSE device name
++ * @device_id: virtio device id
++ * @vendor_id: virtio vendor id
++ * @features: virtio features
++ * @num_queues: the number of virtqueues
++ * @config_size: the size of the configuration space
++ * @config: the buffer of the configuration space
++ * @ops: the operation of VDUSE backend
++ * @priv: private pointer
++ *
++ * Create VDUSE device.
++ *
++ * Returns: pointer to VDUSE device on success, NULL on failure.
++ */
++VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
++                           uint32_t vendor_id, uint64_t features,
++                           uint16_t num_queues, uint32_t config_size,
++                           char *config, const VduseOps *ops, void *priv);
++
++/**
++ * vduse_dev_destroy:
++ * @dev: VDUSE device
++ *
++ * Destroy the VDUSE device.
++ *
++ * Returns: 0 on success, -errno on failure.
++ */
++int vduse_dev_destroy(VduseDev *dev);
++
++#endif
+diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
+new file mode 100644
+index 0000000000..fa4822b9a9
+--- /dev/null
++++ b/subprojects/libvduse/libvduse.c
+@@ -0,0 +1,1167 @@
++/*
++ * VDUSE (vDPA Device in Userspace) library
++ *
 + * Copyright (C) 2022 Bytedance Inc. and/or its affiliates. All rights reserved.
++ *   Portions of codes and concepts borrowed from libvhost-user.c, so:
++ *     Copyright IBM, Corp. 2007
++ *     Copyright (c) 2016 Red Hat, Inc.
 + *
 + * Author:
-+ *   Coiby Xu <coiby.xu@gmail.com>
 + *   Xie Yongji <xieyongji@bytedance.com>
++ *   Anthony Liguori <aliguori@us.ibm.com>
++ *   Marc-André Lureau <mlureau@redhat.com>
++ *   Victor Kaplansky <victork@redhat.com>
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or
 + * later.  See the COPYING file in the top-level directory.
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "virtio-blk-handler.h"
++#include <stdlib.h>
++#include <stdio.h>
++#include <stdbool.h>
++#include <stddef.h>
++#include <errno.h>
++#include <string.h>
++#include <assert.h>
++#include <endian.h>
++#include <unistd.h>
++#include <limits.h>
++#include <fcntl.h>
 +
-+#include "standard-headers/linux/virtio_blk.h"
++#include <sys/ioctl.h>
++#include <sys/eventfd.h>
++#include <sys/mman.h>
 +
-+struct virtio_blk_inhdr {
-+    unsigned char status;
++#include "include/atomic.h"
++#include "linux-headers/linux/virtio_ring.h"
++#include "linux-headers/linux/virtio_config.h"
++#include "linux-headers/linux/vduse.h"
++#include "libvduse.h"
++
++#define VDUSE_VQ_ALIGN 4096
++#define MAX_IOVA_REGIONS 256
++
++/* Round number down to multiple */
++#define ALIGN_DOWN(n, m) ((n) / (m) * (m))
++
++/* Round number up to multiple */
++#define ALIGN_UP(n, m) ALIGN_DOWN((n) + (m) - 1, (m))
++
++#ifndef unlikely
++#define unlikely(x)   __builtin_expect(!!(x), 0)
++#endif
++
++typedef struct VduseRing {
++    unsigned int num;
++    uint64_t desc_addr;
++    uint64_t avail_addr;
++    uint64_t used_addr;
++    struct vring_desc *desc;
++    struct vring_avail *avail;
++    struct vring_used *used;
++} VduseRing;
++
++struct VduseVirtq {
++    VduseRing vring;
++    uint16_t last_avail_idx;
++    uint16_t shadow_avail_idx;
++    uint16_t used_idx;
++    uint16_t signalled_used;
++    bool signalled_used_valid;
++    int index;
++    int inuse;
++    bool ready;
++    int fd;
++    VduseDev *dev;
 +};
 +
-+static bool virtio_blk_sect_range_ok(BlockBackend *blk, uint32_t block_size,
-+                                     uint64_t sector, size_t size)
++typedef struct VduseIovaRegion {
++    uint64_t iova;
++    uint64_t size;
++    uint64_t mmap_offset;
++    uint64_t mmap_addr;
++} VduseIovaRegion;
++
++struct VduseDev {
++    VduseVirtq *vqs;
++    VduseIovaRegion regions[MAX_IOVA_REGIONS];
++    int num_regions;
++    char *name;
++    uint32_t device_id;
++    uint32_t vendor_id;
++    uint16_t num_queues;
++    uint16_t queue_size;
++    uint64_t features;
++    const VduseOps *ops;
++    int fd;
++    int ctrl_fd;
++    void *priv;
++};
++
++static inline bool has_feature(uint64_t features, unsigned int fbit)
 +{
-+    uint64_t nb_sectors;
-+    uint64_t total_sectors;
++    assert(fbit < 64);
++    return !!(features & (1ULL << fbit));
++}
 +
-+    if (size % VIRTIO_BLK_SECTOR_SIZE) {
++static inline bool vduse_dev_has_feature(VduseDev *dev, unsigned int fbit)
++{
++    return has_feature(dev->features, fbit);
++}
++
++uint64_t vduse_get_virtio_features(void)
++{
++    return (1ULL << VIRTIO_F_IOMMU_PLATFORM) |
++           (1ULL << VIRTIO_F_VERSION_1) |
++           (1ULL << VIRTIO_F_NOTIFY_ON_EMPTY) |
++           (1ULL << VIRTIO_RING_F_EVENT_IDX) |
++           (1ULL << VIRTIO_RING_F_INDIRECT_DESC);
++}
++
++VduseDev *vduse_queue_get_dev(VduseVirtq *vq)
++{
++    return vq->dev;
++}
++
++int vduse_queue_get_fd(VduseVirtq *vq)
++{
++    return vq->fd;
++}
++
++void *vduse_dev_get_priv(VduseDev *dev)
++{
++    return dev->priv;
++}
++
++VduseVirtq *vduse_dev_get_queue(VduseDev *dev, int index)
++{
++    return &dev->vqs[index];
++}
++
++int vduse_dev_get_fd(VduseDev *dev)
++{
++    return dev->fd;
++}
++
++static int vduse_inject_irq(VduseDev *dev, int index)
++{
++    return ioctl(dev->fd, VDUSE_VQ_INJECT_IRQ, &index);
++}
++
++static void vduse_iova_remove_region(VduseDev *dev, uint64_t start,
++                                     uint64_t last)
++{
++    int i;
++
++    if (last == start) {
++        return;
++    }
++
++    for (i = 0; i < MAX_IOVA_REGIONS; i++) {
++        if (!dev->regions[i].mmap_addr) {
++            continue;
++        }
++
++        if (start <= dev->regions[i].iova &&
++            last >= (dev->regions[i].iova + dev->regions[i].size - 1)) {
++            munmap((void *)dev->regions[i].mmap_addr,
++                   dev->regions[i].mmap_offset + dev->regions[i].size);
++            dev->regions[i].mmap_addr = 0;
++            dev->num_regions--;
++        }
++    }
++}
++
++static int vduse_iova_add_region(VduseDev *dev, int fd,
++                                 uint64_t offset, uint64_t start,
++                                 uint64_t last, int prot)
++{
++    int i;
++    uint64_t size = last - start + 1;
++    void *mmap_addr = mmap(0, size + offset, prot, MAP_SHARED, fd, 0);
++
++    if (mmap_addr == MAP_FAILED) {
++        close(fd);
++        return -EINVAL;
++    }
++
++    for (i = 0; i < MAX_IOVA_REGIONS; i++) {
++        if (!dev->regions[i].mmap_addr) {
++            dev->regions[i].mmap_addr = (uint64_t)(uintptr_t)mmap_addr;
++            dev->regions[i].mmap_offset = offset;
++            dev->regions[i].iova = start;
++            dev->regions[i].size = size;
++            dev->num_regions++;
++            break;
++        }
++    }
++    assert(i < MAX_IOVA_REGIONS);
++    close(fd);
++
++    return 0;
++}
++
++static int perm_to_prot(uint8_t perm)
++{
++    int prot = 0;
++
++    switch (perm) {
++    case VDUSE_ACCESS_WO:
++        prot |= PROT_WRITE;
++        break;
++    case VDUSE_ACCESS_RO:
++        prot |= PROT_READ;
++        break;
++    case VDUSE_ACCESS_RW:
++        prot |= PROT_READ | PROT_WRITE;
++        break;
++    default:
++        break;
++    }
++
++    return prot;
++}
++
++static inline void *iova_to_va(VduseDev *dev, uint64_t *plen, uint64_t iova)
++{
++    int i, ret;
++    struct vduse_iotlb_entry entry;
++
++    for (i = 0; i < MAX_IOVA_REGIONS; i++) {
++        VduseIovaRegion *r = &dev->regions[i];
++
++        if (!r->mmap_addr) {
++            continue;
++        }
++
++        if ((iova >= r->iova) && (iova < (r->iova + r->size))) {
++            if ((iova + *plen) > (r->iova + r->size)) {
++                *plen = r->iova + r->size - iova;
++            }
++            return (void *)(uintptr_t)(iova - r->iova +
++                   r->mmap_addr + r->mmap_offset);
++        }
++    }
++
++    entry.start = iova;
++    entry.last = iova + 1;
++    ret = ioctl(dev->fd, VDUSE_IOTLB_GET_FD, &entry);
++    if (ret < 0) {
++        return NULL;
++    }
++
++    if (!vduse_iova_add_region(dev, ret, entry.offset, entry.start,
++                               entry.last, perm_to_prot(entry.perm))) {
++        return iova_to_va(dev, plen, iova);
++    }
++
++    return NULL;
++}
++
++static inline uint16_t vring_avail_flags(VduseVirtq *vq)
++{
++    return le16toh(vq->vring.avail->flags);
++}
++
++static inline uint16_t vring_avail_idx(VduseVirtq *vq)
++{
++    vq->shadow_avail_idx = le16toh(vq->vring.avail->idx);
++
++    return vq->shadow_avail_idx;
++}
++
++static inline uint16_t vring_avail_ring(VduseVirtq *vq, int i)
++{
++    return le16toh(vq->vring.avail->ring[i]);
++}
++
++static inline uint16_t vring_get_used_event(VduseVirtq *vq)
++{
++    return vring_avail_ring(vq, vq->vring.num);
++}
++
++static bool vduse_queue_get_head(VduseVirtq *vq, unsigned int idx,
++                                 unsigned int *head)
++{
++    /*
++     * Grab the next descriptor number they're advertising, and increment
++     * the index we've seen.
++     */
++    *head = vring_avail_ring(vq, idx % vq->vring.num);
++
++    /* If their number is silly, that's a fatal mistake. */
++    if (*head >= vq->vring.num) {
++        fprintf(stderr, "Guest says index %u is available\n", *head);
 +        return false;
 +    }
 +
-+    nb_sectors = size >> VIRTIO_BLK_SECTOR_BITS;
-+
-+    QEMU_BUILD_BUG_ON(BDRV_SECTOR_SIZE != VIRTIO_BLK_SECTOR_SIZE);
-+    if (nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
-+        return false;
-+    }
-+    if ((sector << VIRTIO_BLK_SECTOR_BITS) % block_size) {
-+        return false;
-+    }
-+    blk_get_geometry(blk, &total_sectors);
-+    if (sector > total_sectors || nb_sectors > total_sectors - sector) {
-+        return false;
-+    }
 +    return true;
 +}
 +
-+static int coroutine_fn
-+virtio_blk_discard_write_zeroes(VirtioBlkHandler *handler, struct iovec *iov,
-+                                uint32_t iovcnt, uint32_t type)
++static int
++vduse_queue_read_indirect_desc(VduseDev *dev, struct vring_desc *desc,
++                               uint64_t addr, size_t len)
 +{
-+    BlockBackend *blk = handler->blk;
-+    struct virtio_blk_discard_write_zeroes desc;
-+    ssize_t size;
-+    uint64_t sector;
-+    uint32_t num_sectors;
-+    uint32_t max_sectors;
-+    uint32_t flags;
-+    int bytes;
++    struct vring_desc *ori_desc;
++    uint64_t read_len;
 +
-+    /* Only one desc is currently supported */
-+    if (unlikely(iov_size(iov, iovcnt) > sizeof(desc))) {
-+        return VIRTIO_BLK_S_UNSUPP;
++    if (len > (VIRTQUEUE_MAX_SIZE * sizeof(struct vring_desc))) {
++        return -1;
 +    }
 +
-+    size = iov_to_buf(iov, iovcnt, 0, &desc, sizeof(desc));
-+    if (unlikely(size != sizeof(desc))) {
-+        error_report("Invalid size %zd, expected %zu", size, sizeof(desc));
-+        return VIRTIO_BLK_S_IOERR;
++    if (len == 0) {
++        return -1;
 +    }
 +
-+    sector = le64_to_cpu(desc.sector);
-+    num_sectors = le32_to_cpu(desc.num_sectors);
-+    flags = le32_to_cpu(desc.flags);
-+    max_sectors = (type == VIRTIO_BLK_T_WRITE_ZEROES) ?
-+                  VIRTIO_BLK_MAX_WRITE_ZEROES_SECTORS :
-+                  VIRTIO_BLK_MAX_DISCARD_SECTORS;
-+
-+    /* This check ensures that 'bytes' fits in an int */
-+    if (unlikely(num_sectors > max_sectors)) {
-+        return VIRTIO_BLK_S_IOERR;
-+    }
-+
-+    bytes = num_sectors << VIRTIO_BLK_SECTOR_BITS;
-+
-+    if (unlikely(!virtio_blk_sect_range_ok(blk, handler->logical_block_size,
-+                                           sector, bytes))) {
-+        return VIRTIO_BLK_S_IOERR;
-+    }
-+
-+    /*
-+     * The device MUST set the status byte to VIRTIO_BLK_S_UNSUPP for discard
-+     * and write zeroes commands if any unknown flag is set.
-+     */
-+    if (unlikely(flags & ~VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP)) {
-+        return VIRTIO_BLK_S_UNSUPP;
-+    }
-+
-+    if (type == VIRTIO_BLK_T_WRITE_ZEROES) {
-+        int blk_flags = 0;
-+
-+        if (flags & VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP) {
-+            blk_flags |= BDRV_REQ_MAY_UNMAP;
++    while (len) {
++        read_len = len;
++        ori_desc = iova_to_va(dev, &read_len, addr);
++        if (!ori_desc) {
++            return -1;
 +        }
 +
-+        if (blk_co_pwrite_zeroes(blk, sector << VIRTIO_BLK_SECTOR_BITS,
-+                                 bytes, blk_flags) == 0) {
-+            return VIRTIO_BLK_S_OK;
-+        }
-+    } else if (type == VIRTIO_BLK_T_DISCARD) {
-+        /*
-+         * The device MUST set the status byte to VIRTIO_BLK_S_UNSUPP for
-+         * discard commands if the unmap flag is set.
-+         */
-+        if (unlikely(flags & VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP)) {
-+            return VIRTIO_BLK_S_UNSUPP;
-+        }
-+
-+        if (blk_co_pdiscard(blk, sector << VIRTIO_BLK_SECTOR_BITS,
-+                            bytes) == 0) {
-+            return VIRTIO_BLK_S_OK;
-+        }
++        memcpy(desc, ori_desc, read_len);
++        len -= read_len;
++        addr += read_len;
++        desc += read_len;
 +    }
 +
-+    return VIRTIO_BLK_S_IOERR;
++    return 0;
 +}
 +
-+int coroutine_fn virtio_blk_process_req(VirtioBlkHandler *handler,
-+                                        struct iovec *in_iov,
-+                                        struct iovec *out_iov,
-+                                        unsigned int in_num,
-+                                        unsigned int out_num)
++enum {
++    VIRTQUEUE_READ_DESC_ERROR = -1,
++    VIRTQUEUE_READ_DESC_DONE = 0,   /* end of chain */
++    VIRTQUEUE_READ_DESC_MORE = 1,   /* more buffers in chain */
++};
++
++static int vduse_queue_read_next_desc(struct vring_desc *desc, int i,
++                                      unsigned int max, unsigned int *next)
 +{
-+    BlockBackend *blk = handler->blk;
-+    struct virtio_blk_inhdr *in;
-+    struct virtio_blk_outhdr out;
-+    uint32_t type;
-+    int in_len;
++    /* If this descriptor says it doesn't chain, we're done. */
++    if (!(le16toh(desc[i].flags) & VRING_DESC_F_NEXT)) {
++        return VIRTQUEUE_READ_DESC_DONE;
++    }
 +
-+    if (out_num < 1 || in_num < 1) {
-+        error_report("virtio-blk request missing headers");
++    /* Check they're not leading us off end of descriptors. */
++    *next = desc[i].next;
++    /* Make sure compiler knows to grab that: we don't want it changing! */
++    smp_wmb();
++
++    if (*next >= max) {
++        fprintf(stderr, "Desc next is %u\n", *next);
++        return VIRTQUEUE_READ_DESC_ERROR;
++    }
++
++    return VIRTQUEUE_READ_DESC_MORE;
++}
++
++/*
++ * Fetch avail_idx from VQ memory only when we really need to know if
++ * guest has added some buffers.
++ */
++static bool vduse_queue_empty(VduseVirtq *vq)
++{
++    if (unlikely(!vq->vring.avail)) {
++        return true;
++    }
++
++    if (vq->shadow_avail_idx != vq->last_avail_idx) {
++        return false;
++    }
++
++    return vring_avail_idx(vq) == vq->last_avail_idx;
++}
++
++static bool vduse_queue_should_notify(VduseVirtq *vq)
++{
++    VduseDev *dev = vq->dev;
++    uint16_t old, new;
++    bool v;
++
++    /* We need to expose used array entries before checking used event. */
++    smp_mb();
++
++    /* Always notify when queue is empty (when feature acknowledge) */
++    if (vduse_dev_has_feature(dev, VIRTIO_F_NOTIFY_ON_EMPTY) &&
++        !vq->inuse && vduse_queue_empty(vq)) {
++        return true;
++    }
++
++    if (!vduse_dev_has_feature(dev, VIRTIO_RING_F_EVENT_IDX)) {
++        return !(vring_avail_flags(vq) & VRING_AVAIL_F_NO_INTERRUPT);
++    }
++
++    v = vq->signalled_used_valid;
++    vq->signalled_used_valid = true;
++    old = vq->signalled_used;
++    new = vq->signalled_used = vq->used_idx;
++    return !v || vring_need_event(vring_get_used_event(vq), new, old);
++}
++
++void vduse_queue_notify(VduseVirtq *vq)
++{
++    VduseDev *dev = vq->dev;
++
++    if (unlikely(!vq->vring.avail)) {
++        return;
++    }
++
++    if (!vduse_queue_should_notify(vq)) {
++        return;
++    }
++
++    if (vduse_inject_irq(dev, vq->index) < 0) {
++        fprintf(stderr, "Error inject irq for vq %d: %s\n",
++                vq->index, strerror(errno));
++    }
++}
++
++static inline void vring_used_flags_set_bit(VduseVirtq *vq, int mask)
++{
++    uint16_t *flags;
++
++    flags = (uint16_t *)((char*)vq->vring.used +
++                         offsetof(struct vring_used, flags));
++    *flags = htole16(le16toh(*flags) | mask);
++}
++
++static inline void vring_used_flags_unset_bit(VduseVirtq *vq, int mask)
++{
++    uint16_t *flags;
++
++    flags = (uint16_t *)((char*)vq->vring.used +
++                         offsetof(struct vring_used, flags));
++    *flags = htole16(le16toh(*flags) & ~mask);
++}
++
++static inline void vring_set_avail_event(VduseVirtq *vq, uint16_t val)
++{
++    *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) = htole16(val);
++}
++
++static bool vduse_queue_map_single_desc(VduseVirtq *vq, unsigned int *p_num_sg,
++                                   struct iovec *iov, unsigned int max_num_sg,
++                                   bool is_write, uint64_t pa, size_t sz)
++{
++    unsigned num_sg = *p_num_sg;
++    VduseDev *dev = vq->dev;
++
++    assert(num_sg <= max_num_sg);
++
++    if (!sz) {
++        fprintf(stderr, "virtio: zero sized buffers are not allowed\n");
++        return false;
++    }
++
++    while (sz) {
++        uint64_t len = sz;
++
++        if (num_sg == max_num_sg) {
++            fprintf(stderr,
++                    "virtio: too many descriptors in indirect table\n");
++            return false;
++        }
++
++        iov[num_sg].iov_base = iova_to_va(dev, &len, pa);
++        if (iov[num_sg].iov_base == NULL) {
++            fprintf(stderr, "virtio: invalid address for buffers\n");
++            return false;
++        }
++        iov[num_sg++].iov_len = len;
++        sz -= len;
++        pa += len;
++    }
++
++    *p_num_sg = num_sg;
++    return true;
++}
++
++static void *vduse_queue_alloc_element(size_t sz, unsigned out_num,
++                                       unsigned in_num)
++{
++    VduseVirtqElement *elem;
++    size_t in_sg_ofs = ALIGN_UP(sz, __alignof__(elem->in_sg[0]));
++    size_t out_sg_ofs = in_sg_ofs + in_num * sizeof(elem->in_sg[0]);
++    size_t out_sg_end = out_sg_ofs + out_num * sizeof(elem->out_sg[0]);
++
++    assert(sz >= sizeof(VduseVirtqElement));
++    elem = malloc(out_sg_end);
++    if (!elem) {
++        return NULL;
++    }
++    elem->out_num = out_num;
++    elem->in_num = in_num;
++    elem->in_sg = (void *)elem + in_sg_ofs;
++    elem->out_sg = (void *)elem + out_sg_ofs;
++    return elem;
++}
++
++static void *vduse_queue_map_desc(VduseVirtq *vq, unsigned int idx, size_t sz)
++{
++    struct vring_desc *desc = vq->vring.desc;
++    VduseDev *dev = vq->dev;
++    uint64_t desc_addr, read_len;
++    unsigned int desc_len;
++    unsigned int max = vq->vring.num;
++    unsigned int i = idx;
++    VduseVirtqElement *elem;
++    struct iovec iov[VIRTQUEUE_MAX_SIZE];
++    struct vring_desc desc_buf[VIRTQUEUE_MAX_SIZE];
++    unsigned int out_num = 0, in_num = 0;
++    int rc;
++
++    if (le16toh(desc[i].flags) & VRING_DESC_F_INDIRECT) {
++        if (le32toh(desc[i].len) % sizeof(struct vring_desc)) {
++            fprintf(stderr, "Invalid size for indirect buffer table\n");
++            return NULL;
++        }
++
++        /* loop over the indirect descriptor table */
++        desc_addr = le64toh(desc[i].addr);
++        desc_len = le32toh(desc[i].len);
++        max = desc_len / sizeof(struct vring_desc);
++        read_len = desc_len;
++        desc = iova_to_va(dev, &read_len, desc_addr);
++        if (unlikely(desc && read_len != desc_len)) {
++            /* Failed to use zero copy */
++            desc = NULL;
++            if (!vduse_queue_read_indirect_desc(dev, desc_buf,
++                                                desc_addr,
++                                                desc_len)) {
++                desc = desc_buf;
++            }
++        }
++        if (!desc) {
++            fprintf(stderr, "Invalid indirect buffer table\n");
++            return NULL;
++        }
++        i = 0;
++    }
++
++    /* Collect all the descriptors */
++    do {
++        if (le16toh(desc[i].flags) & VRING_DESC_F_WRITE) {
++            if (!vduse_queue_map_single_desc(vq, &in_num, iov + out_num,
++                                             VIRTQUEUE_MAX_SIZE - out_num,
++                                             true, le64toh(desc[i].addr),
++                                             le32toh(desc[i].len))) {
++                return NULL;
++            }
++        } else {
++            if (in_num) {
++                fprintf(stderr, "Incorrect order for descriptors\n");
++                return NULL;
++            }
++            if (!vduse_queue_map_single_desc(vq, &out_num, iov,
++                                             VIRTQUEUE_MAX_SIZE, false,
++                                             le64toh(desc[i].addr),
++                                             le32toh(desc[i].len))) {
++                return NULL;
++            }
++        }
++
++        /* If we've got too many, that implies a descriptor loop. */
++        if ((in_num + out_num) > max) {
++            fprintf(stderr, "Looped descriptor\n");
++            return NULL;
++        }
++        rc = vduse_queue_read_next_desc(desc, i, max, &i);
++    } while (rc == VIRTQUEUE_READ_DESC_MORE);
++
++    if (rc == VIRTQUEUE_READ_DESC_ERROR) {
++        fprintf(stderr, "read descriptor error\n");
++        return NULL;
++    }
++
++    /* Now copy what we have collected and mapped */
++    elem = vduse_queue_alloc_element(sz, out_num, in_num);
++    if (!elem) {
++        fprintf(stderr, "read descriptor error\n");
++        return NULL;
++    }
++    elem->index = idx;
++    for (i = 0; i < out_num; i++) {
++        elem->out_sg[i] = iov[i];
++    }
++    for (i = 0; i < in_num; i++) {
++        elem->in_sg[i] = iov[out_num + i];
++    }
++
++    return elem;
++}
++
++void *vduse_queue_pop(VduseVirtq *vq, size_t sz)
++{
++    unsigned int head;
++    VduseVirtqElement *elem;
++    VduseDev *dev = vq->dev;
++
++    if (unlikely(!vq->vring.avail)) {
++        return NULL;
++    }
++
++    if (vduse_queue_empty(vq)) {
++        return NULL;
++    }
++    /* Needed after virtio_queue_empty() */
++    smp_rmb();
++
++    if (vq->inuse >= vq->vring.num) {
++        fprintf(stderr, "Virtqueue size exceeded: %d\n", vq->inuse);
++        return NULL;
++    }
++
++    if (!vduse_queue_get_head(vq, vq->last_avail_idx++, &head)) {
++        return NULL;
++    }
++
++    if (vduse_dev_has_feature(dev, VIRTIO_RING_F_EVENT_IDX)) {
++        vring_set_avail_event(vq, vq->last_avail_idx);
++    }
++
++    elem = vduse_queue_map_desc(vq, head, sz);
++
++    if (!elem) {
++        return NULL;
++    }
++
++    vq->inuse++;
++
++    return elem;
++}
++
++static inline void vring_used_write(VduseVirtq *vq,
++                                    struct vring_used_elem *uelem, int i)
++{
++    struct vring_used *used = vq->vring.used;
++
++    used->ring[i] = *uelem;
++}
++
++static void vduse_queue_fill(VduseVirtq *vq, const VduseVirtqElement *elem,
++                             unsigned int len, unsigned int idx)
++{
++    struct vring_used_elem uelem;
++
++    if (unlikely(!vq->vring.used)) {
++        return;
++    }
++
++    idx = (idx + vq->used_idx) % vq->vring.num;
++
++    uelem.id = htole32(elem->index);
++    uelem.len = htole32(len);
++    vring_used_write(vq, &uelem, idx);
++}
++
++static inline void vring_used_idx_set(VduseVirtq *vq, uint16_t val)
++{
++    vq->vring.used->idx = htole16(val);
++    vq->used_idx = val;
++}
++
++static void vduse_queue_flush(VduseVirtq *vq, unsigned int count)
++{
++    uint16_t old, new;
++
++    if (unlikely(!vq->vring.used)) {
++        return;
++    }
++
++    /* Make sure buffer is written before we update index. */
++    smp_wmb();
++
++    old = vq->used_idx;
++    new = old + count;
++    vring_used_idx_set(vq, new);
++    vq->inuse -= count;
++    if (unlikely((int16_t)(new - vq->signalled_used) < (uint16_t)(new - old))) {
++        vq->signalled_used_valid = false;
++    }
++}
++
++void vduse_queue_push(VduseVirtq *vq, const VduseVirtqElement *elem,
++                      unsigned int len)
++{
++    vduse_queue_fill(vq, elem, len, 0);
++    vduse_queue_flush(vq, 1);
++}
++
++static int vduse_queue_update_vring(VduseVirtq *vq, uint64_t desc_addr,
++                                    uint64_t avail_addr, uint64_t used_addr)
++{
++    struct VduseDev *dev = vq->dev;
++    uint64_t len;
++
++    len = sizeof(struct vring_desc);
++    vq->vring.desc = iova_to_va(dev, &len, desc_addr);
++    if (len != sizeof(struct vring_desc)) {
 +        return -EINVAL;
 +    }
 +
-+    if (unlikely(iov_to_buf(out_iov, out_num, 0, &out,
-+                            sizeof(out)) != sizeof(out))) {
-+        error_report("virtio-blk request outhdr too short");
++    len = sizeof(struct vring_avail);
++    vq->vring.avail = iova_to_va(dev, &len, avail_addr);
++    if (len != sizeof(struct vring_avail)) {
 +        return -EINVAL;
 +    }
 +
-+    iov_discard_front(&out_iov, &out_num, sizeof(out));
-+
-+    if (in_iov[in_num - 1].iov_len < sizeof(struct virtio_blk_inhdr)) {
-+        error_report("virtio-blk request inhdr too short");
++    len = sizeof(struct vring_used);
++    vq->vring.used = iova_to_va(dev, &len, used_addr);
++    if (len != sizeof(struct vring_used)) {
 +        return -EINVAL;
 +    }
 +
-+    /* We always touch the last byte, so just see how big in_iov is. */
-+    in_len = iov_size(in_iov, in_num);
-+    in = (void *)in_iov[in_num - 1].iov_base
-+                 + in_iov[in_num - 1].iov_len
-+                 - sizeof(struct virtio_blk_inhdr);
-+    iov_discard_back(in_iov, &in_num, sizeof(struct virtio_blk_inhdr));
-+
-+    type = le32_to_cpu(out.type);
-+    switch (type & ~VIRTIO_BLK_T_BARRIER) {
-+    case VIRTIO_BLK_T_IN:
-+    case VIRTIO_BLK_T_OUT: {
-+        QEMUIOVector qiov;
-+        int64_t offset;
-+        ssize_t ret = 0;
-+        bool is_write = type & VIRTIO_BLK_T_OUT;
-+        int64_t sector_num = le64_to_cpu(out.sector);
-+
-+        if (is_write && !handler->writable) {
-+            in->status = VIRTIO_BLK_S_IOERR;
-+            break;
-+        }
-+
-+        if (is_write) {
-+            qemu_iovec_init_external(&qiov, out_iov, out_num);
-+        } else {
-+            qemu_iovec_init_external(&qiov, in_iov, in_num);
-+        }
-+
-+        if (unlikely(!virtio_blk_sect_range_ok(blk,
-+                                               handler->logical_block_size,
-+                                               sector_num, qiov.size))) {
-+            in->status = VIRTIO_BLK_S_IOERR;
-+            break;
-+        }
-+
-+        offset = sector_num << VIRTIO_BLK_SECTOR_BITS;
-+
-+        if (is_write) {
-+            ret = blk_co_pwritev(blk, offset, qiov.size, &qiov, 0);
-+        } else {
-+            ret = blk_co_preadv(blk, offset, qiov.size, &qiov, 0);
-+        }
-+        if (ret >= 0) {
-+            in->status = VIRTIO_BLK_S_OK;
-+        } else {
-+            in->status = VIRTIO_BLK_S_IOERR;
-+        }
-+        break;
++    if (!vq->vring.desc || !vq->vring.avail || !vq->vring.used) {
++        fprintf(stderr, "Failed to get vq[%d] iova mapping\n", vq->index);
++        return -EINVAL;
 +    }
-+    case VIRTIO_BLK_T_FLUSH:
-+        if (blk_co_flush(blk) == 0) {
-+            in->status = VIRTIO_BLK_S_OK;
-+        } else {
-+            in->status = VIRTIO_BLK_S_IOERR;
-+        }
-+        break;
-+    case VIRTIO_BLK_T_GET_ID: {
-+        size_t size = MIN(strlen(handler->serial) + 1,
-+                          MIN(iov_size(in_iov, in_num),
-+                              VIRTIO_BLK_ID_BYTES));
-+        iov_from_buf(in_iov, in_num, 0, handler->serial, size);
-+        in->status = VIRTIO_BLK_S_OK;
-+        break;
++
++    return 0;
++}
++
++static void vduse_queue_enable(VduseVirtq *vq)
++{
++    struct VduseDev *dev = vq->dev;
++    struct vduse_vq_info vq_info;
++    struct vduse_vq_eventfd vq_eventfd;
++    int fd;
++
++    vq_info.index = vq->index;
++    if (ioctl(dev->fd, VDUSE_VQ_GET_INFO, &vq_info)) {
++        fprintf(stderr, "Failed to get vq[%d] info: %s\n",
++                vq->index, strerror(errno));
++        return;
 +    }
-+    case VIRTIO_BLK_T_DISCARD:
-+    case VIRTIO_BLK_T_WRITE_ZEROES:
-+        if (!handler->writable) {
-+            in->status = VIRTIO_BLK_S_IOERR;
-+            break;
++
++    if (!vq_info.ready) {
++        return;
++    }
++
++    vq->vring.num = vq_info.num;
++    vq->vring.desc_addr = vq_info.desc_addr;
++    vq->vring.avail_addr = vq_info.driver_addr;
++    vq->vring.used_addr = vq_info.device_addr;
++
++    if (vduse_queue_update_vring(vq, vq_info.desc_addr,
++                                 vq_info.driver_addr, vq_info.device_addr)) {
++        fprintf(stderr, "Failed to update vring for vq[%d]\n", vq->index);
++        return;
++    }
++
++    fd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
++    if (fd < 0) {
++        fprintf(stderr, "Failed to init eventfd for vq[%d]\n", vq->index);
++        return;
++    }
++
++    vq_eventfd.index = vq->index;
++    vq_eventfd.fd = fd;
++    if (ioctl(dev->fd, VDUSE_VQ_SETUP_KICKFD, &vq_eventfd)) {
++        fprintf(stderr, "Failed to setup kick fd for vq[%d]\n", vq->index);
++        close(fd);
++        return;
++    }
++
++    vq->fd = fd;
++    vq->shadow_avail_idx = vq->last_avail_idx = vq_info.split.avail_index;
++    vq->inuse = 0;
++    vq->used_idx = 0;
++    vq->signalled_used_valid = false;
++    vq->ready = true;
++
++    dev->ops->enable_queue(dev, vq);
++}
++
++static void vduse_queue_disable(VduseVirtq *vq)
++{
++    struct VduseDev *dev = vq->dev;
++    struct vduse_vq_eventfd eventfd;
++
++    if (!vq->ready) {
++        return;
++    }
++
++    dev->ops->disable_queue(dev, vq);
++
++    eventfd.index = vq->index;
++    eventfd.fd = VDUSE_EVENTFD_DEASSIGN;
++    ioctl(dev->fd, VDUSE_VQ_SETUP_KICKFD, &eventfd);
++    close(vq->fd);
++
++    assert(vq->inuse == 0);
++
++    vq->vring.num = 0;
++    vq->vring.desc_addr = 0;
++    vq->vring.avail_addr = 0;
++    vq->vring.used_addr = 0;
++    vq->vring.desc = 0;
++    vq->vring.avail = 0;
++    vq->vring.used = 0;
++    vq->ready = false;
++    vq->fd = -1;
++}
++
++static void vduse_dev_start_dataplane(VduseDev *dev)
++{
++    int i;
++
++    if (ioctl(dev->fd, VDUSE_DEV_GET_FEATURES, &dev->features)) {
++        fprintf(stderr, "Failed to get features: %s\n", strerror(errno));
++        return;
++    }
++    assert(vduse_dev_has_feature(dev, VIRTIO_F_VERSION_1));
++
++    for (i = 0; i < dev->num_queues; i++) {
++        vduse_queue_enable(&dev->vqs[i]);
++    }
++}
++
++static void vduse_dev_stop_dataplane(VduseDev *dev)
++{
++    int i;
++
++    for (i = 0; i < dev->num_queues; i++) {
++        vduse_queue_disable(&dev->vqs[i]);
++    }
++    dev->features = 0;
++    vduse_iova_remove_region(dev, 0, ULONG_MAX);
++}
++
++int vduse_dev_handler(VduseDev *dev)
++{
++    struct vduse_dev_request req;
++    struct vduse_dev_response resp = { 0 };
++    VduseVirtq *vq;
++    int i, ret;
++
++    ret = read(dev->fd, &req, sizeof(req));
++    if (ret != sizeof(req)) {
++        fprintf(stderr, "Read request error [%d]: %s\n",
++                ret, strerror(errno));
++        return -errno;
++    }
++    resp.request_id = req.request_id;
++
++    switch (req.type) {
++    case VDUSE_GET_VQ_STATE:
++        vq = &dev->vqs[req.vq_state.index];
++        resp.vq_state.split.avail_index = vq->last_avail_idx;
++        resp.result = VDUSE_REQ_RESULT_OK;
++        break;
++    case VDUSE_SET_STATUS:
++        if (req.s.status & VIRTIO_CONFIG_S_DRIVER_OK) {
++            vduse_dev_start_dataplane(dev);
++        } else if (req.s.status == 0) {
++            vduse_dev_stop_dataplane(dev);
 +        }
-+        in->status = virtio_blk_discard_write_zeroes(handler, out_iov,
-+                                                     out_num, type);
++        resp.result = VDUSE_REQ_RESULT_OK;
++        break;
++    case VDUSE_UPDATE_IOTLB:
++        /* The iova will be updated by iova_to_va() later, so just remove it */
++        vduse_iova_remove_region(dev, req.iova.start, req.iova.last);
++        for (i = 0; i < dev->num_queues; i++) {
++            VduseVirtq *vq = &dev->vqs[i];
++            if (vq->ready) {
++                if (vduse_queue_update_vring(vq, vq->vring.desc_addr,
++                                             vq->vring.avail_addr,
++                                             vq->vring.used_addr)) {
++                    fprintf(stderr, "Failed to update vring for vq[%d]\n",
++                            vq->index);
++                }
++            }
++        }
++        resp.result = VDUSE_REQ_RESULT_OK;
 +        break;
 +    default:
-+        in->status = VIRTIO_BLK_S_UNSUPP;
++        resp.result = VDUSE_REQ_RESULT_FAILED;
 +        break;
 +    }
 +
-+    return in_len;
++    ret = write(dev->fd, &resp, sizeof(resp));
++    if (ret != sizeof(resp)) {
++        fprintf(stderr, "Write request %d error [%d]: %s\n",
++                req.type, ret, strerror(errno));
++        return -errno;
++    }
++    return 0;
++}
++
++int vduse_dev_update_config(VduseDev *dev, uint32_t size,
++                            uint32_t offset, char *buffer)
++{
++    int ret;
++    struct vduse_config_data *data;
++
++    data = malloc(offsetof(struct vduse_config_data, buffer) + size);
++    if (!data) {
++        return -ENOMEM;
++    }
++
++    data->offset = offset;
++    data->length = size;
++    memcpy(data->buffer, buffer, size);
++
++    ret = ioctl(dev->fd, VDUSE_DEV_SET_CONFIG, data);
++    free(data);
++
++    if (ret) {
++        return -errno;
++    }
++
++    if (ioctl(dev->fd, VDUSE_DEV_INJECT_CONFIG_IRQ)) {
++        return -errno;
++    }
++
++    return 0;
++}
++
++int vduse_dev_setup_queue(VduseDev *dev, int index, int max_size)
++{
++    VduseVirtq *vq = &dev->vqs[index];
++    struct vduse_vq_config vq_config = { 0 };
++
++    if (max_size > VIRTQUEUE_MAX_SIZE) {
++        return -EINVAL;
++    }
++
++    vq_config.index = vq->index;
++    vq_config.max_size = max_size;
++
++    if (ioctl(dev->fd, VDUSE_VQ_SETUP, &vq_config)) {
++        return -errno;
++    }
++
++    return 0;
++}
++
++static int vduse_dev_init_vqs(VduseDev *dev, uint16_t num_queues)
++{
++    VduseVirtq *vqs;
++    int i;
++
++    vqs = calloc(sizeof(VduseVirtq), num_queues);
++    if (!vqs) {
++        return -ENOMEM;
++    }
++
++    for (i = 0; i < num_queues; i++) {
++        vqs[i].index = i;
++        vqs[i].dev = dev;
++        vqs[i].fd = -1;
++    }
++    dev->vqs = vqs;
++
++    return 0;
++}
++
++static int vduse_dev_init(VduseDev *dev, const char *name,
++                          uint16_t num_queues, const VduseOps *ops,
++                          void *priv)
++{
++    char *dev_path, *dev_name;
++    int ret, fd;
++
++    dev_path = malloc(strlen(name) + strlen("/dev/vduse/") + 1);
++    if (!dev_path) {
++        return -ENOMEM;
++    }
++    sprintf(dev_path, "/dev/vduse/%s", name);
++
++    fd = open(dev_path, O_RDWR);
++    free(dev_path);
++    if (fd < 0) {
++        fprintf(stderr, "Failed to open vduse dev %s: %s\n",
++                name, strerror(errno));
++        return -errno;
++    }
++
++    dev_name = strdup(name);
++    if (!dev_name) {
++        close(fd);
++        return -ENOMEM;
++    }
++
++    ret = vduse_dev_init_vqs(dev, num_queues);
++    if (ret) {
++        free(dev_name);
++        close(fd);
++        return ret;
++    }
++
++    dev->name = dev_name;
++    dev->num_queues = num_queues;
++    dev->fd = fd;
++    dev->ops = ops;
++    dev->priv = priv;
++
++    return 0;
++}
++
++static inline bool vduse_name_is_valid(const char *name)
++{
++    return strlen(name) >= VDUSE_NAME_MAX || strstr(name, "..");
++}
++
++VduseDev *vduse_dev_create_by_fd(int fd, uint16_t num_queues,
++                                 const VduseOps *ops, void *priv)
++{
++    VduseDev *dev;
++    int ret;
++
++    if (!ops || !ops->enable_queue || !ops->disable_queue) {
++        fprintf(stderr, "Invalid parameter for vduse\n");
++        return NULL;
++    }
++
++    dev = calloc(sizeof(VduseDev), 1);
++    if (!dev) {
++        fprintf(stderr, "Failed to allocate vduse device\n");
++        return NULL;
++    }
++
++    ret = vduse_dev_init_vqs(dev, num_queues);
++    if (ret) {
++        fprintf(stderr, "Failed to init vqs\n");
++        free(dev);
++        return NULL;
++    }
++
++    dev->num_queues = num_queues;
++    dev->fd = fd;
++    dev->ops = ops;
++    dev->priv = priv;
++
++    return dev;
++}
++
++VduseDev *vduse_dev_create_by_name(const char *name, uint16_t num_queues,
++                                   const VduseOps *ops, void *priv)
++{
++    VduseDev *dev;
++    int ret;
++
++    if (!name || vduse_name_is_valid(name) || !ops ||
++        !ops->enable_queue || !ops->disable_queue) {
++        fprintf(stderr, "Invalid parameter for vduse\n");
++        return NULL;
++    }
++
++    dev = calloc(sizeof(VduseDev), 1);
++    if (!dev) {
++        fprintf(stderr, "Failed to allocate vduse device\n");
++        return NULL;
++    }
++
++    ret = vduse_dev_init(dev, name, num_queues, ops, priv);
++    if (ret < 0) {
++        fprintf(stderr, "Failed to init vduse device %s: %s\n",
++                name, strerror(ret));
++        free(dev);
++        return NULL;
++    }
++
++    return dev;
++}
++
++VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
++                           uint32_t vendor_id, uint64_t features,
++                           uint16_t num_queues, uint32_t config_size,
++                           char *config, const VduseOps *ops, void *priv)
++{
++    VduseDev *dev;
++    int ret, ctrl_fd;
++    uint64_t version;
++    struct vduse_dev_config *dev_config;
++    size_t size = offsetof(struct vduse_dev_config, config);
++
++    if (!name || vduse_name_is_valid(name) ||
++        !has_feature(features,  VIRTIO_F_VERSION_1) || !config ||
++        !config_size || !ops || !ops->enable_queue || !ops->disable_queue) {
++        fprintf(stderr, "Invalid parameter for vduse\n");
++        return NULL;
++    }
++
++    dev = calloc(sizeof(VduseDev), 1);
++    if (!dev) {
++        fprintf(stderr, "Failed to allocate vduse device\n");
++        return NULL;
++    }
++
++    ctrl_fd = open("/dev/vduse/control", O_RDWR);
++    if (ctrl_fd < 0) {
++        fprintf(stderr, "Failed to open /dev/vduse/control: %s\n",
++                strerror(errno));
++        goto err_ctrl;
++    }
++
++    version = VDUSE_API_VERSION;
++    if (ioctl(ctrl_fd, VDUSE_SET_API_VERSION, &version)) {
++        fprintf(stderr, "Failed to set api version %lu: %s\n",
++                version, strerror(errno));
++        goto err_dev;
++    }
++
++    dev_config = calloc(size + config_size, 1);
++    if (!dev_config) {
++        fprintf(stderr, "Failed to allocate config space\n");
++        goto err_dev;
++    }
++
++    strcpy(dev_config->name, name);
++    dev_config->device_id = device_id;
++    dev_config->vendor_id = vendor_id;
++    dev_config->features = features;
++    dev_config->vq_num = num_queues;
++    dev_config->vq_align = VDUSE_VQ_ALIGN;
++    dev_config->config_size = config_size;
++    memcpy(dev_config->config, config, config_size);
++
++    ret = ioctl(ctrl_fd, VDUSE_CREATE_DEV, dev_config);
++    free(dev_config);
++    if (ret < 0) {
++        fprintf(stderr, "Failed to create vduse device %s: %s\n",
++                name, strerror(errno));
++        goto err_dev;
++    }
++    dev->ctrl_fd = ctrl_fd;
++
++    ret = vduse_dev_init(dev, name, num_queues, ops, priv);
++    if (ret < 0) {
++        fprintf(stderr, "Failed to init vduse device %s: %s\n",
++                name, strerror(ret));
++        goto err;
++    }
++
++    return dev;
++err:
++    ioctl(ctrl_fd, VDUSE_DESTROY_DEV, name);
++err_dev:
++    close(ctrl_fd);
++err_ctrl:
++    free(dev);
++
++    return NULL;
++}
++
++int vduse_dev_destroy(VduseDev *dev)
++{
++    int ret = 0;
++
++    free(dev->vqs);
++    if (dev->fd > 0) {
++        close(dev->fd);
++        dev->fd = -1;
++    }
++    if (dev->ctrl_fd > 0) {
++        if (ioctl(dev->ctrl_fd, VDUSE_DESTROY_DEV, dev->name)) {
++            ret = -errno;
++        }
++        close(dev->ctrl_fd);
++        dev->ctrl_fd = -1;
++    }
++    free(dev->name);
++    free(dev);
++
++    return ret;
 +}
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 5580a36b68..379879fb42 100644
+index 379879fb42..880d61d327 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3568,6 +3568,8 @@ M: Coiby Xu <Coiby.Xu@gmail.com>
- S: Maintained
- F: block/export/vhost-user-blk-server.c
- F: block/export/vhost-user-blk-server.h
-+F: block/export/virtio-blk-handler.c
-+F: block/export/virtio-blk-handler.h
- F: include/qemu/vhost-user-server.h
- F: tests/qtest/libqos/vhost-user-blk.c
- F: tests/qtest/libqos/vhost-user-blk.h
-diff --git a/block/export/meson.build b/block/export/meson.build
-index 0a08e384c7..431e47ca51 100644
---- a/block/export/meson.build
-+++ b/block/export/meson.build
-@@ -1,7 +1,7 @@
- blockdev_ss.add(files('export.c'))
+@@ -3582,6 +3582,11 @@ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/export/fuse.c
  
- if have_vhost_user_blk_server
--    blockdev_ss.add(files('vhost-user-blk-server.c'))
-+    blockdev_ss.add(files('vhost-user-blk-server.c', 'virtio-blk-handler.c'))
++VDUSE library
++M: Xie Yongji <xieyongji@bytedance.com>
++S: Maintained
++F: subprojects/libvduse/
++
+ Replication
+ M: Wen Congyang <wencongyang2@huawei.com>
+ M: Xie Changlong <xiechanglong.d@gmail.com>
+diff --git a/meson.build b/meson.build
+index 21cd949082..2b11b2c689 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1527,6 +1527,21 @@ if get_option('fuse_lseek').allowed()
+   endif
  endif
  
- blockdev_ss.add(when: fuse, if_true: files('fuse.c'))
++have_libvduse = (targetos == 'linux')
++if get_option('libvduse').enabled()
++    if targetos != 'linux'
++        error('libvduse requires linux')
++    endif
++elif get_option('libvduse').disabled()
++    have_libvduse = false
++endif
++
++libvduse = not_found
++if have_libvduse
++  libvduse_proj = subproject('libvduse')
++  libvduse = libvduse_proj.get_variable('libvduse_dep')
++endif
++
+ # libbpf
+ libbpf = dependency('libbpf', required: get_option('bpf'), method: 'pkg-config')
+ if libbpf.found() and not cc.links('''
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 00ea4d8cd1..3fab6c5810 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -109,6 +109,7 @@ meson_options_help() {
+   printf "%s\n" '  libssh          ssh block device support'
+   printf "%s\n" '  libudev         Use libudev to enumerate host devices'
+   printf "%s\n" '  libusb          libusb support for USB passthrough'
++  printf "%s\n" '  libvduse        build VDUSE Library'
+   printf "%s\n" '  linux-aio       Linux AIO support'
+   printf "%s\n" '  linux-io-uring  Linux io_uring support'
+   printf "%s\n" '  live-block-migration'
+@@ -302,6 +303,8 @@ _meson_option_parse() {
+     --disable-libudev) printf "%s" -Dlibudev=disabled ;;
+     --enable-libusb) printf "%s" -Dlibusb=enabled ;;
+     --disable-libusb) printf "%s" -Dlibusb=disabled ;;
++    --enable-libvduse) printf "%s" -Dlibvduse=enabled ;;
++    --disable-libvduse) printf "%s" -Dlibvduse=disabled ;;
+     --enable-linux-aio) printf "%s" -Dlinux_aio=enabled ;;
+     --disable-linux-aio) printf "%s" -Dlinux_aio=disabled ;;
+     --enable-linux-io-uring) printf "%s" -Dlinux_io_uring=enabled ;;
+diff --git a/subprojects/libvduse/linux-headers/linux b/subprojects/libvduse/linux-headers/linux
+new file mode 120000
+index 0000000000..04f3304f79
+--- /dev/null
++++ b/subprojects/libvduse/linux-headers/linux
+@@ -0,0 +1 @@
++../../../linux-headers/linux/
+\ No newline at end of file
+diff --git a/subprojects/libvduse/meson.build b/subprojects/libvduse/meson.build
+new file mode 100644
+index 0000000000..ba08f5ee1a
+--- /dev/null
++++ b/subprojects/libvduse/meson.build
+@@ -0,0 +1,10 @@
++project('libvduse', 'c',
++        license: 'GPL-2.0-or-later',
++        default_options: ['c_std=gnu99'])
++
++libvduse = static_library('vduse',
++                          files('libvduse.c'),
++                          c_args: '-D_GNU_SOURCE')
++
++libvduse_dep = declare_dependency(link_with: libvduse,
++                                  include_directories: include_directories('.'))
+diff --git a/subprojects/libvduse/standard-headers/linux b/subprojects/libvduse/standard-headers/linux
+new file mode 120000
+index 0000000000..c416f068ac
+--- /dev/null
++++ b/subprojects/libvduse/standard-headers/linux
+@@ -0,0 +1 @@
++../../../include/standard-headers/linux/
+\ No newline at end of file
 -- 
 2.35.3
 
