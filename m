@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491575452CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 19:18:14 +0200 (CEST)
-Received: from localhost ([::1]:48388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FE5545254
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:51:00 +0200 (CEST)
+Received: from localhost ([::1]:60314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzLnQ-0006jb-Ri
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 13:18:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
+	id 1nzLN5-0000df-9A
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:50:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzKAo-0000Kb-Gh
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:34:14 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:41863)
+ id 1nzKCH-0002SI-HM
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:35:45 -0400
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:47071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzKAn-0002Mo-4O
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:34:14 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id e184so42376310ybf.8
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:34:12 -0700 (PDT)
+ id 1nzKCF-0002o9-84
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:35:45 -0400
+Received: by mail-yb1-xb30.google.com with SMTP id r82so42333676ybc.13
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:35:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+wOYvc5+YO8xJrz5nnNrLhoFJlpWxW9ZnRW66oZyGy4=;
- b=u4B2GgV1eiZqiKI2SdIvT9Ef/Cc0l84O+S2cNf5chdTK3WV61UK6DrUAGiT/zNQ+Gh
- L/s7rD4BRBr1NJDyKujqAmToeCE361tZ3nVwpgzM1yEOPuqOuKoVr06K0HL6sbLIQRZd
- dCtNAvODMRamqOXekwQt4nP3vM/l8RGRlIoxrV3Cc/iIOqFmqF2ZOBtQJkzhrHqKw4MO
- GQbQ5w/DHblSoiSmqrD0YC0wtOT7z8wDjXuDE9k+DfJb8poeWl/WLsRoIUWNqEtlvcWW
- wpi94IIu+3sIqSnP9udy2daw+ChHA1TFRHwyZj+tbJbTl/Ezy+zrkM07g7IzOqCjKBYC
- hsJA==
+ :cc; bh=7RyrKD33/Nh1oTqfp2KPkfxJKWqGtPCiPeeEOQuP+Xg=;
+ b=rXNBLcGuMprbY/ZB+xuXOV41cyZXzIqtKzd6fIrhfoQk15c9MvqYiKd7y8sYHQosuv
+ ixI8dVGdPMquoXlfwaMrStd2S6m/skKWIvPINr0tFveYWOEg48CYVMax6Lk0PNVN4QF7
+ 1uQW24fgp/JdcU+LfARTyAb8Dei2W0VQyT2jAWYCJfZf91AZizNOU+abfff5EGvYOlES
+ YX2iFs5qJGnDZ4NnoQYwFB7kkFDq1L8EWYgaqO6sQAYHbe+VsBJGMWfQej3E/2yiq912
+ WzTIrXic2Afq0raZLBVTEKuR2TW0LFXrg+ortiEu3m3UHvZUfEcSZGLjkIWIOcpfvKgY
+ PUIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+wOYvc5+YO8xJrz5nnNrLhoFJlpWxW9ZnRW66oZyGy4=;
- b=qC7TMtz693JdK1oCfMk8wcrn0SZyWrrCRwwEqRswRLwXoEjynumNm3CVPzzKxgr2tN
- bBjSCfHyCNIQF22iyVcxyEXKTUJ4XW0gfx6WAkwQS61Uqwpolqm3zhS3TKvzrkn+PWSJ
- LTZbmNHEXH7el3w79/W1UQJMd0AsK2Nu4ZJwGsO9HFuUbi1EZBzXX4tNKXbO3INOtVZf
- P1rMWNCA0rKnSGl97PRLSUyzeezm8Cl1BnZaG1WUvCYaAxE84yPo/jgzxE7jD7eh5SiM
- MXtaWcDL7nzWMF/gu+ChhltKmtsWe75L+Hsw0kc1jfxGJ62vLvejdxqpKASJQRiZVFSv
- 3noQ==
-X-Gm-Message-State: AOAM532rwXhSWDRRemi4usq41YcyUDJ2kyIPMom/M0udciyZY/B45WNH
- gnLhwwkJAxyeKbgUcOZNSIo7WIOw0AHCKkq/mYpD+g==
-X-Google-Smtp-Source: ABdhPJwq+ujUlW7Xs1SzYADwlFG8pMKeATNwO+DgUkvetcLbLJd0g0XUI4QRZtyp4lG2z5BYE7GIKwOP+LVjNq03/IY=
+ bh=7RyrKD33/Nh1oTqfp2KPkfxJKWqGtPCiPeeEOQuP+Xg=;
+ b=pfVuefEuV1iaaXHk6f1HJc+HqoBjF1+qTvIZ2i/jDG+m0hZUexR7K124A/22ZaYQnu
+ vyv7XkyFVIxgd5pKvSuTy/I2IzmNnVd8JgIJSvrQ8iagU3vj7BujHAb2u6/zb6Cxj5mV
+ cz42EhAx5C6ODQk6jQYdMaQnE0XCms0b11heWGQT42P3nElNYpCPa+hGpF055NDW2FWA
+ lnuYbYXXJxbAV+kgZ8nNdN2aIYemit8doQh5nPMtGx18Dk8U3739kEOX7CSyUZaPumCQ
+ xcODZWgkzdJ/E7mBr1dSp2jnWff8enNg46JuQFYKQxuVQOXdHBwFD6usgrQnjYMUI5D2
+ N9MQ==
+X-Gm-Message-State: AOAM533aPD5mW1bYPMpBkx/ezUJ+Ryc4k9Z1tc1OfMVN1tio4xLK8ge8
+ WWuCmum8YUEReY7pJvoHKlZS2PY9XnTC4yKOlj0Rag==
+X-Google-Smtp-Source: ABdhPJxAVJb/jhxrYN9EKV0yn6zvTky7l7Ref9wzaaf/p/pfEs/NyZAj9BeNoTXkpbKZvef7fEP/QgAdbhjo/b9dQ0Q=
 X-Received: by 2002:a5b:d42:0:b0:65c:a0d7:4c6 with SMTP id
- f2-20020a5b0d42000000b0065ca0d704c6mr40049697ybr.193.1654788851997; 
- Thu, 09 Jun 2022 08:34:11 -0700 (PDT)
+ f2-20020a5b0d42000000b0065ca0d704c6mr40056375ybr.193.1654788942163; 
+ Thu, 09 Jun 2022 08:35:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220607203306.657998-1-richard.henderson@linaro.org>
- <20220607203306.657998-41-richard.henderson@linaro.org>
-In-Reply-To: <20220607203306.657998-41-richard.henderson@linaro.org>
+ <20220607203306.657998-42-richard.henderson@linaro.org>
+In-Reply-To: <20220607203306.657998-42-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 16:34:01 +0100
-Message-ID: <CAFEAcA_BCtnJZb6hzXD2zRB9yfSChNqA5RWY6n3E7o1k=8m+yg@mail.gmail.com>
-Subject: Re: [PATCH v2 40/71] target/arm: Move pred_{full, gvec}_reg_{offset,
- size} to translate-a64.h
+Date: Thu, 9 Jun 2022 16:35:31 +0100
+Message-ID: <CAFEAcA9jEYarLY_srx8bo5EUhW5+-pP_3pcbv+H4MomYve25ZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 41/71] target/arm: Add infrastructure for disas_sme
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,10 +85,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 7 Jun 2022 at 21:36, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We will need these functions in translate-sme.c.
+> This includes the build rules for the decoder, and the
+> new file for translation, but excludes any instructions.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate-a64.h |  1 +
+>  target/arm/translate-a64.c |  7 ++++++-
+>  target/arm/translate-sme.c | 35 +++++++++++++++++++++++++++++++++++
+>  target/arm/meson.build     |  2 ++
+>  target/arm/sme.decode      | 20 ++++++++++++++++++++
+>  5 files changed, 64 insertions(+), 1 deletion(-)
+>  create mode 100644 target/arm/translate-sme.c
+>  create mode 100644 target/arm/sme.decode
+>
+> diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+> index f0970c6b8c..789b6e8e78 100644
+> --- a/target/arm/translate-a64.h
+> +++ b/target/arm/translate-a64.h
+> @@ -146,6 +146,7 @@ static inline int pred_gvec_reg_size(DisasContext *s)
+>  }
+>
+>  bool disas_sve(DisasContext *, uint32_t);
+> +bool disas_sme(DisasContext *, uint32_t);
+>
+>  void gen_gvec_rax1(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
+>                     uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
+> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> index b1d2840819..8a38fbc33b 100644
+> --- a/target/arm/translate-a64.c
+> +++ b/target/arm/translate-a64.c
+> @@ -14814,7 +14814,12 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>      }
+>
+>      switch (extract32(insn, 25, 4)) {
+> -    case 0x0: case 0x1: case 0x3: /* UNALLOCATED */
+> +    case 0x0:
+> +        if (!disas_sme(s, insn)) {
+> +            unallocated_encoding(s);
+> +        }
+> +        break;
 
+I still think we should check bit 31 here.
+
+
+Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
