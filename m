@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24305545483
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:57:08 +0200 (CEST)
-Received: from localhost ([::1]:53446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E7F545475
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:54:04 +0200 (CEST)
+Received: from localhost ([::1]:48288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzNL9-0005Nf-69
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:57:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35848)
+	id 1nzNIB-0000ze-IV
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzMSQ-0006a3-Ur
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 14:00:35 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:36428)
+ id 1nzMfu-0005H7-9X
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 14:14:30 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:33607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzMSP-00010O-6F
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 14:00:34 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id 15so21737580pfy.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 11:00:32 -0700 (PDT)
+ id 1nzMfs-00037r-L1
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 14:14:29 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ hv24-20020a17090ae41800b001e33eebdb5dso2091547pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 11:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vuvxq4kbXxNpj4VNPWX4gS5U5NGjgIP0ngH3zQGcWt4=;
- b=iEuyLxnQNm47fxMEVnH/o3VbHYZRYKhzLhBd67hAVmR8N2a6YH/rG4JgstgI1I0EY2
- q4JVsCjg+PApU0TD2o8/96nphYD46YQfOvcFogNr9B+OflxTaaHKiEB1WC60QuyVFK/V
- Faz1NPhR19tDRbTzme8n+FH7qbXH/7OdxgKAgxNulkeLnBx25Y8Tn0j3/8BI4o+ohskg
- zkoyvGg9XAqOGmwwt026BpsyIvZV/ZZh04e7l8ebCjw2ooA3+I0c6gZPeo2xJ70lzZFK
- 07Kygr3LfGPwhkHup+Xpi/Cv1K15RfXJF5UbL/plSWS3V/TOWPoZ202qc5ZSuEMxVYxz
- oD6Q==
+ bh=7kYVONRiEiCb2zN5kE1riIr4X3nY7DN1Uqdx2gn2svo=;
+ b=mB7TrqSNybO/Ov/Dr6iGlC5g5BmX4w7HAbuW/ctOITM3Ec5sJVPCYmKza8/iNPQbdC
+ 9zz9l1oOMGYm6EEXK8RKa4K01q7VOSZl1jrix8YcsnCwkdCFZ24afIjdPKvqctTcWVXM
+ x3ndRsBzTqR4dO8pvUI+xjwfENIk9ef8yNu4kc9qi7QTWcPSvnATilWOhOY9+mrKxu3B
+ BDfnfv8NvY2c77puSGPhsyX2r2Z4CeYzocyVWG2d3HvTO087Xwlg7Ynn/HyOz2R4bYcS
+ S0D+2567X39KMP9wHvB98Rzi+whFtS43KCD9aeAIVR/UEvOiT0Ly1KrxFncHDih0dWQs
+ TH6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vuvxq4kbXxNpj4VNPWX4gS5U5NGjgIP0ngH3zQGcWt4=;
- b=deU/iEkhwSSd78qpxxGg7JsCCICTvyfGqVD9ukZyPi5lEYVyLzW2R5cwAYqHApbg+a
- bvkuSOTZqCAwGf60uRhTS0LnK7J0wauekh5+vfwt19Kv09yXs1Zpo5SDOpkKRm5a4p9z
- wg8LR0Wh32TruBlFXQFZXE9XGE9e1NfSI9uR2P4m3FsfpSPr5eZQX0f4TTnhLuofu2R6
- 3pS+afZ8sSx3eO8tp/cDyZA1e/fsx5pNv3uoCwpF6b5wJYtgZ/bgykJ6E/LfYTu6EAn1
- QedDQh5VangwCprecuTX0VoWsFsHWW/WleMbnX703UU/gJBaBLMhssqmAWc23Nmb9WLN
- NT+g==
-X-Gm-Message-State: AOAM5334FehnA5pq76Arq2tEpuSqYUsRzgM8EKnqcS9iRavaTWqSbmmD
- pm2EkdoCGjXTigGacR8R+BAglQ==
-X-Google-Smtp-Source: ABdhPJzRpR7TkgFqrEal47SGvuwOT7z1NzIZZhUM+gDTvaQmgYGWAptSrus3JPxbYbVlFmcm5TxpCA==
-X-Received: by 2002:a65:4188:0:b0:39d:2197:13b5 with SMTP id
- a8-20020a654188000000b0039d219713b5mr35656901pgq.368.1654797631504; 
- Thu, 09 Jun 2022 11:00:31 -0700 (PDT)
+ bh=7kYVONRiEiCb2zN5kE1riIr4X3nY7DN1Uqdx2gn2svo=;
+ b=fDJv6A2dRSCBPoslQxiDyBO2N/yhvtGeo7KWPOdebAOMVPLNDiF1MqnwRb0gJSSQQJ
+ 5Vcg3IKZmQmljmbEaVWEVa6G21qYzjdzqf3ZOBzNcFzUSCY0wb85t56v7EXP5qqK4p3V
+ 16AXR7DF4wazgEQ7s2po0adT9Gvc68ps2Px0rd4X4XxxoFXS20y1UgMjS9g1NW0+aiv7
+ ce3JEzeKzALMVHPwb1dMaq35Gd0qWoRA1GrLPM5p3Q0A+tz23tJcBOMNZul7YOdhCazK
+ 1yopMmMSAIyPGF6yXAk4zO8A3uDVIOQREiuCOdVj1SIGYygkKqzcx0mCAhF8DlmEgIiK
+ kx0w==
+X-Gm-Message-State: AOAM531A760eENqNlpWxbb0CSOPkDFgKnyKuT0YyJdU+2bFe0/wGCw7X
+ vljIuqwj+ufo3KO9dM1zdWKc/A==
+X-Google-Smtp-Source: ABdhPJyB/W6cpJao4eDZoZFnCT09GSAD6NEuYmfFi41nJ9f06uQnihJNbXUFMsnizulHGKpuEFhHyQ==
+X-Received: by 2002:a17:90b:4a90:b0:1e8:626c:e1b2 with SMTP id
+ lp16-20020a17090b4a9000b001e8626ce1b2mr4510773pjb.141.1654798466759; 
+ Thu, 09 Jun 2022 11:14:26 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1547:e101:839f:476f:678:38a?
  ([2602:ae:1547:e101:839f:476f:678:38a])
  by smtp.gmail.com with ESMTPSA id
- h1-20020a655181000000b003fbaae74971sm17514472pgq.72.2022.06.09.11.00.30
+ q9-20020a17090311c900b0015e8d4eb277sm17380391plh.193.2022.06.09.11.14.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jun 2022 11:00:30 -0700 (PDT)
-Message-ID: <81369530-2c9f-478a-9dfc-1f5f0ba026a1@linaro.org>
-Date: Thu, 9 Jun 2022 11:00:29 -0700
+ Thu, 09 Jun 2022 11:14:26 -0700 (PDT)
+Message-ID: <d0bb1ccd-976e-4a9a-fc8e-f5fca0e8cde3@linaro.org>
+Date: Thu, 9 Jun 2022 11:14:24 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v15 2/9] linux-user: Add LoongArch signal support
+Subject: Re: [PATCH v15 6/9] default-configs: Add loongarch linux-user support
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
 References: <20220609024209.2406188-1-gaosong@loongson.cn>
- <20220609024209.2406188-3-gaosong@loongson.cn>
+ <20220609024209.2406188-7-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220609024209.2406188-3-gaosong@loongson.cn>
+In-Reply-To: <20220609024209.2406188-7-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,35 +96,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/8/22 19:42, Song Gao wrote:
-> +struct target_sigcontext {
-> +    uint64_t sc_pc;
-> +    uint64_t sc_regs[32];
-> +    uint32_t sc_flags;
-> +    uint64_t sc_extcontext[0] __attribute__((aligned(16)));
-> +};
-> +
-> +struct target_fpu_context {
-> +    uint64_t fc_regs[32];
-> +    uint64_t fc_fcc;
-> +    uint32_t fc_fcsr;
-> +};
-> +
-> +struct target_ucontext {
-> +    target_ulong tuc_flags;
-> +    struct target_ucontext *tuc_link;
-> +    target_stack_t tuc_stack;
-> +    target_sigset_t tuc_sigmask;
-> +    uint8_t __unused[1024 / 8 - sizeof(target_sigset_t)];
-> +    struct target_sigcontext tuc_mcontext;
-> +};
-> +
-> +struct target_rt_sigframe {
-> +    struct target_siginfo rs_info;
-> +    struct target_ucontext rs_uc;
-> +    struct target_fpu_context rs_fc;
-> +};
+> This patch adds loongarch64 linux-user default configs file.
+> 
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   configs/targets/loongarch64-linux-user.mak | 3 +++
+>   1 file changed, 3 insertions(+)
+>   create mode 100644 configs/targets/loongarch64-linux-user.mak
+> 
+> diff --git a/configs/targets/loongarch64-linux-user.mak b/configs/targets/loongarch64-linux-user.mak
+> new file mode 100644
+> index 0000000000..7d1b964020
+> --- /dev/null
+> +++ b/configs/targets/loongarch64-linux-user.mak
+> @@ -0,0 +1,3 @@
+> +# Default configuration for loongarch64-linux-user
+> +TARGET_ARCH=loongarch64
+> +TARGET_BASE_ARCH=loongarch
 
-This is missing sctx_info.  In the kernel, see setup_extcontext and parse_extcontext.
+This patch must be last, after you've fixed the build for linux-user in patch 8.
 
 
 r~
