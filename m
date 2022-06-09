@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A9405455B2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 22:33:37 +0200 (CEST)
-Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E4754560C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 22:54:17 +0200 (CEST)
+Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzOqV-0006dM-Vj
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 16:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42926)
+	id 1nzPAW-0003Wp-DI
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 16:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzOmB-0003QQ-Ma
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:07 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:52108)
+ id 1nzOmC-0003Td-Q9
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:08 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:39626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzOm9-0008QZ-P9
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:07 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id cx11so22331417pjb.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:05 -0700 (PDT)
+ id 1nzOmA-0008Qj-Ku
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:29:08 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id o17so21146793pla.6
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:29:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=45/1OP9sKZiLrriwOZd01nWrvZCCplxvhdpmrJtm+Zo=;
- b=YDnrQ2v6WhH/ui7xH/Tg/6xrTudcXNeQLpK5jsqelBYi+1si6d7hFBA+55J5x0Hv9M
- stTLyJ//uVywXEUGR2x/T0f+nyKQZtMXy1HVjllBCzORjbAzANwrefT619PL/B8Mh2Wv
- gJQ7tYOcBi6OLbC9BKcqp3uVssOz0eteXzBcOak9whB8eU5OQ1ReSHnnihQPzJP6nZy/
- lsOGDa8Slpf2LC5yDRifgAqS+XSVgdhCw1ZWZyoz49DQrtmLI59iv3nfwzz1W82nsPZl
- j7udzgm+YxOcLDW+DePQk57MVARTYpF3jkTxLuHt9HLpjJXTHn8+tNZnrBk4kEzr+QKz
- kcWg==
+ bh=or4hVFMgSgQ4bkROq2u2MyvWBg+YN6u3/ulE0jHiq7E=;
+ b=d7qOLqSzGe3SlYCLMEVqsHC5BKw1lZfzjDZEXGYVdzvtks8WDH/nZQMAQuTo9YsgWh
+ oL03qUF+wtt50SOLayegK2xisGzfOlh0xpjfWRTWwn5EFTv46vYcI6suN0DCgjnSoKTv
+ 8DPVisZcIx3x45aA4xMIIWYAIA3ft627At2+zhkegA7QGaHLQOzL27QByfvYsspPEDUv
+ HzGaeo1QFAHdjUAI+bxkC7/IyzXQpdIGtyx0WTd95nT2SPAu00NFYasPLFeLc709FxPf
+ dtCZPMeXu9t+pdWGnsCmS718PGOv4tqHrVAMPJeFE69SM2LbJQv1tebYluvlDmmsIOhT
+ geBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=45/1OP9sKZiLrriwOZd01nWrvZCCplxvhdpmrJtm+Zo=;
- b=I9XoLrB3BCniLEekIXfVsYk4ahqnAfrC7IyBrF/7YOwFCmuiRwsmtMAImvpq4Fg9RV
- peI73bs3p0c9hl8TQFAAWkTQw3+8rF12NOV7565bSxAR/hNLXRfFmI9mrRGPsrlcI7t5
- wmXmR/L2XgCyV7e5ms7dXL53U6P6/rvQk1c7yv5BGkcVFzgEU/hHTA86g3Ho3NrF7nVo
- fD80nKNaWS+v+1cTDCZ2iYQtEBfppvGr9dDH0O3MdSXAmis/lGBOFojkyO940+WLYx22
- 6tL/8qCdliShWBvE2GFpBF/seRUok0azNgSLcQ8n6Ta7r2+tguZT7gomsglqbNA5wV1X
- WcgA==
-X-Gm-Message-State: AOAM533HwCGubb3sv1NYraJdipA61uMd+CS29TFVXYoFeuW//lOr8vi8
- wrvJagPH9iT2ZUcgAMLZaaudiccWF25SKQ==
-X-Google-Smtp-Source: ABdhPJwQVdbKIOcJkUXUbK4Ur5HsdGgNtsTLVZApvJPWENHrzvGM1dx58ebBRW0QjefxXeVXpRQAtw==
-X-Received: by 2002:a17:90b:4c88:b0:1e6:71da:5eb0 with SMTP id
- my8-20020a17090b4c8800b001e671da5eb0mr5048751pjb.185.1654806544397; 
- Thu, 09 Jun 2022 13:29:04 -0700 (PDT)
+ bh=or4hVFMgSgQ4bkROq2u2MyvWBg+YN6u3/ulE0jHiq7E=;
+ b=xl3XAH+FW7EskUIjxHc79zsHVCcLDlEGMamavATlQEDthrjjvkBWIVNtn7EPbqUYvQ
+ 7YQly/NERzf87UVAp1w5sJyzabrRVbN7k0wVEk31qtjgrPreM8jKmW/4PXl5e9JDkB0m
+ +atkv9npimnG6EgTQf3gpTW9ln2arGdoH09vVRgcuvEIQ3Ipoxv17vVqzL2HRfVTE6Re
+ 8qzm1VFPSyOJK7HEIwGqEQ7BOsDDbcc4vdwy/VUdd4iZPmly6wjbZwJneQ+VRRe4NUVH
+ pT3VZiMIeeUzjSIChtSiRimYPcqHgSUXGGRC1oyjHS8qx5RXyqwMoM+aIToYjNyGRO4+
+ YpCQ==
+X-Gm-Message-State: AOAM5320dfyKkollCyuCaCprqH3riUePfD/dao/5jJRyzWUJQAHq1q48
+ VDBFcU/dTH1rnTMiXsLrPAG/mR44Nj7NNA==
+X-Google-Smtp-Source: ABdhPJzlr0xnccsdiBRtm3SRVsNYqwcj2OzaGLBdi5rGxoFU9zyZ8oh+sPLqMnZ0fr/VLWR9jAYU8Q==
+X-Received: by 2002:a17:90a:5c84:b0:1dc:9b42:f2cf with SMTP id
+ r4-20020a17090a5c8400b001dc9b42f2cfmr5033134pji.123.1654806545247; 
+ Thu, 09 Jun 2022 13:29:05 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1547:e101:839f:476f:678:38a])
  by smtp.gmail.com with ESMTPSA id
- r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.03
+ r20-20020a635d14000000b003fded88238esm7528139pgb.36.2022.06.09.13.29.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Jun 2022 13:29:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 02/23] target/arm: Add coproc parameter to
- syn_fp_access_trap
-Date: Thu,  9 Jun 2022 13:28:40 -0700
-Message-Id: <20220609202901.1177572-3-richard.henderson@linaro.org>
+Subject: [PATCH v3 03/23] target/arm: Move exception_target_el out of line
+Date: Thu,  9 Jun 2022 13:28:41 -0700
+Message-Id: <20220609202901.1177572-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220609202901.1177572-1-richard.henderson@linaro.org>
 References: <20220609202901.1177572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,77 +89,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With ARMv8, this field is always RES0.
-With ARMv7, targeting EL2 and TA=0, it is always 0xA.
+Move the function to op_helper.c, near raise_exception.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/syndrome.h      |  7 ++++---
- target/arm/translate-a64.c |  3 ++-
- target/arm/translate-vfp.c | 14 ++++++++++++--
- 3 files changed, 18 insertions(+), 6 deletions(-)
+ target/arm/internals.h | 16 +---------------
+ target/arm/op_helper.c | 15 +++++++++++++++
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
-index 0cb26dde7d..c105f9e6ba 100644
---- a/target/arm/syndrome.h
-+++ b/target/arm/syndrome.h
-@@ -185,12 +185,13 @@ static inline uint32_t syn_cp15_rrt_trap(int cv, int cond, int opc1, int crm,
-         | (rt2 << 10) | (rt << 5) | (crm << 1) | isread;
- }
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index a1bae4588a..af9de2dbe5 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1098,21 +1098,6 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+ int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx);
+ int aa64_va_parameter_tbid(uint64_t tcr, ARMMMUIdx mmu_idx);
  
--static inline uint32_t syn_fp_access_trap(int cv, int cond, bool is_16bit)
-+static inline uint32_t syn_fp_access_trap(int cv, int cond, bool is_16bit,
-+                                          int coproc)
- {
--    /* AArch32 FP trap or any AArch64 FP/SIMD trap: TA == 0 coproc == 0xa */
-+    /* AArch32 FP trap or any AArch64 FP/SIMD trap: TA == 0 */
-     return (EC_ADVSIMDFPACCESSTRAP << ARM_EL_EC_SHIFT)
-         | (is_16bit ? 0 : ARM_EL_IL)
--        | (cv << 24) | (cond << 20) | 0xa;
-+        | (cv << 24) | (cond << 20) | coproc;
- }
+-static inline int exception_target_el(CPUARMState *env)
+-{
+-    int target_el = MAX(1, arm_current_el(env));
+-
+-    /*
+-     * No such thing as secure EL1 if EL3 is aarch32,
+-     * so update the target EL to EL3 in this case.
+-     */
+-    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3) && target_el == 1) {
+-        target_el = 3;
+-    }
+-
+-    return target_el;
+-}
+-
+ /* Determine if allocation tags are available.  */
+ static inline bool allocation_tag_access_enabled(CPUARMState *env, int el,
+                                                  uint64_t sctlr)
+@@ -1339,6 +1324,7 @@ void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu);
+ bool el_is_in_host(CPUARMState *env, int el);
  
- static inline uint32_t syn_simd_access_trap(int cv, int cond, bool is_16bit)
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index d438fb89e7..e752589090 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1162,7 +1162,8 @@ static bool fp_access_check(DisasContext *s)
-         s->fp_access_checked = true;
+ void aa32_max_features(ARMCPU *cpu);
++int exception_target_el(CPUARMState *env);
  
-         gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
--                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
-+                           syn_fp_access_trap(1, 0xe, false, 0),
-+                           s->fp_excp_el);
-         return false;
-     }
-     s->fp_access_checked = true;
-diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index 40a513b822..0f797c56fd 100644
---- a/target/arm/translate-vfp.c
-+++ b/target/arm/translate-vfp.c
-@@ -219,8 +219,18 @@ static void gen_update_fp_context(DisasContext *s)
- static bool vfp_access_check_a(DisasContext *s, bool ignore_vfp_enabled)
- {
-     if (s->fp_excp_el) {
--        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
--                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
-+        /*
-+         * The full syndrome is only used for HSR when HCPTR traps:
-+         * For v8, when TA==0, coproc is RES0.
-+         * For v7, any use of a Floating-point instruction or access
-+         * to a Floating-point Extension register that is trapped to
-+         * Hyp mode because of a trap configured in the HCPTR sets
-+         * this field to 0xA.
-+         */
-+        int coproc = arm_dc_feature(s, ARM_FEATURE_V8) ? 0 : 0xa;
-+        uint32_t syn = syn_fp_access_trap(1, 0xe, false, coproc);
+ /* Powers of 2 for sve_vq_map et al. */
+ #define SVE_VQ_POW2_MAP                                 \
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index c4bd668870..97c8c9ec77 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -28,6 +28,21 @@
+ #define SIGNBIT (uint32_t)0x80000000
+ #define SIGNBIT64 ((uint64_t)1 << 63)
+ 
++int exception_target_el(CPUARMState *env)
++{
++    int target_el = MAX(1, arm_current_el(env));
 +
-+        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn, s->fp_excp_el);
-         return false;
-     }
- 
++    /*
++     * No such thing as secure EL1 if EL3 is aarch32,
++     * so update the target EL to EL3 in this case.
++     */
++    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3) && target_el == 1) {
++        target_el = 3;
++    }
++
++    return target_el;
++}
++
+ void raise_exception(CPUARMState *env, uint32_t excp,
+                      uint32_t syndrome, uint32_t target_el)
+ {
 -- 
 2.34.1
 
