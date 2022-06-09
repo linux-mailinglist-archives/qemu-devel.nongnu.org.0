@@ -2,65 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85555453EA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:16:54 +0200 (CEST)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8919A5454BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 21:16:21 +0200 (CEST)
+Received: from localhost ([::1]:57896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzMiD-0004sh-RE
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:16:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56314)
+	id 1nzNdk-0004bS-Jv
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 15:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLro-0007t1-QW
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25196)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1nzLx2-00071a-DK
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:28:09 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:53135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLrd-0003hi-Or
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654795351;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BU9K3IOvrk1T3eT2STc7Mv7/W0/S/Y+dlLuFQAJhhnQ=;
- b=Ko+AWFbEgWht4bNR4l+lF2Cakyo4jmuiXNkXJHbPWTQ6MmC0G6S3ZmHQ3uNeoGMeDqI1Zp
- cD7fsQnEZ9dCnMVFC1ioHBsoFBhnGN9kmlqF5+zktW3N4uDvXTVhg2E4uQEBQGoUHOYuy0
- hmv8i3fHT9fLKlSkHCqXXsWLPq8IxG4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-391-u4rQuK4oM6irz-JrIKy7tg-1; Thu, 09 Jun 2022 13:22:28 -0400
-X-MC-Unique: u4rQuK4oM6irz-JrIKy7tg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C89D38173C7;
- Thu,  9 Jun 2022 17:22:28 +0000 (UTC)
-Received: from merkur.redhat.com (unknown [10.39.195.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFFF2404E4B5;
- Thu,  9 Jun 2022 17:22:27 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PULL 18/18] nbd: Drop dead code spotted by Coverity
-Date: Thu,  9 Jun 2022 19:21:49 +0200
-Message-Id: <20220609172149.293877-19-kwolf@redhat.com>
-In-Reply-To: <20220609172149.293877-1-kwolf@redhat.com>
-References: <20220609172149.293877-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1nzLwz-0004ak-Px
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:28:07 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 036B232004E7;
+ Thu,  9 Jun 2022 13:28:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 09 Jun 2022 13:28:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1654795681; x=1654882081; bh=dY
+ fYEgNfCNASoPmQNMUmsya96mtpzxNfRbEHDtYE5eg=; b=MEDxm3d8I0rbP6DUoQ
+ SK1B7MCsgPo9HlvkcC1iN9qbsIhr1eOEka6oB3bM1lLEpF6tHlAhiOXPdd9hRXOA
+ vKO1zpkNvpOkcRJuKfnakJaLyFPjAToZpHZKNQ7AcobYfRll2J9LZQwfR0VhYFoa
+ JYo2P5dbGnow9yTRgaevUVZm7zQKG3mMFqQve9EYxFJ2n5iE233lynw0d2iNcz40
+ kY7xt/KInOEuxvlbSxCnYeh1V6952tNJDSgr8o92pCx1lhgMmjHvcayvBuhiYsoU
+ KAjJI1/OE3RQ26cBtc5A+rVI9s8OKR0hN369EAVrcNmJVESii3KY3zAeCG7AR4dr
+ 0NSg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1654795681; x=1654882081; bh=dYfYEgNfCNASoPmQNMUmsya96mtp
+ zxNfRbEHDtYE5eg=; b=HWqcDOZyg4AgwuaNDkwNRl1Wn0LNKW2y8R04yh54+pL9
+ WUc9p6tY4HDLCatYGgOLF1BkRrg3SFZ7jbX8ryK8fXthVaotVdowVB1ndnQ7LjWa
+ 9OVXkXlIynVXY4TjNDfkZRmaFRH+eMCt/GIJRPj4wtqtgQzOSZp+W2ibKuN5rM9N
+ U8hwKcYffbKAb5yluk+d1ECqsFojhqAsGhCYb+IIIfwrG8fDJY7cqJBnw1vVDr6/
+ d/Dy67j3SHahf7d8/vpCWkXJGdUJLsp5ZAzKEf6QPKd8+9WK6Y8hwpLI0bN99FmT
+ efWDygAX/qEo3KY/j1BFnr5d8J5eMCWX1Kf+1qO4Xw==
+X-ME-Sender: <xms:oC2iYnK5uG8UOGV6cbt6KSlsJK7ldYfTMjQQLRmX314GoFZZmmvvHw>
+ <xme:oC2iYrJ9UaENHodE475Dlw5x3zb704cipzVDKwDuwcBsak_r9KK9Yrwph5VSdjec0
+ yKXEauLD1RIY5usuOI>
+X-ME-Received: <xmr:oC2iYvvIGBqLTXvm4K_HiorV0wM0pUUf5y1BDHa13RKyAI92JyKP_5jKaIrTWODjYWe9oUuEeKcYW7QJvQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtledguddtkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
+ ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:oC2iYgaBZpdcvjdOuWcmjIFZb95R3X7wtTYmTZ2T4TWFtbsu-pR92A>
+ <xmx:oC2iYuYXXPCfa5tx56yqzVdH2KOkHZye2Nj1vFOCtWDbsHgeXker7w>
+ <xmx:oC2iYkBtnRH10vSdW2aZj7hXzxaY0zhPUbAexubj6gUVPua0y65JCQ>
+ <xmx:oS2iYuE6DnwrRvZr-XZ9uUIAUZ1zTF4waYtVJQLf2Ft1x3TFw0btSw>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Jun 2022 13:27:59 -0400 (EDT)
+Date: Thu, 9 Jun 2022 19:27:57 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: John Levon <levon@movementarian.org>
+Cc: Keith Busch <kbusch@kernel.org>, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] hw/nvme: Implement shadow doorbell buffer support
+Message-ID: <YqItnbgtw7BNPBZH@apples>
+References: <20220608013659.472500-1-fanjinhao21s@ict.ac.cn>
+ <20220608013659.472500-2-fanjinhao21s@ict.ac.cn>
+ <YqEMwsclktptJvQI@apples>
+ <YqIDyjxrZnkeMfcE@kbusch-mbp.dhcp.thefacebook.com>
+ <YqIXIiQr+dpksBh6@movementarian.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="am+t4l9NEvGF56Vp"
+Content-Disposition: inline
+In-Reply-To: <YqIXIiQr+dpksBh6@movementarian.org>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,42 +105,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
 
-CID 1488362 points out that the second 'rc >= 0' check is now dead
-code.
+--am+t4l9NEvGF56Vp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Fixes: 172f5f1a40(nbd: remove peppering of nbd_client_connected)
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20220516210519.76135-1-eblake@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/nbd.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+On Jun  9 16:52, John Levon wrote:
+> On Thu, Jun 09, 2022 at 08:29:30AM -0600, Keith Busch wrote:
+>=20
+> > On Wed, Jun 08, 2022 at 10:55:30PM +0200, Klaus Jensen wrote:
+> > >=20
+> > > Keith, is this a bug in the kernel? If the code here would expect the
+> > > doorbell buffer to be updated for the admin queue as well, would we
+> > > break?
+> >=20
+> > The admin queue has to be created before db buffer can be set up, so we=
+ can't
+> > rely on it. And this is a performance feature. Admin commands have neve=
+r been
+> > considered performant, so we decided not to consider it though the spec=
+ allows
+> > it.
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 6085ab1d2c..7f5f50ec46 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -521,12 +521,8 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
-     if (qiov) {
-         qio_channel_set_cork(s->ioc, true);
-         rc = nbd_send_request(s->ioc, request);
--        if (rc >= 0) {
--            if (qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
--                                       NULL) < 0) {
--                rc = -EIO;
--            }
--        } else if (rc >= 0) {
-+        if (rc >= 0 && qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
-+                                              NULL) < 0) {
-             rc = -EIO;
-         }
-         qio_channel_set_cork(s->ioc, false);
--- 
-2.35.3
+It's not really a question of whether or not the spec *allows* it. If
+our device chooses to be compliant here, then it will read invalid
+doorbell values if drivers doesnt update the admin doorbell buffer.
 
+>=20
+> It's not just unnecessary, but enabling shadow doorbells on admin queues =
+will
+> actively break device implementations (such as SPDK), which have had to p=
+resume
+> that driver implementations don't use shadow doorbells for the admin queu=
+e.
+>=20
+
+I'm ok with following the concensus here, but we all agree that this is
+a blatant spec violation that ended up manifesting itself down the
+stack, right?
+
+So... if QEMU wants to be compliant here, I guess we could ask the
+kernel to introduce a quirk for *compliant* controllers. Now, THAT would
+be a first! Not sure if I am being serious or not here ;)
+
+--am+t4l9NEvGF56Vp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKiLZsACgkQTeGvMW1P
+DelaowgApqL/nYJGx92mOYr2EF5yH9yXciWfYjFCS3BL/zGZVpz2yVqCZbfShWlC
+rgihAk6jxeFBhBXqHlsW5JZXVbry4BxGgBP3sEwKvYvJH3F7XHZt2vD0n19NRtAW
+Y1W7UmezQMwdsn/G/4FZ/iChZcrwQfjzs3DVnpDeLZoDsigqScgh8RbcxwytQO8Z
+hbCOrtWN9qiPE1DJh8i7AjnoeZv34RLbzpBN2O1UlPb+Ka4Wo1cU741VuJMbvWNJ
+4C47cXj8OA3O+aNBZHGMgAxYicage7Mw57YUy164y8Chvxo9E4O170F6hy7M416a
+u/Typhh3ZmlVgSdy94gSOP5ImVBJJQ==
+=KBuw
+-----END PGP SIGNATURE-----
+
+--am+t4l9NEvGF56Vp--
 
