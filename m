@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC7154543B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:37:25 +0200 (CEST)
-Received: from localhost ([::1]:53364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5585454FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 21:32:13 +0200 (CEST)
+Received: from localhost ([::1]:48386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzN24-0000nO-Al
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56334)
+	id 1nzNt6-00024n-3b
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 15:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLro-0007uA-Qj
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLro-0007sH-QK
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48743)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLre-0003g7-6A
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:44 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nzLrd-0003ft-ON
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:22:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654795341;
+ s=mimecast20190719; t=1654795340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2CriZ0ti06dDP+qppflQjeyfKuVpeOf5E4VoqyKBJYc=;
- b=Qaew6YPdOEbX5a70oBUpSsD0L6gzoiYjtyitMt5LjSnl6Dr25LtAP8KKIjjNV922SVGbAs
- Y8DFODBebzYk+Ue3+8krjtahwvsfmLZmxEsXsYsScVpicmamHPkQ9AY09AUz0qINXmyMz9
- 5bsdL6wtr2LFA19m9rRP1yRJNNhgGk0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O3ikKUwNOaWf07Mgq0iXgXgq0du0UqZuzpiPPuVZ5LA=;
+ b=IzbFCXqZUE4kJ1gG8liVdDYQqdCuENEYMg57MJNMciAXbgmtBxZjHYq/uLP2RmRLcnC1wS
+ +O7mqkHuraC0b4ijbce/z58jSfrOjicpFYIJwmDFN6E/sJ3WnuB7PCUDxqQrMxa2lX0keQ
+ BjOU9i19rNja5x1UCl+CBNzqvX2Wwsw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-LoLQf9QxM3uJmlvffxlLAA-1; Thu, 09 Jun 2022 13:22:18 -0400
-X-MC-Unique: LoLQf9QxM3uJmlvffxlLAA-1
+ us-mta-108-v7WETsGjOvOfqmfZdTyhxw-1; Thu, 09 Jun 2022 13:22:19 -0400
+X-MC-Unique: v7WETsGjOvOfqmfZdTyhxw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E287C811E75;
- Thu,  9 Jun 2022 17:22:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BEEA93C02196;
+ Thu,  9 Jun 2022 17:22:18 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.195.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3DA30404E4B5;
- Thu,  9 Jun 2022 17:22:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27C2940D2827;
+ Thu,  9 Jun 2022 17:22:18 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 06/18] block: Support passing NULL ops to blk_set_dev_ops()
-Date: Thu,  9 Jun 2022 19:21:37 +0200
-Message-Id: <20220609172149.293877-7-kwolf@redhat.com>
+Subject: [PULL 07/18] block/export: Fix incorrect length passed to
+ vu_queue_push()
+Date: Thu,  9 Jun 2022 19:21:38 +0200
+Message-Id: <20220609172149.293877-8-kwolf@redhat.com>
 In-Reply-To: <20220609172149.293877-1-kwolf@redhat.com>
 References: <20220609172149.293877-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,30 +80,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xie Yongji <xieyongji@bytedance.com>
 
-This supports passing NULL ops to blk_set_dev_ops()
-so that we can remove stale ops in some cases.
+Now the req->size is set to the correct value only
+when handling VIRTIO_BLK_T_GET_ID request. This patch
+fixes it.
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+Message-Id: <20220523084611.91-3-xieyongji@bytedance.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220523084611.91-2-xieyongji@bytedance.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/block-backend.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/export/vhost-user-blk-server.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index d4abdf8faa..f425b00793 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1058,7 +1058,7 @@ void blk_set_dev_ops(BlockBackend *blk, const BlockDevOps *ops,
-     blk->dev_opaque = opaque;
+diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
+index b2e458ade3..19c6ee51d3 100644
+--- a/block/export/vhost-user-blk-server.c
++++ b/block/export/vhost-user-blk-server.c
+@@ -60,8 +60,7 @@ static void vu_blk_req_complete(VuBlkReq *req)
+ {
+     VuDev *vu_dev = &req->server->vu_dev;
  
-     /* Are we currently quiesced? Should we enforce this right now? */
--    if (blk->quiesce_counter && ops->drained_begin) {
-+    if (blk->quiesce_counter && ops && ops->drained_begin) {
-         ops->drained_begin(opaque);
+-    /* IO size with 1 extra status byte */
+-    vu_queue_push(vu_dev, req->vq, &req->elem, req->size + 1);
++    vu_queue_push(vu_dev, req->vq, &req->elem, req->size);
+     vu_queue_notify(vu_dev, req->vq);
+ 
+     free(req);
+@@ -207,6 +206,7 @@ static void coroutine_fn vu_blk_virtio_process_req(void *opaque)
+         goto err;
      }
- }
+ 
++    req->size = iov_size(in_iov, in_num);
+     /* We always touch the last byte, so just see how big in_iov is.  */
+     req->in = (void *)in_iov[in_num - 1].iov_base
+               + in_iov[in_num - 1].iov_len
+@@ -267,7 +267,6 @@ static void coroutine_fn vu_blk_virtio_process_req(void *opaque)
+                           VIRTIO_BLK_ID_BYTES);
+         snprintf(elem->in_sg[0].iov_base, size, "%s", "vhost_user_blk");
+         req->in->status = VIRTIO_BLK_S_OK;
+-        req->size = elem->in_sg[0].iov_len;
+         break;
+     }
+     case VIRTIO_BLK_T_DISCARD:
 -- 
 2.35.3
 
