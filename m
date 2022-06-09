@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D64854461A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 10:39:36 +0200 (CEST)
-Received: from localhost ([::1]:35590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EB754462D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 10:43:34 +0200 (CEST)
+Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzDhX-0004Km-Jz
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 04:39:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34214)
+	id 1nzDlM-0007gs-SX
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 04:43:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzDdy-0002NA-Nv
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:35:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30372)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzDjj-0006p2-Uc
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:41:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzDdv-000141-Ly
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:35:53 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzDjh-0002B1-HG
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:41:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654763750;
+ s=mimecast20190719; t=1654764108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OwnR4jS2U4ucJ7ogPZerKe33y02jLfo+yPO7pDcCqaw=;
- b=RuHN2cm47+VNFSV+ac0C2DPlgbCdlIgtfp6HQLgCErXGN2Z/nwS/gRhD6x+vZ3WY8WcUzl
- uECSBXEx7Emi23+B9jdYxmBvBwD6aKkVTvXiLlLZCxMfttSV6AeR3IWCxRXs9a6HIUKMcT
- uKdCLg79/kI7pdERSgzZouqCoFaH8VQ=
+ bh=Srwf7Wj8J3Dmk78DRzRu1TLL7tzcpeOCyRx7Lq40f2s=;
+ b=S5xytE/L2kUlU99JCKT78EUoLwo8wOBP2UHImX1iZN/GyacEmRjOvflJJaMUbJGTwuGaXr
+ 84tyhhHh5TI0SonrHab/KyXQ6f3LuEFdh+W3TR4yHEum3E6BITkyV1RKldEQfgYkV6Hs/T
+ A4EafBo/Xm3nVSpVSzU0I7nxmtyx3VI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-a9IqtV69Mxu7motSbR2CFg-1; Thu, 09 Jun 2022 04:35:46 -0400
-X-MC-Unique: a9IqtV69Mxu7motSbR2CFg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-526-QeyJaua2NBOdEWJG13BdJw-1; Thu, 09 Jun 2022 04:41:45 -0400
+X-MC-Unique: QeyJaua2NBOdEWJG13BdJw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7599E85A585;
- Thu,  9 Jun 2022 08:35:46 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 238A540EC002;
- Thu,  9 Jun 2022 08:35:45 +0000 (UTC)
-Date: Thu, 9 Jun 2022 09:35:44 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Cc: mst@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
- cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 resend 0/4] add generic vDPA device support
-Message-ID: <YqGw4Jup0zL8oLHV@stefanha-x1.localdomain>
-References: <20220514041107.1980-1-longpeng2@huawei.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB024106655B;
+ Thu,  9 Jun 2022 08:41:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C157492C3B;
+ Thu,  9 Jun 2022 08:41:44 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DB0671800094; Thu,  9 Jun 2022 10:41:42 +0200 (CEST)
+Date: Thu, 9 Jun 2022 10:41:42 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Cc: Kevin Locke <kevin@kevinlocke.name>, qemu-devel@nongnu.org,
+ Marcel Apfelbaum <marcel@redhat.com>, Laine Stump <laine@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [RFC][PATCH] docs: note exception for PCIe IO port access
+Message-ID: <20220609084142.zycmwcjumcekavtq@sirius.home.kraxel.org>
+References: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
+ <63e991af-0dd2-3aea-2f15-7460a6fb87db@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bs2U6ppJ04c4rhvY"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220514041107.1980-1-longpeng2@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <63e991af-0dd2-3aea-2f15-7460a6fb87db@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,48 +82,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  Hi,
 
---bs2U6ppJ04c4rhvY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> I find this too general; a PCI Express device is supposed to work
+> without IO resources. Graphics cards with legacy VGA compatibility are
+> the exception AIUI (see again Alex's blog about VGA arbitration), so we
+> should spell that out.
 
-On Sat, May 14, 2022 at 12:11:03PM +0800, Longpeng(Mike) wrote:
-> From: Longpeng <longpeng2@huawei.com>
->=20
-> Hi guys,
->=20
-> With the generic vDPA device, QEMU won't need to touch the device
-> types any more, such like vfio.
->=20
-> We can use the generic vDPA device as follow:
->   -device vhost-vdpa-device-pci,vhostdev=3D/dev/vhost-vdpa-X
->   Or
->   -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
->   vhost-vdpa-device,vhostdev=3D/dev/vhost-vdpa-x
->=20
-> I've done some simple tests on Huawei's offloading card (net, 0.95).
+Yes, it's an exception specifically for VGA ports.  Can be turned on and
+off here ...
 
-Please send a follow-up patch that adds documentation for this new
-device type. Maybe in a new docs/system/devices/vhost-vdpa.rst file?
+    $ sudo lspci -vvs00:1b.0 | grep BridgeCtl
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16+ MAbort- >Reset- FastB2B-
+                                        ^^^^^^^^^^^
 
-Stefan
+... and this is what vgaarb uses to route vga register access to devices
+behind pci bridges.
 
---bs2U6ppJ04c4rhvY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKhsOAACgkQnKSrs4Gr
-c8hpaggAms6XGmZ6+ojg1heYHvbnafO9BtTXxcZL2AHv6dQGoOWStNBkFjnFPGHt
-kulZnkZh7oQacrWT35C18NhxXBfOx6v/c7vNoVc5wX3JFQBMw98/jRiBCzoN1viT
-rHEvvFtEveeyVJaFe0BOJ5C6/51FaMEIlX3MdhqBtKhcgR0eeEQo7kp9QDkh1ymi
-PSOb7W5FyjJ0LydI1dnEIhZjIaVRNTIZzqauNkBry9YVQ/DVBUV8ijLNlng2vNFR
-vWoxQZxJcfdawY6XanR6NWs5W3MMPDotORY9u3D/l0TDsztVl//4NNusOluF7sQY
-Ec403wSMfNxmOlPiByAPOVkHRvYMuA==
-=2oVl
------END PGP SIGNATURE-----
-
---bs2U6ppJ04c4rhvY--
+take care,
+  Gerd
 
 
