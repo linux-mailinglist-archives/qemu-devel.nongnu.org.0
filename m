@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E327B54479C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:34:00 +0200 (CEST)
-Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 325155447E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:46:06 +0200 (CEST)
+Received: from localhost ([::1]:57344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzEYB-0002Zw-HR
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39336)
+	id 1nzEjs-0000aN-R4
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE72-0001U8-R4
+ id 1nzE73-0001UF-4s
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:57 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:47100)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE70-00061B-Vt
+ id 1nzE71-00060e-Fu
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:56 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- r123-20020a1c2b81000000b0039c1439c33cso12264463wmr.5
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:05:54 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id q15so23422931wrc.11
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3/ajaWjvxs0DjIe4wzlTwAQI78+yJDb5luhxxky7riw=;
- b=NHUiQjtUMYG/VXcQjkFsEMfzlssyJz6ZTLF8bZjheJXP4T/njF18PFDS08qnXbd9JG
- np0UyhmKifFdIznxG5JP5unZ4jR1F+aOcL4kELB7gXlrPSdiq4GkQgAubRMlndIHUJC/
- dBlU4T7aAJ91YGWxf3j6cvvZjRmHP+rxoIB7K9eONNuUjAqheI6XsDy5jTCG226tJjK8
- xeiZdvkURQZ8BdPxfgKfj2kIqmuIjOBA+fSPbs8Pi4o4s/ZD86usbqPp8dWMbEuqckZR
- uQKKh6+kUo6wVLAFlV/0ItgnNG4uZQ+Dy7UJNlX3Pz3u0N3S1M4XgeS1dYEVi+OsISVn
- 4r2Q==
+ bh=llQtcWwNeSrJSmpF2SS5+s+znVWOvXUe+nYV4DkHFB4=;
+ b=tBALSHNWAyN9UYpJHD52j7m83ptiodFB7YAUi+majjleYBx3mPloAHpiukNoXNZPJb
+ spNWz7uajzeqcgJYdEfTOgIJe5WLsact9HM/liGCOiiHo6PDviZGc46J5hpoUzUzT2/h
+ uCCvpwdKia4VN0f8tROT0570M12xTMRfFZkpguB9oQ1WUX0pQ5yQzBJksLXafaT+NqlD
+ IrydJyLhuxRIPPT2sww2LP2WVqN4JwXAtW1CdLFUzK6ZAVEMAjJEI3SbJH3HHmvkcTCp
+ klhe23xK0WUHQcwaIYhfhjrZd+LjRnRunmMZUwKblR7IypuETdhcUJPczPxEeD1NYsLI
+ gtbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3/ajaWjvxs0DjIe4wzlTwAQI78+yJDb5luhxxky7riw=;
- b=uzRZ29l8jMkr1ZFYH5LR3frdS8fUjB3Gdow/GdSTi3jSEVRZ2Dnm7UWu2qtbMXdKt+
- QNv7UMA1TGZorwkMzYuY7JvP3k4PJBi7trCssN0QeSTahQgsTilpm3jlhIVEHhDhMLWA
- 90iyS5JGTK2K7CuAoj4uFE82E2Kk37kTa29Zr+ST5Qk/XuiYU0uHuyuTY5LaK4gsl6ME
- WINQkN6ODzkfpv1SRozcdb/kK0HDUTBr1mNXwDAa5FLsUVVhvKI0kHuVB9oHdKwlNCJj
- VKulO0TwUdZe0BnrNdOvrLWoGSS2whMI8GtyJphcUq0SVUnHueWtqd4cfImrZfGbieSr
- rmFQ==
-X-Gm-Message-State: AOAM531ot1xQG1PX3ZwC46OxzWjZdzqQd10xjrMEbQgO4xeyO0WPsncO
- IWfD5GgN/DOfPJQu0g9S2OKLY5ilqzNQLw==
-X-Google-Smtp-Source: ABdhPJzDvC3bjN3CTkteihx0D2NQZhWrFGk1NDIvsJYj4C4JBddtvOVhZdeG2WM5zk5nE9SYSD+tVQ==
-X-Received: by 2002:a05:600c:2c46:b0:39c:55a0:9533 with SMTP id
- r6-20020a05600c2c4600b0039c55a09533mr2278909wmg.104.1654765553651; 
- Thu, 09 Jun 2022 02:05:53 -0700 (PDT)
+ bh=llQtcWwNeSrJSmpF2SS5+s+znVWOvXUe+nYV4DkHFB4=;
+ b=Zfh+1oFesjhyhsgvNQg8K2zgHKVDOynKUdoKbKRgGXFscQijb5lJy6/zdxWK5eHBT5
+ tfIDuDLicUUg6asFEqT74jOQu6qotxtxzAKvKcP3LAQ1yByDBPcWcMMayyJbmvaWTCm0
+ 3pz0Zpdyt2pFWs0rdy2D11aMehq69DmFvMKOKjXtedqaxUG4pPBjT0G4t2jqgcLSi8L4
+ 55qDwT4PvX7k6iqbZe8yk3l2ubqSD6/y1Zp38iecIubEOmulfzpXnoruA8w4URnK4xdU
+ qOU1OCG+Biu7/6t/waHWfZrRYgiQyLHvlnc4eA3x4QesSQS95WChhb30AsBm6CrtuG+T
+ eMxQ==
+X-Gm-Message-State: AOAM5303z5aUc0D/bUCal6Tc2V4AnFWmVOfow7ZZcAacU5AtN7ypEgXu
+ qx0Tfcxt1t0QrfACMv3cfIthSLVolQ8BJQ==
+X-Google-Smtp-Source: ABdhPJzV0wkaPPJUmyjRs64kd4mzzjZELuO38IdwzBp2MMzZ2rqK2m2ib2+LpnWZG8Pl37IYY/U2ww==
+X-Received: by 2002:a5d:64c7:0:b0:218:4a82:ffa4 with SMTP id
+ f7-20020a5d64c7000000b002184a82ffa4mr15854122wri.592.1654765554687; 
+ Thu, 09 Jun 2022 02:05:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.05.52
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.05.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:05:53 -0700 (PDT)
+ Thu, 09 Jun 2022 02:05:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/55] target/arm: Move get_phys_addr_pmsav5 to ptw.c
-Date: Thu,  9 Jun 2022 10:04:54 +0100
-Message-Id: <20220609090537.1971756-13-peter.maydell@linaro.org>
+Subject: [PULL 13/55] target/arm: Move get_phys_addr_pmsav7_default to ptw.c
+Date: Thu,  9 Jun 2022 10:04:55 +0100
+Message-Id: <20220609090537.1971756-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,217 +91,128 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220604040607.269301-6-richard.henderson@linaro.org
+Message-id: 20220604040607.269301-7-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/ptw.h    |  4 ---
- target/arm/helper.c | 85 ---------------------------------------------
- target/arm/ptw.c    | 85 +++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 85 insertions(+), 89 deletions(-)
+ target/arm/ptw.h    |  3 +++
+ target/arm/helper.c | 41 -----------------------------------------
+ target/arm/ptw.c    | 41 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 44 insertions(+), 41 deletions(-)
 
 diff --git a/target/arm/ptw.h b/target/arm/ptw.h
-index 349b842d3ce..324a9dde140 100644
+index 324a9dde140..d6e3fee1523 100644
 --- a/target/arm/ptw.h
 +++ b/target/arm/ptw.h
-@@ -33,10 +33,6 @@ simple_ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx, int ap)
+@@ -33,6 +33,9 @@ simple_ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx, int ap)
      return simple_ap_to_rw_prot_is_user(ap, regime_is_user(env, mmu_idx));
  }
  
--bool get_phys_addr_pmsav5(CPUARMState *env, uint32_t address,
--                          MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                          hwaddr *phys_ptr, int *prot,
--                          ARMMMUFaultInfo *fi);
++void get_phys_addr_pmsav7_default(CPUARMState *env,
++                                  ARMMMUIdx mmu_idx,
++                                  int32_t address, int *prot);
  bool get_phys_addr_pmsav7(CPUARMState *env, uint32_t address,
                            MMUAccessType access_type, ARMMMUIdx mmu_idx,
                            hwaddr *phys_ptr, int *prot,
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 4a588220250..5d010190108 100644
+index 5d010190108..d4f7c05625c 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -12274,91 +12274,6 @@ bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
-     return ret;
- }
- 
--bool get_phys_addr_pmsav5(CPUARMState *env, uint32_t address,
--                          MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                          hwaddr *phys_ptr, int *prot,
--                          ARMMMUFaultInfo *fi)
--{
--    int n;
--    uint32_t mask;
--    uint32_t base;
--    bool is_user = regime_is_user(env, mmu_idx);
--
--    if (regime_translation_disabled(env, mmu_idx)) {
--        /* MPU disabled.  */
--        *phys_ptr = address;
--        *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--        return false;
--    }
--
--    *phys_ptr = address;
--    for (n = 7; n >= 0; n--) {
--        base = env->cp15.c6_region[n];
--        if ((base & 1) == 0) {
--            continue;
--        }
--        mask = 1 << ((base >> 1) & 0x1f);
--        /* Keep this shift separate from the above to avoid an
--           (undefined) << 32.  */
--        mask = (mask << 1) - 1;
--        if (((base ^ address) & ~mask) == 0) {
--            break;
--        }
--    }
--    if (n < 0) {
--        fi->type = ARMFault_Background;
--        return true;
--    }
--
--    if (access_type == MMU_INST_FETCH) {
--        mask = env->cp15.pmsav5_insn_ap;
--    } else {
--        mask = env->cp15.pmsav5_data_ap;
--    }
--    mask = (mask >> (n * 4)) & 0xf;
--    switch (mask) {
--    case 0:
--        fi->type = ARMFault_Permission;
--        fi->level = 1;
--        return true;
--    case 1:
--        if (is_user) {
--            fi->type = ARMFault_Permission;
--            fi->level = 1;
--            return true;
--        }
--        *prot = PAGE_READ | PAGE_WRITE;
--        break;
--    case 2:
--        *prot = PAGE_READ;
--        if (!is_user) {
--            *prot |= PAGE_WRITE;
--        }
--        break;
--    case 3:
--        *prot = PAGE_READ | PAGE_WRITE;
--        break;
--    case 5:
--        if (is_user) {
--            fi->type = ARMFault_Permission;
--            fi->level = 1;
--            return true;
--        }
--        *prot = PAGE_READ;
--        break;
--    case 6:
--        *prot = PAGE_READ;
--        break;
--    default:
--        /* Bad permission.  */
--        fi->type = ARMFault_Permission;
--        fi->level = 1;
--        return true;
--    }
--    *prot |= PAGE_EXEC;
--    return false;
--}
--
- /* Combine either inner or outer cacheability attributes for normal
-  * memory, according to table D4-42 and pseudocode procedure
-  * CombineS1S2AttrHints() of ARM DDI 0487B.b (the ARMv8 ARM).
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 6a1f4b549d8..5c32648a16a 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -289,6 +289,91 @@ do_fault:
+@@ -11678,47 +11678,6 @@ do_fault:
      return true;
  }
  
-+static bool get_phys_addr_pmsav5(CPUARMState *env, uint32_t address,
-+                                 MMUAccessType access_type, ARMMMUIdx mmu_idx,
-+                                 hwaddr *phys_ptr, int *prot,
-+                                 ARMMMUFaultInfo *fi)
+-static inline void get_phys_addr_pmsav7_default(CPUARMState *env,
+-                                                ARMMMUIdx mmu_idx,
+-                                                int32_t address, int *prot)
+-{
+-    if (!arm_feature(env, ARM_FEATURE_M)) {
+-        *prot = PAGE_READ | PAGE_WRITE;
+-        switch (address) {
+-        case 0xF0000000 ... 0xFFFFFFFF:
+-            if (regime_sctlr(env, mmu_idx) & SCTLR_V) {
+-                /* hivecs execing is ok */
+-                *prot |= PAGE_EXEC;
+-            }
+-            break;
+-        case 0x00000000 ... 0x7FFFFFFF:
+-            *prot |= PAGE_EXEC;
+-            break;
+-        }
+-    } else {
+-        /* Default system address map for M profile cores.
+-         * The architecture specifies which regions are execute-never;
+-         * at the MPU level no other checks are defined.
+-         */
+-        switch (address) {
+-        case 0x00000000 ... 0x1fffffff: /* ROM */
+-        case 0x20000000 ... 0x3fffffff: /* SRAM */
+-        case 0x60000000 ... 0x7fffffff: /* RAM */
+-        case 0x80000000 ... 0x9fffffff: /* RAM */
+-            *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+-            break;
+-        case 0x40000000 ... 0x5fffffff: /* Peripheral */
+-        case 0xa0000000 ... 0xbfffffff: /* Device */
+-        case 0xc0000000 ... 0xdfffffff: /* Device */
+-        case 0xe0000000 ... 0xffffffff: /* System */
+-            *prot = PAGE_READ | PAGE_WRITE;
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    }
+-}
+-
+ static bool pmsav7_use_background_region(ARMCPU *cpu,
+                                          ARMMMUIdx mmu_idx, bool is_user)
+ {
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 5c32648a16a..74650c6c525 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -374,6 +374,47 @@ static bool get_phys_addr_pmsav5(CPUARMState *env, uint32_t address,
+     return false;
+ }
+ 
++void get_phys_addr_pmsav7_default(CPUARMState *env,
++                                  ARMMMUIdx mmu_idx,
++                                  int32_t address, int *prot)
 +{
-+    int n;
-+    uint32_t mask;
-+    uint32_t base;
-+    bool is_user = regime_is_user(env, mmu_idx);
-+
-+    if (regime_translation_disabled(env, mmu_idx)) {
-+        /* MPU disabled.  */
-+        *phys_ptr = address;
-+        *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+        return false;
-+    }
-+
-+    *phys_ptr = address;
-+    for (n = 7; n >= 0; n--) {
-+        base = env->cp15.c6_region[n];
-+        if ((base & 1) == 0) {
-+            continue;
-+        }
-+        mask = 1 << ((base >> 1) & 0x1f);
-+        /* Keep this shift separate from the above to avoid an
-+           (undefined) << 32.  */
-+        mask = (mask << 1) - 1;
-+        if (((base ^ address) & ~mask) == 0) {
++    if (!arm_feature(env, ARM_FEATURE_M)) {
++        *prot = PAGE_READ | PAGE_WRITE;
++        switch (address) {
++        case 0xF0000000 ... 0xFFFFFFFF:
++            if (regime_sctlr(env, mmu_idx) & SCTLR_V) {
++                /* hivecs execing is ok */
++                *prot |= PAGE_EXEC;
++            }
++            break;
++        case 0x00000000 ... 0x7FFFFFFF:
++            *prot |= PAGE_EXEC;
 +            break;
 +        }
-+    }
-+    if (n < 0) {
-+        fi->type = ARMFault_Background;
-+        return true;
-+    }
-+
-+    if (access_type == MMU_INST_FETCH) {
-+        mask = env->cp15.pmsav5_insn_ap;
 +    } else {
-+        mask = env->cp15.pmsav5_data_ap;
++        /* Default system address map for M profile cores.
++         * The architecture specifies which regions are execute-never;
++         * at the MPU level no other checks are defined.
++         */
++        switch (address) {
++        case 0x00000000 ... 0x1fffffff: /* ROM */
++        case 0x20000000 ... 0x3fffffff: /* SRAM */
++        case 0x60000000 ... 0x7fffffff: /* RAM */
++        case 0x80000000 ... 0x9fffffff: /* RAM */
++            *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
++            break;
++        case 0x40000000 ... 0x5fffffff: /* Peripheral */
++        case 0xa0000000 ... 0xbfffffff: /* Device */
++        case 0xc0000000 ... 0xdfffffff: /* Device */
++        case 0xe0000000 ... 0xffffffff: /* System */
++            *prot = PAGE_READ | PAGE_WRITE;
++            break;
++        default:
++            g_assert_not_reached();
++        }
 +    }
-+    mask = (mask >> (n * 4)) & 0xf;
-+    switch (mask) {
-+    case 0:
-+        fi->type = ARMFault_Permission;
-+        fi->level = 1;
-+        return true;
-+    case 1:
-+        if (is_user) {
-+            fi->type = ARMFault_Permission;
-+            fi->level = 1;
-+            return true;
-+        }
-+        *prot = PAGE_READ | PAGE_WRITE;
-+        break;
-+    case 2:
-+        *prot = PAGE_READ;
-+        if (!is_user) {
-+            *prot |= PAGE_WRITE;
-+        }
-+        break;
-+    case 3:
-+        *prot = PAGE_READ | PAGE_WRITE;
-+        break;
-+    case 5:
-+        if (is_user) {
-+            fi->type = ARMFault_Permission;
-+            fi->level = 1;
-+            return true;
-+        }
-+        *prot = PAGE_READ;
-+        break;
-+    case 6:
-+        *prot = PAGE_READ;
-+        break;
-+    default:
-+        /* Bad permission.  */
-+        fi->type = ARMFault_Permission;
-+        fi->level = 1;
-+        return true;
-+    }
-+    *prot |= PAGE_EXEC;
-+    return false;
 +}
 +
  /**
