@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72D15451A1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:12:21 +0200 (CEST)
-Received: from localhost ([::1]:37850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2361C54533C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 19:42:32 +0200 (CEST)
+Received: from localhost ([::1]:57454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKle-0002hI-R8
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:12:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34236)
+	id 1nzMAw-0000zd-Sg
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 13:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzKTm-0003B3-QT
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nzKTn-0003D4-8u
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:53:51 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nzKTl-0005fD-My
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:53:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzKTl-0005fB-As
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:53:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654790027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OXhJTA59b0sLVYzTe/maOVka46kY8Hp85wyt4zjn318=;
- b=SM0CwglpetXKHUJ2bIiTmsJYcnC5GR30pVkxX0XrrxTDhKOs/xqvfLFAWGwvmdI/CPZAtU
- Y03p6umXuAeqDXuCLkVsPNTsku+5Gyj6pQ1+YjW9tjxaNxDxOIYJ9VXjbsh0bZNj8W7zYw
- eb+9iqhc+NxM/pWouiqOtPq/ZYeuvqM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-i0DeylkBN06eRjVDVUTEkw-1; Thu, 09 Jun 2022 11:53:44 -0400
-X-MC-Unique: i0DeylkBN06eRjVDVUTEkw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA7A7185A79C;
- Thu,  9 Jun 2022 15:53:43 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8854D456CD5;
- Thu,  9 Jun 2022 15:53:43 +0000 (UTC)
-Date: Thu, 9 Jun 2022 16:53:41 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] main loop: add missing documentation links to GS/IO macros
-Message-ID: <YqIXhdHvZedgVFRr@stefanha-x1.localdomain>
-References: <20220609122206.1016936-1-eesposit@redhat.com>
+Received: by mail-pj1-x1036.google.com with SMTP id
+ v11-20020a17090a4ecb00b001e2c5b837ccso26999445pjl.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:53:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=CferoRiRLcONzWkBJeLPubRl37OEbxsefFDmVAJQQv4=;
+ b=QPQbIb6/hWEw/xYughXXBYKbuTcdQ05flISoSUzpKGBzM6ftzKXRTdSx0HC2Vg2eL2
+ VI2IJm+VKK4/x11iZXxl9tM+byWLECTG+Lck1M4dd8/ih8CxA7ary4VcAJgeZOEhIcqt
+ IeEYomtTVgIaBTOmYYpegt34LpYGyJFRu3IXaAP11vKQ0b0vUx5LApn2bFjbYWt1uWke
+ 5SKYGYk2qTVBG3tCv9Kb9TRg+mJfRAgaGXoskQ9WeofF8fKZXHXa0wJVVGE25dgZBTRO
+ CZhBDW0kvae5ZGp3CTgeSMn519rZslUU7u7jAsKfkp99XR7UqImcsugigqURvLJ3Bk8F
+ iUOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=CferoRiRLcONzWkBJeLPubRl37OEbxsefFDmVAJQQv4=;
+ b=6tbramqirqC9cKf+2Fog6mvnUqAfBslzxoKypJmjFD441rAROh5zXfqQDMqQgw+RjY
+ 7Swe2WIlQw7uhphapbWh+TXSCDWFn0YMohI7+KXWZc82qP/r7fy7NxL3iMyDimgz2JSF
+ R+g9k2aA8OE6NDoT/i+wOXQ5HcGeRfamGCDNqCTTUKxO/FQljYBjBMX8HJFZFmWxtFsz
+ cFL0EUOesCSjMXFIPLM9M/l8tvcKY6zWEhHlxPg0ujAdAlRILLO6ApFfEP9HPGmcHVcU
+ vNv4VbaD4NhHM1OiB0m/PNSfdmcZYNRyIR5h4HcIj2deZ7IUef2vF9DQgOgvyXDIaMBy
+ n8vg==
+X-Gm-Message-State: AOAM533BRplRU8lip7sZyZbtjQDTTosfvPDEsiFyojV1GIF84a1tvNso
+ uROpneUBPIjOfh2nxwXjWaXbrg==
+X-Google-Smtp-Source: ABdhPJyqXaOY2okojV17t7gGv1JNgwrhlNTBh8DUhcJbBH7AvvNOseo3U0Y2GrV0V/5CGeoEcsvOGQ==
+X-Received: by 2002:a17:90a:c303:b0:1df:1ab6:68fb with SMTP id
+ g3-20020a17090ac30300b001df1ab668fbmr4001041pjt.181.1654790028390; 
+ Thu, 09 Jun 2022 08:53:48 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:839f:476f:678:38a?
+ ([2602:ae:1547:e101:839f:476f:678:38a])
+ by smtp.gmail.com with ESMTPSA id
+ jh22-20020a170903329600b0015e8d4eb25bsm17036451plb.165.2022.06.09.08.53.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jun 2022 08:53:47 -0700 (PDT)
+Message-ID: <5f8a2a73-dc3b-821c-8ee3-127d4e0c78d2@linaro.org>
+Date: Thu, 9 Jun 2022 08:53:46 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pf22hyXMUkbxSY+B"
-Content-Disposition: inline
-In-Reply-To: <20220609122206.1016936-1-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 3/3] target/mips: implement Octeon-specific arithmetic
+ instructions
+Content-Language: en-US
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, jiaxun.yang@flygoat.com, aurelien@aurel32.net,
+ aleksandar.rikalo@syrmia.com
+References: <165476301211.40568.5713018312386387782.stgit@pasha-ThinkPad-X280>
+ <165476302832.40568.14732977026786901317.stgit@pasha-ThinkPad-X280>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <165476302832.40568.14732977026786901317.stgit@pasha-ThinkPad-X280>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,44 +97,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/9/22 01:23, Pavel Dovgalyuk wrote:
+> +static bool trans_BADDU(DisasContext *ctx, arg_BADDU *a)
+> +{
+> +    TCGv t0, t1;
+> +
+> +    if (a->rt == 0) {
+> +        /* nop */
+> +        return true;
+> +    }
 
---pf22hyXMUkbxSY+B
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I believe that we're standardizing on using gen_store_gpr, and not checking for r0 everywhere.
 
-On Thu, Jun 09, 2022 at 08:22:06AM -0400, Emanuele Giuseppe Esposito wrote:
-> If we go directly to GLOBAL_STATE_CODE, IO_CODE or IO_OR_GS_CODE
-> definition, we just find that they "mark and check that the function
-> is part of the {category} API".
-> However, ther is no definition on what {category} API is, they are
-> in include/block/block-*.h
-> Therefore, add a comment that refers to such documentation.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  include/qemu/main-loop.h | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
 
-Great, thank you for the patch!
+> +static bool trans_EXTS(DisasContext *ctx, arg_EXTS *a)
+> +{
+> +    TCGv t0;
+> +
+> +    if (a->rt == 0) {
+> +        /* nop */
+> +        return true;
+> +    }
+> +
+> +    t0 = tcg_temp_new();
+> +    gen_load_gpr(t0, a->rs);
+> +    tcg_gen_sextract_tl(t0, t0, a->p, a->lenm1);
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+a->lenm1 + 1.
 
---pf22hyXMUkbxSY+B
-Content-Type: application/pgp-signature; name="signature.asc"
+> +    tcg_gen_deposit_z_tl(t0, t0, a->p, a->lenm1);
 
------BEGIN PGP SIGNATURE-----
+Likewise.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKiF4UACgkQnKSrs4Gr
-c8hP8wgAt2jerxy4t6IbXyr4si9Ao0hUjAgWrnVU9iePjnks6C7LPau1twI5ikMy
-tpFKqsZCUsomYnQA78CeRTLRdVONwXJHBJ08H3zxLeMzpY3PIglmK+CBQ8yFeYzF
-w1MkB9TfaedQN2T4tO3OjdQEmwQz1q3ORxrFVRVQl5qkZxC5wSOKezcnv9bluHK0
-t3P+V5tUk1e1Ypmfd2Yp8VOUQCjG1KUk4A60QlnrGanSw7ebC50X451WuZZOj1kW
-WTIzbUASPQjXqdoQIEBYfCzm+8HjQi5fql6ps+a7VoXg/iYSsi94OpLMbqSaBOg5
-X4SwSnjr6Q+Kqa+7JeNOUf+LOUVj/Q==
-=16KV
------END PGP SIGNATURE-----
 
---pf22hyXMUkbxSY+B--
-
+r~
 
