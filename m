@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D40544E7B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:14:38 +0200 (CEST)
-Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EBE544F95
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:39:04 +0200 (CEST)
+Received: from localhost ([::1]:45602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzIvl-00013U-58
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38456)
+	id 1nzJJP-00035q-8n
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nzHnh-0008NT-Pt
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:02:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34485)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nzHuV-0001BK-Sp; Thu, 09 Jun 2022 09:09:16 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:35424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nzHnf-0005km-A9
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:02:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654779729;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sVrPWz88LTAPxSEOkiovlb1yeUuv6MjhrOYuUL2lcBM=;
- b=IFdcNaWCW5Z7iHPkSNxIKZNp3LiER0YmK5hByUTj8qmsqmefqWGsuPKzr5AwCrOw7SjvFj
- akmQA6lKOwZx8d5IxESVW5kkVG5dpi2lxL0g46Qg94tIIdj1lVrj8Ln4mQ+LkouiVVPlen
- 1xrXuczkGkCyr5dNclRPwZVFtA2DjTM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-191-AENeQ4BKM2CoaZVTG87c9A-1; Thu, 09 Jun 2022 09:02:06 -0400
-X-MC-Unique: AENeQ4BKM2CoaZVTG87c9A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FEE9101E9B6;
- Thu,  9 Jun 2022 13:02:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BC901410DDB;
- Thu,  9 Jun 2022 13:02:04 +0000 (UTC)
-Date: Thu, 9 Jun 2022 14:02:02 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 07/20] migration: rename qemu_update_position to
- qemu_file_credit_transfer
-Message-ID: <YqHvSqJO94+LfxHE@redhat.com>
-References: <20220524110235.145079-1-berrange@redhat.com>
- <20220524110235.145079-8-berrange@redhat.com>
- <CAFEAcA-nv+chmz1ih7FQp-Ptyx9qLSy8AbxRitcafiWNbDZUNQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1nzHuQ-0006vG-CC; Thu, 09 Jun 2022 09:09:14 -0400
+Received: from sas2-6a1db1376cb6.qloud-c.yandex.net
+ (sas2-6a1db1376cb6.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bb0f:0:640:6a1d:b137])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 809792E123E;
+ Thu,  9 Jun 2022 16:08:59 +0300 (MSK)
+Received: from sas1-7470331623bb.qloud-c.yandex.net
+ (sas1-7470331623bb.qloud-c.yandex.net [2a02:6b8:c08:bd1e:0:640:7470:3316])
+ by sas2-6a1db1376cb6.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ kS1vvi3HvB-8wKa8nHE; Thu, 09 Jun 2022 16:08:59 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1654780139; bh=Cbkz4eVecPuqhTNAVrHB2x9n1US3l8pj8zhNHB+sosU=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=t0MDPNxnKnTS6YJhpzyRxdgOXlw3i/dFUVvkWeeAAjL2ikl6Up3yKUoFwxCe+Kwmf
+ C6ip9Cjc5obDsU0M5L4D3XPy+ErucBrCkHrzpzT4E5SwBpu+zHcBAxHs2DSxvnnzGw
+ Z+xX/Np3NDm4h/frWeHIRrE3hHqMOGAvFA4q08rM=
+Authentication-Results: sas2-6a1db1376cb6.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [172.31.114.224] (172.31.114.224-vpn.dhcp.yndx.net
+ [172.31.114.224])
+ by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ eTEAByRLES-8wM0ogLn; Thu, 09 Jun 2022 16:08:58 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <d2a595ad-a06c-d48a-d691-a1fd94510444@yandex-team.ru>
+Date: Thu, 9 Jun 2022 16:08:58 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v5 04/45] test-bdrv-graph-mod: update
+ test_parallel_perm_update test case
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
+ v.sementsov-og@mail.ru
+References: <20220330212902.590099-1-vsementsov@openvz.org>
+ <20220330212902.590099-5-vsementsov@openvz.org>
+ <bbe8b25e-d72a-fb01-2b8a-7edfb4e587cf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <bbe8b25e-d72a-fb01-2b8a-7edfb4e587cf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA-nv+chmz1ih7FQp-Ptyx9qLSy8AbxRitcafiWNbDZUNQ@mail.gmail.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,50 +83,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 09, 2022 at 01:56:00PM +0100, Peter Maydell wrote:
-> On Tue, 24 May 2022 at 12:46, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > The qemu_update_position method name gives the misleading impression
-> > that it is changing the current file offset. Most of the files are
-> > just streams, however, so there's no concept of a file offset in the
-> > general case.
-> >
-> > What this method is actually used for is to report on the number of
-> > bytes that have been transferred out of band from the main I/O methods.
-> > This new name better reflects this purpose.
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On 6/7/22 13:53, Hanna Reitz wrote:
+> On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
+>> test_parallel_perm_update() does two things that we are going to
+>> restrict in the near future:
+>>
+>> 1. It updates bs->file field by hand. bs->file will be managed
+>>     automatically by generic code (together with bs->children list).
+>>
+>>     Let's better refactor our "tricky" bds to have own state where one
+>>     of children is linked as "selected".
+>>     This also looks less "tricky", so avoid using this word.
+>>
+>> 2. It create FILTERED children that are not PRIMARY. Except for tests
+>>     all FILTERED children in the Qemu block layer are always PRIMARY as
+>>     well.  We are going to formalize this rule, so let's better use DATA
+>>     children here.
 > 
-> >  int qemu_peek_byte(QEMUFile *f, int offset);
-> >  void qemu_file_skip(QEMUFile *f, int size);
-> > -void qemu_update_position(QEMUFile *f, size_t size);
-> > +/*
-> > + * qemu_file_credit_transfer:
-> > + *
-> > + * Report on a number of bytes that have been transferred
-> > + * out of band from the main file object I/O methods.
-> > + */
-> > +void qemu_file_credit_transfer(QEMUFile *f, size_t size);
-> >  void qemu_file_reset_rate_limit(QEMUFile *f);
-> >  void qemu_file_update_transfer(QEMUFile *f, int64_t len);
-> >  void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
+> Another thing is that any node may have at most one FILTERED child at a time, which was already formalized in BDRV_CHILD_FILTERED’s description.
+
+Right, will add
+
 > 
-> What's the difference between "credit transfer" and "update
-> transfer" ? The latter also seems to just be adding a number
-> to a count of bytes-transferred...
+>> While being here, update the picture to better correspond to the test
+>> code.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+>> ---
+> 
+> The change looks good, I’m just a bit confused when it comes to the comment describing what’s going on.
+> 
+>>   tests/unit/test-bdrv-graph-mod.c | 70 ++++++++++++++++++++------------
+>>   1 file changed, 44 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/tests/unit/test-bdrv-graph-mod.c b/tests/unit/test-bdrv-graph-mod.c
+>> index a6e3bb79be..40795d3c04 100644
+>> --- a/tests/unit/test-bdrv-graph-mod.c
+>> +++ b/tests/unit/test-bdrv-graph-mod.c
+> 
+> [...]
+> 
+>> @@ -266,15 +280,18 @@ static BlockDriver bdrv_write_to_file = {
+>>    * The following test shows that topological-sort order is required for
+>>    * permission update, simple DFS is not enough.
+>>    *
+>> - * Consider the block driver which has two filter children: one active
+>> - * with exclusive write access and one inactive with no specific
+>> - * permissions.
+>> + * Consider the block driver (write-to-selected) which has two children: one is
+>> + * selected so we have exclusive write access to it and for the other one we
+>> + * don't need any specific permissions.
+>>    *
+>>    * And, these two children has a common base child, like this:
+>> + *   (additional "top" on top is used in test just because the only public
+>> + *    function to update permission should get a specific child to update.
+>> + *    Making bdrv_refresh_perms() public just for this test doesn't worth it)
+> 
+> s/doesn't/isn't/
+> 
+>>    *
+>> - * ┌─────┐     ┌──────┐
+>> - * │ fl2 │ ◀── │ top  │
+>> - * └─────┘     └──────┘
+>> + * ┌─────┐     ┌───────────────────┐     ┌─────┐
+>> + * │ fl2 │ ◀── │ write-to-selected │ ◀── │ top │
+>> + * └─────┘     └───────────────────┘     └─────┘
+>>    *   │           │
+>>    *   │           │ w
+>>    *   │           ▼
+>> @@ -290,7 +307,7 @@ static BlockDriver bdrv_write_to_file = {
+>>    *
+>>    * So, exclusive write is propagated.
+>>    *
+>> - * Assume, we want to make fl2 active instead of fl1.
+>> + * Assume, we want to select fl2  instead of fl1.
+> 
+> There’s a double space after “fl2”.
+> 
+>>    * So, we set some option for top driver and do permission update.
+> 
+> Here and in the rest of the comment, it’s now unclear what node “top” refers to.  I think it’s still the now-renamed “write-to-selected” node, right?  But “top” is now a different node, so I’m not 100% sure.
 
-The other method is merely related to the rate limiting, and so
-probably ought to have 'rate_limit' included in its name too.
+Right, will fix.
 
-With regards,
-Daniel
+> 
+> (On the other hand, even before this patch, there was a “top” node that was distinct from the former “tricky” node...  So it seems like this comment was already not quite right before?)
+
+Hmm yes. Obviously I tried to make this more obvious, but didn't update the whole comment.
+
+> 
+>>    *
+>>    * With simple DFS, if permission update goes first through
+> 
+> 
+
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Best regards,
+Vladimir
 
