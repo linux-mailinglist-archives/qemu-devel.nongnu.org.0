@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED56D544DBD
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:33:17 +0200 (CEST)
-Received: from localhost ([::1]:56198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8782544D2A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:10:38 +0200 (CEST)
+Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzIHk-0008Os-WE
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43280)
+	id 1nzHvp-0001aR-N9
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:10:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzFvG-0004tg-0H
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:01:54 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:44994)
+ id 1nzFvV-0005Wo-Eo
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:02:09 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:38551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzFvE-0008KT-Eg
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:01:53 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id y188so11668787ybe.11
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 04:01:41 -0700 (PDT)
+ id 1nzFvQ-0008LV-OG
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:02:09 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id v22so41161676ybd.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 04:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YMRFURrrQxTa/wPA2d9gKTuLfzdKlF9ihL/79CT5nvY=;
- b=F2b6BzN+Hc0JIU2WbnuA87XsyjrKPFNJZDdFtPM4AUuYZ2HY5SzaoKR8HCFeEV20ka
- BFHI7eoiCmMmh7WMmIOBANZubbDkyRkW7XP+eIaRqC0Fi4QdMmIwVLiuk62aQq9eBBlP
- aJQg5Twg4U/y3OxCq7mNLfYA7T+hGZWVNxen1h7swm3oOzSygZ8MBgcNuavWiSyu15PB
- dbPVnkh9PgwtJDpgW0Cyc9u+31vl4vEEfssEbXSBUlA9C1GWnFI8m27FB1ovAYacFtl5
- XbrsD/YXjD8sbMSRCNcboMwHBp5ZSBDh0bE2h/hr9vIpYnCxkPbmPbTXdZLtDfwcZP44
- /h6A==
+ :cc; bh=zWIFrDKOa+Ef7ln0i+dutzVbl5VCBjs9DqjfOaVDvGc=;
+ b=Th4NB7zERZ/5gqkfAZyapwtzxV+G4wVfXN9II50vkQYL4fEfoUopEgJXYNZ34E/hu8
+ rXr62bjvNAApLYGC1Osy1p5kLE/maRNgYBAYRanwual+yrMyzmMzxLREZJ7QPh8efHBt
+ 0/C4PxFx9BFA0axncwt8urGIPHLtGMkxBYFb47j3FxImpjiweZOe53esAK1oYdEvlcIa
+ rPUDQikydfW0QjDFil4RJ+unYwUzqIr+he8o/WLuwJD+eoB2aXSZvq5kzs1SCxR79ckL
+ JSXbQ9G+8Soik/jREvXm6LHplqKSb1TC6oKXghfMjN6/E4ElBzvpSsRg+XI5jUG5HI1+
+ 95aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YMRFURrrQxTa/wPA2d9gKTuLfzdKlF9ihL/79CT5nvY=;
- b=VEnCvaweb+38KA1CQzFJUvI5lkJUROSzoEERldROkHjj5p076z0aVnpJYgoeeSP4RH
- xNtQlfTdLeHbTz4Ggbne4Pa0KPTweijfQvzI0RCvvzTD2kDW1MMXYTZsCVCBR7RsUmgy
- Tp1p8rTlPWGQQbgM5W9B3G8Q9zOt3mXFRSUA41/HrnKNuV9exRpfq5NwutpvmNl7UxZx
- rbi/LRHQT6lQ858m93GAZsKXy/DRWg8ss/5VAygyUY/vqPEjlglKi9vcweGmBLCiEFvQ
- aRXVF0LnjCEATNKYIJ98nxoV6LiMG1Oeof5xDYt7HWYVJLaQwvxcN23cg51irg0dBRSO
- 5XQQ==
-X-Gm-Message-State: AOAM532hhOuBgmAQzJxAnO6CeOH6h3Wo/a/9d/tZyyia7Wv6u9BgO+/m
- RmG2W3rBnykyJynQkCrwd86yOgobjdjm0RYaOkb42A==
-X-Google-Smtp-Source: ABdhPJzb1F9zrs6up5BgllV2vAHLlsW5BQg5r2VIyHVwsir8grnLtVnLv5rhEDZi+6FauihvJuIuONVlJ+5garf8ZT4=
-X-Received: by 2002:a05:6902:728:b0:663:5591:aa2c with SMTP id
- l8-20020a056902072800b006635591aa2cmr24920150ybt.288.1654772501175; Thu, 09
- Jun 2022 04:01:41 -0700 (PDT)
+ bh=zWIFrDKOa+Ef7ln0i+dutzVbl5VCBjs9DqjfOaVDvGc=;
+ b=ZrQJ8JtVm3rtJe+zkTuz0SjRKSG/GQ9RJRNNHNs8833d4jPga8QbMgj4bA/lZbqwJ8
+ +uK2KCokeNg4xdZOi5EeDHoomj0kssLFQOHPnb8ekuaX5z4Zxp5bt7q5GohjZLwlZWRh
+ bwK0fOKZMJJKxlOCQYSiiLiVqzy7L+RBVqXk0mwbwIoNHTQ7D102/4EKHG8iMcaXzyGZ
+ Wic9ocuajROIGT1Xy5wZy3tYZVNCZWpBI+PPeONW9KC6LlzE/G4VlPdfJ+hLvGr6BKqR
+ boOXBVXO3ir2vXEl1q+jDhsblc6EPOJfcSy+zGvrQckq7fFerK1KzgAqXQltpcvsrY2w
+ HOdg==
+X-Gm-Message-State: AOAM533BeKByEXCa5kz1KI12x7Q7VY7JJCoiMiyBeKr7YU23ne/KUZCH
+ +NcgK2AQGO8r+2mbGfU0oy1vqpyNg5SxbQ//WRK98A==
+X-Google-Smtp-Source: ABdhPJxzbWsv3q1uBPnm5N0UQ+3xyAX1t5U5CHEdsbxqNaZT5nPLB/AMG0fGy1WY0cRcuKmiHXobkNPhq9BXt3uv1b4=
+X-Received: by 2002:a5b:d42:0:b0:65c:a0d7:4c6 with SMTP id
+ f2-20020a5b0d42000000b0065ca0d704c6mr38932828ybr.193.1654772523744; 
+ Thu, 09 Jun 2022 04:02:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-33-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-33-mark.cave-ayland@ilande.co.uk>
+ <20220522181836.864-34-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220522181836.864-34-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 12:01:30 +0100
-Message-ID: <CAFEAcA_v5cGxL1gKMa+o53a5HgENgqO9c=2AejHuZ=MocM1A8w@mail.gmail.com>
-Subject: Re: [PATCH 32/50] ps2: use ps2_raise_irq() instead of calling
+Date: Thu, 9 Jun 2022 12:01:53 +0100
+Message-ID: <CAFEAcA9-XFK5N7AnVXnnOUPO3_i3xPgNiKbfft01e7HMs4gQ8Q@mail.gmail.com>
+Subject: Re: [PATCH 33/50] ps2: introduce ps2_lower_irq() instead of calling
  update_irq() directly
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com, 
@@ -62,8 +62,8 @@ Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org, 
  qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,12 +89,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sun, 22 May 2022 at 19:20, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> This consolidates the logic of raising the PS2 IRQ into one single function.
+> This consolidates the logic of lowering the PS2 IRQ into one single function.
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/input/ps2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
