@@ -2,56 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F979544139
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 04:02:37 +0200 (CEST)
-Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E30544191
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 04:44:42 +0200 (CEST)
+Received: from localhost ([::1]:35636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nz7VL-0001QO-KP
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 22:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38978)
+	id 1nz8A4-0007zC-VY
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jun 2022 22:44:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
- id 1nz7Tz-0000jd-MM
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 22:01:11 -0400
-Received: from vulcan.kevinlocke.name
- ([2001:19f0:5:727:1e84:17da:7c52:5ab4]:56455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
- id 1nz7Tx-0002pT-RI
- for qemu-devel@nongnu.org; Wed, 08 Jun 2022 22:01:11 -0400
-Received: from kevinolos.kevinlocke.name (unknown [69.145.56.143])
- (Authenticated sender: kevin@kevinlocke.name)
- by vulcan.kevinlocke.name (Postfix) with ESMTPSA id D30A92EF3B81;
- Thu,  9 Jun 2022 02:01:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kevinlocke.name;
- s=vulcan; t=1654740066;
- bh=jy8wGLuR/dHYgPk9x5B9CzPveGNHsC+1TTQ6x186FNE=;
- h=From:To:Cc:Subject:Date:From;
- b=ZNsk+MuaoJOn6KaW9QHQbbuiihaQuq3q3O8vjVE+0Q1ukkAOFHKQpnWV4rWooVWiK
- C7GaFAuBNt4dHhoKtdog1ng76f+EA+r2lHO5xCC+lS2hGmqRrYqj1NzUeG4IyKZw/+
- o7BuK6IGqOenz8FSzdG++1HujeW3iiU8ldAwwu9I=
-Received: by kevinolos.kevinlocke.name (Postfix, from userid 1000)
- id 27C4D1300437; Wed,  8 Jun 2022 20:00:52 -0600 (MDT)
-From: Kevin Locke <kevin@kevinlocke.name>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1nz87p-0005GA-UK
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 22:42:23 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:43364 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1nz87m-0008UE-UP
+ for qemu-devel@nongnu.org; Wed, 08 Jun 2022 22:42:21 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxWeQBXqFiaLAyAA--.53544S2; 
+ Thu, 09 Jun 2022 10:42:09 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Laine Stump <laine@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
-Subject: [RFC][PATCH] docs: note exception for PCIe IO port access
-Date: Wed,  8 Jun 2022 20:00:47 -0600
-Message-Id: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
-X-Mailer: git-send-email 2.35.1
+Cc: richard.henderson@linaro.org,
+	laurent@vivier.eu,
+	gaosong@loongson.cn
+Subject: [PATCH v15 0/9] Add LoongArch linux-user emulation support
+Date: Thu,  9 Jun 2022 10:42:00 +0800
+Message-Id: <20220609024209.2406188-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:19f0:5:727:1e84:17da:7c52:5ab4;
- envelope-from=kevin@kevinlocke.name; helo=vulcan.kevinlocke.name
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf9BxWeQBXqFiaLAyAA--.53544S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw1kAw1fAw4UCFyfGFWDXFb_yoW5uF1xpr
+ Wfur1fGw4rGrZ7Jr1qqa45ZF1rXa17Wr4aga4Sqry8CrWIkry8Zw1kGF9xW3W3Z3WrKrWj
+ qFyvyw1UWF4DWFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,74 +61,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ioport access is required for VESA BIOS Extensions (VBE).  Since ioport
-access is not forwarded over PCI(e) bridges, graphics adapters must be
-attached directly to the Root Complex in order for the BIOS to provide
-VBE modes.  I'm very grateful to Gerd Hoffmann for explaining this on
-the SeaBIOS mailing list.[1]
+Hi All,
 
-Update the PCI Express Guidelines to document this as an exception to
-the recommendation to "Place only legacy PCI devices on the Root
-Complex."
+This series add support linux-user emulation.
+As the LoongArch kernel had merged into 5.19-rc1,
+you can see the latest kernel at https://kernel.org
 
-[1]: https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/XG2RN3HKVRDEDTLA2PRELLIENIIH7II7/#XVP3I2KQVZHSTDA4SNVKOITWGRGSDU3F
+Need review patches:
 
-Signed-off-by: Kevin Locke <kevin@kevinlocke.name>
----
+  0002-linux-user-Add-LoongArch-signal-support.patch
+  0008-target-loongarch-Adjust-functions-and-structure-to-s.patch
+  0009-target-loongarch-Update-README.patch
 
-This suggested documentation change is the result of my struggles to
-understand why I was seeing a very limited set of display modes in one
-of my virtual machines, as explained in the seabios ML post linked above
-and an earlier post to qemu-discuss.[2]  I hope it may help avoid some
-of these hassles for future users.
+v15:
+  - Rebase;
+  - Update README;
+  - Adjust some functions and structure to support user-mode;
+  - Update syscall;
+  - Update target_sigcontext;
 
-I'm far from being an expert in PCI(e), BIOS/VBE, or virtualization in
-general, and would appreciate any suggestions on these docs changes.
-I'm also curious about whether graphics devices are the only exception
-and whether "Guest OSes are suspected to behave strangely when PCI
-Express devices are integrated with the Root Complex" is still the case.
-David Gibson had previously noted that graphics cards appear on the Root
-Complex on real hardware.[3]
 
-I notice that the HD Audio Controller on my T430 is an "Express Root
-Complex Integrated Endpoint".  Is this a non-graphics example, or am I
-misinterpreting the lspci output?
+Old series:
+   - https://patchew.org/QEMU/20220106094200.1801206-1-gaosong@loongson.cn/
+  
 
-00:1b.0 Audio device: Intel Corporation 7 Series/C216 Chipset Family High Definition Audio Controller (rev 04)
-	Subsystem: Lenovo 7 Series/C216 Chipset Family High Definition Audio Controller
-	Flags: bus master, fast devsel, latency 0, IRQ 29, IOMMU group 6
-	Memory at f1530000 (64-bit, non-prefetchable) [size=16K]
-	Capabilities: [50] Power Management version 2
-	Capabilities: [60] MSI: Enable+ Count=1/1 Maskable- 64bit+
-	Capabilities: [70] Express Root Complex Integrated Endpoint, MSI 00
-	Capabilities: [100] Virtual Channel
-	Capabilities: [130] Root Complex Link
-	Kernel driver in use: snd_hda_intel
-	Kernel modules: snd_hda_intel
+Thanks.
+Song Gao
 
-Thanks,
-Kevin
 
- docs/pcie.txt | 5 +++++
- 1 file changed, 5 insertions(+)
+Song Gao (9):
+  linux-user: Add LoongArch generic header files
+  linux-user: Add LoongArch signal support
+  linux-user: Add LoongArch elf support
+  linux-user: Add LoongArch syscall support
+  linux-user: Add LoongArch cpu_loop support
+  default-configs: Add loongarch linux-user support
+  scripts: add loongarch64 binfmt config
+  target/loongarch: Adjust functions and structure to support user-mode
+  target/loongarch: Update README
 
-diff --git a/docs/pcie.txt b/docs/pcie.txt
-index 89e3502075..a23d93849b 100644
---- a/docs/pcie.txt
-+++ b/docs/pcie.txt
-@@ -48,6 +48,11 @@ Place only the following kinds of devices directly on the Root Complex:
-         strangely when PCI Express devices are integrated
-         with the Root Complex.
- 
-+        An exception to this rule is PCI Express devices which will be
-+        accessed using IO ports.  For example, guests using BIOS firmware
-+        require IO port access for graphics devices to provide VESA BIOS
-+        Extensions (VBE).
-+
-     (2) PCI Express Root Ports (ioh3420), for starting exclusively PCI Express
-         hierarchies.
- 
+ configs/targets/loongarch64-linux-user.mak    |   3 +
+ linux-user/elfload.c                          |  54 +++
+ linux-user/loongarch64/cpu_loop.c             |  93 ++++++
+ linux-user/loongarch64/signal.c               | 194 +++++++++++
+ linux-user/loongarch64/sockbits.h             |  11 +
+ linux-user/loongarch64/syscall_nr.h           | 312 ++++++++++++++++++
+ linux-user/loongarch64/target_cpu.h           |  34 ++
+ linux-user/loongarch64/target_elf.h           |  12 +
+ linux-user/loongarch64/target_errno_defs.h    |  12 +
+ linux-user/loongarch64/target_fcntl.h         |  11 +
+ linux-user/loongarch64/target_prctl.h         |   1 +
+ linux-user/loongarch64/target_resource.h      |  11 +
+ linux-user/loongarch64/target_signal.h        |  13 +
+ linux-user/loongarch64/target_structs.h       |  11 +
+ linux-user/loongarch64/target_syscall.h       |  48 +++
+ linux-user/loongarch64/termbits.h             |  11 +
+ linux-user/syscall_defs.h                     |  12 +-
+ scripts/gensyscalls.sh                        |   1 +
+ scripts/qemu-binfmt-conf.sh                   |   6 +-
+ target/loongarch/README                       |  39 ++-
+ target/loongarch/cpu.c                        |  22 +-
+ target/loongarch/cpu.h                        |   6 +
+ target/loongarch/helper.h                     |   5 +-
+ target/loongarch/insn_trans/trans_extra.c.inc |  14 +
+ .../insn_trans/trans_privileged.c.inc         |  36 ++
+ target/loongarch/internals.h                  |   2 +
+ target/loongarch/op_helper.c                  |  12 +
+ 27 files changed, 974 insertions(+), 12 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_prctl.h
+ create mode 100644 linux-user/loongarch64/target_resource.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+
 -- 
-2.35.1
+2.31.1
 
 
