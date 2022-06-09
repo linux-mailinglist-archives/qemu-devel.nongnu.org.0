@@ -2,81 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BD0544E59
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:06:55 +0200 (CEST)
-Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23868544E65
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:10:24 +0200 (CEST)
+Received: from localhost ([::1]:36378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzIoI-0005t4-Jc
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:06:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53334)
+	id 1nzIrf-0003k7-6L
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nzGl4-00081O-Tv
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:55:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51407)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nzGmk-0001PR-UH
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:57:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nzGl2-0002TD-MS
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:55:26 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nzGmi-0002h8-FZ
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 07:57:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654775721;
+ s=mimecast20190719; t=1654775827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MnINMshW51D+DSXUWafsSpVUiw+mlKP5Ivu+YSX3LJA=;
- b=TR2C3HoRrm0svS42G5oywVZgdycSh6laEcQQSYR2zWjjU8uKl7H8Sr0TQQfVNhydAfS3n3
- sFbBAJTQ3KlpyOj+VsZxt0GxJTtYRKmCF+m7ASgPdDHHV+dfKZ/WAf6YhBMxvfZQPIMlBv
- KTM1CMLMNSy4z/JlnxjQX0XoTTebQqc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1QueKO4NFw8r8GmCI6G4RX0gvrLteWnZ9zQiBJvNK0c=;
+ b=GAJ45+/dfO8eSRbaKlhDLRGrccgkPAmwjPr6IQwW+ZuX3uBOD3hbbkH53ya/PxFltKl/P3
+ 2n8t4hmPGhhAKWm34HJpnXA/D5C9njq2xMCk8UuX4XBAzKnQdv/Zm1uwIeymJD2vl+0mWZ
+ 6hZyDreV6UpBeMh/uEq1qF3EgdOQBNk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-u2-fjD9cPHS7kHzynqlRtg-1; Thu, 09 Jun 2022 07:55:21 -0400
-X-MC-Unique: u2-fjD9cPHS7kHzynqlRtg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j31-20020a05600c1c1f00b0039c481c4664so4073034wms.7
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 04:55:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MnINMshW51D+DSXUWafsSpVUiw+mlKP5Ivu+YSX3LJA=;
- b=KnJEfJCJ+UbEjXamn2AmtupkwzKQfuC2zWQSD5FszUZNsnUOGMXEISzwgr19n7v0XF
- F3PkZjYRL//2Qxw1Zn4aYjIdOoZv5zP/1yxaM0A9+fhyYTs0h62ZpycSwUEzToGlxCOO
- XQGKvuvyJpjg9pPhKht3ctG2hEfgV+9ZNqDhmfUwD2B5osZe+h1tnnePrkWHdW39DsV7
- B9SXYYnMJ7l2IDnt4LqVFOAywe85orSRcZvjRaOMF2ZSeyBczp6E/rtrvDQzDBXeuP3+
- 3KZZTmo1tScEfpCobly7BDD23vQlUDwFVu4bN6egpZ5kcM2p8d0EP/j2EtbncKwoKO5r
- 23Gw==
-X-Gm-Message-State: AOAM530dztxb6LM9phtB6CZHLtD2lwoniunNTBQkAeynkmNCTDt/1ozs
- LTRr5bO7JjuvpfuUyu7eESHXS/LIPJzLwpL7KIOfR+PGXRFouZw/UsPJDXT1BOikIdyKM/mVvSf
- yztR94yYKrCGHmq3UH77eXjp9EEqVr6aCpEv2DdCeKAHfxsk71Is/VJrhMomZhPKpGG8=
-X-Received: by 2002:a05:6000:1688:b0:218:47d6:5e46 with SMTP id
- y8-20020a056000168800b0021847d65e46mr17774921wrd.699.1654775719219; 
- Thu, 09 Jun 2022 04:55:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDgISVMAN9Hdqr5NJnp8Bqc2ut77EvaMuabiD/Bjhk/vX2efrQl985kYlz3v95oAG9pZAfsA==
-X-Received: by 2002:a05:6000:1688:b0:218:47d6:5e46 with SMTP id
- y8-20020a056000168800b0021847d65e46mr17774896wrd.699.1654775718829; 
- Thu, 09 Jun 2022 04:55:18 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- l14-20020adfe58e000000b002117ef160fbsm24120517wrm.21.2022.06.09.04.55.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 04:55:18 -0700 (PDT)
-Date: Thu, 9 Jun 2022 13:55:17 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com
-Subject: Re: [PATCH v2 00/35] pc/q35: refactor ISA and SMBUS AML generation
-Message-ID: <20220609135517.5bce9355@redhat.com>
-In-Reply-To: <20220609113014.6d01f7d3@redhat.com>
-References: <20220608135340.3304695-1-imammedo@redhat.com>
- <20220609113014.6d01f7d3@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ us-mta-372-VEK19qc1PUKNBxK5Xvn4SQ-1; Thu, 09 Jun 2022 07:56:59 -0400
+X-MC-Unique: VEK19qc1PUKNBxK5Xvn4SQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF687811E7A
+ for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 11:56:58 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79CC6404E4B5;
+ Thu,  9 Jun 2022 11:56:58 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, thuth@redhat.com
+Subject: Re: [PATCH 3/4] virtio: stop ioeventfd on reset
+In-Reply-To: <20220609091534.1416909-4-pbonzini@redhat.com>
+Organization: Red Hat GmbH
+References: <20220609091534.1416909-1-pbonzini@redhat.com>
+ <20220609091534.1416909-4-pbonzini@redhat.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Thu, 09 Jun 2022 13:56:56 +0200
+Message-ID: <87leu69hiv.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -100,183 +78,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 Jun 2022 11:30:14 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+On Thu, Jun 09 2022, Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> On Wed,  8 Jun 2022 09:53:05 -0400
-> Igor Mammedov <imammedo@redhat.com> wrote:
-> 
-> > Changelog:
-> >   since v1:
-> >     * add tis 2.0  clarification to commit message (Ani Sinha)
-> >     * rebase on top of pci tree
-> >     * pick up acks  
-> 
-> tests fail due to new cxl testcase,
-> so I need to fixup whitelisting/blob updating patches and
-> then I'll resend series as v3
+> All calls to virtio_bus_reset are preceded by virtio_bus_stop_ioeventfd,
+> move the call in virtio_bus_reset: that makes sense and clarifies
+> that the vdc->reset function is called with ioeventfd already stopped.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/s390x/virtio-ccw.c   | 1 -
+>  hw/virtio/virtio-bus.c  | 1 +
+>  hw/virtio/virtio-mmio.c | 4 +---
+>  hw/virtio/virtio-pci.c  | 1 -
+>  4 files changed, 2 insertions(+), 5 deletions(-)
+>
 
-turns out CXL test affects only 2 patches, so no need to
-resend whole series, I just posted v3 as replies to
-the affected patches.
+(...)
 
-and pushed fixed up rebase to
-  https://gitlab.com/imammedo/qemu acpi_misc_buses_AcpiDevAmlIf_v3
+> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+> index d7ec023adf..896feb37a1 100644
+> --- a/hw/virtio/virtio-bus.c
+> +++ b/hw/virtio/virtio-bus.c
+> @@ -104,6 +104,7 @@ void virtio_bus_reset(VirtioBusState *bus)
+>      VirtIODevice *vdev = virtio_bus_get_device(bus);
+>  
+>      DPRINTF("%s: reset device.\n", BUS(bus)->name);
+> +    virtio_bus_stop_ioeventfd(bus);
+>      if (vdev != NULL) {
+>          virtio_reset(vdev);
 
+I looked at the code and I'm wondering under which conditions we could
+arrive here with vdev == NULL... virtio_bus_stop_ioeventfd() assumes
+that a vdev is there, at least if the ioeventfd has been started.
 
-> 
-> > 
-> > Series is excerpt form larger refactoring that does
-> > the same for PCI devices, but it's too large at this
-> > point, so I've split off a relatively self-contained
-> > ISA/SMBUS patches into a smaller separate series, and
-> > PCI refactoring will follow up on top of this series
-> > using the same AcpiDevAmlIf interface.
-> > 
-> > Series consolidates and unifies how pc/q35 machine
-> > generates AML for ISA and SMBUS devices. It adds
-> > a new more generic interface 'AcpiDevAmlIf' that
-> > replaces ISA specific ISADeviceClass::build_aml
-> > hook and should allow to use the same approach
-> > (i.e. ask a device to provide its own AML) but
-> > not limited to ISA bus.
-> > Series applies AcpiDevAmlIf interface to a few
-> > ISA devices that were already using
-> > ISADeviceClass::build_aml and to devices /tpm,
-> > applesmc,pvpanic,ipmi/ that were generated in
-> > custom way. The AML generation for the later
-> > class is normalized to behave like any other
-> > ISA device that were using ISADeviceClass::build_aml
-> > and converted to interface 'AcpiDevAmlIf'.
-> > It simplifies process of building DSDT and
-> > eliminates custom probing/wiring for those devices
-> > as AML for them is generated at the time ISA/SMBUS
-> > is enumerated.
-> > 
-> > Changes to DSDT tables QEMU generates are mostly
-> > contextual where devices scattered across DSDT
-> > are consolidated under respective device that
-> > hosts bus they are attached to.
-> > 
-> > PS:
-> >  + series adds several ACPI tests for devices
-> >    that were missing them.
-> > 
-> > Igor Mammedov (35):
-> >   acpi: add interface to build device specific AML
-> >   acpi: make isa_build_aml() support AcpiDevAmlIf interface
-> >   acpi: fdc-isa: replace ISADeviceClass::build_aml with
-> >     AcpiDevAmlIfClass:build_dev_aml
-> >   acpi: parallel port: replace ISADeviceClass::build_aml with
-> >     AcpiDevAmlIfClass:build_dev_aml
-> >   acpi: serial-is: replace ISADeviceClass::build_aml with
-> >     AcpiDevAmlIfClass:build_dev_aml
-> >   acpi: mc146818rtc: replace ISADeviceClass::build_aml with
-> >     AcpiDevAmlIfClass:build_dev_aml
-> >   acpi: pckbd: replace ISADeviceClass::build_aml with
-> >     AcpiDevAmlIfClass:build_dev_aml
-> >   isa-bus: drop no longer used ISADeviceClass::build_aml
-> >   tests: acpi: add and whitelist DSDT.ipmismbus expected blob
-> >   tests: acpi: q35: add test for smbus-ipmi device
-> >   tests: acpi: update expected blob DSDT.ipmismbus
-> >   tests: acpi: whitelist DSDT.ipmismbus expected blob
-> >   ipmi: acpi: use relative path to resource source
-> >   tests: acpi: update expected DSDT.ipmismbus blob
-> >   acpi: ich9-smb: add support for AcpiDevAmlIf interface
-> >   acpi: ipmi: use AcpiDevAmlIf interface to build IPMI device
-> >     descriptors
-> >   q35: acpi: drop not needed PCMachineClass::do_not_add_smb_acpi
-> >   tests: acpi: white-list to be re-factored pc/q35 DSDT
-> >   acpi: pc: isa bridge: use AcpiDevAmlIf interface to build ISA device
-> >     descriptors
-> >   acpi: q35: isa bridge: use AcpiDevAmlIf interface to build ISA device
-> >     descriptors
-> >   tests: acpi: update expected blobs
-> >   tests: acpi: add and white-list DSDT.applesmc expected blob
-> >   tests: acpi: add applesmc testcase
-> >   acpi: applesmc: use AcpiDevAmlIfClass:build_dev_aml to provide
-> >     device's AML
-> >   tests: acpi: update expected blobs
-> >   tests: acpi: white-lists expected DSDT.pvpanic-isa blob
-> >   tests: acpi: add pvpanic-isa: testcase
-> >   acpi: pvpanic-isa: use AcpiDevAmlIfClass:build_dev_aml to provide
-> >     device's AML
-> >   tests: acpi: update expected DSDT.pvpanic-isa blob
-> >   tests: acpi: white-list DSDT.tis.tpm2/DSDT.tis.tpm12 expected blobs
-> >   acpi: pc/q35: tpm-tis: fix TPM device scope
-> >   acpi: pc/q35: remove not needed 'if' condition on pci bus
-> >   acpi: tpm-tis: use AcpiDevAmlIfClass:build_dev_aml to provide device's
-> >     AML
-> >   tests: acpi: update expected DSDT.tis.tpm2/DSDT.tis.tpm12 blobs
-> >   x86: acpi-build: do not include hw/isa/isa.h directly
-> > 
-> >  include/hw/acpi/acpi_aml_interface.h  |  40 ++++++
-> >  include/hw/acpi/ipmi.h                |   9 +-
-> >  include/hw/i386/pc.h                  |   1 -
-> >  include/hw/isa/isa.h                  |  15 ---
-> >  include/hw/misc/pvpanic.h             |   9 --
-> >  hw/acpi/acpi_interface.c              |   8 ++
-> >  hw/acpi/ipmi-stub.c                   |   2 +-
-> >  hw/acpi/ipmi.c                        |  53 +++-----
-> >  hw/acpi/meson.build                   |   2 +-
-> >  hw/block/fdc-isa.c                    |  16 ++-
-> >  hw/char/parallel.c                    |  14 ++-
-> >  hw/char/serial-isa.c                  |  14 ++-
-> >  hw/i2c/smbus_ich9.c                   |  15 +++
-> >  hw/i386/acpi-build.c                  | 171 ++++++--------------------
-> >  hw/i386/pc_piix.c                     |   1 -
-> >  hw/i386/pc_q35.c                      |   1 -
-> >  hw/input/pckbd.c                      |  14 ++-
-> >  hw/ipmi/isa_ipmi_bt.c                 |   4 +
-> >  hw/ipmi/isa_ipmi_kcs.c                |   4 +
-> >  hw/ipmi/smbus_ipmi.c                  |   4 +
-> >  hw/isa/isa-bus.c                      |   9 +-
-> >  hw/isa/lpc_ich9.c                     |  19 +++
-> >  hw/isa/piix3.c                        |  17 +++
-> >  hw/misc/applesmc.c                    |  29 +++++
-> >  hw/misc/pvpanic-isa.c                 |  42 +++++++
-> >  hw/rtc/mc146818rtc.c                  |  14 ++-
-> >  hw/tpm/tpm_tis_isa.c                  |  32 +++++
-> >  tests/data/acpi/pc/DSDT               | Bin 6002 -> 5987 bytes
-> >  tests/data/acpi/pc/DSDT.acpierst      | Bin 5969 -> 5954 bytes
-> >  tests/data/acpi/pc/DSDT.acpihmat      | Bin 7327 -> 7312 bytes
-> >  tests/data/acpi/pc/DSDT.bridge        | Bin 8668 -> 8653 bytes
-> >  tests/data/acpi/pc/DSDT.cphp          | Bin 6466 -> 6451 bytes
-> >  tests/data/acpi/pc/DSDT.dimmpxm       | Bin 7656 -> 7641 bytes
-> >  tests/data/acpi/pc/DSDT.hpbridge      | Bin 5969 -> 5954 bytes
-> >  tests/data/acpi/pc/DSDT.hpbrroot      | Bin 3084 -> 3069 bytes
-> >  tests/data/acpi/pc/DSDT.ipmikcs       | Bin 6074 -> 6059 bytes
-> >  tests/data/acpi/pc/DSDT.memhp         | Bin 7361 -> 7346 bytes
-> >  tests/data/acpi/pc/DSDT.nohpet        | Bin 5860 -> 5845 bytes
-> >  tests/data/acpi/pc/DSDT.numamem       | Bin 6008 -> 5993 bytes
-> >  tests/data/acpi/pc/DSDT.roothp        | Bin 6210 -> 6195 bytes
-> >  tests/data/acpi/q35/DSDT              | Bin 8289 -> 8274 bytes
-> >  tests/data/acpi/q35/DSDT.acpierst     | Bin 8306 -> 8291 bytes
-> >  tests/data/acpi/q35/DSDT.acpihmat     | Bin 9614 -> 9599 bytes
-> >  tests/data/acpi/q35/DSDT.applesmc     | Bin 0 -> 8320 bytes
-> >  tests/data/acpi/q35/DSDT.bridge       | Bin 11003 -> 10988 bytes
-> >  tests/data/acpi/q35/DSDT.cphp         | Bin 8753 -> 8738 bytes
-> >  tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9943 -> 9928 bytes
-> >  tests/data/acpi/q35/DSDT.ipmibt       | Bin 8364 -> 8349 bytes
-> >  tests/data/acpi/q35/DSDT.ipmismbus    | Bin 0 -> 8363 bytes
-> >  tests/data/acpi/q35/DSDT.ivrs         | Bin 8306 -> 8291 bytes
-> >  tests/data/acpi/q35/DSDT.memhp        | Bin 9648 -> 9633 bytes
-> >  tests/data/acpi/q35/DSDT.mmio64       | Bin 9419 -> 9404 bytes
-> >  tests/data/acpi/q35/DSDT.multi-bridge | Bin 8583 -> 8568 bytes
-> >  tests/data/acpi/q35/DSDT.nohpet       | Bin 8147 -> 8132 bytes
-> >  tests/data/acpi/q35/DSDT.numamem      | Bin 8295 -> 8280 bytes
-> >  tests/data/acpi/q35/DSDT.pvpanic-isa  | Bin 0 -> 8375 bytes
-> >  tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8900 -> 8880 bytes
-> >  tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8921 -> 8906 bytes
-> >  tests/data/acpi/q35/DSDT.viot         | Bin 9398 -> 9383 bytes
-> >  tests/data/acpi/q35/DSDT.xapic        | Bin 35652 -> 35637 bytes
-> >  tests/qtest/bios-tables-test.c        |  40 ++++++
-> >  61 files changed, 360 insertions(+), 239 deletions(-)
-> >  create mode 100644 include/hw/acpi/acpi_aml_interface.h
-> >  create mode 100644 tests/data/acpi/q35/DSDT.applesmc
-> >  create mode 100644 tests/data/acpi/q35/DSDT.ipmismbus
-> >  create mode 100644 tests/data/acpi/q35/DSDT.pvpanic-isa
-> >   
-> 
+The patch looks correct, though.
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
