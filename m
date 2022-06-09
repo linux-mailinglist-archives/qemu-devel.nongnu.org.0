@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA0954517A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:01:22 +0200 (CEST)
-Received: from localhost ([::1]:46052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433F1545104
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:38:45 +0200 (CEST)
+Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKb3-0005MQ-8p
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:01:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36212)
+	id 1nzKF9-0004NN-Af
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:38:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nzJI2-0002Jh-HV
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25762)
+ id 1nzJI3-0002LP-Gv
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nzJHy-00070S-Nr
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:37 -0400
+ id 1nzJI0-00070x-KG
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654785454;
+ s=mimecast20190719; t=1654785455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=91IAjRH1sPgluJC2xQcF7lVvG6dksNKUKbw4BWQEIk0=;
- b=ivdzIIgYLZXwE+2Qpovmn/0HPS9sJ7zmBeXYGLms5rcs5SLvJRsRkiT//G730eLxmLLO+b
- xAWjAxMlzM/MpS9Wg1uruveE5ItRLQ23I/udk/GyfbbdmHMoksIUDo+lkbyZdSdkRyFeJO
- Bt0BvAyMPTuddNlOJCiasurwEWTbBV8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5R4KK89bhYD2TzySriwyzMitKq+bU/ZztTQGOb+LAso=;
+ b=eyq2hSby1CP9hy4nPVVE6F2N2ICm6ynxdIFtqqUoqbN2pYsAFlDX01IqkF8tqPwN+0gTQR
+ ny1WudfBc/uQo5RjlTCYh879YStmPxoyz+LFeN/RSZS+7jjAnV0iHmAfa3zie2c+VWWYKm
+ Q34yA5W1Zc47ynl4ecUkgu4c7fjGWlI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-91--tWGA3yCOKKOEMLreRVaYw-1; Thu, 09 Jun 2022 10:37:30 -0400
-X-MC-Unique: -tWGA3yCOKKOEMLreRVaYw-1
+ us-mta-219-3NgvlHHnMFCjytaFLAd_-A-1; Thu, 09 Jun 2022 10:37:32 -0400
+X-MC-Unique: 3NgvlHHnMFCjytaFLAd_-A-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 394FA38005C5;
- Thu,  9 Jun 2022 14:37:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AF9E294EDDE;
+ Thu,  9 Jun 2022 14:37:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E754E456CD9;
- Thu,  9 Jun 2022 14:37:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BD07492C3B;
+ Thu,  9 Jun 2022 14:37:32 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -50,9 +51,12 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 0/8] virtio-blk: removal of AioContext lock
-Date: Thu,  9 Jun 2022 10:37:19 -0400
-Message-Id: <20220609143727.1151816-1-eesposit@redhat.com>
+Subject: [PATCH 1/8] virtio_queue_aio_attach_host_notifier: remove AioContext
+ lock
+Date: Thu,  9 Jun 2022 10:37:20 -0400
+Message-Id: <20220609143727.1151816-2-eesposit@redhat.com>
+In-Reply-To: <20220609143727.1151816-1-eesposit@redhat.com>
+References: <20220609143727.1151816-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
@@ -80,56 +84,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This serie aims to free virtio-blk (and in the future all
-virtio devices) from the AioContext lock.
+virtio_queue_aio_attach_host_notifier() and
+virtio_queue_aio_attach_host_notifier_nopoll() run always in the
+main loop, so there is no need to protect them with AioContext
+lock.
 
-First step is to understand which functions are running in
-the main loop and which are in iothreads.
-Because many functions in virtio-blk are callbacks called
-in some other virtio (pci, mmio, bus and so on) callbacks,
-this is not trivial.
-Patches 4-5-6 aim to split at least virtio-blk API.
-
-There are two main things to consider when comparing this serie
-with the block layer API split:
-
-- sometimes we have data that is accessed by both IO and GS
-  functions, but never together. For example, when the main
-  loop access some data, iothread is guaranteed to be stopped.
-
-- taking into account the multiqueue setup:
-  this work aims to allow an iothread to access multiple
-  virtio queues, while assigning the same queue to only one
-  iothread. Currently, we have a single iothread running,
-  so if we know that the main loop is not interfering, we
-  are safe. However, if we want to consider multiple iothreads
-  concurrently running, we need to take additional precautions.
-
-A good example of the above is in patch 7.
+On the other side, virtio_queue_aio_detach_host_notifier() runs
+in a bh in the iothread context, but it is always scheduled
+(thus serialized) by the main loop. Therefore removing the
+AioContext lock is safe, but unfortunately we can't do it
+right now since bdrv_set_aio_context() and
+aio_wait_bh_oneshot() still need to have it.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ hw/block/dataplane/virtio-blk.c | 14 ++++++++++++--
+ hw/block/virtio-blk.c           |  2 ++
+ hw/scsi/virtio-scsi-dataplane.c | 12 ++++++++++--
+ 3 files changed, 24 insertions(+), 4 deletions(-)
 
-Emanuele Giuseppe Esposito (8):
-  virtio_queue_aio_attach_host_notifier: remove AioContext lock
-  block-backend: enable_write_cache should be atomic
-  virtio_blk_process_queued_requests: always run in a bh
-  virtio: categorize callbacks in GS
-  virtio-blk: mark GLOBAL_STATE_CODE functions
-  virtio-blk: mark IO_CODE functions
-  VirtIOBlock: protect rq with its own lock
-  virtio-blk: remove unnecessary AioContext lock from function already
-    safe
-
- block/block-backend.c           |   6 +-
- hw/block/dataplane/virtio-blk.c |  32 +++++++-
- hw/block/virtio-blk.c           | 132 ++++++++++++++++++++++++--------
- hw/scsi/virtio-scsi-dataplane.c |  12 ++-
- hw/virtio/virtio-bus.c          |   5 ++
- hw/virtio/virtio-pci.c          |   2 +
- hw/virtio/virtio.c              |   8 ++
- include/hw/virtio/virtio-blk.h  |   6 +-
- 8 files changed, 163 insertions(+), 40 deletions(-)
-
+diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
+index 49276e46f2..f9224f23d2 100644
+--- a/hw/block/dataplane/virtio-blk.c
++++ b/hw/block/dataplane/virtio-blk.c
+@@ -167,6 +167,8 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+     Error *local_err = NULL;
+     int r;
+ 
++    GLOBAL_STATE_CODE();
++
+     if (vblk->dataplane_started || s->starting) {
+         return 0;
+     }
+@@ -243,13 +245,11 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+     }
+ 
+     /* Get this show started by hooking up our callbacks */
+-    aio_context_acquire(s->ctx);
+     for (i = 0; i < nvqs; i++) {
+         VirtQueue *vq = virtio_get_queue(s->vdev, i);
+ 
+         virtio_queue_aio_attach_host_notifier(vq, s->ctx);
+     }
+-    aio_context_release(s->ctx);
+     return 0;
+ 
+   fail_aio_context:
+@@ -304,6 +304,8 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
+     unsigned i;
+     unsigned nvqs = s->conf->num_queues;
+ 
++    GLOBAL_STATE_CODE();
++
+     if (!vblk->dataplane_started || s->stopping) {
+         return;
+     }
+@@ -318,6 +320,14 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
+     trace_virtio_blk_data_plane_stop(s);
+ 
+     aio_context_acquire(s->ctx);
++    /*
++     * TODO: virtio_blk_data_plane_stop_bh() does not need the AioContext lock,
++     * because even though virtio_queue_aio_detach_host_notifier() runs in
++     * Iothread context, such calls are serialized by the BQL held (this
++     * function runs in the main loop).
++     * On the other side, virtio_queue_aio_attach_host_notifier* always runs
++     * in the main loop, therefore it doesn't need the AioContext lock.
++     */
+     aio_wait_bh_oneshot(s->ctx, virtio_blk_data_plane_stop_bh, s);
+ 
+     /* Drain and try to switch bs back to the QEMU main loop. If other users
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index e9ba752f6b..8d0590cc76 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -121,6 +121,8 @@ static void virtio_blk_rw_complete(void *opaque, int ret)
+     VirtIOBlock *s = next->dev;
+     VirtIODevice *vdev = VIRTIO_DEVICE(s);
+ 
++    IO_CODE();
++
+     aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
+     while (next) {
+         VirtIOBlockReq *req = next;
+diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplane.c
+index 8bb6e6acfc..7080e9caa9 100644
+--- a/hw/scsi/virtio-scsi-dataplane.c
++++ b/hw/scsi/virtio-scsi-dataplane.c
+@@ -91,6 +91,8 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(vdev);
+     VirtIOSCSI *s = VIRTIO_SCSI(vdev);
+ 
++    GLOBAL_STATE_CODE();
++
+     if (s->dataplane_started ||
+         s->dataplane_starting ||
+         s->dataplane_fenced) {
+@@ -136,7 +138,6 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+ 
+     memory_region_transaction_commit();
+ 
+-    aio_context_acquire(s->ctx);
+     virtio_queue_aio_attach_host_notifier(vs->ctrl_vq, s->ctx);
+     virtio_queue_aio_attach_host_notifier_no_poll(vs->event_vq, s->ctx);
+ 
+@@ -146,7 +147,6 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+ 
+     s->dataplane_starting = false;
+     s->dataplane_started = true;
+-    aio_context_release(s->ctx);
+     return 0;
+ 
+ fail_host_notifiers:
+@@ -193,6 +193,14 @@ void virtio_scsi_dataplane_stop(VirtIODevice *vdev)
+     s->dataplane_stopping = true;
+ 
+     aio_context_acquire(s->ctx);
++    /*
++     * TODO: virtio_scsi_dataplane_stop_bh() does not need the AioContext lock,
++     * because even though virtio_queue_aio_detach_host_notifier() runs in
++     * Iothread context, such calls are serialized by the BQL held (this
++     * function runs in the main loop).
++     * On the other side, virtio_queue_aio_attach_host_notifier* always runs
++     * in the main loop, therefore it doesn't need the AioContext lock.
++     */
+     aio_wait_bh_oneshot(s->ctx, virtio_scsi_dataplane_stop_bh, s);
+     aio_context_release(s->ctx);
+ 
 -- 
 2.31.1
 
