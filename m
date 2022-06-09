@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA525446E3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:08:42 +0200 (CEST)
-Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127A954471C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:17:05 +0200 (CEST)
+Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzE9h-0000bs-7g
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:08:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37730)
+	id 1nzEHn-0004xo-LM
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:17:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nzDzD-0005EN-NJ
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:57:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22785)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nzDz9-0004OP-UQ
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:57:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654765066;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Amsd0AoymkbUWequQY81Msti8gG+grDOfS9h8imk2s=;
- b=fUaAwJpm0bdMl70BSWbHni0TLuORu742k4sM5C+Cp0B08CQPF4XO4++2Q+WfbvQniGEHKx
- /8tWoGWs0afWVV3CtaS/TD5Yjp04gcoqKRCSimynHgE+ezq1/64u/AjG4hzEE42SsamEXL
- NA/7JWPku3F0rNwNHBpaPuDlAn2MATM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-CuLvEevZOsChvm-uSgJC4g-1; Thu, 09 Jun 2022 04:57:45 -0400
-X-MC-Unique: CuLvEevZOsChvm-uSgJC4g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DEBEC100BABC;
- Thu,  9 Jun 2022 08:57:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EF1A1415100;
- Thu,  9 Jun 2022 08:57:42 +0000 (UTC)
-Date: Thu, 9 Jun 2022 09:57:38 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH] disas: Remove libvixl disassembler
-Message-ID: <YqG2Anwtba+MfxfH@redhat.com>
-References: <20220603164249.112459-1-thuth@redhat.com>
- <07f021e7-1346-c6b3-3bd1-ef0d0f0e2ff5@suse.de>
- <52c51ac4-5598-faf2-d5e5-638cab0dc1fd@redhat.com>
- <7ae17984-89c4-2247-57a7-fde6206e41e0@redhat.com>
- <03a1e04e-45c7-5002-6920-d04e29fd48fd@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzE6s-0001OA-TB
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:48 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:43532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzE6q-0005uZ-Hr
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:46 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ 67-20020a1c1946000000b00397382b44f4so12289092wmz.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OZiBFuQJe3qRRxefKzTWUt42ay2lpVYFJNPjvtmLelg=;
+ b=yKTa0yD5rDPPmn0VjAI0R/vBaNptASzfNoyKLEWhx7jgV+xVU6uE5sxPZXrq8ri0Qh
+ B1WAOoBbCM99lnCWSEzZaI2rj4Ig+dFHPYm4rQmgGZR3Ku3FPRlWBt64ChuK2Jmf2gv5
+ hRuJ31/fyxYWQ18PDsSzpdy8MWqgY1/83ZpD0GBSR0f02Xj8A58JlEoD4ABFM19+qpaF
+ ksBoh4s8M4zZC0KJGAUIJdSKn+Lo9fpa6Yr3NmTUx+IOkxQAzWehsWZf5gMuJLylyuwy
+ aiqdtDkCp3JOOa2vL8wHafJfmVK6Ls2DOtxXL9yx/HGdMc3RtQDdGk1fCeIocZdZMX1b
+ 4LJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OZiBFuQJe3qRRxefKzTWUt42ay2lpVYFJNPjvtmLelg=;
+ b=DijkohsOtUBulx+KLUmEiql2O9H6fmvK5W+pbbPd5Z1Ze1xPFTqiAdLm6gj8mZ+xLr
+ nGrIdc6tmtdzjzVNuq7Aq1Zu3Y+D3//1Nm5n9KsCcDJk/IQTaVR/SQjiyiAPM7wDKNJx
+ 7V/QuGYn7WgBGnPvWAY4sM7hFAyU+bbSrAADl1z9Wr+5wzl64xkxncc5H3FtysijLa0d
+ gpNo8OeMSB2usiYIg8Pr8uHBX0mJeykD8exxJS++NI+dYSAEICbuI1vpvXC/bLK6MrEX
+ SEmC6FoAc69SRZWXVcKSMEgLOjPq7mrBM2Cvt973m7DXDOX5GiDaGYrtqPODdK3yjVoF
+ 096Q==
+X-Gm-Message-State: AOAM531+M6+Fr9+TH1rsmPuMbWOTEN8koCLYTMnjPan6CtxysuWWQf6K
+ vvO1EnohQ7b4OsVCZDWUOpGfk06ZfwyvXA==
+X-Google-Smtp-Source: ABdhPJyb3ekftm/knMN4qSwUsr+upW5CsZi71l0FFnPUopSKvI1O+6NyEJKBPEa49CLolEfg4oHsVQ==
+X-Received: by 2002:a7b:ce8c:0:b0:39c:5bf4:abc0 with SMTP id
+ q12-20020a7bce8c000000b0039c5bf4abc0mr2222500wmj.135.1654765540591; 
+ Thu, 09 Jun 2022 02:05:40 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.05.39
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 02:05:39 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/55] target-arm queue
+Date: Thu,  9 Jun 2022 10:04:42 +0100
+Message-Id: <20220609090537.1971756-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <03a1e04e-45c7-5002-6920-d04e29fd48fd@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,60 +85,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 09, 2022 at 10:47:24AM +0200, Thomas Huth wrote:
-> On 08/06/2022 17.51, Paolo Bonzini wrote:
-> > On 6/3/22 19:35, Thomas Huth wrote:
-> > > On 03/06/2022 19.26, Claudio Fontana wrote:
-> > > > On 6/3/22 18:42, Thomas Huth wrote:
-> > > > > The disassembly via capstone should be superiour to our old vixl
-> > > > > sources nowadays, so let's finally cut this old disassembler out
-> > > > > of the QEMU source tree.
-> > > > > 
-> > > > > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > > > 
-> > > > agreed, one thought: at the time I added this thing, I had to
-> > > > add C++ compilation support,
-> > > > maybe something we can now drop if there are no more C++ users?
-> > > 
-> > > I thought about that, too, but we still have disas/nanomips.cpp left
-> > > and the Windows-related files in qga/vss-win32/* .
-> > 
-> > That is pure C++ so it does not need the extra complication of "detect
-> > whether the C and C++ compiler are ABI-compatible" (typically due to
-> > different libasan/libtsan implementation between gcc and clang).  So
-> > it's really just nanoMIPS that's left.
-> 
-> Ok, so the next theoretical question is: If we get rid of the nanomips.cpp
-> file or convert it to plain C, would we then simplify the code in configure
-> again (and forbid C++ for the main QEMU code), or would we rather keep the
-> current settings in case we want to re-introduce more C++ code again in the
-> future?
+The following changes since commit 6d940eff4734bcb40b1a25f62d7cec5a396f994a:
 
-It doesn't feel very compelling to have just 1 source file that's
-C++ in QEMU. I'm curious how we ended up with this nanomips.cpp
-file - perhaps it originated from another project that was C++
-based ?
+  Merge tag 'pull-tpm-2022-06-07-1' of https://github.com/stefanberger/qemu-tpm into staging (2022-06-07 19:22:18 -0700)
 
-The code itself doesn't look like it especially needs to be using
-C++. There's just 1 class there and every method is associated
-with that class, and external entry point from the rest of QEMU
-is just one boring method. Feels like it could easily have been
-done in C.
+are available in the Git repository at:
 
-Personally I'd prefer it to be converted to C, and if we want to
-add any C++ in future it should be justified & debated on its
-merits, rather than as an artifact of any historical artifacts
-such as the code in configure happening to still exist.
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220609
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+for you to fetch changes up to 414c54d515dba16bfaef643a8acec200c05f229a:
 
+  target/arm: Add ID_AA64SMFR0_EL1 (2022-06-08 19:38:59 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * target/arm: Declare support for FEAT_RASv1p1
+ * target/arm: Implement FEAT_DoubleFault
+ * Fix 'writeable' typos
+ * xlnx_dp: Implement vblank interrupt
+ * target/arm: Move page-table-walk code to ptw.c
+ * target/arm: Preparatory patches for SME support
+
+----------------------------------------------------------------
+Frederic Konrad (2):
+      xlnx_dp: fix the wrong register size
+      xlnx-zynqmp: fix the irq mapping for the display port and its dma
+
+Peter Maydell (3):
+      target/arm: Declare support for FEAT_RASv1p1
+      target/arm: Implement FEAT_DoubleFault
+      Fix 'writeable' typos
+
+Richard Henderson (48):
+      target/arm: Move stage_1_mmu_idx decl to internals.h
+      target/arm: Move get_phys_addr to ptw.c
+      target/arm: Move get_phys_addr_v5 to ptw.c
+      target/arm: Move get_phys_addr_v6 to ptw.c
+      target/arm: Move get_phys_addr_pmsav5 to ptw.c
+      target/arm: Move get_phys_addr_pmsav7_default to ptw.c
+      target/arm: Move get_phys_addr_pmsav7 to ptw.c
+      target/arm: Move get_phys_addr_pmsav8 to ptw.c
+      target/arm: Move pmsav8_mpu_lookup to ptw.c
+      target/arm: Move pmsav7_use_background_region to ptw.c
+      target/arm: Move v8m_security_lookup to ptw.c
+      target/arm: Move m_is_{ppb,system}_region to ptw.c
+      target/arm: Move get_level1_table_address to ptw.c
+      target/arm: Move combine_cacheattrs and subroutines to ptw.c
+      target/arm: Move get_phys_addr_lpae to ptw.c
+      target/arm: Move arm_{ldl,ldq}_ptw to ptw.c
+      target/arm: Move {arm_s1_, }regime_using_lpae_format to tlb_helper.c
+      target/arm: Move arm_pamax, pamax_map into ptw.c
+      target/arm: Move get_S1prot, get_S2prot to ptw.c
+      target/arm: Move check_s2_mmu_setup to ptw.c
+      target/arm: Move aa32_va_parameters to ptw.c
+      target/arm: Move ap_to_tw_prot etc to ptw.c
+      target/arm: Move regime_is_user to ptw.c
+      target/arm: Move regime_ttbr to ptw.c
+      target/arm: Move regime_translation_disabled to ptw.c
+      target/arm: Move arm_cpu_get_phys_page_attrs_debug to ptw.c
+      target/arm: Move stage_1_mmu_idx, arm_stage1_mmu_idx to ptw.c
+      target/arm: Pass CPUARMState to arm_ld[lq]_ptw
+      target/arm: Rename TBFLAG_A64 ZCR_LEN to VL
+      linux-user/aarch64: Introduce sve_vq
+      target/arm: Remove route_to_el2 check from sve_exception_el
+      target/arm: Remove fp checks from sve_exception_el
+      target/arm: Add el_is_in_host
+      target/arm: Use el_is_in_host for sve_zcr_len_for_el
+      target/arm: Use el_is_in_host for sve_exception_el
+      target/arm: Hoist arm_is_el2_enabled check in sve_exception_el
+      target/arm: Do not use aarch64_sve_zcr_get_valid_len in reset
+      target/arm: Merge aarch64_sve_zcr_get_valid_len into caller
+      target/arm: Use uint32_t instead of bitmap for sve vq's
+      target/arm: Rename sve_zcr_len_for_el to sve_vqm1_for_el
+      target/arm: Split out load/store primitives to sve_ldst_internal.h
+      target/arm: Export sve contiguous ldst support functions
+      target/arm: Move expand_pred_b to vec_internal.h
+      target/arm: Use expand_pred_b in mve_helper.c
+      target/arm: Move expand_pred_h to vec_internal.h
+      target/arm: Export bfdotadd from vec_helper.c
+      target/arm: Add isar_feature_aa64_sme
+      target/arm: Add ID_AA64SMFR0_EL1
+
+Sai Pavan Boddu (2):
+      xlnx_dp: Introduce a vblank signal
+      xlnx_dp: Fix the interrupt disable logic
+
+ docs/interop/vhost-user.rst       |    2 +-
+ docs/specs/vmgenid.txt            |    4 +-
+ docs/system/arm/emulation.rst     |    2 +
+ hw/scsi/mfi.h                     |    2 +-
+ include/hw/display/xlnx_dp.h      |   12 +-
+ linux-user/aarch64/target_prctl.h |   20 +-
+ target/arm/cpu.h                  |   66 +-
+ target/arm/internals.h            |   45 +-
+ target/arm/kvm_arm.h              |    7 +-
+ target/arm/sve_ldst_internal.h    |  221 +++
+ target/arm/translate-a64.h        |    2 +-
+ target/arm/translate.h            |    2 +-
+ target/arm/vec_internal.h         |   28 +-
+ target/i386/hvf/vmcs.h            |    2 +-
+ target/i386/hvf/vmx.h             |    2 +-
+ accel/hvf/hvf-accel-ops.c         |    4 +-
+ accel/kvm/kvm-all.c               |    4 +-
+ accel/tcg/user-exec.c             |    6 +-
+ hw/acpi/ghes.c                    |    2 +-
+ hw/arm/xlnx-zynqmp.c              |    4 +-
+ hw/display/xlnx_dp.c              |   49 +-
+ hw/intc/arm_gicv3_cpuif.c         |    2 +-
+ hw/intc/arm_gicv3_dist.c          |    2 +-
+ hw/intc/arm_gicv3_redist.c        |    4 +-
+ hw/intc/riscv_aclint.c            |    2 +-
+ hw/intc/riscv_aplic.c             |    2 +-
+ hw/pci/shpc.c                     |    2 +-
+ hw/sparc64/sun4u_iommu.c          |    2 +-
+ hw/timer/sse-timer.c              |    2 +-
+ linux-user/aarch64/signal.c       |    4 +-
+ target/arm/arch_dump.c            |    2 +-
+ target/arm/cpu.c                  |    5 +-
+ target/arm/cpu64.c                |  120 +-
+ target/arm/gdbstub.c              |    2 +-
+ target/arm/gdbstub64.c            |    2 +-
+ target/arm/helper.c               | 2742 ++-----------------------------------
+ target/arm/hvf/hvf.c              |    4 +-
+ target/arm/kvm64.c                |   47 +-
+ target/arm/mve_helper.c           |    6 +-
+ target/arm/ptw.c                  | 2540 ++++++++++++++++++++++++++++++++++
+ target/arm/sve_helper.c           |  232 +---
+ target/arm/tlb_helper.c           |   26 +
+ target/arm/translate-a64.c        |    2 +-
+ target/arm/translate-sve.c        |    2 +-
+ target/arm/vec_helper.c           |   28 +-
+ target/i386/cpu-sysemu.c          |    2 +-
+ target/s390x/ioinst.c             |    2 +-
+ python/qemu/machine/machine.py    |    2 +-
+ target/arm/meson.build            |    1 +
+ tests/tcg/x86_64/system/boot.S    |    2 +-
+ 50 files changed, 3240 insertions(+), 3037 deletions(-)
+ create mode 100644 target/arm/sve_ldst_internal.h
+ create mode 100644 target/arm/ptw.c
 
