@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7412254507D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:18:30 +0200 (CEST)
-Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B76544FB9
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:46:24 +0200 (CEST)
+Received: from localhost ([::1]:57548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzJvZ-0007oF-HJ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:18:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52320)
+	id 1nzJQV-0002sc-5y
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:46:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1525abdf4=anthony.perard@citrix.com>)
- id 1nzIkD-0001T9-EN; Thu, 09 Jun 2022 10:02:41 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:31027)
+ id 1nzIkE-0001WK-Hu; Thu, 09 Jun 2022 10:02:42 -0400
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:27721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1525abdf4=anthony.perard@citrix.com>)
- id 1nzIkB-00082x-Cb; Thu, 09 Jun 2022 10:02:41 -0400
+ id 1nzIkC-00083G-5T; Thu, 09 Jun 2022 10:02:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1654783359;
+ d=citrix.com; s=securemail; t=1654783360;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GCi02nV81YV0tmImsGwUdNEFIjjd2D3ncf0k9Oyr2J0=;
- b=L47WN67td54gmRSoWYPK6gk0VeIP4NWNDNayuB988LdoyE7HW3gNMszP
- jH+t7441B7xh24GbfjCqgNt4PXpjEbdsCgbo7AeED78zGBJXSFmf0JKZx
- +rpRmeOgWQSI3T6IPu+7kC2IMX1C7QcvO6swmZYXOX0TV9jit3qmWLkm0 c=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
+ bh=2U3jUoNslZi3eqK5NFra4Ihi53xzZqdKWsALmkjx8cU=;
+ b=OzqedZhKRcFnTMLL3xZrAJQ2x7vC09+KJzrJJ/SFmOns6R6jAFqL1HZw
+ lW1c5oC6qS7fOWDYZy7gD4W4J9PptwgpFC65qTQc9NXRM8xUbINQAbYix
+ Ak5iI5tvpUFGuhwbbMqlQ1o5nzvJahZbNLP8xgcFW9Z2HPxrwkXfXtyQQ A=;
+Authentication-Results: esa5.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
 X-SBRS: 5.1
-X-MesageID: 73081441
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-MesageID: 72584691
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.156.83
 X-Policy: $RELAYED
-IronPort-Data: A9a23:hxNNkKsJRYK5PaG/fUxY5bVxvefnVDteMUV32f8akzHdYApBsoF/q
- tZmKW6Cb62PNzakc95+b97l/EgO68eAyNNqTwM5+Xs0ESxB+JbJXdiXEBz9bniYRiHhoOOLz
- Cm8hv3odp1coqr0/0/1WlTZhSAgk/nOHNIQMcacUsxLbVYMpBwJ1FQywobVvqYy2YLjW13V6
- YupyyHiEATNNwBcYzp8B52r8HuDjNyq0N/PlgVjDRzjlAa2e0g9VPrzF4noR5fLatA88tqBb
- /TC1NmEElbxpH/BPD8HfoHTKSXmSpaKVeSHZ+E/t6KK2nCurQRquko32WZ1he66RFxlkvgoo
- Oihu6BcRi8pG/XrtfQQeCB4GnpRbbZP+7TBKGGw5Jn7I03uKxMAwt1rBUAye4YZ5vx2ESdF8
- vlwxDIlN07ZwbjsmfTiF7cq1p9LwMrDZevzvllpyy3ZCvA3B4jOWazQ6fdT3Ssqh9AIFvHbD
- yYcQWU0NESZP0EWUrsRILMMuN/wmSDeSRJ7hkLE+asv5VjyyQMkhdABN/KKI4fXFK25hH2wp
- HnA+HvRGBwWNNWDjzGC9xqEn+LKgGbxXIUZF5W+8fhlhkDVwXYcYDUPWF6m5PW0lEO6c9RYL
- UMS52wpt6da3FerQ9/hUgyQr3uNvxpaUN1Ve9DW8ynUlPCSuVzAQDFZEHgRM7TKqfPaWxQq8
- weussPkLgVPuea6GWmU9bySpCq9bH19wXA5WcMUcecUy4C9/d1t00iTHokL/L2d1YOsR2ypq
- 9yehG1n3uhI05ZWv0mu1Qqf6w9AsKQlWeLcCu//emu+pj10a4e+D2BDwQiKtK0QRGp1o7Tog
- ZTlpyR9xLpXZX11vHbRKNjh5Znwjxp/DBXSgER0A74q/Cm39niocOh4uW8jeBgwaZxUJWGyO
- Cc/XD+9A7cKZBOXgVJfOdrtW6zGM4C7fTgaahwkRoUXOcUgHON21CpveVSRzwjQraTYqolmY
- c3zWZ/1VR4yUP07pBLrFrx1+eJ6mUgDKZb7GMmTI+KPiuLOOhZ4iN4tbTOzUwzOxPPc+lWMo
- o0PbqNnCXx3CYXDX8UeyqZLRXhiEJTxLcqeRxB/HgJbHjdbJQ==
-IronPort-HdrOrdr: A9a23:Ub9Atai9rI0iFYRiGchwfehakXBQXtwji2hC6mlwRA09TySZ//
- rAoB19726StN9xYgBYpTnuAsi9qB/nmKKdpLNhX4tKPzOW3FdATrsD0WKK+VSJcEfDH6xmpM
- JdmsBFebvN5DNB4/oSjjPVLz9Z+qjlzJyV
-X-IronPort-AV: E=Sophos;i="5.91,287,1647316800"; d="scan'208";a="73081441"
+IronPort-Data: A9a23:/nEWgK+ZETWmMnB+WLlxDrUDJ36TJUtcMsCJ2f8bNWPcYEJGY0x3m
+ jEdWDiPM/yNMGP9edF2aN+xpE1TusCAydVnQVFp/n88E34SpcT7XtnIdU2Y0wF+jyHgoOCLy
+ +1EN7Es+ehtFie0Si+Fa+Sn9T8mvU2xbuKU5NTsY0idfic5DnZ44f5fs7Rh2NQw34DpW1jlV
+ e7a+KUzBnf0g1aYDUpMg06zgEsHUCPa4W5wUvQWPJinjXeG/5UnJMt3yZKZdhMUdrJ8DO+iL
+ 9sv+Znilo/vE7XBPfv++lrzWhVirrc/pmFigFIOM0SpqkAqSiDfTs/XnRfTAKtao2zhojx/9
+ DlCnczoTDksMKzyo7wyCCtjHwh5BYZL46CSdBBTseTLp6HHW37lwvEoB0AqJ4wIvO1wBAmi9
+ 9RBdmpLNErawbvrnvTrEYGAhex6RCXvFIoZpnFnyyCfFfs8SIrPa67L+cVZzHE7gcUm8fP2O
+ JBEOWYxPU2ojxtnancZCJEag+eTl2TOeH5n80mTi7sM7D2GpOB2+Oe0a4eEEjCQfu1Ql1yTq
+ 2aA9nz3DxUQPcGa4TWA+3OowOTImEvTXZkOPKe1+v5jnBuYwWl7IBAaSFKhrf6Rike0WNVEN
+ woS9zZGhbE/8VHuRN36VB6QpnmCsRgBHd1KHIUS+AyLj6bZ/QudLmwFVSJaLswrstcsQj4n3
+ UPPmMnmbRRtq7uSVlqH+7uUpC/0Mi8QRUcZfjMNRwYB59jloakwgwjJQ9IlF7S65vXuGTz23
+ z2bhCc7jrQXy8UM0s2T5F3Cnnegq4bESiYz4QPYWH/j6Rl2DKa/Zoeo4ELXq/ZNKoqUVEKGu
+ lAAms6X9udICouC/ASVSuILDrCv5t6fPTHciEIpFJ4knxy18mOnVZBd5nd5PkgBDyofUWa3O
+ gmJ41oXvcINeivxBUNqX26vI5RyyJblG9Xbbaj7Neh1brF2TCSK5z47MCZ8wFvRfFgQfbAXY
+ MnGLZjxVypKVsyL3xLtGb5DjOZDKjQWgDqKGMull0nPPa+2Pib9dFsTDLeZggnVBougqR6dz
+ dtQPtDiJ/53ALynOXm/HWL+wDk3wZkH6XPe8ZU/mhareFYOJY3YI6a5LUkdU4Jkhb9JsezD4
+ 2uwXERVoHKm2yCbdlzRMCA/Nui3NXqakZ7cFXV0VWtEJlB5Odr/hEvhX8BfkUYbGBxLkqcvE
+ qhtlzSoCfVTUDXXkwkggW3GhNU6LnyD3FvWVwL8OWRXV8MxHGThp467FjYDAQFTV0JbQ+Nl+
+ +3+vu4aKLJeLzlf4DH+OKr1nwrg5ihE8A+wNmORSuRulIzX2NACA0TMYjUfeqng9T2rKuOm6
+ jur
+IronPort-HdrOrdr: A9a23:F79vfakFKVUIC4pgni6YLoKgTvnpDfIq3DAbv31ZSRFFG/Fxl6
+ iV88jzsiWE7gr5OUtQ/uxoV5PgfZqxz/NICMwqTNWftWrdyQ+VxeNZjbcKqgeIc0aVygce79
+ YET0EXMqyIMbEQt6jHCWeDf+rIuOP3k5yVuQ==
+X-IronPort-AV: E=Sophos;i="5.91,287,1647316800"; d="scan'208";a="72584691"
 To: <qemu-devel@nongnu.org>
 CC: Bernhard Beschow <shentey@gmail.com>, Anthony PERARD
- <anthony.perard@citrix.com>, John Snow <jsnow@redhat.com>,
- <qemu-block@nongnu.org>
-Subject: [PULL 2/3] hw/ide/piix: Add some documentation to
- pci_piix3_xen_ide_unplug()
-Date: Thu, 9 Jun 2022 15:02:01 +0100
-Message-ID: <20220609140202.45227-3-anthony.perard@citrix.com>
+ <anthony.perard@citrix.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>, "Richard
+ Henderson" <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, "Marcel
+ Apfelbaum" <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>,
+ <xen-devel@lists.xenproject.org>, <qemu-block@nongnu.org>
+Subject: [PULL 3/3] include/hw/ide: Unexport pci_piix3_xen_ide_unplug()
+Date: Thu, 9 Jun 2022 15:02:02 +0100
+Message-ID: <20220609140202.45227-4-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220609140202.45227-1-anthony.perard@citrix.com>
 References: <20220609140202.45227-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.155.175;
+Received-SPF: pass client-ip=216.71.155.168;
  envelope-from=prvs=1525abdf4=anthony.perard@citrix.com;
- helo=esa6.hc3370-68.iphmx.com
+ helo=esa5.hc3370-68.iphmx.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -97,25 +104,41 @@ From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-The comment is based on commit message
-ae4d2eb273b167dad748ea4249720319240b1ac2 'xen-platform: add missing disk
-unplug option'. Since it seems to describe design decisions and
-limitations that still apply it seems worth having.
+This function was declared in a generic and public header, implemented
+in a device-specific source file but only used in xen_platform. Given its
+'aux' parameter, this function is more xen-specific than piix-specific.
+Also, the hardcoded magic constants seem to be generic and related to
+PCIIDEState and IDEBus rather than piix.
+
+Therefore, move this function to xen_platform, unexport it, and drop the
+"piix3" in the function name as well.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20220513180957.90514-3-shentey@gmail.com>
+Reviewed-by: Paul Durrant <paul@xen.org>
+Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220513180957.90514-4-shentey@gmail.com>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- hw/ide/piix.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ hw/i386/xen/xen_platform.c | 48 +++++++++++++++++++++++++++++++++++++-
+ hw/ide/piix.c              | 46 ------------------------------------
+ include/hw/ide.h           |  3 ---
+ 3 files changed, 47 insertions(+), 50 deletions(-)
 
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 2345fe9e1d..bc1b37512a 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -173,6 +173,17 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
-     }
+diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+index 72028449ba..a64265cca0 100644
+--- a/hw/i386/xen/xen_platform.c
++++ b/hw/i386/xen/xen_platform.c
+@@ -26,6 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "hw/ide.h"
++#include "hw/ide/pci.h"
+ #include "hw/pci/pci.h"
+ #include "hw/xen/xen_common.h"
+ #include "migration/vmstate.h"
+@@ -134,6 +135,51 @@ static void pci_unplug_nics(PCIBus *bus)
+     pci_for_each_device(bus, 0, unplug_nic, NULL);
  }
  
 +/*
@@ -129,9 +152,123 @@ index 2345fe9e1d..bc1b37512a 100644
 + *
 + * [1] https://xenbits.xen.org/gitweb/?p=xen.git;a=blob;f=docs/misc/hvm-emulated-unplug.pandoc
 + */
- int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
++static void pci_xen_ide_unplug(DeviceState *dev, bool aux)
++{
++    PCIIDEState *pci_ide;
++    int i;
++    IDEDevice *idedev;
++    IDEBus *idebus;
++    BlockBackend *blk;
++
++    pci_ide = PCI_IDE(dev);
++
++    for (i = aux ? 1 : 0; i < 4; i++) {
++        idebus = &pci_ide->bus[i / 2];
++        blk = idebus->ifs[i % 2].blk;
++
++        if (blk && idebus->ifs[i % 2].drive_kind != IDE_CD) {
++            if (!(i % 2)) {
++                idedev = idebus->master;
++            } else {
++                idedev = idebus->slave;
++            }
++
++            blk_drain(blk);
++            blk_flush(blk);
++
++            blk_detach_dev(blk, DEVICE(idedev));
++            idebus->ifs[i % 2].blk = NULL;
++            idedev->conf.blk = NULL;
++            monitor_remove_blk(blk);
++            blk_unref(blk);
++        }
++    }
++    qdev_reset_all(dev);
++}
++
+ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
  {
-     PCIIDEState *pci_ide;
+     uint32_t flags = *(uint32_t *)opaque;
+@@ -147,7 +193,7 @@ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
+ 
+     switch (pci_get_word(d->config + PCI_CLASS_DEVICE)) {
+     case PCI_CLASS_STORAGE_IDE:
+-        pci_piix3_xen_ide_unplug(DEVICE(d), aux);
++        pci_xen_ide_unplug(DEVICE(d), aux);
+         break;
+ 
+     case PCI_CLASS_STORAGE_SCSI:
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index bc1b37512a..9a9b28078e 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -173,52 +173,6 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+     }
+ }
+ 
+-/*
+- * The Xen HVM unplug protocol [1] specifies a mechanism to allow guests to
+- * request unplug of 'aux' disks (which is stated to mean all IDE disks,
+- * except the primary master).
+- *
+- * NOTE: The semantics of what happens if unplug of all disks and 'aux' disks
+- *       is simultaneously requested is not clear. The implementation assumes
+- *       that an 'all' request overrides an 'aux' request.
+- *
+- * [1] https://xenbits.xen.org/gitweb/?p=xen.git;a=blob;f=docs/misc/hvm-emulated-unplug.pandoc
+- */
+-int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
+-{
+-    PCIIDEState *pci_ide;
+-    int i;
+-    IDEDevice *idedev;
+-    IDEBus *idebus;
+-    BlockBackend *blk;
+-
+-    pci_ide = PCI_IDE(dev);
+-
+-    for (i = aux ? 1 : 0; i < 4; i++) {
+-        idebus = &pci_ide->bus[i / 2];
+-        blk = idebus->ifs[i % 2].blk;
+-
+-        if (blk && idebus->ifs[i % 2].drive_kind != IDE_CD) {
+-            if (!(i % 2)) {
+-                idedev = idebus->master;
+-            } else {
+-                idedev = idebus->slave;
+-            }
+-
+-            blk_drain(blk);
+-            blk_flush(blk);
+-
+-            blk_detach_dev(blk, DEVICE(idedev));
+-            idebus->ifs[i % 2].blk = NULL;
+-            idedev->conf.blk = NULL;
+-            monitor_remove_blk(blk);
+-            blk_unref(blk);
+-        }
+-    }
+-    qdev_reset_all(dev);
+-    return 0;
+-}
+-
+ static void pci_piix_ide_exitfn(PCIDevice *dev)
+ {
+     PCIIDEState *d = PCI_IDE(dev);
+diff --git a/include/hw/ide.h b/include/hw/ide.h
+index c5ce5da4f4..60f1f4f714 100644
+--- a/include/hw/ide.h
++++ b/include/hw/ide.h
+@@ -8,9 +8,6 @@
+ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
+                         DriveInfo *hd0, DriveInfo *hd1);
+ 
+-/* ide-pci.c */
+-int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
+-
+ /* ide-mmio.c */
+ void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
+ 
 -- 
 Anthony PERARD
 
