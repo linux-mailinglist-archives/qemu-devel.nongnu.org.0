@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32E8544EC1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:22:03 +0200 (CEST)
-Received: from localhost ([::1]:35480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42D5544EE3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:26:07 +0200 (CEST)
+Received: from localhost ([::1]:46622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzJ2x-0000fS-0K
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45688)
+	id 1nzJ6s-0000u4-Gx
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzIJ0-0004fS-6e
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:34:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57518)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzIIx-0002nL-98
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:34:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654781670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GlQ8FBlP/drXQ8Lb3KbrrEPrF8f85P+9QjKCvTgg4Bg=;
- b=SoQq1hqmYoTelqT74XC2AnEdRLAkoHEM7/u2iUPB+wByBGGq8c/7Bx+QNlftbepnm79TsB
- 1eU8I/pcwkaPWJc4DWiuK2TTWfhRij1OciIPDtRkGj+1s8yzJZSc7kYGEXCUH0ziYmROgi
- Eca9K9do5KZRwEJ6errmI4VHvwglRxQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-28-0J5iAZZSO5Cz0A05vvpusQ-1; Thu, 09 Jun 2022 09:34:25 -0400
-X-MC-Unique: 0J5iAZZSO5Cz0A05vvpusQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8822E294EDE1;
- Thu,  9 Jun 2022 13:34:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37038492C3B;
- Thu,  9 Jun 2022 13:34:24 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9A06F1800094; Thu,  9 Jun 2022 15:34:11 +0200 (CEST)
-Date: Thu, 9 Jun 2022 15:34:11 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu Developers <qemu-devel@nongnu.org>, xen-devel@lists.xenproject.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Subject: Re: [PATCH v3 2/3] ui: Deliver refresh rate via QemuUIInfo
-Message-ID: <20220609133411.uneuazwmcczzap6i@sirius.home.kraxel.org>
-References: <20220226115516.59830-1-akihiko.odaki@gmail.com>
- <20220226115516.59830-3-akihiko.odaki@gmail.com>
- <20220609102805.qz2xrnd6ms6cigir@sirius.home.kraxel.org>
- <19ae71a4-c988-3c9e-20d6-614098376524@gmail.com>
- <20220609120214.bay3cl24oays6x6d@sirius.home.kraxel.org>
- <c0c610b8-df0c-7e2a-385f-bcf70c987182@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzIOH-0000qp-IQ
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:40:03 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:39582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzIOF-0003it-MB
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:40:01 -0400
+Received: by mail-pl1-x631.google.com with SMTP id o17so20281390pla.6
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 06:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4aSPInwHSsWfJngH3aENAwvVPqutgVR9oemg1RfYZes=;
+ b=QFbb66o+Q4HDVAKsEGLieEg5ZxtZ9V0Y510YR3q33/nt2HRr0maO5Cdqd50ljf1rWf
+ 6+tsg6Kp0fkZ5yOokqhshismmP0rrfK5zeboK9hfxPdXE5/PSFd7IYjaIaDDbHu4ZPRu
+ 5TuPCf9EjlFOEC1fupKGQAjoZ9KuACvW6hNv1sD8dCJkLSeAJLw+C868/h1r9FwBnSXH
+ KqRpIt2QjAUeny6LFgIvJojYsIV+AATDdSh3WlnRmjeqYjBLZx6zNAS5/zw5BPfLKvTY
+ tfPSKs8+kDb1dL/Cv8gr2sO+L5nm7pw/hEOAwymzGjXV0pc8uETObFZnlu82FyyJnaTl
+ DNGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4aSPInwHSsWfJngH3aENAwvVPqutgVR9oemg1RfYZes=;
+ b=BmCS4/N85pWB9xgPveJ97fDghcf1XPN8SqIZjByP3uzDVp4dd7zGwwGbY1NJVcp/GX
+ o2JKbz7/4Kie6kT9Ziu4huaAmc1a0mpbKxBYtQc3HlG8638EEwAPTqaRYQ1UwsreR8Or
+ 0Epqf7kPf1qK7d6Sj1MowF7oKo9vSvL1g0P9TPly/1IeOxRq2zRjJUPXLO93Kj8ViU86
+ AzMt46YRQ+9G4QYaqgPqZJzURdI9TvpL9Pp0bjQMhEmkB55ThyKuGsmvGAXpW7dh1rhE
+ g9vBG9dY4gA0OQdkg7djXtiZH3O6+WcoT3PWbwgtzdDCbaq3hHIt+3dQfobN2WeTZjHY
+ TCZQ==
+X-Gm-Message-State: AOAM533bMU4eL4cAnUqsq4Orl4/6HasbujpDF2pYI1LntQ6LvoRcjeus
+ 101vajHYOT6fadKW2b+AnDcHLo1tNm+SlBuKffZksA==
+X-Google-Smtp-Source: ABdhPJypt58uFVPYT+8HNAMeBoxZfsyjSjpmqBVJulau9f1zfwMtKK0daMhHrjRFX+OCuf5CM/ddeZpbcsG33d/7J/g=
+X-Received: by 2002:a17:90b:1e47:b0:1e6:7d04:2f4 with SMTP id
+ pi7-20020a17090b1e4700b001e67d0402f4mr3465151pjb.93.1654781997210; Thu, 09
+ Jun 2022 06:39:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c0c610b8-df0c-7e2a-385f-bcf70c987182@gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220605001632.3402-1-oxr463@gmx.us>
+In-Reply-To: <20220605001632.3402-1-oxr463@gmx.us>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jun 2022 14:39:45 +0100
+Message-ID: <CAFEAcA-QWSYHtk=KeuFhKgZ8g0ktJYK_KLZTBzL-JY_ZCvztRA@mail.gmail.com>
+Subject: Re: [PATCH] docs/devel/*.txt: convert remaining files to
+ restructuredText
+To: oxr463@gmx.us
+Cc: qemu-devel@nongnu.org, Lucas Ramage <lucas.ramage@infinite-omicron.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,42 +82,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Sun, 5 Jun 2022 at 01:16, <oxr463@gmx.us> wrote:
+>
+> From: Lucas Ramage <lucas.ramage@infinite-omicron.com>
+>
+> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/527
+> Signed-off-by: Lucas Ramage <lucas.ramage@infinite-omicron.com>
+> ---
+>  docs/devel/{blkdebug.txt => blkdebug.rst}     |  8 +++++-
+>  docs/devel/{blkverify.txt => blkverify.rst}   | 12 ++++++---
+>  docs/devel/index-build.rst                    |  2 ++
+>  docs/devel/index-internals.rst                |  5 ++++
+>  docs/devel/{lockcnt.txt => lockcnt.rst}       | 25 ++++++++++---------
+>  ...e-iothreads.txt => multiple-iothreads.rst} |  3 +++
+>  docs/devel/{rcu.txt => rcu.rst}               |  0
+>  docs/devel/{replay.txt => replay.rst}         | 11 +++++---
+>  ...tio-migration.txt => virtio-migration.rst} |  6 ++---
+>  9 files changed, 48 insertions(+), 24 deletions(-)
+>  rename docs/devel/{blkdebug.txt => blkdebug.rst} (99%)
+>  rename docs/devel/{blkverify.txt => blkverify.rst} (94%)
+>  rename docs/devel/{lockcnt.txt => lockcnt.rst} (95%)
+>  rename docs/devel/{multiple-iothreads.txt => multiple-iothreads.rst} (99%)
+>  rename docs/devel/{rcu.txt => rcu.rst} (100%)
+>  rename docs/devel/{replay.txt => replay.rst} (96%)
+>  rename docs/devel/{virtio-migration.txt => virtio-migration.rst} (98%)
 
-> > > > (1) add refresh_rate
-> > > > (2) update users one by one
-> > > > (3) finally drop update_interval when no user is left.
-> > > > 
-> > > > thanks,
-> > > >     Gerd
-> > > > 
-> > > 
-> > > I think 1 and 3 should have to be done once since refresh_rate and
-> > > update_interval would interfere with each other otherwise.
-> > 
-> > Well, between 1 and 3 both old and new API are active.  Shouldn't be
-> > much of a problem because the GraphicHwOps implementations are using
-> > only the one or the other.
-> > 
-> > take care,
-> >    Gerd
-> > 
-> 
-> The only GraphicHwOps implementation updated with this change is xenfb.
-> xenfb can be switched to use refresh_rate in step 1 or 3.
-> 
-> Switching to use refresh_rate in step 1 would break the refresh rate
-> propagation until all host displays are updated to set refresh_rate instead
-> of calling update_interval.
+Thanks for these conversions. Unfortunately at least the version
+of Sphinx I have doesn't seem to be happy with them :-(
 
-Well, host display update would need splitting into two pieces too,
-first add refresh_rate, then later drop update_interval, to make the
-update scheme work without temporary breakage.
+replay.txt was converted in commit 04d0583a4f5d000 already.
 
-That sounds increasingly like over engineering it though, I guess I just
-queue up the patches as-is.
+On my version of Sphinx there are a number of errors reported
+(since Sphinx bails out on first error you need to fix up each
+one to see the next):
 
-thanks,
-  Gerd
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/blkverify.rst:70:Unexpected
+indentation.
 
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/rcu.rst:43:Block
+quote ends without a blank line; unexpected unindent.
+
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/rcu.rst:89:Inline
+emphasis start-string without end-string.
+
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/rcu.rst:103:Definition
+list ends without a blank line; unexpected unindent.
+
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/rcu.rst:112:Unexpected
+indentation.
+
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/rcu.rst:120:Inline
+emphasis start-string without end-string.
+
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/rcu.rst:129:Inline
+emphasis start-string without end-string.
+
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/rcu.rst:151:Inline
+emphasis start-string without end-string.
+
+/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/docs/devel/virtio-migration.rst:12:Unexpected
+indentation.
+
+
+These are caused largely by two things:
+
+(1) An indented section in the documentation that's intended to be
+an ASCII-art diagram or command line example and should be rendered
+in fixed-width text needs to be preceded by a double-colon. Otherwise
+it's just a normal indented paragraph (and if it has things like
+multiple lines with indentation of their own then Sphinx will complain
+about incorrect intendation).
+
+(2) Text like
+ typeof(*p) qatomic_rcu_read(p);
+needs to be surrounded by ``...`` so that the '*' isn't interpreted as
+the *emphasis* markup (and also so it ends up as fixed-width font).
+That in turn means that we should mark up the other cases in rcu.rst
+similarly even if they happen not to have '*' characters, for consistency.
+
+Also, if you look at the rendered HTML for these files you'll
+see it looks a bit odd where Sphinx's formatting rules don't find
+the input text to be a syntax error but still aren't interpreting
+it the way the original text documentation was written, as for
+instance in the list of rule attributes in blkdebug.rst.
+
+Finally, when a .txt file has a copyright/license statement in it,
+we don't want that to appear in the rendered HTML documentation.
+We handle this by putting it in a Sphinx comment. There's an
+example of this in docs/system/replay.rst.
+
+Since all that implies that each of these files is going to need a bit
+more changes than just fixing up the section titles, I think it
+would probably be preferable to split this into more than one commit.
+
+thanks
+-- PMM
 
