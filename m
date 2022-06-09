@@ -2,94 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF96A545667
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:20:21 +0200 (CEST)
-Received: from localhost ([::1]:52490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E460545621
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 23:06:08 +0200 (CEST)
+Received: from localhost ([::1]:59982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzPZk-0007sR-47
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47910)
+	id 1nzPLz-000130-6e
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 17:06:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1nzP95-0003fu-Pd
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:52:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32214)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nzPIc-0006if-Cf
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 17:02:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1nzP91-00042P-Sg
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 16:52:46 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nzPIa-0005IA-6C
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 17:02:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654807961;
+ s=mimecast20190719; t=1654808554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KmGtJ+z0uxqtZARm1e++PYWcnDb0B2zAgj2YP2NlTI0=;
- b=ZqaeLgpeIbGpgH2/DUbTuaJsLjuvMXrTKRj+J75s9QS6/JGZW9CL7mAfWtcSQtH8YE1HQ5
- qBgmBtcBvgAmVr3yLYPACtJPkhZnwtNwABkkKWBeObjOsSAkur2r6yMN7bSTBg5X2iS7IV
- WZLmNh/s4cAGCUTZfHLGiZWB4D16qp4=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Gbd1rKmmfE1Je9q1WTiAIe9P3w4qSHPNBvf6k2a2b3A=;
+ b=gLTGnFKU9FVJsq2oflaxFBNu2KJWERPTM/9WJWQlYbfMEysx3fwIWbPJ/1JfdTDLkj5s8p
+ 84BovxX7Mmcp+QtdWS3HBU3FUl+mjnnNF1iOyHQrmaKKEPcDs5AkA9AvifFESZ0WIEGNg5
+ I+BOjHX690ysMtrjB/mLoXJSx8aU6gQ=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-SVdTVdbyMGqCWs-_ng-UCA-1; Thu, 09 Jun 2022 16:52:40 -0400
-X-MC-Unique: SVdTVdbyMGqCWs-_ng-UCA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- 15-20020ac8570f000000b00304e9e3b19aso11371697qtw.8
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 13:52:40 -0700 (PDT)
+ us-mta-7-L1RpM3o0Ng6h_pQrcpKhAQ-1; Thu, 09 Jun 2022 17:02:33 -0400
+X-MC-Unique: L1RpM3o0Ng6h_pQrcpKhAQ-1
+Received: by mail-il1-f197.google.com with SMTP id
+ g8-20020a92cda8000000b002d15f63967eso18355438ild.21
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 14:02:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KmGtJ+z0uxqtZARm1e++PYWcnDb0B2zAgj2YP2NlTI0=;
- b=zMxXelGYcHU3rkvSPfEEbHCs1myniVeJXKYV0p8H8l2J2tVHCco4iNpEH4R6JKHX9g
- Dm+8sLOUUf9mYgKRyflxUzMZh7PAUgoIcijtYsr4iLPFKYQ4JcAcvzA8bj0Dr3rJgVUU
- 8Y3tfOdmsNoQGPXn2mTk5pgIpW1P5JZb523rJkqTCxkr7DmL4m1ESpLFQUTvLTXGQIw2
- mC3mgki1YgSnnp5v7/N0MnNPo1+ke4tbcSBSNWaVLaOXiMGFtOkjNB93nDttM28X2C9/
- ffy0WUNCo8RY5FjbnPwil1/ZeFBmWstvo9vLIu1ymwv6s1ZAffNt4bg/yKVxM2k7zhIb
- 3z5w==
-X-Gm-Message-State: AOAM5303Lou+DxZKo85O1+BdtOHWyGapjA4VR3Z8egyl+Y7Myh2sivlT
- HopuHcLX8IDvbt5Eh32yctLOjCUjtQgCQgAdcUr/nhLbcZyOkABkyZ9tg458vhZN5FBrfnKJKUg
- 132pJSl24xhUrnsM=
-X-Received: by 2002:a05:620a:4155:b0:6a5:76e5:82c6 with SMTP id
- k21-20020a05620a415500b006a576e582c6mr28003152qko.420.1654807960194; 
- Thu, 09 Jun 2022 13:52:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzsAMlZpo/SvG8VQ3hCZ9eOhpMVjm/VOk+xd2VMlvsB47ZH65nHfJuPGgGIe3ES/q9lrKsJrQ==
-X-Received: by 2002:a05:620a:4155:b0:6a5:76e5:82c6 with SMTP id
- k21-20020a05620a415500b006a576e582c6mr28003140qko.420.1654807959832; 
- Thu, 09 Jun 2022 13:52:39 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.8.70])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Gbd1rKmmfE1Je9q1WTiAIe9P3w4qSHPNBvf6k2a2b3A=;
+ b=KaHh5iRFffAUYzeJ7QakGq5HQ69yiabS684ZL0Ahjo0cEqmY904drfcYHGlX67x3Vo
+ N2NAZP3kKKq3FRTL3fu8OkAEoFJeWE26DvL6iYgh5F01UFegi68zstMerADy2q8+oz38
+ 53muttq/V2pZGjgpri8gb7agiON1V6trdHfx7dQWDYBq0sGSDUWg0sfbOufnNYVKQ3lP
+ Otrp2TxVs9OyE21XSzB1A+eGz0JHNVCgnwCuetsYRPjR5OxaHbKgIfH4W2u/Sdbvz/Lt
+ rhjAnEjRpgJpGg9oIu72MFzwjTMvgoWz3lVGUvbH3wb2hHM9ywMNd7veTn85AWkHDQGN
+ nk/w==
+X-Gm-Message-State: AOAM531ifA3ucRsJ4YdxWG2zSxE+9+3KsS2Yt6z09hzLT+2tcQTcPQer
+ OIstI2UESts7glbHKQAY40C8VG+h/srIDjEFhmImN07wyRsbyBx8p6Re8X7oNX2I0Ild+1NSZ/H
+ Hty0qtf4O1VWN0as=
+X-Received: by 2002:a05:6e02:1d06:b0:2d1:a247:650a with SMTP id
+ i6-20020a056e021d0600b002d1a247650amr22966446ila.27.1654808552176; 
+ Thu, 09 Jun 2022 14:02:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxN9OghyzAfA0r3vkdMM1hMpbulYocH6dku+cLygYL4YZvnL94CYyShjVd49KFkzzbyLd/3qQ==
+X-Received: by 2002:a05:6e02:1d06:b0:2d1:a247:650a with SMTP id
+ i6-20020a056e021d0600b002d1a247650amr22966437ila.27.1654808551972; 
+ Thu, 09 Jun 2022 14:02:31 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- g4-20020a05620a40c400b006a74458410csm141261qko.123.2022.06.09.13.52.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jun 2022 13:52:39 -0700 (PDT)
-Message-ID: <81563e7d-7743-beab-6eaa-3bb20be1b0df@redhat.com>
-Date: Thu, 9 Jun 2022 22:52:37 +0200
+ j14-20020a92200e000000b002d191911e59sm10865496ile.52.2022.06.09.14.02.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 14:02:31 -0700 (PDT)
+Date: Thu, 9 Jun 2022 17:02:29 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH RFC 4/5] cpu: Allow cpu_synchronize_all_post_init() to
+ take an errp
+Message-ID: <YqJf5WlSyK2o2xJg@xz-m1.local>
+References: <20220607230645.53950-1-peterx@redhat.com>
+ <20220607230645.53950-5-peterx@redhat.com>
+ <YqDW2AZDb3buF9YQ@work-vm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC PATCH v2 2/8] qapi: net: introduce a way to bypass
- qemu_opts_parse_noisily()
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20220512080932.735962-1-lvivier@redhat.com>
- <20220512080932.735962-3-lvivier@redhat.com> <87v8u91xwd.fsf@pond.sub.org>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <87v8u91xwd.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YqDW2AZDb3buF9YQ@work-vm>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,204 +103,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/05/2022 13:21, Markus Armbruster wrote:
-> Laurent Vivier <lvivier@redhat.com> writes:
+On Wed, Jun 08, 2022 at 06:05:28PM +0100, Dr. David Alan Gilbert wrote:
+> > @@ -2005,7 +2005,17 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+> >      /* TODO we should move all of this lot into postcopy_ram.c or a shared code
+> >       * in migration.c
+> >       */
+> > -    cpu_synchronize_all_post_init();
+> > +    cpu_synchronize_all_post_init(&local_err);
+> > +    if (local_err) {
+> > +        /*
+> > +         * TODO: a better way to do this is to tell the src that we cannot
+> > +         * run the VM here so hopefully we can keep the VM running on src
+> > +         * and immediately halt the switch-over.  But that needs work.
 > 
->> As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
->> of Netdev structure can collides with "type" field of SocketAddress),
+> Yes, I think it is possible; unlike some of the later errors in the same
+> function, in this case we know no disks/network/etc have been touched,
+> so we should be able to recover.
+> I wonder if we can move the postcopy_state_set(POSTCOPY_INCOMING_RUNNING)
+> out of loadvm_postcopy_handle_run to after this point.
 > 
-> To remember how this works, I have to write a more verbose version of
-> the above.  Why not post it then, so here goes.
-> 
-> qemu_init() passes the argument of -netdev, -nic, and -net to
-> net_client_parse().
-> 
-> net_client_parse() parses with qemu_opts_parse_noisily(), passing
-> QemuOptsList qemu_netdev_opts for -netdev, qemu_nic_opts for -nic, and
-> qemu_net_opts for -net.  Their desc[] are all empty, which means any
-> keys are accepted.  The result of the parse (a QemuOpts) is stored in
-> the QemuOptsList.
-> 
-> Note that QemuOpts is flat by design.  In some places, we layer non-flat
-> on top using dotted keys convention, but not here.
-> 
-> net_init_clients() iterates over the stored QemuOpts, and passes them to
-> net_init_netdev(), net_param_nic(), or net_init_client(), respectively.
-> 
-> These functions pass the QemuOpts to net_client_init().  They also do
-> other things with the QemuOpts, which we can ignore here.
-> 
-> net_client_init() uses the opts visitor to convert the (flat) QemOpts to
-> a (non-flat) QAPI object Netdev.  Netdev is also the argument of QMP
-> command netdev_add.
-> 
-> The opts visitor was an early attempt to support QAPI in
-> (QemuOpts-based) CLI.  It restricts QAPI types to a certain shape; see
-> commit eb7ee2cbeb "qapi: introduce OptsVisitor".
-> 
-> A more modern way to support QAPI is qobject_input_visitor_new_str().
-> It uses keyval_parse() instead of QemuOpts for KEY=VALUE,... syntax, and
-> it also supports JSON syntax.  The former isn't quite as expressive as
-> JSON, but it's a lot closer than QemuOpts + opts visitor.
-> 
->> we introduce a way to bypass qemu_opts_parse_noisily() and use directly
->> visit_type_Netdev() to parse the backend parameters.
-> 
-> This commit paves the way to use of the modern way instead.
+> We've already got the return path, so we should be able to signal the
+> failure unless we're very unlucky.
 
-I'm going to copy your analysis to the commit message of the patch.
+Right.  It's just that for the new ACK we may need to modify the return
+path protocol for sure, because none of the existing ones can notify such
+an information.
 
-> 
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> ---
->>   net/net.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 54 insertions(+)
->>
->> diff --git a/net/net.c b/net/net.c
->> index 58c05c200622..2aab7167316c 100644
->> --- a/net/net.c
->> +++ b/net/net.c
->> @@ -54,6 +54,7 @@
->>   #include "net/colo-compare.h"
->>   #include "net/filter.h"
->>   #include "qapi/string-output-visitor.h"
->> +#include "qapi/qobject-input-visitor.h"
->>   
->>   /* Net bridge is currently not supported for W32. */
->>   #if !defined(_WIN32)
->> @@ -63,6 +64,17 @@
->>   static VMChangeStateEntry *net_change_state_entry;
->>   static QTAILQ_HEAD(, NetClientState) net_clients;
->>   
->> +typedef struct NetdevQueueEntry {
->> +    bool is_netdev;
->> +    Netdev *nd;
->> +    Location loc;
->> +    QSIMPLEQ_ENTRY(NetdevQueueEntry) entry;
->> +} NetdevQueueEntry;
->> +
->> +typedef QSIMPLEQ_HEAD(, NetdevQueueEntry) NetdevQueue;
->> +
->> +static NetdevQueue nd_queue = QSIMPLEQ_HEAD_INITIALIZER(nd_queue);
->> +
->>   /***********************************************************/
->>   /* network device redirectors */
->>   
->> @@ -1559,6 +1571,19 @@ int net_init_clients(Error **errp)
->>   
->>       QTAILQ_INIT(&net_clients);
->>   
->> +    while (!QSIMPLEQ_EMPTY(&nd_queue)) {
->> +        NetdevQueueEntry *nd = QSIMPLEQ_FIRST(&nd_queue);
->> +
->> +        QSIMPLEQ_REMOVE_HEAD(&nd_queue, entry);
->> +        loc_push_restore(&nd->loc);
->> +        if (net_client_init1(nd->nd, nd->is_netdev, errp) < 0) {
-> 
-> I think you need to loc_pop() here.
-> 
->> +            return -1;
->> +        }
-> 
-> Since the only caller passes &error_fatal, I'd be tempted to ditch the
-> @errp argument, and simply do
-> 
->             net_client_init1(nd->nd, nd->is_netdev, &error_fatal);
-> 
-> It's what we do for -blockdev, -device, and -object.
+One idea is to reuse MIG_RP_MSG_RESUME_ACK, it was only used for postcopy
+recovery before to do the final handshake with offload=1 only (which is
+defined as MIGRATION_RESUME_ACK_VALUE).  We could try to fill in the
+payload with some !1 value, to tell the source that we NACK the migration
+then src fails the migration as long as possible?
 
-I've added a patch to remove the @errp from the net_init_clients() arguments.
+That seems to be even compatibile with one old qemu migrating to a new qemu
+scenario, because when the old qemu notices the MIG_RP_MSG_RESUME_ACK
+message with !1 payload, it'll mark the rp bad:
 
-> 
->> +        loc_pop(&nd->loc);
->> +        qapi_free_Netdev(nd->nd);
->> +        g_free(nd);
->> +    }
->> +
->>       if (qemu_opts_foreach(qemu_find_opts("netdev"),
->>                             net_init_netdev, NULL, errp)) {
->>           return -1;
->> @@ -1575,8 +1600,37 @@ int net_init_clients(Error **errp)
->>       return 0;
->>   }
->>   
->> +/*
->> + * netdev_is_modern() returns true when the backend needs to bypass
->> + * qemu_opts_parse_noisily()
->> + */
->> +static bool netdev_is_modern(const char *optarg)
->> +{
->> +    return false;
->> +}
->> +
->>   int net_client_parse(QemuOptsList *opts_list, const char *optarg)
->>   {
->> +    if (netdev_is_modern(optarg)) {
->> +            /*
->> +             * We need to bypass qemu_opts_parse_noisily() to accept
->> +             * new style object like addr.type=inet in SocketAddress
->> +             */
-> 
-> I'm not sure this will makes sense to future readers.
-> 
-> What about "Use modern, more expressive syntax"?
+  if (migrate_handle_rp_resume_ack(ms, tmp32)) {
+      mark_source_rp_bad(ms);
+      goto out;
+  }
 
-Done.
+  static int migrate_handle_rp_resume_ack(MigrationState *s, uint32_t value)
+  {
+      trace_source_return_path_thread_resume_ack(value);
+  
+      if (value != MIGRATION_RESUME_ACK_VALUE) {
+          error_report("%s: illegal resume_ack value %"PRIu32,
+                       __func__, value);
+          return -1;
+      }
+      ...
+  }
 
-> 
->> +            Visitor *v;
->> +            NetdevQueueEntry *nd;
->> +
->> +            v = qobject_input_visitor_new_str(optarg, "type",
->> +                                              &error_fatal);
->> +            nd = g_new(NetdevQueueEntry, 1);
->> +            visit_type_Netdev(v, NULL, &nd->nd, &error_fatal);
->> +            visit_free(v);
->> +            loc_save(&nd->loc);
->> +            nd->is_netdev = strcmp(opts_list->name, "netdev") == 0;
->> +
->> +            QSIMPLEQ_INSERT_TAIL(&nd_queue, nd, entry);
->> +            return 0;
->> +    }
-> 
-> Matches what we do for -blockdev, except we additionally have
-> nd->is_netdev.  We need it for calling net_client_init1().
-> 
-> If netdev_is_modern(optarg), then the only use of parameter @opts_list
-> is opts_list->name in the initialization of nd->is_netdev.
-> 
-> There's a bit of code smell, I'm afraid.
-
-I don't see what is the problem.
-
-> 
-> I believe @is_netdev needs to be true for -netdev, -nic, and netdev_add;
-> false for -net.
-> 
-> Will we ever use the modern syntax with -net?
-
-Yes, I think we should support the same syntax with -netdev and -net.
-
-My first iteration was to pass is_netdev=true to net_client_init1() and Stefano reported a 
-problem with "-net" with things like that:
-
-     -net dgram,id=socket0,local.type=inet,local.host=localhost,local.port=1234,\
-                           remote.type=inet,remote.host=localhost,remote.port=1235
-     -net nic,model=virtio,macaddr=9a:2b:2c:2d:2e:2f
-
-> 
-> Any chance we can deprecate -net?
-
-Who can decide of that?
-
-> 
->> +
->>       if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
->>           return -1;
->>       }
-> 
+If it looks generally good, I can try with such a change in v2.
 
 Thanks,
-Laurent
+
+-- 
+Peter Xu
 
 
