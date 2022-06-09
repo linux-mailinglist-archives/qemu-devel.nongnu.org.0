@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE38D5449CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 13:14:35 +0200 (CEST)
-Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02539544846
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:07:01 +0200 (CEST)
+Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzG7W-0004Fx-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 07:14:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39718)
+	id 1nzF48-0001Mk-Iu
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:07:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7Q-0001ZE-JP
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:22 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51890)
+ id 1nzE7K-0001Yp-Gw
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:18 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7H-000638-G6
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:19 -0400
-Received: by mail-wm1-x331.google.com with SMTP id z17so7275188wmi.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:08 -0700 (PDT)
+ id 1nzE7H-00063C-GG
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:14 -0400
+Received: by mail-wr1-x433.google.com with SMTP id d14so22478436wra.10
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LQAbBz4sWCtAO2yu2KsDdB0OcUgNeqq9QInZEXr67f8=;
- b=uv2vHh+riZszdtFm3LFhhQ7v4NIhkOmxQbzVRPNGbcRLEMthArUO/YkdBK9RmAGGLx
- O5o7zGdZMSlq9CDf+t1porKCQqSAk1rtPs5BYKolvCoUIlXBLoiG2BoTqRc7XcN91NNu
- lkH5cgO0x5oTEHdgg/dNNF2Yu0XtBKW3gzdHTvqQWq13JPdqK6CHxhKH19EYGuRPUqB5
- 554cntq1TYAas6rBJ5Xv8WFSfBcFekr2rGAHT3PRubRq39KkM+JU38M2BzRFvX+Lwvep
- n/cBHbDPqjjop3CfwVsRoXiQOdaqPBPSSbRQzkdd6JpYSst5UZ52bWx/Hu3itj7kkJfi
- xomQ==
+ bh=vIokLa9eFuxFiVW77KIrOZU1hdMYpdkzIffZFBXlcuc=;
+ b=CQqjOu4DBavLPFvIx3KuaWUMdGxL+Q8upq+K2k83UjjqO8avt4fANTtmgyGvENzIlq
+ bG0OrlgLufrp6AgPdkr3t7qpHgZT3zuQ0D439n6RukPJIZ5SNUbNuii8qTdWPz4QrjOc
+ AVyfC+7kAnk1V2x0ArAjV/RvAQPp5LZDf7QDUl5OU0xmxWSu8YuI5eQ7vQPoLJSchP90
+ 6T7Y0mBlOzlufl6Zmeo9GhOjGs7ZMvTSMn38YuuxleiRWjt4KOzE7Jq5mHjsB9mtMCQl
+ VCtBi165GQz4C2P5vrROmlxyzPwcVyWR7OCnoRXhzMeWWd9DlAvr8x0e35IlhqfvVckp
+ W2jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LQAbBz4sWCtAO2yu2KsDdB0OcUgNeqq9QInZEXr67f8=;
- b=Iw06qqy5GHMXeSEmmqmk4CuqP4O5mnN+5lbWQy9pT5mqR4E+iXpdlmkwmLinCFxTKO
- 4A7NPyaR4o/1CswYxpDUkw8ZgtpFe4coERV13+sWuGpdSGSAY8OjRAa84n9qP1HBlRNa
- VOWrKwU3qQWme2MxOb0qNOAKwWiOd40rNcNQIHuJcNYOIcmm4EYWDmPMsMdYF7Hl2WYK
- 7WQvZTXBWIy2lH5vjyUMILnNOjRqjLsQJrUnTkabE1elONmZhAJMrCBXJVkyHBnaMVl4
- qJCtbFOw1XXz5b8LGmAK7/jTlYnZVMKpaTB8z1f60bRP045zJQAdhLfefIdREPrtHEhx
- 1uHw==
-X-Gm-Message-State: AOAM531QYqYzvRjzPvQRYO3vGzsqC4+mMnGEscMO/CW52BspRs6vbMUd
- Ef8B0q583+ljJBkyomDOt7xMYEQjJRKnuw==
-X-Google-Smtp-Source: ABdhPJz2bR733zgoNP4W82EJu5U2kXu5XO4Lo7N323F3uSBGPxmP5DMy5zDDvuXawshQBdqDJlbxmQ==
-X-Received: by 2002:a05:600c:2244:b0:39c:4060:1ec9 with SMTP id
- a4-20020a05600c224400b0039c40601ec9mr2186915wmm.147.1654765567686; 
- Thu, 09 Jun 2022 02:06:07 -0700 (PDT)
+ bh=vIokLa9eFuxFiVW77KIrOZU1hdMYpdkzIffZFBXlcuc=;
+ b=AMvyxtzxW2876YLWuIHObXdEjBtc7hwn5QzNckJIttp7OlY0vPPPSOUzvjS1ZmL3fI
+ s85nNvdOv/7KiupUK4A+D9vzi4lN0l3ifLGERxUEOPhka3EppeHq0I5HoCU2Lh1GW998
+ XB/dcHK+epaHZuy+LVnepQxp8kfeQqEuEa6E8389O/BAFY5abinnaRn5kLpFFeteEkTY
+ FwXBENKQZOQurpgAMFgaqR8eHw+cfW2f0TjueKloLnkdfC+c9vMGU4M7ATFgvL90fr4c
+ z52WShNCUwqnNe8Abm2gO7WwegFdYLEt5p0q8cHdBqMNOz1kbDGTThZzXV/j4kMZKRkA
+ zM8w==
+X-Gm-Message-State: AOAM533veghIVQEDxBJFw+6d+RlP5E2dd31Zhcb9iHQSCF+TC65jmsnR
+ lFAmSQsCKE5WxSazzfX4yt9ryLBLVpCshQ==
+X-Google-Smtp-Source: ABdhPJwakeZ5a6QIKYbtHHG3gWrEtnC0HdHtrsge8p1M/SvAnweUdMCMnUkYwCd8N2hiXnwv/Pu7oA==
+X-Received: by 2002:a05:6000:1acc:b0:20f:f12a:a535 with SMTP id
+ i12-20020a0560001acc00b0020ff12aa535mr39078137wry.375.1654765568513; 
+ Thu, 09 Jun 2022 02:06:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.06
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:06:07 -0700 (PDT)
+ Thu, 09 Jun 2022 02:06:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/55] target/arm: Move {arm_s1_,
- }regime_using_lpae_format to tlb_helper.c
-Date: Thu,  9 Jun 2022 10:05:06 +0100
-Message-Id: <20220609090537.1971756-25-peter.maydell@linaro.org>
+Subject: [PULL 25/55] target/arm: Move arm_pamax, pamax_map into ptw.c
+Date: Thu,  9 Jun 2022 10:05:07 +0100
+Message-Id: <20220609090537.1971756-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,92 +90,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-These functions are used for both page table walking and for
-deciding what format in which to deliver exception results.
-Since ptw.c is only present for system mode, put the functions
-into tlb_helper.c.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220604040607.269301-18-richard.henderson@linaro.org
+Message-id: 20220604040607.269301-19-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c     | 24 ------------------------
- target/arm/tlb_helper.c | 26 ++++++++++++++++++++++++++
- 2 files changed, 26 insertions(+), 24 deletions(-)
+ target/arm/ptw.h    |  2 --
+ target/arm/helper.c | 25 -------------------------
+ target/arm/ptw.c    | 25 +++++++++++++++++++++++++
+ 3 files changed, 25 insertions(+), 27 deletions(-)
 
+diff --git a/target/arm/ptw.h b/target/arm/ptw.h
+index 28b8cb9fb89..fba650d01ca 100644
+--- a/target/arm/ptw.h
++++ b/target/arm/ptw.h
+@@ -11,8 +11,6 @@
+ 
+ #ifndef CONFIG_USER_ONLY
+ 
+-extern const uint8_t pamax_map[7];
+-
+ bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx);
+ bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx);
+ uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn);
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 398bcd62ab9..d2b196ff3e5 100644
+index d2b196ff3e5..563e34ecded 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -10515,30 +10515,6 @@ ARMMMUIdx stage_1_mmu_idx(ARMMMUIdx mmu_idx)
+@@ -10814,31 +10814,6 @@ bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
  }
  #endif /* !CONFIG_USER_ONLY */
  
--/* Return true if the translation regime is using LPAE format page tables */
--bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
+-/* This mapping is common between ID_AA64MMFR0.PARANGE and TCR_ELx.{I}PS. */
+-const uint8_t pamax_map[] = {
+-    [0] = 32,
+-    [1] = 36,
+-    [2] = 40,
+-    [3] = 42,
+-    [4] = 44,
+-    [5] = 48,
+-    [6] = 52,
+-};
+-
+-/* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
+-unsigned int arm_pamax(ARMCPU *cpu)
 -{
--    int el = regime_el(env, mmu_idx);
--    if (el == 2 || arm_el_is_aa64(env, el)) {
--        return true;
--    }
--    if (arm_feature(env, ARM_FEATURE_LPAE)
--        && (regime_tcr(env, mmu_idx)->raw_tcr & TTBCR_EAE)) {
--        return true;
--    }
--    return false;
+-    unsigned int parange =
+-        FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+-
+-    /*
+-     * id_aa64mmfr0 is a read-only register so values outside of the
+-     * supported mappings can be considered an implementation error.
+-     */
+-    assert(parange < ARRAY_SIZE(pamax_map));
+-    return pamax_map[parange];
 -}
 -
--/* Returns true if the stage 1 translation regime is using LPAE format page
-- * tables. Used when raising alignment exceptions, whose FSR changes depending
-- * on whether the long or short descriptor format is in use. */
--bool arm_s1_regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
--{
--    mmu_idx = stage_1_mmu_idx(mmu_idx);
--
--    return regime_using_lpae_format(env, mmu_idx);
--}
--
- #ifndef CONFIG_USER_ONLY
- bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
+ int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx)
  {
-diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-index 6421e16202e..7d8a86b3c45 100644
---- a/target/arm/tlb_helper.c
-+++ b/target/arm/tlb_helper.c
-@@ -11,6 +11,32 @@
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
+     if (regime_has_2_ranges(mmu_idx)) {
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index e4b860d2aee..d754273fa16 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -23,6 +23,31 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+                                ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
+     __attribute__((nonnull));
  
++/* This mapping is common between ID_AA64MMFR0.PARANGE and TCR_ELx.{I}PS. */
++static const uint8_t pamax_map[] = {
++    [0] = 32,
++    [1] = 36,
++    [2] = 40,
++    [3] = 42,
++    [4] = 44,
++    [5] = 48,
++    [6] = 52,
++};
 +
-+/* Return true if the translation regime is using LPAE format page tables */
-+bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
++/* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
++unsigned int arm_pamax(ARMCPU *cpu)
 +{
-+    int el = regime_el(env, mmu_idx);
-+    if (el == 2 || arm_el_is_aa64(env, el)) {
-+        return true;
-+    }
-+    if (arm_feature(env, ARM_FEATURE_LPAE)
-+        && (regime_tcr(env, mmu_idx)->raw_tcr & TTBCR_EAE)) {
-+        return true;
-+    }
-+    return false;
++    unsigned int parange =
++        FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
++
++    /*
++     * id_aa64mmfr0 is a read-only register so values outside of the
++     * supported mappings can be considered an implementation error.
++     */
++    assert(parange < ARRAY_SIZE(pamax_map));
++    return pamax_map[parange];
 +}
 +
-+/*
-+ * Returns true if the stage 1 translation regime is using LPAE format page
-+ * tables. Used when raising alignment exceptions, whose FSR changes depending
-+ * on whether the long or short descriptor format is in use.
-+ */
-+bool arm_s1_regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
-+{
-+    mmu_idx = stage_1_mmu_idx(mmu_idx);
-+    return regime_using_lpae_format(env, mmu_idx);
-+}
-+
- static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
-                                             unsigned int target_el,
-                                             bool same_el, bool ea,
+ static bool regime_translation_big_endian(CPUARMState *env, ARMMMUIdx mmu_idx)
+ {
+     return (regime_sctlr(env, mmu_idx) & SCTLR_EE) != 0;
 -- 
 2.25.1
 
