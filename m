@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B187544BAA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:23:59 +0200 (CEST)
-Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080B6544C3E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:37:10 +0200 (CEST)
+Received: from localhost ([::1]:45440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzHCg-0003eh-6R
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55272)
+	id 1nzHPR-00068N-2d
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:37:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1nzF1q-0002qV-BX
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:04:40 -0400
-Received: from mail.xen0n.name ([115.28.160.31]:54598
- helo=mailbox.box.xen0n.name)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1nzF1l-0006TO-Au
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:04:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
- t=1654769067; bh=3OLv9ajUJF2r2a+QtBQDGJalmUgE6SwNkMAn26kdcb8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BavuailqgOmBDb5uPqPfPESqilEz4CepnZwoqXB8MpA8U139WiaLrXyqe4kxfWTty
- bNPrYV45v9Dus17PXtq+R+MDjqSVrHd1o53JFjHTD3x9F2VpwQ3kjQodtmvVZvt6JT
- HviSWLDUwpX95vWSt6pHcBw1rHUTLk/t4t/Wkuhw=
-Received: from [100.100.57.190] (unknown [220.248.53.61])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nzF4p-0004SK-Kf
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:07:44 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:38342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nzF4l-00070M-2v
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:07:40 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 7642560691;
- Thu,  9 Jun 2022 18:04:27 +0800 (CST)
-Message-ID: <3b6bb5a5-7da1-00d4-a3ee-8595fe6ea769@xen0n.name>
-Date: Thu, 9 Jun 2022 18:04:27 +0800
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8BF5D1FDAB;
+ Thu,  9 Jun 2022 10:07:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1654769252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7knSxgmTdBzprjhGCrILETyGXK74Sl7QC19EjSq530=;
+ b=OpwajpRoH3xEWMp2Y9phEIKOACPBYJdxbrgIefVfaN5Q+wQX7zfNgo2ZxzZVvWxFuRys2d
+ WikYqr5KrKJ2GmWqYQt03LvY2S5uLfn8W8wm+/IouYokG8DTWkgw27IvvY4Vj6O8WMn0sC
+ dFYydLrDFyxLejY+Rzc9TbJSzwV1TFM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1654769252;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7knSxgmTdBzprjhGCrILETyGXK74Sl7QC19EjSq530=;
+ b=NkKrQy6YAbe7VYxxpOU4A4J822F9XYeXlBGM2J4yQOnmpWhG0V8uh/F8QUO7lHxWCGdz55
+ jpIrs+RyYatnFkBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 06BAE13A8C;
+ Thu,  9 Jun 2022 10:07:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id lQmMO2PGoWJqegAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 09 Jun 2022 10:07:31 +0000
+Message-ID: <073c1687-d30f-8f41-b87e-83372137708a@suse.de>
+Date: Thu, 9 Jun 2022 12:07:31 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0)
- Gecko/20100101 Thunderbird/103.0a1
-Subject: Re: [PATCH v15 4/9] linux-user: Add LoongArch syscall support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PULL 15/18] qapi: introduce x-query-ramblock QMP command
 Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, laurent@vivier.eu,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220609024209.2406188-1-gaosong@loongson.cn>
- <20220609024209.2406188-5-gaosong@loongson.cn>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <20220609024209.2406188-5-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20211102175700.1175996-1-berrange@redhat.com>
+ <20211102175700.1175996-16-berrange@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20211102175700.1175996-16-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,147 +98,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/6/9 10:42, Song Gao wrote:
-> We should disable '__BITS_PER_LONG' at [1] before run gensyscalls.sh
->
->   [1] arch/loongarch/include/uapi/asm/bitsperlong.h
+Hello all,
 
-I'm not sure why this is necessary, is this for building on 32-bit where 
-__BITS_PER_LONG are (incorrectly) reflecting the host bitness?
+it would be really good to be able to rely on this command or something similar,
+to be able to know the approximate size of a migration before starting it.
 
-If this is the case, arch/riscv uses the same trick (they are defining 
-__BITS_PER_LONG as (__SIZEOF_POINTER__ * 8), which is essentially the 
-same), so they should fail without the hack described here as well. I 
-don't know if something else could be tweaked to get rid of this hack 
-(currently unable to investigate deeper for you, taking a break 
-reviewing this in the middle of my day job).
+in QEMU ram_bytes_total() returns what I would like to have,
+but there is currently no QMP way to get it without starting a migration,
+which when trying to optimize it/size it is just about too late.
 
->
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Do you think x-query-ramblock could be promoted to non-experimental?
+
+Should another one be made available instead, like :
+query-ram-bytes-total ?
+
+Thanks,
+
+Claudio
+
+
+On 11/2/21 18:56, Daniel P. Berrangé wrote:
+> This is a counterpart to the HMP "info ramblock" command. It is being
+> added with an "x-" prefix because this QMP command is intended as an
+> adhoc debugging tool and will thus not be modelled in QAPI as fully
+> structured data, nor will it have long term guaranteed stability.
+> The existing HMP command is rewritten to call the QMP command.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   linux-user/loongarch64/syscall_nr.h     | 312 ++++++++++++++++++++++++
->   linux-user/loongarch64/target_syscall.h |  48 ++++
->   linux-user/syscall_defs.h               |  12 +-
->   scripts/gensyscalls.sh                  |   1 +
->   4 files changed, 368 insertions(+), 5 deletions(-)
->   create mode 100644 linux-user/loongarch64/syscall_nr.h
->   create mode 100644 linux-user/loongarch64/target_syscall.h
->
-> [snip]
->
-> diff --git a/linux-user/loongarch64/target_syscall.h b/linux-user/loongarch64/target_syscall.h
-> new file mode 100644
-> index 0000000000..8b5de52124
-> --- /dev/null
-> +++ b/linux-user/loongarch64/target_syscall.h
-> @@ -0,0 +1,48 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (c) 2021 Loongson Technology Corporation Limited
-> + */
+>  hmp-commands-info.hx   |  2 +-
+>  include/exec/ramlist.h |  2 +-
+>  monitor/hmp-cmds.c     |  6 ------
+>  monitor/qmp-cmds.c     |  8 ++++++++
+>  qapi/machine.json      | 12 ++++++++++++
+>  softmmu/physmem.c      | 19 +++++++++++--------
+>  6 files changed, 33 insertions(+), 16 deletions(-)
+> 
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index d9af216473..c2d7275bf5 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -772,7 +772,7 @@ ERST
+>          .args_type  = "",
+>          .params     = "",
+>          .help       = "Display system ramblock information",
+> -        .cmd        = hmp_info_ramblock,
+> +        .cmd_info_hrt = qmp_x_query_ramblock,
+>      },
+>  
+>  SRST
+> diff --git a/include/exec/ramlist.h b/include/exec/ramlist.h
+> index ece6497ee2..2ad2a81acc 100644
+> --- a/include/exec/ramlist.h
+> +++ b/include/exec/ramlist.h
+> @@ -80,6 +80,6 @@ void ram_block_notify_add(void *host, size_t size, size_t max_size);
+>  void ram_block_notify_remove(void *host, size_t size, size_t max_size);
+>  void ram_block_notify_resize(void *host, size_t old_size, size_t new_size);
+>  
+> -void ram_block_dump(Monitor *mon);
+> +GString *ram_block_format(void);
+>  
+>  #endif /* RAMLIST_H */
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 9d221622d7..90f9a64573 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -52,7 +52,6 @@
+>  #include "ui/console.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/error-report.h"
+> -#include "exec/ramlist.h"
+>  #include "hw/intc/intc.h"
+>  #include "migration/snapshot.h"
+>  #include "migration/misc.h"
+> @@ -2176,11 +2175,6 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const QDict *qdict)
+>      qapi_free_RockerOfDpaGroupList(list);
+>  }
+>  
+> -void hmp_info_ramblock(Monitor *mon, const QDict *qdict)
+> -{
+> -    ram_block_dump(mon);
+> -}
+> -
+>  void hmp_info_vm_generation_id(Monitor *mon, const QDict *qdict)
+>  {
+>      Error *err = NULL;
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 0a9ba7595c..a9766fa38d 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -38,6 +38,7 @@
+>  #include "qapi/qapi-commands-ui.h"
+>  #include "qapi/type-helpers.h"
+>  #include "qapi/qmp/qerror.h"
+> +#include "exec/ramlist.h"
+>  #include "hw/mem/memory-device.h"
+>  #include "hw/acpi/acpi_dev_interface.h"
+>  #include "hw/rdma/rdma.h"
+> @@ -414,3 +415,10 @@ HumanReadableText *qmp_x_query_rdma(Error **errp)
+>  
+>      return human_readable_text_from_str(buf);
+>  }
 > +
-> +#ifndef LOONGARCH_TARGET_SYSCALL_H
-> +#define LOONGARCH_TARGET_SYSCALL_H
-> +
-> +#include "qemu/units.h"
-> +
-> +/*
-> + * this struct defines the way the registers are stored on the
-> + * stack during a system call.
-> + */
-> +
-> +struct target_pt_regs {
-> +    /* Saved main processor registers. */
-> +    target_ulong regs[32];
-> +
-> +    /* Saved special registers. */
-> +    struct {
-> +        target_ulong era;
-> +        target_ulong badv;
-> +        target_ulong crmd;
-> +        target_ulong prmd;
-> +        target_ulong euen;
-> +        target_ulong ecfg;
-> +        target_ulong estat;
-> +    } csr;
-> +    target_ulong orig_a0;
-> +    target_ulong __last[0];
-> +};
-> +
-> +#define UNAME_MACHINE "loongarch64"
-> +#define UNAME_MINIMUM_RELEASE "5.19.0"
-> +
-> +#define TARGET_MCL_CURRENT 1
-> +#define TARGET_MCL_FUTURE  2
-> +#define TARGET_MCL_ONFAULT 4
-> +
-> +#define TARGET_FORCE_SHMLBA
-> +
-> +static inline abi_ulong target_shmlba(CPULoongArchState *env)
+> +HumanReadableText *qmp_x_query_ramblock(Error **errp)
 > +{
-> +    return 64 * KiB;
-> +}
+> +    g_autoptr(GString) buf = ram_block_format();
 > +
-> +#endif
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 4587b62ac9..b5b9a02816 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -74,7 +74,7 @@
->       || defined(TARGET_M68K) || defined(TARGET_CRIS) \
->       || defined(TARGET_S390X) || defined(TARGET_OPENRISC) \
->       || defined(TARGET_NIOS2) || defined(TARGET_RISCV) \
-> -    || defined(TARGET_XTENSA)
-> +    || defined(TARGET_XTENSA) || defined(TARGET_LOONGARCH64)
->   
->   #define TARGET_IOC_SIZEBITS	14
->   #define TARGET_IOC_DIRBITS	2
-> @@ -2084,8 +2084,9 @@ struct target_stat64  {
->       abi_ulong __unused5;
->   };
->   
-> -#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) \
-> -        || defined(TARGET_RISCV) || defined(TARGET_HEXAGON)
-> +#elif defined(TARGET_OPENRISC) || defined(TARGET_NIOS2) || \
-> +      defined(TARGET_RISCV) || defined(TARGET_HEXAGON) || \
-> +      defined(TARGET_LOONGARCH64)
->   
->   /* These are the asm-generic versions of the stat and stat64 structures */
-The finalized LoongArch system call interface doesn't include stat, 
-fstat or newfstatat. So do we still have to pull in the definitions for 
-stat structures?
->   
-> @@ -2113,7 +2114,7 @@ struct target_stat {
->       unsigned int __unused5;
->   };
->   
-> -#if !defined(TARGET_RISCV64)
-> +#if !defined(TARGET_RISCV64) && !defined(TARGET_LOONGARCH64)
->   #define TARGET_HAS_STRUCT_STAT64
->   struct target_stat64 {
->       uint64_t st_dev;
-Similarly here.
-> @@ -2258,7 +2259,8 @@ struct target_statfs64 {
->   };
->   #elif (defined(TARGET_PPC64) || defined(TARGET_X86_64) || \
->          defined(TARGET_SPARC64) || defined(TARGET_AARCH64) || \
-> -       defined(TARGET_RISCV)) && !defined(TARGET_ABI32)
-> +       defined(TARGET_RISCV) || defined(TARGET_LOONGARCH64)) && \
-> +       !defined(TARGET_ABI32)
->   struct target_statfs {
->   	abi_long f_type;
->   	abi_long f_bsize;
-> diff --git a/scripts/gensyscalls.sh b/scripts/gensyscalls.sh
-> index 8fb450e3c9..b69e1938ab 100755
-> --- a/scripts/gensyscalls.sh
-> +++ b/scripts/gensyscalls.sh
-> @@ -99,4 +99,5 @@ generate_syscall_nr openrisc 32 "$output/linux-user/openrisc/syscall_nr.h"
->   generate_syscall_nr riscv 32 "$output/linux-user/riscv/syscall32_nr.h"
->   generate_syscall_nr riscv 64 "$output/linux-user/riscv/syscall64_nr.h"
->   generate_syscall_nr hexagon 32 "$output/linux-user/hexagon/syscall_nr.h"
-> +generate_syscall_nr loongarch 64 "$output/linux-user/loongarch64/syscall_nr.h"
->   rm -fr "$TMP"
+> +    return human_readable_text_from_str(buf);
+> +}
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 1b2748c77a..be81170c2b 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1436,6 +1436,18 @@
+>  { 'command': 'x-query-profile',
+>    'returns': 'HumanReadableText' }
+>  
+> +##
+> +# @x-query-ramblock:
+> +#
+> +# Query system ramblock information
+> +#
+> +# Returns: system ramblock information
+> +#
+> +# Since: 6.2
+> +##
+> +{ 'command': 'x-query-ramblock',
+> +  'returns': 'HumanReadableText' }
+> +
+>  ##
+>  # @x-query-rdma:
+>  #
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index b9a8c1d1f4..314f8b439c 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -1296,23 +1296,26 @@ void qemu_mutex_unlock_ramlist(void)
+>      qemu_mutex_unlock(&ram_list.mutex);
+>  }
+>  
+> -void ram_block_dump(Monitor *mon)
+> +GString *ram_block_format(void)
+>  {
+>      RAMBlock *block;
+>      char *psize;
+> +    GString *buf = g_string_new("");
+>  
+>      RCU_READ_LOCK_GUARD();
+> -    monitor_printf(mon, "%24s %8s  %18s %18s %18s\n",
+> -                   "Block Name", "PSize", "Offset", "Used", "Total");
+> +    g_string_append_printf(buf, "%24s %8s  %18s %18s %18s\n",
+> +                           "Block Name", "PSize", "Offset", "Used", "Total");
+>      RAMBLOCK_FOREACH(block) {
+>          psize = size_to_str(block->page_size);
+> -        monitor_printf(mon, "%24s %8s  0x%016" PRIx64 " 0x%016" PRIx64
+> -                       " 0x%016" PRIx64 "\n", block->idstr, psize,
+> -                       (uint64_t)block->offset,
+> -                       (uint64_t)block->used_length,
+> -                       (uint64_t)block->max_length);
+> +        g_string_append_printf(buf, "%24s %8s  0x%016" PRIx64 " 0x%016" PRIx64
+> +                               " 0x%016" PRIx64 "\n", block->idstr, psize,
+> +                               (uint64_t)block->offset,
+> +                               (uint64_t)block->used_length,
+> +                               (uint64_t)block->max_length);
+>          g_free(psize);
+>      }
+> +
+> +    return buf;
+>  }
+>  
+>  #ifdef __linux__
+
 
