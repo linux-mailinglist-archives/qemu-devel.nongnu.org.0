@@ -2,93 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70935452EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 19:26:40 +0200 (CEST)
-Received: from localhost ([::1]:37722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FE4545318
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 19:37:15 +0200 (CEST)
+Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzLvb-0003HH-JW
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 13:26:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49640)
+	id 1nzM5q-0005Qj-9b
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 13:37:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nzLQM-000733-3n
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:54:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nzLQK-0007O3-CU
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:54:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654793659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wg0S6t4qXtGfHgGy0/i9RC1/6jXXHHObrUk+Sh0XT1g=;
- b=YxgQJvm0CmDQhOkSmbrSMR6n+Ild15aS7G5k4sNip/19G24a4RDGUwYPZD6SqfAXB0bvp2
- YSyAXOZOfSbH4CZWQE/dNfd4t62q8HAlxgzIwnsNhk538wXUmxYJQOmFKE/c2eFMVPIAm3
- s7qotYrBDvfg9BdJ822JSlS2JKRZGdU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-ejvZt-yENyGC3oe8ej-gHQ-1; Thu, 09 Jun 2022 12:54:18 -0400
-X-MC-Unique: ejvZt-yENyGC3oe8ej-gHQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k5-20020a05600c1c8500b003974c5d636dso11566455wms.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 09:54:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nzLev-0007Pf-UU
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:09:25 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:37637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nzLep-0001TE-SB
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 13:09:22 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 3-20020a17090a174300b001e426a02ac5so24042375pjm.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 10:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Ko9kX/YJcoXF0GsOJtjw+I6RRBlLZGD7PSOv0XgLhR4=;
+ b=pXPvrbKcouoA3fRMGniEFvdbODHZusaIDHVInZB7o0GG5wp0RmIML85yyxCyXJW+5j
+ uNqI8dsCI4BBBLf66FG2exwXZTFfuf4bw5qOWYroxx1IpdaYWsJnrLXlR6IaZtqHSXmC
+ SPmZwAoTA8DFtaz2SA4lfHaBq0Xx+nz0jiRx9IVLCCEVr2bMVu3OjqUHyHwE9h778HCM
+ Ppb2imcp1RgtevYudolBGhuG13awbWbrKNoK0btk19Kab1vV26oGQnlOIiAhk3bRueFA
+ IcDANC67Jsveyh665uHWXn+LfcxguszRYG/8wh2gXcR+PUwTE+9hRnHeUethvry04jp2
+ q0tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=wg0S6t4qXtGfHgGy0/i9RC1/6jXXHHObrUk+Sh0XT1g=;
- b=bpeQ5HiThZDG6K4Leb0v7SME8Tfr0OPO4iQJqUEkmq3hSGAZYEP4KfPKGxe9KujwJG
- fdD2GlPzdOSuhnygkL00syY7595cTuww/sZz55LvMXO/f2KHrOQ5tH6yEzhBZpTyN4te
- JQXsQ+r0gLfe/sdNFjQ39DeFgtJbr7tCNJKWjV8rdyortPbMAPjR7V5uflDfOTRACBQv
- VO/XxM+kO3Q9W6PdpgtEu/0CUCkGN0ZamdCxuPqrrrUWn8rP6OwyzVlLc4xglg0QvVNV
- KtSTz6+8IBxLwcQH2oSWpv47b7kum2/1kWiwGnOvplLXvfUEum9mG1HNDh0uEBvOYtfk
- yCcg==
-X-Gm-Message-State: AOAM533+wnOYFHBC8AUURfaNw5evj9deO7O8pBMes9g7sZR3ssRuivBx
- nehOPWaYQqr+xBU64LGTsR0Am80BkivHzxpvYksDG77kYXtPKRycoeV7TcKFEEnxFhLIogQP9f1
- Ultr0lEY28YFBVPk=
-X-Received: by 2002:a5d:5410:0:b0:218:5b98:425 with SMTP id
- g16-20020a5d5410000000b002185b980425mr10926133wrv.243.1654793657335; 
- Thu, 09 Jun 2022 09:54:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGdsSL4A6IQrAeDYyZeT9Ne2WtwFFF4KMBvddvC0OZ1B/BpLWJESPpuv1wubfaPo5E/x1VGg==
-X-Received: by 2002:a5d:5410:0:b0:218:5b98:425 with SMTP id
- g16-20020a5d5410000000b002185b980425mr10926112wrv.243.1654793657100; 
- Thu, 09 Jun 2022 09:54:17 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- s1-20020adfea81000000b00210320d9fbfsm30305027wrm.18.2022.06.09.09.54.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 09:54:16 -0700 (PDT)
-Date: Thu, 9 Jun 2022 17:54:14 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 19/20] migration: remove the QEMUFileOps
- 'get_return_path' callback
-Message-ID: <YqIltvU8Og5veFPC@work-vm>
-References: <20220524110235.145079-1-berrange@redhat.com>
- <20220524110235.145079-20-berrange@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Ko9kX/YJcoXF0GsOJtjw+I6RRBlLZGD7PSOv0XgLhR4=;
+ b=b21AhYADuqZJUpJl/QO9B9L6M48Zyu/QDs1WFixKuVrg277zgrGG4q7615WOSeq4pT
+ EGtOO5eLgwLYf7XahVXcHgN+l3qwnmQVHU5QCDmt8zqcYr5WUTJAFW7BRiD95OMRl5Sg
+ KucFFJzf0CCEdMIBp84MZTgEq4zs6gbWHrxmXBcBlzwAyYmy3KX4CyyDnKIBrq2IScIk
+ Jz0gy3eSXyAqs+VkER1srBWsezJeLiJWQ09wrruTbezBLxjCmxZoN0SLF0zNHSbEFWZL
+ Q6M5zY5Gxmz87zSlgaRR21GAEU9hcenOfMB6K8/rUERWH9JsnbZy49h4J2DSc5+qVuHz
+ FEJw==
+X-Gm-Message-State: AOAM53182f12pY1VtPSr+5j9Y5TW4Zm1dLuCn3C4PZQZbb6ZwgRtupPL
+ +LudSbCsbMMf/TdbWtKe96AmqQ==
+X-Google-Smtp-Source: ABdhPJxZDu+vGYH0M2QnKSRCS/r47f76CA1YrSxfZaAGEFx0ptWHA0bwkSVTE8PgSnJrpNeOT1yWYA==
+X-Received: by 2002:a17:903:186:b0:167:6d8c:68ce with SMTP id
+ z6-20020a170903018600b001676d8c68cemr26075955plg.153.1654794555632; 
+ Thu, 09 Jun 2022 10:09:15 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1547:e101:839f:476f:678:38a?
+ ([2602:ae:1547:e101:839f:476f:678:38a])
+ by smtp.gmail.com with ESMTPSA id
+ z17-20020aa79911000000b0050dc7628179sm17721107pff.83.2022.06.09.10.09.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jun 2022 10:09:15 -0700 (PDT)
+Message-ID: <94ea5095-12a8-7f22-a6d6-9b072e3bb9e9@linaro.org>
+Date: Thu, 9 Jun 2022 10:09:13 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220524110235.145079-20-berrange@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 03/25] target/arm: Move fp access syndrome adjust out
+ of raise_exception
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220607024734.541321-1-richard.henderson@linaro.org>
+ <20220607024734.541321-4-richard.henderson@linaro.org>
+ <CAFEAcA-02v3Mcz7Ozubeekanmus2GOj8bNVH7MfVQ78YfN1_tw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-02v3Mcz7Ozubeekanmus2GOj8bNVH7MfVQ78YfN1_tw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -106,113 +97,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> This directly implements the get_return_path logic using QIOChannel APIs.
+On 6/9/22 08:59, Peter Maydell wrote:
+> On Tue, 7 Jun 2022 at 03:50, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Create helper_exception_advsimdfp_access to handle both
+>> the routing and the syndrome contents, depending on the
+>> eventual target EL and mode.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Bit awkward to have "TGE means go to EL2, not EL1" in two places
+> now, but I'm going to assume that either (a) this gets cleaned up
+> later in the series or (b) that it's the least-worst option, so
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Hmm, well.  I had planned for it to go away from within raise_exception later in the 
+series, but it didn't work out, so I could drop this.
 
-> ---
->  migration/qemu-file-channel.c | 16 ----------------
->  migration/qemu-file.c         | 22 ++++++++++------------
->  migration/qemu-file.h         |  6 ------
->  3 files changed, 10 insertions(+), 34 deletions(-)
-> 
-> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> index 2e139f7bcd..51717c1137 100644
-> --- a/migration/qemu-file-channel.c
-> +++ b/migration/qemu-file-channel.c
-> @@ -32,27 +32,11 @@
->  #include "yank_functions.h"
->  
->  
-> -static QEMUFile *channel_get_input_return_path(void *opaque)
-> -{
-> -    QIOChannel *ioc = QIO_CHANNEL(opaque);
-> -
-> -    return qemu_fopen_channel_output(ioc);
-> -}
-> -
-> -static QEMUFile *channel_get_output_return_path(void *opaque)
-> -{
-> -    QIOChannel *ioc = QIO_CHANNEL(opaque);
-> -
-> -    return qemu_fopen_channel_input(ioc);
-> -}
-> -
->  static const QEMUFileOps channel_input_ops = {
-> -    .get_return_path = channel_get_input_return_path,
->  };
->  
->  
->  static const QEMUFileOps channel_output_ops = {
-> -    .get_return_path = channel_get_output_return_path,
->  };
->  
->  
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 72a6f58af5..dfee808924 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -92,18 +92,6 @@ int qemu_file_shutdown(QEMUFile *f)
->      return ret;
->  }
->  
-> -/*
-> - * Result: QEMUFile* for a 'return path' for comms in the opposite direction
-> - *         NULL if not available
-> - */
-> -QEMUFile *qemu_file_get_return_path(QEMUFile *f)
-> -{
-> -    if (!f->ops->get_return_path) {
-> -        return NULL;
-> -    }
-> -    return f->ops->get_return_path(f->ioc);
-> -}
-> -
->  bool qemu_file_mode_is_not_valid(const char *mode)
->  {
->      if (mode == NULL ||
-> @@ -131,6 +119,16 @@ static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
->      return f;
->  }
->  
-> +/*
-> + * Result: QEMUFile* for a 'return path' for comms in the opposite direction
-> + *         NULL if not available
-> + */
-> +QEMUFile *qemu_file_get_return_path(QEMUFile *f)
-> +{
-> +    object_ref(f->ioc);
-> +    return qemu_file_new_impl(f->ioc, f->ops, !f->is_writable);
-> +}
-> +
->  QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops)
->  {
->      return qemu_file_new_impl(ioc, ops, true);
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index 542c637934..5370e4e5ec 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -55,13 +55,7 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
->                                   size_t size,
->                                   uint64_t *bytes_sent);
->  
-> -/*
-> - * Return a QEMUFile for comms in the opposite direction
-> - */
-> -typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
-> -
->  typedef struct QEMUFileOps {
-> -    QEMURetPathFunc *get_return_path;
->  } QEMUFileOps;
->  
->  typedef struct QEMUFileHooks {
-> -- 
-> 2.36.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+r~
 
