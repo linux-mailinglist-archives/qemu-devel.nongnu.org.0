@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65B9544C2A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:34:14 +0200 (CEST)
-Received: from localhost ([::1]:40562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A228544CC1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:58:25 +0200 (CEST)
+Received: from localhost ([::1]:43050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzHMa-0002o0-Kl
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56366)
+	id 1nzHk0-00019G-55
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzF81-00075m-6k
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:11:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21763)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1nzF8e-0007Zf-S1
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:11:41 -0400
+Received: from mail.xen0n.name ([115.28.160.31]:54600
+ helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzF7z-0007Yx-9m
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:11:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654769458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+hps1i8lqRyyf0+3yrsA7GnEhAQgCDrW1Vh8LTMeDRk=;
- b=UIx+el0FnDTZ9rpDMchWB/UxAgBz/2YMEdfvkmda0VZLdYWk5gEalJLk+IwlIKlFDmfbv2
- +9mBpxe6PgY6/PruQGuYNGS5xWVIgRPwyyq0GjPFyDnfMD52L/vQcFafjLLrvWMO2LFYkp
- zlP0/2NwhgUzRrJZNfb1bReGj368Q3E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-gee_MMN-M8GVT1dLXYKsLg-1; Thu, 09 Jun 2022 06:10:57 -0400
-X-MC-Unique: gee_MMN-M8GVT1dLXYKsLg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1nzF8c-0007fz-MS
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:11:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+ t=1654769491; bh=kEs30DEEDJDThBNkrIyw2BZ7ByGWanqV4PRozAJJcXM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tNtg+FoB/bIVS7XzXhqVUzfEUxG4FiPss6kD6rv7FWEUTgngcPKVKk/Zq1n+QPOIr
+ FVgTJVXPuaot/BnMPj4dLbDPl8qXIVCep/GhzPgUgOQrtn1MTnhK0/0Q4ZBQ4qITfu
+ MEMmHnhw5fS658zcluziTdevB9HQl8ZkdqNe+lvc=
+Received: from [100.100.57.190] (unknown [220.248.53.61])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E80EC3815D22
- for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 10:10:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38CC01410DDB;
- Thu,  9 Jun 2022 10:10:56 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D33C61800094; Thu,  9 Jun 2022 12:10:54 +0200 (CEST)
-Date: Thu, 9 Jun 2022 12:10:54 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] ui: move 'pc-bios/keymaps' to 'ui/keymaps'
-Message-ID: <20220609101054.eaeow5gqknazssmd@sirius.home.kraxel.org>
-References: <20220426160150.812530-1-berrange@redhat.com>
- <Yoyp3l9bHYRcGpAX@redhat.com>
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 8EFAA60694;
+ Thu,  9 Jun 2022 18:11:31 +0800 (CST)
+Message-ID: <9a5d26df-1820-f8c6-c876-a977d252b95f@xen0n.name>
+Date: Thu, 9 Jun 2022 18:11:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yoyp3l9bHYRcGpAX@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0)
+ Gecko/20100101 Thunderbird/103.0a1
+Subject: Re: [PATCH v15 6/9] default-configs: Add loongarch linux-user support
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, laurent@vivier.eu,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20220609024209.2406188-1-gaosong@loongson.cn>
+ <20220609024209.2406188-7-gaosong@loongson.cn>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <20220609024209.2406188-7-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,22 +70,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 24, 2022 at 10:48:14AM +0100, Daniel P. Berrangé wrote:
-> Ping, any thoughts on this ?
-> 
-> On Tue, Apr 26, 2022 at 05:01:50PM +0100, Daniel P. Berrangé wrote:
-> > The 'keymaps' directory contents is nothing to do with the firmware
-> > blobs. The 'pc-bios/keymaps' directory appears to have been used
-> > previously as a convenience for getting the files installed into
-> > a subdir of the firmware install dir. This install time arrangement
-> > does not need to be reflected in the source tree arrangement. These
-> > keymaps logically belong with the UI code.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On 2022/6/9 10:42, Song Gao wrote:
+> This patch adds loongarch64 linux-user default configs file.
+>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   configs/targets/loongarch64-linux-user.mak | 3 +++
+>   1 file changed, 3 insertions(+)
+>   create mode 100644 configs/targets/loongarch64-linux-user.mak
+>
+> diff --git a/configs/targets/loongarch64-linux-user.mak b/configs/targets/loongarch64-linux-user.mak
+> new file mode 100644
+> index 0000000000..7d1b964020
+> --- /dev/null
+> +++ b/configs/targets/loongarch64-linux-user.mak
+> @@ -0,0 +1,3 @@
+> +# Default configuration for loongarch64-linux-user
+> +TARGET_ARCH=loongarch64
+> +TARGET_BASE_ARCH=loongarch
 
-Makes sense, queued up now.
+Simple enough.
 
-take care,
-  Gerd
+Reviewed-by: WANG Xuerui <git@xen0n.name>
 
 
