@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464545449B9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 13:07:19 +0200 (CEST)
-Received: from localhost ([::1]:58384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E32544975
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:49:26 +0200 (CEST)
+Received: from localhost ([::1]:40874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzG0T-0005tC-Vj
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 07:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39650)
+	id 1nzFjB-0000ef-5S
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:49:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7O-0001Z1-DS
+ id 1nzE7O-0001Z2-Gg
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:21 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33706)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7K-000640-NK
+ id 1nzE7L-0005v7-GR
  for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:18 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h5so31518518wrb.0
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:14 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id u8so27137454wrm.13
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OuhXk6TQyBrgWjcan+zAuS1lnzgYNbegbZMrB1RwcE0=;
- b=w2vhU9JBzTbWDw98pfYdxQSWlbErFUebQSWz9iiLuQ3NDfXmJ49hhN63seyjgdEjsx
- G84r55Pe5sUQ+b2TkRu9/m/vAtu0XfCr7EmORUKufRu31WNLLgvE8gpdNbqARb+lqSEw
- nit7AaiVRoF2HHqFSczbRSY/qjg4GxbraHgdiJKC7kS868dC/Fi4Xnm6SF4xF0vLBr67
- XpIqYMFb738A7814FHw+AnGB5EdCnD2D4BHfDJ9NeRiaF7JgOq1iyBYQFzO0c6auk6aJ
- FX3TfsCy0nzJHlrRldqgu0uEYHBA/LZFuAE/kRpWhcCYrPKvJ+elU7Gg7m58TFF2fyB5
- dnPA==
+ bh=vssipGCOqEJQNoMsGfFwc+dxYekNW1L8kP+aFic/gt8=;
+ b=NCooA6v8ACoFTIlVaviEsHeZ6x5CwA1abm6IcfTfPLbyUY/rehr6+Mky2geKX2bbTL
+ Sw3hrEvPORH4NQLaBFL1iDIFNZFuBonXypsLlu4mx0EFTfQ7tTQsoC7pIhKf10dHUnCa
+ B1cKJYA9+BFPewG6hJc6/y6qIMS7yk7b8i3ZPKKuDDJQm2y/fs+ZvoGkyQp21d8BtFFU
+ swyH8niWKdIw9pw5KtmQWB4ID3RCfNXijL8qA7QCO5X77GAijPjw8MFHVrglHkVgrstn
+ R1dXFAOcPNuR/BWlTg1KqtuNsBE4llG0rxWaVMh4aTK+SQCWE0t3wfD+F7sInfQdmzrv
+ xVsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OuhXk6TQyBrgWjcan+zAuS1lnzgYNbegbZMrB1RwcE0=;
- b=bHypYM4ad4WPLQqr0pOYT5kPTFA9WKifYxAIBCBDcHy3IDWUpBX3KDltOcKwUU6L8F
- js31KwFfbGJ3X9O47+YOUdSE4DmBQImCiF/opjHpXikOHW2JmrANJiqdcNNyauz5fNqi
- XKU6jGFSNdUgW0XSfwRFP8lzpsdZ+zCcsppPTR3dIJsauXOKTFuTlYlwFhjeWLnkGWFc
- 7S+0Lb9nNTCPXfpNC3vEIzuXu6hcSAwPf3D7EHJrRBdtnfM1dLrghNnSdNXJer6xWccO
- WpXi+9egpfUfjGks6jRy2aIutzxwSrw0StQpsISWLFaX5HXNcjVR9R4qxsjqZp5P+Qeb
- klKg==
-X-Gm-Message-State: AOAM533wkTds1aMaKZOof50rduSXHl7j6xNHB8ohkuuQlsRA83p+GlXJ
- WMrb9+4RcK4BML1RJWTXjbmwLDp012QEJA==
-X-Google-Smtp-Source: ABdhPJyhEOuS04JQ1/4eyPC8SK0KAxeaGRIRUagQgeDsxrGZQAz9ez3sIiwbDO5x/Hh0vkeiu9yZ0w==
-X-Received: by 2002:a05:6000:1888:b0:218:3fab:c510 with SMTP id
- a8-20020a056000188800b002183fabc510mr19870503wri.473.1654765573417; 
- Thu, 09 Jun 2022 02:06:13 -0700 (PDT)
+ bh=vssipGCOqEJQNoMsGfFwc+dxYekNW1L8kP+aFic/gt8=;
+ b=1OCg6LVlVBHiH/0Vi7uM77hg8C/gReU0thHvtfxVYG78pK0QNEGvbqEabDPJXatiUP
+ Jr3dbtUdRLPq5kJV4B8WWC8rBICBW0zpQnD6D9SJOLz4A/oHYM6VoLOlt2KZC+LtjYFR
+ SjYmmZ61Rp21b6EivS9acq34AnZcyJZyUHiMVlQPHeKYE37QJ7EPrl6t9F9fKKv4l0sO
+ RL+ogFRqWFNLV2SJA/n9L7O44LjGeD2UEhkCCJNZCZv69f1CDADb0sNWYyPK9/A0zHDW
+ 5mcxpvMcGR40XM32BZ2zbr0WvqWT23lbUrn1wbPSq/itGa/cHGi1pRQIOza2PT3E3wFb
+ sgcw==
+X-Gm-Message-State: AOAM533Mzd75FwrMpbU1s58Q5k/Gg8/oPOCQqf7lwWfxG8BclTTKkZpR
+ RA7mg1d4ouTFTyJYHnQSwZDsMp2vBJkJMw==
+X-Google-Smtp-Source: ABdhPJwCTFtEHZT1Yn1GvjSHBHtkGOzz6GE5+6YxO6sllOUU0zR3BEfZ5iBFh8Zion6TSsJhPCNnhQ==
+X-Received: by 2002:a5d:58ed:0:b0:217:dd5:7508 with SMTP id
+ f13-20020a5d58ed000000b002170dd57508mr24330176wrd.606.1654765574388; 
+ Thu, 09 Jun 2022 02:06:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.12
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:06:12 -0700 (PDT)
+ Thu, 09 Jun 2022 02:06:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/55] target/arm: Move regime_is_user to ptw.c
-Date: Thu,  9 Jun 2022 10:05:12 +0100
-Message-Id: <20220609090537.1971756-31-peter.maydell@linaro.org>
+Subject: [PULL 31/55] target/arm: Move regime_ttbr to ptw.c
+Date: Thu,  9 Jun 2022 10:05:13 +0100
+Message-Id: <20220609090537.1971756-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,89 +91,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220604040607.269301-24-richard.henderson@linaro.org
+Message-id: 20220604040607.269301-25-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
  target/arm/ptw.h    |  1 -
- target/arm/helper.c | 24 ------------------------
- target/arm/ptw.c    | 22 ++++++++++++++++++++++
- 3 files changed, 22 insertions(+), 25 deletions(-)
+ target/arm/helper.c | 16 ----------------
+ target/arm/ptw.c    | 16 ++++++++++++++++
+ 3 files changed, 16 insertions(+), 17 deletions(-)
 
 diff --git a/target/arm/ptw.h b/target/arm/ptw.h
-index 85ad5767944..3d3061a4351 100644
+index 3d3061a4351..ed152ddaf4e 100644
 --- a/target/arm/ptw.h
 +++ b/target/arm/ptw.h
-@@ -11,7 +11,6 @@
- 
+@@ -12,7 +12,6 @@
  #ifndef CONFIG_USER_ONLY
  
--bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx);
  bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx);
- uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn);
+-uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn);
  
+ #endif /* !CONFIG_USER_ONLY */
+ #endif /* TARGET_ARM_PTW_H */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e894afcb491..8deb0fa94c1 100644
+index 8deb0fa94c1..fdda87e87e2 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -10515,30 +10515,6 @@ ARMMMUIdx stage_1_mmu_idx(ARMMMUIdx mmu_idx)
+@@ -10475,22 +10475,6 @@ bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx)
+     return (regime_sctlr(env, mmu_idx) & SCTLR_M) == 0;
  }
- #endif /* !CONFIG_USER_ONLY */
  
--#ifndef CONFIG_USER_ONLY
--bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
+-/* Return the TTBR associated with this translation regime */
+-uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn)
 -{
--    switch (mmu_idx) {
--    case ARMMMUIdx_SE10_0:
--    case ARMMMUIdx_E20_0:
--    case ARMMMUIdx_SE20_0:
--    case ARMMMUIdx_Stage1_E0:
--    case ARMMMUIdx_Stage1_SE0:
--    case ARMMMUIdx_MUser:
--    case ARMMMUIdx_MSUser:
--    case ARMMMUIdx_MUserNegPri:
--    case ARMMMUIdx_MSUserNegPri:
--        return true;
--    default:
--        return false;
--    case ARMMMUIdx_E10_0:
--    case ARMMMUIdx_E10_1:
--    case ARMMMUIdx_E10_1_PAN:
--        g_assert_not_reached();
+-    if (mmu_idx == ARMMMUIdx_Stage2) {
+-        return env->cp15.vttbr_el2;
+-    }
+-    if (mmu_idx == ARMMMUIdx_Stage2_S) {
+-        return env->cp15.vsttbr_el2;
+-    }
+-    if (ttbrn == 0) {
+-        return env->cp15.ttbr0_el[regime_el(env, mmu_idx)];
+-    } else {
+-        return env->cp15.ttbr1_el[regime_el(env, mmu_idx)];
 -    }
 -}
--#endif /* !CONFIG_USER_ONLY */
 -
- int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx)
- {
-     if (regime_has_2_ranges(mmu_idx)) {
+ /* Convert a possible stage1+2 MMU index into the appropriate
+  * stage 1 MMU index
+  */
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 9ab77c39980..8db4b5edf1a 100644
+index 8db4b5edf1a..dc559e6bdfd 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -53,6 +53,28 @@ static bool regime_translation_big_endian(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return (regime_sctlr(env, mmu_idx) & SCTLR_EE) != 0;
+@@ -75,6 +75,22 @@ static bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
+     }
  }
  
-+static bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
++/* Return the TTBR associated with this translation regime */
++static uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn)
 +{
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_SE10_0:
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_SE20_0:
-+    case ARMMMUIdx_Stage1_E0:
-+    case ARMMMUIdx_Stage1_SE0:
-+    case ARMMMUIdx_MUser:
-+    case ARMMMUIdx_MSUser:
-+    case ARMMMUIdx_MUserNegPri:
-+    case ARMMMUIdx_MSUserNegPri:
-+        return true;
-+    default:
-+        return false;
-+    case ARMMMUIdx_E10_0:
-+    case ARMMMUIdx_E10_1:
-+    case ARMMMUIdx_E10_1_PAN:
-+        g_assert_not_reached();
++    if (mmu_idx == ARMMMUIdx_Stage2) {
++        return env->cp15.vttbr_el2;
++    }
++    if (mmu_idx == ARMMMUIdx_Stage2_S) {
++        return env->cp15.vsttbr_el2;
++    }
++    if (ttbrn == 0) {
++        return env->cp15.ttbr0_el[regime_el(env, mmu_idx)];
++    } else {
++        return env->cp15.ttbr1_el[regime_el(env, mmu_idx)];
 +    }
 +}
 +
