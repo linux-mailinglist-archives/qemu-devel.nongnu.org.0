@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC352545433
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:34:15 +0200 (CEST)
-Received: from localhost ([::1]:49610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B64954548B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 21:00:16 +0200 (CEST)
+Received: from localhost ([::1]:58056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzMyz-0006ds-Dd
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:34:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
+	id 1nzNOB-0000Zh-0k
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 15:00:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzLJb-0000gS-Pc
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:47:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43393)
+ id 1nzLJk-0000s1-5Q
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:47:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzLJZ-0006VO-RI
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:47:23 -0400
+ id 1nzLJV-0006UR-V1
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:47:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654793240;
+ s=mimecast20190719; t=1654793237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VlBXSLKPMbLopKgZce2Q2MK/CyVPgH2pSsygq+8Hmms=;
- b=X4oYN+ZjG0DXVjyBEOAZC2tePOcpkY+J5QrKbyV4kF+W727ODWZMMN6khd3AB0TwpivQHV
- apdguRAxbn/AmesEYbGOpLaWnb1sjpBtArkabxtQlXT3Od+KqO9G/QO0/xr7bcHX7hsaZ6
- GYSblCCy3jhqFYVWqGpY7WItw4sCzdc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7bQ8effnjIEoV/FflvyQHU5ECeV5iaJvsuveUZtQFyw=;
+ b=RhF6KrdMTd2rbKqZeqqtPN5LFQd9+KUbflwavGEWkcQ/gfNfl6LNsOUAvNa16EFG7NSfQy
+ XGIzoDYot4RDcZnfs6PPwXE5F8zxf69rYycuBIhuYThRYA/ezHwasH0zTYs1+ZMIdxb8Xq
+ ArfvyyNTFWOB7hBIj9uvvIdZWatH3Ss=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-82zejNysOkK5mXQc46yDgw-1; Thu, 09 Jun 2022 12:47:14 -0400
-X-MC-Unique: 82zejNysOkK5mXQc46yDgw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-61-aWbcqH1iPCOlAV3E_K5BWw-1; Thu, 09 Jun 2022 12:47:16 -0400
+X-MC-Unique: aWbcqH1iPCOlAV3E_K5BWw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9437F85A580;
- Thu,  9 Jun 2022 16:47:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B25F9294EDDB;
+ Thu,  9 Jun 2022 16:47:15 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4708F1121314;
- Thu,  9 Jun 2022 16:47:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C7202166B26;
+ Thu,  9 Jun 2022 16:47:15 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Hanna Reitz <hreitz@redhat.com>, qemu-stable@nongnu.org,
  Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Nikolay Tenev <nt@storpool.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH 1/2] linux-aio: fix unbalanced plugged counter in
+Subject: [PATCH 2/2] linux-aio: explain why max batch is checked in
  laio_io_unplug()
-Date: Thu,  9 Jun 2022 17:47:11 +0100
-Message-Id: <20220609164712.1539045-2-stefanha@redhat.com>
+Date: Thu,  9 Jun 2022 17:47:12 +0100
+Message-Id: <20220609164712.1539045-3-stefanha@redhat.com>
 In-Reply-To: <20220609164712.1539045-1-stefanha@redhat.com>
 References: <20220609164712.1539045-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,37 +82,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Every laio_io_plug() call has a matching laio_io_unplug() call. There is
-a plugged counter that tracks the number of levels of plugging and
-allows for nesting.
+It may not be obvious why laio_io_unplug() checks max batch. I discussed
+this with Stefano and have added a comment summarizing the reason.
 
-The plugged counter must reflect the balance between laio_io_plug() and
-laio_io_unplug() calls accurately. Otherwise I/O stalls occur since
-io_submit(2) calls are skipped while plugged.
-
-Reported-by: Nikolay Tenev <nt@storpool.com>
 Cc: Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/linux-aio.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block/linux-aio.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/block/linux-aio.c b/block/linux-aio.c
-index 4c423fcccf..6078da7e42 100644
+index 6078da7e42..9c2393a2f7 100644
 --- a/block/linux-aio.c
 +++ b/block/linux-aio.c
-@@ -363,8 +363,10 @@ void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s,
-                     uint64_t dev_max_batch)
- {
+@@ -365,6 +365,12 @@ void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s,
      assert(s->io_q.plugged);
-+    s->io_q.plugged--;
-+
+     s->io_q.plugged--;
+ 
++    /*
++     * Why max batch checking is performed here:
++     * Another BDS may have queued requests with a higher dev_max_batch and
++     * therefore in_queue could now exceed our dev_max_batch. Re-check the max
++     * batch so we can honor our device's dev_max_batch.
++     */
      if (s->io_q.in_queue >= laio_max_batch(s, dev_max_batch) ||
--        (--s->io_q.plugged == 0 &&
-+        (!s->io_q.plugged &&
+         (!s->io_q.plugged &&
           !s->io_q.blocked && !QSIMPLEQ_EMPTY(&s->io_q.pending))) {
-         ioq_submit(s);
-     }
 -- 
 2.36.1
 
