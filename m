@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C214545093
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:21:09 +0200 (CEST)
-Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE27544F94
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 16:39:00 +0200 (CEST)
+Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzJy8-0002kB-2A
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
+	id 1nzJJL-0002uc-Ei
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 10:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzIZR-0005kg-PD
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:51:33 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:33565)
+ id 1nzIbR-0001LJ-5I
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:53:38 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:36629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzIZN-0006Ss-UZ
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:51:31 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- hv24-20020a17090ae41800b001e33eebdb5dso1675887pjb.0
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 06:51:29 -0700 (PDT)
+ id 1nzIbP-0006af-JG
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 09:53:36 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id y187so21917158pgd.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 06:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NvWKO/eR1yJsdEr/MjrC64DAUL6RQuAEyIUQnQjnfH0=;
- b=O2lNjpn5q2FGmTCSBJ1X3/+TrUcZUYWNacIXN+7ADnghJV7iJ+WCfDFyeNm9LB3RdE
- oxKkB7J4k9GWybuZv03ekmJk3rT7F7oXyyqVEtFP/2W94j5z4G/w2EHekXY7TD6reFAq
- TzuOhpEFO5RyGREadpQmvuxkZzILLIIOuuyFmFpZ55iuvXVAYiKcaOI+5n9A47+5stEP
- oOW+NFUoUJisvhlPN9OSZriXkptiQEssDYGtQkvWSKZmqoPpGMV/FbC8hpgzC36SJ7UX
- onpEcfwbeObb3srokTEssmoLU37ps6Q493vcJNNeOb8iNzPO+Jqt0nfKMn9CtGmXNaEo
- eBWw==
+ bh=fDb0Dmcsx+ZFsOd3c0daRecpemMUPGtZHRnv9+lYy3s=;
+ b=TsjCxEoGbNosQ1XstrYrpjntMhoy5cA4JWXgKIEsKXp5k7SQSZPOkRTp1j+KYUJhZZ
+ +JtkRkfi+7ybGCjdEs2Tyt+NWPU6IWHBFS1wyDeed4CsKX7WxsKzYXsVjdkx/68PVKK8
+ A8Ve6rq5YjDts8Kdik72x5MwdVBg11W1lofRQNnfBLy7ycNXhHtY5Pj8Pn/qFU7ZHiRF
+ /Vu1XBOdynPQvsosDm4xdDPOESrNCy5ICzs/glWIrNuas+MYriIZsdQo3Q6IPwDGJCtC
+ hjO507KeK9AMoniAb8NSekV+c8rCo2CzYSUi3lIG41Erm0RDZG88YaC/hvjwUjsmAMgx
+ Ps+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NvWKO/eR1yJsdEr/MjrC64DAUL6RQuAEyIUQnQjnfH0=;
- b=iet2UA4tU43F79dvdDVt9vKHDrZWk9x0qdrlQxmjJKlrQjgjVOSq6cIIyHtgm9gLd/
- 75jz1H5uScOTftFUXKDcznI2hde7NDeZgvwxy2QoiQ9OeSUeFevp1Q13vcfPUB+7sh1K
- AJldAnZedVKBEdFWGm6QBGorDuRhTNPh8opEZaGi5iG1ycuZ92RlpFdEjWx2mzCinrGO
- yIDtDoWARd3NQJH9rE5OwZ7eW/fyItlnLuczlgDrzaumsdBSxKG6tfi6tmnFZcHXAd+H
- ycL30WYCaZUpJ5vcQCD4AOe1E5bqwbPty9CLbdufT0K9BeuBBtj+koblcxWGGGC66Trx
- nJ3w==
-X-Gm-Message-State: AOAM533vcjBdqFy5crjfOp5+cND/cs1PDKtoLeqnoMBDUUoOsxwNotY8
- 0JHSXSOUtHYuhbgFPNlwMUGE5w==
-X-Google-Smtp-Source: ABdhPJxL4s9d4NOc2vxLs4jLRW0PtKosZCJ1CKuc0lks3XIN6a+G7ATgIdffqjA4zwM6dc+HcC6bpw==
-X-Received: by 2002:a17:90b:3b45:b0:1e8:8688:219d with SMTP id
- ot5-20020a17090b3b4500b001e88688219dmr3532731pjb.231.1654782688292; 
- Thu, 09 Jun 2022 06:51:28 -0700 (PDT)
+ bh=fDb0Dmcsx+ZFsOd3c0daRecpemMUPGtZHRnv9+lYy3s=;
+ b=4JG3rqin3/E68hzbkfZGyhUntC+oabQglE5TOxwV2XQ/jD5VTzphAvg9BgJxvuNTwm
+ KPbbJqd/GK3EbNnRDaXWlrAS7YEkgFdl3uLqbuQzc+BnkI3Q6lRaxnwfJK8iF4lhOF1c
+ cGogsjCk8nIoLCZj2GZnvIheV374a0Alb9At50nurhfVplWUy91C0xfGbK2JNHsTzqV2
+ Tu6GMx8Y1fDrU5IgOWKF6seDMRFbITmuCQH9HZVQbwdwO6j9szC97u51Roja127H+7Un
+ QzYVsFfCmGOjB6/GEbYv0uNTtNZZVtUY2Pb6RVyoV8noh50672oYYD82kKvNeleVn5qz
+ c2hg==
+X-Gm-Message-State: AOAM533MIqgSCIiRadTP0kx+kHb6LlNWW2hM5/Wbvgq7ykuiiiSOqxqd
+ wP1N+l2r9rIZ6M1u0hJQaZYhiw==
+X-Google-Smtp-Source: ABdhPJyJrTYDtQTeiyWeOpKxZHODGIvW2/l4nA8nX/qCs+6ANkZNp+SVuXFyzEzNnPQQPKgIpGdLnw==
+X-Received: by 2002:a63:2cd7:0:b0:3fe:1c0a:75ce with SMTP id
+ s206-20020a632cd7000000b003fe1c0a75cemr10529669pgs.602.1654782814148; 
+ Thu, 09 Jun 2022 06:53:34 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1547:e101:839f:476f:678:38a?
  ([2602:ae:1547:e101:839f:476f:678:38a])
  by smtp.gmail.com with ESMTPSA id
- m10-20020a170902db0a00b0015ee985999dsm17065387plx.97.2022.06.09.06.51.27
+ c143-20020a621c95000000b005187c4d53c9sm17172909pfc.160.2022.06.09.06.53.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jun 2022 06:51:27 -0700 (PDT)
-Message-ID: <309c8467-ab03-397c-ecac-a99dc41b2898@linaro.org>
-Date: Thu, 9 Jun 2022 06:51:25 -0700
+ Thu, 09 Jun 2022 06:53:33 -0700 (PDT)
+Message-ID: <7be99a0a-f7cc-5b58-a483-99c1c634997e@linaro.org>
+Date: Thu, 9 Jun 2022 06:53:31 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v4 08/53] semihosting: Split out guestfd.c
+Subject: Re: [PATCH] target/riscv: trans_rvv: Avoid assert for RV32 and e64
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-9-richard.henderson@linaro.org>
- <87wndqs3f9.fsf@linaro.org>
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, bmeng.cn@gmail.com,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com,
+ Robert Bu <robert.bu@gmail.com>
+References: <20220608234701.369536-1-alistair.francis@opensource.wdc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87wndqs3f9.fsf@linaro.org>
+In-Reply-To: <20220608234701.369536-1-alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,26 +97,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/22 00:24, Alex Bennée wrote:
->> --- a/configs/targets/riscv64-linux-user.mak
->> +++ b/configs/targets/riscv64-linux-user.mak
->> @@ -2,4 +2,5 @@ TARGET_ARCH=riscv64
->>   TARGET_BASE_ARCH=riscv
->>   TARGET_ABI_DIR=riscv
->>   TARGET_XML_FILES= gdb-xml/riscv-64bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-64bit-virtual.xml
->> +CONFIG_SEMIHOSTING=y
->>   CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+On 6/8/22 16:47, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> Why are these needed? The:
+> When running a 32-bit guest, with a e64 vmv.v.x and vl_eq_vlmax set to
+> true the `tcg_debug_assert(vece <= MO_32)` will be triggered inside
+> tcg_gen_gvec_dup_i32().
 > 
-> config ARM_COMPATIBLE_SEMIHOSTING
->         bool
->         select SEMIHOSTING
+> This patch checks that condition and instead uses tcg_gen_gvec_dup_i64()
+> is required.
 > 
-> stanza should ensure we select SEMIHOSTING automatically.
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1028
+> Suggested-by: Robert Bu <robert.bu@gmail.com>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
-Kconfig is not processed for linux-user.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
+> ---
+>   target/riscv/insn_trans/trans_rvv.c.inc | 12 ++++++++++--
+>   1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 391c61fe93..6b27d8e91e 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -2097,8 +2097,16 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
+>           s1 = get_gpr(s, a->rs1, EXT_SIGN);
+>   
+>           if (s->vl_eq_vlmax) {
+> -            tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
+> -                                MAXSZ(s), MAXSZ(s), s1);
+> +            if (get_xl(s) == MXL_RV32 && s->sew == MO_64) {
+> +                TCGv_i64 s1_i64 = tcg_temp_new_i64();
+> +                tcg_gen_ext_tl_i64(s1_i64, s1);
+> +                tcg_gen_gvec_dup_i64(s->sew, vreg_ofs(s, a->rd),
+> +                                     MAXSZ(s), MAXSZ(s), s1_i64);
+> +                tcg_temp_free_i64(s1_i64);
+> +            } else {
+> +                tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
+> +                                    MAXSZ(s), MAXSZ(s), s1);
+> +            }
+>           } else {
+>               TCGv_i32 desc;
+>               TCGv_i64 s1_i64 = tcg_temp_new_i64();
+
 
