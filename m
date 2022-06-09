@@ -2,95 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1587545497
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 21:04:53 +0200 (CEST)
-Received: from localhost ([::1]:38396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295875454B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 21:12:29 +0200 (CEST)
+Received: from localhost ([::1]:51256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzNSe-0007uv-HL
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 15:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
+	id 1nzNa0-00004v-6H
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 15:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nzLNF-0003LZ-GO
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:51:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nzLND-00074o-8V
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:51:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654793466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G6WFCdRvNT/QpBlZPNDv6FQ66nJIlG0MbwIXJJXOh8E=;
- b=ik3/BWkGR3x6iR+ItCg9cNGjjQRKwYd272nFEzfNS+JUjE0Wb53WzKIlgcZWajqtAs/nd/
- za9iVxkMWWnS+sAvz9vzPVQCv3ml8w3XEs4qXTkgvsNSMFms2gBdTYRSPxh+mCfxuld8En
- /9qKq9wqEEkNRu0XHpuRe0nfGzKm/Xs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-W0U7ViPRMgKRprroetaIkA-1; Thu, 09 Jun 2022 12:51:05 -0400
-X-MC-Unique: W0U7ViPRMgKRprroetaIkA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay1-20020a05600c1e0100b0039c3a3fc6a4so8618847wmb.4
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 09:51:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzLQ3-0006Rb-88
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:54:03 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:41924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzLQ0-0007Kr-J4
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:54:02 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id e184so42760085ybf.8
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 09:54:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9NjmZq2FTkWs7bk8NVL+Z9nGi0I8flVKyKYjxY9T348=;
+ b=jkcEP3U7fTX7lpSO32xjugMP2b2D6qSsZ1Hq5MfVZjraVu8v1KXwqoRYE6PSkxFjNt
+ VhuU86O1DkUkBa6YpGsm6+pPdYqPkvFCVAfWRFHiGBxLqYmJmDTWP1XW9urS8oa6MEMa
+ kehxVBda+oFN8xkrJdg7yEkVa8F154wn3OUMNMREjKbcSiLmLurB2Aw2qRctP/n6WFrX
+ ke3jyF0q8aDARc6I16/+9aRy0LvdC9f5k8m/MZ0RxgsNyKzS6Z0xcNghe9YTr2C3l2sW
+ AwqGOmnohf2ktBfUjUMcfN/M5LvWKUm3rNRcbhVUjSOzbL9sFoYOyEkaX3XrbpqnJuPb
+ /9DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=G6WFCdRvNT/QpBlZPNDv6FQ66nJIlG0MbwIXJJXOh8E=;
- b=vNCoUij+55RI8LrLxq2G8KnAgE+xDCtglqecwCPbEUIlRHWtKlsSOyuBmF9hwPUZDG
- DmDszZwMOO8qXjPuyhZHm3x2S+WBuLqwyCyJsuKAcItXv8e6+gVUZhFNLIyAVDTdBHZp
- 46ajLDKb/9/sG0Dh0ky46KEk2TZcjyDxK8oRwM0U8ud7+Ap0xs+LYWXYcIt8H7I+wxzr
- zyGB679j2cWdWJmpaogK7+/LNWRYPGvCNsO+U6SVGEQOf/DRn4uxGIapOpsJr1/3cH5H
- cZ4AdKavVRO0PVyJYS7Gsv3Qyu65DkenvgU7TSp+A9CRCq0evs4eH3KDTLZLkmxx+yUr
- mixg==
-X-Gm-Message-State: AOAM533vOHxHmmSPCrygjkrtCzzdCbI0fL96eSuVRogAF1lgwGrz6dg+
- mJw57w/LvaqFbUO78yVZvSQ1j8HPwwm291iKOYp0glrkL9I1hvYH3cEj73G/5mRZXe06mWXc3O4
- Vy+cdShK8qc5rfZw=
-X-Received: by 2002:a05:6000:1f8b:b0:219:bee5:6b77 with SMTP id
- bw11-20020a0560001f8b00b00219bee56b77mr2162682wrb.658.1654793462872; 
- Thu, 09 Jun 2022 09:51:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxsaHqFZDB5gg9nliO6sDqt9F37WE3WLIj5Z0ujgcb9ahq4OFKwV2qBecG2r1KqyuJp884TQ==
-X-Received: by 2002:a05:6000:1f8b:b0:219:bee5:6b77 with SMTP id
- bw11-20020a0560001f8b00b00219bee56b77mr2162651wrb.658.1654793462530; 
- Thu, 09 Jun 2022 09:51:02 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- r203-20020a1c44d4000000b0039c798b2dc5sm421317wma.8.2022.06.09.09.51.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 09:51:01 -0700 (PDT)
-Date: Thu, 9 Jun 2022 17:51:00 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 18/20] migration: remove the QEMUFileOps 'writev_buffer'
- callback
-Message-ID: <YqIk9AvFQF0hWcu0@work-vm>
-References: <20220524110235.145079-1-berrange@redhat.com>
- <20220524110235.145079-19-berrange@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9NjmZq2FTkWs7bk8NVL+Z9nGi0I8flVKyKYjxY9T348=;
+ b=2rDRb3PgGmFwmM80NZHVhkKWn8+IfhtbvZ0iO73oFYwb8J2sqnhlT9EylLYXu+Q8Xt
+ n7x2h+tYBAZ1TG2agCCzjjS0yXztM2KqD9fr6V4BgY7Sp2nonPbc+pP381/gTTrzLeM1
+ Luu/Y5G8NRJxmlh1/W1W6U5FhEojTT4MA7hqnKQAHq1IhjbMfuva62mvvmfprmxxKAGY
+ qfcNweAe8PiuVXVTm9Yc5MojkOyoG9fPf8O6icd14T+82i5WMXSxBSO8bUOE8bxu/2Bj
+ P2ERSMJ4yJxtOqdusCBkx1axTIKGqKo+j3eibew3qXgpWYQ0aFoXtsfNK1Yt+TiLFRJq
+ ozwg==
+X-Gm-Message-State: AOAM532P+9+YuUdhksytPZjrmYJGsId9KGhri71LIOKrNefSrWVzyPTU
+ sP2KhUAE+xTtUhsc12Xd15PJcWjXVuDk/C+NULFyGg==
+X-Google-Smtp-Source: ABdhPJyEPNfGC9dQPm8CkPfWozc77ij8w2opdkZbwbzD3kEIbuIdxCJFn54jU1bTNPgfP7zwl5sxbip5hIjB2SSo188=
+X-Received: by 2002:a25:47d4:0:b0:65d:510e:c8de with SMTP id
+ u203-20020a2547d4000000b0065d510ec8demr40746971yba.39.1654793639468; Thu, 09
+ Jun 2022 09:53:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220524110235.145079-19-berrange@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220607024734.541321-1-richard.henderson@linaro.org>
+ <20220607024734.541321-25-richard.henderson@linaro.org>
+In-Reply-To: <20220607024734.541321-25-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jun 2022 17:53:49 +0100
+Message-ID: <CAFEAcA9KR9_YicVwE0Ryp8BWzUe_-xOV78h=v9b5Hhpm+LZpCA@mail.gmail.com>
+Subject: Re: [PATCH v2 24/25] target/arm: Rearrange Secure PL1 test in
+ arm_debug_target_el
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,161 +83,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> This directly implements the writev_buffer logic using QIOChannel APIs.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On Tue, 7 Jun 2022 at 04:06, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Not a bug, because arm_is_el2_enabled tests for secure,
+> and SCR_EL3.EEL2 cannot be set for AArch32, however the
+> ordering of the tests looks odd.  Mirror the structure
+> over in exception_target_el().
+
+I think the code is following the ordering in the
+DebugTarget() and DebugTargetFrom() pseudocode (or else some other
+equivalent function in an older version of the Arm ARM...)
+
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  migration/qemu-file-channel.c | 43 -----------------------------------
->  migration/qemu-file.c         | 24 +++++++------------
->  migration/qemu-file.h         |  9 --------
->  3 files changed, 8 insertions(+), 68 deletions(-)
-> 
-> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> index 7b32831752..2e139f7bcd 100644
-> --- a/migration/qemu-file-channel.c
-> +++ b/migration/qemu-file-channel.c
-> @@ -32,48 +32,6 @@
->  #include "yank_functions.h"
->  
->  
-> -static ssize_t channel_writev_buffer(void *opaque,
-> -                                     struct iovec *iov,
-> -                                     int iovcnt,
-> -                                     int64_t pos,
-> -                                     Error **errp)
-> -{
-> -    QIOChannel *ioc = QIO_CHANNEL(opaque);
-> -    ssize_t done = 0;
-> -    struct iovec *local_iov = g_new(struct iovec, iovcnt);
-> -    struct iovec *local_iov_head = local_iov;
-> -    unsigned int nlocal_iov = iovcnt;
-> -
-> -    nlocal_iov = iov_copy(local_iov, nlocal_iov,
-> -                          iov, iovcnt,
-> -                          0, iov_size(iov, iovcnt));
-> -
-> -    while (nlocal_iov > 0) {
-> -        ssize_t len;
-> -        len = qio_channel_writev(ioc, local_iov, nlocal_iov, errp);
-> -        if (len == QIO_CHANNEL_ERR_BLOCK) {
-> -            if (qemu_in_coroutine()) {
-> -                qio_channel_yield(ioc, G_IO_OUT);
-> -            } else {
-> -                qio_channel_wait(ioc, G_IO_OUT);
-> -            }
-> -            continue;
-
-I wondered where that code went, but it turns out it's already copied
-into qio_channel_writev_full_all, so:
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> -        }
-> -        if (len < 0) {
-> -            done = -EIO;
-> -            goto cleanup;
-> -        }
-> -
-> -        iov_discard_front(&local_iov, &nlocal_iov, len);
-> -        done += len;
-> -    }
-> -
-> - cleanup:
-> -    g_free(local_iov_head);
-> -    return done;
-> -}
-> -
-> -
->  static QEMUFile *channel_get_input_return_path(void *opaque)
+>  target/arm/debug_helper.c | 30 ++++++++++++++++--------------
+>  1 file changed, 16 insertions(+), 14 deletions(-)
+>
+> diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+> index b18a6bd3a2..59dfcb5d5c 100644
+> --- a/target/arm/debug_helper.c
+> +++ b/target/arm/debug_helper.c
+> @@ -15,22 +15,24 @@
+>  /* Return the Exception Level targeted by debug exceptions. */
+>  static int arm_debug_target_el(CPUARMState *env)
 >  {
->      QIOChannel *ioc = QIO_CHANNEL(opaque);
-> @@ -94,7 +52,6 @@ static const QEMUFileOps channel_input_ops = {
->  
->  
->  static const QEMUFileOps channel_output_ops = {
-> -    .writev_buffer = channel_writev_buffer,
->      .get_return_path = channel_get_output_return_path,
->  };
->  
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index e024b43851..72a6f58af5 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -245,10 +245,6 @@ static void qemu_iovec_release_ram(QEMUFile *f)
->   */
->  void qemu_fflush(QEMUFile *f)
->  {
-> -    ssize_t ret = 0;
-> -    ssize_t expect = 0;
-> -    Error *local_error = NULL;
+> -    bool secure = arm_is_secure(env);
+> -    bool route_to_el2 = false;
 > -
->      if (!qemu_file_is_writable(f)) {
->          return;
->      }
-> @@ -257,22 +253,18 @@ void qemu_fflush(QEMUFile *f)
->          return;
->      }
->      if (f->iovcnt > 0) {
-> -        expect = iov_size(f->iov, f->iovcnt);
-> -        ret = f->ops->writev_buffer(f->ioc, f->iov, f->iovcnt, f->total_transferred,
-> -                                    &local_error);
-> +        Error *local_error = NULL;
-> +        if (qio_channel_writev_all(f->ioc,
-> +                                   f->iov, f->iovcnt,
-> +                                   &local_error) < 0) {
-> +            qemu_file_set_error_obj(f, -EIO, local_error);
-> +        } else {
-> +            f->total_transferred += iov_size(f->iov, f->iovcnt);
-> +        }
->  
->          qemu_iovec_release_ram(f);
->      }
->  
-> -    if (ret >= 0) {
-> -        f->total_transferred += ret;
+> -    if (arm_is_el2_enabled(env)) {
+> -        route_to_el2 = env->cp15.hcr_el2 & HCR_TGE ||
+> -                       env->cp15.mdcr_el2 & MDCR_TDE;
 > -    }
-> -    /* We expect the QEMUFile write impl to send the full
-> -     * data set we requested, so sanity check that.
-> -     */
-> -    if (ret != expect) {
-> -        qemu_file_set_error_obj(f, ret < 0 ? ret : -EIO, local_error);
-> -    }
->      f->buf_index = 0;
->      f->iovcnt = 0;
+> -
+> -    if (route_to_el2) {
+> -        return 2;
+> -    } else if (arm_feature(env, ARM_FEATURE_EL3) &&
+> -               !arm_el_is_aa64(env, 3) && secure) {
+> +    /*
+> +     * No such thing as secure EL1 if EL3 is AArch32.
+> +     * Remap Secure PL1 to EL3.
+> +     */
+
+I think you're also relying on there being no secure EL2
+if EL3 is AArch32 (otherwise an exception from secure EL0
+might need to be routed to secure EL2, not EL3).
+
+> +    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
+>          return 3;
+> -    } else {
+> -        return 1;
+>      }
+> +
+> +    /*
+> +     * HCR.TGE redirects EL0 exceptions from EL1 to EL2.
+> +     * MDCR.TDE redirects both EL0 and EL1 debug exceptions to EL2.
+> +     */
+> +    if (arm_is_el2_enabled(env) &&
+> +        (env->cp15.hcr_el2 & HCR_TGE || env->cp15.mdcr_el2 & MDCR_TDE)) {
+> +        return 2;
+> +    }
+> +
+> +    return 1;
 >  }
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index cd49184c00..542c637934 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -29,14 +29,6 @@
->  #include "exec/cpu-common.h"
->  #include "io/channel.h"
->  
-> -/*
-> - * This function writes an iovec to file. The handler must write all
-> - * of the data or return a negative errno value.
-> - */
-> -typedef ssize_t (QEMUFileWritevBufferFunc)(void *opaque, struct iovec *iov,
-> -                                           int iovcnt, int64_t pos,
-> -                                           Error **errp);
-> -
->  /*
->   * This function provides hooks around different
->   * stages of RAM migration.
-> @@ -69,7 +61,6 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
->  typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
->  
->  typedef struct QEMUFileOps {
-> -    QEMUFileWritevBufferFunc *writev_buffer;
->      QEMURetPathFunc *get_return_path;
->  } QEMUFileOps;
->  
-> -- 
-> 2.36.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+Anyway, if you prefer this way around
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+though I think there is usually some value in following
+the pseudocode's arrangement.
+
+thanks
+-- PMM
 
