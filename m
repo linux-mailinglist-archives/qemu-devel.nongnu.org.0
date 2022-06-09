@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3886554476E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:29:44 +0200 (CEST)
-Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713DC544806
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 11:53:34 +0200 (CEST)
+Received: from localhost ([::1]:35810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzEU3-00010R-7W
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:29:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39230)
+	id 1nzEr7-0005gK-6v
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 05:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE6w-0001P2-17
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:50 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35634)
+ id 1nzE6z-0001Rn-Je
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:54 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE6u-0005y0-1E
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:49 -0400
-Received: by mail-wr1-x435.google.com with SMTP id a15so22952820wrh.2
+ id 1nzE6u-0005vV-D4
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:05:53 -0400
+Received: by mail-wr1-x430.google.com with SMTP id v14so5217169wra.5
  for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:05:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=v6Qr9bE25ltpawAcQgSfkzrSpXI1MycLCG8XufyC2js=;
- b=bKA17z9ZQuuNoWzip2SlJ844IpZsf7Gb7WyDu2G8duXJxRa39m9YZpaDdkXr88xfpq
- atdfYK9AUTa1HRrK2IUb8jHK5yb/9+lu2XL9rNsRJshwdvyjiC/CzQzjwiKpqFR2nPFa
- bo/ngXemLA17moqfZ4GaJTcRK1aXA6qzE0IdHbJmfHKb/iB71sbeLjPLuPPiAyW9Gt8i
- OSgVRZxkTWCKSzqrh7qOrLWDjoh46Qn2Jdvopi5k38ceNrdNt81b3b56p2G5PGy5QUKl
- QxPTM72k1phA8vw+seTTC5AV772uMQZjeWDXlK6f+yehzOEuETcMT0vDH9FoQEF7DHQH
- ZpOw==
+ bh=PJOPhcXmy6choxCt00mzWvMSiOwf3GdqrbZyGZMGfOM=;
+ b=BNaNygxBqSsuoPvknhhIgp6zcO0xaKmmL202ENURdiYY/5o9X497A5P6VE2VN7phsg
+ TWu63cfcVsP0OoEWXy9obQOtwwsQmxub+wjeoeaykhNsSf599VZc7cUETPcmV15Cr7Um
+ BgN3LpFGLCKTJJjjf2LdLrOQu0lyvB0XwymiI1i2RKNdCZIw34hfI+pW/KIMG2K3w3xR
+ AE1PgurOVj/S1a9TnUZJOehC6+7HjPu8Cswln9htodD1AteF6dZbAVwF7mwsaxk2+90s
+ hu9jZLSXA7jg4vg/vy3zsN6KG/qjz7KNRbXC14kJxv9V0u4qPqTmiAcskkllPhhAgHuR
+ NZGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v6Qr9bE25ltpawAcQgSfkzrSpXI1MycLCG8XufyC2js=;
- b=DTc0/uVEiZQRyaVmMk4diVgpo5cdmXUFLhWJrMf5AEXdTOSKqLoTUnzal+rViSSpxK
- GuTQu20UfoJ40a6qDRmbppRXSxR9buLN81A7Gw2Yln5KTXdngLVFAgjzymRbhiB5AlXh
- /rfDtpka3L01kWA3J7xfbJlzcknsoWNxescNk1+Y8UEEjULxmhZQNzXf5NJON4jNE066
- p+TYgO0lbzaRfec5Wov5oFIS7Xf5am9zpVUHNTvty9PIreWCwFYZiRGtYNG+g/YBAAq5
- uqqE98Tqy6i8KrT6INARLRJgaVpHaFMylNAulBWizZDZ1cbsRuw1TM6z5Yyv8/GPtAbT
- PTHg==
-X-Gm-Message-State: AOAM531NuW3LmLFnP11IYLInNVHwvC3XLyfssjJuTpeVSzSxKcnhhjMF
- N5/HB9gel2kO6GebHf3R/29CASQ6wtQDBg==
-X-Google-Smtp-Source: ABdhPJwWv0/Eg6nc53WFZoCrjYWlqjsd46B7PRybMAs0DyG+q9pkeuwrrpxOCGXzL2PySxNzQoUaIg==
-X-Received: by 2002:a05:6000:152:b0:216:160:2e60 with SMTP id
- r18-20020a056000015200b0021601602e60mr27313060wrx.663.1654765546692; 
- Thu, 09 Jun 2022 02:05:46 -0700 (PDT)
+ bh=PJOPhcXmy6choxCt00mzWvMSiOwf3GdqrbZyGZMGfOM=;
+ b=O7YAh9oD3h1JmjpdKMIme+gtmVRGPQItZNuhMmLuU9OXh5+DVzjxaRvwdrJoNTvL/g
+ PUcZQdk4bDw/JAUW++d03H07QM5BNQGA1YS+nptYjxXNMrf27CDWy1deS4Ec8TDCdHrO
+ +QALoSfSqvQtQeiYoGLuIQloQhH/urMXjGo1XiIOcwSPVneAtpM+0bePw7ZKu0hQE+Ij
+ xIK1q1eYqPAQZRKh2croKPYR8XTEX1oXgrebl74MiQRfz0vUERKifVOFgjuQ5ocS+Xpm
+ lHeWE0hMh2w//6OeCnCywUJpLYIANkHl8xf/TQsYr6zcruLmffJvQ0LtilabxyKsEix8
+ iScg==
+X-Gm-Message-State: AOAM533d4/ntD6n0clBy1bYYqkmElCI+JcVw1Y7V/X3Rx+f1yyxjcaDZ
+ m8F0Os+R3dAeTR5957bkiTrx8WJGdRG3Mw==
+X-Google-Smtp-Source: ABdhPJyOKZCVDU8vMFrWi9NK+oD8FrqdeETN/G+W8U36h8ALRp8WJm2YqWWTbOJkyqQTzXYpWY2QIw==
+X-Received: by 2002:adf:ed82:0:b0:213:1315:1dbb with SMTP id
+ c2-20020adfed82000000b0021313151dbbmr35315784wro.484.1654765547694; 
+ Thu, 09 Jun 2022 02:05:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.05.45
+ c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.05.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:05:46 -0700 (PDT)
+ Thu, 09 Jun 2022 02:05:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/55] xlnx_dp: Fix the interrupt disable logic
-Date: Thu,  9 Jun 2022 10:04:48 +0100
-Message-Id: <20220609090537.1971756-7-peter.maydell@linaro.org>
+Subject: [PULL 07/55] xlnx-zynqmp: fix the irq mapping for the display port
+ and its dma
+Date: Thu,  9 Jun 2022 10:04:49 +0100
+Message-Id: <20220609090537.1971756-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
 References: <20220609090537.1971756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,34 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+From: Frederic Konrad <fkonrad@amd.com>
 
-Fix interrupt disable logic. Mask value 1 indicates that interrupts are
-disabled.
+When the display port has been initially implemented the device
+driver wasn't using interrupts.  Now that the display port driver
+waits for vblank interrupt it has been noticed that the irq mapping
+is wrong.  So use the value from the linux device tree and the
+ultrascale+ reference manual.
 
-Signed-off-by: Sai Pavan Boddu <saipava@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Frederic Konrad <fkonrad@amd.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20220601172353.3220232-4-fkonrad@xilinx.com
+Message-id: 20220601172353.3220232-5-fkonrad@xilinx.com
+[PMM: refold lines in commit message]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/xlnx_dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/xlnx-zynqmp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index ed856b596da..a071c818833 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -889,7 +889,7 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
-         xlnx_dp_update_irq(s);
-         break;
-     case DP_INT_DS:
--        s->core_registers[DP_INT_MASK] |= ~value;
-+        s->core_registers[DP_INT_MASK] |= value;
-         xlnx_dp_update_irq(s);
-         break;
-     default:
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 375309e68eb..383e177a001 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -60,10 +60,10 @@
+ #define SERDES_SIZE         0x20000
+ 
+ #define DP_ADDR             0xfd4a0000
+-#define DP_IRQ              113
++#define DP_IRQ              0x77
+ 
+ #define DPDMA_ADDR          0xfd4c0000
+-#define DPDMA_IRQ           116
++#define DPDMA_IRQ           0x7a
+ 
+ #define APU_ADDR            0xfd5c0000
+ #define APU_IRQ             153
 -- 
 2.25.1
 
