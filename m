@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF0854460C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 10:39:07 +0200 (CEST)
-Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D64854461A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 10:39:36 +0200 (CEST)
+Received: from localhost ([::1]:35590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzDh3-0003kx-Rm
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 04:39:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34150)
+	id 1nzDhX-0004Km-Jz
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 04:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@intel.com>)
- id 1nzDdU-00029u-B1
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:35:25 -0400
-Received: from mga07.intel.com ([134.134.136.100]:24712)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nzDdy-0002NA-Nv
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:35:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@intel.com>)
- id 1nzDdR-0000w4-94
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:35:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654763721; x=1686299721;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Mb9drMdZUb6Nhf/Yxj9XDL9XwQjSMyCXPhW6oSwgMTY=;
- b=ONm9/GjB6U4Mv36L0zqs/8Tjn1jBYv3LrYVWrUkznE3ATqAxwMj74+5r
- Uae643bBa6Pkj/atefUWcQXYzlO2d+wyaRX49kHrdnPFo9tNGNJhqJnqH
- BuctysSuDVg1Tar3MMBrsI4VvTlvI2hEd8NfUjZnOq2eZFZwOzM+vrPdF
- VAExSFo2BVqLPUDrIAK0hIMG15fND2LIT7K9N5ebrDz0LTGrW7pvHarlU
- YGh8wwSAb8hjXo7HhbDDdDhhJlqgvFvL645e858r6VGCfqjwP+qoH8hd9
- ywy0N+37eYGVOpCiAqUjU8jaJc+KoViHKLaDN+adOFfJtHDycJIl3xAib g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="341283588"
-X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="341283588"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2022 01:35:15 -0700
-X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="649105914"
-Received: from sqa-gate.sh.intel.com (HELO embargo.tsp.org) ([10.239.48.212])
- by fmsmga004-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2022 01:35:08 -0700
-From: Yuan Yao <yuan.yao@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yang Zhong <yang.zhong@intel.com>, Connor Kuehl <ckuehl@redhat.com>
-Cc: qemu-devel@nongnu.org, Yuan Yao <yuan.yao@intel.com>,
- Yamahata Isaku <isaku.yamahata@intel.com>
-Subject: [PATCH 1/1] i386/monitor: Fix page table walking issue for LA57
- enabled guest
-Date: Thu,  9 Jun 2022 16:34:56 +0800
-Message-Id: <20220609083456.77946-1-yuan.yao@intel.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nzDdv-000141-Ly
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 04:35:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654763750;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OwnR4jS2U4ucJ7ogPZerKe33y02jLfo+yPO7pDcCqaw=;
+ b=RuHN2cm47+VNFSV+ac0C2DPlgbCdlIgtfp6HQLgCErXGN2Z/nwS/gRhD6x+vZ3WY8WcUzl
+ uECSBXEx7Emi23+B9jdYxmBvBwD6aKkVTvXiLlLZCxMfttSV6AeR3IWCxRXs9a6HIUKMcT
+ uKdCLg79/kI7pdERSgzZouqCoFaH8VQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-153-a9IqtV69Mxu7motSbR2CFg-1; Thu, 09 Jun 2022 04:35:46 -0400
+X-MC-Unique: a9IqtV69Mxu7motSbR2CFg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7599E85A585;
+ Thu,  9 Jun 2022 08:35:46 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.205])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 238A540EC002;
+ Thu,  9 Jun 2022 08:35:45 +0000 (UTC)
+Date: Thu, 9 Jun 2022 09:35:44 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Cc: mst@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
+ cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 resend 0/4] add generic vDPA device support
+Message-ID: <YqGw4Jup0zL8oLHV@stefanha-x1.localdomain>
+References: <20220514041107.1980-1-longpeng2@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.100; envelope-from=yuan.yao@intel.com;
- helo=mga07.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bs2U6ppJ04c4rhvY"
+Content-Disposition: inline
+In-Reply-To: <20220514041107.1980-1-longpeng2@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,42 +81,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't skip next leve page table for pdpe/pde when the
-PG_PRESENT_MASK is set.
 
-This fixs the issue that no mapping information was
-collected from "info mem" for guest with LA57 enabled.
+--bs2U6ppJ04c4rhvY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Yuan Yao <yuan.yao@intel.com>
----
- target/i386/monitor.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Sat, May 14, 2022 at 12:11:03PM +0800, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
+>=20
+> Hi guys,
+>=20
+> With the generic vDPA device, QEMU won't need to touch the device
+> types any more, such like vfio.
+>=20
+> We can use the generic vDPA device as follow:
+>   -device vhost-vdpa-device-pci,vhostdev=3D/dev/vhost-vdpa-X
+>   Or
+>   -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+>   vhost-vdpa-device,vhostdev=3D/dev/vhost-vdpa-x
+>=20
+> I've done some simple tests on Huawei's offloading card (net, 0.95).
 
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 8e4b4d600c..3339550bbe 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -489,7 +489,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
-                 cpu_physical_memory_read(pdp_addr + l2 * 8, &pdpe, 8);
-                 pdpe = le64_to_cpu(pdpe);
-                 end = (l0 << 48) + (l1 << 39) + (l2 << 30);
--                if (pdpe & PG_PRESENT_MASK) {
-+                if (!(pdpe & PG_PRESENT_MASK)) {
-                     prot = 0;
-                     mem_print(mon, env, &start, &last_prot, end, prot);
-                     continue;
-@@ -508,7 +508,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
-                     cpu_physical_memory_read(pd_addr + l3 * 8, &pde, 8);
-                     pde = le64_to_cpu(pde);
-                     end = (l0 << 48) + (l1 << 39) + (l2 << 30) + (l3 << 21);
--                    if (pde & PG_PRESENT_MASK) {
-+                    if (!(pde & PG_PRESENT_MASK)) {
-                         prot = 0;
-                         mem_print(mon, env, &start, &last_prot, end, prot);
-                         continue;
+Please send a follow-up patch that adds documentation for this new
+device type. Maybe in a new docs/system/devices/vhost-vdpa.rst file?
 
-base-commit: 6d940eff4734bcb40b1a25f62d7cec5a396f994a
--- 
-2.27.0
+Stefan
+
+--bs2U6ppJ04c4rhvY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKhsOAACgkQnKSrs4Gr
+c8hpaggAms6XGmZ6+ojg1heYHvbnafO9BtTXxcZL2AHv6dQGoOWStNBkFjnFPGHt
+kulZnkZh7oQacrWT35C18NhxXBfOx6v/c7vNoVc5wX3JFQBMw98/jRiBCzoN1viT
+rHEvvFtEveeyVJaFe0BOJ5C6/51FaMEIlX3MdhqBtKhcgR0eeEQo7kp9QDkh1ymi
+PSOb7W5FyjJ0LydI1dnEIhZjIaVRNTIZzqauNkBry9YVQ/DVBUV8ijLNlng2vNFR
+vWoxQZxJcfdawY6XanR6NWs5W3MMPDotORY9u3D/l0TDsztVl//4NNusOluF7sQY
+Ec403wSMfNxmOlPiByAPOVkHRvYMuA==
+=2oVl
+-----END PGP SIGNATURE-----
+
+--bs2U6ppJ04c4rhvY--
 
 
