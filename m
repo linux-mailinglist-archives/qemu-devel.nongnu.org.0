@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5AD544B74
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:13:58 +0200 (CEST)
-Received: from localhost ([::1]:36580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95160544BA2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 14:22:43 +0200 (CEST)
+Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzH2y-0004w3-Ij
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53454)
+	id 1nzHBR-0002me-9J
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 08:22:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1nzEs4-0000Q6-GM
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:54:32 -0400
-Received: from mail.xen0n.name ([115.28.160.31]:54596
- helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzEuZ-0002zF-N6
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:57:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1nzErm-00054l-GH
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:54:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
- t=1654768443; bh=iyOXGfbHNW2JHFyQEq2I/YPuT9Q1cBDK0BuZqStXwiE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=E32n+mLhVbyV/Gffek+CR2CIJ0S4RmlVhEHddZsfcmvHoqB3vIKW+DxDqLLBWI35E
- /vH2w1CTgUWl2D7WVSaB8p5DqhjEJjV6AydpTcpBaM//biU9OEGguhWIoU1wU5IpiQ
- 5q2mSYdb/PzvlT0+rN/3vaPxEQrWCZ0dr0piO2zw=
-Received: from [100.100.57.190] (unknown [220.248.53.61])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzEuX-0005aH-WE
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:57:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654768625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7JdUSmAZT5pWBwWi7rcHR/O5yAKXNDlDj/WZkZwWYSU=;
+ b=JVi1rx1COaP9kPk2/gsruUID29jsFJ1LW27IzqBrE8O6ew18gG7/OEDZuqAx7bR9K2bLaa
+ c8cVhCfC1aGSAe+kUCHnbcSi2P5FpPMFPiCBjRsffeWix25nWm4PSqomnSdelRWUf0HtGA
+ f3maqwSTs6encyiEEB5pokS4XC6I0BY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-315-mKpHAoCJOpimgNG3gFp6nQ-1; Thu, 09 Jun 2022 05:57:01 -0400
+X-MC-Unique: mKpHAoCJOpimgNG3gFp6nQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 277FB60104;
- Thu,  9 Jun 2022 17:54:03 +0800 (CST)
-Message-ID: <6df7787c-5625-93b3-fcb0-ed0b76e551b1@xen0n.name>
-Date: Thu, 9 Jun 2022 17:54:02 +0800
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CAE2185A7A4;
+ Thu,  9 Jun 2022 09:57:01 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0885CC44CC3;
+ Thu,  9 Jun 2022 09:57:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 655831800094; Thu,  9 Jun 2022 11:56:59 +0200 (CEST)
+Date: Thu, 9 Jun 2022 11:56:59 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Hongren (Zenithal) Zheng" <i@zenithal.me>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, contact@canokeys.org
+Subject: Re: [PATCH v5 4/6] docs: Add CanoKey documentation
+Message-ID: <20220609095659.ulgk64bx3nlqzs2k@sirius.home.kraxel.org>
+References: <YoY5k0PQny8WtAHi@Sun>
+ <YoY6ilQimrK+l5NN@Sun>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0)
- Gecko/20100101 Thunderbird/103.0a1
-Subject: Re: [PATCH v15 1/9] linux-user: Add LoongArch generic header files
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, laurent@vivier.eu,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220609024209.2406188-1-gaosong@loongson.cn>
- <20220609024209.2406188-2-gaosong@loongson.cn>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <20220609024209.2406188-2-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoY6ilQimrK+l5NN@Sun>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,39 +79,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2022/6/9 10:42, Song Gao wrote:
-> This includes:
-> - sockbits.h
-> - target_errno_defs.h
-> - target_fcntl.h
-> - termbits.h
-> - target_resource.h
-> - target_structs.h
->
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Thu, May 19, 2022 at 08:39:38PM +0800, Hongren (Zenithal) Zheng wrote:
+> Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
 > ---
->   linux-user/loongarch64/sockbits.h          | 11 +++++++++++
->   linux-user/loongarch64/target_errno_defs.h | 12 ++++++++++++
->   linux-user/loongarch64/target_fcntl.h      | 11 +++++++++++
->   linux-user/loongarch64/target_prctl.h      |  1 +
->   linux-user/loongarch64/target_resource.h   | 11 +++++++++++
->   linux-user/loongarch64/target_structs.h    | 11 +++++++++++
->   linux-user/loongarch64/termbits.h          | 11 +++++++++++
->   7 files changed, 68 insertions(+)
->   create mode 100644 linux-user/loongarch64/sockbits.h
->   create mode 100644 linux-user/loongarch64/target_errno_defs.h
->   create mode 100644 linux-user/loongarch64/target_fcntl.h
->   create mode 100644 linux-user/loongarch64/target_prctl.h
->   create mode 100644 linux-user/loongarch64/target_resource.h
->   create mode 100644 linux-user/loongarch64/target_structs.h
->   create mode 100644 linux-user/loongarch64/termbits.h
+>  docs/system/device-emulation.rst |   1 +
+>  docs/system/devices/canokey.rst  | 168 +++++++++++++++++++++++++++++++
+>  2 files changed, 169 insertions(+)
+>  create mode 100644 docs/system/devices/canokey.rst
+> 
+> Note on the qemu-xhci issue:
+> 
+> For FIDO2 packets, they follow the pattern below
+> 
+>   Interrupt IN (size 64)
+>   Interrupt OUT (size 128 with payload)
+>   Interrupt OUT ACK (size 64)
+>   Interrupt IN ACK (size 128 with payload)
 
-So this is all nicely generic.
+> In qemu-xhci, it assumes a pattern like this
+> 
+>   Interrupt IN (size 64)
+>    -> usb_handle_packet
+>   Interrupt IN ACK (size 128 with payload (not possible))
+>    <- usb_handle_packet returns
+>   Interrupt OUT (size 128 with payload)
+>    -> the next usb_handle_packet
+>   Interrupt OUT ACK (size 64)
+>    <- the next usb_handle_packet returns
 
-Reviewed-by: WANG Xuerui <git@xen0n.name>
+> The code works for uhci/ehci in the following way
+> 
+>   Interrupt IN (size 64)
+>    -> usb_handle_packet
+>   Interrupt IN NAK (size 64)
+>    <- usb_handle_packet returns
+>   ... there are many IN NAK here
+>   ... uhci/ehci reschedule OUT before IN now
+>   Interrupt OUT (size 128 with payload)
+>    -> the next usb_handle_packet
+>   Interrupt OUT ACK (size 64)
+>    <- the next usb_handle_packet returns
+>   Interrupt IN (size 64)
+>    -> last usb_handle_packet
+>   Interrupt IN ACK (size 128 with payload)
+>    <- last usb_handle_packet returns
+
+I think this is just a missing usb_wakeup() call somewhere.  If a
+usb device got data it must notify the host adapter that way.
+
+> I think qemu-xhci should retry/schedule the failed IN token after
+> receiving NAK instead of failing immediately, because interrupt
+> endpoint is async.
+
+uhci/ehci keeps polling the device.  That is pretty much mandatory for
+correct emulation due to the way the host adapter hardware is designed.
+So things are typically working even without an explicit usb_wakeup()
+call.
+
+xhci doesn't poll (which is good because that reduces virtualization
+overhead alot) but requires an explicit usb_wakeup() call to make xhci
+re-try NACK-ed transfers.
+
+take care,
+  Gerd
 
 
