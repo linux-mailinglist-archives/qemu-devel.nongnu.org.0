@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5155453D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:13:24 +0200 (CEST)
-Received: from localhost ([::1]:47078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806A7545414
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 20:24:58 +0200 (CEST)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzMep-0001qS-4E
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40302)
+	id 1nzMq1-0006pQ-Hz
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 14:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nzKr8-0003Kt-Vr
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:17:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58076)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nzKr6-0001as-5j
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:17:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654791475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BpWxJVAz82RhPiogAjm4KFMGk4g+ZUkYwbT3KX1mdFo=;
- b=Kzp4mDpL0uOqx2g09jruOn0Rn9NlUsQxtnjqOYDzJQRvOKfMQ0Efth5RQYEoHm5f3FRPaZ
- uaDHaGuYiVONdJuLP0r8SNms4k7DYBOFyIou4dmNelM6WRKAWjNWRl8JQpS/yAOWCE6E3c
- +9aJgdKolzgb1pCvjgWwt+d1fAKICMk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-R5jtGscKOfChVQPXyJrfwQ-1; Thu, 09 Jun 2022 12:17:54 -0400
-X-MC-Unique: R5jtGscKOfChVQPXyJrfwQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a05600c1c8500b003974c5d636dso11526959wms.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 09:17:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzL94-0000Vm-HY
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:36:30 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:43829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzL92-0004as-RW
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 12:36:30 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-3137316bb69so52222877b3.10
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 09:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6xAVpoqHFm+71KOMFYJQmJ0/62hwCwd48un0G561MT0=;
+ b=TvlmJYc4c+NMEpwvQ14RayKyAEHbi2byJWoM9Ob2PhWZBxgpj3UcfcLGallETZnUeq
+ fR86vMvMttROLsi5nbs3iklue7IaesSSOLgFIrSf5unntzPLtIYvOQUp580YOt4sXmtR
+ Kztr4KcfcgmsuHRHcKlFPQZirnydFrFS5KDJw96iGzkUjp+hCViT9Z8UDSC7wIS3/RiE
+ 8k2G4WFoF4d2v2rm7w4NofVsYRv5kgDbzUa9eS4tct7cVm1XTfy+s0YehiaRQq6qfE7I
+ 6+dOQpAPTEXrorb4bFBxmsqiteMx3ckoRo6VE1RW2zKx5BXUIok5TL+SWejWWSJB8WcM
+ ogFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=BpWxJVAz82RhPiogAjm4KFMGk4g+ZUkYwbT3KX1mdFo=;
- b=72jYyN6s5Bl0a6MBc5MQNNADEk+ykI5jp24SL55vLyhKNCD4+hSk7Nr95IRECvbCO/
- FsaA4D9GqdDrgFAPcOMSO6cAdoYjbt5fRSca4CYG4goW6PskyfNSMeMhWG+Jzq0bE1hX
- aIHXdnlr9fnm+qMs5ww1qXU7KuUYFSI+SfnbiwpCl503SYJaDLB9lRSSBV4pjz9dQfns
- IwrmH+SS4RekCnvWX9HjxlyJoTDAUURleNSE04QJNOyoS3v8m1McnmQE2+M1nU4wW4Mp
- P7AckqeOEnAgDmsIi1995cyKiG0TJrwo7VQ07bz885luQMPVG7EFAJ9EbzNgaHPJ5ruq
- eBFw==
-X-Gm-Message-State: AOAM530x5FQ2UbFyOIT6dm9qnDXxWPx7rI9Yqv9ukgSCygn4e56E0eXe
- k4qbMCUuv82b1hGwXD8S+ap7kSQK3959LgFBzH8R3yaTpN91p2EVsX6LZCniN5uNwSdC3qe19SW
- ivePDhcXpxnY/SZ4=
-X-Received: by 2002:a05:6000:152:b0:216:160:2e60 with SMTP id
- r18-20020a056000015200b0021601602e60mr29270129wrx.663.1654791472861; 
- Thu, 09 Jun 2022 09:17:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+gITrkuXIQEqOflqpYlep3DbW9C4+v7Hb88614H+V5hR2zIha+SGoxPwaSy2ufPtYVSmX/g==
-X-Received: by 2002:a05:6000:152:b0:216:160:2e60 with SMTP id
- r18-20020a056000015200b0021601602e60mr29270095wrx.663.1654791472537; 
- Thu, 09 Jun 2022 09:17:52 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm12519954wrr.15.2022.06.09.09.17.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 09:17:51 -0700 (PDT)
-Date: Thu, 9 Jun 2022 17:17:49 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 14/20] migration: remove the QEMUFileOps 'shut_down'
- callback
-Message-ID: <YqIdLf+4qS2lQ/nZ@work-vm>
-References: <20220524110235.145079-1-berrange@redhat.com>
- <20220524110235.145079-15-berrange@redhat.com>
- <YqIb+S+UlgJMXkSa@work-vm> <YqIcgc7J9d/kLBOu@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6xAVpoqHFm+71KOMFYJQmJ0/62hwCwd48un0G561MT0=;
+ b=IAWZmGHY4b91qm1neYS06GS3IuD88/CUH8Tb7jOwElMZFohZhrg7L37V+zHgTnwKyB
+ Y7Ys99QSZWmtncRP9yirJ2oEwIuuKWGpF5cvo2DcmeKxijwSLtJq9/8Sty43OK+mqV5q
+ E5Ls2/mXzkBfDCuDEWcv8tQ8HsUkyHG8Ava0KmBBCjIZJHrnWMMrEoilLHz2Lt8rNBoL
+ c2QAhMeTtBhS9XObjI7j7BfY55aG03AU+cCQzATzvkbHKGGch4sG+4wZHo3mp/p0atBb
+ xrpgI/YDbzcfqe+k9e2NLwjWMwjiLGAsT8O4BKUYL00bgKpNqkm4DnObzhTp/QDBU7D6
+ GMBA==
+X-Gm-Message-State: AOAM532xKcZiNaw+D/CDtPiNomroMyVkv6DF9sJSOi1ci6Xzq7drCa0N
+ ttnb9JLGQNkj8hBbAUsG9Icue9V+Pj4K/vTOTm0gJw==
+X-Google-Smtp-Source: ABdhPJwColsLvx3Shg1wOnxAR18YpQFNia+kZZ8+qaepJW4psSP1agSIanWDc4AC+8FkriUEWTyiPWJjLlSFvWtm3l8=
+X-Received: by 2002:a05:690c:808:b0:30c:4f5c:b319 with SMTP id
+ bx8-20020a05690c080800b0030c4f5cb319mr42354437ywb.64.1654792587874; Thu, 09
+ Jun 2022 09:36:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YqIcgc7J9d/kLBOu@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220607024734.541321-1-richard.henderson@linaro.org>
+ <20220607024734.541321-16-richard.henderson@linaro.org>
+In-Reply-To: <20220607024734.541321-16-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Jun 2022 17:36:17 +0100
+Message-ID: <CAFEAcA8KhDtAjACeDLM05U+kCSM0e0+HYrOw55=_2CszbTwBxg@mail.gmail.com>
+Subject: Re: [PATCH v2 15/25] target/arm: Remove TBFLAG_ANY.DEBUG_TARGET_EL
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -107,120 +83,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Thu, Jun 09, 2022 at 05:12:41PM +0100, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > This directly implements the shutdown logic using QIOChannel APIs.
-> > > 
-> > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > ---
-> > >  migration/qemu-file-channel.c | 27 ---------------------------
-> > >  migration/qemu-file.c         | 10 +++++++---
-> > >  migration/qemu-file.h         | 10 ----------
-> > >  3 files changed, 7 insertions(+), 40 deletions(-)
-> > > 
-> > > diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> > > index 5cb8ac93c0..80f05dc371 100644
-> > > --- a/migration/qemu-file-channel.c
-> > > +++ b/migration/qemu-file-channel.c
-> > > @@ -112,31 +112,6 @@ static int channel_close(void *opaque, Error **errp)
-> > >  }
-> > >  
-> > >  
-> > > -static int channel_shutdown(void *opaque,
-> > > -                            bool rd,
-> > > -                            bool wr,
-> > > -                            Error **errp)
-> > > -{
-> > > -    QIOChannel *ioc = QIO_CHANNEL(opaque);
-> > > -
-> > > -    if (qio_channel_has_feature(ioc,
-> > > -                                QIO_CHANNEL_FEATURE_SHUTDOWN)) {
-> > > -        QIOChannelShutdown mode;
-> > > -        if (rd && wr) {
-> > > -            mode = QIO_CHANNEL_SHUTDOWN_BOTH;
-> > > -        } else if (rd) {
-> > > -            mode = QIO_CHANNEL_SHUTDOWN_READ;
-> > > -        } else {
-> > > -            mode = QIO_CHANNEL_SHUTDOWN_WRITE;
-> > > -        }
-> > > -        if (qio_channel_shutdown(ioc, mode, errp) < 0) {
-> > > -            return -EIO;
-> > > -        }
-> > > -    }
-> > > -    return 0;
-> > > -}
-> > > -
-> > > -
-> > >  static int channel_set_blocking(void *opaque,
-> > >                                  bool enabled,
-> > >                                  Error **errp)
-> > > @@ -166,7 +141,6 @@ static QEMUFile *channel_get_output_return_path(void *opaque)
-> > >  static const QEMUFileOps channel_input_ops = {
-> > >      .get_buffer = channel_get_buffer,
-> > >      .close = channel_close,
-> > > -    .shut_down = channel_shutdown,
-> > >      .set_blocking = channel_set_blocking,
-> > >      .get_return_path = channel_get_input_return_path,
-> > >  };
-> > > @@ -175,7 +149,6 @@ static const QEMUFileOps channel_input_ops = {
-> > >  static const QEMUFileOps channel_output_ops = {
-> > >      .writev_buffer = channel_writev_buffer,
-> > >      .close = channel_close,
-> > > -    .shut_down = channel_shutdown,
-> > >      .set_blocking = channel_set_blocking,
-> > >      .get_return_path = channel_get_output_return_path,
-> > >  };
-> > > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> > > index 5548e1abf3..fd9f060c02 100644
-> > > --- a/migration/qemu-file.c
-> > > +++ b/migration/qemu-file.c
-> > > @@ -74,13 +74,17 @@ struct QEMUFile {
-> > >   */
-> > >  int qemu_file_shutdown(QEMUFile *f)
-> > >  {
-> > > -    int ret;
-> > > +    int ret = 0;
-> > >  
-> > >      f->shutdown = true;
-> > > -    if (!f->ops->shut_down) {
-> > > +    if (!qio_channel_has_feature(f->ioc,
-> > > +                                 QIO_CHANNEL_FEATURE_SHUTDOWN)) {
-> > >          return -ENOSYS;
-> > >      }
-> > > -    ret = f->ops->shut_down(f->ioc, true, true, NULL);
-> > > +
-> > > +    if (qio_channel_shutdown(f->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL) < 0) {
-> > > +        ret = -EIO;
-> > > +    }
-> > 
-> > OK, so this is following the code you're flattening; so:
-> > 
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > 
-> >  I wonder if there's any reason it doesn't just pass the return value through to ret rather
-> > than flattening it to -EIO?
-> 
-> qio methods never return errno values just positive integer or -1.
-> 
-> Since qemu_file_shutdown seems to want an errno, I picked EIO
-> 
-> Better would be for qemu_file_shutdown to have an Error **errp
-> param instead but that could come later.
+On Tue, 7 Jun 2022 at 03:54, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We no longer need this value during translation,
+> as it is now handled within the helpers.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-Ah OK.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Dave
-
-> 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
