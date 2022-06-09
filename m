@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E032354516D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 17:58:46 +0200 (CEST)
-Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D02A54517F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:04:13 +0200 (CEST)
+Received: from localhost ([::1]:54304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKYX-0001Ca-Ve
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 11:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60376)
+	id 1nzKdo-0002mf-8I
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nzKIp-00021b-6A
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:42:31 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:36760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nzKIn-0003zv-NZ
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 11:42:30 -0400
-Received: by mail-ed1-x534.google.com with SMTP id fd25so31772257edb.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 08:42:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=YvGW2u1USxNm6oeW7dVLXeCxIaGyX6dYDvr8wHwQ0gM=;
- b=w6G/RnDLbytPKg1m6tg1Sj+5EHAeYrwzPrORo0d0okYSyeSmrPz3ZvsC+Wqov+bBUc
- wm+UvfAEX1MXwLoSBTCdt9+mrw3bsA8k/0rFAOyVCwZCMxsZW8TpoaPVG/10i69diqaB
- n7XJ20fNG6awsa68vd3DSf5wZnszzNXejoWLqtVHuLJJuDUQ3KDh53fXdAagM7pytBs+
- +xPQFiRHP0gKnQQJgU0nyALSY2vZESj900zlCGTE15xpqgpMtkXXZut1XO9hzH7/tVOc
- C3hmlYaW6sKrLRa9uVkzJ2yYvClXu8LLUKE9xdrAUZjWhcIF7JJg9hi9AQuRrkOAGgDY
- JGnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=YvGW2u1USxNm6oeW7dVLXeCxIaGyX6dYDvr8wHwQ0gM=;
- b=Fcr+WZxKzL4zQDfFE9sry5aF79m+mVIcMXTllLC3TwRnDvDtcDxlzUifN777f+qHJ/
- jU/d9W7Vr2F8YCFUTXYtyyQOhQYeOMbv2Ch8CxFMjAVR31GfzQ3DNDG/6etfybP0X3DY
- A5WxeZssVT1o6RogQvnznaQ+EeyAsuxGYVGU2l4SDF4+dX29/we1zBFgwP8yjSyIVLuw
- 2r2+DBZXBIc/wFp02teVTZeovZAQAnl4q5GOWO8YjedO4GtMSqErc7G1LnMDKWNl5uMS
- 5lOu5SZz1Zb56Ab/iRd5i3mIBhvhrJnt71vFvmSR5R7q6/C5ZKV1j1h8yc/8R8MTuDdj
- PYVw==
-X-Gm-Message-State: AOAM5307POkoKEBPl8CocwYnqgJWtqGEOQoPez2w2iv6fbVsSw+6sCHc
- OxCLXf3844PBiFMriDVfImu4VA==
-X-Google-Smtp-Source: ABdhPJzvG52E0MPYxDQUSjn0UFBzSsYBvK+8gCk6G4GuuBhZZBUpuRPriOvECUE/IVOxpwn8E+XpuA==
-X-Received: by 2002:a05:6402:d05:b0:425:b5c8:faeb with SMTP id
- eb5-20020a0564020d0500b00425b5c8faebmr46209085edb.273.1654789348095; 
- Thu, 09 Jun 2022 08:42:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- kx1-20020a170907774100b0070776750bc5sm10771552ejc.109.2022.06.09.08.42.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 08:42:26 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 096C61FFB7;
- Thu,  9 Jun 2022 16:42:26 +0100 (BST)
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-14-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.26; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 13/53] semihosting: Return void from
- do_common_semihosting
-Date: Thu, 09 Jun 2022 16:42:17 +0100
-In-reply-to: <20220607204557.658541-14-richard.henderson@linaro.org>
-Message-ID: <87o7z1sv1a.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nzJI3-0002LN-G0
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nzJI1-00071F-06
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654785456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RVc7XR7kpnny0nqauPvV9154qT6oVpDZKpDaKGgGkLg=;
+ b=TAZtHYKUI4EEbjgxlazb83t1iMbzUsTkn94MgKEr6vq5xqG79emyOJofX3EgWoDdozBzcU
+ RlhyyB9nvTRl+mSd6cTjUGzgG6hEP0gmoovZzg5EZJfAJB2hWe0Jm1ZtEQqzmtqkh6K5d2
+ IEZPB0eeFtAwmm4EoJFqFNEsrhe9Bwk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-106-UgBpQm4YO2etoaiLXJuXFQ-1; Thu, 09 Jun 2022 10:37:33 -0400
+X-MC-Unique: UgBpQm4YO2etoaiLXJuXFQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16CC538005C8;
+ Thu,  9 Jun 2022 14:37:33 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CAC4C492C3B;
+ Thu,  9 Jun 2022 14:37:32 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH 3/8] virtio_blk_process_queued_requests: always run in a bh
+Date: Thu,  9 Jun 2022 10:37:22 -0400
+Message-Id: <20220609143727.1151816-4-eesposit@redhat.com>
+In-Reply-To: <20220609143727.1151816-1-eesposit@redhat.com>
+References: <20220609143727.1151816-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,21 +83,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This function in virtio_blk_data_plane_start is directly
+invoked, accessing the queued requests from the main loop,
+while the device has already switched to the iothread context.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+The only place where calling virtio_blk_process_queued_requests
+from the main loop is allowed is when blk_set_aio_context fails,
+and we still need to process the requests.
 
-> Perform the cleanup in the FIXME comment in common_semi_gdb_syscall.
-> Do not modify guest registers until the syscall is complete,
-> which in the gdbstub case is asynchronous.
->
-> In the synchronous non-gdbstub case, use common_semi_set_ret
-> to set the result.  Merge set_swi_errno into common_semi_cb.
-> Rely on the latter for combined return value / errno setting.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Since the logic of the bh is exactly the same as
+virtio_blk_dma_restart, so rename the function and make it public
+so that we can utilize it here too.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ hw/block/dataplane/virtio-blk.c | 10 +++++++++-
+ hw/block/virtio-blk.c           |  4 ++--
+ include/hw/virtio/virtio-blk.h  |  1 +
+ 3 files changed, 12 insertions(+), 3 deletions(-)
 
---=20
-Alex Benn=C3=A9e
+diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
+index f9224f23d2..03e10a36a4 100644
+--- a/hw/block/dataplane/virtio-blk.c
++++ b/hw/block/dataplane/virtio-blk.c
+@@ -234,8 +234,16 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+         goto fail_aio_context;
+     }
+ 
++    blk_inc_in_flight(s->conf->conf.blk);
++    /*
++     * vblk->bh is only set in virtio_blk_dma_restart_cb, which
++     * is called only on vcpu start or stop.
++     * Therefore it must be null.
++     */
++    assert(vblk->bh == NULL);
+     /* Process queued requests before the ones in vring */
+-    virtio_blk_process_queued_requests(vblk, false);
++    vblk->bh = aio_bh_new(blk_get_aio_context(s->conf->conf.blk),
++                          virtio_blk_restart_bh, vblk);
+ 
+     /* Kick right away to begin processing requests already in vring */
+     for (i = 0; i < nvqs; i++) {
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index 191f75ce25..29a9c53ebc 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -855,7 +855,7 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
+     aio_context_release(blk_get_aio_context(s->conf.conf.blk));
+ }
+ 
+-static void virtio_blk_dma_restart_bh(void *opaque)
++void virtio_blk_restart_bh(void *opaque)
+ {
+     VirtIOBlock *s = opaque;
+ 
+@@ -882,7 +882,7 @@ static void virtio_blk_dma_restart_cb(void *opaque, bool running,
+      */
+     if (!s->bh && !virtio_bus_ioeventfd_enabled(bus)) {
+         s->bh = aio_bh_new(blk_get_aio_context(s->conf.conf.blk),
+-                           virtio_blk_dma_restart_bh, s);
++                           virtio_blk_restart_bh, s);
+         blk_inc_in_flight(s->conf.conf.blk);
+         qemu_bh_schedule(s->bh);
+     }
+diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.h
+index d311c57cca..c334353b5a 100644
+--- a/include/hw/virtio/virtio-blk.h
++++ b/include/hw/virtio/virtio-blk.h
+@@ -92,5 +92,6 @@ typedef struct MultiReqBuffer {
+ 
+ void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq);
+ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh);
++void virtio_blk_restart_bh(void *opaque);
+ 
+ #endif
+-- 
+2.31.1
+
 
