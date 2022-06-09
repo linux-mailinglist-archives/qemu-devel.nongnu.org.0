@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CCB5449BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 13:07:54 +0200 (CEST)
-Received: from localhost ([::1]:59350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0B9544995
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 12:59:42 +0200 (CEST)
+Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzG12-0006mH-4r
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 07:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40092)
+	id 1nzFt7-0000UI-3F
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 06:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7o-0001rX-50
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:44 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzE7i-0006BK-O3
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:06:43 -0400
-Received: by mail-wm1-x331.google.com with SMTP id z9so5330625wmf.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=ZDzwoFqQkyUODGOZytKyrO2zzhN95wbOXNg0vdTc5XQ=;
- b=MObO/wfYFRd9V8SBfrCe3zeKzYWbPisVcnsfpRig3h/RGW2oxZ5pibjqvHuZEw5POB
- L7/KfM2jso5mszakTB80q3fPOPbyb8ZNuWiJ1mT63JqkAvIsZMp7/oJcq5VhMQVSupuj
- SVpGUs2WmKlrzSeodFPYvbFrjgKgEP6YIEhtDDutU05xRdzApX+boWSoDcSWbn2f8I+w
- bugYye20JucZiKZqfUrdK4NPxAnCWguYbAINx77iYjpx/r9ck+F9BUVkpGh2SxxSUx2B
- 27DQf3ObZ1TxkeBIvzwQHXaw7cixqriVOsEK7wi/OuJ0EfPX/v+n0uyGbyOfuMn9RmQO
- pQUg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nzEGV-0006AN-Ul
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:15:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34145)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nzEGT-0007NU-5G
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:15:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654766139;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AjyGuQezeKikgDuRN2R4hv5pDYm8zS82pA6jrH0p6tQ=;
+ b=Yovj9Ek1zpEgY1LGvbJ4Rl5PyZi6DDuRcub9GJiPT1jiHOjc5+3UU1uA8T3GXYVEW8PoRh
+ 4jGRk4RpS0l7qPS32SS8yioxRcz3L4z6fKOzZeKaRHj5Fc1jv2Xt0jjMux45ne0rz42nLO
+ 2AKlnbDN/+5eSHoFoe3eWMJzin4ajw0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-658-o1dGL8ltPxqMo_06wy2Pzw-1; Thu, 09 Jun 2022 05:15:38 -0400
+X-MC-Unique: o1dGL8ltPxqMo_06wy2Pzw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ i20-20020a50fd14000000b0042dd305d0f7so16721724eds.18
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 02:15:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZDzwoFqQkyUODGOZytKyrO2zzhN95wbOXNg0vdTc5XQ=;
- b=k89JxNRW/le4Jhe5f+Q5oXqceypxD5YJEW08XssPsIX0piLi7kDbDvpTthLUSHtIoW
- TIyegCx8oADD0TOjY/o8zPnd2nXDAwk9vwX0A3jUjOtoceFd+GKAk7/HTtwEc15fLUA6
- vdtiFyVPriJgmbeHwlpR2E1ZHeh1YjuM//cD/VHfeUW9Zcu2ZFxu+4O1z41e//k41vqb
- 6Bib1F4Ia9gIG5RJFJWNBcE8lTfq+k+bwqyGXCCeBjtoL05pCYBX+qcUivSHy5Ju9nVP
- viRifefHwEVW1PaNnFQ4biIEtZIEo86BhcYlbKknYItALS67v/Iez4f1PXQ8hxMYJVF+
- m+7Q==
-X-Gm-Message-State: AOAM530aVCtAQsLJYSGYV7w0y83F4AG0EFI4cX2yLQQXwd/qWeGRB6pO
- +D5agPbUtlqFd6WIpMQdxt91iknH+PDsrA==
-X-Google-Smtp-Source: ABdhPJy2nU75B6bitV2nDgfouvimkdJLozQsFceW8B92tpuv8AKk9pVQJsLNIhH8Ffp+Q5EajWXsPQ==
-X-Received: by 2002:a05:600c:1ca5:b0:39b:a66b:7805 with SMTP id
- k37-20020a05600c1ca500b0039ba66b7805mr2143187wms.87.1654765596499; 
- Thu, 09 Jun 2022 02:06:36 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AjyGuQezeKikgDuRN2R4hv5pDYm8zS82pA6jrH0p6tQ=;
+ b=JmRozsePTtAowAjvbu2yXQDyGb9MWgtUzAnfJ9Y1/MlrKDhlTlK4yS1d+/AIPuczBK
+ WdYKod56tjCwpoqfzI298L4HUWiXFGqdBu1bJkqIhXbnVB4te/8HY96hmBO3a8Bm/XCb
+ +g3jQZV71TzhT5LM3Tzs2kIQOabb0FvwHN5iGjkDjg09R6gcKkmzzE14nk+Ceeoahpas
+ KMy1IeEeM0L5H+kahOV9Nxa3pJOicWA6XXuLF5o8ONWb1h0wXzAqHXvJIk2jTaatYxN4
+ iz7TzUPmxRTEgDeNIxaZ+ZqhxhovgGVFMF3SJcjmFubev+GuNg6nMLa3T7eIlyc7jp6K
+ mQWg==
+X-Gm-Message-State: AOAM531UOCtJwThqum2yJNLmvyrsbkx5AJYDzQpk+Nd52Ns2k8kj1iRW
+ SjWLio9bz5zXAqQ4xzSqhIXbhvTEAFz5kMcak8exc1LwsIt4hNnRgrpH7g8eKF7gz3+cZvYVFK7
+ 8H9utNcc9kAregSZlVyHiKPCdVpeRgdzeuSO3zDqUOtEh5cGYX5wVoQ4IiPR0qIuw2sw=
+X-Received: by 2002:a17:907:629a:b0:6ff:8cd8:2192 with SMTP id
+ nd26-20020a170907629a00b006ff8cd82192mr34402532ejc.30.1654766136919; 
+ Thu, 09 Jun 2022 02:15:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzO9qyhWGqwP6wtM3gfCNFy2MxynIbg++ZtZrs0gklXYwq/p0+84S962s+gL4l5GOMsQF9lHA==
+X-Received: by 2002:a17:907:629a:b0:6ff:8cd8:2192 with SMTP id
+ nd26-20020a170907629a00b006ff8cd82192mr34402512ejc.30.1654766136653; 
+ Thu, 09 Jun 2022 02:15:36 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm11349796wrr.15.2022.06.09.02.06.35
- for <qemu-devel@nongnu.org>
+ bf8-20020a170906c50800b00705cd37fd5asm10244914ejb.72.2022.06.09.02.15.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:06:35 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ Thu, 09 Jun 2022 02:15:36 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 54/55] target/arm: Add isar_feature_aa64_sme
-Date: Thu,  9 Jun 2022 10:05:36 +0100
-Message-Id: <20220609090537.1971756-55-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220609090537.1971756-1-peter.maydell@linaro.org>
-References: <20220609090537.1971756-1-peter.maydell@linaro.org>
+Cc: mst@redhat.com,
+	thuth@redhat.com
+Subject: [PATCH 0/4] virtio: various cleanups to reset code
+Date: Thu,  9 Jun 2022 11:15:30 +0200
+Message-Id: <20220609091534.1416909-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,35 +97,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Patches 1, 3 and 4 are cleanups with no functional changes (intended, at
+least).  Patch 2 is a small fix to legacy virtio-mmio reset, whose
+behavior differed slightly compared to zeroing the status of the device.
 
-This will be used for implementing FEAT_SME.
+Paolo
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220607203306.657998-20-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h | 5 +++++
- 1 file changed, 5 insertions(+)
+Paolo Bonzini (4):
+  s390x: simplify virtio_ccw_reset_virtio
+  virtio-mmio: stop ioeventfd on legacy reset
+  virtio: stop ioeventfd on reset
+  virtio-mmio: cleanup reset
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e45b5cb7fe1..2e6153c5409 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -4048,6 +4048,11 @@ static inline bool isar_feature_aa64_mte(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, MTE) >= 2;
- }
- 
-+static inline bool isar_feature_aa64_sme(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, SME) != 0;
-+}
-+
- static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 4 &&
+ hw/s390x/virtio-ccw.c   | 12 +++++-------
+ hw/virtio/virtio-bus.c  |  1 +
+ hw/virtio/virtio-mmio.c | 18 ++++++++----------
+ hw/virtio/virtio-pci.c  |  1 -
+ 4 files changed, 14 insertions(+), 18 deletions(-)
+
 -- 
-2.25.1
+2.36.1
 
 
