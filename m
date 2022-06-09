@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE37544A5E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 13:38:11 +0200 (CEST)
-Received: from localhost ([::1]:57146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733EA544B1F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 13:58:04 +0200 (CEST)
+Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzGUM-0003aU-GR
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 07:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41608)
+	id 1nzGnb-0008FI-9g
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 07:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzEHJ-0006yp-K5
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:16:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20475)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzEP0-0005LR-OL
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:24:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nzEHI-0007WH-4V
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:16:33 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzEOz-0008Ri-F9
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 05:24:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654766191;
+ s=mimecast20190719; t=1654766668;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lwkGxSZYLPkmJTC77v4x2EGqTAGg0+ene4APzGJOC7U=;
- b=MDWf5SuSQOdULmzpF5g1AHtMQSyqmBmFpDJueupGi6jQ0NCXSCysOORhD+sV0uDHtuxK3b
- JedOEh95ytHEO87T1ldATH9GS9CQOost9uJHE/u7N4fBFhyx4BjgQUht+Ab9FKIPC0Ghd4
- Xs0XrqRUTSDI9JP+kPm0Kljz/yi1NIQ=
+ bh=weSV4riuwA/1yKba5L1mNdOw/RmXkQhUtB4JZWtu61A=;
+ b=bdenuYsUGRdDU8CKCcjr3lSZt/sWIibhy7gEaxmT8vWwumrVaHKGHK8SiROQPkNBmyZpD8
+ ngHBNHMPqNCb4/C4xU8G43ZZUwb4O164FUFwaATxgu8upanyQr8jjtKnSQsS7eoi7iiNoF
+ N9XNOvqqhQyrUbYz02rgiFR3KPNJEu0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-505-sN8qA9zmPtGNokYzHYCYPw-1; Thu, 09 Jun 2022 05:16:26 -0400
-X-MC-Unique: sN8qA9zmPtGNokYzHYCYPw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-380-jubZT1EWMAClZSGmwtQXyA-1; Thu, 09 Jun 2022 05:24:25 -0400
+X-MC-Unique: jubZT1EWMAClZSGmwtQXyA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FBEB801755;
- Thu,  9 Jun 2022 09:16:25 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 802C0C4C7A0;
- Thu,  9 Jun 2022 09:16:23 +0000 (UTC)
-Date: Thu, 9 Jun 2022 10:16:22 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 03/18] job.c: API functions not used outside should be
- static
-Message-ID: <YqG6ZkiG3l9fxtcp@stefanha-x1.localdomain>
-References: <20220314133707.2206082-1-eesposit@redhat.com>
- <20220314133707.2206082-4-eesposit@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6D10800882;
+ Thu,  9 Jun 2022 09:24:24 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8342840E80E0;
+ Thu,  9 Jun 2022 09:24:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 245691800094; Thu,  9 Jun 2022 11:24:23 +0200 (CEST)
+Date: Thu, 9 Jun 2022 11:24:23 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/2] Fixes for ui/gtk-gl-area
+Message-ID: <20220609092423.beoirvkmeextihhp@sirius.home.kraxel.org>
+References: <e0db9981-fe2f-67ec-63df-ff0c8e4cd690@t-online.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="i+VXViujDaHbn2LL"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220314133707.2206082-4-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e0db9981-fe2f-67ec-63df-ff0c8e4cd690@t-online.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -72,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,41 +80,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Jun 05, 2022 at 10:50:28AM +0200, Volker Rümelin wrote:
+> The first patch fixes a GL context leak.
+> 
+> The second patch fixes a black guest screen on Wayland with OpenGL
+> accelerated QEMU graphics devices. This bug doesn't seem to be related to
+> issues #910, #865, #671 or #298.
 
---i+VXViujDaHbn2LL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Both queueed up.
 
-On Mon, Mar 14, 2022 at 09:36:52AM -0400, Emanuele Giuseppe Esposito wrote:
-> job_event_* functions can all be static, as they are not used
-> outside job.c.
->=20
-> Same applies for job_txn_add_job().
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  include/qemu/job.h | 18 ------------------
->  job.c              | 22 +++++++++++++++++++---
->  2 files changed, 19 insertions(+), 21 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---i+VXViujDaHbn2LL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKhumYACgkQnKSrs4Gr
-c8jh2Af/bePlReEV6kjds0UIHoju2tqYgpQInWtyTidEPm88aO99EedyVfzJshVX
-Ng0OaROcH/+HW4r5lMiN//hRPKDlryNKkq0j47wme2v6xy2h6NmrXKbJApNKMUC8
-pRWxTWETZs1DoGUTG2Ao/fGHB1NrusLZcfk+XRUVvii74V0FzH0JzIiCVZ7UGmCI
-NAQdxVh3reco9pkSglusPUDe/LSCSOYjzYHEqvedilcvMRmUxgxYBNXuXebFqv/F
-7XG4ChXz9dHuW2zDZ4CmijNQYq/BI8BsSzEpRIxOhcDYK5zAxzXr8UceR+2VgwNT
-uZWDoCZrHqf/aYELgl9dDnzmGKgb6A==
-=UXue
------END PGP SIGNATURE-----
-
---i+VXViujDaHbn2LL--
+thanks,
+  Gerd
 
 
