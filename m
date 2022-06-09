@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706B954518F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:08:27 +0200 (CEST)
-Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDCF5451B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 18:16:11 +0200 (CEST)
+Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzKhu-0000R0-E8
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:08:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
+	id 1nzKpO-0006qb-34
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 12:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nzJI6-0002NY-2I
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nzJI2-000722-O2
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:37:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654785458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BM9aMGqOaRDN5U237HJSVr0+I59u3uXikeSGvgQOrR8=;
- b=bqB8MPzp50W7MYRMkdPii5QgI8yArwluFFRGsO1lptc0fa295V9SzbXRb7xDOh5WRAVFQx
- D8m/SNm2Wxhds5j2V+QAalQ7DcFRaQhRocKvUjm5fHIMAKi+V/nGLfcLOI22QmrSj57P5b
- i6ZolqE6sXqsULOn842DOVwJNJe+r6M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-KJpGgirxN5C4YgzjaY6G9w-1; Thu, 09 Jun 2022 10:37:34 -0400
-X-MC-Unique: KJpGgirxN5C4YgzjaY6G9w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8AF20811E75;
- Thu,  9 Jun 2022 14:37:34 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A567492C3B;
- Thu,  9 Jun 2022 14:37:34 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 8/8] virtio-blk: remove unnecessary AioContext lock from
- function already safe
-Date: Thu,  9 Jun 2022 10:37:27 -0400
-Message-Id: <20220609143727.1151816-9-eesposit@redhat.com>
-In-Reply-To: <20220609143727.1151816-1-eesposit@redhat.com>
-References: <20220609143727.1151816-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nzJON-0003TY-8T
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:44:13 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:41588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nzJOL-00086R-L1
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 10:44:11 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id 25so31235065edw.8
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 07:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RR8PqmNpQssCEjl7Z8+0Xu2q0AV0FYIlKl50x4ifRRI=;
+ b=mvhXhR6hkMqLgVOCxQJfJPxDVk6RX43Q8duBM3VLYRVf/Jqga0Bdod3V0hKz/oFY2X
+ uxvLhN6QCpu8AQts1pUDiclDoDkQ2AWw2GVwl9vDwAy18mE1x04OcuglnjIVPWfwHNZ6
+ 5tPr3ATRaST0CUx6brtoQzsj4dyB2gUcksHSuiWd64a3rquMQpl8F8F04JjM56yiQ/VO
+ 9wmfPWlOHGJ65QVx0SVs7Fj+ker0T2uF9LHUTMTuhkry3rpi3YLgcgkPNlRxJZ7CfLME
+ j3u5HTIhbdbvUbh51TfEEWGzrPuklAw5QPLWaVv8aYxceKtPEXw4c9/jBHLEeH9ayiWU
+ aCrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RR8PqmNpQssCEjl7Z8+0Xu2q0AV0FYIlKl50x4ifRRI=;
+ b=q0DRP1NaXW0PcOZtItCPpnUXjSdmU05iX7WXjZDemN0v/SG6LfrgGrXxgzoXp+98k1
+ ZI2BbWWI0FPYkA/TRHk9bdfgdr3+GbVp7OmsVnQkj3wJyqNUXHuvguGsXaO3rbnmy1G9
+ kWnaBBieqefcBfLMvodT1YhJXwaWMcpVRDZZWc9hzGsnU7HYq+enWr3pZqb/92hbHWln
+ WZMbsL4/fECpcq7SseGwrq9cqXc2PUbThHibCcWswCS9YYDzI4bND6Lnw3o1+s0UOOZL
+ WH8G96q8KTpHxdpxwMJlthlARHMOg5MUTBR5oMbsG+DcZHAWy4N5fJtXjDLNnwZ0zloY
+ O73A==
+X-Gm-Message-State: AOAM533qQp8O6Prxjuh1e67PCKzlMGsKo3sdlbEmAEKCbuTmlFAeSY9Y
+ Sv5oCROMGRz9mshKUkUeIXc=
+X-Google-Smtp-Source: ABdhPJxmjhyIJYFp5X6nxMDsFvtX4QdJVObIJFG6hr3ZMGmDKSjuP9onDytH+f4AN9mw41fdr1tf7g==
+X-Received: by 2002:a05:6402:b25:b0:42d:d14b:6399 with SMTP id
+ bo5-20020a0564020b2500b0042dd14b6399mr45130555edb.38.1654785847866; 
+ Thu, 09 Jun 2022 07:44:07 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ p23-20020a170906499700b0070f36b8cb39sm8378721eju.103.2022.06.09.07.44.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jun 2022 07:44:07 -0700 (PDT)
+Message-ID: <1ebafbc4-8085-7f9a-9b4a-a6327680ca07@redhat.com>
+Date: Thu, 9 Jun 2022 16:44:06 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 4/4] virtio-mmio: cleanup reset
+Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, thuth@redhat.com
+References: <20220609091534.1416909-1-pbonzini@redhat.com>
+ <20220609091534.1416909-5-pbonzini@redhat.com> <87ilpa9gbz.fsf@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87ilpa9gbz.fsf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,113 +96,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AioContext lock was introduced in b9e413dd375 and in this instance
-it is used to protect these 3 functions:
-- virtio_blk_handle_rw_error
-- virtio_blk_req_complete
-- block_acct_done
+On 6/9/22 14:22, Cornelia Huck wrote:
+>> -    if (proxy->legacy) {
+>> -        return;
+>> -    }
+>> +    virtio_bus_reset(&proxy->bus);
+>>   
+>> -    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+>> -        proxy->vqs[i].enabled = 0;
+>> +    if (!proxy->legacy) {
+>> +        for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+>> +            proxy->vqs[i].enabled = 0;
+>> +        }
+>>       }
+>>   }
+>
+> The more I look at this, the more confused I get.
+> 
+> The current code calls soft_reset when the driver sets the status to 0,
+> after already having called virtio_reset().
 
-Now that all three of the above functions are protected with
-their own locks, we can get rid of the AioContext lock.
+Yes, that's before the patch.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- hw/block/virtio-blk.c | 18 ++----------------
- 1 file changed, 2 insertions(+), 16 deletions(-)
+> But doesn't virtio_reset() ultimately already trigger the virtio-mmio
+> reset routine, which sets enabled to 0 for all queues? Why do that
+> again? (And why is soft_reset a "soft reset"?)
+No, it does not set enabled = 0 because "enabled" is specific to 
+virtio-mmio (it is read by VIRTIO_MMIO_QUEUE_READY, which is only 
+available in virtio-mmio 1.0 devices).  In fact it is stored in 
+proxy->vqs[], while virtio_reset only resets fields in vdev->vq[].
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 88c61457e1..ce8efd8381 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -133,7 +133,6 @@ static void virtio_blk_rw_complete(void *opaque, int ret)
- 
-     IO_CODE();
- 
--    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-     while (next) {
-         VirtIOBlockReq *req = next;
-         next = req->mr_next;
-@@ -166,7 +165,6 @@ static void virtio_blk_rw_complete(void *opaque, int ret)
-         block_acct_done(blk_get_stats(s->blk), &req->acct);
-         virtio_blk_free_request(req);
-     }
--    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
- }
- 
- static void virtio_blk_flush_complete(void *opaque, int ret)
-@@ -175,20 +173,16 @@ static void virtio_blk_flush_complete(void *opaque, int ret)
-     VirtIOBlock *s = req->dev;
- 
-     IO_CODE();
--    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
- 
-     if (ret) {
-         if (virtio_blk_handle_rw_error(req, -ret, 0, true)) {
--            goto out;
-+            return;
-         }
-     }
- 
-     virtio_blk_req_complete(req, VIRTIO_BLK_S_OK);
-     block_acct_done(blk_get_stats(s->blk), &req->acct);
-     virtio_blk_free_request(req);
--
--out:
--    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
- }
- 
- static void virtio_blk_discard_write_zeroes_complete(void *opaque, int ret)
-@@ -199,11 +193,10 @@ static void virtio_blk_discard_write_zeroes_complete(void *opaque, int ret)
-                             ~VIRTIO_BLK_T_BARRIER) == VIRTIO_BLK_T_WRITE_ZEROES;
- 
-     IO_CODE();
--    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
- 
-     if (ret) {
-         if (virtio_blk_handle_rw_error(req, -ret, false, is_write_zeroes)) {
--            goto out;
-+            return;
-         }
-     }
- 
-@@ -212,9 +205,6 @@ static void virtio_blk_discard_write_zeroes_complete(void *opaque, int ret)
-         block_acct_done(blk_get_stats(s->blk), &req->acct);
-     }
-     virtio_blk_free_request(req);
--
--out:
--    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
- }
- 
- #ifdef __linux__
-@@ -263,10 +253,8 @@ static void virtio_blk_ioctl_complete(void *opaque, int status)
-     virtio_stl_p(vdev, &scsi->data_len, hdr->dxfer_len);
- 
- out:
--    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-     virtio_blk_req_complete(req, status);
-     virtio_blk_free_request(req);
--    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-     g_free(ioctl_req);
- }
- 
-@@ -873,7 +861,6 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
-         s->rq = NULL;
-     }
- 
--    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-     while (req) {
-         VirtIOBlockReq *next = req->next;
-         if (virtio_blk_handle_request(req, &mrb)) {
-@@ -897,7 +884,6 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
-     if (is_bh) {
-         blk_dec_in_flight(s->conf.conf.blk);
-     }
--    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
- }
- 
- void virtio_blk_restart_bh(void *opaque)
--- 
-2.31.1
+k->reset() instead triggers the *device* reset routine (e.g. 
+virtio_blk_reset).  So what makes it "soft" is that the various queue 
+addresses remain there, and can be enabled just by writing 1 to 
+VIRTIO_MMIO_QUEUE_READY for every queue.
 
+Paolo
 
