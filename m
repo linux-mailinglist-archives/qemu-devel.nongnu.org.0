@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380C0544CDB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:01:37 +0200 (CEST)
-Received: from localhost ([::1]:49612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597E8544D16
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jun 2022 15:07:03 +0200 (CEST)
+Received: from localhost ([::1]:59300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzHn6-0005i6-6f
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:01:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42674)
+	id 1nzHsM-0003D0-9n
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 09:07:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzFsW-0002Kb-54
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:59:04 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:42867)
+ id 1nzFtL-0002uN-AK
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:59:55 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:39723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzFsU-0007kf-R7
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:59:03 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id i39so13118186ybj.9
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 03:59:02 -0700 (PDT)
+ id 1nzFtJ-0007oL-NM
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 06:59:54 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id r3so6974295ybr.6
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 03:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0ESFf9voAPZtHIlO+QZWAu4a6Moh9naVz0ascyeJcyA=;
- b=dLPC1SI4/E/ltgO8vBGgrTndrpU67xzT/8j/stNycXGVgJPfzDKi02IjvYufrUci7j
- WyS3WpemEb79kQdYofdfh748caNWW30W/tstFyZZZPmrpjCeB4GRsglMX14f3yGQiUkQ
- u5P2qfuLuzInBJfxWGgdM8a+4lpxAK7dMAS7QXYTCkXg3wd/BPm0EyNKeS6zSqWug/uT
- nLZ5Kryv5Jaztbp/e0RnDULADGsAkNVF9S/aILA9ajtKOGdKoWp9evhFSnhlPnexu8M1
- zvm/jCgq4qhREUD9DU2/WDE4Oe9Vhnj0/HYTTWu3sv275/OQgTA0jeJrqsSSKwsiQNYW
- 8XtA==
+ :cc; bh=hCnkYS2x3ui/4354QdNO4nQlKFbTZpM5ktCaEd1vLfU=;
+ b=Bvka2LvW9vBThoxwZ8n+orFF3z/WYJBDkKXviJ5iUG+IxHH7QPfm+xVSy0V4xkJ1TK
+ a0gzTc740XI3o2bI7FIq9J3KVrM/Rt42T0ptovV7T0K9I9gvQy80zpRqkaqxMBKYOBCm
+ tMbthAifZTndIq75fvjvuFOqD66D7JYjwu08wyFnoGh5IVwmUFKbFeFktzKxS8nXAX0H
+ vWTahNPrNasXj5FZT9F/Ov5XhMOBS3zii8cucjBuhaMaTiFG9nr1viiksUw1XgENtYi8
+ aRV4ymLGPYTbDn2XwFfWiPlZ5ZHxYcBLG/0P9OWDRvvahBKCXs6G5I04BSqJx/gA/Q9e
+ 2rzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0ESFf9voAPZtHIlO+QZWAu4a6Moh9naVz0ascyeJcyA=;
- b=aOnfxoLHOm2MHaBt1+W/GY2yrSefVMQ4MwA+dQe8Vz9fc5sGvF3jZ1DZHAdTUGdVd0
- 1FXd04fqa0hIFfUakujlxwkTGfGlnYwUmq9L7LwhI4+yaa0GS12+njaEzZQwU+gG1Phh
- t3JCkB4otxADwLHmN77LeOxLUuDX47SAbtgDmvm87IX2QauEgF6Op1L9zO+eMx/6kmAN
- pdLXocPV0q9lzXh+EuPJugkjO672LIImPatw3I3hxBtot8XmZGOY5sHQ+Xt4edJBqk5R
- K/VJscFXB1f5Sj4Ffu19h1XHNee08TtRYBDvOObg++iYGOIFdgB5TYRm5g6FqxRy/POn
- xcuQ==
-X-Gm-Message-State: AOAM533t1PGLCiYSmhbMf45QyPyzIa+jq4N+R8V/NsHq/c4hNqmlH8P3
- C56/Vl3fW4zU6NYVCyXfB7bfjYVczGoMBioKi0oJ3w==
-X-Google-Smtp-Source: ABdhPJzb8X+mdFvO1COzlByq2gcFs3aomaKHuuYp92IgZFshNkhMVUYKK+6oEIu1S9jbXjNHrPX0njWXeLG1CMB8hTs=
-X-Received: by 2002:a25:1bc3:0:b0:65d:46e8:6322 with SMTP id
- b186-20020a251bc3000000b0065d46e86322mr37407194ybb.140.1654772341905; Thu, 09
- Jun 2022 03:59:01 -0700 (PDT)
+ bh=hCnkYS2x3ui/4354QdNO4nQlKFbTZpM5ktCaEd1vLfU=;
+ b=TN39GCezpHePXnqaej2vdKYSzSv9wJQQk5yNx5hN2iygICoB9omds6UtDZyg4AabZd
+ 9qyikIMsEqS+seQ6a/u23sKAtzvB0WvNtPPMOdK1cucQxt0ihEmyB8rWKHSLf2twsnoC
+ 1XO0VNJrHiiXVyI367Oj18moYxfyh/9eBiSsoVmoGWh9U6yGAmVNJBWrmIyPPOIMyS5p
+ pKKUrbpCpwe6diQzFsFdjkFEOtzAhewtqyG6t4jVT2pD+jLPfG+tHOmWB/aHd0PmxIOu
+ 1qNqHaOTaGZuv8SO2U5hy8ut3Z7rTy6cgK3DR7MreIP1ZGarxvwx8vHOr8kQpV86ygjE
+ LvGQ==
+X-Gm-Message-State: AOAM530R7DZlcL4sBnY7mAXlbeYdKT/H7S5EPmwFIIJjFhLP14FB0E9o
+ M/Om1UUq63QJelnUw0krMD5FfjhKHxqKjCQ+frhbhA==
+X-Google-Smtp-Source: ABdhPJzDGsYVp/TOEvP+sKvFWIjHVMvhBNgWDqMruTIgbrxqQqqMt5CW/fdUDlFYug4ejDdcCVAQ7tGRyAnYciDJPLE=
+X-Received: by 2002:a5b:d42:0:b0:65c:a0d7:4c6 with SMTP id
+ f2-20020a5b0d42000000b0065ca0d704c6mr38923207ybr.193.1654772392789; 
+ Thu, 09 Jun 2022 03:59:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-28-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-28-mark.cave-ayland@ilande.co.uk>
+ <20220522181836.864-29-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220522181836.864-29-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Jun 2022 11:58:51 +0100
-Message-ID: <CAFEAcA8Rp9ta7zvcpxeg7YrgYD_EDp+t1CMU67pHDQHr2JeQXw@mail.gmail.com>
-Subject: Re: [PATCH 27/50] pckbd: alter i8042_mm_init() to return a I8042_MMIO
- device
+Date: Thu, 9 Jun 2022 11:59:42 +0100
+Message-ID: <CAFEAcA_TAA2wwpuF_sm3oPTGv17Fz3g1Uxy1HFJzT9oQ-9ab0w@mail.gmail.com>
+Subject: Re: [PATCH 28/50] pckbd: move mapping of I8042_MMIO registers to MIPS
+ magnum machine
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com, 
  pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, 
  f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org, 
  qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,20 +89,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sun, 22 May 2022 at 19:19, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> This exposes the I8042_MMIO device to the caller to allow the register memory
-> region to be mapped outside of i8042_mm_init().
+> Now that the register memory region is exposed as a SysBus memory region, move
+> the mapping of the I8042_MMIO registers from i8042_mm_init() to the MIPS magnum
+> machine (which is its only user).
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-I'm not sure where best to put this review comment in the patchseries,
-so I'll just note it here: I see that at the end of the series we end
-up with an i8042_mm_init() which is just "create a device with qdev_new,
-set properties, realize it, and connect its gpio lines". Since that
-function has exactly one callsite (in hw/mips/jazz.c) I think we should
-add a patch on the end that gets rid of i8042_mm_init() entirely in
-favour of the board doing all the "create and wire up device" code inline.
 
 thanks
 -- PMM
