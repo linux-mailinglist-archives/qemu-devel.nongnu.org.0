@@ -2,99 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C30545B61
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 06:55:20 +0200 (CEST)
-Received: from localhost ([::1]:41320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F59545B4A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 06:49:18 +0200 (CEST)
+Received: from localhost ([::1]:60642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzWg3-00020P-N8
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 00:55:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34668)
+	id 1nzWaD-0003mD-UO
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 00:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1538de18e=alistair.francis@opensource.wdc.com>)
- id 1nzWUV-000637-Ny
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 00:43:25 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:41305)
+ id 1nzWGg-0003xo-Ed
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 00:29:07 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:58584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1538de18e=alistair.francis@opensource.wdc.com>)
- id 1nzWUT-0003Do-SZ
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 00:43:23 -0400
+ id 1nzWGb-0001AI-MM
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 00:29:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1654836200; x=1686372200;
+ t=1654835342; x=1686371342;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7WPF3ghQLZbHQ2RyhKfIUWZ5SFhbpcofRYp+uPaGTbE=;
- b=ESRgLZt4/vVy2pzh7lGzNveD4MHi7ezAID5JK/oluzkJZwsHx0DxvTqO
- UuWcw5pJTVWM1cEi7z3S7jOt+QLKcLWE6ojcm1U0GOZ2PG10kTEdkt5AQ
- N9Dq39/TyEra1RqqlW4FSngemWkcXuTLt/MB69TMRZj7Q2OSn1YTzFC6B
- MZS7aHDBDLg2PB7nFKA6z0Sc3lWURaE0AAWKvjo14VN2JztQ1QzrJBPxd
- r3cTPIWGowyQlFp0eornOUZs28ygfXEIIF6A/beE4ljUSNwgZspksRY8e
- 8SX5eCXEhGFnQwuyMDMtn1xErDg2ukfDuxxncpGW3n/jNVXBLw6yopE8/ g==;
-X-IronPort-AV: E=Sophos;i="5.91,288,1647273600"; d="scan'208";a="207619195"
+ bh=yuRmpIB90M4vkWPQxoZF4qoAk4nrNRbV8BXNdCvJoNE=;
+ b=RGBr2TB0K5Fy6ahEr/PFT9xmYHYJDr2Rc7JvapK7s7XrH4MmSooSoVCx
+ /hWIXLY8PpMxbCxMM5GHSPa0Xl0Cdm3kgfhrTvUVyZq0QsWZqQuC7ZbA4
+ PB7+gjjfvpNXc1FRSYbds2i+PzHBIypH1FpyPRtqSVAaLX2bf7m1OGF24
+ Y3T3Gc5y9Jv3jKilkB9f/5OS30GqjVEf0J/Qiy+FMCom/CZGQsTZL7EJR
+ ndXzeRqulXeMbDWZZBut7kvXZhHq78ccLS7MdZj3QMC4/imxFbvmZZVF3
+ QUXlWJJLEuRaL/hAvYDeUBBKRFOE7CZe7a4Rlt6vUvPaX4FnNQH5dWjWN A==;
+X-IronPort-AV: E=Sophos;i="5.91,288,1647273600"; d="scan'208";a="203541931"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 10 Jun 2022 12:43:17 +0800
-IronPort-SDR: rywf0/mGswLh6uwaVc0kCF8W1/uU/SPfQAH0adTdgNVgD/+HFFkSzsYxymvqmVz0cJePX9PF73
- gfYTmWw3GJzMliUWfXdQrj8MUtKpKm69PaYslQ3swvLJyeAskcWLfOLVfSOKHYYI0OcDbvFt3K
- zcPjLJNVzC7II0yiFgfiqCRmtFa2O/Z2Ff//0uYX3BzWXyd5H/eZf7xXKI70JOPPrfG42fVi1A
- 2PdarJ6DKrgp1nJK3qVnip7Eq12wq4nTIcCkldu/i5gA+vzPEcMsrvnd/ks4MeU24yvKgCUc56
- fHshDNLJsQ8LlBMbKYYj2Xdq
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by ob1.hgst.iphmx.com with ESMTP; 10 Jun 2022 12:28:58 +0800
+IronPort-SDR: lDbnT6u7it/E0+UGWiqCKAf2HqhjHCuLeBgLVoWDi87rF3v6Cy/OeIONx8PiT65QsMFUvEJmyX
+ C2x1ZEeE5MpPkABzDw8Ci4Y3KZbCmqXefWmHsnFI+h0CMiX/lVWFE5z0EyAREMX0/+Ww/4BA64
+ CLXVSGfXtgV1cqbQN0DciWPFPYz5/08RO7CdDCFfviWbgcla1GKFYjdhTgRtCAFw3cDZkuMb0+
+ 4vvuPHl2bQzRwKpZTQe6/JioQtVqBxw/Uz6SEowm9XY6T38nLoFfK/Fy5mUSIvcFTcl77WEG0X
+ oQQ0Z7kW2j+UqfwrDf+JobjE
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 09 Jun 2022 21:06:26 -0700
-IronPort-SDR: iiPkGb6gH8ZNxHZ/jU/w+IcIg21/WqkfokwxpfG0S3eSE1iNk4qra6vs3lv+OMbiPacXZ/Lh3r
- KfBvWgyeLLF+XH4rDb4KJHBLRQUS2fCUQjk76Yl3NXBTJy6BdrzvPaHUMw2+10X3IxZrfeeMil
- Yo+1kvcv80CgLpmxJtBIOBhA9T3pugf8V6tCcfb6UJVK+FLACinNHPe81wU2G8nK13MWmcAD8+
- DjQ+0tH19tAk8jvoOrJbKUFwFho9mbfFR59rUz6X5itMVsUmwBKlOze6WZcBg6/owGwr+fZDDV
- DS4=
+ 09 Jun 2022 20:52:06 -0700
+IronPort-SDR: 7Bo+Q65dtRrZnl1tN2sTuRXFb5/CYB0g6ZnlN1LNo/wefgiZyeso0sPJvl0JBeZQIoq3XTKO+K
+ pRaHuXSxpdiWWIgfJKBcQFRXxY4jZm1M5yqNZFxEzv+I/T3Mng+Go0CZJZiBge7oUQtnKohwwF
+ vMq/ZO3VnCWulYVAtXCiRTKmRAMWGAobh7iwXFE8wgFWl8OETAFjXiEHg7dYswkV3o3MK2LgEo
+ 4i9S4XF6s37bnuIqUyUmV/oT+d2tsKVMjP8JJPlZwJ+Ot8HxFr4gSiE1sKfa6c3jiC9Ddmt/Vc
+ dhY=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 09 Jun 2022 21:43:18 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 09 Jun 2022 21:28:58 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LK7JQ5H58z1SVp3
- for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 21:28:54 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LK7JT2f9hz1Rwrw
+ for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 21:28:57 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1654835334; x=1657427335; bh=7WPF3ghQLZbHQ2RyhK
- fIUWZ5SFhbpcofRYp+uPaGTbE=; b=Kl+uWEqlLnp/Sq+td3Gdgc3vwV2QYnrXNr
- uXR8ZHJ8XsGsgn4t2u9sNH1A/IGPqjvo7MC/HTvdKs62GWa3p+hBRGZdcmVt1XQG
- IXX/GywkhE9aXWweAb/80uxoCajr9YPQztyP5HPg0R6zdC5u1FD37pTw/NKE5tHV
- a7IoecjbpqgiyYNAk8OYVdzoAPpBsJuoL3EK+Al9FLPC5wutuPT2ZoOTICKGBieS
- 3zc3bJq/9Be6bXMi2MA3dNp9bGSJBc5ARRt91SCa65zd9FMScMJkLQNVNpHXEBgh
- S4w0e2e8xEKPAde9215xQjWh1nE6Y51/yJ4/mc/APQnYIRTVJDdA==
+ :from; s=dkim; t=1654835336; x=1657427337; bh=yuRmpIB90M4vkWPQxo
+ ZF4qoAk4nrNRbV8BXNdCvJoNE=; b=D6kTY2e4xqzEi7aLdZT44B06CaJiSojS9U
+ YINUy1m97bPz1drydnftR5WA9HXkF7CpOZMjjsSVTf1Zx3XilUF1pAotwwlrWYJC
+ 2Yz9NjV/PAN6TVnNIKeSa+2Vu4RVXYhyCrDfKxMm5dJGH9ieAPe80WQgPMLoF4ae
+ Cy4WJd/MXUSJKTxruCSioc1yC5W8rRVwR53kpdHevfylHEOIVoCPukgmFoLtv15U
+ ZipARMrkswyl6X/TRFIZVFiz1PEAekdWRhr623TO8E6Z72i8EDagLR1U6uJNdBjp
+ Gr0JxkPCQk+weATGs9g/ZgVNr0SaDrHPKnlNXZtMHAwUvvlbPG1Q==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id FSLzFEtOfZVI for <qemu-devel@nongnu.org>;
- Thu,  9 Jun 2022 21:28:54 -0700 (PDT)
+ port 10026) with ESMTP id Ene1DryaO4R1 for <qemu-devel@nongnu.org>;
+ Thu,  9 Jun 2022 21:28:56 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.12])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LK7JM2hbrz1Rvlx;
- Thu,  9 Jun 2022 21:28:51 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LK7JQ6j9Nz1Rvlx;
+ Thu,  9 Jun 2022 21:28:54 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, eopXD <eop.chen@sifive.com>,
- Frank Chang <frank.chang@sifive.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 23/25] target/riscv: rvv: Add option 'rvv_ta_all_1s' to enable
- optional tail agnostic behavior
-Date: Fri, 10 Jun 2022 14:26:53 +1000
-Message-Id: <20220610042655.2021686-24-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL 24/25] target/riscv: Don't expose the CPU properties on names
+ CPUs
+Date: Fri, 10 Jun 2022 14:26:54 +1000
+Message-Id: <20220610042655.2021686-25-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610042655.2021686-1-alistair.francis@opensource.wdc.com>
 References: <20220610042655.2021686-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.141;
+Received-SPF: pass client-ip=216.71.154.45;
  envelope-from=prvs=1538de18e=alistair.francis@opensource.wdc.com;
- helo=esa3.hgst.iphmx.com
+ helo=esa6.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -117,47 +116,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: eopXD <eop.chen@sifive.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-According to v-spec, tail agnostic behavior can be either kept as
-undisturbed or set elements' bits to all 1s. To distinguish the
-difference of tail policies, QEMU should be able to simulate the tail
-agnostic behavior as "set tail elements' bits to all 1s".
+There are currently two types of RISC-V CPUs:
+ - Generic CPUs (base or any) that allow complete custimisation
+ - "Named" CPUs that match existing hardware
 
-There are multiple possibility for agnostic elements according to
-v-spec. The main intent of this patch-set tries to add option that
-can distinguish between tail policies. Setting agnostic elements to
-all 1s allows QEMU to express this.
+Users can use the base CPUs to custimise the extensions that they want, f=
+or
+example -cpu rv64,v=3Dtrue.
 
-This commit adds option 'rvv_ta_all_1s' is added to enable the
-behavior, it is default as disabled.
+We originally exposed these as part of the named CPUs as well, but that w=
+as
+by accident.
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <165449614532.19704.7000832880482980398-16@git.sr.ht>
+Exposing the CPU properties to named CPUs means that we accidently
+enable extensions that don't exist on the CPUs by default. For example
+the SiFive E CPU currently support the zba extension, which is a bug.
+
+This patch instead only exposes the CPU extensions to the generic CPUs.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-Id: <20220608061437.314434-1-alistair.francis@opensource.wdc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/riscv/cpu.c | 57 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 46 insertions(+), 11 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0497af45cc..e5aa1e9c1b 100644
+index e5aa1e9c1b..05e6521351 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -918,6 +918,8 @@ static Property riscv_cpu_properties[] =3D {
+@@ -118,6 +118,8 @@ static const char * const riscv_intr_names[] =3D {
+     "reserved"
+ };
+=20
++static void register_cpu_props(DeviceState *dev);
++
+ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
+ {
+     if (async) {
+@@ -161,6 +163,7 @@ static void riscv_any_cpu_init(Object *obj)
+     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+ #endif
+     set_priv_version(env, PRIV_VERSION_1_12_0);
++    register_cpu_props(DEVICE(obj));
+ }
+=20
+ #if defined(TARGET_RISCV64)
+@@ -169,6 +172,7 @@ static void rv64_base_cpu_init(Object *obj)
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV64, 0);
++    register_cpu_props(DEVICE(obj));
+ }
+=20
+ static void rv64_sifive_u_cpu_init(Object *obj)
+@@ -181,9 +185,11 @@ static void rv64_sifive_u_cpu_init(Object *obj)
+ static void rv64_sifive_e_cpu_init(Object *obj)
+ {
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    RISCVCPU *cpu =3D RISCV_CPU(obj);
++
+     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
++    cpu->cfg.mmu =3D false;
+ }
+=20
+ static void rv128_base_cpu_init(Object *obj)
+@@ -197,6 +203,7 @@ static void rv128_base_cpu_init(Object *obj)
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV128, 0);
++    register_cpu_props(DEVICE(obj));
+ }
+ #else
+ static void rv32_base_cpu_init(Object *obj)
+@@ -204,6 +211,7 @@ static void rv32_base_cpu_init(Object *obj)
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV32, 0);
++    register_cpu_props(DEVICE(obj));
+ }
+=20
+ static void rv32_sifive_u_cpu_init(Object *obj)
+@@ -216,27 +224,33 @@ static void rv32_sifive_u_cpu_init(Object *obj)
+ static void rv32_sifive_e_cpu_init(Object *obj)
+ {
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    RISCVCPU *cpu =3D RISCV_CPU(obj);
++
+     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
++    cpu->cfg.mmu =3D false;
+ }
+=20
+ static void rv32_ibex_cpu_init(Object *obj)
+ {
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    RISCVCPU *cpu =3D RISCV_CPU(obj);
++
+     set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+-    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+-    qdev_prop_set_bit(DEVICE(obj), "x-epmp", true);
++    cpu->cfg.mmu =3D false;
++    cpu->cfg.epmp =3D true;
+ }
+=20
+ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+ {
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    RISCVCPU *cpu =3D RISCV_CPU(obj);
++
+     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+     set_resetvec(env, DEFAULT_RSTVEC);
+-    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
++    cpu->cfg.mmu =3D false;
+ }
+ #endif
+=20
+@@ -249,6 +263,7 @@ static void riscv_host_cpu_init(Object *obj)
+ #elif defined(TARGET_RISCV64)
+     set_misa(env, MXL_RV64, 0);
+ #endif
++    register_cpu_props(DEVICE(obj));
+ }
+ #endif
+=20
+@@ -836,6 +851,12 @@ static void riscv_cpu_init(Object *obj)
+ {
+     RISCVCPU *cpu =3D RISCV_CPU(obj);
+=20
++    cpu->cfg.ext_counters =3D true;
++    cpu->cfg.ext_ifencei =3D true;
++    cpu->cfg.ext_icsr =3D true;
++    cpu->cfg.mmu =3D true;
++    cpu->cfg.pmp =3D true;
++
+     cpu_set_cpustate_pointers(cpu);
+=20
+ #ifndef CONFIG_USER_ONLY
+@@ -844,7 +865,7 @@ static void riscv_cpu_init(Object *obj)
+ #endif /* CONFIG_USER_ONLY */
+ }
+=20
+-static Property riscv_cpu_properties[] =3D {
++static Property riscv_cpu_extensions[] =3D {
+     /* Defaults for standard extensions */
+     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
+     DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
+@@ -867,17 +888,12 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+-    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+=20
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
+=20
+-    DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
+-    DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCH=
+ID),
+-    DEFINE_PROP_UINT64("mimpid", RISCVCPU, cfg.mimpid, RISCV_CPU_MIMPID)=
+,
+-
+     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+@@ -915,6 +931,25 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
+=20
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void register_cpu_props(DeviceState *dev)
++{
++    Property *prop;
++
++    for (prop =3D riscv_cpu_extensions; prop && prop->name; prop++) {
++        qdev_property_add_static(dev, prop);
++    }
++}
++
++static Property riscv_cpu_properties[] =3D {
++    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
++
++    DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
++    DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCH=
+ID),
++    DEFINE_PROP_UINT64("mimpid", RISCVCPU, cfg.mimpid, RISCV_CPU_MIMPID)=
+,
++
      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVE=
 C),
 =20
      DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string,=
  false),
-+
-+    DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false=
-),
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
 --=20
 2.36.1
 
