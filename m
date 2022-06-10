@@ -2,93 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD0D545B2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 06:37:46 +0200 (CEST)
-Received: from localhost ([::1]:35382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE26545B2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 06:37:35 +0200 (CEST)
+Received: from localhost ([::1]:35044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzWP3-00035J-Ul
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 00:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60942)
+	id 1nzWOs-0002r8-KB
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 00:37:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1538de18e=alistair.francis@opensource.wdc.com>)
- id 1nzWF8-0002vg-Oo
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 00:27:30 -0400
+ id 1nzWFD-000331-OI
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 00:27:35 -0400
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:23579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1538de18e=alistair.francis@opensource.wdc.com>)
- id 1nzWF6-00011H-Lz
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 00:27:30 -0400
+ id 1nzWFA-00011H-Q2
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 00:27:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1654835248; x=1686371248;
+ t=1654835252; x=1686371252;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GPIHidrtgMssmiGEwMporPJ6SxnKU3ugU20xUZ8bMvE=;
- b=XVVIb+nXolRBXMA5n2m7m1ecjcriZ6l9fhtUuantmoa4N02oQVWIka6e
- QFum6nzVVzYQFW2GPFWkwWyYKhLiVJVfQVfKpU3ve0e6N8b08/MolKh6N
- doCDcaTLYKzJT+n7CCaqN/Q8xmiWctMMyVBJyt2ypZoU5TWytZHuntqaF
- zk2KP+rmki9jO6Us8XTOy4Jfq7t/Oi3pRF5Knjs1JfBQgWoCpsUzKo6eJ
- UkNhbHWBQ+2VXP0DWreYV1gVNQrNR5DaWWEipP5WD+H/wh1T3TarE2qdZ
- I+q/XeQdGpJK2wNjIDd/KxomgyK99sP8M+VCCQNbBb9pyM1zNob87SwrL A==;
-X-IronPort-AV: E=Sophos;i="5.91,288,1647273600"; d="scan'208";a="307046427"
+ bh=oB3R5NMAWtKu/5tdbSsPbN2ICARNBPSQ63u5w5klcpQ=;
+ b=NBTEP8mw5kiYb1E9gVpYOYyO8u5toSioejV4/a9OqvGCBigr9ZShHeaK
+ 3tI2z65Wv6SpZ8Q5+6zKhZ7qTPwF7qaktLt7jS3U3f75k/EpQyyEMQ9Ci
+ Ji0PjYCn68RdQ/vo5TRa+au8y3SVSd6inB5G/ncINIHCxejUSyo0wjFAt
+ 35PjX239XoYC0PgLEAmmXXXhUqxUo/4dAGVN+tqCtgthGoybLv2Fi6fAV
+ GPPImuLC10cMKA0uAkw8dOee2fTHTxcn5x3ElHRRNqtYlBzHRmmtte/Js
+ 9/oVj6YTFsnurvYP7OXf0dAzSeDRuveTSRYsAVxuHbF9EBkCRZthrcMwQ w==;
+X-IronPort-AV: E=Sophos;i="5.91,288,1647273600"; d="scan'208";a="307046430"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 10 Jun 2022 12:27:28 +0800
-IronPort-SDR: c7VO/YdSqpODjq9teBLIpDK6qMdTSVDsKiVz+iQ2dCkZEOd4aaW/U5IMiXiRxCRXu5FM3GmtyT
- lATsN2Lv3LgPRcozRaaMHba4Gni6mVe/3bMi86Ixs8ikkg/Zjoyn8+0LfB8kGK6G9qWvsuytIX
- nlsCm9rfMw/aHWvzFHtx6Ayml03EFREmzM/ts+Cx+I6T2NR4uaWFMyyqNsWDXnX9uJcqNkIlOQ
- tzcXI6/MbidrYYDi7Wa+J34xWx/KDKqFES7+Cc6slojXHi8PaUY5qelB6HqqbeeU1W/zJdSuwi
- VDhwpK0L5Ok2ORdfOlqfxbUL
+ by ob1.hgst.iphmx.com with ESMTP; 10 Jun 2022 12:27:32 +0800
+IronPort-SDR: 2+FnUu1D7jt97Ijxh6zxGz8fdc2JYUw4MT9CcaKTpd/rMXw1rheAifK8iR7KP5xH/5Pjbixwnv
+ BcW2kNWtHFc7BvKvfeNBqOWVHuVTWEnMePMF4noxbzmOYDnzuoowhZti4xabvc7532gdkERSX7
+ AL7v3R/5FLSVc+BtkDIbLepbxqgdMsuX5QgZc1Kq0M6+Y0vbIXp8QEEXENktigoWtwWp14PAG1
+ TifC/5ylJkkoKBZdGwbsSItQq5GBoowLnA/IV11AJJ1KIsnr1oSWN9r6TkyMwpMSYunjuSMM08
+ Iq1ccSsNyIc1ocTtBJ7vPPhn
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 09 Jun 2022 20:50:36 -0700
-IronPort-SDR: CIfzo0i9ChEVND4+Ql5bWF0KiDZIjd4h0AvK2epKNMNSWaE1YSu7WrwZkXQXGwdg6mlNSkqrn8
- G4n6nT8JbMETpKW+see1i/rD4tn4NPLbYh06VpzA/bNamJZHbVwH1inhkeBdEMN3mxgOM3XojV
- H8VnqpChXxnaLk+VRflnzVCAKMHUkqz7tX9oSvg5IiCKnrkJM3rRuBROPwWj+muQL6YImfrqTR
- udwn2P+yC7HiLJEpzlqEvq93p+EOpw0ly3eX9A1flEi1BCEiBPm9X1OUoVbYmxTYEtxGlPhybq
- NNU=
+ 09 Jun 2022 20:50:40 -0700
+IronPort-SDR: fWF3M+nG2+kgMr3njK++pESJuqizagIkFpmJzhyh+WOZv+Xy1wBmbfRP+MkjUKK/9r4UVBvwzb
+ LEnLP8StmvvaOrGTfaHwFL2ktfjdwlHDy6wooMyh/xnlYuAWD9w3EBO/dgMSbUpYp7kh4svh7T
+ 3whk41Olt7rH26oVmlPuqE75OzvAw1mynhQK6jAIWDKHNWpiQk/vu87OJDwOB2mmXvAEanXIuH
+ 1chkghAew5cjaZEcA7ieXPP4X4w5oxT+a3MRmErITAnZ+Wd/sz9ZvxtW16doGQXz3EOel5HHuz
+ oCQ=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 09 Jun 2022 21:27:27 -0700
+ 09 Jun 2022 21:27:32 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LK7Gl37xZz1Rwrw
- for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 21:27:27 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LK7Gq5VGkz1SVnx
+ for <qemu-devel@nongnu.org>; Thu,  9 Jun 2022 21:27:31 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1654835247; x=1657427248; bh=GPIHidrtgMssmiGEwM
- porPJ6SxnKU3ugU20xUZ8bMvE=; b=E4xIcjdOGD9ELGjpLd4nDAnk8KKgKzhj0O
- yHn2r1l+f7esnoo+FbAAr1KwPmgFggWDW02OT5kCwWQsUX1yBZGeSkuH1NSyfvhr
- kbryzGlzwqLW9sxEUeXJclldmIyxT/BHWIEclp1MWnv4RdbZMK3U2C6rodUr+XBu
- Kro6PxrzkVgcBdbqN45JWcuk7gLjCWzi8jNi9uEUfEwqARj4eEM6UnrKH9TqbD6w
- SFyUkIzmXzR0QjeZnq2Kn5PcgBbaPnYf6Sfj0teKn7+c8RTFj0fg1yIdCAYlWIxd
- dieqOk7x2tooVexl58t9a5wHJmx0ygTluV3HI+YkolKsifv3dP7g==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1654835251; x=1657427252; bh=oB3R5NM
+ AWtKu/5tdbSsPbN2ICARNBPSQ63u5w5klcpQ=; b=TReiGD15NgkZQ1S8RpfQ4hL
+ CrTN10oM2pZj5aC/kWt336L4lW8ArdhTeVlVKY6jJWIQfGxc0WMIG+5JQFXiHNYV
+ zRn51xaPX6YV08RWiTAaxlwe8JAbrzcXWxqBxoSMC8l8e5+eBwazCUdmECGblgfA
+ IVpRvqQSPOwsc/ZPY0TVIGEv8STBD6nFcQy1hfNd17BM1S2xXY8yCX8Y34I5uG+4
+ DvGDVCNUpNH9kA5YoakgM3jMUYKZTANBE51FK5w0f0mujzYgUc0DtJZWTNFigjug
+ SkW3ZW1lpDyghl3urRwlNVf8hB8iPNE3CUtzZFLWyyRDFmDqmqfo9QzZM4mdSSw=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 97bHAPjPKnpv for <qemu-devel@nongnu.org>;
- Thu,  9 Jun 2022 21:27:27 -0700 (PDT)
+ port 10026) with ESMTP id DiMokwfvdSPA for <qemu-devel@nongnu.org>;
+ Thu,  9 Jun 2022 21:27:31 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.12])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LK7Gj03Tcz1Rvlx;
- Thu,  9 Jun 2022 21:27:24 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LK7Gl4qSPz1Rvlx;
+ Thu,  9 Jun 2022 21:27:27 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Atish Patra <atishp@rivosinc.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 03/25] hw/riscv: virt: Generate fw_cfg DT node correctly
-Date: Fri, 10 Jun 2022 14:26:33 +1000
-Message-Id: <20220610042655.2021686-4-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Mingwang Li <limingwang@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 04/25] hw/intc: sifive_plic: Avoid overflowing the addr_config
+ buffer
+Date: Fri, 10 Jun 2022 14:26:34 +1000
+Message-Id: <20220610042655.2021686-5-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610042655.2021686-1-alistair.francis@opensource.wdc.com>
 References: <20220610042655.2021686-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=1538de18e=alistair.francis@opensource.wdc.com;
@@ -115,86 +119,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Atish Patra <atishp@rivosinc.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-fw_cfg DT node is generated after the create_fdt without any check
-if the DT is being loaded from the commandline. This results in
-FDT_ERR_EXISTS error if dtb is loaded from the commandline.
+Since commit ad40be27 "target/riscv: Support start kernel directly by
+KVM" we have been overflowing the addr_config on "M,MS..."
+configurations, as reported https://gitlab.com/qemu-project/qemu/-/issues=
+/1050.
 
-Generate fw_cfg node only if the DT is not loaded from the commandline.
+This commit changes the loop in sifive_plic_create() from iterating over
+the number of harts to just iterating over the addr_config. The
+addr_config is based on the hart_config, and will contain interrup detail=
+s
+for all harts. This way we can't iterate past the end of addr_config.
 
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220526203500.847165-1-atishp@rivosinc.com>
+Fixes: ad40be27084536 ("target/riscv: Support start kernel directly by KV=
+M")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1050
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Mingwang Li <limingwang@huawei.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-Id: <20220601013631.196854-1-alistair.francis@opensource.wdc.com>
 ---
- hw/riscv/virt.c | 28 ++++++++++++++++++----------
- 1 file changed, 18 insertions(+), 10 deletions(-)
+ hw/intc/sifive_plic.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 293e9c95b7..bc424dd2f5 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -975,6 +975,23 @@ static void create_fdt_flash(RISCVVirtState *s, cons=
-t MemMapEntry *memmap)
-     g_free(name);
- }
-=20
-+static void create_fdt_fw_cfg(RISCVVirtState *s, const MemMapEntry *memm=
-ap)
-+{
-+    char *nodename;
-+    MachineState *mc =3D MACHINE(s);
-+    hwaddr base =3D memmap[VIRT_FW_CFG].base;
-+    hwaddr size =3D memmap[VIRT_FW_CFG].size;
-+
-+    nodename =3D g_strdup_printf("/fw-cfg@%" PRIx64, base);
-+    qemu_fdt_add_subnode(mc->fdt, nodename);
-+    qemu_fdt_setprop_string(mc->fdt, nodename,
-+                            "compatible", "qemu,fw-cfg-mmio");
-+    qemu_fdt_setprop_sized_cells(mc->fdt, nodename, "reg",
-+                                 2, base, 2, size);
-+    qemu_fdt_setprop(mc->fdt, nodename, "dma-coherent", NULL, 0);
-+    g_free(nodename);
-+}
-+
- static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-                        uint64_t mem_size, const char *cmdline, bool is_3=
-2_bit)
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+index eebbcf33d4..56d60e9ac9 100644
+--- a/hw/intc/sifive_plic.c
++++ b/hw/intc/sifive_plic.c
+@@ -431,7 +431,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char *ha=
+rt_config,
+     uint32_t context_stride, uint32_t aperture_size)
  {
-@@ -1023,6 +1040,7 @@ static void create_fdt(RISCVVirtState *s, const Mem=
-MapEntry *memmap,
-     create_fdt_rtc(s, memmap, irq_mmio_phandle);
+     DeviceState *dev =3D qdev_new(TYPE_SIFIVE_PLIC);
+-    int i, j =3D 0;
++    int i;
+     SiFivePLICState *plic;
 =20
-     create_fdt_flash(s, memmap);
-+    create_fdt_fw_cfg(s, memmap);
+     assert(enable_stride =3D=3D (enable_stride & -enable_stride));
+@@ -451,18 +451,17 @@ DeviceState *sifive_plic_create(hwaddr addr, char *=
+hart_config,
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
 =20
- update_bootargs:
-     if (cmdline && *cmdline) {
-@@ -1082,22 +1100,12 @@ static inline DeviceState *gpex_pcie_init(MemoryR=
-egion *sys_mem,
- static FWCfgState *create_fw_cfg(const MachineState *mc)
- {
-     hwaddr base =3D virt_memmap[VIRT_FW_CFG].base;
--    hwaddr size =3D virt_memmap[VIRT_FW_CFG].size;
-     FWCfgState *fw_cfg;
--    char *nodename;
+     plic =3D SIFIVE_PLIC(dev);
+-    for (i =3D 0; i < num_harts; i++) {
+-        CPUState *cpu =3D qemu_get_cpu(hartid_base + i);
 =20
-     fw_cfg =3D fw_cfg_init_mem_wide(base + 8, base, 8, base + 16,
-                                   &address_space_memory);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)mc->smp.cpus);
-=20
--    nodename =3D g_strdup_printf("/fw-cfg@%" PRIx64, base);
--    qemu_fdt_add_subnode(mc->fdt, nodename);
--    qemu_fdt_setprop_string(mc->fdt, nodename,
--                            "compatible", "qemu,fw-cfg-mmio");
--    qemu_fdt_setprop_sized_cells(mc->fdt, nodename, "reg",
--                                 2, base, 2, size);
--    qemu_fdt_setprop(mc->fdt, nodename, "dma-coherent", NULL, 0);
--    g_free(nodename);
-     return fw_cfg;
- }
-=20
+-        if (plic->addr_config[j].mode =3D=3D PLICMode_M) {
+-            j++;
+-            qdev_connect_gpio_out(dev, num_harts + i,
++    for (i =3D 0; i < plic->num_addrs; i++) {
++        int cpu_num =3D plic->addr_config[i].hartid;
++        CPUState *cpu =3D qemu_get_cpu(hartid_base + cpu_num);
++
++        if (plic->addr_config[i].mode =3D=3D PLICMode_M) {
++            qdev_connect_gpio_out(dev, num_harts + cpu_num,
+                                   qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EX=
+T));
+         }
+-
+-        if (plic->addr_config[j].mode =3D=3D PLICMode_S) {
+-            j++;
+-            qdev_connect_gpio_out(dev, i,
++        if (plic->addr_config[i].mode =3D=3D PLICMode_S) {
++            qdev_connect_gpio_out(dev, cpu_num,
+                                   qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EX=
+T));
+         }
+     }
 --=20
 2.36.1
 
