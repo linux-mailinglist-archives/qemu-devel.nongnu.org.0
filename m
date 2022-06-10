@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E32654673E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 15:17:28 +0200 (CEST)
-Received: from localhost ([::1]:59866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D934B546760
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 15:29:57 +0200 (CEST)
+Received: from localhost ([::1]:43380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzeVy-0008BU-0z
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 09:17:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58894)
+	id 1nzei4-0000Ti-7q
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 09:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzePM-0000TB-41; Fri, 10 Jun 2022 09:10:39 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:45937)
+ id 1nzegP-0008Be-RX
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 09:28:13 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:45862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzePK-00058b-IR; Fri, 10 Jun 2022 09:10:35 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id x138so2022609pfc.12;
- Fri, 10 Jun 2022 06:10:32 -0700 (PDT)
+ id 1nzegN-0007s5-W3
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 09:28:13 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id q18so22756423pln.12
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 06:28:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0rHmzr+lSuLPw/qOnR7RZJUY834aj3VUFplxiBWmHrg=;
- b=F21ZtlWCRmoJApxtpDPFMaFsItc7i1nGv9hlfR5uomBnHaxmcwuAiLRE9JNUoQRAOl
- +tWGCMnhVbt9CTLullG8X8SkF3DvlghM7R+Eu05I5lnLxaeW2CheDZtepI+e9pKAN5in
- Jj1F9cfreI8oegLZjRZ+/shz8CTuHYTo96zEpIkDWOndw8CJM2X14/9bO07tazlbYSQf
- k3jDgum8oaR1dX/dIPR5JL9KQrM9yRDi4bC7E8Xb11GtkqZO9yr6gVNkpf/JHaw1lByH
- r+ptJXyppwRUU8ApdYXSNLQKKS1tyjOVIQSjhG2gwPGFwOEAdgNtuKwWBHGJCHCHxpKQ
- avxg==
+ bh=gTckBfJvM9DjaPYcWoyNasfcxd4zt0TMTwlkAsXpHY8=;
+ b=oECGyg7fMAqW2ZX/OLbSqAXxTVevdw1JM228b4Ta5TQA4R6StjmxiFKI3entBmOP0h
+ 2WoWIhJrNBSZUY8tmIOsN72z4JtFLId6s1fi6GtjCO5xRiNwctL+eU9V05+dDnuXAjc5
+ zxc3YLT1Z3l0y0omSiY2Wb1EBxfJfi4hM2ho4L0KwrSq4nbTT0hTrk4MxNXP7D1UhQei
+ 0n7vAOjTFgBwx/xB8ZaVWpX47/BUyltZww//tccmlYBjhrAnzJ0Cmd54uv/WSYpHgGA2
+ UoTjZHRXJxC2MW7wQKf0aAcY4oRt40noPIBW0+o8yghh5zq42Ma5KCCM4z0K89ZMe9B0
+ Rdsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0rHmzr+lSuLPw/qOnR7RZJUY834aj3VUFplxiBWmHrg=;
- b=kwFZ0RGSZs5KUn00qaceu3mxW304H4ayltPo+JPRwnsANwfvPF1pBL41rsSFcXXjMZ
- 6blZxzAcKMldyM+/qVH9AXPtaN3/rZjq1G9kI9LNnYTWkE+V92CWlph+ZB0DfYoBNEL2
- Djqp4IbxbEmSvS0e57Bh0ohIk7zdxsfysPe9ouh/2iW6th9eoutwLqR4ulC081K1MsBw
- tXYfShvajsmco4WW9rXqOsyhv8IbaEYIQxKXN9ZgWsRB53pVXKNeOp9toSrUG8h3N1oL
- m+3PxRKWJV3QE/AXIOEuG8twA6Q1J+5cFXFD/lLzsyl57cs+XLaN6ev2pMJYed1+VRJO
- CAcQ==
-X-Gm-Message-State: AOAM532JEGTGWtYxCvkcWEsFpOCaLCIlLqW5Bphq8zR/euD8+wTWN3C5
- MiKQB9gK8QNY6NAjwJzX0bA=
-X-Google-Smtp-Source: ABdhPJxl5N2FQ9T4WOZvV971FzTRF5qmt6OWm5+YJUzNlPtxurzdlLbaLq+W0BbOJ3o1j0RMeniuqA==
-X-Received: by 2002:a05:6a00:cca:b0:51b:ed40:b08a with SMTP id
- b10-20020a056a000cca00b0051bed40b08amr36055629pfv.19.1654866631900; 
- Fri, 10 Jun 2022 06:10:31 -0700 (PDT)
+ bh=gTckBfJvM9DjaPYcWoyNasfcxd4zt0TMTwlkAsXpHY8=;
+ b=cZOTpMNBwe/AMk5i60LfxGFk/V9lSojmGga6J8r496dRQgfZV7BBYzi1M9H9tYmJCN
+ qMvJQxa4CRkgQPZxyPWnWb3h0x2o8xBP4oWCjhEfSLGWTpyV8N9e2gjIqLP2FHb72/8K
+ EUOJYmBbTdaohr2rI2qUvLa94cc511CzTCEXMjrR6yiNvsMkidyIWv0AS6ATB94Oh+aa
+ ecNqN1mNDFT8uulH5ykL5xQIPgUBCcGgYDL+/W7kNRqWAMRvrRr6wNw7W2bO6wkj8hRx
+ Tgs3xmRxJ8fLkfrGGnVjaKkLFrwE7QfQF7cT+nV8QX1g3VXcGSulp+zFxqYyTJoX3oy7
+ rPMQ==
+X-Gm-Message-State: AOAM533R3vn6epI/tGBtOokUDQHvfNTze83VHiiOZcxYSlheDhDO6jqt
+ nTmmYXpHyjtPaOFVJDUsX1Y=
+X-Google-Smtp-Source: ABdhPJwvr8YtGmFFlNASL4wTBTeMmVQL/IPCtCPHhzdPFYUfDKcSeJ7QjQhF9aDZabfoagmpuZGqtQ==
+X-Received: by 2002:a17:903:234a:b0:167:997f:bc53 with SMTP id
+ c10-20020a170903234a00b00167997fbc53mr17773011plh.47.1654867690460; 
+ Fri, 10 Jun 2022 06:28:10 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- z28-20020aa7991c000000b0050dc76281bdsm19356299pff.151.2022.06.10.06.10.27
+ n19-20020a62e513000000b0050dc762814fsm19528749pff.41.2022.06.10.06.28.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 06:10:31 -0700 (PDT)
-Message-ID: <46561733-29f9-7ab0-c63a-2126ed20c546@amsat.org>
-Date: Fri, 10 Jun 2022 15:10:23 +0200
+ Fri, 10 Jun 2022 06:28:10 -0700 (PDT)
+Message-ID: <d3461ca2-9e7a-164b-4760-0540b19fb5e0@amsat.org>
+Date: Fri, 10 Jun 2022 15:28:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH] tests/qtest: Reduce npcm7xx_sdhci test image size
+Subject: Re: [PATCH v2 1/3] target/mips: introduce Cavium Octeon CPU model
 Content-Language: en-US
-To: Hao Wu <wuhaotsh@google.com>, peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com,
- Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com,
- bin.meng@windriver.com, qemu-block@nongnu.org, stmao@google.com,
- richard.henderson@linaro.org, jsnow@redhat.com, lvivier@redhat.com,
- pbonzini@redhat.com, thuth@redhat.com
-References: <20220609214125.4192212-1-wuhaotsh@google.com>
-In-Reply-To: <20220609214125.4192212-1-wuhaotsh@google.com>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+Cc: jiaxun.yang@flygoat.com, aurelien@aurel32.net,
+ aleksandar.rikalo@syrmia.com, Aaron Williams <awilliams@marvell.com>,
+ Stefan Roese <sr@denx.de>
+References: <165476301211.40568.5713018312386387782.stgit@pasha-ThinkPad-X280>
+ <165476301751.40568.12438882180412050686.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <165476301751.40568.12438882180412050686.stgit@pasha-ThinkPad-X280>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,16 +98,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 9/6/22 23:41, Hao Wu wrote:
-> Creating 1GB image for a simple qtest is unnecessary
-> and could lead to failures. We reduce the image size
-> to 1MB to reduce the test overhead.
+Hi Pavel,
+
+On 9/6/22 10:23, Pavel Dovgalyuk wrote:
+> This patch adds Cavium Octeon vCPU for providing
+> Octeon-specific instructions.
 > 
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> 
+> --
+> v2 changes:
+>   - vCPU name changed to Octeon68XX (suggested by Richard Henderson)
 > ---
->   tests/qtest/npcm7xx_sdhci-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   target/mips/cpu-defs.c.inc |   28 ++++++++++++++++++++++++++++
+>   target/mips/mips-defs.h    |    1 +
+>   2 files changed, 29 insertions(+)
+> 
+> diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+> index 582f940070..7f53c94ec8 100644
+> --- a/target/mips/cpu-defs.c.inc
+> +++ b/target/mips/cpu-defs.c.inc
+> @@ -921,6 +921,34 @@ const mips_def_t mips_defs[] =
+>           .insn_flags = CPU_MIPS64R2 | ASE_DSP | ASE_DSP_R2,
+>           .mmu_type = MMU_TYPE_R4000,
+>       },
+> +    {
+> +        /*
+> +         * Octeon 68xx with MIPS64 Cavium Octeon features.
+> +         */
+> +        .name = "Octeon68XX",
+> +        .CP0_PRid = 0x000D9100,
+> +        .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 << CP0C0_AT) |
+> +                       (MMU_TYPE_R4000 << CP0C0_MT),
+> +        .CP0_Config1 = MIPS_CONFIG1 | (0x3F << CP0C1_MMU) |
+> +                       (1 << CP0C1_IS) | (4 << CP0C1_IL) | (1 << CP0C1_IA) |
+> +                       (1 << CP0C1_DS) | (4 << CP0C1_DL) | (1 << CP0C1_DA) |
+> +                       (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 << CP0C1_EP),
+> +        .CP0_Config2 = MIPS_CONFIG2,
+> +        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA) | (1 << CP0C3_DSPP) ,
+> +        .CP0_Config4 = MIPS_CONFIG4 | (1U << CP0C4_M) |
+> +                       (0x3c << CP0C4_KScrExist) | (1U << CP0C4_MMUExtDef) |
+> +                       (3U << CP0C4_MMUSizeExt),
+> +        .CP0_LLAddr_rw_bitmask = 0,
+> +        .CP0_LLAddr_shift = 4,
+> +        .CP0_PageGrain = (1 << CP0PG_ELPA),
+> +        .SYNCI_Step = 32,
+> +        .CCRes = 2,
+> +        .CP0_Status_rw_bitmask = 0x12F8FFFF,
+> +        .SEGBITS = 42,
+> +        .PABITS = 49,
+> +        .insn_flags = CPU_MIPS64R2 | INSN_OCTEON | ASE_DSP,
+> +        .mmu_type = MMU_TYPE_R4000,
+> +    },
+>   
+>   #endif
+>   };
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+^ This part should be the last patch of this series.
 
+> diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
+> index 0a12d982a7..a6cebe0265 100644
+> --- a/target/mips/mips-defs.h
+> +++ b/target/mips/mips-defs.h
+> @@ -42,6 +42,7 @@
+>   #define INSN_LOONGSON2E   0x0000040000000000ULL
+>   #define INSN_LOONGSON2F   0x0000080000000000ULL
+>   #define INSN_LOONGSON3A   0x0000100000000000ULL
+> +#define INSN_OCTEON       0x0000200000000000ULL
+>   /*
+>    *   bits 52-63: vendor-specific ASEs
+>    */
+> 
+
+This hunk ^ belongs to the next patch, but I'd rather split patch #2,
+first part being similar to commit 9d00539239 ("target/mips:
+Introduce decodetree structure for NEC Vr54xx extension").
+
+The series would look like:
+
+target/mips: introduce decodetree structure for Cavium Octeon extension
+target/mips: implement Octeon-specific BBIT instructions
+target/mips: implement Octeon-specific arithmetic instructions
+target/mips: add Cavium Octeon68XX CPU model
+
+Regards,
+
+Phil.
 
