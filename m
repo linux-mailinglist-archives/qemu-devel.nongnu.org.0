@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E0C545F6D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:39:54 +0200 (CEST)
-Received: from localhost ([::1]:50936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29014545FC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:47:18 +0200 (CEST)
+Received: from localhost ([::1]:59394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzaBO-0001G8-0j
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:39:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35434)
+	id 1nzaIX-0007HE-74
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXD-0000NN-9H
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23379)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXF-0000U5-1d
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXB-0006Ix-AR
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:23 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXD-0006JF-4k
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847900;
+ s=mimecast20190719; t=1654847902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TOvkDkiafeYSAXY0KZc9ourX4zMJEzIbZqDfZoh54AA=;
- b=hV5oqcH1UhbiChQnvFN5DIxqb7Jmjl+YQI6PjIVp9ckcaGpyykJLbNlZBUol3TBL6kdH9a
- AOR8TOIQiShQGygXxh0DfPlUn/3JQgVNAsiXZihv6vMIACGVC+hK6sbQVglNLatz5YyeT7
- A3qE5w9C19w9hqFK/sI/NjR1o+VGp78=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+cbd0efxfoR4ufLej+0EIFiYfHoWDl51OA/1ATVy/PM=;
+ b=g0ilvrmBNUsu4ye+pRW8HAa0HuHufG6H+M0dIhm2DkW5e/d0BNgdVLbyiG4nIlG+1OQ0Jz
+ V14GQVAe7i+xCQ8Maji+sjazc1FMHYnmz58k90XFra9GV5C+WlQd3RhhHGqD6H1G7X+oND
+ oqigKbq05Dp2zI+lEU9HnxNLU8AQYQg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-dtlkOJAwOfCKMjzDXO1ldA-1; Fri, 10 Jun 2022 03:58:18 -0400
-X-MC-Unique: dtlkOJAwOfCKMjzDXO1ldA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- r13-20020adff10d000000b002160e9d64f8so4473903wro.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:18 -0700 (PDT)
+ us-mta-127-b7_BeCy0M4G_eDxhuI6oWQ-1; Fri, 10 Jun 2022 03:58:20 -0400
+X-MC-Unique: b7_BeCy0M4G_eDxhuI6oWQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ u12-20020a05600c19cc00b0038ec265155fso937892wmq.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=TOvkDkiafeYSAXY0KZc9ourX4zMJEzIbZqDfZoh54AA=;
- b=gtf/QRR82YthttgZe6PD3CbFHfvtPP9mkThu5lifJhMWnEpwO+y5cFRvkUjCrHn7uD
- FDLBWRO5rpYDcTHsIm8NHS+9jmiFI24qkJjVJkFCgZG48wpsL465yZhA9oct1SHHNWEw
- FvXdE8/43MLdXP5CfzwTkOMbn3YHN5g0hIh7OVj05+HgaUlXliKMcXJiblDxt1SqSoBW
- ysfXAFIrFV/f0sJgM10mKrUgYe4tLeOM0YypraqiLn4jhY1LKG++X/Q1P1n2RjsQgDPn
- 3vneu9Pjq2fCOm5aNQmZUCS7+90MK1voWuOYRWssTcSvM1XnCZpZkmq6SAHEJlDyF2O9
- baOQ==
-X-Gm-Message-State: AOAM532vfHc0ePcxZsE1Z44pJlf9r4foDWEEUpT+J604S/h6fLnZlao7
- qtYwhhq4GT4908WQDv/4NOtfqYdu09G6Z+pealoWzPQYsBI5aPU5KaURViqE5yCA8hrVZD4I0ux
- Fqr/K9bG6z+CpoMxkXRsQ3LNeq40SC+i0PoPk1sQlvUgCY4rxa/3O88vuaT6o
-X-Received: by 2002:a1c:a301:0:b0:392:9bc5:203c with SMTP id
- m1-20020a1ca301000000b003929bc5203cmr7426284wme.67.1654847896445; 
- Fri, 10 Jun 2022 00:58:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwle9W/hD7egAoyjxgjJUj8mhEVM0RSvjL9UDUBmWBpKHlYx95+BmqFY038KhVnromkLjjMrA==
-X-Received: by 2002:a1c:a301:0:b0:392:9bc5:203c with SMTP id
- m1-20020a1ca301000000b003929bc5203cmr7426241wme.67.1654847896074; 
- Fri, 10 Jun 2022 00:58:16 -0700 (PDT)
+ bh=+cbd0efxfoR4ufLej+0EIFiYfHoWDl51OA/1ATVy/PM=;
+ b=mQIhE5sv2TAKwu9KfIeCOH41HlHlUrPk9VV4oqklrxjvFlXv2pk1dqykJ9vaMEuqhB
+ OUBLMezpNKLQhWixybRhTvVlBoJxcUNRXXjmQbhPtsi+PWLYis0QLtE7uoPwrl/AOLbf
+ WIfQ2nvqSEfe4U5nBwxJSUb4t6I+9CM+aWf7sNODZVvRjXTUUt0JtxhUbXea/2RC3wBG
+ bRNFq+y1Vem5cgXGkfQi1nIMehe7wYVOLNKwM/a7efiJ1uoJ6BwN99WlA0vS3yM8QeYV
+ pmAdfcs1k3lmriLuZh2MCDMfW1hCKakht1Ps6hsXzz6kt4GCFyOzrEH2447tM6BYts/b
+ H8xA==
+X-Gm-Message-State: AOAM533UG/qniJWkphZXiyR+IPwcV2/81U5JjEf5FYDvZgZWb8VmpXaF
+ 6dGl71LQuH3Ug2+XLs6JmVS7ySZrJzmO6/un93lYBtl4R8jIyjeVDAFd6xgsqHybAMGrnfU0470
+ pCq4vPB/1fL20AP2UOgMgkvd+vUYlbBSkDKHOVF0eJLOH6bbd/ZTht5qVTt1l
+X-Received: by 2002:adf:c614:0:b0:215:cd85:bd88 with SMTP id
+ n20-20020adfc614000000b00215cd85bd88mr33091456wrg.437.1654847899309; 
+ Fri, 10 Jun 2022 00:58:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy80cVH/exZnWuC9LJRbVZ6Epn/XPEArPTZhMmgKlVxjILHuLMLc6wf96YxW6jH0boisCOTVQ==
+X-Received: by 2002:adf:c614:0:b0:215:cd85:bd88 with SMTP id
+ n20-20020adfc614000000b00215cd85bd88mr33091435wrg.437.1654847898944; 
+ Fri, 10 Jun 2022 00:58:18 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- n39-20020a05600c3ba700b00397342e3830sm7733545wms.0.2022.06.10.00.58.14
+ l21-20020a1ced15000000b003942a244ed1sm1975174wmh.22.2022.06.10.00.58.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:58:15 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:58:12 -0400
+ Fri, 10 Jun 2022 00:58:18 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:58:16 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 24/54] acpi: applesmc: use AcpiDevAmlIfClass:build_dev_aml to
- provide device's AML
-Message-ID: <20220610075631.367501-25-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 25/54] tests: acpi: update expected blobs
+Message-ID: <20220610075631.367501-26-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -105,163 +99,141 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-  .. and clean up not longer needed conditionals in DSTD build
-code. applesmc AML will be fetched and included when ISA bridge
-will build its own AML code (incl. attached devices).
+@@ -145,6 +145,23 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+         {
+             Name (_ADR, 0x001F0000)  // _ADR: Address
+             OperationRegion (PIRQ, PCI_Config, 0x60, 0x0C)
++            Device (SMC)
++            {
++                Name (_HID, EisaId ("APP0001"))  // _HID: Hardware ID
++                Name (_STA, 0x0B)  // _STA: Status
++                Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
++                {
++                    IO (Decode16,
++                        0x0300,             // Range Minimum
++                        0x0300,             // Range Maximum
++                        0x01,               // Alignment
++                        0x20,               // Length
++                        )
++                    IRQNoFlags ()
++                        {6}
++                })
++            }
++
+             Device (KBD)
+             {
+                 Name (_HID, EisaId ("PNP0303") /* IBM Enhanced Keyboard (101/102-key, PS/2 Mouse) */)  // _HID: Hardware ID
+@@ -3246,26 +3263,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+         }
+     }
 
-Expected AML change:
-the device under separate _SB.PCI0.ISA scope is moved directly
-under Device(ISA) node.
+-    Scope (\_SB.PCI0.ISA)
+-    {
+-        Device (SMC)
+-        {
+-            Name (_HID, EisaId ("APP0001"))  // _HID: Hardware ID
+-            Name (_STA, 0x0B)  // _STA: Status
+-            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+-            {
+-                IO (Decode16,
+-                    0x0300,             // Range Minimum
+-                    0x0300,             // Range Maximum
+-                    0x01,               // Alignment
+-                    0x20,               // Length
+-                    )
+-                IRQNoFlags ()
+-                    {6}
+-            })
+-        }
+-    }
+-
+     Scope (\_SB)
+     {
+         Scope (PCI0)
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20220608135340.3304695-25-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20220608135340.3304695-26-imammedo@redhat.com>
 ---
- include/hw/isa/isa.h | 14 --------------
- hw/i386/acpi-build.c | 22 ----------------------
- hw/misc/applesmc.c   | 29 +++++++++++++++++++++++++++++
- 3 files changed, 29 insertions(+), 36 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+ tests/data/acpi/q35/DSDT.applesmc           | Bin 0 -> 8320 bytes
+ 2 files changed, 1 deletion(-)
 
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 5c5a3d43a7..6f9380007d 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -16,20 +16,6 @@ OBJECT_DECLARE_TYPE(ISADevice, ISADeviceClass, ISA_DEVICE)
- #define TYPE_ISA_BUS "ISA"
- OBJECT_DECLARE_SIMPLE_TYPE(ISABus, ISA_BUS)
- 
--#define TYPE_APPLE_SMC "isa-applesmc"
--#define APPLESMC_MAX_DATA_LENGTH       32
--#define APPLESMC_PROP_IO_BASE "iobase"
--
--static inline uint16_t applesmc_port(void)
--{
--    Object *obj = object_resolve_path_type("", TYPE_APPLE_SMC, NULL);
--
--    if (obj) {
--        return object_property_get_uint(obj, APPLESMC_PROP_IO_BASE, NULL);
--    }
--    return 0;
--}
--
- #define TYPE_ISADMA "isa-dma"
- 
- typedef struct IsaDmaClass IsaDmaClass;
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index f7f1671407..b96705c688 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -121,7 +121,6 @@ typedef struct AcpiMiscInfo {
-     const unsigned char *dsdt_code;
-     unsigned dsdt_size;
-     uint16_t pvpanic_port;
--    uint16_t applesmc_io_base;
- } AcpiMiscInfo;
- 
- typedef struct AcpiBuildPciBusHotplugState {
-@@ -307,7 +306,6 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
-     info->tpm_version = tpm_get_version(tpm_find());
- #endif
-     info->pvpanic_port = pvpanic_port();
--    info->applesmc_io_base = applesmc_port();
- }
- 
- /*
-@@ -1800,26 +1798,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         aml_append(dsdt, scope);
-     }
- 
--    if (misc->applesmc_io_base) {
--        scope = aml_scope("\\_SB.PCI0.ISA");
--        dev = aml_device("SMC");
--
--        aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0001")));
--        /* device present, functioning, decoding, not shown in UI */
--        aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
--
--        crs = aml_resource_template();
--        aml_append(crs,
--            aml_io(AML_DECODE16, misc->applesmc_io_base, misc->applesmc_io_base,
--                   0x01, APPLESMC_MAX_DATA_LENGTH)
--        );
--        aml_append(crs, aml_irq_no_flags(6));
--        aml_append(dev, aml_name_decl("_CRS", crs));
--
--        aml_append(scope, dev);
--        aml_append(dsdt, scope);
--    }
--
-     if (misc->pvpanic_port) {
-         scope = aml_scope("\\_SB.PCI0.ISA");
- 
-diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
-index 81cd6b6423..5f9c742e50 100644
---- a/hw/misc/applesmc.c
-+++ b/hw/misc/applesmc.c
-@@ -37,10 +37,14 @@
- #include "qemu/module.h"
- #include "qemu/timer.h"
- #include "qom/object.h"
-+#include "hw/acpi/acpi_aml_interface.h"
- 
- /* #define DEBUG_SMC */
- 
- #define APPLESMC_DEFAULT_IOBASE        0x300
-+#define TYPE_APPLE_SMC "isa-applesmc"
-+#define APPLESMC_MAX_DATA_LENGTH       32
-+#define APPLESMC_PROP_IO_BASE "iobase"
- 
- enum {
-     APPLESMC_DATA_PORT               = 0x00,
-@@ -347,14 +351,35 @@ static Property applesmc_isa_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+static void build_applesmc_aml(AcpiDevAmlIf *adev, Aml *scope)
-+{
-+    Aml *crs;
-+    AppleSMCState *s = APPLE_SMC(adev);
-+    uint32_t iobase = s->iobase;
-+    Aml *dev = aml_device("SMC");
-+
-+    aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0001")));
-+    /* device present, functioning, decoding, not shown in UI */
-+    aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
-+    crs = aml_resource_template();
-+    aml_append(crs,
-+        aml_io(AML_DECODE16, iobase, iobase, 0x01, APPLESMC_MAX_DATA_LENGTH)
-+    );
-+    aml_append(crs, aml_irq_no_flags(6));
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+    aml_append(scope, dev);
-+}
-+
- static void qdev_applesmc_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
- 
-     dc->realize = applesmc_isa_realize;
-     dc->reset = qdev_applesmc_isa_reset;
-     device_class_set_props(dc, applesmc_isa_properties);
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    adevc->build_dev_aml = build_applesmc_aml;
- }
- 
- static const TypeInfo applesmc_isa_info = {
-@@ -362,6 +387,10 @@ static const TypeInfo applesmc_isa_info = {
-     .parent        = TYPE_ISA_DEVICE,
-     .instance_size = sizeof(AppleSMCState),
-     .class_init    = qdev_applesmc_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_ACPI_DEV_AML_IF },
-+        { },
-+    },
- };
- 
- static void applesmc_register_types(void)
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index e893029d87..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,2 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/q35/DSDT.applesmc",
+diff --git a/tests/data/acpi/q35/DSDT.applesmc b/tests/data/acpi/q35/DSDT.applesmc
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..00092aacc6ce44dd8792b00a0fa183e5b06d33c6 100644
+GIT binary patch
+literal 8320
+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
+Y3<fg}Ry~GIOPrjSCl~lhh8_|2f2v2oY5)KL
+
+literal 0
+HcmV?d00001
+
 -- 
 MST
 
