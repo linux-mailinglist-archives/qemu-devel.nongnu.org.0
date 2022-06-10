@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D83546DE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 22:01:20 +0200 (CEST)
-Received: from localhost ([::1]:53736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2FE4546DC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 21:58:27 +0200 (CEST)
+Received: from localhost ([::1]:47566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzkop-0005i2-Oh
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 16:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53626)
+	id 1nzkm3-0001cM-0D
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 15:58:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nzkf0-0000BZ-Dl
+ id 1nzkf0-0000BY-DP
  for qemu-devel@nongnu.org; Fri, 10 Jun 2022 15:51:10 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:63192)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:4276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nzkeu-0000P9-Re
+ id 1nzkev-0000PR-ET
  for qemu-devel@nongnu.org; Fri, 10 Jun 2022 15:51:10 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25AJhqND016299;
- Fri, 10 Jun 2022 19:51:00 GMT
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25AJhufb021488;
+ Fri, 10 Jun 2022 19:51:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=2dnGMjhIbhSHpuTnKaf5YwvSB7NNKyj11NLaPe8JCpg=;
- b=zcH9ps9Yn8JmBuNz2rAcsQUVrkuiHuKa3LDmnPiS5VIcftCS4aHgoyz/1fi2+UEOljXV
- SmRnKocJieCQ7tw55w/TCYrwYqNL9muidxPCOhOOuNQ4YaRvOKbvz5e683A/gG3gs5mY
- /LNo/1E+vGcAku332NPk3D9al38IHZ9+PIewGMvSL9hlv+x8ISBQBSbBWY2Ow0RyUx0C
- LX/HwcJeSVZobldee1UPYL4qq92eLNI/qQDKeFK0L6P2krs62u5KeBmXjbIbPsS+SFxP
- zLf/b739J5UrURi061+t4rzUY0bmMDkOYPG3rRm5picPyVApnzKy54HQwdHizIouNDiu aQ== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ggvxn4fag-1
+ subject : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=tYZgsr9yL+X1AZdVUWueMJDrqbokKMijg5WzTSCrlFo=;
+ b=hZMLtrkk6d8mFrpoo8TxDtjbTTMTZ+pSuJkiu4WXDhJowmdtqX8aWwLYQpLbTiFs9w3y
+ DzUFNVeduSI+dURpfXjSP/GMk74240ummGYbiSz2SAoYsyZfHQiBKE1oL4FzXSTMjCqF
+ 4il8Rm8JBA2dBRimHgIQnAOqG+CIquGQaD67Z5ZFNJOfctnPINlcyksvHISk8Lv8ve+N
+ d+AguwNltsieJ16Cnv6/6Hx42HaXXGCNdIlq+tBJ9NrF8GzninC1PQGz4dJsl/Z2t7pV
+ lSW8BAJUnlBuK565Gad6F6cyWJAAL1dhRSQW9qXsoG8HZAhh/pLQBaB1/jKL5ZzrouJs fg== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ghexem0uq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 10 Jun 2022 19:51:00 +0000
+ Fri, 10 Jun 2022 19:51:02 +0000
 Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25AJjMGm030599; Fri, 10 Jun 2022 19:50:59 GMT
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 25AJk8m3018455; Fri, 10 Jun 2022 19:51:02 GMT
 Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2103.outbound.protection.outlook.com [104.47.55.103])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3gfwudf2dt-1
+ (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3gfwu6cuu4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 10 Jun 2022 19:50:59 +0000
+ Fri, 10 Jun 2022 19:51:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RPr8zpLDcRYB/ab+aLb1OBS4kNjwovqx3ICapOjcDi9T9WlLOcqR1xaDdtHRKhSTK/Y70UeJYuJjiQkd9Xi1LPQI2xnyEc0kVL5uSfFtjQemcNCwypKjRz3Wb0Qy6A4pJtHzCGqt/vHvkzvBWxBB8lFapXmqPQ40IOiJtoZCYZrZZrvPICkavtTTQ4uOUApJSghYr3x6FkVIRZv9VS8fqDrb69M8OwLrVN+gNcyNluzIhGFUk9MnviqwYttt/wZWI1koYA67sJXhNoywDjTzcPH3y8AlilFRqH6UHV//rL/dBLL9mUT04N0gmi9s7H6E+vPRk7WhC/hoPZ2ldTP0ng==
+ b=mv8l1RIcVshGCFwWv1ZsXto+QVZMkzLcN5yTJ6ubYFfaMEPcX9qM3497drRPmeC7XajMSzkgKESqCfS750FDjwqB7Rax+pg1vg+MTGe2/5VGqTDVTMKM/xxY5eNIWM6OBS6dM5oLxPsY90ygsXykKyqAYjXWzriKtxE4VwcECHpget/aeXa3zUsR7e/g3fdVley5lMlUNQiWz0HrrKNwyMnoR4UGm4zAlaS0CoOxt0o4sALSaKRn5IozjHOAuTlHhUcHMFzJDdH0SGT39F3yDas5oVsQukzfr3rc8K8WCe4ZTICUS0WtOoWcD/KTc+TeAJspNUtjz+sEq+KK7Sb5kQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2dnGMjhIbhSHpuTnKaf5YwvSB7NNKyj11NLaPe8JCpg=;
- b=JCId3O1ahKbKA2q+ZyKy4iltAuIk4c98tjSCdukIZujWMfHQOZl5Mq8SMjPhBqC6KZXxEq6oci40T3PtzHVncLFrsHOERUuflQ/I4Sty1R3/YotBimcGp5Xr0OO81XD+Pe6Q5Fdm9xdEg/Alq/pMcy5xF1DROhmo3HJye4LwFRLySqX1RjIF9HLOasLm+396IN9u97udOWmlOiNlosqTk8YMXMSaa/LCaPdy63ynL8RmVyH2yfKkuoWEj3yGL6a5Iw+kyg94ZjHP36F6cM981bibYbOGo6DPb6dgazO3nM+wrgQceZf38P1k4hcdr6kT2/24N98n93vBlABeXcpMcg==
+ bh=tYZgsr9yL+X1AZdVUWueMJDrqbokKMijg5WzTSCrlFo=;
+ b=iTFKIdQ1fyCBnzTKHE3ovcHWOPPaAfXjxy7uI1JTr7tOfeW6Pt5MfLmIN5QmvG05etY4XiFNhYGZDx5/xw4kH7zGRTMd9YZvMIAaKprRY3oeloWU4hasO6FhCIMBgarclSfKH72kKqnya1I9TtZPLt83A3R72jCIn/lovQyhXUjoWfZ44FMVf19HJtQoTyK6B2pETorELM0KhNl98oeAyZVWXMJHSJKMlQz5j+b4e6N18F5FWFWXOwDFZH6ULxM3iyDui1EpyYKS0i55rWBBExVQ4Z8WleVy8tJpWb4jl1bZZVcD72Eiexbg0HW4gljpFv56rzp3xG5KJVGyLYxPnw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2dnGMjhIbhSHpuTnKaf5YwvSB7NNKyj11NLaPe8JCpg=;
- b=E3Db7G6Khq8Hmse/BSGnfFwV85VeAj4fJE5Dm2meQ7uXQ98xHjL4brq3k1Q7MFY4dMpBdE40g/WqO9GhKomCX8SXQGJDKyXKHlSjqdiCxTl0bulDNV6FoD07jnomHrNPXh6cHN29vFTU+BVfIQgJmCvMDjEco6USRjLHB6gCq6E=
+ bh=tYZgsr9yL+X1AZdVUWueMJDrqbokKMijg5WzTSCrlFo=;
+ b=HD42WOnWDloAzBICP5V71ad8due8C+o+OYABUQNt/QxiS6n76sh7wDkgXONmVOurO8mewbSEMrxbiGHHZlPhNm6tYsGRXatPRbD9frXbMsJGZpeq1Kjgj7JZDKDS6ApZDzg+K+s8FGjoeH31aT7YDYw2YLbhXiIJ4nPy7i2IyjU=
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
  by DM5PR10MB1915.namprd10.prod.outlook.com (2603:10b6:3:107::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Fri, 10 Jun
- 2022 19:50:57 +0000
+ 2022 19:50:59 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::e9cb:e1ca:8189:f191]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::e9cb:e1ca:8189:f191%7]) with mapi id 15.20.5314.020; Fri, 10 Jun 2022
- 19:50:57 +0000
+ 19:50:59 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, mst@redhat.com, alex.williamson@redhat.com,
@@ -82,81 +82,90 @@ Cc: stefanha@redhat.com, mst@redhat.com, alex.williamson@redhat.com,
  peterx@redhat.com, john.levon@nutanix.com, thanos.makatos@nutanix.com,
  elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
  kanth.ghatraju@oracle.com, jag.raman@oracle.com
-Subject: [PATCH v11 04/14] vfio-user: build library
-Date: Fri, 10 Jun 2022 15:50:31 -0400
-Message-Id: <7ba5766a59baec1c527bf4594dcf1dd55615aa59.1654889541.git.jag.raman@oracle.com>
+Subject: [PATCH v11 05/14] vfio-user: define vfio-user-server object
+Date: Fri, 10 Jun 2022 15:50:32 -0400
+Message-Id: <47a665da9676a1ad676933e2d1c187ce3b54b308.1654889541.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1654889541.git.jag.raman@oracle.com>
 References: <cover.1654889541.git.jag.raman@oracle.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: DM5PR04CA0046.namprd04.prod.outlook.com
  (2603:10b6:3:12b::32) To MN2PR10MB4013.namprd10.prod.outlook.com
  (2603:10b6:208:185::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2f4ceeb1-8281-4671-62bf-08da4b1a892a
+X-MS-Office365-Filtering-Correlation-Id: bc185c3d-bdf0-4e3f-fcd8-08da4b1a8a8f
 X-MS-TrafficTypeDiagnostic: DM5PR10MB1915:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR10MB1915205EE51F76A591E2328190A69@DM5PR10MB1915.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM5PR10MB1915570BD175B4B19134597C90A69@DM5PR10MB1915.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3mG3qh6Vu1m0ddb7rpbedsdEMP7/xLvA4IAsOiAP3TFMo8KRRp1VsHEaEfd2BtFC4Bl0hL0mSsJ6Y423WycAQ/FE5sMxRcb8fdzbrAXfkJnOT7dy6f5gDAut4U6MbMOdIVC6U+OYtHmm52roQbxsN1DyrNCDvw+AD+jxD/OcmYHOs0x8jyOiEfzx8jIAODVqJg7+V1L1w0Wt8c2J0hR5VUncqhw1ZWtxpf3SdmIxBJ/FULr9uNfmKi2O4UuzBwnHOvO8adEPPBfyCjFnYeoG6bDce0gb73VL2PNNjyJEfsapwtws/6+U1Zi1Y2+2BC7tcrpHMH/8TCj3D21FCBOuapX7FVAX0kE9/a+RMMj+I+hKtcQX2vN4yQ9gHgO6DpxfC5pCj8Nck2YjiTr/vZlKzZhBT/6eZB5tjefkOYfPimKCNEqbUtdlLH+lDPdCSFXuArmXaiU3x20KUSx0EIRYddMhXpWsq/Wsldrx9nWOmfgS3tom1wQM+Z2B+ICkz7DVn2AwSFxwT51QUs2Ehi4sRO1oaDpuJu/IJTzjaiKsOSs1zipzBrmxJs+nsl7d7qQSCRo9W79GtoK6Ax3Gym6qPTfralU1VwuEiQiLt7/Dtcu+oM3MYRYqobrORunaUR5BS96Dau6O17ORwOwBFAgUxQlmtuTn0TMYFKKyS75NkO4jF/VR5hfHH3RsWSWdykJPU0ZJ1Tk4VGItjNYCim2kL4n9MSrLDBkGurjc8E55W/BvHgOZh9EE9hN9vOadwUQXy3gpggOA1NdKQ0Pgg13YiLzG/Tv8LuTguNyUo/NL3t/dQ3skdpnldiEgqoLFtCRb
+X-Microsoft-Antispam-Message-Info: cllZQBRYl8ri7NVmIt2kHTRhbjX9l8O0Fl2RkaXXAMhUbXSeoq0rPGkK8f2jyAXPKp0Klm3F3+VfnJmN1e4+Mrvk12YP4NNkD2t+8sGzts4ioMpHBdUvI2XyqiDjz+VeT5SzqR5mL/lNL4Hk/cWO/lhDm4Wuku01+lQ6RB9n0gOv1eqIMEH44EKRxT5wqTDpKEXjd6bQKn2yV950+Ud5WrIdxtPaCOYRtS+e+ye1tLU60CfLrIUhR+8Ca464sKPWa6oKc8qzvVzTfo8GJlXLMhWbFgWBkhms8yHrCD/7q4yGYUvmdDzLulnHUX/+TJh/OsrAGj/DJWq1EOfWuAFiLVUNdUErC5LJKllhb4pphXOiNiSX5NhVmNbG4Zb5J9dS+HJ2jbeTjX1CDSn8pkcYIykzp5xAJmK9Mjq1fYtcCXUiVTpHS2fehHFi5vMWxeApKnt3gfckB0o8DQCjLa2MFKqK9JusniTD10ZTJL1ziq2ipIenD/aiQyJHncAfx6LEpR3/jSPjkywgXx1L77oA6OFtCLywc7mPnW8hK/0jicSsfeMm8cElOtUpQJfJEsUJRQwjaHTnQqWej7zxXTR8i50F0rNhLJFFaoRbCsjgV0siHT16uPQaoYgiYD1xtwggPJNFuAUbxqtILPIQh/GCt9b3uG7zmTBXX5jq2ZMA0StkblyedFWQx6/+6eXFT9E4DMEQFTkvw7UrgE+TdVsNfg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(366004)(6506007)(6916009)(2906002)(107886003)(38100700002)(38350700002)(6512007)(26005)(8936002)(2616005)(86362001)(52116002)(186003)(36756003)(966005)(66556008)(66476007)(7416002)(6666004)(8676002)(508600001)(6486002)(316002)(83380400001)(66946007)(4326008)(5660300002);
+ SFS:(13230016)(366004)(6506007)(6916009)(2906002)(107886003)(38100700002)(38350700002)(6512007)(26005)(8936002)(2616005)(86362001)(52116002)(186003)(36756003)(66556008)(66476007)(7416002)(30864003)(6666004)(8676002)(508600001)(6486002)(316002)(83380400001)(66946007)(4326008)(5660300002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8kMV0c7ZtveCOLkf4tbOKuNanAtMSg4+tt0gIBrjUV6XMgX+sh1vyI4gNeNn?=
- =?us-ascii?Q?E+fNO/f+fLcYo5Xb5Kkhz6GNd47j0MkOEcHKgfTOP/y+wdfBaWabzHDHKsKd?=
- =?us-ascii?Q?1EhNF+ICANBnzKSOjyh3fI6bWXY6V7vcIiQMYLnKI7Bai/0vqAYRQkJSvvCl?=
- =?us-ascii?Q?zu6damF6VkAWG+BBd9eQMMcLNkx+xsGerFkAdzz4+n6oV6BeSviQCNXyaMYU?=
- =?us-ascii?Q?NrsdKW8zYD4Sq1CUNuHAOAXeLnEqKeA11KpJqGzsWs0Azq6PgnVQ91MBMb6V?=
- =?us-ascii?Q?NZROYRQvljEvT4i2koEcB/70f0/LV5SUftDUrhJqzrgIWtneTTf5Akg+0WKP?=
- =?us-ascii?Q?TdYN26YKs0CrtkOTyq2sFKuVUnXYbImUPpq4dnJgUcCqtvot12ZzH8Qsfnje?=
- =?us-ascii?Q?+mnxVqhvpr+6U4voYthSQ73H1kJdFNSFWZUCQuiMiCys3KCHAck+klYYJMg+?=
- =?us-ascii?Q?+7h3iZyMA55FiD3dPLvHedM1hoCI4O50YJ+JBSGj4HecuvtGRcSa+MLMeGi1?=
- =?us-ascii?Q?3atbY6WxyeeqYkVxMZHUgaAzMuyvfljN62GJ3aoCcn3deFiFBo944l+45//2?=
- =?us-ascii?Q?fkSF8dlgvJZoN8bTw/NMN/j26WHbtFY55BAegQdzXhtQI0S/0Uvva7kEpaRw?=
- =?us-ascii?Q?zO/ztLRN4uEMydPFnx/pU4lZMppcTCEPczv8zWSye2vmxJ/iAiRMSRjnBBhe?=
- =?us-ascii?Q?8mS9Efz16Zl0FDsF2PxBpNyMnC+dFTEQKK7x7qwoSX6wu/7kM27fFF4PXYzp?=
- =?us-ascii?Q?AbYZMyHeMuiDtR2iaPUJinnEwZoUfXOj4Tmf37yedmUirr4QF9VusnaUP9SZ?=
- =?us-ascii?Q?I4S9DFw4RPQGcmEIkAobaTnmADfBZuFrVxa0WacNAII4/btpOlgg4Kz7sCS6?=
- =?us-ascii?Q?h/c99MmtifznksmTgodgv2XwX4zG1S/TqtH/RzNq0tMJL46TV6P1aVhBZMoN?=
- =?us-ascii?Q?ICo2SHtmXWMx0H4aIOwCjQBsW2TJ+x9yqQBMCRqF8zT+bqSEYuywIyVafyCQ?=
- =?us-ascii?Q?UqYUNjxNaIKS/ObVOltm3fn7pdYAT/DeEY6MTSb9Jwsvrx8szUOTE+7S3Htz?=
- =?us-ascii?Q?jRcp6V+9tpCaj59Br9Tf259wDVU+flp6xZ47D0V6U8G5YmESXw1VONv8RV/g?=
- =?us-ascii?Q?D04W6iRUOYP8splzoBJZxx3OJ3C9/MjleF34gCay3p7lHWYggHEuWOq///hx?=
- =?us-ascii?Q?AjPHIIG8itD3SH6nt8h0ub2SE8UHNm62OMD/OWr/9xqGUNIhvXY+OiS5DxOu?=
- =?us-ascii?Q?cgeaOqUjGR+LeLOYBDGq3Jsr9N1Ss5aaQpZ43uf6Czj0uupbV10bLjXIZoX1?=
- =?us-ascii?Q?mP78xr2ZK2R+/kECHQfMpgAb6ePEzlAGx0xW/CPj8M0Prgp3v9FpFs54Kdr/?=
- =?us-ascii?Q?fHyQha3tolK+j/rTpmSnoXR7pf/h2nvHptmQI9ZXMH8lGacYVbBEIUDgiaCT?=
- =?us-ascii?Q?1mGabxQ2ILzYaFIzHjYrCxlycB9th6dQM29NZn5ohsogLmxYVQ8pNhz2vf0L?=
- =?us-ascii?Q?VX5X1CE0+USRKgetF6jWsP7REKK7UT6XSNR0V15pmTiNlmuhEP6TdJMnJ6r/?=
- =?us-ascii?Q?8HaIfCwmroPnesKBRLcwhdFHH/SBHk0p5Am3tTKIp3GpFsNSvDCg8Mgf3gDC?=
- =?us-ascii?Q?xaurVFas+FCBIlzEVNtpgF7rNjgIsLmjYewjawneEhP6xk1nT5CY4sYpJcao?=
- =?us-ascii?Q?wtAGaeBvXJvaSTaA1kVGrrQnTsa8aQJ2ABnstEh/xGUQrIcZ3UMvvMb90RkR?=
- =?us-ascii?Q?iTUPbunGcQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0RZTkk0R2NMWUhkclRteHR0Z3dDTnNqeDhjaE1KWUxSR2hYNTZ1a1YvT01s?=
+ =?utf-8?B?OWJFdnpvaXZFRkNReXhKVms4UkNHMlVYbUROY1RIZ1hyQlppbHhaK0V0MTdB?=
+ =?utf-8?B?QTZaRmNvUFZmOWNEMndyRExHNnVoNng0dWtCSzVqMzJqWm9lalNQTXJFRXJm?=
+ =?utf-8?B?QnprMXZxRmJpWEh3MTlWL1JXRUhGb3JLSUZjQkhEd09HZmVVTzRVOG9GWFQr?=
+ =?utf-8?B?TldVcFNZd1RMY2RwNVBWVnpzQXZQUUE5TGtjeDRpUHQ2aEF4OElVSjZMTHVN?=
+ =?utf-8?B?YUt1Slc5Q1Y4YUh3YnRhOTZFak1mejNoemZXckRCMkFLSk0vUXJhbFp0V1Bx?=
+ =?utf-8?B?d3k4VEg1WUNBWEYxT2wySHRyc2dZblgzUEk4MkxQQ0Y2aDhrZW0vNnhiNG5u?=
+ =?utf-8?B?VW9IWUY3eUF0UFE4R0Y3VkJ2Z1A0UEdDZGlJM0ZwbDkwcld1Ulh2c3d3NHc3?=
+ =?utf-8?B?S01zR3F0Sy9tQ3FBbEdKaWNEamh1bkcrOTdheWZpYnFsS1p3ZzFob04zS0RL?=
+ =?utf-8?B?c0g1bUdmM25IR2pxYVFkRE9kdEpaU1pXTnR3SnBLMXlWYUl3N0o3T0NSeERN?=
+ =?utf-8?B?QU5HdUNJcWtiV0dCQ1VidUZSUTl3bzlHRk0ra2ZWc0NMcDhSNmE0MDNFajlx?=
+ =?utf-8?B?TFArL09nS2U5MUNzTXVZeVFwNmlEaXVIVWhNaW05UlNnMW9KcG5EeXgvMGRM?=
+ =?utf-8?B?SWk4WmxhUU00bU1aQ3ZZZC84SWZPMExCSkVBYTlJT1oyQjc2dWlHMStxVVUw?=
+ =?utf-8?B?YlFHbW9JeGk3Y3o3MFdzdmdva2h3Q3dEeGpncHhWZzRvVmpUOXFvNGZ1dk1G?=
+ =?utf-8?B?TEdDTkZsVW1mcFhqVlJOUWMzc2d5TmEydW96eW1TZ05Xeld6T0ZrQUwxcGhE?=
+ =?utf-8?B?a3RPZmk4VTc5RTBGeDdGVEhxZGtaUTlxODFUeDR2QW0xSnlUS2dBa0xPbGN3?=
+ =?utf-8?B?NHRLdDIvTUF3SlRPczZ3T2pobDhsVko4ZkpRSzRoYTM5RDh5c3RpdEY0UTNz?=
+ =?utf-8?B?UzgrT0RLTXJ1K2FITXdnemF4bmRBRlg2eE5kaDR2d0dqSllSRkI1Y3U1SVN4?=
+ =?utf-8?B?aXVEaTZIVkt2RzNvRXRkT3ZNV1JXcldrblJSeTRJeDVENTBZUUFDZ1FxN1J6?=
+ =?utf-8?B?eXNqcEZkclNQUnFLaGJ1ZnZJOWJmNVljcTcreFlnUHQwOEtwNTNlREg5WnBj?=
+ =?utf-8?B?dUFxZzZjWk5wRXY4bGRrK3FwT0I1TmxZRDNUUDBZVmlrVThlQlpxOFU3ZCtP?=
+ =?utf-8?B?T1paZ1pqSGFxUTE3U2NMVEZhS2Q3ZWhXcVNlQTQ4T2g5QkhncDJ2T05iY1NV?=
+ =?utf-8?B?RnB1YkxiUW5EQTZmbFdBWHV0WEE1ck1aVTA3ZStOWXc0allpanpSclFIdUxZ?=
+ =?utf-8?B?YU9kOUJ6azlTWFZTWDF6SVczK3p1c2VYdVV5anVmdGp4UHlGbkQxbGJHY1Zp?=
+ =?utf-8?B?TGZXVFZRRmxiYXdCSzc4WWVwQ2RyU25JU2w1QVBYQ2ZVRTBKbzAvOWFSNVM0?=
+ =?utf-8?B?MFg2ZG5WaTFlQmx4d0dMVkYxRHYrUzNPZC9BVWZxNjJ1RGtjb0lBRDFDVG1w?=
+ =?utf-8?B?bEhZSzF1dWdwcFQ3bzROdTZ2eUoweFh1ZDZSWmVQaWVFR1RrYnhRRlJZc2g2?=
+ =?utf-8?B?OXlaQ1Y5Vy9uVlljVkZSLytzeEZpUlVyb2l3L0FlRXp5ZG5wMVVuZXVEWXdi?=
+ =?utf-8?B?T0gxY3EvNDJxN3poY1FNVFlZUFovVXl2eWNYcjZZbDdDaUxTSUY5TmRTdU8x?=
+ =?utf-8?B?M2RyS09RTmgzUyswcThROWlURllCM3hHOUkyaVZadk10YXFMUnZGcWx0WmhS?=
+ =?utf-8?B?Y3dyMk1mSVdUYklTL3M0aGNGUXhyWWxtNDhQbzBVZmxYNzRpa2RKd2JHNjR1?=
+ =?utf-8?B?SG9DbHllaldscmRNUUl1eFUwaXdjMUhRWUhsUGdNWDNpZi92NEM2U1lUaTlD?=
+ =?utf-8?B?d2hId3BRWk5qaVJ4cCt3K3JXSnJoSktyNjg2dTI2bXFMVmJ3Q1U0ZlNOVEo2?=
+ =?utf-8?B?aTVpd0FnSGZtWWJYZWo3SmlBVi9RUklRdEtjWnNXOUJLdjRQRnQ1MWNteEtr?=
+ =?utf-8?B?OXRldzNJOFBrdS9PdFE4ZXVFU3JTakRaeWd0NHlnTFpCeGtmcWplRnpsVlU3?=
+ =?utf-8?B?ZmEwdHU2TzVUSDhhTzRXNHlpZWJUMW40V212Vk9nKzN0aGJkWVpZRDlCU0x1?=
+ =?utf-8?B?TVdqUncxdVZteGtmZlFJYmRmRjgyYkFnZDBUNFFkN3NBd1YrMkFrZHNrVEFi?=
+ =?utf-8?B?aGxUd3U2VHhhOHpMYnVVUUgwYWNIajhjOHlZWGxEdHlVRUdDdUhwWHpJVGZk?=
+ =?utf-8?B?T1M0dENQeDR4bFFyZVZud2dVM1V3UmV4U1NMR0dGUjZDTm04L1VSUT09?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f4ceeb1-8281-4671-62bf-08da4b1a892a
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc185c3d-bdf0-4e3f-fcd8-08da4b1a8a8f
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2022 19:50:57.0398 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2022 19:50:59.3990 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mChNINqetB7nxJTeeMlTtdX7xSoP3AA6KD+ZMN9ARHZI/b6s12OZjjzKgbRRMMUG3yiGf8jloOpVyha5GiXQ7Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: F4g8ubWekkS3bo+ICXlzC3s7KRlDwoa8uo+5iUcGGUfGP8SvaQzQQ5DnSX4TZBMz/lj62DJ4vUKKaFgdc5NLSA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1915
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.874
  definitions=2022-06-10_08:2022-06-09,
  2022-06-10 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- bulkscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 mlxscore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206100076
-X-Proofpoint-GUID: ioBlo-q5LeaU14vy6432C-w6qOc8Izyr
-X-Proofpoint-ORIG-GUID: ioBlo-q5LeaU14vy6432C-w6qOc8Izyr
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxscore=0 adultscore=0
+ spamscore=0 suspectscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206100076
+X-Proofpoint-GUID: 4H_wF6J8gEr27VWbHmvp3EH5qUEx8XrW
+X-Proofpoint-ORIG-GUID: 4H_wF6J8gEr27VWbHmvp3EH5qUEx8XrW
 Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
  helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -181,247 +190,385 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add the libvfio-user library as a submodule. build it as a meson
-subproject.
-
-libvfio-user is distributed with BSD 3-Clause license and
-json-c with MIT (Expat) license
+Define vfio-user object which is remote process server for QEMU. Setup
+object initialization functions and properties necessary to instantiate
+the object
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- configure                               | 17 +++++++++++++++++
- meson.build                             | 23 ++++++++++++++++++++++-
- .gitlab-ci.d/buildtest.yml              |  1 +
- .gitmodules                             |  3 +++
- Kconfig.host                            |  4 ++++
- MAINTAINERS                             |  1 +
- hw/remote/Kconfig                       |  4 ++++
- hw/remote/meson.build                   |  2 ++
- meson_options.txt                       |  2 ++
- subprojects/libvfio-user                |  1 +
- tests/docker/dockerfiles/centos8.docker |  2 ++
- 11 files changed, 59 insertions(+), 1 deletion(-)
- create mode 160000 subprojects/libvfio-user
+ qapi/qom.json               |  20 +++-
+ include/hw/remote/machine.h |   2 +
+ hw/remote/machine.c         |  27 +++++
+ hw/remote/vfio-user-obj.c   | 210 ++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                 |   1 +
+ hw/remote/meson.build       |   1 +
+ hw/remote/trace-events      |   3 +
+ 7 files changed, 262 insertions(+), 2 deletions(-)
+ create mode 100644 hw/remote/vfio-user-obj.c
 
-diff --git a/configure b/configure
-index e69537c756..39f30c0283 100755
---- a/configure
-+++ b/configure
-@@ -315,6 +315,7 @@ meson_args=""
- ninja=""
- bindir="bin"
- skip_meson=no
-+vfio_user_server="disabled"
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 6a653c6636..80dd419b39 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -734,6 +734,20 @@
+ { 'struct': 'RemoteObjectProperties',
+   'data': { 'fd': 'str', 'devid': 'str' } }
  
- # The following Meson options are handled manually (still they
- # are included in the automatically generated help message)
-@@ -909,6 +910,10 @@ for opt do
-   ;;
-   --disable-blobs) meson_option_parse --disable-install-blobs ""
-   ;;
-+  --enable-vfio-user-server) vfio_user_server="enabled"
-+  ;;
-+  --disable-vfio-user-server) vfio_user_server="disabled"
-+  ;;
-   --enable-tcmalloc) meson_option_parse --enable-malloc=tcmalloc tcmalloc
-   ;;
-   --enable-jemalloc) meson_option_parse --enable-malloc=jemalloc jemalloc
-@@ -2133,6 +2138,17 @@ write_container_target_makefile() {
++##
++# @VfioUserServerProperties:
++#
++# Properties for x-vfio-user-server objects.
++#
++# @socket: socket to be used by the libvfio-user library
++#
++# @device: the ID of the device to be emulated at the server
++#
++# Since: 7.1
++##
++{ 'struct': 'VfioUserServerProperties',
++  'data': { 'socket': 'SocketAddress', 'device': 'str' } }
++
+ ##
+ # @RngProperties:
+ #
+@@ -874,7 +888,8 @@
+     'tls-creds-psk',
+     'tls-creds-x509',
+     'tls-cipher-suites',
+-    { 'name': 'x-remote-object', 'features': [ 'unstable' ] }
++    { 'name': 'x-remote-object', 'features': [ 'unstable' ] },
++    { 'name': 'x-vfio-user-server', 'features': [ 'unstable' ] }
+   ] }
  
+ ##
+@@ -938,7 +953,8 @@
+       'tls-creds-psk':              'TlsCredsPskProperties',
+       'tls-creds-x509':             'TlsCredsX509Properties',
+       'tls-cipher-suites':          'TlsCredsProperties',
+-      'x-remote-object':            'RemoteObjectProperties'
++      'x-remote-object':            'RemoteObjectProperties',
++      'x-vfio-user-server':         'VfioUserServerProperties'
+   } }
  
+ ##
+diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
+index 8d0fa98d33..ac32fda387 100644
+--- a/include/hw/remote/machine.h
++++ b/include/hw/remote/machine.h
+@@ -24,6 +24,8 @@ struct RemoteMachineState {
+     RemoteIOHubState iohub;
  
-+##########################################
-+# check for vfio_user_server
+     bool vfio_user;
 +
-+case "$vfio_user_server" in
-+  enabled )
-+    if test "$git_submodules_action" != "ignore"; then
-+      git_submodules="${git_submodules} subprojects/libvfio-user"
-+    fi
-+    ;;
-+esac
-+
- ##########################################
- # End of CC checks
- # After here, no more $cc or $ld runs
-@@ -2669,6 +2685,7 @@ if test "$skip_meson" = no; then
-   test "$slirp" != auto && meson_option_add "-Dslirp=$slirp"
-   test "$smbd" != '' && meson_option_add "-Dsmbd=$smbd"
-   test "$tcg" != enabled && meson_option_add "-Dtcg=$tcg"
-+  test "$vfio_user_server" != auto && meson_option_add "-Dvfio_user_server=$vfio_user_server"
-   run_meson() {
-     NINJA=$ninja $meson setup --prefix "$prefix" "$@" $cross_arg "$PWD" "$source_path"
-   }
-diff --git a/meson.build b/meson.build
-index 21cd949082..fac9853254 100644
---- a/meson.build
-+++ b/meson.build
-@@ -308,6 +308,10 @@ multiprocess_allowed = get_option('multiprocess') \
-   .require(targetos == 'linux', error_message: 'Multiprocess QEMU is supported only on Linux') \
-   .allowed()
++    bool auto_shutdown;
+ };
  
-+vfio_user_server_allowed = get_option('vfio_user_server') \
-+  .require(targetos == 'linux', error_message: 'vfio-user server is supported only on Linux') \
-+  .allowed()
-+
- have_tpm = get_option('tpm') \
-   .require(targetos != 'windows', error_message: 'TPM emulation only available on POSIX systems') \
-   .allowed()
-@@ -2373,7 +2377,8 @@ host_kconfig = \
-   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
-   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
-   (have_pvrdma ? ['CONFIG_PVRDMA=y'] : []) + \
--  (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
-+  (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : []) + \
-+  (vfio_user_server_allowed ? ['CONFIG_VFIO_USER_SERVER_ALLOWED=y'] : [])
+ /* Used to pass to co-routine device and ioc. */
+diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+index 9f3cdc55c3..4d008ed721 100644
+--- a/hw/remote/machine.c
++++ b/hw/remote/machine.c
+@@ -77,6 +77,28 @@ static void remote_machine_set_vfio_user(Object *obj, bool value, Error **errp)
+     s->vfio_user = value;
+ }
  
- ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
++static bool remote_machine_get_auto_shutdown(Object *obj, Error **errp)
++{
++    RemoteMachineState *s = REMOTE_MACHINE(obj);
++
++    return s->auto_shutdown;
++}
++
++static void remote_machine_set_auto_shutdown(Object *obj, bool value,
++                                             Error **errp)
++{
++    RemoteMachineState *s = REMOTE_MACHINE(obj);
++
++    s->auto_shutdown = value;
++}
++
++static void remote_machine_instance_init(Object *obj)
++{
++    RemoteMachineState *s = REMOTE_MACHINE(obj);
++
++    s->auto_shutdown = true;
++}
++
+ static void remote_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -90,12 +112,17 @@ static void remote_machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_add_bool(oc, "vfio-user",
+                                    remote_machine_get_vfio_user,
+                                    remote_machine_set_vfio_user);
++
++    object_class_property_add_bool(oc, "auto-shutdown",
++                                   remote_machine_get_auto_shutdown,
++                                   remote_machine_set_auto_shutdown);
+ }
  
-@@ -2665,6 +2670,21 @@ if have_system
-   endif
- endif
- 
-+libvfio_user_dep = not_found
-+if have_system and vfio_user_server_allowed
-+  have_internal = fs.exists(meson.current_source_dir() / 'subprojects/libvfio-user/meson.build')
+ static const TypeInfo remote_machine = {
+     .name = TYPE_REMOTE_MACHINE,
+     .parent = TYPE_MACHINE,
+     .instance_size = sizeof(RemoteMachineState),
++    .instance_init = remote_machine_instance_init,
+     .class_init = remote_machine_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_HOTPLUG_HANDLER },
+diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+new file mode 100644
+index 0000000000..bc49adcc27
+--- /dev/null
++++ b/hw/remote/vfio-user-obj.c
+@@ -0,0 +1,210 @@
++/**
++ * QEMU vfio-user-server server object
++ *
++ * Copyright © 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
++ *
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
-+  if not have_internal
-+    error('libvfio-user source not found - please pull git submodule')
-+  endif
++/**
++ * Usage: add options:
++ *     -machine x-remote,vfio-user=on,auto-shutdown=on
++ *     -device <PCI-device>,id=<pci-dev-id>
++ *     -object x-vfio-user-server,id=<id>,type=unix,path=<socket-path>,
++ *             device=<pci-dev-id>
++ *
++ * Note that x-vfio-user-server object must be used with x-remote machine only.
++ * This server could only support PCI devices for now.
++ *
++ * type - SocketAddress type - presently "unix" alone is supported. Required
++ *        option
++ *
++ * path - named unix socket, it will be created by the server. It is
++ *        a required option
++ *
++ * device - id of a device on the server, a required option. PCI devices
++ *          alone are supported presently.
++ */
 +
-+  libvfio_user_proj = subproject('libvfio-user')
++#include "qemu/osdep.h"
 +
-+  libvfio_user_lib = libvfio_user_proj.get_variable('libvfio_user_dep')
++#include "qom/object.h"
++#include "qom/object_interfaces.h"
++#include "qemu/error-report.h"
++#include "trace.h"
++#include "sysemu/runstate.h"
++#include "hw/boards.h"
++#include "hw/remote/machine.h"
++#include "qapi/error.h"
++#include "qapi/qapi-visit-sockets.h"
 +
-+  libvfio_user_dep = declare_dependency(dependencies: [libvfio_user_lib])
-+endif
++#define TYPE_VFU_OBJECT "x-vfio-user-server"
++OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
 +
- fdt = not_found
- if have_system
-   fdt_opt = get_option('fdt')
-@@ -3783,6 +3803,7 @@ summary_info += {'target list':       ' '.join(target_dirs)}
- if have_system
-   summary_info += {'default devices':   get_option('default_devices')}
-   summary_info += {'out of process emulation': multiprocess_allowed}
-+  summary_info += {'vfio-user server': vfio_user_server_allowed}
- endif
- summary(summary_info, bool_yn: true, section: 'Targets and accelerators')
- 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 544385f5be..fe8d34b022 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -168,6 +168,7 @@ build-system-centos:
-     IMAGE: centos8
-     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=system
-       --enable-modules --enable-trace-backends=dtrace --enable-docs
-+      --enable-vfio-user-server
-     TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
-       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
-     MAKE_CHECK_ARGS: check-build
-diff --git a/.gitmodules b/.gitmodules
-index b8bff47df8..c4e66ddb6f 100644
---- a/.gitmodules
-+++ b/.gitmodules
-@@ -64,3 +64,6 @@
- [submodule "tests/lcitool/libvirt-ci"]
- 	path = tests/lcitool/libvirt-ci
- 	url = https://gitlab.com/libvirt/libvirt-ci.git
-+[submodule "subprojects/libvfio-user"]
-+	path = subprojects/libvfio-user
-+	url = https://github.com/nutanix/libvfio-user.git
-diff --git a/Kconfig.host b/Kconfig.host
-index 1165c4eacd..d763d89269 100644
---- a/Kconfig.host
-+++ b/Kconfig.host
-@@ -42,3 +42,7 @@ config MULTIPROCESS_ALLOWED
- config FUZZ
-     bool
-     select SPARSE_MEM
++/**
++ * VFU_OBJECT_ERROR - reports an error message. If auto_shutdown
++ * is set, it aborts the machine on error. Otherwise, it logs an
++ * error message without aborting.
++ */
++#define VFU_OBJECT_ERROR(o, fmt, ...)                                     \
++    {                                                                     \
++        if (vfu_object_auto_shutdown()) {                                 \
++            error_setg(&error_abort, (fmt), ## __VA_ARGS__);              \
++        } else {                                                          \
++            error_report((fmt), ## __VA_ARGS__);                          \
++        }                                                                 \
++    }                                                                     \
 +
-+config VFIO_USER_SERVER_ALLOWED
-+    bool
-+    imply VFIO_USER_SERVER
++struct VfuObjectClass {
++    ObjectClass parent_class;
++
++    unsigned int nr_devs;
++};
++
++struct VfuObject {
++    /* private */
++    Object parent;
++
++    SocketAddress *socket;
++
++    char *device;
++
++    Error *err;
++};
++
++static bool vfu_object_auto_shutdown(void)
++{
++    bool auto_shutdown = true;
++    Error *local_err = NULL;
++
++    if (!current_machine) {
++        return auto_shutdown;
++    }
++
++    auto_shutdown = object_property_get_bool(OBJECT(current_machine),
++                                             "auto-shutdown",
++                                             &local_err);
++
++    /*
++     * local_err would be set if no such property exists - safe to ignore.
++     * Unlikely scenario as auto-shutdown is always defined for
++     * TYPE_REMOTE_MACHINE, and  TYPE_VFU_OBJECT only works with
++     * TYPE_REMOTE_MACHINE
++     */
++    if (local_err) {
++        auto_shutdown = true;
++        error_free(local_err);
++    }
++
++    return auto_shutdown;
++}
++
++static void vfu_object_set_socket(Object *obj, Visitor *v, const char *name,
++                                  void *opaque, Error **errp)
++{
++    VfuObject *o = VFU_OBJECT(obj);
++
++    qapi_free_SocketAddress(o->socket);
++
++    o->socket = NULL;
++
++    visit_type_SocketAddress(v, name, &o->socket, errp);
++
++    if (o->socket->type != SOCKET_ADDRESS_TYPE_UNIX) {
++        error_setg(errp, "vfu: Unsupported socket type - %s",
++                   SocketAddressType_str(o->socket->type));
++        qapi_free_SocketAddress(o->socket);
++        o->socket = NULL;
++        return;
++    }
++
++    trace_vfu_prop("socket", o->socket->u.q_unix.path);
++}
++
++static void vfu_object_set_device(Object *obj, const char *str, Error **errp)
++{
++    VfuObject *o = VFU_OBJECT(obj);
++
++    g_free(o->device);
++
++    o->device = g_strdup(str);
++
++    trace_vfu_prop("device", str);
++}
++
++static void vfu_object_init(Object *obj)
++{
++    VfuObjectClass *k = VFU_OBJECT_GET_CLASS(obj);
++    VfuObject *o = VFU_OBJECT(obj);
++
++    k->nr_devs++;
++
++    if (!object_dynamic_cast(OBJECT(current_machine), TYPE_REMOTE_MACHINE)) {
++        error_setg(&o->err, "vfu: %s only compatible with %s machine",
++                   TYPE_VFU_OBJECT, TYPE_REMOTE_MACHINE);
++        return;
++    }
++}
++
++static void vfu_object_finalize(Object *obj)
++{
++    VfuObjectClass *k = VFU_OBJECT_GET_CLASS(obj);
++    VfuObject *o = VFU_OBJECT(obj);
++
++    k->nr_devs--;
++
++    qapi_free_SocketAddress(o->socket);
++
++    o->socket = NULL;
++
++    g_free(o->device);
++
++    o->device = NULL;
++
++    if (!k->nr_devs && vfu_object_auto_shutdown()) {
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    }
++}
++
++static void vfu_object_class_init(ObjectClass *klass, void *data)
++{
++    VfuObjectClass *k = VFU_OBJECT_CLASS(klass);
++
++    k->nr_devs = 0;
++
++    object_class_property_add(klass, "socket", "SocketAddress", NULL,
++                              vfu_object_set_socket, NULL, NULL);
++    object_class_property_set_description(klass, "socket",
++                                          "SocketAddress "
++                                          "(ex: type=unix,path=/tmp/sock). "
++                                          "Only UNIX is presently supported");
++    object_class_property_add_str(klass, "device", NULL,
++                                  vfu_object_set_device);
++    object_class_property_set_description(klass, "device",
++                                          "device ID - only PCI devices "
++                                          "are presently supported");
++}
++
++static const TypeInfo vfu_object_info = {
++    .name = TYPE_VFU_OBJECT,
++    .parent = TYPE_OBJECT,
++    .instance_size = sizeof(VfuObject),
++    .instance_init = vfu_object_init,
++    .instance_finalize = vfu_object_finalize,
++    .class_size = sizeof(VfuObjectClass),
++    .class_init = vfu_object_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_USER_CREATABLE },
++        { }
++    }
++};
++
++static void vfu_register_types(void)
++{
++    type_register_static(&vfu_object_info);
++}
++
++type_init(vfu_register_types);
 diff --git a/MAINTAINERS b/MAINTAINERS
-index b3af081c51..ef8f227fbb 100644
+index ef8f227fbb..3518833711 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3631,6 +3631,7 @@ F: hw/remote/proxy-memory-listener.c
- F: include/hw/remote/proxy-memory-listener.h
+@@ -3632,6 +3632,7 @@ F: include/hw/remote/proxy-memory-listener.h
  F: hw/remote/iohub.c
  F: include/hw/remote/iohub.h
-+F: subprojects/libvfio-user
+ F: subprojects/libvfio-user
++F: hw/remote/vfio-user-obj.c
  
  EBPF:
  M: Jason Wang <jasowang@redhat.com>
-diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
-index 08c16e235f..2d6b4f4cf4 100644
---- a/hw/remote/Kconfig
-+++ b/hw/remote/Kconfig
-@@ -2,3 +2,7 @@ config MULTIPROCESS
-     bool
-     depends on PCI && PCI_EXPRESS && KVM
-     select REMOTE_PCIHOST
-+
-+config VFIO_USER_SERVER
-+    bool
-+    depends on MULTIPROCESS
 diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index e6a5574242..7da83350c8 100644
+index 7da83350c8..0eb5a0f375 100644
 --- a/hw/remote/meson.build
 +++ b/hw/remote/meson.build
-@@ -7,6 +7,8 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
+@@ -6,6 +6,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iohub.c'))
++remote_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_true: files('vfio-user-obj.c'))
  
-+remote_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_true: libvfio_user_dep)
+ remote_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_true: libvfio_user_dep)
+ 
+diff --git a/hw/remote/trace-events b/hw/remote/trace-events
+index 0b23974f90..7da12f0d96 100644
+--- a/hw/remote/trace-events
++++ b/hw/remote/trace-events
+@@ -2,3 +2,6 @@
+ 
+ mpqemu_send_io_error(int cmd, int size, int nfds) "send command %d size %d, %d file descriptors to remote process"
+ mpqemu_recv_io_error(int cmd, int size, int nfds) "failed to receive %d size %d, %d file descriptors to remote process"
 +
- specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
- specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy-memory-listener.c'))
- 
-diff --git a/meson_options.txt b/meson_options.txt
-index 2de94af037..2bf2d20b42 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -88,6 +88,8 @@ option('cfi_debug', type: 'boolean', value: 'false',
-        description: 'Verbose errors in case of CFI violation')
- option('multiprocess', type: 'feature', value: 'auto',
-        description: 'Out of process device emulation support')
-+option('vfio_user_server', type: 'feature', value: 'disabled',
-+       description: 'vfio-user server support')
- option('dbus_display', type: 'feature', value: 'auto',
-        description: '-display dbus support')
- option('tpm', type : 'feature', value : 'auto',
-diff --git a/subprojects/libvfio-user b/subprojects/libvfio-user
-new file mode 160000
-index 0000000000..0b28d20557
---- /dev/null
-+++ b/subprojects/libvfio-user
-@@ -0,0 +1 @@
-+Subproject commit 0b28d205572c80b568a1003db2c8f37ca333e4d7
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 4b20925bbf..10618bfa83 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -51,6 +51,7 @@ RUN dnf update -y && \
-         libbpf-devel \
-         libcacard-devel \
-         libcap-ng-devel \
-+        libcmocka-devel \
-         libcurl-devel \
-         libdrm-devel \
-         libepoxy-devel \
-@@ -59,6 +60,7 @@ RUN dnf update -y && \
-         libgcrypt-devel \
-         libiscsi-devel \
-         libjpeg-devel \
-+        json-c-devel \
-         libnfs-devel \
-         libpmem-devel \
-         libpng-devel \
++# vfio-user-obj.c
++vfu_prop(const char *prop, const char *val) "vfu: setting %s as %s"
 -- 
 2.20.1
 
