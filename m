@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9588E546FA3
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 00:28:58 +0200 (CEST)
-Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45357546FA2
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 00:28:32 +0200 (CEST)
+Received: from localhost ([::1]:60824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzn7h-0003VU-MJ
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 18:28:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47060)
+	id 1nzn7H-00037U-Ac
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 18:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzn56-0000hv-2C
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 18:26:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52631)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzn55-0000hs-SU
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 18:26:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzn52-0005UC-8K
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzn51-0005Tw-Dr
  for qemu-devel@nongnu.org; Fri, 10 Jun 2022 18:26:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654899971;
+ s=mimecast20190719; t=1654899970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hpl9Hcmja7wCqA/6pHrgfp7z/GTa2UgFHuwdaUlLYz0=;
- b=gVayIGFIN0/aD2Khar2kfcL0WsrM+pQnrK+YsBLCpDVMYoZh03J/ZIlWnLTqahnfFzVa7L
- HqxcxnkrzpMVCDqKcmCrA0UGHuL1XuiE1+5VTYVYzKOzr1bLiAsyU3GDQDfnx+xro8Z2oj
- Y5bWA8O5xhFf5nHOjEL9NZMy5I3X8Sk=
+ bh=anYhfcvgMMDENUPqkU/tUzCABSO9Egx8LCG3jbKLIcY=;
+ b=OlRldXXzCJ332M207hEFBSz/80oapaVbis0kNah6o+pjWua9QxRUfR0h9XQjDsFg9B8Hw8
+ RDWp/qLqAgm/lS25244cXoel85BvaNs83prvCd4Z5QZg1g8yK3Dp7PrymASexOly8478qh
+ QekDLNpIBuZX1mBOtGxMphsMnQmi8qM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-32-lKHzOdYSPHipkgrRWJBDZA-1; Fri, 10 Jun 2022 18:26:08 -0400
-X-MC-Unique: lKHzOdYSPHipkgrRWJBDZA-1
+ us-mta-661-Kp4X-yEQNzWeCV1Juc1LKg-1; Fri, 10 Jun 2022 18:26:09 -0400
+X-MC-Unique: Kp4X-yEQNzWeCV1Juc1LKg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93289811E75;
- Fri, 10 Jun 2022 22:26:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E12585A580;
+ Fri, 10 Jun 2022 22:26:08 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.34.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10AAE40D2962;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A116240D2962;
  Fri, 10 Jun 2022 22:26:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
@@ -52,15 +52,15 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [RFC PATCH v2 1/7] tests: create optional tests/venv dependency groups
-Date: Fri, 10 Jun 2022 18:25:59 -0400
-Message-Id: <20220610222605.2259132-2-jsnow@redhat.com>
+Subject: [RFC PATCH v2 2/7] tests: pythonize test venv creation
+Date: Fri, 10 Jun 2022 18:26:00 -0400
+Message-Id: <20220610222605.2259132-3-jsnow@redhat.com>
 In-Reply-To: <20220610222605.2259132-1-jsnow@redhat.com>
 References: <20220610222605.2259132-1-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -84,164 +84,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch uses a dummy package and setup.cfg/setup.py files to manage
-optional dependency groups for the test venv specification. Now, there's
-a core set of dependencies which for now includes just "qemu" (but soon,
-qemu.qmp) and a separate, optional 'avocado' group that includes
-avocado-framework and pycdlib.
+This splits the venv creation logic out of the Makefile and into a
+Python script.
 
-Practical upshot: We install only a minimum of things for the majority
-of check-* targets, but allow optional add-ons to be processed when
-running avocado tests. This will spare downstreams from having to add
-more dependencies than is necessary as a build dependencies when
-invoking "make check".
+One reason for doing this is to be able to call the venv bootstrapper
+from places outside of the Makefile, e.g. configure and iotests. Another
+reason is to be able to add "offline" logic to modify the behavior of
+the script in certain circumstances.
 
-(We also keep both sets of dependencies in one file, which is helpful
-for review to ensure that different option groups don't conflict with
-one another.)
+RFC: I don't like how I have an entire "enter_venv" function here, and
+by the end of the series, completely separate logic for entering a venv
+in testenv.py -- but they both operate in different ways: this patch
+offers a method that alters the current ENV immediately, whereas the
+testenv.py method alters a copied ENV that is explicitly passed to
+subprocesses.
 
-NOTE: There is a non-fatal caveat introduced by this patch on Ubuntu
-20.04 systems; see the subsequent commit "tests: Remove spurious pip
-warnings on Ubuntu20.04" for more information.
+Still, there's a bit more boilerplate than I'd like, but it's probably
+fine and it probably won't need to be updated much, but... less code is
+usually better.
+
+But, even if I did write it more generically here; iotests wouldn't be
+able to use it anyway, because importing it would mean more sys.path
+hacking. So... eh?
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/Makefile.include | 21 ++++++++++++++-------
- tests/requirements.txt |  6 ------
- tests/setup.cfg        | 20 ++++++++++++++++++++
- tests/setup.py         | 16 ++++++++++++++++
- 4 files changed, 50 insertions(+), 13 deletions(-)
- delete mode 100644 tests/requirements.txt
- create mode 100644 tests/setup.cfg
- create mode 100644 tests/setup.py
+ tests/Makefile.include |  16 ++--
+ tests/mkvenv.py        | 186 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 192 insertions(+), 10 deletions(-)
+ create mode 100644 tests/mkvenv.py
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3accb83b132..82c697230e0 100644
+index 82c697230e0..d8af6a38112 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -81,13 +81,13 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
+@@ -104,21 +104,17 @@ else
+ 	AVOCADO_CMDLINE_TAGS=$(addprefix -t , $(AVOCADO_TAGS))
+ endif
  
- # Python venv for running tests
+-quiet-venv-pip = $(quiet-@)$(call quiet-command-run, \
+-    $(TESTS_PYTHON) -m pip -q --disable-pip-version-check $1, \
+-    "VENVPIP","$1")
+-
+ # Core dependencies for tests/venv
+ $(TESTS_VENV_DIR): $(SRC_PATH)/tests/setup.cfg $(SRC_PATH)/python/setup.cfg
+-	$(call quiet-command, $(PYTHON) -m venv $@, VENV, $@)
+-	$(call quiet-venv-pip,install -e "$(SRC_PATH)/python/")
+-	$(call quiet-venv-pip,install "$(SRC_PATH)/tests/")
+-	$(call quiet-command, touch $@)
++	$(call quiet-command, \
++            $(PYTHON) "$(SRC_PATH)/tests/mkvenv.py" "$@", \
++            MKVENV, $@)
  
--.PHONY: check-venv check-avocado check-acceptance check-acceptance-deprecated-warning
-+.PHONY: check-venv check-venv-avocado check-avocado check-acceptance \
-+        check-acceptance-deprecated-warning
- 
- # Build up our target list from the filtered list of ninja targets
- TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
- 
- TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
--TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
- TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
- TESTS_PYTHON=$(TESTS_VENV_DIR)/bin/python3
- ifndef AVOCADO_TESTS
-@@ -108,10 +108,16 @@ quiet-venv-pip = $(quiet-@)$(call quiet-command-run, \
-     $(TESTS_PYTHON) -m pip -q --disable-pip-version-check $1, \
-     "VENVPIP","$1")
- 
--$(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
-+# Core dependencies for tests/venv
-+$(TESTS_VENV_DIR): $(SRC_PATH)/tests/setup.cfg $(SRC_PATH)/python/setup.cfg
- 	$(call quiet-command, $(PYTHON) -m venv $@, VENV, $@)
- 	$(call quiet-venv-pip,install -e "$(SRC_PATH)/python/")
--	$(call quiet-venv-pip,install -r $(TESTS_VENV_REQ))
-+	$(call quiet-venv-pip,install "$(SRC_PATH)/tests/")
-+	$(call quiet-command, touch $@)
-+
-+# Optional avocado dependencies for tests/venv
-+$(TESTS_VENV_DIR)/avocado: $(TESTS_VENV_DIR)
-+	$(call quiet-venv-pip,install "$(SRC_PATH)/tests/[avocado]")
- 	$(call quiet-command, touch $@)
+ # Optional avocado dependencies for tests/venv
+ $(TESTS_VENV_DIR)/avocado: $(TESTS_VENV_DIR)
+-	$(call quiet-venv-pip,install "$(SRC_PATH)/tests/[avocado]")
+-	$(call quiet-command, touch $@)
++	$(call quiet-command, \
++            $(PYTHON) "$(SRC_PATH)/tests/mkvenv.py" --opt avocado "$<", \
++            MKVENV, $@)
  
  $(TESTS_RESULTS_DIR):
-@@ -119,6 +125,7 @@ $(TESTS_RESULTS_DIR):
-             MKDIR, $@)
- 
- check-venv: $(TESTS_VENV_DIR)
-+check-venv-avocado: $(TESTS_VENV_DIR)/avocado
- 
- FEDORA_31_ARCHES_TARGETS=$(patsubst %-softmmu,%, $(filter %-softmmu,$(TARGETS)))
- FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(FEDORA_31_ARCHES_TARGETS))
-@@ -126,16 +133,16 @@ FEDORA_31_ARCHES := x86_64 aarch64 ppc64le s390x
- FEDORA_31_DOWNLOAD=$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CANDIDATES))
- 
- # download one specific Fedora 31 image
--get-vm-image-fedora-31-%: check-venv
-+get-vm-image-fedora-31-%: check-venv-avocado
- 	$(call quiet-command, \
-              $(TESTS_PYTHON) -m avocado vmimage get \
-              --distro=fedora --distro-version=31 --arch=$*, \
- 	"AVOCADO", "Downloading avocado tests VM image for $*")
- 
- # download all vm images, according to defined targets
--get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
-+get-vm-images: check-venv-avocado $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
- 
--check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
-+check-avocado: check-venv-avocado $(TESTS_RESULTS_DIR) get-vm-images
- 	$(call quiet-command, \
-             $(TESTS_PYTHON) -m avocado \
-             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-deleted file mode 100644
-index 0ba561b6bdf..00000000000
---- a/tests/requirements.txt
-+++ /dev/null
-@@ -1,6 +0,0 @@
--# Add Python module requirements, one per line, to be installed
--# in the tests/venv Python virtual environment. For more info,
--# refer to: https://pip.pypa.io/en/stable/user_guide/#id1
--# Note that qemu.git/python/ is always implicitly installed.
--avocado-framework==88.1
--pycdlib==1.11.0
-diff --git a/tests/setup.cfg b/tests/setup.cfg
+ 	$(call quiet-command, mkdir -p $@, \
+diff --git a/tests/mkvenv.py b/tests/mkvenv.py
 new file mode 100644
-index 00000000000..263a5de01af
+index 00000000000..0667106d6aa
 --- /dev/null
-+++ b/tests/setup.cfg
-@@ -0,0 +1,20 @@
-+# This file represents a "dummy" package that expresses
-+# the dependencies necessary to run the various python-based
-+# test suites in the qemu.git tree.
-+[metadata]
-+name = qemu.dummy_tests
-+version = 0.0.0
-+description = qemu.git testing dummy package
++++ b/tests/mkvenv.py
+@@ -0,0 +1,186 @@
++"""
++mkvenv - QEMU venv bootstrapping utility
 +
-+[options]
-+packages =
-+python_requires = >= 3.6
-+install_requires =
-+    qemu  # Note: A special setup script will always install 'qemu' from
-+          # qemu.git/python. It doesn't have a meaningful/real version.
++usage: mkvenv.py [-h] [--offline] [--opt OPT] target
 +
-+[options.extras_require]
-+# Extra dependencies required by the avocado tests.
-+avocado =
-+    avocado-framework<89.0,>=88.1
-+    pycdlib<2.0,>=1.11.0
-diff --git a/tests/setup.py b/tests/setup.py
-new file mode 100644
-index 00000000000..c99fe5d1725
---- /dev/null
-+++ b/tests/setup.py
-@@ -0,0 +1,16 @@
-+# This setup file is just-enough-config to allow pip to bootstrap a
-+# testing environment. It is not meant to be executed directly.
-+# See also: setup.cfg
++Bootstrap QEMU testing venv.
 +
-+import setuptools
-+import pkg_resources
++positional arguments:
++  target      Target directory to install virtual environment into.
++
++optional arguments:
++  -h, --help  show this help message and exit
++  --offline   Use system packages and work entirely offline.
++  --opt OPT   Install an optional dependency group.
++"""
++
++# Copyright (C) 2022 Red Hat, Inc.
++#
++# Authors:
++#  John Snow <jsnow@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later. See the COPYING file in the top-level directory.
++
++# Do not add any dependencies from outside the stdlib:
++# This script must be usable on its own!
++
++import argparse
++from contextlib import contextmanager
++import logging
++import os
++from pathlib import Path
++import subprocess
++import sys
++from typing import Iterable, Iterator, Union
++import venv
 +
 +
-+def main():
-+    # https://medium.com/@daveshawley/safely-using-setup-cfg-for-metadata-1babbe54c108
-+    pkg_resources.require('setuptools>=39.2')
-+    setuptools.setup()
++def make_venv(
++        venv_path: Union[str, Path],
++        system_site_packages: bool = False
++) -> None:
++    """
++    Create a venv using the python3 'venv' module.
++
++    Identical to:
++    ``python3 -m venv --clear [--system-site-packages] {venv_path}``
++
++    :param venv_path: The target directory
++    :param system_site_packages: If True, allow system packages in venv.
++    """
++    logging.debug("%s: make_venv(venv_path=%s, system_site_packages=%s)",
++                  __file__, str(venv_path), system_site_packages)
++    venv.create(
++        str(venv_path),
++        clear=True,
++        symlinks=os.name != "nt",  # Same as venv CLI's default.
++        with_pip=True,
++        system_site_packages=system_site_packages,
++    )
++
++
++@contextmanager
++def enter_venv(venv_dir: Union[str, Path]) -> Iterator[None]:
++    """Scoped activation of an existing venv."""
++    venv_keys = ('PATH', 'PYTHONHOME', 'VIRTUAL_ENV')
++    old = {k: v for k, v in os.environ.items() if k in venv_keys}
++    vdir = Path(venv_dir).resolve()
++
++    def _delete_keys() -> None:
++        for k in venv_keys:
++            try:
++                del os.environ[k]
++            except KeyError:
++                pass
++
++    try:
++        _delete_keys()
++
++        os.environ['VIRTUAL_ENV'] = str(vdir)
++        os.environ['PATH'] = os.pathsep.join([
++            str(vdir / "bin/"),
++            old['PATH'],
++        ])
++
++        logging.debug("PATH => %s", os.environ['PATH'])
++        logging.debug("VIRTUAL_ENV => %s", os.environ['VIRTUAL_ENV'])
++
++        yield
++
++    finally:
++        _delete_keys()
++        for key, val in old.items():
++            os.environ[key] = val
++
++
++def install(*args: str, offline: bool = False) -> None:
++    """Shorthand for pip install; expected to be used under a venv."""
++    cli_args = ['pip3', '--disable-pip-version-check', '-q', 'install']
++    if offline:
++        cli_args.append('--no-index')
++    cli_args += args
++    print(f"  VENVPIP install {' '.join(args)}")
++    logging.debug(' '.join(cli_args))
++    subprocess.run(cli_args, check=True)
++
++
++def make_qemu_venv(
++        venv_dir: str,
++        options: Iterable[str],
++        offline: bool = False
++) -> None:
++    """
++    Make and initialize a qemu testing venv.
++
++    Forcibly re-creates the venv if it already exists, unless optional
++    dependency groups are specified - in which case, just install the
++    extra dependency groups.
++
++    :param venv_dir: The target directory to install to.
++    :param options:
++        Optional dependency groups of the testing package to install.
++        (e.g. 'avocado'.)
++    :param offline:
++        If true, force offline mode. System packages will be usable from
++        the venv and dependencies will not be fetched from PyPI.
++    """
++    venv_path = Path(venv_dir).resolve()
++    src_root = Path(__file__).joinpath('../..')
++    pysrc_path = src_root.joinpath('python/').resolve()
++    test_src_path = src_root.joinpath('tests/').resolve()
++
++    logging.debug("make_qemu_venv(%s)", venv_dir)
++    logging.debug("sys.executable: %s", sys.executable)
++    logging.debug("resolved:       %s", str(Path(sys.executable).resolve()))
++    logging.debug("venv_dir:       %s", str(venv_path))
++    logging.debug("python source:  %s", str(pysrc_path))
++    logging.debug("tests source:   %s", str(test_src_path))
++
++    do_initialize = not venv_path.exists() or not options
++    if do_initialize:
++        make_venv(venv_path, system_site_packages=offline)
++
++    with enter_venv(venv_path):
++        if do_initialize:
++            install("-e", str(pysrc_path), offline=offline)
++            install(str(test_src_path), offline=offline)
++            venv_path.touch()
++
++        for option in options:
++            dummy = venv_path / option
++            install(f"{test_src_path!s}/[{option}]", offline=offline)
++            dummy.touch()
++
++
++def main() -> int:
++    """CLI interface to make_qemu_venv. See module docstring."""
++    if os.environ.get('DEBUG'):
++        logging.basicConfig(level=logging.DEBUG)
++
++    parser = argparse.ArgumentParser(
++        description="Bootstrap QEMU testing venv.")
++    parser.add_argument(
++        '--offline',
++        action='store_true',
++        help="Use system packages and work entirely offline.",
++    )
++    parser.add_argument(
++        '--opt',
++        type=str,
++        action='append',
++        help="Install an optional dependency group.",
++    )
++    parser.add_argument(
++        'target',
++        type=str,
++        action='store',
++        help="Target directory to install virtual environment into.",
++    )
++    args = parser.parse_args()
++    make_qemu_venv(args.target, args.opt or (), args.offline)
++    return 0
 +
 +
 +if __name__ == '__main__':
-+    main()
++    sys.exit(main())
 -- 
 2.34.3
 
