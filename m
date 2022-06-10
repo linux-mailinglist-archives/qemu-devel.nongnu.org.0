@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DE6545CCB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 09:06:44 +0200 (CEST)
-Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE52545CE3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 09:10:43 +0200 (CEST)
+Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzYjB-0002TU-QJ
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 03:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54344)
+	id 1nzYn2-0004yw-Rs
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 03:10:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYar-0007XH-Da; Fri, 10 Jun 2022 02:58:05 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49420)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1nzYdX-0001RM-O0
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:00:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYaq-0005gb-01; Fri, 10 Jun 2022 02:58:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sAVCqxXZ23UBBEzhXUPRM6vBSQLahXKnCbHFZojlNOk=; b=P+r4wiFBvrxggWlH8HRpjJFKKq
- I/7ydakDzdoB3/gLJn8sCHX9oBlqaUsL8ST+tSqpE0cvD7fPWbvx8daDhGvZPCZicQOWeb0mp/wCA
- eQnLmTSij8WfQy3L5eAb4TCL8FIbzprJS1u8VE6dbdtykrkEgJYM+H4i8ZlyCVwxiGuEFJazhrlLY
- VfqbJdsILD2wchNoH55KAEJq0mSWZitaceLmANo6+flPm7IDmI6kYAOCQzAWIJ+IV8zH2FBpeeWdn
- 4YBV1vV14u4RirZPD0A7Cjh2IHPw1Bo+rgwALcKKt9D0ja2shtmh5V73dNVf8eM5uTuZsI7M8Umbf
- /D6VjdSaehcdD0LL8l919YpaZNivjtjd7hrFlzkqSgUYc3DiY5u6c4p0H5b82gwBuyRQiyxs5zBgA
- rKw3hTE7cSDE5QkXxDQ82p4hbrvYK+9u6mxTWZEciv+Bel8ZfQ9Z8mK+8aELxqyBmQxes39leqBs7
- FBRp3WHMlVzPP4+vVlhOBk55X7uo28HCAnsfH9toYSPoE0A1oxjWDwOtUyu69WYdbvrS+07Pa0TCO
- oZoCz72JvoN5bBX+R7GeHE5FQnHll82C9BIko8hAJeKpI18UGST156jH30GZ7QVCeoxZxCxsddkwf
- AHizy6eU2SX7ZthrXq5z3Gl73BqDpClftcuh5cfX0=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYZY-0001CC-Kk; Fri, 10 Jun 2022 07:56:48 +0100
-Message-ID: <4401d5ff-7268-526f-db72-67161aa9b6de@ilande.co.uk>
-Date: Fri, 10 Jun 2022 07:57:48 +0100
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1nzYdU-0006AK-Ue
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:00:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654844447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GA5LTuKSAvYwJknq5jjNnCMUZb0XZCkmbqXLjsgHkrY=;
+ b=FXgNLhGwQVqvZorb0VIqUHd6oiP38tfnyuK+ITp2Sf2HYQDm6t5gKWviy263zfhFj0qMUI
+ +OGx2AEyMpOVH8jJfIpfLQwomeLIM7/8/5Q5gCV+7sNtAMeccoc2CVDBd6pyC0PhatlKJV
+ VMv6tQXQjBGlY0nm3tCDGvhJKka7x40=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-581-gjy1vNz2MN2w2FhnQbxzNg-1; Fri, 10 Jun 2022 03:00:45 -0400
+X-MC-Unique: gjy1vNz2MN2w2FhnQbxzNg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08E0B800971;
+ Fri, 10 Jun 2022 07:00:45 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.192.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFBBC492C3B;
+ Fri, 10 Jun 2022 07:00:43 +0000 (UTC)
+Subject: Re: [RFC][PATCH] docs: note exception for PCIe IO port access
+To: Kevin Locke <kevin@kevinlocke.name>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel@redhat.com>,
+ Laine Stump <laine@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
+ <63e991af-0dd2-3aea-2f15-7460a6fb87db@redhat.com>
+ <YqH9wt/L7vcmFe8T@kevinlocke.name>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <d4f2c302-5b7e-bb2a-c44d-5b6c36d6dad6@redhat.com>
+Date: Fri, 10 Jun 2022 09:00:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+In-Reply-To: <YqH9wt/L7vcmFe8T@kevinlocke.name>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
- f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-27-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA-VHn9qWQdUgOHDy6QQwuGwf5p2BXUOjG-zq4NPenf2PQ@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <CAFEAcA-VHn9qWQdUgOHDy6QQwuGwf5p2BXUOjG-zq4NPenf2PQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 26/50] pckbd: implement i8042_mmio_init() function
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,42 +82,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/06/2022 11:53, Peter Maydell wrote:
+On 06/09/22 16:03, Kevin Locke wrote:
+> On Thu, 2022-06-09 at 09:45 +0200, Laszlo Ersek wrote:
 
-> On Sun, 22 May 2022 at 19:19, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> This enables use to expose the register memory region of the I8042_MMIO device
->> using sysbus_init_mmio().
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/input/pckbd.c | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
->> index addd1f058a..c407c082e2 100644
->> --- a/hw/input/pckbd.c
->> +++ b/hw/input/pckbd.c
->> @@ -683,6 +683,13 @@ static void i8042_mmio_realize(DeviceState *dev, Error **errp)
->>                             "i8042", s->size);
->>   }
->>
->> +static void i8042_mmio_init(Object *obj)
->> +{
->> +    MMIOKBDState *s = I8042_MMIO(obj);
->> +
->> +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->region);
->> +}
+>>     (2) Assigned PCI Express GPUs that offer legacy VGA compatibility,
+>>         and that such compatibility is expected of (due to booting with
+>>         SeaBIOS, or due to UEFI driver bugs or native OS driver bugs).
 > 
-> You don't initialize s->region until your device realize function;
-> you should only call sysbus_init_mmio() after that, so this line
-> belongs in the realize function too.
+> That sounds great to me.  Would you like me to send that as a v2
+> patch, or would you prefer to make the change?
 
-Yes indeed, I can fix this fairly easily.
+Please send v2 :)
 
+Thanks
+Laszlo
 
-ATB,
-
-Mark.
 
