@@ -2,78 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB7A545919
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 02:18:53 +0200 (CEST)
-Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3FC545908
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 02:13:46 +0200 (CEST)
+Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzSMU-0005ls-En
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 20:18:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49620)
+	id 1nzSHZ-0002Fk-HO
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jun 2022 20:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pobloxdev@gmail.com>)
- id 1nzRki-00083z-Lq
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 19:39:49 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:36717)
+ (Exim 4.90_1) (envelope-from <marcorr@google.com>)
+ id 1nzSFV-0001Po-Ot
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 20:11:37 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:42564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pobloxdev@gmail.com>)
- id 1nzRkh-0003fM-5Q
- for qemu-devel@nongnu.org; Thu, 09 Jun 2022 19:39:48 -0400
-Received: by mail-qt1-x830.google.com with SMTP id x18so15443077qtj.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 16:39:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:date:from:subject:thread-topic:message-id:to
- :content-transfer-encoding;
- bh=ovbfQFgkUoJAIclcbbyTEJJHP6GOFKEZHPto2B6xk/4=;
- b=A6Ox75TLXzigywdXhB4R4eTtAMNRVpP/EoSv+GHB912PyVaTjLbjb3YkO8twp7ypPx
- SDAKP/JUqSJFSqgxbJa0r8dXrYQJeJ7VkfL8MlIRz5luLbsvZnnwjq7rsgblDeP7jAB9
- DsPYny4D8I9fnRKAx23ep2w7N0Nx1Ot07E/y9J+9/H1Gc+XbCnWT7Z185AzB6s/3lJOT
- l8Pj3hmvitEQgmybBa7d8LQ7cB1/qOFViP82wQQxjIaFA8JfKVUU3AIpewm8xLpjCY8l
- xwVXkAftFxARc/zbSvGBF1fwSIV+SanCQc5V19HXKeim693TsTanf82qepyfjkNmwntV
- agug==
+ (Exim 4.90_1) (envelope-from <marcorr@google.com>)
+ id 1nzSFT-0008BB-PZ
+ for qemu-devel@nongnu.org; Thu, 09 Jun 2022 20:11:37 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so1398192fac.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 17:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lN+fOqwv9bBcDqIpukqHItG5mOqsK9h2lCdbXTf1cPM=;
+ b=DayT0SdBt1ymTKyry+8RI8dWvFXfKXAgjmO8VhNnB1yoDZK63YuzcCUTHD3X1Z3+t5
+ KxmGEbccYszaa9LA1rH+uPvXkUot/k7y+eYJ5dVw1vcNDUZMV9ll/y/F+7N08dr0Wzcn
+ baBzETzPA15Z2tn9QgoF5S7+WOA0j8RJa/fH3l+HKIsIdEIRN75ENG6RuJQTaJE4f7s+
+ tdQ6ePOMDHk+W48X2uZ7KmmqPYEcwu7pMK65fJXjpYRLWoV5X97j/IkcgrkGUpYpxwIB
+ E5LIO66muSm/XASIShQU2K4+YUS/ejVNHYtSotPk8eFHXkkvvETkJhzMm8POKoBM9Wup
+ sSZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:from:subject:thread-topic
- :message-id:to:content-transfer-encoding;
- bh=ovbfQFgkUoJAIclcbbyTEJJHP6GOFKEZHPto2B6xk/4=;
- b=I3KduQpYjzxvax7XwOXBCWCUeQ9fqyI++sh4EPguejYr/8XQwufspJG8Xw8gRUAqr/
- 3JlkUPv8UpcG2DgD2Z2S5kZ1XtqUuHFfdbQc6X24FRx60nJ+Dvj1Ruq9bLer+lQGHiuq
- B3g4ip8Fq+XUiRfbQwSC4Aak3biHwnGUIHhgjUJ0hKsLah5+2dKlkIhFuZtXVYA4vtXw
- fKQn6Wmct2C+948lv5qYdnJrPv/iYHTF186NZlUyJDd2AhGU70V/UR6zyctFWNm0b2fw
- iGQxYMNCJSfbOKgImQ+rj+zUiJ8NKGAlY9SgHGkiameGncpAyp+ygJch2DE5nmmhVbFw
- KEBw==
-X-Gm-Message-State: AOAM532gsQE/kHfyc2Izqpi/qDCcfzEh4nJpkm8FITfWIp7sDllO8kcO
- d2hCsjvY579iEQ6UM/WA5gzymnjt8dMyhqsN/TsndA==
-X-Google-Smtp-Source: ABdhPJxSgX8DhnmkGlBf0sTBw3PveX6dahcDT3+UMCV4UmSk7l89gpDx4MMFej97IdchJj9RrsGgeA==
-X-Received: by 2002:ac8:7f4a:0:b0:305:8af:a789 with SMTP id
- g10-20020ac87f4a000000b0030508afa789mr7718415qtk.528.1654817984723; 
- Thu, 09 Jun 2022 16:39:44 -0700 (PDT)
-Received: from win10 ([20.114.164.41]) by smtp.gmail.com with ESMTPSA id
- q6-20020a05620a0d8600b006a693e46d5csm18209146qkl.11.2022.06.09.16.39.44
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 09 Jun 2022 16:39:44 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lN+fOqwv9bBcDqIpukqHItG5mOqsK9h2lCdbXTf1cPM=;
+ b=jxXrRNLcGN6suYv/ZmzCUP04FfX5Y11+noiB0jUwN1uI4vP4rbUoko1NwHYEPUWsLf
+ QVVSxnjqECbyZ6NzIL15qb6WcWQhwYW/3PgvDsQ80bAQbIVViXOJ7Dmci651dBTXn49H
+ AUnPF0RoPHKNvePTGkEVqZcy5VHenS55FRI/lUAur3vJsruBMg0l6I4D+uFH/fzKj6fB
+ /N4TWjxQHShwvt9TwUv4zWEVD4TsqtBuNaVOMV9V0hQIKcNbBa0O882I2G414dRpvuiq
+ ENc2Mq55PAYSoPppq3LcrTRJztNnEBxksdKeBtDs4hVMinB2omjmDwMUTOfkrF01oFSA
+ NPrA==
+X-Gm-Message-State: AOAM531Pl0ij0jsdqPQ21U6m1U1Tx6YZrnQPkBiqUUrRV1OB40BBnygv
+ K4ppZW9PNxtPh9GCBu2YTaBsUiIaSq3LJSrjXpQp1w==
+X-Google-Smtp-Source: ABdhPJzdaT0C30mX9Im9rqGsL6x1Rmi0294lLn68XE92+pqgxWwSN0AqB6f3CMYnEGDUJ7ZH1btvuZX8xfTHzXelZbU=
+X-Received: by 2002:a05:6870:b616:b0:e2:f8bb:5eb with SMTP id
+ cm22-20020a056870b61600b000e2f8bb05ebmr3338490oab.218.1654819893261; Thu, 09
+ Jun 2022 17:11:33 -0700 (PDT)
 MIME-Version: 1.0
-Date: Thu, 9 Jun 2022 23:39:42 +0000
-From: Block Roads <pobloxdev@gmail.com>
-Subject: hw/display: Add nVidia GeForce (NV25) emulation
-Thread-Topic: hw/display: Add nVidia GeForce (NV25) emulation
-Message-ID: <B33FD4F7-739E-44FA-8331-67C844BCD713@hxcore.ol>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset="utf-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=pobloxdev@gmail.com; helo=mail-qt1-x830.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+ <20220607065749.GA1513445@chaop.bj.intel.com>
+ <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com>
+In-Reply-To: <20220608021820.GA1548172@chaop.bj.intel.com>
+From: Marc Orr <marcorr@google.com>
+Date: Thu, 9 Jun 2022 17:11:21 -0700
+Message-ID: <CAA03e5GmJw8u83=OG2wYrhdO81Sx5Jme-jkUnoTMQ7cc_o7u=w@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Vishal Annapurve <vannapurve@google.com>, kvm list <kvm@vger.kernel.org>, 
+ LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, x86 <x86@kernel.org>,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, 
+ Jun Nakajima <jun.nakajima@intel.com>, Dave Hansen <dave.hansen@intel.com>, 
+ Andi Kleen <ak@linux.intel.com>, David Hildenbrand <david@redhat.com>,
+ aarcange@redhat.com, 
+ ddutile@redhat.com, dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=marcorr@google.com; helo=mail-oa1-x32.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 09 Jun 2022 20:15:56 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,40 +111,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta ht=
-tp-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=
-=3DGenerator content=3D"Microsoft Word 15 (filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style></head><body lang=3DEN-US style=3D'word-wrap:break-word'><div cl=
-ass=3DWordSection1><p class=3DMsoNormal>Hello, At least one machines, the P=
-C (i440fx machine), have an NV25 graphic chip by default (GeForce4 Ti 4200)=
- and It must be pbus, pcrtc, pfb, pfifo, pgraph, pmc, pramdac, and ptimer s=
-ame as NV2A GPU. It must be NV25 vendor ID and device ID to 10DE:0253.</p><=
-p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>But sadly, I =
-don<span lang=3DPT-BR>=E2=80=99t have an patch emulation of NV25 VGA chips,=
- but QEMU devs will create NV25 emulation.<o:p></o:p></span></p><p class=3D=
-MsoNormal><span lang=3DPT-BR><o:p>&nbsp;</o:p></span></p><p class=3DMsoNorm=
-al><span lang=3DPT-BR>It must be 2D</span>/3D card support to play any game=
-s.</p></div></body></html>=
+On Tue, Jun 7, 2022 at 7:22 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> On Tue, Jun 07, 2022 at 05:55:46PM -0700, Marc Orr wrote:
+> > On Tue, Jun 7, 2022 at 12:01 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > >
+> > > On Mon, Jun 06, 2022 at 01:09:50PM -0700, Vishal Annapurve wrote:
+> > > > >
+> > > > > Private memory map/unmap and conversion
+> > > > > ---------------------------------------
+> > > > > Userspace's map/unmap operations are done by fallocate() ioctl on the
+> > > > > backing store fd.
+> > > > >   - map: default fallocate() with mode=0.
+> > > > >   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+> > > > > The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
+> > > > > secondary MMU page tables.
+> > > > >
+> > > > ....
+> > > > >    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
+> > > > >
+> > > > > An example QEMU command line for TDX test:
+> > > > > -object tdx-guest,id=tdx \
+> > > > > -object memory-backend-memfd-private,id=ram1,size=2G \
+> > > > > -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+> > > > >
+> > > >
+> > > > There should be more discussion around double allocation scenarios
+> > > > when using the private fd approach. A malicious guest or buggy
+> > > > userspace VMM can cause physical memory getting allocated for both
+> > > > shared (memory accessible from host) and private fds backing the guest
+> > > > memory.
+> > > > Userspace VMM will need to unback the shared guest memory while
+> > > > handling the conversion from shared to private in order to prevent
+> > > > double allocation even with malicious guests or bugs in userspace VMM.
+> > >
+> > > I don't know how malicious guest can cause that. The initial design of
+> > > this serie is to put the private/shared memory into two different
+> > > address spaces and gives usersapce VMM the flexibility to convert
+> > > between the two. It can choose respect the guest conversion request or
+> > > not.
+> >
+> > For example, the guest could maliciously give a device driver a
+> > private page so that a host-side virtual device will blindly write the
+> > private page.
+>
+> With this patch series, it's actually even not possible for userspace VMM
+> to allocate private page by a direct write, it's basically unmapped from
+> there. If it really wants to, it should so something special, by intention,
+> that's basically the conversion, which we should allow.
 
+I think Vishal did a better job to explain this scenario in his last
+reply than I did.
+
+> > > It's possible for a usrspace VMM to cause double allocation if it fails
+> > > to call the unback operation during the conversion, this may be a bug
+> > > or not. Double allocation may not be a wrong thing, even in conception.
+> > > At least TDX allows you to use half shared half private in guest, means
+> > > both shared/private can be effective. Unbacking the memory is just the
+> > > current QEMU implementation choice.
+> >
+> > Right. But the idea is that this patch series should accommodate all
+> > of the CVM architectures. Or at least that's what I know was
+> > envisioned last time we discussed this topic for SNP [*].
+>
+> AFAICS, this series should work for both TDX and SNP, and other CVM
+> architectures. I don't see where TDX can work but SNP cannot, or I
+> missed something here?
+
+Agreed. I was just responding to the "At least TDX..." bit. Sorry for
+any confusion.
+
+> >
+> > Regardless, it's important to ensure that the VM respects its memory
+> > budget. For example, within Google, we run VMs inside of containers.
+> > So if we double allocate we're going to OOM. This seems acceptable for
+> > an early version of CVMs. But ultimately, I think we need a more
+> > robust way to ensure that the VM operates within its memory container.
+> > Otherwise, the OOM is going to be hard to diagnose and distinguish
+> > from a real OOM.
+>
+> Thanks for bringing this up. But in my mind I still think userspace VMM
+> can do and it's its responsibility to guarantee that, if that is hard
+> required. By design, userspace VMM is the decision-maker for page
+> conversion and has all the necessary information to know which page is
+> shared/private. It also has the necessary knobs to allocate/free the
+> physical pages for guest memory. Definitely, we should make userspace
+> VMM more robust.
+
+Vishal and Sean did a better job to articulate the concern in their
+most recent replies.
 
