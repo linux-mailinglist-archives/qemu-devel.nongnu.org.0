@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C5F54621A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 11:29:18 +0200 (CEST)
-Received: from localhost ([::1]:40048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E4954627F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 11:34:52 +0200 (CEST)
+Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzax9-0002oQ-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 05:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35772)
+	id 1nzb2Z-0000ZA-1Y
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 05:34:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZY6-00021N-0N
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45699)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYA-00028Z-V5
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZY4-0006Pq-Ez
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:17 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZY7-0006Qf-H8
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847955;
+ s=mimecast20190719; t=1654847958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mpocKeoZpGwYugYQgzI+xoZKK3fD0b3UGmcMDjl31wg=;
- b=H7hKzQxIWBaMj1yrAk0XsnntlwJt4lEZUBpiBmJLJV9ziQjHBva4Vw45Oed8HN8XFUtp6m
- Ij9ASWiYBBTBp92LQxQbTHnJcSxcfgmlisx/SrT/8CqMEeBUqQCN75ACZNQ2fZ3yQHl01x
- jgbsKK1XUNHamLDqFMaurtUELwu/pcM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jFf4woivlgGIhUXgkypBGc3W4vwTg3PU5HRExeu4NKE=;
+ b=MG45pgEOK+RegKXzOIq46uaVdN4swAlJoJoeuSUaNlLDR7UEBLH63ORzKSuIMyvkhFT1Ty
+ JdAjb6LuDr/iGvYz6+D6oziBOTN34lUsx1av6JnPG09JY0GUd8NRuSPlK+rQyQvbSwbhsJ
+ ikN6+E7Dc6yZAu3y88BaujOxkv8aQ+o=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-4azzMMmAPomXGs5RkVY8Hw-1; Fri, 10 Jun 2022 03:59:14 -0400
-X-MC-Unique: 4azzMMmAPomXGs5RkVY8Hw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m22-20020a7bcb96000000b0039c4f6ade4dso4686520wmi.8
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:59:14 -0700 (PDT)
+ us-mta-167-rm_JF7_3OKygNvkFajXi0A-1; Fri, 10 Jun 2022 03:59:17 -0400
+X-MC-Unique: rm_JF7_3OKygNvkFajXi0A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ c7-20020adfa707000000b002184d715e69so2930504wrd.10
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:59:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mpocKeoZpGwYugYQgzI+xoZKK3fD0b3UGmcMDjl31wg=;
- b=wqufkfvhAx9FvaRUdnBd8/YLFT7LBkKMzIRPNA1tCP+NEkWsfBVXJykOAwkDryMb6l
- 6hy9GINR7udFehdhqrfmC/w2gJhAekDocT1eAd6rTwVtlErCrv1u7xW3TBPAPSCRIkZd
- Y98hC/SW8cVhmIsNZfASwPUOvr6nMdT5y0YEE43pCYGDBLu2cRRYvxkW4mbdjRPgQxyK
- r9xekiEEIBYuWFqePYJdqMtu3JOttfj7ZhsbJtP1GSbMsTdnBSAkrANGoCk9WOB07SkK
- 1qxj3fcwNyQbYuRFW+6gR9t90fXqxElJuYQGseICEl6irdRuSEVmY10I9Q08A70kiqGX
- 9Ahw==
-X-Gm-Message-State: AOAM532BemnzA2aLzW89wabuEQpWIVITlgnj70QG9y8Kq7eNp94qIder
- OjWULevIrtoCHx/vcF9VuCi4I9StiGZqmgmO7kIssKSx5B6yRXdh7Z/fVLwqBfSv+qmUPCV9Md5
- WNKSpCs1r4v7GMpg4VSCePCyN+QLyiN/6YyedX4gqO1PahO4qc01duZiR+PDp
-X-Received: by 2002:a7b:c4d4:0:b0:39c:5bb7:2210 with SMTP id
- g20-20020a7bc4d4000000b0039c5bb72210mr7371455wmk.99.1654847953125; 
- Fri, 10 Jun 2022 00:59:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuIp3f8pJLKdl9zlo0UNlNJmNTWPIPgwghuh9OX9FBzinVMywquZmPAOUNQ74ROjA6umb7Ag==
-X-Received: by 2002:a7b:c4d4:0:b0:39c:5bb7:2210 with SMTP id
- g20-20020a7bc4d4000000b0039c5bb72210mr7371427wmk.99.1654847952851; 
- Fri, 10 Jun 2022 00:59:12 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jFf4woivlgGIhUXgkypBGc3W4vwTg3PU5HRExeu4NKE=;
+ b=GBBkpeW8E12Jd9Pgo8Tngd9WdC9tS0XULBSeoF37aB8wA4b9prEc6CPCdw8mZnpTsU
+ OV5SnWbJSzPGDdPQb0bDTQy3MWrrkxuka9LrJ7sM55tcLiZQpUKNdzjA8oo2SsG+zXQy
+ Vu8LPnyPGPpPkt87O1VrIAp6Ls0zOaF+1AdH7bCBXdWwxLDQ1XZdCKA7fpBDBWJul/Kv
+ Wl1+iNcharH2+KmlWDRZIBGsB4Ud0YvMLGK/4foL2wNuk3lr9tGcQiZvPEV5jvzj96Bi
+ YKg3yhDl2Z2aHcugHMI6yXWeV1mmXvrw3GI2Buw3Yl3N7xiYjhWYPdlLSvh4p7ZGFdlp
+ emiA==
+X-Gm-Message-State: AOAM531jyJgPKfqNBoLGs7w/3YkIG5MRedbs0RWOd4ajkfLlM043fSt5
+ uAgMC1T9xKEJVBQp5lj3KETzNUwjsJJOsTDfKjh3DYfRrZCSBLvV2+4ncMdegBoDrsQe3qRdY84
+ fPacD9n6vLAte/Nly57Hwo34kKomswl9dU6plEaNEUshkMfJIZTkeytzaWMes
+X-Received: by 2002:adf:f390:0:b0:218:4de4:510c with SMTP id
+ m16-20020adff390000000b002184de4510cmr19434429wro.475.1654847956323; 
+ Fri, 10 Jun 2022 00:59:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzeE9euYqVck6zjVN5GYaZMZkz/ySz2j0Y2UBDbLULqcLLETfX1TJUK7EwwkOyNJnJQkDttUA==
+X-Received: by 2002:adf:f390:0:b0:218:4de4:510c with SMTP id
+ m16-20020adff390000000b002184de4510cmr19434400wro.475.1654847956000; 
+ Fri, 10 Jun 2022 00:59:16 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- w16-20020adff9d0000000b002103de97455sm26203392wrr.69.2022.06.10.00.59.11
+ h6-20020adfa4c6000000b0020fe61acd09sm28001338wrb.12.2022.06.10.00.59.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:59:12 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:59:09 -0400
+ Fri, 10 Jun 2022 00:59:15 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:59:13 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Ben Widawsky <ben@bwidawsk.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>
-Subject: [PULL 43/54] hw/machine: Drop cxl_supported flag as no longer useful
-Message-ID: <20220610075631.367501-44-mst@redhat.com>
+ Claudio Fontana <cfontana@suse.de>,
+ Dario Faggioli <DarioFaggiolidfaggioli@suse.com>,
+ Martin =?utf-8?B?TGnFoWth?= <martin.liska@suse.com>,
+ qemu-stable@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 44/54] pci: fix overflow in snprintf string formatting
+Message-ID: <20220610075631.367501-45-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220610075631.367501-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -88,7 +88,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,45 +104,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From: Claudio Fontana <cfontana@suse.de>
 
-As all the CXL elements have moved to boards that support
-CXL, there is no need to maintain a top level flag.
+the code in pcibus_get_fw_dev_path contained the potential for a
+stack buffer overflow of 1 byte, potentially writing to the stack an
+extra NUL byte.
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Reviewed-by: Ben Widawsky <ben@bwidawsk.net>
-Message-Id: <20220608145440.26106-9-Jonathan.Cameron@huawei.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+This overflow could happen if the PCI slot is >= 0x10000000,
+and the PCI function is >= 0x10000000, due to the size parameter
+of snprintf being incorrectly calculated in the call:
+
+    if (PCI_FUNC(d->devfn))
+        snprintf(path + off, sizeof(path) + off, ",%x", PCI_FUNC(d->devfn));
+
+since the off obtained from a previous call to snprintf is added
+instead of subtracted from the total available size of the buffer.
+
+Without the accurate size guard from snprintf, we end up writing in the
+worst case:
+
+name (32) + "@" (1) + SLOT (8) + "," (1) + FUNC (8) + term NUL (1) = 51 bytes
+
+In order to provide something more robust, replace all of the code in
+pcibus_get_fw_dev_path with a single call to g_strdup_printf,
+so there is no need to rely on manual calculations.
+
+Found by compiling QEMU with FORTIFY_SOURCE=3 as the error:
+
+*** buffer overflow detected ***: terminated
+
+Thread 1 "qemu-system-x86" received signal SIGABRT, Aborted.
+[Switching to Thread 0x7ffff642c380 (LWP 121307)]
+0x00007ffff71ff55c in __pthread_kill_implementation () from /lib64/libc.so.6
+(gdb) bt
+ #0  0x00007ffff71ff55c in __pthread_kill_implementation () at /lib64/libc.so.6
+ #1  0x00007ffff71ac6f6 in raise () at /lib64/libc.so.6
+ #2  0x00007ffff7195814 in abort () at /lib64/libc.so.6
+ #3  0x00007ffff71f279e in __libc_message () at /lib64/libc.so.6
+ #4  0x00007ffff729767a in __fortify_fail () at /lib64/libc.so.6
+ #5  0x00007ffff7295c36 in  () at /lib64/libc.so.6
+ #6  0x00007ffff72957f5 in __snprintf_chk () at /lib64/libc.so.6
+ #7  0x0000555555b1c1fd in pcibus_get_fw_dev_path ()
+ #8  0x0000555555f2bde4 in qdev_get_fw_dev_path_helper.constprop ()
+ #9  0x0000555555f2bd86 in qdev_get_fw_dev_path_helper.constprop ()
+ #10 0x00005555559a6e5d in get_boot_device_path ()
+ #11 0x00005555559a712c in get_boot_devices_list ()
+ #12 0x0000555555b1a3d0 in fw_cfg_machine_reset ()
+ #13 0x0000555555bf4c2d in pc_machine_reset ()
+ #14 0x0000555555c66988 in qemu_system_reset ()
+ #15 0x0000555555a6dff6 in qdev_machine_creation_done ()
+ #16 0x0000555555c79186 in qmp_x_exit_preconfig.part ()
+ #17 0x0000555555c7b459 in qemu_init ()
+ #18 0x0000555555960a29 in main ()
+
+Found-by: Dario Faggioli <Dario Faggioli <dfaggioli@suse.com>
+Found-by: Martin Liška <martin.liska@suse.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Message-Id: <20220531114707.18830-1-cfontana@suse.de>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- include/hw/boards.h | 1 -
- hw/i386/pc.c        | 1 -
- 2 files changed, 2 deletions(-)
+ hw/pci/pci.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 031f5f884d..d94edcef28 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -269,7 +269,6 @@ struct MachineClass {
-     bool ignore_boot_device_suffixes;
-     bool smbus_no_migration_support;
-     bool nvdimm_supported;
--    bool cxl_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
-     SMPCompatProps smp_props;
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index a0c0d69698..1b6067ff22 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1804,7 +1804,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
-     mc->nvdimm_supported = true;
-     mc->smp_props.dies_supported = true;
--    mc->cxl_supported = true;
-     mc->default_ram_id = "pc.ram";
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index a9b37f8000..6e7015329c 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2640,15 +2640,15 @@ static char *pci_dev_fw_name(DeviceState *dev, char *buf, int len)
+ static char *pcibus_get_fw_dev_path(DeviceState *dev)
+ {
+     PCIDevice *d = (PCIDevice *)dev;
+-    char path[50], name[33];
+-    int off;
++    char name[33];
++    int has_func = !!PCI_FUNC(d->devfn);
  
-     object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
+-    off = snprintf(path, sizeof(path), "%s@%x",
+-                   pci_dev_fw_name(dev, name, sizeof name),
+-                   PCI_SLOT(d->devfn));
+-    if (PCI_FUNC(d->devfn))
+-        snprintf(path + off, sizeof(path) + off, ",%x", PCI_FUNC(d->devfn));
+-    return g_strdup(path);
++    return g_strdup_printf("%s@%x%s%.*x",
++                           pci_dev_fw_name(dev, name, sizeof(name)),
++                           PCI_SLOT(d->devfn),
++                           has_func ? "," : "",
++                           has_func,
++                           PCI_FUNC(d->devfn));
+ }
+ 
+ static char *pcibus_get_dev_path(DeviceState *dev)
 -- 
 MST
 
