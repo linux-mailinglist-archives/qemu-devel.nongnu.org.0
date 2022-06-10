@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE8F545B90
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 07:20:25 +0200 (CEST)
-Received: from localhost ([::1]:58444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BD4545BA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 07:24:50 +0200 (CEST)
+Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzX4K-0006vZ-AI
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 01:20:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39930)
+	id 1nzX8b-000629-5p
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 01:24:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nzWxx-0003Lw-RV
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 01:13:50 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42887)
+ id 1nzWy0-0003Nw-7f
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 01:13:53 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:45023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nzWxv-0007bZ-Dm
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 01:13:49 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id f8so2881540plo.9
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 22:13:47 -0700 (PDT)
+ id 1nzWxy-0007c4-HA
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 01:13:51 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ gc3-20020a17090b310300b001e33092c737so1176616pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 22:13:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2p8l64Jlaec7udx1XYJ9DFcPbvulXsTX1OpQh2oSmd8=;
- b=kgkU1Innt4ang0oOs+QLfmvaMmiSrLPa5AGFYBqY119YQ2e7Z1TjzFYhHhwO23Drmi
- x5CQrUZ4c+u5MFblcqv96LgDH+CRgElMGt950rINFPCwo1zvv3qMok6K/vRcraDuG3Ri
- ek0WoJqVszmMkV2gTlAD//wQwLq4r9tIQvfKyjjEqYxRAjLpnTaoWmfbVH2DGiO+EZvV
- v54W9vzK19Wttnm2F505uV5rV/O0wn4Towwtls4+14bMc0FC+4CCN2kkKFYROxX0JmMK
- K5bAkO+4ylfGnRywxEFww0SDDG4Jim3wCKU8TOOjEBTo2zuKOMAuGjfUOYBhxz0D+MEQ
- TJ6g==
+ bh=b8suD+KlRNISOrVxOA1LK6g6AqsctsKZwbip8bLZz0M=;
+ b=laO8iV0+VvzmLyQBFUDCMYaX1Z5UPaPFtSigK0bE2fLbyOF3mbk7ERNT58kUDVaZvp
+ sX2Khp7bUmjlXDA+DbtGDCZz52TDgFqk6aCHbVoBhr1Nw1rueph19grbud+gzh8Jok5q
+ octXrnEUgjOtf64mOsHj6x6e4UsAr666/nLcZB/5YVUoc2f/HCh0G22YCqJ8kUG4BcDq
+ QJSLSvp0lmJ8670XxSIsIvWOu4zVvocCnAGJ8bZMBHBBIdafVZgWz6Wa6boXXH/yuGXp
+ vojLnKbsMDVRb2lgKPWX5hvT/w0mHKJ/+zf5yHr1+y01ruVkgQlpo10DtlVHz4u1Vyr1
+ hJQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2p8l64Jlaec7udx1XYJ9DFcPbvulXsTX1OpQh2oSmd8=;
- b=WWBsLeGKW3w2lvVpUfFNRKXyOkObOXWW9YlD1IdEFscIrnjyt53JncFfi06f2MXkUo
- WKSessgrAADj9T2KBzMGpfQ9t9QHPW6Cpvc9X1X2Tx90RMr1/WOT1F4fVMcJ66WV+10A
- 07qQ9eQHABLIxaff1keMKlv7Uao5+vwguaewcfCglitYvC1VwFGNh26u+VIPfzqisa0E
- JooZglsCe440j04jhK+cMjJ2L2xOwSAWMlmMNlYELsn556UM5Q+3XR6ou0PIJ2EdxKD5
- Cjf0NcVSCEEDpbgbcaj5GwVsVToRagCBk7ddk7i+wDg8MF6n3FoNjxJD9sr47VyGWR/k
- EMzQ==
-X-Gm-Message-State: AOAM532PfWwuwFdjILLpQkFLUgq0Mf6KU0RxeRgUnkRzpKNlWMLq2vyi
- igiUfyAvI31G6tAINKTrm+OpC9U2mMkJ9A==
-X-Google-Smtp-Source: ABdhPJy+4cSqPZbIh54m+UbdBrsFbDPviY3tXkHvpx7lObb8/JUZiXkBb8vmrYHoNbcv3Sd1jWYlkQ==
-X-Received: by 2002:a17:90b:1b07:b0:1e8:41d8:fa2 with SMTP id
- nu7-20020a17090b1b0700b001e841d80fa2mr6924164pjb.204.1654838025942; 
- Thu, 09 Jun 2022 22:13:45 -0700 (PDT)
+ bh=b8suD+KlRNISOrVxOA1LK6g6AqsctsKZwbip8bLZz0M=;
+ b=ddXv1HU/R7d5lMTOiGbG+0jlg7pw+VLKkeDl68gxLDvkByj+n86fijM8TZIxnKrEJP
+ f2e2Wnda9CRiCTfeNT4jNfw2J32A95RctBlXgMLO1MTBkcGbgQFg5TooMz3l0OBz3EQo
+ LcEOoUQ0z+oDoTjNpKyNyH+lZnfYkZkRZS4/cVLgEzvV/RqYN7ce3WoWN1J/gfY5CQDr
+ 9w1ffLnIXKNxvlNWsAUk7d904UzUfJRcXeGh8O+TQ5EWq6ALqcLZHbSr7zk/r6OD+wTz
+ zcO8VKvi7Ww4VvKBhzUlcvo5egDpmfc6ciMFdWWgghBPBMHkiX9VJsmRM2OhEt4sb/od
+ Dt+w==
+X-Gm-Message-State: AOAM531g47ZJIOkCBAVHFOQg+7PLZNXTWIE4ipwdncsRbp4FRiNKZdnj
+ t8LGEqSxAv8TGNYLeiQyjVQzbRsMDjM+XQ==
+X-Google-Smtp-Source: ABdhPJy+rS8AE1Ek0Rr97s2kucUSKZhaiTq7ZeebzmVeAYn6DOXpfMTMXTX7rzpT35O8vs/sbskY6g==
+X-Received: by 2002:a17:90a:6847:b0:1ea:7b6b:cd2f with SMTP id
+ e7-20020a17090a684700b001ea7b6bcd2fmr1779755pjm.185.1654838028893; 
+ Thu, 09 Jun 2022 22:13:48 -0700 (PDT)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
  by smtp.gmail.com with ESMTPSA id
- i13-20020a170902c94d00b0016362da9a03sm17853534pla.245.2022.06.09.22.13.44
+ i13-20020a170902c94d00b0016362da9a03sm17853534pla.245.2022.06.09.22.13.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 22:13:45 -0700 (PDT)
+ Thu, 09 Jun 2022 22:13:48 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH 4/9] target/riscv: debug: Restrict the range of tselect value
- can be written
-Date: Fri, 10 Jun 2022 13:13:21 +0800
-Message-Id: <20220610051328.7078-5-frank.chang@sifive.com>
+Subject: [PATCH 5/9] target/riscv: debug: Introduce tinfo CSR
+Date: Fri, 10 Jun 2022 13:13:22 +0800
+Message-Id: <20220610051328.7078-6-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610051328.7078-1-frank.chang@sifive.com>
 References: <20220610051328.7078-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,41 +95,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-The value of tselect CSR can be written should be limited within the
-range of supported triggers number.
+tinfo.info:
+  One bit for each possible type enumerated in tdata1.
+  If the bit is set, then that type is supported by the currently
+  selected trigger.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/debug.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ target/riscv/cpu_bits.h |  1 +
+ target/riscv/csr.c      |  8 ++++++++
+ target/riscv/debug.c    | 10 +++++++---
+ target/riscv/debug.h    |  2 ++
+ 4 files changed, 18 insertions(+), 3 deletions(-)
 
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 4d04b20d06..666b4d69ca 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -331,6 +331,7 @@
+ #define CSR_TDATA1          0x7a1
+ #define CSR_TDATA2          0x7a2
+ #define CSR_TDATA3          0x7a3
++#define CSR_TINFO           0x7a4
+ 
+ /* Debug Mode Registers */
+ #define CSR_DCSR            0x7b0
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 005ae31a01..823b6bd520 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -2800,6 +2800,13 @@ static RISCVException write_tdata(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+ 
++static RISCVException read_tinfo(CPURISCVState *env, int csrno,
++                                 target_ulong *val)
++{
++    *val = tinfo_csr_read(env);
++    return RISCV_EXCP_NONE;
++}
++
+ /*
+  * Functions to access Pointer Masking feature registers
+  * We have to check if current priv lvl could modify
+@@ -3588,6 +3595,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_TDATA1]    =  { "tdata1",  debug, read_tdata,   write_tdata   },
+     [CSR_TDATA2]    =  { "tdata2",  debug, read_tdata,   write_tdata   },
+     [CSR_TDATA3]    =  { "tdata3",  debug, read_tdata,   write_tdata   },
++    [CSR_TINFO]     =  { "tinfo",   debug, read_tinfo,   write_ignore  },
+ 
+     /* User Pointer Masking */
+     [CSR_UMTE]    =    { "umte",    pointer_masking, read_umte,    write_umte    },
 diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-index 6913682f75..296192ffc4 100644
+index 296192ffc4..1668b8abda 100644
 --- a/target/riscv/debug.c
 +++ b/target/riscv/debug.c
-@@ -126,10 +126,6 @@ bool tdata_available(CPURISCVState *env, int tdata_index)
-         return false;
+@@ -37,9 +37,7 @@
+  * - tdata1
+  * - tdata2
+  * - tdata3
+- *
+- * We don't support writable 'type' field in the tdata1 register, so there is
+- * no need to implement the "tinfo" CSR.
++ * - tinfo
+  *
+  * The following triggers are implemented:
+  *
+@@ -369,6 +367,12 @@ void tdata_csr_write(CPURISCVState *env, int tdata_index, target_ulong val)
      }
- 
--    if (unlikely(env->trigger_cur >= RV_MAX_TRIGGERS)) {
--        return false;
--    }
--
-     return tdata_mapping[trigger_type][tdata_index];
  }
  
-@@ -140,8 +136,9 @@ target_ulong tselect_csr_read(CPURISCVState *env)
- 
- void tselect_csr_write(CPURISCVState *env, target_ulong val)
++target_ulong tinfo_csr_read(CPURISCVState *env)
++{
++    /* assume all triggers support the same types of triggers */
++    return BIT(TRIGGER_TYPE_AD_MATCH);
++}
++
+ void riscv_cpu_debug_excp_handler(CPUState *cs)
  {
--    /* all target_ulong bits of tselect are implemented */
--    env->trigger_cur = val;
-+    if (val < RV_MAX_TRIGGERS) {
-+        env->trigger_cur = val;
-+    }
- }
+     RISCVCPU *cpu = RISCV_CPU(cs);
+diff --git a/target/riscv/debug.h b/target/riscv/debug.h
+index 76146f373a..9f69c64591 100644
+--- a/target/riscv/debug.h
++++ b/target/riscv/debug.h
+@@ -95,6 +95,8 @@ void tselect_csr_write(CPURISCVState *env, target_ulong val);
+ target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index);
+ void tdata_csr_write(CPURISCVState *env, int tdata_index, target_ulong val);
  
- static target_ulong tdata1_validate(CPURISCVState *env, target_ulong val,
++target_ulong tinfo_csr_read(CPURISCVState *env);
++
+ void riscv_cpu_debug_excp_handler(CPUState *cs);
+ bool riscv_cpu_debug_check_breakpoint(CPUState *cs);
+ bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
 -- 
 2.36.1
 
