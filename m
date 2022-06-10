@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76E7545B9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 07:21:07 +0200 (CEST)
-Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE8F545B90
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 07:20:25 +0200 (CEST)
+Received: from localhost ([::1]:58444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzX50-0008DD-O9
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 01:21:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39928)
+	id 1nzX4K-0006vZ-AI
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 01:20:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nzWxx-0003Lv-Qy
+ id 1nzWxx-0003Lw-RV
  for qemu-devel@nongnu.org; Fri, 10 Jun 2022 01:13:50 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40782)
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nzWxu-0007bG-8S
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 01:13:48 -0400
-Received: by mail-pl1-x629.google.com with SMTP id i1so21922656plg.7
- for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 22:13:44 -0700 (PDT)
+ id 1nzWxv-0007bZ-Dm
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 01:13:49 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id f8so2881540plo.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Jun 2022 22:13:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nJd16wCPC1aby4umBqx1Uz1gQnaP+7WjNfOep9g6YBQ=;
- b=flKV39HuI7vHJF6vhbppNUdNLxWzpa24Hf8cc5QMozmFEtYmrRXoPdlacsOgDZ7YaH
- eIY0LB/K/jz3BDIdKLsvqbbY2FvoCM532lydk7z3NRcCtvcE/2+qWEhFu1ahyff7t2eI
- ANTmHK1HNrIL7gpdmFSBjdJ144ei/L0WG3MN7fWO1pnpKmBi5ibQj9IBOhQiPqVigvS5
- uyHFdbZLiiK751do62xjH4UR1/qyDtnkCJstxLG3KJHcF0GvqNRUP8xyRxNIkv9O6fQ2
- TKUJbmp2/UPYGDKTB9hi5NMbnzIgQBy/M8HBrwpFY/D0eNOHgl5n8Ihtbw69zenCxOjn
- iqFw==
+ bh=2p8l64Jlaec7udx1XYJ9DFcPbvulXsTX1OpQh2oSmd8=;
+ b=kgkU1Innt4ang0oOs+QLfmvaMmiSrLPa5AGFYBqY119YQ2e7Z1TjzFYhHhwO23Drmi
+ x5CQrUZ4c+u5MFblcqv96LgDH+CRgElMGt950rINFPCwo1zvv3qMok6K/vRcraDuG3Ri
+ ek0WoJqVszmMkV2gTlAD//wQwLq4r9tIQvfKyjjEqYxRAjLpnTaoWmfbVH2DGiO+EZvV
+ v54W9vzK19Wttnm2F505uV5rV/O0wn4Towwtls4+14bMc0FC+4CCN2kkKFYROxX0JmMK
+ K5bAkO+4ylfGnRywxEFww0SDDG4Jim3wCKU8TOOjEBTo2zuKOMAuGjfUOYBhxz0D+MEQ
+ TJ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nJd16wCPC1aby4umBqx1Uz1gQnaP+7WjNfOep9g6YBQ=;
- b=yCwCaHJfrp3GYFbtLrekRYGk0Jck466/0+S7ldUL6XxZ/BGjDIZt+Fj7nQ3XQSyNoh
- XbLShGZcSJMR8cM4v5mCeYmLarYGiRb83t39H5N3tra1Tza+ONPlKFm7IYqOuW6tzvjf
- O8ZrsRWTQLF/4A2g+bhiFP1iw3EiHtHZcnvC3Ait1VUbfLeUamjWQ5F34KK6tTfAs01Z
- ekIQ/4Dr2igmxSC4aMA3CsoekvKNflIAF0Qyk9YNfdH94Fi1NyWY55XsikCMfl10rV6q
- 0/Bw8EVBnXY61QdavRZWbgb3xxofajg+Vq9wapxx/gHQ0IQ2oTiOowNlKJSaaJx8KnOW
- Tj0g==
-X-Gm-Message-State: AOAM530PYCOR9AlW1+yYCGO2fRJ+nOobjhRbu9ELuITSI2cO1JC1Pbsd
- nkOfqSj/W3kQ8YwG0pom8N+2XOuzIy6MLg==
-X-Google-Smtp-Source: ABdhPJz9s9Vaw1lNrC98Y9E8yTQhs7PnlDrYys9+980VqAvlwq/5h85ATtbA84wKLN4IGh8BtXnOfQ==
-X-Received: by 2002:a17:90b:3506:b0:1e8:8449:6acb with SMTP id
- ls6-20020a17090b350600b001e884496acbmr6851980pjb.27.1654838022929; 
- Thu, 09 Jun 2022 22:13:42 -0700 (PDT)
+ bh=2p8l64Jlaec7udx1XYJ9DFcPbvulXsTX1OpQh2oSmd8=;
+ b=WWBsLeGKW3w2lvVpUfFNRKXyOkObOXWW9YlD1IdEFscIrnjyt53JncFfi06f2MXkUo
+ WKSessgrAADj9T2KBzMGpfQ9t9QHPW6Cpvc9X1X2Tx90RMr1/WOT1F4fVMcJ66WV+10A
+ 07qQ9eQHABLIxaff1keMKlv7Uao5+vwguaewcfCglitYvC1VwFGNh26u+VIPfzqisa0E
+ JooZglsCe440j04jhK+cMjJ2L2xOwSAWMlmMNlYELsn556UM5Q+3XR6ou0PIJ2EdxKD5
+ Cjf0NcVSCEEDpbgbcaj5GwVsVToRagCBk7ddk7i+wDg8MF6n3FoNjxJD9sr47VyGWR/k
+ EMzQ==
+X-Gm-Message-State: AOAM532PfWwuwFdjILLpQkFLUgq0Mf6KU0RxeRgUnkRzpKNlWMLq2vyi
+ igiUfyAvI31G6tAINKTrm+OpC9U2mMkJ9A==
+X-Google-Smtp-Source: ABdhPJy+4cSqPZbIh54m+UbdBrsFbDPviY3tXkHvpx7lObb8/JUZiXkBb8vmrYHoNbcv3Sd1jWYlkQ==
+X-Received: by 2002:a17:90b:1b07:b0:1e8:41d8:fa2 with SMTP id
+ nu7-20020a17090b1b0700b001e841d80fa2mr6924164pjb.204.1654838025942; 
+ Thu, 09 Jun 2022 22:13:45 -0700 (PDT)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
  by smtp.gmail.com with ESMTPSA id
- i13-20020a170902c94d00b0016362da9a03sm17853534pla.245.2022.06.09.22.13.41
+ i13-20020a170902c94d00b0016362da9a03sm17853534pla.245.2022.06.09.22.13.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 22:13:42 -0700 (PDT)
+ Thu, 09 Jun 2022 22:13:45 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH 3/9] target/riscv: debug: Introduce tdata1, tdata2,
- and tdata3 CSRs
-Date: Fri, 10 Jun 2022 13:13:20 +0800
-Message-Id: <20220610051328.7078-4-frank.chang@sifive.com>
+Subject: [PATCH 4/9] target/riscv: debug: Restrict the range of tselect value
+ can be written
+Date: Fri, 10 Jun 2022 13:13:21 +0800
+Message-Id: <20220610051328.7078-5-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610051328.7078-1-frank.chang@sifive.com>
 References: <20220610051328.7078-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,286 +95,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Replace type2_trigger_t with the real tdata1, tdata2, and tdata3 CSRs,
-which allows us to support more types of triggers in the future.
+The value of tselect CSR can be written should be limited within the
+range of supported triggers number.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/cpu.h     |   6 ++-
- target/riscv/debug.c   | 101 ++++++++++++++++-------------------------
- target/riscv/debug.h   |   7 ---
- target/riscv/machine.c |  20 ++------
- 4 files changed, 48 insertions(+), 86 deletions(-)
+ target/riscv/debug.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 535123a989..bac5f00722 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -289,7 +289,11 @@ struct CPUArchState {
- 
-     /* trigger module */
-     target_ulong trigger_cur;
--    type2_trigger_t type2_trig[RV_MAX_TRIGGERS];
-+    target_ulong tdata1[RV_MAX_TRIGGERS];
-+    target_ulong tdata2[RV_MAX_TRIGGERS];
-+    target_ulong tdata3[RV_MAX_TRIGGERS];
-+    struct CPUBreakpoint *cpu_breakpoint[RV_MAX_TRIGGERS];
-+    struct CPUWatchpoint *cpu_watchpoint[RV_MAX_TRIGGERS];
- 
-     /* machine specific rdtime callback */
-     uint64_t (*rdtime_fn)(void *);
 diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-index 089aae0696..6913682f75 100644
+index 6913682f75..296192ffc4 100644
 --- a/target/riscv/debug.c
 +++ b/target/riscv/debug.c
-@@ -90,8 +90,7 @@ static inline target_ulong extract_trigger_type(CPURISCVState *env,
- static inline target_ulong get_trigger_type(CPURISCVState *env,
-                                             target_ulong trigger_index)
- {
--    target_ulong tdata1 = env->type2_trig[trigger_index].mcontrol;
--    return extract_trigger_type(env, tdata1);
-+    return extract_trigger_type(env, env->tdata1[trigger_index]);
- }
- 
- static inline target_ulong build_tdata1(CPURISCVState *env,
-@@ -187,6 +186,8 @@ static inline void warn_always_zero_bit(target_ulong val, target_ulong mask,
-     }
- }
- 
-+/* type 2 trigger */
-+
- static uint32_t type2_breakpoint_size(CPURISCVState *env, target_ulong ctrl)
- {
-     uint32_t size, sizelo, sizehi = 0;
-@@ -246,8 +247,8 @@ static target_ulong type2_mcontrol_validate(CPURISCVState *env,
- 
- static void type2_breakpoint_insert(CPURISCVState *env, target_ulong index)
- {
--    target_ulong ctrl = env->type2_trig[index].mcontrol;
--    target_ulong addr = env->type2_trig[index].maddress;
-+    target_ulong ctrl = env->tdata1[index];
-+    target_ulong addr = env->tdata2[index];
-     bool enabled = type2_breakpoint_enabled(ctrl);
-     CPUState *cs = env_cpu(env);
-     int flags = BP_CPU | BP_STOP_BEFORE_ACCESS;
-@@ -258,7 +259,7 @@ static void type2_breakpoint_insert(CPURISCVState *env, target_ulong index)
+@@ -126,10 +126,6 @@ bool tdata_available(CPURISCVState *env, int tdata_index)
+         return false;
      }
  
-     if (ctrl & TYPE2_EXEC) {
--        cpu_breakpoint_insert(cs, addr, flags, &env->type2_trig[index].bp);
-+        cpu_breakpoint_insert(cs, addr, flags, &env->cpu_breakpoint[index]);
-     }
- 
-     if (ctrl & TYPE2_LOAD) {
-@@ -272,10 +273,10 @@ static void type2_breakpoint_insert(CPURISCVState *env, target_ulong index)
-         size = type2_breakpoint_size(env, ctrl);
-         if (size != 0) {
-             cpu_watchpoint_insert(cs, addr, size, flags,
--                                  &env->type2_trig[index].wp);
-+                                  &env->cpu_watchpoint[index]);
-         } else {
-             cpu_watchpoint_insert(cs, addr, 8, flags,
--                                  &env->type2_trig[index].wp);
-+                                  &env->cpu_watchpoint[index]);
-         }
-     }
- }
-@@ -284,34 +285,15 @@ static void type2_breakpoint_remove(CPURISCVState *env, target_ulong index)
- {
-     CPUState *cs = env_cpu(env);
- 
--    if (env->type2_trig[index].bp) {
--        cpu_breakpoint_remove_by_ref(cs, env->type2_trig[index].bp);
--        env->type2_trig[index].bp = NULL;
-+    if (env->cpu_breakpoint[index]) {
-+        cpu_breakpoint_remove_by_ref(cs, env->cpu_breakpoint[index]);
-+        env->cpu_breakpoint[index] = NULL;
-     }
- 
--    if (env->type2_trig[index].wp) {
--        cpu_watchpoint_remove_by_ref(cs, env->type2_trig[index].wp);
--        env->type2_trig[index].wp = NULL;
+-    if (unlikely(env->trigger_cur >= RV_MAX_TRIGGERS)) {
+-        return false;
 -    }
--}
 -
--static target_ulong type2_reg_read(CPURISCVState *env,
--                                   target_ulong index, int tdata_index)
--{
--    target_ulong tdata;
--
--    switch (tdata_index) {
--    case TDATA1:
--        tdata = env->type2_trig[index].mcontrol;
--        break;
--    case TDATA2:
--        tdata = env->type2_trig[index].maddress;
--        break;
--    default:
--        g_assert_not_reached();
-+    if (env->cpu_watchpoint[index]) {
-+        cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[index]);
-+        env->cpu_watchpoint[index] = NULL;
-     }
--
--    return tdata;
+     return tdata_mapping[trigger_type][tdata_index];
  }
  
- static void type2_reg_write(CPURISCVState *env, target_ulong index,
-@@ -322,19 +304,23 @@ static void type2_reg_write(CPURISCVState *env, target_ulong index,
-     switch (tdata_index) {
-     case TDATA1:
-         new_val = type2_mcontrol_validate(env, val);
--        if (new_val != env->type2_trig[index].mcontrol) {
--            env->type2_trig[index].mcontrol = new_val;
-+        if (new_val != env->tdata1[index]) {
-+            env->tdata1[index] = new_val;
-             type2_breakpoint_remove(env, index);
-             type2_breakpoint_insert(env, index);
-         }
-         break;
-     case TDATA2:
--        if (val != env->type2_trig[index].maddress) {
--            env->type2_trig[index].maddress = val;
-+        if (val != env->tdata2[index]) {
-+            env->tdata2[index] = val;
-             type2_breakpoint_remove(env, index);
-             type2_breakpoint_insert(env, index);
-         }
-         break;
-+    case TDATA3:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "tdata3 is not supported for type 2 trigger\n");
-+        break;
-     default:
-         g_assert_not_reached();
-     }
-@@ -344,28 +330,16 @@ static void type2_reg_write(CPURISCVState *env, target_ulong index,
+@@ -140,8 +136,9 @@ target_ulong tselect_csr_read(CPURISCVState *env)
  
- target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index)
+ void tselect_csr_write(CPURISCVState *env, target_ulong val)
  {
--    int trigger_type = get_trigger_type(env, env->trigger_cur);
--
--    switch (trigger_type) {
--    case TRIGGER_TYPE_AD_MATCH:
--        return type2_reg_read(env, env->trigger_cur, tdata_index);
--        break;
--    case TRIGGER_TYPE_INST_CNT:
--    case TRIGGER_TYPE_INT:
--    case TRIGGER_TYPE_EXCP:
--    case TRIGGER_TYPE_AD_MATCH6:
--    case TRIGGER_TYPE_EXT_SRC:
--        qemu_log_mask(LOG_UNIMP, "trigger type: %d is not supported\n",
--                      trigger_type);
--        break;
--    case TRIGGER_TYPE_NO_EXIST:
--    case TRIGGER_TYPE_UNAVAIL:
--        break;
-+    switch (tdata_index) {
-+    case TDATA1:
-+        return env->tdata1[env->trigger_cur];
-+    case TDATA2:
-+        return env->tdata2[env->trigger_cur];
-+    case TDATA3:
-+        return env->tdata3[env->trigger_cur];
-     default:
-         g_assert_not_reached();
-     }
--
--    return 0;
+-    /* all target_ulong bits of tselect are implemented */
+-    env->trigger_cur = val;
++    if (val < RV_MAX_TRIGGERS) {
++        env->trigger_cur = val;
++    }
  }
  
- void tdata_csr_write(CPURISCVState *env, int tdata_index, target_ulong val)
-@@ -431,8 +405,8 @@ bool riscv_cpu_debug_check_breakpoint(CPUState *cs)
- 
-             switch (trigger_type) {
-             case TRIGGER_TYPE_AD_MATCH:
--                ctrl = env->type2_trig[i].mcontrol;
--                pc = env->type2_trig[i].maddress;
-+                ctrl = env->tdata1[i];
-+                pc = env->tdata2[i];
- 
-                 if ((ctrl & TYPE2_EXEC) && (bp->pc == pc)) {
-                     /* check U/S/M bit against current privilege level */
-@@ -466,8 +440,8 @@ bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
- 
-         switch (trigger_type) {
-         case TRIGGER_TYPE_AD_MATCH:
--            ctrl = env->type2_trig[i].mcontrol;
--            addr = env->type2_trig[i].maddress;
-+            ctrl = env->tdata1[i];
-+            addr = env->tdata2[i];
-             flags = 0;
- 
-             if (ctrl & TYPE2_LOAD) {
-@@ -513,9 +487,10 @@ void riscv_trigger_init(CPURISCVState *env)
-          * chain = 0 (unimplemented, always 0)
-          * match = 0 (always 0, when any compare value equals tdata2)
-          */
--        env->type2_trig[i].mcontrol = tdata1;
--        env->type2_trig[i].maddress = 0;
--        env->type2_trig[i].bp = NULL;
--        env->type2_trig[i].wp = NULL;
-+        env->tdata1[i] = tdata1;
-+        env->tdata2[i] = 0;
-+        env->tdata3[i] = 0;
-+        env->cpu_breakpoint[i] = NULL;
-+        env->cpu_watchpoint[i] = NULL;
-     }
- }
-diff --git a/target/riscv/debug.h b/target/riscv/debug.h
-index c422553c27..76146f373a 100644
---- a/target/riscv/debug.h
-+++ b/target/riscv/debug.h
-@@ -44,13 +44,6 @@ typedef enum {
-     TRIGGER_TYPE_NUM
- } trigger_type_t;
- 
--typedef struct {
--    target_ulong mcontrol;
--    target_ulong maddress;
--    struct CPUBreakpoint *bp;
--    struct CPUWatchpoint *wp;
--} type2_trigger_t;
--
- /* tdata1 field masks */
- 
- #define RV32_TYPE(t)    ((uint32_t)(t) << 28)
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 54e523c26c..a1db8b9559 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -228,26 +228,16 @@ static bool debug_needed(void *opaque)
-     return riscv_feature(env, RISCV_FEATURE_DEBUG);
- }
- 
--static const VMStateDescription vmstate_debug_type2 = {
--    .name = "cpu/debug/type2",
--    .version_id = 1,
--    .minimum_version_id = 1,
--    .fields = (VMStateField[]) {
--        VMSTATE_UINTTL(mcontrol, type2_trigger_t),
--        VMSTATE_UINTTL(maddress, type2_trigger_t),
--        VMSTATE_END_OF_LIST()
--   }
--};
--
- static const VMStateDescription vmstate_debug = {
-     .name = "cpu/debug",
--    .version_id = 1,
--    .minimum_version_id = 1,
-+    .version_id = 2,
-+    .minimum_version_id = 2,
-     .needed = debug_needed,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINTTL(env.trigger_cur, RISCVCPU),
--        VMSTATE_STRUCT_ARRAY(env.type2_trig, RISCVCPU, RV_MAX_TRIGGERS,
--                             0, vmstate_debug_type2, type2_trigger_t),
-+        VMSTATE_UINTTL_ARRAY(env.tdata1, RISCVCPU, RV_MAX_TRIGGERS),
-+        VMSTATE_UINTTL_ARRAY(env.tdata2, RISCVCPU, RV_MAX_TRIGGERS),
-+        VMSTATE_UINTTL_ARRAY(env.tdata3, RISCVCPU, RV_MAX_TRIGGERS),
-         VMSTATE_END_OF_LIST()
-     }
- };
+ static target_ulong tdata1_validate(CPURISCVState *env, target_ulong val,
 -- 
 2.36.1
 
