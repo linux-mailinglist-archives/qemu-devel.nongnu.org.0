@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41305545C27
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 08:20:40 +0200 (CEST)
-Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A2A545CBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 09:00:07 +0200 (CEST)
+Received: from localhost ([::1]:47534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzY0c-0007Qd-SJ
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 02:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
+	id 1nzYcn-0007je-Ow
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 03:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzXrn-0004PB-BB
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 02:11:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41821)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nzYWb-0003Gy-6P; Fri, 10 Jun 2022 02:53:41 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzXrk-0007Sd-FZ
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 02:11:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654841487;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=O4uSGlMCH5gzQlqxL0VwDuz28PPU7LsB9/WOXFmAEdw=;
- b=LxRcKCkc7oFXG+OP+Matqu0kqVh4SqbKxGqd8HHFVb+/3hFYdClWf1WnJkqzZ+5VGOYILF
- IXglqU5Z07qZIqDbJVKy/H/FqExKkuVJCCPEIWuN/NBWZu6MnC4vQeaL/P7RNRRXmOd/nf
- Pi9IExxdpLfyM+0nbia8YO1FriQZOdY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-329-jZmGb0HdNx-love75faXAA-1; Fri, 10 Jun 2022 02:11:25 -0400
-X-MC-Unique: jZmGb0HdNx-love75faXAA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC3832949BBF;
- Fri, 10 Jun 2022 06:11:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D0C1492C3B;
- Fri, 10 Jun 2022 06:11:24 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 543FF18000A3; Fri, 10 Jun 2022 08:11:21 +0200 (CEST)
-Date: Fri, 10 Jun 2022 08:11:21 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Dongwon Kim <dongwon.kim@intel.com>
-Cc: qemu-devel@nongnu.org,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 2/2] ui/gtk: a new array param monitor to specify the
- target displays
-Message-ID: <20220610061121.flb36excjfwzw6ww@sirius.home.kraxel.org>
-References: <20220531202327.14636-1-dongwon.kim@intel.com>
- <20220531202327.14636-3-dongwon.kim@intel.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nzYWZ-00052N-LZ; Fri, 10 Jun 2022 02:53:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fMB90FSJtZya7rx++Bo7ETTqV5TcuPFY3/82ceRP05I=; b=YVhkJ3XgMVXUB16pF9YUEQITJ9
+ kCNrjMA6wqQBrKyrfMf5FAN4w1GsJJug/cXYkAd+j95gaOvZGapo/WWNKJY7w9Q906jG7FJDwUvAM
+ LICbYPr3obGKPlQejoeFMGvuizwZd7X5/UhutIZCMo+4OCaOhhkG6lZ39ZWUFgSViOWpr2B8hU9kj
+ NDEIlmYESEZSbc5OvDyRKsGp5S9eIMvJgxv02dQmlipdIIbxWloFQxKeMxwCyR1gdpiT9lraqwXsH
+ KYwATSLwwuRj7LrRTy3XBArZXCMfIB5us/LiBdYP2b3eCULeSBslyqhUX8rqxYybBfUecSnIdUzgg
+ Xo0I2c4uhrqFlUKG7Q/IisNx+L+n/WQcpa47SyjTsuT0JyZPMbPmfZ8NoAj/t9ZXWf3QjiD1h8+XY
+ /hAibVKSs4x7rAwQ9rIV+f5HQ/KmTjOeLnAFC0WBOdXDqRo2sZqH4hhRnkHGWUBK2wxeHvE0hQaVr
+ um2oBKV5LgB7zRAgSvmmlbVxVftDfjSk+WZ0GIVrgND+uHLYphPYs/mvcBjHJBAwrUBVrEZu8StSg
+ YJPRVNURIZrP7gPnExUCsSxu/qEQxg5k+Pj9pAxoax2zfZ6wEtmaAgzmLuywNTaizU0X4BQ9xw47e
+ Gx0JRSZGMiCTRP2fmCc685J8IJO2IioeHV5UXcWEg=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nzYVE-000172-55; Fri, 10 Jun 2022 07:52:20 +0100
+Message-ID: <9fb5d9ea-35c0-c6a9-d2d9-b264093665ee@ilande.co.uk>
+Date: Fri, 10 Jun 2022 07:53:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531202327.14636-3-dongwon.kim@intel.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
+ pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
+ f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
+ <20220522181836.864-23-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA9UcEHGE0BL5Dz3mVC+T9Z4XrMidhxFGWR92sMQ-0rrEA@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAFEAcA9UcEHGE0BL5Dz3mVC+T9Z4XrMidhxFGWR92sMQ-0rrEA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 22/50] pckbd: implement i8042_mmio_reset() for I8042_MMIO
+ device
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,23 +85,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 31, 2022 at 01:23:27PM -0700, Dongwon Kim wrote:
-> New integer array parameter, 'monitor' is for specifying the target
-> displays where individual QEMU windows are placed upon launching.
-> 
-> The array contains a series of numbers representing the monitor where
-> QEMU windows are placed.
-> 
-> Numbers in the array are mapped to QEMU windows like,
-> 
-> [1st detached window, 2nd detached window,.... Main window]
-> 
-> Usage example: -display gtk,monitor.0=0,monitor.1=1.....
+On 09/06/2022 11:49, Peter Maydell wrote:
 
-Depends on patch #1, so dropped both.  Please fix patch #1, rebase &
-resend.
+> On Sun, 22 May 2022 at 19:19, Mark Cave-Ayland
+> <mark.cave-ayland@ilande.co.uk> wrote:
+>>
+>> This allows the I8042_MMIO reset function to be registered directly within the
+>> DeviceClass rather than using qemu_register_reset() directly.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>   hw/input/pckbd.c | 13 ++++++++++---
+>>   1 file changed, 10 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+>> index bbdd3bc568..df443aaff2 100644
+>> --- a/hw/input/pckbd.c
+>> +++ b/hw/input/pckbd.c
+>> @@ -665,10 +665,20 @@ static const MemoryRegionOps i8042_mmio_ops = {
+>>       .endianness = DEVICE_NATIVE_ENDIAN,
+>>   };
+>>
+>> +static void i8042_mmio_reset(DeviceState *dev)
+>> +{
+>> +    MMIOKBDState *s = I8042_MMIO(dev);
+>> +    KBDState *ks = &s->kbd;
+>> +
+>> +    ks->extended_state = true;
+>> +    kbd_reset(ks);
+>> +}
+> 
+> extended_state is not runtime guest-changeable state, it's a
+> device property that's set at device creation time. So we
+> shouldn't be setting it to 'true' here, but instead in the
+> device init or realize function.
 
-thanks,
-  Gerd
+Ah oops. I'll move it to a corresponding device init function in v2.
 
+
+ATB,
+
+Mark.
 
