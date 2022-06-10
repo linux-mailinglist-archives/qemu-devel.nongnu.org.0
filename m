@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1A4545C49
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 08:35:01 +0200 (CEST)
-Received: from localhost ([::1]:54272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41305545C27
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 08:20:40 +0200 (CEST)
+Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzYEW-0000lh-Hc
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 02:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47124)
+	id 1nzY0c-0007Qd-SJ
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 02:20:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzXo6-0002pg-7j
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 02:07:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52074)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzXrn-0004PB-BB
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 02:11:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzXo4-0006oa-AQ
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 02:07:41 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzXrk-0007Sd-FZ
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 02:11:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654841259;
+ s=mimecast20190719; t=1654841487;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=255Co0nFZufpRQga25AhlPUpaVsVjWTbNMglVVbTFuA=;
- b=NFe415ewjIEbZYZNYTbsRWAEY8lLuBCBW3cTvILQ88LaxAkyMYmUNBWl5Ae0pKnL1jQme+
- suKYLEN46Ur4yQJeju7LXT+4LK00sHy10rXLfTTuwSSnsOZQUEQOsj8T/47wFUBxIRuXYT
- R+c3DE3caTPoJyhZ/vG/BafkER1BMUU=
+ bh=O4uSGlMCH5gzQlqxL0VwDuz28PPU7LsB9/WOXFmAEdw=;
+ b=LxRcKCkc7oFXG+OP+Matqu0kqVh4SqbKxGqd8HHFVb+/3hFYdClWf1WnJkqzZ+5VGOYILF
+ IXglqU5Z07qZIqDbJVKy/H/FqExKkuVJCCPEIWuN/NBWZu6MnC4vQeaL/P7RNRRXmOd/nf
+ Pi9IExxdpLfyM+0nbia8YO1FriQZOdY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-399-UWACGe1eN0GtzsAbVuyKCw-1; Fri, 10 Jun 2022 02:07:35 -0400
-X-MC-Unique: UWACGe1eN0GtzsAbVuyKCw-1
+ us-mta-329-jZmGb0HdNx-love75faXAA-1; Fri, 10 Jun 2022 02:11:25 -0400
+X-MC-Unique: jZmGb0HdNx-love75faXAA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E7073C0CD4A;
- Fri, 10 Jun 2022 06:07:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC3832949BBF;
+ Fri, 10 Jun 2022 06:11:24 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13430492C3B;
- Fri, 10 Jun 2022 06:07:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D0C1492C3B;
+ Fri, 10 Jun 2022 06:11:24 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D89F218000A3; Fri, 10 Jun 2022 08:07:31 +0200 (CEST)
-Date: Fri, 10 Jun 2022 08:07:31 +0200
+ id 543FF18000A3; Fri, 10 Jun 2022 08:11:21 +0200 (CEST)
+Date: Fri, 10 Jun 2022 08:11:21 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 0/3] Misc AC97 clean ups
-Message-ID: <20220610060731.xlaqpsvw2vgc44y7@sirius.home.kraxel.org>
-References: <cover.1650706617.git.balaton@eik.bme.hu>
- <6ff58395-65a8-a50-90ee-571ccb131a8@eik.bme.hu>
- <255fbc8f-3b2d-f121-472-91f4d5e36b81@eik.bme.hu>
- <bc93f5ae-a9a-d9ef-4022-fcb0169863@eik.bme.hu>
- <204fa7f7-6b15-e77e-ecec-c06b1873ef5e@redhat.com>
- <20220609101720.bf6s2uusjaivcru2@sirius.home.kraxel.org>
- <c6a4a4-bbae-cec-4caa-3dbb3df19f1a@eik.bme.hu>
+To: Dongwon Kim <dongwon.kim@intel.com>
+Cc: qemu-devel@nongnu.org,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 2/2] ui/gtk: a new array param monitor to specify the
+ target displays
+Message-ID: <20220610061121.flb36excjfwzw6ww@sirius.home.kraxel.org>
+References: <20220531202327.14636-1-dongwon.kim@intel.com>
+ <20220531202327.14636-3-dongwon.kim@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c6a4a4-bbae-cec-4caa-3dbb3df19f1a@eik.bme.hu>
+In-Reply-To: <20220531202327.14636-3-dongwon.kim@intel.com>
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,44 +85,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 09, 2022 at 04:12:25PM +0200, BALATON Zoltan wrote:
-> On Thu, 9 Jun 2022, Gerd Hoffmann wrote:
-> > On Wed, May 18, 2022 at 12:37:18PM +0200, Paolo Bonzini wrote:
-> > > On 5/17/22 21:47, BALATON Zoltan wrote:
-> > > > On Mon, 9 May 2022, BALATON Zoltan wrote:
-> > > > > On Mon, 2 May 2022, BALATON Zoltan wrote:
-> > > > > > On Sat, 23 Apr 2022, BALATON Zoltan wrote:
-> > > > > > > During trying to implement via-ac97 I did some small clean ups to ac97
-> > > > > > > which is in this series. The via-ac97 is not working yet so that's not
-> > > > > > > included but these unrelated clean ups could be merged now.
-> > > > > > > 
-> > > > > > > v3: Fixed misalignments and drop spaces before commas (Víctor Colombo)
-> > > > > > > v2: Added R-b and changes from Peter Maydell
-> > > > > > 
-> > > > > > Ping?
-> > > > > > 
-> > > > > > https://patchew.org/QEMU/cover.1650706617.git.balaton@eik.bme.hu/
-> > > > > 
-> > > > > Ping2
-> > > > > 
-> > > > > Gerd, are you getting these messages?
-> > > > 
-> > > > I got no reply to this so far so I think Gerd is not seeing my messages.
-> > > > Could someone who can reach him bring it to his attention please?
-> > > 
-> > > I'll queue these in his stead.
-> > 
-> > [ /me cleaning up my mailbox, looking for pending patches along the way ]
-> > 
-> > Thanks.  It seems to not have landed in master yet even though.  Still
-> > sitting in your queue?  Or should I take it?
+On Tue, May 31, 2022 at 01:23:27PM -0700, Dongwon Kim wrote:
+> New integer array parameter, 'monitor' is for specifying the target
+> displays where individual QEMU windows are placed upon launching.
 > 
-> I think they are already in master as commits ab9f0f7d44d...dba2b2941ca so
-> all is fine.
+> The array contains a series of numbers representing the monitor where
+> QEMU windows are placed.
+> 
+> Numbers in the array are mapped to QEMU windows like,
+> 
+> [1st detached window, 2nd detached window,.... Main window]
+> 
+> Usage example: -display gtk,monitor.0=0,monitor.1=1.....
 
-Ok, pulling brings them, seems they got merged in the last 1-2 days.
+Depends on patch #1, so dropped both.  Please fix patch #1, rebase &
+resend.
 
-take care,
+thanks,
   Gerd
 
 
