@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A2A545CBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 09:00:07 +0200 (CEST)
-Received: from localhost ([::1]:47534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE7B545CC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 09:03:20 +0200 (CEST)
+Received: from localhost ([::1]:48592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzYcn-0007je-Ow
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 03:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53764)
+	id 1nzYft-0008ST-3K
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 03:03:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYWb-0003Gy-6P; Fri, 10 Jun 2022 02:53:41 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYWZ-00052N-LZ; Fri, 10 Jun 2022 02:53:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fMB90FSJtZya7rx++Bo7ETTqV5TcuPFY3/82ceRP05I=; b=YVhkJ3XgMVXUB16pF9YUEQITJ9
- kCNrjMA6wqQBrKyrfMf5FAN4w1GsJJug/cXYkAd+j95gaOvZGapo/WWNKJY7w9Q906jG7FJDwUvAM
- LICbYPr3obGKPlQejoeFMGvuizwZd7X5/UhutIZCMo+4OCaOhhkG6lZ39ZWUFgSViOWpr2B8hU9kj
- NDEIlmYESEZSbc5OvDyRKsGp5S9eIMvJgxv02dQmlipdIIbxWloFQxKeMxwCyR1gdpiT9lraqwXsH
- KYwATSLwwuRj7LrRTy3XBArZXCMfIB5us/LiBdYP2b3eCULeSBslyqhUX8rqxYybBfUecSnIdUzgg
- Xo0I2c4uhrqFlUKG7Q/IisNx+L+n/WQcpa47SyjTsuT0JyZPMbPmfZ8NoAj/t9ZXWf3QjiD1h8+XY
- /hAibVKSs4x7rAwQ9rIV+f5HQ/KmTjOeLnAFC0WBOdXDqRo2sZqH4hhRnkHGWUBK2wxeHvE0hQaVr
- um2oBKV5LgB7zRAgSvmmlbVxVftDfjSk+WZ0GIVrgND+uHLYphPYs/mvcBjHJBAwrUBVrEZu8StSg
- YJPRVNURIZrP7gPnExUCsSxu/qEQxg5k+Pj9pAxoax2zfZ6wEtmaAgzmLuywNTaizU0X4BQ9xw47e
- Gx0JRSZGMiCTRP2fmCc685J8IJO2IioeHV5UXcWEg=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYVE-000172-55; Fri, 10 Jun 2022 07:52:20 +0100
-Message-ID: <9fb5d9ea-35c0-c6a9-d2d9-b264093665ee@ilande.co.uk>
-Date: Fri, 10 Jun 2022 07:53:17 +0100
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1nzYWW-0003DA-6V
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 02:53:37 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:55084 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1nzYWT-00051x-Ji
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 02:53:35 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxaeRk6qJiJP01AA--.58414S3; 
+ Fri, 10 Jun 2022 14:53:24 +0800 (CST)
+Subject: Re: [PATCH v15 8/9] target/loongarch: Adjust functions and structure
+ to support user-mode
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20220609024209.2406188-1-gaosong@loongson.cn>
+ <20220609024209.2406188-9-gaosong@loongson.cn>
+ <4c0fd198-922e-d94f-fec4-05c53c5d6858@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <e6e9c111-ca44-0126-b7a5-dcffe33385a5@loongson.cn>
+Date: Fri, 10 Jun 2022 14:53:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+In-Reply-To: <4c0fd198-922e-d94f-fec4-05c53c5d6858@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------A5BF89289D3E693B333BCFC7"
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
- f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-23-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA9UcEHGE0BL5Dz3mVC+T9Z4XrMidhxFGWR92sMQ-0rrEA@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <CAFEAcA9UcEHGE0BL5Dz3mVC+T9Z4XrMidhxFGWR92sMQ-0rrEA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 22/50] pckbd: implement i8042_mmio_reset() for I8042_MMIO
- device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-CM-TRANSID: AQAAf9BxaeRk6qJiJP01AA--.58414S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7AF4DAF4DJr1UXr1UKFWfKrg_yoW8XryxpF
+ y8Ar47AryUGrn5Xw1UGr1UKFyUJr1UGw4UJw1xJa47Kw4UXr1Ygr1UWw4q9ry7JrWrJr15
+ AFWav347ur4UXwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
+ 87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+ Aq07x20xvEncxIr21lYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I
+ 1l7480Y4vEI4kI2Ix0rVAqx4xJMxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svPMxAI
+ w28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
+ VjvjDU0xZFpf9x0JUtkuxUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,45 +79,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/06/2022 11:49, Peter Maydell wrote:
+This is a multi-part message in MIME format.
+--------------A5BF89289D3E693B333BCFC7
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> On Sun, 22 May 2022 at 19:19, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> This allows the I8042_MMIO reset function to be registered directly within the
->> DeviceClass rather than using qemu_register_reset() directly.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/input/pckbd.c | 13 ++++++++++---
->>   1 file changed, 10 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
->> index bbdd3bc568..df443aaff2 100644
->> --- a/hw/input/pckbd.c
->> +++ b/hw/input/pckbd.c
->> @@ -665,10 +665,20 @@ static const MemoryRegionOps i8042_mmio_ops = {
->>       .endianness = DEVICE_NATIVE_ENDIAN,
->>   };
->>
->> +static void i8042_mmio_reset(DeviceState *dev)
->> +{
->> +    MMIOKBDState *s = I8042_MMIO(dev);
->> +    KBDState *ks = &s->kbd;
->> +
->> +    ks->extended_state = true;
->> +    kbd_reset(ks);
->> +}
-> 
-> extended_state is not runtime guest-changeable state, it's a
-> device property that's set at device creation time. So we
-> shouldn't be setting it to 'true' here, but instead in the
-> device init or realize function.
+Hi Richard,
 
-Ah oops. I'll move it to a corresponding device init function in v2.
+On 2022/6/10 上午2:42, Richard Henderson wrote:
+>>   void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, 
+>> target_ulong rk)
+>>   {
+>>       if (rj > rk) {
+>> +#ifdef CONFIG_USER_ONLY
+>> +        cpu_loop_exit_sigsegv(env_cpu(env), GETPC(),
+>> +                              MMU_DATA_LOAD, true, GETPC());
+>> +#else
+>>           do_raise_exception(env, EXCCODE_ADEM, GETPC());
+>> +#endif
+>
+> This change is wrong.  First, the kernel's do_ade raises SIGBUS. 
+> Second, GETPC() is a host address, not a guest address.  Third, this 
+> highlights the fact that the existing system code is wrong, and should 
+> be setting badvaddr.
+>
+> You need to
+> (1) set badvaddr here, and then
+> (2) handle EXCCODE_ADEM in linux-user/loongarch/cpu_loop.c to 
+> force_fix_fault(TARGET_SIGBUS, TARGET_BUS_ADRERR, env->badvaddr). 
 
+badvaddr is env->pc or base->pc_next?   and we just raise exception on 
+use-mode,
 
-ATB,
+like this
 
-Mark.
+   void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, 
+target_ulong rk)
+   {
+       if (rj > rk) {
+
+          env->badvaddr = env->pc;
+
+#ifdef CONFIG_USER_ONLY
+           do_raise_exception(env, EXCCODE_ADEM, GETPC());
+#endif
+
+       }
+
+}
+
+cpu_loop.c
+
+         case EXCCODE_ADEM:
+             force_sig_fault(TARGET_SIGBUS, TARGET_BUS_ADRERR, 
+env->badvaddr);
+             break;
+
+Thanks.
+Song Gao
+
+--------------A5BF89289D3E693B333BCFC7
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Richard,<br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/6/10 上午2:42, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:4c0fd198-922e-d94f-fec4-05c53c5d6858@linaro.org">
+      <blockquote type="cite" style="color: #000000;">  void
+        helper_asrtle_d(CPULoongArchState *env, target_ulong rj,
+        target_ulong rk)
+        <br>
+          {
+        <br>
+              if (rj &gt; rk) {
+        <br>
+        +#ifdef CONFIG_USER_ONLY
+        <br>
+        +        cpu_loop_exit_sigsegv(env_cpu(env), GETPC(),
+        <br>
+        +                              MMU_DATA_LOAD, true, GETPC());
+        <br>
+        +#else
+        <br>
+                  do_raise_exception(env, EXCCODE_ADEM, GETPC());
+        <br>
+        +#endif
+        <br>
+      </blockquote>
+      <br>
+      This change is wrong.  First, the kernel's do_ade raises SIGBUS. 
+      Second, GETPC() is a host address, not a guest address.  Third,
+      this highlights the fact that the existing system code is wrong,
+      and should be setting badvaddr.
+      <br>
+      <br>
+      You need to
+      <br>
+      (1) set badvaddr here, and then
+      <br>
+      (2) handle EXCCODE_ADEM in linux-user/loongarch/cpu_loop.c to
+      force_fix_fault(TARGET_SIGBUS, TARGET_BUS_ADRERR,
+      env-&gt;badvaddr).
+    </blockquote>
+    <p>badvaddr is env-&gt;pc or base-&gt;pc_next?   and we just raise
+      exception on use-mode,<br>
+    </p>
+    <p>like this</p>
+    <p>  void helper_asrtle_d(CPULoongArchState *env, target_ulong rj,
+      target_ulong rk)
+      <br>
+        {
+      <br>
+            if (rj &gt; rk) { <br>
+    </p>
+    <p>         env-&gt;badvaddr = env-&gt;pc;<br>
+    </p>
+    <p>#ifdef CONFIG_USER_ONLY
+      <br>
+                do_raise_exception(env, EXCCODE_ADEM, GETPC());
+      <br>
+      #endif <br>
+    </p>
+    <p>      }</p>
+    <p>}</p>
+    <p>cpu_loop.c</p>
+    <p>        case EXCCODE_ADEM:<br>
+                  force_sig_fault(TARGET_SIGBUS, TARGET_BUS_ADRERR,
+      env-&gt;badvaddr);<br>
+                  break;<br>
+      <br>
+    </p>
+    Thanks. <br>
+    Song Gao<br>
+  </body>
+</html>
+
+--------------A5BF89289D3E693B333BCFC7--
+
 
