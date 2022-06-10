@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17DAF5469E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 17:57:04 +0200 (CEST)
-Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19751546A1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 18:08:36 +0200 (CEST)
+Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzh0Q-0007N6-IP
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 11:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34500)
+	id 1nzhBa-0006b6-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 12:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzgyq-0006Nx-Ve
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:55:25 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:40525)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzh6m-0004RO-D9
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:03:36 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:42421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzgyp-0005Kx-90
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:55:24 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id i1so23093362plg.7
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 08:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vWBILHyYafkrGwWyaeFe5YmusHC5lkUrN4uXu0qFjZk=;
- b=TwOc2504hMD47saMCOHBimoCVqf2LRWUJ1k9vjUdePnd8WYqZ9KiHkGBuT8gdDdIJu
- 43F1nUagnd0kW2Z1cIvaj//oSsqqCHw1bCp5nGScmoHFpqGSGEvdGWKdKOhlhROlKEQx
- xeW2t0X+R8ZDfMJr7jbd2d4NBhs0WwT/9gPkUj4MJmI4wIysWktJ9O+WbjOdtcjZaSPA
- tGcsT7AfDhvlMiJ1GyjxUZCSI3aZ9fKHbfH3yW7wEDkrvybBxwwecXG9bNT4lvVSVf4s
- JxGdmX1a8VZpdJqxUoMYGXkOPa7z8SO6DklGKSv+f0YccbnmAP6StGFEVF31VfeGeiAr
- 1nYQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzh6k-0006VS-5v
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:03:36 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2ef5380669cso276764847b3.9
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 09:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tDLHMZIPgdmwO9gpUPBaTey1FMyJ0vxqN5vtllRnXt4=;
+ b=k8G75+Vc5IwNjUutMandQoLQ/RE3jisXUbU6OaKGdIoqSuCpiZ5KN68TXD3LTJgwFV
+ dnCv282szREWA7HFk8gRQ9wQQPHUYPt1bzb6Gqo5XYF7dqVoaAhuXvRGReySGlNFdQMR
+ iYw6Vd9rPFOzAba4fV1chCbYRMkDbbKyomNiZcVjH9gU5alP+Iq0P6ED+VzbdMAjB6LR
+ XbJg6LvUtYJyd9qBGNvYinRfSo0/xKehUQ2Fd6EiIImKjMZEEIa53q67M/wLGIvBLqXS
+ bAH/kM/baJ/Tx1f7tMZPLpdXsuyQw2wzsJj0NjD1hxKf/xq9iJsnc3ryCGkWTiFFrXfn
+ ZhCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vWBILHyYafkrGwWyaeFe5YmusHC5lkUrN4uXu0qFjZk=;
- b=3FlRpop9WQRS5ppEYu3x/Kuy2jQxhvk5CAuQR0w2OS/WxPwlMXJ8mtEuzs3yCef7iZ
- kjMVTXJGNuw67lXNRzCe8NaY7PQEfAJ34qVatPPbqUUF7m+AbZHIfEZvveo5pPyA66wp
- QxLCu3YV9V8Wf0FpgVRRpWvFkWR6TpQioSGrtCU3IJ/4/OIhIcoIfV+RqgAMqdSgiTAq
- qxWfdKDKUDM5EuviyK/hVFdFs/kQHWpnQ3Y2BWMMyBI7Luf4pA/3C+ceXBkkgG5VHrPE
- txZeuu5YujvgNwFhDu10blmcHsOOX4lGHSue5ysYeKBXLkNxNNfsJt+afjmba5hJ6idW
- MRVQ==
-X-Gm-Message-State: AOAM530B6G7iLqym/8LWk5S2CZN/WkyMVFzc1EO5uMER8zYnSDnsvh/G
- M605dHyw+DD9IlXKqqiEO8w=
-X-Google-Smtp-Source: ABdhPJwJ7/5SFD0NWj2DrIxCX2CeM7CPw5YTGOw45ekAaijFXEWRRn9XPPDsVT0C+vIkgFE2WHiBPg==
-X-Received: by 2002:a17:903:2348:b0:163:fc70:a4cd with SMTP id
- c8-20020a170903234800b00163fc70a4cdmr45806031plh.89.1654876521690; 
- Fri, 10 Jun 2022 08:55:21 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- cp12-20020a170902e78c00b00163d6164889sm18981809plb.236.2022.06.10.08.55.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 08:55:21 -0700 (PDT)
-Message-ID: <93d111a8-222e-b46f-2f36-1d1784cf0373@amsat.org>
-Date: Fri, 10 Jun 2022 17:55:16 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tDLHMZIPgdmwO9gpUPBaTey1FMyJ0vxqN5vtllRnXt4=;
+ b=Y5X/mm4g3XIIQ/kzZymsKoTVEWahyz3djZWteRoDRuWRbrfMNz4IKFR7eZavRWeky0
+ rOJrnnSuedKIL78zmem/ZhQgNiO726CAaMw1BwsPtbQE+T8bUECb6B25KPFGrdO2izI5
+ nxmvvat43o00BlS+goo99nqtHrt4M96xK478TCUzulM6oCYPMdGviVgqlIRx4sBHXrJI
+ XxKyHdT5MLemUQmNVuFmuzVxh6lnMzPPS5+ILp2Y2FFnHqz2iANHxeCEFomMgxnJPxdD
+ 5PzGTN5W8Kg996pQVWtmfly2XtSXzlCL997Tjxby3cCg8CaomEfZ1PC48KVHbRtayeGY
+ aEBQ==
+X-Gm-Message-State: AOAM531FVSiCYCNoU7gt52EsVSWPaOuiHPvdAGxOP+ZtJr7oXrIMiltw
+ fxS2uVvRxyH7Qca+FVr/COpbTfQVj+OKGCLJWqvgIQ==
+X-Google-Smtp-Source: ABdhPJw0zA9LzuYrUvgXHQ/BcgMM7Issa0TwnTGmisaRf97DbH8nHNl0S3rxyxjPee9Uj9dJVyZG81WTGOC/yp8POFc=
+X-Received: by 2002:a05:690c:808:b0:30c:4f5c:b319 with SMTP id
+ bx8-20020a05690c080800b0030c4f5cb319mr47584116ywb.64.1654877012686; Fri, 10
+ Jun 2022 09:03:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PULL 54/54] crypto: Introduce RSA algorithm
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- zhenwei pi <pizhenwei@bytedance.com>, Gonglei <arei.gonglei@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220610075631.367501-1-mst@redhat.com>
- <20220610075631.367501-55-mst@redhat.com>
-In-Reply-To: <20220610075631.367501-55-mst@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <20220610154036.1253158-1-alex.bennee@linaro.org>
+In-Reply-To: <20220610154036.1253158-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Jun 2022 17:03:22 +0100
+Message-ID: <CAFEAcA9B1NJs4F_LVQ6FomJ0KMVZ-OFwYNjd5_=veYCNTd8tiw@mail.gmail.com>
+Subject: Re: [RFC PATCH] target/arm: de-duplicate our register XML definitions
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, agorglouk@gmail.com, 
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,116 +84,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 10/6/22 09:59, Michael S. Tsirkin wrote:
-> From: zhenwei pi <pizhenwei@bytedance.com>
-> 
-> There are two parts in this patch:
-> 1, support akcipher service by cryptodev-builtin driver
-> 2, virtio-crypto driver supports akcipher service
-> 
-> In principle, we should separate this into two patches, to avoid
-> compiling error, merge them into one.
-> 
-> Then virtio-crypto gets request from guest side, and forwards the
-> request to builtin driver to handle it.
-> 
-> Test with a guest linux:
-> 1, The self-test framework of crypto layer works fine in guest kernel
-> 2, Test with Linux guest(with asym support), the following script
-> test(note that pkey_XXX is supported only in a newer version of keyutils):
->    - both public key & private key
->    - create/close session
->    - encrypt/decrypt/sign/verify basic driver operation
->    - also test with kernel crypto layer(pkey add/query)
-> 
-> All the cases work fine.
-> 
-> Run script in guest:
-> rm -rf *.der *.pem *.pfx
-> modprobe pkcs8_key_parser # if CONFIG_PKCS8_PRIVATE_KEY_PARSER=m
-> rm -rf /tmp/data
-> dd if=/dev/random of=/tmp/data count=1 bs=20
-> 
-> openssl req -nodes -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -subj "/C=CN/ST=BJ/L=HD/O=qemu/OU=dev/CN=qemu/emailAddress=qemu@qemu.org"
-> openssl pkcs8 -in key.pem -topk8 -nocrypt -outform DER -out key.der
-> openssl x509 -in cert.pem -inform PEM -outform DER -out cert.der
-> 
-> PRIV_KEY_ID=`cat key.der | keyctl padd asymmetric test_priv_key @s`
-> echo "priv key id = "$PRIV_KEY_ID
-> PUB_KEY_ID=`cat cert.der | keyctl padd asymmetric test_pub_key @s`
-> echo "pub key id = "$PUB_KEY_ID
-> 
-> keyctl pkey_query $PRIV_KEY_ID 0
-> keyctl pkey_query $PUB_KEY_ID 0
-> 
-> echo "Enc with priv key..."
-> keyctl pkey_encrypt $PRIV_KEY_ID 0 /tmp/data enc=pkcs1 >/tmp/enc.priv
-> echo "Dec with pub key..."
-> keyctl pkey_decrypt $PRIV_KEY_ID 0 /tmp/enc.priv enc=pkcs1 >/tmp/dec
-> cmp /tmp/data /tmp/dec
-> 
-> echo "Sign with priv key..."
-> keyctl pkey_sign $PRIV_KEY_ID 0 /tmp/data enc=pkcs1 hash=sha1 > /tmp/sig
-> echo "Verify with pub key..."
-> keyctl pkey_verify $PRIV_KEY_ID 0 /tmp/data /tmp/sig enc=pkcs1 hash=sha1
-> 
-> echo "Enc with pub key..."
-> keyctl pkey_encrypt $PUB_KEY_ID 0 /tmp/data enc=pkcs1 >/tmp/enc.pub
-> echo "Dec with priv key..."
-> keyctl pkey_decrypt $PRIV_KEY_ID 0 /tmp/enc.pub enc=pkcs1 >/tmp/dec
-> cmp /tmp/data /tmp/dec
-> 
-> echo "Verify with pub key..."
-> keyctl pkey_verify $PUB_KEY_ID 0 /tmp/data /tmp/sig enc=pkcs1 hash=sha1
-> 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> Signed-off-by: lei he <helei.sig11@bytedance.com
-> Message-Id: <20220527084734.2649594-2-pizhenwei@bytedance.com>
-> Reviewed-by: Gonglei <arei.gonglei@huawei.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+On Fri, 10 Jun 2022 at 16:40, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> We generate the XML for each vCPU we create which for heavily threaded
+> linux-user runs can add up to a lot of memory. Unfortunately we can't
+> only do it once as we may have vCPUs with different capabilities in
+> different cores but we can at least free duplicate definitions if we
+> find them.
+
+How big actually is the XML here? 400 bytes? 4K? 40K? 400K?
+
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1070
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+Can we defer the work until/unless gdb actually asks for it?
+
+I have some details-of-the-code comments below, but first:
+does gdb even support having the XML for each CPU be different?
+Our gdbstub.c seems to always ask for the XML only for the first
+CPU in the "process". If gdb does support heterogenous CPU XML,
+does it require that different XML descriptions have different
+names? We always call them system-registers.xml and sve-registers.xml
+regardless of whether different CPUs might have different contents
+for those XML blobs...
+
 > ---
->   include/hw/virtio/virtio-crypto.h |   5 +-
->   include/sysemu/cryptodev.h        |  83 ++++++--
->   backends/cryptodev-builtin.c      | 274 +++++++++++++++++++++----
->   backends/cryptodev-vhost-user.c   |  34 +++-
->   backends/cryptodev.c              |  32 ++-
->   hw/virtio/virtio-crypto.c         | 319 ++++++++++++++++++++++++------
->   6 files changed, 605 insertions(+), 142 deletions(-)
+>  target/arm/gdbstub.c | 38 ++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 36 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+> index 2f806512d0..85ef6dc6db 100644
+> --- a/target/arm/gdbstub.c
+> +++ b/target/arm/gdbstub.c
+> @@ -318,7 +318,24 @@ int arm_gen_dynamic_sysreg_xml(CPUState *cs, int bas=
+e_reg)
+>      g_string_append_printf(s, "<feature name=3D\"org.qemu.gdb.arm.sys.re=
+gs\">");
+>      g_hash_table_foreach(cpu->cp_regs, arm_register_sysreg_for_xml, &par=
+am);
+>      g_string_append_printf(s, "</feature>");
+> -    cpu->dyn_sysreg_xml.desc =3D g_string_free(s, false);
+> +
+> +    /* De-duplicate system register descriptions */
+> +    if (cs !=3D first_cpu) {
+> +        CPUState *other_cs;
+> +        CPU_FOREACH(other_cs) {
+> +            ARMCPU *other_arm =3D ARM_CPU(other_cs);
+> +            if (g_strcmp0(other_arm->dyn_sysreg_xml.desc, s->str) =3D=3D=
+ 0) {
 
-> +static int cryptodev_builtin_set_rsa_options(
-> +                    int virtio_padding_algo,
-> +                    int virtio_hash_algo,
-> +                    QCryptoAkCipherOptionsRSA *opt,
-> +                    Error **errp)
-> +{
-> +    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_PKCS1_PADDING) {
-> +        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_PKCS1;
-> +        opt->hash_alg =
-> +            cryptodev_builtin_get_rsa_hash_algo(virtio_hash_algo, errp);
-> +        if (opt->hash_alg < 0) {
-> +            return -1;
+If you check whether the dyn_sysreg_xml.num matches first, that will
+probably be a much faster way of checking in almost all cases than
+doing the strcmp on the however-long-it-is XML string: it seems unlikely
+that in a heterogenous config the CPUs will manage to have exactly the
+same number of registers.
+
+If you have a setup with, say, 4 CPUs of type X and then 4 of type Y,
+for every type Y CPU this loop will do the strcmp of Y's XML against
+the type X XML for cpu 0, then again for 1, then again for 2, then for 3,
+even though in theory we already know at that point that 0,1,2,3 all
+have the same XML and so if it didn't match for cpu 0 it won't match
+for 1,2,3...  But maybe the comparison against the number-of-registers
+saves us from having to try to optimise that away.
+
+> +                cpu->dyn_sysreg_xml.desc =3D other_arm->dyn_sysreg_xml.d=
+esc;
+> +                g_string_free(s, true);
+> +                s =3D NULL;
+> +                break;
+> +            }
 > +        }
-> +        return 0;
 > +    }
 > +
-> +    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_RAW_PADDING) {
-> +        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_RAW;
-> +        return 0;
+> +    if (s) {
+> +        cpu->dyn_sysreg_xml.desc =3D g_string_free(s, false);
 > +    }
-> +
-> +    error_setg(errp, "Unsupported rsa padding algo: %d", virtio_padding_algo);
-> +    return -1;
-> +}
+>      return cpu->dyn_sysreg_xml.num;
+>  }
 
-Build failure:
-
-../backends/cryptodev-builtin.c:187:27: error: result of comparison of 
-unsigned enum expression < 0 is always false 
-[-Werror,-Wtautological-unsigned-enum-zero-compare]
-         if (opt->hash_alg < 0) {
-             ~~~~~~~~~~~~~ ^ ~
+-- PMM
 
