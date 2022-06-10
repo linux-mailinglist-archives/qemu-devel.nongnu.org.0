@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1D454689A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 16:43:45 +0200 (CEST)
-Received: from localhost ([::1]:47702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CC7546908
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 17:07:25 +0200 (CEST)
+Received: from localhost ([::1]:34010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzfrU-0001SV-Ud
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 10:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48384)
+	id 1nzgEN-0003yp-Mq
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 11:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzfpC-00070R-7S
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 10:41:22 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39760)
+ id 1nzgD8-0002Yy-PR
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:06:07 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:43647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzfpA-0002uA-P0
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 10:41:21 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- q12-20020a17090a304c00b001e2d4fb0eb4so2438558pjl.4
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 07:41:20 -0700 (PDT)
+ id 1nzgD5-0006FQ-Ld
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:06:06 -0400
+Received: by mail-pf1-x429.google.com with SMTP id x4so15518314pfj.10
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 08:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zLJNPPzEUyZvuyMFuHinoW60t+mjPzxt5dlM62276AQ=;
- b=In7AH7F39IDlt5XLZAm6hAr1A7R9MbUp4Gh0k8IpDtI/B+7gFWHcEdrzr2fhQFUP9S
- /ZP0wgZJ9q0iWd930OnmbCHiAIqPAWoVWnEqJLSN+giRhApGdQzTxYWcHCAC5AnJRjIJ
- qp+7SidjGKCHEE/OcOxcvR+Um2G27WOpI30+XrCE4MxN8N0kvNvIskUXEI/Uo7Mw69CC
- xN4jiA8+KDOWR57/sEC3bRCchAgs0oHtWBCp45mRkq/aM14e+kBYKLYjkgYGG9D8IDJb
- ccb8C7X4Xc2hmH2+tP1zz3QUUKRmsheObUE4WeRjGts72uwqVVeAf4kEBB9prAEX9gva
- aNmQ==
+ bh=m6CZBJ10VjF8+4mPoZxJzLTTWHodDPhV4gfWp9jbKnM=;
+ b=Pud08NK0Ru1BsRG0/fe//4P55UXsMgTdYpVFr1g3ufHm2JBV+YxXt/+N9EndtX2/ky
+ fpXp/Lwwgp3RbkV/rKFmnNoZiJxXws4QPfSj2TBpTecLLWJu/EegDjuNEQ4S+NTbKjK+
+ 5OflcWUqHPqspnXPrd4rAjK8+DafNFdc3C2QoBIB9J1lvf+gXa4dlJZAXDvmA0W5JBVk
+ ++uKF0Ht/FPyfijaedjBoU+hjrPAG0GG5OkZfsbSyqTFY6v11dNeWqqpSk8tKjkbk5hy
+ TbRFJj8JEQVmBDcvP0PjOVCSdc9QWcB6ObH9WY1Eoe6Yo16EXviO4PnMEAGR5whdMqJ8
+ 3S5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zLJNPPzEUyZvuyMFuHinoW60t+mjPzxt5dlM62276AQ=;
- b=HEZvlzkOI34R3G/9VDW71S/tfxd5Xvugpng3UfW4oOVcUfeix3BerW+8WIXGTUcvWj
- eVHgSBVkm6Nbzpv8+zb7qMnEQy9JMtOG8AP4Eii0/O41arHl7Zo5Q3JK0cDFcoElBUK7
- eTlBrsVBVH0eLZKOE8ROuYxYP23bhrO0nlmG5d9/CNk2HkxOEp+UJGusOpj1/fFbs4Wv
- CvyBo04CnahqPGM1XHt5GuQ+v3XW2fv1FMLpUhJkSI/jQ2MDkimNMuxZXQF+tSG9Qu6S
- +BnLqTOUpdqxsE7NS62yryBr1GYwZc2SOTdoYP/51t+fKmU2hDIhBgf2MuFWXlhCjt4B
- JIEQ==
-X-Gm-Message-State: AOAM532zdQw0O4COZSm5+NUg4o14aqQiALbLktdnk29QfD1jeMxkaSO+
- 654+bOEydJhJg/FMjpkfsGbcEFX4PTc=
-X-Google-Smtp-Source: ABdhPJwvnBYNALa7FisnzlG94U2E5azc26uPixCxHYdgFbrLmdRq5+FokZMB09A+turgXtaSrE4q7g==
-X-Received: by 2002:a17:90b:21d3:b0:1e3:2eee:3aba with SMTP id
- ll19-20020a17090b21d300b001e32eee3abamr96967pjb.232.1654872079482; 
- Fri, 10 Jun 2022 07:41:19 -0700 (PDT)
+ bh=m6CZBJ10VjF8+4mPoZxJzLTTWHodDPhV4gfWp9jbKnM=;
+ b=DL92ZYBK47To2IRCIlPCcipMNsRY9nLbOXXYdMeA7Dqaky5ZOzu2n9CCsjj+379H9s
+ ttLtet+MyKG8+2zSoqqxEWxQDhipoff97/UMtGkQoyB15+SjGQ8cKHv/+9joXvemBjG5
+ kxzVQ64oOoxO/f5MoNRZ5IMeheKR5XRcRvrbb5bA+UWEk9Wylw/xBLUkHP2+vw/bHZuo
+ slZauJSj+GdnYas7HuvX31/QVssEKVuREHw+RSGVfkMj2am5Z0+chn/1E5PUZCEgAvnI
+ xsGNa1cctG4QBhx5ygw4NWDecUfyzN6HIbkeeYPm4h9IcmnxGxIGw3c52pupFugXkelt
+ Lw4g==
+X-Gm-Message-State: AOAM532VF49wl7DrNZw2pIEVCFas/fi+g5DIJofChtw2QW8sas19zSPm
+ xqN+00AES2D3SDXTRYCAtS4=
+X-Google-Smtp-Source: ABdhPJx/AKOCl9jwE6ldoaV8bJp7A2AoHlJgQo8OkNd4/bCeIjnjWn2Mic1weyhTNNG5sIN+9mMacQ==
+X-Received: by 2002:a63:5464:0:b0:3c1:4930:fbd5 with SMTP id
+ e36-20020a635464000000b003c14930fbd5mr39228637pgm.94.1654873562126; 
+ Fri, 10 Jun 2022 08:06:02 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s14-20020a63450e000000b003fdb97e6961sm11018432pga.28.2022.06.10.07.41.17
+ n46-20020a056a000d6e00b0051c0784cb45sm12228206pfv.99.2022.06.10.08.06.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 07:41:18 -0700 (PDT)
-Message-ID: <ef86883c-fdc8-b27f-9ce9-d284f8243b18@amsat.org>
-Date: Fri, 10 Jun 2022 16:41:15 +0200
+ Fri, 10 Jun 2022 08:06:01 -0700 (PDT)
+Message-ID: <1cfdf6db-791b-1d4c-29ac-4248a917e273@amsat.org>
+Date: Fri, 10 Jun 2022 17:05:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH 0/7] Undeprecate nanoMIPS and fix multiple bugs
+Subject: Re: [PATCH v4 03/11] target/mips: Create report_fault for semihosting
 Content-Language: en-US
-To: Stefan Pejic <stefan.pejic@syrmia.com>, qemu-devel@nongnu.org
-Cc: ot_stefan.pejic@mediatek.com, ot_dragan.mladjenovic@mediatek.com
-References: <20220504110403.613168-1-stefan.pejic@syrmia.com>
-In-Reply-To: <20220504110403.613168-1-stefan.pejic@syrmia.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220608051945.802339-1-richard.henderson@linaro.org>
+ <20220608051945.802339-4-richard.henderson@linaro.org>
+In-Reply-To: <20220608051945.802339-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,20 +95,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 4/5/22 13:03, Stefan Pejic wrote:
-> This series of patches aims to undeprecate nanoMIPS architecture and fix
-> several issues that were found in recent testings.
-> 
-> Dragan Mladjenovic (4):
->    target/mips: Fix emulation of nanoMips EXTRV_S.H instruction
->    target/mips: Fix emulation of nanoMips BPOSGE32C instruction
->    target/mips: Fix emulation of nanoMips BNEC[32] instruction
->    target/mips: Fix handling of unaligned memory access for nanoMips ISA
-> 
-> Stefan Pejic (3):
->    target/mips: Fix emulation of nanoMips MTHLIP instruction
->    target/mips: Add missing default cases for some nanoMips pools
->    target/mips: Undeprecate nanoMips ISA support in QEMU
+Hi Richard,
 
-Thanks, queued to mips-next.
+On 8/6/22 07:19, Richard Henderson wrote:
+> The UHI specification does not have an EFAULT value,
+> and further specifies that "undefined UHI operations
+> should not return control to the target".
+> 
+> So, log the error and abort.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/mips/tcg/sysemu/mips-semi.c | 33 ++++++++++++++----------------
+>   1 file changed, 15 insertions(+), 18 deletions(-)
+> 
+> diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+> index 2a039baf4c..33221444e1 100644
+> --- a/target/mips/tcg/sysemu/mips-semi.c
+> +++ b/target/mips/tcg/sysemu/mips-semi.c
+> @@ -114,6 +114,13 @@ enum UHIErrno {
+>       UHI_EXDEV           = 18,
+>   };
+>   
+> +static void report_fault(CPUMIPSState *env)
+> +{
+> +    int op = env->active_tc.gpr[25];
+> +    error_report("Fault during UHI operation %d", op);
+> +    abort();
+
+This is a guest error, no need to debug QEMU internals...
+Can we simply exit(1) instead?
 
