@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E700546FDD
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 01:12:10 +0200 (CEST)
-Received: from localhost ([::1]:58766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7B6547003
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 01:30:52 +0200 (CEST)
+Received: from localhost ([::1]:33668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nznnV-0001JP-7F
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 19:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52492)
+	id 1nzo5b-00055b-7e
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 19:30:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nznlv-0000Cq-1w
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 19:10:32 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:39786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nznls-0003eZ-D1
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 19:10:30 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- q12-20020a17090a304c00b001e2d4fb0eb4so3601065pjl.4
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 16:10:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=WNV2VkktI3cHY8Bika+hFtwZHwjzjM2ZG/PKrEoCmsg=;
- b=ohrEpYPGng8l9my9zDCDJoSdah2epia3dWyPKRKwkMzVsLe3Qv8cPT6cXcAC34Ym2D
- OyVVk45QEPag+ap1I8yf9ybqG6yu94PrWyc67dCKQPSywshfjdh9oh+wqAIuFAxuSjEv
- ZQhoo4nFdHC8YPOeanh+E6OsaqXqJMfOFn2WPKtEZPlZK7f05ga8Ym1u2KT/7K94+7KP
- vttKoLpTErJrNfqYEDliR60/MiK7h7+w/LuIIfdCT+Z9MYmEts2gMCqcs2PoQB8s8Aib
- ym+YcBydkThxV1gqdwS7y/vBt8UutsZ/YWCSZLPee99BeHquHeetNksHJoxsDilHveTE
- JN8g==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzo3y-0004Mz-Gr
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 19:29:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38436)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzo3v-0005nu-QT
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 19:29:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654903746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=Sosh2OQUNP+f8umkICGShyv5zkeilyIHhpwIMm6HF/A=;
+ b=OxHh+oH/yI8nhB41R+7TGalfRWwq1sX+nEnUatGo52eW3wKUAKIN8RevO1mtg+T+cFm12Y
+ LZL4tdl2p6TpfXj0fFeYXOrcLmuzCksgmjbUb2JrdgdQDcoDhLUwHNxcYMSX1ddYvT5WCX
+ +NFULn2DuvgVGr757b7IvZEXszb0aq4=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-596-hPE71aE4OCyuL9IHIfKJ1Q-1; Fri, 10 Jun 2022 19:29:05 -0400
+X-MC-Unique: hPE71aE4OCyuL9IHIfKJ1Q-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ r88-20020ab04561000000b0037955632d4aso219382uar.9
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 16:29:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WNV2VkktI3cHY8Bika+hFtwZHwjzjM2ZG/PKrEoCmsg=;
- b=aDafKkawo00ROK7OFrHFn420beCtXArBft0BBHbciTLxYgWAq8aKdg3aR1XWV0C3iS
- lXIFWoj3f12rgyMVLnWwWrMxooupZoK5eHsChbo8oiOo/kevcJupc53F2dj91lUIy7T+
- VJs1tXF1anOqSj9fzPCIhsIqRsLWeIkh0FSi3IdJa9s6xunRDDMQXxZSXW+aug8HPm58
- 6fRrMDwNN1xOZ6NSOo6QM6agRBuyoDqBmGiQj5B8ARvf17Betzq5+tAhb920D3A4xvjk
- EBhJFmudt60R26WUc3GdURO5v/Z+Hp/3rwMfDM4xAXqmPX1hXPrPaIBniqHecGMQRMML
- xAkQ==
-X-Gm-Message-State: AOAM531mThDUFuEmJ38BU65IrAnmVqc1LfXCa2gKGBkxvvuPHSVUjJWN
- tfQQ3mZ2ZJt2M/8xp8qEtNBGgg==
-X-Google-Smtp-Source: ABdhPJx1w/oSpox1tLIbbK4iFIQa4wf2Y1iK3BF//fBMSUTYewmUUp5y9QrirbawNaubkTWmc/TwUw==
-X-Received: by 2002:a17:902:d591:b0:165:ddec:f6ef with SMTP id
- k17-20020a170902d59100b00165ddecf6efmr46480008plh.35.1654902626637; 
- Fri, 10 Jun 2022 16:10:26 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
- by smtp.gmail.com with ESMTPSA id
- ct21-20020a056a000f9500b0051c0784cb45sm95824pfb.99.2022.06.10.16.10.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 16:10:25 -0700 (PDT)
-Message-ID: <35cf1ba6-9fe0-f8a2-d0bc-3eb4f12ce7eb@linaro.org>
-Date: Fri, 10 Jun 2022 16:10:23 -0700
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=Sosh2OQUNP+f8umkICGShyv5zkeilyIHhpwIMm6HF/A=;
+ b=3Yvl6yoKVzYdNrMmBlPhHYLOYnCdDZ+rQU4Zr77tXx3ou+HSNuHCaM4x90LyTaEmM6
+ +xSYFN+kBQShCN/Z7g9GxXCXlh1tI6tZxKe4DzFhAa9mDS0wXdx2MR9XeOfsR7tF2xcJ
+ cyBbTIl8TNF3AxBxPWqMS5SBSmN6Pji+OhvjBjtlrmE2YPOgL0PuAZbebshFmnajV2aK
+ CLp7qwGAZf6H256lc189vtK9A9tMNIYyVPetjwp4jl4RWAErAJg0GuPGPEl1NQuU3RG7
+ hmtmPYfuMnXf7ex2Z7YgiEXUQcbHnS+uAbt6ZWlrG/S63NLoL558eOI4XuUQ/1s8cev+
+ rA1g==
+X-Gm-Message-State: AOAM533jMDmoTHzQlBXB7+YEghFF+gwiBdI6fZ/gJrR1kaNgcML3NpCa
+ 6PkP548QKx2I2sL6uXYswZVgp73SeQ0VpsyAd+C8gUYan9E30f1B3fQi/neijv/PvkIfB93WyGf
+ p8MlkpKEShsqN25UlbxRzHv94tOm3HdU=
+X-Received: by 2002:ab0:168a:0:b0:378:d73d:f630 with SMTP id
+ e10-20020ab0168a000000b00378d73df630mr13164227uaf.119.1654903744972; 
+ Fri, 10 Jun 2022 16:29:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1koouqzXHjrCC9BxZBGBefiTqNpCkX2Bb7SWi4ewd5IZomhylRroI5DxO8m2cUcU/O/oaCr8kz4oq+LkVu60=
+X-Received: by 2002:ab0:168a:0:b0:378:d73d:f630 with SMTP id
+ e10-20020ab0168a000000b00378d73df630mr13164220uaf.119.1654903744756; Fri, 10
+ Jun 2022 16:29:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/28] target-arm queue
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220610160738.2230762-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220610160738.2230762-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 10 Jun 2022 19:28:54 -0400
+Message-ID: <CAFn=p-ZwWzYa9h_-rNa-cA0CsDOJusy21D_RNtLffpTOgOHP-Q@mail.gmail.com>
+Subject: CentOS 8 cloud images not working under VM tests
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Daniel Berrange <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,89 +86,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/22 09:07, Peter Maydell wrote:
-> Just flushing my target-arm queue since I won't be working next week :-)
-> 
-> -- PMM
-> 
-> The following changes since commit b3cd3b5a66f0dddfe3d5ba2bef13cd4f5b89cde9:
-> 
->    Merge tag 'pull-riscv-to-apply-20220610' of github.com:alistair23/qemu into staging (2022-06-09 22:08:27 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220610
-> 
-> for you to fetch changes up to 90c072e063737e9e8f431489bbd334452f89056e:
-> 
->    semihosting/config: Merge --semihosting-config option groups (2022-06-10 14:32:36 +0100)
-> 
-> ----------------------------------------------------------------
->   * refactor exception routing code
->   * fix SCR_EL3 RAO/RAZ bits
->   * gdbstub: Don't use GDB syscalls if no GDB is attached
->   * semihosting/config: Merge --semihosting-config option groups
->   * tests/qtest: Reduce npcm7xx_sdhci test image size
+This test doesn't appear to work for me:
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+def build_image(self, img):
+    cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
+    img_tmp = img + ".tmp"
+    subprocess.check_call(["ln", "-f", cimg, img_tmp])
+    self.exec_qemu_img("resize", img_tmp, "50G")
+    self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
+    self.wait_ssh()
+    ^^^^^^^^^^^^^^^
 
+It appears to be expecting to be able to use passwordless entry, but
+that doesn't appear to actually work in this case.
 
-r~
+It looks like the cloud iso generate step is supposed to handle
+setting up keys -- and everything appears as if it's working -- but I
+get SSH timeouts at this step.
 
+From what I can see:
 
-> 
-> ----------------------------------------------------------------
-> Hao Wu (1):
->        tests/qtest: Reduce npcm7xx_sdhci test image size
-> 
-> Peter Maydell (2):
->        gdbstub: Don't use GDB syscalls if no GDB is attached
->        semihosting/config: Merge --semihosting-config option groups
-> 
-> Richard Henderson (25):
->        target/arm: Mark exception helpers as noreturn
->        target/arm: Add coproc parameter to syn_fp_access_trap
->        target/arm: Move exception_target_el out of line
->        target/arm: Move arm_singlestep_active out of line
->        target/arm: Move arm_generate_debug_exceptions out of line
->        target/arm: Use is_a64 in arm_generate_debug_exceptions
->        target/arm: Move exception_bkpt_insn to debug_helper.c
->        target/arm: Move arm_debug_exception_fsr to debug_helper.c
->        target/arm: Rename helper_exception_with_syndrome
->        target/arm: Introduce gen_exception_insn_el_v
->        target/arm: Rename gen_exception_insn to gen_exception_insn_el
->        target/arm: Introduce gen_exception_insn
->        target/arm: Create helper_exception_swstep
->        target/arm: Remove TBFLAG_ANY.DEBUG_TARGET_EL
->        target/arm: Move gen_exception to translate.c
->        target/arm: Rename gen_exception to gen_exception_el
->        target/arm: Introduce gen_exception
->        target/arm: Introduce gen_exception_el_v
->        target/arm: Introduce helper_exception_with_syndrome
->        target/arm: Remove default_exception_el
->        target/arm: Create raise_exception_debug
->        target/arm: Move arm_debug_target_el to debug_helper.c
->        target/arm: Fix Secure PL1 tests in fp_exception_el
->        target/arm: Adjust format test in scr_write
->        target/arm: SCR_EL3.RW is RAO/WI without AArch32 EL[12]
-> 
->   target/arm/cpu.h                 | 133 ++---------------------
->   target/arm/helper.h              |   8 +-
->   target/arm/internals.h           |  43 +-------
->   target/arm/syndrome.h            |   7 +-
->   target/arm/translate.h           |  43 ++------
->   gdbstub.c                        |  14 ++-
->   semihosting/config.c             |   1 +
->   target/arm/debug_helper.c        | 220 +++++++++++++++++++++++++++++++++++++--
->   target/arm/helper.c              |  53 ++++------
->   target/arm/op_helper.c           |  52 +++++----
->   target/arm/translate-a64.c       |  34 +++---
->   target/arm/translate-m-nocp.c    |  15 ++-
->   target/arm/translate-mve.c       |   3 +-
->   target/arm/translate-vfp.c       |  18 +++-
->   target/arm/translate.c           | 106 ++++++++++---------
->   tests/qtest/npcm7xx_sdhci-test.c |   2 +-
->   16 files changed, 390 insertions(+), 362 deletions(-)
-> 
+DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=no -o
+UserKnownHostsFile=/dev/null -o ConnectTimeout=1 -p 41729 -i
+/home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa -o
+SendEnv=https_proxy -o SendEnv=http_proxy -o SendEnv=ftp_proxy -o
+SendEnv=no_proxy qemu@127.0.0.1 exit 0
+Warning: Permanently added '[127.0.0.1]:41729' (ED25519) to the list
+of known hosts.
+qemu@127.0.0.1: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+
+...and the /home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa
+file looks identical to the qemu.git/tests/keys/id_rsa file, save for
+a missing trailing newline.
+
+From a subsequent run, turning SSH debug on, I see this:
+
+debug1: Offering public key:
+/home/jsnow/src/qemu/bin/git/vm-test-o_x2vdwo.tmp/id_rsa RSA
+SHA256:6TUK9PSgWR+CbTEKA6E9IyizVjt2ZW5ble/Mg4wUiao explicit
+debug3: send packet: type 50
+debug2: we sent a publickey packet, wait for reply
+debug3: receive packet: type 51
+
+... Which looks like the usual kind of bog-standard "Unrecognized key"
+kind of answer, IIUC.
+
+Is this working for anyone else, or can anyone offer some debugging
+tips on what's gone wrong here? I'm assuming it worked as of
+fb1fa97c69ca2299158229c78fea68c4036e6c1b ... Daniel, any clues?
+
+--js
 
 
