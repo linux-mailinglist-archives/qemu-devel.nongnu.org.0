@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548AF545E66
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:17:11 +0200 (CEST)
-Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FB6545E5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:16:55 +0200 (CEST)
+Received: from localhost ([::1]:50516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzZpO-0005RI-C5
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:17:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35052)
+	id 1nzZp7-0004pv-PF
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWM-0006Nr-AO
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56337)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWR-0006Re-Jv
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWK-0006C4-Oo
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWP-0006Cd-Vt
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847848;
+ s=mimecast20190719; t=1654847851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vZxTEcfc/oiDaPD6fjEHiXEYXxysVM4UQYltODL875E=;
- b=ghsjtXI2lY6nOoFfeOLehz3VmX/oLP2/TA4T7NyXAPocKwT3rAOjgdX4y/yY4agtORy0ut
- DfeUoxK6kdBjIGgSRV7wisnpVf9CpJJG5J5LYKm98RqyYXEMQNSdCdwZWFVf48lvXwpaxa
- SmUq05fKgRh5uvPZGBMozLgwvp0PluY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=n3YNKpaHVU6aZSU6CCGsDhinShLfgV49ZMxOmpgL2m8=;
+ b=iTeVWvSw+HbxW+sFpMNMribpOXN1Y4ASshgJuk7ZwaBtdbyaOA+8ny8Y0gLi9UtzKFG72r
+ hag5Opqw8n4YIfD2eSFuflUzoKrCyDD+5CZdCKE13/FVSyrNp8DMx6ZUbM6FyT9toHFCPy
+ f1leziDPN6r6FE0x/ygXzDQHRABzJYc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-vapPNx1zM-6VjY5vHwz3eA-1; Fri, 10 Jun 2022 03:57:26 -0400
-X-MC-Unique: vapPNx1zM-6VjY5vHwz3eA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bi22-20020a05600c3d9600b0039c4144992cso955657wmb.5
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:57:26 -0700 (PDT)
+ us-mta-343-bA8vhfUYMtSgd0xpOklR1w-1; Fri, 10 Jun 2022 03:57:29 -0400
+X-MC-Unique: bA8vhfUYMtSgd0xpOklR1w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v8-20020a7bcb48000000b0039c62488f77so3162417wmj.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:57:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=vZxTEcfc/oiDaPD6fjEHiXEYXxysVM4UQYltODL875E=;
- b=B8rleWYOfDNaLybqSK+4CtN8KKuNavbKZ5F1blKeEpg10AdWNd0H44pikRqPxgJXnG
- jta1Xb/1dC2VSznhFTzbahbCg6ywfly/gWZCPkqlfRpWBXA2k2GpLLNgsJauVvKbu+6I
- GiICc2+yDvp0KRtkdgbBrkz059Qe0NdT7mSUAnS2IyRkIxAZrBcSQmiF2ItNIGTV8nBD
- vcKKO1rnLAy4GO9ZDSoKJT2PD5B6k61Mb72DT+yMIc9DPfk2rKLOEI3Gsc+PdHiawdUf
- 6aupxUWQS0v+ISuuS/hquwjcn/FiXaOsYRukrRP7oRvdykqiUg+G5M+wPTv/gZuvDkVM
- Pi1w==
-X-Gm-Message-State: AOAM532hvxBLFzj/S3iHYb0j37ejZjQyh29Ts+6wIGbJtcMvFKqFOUEs
- pFm9mBxuU02CVF/q8eocukEt3+4wArn3SQ+7+xHZnVMnyZVg1efJtK1C3b1PUAPIa0CmSu8djZc
- t4GlOs611klNRD/QvtTQ00Owr8R5LzvJutrcDmY4fQP4vok+XzcR1kjoTiYs3
-X-Received: by 2002:a05:600c:19cf:b0:39c:63cb:9303 with SMTP id
- u15-20020a05600c19cf00b0039c63cb9303mr7599643wmq.9.1654847845034; 
- Fri, 10 Jun 2022 00:57:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYxh1UKPQSi6MlCUXv3zCOq1nI7eEvX1wKpe8qPTBHX8EAFiIgi+HFRkDparVHBRdAKNfWNQ==
-X-Received: by 2002:a05:600c:19cf:b0:39c:63cb:9303 with SMTP id
- u15-20020a05600c19cf00b0039c63cb9303mr7599612wmq.9.1654847844714; 
- Fri, 10 Jun 2022 00:57:24 -0700 (PDT)
+ bh=n3YNKpaHVU6aZSU6CCGsDhinShLfgV49ZMxOmpgL2m8=;
+ b=KJtRZjEiHc81iyZI+XZjVDVNZwuY2LVxoElG4CJ90v+VtfGGT2n8sB4KE6u77ytQn0
+ m+JbcwMICKqyCNcWJ1/Y6L0h1vINkuDlgH0mwt78ot44TcCz+MrwC5ItKW3bssmg0oQJ
+ 7k9PTH6MkbV+eWvGJYWuHnPgtxpYu7H2cD8rvfy7TIENfZCsbykM0AUZzRu+V4m4qLnK
+ EfKcRLNHwQT+1corKy0z8JYe3lmdiLEiyqxSHDyO/U4fcfFSmhhl5eS2JN5QvOajOpyG
+ k2OliqSYa/oE06Q/ng7eDLjheQUMmLtSxgb7RA23lfAw9YggC+c97aIERm2Vjr/dYwnE
+ JGWQ==
+X-Gm-Message-State: AOAM532/0tD4Mga245+Ssntga9aeMz37whxanXJkhda4bnLgM0MYl4rB
+ 2XlEa+YIom9tphE4u8GD7yyveCf0WlZpWMhK21XU0lHiyz7JpnUu4pnYlOHV8NvQjGgCMNaw+Eb
+ b0BXDWh9/T2ZngGS8Wtw5moUiaAK6xdkBCpsQGnylYcltrcVH2KDibtDSJJWo
+X-Received: by 2002:a5d:67c2:0:b0:215:7a0f:71f9 with SMTP id
+ n2-20020a5d67c2000000b002157a0f71f9mr36335157wrw.486.1654847848331; 
+ Fri, 10 Jun 2022 00:57:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwdN0HiWFHJUycji3w97PvFjOmwGRPynxaGRo+k5XZ6TSTs0RG+8zW2hG4mjnFP1JGyU/6EkA==
+X-Received: by 2002:a5d:67c2:0:b0:215:7a0f:71f9 with SMTP id
+ n2-20020a5d67c2000000b002157a0f71f9mr36335129wrw.486.1654847848069; 
+ Fri, 10 Jun 2022 00:57:28 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- c13-20020adffb0d000000b002183cf9cd69sm14222126wrr.15.2022.06.10.00.57.23
+ p5-20020adfce05000000b002102739add8sm32691430wrn.54.2022.06.10.00.57.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:57:24 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:57:22 -0400
+ Fri, 10 Jun 2022 00:57:27 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:57:24 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 07/54] acpi: pckbd: replace ISADeviceClass::build_aml with
- AcpiDevAmlIfClass:build_dev_aml
-Message-ID: <20220610075631.367501-8-mst@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Bernhard Beschow <shentey@gmail.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PULL 08/54] isa-bus: drop no longer used ISADeviceClass::build_aml
+Message-ID: <20220610075631.367501-9-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -103,64 +103,51 @@ From: Igor Mammedov <imammedo@redhat.com>
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20220608135340.3304695-8-imammedo@redhat.com>
+Message-Id: <20220608135340.3304695-9-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/input/pckbd.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ include/hw/isa/isa.h |  1 -
+ hw/isa/isa-bus.c     | 12 +-----------
+ 2 files changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index 4efdf75620..45c40fe3f3 100644
---- a/hw/input/pckbd.c
-+++ b/hw/input/pckbd.c
-@@ -29,7 +29,7 @@
- #include "qapi/error.h"
- #include "hw/isa/isa.h"
- #include "migration/vmstate.h"
--#include "hw/acpi/aml-build.h"
-+#include "hw/acpi/acpi_aml_interface.h"
- #include "hw/input/ps2.h"
- #include "hw/irq.h"
- #include "hw/input/i8042.h"
-@@ -767,9 +767,9 @@ static void i8042_realizefn(DeviceState *dev, Error **errp)
-     qemu_register_reset(kbd_reset, s);
- }
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 034d706ba1..5c5a3d43a7 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -64,7 +64,6 @@ struct IsaDmaClass {
  
--static void i8042_build_aml(ISADevice *isadev, Aml *scope)
-+static void i8042_build_aml(AcpiDevAmlIf *adev, Aml *scope)
- {
--    ISAKBDState *isa_s = I8042(isadev);
-+    ISAKBDState *isa_s = I8042(adev);
-     Aml *kbd;
-     Aml *mou;
-     Aml *crs;
-@@ -807,12 +807,12 @@ static Property i8042_properties[] = {
- static void i8042_class_initfn(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
--    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
-+    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
- 
-     device_class_set_props(dc, i8042_properties);
-     dc->realize = i8042_realizefn;
-     dc->vmsd = &vmstate_kbd_isa;
--    isa->build_aml = i8042_build_aml;
-+    adevc->build_dev_aml = i8042_build_aml;
-     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
- }
- 
-@@ -822,6 +822,10 @@ static const TypeInfo i8042_info = {
-     .instance_size = sizeof(ISAKBDState),
-     .instance_init = i8042_initfn,
-     .class_init    = i8042_class_initfn,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_ACPI_DEV_AML_IF },
-+        { },
-+    },
+ struct ISADeviceClass {
+     DeviceClass parent_class;
+-    void (*build_aml)(ISADevice *dev, Aml *scope);
  };
  
- static void i8042_register_types(void)
+ struct ISABus {
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 237e2cee12..1bee1a47f1 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -191,19 +191,9 @@ ISADevice *isa_vga_init(ISABus *bus)
+ void isa_build_aml(ISABus *bus, Aml *scope)
+ {
+     BusChild *kid;
+-    ISADevice *dev;
+-    ISADeviceClass *dc;
+ 
+     QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
+-        dev = ISA_DEVICE(kid->child);
+-        dc = ISA_DEVICE_GET_CLASS(dev);
+-        bool has_build_dev_aml = !!object_dynamic_cast(OBJECT(dev),
+-                                                       TYPE_ACPI_DEV_AML_IF);
+-        if (dc->build_aml) {
+-            dc->build_aml(dev, scope);
+-        } else if (has_build_dev_aml) {
+-            call_dev_aml_func(DEVICE(dev), scope);
+-        }
++        call_dev_aml_func(DEVICE(kid->child), scope);
+     }
+ }
+ 
 -- 
 MST
 
