@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95918546BA9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 19:30:07 +0200 (CEST)
-Received: from localhost ([::1]:36500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6D7546C22
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 20:07:19 +0200 (CEST)
+Received: from localhost ([::1]:48330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nziSU-0004SV-64
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 13:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51288)
+	id 1nzj2U-0007qz-A2
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 14:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nziQe-0003d8-L0
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 13:28:12 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33293)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nzj0a-00072X-SS
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 14:05:21 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nziQa-0002Hr-30
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 13:28:09 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id h5so37452494wrb.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 10:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fLFYo+xTMbEr3j+Z6mFEOzuhLPJVbsNAE+aOQpP1BNM=;
- b=EiSutmWWEeIfczsVdYNkVE5aXkOrqahSJB42Ukc/9avgzAdYtoR7mHsbsBGoJOkNe2
- YGUfKeQO8oufFNQMu56Pr8bwqmPBnJzCGj4qLLct930FZtqasO7nedQ2RoJ+08/ZOvy6
- CMeEEswk6NxDJS9g1ny5FD+ksE+pa+g+aN+11Y8Me66ysGC/3FTMsPJy/nuwXDQJlfbD
- ZDOxO3ECsg8w+pfNqjfBiohxc44TIrIuhCDhk+lpN5+fGoLBywokyaducZm9Ynjyo4z5
- /u+t0w77gK8f9019OwoMhwkEI4lnjC39i9wkgP5D7PT320BDOXULp3PdeVVpyOj/5JXH
- qTeQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nzj0Z-00010g-5N
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 14:05:20 -0400
+Received: by mail-pf1-x436.google.com with SMTP id z17so79795pff.7
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 11:05:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=P6X8+yeGg+WycNNKNu7JupPNb/HaIUN+q9W1g8qHYsI=;
+ b=nXhqCBlnyTwhAxCUdNbz2RIkGHcEBk92i18DiUJjZX1aikuXcGiGrgkt79iiHmZSRB
+ usu13KxGzqFFBOhU21LUccKOPwL/AsVoOcgVCDzsv8AQ1zLmKR77GbgcOG/B0zDbCgLZ
+ gFZkdKZKYymQ0VS4Tiefr9hQdUcM9yp50R6foRJ3fXGi1IPIFFFeRkvyj0vcz7aPYYm+
+ MofmwA5TYKToSXkiV1R54P76c8eFhvk/QKDkDMjAskNkpR43nmZk1MoMHrdZdwoTn+ia
+ 41nvSflTdENI7NzlyqXfhOrtHE2wmxub+CciAonhFz4R7KmXCpDF5ApcRDeugh+DQ3++
+ M4+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fLFYo+xTMbEr3j+Z6mFEOzuhLPJVbsNAE+aOQpP1BNM=;
- b=FL8GoBwQgWQDfjk/WLISzpEy77KW9IWnW+psa9Gg5OewqDydLI2wbn7W0j3mgJ8Seo
- s0CPPslzCSYVnuJ5Ghp9W6U1XZ6rH/KNJZa+CxBm2anXScSM+YO5C5dRu02So1qwgQ5/
- w5hAoLshLdJOuhlUskmR2VzjfjBEHj9S0Z5NxXpZW4b5IUrDMPHNDf9Sxo3eMigac53i
- j+smboi+Uob8BGgWZwjHKluj5wgP7YTCOi3fkfKxVyk//I83yguOzb/32NLdKxJjOZeY
- aQZddp9KJy0wBVs5UGFyBbxpGChRpGb/MWuNZy/evc+GMfDLpjAon5dg9J4NB+VdDJ5r
- vs7A==
-X-Gm-Message-State: AOAM533MZNAnEc8mFP42+RKD+DUBu/p1tTw5r312Wyaq/y9LSn5bjkFD
- UrXiHt+k4DCTgvLyvSYVZ02AtgegPp4movCbUcztvg==
-X-Google-Smtp-Source: ABdhPJzzFKdWxxakEc/JB62QCmW3tGzHXMgw1rD74QZLNCEOHptdpJR5FBgR/K5aYF5nPjGOhTjN8DhKW1ISbKQaaVs=
-X-Received: by 2002:a5d:6384:0:b0:210:5f39:53af with SMTP id
- p4-20020a5d6384000000b002105f3953afmr43343910wru.346.1654882086248; Fri, 10
- Jun 2022 10:28:06 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=P6X8+yeGg+WycNNKNu7JupPNb/HaIUN+q9W1g8qHYsI=;
+ b=psCf2OAYtAggPPPtCz1nblUHd0Uk0VA+404H4Qgg7qTUtYqI1UgQckrpMz56+/UQas
+ zbWVgBtt01VGpRd77crzQbwH0RPcJQxkDu6rfLXoW8xI2p2nFwJ/EjDmY9KXit3dhPQo
+ xUz/pYRUS8jeKhoxBAtbanXg4AoGsCXbSCrM5bFMskMBYk734xWeyXcmgYzwJTHZw/YJ
+ QSFAsyocUPlwqIWkbctL1ai3c28Ge5bI+WhQnutbkw1K+WB6Rhze+Z0zkkwl6kcCSa4G
+ d7MwtshwOA++vvrVAZtdrqGAEdWI/Vvlgu9jROBqPR9jYNH9dPd4zqb5YV1BDZmTBjHe
+ uNaQ==
+X-Gm-Message-State: AOAM533NYFWCJv3zROudGN6Ea4xxOAczr+yQ6EV8/BQoo8e5aMfQ5XZi
+ fBKdTXblIR7NlScX4Q1rNGz1eA==
+X-Google-Smtp-Source: ABdhPJxcDD7S4N8WrvmdQzTTfCMOpheKZjHZnzrm/d11gBg7AuEgqwQiN2QWTnjLV1/MEs9+l5ls4A==
+X-Received: by 2002:a05:6a00:140f:b0:4e0:6995:9c48 with SMTP id
+ l15-20020a056a00140f00b004e069959c48mr113125030pfu.59.1654884317041; 
+ Fri, 10 Jun 2022 11:05:17 -0700 (PDT)
+Received: from [172.21.2.253] ([50.208.55.229])
+ by smtp.gmail.com with ESMTPSA id
+ i8-20020a17090a64c800b001e08461ceaesm2054470pjm.37.2022.06.10.11.05.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Jun 2022 11:05:16 -0700 (PDT)
+Message-ID: <fff6fbb7-b1be-610d-c48d-0498df879ae2@linaro.org>
+Date: Fri, 10 Jun 2022 11:05:13 -0700
 MIME-Version: 1.0
-References: <20220609033011.752714-4-apatel@ventanamicro.com>
- <OSZP286MB1435EBB271F8E9EEF5E2EF95C6A69@OSZP286MB1435.JPNP286.PROD.OUTLOOK.COM>
- <CAAhSdy1zyiV9PgDCY+4ijrzfeAdJ44wfT0b5dY+NqXzieZo_KQ@mail.gmail.com>
- <TYYP286MB1439D28F79FE7CE82885DB9DC6A69@TYYP286MB1439.JPNP286.PROD.OUTLOOK.COM>
-In-Reply-To: <TYYP286MB1439D28F79FE7CE82885DB9DC6A69@TYYP286MB1439.JPNP286.PROD.OUTLOOK.COM>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 10 Jun 2022 22:57:53 +0530
-Message-ID: <CAAhSdy1-0aU2dMPe0WW=re_QXionheQzpfC-kcfOjOPZNn5EoA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/4] target/riscv: Update [m|h]tinst CSR in
- riscv_cpu_do_interrupt()
-To: dramforever <dramforever@live.com>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::42a;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 54/54] crypto: Introduce RSA algorithm
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ zhenwei pi <pizhenwei@bytedance.com>, Gonglei <arei.gonglei@huawei.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20220610075631.367501-1-mst@redhat.com>
+ <20220610075631.367501-55-mst@redhat.com>
+ <93d111a8-222e-b46f-2f36-1d1784cf0373@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <93d111a8-222e-b46f-2f36-1d1784cf0373@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,70 +97,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 10, 2022 at 5:20 PM dramforever <dramforever@live.com> wrote:
->
-> >
-> >> In addition, the various V-extension vector load/store instructions do not have
-> >> defined transformations, so they should show up in [m|h]tinst as all zeros.
-> > Okay, I will update.
-> Just a clarification/suggestion: It might be easier to only write non-zero for
-> instructions with currently defined transformation. Writing zero is always
-> legal, but writing an undefined transformed instruction is not.
-> >>> @@ -1355,18 +1558,31 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-> >>>      if (!async) {
-> >>>          /* set tval to badaddr for traps with address information */
-> >>>          switch (cause) {
-> >>> -        case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
-> >>>          case RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT:
-> >>>          case RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT:
-> >>> -        case RISCV_EXCP_INST_ADDR_MIS:
-> >>> -        case RISCV_EXCP_INST_ACCESS_FAULT:
-> >>>          case RISCV_EXCP_LOAD_ADDR_MIS:
-> >>>          case RISCV_EXCP_STORE_AMO_ADDR_MIS:
-> >>>          case RISCV_EXCP_LOAD_ACCESS_FAULT:
-> >>>          case RISCV_EXCP_STORE_AMO_ACCESS_FAULT:
-> >>> -        case RISCV_EXCP_INST_PAGE_FAULT:
-> >>>          case RISCV_EXCP_LOAD_PAGE_FAULT:
-> >>>          case RISCV_EXCP_STORE_PAGE_FAULT:
-> >>> +            write_gva = env->two_stage_lookup;
-> >>> +            tval = env->badaddr;
-> >>> +            if (env->two_stage_indirect_lookup) {
-> >>> +                /*
-> >>> +                 * special pseudoinstruction for G-stage fault taken while
-> >>> +                 * doing VS-stage page table walk.
-> >>> +                 */
-> >>> +                tinst = (riscv_cpu_xlen(env) == 32) ? 0x00002000 : 0x00003000;
-> >>> +            } else {
-> >>> +                /* transformed instruction for all other load/store faults */
-> >>> +                tinst = riscv_transformed_insn(env, env->bins);
-> >>> +            }
-> >>> +            break;
-> >>> +        case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
-> >>> +        case RISCV_EXCP_INST_ADDR_MIS:
-> >>> +        case RISCV_EXCP_INST_ACCESS_FAULT:
-> >>> +        case RISCV_EXCP_INST_PAGE_FAULT:
-> >>>              write_gva = env->two_stage_lookup;
-> >>>              tval = env->badaddr;
-> >>>              break;
-> >> Instruction guest-page faults should set [m|h]tinst to one of the
-> >> pseudoinstructions if env->two_stage_lookup is true. Otherwise it should set
-> >> [m|h]tinst to zero.
-> >>
-> >> In any case, as this seems to be one of the first implementations of
-> >> [m|h]tinst, it might be worthwhile to confirm with the spec authors and clarify
-> >> any unclear bits before this gets released.
-> > This is already handled because tinst is initialized to zero.
->
-> If an instruction guest-page fault occurs due to a G-stage fault while doing
-> VS-stage page table walk, i.e. env->two_stage_indirect_lookup is true (I had
-> mistakenly wrote env->two_stage_lookup earlier), and the faulting guest
-> physical address (env->guest_phys_fault_addr) is written to mtval2/htval,
-> [m|h]tinst must be a pseudoinstruction and not zero. This case is not handled
-> in the v5 patch.
+On 6/10/22 08:55, Philippe Mathieu-Daudé wrote:
+> On 10/6/22 09:59, Michael S. Tsirkin wrote:
+>> From: zhenwei pi <pizhenwei@bytedance.com>
+>> +static int cryptodev_builtin_set_rsa_options(
+>> +                    int virtio_padding_algo,
+>> +                    int virtio_hash_algo,
+>> +                    QCryptoAkCipherOptionsRSA *opt,
+>> +                    Error **errp)
+>> +{
+>> +    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_PKCS1_PADDING) {
+>> +        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_PKCS1;
+>> +        opt->hash_alg =
+>> +            cryptodev_builtin_get_rsa_hash_algo(virtio_hash_algo, errp);
+>> +        if (opt->hash_alg < 0) {
+>> +            return -1;
+>> +        }
+>> +        return 0;
+>> +    }
+>> +
+>> +    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_RAW_PADDING) {
+>> +        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_RAW;
+>> +        return 0;
+>> +    }
+>> +
+>> +    error_setg(errp, "Unsupported rsa padding algo: %d", virtio_padding_algo);
+>> +    return -1;
+>> +}
+> 
+> Build failure:
+> 
+> ../backends/cryptodev-builtin.c:187:27: error: result of comparison of unsigned enum 
+> expression < 0 is always false [-Werror,-Wtautological-unsigned-enum-zero-compare]
+>          if (opt->hash_alg < 0) {
+>              ~~~~~~~~~~~~~ ^ ~
 
-The v5 patch is writing pseudoinstruction in [m|h]tinst when
-env->two_stage_indirect_lookup is true.
+Yep, e.g.
 
-Regards,
-Anup
+https://gitlab.com/qemu-project/qemu/-/jobs/2574418442
+
+
+r~
 
