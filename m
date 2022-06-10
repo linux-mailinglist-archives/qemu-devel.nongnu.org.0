@@ -2,78 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2022546ABD
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 18:46:54 +0200 (CEST)
-Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F35546A5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 18:29:59 +0200 (CEST)
+Received: from localhost ([::1]:47918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzhmf-00024s-Sb
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 12:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37566)
+	id 1nzhWI-0001Q3-MU
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 12:29:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzhBB-0007yO-IF
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:08:09 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:56210)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nzhHJ-00042O-UT
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:14:29 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:44926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzhB8-0007Ir-Ej
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:08:09 -0400
-Received: by mail-wm1-x329.google.com with SMTP id a10so11569599wmj.5
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 09:08:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=dwM07MgZ9U8IuH8vglEXLGz6MJ4yOYFMqsFY/ReOJHo=;
- b=j/ydB5cIsy/9tXF8PPVlZSw1UXHLDIyQglgzQ13WxUAjJFm9KsGA5DZ+PAe2BSexQV
- 1tPoAmGqXNTki1IOcgTQf3eJC8eG4YO93Jr6CgTlQHmRsqScmwFZqtNVoj4Dmr/Tnomu
- O00AqqlxGuCSHmUf3r0byW5Qg5ldcMoxxWpcpJGspKarjx1ulXoaL3V8gdB5VmZXraMb
- PS/UsW3jf1jivQ+r10L+vlnDHLic7NteWvLtpAiJL/q3FE2rvzR3udJg3kVE+0NcIOmy
- IKIYzCVMWt1mmFHJht2PxuDAkK45DUuYnnfK38eSUFIuqZhdngB/PUrJlCjOt0JJA9OP
- Y3Ng==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nzhHI-0008Dh-0s
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:14:29 -0400
+Received: by mail-pf1-x433.google.com with SMTP id g205so24228597pfb.11
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 09:14:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=sqYpRJpV7hTVkJzWeySC/55ywPreerEYyAHVK7rq9LA=;
+ b=ZehwwLYuij7pbQaghWD2GrdTIOfQ1XgasEUmVI+nhvd82X4ZEWGF79XBvheRliFM+8
+ LQlrxByJVokCQ/gINBsFhOZhZjHXcpmAir492TXOaXI7iC/F7Bwi4ptRQtYUbYGyY5SQ
+ TxK5qW/wV8CCV8YqQLV5jWM8YEEm92a1WCcQVxigUczBkLKzhwgrSGPjDy4yzeckQMEl
+ k23GcmLFp8s0aWbczjuNfnjBEB9gzzj7nGZZJi5rfah1FRb/8MQ3Cd99incf77459IOk
+ fmV8msfIleb4V2r4FMWvWw0fr1RX3bQCUO2JP23SfG2qby97FTF15ddfD8Y7n8su8tG3
+ h2BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dwM07MgZ9U8IuH8vglEXLGz6MJ4yOYFMqsFY/ReOJHo=;
- b=pihlY4ZrHvTmWdvkNixTOM00DvqXgAer6/iDn10lGnff9xKqDZgThuOY+37SxLbj3Z
- 0c6fML0f8BtzoGIvEh467qshBbRczKPu7/uNj4ZVg9OaCGp5GOSMBkwfiVZBjqsOySlV
- 5zc6GnYJbWhl6RtnMTGRd6xTEg2X8m0soH671TNkDuD4rFer8CEdDlGh14v3bzBr6KSE
- Xvbj6iLkSHteSJRguOWObeYJcikqYAyou7fufkLnpt0Ui4cYL95YRjgceIoy4z6h7ty6
- wHG3oXTKqueIRNcVktpZ8E2peDkDse3+psl5vz/1QiJszeajuUBQJVvPg9PoavAvhs0e
- HDlA==
-X-Gm-Message-State: AOAM530JdY/NYicgStv3j0cs+dM1qXFaG4hc9F+tUNCuzEsL7cuyZGvz
- NSkbuXGAp6d4BS0xUXbGvb7mtj0pWm0yXA==
-X-Google-Smtp-Source: ABdhPJwDy1Evg5tZRNWr6YZNLVRPQyE0SBgDnv2lI65GWjgqA3XDc9j1Hfr9EqaCBBL6V/BfmgfGKQ==
-X-Received: by 2002:a05:600c:4e0c:b0:39c:519f:9f35 with SMTP id
- b12-20020a05600c4e0c00b0039c519f9f35mr438808wmq.153.1654877284368; 
- Fri, 10 Jun 2022 09:08:04 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- bp11-20020a5d5a8b000000b0020c5253d926sm14276053wrb.114.2022.06.10.09.08.03
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sqYpRJpV7hTVkJzWeySC/55ywPreerEYyAHVK7rq9LA=;
+ b=5BW66BCfI/Q8ihhTeNV5TS4/MChV84vjoJx1PzouXOAhg3JxxBEO3GrDI4Mj+6xt43
+ 1Qlbx8u7Mmqvr1Y3OxDMkj/X3WjrblStJgr5+/XN+H1z1n1EugIjIv6bd8KiZlp0mGdy
+ vtaxDn/BRt36hncqmcn2/n2VgELfPff0BRSOeWaCBFccnUIymdfUcWdcQv/LKr138L05
+ ovMXyFCMRNSGu46t/1WiXuCzcrKkp8+dlCMr1cR+WjT2/vQlFYgqQevhe03DZicLBIP7
+ VdC2LUFeGBADhEfrFSDJLR2NGHk9G2hNMR97E/G4JOs0wQOGhTtzHbqxXlYuA0B8zFd2
+ zQ7g==
+X-Gm-Message-State: AOAM532B+MnPeI6gMp/kirmA+rJaMnbRDVUWyHEg1G9XWoZUlhpwiMmN
+ u/MrYBVorMpRvUtCnJQoHOTnXQ==
+X-Google-Smtp-Source: ABdhPJzxrryZznx/9GnvIIDqh+c23V5/Xt5ZsJHD0N8PohIbtiXWvM06mGWU66DmH3LeRvNyTftAHA==
+X-Received: by 2002:a63:5:0:b0:3fe:2558:677 with SMTP id
+ 5-20020a630005000000b003fe25580677mr14572323pga.113.1654877666234; 
+ Fri, 10 Jun 2022 09:14:26 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ r11-20020a170902e3cb00b0015e8d4eb28csm18669442ple.214.2022.06.10.09.14.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 09:08:04 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 28/28] semihosting/config: Merge --semihosting-config option
- groups
-Date: Fri, 10 Jun 2022 17:07:38 +0100
-Message-Id: <20220610160738.2230762-29-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220610160738.2230762-1-peter.maydell@linaro.org>
-References: <20220610160738.2230762-1-peter.maydell@linaro.org>
+ Fri, 10 Jun 2022 09:14:25 -0700 (PDT)
+Date: Fri, 10 Jun 2022 16:14:21 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <YqNt3Sgzge5Rph/R@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ <YofeZps9YXgtP3f1@google.com>
+ <20220523132154.GA947536@chaop.bj.intel.com>
+ <YoumuHUmgM6TH20S@google.com>
+ <20220530132613.GA1200843@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220530132613.GA1200843@chaop.bj.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=seanjc@google.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,47 +115,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we mishandle the --semihosting-config option if the
-user specifies it on the command line more than once. For
-example with:
- --semihosting-config target=gdb --semihosting-config arg=foo,arg=bar
+On Mon, May 30, 2022, Chao Peng wrote:
+> On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
+> > Actually, if the semantics are that userspace declares memory as private, then we
+> > can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
+> > be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
+> > and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
+> > memslot.  But I think it'd work...
+> 
+> These existing ioctls looks good for TDX and probably SNP as well. For
+> softrware-protected VM types, it may not be enough. Maybe for the first
+> step we can reuse this for all hardware based solutions and invent new
+> interface when software-protected solution gets really supported.
+> 
+> There is semantics difference for fd-based private memory. Current above
+> two ioctls() use userspace addreess(hva) while for fd-based it should be
+> fd+offset, and probably it's better to use gpa in this case. Then we
+> will need change existing semantics and break backward-compatibility.
 
-the function qemu_semihosting_config_options() is called twice, once
-for each argument.  But that function expects to be called only once,
-and it always unconditionally sets the semihosting.enabled,
-semihost_chardev and semihosting.target variables.  This means that
-if any of those options were set anywhere except the last
---semihosting-config option on the command line, those settings are
-ignored.  In the example above, 'target=gdb' in the first option is
-overridden by an implied default 'target=auto' in the second.
+My thought was to keep the existing semantics for VMs with type==0, i.e. SEV and
+SEV-ES VMs.  It's a bit gross, but the pinning behavior is a dead end for SNP and
+TDX, so it effectively needs to be deprecated anyways.  I'm definitely not opposed
+to a new ioctl if Paolo or others think this is too awful, but burning an ioctl
+for this seems wasteful.
 
-The QemuOptsList machinery has a flag for handling this kind of
-"option group is setting global state": by setting
- .merge_lists = true;
-we make the machinery merge all the --semihosting-config arguments
-the user passes into a single set of options and call our
-qemu_semihosting_config_options() just once.
+Then generic KVM can do something like:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20220526190053.521505-3-peter.maydell@linaro.org
----
- semihosting/config.c | 1 +
- 1 file changed, 1 insertion(+)
+	case KVM_MEMORY_ENCRYPT_REG_REGION:
+	case KVM_MEMORY_ENCRYPT_UNREG_REGION:
+		struct kvm_enc_region region;
 
-diff --git a/semihosting/config.c b/semihosting/config.c
-index 50d82108e6e..3afacf54ab2 100644
---- a/semihosting/config.c
-+++ b/semihosting/config.c
-@@ -27,6 +27,7 @@
- 
- QemuOptsList qemu_semihosting_config_opts = {
-     .name = "semihosting-config",
-+    .merge_lists = true,
-     .implied_opt_name = "enable",
-     .head = QTAILQ_HEAD_INITIALIZER(qemu_semihosting_config_opts.head),
-     .desc = {
--- 
-2.25.1
+		if (!kvm_arch_vm_supports_private_memslots(kvm))
+			goto arch_vm_ioctl;
 
+		r = -EFAULT;
+		if (copy_from_user(&region, argp, sizeof(region)))
+			goto out;
+
+		r = kvm_set_encrypted_region(ioctl, &region);
+		break;
+	default:
+arch_vm_ioctl:
+		r = kvm_arch_vm_ioctl(filp, ioctl, arg);
+
+
+where common KVM provides
+
+  __weak void kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
+  {
+	return false;
+  }
+
+and x86 overrides that to
+
+  bool kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
+  {
+  	/* I can't remember what we decided on calling type '0' VMs. */
+	return !!kvm->vm_type;
+  }
+
+and if someone ever wants to enable private memslot for SEV/SEV-ES guests we can
+always add a capability or even a new VM type.
+
+pKVM on arm can then obviously implement kvm_arch_vm_supports_private_memslots()
+to grab whatever identifies a pKVM VM.
 
