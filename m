@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46101546F22
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 23:16:11 +0200 (CEST)
-Received: from localhost ([::1]:40292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15DD546FA1
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 00:28:23 +0200 (CEST)
+Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzlzG-0000RA-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 17:16:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36468)
+	id 1nzn78-0002xT-6C
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 18:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nzlv2-0005Id-R5
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 17:11:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22135)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzn55-0000hu-SU
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 18:26:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nzluv-0003c8-Gh
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 17:11:45 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzn51-0005Ty-HH
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 18:26:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654895499;
+ s=mimecast20190719; t=1654899970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k3TGgtOEL+usDdhp6tepqPlVuRVO29e/ePyhtH4HqoE=;
- b=Kxyscyb8QG3UysmQ4rM0hufFqSOrTd8swUbrSlf7oAGgVB59BTWjHgTYjjSf+vQQJZhMgy
- Ysy6V5K+euLmC9dCETd6mfU4cgMGdwewK+/T9t9UH78SPjTZrVk/J8V/No1Cs48F2z0BhQ
- wiMuZYU6izSsV+O55mau/tLVC7bIS84=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OvZABgfDUtEsp8SMpeNoLQ5bj/7jZoc/wuue4S0OVKs=;
+ b=Me3CGjO8Uswwz7kL0Q8j6z5AWG37MJ7fPSmZojQ5MJl/WIRy38aM5gK3YCnQgCC/ECndUb
+ Q5Ja/ixROxgZTj1il2IA/9IVSMyILjTzMvmavO0J4w2mia3XXQWDzU/PsOBGLepTgoYqUA
+ RJz7e0mBUhia1MtkTo7Igc+tO/c4hzs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-567-AUrm5udzOf-Y5FgMgea0hA-1; Fri, 10 Jun 2022 17:11:38 -0400
-X-MC-Unique: AUrm5udzOf-Y5FgMgea0hA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c187-20020a1c35c4000000b003970013833aso93405wma.1
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 14:11:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=k3TGgtOEL+usDdhp6tepqPlVuRVO29e/ePyhtH4HqoE=;
- b=7XC/94vTk2ySLTcFY7YWHZLphCDSA7zhQO1GvwjQY7vl7s6xYw791bXUaakrKz+1wX
- sNIgPaAuIG3GAm5jd1+pt7tPeZWuwvzNsK9hOPC7VXye+R1p5eNazmFtFGY930It2eIG
- KfQ1Fd5Xm1BUnzTwRfIIbAQw0mo+LNBCJox7WySBQiMRH5Mq6r3tR8zhF2lcNpeUnhzW
- 4b43khNZTIr1ih9HnG5/ZsKZGQx6i8tu+e3i5+WG1x90PUQkk1rIE8OzB0Zokuu3FgpF
- EDL1mS0WwwXIfd/SEDpckB+TJrWBYZT/ubBV5h9UzFcZowLvkJ+5z05i+lDRZpkaddyN
- LZog==
-X-Gm-Message-State: AOAM533/8qSCMVyP8tXKoli0AogJOHafiwWl6JFht1ZtCoXGgRtm+m9m
- AKxmTVQf5eJlCUpg/LDqS+5Ub2XaJ+shrJvyEhhcfcF4+lsdBgokeicto3sq5m2NU3sMV9OPZcF
- t2hPvI6PvZz4yjhk=
-X-Received: by 2002:a5d:5917:0:b0:210:353b:db0e with SMTP id
- v23-20020a5d5917000000b00210353bdb0emr44736320wrd.469.1654895497441; 
- Fri, 10 Jun 2022 14:11:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxybvFsRPmIakoqomEXaPMOB9wKqA6mOJl7xPZtcVTSSkMujc1VuCcHPC289BBCjyKvhEZrzw==
-X-Received: by 2002:a5d:5917:0:b0:210:353b:db0e with SMTP id
- v23-20020a5d5917000000b00210353bdb0emr44736304wrd.469.1654895497113; 
- Fri, 10 Jun 2022 14:11:37 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-42-115-130.web.vodafone.de.
- [109.42.115.130]) by smtp.gmail.com with ESMTPSA id
- i18-20020a05600c2d9200b0039c235fb6a5sm195877wmg.8.2022.06.10.14.11.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 14:11:36 -0700 (PDT)
-Message-ID: <a0058a1a-4840-5ca8-5403-e4b008367fd3@redhat.com>
-Date: Fri, 10 Jun 2022 23:11:35 +0200
+ us-mta-261-UVcR7w_cOAG-A3ytiT9Z3g-1; Fri, 10 Jun 2022 18:26:07 -0400
+X-MC-Unique: UVcR7w_cOAG-A3ytiT9Z3g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02C2285A581;
+ Fri, 10 Jun 2022 22:26:07 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.34.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A6A04010E32;
+ Fri, 10 Jun 2022 22:26:06 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>, Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [RFC PATCH v2 0/7] tests: run python tests under a venv
+Date: Fri, 10 Jun 2022 18:25:58 -0400
+Message-Id: <20220610222605.2259132-1-jsnow@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: Ubuntu 18.04 VM tests
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "Daniel P. Berrange" <berrange@redhat.com>
-References: <CAFn=p-biX5Tp6OHLU95ba3W0z33tHWmRE==q-bn=FAf353LZpg@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAFn=p-biX5Tp6OHLU95ba3W0z33tHWmRE==q-bn=FAf353LZpg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,26 +82,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/06/2022 22.41, John Snow wrote:
-> Hi Alex:
-> 
-> The Ubuntu 18.04 image is by now quite old and we could move our
-> support forward to Ubuntu 20.04. I have an interest in doing so in
-> order to avoid a version of pip that is old enough as to cause
-> problems for some Python work I am attempting to do in order to split
-> the QMP library fully out of the qemu.git tree.
-> 
-> However, it looks like Ubuntu 20.04 does not have equivalent i386
-> builds, so I can't just do a drop-and-replace. Do we need a
-> replacement i386 guest of some sort?
-> 
-> Looks like Fedora dropped i686 some time ago, debian might be our best bet?
-
-I think so, yes. See also this thread here:
-
-https://lore.kernel.org/qemu-devel/CAAdtpL48v5Un8osCRr8LrsCAx4P3hcx2qb+WKLE6ADZT1QYwuw@mail.gmail.com/
-
-  Thomas
-
+Hi, here's another RFC for bringing external Python dependencies to the=0D
+QEMU test suite.=0D
+=0D
+This patchset is not without some problems that need to be solved, but=0D
+I've been sitting on these long enough and they need to see the light of=0D
+day.=0D
+=0D
+Problems I am aware of, and there's a few:=0D
+=0D
+- Ubuntu 18.04 ships with a version of pip that is too old to support=0D
+  setup.cfg-based installations. We are allowed to drop support for=0D
+  18.04 by now, but we need a suitable 32bit debian VM configuration to=0D
+  replace it.=0D
+=0D
+- Multiple VM tests are still failing for me; but they fail with or=0D
+  without my patches as far as I can tell. I'm having problems with=0D
+  Haiku and CentOS, primarily -- which I think fail even without my=0D
+  patches. I'll have more info after the weekend, these tests are SLOW.=0D
+=0D
+- This version of the patch series does not itself enforce any=0D
+  offline-only behavior for venv creation, but downstreams can modify=0D
+  any call to 'mkvenv' to pass '--offline'. A more flexible approach=0D
+  might be to allow an environment variable to be passed that toggles=0D
+  the switch on.=0D
+=0D
+- iotests will now actually never run mypy or pylint tests by default=0D
+  anymore, because the bootstrapper won't select those packages by=0D
+  default, and the virtual environment won't utilize the system packages=0D
+  -- so iotest 297 will just "skip" all of the time now.=0D
+=0D
+  The reason we don't want to install these packages by default is=0D
+  because we don't want to add dependencies on mypy and pylint for=0D
+  downstream builds.=0D
+=0D
+  With these patches, 297 would still work if you manually opened up the=0D
+  testing venv and installed suitable mypy/pylint packages there. I=0D
+  could also add a new optional dependency group, and one could=0D
+  theoretically invoke a once-per-build-dir command of 'make=0D
+  check-venv-pylint' to help make the process only semi-manual, but it's=0D
+  still annoying.=0D
+=0D
+  Ideally, the python checks in qemu.git/python/ can handle the same=0D
+  tests as 297 does -- but we need to give a shorthand invocation like=0D
+  "make check-python" that is excluded from the default "make check" to=0D
+  allow block developers to quickly opt-in to the same tests.=0D
+=0D
+  I've covered some of the problems here on-list before:=0D
+  https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg03661.html=0D
+=0D
+  ...But I haven't quite solved them yet.=0D
+=0D
+That's all for now.=0D
+=0D
+Paolo, can we chat about build system integration next? I want to know=0D
+how you envision the integration at this point -- adding different=0D
+test-invocation styles (online, offline, etc) may help solve the iotest=0D
+297 problem and the iotest self-bootstrap problem.=0D
+=0D
+--js=0D
+=0D
+John Snow (7):=0D
+  tests: create optional tests/venv dependency groups=0D
+  tests: pythonize test venv creation=0D
+  tests: Remove spurious pip warnings on Ubuntu20.04=0D
+  tests/vm: add venv pre-requisites to VM building recipes=0D
+  tests: add 'check-venv' as a dependency of 'make check'=0D
+  iotests: use tests/venv for running tests=0D
+  iotests: self-bootstrap testing venv=0D
+=0D
+ tests/Makefile.include        |  32 +++---=0D
+ tests/mkvenv.py               | 187 ++++++++++++++++++++++++++++++++++=0D
+ tests/qemu-iotests/testenv.py |  25 +++--=0D
+ tests/requirements.txt        |   6 --=0D
+ tests/setup.cfg               |  20 ++++=0D
+ tests/setup.py                |  16 +++=0D
+ tests/vm/netbsd               |   1 +=0D
+ tests/vm/ubuntu.i386          |   9 +-=0D
+ 8 files changed, 268 insertions(+), 28 deletions(-)=0D
+ create mode 100644 tests/mkvenv.py=0D
+ delete mode 100644 tests/requirements.txt=0D
+ create mode 100644 tests/setup.cfg=0D
+ create mode 100644 tests/setup.py=0D
+=0D
+-- =0D
+2.34.3=0D
+=0D
 
 
