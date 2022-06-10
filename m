@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ABAF5467FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 16:03:34 +0200 (CEST)
-Received: from localhost ([::1]:34958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B882E54680C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 16:08:34 +0200 (CEST)
+Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzfEZ-0001a8-0G
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 10:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39594)
+	id 1nzfJR-0005Yx-9C
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 10:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzfAQ-0000LL-69; Fri, 10 Jun 2022 09:59:14 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:54990)
+ id 1nzfFq-0003iC-LX; Fri, 10 Jun 2022 10:04:50 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:35618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzfAO-0004Wx-Pz; Fri, 10 Jun 2022 09:59:13 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id j7so24086931pjn.4;
- Fri, 10 Jun 2022 06:59:11 -0700 (PDT)
+ id 1nzfFo-0005QB-Go; Fri, 10 Jun 2022 10:04:49 -0400
+Received: by mail-pf1-x434.google.com with SMTP id u2so23960798pfc.2;
+ Fri, 10 Jun 2022 07:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IYtjP5GlhRVYNEVlv0MH1rBrYn+WNryltop+DIMu1K0=;
- b=ChM8IxqTIAaFAtSJcPDyf+TIXhnmyXSL64hS7OWW6yF7y2JOHzg2KSQmG/eMurKmNI
- h9k1Iosa3Tfe/zbpJB40DmwdyM7Lbh276rHZj0h45iW4Kx+l9qwC+1Km1xUBd/A+geVa
- 8fvQrlIZadBUW9TcfU9j0a9q/sZAKufgOfejhjBfxGKQpSOH0TlXsRhiRi2ffeMPYeUM
- 41v1zi8eOvIxA2JG0NnVt6MT0sM5I6Sag69dD49DkE8xOUscja64GmDRP9d8H8IpgIav
- BygHgPxy4f6DKPeGniiOrU8OnnyHlQKDzws2/1kujt2lnA3f5lXqKD5rzYaqTq4yX+hS
- tlCQ==
+ bh=WOizbph/aF9dwpn2F1nG76VwZp3cVNo8nrHhnPqQFDA=;
+ b=ht3kq4++rJBOuyzId+VRYMQSWswzzJ4WDWk9/kVtvIxKKPBoLjZH5tV3Z24/pzn8ZL
+ 2lH6m02TA98Knc3gFnnaNlSvSsP+ICp9yEIC2ScwI+NjeFC8T8sHoEWGvR4qx+APszmx
+ kH77VqwVuv3Lc8wMDp9RPP9IWlct1JIm8xqJfzG7Um3uOCrhY5zfhB+tnkQ5MPn3oIee
+ ej4IAd1GroJupJ8CkGoGHGUAozkjTQGbc9Pc3NFM/WrmJsG+sb08g3qZhpwjPBWdEcqk
+ CR7kP6cMsEIYPgQKrYdg34fz1hn2FJ3mxKBYtcTECkSyJuLRtjrvZbYcOHIof1uMOWQI
+ eFnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IYtjP5GlhRVYNEVlv0MH1rBrYn+WNryltop+DIMu1K0=;
- b=mZHEI/rv6CHOThaqi0SoXJOEsDqBNSL9ocd081lBNL5U+grU1D8HeeLkzzgCF6UK7a
- OmxNtdpOGV8WPEHvOg48PxqtTJGc412spTO3DV6WHcx0W3ZnH0DEh0b9AUFS1jiRupVl
- l863vM67OHq8Nv5vYGhKkA8L89wnfEdgKeL+YQU47c0Y6dvMhyAitfp/br/1Kqi0z7AG
- amF4oPxNsZj6geXdhyTFathcErB4Y7ptRCi8smVFtDmmcdjdKLG6BP0q0Pd8lReHhw1D
- zRpnrufIN1oUQQHKr/YZc6NJJkKmNzgu6HBPplBYqYNmmu6zTpUw5kibYV0bVssDfJIP
- V/LA==
-X-Gm-Message-State: AOAM533uxvOhlsMUjfHixDqgvLWo0WAKpynRf8ycNNJtdiRctH8prEvt
- AoW00oO3j6smCbooWpWHFNs=
-X-Google-Smtp-Source: ABdhPJxyvayb8Jq4qhX/VeTDFGjihI75M1VkyZwJVTdPZcXu/0g2qWPMk1O0fQ++4TDkfq/k357j0w==
-X-Received: by 2002:a17:902:e8d3:b0:163:9146:2241 with SMTP id
- v19-20020a170902e8d300b0016391462241mr44241425plg.93.1654869550059; 
- Fri, 10 Jun 2022 06:59:10 -0700 (PDT)
+ bh=WOizbph/aF9dwpn2F1nG76VwZp3cVNo8nrHhnPqQFDA=;
+ b=wflApUSpWKudpETgiPmCd1Sf7RxXEG9Byg/GT4hG8fzCq7l/1PE8iSgbeGL57QCHWm
+ 4/EBWEqcX+ilHBePYbfGIqdjM7yOIfr9YEIyecEHh7HldLVW77oQe6FQkwTgUfVTiMe3
+ Mhe4rOhsram0XGMDHD2YmwCtcYBfJktxCNy+EChWLVg/cQBSq7u4PxLqCm8R4fEyoKJ+
+ FW+u4SQ6Rara45tHDx15FZO+yvDOsjPiHCdkEHnzIVCxd4NFjwKaU5Y1aMDoYK+m2WhF
+ y/ntk6jo6qY/pqeG4zZjaWV48sZ7sS3JEpXMcTTNxg3SCWuw2AuKw7VFR4aMUad3Wgyb
+ Gp6w==
+X-Gm-Message-State: AOAM533MC6IV9oASEwuphtMlNkGKlFDp3eUHTAUleblY9Oms/hKLovNk
+ c+o8VnTZNrqJtoHRV8edrI0=
+X-Google-Smtp-Source: ABdhPJy1l8HVh+Xu5V/R12BdpoS+U+3M7jJXL6I/4PVltVe0BOFOJ6O5wv9sS5MQ8PcqWufrsFi95w==
+X-Received: by 2002:a05:6a00:14c1:b0:51b:eed4:c571 with SMTP id
+ w1-20020a056a0014c100b0051beed4c571mr35866197pfu.72.1654869883719; 
+ Fri, 10 Jun 2022 07:04:43 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- gd3-20020a17090b0fc300b001e2da6766ecsm1761957pjb.31.2022.06.10.06.59.06
+ w11-20020a17090a780b00b001e2f3607625sm1743096pjk.23.2022.06.10.07.04.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 06:59:09 -0700 (PDT)
-Message-ID: <ffbf6eb4-8d50-23fa-cc68-8b557f645147@amsat.org>
-Date: Fri, 10 Jun 2022 15:59:03 +0200
+ Fri, 10 Jun 2022 07:04:43 -0700 (PDT)
+Message-ID: <124a4722-01f9-225f-05d3-35bd51713bfe@amsat.org>
+Date: Fri, 10 Jun 2022 16:04:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH v3 0/3] QOM improvements for rtc/mc146818rtc
+Subject: Re: [PATCH] hw/mips/boston: Initialize g_autofree pointers
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20220529184006.10712-1-shentey@gmail.com>
- <CAG4p6K77BxKXxdS53df67zLh=dZfEFubeMtfPBaU1gxWtY_ZAw@mail.gmail.com>
-In-Reply-To: <CAG4p6K77BxKXxdS53df67zLh=dZfEFubeMtfPBaU1gxWtY_ZAw@mail.gmail.com>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Aleksandar Rikalo
+ <aleksandar.rikalo@syrmia.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Paul Burton <paulburton@kernel.org>
+References: <20220605151908.30566-1-shentey@gmail.com>
+In-Reply-To: <20220605151908.30566-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,32 +95,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 2/6/22 23:18, Bernhard Beschow wrote:
-> Ping
+On 5/6/22 17:19, Bernhard Beschow wrote:
+> Fixes compilation due to false positives with -Werror:
 > 
-> Am 29. Mai 2022 18:40:03 UTC schrieb Bernhard Beschow <shentey@gmail.com 
-> <mailto:shentey@gmail.com>>:
->  >v3:
->  >* "iobase" is now u16 (Philippe)
->  >
->  >v2:
->  >* Explicitly fail with &error_abort rather than NULL (Mark)
->  >* Explicitly fail with &error_abort rather than NULL in existing code (me)
->  >* Unexport rather than remove RTC_ISA_BASE (Mark)
->  >* Use object_property_get_*u*int() also for "iobase" (me)
->  >
->  >v1:
->  >This little series enhances QOM support for mc146818rtc:
->  >* makes microvm-dt respect mc146818rtc's IRQ number set by QOM 
-> property and
->  >* adds an io_base QOM property similar to other ISA devices
->  >
->  >Bernhard Beschow (3):
->  >  hw/i386/microvm-dt: Force explicit failure if retrieving QOM property
->  >    fails
->  >  hw/i386/microvm-dt: Determine mc146818rtc's IRQ number from QOM
->  >    property
->  >  rtc/mc146818rtc: QOM'ify io_base offset
+>    In file included from /usr/include/glib-2.0/glib.h:114,
+>                     from qemu/src/include/glib-compat.h:32,
+>                     from qemu/src/include/qemu/osdep.h:144,
+>                     from ../src/hw/mips/boston.c:20:
+>    In function ‘g_autoptr_cleanup_generic_gfree’,
+>        inlined from ‘boston_mach_init’ at ../src/hw/mips/boston.c:790:52:
+>    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘dtb_load_data’ may be used uninitialized [-Werror=maybe-uninitialized]
+>       28 |   g_free (*pp);
+>          |   ^~~~~~~~~~~~
+>    ../src/hw/mips/boston.c: In function ‘boston_mach_init’:
+>    ../src/hw/mips/boston.c:790:52: note: ‘dtb_load_data’ was declared here
+>      790 |             g_autofree const void *dtb_file_data, *dtb_load_data;
+>          |                                                    ^~~~~~~~~~~~~
+>    In function ‘g_autoptr_cleanup_generic_gfree’,
+>      inlined from ‘boston_mach_init’ at ../src/hw/mips/boston.c:790:36:
+>    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘dtb_file_data’ may be used uninitialized [-Werror=maybe-uninitialized]
+>       28 |   g_free (*pp);
+>          |   ^~~~~~~~~~~~
+>    ../src/hw/mips/boston.c: In function ‘boston_mach_init’:
+>    ../src/hw/mips/boston.c:790:36: note: ‘dtb_file_data’ was declared here
+>      790 |             g_autofree const void *dtb_file_data, *dtb_load_data;
+>          |                                    ^~~~~~~~~~~~~
+>    cc1: all warnings being treated as errors
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/mips/boston.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
-Series queued via mips-next tree, thanks!
+Queued via mips-next.
 
