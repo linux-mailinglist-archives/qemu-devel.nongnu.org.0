@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8464E546404
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 12:42:11 +0200 (CEST)
-Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99272546499
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 12:52:29 +0200 (CEST)
+Received: from localhost ([::1]:53336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzc5i-0003Qt-K0
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 06:42:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49762)
+	id 1nzcFg-0001D1-4v
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 06:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzapn-0008NQ-Js
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 05:21:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42414)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzapq-0008RW-NA
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 05:21:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzapl-0001kf-3F
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 05:21:39 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzapo-0001n9-Tx
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 05:21:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654852895;
+ s=mimecast20190719; t=1654852900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=obSiKgR2g439N1NCymTkGuD5ZtC+AWQDUPf1CsA55V4=;
- b=hA3kdRG41dq3VSyEmww4oZM9MolSstjLvykIbyMqi6+Ujy6NhzX/7dP+nxhsuifggNflRH
- msrbMqE2eZRg8nCvXTMX4x2gm+BIxHt3IawBwFIEHR+DVHYwk13HQorYY3tVbSeVPlvpmb
- OJy4+7iuOTkzY9xQR3P89MeGCpWXG90=
+ bh=ZStqjDDMtLMpDsz58F8O29JWAJ6F3RkNGXfWxICk7zU=;
+ b=U7LQ4n7UY8A7LkyC6dowQ66erNw54OD0r2yNAD24pnmBe59nman9uFOoJqcmacHLKdTivj
+ Yo6acaMzzT4fdJdySIXswl9kG6dC+kysTtoNAF4uaCIKRYf8Rs25raZaWZD9RdvfZL4xrS
+ ovHEe56yfhrxnY5owZ1EdeDJcVnXX1g=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-IJrpUXNAP_GdSGR8Vldk4g-1; Fri, 10 Jun 2022 05:21:32 -0400
-X-MC-Unique: IJrpUXNAP_GdSGR8Vldk4g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-640-igR9nvgvPSaAq0gbeel8tQ-1; Fri, 10 Jun 2022 05:21:37 -0400
+X-MC-Unique: igR9nvgvPSaAq0gbeel8tQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFB9A811E75;
- Fri, 10 Jun 2022 09:21:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E3CE0811E75;
+ Fri, 10 Jun 2022 09:21:36 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D1FC1121314;
- Fri, 10 Jun 2022 09:21:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97F71492C3B;
+ Fri, 10 Jun 2022 09:21:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E3E72180063C; Fri, 10 Jun 2022 11:20:44 +0200 (CEST)
+ id 07514180079D; Fri, 10 Jun 2022 11:20:45 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Canokeys.org" <contact@canokeys.org>,
@@ -55,16 +55,16 @@ Cc: "Canokeys.org" <contact@canokeys.org>,
  Alex Williamson <alex.williamson@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Arnout Engelen <arnout@bzzt.net>
-Subject: [PULL 11/17] hw/usb/hcd-ehci: fix writeback order
-Date: Fri, 10 Jun 2022 11:20:37 +0200
-Message-Id: <20220610092043.1874654-12-kraxel@redhat.com>
+ Joelle van Dyne <j@getutm.app>
+Subject: [PULL 12/17] usbredir: avoid queuing hello packet on snapshot restore
+Date: Fri, 10 Jun 2022 11:20:38 +0200
+Message-Id: <20220610092043.1874654-13-kraxel@redhat.com>
 In-Reply-To: <20220610092043.1874654-1-kraxel@redhat.com>
 References: <20220610092043.1874654-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -88,59 +88,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Arnout Engelen <arnout@bzzt.net>
+From: Joelle van Dyne <j@getutm.app>
 
-The 'active' bit passes control over a qTD between the guest and the
-controller: set to 1 by guest to enable execution by the controller,
-and the controller sets it to '0' to hand back control to the guest.
+When launching QEMU with "-loadvm", usbredir_create_parser() should avoid
+setting up the hello packet (just as with "-incoming". On the latest version
+of libusbredir, usbredirparser_unserialize() will return error if the parser
+is not "pristine."
 
-ehci_state_writeback write two dwords to main memory using DMA:
-the third dword of the qTD (containing dt, total bytes to transfer,
-cpage, cerr and status) and the fourth dword of the qTD (containing
-the offset).
-
-This commit makes sure the fourth dword is written before the third,
-avoiding a race condition where a new offset written into the qTD
-by the guest after it observed the status going to go to '0' gets
-overwritten by a 'late' DMA writeback of the previous offset.
-
-This race condition could lead to 'cpage out of range (5)' errors,
-and reproduced by:
-
-./qemu-system-x86_64 -enable-kvm -bios $SEABIOS/bios.bin -m 4096 -device usb-ehci -blockdev driver=file,read-only=on,filename=/home/aengelen/Downloads/openSUSE-Tumbleweed-DVD-i586-Snapshot20220428-Media.iso,node-name=iso -device usb-storage,drive=iso,bootindex=0 -chardev pipe,id=shell,path=/tmp/pipe -device virtio-serial -device virtconsole,chardev=shell -device virtio-rng-pci -serial mon:stdio -nographic
-
-(press a key, select 'Installation' (2), and accept the default
-values. On my machine the 'cpage out of range' is reproduced while
-loading the Linux Kernel about once per 7 attempts. With the fix in
-this commit it no longer fails)
-
-This problem was previously reported as a seabios problem in
-https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/OUTHT5ISSQJGXPNTUPY3O5E5EPZJCHM3/
-and as a nixos CI build failure in
-https://github.com/NixOS/nixpkgs/issues/170803
-
-Signed-off-by: Arnout Engelen <arnout@bzzt.net>
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+Message-Id: <20220507041850.98716-1-j@getutm.app>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-ehci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/usb/redirect.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index 33a8a377bd95..d4da8dcb8d15 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -2011,7 +2011,10 @@ static int ehci_state_writeback(EHCIQueue *q)
-     ehci_trace_qtd(q, NLPTR_GET(p->qtdaddr), (EHCIqtd *) &q->qh.next_qtd);
-     qtd = (uint32_t *) &q->qh.next_qtd;
-     addr = NLPTR_GET(p->qtdaddr);
--    put_dwords(q->ehci, addr + 2 * sizeof(uint32_t), qtd + 2, 2);
-+    /* First write back the offset */
-+    put_dwords(q->ehci, addr + 3 * sizeof(uint32_t), qtd + 3, 1);
-+    /* Then write back the token, clearing the 'active' bit */
-+    put_dwords(q->ehci, addr + 2 * sizeof(uint32_t), qtd + 2, 1);
-     ehci_free_packet(p);
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index fd7df599bc0b..1bd30efc3ef0 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -1280,7 +1280,8 @@ static void usbredir_create_parser(USBRedirDevice *dev)
+     }
+ #endif
  
-     /*
+-    if (runstate_check(RUN_STATE_INMIGRATE)) {
++    if (runstate_check(RUN_STATE_INMIGRATE) ||
++        runstate_check(RUN_STATE_PRELAUNCH)) {
+         flags |= usbredirparser_fl_no_hello;
+     }
+     usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
 -- 
 2.36.1
 
