@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC961545F17
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:31:24 +0200 (CEST)
-Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E49545F63
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:39:02 +0200 (CEST)
+Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nza39-0001g7-B8
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:31:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35270)
+	id 1nzaAV-0000lK-MK
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWs-0007ou-29
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53774)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWw-00081r-JA
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWq-0006Gz-Id
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWt-0006HG-T4
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847880;
+ s=mimecast20190719; t=1654847883;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UGM7Pha2fbz/FtClJTsCx1egAuOz3u50vfg5WpAXg6U=;
- b=NWJZAizVKFvZcuSrHlyYJFi7KOL6P5upBzNxWwfanaqapy4ABquWe7nQcJuVJrXIzD3Kqk
- DLZwI5CJNBslHX9WVjL6svsqrueIoQbRh0w6yWc7prF22O8CNg3IEYSMBeLQzZzhbymdP+
- pzHjfiXacGqZP7IcN2QPEzTcbw4IsvQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ad/ttkr30vhbvvPoMvjHQNCv9unFN+kAKCHcdVGXlJA=;
+ b=P/TtKWuGS1QeCStcEM/HkPlQn5YLCnXIKF4Chb4ZBlYJ5yieKrG0S7UjXWwCDs7cU3sdtK
+ TfqhiP0CNZAnl/jp7bS0unVPg3KIMFsSX1zJaVDEWi/zRcDcbMJzQK+DwGVHCYvqcKHXcK
+ AOU5O73GCgF4j0ePuMLipsjSKVxO4pM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-299-bBfJ6sDqNDaTkKAX4oMvxg-1; Fri, 10 Jun 2022 03:57:59 -0400
-X-MC-Unique: bBfJ6sDqNDaTkKAX4oMvxg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so977589wmj.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:57:58 -0700 (PDT)
+ us-mta-537-iWh4J37ZOtywbxiw59Kbtw-1; Fri, 10 Jun 2022 03:58:02 -0400
+X-MC-Unique: iWh4J37ZOtywbxiw59Kbtw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c187-20020a1c35c4000000b003970013833aso9328279wma.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=UGM7Pha2fbz/FtClJTsCx1egAuOz3u50vfg5WpAXg6U=;
- b=hVjBj46BAf0zPCD/BBhQek7gU21jNVioOSeK8BvxDIUtchGH/S+OTmCFLq5V2TFucz
- hkm8S+5F85Cqvi5ist6K3yBTXXp4O/D99enkL7MESNer5ejO5pGyvJOUdq0rYOOfud1D
- HVsCo4PdUsSw/xJB6bH91wRJyw6Oz4WS2gzY/SroWFGq/UOnZ+4XiiNLOQtlRJH570YM
- DrollbmVAVpJXDgl/h3eatvGO0rm/TIf5tCnOp5aqE+jfIMwPsLYkVy1DktK3iTNhcPE
- dMBaB345Jh/b+Nz/ZokxEryuYV5pF2xwlmrXtTEza3KrOTLzuRW/axo2ONchPl6CCppN
- oeuw==
-X-Gm-Message-State: AOAM531+NHes62eVfp5/D8GeSV5h2mEOMkjZVWxDxKCb8RET0QKpbk6D
- vYPfyFjJIOsJQClYhkm55gKIdSBlDiUn6Hkhj7iF4QILVMdOOM38pT+a90u/1+qs3VRLQgqReSE
- CYzsl6ClNLhcD0XPusxErqcv8xcl9P5Zad53Q78V4mOmCrVtoe3z4Z0RqgdPB
-X-Received: by 2002:a1c:19c3:0:b0:39c:6479:3ca with SMTP id
- 186-20020a1c19c3000000b0039c647903camr7518056wmz.27.1654847877530; 
- Fri, 10 Jun 2022 00:57:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsavnxbZBvIHIa05XU2d9nWIn1zTHGqa/+mtEhkJwS7XwHXVvbptZ9RsAyU7ji8ZYjpSmk1A==
-X-Received: by 2002:a1c:19c3:0:b0:39c:6479:3ca with SMTP id
- 186-20020a1c19c3000000b0039c647903camr7518035wmz.27.1654847877298; 
- Fri, 10 Jun 2022 00:57:57 -0700 (PDT)
+ bh=ad/ttkr30vhbvvPoMvjHQNCv9unFN+kAKCHcdVGXlJA=;
+ b=EJ3zRoS6PBqFVTsBEKyg7eD058hJ9PUV+DIgW6RyEhvr3x+cLdwpMmBR/6oujIM+wO
+ 3cq7Ifvox5WzEaXPWTYja23uBHX3YKylfgNuqx6B9l7cptkjLFc783I1d/ULEkL4neKn
+ 1Yqg+W5u4xOr+lrCl5fpUjNa/HK2xIZh2+5Id1U346XRVEt4qeWNgYly8R09Vr1ZRAY8
+ Cwk9Qy6EAERkwNWat+yBAF3PaFnco9zIigqSGSdhAvvaMVBnqVmdd1K8PcuAvQwnze1H
+ r+6F5YNDJgPMQqUBZ/3RtR915fkG2MEK+Drwr1G9zkVaYg0TmLAugpie1BXOk2reT3MJ
+ UYmw==
+X-Gm-Message-State: AOAM533/aj2+cUzGBqxWbnqfhJbNB8cXA1KOXcnldNTuybbR+FuIPIIv
+ WFtlRL4pl3+bZ8ze2HDVp5yDpK02Xt7GokJNvQBJgyPndnEVqmD5/a+C9VncRjBiOj10S+HpIkv
+ WBZqfdlLj9+2aVCMPB4EztUHpRTtx98id0mmV1QDyDKq8gcxC6scraaBOM7L/
+X-Received: by 2002:adf:eb91:0:b0:20f:fcc2:475c with SMTP id
+ t17-20020adfeb91000000b0020ffcc2475cmr42414708wrn.40.1654847880757; 
+ Fri, 10 Jun 2022 00:58:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRGIO0jLskMJl3xzxtNT1KMsmwPlD6gCXNGadEy7jn8Ph2tB65iLVMFTnnCU/533Mi0OAALg==
+X-Received: by 2002:adf:eb91:0:b0:20f:fcc2:475c with SMTP id
+ t17-20020adfeb91000000b0020ffcc2475cmr42414684wrn.40.1654847880491; 
+ Fri, 10 Jun 2022 00:58:00 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- i20-20020a1c5414000000b0039c41686421sm2048491wmb.17.2022.06.10.00.57.56
+ q16-20020adfcd90000000b00213abce60e4sm22640446wrj.111.2022.06.10.00.57.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:57:56 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:57:54 -0400
+ Fri, 10 Jun 2022 00:58:00 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:57:57 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 18/54] tests: acpi: white-list to be re-factored pc/q35 DSDT
-Message-ID: <20220610075631.367501-19-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 19/54] acpi: pc: isa bridge: use AcpiDevAmlIf interface to
+ build ISA device descriptors
+Message-ID: <20220610075631.367501-20-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -99,52 +105,121 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+replaces ad-hoc build_isa_devices_aml() with generic AcpiDevAmlIf
+way to build bridge AML including all devices that are attached to
+its ISA bus.
+
+Later when PCI is converted to AcpiDevAmlIf, build_piix4_isa_bridge()
+will also be dropped since PCI parts itself will take care of
+building device prologue/epilogue AML for each enumerated PCI
+device.
+
+Expected AML change is contextual, where ISA devices are moved
+from separately declared _SB.PCI0.ISA scope , directly under
+Device(ISA) node.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220609114855.3477822-1-imammedo@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20220608135340.3304695-20-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 32 +++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ hw/i386/acpi-build.c | 16 +++++++++++-----
+ hw/isa/piix3.c       | 17 +++++++++++++++++
+ 2 files changed, 28 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..666e257bf9 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,33 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpierst",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.ivrs",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/DSDT.xapic",
-+"tests/data/acpi/q35/DSDT.ipmismbus",
-+"tests/data/acpi/q35/DSDT.cxl",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index d943354999..f903f30b7e 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1280,15 +1280,22 @@ static void build_piix4_isa_bridge(Aml *table)
+ {
+     Aml *dev;
+     Aml *scope;
++    Object *obj;
++    bool ambiguous;
++
++    /*
++     * temporarily fish out isa bridge, build_piix4_isa_bridge() will be dropped
++     * once PCI is converted to AcpiDevAmlIf and would be ble to generate
++     * AML for bridge itself
++     */
++    obj = object_resolve_path_type("", TYPE_PIIX3_PCI_DEVICE, &ambiguous);
++    assert(obj && !ambiguous);
+ 
+     scope =  aml_scope("_SB.PCI0");
+     dev = aml_device("ISA");
+     aml_append(dev, aml_name_decl("_ADR", aml_int(0x00010000)));
+ 
+-    /* PIIX PCI to ISA irq remapping */
+-    aml_append(dev, aml_operation_region("P40C", AML_PCI_CONFIG,
+-                                         aml_int(0x60), 0x04));
+-
++    call_dev_aml_func(DEVICE(obj), dev);
+     aml_append(scope, dev);
+     aml_append(table, scope);
+ }
+@@ -1476,7 +1483,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             build_hpet_aml(dsdt);
+         }
+         build_piix4_isa_bridge(dsdt);
+-        build_isa_devices_aml(dsdt);
+         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+         }
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index dab901c9ad..bfccd666d4 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -32,6 +32,7 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "migration/vmstate.h"
++#include "hw/acpi/acpi_aml_interface.h"
+ 
+ #define XEN_PIIX_NUM_PIRQS      128ULL
+ 
+@@ -286,10 +287,24 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
+     qemu_register_reset(piix3_reset, d);
+ }
+ 
++static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
++{
++    BusChild *kid;
++    BusState *bus = qdev_get_child_bus(DEVICE(adev), "isa.0");
++
++    /* PIIX PCI to ISA irq remapping */
++    aml_append(scope, aml_operation_region("P40C", AML_PCI_CONFIG,
++                                         aml_int(0x60), 0x04));
++    QTAILQ_FOREACH(kid, &bus->children, sibling) {
++        call_dev_aml_func(DEVICE(kid->child), scope);
++    }
++}
++
+ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+ 
+     dc->desc        = "ISA bridge";
+     dc->vmsd        = &vmstate_piix3;
+@@ -304,6 +319,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+      * pc_piix.c's pc_init1()
+      */
+     dc->user_creatable = false;
++    adevc->build_dev_aml = build_pci_isa_aml;
+ }
+ 
+ static const TypeInfo piix3_pci_type_info = {
+@@ -314,6 +330,7 @@ static const TypeInfo piix3_pci_type_info = {
+     .class_init = pci_piix3_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { TYPE_ACPI_DEV_AML_IF },
+         { },
+     },
+ };
 -- 
 MST
 
