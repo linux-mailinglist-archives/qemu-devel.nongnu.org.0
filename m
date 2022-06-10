@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00EF545D5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 09:28:48 +0200 (CEST)
-Received: from localhost ([::1]:41782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF15545E03
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:01:01 +0200 (CEST)
+Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzZ4Z-0000RL-RB
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 03:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57756)
+	id 1nzZZk-0001DY-Mi
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:01:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYvm-0003Yl-Co; Fri, 10 Jun 2022 03:19:43 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49512)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWP-0006QC-Ad
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYvj-0000T1-Vn; Fri, 10 Jun 2022 03:19:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=bmdXrMYTMf6GrBWr57NlxTf4t/PEUxzEzlLElENnzoc=; b=ilwnyx1qgGn/AJqoK3EY/2/CEE
- +bdtx7LAoGog8vKlbBHs/LHGpHIt7N2D/rBMKayrf+ZgZN6DzgctoOSWyMwmDGBjPYzpz0FsmWSXX
- 91pSDyAmuWKO9uljqifqYt+XE5kKtC76lX+OBDUljby64IPEmbqDdmmxpWYbICXA0WOxoTorN8KHd
- Kpz8XAIfSeArEMJQ+F5OQDSnRBj8J+uKP0ZciV5ojB9F5rMTgeU6/clZd0tm+YCoZztzSFL75/eiY
- Qg0ZwfspworRKYD30zflC9b3gQdiWaC85gch1TcGu6PzSDFeNLhsa7hkgEFDAFSS75o656XcVBXRb
- Q/YFPPaTywRj9VMqr09s+OPBx78HZm9Xocukh+Wwy4VAeRllWKnWrrNrspN4WiF54JyZXEow+IXF7
- q/dn/WXBcGyPi4vctYi8ZhTFYnt19qKNfwrawj6GeJl0E55xRrJArACFUXDwor1wPfa1nxvM6sHbJ
- dV22f5+2t7XyCQa75+3KOU1eF8s/8yAiGKwbiVUisG94KS8eDrUve1gJ1GeR48Q7LtLq+vYAOtDcP
- E0jU1o9JlUrzimBlnYYERnfYCosqjERhdx/tVoGOOXrTopB+OxrHTxecHqnVSRZyiwPWBc/UHHNc0
- xU6q7NENijcgp0WdpWv19NDpda9sh0iACJI1NdTH8=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nzYuS-0001Xz-TF; Fri, 10 Jun 2022 08:18:25 +0100
-Message-ID: <d8edaa52-58ac-5604-e968-56aea214af95@ilande.co.uk>
-Date: Fri, 10 Jun 2022 08:19:25 +0100
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWM-0006CN-9W
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654847849;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=5BVS1//AFhHYzV76TrNn9RIOePkPQ+C6P5xATHZw2LM=;
+ b=ZpanUrggUrCFdCDhpC3Ra0OpNGozpSBhBYckm+1ybXB1NGfBuNyH7/bXaovDjSnheaJSYm
+ rUJJsT7BWKj7C/yv4YlM34Bguy6djBLf+GdIrJjTpkcVJ6qlzqHKfvIdJon+Hw50FJSrrS
+ Nc95Dz8ySpYHDKbmRkcl3/JpSsWM+x0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-222-6xWubGiVOSGyndDZMowVaQ-1; Fri, 10 Jun 2022 03:57:04 -0400
+X-MC-Unique: 6xWubGiVOSGyndDZMowVaQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o23-20020a05600c511700b0039743cd8093so953021wms.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:57:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=5BVS1//AFhHYzV76TrNn9RIOePkPQ+C6P5xATHZw2LM=;
+ b=Re6DfNChyBaCvRzfhrqHfVyCNwE4k9xebjNMtOvpJdnucAv4aMOXifWOM0v2x7Zs00
+ FyzpGZCQLIEnHsrK6Me+Jo0vlUYHBC0ztA4L4F8MQLa94bAnjjUJbrBeDJMAi09AoA40
+ Gemwe6N3a6N5RBwLDNVXRRKeQvs0Z9QZfz/rs7k1LmeSn9b/T3giVk5wUjGkQWE/aO6T
+ /pcVSJEpyQjJ0/L2IggqLS+rVRO86tIAkK+MMItcInH6iei/jKaMp6S+5rjFDa27i499
+ TTvj47g+wMBHuX1YJ9ZAoGelFUavH8Udmr59/IpbknvZtwmmebtp+MRyLi+oF7JAxwhI
+ uhOA==
+X-Gm-Message-State: AOAM532wNOOoYhcXe8/kBLqA5FtkzRnfYXBZntYFnnbiSjUh2Je/Vhz0
+ PPo3DrT17fYLUkkMaZJhoqwCjOslmV5Bq26+qsG1bAVYxUb88sOzev6OPSPOFo1V/zzHuNYWV86
+ LfSUbp6MRgD+ZblJPPcUx8Vp5w9KrvciZjFNNQTF9eaL38LJc/mrHo3Sl3nrD
+X-Received: by 2002:a05:600c:3d8e:b0:39c:573b:3079 with SMTP id
+ bi14-20020a05600c3d8e00b0039c573b3079mr7687081wmb.131.1654847823015; 
+ Fri, 10 Jun 2022 00:57:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxdyZsnNbyye2Enf72/ixhW7hFJydoMMSGuHt9nQHSCOW+RInW9ypF7kJgzTlJZkM4pvonW+g==
+X-Received: by 2002:a05:600c:3d8e:b0:39c:573b:3079 with SMTP id
+ bi14-20020a05600c3d8e00b0039c573b3079mr7687047wmb.131.1654847822596; 
+ Fri, 10 Jun 2022 00:57:02 -0700 (PDT)
+Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
+ o17-20020a5d6711000000b00218453adaefsm12568822wru.101.2022.06.10.00.57.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jun 2022 00:57:02 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:56:59 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/54] virtio,pc,pci: fixes,cleanups,features
+Message-ID: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
- f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-47-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA83dJAtnRskscBAk7qCXtA-xOS7LQR_uimaWgSbHuHivQ@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <CAFEAcA83dJAtnRskscBAk7qCXtA-xOS7LQR_uimaWgSbHuHivQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 46/50] lasips2: switch over from update_irq() function to
- PS2 device gpio
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,88 +93,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/06/2022 12:21, Peter Maydell wrote:
+The following changes since commit 6d940eff4734bcb40b1a25f62d7cec5a396f994a:
 
-> On Sun, 22 May 2022 at 19:20, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> Add a qdev gpio input in lasips2_init() by taking the existing lasips2_port_set_irq()
->> function, updating it accordingly and then renaming to lasips2_set_irq(). Use these
->> new qdev gpio inputs to wire up the PS2 keyboard and mouse devices.
->>
->> At the same time set update_irq() and update_arg to NULL in ps2_kbd_init() and
->> ps2_mouse_init() to ensure that any accidental attempt to use the legacy update_irq()
->> function will cause a NULL pointer dereference.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/input/lasips2.c | 17 +++++++++++++----
->>   1 file changed, 13 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
->> index 644cf70955..12ff95a05f 100644
->> --- a/hw/input/lasips2.c
->> +++ b/hw/input/lasips2.c
->> @@ -117,6 +117,9 @@ static const char *lasips2_write_reg_name(uint64_t addr)
->>       }
->>   }
->>
->> +#define LASIPS2_KBD_INPUT_IRQ      0
->> +#define LASIPS2_MOUSE_INPUT_IRQ    1
->> +
->>   static void lasips2_update_irq(LASIPS2State *s)
->>   {
->>       trace_lasips2_intr(s->kbd.irq | s->mouse.irq);
->> @@ -237,9 +240,10 @@ static const MemoryRegionOps lasips2_reg_ops = {
->>       .endianness = DEVICE_NATIVE_ENDIAN,
->>   };
->>
->> -static void lasips2_port_set_irq(void *opaque, int level)
->> +static void lasips2_set_irq(void *opaque, int n, int level)
->>   {
->> -    LASIPS2Port *port = opaque;
->> +    LASIPS2State *s = LASIPS2(opaque);
->> +    LASIPS2Port *port = (n ? &s->mouse : &s->kbd);
->>
->>       port->irq = level;
->>       lasips2_update_irq(port->parent);
->> @@ -263,8 +267,12 @@ static void lasips2_realize(DeviceState *dev, Error **errp)
->>
->>       vmstate_register(NULL, s->base, &vmstate_lasips2, s);
->>
->> -    s->kbd.dev = ps2_kbd_init(lasips2_port_set_irq, &s->kbd);
->> -    s->mouse.dev = ps2_mouse_init(lasips2_port_set_irq, &s->mouse);
->> +    s->kbd.dev = ps2_kbd_init(NULL, NULL);
->> +    qdev_connect_gpio_out(DEVICE(s->kbd.dev), PS2_DEVICE_IRQ,
->> +                          qdev_get_gpio_in(dev, LASIPS2_KBD_INPUT_IRQ));
->> +    s->mouse.dev = ps2_mouse_init(NULL, NULL);
->> +    qdev_connect_gpio_out(DEVICE(s->mouse.dev), PS2_DEVICE_IRQ,
->> +                          qdev_get_gpio_in(dev, LASIPS2_MOUSE_INPUT_IRQ));
->>   }
->>
->>   static void lasips2_init(Object *obj)
->> @@ -285,6 +293,7 @@ static void lasips2_init(Object *obj)
->>       sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mouse.reg);
->>
->>       qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
->> +    qdev_init_gpio_in(DEVICE(obj), lasips2_set_irq, 2);
->>   }
-> 
-> These definitely should be named GPIO inputs, as with the pl050.
-> 
-> Aside, if you felt like adding "QEMU interface" comments to these
-> devices that summarize what the various sysbus IRQs, MMIOs,
-> qdev GPIOs, etc do, that would be nice, and then gives you a
-> place to document that these GPIO lines are part of the internal
-> implementation rather than externally-facing. include/hw/intc/ppc-uic.h
-> is one example but you can find lots by grepping for "QEMU interface"
-> in include/hw/.
+  Merge tag 'pull-tpm-2022-06-07-1' of https://github.com/stefanberger/qemu-tpm into staging (2022-06-07 19:22:18 -0700)
 
-Oh interesting, I wasn't aware of this. I'll see if I can add a summary of the 
-modelling in v2.
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-ATB,
+for you to fetch changes up to 397c2901bfd9ee531243b38b6a318edccb88ed65:
 
-Mark.
+  crypto: Introduce RSA algorithm (2022-06-09 19:32:49 -0400)
+
+----------------------------------------------------------------
+virtio,pc,pci: fixes,cleanups,features
+
+more CXL patches
+VIOT
+Igor's huge AML rework
+fixes, cleanups all over the place
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Changpeng Liu (2):
+      hw/virtio/vhost-user: don't use uninitialized variable
+      hw/vhost-user-scsi|blk: set `supports_config` flag correctly
+
+Claudio Fontana (1):
+      pci: fix overflow in snprintf string formatting
+
+Igor Mammedov (35):
+      acpi: add interface to build device specific AML
+      acpi: make isa_build_aml() support AcpiDevAmlIf interface
+      acpi: fdc-isa: replace ISADeviceClass::build_aml with AcpiDevAmlIfClass:build_dev_aml
+      acpi: parallel port: replace ISADeviceClass::build_aml with AcpiDevAmlIfClass:build_dev_aml
+      acpi: serial-is: replace ISADeviceClass::build_aml with AcpiDevAmlIfClass:build_dev_aml
+      acpi: mc146818rtc: replace ISADeviceClass::build_aml with AcpiDevAmlIfClass:build_dev_aml
+      acpi: pckbd: replace ISADeviceClass::build_aml with AcpiDevAmlIfClass:build_dev_aml
+      isa-bus: drop no longer used ISADeviceClass::build_aml
+      tests: acpi: add and whitelist DSDT.ipmismbus expected blob
+      tests: acpi: q35: add test for smbus-ipmi device
+      tests: acpi: update expected blob DSDT.ipmismbus
+      tests: acpi: whitelist DSDT.ipmismbus expected blob
+      ipmi: acpi: use relative path to resource source
+      tests: acpi: update expected DSDT.ipmismbus blob
+      acpi: ich9-smb: add support for AcpiDevAmlIf interface
+      acpi: ipmi: use AcpiDevAmlIf interface to build IPMI device descriptors
+      q35: acpi: drop not needed PCMachineClass::do_not_add_smb_acpi
+      tests: acpi: white-list to be re-factored pc/q35 DSDT
+      acpi: pc: isa bridge: use AcpiDevAmlIf interface to build ISA device descriptors
+      acpi: q35: isa bridge: use AcpiDevAmlIf interface to build ISA device descriptors
+      tests: acpi: update expected blobs
+      tests: acpi: add and white-list DSDT.applesmc expected blob
+      tests: acpi: add applesmc testcase
+      acpi: applesmc: use AcpiDevAmlIfClass:build_dev_aml to provide device's AML
+      tests: acpi: update expected blobs
+      tests: acpi: white-lists expected DSDT.pvpanic-isa blob
+      tests: acpi: add pvpanic-isa: testcase
+      acpi: pvpanic-isa: use AcpiDevAmlIfClass:build_dev_aml to provide device's AML
+      tests: acpi: update expected DSDT.pvpanic-isa blob
+      tests: acpi: white-list DSDT.tis.tpm2/DSDT.tis.tpm12 expected blobs
+      acpi: pc/q35: tpm-tis: fix TPM device scope
+      acpi: pc/q35: remove not needed 'if' condition on pci bus
+      acpi: tpm-tis: use AcpiDevAmlIfClass:build_dev_aml to provide device's AML
+      tests: acpi: update expected DSDT.tis.tpm2/DSDT.tis.tpm12 blobs
+      x86: acpi-build: do not include hw/isa/isa.h directly
+
+Jonathan Cameron (9):
+      hw/cxl: Make the CXL fixed memory window setup a machine parameter.
+      hw/acpi/cxl: Pass in the CXLState directly rather than MachineState
+      hw/cxl: Push linking of CXL targets into i386/pc rather than in machine.c
+      tests/acpi: Allow modification of q35 CXL CEDT table.
+      pci/pci_expander_bridge: For CXL HB delay the HB register memory region setup.
+      tests/acpi: Update q35/CEDT.cxl for new memory addresses.
+      hw/cxl: Move the CXLState from MachineState to machine type specific state.
+      hw/machine: Drop cxl_supported flag as no longer useful
+      hw/cxl: Fix missing write mask for HDM decoder target list registers
+
+Mark Cave-Ayland (6):
+      hw/acpi/viot: rename build_pci_range_node() to enumerate_pci_host_bridges()
+      hw/acpi/viot: move the individual PCI host bridge entry generation to a new function
+      hw/acpi/viot: build array of PCI host bridges before generating VIOT ACPI table
+      tests/acpi: virt: allow VIOT acpi table changes
+      hw/acpi/viot: sort VIOT ACPI table entries by PCI host bridge min_bus
+      tests/acpi: virt: update golden masters for VIOT
+
+Zhenwei Pi (1):
+      crypto: Introduce RSA algorithm
+
+ qapi/machine.json                           |  13 ++
+ include/hw/acpi/acpi_aml_interface.h        |  40 ++++
+ include/hw/acpi/cxl.h                       |   5 +-
+ include/hw/acpi/ipmi.h                      |   9 +-
+ include/hw/boards.h                         |   3 +-
+ include/hw/cxl/cxl.h                        |   9 +-
+ include/hw/cxl/cxl_host.h                   |  23 ++
+ include/hw/i386/pc.h                        |   3 +-
+ include/hw/isa/isa.h                        |  15 --
+ include/hw/misc/pvpanic.h                   |   9 -
+ include/hw/pci-bridge/pci_expander_bridge.h |  12 ++
+ include/hw/virtio/virtio-crypto.h           |   5 +-
+ include/sysemu/cryptodev.h                  |  83 ++++++--
+ backends/cryptodev-builtin.c                | 274 ++++++++++++++++++++----
+ backends/cryptodev-vhost-user.c             |  34 ++-
+ backends/cryptodev.c                        |  32 ++-
+ hw/acpi/acpi_interface.c                    |   8 +
+ hw/acpi/cxl.c                               |   9 +-
+ hw/acpi/ipmi-stub.c                         |   2 +-
+ hw/acpi/ipmi.c                              |  53 ++---
+ hw/acpi/viot.c                              | 109 ++++++----
+ hw/block/fdc-isa.c                          |  16 +-
+ hw/block/vhost-user-blk.c                   |   1 +
+ hw/char/parallel.c                          |  14 +-
+ hw/char/serial-isa.c                        |  14 +-
+ hw/core/machine.c                           |  28 ---
+ hw/cxl/cxl-component-utils.c                |  13 +-
+ hw/cxl/cxl-host-stubs.c                     |   9 +-
+ hw/cxl/cxl-host.c                           | 100 ++++++++-
+ hw/i2c/smbus_ich9.c                         |  15 ++
+ hw/i386/acpi-build.c                        | 179 ++++------------
+ hw/i386/pc.c                                |  31 ++-
+ hw/i386/pc_piix.c                           |   1 -
+ hw/i386/pc_q35.c                            |   1 -
+ hw/input/pckbd.c                            |  14 +-
+ hw/ipmi/isa_ipmi_bt.c                       |   4 +
+ hw/ipmi/isa_ipmi_kcs.c                      |   4 +
+ hw/ipmi/smbus_ipmi.c                        |   4 +
+ hw/isa/isa-bus.c                            |   9 +-
+ hw/isa/lpc_ich9.c                           |  19 ++
+ hw/isa/piix3.c                              |  17 ++
+ hw/misc/applesmc.c                          |  29 +++
+ hw/misc/pvpanic-isa.c                       |  42 ++++
+ hw/pci-bridge/pci_expander_bridge.c         |  32 +--
+ hw/pci-bridge/pci_expander_bridge_stubs.c   |  14 ++
+ hw/pci/pci.c                                |  16 +-
+ hw/rtc/mc146818rtc.c                        |  14 +-
+ hw/scsi/vhost-user-scsi.c                   |   1 -
+ hw/tpm/tpm_tis_isa.c                        |  32 +++
+ hw/virtio/vhost-user.c                      |   8 +-
+ hw/virtio/virtio-crypto.c                   | 319 ++++++++++++++++++++++------
+ softmmu/vl.c                                |  46 ----
+ tests/qtest/bios-tables-test.c              |  44 +++-
+ tests/qtest/cxl-test.c                      |   4 +-
+ docs/system/devices/cxl.rst                 |   4 +-
+ hw/acpi/meson.build                         |   2 +-
+ hw/pci-bridge/meson.build                   |   5 +-
+ qemu-options.hx                             |  73 +++----
+ tests/data/acpi/pc/DSDT                     | Bin 6002 -> 5987 bytes
+ tests/data/acpi/pc/DSDT.acpierst            | Bin 5969 -> 5954 bytes
+ tests/data/acpi/pc/DSDT.acpihmat            | Bin 7327 -> 7312 bytes
+ tests/data/acpi/pc/DSDT.bridge              | Bin 8668 -> 8653 bytes
+ tests/data/acpi/pc/DSDT.cphp                | Bin 6466 -> 6451 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm             | Bin 7656 -> 7641 bytes
+ tests/data/acpi/pc/DSDT.hpbridge            | Bin 5969 -> 5954 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3084 -> 3069 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs             | Bin 6074 -> 6059 bytes
+ tests/data/acpi/pc/DSDT.memhp               | Bin 7361 -> 7346 bytes
+ tests/data/acpi/pc/DSDT.nohpet              | Bin 5860 -> 5845 bytes
+ tests/data/acpi/pc/DSDT.numamem             | Bin 6008 -> 5993 bytes
+ tests/data/acpi/pc/DSDT.roothp              | Bin 6210 -> 6195 bytes
+ tests/data/acpi/q35/CEDT.cxl                | Bin 184 -> 184 bytes
+ tests/data/acpi/q35/DSDT                    | Bin 8289 -> 8274 bytes
+ tests/data/acpi/q35/DSDT.acpierst           | Bin 8306 -> 8291 bytes
+ tests/data/acpi/q35/DSDT.acpihmat           | Bin 9614 -> 9599 bytes
+ tests/data/acpi/q35/DSDT.applesmc           | Bin 0 -> 8320 bytes
+ tests/data/acpi/q35/DSDT.bridge             | Bin 11003 -> 10988 bytes
+ tests/data/acpi/q35/DSDT.cphp               | Bin 8753 -> 8738 bytes
+ tests/data/acpi/q35/DSDT.cxl                | Bin 9615 -> 9600 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9943 -> 9928 bytes
+ tests/data/acpi/q35/DSDT.ipmibt             | Bin 8364 -> 8349 bytes
+ tests/data/acpi/q35/DSDT.ipmismbus          | Bin 0 -> 8363 bytes
+ tests/data/acpi/q35/DSDT.ivrs               | Bin 8306 -> 8291 bytes
+ tests/data/acpi/q35/DSDT.memhp              | Bin 9648 -> 9633 bytes
+ tests/data/acpi/q35/DSDT.mmio64             | Bin 9419 -> 9404 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge       | Bin 8583 -> 8568 bytes
+ tests/data/acpi/q35/DSDT.nohpet             | Bin 8147 -> 8132 bytes
+ tests/data/acpi/q35/DSDT.numamem            | Bin 8295 -> 8280 bytes
+ tests/data/acpi/q35/DSDT.pvpanic-isa        | Bin 0 -> 8375 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 8900 -> 8880 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 8921 -> 8906 bytes
+ tests/data/acpi/q35/DSDT.viot               | Bin 9398 -> 9383 bytes
+ tests/data/acpi/q35/DSDT.xapic              | Bin 35652 -> 35637 bytes
+ tests/data/acpi/q35/VIOT.viot               | Bin 112 -> 112 bytes
+ 94 files changed, 1313 insertions(+), 615 deletions(-)
+ create mode 100644 include/hw/acpi/acpi_aml_interface.h
+ create mode 100644 include/hw/cxl/cxl_host.h
+ create mode 100644 include/hw/pci-bridge/pci_expander_bridge.h
+ create mode 100644 hw/pci-bridge/pci_expander_bridge_stubs.c
+ create mode 100644 tests/data/acpi/q35/DSDT.applesmc
+ create mode 100644 tests/data/acpi/q35/DSDT.ipmismbus
+ create mode 100644 tests/data/acpi/q35/DSDT.pvpanic-isa
+
 
