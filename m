@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F3A546935
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 17:13:34 +0200 (CEST)
-Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B133F54693B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 17:15:47 +0200 (CEST)
+Received: from localhost ([::1]:49394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzgKL-0003rx-W0
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 11:13:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54350)
+	id 1nzgMU-0006aM-QE
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 11:15:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzgIO-0002MF-Je
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:11:32 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:35628)
+ id 1nzgJT-0003aC-IP
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:12:40 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:45688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzgIM-0007CC-9S
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:11:31 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- o6-20020a17090a0a0600b001e2c6566046so2574927pjo.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 08:11:29 -0700 (PDT)
+ id 1nzgJS-0007I0-8k
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:12:39 -0400
+Received: by mail-pf1-x433.google.com with SMTP id x138so2298290pfc.12
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 08:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OT1uSg8YE9kk/aKeX/mPhEPwuf5+XvjNwli3wu9jPXE=;
- b=MXmpXyb/wo8MwvswHFWQppBdGZmEcpGyrbwso3g6heKXxMSOmcL2NSCrhw0Y9sL7hi
- zb96RUIy//o2ADkTVCS5q0OKUfYJALA+fhawvnkgTsA04tRzRb+JaPTkQt2xRoePQBgT
- 1g/WfmS29rCAW3V0B/GA1rJ2lqgjadWCiI+Fusyw31V1GS/RvYIqyvszDsuAVWcL/Lmz
- gkxLzPqlNGgHsY2YUilJa9nH15fqhncLGUC5XRBn0uuFOFq6bZ/44BN0QkONt83gfIl4
- 6X80Yd7KX/WdCzFurA9gAq+X3o+ztd5Z9almrW9OUsqevHhiniRrqJ3D4jeywvqO3cf1
- zQqw==
+ bh=WXgxa6OudNEYQ3BmkG5Zfbk0pwB1j+Wt4sIYiDrFChY=;
+ b=jvSd/B3Msm0BG3Ddqx8wnV9vW1IEjjtc+El79PETk77y7G9lXQunRXmhMO3riNTU2r
+ LvN4FfJal7skROmOrVJuKhJJNgCbsuWa0hahfolGul3sAhOdXSJ0+DvONLeY1f6Bcsqd
+ EMs0BJGxffPwXU81a35bGv1JFVeie4LfvXk2TFJ6tQgYJQ/N4Sf+uMWs0f6DTI+2DkGE
+ tBBr+HgkfMw8y5UApQP2BzmmcEcYyRIttjORNtq9AEUXN1TsLT+YHC+iJyi+V5BcurhR
+ NUZqrwAPXdEQlwuV5XYWsapz+Z64SoBfT6QtfaYlL6DZqmzxPONYH3hV86TY/r8wGBb9
+ dkhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:cc:from:in-reply-to
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OT1uSg8YE9kk/aKeX/mPhEPwuf5+XvjNwli3wu9jPXE=;
- b=WiIzH3BNcvU+7xdm0sD2XlmextcDkQsZ+quJ8C2VFQhbECZc29aogKpxyzqPrmuewW
- xf8gYCRf96yDriSZBKbYFQKe5z1GDzXUr9AU/IeTbwND+qGUgkXkwUUd19OKaF/CeNnr
- 058YT9Yis37yMA93loAAnsB1w5pGIL7UDOQSUI8yLpe+Zah74SuxU7VlkPxhD9kKm4N/
- ijssYkcF16Uq6/6+fiXf/rZ4LYsPup4o/r7Nt3Ru2ryjLlEQ+JxWqoL5KqTc0rZqfOjx
- 62brZ+ibRCK1dAjIQHbv5XgepWHHZqoRNmGPuIoSvyBkGPigkKEoZHmmWbzBbHsH0Se7
- kbwA==
-X-Gm-Message-State: AOAM532yzFOkdRDhQz7EkgzY/uzoN3GNChw9PVHhDKa+WEU/JW9MGqqI
- lvJS26m5FV1s0gAjmnIXMepdOikARrM=
-X-Google-Smtp-Source: ABdhPJyhJg0Kifx2RB1QsXzcLPpVQoHvcHZfz1VZYcSA1PDeRN9qPp60LMSfSmrLTu0cYqH2gingQA==
-X-Received: by 2002:a17:902:e751:b0:163:d8d9:8440 with SMTP id
- p17-20020a170902e75100b00163d8d98440mr45153601plf.12.1654873888737; 
- Fri, 10 Jun 2022 08:11:28 -0700 (PDT)
+ bh=WXgxa6OudNEYQ3BmkG5Zfbk0pwB1j+Wt4sIYiDrFChY=;
+ b=qc/hH6nyeJuGL/1k7EH9R9SFraUqRw665VqjDyILVgULypdMKeUHM4+bVJ+plGoe9l
+ 6I1IAhIgFCSSLZjBRp7rxV/sOtN5KhBWGQcntfpIUhNXHRUbBu89llO6tvgsab6CPlaA
+ H3pdLMUUXHqja1qu+03HayjLGp3Qa9+mU92cOIzNO4yhdfuD59UEP8vTEHgYUnVv7nku
+ hm4EXSOlOAIbrlwtySPPWoV4Z/i0TyGQ9Djg5yKt7hAA474LXVBdTlFDrBuip7AUNG5m
+ Fk+11KtN3N+Fv1y3LKlUR2sMF9hxVki/q2h9ckP4LxIQ8wZyKixUAVEg/TSMQJaKkuRm
+ kXvw==
+X-Gm-Message-State: AOAM532UGRox6+UV3bQlrHXget7zg7TVsJoaD9LN+Z9kU7jpXVqBu0D6
+ do8b3DbaOODLvxgKFi63J4nu5jYMHaQ=
+X-Google-Smtp-Source: ABdhPJwUApoxkXGBwwCkvw587q9nQfpOExDUkUU2Pq1XU4JBhXpuHjxFXpWWNk+iqPhSueAYQKOpnQ==
+X-Received: by 2002:a63:680a:0:b0:3fd:233:79ca with SMTP id
+ d10-20020a63680a000000b003fd023379camr37402289pgc.233.1654873955780; 
+ Fri, 10 Jun 2022 08:12:35 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n1-20020a056a00212100b0051bb1785286sm6033382pfj.167.2022.06.10.08.11.26
+ t15-20020a17090340cf00b0016168e90f2csm18704043pld.208.2022.06.10.08.12.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 08:11:27 -0700 (PDT)
-Message-ID: <2a1795ca-5bc7-fd7a-ec8f-6ebdfa183014@amsat.org>
-Date: Fri, 10 Jun 2022 17:11:25 +0200
+ Fri, 10 Jun 2022 08:12:35 -0700 (PDT)
+Message-ID: <e238125a-e42e-cb72-9dbf-9a794ff8a649@amsat.org>
+Date: Fri, 10 Jun 2022 17:12:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH v4 09/11] semihosting: Remove qemu_semihosting_log_out
+Subject: Re: [PATCH v4 11/11] target/mips: Remove GET_TARGET_STRING and
+ FREE_TARGET_STRING
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220608051945.802339-1-richard.henderson@linaro.org>
- <20220608051945.802339-10-richard.henderson@linaro.org>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-In-Reply-To: <20220608051945.802339-10-richard.henderson@linaro.org>
+ <20220608051945.802339-12-richard.henderson@linaro.org>
+In-Reply-To: <20220608051945.802339-12-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,58 +97,13 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 8/6/22 07:19, Richard Henderson wrote:
-> The function is no longer used.
+> Inline these macros into the only two callers.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   include/semihosting/console.h | 13 -------------
->   semihosting/console.c         |  9 ---------
->   2 files changed, 22 deletions(-)
-> 
-> diff --git a/include/semihosting/console.h b/include/semihosting/console.h
-> index 61b0cb3a94..bd78e5f03f 100644
-> --- a/include/semihosting/console.h
-> +++ b/include/semihosting/console.h
-> @@ -40,19 +40,6 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len);
->    */
->   int qemu_semihosting_console_write(void *buf, int len);
->   
-> -/**
-> - * qemu_semihosting_log_out:
-> - * @s: pointer to string
-> - * @len: length of string
-> - *
-> - * Send a string to the debug output. Unlike console_out these strings
-> - * can't be sent to a remote gdb instance as they don't exist in guest
-> - * memory.
-> - *
-> - * Returns: number of bytes written
-> - */
-> -int qemu_semihosting_log_out(const char *s, int len);
-> -
->   /*
->    * qemu_semihosting_console_block_until_ready:
->    * @cs: CPUState
-> diff --git a/semihosting/console.c b/semihosting/console.c
-> index cda7cf1905..5b1ec0a1c3 100644
-> --- a/semihosting/console.c
-> +++ b/semihosting/console.c
-> @@ -38,15 +38,6 @@ typedef struct SemihostingConsole {
->   
->   static SemihostingConsole console;
->   
-> -int qemu_semihosting_log_out(const char *s, int len)
-> -{
-> -    if (console.chr) {
-> -        return qemu_chr_write_all(console.chr, (uint8_t *) s, len);
-> -    } else {
-> -        return write(STDERR_FILENO, s, len);
-> -    }
-> -}
-> -
->   #define FIFO_SIZE   1024
->   
->   static int console_can_read(void *opaque)
+>   target/mips/tcg/sysemu/mips-semi.c | 27 +++++++++------------------
+>   1 file changed, 9 insertions(+), 18 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
