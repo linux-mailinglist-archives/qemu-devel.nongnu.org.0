@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F1A54676F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 15:38:54 +0200 (CEST)
-Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540E954679A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 15:48:47 +0200 (CEST)
+Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzeqj-0007uF-M8
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 09:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35508)
+	id 1nzf0H-0002kW-T9
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 09:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzell-0004mh-35
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 09:33:45 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:33473)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzexb-0001vA-VX
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 09:46:00 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:35660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzelj-0000QH-LR
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 09:33:44 -0400
-Received: by mail-pf1-x434.google.com with SMTP id w21so23926603pfc.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 06:33:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=R3XM31mKA5k7EtIvaTS5UpRWWYsCxDghyA8UpYu9WJw=;
- b=CxjsX7323bMugyxcBvUrMU8tHuhdXHkbEvWiFU7Y4Nso74CdqNXWMV3rK7zbzp5ckW
- IQWWaky3nDHGXNzBmYiR79bIF+DbUoziZ8UCbayESwlK5xGnvy5lmcPN/L1g3TEnY9S8
- Mk1vKA4bcZh8wEJf/KYzwv9kE5BLul54J6chfEy6R2IponFAjO+M87mB6r5JITQwo2ow
- e4f/RlDcoaEpRvRCBoqQWyH+kB6Ok7N95RDPOOdITz6TL5zExSzOq/g40aZz9VI6Uy5s
- rCt7YJVQbWURGWmqRogdcfEbZH9JjMpFmeSIx5RpQRbbBebylbnUJ2OXOYDep/oJV7I9
- Ix7A==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nzexa-0002rB-ER
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 09:45:59 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id t1so964870ybd.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 06:45:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5+eTKlGq8wkW835wkOCFVqMRhkJdrl1m3jhHyUajUK8=;
+ b=rOw20KjqrYhUTNxah59fW0sZzQXLx70oRKQIBh8G8eAMmEALjpPSt+ZXNEneFmZG77
+ dsfgExWQckalffxRjMyYqZ1ZOkjfC3TPJzUv3MMUXylkmKNe/UmYLijsm/4ZwRNw6rvn
+ cFjetyW17BQCZzUIu/NJzB5ebQsXqtxEyRwJOel0EYxNgCAQwWDI//2TLLqS6L948i0G
+ DZzwfFp4PwywFJVKgK1y0PNUWed7owC2ANZVygnZgNhn8aoAaJy2GNizyDsYKzpdMC48
+ SIGbuD9KLA4WlLkRTX7uMTK0z04q7WffrzotGU/MIABZWmb25cux6OpyVA/k9cUK97Qa
+ wcGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=R3XM31mKA5k7EtIvaTS5UpRWWYsCxDghyA8UpYu9WJw=;
- b=6nU9lSMgUGawub+ild3uo2OPOq3U4otvOqnjsXKreIlozNMNHzKXpE2oDyq9vRK2cH
- DxwGmHu2PXK7cc97lwtAjXVWVIcKknMABKJ/jfPsHXnIM/23tvQYFupqaA0+h1IuTFMS
- Es3U7epoDm/HEzVyQ4C655kWpcZIC6mIzMKlEIoNL3if3KMHq3z/IES0iFSk+Ihfoi43
- 4GugePmh1pGpRrrkSqstDZpYmRxt73FtzlWSJ3gxUJ/qq1DIDHE8+XzVy+TbqSXmf/M/
- kr8RT/ZMWwD7dtx5YzsNskJxjHDg52KvkkR0EAoFZH6LkKnP4QWNOXCJ9PK/YBi8H7re
- MjeA==
-X-Gm-Message-State: AOAM530n+bX8tl7+yfYrgslIyCSHkxUZqHKdZxAG7DftDv73uvUlXUs9
- QgEBkFRBc+haSlwhXSqciqvhy3TJgyA=
-X-Google-Smtp-Source: ABdhPJynwLeK1JkYS5olhgPlMafpqce2LJC3V/lOFC62JBJNmsWxdzes4dSWQz9aF1pgCltnACrB1w==
-X-Received: by 2002:a65:6ccd:0:b0:3c6:2ba2:5f9a with SMTP id
- g13-20020a656ccd000000b003c62ba25f9amr40325842pgw.216.1654868022468; 
- Fri, 10 Jun 2022 06:33:42 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 19-20020a170902e9d300b0015e8d4eb1b6sm18786629plk.0.2022.06.10.06.33.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 06:33:41 -0700 (PDT)
-Message-ID: <7842c517-2aed-6317-9a07-58f55f949f43@amsat.org>
-Date: Fri, 10 Jun 2022 15:33:39 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5+eTKlGq8wkW835wkOCFVqMRhkJdrl1m3jhHyUajUK8=;
+ b=sH+XW/AGVatk9VWTmQsPwtsu2nu3bYSaV81Oqd2k37b+RLRBSvw4XZ52g6UJhLtanY
+ 2TLvvIGBKSDykbJWezOC8p4emmsscGMuGR7NF1lOSMTk9tkXQquzzBB3HOI14Ec9ugVS
+ a95UtILyvHonVR6qq8SYzcTQw4pxulha0aGill855pFXrFaSdaKxBZWXF8R3z1oyO7Sp
+ jg+DKmN9jEWgE1SdFC9RyBHbpGiF6N4LrhRV7c2hplrWJ9+/LRHyGEFZyHvkWc7UUHCW
+ Qc272HP7s8BM2Sucdj/NtJsZbK4foUN0V2q6ynhKtdwlKujzZAWS43uO6J2t07Q2XRxM
+ yKLQ==
+X-Gm-Message-State: AOAM533AasWVkSH3GLIw6JSOSaiVDl1HOYbrhI8tsXrGgEGJC9khnd0N
+ ONP3XZGdgdiBhMBy3r3RDhBs4OcEPXHawFd0giLftA==
+X-Google-Smtp-Source: ABdhPJwfJvG2VIsmwP9XOblFcY5DnLJL4d7nQ07F/0XGy+ZEYiNUBQPkxYe9vIX9rXgmi2ulSDJWst7sbIZ1cMR57R0=
+X-Received: by 2002:a25:b94:0:b0:663:e6e7:c5 with SMTP id
+ 142-20020a250b94000000b00663e6e700c5mr16794888ybl.85.1654868757302; 
+ Fri, 10 Jun 2022 06:45:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH v4 2/3] target/nios2: Move nios2-semi.c to nios2_softmmu_ss
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220608023816.759426-1-richard.henderson@linaro.org>
- <20220608023816.759426-3-richard.henderson@linaro.org>
-In-Reply-To: <20220608023816.759426-3-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <20220609122852.21140-1-hreitz@redhat.com>
+In-Reply-To: <20220609122852.21140-1-hreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Jun 2022 14:45:46 +0100
+Message-ID: <CAFEAcA9S9tXNsgn4u0AYe2_Vt0n0oESYPLJmL+VmzcTBffg4hw@mail.gmail.com>
+Subject: Re: [PATCH] qsd: Do not use error_report() before monitor_init
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, 
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,18 +81,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 8/6/22 04:38, Richard Henderson wrote:
-> Semihosting is not enabled for nios2-linux-user.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Thu, 9 Jun 2022 at 15:26, Hanna Reitz <hreitz@redhat.com> wrote:
+>
+> error_report() only works once monitor_init_globals_core() has been
+> called, which is not the case when parsing the --daemonize option.  Use
+> fprintf(stderr, ...) instead.
+>
+> Fixes: 2525edd85fec53e23fda98974a15e3b3c8957596 ("qsd: Add --daemonize")
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 > ---
->   target/nios2/nios2-semi.c | 5 -----
->   target/nios2/meson.build  | 4 ++--
->   2 files changed, 2 insertions(+), 7 deletions(-)
+>  storage-daemon/qemu-storage-daemon.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+> index c104817cdd..0890495c40 100644
+> --- a/storage-daemon/qemu-storage-daemon.c
+> +++ b/storage-daemon/qemu-storage-daemon.c
+> @@ -286,7 +286,11 @@ static void process_options(int argc, char *argv[], bool pre_init_pass)
+>              }
+>          case OPTION_DAEMONIZE:
+>              if (os_set_daemonize(true) < 0) {
+> -                error_report("--daemonize not supported in this build");
+> +                /*
+> +                 * --daemonize is parsed before monitor_init_globals_core(), so
+> +                 * error_report() does not work yet
+> +                 */
+> +                fprintf(stderr, "--daemonize not supported in this build\n");
+>                  exit(EXIT_FAILURE);
+>              }
+>              break;
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Is it worth making error_report() have code for "called in early startup
+before monitor was initialized" that falls back to "just print to stderr"?
+Having our standard error reporting function not be usable everywhere is
+kind of surprising...
 
+-- PMM
 
