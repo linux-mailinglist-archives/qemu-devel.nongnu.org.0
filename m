@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726DF546596
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 13:32:52 +0200 (CEST)
-Received: from localhost ([::1]:43438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0915465B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 13:37:16 +0200 (CEST)
+Received: from localhost ([::1]:51452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzcsk-0006lP-VK
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 07:32:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57480)
+	id 1nzcx0-0003t4-Tr
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 07:37:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nzciB-0000aR-4L
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 07:21:55 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nzci8-0000fg-L2
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 07:21:54 -0400
-Received: by mail-wr1-x433.google.com with SMTP id p10so36089363wrg.12
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 04:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YcDTCA5Oxbt4VzFMZQI/kw7Rh8m/mmg+sZ4G1+h9J0I=;
- b=xbf0Br4iHDUxQVT15fBvvm4KozYzZu2NXQq7sb5/xczWoIbkniVja/MAeeJyq7Kl7A
- y4/cnNxnC3+d3mKvJPz5LH7A+MlrpMbFMHneekuaF+B8CJb8ZeZlzQd1OZ/FMZCQMwDN
- ub7q2FDprHqGwGa6PHgVwhHmtUN+vSUtmedmSnAQFgrByhpVUtEOwVfuV1ot8JG7Qfv2
- IAdqvWbIruGpb0xofoiej7toEnjWn+9Xi4dMUftDrKn3mlSNFcQybl3xuspacl1db48k
- KGFkqlwanWRqa4Pj2ULbcHgNIhziHVaJjVQ26vz7l0BKog+atv1eNiY7taiP0HmBe7SQ
- cNtg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzcoY-0004uF-43
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 07:28:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzcnx-0002De-Oy
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 07:27:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654860468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VkUtdtuo3qM6eoRx092NTAt8mYrOi4UZOQOdsiVItjI=;
+ b=hWH2pvZm+9ZfPvXiZvS1YUAENbq2BTggjIw2EZTiLnnOn/T/s5Fv1Jt/DZWa/Fh7KzxJPy
+ wSn5JrXO9+iFSeiy5lez0C3Fkx4Oi99IQZoEO/xrjNfMP8ndY94nia2SM/ATIglVeExhJY
+ ZdTpIWtYUcRCO0/QaW9B51tb9Yhlenk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-336-V-H8lEVWOMqPDw-8mEln_w-1; Fri, 10 Jun 2022 07:27:45 -0400
+X-MC-Unique: V-H8lEVWOMqPDw-8mEln_w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t2-20020adfe442000000b002108370e7a3so6104886wrm.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 04:27:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YcDTCA5Oxbt4VzFMZQI/kw7Rh8m/mmg+sZ4G1+h9J0I=;
- b=2ZnQ6vDOZswO9BUnZ5JXke2PatOmEz4OeYt+6DFfzyfQQbSWHdxsXbsAnKaTSIEYiy
- zq8fseo9F/Ypk00x4xC8bSk4ETLFO7xNA3zOi9xJSoL+JbGGAEGwKjb/BJtZeyOR1LGQ
- loqF6gGNljpqyUQjz9hwKcCEvH6EzjDXbJM6AXZcisc5dV6ZC3yn3FdYtGtuVtm629xX
- wffyf4bZk2DIekSy3yEhEblaDX5BxH+pzqsipT0Rn7p4zYhck0RPC4kMR8POLuxg+tZh
- 4sG/oGbr6GnFxN2YrSCZ6g1DImjzUFmFlnd/lDy6KDfNGXfKnMwJQAwGXxeNAihBLtIu
- QFDA==
-X-Gm-Message-State: AOAM530f4C6jyGRMNCZcOVgnZuAq4ZRx/MUY0op7Ck05VaG7ZOkNdx+Y
- bnkNrEM3tTw+dFfaLKwl6TFdQSQq7LzBqRHQd3vuUg==
-X-Google-Smtp-Source: ABdhPJxF2jpdBgrgHWzo+uwGVHYPcNg3RNzYVYJzQgQIeFuW66cgUiOsYTl9GxiIEcasq8NglR1fFNnV6SzUV20L29M=
-X-Received: by 2002:a05:6000:1f18:b0:20f:e61b:520e with SMTP id
- bv24-20020a0560001f1800b0020fe61b520emr43579383wrb.214.1654860110139; Fri, 10
- Jun 2022 04:21:50 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VkUtdtuo3qM6eoRx092NTAt8mYrOi4UZOQOdsiVItjI=;
+ b=cMGFe5+EyjV/yG6ed9vmMecuWKjLAX6OdGiekRDEmDVMkqhsXGysVV1/KgmA4NBQ8c
+ F3xS1FHPg6Drc0+sFPSABMcnBIUqQXeh/kfElRvYndQxrcXXylPRd+Ol8L5dGIIbKpzN
+ I2xMDNVRXAkwwLYxtBOMildy24FMXgvpxqUMdNgGNEaybQ7HeuhBqghKZ05bfjFZjpE/
+ MrGjUqKr5yb8VV3YZ13TPDF4pXOwXmXj8p/BTwiViBQr+r+c1I5WLQTzEW2KYHA/ytyx
+ pLWcKhS0cCUHF7Ib+UQPJ5Bunt7VYbJil/MJvPh3Lw/uuhOR7ohpGg4kNRAjqcEC4N6O
+ BJyw==
+X-Gm-Message-State: AOAM531zNG2sDdZXm4BKTK3l491klUk0MwfmouKu0oPMXn7UL6qZUNEo
+ ii2WisKbPzj5kEcAG4LMAgP1Rr2nYPF7ysO1r3NR+zWsVr/hHaag0vTY7DkK1QA4i2mGCduY1mo
+ 6jUr6pl7Mg6p1/QQ=
+X-Received: by 2002:a1c:f704:0:b0:39c:6684:b375 with SMTP id
+ v4-20020a1cf704000000b0039c6684b375mr8153173wmh.66.1654860463961; 
+ Fri, 10 Jun 2022 04:27:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyw1EqiRLR5/HL62rZCqRAa+nbRGDeC+sH2OD/QtQ9d8x9JEw9gr4vpKBNd71vwlxwbXk7ZeQ==
+X-Received: by 2002:a1c:f704:0:b0:39c:6684:b375 with SMTP id
+ v4-20020a1cf704000000b0039c6684b375mr8153155wmh.66.1654860463723; 
+ Fri, 10 Jun 2022 04:27:43 -0700 (PDT)
+Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
+ l15-20020a05600c47cf00b0039c5642e430sm2545197wmo.20.2022.06.10.04.27.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jun 2022 04:27:43 -0700 (PDT)
+Date: Fri, 10 Jun 2022 07:27:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Eric DeVolder <eric.devolder@oracle.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] acpi/erst: fix fallthrough code upon validation failure
+Message-ID: <20220610072725-mutt-send-email-mst@kernel.org>
+References: <20220513141005.1929422-1-ani@anisinha.ca>
+ <2b64c7b3-a18c-b764-3854-cb14a7432f88@oracle.com>
+ <CAARzgwweNOJjoRpGSfvu2kh74207JszXduCqg3rkx+Y7S7c62Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220609033011.752714-4-apatel@ventanamicro.com>
- <OSZP286MB1435EBB271F8E9EEF5E2EF95C6A69@OSZP286MB1435.JPNP286.PROD.OUTLOOK.COM>
-In-Reply-To: <OSZP286MB1435EBB271F8E9EEF5E2EF95C6A69@OSZP286MB1435.JPNP286.PROD.OUTLOOK.COM>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 10 Jun 2022 16:51:37 +0530
-Message-ID: <CAAhSdy1zyiV9PgDCY+4ijrzfeAdJ44wfT0b5dY+NqXzieZo_KQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/4] target/riscv: Update [m|h]tinst CSR in
- riscv_cpu_do_interrupt()
-To: dramforever <dramforever@live.com>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::433;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAARzgwweNOJjoRpGSfvu2kh74207JszXduCqg3rkx+Y7S7c62Q@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,154 +98,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 10, 2022 at 3:00 PM dramforever <dramforever@live.com> wrote:
->
-> Hi Anup Patel,
->
-> I think there are some misunderstandings of the privileged spec with rega=
-rds to
-> [m|h]tinst handling. Here are some possible issues I've found:
->
-> > +            case OPC_RISC_C_FUNC_FLD_LQ:
-> > +                if (riscv_cpu_xlen(env) !=3D 128) { /* C.FLD (RV32/64)=
- */
-> > +                    xinsn =3D OPC_RISC_FLD;
-> > +                    xinsn =3D SET_RD(xinsn, GET_C_RS2S(insn));
-> > +                    xinsn =3D SET_RS1(xinsn, GET_C_RS1S(insn));
-> > +                    xinsn =3D SET_I_IMM(xinsn, GET_C_LD_IMM(insn));
-> > +                    xinsn_has_addr_offset =3D true;
-> > +                }
-> > +                break;
->
-> The privileged spec requires that 'for basic loads and stores, the
-> transformations replace the instruction=E2=80=99s immediate offset fields=
- with zero',
-> so this SET_I_IMM() line isn't necessary. Similarly for all the compresse=
-d
-> instruction cases, the SET_I_IMM() and SET_S_IMM() calls are all unnecess=
-ary.
+On Fri, Jun 10, 2022 at 01:48:57PM +0530, Ani Sinha wrote:
+> On Thu, May 19, 2022 at 6:35 PM Eric DeVolder <eric.devolder@oracle.com> wrote:
+> >
+> >
+> >
+> > On 5/13/22 09:10, Ani Sinha wrote:
+> > > At any step when any validation fail in check_erst_backend_storage(), there is
+> > > no need to continue further through other validation checks. Further, by
+> > > continuing even when record_size is 0, we run the risk of triggering a divide
+> > > by zero error if we continued with other validation checks. Hence, we should
+> > > simply return from this function upon validation failure.
+> > >
+> > > CC: Peter Maydell <peter.maydell@linaro.org>
+> > > CC: Eric DeVolder <eric.devolder@oracle.com>
+> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> >
+> > Reviewed-by: Eric DeVolder <eric.devolder@oracle.com>
+> 
+> Michael:
+> Did you forget to queue this for your latest pull request?
+> 
 
-Sure, I will update.
+I did, thanks for the reminder!
 
->
-> > +    } else {
-> > +        /* No need to transform 32bit (or wider) instructions */
-> > +        xinsn =3D insn;
->
-> For AMO, lr, sc, and hypervisor load/store instructions, this is fine. Bu=
-t as
-> above, 32-bit integer load/store instructions and floating point load/sto=
-re
-> instructions need have their immediate fields cleared to zero.
+> >
+> > My apologies, I've been away for the past week.
+> > Thank you for taking the time to correct this issue!
+> > eric
+> >
+> > > ---
+> > >   hw/acpi/erst.c | 3 +++
+> > >   1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> > > index de509c2b48..df856b2669 100644
+> > > --- a/hw/acpi/erst.c
+> > > +++ b/hw/acpi/erst.c
+> > > @@ -440,6 +440,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+> > >           (record_size >= 4096) /* PAGE_SIZE */
+> > >           )) {
+> > >           error_setg(errp, "ERST record_size %u is invalid", record_size);
+> > > +        return;
+> > >       }
+> > >
+> > >       /* Validity check header */
+> > > @@ -450,6 +451,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+> > >           (le16_to_cpu(header->reserved) == 0)
+> > >           )) {
+> > >           error_setg(errp, "ERST backend storage header is invalid");
+> > > +        return;
+> > >       }
+> > >
+> > >       /* Check storage_size against record_size */
+> > > @@ -457,6 +459,7 @@ static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+> > >            (record_size > s->storage_size)) {
+> > >           error_setg(errp, "ACPI ERST requires storage size be multiple of "
+> > >               "record size (%uKiB)", record_size);
+> > > +        return;
+> > >       }
+> > >
+> > >       /* Compute offset of first and last record storage slot */
+> > >
 
-Okay, I will update.
-
->
-> In addition, the various V-extension vector load/store instructions do no=
-t have
-> defined transformations, so they should show up in [m|h]tinst as all zero=
-s.
-
-Okay, I will update.
-
->
-> > +    if (xinsn_has_addr_offset) {
-> > +        /*
-> > +         * The "Addr. Offset" field in transformed instruction is non-=
-zero
-> > +         * only for misaligned load/store traps which are very unlikel=
-y on
-> > +         * QEMU so for now always set "Addr. Offset" to zero.
-> > +         */
-> > +        xinsn =3D SET_RS1(xinsn, 0);
-> > +    }
->
-> There seems to be two misconceptions here:
->
-> Firstly, QEMU *does* raise address misaligned exceptions for misaligned a=
-tomic
-> accesses.
->
-> However, if I understood correctly, the address misaligned exceptions are
-> irrelevant here because 'Addr. Offset' is only non-zero for a misaligned
-> accesses that faults but *not* due to an address misaligned exception.
->
-> For example, if an ld instruction reads 8 bytes starting from 0xa00ffe, a=
-nd the
-> page 0xa00000 to 0xa00fff is mapped, but 0xa01000 to 0xa01fff is not, a l=
-oad
-> page fault is raised with [m|s]tval =3D 0xa01000, while the original virt=
-ual
-> address of the access is 0xa00ffe. The 'Addr. Offset' in this case is 2, =
-i.e.
-> the difference calculated with (0xa01000 - 0xa00ffe). This means that we =
-*do*
-> have to set 'Addr. Offset' *because* we handle some misaligned load/store
-> instructions.
-
-Well, I am aware of how "Addr. Offset" field is set but I was not aware tha=
-t
-QEMU generates misaligned exception in a specific case (i.e. misaligned
-atomic).
-
-I will update this patch to
-
->
-> > @@ -1355,18 +1558,31 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-> >      if (!async) {
-> >          /* set tval to badaddr for traps with address information */
-> >          switch (cause) {
-> > -        case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
-> >          case RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT:
-> >          case RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT:
-> > -        case RISCV_EXCP_INST_ADDR_MIS:
-> > -        case RISCV_EXCP_INST_ACCESS_FAULT:
-> >          case RISCV_EXCP_LOAD_ADDR_MIS:
-> >          case RISCV_EXCP_STORE_AMO_ADDR_MIS:
-> >          case RISCV_EXCP_LOAD_ACCESS_FAULT:
-> >          case RISCV_EXCP_STORE_AMO_ACCESS_FAULT:
-> > -        case RISCV_EXCP_INST_PAGE_FAULT:
-> >          case RISCV_EXCP_LOAD_PAGE_FAULT:
-> >          case RISCV_EXCP_STORE_PAGE_FAULT:
-> > +            write_gva =3D env->two_stage_lookup;
-> > +            tval =3D env->badaddr;
-> > +            if (env->two_stage_indirect_lookup) {
-> > +                /*
-> > +                 * special pseudoinstruction for G-stage fault taken w=
-hile
-> > +                 * doing VS-stage page table walk.
-> > +                 */
-> > +                tinst =3D (riscv_cpu_xlen(env) =3D=3D 32) ? 0x00002000=
- : 0x00003000;
-> > +            } else {
-> > +                /* transformed instruction for all other load/store fa=
-ults */
-> > +                tinst =3D riscv_transformed_insn(env, env->bins);
-> > +            }
-> > +            break;
-> > +        case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
-> > +        case RISCV_EXCP_INST_ADDR_MIS:
-> > +        case RISCV_EXCP_INST_ACCESS_FAULT:
-> > +        case RISCV_EXCP_INST_PAGE_FAULT:
-> >              write_gva =3D env->two_stage_lookup;
-> >              tval =3D env->badaddr;
-> >              break;
->
-> Instruction guest-page faults should set [m|h]tinst to one of the
-> pseudoinstructions if env->two_stage_lookup is true. Otherwise it should =
-set
-> [m|h]tinst to zero.
->
-> In any case, as this seems to be one of the first implementations of
-> [m|h]tinst, it might be worthwhile to confirm with the spec authors and c=
-larify
-> any unclear bits before this gets released.
-
-This is already handled because tinst is initialized to zero.
-
-Regards,
-Anup
-
->
-> dramforever
 
