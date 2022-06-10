@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0056545E07
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:01:18 +0200 (CEST)
-Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BC3545E2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:09:31 +0200 (CEST)
+Received: from localhost ([::1]:41944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzZa1-0001hR-Gh
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:01:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
+	id 1nzZhw-000741-RL
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZW9-0006EX-TU
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47331)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWD-0006GX-H8
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZW8-0006BE-91
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:17 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZWB-0006BY-VI
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:57:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847835;
+ s=mimecast20190719; t=1654847839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gDvKZYSn1i5sLA5v+UQUqZsPgY/wWGLuWICs9bpjlPE=;
- b=M6aEOgC6i2IW+v1waZZRlSG06SvKMbtJJGirLwSnAg119exERr2a5+n5fj767hqTH8CBQA
- FZPEqkHkOUI5KSGHs0A5pfz2A18IedfSkIkgpbZi0gQEBJ2FuQESSB3lHyhfwMOxNYB+r1
- 9825rjC3mgub4epO3+twCIWk0hkv86g=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ldRwzPF0bs4mAZLHM5QvztMOUvUDJ2ffkwJ5V0o7Rdk=;
+ b=dBXAeUSCMaVpBhXJjt9AJ+qyuY6GQM1f6M+zPgDr8b4iLAc75cpH+nWWpd9kEDT7D4dbPd
+ +Q177RT6i8sf3ovVVJIPmXeXc84cLAbwslG4LWDiZ1E5m9aDlUmrtdZHU5ahZWsveg1lGw
+ xIHa8eaIkE+eQKW72b4XXJtH5c+skp0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-Ot177_faPkGNnFUiZTVuXQ-1; Fri, 10 Jun 2022 03:57:14 -0400
-X-MC-Unique: Ot177_faPkGNnFUiZTVuXQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d9-20020adfe849000000b00213375a746aso5462266wrn.18
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:57:14 -0700 (PDT)
+ us-mta-17-bMaBW4qFM6OFCL3t31rrvQ-1; Fri, 10 Jun 2022 03:57:17 -0400
+X-MC-Unique: bMaBW4qFM6OFCL3t31rrvQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r13-20020adff10d000000b002160e9d64f8so4473509wro.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:57:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=gDvKZYSn1i5sLA5v+UQUqZsPgY/wWGLuWICs9bpjlPE=;
- b=AiOGFWP44GyxIg4d+RIfRP+Y7EM3l9Fx4vIUx/ehwO5dxklUc2iZSAJgqbMBl0qaDG
- XlHEFsja1aWDx51kHOeqiAAoJAPv3KYXQYZb1J3/1gEcIQtamHhSzbOhK65CuLzIy0ep
- 16uOxMQaHrP0/FPqOJ4jLmxNgqy7VfJTjl+EQBZxd7UAabcwZpcbL8DAswKKuKbHiHS/
- x/B1/hqS3dADjVHuLwGQ1AiajiCuwNs7pu/ThzII5LQHbxrGPJtp5k3mEQORyEKuNNmj
- IdRYSu6GP6xTADvZOejNscCBuT15Q+eW0p0QdXOdX5tYPcEfeNg+omKQwZ9VHLcp0am6
- i9rQ==
-X-Gm-Message-State: AOAM533lAuLjndm8gFz6BrXI+Iul8Ia14h/6HsSfZaxlN2Co9hMpJMgw
- MeY0E8+uAu2JEqoB5nQgYBOvZKPq5pH5KRo5Yx0TnDc220FCeog+Va79FtRHqP45w/2J6Whe5GW
- U+GRQtNuceZqVc+B0h7ucWjQp3wYrCvRxG1b4cTi6I7w6zDsMmxxJVoKh1Vke
-X-Received: by 2002:a05:600c:a4c:b0:39c:6517:1136 with SMTP id
- c12-20020a05600c0a4c00b0039c65171136mr7615407wmq.12.1654847832993; 
- Fri, 10 Jun 2022 00:57:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw78w7JNCTYr72DKpM//Ez718ny/OJ8J1A2iPLLbpLYwz6DLdkvuKr0oGDHw0FEct0yApQOYw==
-X-Received: by 2002:a05:600c:a4c:b0:39c:6517:1136 with SMTP id
- c12-20020a05600c0a4c00b0039c65171136mr7615364wmq.12.1654847832699; 
- Fri, 10 Jun 2022 00:57:12 -0700 (PDT)
+ bh=ldRwzPF0bs4mAZLHM5QvztMOUvUDJ2ffkwJ5V0o7Rdk=;
+ b=5hBjCV93TEo1CJsPlxT0gmMlEr/F+9/NC4Twk/i8Bs4uJ1cGBptH2st/T6oUlUKC/u
+ fJycr8kKq3fRwiyk58a2ANwgQiYYeh+aDG/DQQvsQeWVUWEP7EsXBjYkiR5VC44OxLD4
+ AFUYZ6tTHYL+iTkgox98eTuA4RODCiDaCe7zm8s8sIzxsPnBW28XnexycTjuXoy4eWPk
+ LZCa476ptUNevvNIhoxiBI1WUZuG47NAameglccuyMV55yFBHcpa/+EXIo0SLUwYJb5W
+ 8K7wg0aF7fBSRVdNNOX3ZEHPpsNLflUspj0jjvbkqFdVyZRfbIL5eai+zaZ+0ty/6PnZ
+ V/tA==
+X-Gm-Message-State: AOAM530zW3oZbdIRYBhrRtu0WUVrAdeCm7x5H0lT9ZbFTf8NEkXAqCeP
+ cQFLdX8wsLZ4238bcyxzbCcfbngb51cdlyvqxdDM9C3xIpXTg8mqKe8ft1Knqj7EN/ultRmgXZf
+ E5BRJ3eVCa5IPKFbSlzYKJ2Ic0AMKUE9sBZ06Xe1/czQNDs7jezninp2Vge2A
+X-Received: by 2002:a05:600c:25cd:b0:39c:6bc0:a1fb with SMTP id
+ 13-20020a05600c25cd00b0039c6bc0a1fbmr7495737wml.179.1654847836021; 
+ Fri, 10 Jun 2022 00:57:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYzrGeoD/ag+7ybBFRktt08892rOAnJeC0m6doxsbpD4NUVONPlVkvS9wW3w4d4thUGWsb4A==
+X-Received: by 2002:a05:600c:25cd:b0:39c:6bc0:a1fb with SMTP id
+ 13-20020a05600c25cd00b0039c6bc0a1fbmr7495714wml.179.1654847835745; 
+ Fri, 10 Jun 2022 00:57:15 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- i19-20020a7bc953000000b0039c1396b495sm2059605wml.9.2022.06.10.00.57.10
+ d11-20020adffbcb000000b002183ee5c0c5sm14174618wrs.50.2022.06.10.00.57.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:57:12 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:57:09 -0400
+ Fri, 10 Jun 2022 00:57:15 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:57:13 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org
-Subject: [PULL 03/54] acpi: fdc-isa: replace ISADeviceClass::build_aml with
- AcpiDevAmlIfClass:build_dev_aml
-Message-ID: <20220610075631.367501-4-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: [PULL 04/54] acpi: parallel port: replace ISADeviceClass::build_aml
+ with AcpiDevAmlIfClass:build_dev_aml
+Message-ID: <20220610075631.367501-5-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -108,88 +104,63 @@ From: Igor Mammedov <imammedo@redhat.com>
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20220608135340.3304695-4-imammedo@redhat.com>
+Message-Id: <20220608135340.3304695-5-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/block/fdc-isa.c   | 16 ++++++++++------
- hw/i386/acpi-build.c |  1 -
- 2 files changed, 10 insertions(+), 7 deletions(-)
+ hw/char/parallel.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/hw/block/fdc-isa.c b/hw/block/fdc-isa.c
-index fa20450747..fee1ca68a8 100644
---- a/hw/block/fdc-isa.c
-+++ b/hw/block/fdc-isa.c
-@@ -32,7 +32,7 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
+diff --git a/hw/char/parallel.c b/hw/char/parallel.c
+index f735a6cd7f..1c9ca47820 100644
+--- a/hw/char/parallel.c
++++ b/hw/char/parallel.c
+@@ -28,7 +28,7 @@
+ #include "qemu/module.h"
+ #include "chardev/char-parallel.h"
+ #include "chardev/char-fe.h"
 -#include "hw/acpi/aml-build.h"
 +#include "hw/acpi/acpi_aml_interface.h"
  #include "hw/irq.h"
  #include "hw/isa/isa.h"
  #include "hw/qdev-properties.h"
-@@ -214,9 +214,9 @@ int cmos_get_fd_drive_type(FloppyDriveType fd0)
-     return val;
+@@ -570,9 +570,9 @@ static void parallel_isa_realizefn(DeviceState *dev, Error **errp)
+                              s, "parallel");
  }
  
--static void fdc_isa_build_aml(ISADevice *isadev, Aml *scope)
-+static void build_fdc_aml(AcpiDevAmlIf *adev, Aml *scope)
+-static void parallel_isa_build_aml(ISADevice *isadev, Aml *scope)
++static void parallel_isa_build_aml(AcpiDevAmlIf *adev, Aml *scope)
  {
--    FDCtrlISABus *isa = ISA_FDC(isadev);
-+    FDCtrlISABus *isa = ISA_FDC(adev);
+-    ISAParallelState *isa = ISA_PARALLEL(isadev);
++    ISAParallelState *isa = ISA_PARALLEL(adev);
      Aml *dev;
      Aml *crs;
-     int i;
-@@ -241,7 +241,7 @@ static void fdc_isa_build_aml(ISADevice *isadev, Aml *scope)
-     aml_append(dev, aml_name_decl("_CRS", crs));
  
-     for (i = 0; i < MIN(MAX_FD, ACPI_FDE_MAX_FD); i++) {
--        FloppyDriveType type = isa_fdc_get_drive_type(isadev, i);
-+        FloppyDriveType type = isa_fdc_get_drive_type(ISA_DEVICE(adev), i);
- 
-         if (type < FLOPPY_DRIVE_TYPE_NONE) {
-             fde_buf[i] = cpu_to_le32(1);  /* drive present */
-@@ -283,14 +283,14 @@ static Property isa_fdc_properties[] = {
- static void isabus_fdc_class_init(ObjectClass *klass, void *data)
+@@ -645,11 +645,11 @@ static Property parallel_isa_properties[] = {
+ static void parallel_isa_class_initfn(ObjectClass *klass, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(klass);
 -    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
 +    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
  
-     dc->desc = "virtual floppy controller";
-     dc->realize = isabus_fdc_realize;
-     dc->fw_name = "fdc";
-     dc->reset = fdctrl_external_reset_isa;
-     dc->vmsd = &vmstate_isa_fdc;
--    isa->build_aml = fdc_isa_build_aml;
-+    adevc->build_dev_aml = build_fdc_aml;
-     device_class_set_props(dc, isa_fdc_properties);
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     dc->realize = parallel_isa_realizefn;
+     dc->vmsd = &vmstate_parallel_isa;
+-    isa->build_aml = parallel_isa_build_aml;
++    adevc->build_dev_aml = parallel_isa_build_aml;
+     device_class_set_props(dc, parallel_isa_properties);
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
  }
-@@ -313,6 +313,10 @@ static const TypeInfo isa_fdc_info = {
-     .instance_size = sizeof(FDCtrlISABus),
-     .class_init    = isabus_fdc_class_init,
-     .instance_init = isabus_fdc_instance_init,
+@@ -659,6 +659,10 @@ static const TypeInfo parallel_isa_info = {
+     .parent        = TYPE_ISA_DEVICE,
+     .instance_size = sizeof(ISAParallelState),
+     .class_init    = parallel_isa_class_initfn,
 +    .interfaces = (InterfaceInfo[]) {
 +        { TYPE_ACPI_DEV_AML_IF },
 +        { },
 +    },
  };
  
- static void isa_fdc_register_types(void)
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index c125939ed6..1449832aa9 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -40,7 +40,6 @@
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/isa/isa.h"
- #include "hw/input/i8042.h"
--#include "hw/block/fdc.h"
- #include "hw/acpi/memory_hotplug.h"
- #include "sysemu/tpm.h"
- #include "hw/acpi/tpm.h"
+ static void parallel_register_types(void)
 -- 
 MST
 
