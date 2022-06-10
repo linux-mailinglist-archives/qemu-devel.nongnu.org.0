@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6D7546C22
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 20:07:19 +0200 (CEST)
-Received: from localhost ([::1]:48330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB74546C2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 20:13:07 +0200 (CEST)
+Received: from localhost ([::1]:52620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzj2U-0007qz-A2
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 14:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35520)
+	id 1nzj86-0003TR-1O
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 14:13:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzj0a-00072X-SS
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 14:05:21 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40681)
+ id 1nzj6N-0002ev-P9
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 14:11:19 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:41775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nzj0Z-00010g-5N
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 14:05:20 -0400
-Received: by mail-pf1-x436.google.com with SMTP id z17so79795pff.7
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 11:05:18 -0700 (PDT)
+ id 1nzj6M-00027P-14
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 14:11:19 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ g10-20020a17090a708a00b001ea8aadd42bso141161pjk.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 11:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=P6X8+yeGg+WycNNKNu7JupPNb/HaIUN+q9W1g8qHYsI=;
- b=nXhqCBlnyTwhAxCUdNbz2RIkGHcEBk92i18DiUJjZX1aikuXcGiGrgkt79iiHmZSRB
- usu13KxGzqFFBOhU21LUccKOPwL/AsVoOcgVCDzsv8AQ1zLmKR77GbgcOG/B0zDbCgLZ
- gFZkdKZKYymQ0VS4Tiefr9hQdUcM9yp50R6foRJ3fXGi1IPIFFFeRkvyj0vcz7aPYYm+
- MofmwA5TYKToSXkiV1R54P76c8eFhvk/QKDkDMjAskNkpR43nmZk1MoMHrdZdwoTn+ia
- 41nvSflTdENI7NzlyqXfhOrtHE2wmxub+CciAonhFz4R7KmXCpDF5ApcRDeugh+DQ3++
- M4+w==
+ bh=tkzJfM5b1FTuP5oIZpXzMQUE+MuxcllfLFSNQUcduiE=;
+ b=Teyc1ohcuKSQGWTJNBGNbY/Gy91TbF45wO/S8zsZCdey0WJzrQFrINaVbL0JhFyRvP
+ SxommJHApk6cLHe4RvJJw9W7fU9lKkeHKjhyF1hu0EgNvVpEKxkNeRals1nJ+pBCaOBs
+ NVnhec7ow/CAfbZn+dGHZJ0y/kSQqJIxeGSaYAK6zhK/hRgfTgdywUEL+1vwmnCqZdZo
+ zL/YCKemd+ABq0hfHlaBGtII3ZB1IADkghFL5k4MUMi9uPIQf59pYoajoOibLxSODo4P
+ AtW1alG8T2tUPWmBDhVoBuA6AEpAhvAuuKJ20+qivbopVuJCk2JX8Y/4Fk7H24M+2ehN
+ P4RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=P6X8+yeGg+WycNNKNu7JupPNb/HaIUN+q9W1g8qHYsI=;
- b=psCf2OAYtAggPPPtCz1nblUHd0Uk0VA+404H4Qgg7qTUtYqI1UgQckrpMz56+/UQas
- zbWVgBtt01VGpRd77crzQbwH0RPcJQxkDu6rfLXoW8xI2p2nFwJ/EjDmY9KXit3dhPQo
- xUz/pYRUS8jeKhoxBAtbanXg4AoGsCXbSCrM5bFMskMBYk734xWeyXcmgYzwJTHZw/YJ
- QSFAsyocUPlwqIWkbctL1ai3c28Ge5bI+WhQnutbkw1K+WB6Rhze+Z0zkkwl6kcCSa4G
- d7MwtshwOA++vvrVAZtdrqGAEdWI/Vvlgu9jROBqPR9jYNH9dPd4zqb5YV1BDZmTBjHe
- uNaQ==
-X-Gm-Message-State: AOAM533NYFWCJv3zROudGN6Ea4xxOAczr+yQ6EV8/BQoo8e5aMfQ5XZi
- fBKdTXblIR7NlScX4Q1rNGz1eA==
-X-Google-Smtp-Source: ABdhPJxcDD7S4N8WrvmdQzTTfCMOpheKZjHZnzrm/d11gBg7AuEgqwQiN2QWTnjLV1/MEs9+l5ls4A==
-X-Received: by 2002:a05:6a00:140f:b0:4e0:6995:9c48 with SMTP id
- l15-20020a056a00140f00b004e069959c48mr113125030pfu.59.1654884317041; 
- Fri, 10 Jun 2022 11:05:17 -0700 (PDT)
+ bh=tkzJfM5b1FTuP5oIZpXzMQUE+MuxcllfLFSNQUcduiE=;
+ b=sr9PgvT/7tOQcp5T0qxyhaXrFegxsRljzZ6TRLFaaXjCgLINWjqgZd9lmyntgxJstV
+ JW2opeN72wL+RCcF63sxpkjkBewjZjgFnymV2OlfzkSZp2C7oCMw1i0zOZLXpRQGrt2B
+ pmn2KC55FrJKFL8oxUFqf9ksj2HcM48FVCsxkI7z310KUD1i6mby+3k7o5h6B/GSUZwi
+ stTpjIbA/gKj+kjVCJs6nHjOCzXdpi/Eb3H4N2apBhNPPUdvg7T1XxVzOup37l+Yujt5
+ xFZZueJLvsUJGjV4Koc+gpDiXbhR400unEqUtjA+xAcnKsHubcbbfpaPKgyRkorgFwur
+ 9yjA==
+X-Gm-Message-State: AOAM5322npnp6MAcbeap2GDAuekQcQZg3pxrIAIwDeoLQoSSepzrH6x7
+ 2OyganDLGwIGNBIG2cpMkHajTg==
+X-Google-Smtp-Source: ABdhPJwAE4p+ocqACuKOzj5jcHg4ab3KPLN0DlNtWUgBKtARarPu6Qz+obUqyG0h6EkldZiO1/S5aw==
+X-Received: by 2002:a17:903:2411:b0:167:396:e31 with SMTP id
+ e17-20020a170903241100b0016703960e31mr41573001plo.155.1654884676513; 
+ Fri, 10 Jun 2022 11:11:16 -0700 (PDT)
 Received: from [172.21.2.253] ([50.208.55.229])
  by smtp.gmail.com with ESMTPSA id
- i8-20020a17090a64c800b001e08461ceaesm2054470pjm.37.2022.06.10.11.05.15
+ j189-20020a6380c6000000b003fc32f8e030sm19546204pgd.79.2022.06.10.11.11.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 11:05:16 -0700 (PDT)
-Message-ID: <fff6fbb7-b1be-610d-c48d-0498df879ae2@linaro.org>
-Date: Fri, 10 Jun 2022 11:05:13 -0700
+ Fri, 10 Jun 2022 11:11:15 -0700 (PDT)
+Message-ID: <929ec347-a0eb-44bb-dd75-77944010a828@linaro.org>
+Date: Fri, 10 Jun 2022 11:11:13 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PULL 54/54] crypto: Introduce RSA algorithm
+Subject: Re: [PATCH] target/riscv: Remove condition guarding register zero for
+ auipc and lui
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- zhenwei pi <pizhenwei@bytedance.com>, Gonglei <arei.gonglei@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20220610075631.367501-1-mst@redhat.com>
- <20220610075631.367501-55-mst@redhat.com>
- <93d111a8-222e-b46f-2f36-1d1784cf0373@amsat.org>
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com
+References: <20220610165517.47517-1-victor.colombo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <93d111a8-222e-b46f-2f36-1d1784cf0373@amsat.org>
+In-Reply-To: <20220610165517.47517-1-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,45 +95,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/22 08:55, Philippe Mathieu-Daudé wrote:
-> On 10/6/22 09:59, Michael S. Tsirkin wrote:
->> From: zhenwei pi <pizhenwei@bytedance.com>
->> +static int cryptodev_builtin_set_rsa_options(
->> +                    int virtio_padding_algo,
->> +                    int virtio_hash_algo,
->> +                    QCryptoAkCipherOptionsRSA *opt,
->> +                    Error **errp)
->> +{
->> +    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_PKCS1_PADDING) {
->> +        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_PKCS1;
->> +        opt->hash_alg =
->> +            cryptodev_builtin_get_rsa_hash_algo(virtio_hash_algo, errp);
->> +        if (opt->hash_alg < 0) {
->> +            return -1;
->> +        }
->> +        return 0;
->> +    }
->> +
->> +    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_RAW_PADDING) {
->> +        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_RAW;
->> +        return 0;
->> +    }
->> +
->> +    error_setg(errp, "Unsupported rsa padding algo: %d", virtio_padding_algo);
->> +    return -1;
->> +}
+On 6/10/22 09:55, Víctor Colombo wrote:
+> Commit 57c108b8646 introduced gen_set_gpri(), which already contains
+> a check for if the destination register is 'zero'. The check in auipc
+> and lui are then redundant. This patch removes those checks.
 > 
-> Build failure:
-> 
-> ../backends/cryptodev-builtin.c:187:27: error: result of comparison of unsigned enum 
-> expression < 0 is always false [-Werror,-Wtautological-unsigned-enum-zero-compare]
->          if (opt->hash_alg < 0) {
->              ~~~~~~~~~~~~~ ^ ~
+> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
+> ---
+>   target/riscv/insn_trans/trans_rvi.c.inc | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
 
-Yep, e.g.
-
-https://gitlab.com/qemu-project/qemu/-/jobs/2574418442
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
