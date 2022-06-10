@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E92546A20
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 18:10:51 +0200 (CEST)
-Received: from localhost ([::1]:56944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04050546A23
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 18:12:13 +0200 (CEST)
+Received: from localhost ([::1]:32850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzhDl-0002Dh-SX
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 12:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37158)
+	id 1nzhF6-0005HA-19
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 12:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzhAp-0007Ne-HT
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:07:47 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38240)
+ id 1nzhAq-0007P8-Jo
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:07:52 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:42751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nzhAn-0007Ej-Mt
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:07:47 -0400
+ id 1nzhAo-0007Ep-0X
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 12:07:48 -0400
 Received: by mail-wm1-x336.google.com with SMTP id
- m39-20020a05600c3b2700b0039c511ebbacso1361408wms.3
+ l126-20020a1c2584000000b0039c1a10507fso1287423wml.1
  for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 09:07:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=nlcnMWx+QO7aCJl1LZ/JfZgTWAgzGNCWH8XM5rMOx9A=;
- b=VQomNPZLhE+NW4GwvQazEPlI1l/w7A6FGF4wE/Aq8tD7H8xxIeVeiD29Ae7J6xqAwP
- 3r84WcnvOWknIbyvTfVf5IEL3pdRyUAzh6r8Q9AIU729qG7WC8dU+W1A4rQfiQaDOIer
- AYIKOtXq+BPWYkGMxWwiaL8i5mlGP+QIXqyZtTPki2m0p7KQV9wbTq1+glREfHj9G2AR
- 8+3GA6W74PAKzg9sdTAcd7jmobq2OsGx9YiTAvVX7Q7iEhaNpQSMGtw1PJwZw3z7EqTX
- Ew/j2I8ZzT22m+lMiiQTKmmajs9Zg2SZ3ufFx4l13W2ivy70eOD2V81tM4zB/6JEz06j
- ggWQ==
+ bh=mIlgmlGOPKTsIk6YpdxQ/xbvRXZOJ3IbXgYz6v6Juw4=;
+ b=XBX4bdk7yNPq16S1IjkLN/NQSHSUiG5MVoY/1Zox3ujlaQ0YVkXjHy+kJZFy438JEX
+ JKDVZUK8idbXAjKRGzZgKyuFqkEDYax0e3y0o6DCY248FjGHej4UxGJOKWIpg2C5pmtz
+ ZI+ncPkymTEJ9Cc92jzL6+podH3e1gMFUOBDBCbtSo5HqF4MliGltPbq9l79306Mmiyp
+ 8etsZm2b2JYA4YUh4Rq3zOdkVYRAo+WZL9HXUJ+6MNThhga5JQSmwysT1q0eP10K5ZHW
+ Q3KBxr34ZNU12LQjSbJj0Wf+7VHwbvqlanZlX+8KtgGzrfO2TlQB4WaACDYcnchfRXK+
+ Yd4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nlcnMWx+QO7aCJl1LZ/JfZgTWAgzGNCWH8XM5rMOx9A=;
- b=vwTDXTThyDuuk2qGwWM1DLdazASQ5/57iTO57JLvEAMFRPabiigCGQgmiaYVr9jN+x
- 5AWq9c48cR5ZRw8IIsLhlGA4uQ9MT4NGp1k7e9ObL/EG8c9nz3J1HWEgvFci9nhgV8gu
- DCkvok5Dfk7WJMbpFwK5VgfIhMA7gxu2j74MRCREyQXqNlTBI78rMP0dvhSUfPLHUgEL
- AgjGkBiSocjLPKYqr6md8HWF51XdVGcuSXWiTjKGhQLfulkLWOtyqNV6iSMT0Yv4bjWP
- RUqCUks7GmFxxTI8BenoI5gm4ueupnThnOe57cOCW+ELcxlaJ6d6MjSPh5AfJhJdw7Is
- hPvw==
-X-Gm-Message-State: AOAM531oijxmy4EWMpQfN8oxkrKTPVGLxOaaMYnfUVzSTkr4YXEgcvs/
- R25VfFbybKtjsIrqLLVeh4Tx89HniFEqDA==
-X-Google-Smtp-Source: ABdhPJx0RqSB+eXQ5dpL+cPP3Np/Pvl2Vu131YMSfWJhy41Z3yRs8sNyKvXfU39HBk+wehVAE8ScPw==
-X-Received: by 2002:a7b:c392:0:b0:39c:4d27:e698 with SMTP id
- s18-20020a7bc392000000b0039c4d27e698mr467019wmj.57.1654877263930; 
- Fri, 10 Jun 2022 09:07:43 -0700 (PDT)
+ bh=mIlgmlGOPKTsIk6YpdxQ/xbvRXZOJ3IbXgYz6v6Juw4=;
+ b=M64UTJHABPp11kjZD/JQthS0AvAyVCF4hZrITD82tFlUNSmUxClNxh/mvHoBTdOpc/
+ /b52wWxgEAZ6If15RZXq9i9v5w0a38I2zV/cxO34e104grzKbwyY1wpyNNNVWFk5jZbM
+ 6sFKSv7ZROL6lOpNOAOip9nqO/7F9RkeYy2kebJ9u5P8q6aGDLMTf9m0PwZwsS0DJS61
+ vfOSLeQctAGyILBaZGO4bGLOYLPWuBJ4TYEJgnltMgHHKyJycDsP6O9cKw8flqVV1uDU
+ LeMS8ey8UAeBeRxSps+Br119HdFdWek34JanUwyGPWtuYqyH7CStbbk4vd2D3aENAUuH
+ EsMA==
+X-Gm-Message-State: AOAM531hxFjHK5xvgOjaIaJtd/ROzyFokdhYOlXuiRSlfgjiVOH48f7P
+ uwft5hiGHDhQSanEUgxmMafhtWplMf6H7w==
+X-Google-Smtp-Source: ABdhPJxR1GKh0gvMbkijix5dO4vKCgVd78AtQuA3758u2R9MDGMLILxmWWibbR+FLopEbqJL3zKZZA==
+X-Received: by 2002:a05:600c:4e0c:b0:39c:519f:9f35 with SMTP id
+ b12-20020a05600c4e0c00b0039c519f9f35mr437287wmq.153.1654877264636; 
+ Fri, 10 Jun 2022 09:07:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bp11-20020a5d5a8b000000b0020c5253d926sm14276053wrb.114.2022.06.10.09.07.43
+ bp11-20020a5d5a8b000000b0020c5253d926sm14276053wrb.114.2022.06.10.09.07.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 09:07:43 -0700 (PDT)
+ Fri, 10 Jun 2022 09:07:44 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/28] target/arm: Add coproc parameter to syn_fp_access_trap
-Date: Fri, 10 Jun 2022 17:07:12 +0100
-Message-Id: <20220610160738.2230762-3-peter.maydell@linaro.org>
+Subject: [PULL 03/28] target/arm: Move exception_target_el out of line
+Date: Fri, 10 Jun 2022 17:07:13 +0100
+Message-Id: <20220610160738.2230762-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220610160738.2230762-1-peter.maydell@linaro.org>
 References: <20220610160738.2230762-1-peter.maydell@linaro.org>
@@ -91,79 +91,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-With ARMv8, this field is always RES0.
-With ARMv7, targeting EL2 and TA=0, it is always 0xA.
+Move the function to op_helper.c, near raise_exception.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220609202901.1177572-3-richard.henderson@linaro.org
+Message-id: 20220609202901.1177572-4-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/syndrome.h      |  7 ++++---
- target/arm/translate-a64.c |  3 ++-
- target/arm/translate-vfp.c | 14 ++++++++++++--
- 3 files changed, 18 insertions(+), 6 deletions(-)
+ target/arm/internals.h | 16 +---------------
+ target/arm/op_helper.c | 15 +++++++++++++++
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
-index 0cb26dde7d8..c105f9e6ba5 100644
---- a/target/arm/syndrome.h
-+++ b/target/arm/syndrome.h
-@@ -185,12 +185,13 @@ static inline uint32_t syn_cp15_rrt_trap(int cv, int cond, int opc1, int crm,
-         | (rt2 << 10) | (rt << 5) | (crm << 1) | isread;
- }
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index a1bae4588ae..af9de2dbe52 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1098,21 +1098,6 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+ int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx);
+ int aa64_va_parameter_tbid(uint64_t tcr, ARMMMUIdx mmu_idx);
  
--static inline uint32_t syn_fp_access_trap(int cv, int cond, bool is_16bit)
-+static inline uint32_t syn_fp_access_trap(int cv, int cond, bool is_16bit,
-+                                          int coproc)
- {
--    /* AArch32 FP trap or any AArch64 FP/SIMD trap: TA == 0 coproc == 0xa */
-+    /* AArch32 FP trap or any AArch64 FP/SIMD trap: TA == 0 */
-     return (EC_ADVSIMDFPACCESSTRAP << ARM_EL_EC_SHIFT)
-         | (is_16bit ? 0 : ARM_EL_IL)
--        | (cv << 24) | (cond << 20) | 0xa;
-+        | (cv << 24) | (cond << 20) | coproc;
- }
+-static inline int exception_target_el(CPUARMState *env)
+-{
+-    int target_el = MAX(1, arm_current_el(env));
+-
+-    /*
+-     * No such thing as secure EL1 if EL3 is aarch32,
+-     * so update the target EL to EL3 in this case.
+-     */
+-    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3) && target_el == 1) {
+-        target_el = 3;
+-    }
+-
+-    return target_el;
+-}
+-
+ /* Determine if allocation tags are available.  */
+ static inline bool allocation_tag_access_enabled(CPUARMState *env, int el,
+                                                  uint64_t sctlr)
+@@ -1339,6 +1324,7 @@ void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu);
+ bool el_is_in_host(CPUARMState *env, int el);
  
- static inline uint32_t syn_simd_access_trap(int cv, int cond, bool is_16bit)
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index d438fb89e73..e7525890902 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1162,7 +1162,8 @@ static bool fp_access_check(DisasContext *s)
-         s->fp_access_checked = true;
+ void aa32_max_features(ARMCPU *cpu);
++int exception_target_el(CPUARMState *env);
  
-         gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
--                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
-+                           syn_fp_access_trap(1, 0xe, false, 0),
-+                           s->fp_excp_el);
-         return false;
-     }
-     s->fp_access_checked = true;
-diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index 40a513b8221..0f797c56fd8 100644
---- a/target/arm/translate-vfp.c
-+++ b/target/arm/translate-vfp.c
-@@ -219,8 +219,18 @@ static void gen_update_fp_context(DisasContext *s)
- static bool vfp_access_check_a(DisasContext *s, bool ignore_vfp_enabled)
- {
-     if (s->fp_excp_el) {
--        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
--                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
-+        /*
-+         * The full syndrome is only used for HSR when HCPTR traps:
-+         * For v8, when TA==0, coproc is RES0.
-+         * For v7, any use of a Floating-point instruction or access
-+         * to a Floating-point Extension register that is trapped to
-+         * Hyp mode because of a trap configured in the HCPTR sets
-+         * this field to 0xA.
-+         */
-+        int coproc = arm_dc_feature(s, ARM_FEATURE_V8) ? 0 : 0xa;
-+        uint32_t syn = syn_fp_access_trap(1, 0xe, false, coproc);
+ /* Powers of 2 for sve_vq_map et al. */
+ #define SVE_VQ_POW2_MAP                                 \
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index c4bd6688702..97c8c9ec778 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -28,6 +28,21 @@
+ #define SIGNBIT (uint32_t)0x80000000
+ #define SIGNBIT64 ((uint64_t)1 << 63)
+ 
++int exception_target_el(CPUARMState *env)
++{
++    int target_el = MAX(1, arm_current_el(env));
 +
-+        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn, s->fp_excp_el);
-         return false;
-     }
- 
++    /*
++     * No such thing as secure EL1 if EL3 is aarch32,
++     * so update the target EL to EL3 in this case.
++     */
++    if (arm_is_secure(env) && !arm_el_is_aa64(env, 3) && target_el == 1) {
++        target_el = 3;
++    }
++
++    return target_el;
++}
++
+ void raise_exception(CPUARMState *env, uint32_t excp,
+                      uint32_t syndrome, uint32_t target_el)
+ {
 -- 
 2.25.1
 
