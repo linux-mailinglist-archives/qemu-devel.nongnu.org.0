@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9152B5460BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 11:03:15 +0200 (CEST)
-Received: from localhost ([::1]:45188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD60954610D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 11:10:07 +0200 (CEST)
+Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzaXx-00025S-8d
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 05:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35866)
+	id 1nzaec-000082-E4
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 05:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYF-0002EI-2F
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45983)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYI-0002Hn-52
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYD-0006RN-G5
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:26 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYG-0006Rh-Bc
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847964;
+ s=mimecast20190719; t=1654847967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vY1xzJIzfEFTPvZ1LeJ5oBkWj4oB2geqzTQvd5MgtyA=;
- b=guejeZ2GF+WJsYslNQimioUyyCGuxix0gTWxzfFs2S+qx++vdnBUFQk4Hcab0CFpG+dYSQ
- zDe4sW8ApF2qYfjHMUhiIVMa4e1DFilMJSVVF8Bdz3Y0exOzYuh5efxWMulmjspG4PvyRH
- +52iFeH9vPkZR9dp/Vu/LoUQJMi650I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6LDOtJkS4XX2TuIYogbWgSBSiVmv/tgrANZtHtjvS2E=;
+ b=bzn3RpgqjCBfZW0v/z5E3RYywU7mVkef8ErZgd58ekwgMBQJhskkeTs9yhjHj7RvXMGzoj
+ IeBLoUIqB1HldKPxdyY2EDgC6gzu92okW3NtdGgxwGukxeJHapEXyKdT89To/dbBKEpi64
+ q/hKyOTHq+iJwOsrrmWv5EF+lMnUYBQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-kGOw-HiFO1uFQumqw9FeKw-1; Fri, 10 Jun 2022 03:59:23 -0400
-X-MC-Unique: kGOw-HiFO1uFQumqw9FeKw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bi22-20020a05600c3d9600b0039c4144992cso957868wmb.5
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:59:23 -0700 (PDT)
+ us-mta-130-wjZhrPE4P0yB7IZXLpXvRA-1; Fri, 10 Jun 2022 03:59:26 -0400
+X-MC-Unique: wjZhrPE4P0yB7IZXLpXvRA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c187-20020a1c35c4000000b003970013833aso9329946wma.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:59:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=vY1xzJIzfEFTPvZ1LeJ5oBkWj4oB2geqzTQvd5MgtyA=;
- b=ls5An+V+oIIM+Z1UeHNNET4CfcK3rQ6qg89Dl1ecUccUZ8uUxcAmL9OIs2GWivhhD1
- DkfbStEI8CJ0Ar+rBq1JXy8zsE7Ljyp6IgAtJY1xrstPSeAAoAJAVTC47a8W2V52OlML
- eVi5yFTA1H7Lvj0BdzEeJsBy7BitaldD22D8bnZq+Oakg1x8roYvXmKsObfwtjZde0Nw
- 5fOBu+AqH+7S7sqZWjPo3NoXaPnlq4DtW+Trfk1ZackUyhpHqbJGAv1gHAIkGltuxRsq
- FVbW+V6H0Yoop4D0M8+jTReIcXH8YD/dKpdAcR8lNqor3D74vcTXPNOSJ8/bDVOrnmPw
- JjdQ==
-X-Gm-Message-State: AOAM530EzJ4/0C/lV5BDqxbHGz+cbRj26m4Ey31Z9XURrQsxUGGkoxor
- 4YmPusOgQdu2s0ViuSKk3qGZYE+xExzUpIFoJLwmB6zFDeBFibZD20IkDyfCnUPkTxyjlPr2ja1
- If4Xz2Sy6BLsyNsK/FmzbgZRlJ2QVxWpk21px2St91suzoiNS9V3HoTXYbowP
-X-Received: by 2002:a5d:48c1:0:b0:20c:52e9:6c5b with SMTP id
- p1-20020a5d48c1000000b0020c52e96c5bmr41179798wrs.233.1654847962170; 
- Fri, 10 Jun 2022 00:59:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyI+bfKtMfNYjPmrar1RUjQATmQM0dzOeCqUk4qqcyEVr4e66H9lzsAVL4NW+8qbaBditF4zA==
-X-Received: by 2002:a5d:48c1:0:b0:20c:52e9:6c5b with SMTP id
- p1-20020a5d48c1000000b0020c52e96c5bmr41179780wrs.233.1654847961928; 
- Fri, 10 Jun 2022 00:59:21 -0700 (PDT)
+ bh=6LDOtJkS4XX2TuIYogbWgSBSiVmv/tgrANZtHtjvS2E=;
+ b=Oid9ArJMkCdzPmujn+4Hc1nQE7+qnKDkBYbpKKA2AdgTOWFTNOufJWqTcVeggkgZXJ
+ awqI/B+5ahCQq9zAZiMBKopi1pVfdypJ40JLx58We00UjYU7SRcDvQvq1u7Z5oDzNIXw
+ rPhFsrLqQ8XaOhfVw+oGKwLozYhXzzPezpLbO4QrPADDdJ8RyjJfNk8+znqBi5gMQzC4
+ lbcJfclzJzTOsvJbkOpnLOP3nBQW4Q8gKPSARtx3iCsw9Bge6TdclqWrpuGx9LvIuUdd
+ 2SfQAYpWJgN2pSPlVE1MXe0LgG72QQShcKgNo/vvycg5+jlHDJEO/5mNVMtbaQvJwAmC
+ 8XzQ==
+X-Gm-Message-State: AOAM531NmgkqVpBZTCT4DFi0RUuqu5UOWes5B8mXcttzYbHxmA58cqul
+ FXRUirS0NuuayYp9aeDiXJAFWOR8Bixyg62vo7IGrQLgKnt+bZqlRfYkI9vrSBj7YdOdZV6Cnvu
+ LMcK8Z3OYRIc6Nvr+UWImlt97b0m1yMYf/dk83i7yyT3mS5WLFqIr7QFyTaYA
+X-Received: by 2002:a05:6000:18ae:b0:211:40df:c00e with SMTP id
+ b14-20020a05600018ae00b0021140dfc00emr42749176wri.304.1654847965291; 
+ Fri, 10 Jun 2022 00:59:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyuCDCo9sZUxu3g33+JpvuDQkcddWPUel6s+fT2JBLSd/0JpvYjYboDnRVbIUJc1u0D3C0fXA==
+X-Received: by 2002:a05:6000:18ae:b0:211:40df:c00e with SMTP id
+ b14-20020a05600018ae00b0021140dfc00emr42749151wri.304.1654847965000; 
+ Fri, 10 Jun 2022 00:59:25 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- c2-20020adffb42000000b00210326c4a90sm26901706wrs.49.2022.06.10.00.59.20
+ q18-20020a5d61d2000000b0020d0c9c95d3sm23591446wrv.77.2022.06.10.00.59.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:59:21 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:59:19 -0400
+ Fri, 10 Jun 2022 00:59:24 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:59:22 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -70,9 +70,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>
-Subject: [PULL 46/54] hw/acpi/viot: rename build_pci_range_node() to
- enumerate_pci_host_bridges()
-Message-ID: <20220610075631.367501-47-mst@redhat.com>
+Subject: [PULL 47/54] hw/acpi/viot: move the individual PCI host bridge entry
+ generation to a new function
+Message-ID: <20220610075631.367501-48-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -81,7 +81,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220610075631.367501-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -107,42 +107,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-This is in preparation for separating out the VIOT ACPI table build from the
-PCI host bridge numeration.
+Instead of generating each table entry inline, move the individual PCI host bridge
+table entry generation to a separate build_pci_host_range() function.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Ani Sinha <ani@anisinha.ca>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220525173232.31429-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220525173232.31429-3-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/viot.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/acpi/viot.c | 48 +++++++++++++++++++++++++++---------------------
+ 1 file changed, 27 insertions(+), 21 deletions(-)
 
 diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
-index c1af75206e..a41daded71 100644
+index a41daded71..5dafcbf5ef 100644
 --- a/hw/acpi/viot.c
 +++ b/hw/acpi/viot.c
-@@ -17,7 +17,7 @@ struct viot_pci_ranges {
+@@ -16,6 +16,31 @@ struct viot_pci_ranges {
+     uint16_t output_node;
  };
  
++static void build_pci_host_range(GArray *table_data, int min_bus, int max_bus,
++                                 uint16_t output_node)
++{
++    /* Type */
++    build_append_int_noprefix(table_data, 1 /* PCI range */, 1);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 1);
++    /* Length */
++    build_append_int_noprefix(table_data, 24, 2);
++    /* Endpoint start */
++    build_append_int_noprefix(table_data, PCI_BUILD_BDF(min_bus, 0), 4);
++    /* PCI Segment start */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* PCI Segment end */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* PCI BDF start */
++    build_append_int_noprefix(table_data, PCI_BUILD_BDF(min_bus, 0), 2);
++    /* PCI BDF end */
++    build_append_int_noprefix(table_data, PCI_BUILD_BDF(max_bus, 0xff), 2);
++    /* Output node */
++    build_append_int_noprefix(table_data, output_node, 2);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 6);
++}
++
  /* Build PCI range for a given PCI host bridge */
--static int build_pci_range_node(Object *obj, void *opaque)
-+static int enumerate_pci_host_bridges(Object *obj, void *opaque)
+ static int enumerate_pci_host_bridges(Object *obj, void *opaque)
  {
-     struct viot_pci_ranges *pci_ranges = opaque;
-     GArray *blob = pci_ranges->blob;
-@@ -78,7 +78,7 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
-     };
+@@ -30,27 +55,8 @@ static int enumerate_pci_host_bridges(Object *obj, void *opaque)
  
-     /* Build the list of PCI ranges that this viommu manages */
--    object_child_foreach_recursive(OBJECT(ms), build_pci_range_node,
-+    object_child_foreach_recursive(OBJECT(ms), enumerate_pci_host_bridges,
-                                    &pci_ranges);
+             pci_bus_range(bus, &min_bus, &max_bus);
  
-     /* ACPI table header */
+-            /* Type */
+-            build_append_int_noprefix(blob, 1 /* PCI range */, 1);
+-            /* Reserved */
+-            build_append_int_noprefix(blob, 0, 1);
+-            /* Length */
+-            build_append_int_noprefix(blob, 24, 2);
+-            /* Endpoint start */
+-            build_append_int_noprefix(blob, PCI_BUILD_BDF(min_bus, 0), 4);
+-            /* PCI Segment start */
+-            build_append_int_noprefix(blob, 0, 2);
+-            /* PCI Segment end */
+-            build_append_int_noprefix(blob, 0, 2);
+-            /* PCI BDF start */
+-            build_append_int_noprefix(blob, PCI_BUILD_BDF(min_bus, 0), 2);
+-            /* PCI BDF end */
+-            build_append_int_noprefix(blob, PCI_BUILD_BDF(max_bus, 0xff), 2);
+-            /* Output node */
+-            build_append_int_noprefix(blob, pci_ranges->output_node, 2);
+-            /* Reserved */
+-            build_append_int_noprefix(blob, 0, 6);
+-
++            build_pci_host_range(blob, min_bus, max_bus,
++                                 pci_ranges->output_node);
+             pci_ranges->count++;
+         }
+     }
 -- 
 MST
 
