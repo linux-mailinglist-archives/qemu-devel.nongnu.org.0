@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70241546088
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:53:10 +0200 (CEST)
-Received: from localhost ([::1]:38978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E0C545F6D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:39:54 +0200 (CEST)
+Received: from localhost ([::1]:50936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzaOD-00055m-BB
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:53:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35414)
+	id 1nzaBO-0001G8-0j
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXB-0000Iv-Rm
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38370)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXD-0000NN-9H
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZX8-0006IX-Sf
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:21 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXB-0006Ix-AR
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847898;
+ s=mimecast20190719; t=1654847900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4nmjN6bwgcMzCDQZFw4PNGDXA6/jQ8q9DHYb9d4XDTk=;
- b=fTw53f+tFLBtUtPoc9FCP6BIoIiJ//7gxqDK/DBXsUUJaWzppXhhOh1CiLronFWWVQxL0Z
- J0PPvwXChwSGiR3UPBk7f7iFFYNO0DZ/Mz0X7u3imAc+l67ftAJsbzpoM0KzI8gr1IUU7/
- BSOCMjsZ5OTk9hu3Fbx0xa3xkLgosOI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TOvkDkiafeYSAXY0KZc9ourX4zMJEzIbZqDfZoh54AA=;
+ b=hV5oqcH1UhbiChQnvFN5DIxqb7Jmjl+YQI6PjIVp9ckcaGpyykJLbNlZBUol3TBL6kdH9a
+ AOR8TOIQiShQGygXxh0DfPlUn/3JQgVNAsiXZihv6vMIACGVC+hK6sbQVglNLatz5YyeT7
+ A3qE5w9C19w9hqFK/sI/NjR1o+VGp78=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-tY8HXp18P76mh1OHlhwUlg-1; Fri, 10 Jun 2022 03:58:14 -0400
-X-MC-Unique: tY8HXp18P76mh1OHlhwUlg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v125-20020a1cac83000000b0039c6608296dso943485wme.4
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:14 -0700 (PDT)
+ us-mta-467-dtlkOJAwOfCKMjzDXO1ldA-1; Fri, 10 Jun 2022 03:58:18 -0400
+X-MC-Unique: dtlkOJAwOfCKMjzDXO1ldA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ r13-20020adff10d000000b002160e9d64f8so4473903wro.0
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=4nmjN6bwgcMzCDQZFw4PNGDXA6/jQ8q9DHYb9d4XDTk=;
- b=AR1cq2OIGt3F9IHQtnT8AMz2gDU7RbdY0yGHPbKfQLq2B6FRspLldPsjRzV7ea0OJ2
- dP/U5UfwOTSA04HF0ZKR3RZRyRjAgFmJf78H2esZSS+uHcxUfOPyHCaxlHxYECvj3pyX
- kq71CGWnH60P3nCFabBX9t+wHH/55J4UnsgRf05mFYtxpsC3M+uSw0K+k8upMjplRr3t
- /atty++hB/lGp/sFtnVfw5gUI5Gw6xc8aVaBMF2/3qUHGx5kq4ZnU7NpwqSg3jwUrly3
- GPv9dnlogQVGDKc92oqml/c0L08tzuH4Cq6gLhYNO3SVCialOQu+b7mCpaKRjonFjftI
- CRkQ==
-X-Gm-Message-State: AOAM533olZLsV/h/weNhi7OxCd+CSCO0N4/UQr6shfOONJrU7x2+NnNT
- vTrl2MYLgeC4WpW8Sh1IlbmsjnQNtjvY1aOH1UcVMNdTq2q+B6t3sN6Bz0pTi6fCnpGDpIP3I3L
- MH67g73UuACUuoSfQo8VFE+Y0ugDwn4e769aUlPaYniDFu+ldz9rn8I8v4Scq
-X-Received: by 2002:a5d:64cc:0:b0:20f:e6d6:72e1 with SMTP id
- f12-20020a5d64cc000000b0020fe6d672e1mr41828588wri.384.1654847892893; 
- Fri, 10 Jun 2022 00:58:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyHWshblt7XxWTvVT7sa6NvbHogo/t+ATTnPQkzBo+iy/30nMJXo45HAki3XDscr7BSQ0mCnA==
-X-Received: by 2002:a5d:64cc:0:b0:20f:e6d6:72e1 with SMTP id
- f12-20020a5d64cc000000b0020fe6d672e1mr41828566wri.384.1654847892643; 
- Fri, 10 Jun 2022 00:58:12 -0700 (PDT)
+ bh=TOvkDkiafeYSAXY0KZc9ourX4zMJEzIbZqDfZoh54AA=;
+ b=gtf/QRR82YthttgZe6PD3CbFHfvtPP9mkThu5lifJhMWnEpwO+y5cFRvkUjCrHn7uD
+ FDLBWRO5rpYDcTHsIm8NHS+9jmiFI24qkJjVJkFCgZG48wpsL465yZhA9oct1SHHNWEw
+ FvXdE8/43MLdXP5CfzwTkOMbn3YHN5g0hIh7OVj05+HgaUlXliKMcXJiblDxt1SqSoBW
+ ysfXAFIrFV/f0sJgM10mKrUgYe4tLeOM0YypraqiLn4jhY1LKG++X/Q1P1n2RjsQgDPn
+ 3vneu9Pjq2fCOm5aNQmZUCS7+90MK1voWuOYRWssTcSvM1XnCZpZkmq6SAHEJlDyF2O9
+ baOQ==
+X-Gm-Message-State: AOAM532vfHc0ePcxZsE1Z44pJlf9r4foDWEEUpT+J604S/h6fLnZlao7
+ qtYwhhq4GT4908WQDv/4NOtfqYdu09G6Z+pealoWzPQYsBI5aPU5KaURViqE5yCA8hrVZD4I0ux
+ Fqr/K9bG6z+CpoMxkXRsQ3LNeq40SC+i0PoPk1sQlvUgCY4rxa/3O88vuaT6o
+X-Received: by 2002:a1c:a301:0:b0:392:9bc5:203c with SMTP id
+ m1-20020a1ca301000000b003929bc5203cmr7426284wme.67.1654847896445; 
+ Fri, 10 Jun 2022 00:58:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwle9W/hD7egAoyjxgjJUj8mhEVM0RSvjL9UDUBmWBpKHlYx95+BmqFY038KhVnromkLjjMrA==
+X-Received: by 2002:a1c:a301:0:b0:392:9bc5:203c with SMTP id
+ m1-20020a1ca301000000b003929bc5203cmr7426241wme.67.1654847896074; 
+ Fri, 10 Jun 2022 00:58:16 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- p21-20020a05600c359500b00394708a3d7dsm2191730wmq.15.2022.06.10.00.58.11
+ n39-20020a05600c3ba700b00397342e3830sm7733545wms.0.2022.06.10.00.58.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:58:12 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:58:09 -0400
+ Fri, 10 Jun 2022 00:58:15 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:58:12 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 23/54] tests: acpi: add applesmc testcase
-Message-ID: <20220610075631.367501-24-mst@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 24/54] acpi: applesmc: use AcpiDevAmlIfClass:build_dev_aml to
+ provide device's AML
+Message-ID: <20220610075631.367501-25-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -74,7 +79,7 @@ Content-Disposition: inline
 In-Reply-To: <20220610075631.367501-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -100,45 +105,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+  .. and clean up not longer needed conditionals in DSTD build
+code. applesmc AML will be fetched and included when ISA bridge
+will build its own AML code (incl. attached devices).
+
+Expected AML change:
+the device under separate _SB.PCI0.ISA scope is moved directly
+under Device(ISA) node.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20220608135340.3304695-24-imammedo@redhat.com>
+Message-Id: <20220608135340.3304695-25-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ include/hw/isa/isa.h | 14 --------------
+ hw/i386/acpi-build.c | 22 ----------------------
+ hw/misc/applesmc.c   | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 29 insertions(+), 36 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index d896840270..7d238218ca 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1625,6 +1625,17 @@ static void test_acpi_q35_slic(void)
-     free_test_data(&data);
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 5c5a3d43a7..6f9380007d 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -16,20 +16,6 @@ OBJECT_DECLARE_TYPE(ISADevice, ISADeviceClass, ISA_DEVICE)
+ #define TYPE_ISA_BUS "ISA"
+ OBJECT_DECLARE_SIMPLE_TYPE(ISABus, ISA_BUS)
+ 
+-#define TYPE_APPLE_SMC "isa-applesmc"
+-#define APPLESMC_MAX_DATA_LENGTH       32
+-#define APPLESMC_PROP_IO_BASE "iobase"
+-
+-static inline uint16_t applesmc_port(void)
+-{
+-    Object *obj = object_resolve_path_type("", TYPE_APPLE_SMC, NULL);
+-
+-    if (obj) {
+-        return object_property_get_uint(obj, APPLESMC_PROP_IO_BASE, NULL);
+-    }
+-    return 0;
+-}
+-
+ #define TYPE_ISADMA "isa-dma"
+ 
+ typedef struct IsaDmaClass IsaDmaClass;
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index f7f1671407..b96705c688 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -121,7 +121,6 @@ typedef struct AcpiMiscInfo {
+     const unsigned char *dsdt_code;
+     unsigned dsdt_size;
+     uint16_t pvpanic_port;
+-    uint16_t applesmc_io_base;
+ } AcpiMiscInfo;
+ 
+ typedef struct AcpiBuildPciBusHotplugState {
+@@ -307,7 +306,6 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
+     info->tpm_version = tpm_get_version(tpm_find());
+ #endif
+     info->pvpanic_port = pvpanic_port();
+-    info->applesmc_io_base = applesmc_port();
  }
  
-+static void test_acpi_q35_applesmc(void)
+ /*
+@@ -1800,26 +1798,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dsdt, scope);
+     }
+ 
+-    if (misc->applesmc_io_base) {
+-        scope = aml_scope("\\_SB.PCI0.ISA");
+-        dev = aml_device("SMC");
+-
+-        aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0001")));
+-        /* device present, functioning, decoding, not shown in UI */
+-        aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
+-
+-        crs = aml_resource_template();
+-        aml_append(crs,
+-            aml_io(AML_DECODE16, misc->applesmc_io_base, misc->applesmc_io_base,
+-                   0x01, APPLESMC_MAX_DATA_LENGTH)
+-        );
+-        aml_append(crs, aml_irq_no_flags(6));
+-        aml_append(dev, aml_name_decl("_CRS", crs));
+-
+-        aml_append(scope, dev);
+-        aml_append(dsdt, scope);
+-    }
+-
+     if (misc->pvpanic_port) {
+         scope = aml_scope("\\_SB.PCI0.ISA");
+ 
+diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
+index 81cd6b6423..5f9c742e50 100644
+--- a/hw/misc/applesmc.c
++++ b/hw/misc/applesmc.c
+@@ -37,10 +37,14 @@
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
+ #include "qom/object.h"
++#include "hw/acpi/acpi_aml_interface.h"
+ 
+ /* #define DEBUG_SMC */
+ 
+ #define APPLESMC_DEFAULT_IOBASE        0x300
++#define TYPE_APPLE_SMC "isa-applesmc"
++#define APPLESMC_MAX_DATA_LENGTH       32
++#define APPLESMC_PROP_IO_BASE "iobase"
+ 
+ enum {
+     APPLESMC_DATA_PORT               = 0x00,
+@@ -347,14 +351,35 @@ static Property applesmc_isa_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static void build_applesmc_aml(AcpiDevAmlIf *adev, Aml *scope)
 +{
-+    test_data data = {
-+        .machine = MACHINE_Q35,
-+        .variant = ".applesmc",
-+    };
++    Aml *crs;
++    AppleSMCState *s = APPLE_SMC(adev);
++    uint32_t iobase = s->iobase;
++    Aml *dev = aml_device("SMC");
 +
-+    test_acpi_one("-device isa-applesmc", &data);
-+    free_test_data(&data);
++    aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0001")));
++    /* device present, functioning, decoding, not shown in UI */
++    aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
++    crs = aml_resource_template();
++    aml_append(crs,
++        aml_io(AML_DECODE16, iobase, iobase, 0x01, APPLESMC_MAX_DATA_LENGTH)
++    );
++    aml_append(crs, aml_irq_no_flags(6));
++    aml_append(dev, aml_name_decl("_CRS", crs));
++    aml_append(scope, dev);
 +}
 +
- static void test_oem_fields(test_data *data)
+ static void qdev_applesmc_class_init(ObjectClass *klass, void *data)
  {
-     int i;
-@@ -1783,6 +1794,7 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-         qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
-         qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
-+        qtest_add_func("acpi/q35/applesmc", test_acpi_q35_applesmc);
-         qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
-         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
-         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+ 
+     dc->realize = applesmc_isa_realize;
+     dc->reset = qdev_applesmc_isa_reset;
+     device_class_set_props(dc, applesmc_isa_properties);
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++    adevc->build_dev_aml = build_applesmc_aml;
+ }
+ 
+ static const TypeInfo applesmc_isa_info = {
+@@ -362,6 +387,10 @@ static const TypeInfo applesmc_isa_info = {
+     .parent        = TYPE_ISA_DEVICE,
+     .instance_size = sizeof(AppleSMCState),
+     .class_init    = qdev_applesmc_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_ACPI_DEV_AML_IF },
++        { },
++    },
+ };
+ 
+ static void applesmc_register_types(void)
 -- 
 MST
 
