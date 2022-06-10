@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9958054638D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 12:29:18 +0200 (CEST)
-Received: from localhost ([::1]:50432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4535463D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 12:34:56 +0200 (CEST)
+Received: from localhost ([::1]:58926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzbtF-0004Rl-Gy
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 06:29:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49698)
+	id 1nzbyh-0002Er-At
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 06:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzapi-0008GJ-Sw
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 05:21:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39291)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzapl-0008KR-T8
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 05:21:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzaph-0001jj-9j
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 05:21:34 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nzapk-0001kR-90
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 05:21:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654852892;
+ s=mimecast20190719; t=1654852894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TqkIe5B5GmtLHYDEQNksBwY0pKybp1zEh7xnID9ieAU=;
- b=OQXk/Vm0GieqbuUFeqMSD773bVNA63dESqRmao+niPl3IWghseXVloRfZ8tpv2EHIpwjYK
- Dhe/nSX3aVrHUYMTKWynglW18pnPYj5idswfdwGLzIaTlg3f4cW2M2bnun8sH9eQkzflTw
- 5Glpkh/Lrh6ti2hvMGUScnSTLaUvpec=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o6vOmc4r9ui1udWdegwNJ5alAMO2M7wcYKQqptdB7KA=;
+ b=YrFA3dQhXnBg7eNQVn7KV2NTyhcMLDTi0KaZ0HFv20bt/KCuRkkv9+4jb2uNKNcALotroY
+ KMRuYNBaHvqtNa093EVLG7z/c8yc/y1YuRvAJXIXSiHexMC5XCVOt8gz5iyypzXs7KqQqU
+ I+sQofnFpjawGCycJgAUTXluzk/DLyQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-LsraNzfaMNKg3TlTAuhYSQ-1; Fri, 10 Jun 2022 05:21:27 -0400
-X-MC-Unique: LsraNzfaMNKg3TlTAuhYSQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-271-OrbZa1CaOsm0-icMqDwwwA-1; Fri, 10 Jun 2022 05:21:31 -0400
+X-MC-Unique: OrbZa1CaOsm0-icMqDwwwA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 012A12949BC0;
- Fri, 10 Jun 2022 09:21:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17259101AA47;
+ Fri, 10 Jun 2022 09:21:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A00221121314;
- Fri, 10 Jun 2022 09:21:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6582C53360;
+ Fri, 10 Jun 2022 09:21:30 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B63451800630; Fri, 10 Jun 2022 11:20:44 +0200 (CEST)
+ id CCF041800634; Fri, 10 Jun 2022 11:20:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Canokeys.org" <contact@canokeys.org>,
@@ -55,16 +55,15 @@ Cc: "Canokeys.org" <contact@canokeys.org>,
  Alex Williamson <alex.williamson@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 09/17] docs/system/devices/usb: Add CanoKey to USB devices
- examples
-Date: Fri, 10 Jun 2022 11:20:35 +0200
-Message-Id: <20220610092043.1874654-10-kraxel@redhat.com>
+Subject: [PULL 10/17] MAINTAINERS: add myself as CanoKey maintainer
+Date: Fri, 10 Jun 2022 11:20:36 +0200
+Message-Id: <20220610092043.1874654-11-kraxel@redhat.com>
 In-Reply-To: <20220610092043.1874654-1-kraxel@redhat.com>
 References: <20220610092043.1874654-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -91,27 +90,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
 
 Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
-Message-Id: <YoY6o+QFhzA7VHcZ@Sun>
+Message-Id: <YoY61xI0IcFT1fOP@Sun>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/system/devices/usb.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/docs/system/devices/usb.rst b/docs/system/devices/usb.rst
-index afb7d6c2268d..872d9167589b 100644
---- a/docs/system/devices/usb.rst
-+++ b/docs/system/devices/usb.rst
-@@ -199,6 +199,10 @@ option or the ``device_add`` monitor command. Available devices are:
- ``u2f-{emulated,passthru}``
-    Universal Second Factor device
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5580a36b68e1..4ae9d707d5b0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2425,6 +2425,14 @@ F: hw/intc/s390_flic*.c
+ F: include/hw/s390x/s390_flic.h
+ L: qemu-s390x@nongnu.org
  
-+``canokey``
-+   An Open-source Secure Key implementing FIDO2, OpenPGP, PIV and more.
-+   For more information, see :ref:`canokey`.
++CanoKey
++M: Hongren (Zenithal) Zheng <i@zenithal.me>
++S: Maintained
++R: Canokeys.org <contact@canokeys.org>
++F: hw/usb/canokey.c
++F: hw/usb/canokey.h
++F: docs/system/devices/canokey.rst
 +
- Physical port addressing
- ^^^^^^^^^^^^^^^^^^^^^^^^
- 
+ Subsystems
+ ----------
+ Overall Audio backends
 -- 
 2.36.1
 
