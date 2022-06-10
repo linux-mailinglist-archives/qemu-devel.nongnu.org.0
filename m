@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1FE545F4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:36:28 +0200 (CEST)
-Received: from localhost ([::1]:48594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70241546088
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 10:53:10 +0200 (CEST)
+Received: from localhost ([::1]:38978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nza83-00088S-C5
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35362)
+	id 1nzaOD-00055m-BB
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 04:53:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZX8-00007n-Gr
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58725)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXB-0000Iv-Rm
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZX3-0006I5-BL
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:18 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZX8-0006IX-Sf
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:58:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847892;
+ s=mimecast20190719; t=1654847898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rvIx/BoI0pIYAkZbBQ6pra8sY6RBuWirW8hnBbq6FvA=;
- b=ANg/mQORtoRXwIgtse6Ti9+7bhOeiFBzwkvs4n9KkBY68sM9svMpfuLf3FkqeQZGRbKBnX
- iwA+PW842wQ6SfATBqA2BAb4vTj0caMSfOxm6lzdUAFaw8dEe0KECNYA2yuF6MZPd3SVzd
- j8cYrP+0HTYhd9od4iIRVdKKXj7/erM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4nmjN6bwgcMzCDQZFw4PNGDXA6/jQ8q9DHYb9d4XDTk=;
+ b=fTw53f+tFLBtUtPoc9FCP6BIoIiJ//7gxqDK/DBXsUUJaWzppXhhOh1CiLronFWWVQxL0Z
+ J0PPvwXChwSGiR3UPBk7f7iFFYNO0DZ/Mz0X7u3imAc+l67ftAJsbzpoM0KzI8gr1IUU7/
+ BSOCMjsZ5OTk9hu3Fbx0xa3xkLgosOI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-388-s_5sjBxwPcax0XKLKy_01A-1; Fri, 10 Jun 2022 03:58:11 -0400
-X-MC-Unique: s_5sjBxwPcax0XKLKy_01A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- be12-20020a05600c1e8c00b0039c506b52a4so1221953wmb.1
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:11 -0700 (PDT)
+ us-mta-518-tY8HXp18P76mh1OHlhwUlg-1; Fri, 10 Jun 2022 03:58:14 -0400
+X-MC-Unique: tY8HXp18P76mh1OHlhwUlg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v125-20020a1cac83000000b0039c6608296dso943485wme.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=rvIx/BoI0pIYAkZbBQ6pra8sY6RBuWirW8hnBbq6FvA=;
- b=zRSPCeuC4gcHppaZL81UEpka0SmyKZK5cfHnSIlpdGpMdrYbnAdqokYSNWcUKNVQCd
- CgIJXKM6z4ifkEFJVaYZ2fljbITmq5HKmSh3+eNUc7a208yxBgTd1PC/1CUAl5yvlfnl
- Ct+iSUFhBwnKboPZnTSmGzPdaZyATp4vJe9AVik0I6zrGXZVJhHJFZIk+yD7CbJqXV1Z
- C9blrfpD6pZrqWu9RdSawIUksN4bWBKbw4iJnAG3OFRkP+1PiPVtRNJhP7DlhUeLEv79
- kIBD1a+P3/8FHYnWOZL/kpR5qYFW1S8Mde159iM8HJEl2iS7dlJWk0dXD3TahtfHAnWS
- g4/g==
-X-Gm-Message-State: AOAM531jEdnU15ekrdCueVUyz5LdIl203sgKCnVmfyMdmp96XAr5LEnc
- g+5xISO6LE+swRNy6VqiIEq5md1R9O4ftPxYu7pw3JxBNqYKyLtA2NtXLnYwp59E4WuT9k+4TZP
- VILtO6TsLmzfHFoBtEExtwZtB1LM44CpK/9ZLl+ONn1Ehv5Hbww7GEQS12OK4
-X-Received: by 2002:a05:600c:1e09:b0:39c:5351:789a with SMTP id
- ay9-20020a05600c1e0900b0039c5351789amr7503286wmb.177.1654847889983; 
- Fri, 10 Jun 2022 00:58:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUpl8unYoQ51oxtsAHNrIfW/9XUphk3ITG8TyEpurSXGFnGFSLw0IUC6IIEMXYEJVblLSzyQ==
-X-Received: by 2002:a05:600c:1e09:b0:39c:5351:789a with SMTP id
- ay9-20020a05600c1e0900b0039c5351789amr7503263wmb.177.1654847889738; 
- Fri, 10 Jun 2022 00:58:09 -0700 (PDT)
+ bh=4nmjN6bwgcMzCDQZFw4PNGDXA6/jQ8q9DHYb9d4XDTk=;
+ b=AR1cq2OIGt3F9IHQtnT8AMz2gDU7RbdY0yGHPbKfQLq2B6FRspLldPsjRzV7ea0OJ2
+ dP/U5UfwOTSA04HF0ZKR3RZRyRjAgFmJf78H2esZSS+uHcxUfOPyHCaxlHxYECvj3pyX
+ kq71CGWnH60P3nCFabBX9t+wHH/55J4UnsgRf05mFYtxpsC3M+uSw0K+k8upMjplRr3t
+ /atty++hB/lGp/sFtnVfw5gUI5Gw6xc8aVaBMF2/3qUHGx5kq4ZnU7NpwqSg3jwUrly3
+ GPv9dnlogQVGDKc92oqml/c0L08tzuH4Cq6gLhYNO3SVCialOQu+b7mCpaKRjonFjftI
+ CRkQ==
+X-Gm-Message-State: AOAM533olZLsV/h/weNhi7OxCd+CSCO0N4/UQr6shfOONJrU7x2+NnNT
+ vTrl2MYLgeC4WpW8Sh1IlbmsjnQNtjvY1aOH1UcVMNdTq2q+B6t3sN6Bz0pTi6fCnpGDpIP3I3L
+ MH67g73UuACUuoSfQo8VFE+Y0ugDwn4e769aUlPaYniDFu+ldz9rn8I8v4Scq
+X-Received: by 2002:a5d:64cc:0:b0:20f:e6d6:72e1 with SMTP id
+ f12-20020a5d64cc000000b0020fe6d672e1mr41828588wri.384.1654847892893; 
+ Fri, 10 Jun 2022 00:58:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyHWshblt7XxWTvVT7sa6NvbHogo/t+ATTnPQkzBo+iy/30nMJXo45HAki3XDscr7BSQ0mCnA==
+X-Received: by 2002:a5d:64cc:0:b0:20f:e6d6:72e1 with SMTP id
+ f12-20020a5d64cc000000b0020fe6d672e1mr41828566wri.384.1654847892643; 
+ Fri, 10 Jun 2022 00:58:12 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- bv18-20020a0560001f1200b002183cedbf34sm14418933wrb.73.2022.06.10.00.58.08
+ p21-20020a05600c359500b00394708a3d7dsm2191730wmq.15.2022.06.10.00.58.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:58:09 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:58:07 -0400
+ Fri, 10 Jun 2022 00:58:12 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:58:09 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 22/54] tests: acpi: add and white-list DSDT.applesmc expected
- blob
-Message-ID: <20220610075631.367501-23-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 23/54] tests: acpi: add applesmc testcase
+Message-ID: <20220610075631.367501-24-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,25 +101,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Igor Mammedov <imammedo@redhat.com>
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220608135340.3304695-23-imammedo@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20220608135340.3304695-24-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- tests/data/acpi/q35/DSDT.applesmc           | 0
- 2 files changed, 1 insertion(+)
- create mode 100644 tests/data/acpi/q35/DSDT.applesmc
+ tests/qtest/bios-tables-test.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..e893029d87 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.applesmc",
-diff --git a/tests/data/acpi/q35/DSDT.applesmc b/tests/data/acpi/q35/DSDT.applesmc
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index d896840270..7d238218ca 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1625,6 +1625,17 @@ static void test_acpi_q35_slic(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_applesmc(void)
++{
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".applesmc",
++    };
++
++    test_acpi_one("-device isa-applesmc", &data);
++    free_test_data(&data);
++}
++
+ static void test_oem_fields(test_data *data)
+ {
+     int i;
+@@ -1783,6 +1794,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
+         qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
+         qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
++        qtest_add_func("acpi/q35/applesmc", test_acpi_q35_applesmc);
+         qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
+         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
+         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
 -- 
 MST
 
