@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBF3546117
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 11:10:21 +0200 (CEST)
-Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0195462D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 11:53:10 +0200 (CEST)
+Received: from localhost ([::1]:34498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzaeq-0000LW-OB
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 05:10:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35702)
+	id 1nzbKG-0002nG-C5
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 05:53:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXv-0001tT-V5
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50602)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXs-0001sI-4c
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXs-0006OH-LW
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZXp-0006Nv-0U
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847944;
+ s=mimecast20190719; t=1654847940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BvSCk+gp0FY+trDsLWt66bGN2C04X9sZi/rII2QilmY=;
- b=XICRXL1FIz2Q1JZMEJktmO2TXQYdtCATWJmEPdTSRtMddLVytFQKPOPfX47a7v7dQOIUFl
- FmVCrnhOK3R6lf63Nvm0oJ/tG953svemKjvvLkwLqEUHDcxPDPtGzqvL8Ig/lvOAEDuKnh
- KwaLnwK9XgTVEQ8OmwN2YkQaUF+lbhw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YahgfHZHkDDG1UwZ41vbkmzTf6VZZfUOEbVd98dAsq8=;
+ b=c6XdL8b/6BEe7+tVXWXNBgNgV4xl0nreJDCvoChgEFkZBF/0tK111kxWjB84q/hv1K8cc3
+ hnXrRl6JbDkEurFGBMadfxSTm4ZCKF1Io9Hs498WZDU61frz519N2LBT8OdwxaRw1w+MAu
+ g57WgZkC49SKG0aMoRoic1r9AoQlepk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-O0y7nogCPGG_tK6cEffQpw-1; Fri, 10 Jun 2022 03:58:57 -0400
-X-MC-Unique: O0y7nogCPGG_tK6cEffQpw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e9-20020a5d5949000000b00216ffb6df18so4193976wri.14
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:56 -0700 (PDT)
+ us-mta-561-ksvPri6QPquDgm225lVDVQ-1; Fri, 10 Jun 2022 03:58:59 -0400
+X-MC-Unique: ksvPri6QPquDgm225lVDVQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v4-20020adfebc4000000b002102c69be5eso5958543wrn.13
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:58:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=BvSCk+gp0FY+trDsLWt66bGN2C04X9sZi/rII2QilmY=;
- b=Ern9GtZyNDmSmjWAXAzBeFUtCyumTZIjeTYJKM0Nmxnwy1T3Eps4Q0yqgIwjY8m26V
- hOj2DzylIAa6UTBewhZK/1mZ0gnUGjbcfoAF3hIOCC+oJneokg5wzbV1oImhkSsEnb5z
- Qvtakqe1ZO5hddGy8b0z2Ga/WIpzYtu5Z4PMH3amsdPv/pIhMPG+8gKG6IpVB9m8BRDu
- igVDcYQv8aHWLrZ4Z5vITWjwnAzn80CixBJayNhVrUIhApyuk5IZYcpLxGQAZ2ypKheI
- gz/kBooQ2p0Kn5B9TAKA3OfgGu204tlj9IGc8b3wvqxSTc9bgwTd8qSETk1T/2GylVkz
- 7GVQ==
-X-Gm-Message-State: AOAM531ND3rQz6iCrvqpU8y4U4Twgit/kdpwEHjQTp9Tyt59Ob7iyoI0
- nVz7ynaB0/3LrZY+iObZ/qE4N14pyQ9tb4y50tZk4atGSoDJ336asJCehkiN4Kp7KmRrX2/LvFQ
- BwO5Lf9S2bEnTYkPY1ovznQCv44ZAEqOLmQVFMrO44z7fNTCisaXjOuk2mBQF
-X-Received: by 2002:adf:df8e:0:b0:210:2e5c:695d with SMTP id
- z14-20020adfdf8e000000b002102e5c695dmr43353752wrl.423.1654847934766; 
- Fri, 10 Jun 2022 00:58:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCZ9+C2Q1dd6SnDMU8CgIhmjot5zf6DPtlsn6mgBe0psnCY0rjuGE6LjQ8RM36lZZiVK38jg==
-X-Received: by 2002:adf:df8e:0:b0:210:2e5c:695d with SMTP id
- z14-20020adfdf8e000000b002102e5c695dmr43353723wrl.423.1654847934448; 
- Fri, 10 Jun 2022 00:58:54 -0700 (PDT)
+ bh=YahgfHZHkDDG1UwZ41vbkmzTf6VZZfUOEbVd98dAsq8=;
+ b=TFgM5+LSRR93ppzVwyEBNRf99nVnFhM8ccnX3qdl9TR5oHfA4muvDTjsG+uA19wwjD
+ UE+Il5C25l6CjmkENuTLaq3ZlzDIIb7GmCq1DivbpMreGHoS3I4jtcw33pl2a9Da4/+W
+ GZr58TY7y9u9b3I3o54YE998tN1dQBDiTreVKiQvypoi3J/t0jKaVHbEoYD21lBYq+pc
+ Ij/Rpl2T4i9rTGQqVa9kgUlPm4z98VVD9rJoGvCtL41bD74A58iiysEtxOybxla7W9N4
+ AJl9fA3Xer8NU2zohyYk/+kepiJtvpoaymZsAgMktEtngzP1YfOMuQ8nwfmdASWHuG08
+ wydA==
+X-Gm-Message-State: AOAM532P6avw1ciSTw/1l2vV0ACHL9jLtlWhonHy3zrWK26ftmn799Kk
+ UI5znDkbsnYcshp7/mHVgsbaGfWqgGa17JbY6wpEfFdV8mk5INotmxO8d9f5nO5VzcjUjs/z1zn
+ OLG4xVpZabuKlJVUPKLlV04A4fhfM+byG/eqlO8ziLsQUcXY70trxoSwNB+9I
+X-Received: by 2002:a05:600c:1c25:b0:39c:60cc:397f with SMTP id
+ j37-20020a05600c1c2500b0039c60cc397fmr7526653wms.2.1654847937801; 
+ Fri, 10 Jun 2022 00:58:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyigAnB0r8+BdrlOqd+idP8ATfRDW8wLuKONzg845w6aBwxVxPWhFvuJPTrRjOCpDSg99Qrfw==
+X-Received: by 2002:a05:600c:1c25:b0:39c:60cc:397f with SMTP id
+ j37-20020a05600c1c2500b0039c60cc397fmr7526614wms.2.1654847937485; 
+ Fri, 10 Jun 2022 00:58:57 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- l29-20020a05600c1d1d00b0039c3056c3dfsm2651208wms.27.2022.06.10.00.58.52
+ z11-20020a5d4c8b000000b0020e5b4ebaecsm26785215wrs.4.2022.06.10.00.58.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:58:54 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:58:51 -0400
+ Fri, 10 Jun 2022 00:58:57 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:58:54 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Ben Widawsky <ben@bwidawsk.net>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Ben Widawsky <ben@bwidawsk.net>, Ben Widawsky <ben.widawsky@intel.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 37/54] hw/acpi/cxl: Pass in the CXLState directly rather than
- MachineState
-Message-ID: <20220610075631.367501-38-mst@redhat.com>
+Subject: [PULL 38/54] hw/cxl: Push linking of CXL targets into i386/pc rather
+ than in machine.c
+Message-ID: <20220610075631.367501-39-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -106,89 +105,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Refactoring step on path to moving all CXL state out of
-MachineState.
+Whilst here take the oportunity to shorten the function name.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Reviewed-by: Ben Widawsky <ben@bwidawsk.net>
-Message-Id: <20220608145440.26106-3-Jonathan.Cameron@huawei.com>
+Message-Id: <20220608145440.26106-4-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/acpi/cxl.h | 5 +++--
- hw/acpi/cxl.c         | 9 ++++-----
- hw/i386/acpi-build.c  | 4 ++--
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ include/hw/cxl/cxl.h      | 2 --
+ include/hw/cxl/cxl_host.h | 1 +
+ hw/cxl/cxl-host-stubs.c   | 2 +-
+ hw/cxl/cxl-host.c         | 8 +++-----
+ hw/i386/pc.c              | 5 +++++
+ softmmu/vl.c              | 2 --
+ 6 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/acpi/cxl.h b/include/hw/acpi/cxl.h
-index 0c496538c0..acf4418886 100644
---- a/include/hw/acpi/cxl.h
-+++ b/include/hw/acpi/cxl.h
-@@ -19,10 +19,11 @@
- #define HW_ACPI_CXL_H
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 84078a484d..134b295b40 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -53,6 +53,4 @@ struct CXLHost {
+ #define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+ OBJECT_DECLARE_SIMPLE_TYPE(CXLHost, PXB_CXL_HOST)
  
- #include "hw/acpi/bios-linker-loader.h"
-+#include "hw/cxl/cxl.h"
- 
--void cxl_build_cedt(MachineState *ms, GArray *table_offsets, GArray *table_data,
-+void cxl_build_cedt(GArray *table_offsets, GArray *table_data,
-                     BIOSLinker *linker, const char *oem_id,
--                    const char *oem_table_id);
-+                    const char *oem_table_id, CXLState *cxl_state);
- void build_cxl_osc_method(Aml *dev);
- 
+-void cxl_fixed_memory_window_link_targets(Error **errp);
+-
  #endif
-diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
-index 31d5235136..2bf8c07993 100644
---- a/hw/acpi/cxl.c
-+++ b/hw/acpi/cxl.c
-@@ -65,9 +65,8 @@ static void cedt_build_chbs(GArray *table_data, PXBDev *cxl)
-  * Interleave ways encoding in CXL 2.0 ECN: 3, 6, 12 and 16-way memory
-  * interleaving.
-  */
--static void cedt_build_cfmws(GArray *table_data, MachineState *ms)
-+static void cedt_build_cfmws(GArray *table_data, CXLState *cxls)
- {
--    CXLState *cxls = ms->cxl_devices_state;
-     GList *it;
+diff --git a/include/hw/cxl/cxl_host.h b/include/hw/cxl/cxl_host.h
+index 87a6933de2..4d642a81fa 100644
+--- a/include/hw/cxl/cxl_host.h
++++ b/include/hw/cxl/cxl_host.h
+@@ -15,6 +15,7 @@
+ #define CXL_HOST_H
  
-     for (it = cxls->fixed_windows; it; it = it->next) {
-@@ -129,9 +128,9 @@ static int cxl_foreach_pxb_hb(Object *obj, void *opaque)
-     return 0;
+ void cxl_machine_init(Object *obj, CXLState *state);
++void cxl_fmws_link_targets(CXLState *stat, Error **errp);
+ 
+ extern const MemoryRegionOps cfmws_ops;
+ 
+diff --git a/hw/cxl/cxl-host-stubs.c b/hw/cxl/cxl-host-stubs.c
+index de3e8894d5..e0d5ec8ad5 100644
+--- a/hw/cxl/cxl-host-stubs.c
++++ b/hw/cxl/cxl-host-stubs.c
+@@ -8,7 +8,7 @@
+ #include "hw/cxl/cxl.h"
+ #include "hw/cxl/cxl_host.h"
+ 
+-void cxl_fixed_memory_window_link_targets(Error **errp) {};
++void cxl_fmws_link_targets(CXLState *stat, Error **errp) {};
+ void cxl_machine_init(Object *obj, CXLState *state) {};
+ 
+ const MemoryRegionOps cfmws_ops;
+diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
+index 3a79c32b42..8e7738a65b 100644
+--- a/hw/cxl/cxl-host.c
++++ b/hw/cxl/cxl-host.c
+@@ -68,14 +68,12 @@ static void cxl_fixed_memory_window_config(CXLState *cxl_state,
+     return;
  }
  
--void cxl_build_cedt(MachineState *ms, GArray *table_offsets, GArray *table_data,
-+void cxl_build_cedt(GArray *table_offsets, GArray *table_data,
-                     BIOSLinker *linker, const char *oem_id,
--                    const char *oem_table_id)
-+                    const char *oem_table_id, CXLState *cxl_state)
+-void cxl_fixed_memory_window_link_targets(Error **errp)
++void cxl_fmws_link_targets(CXLState *cxl_state, Error **errp)
  {
-     Aml *cedt;
-     AcpiTable table = { .sig = "CEDT", .rev = 1, .oem_id = oem_id,
-@@ -144,7 +143,7 @@ void cxl_build_cedt(MachineState *ms, GArray *table_offsets, GArray *table_data,
-     /* reserve space for CEDT header */
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-
+-    if (ms->cxl_devices_state && ms->cxl_devices_state->fixed_windows) {
++    if (cxl_state && cxl_state->fixed_windows) {
+         GList *it;
  
-     object_child_foreach_recursive(object_get_root(), cxl_foreach_pxb_hb, cedt);
--    cedt_build_cfmws(cedt->buf, ms);
-+    cedt_build_cfmws(cedt->buf, cxl_state);
+-        for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
++        for (it = cxl_state->fixed_windows; it; it = it->next) {
+             CXLFixedWindow *fw = it->data;
+             int i;
  
-     /* copy AML table into ACPI tables blob and patch header there */
-     g_array_append_vals(table_data, cedt->buf->data, cedt->buf->len);
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index f41e14a469..663c34b9d1 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2615,8 +2615,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-                           x86ms->oem_id, x86ms->oem_table_id);
-     }
-     if (machine->cxl_devices_state->is_enabled) {
--        cxl_build_cedt(machine, table_offsets, tables_blob, tables->linker,
--                       x86ms->oem_id, x86ms->oem_table_id);
-+        cxl_build_cedt(table_offsets, tables_blob, tables->linker,
-+                       x86ms->oem_id, x86ms->oem_table_id, machine->cxl_devices_state);
-     }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 98e63347f2..6cecd74d58 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -732,6 +732,11 @@ void pc_machine_done(Notifier *notifier, void *data)
+     PCMachineState *pcms = container_of(notifier,
+                                         PCMachineState, machine_done);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
++    MachineState *ms = MACHINE(pcms);
++
++    if (ms->cxl_devices_state) {
++        cxl_fmws_link_targets(ms->cxl_devices_state, &error_fatal);
++    }
  
-     acpi_add_table(table_offsets, tables_blob);
+     /* set the number of CPUs */
+     x86_rtc_set_cpus_count(x86ms->rtc, x86ms->boot_cpus);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ff0ad9ab54..54e920ada1 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -93,7 +93,6 @@
+ #include "qemu/config-file.h"
+ #include "qemu/qemu-options.h"
+ #include "qemu/main-loop.h"
+-#include "hw/cxl/cxl.h"
+ #ifdef CONFIG_VIRTFS
+ #include "fsdev/qemu-fsdev.h"
+ #endif
+@@ -2568,7 +2567,6 @@ void qmp_x_exit_preconfig(Error **errp)
+ 
+     qemu_init_board();
+     qemu_create_cli_devices();
+-    cxl_fixed_memory_window_link_targets(errp);
+     qemu_machine_creation_done();
+ 
+     if (loadvm) {
 -- 
 MST
 
