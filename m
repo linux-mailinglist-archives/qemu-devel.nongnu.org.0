@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2454A5461D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 11:24:13 +0200 (CEST)
-Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82CB546265
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 11:31:30 +0200 (CEST)
+Received: from localhost ([::1]:42858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzasF-0006lk-R1
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 05:24:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35956)
+	id 1nzazJ-0004vc-NE
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 05:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYN-0002Re-LU
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36252)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYQ-0002VA-A8
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYM-0006SZ-7N
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:35 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzZYO-0006Sl-PN
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 03:59:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654847973;
+ s=mimecast20190719; t=1654847976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YLoG+6d/H5CJ2YWH5V8iDYChaCq33BzGT2o7sdPVSIU=;
- b=ZDyd4SEYtjYI8/09hsz8Ks8lQoQa1fHN/IskWRPk3eqSbMj8MP5viUUl2vEFrRgmgANiME
- lSVfbFJxqvgUP7RB/Pgq06ZkD6zlhcnvf40BUrtxqB+xwvaaZbrwyFSPK/QhfI4XXAYwI/
- VmkRQqRKgIglD+NwfgXhPkGuPsqokgY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Q+gvoPMx9QM9laYWT5x2L/E8Zn2RWI6teIf6Ya2cnjM=;
+ b=gJaZ3XtBBzzwxvodxEvHDKUbtjz6BaOwqq+GQ3Arbhl08oWFjIPuE+54zyWDdwZi+uQSRa
+ XPAaooXiWoZtXV58JXX8mERwH6wXTflTgS+lzlBT4bH/pkCiuWUyGCT+sQ/S+bsUxNbsFm
+ sFMPjXy6o4Yvk72OpVxjO53ofx43htE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-27-uDzHF7JbP9CrEuH736RsJw-1; Fri, 10 Jun 2022 03:59:32 -0400
-X-MC-Unique: uDzHF7JbP9CrEuH736RsJw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l3-20020a05600c1d0300b0039c7efa2526so82409wms.3
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:59:31 -0700 (PDT)
+ us-mta-385-2nfE6cpNNda53j7HJVdm0A-1; Fri, 10 Jun 2022 03:59:35 -0400
+X-MC-Unique: 2nfE6cpNNda53j7HJVdm0A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p8-20020a5d4588000000b0021033f1f79aso5968302wrq.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 00:59:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=YLoG+6d/H5CJ2YWH5V8iDYChaCq33BzGT2o7sdPVSIU=;
- b=68gcPflnHTjThQuoDUSPjbge1wakRqMv0HNpXHeukObgpxuSx/zLW8sVOAkYZrMg86
- NDQ94y0DVdlPUUnsRXZYv8JjGBP8xUhE7oFcsuCLRsePY7a/M2ZwTqnP8HN3IhgkwzIJ
- ugIuaeMXy2zTrukqiaNUJZ+3et9+B0GhXD/GBofqx/jb0LM7L6sSWEO5XnHWaKgRjNmS
- JeFSkl0QOAnDFO4ncr/79fci5PI2ctiwYpQDiXQ0XIl6PWV846V0iQ0aUITNuVMbD1kD
- BfMreE6ZCmd0kMGaaghfQp9OCMut2wliQKU5JKXZKT9IfU21ebR7fG6QHOE1xfcGIPpS
- CI2A==
-X-Gm-Message-State: AOAM532m+gADervrdQSvmpUX74piDvgzDshtmFzV6Wb3vEpwSLhQih3i
- IoRVTM6MHhtLyutvje+eigBR6F+2mr6HYD1mLmb523RvkdDwowImaTAe1R55hsPIpJd/XLbqJ3G
- VP3MGxBX7LzUoQyDq7zurBVdjGBMa6r7g7BVNno0drcmJJ6Q7QsTpGRNjl02n
-X-Received: by 2002:adf:f688:0:b0:215:6e4d:4103 with SMTP id
- v8-20020adff688000000b002156e4d4103mr35229702wrp.372.1654847970799; 
- Fri, 10 Jun 2022 00:59:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzyuYMC98iTOvRIvNXbzXMt4tNh2QNDem+DeyWJH07pl7YgNcc4vyIjdXPEjgoA6lH0F+1RDQ==
-X-Received: by 2002:adf:f688:0:b0:215:6e4d:4103 with SMTP id
- v8-20020adff688000000b002156e4d4103mr35229679wrp.372.1654847970567; 
- Fri, 10 Jun 2022 00:59:30 -0700 (PDT)
+ bh=Q+gvoPMx9QM9laYWT5x2L/E8Zn2RWI6teIf6Ya2cnjM=;
+ b=o3zEf/GItnIiPyaKQCFfUL09iOtOrumKqeP7hyLjuAE3orME6qQFiWA4aKFQP8SgNc
+ EVFz6QwN0Q6TMEHX9jyiI5OKHUfoRCEn5XWj3n2raEvVYyiy/b0hFZKlE8VfuTCA9sey
+ obiXY1CoO9MIPtWkf9Nu/GMYXKD8qRy7bg6WfmpaNVtuz8RqOBqr8sJzTt0d625my37p
+ Mecpkpq9i+nqdciNMRnlkQ9nPRHxL4Tf3e+R3lNkOqdGmvromDqMSs8uLTXvNV/7EA2c
+ bBlcW7Bwc4QCky/bpWo5OuLMWpyrikD4apGfDuQ8UpDY0AC3tgrbzGzLu8b3oUsY2cKU
+ xpHA==
+X-Gm-Message-State: AOAM531RtB0roXf9GAqw/JhH4iG5Xu6wGmFJDGdvAJylWjdsiL1GmZKR
+ 48Cz8L2YlGygFpkkVVQAobq2Bq0rMRJs5Iqt2bEvCKJh3fbMyGwwDmylkKKg8ShsWKyOkwUUhHT
+ sR6euNe3YA1nVw3d2UgJGBh2RgB+qGAPPN7neUOyX7I6krpje9ksvmU9sSF4q
+X-Received: by 2002:adf:efc3:0:b0:210:3544:4223 with SMTP id
+ i3-20020adfefc3000000b0021035444223mr41663591wrp.581.1654847973862; 
+ Fri, 10 Jun 2022 00:59:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx60Ha6ClHAgjcLEmmTJpMdObibGwMAZJifRdSwOUB58mXEAGfWP/SiqhjrjB2OFoZGwwtzAg==
+X-Received: by 2002:adf:efc3:0:b0:210:3544:4223 with SMTP id
+ i3-20020adfefc3000000b0021035444223mr41663572wrp.581.1654847973625; 
+ Fri, 10 Jun 2022 00:59:33 -0700 (PDT)
 Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- z11-20020a5d4c8b000000b0020e5b4ebaecsm26786458wrs.4.2022.06.10.00.59.29
+ h62-20020a1c2141000000b0039c151298b7sm2104191wmh.10.2022.06.10.00.59.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:59:30 -0700 (PDT)
-Date: Fri, 10 Jun 2022 03:59:27 -0400
+ Fri, 10 Jun 2022 00:59:33 -0700 (PDT)
+Date: Fri, 10 Jun 2022 03:59:30 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -70,8 +70,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>
-Subject: [PULL 49/54] tests/acpi: virt: allow VIOT acpi table changes
-Message-ID: <20220610075631.367501-50-mst@redhat.com>
+Subject: [PULL 50/54] hw/acpi/viot: sort VIOT ACPI table entries by PCI host
+ bridge min_bus
+Message-ID: <20220610075631.367501-51-mst@redhat.com>
 References: <20220610075631.367501-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -106,24 +107,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
+This ensures that the VIOT ACPI table output is always stable for a given PCI
+topology by ensuring that entries are ordered according to min_bus.
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Acked-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220525173232.31429-5-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220525173232.31429-6-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 1 file changed, 1 insertion(+)
+ hw/acpi/viot.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..8367ffe1d4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/VIOT",
+diff --git a/hw/acpi/viot.c b/hw/acpi/viot.c
+index c32bbdd180..4e0bf69067 100644
+--- a/hw/acpi/viot.c
++++ b/hw/acpi/viot.c
+@@ -64,6 +64,20 @@ static int enumerate_pci_host_bridges(Object *obj, void *opaque)
+     return 0;
+ }
+ 
++static gint pci_host_range_compare(gconstpointer a, gconstpointer b)
++{
++    struct viot_pci_host_range *range_a = (struct viot_pci_host_range *)a;
++    struct viot_pci_host_range *range_b = (struct viot_pci_host_range *)b;
++
++    if (range_a->min_bus < range_b->min_bus) {
++        return -1;
++    } else if (range_a->min_bus > range_b->min_bus) {
++        return 1;
++    } else {
++        return 0;
++    }
++}
++
+ /*
+  * Generate a VIOT table with one PCI-based virtio-iommu that manages PCI
+  * endpoints.
+@@ -87,6 +101,9 @@ void build_viot(MachineState *ms, GArray *table_data, BIOSLinker *linker,
+     object_child_foreach_recursive(OBJECT(ms), enumerate_pci_host_bridges,
+                                    pci_host_ranges);
+ 
++    /* Sort the pci host ranges by min_bus */
++    g_array_sort(pci_host_ranges, pci_host_range_compare);
++
+     /* ACPI table header */
+     acpi_table_begin(&table, table_data);
+     /* Node count */
 -- 
 MST
 
