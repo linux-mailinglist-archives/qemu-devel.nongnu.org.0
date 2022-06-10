@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB015546918
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 17:10:24 +0200 (CEST)
-Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2917C54692B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jun 2022 17:10:45 +0200 (CEST)
+Received: from localhost ([::1]:39430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzgHI-0006uG-03
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 11:10:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53652)
+	id 1nzgHc-0007rq-2D
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 11:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzgEh-0004wq-DT
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:07:43 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35491)
+ id 1nzgEr-0005K1-HS
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:07:53 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:37681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzgEc-0006TV-Pm
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:07:43 -0400
-Received: by mail-pf1-x431.google.com with SMTP id u2so24105340pfc.2
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 08:07:38 -0700 (PDT)
+ id 1nzgEq-0006Vd-21
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 11:07:53 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 3-20020a17090a174300b001e426a02ac5so2537270pjm.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 08:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Ed6iYcw+zy42GQgWD4t4UzexjFBZsRCcS6YbcGO2JMQ=;
- b=aLhWPmCYpcw2XfG4S/BcrVjjlxghi/Bf6Afo0lxX6j1CC62ZCOYbHRL5yFQnoMtY0u
- 68F+9erNGFSxYjJxx1ZjZ0tvTxL3TV5vAtD7Q97IEAiWd86S2ZpxRXwFIH1IRB8dCUDS
- FOq+0qWSav8k7IpjmZj7QLUtGiHNQvvjT5hVSKR2aAM7vLTmBYH4ia8JAZkYQrwYUAQd
- aJf60U1JMdxVVEEzA0zaky1HiDo4L+s79Nb+144lt8u4yZjCmUZ9/vc04FtS1EzKr/SW
- hVIAQFACCrRwb80hbxQOpltRMZi20jYwf6BXMlnvn73HnJ3Q7DAsxtbUIHnqgvdUpiQj
- IWcw==
+ bh=wljcM0bPKUmdGSGZ8rnh5wyWL4FuPQQVFqt0/8JHvrE=;
+ b=iokSziiAdr3zcpZcVQMniD8B48/4tH4BVivckJGkkn16A+FZnbcrliTc/ffNPGk68o
+ Hp1anz84tsw1z3ygoyWhYDIqJqR+Z3p+cofRLFKHZkxgaPDeM4AZTL99XaOB263d3hZT
+ KYZoJUINurG4xsU292kJyN4DfDdfxPWlQhBF2MLGuYEd6Bt/2RQIlqtlIUgENDsUoJZR
+ P/BJ48O73CmfKkSIsZQcv21AlxBEyGUr8o63wtv3La4L5QdYCE9pVvBekhgHlCuOsPnU
+ 3/oADtR/HskwxtLg0ty/ocQtghiwXEYexdefIH5FLA4zMHhxVTq5sOd6aPG0jo8t5B+4
+ bPGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Ed6iYcw+zy42GQgWD4t4UzexjFBZsRCcS6YbcGO2JMQ=;
- b=MfzsnfRKEBgcJl4StxKwsKowdEP6tjK5UNAap9WEK56tfgQg7RuexeVS4Z/WiH3pfR
- mC1U781Pj87TegIxdvljWJhVEmv6cXNOsuawPE4PlZrA+XK7fvYAGmVY6eFpHr90pB3P
- /OaHePfXI3nx048YkjyWBbdYm5UDJ/LTKKCxOD7j8L0BH0stalM6/J+0HqoXe/l6Vwvz
- Kb4DAOFUzjZwOsT3NgaHZt6eBzotrqFPNWUJa/PQb+g+7q/gA7YbtoMG+WSQvJCT53yU
- CTgWoGv+S+m/QXHCDl5iNTxKcHGN9/vbOd5/XL8R86Gcbtc90kYf9aDg2OhOyoIw5Oms
- ByJg==
-X-Gm-Message-State: AOAM533Sihk6LF9NjYY1MpQWbriuTPABPNUF0IE4tpnO8YdZN1p+kStv
- sqYXGEHDVLHPYrXu87FgHZ1kWtoHrSk=
-X-Google-Smtp-Source: ABdhPJwB79z97UxTygklbNj+nZPQCEWaIehZ0BXOM2NIR4XBQ8XzSqlekGNjU6JbSJV/foW1mLTvmw==
-X-Received: by 2002:a62:8e11:0:b0:51c:445b:5ae6 with SMTP id
- k17-20020a628e11000000b0051c445b5ae6mr18906420pfe.48.1654873657556; 
- Fri, 10 Jun 2022 08:07:37 -0700 (PDT)
+ bh=wljcM0bPKUmdGSGZ8rnh5wyWL4FuPQQVFqt0/8JHvrE=;
+ b=pKQ0l9WS2eji7c5qXmX+9sFcGA349NNDRjrGKKgC7iALsfes6rV5imS4hcIbMVfu3I
+ S2c+f+WN0xYgAcavW69R638dGgbPvh83kPCw7ZSkE6NGm4i82o5ebqkLR1VVaVNJM55d
+ wqjYeXpQmwBR/AJVoCB9jTRiJbqCf0sdPkQzx0ymouYM+1XnOe03+ZfKzjWHWULov9uX
+ 7mAlza/ZKVwWCx+RrvriEXZQny9LXbixJ3wL/WfmlG624RxTOPngduuSAUf3joFGgvYF
+ HGa92wa94cT3JTjYKV1SPpyUHORPCImF5x0v9W0JQZRZCmFVNkN8di7Hj886H9tXNGqu
+ IPvw==
+X-Gm-Message-State: AOAM5301RNOMFQ7O4sWL6iPdMDJY8yXWkh94k9S5f5V5zuHwhSNXcRdr
+ fp3AFulcuF3xRfLkiI/bZrg=
+X-Google-Smtp-Source: ABdhPJzULSq9wP4KFQ0Fl5RWAXX2BVTA3whJ6rWoQX4zOhVvppknyFjryYe8sqYWLHy6EhIvrUOAHg==
+X-Received: by 2002:a17:90a:e7d2:b0:1e8:97ac:da0b with SMTP id
+ kb18-20020a17090ae7d200b001e897acda0bmr203587pjb.242.1654873670867; 
+ Fri, 10 Jun 2022 08:07:50 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- k197-20020a636fce000000b003fe4836abdasm4884703pgc.1.2022.06.10.08.07.36
+ bq8-20020a056a000e0800b0051b95c76752sm14949800pfb.153.2022.06.10.08.07.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 08:07:37 -0700 (PDT)
-Message-ID: <67994cb2-5948-fa91-71b9-8f08f1e2085c@amsat.org>
-Date: Fri, 10 Jun 2022 17:07:34 +0200
+ Fri, 10 Jun 2022 08:07:50 -0700 (PDT)
+Message-ID: <affd6807-b5c6-0ce9-0a02-3efb6c7a3767@amsat.org>
+Date: Fri, 10 Jun 2022 17:07:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH v4 02/11] target/mips: Add UHI errno values
+Subject: Re: [PATCH v4 01/11] target/mips: Use an exception for semihosting
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220608051945.802339-1-richard.henderson@linaro.org>
- <20220608051945.802339-3-richard.henderson@linaro.org>
-In-Reply-To: <20220608051945.802339-3-richard.henderson@linaro.org>
+ <20220608051945.802339-2-richard.henderson@linaro.org>
+In-Reply-To: <20220608051945.802339-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,13 +97,23 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 8/6/22 07:19, Richard Henderson wrote:
->  From the Unified Hosting Interface, MD01069 Reference Manual,
-> version 1.1.6, 06 July 2015.
+> Within do_interrupt, we hold the iothread lock, which
+> is required for Chardev access for the console, and for
+> the round trip for use_gdb_syscalls().
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/mips/tcg/sysemu/mips-semi.c | 40 ++++++++++++++++++++++++++++++
->   1 file changed, 40 insertions(+)
+>   target/mips/cpu.h                         |  3 ++-
+>   target/mips/tcg/tcg-internal.h            |  2 ++
+>   target/mips/tcg/sysemu_helper.h.inc       |  2 --
+>   target/mips/tcg/exception.c               |  1 +
+>   target/mips/tcg/sysemu/mips-semi.c        |  4 ++--
+>   target/mips/tcg/sysemu/tlb_helper.c       |  4 ++++
+>   target/mips/tcg/translate.c               | 12 ++----------
+>   target/mips/tcg/micromips_translate.c.inc |  6 +++---
+>   target/mips/tcg/mips16e_translate.c.inc   |  2 +-
+>   target/mips/tcg/nanomips_translate.c.inc  |  4 ++--
+>   10 files changed, 19 insertions(+), 21 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
