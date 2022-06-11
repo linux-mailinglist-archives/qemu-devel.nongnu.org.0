@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7BF547432
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:22:24 +0200 (CEST)
-Received: from localhost ([::1]:50104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 420C254740C
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:01:05 +0200 (CEST)
+Received: from localhost ([::1]:58150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzzCB-0003AJ-Jz
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43796)
+	id 1nzyrX-0004i3-Vb
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:01:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyT5-0005ZB-6C
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:50 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45980)
+ id 1nzyTA-0005f1-QX
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:54 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyT3-0006hp-L2
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:46 -0400
-Received: by mail-wr1-x430.google.com with SMTP id p10so1450559wrg.12
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:35:45 -0700 (PDT)
+ id 1nzyT8-0006jR-Ol
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:52 -0400
+Received: by mail-wm1-x336.google.com with SMTP id a10so621649wmj.5
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:35:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oZzVRGGAd0INWHy8SWgdbg6oLFPj3BVJRyqm8wOYtzI=;
- b=m0OV7QB3kfeiueXovHmtzRQr1gcPGgpyPmNgbxPz3kcXEc4/2+CPSaR+zWfrZIMiv7
- Fc+TWs/msITEJMicaoVUKeiVnCRWwipzKGhZ0Ry5KMTa8+JzMphAE1AL5OCCJAX5fQtV
- MDNb82mM/HkYMvQLseIaII9drgFSuNChF98TtCrNspbSQkI95sM2yJwwNLE9D2n9wXOv
- EOUMiAq/epg4Wd7BcWIpxzNhkA/jCCAJQhcbDyDRQZJGDa8yrYMv13jW0VdkD+ATpJwT
- R0fsvhk2MRVykEiXXuek3cE/0gnWd+HOMbA9Mhvg1s7g85mmOEKZPN54Hje2aoiFm19V
- 3Fiw==
+ bh=8lIdpUuj53G78ixCb6Twke/OwYar2O+RvomykKgYH0s=;
+ b=OofF122HXzPRZfqgtwU+LsrMgWdop7lUAVi1bbkBBJA6zO5iZg4AtlDHQW/6XmipCh
+ ryJn5MzoKf7uj8Ml5VgDaSg0jtxrirx5HADFVnuts57Lk3LFmh9UiSBnQ8b2B3is5VG7
+ dKQc3SnE3IIrFdZjm3MXK1O1Ua4bbn72NFIB7HHPY5BwG6pdXVrXLYOG2xZFycij9bhk
+ BZpNJw2DxpAPWF4QR9q6o+lFADjKtGaAOaIg/xR6wbm7QDt9iDJATISHIsppnqKgiWxX
+ TZifviQLVsb5fK2p0nTlpeo9u3YEq4oGuZSEdRAcJma50xcAMhzKDJb1Cle+iqkP8iiF
+ fsPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oZzVRGGAd0INWHy8SWgdbg6oLFPj3BVJRyqm8wOYtzI=;
- b=Sigxn/79WrH7sn7QXcYPc6FSp4+gnLogg78VMneOt8VElGP5R5NUibfCqD9Q4gLpAc
- PeXeTeR13lmcwZ2r0orAqK5Gh9+JHoq/cwo93icQ0t35GGAvpM37aiHNGhQIHhZoczBo
- j+GJ0o4VWkirNF/SoDhS+NYPro9z1bJN1uVpbZ3R/Lhkj+rVpPOUHYU9mt7uJAjYZ+v+
- UU5BaeS4Nimisb91aM6kyzKtKLXfozN+tKl7X+Ed5AVFB1QQZYXkcnRm6tRKfBFuWmV3
- jc7XZ8hbWMnsapdlRB8yKRpcSvLA+Y3GTk2Lk3KJ44i4NAzgK0pEiHMZF0YuPkxuOHgf
- dVSQ==
-X-Gm-Message-State: AOAM530oZuA0Fz69x6LlJZuXWsW00bd4yCo9QEuLOGUfai2SEc2Q/wz4
- k9Df3pztsI3PWwPrx284fCZF66Ik2BE=
-X-Google-Smtp-Source: ABdhPJyTh8PU+MlL3+5yfFIXrwAXCtLKtdjxjtnyvsa2hqatFPtP8EAccUdVRIlrGBa1sqNOXBPJUA==
-X-Received: by 2002:a5d:5984:0:b0:219:e396:d3d1 with SMTP id
- n4-20020a5d5984000000b00219e396d3d1mr9203073wri.701.1654943743919; 
- Sat, 11 Jun 2022 03:35:43 -0700 (PDT)
+ bh=8lIdpUuj53G78ixCb6Twke/OwYar2O+RvomykKgYH0s=;
+ b=vMWaIyDQcmZn2362b2zsrn8qAmJIqnUfB8dhEbSPz6j6qCKFRud4t68T2wFJmDHB2n
+ vKhTzz9ZjnPI7/bK3LZZWLMZMW6QiSGDTRfKHVlA/XmUBaHgL92Fa37w4cPSqkWOB9SL
+ beGgxUsfG6GcQBGqKLrYtHQSc5TliG54XfPLmiyJCZGkV/R79f3hCnMIR+EeA7cntn8Y
+ iKcJsZFJfmMWGB+laigB/8v4FS0Zm5Xxg1EBthBB/pHBRrEAVDkDn1B1Kb2CVW9AUt0h
+ McR+f3eMJsWNYOlc2Oa/0zlUlI+2ZdbK8QZb8Oy/m6758bzku3a44goqR5v9P6jSxnB7
+ 2LlQ==
+X-Gm-Message-State: AOAM533Jr1i2EJCR33ERayXX5W3+73sD0bYzhUFr/h6b6mW7JFStbYAX
+ HdKo0UmId95u7Odslkw0lsCxFnxQ5Ew=
+X-Google-Smtp-Source: ABdhPJzGO0HXwtKC55UEnjPS3CrGDx2H7OFDR9xSscloJelZPlA7TfzN2QCq2BDRFzG5VjaIRhpIbw==
+X-Received: by 2002:a05:600c:22d9:b0:39c:4b1b:5f99 with SMTP id
+ 25-20020a05600c22d900b0039c4b1b5f99mr4160794wmg.151.1654943749185; 
+ Sat, 11 Jun 2022 03:35:49 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- m185-20020a1c26c2000000b003974d0d981dsm5910951wmm.35.2022.06.11.03.35.42
+ r16-20020a056000015000b0021108003596sm2194837wrx.10.2022.06.11.03.35.47
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:35:43 -0700 (PDT)
+ Sat, 11 Jun 2022 03:35:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -64,17 +64,17 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 29/49] hw/isa/piix4: Move pci_map_irq_fn' near pci_set_irq_fn
-Date: Sat, 11 Jun 2022 12:32:52 +0200
-Message-Id: <20220611103312.67773-30-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 30/49] hw/isa/piix4: QOM'ify PCI device creation and wiring
+Date: Sat, 11 Jun 2022 12:32:53 +0200
+Message-Id: <20220611103312.67773-31-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,86 +99,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-The pci_map_irq_fn was implemented below type_init() which made it
-inaccessible to QOM functions. So move it up.
+PCI interrupt wiring and device creation were performed in create()
+functions which are obsolete. Move these tasks into QOM functions to
+modernize the code.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220603185045.143789-4-shentey@gmail.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220603185045.143789-5-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/piix4.c | 50 +++++++++++++++++++++++++-------------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+ hw/isa/piix4.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 1d04fb6a55..18aa24424f 100644
+index 18aa24424f..058bebb5e2 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -74,6 +74,31 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
+@@ -35,6 +35,7 @@
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/ide/pci.h"
+ #include "hw/acpi/piix4.h"
++#include "hw/usb/hcd-uhci.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+@@ -46,6 +47,8 @@ struct PIIX4State {
+     qemu_irq *isa;
+ 
+     RTCState rtc;
++    PCIIDEState ide;
++    UHCIState uhci;
+     /* Reset Control Register */
+     MemoryRegion rcr_mem;
+     uint8_t rcr;
+@@ -205,6 +208,7 @@ static const MemoryRegionOps piix4_rcr_ops = {
+ static void piix4_realize(PCIDevice *dev, Error **errp)
+ {
+     PIIX4State *s = PIIX4_PCI_DEVICE(dev);
++    PCIBus *pci_bus = pci_get_bus(dev);
+     ISABus *isa_bus;
+     qemu_irq *i8259_out_irq;
+ 
+@@ -243,6 +247,21 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+         return;
      }
+     s->rtc.irq = isa_get_irq(ISA_DEVICE(&s->rtc), s->rtc.isairq);
++
++    /* IDE */
++    qdev_prop_set_int32(DEVICE(&s->ide), "addr", dev->devfn + 1);
++    if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
++        return;
++    }
++    pci_ide_create_devs(PCI_DEVICE(&s->ide));
++
++    /* USB */
++    qdev_prop_set_int32(DEVICE(&s->uhci), "addr", dev->devfn + 2);
++    if (!qdev_realize(DEVICE(&s->uhci), BUS(pci_bus), errp)) {
++        return;
++    }
++
++    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
  }
  
-+static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-+{
-+    int slot;
-+
-+    slot = PCI_SLOT(pci_dev->devfn);
-+
-+    switch (slot) {
-+    /* PIIX4 USB */
-+    case 10:
-+        return 3;
-+    /* AMD 79C973 Ethernet */
-+    case 11:
-+        return 1;
-+    /* Crystal 4281 Sound */
-+    case 12:
-+        return 2;
-+    /* PCI slot 1 to 4 */
-+    case 18 ... 21:
-+        return ((slot - 18) + irq_num) & 0x03;
-+    /* Unknown device, don't do any translation */
-+    default:
-+        return irq_num;
-+    }
-+}
-+
- static void piix4_isa_reset(DeviceState *dev)
- {
-     PIIX4State *d = PIIX4_PCI_DEVICE(dev);
-@@ -266,31 +291,6 @@ static void piix4_register_types(void)
+ static void piix4_init(Object *obj)
+@@ -250,6 +269,8 @@ static void piix4_init(Object *obj)
+     PIIX4State *s = PIIX4_PCI_DEVICE(obj);
  
- type_init(piix4_register_types)
+     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
++    object_initialize_child(obj, "ide", &s->ide, "piix4-ide");
++    object_initialize_child(obj, "uhci", &s->uhci, "piix4-usb-uhci");
+ }
  
--static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
--{
--    int slot;
--
--    slot = PCI_SLOT(pci_dev->devfn);
--
--    switch (slot) {
--    /* PIIX4 USB */
--    case 10:
--        return 3;
--    /* AMD 79C973 Ethernet */
--    case 11:
--        return 1;
--    /* Crystal 4281 Sound */
--    case 12:
--        return 2;
--    /* PCI slot 1 to 4 */
--    case 18 ... 21:
--        return ((slot - 18) + irq_num) & 0x03;
--    /* Unknown device, don't do any translation */
--    default:
--        return irq_num;
--    }
--}
--
+ static void piix4_class_init(ObjectClass *klass, void *data)
+@@ -293,7 +314,6 @@ type_init(piix4_register_types)
+ 
  DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
  {
-     PIIX4State *s;
+-    PIIX4State *s;
+     PCIDevice *pci;
+     DeviceState *dev;
+     int devfn = PCI_DEVFN(10, 0);
+@@ -301,15 +321,11 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+     pci = pci_create_simple_multifunction(pci_bus, devfn,  true,
+                                           TYPE_PIIX4_PCI_DEVICE);
+     dev = DEVICE(pci);
+-    s = PIIX4_PCI_DEVICE(pci);
++
+     if (isa_bus) {
+         *isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+     }
+ 
+-    pci = pci_create_simple(pci_bus, devfn + 1, "piix4-ide");
+-    pci_ide_create_devs(pci);
+-
+-    pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
+     if (smbus) {
+         pci = pci_new(devfn + 3, TYPE_PIIX4_PM);
+         qdev_prop_set_uint32(DEVICE(pci), "smb_io_base", 0x1100);
+@@ -320,7 +336,5 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+         *smbus = I2C_BUS(qdev_get_child_bus(DEVICE(pci), "i2c"));
+     }
+ 
+-    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
+-
+     return dev;
+ }
 -- 
 2.36.1
 
