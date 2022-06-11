@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF49547527
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 16:02:13 +0200 (CEST)
-Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E4A547533
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 16:04:53 +0200 (CEST)
+Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o01gq-0006ec-M2
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 10:02:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46504)
+	id 1o01jQ-00011s-S1
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 10:04:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01a0-0006ey-3D
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:08 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:33494)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01a1-0006fv-SM
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:10 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:43898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01Zw-0003ch-SU
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:06 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id p69so1736218iod.0
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 06:55:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01Zz-0003fF-Qb
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:09 -0400
+Received: by mail-il1-x12e.google.com with SMTP id h7so1207377ila.10
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 06:55:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UU9aKWHmya49MhhlUASZM5Nfo6AfFU5F7b0DJrVDkxg=;
- b=jeTjFfVKQ7Z1YFM/IBhvxYXSRj4QExYiN8gpQHVf16BU0ViXwCbCyNyTWFnooze2uQ
- etpQlbrtva16ORwl2ZGOKy7hsk+7UAcK9LS39FNAyg7SYsTsXR1aEy0N0lCTOD2E7+93
- ikOUOsNZ4jeGlpvlzozNh7Uny3Lci8wLdUWgiKdGsUzP+sgv3rg1zM31JyJUDC/NSbUk
- iqGkiMDjiNjFylIJSvZUlG0/T25g0H/ZQ8R3/uN9Rag6ZmHg2iIV1vcGxVG5Kh3ccYJZ
- OKV0FleFDeBJldzL2AvgCC6ife+MzE3Hd3Mp3gtO9pT/G/LsBpHMGDEfWT88+NvKCl7v
- 634A==
+ bh=lPQvWCRF9x4tBhbiUr+oPIK02WOly+4GntZznQgs7g8=;
+ b=EghbDpqb1OwBHR/TZTZtgoi1QFzIegmUPn4rQwOm4VFnl5EYPo4OgJqeUEa2woGhbE
+ Kz1fxsSGhfXG09ZboEumirMXJvORmrOs9RR/NU/zoBeMGutp16TJdQ7a/BuzrwrQ4s9k
+ nMUz1SRmWvaR6mgCYBegVhAeHX0HvoezVy6lj4KSHncMTqAPg0K7fOij9x9khS8PS/wY
+ nsltBAQAQ2s443EdZ6R8B5ceeUsRcn7YK8om6kZSbEIhErJcAosHPyNdUztb09tFIE2y
+ y0twrTErk8ahsg/DX/wFvTO/H1kI6e+Lp/r6MAQYvql0RIyZo8WK22Uswg9+yUoZk0Bd
+ fmLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UU9aKWHmya49MhhlUASZM5Nfo6AfFU5F7b0DJrVDkxg=;
- b=VI8G5A1LSZpdpW1wFli3jlsjXSxtPCHGv/Kfro9ueBD65oItStie880sdWzevc2STQ
- DD4PqgrtMX0M9BHFSoaMAzDfwgz58PnQAJMrtRsvN6G9y5AHL1vuiOk2Eyq2OJ4Y0Ix6
- 1b0ca3UDCWrEZJtdIi3cupbrhfnv5uZ/g+7PxF9rynxSoqk1I5dLS0AAOiXmghTy90dY
- Rf1HVPv9xsi4tJ9fKHpn3vJ+nGsKkAu0LVAHm5wF7hUVBQ2ZtBg1z7uvD2eqqyNquV93
- A2QidscDDdEXBqciaWfR2Ip8dw/89MQXnku44d9cxJ7sJ+Tg2k1HrsmMapROkdoJ3EbL
- 73nA==
-X-Gm-Message-State: AOAM532lzo2iBUY3XGxo4asX275dV/XIG6FrUUB/D4Gwycf1kNmuo/Tf
- rADVduuUjs7RYLolGDFIOo4hDQP/20LTRQ==
-X-Google-Smtp-Source: ABdhPJyTKAEAMZA9bBCQksaNPSR3VJovv0gBF1Qv15LZ66Sj5nGMk8sZVcy3XLpEJK1/i5e16C8BjQ==
-X-Received: by 2002:a05:6638:389f:b0:331:b463:fbee with SMTP id
- b31-20020a056638389f00b00331b463fbeemr16994839jav.145.1654955702769; 
- Sat, 11 Jun 2022 06:55:02 -0700 (PDT)
+ bh=lPQvWCRF9x4tBhbiUr+oPIK02WOly+4GntZznQgs7g8=;
+ b=LY438sjTv4kXNIljfXIJgvn1lACD9cBWjo5IPXemOJGEzjaNARhhOzy65l7w4vSG3I
+ hf+fWlwMhDelOnClN4evx+C0uyh3NrnjZFkpNeTDELgL+TCpGEzRBKUJ0D4K5FcQjjE0
+ /D6c2RBGvLis0LZWUyjlDkOXX8OykN3pvf2T7GQenpJl0P7WYYblZLT61wJeN/x31bcL
+ l3YL1EiOWak0m6D/McU+t1idLP+VFbHXHVmpi74FNvmZvW2BYSHDrGbld/ZJVpGJzXyr
+ 7IG+h2e5mbHXK/XNmcGRrHxBm/KNap1OZ5lalA4bcUb8r0fmMgEFHNqjvFjwSjYvbGG0
+ G8fQ==
+X-Gm-Message-State: AOAM530VJP9aSKjY3SUqUlJuShJEXImspbuvyPD92eUeajxIJDBQuLSq
+ xj8kYIKY295DH2qxO2pqj1CNu37MEOSo6g==
+X-Google-Smtp-Source: ABdhPJw04/yPitLbtW68mvv8aly4PA+Maq9DzDdU5OQK20sGMEfloFfs69YEKXyOehEjsJ66Vfyo7g==
+X-Received: by 2002:a05:6e02:4a1:b0:2d3:a778:f0f1 with SMTP id
+ e1-20020a056e0204a100b002d3a778f0f1mr28494619ils.212.1654955705515; 
+ Sat, 11 Jun 2022 06:55:05 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- 13-20020a056e0211ad00b002d781cc0875sm1023578ilj.29.2022.06.11.06.55.01
+ 13-20020a056e0211ad00b002d781cc0875sm1023578ilj.29.2022.06.11.06.55.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Jun 2022 06:55:02 -0700 (PDT)
+ Sat, 11 Jun 2022 06:55:05 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: def@freebsd.org, arrowd@freebsd.org, Kyle Evans <kevans@freebsd.org>,
  Warner Losh <imp@bsdimp.com>, jrtc27@FreeBSD.org,
+ Stacey Son <sson@FreeBSD.org>, Kyle Evans <kevans@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 1/6] bsd-user/freebsd/os-syscall.c: lock_iovec
-Date: Sat, 11 Jun 2022 07:55:09 -0600
-Message-Id: <20220611135514.92882-2-imp@bsdimp.com>
+Subject: [PULL 4/6] bsd-user/bsd-file.h: Add implementations for read, pread,
+ readv and preadv
+Date: Sat, 11 Jun 2022 07:55:12 -0600
+Message-Id: <20220611135514.92882-5-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220611135514.92882-1-imp@bsdimp.com>
 References: <20220611135514.92882-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,134 +90,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-lock_iovec will lock an I/O vec and the memory to which it refers and
-create a iovec in the host space that refers to it, with full error
-unwinding. Add helper_iovec_unlock to unlock the partially locked iovec
-in case there's an error. The code will be used in iovec_unlock when
-that is committed.
+Implement do_bsd_{read,pread,readv,preadv}. Connect them to the system
+call table.
 
-Note: memory handling likely could be rewritten to use q_autofree. That
-will be explored in the future since what we have now works well enough.
-
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/os-syscall.c | 102 ++++++++++++++++++++++++++++++++++
- 1 file changed, 102 insertions(+)
+ bsd-user/bsd-file.h           | 79 +++++++++++++++++++++++++++++++++++
+ bsd-user/freebsd/os-syscall.c | 28 +++++++++++++
+ 2 files changed, 107 insertions(+)
 
+diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
+index a6bff3b8c26..839f8c5c55a 100644
+--- a/bsd-user/bsd-file.h
++++ b/bsd-user/bsd-file.h
+@@ -27,4 +27,83 @@ extern struct iovec *lock_iovec(int type, abi_ulong target_addr, int count,
+ extern void unlock_iovec(struct iovec *vec, abi_ulong target_addr, int count,
+         int copy);
+ 
++ssize_t safe_read(int fd, void *buf, size_t nbytes);
++ssize_t safe_pread(int fd, void *buf, size_t nbytes, off_t offset);
++ssize_t safe_readv(int fd, const struct iovec *iov, int iovcnt);
++ssize_t safe_preadv(int fd, const struct iovec *iov, int iovcnt, off_t offset);
++
++/* read(2) */
++static abi_long do_bsd_read(abi_long arg1, abi_long arg2, abi_long arg3)
++{
++    abi_long ret;
++    void *p;
++
++    p = lock_user(VERIFY_WRITE, arg2, arg3, 0);
++    if (p == NULL) {
++        return -TARGET_EFAULT;
++    }
++    ret = get_errno(safe_read(arg1, p, arg3));
++    unlock_user(p, arg2, ret);
++
++    return ret;
++}
++
++/* pread(2) */
++static abi_long do_bsd_pread(void *cpu_env, abi_long arg1,
++    abi_long arg2, abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
++{
++    abi_long ret;
++    void *p;
++
++    p = lock_user(VERIFY_WRITE, arg2, arg3, 0);
++    if (p == NULL) {
++        return -TARGET_EFAULT;
++    }
++    if (regpairs_aligned(cpu_env) != 0) {
++        arg4 = arg5;
++        arg5 = arg6;
++    }
++    ret = get_errno(safe_pread(arg1, p, arg3, target_arg64(arg4, arg5)));
++    unlock_user(p, arg2, ret);
++
++    return ret;
++}
++
++/* readv(2) */
++static abi_long do_bsd_readv(abi_long arg1, abi_long arg2, abi_long arg3)
++{
++    abi_long ret;
++    struct iovec *vec = lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
++
++    if (vec != NULL) {
++        ret = get_errno(safe_readv(arg1, vec, arg3));
++        unlock_iovec(vec, arg2, arg3, 1);
++    } else {
++        ret = -host_to_target_errno(errno);
++    }
++
++    return ret;
++}
++
++/* preadv(2) */
++static abi_long do_bsd_preadv(void *cpu_env, abi_long arg1,
++    abi_long arg2, abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
++{
++    abi_long ret;
++    struct iovec *vec = lock_iovec(VERIFY_WRITE, arg2, arg3, 1);
++
++    if (vec != NULL) {
++        if (regpairs_aligned(cpu_env) != 0) {
++            arg4 = arg5;
++            arg5 = arg6;
++        }
++        ret = get_errno(safe_preadv(arg1, vec, arg3, target_arg64(arg4, arg5)));
++        unlock_iovec(vec, arg2, arg3, 0);
++    } else {
++        ret = -host_to_target_errno(errno);
++    }
++
++    return ret;
++}
++
+ #endif /* BSD_FILE_H */
 diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index d272478e7b0..67851937a8f 100644
+index 1c4c9983f1a..8ca92f29857 100644
 --- a/bsd-user/freebsd/os-syscall.c
 +++ b/bsd-user/freebsd/os-syscall.c
-@@ -73,6 +73,108 @@ bool is_error(abi_long ret)
-     return (abi_ulong)ret >= (abi_ulong)(-4096);
- }
+@@ -42,6 +42,14 @@
  
-+/*
-+ * Unlocks a iovec. Unlike unlock_iovec, it assumes the tvec array itself is
-+ * already locked from target_addr. It will be unlocked as well as all the iovec
-+ * elements.
-+ */
-+static void helper_unlock_iovec(struct target_iovec *target_vec,
-+                                abi_ulong target_addr, struct iovec *vec,
-+                                int count, int copy)
-+{
-+    for (int i = 0; i < count; i++) {
-+        abi_ulong base = tswapal(target_vec[i].iov_base);
+ #include "bsd-file.h"
+ 
++/* I/O */
++safe_syscall3(ssize_t, read, int, fd, void *, buf, size_t, nbytes);
++safe_syscall4(ssize_t, pread, int, fd, void *, buf, size_t, nbytes, off_t,
++    offset);
++safe_syscall3(ssize_t, readv, int, fd, const struct iovec *, iov, int, iovcnt);
++safe_syscall4(ssize_t, preadv, int, fd, const struct iovec *, iov, int, iovcnt,
++    off_t, offset);
 +
-+        if (vec[i].iov_base) {
-+            unlock_user(vec[i].iov_base, base, copy ? vec[i].iov_len : 0);
-+        }
-+    }
-+    unlock_user(target_vec, target_addr, 0);
-+}
+ void target_set_brk(abi_ulong new_brk)
+ {
+ }
+@@ -200,6 +208,26 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+     abi_long ret;
+ 
+     switch (num) {
 +
-+struct iovec *lock_iovec(int type, abi_ulong target_addr,
-+        int count, int copy)
-+{
-+    struct target_iovec *target_vec;
-+    struct iovec *vec;
-+    abi_ulong total_len, max_len;
-+    int i;
-+    int err = 0;
++        /*
++         * File system calls.
++         */
++    case TARGET_FREEBSD_NR_read: /* read(2) */
++        ret = do_bsd_read(arg1, arg2, arg3);
++        break;
 +
-+    if (count == 0) {
-+        errno = 0;
-+        return NULL;
-+    }
-+    if (count < 0 || count > IOV_MAX) {
-+        errno = EINVAL;
-+        return NULL;
-+    }
++    case TARGET_FREEBSD_NR_pread: /* pread(2) */
++        ret = do_bsd_pread(cpu_env, arg1, arg2, arg3, arg4, arg5, arg6);
++        break;
 +
-+    vec = g_try_new0(struct iovec, count);
-+    if (vec == NULL) {
-+        errno = ENOMEM;
-+        return NULL;
-+    }
++    case TARGET_FREEBSD_NR_readv: /* readv(2) */
++        ret = do_bsd_readv(arg1, arg2, arg3);
++        break;
 +
-+    target_vec = lock_user(VERIFY_READ, target_addr,
-+                           count * sizeof(struct target_iovec), 1);
-+    if (target_vec == NULL) {
-+        err = EFAULT;
-+        goto fail2;
-+    }
++    case TARGET_FREEBSD_NR_preadv: /* preadv(2) */
++        ret = do_bsd_preadv(cpu_env, arg1, arg2, arg3, arg4, arg5, arg6);
++        break;
 +
-+    max_len = 0x7fffffff & MIN(TARGET_PAGE_MASK, PAGE_MASK);
-+    total_len = 0;
-+
-+    for (i = 0; i < count; i++) {
-+        abi_ulong base = tswapal(target_vec[i].iov_base);
-+        abi_long len = tswapal(target_vec[i].iov_len);
-+
-+        if (len < 0) {
-+            err = EINVAL;
-+            goto fail;
-+        } else if (len == 0) {
-+            /* Zero length pointer is ignored. */
-+            vec[i].iov_base = 0;
-+        } else {
-+            vec[i].iov_base = lock_user(type, base, len, copy);
-+            /*
-+             * If the first buffer pointer is bad, this is a fault.  But
-+             * subsequent bad buffers will result in a partial write; this is
-+             * realized by filling the vector with null pointers and zero
-+             * lengths.
-+             */
-+            if (!vec[i].iov_base) {
-+                if (i == 0) {
-+                    err = EFAULT;
-+                    goto fail;
-+                } else {
-+                    /*
-+                     * Fail all the subsequent addresses, they are already
-+                     * zero'd.
-+                     */
-+                    goto out;
-+                }
-+            }
-+            if (len > max_len - total_len) {
-+                len = max_len - total_len;
-+            }
-+        }
-+        vec[i].iov_len = len;
-+        total_len += len;
-+    }
-+out:
-+    unlock_user(target_vec, target_addr, 0);
-+    return vec;
-+
-+fail:
-+    helper_unlock_iovec(target_vec, target_addr, vec, i, copy);
-+fail2:
-+    g_free(vec);
-+    errno = err;
-+    return NULL;
-+}
-+
- /*
-  * do_syscall() should always have a single exit point at the end so that
-  * actions, such as logging of syscall results, can be performed.  All errnos
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+         ret = -TARGET_ENOSYS;
 -- 
 2.33.1
 
