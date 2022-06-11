@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE688547637
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 17:47:41 +0200 (CEST)
-Received: from localhost ([::1]:51716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76CB547645
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 17:55:01 +0200 (CEST)
+Received: from localhost ([::1]:56084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o03Ku-0000v3-AN
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 11:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34562)
+	id 1o03S0-0004jv-E5
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 11:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o03II-0007Zb-DT; Sat, 11 Jun 2022 11:44:58 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o03IG-0004bW-Qz; Sat, 11 Jun 2022 11:44:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:References:Cc:To:From:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PzGOjgSatpZMu780VJSgs0LlhuHE+UFLy63x3Xp1V2s=; b=naidIl6IRYEZPVKy6lAN9Ad5hq
- hjpPIkmNHP279rOEuVh0KJsibdcbuRr5hq3/mlxzwyBHY5p1cRCvVOCWoxMDTW+4l5wk2DafxCBHT
- mEA3YDPki+ciH7ln6yJpxNWq6tBAa6jJZR1qNlVYjWA0SvFV+qJyPoR6fql8gHh+GXy/wIsX3l7UB
- 8lZJcOsro66e0MlpHWblmxf0kA3kP+UgQbKE1g6F87YNETXJAT7FAjtnzCd2+fPLwzds0aS8Hmm+J
- Y7YYVgVIah3pHUpaYxEpUIGp/jk1nxV5ZPhcnHRZUjMeOZs/nPukfeZs3Vn3m/AunwptpxDMZmoFq
- /cVPtSkGHBtKWXRhaS6TcVDR7t47iO+66TW4yd38vF0943LAg9MOZhBT7GIwUFnIl9G9mttfkikoG
- P14nE+WlyOJc5enaTohowVNnzyUO0KT2zS8g2McfrHxBWCrzjO/4TNBcExqA+NJKqzvel6KxUswOs
- mX+ccIKNMkbKtEGX/0W+oIxW/G6zfQtDdN9Z0eSZWl9QaaOUi6GLWhmZvfIRV760uJgPbhECnpH/J
- mJxmhn4a4B4f7UPhfedIL6fhZRJJ2maQqyleQiYt+P4+bLVtXeYpqY1GL+CLKK1bnqIlUqtn8slT1
- E8w1zmIUPvsbwDtwfQRmmJROwhrkusmnEItT2aKvI=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o03Gu-000Ano-KM; Sat, 11 Jun 2022 16:43:36 +0100
-Message-ID: <a425db75-5636-8b29-26d2-9bef52c8eb25@ilande.co.uk>
-Date: Sat, 11 Jun 2022 16:44:36 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o03QS-00041i-HF
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 11:53:24 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:35465)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o03QP-0005qC-PP
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 11:53:24 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ o6-20020a17090a0a0600b001e2c6566046so4945782pjo.0
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 08:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=qLmppRFPnWYxMxRypUJ2VzzIUBtfEVzSmO1s1ZyeLos=;
+ b=FNXKDZ7g/o4eFDryXL5ApPCQowUiwO2GcJAVmiw9I3IZmQ7Pe2bexJT8mgxUvwjgyH
+ Wu7/kO4IDT2tPSSQ7bu2/EnUb79Pj6BJIXxWc9DSGDJ3as+eDw6egKeOfOQEVh79rfIR
+ h2FNDhT/zNFrbsJm7rI3549z8ajWOb7BcsFQzDbNQChHRzGCfgWSAsLKk8SCx5TUDdh8
+ pY0ZRwC1qVnycHHWlNPNLefvQNzSopxA4O1VI9h3EOKMre5a1QVomjm/i4tnGPFLrZxu
+ erRcRTnpJsBTIxVdGDkLRzBszBj6cJ5vRCJF2SJcFX8J7kQMjNS1sYm3IsszAvXoVArv
+ mmHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qLmppRFPnWYxMxRypUJ2VzzIUBtfEVzSmO1s1ZyeLos=;
+ b=cH9QCwp7OL7E0U977lEJDZ5la8igCBtykz9KLkqRodRZQrOt5VvIaZeHyPj8Keznrq
+ RQvUce29kr2SclLk8iT4GIijeE8SFUxm69L7CF0WG+l7w6fnvhvilQepnOdRYIo9r3hO
+ Z0v+0PQ6d4lVd2hAoIZP8YGHCEw27y1UQy1tbi9qUHq/Qz8YEGfX6A7AzTM1vhFm6E0R
+ qSDBGQMd6LGYrrMzNItQg0MPa2bX6tg3h5CeUjLsBrChStOuFM1oRzgQas9nmbQWSB9X
+ p6ltmfK5iJ3gue1IXr1LYHrQG3qXqoMO24B368cniIH/RBRfGfrHkqgQms5wEo0V3goY
+ /Wnw==
+X-Gm-Message-State: AOAM531uFCZ4y9d5i56Bgb4SulZJzsYWuE8P1pOY5H4yRop1Ic0DJY16
+ 9DmCjqRVzVLhRABj33nLz2DvkA==
+X-Google-Smtp-Source: ABdhPJyFeTIckUyMp53V6stG/eWa3xq50XTmKz+HhT1Y7oRzUnk2C8aPXb5zsDKE5Jgb7L+5qE446w==
+X-Received: by 2002:a17:90b:3b45:b0:1e8:8688:219d with SMTP id
+ ot5-20020a17090b3b4500b001e88688219dmr5701380pjb.231.1654962800259; 
+ Sat, 11 Jun 2022 08:53:20 -0700 (PDT)
+Received: from [172.21.2.253] ([50.208.55.229])
+ by smtp.gmail.com with ESMTPSA id
+ c29-20020a63725d000000b003fd8438db7bsm1817507pgn.58.2022.06.11.08.53.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 11 Jun 2022 08:53:19 -0700 (PDT)
+Message-ID: <1fd59fa5-3da7-234f-fa23-eac6d79b8b76@linaro.org>
+Date: Sat, 11 Jun 2022 08:53:17 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 03/11] target/mips: Create report_fault for semihosting
 Content-Language: en-US
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
- f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-46-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA9CxLKNZzfvaoUFSRtykEymu23er+zj=7GA1V2nRtcU9A@mail.gmail.com>
- <939ffd58-3a89-ea5b-157d-d4a9bd4dffa4@ilande.co.uk>
-In-Reply-To: <939ffd58-3a89-ea5b-157d-d4a9bd4dffa4@ilande.co.uk>
+References: <20220608051945.802339-1-richard.henderson@linaro.org>
+ <20220608051945.802339-4-richard.henderson@linaro.org>
+ <1cfdf6db-791b-1d4c-29ac-4248a917e273@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <1cfdf6db-791b-1d4c-29ac-4248a917e273@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 45/50] lasips2: use qdev gpio for output IRQ
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,94 +95,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/06/2022 08:17, Mark Cave-Ayland wrote:
-
-> On 09/06/2022 12:18, Peter Maydell wrote:
+On 6/10/22 08:05, Philippe Mathieu-Daudé wrote:
+>> +static void report_fault(CPUMIPSState *env)
+>> +{
+>> +    int op = env->active_tc.gpr[25];
+>> +    error_report("Fault during UHI operation %d", op);
+>> +    abort();
 > 
->> On Sun, 22 May 2022 at 19:20, Mark Cave-Ayland
->> <mark.cave-ayland@ilande.co.uk> wrote:
->>>
->>> This enables the IRQ to be wired up using qdev_connect_gpio_out() in
->>> lasips2_initfn().
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>>   hw/input/lasips2.c         | 8 ++++----
->>>   include/hw/input/lasips2.h | 2 ++
->>>   2 files changed, 6 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
->>> index 6849b71e5c..644cf70955 100644
->>> --- a/hw/input/lasips2.c
->>> +++ b/hw/input/lasips2.c
->>> @@ -247,16 +247,14 @@ static void lasips2_port_set_irq(void *opaque, int level)
->>>
->>>   LASIPS2State *lasips2_initfn(hwaddr base, qemu_irq irq)
->>>   {
->>> -    LASIPS2State *s;
->>>       DeviceState *dev;
->>>
->>>       dev = qdev_new(TYPE_LASIPS2);
->>>       qdev_prop_set_uint64(dev, "base", base);
->>>       sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->>> -    s = LASIPS2(dev);
->>> +    qdev_connect_gpio_out(dev, LASIPS2_IRQ, irq);
->>>
->>> -    s->irq = irq;
->>> -    return s;
->>> +    return LASIPS2(dev);
->>>   }
->>>
->>>   static void lasips2_realize(DeviceState *dev, Error **errp)
->>> @@ -285,6 +283,8 @@ static void lasips2_init(Object *obj)
->>>
->>>       sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->kbd.reg);
->>>       sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mouse.reg);
->>> +
->>> +    qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
->>>   }
->>>
->>>   static Property lasips2_properties[] = {
->>> diff --git a/include/hw/input/lasips2.h b/include/hw/input/lasips2.h
->>> index 7e4437b925..d3e9719d65 100644
->>> --- a/include/hw/input/lasips2.h
->>> +++ b/include/hw/input/lasips2.h
->>> @@ -22,6 +22,8 @@ typedef struct LASIPS2Port {
->>>       bool irq;
->>>   } LASIPS2Port;
->>>
->>> +#define LASIPS2_IRQ    0
->>
->> If you find yourself #defining names for IRQ lines then this is
->> probably a sign you should be using named GPIO lines :-)
-> 
-> Yeah that's something I've done a few times here, mainly to have just one "set IRQ" 
-> function rather a separate one for both keyboard and mouse. It takes a bit more work, 
-> but I can certainly separate them out.
+> This is a guest error, no need to debug QEMU internals...
+> Can we simply exit(1) instead?
 
-Looking at this again, the gpio being defined here actually is the (only) lasips2 
-output IRQ, and so should be left unnamed.
+How does this debug qemu internals?
+It exits with SIGABRT.
 
-The reason for adding LASIPS2_IRQ was so that the gpio connection process looked like:
-
-     qdev_connect_gpio_out(dev, LASIPS2_IRQ, irq);
-
-instead of:
-
-     qdev_connect_gpio_out(dev, 0, irq);
-
-Would you still prefer for me to simply hardcode 0 here and drop the LASIPS2_IRQ 
-define in this case since there is only one output IRQ?
-
->> Alternatively, maybe use sysbus_init_irq()? By convention the
->> only sysbus IRQ on a device is generally "its IRQ line".
-> 
-> Thinking longer term about sysbus, I can see that sysbus_init_irq() would be one of 
-> the top entries on my list of things to go. For that reason I'd like to stick to 
-> using gpios here :)
+I suppose we could exit(1), but we'd want to change the other existing uses of abort too.
 
 
-ATB,
-
-Mark.
+r~
 
