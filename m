@@ -2,64 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B0D54767C
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 18:37:02 +0200 (CEST)
-Received: from localhost ([::1]:34492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7599654768B
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 18:45:16 +0200 (CEST)
+Received: from localhost ([::1]:39574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o046e-0001fM-Lf
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 12:37:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
+	id 1o04Ec-0006hT-WA
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 12:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1o0457-0000tN-C4
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 12:35:25 -0400
-Received: from mailout06.t-online.de ([194.25.134.19]:56054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1o0455-0003GD-Ay
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 12:35:25 -0400
-Received: from fwd73.dcpf.telekom.de (fwd73.aul.t-online.de [10.223.144.99])
- by mailout06.t-online.de (Postfix) with SMTP id 6B4A110102;
- Sat, 11 Jun 2022 18:34:40 +0200 (CEST)
-Received: from [192.168.211.200] ([84.175.233.154]) by fwd73.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1o044C-06EtoP0; Sat, 11 Jun 2022 18:34:29 +0200
-Message-ID: <60c72935-85ce-4e24-43a5-119f6428b916@t-online.de>
-Date: Sat, 11 Jun 2022 18:34:28 +0200
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o04DF-0005ld-2c
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 12:43:49 -0400
+Received: from sonic304-24.consmr.mail.gq1.yahoo.com ([98.137.68.205]:36267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o04DC-0004Ro-EK
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 12:43:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1654965823; bh=uKipQ9GESCapGnwnZNCK+G59mD+JZ/aP2507Xtz69BU=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=rj3EKPf8cHONK1o3O/aL8eLuOd7jPEM5O7se7HquQi0H1Ar0Udg9WyciIQJ630X+hgudHPynMV+haJAl3umomxdUtOiCumbxuNY3Bi5C6fjMB7pOuTuHgZ+hKgIBK2i4JYcWNpSdDknwcxKOMqYgwq56hw/VSgyEr0+9e9xIxJGkkE4uuWcFzwgMDmIlc8dufD26cLbr0lCaD0HS81aOPQ33uAvjtmSuijLPNlcShceo8zntuboRhXfBMsOzF7LQPi88i+zT78NiEJdronIuh58zqeWXK4JDcR3Bp69UbkS1AZ9uRs5REvjtrNBBUZTcsXPIyC92gmeLN9bj3O7vyg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1654965823; bh=DA2vKnKf+zEJ+BS8cQu11up+Ie3P63di7K7wlyd/Bal=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=Fbgz+GJjm1oytjNO04YnchJYs1BpSV9dnHS5hE5XKg1rCbrfwBqU/GS+WJZFDDW6hHMhENR5VkyWZE6/uz/JOvLHUTC+kYzho3uhGov8Dshvz2sXwHjE6DzUkBDINbUT7l/jJxrdlGr8bqBgCzQNIrPpFgBbBa0FeR6zw70JHBltxqIK456RVBnfzLiirbWqrVZ5g1o/WzUAMJZAjyNQ3j4RznkY6q+lQdBoLHxlreUvVUNDhuXrPNaXLQl+Q0WvPi9MbEwjlrUOE0znssLT30pA30ING4RpFSjPZH/metJt5Izr5cYJ7zCaWQyhLlTMZumaoFKeMtG+D0knK5vWFg==
+X-YMail-OSG: AWXn12oVM1k3G32cr49lu1hpWFcCdIsYTwluI2HkZElXlWe7QdEhcypMisJ6FQS
+ AdSXl0fE6Sfs9J4xbP7_82mUhW6okyP9SUwtYPp64ltydNqMLcCKBV1s899BZdNW6R3V5sN6U3.1
+ 2bRRsK7iflyhEmurOCSiu4PRS87F.KpPtcVrFuoXaWJj03_frsyXavXprPEgGzuPgXVHwl6elgov
+ 6ViFiypp9HzuOoBqHXn5q2HQPnIjGLFef7njwHBU9e_4k3VXjtLIQ5p_sTAs62AtRrijoT2bPxtk
+ PoHB0_ZPLkCdpP4FpR9RMXupNNcJDpiRCAYkuT8AxZKkI7q7EcI28nTVcoT6CMdtiFn8MljvXHe7
+ j7S3KxpE68GwC7gdJSqcnoeZLJhRBmmaVeGERX6c14cHhoyDC6yCjY5fJ5mWYmTlFH9BBsnaFYEk
+ 8fBjhnwo7b6AJ4KlLGukcJLJPiytH.Djk0qpV9COJ9KYYl2wTI5w1HVed3VXyYRFYVS_q2r0udbj
+ sEqLzzx2v77RlTrCGuZGI9MDt7jlSNqUtkQ4t8N6ZfMnDn3hKip9DoN5RoYPdEa2SGw6FgJpCISM
+ PVk4iZx7g4PkWfh7wj7G152g1ahzk2fdSkQZpls1CKBNw4fCBzAI3kpd7fDqMNPJDJnx25Fkd68N
+ HcecqmFdF1EI6qCUUdd3rmN1oQq7RSKCLJcQ7k3jR4wMhDavDho1UfwpOAoKawBWPki93k0XXvkx
+ B5S0ttbVYCqyMnRpOkg0Wnn3TO36O4VA6qNuv1lUBBO477QXnCjSysaqUT98kkc0tUYMKdNjz377
+ 6I2r2_qtNWZ7_DHJERNeCYjaVbRA4P83ZfyChqyLD17xkZHWb0rz2U8uWgE_fCmmEh46RhmSifia
+ G8XkWFq5LHdR7KCV062WCGcHzwdPZgSc62.0Ch2Jz3ZGI7t_D1ziBnbioTTMuCF2YGEFmvI.AAGd
+ focsrp4yPPexGc5JKsrk1bSUbO1jgLdCF23vqwU1EKcsJP2R_hYYywp4kegorjU3PJJx_53.ft_U
+ 3jv4QREFycQJokXCioYh3fHXf2L185VE_vBs5OuiX4TQMVfvAFeRf6rK4.Ac1naVJF2YtpAwZ27B
+ VqXvXZ08ahvOdH20A_cTH.9lJlZAVnbTxSCQzXbddkJNm_8klfIzQWsMu5SJRwJUY8mwGU8rWdX_
+ qgkukAG3nj2MiYSdgVDVI.jApGRrg4s4mNqFwy_VjUWUnxbP8WxQr_9GG9MpL8KZ2np_YMAFAgKb
+ yD0dQMdVYjW0u7rsMa6QcQyV3aWeiYNGy_tR2TQPwf86.DPr6FjfxUpvmg3ElaGM2uv94slr2LzS
+ cJT690MraQcpIO5e7pi5jMlSi.uFDT61Fhj7iwRW57wnwLOoaKpphAkylEtWBwjVM9xHVDTVoDBJ
+ De58T8MNWqMAjJqVY_Cn76B5TrgRlbkKZCJ3ysKI_pP576JEWkY6WIYqGy2fbUyGKldv0iFgBnnZ
+ IQkwOp.0oe84ayCNA1En0QznZHc7NxeQIcmRE.DgSYghQxL49.T2ngZWVqlX9RnvgWTYp06_Fclr
+ x1JPozstV7.Dt_3RL35DUdxqVBBayyzICxtWhCblv__YduvNV.iW9lv.Uxq8PsV4c6AHcxGmMw4W
+ lfq7Km26b2u52WUGJO.uemorpxZa1h9.yV1I0bdMHvnnhSU7C6_cl7Qo_BSf7tiLMqVwgUj0B2NA
+ IUzJJs0fN0VWhnYbdvKhfwfns4wrQCBgqhaBDZA1Bc2EAXce5zo5jGkRSMrG1Bg.ZuwOFca1k0nE
+ 6HQ9hhDRGyII8v1tejFKdmSPbU0zup7QZdiy6.LsqJASBW20PCVPXr1yrPZBRmVEg.EMj_BCOZtd
+ N8Ev3dLHu2kwc1RbdIBjOUWHyUseFSk6QuwntoAOK0cKyRV3Asxqb2UeWcwSZtReE8tKnq6stP0z
+ 2PhOcmTQ.oNiAT35AE9tBr7USWIdhpQZrmY70BmJDr5cA3yx0JUssXePar4qj988aWn9GGWnftZd
+ 51uTNgKeNjVLb0CMrYyFSv4xJLOgwkBq4CxjQ_LOrert9sKtRRRVKD1YZyPVDQmSCo3JJKTJ6LCh
+ uXAvH16Ou5_C0Rfs7Uqn.GXNfsR04_JPmjze4wQzbXxKlPjtyaTPZdcHi1PFepiUfCDs5f33toD1
+ EQKbQ7OwlF.Ib6uiTpHBh4JJvJzFsri84545KQDcaj.lDRUZkSfWtaRKq3GPj_V4DNY7lFGD2gKl
+ 2nnkz8aiL8JNRIlQ-
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic304.consmr.mail.gq1.yahoo.com with HTTP; Sat, 11 Jun 2022 16:43:43 +0000
+Received: by hermes--canary-production-bf1-856dbf94db-ld7kl (Yahoo Inc. Hermes
+ SMTP Server) with ESMTPA ID 10a8310a1deef4c241e871970cd315d5; 
+ Sat, 11 Jun 2022 16:43:39 +0000 (UTC)
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: qemu-devel@nongnu.org
+Cc: xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Subject: [PATCH v2] xen/pass-through: merge emulated bits correctly
+Date: Sat, 11 Jun 2022 12:43:29 -0400
+Message-Id: <b6718a3512ec0a97c6ef4a5b5c1f3de72238c603.1654961918.git.brchuckz@aol.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PULL 00/17] Kraxel 20220610 patches
-To: Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, qemu-devel@nongnu.org
-Cc: "Canokeys.org" <contact@canokeys.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>, xen-devel@lists.xenproject.org,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220610092043.1874654-1-kraxel@redhat.com>
- <adec1cff-54f1-e2bf-8092-945601aeb912@linaro.org>
-Content-Language: en-US
-In-Reply-To: <adec1cff-54f1-e2bf-8092-945601aeb912@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1654965269-01432E2F-9B3FCAFB/0/0 CLEAN NORMAL
-X-TOI-MSGID: 97fb026e-e35c-459b-a063-121af80287a2
-Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
- helo=mailout06.t-online.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <b6718a3512ec0a97c6ef4a5b5c1f3de72238c603.1654961918.git.brchuckz.ref@aol.com>
+Received-SPF: pass client-ip=98.137.68.205; envelope-from=brchuckz@aim.com;
+ helo=sonic304-24.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,66 +99,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.06.22 um 22:16 schrieb Richard Henderson:
-> On 6/10/22 02:20, Gerd Hoffmann wrote:
->> The following changes since commit 
->> 9cc1bf1ebca550f8d90f967ccd2b6d2e00e81387:
->>
->>    Merge tag 'pull-xen-20220609' of 
->> https://xenbits.xen.org/git-http/people/aperard/qemu-dm into staging 
->> (2022-06-09 08:25:17 -0700)
->>
->> are available in the Git repository at:
->>
->>    git://git.kraxel.org/qemu tags/kraxel-20220610-pull-request
->>
->> for you to fetch changes up to 02319a4d67d3f19039127b8dc9ca9478b6d6ccd8:
->>
->>    virtio-gpu: Respect UI refresh rate for EDID (2022-06-10 11:11:44 
->> +0200)
->>
->> ----------------------------------------------------------------
->> usb: add CanoKey device, fixes for ehci + redir
->> ui: fixes for gtk and cocoa, move keymaps, rework refresh rate
->> virtio-gpu: scanout flush fix
->
-> This introduces regressions:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/2576157660
-> https://gitlab.com/qemu-project/qemu/-/jobs/2576151565
-> https://gitlab.com/qemu-project/qemu/-/jobs/2576154539
-> https://gitlab.com/qemu-project/qemu/-/jobs/2575867208
->
->
->  (27/43) 
-> tests/avocado/vnc.py:Vnc.test_change_password_requires_a_password: 
-> ERROR: ConnectError: Failed to establish session: EOFError\n Exit 
-> code: 1\n    Command: ./qemu-system-x86_64 -display none -vga none 
-> -chardev 
-> socket,id=mon,path=/var/tmp/avo_qemu_sock_4nrz0r37/qemu-2912538-7f732e94e0f0-monitor.sock 
-> -mon chardev=mon,mode=control -node... (0.09 s)
->  (28/43) tests/avocado/vnc.py:Vnc.test_change_password:  ERROR: 
-> ConnectError: Failed to establish session: EOFError\n    Exit code: 
-> 1\n    Command: ./qemu-system-x86_64 -display none -vga none -chardev 
-> socket,id=mon,path=/var/tmp/avo_qemu_sock_yhpzy5c3/qemu-2912543-7f732e94b438-monitor.sock 
-> -mon chardev=mon,mode=control -node... (0.09 s)
->  (29/43) 
-> tests/avocado/vnc.py:Vnc.test_change_password_requires_a_password: 
-> ERROR: ConnectError: Failed to establish session: EOFError\n Exit 
-> code: 1\n    Command: ./qemu-system-x86_64 -display none -vga none 
-> -chardev 
-> socket,id=mon,path=/var/tmp/avo_qemu_sock_tk3pfmt2/qemu-2912548-7f732e93d7b8-monitor.sock 
-> -mon chardev=mon,mode=control -node... (0.09 s)
->
->
-> r~
->
+In xen_pt_config_reg_init(), there is an error in the merging of the
+emulated data with the host value. With the current Qemu, instead of
+merging the emulated bits with the host bits as defined by emu_mask,
+the emulated bits are merged with the host bits as defined by the
+inverse of emu_mask. In some cases, depending on the data in the
+registers on the host, the way the registers are setup, and the
+initial values of the emulated bits, the end result will be that
+the register is initialized with the wrong value.
 
-This is caused by [PATCH 14/17] ui: move 'pc-bios/keymaps' to 
-'ui/keymaps'. After this patch QEMU no longer finds it's keymaps if 
-started directly from the build directory.
+To correct this error, use the XEN_PT_MERGE_VALUE macro to help ensure
+the merge is done correctly.
 
-With best regards,
-Volker
+This correction is needed to resolve Qemu project issue #1061, which
+describes the failure of Xen HVM Linux guests to boot in certain
+configurations with passed through PCI devices, that is, when this error
+disables instead of enables the PCI_STATUS_CAP_LIST bit of the
+PCI_STATUS register of a passed through PCI device, which in turn
+disables the MSI-X capability of the device in Linux guests with the end
+result being that the Linux guest never completes the boot process.
+
+Fixes: 2e87512eccf3
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1061
+Buglink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=988333
+
+Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+---
+v2: Edit the commit message to more accurately describe the cause
+of the error.
+
+ hw/xen/xen_pt_config_init.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
+index ffd915654c..bc0383f7fb 100644
+--- a/hw/xen/xen_pt_config_init.c
++++ b/hw/xen/xen_pt_config_init.c
+@@ -1966,10 +1966,10 @@ static void xen_pt_config_reg_init(XenPCIPassthroughState *s,
+         if ((data & host_mask) != (val & host_mask)) {
+             uint32_t new_val;
+ 
+-            /* Mask out host (including past size). */
+-            new_val = val & host_mask;
+-            /* Merge emulated ones (excluding the non-emulated ones). */
+-            new_val |= data & host_mask;
++            /* Merge the emulated bits (data) with the host bits (val)
++             * and mask out the bits past size to enable restoration
++             * of the proper value for logging below. */
++            new_val = XEN_PT_MERGE_VALUE(val, data, host_mask) & size_mask;
+             /* Leave intact host and emulated values past the size - even though
+              * we do not care as we write per reg->size granularity, but for the
+              * logging below lets have the proper value. */
+-- 
+2.36.1
 
 
