@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9925473CC
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:36:17 +0200 (CEST)
-Received: from localhost ([::1]:39704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9E95473DA
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:40:42 +0200 (CEST)
+Received: from localhost ([::1]:47604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzyTY-0003qv-Qc
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:36:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43158)
+	id 1nzyXq-0001e7-0u
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyQq-0001Vi-M5
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:28 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45969)
+ id 1nzyQv-0001eE-PO
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:33 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyQp-00069b-7T
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:28 -0400
-Received: by mail-wr1-x436.google.com with SMTP id p10so1446475wrg.12
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:26 -0700 (PDT)
+ id 1nzyQt-00069s-R9
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:33 -0400
+Received: by mail-wr1-x435.google.com with SMTP id m24so1462912wrb.10
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SACkiBjVkJuP+3/mIjXwPAlOEqhF3Us8szON11U9anU=;
- b=iAioCFDEQhinfcPgPy8G8aFAALkgGPuQcs63e8K33ZfA5vo40n9p8MtJxDIpwsqeAD
- uyjaR4v1BUi4dj0hi2ThRf7NJMyXyI9ACD/qvONabwgh9gP+GfEfGnr1pRDt9QGx8JIK
- 494rOXfvUL9NfG7VN0yMEBv5jk/wGePcI/jZMsTJRvIDNFQUarVzNWI61Ri3S01F0Svy
- 9zmvGF0UgkJfFnzB+vfgycmt5fULR/cF2IWYwPfzCnTrAo266Fwcz03CZP3JZ8t88kDw
- 6WkaiK20Lk3iNdRb46e30E4t3yjqJBbuukuKntSSrVD0zKy3oXeWZ405sn7sllbHEFpJ
- tnlw==
+ bh=LUQm1G/YoYYdcDAMpdSCPzpkrH7lQMIOWr/thgjiHhg=;
+ b=T6x7iklRF5UEQo0T1o5mZMWyEcL/yDByZ27juKOiXmqCVAqqjt5n/1NRNnvOX/F8hC
+ 4KEguKQqfC1qpkwXXDzN8f5P/WueIKWj3B3NDW546q05rOLIPK5WlQpiFPurue2/Igc4
+ XBMRbqnEv7rkSkK9qNAcX1U2ogHm2RCLe7ApkCo1q5WT9paNt7k3UZOUYzxblBdtbyce
+ QxsYDHn4xFzPaYUV9P7ZL6Q2CbNKKX5U/ZrH+fugqu86hVWVRTM7ubQseAIj4I0TvMv8
+ exfN6x53hnecN2XJ9SxQjpcY+jZWDIv8vhHY2OMcTQHoxVGdYOTI74GBIUSI1FvHjVjR
+ KB3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SACkiBjVkJuP+3/mIjXwPAlOEqhF3Us8szON11U9anU=;
- b=xBQrciOSMWolvMx3WhMsswKFd0Hevj5HfT1wqt8fu8hZSkvUwbXWkgfzPfm94A0aZM
- TdW1kLem+Zu2PYYQ4aa7et81tpNXnaG36w7kkOiZ6/Vum5PffTpIv2ioua9QquIk49IU
- RLybNZCUcWj7mge+/R+jh51M1XEYQfPg6k8SKIE/Lex7riAo/iYimaxUQCpPh2y9YCIF
- xaJlUSPn5MbLb2fsRv2aMiQcMaNfMtqVBuDuTwOwglSzsOKRQB467eXJtNhfZxg2zNWJ
- rdu1QwwelptHe/itRiPkpQ2eLWq4F3k4OEaObOmRpnHHDErqqCkdn4+fUK3CqDeU8tPq
- kezg==
-X-Gm-Message-State: AOAM532bK3q/Phits0xC26aZbSfmwyBUjFMOerLAghxPDWBvyONPh6tE
- z/90OseLSkjLFbk+FHkLXpffw4v1EVw=
-X-Google-Smtp-Source: ABdhPJzJoRavryDW2x2cFaxYOLGGJAraAWaZWukTB/nSCeIKo9daAeUO31aL9kNqLlWuvuZ2P3uS0Q==
-X-Received: by 2002:adf:ea82:0:b0:213:bbe1:ba4e with SMTP id
- s2-20020adfea82000000b00213bbe1ba4emr41560480wrm.387.1654943605310; 
- Sat, 11 Jun 2022 03:33:25 -0700 (PDT)
+ bh=LUQm1G/YoYYdcDAMpdSCPzpkrH7lQMIOWr/thgjiHhg=;
+ b=wWcVVcKPraU5PgNel8lzaUOUC/quj7H+HVkJFk6GKHVppWdrVBy8R+cQbHPAfsQ+qp
+ BmNVH57h36vzkJbwBvhDXpUsplLlE9RcsI9SyXTmRhbYgUFZ2RdOOtAjK7rIyOzh8Ozk
+ G+KCho3wulcsyMQh5Auw/KgO738ulM5bhYClL1a4hP6TXQsbKd9yhEVC7b3WTH21qAs3
+ 5gZ2Zad6HSR8d2ROq0K3HjCHIObICChOsgYpKsqenqDlSVTtCrrjV9R7bay+xVbZqU+C
+ c0IBDqcUXVYHd78sRCkP9gTm1lNdho+kP0j7r3FfqHshffb+7tk4tzKaNm2miYc+Xdho
+ UmqA==
+X-Gm-Message-State: AOAM530bFPtg2cF8AyQwtCND8wAbFisXNDZzgjv1/2AnOzhBqe1QIL0V
+ 7Kwmg2rSMJD7DAukyEJE9txDfRRAfsI=
+X-Google-Smtp-Source: ABdhPJwKsxTOHLr2vDBA602rrKc4c+ipLXF2RlBtvNVy9rrfPdjAFd0YwccP9SVy08rS/Xjs+qTtJA==
+X-Received: by 2002:adf:dd8e:0:b0:213:bbe1:ba56 with SMTP id
+ x14-20020adfdd8e000000b00213bbe1ba56mr42076062wrl.559.1654943610331; 
+ Sat, 11 Jun 2022 03:33:30 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- p21-20020a05600c359500b00394708a3d7dsm6269458wmq.15.2022.06.11.03.33.24
+ b18-20020a5d5512000000b002103a7c5c91sm2189074wrv.43.2022.06.11.03.33.29
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:33:24 -0700 (PDT)
+ Sat, 11 Jun 2022 03:33:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -65,17 +65,18 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Ni Hui <shuizhuyuanluo@126.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 02/49] target/mips: Fix SAT_S trans helper
-Date: Sat, 11 Jun 2022 12:32:25 +0200
-Message-Id: <20220611103312.67773-3-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 03/49] target/mips: Fix df_extract_val() and df_extract_df()
+ dfe lookup
+Date: Sat, 11 Jun 2022 12:32:26 +0200
+Message-Id: <20220611103312.67773-4-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,31 +101,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ni Hui <shuizhuyuanluo@126.com>
 
-Fix the SAT_S and SAT_U trans helper confusion.
+Actually look into dfe structure data so that df_extract_val() and
+df_extract_df() can return immediate and datafield other than BYTE.
 
 Fixes: 4701d23aef ("target/mips: Convert MSA BIT instruction format to decodetree")
 Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220503130708.272850-1-shuizhuyuanluo@126.com>
+Message-Id: <20220503130708.272850-2-shuizhuyuanluo@126.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/msa_translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/mips/tcg/msa_translate.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index 7576b3ed86..76307102f2 100644
+index 76307102f2..aa45bae0aa 100644
 --- a/target/mips/tcg/msa_translate.c
 +++ b/target/mips/tcg/msa_translate.c
-@@ -399,7 +399,7 @@ TRANS(BSETI,    trans_msa_bit, gen_helper_msa_bseti_df);
- TRANS(BNEGI,    trans_msa_bit, gen_helper_msa_bnegi_df);
- TRANS(BINSLI,   trans_msa_bit, gen_helper_msa_binsli_df);
- TRANS(BINSRI,   trans_msa_bit, gen_helper_msa_binsri_df);
--TRANS(SAT_S,    trans_msa_bit, gen_helper_msa_sat_u_df);
-+TRANS(SAT_S,    trans_msa_bit, gen_helper_msa_sat_s_df);
- TRANS(SAT_U,    trans_msa_bit, gen_helper_msa_sat_u_df);
- TRANS(SRARI,    trans_msa_bit, gen_helper_msa_srari_df);
- TRANS(SRLRI,    trans_msa_bit, gen_helper_msa_srlri_df);
+@@ -68,8 +68,8 @@ struct dfe {
+ static int df_extract_val(DisasContext *ctx, int x, const struct dfe *s)
+ {
+     for (unsigned i = 0; i < 4; i++) {
+-        if (extract32(x, s->start, s->length) == s->mask) {
+-            return extract32(x, 0, s->start);
++        if (extract32(x, s[i].start, s[i].length) == s[i].mask) {
++            return extract32(x, 0, s[i].start);
+         }
+     }
+     return -1;
+@@ -82,7 +82,7 @@ static int df_extract_val(DisasContext *ctx, int x, const struct dfe *s)
+ static int df_extract_df(DisasContext *ctx, int x, const struct dfe *s)
+ {
+     for (unsigned i = 0; i < 4; i++) {
+-        if (extract32(x, s->start, s->length) == s->mask) {
++        if (extract32(x, s[i].start, s[i].length) == s[i].mask) {
+             return i;
+         }
+     }
 -- 
 2.36.1
 
