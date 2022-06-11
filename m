@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD575472D1
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 10:19:26 +0200 (CEST)
-Received: from localhost ([::1]:48706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9915472CD
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 10:14:10 +0200 (CEST)
+Received: from localhost ([::1]:42200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzwL7-0007UW-H1
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 04:19:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54950)
+	id 1nzwG0-00031Z-Ox
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 04:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nzw4b-0003Jz-87
+ id 1nzw4b-0003K2-Ck
  for qemu-devel@nongnu.org; Sat, 11 Jun 2022 04:02:23 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:45668)
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:36474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nzw4W-00020x-Nm
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 04:02:19 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id q18so1043818pln.12
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 01:02:10 -0700 (PDT)
+ id 1nzw4Y-00021E-Li
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 04:02:21 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id u18so1080687plb.3
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 01:02:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1t39f6wQstMi6nr3UEqkMVKQnbCIeTANssQ+YezQ/DE=;
- b=QwzDSkSNl95ekSmMZ0CpEQMEcACIEKRoiPE1YM0lGM7KgJl09xW733extMDezABP6C
- TtRfMGcolU6Gzy2oGtFKxo1nwcfA65cfDHP0Kz/tBYkJ6ttHGJ4WCzm62/XZ6e7+7rbh
- TqdJOoEr7gOLp1sIYWolb0N3HU3CxpaLV1/G4piEgWhHKct5jqrRHtQ8K1nXHIfbIHcg
- 8Vr/S51r1GNjCR13K0TrVLunUIj8UB5tOsvoFdBYnqSgJHDCeKEulFieyRS9c7wGr0fc
- OoEb/p9XLT7krK7HUKepoeoBPBfyJnj4F+NUsYN9CWwNC+D+UjrvF9WkTxR4nMfkchMo
- fZPQ==
+ bh=BVHViNMuB7xKyupW6LMRK2DTrEYBRxgZhhJyysMzOXI=;
+ b=K2vK2Ekqs2VRw14pfK+188Xunjtf4RMgkIrwvcwCkbQsHeP+UnU+8VqbghVX1GJ31t
+ P/b5bIZyaW9Os5CUr0FI32LIe6GBX4HRnj8TyfChut1dAem1IYpdyMta68Li9UEngHvi
+ ugtbMUS6PdTOTUV0w5FytlKIIL16bIHS9KWFt2q/gkeob33ibfIrWT2RwGkvjEHHBU4d
+ tpBfLg74CQ8qLNlmrstRz4Rrni/jmBgj7IXu2gsYxzYdzju7sijvmAXz3hmYlARMCOeV
+ rjBvBjbZM6KRpdTN9zgO13rY7xWNZu8fDLcp740cA/aJI7tmrHInZOHKJ0nT2MLBbOE5
+ 7CSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1t39f6wQstMi6nr3UEqkMVKQnbCIeTANssQ+YezQ/DE=;
- b=ECj1eWegGWAbbBYhxfy9oyEh6Y6uGwBSk5mjsPQF2uUlOlmjFLTe3+cgq7opRFoiTP
- rFG2Adi992dfAe4UrDk0I7ICAJNfhkUNtOtlDdCyWp70dDnHRvFZcwAje8GEE2umssE6
- XDwuLUnaKXIScztMYmDshJ4+uIOs7wlGEr7q8lPBZhdx4h5TOckxiimlGWAbF1iyAwZD
- hyo0ZfxuT1ih96sNhZgrBvEDQsehlgz9AbsRqWe/jZDoSkEMBnQjfLPYLzKe04LhZRvZ
- 5YU9B070gQiO0t8PUANfLxUG4nbYharownnKRQ8WiimMRgK/4FNY92DnI7djFIV66uCm
- MGVg==
-X-Gm-Message-State: AOAM531vhfjjTFn2f2t+aYRTfKN/EScOBoJ2Ki6vDaJIj+img9UKjVf1
- MIazedMsILileEnCG//qthXF0A==
-X-Google-Smtp-Source: ABdhPJz5tzWejoEK/+azgSLFAsJ56uk7Tw6za2TCbna8yHi9hMH2b68f6ZuX2cSTl1+cWDPWHDRxyg==
-X-Received: by 2002:a17:90b:1a8f:b0:1e8:7dfe:c4f with SMTP id
- ng15-20020a17090b1a8f00b001e87dfe0c4fmr3882784pjb.17.1654934529538; 
- Sat, 11 Jun 2022 01:02:09 -0700 (PDT)
+ bh=BVHViNMuB7xKyupW6LMRK2DTrEYBRxgZhhJyysMzOXI=;
+ b=gClOOM8lpU52K3DRBYQ7yDMUJmWbt+0UVKlbVpYT3wiJpkFUp7L6BHhGaXrgdlLoFS
+ 3Ljp7YrgU86QBAqhxiQuzSzW5yNaqsZe3M+Hx1YAWPTGKe03c7vgM1lYnXNWoRk5C+rO
+ 1eCdeHMnStQu3lgrtonNwGkX5VzJIgHKEmm/J2ApWH7PpqN/XcTEZnNYstLb6E5qp230
+ 28uVTFSSqqnahzaywVwAJe7LKh2yQNmaxfXASa5cYB1Qpu4H15lKB0EiXu4/fNmgCv0d
+ 3P2Wh2U5T6rMPst2mtU00d8Rwxqv3Bd5zWGSi2K1lKEYWySE2CKaXT2eCyMLP4YqmlQD
+ YaFg==
+X-Gm-Message-State: AOAM531mJcviuZk1rI79+wcUIhb0ZmQ1t3xnYpmS1YHdwKGOdntdr+9Y
+ pCL1BotERZXSwkmEQBKrBaLgng==
+X-Google-Smtp-Source: ABdhPJzNldIB4DrETIJ2gKBeV35RRXKWNU/cm299ziOfhSws6SwQGrvJG1C37mxT3MqfsG9sz1JxdA==
+X-Received: by 2002:a17:90b:247:b0:1e6:7f44:e385 with SMTP id
+ fz7-20020a17090b024700b001e67f44e385mr3951162pjb.195.1654934534157; 
+ Sat, 11 Jun 2022 01:02:14 -0700 (PDT)
 Received: from anup-ubuntu64-vm.. ([171.61.69.124])
  by smtp.gmail.com with ESMTPSA id
- w1-20020a62c701000000b0050dc762814asm889025pfg.36.2022.06.11.01.02.04
+ w1-20020a62c701000000b0050dc762814asm889025pfg.36.2022.06.11.01.02.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Jun 2022 01:02:08 -0700 (PDT)
+ Sat, 11 Jun 2022 01:02:13 -0700 (PDT)
 From: Anup Patel <apatel@ventanamicro.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
@@ -62,19 +62,18 @@ To: Peter Maydell <peter.maydell@linaro.org>,
 Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Anup Patel <apatel@ventanamicro.com>, Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Atish Patra <atishp@rivosinc.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v6 1/4] target/riscv: Don't force update priv spec version to
- latest
-Date: Sat, 11 Jun 2022 13:31:04 +0530
-Message-Id: <20220611080107.391981-2-apatel@ventanamicro.com>
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: [PATCH v6 2/4] target/riscv: Add dummy mcountinhibit CSR for priv
+ spec v1.11 or higher
+Date: Sat, 11 Jun 2022 13:31:05 +0530
+Message-Id: <20220611080107.391981-3-apatel@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220611080107.391981-1-apatel@ventanamicro.com>
 References: <20220611080107.391981-1-apatel@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=apatel@ventanamicro.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,79 +96,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The riscv_cpu_realize() sets priv spec version to v1.12 when it is
-when "env->priv_ver == 0" (i.e. default v1.10) because the enum
-value of priv spec v1.10 is zero.
+The mcountinhibit CSR is mandatory for priv spec v1.11 or higher. For
+implementation that don't want to implement can simply have a dummy
+mcountinhibit which is always zero.
 
-Due to above issue, the sifive_u machine will see priv spec v1.12
-instead of priv spec v1.10.
-
-To fix this issue, we set latest priv spec version (i.e. v1.12)
-for base rv64/rv32 cpu and riscv_cpu_realize() will override priv
-spec version only when "cpu->cfg.priv_spec != NULL".
-
-Fixes: 7100fe6c2441 ("target/riscv: Enable privileged spec version 1.12")
+Fixes: a4b2fa433125 ("target/riscv: Introduce privilege version field in the CSR ops.")
 Signed-off-by: Anup Patel <apatel@ventanamicro.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 ---
- target/riscv/cpu.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ target/riscv/cpu_bits.h | 3 +++
+ target/riscv/csr.c      | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 05e6521351..8db0f0bd49 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -173,6 +173,8 @@ static void rv64_base_cpu_init(Object *obj)
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV64, 0);
-     register_cpu_props(DEVICE(obj));
-+    /* Set latest version of privileged specification */
-+    set_priv_version(env, PRIV_VERSION_1_12_0);
- }
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 4d04b20d06..4a55c6a709 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -159,6 +159,9 @@
+ #define CSR_MTVEC           0x305
+ #define CSR_MCOUNTEREN      0x306
  
- static void rv64_sifive_u_cpu_init(Object *obj)
-@@ -204,6 +206,8 @@ static void rv128_base_cpu_init(Object *obj)
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV128, 0);
-     register_cpu_props(DEVICE(obj));
-+    /* Set latest version of privileged specification */
-+    set_priv_version(env, PRIV_VERSION_1_12_0);
- }
- #else
- static void rv32_base_cpu_init(Object *obj)
-@@ -212,6 +216,8 @@ static void rv32_base_cpu_init(Object *obj)
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV32, 0);
-     register_cpu_props(DEVICE(obj));
-+    /* Set latest version of privileged specification */
-+    set_priv_version(env, PRIV_VERSION_1_12_0);
- }
++/* Machine Counter Setup */
++#define CSR_MCOUNTINHIBIT   0x320
++
+ /* 32-bit only */
+ #define CSR_MSTATUSH        0x310
  
- static void rv32_sifive_u_cpu_init(Object *obj)
-@@ -524,7 +530,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     CPURISCVState *env = &cpu->env;
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     CPUClass *cc = CPU_CLASS(mcc);
--    int priv_version = 0;
-+    int priv_version = -1;
-     Error *local_err = NULL;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 6dbe9b541f..409a209f14 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -3391,6 +3391,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_MIE]         = { "mie",        any,   NULL,    NULL,    rmw_mie           },
+     [CSR_MTVEC]       = { "mtvec",      any,   read_mtvec,       write_mtvec       },
+     [CSR_MCOUNTEREN]  = { "mcounteren", any,   read_mcounteren,  write_mcounteren  },
++    [CSR_MCOUNTINHIBIT] = { "mcountinhibit", any, read_zero, write_ignore,
++                                             .min_priv_ver = PRIV_VERSION_1_11_0 },
  
-     cpu_exec_realizefn(cs, &local_err);
-@@ -548,10 +554,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         }
-     }
+     [CSR_MSTATUSH]    = { "mstatush",   any32, read_mstatush,    write_mstatush    },
  
--    if (priv_version) {
-+    if (priv_version >= PRIV_VERSION_1_10_0) {
-         set_priv_version(env, priv_version);
--    } else if (!env->priv_ver) {
--        set_priv_version(env, PRIV_VERSION_1_12_0);
-     }
- 
-     if (cpu->cfg.mmu) {
 -- 
 2.34.1
 
