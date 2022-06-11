@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7B6547003
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 01:30:52 +0200 (CEST)
-Received: from localhost ([::1]:33668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 449DF54707B
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 02:18:14 +0200 (CEST)
+Received: from localhost ([::1]:39714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzo5b-00055b-7e
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 19:30:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54382)
+	id 1nzopQ-0006kv-Gx
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 20:18:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzo3y-0004Mz-Gr
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 19:29:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38436)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzooE-00063N-32
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 20:16:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzo3v-0005nu-QT
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 19:29:09 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nzonu-0004I1-WA
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 20:16:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654903746;
+ s=mimecast20190719; t=1654906585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=Sosh2OQUNP+f8umkICGShyv5zkeilyIHhpwIMm6HF/A=;
- b=OxHh+oH/yI8nhB41R+7TGalfRWwq1sX+nEnUatGo52eW3wKUAKIN8RevO1mtg+T+cFm12Y
- LZL4tdl2p6TpfXj0fFeYXOrcLmuzCksgmjbUb2JrdgdQDcoDhLUwHNxcYMSX1ddYvT5WCX
- +NFULn2DuvgVGr757b7IvZEXszb0aq4=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/z0G3M4mhEH7+er2aHzhEHJ+xm4bTW6B7HJe4kSgnN0=;
+ b=HadVGJ2YyCVcSAmcaoEf0NPHVtC+9v+lLUiXLWPGyD59HkobMJigd9uwB1OAoxEyX3fpGj
+ FFDEACdMPAFAJKT1nbID73MCkMgJaVP95+WVnwTIIhtwNL+TIGQcUIahZKKX2m/g1VBAb+
+ Bqc7w3SJcbLxESa5807hy0kMUxPSDKg=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-hPE71aE4OCyuL9IHIfKJ1Q-1; Fri, 10 Jun 2022 19:29:05 -0400
-X-MC-Unique: hPE71aE4OCyuL9IHIfKJ1Q-1
-Received: by mail-ua1-f70.google.com with SMTP id
- r88-20020ab04561000000b0037955632d4aso219382uar.9
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 16:29:05 -0700 (PDT)
+ us-mta-553-k8qOSJAMP42fDmICZHWuMw-1; Fri, 10 Jun 2022 20:16:23 -0400
+X-MC-Unique: k8qOSJAMP42fDmICZHWuMw-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ p129-20020a1fa687000000b00356d94ba0a5so29684vke.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 17:16:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=Sosh2OQUNP+f8umkICGShyv5zkeilyIHhpwIMm6HF/A=;
- b=3Yvl6yoKVzYdNrMmBlPhHYLOYnCdDZ+rQU4Zr77tXx3ou+HSNuHCaM4x90LyTaEmM6
- +xSYFN+kBQShCN/Z7g9GxXCXlh1tI6tZxKe4DzFhAa9mDS0wXdx2MR9XeOfsR7tF2xcJ
- cyBbTIl8TNF3AxBxPWqMS5SBSmN6Pji+OhvjBjtlrmE2YPOgL0PuAZbebshFmnajV2aK
- CLp7qwGAZf6H256lc189vtK9A9tMNIYyVPetjwp4jl4RWAErAJg0GuPGPEl1NQuU3RG7
- hmtmPYfuMnXf7ex2Z7YgiEXUQcbHnS+uAbt6ZWlrG/S63NLoL558eOI4XuUQ/1s8cev+
- rA1g==
-X-Gm-Message-State: AOAM533jMDmoTHzQlBXB7+YEghFF+gwiBdI6fZ/gJrR1kaNgcML3NpCa
- 6PkP548QKx2I2sL6uXYswZVgp73SeQ0VpsyAd+C8gUYan9E30f1B3fQi/neijv/PvkIfB93WyGf
- p8MlkpKEShsqN25UlbxRzHv94tOm3HdU=
-X-Received: by 2002:ab0:168a:0:b0:378:d73d:f630 with SMTP id
- e10-20020ab0168a000000b00378d73df630mr13164227uaf.119.1654903744972; 
- Fri, 10 Jun 2022 16:29:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1koouqzXHjrCC9BxZBGBefiTqNpCkX2Bb7SWi4ewd5IZomhylRroI5DxO8m2cUcU/O/oaCr8kz4oq+LkVu60=
-X-Received: by 2002:ab0:168a:0:b0:378:d73d:f630 with SMTP id
- e10-20020ab0168a000000b00378d73df630mr13164220uaf.119.1654903744756; Fri, 10
- Jun 2022 16:29:04 -0700 (PDT)
+ bh=/z0G3M4mhEH7+er2aHzhEHJ+xm4bTW6B7HJe4kSgnN0=;
+ b=B8dQwyp9USsET5uH8AoCdYuAC+pjdc0nM5Bc3MObcvkRAyB9rmxcyPvdlJawjZnmd8
+ Pr16E7ufPoNsE9XOPfZ96k4F2FEtcXgkVhRQd/tMONAecsEfBb4rCKsW86C1YBRowNaY
+ FZjvbaqti6OvKCEJB/mpFLUx+o7k3LX/WxM/VN+fjUFkEcLYcNpWTP2BY11laBWGUbVc
+ W7GfsrMYAmBAb/R7eRJVUwF7t8x82/pwIWyL6cL3CEgtugjmtPIHXyq0pE9rNFmMWQL5
+ hkM4Tl5ijlpT7pK5jOjLOoi7UjxlnzNl3dNhB+FtNAnt7SO9yQvDq3Gh7/14EeZXReQJ
+ K6Zw==
+X-Gm-Message-State: AOAM533Ly+ZDf8wHlGk++Ko7v6YNFBWkcTojPAqAskSiTXpmLKyH0xCc
+ Z2fh2X4BKRXamN144H0ziAvxiRUHEkLYT+xvCbEcJWRc64CBlzA8rbbtjB06CxPw8sJ42bpYXfc
+ nCXelPrxhK9d8HdsFH2JnzIwbIeYo6xI=
+X-Received: by 2002:a67:d094:0:b0:34a:c990:cf78 with SMTP id
+ s20-20020a67d094000000b0034ac990cf78mr20731507vsi.11.1654906583271; 
+ Fri, 10 Jun 2022 17:16:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSMltRNNIgK6zpKcSFOmD8Q87X9HmHfB299LSSZfcQKkGHUOJvJukQlSZHXH+H+NVDNO8mv+piYhEKITm/xks=
+X-Received: by 2002:a67:d094:0:b0:34a:c990:cf78 with SMTP id
+ s20-20020a67d094000000b0034ac990cf78mr20731501vsi.11.1654906583070; Fri, 10
+ Jun 2022 17:16:23 -0700 (PDT)
 MIME-Version: 1.0
 From: John Snow <jsnow@redhat.com>
-Date: Fri, 10 Jun 2022 19:28:54 -0400
-Message-ID: <CAFn=p-ZwWzYa9h_-rNa-cA0CsDOJusy21D_RNtLffpTOgOHP-Q@mail.gmail.com>
-Subject: CentOS 8 cloud images not working under VM tests
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Daniel Berrange <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>
+Date: Fri, 10 Jun 2022 20:16:12 -0400
+Message-ID: <CAFn=p-bmPm7xA0R4r4RahWQmOMUd=zr4x5nEAnk4aCZHkPXiAA@mail.gmail.com>
+Subject: vm-build-haiku.x86_64 failures
+To: Alexander von Gluck IV <kallisti5@unixzen.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,54 +88,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test doesn't appear to work for me:
+Hi,
 
-def build_image(self, img):
-    cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
-    img_tmp = img + ".tmp"
-    subprocess.check_call(["ln", "-f", cimg, img_tmp])
-    self.exec_qemu_img("resize", img_tmp, "50G")
-    self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
-    self.wait_ssh()
-    ^^^^^^^^^^^^^^^
+on today's upstream of b3cd3b5a66f0dddfe3d5ba2bef13cd4f5b89cde9, I am
+seeing failures with the Haiku VM building test:
 
-It appears to be expecting to be able to use passwordless entry, but
-that doesn't appear to actually work in this case.
+FAILED: libqemuutil.a.p/util_cutils.c.o
+cc -m64 -mcx16 -Ilibqemuutil.a.p -I. -I../src -Iqapi -Itrace -Iui
+-Iui/shader -I/packages/glib2-2.68.4-2/.self/develop/headers
+-I/packages/zlib-1.2.11-4/.self/develop/headers
+-I/packages/libffi-3.4.2-1/.self/develop/headers
+-I/packages/glib2-2.68.4-2/.self/develop/headers/glib-2.0
+-I/packages/glib2-2.68.4-2/.self/develop/lib/glib-2.0/include
+-I/packages/libpcre-8.45-2/.self/develop/headers
+-I/packages/glib2-2.68.4-2/.self/develop/headers/gio-unix-2.0
+-I/packages/gnutls-3.7.4-1/.self/develop/headers
+-I/packages/nettle-3.7.3-1/.self/develop/headers
+-I/packages/libtasn1-4.18.0-1/.self/develop/headers
+-I/packages/libidn2-2.0.5-2/.self/develop/headers
+-I/packages/p11_kit-0.23.18.1-2/.self/develop/headers/p11-kit-1
+-I/packages/pixman-0.38.4-1/.self/develop/headers/pixman-1
+-fdiagnostics-color=auto -Wall -Winvalid-pch -std=gnu11 -O2 -g -iquote
+. -iquote /boot/system/cache/tmp/qemu-test.ivmase/src -iquote
+/boot/system/cache/tmp/qemu-test.ivmase/src/include -iquote
+/boot/system/cache/tmp/qemu-test.ivmase/src/disas/libvixl -iquote
+/boot/system/cache/tmp/qemu-test.ivmase/src/tcg/i386 -U_FORTIFY_SOURCE
+-D_FORTIFY_SOURCE=2 -DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC
+-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+-Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings
+-Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv
+-Wold-style-declaration -Wold-style-definition -Wtype-limits
+-Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
+-Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
+-Wimplicit-fallthrough=2 -Wno-missing-include-dirs
+-Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -MD -MQ
+libqemuutil.a.p/util_cutils.c.o -MF libqemuutil.a.p/util_cutils.c.o.d
+-o libqemuutil.a.p/util_cutils.c.o -c ../src/util/cutils.c
+../src/util/cutils.c: In function 'qemu_init_exec_dir':
+../src/util/cutils.c:1019:9: error: unknown type name 'image_info';
+did you mean 'g_info'?
+ 1019 |         image_info ii;
+      |         ^~~~~~~~~~
+      |         g_info
+../src/util/cutils.c:1023:16: warning: implicit declaration of
+function 'get_next_image_info' [-Wimplicit-function-declaration]
+ 1023 |         while (get_next_image_info(0, &c, &ii) == B_OK) {
+      |                ^~~~~~~~~~~~~~~~~~~
+../src/util/cutils.c:1023:16: warning: nested extern declaration of
+'get_next_image_info' [-Wnested-externs]
+../src/util/cutils.c:1024:19: error: request for member 'type' in
+something not a structure or union
+ 1024 |             if (ii.type == B_APP_IMAGE) {
+      |                   ^
+../src/util/cutils.c:1024:28: error: 'B_APP_IMAGE' undeclared (first
+use in this function)
+ 1024 |             if (ii.type == B_APP_IMAGE) {
+      |                            ^~~~~~~~~~~
+../src/util/cutils.c:1024:28: note: each undeclared identifier is
+reported only once for each function it appears in
+../src/util/cutils.c:1025:32: error: request for member 'name' in
+something not a structure or union
+ 1025 |                 strncpy(buf, ii.name, sizeof(buf));
+      |                                ^
+[596/6467] Compiling C object libqemuutil.a.p/util_aio-posix.c.o
+[597/6467] Compiling C object libqemuutil.a.p/qobject_block-qdict.c.o
+[598/6467] Compiling C object libqemuutil.a.p/util_osdep.c.o
+[599/6467] Compiling C object libqemuutil.a.p/qobject_json-streamer.c.o
+[600/6467] Compiling C object libqemuutil.a.p/qobject_json-lexer.c.o
+[601/6467] Compiling C object libqemuutil.a.p/qobject_json-parser.c.o
+[602/6467] Compiling C object libqemuutil.a.p/qobject_qobject.c.o
+[603/6467] Compiling C object libqemuutil.a.p/qobject_json-writer.c.o
+[604/6467] Compiling C object libqemuutil.a.p/qobject_qjson.c.o
+[605/6467] Compiling C object libqemuutil.a.p/qobject_qbool.c.o
+[606/6467] Compiling C object libqemuutil.a.p/qobject_qlit.c.o
+[607/6467] Compiling C object libqemuutil.a.p/qobject_qstring.c.o
+[608/6467] Compiling C object libqemuutil.a.p/qobject_qlist.c.o
+[609/6467] Compiling C object libqemuutil.a.p/qobject_qnull.c.o
+[610/6467] Compiling C object libqemuutil.a.p/qobject_qnum.c.o
+[611/6467] Compiling C object libqemuutil.a.p/qapi_qmp-registry.c.o
+[612/6467] Compiling C object libqemuutil.a.p/qobject_qdict.c.o
+ninja: build stopped: subcommand failed.
+Makefile:162: recipe for target 'run-ninja' failed
+make: *** [run-ninja] Error 1
+make: *** [/home/nago/src/qemu/tests/vm/Makefile.include:106:
+vm-build-haiku.x86_64] Error 3
 
-It looks like the cloud iso generate step is supposed to handle
-setting up keys -- and everything appears as if it's working -- but I
-get SSH timeouts at this step.
+I can't seemingly get older versions of QEMU to build right now in
+order to do a bisect, and I can't find a version of the QEMU tree
+where this test actually works.
 
-From what I can see:
-
-DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=no -o
-UserKnownHostsFile=/dev/null -o ConnectTimeout=1 -p 41729 -i
-/home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa -o
-SendEnv=https_proxy -o SendEnv=http_proxy -o SendEnv=ftp_proxy -o
-SendEnv=no_proxy qemu@127.0.0.1 exit 0
-Warning: Permanently added '[127.0.0.1]:41729' (ED25519) to the list
-of known hosts.
-qemu@127.0.0.1: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
-
-...and the /home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa
-file looks identical to the qemu.git/tests/keys/id_rsa file, save for
-a missing trailing newline.
-
-From a subsequent run, turning SSH debug on, I see this:
-
-debug1: Offering public key:
-/home/jsnow/src/qemu/bin/git/vm-test-o_x2vdwo.tmp/id_rsa RSA
-SHA256:6TUK9PSgWR+CbTEKA6E9IyizVjt2ZW5ble/Mg4wUiao explicit
-debug3: send packet: type 50
-debug2: we sent a publickey packet, wait for reply
-debug3: receive packet: type 51
-
-... Which looks like the usual kind of bog-standard "Unrecognized key"
-kind of answer, IIUC.
-
-Is this working for anyone else, or can anyone offer some debugging
-tips on what's gone wrong here? I'm assuming it worked as of
-fb1fa97c69ca2299158229c78fea68c4036e6c1b ... Daniel, any clues?
+Alexander, do you have any information on this test right now?
 
 --js
 
