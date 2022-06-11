@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683A45473C9
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:35:52 +0200 (CEST)
-Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD2C5473CA
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:35:56 +0200 (CEST)
+Received: from localhost ([::1]:39332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzyT9-0003Oe-1h
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:35:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43112)
+	id 1nzyTD-0003bF-6l
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyQg-0001GL-Ns
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:19 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34556)
+ id 1nzyQl-0001LB-CB
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:23 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:46615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyQe-00068m-Rb
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:18 -0400
-Received: by mail-wr1-x436.google.com with SMTP id c21so1507904wrb.1
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:16 -0700 (PDT)
+ id 1nzyQj-00069H-Pg
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:23 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ r123-20020a1c2b81000000b0039c1439c33cso758100wmr.5
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H1g6Y+FD79i6xIsYxaH+Ugqn9Uq3GI4oFgtY4f6BG3E=;
- b=qY+1u/DYpPbRrRk/dPl7D1BXbCYn5+/MCS5sGl19d+kLxULeh3F+MfPqBN9HD/iyGw
- Le4Bbm6mGZYwpM29rIvgsqKGYN7zj8HNnEjc8sLZoLq/IRZZmonuji3q6LWUF8dQT7l8
- M+OWO7jR/AUIHBTNGpriAYP22j/f7ccLJoNwhBUgoeUzcPrYxU9tM1w9EaqublHir7u8
- xlnPWiMx6HSw56LGrzW9KWPncz9FeqN/7yzMPq2lqHlB/5APIe7J+dTWUaCjyWsda6AI
- KGe16031kzF4jqbJihPHTWfoH8S/pg788JYcPGJd2ju80jeYbUGCroAS3M4dhBLDrE7m
- CyaQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Uo2YIfU574dI280rF8iVMdiygQnubCcepIz3cr4Oar0=;
+ b=c3L1/UeJEz6RFaBZ/FhjBz2hATTnJhv1wKyfgx4EfWOM/4j5WiHyuC3qEPC+XymQi1
+ Lv6wHmt0dwFh3KzL92S4Z6WBMYZbtIVQn4usMt1MZ4FsQL/2X9qnATzUTFHprQ+MjrHG
+ t0UZ9fq9+gB0BMovvLfoVw7fVyP046RYWYBc5mTxcGgD/vRRt7aqxeR+ANLsyiXbP74H
+ dfOGPlsGTfnhcC1FaEmLxX87859suSHwYg23AwW81hFyXzYY2bCc3guefo33MLN0dT1Y
+ l81+ZojhGrER9PtL8K6c3r1CagLU/dIZqMzj4jlNdV/cGpYPFkvxatK/WXM9ogSXYUVa
+ RY+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H1g6Y+FD79i6xIsYxaH+Ugqn9Uq3GI4oFgtY4f6BG3E=;
- b=EGBMdJ0q7tmVlL3JH1+pqWgpTMK/rOY1jPxJAol7HKy6tm5oaW9mEDVNalUcF8Rl4S
- n2FgNluDqan9ng6XLrswSnyydJkghPC4zx95xmRipSjfhtBGgdgf32gnWaS/SDsE6dIT
- ylh0PkJeDGeSFLyBywyNSZ026K+JacFoJZM2J2KbgDry8kFymuUBvFUeouB1Qyn5Mb2a
- EADNMkjKm4FF8HuaH2uoaB7Lqqi9A0cZYFoSBk7qMBsg05gP3hXNq3epkhwnEXMo01Ge
- ZDy8k/H1M9b58xMGJxeQPRnt4+IhHDalLAKHDwpRJr2e+xtezdyDEO5Wiks+YILYFmzs
- 9RnA==
-X-Gm-Message-State: AOAM530Vd8H8teXAQlH1kT3cVV15LnUcO/eGKeDR26qV71av/EerJAgC
- /W9vtii2DU4+5rh8rcs44lL6fLEPP7k=
-X-Google-Smtp-Source: ABdhPJz0j/MHJq6mqLrbdxO42wrnFkPFT5cmyMUw/wndjSqcG7fyNESIYnMhwXGnfEWDytN9W7HsOQ==
-X-Received: by 2002:a5d:4302:0:b0:20e:66db:b8f5 with SMTP id
- h2-20020a5d4302000000b0020e66dbb8f5mr46299274wrq.320.1654943595023; 
- Sat, 11 Jun 2022 03:33:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Uo2YIfU574dI280rF8iVMdiygQnubCcepIz3cr4Oar0=;
+ b=ZmEwrhro/8im/kh+yyQrImJTFjd7c1/J1rJvjJI3IzAHCt0JYaIy5SEzNofTJ3eiIZ
+ ohkgAAb7vjfuwDBaqeI1DJSZOMKwtwpSeUrt23yPvzIzOXtdH9UwuX0scA5kDy65UKax
+ zXZ6Pv9h5nOzfHJ+WND4uZXNZFknMh3XYp4S+iuRFOtaNQc4Je9VGoJnLS83pyY3o1Cw
+ aZ97VYg2bhaeMwbg0ohtLu5PMzuB3aisYfN7Mw7/APrl7KH3EIGKgB+OF9CS7lQdMQIo
+ mWunb2Anxh/lvV/sYiMlfD/V7Ux3Aw3DrBsdbDSQKsCN49g02AtCqGGTWOaUfBV+O2Jt
+ x6rg==
+X-Gm-Message-State: AOAM531eF9JQbT3YBr/AG7XF/TQYOxOzYZEf8KaMzCk81MtikAbUcG2/
+ NWQk3uTd6oNWSRahgfeOtp5uqK++KTc=
+X-Google-Smtp-Source: ABdhPJyupcpBKF4PerPKlrcfAbuvJsrUriDiOJGS2DSVXQaSRtTbLwJCwhPOKGfvZxqvfKQZiQ4+Aw==
+X-Received: by 2002:a1c:7901:0:b0:39c:4252:d7f1 with SMTP id
+ l1-20020a1c7901000000b0039c4252d7f1mr4136851wme.178.1654943600146; 
+ Sat, 11 Jun 2022 03:33:20 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- f4-20020a056000128400b002184280b3cbsm2123032wrx.91.2022.06.11.03.33.13
+ n39-20020a05600c3ba700b00397342e3830sm13180059wms.0.2022.06.11.03.33.18
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:33:14 -0700 (PDT)
+ Sat, 11 Jun 2022 03:33:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -62,16 +63,21 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Marcin Nowakowski <marcin.nowakowski@fungible.com>,
+ David Daney <david.daney@fungible.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@fungible.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 00/49] MIPS patches for 2022-06-11
-Date: Sat, 11 Jun 2022 12:32:23 +0200
-Message-Id: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 01/49] target/mips: Fix WatchHi.M handling
+Date: Sat, 11 Jun 2022 12:32:24 +0200
+Message-Id: <20220611103312.67773-2-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
+References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,137 +100,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Marcin Nowakowski <marcin.nowakowski@fungible.com>
 
-The following changes since commit 30796f556790631c86c733ab06756981be0e1def:
+bit 31 (M) of WatchHiN register is a read-only register indicating
+whether the next WatchHi register is present. It must not be reset
+during user writes to the register.
 
-  Merge tag 'for_upstream' of git://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2022-06-10 18:15:34 -0700)
+Signed-off-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
+Reviewed-by: David Daney <david.daney@fungible.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@fungible.com>
+Message-Id: <20220511212953.74738-1-philmd@fungible.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/cpu.c                   | 2 +-
+ target/mips/cpu.h                   | 1 +
+ target/mips/tcg/sysemu/cp0_helper.c | 3 ++-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
-
-  https://github.com/philmd/qemu.git tags/mips-20220611
-
-for you to fetch changes up to 37da3bcf01ccd19336fd8f43bedcd0841d71bb6a:
-
-  docs/devel: Fix link to developer mailing lists (2022-06-11 11:44:50 +0200)
-
-----------------------------------------------------------------
-MIPS patches queue
-
-- Various TCG fixes (Marcin Nowakowski, Ni Hui, Stefan Pejic, Stefan Pejic)
-- Sysbus floppy controller fix (Peter Maydell)
-- QOM'ification of PIIX southbridge (Mark Cave-Ayland, Bernhard Beschow)
-- Various fixes on ISA devices commonly used by x86/mips machines (Bernhard)
-- Few cleanups in accel/tcg & documentation (Bernhard)
-
-----------------------------------------------------------------
-
-Bernhard Beschow (23):
-  hw/southbridge/piix: Aggregate all PIIX southbridge type names
-  hw/isa/piix4: Use object_initialize_child() for embedded struct
-  hw/isa/piix4: Move pci_map_irq_fn' near pci_set_irq_fn
-  hw/isa/piix4: QOM'ify PCI device creation and wiring
-  hw/isa/piix4: Factor out ISABus retrieval from piix4_create()
-  hw/isa/piix4: QOM'ify PIIX4 PM creation
-  hw/isa/piix4: Inline and remove piix4_create()
-  hw/isa/piix3: Move pci_map_irq_fn near pci_set_irq_fn
-  hw/isa/piix3: QOM'ify PCI device creation and wiring
-  hw/isa/piix3: Factor out ISABus retrieval from piix3_create()
-  hw/isa/piix3: Inline and remove piix3_create()
-  hw/i386/microvm-dt: Force explicit failure if retrieving QOM property
-    fails
-  hw/i386/microvm-dt: Determine mc146818rtc's IRQ number from QOM
-    property
-  hw/rtc/mc146818rtc: QOM'ify io_base offset
-  hw: Reuse TYPE_I8042 define
-  hw/audio/cs4231a: Const'ify global tables
-  hw/i386/pc: Unexport PC_CPU_MODEL_IDS macro
-  hw/i386/pc: Unexport functions used only internally
-  hw/i386/pc: Remove orphan declarations
-  hw/net/fsl_etsec/etsec: Remove obsolete and unused etsec_create()
-  accel/tcg/cpu-exec: Unexport dump_drift_info()
-  accel/tcg: Inline dump_opcount_info() and remove it
-  docs/devel: Fix link to developer mailing lists
-
-Dragan Mladjenovic (4):
-  target/mips: Fix emulation of nanoMIPS EXTRV_S.H instruction
-  target/mips: Fix emulation of nanoMIPS BPOSGE32C instruction
-  target/mips: Fix emulation of nanoMIPS BNEC[32] instruction
-  target/mips: Fix handling of unaligned memory access for nanoMIPS ISA
-
-Marcin Nowakowski (1):
-  target/mips: Fix WatchHi.M handling
-
-Mark Cave-Ayland (11):
-  hw/acpi/piix4: move xen_enabled() logic from piix4_pm_init() to
-    piix4_pm_realize()
-  hw/acpi/piix4: change smm_enabled from int to bool
-  hw/acpi/piix4: convert smm_enabled bool to qdev property
-  hw/acpi/piix4: move PIIX4PMState into separate piix4.h header
-  hw/acpi/piix4: alter piix4_pm_init() to return PIIX4PMState
-  hw/acpi/piix4: rename piix4_pm_init() to piix4_pm_initfn()
-  hw/acpi/piix4: use qdev gpio to wire up sci_irq
-  hw/acpi/piix4: use qdev gpio to wire up smi_irq
-  hw/i386/pc_piix: create PIIX4_PM device directly instead of using
-    piix4_pm_initfn()
-  hw/isa/piix4.c: create PIIX4_PM device directly instead of using
-    piix4_pm_initfn()
-  hw/acpi/piix4: remove unused piix4_pm_initfn() function
-
-Ni Hui (6):
-  target/mips: Fix SAT_S trans helper
-  target/mips: Fix df_extract_val() and df_extract_df() dfe lookup
-  target/mips: Fix msa checking condition in trans_msa_elm_fn()
-  target/mips: Do not treat msa INSERT as NOP when wd is zero
-  target/mips: Fix store adress of high 64bit in helper_msa_st_b()
-  target/mips: Fix FTRUNC_S and FTRUNC_U trans helper
-
-Peter Maydell (1):
-  hw/block/fdc-sysbus: Always mark sysbus floppy controllers as not
-    having DMA
-
-Stefan Pejic (3):
-  target/mips: Fix emulation of nanoMIPS MTHLIP instruction
-  target/mips: Add missing default cases for some nanoMIPS pools
-  target/mips: Undeprecate nanoMIPS ISA support in QEMU
-
- MAINTAINERS                              |   3 +-
- accel/tcg/cpu-exec.c                     |   4 +-
- accel/tcg/translate-all.c                |   5 -
- docs/about/deprecated.rst                |  30 ------
- docs/devel/submitting-a-patch.rst        |   6 +-
- hw/acpi/piix4.c                          |  77 +++------------
- hw/audio/cs4231a.c                       |   8 +-
- hw/block/fdc-sysbus.c                    |  16 +++-
- hw/i386/acpi-build.c                     |   1 +
- hw/i386/microvm-dt.c                     |   9 +-
- hw/i386/pc.c                             |  17 +++-
- hw/i386/pc_piix.c                        |  23 +++--
- hw/isa/piix3.c                           |  98 ++++++++++---------
- hw/isa/piix4.c                           | 116 ++++++++++++-----------
- hw/mips/jazz.c                           |   2 +-
- hw/mips/malta.c                          |   9 +-
- hw/net/fsl_etsec/etsec.c                 |  23 -----
- hw/net/fsl_etsec/etsec.h                 |   7 --
- hw/rtc/mc146818rtc.c                     |   9 +-
- hw/sparc64/sun4u.c                       |   2 +-
- include/exec/cpu-all.h                   |   3 -
- include/hw/acpi/piix4.h                  |  75 +++++++++++++++
- include/hw/block/fdc.h                   |   3 +-
- include/hw/i386/pc.h                     |  14 ---
- include/hw/isa/isa.h                     |   2 -
- include/hw/rtc/mc146818rtc.h             |   2 +-
- include/hw/southbridge/piix.h            |  12 +--
- target/mips/cpu.c                        |   2 +-
- target/mips/cpu.h                        |   3 +-
- target/mips/tcg/msa_helper.c             |   2 +-
- target/mips/tcg/msa_translate.c          |  29 +++---
- target/mips/tcg/nanomips_translate.c.inc |  33 ++++++-
- target/mips/tcg/sysemu/cp0_helper.c      |   3 +-
- target/mips/tcg/translate.c              |   5 +-
- 34 files changed, 333 insertions(+), 320 deletions(-)
- create mode 100644 include/hw/acpi/piix4.h
-
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index ad74fbe636..c15c955367 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -305,7 +305,7 @@ static void mips_cpu_reset(DeviceState *dev)
+ 
+         for (i = 0; i < 7; i++) {
+             env->CP0_WatchLo[i] = 0;
+-            env->CP0_WatchHi[i] = 0x80000000;
++            env->CP0_WatchHi[i] = 1 << CP0WH_M;
+         }
+         env->CP0_WatchLo[7] = 0;
+         env->CP0_WatchHi[7] = 0;
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 5335ac10a3..6b6b8776d1 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1005,6 +1005,7 @@ typedef struct CPUArchState {
+  */
+     uint64_t CP0_WatchHi[8];
+ #define CP0WH_ASID 16
++#define CP0WH_M    31
+ /*
+  * CP0 Register 20
+  */
+diff --git a/target/mips/tcg/sysemu/cp0_helper.c b/target/mips/tcg/sysemu/cp0_helper.c
+index aae2af6ecc..5da1124589 100644
+--- a/target/mips/tcg/sysemu/cp0_helper.c
++++ b/target/mips/tcg/sysemu/cp0_helper.c
+@@ -1396,10 +1396,11 @@ void helper_mtc0_watchlo(CPUMIPSState *env, target_ulong arg1, uint32_t sel)
+ void helper_mtc0_watchhi(CPUMIPSState *env, target_ulong arg1, uint32_t sel)
+ {
+     uint64_t mask = 0x40000FF8 | (env->CP0_EntryHi_ASID_mask << CP0WH_ASID);
++    uint64_t m_bit = env->CP0_WatchHi[sel] & (1 << CP0WH_M); /* read-only */
+     if ((env->CP0_Config5 >> CP0C5_MI) & 1) {
+         mask |= 0xFFFFFFFF00000000ULL; /* MMID */
+     }
+-    env->CP0_WatchHi[sel] = arg1 & mask;
++    env->CP0_WatchHi[sel] = m_bit | (arg1 & mask);
+     env->CP0_WatchHi[sel] &= ~(env->CP0_WatchHi[sel] & arg1 & 0x7);
+ }
+ 
 -- 
 2.36.1
 
