@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894C65473E4
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:44:24 +0200 (CEST)
-Received: from localhost ([::1]:56816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BA65473E2
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:44:12 +0200 (CEST)
+Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzybP-0000nn-Jg
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43228)
+	id 1nzybD-0000JG-JD
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:44:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyR5-0001pp-Ks
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:44 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37856)
+ id 1nzyRA-0001u1-Uj
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:49 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyR4-0006BC-76
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:43 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o16so1489527wra.4
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:41 -0700 (PDT)
+ id 1nzyR9-0006BU-FP
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:48 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id x17so1480821wrg.6
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bal8ZKCqz3Fet60H5OB1zckPM9A11UHakCg63aKImjc=;
- b=FNBbzwaTMI66qoaWq43e4lIlLntyx9vNqC8fKuWpA9xZ9TNqqTPfOp8WDupka3o6S8
- A402pK18HTU2HgrpZ/gGmc3svjEhu+hl+XK9fhXNbmByFts/6a2JGNyy6m591NYzuyc9
- 4+dvIHYtXmcllXK66gsIxlOf/j79kN8EFEhbTynxyV5+4tur+3SXRu4jxXhGfaLXxMhl
- mF7YIapvkHqme+mjfQS0rb9DnLl0Kd8qpYFQE9X541BGp3E1XxPrcNvbTNWtbbkc4Glj
- 0itAUbKRADsmpg5piaCsoJCrI2J9atNybsMoBfcK/nq3OcUwJBvMdhHAt5Ie10EcGHkk
- zWfw==
+ bh=GoasRVFb2BlfBxlq+erSiANRPbzQryTPUnnof92UlaM=;
+ b=p3jLhGBxIRgGn1aPrI25Qp3/H3CWeZC34gVcb+fGrVJI3Yd6AlhLxJz4GSl6eI/7ck
+ Suvuo7Bk8nmEfxqEs64QnzBPxxoojWuDM//NSY1qzHCqUdteWHLqGMXDaCcg6oTAkovw
+ oxMn2Kx9AzejsqO0KLWPz/TdAjowARvxAnIu1mrkwcXueHMrrZT0wwkKquepTf+dUao+
+ CbLjOwP5SAhkbYcMhFK77ajTBx75bn4iGIPi2EE0SH3E1c3erx4xbQRoUNlFB2bHpnal
+ eRb3CmvWbP1bSl6cl6lYhkeXtYVhNR5agZ4hRa58vE5tyOOOyLcceUg136sXGHWXtoba
+ xXXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bal8ZKCqz3Fet60H5OB1zckPM9A11UHakCg63aKImjc=;
- b=zhSsdD3/WpCF+EfS7FA70ZG4qF6grvn09fX/BKSnIxpncW4bqiddnNvdCXede36XfP
- lTtoULXfDq2RuUxV/dyzWKj5HiDbZvDCcLqMwE93rFNLgNU9Rke5UVaB1i8fbIEej0QD
- FKsohLwNAu61+hxQs1/MC7tA7IMO9SBqhOp15+wl+JIYyzEG6aemGF6hgyjUbxbNANrF
- d3jwm5LuKfk0vhydjQGvq5x4toEZ0p6jwBcnr0zovPHdQDL/g+EKDmCga+/a4kBYEDhO
- j8pQbpZ/tXrSZWoiyNOaj0cHKCGwo0+TV1POGdvER9E8F/7X9O5HZ5RanVS+Ph0EXMTl
- mMWw==
-X-Gm-Message-State: AOAM530BWbNwp+6s2BFJa1WvcbRIBUPwEpPMqkI+2dMf6CNV9hp0Cbqa
- r3NWUk5f50Tf1yeXH+VH4d33WgWqSa8=
-X-Google-Smtp-Source: ABdhPJyPt4H2CoLt4ZxkUuiTSON9fgk4ILfVskN5s7NoXVgWwV0uvZJENztYuBDBmbGK8oqTZWLHlQ==
-X-Received: by 2002:a5d:6283:0:b0:213:b939:826d with SMTP id
- k3-20020a5d6283000000b00213b939826dmr43591535wru.543.1654943620716; 
- Sat, 11 Jun 2022 03:33:40 -0700 (PDT)
+ bh=GoasRVFb2BlfBxlq+erSiANRPbzQryTPUnnof92UlaM=;
+ b=VFlle4gLNSArUP/WBhB2hkVWhQLSmKkzMVOi4V5vuTnPTC30DGYwkesmEmxXSNOtWr
+ EgZYtQl9Uu05Omdj0IhYAdAtZKsy7PhNtYSF5SbMa5quYw+u9BcJ2YZ63BVDBrMP7BMo
+ pC4NSb8ftnG6sDJm/4ZSfR4GYF9krL37vyBbNiQVeoUTfBCFt5/7HGqVHOGBhrvdxy9x
+ WgENi3hH+ey1CebwAbczfjfF5dtI9K/3ApjwsK1Ol9VrEFDTOWDqRwaLSkd6Oqxm9KnE
+ 9K0t7FqipCJ0t2z+SbtekH0Rf4coeF2OR5pby8GnB7Of3kcWJS796uibTIWhKk0s9BHf
+ 2CZw==
+X-Gm-Message-State: AOAM5310JCImZjxgZfHSdPdS76FZwN+aKf2TBtzlKIQAIpLqk4OODXCt
+ B6pJhRuw8p/8Y1RvdTW1Q6m/IGPs5Xc=
+X-Google-Smtp-Source: ABdhPJz5zAej6VJX0qqxCsNHSK6iBmv9EHalf8lJhXQzQt/fDlweUwC8C9E4+cY/PX6lYS4b9pmf1Q==
+X-Received: by 2002:a5d:47a4:0:b0:218:5829:dced with SMTP id
+ 4-20020a5d47a4000000b002185829dcedmr21151077wrb.56.1654943625879; 
+ Sat, 11 Jun 2022 03:33:45 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- m5-20020a056000008500b00213d75491b0sm2128554wrx.48.2022.06.11.03.33.39
+ j7-20020a05600c190700b0039c4ba160absm15116177wmq.2.2022.06.11.03.33.44
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:33:40 -0700 (PDT)
+ Sat, 11 Jun 2022 03:33:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -63,19 +63,20 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Ni Hui <shuizhuyuanluo@126.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 05/49] target/mips: Do not treat msa INSERT as NOP when wd is
- zero
-Date: Sat, 11 Jun 2022 12:32:28 +0200
-Message-Id: <20220611103312.67773-6-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 06/49] target/mips: Fix store adress of high 64bit in
+ helper_msa_st_b()
+Date: Sat, 11 Jun 2022 12:32:29 +0200
+Message-Id: <20220611103312.67773-7-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,59 +101,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ni Hui <shuizhuyuanluo@126.com>
 
-Only for msa COPY_U/COPY_S with wd zero, we treat it as NOP.
+This patch fix the issue that helper_msa_st_b() write high 64bit
+data to where the low 64bit resides, leaving high 64bit undefined.
 
-Move this special rule into COPY_U and COPY_S trans function.
-
-Fixes: 97fe675519 ("target/mips: Convert MSA COPY_S and INSERT opcodes to decodetree")
+Fixes: 68ad9260e0 ("target/mips: Use 8-byte memory ops for msa load/store")
 Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220503130708.272850-4-shuizhuyuanluo@126.com>
+Message-Id: <20220504023319.12923-1-shuizhuyuanluo@126.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/msa_translate.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ target/mips/tcg/msa_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index 92ccc6f921..0b3dd0957c 100644
---- a/target/mips/tcg/msa_translate.c
-+++ b/target/mips/tcg/msa_translate.c
-@@ -603,11 +603,6 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
-         return true;
-     }
+diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
+index 4dde5d639a..736283e2af 100644
+--- a/target/mips/tcg/msa_helper.c
++++ b/target/mips/tcg/msa_helper.c
+@@ -8329,7 +8329,7 @@ void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
  
--    if (a->wd == 0) {
--        /* Treat as NOP. */
--        return true;
--    }
--
-     gen_msa_elm[a->df](cpu_env,
-                        tcg_constant_i32(a->wd),
-                        tcg_constant_i32(a->ws),
-@@ -624,6 +619,11 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
+     /* Store 8 bytes at a time.  Vector element ordering makes this LE.  */
+     cpu_stq_le_data_ra(env, addr + 0, pwd->d[0], ra);
+-    cpu_stq_le_data_ra(env, addr + 0, pwd->d[1], ra);
++    cpu_stq_le_data_ra(env, addr + 8, pwd->d[1], ra);
+ }
  
- static bool trans_COPY_U(DisasContext *ctx, arg_msa_elm_df *a)
- {
-+    if (a->wd == 0) {
-+        /* Treat as NOP. */
-+        return true;
-+    }
-+
-     static gen_helper_piii * const gen_msa_copy_u[4] = {
-         gen_helper_msa_copy_u_b, gen_helper_msa_copy_u_h,
-         NULL_IF_MIPS32(gen_helper_msa_copy_u_w), NULL
-@@ -634,6 +634,11 @@ static bool trans_COPY_U(DisasContext *ctx, arg_msa_elm_df *a)
- 
- static bool trans_COPY_S(DisasContext *ctx, arg_msa_elm_df *a)
- {
-+    if (a->wd == 0) {
-+        /* Treat as NOP. */
-+        return true;
-+    }
-+
-     static gen_helper_piii * const gen_msa_copy_s[4] = {
-         gen_helper_msa_copy_s_b, gen_helper_msa_copy_s_h,
-         gen_helper_msa_copy_s_w, NULL_IF_MIPS32(gen_helper_msa_copy_s_d)
+ void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
 -- 
 2.36.1
 
