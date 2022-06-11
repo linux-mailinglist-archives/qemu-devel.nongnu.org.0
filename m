@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8BA547443
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:34:59 +0200 (CEST)
-Received: from localhost ([::1]:55468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14752547435
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:24:54 +0200 (CEST)
+Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzzOM-0001dy-Bz
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:34:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43942)
+	id 1nzzEb-0006rp-5G
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyTp-0006Mf-7W
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:33 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36595)
+ id 1nzyTu-0006aS-H1
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:38 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyTn-0006mS-IY
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:32 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id o8so1500251wro.3
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:36:31 -0700 (PDT)
+ id 1nzyTt-0006mv-1t
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:38 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u8so1451452wrm.13
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/3Frjb+iZeP6AJlq/dppPnZOms0aAvuMgoxoQExC85M=;
- b=m20ruo3F2IOOtkLNtyz9Z65BKHbfypTAAB5jSV/Tk36pPgmnnft9FWrXhMKv4Ut2OF
- bYocOO5ZLGhdqa6ZzZ9KS1nP6Ojis5/nRCHEpoQzj7OakVVYmo6cY/33CA114C1o0aNS
- RD+BTPVnEdxdzYF14M0GNrAZ4TKxB5y9Bj2h71Y6WVLR1/q5sLdilBmbMr8D/Lf1XrkM
- XVIHwppynmaQ8DIRoPQ3AG0wJMrlnmU8W+jnWU0aEkT18GYdZdVXC4KQNiEWAQXcveKz
- /piPbPk27/sFArUTkdwqQQ3NBj6IIY6wGioMlXr+X1S4bM6p9Qz0WezfP85OerPcfL+g
- Pyuw==
+ bh=I09RuRBTDHhSRzTYr/o2mwFl0EFDkRli978RWl4TvaA=;
+ b=Nq6N6vpRAVPVm8Qd1tbLvs5S2Vrng6NzxTnTm2CcpDoIz0SZD2cPpgw1o5jUrk9LJp
+ FGW0SCWc1yVRAtflWhhsPopxNXBW0M66+x2LDXj3TXo6LWdJU7gLaF3lmk5SKVoqviWP
+ VBkTND6orRGVjSs3x6/0XOKE7pAf7uig4tbvgFGNnsjZsIwvW4t5TRZagWY1YtQQBlpi
+ coVzRh1Tiek5FsPwSPGfiFOwN99IkC/nKvn8Zb+Mcjo6GqEhEn8NLZoL33EjUHibLj7f
+ L4chQUY0J/hZInFFaItIsro9uEcXY8eIXOeOaAM1ETSdBL5INkUIAHP0ueDWVL81t1V9
+ UjyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/3Frjb+iZeP6AJlq/dppPnZOms0aAvuMgoxoQExC85M=;
- b=waQiuEejarP5918IoBRKJN39YUM6Zf5fEwwdPTvy/knv1SJ4Q5bBRzOR8AGQEdkdGV
- rhdk3o6jL89FPFgvLI+EhX8OgICR6QEwhoPXJcIKpfqaqwXfcIQ9dPwdOo/C/AU9rTBF
- wOOCEewSRFjTrN8nqdvk0QYLdbUbtEwS/rvrjY1/6PCUfZr7vXASP93ni0dmysj3iEfg
- 7lZLCXm6AQoJ3uT9xrKfFKtqnYYlHIIS4YVjwWDCrK2fT9qCBsSt/WSQtO/rMCRE2c+D
- mWyUAwm6EH3cqcJ4hjAvmKx8zZnzJgyYwzg5TNPgyoKvsssWz5nRgfji/QsvOfCVmsZR
- lkZQ==
-X-Gm-Message-State: AOAM530Ptq13A+MTGN62V7X/+tUYfZoQJTOI2olhC7LsCPzQBEQDz/Ed
- rKJG9tW5XMFeOehJJN9UF5w4zmwQDyY=
-X-Google-Smtp-Source: ABdhPJziEwbUPWcllCFs2ULPxl0lF+oOE3dh+XRW/+ZqmBRZYke4n1JDFnSzKL8J3aHqB/q4+K3jQQ==
-X-Received: by 2002:a5d:5002:0:b0:212:dab6:fce9 with SMTP id
- e2-20020a5d5002000000b00212dab6fce9mr47145494wrt.63.1654943790030; 
- Sat, 11 Jun 2022 03:36:30 -0700 (PDT)
+ bh=I09RuRBTDHhSRzTYr/o2mwFl0EFDkRli978RWl4TvaA=;
+ b=WGVUxGIuyleviiWdF9tkyh8wlPb8y00dpSAUxPEQ3KOjifmZh2YCvufrWbVLYEfkAs
+ Ft9nDPRZ52CVgnNlrDOO3kavoohZQaR3vEXqcpWbbzE331Q+wsxwDZZUiCJLN5CwFvoC
+ pUfX6JW2x76Wd03WDKRaJ6/UWrm+l2O547obfTNfu2rz2WxhhJ3nEiMGXIzraIU7wdal
+ LuwKIfREU3Na7CwjduZz6Ult9YmWB0wz3wex694zUdwSXmhCpc+1oJAQdi/LN5VAmcKf
+ 5ZsToiGfxa/5XvraCAzucZKwpk+7mFhn+T8/z4TYxg9b8MfQc0yc2oYgbjPp2z7u1wgC
+ rI7g==
+X-Gm-Message-State: AOAM532y0cOD12wmA9Losv6UlnqL7DTGbAjR0Lt+qRUr2EC1RbwYe+Sp
+ XA9VeTlECRy84DwTOXASOe0I5pefrcw=
+X-Google-Smtp-Source: ABdhPJyou6QWsZdnWY1Zfkg5K1nfaFZT/jMWntl1y+vP2EODf9j5y1IbMcqV/ZHr9ATGGe1JcBKszg==
+X-Received: by 2002:a05:6000:156f:b0:218:4328:b4e0 with SMTP id
+ 15-20020a056000156f00b002184328b4e0mr29200672wrz.526.1654943795230; 
+ Sat, 11 Jun 2022 03:36:35 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- d9-20020a5d6449000000b002101ed6e70fsm2194403wrw.37.2022.06.11.03.36.28
+ f4-20020a056000128400b002184280b3cbsm2132288wrx.91.2022.06.11.03.36.34
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:36:29 -0700 (PDT)
+ Sat, 11 Jun 2022 03:36:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -64,18 +64,18 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 38/49] hw/i386/microvm-dt: Force explicit failure if retrieving
- QOM property fails
-Date: Sat, 11 Jun 2022 12:33:01 +0200
-Message-Id: <20220611103312.67773-39-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 39/49] hw/i386/microvm-dt: Determine mc146818rtc's IRQ number
+ from QOM property
+Date: Sat, 11 Jun 2022 12:33:02 +0200
+Message-Id: <20220611103312.67773-40-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,40 +100,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-New code will be added where this is best practice. So update existing code
-as well.
+Since commit 3b004a16540aa41f2aa6a1ceb0bf306716766914 'hw/rtc/
+mc146818rtc: QOM'ify IRQ number' mc146818rtc's IRQ number is
+configurable. Fix microvm-dt to respect its value.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220529184006.10712-2-shentey@gmail.com>
+Message-Id: <20220529184006.10712-3-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/microvm-dt.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/i386/microvm-dt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
-index 9c3c4995b4..fde74819f2 100644
+index fde74819f2..287818c641 100644
 --- a/hw/i386/microvm-dt.c
 +++ b/hw/i386/microvm-dt.c
-@@ -32,6 +32,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
-+#include "qapi/error.h"
- #include "sysemu/device_tree.h"
- #include "hw/char/serial.h"
- #include "hw/i386/fw_cfg.h"
-@@ -187,8 +188,8 @@ static void dt_add_ioapic(MicrovmMachineState *mms, SysBusDevice *dev)
- static void dt_add_isa_serial(MicrovmMachineState *mms, ISADevice *dev)
+@@ -209,7 +209,7 @@ static void dt_add_isa_serial(MicrovmMachineState *mms, ISADevice *dev)
+ static void dt_add_isa_rtc(MicrovmMachineState *mms, ISADevice *dev)
  {
-     const char compat[] = "ns16550";
--    uint32_t irq = object_property_get_int(OBJECT(dev), "irq", NULL);
--    hwaddr base = object_property_get_int(OBJECT(dev), "iobase", NULL);
-+    uint32_t irq = object_property_get_int(OBJECT(dev), "irq", &error_fatal);
-+    hwaddr base = object_property_get_int(OBJECT(dev), "iobase", &error_fatal);
+     const char compat[] = "motorola,mc146818";
+-    uint32_t irq = RTC_ISA_IRQ;
++    uint32_t irq = object_property_get_uint(OBJECT(dev), "irq", &error_fatal);
+     hwaddr base = RTC_ISA_BASE;
      hwaddr size = 8;
      char *nodename;
- 
 -- 
 2.36.1
 
