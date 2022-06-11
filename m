@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14535547408
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:57:36 +0200 (CEST)
-Received: from localhost ([::1]:53620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EB5547427
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:15:41 +0200 (CEST)
+Received: from localhost ([::1]:32986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzyoB-0001Q7-2Z
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
+	id 1nzz5f-0006z2-20
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:15:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzySL-0004iY-9Y
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:01 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40743)
+ id 1nzySQ-0004nk-2m
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:06 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzySJ-0006Jg-Lu
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:01 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id k16so1482865wrg.7
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:34:58 -0700 (PDT)
+ id 1nzySO-0006Re-EV
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:05 -0400
+Received: by mail-wr1-x433.google.com with SMTP id o8so1497575wro.3
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=q1t9tYgatWt24bQaSrmnXZ4KfcWsmexzRBCbydLr6+Y=;
- b=NBScj0Q1eam0szZ/snIhmuEs/IbXpDIlDqBtX+eLtR8dcKa6Fr2S0+PMnwrjhFZMJX
- JxTRDB0raKfFReCYylLX9vEvIYv/G73s5JvPNOdrhMuqQTMWLM3kTNeRZLFi2J9wtwz0
- hzNe9BcL4YvycKmOCbn3Ahq60dwTBSNaYinmZGYU6IrYYfORr3uGFYfU4IUkpod5H63I
- C4SimYMM+m0gIW+81R0sq1MIja/tA+7JY3lFRY78OnGlX3z+PASs85XpAaqK6AVn3zwV
- 1e7rXhCzLYXpLYrY0/sUUYRn0+eA84iorSDXBfiNoy+ieTNgC1tgJ1N15vactqLy3XXh
- cSzw==
+ bh=QtthewnhJjnvXmzUB1KbViQi6psKm9rJ21+vAD8TbEc=;
+ b=TnzrWe2krVmv+X5UzXs5qgOtbCoFhVdgxXHbwoeteCFIGPoAuirZkEQ7tLJGcluMqr
+ QvGCduqUqzBCZ6trausNQRHCqBOtXe5QVTyScEQQ6RSPk3IXiwR66cUca5DLW+e270hl
+ g0mF1riqyG6eNNrjEXUGosQacqBvsuMfI3Fr2BOpTw82wYatmaU/mC/DoJTnJxUiI83g
+ 9RQ//P9x/FDpvxbEcFTpJOgXKKYi9O3q+xiV0gvl3bXFeA2orT81sy4bUHL3DY5+MQNs
+ 9OPsDRCzONoO41pmE96J5JCvEv/NbNdzM5IEfeiErLRlAZQC95VZ6oydaBRiqQEcWqng
+ dQWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=q1t9tYgatWt24bQaSrmnXZ4KfcWsmexzRBCbydLr6+Y=;
- b=N3y4y3tvcY3x7SJGQHLj8IOT6XtExb0DVfZ3KG7ce60SjNEdwFZ2n2N+PFY+y/56+o
- MIbkTMZnVS90TUxpW+PenjPlTl89d8/Y5/bop4CJoZjq1M3ZpwKQcT8Kn6VawK2393Ic
- 6IllFH7ZqkzZpedniQ6ebJoZh4HrGLxfdB1zn51GVtJw3mCMjDDjjXDDCRLG9amg7PO6
- ta6uTM6wZre/sj1NWQT2e3Z/2Mtw8dsFwfCNhBbXMZ4kkkrqp1WHte9dVhqZdJ4c41ht
- x51KyKiCPDS4+XOTS+GFdditWOYjCfzagfzQHsdPOtq+70BJT+8OqMuiiGmi1dsRHHuL
- NzCQ==
-X-Gm-Message-State: AOAM531mpgeHWXRBR0v0gwhKQFAfi1W7l73pQ+XQWFTFtPCV+97eSMLO
- zmsc7RjtDc9ri4fQJYFAdhP96xQf2P4=
-X-Google-Smtp-Source: ABdhPJyvjhsd9Nz02KwEkB5jMMPVfPE1bOudh8QOaxbuhaOrZFnCypnFTEyGfu8MwKpUu5ub8UqSKw==
-X-Received: by 2002:adf:e30f:0:b0:210:346e:d5da with SMTP id
- b15-20020adfe30f000000b00210346ed5damr47067400wrj.313.1654943697669; 
- Sat, 11 Jun 2022 03:34:57 -0700 (PDT)
+ bh=QtthewnhJjnvXmzUB1KbViQi6psKm9rJ21+vAD8TbEc=;
+ b=6KNyDLfW220AEqdl3uEzECKgamOrTFhJa08VXD2SJHJnKZAjsWXqo23tN7JuTrqMRF
+ IWWvMXAx6MxWhoitauACZDpqMkkl6+V9nL4VnvCfyNIX7FoE8/rl8a6gv+SxTYApcnUy
+ qFjsV1VUYGqF//ffhaSKOoN6vaFsCWZe6vGz06xkPJBT3W8ALwp0hfbAG9qs00lB7rBn
+ 2h6Dr/+ToqE1zJVO5vGMDKuGgyJEkxZ4o7Ycaa4xFG/ZmJe6twye4/DFOGlEHmsT51aT
+ WkSEec9B96WpQlrGQuPioa5qDhAHd9hbrb+ggelQqywtrW5iyRPrrEswa/kLEtzjnZOW
+ mAfQ==
+X-Gm-Message-State: AOAM532QCFACYOzPEwcrOLfue1V+MwrEc6SvAq9LNGpg4b+XuMsdLKCc
+ O6Ro7nPiBHBk/MEtRZ9E9hSnJycnFf4=
+X-Google-Smtp-Source: ABdhPJxmBezNh2ieXx0WeR8/dbTlwu/Oj74HVzmA66tspPFWvipcpGoLJ87YjWVX79tyGO4hE20MJg==
+X-Received: by 2002:adf:ea87:0:b0:211:68d:7c93 with SMTP id
+ s7-20020adfea87000000b00211068d7c93mr47285080wrm.412.1654943702864; 
+ Sat, 11 Jun 2022 03:35:02 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- m12-20020a5d6a0c000000b0020cdcb0efa2sm2159084wru.34.2022.06.11.03.34.56
+ i7-20020a1c3b07000000b0039744bd664esm6346760wma.13.2022.06.11.03.35.01
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:34:57 -0700 (PDT)
+ Sat, 11 Jun 2022 03:35:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -64,18 +64,18 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PULL 20/49] hw/acpi/piix4: alter piix4_pm_init() to return
- PIIX4PMState
-Date: Sat, 11 Jun 2022 12:32:43 +0200
-Message-Id: <20220611103312.67773-21-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 21/49] hw/acpi/piix4: rename piix4_pm_init() to
+ piix4_pm_initfn()
+Date: Sat, 11 Jun 2022 12:32:44 +0200
+Message-Id: <20220611103312.67773-22-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,123 +100,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-This exposes the PIIX4_PM device to the caller to allow any qdev gpios to be
-mapped outside of piix4_pm_init().
+When QOMifying a device it is typical to use _init() as the suffix for an
+instance_init function, however this name is already in use by the legacy
+piix4_pm_init() wrapper function. Eventually the wrapper function will be
+removed, but for now rename it to piix4_pm_initfn() to avoid a naming
+collision.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220528091934.15520-6-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220528091934.15520-7-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Bernhard Beschow <shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/acpi/piix4.c               | 11 ++++-------
- hw/i386/pc_piix.c             | 10 +++++-----
- hw/isa/piix4.c                |  8 +++++---
- include/hw/southbridge/piix.h |  7 ++++---
- 4 files changed, 18 insertions(+), 18 deletions(-)
+ hw/acpi/piix4.c               | 6 +++---
+ hw/i386/pc_piix.c             | 6 +++---
+ hw/isa/piix4.c                | 6 +++---
+ include/hw/southbridge/piix.h | 6 +++---
+ 4 files changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index c2177c5093..c4cfb75020 100644
+index c4cfb75020..418ec4ee56 100644
 --- a/hw/acpi/piix4.c
 +++ b/hw/acpi/piix4.c
 @@ -497,9 +497,9 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
      piix4_pm_add_properties(s);
  }
  
--I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
--                      qemu_irq sci_irq, qemu_irq smi_irq,
--                      bool smm_enabled, DeviceState **piix4_pm)
-+PIIX4PMState *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
-+                            qemu_irq sci_irq, qemu_irq smi_irq,
-+                            bool smm_enabled)
+-PIIX4PMState *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+-                            qemu_irq sci_irq, qemu_irq smi_irq,
+-                            bool smm_enabled)
++PIIX4PMState *piix4_pm_initfn(PCIBus *bus, int devfn, uint32_t smb_io_base,
++                              qemu_irq sci_irq, qemu_irq smi_irq,
++                              bool smm_enabled)
  {
      PCIDevice *pci_dev;
      DeviceState *dev;
-@@ -509,9 +509,6 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
-     dev = DEVICE(pci_dev);
-     qdev_prop_set_uint32(dev, "smb_io_base", smb_io_base);
-     qdev_prop_set_bit(dev, "smm-enabled", smm_enabled);
--    if (piix4_pm) {
--        *piix4_pm = dev;
--    }
- 
-     s = PIIX4_PM(dev);
-     s->irq = sci_irq;
-@@ -519,7 +516,7 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
- 
-     pci_realize_and_unref(pci_dev, bus, &error_fatal);
- 
--    return s->smb.smbus;
-+    return s;
- }
- 
- static uint64_t gpe_readb(void *opaque, hwaddr addr, unsigned width)
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index bd63511c1c..3359b40f54 100644
+index 3359b40f54..fde0fdc088 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -280,14 +280,14 @@ static void pc_init1(MachineState *machine,
-     }
- 
-     if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
--        DeviceState *piix4_pm;
-+        PIIX4PMState *piix4_pm;
+@@ -283,9 +283,9 @@ static void pc_init1(MachineState *machine,
+         PIIX4PMState *piix4_pm;
  
          smi_irq = qemu_allocate_irq(pc_acpi_smi_interrupt, first_cpu, 0);
-+        piix4_pm = piix4_pm_init(pci_bus, piix3_devfn + 3, 0xb100,
-+                                 x86ms->gsi[9], smi_irq,
-+                                 x86_machine_is_smm_enabled(x86ms));
-+        pcms->smbus = I2C_BUS(qdev_get_child_bus(DEVICE(piix4_pm), "i2c"));
+-        piix4_pm = piix4_pm_init(pci_bus, piix3_devfn + 3, 0xb100,
+-                                 x86ms->gsi[9], smi_irq,
+-                                 x86_machine_is_smm_enabled(x86ms));
++        piix4_pm = piix4_pm_initfn(pci_bus, piix3_devfn + 3, 0xb100,
++                                   x86ms->gsi[9], smi_irq,
++                                   x86_machine_is_smm_enabled(x86ms));
+         pcms->smbus = I2C_BUS(qdev_get_child_bus(DEVICE(piix4_pm), "i2c"));
          /* TODO: Populate SPD eeprom data.  */
--        pcms->smbus = piix4_pm_init(pci_bus, piix3_devfn + 3, 0xb100,
--                                    x86ms->gsi[9], smi_irq,
--                                    x86_machine_is_smm_enabled(x86ms),
--                                    &piix4_pm);
          smbus_eeprom_init(pcms->smbus, 8, NULL, 0);
- 
-         object_property_add_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 8607e0ac36..7d9bedd1bb 100644
+index 7d9bedd1bb..33a7015ea3 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -293,6 +293,7 @@ static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
- DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
- {
-     PIIX4State *s;
-+    PIIX4PMState *pms;
-     PCIDevice *pci;
-     DeviceState *dev;
-     int devfn = PCI_DEVFN(10, 0);
-@@ -310,9 +311,10 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+@@ -311,9 +311,9 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
  
      pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
      if (smbus) {
--        *smbus = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
--                               qdev_get_gpio_in_named(dev, "isa", 9),
--                               NULL, 0, NULL);
-+        pms = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
-+                            qdev_get_gpio_in_named(dev, "isa", 9),
-+                            NULL, 0);
-+        *smbus = I2C_BUS(qdev_get_child_bus(DEVICE(pms), "i2c"));
+-        pms = piix4_pm_init(pci_bus, devfn + 3, 0x1100,
+-                            qdev_get_gpio_in_named(dev, "isa", 9),
+-                            NULL, 0);
++        pms = piix4_pm_initfn(pci_bus, devfn + 3, 0x1100,
++                              qdev_get_gpio_in_named(dev, "isa", 9),
++                              NULL, 0);
+         *smbus = I2C_BUS(qdev_get_child_bus(DEVICE(pms), "i2c"));
      }
  
-     pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
 diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 04cbc3fe30..a362ec7484 100644
+index a362ec7484..f75a4adf5f 100644
 --- a/include/hw/southbridge/piix.h
 +++ b/include/hw/southbridge/piix.h
-@@ -14,10 +14,11 @@
- 
- #include "hw/pci/pci.h"
+@@ -16,9 +16,9 @@
  #include "qom/object.h"
-+#include "hw/acpi/piix4.h"
+ #include "hw/acpi/piix4.h"
  
--I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
--                      qemu_irq sci_irq, qemu_irq smi_irq,
--                      bool smm_enabled, DeviceState **piix4_pm);
-+PIIX4PMState *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
-+                            qemu_irq sci_irq, qemu_irq smi_irq,
-+                            bool smm_enabled);
+-PIIX4PMState *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+-                            qemu_irq sci_irq, qemu_irq smi_irq,
+-                            bool smm_enabled);
++PIIX4PMState *piix4_pm_initfn(PCIBus *bus, int devfn, uint32_t smb_io_base,
++                              qemu_irq sci_irq, qemu_irq smi_irq,
++                              bool smm_enabled);
  
  /* PIRQRC[A:D]: PIRQx Route Control Registers */
  #define PIIX_PIRQCA 0x60
