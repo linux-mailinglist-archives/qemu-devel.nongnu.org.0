@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ED4547439
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:27:21 +0200 (CEST)
-Received: from localhost ([::1]:33228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F2054743B
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:28:41 +0200 (CEST)
+Received: from localhost ([::1]:38658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzzGz-0002n1-01
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:27:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43880)
+	id 1nzzIG-0006er-KQ
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyTU-00067X-WA
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:13 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:45632)
+ id 1nzyTa-0006Ap-G6
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:26 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyTT-0006kU-4G
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:12 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- x6-20020a1c7c06000000b003972dfca96cso761606wmc.4
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:36:10 -0700 (PDT)
+ id 1nzyTY-0006lB-2h
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:17 -0400
+Received: by mail-wr1-x433.google.com with SMTP id v14so1490652wra.5
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:36:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ul1qFQ9VM3y6jWfQ7BS4BrYGnpboS+5eSvdEyMLG1+Y=;
- b=EvL42hEzVc9XVOPgJI9d8gDcRTdHJKxTWjvx/FpQhWaW7JQN/lL0govaIgptYuVJDI
- odRBBci+0gwohTbeRDiuRPS0gxOJIgj9gM3rU8r7QQdr6koU+R19629xfViU2lhTPIzP
- PHvT8Incpy1QaHC4rjO6O0+2irGqaeIX8lCvUiBxO4/I1DRZT0iPSx+xF+VGRQ+OAgE9
- w71eVW4epYhAmkHX3ccgOAC7PSxsUo7XO+Hodh50accK5upVKGDz1CQfRTXf5PO9t5+b
- TRJJIGd8OBF6IzC3NIESGr8/tOoMxzc7w9zqhKUSmSzRLHEEJVPhPlUR9/fudFhvyYlm
- w7dw==
+ bh=+xDd2IWWipz5tS1XrqxuI9D9wP2W2TyPn8FKseiRH7o=;
+ b=GPDYFHPr0G/BXD6utf+XpVhHaTM6/T7R71CIhuSGB4Mg7AYJ/Z63D2iapZLgbPdB0y
+ M/OZVUc8T/hBEgSmyelU0NXTw/47ZjrfmRDf5l5ZSVtliTmYW7NyMew64l99ZvNGgnUz
+ OQ1hlCrUczWlvN4qHoFBrGC/sdTx1VEn3x0cbcV0Gflpki4iy0Go87IaQ1ysX9Td0NF4
+ AfkO7jj4oJ8g60tL7/v7ZCrnc3g2/BAEd5HBFIjVbSkyqEMFgi7FDe4FnCS386lxzsGg
+ xrktMR77t0G9ZHquE6ZW0N5pBhPbPq/CDbgbzyJa7Cj4JDtXiNgpvF7Xtc0HVqjOMEhm
+ /69A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ul1qFQ9VM3y6jWfQ7BS4BrYGnpboS+5eSvdEyMLG1+Y=;
- b=wHTXw2r24Z6IhKuxLd+K3VvQJr7zRON5sRoEF2FJsaD12UzlnIalWkihxiPYpyeYUp
- xICPuF5Fu3BPgCr6uCfkzQu5WBcteVruVvx4oW5uHV9RNjV5AHhiwC//gFATec5pCtYq
- HnLEnBYVRiszjoiJnGz5jiUhc4H6pKQqL6EmJGMFGGP6A3Qpnz23jBb1k2ZiYOgcEVSt
- rSckM3qhaS69evKzMRg8tN4jAwIQfJfFOH8y7Y2xpWs6HcUsnA5gyHxnPCTUlxk6RHK8
- M7D32AzVaKEgiIa7gRttUDqFLFrEWqjsiNg/a1pJUIoR/is2CdqDhMdaYWuupUYB927F
- OivQ==
-X-Gm-Message-State: AOAM531+FX5cGGXjYeLOo9Xk+bgtF0RQiwfWaJBecUZxDn5GZnrz0dLv
- FFGl4+VXc0hBia8aplrG5h7d+VNnGxA=
-X-Google-Smtp-Source: ABdhPJziMZ/u28e8+dHvuuLMBCM1LmcXshD6qA28pUYhTWfQptyAnnfL1oi0JPDePkO5UrScy0Gx5g==
-X-Received: by 2002:a7b:c4d4:0:b0:39c:5bb7:2210 with SMTP id
- g20-20020a7bc4d4000000b0039c5bb72210mr4209258wmk.99.1654943769522; 
- Sat, 11 Jun 2022 03:36:09 -0700 (PDT)
+ bh=+xDd2IWWipz5tS1XrqxuI9D9wP2W2TyPn8FKseiRH7o=;
+ b=m9eBmtesneMFZ5Wn1kEjazXWJNl/TRrZY8DoqWZ6l6CUBdMouMTG47DJeixqLcGc+Y
+ APAmvs6QjZTy4PEzSHPwa0oWnyWuIe/4Fo+uzkHIcFhfzcpGeRIfoiMZJPKUK6bIPdBO
+ AhVZYi5i97C7MawcOJPy+2QvcERMyL7UoFE20yJJs9Wq9fNsMhVgPq34Y6bYhbn1Qtl6
+ Jc865g+d72oA6p9bM3QxJkhhtU+E/Avg9jfj90U0Peno9ozcRKvDLNk8ffRX4Q0tfZ7Y
+ /ZoDApwcCAbjeGZnFhYR8cg+CGw5Z19Z88VIULrUtmu6p9IW6RiaGFl2rFCAEfCoc9YT
+ HfWQ==
+X-Gm-Message-State: AOAM531kDoCZZXSuCcYJ0ougNflhVFuMylTWZEeKWDIvBNVI8EoiMuwg
+ rJqo03vlRdSfp6vW1kRBRVYjAxG+Isc=
+X-Google-Smtp-Source: ABdhPJzIo/i1dqOHibe85SC8mdIdzc63+JxlbObq7Cnb54hPqXNK4BAtHUM84JEScrfHXSpKU5MBgg==
+X-Received: by 2002:adf:a4d8:0:b0:219:ecd4:159b with SMTP id
+ h24-20020adfa4d8000000b00219ecd4159bmr5382242wrb.431.1654943774618; 
+ Sat, 11 Jun 2022 03:36:14 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- q16-20020a5d5750000000b0020e63ab5d78sm2163247wrw.26.2022.06.11.03.36.08
+ l2-20020a5d6682000000b0020e6ce4dabdsm2145027wru.103.2022.06.11.03.36.13
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:36:09 -0700 (PDT)
+ Sat, 11 Jun 2022 03:36:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -65,17 +64,17 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 34/49] hw/isa/piix3: Move pci_map_irq_fn near pci_set_irq_fn
-Date: Sat, 11 Jun 2022 12:32:57 +0200
-Message-Id: <20220611103312.67773-35-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 35/49] hw/isa/piix3: QOM'ify PCI device creation and wiring
+Date: Sat, 11 Jun 2022 12:32:58 +0200
+Message-Id: <20220611103312.67773-36-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,58 +99,145 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-The pci_map_irq_fn was implemented below type_init() which made it
-inaccessible to QOM functions. So move it up.
+PCI interrupt wiring was performed in create() functions which are
+obsolete. Move these tasks into QOM functions to modernize the code.
+
+In order to avoid duplicate checking for xen_enabled() the realize
+methods are now split.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220603185045.143789-10-shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220603185045.143789-9-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/piix3.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ hw/isa/piix3.c | 67 +++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 45 insertions(+), 22 deletions(-)
 
 diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index c92b36c4f2..d50a07b58b 100644
+index d50a07b58b..89064eb837 100644
 --- a/hw/isa/piix3.c
 +++ b/hw/isa/piix3.c
-@@ -79,6 +79,17 @@ static void piix3_set_irq(void *opaque, int pirq, int level)
-     piix3_set_irq_level(piix3, pirq, level);
+@@ -24,6 +24,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/range.h"
++#include "qapi/error.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+@@ -278,7 +279,7 @@ static const MemoryRegionOps rcr_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN
+ };
+ 
+-static void piix3_realize(PCIDevice *dev, Error **errp)
++static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+ {
+     PIIX3State *d = PIIX3_PCI_DEVICE(dev);
+ 
+@@ -317,7 +318,6 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+     dc->desc        = "ISA bridge";
+     dc->vmsd        = &vmstate_piix3;
+     dc->hotpluggable   = false;
+-    k->realize      = piix3_realize;
+     k->vendor_id    = PCI_VENDOR_ID_INTEL;
+     /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
+     k->device_id    = PCI_DEVICE_ID_INTEL_82371SB_0;
+@@ -343,11 +343,28 @@ static const TypeInfo piix3_pci_type_info = {
+     },
+ };
+ 
++static void piix3_realize(PCIDevice *dev, Error **errp)
++{
++    ERRP_GUARD();
++    PIIX3State *piix3 = PIIX3_PCI_DEVICE(dev);
++    PCIBus *pci_bus = pci_get_bus(dev);
++
++    pci_piix3_realize(dev, errp);
++    if (*errp) {
++        return;
++    }
++
++    pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
++                 piix3, PIIX_NUM_PIRQS);
++    pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
++};
++
+ static void piix3_class_init(ObjectClass *klass, void *data)
+ {
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+ 
+     k->config_write = piix3_write_config;
++    k->realize = piix3_realize;
  }
  
-+/*
-+ * Return the global irq number corresponding to a given device irq
-+ * pin. We could also use the bus number to have a more precise mapping.
-+ */
-+static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
+ static const TypeInfo piix3_info = {
+@@ -356,11 +373,33 @@ static const TypeInfo piix3_info = {
+     .class_init    = piix3_class_init,
+ };
+ 
++static void piix3_xen_realize(PCIDevice *dev, Error **errp)
 +{
-+    int slot_addend;
-+    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
-+    return (pci_intx + slot_addend) & 3;
-+}
++    ERRP_GUARD();
++    PIIX3State *piix3 = PIIX3_PCI_DEVICE(dev);
++    PCIBus *pci_bus = pci_get_bus(dev);
 +
- static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
++    pci_piix3_realize(dev, errp);
++    if (*errp) {
++        return;
++    }
++
++    /*
++     * Xen supports additional interrupt routes from the PCI devices to
++     * the IOAPIC: the four pins of each PCI device on the bus are also
++     * connected to the IOAPIC directly.
++     * These additional routes can be discovered through ACPI.
++     */
++    pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
++                 piix3, XEN_PIIX_NUM_PIRQS);
++};
++
+ static void piix3_xen_class_init(ObjectClass *klass, void *data)
  {
-     PIIX3State *piix3 = opaque;
-@@ -367,17 +378,6 @@ static void piix3_register_types(void)
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
  
- type_init(piix3_register_types)
+     k->config_write = piix3_write_config_xen;
++    k->realize = piix3_xen_realize;
+ };
  
--/*
-- * Return the global irq number corresponding to a given device irq
-- * pin. We could also use the bus number to have a more precise mapping.
-- */
--static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
--{
--    int slot_addend;
--    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
--    return (pci_intx + slot_addend) & 3;
--}
--
- PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus)
+ static const TypeInfo piix3_xen_info = {
+@@ -382,27 +421,11 @@ PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus)
  {
      PIIX3State *piix3;
+     PCIDevice *pci_dev;
++    const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
++                                     : TYPE_PIIX3_DEVICE;
+ 
+-    /*
+-     * Xen supports additional interrupt routes from the PCI devices to
+-     * the IOAPIC: the four pins of each PCI device on the bus are also
+-     * connected to the IOAPIC directly.
+-     * These additional routes can be discovered through ACPI.
+-     */
+-    if (xen_enabled()) {
+-        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true,
+-                                                  TYPE_PIIX3_XEN_DEVICE);
+-        piix3 = PIIX3_PCI_DEVICE(pci_dev);
+-        pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
+-                     piix3, XEN_PIIX_NUM_PIRQS);
+-    } else {
+-        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true,
+-                                                  TYPE_PIIX3_DEVICE);
+-        piix3 = PIIX3_PCI_DEVICE(pci_dev);
+-        pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
+-                     piix3, PIIX_NUM_PIRQS);
+-        pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
+-    }
++    pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
++    piix3 = PIIX3_PCI_DEVICE(pci_dev);
+     *isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
+ 
+     return piix3;
 -- 
 2.36.1
 
