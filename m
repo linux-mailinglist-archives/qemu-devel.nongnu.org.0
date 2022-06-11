@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934FD547431
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:21:21 +0200 (CEST)
-Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2ED4547439
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:27:21 +0200 (CEST)
+Received: from localhost ([::1]:33228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzzBA-0000vm-CL
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
+	id 1nzzGz-0002n1-01
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:27:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyTb-0006Au-H1
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:26 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44702)
+ id 1nzyTU-00067X-WA
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:13 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:45632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyTO-0006kM-CU
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:18 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- m32-20020a05600c3b2000b0039756bb41f2so764395wms.3
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:36:05 -0700 (PDT)
+ id 1nzyTT-0006kU-4G
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:36:12 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ x6-20020a1c7c06000000b003972dfca96cso761606wmc.4
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:36:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EKw8dkFk83kf19j0PuBQx7qP2J6aT8xObisTpd5mA4Q=;
- b=Wk/CsJdVWWDwweJ+HwGmCbdrY2Lm+Yrj+e65BzHPtWwPRmn58kJhCvvZlhNZALgHC3
- YKrOQib9IDAnN5I4P9CPEVm321jo4N0bxFsOb0nXBBdL+93oZkV19EULnXk5C6OzRTEm
- QJuQ1Pyjas2d/g+UkSqEQ/vDWv5g97cY+1ZYw/3eEz+P8P/hMxQHoekMLmHoFBlWzNpt
- 3fK4t7WjIjVjN+F+GhC/WiMzoYAddh9y/nlN/3Fv65WiszHNmMYrWINC2YY6ua5zMccY
- tSX7/WDk4rk3tibj1WsHBFuResMXFxhy0yEx/o6ldtL4OlQAKOP7VJTxDtoynr1uFxYe
- Twbg==
+ bh=Ul1qFQ9VM3y6jWfQ7BS4BrYGnpboS+5eSvdEyMLG1+Y=;
+ b=EvL42hEzVc9XVOPgJI9d8gDcRTdHJKxTWjvx/FpQhWaW7JQN/lL0govaIgptYuVJDI
+ odRBBci+0gwohTbeRDiuRPS0gxOJIgj9gM3rU8r7QQdr6koU+R19629xfViU2lhTPIzP
+ PHvT8Incpy1QaHC4rjO6O0+2irGqaeIX8lCvUiBxO4/I1DRZT0iPSx+xF+VGRQ+OAgE9
+ w71eVW4epYhAmkHX3ccgOAC7PSxsUo7XO+Hodh50accK5upVKGDz1CQfRTXf5PO9t5+b
+ TRJJIGd8OBF6IzC3NIESGr8/tOoMxzc7w9zqhKUSmSzRLHEEJVPhPlUR9/fudFhvyYlm
+ w7dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EKw8dkFk83kf19j0PuBQx7qP2J6aT8xObisTpd5mA4Q=;
- b=rgr1qeWTBNEyoZQNDt5E92dwefp/VA/Kd9n8P/+fL6k9tJQoZcBv5Mngz588eKUchz
- 9MtslE6tCweAKCZ9ABHQ6qCiseC7Ly/Gr3NEtOxQMZ2M/U8J93hNze9vycnj8vycfeIM
- 93UYfVgfhOjCvWZqwLhG8QTcB+1YPaNRKpUY/sE2Ntft8u8eX65lAhheN/QN/iTsfszi
- sZkVAbcXdjDTyl296mHBFzln8JSjTyrm1RIN2fX8FdSJraj+2nWdQ+Z5ovX0hhsj5i56
- gVIRLvGD0GEHj88XnRq+OritiSTLqLdbMYbJx8IR4JoK+cm+yKZpg+xv1ZUVFk1boHyE
- UYmA==
-X-Gm-Message-State: AOAM533NEalJ/rGQuxA/wMTUhvXxRRPriIsY8nGBxDCDZ/DBNNT8NFLd
- 5cVTXJ4oO7W8tWbX2Rn6yNU2GpBApcU=
-X-Google-Smtp-Source: ABdhPJzAEZWn6v4DYWCvPF5GoBKI//1lVXpdbOqMnbvhuFbu26luUfKJot56nY5UZKOJHV3yhjTO8A==
-X-Received: by 2002:a05:600c:646:b0:397:77ab:5eb7 with SMTP id
- p6-20020a05600c064600b0039777ab5eb7mr4283524wmm.166.1654943764479; 
- Sat, 11 Jun 2022 03:36:04 -0700 (PDT)
+ bh=Ul1qFQ9VM3y6jWfQ7BS4BrYGnpboS+5eSvdEyMLG1+Y=;
+ b=wHTXw2r24Z6IhKuxLd+K3VvQJr7zRON5sRoEF2FJsaD12UzlnIalWkihxiPYpyeYUp
+ xICPuF5Fu3BPgCr6uCfkzQu5WBcteVruVvx4oW5uHV9RNjV5AHhiwC//gFATec5pCtYq
+ HnLEnBYVRiszjoiJnGz5jiUhc4H6pKQqL6EmJGMFGGP6A3Qpnz23jBb1k2ZiYOgcEVSt
+ rSckM3qhaS69evKzMRg8tN4jAwIQfJfFOH8y7Y2xpWs6HcUsnA5gyHxnPCTUlxk6RHK8
+ M7D32AzVaKEgiIa7gRttUDqFLFrEWqjsiNg/a1pJUIoR/is2CdqDhMdaYWuupUYB927F
+ OivQ==
+X-Gm-Message-State: AOAM531+FX5cGGXjYeLOo9Xk+bgtF0RQiwfWaJBecUZxDn5GZnrz0dLv
+ FFGl4+VXc0hBia8aplrG5h7d+VNnGxA=
+X-Google-Smtp-Source: ABdhPJziMZ/u28e8+dHvuuLMBCM1LmcXshD6qA28pUYhTWfQptyAnnfL1oi0JPDePkO5UrScy0Gx5g==
+X-Received: by 2002:a7b:c4d4:0:b0:39c:5bb7:2210 with SMTP id
+ g20-20020a7bc4d4000000b0039c5bb72210mr4209258wmk.99.1654943769522; 
+ Sat, 11 Jun 2022 03:36:09 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- m5-20020a056000008500b00213d75491b0sm2134922wrx.48.2022.06.11.03.36.03
+ q16-20020a5d5750000000b0020e63ab5d78sm2163247wrw.26.2022.06.11.03.36.08
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:36:04 -0700 (PDT)
+ Sat, 11 Jun 2022 03:36:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -65,23 +65,23 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 33/49] hw/isa/piix4: Inline and remove piix4_create()
-Date: Sat, 11 Jun 2022 12:32:56 +0200
-Message-Id: <20220611103312.67773-34-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 34/49] hw/isa/piix3: Move pci_map_irq_fn near pci_set_irq_fn
+Date: Sat, 11 Jun 2022 12:32:57 +0200
+Message-Id: <20220611103312.67773-35-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,75 +100,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-During the previous changesets piix4_create() became a trivial
-wrapper around more generic functions. Modernize the code.
+The pci_map_irq_fn was implemented below type_init() which made it
+inaccessible to QOM functions. So move it up.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20220603185045.143789-8-shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220603185045.143789-9-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/piix4.c                | 13 -------------
- hw/mips/malta.c               |  5 ++++-
- include/hw/southbridge/piix.h |  2 --
- 3 files changed, 4 insertions(+), 16 deletions(-)
+ hw/isa/piix3.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index d97b245df3..15f344dbb7 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -323,16 +323,3 @@ static void piix4_register_types(void)
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index c92b36c4f2..d50a07b58b 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -79,6 +79,17 @@ static void piix3_set_irq(void *opaque, int pirq, int level)
+     piix3_set_irq_level(piix3, pirq, level);
  }
  
- type_init(piix4_register_types)
--
--DeviceState *piix4_create(PCIBus *pci_bus)
++/*
++ * Return the global irq number corresponding to a given device irq
++ * pin. We could also use the bus number to have a more precise mapping.
++ */
++static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
++{
++    int slot_addend;
++    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
++    return (pci_intx + slot_addend) & 3;
++}
++
+ static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
+ {
+     PIIX3State *piix3 = opaque;
+@@ -367,17 +378,6 @@ static void piix3_register_types(void)
+ 
+ type_init(piix3_register_types)
+ 
+-/*
+- * Return the global irq number corresponding to a given device irq
+- * pin. We could also use the bus number to have a more precise mapping.
+- */
+-static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
 -{
--    PCIDevice *pci;
--    DeviceState *dev;
--    int devfn = PCI_DEVFN(10, 0);
--
--    pci = pci_create_simple_multifunction(pci_bus, devfn,  true,
--                                          TYPE_PIIX4_PCI_DEVICE);
--    dev = DEVICE(pci);
--
--    return dev;
+-    int slot_addend;
+-    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
+-    return (pci_intx + slot_addend) & 3;
 -}
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index be9f26d841..7a0ec513b0 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1237,6 +1237,7 @@ void mips_malta_init(MachineState *machine)
-     int fl_idx = 0;
-     int be;
-     MaltaState *s;
-+    PCIDevice *piix4;
-     DeviceState *dev;
-     DeviceState *pm_dev;
- 
-@@ -1400,7 +1401,9 @@ void mips_malta_init(MachineState *machine)
-     empty_slot_init("GT64120", 0, 0x20000000);
- 
-     /* Southbridge */
--    dev = piix4_create(pci_bus);
-+    piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
-+                                            TYPE_PIIX4_PCI_DEVICE);
-+    dev = DEVICE(piix4);
-     isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-     pm_dev = DEVICE(object_resolve_path_component(OBJECT(dev), "pm"));
-     smbus = I2C_BUS(qdev_get_child_bus(pm_dev, "i2c"));
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 2357ce0287..9a2dd93c2d 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -70,6 +70,4 @@ DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
- 
- PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
- 
--DeviceState *piix4_create(PCIBus *pci_bus);
 -
- #endif
+ PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus)
+ {
+     PIIX3State *piix3;
 -- 
 2.36.1
 
