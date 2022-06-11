@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8364254742E
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:19:49 +0200 (CEST)
-Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405C4547430
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:20:38 +0200 (CEST)
+Received: from localhost ([::1]:44742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzz9g-0005wU-Jr
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43708)
+	id 1nzzAT-0007z2-B3
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzySk-0004tv-3l
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:26 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44699)
+ id 1nzySl-0004xt-As
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:27 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzySg-0006WG-KC
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:24 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- m32-20020a05600c3b2000b0039756bb41f2so763728wms.3
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:35:19 -0700 (PDT)
+ id 1nzySj-0006Zr-P8
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:35:27 -0400
+Received: by mail-wr1-x433.google.com with SMTP id o16so1492663wra.4
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:35:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ubn8eHKOsbB27CggmjSzSBpH+DzKEWOoBQO+Gv9mZ/g=;
- b=Vjuj+MhiMeZ35ZdK9/F+yI8A7v02KLtCohopl53LttvYdtvLcJnNTQw0ubmhAgUviU
- 2P272dW1prlCYM8lFjshUalH3SKI0KjpoF/udyKtfPtGpjb+gwTPD6pUNvR5kICnpo88
- OK8UOXUGdSQ0Kd/S+IPpS7j4wtScIG6QYw1x9p6Qz8E0UQ4JtmNQE+rmXfewnW36uwa6
- 4ofyR1k/PtFm66aYbThxYaUZxXS0BMsD64lTYMfoePwDN6YWstuExVCJvODaKcQI01xz
- rGWsdods2QJVXZyRCIAmywES81rMMVUKE2G+yFGdliJdTf3zgkBZ04gyD3Vka2KfZ7sk
- QlfA==
+ bh=cYa9Wyy8+NW3p95A4BL25JrfyHdT0y0O/3yT5378jVU=;
+ b=PZesKQPTM94tgnQfCcUt5RXPxlrtOJ5HRMzZQSBURJffLtkPYOJ4af7RobIPMMuMHp
+ 91oeBZpUB3f0HUym/MxrxMB5YxCYVMQ6c+iIbIHlPRzlap53DTluOMxc9A7Pts5M3YIy
+ 7CC+cDtIge7sYJVM1pmY1zczYPonI24clpW1oQD5ZCGeTB2+3Ko/Fx3KVzejdg0lXjLW
+ g2zoMWyDmyH5jukgSR7oe/G/dQL/gbs5qxODnYp4sjDwnNBFCZid10U8/vSMrnfp2IYM
+ ux8A6EqX7w52rtb3ax+Jm7WsJPgEmbanC1FiT0AraqpFBA4VQr+qlxtHRm2bcEYyL9Ud
+ nZRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ubn8eHKOsbB27CggmjSzSBpH+DzKEWOoBQO+Gv9mZ/g=;
- b=qMGtqHsmD6ekUgC7jfSVfr3AP0GQByyJDGMBunUIOHsv3pxsuE95MuhHG0+iXfGbDe
- xr7eX6t/uMAaRANUAEqyFBZNhsYU514Jetx6q5GIj01705p906aPyJ1JB1S4vFew5/+9
- JMPUI4nylgWU8ojCWg7C5uTtmDVh+Lm9v/FBFSHxnPxEqJCbYCVZalzhwGhkVDWMOFBd
- d05cingUHjJDLdDSFzkw+OTmW7K9P/x1dDBr+Zm5Q4zO4poNH7v4hMtw5+qe22kyqLCe
- uSlNlpPnzli2vKkFD0CDI+yxJfk5SGkVuxdWKylQCtksU0O2eUMn1zBL+tzsuur2nn9D
- H7HA==
-X-Gm-Message-State: AOAM532TWzJ387Blflp9JQI+8vLKWybWH4j9sgwPH1FGM8hx2u7IuU6x
- lgPEw8MdoKNxhkVoJUWoG4+/Qwhm8qE=
-X-Google-Smtp-Source: ABdhPJx4CuFyleKovbKl9l8eKUSlWU7Lp81r1vqFGIZac74mRQE+75IPNJNFG036vOSmDOS3xZsN2Q==
-X-Received: by 2002:a05:600c:6003:b0:39c:50ef:eff with SMTP id
- az3-20020a05600c600300b0039c50ef0effmr4156756wmb.122.1654943718509; 
- Sat, 11 Jun 2022 03:35:18 -0700 (PDT)
+ bh=cYa9Wyy8+NW3p95A4BL25JrfyHdT0y0O/3yT5378jVU=;
+ b=NOAOl1Tw6ZWJ8v0MswdbxZ+eGmQOyBEDsm81TtxqyOttFjPuDFHAZEkS6pUnDPndDb
+ bb0p1YiJKHofXU7Wu7soqbWYi9yaQjwREnVBFeuXGfq9Evzbv5Moy83XrLsdRInIqUry
+ EqXCVEgOCD/T/FSorPPSPup98aK998XRsZMnuAxpInu6scsKS2NaLK6Y9VwxTInPMXk8
+ t6dHxK/D4ipiUiATe9qp39BjTj56O14v3TC4eE2Fuw+rECdch1kzRMjVv9V+schB4KXZ
+ xQkQKDGMCYlUpO5liSTgDYMKQ8LqSmkk5FZ5NiFrAeN2I9IfDQV25zoW32tDwAaZwtb5
+ Q8JQ==
+X-Gm-Message-State: AOAM530qlQMRX9rAVFsuh+RysyraIEspFM3d8RhclH0BvdX1e+GS3dLs
+ gHsZzgyirEIcNyIp8hBCOsBE1ZE7fQQ=
+X-Google-Smtp-Source: ABdhPJwermiMH2fYDNjlMcjeS4cEq6bMxDuGMokvaUsZWWbBM+kFtrp4zsrLPnwZDedZ2ZzyMkVZhQ==
+X-Received: by 2002:a5d:6c6b:0:b0:1ea:77ea:dde8 with SMTP id
+ r11-20020a5d6c6b000000b001ea77eadde8mr48773188wrz.690.1654943723566; 
+ Sat, 11 Jun 2022 03:35:23 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- u9-20020a7bc049000000b00397243d3dbcsm1962668wmc.31.2022.06.11.03.35.17
+ n189-20020a1ca4c6000000b0039c747a1e8fsm6069614wme.7.2022.06.11.03.35.22
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:35:18 -0700 (PDT)
+ Sat, 11 Jun 2022 03:35:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -65,18 +64,18 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PULL 24/49] hw/i386/pc_piix: create PIIX4_PM device directly instead
+Subject: [PULL 25/49] hw/isa/piix4.c: create PIIX4_PM device directly instead
  of using piix4_pm_initfn()
-Date: Sat, 11 Jun 2022 12:32:47 +0200
-Message-Id: <20220611103312.67773-25-philippe.mathieu.daude@gmail.com>
+Date: Sat, 11 Jun 2022 12:32:48 +0200
+Message-Id: <20220611103312.67773-26-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,44 +105,50 @@ device can be instantiated directly.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220528091934.15520-11-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220528091934.15520-12-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Bernhard Beschow <shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/pc_piix.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ hw/isa/piix4.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 89c4f07c9f..7d5546600b 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -47,6 +47,7 @@
- #include "hw/xen/xen-x86.h"
- #include "exec/memory.h"
- #include "hw/acpi/acpi.h"
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 775e15eb20..9a6d981037 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -34,6 +34,7 @@
+ #include "hw/timer/i8254.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/ide/pci.h"
 +#include "hw/acpi/piix4.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/xen.h"
-@@ -280,11 +281,15 @@ static void pc_init1(MachineState *machine,
+ #include "migration/vmstate.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+@@ -293,7 +294,6 @@ static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
+ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+ {
+     PIIX4State *s;
+-    PIIX4PMState *pms;
+     PCIDevice *pci;
+     DeviceState *dev;
+     int devfn = PCI_DEVFN(10, 0);
+@@ -311,10 +311,13 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+ 
+     pci_create_simple(pci_bus, devfn + 2, "piix4-usb-uhci");
+     if (smbus) {
+-        pms = piix4_pm_initfn(pci_bus, devfn + 3, 0x1100, 0);
+-        qdev_connect_gpio_out(DEVICE(pms), 0,
++        pci = pci_new(devfn + 3, TYPE_PIIX4_PM);
++        qdev_prop_set_uint32(DEVICE(pci), "smb_io_base", 0x1100);
++        qdev_prop_set_bit(DEVICE(pci), "smm-enabled", 0);
++        pci_realize_and_unref(pci, pci_bus, &error_fatal);
++        qdev_connect_gpio_out(DEVICE(pci), 0,
+                               qdev_get_gpio_in_named(dev, "isa", 9));
+-        *smbus = I2C_BUS(qdev_get_child_bus(DEVICE(pms), "i2c"));
++        *smbus = I2C_BUS(qdev_get_child_bus(DEVICE(pci), "i2c"));
      }
  
-     if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
--        PIIX4PMState *piix4_pm;
-+        PCIDevice *piix4_pm;
- 
-         smi_irq = qemu_allocate_irq(pc_acpi_smi_interrupt, first_cpu, 0);
--        piix4_pm = piix4_pm_initfn(pci_bus, piix3_devfn + 3, 0xb100,
--                                   x86_machine_is_smm_enabled(x86ms));
-+        piix4_pm = pci_new(piix3_devfn + 3, TYPE_PIIX4_PM);
-+        qdev_prop_set_uint32(DEVICE(piix4_pm), "smb_io_base", 0xb100);
-+        qdev_prop_set_bit(DEVICE(piix4_pm), "smm-enabled",
-+                          x86_machine_is_smm_enabled(x86ms));
-+        pci_realize_and_unref(piix4_pm, pci_bus, &error_fatal);
-+
-         qdev_connect_gpio_out(DEVICE(piix4_pm), 0, x86ms->gsi[9]);
-         qdev_connect_gpio_out_named(DEVICE(piix4_pm), "smi-irq", 0, smi_irq);
-         pcms->smbus = I2C_BUS(qdev_get_child_bus(DEVICE(piix4_pm), "i2c"));
+     pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
 -- 
 2.36.1
 
