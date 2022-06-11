@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5235473F4
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:49:49 +0200 (CEST)
-Received: from localhost ([::1]:36428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7DC5473E3
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:44:15 +0200 (CEST)
+Received: from localhost ([::1]:56242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzygd-0006BS-TM
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:49:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43274)
+	id 1nzybG-0000Pf-L4
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:44:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRM-0002BV-2o
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:00 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42830)
+ id 1nzyRQ-0002NN-Dt
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:04 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRK-0006D0-Kf
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:59 -0400
-Received: by mail-wr1-x432.google.com with SMTP id s1so1462580wra.9
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:57 -0700 (PDT)
+ id 1nzyRO-0006DG-Rp
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:04 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id k19so1472802wrd.8
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:34:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nIafIEbZr/KYiHZODOx9BpkQO+OqaLzsBcQX1foBSQQ=;
- b=Kx309NEk76DNojuqy060Xg7gow206kQgTFrdBpwm2WbHb+4JTRzlDV/vN+efc2zjm2
- 8vmmpqzIZIoSSrhWm4hawoZhaFS+xDMnxuHN/dPaYC0yvgAUJn+ZqDvSagtW5BSWPK6X
- HSA9MxZy8JCImKqBY06P3tvUE5c3rb1dVpl8GpIQbfeFLUYJQW2r+ALyeki4vE/ptcCA
- W4B70nCrqSMD6vQDWDDeiHc6nhW5hAbZqOybHvbblK2hoy0QInd94ccqQ6WhzAq8oJTu
- v+PD24R2Hs9FfQ0iJxLTlzDcAbPm2WycgGJ+FITWbXU1dvDi6Bg/Q9jQKGflygtXrAuU
- VIkw==
+ bh=zSo+culpJATZACSBmjT9Ra1U4oAMbiKli3IdqMT5z10=;
+ b=ZNIaS2om+mJ3/Ap4dfBoAEJoXCFy6zjT1jsQRHbgo+aB3k7VFLzD2IVUh3ZJhezHnA
+ u1fPshoH7VT1puHMwtva31eT8gNEPMoW+9e5QM4x+IFTorL+4J3kx/jeJ0wKOMdzLHwj
+ KeoVS41axm4Fv72LPASksrW9CfcC091VZao4ccZtHInDNkasBlZXkwxefW8B00X9Oir5
+ RVZv36HS9xhBI2EwwE3trah4zTy+WzIPr6qBcnIxFn7PzuX4Be4kaiV6qhZEpx77VBhp
+ Lkb98M+kdIKRipNxXhti/sY+4uxoWCkNaukRl2EwXy32F9bcp3j8XP482fUs2LdXIRmh
+ dW3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nIafIEbZr/KYiHZODOx9BpkQO+OqaLzsBcQX1foBSQQ=;
- b=3wHTqQE7HNP4edoQaqR2ypwsfIN0GtkgdqqNEaRJRKe4PfUum6qXsyoF/kOas24Tcr
- d8tQPsntGMV0AGvzTskaoSUvON/hvY+AoiPzaCQgf2SVpjAHmdV9NSag4FFhLxXb0sLY
- OKV4xjtjmguDljUlSMxVnFGMOVr9yFgEcnpELqkHAeQyUrEPtehDkEwx7KywWApUTNeg
- K6EpvVFMuDMH/eklrZDa5f/I87gVV84cYtwv2FwkKKdlakgM0OnUQGSFJS9RZ6QORf6V
- BIN4zwlrn1Ov70uwEZ4Q8zDIe+hRSWfT1LRAdKTuDoxNqDC0Ci0jIH1zrXaOKMUqdHaY
- ql6g==
-X-Gm-Message-State: AOAM532T9v+AjUr8kkmQwwt947f1pxk1r5V1z7opy6bVH3Oxu0bIL8ey
- itFKtw9+Q0ydV6vVcMUJS4ld88YVLo8=
-X-Google-Smtp-Source: ABdhPJwQuVYsLs0CkbRzQMHygG3U4YCEsmwOlDZJcuHv2qZkrTlvbRW+UBd9Ov0yr/rc/OnaXJPweA==
-X-Received: by 2002:a05:6000:178d:b0:20f:e84c:2f46 with SMTP id
- e13-20020a056000178d00b0020fe84c2f46mr47912515wrg.646.1654943636101; 
- Sat, 11 Jun 2022 03:33:56 -0700 (PDT)
+ bh=zSo+culpJATZACSBmjT9Ra1U4oAMbiKli3IdqMT5z10=;
+ b=NMwaapl1+ZVJSH0i/azwcCdnGfgbHJbcV2g7seg4y4TU0bbub+eAmKVw5sPADaVk8r
+ hE2fHjSUHkTKwNoA78vkaHLCiVOH6LeVDMvW9d1tu2mVymxUOWKURCHdkyQPr+h/NE77
+ /XzEtXNsko5HuGbuospab+0ttkOjDMO2fXt3jIors6SIZ9/3wEG+c+wDJl1kb2zkkxyQ
+ yGWXCtp8RqLOzSlAj14mRPdbX39HbBtjEGDD0iyDh/ZNeNycEkRi4s7TBKJtdLa/8xE5
+ kpfUto6VQVNCPoehuDj0MW6Odm0LnE6rwRXjnbPkWW/jJKLMOAP7ZakDOn8Gv4asYPCO
+ pSiA==
+X-Gm-Message-State: AOAM533GfKKiPTycJIR7iYw+52n6J1OFGMr0gxxr1SqSh0OF15AOy+ZC
+ LY8oU+OmBWA9upC288HzJs+IBZ8hQrY=
+X-Google-Smtp-Source: ABdhPJyLtn6IyGaVDIk08THrDNIjw9YsIxxEKmKt0AGxdMQ9CuKCyOPFnANAkCrruxar3yDGyAvsUg==
+X-Received: by 2002:a5d:67c2:0:b0:215:7a0f:71f9 with SMTP id
+ n2-20020a5d67c2000000b002157a0f71f9mr41927621wrw.486.1654943641197; 
+ Sat, 11 Jun 2022 03:34:01 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- a10-20020a056000100a00b0020d106c0386sm2072927wrx.89.2022.06.11.03.33.55
+ ay15-20020a5d6f0f000000b002183cf9cd69sm2144366wrb.15.2022.06.11.03.34.00
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:33:55 -0700 (PDT)
+ Sat, 11 Jun 2022 03:34:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -62,18 +62,20 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 08/49] target/mips: Fix emulation of nanoMIPS MTHLIP instruction
-Date: Sat, 11 Jun 2022 12:32:31 +0200
-Message-Id: <20220611103312.67773-9-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 09/49] target/mips: Fix emulation of nanoMIPS EXTRV_S.H
+ instruction
+Date: Sat, 11 Jun 2022 12:32:32 +0200
+Message-Id: <20220611103312.67773-10-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,35 +98,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Pejic <stefan.pejic@syrmia.com>
+From: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
 
-The field ac in nanoMIPS instruction MTHLIP rs, ac is specified in
-nanoMIPS documentation as opcode[15..14] (2 bits). However, in the
-current QEMU code, the corresponding argument passed to the helper
-gen_helper_mthlip() has the value of opcode[15..11] (5 bits). Right
-shift the value of this argument by three bits to fix this.
+The field rs in the instruction EXTRV_S.H rt, ac, rs is specified in
+nanoMIPS documentation as opcode[20..16]. It is, however, erroneously
+considered as opcode[25..21] in the current QEMU implementation. In
+function gen_pool32axf_2_nanomips_insn(), the variable v0_t corresponds
+to rt/opcode[25..21], and v1_t corresponds to rs/opcode[20..16]), and
+v0_t is by mistake passed to the helper gen_helper_extr_s_h().
 
+Use v1_t rather than v0_t in the invocation of gen_helper_extr_s_h()
+to fix this.
+
+Signed-off-by: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
 Signed-off-by: Stefan Pejic <stefan.pejic@syrmia.com>
+Fixes: 8b3698b294 ("target/mips: Add emulation of DSP ASE for nanoMIPS")
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220504110403.613168-2-stefan.pejic@syrmia.com>
+Message-Id: <20220504110403.613168-3-stefan.pejic@syrmia.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  target/mips/tcg/nanomips_translate.c.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-index 916cece4d2..58ae35a156 100644
+index 58ae35a156..9ee4df2135 100644
 --- a/target/mips/tcg/nanomips_translate.c.inc
 +++ b/target/mips/tcg/nanomips_translate.c.inc
-@@ -1597,7 +1597,7 @@ static void gen_pool32axf_1_nanomips_insn(DisasContext *ctx, uint32_t opc,
-         check_dsp(ctx);
-         switch (extract32(ctx->opcode, 12, 2)) {
-         case NM_MTHLIP:
--            tcg_gen_movi_tl(t0, v2);
-+            tcg_gen_movi_tl(t0, v2 >> 3);
-             gen_helper_mthlip(t0, v0_t, cpu_env);
+@@ -2036,7 +2036,7 @@ static void gen_pool32axf_2_nanomips_insn(DisasContext *ctx, uint32_t opc,
+         case NM_EXTRV_S_H:
+             check_dsp(ctx);
+             tcg_gen_movi_tl(t0, rd >> 3);
+-            gen_helper_extr_s_h(t0, t0, v0_t, cpu_env);
++            gen_helper_extr_s_h(t0, t0, v1_t, cpu_env);
+             gen_store_gpr(t0, ret);
              break;
-         case NM_SHILOV:
+         }
 -- 
 2.36.1
 
