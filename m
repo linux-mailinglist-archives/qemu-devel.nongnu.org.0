@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F4B547658
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 18:10:14 +0200 (CEST)
-Received: from localhost ([::1]:41070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B0D54767C
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 18:37:02 +0200 (CEST)
+Received: from localhost ([::1]:34492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o03gj-0001Sb-4y
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 12:10:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37324)
+	id 1o046e-0001fM-Lf
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 12:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o03dO-0006SG-6k
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 12:06:46 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:39551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o03dL-0007nh-Mh
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 12:06:45 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id q140so1849909pgq.6
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 09:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=XkblLnDv5Pw5zJdVC4VrJ7Lc5ql5bLxNzoJOwi7jlHw=;
- b=dw5fMmtv3LAki7mk94CLUPMJyK46OcNlL6Vyg5EnYLyA90BH9+D0GZmxbIjBuv64E3
- lPdOJ6EBwFNC99g9H8orD9N0zuDATWrCmQJtmW3VoXsrGtCzYObtZ804fLdJqkZvI9YW
- WxnARSQRoe/8z6OXcWf1N+0Qzl/xxIflhbhhfdLs72FNZKwtuvKXkp9uHSkwwNHYXV+t
- bzo9dFuO547X85oSBooyLvxJLNwbVbFs0yKgukC/6lKMyflX5aSe9doY1IWNw/QkCef3
- nC8oScHpn3padTdvjykXz1FHthAc1z8HXeWcXxWrEy2LDLw9TSUWcts6nhyUBIFI/F2l
- vmJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XkblLnDv5Pw5zJdVC4VrJ7Lc5ql5bLxNzoJOwi7jlHw=;
- b=n/DDeHu1BIC+EU+UEoJo6Za4AINwT81c0uTDHEm027/4hzXBpm4Da5046rFPBJ3Y8F
- ulDrbi6JM4npbbcS/5tTz5q6xtoR2k+EJ4rue7Z9bPij9GKkJDY3hsaWedvYTB1FgZ5T
- /ILGEpzRLfCB5e0OjvkwENTcgZBra53uwbbKC7uUsPX4Z6+TzHfQDFDoikPO1sF8QHeK
- bk0MXNcVJP29pMb+rSPxWj2/IF4RYYldkGiNia+qKzsqTzD5MmZkXWCa5adSUE7Pp7b2
- 7/SCb332ebvyLWlc9V1fp/CHgTnWpYXKb0oscxKzT3NDRYFdAZiOVpFyxCVx7cBiNl/m
- 5ZHg==
-X-Gm-Message-State: AOAM530923xkq/LM4Yubi12NqsgdolrwOT+3IVgpHIQEnPmLel0vJR93
- l+Ej5uWt3qAiAQVnZzPQB3Fspg==
-X-Google-Smtp-Source: ABdhPJy69lSLs3d3CD6lda49xpANEgiJgJ89AAVjlJk0GqsQHzSJG+E5ROUsZMQhKGDT4ZY+y+mVFg==
-X-Received: by 2002:a05:6a00:4211:b0:51c:45e:532b with SMTP id
- cd17-20020a056a00421100b0051c045e532bmr35937727pfb.10.1654963601905; 
- Sat, 11 Jun 2022 09:06:41 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
- by smtp.gmail.com with ESMTPSA id
- g17-20020a056a000b9100b0051b4e53c487sm1769284pfj.45.2022.06.11.09.06.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Jun 2022 09:06:41 -0700 (PDT)
-Message-ID: <5476bca7-eadd-0880-8625-b01579f257f5@linaro.org>
-Date: Sat, 11 Jun 2022 09:06:34 -0700
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1o0457-0000tN-C4
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 12:35:25 -0400
+Received: from mailout06.t-online.de ([194.25.134.19]:56054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1o0455-0003GD-Ay
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 12:35:25 -0400
+Received: from fwd73.dcpf.telekom.de (fwd73.aul.t-online.de [10.223.144.99])
+ by mailout06.t-online.de (Postfix) with SMTP id 6B4A110102;
+ Sat, 11 Jun 2022 18:34:40 +0200 (CEST)
+Received: from [192.168.211.200] ([84.175.233.154]) by fwd73.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1o044C-06EtoP0; Sat, 11 Jun 2022 18:34:29 +0200
+Message-ID: <60c72935-85ce-4e24-43a5-119f6428b916@t-online.de>
+Date: Sat, 11 Jun 2022 18:34:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v15 8/9] target/loongarch: Adjust functions and structure
- to support user-mode
+ Thunderbird/91.10.0
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PULL 00/17] Kraxel 20220610 patches
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, qemu-devel@nongnu.org
+Cc: "Canokeys.org" <contact@canokeys.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Hongren (Zenithal) Zheng" <i@zenithal.me>, xen-devel@lists.xenproject.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220610092043.1874654-1-kraxel@redhat.com>
+ <adec1cff-54f1-e2bf-8092-945601aeb912@linaro.org>
 Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-References: <20220609024209.2406188-1-gaosong@loongson.cn>
- <20220609024209.2406188-9-gaosong@loongson.cn>
- <4c0fd198-922e-d94f-fec4-05c53c5d6858@linaro.org>
- <e6e9c111-ca44-0126-b7a5-dcffe33385a5@loongson.cn>
- <20b38d22-0c59-ec11-88e1-af0f1f604984@linaro.org>
- <a6306006-d1df-e5eb-4f2c-5e1bf6adfe07@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <a6306006-d1df-e5eb-4f2c-5e1bf6adfe07@loongson.cn>
+In-Reply-To: <adec1cff-54f1-e2bf-8092-945601aeb912@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-TOI-EXPURGATEID: 150726::1654965269-01432E2F-9B3FCAFB/0/0 CLEAN NORMAL
+X-TOI-MSGID: 97fb026e-e35c-459b-a063-121af80287a2
+Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
+ helo=mailout06.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,47 +75,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/22 20:10, gaosong wrote:
-> pc             0x120000638         0x120000638 <main+32>
-> badvaddr       0x120000638         0x120000638 <main+32>
-...
-> So badvaddr is the PC,
+Am 10.06.22 um 22:16 schrieb Richard Henderson:
+> On 6/10/22 02:20, Gerd Hoffmann wrote:
+>> The following changes since commit 
+>> 9cc1bf1ebca550f8d90f967ccd2b6d2e00e81387:
+>>
+>>    Merge tag 'pull-xen-20220609' of 
+>> https://xenbits.xen.org/git-http/people/aperard/qemu-dm into staging 
+>> (2022-06-09 08:25:17 -0700)
+>>
+>> are available in the Git repository at:
+>>
+>>    git://git.kraxel.org/qemu tags/kraxel-20220610-pull-request
+>>
+>> for you to fetch changes up to 02319a4d67d3f19039127b8dc9ca9478b6d6ccd8:
+>>
+>>    virtio-gpu: Respect UI refresh rate for EDID (2022-06-10 11:11:44 
+>> +0200)
+>>
+>> ----------------------------------------------------------------
+>> usb: add CanoKey device, fixes for ehci + redir
+>> ui: fixes for gtk and cocoa, move keymaps, rework refresh rate
+>> virtio-gpu: scanout flush fix
+>
+> This introduces regressions:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/2576157660
+> https://gitlab.com/qemu-project/qemu/-/jobs/2576151565
+> https://gitlab.com/qemu-project/qemu/-/jobs/2576154539
+> https://gitlab.com/qemu-project/qemu/-/jobs/2575867208
+>
+>
+>  (27/43) 
+> tests/avocado/vnc.py:Vnc.test_change_password_requires_a_password: 
+> ERROR: ConnectError: Failed to establish session: EOFError\n Exit 
+> code: 1\n    Command: ./qemu-system-x86_64 -display none -vga none 
+> -chardev 
+> socket,id=mon,path=/var/tmp/avo_qemu_sock_4nrz0r37/qemu-2912538-7f732e94e0f0-monitor.sock 
+> -mon chardev=mon,mode=control -node... (0.09 s)
+>  (28/43) tests/avocado/vnc.py:Vnc.test_change_password:  ERROR: 
+> ConnectError: Failed to establish session: EOFError\n    Exit code: 
+> 1\n    Command: ./qemu-system-x86_64 -display none -vga none -chardev 
+> socket,id=mon,path=/var/tmp/avo_qemu_sock_yhpzy5c3/qemu-2912543-7f732e94b438-monitor.sock 
+> -mon chardev=mon,mode=control -node... (0.09 s)
+>  (29/43) 
+> tests/avocado/vnc.py:Vnc.test_change_password_requires_a_password: 
+> ERROR: ConnectError: Failed to establish session: EOFError\n Exit 
+> code: 1\n    Command: ./qemu-system-x86_64 -display none -vga none 
+> -chardev 
+> socket,id=mon,path=/var/tmp/avo_qemu_sock_tk3pfmt2/qemu-2912548-7f732e93d7b8-monitor.sock 
+> -mon chardev=mon,mode=control -node... (0.09 s)
+>
+>
+> r~
+>
 
-Yes.
+This is caused by [PATCH 14/17] ui: move 'pc-bios/keymaps' to 
+'ui/keymaps'. After this patch QEMU no longer finds it's keymaps if 
+started directly from the build directory.
 
-> void helper_asrtle_d(CPULoongArchState *env,  target_ulong rj, target_ulong  rk)
-> {
->       if (rj > rk) {
->          env->badvaddr = env->pc;
->          do_raise_exception(env, EXCCODE_BCE,  env->badvaddr);
->       }
-> }
+With best regards,
+Volker
 
-Well, not quite.  The value of env->pc is not current; it is too expensive to update all 
-of the time.  We need to recover that value by using TCG unwinding, e.g.:
-
-     if (rj > rk) {
-         cpu_restore_state(env_cpu(env), GETPC(), true);
-         env->badvaddr = env->pc;
-
-However,
-
-         do_raise_exception(env, EXCCODE_ADEM, GETPC());
-
-expects to do it's own cpu_restore_state via cpu_loop_exit_restore(), and we should not do 
-that twice.
-
-Therefore, since the value of badvaddr is something that we can more easily recover later 
-than earlier, we should move the setting of badvaddr for ADEM to loongarch_cpu_do_interrupt():
-
-     case EXCCODE_ADEM:
-
-         env->badvaddr = env->pc;
-         cause = cs->exception_index;
-         break;
-
-It is probably worthwhile to check how many other exceptions should be having the same effect.
-
-
-r~
 
