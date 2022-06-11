@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2AA54708D
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 02:37:34 +0200 (CEST)
-Received: from localhost ([::1]:47400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C985470E5
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 03:19:09 +0200 (CEST)
+Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzp88-0004WB-UU
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 20:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36652)
+	id 1nzpmO-0005SG-HH
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 21:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzp6l-0003ke-Mv
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 20:36:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26111)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nzp6j-0007JW-CH
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 20:36:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654907764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hGRWGAOow7MPGoTTarc6vJLVM83NozvcMBRqhHSpbv0=;
- b=BDnEXz99DvdbZ0AUHxO8DWPbRYX2DrrJMdL+pdYQIXROAMkDxEJZfmHmAKqjK/h05r0iFn
- L+IlJnCreV1jmWxwXSE/f33hbPzY1JQMRt/XYkd3FKmB9yUB4Wk5fqZ8Eg4L/7KbB1cZKT
- DRhAh0ar2NJVT+iXz0IjHHGjGXX7AL4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-swmZt3w7O4WAy77xoWfnnA-1; Fri, 10 Jun 2022 20:36:03 -0400
-X-MC-Unique: swmZt3w7O4WAy77xoWfnnA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- i20-20020a50fd14000000b0042dd305d0f7so423041eds.18
- for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 17:36:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liu.jaloo@gmail.com>)
+ id 1nzpkM-0003wk-2j
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 21:17:02 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liu.jaloo@gmail.com>)
+ id 1nzpkK-00066U-JO
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 21:17:01 -0400
+Received: by mail-pl1-x631.google.com with SMTP id q18so597320pln.12
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 18:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KufhUy1jdQmJ2pdSDzhiiEWuTNcFIEkJ+gAnNI8sI9Q=;
+ b=NrQoOfsPDMkTpePIzoHCl09wgYDyqlMyYD5PA7QGhRos+jxEBxt4hDxPWnJ/43oYsq
+ qx9YLM5RYrxOuX+saMviSOk0tRtfJJWPvfyYLBm0e5io1CJhVeYCOAJMztVwDOgSsEPk
+ 6VUxw1cvBAvIPSngwOvejK4Ntu/n+LKBmDrKRmd8mDCm+y0JXyFVEYGuOze1qbvvFYgh
+ EccTYQso2qNT8zC2U35srQj+ZhF0+/qkciXOf/AvVpWzqrmXYX0IDL4h+M89CHCWSwKU
+ E2y7uYw2afsfp7/MnwEBOmIMZ0eX8jFs2qNCJ1JlGThcszKzlSqPU3WbTOFSXeOdg3eQ
+ 5PTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hGRWGAOow7MPGoTTarc6vJLVM83NozvcMBRqhHSpbv0=;
- b=YpV3n8JsBNoMef/xDf5Zv3bTDFcT+hq2NpU7IajODj1kX0ahfkvYj8624w3s+ClWK4
- he3hFRAA3RsjzKzGZYCmyXlOwjBf901v3yBgMa65nBESdzWlhbVHpUNypLtFLifn/mKO
- 9epwODdTlUKi5y3r56Ii2UyJwDT63Ht7SelqgFdzLtADZyXQvvJkzHCwR5wZ78+7Jy3z
- y/SF7ZSMivbCNEm2jh4NmmWs/a0/Wz276H6L4yGBEl0oUY3UYV+US3evlMXjYU9Dct6P
- 589h7zXz+qpL4N4EAKBm5Hx52Vrbcpd1nCaEWF19shbmfd4eu3sVOzN+w/q3SZL7Tr1D
- HwJQ==
-X-Gm-Message-State: AOAM530sOKSfxZyFQqbAsVAbz2dxBT/ythMNEFW9/58LTPnE1JYNy+83
- /ZgX2D4y1CJ/H+8HkofEgFRwxABvptRrVgQbNt5iKlDJf5fTyzr/A7N5wT5PRE+IyTKTGPVy58w
- XvBRsBQvas9iQPDQ=
-X-Received: by 2002:a17:906:4482:b0:70a:19e3:d18a with SMTP id
- y2-20020a170906448200b0070a19e3d18amr40954047ejo.510.1654907761693; 
- Fri, 10 Jun 2022 17:36:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwS2nqO9E3Fvl8psXT+U92/6sjjJRR+AMwHaOvxsxIMf2D0j8gv571ld3mPjK2UfddyNw88pg==
-X-Received: by 2002:a17:906:4482:b0:70a:19e3:d18a with SMTP id
- y2-20020a170906448200b0070a19e3d18amr40954036ejo.510.1654907761445; 
- Fri, 10 Jun 2022 17:36:01 -0700 (PDT)
-Received: from redhat.com ([212.116.178.142]) by smtp.gmail.com with ESMTPSA id
- d7-20020a170906344700b006ff52dfccf3sm251729ejb.211.2022.06.10.17.36.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 17:36:01 -0700 (PDT)
-Date: Fri, 10 Jun 2022 20:35:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- zhenwei pi <pizhenwei@bytedance.com>, Gonglei <arei.gonglei@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PULL 54/54] crypto: Introduce RSA algorithm
-Message-ID: <20220610203530-mutt-send-email-mst@kernel.org>
-References: <20220610075631.367501-1-mst@redhat.com>
- <20220610075631.367501-55-mst@redhat.com>
- <93d111a8-222e-b46f-2f36-1d1784cf0373@amsat.org>
- <fff6fbb7-b1be-610d-c48d-0498df879ae2@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KufhUy1jdQmJ2pdSDzhiiEWuTNcFIEkJ+gAnNI8sI9Q=;
+ b=cfsPDgSRFnHMBXnXNcRAwjt5peye2SK/q57/pPZLO8pYUot6JLbc+2AYpJ8AMq2hKA
+ orp9qLWqtYnnFcepkgLiPBZoYYhuMBvsYqFVIKTbBeiQrm3BNbdWeQxT32sbKdbdYQcH
+ u9b87l8+k7K4/Q5gfuU25oR74tXKZ0J266Xk7Z2xd6oL/CZ71lnvLfvvmIUI6UktW6U4
+ RlgBqNVxYCDUmt3OOPPLgrDL6gMJZjr79s9/KkUgQKBUOacSGGnBf29caU30dSqcnW/7
+ EQugf7rVr442eYC6+OS7T4KQ1aZK1tFe2qC4eMMXxkkNf/TKO+0ikh2C35tee1+ctjEB
+ RERA==
+X-Gm-Message-State: AOAM5330Rq7dJoPPa+Hx55AOqICfeWHWme5ICn+g7LmWn711A0BqzdqS
+ YYM5OEZVaLHL93jSFc33FM+qogQA68ZvZngNew==
+X-Google-Smtp-Source: ABdhPJxF07TGdLWcyZFKLvRD86Xyh5mOYl7i1CjY68vOgUE0DlxGPbO7KOrv3jwGqkPatTzKZMIcLtBrKJbDBVzQpnU=
+X-Received: by 2002:a17:90b:3ece:b0:1e8:90be:4cda with SMTP id
+ rm14-20020a17090b3ece00b001e890be4cdamr2573271pjb.67.1654910218299; Fri, 10
+ Jun 2022 18:16:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fff6fbb7-b1be-610d-c48d-0498df879ae2@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <CAOYM0N0sA-H5G0GjED_YHHrHyLJ6vy7+y+jB5-s8J=kAH+eogQ@mail.gmail.com>
+ <3e8331e3-c1e8-5f11-81c5-c9b3481d1aaa@redhat.com>
+In-Reply-To: <3e8331e3-c1e8-5f11-81c5-c9b3481d1aaa@redhat.com>
+From: Liu Jaloo <liu.jaloo@gmail.com>
+Date: Sat, 11 Jun 2022 09:16:47 +0800
+Message-ID: <CAOYM0N0qF3Gt--bKRzT2_JKytJAkqb9y7ocbeeV5XaYAsqYvUg@mail.gmail.com>
+Subject: Re: about QOP
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000b26fc305e121cfde"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=liu.jaloo@gmail.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,51 +82,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 10, 2022 at 11:05:13AM -0700, Richard Henderson wrote:
-> On 6/10/22 08:55, Philippe Mathieu-Daudé wrote:
-> > On 10/6/22 09:59, Michael S. Tsirkin wrote:
-> > > From: zhenwei pi <pizhenwei@bytedance.com>
-> > > +static int cryptodev_builtin_set_rsa_options(
-> > > +                    int virtio_padding_algo,
-> > > +                    int virtio_hash_algo,
-> > > +                    QCryptoAkCipherOptionsRSA *opt,
-> > > +                    Error **errp)
-> > > +{
-> > > +    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_PKCS1_PADDING) {
-> > > +        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_PKCS1;
-> > > +        opt->hash_alg =
-> > > +            cryptodev_builtin_get_rsa_hash_algo(virtio_hash_algo, errp);
-> > > +        if (opt->hash_alg < 0) {
-> > > +            return -1;
-> > > +        }
-> > > +        return 0;
-> > > +    }
-> > > +
-> > > +    if (virtio_padding_algo == VIRTIO_CRYPTO_RSA_RAW_PADDING) {
-> > > +        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_RAW;
-> > > +        return 0;
-> > > +    }
-> > > +
-> > > +    error_setg(errp, "Unsupported rsa padding algo: %d", virtio_padding_algo);
-> > > +    return -1;
-> > > +}
-> > 
-> > Build failure:
-> > 
-> > ../backends/cryptodev-builtin.c:187:27: error: result of comparison of
-> > unsigned enum expression < 0 is always false
-> > [-Werror,-Wtautological-unsigned-enum-zero-compare]
-> >          if (opt->hash_alg < 0) {
-> >              ~~~~~~~~~~~~~ ^ ~
-> 
-> Yep, e.g.
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/2574418442
-> 
+--000000000000b26fc305e121cfde
+Content-Type: text/plain; charset="UTF-8"
 
+Thanks!
+maybe QOP stands for QEMU OPs? that's maybe.
 
-Dropped now and re-pushed a tag. Can you try pulling that pls?
+On Fri, Jun 10, 2022 at 6:31 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> r~
+> On 6/10/22 04:01, Liu Jaloo wrote:
+> > Dear Paul Brook:
+> > in qemu/tcg/README:
+> > "
+> > ...
+> > QOP code generator written by Paul Brook.
+> > ...
+> > "
+> >
+> > Is there some text about QOP? or basically what QOP stands for?
+> >
+> > I can't find out anything about QOP from Google. thanks.
+>
+>
+> https://qemu-devel.nongnu.narkive.com/bCtjCaPs/hand-written-code-generator-2
+> is what I could find, but the server is not active anymore.
+>
+> Paolo
+>
 
+--000000000000b26fc305e121cfde
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks! <br></div><div>maybe QOP stands for QEMU OPs?=
+ that&#39;s maybe.<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Jun 10, 2022 at 6:31 PM Paolo Bonzini=
+ &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 6/10/22 0=
+4:01, Liu Jaloo wrote:<br>
+&gt; Dear Paul Brook:<br>
+&gt; in qemu/tcg/README:<br>
+&gt; &quot;<br>
+&gt; ...<br>
+&gt; QOP code generator written by Paul Brook.<br>
+&gt; ...<br>
+&gt; &quot;<br>
+&gt; <br>
+&gt; Is there some text about QOP? or basically what QOP stands for?<br>
+&gt; <br>
+&gt; I can&#39;t find out anything about QOP from Google. thanks.<br>
+<br>
+<a href=3D"https://qemu-devel.nongnu.narkive.com/bCtjCaPs/hand-written-code=
+-generator-2" rel=3D"noreferrer" target=3D"_blank">https://qemu-devel.nongn=
+u.narkive.com/bCtjCaPs/hand-written-code-generator-2</a> <br>
+is what I could find, but the server is not active anymore.<br>
+<br>
+Paolo<br>
+</blockquote></div>
+
+--000000000000b26fc305e121cfde--
 
