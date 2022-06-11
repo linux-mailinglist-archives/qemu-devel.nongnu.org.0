@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92F7547188
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 05:12:41 +0200 (CEST)
-Received: from localhost ([::1]:36330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C2C5471A9
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 05:36:58 +0200 (CEST)
+Received: from localhost ([::1]:41876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzrYG-0002Bv-20
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 23:12:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57774)
+	id 1nzrvl-00088Q-6t
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jun 2022 23:36:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1nzrWV-0001TK-JQ
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 23:10:51 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:53782 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1nzrWS-0004tp-HE
- for qemu-devel@nongnu.org; Fri, 10 Jun 2022 23:10:51 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx30+wB6RiFEM4AA--.24473S3; 
- Sat, 11 Jun 2022 11:10:40 +0800 (CST)
-Subject: Re: [PATCH v15 8/9] target/loongarch: Adjust functions and structure
- to support user-mode
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-References: <20220609024209.2406188-1-gaosong@loongson.cn>
- <20220609024209.2406188-9-gaosong@loongson.cn>
- <4c0fd198-922e-d94f-fec4-05c53c5d6858@linaro.org>
- <e6e9c111-ca44-0126-b7a5-dcffe33385a5@loongson.cn>
- <20b38d22-0c59-ec11-88e1-af0f1f604984@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <a6306006-d1df-e5eb-4f2c-5e1bf6adfe07@loongson.cn>
-Date: Sat, 11 Jun 2022 11:10:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nzrtf-0006cH-91
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 23:34:47 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:41536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nzrtZ-0007lV-K1
+ for qemu-devel@nongnu.org; Fri, 10 Jun 2022 23:34:44 -0400
+Received: by mail-pg1-x534.google.com with SMTP id e66so841914pgc.8
+ for <qemu-devel@nongnu.org>; Fri, 10 Jun 2022 20:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AwJqyhb+aRWMDB6VmQidGTvGrWJ8hNACDp4b3wUJSlk=;
+ b=S23Uh2XTjEyOiIopclaZplv98tKyIZHryu+MF1dITNyX4cNKH+llzDsjn9q5b54b3N
+ 9RyDPVVzTAr7O0xDfU3WhWKRiVyteXRrqLaycQwuSd3WsjFQ86mebV5lNNhjFsxEY3OD
+ 454OvEBS2cjg/8Eb85+n4lYrtnNOI7E1NSLVkJtpF9IYD6b/Npekr72TETBE46Gex7rs
+ NYkcYYbB8vfZ5VY7iHtL6Ed82A/t1nYip5UB6Mv8HxePIEI+yB4EdHW3zayeko6LLdlM
+ NfgbOdTD/oZHBQ6/IsK8ALEzznqnE5w2GJUKoM7qdP0RmWUQtHNR54AdE7XD9/G04gyU
+ msFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AwJqyhb+aRWMDB6VmQidGTvGrWJ8hNACDp4b3wUJSlk=;
+ b=VTOvuF/7+dFx5xJz9yViG36QrwfjZzUUH3cR3k0yqXr8vcqGvDfJAkXFuDc8Eahdvn
+ MSPAQPIKIC/0DsxieW7YvEGrVcQ7naG1qPUvamFXcwoYPlULY0DRwqgoDaVx+CQXyr73
+ BRNk6YFTwLAd5y5oIzvHAPfMFo4zR82iO6y+n9JDQMahJ2D1slC4g5aR0SqTJmgwdOf3
+ c/4W67YkyjyerPQJHdysnn+JNNscNkhaO+0XuLughVp3HrvPKMGH34RGHHaInk/57QEr
+ l543F4fWcJAmEK7iNaRCg+08AuTEv2Cicn/iEfkaYvKChQ2H/ST7kSt4KI2c4z6Lm5lf
+ GGQg==
+X-Gm-Message-State: AOAM5336d2eyAJG1RuWoFw5amUk8xzdCzPYh9LMwYWhPtjwePJuSluvt
+ ZvqzICE946wXwVa7knE7XxR60w==
+X-Google-Smtp-Source: ABdhPJymDVOwEd6S15UWSYYMUQsA5Mr4c7aS0uczqpHE6PxVNHX18iPP1I6StKIXRnQXuelXDFFpAQ==
+X-Received: by 2002:a63:741:0:b0:3fc:6b3c:f9dd with SMTP id
+ 62-20020a630741000000b003fc6b3cf9ddmr41536861pgh.351.1654918478958; 
+ Fri, 10 Jun 2022 20:34:38 -0700 (PDT)
+Received: from always-T480.www.tendawifi.com ([139.177.225.229])
+ by smtp.gmail.com with ESMTPSA id
+ x126-20020a628684000000b0051c15bb876esm331167pfd.174.2022.06.10.20.34.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jun 2022 20:34:38 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: mst@redhat.com,
+	arei.gonglei@huawei.com
+Cc: f4bug@amsat.org, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org, helei.sig11@bytedance.com,
+ zhenwei pi <pizhenwei@bytedance.com>
+Subject: [PATCH v9 0/1] Introduce akcipher service for virtio-crypto
+Date: Sat, 11 Jun 2022 11:36:57 +0800
+Message-Id: <20220611033658.19645-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20b38d22-0c59-ec11-88e1-af0f1f604984@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------0B7B6A19815CB7D3DF9DE7D4"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9Dx30+wB6RiFEM4AA--.24473S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxtrWxCF1rXFyrAFy7JFWkWFg_yoW3AF18pr
- 18Jr1UGrW8Jr18Jr1UJr1UJryUtr1UA3WUJr1UJF1UJr1UJr1jqr1UXryjgr1DJr48Jr17
- Jr1UJr1jvr1UJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9j1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
- CY6c8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_
- Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErc
- IFxwCjr7xvwVCIw2I0I7xG6c02F41lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl
- 42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7
- v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
- 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
- AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0D
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvf
- C2KfnxnUUI43ZEXa7VU1g4S7UUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,387 +90,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------0B7B6A19815CB7D3DF9DE7D4
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+v8 - v9:
+- Fix compiling error reported by clang-13/14:
+  opt->hash_alg = cryptodev_builtin_get_rsa_hash_algo(); this leads
+  implicit convertion from 'int' to 'uint32'. 'if (opt->hash_alg < 0)'
+  is always false. Thanks to Philippe Mathieu-Daudé.
+
+v7 - v8:
+- The changes of QEMU crypto has been reviewed & merged by Daniel,
+  remove this part from this series. Thanks to Daniel!
+- virtio_crypto.h is updated by e4082063e47e
+  ("linux-headers: Update to v5.18-rc6"), remove from this series.
+- Minor fixes reviewed by Gonglei. Thanks to Gonglei!
+
+v6 -> v7:
+- Fix serval build errors for some specific platforms/configurations.
+- Use '%zu' instead of '%lu' for size_t parameters.
+- AkCipher-gcrypt: avoid setting wrong error messages when parsing RSA
+  keys.
+- AkCipher-benchmark: process constant amount of sign/verify instead
+ of running sign/verify for a constant duration.
+
+v5 -> v6:
+- Fix build errors and codestyles.
+- Add parameter 'Error **errp' for qcrypto_akcipher_rsakey_parse.
+- Report more detailed errors.
+- Fix buffer length check and return values of akcipher-nettle, allows caller to
+ pass a buffer with larger size than actual needed.
+
+A million thanks to Daniel!
+
+v4 -> v5:
+- Move QCryptoAkCipher into akcipherpriv.h, and modify the related comments.
+- Rename asn1_decoder.c to der.c.
+- Code style fix: use 'cleanup' & 'error' lables.
+- Allow autoptr type to auto-free.
+- Add test cases for rsakey to handle DER error.
+- Other minor fixes.
+
+v3 -> v4:
+- Coding style fix: Akcipher -> AkCipher, struct XXX -> XXX, Rsa -> RSA,
+XXX-alg -> XXX-algo.
+- Change version info in qapi/crypto.json, from 7.0 -> 7.1.
+- Remove ecdsa from qapi/crypto.json, it would be introduced with the implemetion later.
+- Use QCryptoHashAlgothrim instead of QCryptoRSAHashAlgorithm(removed) in qapi/crypto.json.
+- Rename arguments of qcrypto_akcipher_XXX to keep aligned with qcrypto_cipher_XXX(dec/enc/sign/vefiry -> in/out/in2), and add qcrypto_akcipher_max_XXX APIs.
+- Add new API: qcrypto_akcipher_supports.
+- Change the return value of qcrypto_akcipher_enc/dec/sign, these functions return the actual length of result.
+- Separate ASN.1 source code and test case clean.
+- Disable RSA raw encoding for akcipher-nettle.
+- Separate RSA key parser into rsakey.{hc}, and implememts it with builtin-asn1-decoder and nettle respectivly.
+- Implement RSA(pkcs1 and raw encoding) algorithm by gcrypt. This has higher priority than nettle.
+- For some akcipher operations(eg, decryption of pkcs1pad(rsa)), the length of returned result maybe less than the dst buffer size, return the actual length of result instead of the buffer length to the guest side. (in function virtio_crypto_akcipher_input_data_helper)
+- Other minor changes.
+
+Thanks to Daniel!
+
+Eric pointed out this missing part of use case, send it here again.
+
+In our plan, the feature is designed for HTTPS offloading case and other applications which use kernel RSA/ecdsa by keyctl syscall. The full picture shows bellow:
 
 
-On 2022/6/11 上午6:45, Richard Henderson wrote:
-> On 6/9/22 23:53, gaosong wrote:
->> Hi Richard,
->>
->> On 2022/6/10 上午2:42, Richard Henderson wrote:
->>>>   void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, 
->>>> target_ulong rk)
->>>>   {
->>>>       if (rj > rk) {
->>>> +#ifdef CONFIG_USER_ONLY
->>>> +        cpu_loop_exit_sigsegv(env_cpu(env), GETPC(),
->>>> +                              MMU_DATA_LOAD, true, GETPC());
->>>> +#else
->>>>           do_raise_exception(env, EXCCODE_ADEM, GETPC());
->>>> +#endif
->>>
->>> This change is wrong.  First, the kernel's do_ade raises SIGBUS. 
->>> Second, GETPC() is a host address, not a guest address.  Third, this 
->>> highlights the fact that the existing system code is wrong, and 
->>> should be setting badvaddr.
->>>
->>> You need to
->>> (1) set badvaddr here, and then
->>> (2) handle EXCCODE_ADEM in linux-user/loongarch/cpu_loop.c to 
->>> force_fix_fault(TARGET_SIGBUS, TARGET_BUS_ADRERR, env->badvaddr). 
->>
->> badvaddr is env->pc or base->pc_next?
->
-> I don't know.  The documentation for the ASRT{LE,GD}.D instructions is 
-> incomplete.
->
-> However, from the kernel code,
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/loongarch/kernel/traps.c#n360 
->
->
-> I can see that the kernel expects *some* value to be set there.  Given 
-> that this is the same trap used by the bound check memory accesses, I 
-> presume that badvaddr is related to the memory access not the PC.  So 
-> I would expect badvaddr to be RJ.
->
-> But that is a guess.  Please check with your hardware engineers.
-
-Thanks you,
+                 Nginx/openssl[1] ... Apps
+Guest   -----------------------------------------
+                  virtio-crypto driver[2]
+-------------------------------------------------
+                  virtio-crypto backend[3]
+Host    -----------------------------------------
+                 /          |          \
+             builtin[4]   vhost     keyctl[5] ...
 
 
-I had tested asrtgt.d on hardware.  the log is :
+[1] User applications can offload RSA calculation to kernel by keyctl syscall. There is no keyctl engine in openssl currently, we developed a engine and tried to contribute it to openssl upstream, but openssl 1.x does not accept new feature. Link:
+   https://github.com/openssl/openssl/pull/16689
 
-the gdb log
+This branch is available and maintained by Lei <helei.sig11@bytedance.com>
+   https://github.com/TousakaRin/openssl/tree/OpenSSL_1_1_1-kctl_engine
 
-(gdb) info registers
-                   zero               ra tp               sp
-R0   0000000000000000 000000fff7e7c774 000000fff7ffef20 000000ffffff6940
-                     a0               a1 a2               a3
-R4   0000000000000001 000000ffffff6a88 000000ffffff6a98 000000fff7fbc4b0
-                     a4               a5 a6               a7
-R8   0000000000000000 000000fff7fe6f70 000000ffffff6a80 0000000000000080
-                     t0               t1 t2               t3
-R12  0000000000000000 0000000000000000 0000000000000000 000000fff7fbeeb8
-                     t4               t5 t6               t7
-R16  000000fff7fbdd40 000000fff7fbdd40 7f7f7f7f7f7f7f7f 0000000000000000
-                     t8                x fp               s0
-R20  ffffff0000000000 0000000000000000 000000ffffff6960 0000000000000000
-                     s1               s2 s3               s4
-R24  0000000120000658 000000aaaabd9c60 0000000000000000 000000aaaabe9b50
-                     s5               s6 s7               s8
-R28  000000aaaabd9c60 0000000000000000 0000000000000000 000000aaaabcfa08
-pc             0x120000638         0x120000638 <main+32>
-badvaddr       0xfff7e935c8        0xfff7e935c8 <__cxa_atexit>
-(gdb) stepi
+We tested nginx(change config file only) with openssl keyctl engine, it works fine.
 
-Program received signal SIGSYS, Bad system call.
-0x0000000120000638 in main () at asrtle.c:8
-8        asm volatile("asrtgt.d  %0,%1\n\t"
-(gdb) info registers
-                   zero               ra tp               sp
-R0   0000000000000000 000000fff7e7c774 000000fff7ffef20 000000ffffff6940
-                     a0               a1 a2               a3
-R4   0000000000000001 000000ffffff6a88 000000ffffff6a98 000000fff7fbc4b0
-                     a4               a5 a6               a7
-R8   0000000000000000 000000fff7fe6f70 000000ffffff6a80 0000000000000080
-                     t0               t1 t2               t3
-R12  0000000000000000 0000000000000000 0000000000000000 000000fff7fbeeb8
-                     t4               t5 t6               t7
-R16  000000fff7fbdd40 000000fff7fbdd40 7f7f7f7f7f7f7f7f 0000000000000000
-                     t8                x fp               s0
-R20  ffffff0000000000 0000000000000000 000000ffffff6960 0000000000000000
-                     s1               s2 s3               s4
-R24  0000000120000658 000000aaaabd9c60 0000000000000000 000000aaaabe9b50
-                     s5               s6 s7               s8
-R28  000000aaaabd9c60 0000000000000000 0000000000000000 000000aaaabcfa08
-pc             0x120000638         0x120000638 <main+32>
-badvaddr       0x120000638         0x120000638 <main+32>
-(gdb) disas
-Dump of assembler code for function main:
-    0x0000000120000618 <+0>:    addi.d    $r3,$r3,-32(0xfe0)
-    0x000000012000061c <+4>:    st.d    $r22,$r3,24(0x18)
-    0x0000000120000620 <+8>:    addi.d    $r22,$r3,32(0x20)
-    0x0000000120000624 <+12>:    addi.w    $r12,$r0,23(0x17)
-    0x0000000120000628 <+16>:    st.d    $r12,$r22,-24(0xfe8)
-    0x000000012000062c <+20>:    st.d    $r0,$r22,-32(0xfe0)
-    0x0000000120000630 <+24>:    ld.d    $r12,$r22,-32(0xfe0)
-    0x0000000120000634 <+28>:    ld.d    $r13,$r22,-32(0xfe0)
-=> 0x0000000120000638 <+32>:    asrtgt.d    $r12,$r12
-    0x000000012000063c <+36>:    st.d    $r12,$r22,-24(0xfe8)
-    0x0000000120000640 <+40>:    move    $r12,$r0
-    0x0000000120000644 <+44>:    move    $r4,$r12
-    0x0000000120000648 <+48>:    ld.d    $r22,$r3,24(0x18)
-    0x000000012000064c <+52>:    addi.d    $r3,$r3,32(0x20)
-    0x0000000120000650 <+56>:    jirl    $r0,$r1,0
-End of assembler dump.
+[2] virtio-crypto driver is used to communicate with host side, send requests to host side to do asymmetric calculation.
+   https://lkml.org/lkml/2022/3/1/1425
 
-dmesg :
+[3] virtio-crypto backend handles requests from guest side, and forwards request to crypto backend driver of QEMU.
 
-[151125.931122] pid:32782 [a.out] Caught reserved exception 10 - should 
-not happen
+[4] Currently RSA is supported only in builtin driver. This driver is supposed to test the full feature without other software(Ex vhost process) and hardware dependence. ecdsa is introduced into qapi type without implementation, this may be implemented in Q3-2022 or later. If ecdsa type definition should be added with the implementation together, I'll remove this in next version.
 
+[5] keyctl backend is in development, we will post this feature in Q2-2022. keyctl backend can use hardware acceleration(Ex, Intel QAT).
 
-So
+Setup the full environment, tested with Intel QAT on host side, the QPS of HTTPS increase to ~200% in a guest.
 
-badvaddr is the PC,
+VS PCI passthrough: the most important benefit of this solution makes the VM migratable.
 
-exitsting system code is BCE, (10)
+v2 -> v3:
+- Introduce akcipher types to qapi
+- Add test/benchmark suite for akcipher class
+- Seperate 'virtio_crypto: Support virtio crypto asym operation' into:
+ - crypto: Introduce akcipher crypto class
+ - virtio-crypto: Introduce RSA algorithm
 
-And I think the change like this:
+v1 -> v2:
+- Update virtio_crypto.h from v2 version of related kernel patch.
 
-void helper_asrtle_d(CPULoongArchState *env,  target_ulong rj, 
-target_ulong  rk)
+v1:
+- Support akcipher for virtio-crypto.
+- Introduce akcipher class.
+- Introduce ASN1 decoder into QEMU.
+- Implement RSA backend by nettle/hogweed.
 
-{
+Zhenwei Pi (1):
+  crypto: Introduce RSA algorithm
 
-      if (rj > rk) {
+ backends/cryptodev-builtin.c      | 275 +++++++++++++++++++++----
+ backends/cryptodev-vhost-user.c   |  34 +++-
+ backends/cryptodev.c              |  32 ++-
+ hw/virtio/virtio-crypto.c         | 323 ++++++++++++++++++++++++------
+ include/hw/virtio/virtio-crypto.h |   5 +-
+ include/sysemu/cryptodev.h        |  83 ++++++--
+ 6 files changed, 608 insertions(+), 144 deletions(-)
 
-         env->badvaddr = env->pc;
-
-         do_raise_exception(env, EXCCODE_BCE,  env->badvaddr);
-
-      }
-
-}
-
-cpu_loop.c
-
-case EXCCODE_BCE:
-
-     force_sig_fault(TARGET_SIGSYS,  TARGET_SI_KERNEL, env->badvaddr)
-
-
-Thanks.
-Song Gao
-
---------------0B7B6A19815CB7D3DF9DE7D4
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2022/6/11 上午6:45, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20b38d22-0c59-ec11-88e1-af0f1f604984@linaro.org">On
-      6/9/22 23:53, gaosong wrote:
-      <br>
-      <blockquote type="cite" style="color: #000000;">Hi Richard,
-        <br>
-        <br>
-        On 2022/6/10 上午2:42, Richard Henderson wrote:
-        <br>
-        <blockquote type="cite" style="color: #000000;">
-          <blockquote type="cite" style="color: #000000;">  void
-            helper_asrtle_d(CPULoongArchState *env, target_ulong rj,
-            target_ulong rk)
-            <br>
-              {
-            <br>
-                  if (rj &gt; rk) {
-            <br>
-            +#ifdef CONFIG_USER_ONLY
-            <br>
-            +        cpu_loop_exit_sigsegv(env_cpu(env), GETPC(),
-            <br>
-            +                              MMU_DATA_LOAD, true,
-            GETPC());
-            <br>
-            +#else
-            <br>
-                      do_raise_exception(env, EXCCODE_ADEM, GETPC());
-            <br>
-            +#endif
-            <br>
-          </blockquote>
-          <br>
-          This change is wrong.  First, the kernel's do_ade raises
-          SIGBUS. Second, GETPC() is a host address, not a guest
-          address.  Third, this highlights the fact that the existing
-          system code is wrong, and should be setting badvaddr.
-          <br>
-          <br>
-          You need to
-          <br>
-          (1) set badvaddr here, and then
-          <br>
-          (2) handle EXCCODE_ADEM in linux-user/loongarch/cpu_loop.c to
-          force_fix_fault(TARGET_SIGBUS, TARGET_BUS_ADRERR,
-          env-&gt;badvaddr). </blockquote>
-        <br>
-        badvaddr is env-&gt;pc or base-&gt;pc_next?
-        <br>
-      </blockquote>
-      <br>
-      I don't know.  The documentation for the ASRT{LE,GD}.D
-      instructions is incomplete.
-      <br>
-      <br>
-      However, from the kernel code,
-      <br>
-      <br>
-      <a class="moz-txt-link-freetext"
-href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/loongarch/kernel/traps.c#n360"
-        moz-do-not-send="true">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/loongarch/kernel/traps.c#n360</a>
-      <br>
-      <br>
-      I can see that the kernel expects <b class="moz-txt-star"><span
-          class="moz-txt-tag">*</span>some<span class="moz-txt-tag">*</span></b>
-      value to be set there.  Given that this is the same trap used by
-      the bound check memory accesses, I presume that badvaddr is
-      related to the memory access not the PC.  So I would expect
-      badvaddr to be RJ.
-      <br>
-      <br>
-      But that is a guess.  Please check with your hardware engineers.
-      <br>
-    </blockquote>
-    <p>Thanks you,</p>
-    <p><br>
-    </p>
-    <p>I had tested asrtgt.d on hardware.  the log is :</p>
-    <p>the gdb log</p>
-    <p>(gdb) info registers <br>
-                        zero               ra              
-      tp               sp<br>
-      R0   0000000000000000 000000fff7e7c774 000000fff7ffef20
-      000000ffffff6940 <br>
-                          a0               a1              
-      a2               a3<br>
-      R4   0000000000000001 000000ffffff6a88 000000ffffff6a98
-      000000fff7fbc4b0 <br>
-                          a4               a5              
-      a6               a7<br>
-      R8   0000000000000000 000000fff7fe6f70 000000ffffff6a80
-      0000000000000080 <br>
-                          t0               t1              
-      t2               t3<br>
-      R12  0000000000000000 0000000000000000 0000000000000000
-      000000fff7fbeeb8 <br>
-                          t4               t5              
-      t6               t7<br>
-      R16  000000fff7fbdd40 000000fff7fbdd40 7f7f7f7f7f7f7f7f
-      0000000000000000 <br>
-                          t8                x              
-      fp               s0<br>
-      R20  ffffff0000000000 0000000000000000 000000ffffff6960
-      0000000000000000 <br>
-                          s1               s2              
-      s3               s4<br>
-      R24  0000000120000658 000000aaaabd9c60 0000000000000000
-      000000aaaabe9b50 <br>
-                          s5               s6              
-      s7               s8<br>
-      R28  000000aaaabd9c60 0000000000000000 0000000000000000
-      000000aaaabcfa08 <br>
-      pc             0x120000638         0x120000638 &lt;main+32&gt;<br>
-      badvaddr       0xfff7e935c8        0xfff7e935c8
-      &lt;__cxa_atexit&gt;<br>
-      (gdb) stepi<br>
-      <br>
-      Program received signal SIGSYS, Bad system call.<br>
-      0x0000000120000638 in main () at asrtle.c:8<br>
-      8        asm volatile("asrtgt.d  %0,%1\n\t"<br>
-      (gdb) info registers <br>
-                        zero               ra              
-      tp               sp<br>
-      R0   0000000000000000 000000fff7e7c774 000000fff7ffef20
-      000000ffffff6940 <br>
-                          a0               a1              
-      a2               a3<br>
-      R4   0000000000000001 000000ffffff6a88 000000ffffff6a98
-      000000fff7fbc4b0 <br>
-                          a4               a5              
-      a6               a7<br>
-      R8   0000000000000000 000000fff7fe6f70 000000ffffff6a80
-      0000000000000080 <br>
-                          t0               t1              
-      t2               t3<br>
-      R12  0000000000000000 0000000000000000 0000000000000000
-      000000fff7fbeeb8 <br>
-                          t4               t5              
-      t6               t7<br>
-      R16  000000fff7fbdd40 000000fff7fbdd40 7f7f7f7f7f7f7f7f
-      0000000000000000 <br>
-                          t8                x              
-      fp               s0<br>
-      R20  ffffff0000000000 0000000000000000 000000ffffff6960
-      0000000000000000 <br>
-                          s1               s2              
-      s3               s4<br>
-      R24  0000000120000658 000000aaaabd9c60 0000000000000000
-      000000aaaabe9b50 <br>
-                          s5               s6              
-      s7               s8<br>
-      R28  000000aaaabd9c60 0000000000000000 0000000000000000
-      000000aaaabcfa08 <br>
-      pc             0x120000638         0x120000638 &lt;main+32&gt;<br>
-      badvaddr       0x120000638         0x120000638 &lt;main+32&gt;<br>
-      (gdb) disas<br>
-      Dump of assembler code for function main:<br>
-         0x0000000120000618 &lt;+0&gt;:    addi.d    $r3,$r3,-32(0xfe0)<br>
-         0x000000012000061c &lt;+4&gt;:    st.d    $r22,$r3,24(0x18)<br>
-         0x0000000120000620 &lt;+8&gt;:    addi.d    $r22,$r3,32(0x20)<br>
-         0x0000000120000624 &lt;+12&gt;:    addi.w    $r12,$r0,23(0x17)<br>
-         0x0000000120000628 &lt;+16&gt;:    st.d    $r12,$r22,-24(0xfe8)<br>
-         0x000000012000062c &lt;+20&gt;:    st.d    $r0,$r22,-32(0xfe0)<br>
-         0x0000000120000630 &lt;+24&gt;:    ld.d    $r12,$r22,-32(0xfe0)<br>
-         0x0000000120000634 &lt;+28&gt;:    ld.d    $r13,$r22,-32(0xfe0)<br>
-      =&gt; 0x0000000120000638 &lt;+32&gt;:    asrtgt.d    $r12,$r12<br>
-         0x000000012000063c &lt;+36&gt;:    st.d    $r12,$r22,-24(0xfe8)<br>
-         0x0000000120000640 &lt;+40&gt;:    move    $r12,$r0<br>
-         0x0000000120000644 &lt;+44&gt;:    move    $r4,$r12<br>
-         0x0000000120000648 &lt;+48&gt;:    ld.d    $r22,$r3,24(0x18)<br>
-         0x000000012000064c &lt;+52&gt;:    addi.d    $r3,$r3,32(0x20)<br>
-         0x0000000120000650 &lt;+56&gt;:    jirl    $r0,$r1,0<br>
-      End of assembler dump.<br>
-      <br>
-    </p>
-    <p>dmesg :</p>
-    <p>[151125.931122] pid:32782 [a.out] Caught reserved exception 10 -
-      should not happen</p>
-    <p><br>
-    </p>
-    <p>So <br>
-    </p>
-    <p>badvaddr is the PC,  <br>
-    </p>
-    <p>exitsting system code is BCE, (10)<br>
-    </p>
-    <p>And I think the change like this:</p>
-    <p>void helper_asrtle_d(CPULoongArchState *env,  target_ulong rj,
-      target_ulong  rk)</p>
-    <p>{</p>
-    <p>     if (rj &gt; rk) {</p>
-    <p>        env-&gt;badvaddr = env-&gt;pc;</p>
-    <p>        do_raise_exception(env, EXCCODE_BCE,  env-&gt;badvaddr);<br>
-    </p>
-    <p>     }<br>
-    </p>
-    <p>}<br>
-    </p>
-    <p>cpu_loop.c</p>
-    <p>case EXCCODE_BCE:</p>
-    <p>    force_sig_fault(TARGET_SIGSYS,  TARGET_SI_KERNEL, 
-      env-&gt;badvaddr)<br>
-    </p>
-    <p><br>
-    </p>
-    Thanks.<br>
-    Song Gao<br>
-  </body>
-</html>
-
---------------0B7B6A19815CB7D3DF9DE7D4--
+-- 
+2.20.1
 
 
