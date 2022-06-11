@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BA65473E2
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:44:12 +0200 (CEST)
-Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955465473DB
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:40:44 +0200 (CEST)
+Received: from localhost ([::1]:47714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzybD-0000JG-JD
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43242)
+	id 1nzyXr-0001k3-LH
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRA-0001u1-Uj
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:49 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39586)
+ id 1nzyRF-0001xd-Th
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:53 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:45633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyR9-0006BU-FP
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:48 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id x17so1480821wrg.6
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:47 -0700 (PDT)
+ id 1nzyRE-0006Cm-Dx
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:53 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ x6-20020a1c7c06000000b003972dfca96cso759667wmc.4
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GoasRVFb2BlfBxlq+erSiANRPbzQryTPUnnof92UlaM=;
- b=p3jLhGBxIRgGn1aPrI25Qp3/H3CWeZC34gVcb+fGrVJI3Yd6AlhLxJz4GSl6eI/7ck
- Suvuo7Bk8nmEfxqEs64QnzBPxxoojWuDM//NSY1qzHCqUdteWHLqGMXDaCcg6oTAkovw
- oxMn2Kx9AzejsqO0KLWPz/TdAjowARvxAnIu1mrkwcXueHMrrZT0wwkKquepTf+dUao+
- CbLjOwP5SAhkbYcMhFK77ajTBx75bn4iGIPi2EE0SH3E1c3erx4xbQRoUNlFB2bHpnal
- eRb3CmvWbP1bSl6cl6lYhkeXtYVhNR5agZ4hRa58vE5tyOOOyLcceUg136sXGHWXtoba
- xXXg==
+ bh=DGNhLhGMFXQBby0dxvCxSCWiyVyDO+c5E5Fgg3cWQxI=;
+ b=JRnDMAAcBqpXBJ71U/rOU59tZ3Cj55v4d8/mRkoA3Ojra5KF9vfOg5E7M7IsvhIE/6
+ CZeNBoPgJjmpW6bqJe5j3DQBgl2k4hon+CuINkUAmu1oqA1lH7ISqyP8okMzD7N6kbC3
+ rB/06cMLO60iyWs015v8PP2SO1r/4hqW43QE18ski3blKAVmdew+UJaQoLavZDHW7m4t
+ R8T4XjvyveKZJhsRCHr/0PzyXHJxkDbeMUOiNQ6mmvujyB9Y1Vj6YEsNWIxfAiOYXjs1
+ nF0HWBUf7RuKfFrNK14QdMF0UlPtCvHCb4Qq55AY45Kqiy09iuOBHVaNd9di0X3Hu4A1
+ TwiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GoasRVFb2BlfBxlq+erSiANRPbzQryTPUnnof92UlaM=;
- b=VFlle4gLNSArUP/WBhB2hkVWhQLSmKkzMVOi4V5vuTnPTC30DGYwkesmEmxXSNOtWr
- EgZYtQl9Uu05Omdj0IhYAdAtZKsy7PhNtYSF5SbMa5quYw+u9BcJ2YZ63BVDBrMP7BMo
- pC4NSb8ftnG6sDJm/4ZSfR4GYF9krL37vyBbNiQVeoUTfBCFt5/7HGqVHOGBhrvdxy9x
- WgENi3hH+ey1CebwAbczfjfF5dtI9K/3ApjwsK1Ol9VrEFDTOWDqRwaLSkd6Oqxm9KnE
- 9K0t7FqipCJ0t2z+SbtekH0Rf4coeF2OR5pby8GnB7Of3kcWJS796uibTIWhKk0s9BHf
- 2CZw==
-X-Gm-Message-State: AOAM5310JCImZjxgZfHSdPdS76FZwN+aKf2TBtzlKIQAIpLqk4OODXCt
- B6pJhRuw8p/8Y1RvdTW1Q6m/IGPs5Xc=
-X-Google-Smtp-Source: ABdhPJz5zAej6VJX0qqxCsNHSK6iBmv9EHalf8lJhXQzQt/fDlweUwC8C9E4+cY/PX6lYS4b9pmf1Q==
-X-Received: by 2002:a5d:47a4:0:b0:218:5829:dced with SMTP id
- 4-20020a5d47a4000000b002185829dcedmr21151077wrb.56.1654943625879; 
- Sat, 11 Jun 2022 03:33:45 -0700 (PDT)
+ bh=DGNhLhGMFXQBby0dxvCxSCWiyVyDO+c5E5Fgg3cWQxI=;
+ b=wYDnQDq2krxfSXNfWHYdlFpC+cZ2u5QuM6ZIZPosK9ve3PADc7PlCdPptA+kumnwnZ
+ 7CSJnAAZU7Ilg6fHFUsjN/G+6rTi3Cn3kaf/0N04pnC3q38tlzdplBKIocFSQJy6B80w
+ BvHqnDzDrE3NyHKX/sh5n/C9YX/KaGAHqizhy4dBsSxgpFSdcQWpHELeiKHWUCVa2S0m
+ LM8aIRrn2zv0EpFF6+drAQAY0PbxiEZw97KalZuKoPFfn1zIAEiKzPjaIhGSUASeucWM
+ URXpza1C5IcXlcSYlR3Ol9NMzMG98hRPHVRJr0mi9Pmt2Oz6h9quD6pSYBn/uqBXWHD8
+ C6Gw==
+X-Gm-Message-State: AOAM53348Q4R/g6vBJlXM0YYu0QOnUgSMq42UzKRvOFVvYS4h4qOzB9S
+ 1lO/bk/17xfTjBiofq0OAtJuqpIa5Wc=
+X-Google-Smtp-Source: ABdhPJyhk3IG6upFrHunpm74c5wFfzT5H+o7wyyc5SnoxTr9QDPKhvj05FvUSIvJn360WpgYORQ2VA==
+X-Received: by 2002:a7b:ce87:0:b0:39c:5509:660c with SMTP id
+ q7-20020a7bce87000000b0039c5509660cmr4105375wmj.163.1654943630999; 
+ Sat, 11 Jun 2022 03:33:50 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- j7-20020a05600c190700b0039c4ba160absm15116177wmq.2.2022.06.11.03.33.44
+ n10-20020a056000170a00b00219fb3a275csm354824wrc.16.2022.06.11.03.33.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:33:45 -0700 (PDT)
+ Sat, 11 Jun 2022 03:33:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -65,18 +66,17 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Ni Hui <shuizhuyuanluo@126.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 06/49] target/mips: Fix store adress of high 64bit in
- helper_msa_st_b()
-Date: Sat, 11 Jun 2022 12:32:29 +0200
-Message-Id: <20220611103312.67773-7-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 07/49] target/mips: Fix FTRUNC_S and FTRUNC_U trans helper
+Date: Sat, 11 Jun 2022 12:32:30 +0200
+Message-Id: <20220611103312.67773-8-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,32 +101,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ni Hui <shuizhuyuanluo@126.com>
 
-This patch fix the issue that helper_msa_st_b() write high 64bit
-data to where the low 64bit resides, leaving high 64bit undefined.
+Fix the FTRUNC_S and FTRUNC_U trans helper problem.
 
-Fixes: 68ad9260e0 ("target/mips: Use 8-byte memory ops for msa load/store")
-Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
+Fixes: 5c5b64000c ("target/mips: Convert MSA 2RF instruction format to decodetree")
+Signed-off-by: nihui <shuizhuyuanluo@126.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220504023319.12923-1-shuizhuyuanluo@126.com>
+Message-Id: <20220503144241.289239-1-shuizhuyuanluo@126.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/msa_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/mips/tcg/msa_translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
-index 4dde5d639a..736283e2af 100644
---- a/target/mips/tcg/msa_helper.c
-+++ b/target/mips/tcg/msa_helper.c
-@@ -8329,7 +8329,7 @@ void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
- 
-     /* Store 8 bytes at a time.  Vector element ordering makes this LE.  */
-     cpu_stq_le_data_ra(env, addr + 0, pwd->d[0], ra);
--    cpu_stq_le_data_ra(env, addr + 0, pwd->d[1], ra);
-+    cpu_stq_le_data_ra(env, addr + 8, pwd->d[1], ra);
+diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
+index 0b3dd0957c..1bcdbb1121 100644
+--- a/target/mips/tcg/msa_translate.c
++++ b/target/mips/tcg/msa_translate.c
+@@ -752,8 +752,8 @@ static bool trans_msa_2rf(DisasContext *ctx, arg_msa_r *a,
  }
  
- void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
+ TRANS(FCLASS,   trans_msa_2rf, gen_helper_msa_fclass_df);
+-TRANS(FTRUNC_S, trans_msa_2rf, gen_helper_msa_fclass_df);
+-TRANS(FTRUNC_U, trans_msa_2rf, gen_helper_msa_ftrunc_s_df);
++TRANS(FTRUNC_S, trans_msa_2rf, gen_helper_msa_ftrunc_s_df);
++TRANS(FTRUNC_U, trans_msa_2rf, gen_helper_msa_ftrunc_u_df);
+ TRANS(FSQRT,    trans_msa_2rf, gen_helper_msa_fsqrt_df);
+ TRANS(FRSQRT,   trans_msa_2rf, gen_helper_msa_frsqrt_df);
+ TRANS(FRCP,     trans_msa_2rf, gen_helper_msa_frcp_df);
 -- 
 2.36.1
 
