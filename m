@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AA954750C
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 15:57:27 +0200 (CEST)
-Received: from localhost ([::1]:40936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE7D54750F
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 15:58:06 +0200 (CEST)
+Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o01cC-0000wC-VT
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 09:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46500)
+	id 1o01cp-0002LC-UL
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 09:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01a0-0006em-2V
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01a0-0006ef-27
  for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:08 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:38890)
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:45630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01Zw-0003Ts-Qy
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:06 -0400
-Received: by mail-il1-x129.google.com with SMTP id f7so1220553ilr.5
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 06:55:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01Zx-0003dl-41
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:07 -0400
+Received: by mail-il1-x12d.google.com with SMTP id a15so1195183ilq.12
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 06:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XBFbCEkZ7oGiUNkMxqM+i9If5EDsx2zvfgO9qiyweyg=;
- b=XUF6PnKpmlmWy3TxAlt/0lVw1lWmPwRwhAsy9YL/bXjEO0w9yq0soiZlGM+DAmeCQI
- hPn+LhEqvl6L4+/CNjrUekOAiDSb3A4rTP0SQeo1ytUZRRVXdCcxLdsyGMtUadJZjePe
- +LJ9nL0BR5xb6lYtvdrsCZJio/muxeV05zKPp58bxl1WZ8mIJX5vajOqomboK8l2jwvz
- OQk5YNO9sMOHcPolHKuoJtj3aSzKKCDS0R0VZRqJkJX56x+s6iEbySOsHJUBosA5qJw3
- 5jy4dL5XUm78W2BXUPvMlFkiH5xZ0qPq9FJ9Bn+li/AuKAT6XZi0IOzN99jNnP5w8B7u
- w5aw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NI+N2VEe5Mw6h4lhur+4hOroAOpLSh2NXyD5ov8MTCU=;
+ b=MmUQpy7qlxYRBj1BeWoiSN9UHypkjw8Txve7YAowYpAkTbKFgQ3P6mv6TzhTF60sQQ
+ /G9slimQATZ+8VtQH4Vjk0HYVRMvl1iCghWaDJ/eNarZ4OLfX0C5cNWvonkjDrs2IQE0
+ iQYRVxu3UbbrNaLWi2rIHLYyedbUeiKK/8DnhiNJuGWl328xgpShbtyQQiLxk/DIBC4I
+ Su4AiD2CVRbH4Chc0tX1Ok3z0pgJAGFlqOwIdYG54BJTmjasipy6AtMoGcHZOVvrGr15
+ 3XwpsLSlCqO3q24vySpKyLBr0Hxpqm/7a5I+T5zvj7dTeNvYrT4+NZsMNwa6Po4YQQI1
+ qJ6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XBFbCEkZ7oGiUNkMxqM+i9If5EDsx2zvfgO9qiyweyg=;
- b=dHeNJlqc3200OcSx0U+n1dKXjWd/o90VWEauazg2iOtiFoL8V00paub5iTeXYRnSy9
- vzTKCEFKKV+GH+TmYwOSKB5A3JtRd4OGXVsKXJsA4/Mdh5rOS5EWrWh01TTpTKqo3xjI
- oGmFPNqu8dRSX3lJwAdbVZyeShyjEWTowOjIH8WXWDsEbDLnElPwd0zO1FchiMY5p9nb
- c30jr9f//YHJILUx4u8PFG1rHINUjkvDfQrC0GJJCd87TeB19YPnR+XDENff3KKNCCG5
- 6+W++cWZhmo2stuVEPO/G7noqZvxIb87xxd1N01wt7P4DVWz2ZJsJnumVaPKnnLgUGvp
- YFnw==
-X-Gm-Message-State: AOAM531Ee+pJ9mtuoqK5S+rYBbGHhifP/dxWxWa0sM4JEWHxgVPu3RO3
- pID2QVuZhpeOZ4Np5HOWb7stIrEYIc0ONw==
-X-Google-Smtp-Source: ABdhPJxvdtYsYdFhxzhtTSvsXkosmj5KuJqM2OH17LjJuOqIIDmME4tZyBIP8fs/iXg891uUPjGqBQ==
-X-Received: by 2002:a05:6e02:1985:b0:2d3:bd36:7e1e with SMTP id
- g5-20020a056e02198500b002d3bd367e1emr29295033ilf.91.1654955701814; 
- Sat, 11 Jun 2022 06:55:01 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NI+N2VEe5Mw6h4lhur+4hOroAOpLSh2NXyD5ov8MTCU=;
+ b=ktVA4gBw8bU3GZZqmwUZiSo7lO31U0rRTL1WY9hoEkNmKKZNwmtLPhF+rI1IKScgAZ
+ UHey4Hpe6OBKEY62hV4UWsNxD0oEPMv+OipwkZX6ZM8rDULIqd0SX4b7u6+BTfES9woG
+ loUoo/qcAFMhquT2JEp74CHTnIfiIPb4sqhd4J0UnSOapHXHYs2m/dRJMPWuf91sYWQX
+ qiwagAd/oytWOCKJ0grVh+W1u2yBWcX1u/rI01+mXMkoED+x25HRx1+qYFjdZ9YD4pWP
+ so8kZJ/DQOkCbBST4Ont2xNY+cojotJGVJtDDmk70daX/6HfcatJah7Lbr6abfLl/aw1
+ totA==
+X-Gm-Message-State: AOAM532khR1yrsaYQspfL1ei2tH853R4BDt/GoR1QAslGEUsIJzJqSZb
+ Gnwjf+NIgCuRmdQ/QIEac2A+Bip9rAkPlA==
+X-Google-Smtp-Source: ABdhPJx38y7gDYzZwLzIjo68YtphO7o4ZAyQufWo8DsSQ+kwSiiBRZp8x956uGG6kLef/RMILwHIFA==
+X-Received: by 2002:a05:6e02:1a0e:b0:2d3:f72e:eaf1 with SMTP id
+ s14-20020a056e021a0e00b002d3f72eeaf1mr26152369ild.260.1654955703732; 
+ Sat, 11 Jun 2022 06:55:03 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- 13-20020a056e0211ad00b002d781cc0875sm1023578ilj.29.2022.06.11.06.55.01
+ 13-20020a056e0211ad00b002d781cc0875sm1023578ilj.29.2022.06.11.06.55.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Jun 2022 06:55:01 -0700 (PDT)
+ Sat, 11 Jun 2022 06:55:03 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: def@freebsd.org, arrowd@freebsd.org, Kyle Evans <kevans@freebsd.org>,
- Warner Losh <imp@bsdimp.com>, jrtc27@FreeBSD.org
-Subject: [PULL 0/6] Bsd user preen 2022q2 patches
-Date: Sat, 11 Jun 2022 07:55:08 -0600
-Message-Id: <20220611135514.92882-1-imp@bsdimp.com>
+ Warner Losh <imp@bsdimp.com>, jrtc27@FreeBSD.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 2/6] bsd-user/freebsd/os-syscall.c: unlock_iovec
+Date: Sat, 11 Jun 2022 07:55:10 -0600
+Message-Id: <20220611135514.92882-3-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220611135514.92882-1-imp@bsdimp.com>
+References: <20220611135514.92882-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::129;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,43 +88,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2663c41cfa2c3be34c62de97902a375b81027efd:
+Releases the references to the iovec created by lock_iovec.
 
-  Merge tag 'pull-target-arm-20220610' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-06-10 13:16:48 -0700)
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ bsd-user/freebsd/os-syscall.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-are available in the Git repository at:
-
-  ssh://git@github.com/qemu-bsd-user/qemu-bsd-user.git tags/bsd-user-preen-2022q2-pull-request
-
-for you to fetch changes up to 9554d33076771dcc284dc3fa1a87cd0e24b91d9d:
-
-  bsd-user/freebsd/os-syscall.c: Implement exit (2022-06-10 22:03:50 -0600)
-
-----------------------------------------------------------------
-bsd-user upstreaming: read, write and exit
-
-This series of patches continues the effort to get system calls working
-upstream. This series was cleaved off a prior series to give me time to rework
-based on the feedback from the first time I posted these. read, write and exit
-are implemented, along with a few helper functions and tracing.
-
-----------------------------------------------------------------
-
-Warner Losh (6):
-  bsd-user/freebsd/os-syscall.c: lock_iovec
-  bsd-user/freebsd/os-syscall.c: unlock_iovec
-  bsd-user/freebsd/os-syscall.c: Tracing and error boilerplate
-  bsd-user/bsd-file.h: Add implementations for read, pread, readv and
-    preadv
-  bsd-user/bsd-file.h: Meat of the write system calls
-  bsd-user/freebsd/os-syscall.c: Implement exit
-
- bsd-user/bsd-file.h           | 163 +++++++++++++++++++++++++
- bsd-user/bsd-proc.h           |  42 +++++++
- bsd-user/freebsd/os-syscall.c | 217 +++++++++++++++++++++++++++++++++-
- 3 files changed, 418 insertions(+), 4 deletions(-)
- create mode 100644 bsd-user/bsd-proc.h
-
+diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
+index 67851937a8f..52093d479d8 100644
+--- a/bsd-user/freebsd/os-syscall.c
++++ b/bsd-user/freebsd/os-syscall.c
+@@ -175,6 +175,20 @@ fail2:
+     return NULL;
+ }
+ 
++void unlock_iovec(struct iovec *vec, abi_ulong target_addr,
++        int count, int copy)
++{
++    struct target_iovec *target_vec;
++
++    target_vec = lock_user(VERIFY_READ, target_addr,
++                           count * sizeof(struct target_iovec), 1);
++    if (target_vec) {
++        helper_unlock_iovec(target_vec, target_addr, vec, count, copy);
++    }
++
++    g_free(vec);
++}
++
+ /*
+  * do_syscall() should always have a single exit point at the end so that
+  * actions, such as logging of syscall results, can be performed.  All errnos
 -- 
 2.33.1
 
