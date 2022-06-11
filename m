@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7DC5473E3
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:44:15 +0200 (CEST)
-Received: from localhost ([::1]:56242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE225473D0
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:38:25 +0200 (CEST)
+Received: from localhost ([::1]:42044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzybG-0000Pf-L4
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43312)
+	id 1nzyVc-0005UF-TD
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRQ-0002NN-Dt
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:04 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41667)
+ id 1nzyRW-0002cA-En
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:10 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:38982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRO-0006DG-Rp
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:04 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id k19so1472802wrd.8
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:34:02 -0700 (PDT)
+ id 1nzyRT-0006Dd-Qv
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:10 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ i131-20020a1c3b89000000b0039c6fd897b4so1754348wma.4
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:34:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zSo+culpJATZACSBmjT9Ra1U4oAMbiKli3IdqMT5z10=;
- b=ZNIaS2om+mJ3/Ap4dfBoAEJoXCFy6zjT1jsQRHbgo+aB3k7VFLzD2IVUh3ZJhezHnA
- u1fPshoH7VT1puHMwtva31eT8gNEPMoW+9e5QM4x+IFTorL+4J3kx/jeJ0wKOMdzLHwj
- KeoVS41axm4Fv72LPASksrW9CfcC091VZao4ccZtHInDNkasBlZXkwxefW8B00X9Oir5
- RVZv36HS9xhBI2EwwE3trah4zTy+WzIPr6qBcnIxFn7PzuX4Be4kaiV6qhZEpx77VBhp
- Lkb98M+kdIKRipNxXhti/sY+4uxoWCkNaukRl2EwXy32F9bcp3j8XP482fUs2LdXIRmh
- dW3A==
+ bh=JXGp9AEBGIcAPuqUO7kDAfXP5dRhKuWFhn6lRxbnldQ=;
+ b=ajf0ZmtyTbXN2bM0Dc1a5vgSH27N0+T8VGtIxa6R8BtL7EB6owHZq7IfejLZhtEP6v
+ eSFha7d7tFLdr6OPZUX06hJ1V1RMJoQM7n98OYOkvBIVOoeYWrS7yvSjqf/YpBGFbO7D
+ oSREvV5wlwIYyFZA0lCnqgPHSfb+yxIpsxfBJ6sirGCsxrvm8XQFvILWTmDFGlLi2Lgn
+ qHeKvtaBXebX/HOVDMWiJikXtnzoZlOeX9Ur9+0rbpSgnMvSAFntd4aTzodxaK+touk5
+ jKyX7wuoojoTAaEXT9NyR16OSBKXdqrb/icQtadAMc+y6y7/17sQ1JmyY8kDX3wvi5zL
+ EPSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zSo+culpJATZACSBmjT9Ra1U4oAMbiKli3IdqMT5z10=;
- b=NMwaapl1+ZVJSH0i/azwcCdnGfgbHJbcV2g7seg4y4TU0bbub+eAmKVw5sPADaVk8r
- hE2fHjSUHkTKwNoA78vkaHLCiVOH6LeVDMvW9d1tu2mVymxUOWKURCHdkyQPr+h/NE77
- /XzEtXNsko5HuGbuospab+0ttkOjDMO2fXt3jIors6SIZ9/3wEG+c+wDJl1kb2zkkxyQ
- yGWXCtp8RqLOzSlAj14mRPdbX39HbBtjEGDD0iyDh/ZNeNycEkRi4s7TBKJtdLa/8xE5
- kpfUto6VQVNCPoehuDj0MW6Odm0LnE6rwRXjnbPkWW/jJKLMOAP7ZakDOn8Gv4asYPCO
- pSiA==
-X-Gm-Message-State: AOAM533GfKKiPTycJIR7iYw+52n6J1OFGMr0gxxr1SqSh0OF15AOy+ZC
- LY8oU+OmBWA9upC288HzJs+IBZ8hQrY=
-X-Google-Smtp-Source: ABdhPJyLtn6IyGaVDIk08THrDNIjw9YsIxxEKmKt0AGxdMQ9CuKCyOPFnANAkCrruxar3yDGyAvsUg==
-X-Received: by 2002:a5d:67c2:0:b0:215:7a0f:71f9 with SMTP id
- n2-20020a5d67c2000000b002157a0f71f9mr41927621wrw.486.1654943641197; 
- Sat, 11 Jun 2022 03:34:01 -0700 (PDT)
+ bh=JXGp9AEBGIcAPuqUO7kDAfXP5dRhKuWFhn6lRxbnldQ=;
+ b=rf70rYbSsLmTyPeSWwSJ1pSfuZaTXhI3MHXtVAtGLcjB6Jl7NSt25qF/UsuW2FdcbW
+ xD7YzpqxYjVOWDD8NKg6VTvDMCtv06VvMvDP52PSMlUWdFsXXRarwEvZqICTlEsVYwwd
+ 4RkfJJEo5SYPPJDR+pdWQhaFV2pqHMKjynqPNQDCKu50BKxSr7M5L1H+QEv5EZ1QoIvx
+ kXmOTLnH0PWOA2mYvOsjxT7423EifQlI5kg4K9PWKdXPK8BXr4d3D4brBXxU5oMcLliR
+ oms5MUnVyYlJas0kQXc6go1LlOfIrNSO55deamYN7YidZ1hnKf+oSzPiNf6CxQoXlMO5
+ Tl6w==
+X-Gm-Message-State: AOAM533IYQre9NnX/+3NSR3bb1arIDYHAEqxSESFpi6Hp6i1Ig27s72N
+ ZUfu4pxJf6TNNJLzfzurzhS9MkChEKM=
+X-Google-Smtp-Source: ABdhPJz4UJ2Cp/bjwNocgIYBOHYa6jG5XF77jjEIEy8s3UoazE0alhPhcdMl9vK/lvq5LolBMqKLpQ==
+X-Received: by 2002:a05:600c:4fd2:b0:39c:1586:a2e0 with SMTP id
+ o18-20020a05600c4fd200b0039c1586a2e0mr4113680wmq.62.1654943646298; 
+ Sat, 11 Jun 2022 03:34:06 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- ay15-20020a5d6f0f000000b002183cf9cd69sm2144366wrb.15.2022.06.11.03.34.00
+ q1-20020adff501000000b002117ef160fbsm2189441wro.21.2022.06.11.03.34.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:34:00 -0700 (PDT)
+ Sat, 11 Jun 2022 03:34:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -64,18 +65,18 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 09/49] target/mips: Fix emulation of nanoMIPS EXTRV_S.H
+Subject: [PULL 10/49] target/mips: Fix emulation of nanoMIPS BPOSGE32C
  instruction
-Date: Sat, 11 Jun 2022 12:32:32 +0200
-Message-Id: <20220611103312.67773-10-philippe.mathieu.daude@gmail.com>
+Date: Sat, 11 Jun 2022 12:32:33 +0200
+Message-Id: <20220611103312.67773-11-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,39 +101,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
 
-The field rs in the instruction EXTRV_S.H rt, ac, rs is specified in
-nanoMIPS documentation as opcode[20..16]. It is, however, erroneously
-considered as opcode[25..21] in the current QEMU implementation. In
-function gen_pool32axf_2_nanomips_insn(), the variable v0_t corresponds
-to rt/opcode[25..21], and v1_t corresponds to rs/opcode[20..16]), and
-v0_t is by mistake passed to the helper gen_helper_extr_s_h().
+There are currently two problems related to the emulation of the
+instruction BPOSGE32C.
 
-Use v1_t rather than v0_t in the invocation of gen_helper_extr_s_h()
-to fix this.
+The nanoMIPS instruction BPOSGE32C belongs to DSP R3 instructions
+(actually, as of now, it is the only instruction of DSP R3). The
+presence of DSP R3 instructions in QEMU is indicated by the flag
+MIPS_HFLAG_DSP_R3 (0x20000000). This flag is currently being properly
+set in CPUMIPSState's hflags (for example, for I7200 nanoMIPS CPU).
+However, it is not propagated to DisasContext's hflags, since the flag
+MIPS_HFLAG_DSP_R3 is not set in MIPS_HFLAG_TMASK (while similar flags
+MIPS_HFLAG_DSP_R2 and MIPS_HFLAG_DSP are set in this mask, and there
+is no problem in functioning check_dsp_r2(), check_dsp()). This means
+the function check_dsp_r3() currently does not work properly, and the
+emulation of BPOSGE32C can not work properly as well.
+
+Change MIPS_HFLAG_TMASK from 0x1F5807FF to 0x3F5807FF (logical OR
+with 0x20000000) to fix this.
+
+Additionally, check_cp1_enabled() is currently incorrectly called
+while emulating BPOSGE32C. BPOSGE32C is in the same pool (P.BR1) as
+FPU branch instruction BC1EQZC and BC1NEZC, but it not a part of FPU
+(CP1) instructions, and check_cp1_enabled() should not be involved
+while emulating BPOSGE32C.
+
+Rearrange invocations of check_cp1_enabled() within P.BR1 pool
+handling to affect only BC1EQZC and BC1NEZC emulation, and not
+BPOSGE32C emulation.
 
 Signed-off-by: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
 Signed-off-by: Stefan Pejic <stefan.pejic@syrmia.com>
-Fixes: 8b3698b294 ("target/mips: Add emulation of DSP ASE for nanoMIPS")
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220504110403.613168-3-stefan.pejic@syrmia.com>
+Message-Id: <20220504110403.613168-4-stefan.pejic@syrmia.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/nanomips_translate.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/mips/cpu.h                        | 2 +-
+ target/mips/tcg/nanomips_translate.c.inc | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 6b6b8776d1..42efa989e4 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1077,7 +1077,7 @@ typedef struct CPUArchState {
+ #define EXCP_INST_NOTAVAIL 0x2 /* No valid instruction word for BadInstr */
+     uint32_t hflags;    /* CPU State */
+     /* TMASK defines different execution modes */
+-#define MIPS_HFLAG_TMASK  0x1F5807FF
++#define MIPS_HFLAG_TMASK  0x3F5807FF
+ #define MIPS_HFLAG_MODE   0x00007 /* execution modes                    */
+     /*
+      * The KSU flags must be the lowest bits in hflags. The flag order
 diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-index 58ae35a156..9ee4df2135 100644
+index 9ee4df2135..941cfaa6bb 100644
 --- a/target/mips/tcg/nanomips_translate.c.inc
 +++ b/target/mips/tcg/nanomips_translate.c.inc
-@@ -2036,7 +2036,7 @@ static void gen_pool32axf_2_nanomips_insn(DisasContext *ctx, uint32_t opc,
-         case NM_EXTRV_S_H:
-             check_dsp(ctx);
-             tcg_gen_movi_tl(t0, rd >> 3);
--            gen_helper_extr_s_h(t0, t0, v0_t, cpu_env);
-+            gen_helper_extr_s_h(t0, t0, v1_t, cpu_env);
-             gen_store_gpr(t0, ret);
-             break;
-         }
+@@ -4478,12 +4478,13 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+             case NM_P_BR3A:
+                 s = sextract32(ctx->opcode, 0, 1) << 14 |
+                     extract32(ctx->opcode, 1, 13) << 1;
+-                check_cp1_enabled(ctx);
+                 switch (extract32(ctx->opcode, 16, 5)) {
+                 case NM_BC1EQZC:
++                    check_cp1_enabled(ctx);
+                     gen_compute_branch_cp1_nm(ctx, OPC_BC1EQZ, rt, s);
+                     break;
+                 case NM_BC1NEZC:
++                    check_cp1_enabled(ctx);
+                     gen_compute_branch_cp1_nm(ctx, OPC_BC1NEZ, rt, s);
+                     break;
+                 case NM_BPOSGE32C:
 -- 
 2.36.1
 
