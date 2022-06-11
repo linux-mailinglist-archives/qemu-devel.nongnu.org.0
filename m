@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B2E5473F9
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:53:38 +0200 (CEST)
-Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4345473F5
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:49:50 +0200 (CEST)
+Received: from localhost ([::1]:36530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzykK-00043M-RK
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
+	id 1nzygf-0006Fa-Nr
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRk-0003Lj-TL
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:24 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38508)
+ id 1nzyRp-0003YG-V5
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:29 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRj-0006Fu-8W
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:24 -0400
-Received: by mail-wr1-x432.google.com with SMTP id v14so1487127wra.5
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:34:22 -0700 (PDT)
+ id 1nzyRo-0006GG-C0
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:29 -0400
+Received: by mail-wm1-x336.google.com with SMTP id a10so620597wmj.5
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0dDhWhwpaGDBK8Q4fbZrV2hDpstODQvC/cOd95qzwgY=;
- b=bn9UkCd7PQwVZLfUV3H71Ad3zbxv4t+sDpSqLJJYm2Afv3adRwnKaiaDUq7OE3Oo60
- ukojDctVZKR0prdMbl/WBMw+x7qpWCL5UMCl/0Exh9x9goXcdsz/r5SsVrXeiTYZnVTu
- baBYpQaivOtWDjc1IOfxUyCUbEUCuOf2iwYnOOTWrQMsTVAWoRBjH06FJiICNcuyn6wP
- J55FGZKuqS8Qvteb8mmJEpLIkjxZ+yznavkrIFIRl+17KchzdAQh3k1N2vTl9Rkt4+Vn
- OZ+8Rg128qPy22u9r9ESouajKxJEQE0vuj80Ho5L2A2Oruq659Oj0pMG2p6KeA1qQUB+
- x35g==
+ bh=Is3ANV7KetILpxXaoCA2qsawFyqZ3ykoejNME1BEWxg=;
+ b=pXVtKrWUpLWK6Cj81lY9P5VP1dOZIjrxvFEi4t369NL1J1wmc1MO49wO0aXkgLiB5S
+ PKdS/kq257xCeSeWfVp6LAGaO6SQaTh3r3XlLWDW1b3LDBRiV3GNAznlINnBERL7nU1A
+ DihEnt9tP6EGaZWxD7v9u2hh329N0jWAuRnbcWwgyer1fyz9dVqpeESP7q5UzkboVn8/
+ v0Qf5vJdc9gxpcieS78Tg0x6mUMRptbV4826DKlgOGEi2i7AcSZFu0GbYARhkZjYxQNU
+ RIYBliGmGiSDFIWu7WvRtJdcX/48xGx8Q89tuWLbRuEtYmui5UnD0gCuUMbPIKPfko+d
+ x7KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0dDhWhwpaGDBK8Q4fbZrV2hDpstODQvC/cOd95qzwgY=;
- b=k6+4IrAf61xyCzFYdnF4T8yudYzFn+dvl0RXhiAzOsciM4rfdbqpDwuXgKZVJL9HTS
- gHQ68jdgY33fhw6mnjIO4b3kYvYIWJv7GHubjBXnAQ89IL9sKs5ZTJVV+WXXSCCzDBTn
- 9GjnMrtE0WZlmPtJKcZUsts/ZOljieJEsR6Vn2JOnP+psQK9KdyzHstxMVWsTqDhcPE8
- gqzz1ayL6W4XHDhGuqavqm56oEdDE89qnZujM+XTn+EGzQqg3LKkpiJVrBh6GXkbhl3U
- 6HyN3mPealGIZUXNkK2zbAlIGF5FJRMHlsewGVfKyBy/m2aWG78f1JK3U4TlJ7edz/yN
- wcVQ==
-X-Gm-Message-State: AOAM5327xExNUhFDnlXJ/XJctEwr5F8OW0/46Q6d10fGcfS0CYOwauW1
- 7mpHLWj8y+kR30JCC4rAAQL8A4PPB7o=
-X-Google-Smtp-Source: ABdhPJyAiQCnqzdS2nEldarerE1AfG9AQs1lg4XdHBaVui/RgHhxu/kPrnAu92GZJmPlbWP/VnKfbg==
-X-Received: by 2002:a5d:6445:0:b0:211:7eee:2f94 with SMTP id
- d5-20020a5d6445000000b002117eee2f94mr47557555wrw.631.1654943661696; 
- Sat, 11 Jun 2022 03:34:21 -0700 (PDT)
+ bh=Is3ANV7KetILpxXaoCA2qsawFyqZ3ykoejNME1BEWxg=;
+ b=d7PwwHUMZ5acZMQM6bgPL9vEiYoAl/XinDsebs4ivNy/0ZSAp3N9/2ccChjgMuZZw8
+ YjfaMG6JKH58r+vSvEue4owi52S7JZo53c3rFGJBmJZnm+e8fnnHnIIvZBh3m6TgLjSi
+ K8i/5wqZF1pwpCb7ce2yKfEzXYOUnrCwMzJwQK8dL/BvIRqTxkSvAnXntXSie4ZYDcM4
+ FMc0cNZxojIVg90yqMZtc+tQeFnwOpg6WhbPktQfEKnVzXjvZI8E1hjyrr4LL2M8h8jf
+ RU0lRBL/eKjuYagq/Yh1Ke2q+DbwAtQTGDoDlulEgn2dTvBeY6htPG3fLFVa/b0LaUnJ
+ WQIA==
+X-Gm-Message-State: AOAM530sQTgRjOC+SyaC94MXBGheRxdpP1l3KDlTU0Jd1dXzFC0NmxdY
+ irKG3SpbXIFR1SENr/HGd57ihTKmNVI=
+X-Google-Smtp-Source: ABdhPJz5E4hKZGWOKMQ3dQSl2i9Brg6CBGaF+pjd6ZXRBKLa5fTShBI++pigm1NTX4eenzMHd4fwwQ==
+X-Received: by 2002:a7b:c154:0:b0:39c:4f4a:79c0 with SMTP id
+ z20-20020a7bc154000000b0039c4f4a79c0mr4201871wmi.152.1654943666727; 
+ Sat, 11 Jun 2022 03:34:26 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- p28-20020a05600c1d9c00b0039c7f790f6asm4211647wms.30.2022.06.11.03.34.20
+ m127-20020a1ca385000000b0039c4f0c827fsm5869027wme.26.2022.06.11.03.34.25
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:34:21 -0700 (PDT)
+ Sat, 11 Jun 2022 03:34:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -63,18 +63,17 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 13/49] target/mips: Add missing default cases for some nanoMIPS
- pools
-Date: Sat, 11 Jun 2022 12:32:36 +0200
-Message-Id: <20220611103312.67773-14-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 14/49] target/mips: Undeprecate nanoMIPS ISA support in QEMU
+Date: Sat, 11 Jun 2022 12:32:37 +0200
+Message-Id: <20220611103312.67773-15-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,94 +98,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Pejic <stefan.pejic@syrmia.com>
 
-Switch statements for the code segments that handle nanoMIPS
-instruction pools P.LL, P.SC, P.SHIFT, P.LS.S1, P.LS.E0, PP.LSXS
-do not have proper default case, resulting in not generating
-reserved instruction exception for certain illegal opcodes.
+nanoMIPS ISA support in QEMU is actively used by MediaTek and is
+planned to be maintained and potentially extended by MediaTek in
+future.
 
-Fix this by adding default cases for these switch statements that
-trigger reserved instruction exception.
+Un-orphan nanoMIPS ISA support in QEMU by setting a maintainer from
+MediaTek and remove deprecation notes from documentation as well.
 
 Signed-off-by: Stefan Pejic <stefan.pejic@syrmia.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220504110403.613168-7-stefan.pejic@syrmia.com>
+Message-Id: <20220504110403.613168-8-stefan.pejic@syrmia.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/nanomips_translate.c.inc | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ MAINTAINERS               |  3 ++-
+ docs/about/deprecated.rst | 30 ------------------------------
+ 2 files changed, 2 insertions(+), 31 deletions(-)
 
-diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-index 1ee5c8c8d4..c0ba2bf1b1 100644
---- a/target/mips/tcg/nanomips_translate.c.inc
-+++ b/target/mips/tcg/nanomips_translate.c.inc
-@@ -2707,6 +2707,9 @@ static void gen_p_lsx(DisasContext *ctx, int rd, int rs, int rt)
-         case NM_SDC1XS:
-             tcg_gen_shli_tl(t0, t0, 3);
-             break;
-+        default:
-+            gen_reserved_instruction(ctx);
-+            goto out;
-         }
-     }
-     gen_op_addr_add(ctx, t0, t0, t1);
-@@ -2797,6 +2800,7 @@ static void gen_p_lsx(DisasContext *ctx, int rd, int rs, int rt)
-         break;
-     }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b3af081c51..0df25ed4b0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -246,7 +246,8 @@ F: docs/system/cpu-models-mips.rst.inc
+ F: tests/tcg/mips/
  
-+out:
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
- }
-@@ -3944,6 +3948,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                     gen_shift_imm(ctx, OPC_ROTR, rt, rs,
-                                   extract32(ctx->opcode, 0, 5));
-                     break;
-+                default:
-+                    gen_reserved_instruction(ctx);
-+                    break;
-                 }
-             }
-             break;
-@@ -4245,6 +4252,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                         check_xnp(ctx);
-                         gen_llwp(ctx, rs, 0, rt, extract32(ctx->opcode, 3, 5));
-                         break;
-+                    default:
-+                        gen_reserved_instruction(ctx);
-+                        break;
-                     }
-                     break;
-                 case NM_P_SC:
-@@ -4257,6 +4267,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                         gen_scwp(ctx, rs, 0, rt, extract32(ctx->opcode, 3, 5),
-                                  false);
-                         break;
-+                    default:
-+                        gen_reserved_instruction(ctx);
-+                        break;
-                     }
-                     break;
-                 case NM_CACHE:
-@@ -4265,6 +4278,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                         gen_cache_operation(ctx, rt, rs, s);
-                     }
-                     break;
-+                default:
-+                    gen_reserved_instruction(ctx);
-+                    break;
-                 }
-                 break;
-             case NM_P_LS_E0:
-@@ -4371,6 +4387,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                         break;
-                     }
-                     break;
-+                default:
-+                    gen_reserved_instruction(ctx);
-+                    break;
-                 }
-                 break;
-             case NM_P_LS_WM:
+ MIPS TCG CPUs (nanoMIPS ISA)
+-S: Orphan
++M: Stefan Pejic <stefan.pejic@syrmia.com>
++S: Maintained
+ F: disas/nanomips.*
+ F: target/mips/tcg/*nanomips*
+ 
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index aa2e320207..19a91b575f 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -213,17 +213,6 @@ MIPS ``Trap-and-Emul`` KVM support (since 6.0)
+ The MIPS ``Trap-and-Emul`` KVM host and guest support has been removed
+ from Linux upstream kernel, declare it deprecated.
+ 
+-System emulator CPUS
+---------------------
+-
+-MIPS ``I7200`` CPU Model (since 5.2)
+-''''''''''''''''''''''''''''''''''''
+-
+-The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+-(the ISA has never been upstreamed to a compiler toolchain). Therefore
+-this CPU is also deprecated.
+-
+-
+ QEMU API (QAPI) events
+ ----------------------
+ 
+@@ -337,16 +326,6 @@ The above, converted to the current supported format::
+ 
+   json:{"file.driver":"rbd", "file.pool":"rbd", "file.image":"name"}
+ 
+-linux-user mode CPUs
+---------------------
+-
+-MIPS ``I7200`` CPU (since 5.2)
+-''''''''''''''''''''''''''''''
+-
+-The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+-(the ISA has never been upstreamed to a compiler toolchain). Therefore
+-this CPU is also deprecated.
+-
+ Backwards compatibility
+ -----------------------
+ 
+@@ -376,15 +355,6 @@ versions, aliases will point to newer CPU model versions
+ depending on the machine type, so management software must
+ resolve CPU model aliases before starting a virtual machine.
+ 
+-Guest Emulator ISAs
+--------------------
+-
+-nanoMIPS ISA
+-''''''''''''
+-
+-The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
+-As it is hard to generate binaries for it, declare it deprecated.
+-
+ Tools
+ -----
+ 
 -- 
 2.36.1
 
