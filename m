@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9FF547461
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:45:30 +0200 (CEST)
-Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F6F547438
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 13:27:20 +0200 (CEST)
+Received: from localhost ([::1]:33042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzzYX-0001C5-DE
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:45:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44120)
+	id 1nzzGx-0002d6-4O
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 07:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyUf-00079R-Ng
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:37:27 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46912)
+ id 1nzyV2-0007Es-8c; Sat, 11 Jun 2022 06:37:48 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyUd-0006rA-IW
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:37:25 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id u8so1452898wrm.13
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:37:22 -0700 (PDT)
+ id 1nzyUl-0006rT-Et; Sat, 11 Jun 2022 06:37:32 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ r187-20020a1c44c4000000b0039c76434147so2248314wma.1; 
+ Sat, 11 Jun 2022 03:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fY6esjUWpYJQRunP4ZAyyQfjXBIe+rdz0gCX7PSDfA8=;
- b=d3nzn8aPhJHV+3EvhFZUCs/Tv2pMZcYX6m5fn7DgoSb8uairEPoM8GRHS1COHlT35E
- Jzd51NvM+PUkOgM/nPkUiu99ERdHEtzXFnIOrV/PORW9DT24oBFi8KaXWF9lYNoUIewH
- mRNh80b2S4hE//eFyHwzmxgTZUnHi4hi19n8NQNDSZakxEAIPFJoq07ttGh0KvIEUux6
- ouvBDwrMuci2Kzz0sGyvBLRy2hcThFrLsZtpinNPPIGrVhKpFxI2D9PWH06rCjQXJZNN
- 4hcMFV6AhJON6GqKkKyCkCBprNKdHFPDB1VPKRpz3hHvAeCXpOuNHroJvPTmKAEZ54V1
- Gb1A==
+ bh=LSRhU0WHNkI3RpqcgumxLgAlGt42w+Z0sNOGRHj1XUo=;
+ b=DKj1bP5X5Wra55aPOSACmNLnCf/m1dSSMyBt1i6gKjLfhM/X5O6CWBLXglLyNz9WH8
+ dJRN3Vs5jiKaMlodyWs2eZ3KHrrXN7XO/jiQAJy3SRPd8xBh8ZBN+50sU2LWGf+LsBxT
+ tybrBIKqH5ivyUEJreeqgsIwBQUDRIEY7W/fup3BksTlUUjHi30bEm6eDXJgZCDb7Oct
+ VS+Z/7e/JBXupxppTuDfD7GosASFwgKxKdQEDKa+knfu/MYJ5ePVOn/wgn5OFlDTAq0D
+ KGIQTAzHQdMXTqhnYtPgT0TgHiK4asDtJQnPt43ndaIgKWF52XaaewoDoxrLPVlP41R6
+ 2LSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fY6esjUWpYJQRunP4ZAyyQfjXBIe+rdz0gCX7PSDfA8=;
- b=IC1d3jiutRpErYpeOeZm+agsjtZFxXMA82clK9UtmJFA9n2bT1m0DcFvx6tr8HJChf
- 40xXXXqs1rFUTrDmgooFE1KGou8fybrdPaA7w+yjcVxooEH3p5WKtiUkUydHbBXuEoOJ
- tc84QNrT0iJIIyjnL9Q6wIA+P6OFbe22WTQEVm0jeDnL9NQgUt+LxjuwdZmtS0Pnzuns
- NTHdub5ZcnPgJzKEA+n9ICsqYHmrlND/UUQYjUXYR5uPYaq0TJP/ltBhdGIgTrj/+jO3
- /hwYbn+lhOy54ZaE189r5aGteQp9sBLB32Q73nQ4N4+Rq8IiWVDLHj4GRbX3IUa8PILm
- 8C9A==
-X-Gm-Message-State: AOAM530RgtRL2ZBYP/aqCkzUREsXwMTThf7QF0tz5PvLikkkR560hPVj
- iT7f+fnggxSNPJJwCS3+wD+HMWZ8Fzc=
-X-Google-Smtp-Source: ABdhPJyXfgYO2k7wWHWMYv41gfYtI6S3UM68ITOw8MkjY2lGI/sjLJrmZVlBZ5jnM7+1SRVzTo6JoA==
-X-Received: by 2002:a5d:59ac:0:b0:218:5b7e:1c1c with SMTP id
- p12-20020a5d59ac000000b002185b7e1c1cmr19910017wrr.621.1654943840999; 
- Sat, 11 Jun 2022 03:37:20 -0700 (PDT)
+ bh=LSRhU0WHNkI3RpqcgumxLgAlGt42w+Z0sNOGRHj1XUo=;
+ b=2dEUMUU+QX9OLBdMkTK33oHbDo5XEj69kt4yKqSSm7YKf27imWxKwncB/8hNKb/VBl
+ 3nXp2qLOltso1isqomqwVuMNlTrjnRyMOJiKnQw3PqUw4gg4YH8wOh2LPThCxSEHfa82
+ W1sbTTdX6U1IfE+v1t3gqxyRYwy3pf3767C4yVYdRW5XTTZWJHoN4WEqHq7jOQ/xflWL
+ VRAo13lj5K/tIqPWIdHczAWv80LY/Xd+azEW02U0Eq4seDCggmmT3VHEYlZbnWzko1c0
+ Ph0ozBFvKI8D/b35qD7aOEqQwFn7HVHTVEUtstb+ZidOzJoEL3hFZZOcjJDrpLqitpKf
+ ftSQ==
+X-Gm-Message-State: AOAM531/DTbJwvPiPEKv4K7gIiRQV0BjDhEbKlwjSoOsIucxr3/EMMNw
+ dYaUL8daZ3TXCBFXCFMMI4+PG8NacbY=
+X-Google-Smtp-Source: ABdhPJzJ0SkbL6Kr8/nREy9ZzFdRh88H6gR6lur+Djxwvcs6Hq0qhuEznlv5rMYhdFxrXJEprxoRvA==
+X-Received: by 2002:a1c:4c0d:0:b0:39c:5233:1873 with SMTP id
+ z13-20020a1c4c0d000000b0039c52331873mr4277207wmf.28.1654943846134; 
+ Sat, 11 Jun 2022 03:37:26 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- h7-20020a5d6887000000b0020fdc90aeabsm2121911wru.82.2022.06.11.03.37.19
+ t7-20020a05600c198700b0039c5fb1f592sm2260172wmq.14.2022.06.11.03.37.24
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:37:20 -0700 (PDT)
+ Sat, 11 Jun 2022 03:37:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -62,19 +61,19 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Bernhard Beschow <shentey@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>, qemu-stable@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 48/49] accel/tcg: Inline dump_opcount_info() and remove it
-Date: Sat, 11 Jun 2022 12:33:11 +0200
-Message-Id: <20220611103312.67773-49-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 49/49] docs/devel: Fix link to developer mailing lists
+Date: Sat, 11 Jun 2022 12:33:12 +0200
+Message-Id: <20220611103312.67773-50-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,61 +98,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-dump_opcount_info() is a one-line wrapper around tcg_dump_op_count()
-which is also exported. So use the latter directly.
+Ammends commit 9f73de8df0335c9387f4ee39e207a65a1615676f 'docs: rSTify
+the "SubmitAPatch" wiki'.
 
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20220520180109.8224-10-shentey@gmail.com>
+Message-Id: <20220520180109.8224-11-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/tcg/cpu-exec.c      | 2 +-
- accel/tcg/translate-all.c | 5 -----
- include/exec/cpu-all.h    | 1 -
- 3 files changed, 1 insertion(+), 7 deletions(-)
+ docs/devel/submitting-a-patch.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 7cbf9996b7..a565a3f8ec 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -1091,7 +1091,7 @@ HumanReadableText *qmp_x_query_opcount(Error **errp)
-         return NULL;
-     }
- 
--    dump_opcount_info(buf);
-+    tcg_dump_op_count(buf);
- 
-     return human_readable_text_from_str(buf);
- }
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 291034cb09..8fd23a9d05 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2124,11 +2124,6 @@ void dump_exec_info(GString *buf)
-     tcg_dump_info(buf);
- }
- 
--void dump_opcount_info(GString *buf)
--{
--    tcg_dump_op_count(buf);
--}
--
- #else /* CONFIG_USER_ONLY */
- 
- void cpu_interrupt(CPUState *cpu, int mask)
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 9a716be80d..f5bda2c3ca 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -421,7 +421,6 @@ static inline bool tlb_hit(target_ulong tlb_addr, target_ulong addr)
- #ifdef CONFIG_TCG
- /* accel/tcg/translate-all.c */
- void dump_exec_info(GString *buf);
--void dump_opcount_info(GString *buf);
- #endif /* CONFIG_TCG */
- 
- #endif /* !CONFIG_USER_ONLY */
+diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
+index d3876ec1b7..09a8d12c2c 100644
+--- a/docs/devel/submitting-a-patch.rst
++++ b/docs/devel/submitting-a-patch.rst
+@@ -18,9 +18,9 @@ one-shot fix, the bare minimum we ask is that:
+    <http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__
+    policy.) ``git commit -s`` or ``git format-patch -s`` will add one.
+ -  All contributions to QEMU must be **sent as patches** to the
+-   qemu-devel `mailing list <MailingLists>`__. Patch contributions
+-   should not be posted on the bug tracker, posted on forums, or
+-   externally hosted and linked to. (We have other mailing lists too,
++   qemu-devel `mailing list <https://wiki.qemu.org/Contribute/MailingLists>`__.
++   Patch contributions should not be posted on the bug tracker, posted on
++   forums, or externally hosted and linked to. (We have other mailing lists too,
+    but all patches must go to qemu-devel, possibly with a Cc: to another
+    list.) ``git send-email`` (`step-by-step setup
+    guide <https://git-send-email.io/>`__ and `hints and
 -- 
 2.36.1
 
