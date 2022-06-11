@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1775547526
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 16:01:18 +0200 (CEST)
-Received: from localhost ([::1]:48428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9314854750E
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 15:57:36 +0200 (CEST)
+Received: from localhost ([::1]:41188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o01fv-0005xL-U6
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 10:01:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
+	id 1o01cM-00015p-OO
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 09:57:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01aA-0006wm-M1
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:20 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45860)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01a2-0006g4-31
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:10 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:36600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01a9-0003gS-4E
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:18 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id 184so1635349pga.12
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 06:55:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o01a0-0003fP-Cu
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 09:55:09 -0400
+Received: by mail-io1-xd31.google.com with SMTP id e80so1697104iof.3
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 06:55:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RHJEYVxUrkFuENo0R0EF9MoWMsEaIiFo82F16iYg1f0=;
- b=xN+JfCnVgcJ8WoAuiEnBv9Qx/FVUeFMz+ZdJQQXHiiS+rJgo5+UZpqI8qx1SXFrZNM
- kiStN2IPu+cR2mWZgsstuTNzpughOBPW9pRonZrj3c45vpZCtLYyuOQS8rgxRdSR3yBr
- PtibErKBQHtFSYbSW02Yuw+rZTcwiOQKwWdA43iAEJP35Wn57F9bisYkrB7O0AJbDXXT
- fjJQhFNue91i2r4JgIgRVHCH3BzkLR0i6r7UiYL/Rx9SSvd+JuhV0jcLSA2kGLLc0dcE
- /is0uAibVG4KGOsmHGzziB4eurOAtdsupK51kfDoVoVxC4UDdmdQg3Zrw0wEsQcEoZfn
- IrMQ==
+ bh=kDCDikbK+UpGPr1ge2ks5QcyEZLLDVVWAIfJzK+cOk0=;
+ b=a9zu9EPgEPaCCe9yHulmldrgARhqPLY414aPzR11UONWyMuST+JZZCFMiu2k8epMU6
+ CXeedewMlbV+7bpy11IPdXnJLSdBkW7SWZOcwh5Jys3TACaYY0fsVSNhwYzy7rULX8Pr
+ eQc3ORU7iJ92oV8/yyyKO1+YInkZ3UfjUggyoCiWQtZLFRKCWZzBUKMfpICqHNLEo4Ze
+ g46FshwHSnlLg35Ab+EfhXY47Ct/zsAVXvaeH2AT9YqMe4QhIVMCyMOPeDkdxLPvdcr1
+ ed+9q+mqxg3B3Qccu+HbFd4wH1OD2Tnh6fkBE7XXQkSC2/zvNv1+cw7qZeCvs0Qan4kq
+ /3zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RHJEYVxUrkFuENo0R0EF9MoWMsEaIiFo82F16iYg1f0=;
- b=RkctlHm0CFd+sBlaSPqYHSFSAJBIYjziYw/vYoHD4RQRCih16ZgBqeKZ//mcqVUbAd
- 1iMvwaFIGnmqOBliuskBh2m77VluD9MGLr5614zhdm/OYFNv7ELbDivPQ8mcnYjlrsCh
- aW6zN7tvP5FJOkVIIG1noJmzwtBhzXP1qO7DoaXpfFj7IswT1C8mmYZ6YVXFfzcVKJNB
- x2PR21foQEflTalwJTA5NoX2OZRLj2yMiaV1DKJg1mPQgvzpdHGLc6sxJvSDrqbS6rFH
- qVRUiWgx7lEzrAJzNYYfmiH1YUpDpcZOylQ1wGXriSlvf6NoVnfNDpoNGjqwYwX+easO
- zdiw==
-X-Gm-Message-State: AOAM530f+wGDRf7q78qYSJZG//9mIWUwkWBFARAy95PA18fruOhlbXZR
- V0B2M6LUXdne/P4dJ03Lz7LHwy9YvuAbCA==
-X-Google-Smtp-Source: ABdhPJyV5UffgGEcpn6Q/Y+QUhmjhv6Eq854q+wRT9W8aGXw/3yrdSGPBM/Crs68TM29CTzyYWtUfg==
-X-Received: by 2002:a05:6e02:78a:b0:2d3:af3f:a9e2 with SMTP id
- q10-20020a056e02078a00b002d3af3fa9e2mr28223957ils.96.1654955704707; 
- Sat, 11 Jun 2022 06:55:04 -0700 (PDT)
+ bh=kDCDikbK+UpGPr1ge2ks5QcyEZLLDVVWAIfJzK+cOk0=;
+ b=6p166YlfKsOuGhOZRjgORerO88cOx/IBkBeljbxS03mgr8z1P9Xx5OSBbSLvFLBny1
+ h+68ivV6UelW7aCYavc8Pkp36yCjCERz8K7yEKoDKJM3syJGqcoVCqEVH9/jpdTmVkEf
+ HXBwbGnO0z0j/PbGYf/c0tvqdPo2GRMXN1uGgo+NZJHXTUYDdHU7lPm/ya+RzWssNf1o
+ JwrWWkAtv4Ejh2Fwhx8VQIGlIGHJhJ0Xvqtxna+tvtHIyg6O+Q1++U3FKJ5bpkJQMyZH
+ snkyCmnXKdEmix17q7ZjuvJwcn9d0PPpRXY5GH0Zm79j/lU/n7gEdP3zUMYrwGkk0W8m
+ 0GAw==
+X-Gm-Message-State: AOAM533xbNA0fvnB5obb/THk2XTTGBi6C5heDmzY8EjNE+RE3WenxJAe
+ omLNmq9BeYeTMY0vnppd6F79Hw3GVWpZuw==
+X-Google-Smtp-Source: ABdhPJz79eXmX3RVQl4LST1Wa8fWtBEBvsLxIg2MmwaJfRk/1F3md9Jd38ctrH1sVMt3sd8eHcufaQ==
+X-Received: by 2002:a05:6638:24d6:b0:332:2087:d58c with SMTP id
+ y22-20020a05663824d600b003322087d58cmr3450182jat.226.1654955706971; 
+ Sat, 11 Jun 2022 06:55:06 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- 13-20020a056e0211ad00b002d781cc0875sm1023578ilj.29.2022.06.11.06.55.03
+ 13-20020a056e0211ad00b002d781cc0875sm1023578ilj.29.2022.06.11.06.55.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Jun 2022 06:55:04 -0700 (PDT)
+ Sat, 11 Jun 2022 06:55:06 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: def@freebsd.org, arrowd@freebsd.org, Kyle Evans <kevans@freebsd.org>,
  Warner Losh <imp@bsdimp.com>, jrtc27@FreeBSD.org,
+ Stacey Son <sson@FreeBSD.org>, Kyle Evans <kevans@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 3/6] bsd-user/freebsd/os-syscall.c: Tracing and error
- boilerplate
-Date: Sat, 11 Jun 2022 07:55:11 -0600
-Message-Id: <20220611135514.92882-4-imp@bsdimp.com>
+Subject: [PULL 5/6] bsd-user/bsd-file.h: Meat of the write system calls
+Date: Sat, 11 Jun 2022 07:55:13 -0600
+Message-Id: <20220611135514.92882-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220611135514.92882-1-imp@bsdimp.com>
 References: <20220611135514.92882-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::52c;
- envelope-from=imp@bsdimp.com; helo=mail-pg1-x52c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,80 +89,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add in the tracing and this system call not implemented boilerplate. Do
-this by moving the guts of do_freebsd_syscall to freebsd_syscall. Put
-the tracing in the wrapper function. Since freebsd_syscall is a
-singleton static function, it will almost certainly be inlined. Fix
-comments that referred to do_syscall since that was renamed some tie
-ago.
+Implement write, writev, pwrite and pwritev and connect them to the
+system call dispatch routine.
 
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/os-syscall.c | 44 +++++++++++++++++++++++++++++++----
- 1 file changed, 40 insertions(+), 4 deletions(-)
+ bsd-user/bsd-file.h           | 84 +++++++++++++++++++++++++++++++++++
+ bsd-user/freebsd/os-syscall.c | 22 +++++++++
+ 2 files changed, 106 insertions(+)
 
-diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index 52093d479d8..1c4c9983f1a 100644
---- a/bsd-user/freebsd/os-syscall.c
-+++ b/bsd-user/freebsd/os-syscall.c
-@@ -190,16 +190,52 @@ void unlock_iovec(struct iovec *vec, abi_ulong target_addr,
+diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
+index 839f8c5c55a..e9e2c85eb67 100644
+--- a/bsd-user/bsd-file.h
++++ b/bsd-user/bsd-file.h
+@@ -32,6 +32,11 @@ ssize_t safe_pread(int fd, void *buf, size_t nbytes, off_t offset);
+ ssize_t safe_readv(int fd, const struct iovec *iov, int iovcnt);
+ ssize_t safe_preadv(int fd, const struct iovec *iov, int iovcnt, off_t offset);
+ 
++ssize_t safe_write(int fd, void *buf, size_t nbytes);
++ssize_t safe_pwrite(int fd, void *buf, size_t nbytes, off_t offset);
++ssize_t safe_writev(int fd, const struct iovec *iov, int iovcnt);
++ssize_t safe_pwritev(int fd, const struct iovec *iov, int iovcnt, off_t offset);
++
+ /* read(2) */
+ static abi_long do_bsd_read(abi_long arg1, abi_long arg2, abi_long arg3)
+ {
+@@ -106,4 +111,83 @@ static abi_long do_bsd_preadv(void *cpu_env, abi_long arg1,
+     return ret;
  }
  
- /*
-- * do_syscall() should always have a single exit point at the end so that
-- * actions, such as logging of syscall results, can be performed.  All errnos
-- * that do_syscall() returns must be -TARGET_<errcode>.
-+ * All errnos that freebsd_syscall() returns must be -TARGET_<errcode>.
-+ */
-+static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-+                                abi_long arg2, abi_long arg3, abi_long arg4,
-+                                abi_long arg5, abi_long arg6, abi_long arg7,
-+                                abi_long arg8)
++/* write(2) */
++static abi_long do_bsd_write(abi_long arg1, abi_long arg2, abi_long arg3)
++{
++    abi_long nbytes, ret;
++    void *p;
++
++    /* nbytes < 0 implies that it was larger than SIZE_MAX. */
++    nbytes = arg3;
++    if (nbytes < 0) {
++        return -TARGET_EINVAL;
++    }
++    p = lock_user(VERIFY_READ, arg2, nbytes, 1);
++    if (p == NULL) {
++        return -TARGET_EFAULT;
++    }
++    ret = get_errno(safe_write(arg1, p, arg3));
++    unlock_user(p, arg2, 0);
++
++    return ret;
++}
++
++/* pwrite(2) */
++static abi_long do_bsd_pwrite(void *cpu_env, abi_long arg1,
++    abi_long arg2, abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
 +{
 +    abi_long ret;
++    void *p;
 +
-+    switch (num) {
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-+        ret = -TARGET_ENOSYS;
-+        break;
++    p = lock_user(VERIFY_READ, arg2, arg3, 1);
++    if (p == NULL) {
++        return -TARGET_EFAULT;
++    }
++    if (regpairs_aligned(cpu_env) != 0) {
++        arg4 = arg5;
++        arg5 = arg6;
++    }
++    ret = get_errno(safe_pwrite(arg1, p, arg3, target_arg64(arg4, arg5)));
++    unlock_user(p, arg2, 0);
++
++    return ret;
++}
++
++/* writev(2) */
++static abi_long do_bsd_writev(abi_long arg1, abi_long arg2, abi_long arg3)
++{
++    abi_long ret;
++    struct iovec *vec = lock_iovec(VERIFY_READ, arg2, arg3, 1);
++
++    if (vec != NULL) {
++        ret = get_errno(safe_writev(arg1, vec, arg3));
++        unlock_iovec(vec, arg2, arg3, 0);
++    } else {
++        ret = -host_to_target_errno(errno);
 +    }
 +
 +    return ret;
 +}
 +
-+/*
-+ * do_freebsd_syscall() should always have a single exit point at the end so
-+ * that actions, such as logging of syscall results, can be performed. This
-+ * as a wrapper around freebsd_syscall() so that actually happens. Since
-+ * that is a singleton, modern compilers will inline it anyway...
-  */
- abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-                             abi_long arg2, abi_long arg3, abi_long arg4,
-                             abi_long arg5, abi_long arg6, abi_long arg7,
-                             abi_long arg8)
- {
--    return 0;
-+    CPUState *cpu = env_cpu(cpu_env);
-+    int ret;
++/* pwritev(2) */
++static abi_long do_bsd_pwritev(void *cpu_env, abi_long arg1,
++    abi_long arg2, abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
++{
++    abi_long ret;
++    struct iovec *vec = lock_iovec(VERIFY_READ, arg2, arg3, 1);
 +
-+    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-+    if (do_strace) {
-+        print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
++    if (vec != NULL) {
++        if (regpairs_aligned(cpu_env) != 0) {
++            arg4 = arg5;
++            arg5 = arg6;
++        }
++        ret = get_errno(safe_pwritev(arg1, vec, arg3, target_arg64(arg4, arg5)));
++        unlock_iovec(vec, arg2, arg3, 0);
++    } else {
++        ret = -host_to_target_errno(errno);
 +    }
-+
-+    ret = freebsd_syscall(cpu_env, num, arg1, arg2, arg3, arg4, arg5, arg6,
-+                          arg7, arg8);
-+    if (do_strace) {
-+        print_freebsd_syscall_ret(num, ret);
-+    }
-+    trace_guest_user_syscall_ret(cpu, num, ret);
 +
 +    return ret;
- }
++}
++
+ #endif /* BSD_FILE_H */
+diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
+index 8ca92f29857..3a33d54fa4d 100644
+--- a/bsd-user/freebsd/os-syscall.c
++++ b/bsd-user/freebsd/os-syscall.c
+@@ -50,6 +50,13 @@ safe_syscall3(ssize_t, readv, int, fd, const struct iovec *, iov, int, iovcnt);
+ safe_syscall4(ssize_t, preadv, int, fd, const struct iovec *, iov, int, iovcnt,
+     off_t, offset);
  
- void syscall_init(void)
++safe_syscall3(ssize_t, write, int, fd, void *, buf, size_t, nbytes);
++safe_syscall4(ssize_t, pwrite, int, fd, void *, buf, size_t, nbytes, off_t,
++    offset);
++safe_syscall3(ssize_t, writev, int, fd, const struct iovec *, iov, int, iovcnt);
++safe_syscall4(ssize_t, pwritev, int, fd, const struct iovec *, iov, int, iovcnt,
++    off_t, offset);
++
+ void target_set_brk(abi_ulong new_brk)
+ {
+ }
+@@ -226,6 +233,21 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+ 
+     case TARGET_FREEBSD_NR_preadv: /* preadv(2) */
+         ret = do_bsd_preadv(cpu_env, arg1, arg2, arg3, arg4, arg5, arg6);
++
++    case TARGET_FREEBSD_NR_write: /* write(2) */
++        ret = do_bsd_write(arg1, arg2, arg3);
++        break;
++
++    case TARGET_FREEBSD_NR_pwrite: /* pwrite(2) */
++        ret = do_bsd_pwrite(cpu_env, arg1, arg2, arg3, arg4, arg5, arg6);
++        break;
++
++    case TARGET_FREEBSD_NR_writev: /* writev(2) */
++        ret = do_bsd_writev(arg1, arg2, arg3);
++        break;
++
++    case TARGET_FREEBSD_NR_pwritev: /* pwritev(2) */
++        ret = do_bsd_pwritev(cpu_env, arg1, arg2, arg3, arg4, arg5, arg6);
+         break;
+ 
+     default:
 -- 
 2.33.1
 
