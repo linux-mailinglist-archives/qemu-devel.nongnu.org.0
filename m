@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9E95473DA
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:40:42 +0200 (CEST)
-Received: from localhost ([::1]:47604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCFA5473DC
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:40:50 +0200 (CEST)
+Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzyXq-0001e7-0u
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:40:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43182)
+	id 1nzyXx-0002B7-1N
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:40:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyQv-0001eE-PO
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:33 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43994)
+ id 1nzyR2-0001l4-2l
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:40 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyQt-00069s-R9
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:33 -0400
-Received: by mail-wr1-x435.google.com with SMTP id m24so1462912wrb.10
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:31 -0700 (PDT)
+ id 1nzyR0-0006AC-Kh
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:33:39 -0400
+Received: by mail-wm1-x335.google.com with SMTP id n185so621092wmn.4
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LUQm1G/YoYYdcDAMpdSCPzpkrH7lQMIOWr/thgjiHhg=;
- b=T6x7iklRF5UEQo0T1o5mZMWyEcL/yDByZ27juKOiXmqCVAqqjt5n/1NRNnvOX/F8hC
- 4KEguKQqfC1qpkwXXDzN8f5P/WueIKWj3B3NDW546q05rOLIPK5WlQpiFPurue2/Igc4
- XBMRbqnEv7rkSkK9qNAcX1U2ogHm2RCLe7ApkCo1q5WT9paNt7k3UZOUYzxblBdtbyce
- QxsYDHn4xFzPaYUV9P7ZL6Q2CbNKKX5U/ZrH+fugqu86hVWVRTM7ubQseAIj4I0TvMv8
- exfN6x53hnecN2XJ9SxQjpcY+jZWDIv8vhHY2OMcTQHoxVGdYOTI74GBIUSI1FvHjVjR
- KB3Q==
+ bh=1VVOBQ8vQMV6sQsstcumZsHOhdXzv9pz97cTwTA93UQ=;
+ b=WjcCWNymjSW+GufpHDiQiFnQ1OYFjnwEYJy4E/7aO2fgZg7dtPpRL251rXXP6ntup2
+ dJ/OlWCyjTcOlOU3gAFJ1nMS/H3U/N1lcqxsKnI+Y2X4ZkJ956eBJ1KkOD1NWr/vIn3I
+ MtGdbLMvlUwYS3qYhLF3I7odVdI/n9x/dZR9dlVzVfBlyazfAOdReLicX5rQtRpF8BS3
+ s6OZhvN0gSI4GNJdPvGDLF5XZrpeIhDJlDiAaYQ8zFWsFWJohaGC9Jv83EpwQs/08bDl
+ GmQrm8XX11A4Bxbl0g8PINO/XuKgyf24PJI+XwV3ITXU4qWUZxW6WeDSklY2x6nPO3Gn
+ 1grg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LUQm1G/YoYYdcDAMpdSCPzpkrH7lQMIOWr/thgjiHhg=;
- b=wWcVVcKPraU5PgNel8lzaUOUC/quj7H+HVkJFk6GKHVppWdrVBy8R+cQbHPAfsQ+qp
- BmNVH57h36vzkJbwBvhDXpUsplLlE9RcsI9SyXTmRhbYgUFZ2RdOOtAjK7rIyOzh8Ozk
- G+KCho3wulcsyMQh5Auw/KgO738ulM5bhYClL1a4hP6TXQsbKd9yhEVC7b3WTH21qAs3
- 5gZ2Zad6HSR8d2ROq0K3HjCHIObICChOsgYpKsqenqDlSVTtCrrjV9R7bay+xVbZqU+C
- c0IBDqcUXVYHd78sRCkP9gTm1lNdho+kP0j7r3FfqHshffb+7tk4tzKaNm2miYc+Xdho
- UmqA==
-X-Gm-Message-State: AOAM530bFPtg2cF8AyQwtCND8wAbFisXNDZzgjv1/2AnOzhBqe1QIL0V
- 7Kwmg2rSMJD7DAukyEJE9txDfRRAfsI=
-X-Google-Smtp-Source: ABdhPJwKsxTOHLr2vDBA602rrKc4c+ipLXF2RlBtvNVy9rrfPdjAFd0YwccP9SVy08rS/Xjs+qTtJA==
-X-Received: by 2002:adf:dd8e:0:b0:213:bbe1:ba56 with SMTP id
- x14-20020adfdd8e000000b00213bbe1ba56mr42076062wrl.559.1654943610331; 
- Sat, 11 Jun 2022 03:33:30 -0700 (PDT)
+ bh=1VVOBQ8vQMV6sQsstcumZsHOhdXzv9pz97cTwTA93UQ=;
+ b=TsfxEuAazIJGkIuTdsbkXDuooVM/kczF2KDkVXhEaI/gc07ArudGtqA/X8QmWnSfCj
+ uyof4xbSB+a0VS8yYSPayCmq1eWAHF1vTT+5jv+h+Kx4W808bMSiVGtIRwi8F2Cv90ep
+ 2Jenb9pSall6GXoW87zQeCan94bLrUsJ1Qswb96zZoicsGQyi+KHlqj/pLPMPWMYd2mI
+ 8oxuNECa4lfKVQBH2n9JxpgFI4ainRibmKpyeS9lVBK8gDTez5J3zQEQkhzUBMY0UnGL
+ CneGYmTy6AfAxBj/9WgqscvZDx5lwIUECKXCp3ul9gCl60tQ05QUso7m5JmQKoFFBfwt
+ iD5w==
+X-Gm-Message-State: AOAM533yw4IELce0oG34q99ldO/7XxPw/2U5AIlGBVWEpWAPeQEv7L6z
+ hysGGiRuHzLxtS3L2qLB1qWpguMCdVU=
+X-Google-Smtp-Source: ABdhPJxy2VIMBnsCU4bQZCUPLo3vX0a2SdV3IyIJtG1Rp2zkbuWPRpr57Oa0ZL/H55R+T/My40FBrw==
+X-Received: by 2002:a05:600c:1c10:b0:39c:4708:648d with SMTP id
+ j16-20020a05600c1c1000b0039c4708648dmr4212322wms.85.1654943615646; 
+ Sat, 11 Jun 2022 03:33:35 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- b18-20020a5d5512000000b002103a7c5c91sm2189074wrv.43.2022.06.11.03.33.29
+ p21-20020a1c5455000000b0039c2e2d0502sm6131471wmi.4.2022.06.11.03.33.34
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:33:29 -0700 (PDT)
+ Sat, 11 Jun 2022 03:33:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -65,18 +65,18 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Ni Hui <shuizhuyuanluo@126.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 03/49] target/mips: Fix df_extract_val() and df_extract_df()
- dfe lookup
-Date: Sat, 11 Jun 2022 12:32:26 +0200
-Message-Id: <20220611103312.67773-4-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 04/49] target/mips: Fix msa checking condition in
+ trans_msa_elm_fn()
+Date: Sat, 11 Jun 2022 12:32:27 +0200
+Message-Id: <20220611103312.67773-5-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,43 +101,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ni Hui <shuizhuyuanluo@126.com>
 
-Actually look into dfe structure data so that df_extract_val() and
-df_extract_df() can return immediate and datafield other than BYTE.
+Fix issue that condition of check_msa_enabled(ctx) is reversed
+that causes segfault when msa elm_fn op encountered.
 
-Fixes: 4701d23aef ("target/mips: Convert MSA BIT instruction format to decodetree")
+Fixes: 2f2745c81a ("target/mips: Convert MSA COPY_U opcode to decodetree")
+Fixes: 97fe675519 ("target/mips: Convert MSA COPY_S and INSERT opcodes to decodetree")
 Signed-off-by: Ni Hui <shuizhuyuanluo@126.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220503130708.272850-2-shuizhuyuanluo@126.com>
+Message-Id: <20220503130708.272850-3-shuizhuyuanluo@126.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/msa_translate.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/mips/tcg/msa_translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index 76307102f2..aa45bae0aa 100644
+index aa45bae0aa..92ccc6f921 100644
 --- a/target/mips/tcg/msa_translate.c
 +++ b/target/mips/tcg/msa_translate.c
-@@ -68,8 +68,8 @@ struct dfe {
- static int df_extract_val(DisasContext *ctx, int x, const struct dfe *s)
- {
-     for (unsigned i = 0; i < 4; i++) {
--        if (extract32(x, s->start, s->length) == s->mask) {
--            return extract32(x, 0, s->start);
-+        if (extract32(x, s[i].start, s[i].length) == s[i].mask) {
-+            return extract32(x, 0, s[i].start);
-         }
+@@ -599,7 +599,7 @@ static bool trans_msa_elm_fn(DisasContext *ctx, arg_msa_elm_df *a,
+         return false;
      }
-     return -1;
-@@ -82,7 +82,7 @@ static int df_extract_val(DisasContext *ctx, int x, const struct dfe *s)
- static int df_extract_df(DisasContext *ctx, int x, const struct dfe *s)
- {
-     for (unsigned i = 0; i < 4; i++) {
--        if (extract32(x, s->start, s->length) == s->mask) {
-+        if (extract32(x, s[i].start, s[i].length) == s[i].mask) {
-             return i;
-         }
+ 
+-    if (check_msa_enabled(ctx)) {
++    if (!check_msa_enabled(ctx)) {
+         return true;
      }
+ 
 -- 
 2.36.1
 
