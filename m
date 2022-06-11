@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B91A5473F6
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:49:58 +0200 (CEST)
-Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00B2E5473F9
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 12:53:38 +0200 (CEST)
+Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nzygm-0006cJ-8R
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43374)
+	id 1nzykK-00043M-RK
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 06:53:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRf-000354-2C
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:19 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41667)
+ id 1nzyRk-0003Lj-TL
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:24 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nzyRd-0006DG-IG
- for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:18 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id k19so1472802wrd.8
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:34:17 -0700 (PDT)
+ id 1nzyRj-0006Fu-8W
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 06:34:24 -0400
+Received: by mail-wr1-x432.google.com with SMTP id v14so1487127wra.5
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 03:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6MqcxIJN2+Zm3sGgLV3r2BkGN3s/2DTUZOjkjXVU9rE=;
- b=IW8cX0qAPqQs0xCHCPxBfYwyAZfRIKERUFIqHzUx2Ra4YXb/JTeADXl0bvinaJ37tt
- 4U8oqDh6K7cMd/qjtMm8NubddbboHeOjXCZgyjgP8YRCmE+i14bM1R48UonFLUqiTfEx
- nJ+TBg5U91JRIfH3Mqff8S6WJptAK+inN9TZRvsznwly3rafO8VIoMEmcqGbOkp/vs9z
- JXCWJJ98K9e1oZo/ClDnBHII14xUMrZSGVd6XXDyagT0ZyaCufKYl1rCD1W/q2t0baTz
- xsQbuzl+EUcGNC78/rvRmL0sDJhAXYXV41E7QFSK4qrcSEhlC47omkvq8wOxd9gURIwI
- 89vQ==
+ bh=0dDhWhwpaGDBK8Q4fbZrV2hDpstODQvC/cOd95qzwgY=;
+ b=bn9UkCd7PQwVZLfUV3H71Ad3zbxv4t+sDpSqLJJYm2Afv3adRwnKaiaDUq7OE3Oo60
+ ukojDctVZKR0prdMbl/WBMw+x7qpWCL5UMCl/0Exh9x9goXcdsz/r5SsVrXeiTYZnVTu
+ baBYpQaivOtWDjc1IOfxUyCUbEUCuOf2iwYnOOTWrQMsTVAWoRBjH06FJiICNcuyn6wP
+ J55FGZKuqS8Qvteb8mmJEpLIkjxZ+yznavkrIFIRl+17KchzdAQh3k1N2vTl9Rkt4+Vn
+ OZ+8Rg128qPy22u9r9ESouajKxJEQE0vuj80Ho5L2A2Oruq659Oj0pMG2p6KeA1qQUB+
+ x35g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6MqcxIJN2+Zm3sGgLV3r2BkGN3s/2DTUZOjkjXVU9rE=;
- b=JpsJlwOs9HfkBejcXEeFm8w2LrVcSkDwHRLTeT04dQLEn73dkWgFnPbaqSqcg3E7nb
- p8wvTyYuNYoShH4rWbDwOsCNcveqDIRCVdpfjP0fvTevHJyoKeoljLDSPeAoXJcOyTKG
- 1J5IaMuTwHXJ1z+upXLanPYkWlIVUbrT2Q6Por8yHXj9+OHMj4yGZ4hYTKXPXoXawk+D
- B9zWKczZJE1HjrsRTCL2/07Y2PBfCHKEVptLQTtqrTPhhX0VXAFaTknmk8C7aZG3WzNi
- kVtvFaQrGTMqmkRTaOBTwJ0cGNtAQcBPfhODDXBzRsZCXbxedf6Xp+bpzDu9MFXXvBg7
- ndaQ==
-X-Gm-Message-State: AOAM531GSyOQsk3Du+IrQJsx2/flUz4VnqZ056ZOlsl8H+b3bflHSSlP
- ddNMIyMW0fWxvG7irK1pQGhSkrBdsFw=
-X-Google-Smtp-Source: ABdhPJxhTIC9Ouw093V5Xy93KMJCzBP+7NJfArD2+BZ+4OPUz8FKuX0h9yW5XcuwAsCoaGxyb99zwA==
-X-Received: by 2002:adf:ed49:0:b0:210:2b98:a539 with SMTP id
- u9-20020adfed49000000b002102b98a539mr47175423wro.118.1654943656618; 
- Sat, 11 Jun 2022 03:34:16 -0700 (PDT)
+ bh=0dDhWhwpaGDBK8Q4fbZrV2hDpstODQvC/cOd95qzwgY=;
+ b=k6+4IrAf61xyCzFYdnF4T8yudYzFn+dvl0RXhiAzOsciM4rfdbqpDwuXgKZVJL9HTS
+ gHQ68jdgY33fhw6mnjIO4b3kYvYIWJv7GHubjBXnAQ89IL9sKs5ZTJVV+WXXSCCzDBTn
+ 9GjnMrtE0WZlmPtJKcZUsts/ZOljieJEsR6Vn2JOnP+psQK9KdyzHstxMVWsTqDhcPE8
+ gqzz1ayL6W4XHDhGuqavqm56oEdDE89qnZujM+XTn+EGzQqg3LKkpiJVrBh6GXkbhl3U
+ 6HyN3mPealGIZUXNkK2zbAlIGF5FJRMHlsewGVfKyBy/m2aWG78f1JK3U4TlJ7edz/yN
+ wcVQ==
+X-Gm-Message-State: AOAM5327xExNUhFDnlXJ/XJctEwr5F8OW0/46Q6d10fGcfS0CYOwauW1
+ 7mpHLWj8y+kR30JCC4rAAQL8A4PPB7o=
+X-Google-Smtp-Source: ABdhPJyAiQCnqzdS2nEldarerE1AfG9AQs1lg4XdHBaVui/RgHhxu/kPrnAu92GZJmPlbWP/VnKfbg==
+X-Received: by 2002:a5d:6445:0:b0:211:7eee:2f94 with SMTP id
+ d5-20020a5d6445000000b002117eee2f94mr47557555wrw.631.1654943661696; 
+ Sat, 11 Jun 2022 03:34:21 -0700 (PDT)
 Received: from localhost.localdomain (124.net-94.228.4.isbl.embou.net.
  [94.228.4.124]) by smtp.gmail.com with ESMTPSA id
- z12-20020a5d44cc000000b00219e758ff4fsm2153067wrr.59.2022.06.11.03.34.15
+ p28-20020a05600c1d9c00b0039c7f790f6asm4211647wms.30.2022.06.11.03.34.20
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 11 Jun 2022 03:34:16 -0700 (PDT)
+ Sat, 11 Jun 2022 03:34:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
@@ -62,20 +62,19 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 12/49] target/mips: Fix handling of unaligned memory access for
- nanoMIPS ISA
-Date: Sat, 11 Jun 2022 12:32:35 +0200
-Message-Id: <20220611103312.67773-13-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 13/49] target/mips: Add missing default cases for some nanoMIPS
+ pools
+Date: Sat, 11 Jun 2022 12:32:36 +0200
+Message-Id: <20220611103312.67773-14-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,36 +97,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
+From: Stefan Pejic <stefan.pejic@syrmia.com>
 
-nanoMIPS ISA does not support unaligned memory access. Adjust
-DisasContext's default_tcg_memop_mask to reflect this.
+Switch statements for the code segments that handle nanoMIPS
+instruction pools P.LL, P.SC, P.SHIFT, P.LS.S1, P.LS.E0, PP.LSXS
+do not have proper default case, resulting in not generating
+reserved instruction exception for certain illegal opcodes.
 
-Signed-off-by: Dragan Mladjenovic <dragan.mladjenovic@syrmia.com>
+Fix this by adding default cases for these switch statements that
+trigger reserved instruction exception.
+
 Signed-off-by: Stefan Pejic <stefan.pejic@syrmia.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220504110403.613168-6-stefan.pejic@syrmia.com>
+Message-Id: <20220504110403.613168-7-stefan.pejic@syrmia.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/translate.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/mips/tcg/nanomips_translate.c.inc | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 6de5b66650..5f460fb687 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -16023,8 +16023,9 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- #else
-         ctx->mem_idx = hflags_mmu_index(ctx->hflags);
- #endif
--    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS_R6 |
--                                  INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
-+    ctx->default_tcg_memop_mask = (!(ctx->insn_flags & ISA_NANOMIPS32) &&
-+                                  (ctx->insn_flags & (ISA_MIPS_R6 |
-+                                  INSN_LOONGSON3A))) ? MO_UNALN : MO_ALIGN;
+diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
+index 1ee5c8c8d4..c0ba2bf1b1 100644
+--- a/target/mips/tcg/nanomips_translate.c.inc
++++ b/target/mips/tcg/nanomips_translate.c.inc
+@@ -2707,6 +2707,9 @@ static void gen_p_lsx(DisasContext *ctx, int rd, int rs, int rt)
+         case NM_SDC1XS:
+             tcg_gen_shli_tl(t0, t0, 3);
+             break;
++        default:
++            gen_reserved_instruction(ctx);
++            goto out;
+         }
+     }
+     gen_op_addr_add(ctx, t0, t0, t1);
+@@ -2797,6 +2800,7 @@ static void gen_p_lsx(DisasContext *ctx, int rd, int rs, int rt)
+         break;
+     }
  
-     /*
-      * Execute a branch and its delay slot as a single instruction.
++out:
+     tcg_temp_free(t0);
+     tcg_temp_free(t1);
+ }
+@@ -3944,6 +3948,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+                     gen_shift_imm(ctx, OPC_ROTR, rt, rs,
+                                   extract32(ctx->opcode, 0, 5));
+                     break;
++                default:
++                    gen_reserved_instruction(ctx);
++                    break;
+                 }
+             }
+             break;
+@@ -4245,6 +4252,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+                         check_xnp(ctx);
+                         gen_llwp(ctx, rs, 0, rt, extract32(ctx->opcode, 3, 5));
+                         break;
++                    default:
++                        gen_reserved_instruction(ctx);
++                        break;
+                     }
+                     break;
+                 case NM_P_SC:
+@@ -4257,6 +4267,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+                         gen_scwp(ctx, rs, 0, rt, extract32(ctx->opcode, 3, 5),
+                                  false);
+                         break;
++                    default:
++                        gen_reserved_instruction(ctx);
++                        break;
+                     }
+                     break;
+                 case NM_CACHE:
+@@ -4265,6 +4278,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+                         gen_cache_operation(ctx, rt, rs, s);
+                     }
+                     break;
++                default:
++                    gen_reserved_instruction(ctx);
++                    break;
+                 }
+                 break;
+             case NM_P_LS_E0:
+@@ -4371,6 +4387,9 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+                         break;
+                     }
+                     break;
++                default:
++                    gen_reserved_instruction(ctx);
++                    break;
+                 }
+                 break;
+             case NM_P_LS_WM:
 -- 
 2.36.1
 
