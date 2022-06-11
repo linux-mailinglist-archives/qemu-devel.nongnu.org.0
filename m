@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F5E5477BB
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jun 2022 23:50:46 +0200 (CEST)
-Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6785477CE
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jun 2022 00:03:11 +0200 (CEST)
+Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o090G-0004hn-P3
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 17:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44642)
+	id 1o09CI-00017h-6s
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jun 2022 18:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o08yg-0003rI-Md; Sat, 11 Jun 2022 17:49:06 -0400
-Received: from mail-oi1-f169.google.com ([209.85.167.169]:39859)
+ id 1o099e-0008KI-9H
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 18:00:26 -0400
+Received: from mail-oo1-f41.google.com ([209.85.161.41]:45866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o08ye-0001xR-QS; Sat, 11 Jun 2022 17:49:06 -0400
-Received: by mail-oi1-f169.google.com with SMTP id s8so3569198oib.6;
- Sat, 11 Jun 2022 14:49:03 -0700 (PDT)
+ id 1o099c-0003Qq-6z
+ for qemu-devel@nongnu.org; Sat, 11 Jun 2022 18:00:25 -0400
+Received: by mail-oo1-f41.google.com with SMTP id
+ 1-20020a4a1701000000b0040e90b56d03so526928ooe.12
+ for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 15:00:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=K1Py6qfLxNVWeO1x79P9Qjqppw4Icg4Zq+4D6x/hA7g=;
- b=oUAwrAMrXXvnme5AtsZtnjpkgWGVsu6WFrugsRItHuUmqQJ4ziDXDwR1ZX391sLr96
- /zZbvXX4PaLKCvW1d28lMd5vcvH9eLjTi/gZJXqb+cfniLGB1dW2IXNRdr3syA4PEJkf
- tbiOnvrkquogA4chqLkIAN/yQVdUk9NxpmGJnCvnwqleyMHjj/LK3dc1v5jcyusTu8PN
- J0xBTerVqVKRtABlJ6sJQ27FSIVWuy7jgCyAa+bxcEmHDI9Fn3LjFeXBsEIGe3g/wWg0
- sVywkGC8FBE2svNBiqJadJVGJlFqCRRmCfIguF2fEYpDreOUELJTJexu7gHQP4asE7dw
- jkfg==
-X-Gm-Message-State: AOAM530cnzVU+7dXE4G2xNcJROtitRjMXlVNAsh0bguHbcZre5PorUWW
- tUWHCZjJqZKTPnaWwRHpUaq/+Q+VBSuOOvzth5g=
-X-Google-Smtp-Source: ABdhPJzErT88T30GyPNupKhHeFp92UGxL2gvE3ZGFMdRvlkyjbTlER3Fw07VRuxWCGOPAqzWtVbo5YRk4U20VXx6G0Y=
-X-Received: by 2002:a05:6808:1444:b0:32f:1e22:55d9 with SMTP id
- x4-20020a056808144400b0032f1e2255d9mr2165431oiv.106.1654984142676; Sat, 11
- Jun 2022 14:49:02 -0700 (PDT)
+ bh=W3/o+YcMfXmqJyL8ns8WjHQt2//tl8IDqID+QwjMSCQ=;
+ b=7sS+RYgXHFlxZG/8aYMzu3YvJv5HrwPffspUkH3683jnQEh4fTCoUJuKAsF4uUG9cs
+ dI5TDMatbG26zK/R8J2MPwT6eRaY2+b7kZzTTgcK0BvRJan9sk+NOT9U+DTGGrvxsZun
+ JUqA48tHgrQ45VqOBCICiDBbFHgH1BZaD0HJVkLI/DcGbjFPpg7Oo39c7ufT50AfRzEb
+ BR5FPcZLAuiubfw3M8nMdAxfPyqdgsdQAEu/TQiYIHb9hb5Ia4ZY7V6K1v5iX1ywDSxJ
+ Hj9tOOlK8gHYxfO6nPKwLYFp+26m+uOOT/C0nTQtL8oHwAlZ/1IISPIR8fmVwjfLur9Y
+ Xv8g==
+X-Gm-Message-State: AOAM532c0QvYcA41YM0M2FD+FjSTbj11rbyu/UTzSmRAtGs0T7pkrUYu
+ /04UOZaDasc2TzRYEmegBnT5F+23yv2qHkrVX0fQ/b7QGsc=
+X-Google-Smtp-Source: ABdhPJzh3GRhn0LPANwad/JjvvKrAy15tAyAUGVaNuQ4unxdgYyTA7td9gWv4e4nw8V7duQL0LmNPgk8dS/uEzXQ+UY=
+X-Received: by 2002:a4a:adc1:0:b0:41b:7101:bb38 with SMTP id
+ t1-20020a4aadc1000000b0041b7101bb38mr15416799oon.73.1654984822970; Sat, 11
+ Jun 2022 15:00:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220605151908.30566-1-shentey@gmail.com>
- <124a4722-01f9-225f-05d3-35bd51713bfe@amsat.org>
- <CAG4p6K74wB1hnT=O2Z8Fyi0yk1W320AjCmYLEWDdcyZvX76oFg@mail.gmail.com>
-In-Reply-To: <CAG4p6K74wB1hnT=O2Z8Fyi0yk1W320AjCmYLEWDdcyZvX76oFg@mail.gmail.com>
-Date: Sat, 11 Jun 2022 23:48:51 +0200
-Message-ID: <CAAdtpL7b0vtL2RxBR8xxrPA4gfCKe-5fs6JpuBCU-LVrdJLTiQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/mips/boston: Initialize g_autofree pointers
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, 
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Paul Burton <paulburton@kernel.org>
+References: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220611103312.67773-1-philippe.mathieu.daude@gmail.com>
+Date: Sun, 12 Jun 2022 00:00:12 +0200
+Message-ID: <CAAdtpL6X3cGEHAukR4puPU+kDp4vHSgW=prjZq75-Xza=6=GQQ@mail.gmail.com>
+Subject: Re: [PULL 00/49] MIPS patches for 2022-06-11
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aurelien Jarno <aurelien@aurel32.net>, 
+ Stefan Pejic <stefan.pejic@syrmia.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.167.169;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oi1-f169.google.com
+Received-SPF: pass client-ip=209.85.161.41;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oo1-f41.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
 X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
  FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,65 +81,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On Sat, Jun 11, 2022 at 5:27 PM Bernhard Beschow <shentey@gmail.com> wrote:
-> On Fri, Jun 10, 2022 at 4:04 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
->> On 5/6/22 17:19, Bernhard Beschow wrote:
->> > Fixes compilation due to false positives with -Werror:
->> >
->> >    In file included from /usr/include/glib-2.0/glib.h:114,
->> >                     from qemu/src/include/glib-compat.h:32,
->> >                     from qemu/src/include/qemu/osdep.h:144,
->> >                     from ../src/hw/mips/boston.c:20:
->> >    In function =E2=80=98g_autoptr_cleanup_generic_gfree=E2=80=99,
->> >        inlined from =E2=80=98boston_mach_init=E2=80=99 at ../src/hw/mi=
-ps/boston.c:790:52:
->> >    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: =E2=80=
-=98dtb_load_data=E2=80=99 may be used uninitialized [-Werror=3Dmaybe-uninit=
-ialized]
->> >       28 |   g_free (*pp);
->> >          |   ^~~~~~~~~~~~
->> >    ../src/hw/mips/boston.c: In function =E2=80=98boston_mach_init=E2=
-=80=99:
->> >    ../src/hw/mips/boston.c:790:52: note: =E2=80=98dtb_load_data=E2=80=
-=99 was declared here
->> >      790 |             g_autofree const void *dtb_file_data, *dtb_load=
-_data;
->> >          |                                                    ^~~~~~~~=
-~~~~~
->> >    In function =E2=80=98g_autoptr_cleanup_generic_gfree=E2=80=99,
->> >      inlined from =E2=80=98boston_mach_init=E2=80=99 at ../src/hw/mips=
-/boston.c:790:36:
->> >    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: =E2=80=
-=98dtb_file_data=E2=80=99 may be used uninitialized [-Werror=3Dmaybe-uninit=
-ialized]
->> >       28 |   g_free (*pp);
->> >          |   ^~~~~~~~~~~~
->> >    ../src/hw/mips/boston.c: In function =E2=80=98boston_mach_init=E2=
-=80=99:
->> >    ../src/hw/mips/boston.c:790:36: note: =E2=80=98dtb_file_data=E2=80=
-=99 was declared here
->> >      790 |             g_autofree const void *dtb_file_data, *dtb_load=
-_data;
->> >          |                                    ^~~~~~~~~~~~~
->> >    cc1: all warnings being treated as errors
->> >
->> > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->> > ---
->> >   hw/mips/boston.c | 3 ++-
->> >   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> Queued via mips-next.
+On Sat, Jun 11, 2022 at 12:33 PM Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
+> The following changes since commit 30796f556790631c86c733ab06756981be0e1d=
+ef:
 >
+>   Merge tag 'for_upstream' of git://git.kernel.org/pub/scm/virt/kvm/mst/q=
+emu into staging (2022-06-10 18:15:34 -0700)
 >
-> Hi Phil,
+> are available in the Git repository at:
 >
-> shouldn't this patch be visible in your pull request then? https://patche=
-w.org/QEMU/20220611103312.67773-1-philippe.mathieu.daude@gmail.com/
+>   https://github.com/philmd/qemu.git tags/mips-20220611
+>
+> for you to fetch changes up to 37da3bcf01ccd19336fd8f43bedcd0841d71bb6a:
+>
+>   docs/devel: Fix link to developer mailing lists (2022-06-11 11:44:50 +0=
+200)
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Various TCG fixes (Marcin Nowakowski, Ni Hui, Stefan Pejic, Stefan Peji=
+c)
+> - Sysbus floppy controller fix (Peter Maydell)
+> - QOM'ification of PIIX southbridge (Mark Cave-Ayland, Bernhard Beschow)
+> - Various fixes on ISA devices commonly used by x86/mips machines (Bernha=
+rd)
+> - Few cleanups in accel/tcg & documentation (Bernhard)
+>
+> ----------------------------------------------------------------
 
-It was included, but I have been overzealous when removing Mark's PS2
-series and removed it as well :/
+A job failed:
+https://gitlab.com/qemu-project/qemu/-/jobs/2577882715#L169
 
-> Best regards,
-> Bernhard
+122/237 qemu:qtest+qtest-aarch64 / qtest-aarch64/tpm-tis-device-test
+ERROR 0.15s killed by signal 13 SIGPIPE
+qemu-system-aarch64: -tpmdev emulator,id=3Ddev,chardev=3Dchr: 'chr' is not
+emulating TPM device. Error: Interrupted system call
+(test program exited with status code -13)
+
+This doesn't seem related to this PR.
+
+Anyhow, if this isn't too late I'm sending a v2 with a missing patch.
+
+Regards,
+
+Phil.
 
