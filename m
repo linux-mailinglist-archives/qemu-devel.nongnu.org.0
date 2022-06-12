@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AFDE547C1C
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jun 2022 22:56:12 +0200 (CEST)
-Received: from localhost ([::1]:36266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CEE0547CB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 00:02:33 +0200 (CEST)
+Received: from localhost ([::1]:41052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0Ud1-00035s-9z
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jun 2022 16:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33138)
+	id 1o0VfC-0006dm-RS
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jun 2022 18:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o0UVv-0005nD-Mx
- for qemu-devel@nongnu.org; Sun, 12 Jun 2022 16:48:51 -0400
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:38442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o0UVu-00008O-AK
- for qemu-devel@nongnu.org; Sun, 12 Jun 2022 16:48:51 -0400
-Received: by mail-io1-xd2e.google.com with SMTP id r5so4309992iod.5
- for <qemu-devel@nongnu.org>; Sun, 12 Jun 2022 13:48:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ERo6fPriI1UFvIxjwkCbe1K6cPmR6dzyqUXBVyEFgsg=;
- b=xbFY/qSZnyE9kL0QimzqThi85+85V6ZfhhgzKmd7eM7w2ZGN/76R3XNsA8JpVFw6/2
- u36/r2ctJy3niMp3GfJfvo6n2BAXNZW0J78Kdl/SfijyyCPVsiYyQp6y7IA+mQoR9OER
- twmo+gOJEFY+rLk1m6vbHrvWKs5D3w/YVrz7tpY0A51ozSIfILhY8e7ZqE3Yq5L/GsLo
- qWhfjB9MngFZvRZmKgE2yc6SO6L/+31y812CG9U0Wxbzbwf2+pOtaTS4z5qmYwOfHhbE
- oPwm13ox5yNWG29lz+HkiIbtE6kMqdzzzWnH4LffRmPWqdL2Zw24lBfCo913KTznU0Gu
- N6nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ERo6fPriI1UFvIxjwkCbe1K6cPmR6dzyqUXBVyEFgsg=;
- b=bNVY0SDWNxXgx64t9ol2odpwJ+gDd8w2B/Df329lmppCPx0NNRRxvUDrxnviHan7d3
- TSab00fCXFWlGE2R1C6NfSd2KQYYpHxmV5sroK//iQyp40DUhxWXdpdJNgpWpSlAgKm7
- r3lbVnubwEP0NxphS8kTineutDMTrJTBxRGQJsGT3wgtVEz2KRTReXkk455pWen5G0PE
- 2Qz/elBaTW5fqcPqDXcgP7uZJYei/h805525jqcn+8cJCNz9uhj6ySTHlinK1dP9H6fN
- hbbRAhCOgSs4LndRXRMTTFh/7lX29qJ+oq2epkpGJFBZU9lYIFNxtgtv3HIOqnPivAfh
- CQIQ==
-X-Gm-Message-State: AOAM530ow3QBOETgGVRFurfIVaPxQti3P2nNi+V1JyampFM2YCtuyTOn
- byqyfPODl5tIEtKFY44upIV9C4C8cLW4DA==
-X-Google-Smtp-Source: ABdhPJyALc6uibcT9e9rbkReEVDgsLNzaXi6K4H8s6tJoUdfFJ2c9WCVJb2L+7hv4FojDWjS95LAOw==
-X-Received: by 2002:a05:6602:c3:b0:64f:d28f:a62c with SMTP id
- z3-20020a05660200c300b0064fd28fa62cmr26238845ioe.212.1655066929094; 
- Sun, 12 Jun 2022 13:48:49 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- j2-20020a056e02124200b002d1d8de99e7sm2911612ilq.40.2022.06.12.13.48.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Jun 2022 13:48:48 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=m6xm=WT=zx2c4.com=Jason@kernel.org>)
+ id 1o0Vcx-0004ot-Kw
+ for qemu-devel@nongnu.org; Sun, 12 Jun 2022 18:00:11 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:48744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=m6xm=WT=zx2c4.com=Jason@kernel.org>)
+ id 1o0Vcv-0000ys-H9
+ for qemu-devel@nongnu.org; Sun, 12 Jun 2022 18:00:11 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0766761170;
+ Sun, 12 Jun 2022 22:00:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E444CC34115;
+ Sun, 12 Jun 2022 21:59:58 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="EGjI6xpH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1655071197;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+Ma3tYIAJRBLE1K1ZU5TfBMc99L/GKs10ywzqtFKe8Y=;
+ b=EGjI6xpH/G/ManoSfjBElYtcwl3Sefyw2LvuzFLgeGNCiVwLR7PxWvGzdX9h3wIgk80Ss4
+ NNeArLw97/+zbp4tzVNs7p03r1B/JDuniSxu7ZsUcx6sECPyk/bcizAV8JBPLXkpQFUNmB
+ ET6J3Jl6gHpW28TigIAqyLJvICTCZco=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ff0d6404
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Sun, 12 Jun 2022 21:59:56 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: qemu-devel@nongnu.org
-Cc: jrtc27@FreeBSD.org, Warner Losh <imp@bsdimp.com>, def@FreeBSD.org,
- arrowd@freebsd.org, Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stacey Son <sson@FreeBSD.org>
-Subject: [PATCH 11/11] bsd-user: Implement acct and sync
-Date: Sun, 12 Jun 2022 14:48:51 -0600
-Message-Id: <20220612204851.19914-12-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220612204851.19914-1-imp@bsdimp.com>
-References: <20220612204851.19914-1-imp@bsdimp.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Stafford Horne <shorne@gmail.com>
+Subject: [PATCH] hw/openrisc: pass random seed to fdt
+Date: Sun, 12 Jun 2022 23:59:49 +0200
+Message-Id: <20220612215949.134807-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=m6xm=WT=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,66 +76,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/bsd-file.h           | 24 ++++++++++++++++++++++++
- bsd-user/freebsd/os-syscall.c |  8 ++++++++
- 2 files changed, 32 insertions(+)
+If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+initialize early. Set this using the usual guest random number
+generation function. This is confirmed to successfully initialize the
+RNG on Linux 5.19-rc2.
 
-diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
-index ccfa65ec5e9..6b20442ecdc 100644
---- a/bsd-user/bsd-file.h
-+++ b/bsd-user/bsd-file.h
-@@ -535,4 +535,28 @@ static abi_long do_bsd_ftruncate(void *cpu_env, abi_long arg1,
-     return get_errno(ftruncate(arg1, target_arg64(arg2, arg3)));
+Cc: Stafford Horne <shorne@gmail.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ hw/openrisc/openrisc_sim.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+index 35adce17ac..41821b5f30 100644
+--- a/hw/openrisc/openrisc_sim.c
++++ b/hw/openrisc/openrisc_sim.c
+@@ -20,6 +20,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
++#include "qemu/guest-random.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "hw/irq.h"
+@@ -115,6 +116,7 @@ static void openrisc_create_fdt(Or1ksimState *state,
+     int cpu;
+     char *nodename;
+     int pic_ph;
++    uint8_t rng_seed[32];
+ 
+     fdt = state->fdt = create_device_tree(&state->fdt_size);
+     if (!fdt) {
+@@ -165,6 +167,10 @@ static void openrisc_create_fdt(Or1ksimState *state,
+         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+     }
+ 
++    /* Pass seed to RNG. */
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
++
+     /* Create aliases node for use by devices. */
+     qemu_fdt_add_subnode(fdt, "/aliases");
  }
- 
-+/* acct(2) */
-+static abi_long do_bsd_acct(abi_long arg1)
-+{
-+    abi_long ret;
-+    void *p;
-+
-+    if (arg1 == 0) {
-+        ret = get_errno(acct(NULL));
-+    } else {
-+        LOCK_PATH(p, arg1);
-+        ret = get_errno(acct(path(p)));
-+        UNLOCK_PATH(p, arg1);
-+    }
-+    return ret;
-+}
-+
-+/* sync(2) */
-+static abi_long do_bsd_sync(void)
-+{
-+
-+    sync();
-+    return 0;
-+}
-+
- #endif /* BSD_FILE_H */
-diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index 3c8f6cad0e8..2623caf8007 100644
---- a/bsd-user/freebsd/os-syscall.c
-+++ b/bsd-user/freebsd/os-syscall.c
-@@ -365,6 +365,14 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         ret = do_bsd_ftruncate(cpu_env, arg1, arg2, arg3, arg4);
-         break;
- 
-+    case TARGET_FREEBSD_NR_acct: /* acct(2) */
-+        ret = do_bsd_acct(arg1);
-+        break;
-+
-+    case TARGET_FREEBSD_NR_sync: /* sync(2) */
-+        ret = do_bsd_sync();
-+        break;
-+
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-         ret = -TARGET_ENOSYS;
 -- 
-2.33.1
+2.35.1
 
 
