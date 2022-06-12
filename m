@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D41547B13
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jun 2022 18:32:27 +0200 (CEST)
-Received: from localhost ([::1]:44876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B2C547B32
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jun 2022 19:34:26 +0200 (CEST)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0QVl-00030l-NL
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jun 2022 12:32:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
+	id 1o0RTk-0001AE-Sh
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jun 2022 13:34:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o0QTL-00029V-2u
- for qemu-devel@nongnu.org; Sun, 12 Jun 2022 12:29:55 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:56025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o0QTJ-0000XG-CM
- for qemu-devel@nongnu.org; Sun, 12 Jun 2022 12:29:54 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N1gWU-1ncTcg173Q-0121N8; Sun, 12 Jun 2022 18:29:46 +0200
-Message-ID: <c8d69e95-ce3a-059e-af66-211b99fdb5b7@vivier.eu>
-Date: Sun, 12 Jun 2022 18:29:45 +0200
+ (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
+ id 1o0RS3-0000Qi-Gg
+ for qemu-devel@nongnu.org; Sun, 12 Jun 2022 13:32:39 -0400
+Received: from vulcan.kevinlocke.name
+ ([2001:19f0:5:727:1e84:17da:7c52:5ab4]:49037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
+ id 1o0RS1-0000Nd-CL
+ for qemu-devel@nongnu.org; Sun, 12 Jun 2022 13:32:39 -0400
+Received: from kevinolos.kevinlocke.name (unknown [69.145.56.143])
+ (Authenticated sender: kevin@kevinlocke.name)
+ by vulcan.kevinlocke.name (Postfix) with ESMTPSA id C3FD52F11BED;
+ Sun, 12 Jun 2022 17:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kevinlocke.name;
+ s=vulcan; t=1655055152;
+ bh=KKChsdFhL+9zZ35E9EUAJWuc5dncH0pRneEq0rRPU2s=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ulXGR0tFYQaZd4LjNjrWpmMOMJ9yykR9J/F0p41d/t9JKf3r7e6A3T6ZivkcPQG7v
+ FoDaX2SlUwimPekYAn4HZEILcaGfyCvDjtzH9ArT4U4j3GV/W1ybyDlYW2AWzBCa0I
+ 51UzPFja60lpVH1SY9fv19V8ho3NiQS4cROyeFJw=
+Received: by kevinolos.kevinlocke.name (Postfix, from userid 1000)
+ id 578D01300161; Sun, 12 Jun 2022 11:32:18 -0600 (MDT)
+From: Kevin Locke <kevin@kevinlocke.name>
+To: qemu-devel@nongnu.org
+Cc: Laszlo Ersek <lersek@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Laine Stump <laine@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v2] docs: add PCIe root bus for VGA compat guideline
+Date: Sun, 12 Jun 2022 11:32:03 -0600
+Message-Id: <bde9fc450bc5143d616c7e9999c5d39ae9fd9cb8.1655054968.git.kevin@kevinlocke.name>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
+References: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: fr
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, thuth@redhat.com
-References: <20220610143855.1211000-1-alex.bennee@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [RFC PATCH] linux-user: un-parent OBJECT(cpu) when closing thread
-In-Reply-To: <20220610143855.1211000-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:KlAU2wfPg6oAXBWaeEsm5J48yXtpHYqYw+ApuJkXEj2ZRYM24Au
- SLC+P8QMp5CRWtFVNtJPlyxUI2EaKjbeEFB7movb07gerx+YN5hnFocNxwT6RAMEe019tTt
- OAvgIa7117vy25CK2P/TxLCQ2mhJ6esmjYpsIa8rDTT1v2hx5WN4vv+WZtqIwfMem2O82rM
- ouKLnLzB6zl98ABYphmvA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HQybRUMTqYE=:GKtPwrqknXcBRkeNACyTut
- jd5BFCbtgD+xAiJiPP0kLiBvr/AN3lIgZhf71HdrpZvxQtXZFxsCzJ6m333Y4VrJ1qsy9DQ2b
- 9gGkG7YmLfZ9xTQnOy14hgOf/PpH0qmBLE4ClrmHmw4vQINJh+3ABdfJfOqC+ylGStqtMW9VB
- kc+QFUFrRYJg9yEXgP2jy/QKqSed17t7m9h/yNl04kJGhDRq4iBtyDRXHRUN03YguacV0l0qM
- 3A8Isbd+cQCyd69C18S4NfAKuz53MfhB0S0cRocgWQlrGg8i8g2zhIQzxNAEJS+621nt44d76
- MdFkrf7VXoGCBEFEGy1wmt1bVtVSJ3784mJrdH85Kt5C+OXKRWxh9UWYEOxrAeLv5Mk6lzTnA
- BEwytfW1+YOFvzjsiL0YHDvKX2OZJt6ypkCfSjwFVQzGUbQ+zpWRx1atDHvEmpaF23TAEFBi1
- ZUCXvJFQS7C1eIPMPRdDaR1d2Ci3dOhKukwIlZzOFvoFXgKki+Cf9PlZg1z8uX56nSvMYVKrj
- g7d5M/fBXGRKXEF9PfGzudFVhEpB9eRO7C3FkxqvGyrEB/ZV89a9bmuoY++2VrvGmBm8ImaBB
- QzYbDYELmAdpptJnzdvdxYsynTOvmkog1OX1QU99Lc9vXrRQcLRcfAF8wmN/BmuragWwzK1NL
- +8jfBcTpyOkaXG58OVVVWPSY0+d3m9lFELnjLF+Wq70++sRuqJpvsA40KO5Fwqjvri+3Qr2UB
- mQr+ylJbqKKYgFlXJkfjobeF91Rh/+OFqoAaWA==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Received-SPF: pass client-ip=2001:19f0:5:727:1e84:17da:7c52:5ab4;
+ envelope-from=kevin@kevinlocke.name; helo=vulcan.kevinlocke.name
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,34 +71,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/06/2022 à 16:38, Alex Bennée a écrit :
-> While forcing the CPU to unrealize by hand does trigger the clean-up
-> code we never fully free resources because refcount never reaches
-> zero. This is because QOM automatically added objects without an
-> explicit parent to /unattached/, incrementing the refcount.
-> 
-> Instead of manually triggering unrealization just unparent the object
-> and let the device machinery deal with that for us.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/866
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   linux-user/syscall.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f55cdebee5..c413d32311 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8566,7 +8566,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           if (CPU_NEXT(first_cpu)) {
->               TaskState *ts = cpu->opaque;
->   
-> -            object_property_set_bool(OBJECT(cpu), "realized", false, NULL);
-> +            object_unparent(OBJECT(cpu));
->               object_unref(OBJECT(cpu));
->               /*
->                * At this point the CPU should be unrealized and removed
+PCI Express devices which use legacy VGA compatibility should be placed
+on the Root Complex.  This simplifies ioport access to VGA registers,
+which requires use of a special exception bit to work across PCI(e)
+bridges.  It is also necessary for ioport access to VESA BIOS Extension
+(VBE) registers, which is not forwarded over PCI(e) bridges, even with
+the special exception bit for VGA register access.[1]
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Update the PCI Express Guidelines to add these to the list of devices
+which can be placed directly on the Root Complex.
+
+Note that the only PCI Express display devices currently supported
+(bochs-display and virtio-gpu-pci) do not offer VGA compatibility.
+Legacy PCI devices (e.g. vga, qxl-vga, virtio-vga) are already
+documented as allowed on the Root Complex by the first item in the list.
+However, this item documents an additional consideration for placing
+devices which was not previously mentioned, and may be relevant for PCIe
+devices offering VGA compatibility in the future.
+
+[1]: https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/XG2RN3HKVRDEDTLA2PRELLIENIIH7II7/#XVP3I2KQVZHSTDA4SNVKOITWGRGSDU3F
+
+Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Kevin Locke <kevin@kevinlocke.name>
+---
+Changes since v1:
+ * Replace my overly-broad exception for devices requiring ioport access
+   with a list item specifically for PCI Express devices offering VGA
+   Compatibility provided by Laszlo Ersek.
+ * Rewrite the commit message based on my improved understanding of the
+   issue and the improved scope of the change.
+
+P.S. Let me know if the Signed-off-by tag is not appropriate for either
+of us.  I'm not clear on the etiquette of including someone else's
+sign-off, but also don't want to misrepresent myself as the source of
+your work.
+
+ docs/pcie.txt | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/docs/pcie.txt b/docs/pcie.txt
+index 89e3502075..59b26817f9 100644
+--- a/docs/pcie.txt
++++ b/docs/pcie.txt
+@@ -48,13 +48,17 @@ Place only the following kinds of devices directly on the Root Complex:
+         strangely when PCI Express devices are integrated
+         with the Root Complex.
+ 
+-    (2) PCI Express Root Ports (ioh3420), for starting exclusively PCI Express
++    (2) Assigned PCI Express GPUs that offer legacy VGA compatibility, and
++        that such compatibility is expected of (due to booting with SeaBIOS,
++        or due to UEFI driver bugs or native OS driver bugs).
++
++    (3) PCI Express Root Ports (ioh3420), for starting exclusively PCI Express
+         hierarchies.
+ 
+-    (3) PCI Express to PCI Bridge (pcie-pci-bridge), for starting legacy PCI
++    (4) PCI Express to PCI Bridge (pcie-pci-bridge), for starting legacy PCI
+         hierarchies.
+ 
+-    (4) Extra Root Complexes (pxb-pcie), if multiple PCI Express Root Buses
++    (5) Extra Root Complexes (pxb-pcie), if multiple PCI Express Root Buses
+         are needed.
+ 
+    pcie.0 bus
+-- 
+2.35.1
+
 
