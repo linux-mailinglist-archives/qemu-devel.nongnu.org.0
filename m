@@ -2,81 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA2D547877
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jun 2022 06:17:41 +0200 (CEST)
-Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385545479DA
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jun 2022 12:57:04 +0200 (CEST)
+Received: from localhost ([::1]:46612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0F2i-0003p3-E0
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jun 2022 00:17:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51440)
+	id 1o0LHC-0000hp-Oq
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jun 2022 06:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0EyJ-0002uL-U1
- for qemu-devel@nongnu.org; Sun, 12 Jun 2022 00:13:08 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:36692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0EyI-0001a9-AZ
- for qemu-devel@nongnu.org; Sun, 12 Jun 2022 00:13:07 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- u12-20020a17090a1d4c00b001df78c7c209so5837589pju.1
- for <qemu-devel@nongnu.org>; Sat, 11 Jun 2022 21:13:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Eh9/sfeIGMlI1yqYXzPWViCqf/c+0/5AiTnG5vsTq4s=;
- b=nNdbMDPupJ+fglNxUdqr2jByCy5R/F258ziMQANn9bPq1V6xv5ShD2ejDHUotXkIR/
- Pd2sP/8KICRQjfq4Jkke4CuAQydYYakTEKZLloZH//qmkPiTSy8+2Q7yP7rUCsMvUubj
- owz5n5v90dIZ+jPnT6P2n2DdJKaDJ99vw9y3+uu7dIyGlMKOI84AgfaqydU0NUVzD4Ro
- bmpYxNRX+7CVjo2U4qVYkK+Ck+jCG8r4jxVjAZW1Yfp7dD8qdOdtvXEZYzFgzCvR/ibt
- cVl2GkXRPyN335GTjx2DhutEIDmHj9rjMsYFN53fG2h2l74jeiDy0F8dPCOYX77QB3QL
- EBZA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o0LDa-0008GZ-G6
+ for qemu-devel@nongnu.org; Sun, 12 Jun 2022 06:53:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o0LDX-0004xi-Fg
+ for qemu-devel@nongnu.org; Sun, 12 Jun 2022 06:53:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655031193;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w46Lj7wQrboGNaxR2wRV1CMUPHHLDqb83zy1LxlWHss=;
+ b=GGFxV18n1iRBC2oHYOkdJKN4SKC29aSovJ2PfwZhA7NIoxTT54MG7QUUEuCqe7I0F4tU3b
+ 57s+W2NmD53Gk3IX4nBMeLjvkGDaAfMFLHkK2kQOF98Lx753gOa2UyBk9szpNjFN5cTQL0
+ vyorU1TasYaI+eIDy85tv4Ep+JL5A9g=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-147-820NOdjONTiyWNwuhZ1rTg-1; Sun, 12 Jun 2022 06:53:06 -0400
+X-MC-Unique: 820NOdjONTiyWNwuhZ1rTg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l17-20020a05600c4f1100b0039c860db521so1152284wmq.5
+ for <qemu-devel@nongnu.org>; Sun, 12 Jun 2022 03:53:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Eh9/sfeIGMlI1yqYXzPWViCqf/c+0/5AiTnG5vsTq4s=;
- b=ZgJshIYGQbTZ7eIZV1w1q+AWbU8TrpI7dB4P5CRGo1kJec5aadYfWK6fqC09DsVFIy
- P4KmPVa3HUloZ8mSGN+CmzCni+LHbvdCfA+nmxhaSM8z+6lRqeBkLTFVpGuvK/yfN3Hi
- Ta+frhb9vfR9ex5oVosCBiul0AlsRF4R/qgjFeU/EcnDFy/4/3pwcWGQcVOHxMAqJjz1
- dm1jbqgYe616Wddx5AlUBK2UsCLCd97uF4C4YR4MZyc51XXZ5zvzMd5t345CdgghgO81
- GWpEo8O8G5dY6QYcOY/QTKIWJIR/LFU1dq7XlU/0H9PHTTXM6qv17MLXcfZGW1Ll/bqr
- iBTw==
-X-Gm-Message-State: AOAM530Lgr5Vz9R5i9LLsQEUOryQeCjEmRbYYE6u2bjCt2NDGK2ssgP1
- N1uFMsn4i/BkybiJ4S3GqinQCA==
-X-Google-Smtp-Source: ABdhPJwFJ8gexB0UbT4hY7g3j55XTR0H70l3+Ps64SYqVrBW1qYaHukQRdGpj5HM+owzyg2FRfdcfA==
-X-Received: by 2002:a17:90b:4a92:b0:1e8:2ba1:64bf with SMTP id
- lp18-20020a17090b4a9200b001e82ba164bfmr8208379pjb.41.1655007184395; 
- Sat, 11 Jun 2022 21:13:04 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
- by smtp.gmail.com with ESMTPSA id
- b10-20020a170902650a00b001675991fb7fsm2284468plk.55.2022.06.11.21.13.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Jun 2022 21:13:02 -0700 (PDT)
-Message-ID: <a4c83d84-25f5-13ee-5e36-a2fba2b17a2b@linaro.org>
-Date: Sat, 11 Jun 2022 21:12:59 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=w46Lj7wQrboGNaxR2wRV1CMUPHHLDqb83zy1LxlWHss=;
+ b=Yuo3ghSLoNzYyeoh43uxvIY8AubRhydlstOFfFeVgoeBmFqqepq9FSmaF4gCBKD5vb
+ L4LGjIFs0XHZYmo+O+faZbXtEb22imr6uCKY/hBLHaiWE1X5RDqsvQAscVvw9Q+uLD6S
+ GbUGP8R9pTd6GaKiBh/YIqdbHhDKcsRmOIHf1Vc1HT81eU+18kvgqqq5jekUeb/HNpvo
+ 661Km+a7FbjTrA7UEi4F8v1ZoUm8O675xrgZ5N+GLyvZaLB30HlXEbNXMp6S91Mo1ANk
+ hd7N9lrAPhmQZWkE4tWSSiedxMFF9WpuThVHO78eRXx090GL1MHJ/jnJdrKHLlA3yrMN
+ vv0Q==
+X-Gm-Message-State: AOAM5307TKXMs85TwKvZiBtgzb2Mowp387rxrCAt/54BRSR+HSHlTMHE
+ CrBhuvfuANAUrZcgn+9Iu/4HrpzelIUE2s68xK9v4HENU/2eYMgQKuWY1DrqqPV/dhPBVdfpEbU
+ DgKLlnLssLJE+Zr0=
+X-Received: by 2002:a05:600c:590:b0:39c:463c:1931 with SMTP id
+ o16-20020a05600c059000b0039c463c1931mr8547079wmd.119.1655031183161; 
+ Sun, 12 Jun 2022 03:53:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6GXeY351FP7kaEu19HVb9lll2coNHmJ7Ap7jhiqvkVQPDznqvlFj/EpFrqDWjLzNjRGKgqQ==
+X-Received: by 2002:a05:600c:590:b0:39c:463c:1931 with SMTP id
+ o16-20020a05600c059000b0039c463c1931mr8547045wmd.119.1655031182780; 
+ Sun, 12 Jun 2022 03:53:02 -0700 (PDT)
+Received: from redhat.com ([2.54.35.243]) by smtp.gmail.com with ESMTPSA id
+ r16-20020a056000015000b0021108003596sm5239191wrx.10.2022.06.12.03.52.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Jun 2022 03:53:01 -0700 (PDT)
+Date: Sun, 12 Jun 2022 06:52:56 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
+ <philippe.mathieu.daude@gmail.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Bernhard Beschow <shentey@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 00/11] hw/acpi/piix4: remove legacy piix4_pm_init()
+ function
+Message-ID: <20220612065245-mutt-send-email-mst@kernel.org>
+References: <20220530112718.26582-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 0/6] Bsd user preen 2022q2 patches
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: def@freebsd.org, arrowd@freebsd.org, Kyle Evans <kevans@freebsd.org>,
- jrtc27@FreeBSD.org
-References: <20220611135514.92882-1-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220611135514.92882-1-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220530112718.26582-1-philippe.mathieu.daude@gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,50 +107,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/11/22 06:55, Warner Losh wrote:
-> The following changes since commit 2663c41cfa2c3be34c62de97902a375b81027efd:
+On Mon, May 30, 2022 at 01:27:07PM +0200, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
->    Merge tag 'pull-target-arm-20220610' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-06-10 13:16:48 -0700)
-> 
-> are available in the Git repository at:
-> 
->    ssh://git@github.com/qemu-bsd-user/qemu-bsd-user.git tags/bsd-user-preen-2022q2-pull-request
-> 
-> for you to fetch changes up to 9554d33076771dcc284dc3fa1a87cd0e24b91d9d:
-> 
->    bsd-user/freebsd/os-syscall.c: Implement exit (2022-06-10 22:03:50 -0600)
-> 
-> ----------------------------------------------------------------
-> bsd-user upstreaming: read, write and exit
-> 
-> This series of patches continues the effort to get system calls working
-> upstream. This series was cleaved off a prior series to give me time to rework
-> based on the feedback from the first time I posted these. read, write and exit
-> are implemented, along with a few helper functions and tracing.
-
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+> This series moves the outstanding logic from piix4_pm_init() into
+> the relevant instance init() and realize() functions, changes the
+> IRQs to use qdev gpios, and then finally removes the now-unused
+> piix4_pm_initfn() function.
 
 
-r~
+Looks ok
 
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
+> v2:
+> - Addressed Ani & Bernhard review comments
 > 
-> ----------------------------------------------------------------
+> If no further comments I plan to queue this via mips-next end of
+> this week.
 > 
-> Warner Losh (6):
->    bsd-user/freebsd/os-syscall.c: lock_iovec
->    bsd-user/freebsd/os-syscall.c: unlock_iovec
->    bsd-user/freebsd/os-syscall.c: Tracing and error boilerplate
->    bsd-user/bsd-file.h: Add implementations for read, pread, readv and
->      preadv
->    bsd-user/bsd-file.h: Meat of the write system calls
->    bsd-user/freebsd/os-syscall.c: Implement exit
+> Regards,
 > 
->   bsd-user/bsd-file.h           | 163 +++++++++++++++++++++++++
->   bsd-user/bsd-proc.h           |  42 +++++++
->   bsd-user/freebsd/os-syscall.c | 217 +++++++++++++++++++++++++++++++++-
->   3 files changed, 418 insertions(+), 4 deletions(-)
->   create mode 100644 bsd-user/bsd-proc.h
+> Phil.
 > 
+> Mark Cave-Ayland (11):
+>   hw/acpi/piix4: move xen_enabled() logic from piix4_pm_init() to
+>     piix4_pm_realize()
+>   hw/acpi/piix4: change smm_enabled from int to bool
+>   hw/acpi/piix4: convert smm_enabled bool to qdev property
+>   hw/acpi/piix4: move PIIX4PMState into separate piix4.h header
+>   hw/acpi/piix4: alter piix4_pm_init() to return PIIX4PMState
+>   hw/acpi/piix4: rename piix4_pm_init() to piix4_pm_initfn()
+>   hw/acpi/piix4: use qdev gpio to wire up sci_irq
+>   hw/acpi/piix4: use qdev gpio to wire up smi_irq
+>   hw/i386/pc_piix: create PIIX4_PM device directly instead of using
+>     piix4_pm_initfn()
+>   hw/isa/piix4.c: create PIIX4_PM device directly instead of using
+>     piix4_pm_initfn()
+>   hw/acpi/piix4: remove unused piix4_pm_initfn() function
+> 
+>  hw/acpi/piix4.c               | 77 ++++++-----------------------------
+>  hw/i386/acpi-build.c          |  1 +
+>  hw/i386/pc_piix.c             | 16 +++++---
+>  hw/isa/piix4.c                | 11 +++--
+>  include/hw/acpi/piix4.h       | 75 ++++++++++++++++++++++++++++++++++
+>  include/hw/southbridge/piix.h |  6 ---
+>  6 files changed, 107 insertions(+), 79 deletions(-)
+>  create mode 100644 include/hw/acpi/piix4.h
+> 
+> -- 
+> 2.36.1
 
 
