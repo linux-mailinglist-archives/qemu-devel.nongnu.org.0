@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0999554999F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:16:53 +0200 (CEST)
-Received: from localhost ([::1]:42606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27DF5499A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:19:12 +0200 (CEST)
+Received: from localhost ([::1]:49688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0ngJ-0003qp-R9
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56836)
+	id 1o0niZ-0000LD-P5
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:19:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o0ncg-0001Fr-6A
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:06 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:46948)
+ id 1o0nci-0001HH-Cz
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:08 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:34499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o0ncd-0006vv-NB
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:05 -0400
-Received: by mail-ej1-x632.google.com with SMTP id v1so12344884ejg.13
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:13:03 -0700 (PDT)
+ id 1o0ncg-0006wV-Fw
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:07 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id o10so8105644edi.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YWeJX520ndLsECRd6DQvhI+4IrssS8/6uaptuhISi24=;
- b=WofdNKnJWMZRbYdLw6QAf2EuI2nc57MCU+VQGakMKz+6j7rXHz6TvYrATWqGHigwzj
- U2xgXuOf9P4EpGFw3mdGU+5DlrJomSIeb/pA/fOdP/Gj5t79fBKooJZSQV1ZehG3m7P1
- npyBlhQlow5ZaUfs2dVt1nDsBhZyvdM0GdIWErdDhKCpMcK8+E2DeH1xcHLk/WDWLu/+
- E8AJQND3QNN+eqpLn8NPDmRxtbokoQlp7Y/dhpQSUCv4lR0TcUb906v+V2FdHaCs27oL
- lZIszy5m5wse2fywM973an9H5WydAxlZCt9pfTK2J5P5WriiLbVmdHoiqN5C4fvAsVGw
- FY2g==
+ bh=IWtB77SS8UzWWppXKv/PKd8mKK1jf+oMFHLQZ6UbrHA=;
+ b=A58wzM/thC1RKZ4kNI98Vh786epLQrgE51n+Dn3LXw6wQvej+CBRS5fRE2pZLbc022
+ Rw2OG0FDJoN9HiyOmUtJli4V5tb+kLtB6CbjTCUiQlyQPjEHvi8q6J//vH++WG3klma7
+ rR55u5Dk24+0OD23nKh9kHrisHARfypI/tfIgXSVSZVMC63QF3C6+OicGkLFrap2WjR9
+ YLrd4V9B173jTcXmUFJg59OSgwC4zAH8AFQUcKdlyeyglfLBcf2dvrFSJgWHAG1KWlkX
+ q4uvsAkjLDpixOYufVFyuJFZVqqYzAZ5qVoze2pdbfW+xDMctCe/YNBs2rqWi/NCQo5s
+ ayiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YWeJX520ndLsECRd6DQvhI+4IrssS8/6uaptuhISi24=;
- b=boJYPMdcBUZsUgqSmG86B7d+Y+DXC4wVXQIQGRM2BDMhwDgDZzM/RUmSrWDEE0SKFh
- 3IsBlkBcJ3Q8JbkwNLIqz/f4Oth8BrCzNIi8d1RznoAQHs07oO9tc8S9cXogRWZy5wFc
- nOP6E0P1crrtREAUgEQe64TBU6XR6qnB/fIX1yarRNpyO4AFnv9zP215se1O9KOXLnkU
- ByGXbYndYCGLZ2/vLIvM11avoSKs8TX9fped61ZXACeUNz2W8fjMvajpJZm2sQYAQT7K
- EYPK0D8RKfm3Cac+NXMWgdS5kUZBONBvTNUc0XzE5eelP9imYyWYzEjs7v9PuTK+D8Kv
- 6fLw==
-X-Gm-Message-State: AOAM530DYcAJ1PWvzdSYdxPOCWUUaSizIBq5+Au45EvfxQ2TL5UuuMJ5
- D+yvfTY98SlAKO0MZvgBotncjQ==
-X-Google-Smtp-Source: ABdhPJzaUCKjGuC31Uxz5ttaiXoYJJK0HQuvQBKmZdEYQMVhgriWtH+/C4SAECBvh5DpQ2wvaLyPPg==
-X-Received: by 2002:a17:906:73d2:b0:712:2fed:3473 with SMTP id
- n18-20020a17090673d200b007122fed3473mr681881ejl.361.1655140382391; 
- Mon, 13 Jun 2022 10:13:02 -0700 (PDT)
+ bh=IWtB77SS8UzWWppXKv/PKd8mKK1jf+oMFHLQZ6UbrHA=;
+ b=0n6GVW26MgPBn9xTVuwX0BdWmXd1yLDCZS1Fpou5q6a0bFI10Tup0xgGfK3mKIaV31
+ icHR2xQuYgH1Cd0ejKInaanIEa3NHdkwG5EokR13vHBB1HJLCS1BsfAtbq+wWSOYNjaN
+ X4haOZcMJvTU9733MTcVt4yAMBaLOEB7jkguYJyGgV/OGRXX5cZN0aTgVu8R/kMtbErl
+ qwHLTrvv+Surle1fYvF+pfFP3FJnnoHnvi0Vs2uBxM+UgpUmOin3SvjioDiIgAMv85yC
+ CMT/5vWxHcto7nVElbz2kZYMx9JPCMBsjnY6JEyPyP0MIQClpUuxcOKyQHjj/LSFmb/R
+ juQQ==
+X-Gm-Message-State: AOAM530TOBEqg1iYNIo4FIvAIGsjIguCQ3pQDoloJjnYlbSjQZ6XN9DI
+ GLySBAUuVdkgGtSOLq3h3RK8Fg==
+X-Google-Smtp-Source: AGRyM1vtPRZOHqns6jjxo4frCxCp18A/HKnyaoePDg4izzFqkIw90pdnxZ66p1lgbbpNlS3R0q7DRA==
+X-Received: by 2002:a05:6402:40d2:b0:42f:ac14:34a3 with SMTP id
+ z18-20020a05640240d200b0042fac1434a3mr852194edb.262.1655140385125; 
+ Mon, 13 Jun 2022 10:13:05 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- v1-20020a1709063bc100b006febeb51cd5sm4068668ejf.174.2022.06.13.10.12.59
+ o25-20020a1709061d5900b006fe98fb9523sm4042738ejh.129.2022.06.13.10.12.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 10:12:59 -0700 (PDT)
+ Mon, 13 Jun 2022 10:13:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 378991FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 43B5E1FFBB;
  Mon, 13 Jun 2022 18:12:59 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- richard.henderson@linaro.org,
+ richard.henderson@linaro.org, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH  v1 2/7] tests/tcg/i386: Use explicit suffix on fist insns
-Date: Mon, 13 Jun 2022 18:12:53 +0100
-Message-Id: <20220613171258.1905715-3-alex.bennee@linaro.org>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v1 3/7] gitlab-ci: Fix the build-cfi-aarch64 and
+ build-cfi-ppc64-s390x jobs
+Date: Mon, 13 Jun 2022 18:12:54 +0100
+Message-Id: <20220613171258.1905715-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220613171258.1905715-1-alex.bennee@linaro.org>
 References: <20220613171258.1905715-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,138 +98,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
 
-Fixes a number of assembler warnings of the form:
+The job definitions recently got a second "variables:" section by
+accident and thus are failing now if one tries to run them. Merge
+the two sections into one again to fix the issue.
 
-test-i386.c: Assembler messages:
-test-i386.c:869: Warning: no instruction mnemonic suffix given
-  and no register operands; using default for `fist'
+And while we're at it, bump the timeout here (70 minutes are currently
+not enough for the aarch64 job). The jobs are marked as manual anyway,
+so if the user starts them, they want to see their result for sure and
+then it's annoying if the job timeouts too early.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220527171143.168276-1-richard.henderson@linaro.org>
+Fixes: e312d1fdbb ("gitlab: convert build/container jobs to .base_job_template")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220603124809.70794-1-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/i386/test-i386-fp-exceptions.c | 24 ++++++++++++------------
- tests/tcg/i386/test-i386.c               |  2 +-
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ .gitlab-ci.d/buildtest.yml | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/tests/tcg/i386/test-i386-fp-exceptions.c b/tests/tcg/i386/test-i386-fp-exceptions.c
-index dfb7117c17..d445f13c33 100644
---- a/tests/tcg/i386/test-i386-fp-exceptions.c
-+++ b/tests/tcg/i386/test-i386-fp-exceptions.c
-@@ -423,35 +423,35 @@ int main(void)
-     }
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 544385f5be..cb7cad44b5 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -357,16 +357,15 @@ build-cfi-aarch64:
+       --enable-safe-stack --enable-slirp=git
+     TARGETS: aarch64-softmmu
+     MAKE_CHECK_ARGS: check-build
+-  timeout: 70m
+-  artifacts:
+-    expire_in: 2 days
+-    paths:
+-      - build
+-  variables:
+     # FIXME: This job is often failing, likely due to out-of-memory problems in
+     # the constrained containers of the shared runners. Thus this is marked as
+     # skipped until the situation has been solved.
+     QEMU_JOB_SKIPPED: 1
++  timeout: 90m
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
  
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fistp %0" : "=m" (res_16) : "t" (1.5L) : "st");
-+    __asm__ volatile ("fistps %0" : "=m" (res_16) : "t" (1.5L) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != PE) {
-         printf("FAIL: fistp inexact\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fistp %0" : "=m" (res_16) : "t" (32767.5L) : "st");
-+    __asm__ volatile ("fistps %0" : "=m" (res_16) : "t" (32767.5L) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-         printf("FAIL: fistp 32767.5\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fistp %0" : "=m" (res_16) : "t" (-32768.51L) : "st");
-+    __asm__ volatile ("fistps %0" : "=m" (res_16) : "t" (-32768.51L) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-         printf("FAIL: fistp -32768.51\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fistp %0" : "=m" (res_16) : "t" (ld_nan) : "st");
-+    __asm__ volatile ("fistps %0" : "=m" (res_16) : "t" (ld_nan) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-         printf("FAIL: fistp nan\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fistp %0" : "=m" (res_16) : "t" (ld_invalid_1.ld) :
-+    __asm__ volatile ("fistps %0" : "=m" (res_16) : "t" (ld_invalid_1.ld) :
-                       "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-@@ -538,49 +538,49 @@ int main(void)
-     }
+ check-cfi-aarch64:
+   extends: .native_test_job_template
+@@ -398,16 +397,15 @@ build-cfi-ppc64-s390x:
+       --enable-safe-stack --enable-slirp=git
+     TARGETS: ppc64-softmmu s390x-softmmu
+     MAKE_CHECK_ARGS: check-build
+-  timeout: 70m
+-  artifacts:
+-    expire_in: 2 days
+-    paths:
+-      - build
+-  variables:
+     # FIXME: This job is often failing, likely due to out-of-memory problems in
+     # the constrained containers of the shared runners. Thus this is marked as
+     # skipped until the situation has been solved.
+     QEMU_JOB_SKIPPED: 1
++  timeout: 80m
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
  
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fisttp %0" : "=m" (res_16) : "t" (1.5L) : "st");
-+    __asm__ volatile ("fisttps %0" : "=m" (res_16) : "t" (1.5L) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != PE) {
-         printf("FAIL: fisttp inexact\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fisttp %0" : "=m" (res_16) : "t" (32768.0L) : "st");
-+    __asm__ volatile ("fisttps %0" : "=m" (res_16) : "t" (32768.0L) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-         printf("FAIL: fisttp 32768\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fisttp %0" : "=m" (res_16) : "t" (32768.5L) : "st");
-+    __asm__ volatile ("fisttps %0" : "=m" (res_16) : "t" (32768.5L) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-         printf("FAIL: fisttp 32768.5\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fisttp %0" : "=m" (res_16) : "t" (-32769.0L) : "st");
-+    __asm__ volatile ("fisttps %0" : "=m" (res_16) : "t" (-32769.0L) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-         printf("FAIL: fisttp -32769\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fisttp %0" : "=m" (res_16) : "t" (-32769.5L) : "st");
-+    __asm__ volatile ("fisttps %0" : "=m" (res_16) : "t" (-32769.5L) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-         printf("FAIL: fisttp -32769.5\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fisttp %0" : "=m" (res_16) : "t" (ld_nan) : "st");
-+    __asm__ volatile ("fisttps %0" : "=m" (res_16) : "t" (ld_nan) : "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-         printf("FAIL: fisttp nan\n");
-         ret = 1;
-     }
-     __asm__ volatile ("fnclex");
--    __asm__ volatile ("fisttp %0" : "=m" (res_16) : "t" (ld_invalid_1.ld) :
-+    __asm__ volatile ("fisttps %0" : "=m" (res_16) : "t" (ld_invalid_1.ld) :
-                       "st");
-     __asm__ volatile ("fnstsw" : "=a" (sw));
-     if ((sw & EXC) != IE) {
-diff --git a/tests/tcg/i386/test-i386.c b/tests/tcg/i386/test-i386.c
-index 18d5609665..ac8d5a3c1f 100644
---- a/tests/tcg/i386/test-i386.c
-+++ b/tests/tcg/i386/test-i386.c
-@@ -866,7 +866,7 @@ void test_fcvt(double a)
-         uint16_t val16;
-         val16 = (fpuc & ~0x0c00) | (i << 10);
-         asm volatile ("fldcw %0" : : "m" (val16));
--        asm volatile ("fist %0" : "=m" (wa) : "t" (a));
-+        asm volatile ("fists %0" : "=m" (wa) : "t" (a));
-         asm volatile ("fistl %0" : "=m" (ia) : "t" (a));
-         asm volatile ("fistpll %0" : "=m" (lla) : "t" (a) : "st");
-         asm volatile ("frndint ; fstl %0" : "=m" (ra) : "t" (a));
+ check-cfi-ppc64-s390x:
+   extends: .native_test_job_template
 -- 
 2.30.2
 
