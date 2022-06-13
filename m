@@ -2,77 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08615485F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:32:23 +0200 (CEST)
-Received: from localhost ([::1]:46460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4575485F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:33:51 +0200 (CEST)
+Received: from localhost ([::1]:50488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0m3C-0005QM-Eo
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33422)
+	id 1o0m4c-0008AN-0e
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o0m1E-0003jC-QQ
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:30:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37939)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o0m2L-00050E-BE
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:31:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o0m1B-00084D-SR
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:30:19 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o0m2I-0008Js-KU
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:31:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655134217;
+ s=mimecast20190719; t=1655134284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2qABwwILyWr7/nLtu1q8BwaTF2EX+ZtD62wMUKQHxBA=;
- b=afIQGd51teCG8aJ2660D4TGJJudnkVIWBrTNMw8RUojtD5zzXYmrnamtjRRvUSgh64BVzg
- L7dErVyo6Oudhe7wxZYIRNIMpeloSz3GBxBygrHy00YfzMi1Qh2afFbXNf7w2cxHxJjC4s
- zPNzi1gAKwp6bztA39id10FY/3uBRhk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7TOf0kg82/nK7C3R03StvxAEtut8TpPb29FQxU+fZeg=;
+ b=bd2xxicmuJvsQnFDfIWLLuBsFWm97GSwWDoTgVx53pLkfN+cWivi4nN0Ms1MifKNHZsZb2
+ WJal0iCddSJ/w8qdvI0qg/9fdZiqbSswoGcRGPYskl1iDOvwUSb2h5Nea4k6pFiCgzfCoJ
+ F2iiHmo4z2TXmYCZBAdELv3ZCcIdtJY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-508-ODpWQ_MbOia1_37BOZ85ug-1; Mon, 13 Jun 2022 11:30:15 -0400
-X-MC-Unique: ODpWQ_MbOia1_37BOZ85ug-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5F911C05133;
- Mon, 13 Jun 2022 15:30:14 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 094592166B26;
- Mon, 13 Jun 2022 15:30:13 +0000 (UTC)
-Date: Mon, 13 Jun 2022 16:30:12 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, alex.williamson@redhat.com,
- f4bug@amsat.org, pbonzini@redhat.com, marcandre.lureau@redhat.com,
- thuth@redhat.com, bleal@redhat.com, berrange@redhat.com,
- peter.maydell@linaro.org, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com, imammedo@redhat.com,
- peterx@redhat.com, john.levon@nutanix.com,
- thanos.makatos@nutanix.com, elena.ufimtseva@oracle.com,
- john.g.johnson@oracle.com, kanth.ghatraju@oracle.com
-Subject: Re: [PATCH v11 13/14] vfio-user: handle device interrupts
-Message-ID: <YqdYBGzfmsw7odJd@stefanha-x1.localdomain>
-References: <cover.1654889541.git.jag.raman@oracle.com>
- <1baf753065d5d135b7638fa099c6929767aba1f5.1654889541.git.jag.raman@oracle.com>
+ us-mta-144-SLSSikmAPeCPUCKUkNCztg-1; Mon, 13 Jun 2022 11:31:23 -0400
+X-MC-Unique: SLSSikmAPeCPUCKUkNCztg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m22-20020a7bcb96000000b0039c4f6ade4dso2641623wmi.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 08:31:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=7TOf0kg82/nK7C3R03StvxAEtut8TpPb29FQxU+fZeg=;
+ b=aQwdmRmlYUVj++YoPh721a8hXf1ccg/yWjv0rEqNVM6Ar/0CF49JH7ujrXjU0wg2Vx
+ eQbtsTAca1EEq/ZU/pDCPKuNv2oy+v6zqP5VWwKloS3K9FZYgCDpJT+vgxc3vTWmGsXU
+ pZ86x4jl8zNPmxdDghUuT7D+Qwo3p/3Zv7amSmwVVX7GL/ErS77nI6lO80l8Qq7LTZDW
+ wejviVWMwp0fqTAmx2niYOZ5qklk75DiTQECAca/d6lk3UwrJXJKVqcEJEa90gFYN81G
+ cQitZ+it5ogm3V1BvT7CcfWHh9/zWAkmwuHk/jK77SeNTgCSk4Dz/l4Lik1OAcXW28sP
+ 6rMw==
+X-Gm-Message-State: AJIora8yZ4rCeATqxYSMTFomHqdkgkILTTeoTyKhDYYfvtnel6ByNgLg
+ Zo7tEVL0e8dgD/rDssmLy0wChrNzNxdV9mwIs9J472kp9PPzYESfj4F1ErKWYVa6RjrwNlzT1P9
+ 1HX91Xw8x/AlCjJY=
+X-Received: by 2002:adf:e8cd:0:b0:210:2b10:ab22 with SMTP id
+ k13-20020adfe8cd000000b002102b10ab22mr414908wrn.476.1655134282106; 
+ Mon, 13 Jun 2022 08:31:22 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t1+PG7j9tcPV38o54Kae7ZUstTM/wNDKPSUyN3wEImBMvzmRtsXIBh13rTKVtDbcntuvuTiw==
+X-Received: by 2002:adf:e8cd:0:b0:210:2b10:ab22 with SMTP id
+ k13-20020adfe8cd000000b002102b10ab22mr414876wrn.476.1655134281846; 
+ Mon, 13 Jun 2022 08:31:21 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c706:bd00:963c:5455:c10e:fa6f?
+ (p200300cbc706bd00963c5455c10efa6f.dip0.t-ipconnect.de.
+ [2003:cb:c706:bd00:963c:5455:c10e:fa6f])
+ by smtp.gmail.com with ESMTPSA id
+ f7-20020a5d50c7000000b0021031c894d3sm8985091wrt.94.2022.06.13.08.31.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jun 2022 08:31:21 -0700 (PDT)
+Message-ID: <2041c609-75e7-4743-d33a-dee0339a361e@redhat.com>
+Date: Mon, 13 Jun 2022 17:31:19 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BEkcujKRBQpp3vDd"
-Content-Disposition: inline
-In-Reply-To: <1baf753065d5d135b7638fa099c6929767aba1f5.1654889541.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Li Zhang <zhlcindy@gmail.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Li Zhang <lizhang@suse.de>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Yanan Wang <wangyanan55@huawei.com>,
+ QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220613104402.10279-1-lizhang@suse.de>
+ <20220613161937.333a6b82@redhat.com>
+ <CAD8of+pp-3bKX44Q0++gRofx4gmzzjpq1N2HfgRacXT196pR7w@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v3 1/1] Fix the coredump when memory backend id conflicts
+ with default_ram_id
+In-Reply-To: <CAD8of+pp-3bKX44Q0++gRofx4gmzzjpq1N2HfgRacXT196pR7w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,63 +109,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 13.06.22 16:37, Li Zhang wrote:
+> On Mon, Jun 13, 2022 at 4:19 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>>
+>> On Mon, 13 Jun 2022 12:44:02 +0200
+>> Li Zhang <lizhang@suse.de> wrote:
+>>
+>>> When no memory backend is specified in machine options,
+>>> a default memory device will be added with default_ram_id.
+>>> However, if a memory backend object is added in QEMU options
+>>> and id is the same as default_ram_id, a coredump happens.
+>>>
+>>> Command line:
+>>> qemu-system-x86_64 -name guest=vmtest,debug-threads=on \
+>>> -machine pc-q35-6.0,accel=kvm,usb=off,vmport=off \
+>>> -smp 16,sockets=16,cores=1,threads=1 \
+>>> -m 4G \
+>>> -object memory-backend-ram,id=pc.ram,size=4G \
+>>> -no-user-config -nodefaults -nographic
+>>>
+>>> Stack trace of thread 16903:
+>>>     #0  0x00007fb109a9318b raise (libc.so.6 + 0x3a18b)
+>>>     #1  0x00007fb109a94585 abort (libc.so.6 + 0x3b585)
+>>>     #2  0x0000558c34bc89be error_handle_fatal (qemu-system-x86_64 + 0x9c89be)
+>>>     #3  0x0000558c34bc8aee error_setv (qemu-system-x86_64 + 0x9c8aee)
+>>>     #4  0x0000558c34bc8ccf error_setg_internal (qemu-system-x86_64 + 0x9c8ccf)
+>>>     #5  0x0000558c349f6899 object_property_try_add (qemu-system-x86_64 + 0x7f6899)
+>>>     #6  0x0000558c349f7df8 object_property_try_add_child (qemu-system-x86_64 + 0x7f7df8)
+>>>     #7  0x0000558c349f7e91 object_property_add_child (qemu-system-x86_64 + 0x7f7e91)
+>>>     #8  0x0000558c3454686d create_default_memdev (qemu-system-x86_64 + 0x34686d)
+>>>     #9  0x0000558c34546f58 qemu_init_board (qemu-system-x86_64 + 0x346f58)
+>>>     #10 0x0000558c345471b9 qmp_x_exit_preconfig (qemu-system-x86_64 + 0x3471b9)
+>>>     #11 0x0000558c345497d9 qemu_init (qemu-system-x86_64 + 0x3497d9)
+>>>     #12 0x0000558c344e54c2 main (qemu-system-x86_64 + 0x2e54c2)
+>>>     #13 0x00007fb109a7e34d __libc_start_main (libc.so.6 + 0x2534d)
+>>>     #14 0x0000558c344e53ba _start (qemu-system-x86_64 + 0x2e53ba)
+>>>
+>>> Signed-off-by: Li Zhang <lizhang@suse.de>
+>>
+>> Acked-by: Igor Mammedov <imammedo@redhat.com>
+>>
+>>
+>> CCing David as he probably would be the one to merge it
+>>
+> 
+> Thanks for your review.
 
---BEkcujKRBQpp3vDd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 10, 2022 at 03:50:40PM -0400, Jagannathan Raman wrote:
-> @@ -307,6 +315,38 @@ bool msi_is_masked(const PCIDevice *dev, unsigned in=
-t vector)
->      return mask & (1U << vector);
->  }
-> =20
-> +void msi_set_irq_state(PCIDevice *dev, int vector, bool mask, Error **er=
-rp)
+Acked-by: David Hildenbrand <david@redhat.com>
 
-The function name is non-obvious. This function masks or unmasks an MSI
-vector. Maybe call it msi_set_mask()?
 
-> +{
-> +    ERRP_GUARD();
-> +    uint16_t flags =3D pci_get_word(dev->config + msi_flags_off(dev));
-> +    bool msi64bit =3D flags & PCI_MSI_FLAGS_64BIT;
-> +    uint32_t irq_state, vector_mask, pending;
-> +
-> +    if (vector > PCI_MSI_VECTORS_MAX) {
-> +        error_setg(errp, "msi: vector %d not allocated. max vector is %d=
-",
-> +                   vector, PCI_MSI_VECTORS_MAX);
-> +    }
+Paolo, can you queue this?
 
-Missing return statement?
+https://lore.kernel.org/qemu-devel/20220613104402.10279-1-lizhang@suse.de/
 
-> @@ -131,6 +136,31 @@ static void msix_handle_mask_update(PCIDevice *dev, =
-int vector, bool was_masked)
->      }
->  }
-> =20
-> +void msix_set_irq_state(PCIDevice *dev, int vector, bool mask, Error **e=
-rrp)
+-- 
+Thanks,
 
-Same naming question here.
-
---BEkcujKRBQpp3vDd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKnWAQACgkQnKSrs4Gr
-c8hL/Af8Ce2Ifcr41HdNEjuUbN+Rh0Eu4XpP13vNiScJ2P9Q5B14vr5NM+T4qAOf
-5vE9THHq2I4rd9Zh4zEm25ZkFgLdicepnweJAX2Cjk/ldb0usqU4G2U4nA4qOYfR
-UEe/T71MgsD49r8ZbRBr89deHnhLfb7lL9iRbtuh4vwJKR369pFeOPAzBaD4Eqyy
-KpzjHpBm1vvdEOYQjeEyavSzNZ8wryzyLpN7HFkW+bizgvTbO6gQW0x7+9CZrI+G
-CkmT1Mna986CfaZznntmIhsq319wXonsKYZkKT+WOiBS2OJlVO0YpcNemUF+P3kv
-lVErE9Dm6qNKIDD/OzUI/BsUUW90Wg==
-=HS8m
------END PGP SIGNATURE-----
-
---BEkcujKRBQpp3vDd--
+David / dhildenb
 
 
