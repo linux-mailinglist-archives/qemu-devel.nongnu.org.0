@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20ABC547EE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 07:25:15 +0200 (CEST)
-Received: from localhost ([::1]:52924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9436A547F6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 08:11:47 +0200 (CEST)
+Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0cZd-0003xr-EI
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 01:25:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
+	id 1o0dIf-0005Iz-8M
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 02:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0cWa-0001v1-Eo
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 01:22:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30572)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0dBA-0002Ts-3M
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 02:04:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0cWX-0006H1-Ts
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 01:22:03 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0dB6-0003RP-Op
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 02:03:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655097720;
+ s=mimecast20190719; t=1655100233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G4C6jB15mWtJNdgHMqLRQuph73Zk3iuHTTHjnjEKKVo=;
- b=XMOOAwfcBh+AJ7BqCUhKKfaTU3pzKmQKLudJjWtVyNA/VG2tfRQdWg5oXIc3v/nQiQVG/S
- llRZypyOegVdUVjlLSOdYsq8Ni/2ykPXBqER2lV1Kj+f5rGIIKQlXhreGrImqbadWKHQkU
- 5HCg1obL7BrreVFZ9D7oYqFgE336B6M=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Anp/eFsThEVCb4RRzPnzCoUoU+GoQlxFOzefUKmJcbY=;
+ b=VCIPj2sNumgj/3Qihynd+QFvCY1BcoTnicM4O1c0s+ZxzYjyUPGBB3eV1u+u7i140B/jAg
+ tRQBTHjaKdHPRESBZ2vCH1UIW/ZA/r2VmPLKm4EpB63eNHRfK3Cb/U5fHw29kpgPMJ8B26
+ 0ed5h6NLVUi1KNCL004+fqAjf1gEVUg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-TErZyPMDPkOeAa4d2bd53A-1; Mon, 13 Jun 2022 01:21:58 -0400
-X-MC-Unique: TErZyPMDPkOeAa4d2bd53A-1
-Received: by mail-qv1-f70.google.com with SMTP id
- kl30-20020a056214519e00b0046d8f1cd655so3174737qvb.19
- for <qemu-devel@nongnu.org>; Sun, 12 Jun 2022 22:21:58 -0700 (PDT)
+ us-mta-140-c6wht4IfMgSmzRAAG0QYqg-1; Mon, 13 Jun 2022 02:03:51 -0400
+X-MC-Unique: c6wht4IfMgSmzRAAG0QYqg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ o10-20020a05620a2a0a00b006a77a64cd23so3149063qkp.21
+ for <qemu-devel@nongnu.org>; Sun, 12 Jun 2022 23:03:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
  :content-transfer-encoding;
- bh=G4C6jB15mWtJNdgHMqLRQuph73Zk3iuHTTHjnjEKKVo=;
- b=MarOM6ebHJ/gH1S6OdjGYn/ekvGRmAh7MskiUNBxxkoeFTcrBIqUmFfGOqBcCTgXkG
- qILOCqko+QX6Dp+DtGGmTWHXfCEWyVmhBzq+J9VX7kNfRYk1nC8IFWYJA7Zc7sopDIvV
- 87FTiTFydtGWBuGUat6NaxTWmjA1Cc6re3py5TDFPED42ZGnqq+uM3kD3j3ryDiiumMO
- kmp+ykKwQAVjG3C2OSBeSpNCSaJy2LO8/ngtyfO+D/IHkvi9lYwAHostWj869zdyC7Xp
- HOIQDQ5PYFUB+ZVcpcZ0lZDH02qpOSaqji+8T8juOPkrSCRXCCMEqyL1C6TYA8QV01vj
- rpXg==
-X-Gm-Message-State: AOAM532wGxAgsrACfnJLoBj5tv8lkXlC9lt2GWCMIhUYp0WrfOmOQ+kv
- wR7RILbOTgdighJG+/VYhyCNUO7JU8i2L/xYdqS5kYvwIXr4j8ay0SncNb01Zva7ajL2p+ucbpo
- ySKFG3qR2d72ldTU=
-X-Received: by 2002:ae9:e414:0:b0:6a6:8fc8:d9b4 with SMTP id
- q20-20020ae9e414000000b006a68fc8d9b4mr35243613qkc.390.1655097718190; 
- Sun, 12 Jun 2022 22:21:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwi0UnKNJNnoAT0EAto8+Z8NqW/zkmTqNJ86P0rJ5wPmnUiizG6WJbDDM0TKF7+4CCuipdmyg==
-X-Received: by 2002:a05:620a:254f:b0:6a6:313:3ccc with SMTP id
- s15-20020a05620a254f00b006a603133cccmr38173990qko.716.1655097707519; 
- Sun, 12 Jun 2022 22:21:47 -0700 (PDT)
+ bh=Anp/eFsThEVCb4RRzPnzCoUoU+GoQlxFOzefUKmJcbY=;
+ b=x6mDrZhLb6HzMKR/XMSSCUEZnxTY9JqwrxWKTSVOMgyG7QDob7myFSwTPb0ZJz5iRi
+ WQzysF8mXHwSPxC+yXN2INbt4r7svQVzt9DY8Rp0e2nDvbxu8MWMADwgZzOP57+r6ilZ
+ ime5ZsCY3dZvzOrofgRomw0GSvKIqaHTIGUbL2k57OPgpJl+xl4cEtGoUMjVBK9IpUNc
+ f5xgFZHWMdJdv3y72KUTQ0/ZwCzGWAEIA9qibs/WdbRBMyveaqEKXiMKQg8o5O/Tz1oY
+ hxnsJAmsBmKgQ0mARoC5yLrrVAzblTqY7WJVzSN4OIkemUtksBiEGb3IQHaDIv6mUwoN
+ C+zA==
+X-Gm-Message-State: AOAM532V8f6EM+HCKUWAUoHgvs7DO+1V43z4EnJXqKPLxKO9YiyAPV9f
+ umG7l+nfi2aqnZImqcO+SHkDbL4JW4aD9E/PTi3mYcVH8qBF07KpH7Q6ikUERix8H++dKC1PN7P
+ Gu6ek3uy+8+WZTao=
+X-Received: by 2002:ac8:5996:0:b0:305:1041:372e with SMTP id
+ e22-20020ac85996000000b003051041372emr15329670qte.520.1655100230946; 
+ Sun, 12 Jun 2022 23:03:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOB3WxP15aUvogVPZsq1eMlYcy0eVlNi21k55DsffXMLdjUP9HFtL6bxbBAKt6W95feqQmHg==
+X-Received: by 2002:ac8:5996:0:b0:305:1041:372e with SMTP id
+ e22-20020ac85996000000b003051041372emr15329659qte.520.1655100230661; 
+ Sun, 12 Jun 2022 23:03:50 -0700 (PDT)
 Received: from [192.168.0.3] (ip-109-42-115-130.web.vodafone.de.
  [109.42.115.130]) by smtp.gmail.com with ESMTPSA id
- 2-20020a05620a040200b006a7502d0070sm5794463qkp.21.2022.06.12.22.21.44
+ m7-20020a05620a290700b006a74da327fcsm6233157qkp.99.2022.06.12.23.03.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Jun 2022 22:21:47 -0700 (PDT)
-Message-ID: <8e8e08c6-3d4b-a63a-dbdc-9fd9559d7181@redhat.com>
-Date: Mon, 13 Jun 2022 07:21:42 +0200
+ Sun, 12 Jun 2022 23:03:50 -0700 (PDT)
+Message-ID: <48fba5eb-6b93-347f-9a8d-a757f19e5d55@redhat.com>
+Date: Mon, 13 Jun 2022 08:03:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: vm-build-haiku.x86_64 failures
 Content-Language: en-US
-To: John Snow <jsnow@redhat.com>,
- Alexander von Gluck IV <kallisti5@unixzen.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <CAFn=p-bmPm7xA0R4r4RahWQmOMUd=zr4x5nEAnk4aCZHkPXiAA@mail.gmail.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>
+References: <CAFn=p-ZwWzYa9h_-rNa-cA0CsDOJusy21D_RNtLffpTOgOHP-Q@mail.gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAFn=p-bmPm7xA0R4r4RahWQmOMUd=zr4x5nEAnk4aCZHkPXiAA@mail.gmail.com>
+Subject: Re: CentOS 8 cloud images not working under VM tests
+In-Reply-To: <CAFn=p-ZwWzYa9h_-rNa-cA0CsDOJusy21D_RNtLffpTOgOHP-Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -104,53 +101,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/06/2022 02.16, John Snow wrote:
-> Hi,
+On 11/06/2022 01.28, John Snow wrote:
+> This test doesn't appear to work for me:
 > 
-> on today's upstream of b3cd3b5a66f0dddfe3d5ba2bef13cd4f5b89cde9, I am
-> seeing failures with the Haiku VM building test:
+> def build_image(self, img):
+>      cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
+>      img_tmp = img + ".tmp"
+>      subprocess.check_call(["ln", "-f", cimg, img_tmp])
+>      self.exec_qemu_img("resize", img_tmp, "50G")
+>      self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
+>      self.wait_ssh()
+>      ^^^^^^^^^^^^^^^
 > 
-> FAILED: libqemuutil.a.p/util_cutils.c.o
-[...]
-> ../src/util/cutils.c: In function 'qemu_init_exec_dir':
-> ../src/util/cutils.c:1019:9: error: unknown type name 'image_info';
-> did you mean 'g_info'?
->   1019 |         image_info ii;
->        |         ^~~~~~~~~~
->        |         g_info
-> ../src/util/cutils.c:1023:16: warning: implicit declaration of
-> function 'get_next_image_info' [-Wimplicit-function-declaration]
->   1023 |         while (get_next_image_info(0, &c, &ii) == B_OK) {
->        |                ^~~~~~~~~~~~~~~~~~~
-> ../src/util/cutils.c:1023:16: warning: nested extern declaration of
-> 'get_next_image_info' [-Wnested-externs]
-> ../src/util/cutils.c:1024:19: error: request for member 'type' in
-> something not a structure or union
->   1024 |             if (ii.type == B_APP_IMAGE) {
->        |                   ^
-> ../src/util/cutils.c:1024:28: error: 'B_APP_IMAGE' undeclared (first
-> use in this function)
->   1024 |             if (ii.type == B_APP_IMAGE) {
->        |                            ^~~~~~~~~~~
-> ../src/util/cutils.c:1024:28: note: each undeclared identifier is
-> reported only once for each function it appears in
-> ../src/util/cutils.c:1025:32: error: request for member 'name' in
-> something not a structure or union
->   1025 |                 strncpy(buf, ii.name, sizeof(buf));
->        |                                ^
-
-I think this likely has been broken by commit 06680b15b4ee3184b57
-("include: move qemu_*_exec_dir() to cutils") ... Marc-André, could you 
-maybe have a look?
-
-> I can't seemingly get older versions of QEMU to build right now in
-> order to do a bisect, and I can't find a version of the QEMU tree
-> where this test actually works.
+> It appears to be expecting to be able to use passwordless entry, but
+> that doesn't appear to actually work in this case.
 > 
-> Alexander, do you have any information on this test right now?
+> It looks like the cloud iso generate step is supposed to handle
+> setting up keys -- and everything appears as if it's working -- but I
+> get SSH timeouts at this step.
+> 
+>  From what I can see:
+> 
+> DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=no -o
+> UserKnownHostsFile=/dev/null -o ConnectTimeout=1 -p 41729 -i
+> /home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa -o
+> SendEnv=https_proxy -o SendEnv=http_proxy -o SendEnv=ftp_proxy -o
+> SendEnv=no_proxy qemu@127.0.0.1 exit 0
+> Warning: Permanently added '[127.0.0.1]:41729' (ED25519) to the list
+> of known hosts.
+> qemu@127.0.0.1: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+> 
+> ...and the /home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa
+> file looks identical to the qemu.git/tests/keys/id_rsa file, save for
+> a missing trailing newline.
+> 
+>  From a subsequent run, turning SSH debug on, I see this:
+> 
+> debug1: Offering public key:
+> /home/jsnow/src/qemu/bin/git/vm-test-o_x2vdwo.tmp/id_rsa RSA
+> SHA256:6TUK9PSgWR+CbTEKA6E9IyizVjt2ZW5ble/Mg4wUiao explicit
+> debug3: send packet: type 50
+> debug2: we sent a publickey packet, wait for reply
+> debug3: receive packet: type 51
+> 
+> ... Which looks like the usual kind of bog-standard "Unrecognized key"
+> kind of answer, IIUC.
+> 
+> Is this working for anyone else, or can anyone offer some debugging
+> tips on what's gone wrong here?
+It seems to work for me - maybe it's some issue with a newer version of ssh 
+on your host? (I'm still using RHEL 8 here).
 
-The Haiku test has been working fine two month ago after it has been 
-updated. See commit 63021223ff2d3d ("Update haiku test vm to R1/Beta3").
+Anyway, the VM dies shortly afterwards since it tries to install some 
+additional packages, and non-Stream CentOS 8 has been disabled at the end of 
+last year. So this test is certainly broken since half a year already and 
+nobody noticed until now. I think you can either remove it, or it should get 
+updated to CentosStream instead.
 
   Thomas
 
