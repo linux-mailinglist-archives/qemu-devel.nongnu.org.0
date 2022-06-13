@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660F8548546
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:48:45 +0200 (CEST)
-Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BECD154854A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:52:56 +0200 (CEST)
+Received: from localhost ([::1]:58450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0jUp-0005df-V8
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50906)
+	id 1o0jYs-0000Zb-8V
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o0jRR-00030G-Dg
+ id 1o0jRS-00033d-9p
  for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:14 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:38735)
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o0jRL-0005uq-Qg
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:10 -0400
-Received: by mail-pl1-x636.google.com with SMTP id n18so5007418plg.5
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 05:45:07 -0700 (PDT)
+ id 1o0jRQ-0005vg-6Y
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:13 -0400
+Received: by mail-pl1-x630.google.com with SMTP id r1so4986183plo.10
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 05:45:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hzDd+xOOmP7Hcut1ZZgj5ewS4q2+QDOC60lzlhKXxHQ=;
- b=UCF1kNdjUKjlva684bc8w6mH95K41eN1EMqVAJv7+OBD9hqsx7PyJ9JMsa5D7YJ3o1
- wUaaZFDScY9d8eIggMwz919LIX6SbiSZevsxYJYlCQme3150DVnfXjLlNwSIi1C+hQg9
- XmsaTwKKzB13W+RVQykOD2F6vbAs7Ms9UPhXY4revKgy6luWxXk0H4Y9BpuOW8IYEPd4
- AsSHl/EcDiyGtGpqrrCZ9qkALqdaFb5u/BKhB2wLgl0y5aesepspLA/VdVMvtP6lulGS
- TUOxqGiSBE6Bf2p4jafhjLjsc9s7RpRd4xBYbjaW8yvpkRtpPrTPpXHjtr8vineIPl22
- l5Iw==
+ bh=0y2TFEqOSWX2sasE6c7pK+W7e00REmrQJniw6QVW8Dc=;
+ b=hoSeOVOMbmnI0lpTHpA+4EFlINclzEXOy49z1vBrnf5cYtH4ouzFdcPE86RnFZQsQK
+ goeSwgKJoVTGOOPSoj6q5c4VakkeB7dEqnDSxYYrnXKVNqbbkyMoU5s3GWZcQKb3KZzO
+ eDqgVOohzlFbCKJHVnflJtL8xJezyWl6v3/glP7XgMeGSN7/i+94cpfFWrowUFv4kWPD
+ lw8L5mOsicXd9AvD3YeESMZlba+sc1o6ySSKNV3OPGVfHjriGlwg9W93pFg/mUIKHnkv
+ k5xT+bORb3eiQialUM9+SlnneHc+gue3YD5xP2mNJa+jekb0zpjVpAzRQleBlnTUJZa6
+ V4eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hzDd+xOOmP7Hcut1ZZgj5ewS4q2+QDOC60lzlhKXxHQ=;
- b=D57++0WVTqf3EJnYYjzIuIuu7MogDMAjAid3/cASHUzTw7gGT+jlTzasrAX0Tnfp6R
- F3TuiPoo6zJCRtjEHohKuMDZccl3W8RVxiCEA+JakpGF43Wgym89ArSSU1xKzV2tzr2f
- wXIFtMI0pJ2HhG37fzRNSpjjmg7jNYq0chQ/xuFYkjwhxtNRiNmvnvbNp4DtaB+4VP5h
- Kngp1hJEtiFWIQ6+ZiajpeLyLbYFLSOGj0cdkB3ss/LzO2Z56DUE95YUFFZYh7wGZpS4
- 74OvQfpQGjUHEY0iCmc0Vmrm+zegZSbvLHI7Eb2zVSXkMgxuInzyzHtz+Tn+uxPfpeNO
- 5n/w==
-X-Gm-Message-State: AOAM532GmAhxI22FtmxNuGQ9qolL8NomRY83hu2N9XIS3LzwxjWQnaEr
- eiTYQSOj3AZMBfN2HBteJQu6
-X-Google-Smtp-Source: ABdhPJwFVVFPeSreawM0gmRDtEu+DtzdAnp1pFBk/Z4u9afvhQXN/asDwf4YLIIyRiP49cTZRzEfSg==
-X-Received: by 2002:a17:90b:4d8b:b0:1e3:30bd:5a35 with SMTP id
- oj11-20020a17090b4d8b00b001e330bd5a35mr15831201pjb.152.1655124306014; 
- Mon, 13 Jun 2022 05:45:06 -0700 (PDT)
+ bh=0y2TFEqOSWX2sasE6c7pK+W7e00REmrQJniw6QVW8Dc=;
+ b=oZVUtEipZnvFy+jaSDK0Nwxd4FFgM8EQrtFHOb3/LBMAofM+tJeI81qUr+qDMUvSPR
+ BbnKF4EZgFE1PD0+tyma8kaprRpVYlxb09+uc04GGuxITK3WoFXeASJt+mRFgKHDkxTC
+ kEhoeShy47UBPAgYtedscWdSADVcNG9owhM7lwFquMTszLEsoz/w/spyvYF1x6NeONXa
+ 20wrcluLLW+MReUA1mzxXtRi9zEzgnsSCwC4w9D4dm9qo+ncs3rgSD+22zDfsTLKV7xN
+ dgf1H31KfWMiw3IFT0U13g0hjSpEEF7UlMkwur3cpfLfUfncd2z/2fzMfEcfg1OELRvx
+ W9YA==
+X-Gm-Message-State: AOAM533X57rYEsUWmWBGUEm/SVpqHDbkWxBjZU+cqs2k+3/6eEypPIEq
+ X+mBwfX/vQB09ZlJoozQIFiX
+X-Google-Smtp-Source: ABdhPJw4UoTzkOCLkPWZuj3zHaSDm0uxWtXmNFB6sd6LIl0PyEQxdzT0g7aQ+SCsaINq47J9e27ABA==
+X-Received: by 2002:a17:902:ea0c:b0:163:ed09:9e5f with SMTP id
+ s12-20020a170902ea0c00b00163ed099e5fmr58561385plg.86.1655124310532; 
+ Mon, 13 Jun 2022 05:45:10 -0700 (PDT)
 Received: from localhost ([139.177.225.252]) by smtp.gmail.com with ESMTPSA id
- t22-20020aa79396000000b0051c4ecb0e3dsm5250050pfe.193.2022.06.13.05.45.04
+ t14-20020a62d14e000000b00519303c55acsm5304851pfl.1.2022.06.13.05.45.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 05:45:05 -0700 (PDT)
+ Mon, 13 Jun 2022 05:45:09 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: kwolf@redhat.com,
 	stefanha@redhat.com
 Cc: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/5] libvduse: Fix resources leak in vduse_dev_destroy()
-Date: Mon, 13 Jun 2022 20:44:59 +0800
-Message-Id: <20220613124503.156-2-xieyongji@bytedance.com>
+Subject: [PATCH 2/5] vduse-blk: Don't unlink the reconnect file if device
+ exists
+Date: Mon, 13 Jun 2022 20:45:00 +0800
+Message-Id: <20220613124503.156-3-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220613124503.156-1-xieyongji@bytedance.com>
 References: <20220613124503.156-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=xieyongji@bytedance.com; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,33 +90,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes resource leak when the fd is zero in
-vduse_dev_destroy().
+We should not unlink the reconnect file if vduse_dev_destroy()
+fails with -EBUSY which means the VDUSE device has not been
+removed from the vDPA bus. Otherwise, we might fail on
+the reconnection later.
 
-Fixes: 8dbd281c1675 ("libvduse: Add VDUSE (vDPA Device in Userspace) library")
+Fixes: 730abef0e873 ("libvduse: Add support for reconnecting")
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- subprojects/libvduse/libvduse.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block/export/vduse-blk.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-index 78bb777402..e781bfa907 100644
---- a/subprojects/libvduse/libvduse.c
-+++ b/subprojects/libvduse/libvduse.c
-@@ -1374,11 +1374,11 @@ int vduse_dev_destroy(VduseDev *dev)
-         free(dev->vqs[i].resubmit_list);
-     }
-     free(dev->vqs);
--    if (dev->fd > 0) {
-+    if (dev->fd >= 0) {
-         close(dev->fd);
-         dev->fd = -1;
-     }
--    if (dev->ctrl_fd > 0) {
-+    if (dev->ctrl_fd >= 0) {
-         if (ioctl(dev->ctrl_fd, VDUSE_DESTROY_DEV, dev->name)) {
-             ret = -errno;
-         }
+diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+index 3b10349173..c3a89894ae 100644
+--- a/block/export/vduse-blk.c
++++ b/block/export/vduse-blk.c
+@@ -316,12 +316,15 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+ static void vduse_blk_exp_delete(BlockExport *exp)
+ {
+     VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
++    int ret;
+ 
+     blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
+                                     vblk_exp);
+     blk_set_dev_ops(exp->blk, NULL, NULL);
+-    vduse_dev_destroy(vblk_exp->dev);
+-    unlink(vblk_exp->recon_file);
++    ret = vduse_dev_destroy(vblk_exp->dev);
++    if (ret != -EBUSY) {
++        unlink(vblk_exp->recon_file);
++    }
+     g_free(vblk_exp->recon_file);
+ }
+ 
 -- 
 2.20.1
 
