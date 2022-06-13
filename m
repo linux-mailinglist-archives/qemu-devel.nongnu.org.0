@@ -2,89 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840E7548740
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:58:38 +0200 (CEST)
-Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83559548866
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 18:01:16 +0200 (CEST)
+Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0mSb-0004oy-L9
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38666)
+	id 1o0mV9-0007d1-J9
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 12:01:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0mOW-0007av-Rj
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:54:25 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:37764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0mOV-00038Y-3m
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:54:24 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- 3-20020a17090a174300b001e426a02ac5so9205857pjm.2
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 08:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=nHJVhnE9ITPoEkRn2jJu6Akvnw4FhB/RBzEVAwrZNYY=;
- b=jLOnW4vvy+7rnedI3UvibpOr7H4Lp9pwo78dNdJXRa85A0cHE+bIjtZRisvPrJLMYX
- kJieV1hk8UBfaylVOAhQgJKGURC7wg41xl1QL1bWdI9yuHWrRSCESDvr8bEJ3DXptdzw
- XpjdzOQaCEmRihXCk7xa+OwNraykTnLQD3SATeus4wMt9eFfIDUHUPMhPEiU13JrWn0g
- i7bAmDbwUT8gYdjptcSRjH6aiItfFV88Kc9s6CC6psxnXUFVtSE/P4PO4FabxmXmXN0B
- W2z8/vZOYtxe/UDLcGTTvq8s2PZmQKeHk1jgH3Tt7cAMstsn8QiZ3Ffaaw05tCvOwLWO
- mfLg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o0mT5-0006b2-GO
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:59:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o0mT1-0003q2-RI
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:59:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655135942;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n1mEctCWYPdjfe5QrbYN/quHmrkRjkjL2LVlSgc7A3I=;
+ b=VTN6qyM4+0SjJd9qsDHtKDegWhqZrYTbX5rHDV0dUBlATxyWZj/wsNorpSxEtFtY2G1i6p
+ cEbFrbrmDn7KNZ+fuq9KIGCdfaxEhVCwRPgssLNv0i+F7pIUlslxyJp3HZtWSyIevcZqqz
+ FNhjmWiwgSAb+ZLMvxnl711aWkMG/9s=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-63-POR-VP16NBOqUalR3OdSow-1; Mon, 13 Jun 2022 11:59:01 -0400
+X-MC-Unique: POR-VP16NBOqUalR3OdSow-1
+Received: by mail-io1-f70.google.com with SMTP id
+ k4-20020a6b4004000000b006697f6074e6so2891013ioa.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 08:59:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=nHJVhnE9ITPoEkRn2jJu6Akvnw4FhB/RBzEVAwrZNYY=;
- b=Bjpu0IKOfN6Cm2f58e68UqbH91qlCX+J5Roukv7gk5ufk6gQ6/LGD0BE2UeZHrwj7r
- TWBAw3/nEJLoGo2PLufbHtROS1Wfxs5w35vlITAA3/9sKbqK9Ga81Y3OpMaTpaBdeJmg
- 9+wu4zlFRO+feLAZwepUXuVb7igzVGVn3VBF16NfOhKeyOpaDPrz9O2YVQ9qurjr/z6z
- nGehguQTcdkPi3glkc30DSMMgfgEXdT+KUlUB+vT4+HytSEfKcq/ujLpbgRILmL00dF/
- 3162iWjhifL900zdjr/V3/Q7xMTzQfsPz/UONKA3tZZ2nhOeQ/jWm+uRuOuFy+3/Nltd
- 3wOA==
-X-Gm-Message-State: AJIora9MvlUrQEe3+kX/fOGk1oxLZ+fbV6/UUtvhMORyBKyPiWToWONG
- zMGl2oXyKsQJsmURGxW1snoHDWy3XhNJ0Q==
-X-Google-Smtp-Source: AGRyM1sD3tyn8G3zosvdRQwgK8NEK7opcw/arRNKm27jqBsG5w/THdyvq7J9m433qMbuCAwQHvwxJg==
-X-Received: by 2002:a17:902:ce83:b0:166:42de:29d5 with SMTP id
- f3-20020a170902ce8300b0016642de29d5mr287593plg.123.1655135661614; 
- Mon, 13 Jun 2022 08:54:21 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=n1mEctCWYPdjfe5QrbYN/quHmrkRjkjL2LVlSgc7A3I=;
+ b=VgPgrae6u/imrGTle9H3WVvSNYTlLOSLdqxuPql6VHRuv2XEZqA888q/07UL7BBgUA
+ sJGM1HNC++WjV+oRr31XetYv9QCO+tUYjv5pPSmhxJriqCFyByqxLZnzzQ97VyTyA6lr
+ nItPHvvUYtiDNGUsRlJS6wLEVJU72jH/n8pwchBdPbJYOA9sjGdeeHckrQP2yFaXx+kv
+ WXNTnadTn4fJHAWGbLXn/+met4Qd6BDQ+5cfxiwaTSNGAY+GJ3UTjH5bb63xBUlTkODX
+ mIob7XocAwviLZ/T4Gkd9iUYIrgJ5IowZJ9/NvDOvGUtuf9JZH1MVLw5MpIsCFMEUtCp
+ NE1Q==
+X-Gm-Message-State: AOAM530GTEIhCK5I5nqssq0uGyapGhCrjFjo7zY8uBvYoiFsin8Gu0AK
+ x+eHWKO1WA0+vnAhjL5jc2MBkH0iTNjEaf1cc1WJ5K5RO+dRzn9msvbMtvwjv2xWvwzCofkWcUm
+ j6949D8lxAO2P/Yw=
+X-Received: by 2002:a05:6638:4982:b0:332:79b:1dee with SMTP id
+ cv2-20020a056638498200b00332079b1deemr279046jab.290.1655135940498; 
+ Mon, 13 Jun 2022 08:59:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMDL9usnTpuX9IQZVSY1PcfHgy2WWVXxHfDs5MU0QY+BE7fS8VEVEF51l8lGxcfQYBgqhbuw==
+X-Received: by 2002:a05:6638:4982:b0:332:79b:1dee with SMTP id
+ cv2-20020a056638498200b00332079b1deemr279030jab.290.1655135940248; 
+ Mon, 13 Jun 2022 08:59:00 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- f2-20020a170902ab8200b001616b71e5e3sm5283754plr.171.2022.06.13.08.54.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 08:54:21 -0700 (PDT)
-Message-ID: <ba8e6d19-f49a-a367-918a-2f05c8793864@linaro.org>
-Date: Mon, 13 Jun 2022 08:54:18 -0700
+ u7-20020a02cbc7000000b003315d11b825sm3637563jaq.13.2022.06.13.08.58.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 08:58:59 -0700 (PDT)
+Date: Mon, 13 Jun 2022 11:58:57 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: Jason Wang <jasowang@redhat.com>, Hyman Huang <huangy81@chinatelecom.cn>,
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <eduardo@habkost.net>,
+ David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus ArmBruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v17 6/8] softmmu/dirtylimit: Implement virtual CPU throttle
+Message-ID: <YqdewVr/PujCuYW2@xz-m1.local>
+References: <a650dbf80c9415a9d4054b6e1f936170cbfce9ea.1646243447.git.huangy81@chinatelecom.cn>
+ <1e117589-1719-0d11-099f-9f3392e0ba6f@nutanix.com>
+ <f98ae9a1-8d47-7995-ae0d-101c626c3be4@chinatelecom.cn>
+ <f0e09ec4-7d16-b022-0949-4599a5378356@nutanix.com>
+ <fb42912b-e3f4-f0cb-fb16-671ba75bd7ef@chinatelecom.cn>
+ <Yo5RiqKWuwZPY6Iv@xz-m1.local>
+ <CACGkMEsiLUxEKD=o23aaHzo5AVy-vTRPKhxtT6-cTT+ETtdpaA@mail.gmail.com>
+ <3cac02a4-5c2a-362d-4035-e82d66097107@nutanix.com>
+ <YqdKsNEkWsS3XDvf@xz-m1.local>
+ <2081c641-80ea-00a9-b42d-3ef4cbf6b387@nutanix.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/16] Kraxel 20220613 patches
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Canokeys.org" <contact@canokeys.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>
-References: <20220613113655.3693872-1-kraxel@redhat.com>
- <37f8f623-bb1c-899b-5801-79acd6185c6d@linaro.org>
-In-Reply-To: <37f8f623-bb1c-899b-5801-79acd6185c6d@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <2081c641-80ea-00a9-b42d-3ef4cbf6b387@nutanix.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,97 +113,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/13/22 08:52, Richard Henderson wrote:
-> On 6/13/22 04:36, Gerd Hoffmann wrote:
->> The following changes since commit dcb40541ebca7ec98a14d461593b3cd7282b4fac:
->>
->>    Merge tag 'mips-20220611' of https://github.com/philmd/qemu into staging (2022-06-11 
->> 21:13:27 -0700)
->>
->> are available in the Git repository at:
->>
->>    git://git.kraxel.org/qemu tags/kraxel-20220613-pull-request
->>
->> for you to fetch changes up to 23b87f7a3a13e93e248eef8a4b7257548855a620:
->>
->>    ui: move 'pc-bios/keymaps' to 'ui/keymaps' (2022-06-13 10:59:25 +0200)
->>
->> ----------------------------------------------------------------
->> usb: add CanoKey device, fixes for ehci + redir
->> ui: fixes for gtk and cocoa, move keymaps (v2), rework refresh rate
->> virtio-gpu: scanout flush fix
+On Mon, Jun 13, 2022 at 09:03:24PM +0530, manish.mishra wrote:
 > 
-> This doesn't even configure:
+> On 13/06/22 8:03 pm, Peter Xu wrote:
+> > On Mon, Jun 13, 2022 at 03:28:34PM +0530, manish.mishra wrote:
+> > > On 26/05/22 8:21 am, Jason Wang wrote:
+> > > > On Wed, May 25, 2022 at 11:56 PM Peter Xu <peterx@redhat.com> wrote:
+> > > > > On Wed, May 25, 2022 at 11:38:26PM +0800, Hyman Huang wrote:
+> > > > > > > 2. Also this algorithm only control or limits dirty rate by guest
+> > > > > > > writes. There can be some memory dirtying done by virtio based devices
+> > > > > > > which is accounted only at qemu level so may not be accounted through
+> > > > > > > dirty rings so do we have plan for that in future? Those are not issue
+> > > > > > > for auto-converge as it slows full VM but dirty rate limit only slows
+> > > > > > > guest writes.
+> > > > > > > 
+> > > > > >   From the migration point of view, time spent on migrating memory is far
+> > > > > > greater than migrating devices emulated by qemu. I think we can do that when
+> > > > > > migrating device costs the same magnitude time as migrating memory.
+> > > > > > 
+> > > > > > As to auto-converge, it throttle vcpu by kicking it and force it to sleep
+> > > > > > periodically. The two seems has no much difference from the perspective of
+> > > > > > internal method but the auto-converge is kind of "offensive" when doing
+> > > > > > restraint. I'll read the auto-converge implementation code and figure out
+> > > > > > the problem you point out.
+> > > > > This seems to be not virtio-specific, but can be applied to any device DMA
+> > > > > writting to guest mem (if not including vfio).  But indeed virtio can be
+> > > > > normally faster.
+> > > > > 
+> > > > > I'm also curious how fast a device DMA could dirty memories.  This could be
+> > > > > a question to answer to all vcpu-based throttling approaches (including the
+> > > > > quota based approach that was proposed on KVM list).  Maybe for kernel
+> > > > > virtio drivers we can have some easier estimation?
+> > > > As you said below, it really depends on the speed of the backend.
+> > > > 
+> > > > >    My guess is it'll be
+> > > > > much harder for DPDK-in-guest (aka userspace drivers) because IIUC that
+> > > > > could use a large chunk of guest mem.
+> > > > Probably, for vhost-user backend, it could be ~20Mpps or even higher.
+> > > Sorry for late response on this. We did experiment with IO on virtio-scsi based disk.
+> > Thanks for trying this and sharing it out.
+> > 
+> > > We could see dirty rate of ~500MBps on my system and most of that was not tracked
+> > > 
+> > > as kvm_dirty_log. Also for reference i am attaching test we used to avoid tacking
+> > > 
+> > > in KVM. (as attached file).
+> > The number looks sane as it seems to be the sequential bandwidth for a
+> > disk, though I'm not 100% sure it'll work as expected since you mmap()ed
+> > the region with private pages rather than shared, so after you did I'm
+> > wondering whether below will happen (also based on the fact that you mapped
+> > twice the size of guest mem as you mentioned in the comment):
+> > 
+> >    (1) Swap out will start to trigger after you read a lot of data into the
+> >        mem already, then old-read pages will be swapped out to disk (and
+> >        hopefully the swap device does not reside on the same virtio-scsi
+> >        disk or it'll be even more complicated scenario of mixture IOs..),
+> >        meanwhile when you finish reading a round and start to read from
+> >        offset 0 swap-in will start to happen too.  Swapping can slow down
+> >        things already, and I'm wondering whether the 500MB/s was really
+> >        caused by the swapout rather than backend disk reads.  More below.
+> > 
+> >    (2) Another attribute of private pages AFAICT is after you read it once
+> >        it does not need to be read again from the virtio-scsi disks.  In
+> >        other words, I'm thinking whether starting from the 2nd iteration
+> >        your program won't trigger any DMA at all but purely torturing the
+> >        swap device.
+> > 
+> > Maybe changing MAP_PRIVATE to MAP_SHARED can emulate better on what we want
+> > to measure, but I'm also not 100% sure on whether it could be accurate..
+> > 
+> > Thanks,
+> > 
+> Thanks Peter, Yes agree MAP_SHARED should be used here, sorry i missed that 😁.
 > 
-> ../src/ui/keymaps/meson.build:55:4: ERROR: File ar does not exist.
+> Yes, my purpose of taking file size larger than RAM_SIZE was to cause
+> 
+> frequent page cache flush and re-populating page-cache pages, not to
+> 
+> trigger swaps. I checked on my VM i had swapping disabled, may be
+> 
+> MAP_PRIVATE did not make difference because it was read-only.
 
-... or, rather, corrupts the source tree on the first configure, so that any retry fails:
+Makes sense. And yeah I overlooked the RO part - indeed page cache will be
+used for RO pages as long as never written.  So it'll behave like shared.
 
-	deleted:    ui/keymaps/ar
+Otherwise for a swap-all-off you should have have hit OOM anyway and the
+process probably will get killed sooner or later. :)
 
-	deleted:    ui/keymaps/bepo
+> 
+> I tested again with MAP_SHARED it comes around ~500MBps.
 
-	deleted:    ui/keymaps/cz
+Makes sense.  I'd guess that's the limitation of the virtio-scsi backend,
+IOW the logical limitation of device dirtying memory could be unlimited
+(e.g., when we put the virtio backend onto a ramdisk).
 
-	deleted:    ui/keymaps/da
+-- 
+Peter Xu
 
-	deleted:    ui/keymaps/de
-
-	deleted:    ui/keymaps/de-ch
-
-	deleted:    ui/keymaps/en-gb
-
-	deleted:    ui/keymaps/en-us
-
-	deleted:    ui/keymaps/es
-
-	deleted:    ui/keymaps/et
-
-	deleted:    ui/keymaps/fi
-
-	deleted:    ui/keymaps/fo
-
-	deleted:    ui/keymaps/fr
-
-	deleted:    ui/keymaps/fr-be
-
-	deleted:    ui/keymaps/fr-ca
-
-	deleted:    ui/keymaps/fr-ch
-
-	deleted:    ui/keymaps/hr
-
-	deleted:    ui/keymaps/hu
-
-	deleted:    ui/keymaps/is
-
-	deleted:    ui/keymaps/it
-
-	deleted:    ui/keymaps/ja
-
-	deleted:    ui/keymaps/lt
-
-	deleted:    ui/keymaps/lv
-
-	deleted:    ui/keymaps/mk
-
-	deleted:    ui/keymaps/nl
-
-	deleted:    ui/keymaps/no
-
-	deleted:    ui/keymaps/pl
-
-	deleted:    ui/keymaps/pt
-
-	deleted:    ui/keymaps/pt-br
-
-	deleted:    ui/keymaps/ru
-
-	deleted:    ui/keymaps/th
-
-	deleted:    ui/keymaps/tr
-
-
-
-r~
 
