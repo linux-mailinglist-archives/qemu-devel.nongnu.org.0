@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03543548514
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:13:33 +0200 (CEST)
-Received: from localhost ([::1]:59010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CB2548511
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:12:26 +0200 (CEST)
+Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0iwm-0007eb-1c
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37100)
+	id 1o0ivh-0006I9-6o
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:12:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o0iO3-0001ew-Vg
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:37:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41135)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=dn3g=WU=zx2c4.com=Jason@kernel.org>)
+ id 1o0iiE-00069v-6d
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:58:31 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:59602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o0iO0-0002Pr-CP
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:37:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655120255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K3hr6/Mvb/jaN11bbDLELIxUfKwDaNqRMrvYY8g0H0k=;
- b=RJ1SBvm8WkSGfjZmbrBag/ckdjXhouD5OdBcWDmdkaopXykmPzEnP2lv64wZ4I+1pB84dr
- VTeaDloJq/kkN781nRV8Hb2PGimejFc/rMFRAmmfTX9NrDT0UceRVhfDM6/vh2JSEEpehR
- /IkWOS0jmfSeiNGTKHucgj4Mq61lo5k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-581-bfQBZ9cjNP-Ny7Ps4OqiSg-1; Mon, 13 Jun 2022 07:37:34 -0400
-X-MC-Unique: bfQBZ9cjNP-Ny7Ps4OqiSg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <SRS0=dn3g=WU=zx2c4.com=Jason@kernel.org>)
+ id 1o0iiC-0005Eu-7J
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:58:29 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 372D71C0F696;
- Mon, 13 Jun 2022 11:37:34 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E05840C1247;
- Mon, 13 Jun 2022 11:37:34 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C0AAD1800626; Mon, 13 Jun 2022 13:37:32 +0200 (CEST)
-Date: Mon, 13 Jun 2022 13:37:32 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH v2] ui: move 'pc-bios/keymaps' to 'ui/keymaps'
-Message-ID: <20220613113732.qeme56veolnfuwmf@sirius.home.kraxel.org>
-References: <20220613084456.470068-1-berrange@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D24956066C;
+ Mon, 13 Jun 2022 11:58:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4B7BC34114;
+ Mon, 13 Jun 2022 11:58:25 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="fm7oK05U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1655121503;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ME8foANe4NGq9pIZB6M6Y18izeH/M38NnF1sNfInpVI=;
+ b=fm7oK05U0KhIl1bUo6NJq87OU+FXJ5JHTfG7jmRTNIOyz6hZYdwwClIL3/QpGFfSLdOvBa
+ QNb8WD4qn3Qao+phVZJgL5XbtCAZiPUfCRwARmUt6u5Jn8u0rzDJmGJ/ohnY0lKL+9eb9T
+ fD5jEcHh1ec0wLIhiUjVDyzeazUVfx0=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id eafa095f
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Mon, 13 Jun 2022 11:58:22 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH] hw/riscv: virt: pass random seed to fdt
+Date: Mon, 13 Jun 2022 13:58:10 +0200
+Message-Id: <20220613115810.178210-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220613084456.470068-1-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=dn3g=WU=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,28 +77,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 13, 2022 at 09:44:56AM +0100, Daniel P. Berrangé wrote:
-> The 'keymaps' directory contents is nothing to do with the firmware
-> blobs. The 'pc-bios/keymaps' directory appears to have been used
-> previously as a convenience for getting the files installed into
-> a subdir of the firmware install dir, as well as to make it easier
-> to launch QEMU directly from the build tree. These requirements
-> do not need to be reflected in the source tree arrangement. The
-> keymaps logically belong with the UI code, and meson can install
-> them into the right place. For in-tree execution, we merely need
-> a suitable symlink from the source tree to the build tree.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
-> 
-> Changed in v2:
-> 
->   - Make configure symlink ui/keymaps to $BUILD/pc-bios
->     so in-tree build execution works. (Thanks Volker)
+If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+initialize early. Set this using the usual guest random number
+generation function. This is confirmed to successfully initialize the
+RNG on Linux 5.19-rc2.
 
-Replaced patch, v2 pull req sent.
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ hw/riscv/virt.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-thanks,
-  Gerd
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index bc424dd2f5..368a723bf6 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -21,6 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qemu/error-report.h"
++#include "qemu/guest-random.h"
+ #include "qapi/error.h"
+ #include "hw/boards.h"
+ #include "hw/loader.h"
+@@ -998,6 +999,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+     MachineState *mc = MACHINE(s);
+     uint32_t phandle = 1, irq_mmio_phandle = 1, msi_pcie_phandle = 1;
+     uint32_t irq_pcie_phandle = 1, irq_virtio_phandle = 1;
++    uint8_t rng_seed[32];
+ 
+     if (mc->dtb) {
+         mc->fdt = load_device_tree(mc->dtb, &s->fdt_size);
+@@ -1046,6 +1048,10 @@ update_bootargs:
+     if (cmdline && *cmdline) {
+         qemu_fdt_setprop_string(mc->fdt, "/chosen", "bootargs", cmdline);
+     }
++
++    /* Pass seed to RNG. */
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    qemu_fdt_setprop(mc->fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
+ }
+ 
+ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
+-- 
+2.35.1
 
 
