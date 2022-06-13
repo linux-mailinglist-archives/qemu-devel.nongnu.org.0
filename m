@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B2C54855D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 15:02:40 +0200 (CEST)
-Received: from localhost ([::1]:42108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB4E548555
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:56:10 +0200 (CEST)
+Received: from localhost ([::1]:35380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0jiJ-0000h2-6K
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 09:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
+	id 1o0jc1-00047V-90
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o0jRf-0003Hy-ID
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:27 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:46686)
+ id 1o0jRh-0003LS-FS
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:29 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o0jRZ-0005zg-Tz
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:27 -0400
-Received: by mail-pg1-x529.google.com with SMTP id l4so4366479pgh.13
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 05:45:21 -0700 (PDT)
+ id 1o0jRe-000645-MJ
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:29 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ q12-20020a17090a304c00b001e2d4fb0eb4so8698446pjl.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 05:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CZ7G7Gujczw3DW8+iuBOrN7bUoP98YSa5d9uHEJ9yLY=;
- b=TqXP022yl6wNwxai99Ut2DOZR9pMvYNPV/tJ+WQQ0Ul/OqZEWsJJNe7uMjZFuU4RDj
- KVW1SbgI4YgmXM6GCzNGOGYRys+FV5t9KBXnx7/LCGLHmUutGk9/UTNOIZhuysTJ6DUY
- vYWTOZcJWgmdmKePG5qEy/qCx5FR/e8SMPL/iRahvh1NYFZ+KIF7MGU1bF+f9fgapUrS
- 84wvkFJvl5ACkaZzIq5MGZ/DW8HFlYffGWELLOjQPxuxY++VgGy5z7hCMZAo0KKn+x5R
- HfkpWtmueFcf/DFoDtg81/bL85C7pf6oLLpjHMDJzGxDcuII7pUQtmY9UO1qHXJxHrAZ
- lzDw==
+ bh=Zitz3aw7vmqBdlw7whS7nBw2iJZB5B/SiBi5964udmY=;
+ b=3H1T0aEkUUf9tdhR8GCQncqQBcI0ci77EaFqBmHJjLEcLsRcRi+MPuYdfi7DufQMtH
+ BYYw3WzW3RsgQDAwams/JXYDkDxZiDDT0deV8PWIb/y2mNUCHoUQ2a0ObL894MXrbDOm
+ 7FSGReUrkwX62qu03r3sI0PK7xJcn0zYmwWEXGbnAm1K2cd/7ONlQZEqauUbNFkI6DsQ
+ 9eBcNhhBdEwBX7qwshLdpqG3XZxL5wnNhnvASufZWNT/1s99tdlJspjKzYg/5c+2UJN7
+ zpcSUi5KwvMW+KxA+/nuwwtRyjsPZp0S6Vm7be4+e9oZdbNZaDsBhDmP7AjU8BJ3k7Pv
+ vCPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CZ7G7Gujczw3DW8+iuBOrN7bUoP98YSa5d9uHEJ9yLY=;
- b=KJxQGe+MKPqb9wjlydrY5ey0+aIgmqnxRCLKDELKm+H4y4Ki6e4WlIufknhQ0yJgZr
- GM/JqW6l734sWIuNrkWRad5hB4uBYNsomTFkg/5nVcQNHwT96bEBlQoWxYTuehaztyVq
- VQ2mNkOGZE9wI59sNu1SE2oFd/PKYiZoNhq6+MMCRPO0Oyql6ltJsRvumunnAw4eOuY6
- CHR8JDopXEZ7sTwXZMUCIdeRmqBsU1j28mh38vOStmrM0bZIpDMEmEa6NzQUH4DZVeV3
- 27fxszKdwBwOYhywRmDX8L0WNunSQLtqlaHN74IR/8wrcvW4ijXNZmNNkvVav3RrjHJM
- jQaQ==
-X-Gm-Message-State: AOAM531kL/nPFRv7+2KRsbzhpRDIaXrrybnhYUPVf7h3+LFxRjR7zYnG
- IztbAjvnAEbP6dqM9ff75d3K
-X-Google-Smtp-Source: ABdhPJxRNgoUDcXjY1UlKX/kM4ml3yvzcyrKcVlKuuAcSXS9+nMB8F5kLyfL2mmQhMj7/eIel0PUTw==
-X-Received: by 2002:a63:8443:0:b0:3fc:a29a:49ae with SMTP id
- k64-20020a638443000000b003fca29a49aemr52125733pgd.592.1655124320507; 
- Mon, 13 Jun 2022 05:45:20 -0700 (PDT)
+ bh=Zitz3aw7vmqBdlw7whS7nBw2iJZB5B/SiBi5964udmY=;
+ b=TbyzVTpqvNB81OtAD4UGkC50mK8SyJ7y1LVrfNW5+NIjY08G2fU2J7TV3fISq8M3gg
+ nXh/4jeB3u8ji02OEs5Mz0uH5evIaKrUF33Cv42LOfL8AgCtCV2ezyQt9JCnhXHyjinF
+ EXhHqyhhx9k332JQiAkhj6o12tmGMP1uVggD2mJ353lp9FlNwJ7YOuKIxBQLUAPRaIT0
+ M/MMJjTlfiiW8paskeV3j+cE3lLl2h7wBVCpmfKw8wUO16A1oTlzb08hAxXwQrmspBVI
+ 53S89qbq3yNicakhm4E85wFup2ewI6ykP9xE2AosbumfsVthaqzfvNMhMnaR/yZPC72r
+ h47A==
+X-Gm-Message-State: AOAM533FrjDjAMd+PXU+pP4b2nS+PnmvkBZVyLjQoZTU6+AUJzS1f+Xn
+ QNtSKEcAH5GZ4ceZPmnoJKUW
+X-Google-Smtp-Source: ABdhPJyx4qH6ms0hPHsp9RmrRi6apuKSLB/D/Qu29v+Taf1ZKX4M5Wq/HHGs7GkqL/5nXvmTi9P9Gg==
+X-Received: by 2002:a17:902:dac3:b0:164:13b2:4913 with SMTP id
+ q3-20020a170902dac300b0016413b24913mr57716316plx.169.1655124325188; 
+ Mon, 13 Jun 2022 05:45:25 -0700 (PDT)
 Received: from localhost ([139.177.225.252]) by smtp.gmail.com with ESMTPSA id
- iz4-20020a170902ef8400b00162037fbb68sm4986017plb.215.2022.06.13.05.45.17
+ n2-20020a170902d0c200b0015ec71f72d6sm4975538pln.253.2022.06.13.05.45.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 05:45:18 -0700 (PDT)
+ Mon, 13 Jun 2022 05:45:24 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: kwolf@redhat.com,
 	stefanha@redhat.com
 Cc: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 4/5] vduse-blk: Add serial option
-Date: Mon, 13 Jun 2022 20:45:02 +0800
-Message-Id: <20220613124503.156-5-xieyongji@bytedance.com>
+Subject: [PATCH 5/5] vduse-blk: Add name option
+Date: Mon, 13 Jun 2022 20:45:03 +0800
+Message-Id: <20220613124503.156-6-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220613124503.156-1-xieyongji@bytedance.com>
 References: <20220613124503.156-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=xieyongji@bytedance.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,173 +90,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a 'serial' option to allow user to specify this value
-explicitly. And the default value is changed to an empty
-string as what we did in "hw/block/virtio-blk.c".
+Currently we use 'id' option as the name of VDUSE device.
+It's a bit confusing since we use one value for two different
+purposes: the ID to identfy the export within QEMU (must be
+distinct from any other exports in the same QEMU process, but
+can overlap with names used by other processes), and the VDUSE
+name to uniquely identify it on the host (must be distinct from
+other VDUSE devices on the same host, but can overlap with other
+export types like NBD in the same process). To make it clear,
+this patch adds a separate 'name' option to specify the VDUSE
+name for the vduse-blk export instead.
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- block/export/vduse-blk.c             | 20 ++++++++++++++------
- block/export/vhost-user-blk-server.c |  4 +++-
- block/export/virtio-blk-handler.h    |  2 +-
- docs/tools/qemu-storage-daemon.rst   |  2 +-
- qapi/block-export.json               |  4 +++-
- storage-daemon/qemu-storage-daemon.c |  1 +
- 6 files changed, 23 insertions(+), 10 deletions(-)
+ block/export/vduse-blk.c             | 4 ++--
+ docs/tools/qemu-storage-daemon.rst   | 5 +++--
+ qapi/block-export.json               | 7 ++++---
+ storage-daemon/qemu-storage-daemon.c | 8 ++++----
+ 4 files changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-index 251d73c841..066e088b00 100644
+index 066e088b00..f101c24c3f 100644
 --- a/block/export/vduse-blk.c
 +++ b/block/export/vduse-blk.c
-@@ -235,7 +235,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     Error *local_err = NULL;
-     struct virtio_blk_config config = { 0 };
-     uint64_t features;
--    int i;
-+    int i, ret;
- 
-     if (vblk_opts->has_num_queues) {
-         num_queues = vblk_opts->num_queues;
-@@ -265,7 +265,8 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+@@ -300,7 +300,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+         features |= 1ULL << VIRTIO_BLK_F_RO;
      }
-     vblk_exp->num_queues = num_queues;
-     vblk_exp->handler.blk = exp->blk;
--    vblk_exp->handler.serial = exp->id;
-+    vblk_exp->handler.serial = g_strdup(vblk_opts->has_serial ?
-+                                        vblk_opts->serial : "");
-     vblk_exp->handler.logical_block_size = logical_block_size;
-     vblk_exp->handler.writable = opts->writable;
  
-@@ -306,16 +307,16 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-                                      vblk_exp);
-     if (!vblk_exp->dev) {
-         error_setg(errp, "failed to create vduse device");
--        return -ENOMEM;
-+        ret = -ENOMEM;
-+        goto err_dev;
+-    vblk_exp->dev = vduse_dev_create(exp->id, VIRTIO_ID_BLOCK, 0,
++    vblk_exp->dev = vduse_dev_create(vblk_opts->name, VIRTIO_ID_BLOCK, 0,
+                                      features, num_queues,
+                                      sizeof(struct virtio_blk_config),
+                                      (char *)&config, &vduse_blk_ops,
+@@ -312,7 +312,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
      }
  
      vblk_exp->recon_file = g_strdup_printf("%s/vduse-blk-%s",
-                                            g_get_tmp_dir(), exp->id);
+-                                           g_get_tmp_dir(), exp->id);
++                                           g_get_tmp_dir(), vblk_opts->name);
      if (vduse_set_reconnect_log_file(vblk_exp->dev, vblk_exp->recon_file)) {
          error_setg(errp, "failed to set reconnect log file");
--        vduse_dev_destroy(vblk_exp->dev);
--        g_free(vblk_exp->recon_file);
--        return -EINVAL;
-+        ret = -EINVAL;
-+        goto err;
-     }
- 
-     for (i = 0; i < num_queues; i++) {
-@@ -331,6 +332,12 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     blk_set_dev_ops(exp->blk, &vduse_block_ops, exp);
- 
-     return 0;
-+err:
-+    vduse_dev_destroy(vblk_exp->dev);
-+    g_free(vblk_exp->recon_file);
-+err_dev:
-+    g_free(vblk_exp->handler.serial);
-+    return ret;
- }
- 
- static void vduse_blk_exp_delete(BlockExport *exp)
-@@ -346,6 +353,7 @@ static void vduse_blk_exp_delete(BlockExport *exp)
-         unlink(vblk_exp->recon_file);
-     }
-     g_free(vblk_exp->recon_file);
-+    g_free(vblk_exp->handler.serial);
- }
- 
- static void vduse_blk_exp_request_shutdown(BlockExport *exp)
-diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
-index c9c290cc4c..3409d9e02e 100644
---- a/block/export/vhost-user-blk-server.c
-+++ b/block/export/vhost-user-blk-server.c
-@@ -282,7 +282,7 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-         return -EINVAL;
-     }
-     vexp->handler.blk = exp->blk;
--    vexp->handler.serial = "vhost_user_blk";
-+    vexp->handler.serial = g_strdup("vhost_user_blk");
-     vexp->handler.logical_block_size = logical_block_size;
-     vexp->handler.writable = opts->writable;
- 
-@@ -296,6 +296,7 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-                                  num_queues, &vu_blk_iface, errp)) {
-         blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
-                                         blk_aio_detach, vexp);
-+        g_free(vexp->handler.serial);
-         return -EADDRNOTAVAIL;
-     }
- 
-@@ -308,6 +309,7 @@ static void vu_blk_exp_delete(BlockExport *exp)
- 
-     blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-                                     vexp);
-+    g_free(vexp->handler.serial);
- }
- 
- const BlockExportDriver blk_exp_vhost_user_blk = {
-diff --git a/block/export/virtio-blk-handler.h b/block/export/virtio-blk-handler.h
-index 1c7a5e32ad..150d44cff2 100644
---- a/block/export/virtio-blk-handler.h
-+++ b/block/export/virtio-blk-handler.h
-@@ -23,7 +23,7 @@
- 
- typedef struct {
-     BlockBackend *blk;
--    const char *serial;
-+    char *serial;
-     uint32_t logical_block_size;
-     bool writable;
- } VirtioBlkHandler;
+         ret = -EINVAL;
 diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index fbeaf76954..034f2809a6 100644
+index 034f2809a6..ea00149a63 100644
 --- a/docs/tools/qemu-storage-daemon.rst
 +++ b/docs/tools/qemu-storage-daemon.rst
 @@ -77,7 +77,7 @@ Standard options:
    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=unix,addr.path=<socket-path>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=fd,addr.str=<fd>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
    --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off][,allow-other=on|off|auto]
--  --export [type=]vduse-blk,id=<id>,node-name=<node-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>]
-+  --export [type=]vduse-blk,id=<id>,node-name=<node-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>][,serial=<serial-number>]
+-  --export [type=]vduse-blk,id=<id>,node-name=<node-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>][,serial=<serial-number>]
++  --export [type=]vduse-blk,id=<id>,node-name=<node-name>,name=<vduse-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>][,serial=<serial-number>]
  
    is a block export definition. ``node-name`` is the block node that should be
    exported. ``writable`` determines whether or not the export allows write
+@@ -111,7 +111,8 @@ Standard options:
+   ``allow-other`` to auto (the default) will try enabling this option, and on
+   error fall back to disabling it.
+ 
+-  The ``vduse-blk`` export type uses the ``id`` as the VDUSE device name.
++  The ``vduse-blk`` export type takes a ``name`` (must be unique across the host)
++  to create the VDUSE device.
+   ``num-queues`` sets the number of virtqueues (the default is 1).
+   ``queue-size`` sets the virtqueue descriptor table size (the default is 256).
+ 
 diff --git a/qapi/block-export.json b/qapi/block-export.json
-index e4bd4de363..d7aeb1fbf7 100644
+index d7aeb1fbf7..81ef1e3dcd 100644
 --- a/qapi/block-export.json
 +++ b/qapi/block-export.json
-@@ -186,13 +186,15 @@
+@@ -182,6 +182,7 @@
+ #
+ # A vduse-blk block export.
+ #
++# @name: the name of VDUSE device (must be unique across the host).
+ # @num-queues: the number of virtqueues. Defaults to 1.
  # @queue-size: the size of virtqueue. Defaults to 256.
  # @logical-block-size: Logical block size in bytes. Range [512, PAGE_SIZE]
- #                      and must be power of 2. Defaults to 512 bytes.
-+# @serial: the serial number of virtio block device. Defaults to empty string.
- #
+@@ -191,7 +192,8 @@
  # Since: 7.1
  ##
  { 'struct': 'BlockExportOptionsVduseBlk',
-   'data': { '*num-queues': 'uint16',
+-  'data': { '*num-queues': 'uint16',
++  'data': { 'name': 'str',
++            '*num-queues': 'uint16',
              '*queue-size': 'uint16',
--            '*logical-block-size': 'size'} }
-+            '*logical-block-size': 'size',
-+            '*serial': 'str' } }
- 
- ##
- # @NbdServerAddOptions:
+             '*logical-block-size': 'size',
+             '*serial': 'str' } }
+@@ -316,8 +318,7 @@
+ # Describes a block export, i.e. how single node should be exported on an
+ # external interface.
+ #
+-# @id: A unique identifier for the block export (across the host for vduse-blk
+-#      export type or across all export types for other types)
++# @id: A unique identifier for the block export (across all export types)
+ #
+ # @node-name: The node name of the block node to be exported (since: 5.2)
+ #
 diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 17fd3f2f5f..4e18d3fc85 100644
+index 4e18d3fc85..b8e910f220 100644
 --- a/storage-daemon/qemu-storage-daemon.c
 +++ b/storage-daemon/qemu-storage-daemon.c
-@@ -126,6 +126,7 @@ static void help(void)
- "           [,writable=on|off][,num-queues=<num-queues>]\n"
- "           [,queue-size=<queue-size>]\n"
+@@ -123,12 +123,12 @@ static void help(void)
+ #endif /* CONFIG_VHOST_USER_BLK_SERVER */
+ #ifdef CONFIG_VDUSE_BLK_EXPORT
+ "  --export [type=]vduse-blk,id=<id>,node-name=<node-name>\n"
+-"           [,writable=on|off][,num-queues=<num-queues>]\n"
+-"           [,queue-size=<queue-size>]\n"
++"           ,name=<vduse-name>[,writable=on|off]\n"
++"           [,num-queues=<num-queues>][,queue-size=<queue-size>]\n"
  "           [,logical-block-size=<logical-block-size>]\n"
-+"           [,serial=<serial-number>]\n"
- "                         export the specified block node as a vduse-blk\n"
- "                         device using the id as the VDUSE device name\n"
+ "           [,serial=<serial-number>]\n"
+-"                         export the specified block node as a vduse-blk\n"
+-"                         device using the id as the VDUSE device name\n"
++"                         export the specified block node as a\n"
++"                         vduse-blk device\n"
  "\n"
+ #endif /* CONFIG_VDUSE_BLK_EXPORT */
+ "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
 -- 
 2.20.1
 
