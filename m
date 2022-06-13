@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D1954A1C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 23:49:46 +0200 (CEST)
-Received: from localhost ([::1]:36282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87F054A1C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 23:49:51 +0200 (CEST)
+Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0rwP-0007Pd-2K
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 17:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49578)
+	id 1o0rwU-0007bA-SK
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 17:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0rtn-0005Sf-7o
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 17:47:03 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:44957)
+ id 1o0ru0-0005Xu-R4
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 17:47:16 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:37878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0rtl-0004Jq-9e
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 17:47:02 -0400
-Received: by mail-pg1-x535.google.com with SMTP id 31so5094595pgv.11
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 14:47:00 -0700 (PDT)
+ id 1o0rtz-0004Lf-9Z
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 17:47:16 -0400
+Received: by mail-pf1-x434.google.com with SMTP id bo5so6910315pfb.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 14:47:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=G1KZ0JEdaXFgl8XGHFw55D6LofRxuNcGCy+bynPrcxw=;
- b=BJTU/VBOTqu9YYAljwOFCtTMj4r5FraPlON8JOrxsIjkMs638Qk9s+5JuZqU6rytgi
- xxFWBzjC7z8K/UrFr7QvQywBUx4UUGD+nvwLYsPDkjpKZeSAUXJU+xfZml6mhGBRsDIV
- 4EI5V3LR4EsYTP8MHgntjoCbb/d5xH3fH+dK694vwg5ZNlpLTV8czRRYMmyGfwSjctc/
- ct8sfXfkCpBWSAROCRdPp8HTNKpuLmtwZokYRweYae+QkH9XNWM+bPpH8EjD0/Qpyw4p
- E87rBGhoNzy+l5XfNaJE/SvC3ed1VcbVwYBOZfBpbh7Df7cT3iehBJy3NvqY5ba0O/2/
- Hw8g==
+ bh=yFIFRcSia0/VvPNcXln6N9ZxJSbliMPKqzN2sV2FjQI=;
+ b=M+W0deaR5xk9QP2ALClItKQDEwPrAw7mKq9JtR9aVsgvxAOdHxTsSWuqg1pKQTvs7t
+ eXS3AvEpu0FjiR/h8wBNqSX7JIO/v3p3dRf9h499EPKIhAjF7WEpv8URHfQ8F7Cf4JEs
+ 51SUtkF9mGQ+sZ9JEyMwagWWGwNvUqCS9vBOsweoypJpgpqrCqBlC/5V8chuTLir96wU
+ SkwqH8o5ze8DSsEBn/4zi8dqDgqNbDKRzNr1Qrr/GjuLIHKfyqU/BgCtyyOIqEvZUAgb
+ u8SDZ68iqbglP5rpRFEGqg1PmR4mFfFK/oD1VYFMi8UusmU41IEc7zSvdgXAiB7jRG70
+ 8glg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=G1KZ0JEdaXFgl8XGHFw55D6LofRxuNcGCy+bynPrcxw=;
- b=ODWfeYc05rud+QWPUB43mW2ZUFg6I/uPwV89G3UJ1I22zF+aA4xFPEGyH71wFKcxTw
- wmHhSs647ppF3ImiwTfABFn0634o/SMLr1qGBZwvQpE3sAlW55t0Mp0FOthAscfUFrN0
- tPpVRtjbzcICtG/YMu4nfP15lqpxEzucWJdq4XsfK+b+nIHXhgDq7nnf+bSXCNn1YL8V
- 8qARj7p7fBb+HCJ0zdFVpmRgCV4mZ6GN6WzrvgIkSgl/ILPi5oaDfRYVrF/hTmdDHXTM
- Z3pqKQZ8vlaSS+iOwaVtxYHtTTjHoB/xRxAwg8Y4MJbTUMeT+7BHSV3QhGdRa7HbOeYz
- U4uQ==
-X-Gm-Message-State: AOAM53046icJhLcfn5JZNKgLW1kEepgIIfbbVN81dofQ2aEmEoSjncFw
- vCy7QniL5ghymOR7XD/tI0Eq9A==
-X-Google-Smtp-Source: ABdhPJyu8nMKMCmNz5zJMabL1VnhB6xJUkrHv6XkGCmFcJzIEnuqbUPDT/IQqWzKatpeB7VVc9oqtg==
-X-Received: by 2002:a63:e0e:0:b0:402:8549:78fc with SMTP id
- d14-20020a630e0e000000b00402854978fcmr1532820pgl.110.1655156819547; 
- Mon, 13 Jun 2022 14:46:59 -0700 (PDT)
+ bh=yFIFRcSia0/VvPNcXln6N9ZxJSbliMPKqzN2sV2FjQI=;
+ b=Pkm8WOCbK6cydcHgaELR7Z4eWzl/Y88Zs/Kv9zlb8rT5kcVNpxKxz0rdtoAn1O54xC
+ 5e/LcVXo0FrYb8eIwZpBH6zYKDCAqX2u5pZPIgbMfiMvCGbxNlwdtnHcvLucWSqEM8PP
+ qI9HRvuJZJxa/yLeg4Tac0dmEWLT6qAxIcrmC59FuFrZCQU7PK6iPgbg0Dm5vJNyA6b9
+ zDTNOZ2FVExBV18JvXPtDVKrcz1nQeQpfhNWAqxITbvVXwkbpvkSXVkMfzQiEuw83azZ
+ 58ZpKwh4nofOwA/Qt5aqPDX3w0NRerI3Hx+TzrvbiNHI2Tvxj/CsYyLXoUhACDPjQB3v
+ yULw==
+X-Gm-Message-State: AOAM533HBQiXCRLBDu2cg/yE7gQu3nuJ+/1bU8sbXGiT4kKaRjU3wZFF
+ yu2Z3uiswUYfHJwLVS+eADGE+A==
+X-Google-Smtp-Source: AGRyM1vKQuq5AY/IB6Yr2UGAp733cd61E0nN+9UCzkeJpQpNF56wKKpz0JJAzrU6qRsUVfmE73bBgg==
+X-Received: by 2002:a05:6a00:2392:b0:51b:fe0e:2b8 with SMTP id
+ f18-20020a056a00239200b0051bfe0e02b8mr1014217pfc.84.1655156833629; 
+ Mon, 13 Jun 2022 14:47:13 -0700 (PDT)
 Received: from [172.21.2.253] ([50.208.55.229])
  by smtp.gmail.com with ESMTPSA id
- x14-20020aa7918e000000b0051c0fe8fb8csm6058991pfa.95.2022.06.13.14.46.58
+ 2-20020a620602000000b0051844f3f637sm5892583pfg.40.2022.06.13.14.47.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 14:46:59 -0700 (PDT)
-Message-ID: <39615b6d-6454-2a4f-013e-478766e0c3f8@linaro.org>
-Date: Mon, 13 Jun 2022 14:46:55 -0700
+ Mon, 13 Jun 2022 14:47:13 -0700 (PDT)
+Message-ID: <607d63c3-8019-0775-4799-29ae8d0d3eca@linaro.org>
+Date: Mon, 13 Jun 2022 14:47:10 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v1 3/7] gitlab-ci: Fix the build-cfi-aarch64 and
- build-cfi-ppc64-s390x jobs
+Subject: Re: [PATCH v1 4/7] tests/docker: fix the IMAGE for build invocation
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -70,13 +69,13 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 References: <20220613171258.1905715-1-alex.bennee@linaro.org>
- <20220613171258.1905715-4-alex.bennee@linaro.org>
+ <20220613171258.1905715-5-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220613171258.1905715-4-alex.bennee@linaro.org>
+In-Reply-To: <20220613171258.1905715-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,57 +99,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/13/22 10:12, Alex Bennée wrote:
-> From: Thomas Huth <thuth@redhat.com>
+> We inadvertently broke the ability to run local builds when the code
+> was re-factored. The result was the run stanza failing to find the
+> docker image with it's qemu/ prefix.
 > 
-> The job definitions recently got a second "variables:" section by
-> accident and thus are failing now if one tries to run them. Merge
-> the two sections into one again to fix the issue.
-> 
-> And while we're at it, bump the timeout here (70 minutes are currently
-> not enough for the aarch64 job). The jobs are marked as manual anyway,
-> so if the user starts them, they want to see their result for sure and
-> then it's annoying if the job timeouts too early.
-> 
-> Fixes: e312d1fdbb ("gitlab: convert build/container jobs to .base_job_template")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20220603124809.70794-1-thuth@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Fixes: d39eaa2266 ("tests/docker: simplify docker-TEST@IMAGE targets")
 > ---
->   .gitlab-ci.d/buildtest.yml | 22 ++++++++++------------
->   1 file changed, 10 insertions(+), 12 deletions(-)
+>   tests/docker/Makefile.include | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 544385f5be..cb7cad44b5 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -357,16 +357,15 @@ build-cfi-aarch64:
->         --enable-safe-stack --enable-slirp=git
->       TARGETS: aarch64-softmmu
->       MAKE_CHECK_ARGS: check-build
-> -  timeout: 70m
-> -  artifacts:
-> -    expire_in: 2 days
-> -    paths:
-> -      - build
-> -  variables:
->       # FIXME: This job is often failing, likely due to out-of-memory problems in
->       # the constrained containers of the shared runners. Thus this is marked as
->       # skipped until the situation has been solved.
->       QEMU_JOB_SKIPPED: 1
-> +  timeout: 90m
-> +  artifacts:
-> +    expire_in: 2 days
-> +    paths:
-> +      - build
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+> index e68f91b853..ef4518d9eb 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -171,7 +171,7 @@ DOCKER_TESTS := $(if $(TESTS), $(filter $(TESTS), $(__TESTS)), $(__TESTS))
+>   $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
+>   	$(foreach t,$(DOCKER_TESTS), \
+>   		$(eval .PHONY: docker-$t@$i) \
+> -		$(eval docker-$t@$i: docker-image-$i; @$(MAKE) docker-run TEST=$t IMAGE=$i) \
+> +		$(eval docker-$t@$i: docker-image-$i; @$(MAKE) docker-run TEST=$t IMAGE=qemu/$i) \
+>   	) \
+>   	$(foreach t,$(DOCKER_TESTS), \
+>   		$(eval docker-all-tests: docker-$t@$i) \
 
-FWIW, 90 minutes was close, but insufficient:
-
-https://gitlab.com/qemu-project/qemu/-/jobs/2584472225
-
-But certainly, let us fix the job definition:
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
