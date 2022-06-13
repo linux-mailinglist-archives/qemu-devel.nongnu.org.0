@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6FC54859C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 15:58:06 +0200 (CEST)
-Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB08954856A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 15:30:58 +0200 (CEST)
+Received: from localhost ([::1]:39402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0kZx-0002mW-IV
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 09:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
+	id 1o0k9h-0004MC-TB
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 09:30:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <SRS0=O0wQ=WU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org>)
- id 1o0k1u-00086j-Qs
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 09:22:54 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:49952)
+ (Exim 4.90_1) (envelope-from <SRS0=yfRC=WU=kaod.org=clg@ozlabs.org>)
+ id 1o0k55-0000FO-CM; Mon, 13 Jun 2022 09:26:11 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:37371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <SRS0=O0wQ=WU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org>)
- id 1o0k1s-0003pA-Iv
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 09:22:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <SRS0=yfRC=WU=kaod.org=clg@ozlabs.org>)
+ id 1o0k53-0004SB-59; Mon, 13 Jun 2022 09:26:11 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LMC4h1BmMz4yY5;
+ Mon, 13 Jun 2022 23:25:56 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A4EB161018;
- Mon, 13 Jun 2022 13:22:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36EF6C34114;
- Mon, 13 Jun 2022 13:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655126568;
- bh=aPG04wQxYSWtMm5qtUnDbqgDpJ90F37nxHIFcY/d86A=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=c5wkbFe5rmPuYrccbMTwrzzwTVvD8jWq1PlE3CQ926TDWG9sGYIR76XhBtAE07yeP
- uf9XGCy3aObXiqijFPAxQuy3kFyEMtg+Th2sOAtK+g8kKwcIYH2TGw/JVQZBSyQDJk
- lQAvVHFuLmMqRMcEU/tP6pIv5kp+wqCi2ZUBdL2zecr4ZFAciyCa7tXBFiZ01LaBx8
- 0rOHVxnWnNEVn9eup8iFjDUodvDZqRgHeIYCudLDeP96Z3gyp0q+5V25P9o4DUa372
- S86Mx3Mx8YLOaI8maSf3oaFjQMGPNH0LLz9FfV7M9WsZQpNi2sccfox91DapCq64iT
- WOiGexo1y+f7g==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
- id CDCC25C0510; Mon, 13 Jun 2022 06:22:47 -0700 (PDT)
-Date: Mon, 13 Jun 2022 06:22:47 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: "chenxiang (M)" <chenxiang66@hisilicon.com>
-Cc: linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
-	linuxarm@huawei.com
-Subject: Re: [Bug] Take more 150s to boot qemu on ARM64
-Message-ID: <20220613132247.GB1790663@paulmck-ThinkPad-P17-Gen-1>
-References: <36a0c658-ee5d-3a1c-416c-c041dc344bff@hisilicon.com>
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LMC4R56Ybz4yXP;
+ Mon, 13 Jun 2022 23:25:43 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
+ Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>,
+ Steven Lee <steven_lee@aspeedtech.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Peter Delevoryas <pdel@fb.com>,
+ Corey Minyard <cminyard@mvista.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH v2 00/17] aspeed: Extend ast2600 I2C model with new mode
+Date: Mon, 13 Jun 2022 15:25:22 +0200
+Message-Id: <20220613132539.2199772-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36a0c658-ee5d-3a1c-416c-c041dc344bff@hisilicon.com>
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=O0wQ=WU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=SRS0=yfRC=WU=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 13 Jun 2022 09:49:08 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,107 +69,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 13, 2022 at 08:26:34PM +0800, chenxiang (M) wrote:
-> Hi all,
-> 
-> I encounter a issue with kernel 5.19-rc1 on a ARM64 board:  it takes about
-> 150s between beginning to run qemu command and beginng to boot Linux kernel
-> ("EFI stub: Booting Linux Kernel...").
-> 
-> But in kernel 5.18-rc4, it only takes about 5s. I git bisect the kernel code
-> and it finds c2445d387850 ("srcu: Add contention check to call_srcu()
-> srcu_data ->lock acquisition").
-> 
-> The qemu (qemu version is 6.2.92) command i run is :
-> 
-> ./qemu-system-aarch64 -m 4G,slots=4,maxmem=8g \
-> --trace "kvm*" \
-> -cpu host \
-> -machine virt,accel=kvm,gic-version=3  \
-> -machine smp.cpus=2,smp.sockets=2 \
-> -no-reboot \
-> -nographic \
-> -monitor unix:/home/cx/qmp-test,server,nowait \
-> -bios /home/cx/boot/QEMU_EFI.fd \
-> -kernel /home/cx/boot/Image  \
-> -device pcie-root-port,port=0x8,chassis=1,id=net1,bus=pcie.0,multifunction=on,addr=0x1
-> \
-> -device vfio-pci,host=7d:01.3,id=net0 \
-> -device virtio-blk-pci,drive=drive0,id=virtblk0,num-queues=4  \
-> -drive file=/home/cx/boot/boot_ubuntu.img,if=none,id=drive0 \
-> -append "rdinit=init console=ttyAMA0 root=/dev/vda rootfstype=ext4 rw " \
-> -net none \
-> -D /home/cx/qemu_log.txt
-> 
-> I am not familiar with rcu code, and don't know how it causes the issue. Do
-> you have any idea about this issue?
+Hello,
 
-Please see the discussion here:
+Here is a series aggregating recent changes proposed on the Aspeed
+ast2600 I2C controller model. 
 
-https://lore.kernel.org/all/20615615-0013-5adc-584f-2b1d5c03ebfc@linaro.org/
+First comes a large set of changes converting the model to use the
+registerfield interface and adding the I2C new register mode
+(Joe). Since this is complex to review, extra tests are added to the
+acceptance test suite to check that I2C devices are still functional
+in the ast2600-evb machine. These tests use small buildroot images
+available on GH.
 
-Though that report requires ACPI to be forced on to get the
-delay, which results in more than 9,000 back-to-back calls to
-synchronize_srcu_expedited().  I cannot reproduce this on my setup, even
-with an artificial tight loop invoking synchronize_srcu_expedited(),
-but then again I don't have ARM hardware.
+The ast1030 and ast2600 SoC share the same I2C logic. This series adds
+I2C support to the ast1030 now that new register mode is supported.
+There was a previous proposal from Troy doing the same but Joe's
+patchset covers the same need (and converts the model to registerfield)
 
-My current guess is that the following patch, but with larger values for
-SRCU_MAX_NODELAY_PHASE.  Here "larger" might well be up in the hundreds,
-or perhaps even larger.
+Klaus made a proposal to add support for multi master in the I2C core
+and the Aspeed I2C model. The last patches add the required bits to
+let this happen.  
 
-If you get a chance to experiment with this, could you please reply
-to the discussion at the above URL?  (Or let me know, and I can CC
-you on the next message in that thread.)
+Thanks,
 
-						Thanx, Paul
+C.
 
-------------------------------------------------------------------------
+Changes in v2:
 
-diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-index 50ba70f019dea..0db7873f4e95b 100644
---- a/kernel/rcu/srcutree.c
-+++ b/kernel/rcu/srcutree.c
-@@ -513,7 +513,7 @@ static bool srcu_readers_active(struct srcu_struct *ssp)
- 
- #define SRCU_INTERVAL		1	// Base delay if no expedited GPs pending.
- #define SRCU_MAX_INTERVAL	10	// Maximum incremental delay from slow readers.
--#define SRCU_MAX_NODELAY_PHASE	1	// Maximum per-GP-phase consecutive no-delay instances.
-+#define SRCU_MAX_NODELAY_PHASE	3	// Maximum per-GP-phase consecutive no-delay instances.
- #define SRCU_MAX_NODELAY	100	// Maximum consecutive no-delay instances.
- 
- /*
-@@ -522,16 +522,22 @@ static bool srcu_readers_active(struct srcu_struct *ssp)
-  */
- static unsigned long srcu_get_delay(struct srcu_struct *ssp)
- {
-+	unsigned long gpstart;
-+	unsigned long j;
- 	unsigned long jbase = SRCU_INTERVAL;
- 
- 	if (ULONG_CMP_LT(READ_ONCE(ssp->srcu_gp_seq), READ_ONCE(ssp->srcu_gp_seq_needed_exp)))
- 		jbase = 0;
--	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)))
--		jbase += jiffies - READ_ONCE(ssp->srcu_gp_start);
--	if (!jbase) {
--		WRITE_ONCE(ssp->srcu_n_exp_nodelay, READ_ONCE(ssp->srcu_n_exp_nodelay) + 1);
--		if (READ_ONCE(ssp->srcu_n_exp_nodelay) > SRCU_MAX_NODELAY_PHASE)
--			jbase = 1;
-+	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq))) {
-+		j = jiffies - 1;
-+		gpstart = READ_ONCE(ssp->srcu_gp_start);
-+		if (time_after(j, gpstart))
-+			jbase += j - gpstart;
-+		if (!jbase) {
-+			WRITE_ONCE(ssp->srcu_n_exp_nodelay, READ_ONCE(ssp->srcu_n_exp_nodelay) + 1);
-+			if (READ_ONCE(ssp->srcu_n_exp_nodelay) > SRCU_MAX_NODELAY_PHASE)
-+				jbase = 1;
-+		}
- 	}
- 	return jbase > SRCU_MAX_INTERVAL ? SRCU_MAX_INTERVAL : jbase;
- }
+ - reworked I2C avocado tests
+ - dropped ctrl_global_rsvd property
+ - removed support for multiple masters from Klaus. this change should
+   come in its own series.
+  
+
+Cédric Le Goater (8):
+  aspeed: Remove fake RTC device on ast2500-evb
+  test/avocado/machine_aspeed.py: Move OpenBMC tests
+  test/avocado/machine_aspeed.py: Add tests using buildroot images
+  test/avocado/machine_aspeed.py: Add I2C tests to ast2500-evb
+  test/avocado/machine_aspeed.py: Add I2C tests to ast2600-evb
+  test/avocado/machine_aspeed.py: Add an I2C RTC test
+  aspeed/i2c: Add ast1030 controller models
+  aspeed/i2c: Enable SLAVE_ADDR_RX_MATCH always
+
+Joe Komlodi (6):
+  hw/registerfields: Add shared fields macros
+  aspeed: i2c: Migrate to registerfields API
+  aspeed: i2c: Use reg array instead of individual vars
+  aspeed: i2c: Add new mode support
+  aspeed: i2c: Add PKT_DONE IRQ to trace
+  aspeed: i2c: Move regs and helpers to header file
+
+Klaus Jensen (2):
+  hw/i2c/aspeed: rework raise interrupt trace event
+  hw/i2c/aspeed: add DEV_ADDR in old register mode
+
+Troy Lee (1):
+  aspeed: Add I2C buses to AST1030 model
+
+ include/hw/i2c/aspeed_i2c.h         | 289 +++++++++-
+ include/hw/registerfields.h         |  70 +++
+ hw/arm/aspeed.c                     |  17 +-
+ hw/arm/aspeed_ast10x0.c             |  18 +
+ hw/i2c/aspeed_i2c.c                 | 820 +++++++++++++++++-----------
+ hw/i2c/trace-events                 |   2 +-
+ tests/avocado/boot_linux_console.py |  43 --
+ tests/avocado/machine_aspeed.py     | 136 +++++
+ 8 files changed, 1030 insertions(+), 365 deletions(-)
+
+-- 
+2.35.3
+
 
