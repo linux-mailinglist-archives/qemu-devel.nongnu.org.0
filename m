@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A9D54997F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:06:14 +0200 (CEST)
-Received: from localhost ([::1]:33530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAF4549989
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:07:55 +0200 (CEST)
+Received: from localhost ([::1]:36350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0nW1-00059z-7k
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:06:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54954)
+	id 1o0nXe-0007F0-1L
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0nTX-00044n-8v
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:03:39 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:45663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0nTV-0005QJ-Qb
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:03:38 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- t3-20020a17090a510300b001ea87ef9a3dso6537293pjh.4
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:03:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=/ovdiNxRKjnY+t6cQYmWO9KPB4VlNY95dAMOk15bUxw=;
- b=Mx0zBGFYlMdDPY/682lv+XMp/ZNYxhK9zSkhiAoQkd869bOwewJEFzd6xqM0M8dZPh
- 5yTjZDasQst2rGo/bJe7bJPV/qS/O3AhWFZMacshqZ6MqucmQozm1U+ZZ2zcqVEz0r9Y
- jhVSs2lT6CAygodIg3eOw50jI8dvOoaDinRHMilf3W5n6UNQyILxb0vvhUGsWwwYTs7E
- OAhCV/n6wjpjtiRrhSypIrtotZg3aKXPPQQwMDHTLfBpHPL43l3gNW8GylJPPrzBXLQ+
- ylkYAt3X1q4CXyt70igxZv8heLM8+SHLBDa980uEwgIHmva+z9G6Z1j5ZNHsEYt486iq
- VPRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/ovdiNxRKjnY+t6cQYmWO9KPB4VlNY95dAMOk15bUxw=;
- b=GcitLLQzmnzV/ywrgSIa/68o+xJgLiE6Q+zMexUPPz3XiecSMNPSxj2dnj+x0aPV2+
- heC7rr42KJAE6GydwjL7DoqQvyazeyzOwGfCBmh5JszAnpFag1HdR/nIJsx+T4MdAYDl
- 0lXkBsgj6xRa2nVmcfO9AulZxQQMHp1eLI7igQE4aB4K5brdpZMvXZ9aRl5gPLUhAAwz
- Cz8ZO7Dl+2PmoJyMgYctS604AMEjlzqLNlwHVlTH6jQZPT2jSNfSBoxTHmLwCUVukpO0
- edbduj8x/8FhczTZ6XOgEdjGsMlYr/TuZ2xp09LPwISys7whRNKTlmt5hBmbblw0lU5L
- qPxw==
-X-Gm-Message-State: AJIora8Xiwm/c6/JwDzjMEX/YggTgECkE3LuBbPPp/dF97J7TsHwE+c6
- aSjxqZ1nEbjzttxdlwLbH7UVIQ==
-X-Google-Smtp-Source: AGRyM1v9wuV5l1YvGk7EaJRVbgIXf1HFE0F3LaDcaUPW/6L1ELz17eC3Pg3ApOoX7LrQGkXxLqB+Gg==
-X-Received: by 2002:a17:90b:503:b0:1e2:f129:5135 with SMTP id
- r3-20020a17090b050300b001e2f1295135mr802648pjz.22.1655139816010; 
- Mon, 13 Jun 2022 10:03:36 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
- by smtp.gmail.com with ESMTPSA id
- r8-20020a63b108000000b00404fd2138afsm5758257pgf.40.2022.06.13.10.03.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 10:03:35 -0700 (PDT)
-Message-ID: <6225c45f-a07a-05e7-05b7-51ad96feafd2@linaro.org>
-Date: Mon, 13 Jun 2022 10:03:32 -0700
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o0nUG-0004yc-B2
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:04:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o0nUD-0005Yf-K0
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:04:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655139861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1c2GNtpDGZjycff50g05vRyEgATydMBM3407fmclcDg=;
+ b=VQMratCCMtm5fSbXcXF2MfxmdxCEmBFW0YMTHtUDoi73sUyZ69dtwZJtjwoz+WUcgcr7Jk
+ JZvz9dlOjkFidaqLtKW+E7D99DrF49f0udAAeOWmV12DpXvHjXEgymfSdx+waA8ir0F+tF
+ IrbndaTRK4e/pxbJ0BkyYSTajkZvU5Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-411-q9pI7XXVPPmDTzGVq_rxxA-1; Mon, 13 Jun 2022 13:04:18 -0400
+X-MC-Unique: q9pI7XXVPPmDTzGVq_rxxA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E12785A580;
+ Mon, 13 Jun 2022 17:04:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDC2A1121319;
+ Mon, 13 Jun 2022 17:04:16 +0000 (UTC)
+Date: Mon, 13 Jun 2022 19:04:15 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, xieyongji@bytedance.com
+Subject: Re: [PULL 00/18] Block layer patches
+Message-ID: <YqduD9+GzwNLggWK@redhat.com>
+References: <20220609172149.293877-1-kwolf@redhat.com>
+ <a8b15969-fafa-e088-d778-278891c3970e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC PATCH] tcg/ppc: implement rem[u]_i{32,64} with mod[su][wd]
-Content-Language: en-US
-To: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
-References: <20220613144350.642278-1-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220613144350.642278-1-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a8b15969-fafa-e088-d778-278891c3970e@linaro.org>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -94,20 +77,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/13/22 07:43, Matheus Kowalczuk Ferst wrote:
-> Power ISA v3.0 introduced mod[su][wd] insns that can be used to
-> implement rem[u]_i{32,64}.
+Am 09.06.2022 um 22:18 hat Richard Henderson geschrieben:
+> On 6/9/22 10:21, Kevin Wolf wrote:
+> > The following changes since commit 028f2361d0c2d28d6f918fe618f389228ac22b60:
+> > 
+> >    Merge tag 'pull-target-arm-20220609' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-06-09 06:47:03 -0700)
+> > 
+> > are available in the Git repository at:
+> > 
+> >    git://repo.or.cz/qemu/kevin.git tags/for-upstream
+> > 
+> > for you to fetch changes up to 7f9a8b3342ff00d3398fdc08264948762d748edb:
+> > 
+> >    nbd: Drop dead code spotted by Coverity (2022-06-09 18:07:17 +0200)
+> > 
+> > ----------------------------------------------------------------
+> > Block layer patches
+> > 
+> > - Add vduse-blk export
+> > - Dirty bitmaps: Fix and improve bitmap merge
+> > - gluster: correctly set max_pdiscard
+> > - rbd: report a better error when namespace does not exist
+> > - aio_wait_kick: add missing memory barrier
+> > - Code cleanups
 > 
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->   tcg/ppc/tcg-target.c.inc | 22 ++++++++++++++++++++++
->   tcg/ppc/tcg-target.h     |  4 ++--
->   2 files changed, 24 insertions(+), 2 deletions(-)
+> Several sets of compile failures:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi Yongji,
 
-Queueing to tcg-next.
+the vduse-blk code fails to compile with clang as shown below. As you
+already sent another series to fix up other bugs introduced in the
+series, maybe it would be better if you can send a new version with all
+of the necessary fixes squashed in instead of me trying to make minimal
+fixes to get it to compile with clang.
 
+Kevin
 
-r~
+> https://gitlab.com/qemu-project/qemu/-/jobs/2571008901
+> 
+> ../subprojects/libvduse/libvduse.c:578:20: error: unused function
+> 'vring_used_flags_set_bit' [-Werror,-Wunused-function]
+> static inline void vring_used_flags_set_bit(VduseVirtq *vq, int mask)
+>                    ^
+> ../subprojects/libvduse/libvduse.c:587:20: error: unused function
+> 'vring_used_flags_unset_bit' [-Werror,-Wunused-function]
+> static inline void vring_used_flags_unset_bit(VduseVirtq *vq, int mask)
+>                    ^
+> 
+> https://gitlab.com/qemu-project/qemu/-/jobs/2571008908
+> 
+> ../meson.build:1652:2: ERROR: Tried to use 'add_global_arguments' after a
+> build target has been declared.
+> 
+> https://gitlab.com/qemu-project/qemu/-/jobs/2571008833
+> 
+> ../subprojects/libvduse/libvduse.c:325:20: error: cast to pointer from
+> integer of different size [-Werror=int-to-pointer-cast]
+>   325 |             munmap((void *)dev->regions[i].mmap_addr,
+>       |                    ^
+> ../subprojects/libvduse/libvduse.c: In function 'vduse_dev_create':
+> ../subprojects/libvduse/libvduse.c:1318:54: error: format '%lu' expects
+> argument of type 'long unsigned int', but argument 3 has type 'uint64_t'
+> {aka 'long long unsigned int'} [-Werror=format=]
+>  1318 |         fprintf(stderr, "Failed to set api version %lu: %s\n",
+>       |                                                    ~~^
+>       |                                                      |
+>       |                                                      long unsigned int
+>       |                                                    %llu
+>  1319 |                 version, strerror(errno));
+>       |                 ~~~~~~~
+>       |                 |
+>       |                 uint64_t {aka long long unsigned int}
+> 
+> 
+> r~
+> 
+
 
