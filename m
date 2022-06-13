@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C68548202
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 10:53:21 +0200 (CEST)
-Received: from localhost ([::1]:52908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BA5548298
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 11:07:28 +0200 (CEST)
+Received: from localhost ([::1]:40498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0fp2-0004Ep-SF
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 04:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35062)
+	id 1o0g2h-00083l-J5
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 05:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o0fi2-0005mC-Oc
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:46:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o0fhz-0001Ja-9M
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:46:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655109962;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OsmIb8JBjamYO7HSXD7lvz9oKqmWR9je1VCbD+9sYo8=;
- b=PMM5h3q+pC1asss/CPUyee+Plin+2Y/qDLkpdfYjeEZLFi6xT5bfPt+qZtJv9BX/JTsPre
- LBivK/Ptcfj0GabOzBHGFuY7f3n0HHWR9ruNEf4jwnTE103PXv7NNlwL14mlY7A3QOoOLz
- J/CPNPdbKhj7++HrxTmPdZnkazew/ws=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-9IpHJqSjOBatvPQxcG8MFA-1; Mon, 13 Jun 2022 04:46:00 -0400
-X-MC-Unique: 9IpHJqSjOBatvPQxcG8MFA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0207D3801FE1;
- Mon, 13 Jun 2022 08:45:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B8F5475005;
- Mon, 13 Jun 2022 08:45:37 +0000 (UTC)
-Date: Mon, 13 Jun 2022 09:45:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
- "Canokeys.org" <contact@canokeys.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>, xen-devel@lists.xenproject.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PULL 00/17] Kraxel 20220610 patches
-Message-ID: <Yqb5L31cG/0cVM5B@redhat.com>
-References: <20220610092043.1874654-1-kraxel@redhat.com>
- <adec1cff-54f1-e2bf-8092-945601aeb912@linaro.org>
- <60c72935-85ce-4e24-43a5-119f6428b916@t-online.de>
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1o0fzA-0006iT-7E
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 05:03:49 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:33726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1o0fz3-0003LW-Up
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 05:03:47 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-30fa61b1a83so45004007b3.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 02:03:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jsKRKlm68QVVDkxY6Rj0ZNliM1xJd8+xEyUYh4yp6TM=;
+ b=Gap+ZcogR1WAJVzQ5x1f8Kq3KVgrthi6CbdDTWEr1DGMY8CPct1f9J/+PIYMvwi8L/
+ jM4zXmR3zc8tCINwk57tly3fCpNGZRPbwWTA+cXqzAh3w2iqUaY58AZKQIdkWmV3vdBm
+ ZEWUCK/9GU2zAXnakaWPmreViWX8DNxzgNxEjkF78hU2WOmVHB62cPcVeQ6kA4VMuCzx
+ CbcEBv8v543d51fwY/Zh4FL3vqqql6DrIggbENVHL3lI8SL+5yQSKdZVjTiXXvrlU6N+
+ sQ1kTFWBRTzXZ/Nc1E6C1pj5RgaT9OpgRhJzyjeyj6saZ0k+c0y5CTFsq5/HBW9YuvOo
+ uKIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jsKRKlm68QVVDkxY6Rj0ZNliM1xJd8+xEyUYh4yp6TM=;
+ b=ROFQxis/nedtrCstU8a45+FlSZnAFcNp71W6ve0DeAQCuXsY+g1pnWm+vudCbAAxrO
+ uu0/T7oLbN1yPhCViCNkob2TAUZaKjLqIcXFpjBNfoULls/wDB6cC6HwpivzkUjuU2mf
+ kJlouajjlTJ7uJ/L22sbSLBD8HLKvdSz6hN61Qjf5i47IFKwd0CBef6SvwMjOLS+RlGb
+ fnntMqsuiI8ysuOYEubVtncTaFH60RDQZc0P2UXLQBjHF629sWSQ5rErfsPHH+/wD/S8
+ Gf1WPsaxCqwBD25N9M/X021edqknheFuTbtvMz8GZoTbjAol2TbycvBoRPXkaNx0uweY
+ NKVQ==
+X-Gm-Message-State: AOAM532F3ow3Wq3cKZ0aVb3MkPPFKHXKiMsRO8B6aA8j6XA/4/eFCPN1
+ 6wwiWqJVdk/3CmHPo3/+qaiARot9ulsr59z4lHc=
+X-Google-Smtp-Source: ABdhPJzifTBZZWdfh4gvrGLBI2n5RflvjX1ercoYM7qJ6WM8494NTHU/kfCBFq73XvNQM47gC+hUqBwFhHJDTDbn9dk=
+X-Received: by 2002:a81:60c6:0:b0:30f:ea59:10c7 with SMTP id
+ u189-20020a8160c6000000b0030fea5910c7mr62745903ywb.78.1655111014193; Mon, 13
+ Jun 2022 02:03:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <60c72935-85ce-4e24-43a5-119f6428b916@t-online.de>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220520095602.17379-1-lizhang@suse.de>
+ <20220609170525.22eb992d@redhat.com>
+In-Reply-To: <20220609170525.22eb992d@redhat.com>
+From: Li Zhang <zhlcindy@gmail.com>
+Date: Mon, 13 Jun 2022 11:03:23 +0200
+Message-ID: <CAD8of+qg7ghVOMYvoB6dXV-nG2D4k=j9NDzreRR-bfMS0P+GVw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] Fix the coredump when memory backend id conflicts
+ with default_ram_id
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: Li Zhang <lizhang@suse.de>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Yanan Wang <wangyanan55@huawei.com>, QEMU <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=zhlcindy@gmail.com; helo=mail-yw1-x112e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,74 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jun 11, 2022 at 06:34:28PM +0200, Volker Rümelin wrote:
-> Am 10.06.22 um 22:16 schrieb Richard Henderson:
-> > On 6/10/22 02:20, Gerd Hoffmann wrote:
-> > > The following changes since commit
-> > > 9cc1bf1ebca550f8d90f967ccd2b6d2e00e81387:
-> > > 
-> > >    Merge tag 'pull-xen-20220609' of
-> > > https://xenbits.xen.org/git-http/people/aperard/qemu-dm into staging
-> > > (2022-06-09 08:25:17 -0700)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >    git://git.kraxel.org/qemu tags/kraxel-20220610-pull-request
-> > > 
-> > > for you to fetch changes up to 02319a4d67d3f19039127b8dc9ca9478b6d6ccd8:
-> > > 
-> > >    virtio-gpu: Respect UI refresh rate for EDID (2022-06-10 11:11:44
-> > > +0200)
-> > > 
-> > > ----------------------------------------------------------------
-> > > usb: add CanoKey device, fixes for ehci + redir
-> > > ui: fixes for gtk and cocoa, move keymaps, rework refresh rate
-> > > virtio-gpu: scanout flush fix
-> > 
-> > This introduces regressions:
-> > 
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2576157660
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2576151565
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2576154539
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2575867208
-> > 
-> > 
-> >  (27/43)
-> > tests/avocado/vnc.py:Vnc.test_change_password_requires_a_password:
-> > ERROR: ConnectError: Failed to establish session: EOFError\n Exit code:
-> > 1\n    Command: ./qemu-system-x86_64 -display none -vga none -chardev socket,id=mon,path=/var/tmp/avo_qemu_sock_4nrz0r37/qemu-2912538-7f732e94e0f0-monitor.sock
-> > -mon chardev=mon,mode=control -node... (0.09 s)
-> >  (28/43) tests/avocado/vnc.py:Vnc.test_change_password:  ERROR:
-> > ConnectError: Failed to establish session: EOFError\n    Exit code:
-> > 1\n    Command: ./qemu-system-x86_64 -display none -vga none -chardev socket,id=mon,path=/var/tmp/avo_qemu_sock_yhpzy5c3/qemu-2912543-7f732e94b438-monitor.sock
-> > -mon chardev=mon,mode=control -node... (0.09 s)
-> >  (29/43)
-> > tests/avocado/vnc.py:Vnc.test_change_password_requires_a_password:
-> > ERROR: ConnectError: Failed to establish session: EOFError\n Exit code:
-> > 1\n    Command: ./qemu-system-x86_64 -display none -vga none -chardev socket,id=mon,path=/var/tmp/avo_qemu_sock_tk3pfmt2/qemu-2912548-7f732e93d7b8-monitor.sock
-> > -mon chardev=mon,mode=control -node... (0.09 s)
-> > 
-> > 
-> > r~
-> > 
-> 
-> This is caused by [PATCH 14/17] ui: move 'pc-bios/keymaps' to 'ui/keymaps'.
-> After this patch QEMU no longer finds it's keymaps if started directly from
-> the build directory.
+On Thu, Jun 9, 2022 at 5:59 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Fri, 20 May 2022 11:56:02 +0200
+> Li Zhang <lizhang@suse.de> wrote:
+>
+> > When no memory backend is specified in machine options,
+> > a default memory device will be added with default_ram_id.
+> > However, if a memory backend object is added in QEMU options
+> > and id is the same as default_ram_id, a coredump happens.
+> >
+> > Command line:
+> > qemu-system-x86_64 -name guest=vmtest,debug-threads=on \
+> > -machine pc-q35-6.0,accel=kvm,usb=off,vmport=off \
+> > -smp 16,sockets=16,cores=1,threads=1 \
+> > -m 4G \
+> > -object memory-backend-ram,id=pc.ram,size=4G \
+> > -no-user-config -nodefaults -nographic
+> >
+> > Stack trace of thread 16903:
+> >     #0  0x00007fb109a9318b raise (libc.so.6 + 0x3a18b)
+> >     #1  0x00007fb109a94585 abort (libc.so.6 + 0x3b585)
+> >     #2  0x0000558c34bc89be error_handle_fatal (qemu-system-x86_64 + 0x9c89be)
+> >     #3  0x0000558c34bc8aee error_setv (qemu-system-x86_64 + 0x9c8aee)
+> >     #4  0x0000558c34bc8ccf error_setg_internal (qemu-system-x86_64 + 0x9c8ccf)
+> >     #5  0x0000558c349f6899 object_property_try_add (qemu-system-x86_64 + 0x7f6899)
+> >     #6  0x0000558c349f7df8 object_property_try_add_child (qemu-system-x86_64 + 0x7f7df8)
+> >     #7  0x0000558c349f7e91 object_property_add_child (qemu-system-x86_64 + 0x7f7e91)
+> >     #8  0x0000558c3454686d create_default_memdev (qemu-system-x86_64 + 0x34686d)
+> >     #9  0x0000558c34546f58 qemu_init_board (qemu-system-x86_64 + 0x346f58)
+> >     #10 0x0000558c345471b9 qmp_x_exit_preconfig (qemu-system-x86_64 + 0x3471b9)
+> >     #11 0x0000558c345497d9 qemu_init (qemu-system-x86_64 + 0x3497d9)
+> >     #12 0x0000558c344e54c2 main (qemu-system-x86_64 + 0x2e54c2)
+> >     #13 0x00007fb109a7e34d __libc_start_main (libc.so.6 + 0x2534d)
+> >     #14 0x0000558c344e53ba _start (qemu-system-x86_64 + 0x2e53ba)
+> >
+> > Signed-off-by: Li Zhang <lizhang@suse.de>
+> > ---
+> >  hw/core/machine.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index b03d9192ba..3867af7a8a 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -1290,9 +1290,17 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
+> >  static bool create_default_memdev(MachineState *ms, const char *path, Error **errp)
+> >  {
+> >      Object *obj;
+> > +    ObjectProperty *prop;
+> >      MachineClass *mc = MACHINE_GET_CLASS(ms);
+> >      bool r = false;
+> >
+> > +    prop = object_property_find(object_get_objects_root(), mc->default_ram_id);
+> > +    if (prop) {
+> > +        error_report("Memory backend id conflicts with default_ram_id %s",
+> > +                     mc->default_ram_id);
+>
+> maybe something like this would be better:
+>  A memory backend with id '%s' already exists, cannot create default RAM backend with the same id.
+>  Either change id of the offending backend or provide system RAM backend explicitly using
+>  '-machine memory-backend' option.
+>
 
-I just sent Gerd an update version which adds a symlink from the source
-tree to the build dir to solve this problem, along with updated commit
-message to reflect this need
+Thanks, I will modify it.
 
-With regards,
-Daniel
+>
+> > +        exit(EXIT_FAILURE);
+> > +    }
+> > +
+> >      obj = object_new(path ? TYPE_MEMORY_BACKEND_FILE : TYPE_MEMORY_BACKEND_RAM);
+> >      if (path) {
+> >          if (!object_property_set_str(obj, "mem-path", path, errp)) {
+>
+>
+
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+Best Regards
+-Li
 
