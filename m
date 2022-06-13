@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C781549E09
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 21:49:48 +0200 (CEST)
-Received: from localhost ([::1]:37532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91925549E2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 21:54:48 +0200 (CEST)
+Received: from localhost ([::1]:43954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0q4I-0003ce-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 15:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
+	id 1o0q99-00085h-F2
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 15:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0q12-0002AW-Rj
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 15:46:24 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:40526)
+ id 1o0q2R-0003Ly-G7
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 15:47:51 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:46671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0q11-0004aC-0Y
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 15:46:24 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id z17so6635197pff.7
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 12:46:21 -0700 (PDT)
+ id 1o0q2N-0004jj-Vb
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 15:47:49 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id d13so5921832plh.13
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 12:47:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OMp+piy3Z95fks8JAw8WSba0LQmLIkIPRLlSSxevNLE=;
- b=oDP7YdkxG3TibpvvyRPCUXJEqd2sat7oLnTeE0FtlYNRjCPESHSO9cisZDthsgiCMD
- nMYsWV7qMCO3AcTc2Cufi1bXKZRnEaU0l7/TOj8oin34eNBkx9AXX4y9W1XSVUqCXAsE
- Fz5HIbBz2RoixA2G18W5xRa7grnFmturgS7MaBLxmOEaXEhtVgEG1RW4NuuhpTJvHO1J
- UM+BD4zhmBxOG83EKLqh1Azsyd4QuQYzsrpdNRfSMoI4/Y8tgHu798cg2c+wgF1Gqted
- qda5FHSSnNGYZXM8RGtRYXCvQqVrErBEeBbde/fCLBo3xhyCEcHelNsrzoTv/wVhBRVA
- UiMw==
+ bh=o1SDu3eKYprvBOm7tFi/htqtb8OxrC00v1zRrccZxWM=;
+ b=JCSRScMkJc8BDgh+BEnSzUjvJrPwceyu6kpXsHQCm3XVPGxnweJqewZUH+eRO9TZdu
+ A3X5MxhAt7DR8bRJ1T+MVKB2vpTBsbz0zYFeBRx4vlU5BI/DGN6irCQCLPeNCaWJzoYx
+ ajjj4p47w6dqOneEtj6fYPkiQ2V/y4+wIQwEttdAH6E3FePJA9SyAeJ8XinUc+CoHqJj
+ 98HMRA9fzfc9C1bxkJSZZ1W/5X1tCEsQc9iQLJEMEY3WyIYyHy/vXrHv/hHOSd/DSLnf
+ 9/z4asSeDNc8h7tz44zbGC2zCpT5x4v+npD/DYLnETnqf75hEMf30bx6tfbkhXB0sZfg
+ mErg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OMp+piy3Z95fks8JAw8WSba0LQmLIkIPRLlSSxevNLE=;
- b=GMMMUejVeIXATNwZJeSXEWizF0V8NhAJaeXs0ex+f7VyBvcwsMcmtwjTuiO+MQzEj7
- 8nc7ULJ1C+KBcG2fYT/OY734iI/Qb/PuCx5oyHnJyBWe7B8PaRYLcXsH7PQx3F99BKKP
- o32oYTk/1wxXDb6AOoF33HQTFfmu+xR9AyiITScUXSkTFzMuT23FeoVmsWml775GHBj/
- SNRO3gVvnuByXRHlgAJiKlNHy8JO/Tp8TxKf7/nn+Cndi9ClPIqG88q0p5FxvX5gzyTA
- zL7tFOwqi09YCIMFEG9fOL07rGatvWltjvart+TrFH03A/1NMIDUYqARMb3Uf9T5hjft
- aBuQ==
-X-Gm-Message-State: AOAM531Ni4j9mYzFqi4+TbR3/a/NZtVlTQ+115EWGiRSKvRIDIsGfBGL
- ayvRYm34mFNAHk333oqgcOUe9g==
-X-Google-Smtp-Source: ABdhPJyEZxe3vrY+VgDEZmAZf+mMMt4n4tTDDlxQ9Dpv/PZ1q9xD9zlHM2bqV9RiWXMSkwB34O+ztg==
-X-Received: by 2002:a05:6a00:1946:b0:4fe:309f:d612 with SMTP id
- s6-20020a056a00194600b004fe309fd612mr944823pfk.10.1655149580089; 
- Mon, 13 Jun 2022 12:46:20 -0700 (PDT)
+ bh=o1SDu3eKYprvBOm7tFi/htqtb8OxrC00v1zRrccZxWM=;
+ b=r0LG9GzBCOICkDKMoy2pBKaANeZWOjqfgdCOZHSR12Tv3JWWgOew4HafIhCWjvpRg2
+ ES7DPZTwp9FTVNfe+TVSzbhnla6T89hXdE+MeVqUheR2r8EMh++hMdQGJrOzRhl9lljT
+ RzdpvqEdBwgZdNl5mxc8orJWXJY+OUDv7iGVP/1t2LCBEilFcBVgpyXjCxsQCBlGtYCk
+ +/UGNi6X+nxbNekhVRUIj02pi42Okv7TyCT9nfE0vSCczu61I7Q0P/wHNy2/ka6SV1ht
+ UNp+OaiKJjqyLbm4Me/xwas2FBa1sMRsVhC6Jz5wH7KwBFIvhmJDuZ2EonyShiJL8LFi
+ 4NcA==
+X-Gm-Message-State: AOAM530LGF/EnuUrBQp5yOIaV88kJZGRzRzBGHzWfz4xUdM6L2x1b8jN
+ 5JWcXjSUBgNizHECbjlznZ7cEA==
+X-Google-Smtp-Source: AGRyM1tyjL8Gsz0jMuP3dNlx3eMmNSNPms4w9TnsbT0+j0VThcPjV3AIG7nxR5UNb/8kJvBzYvDbyg==
+X-Received: by 2002:a17:902:d904:b0:163:dd91:87 with SMTP id
+ c4-20020a170902d90400b00163dd910087mr917918plz.34.1655149666181; 
+ Mon, 13 Jun 2022 12:47:46 -0700 (PDT)
 Received: from [172.21.2.253] ([50.208.55.229])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a1709027e4c00b00164097a779fsm5498670pln.147.2022.06.13.12.46.19
+ cd25-20020a056a00421900b0050dc76281f0sm5750606pfb.202.2022.06.13.12.47.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 12:46:19 -0700 (PDT)
-Message-ID: <fbda3754-1a53-8c7c-c770-ee6f583f78d7@linaro.org>
-Date: Mon, 13 Jun 2022 12:46:17 -0700
+ Mon, 13 Jun 2022 12:47:45 -0700 (PDT)
+Message-ID: <0c917c42-9daf-b9c5-17fc-cbca491aafab@linaro.org>
+Date: Mon, 13 Jun 2022 12:47:42 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 02/11] bsd-user: Implement fdatasync, fsync and close_from
+Subject: Re: [PATCH 03/11] bsd-user: Implement revoke, access, eaccess and
+ faccessat
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 Cc: jrtc27@FreeBSD.org, def@FreeBSD.org, arrowd@freebsd.org,
- Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
- Jung-uk Kim <jkim@FreeBSD.org>
+ Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>
 References: <20220612204851.19914-1-imp@bsdimp.com>
- <20220612204851.19914-3-imp@bsdimp.com>
+ <20220612204851.19914-4-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220612204851.19914-3-imp@bsdimp.com>
+In-Reply-To: <20220612204851.19914-4-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,49 +96,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/12/22 13:48, Warner Losh wrote:
-> Implement fdatasync(2), fsync(2) and close_from(2).
-> 
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Jung-uk Kim <jkim@FreeBSD.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> Signed-off-by: Stacey Son<sson@FreeBSD.org>
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/bsd-file.h           | 22 ++++++++++++++++++++++
->   bsd-user/freebsd/os-syscall.c | 12 ++++++++++++
->   2 files changed, 34 insertions(+)
-> 
-> diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
-> index fb54905b46f..3e0f160e312 100644
-> --- a/bsd-user/bsd-file.h
-> +++ b/bsd-user/bsd-file.h
-> @@ -240,4 +240,26 @@ static inline abi_long do_bsd_close(abi_long arg1)
->       return get_errno(close(arg1));
->   }
->   
-> +/* fdatasync(2) */
-> +static abi_long do_bsd_fdatasync(abi_long arg1)
-> +{
-> +
-> +    return get_errno(fdatasync(arg1));
-> +}
-> +
-> +/* fsync(2) */
-> +static abi_long do_bsd_fsync(abi_long arg1)
-> +{
-> +
-> +    return get_errno(fsync(arg1));
-> +}
-> +
-> +/* closefrom(2) */
-> +static abi_long do_bsd_closefrom(abi_long arg1)
-> +{
-> +
-> +    closefrom(arg1);  /* returns void */
-> +    return get_errno(0);
-> +}
+>   bsd-user/bsd-file.h           | 53 +++++++++++++++++++++++++++++++++++
+>   bsd-user/freebsd/os-syscall.c | 16 +++++++++++
+>   2 files changed, 69 insertions(+)
 
-All with extra linefeed.  Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
