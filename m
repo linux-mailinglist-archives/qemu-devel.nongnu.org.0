@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89B4549B8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 20:31:44 +0200 (CEST)
-Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82912549E03
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 21:47:26 +0200 (CEST)
+Received: from localhost ([::1]:34846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0oqj-0005jj-Ry
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 14:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
+	id 1o0q21-0001hV-3U
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 15:47:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o0ooY-0004pK-3L
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 14:29:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o0ooV-0001Pv-4z
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 14:29:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655144961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PiKzz3ayWolbmahp3ltZvQbvXQfyh76OJ46DSqya3Ls=;
- b=PS+v44jncegyG9K/jB4zq+9++fYHwXsgWptcRqXyZuk5cnJROV2+kiU3j3aojs2blAbrqs
- D7Xl5rDL4JkfEQYHFTd4GFfGhsWb+OmxXoFAmqf1XAwVuobcFDpk7vioxQ4lkusYpeH7/D
- tfP+9qrpB+n0cPN6frcz88MtwSBXKtk=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-78-6Ltjfp_rNEGjFcyqsc0qVw-1; Mon, 13 Jun 2022 14:29:20 -0400
-X-MC-Unique: 6Ltjfp_rNEGjFcyqsc0qVw-1
-Received: by mail-ua1-f69.google.com with SMTP id
- x24-20020ab07818000000b00378d73df633so2919389uaq.10
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 11:29:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o0pzt-0000rN-GQ
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 15:45:13 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:42571)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o0pzr-0004Oz-HK
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 15:45:13 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id d129so6456111pgc.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 12:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=a1SF1dzLkPOAEITUNcm7ZQHNSNFQZo5Az4ZBl1mzuD4=;
+ b=Y+dE9PNBIGBnHGkIOPT3sH5aMzKx1OEBX1dbRAX5GeEj8vqNT3dJD3sjGh3PY3u0O/
+ JDRomRhTeQrOB0D6PUnThuhz/FHIiJlmRrf6CKyE8AX3J5rSjAlMZ6o5OnKcNbubBG4R
+ jEffR36wPOPwOoHveZtBg4bK/uypi49wPSXPoH6DhZHXKG3fciwChIRFrz0fCP+E+NlL
+ UaWJdVU1/Op4oi7tgu7tveDBQtvDh0DxvTTLZwFJ23u9EI7q6NlTSuYvBX5T/f40Gcu5
+ 0YGxGjz8lCwf4tup45DLzTAooDrFIJCNe/BhNE5aFxTO89V1flLXJ9QR23hTpZhIeSHk
+ TwEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PiKzz3ayWolbmahp3ltZvQbvXQfyh76OJ46DSqya3Ls=;
- b=ExdWxOcm3UDNJCOntChwDtB4zBqI4BiIjIXZY6exxxIGKgNYvMKrKZyMaqQ6uctBF8
- PCxeAJ4wBJFd2Vx/Dj8QT6tvAIXwM/ZqdNKJ31gmMsNlHV2QuDjITvwNkIiWpoE4fvnC
- ypE6urDS9VOh8tiUiuITU8nEDcmKOtQLSS/75THzc48yJVekgybi5pD7T+JK5xgSuDiG
- yVtI9vnzr6bwfIxmTca631eBGzs7/fOIyJZUPSGKy7m5mn+LTlmt4FgWyvM7ZILF09an
- h9Q4SwqP8xOlICrvv4g4l0hO8zoG6mQdpK5cny5As/w62ofrQpSlrV3f7jEZ9o+k9ARU
- XlmA==
-X-Gm-Message-State: AJIora/+EkDS3RSht5xTIyPHIz/QsigxUZhhkkMH/GUAbrk618BHjlfC
- 2R0vpDFXpdXWMme1CUvRTDEmPJl95HxCLoMAiZ0dnC1pHyXx2Vn+psnibc5ZVXFQpKUy77nK2Qj
- vntQdD+RCxbon2HhC0woRfVUOxsjQ+Tc=
-X-Received: by 2002:a9f:35d3:0:b0:379:8e0f:711f with SMTP id
- u19-20020a9f35d3000000b003798e0f711fmr542123uad.42.1655144959996; 
- Mon, 13 Jun 2022 11:29:19 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vuYfS5ySszJrTh6AbvX7u9J1K2eusNe3H2qrc6L4SHAa52htnNVO9NW0tpukuw1VWkbpBwLEKpHBwTPdiinL4=
-X-Received: by 2002:a9f:35d3:0:b0:379:8e0f:711f with SMTP id
- u19-20020a9f35d3000000b003798e0f711fmr542121uad.42.1655144959779; Mon, 13 Jun
- 2022 11:29:19 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=a1SF1dzLkPOAEITUNcm7ZQHNSNFQZo5Az4ZBl1mzuD4=;
+ b=bgdiNgATYLNvzAF8k8abPM8q87V/h8GyU7fxa38gvLpghE5QW0gcnXIv66oRyu7Lzv
+ QCT0qsJ8+WoX9KjBLGlEs+oUduDgp032NzR8gyHAq0cfRv2bBscWkdkvyKrw+jST9xbz
+ Up741UOMPp7SbG8waHuwaZmk6yAYDKUHahmTHLHfbVMUejHyIuHJCcxkX0Ra30cZ9B1l
+ 0nOwMZg3TxgGa7nB6dIJyaK3CgY2d5o+bmrgpZd0GwXHCOsCzeZIY8CGPnLLLBGIhAIY
+ UVSKRSld6sK2g/B/HafPj95NaTah40jRyLw6YCcAuJywstmoeB+tVnIpA+xT703loB36
+ HCyQ==
+X-Gm-Message-State: AOAM531lV5a3PAPgYVj18Pi8fUWPuu8r2evqfshskf+Z8krzVKOV0JeP
+ 3RudaTR/5H/5uyT/2EVvzwmpcw==
+X-Google-Smtp-Source: ABdhPJwGF+gKv9PbLN2XtM2+R/2RejMxD1X3dyVsqHfjjsckY6FI58fVRBUR4+gJ2HoMKaG09OmJcg==
+X-Received: by 2002:a05:6a00:15c6:b0:51c:61bb:a62d with SMTP id
+ o6-20020a056a0015c600b0051c61bba62dmr820327pfu.30.1655149509708; 
+ Mon, 13 Jun 2022 12:45:09 -0700 (PDT)
+Received: from [172.21.2.253] ([50.208.55.229])
+ by smtp.gmail.com with ESMTPSA id
+ jj1-20020a170903048100b00163247b64bfsm5544650plb.115.2022.06.13.12.45.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jun 2022 12:45:09 -0700 (PDT)
+Message-ID: <8ec430f9-d919-8702-a210-37e5590bde27@linaro.org>
+Date: Mon, 13 Jun 2022 12:45:06 -0700
 MIME-Version: 1.0
-References: <CAFn=p-ZwWzYa9h_-rNa-cA0CsDOJusy21D_RNtLffpTOgOHP-Q@mail.gmail.com>
- <48fba5eb-6b93-347f-9a8d-a757f19e5d55@redhat.com>
- <CAFn=p-aLbefiW1shYu-3=Fn4UBAoFzQ0y0jV0__MWkvCfTj3xA@mail.gmail.com>
-In-Reply-To: <CAFn=p-aLbefiW1shYu-3=Fn4UBAoFzQ0y0jV0__MWkvCfTj3xA@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 13 Jun 2022 14:29:09 -0400
-Message-ID: <CAFn=p-bPrAk=TS0HWtgy26-xn9QZp6kntVuKnOuziihJPZq0qg@mail.gmail.com>
-Subject: Re: CentOS 8 cloud images not working under VM tests
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Daniel Berrange <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 01/11] bsd-user: Implement open, openat and close
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+Cc: jrtc27@FreeBSD.org, def@FreeBSD.org, arrowd@freebsd.org,
+ Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
+ Jung-uk Kim <jkim@FreeBSD.org>
+References: <20220612204851.19914-1-imp@bsdimp.com>
+ <20220612204851.19914-2-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220612204851.19914-2-imp@bsdimp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,89 +95,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 13, 2022 at 12:36 PM John Snow <jsnow@redhat.com> wrote:
->
-> On Mon, Jun 13, 2022 at 2:05 AM Thomas Huth <thuth@redhat.com> wrote:
-> >
-> > On 11/06/2022 01.28, John Snow wrote:
-> > > This test doesn't appear to work for me:
-> > >
-> > > def build_image(self, img):
-> > >      cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
-> > >      img_tmp = img + ".tmp"
-> > >      subprocess.check_call(["ln", "-f", cimg, img_tmp])
-> > >      self.exec_qemu_img("resize", img_tmp, "50G")
-> > >      self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
-> > >      self.wait_ssh()
-> > >      ^^^^^^^^^^^^^^^
-> > >
-> > > It appears to be expecting to be able to use passwordless entry, but
-> > > that doesn't appear to actually work in this case.
-> > >
-> > > It looks like the cloud iso generate step is supposed to handle
-> > > setting up keys -- and everything appears as if it's working -- but I
-> > > get SSH timeouts at this step.
-> > >
-> > >  From what I can see:
-> > >
-> > > DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=no -o
-> > > UserKnownHostsFile=/dev/null -o ConnectTimeout=1 -p 41729 -i
-> > > /home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa -o
-> > > SendEnv=https_proxy -o SendEnv=http_proxy -o SendEnv=ftp_proxy -o
-> > > SendEnv=no_proxy qemu@127.0.0.1 exit 0
-> > > Warning: Permanently added '[127.0.0.1]:41729' (ED25519) to the list
-> > > of known hosts.
-> > > qemu@127.0.0.1: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
-> > >
-> > > ...and the /home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa
-> > > file looks identical to the qemu.git/tests/keys/id_rsa file, save for
-> > > a missing trailing newline.
-> > >
-> > >  From a subsequent run, turning SSH debug on, I see this:
-> > >
-> > > debug1: Offering public key:
-> > > /home/jsnow/src/qemu/bin/git/vm-test-o_x2vdwo.tmp/id_rsa RSA
-> > > SHA256:6TUK9PSgWR+CbTEKA6E9IyizVjt2ZW5ble/Mg4wUiao explicit
-> > > debug3: send packet: type 50
-> > > debug2: we sent a publickey packet, wait for reply
-> > > debug3: receive packet: type 51
-> > >
-> > > ... Which looks like the usual kind of bog-standard "Unrecognized key"
-> > > kind of answer, IIUC.
-> > >
-> > > Is this working for anyone else, or can anyone offer some debugging
-> > > tips on what's gone wrong here?
-> > It seems to work for me - maybe it's some issue with a newer version of ssh
-> > on your host? (I'm still using RHEL 8 here).
-> >
-> > Anyway, the VM dies shortly afterwards since it tries to install some
-> > additional packages, and non-Stream CentOS 8 has been disabled at the end of
-> > last year. So this test is certainly broken since half a year already and
-> > nobody noticed until now. I think you can either remove it, or it should get
-> > updated to CentosStream instead.
-> >
-> >   Thomas
-> >
->
-> Don't really have the interest to upgrade it myself, so if it's been
-> broken for half a year, out it goes.
->
+On 6/12/22 13:48, Warner Losh wrote:
+> +static inline abi_long do_bsd_close(abi_long arg1)
+> +{
+> +
 
-It turns out it's because the setup was failing, but we use "ln" to
-make a temporary image instead of cp -- so if the setup screws up,
-we've permanently damaged the cached image as well. You have to delete
-the original downloaded image to restore original behavior. Then, as
-you say, the old image doesn't work anymore anyway. Replacing it with
-a new CentOS 8 stream image works fine, if we replace the LN with CP
-like the fedora recipe does. However, some of the iotests fail due to
-permissions issues with docker and FUSE.
+Watch the extra linefeed.  Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Still trying to figure out the FUSE stuff.
 
-I tried to update aarch64, but that test seems to need even more work.
-I think I will probably just delete it, it doesn't seem like anyone is
-running it or looking after it.
-
---js
-
+r~
 
