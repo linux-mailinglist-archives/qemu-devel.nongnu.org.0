@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3314548608
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:52:37 +0200 (CEST)
-Received: from localhost ([::1]:49188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116D7548606
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:50:27 +0200 (CEST)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0mMm-00037k-RR
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37064)
+	id 1o0mKg-0007So-68
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:50:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o0mFl-0000DR-HC; Mon, 13 Jun 2022 11:45:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14610)
+ id 1o0mFj-00006N-HP; Mon, 13 Jun 2022 11:45:19 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42806
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o0mFj-00022e-SX; Mon, 13 Jun 2022 11:45:21 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DDV4TE001633;
- Mon, 13 Jun 2022 15:45:10 GMT
+ id 1o0mFh-00021w-S3; Mon, 13 Jun 2022 11:45:19 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DDmxF2011951;
+ Mon, 13 Jun 2022 15:45:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=hX10O00sgZSa+/DLHphttqNXQEss5mkyCdzClRd7uRo=;
- b=R5qvPAd3rZuRZbDjog1m/6xF39UEXq4ZSjwRWfM2HrZVVyTNbuzf47sYqOcoFRh5wPkT
- akNKxal2Dqhq04eXevCRii5eYf6J3oqKm1uZHsWNl5500hR3zmy1czhMDVobonnLt8Lt
- 5Vd3krBHjNl3GaA7i0lTywpzA9VfW/oxF9OoEZ/DD2ZzCQ6w7N+8LDk8VTnaifdyslIV
- heHDpQvNgEEzCdm5cX6lARv0iNCUaD+lCAvQHgjQq12thuYSzN2zImlM3QtnocsRvnSw
- lPPyAbffZRr1PZ5mwMPPxxtAhQRE5JTrJ28TKGDaJFTGJhjpX4PMp9mvJJFk4VOkLcjy Xw== 
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gp66db217-1
+ bh=T8pirkMotAaRXXZo2tN/39Q7qE+iB/wZrLp1rlahh2c=;
+ b=bwAP6vlHl60nX+RpZ77kenTsOjnzlag6t62uOhmnDcFzBYIGrGjYl3mGCx1cyo1qfesM
+ GAgcjH4QQ2en9msE+JcCXkmo/dVlyc/vCU4pDWqfs8NtXwR4AJCOUGtUNTsOLUaa5ldL
+ 7MnMIjiWKF1bioC0yxNhjC3jY8w/tTpZ/H2ugVrD5mH90/scO5q9wJu5VcBl8xUl1zX5
+ GSnmCAO2Akb5sVyhiNaBgmiRPF3nYMkiD3aJ25eFvmr0NNN6zdHDlsGYFFkgqkwnOoMf
+ C0oC1D1RZUvR689TUhoYM2+jq+ZpC7jBeJk+EDQOz2+ehWZk05jrlHeFJdx5iKnFOLL3 vg== 
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gp3jtpcmd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Jun 2022 15:45:11 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25DFOkcr013004;
+ Mon, 13 Jun 2022 15:45:10 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 3gmjp96dr7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 13 Jun 2022 15:45:10 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25DFhoh0010233;
- Mon, 13 Jun 2022 15:45:09 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma04wdc.us.ibm.com with ESMTP id 3gmjp9eebj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jun 2022 15:45:09 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25DFj8A910617178
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25DFjAYP14811396
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jun 2022 15:45:08 GMT
+ Mon, 13 Jun 2022 15:45:10 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A753CAC059;
- Mon, 13 Jun 2022 15:45:08 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 41956AC065;
+ Mon, 13 Jun 2022 15:45:10 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6955AAC05E;
- Mon, 13 Jun 2022 15:45:07 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 06F44AC05B;
+ Mon, 13 Jun 2022 15:45:09 +0000 (GMT)
 Received: from balboa.COMFAST (unknown [9.77.153.150])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 13 Jun 2022 15:45:07 +0000 (GMT)
+ Mon, 13 Jun 2022 15:45:08 +0000 (GMT)
 From: Daniel Henrique Barboza <danielhb@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 05/11] ppc/pnv: make pnv_ics_get() use the chip8->phbs[] array
-Date: Mon, 13 Jun 2022 12:44:50 -0300
-Message-Id: <20220613154456.359674-6-danielhb@linux.ibm.com>
+Subject: [PATCH 06/11] ppc/pnv: make pnv_ics_resend() use chip8->phbs[]
+Date: Mon, 13 Jun 2022 12:44:51 -0300
+Message-Id: <20220613154456.359674-7-danielhb@linux.ibm.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613154456.359674-1-danielhb@linux.ibm.com>
 References: <20220613154456.359674-1-danielhb@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: N-AgAdHUySseyZkdR1DmJfAiq1st0iNo
-X-Proofpoint-ORIG-GUID: N-AgAdHUySseyZkdR1DmJfAiq1st0iNo
+X-Proofpoint-GUID: wstq8fpyxhIXnwczwDO4DeuvVD-lx0Po
+X-Proofpoint-ORIG-GUID: wstq8fpyxhIXnwczwDO4DeuvVD-lx0Po
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-13_06,2022-06-13_01,2022-02-23_01
+ definitions=2022-06-13_07,2022-06-13_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- mlxscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
- phishscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- mlxlogscore=613 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206130068
-Received-SPF: pass client-ip=148.163.156.1;
+ lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=488 impostorscore=0 clxscore=1015 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206130069
+Received-SPF: pass client-ip=148.163.158.5;
  envelope-from=danielhb@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -105,52 +106,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function is working today by getting all the child objects of the
-chip, interacting with each of them to check whether the child is a PHB,
-and then doing what needs to be done.
+pnv_ics_resend() is scrolling through all the child objects of the chip
+to search for the PHBs. It's faster and simpler to just use the phbs[]
+array.
 
-We have all the chip PHBs in the phbs[] array so interacting with all
-child objects is unneeded.
+pnv_ics_resend_child() was folded into pnv_ics_resend() since it's too
+simple to justify its own function.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
 ---
- hw/ppc/pnv.c | 30 ++++++++++++++----------------
- 1 file changed, 14 insertions(+), 16 deletions(-)
+ hw/ppc/pnv.c | 22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 40e0cbd84d..05a8d5034f 100644
+index 05a8d5034f..d70deffa1d 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1944,41 +1944,39 @@ typedef struct ForeachPhb3Args {
-     ICSState *ics;
- } ForeachPhb3Args;
- 
--static int pnv_ics_get_child(Object *child, void *opaque)
-+static void pnv_ics_get_phb_ics(PnvPHB3 *phb3, ForeachPhb3Args *args)
- {
--    ForeachPhb3Args *args = opaque;
--    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
-+    if (ics_valid_irq(&phb3->lsis, args->irq)) {
-+        args->ics = &phb3->lsis;
-+    }
- 
--    if (phb3) {
--        if (ics_valid_irq(&phb3->lsis, args->irq)) {
--            args->ics = &phb3->lsis;
--        }
--        if (ics_valid_irq(ICS(&phb3->msis), args->irq)) {
--            args->ics = ICS(&phb3->msis);
--        }
-+    if (ics_valid_irq(ICS(&phb3->msis), args->irq)) {
-+        args->ics = ICS(&phb3->msis);
-     }
--    return args->ics ? 1 : 0;
+@@ -1993,28 +1993,20 @@ PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
+     return NULL;
  }
  
- static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
+-static int pnv_ics_resend_child(Object *child, void *opaque)
+-{
+-    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
+-
+-    if (phb3) {
+-        ics_resend(&phb3->lsis);
+-        ics_resend(ICS(&phb3->msis));
+-    }
+-    return 0;
+-}
+-
+ static void pnv_ics_resend(XICSFabric *xi)
  {
      PnvMachineState *pnv = PNV_MACHINE(xi);
-     ForeachPhb3Args args = { irq, NULL };
 -    int i;
 +    int i, j;
  
@@ -158,23 +147,15 @@ index 40e0cbd84d..05a8d5034f 100644
 -        PnvChip *chip = pnv->chips[i];
          Pnv8Chip *chip8 = PNV8_CHIP(pnv->chips[i]);
  
-         if (ics_valid_irq(&chip8->psi.ics, irq)) {
-             return &chip8->psi.ics;
-         }
- 
--        object_child_foreach(OBJECT(chip), pnv_ics_get_child, &args);
--        if (args.ics) {
--            return args.ics;
+-        ics_resend(&chip8->psi.ics);
+-        object_child_foreach(OBJECT(chip), pnv_ics_resend_child, NULL);
 +        for (j = 0; j < chip8->num_phbs; j++) {
-+            pnv_ics_get_phb_ics(&chip8->phbs[j], &args);
++            PnvPHB3 *phb3 = &chip8->phbs[j];
 +
-+            if (args.ics) {
-+                return args.ics;
-+            }
-         }
++            ics_resend(&phb3->lsis);
++            ics_resend(ICS(&phb3->msis));
++        }
      }
-+
-     return NULL;
  }
  
 -- 
