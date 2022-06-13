@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CBF5482A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 11:11:01 +0200 (CEST)
-Received: from localhost ([::1]:43852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211B854830D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 11:18:05 +0200 (CEST)
+Received: from localhost ([::1]:50324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0g68-0001ZZ-Kb
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 05:11:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37914)
+	id 1o0gCx-0005Gq-Mm
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 05:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o0g2Z-0000C4-KJ
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 05:07:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52563)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1o0g7R-0002pe-BC
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 05:12:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o0g2W-00044X-Fd
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 05:07:18 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1o0g7P-0004lA-47
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 05:12:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655111235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1655111537;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SVVvKtBLtlmC2siYecxx+G9VLFaGLGpeb3o/vRt3UcA=;
- b=U2zHt3XdQQvkriJtMcmjGF4Nm5rhBNm2lzgRRLLfuD/yahSEa4DGxlnNq/jUdc0dRXWJ2X
- 9cMoR0sTRE6hgqDrkGKZuFa5uoI9y8iW0+FVVLoVY+wyvfR/AGqd4fmwnX7htSqfg0YByR
- oOeSregYkOEzguybNVq32+ePpMSaUGA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Op55wPdILNVSGxib4ODB4ss9KRB81XlY0o1TgoXFizM=;
+ b=BsKqAbQIPGZls7cw3MsW69DYEOaVlHQzhC0kWY5CUIIwCsCUn3dtURwjoqJGoWoj+VhfEL
+ i0IfX7IFVIym60wPM7Ibh+VrLd1/S9P0R9GPUN1mOvQwXhQQ1h0HG0MmpzrBtodS/fFSJX
+ TBOI6TXDDGbI9t/xxcAb/Va+cXVcEiM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-oxLMexIHP_qblEYhndKuuw-1; Mon, 13 Jun 2022 05:07:14 -0400
-X-MC-Unique: oxLMexIHP_qblEYhndKuuw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- n8-20020a05640205c800b00434fb0c150cso624321edx.19
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 02:07:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SVVvKtBLtlmC2siYecxx+G9VLFaGLGpeb3o/vRt3UcA=;
- b=nwWW2ZEhaEsnhXaiO6m0q/5hqz/XPnXAW42vXNyG817h+ZdD50xSa8aSCVjmIXrLfo
- bnuTHhcmUKxAuEbkGmDWYsmYB5Gfz3EAD81JOBEEwXsS1tSKZo7+PnEqtqOBkuWtGkUX
- VsbWqP6eWekpHA0e4H05L4vT+RVYryPr6kXfRrATCUmwbuLIZ7xH5aFnbwBhin7WDkaC
- u6g5WiAjsmEVt/7B9aQ1AaehlGYtO5FSmnpilyY0bJ9UkUYP5k8kZcxPWb9YHCs+iYfS
- ArG4N8PqbWMvnWRYPpBrH2XlonaVMcGSOWkWl1MmlbsLQoa4vls8udq77CLlOWyml3cK
- +EQQ==
-X-Gm-Message-State: AOAM533LCJlVDy0aBEdfdCpOdVUrALsE0oTUnKd2O5AcF2vT/lsHH3qJ
- Ywy/JbQeXUOX7rKCe97GMUZ6inhUnn8sQdo1YRwnlekjzI9ZLT1scoX6+WIOK63hOGQaDFQZK0A
- 3+anc7Cm9pAn3t9E=
-X-Received: by 2002:aa7:c054:0:b0:433:2d3b:10ed with SMTP id
- k20-20020aa7c054000000b004332d3b10edmr5147328edo.211.1655111233420; 
- Mon, 13 Jun 2022 02:07:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwPD0cru7GSOR4FdE5pVvtru/xOLXN9N/v37EYCGP3/9gjVkkdqZOk6r/Z+c55P2ikIXMZvhA==
-X-Received: by 2002:aa7:c054:0:b0:433:2d3b:10ed with SMTP id
- k20-20020aa7c054000000b004332d3b10edmr5147289edo.211.1655111233032; 
- Mon, 13 Jun 2022 02:07:13 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
- by smtp.gmail.com with ESMTPSA id
- gl6-20020a170906e0c600b006fec63e564bsm3589811ejb.30.2022.06.13.02.07.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 02:07:12 -0700 (PDT)
-Message-ID: <60566c7d-54da-eaec-647f-d05e96ead668@redhat.com>
-Date: Mon, 13 Jun 2022 11:07:11 +0200
+ us-mta-44-Eoj-0_D1NYWCP8Oz9nPT2w-1; Mon, 13 Jun 2022 05:12:15 -0400
+X-MC-Unique: Eoj-0_D1NYWCP8Oz9nPT2w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 697AA106655F;
+ Mon, 13 Jun 2022 09:12:15 +0000 (UTC)
+Received: from [10.72.12.21] (ovpn-12-21.pek2.redhat.com [10.72.12.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4373A492C3B;
+ Mon, 13 Jun 2022 09:12:03 +0000 (UTC)
+Subject: Re: [PATCH 2/3] hw/acpi/aml-build: Fix {socket, cluster, core} IDs in
+ PPTT
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, mst@redhat.com,
+ ani@anisinha.ca, drjones@redhat.com, wangyanan55@huawei.com,
+ Jonathan.Cameron@Huawei.com, peter.maydell@linaro.org, berrange@redhat.com,
+ thuth@redhat.com, eduardo@habkost.net, lvivier@redhat.com,
+ zhenyzha@redhat.com, shan.gavin@gmail.com
+References: <20220518092141.1050852-1-gshan@redhat.com>
+ <20220518092141.1050852-3-gshan@redhat.com>
+ <20220526142512.32129b2e@redhat.com>
+ <b2e11fe3-6590-ec7c-a437-7b4c2b66d359@redhat.com>
+ <20220609180018.7b12a527@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <b592429f-8989-4ba7-3655-4207fcd433d2@redhat.com>
+Date: Mon, 13 Jun 2022 17:11:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v5 22/45] block: implemet bdrv_unref_tran()
+In-Reply-To: <20220609180018.7b12a527@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
- v.sementsov-og@mail.ru
-References: <20220330212902.590099-1-vsementsov@openvz.org>
- <20220330212902.590099-23-vsementsov@openvz.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220330212902.590099-23-vsementsov@openvz.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -101,71 +87,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
-> Now nodes are removed during block-graph update transactions now? Look
-> at bdrv_replace_child_tran: bdrv_unref() is simply postponed to commit
-> phase.
->
-> What is the problem with it?
->
-> We want to make copy-before-write permissions strict: it should unshare
-> write always, not only when it has at least one parent.
+Hi Igor,
 
-Looking over this patch in not too much detail (because I find it rather 
-complicated), it looks OK to me; but this reason for why we need it 
-doesn’t really satisfy me.  What is the problem with how CBW permissions 
-work?  Is that really the only reason for this patch?
+On 6/10/22 12:00 AM, Igor Mammedov wrote:
+> On Thu, 26 May 2022 22:40:05 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
+>> On 5/26/22 8:25 PM, Igor Mammedov wrote:
+>>> On Wed, 18 May 2022 17:21:40 +0800
+>>> Gavin Shan <gshan@redhat.com> wrote:
+>>>    
+>>>> The {socket, cluster, core} IDs detected from Linux guest aren't
+>>>> matching with what have been provided in PPTT. The flag used for
+>>>> 'ACPI Processor ID valid' is missed for {socket, cluster, core}
+>>>> nodes.
+>>>
+>>> To permit this flag set  on no leaf nodes we have to have
+>>> a corresponding containers built for them in DSDT so that
+>>> 'ACPI Processor ID' could be matched with containers '_UID's.
+>>> If we don not build such containers then setting this flag is
+>>> not correct. And I don't recall QEMU building CPU hierarchy
+>>> in DSDT.
+>>>    
+>>
+>> It's true that we don't have containers in DSDT. In Linux implementation,
+>> the corresponding IDs are fetched if 'ACPI Processor ID valid' is set in
+>> PPTT node (entry), without checking DSDT table.
+> 
+> linux can makeup container IDs and it is fine as long as it
+> does that consistently
+> 
 
-> But if so, we
-> can't neither insert the filter nor remove it:
->
-> To insert the filter, we should first do blockdev-add, and filter will
-> unshare write on the child, so, blockdev-add will fail if disk is in
-> use by guest.
->
-> To remove the filter, we should first do a replace operations, which
-> again leads to situation when the filter and old parent share one
-> child, and all parent want write permission when the filter unshare it.
->
-> The solution is first do both graph-modifying operations (add &
-> replace, or replace & remove) and only then update permissions. But
-> that is not possible with current method to transactionally remove the
-> block node: if we just postpone bdrv_unref() to commit phase, than on
-> prepare phase the node is not removed, and it still keep all
-> permissions on its children.
->
-> What to do? In general, I don't know. But it's possible to solve the
-> problem for the block drivers that doesn't need access to their
-> children on .bdrv_close(). For such drivers we can detach their
-> children on prepare stage (still, postponing bdrv_close() call to
-> commit phase). For this to work we of course should effectively reduce
-> bs->refcnt on prepare phase as well.
->
-> So, the logic of new bdrv_unref_tran() is:
->
-> prepare:
->    decrease refcnt and detach children if possible (and if refcnt is 0)
->
-> commit:
->    do bdrv_delete() if refcnt is 0
->
-> abort:
->    restore children and refcnt
->
-> What's the difficulty with it? If we want to transactionally (and with
-> no permission change) remove nodes, we should understand that some
-> nodes may be removed recursively, and finally we get several possible
-> not deleted leaves, where permissions should be updated. How caller
-> will know what to update? That leads to additional transaction-wide
-> refresh_list variable, which is filled by various graph modifying
-> function. So, user should declare referesh_list variable and do one or
-> several block-graph modifying operations (that may probably remove some
-> nodes), then user call bdrv_list_refresh_perms on resulting
-> refresh_list.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+Ok. I think it's fine except that the container IDs aren't readable, because
+the offset of PPTT entries are taken as the container IDs.
+
+>> I don't know how the PPTT entry is linked to DSDT for _UID, after rechecking
+>> ACPI specification. I was thinking 'Private Resources' fields are used for
+>> the linking, but I should be wrong after checking PPTT tables on my host.
+>> I'm not sure if you have idea how PPTT entry (node) is linked with one
+>> specific device in DSDT table?
+> 
+> from spec description of 'ACPI Processor ID valid' flag:
+> "
+> For non-leaf entries in the processor topology, the ACPI Pro-
+> cessor ID entry can relate to a Processor container in the
+> namespace. The processor container will have a matching ID
+> value returned through the _UID method. As not every pro-
+> cessor hierarchy node structure in PPTT may have a matching
+> processor container, this flag indicates whether the ACPI pro-
+> cessor ID points to valid entry.
+> "
+> 
+> i.e. nothing to do with private resources
+> on can set this flag for a container only if there is
+> a container device in DSDT with _UID matching 'ACPI Processor ID'
+> in PPTT entry. Other possibility for setting this flag
+> is that processor is described in MADT (which is unlikely for
+> for a container)
+> 
+
+Agreed. I don't think the private resources are relevant to
+the IDs. However, I don't understand how the DSDT is linked with
+PPTT in regard of the container IDs.
+
+>> On my host, one of the cluster node resides at offset 10B0h and it's ID
+>> has been marked as valid. The 'Private Resources' fields point to the
+>> type-1 cache structures, which resides in PPTT table either. The cluster
+>> ID ('0x109') isn't appearing in DSDT table.
+> 
+> looks like they are cheating or spec is wrong
+> 
+> PS:
+> one of the reasons we added PPTT table is to avoid building
+> CPU topology hierarchy in DSDT.
+> 
+
+Yes, I don't think the spec is clear enough in this regard. Anyway,
+I checked PPTT table on my host, where the container IDs are specified
+by PPTT table entries without corresponding entries in DSDT.
+
+>>
+>> [C9Ch 3228   1]                Subtable Type : 01 [Cache Type]
+>> [C9Dh 3229   1]                       Length : 18
+>> [C9Eh 3230   2]                     Reserved : 0000
+>> [CA0h 3232   4]        Flags (decoded below) : 0000005F
+>>                                     Size valid : 1
+>>                           Number of Sets valid : 1
+>>                            Associativity valid : 1
+>>                          Allocation Type valid : 1
+>>                               Cache Type valid : 1
+>>                             Write Policy valid : 0
+>>                                Line Size valid : 1
+>>                                 Cache ID valid : 0
+>>                                  :
+>>                                  :
+>> [CB4h 3252   1]                Subtable Type : 01 [Cache Type]
+>> [CB5h 3253   1]                       Length : 18
+>> [CB6h 3254   2]                     Reserved : 0000
+>> [CB8h 3256   4]        Flags (decoded below) : 0000007F
+>>                                     Size valid : 1
+>>                           Number of Sets valid : 1
+>>                            Associativity valid : 1
+>>                          Allocation Type valid : 1
+>>                               Cache Type valid : 1
+>>                             Write Policy valid : 1
+>>                                Line Size valid : 1
+>>                                 Cache ID valid : 0
+>> [CBCh 3260   4]          Next Level of Cache : 00000CCC
+>>                                    :
+>>                                    :
+>> [10B0h 4272   1]                Subtable Type : 00 [Processor Hierarchy Node]
+>> [10B1h 4273   1]                       Length : 1C
+>> [10B2h 4274   2]                     Reserved : 0000
+>> [10B4h 4276   4]        Flags (decoded below) : 00000002
+>>                               Physical package : 0
+>>                        ACPI Processor ID valid : 1
+>>                          Processor is a thread : 0
+>>                                 Node is a leaf : 0
+>>                       Identical Implementation : 0
+>> [10B8h 4280   4]                       Parent : 00000C6C
+>> [10BCh 4284   4]            ACPI Processor ID : 00000109
+>> [10C0h 4288   4]      Private Resource Number : 00000002
+>> [10C4h 4292   4]             Private Resource : 00000C9C
+>> [10C8h 4296   4]             Private Resource : 00000CB4
+>>
+>> [gwshan@gshan tmp]$ grep -i 109 dsdt.dsl
+>> [gwshan@gshan tmp]$ grep -i 265 dsdt.dsl
+>>
+>>
+>>>> In this case, Linux guest takes the offset between the
+>>>> node and PPTT header as the corresponding IDs, as the following
+>>>> logs show.
+>>>
+>>> perhaps it's kernel which should be fixed to handle
+>>> not set 'ACPI Processor ID valid' correctly.
+>>>    
+>>
+>> This case is already handled by kernel. If 'ACPI Processor ID valid'
+>> flag is missed, the offset between PPTT node and header is taken as
+>> the ID. It's correct behaviour because 'ACPI Processor ID valid' flag
+>> isn't mandatory for PPTT nodes. The problem is that the offset isn't
+>> the desired ID, which is not understandable and mismatch with the
+>> ID (value) we feed to PPTT table in QEMU.
+> 
+> as long as linux can match resources different IDs are fine.
+> So if it's not a bug, I'd leave it alone.
+> 
+
+Ok. So lets ignore the series. If we need, we may revisit this
+series in the future.
+
+>>>>     /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64    \
+>>>>     -accel kvm -machine virt,gic-version=host -cpu host        \
+>>>>     -smp 8,sockets=2,clusters=2,cores=2,threads=1
+>>>>       :
+>>>>
+>>>>     # cd /sys/devices/system/cpu
+>>>>     # for i in `seq 0 15`; do cat cpu$i/topology/physical_package_id; done
+>>>>       36  36  36  36  36  36  36  36
+>>>>       336 336 336 336 336 336 336 336
+>>>>     # for i in `seq 0 15`; do cat cpu$i/topology/cluster_id; done
+>>>>       56  56  56  56  196 196 196 196
+>>>>       356 356 356 356 496 496 496 496
+>>>>     # for i in `seq 0 15`; do cat cpu$i/topology/core_id; done
+>>>>       76  76  136 136 216 216 276 276
+>>>>       376 376 436 436 516 516 576 576
+>>>>
+>>>> This fixes the issue by setting 'ACPI Processor ID valid' flag for
+>>>> {socket, cluster, core} nodes. With this applied, the IDs are exactly
+>>>> what have been provided in PPTT.
+>>>>
+>>>>     # for i in `seq 0 15`; do cat cpu$i/topology/physical_package_id; done
+>>>>     0 0 0 0 0 0 0 0
+>>>>     1 1 1 1 1 1 1 1
+>>>>     # for i in `seq 0 15`; do cat cpu$i/topology/cluster_id; done
+>>>>     0 0 0 0 1 1 1 1
+>>>>     0 0 0 0 1 1 1 1
+>>>>     # for i in `seq 0 15`; do cat cpu$i/topology/core_id; done
+>>>>     0 0 1 1 0 0 1 1
+>>>>     0 0 1 1 0 0 1 1
+> 
+> if you look at above, linux generated unique IDs for each node
+> while with your patch IDs are not unique for cluster/core groups
+> (i.e. you have only 2 clusters while in fact there are 4 total)
+> 
+> Should ID's in cpu$i/topology be unique or not, I don't really know.
+> Try to see how linux uses those values and if they are supposed
+> to be unique.
+> 
+> If you set flag to valid and provide DSDT containers
+> then you will be forced to generate _unique_ (within
+> the same _HID namespace) _UIDs to conform to the spec.
+> 
+
+I don't think it's required to have differentiated IDs, meaning the
+IDs for multiple CPUs can be same. Note that one CPU is identified by
+the combination of {socket,cluster,core,thread} IDs, instead of a
+single ID.
+
+According to the spec, it's needed to present containers IDs
+in DSDT. However, the spec doesn't state how this can be done
+clearly. As I said above, lets ignore the improvement in this
+series for now and we may revisit this series in the future,
+if needed.
+
+> 
+>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>>> ---
+>>>>    hw/acpi/aml-build.c | 9 ++++++---
+>>>>    1 file changed, 6 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>>>> index e6bfac95c7..89f191fd3b 100644
+>>>> --- a/hw/acpi/aml-build.c
+>>>> +++ b/hw/acpi/aml-build.c
+>>>> @@ -2026,7 +2026,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>>>                core_id = -1;
+>>>>                socket_offset = table_data->len - pptt_start;
+>>>>                build_processor_hierarchy_node(table_data,
+>>>> -                (1 << 0), /* Physical package */
+>>>> +                (1 << 0) | /* Physical package */
+>>>> +                (1 << 1),  /* ACPI Processor ID valid */
+>>>>                    0, socket_id, NULL, 0);
+>>>>            }
+>>>>    
+>>>> @@ -2037,7 +2038,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>>>                    core_id = -1;
+>>>>                    cluster_offset = table_data->len - pptt_start;
+>>>>                    build_processor_hierarchy_node(table_data,
+>>>> -                    (0 << 0), /* Not a physical package */
+>>>> +                    (0 << 0) | /* Not a physical package */
+>>>> +                    (1 << 1),  /* ACPI Processor ID valid */
+>>>>                        socket_offset, cluster_id, NULL, 0);
+>>>>                }
+>>>>            } else {
+>>>> @@ -2055,7 +2057,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>>>                    core_id = cpus->cpus[n].props.core_id;
+>>>>                    core_offset = table_data->len - pptt_start;
+>>>>                    build_processor_hierarchy_node(table_data,
+>>>> -                    (0 << 0), /* Not a physical package */
+>>>> +                    (0 << 0) | /* Not a physical package */
+>>>> +                    (1 << 1),  /* ACPI Processor ID valid */
+>>>>                        cluster_offset, core_id, NULL, 0);
+>>>>                }
+>>>>      
+>>>    
+
+Thanks,
+Gavin
 
 
