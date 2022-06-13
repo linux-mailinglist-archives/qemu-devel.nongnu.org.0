@@ -2,140 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03085484D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 13:33:44 +0200 (CEST)
-Received: from localhost ([::1]:54296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF32548500
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 13:52:37 +0200 (CEST)
+Received: from localhost ([::1]:33100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0iKF-0007a0-Uj
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 07:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35302)
+	id 1o0icV-0004yL-NC
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 07:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1o0iGL-0005vq-Hr; Mon, 13 Jun 2022 07:29:41 -0400
-Received: from mail-he1eur04on0715.outbound.protection.outlook.com
- ([2a01:111:f400:fe0d::715]:43746
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o0iNW-0001Tg-N1
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:37:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1o0iGG-00010F-5p; Mon, 13 Jun 2022 07:29:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fp5qfIfuCjotIJNEz4oqYJ8fQYkHWFuxNEq5UCL9UQAY9ctbHKs6aovPPIhUZZ2ImCaEH4kxq+0LSN5J+ZbIH9foGkEUWtr3bpz57Ioz/4h/4MK6rT7ZIdIMRdBCNv7S62eLhOzxUurgmYx3vv7HnlutA7vgVSnYsRIJS4uNu9gf0R5ZstPhaG3MV+oFIToKEhucB43K36Oe+wMq2A35WvaWW90D6r4ENaDYwlgnjxplTXMv9GzYytK5Gzj3az1lOZlKbD5ioKQ8QR9r/yj4iEPjU5P8paSIzcVQk7b8xZPflcaDmaEOGZHdCohgYhZq+XPbFJdZ9xW5BsdsU1PqfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2IjoZiJE7+3DrBGbmRghQmg4ZQgAf3PO5fG4oAydqcU=;
- b=GIO+5KOOALUnpbJUkjeAM2ukeDZ6Alg9HN0Zp4je5Y/ijsemJUKE/w8TS3qBi7QgeqQfUMNNny+OJ4MvX6nTmZT5n1mpzfnJoOEiju3cgCVEpbO/aTHWn1XODi21ECfTw+lKPOc6HUcTmsAp86ykodC+m9ho1agh7B0Ffmm6MAhCeF2zrAkvPDOvX0nyytwIvZN+2kVXrNkk93qBL5mukScTtVMVRh3VKcElzYp2y5pZUYTX7iuFKtXRl0apfEMXGKJf0eXe5fWYXopCf+OkkVZPd9HLEGFBJCoqH84c3jAyEUcghDdOQosN0flyCeM4o+AcchjsVSnYSUFcW+1sYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2IjoZiJE7+3DrBGbmRghQmg4ZQgAf3PO5fG4oAydqcU=;
- b=t2LIwvXU3CfUTO+YlGzsalSEJg1XmnbuThZQi2jZAW6ZfVFzvgz6kpM+yxtpjgDsaEsdUDXLr7XhyUhqE7h1RsUwwzw96yjQHQ/sCjkkhmMV1811k142AEI3faqzk8qjjmorzMde8iWSKrfv4/16dBeGaACA34+I0s7WeASQpfc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by AM8PR08MB5665.eurprd08.prod.outlook.com (2603:10a6:20b:1da::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13; Mon, 13 Jun
- 2022 11:29:24 +0000
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::ecb4:b64b:d503:b2c1]) by PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::ecb4:b64b:d503:b2c1%5]) with mapi id 15.20.5332.020; Mon, 13 Jun 2022
- 11:29:24 +0000
-Message-ID: <fa26a953-0647-3962-1062-de8967269164@virtuozzo.com>
-Date: Mon, 13 Jun 2022 13:29:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 1/1] nbd: trace long NBD operations
-Content-Language: en-US
-To: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220530103929.629328-1-den@openvz.org>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <20220530103929.629328-1-den@openvz.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0701CA0056.eurprd07.prod.outlook.com
- (2603:10a6:800:5f::18) To PAXPR08MB6956.eurprd08.prod.outlook.com
- (2603:10a6:102:1db::9)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o0iNT-0002Kf-M1
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:37:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655120222;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=duvBwvox7nwiHgrFheu6u9TsgJfSo6ljmtps4Jfms7E=;
+ b=WMEy6dN3zN2T0aeIPWSQeO6016dN+N3igYiKGACl5uQp54ZG9Mwkv0tmAMaXh0LmJQWX/2
+ R9JI6tkSSrfCzSKusw6f/YFUkxHeNL6YJ+04aLSta6jGQLv1H1K/YmQRakrUZLi9Z+JVSI
+ eH02yfCz7L6ZaT41ekdHbO1VkRi5XAg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-458-ot4G2UMAMfGhoPZBJ64vxA-1; Mon, 13 Jun 2022 07:36:59 -0400
+X-MC-Unique: ot4G2UMAMfGhoPZBJ64vxA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA9AA802804;
+ Mon, 13 Jun 2022 11:36:58 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 703A92166B26;
+ Mon, 13 Jun 2022 11:36:58 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CFF951800626; Mon, 13 Jun 2022 13:36:55 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ "Hongren (Zenithal) Zheng" <i@zenithal.me>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Canokeys.org" <contact@canokeys.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PULL 00/16] Kraxel 20220613 patches
+Date: Mon, 13 Jun 2022 13:36:39 +0200
+Message-Id: <20220613113655.3693872-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: efc3d737-dd59-41b1-b94d-08da4d2ff7ba
-X-MS-TrafficTypeDiagnostic: AM8PR08MB5665:EE_
-X-Microsoft-Antispam-PRVS: <AM8PR08MB566511D3D5E6772EBA79660EB6AB9@AM8PR08MB5665.eurprd08.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZIvf9VhcAJKNaGogyhPuytZIVvGvUcODHcNYE8btuxf4dqnQAa0ezC4fIYx7/I9IxM9jRhxE+Hh8us4XuVw7Yv+ept3eXHPLFo+gp8x7RZZCKSVLAb/6Ul1zwvWDywxllLBdTSxIocDVCZ6VAloysnVhrO1p+LL+ulwz/5JpL1+/EY3L3ZYcjzm2Ux6tnQt6XlikLD0SpbbFvG4rGq7nD+p4FSe80FnZ5t2fam/v5aDFZosqTbkytdJmSdPtaUrt0OXqzZ0xRWQx/k9GSUXNIJfsfCYidRar53IUAQaWtqR8GzvUU5Y7I7CDF3VA2VZu8o0s+nOXqNXg7YjQQ9bYXTevvSw8Z9sJRpfKrl0kNaWW1StjlcrX3h0MffLB8vAYPqTU48DkZaGRzHp11jEcykCOhuNl9kkOfAObBySvjoGM/C9q8OlsUfEVEctHJFqkTi65wvTs/1AGvURHu0Wt9vg5w854SiLJMIiAVk+INGjJJbXg2IUpgekIgYJgtpG6r7hx6aaIk55XGsixcQwhMrPwxmR0Qp3chUpGLeuasyYcK7RH9Ee8EGLXX0EyvMMrta0pfQlXQY0sMDhslxcAiL0eFq+brKuSzqVZnuNXliGh3Lw3mt5dQG3oWiWAGR80nHzaFt3k7mGFTSz4QFCCh8K6Ry48rxg8yeL2joliTTpIJkEE1RX1mYGEoqJc5Co7vowzaQ1nwpOEsV6HeigvGL6JEq0w+5ffB/JDFLp5Kgh9UigSfHNREkfQtmHfZSVcjicNuMjx6kQPaEMliJiAMw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(8676002)(4326008)(66556008)(66476007)(2906002)(66946007)(83380400001)(508600001)(8936002)(31686004)(6486002)(5660300002)(38100700002)(26005)(6512007)(6506007)(53546011)(38350700002)(52116002)(31696002)(54906003)(86362001)(316002)(36756003)(2616005)(186003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bDBBaTRqTm4rNWwwVnhmcW9kd3NPQUZNMXA2RHhIK09sbGtEdzFXUjE3djJr?=
- =?utf-8?B?emhLbnMzR0F0MWV3ZTJzdFdrU3FYUlpDL1JpSHlvSjZZM2VMQldFMHVKVTFO?=
- =?utf-8?B?ZWdGTDR6RmJXVy9EVFVFY2NzRmNBZDNNWW9hMFFYUTVkMzNhZVhnOE1INlRa?=
- =?utf-8?B?VGVaVWpHTUdhWG5EY01OcDYxTlg4YXV3Y3NkcG1ncjBtdW42eHRSQmdHTTlH?=
- =?utf-8?B?VHJueEprVlRxclBjVGxvQXUzMFF2WmtNVSt6UENUS0RrVmEyMlBPVXRIc1Jr?=
- =?utf-8?B?c09BeElqZ1FXcWpGeEdnNkJsU2pab0p1ejBOMkxqelpwUUo3d2VPTWNDQmxa?=
- =?utf-8?B?cmtqcVVxTXF3aURFbkRhWk5JUVJFSlZxbFRyR2xqeHRSMHR1d2NyemFiZ1Bz?=
- =?utf-8?B?VWVQTEJZYWNpYjhMSE1Pdlo5UjBWYTZFcXFkOVVoT3ptb2VPM1d3Ny9VeUtX?=
- =?utf-8?B?YnA1elE3MkFNSlNIYnpPZm1JTWJXRkhwM1haTU1NMUtWZ25WZkN6T2twNnd5?=
- =?utf-8?B?UGg5c1h0eHVJejE0Q3VBeDM1Mld5d2xHYU1UU2w5YkZLTngvdk9pV3Z2RTk2?=
- =?utf-8?B?YUhiTGZQbnEwZFNWWDBXYmc1ZzF1UFlqakEwczh1aXRYbnZwc0s1d2U1Q2RB?=
- =?utf-8?B?VDRSL1RnR2cyQnNlbVovMUs5OFU3d1FmdkVzakdESlBmQjNWM0luTlVQR2or?=
- =?utf-8?B?aG5vYTczQ08yOGJKbmVXZ0FMdnRFSWQrczhqLzR1RzhqYmhJZENGNzJ0dm1M?=
- =?utf-8?B?STlRc1A0Y2JUdi9iSStpRFlMamJhNEdOZ3NxYjBoVFNWRXVVQkJqcnRGMzdR?=
- =?utf-8?B?YmhsV3JuTXBTZFZNazdmWFR5WGpOK1c1aUFJVjRMaStCUVNiY2pmTnpRUy9M?=
- =?utf-8?B?bEQ5U3NFY0tUWkl4d0VMVDN3M0FTclZreHdjeHpIYzk3Z2tGc3dxbGZ1WW5Y?=
- =?utf-8?B?MStLVVlwVEZ0Zldpa2JwTnMrSG14NVBDR1h4OTd5NitHaE8zcEIzOThxSVR1?=
- =?utf-8?B?TUI4N3Q3aXJmUDVTY1NQWnpIVTlmZm8xR29hS25mREpBNXBTRlo4aTdzaHhJ?=
- =?utf-8?B?TXRKNUhYVjdZeDZ2STd2eU1hTHRHVzhXYXVPZTR0UzJIaGlCdnFEeFVPdWhG?=
- =?utf-8?B?d2lUMCtrQ0xOS3lmQitLWG1HNGhqOGNIaWlRL0s2R2hNZFlXOUpzRTBCOG9z?=
- =?utf-8?B?ZXk0THZpTjMwdWZRS1FXU3ZmLyt6TlFnQUNTaG5PYWkvVVBOQVptRFAxbjgy?=
- =?utf-8?B?dGwwblUzWjcrWlQvUlErVXhjVWVDaSt4T2htVnV6bXBIV2lUMGhCaXJ2Y0tL?=
- =?utf-8?B?WkJMSWdiRlJ2QVl6alcydVZSMjJpZjBYRlAzZER3SFZCL002OFZMWWVDS3Fw?=
- =?utf-8?B?Sk1jOTkrenRLUkV6aWxPMEJIS0gyR1BJa0V5aHZidlE4ZzdkVXk2KzMvSy85?=
- =?utf-8?B?aHcrVGRuK0ZsejB6QUlCcjVXZjRMYmdKMjhsV2lKeFk0S3NqMVRqVFUrdk50?=
- =?utf-8?B?Yis3TWdpYzFCd1lrSGVJaUtadks0azdObWU4aWZ4Rk9nNVRzYVhEUnNKZDdL?=
- =?utf-8?B?a0FiNnh4VWNCSkMya1RwdktXUzdLeHpXOWtDbVN3V3cwTWlQZklwWG5NaHVE?=
- =?utf-8?B?YkRQbENpRUtuYXFpUjZKVTBSSVZFVFF5aDA2L2VnTU1CZ3dpYjdlRFdyOWpy?=
- =?utf-8?B?cm9zTmMwQ2VtbUhEWGFxaEpJdFFWR3pUL0pNWHRYUWZqUEExZjlBVDlTUlk0?=
- =?utf-8?B?dEF5U3E4QlMrRlV5YkRZS2MyT2h0Sk50VVVFeTF1aWxsL1Fucm0rZnpKMUlG?=
- =?utf-8?B?L1NnZW8vSk1SQnQ0Y1o0SzlZZEQzeWhXanlaQnlrVFJzenZ3dUxKZmI0SDRC?=
- =?utf-8?B?WDRXa3JBcmJ1dlhLaHM0Yk9JUkZybWJ1YS9ZZ0QwZU9hc2JHUXZucU1pOGNo?=
- =?utf-8?B?N2RKUlJXMlZRenI2RVJLOHI5eVcyandJSHVod001ZU9YbmRsV1dBZ1NhYjAr?=
- =?utf-8?B?VldOQjFMTitldWo2L2lLWGgzUEdMQkVMRkx1YkhEL2FPLzhqSW0ybnNVZThu?=
- =?utf-8?B?UTZTbkxsVnBIc1V1bHZPQlY0OTdDY1lqVlBrTk01Rk5UWjhZcUo4UlZkUm5I?=
- =?utf-8?B?NkhMRWpRdmFMa1p2d3dhU1o5TEpZMDNxbjRVdVFXS1ltNlovQWF4a2orVGgw?=
- =?utf-8?B?RE9TUzdCMGNiNXNCb2xTV3ZvK2JGYzErMGdtdUhPOGluVUJiN0ZON0JOTzVR?=
- =?utf-8?B?TklnVDNsS2NMc1ZGWjU1UVgrNEFOb2RMM0lxcTQ2alltLzd3MGdCaFk5WUkz?=
- =?utf-8?B?c3BmelRaMXFHcTQvYndWTE5OM0s1MXdwaHo3c201L25HVWVUSHN1Zz09?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efc3d737-dd59-41b1-b94d-08da4d2ff7ba
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2022 11:29:24.2451 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r1kf8yLNVNnYwW15wSW8+p9w9SYhO0g1kz4+o6+cN0TX4SDmOHr/Xkp8v8g+i1pnSuz2zoaACRuDDLlfe0YT1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5665
-Received-SPF: pass client-ip=2a01:111:f400:fe0d::715;
- envelope-from=den@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -152,107 +85,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.05.2022 12:39, Denis V. Lunev wrote:
-> At the moment there are 2 sources of lengthy operations if configured:
-> * open connection, which could retry inside and
-> * reconnect of already opened connection
-> These operations could be quite lengthy and cumbersome to catch thus
-> it would be quite natural to add trace points for them.
->
-> This patch is based on the original downstream work made by Vladimir.
->
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> CC: Eric Blake <eblake@redhat.com>
-> CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Hanna Reitz <hreitz@redhat.com>
-> CC: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   block/nbd.c             | 6 +++++-
->   block/trace-events      | 2 ++
->   nbd/client-connection.c | 2 ++
->   nbd/trace-events        | 3 +++
->   4 files changed, 12 insertions(+), 1 deletion(-)
->
-> Changes from v1:
-> - %d -> %u for in_flights
-> - renamed open trace-point + fixed timeout type
-> - moved trace_nbd_reconnect_attempt_result above
->
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 512a53bf73..19e773d602 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -371,6 +371,7 @@ static bool nbd_client_connecting(BDRVNBDState *s)
->   /* Called with s->requests_lock taken.  */
->   static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
->   {
-> +    int ret;
->       bool blocking = s->state == NBD_CLIENT_CONNECTING_WAIT;
->   
->       /*
-> @@ -380,6 +381,8 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
->       assert(nbd_client_connecting(s));
->       assert(s->in_flight == 1);
->   
-> +    trace_nbd_reconnect_attempt(s->bs->in_flight);
-> +
->       if (blocking && !s->reconnect_delay_timer) {
->           /*
->            * It's the first reconnect attempt after switching to
-> @@ -401,7 +404,8 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
->       }
->   
->       qemu_mutex_unlock(&s->requests_lock);
-> -    nbd_co_do_establish_connection(s->bs, blocking, NULL);
-> +    ret = nbd_co_do_establish_connection(s->bs, blocking, NULL);
-> +    trace_nbd_reconnect_attempt_result(ret, s->bs->in_flight);
->       qemu_mutex_lock(&s->requests_lock);
->   
->       /*
-> diff --git a/block/trace-events b/block/trace-events
-> index 549090d453..48dbf10c66 100644
-> --- a/block/trace-events
-> +++ b/block/trace-events
-> @@ -172,6 +172,8 @@ nbd_read_reply_entry_fail(int ret, const char *err) "ret = %d, err: %s"
->   nbd_co_request_fail(uint64_t from, uint32_t len, uint64_t handle, uint16_t flags, uint16_t type, const char *name, int ret, const char *err) "Request failed { .from = %" PRIu64", .len = %" PRIu32 ", .handle = %" PRIu64 ", .flags = 0x%" PRIx16 ", .type = %" PRIu16 " (%s) } ret = %d, err: %s"
->   nbd_client_handshake(const char *export_name) "export '%s'"
->   nbd_client_handshake_success(const char *export_name) "export '%s'"
-> +nbd_reconnect_attempt(unsigned in_flight) "in_flight %u"
-> +nbd_reconnect_attempt_result(int ret, unsigned in_flight) "ret %d in_flight %u"
->   
->   # ssh.c
->   ssh_restart_coroutine(void *co) "co=%p"
-> diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-> index 2a632931c3..0c5f917efa 100644
-> --- a/nbd/client-connection.c
-> +++ b/nbd/client-connection.c
-> @@ -23,6 +23,7 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "trace.h"
->   
->   #include "block/nbd.h"
->   
-> @@ -210,6 +211,7 @@ static void *connect_thread_func(void *opaque)
->               object_unref(OBJECT(conn->sioc));
->               conn->sioc = NULL;
->               if (conn->do_retry && !conn->detached) {
-> +                trace_nbd_connect_thread_sleep(timeout);
->                   qemu_mutex_unlock(&conn->mutex);
->   
->                   sleep(timeout);
-> diff --git a/nbd/trace-events b/nbd/trace-events
-> index c4919a2dd5..b7032ca277 100644
-> --- a/nbd/trace-events
-> +++ b/nbd/trace-events
-> @@ -73,3 +73,6 @@ nbd_co_receive_request_decode_type(uint64_t handle, uint16_t type, const char *n
->   nbd_co_receive_request_payload_received(uint64_t handle, uint32_t len) "Payload received: handle = %" PRIu64 ", len = %" PRIu32
->   nbd_co_receive_align_compliance(const char *op, uint64_t from, uint32_t len, uint32_t align) "client sent non-compliant unaligned %s request: from=0x%" PRIx64 ", len=0x%" PRIx32 ", align=0x%" PRIx32
->   nbd_trip(void) "Reading request"
-> +
-> +# client-connection.c
-> +nbd_connect_thread_sleep(uint64_t timeout) "timeout %" PRIu64
-ping v2
+The following changes since commit dcb40541ebca7ec98a14d461593b3cd7282b4fac:
+
+  Merge tag 'mips-20220611' of https://github.com/philmd/qemu into staging (2022-06-11 21:13:27 -0700)
+
+are available in the Git repository at:
+
+  git://git.kraxel.org/qemu tags/kraxel-20220613-pull-request
+
+for you to fetch changes up to 23b87f7a3a13e93e248eef8a4b7257548855a620:
+
+  ui: move 'pc-bios/keymaps' to 'ui/keymaps' (2022-06-13 10:59:25 +0200)
+
+----------------------------------------------------------------
+usb: add CanoKey device, fixes for ehci + redir
+ui: fixes for gtk and cocoa, move keymaps (v2), rework refresh rate
+virtio-gpu: scanout flush fix
+
+----------------------------------------------------------------
+
+Akihiko Odaki (4):
+  ui/cocoa: Fix poweroff request code
+  ui/console: Do not return a value with ui_info
+  ui: Deliver refresh rate via QemuUIInfo
+  virtio-gpu: Respect UI refresh rate for EDID
+
+Arnout Engelen (1):
+  hw/usb/hcd-ehci: fix writeback order
+
+Daniel P. Berrangé (1):
+  ui: move 'pc-bios/keymaps' to 'ui/keymaps'
+
+Dongwon Kim (1):
+  virtio-gpu: update done only on the scanout associated with rect
+
+Hongren (Zenithal) Zheng (6):
+  hw/usb: Add CanoKey Implementation
+  hw/usb/canokey: Add trace events
+  meson: Add CanoKey
+  docs: Add CanoKey documentation
+  docs/system/devices/usb: Add CanoKey to USB devices examples
+  MAINTAINERS: add myself as CanoKey maintainer
+
+Joelle van Dyne (1):
+  usbredir: avoid queuing hello packet on snapshot restore
+
+Volker Rümelin (2):
+  ui/gtk-gl-area: implement GL context destruction
+  ui/gtk-gl-area: create the requested GL context version
+
+ configure                           |   4 +
+ meson_options.txt                   |   2 +
+ hw/usb/canokey.h                    |  69 ++++++
+ include/hw/virtio/virtio-gpu.h      |   1 +
+ include/ui/console.h                |   4 +-
+ include/ui/gtk.h                    |   2 +-
+ hw/display/virtio-gpu-base.c        |   7 +-
+ hw/display/virtio-gpu.c             |   4 +
+ hw/display/virtio-vga.c             |   5 +-
+ hw/display/xenfb.c                  |  14 +-
+ hw/usb/canokey.c                    | 313 ++++++++++++++++++++++++++++
+ hw/usb/hcd-ehci.c                   |   5 +-
+ hw/usb/redirect.c                   |   3 +-
+ hw/vfio/display.c                   |   8 +-
+ ui/console.c                        |   6 -
+ ui/gtk-egl.c                        |   4 +-
+ ui/gtk-gl-area.c                    |  42 +++-
+ ui/gtk.c                            |  45 ++--
+ MAINTAINERS                         |   8 +
+ docs/system/device-emulation.rst    |   1 +
+ docs/system/devices/canokey.rst     | 168 +++++++++++++++
+ docs/system/devices/usb.rst         |   4 +
+ hw/usb/Kconfig                      |   5 +
+ hw/usb/meson.build                  |   5 +
+ hw/usb/trace-events                 |  16 ++
+ meson.build                         |   6 +
+ pc-bios/meson.build                 |   1 -
+ scripts/meson-buildoptions.sh       |   3 +
+ ui/cocoa.m                          |   6 +-
+ {pc-bios => ui}/keymaps/ar          |   0
+ {pc-bios => ui}/keymaps/bepo        |   0
+ {pc-bios => ui}/keymaps/cz          |   0
+ {pc-bios => ui}/keymaps/da          |   0
+ {pc-bios => ui}/keymaps/de          |   0
+ {pc-bios => ui}/keymaps/de-ch       |   0
+ {pc-bios => ui}/keymaps/en-gb       |   0
+ {pc-bios => ui}/keymaps/en-us       |   0
+ {pc-bios => ui}/keymaps/es          |   0
+ {pc-bios => ui}/keymaps/et          |   0
+ {pc-bios => ui}/keymaps/fi          |   0
+ {pc-bios => ui}/keymaps/fo          |   0
+ {pc-bios => ui}/keymaps/fr          |   0
+ {pc-bios => ui}/keymaps/fr-be       |   0
+ {pc-bios => ui}/keymaps/fr-ca       |   0
+ {pc-bios => ui}/keymaps/fr-ch       |   0
+ {pc-bios => ui}/keymaps/hr          |   0
+ {pc-bios => ui}/keymaps/hu          |   0
+ {pc-bios => ui}/keymaps/is          |   0
+ {pc-bios => ui}/keymaps/it          |   0
+ {pc-bios => ui}/keymaps/ja          |   0
+ {pc-bios => ui}/keymaps/lt          |   0
+ {pc-bios => ui}/keymaps/lv          |   0
+ {pc-bios => ui}/keymaps/meson.build |   0
+ {pc-bios => ui}/keymaps/mk          |   0
+ {pc-bios => ui}/keymaps/nl          |   0
+ {pc-bios => ui}/keymaps/no          |   0
+ {pc-bios => ui}/keymaps/pl          |   0
+ {pc-bios => ui}/keymaps/pt          |   0
+ {pc-bios => ui}/keymaps/pt-br       |   0
+ {pc-bios => ui}/keymaps/ru          |   0
+ {pc-bios => ui}/keymaps/sl          |   0
+ {pc-bios => ui}/keymaps/sv          |   0
+ {pc-bios => ui}/keymaps/th          |   0
+ {pc-bios => ui}/keymaps/tr          |   0
+ ui/meson.build                      |   1 +
+ ui/trace-events                     |   2 +
+ 66 files changed, 712 insertions(+), 52 deletions(-)
+ create mode 100644 hw/usb/canokey.h
+ create mode 100644 hw/usb/canokey.c
+ create mode 100644 docs/system/devices/canokey.rst
+ rename {pc-bios => ui}/keymaps/ar (100%)
+ rename {pc-bios => ui}/keymaps/bepo (100%)
+ rename {pc-bios => ui}/keymaps/cz (100%)
+ rename {pc-bios => ui}/keymaps/da (100%)
+ rename {pc-bios => ui}/keymaps/de (100%)
+ rename {pc-bios => ui}/keymaps/de-ch (100%)
+ rename {pc-bios => ui}/keymaps/en-gb (100%)
+ rename {pc-bios => ui}/keymaps/en-us (100%)
+ rename {pc-bios => ui}/keymaps/es (100%)
+ rename {pc-bios => ui}/keymaps/et (100%)
+ rename {pc-bios => ui}/keymaps/fi (100%)
+ rename {pc-bios => ui}/keymaps/fo (100%)
+ rename {pc-bios => ui}/keymaps/fr (100%)
+ rename {pc-bios => ui}/keymaps/fr-be (100%)
+ rename {pc-bios => ui}/keymaps/fr-ca (100%)
+ rename {pc-bios => ui}/keymaps/fr-ch (100%)
+ rename {pc-bios => ui}/keymaps/hr (100%)
+ rename {pc-bios => ui}/keymaps/hu (100%)
+ rename {pc-bios => ui}/keymaps/is (100%)
+ rename {pc-bios => ui}/keymaps/it (100%)
+ rename {pc-bios => ui}/keymaps/ja (100%)
+ rename {pc-bios => ui}/keymaps/lt (100%)
+ rename {pc-bios => ui}/keymaps/lv (100%)
+ rename {pc-bios => ui}/keymaps/meson.build (100%)
+ rename {pc-bios => ui}/keymaps/mk (100%)
+ rename {pc-bios => ui}/keymaps/nl (100%)
+ rename {pc-bios => ui}/keymaps/no (100%)
+ rename {pc-bios => ui}/keymaps/pl (100%)
+ rename {pc-bios => ui}/keymaps/pt (100%)
+ rename {pc-bios => ui}/keymaps/pt-br (100%)
+ rename {pc-bios => ui}/keymaps/ru (100%)
+ rename {pc-bios => ui}/keymaps/sl (100%)
+ rename {pc-bios => ui}/keymaps/sv (100%)
+ rename {pc-bios => ui}/keymaps/th (100%)
+ rename {pc-bios => ui}/keymaps/tr (100%)
+
+-- 
+2.36.1
+
 
