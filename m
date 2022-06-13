@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBCE5481FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 10:51:06 +0200 (CEST)
-Received: from localhost ([::1]:48370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B341548291
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 10:58:04 +0200 (CEST)
+Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0fmr-0001Ag-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 04:51:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35230)
+	id 1o0ftb-0002jF-4C
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 04:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1o0fin-0006lu-Dg
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:46:54 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36743)
+ id 1o0fis-0006n2-Rl
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:47:00 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:33630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1o0fil-0001O7-1p
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:46:53 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- k12-20020a17090a404c00b001eaabc1fe5dso2311930pjg.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 01:46:50 -0700 (PDT)
+ id 1o0fiq-0001OW-3m
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:46:57 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ hv24-20020a17090ae41800b001e33eebdb5dso7845249pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 01:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6AlerjvsQvc/NrVxDKXKRzKkWNjt7+vi0/MlCAwjMGc=;
- b=MEmehw2gyhyQKMZAPD4zsqLoaiPwiZU861AcMslXLuEeAk4ZK1rlKZBBLLnm2zSZyG
- TyiTyULqVs8Iqqptt8NQhGBpFb0B9DTbOKMUPLrbO/3+5WZjX0GNH9eceJ3HnEK7iCKD
- lHI+QUhWCUNFKrLC1pjo/aOVXbXIGr0m3DzGsvlnVpQ8Y6vZ8OoFNslFvL5WRrqvm2P8
- fBY+R8LjMJ+3os/OmYDUCByfK6ODJngmU1+/1TGjnuB1uKHCAsrz9l10T0MTDm9r6aRq
- 4WMMwlcASLbpNoZaH4cd248odbHqON++kelFi39Fa0s5V1+xJ1PLQvzxXVUP7h5nTzUz
- vWSQ==
+ bh=0d0Z4zhJVuD2nfsM6VtrO7Io61bTc2eXiMhVSlIsoyY=;
+ b=t1HfGPuzpzT8TgSjwG1MIC2QfxybNM+2nXXNTup2wrxtBuErclT2QeeEwQrCH7UDoj
+ LvZZul/7Qj0RkaWV0agf25OcGqSap60WWsc6Ja7J4MFEKL2wQU2yVyxdT5p7w9RBIqS9
+ 0ngpiptM/Fe/tfL0NrljpzPSz+3SEXy8THfKxma+M4+prdyC4Loq9Q2O0BJHDUgf8HbU
+ Yjpc5NFcEJDHFK/DWfG/WCaav2CKTHR754y/v9IxgjuQig+pYDa2vfw6A3iJK9y4n0hB
+ Eg7czJ/7KxpG1BVU9Nfm/v7SOoUPAtKMKXhinlShm7xqyLBYohqes3kNqZq9xM3t/gH2
+ MwEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6AlerjvsQvc/NrVxDKXKRzKkWNjt7+vi0/MlCAwjMGc=;
- b=MLRp6fLhyd1URpNGjrYjxENQtFwV/WO+gWaFCSbYn/djXlPFGyTCS5lOwP45InzBYU
- +mg2gxtVKBvqBWHfVMG5bqyaGpdPNjqhUCjsoLy2On7OKaJ1xvuffSmJc5Mmqg8QZ9FH
- kgTZmgUqU6nvwWNLWb72E91Gb7Z2wUmBs1ezQQFoA5K8X9wz+Tq44WhkcVIrFPpWH2rS
- 0/UiEg346t2CWA6ML6yIrjcZrd66d5O2INeaYMzDi4DAPgbk4A8AWJjFVrgeVkleFDho
- YRPoZitNRUvwXO0+XPH93/MdhsWANZTNAGW5Pa6dbzAIGbmaiEfusX8pLurp09SutAwY
- eJAQ==
-X-Gm-Message-State: AOAM532Chl7GGDouqMlcMnaK63keTOVQ8NjWqpBf/6OgYr6x4B+3bgjU
- 05H65vk7QrKc0LdSM90XKpD1Cw==
-X-Google-Smtp-Source: ABdhPJxrrzdgG4s91FOVXoWpMlGziKIpNK6dsHFbYAGGNIxuVuFpiOZxmq7VTr+nvDOeIsQImVCg6Q==
-X-Received: by 2002:a17:90b:38c2:b0:1e8:7ad1:bec5 with SMTP id
- nn2-20020a17090b38c200b001e87ad1bec5mr14405647pjb.51.1655110009746; 
- Mon, 13 Jun 2022 01:46:49 -0700 (PDT)
+ bh=0d0Z4zhJVuD2nfsM6VtrO7Io61bTc2eXiMhVSlIsoyY=;
+ b=PNfIszVYM2cij1XE6MXfA8FaAmF9PjxaHvT2ZKuIlkVPvpeKBhJNcUgtq2xhsihKMl
+ WOKR9OzDRDLT7oKrf+ypzgwKo8qB8HbPYDiXQZlLRxV7ar6/bx35p9UxDklENrAJHMEL
+ sj3516Uxfjn5+oTUymZiBlNuAgEWcHy5gIBmDzQKSWModdgMtoOaPVASFKm2u1+q92Qn
+ 6WsPAX2CKbZMBkUvojSiwyALJ41iBWNfs9Hgm8muHiCB33ZWf2zATBhrv1/SxZkxVvhh
+ n02/sihWInnZV7j1tbp8WOr4/L4uonkdCE8shWPPl98nAAhmNzeiQb07HGjN6PYZ2zLk
+ hMHw==
+X-Gm-Message-State: AOAM531XghxB5Arib95uPYBNu7epWhsVgYG1723QhQ2ZoQw2uUELgwj/
+ UhpEjUBx6/tkBHd0GRvvaUK6/2hA23zORQ==
+X-Google-Smtp-Source: ABdhPJwYqt2z713jnqQRi72sHr4aq23S/322ejorQ8t59IzVc96W2QF4tMloKXs3KAIP0NtbZG87jw==
+X-Received: by 2002:a17:903:20d3:b0:168:cca5:e79e with SMTP id
+ i19-20020a17090320d300b00168cca5e79emr10182534plb.66.1655110014658; 
+ Mon, 13 Jun 2022 01:46:54 -0700 (PDT)
 Received: from FVFDK26JP3YV.usts.net ([139.177.225.251])
  by smtp.gmail.com with ESMTPSA id
- f27-20020aa79d9b000000b0050dc762814fsm4729196pfq.41.2022.06.13.01.46.46
+ f27-20020aa79d9b000000b0050dc762814fsm4729196pfq.41.2022.06.13.01.46.51
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 13 Jun 2022 01:46:49 -0700 (PDT)
+ Mon, 13 Jun 2022 01:46:54 -0700 (PDT)
 From: Lei He <helei.sig11@bytedance.com>
 To: mst@redhat.com, arei.gonglei@huawei.com, berrange@redhat.com,
  qemu-devel@nongnu.org
 Cc: helei.sig11@bytedance.com,
 	pizhenwei@bytedance.com,
 	jasowang@redhat.com
-Subject: [PATCH 6/7] crypto: Implement ECDSA algorithm by gcrypt
-Date: Mon, 13 Jun 2022 16:45:30 +0800
-Message-Id: <20220613084531.8086-7-helei.sig11@bytedance.com>
+Subject: [PATCH 7/7] crypto: Add test suite for ECDSA algorithm
+Date: Mon, 13 Jun 2022 16:45:31 +0800
+Message-Id: <20220613084531.8086-8-helei.sig11@bytedance.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220613084531.8086-1-helei.sig11@bytedance.com>
 References: <20220613084531.8086-1-helei.sig11@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=helei.sig11@bytedance.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=helei.sig11@bytedance.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,459 +92,306 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement ECDSA algorithm by gcrypt
+1. add test suite for ecdsa algorithm.
+2. use qcrypto_akcihper_max_xxx_len to help create buffers in
+test code.
 
 Signed-off-by: lei he <helei.sig11@bytedance.com>
 ---
- crypto/akcipher-gcrypt.c.inc | 400 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 400 insertions(+)
+ tests/unit/test-crypto-akcipher.c | 227 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 212 insertions(+), 15 deletions(-)
 
-diff --git a/crypto/akcipher-gcrypt.c.inc b/crypto/akcipher-gcrypt.c.inc
-index abb1fb272e..24377bbec6 100644
---- a/crypto/akcipher-gcrypt.c.inc
-+++ b/crypto/akcipher-gcrypt.c.inc
-@@ -28,6 +28,7 @@
- #include "qapi/error.h"
- #include "sysemu/cryptodev.h"
- #include "rsakey.h"
-+#include "ecdsakey.h"
+diff --git a/tests/unit/test-crypto-akcipher.c b/tests/unit/test-crypto-akcipher.c
+index 4f1f4214dd..7b0f5ac4d4 100644
+--- a/tests/unit/test-crypto-akcipher.c
++++ b/tests/unit/test-crypto-akcipher.c
+@@ -314,6 +314,100 @@ static const uint8_t rsa2048_public_key[] = {
+     0xed, 0x02, 0x03, 0x01, 0x00, 0x01
+ };
  
- typedef struct QCryptoGcryptRSA {
-     QCryptoAkCipher akcipher;
-@@ -36,6 +37,13 @@ typedef struct QCryptoGcryptRSA {
-     QCryptoHashAlgorithm hash_alg;
- } QCryptoGcryptRSA;
- 
-+typedef struct QCryptoGcryptECDSA {
-+    QCryptoAkCipher akcipher;
-+    gcry_sexp_t key;
-+    QCryptoCurveID curve_id;
-+    const char *curve_name;
-+} QCryptoGcryptECDSA;
-+
- static void qcrypto_gcrypt_rsa_free(QCryptoAkCipher *akcipher)
- {
-     QCryptoGcryptRSA *rsa = (QCryptoGcryptRSA *)akcipher;
-@@ -53,6 +61,12 @@ static QCryptoGcryptRSA *qcrypto_gcrypt_rsa_new(
-     const uint8_t *key,  size_t keylen,
-     Error **errp);
- 
-+static QCryptoGcryptECDSA *qcrypto_gcrypt_ecdsa_new(
-+    const QCryptoAkCipherOptionsECDSA *opts,
-+    QCryptoAkCipherKeyType type,
-+    const uint8_t *key, size_t keylen,
-+    Error **errp);
-+
- QCryptoAkCipher *qcrypto_akcipher_new(const QCryptoAkCipherOptions *opts,
-                                       QCryptoAkCipherKeyType type,
-                                       const uint8_t *key, size_t keylen,
-@@ -63,6 +77,10 @@ QCryptoAkCipher *qcrypto_akcipher_new(const QCryptoAkCipherOptions *opts,
-         return (QCryptoAkCipher *)qcrypto_gcrypt_rsa_new(
-             &opts->u.rsa, type, key, keylen, errp);
- 
-+    case QCRYPTO_AKCIPHER_ALG_ECDSA:
-+        return (QCryptoAkCipher *)qcrypto_gcrypt_ecdsa_new(
-+            &opts->u.ecdsa, type, key, keylen, errp);
-+
-     default:
-         error_setg(errp, "Unsupported algorithm: %u", opts->alg);
-         return NULL;
-@@ -564,6 +582,377 @@ error:
-     return NULL;
- }
- 
-+static int qcrypto_gcrypt_parse_curve_id(QCryptoGcryptECDSA *ecdsa,
-+    const QCryptoAkCipherOptionsECDSA *opts, Error **errp)
-+{
-+    /* ECDSA algorithm can't used for encryption */
-+    ecdsa->akcipher.max_plaintext_len = 0;
-+    ecdsa->akcipher.max_ciphertext_len = 0;
-+
-+    switch (opts->curve_id) {
-+    case QCRYPTO_CURVE_ID_NIST_P192:
-+        ecdsa->curve_name = "nistp192";
-+        ecdsa->akcipher.max_signature_len =
-+            qcrypto_akcipher_ecdsasig_x9_62_size(192 / 8);
-+        ecdsa->akcipher.max_dgst_len = 192 / 8;
-+        break;
-+
-+    case QCRYPTO_CURVE_ID_NIST_P256:
-+        ecdsa->curve_name = "nistp256";
-+        ecdsa->akcipher.max_signature_len =
-+            qcrypto_akcipher_ecdsasig_x9_62_size(256 / 8);
-+        ecdsa->akcipher.max_dgst_len = 256 / 8;
-+        break;
-+
-+    case QCRYPTO_CURVE_ID_NIST_P384:
-+        ecdsa->curve_name = "nistp384";
-+        ecdsa->akcipher.max_signature_len =
-+            qcrypto_akcipher_ecdsasig_x9_62_size(384 / 8);
-+        ecdsa->akcipher.max_dgst_len = 256 / 8;
-+        break;
-+
-+    default:
-+        error_setg(errp, "Unknown curve id: %d", opts->curve_id);
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static int qcrypto_gcrypt_parse_ecdsa_private_key(
-+    QCryptoGcryptECDSA *ecdsa, const char *curve_name,
-+    const uint8_t *key, size_t keylen,
-+    Error **errp)
-+{
-+    g_autoptr(QCryptoAkCipherECDSAKey) ecdsa_key =
-+        qcrypto_akcipher_ecdsakey_parse(QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE,
-+                                        key, keylen, errp);
-+    gcry_mpi_t d = NULL;
-+    gcry_error_t err;
-+    int ret = -1;
-+
-+    if (!ecdsa_key) {
-+        return ret;
-+    }
-+
-+    err = gcry_mpi_scan(&d, GCRYMPI_FMT_USG, ecdsa_key->priv.data,
-+                        ecdsa_key->priv.len, NULL);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to parse ECDSA parivate key: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        return ret;
-+    }
-+
-+    err = gcry_sexp_build(&ecdsa->key, NULL,
-+        "(private-key (ecc (curve %s) (d %m)))", curve_name, d);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to build ECDSA parivate key: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+
-+    ret = 0;
-+
-+cleanup:
-+    gcry_mpi_release(d);
-+    return ret;
-+}
-+
-+static int qcrypto_gcrypt_parse_ecdsa_public_key(
-+    QCryptoGcryptECDSA *ecdsa, const char *curve_name,
-+    const uint8_t *key, size_t keylen,
-+    Error **errp)
-+{
-+    gcry_mpi_t q = NULL;
-+    gcry_error_t err;
-+    int ret = -1;
-+
-+    err = gcry_mpi_scan(&q, GCRYMPI_FMT_USG, key, keylen, NULL);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to scan public point: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        return -1;
-+    }
-+
-+    err = gcry_sexp_build(&ecdsa->key, NULL,
-+        "(public-key (ecc (curve %s) (q %m)))", curve_name, q);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to build ECDSA public key: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+    ret = 0;
-+
-+cleanup:
-+    gcry_mpi_release(q);
-+    return ret;
-+}
-+
-+static void qcrypto_gcrypt_ecdsa_free(QCryptoAkCipher *akcipher)
-+{
-+    QCryptoGcryptECDSA *ecdsa = (QCryptoGcryptECDSA *)akcipher;
-+    if (!ecdsa) {
-+        return;
-+    }
-+    gcry_sexp_release(ecdsa->key);
-+    g_free(ecdsa);
-+}
-+
-+static int qcrypto_gcrypt_invalid_encrypt(QCryptoAkCipher *akcipher,
-+                                          const void *in, size_t in_len,
-+                                          void *out, size_t out_len,
-+                                          Error **errp)
-+{
-+    error_setg(errp, "Operation is invalid");
-+    return -1;
-+}
-+
-+static int qcrypto_gcrypt_invalid_decrypt(QCryptoAkCipher *akcipher,
-+                                          const void *in, size_t in_len,
-+                                          void *out, size_t out_len,
-+                                          Error **errp)
-+{
-+    error_setg(errp, "Operation is invalid");
-+    return -1;
-+}
-+
-+static int qcrypto_gcrypt_ecdsa_sign(QCryptoAkCipher *akcipher,
-+                                     const void *in, size_t in_len,
-+                                     void *out, size_t out_len, Error **errp)
-+{
-+    QCryptoGcryptECDSA *ecdsa = (QCryptoGcryptECDSA *)akcipher;
-+    int ret = -1;
-+    gcry_mpi_t data = NULL, r_mpi = NULL, s_mpi = NULL;
-+    gcry_sexp_t dgst_sexp = NULL, sig_sexp = NULL;
-+    gcry_sexp_t r_sexp_item = NULL, s_sexp_item = NULL;
-+    size_t actual_len;
-+    gcry_error_t err;
-+    g_autoptr(QCryptoAkCipherECDSASig) sig = NULL;
-+
-+    if (out_len < akcipher->max_signature_len) {
-+        error_setg(errp, "Signature buffer should be not less than: %d",
-+                   akcipher->max_signature_len);
-+        return -1;
-+    }
-+    /*
-+     * For ecdsa, digest length less than key length is recommended but not
-+     * required, truncation occurs when digest is too long, see FIPS 186-4:
-+     * https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf.
-+     * Here we don't do the check, gcrypt will handle it.
-+     */
-+    err = gcry_mpi_scan(&data, GCRYMPI_FMT_USG, in, in_len, NULL);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to build data: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+
-+    err = gcry_sexp_build(&dgst_sexp, NULL,
-+                          "(data (flags raw) (value %m))", data);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to build dgst signature: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+
-+    err = gcry_pk_sign(&sig_sexp, dgst_sexp, ecdsa->key);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to make signature: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+
-+    sig = qcrypto_akcipher_ecdsasig_alloc(ecdsa->curve_id, errp);
-+    if (!sig) {
-+        goto cleanup;
-+    }
-+
-+    /* S-expression of signature: (sig-val (ecdsa (r r-mpi) (s s-mpi))) */
-+    r_sexp_item = gcry_sexp_find_token(sig_sexp, "r", 0);
-+    if (!r_sexp_item || gcry_sexp_length(r_sexp_item) != 2) {
-+        error_setg(errp, "Invalid signature result");
-+        goto cleanup;
-+    }
-+    r_mpi = gcry_sexp_nth_mpi(r_sexp_item, 1, GCRYMPI_FMT_USG);
-+    if (!r_mpi) {
-+        error_setg(errp, "Invalid signature result");
-+    }
-+    err = gcry_mpi_print(GCRYMPI_FMT_STD, sig->r.data, sig->r.len,
-+                         &actual_len, r_mpi);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to print MPI: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+    if (unlikely(actual_len > sig->r.len)) {
-+        error_setg(errp, "Internal error: signature buffer is too small");
-+        goto cleanup;
-+    }
-+    sig->r.len = actual_len;
-+
-+    s_sexp_item = gcry_sexp_find_token(sig_sexp, "s", 0);
-+    if (!s_sexp_item || gcry_sexp_length(s_sexp_item) != 2) {
-+        error_setg(errp, "Invalid signature result");
-+        goto cleanup;
-+    }
-+    s_mpi = gcry_sexp_nth_mpi(s_sexp_item, 1, GCRYMPI_FMT_USG);
-+    if (!s_mpi) {
-+        error_setg(errp, "Invalid signature result");
-+    }
-+    err = gcry_mpi_print(GCRYMPI_FMT_STD, sig->s.data, sig->s.len,
-+                         &actual_len, s_mpi);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to print MPI: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+    if (unlikely(actual_len > sig->s.len)) {
-+        error_setg(errp, "Internal error: signature buffer is too small");
-+        goto cleanup;
-+    }
-+    sig->s.len = actual_len;
-+
-+    qcrypto_akcipher_ecdsasig_x9_62_encode(sig, out, &out_len);
-+    ret = out_len;
-+
-+cleanup:
-+    gcry_mpi_release(data);
-+    gcry_mpi_release(r_mpi);
-+    gcry_mpi_release(s_mpi);
-+    gcry_sexp_release(dgst_sexp);
-+    gcry_sexp_release(sig_sexp);
-+    gcry_sexp_release(r_sexp_item);
-+
-+    return ret;
-+}
-+
-+static int qcrypto_gcrypt_ecdsa_verify(QCryptoAkCipher *akcipher,
-+                                       const void *in, size_t in_len,
-+                                       const void *in2, size_t in2_len,
-+                                       Error **errp)
-+{
-+    QCryptoGcryptECDSA *ecdsa = (QCryptoGcryptECDSA *)akcipher;
-+    int ret = -1;
-+    QCryptoAkCipherECDSASig *sig;
-+    gcry_mpi_t sig_s = NULL, sig_r = NULL, dgst_mpi = NULL;
-+    gcry_sexp_t sig_sexp = NULL, dgst_sexp = NULL;
-+    gcry_error_t err;
-+
-+    /*
-+     * We only check the signature length, dgst length will be handled
-+     * by gcrypt, see qcrypto_gcrypt_ecdsa_sign.
-+     */
-+    if (in_len > akcipher->max_signature_len) {
-+        error_setg(errp, "Signature length is greater than %d",
-+                   akcipher->max_signature_len);
-+        return ret;
-+    }
-+
-+    sig = qcrypto_akcipher_ecdsasig_parse(in, in_len, errp);
-+    if (!sig) {
-+        return ret;
-+    }
-+
-+    err = gcry_mpi_scan(&sig_r, GCRYMPI_FMT_STD, sig->r.data, sig->r.len, NULL);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to parse ECDSA signature: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+    err = gcry_mpi_scan(&sig_s, GCRYMPI_FMT_STD, sig->s.data, sig->s.len, NULL);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to parse ECDSA signature: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+    err = gcry_sexp_build(&sig_sexp, NULL,
-+                          "(sig-val (ecdsa (r %m) (s %m)))", sig_r, sig_s);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to build signature: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+
-+    err = gcry_mpi_scan(&dgst_mpi, GCRYMPI_FMT_USG, in2, in2_len, NULL);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to parse scan mpi: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+    err = gcry_sexp_build(&dgst_sexp, NULL,
-+                          "(data (flags raw) (value %m))", dgst_mpi);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to build dgst: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+
-+    err = gcry_pk_verify(sig_sexp, dgst_sexp, ecdsa->key);
-+    if (gcry_err_code(err) != 0) {
-+        error_setg(errp, "Failed to verify signature: %s/%s",
-+                   gcry_strsource(err), gcry_strerror(err));
-+        goto cleanup;
-+    }
-+    ret = 0;
-+
-+cleanup:
-+    gcry_mpi_release(sig_s);
-+    gcry_mpi_release(sig_r);
-+    gcry_mpi_release(dgst_mpi);
-+    gcry_sexp_release(dgst_sexp);
-+    gcry_sexp_release(sig_sexp);
-+    qcrypto_akcipher_ecdsasig_free(sig);
-+
-+    return ret;
-+}
-+
-+static QCryptoAkCipherDriver gcrypt_ecdsa = {
-+    .encrypt = qcrypto_gcrypt_invalid_encrypt,
-+    .decrypt = qcrypto_gcrypt_invalid_decrypt,
-+    .sign = qcrypto_gcrypt_ecdsa_sign,
-+    .verify = qcrypto_gcrypt_ecdsa_verify,
-+    .free = qcrypto_gcrypt_ecdsa_free,
++static const uint8_t ecdsa_p192_public_key[] = {
++    0x04, 0xc4, 0x16, 0xb3, 0xff, 0xac, 0xd5, 0x87,
++    0x98, 0xf7, 0xd9, 0x45, 0xfe, 0xd3, 0x5c, 0x17,
++    0x9d, 0xb2, 0x36, 0x22, 0xcc, 0x07, 0xb3, 0x6d,
++    0x3c, 0x4e, 0x04, 0x5f, 0xeb, 0xb6, 0x52, 0x58,
++    0xfb, 0x36, 0x10, 0x52, 0xb7, 0x01, 0x62, 0x0e,
++    0x94, 0x51, 0x1d, 0xe2, 0xef, 0x10, 0x82, 0x88,
++    0x78,
 +};
 +
-+static QCryptoGcryptECDSA *qcrypto_gcrypt_ecdsa_new(
-+    const QCryptoAkCipherOptionsECDSA *opts,
-+    QCryptoAkCipherKeyType type,
-+    const uint8_t *key, size_t keylen,
-+    Error **errp)
-+{
-+    QCryptoGcryptECDSA *ecdsa = g_new0(QCryptoGcryptECDSA, 1);
-+    if (qcrypto_gcrypt_parse_curve_id(ecdsa, opts, errp) != 0) {
-+        goto error;
-+    }
-+    ecdsa->curve_id = opts->curve_id;
-+    ecdsa->akcipher.driver = &gcrypt_ecdsa;
++static const uint8_t ecdsa_p192_private_key[] = {
++    0x30, 0x53, 0x02, 0x01, 0x01, 0x04, 0x18, 0xcb,
++    0xc8, 0x86, 0x0e, 0x66, 0x3c, 0xf7, 0x5a, 0x44,
++    0x13, 0xb8, 0xef, 0xea, 0x1d, 0x7b, 0xa6, 0x1c,
++    0xda, 0xf4, 0x1b, 0xc7, 0x67, 0x6b, 0x35, 0xa1,
++    0x34, 0x03, 0x32, 0x00, 0x04, 0xc4, 0x16, 0xb3,
++    0xff, 0xac, 0xd5, 0x87, 0x98, 0xf7, 0xd9, 0x45,
++    0xfe, 0xd3, 0x5c, 0x17, 0x9d, 0xb2, 0x36, 0x22,
++    0xcc, 0x07, 0xb3, 0x6d, 0x3c, 0x4e, 0x04, 0x5f,
++    0xeb, 0xb6, 0x52, 0x58, 0xfb, 0x36, 0x10, 0x52,
++    0xb7, 0x01, 0x62, 0x0e, 0x94, 0x51, 0x1d, 0xe2,
++    0xef, 0x10, 0x82, 0x88, 0x78,
++};
 +
-+    switch (type) {
-+    case QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE:
-+        if (qcrypto_gcrypt_parse_ecdsa_private_key(
-+            ecdsa, ecdsa->curve_name, key, keylen, errp) != 0) {
-+            goto error;
-+        }
-+        break;
++static const uint8_t ecdsa_p256_private_key[] = {
++    0x30, 0x77, 0x02, 0x01, 0x01, 0x04, 0x20, 0xf6,
++    0x92, 0xdd, 0x29, 0x1c, 0x6e, 0xef, 0xb6, 0xb2,
++    0x73, 0x9f, 0x40, 0x1b, 0xb3, 0x2a, 0x28, 0xd2,
++    0x37, 0xd6, 0x4a, 0x5b, 0xe4, 0x40, 0x4c, 0x6a,
++    0x95, 0x99, 0xfa, 0xf7, 0x92, 0x49, 0xbe, 0xa0,
++    0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d,
++    0x03, 0x01, 0x07, 0xa1, 0x44, 0x03, 0x42, 0x00,
++    0x04, 0xed, 0x42, 0x9c, 0x67, 0x79, 0xbe, 0x46,
++    0x83, 0x88, 0x3e, 0x8c, 0xc1, 0x33, 0xf3, 0xc3,
++    0xf6, 0x2c, 0xf3, 0x13, 0x6a, 0x00, 0xc2, 0xc9,
++    0x3e, 0x87, 0x7f, 0x86, 0x39, 0xe6, 0xae, 0xe3,
++    0xb9, 0xba, 0x2f, 0x58, 0x63, 0x32, 0x62, 0x62,
++    0x54, 0x07, 0x27, 0xf9, 0x5a, 0x3a, 0xc7, 0x3a,
++    0x6b, 0x5b, 0xbc, 0x0d, 0x33, 0xba, 0xbb, 0xd4,
++    0xa3, 0xff, 0x4f, 0x9e, 0xdd, 0xf5, 0x59, 0xc0,
++    0xf6,
++};
 +
-+    case QCRYPTO_AKCIPHER_KEY_TYPE_PUBLIC:
-+        if (qcrypto_gcrypt_parse_ecdsa_public_key(
-+            ecdsa, ecdsa->curve_name, key, keylen, errp) != 0) {
-+            goto error;
-+        }
-+        break;
++static const uint8_t ecdsa_p256_public_key[] = {
++    0x04, 0xed, 0x42, 0x9c, 0x67, 0x79, 0xbe, 0x46,
++    0x83, 0x88, 0x3e, 0x8c, 0xc1, 0x33, 0xf3, 0xc3,
++    0xf6, 0x2c, 0xf3, 0x13, 0x6a, 0x00, 0xc2, 0xc9,
++    0x3e, 0x87, 0x7f, 0x86, 0x39, 0xe6, 0xae, 0xe3,
++    0xb9, 0xba, 0x2f, 0x58, 0x63, 0x32, 0x62, 0x62,
++    0x54, 0x07, 0x27, 0xf9, 0x5a, 0x3a, 0xc7, 0x3a,
++    0x6b, 0x5b, 0xbc, 0x0d, 0x33, 0xba, 0xbb, 0xd4,
++    0xa3, 0xff, 0x4f, 0x9e, 0xdd, 0xf5, 0x59, 0xc0,
++    0xf6,
++};
 +
-+    default:
-+        error_setg(errp, "Unknown akcipher key type %d", type);
-+        goto error;
-+    }
++static const uint8_t ecdsa_p384_public_key[] = {
++    0x04, 0xab, 0xd5, 0xf8, 0x87, 0x1d, 0x23, 0x9b,
++    0x26, 0xb9, 0x57, 0x7e, 0x97, 0x78, 0x10, 0xcd,
++    0x13, 0xe3, 0x98, 0x25, 0xa8, 0xd6, 0xab, 0x66,
++    0x35, 0x26, 0x68, 0x8a, 0x0e, 0x49, 0xd9, 0x4a,
++    0x91, 0x7d, 0x6c, 0x94, 0x06, 0x06, 0x99, 0xf1,
++    0x8d, 0x2a, 0x25, 0x8d, 0xf9, 0xbf, 0x40, 0xfa,
++    0xb7, 0xcb, 0xe1, 0x14, 0x22, 0x0a, 0xa7, 0xfb,
++    0x0a, 0xb4, 0x02, 0x05, 0x8b, 0x98, 0xaa, 0x78,
++    0xcd, 0x53, 0x00, 0x1e, 0xd1, 0x79, 0x6a, 0x5f,
++    0x09, 0x01, 0x88, 0xb4, 0xbc, 0x32, 0x62, 0x83,
++    0x92, 0x84, 0x2d, 0xc6, 0xf8, 0xda, 0xc4, 0x7f,
++    0x10, 0xa3, 0x18, 0x1d, 0xae, 0x0d, 0xa4, 0x41,
++    0x9f,
++};
 +
-+    return ecdsa;
++static const uint8_t ecdsa_p384_private_key[] = {
++    0x30, 0x81, 0x9b, 0x02, 0x01, 0x01, 0x04, 0x30,
++    0xb6, 0x04, 0xef, 0xb1, 0x2c, 0x98, 0xdf, 0xcf,
++    0xd4, 0x16, 0x31, 0xd4, 0x69, 0x0c, 0x27, 0x81,
++    0x4a, 0xac, 0x1a, 0x83, 0x3c, 0xe4, 0xef, 0x65,
++    0xe1, 0x7a, 0x6a, 0xc6, 0xd6, 0xf7, 0xea, 0x79,
++    0xbe, 0xf1, 0x00, 0x3c, 0xdf, 0x6e, 0x9d, 0x10,
++    0x22, 0x61, 0x1b, 0x11, 0xcf, 0x49, 0x6e, 0x62,
++    0xa1, 0x64, 0x03, 0x62, 0x00, 0x04, 0xab, 0xd5,
++    0xf8, 0x87, 0x1d, 0x23, 0x9b, 0x26, 0xb9, 0x57,
++    0x7e, 0x97, 0x78, 0x10, 0xcd, 0x13, 0xe3, 0x98,
++    0x25, 0xa8, 0xd6, 0xab, 0x66, 0x35, 0x26, 0x68,
++    0x8a, 0x0e, 0x49, 0xd9, 0x4a, 0x91, 0x7d, 0x6c,
++    0x94, 0x06, 0x06, 0x99, 0xf1, 0x8d, 0x2a, 0x25,
++    0x8d, 0xf9, 0xbf, 0x40, 0xfa, 0xb7, 0xcb, 0xe1,
++    0x14, 0x22, 0x0a, 0xa7, 0xfb, 0x0a, 0xb4, 0x02,
++    0x05, 0x8b, 0x98, 0xaa, 0x78, 0xcd, 0x53, 0x00,
++    0x1e, 0xd1, 0x79, 0x6a, 0x5f, 0x09, 0x01, 0x88,
++    0xb4, 0xbc, 0x32, 0x62, 0x83, 0x92, 0x84, 0x2d,
++    0xc6, 0xf8, 0xda, 0xc4, 0x7f, 0x10, 0xa3, 0x18,
++    0x1d, 0xae, 0x0d, 0xa4, 0x41, 0x9f,
++};
 +
-+error:
-+    qcrypto_gcrypt_ecdsa_free((QCryptoAkCipher *)ecdsa);
-+    return NULL;
-+}
+ static const uint8_t test_sha1_dgst[] = {
+     0x3c, 0x05, 0x19, 0x34, 0x29, 0x19, 0xc7, 0xe0,
+     0x87, 0xb6, 0x24, 0xf9, 0x58, 0xac, 0xa4, 0xd4,
+@@ -374,6 +468,45 @@ static const uint8_t exp_signature_rsa1024_pkcs1[] = {
+     0xab, 0x0d, 0xc6, 0x59, 0x1d, 0xc7, 0x33, 0x7b,
+ };
  
- bool qcrypto_akcipher_supports(QCryptoAkCipherOptions *opts)
- {
-@@ -589,6 +978,17 @@ bool qcrypto_akcipher_supports(QCryptoAkCipherOptions *opts)
-             return false;
-         }
++static const uint8_t exp_signature_ecdsa_p192[] = {
++    0x30, 0x35, 0x02, 0x19, 0x00, 0xba, 0xf7, 0xc0,
++    0xc1, 0x7e, 0xf5, 0x69, 0xd5, 0xb7, 0x5d, 0x06,
++    0xcb, 0x92, 0x28, 0x57, 0x52, 0x96, 0x9a, 0xdc,
++    0xc9, 0xf9, 0xd5, 0x2c, 0x51, 0x02, 0x18, 0x26,
++    0x21, 0x5d, 0x16, 0xba, 0xff, 0x19, 0x74, 0x56,
++    0x8e, 0xdf, 0x51, 0x2b, 0x2c, 0xce, 0xc2, 0x7b,
++    0x5b, 0x03, 0x10, 0x56, 0x57, 0x63, 0x47,
++};
++
++static const uint8_t exp_signature_ecdsa_p256[] = {
++    0x30, 0x45, 0x02, 0x21, 0x00, 0xac, 0x09, 0xf3,
++    0x32, 0xb6, 0xf6, 0x7e, 0x12, 0x4f, 0x68, 0xdb,
++    0x10, 0x14, 0x61, 0xf6, 0x29, 0xbd, 0xdd, 0x72,
++    0x9f, 0x81, 0xf8, 0x83, 0x8a, 0xf3, 0x29, 0x87,
++    0x7b, 0xbb, 0xcf, 0xea, 0x64, 0x02, 0x20, 0x14,
++    0xfc, 0x2e, 0x2f, 0x3e, 0x06, 0xb1, 0xd0, 0xbb,
++    0x91, 0x44, 0xd5, 0x53, 0xb4, 0x72, 0xa1, 0x83,
++    0xc7, 0x3a, 0xa8, 0xfc, 0x43, 0x1b, 0x2e, 0xbb,
++    0xb0, 0xe9, 0xef, 0x0b, 0x03, 0x32, 0x74,
++};
++
++static const uint8_t exp_signature_ecdsa_p384[] = {
++    0x30, 0x64, 0x02, 0x30, 0x3c, 0x79, 0x7f, 0x5a,
++    0x91, 0x08, 0x79, 0xde, 0x6e, 0x03, 0x19, 0x39,
++    0xcb, 0x94, 0x9c, 0xc6, 0x09, 0x12, 0xfa, 0xbd,
++    0xa8, 0x35, 0x5e, 0x3f, 0x74, 0x05, 0x12, 0xd1,
++    0x8e, 0xd9, 0x3c, 0x79, 0x9d, 0x7c, 0x1a, 0xae,
++    0x96, 0x05, 0x0e, 0x35, 0x21, 0x73, 0xd8, 0xfe,
++    0x1b, 0x43, 0x06, 0xb9, 0x02, 0x30, 0x11, 0xdf,
++    0xa7, 0xba, 0x70, 0x84, 0x4b, 0x74, 0xab, 0x1e,
++    0x9e, 0x6a, 0xc1, 0x46, 0xe3, 0x98, 0x0a, 0x25,
++    0x82, 0xf5, 0xff, 0xb5, 0x6f, 0x04, 0xda, 0xc3,
++    0xfd, 0x3e, 0xea, 0x96, 0x03, 0x0c, 0x22, 0xf2,
++    0xda, 0x86, 0xeb, 0x91, 0x2f, 0x36, 0x13, 0xba,
++    0x37, 0xcd, 0xe7, 0x91, 0x85, 0xf3,
++};
++
++
+ static const uint8_t test_plaintext[] = {
+     0x00, 0x44, 0xbc, 0x6f, 0x77, 0xfb, 0xe2, 0xa4,
+     0x98, 0x9e, 0xf5, 0x33, 0xa0, 0xbd, 0x81, 0xb9,
+@@ -870,7 +1003,60 @@ static QCryptoAkCipherTestData akcipher_test_data[] = {
+         .signature = exp_signature_rsa2048_pkcs1,
+         .slen = sizeof(exp_signature_rsa2048_pkcs1),
+     },
++    {
++        .path = "/crypto/akcipher/ecdsa-nist-p192",
++        .opt = {
++            .alg = QCRYPTO_AKCIPHER_ALG_ECDSA,
++            .u.ecdsa = {
++                .curve_id = QCRYPTO_CURVE_ID_NIST_P192,
++            },
++        },
++        .pub_key = ecdsa_p192_public_key,
++        .pub_key_len = sizeof(ecdsa_p192_public_key),
++        .priv_key = ecdsa_p192_private_key,
++        .priv_key_len = sizeof(ecdsa_p192_private_key),
  
-+    case QCRYPTO_AKCIPHER_ALG_ECDSA:
-+        switch (opts->u.ecdsa.curve_id) {
-+        case QCRYPTO_CURVE_ID_NIST_P192:
-+        case QCRYPTO_CURVE_ID_NIST_P256:
-+        case QCRYPTO_CURVE_ID_NIST_P384:
-+            return true;
++        .dgst = test_sha1_dgst,
++        .dlen = sizeof(test_sha1_dgst),
++        .signature = exp_signature_ecdsa_p192,
++        .slen = sizeof(exp_signature_ecdsa_p192),
++    },
++    {
++        .path = "/crypto/akcipher/ecdsa-nist-p256",
++        .opt = {
++            .alg = QCRYPTO_AKCIPHER_ALG_ECDSA,
++            .u.ecdsa = {
++                .curve_id = QCRYPTO_CURVE_ID_NIST_P256,
++            },
++        },
++        .pub_key = ecdsa_p256_public_key,
++        .pub_key_len = sizeof(ecdsa_p256_public_key),
++        .priv_key = ecdsa_p256_private_key,
++        .priv_key_len = sizeof(ecdsa_p256_private_key),
 +
-+        default:
-+            return false;
-+        }
++        .dgst = test_sha1_dgst,
++        .dlen = sizeof(test_sha1_dgst),
++        .signature = exp_signature_ecdsa_p256,
++        .slen = sizeof(exp_signature_ecdsa_p256),
++    },
++    {
++        .path = "/crypto/akcipher/ecdsa-nist-p384",
++        .opt = {
++            .alg = QCRYPTO_AKCIPHER_ALG_ECDSA,
++            .u.ecdsa = {
++                .curve_id = QCRYPTO_CURVE_ID_NIST_P384,
++            },
++        },
++        .pub_key = ecdsa_p384_public_key,
++        .pub_key_len = sizeof(ecdsa_p384_public_key),
++        .priv_key = ecdsa_p384_private_key,
++        .priv_key_len = sizeof(ecdsa_p384_private_key),
 +
-     default:
-         return true;
++        .dgst = test_sha1_dgst,
++        .dlen = sizeof(test_sha1_dgst),
++        .signature = exp_signature_ecdsa_p384,
++        .slen = sizeof(exp_signature_ecdsa_p384),
++    },
+ };
+ 
+ static void test_akcipher(const void *opaque)
+@@ -879,6 +1065,8 @@ static void test_akcipher(const void *opaque)
+     g_autofree uint8_t *plaintext = NULL;
+     g_autofree uint8_t *ciphertext = NULL;
+     g_autofree uint8_t *signature = NULL;
++    int signature_len, ciphertext_len, plaintext_len;
++    int max_plen, max_slen, max_clen;
+     QCryptoAkCipher *pub_key, *priv_key;
+ 
+     if (!qcrypto_akcipher_supports((QCryptoAkCipherOptions *)&data->opt)) {
+@@ -894,32 +1082,41 @@ static void test_akcipher(const void *opaque)
+                                     data->priv_key, data->priv_key_len,
+                                     &error_abort);
+     g_assert(priv_key != NULL);
++    max_plen = qcrypto_akcipher_max_plaintext_len(pub_key);
++    max_clen = qcrypto_akcipher_max_plaintext_len(pub_key);
++    max_slen = qcrypto_akcipher_max_signature_len(priv_key);
+ 
+     if (data->plaintext != NULL) {
+ 
+-        ciphertext = g_new0(uint8_t, data->clen);
+-        g_assert(qcrypto_akcipher_encrypt(pub_key, data->plaintext, data->plen,
+-                                          ciphertext, data->clen,
+-                                          &error_abort) > 0);
++        ciphertext = g_new0(uint8_t, max_clen);
++        ciphertext_len = qcrypto_akcipher_encrypt(pub_key,
++                                                  data->plaintext, data->plen,
++                                                  ciphertext, max_clen,
++                                                  &error_abort);
++        g_assert(ciphertext_len > 0);
+ 
+         /**
+          * In the asymmetric encryption algorithms, the ciphertext generated
+          * each time may be different, here only compare the decrypted
+          * plaintext
+          */
+-        plaintext = g_new0(uint8_t, data->clen);
+-        g_assert(qcrypto_akcipher_decrypt(priv_key, ciphertext,
+-                                          data->clen, plaintext,
+-                                          data->plen,
+-                                          &error_abort) == data->plen);
++        plaintext = g_new0(uint8_t, max_plen);
++        plaintext_len = qcrypto_akcipher_decrypt(priv_key,
++                                                 ciphertext, ciphertext_len,
++                                                 plaintext, max_plen,
++                                                 &error_abort);
++        g_assert(plaintext_len == data->plen);
+         g_assert(!memcmp(plaintext, data->plaintext, data->plen));
      }
+ 
+     if (data->signature != NULL) {
+-        signature = g_new(uint8_t, data->slen);
+-        g_assert(qcrypto_akcipher_sign(priv_key, data->dgst, data->dlen,
+-                                       signature, data->slen,
+-                                       &error_abort) > 0);
++        signature = g_new(uint8_t, max_slen);
++        signature_len = qcrypto_akcipher_sign(priv_key,
++                                              data->dgst, data->dlen,
++                                              signature, max_slen,
++                                              &error_abort);
++        g_assert(signature_len > 0);
++
+         /**
+          * The signature generated each time may be different, here only check
+          * the verification.
+@@ -927,12 +1124,12 @@ static void test_akcipher(const void *opaque)
+         g_assert(qcrypto_akcipher_verify(pub_key, data->signature, data->slen,
+                                          data->dgst, data->dlen,
+                                          &error_abort) == 0);
+-        g_assert(qcrypto_akcipher_verify(pub_key, signature, data->slen,
++        g_assert(qcrypto_akcipher_verify(pub_key, signature, signature_len,
+                                          data->dgst, data->dlen,
+                                          &error_abort) == 0);
+         ++signature[0];
+         /* Here error should be ignored */
+-        g_assert(qcrypto_akcipher_verify(pub_key, signature, data->slen,
++        g_assert(qcrypto_akcipher_verify(pub_key, signature, signature_len,
+                                          data->dgst, data->dlen, NULL) != 0);
+     }
+ 
 -- 
 2.11.0
 
