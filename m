@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D405499AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:19:23 +0200 (CEST)
-Received: from localhost ([::1]:50660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295045499C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:22:11 +0200 (CEST)
+Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0nij-0000zu-Ke
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
+	id 1o0nlS-0005DK-8d
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o0ncn-0001Jz-NI
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:14 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:38626)
+ id 1o0ncq-0001Md-WF
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:17 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o0ncm-0006xI-8Q
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:13 -0400
-Received: by mail-ej1-x631.google.com with SMTP id n10so12428662ejk.5
+ id 1o0ncm-0006xO-8n
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:14 -0400
+Received: by mail-ej1-x634.google.com with SMTP id me5so12462893ejb.2
  for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:13:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jmch1Xztp+sXlhSsR6daB9b/LdHkQtMGhG2GCOi2Ah4=;
- b=dwR82LRBfPWIQ58hVIH7St2nUZUrkZoAN19jd6GaGf6vA0+1pdAeMCmZkIXtXLjDY1
- 1oGsCk3YZDdbfJapjKM89Ge/9H895E4gLkIwbcGPJmH025wET6BuH0FSC2BqoCfQv/Tn
- KlOmIyXzcnFDVjPoh+wNWeBckoSCkJu3Tsucw2b0/hBNMgG6wZ4hdBprmGfZzOzfP0Bf
- e5G72RQU4Pb+R8BERPDC2Tmot/mpj2DtnaA23e0N9IvdASGllSiHLIwJwmgXYCIKlx03
- L2mQd+7I2QX+z3DxSKgZS+j54kv3gmJP/fZkD7DoTb1rBY7vx1TuZNCQ2fJ3R4p390TL
- OD4w==
+ bh=rZddIaoLD/ZTyoHMOhubaxrRGzNsR1qnEvTVtIqOZCA=;
+ b=BA4PzvyvmRJQpxJKJDnlGReoQ426i0P6qPFLdKKB+NMNy1VkZWfke6kpqh1AcqsRT8
+ G+Sxtzc6mPOS+tRuKUIeF9Mzu3X3l4laI6K4DmaH3VB6BlELAcnV0p+5x6bNl0c7gYrR
+ yAc7LaEJOa3TlWzKWJtkaexWDQEmrgCteXK7mLQhfDgAiJM13opZm9MT7PFkl/ij40Sb
+ Wmfs7fySIHl6oxx6OEDrh/fcObSLWASNRR9LUTjMk7upETEu2scC4h5snM+9LGadjKX/
+ w4c1Ni9p2MetJiVT1ZOfnD9FxiHrYwyjL+tY1aubUZf4vA3rBvDHLCPTTyb/yleC+zKK
+ IiJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jmch1Xztp+sXlhSsR6daB9b/LdHkQtMGhG2GCOi2Ah4=;
- b=hdcOyKMt7wj/lz0xkC6QIbcUL1cc/XBNwR91OIEUfwVOHDtWR0Ij5FwrXpDiac7u2H
- yBzYw22BTKDZJvRJJnrnok8BT28VI9hiYpAJH6HAMrLSC1as1hZyTDxmFDXS8tkRWzJp
- wHHc775EebNOmew2Qy1mVDQ4GAzY4NZrabuYJvzCm1bQTA+jzvukVHQPcudNW5N4FSo2
- 56pecX/Pxn1Gz37jhf5qHbTkjnvpXfrdF1CgFHcKzDvhR2wjTNVPFpOQ50qJHvulgPHQ
- OBb3ljYiSfZ9FTUMVrt/F4O2WW+Sd+7o/zNBaasfxyGsgUhRmqQ6Q1rkAkQwX7JlwCZ6
- 04tg==
-X-Gm-Message-State: AOAM531pbsfTZQa30dFqklqXAm45oVzrj0dIM0udamhtSys+8tJh2sxW
- b/+Q9hGyYiNucy29qufb8/r0Og==
-X-Google-Smtp-Source: ABdhPJyR/7iwUdoZC3NUAPWAiYs5rghQfPhnsqeKrb4pREUdLrn65VvctEiZ3Sh7BKGWt749fgloMw==
-X-Received: by 2002:a17:906:74c7:b0:711:fa45:4f88 with SMTP id
- z7-20020a17090674c700b00711fa454f88mr714625ejl.347.1655140390113; 
+ bh=rZddIaoLD/ZTyoHMOhubaxrRGzNsR1qnEvTVtIqOZCA=;
+ b=5RWfUB+qAFA/bTWvjMw2cK6qiuKY17XfscxHf4FXuUBiTceekdBRMOpMhAjVdV9uSG
+ N11DJN38gELf4qofvsLSxACU4Hpu5StacrAu2EhOIqKoZ5bI1XLVY4czfmZV7bqbvqTF
+ K3EF1mQcZl8scZmgERu5xM4wlq7sQDv6K+zhDVifbaM/hRBrH43eIV/y+kui60gqM71Y
+ rAn3VvIVl6cPif1WMca43o+YLeLDHd61Uo0xRA9BLEZ4HDUGauZcgsJ0hxherPeiHkMe
+ qE+N2H30u/EMJa5fDwqNFEjx/Ga+ABA2pO9sdxoBUYRU0nGQo1CgCpDnLNujnWI2t3tt
+ BUyw==
+X-Gm-Message-State: AOAM531d5BMBLTCyT+xgsIEdljt7e+6N0LQ++kSNmEeY0k+V4sMjurI3
+ jIblnC+w7QtBFfD9QSjLiNY03g==
+X-Google-Smtp-Source: ABdhPJxeJuxRwVDnYXMcpe3Bctj79PoY3snKACyVRBB3ab3d1C0mrLCeD7XDeyGFypiruTaXXiucuQ==
+X-Received: by 2002:a17:906:7308:b0:710:dabe:d651 with SMTP id
+ di8-20020a170906730800b00710dabed651mr730115ejc.75.1655140390904; 
  Mon, 13 Jun 2022 10:13:10 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- s22-20020a1709064d9600b00705cd37fd5asm4050405eju.72.2022.06.13.10.13.01
+ v24-20020a170906859800b007120e9573b4sm4045901ejx.169.2022.06.13.10.13.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 13 Jun 2022 10:13:06 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7AC901FFBE;
+ by zen.linaroharston (Postfix) with ESMTP id 88FD81FFBF;
  Mon, 13 Jun 2022 18:12:59 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- richard.henderson@linaro.org, Thomas Huth <thuth@redhat.com>,
+ richard.henderson@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH  v1 6/7] gitlab: compare CIRRUS_nn vars against 'null' not ""
-Date: Mon, 13 Jun 2022 18:12:57 +0100
-Message-Id: <20220613171258.1905715-7-alex.bennee@linaro.org>
+Subject: [PATCH v1 7/7] .gitlab: use less aggressive nproc on our aarch64/32
+ runners
+Date: Mon, 13 Jun 2022 18:12:58 +0100
+Message-Id: <20220613171258.1905715-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220613171258.1905715-1-alex.bennee@linaro.org>
 References: <20220613171258.1905715-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,35 +99,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+Running on all 80 cores of our aarch64 runner does occasionally
+trigger a race condition which fails the build. However the CI system
+is not the time and place to play with much heisenbugs so turn down
+the nproc to "only" use 40 cores in the build.
 
-The GitLab variable comparisons don't have shell like semantics where
-an unset variable compares equal to empty string. We need to explicitly
-test against 'null' to detect an unset variable.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220608160651.248781-1-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/base.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../custom-runners/ubuntu-20.04-aarch32.yml   |  4 ++--
+ .../custom-runners/ubuntu-20.04-aarch64.yml   | 24 +++++++++----------
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
-index f334f3ded7..69b36c148a 100644
---- a/.gitlab-ci.d/base.yml
-+++ b/.gitlab-ci.d/base.yml
-@@ -13,7 +13,7 @@
-     #############################################################
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
+index 47856ac53c..1998460d06 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
+@@ -19,5 +19,5 @@ ubuntu-20.04-aarch32-all:
+  - mkdir build
+  - cd build
+  - ../configure --cross-prefix=arm-linux-gnueabihf-
+- - make --output-sync -j`nproc`
+- - make --output-sync -j`nproc` check V=1
++ - make --output-sync -j`nproc --ignore=40`
++ - make --output-sync -j`nproc --ignore=40` check V=1
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+index 951e490db1..65718a188a 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+@@ -17,9 +17,9 @@ ubuntu-20.04-aarch64-all-linux-static:
+  - mkdir build
+  - cd build
+  - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
+- - make --output-sync -j`nproc`
+- - make --output-sync -j`nproc` check V=1
+- - make --output-sync -j`nproc` check-tcg V=1
++ - make --output-sync -j`nproc --ignore=40`
++ - make --output-sync -j`nproc --ignore=40` check V=1
++ - make --output-sync -j`nproc --ignore=40` check-tcg V=1
  
-     # Cirrus jobs can't run unless the creds / target repo are set
--    - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == "" || $CIRRUS_API_TOKEN == "")'
-+    - if: '$QEMU_JOB_CIRRUS && ($CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null)'
-       when: never
+ ubuntu-20.04-aarch64-all:
+  needs: []
+@@ -38,8 +38,8 @@ ubuntu-20.04-aarch64-all:
+  - mkdir build
+  - cd build
+  - ../configure --disable-libssh
+- - make --output-sync -j`nproc`
+- - make --output-sync -j`nproc` check V=1
++ - make --output-sync -j`nproc --ignore=40`
++ - make --output-sync -j`nproc --ignore=40` check V=1
  
-     # Publishing jobs should only run on the default branch in upstream
+ ubuntu-20.04-aarch64-alldbg:
+  needs: []
+@@ -55,8 +55,8 @@ ubuntu-20.04-aarch64-alldbg:
+  - cd build
+  - ../configure --enable-debug --disable-libssh
+  - make clean
+- - make --output-sync -j`nproc`
+- - make --output-sync -j`nproc` check V=1
++ - make --output-sync -j`nproc --ignore=40`
++ - make --output-sync -j`nproc --ignore=40` check V=1
+ 
+ ubuntu-20.04-aarch64-clang:
+  needs: []
+@@ -75,8 +75,8 @@ ubuntu-20.04-aarch64-clang:
+  - mkdir build
+  - cd build
+  - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
+- - make --output-sync -j`nproc`
+- - make --output-sync -j`nproc` check V=1
++ - make --output-sync -j`nproc --ignore=40`
++ - make --output-sync -j`nproc --ignore=40` check V=1
+ 
+ ubuntu-20.04-aarch64-tci:
+  needs: []
+@@ -95,7 +95,7 @@ ubuntu-20.04-aarch64-tci:
+  - mkdir build
+  - cd build
+  - ../configure --disable-libssh --enable-tcg-interpreter
+- - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc --ignore=40`
+ 
+ ubuntu-20.04-aarch64-notcg:
+  needs: []
+@@ -114,5 +114,5 @@ ubuntu-20.04-aarch64-notcg:
+  - mkdir build
+  - cd build
+  - ../configure --disable-libssh --disable-tcg
+- - make --output-sync -j`nproc`
+- - make --output-sync -j`nproc` check V=1
++ - make --output-sync -j`nproc --ignore=40`
++ - make --output-sync -j`nproc --ignore=40` check V=1
 -- 
 2.30.2
 
