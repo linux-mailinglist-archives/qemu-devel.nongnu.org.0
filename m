@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10F8548498
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 12:47:32 +0200 (CEST)
-Received: from localhost ([::1]:33632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6385484AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 13:02:26 +0200 (CEST)
+Received: from localhost ([::1]:40866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0hbX-0005GB-Aq
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 06:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55958)
+	id 1o0hpw-0003Rq-BX
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 07:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1o0hZ6-0004Vd-EW
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 06:45:01 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:33618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1o0hZ3-0001k2-8t
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 06:44:59 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=dn3g=WU=zx2c4.com=Jason@kernel.org>)
+ id 1o0hmh-00021m-L6
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 06:59:03 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:58730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=dn3g=WU=zx2c4.com=Jason@kernel.org>)
+ id 1o0hme-0003kn-Si
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 06:59:03 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1B7F421D73;
- Mon, 13 Jun 2022 10:44:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655117086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=8AKmDJ6mLM4eptJ/y/4ULYOMELVLkHtRT340cUiVhSA=;
- b=sW01hyEQrB/Ltn1rVbL3CX77E53mxTdvgTW96RqUBALd//Yl2T3wjG03yc/WPHvTk42k9M
- BO0jLbIHW5ZFhLDrr4LixlVBEoscLzmT4wo7N9mMO66WRNmSuYOm5AF1FVfaePXMX38Ixh
- Ei3AwCKJe0r07hTBAH6saEJE8xojy/w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655117086;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=8AKmDJ6mLM4eptJ/y/4ULYOMELVLkHtRT340cUiVhSA=;
- b=42sJgjpmX6vFBKTXP8GgsKvbIbAvSwu0DZsE65zceeBVc/lvdJYWgNokg4N6D8FG1NoEDy
- ZEHFubWyiriPbjAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CAD9513443;
- Mon, 13 Jun 2022 10:44:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ym3WLx0Vp2KfZgAAMHmgww
- (envelope-from <lizhang@suse.de>); Mon, 13 Jun 2022 10:44:45 +0000
-From: Li Zhang <lizhang@suse.de>
-To: imammedo@redhat.com, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, qemu-devel@nongnu.org, zhlcindy@gmail.com
-Cc: Li Zhang <lizhang@suse.de>
-Subject: [PATCH v3 1/1] Fix the coredump when memory backend id conflicts with
- default_ram_id
-Date: Mon, 13 Jun 2022 12:44:02 +0200
-Message-Id: <20220613104402.10279-1-lizhang@suse.de>
-X-Mailer: git-send-email 2.34.1
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4BF15B80E5E
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:58:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C996AC3411E
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:58:55 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="cgBfDSwY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1655117933;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bggcztt9D24upce7gmqSrLyqZieD5he0+70rbAIR+6A=;
+ b=cgBfDSwYpzqT7tIcB6iOaOgSxlhZZ5pDde67HMwHnRBABxGBinrYaKPttQVbrZ41lbeQUg
+ gkJtUtvyKMKBr25/7fUWjm7oABCihwV+/EVWP+BZbwzRme7ctRRo3udP9MWFayZrrEsNMS
+ P8xNwZIS/s5Vk8t5TxLlLAGxdC3BZOI=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7d790e26
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Mon, 13 Jun 2022 10:58:53 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id e184so9197231ybf.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 03:58:53 -0700 (PDT)
+X-Gm-Message-State: AOAM533s8251sRNEIVNFu9E05I9saImdA+cfd/qYwYUo6FQg5lXsxKmu
+ aydbvKP2EtBy0o7clq7PMQTgy72ZqoifUSGbvbU=
+X-Google-Smtp-Source: ABdhPJz/QKi1p3ElZQ3pn1gIp2okl78A/58PKg7Tl9ij+yHZeLnqIA29sOccXgGuUM91mp/AGrRyn9ES2M5uW4i5C2I=
+X-Received: by 2002:a25:cb0e:0:b0:663:dc85:b07f with SMTP id
+ b14-20020a25cb0e000000b00663dc85b07fmr31973232ybg.267.1655117932276; Mon, 13
+ Jun 2022 03:58:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received: by 2002:a05:7110:6407:b0:181:6914:78f6 with HTTP; Mon, 13 Jun 2022
+ 03:58:51 -0700 (PDT)
+In-Reply-To: <YqaRn6GiHstCbbMm@antec>
+References: <20220612215949.134807-1-Jason@zx2c4.com> <YqaRn6GiHstCbbMm@antec>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Mon, 13 Jun 2022 12:58:51 +0200
+X-Gmail-Original-Message-ID: <CAHmME9o_Oq7TKFXx-rxRxpVR-akE+gVCutK879Tp_ubVwEu=TA@mail.gmail.com>
+Message-ID: <CAHmME9o_Oq7TKFXx-rxRxpVR-akE+gVCutK879Tp_ubVwEu=TA@mail.gmail.com>
+Subject: Re: [PATCH] hw/openrisc: pass random seed to fdt
+To: Stafford Horne <shorne@gmail.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=dn3g=WU=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,68 +89,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When no memory backend is specified in machine options,
-a default memory device will be added with default_ram_id.
-However, if a memory backend object is added in QEMU options
-and id is the same as default_ram_id, a coredump happens.
+On 6/13/22, Stafford Horne <shorne@gmail.com> wrote:
+> On Sun, Jun 12, 2022 at 11:59:49PM +0200, Jason A. Donenfeld wrote:
+>> If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+>> initialize early. Set this using the usual guest random number
+>> generation function. This is confirmed to successfully initialize the
+>> RNG on Linux 5.19-rc2.
+>>
+>> Cc: Stafford Horne <shorne@gmail.com>
+>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>> ---
+>>  hw/openrisc/openrisc_sim.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+>> index 35adce17ac..41821b5f30 100644
+>> --- a/hw/openrisc/openrisc_sim.c
+>> +++ b/hw/openrisc/openrisc_sim.c
+>> @@ -20,6 +20,7 @@
+>>
+>>  #include "qemu/osdep.h"
+>>  #include "qemu/error-report.h"
+>> +#include "qemu/guest-random.h"
+>>  #include "qapi/error.h"
+>>  #include "cpu.h"
+>>  #include "hw/irq.h"
+>> @@ -115,6 +116,7 @@ static void openrisc_create_fdt(Or1ksimState *state,
+>>      int cpu;
+>>      char *nodename;
+>>      int pic_ph;
+>> +    uint8_t rng_seed[32];
+>>
+>>      fdt = state->fdt = create_device_tree(&state->fdt_size);
+>>      if (!fdt) {
+>> @@ -165,6 +167,10 @@ static void openrisc_create_fdt(Or1ksimState *state,
+>>          qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+>>      }
+>>
+>> +    /* Pass seed to RNG. */
+>> +    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+>> +    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed,
+>> sizeof(rng_seed));
+>> +
+>>      /* Create aliases node for use by devices. */
+>>      qemu_fdt_add_subnode(fdt, "/aliases");
+>>  }
+>
+> This all looks fine to me.  I will queue it with my current changes.  Since
+> this
+> is only applying to openrisc_sim I would like to also apply it to virt.  To
+> do
+> that I need to have a common core openrisc system creation api.  That way I
+> don't end up copying and pasting this to every platform.
 
-Command line:
-qemu-system-x86_64 -name guest=vmtest,debug-threads=on \
--machine pc-q35-6.0,accel=kvm,usb=off,vmport=off \
--smp 16,sockets=16,cores=1,threads=1 \
--m 4G \
--object memory-backend-ram,id=pc.ram,size=4G \
--no-user-config -nodefaults -nographic
+Sure. Or just do it on the virt board only if that's easier.
 
-Stack trace of thread 16903:
-    #0  0x00007fb109a9318b raise (libc.so.6 + 0x3a18b)
-    #1  0x00007fb109a94585 abort (libc.so.6 + 0x3b585)
-    #2  0x0000558c34bc89be error_handle_fatal (qemu-system-x86_64 + 0x9c89be)
-    #3  0x0000558c34bc8aee error_setv (qemu-system-x86_64 + 0x9c8aee)
-    #4  0x0000558c34bc8ccf error_setg_internal (qemu-system-x86_64 + 0x9c8ccf)
-    #5  0x0000558c349f6899 object_property_try_add (qemu-system-x86_64 + 0x7f6899)
-    #6  0x0000558c349f7df8 object_property_try_add_child (qemu-system-x86_64 + 0x7f7df8)
-    #7  0x0000558c349f7e91 object_property_add_child (qemu-system-x86_64 + 0x7f7e91)
-    #8  0x0000558c3454686d create_default_memdev (qemu-system-x86_64 + 0x34686d)
-    #9  0x0000558c34546f58 qemu_init_board (qemu-system-x86_64 + 0x346f58)
-    #10 0x0000558c345471b9 qmp_x_exit_preconfig (qemu-system-x86_64 + 0x3471b9)
-    #11 0x0000558c345497d9 qemu_init (qemu-system-x86_64 + 0x3497d9)
-    #12 0x0000558c344e54c2 main (qemu-system-x86_64 + 0x2e54c2)
-    #13 0x00007fb109a7e34d __libc_start_main (libc.so.6 + 0x2534d)
-    #14 0x0000558c344e53ba _start (qemu-system-x86_64 + 0x2e53ba)
-
-Signed-off-by: Li Zhang <lizhang@suse.de>
----
- hw/core/machine.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index a673302cce..9ede63b01c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1265,9 +1265,21 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
- static bool create_default_memdev(MachineState *ms, const char *path, Error **errp)
- {
-     Object *obj;
-+    ObjectProperty *prop;
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-     bool r = false;
- 
-+    prop = object_property_find(object_get_objects_root(), mc->default_ram_id);
-+    if (prop) {
-+        error_report("A memory backend with id '%s' already exists, "
-+                     "cannot create default RAM backend with the same id. "
-+                     "Either change id of the offending backend or "
-+                     "provide system RAM backend explicitly using "
-+                     "'-machine memory-backend' option. " ,
-+                     mc->default_ram_id);
-+        exit(EXIT_FAILURE);
-+    }
-+
-     obj = object_new(path ? TYPE_MEMORY_BACKEND_FILE : TYPE_MEMORY_BACKEND_RAM);
-     if (path) {
-         if (!object_property_set_str(obj, "mem-path", path, errp)) {
--- 
-2.34.1
-
+Jason
 
