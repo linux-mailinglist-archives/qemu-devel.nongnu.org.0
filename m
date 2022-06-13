@@ -2,88 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A750548C39
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 18:12:10 +0200 (CEST)
-Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC05549509
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 18:33:37 +0200 (CEST)
+Received: from localhost ([::1]:43348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0mfe-00032P-Go
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 12:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41710)
+	id 1o0n0S-0006u2-1L
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 12:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0mZa-0004xr-0t
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 12:05:50 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:43778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0mZX-00053S-84
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 12:05:48 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- y13-20020a17090a154d00b001eaaa3b9b8dso3503757pja.2
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 09:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=cpwOhle5CdkasbRiSfgqXw4u2zQmLCZDZivvX2PIodE=;
- b=wyokZBwlc1Z8iKC9wLbZ8o35vmlLtNpOWsBRki5HMEAWQUEJgwHQVwfbCGCErlP69G
- mzfObUR+Kp8o0QK2SP52pHFy2qA6p3IWv/O+ZfYvMkMOmYNvF3a+2uui8cEzl4IS5HVp
- neVnCPlbUynyUUWP/d1eyKP57wufVI8AFBGdDdyeuLqSnn+xvOecbaxGv32DOsanPBcx
- YrNgCk0I+9xtwHSsa4sBKve7aD8+5tMYy9fDebQyqOs9KSEjOajAQOAd1MS13cGynIUb
- 4XMCiXyyNkBtotlAvKzzMsaCZl0dbf7j4g6Z+M5x6CnI1eFuTC+CuDhH7K/XtdpxBHH6
- Ww5A==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1o0mzL-0005Qm-Em
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 12:32:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1o0mzI-0000k3-15
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 12:32:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655137942;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=88iXXFCUUWWr3EbZG1LfCOfy3qYXWJxMyEG9HO++VI0=;
+ b=DyioiWuetWcEPLlPUp2RMfLqXkXYPB5FrRTm7hOCUO5mKTXjHQLuO7FGu6cwapmAZajVUq
+ CSARNxGOaLwV1c21g0HnZRwsqpFNnHPcAKrE9eGv5LXwHlKnENaIXNxh8ffHnM7XjJXQdX
+ K9UKVZZb/Mk15CSBWXAv+738oJe98Y4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-179-jBoiMpkfNniC_QlS9hWA5A-1; Mon, 13 Jun 2022 12:32:21 -0400
+X-MC-Unique: jBoiMpkfNniC_QlS9hWA5A-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ jt10-20020a05621427ea00b0046e41613270so1963859qvb.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 09:32:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cpwOhle5CdkasbRiSfgqXw4u2zQmLCZDZivvX2PIodE=;
- b=cy9bHr1Z+w2CJ5zNLu/kAQlGXi4NZ6679EZI8UyND/hBcr8qt5VpXvCVUIq5shO5sZ
- VZbiix2DPmM8tVudJMmotBW8wncWsM5iBV3hQTBYkKHfMU32uYu3RGROHzL+1/x7fjeg
- EQ4nj4Css6lf8KLc/VOoSfueNb9OE9A85EP7GPL4Xw5IhTPhjcRbMcq8unR6zylbxLAJ
- OfLM76NMf3Fd7TIf4LjjpNrPeM5SJgCCEHegFeAgcoGI5e5iWLykyv7jTrQTqL5MdOZe
- DGVNUPcwG46QojVbhk3+T0LzyE4aYfeDSy3ZqjGL5PDu9jsF6F6cDc7KS9H8bwKpokqK
- jFdA==
-X-Gm-Message-State: AJIora+uXek74WemwymGFQesu4oK4BNiyztPxK07hugpqYc0zQrBoIlk
- ATlw/JfuuzCgXKvjdPjsv8PJ3w==
-X-Google-Smtp-Source: AGRyM1uVESDaI+YtI9Oq52Hp+aXr5lAfj0d9yTsJAVnQ1PwSHILIYRRe3bi6xl2DgYzjhaOef5SwDQ==
-X-Received: by 2002:a17:902:7783:b0:167:8245:ea04 with SMTP id
- o3-20020a170902778300b001678245ea04mr334273pll.95.1655136345299; 
- Mon, 13 Jun 2022 09:05:45 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
- by smtp.gmail.com with ESMTPSA id
- c29-20020a63725d000000b003fd8438db7bsm5655869pgn.58.2022.06.13.09.05.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 09:05:44 -0700 (PDT)
-Message-ID: <ff6205f9-2db1-4b5a-c534-904bc64f5821@linaro.org>
-Date: Mon, 13 Jun 2022 09:05:42 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=88iXXFCUUWWr3EbZG1LfCOfy3qYXWJxMyEG9HO++VI0=;
+ b=aDk5T5bptjF6V9qHCZ98qFBNVcmgenTP26N5B7RF3QPszOzWaIqmAUbzFyZa/Ibr8F
+ oLs/w6UYQMof5tYkGFljQ5WCzeADubnsDs3PkkEmET3PXqtFSuGWPOSEcfosnsphI7iz
+ zYFmbgajfa1/t6f/dclsf3PY0OBilnS3pUQO0AmZ7Zjs2VQ64rXmiOSVhSf09jOiyYZQ
+ oNk0kDWM5/NJJ9+opk/5WWe1r62dhzRGu3PB8gEvk6xSy2nD0QoP2SgT/RRWoGNOSPDx
+ U4zBUMpjBfzD+uFEed7yq2mqpGdviksofUCLAVZWAsGAgTMWVUxi6Y6zY0yjlRVuWnGh
+ 1l0w==
+X-Gm-Message-State: AOAM533+YWbKLMmam1qRFmdaoW06HsyjknnqjbGyf5lEAKBH6ldDrzKD
+ 6zTB3NZtafHL1n3a4OCCRvFztYv0bskKtw7Lgn7R1b6sDQl0s8Jh+rN5ZdK/y3ZYvQfwU+igWEX
+ sQLY5XeGbGXb9aEhMkZIUE5i2wOpNDnE=
+X-Received: by 2002:a05:620a:14b8:b0:6a6:aea2:1c58 with SMTP id
+ x24-20020a05620a14b800b006a6aea21c58mr649109qkj.255.1655137940336; 
+ Mon, 13 Jun 2022 09:32:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx4UJVIttbA58mXVvBO5BXCasLPGGuOkkkyZsmbcOU/OTSN2h3oSHDBoIwnR0o4Jg543lHppcN7rrwrhANF+L4=
+X-Received: by 2002:a05:620a:14b8:b0:6a6:aea2:1c58 with SMTP id
+ x24-20020a05620a14b800b006a6aea21c58mr649072qkj.255.1655137939947; Mon, 13
+ Jun 2022 09:32:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v15 8/9] target/loongarch: Adjust functions and structure
- to support user-mode
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-References: <20220609024209.2406188-1-gaosong@loongson.cn>
- <20220609024209.2406188-9-gaosong@loongson.cn>
- <4c0fd198-922e-d94f-fec4-05c53c5d6858@linaro.org>
- <e6e9c111-ca44-0126-b7a5-dcffe33385a5@loongson.cn>
- <20b38d22-0c59-ec11-88e1-af0f1f604984@linaro.org>
- <a6306006-d1df-e5eb-4f2c-5e1bf6adfe07@loongson.cn>
- <5476bca7-eadd-0880-8625-b01579f257f5@linaro.org>
- <758e6450-341a-3f76-dd95-34483347e142@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <758e6450-341a-3f76-dd95-34483347e142@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220519191306.821774-1-eperezma@redhat.com>
+ <d34131b7-4193-d82c-056f-23b9d99f897a@redhat.com>
+ <CAJaqyWefgjYioDsV4jraPLah_Ty_RPRm9r3etVYEu5Dade9feg@mail.gmail.com>
+In-Reply-To: <CAJaqyWefgjYioDsV4jraPLah_Ty_RPRm9r3etVYEu5Dade9feg@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 13 Jun 2022 18:31:43 +0200
+Message-ID: <CAJaqyWfy4f579a-pH2rPMB7KBrZ+iiNwuUEn2Y2TDoxPjD3VUQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v8 00/21] Net Control VQ support with asid in vDPA SVQ
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Eric Blake <eblake@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,52 +103,214 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/12/22 20:50, gaosong wrote:
-> Thank you for your advice.
-> like this:
-> 
->   void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
->   {
-> +    CPUState *cs = env_cpu(env);
-> +
->       if (rj > rk) {
-> -        env->badaddr = env->pc;
-> -        do_raise_exception(env, EXCCODE_BCE, env->badaddr);
-> +        cpu_restore_state(cs, GETPC(), true);
-> +        cs->exception_index = EXCCODE_BCE;
-> +        cpu_loop_exit(cs);
->       }
->   }
+On Wed, Jun 8, 2022 at 9:28 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
+>
+> On Wed, Jun 8, 2022 at 7:51 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2022/5/20 03:12, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > > Control virtqueue is used by networking device for accepting various
+> > > commands from the driver. It's a must to support multiqueue and other
+> > > configurations.
+> > >
+> > > Shadow VirtQueue (SVQ) already makes possible migration of virtqueue
+> > > states, effectively intercepting them so qemu can track what regions =
+of memory
+> > > are dirty because device action and needs migration. However, this do=
+es not
+> > > solve networking device state seen by the driver because CVQ messages=
+, like
+> > > changes on MAC addresses from the driver.
+> > >
+> > > To solve that, this series uses SVQ infraestructure proposed to inter=
+cept
+> > > networking control messages used by the device. This way, qemu is abl=
+e to
+> > > update VirtIONet device model and to migrate it.
+> > >
+> > > However, to intercept all queues would slow device data forwarding. T=
+o solve
+> > > that, only the CVQ must be intercepted all the time. This is achieved=
+ using
+> > > the ASID infraestructure, that allows different translations for diff=
+erent
+> > > virtqueues. The most updated kernel part of ASID is proposed at [1].
+> > >
+> > > You can run qemu in two modes after applying this series: only interc=
+epting
+> > > cvq with x-cvq-svq=3Don or intercept all the virtqueues adding cmdlin=
+e x-svq=3Don:
+> > >
+> > > -netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdpa-0,id=3Dvhost-vdp=
+a0,x-cvq-svq=3Don,x-svq=3Don
+> > >
+> > > First three patches enable the update of the virtio-net device model =
+for each
+> > > CVQ message acknoledged by the device.
+> > >
+> > > Patches from 5 to 9 enables individual SVQ to copy the buffers to QEM=
+U's VA.
+> > > This allows simplyfing the memory mapping, instead of map all the gue=
+st's
+> > > memory like in the data virtqueues.
+> > >
+> > > Patch 10 allows to inject control messages to the device. This allows=
+ to set
+> > > state to the device both at QEMU startup and at live migration destin=
+ation. In
+> > > the future, this may also be used to emulate _F_ANNOUNCE.
+> > >
+> > > Patch 11 updates kernel headers, but it assign random numbers to need=
+ed ioctls
+> > > because they are still not accepted in the kernel.
+> > >
+> > > Patches 12-16 enables the set of the features of the net device model=
+ to the
+> > > vdpa device at device start.
+> > >
+> > > Last ones enables the sepparated ASID and SVQ.
+> > >
+> > > Comments are welcomed.
+> >
+> >
+> > As discussed, I think we need to split this huge series into smaller on=
+es:
+> >
+> > 1) shadow CVQ only, this makes rx-filter-event work
+> > 2) ASID support for CVQ
+> >
+> > And for 1) we need consider whether or not it could be simplified.
+> >
+> > Or do it in reverse order, since if we do 1) first, we may have securit=
+y
+> > issues.
+> >
+>
+> I'm ok with both, but I also think 2) before 1) might make more sense.
+> There is no way to only shadow CVQ otherwise ATM.
+>
 
-This is not required -- better to continue using do_raise_exception.
+On second thought, that order is kind of harder.
 
-> 
-> cpu.c
-> 
-> 
->       case EXCCODE_ADEM:
-> +    case EXCCODE_BCE:
->       case EXCCODE_SYS:
->       case EXCCODE_BRK:
-> +    case EXCCODE_INE:
-> +    case EXCCODE_IPE:
-> +    case EXCCODE_FPE:
-> +        env->badvaddr = env->pc;
-> +        QEMU_FALLTHROUGH;
->       case EXCCODE_PIL:
->       case EXCCODE_PIS:
->       case EXCCODE_PME:
->       case EXCCODE_PNR:
->       case EXCCODE_PNX:
->       case EXCCODE_PPI:
-> -    case EXCCODE_INE:
-> -    case EXCCODE_IPE:
-> -    case EXCCODE_FPE:
->           cause = cs->exception_index;
->           break;
+If we only map CVQ buffers, we need to either:
+a. Copy them to controlled buffers
+b. Track properly when to unmap them
 
-But this looks correct, and sufficient to solve the problem.
+Alternative a. have the same problems exposed in this RFC: It's hard
+(and unneeded in the final version) to know the size to copy.
+Alternative b. also requires things not needed in the final version,
+like to count the number of times each page is mapped and unmapped.
 
+So I'll go to the first alternative, that is also the proposed order
+of the RFC. What security issues do you expect beyond the comments in
+this series?
 
-r~
+Thanks!
+
+> Can we do as with previous base SVQ patches? they were merged although
+> there is still no way to enable SVQ.
+>
+> Thanks!
+>
+> > Thoughts?
+> >
+> > Thanks
+> >
+> >
+> > >
+> > > TODO:
+> > > * Fallback on regular CVQ if QEMU cannot isolate in its own ASID by a=
+ny
+> > >    reason, blocking migration. This is tricky, since it can cause tha=
+t the VM
+> > >    cannot be migrated anymore, so some way of block it must be used.
+> > > * Review failure paths, some are with TODO notes, other don't.
+> > >
+> > > Changes from rfc v7:
+> > > * Don't map all guest space in ASID 1 but copy all the buffers. No ne=
+ed for
+> > >    more memory listeners.
+> > > * Move net backend start callback to SVQ.
+> > > * Wait for device CVQ commands used by the device at SVQ start, avoid=
+ing races.
+> > > * Changed ioctls, but they're provisional anyway.
+> > > * Reorder commits so refactor and code adding ones are closer to usag=
+e.
+> > > * Usual cleaning: better tracing, doc, patches messages, ...
+> > >
+> > > Changes from rfc v6:
+> > > * Fix bad iotlb updates order when batching was enabled
+> > > * Add reference counting to iova_tree so cleaning is simpler.
+> > >
+> > > Changes from rfc v5:
+> > > * Fixes bad calculus of cvq end group when MQ is not acked by the gue=
+st.
+> > >
+> > > Changes from rfc v4:
+> > > * Add missing tracing
+> > > * Add multiqueue support
+> > > * Use already sent version for replacing g_memdup
+> > > * Care with memory management
+> > >
+> > > Changes from rfc v3:
+> > > * Fix bad returning of descriptors to SVQ list.
+> > >
+> > > Changes from rfc v2:
+> > > * Fix use-after-free.
+> > >
+> > > Changes from rfc v1:
+> > > * Rebase to latest master.
+> > > * Configure ASID instead of assuming cvq asid !=3D data vqs asid.
+> > > * Update device model so (MAC) state can be migrated too.
+> > >
+> > > [1] https://lkml.kernel.org/kvm/20220224212314.1326-1-gdawar@xilinx.c=
+om/
+> > >
+> > > Eugenio P=C3=A9rez (21):
+> > >    virtio-net: Expose ctrl virtqueue logic
+> > >    vhost: Add custom used buffer callback
+> > >    vdpa: control virtqueue support on shadow virtqueue
+> > >    virtio: Make virtqueue_alloc_element non-static
+> > >    vhost: Add vhost_iova_tree_find
+> > >    vdpa: Add map/unmap operation callback to SVQ
+> > >    vhost: move descriptor translation to vhost_svq_vring_write_descs
+> > >    vhost: Add SVQElement
+> > >    vhost: Add svq copy desc mode
+> > >    vhost: Add vhost_svq_inject
+> > >    vhost: Update kernel headers
+> > >    vdpa: delay set_vring_ready after DRIVER_OK
+> > >    vhost: Add ShadowVirtQueueStart operation
+> > >    vhost: Make possible to check for device exclusive vq group
+> > >    vhost: add vhost_svq_poll
+> > >    vdpa: Add vhost_vdpa_start_control_svq
+> > >    vdpa: Add asid attribute to vdpa device
+> > >    vdpa: Extract get features part from vhost_vdpa_get_max_queue_pair=
+s
+> > >    vhost: Add reference counting to vhost_iova_tree
+> > >    vdpa: Add x-svq to NetdevVhostVDPAOptions
+> > >    vdpa: Add x-cvq-svq
+> > >
+> > >   qapi/net.json                                |  13 +-
+> > >   hw/virtio/vhost-iova-tree.h                  |   7 +-
+> > >   hw/virtio/vhost-shadow-virtqueue.h           |  61 ++-
+> > >   include/hw/virtio/vhost-vdpa.h               |   3 +
+> > >   include/hw/virtio/vhost.h                    |   3 +
+> > >   include/hw/virtio/virtio-net.h               |   4 +
+> > >   include/hw/virtio/virtio.h                   |   1 +
+> > >   include/standard-headers/linux/vhost_types.h |  11 +-
+> > >   linux-headers/linux/vhost.h                  |  25 +-
+> > >   hw/net/vhost_net.c                           |   5 +-
+> > >   hw/net/virtio-net.c                          |  84 +++--
+> > >   hw/virtio/vhost-iova-tree.c                  |  35 +-
+> > >   hw/virtio/vhost-shadow-virtqueue.c           | 378 ++++++++++++++++=
+---
+> > >   hw/virtio/vhost-vdpa.c                       | 206 +++++++++-
+> > >   hw/virtio/virtio.c                           |   2 +-
+> > >   net/vhost-vdpa.c                             | 294 ++++++++++++++-
+> > >   hw/virtio/trace-events                       |  10 +-
+> > >   17 files changed, 1012 insertions(+), 130 deletions(-)
+> > >
+> >
+
 
