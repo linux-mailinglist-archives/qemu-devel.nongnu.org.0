@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAF4549989
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:07:55 +0200 (CEST)
-Received: from localhost ([::1]:36350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB9154999C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:16:15 +0200 (CEST)
+Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0nXe-0007F0-1L
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55138)
+	id 1o0nfi-0003K5-EE
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:16:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o0nUG-0004yc-B2
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:04:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o0nUD-0005Yf-K0
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:04:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655139861;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1c2GNtpDGZjycff50g05vRyEgATydMBM3407fmclcDg=;
- b=VQMratCCMtm5fSbXcXF2MfxmdxCEmBFW0YMTHtUDoi73sUyZ69dtwZJtjwoz+WUcgcr7Jk
- JZvz9dlOjkFidaqLtKW+E7D99DrF49f0udAAeOWmV12DpXvHjXEgymfSdx+waA8ir0F+tF
- IrbndaTRK4e/pxbJ0BkyYSTajkZvU5Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-q9pI7XXVPPmDTzGVq_rxxA-1; Mon, 13 Jun 2022 13:04:18 -0400
-X-MC-Unique: q9pI7XXVPPmDTzGVq_rxxA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E12785A580;
- Mon, 13 Jun 2022 17:04:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDC2A1121319;
- Mon, 13 Jun 2022 17:04:16 +0000 (UTC)
-Date: Mon, 13 Jun 2022 19:04:15 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, xieyongji@bytedance.com
-Subject: Re: [PULL 00/18] Block layer patches
-Message-ID: <YqduD9+GzwNLggWK@redhat.com>
-References: <20220609172149.293877-1-kwolf@redhat.com>
- <a8b15969-fafa-e088-d778-278891c3970e@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o0ncg-0001GZ-RO
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:06 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o0ncf-0006wJ-BA
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:06 -0400
+Received: by mail-ed1-x532.google.com with SMTP id w27so8075942edl.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:13:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=80K926TpxE+KjPsE/3z8D6ONrprwwDg20c0CZGfkzrE=;
+ b=rpdgYhl5B85WtV+TJwsDOCsnv4wm7grnbVkyvjXXrM+KrAXd50/l6VF3DzxB5/9AGt
+ KGvnradQnRagWClYVoAKC4Sagxt7T6yivNnpJdtZ4dbNlKtnGcRJhtdEn9Q61ju7TYIF
+ f+vLQCUuXEWmoLzLldy7cIV3d53tOSxVSWuEDd5ZdmV0wHuNlD2vTPMgUjci8OFplqeY
+ E888vH3CXxbs0BS/ei3fpD86DDFS3sFFRJYBipkwjQCOqXYAIV1lWjIltfOfiSD9oOQu
+ LNYcFC8n/TZIpvzRagdn6U64aQyFeAqnWW1Mo91zDscOI8DoUOSNJDuK3WT7IZRBKVdO
+ QewQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=80K926TpxE+KjPsE/3z8D6ONrprwwDg20c0CZGfkzrE=;
+ b=nvtzOgykbQmqFrgKAMmvR7f+TllxvHXdiO/98gxA0pRcdFZzatM9DwQP5win5To7yI
+ kynJH/HZhwpzyOCIFJinYpbkUjmsNF49WkwSXnaktyHaD0yuxUS1Nt5E7kPNz/Fofpd3
+ QDQ1E6XbfJ0l5xLNFqQnRRUCfeJSEccNJjBvk3IVVqrEuIpgYW7oWLtYZLhDqXbravth
+ QS1PuYOTbfNzDWeO3psGxKQNXVWaS/ijoo1ZqBbZTN/1mOoX3DmQmBe3T+KRG0J0J8dl
+ qUcyMsSR1LeZ6wO6wpo+gDNlj4wtFjYHDM7SYUy42cWdTIK/9vLNq9vkIsM2UE/4PX6A
+ GEaA==
+X-Gm-Message-State: AOAM5322WN+a3p77nwkDRE3USodsyl92agucK2I1LfIrFHxuomdqNukh
+ tqDE+6fkngNvYm1C/vvwybj34A==
+X-Google-Smtp-Source: ABdhPJwjV8pEOxbYkvbQJH6JNn0kIUlD8MdaAIzBMlUonaz2395FNsLwPB1mnXzkCUqWnqw7ed4NkQ==
+X-Received: by 2002:a05:6402:2753:b0:431:9c8b:5635 with SMTP id
+ z19-20020a056402275300b004319c8b5635mr870220edd.152.1655140384109; 
+ Mon, 13 Jun 2022 10:13:04 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ 22-20020a170906301600b006f52dbc192bsm4063042ejz.37.2022.06.13.10.12.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 10:12:59 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 05E301FFB7;
+ Mon, 13 Jun 2022 18:12:59 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ richard.henderson@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 0/7] testing/next pre-PR (docker, gitlab, tcg)
+Date: Mon, 13 Jun 2022 18:12:51 +0100
+Message-Id: <20220613171258.1905715-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a8b15969-fafa-e088-d778-278891c3970e@linaro.org>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,80 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.06.2022 um 22:18 hat Richard Henderson geschrieben:
-> On 6/9/22 10:21, Kevin Wolf wrote:
-> > The following changes since commit 028f2361d0c2d28d6f918fe618f389228ac22b60:
-> > 
-> >    Merge tag 'pull-target-arm-20220609' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-06-09 06:47:03 -0700)
-> > 
-> > are available in the Git repository at:
-> > 
-> >    git://repo.or.cz/qemu/kevin.git tags/for-upstream
-> > 
-> > for you to fetch changes up to 7f9a8b3342ff00d3398fdc08264948762d748edb:
-> > 
-> >    nbd: Drop dead code spotted by Coverity (2022-06-09 18:07:17 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > Block layer patches
-> > 
-> > - Add vduse-blk export
-> > - Dirty bitmaps: Fix and improve bitmap merge
-> > - gluster: correctly set max_pdiscard
-> > - rbd: report a better error when namespace does not exist
-> > - aio_wait_kick: add missing memory barrier
-> > - Code cleanups
-> 
-> Several sets of compile failures:
+Hi,
 
-Hi Yongji,
+Another day, another testing/next series. Mostly this contains a few
+hot fixes for docker breakages and other stuff that I picked off the
+list. There is a late breaking patch to try and make the aarch64 CI is
+little less twitchy. We are still seeing hanging tests on the s390x
+box but so far have been unable to track down why it's hanging and
+more importantly why we are not seeing the runner kill errant tasks.
 
-the vduse-blk code fails to compile with clang as shown below. As you
-already sent another series to fix up other bugs introduced in the
-series, maybe it would be better if you can send a new version with all
-of the necessary fixes squashed in instead of me trying to make minimal
-fixes to get it to compile with clang.
+As there are hot fixes I'd like to turn around a PR from this soon so
+any review of the following is welcome:
 
-Kevin
+ - .gitlab: use less aggressive nproc on our aarch64/32 runners
+ - tests/docker: fix the IMAGE for build invocation
 
-> https://gitlab.com/qemu-project/qemu/-/jobs/2571008901
-> 
-> ../subprojects/libvduse/libvduse.c:578:20: error: unused function
-> 'vring_used_flags_set_bit' [-Werror,-Wunused-function]
-> static inline void vring_used_flags_set_bit(VduseVirtq *vq, int mask)
->                    ^
-> ../subprojects/libvduse/libvduse.c:587:20: error: unused function
-> 'vring_used_flags_unset_bit' [-Werror,-Wunused-function]
-> static inline void vring_used_flags_unset_bit(VduseVirtq *vq, int mask)
->                    ^
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/2571008908
-> 
-> ../meson.build:1652:2: ERROR: Tried to use 'add_global_arguments' after a
-> build target has been declared.
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/2571008833
-> 
-> ../subprojects/libvduse/libvduse.c:325:20: error: cast to pointer from
-> integer of different size [-Werror=int-to-pointer-cast]
->   325 |             munmap((void *)dev->regions[i].mmap_addr,
->       |                    ^
-> ../subprojects/libvduse/libvduse.c: In function 'vduse_dev_create':
-> ../subprojects/libvduse/libvduse.c:1318:54: error: format '%lu' expects
-> argument of type 'long unsigned int', but argument 3 has type 'uint64_t'
-> {aka 'long long unsigned int'} [-Werror=format=]
->  1318 |         fprintf(stderr, "Failed to set api version %lu: %s\n",
->       |                                                    ~~^
->       |                                                      |
->       |                                                      long unsigned int
->       |                                                    %llu
->  1319 |                 version, strerror(errno));
->       |                 ~~~~~~~
->       |                 |
->       |                 uint64_t {aka long long unsigned int}
-> 
-> 
-> r~
-> 
+Alex Bennée (2):
+  tests/docker: fix the IMAGE for build invocation
+  .gitlab: use less aggressive nproc on our aarch64/32 runners
+
+Daniel P. Berrangé (1):
+  gitlab: compare CIRRUS_nn vars against 'null' not ""
+
+Paolo Bonzini (1):
+  tests/tcg: disable xtensa-linux-user again
+
+Richard Henderson (2):
+  test/tcg/arm: Use -mfloat-abi=soft for test-armv6m-undef
+  tests/tcg/i386: Use explicit suffix on fist insns
+
+Thomas Huth (1):
+  gitlab-ci: Fix the build-cfi-aarch64 and build-cfi-ppc64-s390x jobs
+
+ configure                                     |  5 +++-
+ tests/tcg/i386/test-i386-fp-exceptions.c      | 24 +++++++++----------
+ tests/tcg/i386/test-i386.c                    |  2 +-
+ .gitlab-ci.d/base.yml                         |  2 +-
+ .gitlab-ci.d/buildtest.yml                    | 22 ++++++++---------
+ .../custom-runners/ubuntu-20.04-aarch32.yml   |  4 ++--
+ .../custom-runners/ubuntu-20.04-aarch64.yml   | 24 +++++++++----------
+ tests/docker/Makefile.include                 |  2 +-
+ tests/tcg/arm/Makefile.softmmu-target         |  2 +-
+ 9 files changed, 44 insertions(+), 43 deletions(-)
+
+-- 
+2.30.2
 
 
