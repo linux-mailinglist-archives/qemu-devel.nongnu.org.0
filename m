@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E165486F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:58:05 +0200 (CEST)
-Received: from localhost ([::1]:35168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADCF548615
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:55:30 +0200 (CEST)
+Received: from localhost ([::1]:56686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0mS4-0004Oh-Py
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
+	id 1o0mPZ-0008At-JO
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o0mFu-0000Sh-Fi; Mon, 13 Jun 2022 11:45:30 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o0mFs-00026F-N5; Mon, 13 Jun 2022 11:45:30 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DEJaQC012196;
- Mon, 13 Jun 2022 15:45:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=B5I1BD3J8hIqmG0/1+YffLtVW28XApgWZ61xuzFB4AA=;
- b=CUxUEg+3FF5IZHUAH9CfAWW7QyQKP6jWmhjXhTgSQdCsVxhVxCJWFZm6CLvEsAeLro7x
- Ai9Y7R794cUk5ydftv4CpgwJzbBvAjmjDS9ofa+PQFN56ig/D6OK10Kn98dfwsa8xNO/
- V2npquWuiFkJwPPCm2vjliOJa4zJxGyzpk3bx1i0kzWxm/sCw6aryS8cPVsHdbgevGVu
- 8ACxsS1CXWvlp6n4O0j5mLxKkI5mJxldkUTgzhmQN3Hh4sMfWpBoLWaNfnT46CwC1NUR
- 0xZWv/bgFrcA+wWWi4abAcFIJ1u8jVGvZ5LLZDKD4Dt/3q1leq/hsXg8WCafVChofq5L 2A== 
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gn4qjuc57-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jun 2022 15:45:21 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25DFhZYb016477;
- Mon, 13 Jun 2022 15:45:21 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma04dal.us.ibm.com with ESMTP id 3gmjp9t02y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jun 2022 15:45:20 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25DFjKUL35651972
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jun 2022 15:45:20 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39F2BAC059;
- Mon, 13 Jun 2022 15:45:20 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 90EFBAC05B;
- Mon, 13 Jun 2022 15:45:18 +0000 (GMT)
-Received: from balboa.COMFAST (unknown [9.77.153.150])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 13 Jun 2022 15:45:18 +0000 (GMT)
-From: Daniel Henrique Barboza <danielhb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
- mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 11/11] ppc/pnv: move PHB4 parent fixup to phb4_realize()
-Date: Mon, 13 Jun 2022 12:44:56 -0300
-Message-Id: <20220613154456.359674-12-danielhb@linux.ibm.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220613154456.359674-1-danielhb@linux.ibm.com>
-References: <20220613154456.359674-1-danielhb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o0mMe-0004Ho-7V
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:52:28 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:52135)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o0mMc-00031e-H9
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 11:52:27 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id cx11so6004845pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 08:52:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=5DgRlsCxoN9bkalUqnw2erGL7IQHDQQ4iObLzReHoSI=;
+ b=nkJAiEZtArgp2MoZqgKrUMmhIFGzFLs+Y6TQNOubKl3j0zpto3lXz60GoxoxmNave6
+ EK3i9ue27BnOinFxBW6T1f1WD2qdK/g5EFIObDyf5+pjTFKs2fBfIa6Aez6DJqD1cv4M
+ aI6FBE5ZtryGyeMGQTX8ELQT5UKfgSkg70XYTP9a3dVHDZjVBjNHOGDlbKIr/I74qxGg
+ ppfotO6lwT6XGY84hgmUr/ME2aCRp9k41CPyf0NxNolzH7HQeOispfnBtMV+5e5THOKj
+ VcAYNllYsg3Fpy6MtYnd3ZYbhlS5IxGZfzu123JIKb0Hs5Cq3vH6bHWe2R0FJfmZs2wa
+ poHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5DgRlsCxoN9bkalUqnw2erGL7IQHDQQ4iObLzReHoSI=;
+ b=48NKjOMqmIZKqleDFp4HYsROXY6YsoVNXnxjgfzXZCRGDA1ewnfG9ljEN/MJ9okRXe
+ SMY7S2EUS2w8L8DqiNgB7ZsYecxEOgtJjlMxbx+KwU6JMRTSCvCfEJbWJTsaCpbFYs85
+ I3SKcQXGRVeDxtngTiFWloKRGxVUOqC286sJPkBPMpTl0v3hIbg2p/W7LxjO4FI+VK3A
+ /iXFmZG4etBGipZXWgSPmnu/x3Lor/vGx2jymVEv2ZGz9HLUSvrPb0AuTWGL3EJ0w3oE
+ 44vu4Sry7jVkpoRUCEbXCozciLWsBP6Xw4RdUPhqe9E60F/cHyrBAdSehU2Vaf8Y4PQ4
+ WuhA==
+X-Gm-Message-State: AJIora9bf6nW3L2unyFLEcoMxsdCeAkpboV5oj4fjbEgFVV1Y5I0hs+p
+ 6YwPOnHtLaZukIKa1BFarY+dQg==
+X-Google-Smtp-Source: AGRyM1ubha0bGe1oEKe7F5ycVr8z5V2V2OEkRKUkD/yVVmiKMsFJwOMNv0AHYZzze4taNq5ayMAWEg==
+X-Received: by 2002:a17:902:b683:b0:163:4ef2:3c40 with SMTP id
+ c3-20020a170902b68300b001634ef23c40mr268488pls.123.1655135544401; 
+ Mon, 13 Jun 2022 08:52:24 -0700 (PDT)
+Received: from [172.21.2.253] ([50.208.55.229])
+ by smtp.gmail.com with ESMTPSA id
+ e11-20020a170902ed8b00b00163f8ddf160sm5320656plj.161.2022.06.13.08.52.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jun 2022 08:52:23 -0700 (PDT)
+Message-ID: <37f8f623-bb1c-899b-5801-79acd6185c6d@linaro.org>
+Date: Mon, 13 Jun 2022 08:52:21 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ufSNAeO4JsCWU5emWmxAKT3W0YFBoQdX
-X-Proofpoint-ORIG-GUID: ufSNAeO4JsCWU5emWmxAKT3W0YFBoQdX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-13_07,2022-06-13_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- suspectscore=0 mlxlogscore=979 bulkscore=0 spamscore=0 priorityscore=1501
- phishscore=0 impostorscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206130069
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=danielhb@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/16] Kraxel 20220613 patches
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ "Hongren (Zenithal) Zheng" <i@zenithal.me>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Canokeys.org" <contact@canokeys.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>
+References: <20220613113655.3693872-1-kraxel@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220613113655.3693872-1-kraxel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,56 +100,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After the code cleanups done in the past, default PHB4 code is already
-fairly close to user created PHB4s. What we need to do to make it equal
-is move the QOM and bus parenting changes from
-pnv_pec_default_phb_realize() to pnv_phb4_realize().
+On 6/13/22 04:36, Gerd Hoffmann wrote:
+> The following changes since commit dcb40541ebca7ec98a14d461593b3cd7282b4fac:
+> 
+>    Merge tag 'mips-20220611' of https://github.com/philmd/qemu into staging (2022-06-11 21:13:27 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.kraxel.org/qemu tags/kraxel-20220613-pull-request
+> 
+> for you to fetch changes up to 23b87f7a3a13e93e248eef8a4b7257548855a620:
+> 
+>    ui: move 'pc-bios/keymaps' to 'ui/keymaps' (2022-06-13 10:59:25 +0200)
+> 
+> ----------------------------------------------------------------
+> usb: add CanoKey device, fixes for ehci + redir
+> ui: fixes for gtk and cocoa, move keymaps (v2), rework refresh rate
+> virtio-gpu: scanout flush fix
 
-Using the same logic for both cases (aside from PEC assigning) will make
-our lives easier when re-enabling user created PHB4s.
+This doesn't even configure:
 
-Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
----
- hw/pci-host/pnv_phb4.c     | 12 ++++++++++++
- hw/pci-host/pnv_phb4_pec.c |  1 -
- 2 files changed, 12 insertions(+), 1 deletion(-)
+../src/ui/keymaps/meson.build:55:4: ERROR: File ar does not exist.
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index bfec8b9f6d..fd6fac21ac 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1553,6 +1553,18 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
-     int nr_irqs;
-     char name[32];
- 
-+    /*
-+     * We need the PEC to parent the PHB to allow the DT
-+     * to build correctly (via pnv_xscom_dt()).
-+     */
-+    pnv_parent_qom_fixup(OBJECT(phb->pec), OBJECT(phb), phb->phb_id);
-+
-+    /*
-+     * pnv-phb4 buses are child of the main-system-bus, same as
-+     * the chip.
-+     */
-+    pnv_parent_bus_fixup(DEVICE(phb->pec->chip), dev);
-+
-     /* Set the "big_phb" flag */
-     phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
- 
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index c9aaf1c28e..eb47b50737 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -119,7 +119,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
-     PnvPHB4 *phb = PNV_PHB4(qdev_new(pecc->phb_type));
-     int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
- 
--    object_property_add_child(OBJECT(pec), "phb[*]", OBJECT(phb));
-     object_property_set_link(OBJECT(phb), "pec", OBJECT(pec),
-                              &error_abort);
-     object_property_set_int(OBJECT(phb), "chip-id", pec->chip_id,
--- 
-2.36.1
 
+
+
+r~
 
