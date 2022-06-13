@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2835A548582
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 15:49:21 +0200 (CEST)
-Received: from localhost ([::1]:49468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E23548598
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 15:53:08 +0200 (CEST)
+Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0kRT-0006EV-7n
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 09:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35776)
+	id 1o0kV8-0005AU-W1
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 09:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o0kLg-0001As-6D; Mon, 13 Jun 2022 09:43:20 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:37590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o0kLe-0007sz-Jg; Mon, 13 Jun 2022 09:43:19 -0400
-Received: by mail-ed1-x533.google.com with SMTP id v19so7225601edd.4;
- Mon, 13 Jun 2022 06:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0WlLB5paIPKn+53k0BbuwxiI0r6SCi0NjjKxnCbfPzk=;
- b=gRcZuZrxFKb1cZoey528EkFyFOGkjnafYJOouEv5YJuPLcTmBe6oRRjfy7GproMOPO
- gE06J/IM0mjSMJeWJsiFG8Pcq4tHs/dSkx0J9GwJYe7Gcr3E87HlgQnPqlDQkwI0OYQs
- zroayp741qGmmcVx0z0uyRXD7HSBemXMGv3hjChdS6FMZMxnrzrKYm++q26iRGrLfzE3
- /89MUveCR9U7uFS2hD99kyaWw9hRk35of22rDaZaGiJtA4QEa7gpRRb4boUUIx4kZHZ/
- dszfamRt+fqCq8r9x3sZsq7eXbVJFuba/IiS8PLMt8J5iZ/TtYeon0wDrLbY3Mm+VWhu
- fOsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0WlLB5paIPKn+53k0BbuwxiI0r6SCi0NjjKxnCbfPzk=;
- b=VgHjLybCvh+/VV+Q6oFN7dLMNhl352nPvxb77lnau9KmmDxIhZOKf0fdahfSWAq4e+
- W9/81sT/EnWwKazsimL7XZ7ZQSP95zMHOcE5kMv21bdxRPYY3PKgBJA1S0A9/mSb7KYs
- rwmwt+n5UJN6Ms3oWKQs1o6zzAyCtBKZHvPl26c84w2xbTeRhXI89FbItneSdPlCFVnF
- MgHy6Z4qC64EFYPZM2H5d2zJ0dLd+XhDxB4oyF6VZE0kRScG3zQB1xjMPwNZncDO5MBq
- pkyWE0Nt8hDclYA521YTZDJ/uiaCLYxrDJ4itqJCGlIAyK3NKr2ey7hwVMOW0E5SByHX
- A8eA==
-X-Gm-Message-State: AOAM533MgxXOvv4Q5ZxQ+Yajl8fWk8bdkG10N8oGXc6UJwRP8DUktn2K
- t4BZjCcAVsX605uNEqTq1Uw=
-X-Google-Smtp-Source: ABdhPJw3vYst2TGVw4HSyQ2b3H9LmWUIq6XGUcU+WkBjVTnXCUaGC40aM3+sPpH1vDr+oEJXgJNgrA==
-X-Received: by 2002:a05:6402:50d0:b0:431:70e1:956 with SMTP id
- h16-20020a05640250d000b0043170e10956mr40533473edb.205.1655127795719; 
- Mon, 13 Jun 2022 06:43:15 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- s13-20020a05640217cd00b0042dd85bd23bsm4991270edy.55.2022.06.13.06.43.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 06:43:15 -0700 (PDT)
-Message-ID: <9c50bbb9-d8da-acba-a725-1531f142cc43@amsat.org>
-Date: Mon, 13 Jun 2022 15:43:12 +0200
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1o0kPV-00054o-TG
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 09:47:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20381)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1o0kPT-0008Uk-7N
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 09:47:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655128032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jXh4ph/nIAIN3fKiCUCB8cFUTlpN5sOCIB38OaEldFM=;
+ b=gt/5KbdDFFqql8xitDNthNAky4DYu2FG/T9+m3129YWqcs+dSOvaRoMbgi615B12syqEgO
+ UCXt/fD+LiQxuLIjTeMHrYYxRyxUOPnqMOkGIjaM+X+1koFfyCgaRS/SaMFa7RS2YJ9+xN
+ FvD3PW30ZplMR33KMl7MoeI0nOuXmFI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-20-UK11roZXN-m4yitpECirTw-1; Mon, 13 Jun 2022 09:47:09 -0400
+X-MC-Unique: UK11roZXN-m4yitpECirTw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D224885A581;
+ Mon, 13 Jun 2022 13:47:07 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.193.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 004E0492CA2;
+ Mon, 13 Jun 2022 13:47:05 +0000 (UTC)
+Subject: Re: [PATCH v2] docs: add PCIe root bus for VGA compat guideline
+To: Kevin Locke <kevin@kevinlocke.name>, qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Laine Stump <laine@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Gerd Hoffmann <kraxel@redhat.com>
+References: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
+ <bde9fc450bc5143d616c7e9999c5d39ae9fd9cb8.1655054968.git.kevin@kevinlocke.name>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <3eebc773-a5ae-6652-95f5-4359872ea4d4@redhat.com>
+Date: Mon, 13 Jun 2022 15:47:04 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH 45/50] lasips2: use qdev gpio for output IRQ
+In-Reply-To: <bde9fc450bc5143d616c7e9999c5d39ae9fd9cb8.1655054968.git.kevin@kevinlocke.name>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
- aleksandar.rikalo@syrmia.com, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-46-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220522181836.864-46-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,18 +80,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 22/5/22 20:18, Mark Cave-Ayland wrote:
-> This enables the IRQ to be wired up using qdev_connect_gpio_out() in
-> lasips2_initfn().
+On 06/12/22 19:32, Kevin Locke wrote:
+> PCI Express devices which use legacy VGA compatibility should be placed
+> on the Root Complex.  This simplifies ioport access to VGA registers,
+> which requires use of a special exception bit to work across PCI(e)
+> bridges.  It is also necessary for ioport access to VESA BIOS Extension
+> (VBE) registers, which is not forwarded over PCI(e) bridges, even with
+> the special exception bit for VGA register access.[1]
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   hw/input/lasips2.c         | 8 ++++----
->   include/hw/input/lasips2.h | 2 ++
->   2 files changed, 6 insertions(+), 4 deletions(-)
+> Update the PCI Express Guidelines to add these to the list of devices
+> which can be placed directly on the Root Complex.
+> 
+> Note that the only PCI Express display devices currently supported
+> (bochs-display and virtio-gpu-pci) do not offer VGA compatibility.
+> Legacy PCI devices (e.g. vga, qxl-vga, virtio-vga) are already
+> documented as allowed on the Root Complex by the first item in the list.
+> However, this item documents an additional consideration for placing
+> devices which was not previously mentioned, and may be relevant for PCIe
+> devices offering VGA compatibility in the future.
+> 
+> [1]: https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/XG2RN3HKVRDEDTLA2PRELLIENIIH7II7/#XVP3I2KQVZHSTDA4SNVKOITWGRGSDU3F
+> 
+> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Please make this a "Suggested-by: Laszlo Ersek <lersek@redhat.com>"
+(concerning the text in the patch body).
+
+The commit message looks OK to me, but I'd like Gerd and/or Alex to
+approve it.
+
+Thanks!
+Laszlo
+
+> Signed-off-by: Kevin Locke <kevin@kevinlocke.name>
+> ---
+> Changes since v1:
+>  * Replace my overly-broad exception for devices requiring ioport access
+>    with a list item specifically for PCI Express devices offering VGA
+>    Compatibility provided by Laszlo Ersek.
+>  * Rewrite the commit message based on my improved understanding of the
+>    issue and the improved scope of the change.
+> 
+> P.S. Let me know if the Signed-off-by tag is not appropriate for either
+> of us.  I'm not clear on the etiquette of including someone else's
+> sign-off, but also don't want to misrepresent myself as the source of
+> your work.
+> 
+>  docs/pcie.txt | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/docs/pcie.txt b/docs/pcie.txt
+> index 89e3502075..59b26817f9 100644
+> --- a/docs/pcie.txt
+> +++ b/docs/pcie.txt
+> @@ -48,13 +48,17 @@ Place only the following kinds of devices directly on the Root Complex:
+>          strangely when PCI Express devices are integrated
+>          with the Root Complex.
+>  
+> -    (2) PCI Express Root Ports (ioh3420), for starting exclusively PCI Express
+> +    (2) Assigned PCI Express GPUs that offer legacy VGA compatibility, and
+> +        that such compatibility is expected of (due to booting with SeaBIOS,
+> +        or due to UEFI driver bugs or native OS driver bugs).
+> +
+> +    (3) PCI Express Root Ports (ioh3420), for starting exclusively PCI Express
+>          hierarchies.
+>  
+> -    (3) PCI Express to PCI Bridge (pcie-pci-bridge), for starting legacy PCI
+> +    (4) PCI Express to PCI Bridge (pcie-pci-bridge), for starting legacy PCI
+>          hierarchies.
+>  
+> -    (4) Extra Root Complexes (pxb-pcie), if multiple PCI Express Root Buses
+> +    (5) Extra Root Complexes (pxb-pcie), if multiple PCI Express Root Buses
+>          are needed.
+>  
+>     pcie.0 bus
+> 
+
 
