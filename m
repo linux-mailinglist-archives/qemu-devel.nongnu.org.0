@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C16054A1CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 23:51:23 +0200 (CEST)
-Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FADE54A1DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 23:56:09 +0200 (CEST)
+Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0rxy-0002bx-OH
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 17:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49860)
+	id 1o0s2a-0004wQ-Oo
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 17:56:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0rus-0006h8-Pz
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 17:48:11 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34599)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o0s13-0004Dj-Gw
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 17:54:34 -0400
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:34596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0rur-0004OC-7w
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 17:48:10 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id i15so6208667plr.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 14:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=zF5y3QLiBQQssB01TNRdCaLhzQW5J8c2feTPPbcQmlQ=;
- b=LW/q7juMfDV//mxhBRecbK23YujJXkX+L5yP9y8Dvl8IjTr3KUxmm2R7sdwTBZ+PqD
- P24F878A82Wr/6ufCjlHmrGo4YFyPdSiso+LHfzovgOA/sRVYs10OItAL0+do/Sm6wYD
- YvM09rOf6zIwB1gJgeeU2qo/dXD2BzMYs0achs4eqz3eaDHkM5cwvOaQc4UVrE0WnNVZ
- Ieg7OsNtmYnT/McxeSNCWJbpHliGr+bMrOd7InyM10YpTm9Leb7qJG2RXBmpU9eRyi7j
- oZ5t6BhFAIiubjRyN1gzfvGK6DmPrnLqWXaaNtKj9ptBqwaf56F05GGsHD488WRO42yZ
- fjIg==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o0s11-0005Dx-NN
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 17:54:33 -0400
+Received: by mail-vs1-xe34.google.com with SMTP id f13so7228597vsp.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 14:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TuAqi+AFzXNmeHf5cgq/+R41qubP/yNmXinN5w2x5rk=;
+ b=oCORJ8YF+iIP0E6RgFarm2AQ+8HTy4ZPm7M9lsrtzr4kOkmKPMnp+Wssm2Jr5n/ims
+ zjbDAgRYKPi+/ChjHkp5yU3e6vMKNhkn0wTHPqs3tsyGS6pZESUp+LGtWzGEdlJn88cp
+ OdQFkDPxUYq6GpyIFwpI/ToDNrzgu730U7h/NV1pSx5sHFnW6MIuT60YILtDXT5re8Rm
+ WAwES40g4nK6QjenF+p42J42Ma7JnNyAHUYXs/sST0PnefkVPeWNuMN4sI6DQo7+49bU
+ tbVfM93YutKW7xn4zDcGSCK//SYk5LsmFoRDiCZYoJtpqxAzqloqKHgB+71pKbrrWw91
+ o+tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=zF5y3QLiBQQssB01TNRdCaLhzQW5J8c2feTPPbcQmlQ=;
- b=4HO7ujJuoN4wmgp3UPqVW5cgzQ3Emg4cGHymKKoQEq+I7M1aTi4/K0vDEA0fcs4sal
- U1DF1kZXtCfOrHlGxvAeKk43ick9QfDM17V+CBtm8vFgpIVpBR1fSRFhAlepBNxymQli
- qbkgaIdv8IW7n8JQvYNjoeszwRWSZb2y/1/Fw6cVkDPOv8TSnhqSbc/zbRvOdVbIlUd5
- KNoKmz3pL51FVBSuiT7wD6o758hVknb2rhGRiyK1fILMIdY8YLegKhkrCnY+ASgDryIa
- de5DSF92InJcitF4oPSZH8pM0d+BLROPnSao+Idfbk8DWecLCS+SFD8/YYSyfrhRJrxC
- NMVg==
-X-Gm-Message-State: AJIora9SPJt+nRoJ39JG662vwf+9CHLt8/bhPIV7F1856WOlWFYl7CbD
- frA5Fyeeeva8t8vsopsXBSUU7Q==
-X-Google-Smtp-Source: AGRyM1urtfnB5WIs9AoJ1cTb+nd4l1v0zo/YgmYJVlARAX3iCTEdkwgHN9IJFyt4dqHo2yUYfXZIAQ==
-X-Received: by 2002:a17:90a:e2d3:b0:1e8:ab66:c0be with SMTP id
- fr19-20020a17090ae2d300b001e8ab66c0bemr871000pjb.12.1655156887996; 
- Mon, 13 Jun 2022 14:48:07 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
- by smtp.gmail.com with ESMTPSA id
- x14-20020aa7918e000000b0051c0fe8fb8csm6059924pfa.95.2022.06.13.14.48.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 14:48:07 -0700 (PDT)
-Message-ID: <bacf383f-16cb-64f7-d8e9-20e867a0fb9f@linaro.org>
-Date: Mon, 13 Jun 2022 14:48:04 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TuAqi+AFzXNmeHf5cgq/+R41qubP/yNmXinN5w2x5rk=;
+ b=ktnrl6ztR6+OHacb5gtnwQ4JoWHeMrgWEZayLFX2bJXnZyWR5hkm4/dpIQ9CC4JxZ0
+ 8HFIuTVs5/s2aKDqON28a3dYH/TY1majw+vX34IZaFoMKDo/y9r+XaiUO1ue3AC77WRj
+ WXP4KEYwZeOlthjVDkuDSD/RGIx6l+jskOqQFY/leyq9UQJG0TUBzkkMu5Y1833TZ7s5
+ 8zYE6+vmb9uG+hu46C6E1g1m/OYs2WXGsyhJVWVDsGFpNMxzFxOs4+OF4I34sWftT1UE
+ /Y1kV7bM/VJKBKaBoO3ECXNtUn2LWwNa/ebNUiYOWBuLWn2wdOrVjnHmVFVDF8Lh4R/z
+ raVQ==
+X-Gm-Message-State: AJIora/bTPw7KGMOD1HNIwp0I77LgHrjmyhjbuLRG2fRO7eBpPRxdCIu
+ 2lw6U8n4250W5m8reXUZOjo9Ya1RdRGb2w950T6UMQ==
+X-Google-Smtp-Source: AGRyM1vK+gXQhDDKjwQc7knSMmkY6HTqFJSPAOn7toObYGEZk5Yx/OMpWw/WerW8Eed5g0ilH72sxpsVL8klC2jE5OU=
+X-Received: by 2002:a67:ef46:0:b0:34b:d418:86c2 with SMTP id
+ k6-20020a67ef46000000b0034bd41886c2mr615731vsr.19.1655157269337; Mon, 13 Jun
+ 2022 14:54:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v1 7/7] .gitlab: use less aggressive nproc on our
- aarch64/32 runners
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220613171258.1905715-1-alex.bennee@linaro.org>
- <20220613171258.1905715-8-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220613171258.1905715-8-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220612204851.19914-1-imp@bsdimp.com>
+ <20220612204851.19914-10-imp@bsdimp.com>
+ <2d92ee55-0204-64f9-63d0-23a9f40b0490@linaro.org>
+In-Reply-To: <2d92ee55-0204-64f9-63d0-23a9f40b0490@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Mon, 13 Jun 2022 15:54:18 -0600
+Message-ID: <CANCZdfrb+LG2yNmipefi1urJi8SXvkozF0FEvrPGtuJPF5C=GQ@mail.gmail.com>
+Subject: Re: [PATCH 09/11] bsd-user: Implement dup and dup2
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Jessica Clarke <jrtc27@freebsd.org>, 
+ Konrad Witaszczyk <def@freebsd.org>, Gleb Popov <arrowd@freebsd.org>,
+ Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@freebsd.org>
+Content-Type: multipart/alternative; boundary="0000000000001629ba05e15b55e7"
+Received-SPF: none client-ip=2607:f8b0:4864:20::e34;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe34.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,21 +85,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/13/22 10:12, Alex Bennée wrote:
-> Running on all 80 cores of our aarch64 runner does occasionally
-> trigger a race condition which fails the build. However the CI system
-> is not the time and place to play with much heisenbugs so turn down
-> the nproc to "only" use 40 cores in the build.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   .../custom-runners/ubuntu-20.04-aarch32.yml   |  4 ++--
->   .../custom-runners/ubuntu-20.04-aarch64.yml   | 24 +++++++++----------
->   2 files changed, 14 insertions(+), 14 deletions(-)
+--0000000000001629ba05e15b55e7
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
+On Mon, Jun 13, 2022 at 1:53 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 6/12/22 13:48, Warner Losh wrote:
+> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >   bsd-user/bsd-file.h           | 14 ++++++++++++++
+> >   bsd-user/freebsd/os-syscall.c |  8 ++++++++
+> >   2 files changed, 22 insertions(+)
+> >
+> > diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
+> > index 500d6ba78b9..73263ba482f 100644
+> > --- a/bsd-user/bsd-file.h
+> > +++ b/bsd-user/bsd-file.h
+> > @@ -491,4 +491,18 @@ static abi_long do_bsd___getcwd(abi_long arg1,
+> abi_long arg2)
+> >       return get_errno(ret);
+> >   }
+> >
+> > +/* dup(2) */
+> > +static abi_long do_bsd_dup(abi_long arg1)
+> > +{
+> > +
+> > +    return get_errno(dup(arg1));
+> > +}
+> > +
+> > +/* dup2(2) */
+> > +static abi_long do_bsd_dup2(abi_long arg1, abi_long arg2)
+> > +{
+> > +
+> > +    return get_errno(dup2(arg1, arg2));
+> > +}
+>
+> Extra lines.  Is this some setting in your editor?  Otherwise,
+>
+
+It's an odd quirk of FreeBSD's style from the 90s until 2020... I'm totally
+blind to
+it most of the time...
 
 
-r~
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+
+Thanks for this, and all the other reviews.
+
+Warner
+
+--0000000000001629ba05e15b55e7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 13, 2022 at 1:53 PM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 6/12/22 13:48, Warner Losh wrote:<br>
+&gt; Signed-off-by: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0bsd-user/bsd-file.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 14 ++++++++++++++<br>
+&gt;=C2=A0 =C2=A0bsd-user/freebsd/os-syscall.c |=C2=A0 8 ++++++++<br>
+&gt;=C2=A0 =C2=A02 files changed, 22 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h<br>
+&gt; index 500d6ba78b9..73263ba482f 100644<br>
+&gt; --- a/bsd-user/bsd-file.h<br>
+&gt; +++ b/bsd-user/bsd-file.h<br>
+&gt; @@ -491,4 +491,18 @@ static abi_long do_bsd___getcwd(abi_long arg1, ab=
+i_long arg2)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return get_errno(ret);<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +/* dup(2) */<br>
+&gt; +static abi_long do_bsd_dup(abi_long arg1)<br>
+&gt; +{<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return get_errno(dup(arg1));<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/* dup2(2) */<br>
+&gt; +static abi_long do_bsd_dup2(abi_long arg1, abi_long arg2)<br>
+&gt; +{<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return get_errno(dup2(arg1, arg2));<br>
+&gt; +}<br>
+<br>
+Extra lines.=C2=A0 Is this some setting in your editor?=C2=A0 Otherwise,<br=
+></blockquote><div><br></div><div>It&#39;s an odd quirk of FreeBSD&#39;s st=
+yle from the 90s until 2020... I&#39;m totally blind to</div><div>it most o=
+f the time...</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
+ote><div><br></div><div>Thanks for this, and all the other reviews.</div><d=
+iv><br></div><div>Warner=C2=A0</div></div></div>
+
+--0000000000001629ba05e15b55e7--
 
