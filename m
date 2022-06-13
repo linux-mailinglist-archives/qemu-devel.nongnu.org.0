@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29312548518
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:19:57 +0200 (CEST)
-Received: from localhost ([::1]:39482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F97C54851C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:22:53 +0200 (CEST)
+Received: from localhost ([::1]:46810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0j2x-0005Mh-VS
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36990)
+	id 1o0j5n-0002BL-UF
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o0iNg-0001VY-1e
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o0iNj-0001Vl-Nr
  for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:37:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36618)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o0iNe-0002O8-2G
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:37:15 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o0iNh-0002Oe-Lk
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:37:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655120233;
+ s=mimecast20190719; t=1655120237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ebiRccH2awWxGwAppvEzoFJ/M1x++CURc9+zFzjg06Y=;
- b=ULmjhGTFSRW37t2Ny9X73SCFOf/8UX60iYuYYH3LmLQSgiYfEv/gO01wYueT4GZXh16mLU
- Ko+C2VvzAjSHEe0L8YNnPUtirAZCSh+WvSPs0j4HK5LkO65OvvU5Wv6EOBfo+BRsGHR4fN
- Yy5HWliroLuWhHShg09cHghbCD6wHfQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TCo33ax1Q4GDO812+rq/YD1R1Ny1sNrWx6I6aptpWo8=;
+ b=cJ2m0b0JqhRtt1WTY33bNPeUMH3JFLt6+dNXqYOg/qnZZ5jg91BOVW1z3oasjU0L+uNzkW
+ SbTA8B87jdwI9nFEShqhmw81oLLEICeNIbZ3YZgtNEUBF7rUpTc39cyNNrNoaimJ1QoXyw
+ 12y5kpMfGpBbltt/fVAhLKhqC9wtGI8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-538-4jw5iIGhO3-Xtypzh9OvfQ-1; Mon, 13 Jun 2022 07:37:10 -0400
-X-MC-Unique: 4jw5iIGhO3-Xtypzh9OvfQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-263-5G3LNvV0Mv2PeFSjsuQA_Q-1; Mon, 13 Jun 2022 07:37:12 -0400
+X-MC-Unique: 5G3LNvV0Mv2PeFSjsuQA_Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC26B3C10221;
- Mon, 13 Jun 2022 11:37:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78034100BADB;
+ Mon, 13 Jun 2022 11:37:11 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82CD718EA1;
- Mon, 13 Jun 2022 11:37:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1812F2166B26;
+ Mon, 13 Jun 2022 11:37:11 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B578C1800996; Mon, 13 Jun 2022 13:36:56 +0200 (CEST)
+ id D761818009AC; Mon, 13 Jun 2022 13:36:56 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
@@ -54,16 +54,18 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
  "Canokeys.org" <contact@canokeys.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PULL 14/16] ui: Deliver refresh rate via QemuUIInfo
-Date: Mon, 13 Jun 2022 13:36:53 +0200
-Message-Id: <20220613113655.3693872-15-kraxel@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PULL 16/16] ui: move 'pc-bios/keymaps' to 'ui/keymaps'
+Date: Mon, 13 Jun 2022 13:36:55 +0200
+Message-Id: <20220613113655.3693872-17-kraxel@redhat.com>
 In-Reply-To: <20220613113655.3693872-1-kraxel@redhat.com>
 References: <20220613113655.3693872-1-kraxel@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -87,256 +89,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-This change adds a new member, refresh_rate to QemuUIInfo in
-include/ui/console.h. It represents the refresh rate of the
-physical display backend, and it is more appropriate than
-GUI update interval as the refresh rate which the emulated device
-reports:
-- sdl may set GUI update interval shorter than the refresh rate
-  of the physical display to respond to user-generated events.
-- sdl and vnc aggressively changes GUI update interval, but
-  a guests is typically not designed to respond to frequent
-  refresh rate changes, or frequent "display mode" changes in
-  general. The frequency of refresh rate changes of the physical
-  display backend matches better to the guest's expectation.
+The 'keymaps' directory contents is nothing to do with the firmware
+blobs. The 'pc-bios/keymaps' directory appears to have been used
+previously as a convenience for getting the files installed into
+a subdir of the firmware install dir, as well as to make it easier
+to launch QEMU directly from the build tree. These requirements
+do not need to be reflected in the source tree arrangement. The
+keymaps logically belong with the UI code, and meson can install
+them into the right place. For in-tree execution, we merely need
+a suitable symlink from the source tree to the build tree.
 
-QemuUIInfo also has other members representing "display mode",
-which makes it suitable for refresh rate representation. It has
-a throttling of update notifications, and prevents frequent changes
-of the display mode.
-
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20220226115516.59830-3-akihiko.odaki@gmail.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220613084456.470068-1-berrange@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/console.h |  2 +-
- include/ui/gtk.h     |  2 +-
- hw/display/xenfb.c   | 14 +++++++++++---
- ui/console.c         |  6 ------
- ui/gtk-egl.c         |  4 ++--
- ui/gtk-gl-area.c     |  3 +--
- ui/gtk.c             | 45 +++++++++++++++++++++++++-------------------
- 7 files changed, 42 insertions(+), 34 deletions(-)
+ configure                           | 4 ++++
+ pc-bios/meson.build                 | 1 -
+ {pc-bios => ui}/keymaps/ar          | 0
+ {pc-bios => ui}/keymaps/bepo        | 0
+ {pc-bios => ui}/keymaps/cz          | 0
+ {pc-bios => ui}/keymaps/da          | 0
+ {pc-bios => ui}/keymaps/de          | 0
+ {pc-bios => ui}/keymaps/de-ch       | 0
+ {pc-bios => ui}/keymaps/en-gb       | 0
+ {pc-bios => ui}/keymaps/en-us       | 0
+ {pc-bios => ui}/keymaps/es          | 0
+ {pc-bios => ui}/keymaps/et          | 0
+ {pc-bios => ui}/keymaps/fi          | 0
+ {pc-bios => ui}/keymaps/fo          | 0
+ {pc-bios => ui}/keymaps/fr          | 0
+ {pc-bios => ui}/keymaps/fr-be       | 0
+ {pc-bios => ui}/keymaps/fr-ca       | 0
+ {pc-bios => ui}/keymaps/fr-ch       | 0
+ {pc-bios => ui}/keymaps/hr          | 0
+ {pc-bios => ui}/keymaps/hu          | 0
+ {pc-bios => ui}/keymaps/is          | 0
+ {pc-bios => ui}/keymaps/it          | 0
+ {pc-bios => ui}/keymaps/ja          | 0
+ {pc-bios => ui}/keymaps/lt          | 0
+ {pc-bios => ui}/keymaps/lv          | 0
+ {pc-bios => ui}/keymaps/meson.build | 0
+ {pc-bios => ui}/keymaps/mk          | 0
+ {pc-bios => ui}/keymaps/nl          | 0
+ {pc-bios => ui}/keymaps/no          | 0
+ {pc-bios => ui}/keymaps/pl          | 0
+ {pc-bios => ui}/keymaps/pt          | 0
+ {pc-bios => ui}/keymaps/pt-br       | 0
+ {pc-bios => ui}/keymaps/ru          | 0
+ {pc-bios => ui}/keymaps/sl          | 0
+ {pc-bios => ui}/keymaps/sv          | 0
+ {pc-bios => ui}/keymaps/th          | 0
+ {pc-bios => ui}/keymaps/tr          | 0
+ ui/meson.build                      | 1 +
+ 38 files changed, 5 insertions(+), 1 deletion(-)
+ rename {pc-bios => ui}/keymaps/ar (100%)
+ rename {pc-bios => ui}/keymaps/bepo (100%)
+ rename {pc-bios => ui}/keymaps/cz (100%)
+ rename {pc-bios => ui}/keymaps/da (100%)
+ rename {pc-bios => ui}/keymaps/de (100%)
+ rename {pc-bios => ui}/keymaps/de-ch (100%)
+ rename {pc-bios => ui}/keymaps/en-gb (100%)
+ rename {pc-bios => ui}/keymaps/en-us (100%)
+ rename {pc-bios => ui}/keymaps/es (100%)
+ rename {pc-bios => ui}/keymaps/et (100%)
+ rename {pc-bios => ui}/keymaps/fi (100%)
+ rename {pc-bios => ui}/keymaps/fo (100%)
+ rename {pc-bios => ui}/keymaps/fr (100%)
+ rename {pc-bios => ui}/keymaps/fr-be (100%)
+ rename {pc-bios => ui}/keymaps/fr-ca (100%)
+ rename {pc-bios => ui}/keymaps/fr-ch (100%)
+ rename {pc-bios => ui}/keymaps/hr (100%)
+ rename {pc-bios => ui}/keymaps/hu (100%)
+ rename {pc-bios => ui}/keymaps/is (100%)
+ rename {pc-bios => ui}/keymaps/it (100%)
+ rename {pc-bios => ui}/keymaps/ja (100%)
+ rename {pc-bios => ui}/keymaps/lt (100%)
+ rename {pc-bios => ui}/keymaps/lv (100%)
+ rename {pc-bios => ui}/keymaps/meson.build (100%)
+ rename {pc-bios => ui}/keymaps/mk (100%)
+ rename {pc-bios => ui}/keymaps/nl (100%)
+ rename {pc-bios => ui}/keymaps/no (100%)
+ rename {pc-bios => ui}/keymaps/pl (100%)
+ rename {pc-bios => ui}/keymaps/pt (100%)
+ rename {pc-bios => ui}/keymaps/pt-br (100%)
+ rename {pc-bios => ui}/keymaps/ru (100%)
+ rename {pc-bios => ui}/keymaps/sl (100%)
+ rename {pc-bios => ui}/keymaps/sv (100%)
+ rename {pc-bios => ui}/keymaps/th (100%)
+ rename {pc-bios => ui}/keymaps/tr (100%)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index 642d6f5248cf..b64d82436097 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -139,6 +139,7 @@ typedef struct QemuUIInfo {
-     int       yoff;
-     uint32_t  width;
-     uint32_t  height;
-+    uint32_t  refresh_rate;
- } QemuUIInfo;
+diff --git a/configure b/configure
+index e69537c7566c..77c68642514b 100755
+--- a/configure
++++ b/configure
+@@ -2226,6 +2226,10 @@ for f in $LINKS ; do
+     fi
+ done
  
- /* cursor data format is 32bit RGBA */
-@@ -431,7 +432,6 @@ typedef struct GraphicHwOps {
-     void (*gfx_update)(void *opaque);
-     bool gfx_update_async; /* if true, calls graphic_hw_update_done() */
-     void (*text_update)(void *opaque, console_ch_t *text);
--    void (*update_interval)(void *opaque, uint64_t interval);
-     void (*ui_info)(void *opaque, uint32_t head, QemuUIInfo *info);
-     void (*gl_block)(void *opaque, bool block);
- } GraphicHwOps;
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 101b147d1b98..ae0f53740d19 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -155,7 +155,7 @@ extern bool gtk_use_gl_area;
- 
- /* ui/gtk.c */
- void gd_update_windowsize(VirtualConsole *vc);
--int gd_monitor_update_interval(GtkWidget *widget);
-+void gd_update_monitor_refresh_rate(VirtualConsole *vc, GtkWidget *widget);
- void gd_hw_gl_flushed(void *vc);
- 
- /* ui/gtk-egl.c */
-diff --git a/hw/display/xenfb.c b/hw/display/xenfb.c
-index cea10fe3c780..50857cd97a0b 100644
---- a/hw/display/xenfb.c
-+++ b/hw/display/xenfb.c
-@@ -777,16 +777,24 @@ static void xenfb_update(void *opaque)
-     xenfb->up_fullscreen = 0;
- }
- 
--static void xenfb_update_interval(void *opaque, uint64_t interval)
-+static void xenfb_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
- {
-     struct XenFB *xenfb = opaque;
-+    uint32_t refresh_rate;
- 
-     if (xenfb->feature_update) {
- #ifdef XENFB_TYPE_REFRESH_PERIOD
-         if (xenfb_queue_full(xenfb)) {
-             return;
-         }
--        xenfb_send_refresh_period(xenfb, interval);
++# Keymaps needs slightly different location in build
++# dir as we are simulating the installed data dir layout
++symlink "$source_path/ui/keymaps" "pc-bios/keymaps"
 +
-+        refresh_rate = info->refresh_rate;
-+        if (!refresh_rate) {
-+            refresh_rate = 75;
-+        }
-+
-+        /* T = 1 / f = 1 [s*Hz] / f = 1000*1000 [ms*mHz] / f */
-+        xenfb_send_refresh_period(xenfb, 1000 * 1000 / refresh_rate);
- #endif
-     }
- }
-@@ -983,5 +991,5 @@ struct XenDevOps xen_framebuffer_ops = {
- static const GraphicHwOps xenfb_ops = {
-     .invalidate  = xenfb_invalidate,
-     .gfx_update  = xenfb_update,
--    .update_interval = xenfb_update_interval,
-+    .ui_info     = xenfb_ui_info,
- };
-diff --git a/ui/console.c b/ui/console.c
-index 36c80cd1de85..9331b85203a0 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -160,7 +160,6 @@ static void gui_update(void *opaque)
-     uint64_t dcl_interval;
-     DisplayState *ds = opaque;
-     DisplayChangeListener *dcl;
--    QemuConsole *con;
+ # Mac OS X ships with a broken assembler
+ roms=
+ probe_target_compilers i386 x86_64
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index 41ba1c0ec7ba..e49c0e5f56de 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -97,4 +97,3 @@ foreach f : blobs
+ endforeach
  
-     ds->refreshing = true;
-     dpy_refresh(ds);
-@@ -175,11 +174,6 @@ static void gui_update(void *opaque)
-     }
-     if (ds->update_interval != interval) {
-         ds->update_interval = interval;
--        QTAILQ_FOREACH(con, &consoles, next) {
--            if (con->hw_ops->update_interval) {
--                con->hw_ops->update_interval(con->hw, interval);
--            }
--        }
-         trace_console_refresh(interval);
-     }
-     ds->last_update = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index e3bd4bc27431..b5bffbab2522 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -140,8 +140,8 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
- {
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+ subdir('descriptors')
+-subdir('keymaps')
+diff --git a/pc-bios/keymaps/ar b/ui/keymaps/ar
+similarity index 100%
+rename from pc-bios/keymaps/ar
+rename to ui/keymaps/ar
+diff --git a/pc-bios/keymaps/bepo b/ui/keymaps/bepo
+similarity index 100%
+rename from pc-bios/keymaps/bepo
+rename to ui/keymaps/bepo
+diff --git a/pc-bios/keymaps/cz b/ui/keymaps/cz
+similarity index 100%
+rename from pc-bios/keymaps/cz
+rename to ui/keymaps/cz
+diff --git a/pc-bios/keymaps/da b/ui/keymaps/da
+similarity index 100%
+rename from pc-bios/keymaps/da
+rename to ui/keymaps/da
+diff --git a/pc-bios/keymaps/de b/ui/keymaps/de
+similarity index 100%
+rename from pc-bios/keymaps/de
+rename to ui/keymaps/de
+diff --git a/pc-bios/keymaps/de-ch b/ui/keymaps/de-ch
+similarity index 100%
+rename from pc-bios/keymaps/de-ch
+rename to ui/keymaps/de-ch
+diff --git a/pc-bios/keymaps/en-gb b/ui/keymaps/en-gb
+similarity index 100%
+rename from pc-bios/keymaps/en-gb
+rename to ui/keymaps/en-gb
+diff --git a/pc-bios/keymaps/en-us b/ui/keymaps/en-us
+similarity index 100%
+rename from pc-bios/keymaps/en-us
+rename to ui/keymaps/en-us
+diff --git a/pc-bios/keymaps/es b/ui/keymaps/es
+similarity index 100%
+rename from pc-bios/keymaps/es
+rename to ui/keymaps/es
+diff --git a/pc-bios/keymaps/et b/ui/keymaps/et
+similarity index 100%
+rename from pc-bios/keymaps/et
+rename to ui/keymaps/et
+diff --git a/pc-bios/keymaps/fi b/ui/keymaps/fi
+similarity index 100%
+rename from pc-bios/keymaps/fi
+rename to ui/keymaps/fi
+diff --git a/pc-bios/keymaps/fo b/ui/keymaps/fo
+similarity index 100%
+rename from pc-bios/keymaps/fo
+rename to ui/keymaps/fo
+diff --git a/pc-bios/keymaps/fr b/ui/keymaps/fr
+similarity index 100%
+rename from pc-bios/keymaps/fr
+rename to ui/keymaps/fr
+diff --git a/pc-bios/keymaps/fr-be b/ui/keymaps/fr-be
+similarity index 100%
+rename from pc-bios/keymaps/fr-be
+rename to ui/keymaps/fr-be
+diff --git a/pc-bios/keymaps/fr-ca b/ui/keymaps/fr-ca
+similarity index 100%
+rename from pc-bios/keymaps/fr-ca
+rename to ui/keymaps/fr-ca
+diff --git a/pc-bios/keymaps/fr-ch b/ui/keymaps/fr-ch
+similarity index 100%
+rename from pc-bios/keymaps/fr-ch
+rename to ui/keymaps/fr-ch
+diff --git a/pc-bios/keymaps/hr b/ui/keymaps/hr
+similarity index 100%
+rename from pc-bios/keymaps/hr
+rename to ui/keymaps/hr
+diff --git a/pc-bios/keymaps/hu b/ui/keymaps/hu
+similarity index 100%
+rename from pc-bios/keymaps/hu
+rename to ui/keymaps/hu
+diff --git a/pc-bios/keymaps/is b/ui/keymaps/is
+similarity index 100%
+rename from pc-bios/keymaps/is
+rename to ui/keymaps/is
+diff --git a/pc-bios/keymaps/it b/ui/keymaps/it
+similarity index 100%
+rename from pc-bios/keymaps/it
+rename to ui/keymaps/it
+diff --git a/pc-bios/keymaps/ja b/ui/keymaps/ja
+similarity index 100%
+rename from pc-bios/keymaps/ja
+rename to ui/keymaps/ja
+diff --git a/pc-bios/keymaps/lt b/ui/keymaps/lt
+similarity index 100%
+rename from pc-bios/keymaps/lt
+rename to ui/keymaps/lt
+diff --git a/pc-bios/keymaps/lv b/ui/keymaps/lv
+similarity index 100%
+rename from pc-bios/keymaps/lv
+rename to ui/keymaps/lv
+diff --git a/pc-bios/keymaps/meson.build b/ui/keymaps/meson.build
+similarity index 100%
+rename from pc-bios/keymaps/meson.build
+rename to ui/keymaps/meson.build
+diff --git a/pc-bios/keymaps/mk b/ui/keymaps/mk
+similarity index 100%
+rename from pc-bios/keymaps/mk
+rename to ui/keymaps/mk
+diff --git a/pc-bios/keymaps/nl b/ui/keymaps/nl
+similarity index 100%
+rename from pc-bios/keymaps/nl
+rename to ui/keymaps/nl
+diff --git a/pc-bios/keymaps/no b/ui/keymaps/no
+similarity index 100%
+rename from pc-bios/keymaps/no
+rename to ui/keymaps/no
+diff --git a/pc-bios/keymaps/pl b/ui/keymaps/pl
+similarity index 100%
+rename from pc-bios/keymaps/pl
+rename to ui/keymaps/pl
+diff --git a/pc-bios/keymaps/pt b/ui/keymaps/pt
+similarity index 100%
+rename from pc-bios/keymaps/pt
+rename to ui/keymaps/pt
+diff --git a/pc-bios/keymaps/pt-br b/ui/keymaps/pt-br
+similarity index 100%
+rename from pc-bios/keymaps/pt-br
+rename to ui/keymaps/pt-br
+diff --git a/pc-bios/keymaps/ru b/ui/keymaps/ru
+similarity index 100%
+rename from pc-bios/keymaps/ru
+rename to ui/keymaps/ru
+diff --git a/pc-bios/keymaps/sl b/ui/keymaps/sl
+similarity index 100%
+rename from pc-bios/keymaps/sl
+rename to ui/keymaps/sl
+diff --git a/pc-bios/keymaps/sv b/ui/keymaps/sv
+similarity index 100%
+rename from pc-bios/keymaps/sv
+rename to ui/keymaps/sv
+diff --git a/pc-bios/keymaps/th b/ui/keymaps/th
+similarity index 100%
+rename from pc-bios/keymaps/th
+rename to ui/keymaps/th
+diff --git a/pc-bios/keymaps/tr b/ui/keymaps/tr
+similarity index 100%
+rename from pc-bios/keymaps/tr
+rename to ui/keymaps/tr
+diff --git a/ui/meson.build b/ui/meson.build
+index e9f48c531588..25c9a5ff8cd9 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -170,6 +170,7 @@ if have_system or xkbcommon.found()
+ endif
  
--    vc->gfx.dcl.update_interval = gd_monitor_update_interval(
--            vc->window ? vc->window : vc->gfx.drawing_area);
-+    gd_update_monitor_refresh_rate(
-+            vc, vc->window ? vc->window : vc->gfx.drawing_area);
+ subdir('shader')
++subdir('keymaps')
  
-     if (!vc->gfx.esurface) {
-         gd_egl_init(vc);
-diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
-index 2e0129c28cd4..682638a197d2 100644
---- a/ui/gtk-gl-area.c
-+++ b/ui/gtk-gl-area.c
-@@ -121,8 +121,7 @@ void gd_gl_area_refresh(DisplayChangeListener *dcl)
- {
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
- 
--    vc->gfx.dcl.update_interval = gd_monitor_update_interval(
--            vc->window ? vc->window : vc->gfx.drawing_area);
-+    gd_update_monitor_refresh_rate(vc, vc->window ? vc->window : vc->gfx.drawing_area);
- 
-     if (!vc->gfx.gls) {
-         if (!gtk_widget_get_realized(vc->gfx.drawing_area)) {
-diff --git a/ui/gtk.c b/ui/gtk.c
-index c57c36749e0e..2a791dd2aa04 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -710,11 +710,20 @@ static gboolean gd_window_close(GtkWidget *widget, GdkEvent *event,
-     return TRUE;
- }
- 
--static void gd_set_ui_info(VirtualConsole *vc, gint width, gint height)
-+static void gd_set_ui_refresh_rate(VirtualConsole *vc, int refresh_rate)
- {
-     QemuUIInfo info;
- 
--    memset(&info, 0, sizeof(info));
-+    info = *dpy_get_ui_info(vc->gfx.dcl.con);
-+    info.refresh_rate = refresh_rate;
-+    dpy_set_ui_info(vc->gfx.dcl.con, &info, true);
-+}
-+
-+static void gd_set_ui_size(VirtualConsole *vc, gint width, gint height)
-+{
-+    QemuUIInfo info;
-+
-+    info = *dpy_get_ui_info(vc->gfx.dcl.con);
-     info.width = width;
-     info.height = height;
-     dpy_set_ui_info(vc->gfx.dcl.con, &info, true);
-@@ -738,33 +747,32 @@ static void gd_resize_event(GtkGLArea *area,
- {
-     VirtualConsole *vc = (void *)opaque;
- 
--    gd_set_ui_info(vc, width, height);
-+    gd_set_ui_size(vc, width, height);
- }
- 
- #endif
- 
--/*
-- * If available, return the update interval of the monitor in ms,
-- * else return 0 (the default update interval).
-- */
--int gd_monitor_update_interval(GtkWidget *widget)
-+void gd_update_monitor_refresh_rate(VirtualConsole *vc, GtkWidget *widget)
- {
- #ifdef GDK_VERSION_3_22
-     GdkWindow *win = gtk_widget_get_window(widget);
-+    int refresh_rate;
- 
-     if (win) {
-         GdkDisplay *dpy = gtk_widget_get_display(widget);
-         GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
--        int refresh_rate = gdk_monitor_get_refresh_rate(monitor); /* [mHz] */
--
--        if (refresh_rate) {
--            /* T = 1 / f = 1 [s*Hz] / f = 1000*1000 [ms*mHz] / f */
--            return MIN(1000 * 1000 / refresh_rate,
--                       GUI_REFRESH_INTERVAL_DEFAULT);
--        }
-+        refresh_rate = gdk_monitor_get_refresh_rate(monitor); /* [mHz] */
-+    } else {
-+        refresh_rate = 0;
-     }
-+
-+    gd_set_ui_refresh_rate(vc, refresh_rate);
-+
-+    /* T = 1 / f = 1 [s*Hz] / f = 1000*1000 [ms*mHz] / f */
-+    vc->gfx.dcl.update_interval = refresh_rate ?
-+        MIN(1000 * 1000 / refresh_rate, GUI_REFRESH_INTERVAL_DEFAULT) :
-+        GUI_REFRESH_INTERVAL_DEFAULT;
- #endif
--    return 0;
- }
- 
- static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-@@ -801,8 +809,7 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-         return FALSE;
-     }
- 
--    vc->gfx.dcl.update_interval =
--        gd_monitor_update_interval(vc->window ? vc->window : s->window);
-+    gd_update_monitor_refresh_rate(vc, vc->window ? vc->window : s->window);
- 
-     fbw = surface_width(vc->gfx.ds);
-     fbh = surface_height(vc->gfx.ds);
-@@ -1691,7 +1698,7 @@ static gboolean gd_configure(GtkWidget *widget,
- {
-     VirtualConsole *vc = opaque;
- 
--    gd_set_ui_info(vc, cfg->width, cfg->height);
-+    gd_set_ui_size(vc, cfg->width, cfg->height);
-     return FALSE;
- }
- 
+ if have_system
+   subdir('icons')
 -- 
 2.36.1
 
