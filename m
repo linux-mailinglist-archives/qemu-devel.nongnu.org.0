@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC8F54860B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:53:49 +0200 (CEST)
-Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB111548648
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 17:56:17 +0200 (CEST)
+Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0mNw-00058Z-OJ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37180)
+	id 1o0mQK-000158-U1
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 11:56:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o0mFt-0000Rd-Qt; Mon, 13 Jun 2022 11:45:30 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3282)
+ id 1o0mFu-0000SR-D5; Mon, 13 Jun 2022 11:45:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o0mFs-000261-18; Mon, 13 Jun 2022 11:45:29 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DFecc1032320;
- Mon, 13 Jun 2022 15:45:17 GMT
+ id 1o0mFs-000263-1o; Mon, 13 Jun 2022 11:45:30 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DFQcCu002633;
+ Mon, 13 Jun 2022 15:45:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=Hk2cC9spW/5bg0NOvft8zwKGimRakNd5Zse7WvHonxw=;
- b=dN7yciNeQYhTp7nGRG37yPDMf1owmHteMaeUr4+mB4+mrhLdIJe6kw3op8XjFmy6o9MG
- z/Pc5frausZ1b6MkbftoI5yRj2l8U5AGZNS0w6RpzdKKCoiOODBX0n2PImZQL2VzhZbE
- dhcRA03awc87Ig9Vkc74D1Dh9Jy1zKFZQOhGnHsoiL2CHFwnZPNRDtCCpVoQgIzaHsBZ
- i1gYu9m71g653ZRs5A/Pk2BJQZVMaRdxOjqomizv/rPf3zu6F3HW/kwKsUCvRXwp2GoU
- IoUNwrW3xAomj3T7B7qZJ4OTW9NJtDtw+2yRGhtAFiq0MFFIau/jE9+QSWStF94fsuJP Wg== 
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gp6p0j50s-1
+ bh=lvch5KfvJYRDyduLcL34GP/usqXPpCmGsQLDqdxhRqY=;
+ b=jehUPph86i38yUerZZPhBv45koAdJs5+RPU3OtrMwXjXqY7enoH5a9d2w1nShv6kSO8Y
+ 4Potezjso2OJ3rvqUDxg3rE8XfICVIwd2DMKkxTibJV4UM+XY8FcNbJ6ziLEAwI9q9PS
+ KWXwjPPyuMBHliIr1uJhLZ66D00leiHHUGvf1ypzSkaDqXg/q6nA9vEmoeqrtU+OfoLL
+ qOkmp9XbD406zRiDSPV9svMs4x6WhojVdY5GEV7j3MsH0XvTbS+dLkjbOG2oNWPKSXaP
+ YbfIxGO1xwIz9tvBI+3Bq/48fXaXW7R60/qtauAqZyXLdrkOnPAtW4+VeKF1nTjLcrXL fQ== 
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gp7vtgcrm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jun 2022 15:45:17 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25DFhYqa016459;
- Mon, 13 Jun 2022 15:45:16 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 3gmjp9t01y-1
+ Mon, 13 Jun 2022 15:45:20 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25DFNHbA020532;
+ Mon, 13 Jun 2022 15:45:19 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma03dal.us.ibm.com with ESMTP id 3gmjp9j0fs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Jun 2022 15:45:16 +0000
+ Mon, 13 Jun 2022 15:45:19 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25DFjFjx23003468
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25DFjI7C30212476
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Jun 2022 15:45:15 GMT
+ Mon, 13 Jun 2022 15:45:18 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B4778AC05F;
- Mon, 13 Jun 2022 15:45:15 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3D219AC06B;
+ Mon, 13 Jun 2022 15:45:18 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E4A90AC05B;
- Mon, 13 Jun 2022 15:45:13 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2B334AC05B;
+ Mon, 13 Jun 2022 15:45:16 +0000 (GMT)
 Received: from balboa.COMFAST (unknown [9.77.153.150])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 13 Jun 2022 15:45:13 +0000 (GMT)
+ Mon, 13 Jun 2022 15:45:15 +0000 (GMT)
 From: Daniel Henrique Barboza <danielhb@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 09/11] ppc/pnv: add PHB object/bus parenting helpers
-Date: Mon, 13 Jun 2022 12:44:54 -0300
-Message-Id: <20220613154456.359674-10-danielhb@linux.ibm.com>
+Subject: [PATCH 10/11] ppc/pnv: move PHB3 initialization to realize time
+Date: Mon, 13 Jun 2022 12:44:55 -0300
+Message-Id: <20220613154456.359674-11-danielhb@linux.ibm.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613154456.359674-1-danielhb@linux.ibm.com>
 References: <20220613154456.359674-1-danielhb@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: HIIch9xzCsbtAYlJ-gF7n2x-MHJ5dS9f
-X-Proofpoint-ORIG-GUID: HIIch9xzCsbtAYlJ-gF7n2x-MHJ5dS9f
+X-Proofpoint-GUID: ZZS5uYRvig3P83h3ve8zs7ha_tnmMuJG
+X-Proofpoint-ORIG-GUID: ZZS5uYRvig3P83h3ve8zs7ha_tnmMuJG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-13_07,2022-06-13_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 phishscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0
- malwarescore=0 impostorscore=0 spamscore=0 mlxlogscore=999 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206130069
+ suspectscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206130068
 Received-SPF: pass client-ip=148.163.156.1;
  envelope-from=danielhb@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -105,71 +105,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These helpers are inspired by the changes that were reverted in commit
-9c10d86fee "ppc/pnv: Remove user-created PHB{3,4,5} devices". We'll use
-them to handle the default case we already support.
+There's nothing special that is being done in
+pnv_chip_power8_instance_init() that can't be done during
+pnv_chip_power8_realize(). Move the PHB creating and phbs[] assignment
+to power8_realize().
+
+We also need to assign a proper phb->chip parent and bus. This is done
+by the PHB itself, in pnv_phb3_realize(), in a similar fashion that user
+created PHB3s are going to do.
+
+After all this we're left with logic that, aside from phb chip
+assignment that are still being done in power8_realize(), behaves the
+same for default and user created PHB3s.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
 ---
- hw/ppc/pnv.c         | 31 +++++++++++++++++++++++++++++++
- include/hw/ppc/pnv.h |  2 ++
- 2 files changed, 33 insertions(+)
+ hw/pci-host/pnv_phb3.c | 14 ++++++++++++++
+ hw/ppc/pnv.c           | 24 +++++-------------------
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index bda23fd20b..c1c73fb88d 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -998,6 +998,20 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    /*
++     * We need the chip to parent the PHB to allow the DT
++     * to build correctly (via pnv_xscom_dt()).
++     *
++     * TODO: the PHB should be parented by a PHB3 PEC device.
++     */
++    pnv_parent_qom_fixup(OBJECT(phb->chip), OBJECT(phb), phb->phb_id);
++
++    /*
++     * pnv-phb3 buses are child of the main-system-bus, same as
++     * the chip.
++     */
++    pnv_parent_bus_fixup(DEVICE(phb->chip), dev);
++
+     /* LSI sources */
+     object_property_set_link(OBJECT(&phb->lsis), "xics", OBJECT(pnv),
+                              &error_abort);
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 6ce9e94e05..d77c90d64a 100644
+index d77c90d64a..e4080a98e1 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1983,6 +1983,37 @@ static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
-     return NULL;
+@@ -1130,8 +1130,6 @@ static void pnv_chip_power10_intc_print_info(PnvChip *chip, PowerPCCPU *cpu,
+ static void pnv_chip_power8_instance_init(Object *obj)
+ {
+     Pnv8Chip *chip8 = PNV8_CHIP(obj);
+-    PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
+-    int i;
+ 
+     object_property_add_link(obj, "xics", TYPE_XICS_FABRIC,
+                              (Object **)&chip8->xics,
+@@ -1145,22 +1143,6 @@ static void pnv_chip_power8_instance_init(Object *obj)
+     object_initialize_child(obj, "occ", &chip8->occ, TYPE_PNV8_OCC);
+ 
+     object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
+-
+-    chip8->num_phbs = pcc->num_phbs;
+-
+-    for (i = 0; i < chip8->num_phbs; i++) {
+-        PnvPHB3 *phb3 = PNV_PHB3(object_new(TYPE_PNV_PHB3));
+-
+-        /*
+-         * We need the chip to parent the PHB to allow the DT
+-         * to build correctly (via pnv_xscom_dt()).
+-         *
+-         * TODO: the PHB should be parented by a PEC device.
+-         */
+-        object_property_add_child(obj, "phb[*]", OBJECT(phb3));
+-        chip8->phbs[i] = phb3;
+-    }
+-
  }
  
-+
-+/*
-+ * Set the QOM parent of an object child. If the device state
-+ * associated with the child has an id, use it as QOM id. Otherwise
-+ * use object_typename[index] as QOM id.
-+ */
-+void pnv_parent_qom_fixup(Object *parent, Object *child, int index)
-+{
-+    g_autofree char *default_id =
-+        g_strdup_printf("%s[%d]", object_get_typename(child), index);
-+    const char *dev_id = DEVICE(child)->id;
-+
-+    if (child->parent == parent) {
-+        return;
-+    }
-+
-+    object_ref(child);
-+    object_unparent(child);
-+    object_property_add_child(parent, dev_id ? dev_id : default_id, child);
-+    object_unref(child);
-+}
-+
-+void pnv_parent_bus_fixup(DeviceState *parent, DeviceState *phb_dev)
-+{
-+    BusState *s = qdev_get_parent_bus(parent);
-+
-+    if (!qdev_set_parent_bus(phb_dev, s, &error_fatal)) {
-+        return;
-+    }
-+}
-+
- PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
- {
-     int i;
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 11f1089289..c091f23039 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -194,6 +194,8 @@ DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER10,
+ static void pnv_chip_icp_realize(Pnv8Chip *chip8, Error **errp)
+@@ -1286,8 +1268,12 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
+                                 &chip8->homer.regs);
  
- PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
- void pnv_phb_attach_root_port(PCIHostState *pci, const char *name, int index);
-+void pnv_parent_qom_fixup(Object *parent, Object *child, int index);
-+void pnv_parent_bus_fixup(DeviceState *parent, DeviceState *child);
+     /* PHB3 controllers */
++    chip8->num_phbs = pcc->num_phbs;
++
+     for (i = 0; i < chip8->num_phbs; i++) {
+-        PnvPHB3 *phb = chip8->phbs[i];
++        PnvPHB3 *phb = PNV_PHB3(object_new(TYPE_PNV_PHB3));
++
++        chip8->phbs[i] = phb;
  
- #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
- typedef struct PnvMachineClass PnvMachineClass;
+         object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
+         object_property_set_int(OBJECT(phb), "chip-id", chip->chip_id,
 -- 
 2.36.1
 
