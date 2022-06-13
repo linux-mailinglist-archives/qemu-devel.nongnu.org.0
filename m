@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED4B547D14
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 02:28:59 +0200 (CEST)
-Received: from localhost ([::1]:56648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0F3547D17
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 02:30:38 +0200 (CEST)
+Received: from localhost ([::1]:58970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0Xww-0007ba-81
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jun 2022 20:28:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56550)
+	id 1o0XyW-0000oi-Um
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jun 2022 20:30:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o0XvS-0006Pv-R9
- for qemu-devel@nongnu.org; Sun, 12 Jun 2022 20:27:26 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44991)
+ id 1o0XxG-0008NX-0P; Sun, 12 Jun 2022 20:29:18 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:37715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o0XvQ-0003Ff-N4
- for qemu-devel@nongnu.org; Sun, 12 Jun 2022 20:27:26 -0400
-Received: by mail-pf1-x436.google.com with SMTP id s37so1709538pfg.11
- for <qemu-devel@nongnu.org>; Sun, 12 Jun 2022 17:27:22 -0700 (PDT)
+ id 1o0XxE-0003Km-Ha; Sun, 12 Jun 2022 20:29:17 -0400
+Received: by mail-pg1-x530.google.com with SMTP id h192so4203089pgc.4;
+ Sun, 12 Jun 2022 17:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TCxbYtVeAWzUSnkIE5WXDr87Nr7MQL8OhQ60cOFg+xw=;
- b=N2OYYaUS6q0COEnmwfJVMMJcw28WWZhW88vtqfhYpyTd/RNa4TWMqqkAtatPg4vuRA
- OV8ZtFTNIruA9P4qmgS4WsqwhHvjh5ZrGmJ8TRI8pHI870oHRWvjM+9gL9q0Z1R7WYME
- yw79d3TtCXcUNkC5FyuJjH1cTw5vNQ/FY72hD9iOPhmEmt/QBXuREWkTcofL4gFh10QD
- Q1iqehliQ/xYwESwycByz10p43yH9hado/f2g5kFkqnlEOlYA5KUqYya05JxUOCw1K5W
- M1OnRQz2hpBUQMIOkiqnzx9fFy/aFqO1sW5D3uz87QixcfAtd4DAiMbJuYCxQm1Fsgeo
- +aDw==
+ :cc:content-transfer-encoding;
+ bh=hoWvhIBJmPArlqrvYazYx8szKvXFUAEXiZFrtkEYUYI=;
+ b=E1VzcVko4R06PGzyKyvxvjhZPKcnPMBiyPUi6rk7+ux5b1k93R7F9cANQ1zW3A5CxD
+ 9z8xJLYxs4ewP4GnpVE4g36vqb8uU+feF9L/oDOLXqlQVUIDuj6cTHsT2t7kvOrGcp+/
+ SJEBkyaLkSZa150gVhyATZRnxRnoGW7SRi2v1yUUIIxSiTkuwtVF3TtZm/eNJh+I9MEe
+ 9DVmlDl0oERYQIDgIpZmAXKuqCgBo/cvwxk/K7rh/Ms1CQGCoZ3Evi9fsCI72Qy3AFcX
+ 5e7osgTb5hUXqeRJN1d3F66Rkcl4oNqRGdm4n4TsZfmIg/Vq4cUqXlEbSFJga+BVmnll
+ n/JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TCxbYtVeAWzUSnkIE5WXDr87Nr7MQL8OhQ60cOFg+xw=;
- b=ayiNtMzTZ3aXH0eHveLH7uI4SCgVdUnqsuT8iaPBrSaUcb5v12f4CReoO9jwQyy/jg
- oSLfk+cxiZCWSB+RnJ3i6QgP9YTCpKnJ1kwa4ZInFEDWQaRpX+zi6ECP6kFUugfM2ouG
- 1GPrj8J3sAgHP4VALy0X6A8ZIdjrQZFz7WHKKJX/ON49La8py3bxEKjxmaF6LWLahkVs
- MhmmxDVikTflqE44kfcAy+Y2Wwg0alij8iX5kSH5zQJ65AUTbwKGspc3ofJp0xiGzXlz
- Ab9SznQxSgFFbRTOijXRlItOfCkLSiI5YGsSrTv2hQ9f9fRZadJz4I/UDnz7IW7n1p+8
- V0QA==
-X-Gm-Message-State: AOAM5300Gzd+0rINffWQfRJHGS9vsLR/wi10NM1u3GjKy921x43g3K7z
- ixKrozHJ//YZBPXUIGwjGVNoHNNolh1ld94fD+o=
-X-Google-Smtp-Source: ABdhPJwjhMIVmuxE4yGg6XD3b0G86fmbsqIiceL8wPHa31PyKKmN6E3xWDIr1Mj2FQ8nEJ7gTZZLuJfHKl8OtfV+s70=
-X-Received: by 2002:a65:6b8a:0:b0:3db:7dc5:fec2 with SMTP id
- d10-20020a656b8a000000b003db7dc5fec2mr47979848pgw.223.1655080040950; Sun, 12
- Jun 2022 17:27:20 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hoWvhIBJmPArlqrvYazYx8szKvXFUAEXiZFrtkEYUYI=;
+ b=otQcULnVcD6Oe6n9Po0oL3p3+dQkp9deNtCIzNa8KSic9xd4FoOnROps3X7hhgD1J0
+ dUswpe76C+6XdLexWrZ3ka1qddfMVhYTZb6DqS5xBv8x2csDn4Dxjvh21y9aA3awyoMc
+ 5zZpJDZWT1Fz7NIJ0ZRQuTT0oaqMOYxdtw3y58olWxHWy+dAaW5KeC6l9p0C15TfcC2W
+ g/1g2KBoHBfYjRWvZtfAogcLWXOwt7adFp570Yyk4ZWwXs/RUr621SMNBU72rGbM2Hbh
+ ed1GEc3GGiQPpIXdxYmyrfo/5YQOFrGfSe3wExuBSlRJVAlKfibHT0chDL9GA0kzFQ0w
+ poBQ==
+X-Gm-Message-State: AOAM530puEaw31KyEAz94WhfXZcRNKrHvBj6wM+rdIV6AtmbAhLzot7K
+ BuJxC8v6b2Hc2gb0XYAAPBLnl9UBRgrz84ipSS84kWTuvIJz7cfc
+X-Google-Smtp-Source: ABdhPJxnYbZKZav/4xKinLDkAF8TYzh0cHcdgtrUo8gZoA/MI3z5/N09B2xQ+cI9s1zqRvzi4xMMPnMjG+7fD1gr6EI=
+X-Received: by 2002:a65:5385:0:b0:3fa:52e3:6468 with SMTP id
+ x5-20020a655385000000b003fa52e36468mr49840262pgq.366.1655080154786; Sun, 12
+ Jun 2022 17:29:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220604231004.49990-1-richard.henderson@linaro.org>
- <20220604231004.49990-4-richard.henderson@linaro.org>
-In-Reply-To: <20220604231004.49990-4-richard.henderson@linaro.org>
+References: <20220610165517.47517-1-victor.colombo@eldorado.org.br>
+In-Reply-To: <20220610165517.47517-1-victor.colombo@eldorado.org.br>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 13 Jun 2022 10:26:54 +1000
-Message-ID: <CAKmqyKOow89oHVn3saVqgAj8SWHq11y4tdSJgzad17r6xQncaQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/riscv: Minimize the calls to decode_save_opc
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Date: Mon, 13 Jun 2022 10:28:48 +1000
+Message-ID: <CAKmqyKOtwoeYJRKA29PC4e9UMbALyPBE_K+s7X_7S+-nCde-+A@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Remove condition guarding register zero for
+ auipc and lui
+To: =?UTF-8?Q?V=C3=ADctor_Colombo?= <victor.colombo@eldorado.org.br>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=alistair23@gmail.com; helo=mail-pf1-x436.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,166 +88,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 5, 2022 at 9:12 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sat, Jun 11, 2022 at 2:59 AM V=C3=ADctor Colombo
+<victor.colombo@eldorado.org.br> wrote:
 >
-> The set of instructions that require decode_save_opc for
-> unwinding is really fairly small -- only insns that can
-> raise ILLEGAL_INSN at runtime.  This includes CSR, anything
-> that uses a *new* fp rounding mode, and many privileged insns.
+> Commit 57c108b8646 introduced gen_set_gpri(), which already contains
+> a check for if the destination register is 'zero'. The check in auipc
+> and lui are then redundant. This patch removes those checks.
 >
-> Since unwind info is stored as the difference from the
-> previous insn, storing a 0 for most insns minimizes the
-> size of the unwind info.
->
-> Booting a debian kernel image to the missing rootfs panic yields
->
-> - gen code size       22226819/1026886656
-> + gen code size       21601907/1026886656
->
-> on 41k TranslationBlocks, a savings of 610kB or a bit less than 3%.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
 > ---
->  target/riscv/translate.c                       | 18 +++++++++---------
->  target/riscv/insn_trans/trans_privileged.c.inc |  4 ++++
->  target/riscv/insn_trans/trans_rvh.c.inc        |  2 ++
->  target/riscv/insn_trans/trans_rvi.c.inc        |  2 ++
->  4 files changed, 17 insertions(+), 9 deletions(-)
+>  target/riscv/insn_trans/trans_rvi.c.inc | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 6e4bbea1cd..b328a7b2ff 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -204,6 +204,13 @@ static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
->      tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
->  }
->
-> +static void decode_save_opc(DisasContext *ctx)
-> +{
-> +    assert(ctx->insn_start != NULL);
-> +    tcg_set_insn_start_param(ctx->insn_start, 1, ctx->opcode);
-> +    ctx->insn_start = NULL;
-> +}
-> +
->  static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
->  {
->      if (get_xl(ctx) == MXL_RV32) {
-> @@ -633,6 +640,8 @@ static void gen_set_rm(DisasContext *ctx, int rm)
->          return;
->      }
->
-> +    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
-> +    decode_save_opc(ctx);
->      gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
->  }
->
-> @@ -1011,13 +1020,6 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->  /* Include decoders for factored-out extensions */
->  #include "decode-XVentanaCondOps.c.inc"
->
-> -static inline void decode_save_opc(DisasContext *ctx, target_ulong opc)
-> -{
-> -    assert(ctx->insn_start != NULL);
-> -    tcg_set_insn_start_param(ctx->insn_start, 1, opc);
-> -    ctx->insn_start = NULL;
-> -}
-> -
->  static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->  {
->      /*
-> @@ -1034,7 +1036,6 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->
->      /* Check for compressed insn */
->      if (extract16(opcode, 0, 2) != 3) {
-> -        decode_save_opc(ctx, opcode);
->          if (!has_ext(ctx, RVC)) {
->              gen_exception_illegal(ctx);
->          } else {
-> @@ -1049,7 +1050,6 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->          opcode32 = deposit32(opcode32, 16, 16,
->                               translator_lduw(env, &ctx->base,
->                                               ctx->base.pc_next + 2));
-> -        decode_save_opc(ctx, opcode32);
->          ctx->opcode = opcode32;
->          ctx->pc_succ_insn = ctx->base.pc_next + 4;
->
-> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-> index 53613682e8..46f96ad74d 100644
-> --- a/target/riscv/insn_trans/trans_privileged.c.inc
-> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
-> @@ -75,6 +75,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
->  {
->  #ifndef CONFIG_USER_ONLY
->      if (has_ext(ctx, RVS)) {
-> +        decode_save_opc(ctx);
->          gen_helper_sret(cpu_pc, cpu_env);
->          tcg_gen_exit_tb(NULL, 0); /* no chaining */
->          ctx->base.is_jmp = DISAS_NORETURN;
-> @@ -90,6 +91,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
->  static bool trans_mret(DisasContext *ctx, arg_mret *a)
->  {
->  #ifndef CONFIG_USER_ONLY
-> +    decode_save_opc(ctx);
->      gen_helper_mret(cpu_pc, cpu_env);
->      tcg_gen_exit_tb(NULL, 0); /* no chaining */
->      ctx->base.is_jmp = DISAS_NORETURN;
-> @@ -102,6 +104,7 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
->  static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
->  {
->  #ifndef CONFIG_USER_ONLY
-> +    decode_save_opc(ctx);
->      gen_set_pc_imm(ctx, ctx->pc_succ_insn);
->      gen_helper_wfi(cpu_env);
->      return true;
-> @@ -113,6 +116,7 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
->  static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
->  {
->  #ifndef CONFIG_USER_ONLY
-> +    decode_save_opc(ctx);
->      gen_helper_tlb_flush(cpu_env);
->      return true;
->  #endif
-> diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-> index cebcb3f8f6..4f8aecddc7 100644
-> --- a/target/riscv/insn_trans/trans_rvh.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvh.c.inc
-> @@ -169,6 +169,7 @@ static bool trans_hfence_gvma(DisasContext *ctx, arg_sfence_vma *a)
->  {
->      REQUIRE_EXT(ctx, RVH);
->  #ifndef CONFIG_USER_ONLY
-> +    decode_save_opc(ctx);
->      gen_helper_hyp_gvma_tlb_flush(cpu_env);
->      return true;
->  #endif
-> @@ -179,6 +180,7 @@ static bool trans_hfence_vvma(DisasContext *ctx, arg_sfence_vma *a)
->  {
->      REQUIRE_EXT(ctx, RVH);
->  #ifndef CONFIG_USER_ONLY
-> +    decode_save_opc(ctx);
->      gen_helper_hyp_tlb_flush(cpu_env);
->      return true;
->  #endif
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> index f1342f30f8..cf17458022 100644
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
+trans/trans_rvi.c.inc
+> index f1342f30f8..c190a59f22 100644
 > --- a/target/riscv/insn_trans/trans_rvi.c.inc
 > +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -822,6 +822,8 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
+> @@ -32,17 +32,13 @@ static bool trans_c64_illegal(DisasContext *ctx, arg_=
+empty *a)
 >
->  static bool do_csr_post(DisasContext *ctx)
+>  static bool trans_lui(DisasContext *ctx, arg_lui *a)
 >  {
-> +    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
-> +    decode_save_opc(ctx);
->      /* We may have changed important cpu state -- exit to main loop. */
->      gen_set_pc_imm(ctx, ctx->pc_succ_insn);
->      tcg_gen_exit_tb(NULL, 0);
+> -    if (a->rd !=3D 0) {
+> -        gen_set_gpri(ctx, a->rd, a->imm);
+> -    }
+> +    gen_set_gpri(ctx, a->rd, a->imm);
+>      return true;
+>  }
+>
+>  static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>  {
+> -    if (a->rd !=3D 0) {
+> -        gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+> -    }
+> +    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+>      return true;
+>  }
+>
 > --
-> 2.34.1
+> 2.25.1
 >
 >
 
