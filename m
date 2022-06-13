@@ -2,147 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75EA5484CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 13:28:24 +0200 (CEST)
-Received: from localhost ([::1]:51010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF655484D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 13:33:51 +0200 (CEST)
+Received: from localhost ([::1]:54652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0iF5-0004lq-9P
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 07:28:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34700)
+	id 1o0iKM-0007qU-Pq
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 07:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1o0iDS-00040u-OB
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:26:42 -0400
-Received: from mail-bn8nam12on2051.outbound.protection.outlook.com
- ([40.107.237.51]:59162 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1o0iGL-0005vp-An; Mon, 13 Jun 2022 07:29:41 -0400
+Received: from mail-db5eur01on0701.outbound.protection.outlook.com
+ ([2a01:111:f400:fe02::701]:57827
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1o0iDP-0000ln-PK
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 07:26:42 -0400
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1o0iG9-0000yq-Ey; Mon, 13 Jun 2022 07:29:40 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=arHzGxN6Ch5Q8U0dkw1fnuB8XGoqxXCepZOYrqJOClkeZ+Yx73f05vIzuwvc+HEkKj3VEPW785NaU0PUiNzKAxAzwZI5SHhkE/H6Iqp97Qb6W2718FMHIlr193VoMJiLU2f9HafUND/aV/kKTgaUL1/PI95KmLJOX+PGq/KEI2SHxtJ1Q3DALf0/tgzV//7V34lQJ9Do/bC/vUMX4U6lIJ12m1wPFdWnUWbF59RjiOereYE6hY1X7HvhVAF03aunLeJGzGdJC64/ofgxrIXTK3i2bRjCbd23teSf2pHtmDuauX4kUduMnxoLcnPXVVPfeXVDSxdb7SUBSCdQ2Sy6Vw==
+ b=UpOLkLAsWB5RuoWlqeenxJE5Fj2A6bUSIvj2YkL3nfMtnaWob/FKa4uTsoR02FbJQJrQpKeplbJTWGEz9pUTs5UJ+KIsJdzK8M9DWXPwXL8Cin0qjndXIF3RU7R2s5iMCNnC/InwVfW1X6QrX9aCbvCk8TvTwW1zbBysVXAGeHmq5RLGMBCp2j6RSoRq9ziTtrF1pmTB9NljO9Eb7Aj5c7bLxxK5O1ryqEn3ovarpMVMlM8ZW23lBG1ewN/3gMKyLXnuhvaqfi05E8sw8pVq14llwSmN9bUHPgPwU62STXLLcKUR7GYOogfd8Pq6Ss0QKHBxv+h5+kAwswVVSho6cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IPzMLrykwNuPFHOTHpUon/wOhoq4SaMWumc2hdgmNnU=;
- b=XOYrLAqzNyHlAOeQP18XGC724T1JGwNtNV19OTFGjiYLCo21nwql5v23/vh4KuBmGLZv3lA+KHJvCrfpc3a/29IZLZFADY2S3TM3Wo4Cm2EZ020e5WAFzM3OfLRbld4XWCvStM+Nli6ahlMMzg+DlIaYrrKlOew01OqCsLXbyS1CdPVf5lKaxVckBzltRreBTap6tlDuamkQpcu4nZjgwM+wYh7XHdVz3UdSnMGQG0Bk0XrRDdwa7YGDSajMObaziPvccbnWWyW7sUklY372jvoKppjdAeYUFeLZiO4/O7c2IGBGDAn8yoXBLPm4MweZFimKYMsiBPj4hs1oP1kKvQ==
+ bh=k3mQX5escw82pfPjm1z0Oteo7zVFc0o2twK+kHyR0lo=;
+ b=lbBXzYoAorJDgwH7/X+Ob6r7lA/RgS/ylSwZoPZ7JjKNfAsHWMn0KAhYBx5ejFyXr+SU609xiz/ziqOUSpw9+5rxjh7tDNv44crP1KvyxazftElS363v9Z3NbPboadJxNvFtj0aHrS8/gZBQ6OSEF6PcU487+dWCY/NsXwDPn4g9NR6Yv/YLkfeoBP2J4Zg6GFpAZoNKAxiz0KsxYlmaXUmrMkDXYn2jG0zy5n7IC1lE7zQPsrQ3cAIAI/cw/TH6wW1w+SssViWGhioEQp7K/GZ6ix3t5r55ILh8NlcU8VLBv3W7W94cdW02U/vTaY31KabrzSiH6nYiPV7+0urqrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IPzMLrykwNuPFHOTHpUon/wOhoq4SaMWumc2hdgmNnU=;
- b=YJi2gqYBIWsXqxDYG12471c0G180MclWbkIjE1qy3X+GBrNqeyk/uZe70UGp4VijQDxOCSvr5RqLXBiRBWPK18RILYBxSf0Jpi3YN9pFonEAdgKszRS3MaO6WevWvPP9nZ9iof5kRSRUheDe19M+Gk/Q+BCYfyKZUSfut59Kw1OaVKOLZGVJqi67Cl1jCH04i6EqVniOSJ0d7JH95aBon7tIyuD/uR2mTeOCjsmY1QqQhNkCiIaFkRanh/i+aELBxZBw3rKJfN4UetliVOMFKy3wdJwChbNBj0bBqB1lpjrVBs+PCHVb23eW7Rl8oQzKzFWz/DUWV5TWhcGlbc6NYQ==
+ bh=k3mQX5escw82pfPjm1z0Oteo7zVFc0o2twK+kHyR0lo=;
+ b=VekM1fbng0iroFVP5WGnFsNOj5wT4u6f9d9rBkiphWyf+ViGKRhpJ77p71Gx14bE2x52KVRf6qXwHkOCjpaKs5T4SfQgsG0BHNvCRz9LPOrXhwq1viKxAWdkhnDb2br9DsIocPb3EjEWI5hKfVTOuVCw1FoTUUEwPKs+JHPPvzw=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by BY5PR12MB4276.namprd12.prod.outlook.com (2603:10b6:a03:20f::13) with
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
+ by DB7PR08MB3130.eurprd08.prod.outlook.com (2603:10a6:5:24::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Mon, 13 Jun
- 2022 11:21:34 +0000
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::bc8f:cb9f:6062:34ec]) by DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::bc8f:cb9f:6062:34ec%8]) with mapi id 15.20.5332.020; Mon, 13 Jun 2022
- 11:21:34 +0000
-Message-ID: <4973fad7-5e71-aa4c-dfbe-24da254f3cfa@nvidia.com>
-Date: Mon, 13 Jun 2022 14:21:26 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.17; Mon, 13 Jun
+ 2022 11:29:07 +0000
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::ecb4:b64b:d503:b2c1]) by PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::ecb4:b64b:d503:b2c1%5]) with mapi id 15.20.5332.020; Mon, 13 Jun 2022
+ 11:29:07 +0000
+Message-ID: <34cfd701-4ad5-3574-59c6-537d1aa57e3b@virtuozzo.com>
+Date: Mon, 13 Jun 2022 13:29:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v2 00/11] vfio/migration: Implement VFIO migration
- protocol v2
+Subject: Re: [PATCH 1/1] block: use 'unsigned' for in_flight field on driver
+ state
 Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>, Yishai Hadas <yishaih@nvidia.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>
-References: <20220530170739.19072-1-avihaih@nvidia.com>
- <a3c0e7ca-4707-5154-d270-c1034881462a@nvidia.com>
- <20220607153239.386fbed4.alex.williamson@redhat.com>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <20220607153239.386fbed4.alex.williamson@redhat.com>
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+References: <20220530103957.629398-1-den@openvz.org>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+In-Reply-To: <20220530103957.629398-1-den@openvz.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P265CA0213.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:33a::11) To DM6PR12MB5549.namprd12.prod.outlook.com
- (2603:10b6:5:209::13)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR0701CA0063.eurprd07.prod.outlook.com
+ (2603:10a6:800:5f::25) To PAXPR08MB6956.eurprd08.prod.outlook.com
+ (2603:10a6:102:1db::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 89b2ab41-c68a-49f6-da4e-08da4d2edf9f
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4276:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB4276D17F50F7536E6B1E2F20DEAB9@BY5PR12MB4276.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: e9e3e6e5-3491-4c51-4b80-08da4d2fedc2
+X-MS-TrafficTypeDiagnostic: DB7PR08MB3130:EE_
+X-Microsoft-Antispam-PRVS: <DB7PR08MB3130085597DA3B2B5712C5D7B6AB9@DB7PR08MB3130.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WdO6Fs8hx1bhtQFgzb1nlRQLjp/ljyC/dlgVeenHQvv9vljEBXUukPHPJkcaH/pj4dgodkxIxtRXJ6P8cTktV7/jiNDpWpMYLUNLVg5TL8FgNCk18lOPhaAJ0euzElqkLRQ+coc0AOtrgxOkjWkm7pmz4oRdEqW9SnAGsGpbxuD1QVpItH/p8jCsfhD/muLTsMz7p1tMeZ2IFuiME0gtYzZUteR//afwBKKYNVSQBkivqwg4OFKtzql0qwBZo3SXiAu3WOI7HoK53NMW61MExtyxLrP0Ra2YGxjLlFW4vlnQDbGT3g2Qzku5lZCXauE+vl6XZEMqWfW+iS4yl3WxgyYqtXQx+3F4NcWob3260/KB2wYV8jaeteMV9hkEQAJe3YMCJJQKbP3WG6v0dEjl1aMuL9mmyCxoQIi1YFOsufIS6LUorSab4zksq7SEI5d1tNEfxVU+Fzys/jfILNEKtcY3oEmc/gLcqnwSR/HQUB3n0uqz5FeYNrRjiAkpSS2XTWFgBzYgh5rwEGTfWZIVEOBnBEW167As3hWrX3gS/GWx13vK1e7EZoOsvK68+aoh7vF9d35L235nfHCoKuoUxKcoLxCB66bUnxIfbJmIU3fb6wiNjfryNECnLQt/45c7jEuxTS25HuD91XYdlM4KFngCwvQfNvtqUJKUEJr/UPuNQXiG5ISXXG2OJ2erwovNIKTFMF4W5JpSy6hn0J5N/sj/LuzSF3Kdiu995AcYs2UTsXmWR3q1y+KCt7NXFqGcJAdjuuGLXrUuxmNfc8nXqLniA6NNTCNIg5RLI8ESV3GBguN4cR6FCNK698/yj1XaNH7uJL2SH+78rym+DMrkzehgyzSfn/htNTBerYAAF6o=
+X-Microsoft-Antispam-Message-Info: 2KTmzVnoNgqCddHIXNZnwzgbrkTEb1hmzNIlq9Z0hSA9IwV6GuO1BVTAx5LPzQkz2nZe9QeAGy9E63GGB0+w7Bv1qDPG0PaKfuoH4DJhrPb3fehjIMGe26ln6Dxp4GkFIeyCvda/ghTJlOAFJYhhwl0itJKIZbNsJGTkhNkSCLlKQsj7tSXZ/W2Z+g3jLIWU7Dr8pwmz2vOw0foZOKBFjqx8mo54HcSbKpo9++BG5Zc6/vyjhDHM+OAuFoO9Cjt5D24PcWn+pJzQehGTeEM0G+rt1CcmNRkGI6u0k+wrhstORA+lHHtBGnPw4+m0xBvMhQdNk8RuonjQImEZKYHV9Fcxw527PCw5mJBde2A2PkYEe+IpYU6j0FKGRCgO18IMGVynJ+ejPKnXnzUDJMo6/UvdrAUJC9XZf1sZr0K/zd0EPvgQGZ0clr6CUtqJqAIOK+wk8FyUMHM9+oKaDioTSfka17J5QHHWq5V8NhODILrKHvDgprPsUn94xYdh5KiCB5OL6GC9HoVSHQr9Nu+WgOh5o8avY+wpwx6vCf61xZnBHzJ2DEG7Xu4p7szHW5xWNbg1C/AKUnGWHbE+KkWdu2iT/6PWQNvVfQLcbfu5gODdOXs1VCM72O4P1OYfYLm3nB7yW0deEMKuoWGlpXiHtobt8ICkHuTC6dvIuUHwVx+2txVprthtulo6AkFfmvwTCfGcDOMHRItaMkwhlIY8ZkqKWoQeIQNuQMXAXTK9PX/g1j1L3GAQhNr2zXvIThtTBF34kV/1Qzrg2c0bVDkmIg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(66476007)(4326008)(66946007)(5660300002)(86362001)(8676002)(66556008)(8936002)(107886003)(6506007)(6666004)(54906003)(508600001)(6512007)(31696002)(966005)(6486002)(53546011)(316002)(38100700002)(6916009)(26005)(186003)(36756003)(31686004)(2906002)(83380400001)(2616005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(366004)(4326008)(8676002)(86362001)(31686004)(36756003)(8936002)(5660300002)(6486002)(508600001)(54906003)(316002)(66476007)(66556008)(2906002)(66946007)(6512007)(26005)(38100700002)(2616005)(53546011)(186003)(52116002)(6506007)(31696002)(83380400001)(38350700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cGVHaXQyeUJ0N2VkSkwyL0NyaTdRdG94Mk4vQ2lxQUpkYUdpSlQ5bFl2aTd5?=
- =?utf-8?B?YWk4ZXFCTEkxS2x0cGl2cDVrVVFSK2EzcVZFWXRDZkZLSktlNEZRdlRLVGtK?=
- =?utf-8?B?NU9GYmEyVk01SHNGY3ltZHNoNURZYmtPcTlnV3FaeTMwa1lPRXpzQlY1TzJt?=
- =?utf-8?B?KzJ0MHBaUmNHYy8ycVRHUnVJTVNMdUdYR2pMZG1tQ1dZdXVrZGJpVVNmV0l1?=
- =?utf-8?B?Y3dzT0N0UUltdDdCdFA0V2N2R0dNNGNGOXdOZXM1SGVQaTgwQlBUbDE4aGtx?=
- =?utf-8?B?bTEyRHIwT0R6KzNCVEJvQmh0ZjBHT3F0S2kwVEwwNGpOb0FvV2VKRXRvQ3p6?=
- =?utf-8?B?NDNGTjF3MTU0cVJjS21DZUtxZnh3N0FFK3gxcmozY0FYNlFWalZ0TmoyUXNV?=
- =?utf-8?B?OGtJKzQ3NDl0UVJNcTEvUEgxWjZ0RlhqTVFjd3BOV294Vy80UXo5WWdqQjgr?=
- =?utf-8?B?RUFwRThIbmdXQ1g3TUs0SmJaaTc1bWovb0E2Zll1QkhNVlNnUll5ZE9uUkZy?=
- =?utf-8?B?QUNyUjR6R1Y4bytJMmVlWDFIbUlzUE9iSHB1RnJXMzB4aTdwM1FkMDdDRlVT?=
- =?utf-8?B?WmVsa1V0cHNqaEFDcUdoenArUHF1VDVKWk9EeUxmMHBMU3Vjc3JvVXJyWFN6?=
- =?utf-8?B?bzRvaU4zOVdUVVVlRnREbkUwTkZtK0hnSmdWT2VhU2ZrcDNDZ2Rveks2a0dO?=
- =?utf-8?B?UDlWSnFkQXdTV0VFNzdwZm1EQlAzZGtRa0VETVhmVlJ5T1VXNUZWMGhwNk4w?=
- =?utf-8?B?MVJhNWNqTyt2UHRIcHhOdk1CSk5wOWlLNUNUb293QlB1MHl1YXFOa2FrMTc0?=
- =?utf-8?B?dUZUV0NxLzZiQ2dpVHpkV0dnLy9WU3liQW8vMFNrOWt6R0pSZzlQQWNMMFpE?=
- =?utf-8?B?MzZsajhoNmFramoxWlBhWWxxQkdrcDYvNG1hNWhpbkw1NUt1djREREtwMStB?=
- =?utf-8?B?aDhMVWxSUUE5VDRHWUdxeUtUWGlGVGxpQm84TGZJWXdnK0ZDVnBkMkRJbG45?=
- =?utf-8?B?Q1A2UUFoUHQ1OEJyeWR4eXlqa3B0ekdUUEtwcHhaeFlaL1BIZG95VUlxWE9t?=
- =?utf-8?B?WVAyTkNEbWxLeXpLSnB3ZmRYckFSMVBnaTJZN21XN2NaMys2cDlRdGIwTUlr?=
- =?utf-8?B?Y2ZYNEgrTFh0OUMrbng3bFcrL1p5SUZIWUNjamNZNTlMN3hzWjZWTm1idUky?=
- =?utf-8?B?ZmZhRkdZNDhoU2ZtaGZTaUVtS25JMCtOYlN1ekg2K29oVXpWVWJkMXh2Vm5h?=
- =?utf-8?B?WHpHeEZ3dmRFRUx1ejBwdWh5ak5EMFpqTkx2V3hRWDd1YmdtS2VscnZwd3Jh?=
- =?utf-8?B?SDRKTGkyeElFdUtJUmJpUGNFdUxEYXd5Y0NrOEp3clhodTN6KzFqVDhEcEtl?=
- =?utf-8?B?TkhxWEFtK1dqbkM0TERNMDNQY2U3dmVRazRLSWs3ZVJ1bDUrNkZJWGNTRE0w?=
- =?utf-8?B?WndjdnNzVHM1bTBIT0NSeXJLMlMrS1ljYzVnUkUrbC9IckcxcVJFelNQbjZL?=
- =?utf-8?B?WWFMNjh4bm5aQUlLZitwTHF6b2xiMHNZWlFLTXpKMHhxTy9RV2p2Y24rSDI3?=
- =?utf-8?B?aDFoTlRTY1c2anMvSVlDcUpqUEJLcEE2amhnbXB0aEVuMGJaeXRTd2RIR254?=
- =?utf-8?B?OU03RnhUcG5UY3VvbVhEdVNSbFQ4TW9iTUNBZlh5M1FkK0tCZjJDUGt6VDJY?=
- =?utf-8?B?TThGS0NObjN5a3RoZ2plSkI0ZnJtaDEwTC9kMUpGVVNNdUR6aGI3Q3NjVWFZ?=
- =?utf-8?B?STl5bnFkT05STVd3dWRTT0luOWREUURqS0paYUtXQVZnQy9MNnUvL0ExMWRp?=
- =?utf-8?B?T3RQUVYybE5jdGk5cTNIU2RzU3FuT2JwY2JzYmVJVGF2SzF3aHhZVHBYNURj?=
- =?utf-8?B?ZHp1NzlvS3ZqcjR2ZUhuaitrZ04xUUtjR1FqdnlkcUlhczBMVE5vb0lVYzJx?=
- =?utf-8?B?aU5iU0trdEJvYjVac3BZRkV6MmY2Q0ZhM21ZN2ZieGRhMHF3YW91NlNHVmlO?=
- =?utf-8?B?bWx5anY1cm9HMDJCUlp2ZlRKTmFGNWplZ2pwODdIZkd1Vy9KWVRuY01id0Zw?=
- =?utf-8?B?cG5JTHpqSnFRYUhvQ3ZDREpScHpMdGwwT21XMjVLVlpZb3RLM2JwSHJ4MlR5?=
- =?utf-8?B?b1VsZTRqV3BwbmpMSTFWbi9GcVJMRW55Vkx2cFJvVHJmYWRBcWZCVFhZdHJu?=
- =?utf-8?B?UzRpYUEreEpmdHNhbVFWQ2duSlZYeWFPL1ltZCtWblZlWU5jZ0JpLzRIVWx4?=
- =?utf-8?B?WE5vaFlJOVJOVHNDbzBFQkVUOElxSTYwWXpkNU9WQ0tqbGg5VkVWUURWdFFa?=
- =?utf-8?B?MzJSZzhoVFdCYXZwdjFkRTVzV3c0SnJLQUR1OGNtU3ROSldkNlNCZz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89b2ab41-c68a-49f6-da4e-08da4d2edf9f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZTRDUmRWdW9UQ0x3NmVoYmxzeENOTzdJVXVsNE5FNUlOOUpOUFRhNjhvTTlP?=
+ =?utf-8?B?U29qbkpzMjlERDA1ZEpMMG85dE0xbEltYkxyeVppRTh5NnhwS0piS1FiZkZ5?=
+ =?utf-8?B?LzhFRlJYUjhYZGxCWE9Jb3Q3Z3dBTkZxZm5XcVZxWnB4VWZ2RUVORGpPZlZj?=
+ =?utf-8?B?eVJhVDlDMmhEcWhFc3ZXU2hkY25OelpkMTN4dXhEdmNhT3dkSUVtazVraGdy?=
+ =?utf-8?B?QkFUblMzRUZNZkpTZnpvWHAzSHVzbzJpNU8xaEVHekorSU1DdDdPQ1ArVm85?=
+ =?utf-8?B?YmordkxHZDZ3cjdpVkZDV2dVMTAzQWpoUjBvR2dLY3l2U29RRTBmWVBJZmJ5?=
+ =?utf-8?B?R1hnUVpBODFnQSs3alE3WC9pOUUxM1RqTTBxdzBldlcrUkdnNURybnh1Qlo5?=
+ =?utf-8?B?a3F4b3RRNDhoYWZKZk8xQVh4WDJrT1ZnSG9Ka1p2T3YwamM2MVlYWlNHbGx4?=
+ =?utf-8?B?Q0xNdFZWTkVXUkJXa29oMzg0a01xKzAwRTJUS3lUblZRUGFaN0V6N2lEUmtl?=
+ =?utf-8?B?eWQ2NG0yeWRqQlZZTmVzMUZMN1hkTXFSNHAyMVVJRVg0YmVUSktSM1ExNDZG?=
+ =?utf-8?B?V3NwMjg5WG9UQ2dhQzRNQjBXdWpldmFjOU5KSTFFcG12ZW12eG83UzVFVUdy?=
+ =?utf-8?B?TTlTTVQvMTI0dnFBL2VoSjJ3dkpsdS9lRzRXODJZaURJM1N4ZlBMZHJXZ2xt?=
+ =?utf-8?B?WkdNbmdwYUZhRkFhRDdGZWI0aTdDSU9uMVU0WkoyVGFCNjMrKzlQZWJYeXlG?=
+ =?utf-8?B?S2liVElPbFkza0N5ZUtQMlZWWWoydGh6M3ZBRms5Wks0OEpUUEFwZG8yWE5T?=
+ =?utf-8?B?dm9iUTYyTFRuNGZuK2NnTWRieVdjc090ZDBtUnVpNEhSMG96VlF1TEd4RHRY?=
+ =?utf-8?B?WlBzcmIwSWM1MWJhMWhyR0tjc0theFFrM0d1VmJRQk5wc3NZNXllMGFBR2VR?=
+ =?utf-8?B?OVZ6NDNHakxqejFjcmtKTERNclQwWWFzWWxKb1lGdXh3ZkNlZ2RiUDV0aWht?=
+ =?utf-8?B?YWxoNUFDYWcrS2poNG51d1lBQXd2L21wZlJ1bVI2ZEZvcncyUEkxZXFLUWxX?=
+ =?utf-8?B?RTNzWVJDUFNiNVczS0ZSWXVHcnNsUFJTU2ZLcmxEcG8xam90cW1xUXNzNUho?=
+ =?utf-8?B?a3JablJRUU9kSnFKL3NNZjVGWFVNV1FuWE92NkRvdWIyYUZTcnlXTjhQS2pW?=
+ =?utf-8?B?Qmo2eVAyY0FRQjZMbEpmSWVmYkZMcWdkMHE1RWZ0UHdBSVhmY0tvMlFSaWtR?=
+ =?utf-8?B?WElCR3NTcjJoaC9peitmc1psQXVaOXFiZjlBcllTb1FlbmZ0UFB4SUova3BS?=
+ =?utf-8?B?NU1GZ1ozSmMrSXBjeXVhRWZGOXRNNjYyQi9pSUxCZzdaNENKeTBOWnU3Z25L?=
+ =?utf-8?B?R25SZWoveXNUSXIzSmtJRldhWUR3eCtWOHpLcTZEMVBXY1lQeU5qS1FueUZa?=
+ =?utf-8?B?QURDREJUaGVoYitUeTF6blN3SW9qTThvY0Fqemk0alZEcHJQM1gxWlIzZzA3?=
+ =?utf-8?B?d0p2ZlA1UFFvRkR4aFN1eThKQnpQMUZMZG0yL1VDN2dNN0Nrdm5zVmJaeFRE?=
+ =?utf-8?B?aHdsdkdYbE5uMHZ3QTNxMVowbFRLUFg4T3RyM1VKL1BGTEp1WVRjaTBDd2ND?=
+ =?utf-8?B?bk9GRjg2M0FMb3pxRUo1SjYxU2hFbjF4YXJvaVlrcGpjZEdMZnp0N1NkRUFk?=
+ =?utf-8?B?K3d4QUdpVytlUit1VVR4TTYrQ3BEUm0wUVVUUlc0V1FEWE1vazJSRldxMlB0?=
+ =?utf-8?B?Q3U1Zk9DcTZ6aittN2k5TUl1aXYrKy82d2w1RE9MMitMZjl6ckhSMkpIZzJE?=
+ =?utf-8?B?OS9HU3hHcm1FZUZvWi8wOWZveUhDT3RhaTBDV3MrMzBoOTAyRWRCS1M2TTNm?=
+ =?utf-8?B?WEI3eXVrVm90d0RRdEUvU21peVZVa3c1NGtPdzBoWm1IdWN3bDlZb0g0YjVY?=
+ =?utf-8?B?YkxCcVN1VUF3Rm52RXFTYmtTNTlEbjJzeS8rcTl6aVl5bHhid0V5czUxQXpQ?=
+ =?utf-8?B?bFMydUIwSHZJRHdKbklvTkJBVmJ0bXVwdFp0QWhqZm9aYmh3dnJhSTNlOTJV?=
+ =?utf-8?B?VDJhZXBKWmw5d1R4aDVKdEx5TXlsVXM5ZE1mOVdaSE9KalFiZmk4Z3lCNUtE?=
+ =?utf-8?B?WktaVHhRSjJJN0ZhMnVtdkhhUm9pL0NOaDR2ZllXbkh0YXpMdXkvWXdZaVJr?=
+ =?utf-8?B?cExpN2N6N295OHl1TjBta0pqUTZ6N0FIUS9DK1BibDc4eTUrRGg4UG8rMW1O?=
+ =?utf-8?B?RHBXTXlZc2JmeWQ3aDhNTzlrRkx5WkhKU2JDbnBDb3M4M2tQOHpGalFhMzlN?=
+ =?utf-8?B?YWlNdVlmWXFhV1R6OEpTWnFweWdmRmZiQnBZVG9EQWNRUktMcHl2UT09?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9e3e6e5-3491-4c51-4b80-08da4d2fedc2
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2022 11:21:34.4319 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2022 11:29:07.5487 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 49I9xpqU1Ufw8EYb3dzhgj7a/0LSxQ4c1YfYTQilVWOd0IqekYC1peJaEv7j9xfOCJhQfjZ2EdihKHgyUzd4Ug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4276
-Received-SPF: softfail client-ip=40.107.237.51;
- envelope-from=avihaih@nvidia.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-MS-Exchange-CrossTenant-UserPrincipalName: c/IxXD0yIqOwROP684SFrTdjRUaStE2VgT5hOb1Jga8oMg11OmQgXzpF3qqgqBn0fpXcN5wJ3eFgs58SzC3RoQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3130
+Received-SPF: pass client-ip=2a01:111:f400:fe02::701;
+ envelope-from=den@virtuozzo.com;
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -160,141 +153,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 6/8/2022 12:32 AM, Alex Williamson wrote:
-> External email: Use caution opening links or attachments
+On 30.05.2022 12:39, Denis V. Lunev wrote:
+> This patch makes in_flight field 'unsigned' for BDRVNBDState and
+> MirrorBlockJob. This matches the definition of this field on BDS
+> and is generically correct - we should never get negative value here.
 >
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> CC: John Snow <jsnow@redhat.com>
+> CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Hanna Reitz <hreitz@redhat.com>
+> CC: Eric Blake <eblake@redhat.com>
+> ---
+>   block/mirror.c | 2 +-
+>   block/nbd.c    | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> On Tue, 7 Jun 2022 20:44:23 +0300
-> Avihai Horon <avihaih@nvidia.com> wrote:
->
->> On 5/30/2022 8:07 PM, Avihai Horon wrote:
->>> Hello,
->>>
->>> Following VFIO migration protocol v2 acceptance in kernel, this series
->>> implements VFIO migration according to the new v2 protocol and replaces
->>> the now deprecated v1 implementation.
->>>
->>> The main differences between v1 and v2 migration protocols are:
->>> 1. VFIO device state is represented as a finite state machine instead of
->>>      a bitmap.
->>>
->>> 2. The migration interface with kernel is done using VFIO_DEVICE_FEATURE
->>>      ioctl and normal read() and write() instead of the migration region
->>>      used in v1.
->>>
->>> 3. Migration protocol v2 currently doesn't support the pre-copy phase of
->>>      migration.
->>>
->>> Full description of the v2 protocol and the differences from v1 can be
->>> found here [1].
->>>
->>> Patches 1-3 are prep patches fixing bugs and adding QEMUFile function
->>> that will be used later.
->>>
->>> Patches 4-6 refactor v1 protocol code to make it easier to add v2
->>> protocol.
->>>
->>> Patches 7-11 implement v2 protocol and remove v1 protocol.
->>>
->>> Thanks.
->>>
->>> [1]
->>> https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.com/
->>>
->>> Changes from v1: https://lore.kernel.org/all/20220512154320.19697-1-avihaih@nvidia.com/
->>> - Split the big patch that replaced v1 with v2 into several patches as
->>>     suggested by Joao, to make review easier.
->>> - Change warn_report to warn_report_once when container doesn't support
->>>     dirty tracking.
->>> - Add Reviewed-by tag.
->>>
->>> Avihai Horon (11):
->>>     vfio/migration: Fix NULL pointer dereference bug
->>>     vfio/migration: Skip pre-copy if dirty page tracking is not supported
->>>     migration/qemu-file: Add qemu_file_get_to_fd()
->>>     vfio/common: Change vfio_devices_all_running_and_saving() logic to
->>>       equivalent one
->>>     vfio/migration: Move migration v1 logic to vfio_migration_init()
->>>     vfio/migration: Rename functions/structs related to v1 protocol
->>>     vfio/migration: Implement VFIO migration protocol v2
->>>     vfio/migration: Remove VFIO migration protocol v1
->>>     vfio/migration: Reset device if setting recover state fails
->>>     vfio: Alphabetize migration section of VFIO trace-events file
->>>     docs/devel: Align vfio-migration docs to VFIO migration v2
->>>
->>>    docs/devel/vfio-migration.rst |  77 ++--
->>>    hw/vfio/common.c              |  21 +-
->>>    hw/vfio/migration.c           | 640 ++++++++--------------------------
->>>    hw/vfio/trace-events          |  25 +-
->>>    include/hw/vfio/vfio-common.h |   8 +-
->>>    migration/migration.c         |   5 +
->>>    migration/migration.h         |   3 +
->>>    migration/qemu-file.c         |  34 ++
->>>    migration/qemu-file.h         |   1 +
->>>    9 files changed, 252 insertions(+), 562 deletions(-)
->>>
->> Ping.
-> Based on the changelog, this seems like a mostly cosmetic spin and I
-> don't see that all of the discussion threads from v1 were resolved to
-> everyone's satisfaction.  I'm certainly still uncomfortable with the
-> pre-copy behavior and I thought there were still some action items to
-> figure out whether an SLA is present and vet the solution with
-> management tools.  Thanks,
-
-Yes.
-OK, so let's clear things up and reach an agreement before I prepare the 
-v3 series.
-
-There are three topics that came up in previous discussion:
-
- 1. [PATCH v2 01/11] vfio/migration: Fix NULL pointer dereference bug.
-    Juan gave his Reviewed-by but he wasn't sure about qemu_file_* usage
-    outside migration thread.
-    This code existed before and I fixed a NULL pointer dereference that
-    I encountered.
-    I suggested that later we can refactor VMChangeStateHandler to
-    return error.
-    I prefer not to do this refactor right now because I am not sure
-    it's as straightforward change as it might seem - if some notifier
-    fails and we abort do_vm_stop/vm_prepare_start in the middle, can
-    this leave the VM in some unstable state?
-    We plan to leave it as is and not do the refactor as part of this
-    series.
-    Are you ok with this?
-
- 2. [PATCH v2 02/11] vfio/migration: Skip pre-copy if dirty page
-    tracking is not supported.
-    As previously discussed, this patch doesn't consider the configured
-    downtime limit.
-    One way to fix it is to allow such migration only when "no SLA" (no
-    downtime limit) is set. AFAIK today there is no way that one can set
-    "no SLA".
-    If we go with this option, we change normal flow of migration
-    (skipping pre-copy) and might need to change management tools.
-
-Instead, what about letting QEMU VFIO code mark all pages dirty (instead 
-of kernel)?
-This way we don’t skip pre-copy and we get the same behavior we have now 
-of perpetual dirtying all RAM, which respects SLA.
-If we go with this option, do we need to block migration when IOMMU is 
-sPAPR TCE?
-Until now migration would be blocked because sPAPR TCE doesn't report 
-dirty_pages_supported cap, but going with this option we will allow 
-migration even when dirty_pages_supported cap is not set (and let QEMU 
-dirty all pages).
-
- 3. [PATCH v2 03/11] migration/qemu-file: Add qemu_file_get_to_fd().
-    Juan expressed his concern about the amount of data that will go
-    through main migration thread.
-
-This is already the case in v1 protocol - VFIO devices send all their 
-data in the main migration thread. Note that like in v1 protocol, here 
-as well the data is sent in small sized chunks, each with a header.
-This patch just aims to eliminate an extra copy.
-
-We plan to leave it as is. Is this ok?
-
-Thanks.
-
+> diff --git a/block/mirror.c b/block/mirror.c
+> index d8ecb9efa2..3c4ab1159d 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -73,7 +73,7 @@ typedef struct MirrorBlockJob {
+>   
+>       uint64_t last_pause_ns;
+>       unsigned long *in_flight_bitmap;
+> -    int in_flight;
+> +    unsigned in_flight;
+>       int64_t bytes_in_flight;
+>       QTAILQ_HEAD(, MirrorOp) ops_in_flight;
+>       int ret;
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 6085ab1d2c..512a53bf73 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -77,7 +77,7 @@ typedef struct BDRVNBDState {
+>       QemuMutex requests_lock;
+>       NBDClientState state;
+>       CoQueue free_sema;
+> -    int in_flight;
+> +    unsigned in_flight;
+>       NBDClientRequest requests[MAX_NBD_REQUESTS];
+>       QEMUTimer *reconnect_delay_timer;
+>   
+ping v2
 
