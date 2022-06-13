@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23974548580
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 15:49:00 +0200 (CEST)
-Received: from localhost ([::1]:48388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F76548594
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 15:52:16 +0200 (CEST)
+Received: from localhost ([::1]:56682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0kR9-0005Pz-7Q
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 09:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60552)
+	id 1o0kUJ-0003B5-EL
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 09:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=yfRC=WU=kaod.org=clg@ozlabs.org>)
- id 1o0k6L-0002Rg-3A; Mon, 13 Jun 2022 09:27:29 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:41157)
+ id 1o0k6Q-0002kk-Kq; Mon, 13 Jun 2022 09:27:34 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:39801
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=yfRC=WU=kaod.org=clg@ozlabs.org>)
- id 1o0k6I-0004pq-T1; Mon, 13 Jun 2022 09:27:28 -0400
+ id 1o0k6O-0004r9-LL; Mon, 13 Jun 2022 09:27:34 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LMC6N3Gzsz4yWH;
- Mon, 13 Jun 2022 23:27:24 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LMC6V25RVz4yWH;
+ Mon, 13 Jun 2022 23:27:30 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LMC6H0lphz4yZB;
- Mon, 13 Jun 2022 23:27:18 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LMC6N6tCrz4yWZ;
+ Mon, 13 Jun 2022 23:27:24 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -42,16 +43,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Joe Komlodi <komlodi@google.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v2 15/17] hw/i2c/aspeed: rework raise interrupt trace event
-Date: Mon, 13 Jun 2022 15:25:37 +0200
-Message-Id: <20220613132539.2199772-16-clg@kaod.org>
+Subject: [PATCH v2 16/17] hw/i2c/aspeed: add DEV_ADDR in old register mode
+Date: Mon, 13 Jun 2022 15:25:38 +0200
+Message-Id: <20220613132539.2199772-17-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220613132539.2199772-1-clg@kaod.org>
 References: <20220613132539.2199772-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=yfRC=WU=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -16
 X-Spam_score: -1.7
@@ -76,89 +77,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Build a single string instead of having several parameters on the trace
-event.
+Add support for writing and reading the device address register in old
+register mode.
 
-Suggested-by: Cédric Le Goater <clg@kaod.org>
+On the AST2400 (only 1 slave address)
+
+  * no upper bits
+
+On the AST2500 (2 possible slave addresses),
+
+  * bit[31] : Slave Address match indicator
+  * bit[30] : Slave Address Receiving pending
+
+On the AST2600 (3 possible slave addresses),
+
+  * bit[31-30] : Slave Address match indicator
+  * bit[29] : Slave Address Receiving pending
+
+The model could be more precise to take into account all fields but
+since the Linux driver is masking the register value being set, it
+should be fine. See commit 3fb2e2aeafb2 ("i2c: aspeed: disable
+additional device addresses on ast2[56]xx") from Zeiv. This can be
+addressed later.
+
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-[ clg: simplified trace buffer creation ]
-Message-Id: <20220601210831.67259-2-its@irrelevant.dk>
+[ clg: add details to commit log ]
+Message-Id: <20220601210831.67259-3-its@irrelevant.dk>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/i2c/aspeed_i2c.c | 34 ++++++++++++++++++++++------------
- hw/i2c/trace-events |  2 +-
- 2 files changed, 23 insertions(+), 13 deletions(-)
+ include/hw/i2c/aspeed_i2c.h | 8 ++++++++
+ hw/i2c/aspeed_i2c.c         | 4 ++--
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 0cd245a00963..1398befc104d 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -295,6 +295,14 @@ static inline uint32_t aspeed_i2c_bus_cmd_offset(AspeedI2CBus *bus)
+     return R_I2CD_CMD;
+ }
+ 
++static inline uint32_t aspeed_i2c_bus_dev_addr_offset(AspeedI2CBus *bus)
++{
++    if (aspeed_i2c_is_new_mode(bus->controller)) {
++        return R_I2CS_DEV_ADDR;
++    }
++    return R_I2CD_DEV_ADDR;
++}
++
+ static inline uint32_t aspeed_i2c_bus_intr_ctrl_offset(AspeedI2CBus *bus)
+ {
+     if (aspeed_i2c_is_new_mode(bus->controller)) {
 diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 4c798b70e4c3..43ac9491ec36 100644
+index 43ac9491ec36..f9fce0d84b89 100644
 --- a/hw/i2c/aspeed_i2c.c
 +++ b/hw/i2c/aspeed_i2c.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-+#include "qemu/cutils.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/error-report.h"
-@@ -38,23 +39,32 @@ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
-     uint32_t intr_ctrl_reg = aspeed_i2c_bus_intr_ctrl_offset(bus);
-     bool raise_irq;
- 
--    trace_aspeed_i2c_bus_raise_interrupt(bus->regs[reg_intr_sts],
--        aspeed_i2c_bus_pkt_mode_en(bus) &&
--        ARRAY_FIELD_EX32(bus->regs, I2CM_INTR_STS, PKT_CMD_DONE) ?
--                                                               "pktdone|" : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, TX_NAK) ? "nak|" : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, TX_ACK) ? "ack|" : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, RX_DONE) ? "done|"
--                                                                  : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, NORMAL_STOP) ?
--                                                                "normal|" : "",
--        SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, ABNORMAL) ? "abnormal"
--                                                                   : "");
-+    if (trace_event_get_state_backends(TRACE_ASPEED_I2C_BUS_RAISE_INTERRUPT)) {
-+        g_autofree char *buf = g_strdup_printf("%s%s%s%s%s%s",
-+               aspeed_i2c_bus_pkt_mode_en(bus) &&
-+               ARRAY_FIELD_EX32(bus->regs, I2CM_INTR_STS, PKT_CMD_DONE) ?
-+                                               "pktdone|" : "",
-+               SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, TX_NAK) ?
-+                                               "nak|" : "",
-+               SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, TX_ACK) ?
-+                                               "ack|" : "",
-+               SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, RX_DONE) ?
-+                                               "done|" : "",
-+               SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, NORMAL_STOP) ?
-+                                               "normal|" : "",
-+               SHARED_ARRAY_FIELD_EX32(bus->regs, reg_intr_sts, ABNORMAL) ?
-+                                               "abnormal"  : "");
-+
-+           trace_aspeed_i2c_bus_raise_interrupt(bus->regs[reg_intr_sts], buf);
-+    }
-+
-     raise_irq = bus->regs[reg_intr_sts] & bus->regs[intr_ctrl_reg];
-+
-     /* In packet mode we don't mask off INTR_STS */
-     if (!aspeed_i2c_bus_pkt_mode_en(bus)) {
-         bus->regs[reg_intr_sts] &= bus->regs[intr_ctrl_reg];
-     }
-+
-     if (raise_irq) {
-         bus->controller->intr_status |= 1 << bus->id;
-         qemu_irq_raise(aic->bus_get_irq(bus));
-diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
-index 85e4bddff936..209275ed2dc8 100644
---- a/hw/i2c/trace-events
-+++ b/hw/i2c/trace-events
-@@ -9,7 +9,7 @@ i2c_recv(uint8_t address, uint8_t data) "recv(addr:0x%02x) data:0x%02x"
- # aspeed_i2c.c
- 
- aspeed_i2c_bus_cmd(uint32_t cmd, const char *cmd_flags, uint32_t count, uint32_t intr_status) "handling cmd=0x%x %s count=%d intr=0x%x"
--aspeed_i2c_bus_raise_interrupt(uint32_t intr_status, const char *str1, const char *str2, const char *str3, const char *str4, const char *str5, const char *str6) "handled intr=0x%x %s%s%s%s%s%s"
-+aspeed_i2c_bus_raise_interrupt(uint32_t intr_status, const char *s) "handled intr=0x%x %s"
- aspeed_i2c_bus_read(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
- aspeed_i2c_bus_write(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
- aspeed_i2c_bus_send(const char *mode, int i, int count, uint8_t byte) "%s send %d/%d 0x%02x"
+@@ -83,6 +83,7 @@ static uint64_t aspeed_i2c_bus_old_read(AspeedI2CBus *bus, hwaddr offset,
+     case A_I2CD_AC_TIMING2:
+     case A_I2CD_INTR_CTRL:
+     case A_I2CD_INTR_STS:
++    case A_I2CD_DEV_ADDR:
+     case A_I2CD_POOL_CTRL:
+     case A_I2CD_BYTE_BUF:
+         /* Value is already set, don't do anything. */
+@@ -720,8 +721,7 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *bus, hwaddr offset,
+         }
+         break;
+     case A_I2CD_DEV_ADDR:
+-        qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
+-                      __func__);
++        bus->regs[R_I2CD_DEV_ADDR] = value;
+         break;
+     case A_I2CD_POOL_CTRL:
+         bus->regs[R_I2CD_POOL_CTRL] &= ~0xffffff;
 -- 
 2.35.3
 
