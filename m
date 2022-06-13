@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB9154999C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:16:15 +0200 (CEST)
-Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3DD54999B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 19:16:13 +0200 (CEST)
+Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0nfi-0003K5-EE
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:16:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56846)
+	id 1o0nff-0003HR-O1
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 13:16:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o0ncg-0001GZ-RO
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:06 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40532)
+ id 1o0nce-0001E2-Kp
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:04 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:46754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o0ncf-0006wJ-BA
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:06 -0400
-Received: by mail-ed1-x532.google.com with SMTP id w27so8075942edl.7
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:13:04 -0700 (PDT)
+ id 1o0ncc-0006vj-V2
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 13:13:04 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id z7so8051723edm.13
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 10:13:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=80K926TpxE+KjPsE/3z8D6ONrprwwDg20c0CZGfkzrE=;
- b=rpdgYhl5B85WtV+TJwsDOCsnv4wm7grnbVkyvjXXrM+KrAXd50/l6VF3DzxB5/9AGt
- KGvnradQnRagWClYVoAKC4Sagxt7T6yivNnpJdtZ4dbNlKtnGcRJhtdEn9Q61ju7TYIF
- f+vLQCUuXEWmoLzLldy7cIV3d53tOSxVSWuEDd5ZdmV0wHuNlD2vTPMgUjci8OFplqeY
- E888vH3CXxbs0BS/ei3fpD86DDFS3sFFRJYBipkwjQCOqXYAIV1lWjIltfOfiSD9oOQu
- LNYcFC8n/TZIpvzRagdn6U64aQyFeAqnWW1Mo91zDscOI8DoUOSNJDuK3WT7IZRBKVdO
- QewQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=eg8b3OBoXd8GR9gPG0wlVgN4K3uY6FcjkKfFCryrL/8=;
+ b=qZhF3Up3fN6NIFJlmhDoxHiH9pALpDUlB8alLtVBOuyxbLYYilXNd1mDK9a3vtnkxJ
+ 2zOayoFlUBdv9fk2U5v2uHpkqHAj0sSJdg7oyABoqdB1FOkWm8usrmofRTRSUnfA2CYG
+ fmCFdJm9eQRXlY3/szMsbe+xfc6gLAyImYS0CNowG9nyXDiO6exe99LS7EQQa87POmIK
+ Mxw9eb7wlgVRZWNCewuSxeR8eLuWGgo7gEgTqVaNJMq3Y+DWkzL8EodC3dajqb+Ev/ex
+ EGfLWE9BJX281zeslpg1PSC4oNJHqDrGKwuoaJ20FfumGFAZQc//PTUa4Z1oJL+8c3CD
+ dJWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=80K926TpxE+KjPsE/3z8D6ONrprwwDg20c0CZGfkzrE=;
- b=nvtzOgykbQmqFrgKAMmvR7f+TllxvHXdiO/98gxA0pRcdFZzatM9DwQP5win5To7yI
- kynJH/HZhwpzyOCIFJinYpbkUjmsNF49WkwSXnaktyHaD0yuxUS1Nt5E7kPNz/Fofpd3
- QDQ1E6XbfJ0l5xLNFqQnRRUCfeJSEccNJjBvk3IVVqrEuIpgYW7oWLtYZLhDqXbravth
- QS1PuYOTbfNzDWeO3psGxKQNXVWaS/ijoo1ZqBbZTN/1mOoX3DmQmBe3T+KRG0J0J8dl
- qUcyMsSR1LeZ6wO6wpo+gDNlj4wtFjYHDM7SYUy42cWdTIK/9vLNq9vkIsM2UE/4PX6A
- GEaA==
-X-Gm-Message-State: AOAM5322WN+a3p77nwkDRE3USodsyl92agucK2I1LfIrFHxuomdqNukh
- tqDE+6fkngNvYm1C/vvwybj34A==
-X-Google-Smtp-Source: ABdhPJwjV8pEOxbYkvbQJH6JNn0kIUlD8MdaAIzBMlUonaz2395FNsLwPB1mnXzkCUqWnqw7ed4NkQ==
-X-Received: by 2002:a05:6402:2753:b0:431:9c8b:5635 with SMTP id
- z19-20020a056402275300b004319c8b5635mr870220edd.152.1655140384109; 
- Mon, 13 Jun 2022 10:13:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=eg8b3OBoXd8GR9gPG0wlVgN4K3uY6FcjkKfFCryrL/8=;
+ b=r+ctkYFTE25EY3/Hw3KbeNqV25XmYGfaUrVig/h+YeFo44C3nODKmnScxEhU2DAcj3
+ rK2+72B6yqWTMhbHS48wDcCG9MapGv8EwKpnrHOsnEnzqMvMk2aB2slNIcA05Vs9di6B
+ 01SmLXmjrdEfJSUJDCiEX5J1/LNWzrz6dHJ99dDeTzPY91VZHnphrtPFFaT8lss/7vRb
+ 87uktfx9CC1sbvjhXDgktIKyXB//Cu9j/jt7thM99pYL0PAcUlZYbao9foVzB4QSz458
+ hkOkQLcSXTiFG6YrtddA52nduko5EcpQnSSE1CIMgC1u1yEytfdEY53dldHO58LHbHQ4
+ p74Q==
+X-Gm-Message-State: AOAM533SoCdIvs2KCEjBA2uBMURdyViHVI8HYxMbim1cD2SzFUBpEqcs
+ Hld5Ddv7czZcvhOjbW5qamiqDg==
+X-Google-Smtp-Source: ABdhPJy+Q2d8IuWLH6i8lmfHKPFgA6rOD4srlZbGw5UHY6k5sh6Zdbwh7Q7rmhEjYPk6wQ3G5A5v9A==
+X-Received: by 2002:a05:6402:358a:b0:431:20d5:f4ad with SMTP id
+ y10-20020a056402358a00b0043120d5f4admr800150edc.375.1655140380899; 
+ Mon, 13 Jun 2022 10:13:00 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- 22-20020a170906301600b006f52dbc192bsm4063042ejz.37.2022.06.13.10.12.59
+ m7-20020a056402510700b0042e1cbc4471sm5409304edd.3.2022.06.13.10.12.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 13 Jun 2022 10:12:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 05E301FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 1D2971FFB8;
  Mon, 13 Jun 2022 18:12:59 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- richard.henderson@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 0/7] testing/next pre-PR (docker, gitlab, tcg)
-Date: Mon, 13 Jun 2022 18:12:51 +0100
-Message-Id: <20220613171258.1905715-1-alex.bennee@linaro.org>
+ richard.henderson@linaro.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org (open list:ARM TCG CPUs)
+Subject: [PATCH v1 1/7] test/tcg/arm: Use -mfloat-abi=soft for
+ test-armv6m-undef
+Date: Mon, 13 Jun 2022 18:12:52 +0100
+Message-Id: <20220613171258.1905715-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220613171258.1905715-1-alex.bennee@linaro.org>
+References: <20220613171258.1905715-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,49 +98,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Another day, another testing/next series. Mostly this contains a few
-hot fixes for docker breakages and other stuff that I picked off the
-list. There is a late breaking patch to try and make the aarch64 CI is
-little less twitchy. We are still seeing hanging tests on the s390x
-box but so far have been unable to track down why it's hanging and
-more importantly why we are not seeing the runner kill errant tasks.
+GCC11 from crossbuild-essential-armhf from ubuntu 22.04 errors:
+cc1: error: ‘-mfloat-abi=hard’: selected architecture lacks an FPU
 
-As there are hot fixes I'd like to turn around a PR from this soon so
-any review of the following is welcome:
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220604032713.174976-1-richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/tcg/arm/Makefile.softmmu-target | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- - .gitlab: use less aggressive nproc on our aarch64/32 runners
- - tests/docker: fix the IMAGE for build invocation
-
-Alex Bennée (2):
-  tests/docker: fix the IMAGE for build invocation
-  .gitlab: use less aggressive nproc on our aarch64/32 runners
-
-Daniel P. Berrangé (1):
-  gitlab: compare CIRRUS_nn vars against 'null' not ""
-
-Paolo Bonzini (1):
-  tests/tcg: disable xtensa-linux-user again
-
-Richard Henderson (2):
-  test/tcg/arm: Use -mfloat-abi=soft for test-armv6m-undef
-  tests/tcg/i386: Use explicit suffix on fist insns
-
-Thomas Huth (1):
-  gitlab-ci: Fix the build-cfi-aarch64 and build-cfi-ppc64-s390x jobs
-
- configure                                     |  5 +++-
- tests/tcg/i386/test-i386-fp-exceptions.c      | 24 +++++++++----------
- tests/tcg/i386/test-i386.c                    |  2 +-
- .gitlab-ci.d/base.yml                         |  2 +-
- .gitlab-ci.d/buildtest.yml                    | 22 ++++++++---------
- .../custom-runners/ubuntu-20.04-aarch32.yml   |  4 ++--
- .../custom-runners/ubuntu-20.04-aarch64.yml   | 24 +++++++++----------
- tests/docker/Makefile.include                 |  2 +-
- tests/tcg/arm/Makefile.softmmu-target         |  2 +-
- 9 files changed, 44 insertions(+), 43 deletions(-)
-
+diff --git a/tests/tcg/arm/Makefile.softmmu-target b/tests/tcg/arm/Makefile.softmmu-target
+index 3fe237ba39..7df88ddea8 100644
+--- a/tests/tcg/arm/Makefile.softmmu-target
++++ b/tests/tcg/arm/Makefile.softmmu-target
+@@ -20,7 +20,7 @@ LDFLAGS+=-nostdlib -N -static
+ 
+ # Specific Test Rules
+ 
+-test-armv6m-undef: EXTRA_CFLAGS+=-mcpu=cortex-m0
++test-armv6m-undef: EXTRA_CFLAGS+=-mcpu=cortex-m0 -mfloat-abi=soft
+ 
+ run-test-armv6m-undef: QEMU_OPTS+=-semihosting -M microbit -kernel
+ run-plugin-test-armv6m-undef-%: QEMU_OPTS+=-semihosting -M microbit -kernel
 -- 
 2.30.2
 
