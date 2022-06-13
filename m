@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAD35481FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 10:49:53 +0200 (CEST)
-Received: from localhost ([::1]:46362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B0F5481FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 10:50:21 +0200 (CEST)
+Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0flg-0008Fu-Uh
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 04:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34996)
+	id 1o0fm7-0008U5-Ok
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 04:50:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1o0fhw-0005fE-4d
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:46:00 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:44790)
+ id 1o0fi7-0005tp-C4
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:46:11 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:34620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1o0fhq-0001Ep-A3
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:45:56 -0400
-Received: by mail-pg1-x531.google.com with SMTP id 31so3318359pgv.11
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 01:45:52 -0700 (PDT)
+ id 1o0fi5-0001Kv-Kk
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 04:46:11 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id c196so5170678pfb.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 01:46:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aEMCPeac0iKeoAHoV45ETawlMjAgiNZoLkg/dQsN13c=;
- b=EX+EsPlziZBrrJX6CSJZEbyrgXUs/4R/6B1NXXj5o3er+rnZtUsyyf7aBGVSUPecpt
- ImV4Fm9vQ2omwKwANjjqq1JOJAx0TwSHoL4leK9Ob9ZpHi+4hDpakecjFzT/WBQhx8W1
- PmjU3693DSvoY4vNLg4frdtkVIsQHV8kYni+bCS4XtdW5Vokd4P74diq/355kctBkNEy
- xxrsiUNk/uRJREK4sQUpAvs1qdnYOtj/BHVzSWql6OyKnutm8aFl9Q6ME4ZLxPgR8LIx
- tlhWZXcTuzHc1tT4HvpY7CYAEIPRovKZOA7sQpiOBj2Pn39YLn9FIfI0U+LnYj4kXL7b
- pMwQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TUMRiTaOjwibWOsNGQok9jz9436AsuQas8uiTT1e+M8=;
+ b=5j1+1HeYsj2zLWJQrJ9Y8D4ogysG7qFF1rgbfktewAfH3BZvJZAj7OmliImhIcq7pH
+ 0MXZpY5cl/eslfbWG3OtT44tAFu94pIPwB9V4LqdTVc9qSinzwBKu36zozgDwbcB1fJF
+ zneOGUMcQNSrIHlvWMVKsIHOXdVg9XaTlkgyNvOwvnjQSlRAj33Fzjw7abbc885iZ1mA
+ d0kEZaLmIxaGmfe28qhkHLmWOW+x9gqaH3Fg7GpMwLa5nM/P61mf0ixA75Pc1dJ+3uwq
+ woIDtGPNLWdNK0rmNjVi377o8Sp7hknAANAfxjhnU63ZWm58MQLupt+f4nbs+2iMqBST
+ TNDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aEMCPeac0iKeoAHoV45ETawlMjAgiNZoLkg/dQsN13c=;
- b=S6C00utcSXL77+XLL2MnWVijCN8hY0i78XdBfKFE0mPVjSRAqa+uECCnCpx331U4s9
- fiu19CInmUXa9HDFJjRY3MVjZnICuf+jOFXOZPtG3IM4s2obp6MXDdyHpxnVu0czHB56
- bHKde3hex94QUv3kcu1k8yArajN8J3jv6pOY1MTZB4HMqjg1ppK/RY/TP6PnCfZhMg0O
- 5ewd2AhOV3Q5hPpIZsy4ydHKA2XFO51pgJDmwMezW6q18D+iunIFT2Tn5hlWGwSv5xpp
- 50eC1pH5XEuIpn1wXj/vpzVPyb3Lvfm3KYT57VbrlTfC3XWwpNigpWch7JPib9clv+VT
- vDbw==
-X-Gm-Message-State: AOAM530QIxwrLC1sm02ZSjPKB7MDlDBYHlLHWOByc/oz2gofFj8RHPee
- S5Zp1Ty9d2qlYPuwAT0Iue9Srw==
-X-Google-Smtp-Source: ABdhPJwFCUD/kYZlGntmOJAWKUoYIvFLkOdEt8+fF1NlZ/e/VoSNl/oUtyjWsgZ6zroyn+HUVQKozA==
-X-Received: by 2002:a63:fd58:0:b0:405:1ff7:3ffe with SMTP id
- m24-20020a63fd58000000b004051ff73ffemr8238565pgj.156.1655109951829; 
- Mon, 13 Jun 2022 01:45:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TUMRiTaOjwibWOsNGQok9jz9436AsuQas8uiTT1e+M8=;
+ b=z/7J4WfmRpvUPifLC0Cuf1TjSUSLlo0avhPKuLRDW0hvGFVdYrY7mrNrEkEJZodsya
+ 05jYPlAk/MWCg4skY7lhtyfyls7GJiZSdOCYAY48ryuCEOWPJF7WwecE3W8EAxjYglUF
+ XjxSfQxMKf1eax2pzEQa/Zecz6zBRTlVVzefUTYPLJpFVZcwhD1MC6HcUvUxZPUZ/ZYB
+ PLc9FrCZ1/N9zCgjB+IHby0N5jvGKpD83RSaaqocwGFYC9Ia+EKJyOFAXCzMSJKSLfkF
+ qlILTLqyGv99dI+scf1oRbfxOIZNNRRHxHCCny547ueiDCGvxiu/0eI1Q/hhS3JjaZjZ
+ lDvQ==
+X-Gm-Message-State: AOAM530Kiq0WIOKv9gd1xCByumtzSQeJVEPg/mVhFrwFLKz7GqBcedGJ
+ dqWpbJcUkVbffXftZrwVnmWdsw==
+X-Google-Smtp-Source: ABdhPJzUHTsbkupT2wh/Cezz3y4wp2hqAljrQBSSEqL5xJUCip/4t3cIAVCPqJFIvWJuLi4x6pISpA==
+X-Received: by 2002:a62:8702:0:b0:51b:c452:33cf with SMTP id
+ i2-20020a628702000000b0051bc45233cfmr51406611pfe.72.1655109968190; 
+ Mon, 13 Jun 2022 01:46:08 -0700 (PDT)
 Received: from FVFDK26JP3YV.usts.net ([139.177.225.251])
  by smtp.gmail.com with ESMTPSA id
- f27-20020aa79d9b000000b0050dc762814fsm4729196pfq.41.2022.06.13.01.45.48
+ f27-20020aa79d9b000000b0050dc762814fsm4729196pfq.41.2022.06.13.01.46.00
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 13 Jun 2022 01:45:51 -0700 (PDT)
+ Mon, 13 Jun 2022 01:46:07 -0700 (PDT)
 From: Lei He <helei.sig11@bytedance.com>
 To: mst@redhat.com, arei.gonglei@huawei.com, berrange@redhat.com,
  qemu-devel@nongnu.org
 Cc: helei.sig11@bytedance.com,
 	pizhenwei@bytedance.com,
 	jasowang@redhat.com
-Subject: [PATCH 0/7] crypto: Introduce ECDSA algorithm
-Date: Mon, 13 Jun 2022 16:45:24 +0800
-Message-Id: <20220613084531.8086-1-helei.sig11@bytedance.com>
+Subject: [PATCH 1/7] crypto: Introduce ECDSA algorithm API
+Date: Mon, 13 Jun 2022 16:45:25 +0800
+Message-Id: <20220613084531.8086-2-helei.sig11@bytedance.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20220613084531.8086-1-helei.sig11@bytedance.com>
+References: <20220613084531.8086-1-helei.sig11@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=helei.sig11@bytedance.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=helei.sig11@bytedance.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,38 +91,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch introduced ECDSA algorithm for crypto:
-1. make the built-in ASN.1 decoder support more ASN.1 types.
-2. support ECDSA key and signature parsing.
-3. implement the ECDSA algorithm using nettle and gcrypt respectively.
+Introduce ECDSA related structures to qapi-crypto.
 
-Lei He (7):
-  crypto: Introduce ECDSA algorithm API
-  crypto: Support more ASN.1 types
-  crypto: remove "qemu/osdep.h" in rsakey.h
-  crypto: Add ECDSA key parser
-  crypto: Implement ECDSA algorithm by hogweed
-  crypto: Implement ECDSA algorithm by gcrypt
-  crypto: Add test suite for ECDSA algorithm
+Signed-off-by: lei he <helei.sig11@bytedance.com>
+---
+ qapi/crypto.json | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
- crypto/akcipher-gcrypt.c.inc      | 400 ++++++++++++++++++++++++++++++++++++++
- crypto/akcipher-nettle.c.inc      | 268 +++++++++++++++++++++++++
- crypto/der.c                      | 174 +++++++++++++++--
- crypto/der.h                      | 128 +++++++++++-
- crypto/ecdsakey-builtin.c.inc     | 248 +++++++++++++++++++++++
- crypto/ecdsakey.c                 | 118 +++++++++++
- crypto/ecdsakey.h                 |  66 +++++++
- crypto/meson.build                |   1 +
- crypto/rsakey.c                   |   1 +
- crypto/rsakey.h                   |   1 -
- qapi/crypto.json                  |  28 ++-
- tests/unit/test-crypto-akcipher.c | 227 +++++++++++++++++++--
- tests/unit/test-crypto-der.c      | 126 +++++++++---
- 13 files changed, 1722 insertions(+), 64 deletions(-)
- create mode 100644 crypto/ecdsakey-builtin.c.inc
- create mode 100644 crypto/ecdsakey.c
- create mode 100644 crypto/ecdsakey.h
-
+diff --git a/qapi/crypto.json b/qapi/crypto.json
+index 653e6e3f3d..c2fcdaa13a 100644
+--- a/qapi/crypto.json
++++ b/qapi/crypto.json
+@@ -545,7 +545,7 @@
+ ##
+ { 'enum': 'QCryptoAkCipherAlgorithm',
+   'prefix': 'QCRYPTO_AKCIPHER_ALG',
+-  'data': ['rsa']}
++  'data': ['rsa', 'ecdsa']}
+ 
+ ##
+ # @QCryptoAkCipherKeyType:
+@@ -587,6 +587,29 @@
+             'padding-alg': 'QCryptoRSAPaddingAlgorithm'}}
+ 
+ ##
++# @QCryptoCurveID:
++#
++# The known curved for ECC algorithms.
++#
++# Since: 7.1
++##
++{ 'enum': 'QCryptoCurveID',
++  'prefix': 'QCRYPTO_CURVE_ID',
++  'data': ['nist-p192', 'nist-p256', 'nist-p384']}
++
++##
++# @QCryptoAkCipherOptionsECDSA:
++#
++# Specific parameters for ECDSA algorithm.
++#
++# @curve-id: QCryptoCurveId
++#
++# Since: 7.1
++##
++{ 'struct': 'QCryptoAkCipherOptionsECDSA',
++  'data': { 'curve-id':'QCryptoCurveID' }}
++
++##
+ # @QCryptoAkCipherOptions:
+ #
+ # The options that are available for all asymmetric key algorithms
+@@ -597,4 +620,5 @@
+ { 'union': 'QCryptoAkCipherOptions',
+   'base': { 'alg': 'QCryptoAkCipherAlgorithm' },
+   'discriminator': 'alg',
+-  'data': { 'rsa': 'QCryptoAkCipherOptionsRSA' }}
++  'data': { 'rsa': 'QCryptoAkCipherOptionsRSA',
++            'ecdsa': 'QCryptoAkCipherOptionsECDSA' }}
 -- 
 2.11.0
 
