@@ -2,90 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9436A547F6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 08:11:47 +0200 (CEST)
-Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28545547F76
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 08:23:12 +0200 (CEST)
+Received: from localhost ([::1]:52774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0dIf-0005Iz-8M
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 02:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
+	id 1o0dTg-0002l1-Sx
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 02:23:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0dBA-0002Ts-3M
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 02:04:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43057)
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1o0dOD-0000O9-Tb
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 02:17:35 -0400
+Received: from mga03.intel.com ([134.134.136.65]:32799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0dB6-0003RP-Op
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 02:03:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655100233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Anp/eFsThEVCb4RRzPnzCoUoU+GoQlxFOzefUKmJcbY=;
- b=VCIPj2sNumgj/3Qihynd+QFvCY1BcoTnicM4O1c0s+ZxzYjyUPGBB3eV1u+u7i140B/jAg
- tRQBTHjaKdHPRESBZ2vCH1UIW/ZA/r2VmPLKm4EpB63eNHRfK3Cb/U5fHw29kpgPMJ8B26
- 0ed5h6NLVUi1KNCL004+fqAjf1gEVUg=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-140-c6wht4IfMgSmzRAAG0QYqg-1; Mon, 13 Jun 2022 02:03:51 -0400
-X-MC-Unique: c6wht4IfMgSmzRAAG0QYqg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- o10-20020a05620a2a0a00b006a77a64cd23so3149063qkp.21
- for <qemu-devel@nongnu.org>; Sun, 12 Jun 2022 23:03:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=Anp/eFsThEVCb4RRzPnzCoUoU+GoQlxFOzefUKmJcbY=;
- b=x6mDrZhLb6HzMKR/XMSSCUEZnxTY9JqwrxWKTSVOMgyG7QDob7myFSwTPb0ZJz5iRi
- WQzysF8mXHwSPxC+yXN2INbt4r7svQVzt9DY8Rp0e2nDvbxu8MWMADwgZzOP57+r6ilZ
- ime5ZsCY3dZvzOrofgRomw0GSvKIqaHTIGUbL2k57OPgpJl+xl4cEtGoUMjVBK9IpUNc
- f5xgFZHWMdJdv3y72KUTQ0/ZwCzGWAEIA9qibs/WdbRBMyveaqEKXiMKQg8o5O/Tz1oY
- hxnsJAmsBmKgQ0mARoC5yLrrVAzblTqY7WJVzSN4OIkemUtksBiEGb3IQHaDIv6mUwoN
- C+zA==
-X-Gm-Message-State: AOAM532V8f6EM+HCKUWAUoHgvs7DO+1V43z4EnJXqKPLxKO9YiyAPV9f
- umG7l+nfi2aqnZImqcO+SHkDbL4JW4aD9E/PTi3mYcVH8qBF07KpH7Q6ikUERix8H++dKC1PN7P
- Gu6ek3uy+8+WZTao=
-X-Received: by 2002:ac8:5996:0:b0:305:1041:372e with SMTP id
- e22-20020ac85996000000b003051041372emr15329670qte.520.1655100230946; 
- Sun, 12 Jun 2022 23:03:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOB3WxP15aUvogVPZsq1eMlYcy0eVlNi21k55DsffXMLdjUP9HFtL6bxbBAKt6W95feqQmHg==
-X-Received: by 2002:ac8:5996:0:b0:305:1041:372e with SMTP id
- e22-20020ac85996000000b003051041372emr15329659qte.520.1655100230661; 
- Sun, 12 Jun 2022 23:03:50 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-42-115-130.web.vodafone.de.
- [109.42.115.130]) by smtp.gmail.com with ESMTPSA id
- m7-20020a05620a290700b006a74da327fcsm6233157qkp.99.2022.06.12.23.03.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Jun 2022 23:03:50 -0700 (PDT)
-Message-ID: <48fba5eb-6b93-347f-9a8d-a757f19e5d55@redhat.com>
-Date: Mon, 13 Jun 2022 08:03:47 +0200
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1o0dO7-0005Vh-Ce
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 02:17:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655101043; x=1686637043;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=QrGvnJgzTKHVHNGhbBlk951DFZ4ayG6Kq4nk4HIMyS4=;
+ b=ZwMDSl2GmVPVmhfbUNYF+xNHDuyAxlxyn2QOEBbOoEXFwbEgepP0yX0o
+ 1wlj50Ga16zeQwk1fYMJbjaNY8gdwpHjIWB+jDkEdz3K8cfC4SDYeFwUw
+ vDEuTFWOmus0aFuaIgZAjgXIVciriXQ9WqVpEUPRIX3gW7N4FxBIcgWcj
+ HnUEC0UEUzDYrEXPCUK59gNUyk7ZpOL1JYZcotM9c4sCWohNgBR8Twkqp
+ 5e67S5mfx/MdlDdbvZ53NjZTBrHQxeOCfyz++GCgpbKbc0DYOVJPJZcMK
+ mamqb1jdb4OdoRBRzHjYfrDtIVLhEfQ+l/zZx1fDd2IrB4CzeouVNpNXo g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10376"; a="279229888"
+X-IronPort-AV: E=Sophos;i="5.91,296,1647327600"; d="scan'208";a="279229888"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2022 23:17:13 -0700
+X-IronPort-AV: E=Sophos;i="5.91,296,1647327600"; d="scan'208";a="910205003"
+Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2022 23:17:11 -0700
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+To: eric.auger@redhat.com
+Cc: qemu-devel@nongnu.org, mst@redhat.com, jean-philippe@linaro.org,
+ pbonzini@redhat.com, yu.c.zhang@intel.com, chuanxiao.dong@intel.com,
+ tina.zhang@intel.com
+Subject: [PATCH 0/3] Add bypass mode support to assigned device
+Date: Mon, 13 Jun 2022 14:10:07 +0800
+Message-Id: <20220613061010.2674054-1-zhenzhong.duan@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Daniel Berrange <berrange@redhat.com>
-References: <CAFn=p-ZwWzYa9h_-rNa-cA0CsDOJusy21D_RNtLffpTOgOHP-Q@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: CentOS 8 cloud images not working under VM tests
-In-Reply-To: <CAFn=p-ZwWzYa9h_-rNa-cA0CsDOJusy21D_RNtLffpTOgOHP-Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.65;
+ envelope-from=zhenzhong.duan@intel.com; helo=mga03.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,63 +75,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/06/2022 01.28, John Snow wrote:
-> This test doesn't appear to work for me:
-> 
-> def build_image(self, img):
->      cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
->      img_tmp = img + ".tmp"
->      subprocess.check_call(["ln", "-f", cimg, img_tmp])
->      self.exec_qemu_img("resize", img_tmp, "50G")
->      self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
->      self.wait_ssh()
->      ^^^^^^^^^^^^^^^
-> 
-> It appears to be expecting to be able to use passwordless entry, but
-> that doesn't appear to actually work in this case.
-> 
-> It looks like the cloud iso generate step is supposed to handle
-> setting up keys -- and everything appears as if it's working -- but I
-> get SSH timeouts at this step.
-> 
->  From what I can see:
-> 
-> DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=no -o
-> UserKnownHostsFile=/dev/null -o ConnectTimeout=1 -p 41729 -i
-> /home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa -o
-> SendEnv=https_proxy -o SendEnv=http_proxy -o SendEnv=ftp_proxy -o
-> SendEnv=no_proxy qemu@127.0.0.1 exit 0
-> Warning: Permanently added '[127.0.0.1]:41729' (ED25519) to the list
-> of known hosts.
-> qemu@127.0.0.1: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
-> 
-> ...and the /home/jsnow/src/qemu/bin/git/vm-test-35u779h4.tmp/id_rsa
-> file looks identical to the qemu.git/tests/keys/id_rsa file, save for
-> a missing trailing newline.
-> 
->  From a subsequent run, turning SSH debug on, I see this:
-> 
-> debug1: Offering public key:
-> /home/jsnow/src/qemu/bin/git/vm-test-o_x2vdwo.tmp/id_rsa RSA
-> SHA256:6TUK9PSgWR+CbTEKA6E9IyizVjt2ZW5ble/Mg4wUiao explicit
-> debug3: send packet: type 50
-> debug2: we sent a publickey packet, wait for reply
-> debug3: receive packet: type 51
-> 
-> ... Which looks like the usual kind of bog-standard "Unrecognized key"
-> kind of answer, IIUC.
-> 
-> Is this working for anyone else, or can anyone offer some debugging
-> tips on what's gone wrong here?
-It seems to work for me - maybe it's some issue with a newer version of ssh 
-on your host? (I'm still using RHEL 8 here).
+Currently virtio-iommu's logic to support bypass mode works only for
+emulated device. For assigned device, no GPA -> HPA mapping is setup
+in IOMMU page table.
 
-Anyway, the VM dies shortly afterwards since it tries to install some 
-additional packages, and non-Stream CentOS 8 has been disabled at the end of 
-last year. So this test is certainly broken since half a year already and 
-nobody noticed until now. I think you can either remove it, or it should get 
-updated to CentosStream instead.
+Host report below error:
+[3713481.750944] dmar_fault: 191 callbacks suppressed
+[3713481.750953] DMAR: DRHD: handling fault status reg 302
+[3713481.750962] DMAR: [DMA Read NO_PASID] Request device [2f:00.1] fault addr 0x7ebb0000 [fault reason 0x06] PTE Read access is not set
+[3713481.751003] DMAR: DRHD: handling fault status reg 402
+[3713481.751007] DMAR: [DMA Read NO_PASID] Request device [2f:00.1] fault addr 0x7ebb0000 [fault reason 0x06] PTE Read access is not set
+[3713481.751023] DMAR: DRHD: handling fault status reg 502
+[3713481.751026] DMAR: [DMA Write NO_PASID] Request device [2f:00.1] fault addr 0x7ebb0000 [fault reason 0x05] PTE Write access is not set
+[3713481.751072] DMAR: DRHD: handling fault status reg 602
 
-  Thomas
+Guest kernel report below error:
+[    3.461716] i40e: Intel(R) Ethernet Connection XL710 Network Driver
+[    3.462605] i40e: Copyright (c) 2013 - 2019 Intel Corporation.
+[    3.464630] i40e 0000:00:04.0: Adding to iommu group 5
+[    3.482093] i40e 0000:00:04.0: fw 0.0.00000 api 0.0 nvm 0.00 0x176953ce 28.50.1 [8086:37d3] [8086:35d0]
+[    3.484295] i40e 0000:00:04.0: eeprom check failed (-62), Tx/Rx traffic disabled
+[    3.487268] i40e 0000:00:04.0: configure_lan_hmc failed: -49
+[    3.489066] i40e: probe of 0000:00:04.0 failed with error -2
+
+Fix it by adding switch beween bypass and iommu address space just like
+the virtual VT-d implementation, so that in bypass mode, vfio mapping
+is setup.
+
+Tested with four combination of qemu's virtio-iommu.boot-bypass=true/false
+with guest kernel's iommu=pt/nopt on x86_64 platform.
+
+Zhenzhong Duan (3):
+  virtio-iommu: Add bypass mode support to assigned device
+  virtio-iommu: Use recursive lock to avoid deadlock
+  virtio-iommu: Add an assert check in translate routine
+
+ hw/virtio/trace-events           |   1 +
+ hw/virtio/virtio-iommu.c         | 135 ++++++++++++++++++++++++++++---
+ include/hw/virtio/virtio-iommu.h |   4 +-
+ 3 files changed, 130 insertions(+), 10 deletions(-)
+
+-- 
+2.25.1
 
 
