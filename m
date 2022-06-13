@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C493548543
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:43:07 +0200 (CEST)
-Received: from localhost ([::1]:44746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46930548556
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:58:43 +0200 (CEST)
+Received: from localhost ([::1]:39120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0jPN-0006TC-JQ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:43:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49304)
+	id 1o0jeU-0006uY-C2
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andmizyk@gmail.com>)
- id 1o0jKc-0003k7-3F
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:38:10 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:45014)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1o0jRR-0002zy-QA
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:14 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:46596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andmizyk@gmail.com>)
- id 1o0jKZ-0003w9-FT
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:38:08 -0400
-Received: by mail-lj1-x231.google.com with SMTP id m25so6007438lji.11
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 05:38:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1o0jRJ-0005rK-Su
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:10 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id j6so5615468pfe.13
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 05:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=93fdOpqR1k+zbhE1lA0zy/52F/erGydbrOVS/ZQOOfA=;
- b=ZLp8vLdlSJuy+1clgcRa6MWTUVIZJSriXvQjF5Nliv7RCrk/tkzycdSdepk5K0mG2J
- A1b6Ikan3D8QFzmvMKrVhIdsyjW4kyALNsMWlz+fXPUUTUEI59aixngNZMK1W0/HTYOu
- 4n/Oa1xsWOFT0/VqlY1oXhQ0STPUAKF8pjNRKPlm9+6oH5OolYYI+y9VhNmjQJEVuTmv
- h4ZwVu+x8Y6NMaU5kffD/bxV7Ag2uywKWIuN/gNU7K+WCn5FzFifxOf3YEojBH/LHT2b
- T0yBn9UTGbfdYu0Gl6fJknnxcQXUfHqNJ4aVDbhdGiOufC4YFqvo9ztAgcxAKyLGFS6j
- bPsw==
+ bh=6mySNvkddTmlsN4VbfGkDcF9wbGP2DIWCXu//uBTW9Q=;
+ b=D97pr02NnRcejZTjFNnkkJVYNRSjpBIFGGSbYYCb1dLu1T6vSlqK+eMfwmaRejAEwZ
+ S7gegxn1WvCHOMH9WTYrx3XAxFs7uUx6K1bf8UVW7AnWgKWYV8RPPE/Un6cL5ltcDYEJ
+ yWHU637S/2UrOGv+7XeI+QEeVMOL0XAlFT7LG1Wj8LPAA3RodAFGVDyJg4kkHyXkjAuJ
+ LmmXuCZuJZHNwWDP8xXQjBUyurSn0KC4LAPJv4wpiHHkmGoiefq7qJ4pErqgcU3iE+8I
+ mzCxEX3D1vpWsH5kwpNPRf5FNMSwxRK3g1cqF4+lL7UBNi7SGOXMDbrN6BZL1nKpOorB
+ BvYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=93fdOpqR1k+zbhE1lA0zy/52F/erGydbrOVS/ZQOOfA=;
- b=s9pLCHNlHTlcwrRa8hp7ukylsK6c8JvDnyu7M+vR+Bob6Tei94xTvBIbbNpstRKAFi
- J0BPhiGS5fs2gYirMx0Nn/wGqmTkGuNiMAR7ydalpwxf6FPsu2B+yDWUCfwBGKk+jLOQ
- +vXoGTny/gyJZ/yZa2jQATaceSSr+7dEy9bLv0jGDBTMV19gqJlUli3igjpDqDBeme+N
- GMEKs+d3Al9M+8qctg7mZqQKlE4vL4SGNE88iu7UWrF85v6fnB/rU/L5XkEmAwL/mT0T
- D0HsBEsCOjOwj8joe5MroHhQ+/I6z9lpVF1e8prQzBxfeJuQ929pFuuWstO9v93w0td6
- rsmA==
-X-Gm-Message-State: AOAM531zkfTbI6EKestpvUsP+1TUvj76zWTZnX3KF/FnK/bWkqVpvb94
- ru6njo0kEuQZc5GVkh5iXYaUHWMog1RbLA==
-X-Google-Smtp-Source: ABdhPJxUkfi0IRfLlEgjksKV04BjYrpEX332bhtZf/sRX9DaTRXFKo534i5BMcTUPEYk+xNb83YhOA==
-X-Received: by 2002:a05:651c:210f:b0:255:847d:391d with SMTP id
- a15-20020a05651c210f00b00255847d391dmr24702462ljq.354.1655123885041; 
- Mon, 13 Jun 2022 05:38:05 -0700 (PDT)
-Received: from localhost.localdomain ([46.173.170.11])
- by smtp.gmail.com with ESMTPSA id
- j23-20020a2e8517000000b0025561ce1275sm993790lji.135.2022.06.13.05.38.04
+ bh=6mySNvkddTmlsN4VbfGkDcF9wbGP2DIWCXu//uBTW9Q=;
+ b=kglVnupO8UiKRsV1ePiS8zB6QzU6XU9LEk7u1swbeg6DeggIUFiFE7bTyJeh9rBfoc
+ vKAJ2sCfwNFBXTRr612GmMWzLWlb91y/2hgp9Y3kgP78j8/PbL4Or0thdr/HND+BWN+w
+ e6DLvmvm8avjmM+fVJRyrwRGmekdRvySAeZonsPGUB8TTJ9m2v0atl637oxSpCrMdFgy
+ 9Ndgb8X1/ehi57XL6/rqNs3+7WMufb5t4t1b/V6oReNr27s+708YxuSNDfxGBkQFXW8R
+ pn6p//q1l54jZdXI2SBunXlJMf1Ls5KNG8TB2Bm1DsOepZYP3bGYLkwXv7x0MbxPUpng
+ LtbQ==
+X-Gm-Message-State: AOAM5305rMcRf90UL5K6Z2dukTHdtFGgpHcC66Q4jeP6ur2RiTKMNAtO
+ DYcqhlrbiUSTv6MC3bSEIFnS
+X-Google-Smtp-Source: ABdhPJy9DeIiN0txTXJF4WCqriwm++NTfERtgNDuDTV+KiK/Ljuygw8kvKY9/BZTi4o0osZ7Yvzjxg==
+X-Received: by 2002:a65:6d1a:0:b0:3fb:2109:7b87 with SMTP id
+ bf26-20020a656d1a000000b003fb21097b87mr52265689pgb.127.1655124301950; 
+ Mon, 13 Jun 2022 05:45:01 -0700 (PDT)
+Received: from localhost ([139.177.225.252]) by smtp.gmail.com with ESMTPSA id
+ k9-20020a056a00134900b0051bb0be7109sm5313442pfu.78.2022.06.13.05.44.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 05:38:04 -0700 (PDT)
-From: Andrij Mizyk <andmizyk@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Andrij Mizyk <andmizyk@gmail.com>
-Subject: [PATCH] po: add ukrainian translation
-Date: Mon, 13 Jun 2022 15:37:58 +0300
-Message-Id: <20220613123758.13280-1-andmizyk@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ Mon, 13 Jun 2022 05:45:00 -0700 (PDT)
+From: Xie Yongji <xieyongji@bytedance.com>
+To: kwolf@redhat.com,
+	stefanha@redhat.com
+Cc: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/5] Some fixes and improvements for vduse-blk
+Date: Mon, 13 Jun 2022 20:44:58 +0800
+Message-Id: <20220613124503.156-1-xieyongji@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::231;
- envelope-from=andmizyk@gmail.com; helo=mail-lj1-x231.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,105 +88,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Andrij Mizyk <andmizyk@gmail.com>
----
- po/LINGUAS |  1 +
- po/uk.po   | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 po/uk.po
+This series includes few fixes and improvements for the
+vduse-blk export.
 
-diff --git a/po/LINGUAS b/po/LINGUAS
-index cc4b5c3b36..9b33a3659f 100644
---- a/po/LINGUAS
-+++ b/po/LINGUAS
-@@ -5,4 +5,5 @@ hu
- it
- sv
- tr
-+uk
- zh_CN
-diff --git a/po/uk.po b/po/uk.po
-new file mode 100644
-index 0000000000..ff037808bf
---- /dev/null
-+++ b/po/uk.po
-@@ -0,0 +1,75 @@
-+# Ukrainian translation for QEMU.
-+# This file is put in the public domain.
-+# Andrij Mizyk <andmizyk@gmail.com>, 2022.
-+#
-+msgid ""
-+msgstr ""
-+"Project-Id-Version: QEMU 1.4.50\n"
-+"Report-Msgid-Bugs-To: qemu-devel@nongnu.org\n"
-+"POT-Creation-Date: 2018-07-18 07:56+0200\n"
-+"PO-Revision-Date: 2022-06-13 01:33+0300\n"
-+"Last-Translator: Andrij Mizyk <andmizyk@gmail.com>\n"
-+"Language-Team: Ukrainian\n"
-+"Language: uk\n"
-+"MIME-Version: 1.0\n"
-+"Content-Type: text/plain; charset=UTF-8\n"
-+"Content-Transfer-Encoding: 8bit\n"
-+"Plural-Forms: nplurals=1; plural=0;\n"
-+"X-Generator: Gtranslator 2.91.6\n"
-+
-+msgid " - Press Ctrl+Alt+G to release grab"
-+msgstr " - Натисніть Ctrl+Alt+G, щоб відпустити захоплення"
-+
-+msgid " [Paused]"
-+msgstr " [Призупинено]"
-+
-+msgid "_Pause"
-+msgstr "_Призупинити"
-+
-+msgid "_Reset"
-+msgstr "_Скинути"
-+
-+msgid "Power _Down"
-+msgstr "Вимкнути _живлення"
-+
-+msgid "_Quit"
-+msgstr "_Вийти"
-+
-+msgid "_Fullscreen"
-+msgstr "Повний _екран"
-+
-+msgid "_Copy"
-+msgstr "_Копіювати"
-+
-+msgid "Zoom _In"
-+msgstr "_Збільшити"
-+
-+msgid "Zoom _Out"
-+msgstr "З_меншити"
-+
-+msgid "Best _Fit"
-+msgstr "Найкращий _розмір"
-+
-+msgid "Zoom To _Fit"
-+msgstr "Збільшити до _розміру"
-+
-+msgid "Grab On _Hover"
-+msgstr "Захопити при _наведенні"
-+
-+msgid "_Grab Input"
-+msgstr "Захопити _введення"
-+
-+msgid "Show _Tabs"
-+msgstr "Показувати _вкладки"
-+
-+msgid "Detach Tab"
-+msgstr "Відʼєднати вкладку"
-+
-+msgid "Show Menubar"
-+msgstr "Показувати рядок меню"
-+
-+msgid "_Machine"
-+msgstr "_Машина"
-+
-+msgid "_View"
-+msgstr "_Вигляд"
+Patch 1 fixes resources leak when vduse fd is zero.
+
+Patch 2, 3 fixes two bugs which could be triggered
+by force deleting a vduse-blk export with high I/O loads.
+
+Patch 4, 5 adds two new options for vduse-blk export.
+
+Xie Yongji (5):
+  libvduse: Fix resources leak in vduse_dev_destroy()
+  vduse-blk: Don't unlink the reconnect file if device exists
+  vduse-blk: Don't delete the export until all inflight I/Os completed
+  vduse-blk: Add serial option
+  vduse-blk: Add name option
+
+ block/export/vduse-blk.c             | 53 ++++++++++++++++++++++------
+ block/export/vhost-user-blk-server.c |  4 ++-
+ block/export/virtio-blk-handler.h    |  2 +-
+ docs/tools/qemu-storage-daemon.rst   |  5 +--
+ qapi/block-export.json               | 11 +++---
+ storage-daemon/qemu-storage-daemon.c |  9 ++---
+ subprojects/libvduse/libvduse.c      |  4 +--
+ 7 files changed, 64 insertions(+), 24 deletions(-)
+
 -- 
-2.30.2
+2.20.1
 
 
