@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB4E548555
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 14:56:10 +0200 (CEST)
-Received: from localhost ([::1]:35380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6FC54859C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jun 2022 15:58:06 +0200 (CEST)
+Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0jc1-00047V-90
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 08:56:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51130)
+	id 1o0kZx-0002mW-IV
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 09:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o0jRh-0003LS-FS
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:29 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o0jRe-000645-MJ
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 08:45:29 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- q12-20020a17090a304c00b001e2d4fb0eb4so8698446pjl.4
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 05:45:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Zitz3aw7vmqBdlw7whS7nBw2iJZB5B/SiBi5964udmY=;
- b=3H1T0aEkUUf9tdhR8GCQncqQBcI0ci77EaFqBmHJjLEcLsRcRi+MPuYdfi7DufQMtH
- BYYw3WzW3RsgQDAwams/JXYDkDxZiDDT0deV8PWIb/y2mNUCHoUQ2a0ObL894MXrbDOm
- 7FSGReUrkwX62qu03r3sI0PK7xJcn0zYmwWEXGbnAm1K2cd/7ONlQZEqauUbNFkI6DsQ
- 9eBcNhhBdEwBX7qwshLdpqG3XZxL5wnNhnvASufZWNT/1s99tdlJspjKzYg/5c+2UJN7
- zpcSUi5KwvMW+KxA+/nuwwtRyjsPZp0S6Vm7be4+e9oZdbNZaDsBhDmP7AjU8BJ3k7Pv
- vCPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Zitz3aw7vmqBdlw7whS7nBw2iJZB5B/SiBi5964udmY=;
- b=TbyzVTpqvNB81OtAD4UGkC50mK8SyJ7y1LVrfNW5+NIjY08G2fU2J7TV3fISq8M3gg
- nXh/4jeB3u8ji02OEs5Mz0uH5evIaKrUF33Cv42LOfL8AgCtCV2ezyQt9JCnhXHyjinF
- EXhHqyhhx9k332JQiAkhj6o12tmGMP1uVggD2mJ353lp9FlNwJ7YOuKIxBQLUAPRaIT0
- M/MMJjTlfiiW8paskeV3j+cE3lLl2h7wBVCpmfKw8wUO16A1oTlzb08hAxXwQrmspBVI
- 53S89qbq3yNicakhm4E85wFup2ewI6ykP9xE2AosbumfsVthaqzfvNMhMnaR/yZPC72r
- h47A==
-X-Gm-Message-State: AOAM533FrjDjAMd+PXU+pP4b2nS+PnmvkBZVyLjQoZTU6+AUJzS1f+Xn
- QNtSKEcAH5GZ4ceZPmnoJKUW
-X-Google-Smtp-Source: ABdhPJyx4qH6ms0hPHsp9RmrRi6apuKSLB/D/Qu29v+Taf1ZKX4M5Wq/HHGs7GkqL/5nXvmTi9P9Gg==
-X-Received: by 2002:a17:902:dac3:b0:164:13b2:4913 with SMTP id
- q3-20020a170902dac300b0016413b24913mr57716316plx.169.1655124325188; 
- Mon, 13 Jun 2022 05:45:25 -0700 (PDT)
-Received: from localhost ([139.177.225.252]) by smtp.gmail.com with ESMTPSA id
- n2-20020a170902d0c200b0015ec71f72d6sm4975538pln.253.2022.06.13.05.45.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 05:45:24 -0700 (PDT)
-From: Xie Yongji <xieyongji@bytedance.com>
-To: kwolf@redhat.com,
-	stefanha@redhat.com
-Cc: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 5/5] vduse-blk: Add name option
-Date: Mon, 13 Jun 2022 20:45:03 +0800
-Message-Id: <20220613124503.156-6-xieyongji@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220613124503.156-1-xieyongji@bytedance.com>
-References: <20220613124503.156-1-xieyongji@bytedance.com>
+ (Exim 4.90_1) (envelope-from
+ <SRS0=O0wQ=WU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org>)
+ id 1o0k1u-00086j-Qs
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 09:22:54 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:49952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <SRS0=O0wQ=WU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org>)
+ id 1o0k1s-0003pA-Iv
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 09:22:54 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A4EB161018;
+ Mon, 13 Jun 2022 13:22:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36EF6C34114;
+ Mon, 13 Jun 2022 13:22:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1655126568;
+ bh=aPG04wQxYSWtMm5qtUnDbqgDpJ90F37nxHIFcY/d86A=;
+ h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+ b=c5wkbFe5rmPuYrccbMTwrzzwTVvD8jWq1PlE3CQ926TDWG9sGYIR76XhBtAE07yeP
+ uf9XGCy3aObXiqijFPAxQuy3kFyEMtg+Th2sOAtK+g8kKwcIYH2TGw/JVQZBSyQDJk
+ lQAvVHFuLmMqRMcEU/tP6pIv5kp+wqCi2ZUBdL2zecr4ZFAciyCa7tXBFiZ01LaBx8
+ 0rOHVxnWnNEVn9eup8iFjDUodvDZqRgHeIYCudLDeP96Z3gyp0q+5V25P9o4DUa372
+ S86Mx3Mx8YLOaI8maSf3oaFjQMGPNH0LLz9FfV7M9WsZQpNi2sccfox91DapCq64iT
+ WOiGexo1y+f7g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+ id CDCC25C0510; Mon, 13 Jun 2022 06:22:47 -0700 (PDT)
+Date: Mon, 13 Jun 2022 06:22:47 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: "chenxiang (M)" <chenxiang66@hisilicon.com>
+Cc: linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+	linuxarm@huawei.com
+Subject: Re: [Bug] Take more 150s to boot qemu on ARM64
+Message-ID: <20220613132247.GB1790663@paulmck-ThinkPad-P17-Gen-1>
+References: <36a0c658-ee5d-3a1c-416c-c041dc344bff@hisilicon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <36a0c658-ee5d-3a1c-416c-c041dc344bff@hisilicon.com>
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=O0wQ=WU=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 13 Jun 2022 09:49:08 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,127 +75,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paulmck@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we use 'id' option as the name of VDUSE device.
-It's a bit confusing since we use one value for two different
-purposes: the ID to identfy the export within QEMU (must be
-distinct from any other exports in the same QEMU process, but
-can overlap with names used by other processes), and the VDUSE
-name to uniquely identify it on the host (must be distinct from
-other VDUSE devices on the same host, but can overlap with other
-export types like NBD in the same process). To make it clear,
-this patch adds a separate 'name' option to specify the VDUSE
-name for the vduse-blk export instead.
+On Mon, Jun 13, 2022 at 08:26:34PM +0800, chenxiang (M) wrote:
+> Hi all,
+> 
+> I encounter a issue with kernel 5.19-rc1 on a ARM64 board:  it takes about
+> 150s between beginning to run qemu command and beginng to boot Linux kernel
+> ("EFI stub: Booting Linux Kernel...").
+> 
+> But in kernel 5.18-rc4, it only takes about 5s. I git bisect the kernel code
+> and it finds c2445d387850 ("srcu: Add contention check to call_srcu()
+> srcu_data ->lock acquisition").
+> 
+> The qemu (qemu version is 6.2.92) command i run is :
+> 
+> ./qemu-system-aarch64 -m 4G,slots=4,maxmem=8g \
+> --trace "kvm*" \
+> -cpu host \
+> -machine virt,accel=kvm,gic-version=3  \
+> -machine smp.cpus=2,smp.sockets=2 \
+> -no-reboot \
+> -nographic \
+> -monitor unix:/home/cx/qmp-test,server,nowait \
+> -bios /home/cx/boot/QEMU_EFI.fd \
+> -kernel /home/cx/boot/Image  \
+> -device pcie-root-port,port=0x8,chassis=1,id=net1,bus=pcie.0,multifunction=on,addr=0x1
+> \
+> -device vfio-pci,host=7d:01.3,id=net0 \
+> -device virtio-blk-pci,drive=drive0,id=virtblk0,num-queues=4  \
+> -drive file=/home/cx/boot/boot_ubuntu.img,if=none,id=drive0 \
+> -append "rdinit=init console=ttyAMA0 root=/dev/vda rootfstype=ext4 rw " \
+> -net none \
+> -D /home/cx/qemu_log.txt
+> 
+> I am not familiar with rcu code, and don't know how it causes the issue. Do
+> you have any idea about this issue?
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
----
- block/export/vduse-blk.c             | 4 ++--
- docs/tools/qemu-storage-daemon.rst   | 5 +++--
- qapi/block-export.json               | 7 ++++---
- storage-daemon/qemu-storage-daemon.c | 8 ++++----
- 4 files changed, 13 insertions(+), 11 deletions(-)
+Please see the discussion here:
 
-diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-index 066e088b00..f101c24c3f 100644
---- a/block/export/vduse-blk.c
-+++ b/block/export/vduse-blk.c
-@@ -300,7 +300,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-         features |= 1ULL << VIRTIO_BLK_F_RO;
-     }
- 
--    vblk_exp->dev = vduse_dev_create(exp->id, VIRTIO_ID_BLOCK, 0,
-+    vblk_exp->dev = vduse_dev_create(vblk_opts->name, VIRTIO_ID_BLOCK, 0,
-                                      features, num_queues,
-                                      sizeof(struct virtio_blk_config),
-                                      (char *)&config, &vduse_blk_ops,
-@@ -312,7 +312,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     }
- 
-     vblk_exp->recon_file = g_strdup_printf("%s/vduse-blk-%s",
--                                           g_get_tmp_dir(), exp->id);
-+                                           g_get_tmp_dir(), vblk_opts->name);
-     if (vduse_set_reconnect_log_file(vblk_exp->dev, vblk_exp->recon_file)) {
-         error_setg(errp, "failed to set reconnect log file");
-         ret = -EINVAL;
-diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index 034f2809a6..ea00149a63 100644
---- a/docs/tools/qemu-storage-daemon.rst
-+++ b/docs/tools/qemu-storage-daemon.rst
-@@ -77,7 +77,7 @@ Standard options:
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=unix,addr.path=<socket-path>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=fd,addr.str=<fd>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-   --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off][,allow-other=on|off|auto]
--  --export [type=]vduse-blk,id=<id>,node-name=<node-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>][,serial=<serial-number>]
-+  --export [type=]vduse-blk,id=<id>,node-name=<node-name>,name=<vduse-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>][,serial=<serial-number>]
- 
-   is a block export definition. ``node-name`` is the block node that should be
-   exported. ``writable`` determines whether or not the export allows write
-@@ -111,7 +111,8 @@ Standard options:
-   ``allow-other`` to auto (the default) will try enabling this option, and on
-   error fall back to disabling it.
- 
--  The ``vduse-blk`` export type uses the ``id`` as the VDUSE device name.
-+  The ``vduse-blk`` export type takes a ``name`` (must be unique across the host)
-+  to create the VDUSE device.
-   ``num-queues`` sets the number of virtqueues (the default is 1).
-   ``queue-size`` sets the virtqueue descriptor table size (the default is 256).
- 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index d7aeb1fbf7..81ef1e3dcd 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -182,6 +182,7 @@
- #
- # A vduse-blk block export.
- #
-+# @name: the name of VDUSE device (must be unique across the host).
- # @num-queues: the number of virtqueues. Defaults to 1.
- # @queue-size: the size of virtqueue. Defaults to 256.
- # @logical-block-size: Logical block size in bytes. Range [512, PAGE_SIZE]
-@@ -191,7 +192,8 @@
- # Since: 7.1
- ##
- { 'struct': 'BlockExportOptionsVduseBlk',
--  'data': { '*num-queues': 'uint16',
-+  'data': { 'name': 'str',
-+            '*num-queues': 'uint16',
-             '*queue-size': 'uint16',
-             '*logical-block-size': 'size',
-             '*serial': 'str' } }
-@@ -316,8 +318,7 @@
- # Describes a block export, i.e. how single node should be exported on an
- # external interface.
- #
--# @id: A unique identifier for the block export (across the host for vduse-blk
--#      export type or across all export types for other types)
-+# @id: A unique identifier for the block export (across all export types)
- #
- # @node-name: The node name of the block node to be exported (since: 5.2)
- #
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 4e18d3fc85..b8e910f220 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -123,12 +123,12 @@ static void help(void)
- #endif /* CONFIG_VHOST_USER_BLK_SERVER */
- #ifdef CONFIG_VDUSE_BLK_EXPORT
- "  --export [type=]vduse-blk,id=<id>,node-name=<node-name>\n"
--"           [,writable=on|off][,num-queues=<num-queues>]\n"
--"           [,queue-size=<queue-size>]\n"
-+"           ,name=<vduse-name>[,writable=on|off]\n"
-+"           [,num-queues=<num-queues>][,queue-size=<queue-size>]\n"
- "           [,logical-block-size=<logical-block-size>]\n"
- "           [,serial=<serial-number>]\n"
--"                         export the specified block node as a vduse-blk\n"
--"                         device using the id as the VDUSE device name\n"
-+"                         export the specified block node as a\n"
-+"                         vduse-blk device\n"
- "\n"
- #endif /* CONFIG_VDUSE_BLK_EXPORT */
- "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
--- 
-2.20.1
+https://lore.kernel.org/all/20615615-0013-5adc-584f-2b1d5c03ebfc@linaro.org/
 
+Though that report requires ACPI to be forced on to get the
+delay, which results in more than 9,000 back-to-back calls to
+synchronize_srcu_expedited().  I cannot reproduce this on my setup, even
+with an artificial tight loop invoking synchronize_srcu_expedited(),
+but then again I don't have ARM hardware.
+
+My current guess is that the following patch, but with larger values for
+SRCU_MAX_NODELAY_PHASE.  Here "larger" might well be up in the hundreds,
+or perhaps even larger.
+
+If you get a chance to experiment with this, could you please reply
+to the discussion at the above URL?  (Or let me know, and I can CC
+you on the next message in that thread.)
+
+						Thanx, Paul
+
+------------------------------------------------------------------------
+
+diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+index 50ba70f019dea..0db7873f4e95b 100644
+--- a/kernel/rcu/srcutree.c
++++ b/kernel/rcu/srcutree.c
+@@ -513,7 +513,7 @@ static bool srcu_readers_active(struct srcu_struct *ssp)
+ 
+ #define SRCU_INTERVAL		1	// Base delay if no expedited GPs pending.
+ #define SRCU_MAX_INTERVAL	10	// Maximum incremental delay from slow readers.
+-#define SRCU_MAX_NODELAY_PHASE	1	// Maximum per-GP-phase consecutive no-delay instances.
++#define SRCU_MAX_NODELAY_PHASE	3	// Maximum per-GP-phase consecutive no-delay instances.
+ #define SRCU_MAX_NODELAY	100	// Maximum consecutive no-delay instances.
+ 
+ /*
+@@ -522,16 +522,22 @@ static bool srcu_readers_active(struct srcu_struct *ssp)
+  */
+ static unsigned long srcu_get_delay(struct srcu_struct *ssp)
+ {
++	unsigned long gpstart;
++	unsigned long j;
+ 	unsigned long jbase = SRCU_INTERVAL;
+ 
+ 	if (ULONG_CMP_LT(READ_ONCE(ssp->srcu_gp_seq), READ_ONCE(ssp->srcu_gp_seq_needed_exp)))
+ 		jbase = 0;
+-	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)))
+-		jbase += jiffies - READ_ONCE(ssp->srcu_gp_start);
+-	if (!jbase) {
+-		WRITE_ONCE(ssp->srcu_n_exp_nodelay, READ_ONCE(ssp->srcu_n_exp_nodelay) + 1);
+-		if (READ_ONCE(ssp->srcu_n_exp_nodelay) > SRCU_MAX_NODELAY_PHASE)
+-			jbase = 1;
++	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq))) {
++		j = jiffies - 1;
++		gpstart = READ_ONCE(ssp->srcu_gp_start);
++		if (time_after(j, gpstart))
++			jbase += j - gpstart;
++		if (!jbase) {
++			WRITE_ONCE(ssp->srcu_n_exp_nodelay, READ_ONCE(ssp->srcu_n_exp_nodelay) + 1);
++			if (READ_ONCE(ssp->srcu_n_exp_nodelay) > SRCU_MAX_NODELAY_PHASE)
++				jbase = 1;
++		}
+ 	}
+ 	return jbase > SRCU_MAX_INTERVAL ? SRCU_MAX_INTERVAL : jbase;
+ }
 
