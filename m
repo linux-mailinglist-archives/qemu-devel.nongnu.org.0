@@ -2,109 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB7554B52F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 17:58:07 +0200 (CEST)
-Received: from localhost ([::1]:37614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7F954B5EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 18:23:38 +0200 (CEST)
+Received: from localhost ([::1]:58122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o18ve-0007Rq-UD
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 11:58:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41540)
+	id 1o19KD-0006Xj-RH
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 12:23:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o18sE-0005TF-RO
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 11:54:34 -0400
-Received: from esa11.hc2706-39.iphmx.com ([216.71.137.81]:45442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o18sC-0002ik-NE
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 11:54:34 -0400
-X-IronPort-RemoteIP: 209.85.222.199
-X-IronPort-MID: 206409304
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:y0sO9q78GGgEXFr0YIz9yQxRtKzFchMFZxGqfqrLsTDasY5as4F+v
- jMYDGDUa62DNGv8e95+at+09EhU65KEyYJkSgRtqCswEysa+MHIO4+lIxarNUt+DCFioGGLT
- Sk6QoOdRCzhZiaE/n9BCpC48T8kk/vgqoPUUIYoAAgoLeNfYHpn2EsLd9IR2NYy24DnWl/V4
- 7senuWEULOb828sWo4rw//bwP9flKyaVOQw5wFWiVhj5TcyplFMZH4tDfjZw0jQG+G4KtWHq
- 9Prl9lVyI94EyAFUbtJmp6jGqEDryW70QKm0xK6UID76vROS7BbPg/W+5PwZG8O4whlkeydx
- /1W6722FisRGpaSld0lfB5pF38mH/1vreqvzXiX6aR/zmXDenrohuxtVQQ4ZNxJvOlwBm5K+
- LoTLzVlghKr3brnhuLmDLM23IJ6fZiD0IA34xmMyRnQCeYgTYrrSbiM6NNFtNs1rpoWQ6qGN
- pFBNVKDajzbTCJzGFQyUKh5gf6MvkvRQhJTrUq88P9fD2/7iVYZPKLWGMPYf8HPSchLk0Kwo
- GXA8GLkRBYAO7SiJSGt93utgqrWnnq+VttDRfu38fllhFDVzWsWYPELaWaGTTCCohbWc7pix
- 4Y8oULCcYBaGJSXc+TA
-IronPort-HdrOrdr: A9a23:Qj+ymqmX9dgE9xYmy76nZ++PUc/pDfO3imdD5ihNYBxZY6Wkfp
- +V9sjzhCWetN9OYhkdcIi7SdC9qADnhOZICOgqTP6ftWzd1VdAQ7sSiLcKrwePJ8S6zJ866U
- 4CSdk3NDSTNykfsS+S2mDVfOrIguP3l5xA7t2/854Zd3AJV0gW1XYbNu/0KCxLbTgDIaB8OI
- uX58JBqTblU28QdN6HCn4MWPWGj8HXlbr9CCR2TSIP2U2rt3eF+bT6Gx+X0lM1SDVU24ov9m
- DDjkjQ+rijifem0RXRvlWjoqi+2eGRhuerNvb8xPT9GQ+cyzpAUb4RFIFq8gpF4N1Ho2xa6+
- Uk6y1QRfibrUmhNV1d6CGdpjXIwXIg7WTvxkSfhmamqcvlRCgiA84Eno5BdADFgnBQyO2U/Z
- g7rV5xjaAneC8oXR6NluTgRlVvjA65sHAimekcgzhWVpYfcqZYqcga8FlOGJkNESrm4MR/ed
- Meev309bJTaxeXfnrZtm5gzJilWWkyBA6PRgwHttaO2zZbkXhlxw8TxdAZnH0H6JUhIqM0kN
- jsI+BtjvVDX8UWZaVyCKMIRta2EHXERVbWPGebMT3cZdI60rL22u7KCZkOlZ6XkcYzvecPcb
- z6IS1liVI=
-Received: from mail-qk1-f199.google.com ([209.85.222.199])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 14 Jun 2022 11:54:22 -0400
-Received: by mail-qk1-f199.google.com with SMTP id
- j17-20020a05620a289100b006a6a4ffc9a3so7770064qkp.10
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 08:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BRniBuZ614k/WeHE/yvxoXu+074mFbM44ypq4UsWojk=;
- b=O07q5/kIaqNdZW7NRmekJ7m4plCICSJSl7VoH8uIkOWh2gnrD2+7bpn7+QPP6Z6jxH
- eIAW5XBo00vtzKXOL4vVh7lB34zcJxtVnctRSIVgmkzYy61Jrt6MP2nmJrwWftfKfp66
- ynETYvBsB0yXtDaTcNCEYTpX8utG6wK+m8GtK9QcOalG5ySbgRkhpyyVJkPVFfiSb6pt
- 0mk3/l4yOXocLDKP+/9NHyn5RNmn6ZJFifH45cbXxv5ot2k4M8UuoD4vhdfiM3cp/c0u
- KK7i3W4Iagvd8VLzI5B5BmLyZooxHw5oxEKjmDLUMY+3DZAjj8EttMkSnyN1TZx32OI3
- uBlg==
+ (Exim 4.90_1) (envelope-from <dz4list@gmail.com>)
+ id 1o190p-0002VL-98; Tue, 14 Jun 2022 12:03:27 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:40918)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dz4list@gmail.com>)
+ id 1o190m-00046s-AZ; Tue, 14 Jun 2022 12:03:26 -0400
+Received: by mail-pg1-x534.google.com with SMTP id f65so8893580pgc.7;
+ Tue, 14 Jun 2022 09:03:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7V0Yx83/KzW8Q6mBxG6TRKpr8ulK1VqJTSufD2j2QP4=;
+ b=I9uhTVdG1k3nN1gUBe/eCUoPpsFFsL/yBkx24ZnXRNaBMpP3V362oz1N6KcF/wA5yH
+ 0CZ+Ruf506GSKyHGXRi909yJ4yOVNqJAdD7j61XOKqtERXV0N5wGq/d0CwF/A/rUfPeu
+ 7WqdVtVOIqSYUlMgK19NWIXuyddVgRcG+zZLJjaTQ2/67E6Ycpfq34ZAAAd6r1j4FJbw
+ wmOnil8tLZD7SQdrfMjGHXaKBeVylU3RfTXsCLYpzI1TFVmsgjYglNuRbD900IbjF7iF
+ pApKNLlkNK3rr0ZplComQIomGNnvfinCyLlUkqmEfw8aimmKXif2e3tdNrghGoXzEVsX
+ uqgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BRniBuZ614k/WeHE/yvxoXu+074mFbM44ypq4UsWojk=;
- b=l1iQxi7OlNejmVUK6doKX/3ao9o5qWuHkg1CgCKLoOU123YREo/p4dnKAGod6O9MEi
- x+BFE1GcKg6eGXE578Fokf9FJyoSLNCUd43NgGLTuekVlsaJ4smir39Lwk0RULiZhuUa
- VdHd8mQC5irkdAhu38AjHQISyWzzhi7fuo3bPwjembzAeLPeyJyjJ2L0Baqyt8QklCpR
- DX8JSuxNgQEnOon6g4KnJ/Pvxst0+LGKr20T9Ux52CBGAetTLfIo2vFutvvZszVB4CyB
- sNzeBsbEwlG50G+u+4uOocYJpo2yBxxaG7QPlRgEa+9em0qAnB/WzIwCLrZSDjOkIFP3
- hmmA==
-X-Gm-Message-State: AJIora9SNX/8YExZYTQ3ekD1vPc4Ul96EXTufm5x2c82yxktBCCO98sl
- z9IHKo7vG+i+LIPFpOHJOlk+S/tTlZf180xqQWOKDekIA/OFZ8DGoYTFpkJKupq/iHmwFMBImNk
- P9DypmmIx4IgZdP/SvEp0KlKL/F+9Zw==
-X-Received: by 2002:a05:6214:f02:b0:46a:6b5d:1a93 with SMTP id
- gw2-20020a0562140f0200b0046a6b5d1a93mr3989753qvb.75.1655222061223; 
- Tue, 14 Jun 2022 08:54:21 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sVey4CVsJsiVOw+S7VO1Hptb8EA/cXqrJMbfaEp7f00De80K2ZDWpe4jJilaYfWQ1/RRUOFA==
-X-Received: by 2002:a05:6214:f02:b0:46a:6b5d:1a93 with SMTP id
- gw2-20020a0562140f0200b0046a6b5d1a93mr3989721qvb.75.1655222060617; 
- Tue, 14 Jun 2022 08:54:20 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- k14-20020a05622a03ce00b00304eaca5e5csm7537500qtx.73.2022.06.14.08.54.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7V0Yx83/KzW8Q6mBxG6TRKpr8ulK1VqJTSufD2j2QP4=;
+ b=wTCBNmOmA0d/PrSNiXCwikmusxSfSs0L10o4euX0D5eMQRqKiDaPr33CCGN4RZnkGK
+ qULqZJTk/5a+3IHoFD4QZiLssr3woTrACDhefUf9zrI96rZgsf7AeA9+kSI9kXGsnc+V
+ yxKZ1m6ZIP0Cd2s/Bo/foJUowNEvO3kifx4tp+5t1CgPxts9uT2qTEaiAQmE61UFfwLq
+ FsLzk9Aj0TS0FZcSI/XWRRFGEkyUAdHq5HPEty/i9KsRA3KhVmH4YI71tpeMJUOP4oE5
+ E17TLZ/KWbF2RMSS4V6grWmplo0vyZosiUWdDdMic/VLTfCjy/wvI6A6B1Zh/N/1Gb0W
+ nroA==
+X-Gm-Message-State: AOAM532W2PqgZnOar7TTJre0nGja6ScPgSdvDGRVpB9xPH6F+EVWDGnB
+ KObTcGi87krPkaZN/s8T3WQ=
+X-Google-Smtp-Source: ABdhPJwj5/2mKTvCh8MaSsRYrxJieA0yXSLKGyVkSuR5iStgoi4H3Goo3K54hqJ8CGS6ukmaccMQVg==
+X-Received: by 2002:a63:d806:0:b0:408:9e5d:68b9 with SMTP id
+ b6-20020a63d806000000b004089e5d68b9mr5051417pgh.22.1655222601393; 
+ Tue, 14 Jun 2022 09:03:21 -0700 (PDT)
+Received: from zhdaniel-fedora-MJ0FVN0B.corp.tfbnw.net
+ ([2620:10d:c090:500::2:9ac3]) by smtp.gmail.com with ESMTPSA id
+ b10-20020a170902bd4a00b00168b7d639acsm7422643plx.170.2022.06.14.09.03.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jun 2022 08:54:20 -0700 (PDT)
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Alexander Bulekov <alxndr@bu.edu>
-Subject: [PATCH] build: fix check for -fsanitize-coverage-allowlist
-Date: Tue, 14 Jun 2022 11:54:15 -0400
-Message-Id: <20220614155415.4023833-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.27.0
+ Tue, 14 Jun 2022 09:03:21 -0700 (PDT)
+From: Dan Zhang <dz4list@gmail.com>
+To: clg@kaod.org
+Cc: alistair@alistair23.me, andrew@aj.id.au, dz4list@gmail.com,
+ frasse.iglesias@gmail.com, hreitz@redhat.com, irischenlj@fb.com,
+ irischenlj@gmail.com, joel@jms.id.au, kwolf@redhat.com, lvivier@redhat.com,
+ patrick@stwcx.xyz, pbonzini@redhat.com, pdel@fb.com,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, thuth@redhat.com
+Subject: [PATCH] hw:w25p80: Add STATE_STANDBY to handle incorrect command
+Date: Tue, 14 Jun 2022 09:02:46 -0700
+Message-Id: <20220614160246.2888751-1-dz4list@gmail.com>
+X-Mailer: git-send-email 2.34.3
+In-Reply-To: <673b4b6c-b107-ab03-fe51-752ec45e6a04@kaod.org>
+References: <673b4b6c-b107-ab03-fe51-752ec45e6a04@kaod.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.81; envelope-from=alxndr@bu.edu;
- helo=esa11.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=dz4list@gmail.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,59 +91,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing check has two problems:
-1. Meson uses a private directory for the get_supported_arguments check.
-./instrumentation-filter does not exist in that private directory (it is
-copied into the root of the build-directory).
-
-2. fsanitize-coverage-allowlist is unused when coverage instrumentation
-is not configured. No instrumentation are passed for the
-get_supported_arguments check
-
-Thus the check always fails. To work around this, change the check to an
-"if cc.compiles" check and provide /dev/null, instead of the real
-filter.
-
-Meson log:
-Working directory:  build/meson-private/tmpl6wld2d9
-Command line:  clang-13 -m64 -mcx16
-build/meson-private/tmpl6wld2d9/output.obj -c -O3 -D_FILE_OFFSET_BITS=64
--O0 -Werror=implicit-function-declaration -Werror=unknown-warning-option
--Werror=unused-command-line-argument
--Werror=ignored-optimization-argument
--fsanitize-coverage-allowlist=instrumentation-filter
-
-Error:
-error: argument unused during compilation:
-'-fsanitize-coverage-allowlist=instrumentation-filter'
-
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- meson.build | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ hw/block/m25p80.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meson.build b/meson.build
-index 0c2e11ff07..85134267b5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -209,9 +209,13 @@ if get_option('fuzzing')
-   configure_file(output: 'instrumentation-filter',
-                  input: 'scripts/oss-fuzz/instrumentation-filter-template',
-                  copy: true)
--  add_global_arguments(
--      cc.get_supported_arguments('-fsanitize-coverage-allowlist=instrumentation-filter'),
--      native: false, language: ['c', 'cpp', 'objc'])
-+
-+  if cc.compiles('int main () { return 0; }',
-+                  name: '-fsanitize-coverage-allowlist=/dev/null',
-+                 args: ['-fsanitize-coverage-allowlist=/dev/null'] )
-+    add_global_arguments('-fsanitize-coverage-allowlist=instrumentation-filter',
-+                         native: false, language: ['c', 'cpp', 'objc'])
-+  endif
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index b6bd430a99..3bb0466dca 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -423,6 +423,7 @@ typedef enum {
+     STATE_COLLECTING_DATA,
+     STATE_COLLECTING_VAR_LEN_DATA,
+     STATE_READING_DATA,
++    STATE_STANDBY,
+ } CMDState;
  
-   if get_option('fuzzing_engine') == ''
-     # Add CFLAGS to tell clang to add fuzzer-related instrumentation to all the
+ typedef enum {
+@@ -1218,6 +1219,9 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+             || !s->write_enable) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "M25P80: Status register write is disabled!\n");
++	    qemu_log_mask(LOG_GUEST_ERROR,
++                          "M25P80: switch to standby, re-aseert CS to reactivate \n");
++	    s->state = STATE_STANDBY;
+             break;
+         }
+ 
+@@ -1472,6 +1476,9 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
+                           s->cur_addr, (uint8_t)tx);
+ 
+     switch (s->state) {
++    case STATE_STANDBY:
++	r = 0xFFFFFFFF; /* StandBy state SO shall be HiZ */
++	break;
+ 
+     case STATE_PAGE_PROGRAM:
+         trace_m25p80_page_program(s, s->cur_addr, (uint8_t)tx);
 -- 
-2.27.0
+2.34.3
 
 
