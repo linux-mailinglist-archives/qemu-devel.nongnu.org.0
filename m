@@ -2,87 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D0C54B408
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 17:00:42 +0200 (CEST)
-Received: from localhost ([::1]:40342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B14754B446
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 17:13:11 +0200 (CEST)
+Received: from localhost ([::1]:47568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1825-0002Hp-Us
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 11:00:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
+	id 1o18E9-0000y1-Le
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 11:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o17xw-00009h-Gh
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:56:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23427)
+ (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
+ id 1o18D3-0008VV-6y; Tue, 14 Jun 2022 11:12:01 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o17xu-0002N6-7y
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:56:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655218581;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AgqnDdh9SkWdl9V4fZZiEvBxoUNAy8baQLtuPGsWjIk=;
- b=K0eF2u+EkvGBh+KIlWphAwwe/o0xNg/q3qIPJg0lRJCcRolW80lRExHOnLGaF+UHFD43Ny
- 9znHhZGkxQB+uvpoDl7Siscz9BZBcZmYmYvqog/fj10TpBrsOQUZxE5tjA16SbBHIOsqWN
- MEM1KhJF0lWoCJ7WidWbpBWK+xr98Qs=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-Hny22R2oOiqTf6n_e23P6A-1; Tue, 14 Jun 2022 10:56:20 -0400
-X-MC-Unique: Hny22R2oOiqTf6n_e23P6A-1
-Received: by mail-ua1-f71.google.com with SMTP id
- s14-20020ab02bce000000b0035d45862725so4140900uar.22
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 07:56:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AgqnDdh9SkWdl9V4fZZiEvBxoUNAy8baQLtuPGsWjIk=;
- b=lsnkIu2o6c5DdLWmKpauhYIEm/KvKYbtjvMnjtPopP6aTu+P9dTeyUj0BKzxlKWkf7
- Mbp35q4hQuEb6jj+hIqEjquJeLuoyw1hs2Qker9ejyDpw89kzMgbRhRMLo3ssb5YZCdm
- KIHL6QxYa1l/pV+o0dCCREq1titGuuQrFJn9Xh26GGBhnSSVNt0SQ18wOuE1V72num69
- NxmKnupBoZ+hFi6Kpq+XFj7UgD6capb/E338QQWx0kDeXdSdmAhip/VymRmhtsD7ITG2
- w3+crCti5qqRevc9xPCiaGs4l47dz+2/dooY42nU4quKctA9sH24Y+0SoVYmBzIepkra
- iw5w==
-X-Gm-Message-State: AJIora99gbwgWDIKA1qzs7f1decIxLvy4uO8ZDwWAmmX52B7glqnJP9E
- Gp/IfKFRe8L2UZbINKq+AsgU7QMEk8XbKDS8cSTwtoMDY/0MNwC00Dg97I0rhS76QLL5vW0NFdz
- 0k6UlKBqBINQvppViTly2L0FwgYOB5j4=
-X-Received: by 2002:a67:f592:0:b0:34b:ba28:f7b4 with SMTP id
- i18-20020a67f592000000b0034bba28f7b4mr2388447vso.61.1655218579867; 
- Tue, 14 Jun 2022 07:56:19 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v3D2CG4SOyS+2KCAteAYoeb9xZ7hbkrg9XuizrKIPdf2eqSu/UtYlYYn7tKOLLoO39CJ74NsX8vbBz6lOtOCM=
-X-Received: by 2002:a67:f592:0:b0:34b:ba28:f7b4 with SMTP id
- i18-20020a67f592000000b0034bba28f7b4mr2388439vso.61.1655218579701; Tue, 14
- Jun 2022 07:56:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
+ id 1o18D0-0004x9-Ld; Tue, 14 Jun 2022 11:12:00 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25EFBmwN021312;
+ Tue, 14 Jun 2022 15:11:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=QIJUfdjZRy5chTEnpL523Sepddfaj6MJ8SPZ5Xi2Kmw=;
+ b=fPHzC2mGoDmNj5hTHqO6QtYXgtnWJTa5xxsA1rxlsoWf2cpxZc0Q4z3yDg9TxbNaITe/
+ SZgWHCZ7JD9oubd8UcTj7HRQt5TM/c9imQKNZaJOfUZzqSwQiP3zDC0ZX4dNthPkg52Q
+ LSGnFQhzjLN880UNY9YHnLcLNftWxYmLV7qy2dKmTDXAVUBwp+3bH7K6vXcVuxx7k+Au
+ a8NOMyMbnb9QI0GdWUf/e9MY57hNQ2WCzGOCXbFNUl3fiV84SFWHgTVjJ48M/BBlMYdk
+ Lf9QJZLMxmX6XLOpH9r/3Xf5eb/xLzstOy7cvkUYWk4MrDVIIPCW4YPBjwN+d/bf+cPc 9A== 
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gpqnb9s8y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jun 2022 15:11:48 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25EF5d86004404;
+ Tue, 14 Jun 2022 15:11:32 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04dal.us.ibm.com with ESMTP id 3gmjpa2ae6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jun 2022 15:11:32 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25EFBVLQ20709698
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jun 2022 15:11:31 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 80B48C605A;
+ Tue, 14 Jun 2022 15:11:31 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EFCD2C6057;
+ Tue, 14 Jun 2022 15:11:29 +0000 (GMT)
+Received: from [9.160.187.150] (unknown [9.160.187.150])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 14 Jun 2022 15:11:29 +0000 (GMT)
+Message-ID: <4d2ff9d6-3e65-087b-cbc6-7b4a8f4fc094@linux.ibm.com>
+Date: Tue, 14 Jun 2022 12:11:28 -0300
 MIME-Version: 1.0
-References: <20220614015044.2501806-1-jsnow@redhat.com>
- <20220614015044.2501806-5-jsnow@redhat.com>
- <YqhQLC7vsLDAjLK7@redhat.com>
-In-Reply-To: <YqhQLC7vsLDAjLK7@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 14 Jun 2022 10:56:09 -0400
-Message-ID: <CAFn=p-bZRCD_grxoGgiC9spo7sf8rtB8J=dTdWxpL0E2C=fjmQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] tests/vm: switch CentOS 8 to CentOS 8 Stream
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 06/11] ppc/pnv: make pnv_ics_resend() use chip8->phbs[]
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, mark.cave-ayland@ilande.co.uk
+References: <20220613154456.359674-1-danielhb@linux.ibm.com>
+ <20220613154456.359674-7-danielhb@linux.ibm.com>
+ <deb180db-a6be-906d-dc86-f8c0830be22e@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+In-Reply-To: <deb180db-a6be-906d-dc86-f8c0830be22e@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: JOwqfOlmXX4gqU_7RCZl3YqYspQbSNMJ
+X-Proofpoint-GUID: JOwqfOlmXX4gqU_7RCZl3YqYspQbSNMJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-14_05,2022-06-13_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ malwarescore=0 lowpriorityscore=0 impostorscore=0 spamscore=0 phishscore=0
+ mlxlogscore=740 suspectscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206140059
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=danielhb@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,55 +110,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 5:09 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Mon, Jun 13, 2022 at 09:50:43PM -0400, John Snow wrote:
-> > The old CentOS image didn't work anymore because it was already EOL at
-> > the beginning of 2022.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  tests/vm/centos | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/tests/vm/centos b/tests/vm/centos
-> > index be4f6ff2f14..f5bbdecf62d 100755
-> > --- a/tests/vm/centos
-> > +++ b/tests/vm/centos
-> > @@ -1,8 +1,8 @@
-> >  #!/usr/bin/env python3
-> >  #
-> > -# CentOS image
-> > +# CentOS 8 Stream image
-> >  #
-> > -# Copyright 2018 Red Hat Inc.
-> > +# Copyright 2018, 2022 Red Hat Inc.
-> >  #
-> >  # Authors:
-> >  #  Fam Zheng <famz@redhat.com>
-> > @@ -18,7 +18,7 @@ import basevm
-> >  import time
-> >
-> >  class CentosVM(basevm.BaseVM):
-> > -    name =3D "centos"
-> > +    name =3D "centos8s"
->
->
-> What's the effect of this ?  It feels a little odd to set name to 'centos=
-8s'
-> here but have this file still called just 'centos' - I assume the 'name'
-> variable was intended to always match the filename
->
 
-Changes the logfile names in ~/.cache/qemu-vm, changes the hostname
-config in gen_cloud_init_iso(), not much else.
 
-You're right, though, I shouldn't change it in one place but not the
-other ... I'll just leave it as "centos". I felt compelled briefly to
-indicate it was "the newer, different CentOS" but with the old one
-being EOL I suppose it's easy enough to infer.
+On 6/14/22 06:24, Frederic Barrat wrote:
+> 
+> 
+> On 13/06/2022 17:44, Daniel Henrique Barboza wrote:
+>> pnv_ics_resend() is scrolling through all the child objects of the chip
+>> to search for the PHBs. It's faster and simpler to just use the phbs[]
+>> array.
+>>
+>> pnv_ics_resend_child() was folded into pnv_ics_resend() since it's too
+>> simple to justify its own function.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+>> ---
+>>   hw/ppc/pnv.c | 22 +++++++---------------
+>>   1 file changed, 7 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>> index 05a8d5034f..d70deffa1d 100644
+>> --- a/hw/ppc/pnv.c
+>> +++ b/hw/ppc/pnv.c
+>> @@ -1993,28 +1993,20 @@ PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
+>>       return NULL;
+>>   }
+>> -static int pnv_ics_resend_child(Object *child, void *opaque)
+>> -{
+>> -    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
+>> -
+>> -    if (phb3) {
+>> -        ics_resend(&phb3->lsis);
+>> -        ics_resend(ICS(&phb3->msis));
+>> -    }
+>> -    return 0;
+>> -}
+>> -
+>>   static void pnv_ics_resend(XICSFabric *xi)
+>>   {
+>>       PnvMachineState *pnv = PNV_MACHINE(xi);
+>> -    int i;
+>> +    int i, j;
+>>       for (i = 0; i < pnv->num_chips; i++) {
+>> -        PnvChip *chip = pnv->chips[i];
+>>           Pnv8Chip *chip8 = PNV8_CHIP(pnv->chips[i]);
+>> -        ics_resend(&chip8->psi.ics);
+> 
+> 
+> That line shouldn't be dropped, right?
 
---js
+oooffff. It shouldn't. I'll fix it in the v2.
 
+
+It didn't break anything I could see though. OS boots with network
+with ping ....
+
+
+
+Daniel
+
+> 
+>    Fred
+> 
+> 
+>> -        object_child_foreach(OBJECT(chip), pnv_ics_resend_child, NULL);
+>> +        for (j = 0; j < chip8->num_phbs; j++) {
+>> +            PnvPHB3 *phb3 = &chip8->phbs[j];
+>> +
+>> +            ics_resend(&phb3->lsis);
+>> +            ics_resend(ICS(&phb3->msis));
+>> +        }
+>>       }
+>>   }
+> 
 
