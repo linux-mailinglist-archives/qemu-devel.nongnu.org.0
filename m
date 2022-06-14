@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9973054B650
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 18:35:57 +0200 (CEST)
-Received: from localhost ([::1]:42550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E76254B66F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 18:42:49 +0200 (CEST)
+Received: from localhost ([::1]:49510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o19WG-0007uE-8p
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 12:35:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46896)
+	id 1o19cu-0004p4-AB
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 12:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1o19JD-0007UB-Q9
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 12:22:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60084)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o19OC-0002kS-Fi
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 12:27:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1o19JA-00076z-HE
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 12:22:26 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o19O8-0007oa-JN
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 12:27:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655223743;
+ s=mimecast20190719; t=1655224050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nh3kjymOtjrYWipkOy6nzBXH8AzwbA4DM37Cw5cf0yw=;
- b=DkcNPAgWQQG8N7wMACrlXhnf2HT9zZDGKyfqE0epdHzhELXvC5yG+TR+jnMK/H4oRh5EnH
- ZJbq9CXk4PAoZRWJU4vF747GOjFr01P420Un4tu2qC7WFOoor1pW3NZM/uOuJpHgwRjkWy
- lPS41KfhbhPbD4N8vR4Du6JUJK21KEA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TZs0skdfRCOOfC2iygL/Yzq3oetV4vB/SLJpTwD5qtQ=;
+ b=VTd0tbpwr9keJJ4bjlTEtqCQhrS0GykRvqzU597TNABdcACztCZf6GJXSgDvabI6kbvCft
+ PezF73j0Pomy0fV+L1Pm492P04VFNSn8G2HW2LivuegM55s6CXMH8Vfxxje1ew+kJN4cTV
+ Xf+B4yitfzqbthMmnwVNnKJ5u4H0Hu0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-N0BgIl8MN7OSl_0YSOOZOQ-1; Tue, 14 Jun 2022 12:22:21 -0400
-X-MC-Unique: N0BgIl8MN7OSl_0YSOOZOQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- m5-20020a056402430500b004319d8ba8afso6556771edc.5
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 09:22:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Nh3kjymOtjrYWipkOy6nzBXH8AzwbA4DM37Cw5cf0yw=;
- b=zarZt2x+/KGtMCj/EFG9zq53no7WqeZ6SWfEIma8Y1otUaqPQFI2tRBklNDYLtcHtt
- p39OLvJfaZPZpL7bql4zDHwFx4acPyJssGfDzDRrngc3Z5DiL90KifxUPU5ImOn4Nv1s
- i1QY/1xIGPijp3OgRuvf8eae20+/cUrtmAJeDP3rLB1wRrNdF+6AmzJfMePc67qSKsuG
- eYv1S8aNc/fbf3gAS++LTi0d0FipiQGQuXlrHEtdz1YTdyEziJ5anZfmQVPKEoQn5tWF
- o15QFmmZ+4ucJE2hl/2Oci30L7PTpYrr9pjLB0wYZj95uX+eYoehiE2thvyr5VollQHS
- SGhg==
-X-Gm-Message-State: AOAM531CoPmM5Kvpq+y1Jx64weJvJAZY7SdWnhAR8LATV+jTtax4Q5JG
- 2MsFlaZiI4TUCtcn8mu4fOQ5K5lV5dSTS+gLPZejbTnl5axlt6jfSIERG8OvsG3ZoPWn+DGgYRk
- lYPZIvNu327+WCXW+mn9nqIb1dGBxo0c=
-X-Received: by 2002:a05:6402:11d2:b0:42d:e68a:eae0 with SMTP id
- j18-20020a05640211d200b0042de68aeae0mr6972363edw.111.1655223740548; 
- Tue, 14 Jun 2022 09:22:20 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uKOPifKpRlvzxNLdgmAGMKbShmAnrnqLCme8a4WWco7b0vGd2IVt2ayNXSxx6Pg4ksD9Npfdt6zgWCbzwqaVs=
-X-Received: by 2002:a05:6402:11d2:b0:42d:e68a:eae0 with SMTP id
- j18-20020a05640211d200b0042de68aeae0mr6972337edw.111.1655223740320; Tue, 14
- Jun 2022 09:22:20 -0700 (PDT)
+ us-mta-571-QEg04w-jPfimOkMJ-lgR5g-1; Tue, 14 Jun 2022 12:27:27 -0400
+X-MC-Unique: QEg04w-jPfimOkMJ-lgR5g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD8C13C025B5;
+ Tue, 14 Jun 2022 16:27:26 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 421472166B29;
+ Tue, 14 Jun 2022 16:27:26 +0000 (UTC)
+Date: Tue, 14 Jun 2022 17:27:25 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "f4bug@amsat.org" <f4bug@amsat.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "eduardo@habkost.net" <eduardo@habkost.net>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Subject: Re: [PATCH v12 00/14] vfio-user server in QEMU
+Message-ID: <Yqi27QRzSnL8tN/2@stefanha-x1.localdomain>
+References: <cover.1655151679.git.jag.raman@oracle.com>
+ <YqgzX2K9X9wLMZmC@stefanha-x1.localdomain>
+ <94C1BA50-A498-4A98-A970-2E7C39C97BA6@oracle.com>
 MIME-Version: 1.0
-References: <20220608210403.84006-1-leobras@redhat.com>
- <YqGq0Bw7V26vaNoI@redhat.com>
- <CAJ6HWG41=Wwf5gMY=Q0G2VCKfdNsyDRGDXELwvgRBjXMNB9GKw@mail.gmail.com>
- <YqL/3VTze/b9DKUL@redhat.com>
- <CAJ6HWG5kCiprhCB6578ZibRSWW9ie5kBhbh7DFW-=K1sEnSHWg@mail.gmail.com>
- <YqhIofy4h0hfHPPx@redhat.com>
-In-Reply-To: <YqhIofy4h0hfHPPx@redhat.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Tue, 14 Jun 2022 13:22:10 -0300
-Message-ID: <CAJ6HWG7rM7fC6uVTeUKDFGtwbSXYVGo4wwH-E9UgW6YSjS7O4Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] QIOChannelSocket: Reduce ifdefs to improve
- readability
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>,
- =?UTF-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>, 
- David Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QiaMANqBS7fD1w7B"
+Content-Disposition: inline
+In-Reply-To: <94C1BA50-A498-4A98-A970-2E7C39C97BA6@oracle.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -102,92 +101,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 5:36 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Mon, Jun 13, 2022 at 06:21:18PM -0300, Leonardo Bras Soares Passos wro=
-te:
-> > On Fri, Jun 10, 2022 at 5:25 AM Daniel P. Berrang=C3=A9 <berrange@redha=
-t.com> wrote:
-> > >
-> >
-> > [...]
-> >
-> > > Ok, so if it is checked earlier then we merely need an assert.
-> > >
-> > >      if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> > >  #ifdef QEMU_MSG_ZEROCOPY
-> > >          sflags =3D MSG_ZEROCOPY;
-> > >          zero_copy_enabled =3D true;
-> > >  #else
-> > >          g_assert_unreachable();
-> > >  #endif
-> > > >     }
-> >
-> > Ok, I will add that in the next version.
-> >
-> > >
-> > >
-> > >
-> > > > > > @@ -592,15 +594,13 @@ static ssize_t qio_channel_socket_writev(=
-QIOChannel *ioc,
-> > > > > >              return QIO_CHANNEL_ERR_BLOCK;
-> > > > > >          case EINTR:
-> > > > > >              goto retry;
-> > > > > > -#ifdef QEMU_MSG_ZEROCOPY
-> > > > > >          case ENOBUFS:
-> > > > > > -            if (sflags & MSG_ZEROCOPY) {
-> > > > > > +            if (zero_copy_enabled) {
-> > > > >
-> > > > > if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY)
-> > > > >
-> > > > > avoids the #ifdef without needing to add yet another
-> > > > > variable expressing what's already expressed in both
-> > > > > 'flags' and 'sflags'.
-> > > >
-> > > > Yes, it does, but at the cost of not compiling-out the zero-copy pa=
-rt
-> > > > when it's not supported,
-> > > > since the QIO_CHANNEL_WRITE_FLAG_ZERO_COPY comes as a parameter. Th=
-is ends up
-> > > > meaning there will be at least one extra test for every time this
-> > > > function is called (the one in the next patch).
-> > >
-> > > The cost of a simple bit test is between negligible-and-non-existant
-> > > with branch prediction. I doubt it would be possible to even measure
-> > > it.
-> >
-> > Yeah, you are probably right on that.
-> > So the main learning point here is that it's not worth creating a new
-> > boolean for compiling-out
-> > code that should not impact performance ?
->
-> As ever "it depends" so there's no hard rule, and sometimes it can
-> verge on bikeshed colouring :-)
->
-> I didn't like the variable in this case, because it introduces a 3rd
-> variable to the method for representing whether zero copy is need,
-> which is excessive. I'm not a fan of redundancy as it can often then
-> lead to inconsistency. So it would need a compelling reason why it is
-> better, which is difficult for such a simple method. If the code was
-> more complex, a variable might have benefit of clarity, but in this
-> case IMHO it was just overkill.
 
-I see. Thanks for the clarification!
+--QiaMANqBS7fD1w7B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Leo
+On Tue, Jun 14, 2022 at 02:37:02PM +0000, Jag Raman wrote:
+> > On Jun 14, 2022, at 3:06 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> >=20
+> > On Mon, Jun 13, 2022 at 04:26:20PM -0400, Jagannathan Raman wrote:
+> >> This is v12 of the server side changes to enable vfio-user in QEMU.
+> >>=20
+> >> Thanks so much for reviewing this series and sharing your feedback.
+> >>=20
+> >> We made the following changes in this series:
+> >> [PATCH v12 13/14] vfio-user: handle device interrupts
+> >> - Renamed msi_set_irq_state() and msix_set_irq_state() as
+> >>   msi_set_mask() and msix_set_mask() respectively
+> >> - Added missing return statement for error case in msi_set_mask()
+> >=20
+> > Thanks, applied to my block tree:
+> > https://gitlab.com/stefanha/qemu/commits/block
+>=20
+> Thank you very much, Stefan! :)
 
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+You're welcome! Thanks for the persistence in getting the vfio-user
+server into QEMU.
+
+I have mirrored libvfio-user here:
+https://gitlab.com/qemu-project/libvfio-user
+
+The QEMU project's policy is to mirror dependencies so full source code
+can be provided even in the event that dependencies become unavailable.
+The mirror is currently manually updated, so please ping me if you want
+newer commits.
+
+Thanks,
+Stefan
+
+--QiaMANqBS7fD1w7B
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKotu0ACgkQnKSrs4Gr
+c8hCXAf/dnbeBPeUU6oW2Xmx6G/JkPVVedLvIUhJRJELAguj+eXiL0hXetdtKdOW
+D3jk8FLrgZLQRQ2QLccEF5nxaJSMCM+RtsZlnt+UdEARgePW7JGn/TY+hmaDui4D
+PJv1Cquu4bm38UyJl+jVHciSgSI/g96bzfFHzIU9fdEXkCaMhV3qPdr+fAJvm/Kh
+AlJOHhGUBZ2TqzSEXyarEJQeV4y4hIbnY1n1V3p8z9sR0z9o/8YB4SxsMf1YuzVo
+kLVQZtI0Smp3IjsqJ1SfjH+bugj7jZ8FiTtFu+rheZdRzORsYyYqa/Hk1rUAfu7t
+ZlcHTJOGi39pRxacTlNI9gBnnYcPQg==
+=uOqx
+-----END PGP SIGNATURE-----
+
+--QiaMANqBS7fD1w7B--
 
 
