@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5F754A9DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 09:01:18 +0200 (CEST)
-Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C880554AA01
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 09:06:32 +0200 (CEST)
+Received: from localhost ([::1]:47916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o10Y9-00071R-SV
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 03:01:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40242)
+	id 1o10dD-00026l-AO
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 03:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o10P6-00028b-Qx
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 02:51:56 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:45829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o10P5-00066E-Da
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 02:51:56 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- t3-20020a17090a510300b001ea87ef9a3dso8197683pjh.4
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 23:51:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1EG21iRt6rNAtqpS3PlFqph50BJP9ggt6bb9GEmlC+o=;
- b=BSNPoGPbsNtnjKN8f1wZHjK+T9t/ZtfSPpIaE9er1Uq6PAQUgddskxQruEHz8DY7z7
- mpvGCqIel9MfzqzfNGYgoki/84L7pVHJgJC1oL2kkiUNS7tgunQw+KkppxYT7zeW1ajZ
- mbyKEo4bcBKCJOYmDCejz26GOscz17BQkZaLsjxeCl4wCIFhZtPz0oiJFj183YetlV57
- 4nB/9zWNCDT5LwovYDGRKOffAQKkVAU04RIjSqRk+bo+Eo1fsaUiX3wNk3c2yVCeu2FR
- 4znQubWRNvQ7Flp7tflEuJ0D76B3prt8dAjjQU9SfWe3mjkon4B3+zi7CRa0XJQndvPp
- MPEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1EG21iRt6rNAtqpS3PlFqph50BJP9ggt6bb9GEmlC+o=;
- b=dp0eNFiLCkxnAtGKyOoEyRU7fju3aFQ0fbOLQkJpOX/f+dfzkyBou+mhJKW5a70/DR
- qBJoXgp+52xPcwf1I+bGHy1KzO93VWujsgGB+NXYPvhF1+roUqSBBi09c7JWs61YTaTg
- ZIRLakNj3nuzDSCl4aEyax59pSmRQc/YNdB+210m+6qoafKJTaM2zOJgAeZGUfOwlQEa
- KB6XCDEFYQBRNXpzQ0cqO2D7FumYaBlIm0rAHPcCIYXvrio8s+TNpJcFEWWcwna+cRdj
- M6fIQrG2it8/ig4s9vmP8x3pwIgGXZ2p9OFptzvd0hica1yn47JIU9gQI5h0xvbKAKdp
- gkOg==
-X-Gm-Message-State: AJIora/Lqb77A8hoDN+6yCsCAjBbcBN8aJxlrKHOhrNbEV6qb/pc4ZHq
- MZ/D6doDDkFPGhJ/BjW+6VQ=
-X-Google-Smtp-Source: AGRyM1sEE5hwRx9jOp852A59+bKjlDtnA3n/d5Yp8Z9lcfA1YW4HRebPkunub7Fy7cvXEI+qhm/4Aw==
-X-Received: by 2002:a17:902:c2d3:b0:168:e13c:4e23 with SMTP id
- c19-20020a170902c2d300b00168e13c4e23mr3160437pla.99.1655189513918; 
- Mon, 13 Jun 2022 23:51:53 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- r33-20020a17090a43a400b001e305f5cd22sm6429604pjg.47.2022.06.13.23.51.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 23:51:53 -0700 (PDT)
-Message-ID: <a347da68-5b00-1e0b-0e8e-62cba81fa30f@amsat.org>
-Date: Tue, 14 Jun 2022 08:51:48 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o10U4-0005H2-BH
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 02:57:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o10U1-0006wO-Uu
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 02:57:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655189821;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CXrbpevZNPaXtXC8HyrwgahUgr8nzGzepH2xYb3pXts=;
+ b=AzJnXtzdERsKJRZozg0+vkxzRWU2l2oVMZ5CaIYpCYlRfehoBTILsIRI5L69YqG8cE0dXm
+ KcN9dWPtE81eA5XZXBuVDRgySK7R+D3WTn9troJkNhZnHlsUaOgjcqVb4mxiR0Buy7qVg9
+ TJVXLd2Uuycg8DuC4vAcJFykhP29Kq0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-354-zAM2wJOjOeWeL8-qo1U7gg-1; Tue, 14 Jun 2022 02:56:57 -0400
+X-MC-Unique: zAM2wJOjOeWeL8-qo1U7gg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22D00800124;
+ Tue, 14 Jun 2022 06:56:57 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 816621121314;
+ Tue, 14 Jun 2022 06:56:56 +0000 (UTC)
+Date: Tue, 14 Jun 2022 07:56:54 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, alex.williamson@redhat.com,
+ f4bug@amsat.org, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ thuth@redhat.com, bleal@redhat.com, berrange@redhat.com,
+ peter.maydell@linaro.org, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com, imammedo@redhat.com,
+ peterx@redhat.com, john.levon@nutanix.com,
+ thanos.makatos@nutanix.com, elena.ufimtseva@oracle.com,
+ john.g.johnson@oracle.com, kanth.ghatraju@oracle.com
+Subject: Re: [PATCH v12 13/14] vfio-user: handle device interrupts
+Message-ID: <YqgxNtPZVBTxkn/h@stefanha-x1.localdomain>
+References: <cover.1655151679.git.jag.raman@oracle.com>
+ <9523479eaafe050677f4de2af5dd0df18c27cfd9.1655151679.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH 1/7] crypto: Introduce ECDSA algorithm API
-Content-Language: en-US
-To: Lei He <helei.sig11@bytedance.com>, mst@redhat.com,
- arei.gonglei@huawei.com, berrange@redhat.com, qemu-devel@nongnu.org
-Cc: pizhenwei@bytedance.com, jasowang@redhat.com
-References: <20220613084531.8086-1-helei.sig11@bytedance.com>
- <20220613084531.8086-2-helei.sig11@bytedance.com>
-In-Reply-To: <20220613084531.8086-2-helei.sig11@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RXgHxg79jrrCsO0e"
+Content-Disposition: inline
+In-Reply-To: <9523479eaafe050677f4de2af5dd0df18c27cfd9.1655151679.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,29 +87,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 13/6/22 10:45, Lei He wrote:
-> Introduce ECDSA related structures to qapi-crypto.
-> 
-> Signed-off-by: lei he <helei.sig11@bytedance.com>
+
+--RXgHxg79jrrCsO0e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jun 13, 2022 at 04:26:33PM -0400, Jagannathan Raman wrote:
+> Forward remote device's interrupts to the guest
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > ---
->   qapi/crypto.json | 28 ++++++++++++++++++++++++++--
->   1 file changed, 26 insertions(+), 2 deletions(-)
+>  include/hw/pci/msi.h              |   1 +
+>  include/hw/pci/msix.h             |   1 +
+>  include/hw/pci/pci.h              |  13 +++
+>  include/hw/remote/vfio-user-obj.h |   6 ++
+>  hw/pci/msi.c                      |  49 +++++++--
+>  hw/pci/msix.c                     |  35 ++++++-
+>  hw/pci/pci.c                      |  13 +++
+>  hw/remote/machine.c               |  14 ++-
+>  hw/remote/vfio-user-obj.c         | 167 ++++++++++++++++++++++++++++++
+>  stubs/vfio-user-obj.c             |   6 ++
+>  MAINTAINERS                       |   1 +
+>  hw/remote/trace-events            |   1 +
+>  stubs/meson.build                 |   1 +
+>  13 files changed, 297 insertions(+), 11 deletions(-)
+>  create mode 100644 include/hw/remote/vfio-user-obj.h
+>  create mode 100644 stubs/vfio-user-obj.c
 
-> +##
-> +# @QCryptoAkCipherOptionsECDSA:
-> +#
-> +# Specific parameters for ECDSA algorithm.
-> +#
-> +# @curve-id: QCryptoCurveId
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'QCryptoAkCipherOptionsECDSA',
-> +  'data': { 'curve-id':'QCryptoCurveID' }}
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Missing an extra space after 'curve-id':, otherwise
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--RXgHxg79jrrCsO0e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKoMTYACgkQnKSrs4Gr
+c8gqtwgAljxoUzoZg0WoiudMIry4V8zEAKgKWATPE/ttNOHch7gA78SNmwqPWpIu
+eJrjJRHuVKsEdhP4RU/mj3B4KWRXAehch8jnnTvQOuu2Re+Quzz29Xr4qbpZMRNS
+MDauYJiSh884g2NXFkpHDiJSNgd93n+64KxoqHeu3HvjAH3/sOfyzGpo6ahaJsE7
+p30Taacm8LojpHSye3DsNsszMQ59Q7mDl0MOixePSTwlNeY4exjkZIkcn68IbAfe
+DH5/NB/B4uTBU6oSQDYwccx1MzZlMSNLfA4XZGrCjAQPWVMfio7EmxRv5Aq9bSbd
+VC0ZAml7fgU1frgLsa8Yynlda/w8rg==
+=lnnc
+-----END PGP SIGNATURE-----
+
+--RXgHxg79jrrCsO0e--
+
 
