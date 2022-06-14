@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EC354B70C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 19:00:23 +0200 (CEST)
-Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7514A54B653
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 18:38:59 +0200 (CEST)
+Received: from localhost ([::1]:44940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o19tu-0000yu-10
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 13:00:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48660)
+	id 1o19ZC-0001RQ-5V
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 12:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1o19Rx-0005ZX-JY; Tue, 14 Jun 2022 12:31:29 -0400
+ id 1o19S0-0005fY-Jh; Tue, 14 Jun 2022 12:31:32 -0400
 Received: from [187.72.171.209] (port=34837 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1o19Rv-0008Tq-U1; Tue, 14 Jun 2022 12:31:29 -0400
+ id 1o19Ry-0008Tq-Mr; Tue, 14 Jun 2022 12:31:32 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 14 Jun 2022 13:31:17 -0300
+ Tue, 14 Jun 2022 13:31:19 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 0E35D80046B;
- Tue, 14 Jun 2022 13:31:17 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 401FA80046B;
+ Tue, 14 Jun 2022 13:31:19 -0300 (-03)
 From: Leandro Lupori <leandro.lupori@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, npiggin@gmail.com,
  Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: [PATCH RESEND 2/3] target/ppc: Move tlbiel to decode tree
-Date: Tue, 14 Jun 2022 13:30:17 -0300
-Message-Id: <20220614163018.39819-3-leandro.lupori@eldorado.org.br>
+Subject: [PATCH RESEND 3/3] target/ppc: Implement ISA 3.00 tlbie[l]
+Date: Tue, 14 Jun 2022 13:30:18 -0300
+Message-Id: <20220614163018.39819-4-leandro.lupori@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220614163018.39819-1-leandro.lupori@eldorado.org.br>
 References: <20220614163018.39819-1-leandro.lupori@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 14 Jun 2022 16:31:17.0606 (UTC)
- FILETIME=[2C25B060:01D8800C]
+X-OriginalArrivalTime: 14 Jun 2022 16:31:19.0625 (UTC)
+ FILETIME=[2D59C390:01D8800C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,112 +63,239 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also decode RIC, PRS and R operands.
+This initial version supports the invalidation of one or all
+TLB entries. Flush by PID/LPID, or based in process/partition
+scope is not supported, because it would make using the
+generic QEMU TLB implementation hard. In these cases, all
+entries are flushed.
 
 Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 ---
- target/ppc/insn32.decode                     |  1 +
- target/ppc/translate.c                       | 22 --------------------
- target/ppc/translate/storage-ctrl-impl.c.inc | 16 +++++++++-----
- 3 files changed, 12 insertions(+), 27 deletions(-)
+ target/ppc/helper.h                          |  18 +++
+ target/ppc/mmu_helper.c                      | 154 +++++++++++++++++++
+ target/ppc/translate/storage-ctrl-impl.c.inc |  15 ++
+ 3 files changed, 187 insertions(+)
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 1710babfc4..44ac5f0785 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -793,3 +793,4 @@ XVF64GERNN      111011 ... -- .... 0 ..... 11111010 ..-  @XX3_at xa=%xx_xa_pair
- @X_tlbie        ...... rs:5 - ric:2 prs:1 r:1 rb:5 .......... .     &X_tlbie
- 
- TLBIE           011111 ..... - .. . . ..... 0100110010 -            @X_tlbie
-+TLBIEL          011111 ..... - .. . . ..... 0100010010 -            @X_tlbie
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index c945ff0362..4fcb311c2d 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -5424,26 +5424,6 @@ static void gen_tlbia(DisasContext *ctx)
- #endif  /* defined(CONFIG_USER_ONLY) */
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 6233e28d85..0b2bc8020b 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -664,6 +664,24 @@ DEF_HELPER_FLAGS_1(tlbia, TCG_CALL_NO_RWG, void, env)
+ DEF_HELPER_FLAGS_2(tlbie, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(tlbiva, TCG_CALL_NO_RWG, void, env, tl)
+ #if defined(TARGET_PPC64)
++
++/*
++ * tlbie[l] helper flags
++ *
++ * RIC, PRS, R and local are passed as flags in the last argument.
++ */
++#define TLBIE_F_RIC_SHIFT       0
++#define TLBIE_F_PRS_SHIFT       2
++#define TLBIE_F_R_SHIFT         3
++#define TLBIE_F_LOCAL_SHIFT     4
++
++#define TLBIE_F_RIC_MASK        (3 << TLBIE_F_RIC_SHIFT)
++#define TLBIE_F_PRS             (1 << TLBIE_F_PRS_SHIFT)
++#define TLBIE_F_R               (1 << TLBIE_F_R_SHIFT)
++#define TLBIE_F_LOCAL           (1 << TLBIE_F_LOCAL_SHIFT)
++
++DEF_HELPER_FLAGS_4(tlbie_isa300, TCG_CALL_NO_WG, void, \
++        env, tl, tl, i32)
+ DEF_HELPER_FLAGS_3(store_slb, TCG_CALL_NO_RWG, void, env, tl, tl)
+ DEF_HELPER_2(load_slb_esid, tl, env, tl)
+ DEF_HELPER_2(load_slb_vsid, tl, env, tl)
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 15239dc95b..b881aee23f 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -429,6 +429,160 @@ void helper_tlbie(CPUPPCState *env, target_ulong addr)
+     ppc_tlb_invalidate_one(env, addr);
  }
  
--/* tlbiel */
--static void gen_tlbiel(DisasContext *ctx)
--{
--#if defined(CONFIG_USER_ONLY)
--    GEN_PRIV;
--#else
--    bool psr = (ctx->opcode >> 17) & 0x1;
--
--    if (ctx->pr || (!ctx->hv && !psr && ctx->hr)) {
--        /*
--         * tlbiel is privileged except when PSR=0 and HR=1, making it
--         * hypervisor privileged.
--         */
--        GEN_PRIV;
--    }
--
--    gen_helper_tlbie(cpu_env, cpu_gpr[rB(ctx->opcode)]);
--#endif /* defined(CONFIG_USER_ONLY) */
--}
--
- /* tlbsync */
- static void gen_tlbsync(DisasContext *ctx)
++#if defined(TARGET_PPC64)
++
++/* Invalidation Selector */
++#define TLBIE_IS_VA         0
++#define TLBIE_IS_PID        1
++#define TLBIE_IS_LPID       2
++#define TLBIE_IS_ALL        3
++
++/* Radix Invalidation Control */
++#define TLBIE_RIC_TLB       0
++#define TLBIE_RIC_PWC       1
++#define TLBIE_RIC_ALL       2
++#define TLBIE_RIC_GRP       3
++
++/* Radix Actual Page sizes */
++#define TLBIE_R_AP_4K       0
++#define TLBIE_R_AP_64K      5
++#define TLBIE_R_AP_2M       1
++#define TLBIE_R_AP_1G       2
++
++/* RB field masks */
++#define TLBIE_RB_EPN_MASK   PPC_BITMASK(0, 51)
++#define TLBIE_RB_IS_MASK    PPC_BITMASK(52, 53)
++#define TLBIE_RB_AP_MASK    PPC_BITMASK(56, 58)
++
++void helper_tlbie_isa300(CPUPPCState *env, target_ulong rb, target_ulong rs,
++                         uint32_t flags)
++{
++    unsigned ric = (flags & TLBIE_F_RIC_MASK) >> TLBIE_F_RIC_SHIFT;
++    /*
++     * With the exception of the checks for invalid instruction forms,
++     * PRS is currently ignored, because we don't know if a given TLB entry
++     * is process or partition scoped.
++     */
++    bool prs = flags & TLBIE_F_PRS;
++    bool r = flags & TLBIE_F_R;
++    bool local = flags & TLBIE_F_LOCAL;
++    bool effR;
++    unsigned is = extract64(rb, PPC_BIT_NR(53), 2), set;
++    unsigned ap;        /* actual page size */
++    target_ulong addr, pgoffs_mask;
++
++    qemu_log_mask(CPU_LOG_MMU,
++        "%s: local=%d addr=" TARGET_FMT_lx " ric=%u prs=%d r=%d is=%u\n",
++        __func__, local, rb & TARGET_PAGE_MASK, ric, prs, r, is);
++
++    effR = FIELD_EX64(env->msr, MSR, HV) ? r : env->spr[SPR_LPCR] & LPCR_HR;
++
++    /* Partial TLB invalidation is supported for Radix only for now. */
++    if (!effR) {
++        goto inval_all;
++    }
++
++    /* Check for invalid instruction forms (effR=1). */
++    if (unlikely(ric == TLBIE_RIC_GRP ||
++                 ((ric == TLBIE_RIC_PWC || ric == TLBIE_RIC_ALL) &&
++                                           is == TLBIE_IS_VA) ||
++                 (!prs && is == TLBIE_IS_PID))) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++            "%s: invalid instruction form: ric=%u prs=%d r=%d is=%u\n",
++            __func__, ric, prs, r, is);
++        goto invalid;
++    }
++
++    /* We don't cache Page Walks. */
++    if (ric == TLBIE_RIC_PWC) {
++        if (local) {
++            set = extract64(rb, PPC_BIT_NR(51), 12);
++            if (set != 0) {
++                qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid set: %d\n",
++                              __func__, set);
++                goto invalid;
++            }
++        }
++        return;
++    }
++
++    /*
++     * Invalidation by LPID or PID is not supported, so fallback
++     * to full TLB flush in these cases.
++     */
++    if (is != TLBIE_IS_VA) {
++        goto inval_all;
++    }
++
++    /*
++     * The results of an attempt to invalidate a translation outside of
++     * quadrant 0 for Radix Tree translation (effR=1, RIC=0, PRS=1, IS=0,
++     * and EA 0:1 != 0b00) are boundedly undefined.
++     */
++    if (unlikely(ric == TLBIE_RIC_TLB && prs && is == TLBIE_IS_VA &&
++                 (rb & R_EADDR_QUADRANT) != R_EADDR_QUADRANT0)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++            "%s: attempt to invalidate a translation outside of quadrant 0\n",
++            __func__);
++        goto inval_all;
++    }
++
++    assert(is == TLBIE_IS_VA);
++    assert(ric == TLBIE_RIC_TLB || ric == TLBIE_RIC_ALL);
++
++    ap = extract64(rb, PPC_BIT_NR(58), 3);
++    switch (ap) {
++    case TLBIE_R_AP_4K:
++        pgoffs_mask = 0xfffull;
++        break;
++
++    case TLBIE_R_AP_64K:
++        pgoffs_mask = 0xffffull;
++        break;
++
++    case TLBIE_R_AP_2M:
++        pgoffs_mask = 0x1fffffull;
++        break;
++
++    case TLBIE_R_AP_1G:
++        pgoffs_mask = 0x3fffffffull;
++        break;
++
++    default:
++        /*
++         * If the value specified in RS 0:31, RS 32:63, RB 54:55, RB 56:58,
++         * RB 44:51, or RB 56:63, when it is needed to perform the specified
++         * operation, is not supported by the implementation, the instruction
++         * is treated as if the instruction form were invalid.
++         */
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid AP: %d\n", __func__, ap);
++        goto invalid;
++    }
++
++    addr = rb & TLBIE_RB_EPN_MASK & ~pgoffs_mask;
++
++    if (local) {
++        tlb_flush_page(env_cpu(env), addr);
++    } else {
++        tlb_flush_page_all_cpus(env_cpu(env), addr);
++    }
++    return;
++
++inval_all:
++    env->tlb_need_flush |= TLB_NEED_LOCAL_FLUSH;
++    if (!local) {
++        env->tlb_need_flush |= TLB_NEED_GLOBAL_FLUSH;
++    }
++    return;
++
++invalid:
++    raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
++                           POWERPC_EXCP_INVAL |
++                           POWERPC_EXCP_INVAL_INVAL, GETPC());
++}
++
++#endif
++
+ void helper_tlbiva(CPUPPCState *env, target_ulong addr)
  {
-@@ -6901,8 +6881,6 @@ GEN_HANDLER(tlbia, 0x1F, 0x12, 0x0B, 0x03FFFC01, PPC_MEM_TLBIA),
-  * XXX Those instructions will need to be handled differently for
-  * different ISA versions
-  */
--GEN_HANDLER(tlbiel, 0x1F, 0x12, 0x08, 0x001F0001, PPC_MEM_TLBIE),
--GEN_HANDLER_E(tlbiel, 0x1F, 0x12, 0x08, 0x00100001, PPC_NONE, PPC2_ISA300),
- GEN_HANDLER(tlbsync, 0x1F, 0x16, 0x11, 0x03FFF801, PPC_MEM_TLBSYNC),
- #if defined(TARGET_PPC64)
- GEN_HANDLER(slbia, 0x1F, 0x12, 0x0F, 0x031FFC01, PPC_SLBI),
+     /* tlbiva instruction only exists on BookE */
 diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
-index 33733c082c..7793297dd4 100644
+index 7793297dd4..f9e4a807f2 100644
 --- a/target/ppc/translate/storage-ctrl-impl.c.inc
 +++ b/target/ppc/translate/storage-ctrl-impl.c.inc
-@@ -46,21 +46,21 @@ static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
-     }
- 
-     if (ctx->pr) {
--        /* tlbie is privileged... */
-+        /* tlbie[l] is privileged... */
-         gen_priv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
-         return true;
-     } else if (!ctx->hv) {
--        if (!ctx->gtse || (!a->prs && ctx->hr)) {
-+        if ((!a->prs && ctx->hr) || (!local && !ctx->gtse)) {
-             /*
--             * ... except when GTSE=0 or when PRS=0 and HR=1, making it
--             * hypervisor privileged.
-+             * ... except when PRS=0 and HR=1, or when GTSE=0 for tlbie,
-+             * making it hypervisor privileged.
-              */
-             gen_priv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
-             return true;
-         }
-     }
- 
--    if (NARROW_MODE(ctx)) {
-+    if (!local && NARROW_MODE(ctx)) {
-         TCGv t0 = tcg_temp_new();
+@@ -65,6 +65,21 @@ static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
          tcg_gen_ext32u_tl(t0, cpu_gpr[rb]);
          gen_helper_tlbie(cpu_env, t0);
-@@ -68,6 +68,11 @@ static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
+         tcg_temp_free(t0);
++
++#if defined(TARGET_PPC64)
++    /*
++     * ISA 3.1B says that MSR SF must be 1 when this instruction is executed;
++     * otherwise the results are undefined.
++     */
++    } else if (a->r) {
++        gen_helper_tlbie_isa300(cpu_env, cpu_gpr[rb], cpu_gpr[a->rs],
++                tcg_constant_i32(a->ric << TLBIE_F_RIC_SHIFT |
++                                 a->prs << TLBIE_F_PRS_SHIFT |
++                                 a->r << TLBIE_F_R_SHIFT |
++                                 local << TLBIE_F_LOCAL_SHIFT));
++        return true;
++#endif
++
      } else {
          gen_helper_tlbie(cpu_env, cpu_gpr[rb]);
      }
-+
-+    if (local) {
-+        return true;
-+    }
-+
-     t1 = tcg_temp_new_i32();
-     tcg_gen_ld_i32(t1, cpu_env, offsetof(CPUPPCState, tlb_need_flush));
-     tcg_gen_ori_i32(t1, t1, TLB_NEED_GLOBAL_FLUSH);
-@@ -79,3 +84,4 @@ static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
- }
- 
- TRANS_FLAGS(MEM_TLBIE, TLBIE, do_tlbie, false)
-+TRANS_FLAGS(MEM_TLBIE, TLBIEL, do_tlbie, true)
 -- 
 2.25.1
 
