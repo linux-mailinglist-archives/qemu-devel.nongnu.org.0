@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE5854B169
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 14:48:16 +0200 (CEST)
-Received: from localhost ([::1]:59164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173DB54B163
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 14:40:26 +0200 (CEST)
+Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o15xu-0006P0-Iy
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 08:48:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45244)
+	id 1o15qK-0000Ky-Ef
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 08:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TC-0006Wj-9j
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TC-0006Wk-9w
  for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32994)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15T8-0007lA-5V
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:28 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TA-0007lv-9q
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655208984;
+ s=mimecast20190719; t=1655208987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZStqjDDMtLMpDsz58F8O29JWAJ6F3RkNGXfWxICk7zU=;
- b=dphW+zJudmGIPncOGQKrH67iVnLwzgTx8I94xAOc1U7zRFet7NLhZsxeQW7A2fmTY9A2AO
- oO0p+GisQGGdU3v1XjqqOuXAyJIYgmmRUFpWqT4jAq+rTf/GCGNgLE69M7jhtjsL4fqQGs
- KnbnmndDPNY1RDPw1wFPIV00vweQKeE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nK8ui8MGXo28dreQTzjS6bbhtNnN1TEyDDyCd/Q1Dgo=;
+ b=bPuy5d7lsGeuuN6pFseXLb8MrmUwXl60BJbJJQNlJLpdJMJeR+63smU4/HonmZO4s3H3X2
+ 2DMwVYFGwJW0s7Wp6YMZ4ubjNP2TBeplmcYjnHdTSGmjDaH6FFT8RozbOzj0UGmfTJuwH2
+ S1oGBuHMYCa29YYtGzpbpYD3K87MC+4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-iSDuPmZxN-GLRmezrfI0Zg-1; Tue, 14 Jun 2022 08:16:21 -0400
-X-MC-Unique: iSDuPmZxN-GLRmezrfI0Zg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-604-wdmex2yGOJ-VOeDajZfdxQ-1; Tue, 14 Jun 2022 08:16:22 -0400
+X-MC-Unique: wdmex2yGOJ-VOeDajZfdxQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25D9B3C025C4;
- Tue, 14 Jun 2022 12:16:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28842801E6B;
+ Tue, 14 Jun 2022 12:16:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD2C09D7F;
- Tue, 14 Jun 2022 12:16:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA58A1402403;
+ Tue, 14 Jun 2022 12:16:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 870F21800630; Tue, 14 Jun 2022 14:16:11 +0200 (CEST)
+ id 936FD1800634; Tue, 14 Jun 2022 14:16:11 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
@@ -55,23 +55,25 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  "Canokeys.org" <contact@canokeys.org>,
  Stefano Stabellini <sstabellini@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
-Subject: [PULL 11/15] usbredir: avoid queuing hello packet on snapshot restore
-Date: Tue, 14 Jun 2022 14:16:06 +0200
-Message-Id: <20220614121610.508356-12-kraxel@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [PULL 12/15] virtio-gpu: update done only on the scanout associated
+ with rect
+Date: Tue, 14 Jun 2022 14:16:07 +0200
+Message-Id: <20220614121610.508356-13-kraxel@redhat.com>
 In-Reply-To: <20220614121610.508356-1-kraxel@redhat.com>
 References: <20220614121610.508356-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,34 +90,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joelle van Dyne <j@getutm.app>
+From: Dongwon Kim <dongwon.kim@intel.com>
 
-When launching QEMU with "-loadvm", usbredir_create_parser() should avoid
-setting up the hello packet (just as with "-incoming". On the latest version
-of libusbredir, usbredirparser_unserialize() will return error if the parser
-is not "pristine."
+It only needs to update the scanouts containing the rect area
+coming with the resource-flush request from the guest.
 
-Signed-off-by: Joelle van Dyne <j@getutm.app>
-Message-Id: <20220507041850.98716-1-j@getutm.app>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+Message-Id: <20220505214030.4261-1-dongwon.kim@intel.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/redirect.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/display/virtio-gpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index fd7df599bc0b..1bd30efc3ef0 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -1280,7 +1280,8 @@ static void usbredir_create_parser(USBRedirDevice *dev)
-     }
- #endif
- 
--    if (runstate_check(RUN_STATE_INMIGRATE)) {
-+    if (runstate_check(RUN_STATE_INMIGRATE) ||
-+        runstate_check(RUN_STATE_PRELAUNCH)) {
-         flags |= usbredirparser_fl_no_hello;
-     }
-     usbredirparser_init(dev->parser, VERSION, caps, USB_REDIR_CAPS_SIZE,
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index cd4a56056fd9..55c6dd576318 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -514,6 +514,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+         for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
+             scanout = &g->parent_obj.scanout[i];
+             if (scanout->resource_id == res->resource_id &&
++                rf.r.x >= scanout->x && rf.r.y >= scanout->y &&
++                rf.r.x + rf.r.width <= scanout->x + scanout->width &&
++                rf.r.y + rf.r.height <= scanout->y + scanout->height &&
+                 console_has_gl(scanout->con)) {
+                 dpy_gl_update(scanout->con, 0, 0, scanout->width,
+                               scanout->height);
 -- 
 2.36.1
 
