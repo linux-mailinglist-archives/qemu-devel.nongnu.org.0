@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E866254ABEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 10:40:59 +0200 (CEST)
-Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C6854AC24
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 10:42:57 +0200 (CEST)
+Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o126d-00062t-1e
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 04:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35462)
+	id 1o128W-0000hr-3I
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 04:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o122m-00052H-8v
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:37:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60467)
+ id 1o124E-00068K-JK
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:38:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o122k-0006rE-6a
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:36:59 -0400
+ id 1o124B-0006zH-BH
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:38:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655195817;
+ s=mimecast20190719; t=1655195906;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=raV/DSUlxirGo9fUvVdNubFktnHZiumx/P9pa4iatpA=;
- b=M6aj5WcVVuV4olIJE1/yQr5kUxd4b/C2bj9r0xd51YKKwEudvEdHbC7mCgJ15MAGdCANZ3
- J7MI/jPgnOX86j09RNOBKFQY9+Fx/QBJLuHlQnY2frIGI1+YXi8XxivQQJW0uZgY5CiH+F
- pAIElECfNobNsp3ONKGO92Ak+Z+v7Oc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1ED27NWwOr4AaoDkCcDPAHhnNgwBe4QH2mZEuSj08Vc=;
+ b=P7CTI7GMNwoiy8G3eUOn4BcEIpSnBiiai8nf8X9vc4X84fwBUdB+CwDMEFHRGG5E78HuUn
+ 3cbg2SCVh38uh2XXtRm7z8oSOPfstcta5QFhtGagWVBEIYtgctDQPV2lT0VzRib288MpL4
+ 5TfEeoVlmpzDhhu729TUR4JmMUTq4Xw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-Q9RQAQstOGm2Coq8sSTe9Q-1; Tue, 14 Jun 2022 04:36:53 -0400
-X-MC-Unique: Q9RQAQstOGm2Coq8sSTe9Q-1
+ us-mta-593-MSr20k6DOgKETfKyhEtKWg-1; Tue, 14 Jun 2022 04:38:25 -0400
+X-MC-Unique: MSr20k6DOgKETfKyhEtKWg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53D46299E75A;
- Tue, 14 Jun 2022 08:36:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D08FA811E76;
+ Tue, 14 Jun 2022 08:38:24 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.137])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02A1B492C3B;
- Tue, 14 Jun 2022 08:36:51 +0000 (UTC)
-Date: Tue, 14 Jun 2022 09:36:49 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0FFA416164;
+ Tue, 14 Jun 2022 08:38:23 +0000 (UTC)
+Date: Tue, 14 Jun 2022 09:38:21 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
 Cc: Peter Xu <peterx@redhat.com>,
  =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,
- David Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v2 1/2] QIOChannelSocket: Reduce ifdefs to improve
- readability
-Message-ID: <YqhIofy4h0hfHPPx@redhat.com>
-References: <20220608210403.84006-1-leobras@redhat.com>
- <YqGq0Bw7V26vaNoI@redhat.com>
- <CAJ6HWG41=Wwf5gMY=Q0G2VCKfdNsyDRGDXELwvgRBjXMNB9GKw@mail.gmail.com>
- <YqL/3VTze/b9DKUL@redhat.com>
- <CAJ6HWG5kCiprhCB6578ZibRSWW9ie5kBhbh7DFW-=K1sEnSHWg@mail.gmail.com>
+ David Gilbert <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 1/2] QIOChannelSocket: Introduce assert and reduce
+ ifdefs to improve readability
+Message-ID: <YqhI/TzuRezpWR7g@redhat.com>
+References: <20220614051725.143985-1-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ6HWG5kCiprhCB6578ZibRSWW9ie5kBhbh7DFW-=K1sEnSHWg@mail.gmail.com>
+In-Reply-To: <20220614051725.143985-1-leobras@redhat.com>
 User-Agent: Mutt/2.2.1 (2022-02-19)
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
@@ -91,68 +87,66 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 13, 2022 at 06:21:18PM -0300, Leonardo Bras Soares Passos wrote:
-> On Fri, Jun 10, 2022 at 5:25 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
+On Tue, Jun 14, 2022 at 02:17:25AM -0300, Leonardo Bras wrote:
+> During implementation of MSG_ZEROCOPY feature, a lot of #ifdefs were
+> introduced, particularly at qio_channel_socket_writev().
 > 
-> [...]
+> Rewrite some of those changes so it's easier to read.
 > 
-> > Ok, so if it is checked earlier then we merely need an assert.
-> >
-> >      if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> >  #ifdef QEMU_MSG_ZEROCOPY
-> >          sflags = MSG_ZEROCOPY;
-> >          zero_copy_enabled = true;
-> >  #else
-> >          g_assert_unreachable();
-> >  #endif
-> > >     }
+> Also, introduce an assert to help detect incorrect zero-copy usage is when
+> it's disabled on build.
 > 
-> Ok, I will add that in the next version.
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  io/channel-socket.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> >
-> >
-> >
-> > > > > @@ -592,15 +594,13 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-> > > > >              return QIO_CHANNEL_ERR_BLOCK;
-> > > > >          case EINTR:
-> > > > >              goto retry;
-> > > > > -#ifdef QEMU_MSG_ZEROCOPY
-> > > > >          case ENOBUFS:
-> > > > > -            if (sflags & MSG_ZEROCOPY) {
-> > > > > +            if (zero_copy_enabled) {
-> > > >
-> > > > if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY)
-> > > >
-> > > > avoids the #ifdef without needing to add yet another
-> > > > variable expressing what's already expressed in both
-> > > > 'flags' and 'sflags'.
-> > >
-> > > Yes, it does, but at the cost of not compiling-out the zero-copy part
-> > > when it's not supported,
-> > > since the QIO_CHANNEL_WRITE_FLAG_ZERO_COPY comes as a parameter. This ends up
-> > > meaning there will be at least one extra test for every time this
-> > > function is called (the one in the next patch).
-> >
-> > The cost of a simple bit test is between negligible-and-non-existant
-> > with branch prediction. I doubt it would be possible to even measure
-> > it.
-> 
-> Yeah, you are probably right on that.
-> So the main learning point here is that it's not worth creating a new
-> boolean for compiling-out
-> code that should not impact performance ?
+> diff --git a/io/channel-socket.c b/io/channel-socket.c
+> index dc9c165de1..cdce7b0b45 100644
+> --- a/io/channel-socket.c
+> +++ b/io/channel-socket.c
+> @@ -578,11 +578,13 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+>          memcpy(CMSG_DATA(cmsg), fds, fdsize);
+>      }
+>  
+> -#ifdef QEMU_MSG_ZEROCOPY
+>      if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+> +#ifdef QEMU_MSG_ZEROCOPY
+>          sflags = MSG_ZEROCOPY;
+> -    }
+> +#else
 
-As ever "it depends" so there's no hard rule, and sometimes it can
-verge on bikeshed colouring :-)
+I would just add a comment:
 
-I didn't like the variable in this case, because it introduces a 3rd
-variable to the method for representing whether zero copy is need,
-which is excessive. I'm not a fan of redundancy as it can often then
-lead to inconsistency. So it would need a compelling reason why it is
-better, which is difficult for such a simple method. If the code was
-more complex, a variable might have benefit of clarity, but in this
-case IMHO it was just overkill.
+         /* We expect QIOChannel class entry point to have
+	    blocked this code path already */
+
+> +        g_assert_unreachable();
+>  #endif
+> +    }
+>  
+>   retry:
+>      ret = sendmsg(sioc->fd, &msg, sflags);
+> @@ -592,15 +594,13 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+>              return QIO_CHANNEL_ERR_BLOCK;
+>          case EINTR:
+>              goto retry;
+> -#ifdef QEMU_MSG_ZEROCOPY
+>          case ENOBUFS:
+> -            if (sflags & MSG_ZEROCOPY) {
+> +            if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+>                  error_setg_errno(errp, errno,
+>                                   "Process can't lock enough memory for using MSG_ZEROCOPY");
+>                  return -1;
+>              }
+>              break;
+> -#endif
+>          }
+>  
+>          error_setg_errno(errp, errno,
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
 
 With regards,
 Daniel
