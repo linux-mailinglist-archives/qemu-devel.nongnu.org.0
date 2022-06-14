@@ -2,77 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CECD154AD85
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 11:44:36 +0200 (CEST)
-Received: from localhost ([::1]:37732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A06454ADD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 11:58:45 +0200 (CEST)
+Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o136B-0002VG-QY
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 05:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48534)
+	id 1o13Js-00068D-3F
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 05:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o132Y-00088h-Jq
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 05:40:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21876)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o13CL-0000BH-Vn
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 05:50:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o132V-00009t-9b
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 05:40:49 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o13CD-00022v-Ja
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 05:50:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655199645;
+ s=mimecast20190719; t=1655200248;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fWuwP4AFW+8vVLjWWxPmrGzKbgBIGbPERfEvHtPl3i4=;
- b=cL+Av3RKIpoWzFZDd4ndMcXJhHbu8rXr82kNs6nehuvKhVASGB0wEvkC4W7WiQK2SbGlLm
- TwM/FA9CyYduhdA5aSbhQ7P4WcmYERrc86v+wtUapDyzCf1OAp+GYa0DygGoh5j84/5hHg
- c8Cwek6fImFzKbXTr8cH9D4G0N9Z9+s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=m0Y7yPXrPaqQh/DZv3moc1KCkhugMZvyClBpdR2sesw=;
+ b=XKiZNngTgD23MLpl7NT4ryfEtgMMw/Oc+yZqVtUF9S68I2IH+eJfiSoVx8+s3/Sy+89QrJ
+ APHlJt5N2OvGQ0Yh91VGOCBhWh0ZlPz3mKRtydwwx431P0OV5v+Je6fVlf5JjxtBfltUbr
+ QIrkqRaLfM03guET2kPrERyJzxxt/3g=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-157-_yGR8o1cNFWa8zO5jK1pbw-1; Tue, 14 Jun 2022 05:40:41 -0400
-X-MC-Unique: _yGR8o1cNFWa8zO5jK1pbw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 038A28027EE;
- Tue, 14 Jun 2022 09:40:41 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9447D4010E32;
- Tue, 14 Jun 2022 09:40:40 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EA7751800084; Tue, 14 Jun 2022 11:40:38 +0200 (CEST)
-Date: Tue, 14 Jun 2022 11:40:38 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- xen-devel@lists.xenproject.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Canokeys.org" <contact@canokeys.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paul Durrant <paul@xen.org>,
- Anthony Perard <anthony.perard@citrix.com>, berrange@redhat.com
-Subject: Re: [PULL 00/16] Kraxel 20220613 patches
-Message-ID: <20220614094038.g2g6lzeviypcnqrb@sirius.home.kraxel.org>
-References: <20220613113655.3693872-1-kraxel@redhat.com>
- <37f8f623-bb1c-899b-5801-79acd6185c6d@linaro.org>
+ us-mta-619-5u9h0WyONQuQmUoHkuXTUg-1; Tue, 14 Jun 2022 05:50:46 -0400
+X-MC-Unique: 5u9h0WyONQuQmUoHkuXTUg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ p18-20020a05600c23d200b0039c40c05687so3619538wmb.2
+ for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 02:50:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=m0Y7yPXrPaqQh/DZv3moc1KCkhugMZvyClBpdR2sesw=;
+ b=AfbGciIYZHqh4qHySRFOw0gcBajFE9k0ndb56uXKFJWP1hBS+tmihzl1T49D4iU2aT
+ +D7velMjHU1TS3x+GsxKQXJEt30DO7VPGN4L/OXcDcKL+Yw22jqvfpHOzvetP0Ha/EkH
+ 2h/f8jv7Jc2OlQcZS580D3AZeY/aJeBU8H7OnNuJXSOVVGzxk32po0AdnUada1sY2BcX
+ OkGhBK9WRnJpf5HuIMBCc3mTpM9JQhvOMUGvhCywAMW7IXxjUvgzAeqg4e+j2r4+dESu
+ LYG0chMpyFsC6YXKSYWDooaB0meCh/hk/2k+S2jt9eHoKWvyisoPz6qTwS0e8zXalq4S
+ J0wA==
+X-Gm-Message-State: AJIora/ye3rkCbyGdQWSyeFhtS2UHEhYgXm0spVICJVKaZ1Jf0Fcyb2V
+ NwQklXWcOeMLzhG49VQW7hvxraxB9kJuBoyd2XHg9S1VQofNP+r08lHTHSCgPzGL5L2TmBOUiVn
+ ldeYajSk2ZLsS/xk=
+X-Received: by 2002:a5d:4708:0:b0:215:d1fa:1b9e with SMTP id
+ y8-20020a5d4708000000b00215d1fa1b9emr4093228wrq.202.1655200245250; 
+ Tue, 14 Jun 2022 02:50:45 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sQF+sDr+4fjNbS9ZfAESHtK/N9EYS4ZC77siZj6b+XTuu0WjLv12b5EXf8RLmDMkBrecmfww==
+X-Received: by 2002:a5d:4708:0:b0:215:d1fa:1b9e with SMTP id
+ y8-20020a5d4708000000b00215d1fa1b9emr4093209wrq.202.1655200245015; 
+ Tue, 14 Jun 2022 02:50:45 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70b:cf00:aace:de16:d459:d411?
+ (p200300cbc70bcf00aacede16d459d411.dip0.t-ipconnect.de.
+ [2003:cb:c70b:cf00:aace:de16:d459:d411])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a05600c204100b0039aef592ca0sm12093623wmg.35.2022.06.14.02.50.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Jun 2022 02:50:44 -0700 (PDT)
+Message-ID: <ac7c0d9c-4fb2-c67b-db25-00e4bbc0eb42@redhat.com>
+Date: Tue, 14 Jun 2022 11:50:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37f8f623-bb1c-899b-5801-79acd6185c6d@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: Igor Mammedov <imammedo@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Julia Suvorova <jusual@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+References: <20220531145147.61112-1-jusual@redhat.com>
+ <YpY0/Pc3uoA9QQD/@stefanha-x1.localdomain>
+ <CAMDeoFUxG7B67BCm4nb303VEwBdiD=JNi_OWSaxirThWnTd6LA@mail.gmail.com>
+ <YqdTQYUhO/3dzJvZ@stefanha-x1.localdomain>
+ <20220614105408.235f0f41@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
+In-Reply-To: <20220614105408.235f0f41@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,39 +109,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 13, 2022 at 08:52:21AM -0700, Richard Henderson wrote:
-> On 6/13/22 04:36, Gerd Hoffmann wrote:
-> > The following changes since commit dcb40541ebca7ec98a14d461593b3cd7282b4fac:
-> > 
-> >    Merge tag 'mips-20220611' of https://github.com/philmd/qemu into staging (2022-06-11 21:13:27 -0700)
-> > 
-> > are available in the Git repository at:
-> > 
-> >    git://git.kraxel.org/qemu tags/kraxel-20220613-pull-request
-> > 
-> > for you to fetch changes up to 23b87f7a3a13e93e248eef8a4b7257548855a620:
-> > 
-> >    ui: move 'pc-bios/keymaps' to 'ui/keymaps' (2022-06-13 10:59:25 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > usb: add CanoKey device, fixes for ehci + redir
-> > ui: fixes for gtk and cocoa, move keymaps (v2), rework refresh rate
-> > virtio-gpu: scanout flush fix
+On 14.06.22 10:54, Igor Mammedov wrote:
+> On Mon, 13 Jun 2022 16:09:53 +0100
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
 > 
-> This doesn't even configure:
+>> On Mon, Jun 13, 2022 at 05:01:10PM +0200, Julia Suvorova wrote:
+>>> On Tue, May 31, 2022 at 5:32 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:  
+>>>>
+>>>> On Tue, May 31, 2022 at 04:51:47PM +0200, Julia Suvorova wrote:  
+>>>>> In the ACPI specification [1], the 'unarmed' bit is set when a device
+>>>>> cannot accept a persistent write. This means that when a memdev is
+>>>>> read-only, the 'unarmed' flag must be turned on. The logic is correct,
+>>>>> just changing the error message.
+>>>>>
+>>>>> [1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
+>>>>>
+>>>>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+>>>>> ---
+>>>>>  hw/mem/nvdimm.c | 2 +-
+>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)  
+>>>>
+>>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>  
+>>>
+>>> It seems like Xiao is not active, whose tree should this patch go to?  
+
+Is that a temporary or a permanent thing? Do we know?
+
 > 
-> ../src/ui/keymaps/meson.build:55:4: ERROR: File ar does not exist.
+> Perhaps David can add himself as maintainer (i.e. put it
+> under memory mantanership umbrella) and merge it 
 
-Hmm, build worked here and CI passed too.
+Maybe it makes sense to combine NVDIMM with pc-dimm.c and
+memory-device.c into a "MEMORY DEVICE" section. Then, remove "hw/mem/*"
+from "ACPI/SMBIOS".
 
-I think this is one of those cases where the build directory must be
-deleted because one subdirectory is replaced by a compatibility
-symlink.
+cxl_type3.c, npcm7xx_mc.c and sparse-mem.c in /hw/mem/ are a bit
+different. We could add cxl_type3.c to "Compute Express Link".
+npcm7xx_mc.c and sparse-mem.c should be already covered.
 
-Or we drop the symlink idea and update the keymap loading code to check
-both old and new location.  Daniel?
+-- 
+Thanks,
 
-take care,
-  Gerd
+David / dhildenb
 
 
