@@ -2,99 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DF654B2CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 16:11:47 +0200 (CEST)
-Received: from localhost ([::1]:32822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB9B54B2E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 16:17:17 +0200 (CEST)
+Received: from localhost ([::1]:38266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o17Gk-0000K5-R4
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 10:11:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47972)
+	id 1o17M3-00049p-Ro
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 10:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o17FT-0007FX-OX; Tue, 14 Jun 2022 10:10:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52426)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o17Ja-0002VW-3x
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:14:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o17FR-0003qC-KE; Tue, 14 Jun 2022 10:10:27 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25EDF1lr022561;
- Tue, 14 Jun 2022 14:10:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=oVJ3oJicknhAjxQMqUOUNxQLNvVtcn4yj4CdMHiRmEE=;
- b=ByFmvORJdNUNJSAmMXpOvTF8Ue/WVA/fVotWJBx9OETIHelNuEDlnuop9u0VrPEzt9PQ
- uUeIDfvAuAfDaHBMi5ex3ySv8pMflDEv3Jn0XDy9r2PfXntFwyC6qCxzQh/em+B8vXSv
- USc/gWRJpysxHIsWZcShD+uQuP7ee63fhhVBVtLspS5AK8q5rqFnwbJLVbLS5W6drxzY
- qWZLhDg6nrsxfYHemvxp2FloQUSVqPAP+0NEgOr1xnBHndA8Sn9kQ7McFpcbclxUShlg
- YtHIZUB/IdpYgY8N8JTT6wwP0baemD7xQIoid16EA1MQP62PJft3DFyV7+vUOavj4vop NA== 
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gpr31ydpe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jun 2022 14:10:10 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25EE6mCa010758;
- Tue, 14 Jun 2022 14:10:09 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma03wdc.us.ibm.com with ESMTP id 3gmjp9csvr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jun 2022 14:10:09 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25EEA8w735193336
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Jun 2022 14:10:08 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 44026C6063;
- Tue, 14 Jun 2022 14:10:08 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D9C29C6057;
- Tue, 14 Jun 2022 14:10:06 +0000 (GMT)
-Received: from [9.160.187.150] (unknown [9.160.187.150])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 14 Jun 2022 14:10:06 +0000 (GMT)
-Message-ID: <104be42f-25e3-20b5-60f1-3db943ec65f8@linux.ibm.com>
-Date: Tue, 14 Jun 2022 11:10:05 -0300
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o17JT-0004KO-Sl
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:14:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655216074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2p/Wdc3hNU4a08lLCYogJOaOrHvqOyPmM0mXCbwc+uw=;
+ b=gElE04HfzmLdGihgjmnj9w+dSO71k4qK4+VLgAndMf053w4pcUVArWR0sW9I87rlGjFIyk
+ UQm0B4t4vN3S5fqf0shh1vbopx3jkBFpK4MQyEMrR7hVmku+CJQ7azHtczQU/4jPJNGJGv
+ KT6m9Q6J2KHrGUc4y4Ux0U6gL0IB9XM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-526-i25onlb0Nry7auP8jUam5Q-1; Tue, 14 Jun 2022 10:14:30 -0400
+X-MC-Unique: i25onlb0Nry7auP8jUam5Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l17-20020a05600c4f1100b0039c860db521so4535412wmq.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 07:14:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=2p/Wdc3hNU4a08lLCYogJOaOrHvqOyPmM0mXCbwc+uw=;
+ b=7QeqHEyuGaOJDPWm44p4IpZbR5xh6hSjMhIt8eFzAQtgJDUzZ/FKuOnLj7fjQ+Dp5u
+ owJ4qEKDcGHG9KC4eQr71uqzUjGdgzaw63cwll/9YN5yHjf2T9sU43fvusaKo+PR2+jh
+ tCqaKqg92rWb6FL/p6OfTnRVUgMVaRkz4mIVculTPt8om45/tPaT0T69y6etFzHWRc6z
+ d9TUxqLeCBAEpvXyTf30Y2cPKCPFGjwVliNENBdsigjPmnkOr7THoMuGo0nh9NJJcA5B
+ QiB11/+JRSSesOZFTj98LCInjNMfyerPEvrQrRlq5rEJMWfVhyIjEHwf0oyy8B6H3IHj
+ TV7A==
+X-Gm-Message-State: AJIora8byPJQAFJcoqw+fmkihFYcyC+RxDWDlAZ/aeJiIcQUf3z4PswP
+ BZQ5VF3KX5RgWZF5AJ1wRxAYv4v8cEtdACPc/7J3o4rZRGPmNBpMkf69U+pnFGNxIpybFAWJJfg
+ rd9WyY/8+vceWyEw=
+X-Received: by 2002:adf:e902:0:b0:213:a337:92ae with SMTP id
+ f2-20020adfe902000000b00213a33792aemr5201529wrm.84.1655216069524; 
+ Tue, 14 Jun 2022 07:14:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tG7xUJnftQdTYfeokfrb3mCvQFPlpdtWwCLFY4uuqxvOVRZb3agg+J4UPnZGnczdnp/TBNeA==
+X-Received: by 2002:adf:e902:0:b0:213:a337:92ae with SMTP id
+ f2-20020adfe902000000b00213a33792aemr5201485wrm.84.1655216069252; 
+ Tue, 14 Jun 2022 07:14:29 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ l15-20020a05600c4f0f00b003942a244f39sm22772598wmq.18.2022.06.14.07.14.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jun 2022 07:14:28 -0700 (PDT)
+Date: Tue, 14 Jun 2022 15:14:26 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: chuang xu <xuchuangxclwt@bytedance.com>
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
+ lizefan.x@bytedance.com, zhouyibo@bytedance.com
+Subject: Re: [External] [PATCH v13 3/8] QIOChannelSocket: Implement io_writev
+ zero copy flag & io_flush for CONFIG_LINUX
+Message-ID: <YqiXwhG+TxG7IPY3@work-vm>
+References: <20220513062836.965425-1-leobras@redhat.com>
+ <20220513062836.965425-4-leobras@redhat.com>
+ <c951a606-e306-6f11-0bd9-204a8b0d223a@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 01/11] ppc/pnv: move root port attach to pnv_phb4_realize()
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, fbarrat@linux.ibm.com, mark.cave-ayland@ilande.co.uk
-References: <20220613154456.359674-1-danielhb@linux.ibm.com>
- <20220613154456.359674-2-danielhb@linux.ibm.com>
- <eb6b85a6-d70a-aa1c-cde1-ffc5f86b2218@kaod.org>
-From: Daniel Henrique Barboza <danielhb@linux.ibm.com>
-In-Reply-To: <eb6b85a6-d70a-aa1c-cde1-ffc5f86b2218@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: tx_giiHNoxgIGKCi-aLOoQT9UDSaSgQz
-X-Proofpoint-ORIG-GUID: tx_giiHNoxgIGKCi-aLOoQT9UDSaSgQz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-14_05,2022-06-13_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 adultscore=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206140055
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=danielhb@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <c951a606-e306-6f11-0bd9-204a8b0d223a@bytedance.com>
+User-Agent: Mutt/2.2.5 (2022-05-16)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,76 +114,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 6/14/22 09:02, Cédric Le Goater wrote:
-> On 6/13/22 17:44, Daniel Henrique Barboza wrote:
->> Creating a root port is something related to the PHB, not the PEC. It
->> also makes the logic more in line with what pnv-phb3 does.
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+* chuang xu (xuchuangxclwt@bytedance.com) wrote:
 > 
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> On 2022/5/13 下午2:28, Leonardo Bras wrote:
+> > @@ -557,15 +578,31 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+> >           memcpy(CMSG_DATA(cmsg), fds, fdsize);
+> >       }
+> > +#ifdef QEMU_MSG_ZEROCOPY
+> > +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+> > +        sflags = MSG_ZEROCOPY;
+> > +    }
+> > +#endif
+> > +
+> >    retry:
+> > -    ret = sendmsg(sioc->fd, &msg, 0);
+> > +    ret = sendmsg(sioc->fd, &msg, sflags);
+> >       if (ret <= 0) {
+> > -        if (errno == EAGAIN) {
+> > +        switch (errno) {
+> > +        case EAGAIN:
+> >               return QIO_CHANNEL_ERR_BLOCK;
+> > -        }
+> > -        if (errno == EINTR) {
+> > +        case EINTR:
+> >               goto retry;
+> > +#ifdef QEMU_MSG_ZEROCOPY
+> > +        case ENOBUFS:
+> > +            if (sflags & MSG_ZEROCOPY) {
+> > +                error_setg_errno(errp, errno,
+> > +                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
+> > +                return -1;
+> > +            }
+> > +            break;
+> > +#endif
+> >           }
+> > +
+> >           error_setg_errno(errp, errno,
+> >                            "Unable to write to socket");
+> >           return -1;
 > 
-> So the root port is back where it was.
+> Hi, Leo.
 > 
-> Could we avoid the pci_new() and use object_initialize_child() instead ?
+> There are some other questions I would like to discuss with you.
+> 
+> I tested the multifd zero_copy migration and found that sometimes even if
+> max locked memory of qemu was set to 16GB（much greater than
+> `MULTIFD_PACKET_SIZE`）, the error "Process can't lock enough memory for
+> using MSG_ZEROCOPY" would still be reported.
+> 
+> I noticed that the
+> doc(https://www.kernel.org/doc/html/v5.12/networking/msg_zerocopy.html) says
+> "A zerocopy failure will return -1 with errno ENOBUFS. This happens if the
+> socket option was not set, _the socket exceeds its optmem limit_ or the user
+> exceeds its ulimit on locked pages."
+> 
+> I also found that the RFC(https://lwn.net/Articles/715279/) says _"__The
+> change to allocate notification skbuffs from optmem requires__ensuring that
+> net.core.optmem is at least a few 100KB."_
 
+Interesting.
 
-We could but then we would need to deal with yet another difference with
-default versus user created devices, given that for user devices we can't
-initialize_child(). And since we're also unifying the root ports later on
-I'd rather wait to see how it turns out when everything is finished.
+> On my host,  optmem was initially set to 20KB, I tried to change it to 100KB
+> (echo 102400 > /proc/sys/net/core/optmem_max) as the RFC says.Then I tested
+> the multifd zero_copy migration repeatedly，and the error disappeared.
+> 
+> So when sendmsg returns -1 with errno ENOBUFS, should we distinguish between
+> error ''socket exceeds optmem limit" and error "user exceeds ulimit on
+> locked pages"? Or is there any better way to avoid this problem?
 
+I don't think we can tell which one of them triggered the error; so the
+only thing I can suggest is that we document the need for optmem_max
+setting; I wonder how we get a better answer than 'a few 100KB'?
+I guess it's something like the number of packets inflight *
+sizeof(cmsghdr) ?
 
-Tanks,
+Dave
 
-Daniel
+> Best Regards,
+> 
+> chuang xu
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
->> ---
->>   hw/pci-host/pnv_phb4.c     | 4 ++++
->>   hw/pci-host/pnv_phb4_pec.c | 3 ---
->>   2 files changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
->> index 6594016121..23ad8de7ee 100644
->> --- a/hw/pci-host/pnv_phb4.c
->> +++ b/hw/pci-host/pnv_phb4.c
->> @@ -1547,6 +1547,7 @@ static void pnv_phb4_instance_init(Object *obj)
->>   static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->>   {
->>       PnvPHB4 *phb = PNV_PHB4(dev);
->> +    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(phb->pec);
->>       PCIHostState *pci = PCI_HOST_BRIDGE(dev);
->>       XiveSource *xsrc = &phb->xsrc;
->>       int nr_irqs;
->> @@ -1583,6 +1584,9 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->>       pci_setup_iommu(pci->bus, pnv_phb4_dma_iommu, phb);
->>       pci->bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
->> +    /* Add a single Root port if running with defaults */
->> +    pnv_phb_attach_root_port(pci, pecc->rp_model);
->> +
->>       /* Setup XIVE Source */
->>       if (phb->big_phb) {
->>           nr_irqs = PNV_PHB4_MAX_INTs;
->> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
->> index 8b7e823fa5..c9aaf1c28e 100644
->> --- a/hw/pci-host/pnv_phb4_pec.c
->> +++ b/hw/pci-host/pnv_phb4_pec.c
->> @@ -130,9 +130,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
->>       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
->>           return;
->>       }
->> -
->> -    /* Add a single Root port if running with defaults */
->> -    pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb), pecc->rp_model);
->>   }
->>   static void pnv_pec_realize(DeviceState *dev, Error **errp)
-> 
 
