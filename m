@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CFC54AA3F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 09:17:50 +0200 (CEST)
-Received: from localhost ([::1]:59416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B8254AA8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 09:27:41 +0200 (CEST)
+Received: from localhost ([::1]:42312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o10o9-00025d-1j
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 03:17:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44982)
+	id 1o10xf-0001fK-LQ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 03:27:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o10kD-0007s5-0N
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 03:13:45 -0400
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:51185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o10k8-0001Im-M1
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 03:13:44 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E8F18239CD;
- Tue, 14 Jun 2022 07:13:27 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 14 Jun
- 2022 09:13:27 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002b55bee1e-ccf3-4fd9-918a-07b486922b43,
- 521BD0C7D9B1F43011BF9161B4E1AE1788365C94) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <673b4b6c-b107-ab03-fe51-752ec45e6a04@kaod.org>
-Date: Tue, 14 Jun 2022 09:13:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 1/2] hw: m25p80: add WP# pin and SRWD bit for write
- protection
-Content-Language: en-US
-To: Dan Zhang <dz4list@gmail.com>, Peter Delevoryas <pdel@fb.com>
-CC: Iris Chen <irischenlj@fb.com>, Cameron Esfahani via
- <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>, "patrick@stwcx.xyz"
- <patrick@stwcx.xyz>, Alistair Francis <alistair@alistair23.me>,
- "kwolf@redhat.com" <kwolf@redhat.com>, "hreitz@redhat.com"
- <hreitz@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
- <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, "thuth@redhat.com"
- <thuth@redhat.com>, "lvivier@redhat.com" <lvivier@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>, Iris Chen <irischenlj@gmail.com>, Francisco Iglesias
- <frasse.iglesias@gmail.com>
-References: <20220609031320.2212468-1-irischenlj@fb.com>
- <20220609192201.GC10629@fralle-msi>
- <810A50A3-E9C2-4A62-ADF9-89DCC9BBD9BB@fb.com>
- <YqggfkLuTz4ryuL8@zhdaniel-fedora-MJ0FVN0B>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YqggfkLuTz4ryuL8@zhdaniel-fedora-MJ0FVN0B>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 40721ce8-5cfc-404d-9d3b-6d424c592819
-X-Ovh-Tracer-Id: 3825526410624142282
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddukedgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehfrhgrshhsvgdrihhglhgvshhirghssehgmhgrihhlrdgtohhmpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o10v7-0000mR-PV
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 03:25:01 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:42078 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o10v3-0003Nr-Eg
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 03:25:00 -0400
+Received: from smtpclient.apple (unknown [202.38.79.134])
+ by APP-05 (Coremail) with SMTP id zQCowADnlu22N6hidCzsAg--.57446S2;
+ Tue, 14 Jun 2022 15:24:39 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH 1/2] hw/nvme: Implement shadow doorbell buffer support
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <Yqeo4EKtQJq8XRm+@kbusch-mbp.dhcp.thefacebook.com>
+Date: Tue, 14 Jun 2022 15:24:37 +0800
+Cc: Klaus Jensen <its@irrelevant.dk>, John Levon <levon@movementarian.org>,
+ qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0CC03CA7-1BC5-4FDF-92BA-4256778AD113@ict.ac.cn>
+References: <20220608013659.472500-1-fanjinhao21s@ict.ac.cn>
+ <20220608013659.472500-2-fanjinhao21s@ict.ac.cn> <YqEMwsclktptJvQI@apples>
+ <YqIDyjxrZnkeMfcE@kbusch-mbp.dhcp.thefacebook.com>
+ <YqIXIiQr+dpksBh6@movementarian.org> <YqItnbgtw7BNPBZH@apples>
+ <D9A53959-6A31-4105-B0A9-37B8180D973C@ict.ac.cn>
+ <Yqeo4EKtQJq8XRm+@kbusch-mbp.dhcp.thefacebook.com>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowADnlu22N6hidCzsAg--.57446S2
+X-Coremail-Antispam: 1UD129KBjvJXoWrtryDtw4UJrWDJFW8Cry3Arb_yoW8Jr1fpF
+ WFqa1vyrZ7GF1UJrn3CF4jqw1ruw4kJFyUArsrGr1SvFnxZFyIvFyIkrW5Jr1xuFs3tr4I
+ yFWDW3y2gF4qva7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUySb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC2
+ 0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+ 0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+ 14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
+ vaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07joGQDUUUUU=
+X-Originating-IP: [202.38.79.134]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,220 +80,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Dan
 
-On 6/14/22 07:45, Dan Zhang wrote:
-> Just find out how to use mutt to reply all in the thread.
-> repeat the previous comments. Add STATE_HIZ to handle decode_new_command
-> aborting gracefully.
-> 
-> On Thu, Jun 09, 2022 at 08:06:00PM +0000, Peter Delevoryas wrote:
->>
->>
->>> On Jun 9, 2022, at 12:22 PM, Francisco Iglesias <frasse.iglesias@gmail.com> wrote:
->>>
->>> Hi Iris,
->>>
->>> Looks good some, a couple of comments below.
->>>
->>> On [2022 Jun 08] Wed 20:13:19, Iris Chen wrote:
->>>> From: Iris Chen <irischenlj@gmail.com>
->>>>
->>>> Signed-off-by: Iris Chen <irischenlj@gmail.com>
->>>> ---
->>>> Addressed all comments from V1. The biggest change: removed object_class_property_add.
->>>>
->>>> hw/block/m25p80.c             | 37 +++++++++++++++++++++++++++++++++++
->>>> tests/qtest/aspeed_smc-test.c |  2 ++
->>>> 2 files changed, 39 insertions(+)
->>>>
->>>> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
->>>> index 81ba3da4df..1a20bd55d4 100644
->>>> --- a/hw/block/m25p80.c
->>>> +++ b/hw/block/m25p80.c
->>>> @@ -27,12 +27,14 @@
->>>> #include "hw/qdev-properties.h"
->>>> #include "hw/qdev-properties-system.h"
->>>> #include "hw/ssi/ssi.h"
->>>> +#include "hw/irq.h"
->>>> #include "migration/vmstate.h"
->>>> #include "qemu/bitops.h"
->>>> #include "qemu/log.h"
->>>> #include "qemu/module.h"
->>>> #include "qemu/error-report.h"
->>>> #include "qapi/error.h"
->>>> +#include "qapi/visitor.h"
->>>> #include "trace.h"
->>>> #include "qom/object.h"
->>>>
->>>> @@ -472,11 +474,13 @@ struct Flash {
->>>>      uint8_t spansion_cr2v;
->>>>      uint8_t spansion_cr3v;
->>>>      uint8_t spansion_cr4v;
->>>> +    bool wp_level;
->>>>      bool write_enable;
->>>>      bool four_bytes_address_mode;
->>>>      bool reset_enable;
->>>>      bool quad_enable;
->>>>      bool aai_enable;
->>>> +    bool status_register_write_disabled;
->>>>      uint8_t ear;
->>>>
->>>>      int64_t dirty_page;
->>>> @@ -723,6 +727,21 @@ static void complete_collecting_data(Flash *s)
->>>>          flash_erase(s, s->cur_addr, s->cmd_in_progress);
->>>>          break;
->>>>      case WRSR:
->>>> +        /*
->>>> +         * If WP# is low and status_register_write_disabled is high,
->>>> +         * status register writes are disabled.
->>>> +         * This is also called "hardware protected mode" (HPM). All other
->>>> +         * combinations of the two states are called "software protected mode"
->>>> +         * (SPM), and status register writes are permitted.
->>>> +         */
->>>> +        if ((s->wp_level == 0 && s->status_register_write_disabled)
->>>> +            || !s->write_enable) {
->>>
->>> 'write_enable' needs to be true in 'decode_new_cmd' when issueing the WRSR
->>> command, otherwise the state machinery will not advance to this function
->>> (meaning that above check for !s->write_enable will never hit as far as I can
->>> tell). A suggestion is to move the check for wp_level and
->>> status_reg_wr_disabled into 'decode_new_cmd' to for keeping it consistent.
->>
->> Oh good catch! Yes actually, in our fork, we also removed the write_enable
->> guard in decode_new_cmd. We either need both checks in decode_new_cmd,
->> or both checks in complete_collecting_data.
->>
->> I think we had some difficulty deciding whether to block command decoding,
->> or to decode and ignore the command if restrictions are enabled.
->>
->> The reason being that, in the qtest, the WRSR command code gets ignored, and
->> then the subsequent write data gets interpreted as some random command code.
->> We had elected to decode and ignore the command, but I think the
->> datasheet actually describes that the command won’t be decoded successfully,
->> so you’re probably right, we should put this logic in decode_new_cmd.
->>
->> Most likely, the qtest will also need to be modified to reset the transfer
->> state machine after a blocked write command. I can’t remember if
->> exiting and re-entering user mode is sufficient for that, but something
->> like that is probably possible.
->>
->> Thanks for catching this!
->> Peter
->>
-> 
-> I am proposing add a CMDState: STATE_HIZ to handle command decode fail
-> situation. When decode_new_command need abort the decoding and ignore
-> following
-> on input bytes of this transaction, set the state to STATE_HIZ.
-> And m25p80_transfer8() will ignore all the following on byte when in
-> this state.
-> 
-> This is to simulating the real device operation behavior
-> i.e. Macronix MX66L1G45G data sheet section 8 DEVICE OPERATION described
-> ```
-> 2. When an incorrect command is written to this device, it enters
-> standby mode and stays in standby mode until the next CS# falling edge.
-> In standby mode, This device's SO pin should be High-Z.
-> ```
 
-Could you please send a patch ?
+> On Jun 14, 2022, at 5:15 AM, Keith Busch <kbusch@kernel.org> wrote:
+>=20
+>=20
+> @@ -6538,9 +6544,25 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr =
+addr, int val)
+>=20
+>         trace_pci_nvme_mmio_doorbell_sq(sq->sqid, new_tail);
+>=20
+> -        if (!sq->db_addr) {
+>         sq->tail =3D new_tail;
+> +        if (sq->db_addr) {
+> +            /*
+> +             * The spec states "the host shall also update the =
+controller's
+> +             * corresponding doorbell property to match the value of =
+that entry
+> +             * in the Shadow Doorbell buffer."
+> +             *
+> +             * Since this context is currently a VM trap, we can =
+safely enforce
+> +             * the requirement from the device side in case the host =
+is
+> +             * misbehaving.
+> +             *
+> +             * Note, we shouldn't have to do this, but various =
+drivers
+> +             * including ones that run on Linux, are not updating =
+Admin Queues,
+> +             * so we can't trust reading it for an appropriate sq =
+tail.
+> +             */
+> +            pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
+> +                    sizeof(sq->tail));
+>         }
+> +
+>         timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + =
+500);
+>     }
+> }
+> --
 
-Thanks,
+Thanks Keith,
 
-C.
+This is an interesting hack. I wonder how should I incorporate your =
+changes in my patch. I guess I can modify the code in PATCH 1/2 and add =
+a =E2=80=9CProposed-by=E2=80=9D tag. Is this the correct way?
 
-> BRs
-> Dan Zhang
->>>
->>>> +            qemu_log_mask(LOG_GUEST_ERROR,
->>>> +                          "M25P80: Status register write is disabled!\n");
->>>> +            break;
->>>> +        }
->>>> +        s->status_register_write_disabled = extract32(s->data[0], 7, 1);
->>>> +
->>>>          switch (get_man(s)) {
->>>>          case MAN_SPANSION:
->>>>              s->quad_enable = !!(s->data[1] & 0x02);
->>>> @@ -1195,6 +1214,8 @@ static void decode_new_cmd(Flash *s, uint32_t value)
->>>>
->>>>      case RDSR:
->>>>          s->data[0] = (!!s->write_enable) << 1;
->>>> +        s->data[0] |= (!!s->status_register_write_disabled) << 7;
->>>> +
->>>>          if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
->>>>              s->data[0] |= (!!s->quad_enable) << 6;
->>>>          }
->>>> @@ -1484,6 +1505,14 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
->>>>      return r;
->>>> }
->>>>
->>>> +static void m25p80_write_protect_pin_irq_handler(void *opaque, int n, int level)
->>>> +{
->>>> +    Flash *s = M25P80(opaque);
->>>> +    /* WP# is just a single pin. */
->>>> +    assert(n == 0);
->>>> +    s->wp_level = !!level;
->>>> +}
->>>> +
->>>> static void m25p80_realize(SSIPeripheral *ss, Error **errp)
->>>> {
->>>>      Flash *s = M25P80(ss);
->>>> @@ -1515,12 +1544,18 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
->>>>          s->storage = blk_blockalign(NULL, s->size);
->>>>          memset(s->storage, 0xFF, s->size);
->>>>      }
->>>> +
->>>> +    qdev_init_gpio_in_named(DEVICE(s),
->>>> +                            m25p80_write_protect_pin_irq_handler, "WP#", 1);
->>>> }
->>>>
->>>> static void m25p80_reset(DeviceState *d)
->>>> {
->>>>      Flash *s = M25P80(d);
->>>>
->>>> +    s->wp_level = true;
->>>> +    s->status_register_write_disabled = false;
->>>> +
->>>>      reset_memory(s);
->>>> }
->>>>
->>>> @@ -1601,6 +1636,8 @@ static const VMStateDescription vmstate_m25p80 = {
->>>>          VMSTATE_UINT8(needed_bytes, Flash),
->>>>          VMSTATE_UINT8(cmd_in_progress, Flash),
->>>>          VMSTATE_UINT32(cur_addr, Flash),
->>>> +        VMSTATE_BOOL(wp_level, Flash),
->>>> +        VMSTATE_BOOL(status_register_write_disabled, Flash),
->>>
->>> Above needs to be added through a subsection, you can see commit 465ef47abe3
->>> for an example an also read about this in docs/devel/migration.rst.
->>>
->>> Thank you,
->>> Best regads,
->>> Francisco Iglesias
->>>
->>>
->>>>          VMSTATE_BOOL(write_enable, Flash),
->>>>          VMSTATE_BOOL(reset_enable, Flash),
->>>>          VMSTATE_UINT8(ear, Flash),
->>>> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
->>>> index ec233315e6..c5d97d4410 100644
->>>> --- a/tests/qtest/aspeed_smc-test.c
->>>> +++ b/tests/qtest/aspeed_smc-test.c
->>>> @@ -56,7 +56,9 @@ enum {
->>>>      BULK_ERASE = 0xc7,
->>>>      READ = 0x03,
->>>>      PP = 0x02,
->>>> +    WRSR = 0x1,
->>>>      WREN = 0x6,
->>>> +    SRWD = 0x80,
->>>>      RESET_ENABLE = 0x66,
->>>>      RESET_MEMORY = 0x99,
->>>>      EN_4BYTE_ADDR = 0xB7,
->>>> -- 
->>>> 2.30.2
->>>>
->>>>
->>
+Regards,
+Jinhao Fan
 
 
