@@ -2,75 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE6654B165
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 14:42:08 +0200 (CEST)
-Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C3C54B16B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 14:50:26 +0200 (CEST)
+Received: from localhost ([::1]:36254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o15rz-0002np-Ts
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 08:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45426)
+	id 1o1601-0002tf-Jx
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 08:50:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15Tg-0007dD-HN
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:17:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58178)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1o15v7-0007OX-9r; Tue, 14 Jun 2022 08:45:21 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15Td-0007oo-T4
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:17:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655209017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nXD25YF84dW7uBlFN8SkZqBu0jvpmi2aaYUiV48m/S4=;
- b=Rk2hD5gvCICUCQZEBspg0O4SFwR6aSrjU9kVRqjjBUlZ3cvM1VbUC8yti1tNWQAVgwX8Un
- P8oP3kh4LJW/98O1Qp5xzUS9zQOMo+iPHmXeW96E9fxKf5lvqcTxrU2PsoTPEmjXDMRXwZ
- SELKFBnVtHPcmaK1ZquNstDIsqyG8hk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-211-09Nq8XZROquC41wzMebuLw-1; Tue, 14 Jun 2022 08:16:54 -0400
-X-MC-Unique: 09Nq8XZROquC41wzMebuLw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 961E02999B20;
- Tue, 14 Jun 2022 12:16:53 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 614741415103;
- Tue, 14 Jun 2022 12:16:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 282B41800084; Tue, 14 Jun 2022 14:16:52 +0200 (CEST)
-Date: Tue, 14 Jun 2022 14:16:52 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- xen-devel@lists.xenproject.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Canokeys.org" <contact@canokeys.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>
-Subject: Re: [PULL 00/16] Kraxel 20220613 patches
-Message-ID: <20220614121652.6rzwet6cvhupamkv@sirius.home.kraxel.org>
-References: <20220613113655.3693872-1-kraxel@redhat.com>
- <37f8f623-bb1c-899b-5801-79acd6185c6d@linaro.org>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1o15un-0004VR-Qf; Tue, 14 Jun 2022 08:45:15 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25ECXs86022328;
+ Tue, 14 Jun 2022 12:44:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : subject :
+ in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=5+gPu3bRmn5LibxaNtyW+3VK/tB2AApmh2DS1+/j2oc=;
+ b=GtCAcCe31KUnl1p0Y2ZzHih0nha+OCZ2OWlUAmKrX+XczU+zk63yQ9FzyyXsP9NRHrco
+ 6p/zOVPmFmQ8WRecE2DD1VM8VrmQFgZavkxTfVscE+t8tKLf07nf18mtb0+vgf/wBOJc
+ cWwzbvFWaidGZXa5lYVEN0wph0++GwPQvwJFAuxDfFLk2T911YEUU0gY4/nz9gBnLFuD
+ SnfR54lr4RZx03+JvSBfwHLTlKfIqwmbwcg10qFxf6K0C5IcGqUGOmbzHrSDRMgDQWB4
+ BFEH+oaZptCEkwGOU6zGixa3bf99e8pnaCUhEymYixXz/R6hvcsFiEO6iSnXadatKLEl Yw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gpr31v0qt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jun 2022 12:44:56 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25ECX69K024413;
+ Tue, 14 Jun 2022 12:44:56 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gpr31v0qe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jun 2022 12:44:55 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25ECR5TT028431;
+ Tue, 14 Jun 2022 12:44:54 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma03wdc.us.ibm.com with ESMTP id 3gmjp9caue-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jun 2022 12:44:54 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25ECisGM39911928
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jun 2022 12:44:54 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4D6B5AE05C;
+ Tue, 14 Jun 2022 12:44:54 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C62C1AE05F;
+ Tue, 14 Jun 2022 12:44:53 +0000 (GMT)
+Received: from localhost (unknown [9.160.61.78])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Tue, 14 Jun 2022 12:44:53 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
+ danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: cpu_init: Clean up stop state on cpu reset
+In-Reply-To: <20220614082912.378355-1-fbarrat@linux.ibm.com>
+References: <20220614082912.378355-1-fbarrat@linux.ibm.com>
+Date: Tue, 14 Jun 2022 09:44:52 -0300
+Message-ID: <87y1xzqurf.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37f8f623-bb1c-899b-5801-79acd6185c6d@linaro.org>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: mW_4nhJ_6Oz57LEzQj3vkDZFHjVRvKdS
+X-Proofpoint-ORIG-GUID: jGQ2MHcxZr59hrneGAZlTIBVHp0sm_h5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-14_04,2022-06-13_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=648
+ suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 adultscore=0
+ clxscore=1011 bulkscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206140050
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,32 +108,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 13, 2022 at 08:52:21AM -0700, Richard Henderson wrote:
-> On 6/13/22 04:36, Gerd Hoffmann wrote:
-> > The following changes since commit dcb40541ebca7ec98a14d461593b3cd7282b4fac:
-> > 
-> >    Merge tag 'mips-20220611' of https://github.com/philmd/qemu into staging (2022-06-11 21:13:27 -0700)
-> > 
-> > are available in the Git repository at:
-> > 
-> >    git://git.kraxel.org/qemu tags/kraxel-20220613-pull-request
-> > 
-> > for you to fetch changes up to 23b87f7a3a13e93e248eef8a4b7257548855a620:
-> > 
-> >    ui: move 'pc-bios/keymaps' to 'ui/keymaps' (2022-06-13 10:59:25 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > usb: add CanoKey device, fixes for ehci + redir
-> > ui: fixes for gtk and cocoa, move keymaps (v2), rework refresh rate
-> > virtio-gpu: scanout flush fix
-> 
-> This doesn't even configure:
-> 
-> ../src/ui/keymaps/meson.build:55:4: ERROR: File ar does not exist.
+Frederic Barrat <fbarrat@linux.ibm.com> writes:
 
-dropped keymaps patch for now, new version sent.
+> The 'resume_as_sreset' attribute of a cpu can be set when a thread is
+> entering a stop state on ppc books. It causes the thread to be
+> re-routed to vector 0x100 when woken up by an exception. So it must be
+> cleaned on reset or a thread might be re-routed unexpectedly after a
+> reset, when it was not in a stop state and/or when the appropriate
+> exception handler isn't set up yet.
+>
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
 
-take care,
-  Gerd
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
 
