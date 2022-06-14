@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AD554AEDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:54:53 +0200 (CEST)
-Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D0454AEE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:57:48 +0200 (CEST)
+Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o14CC-000896-O1
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34558)
+	id 1o14F1-0001oG-Gi
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o13o2-0001Q7-Ve; Tue, 14 Jun 2022 06:29:55 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:58138)
+ id 1o13o6-0001Tz-2q; Tue, 14 Jun 2022 06:29:58 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:36768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o13nm-0000lJ-GY; Tue, 14 Jun 2022 06:29:54 -0400
+ id 1o13nm-0000lN-T8; Tue, 14 Jun 2022 06:29:56 -0400
 Received: from sas1-9c28cd37d27b.qloud-c.yandex.net
  (sas1-9c28cd37d27b.qloud-c.yandex.net
  [IPv6:2a02:6b8:c14:309b:0:640:9c28:cd37])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 172A42E0F62;
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id BFF672E1255;
  Tue, 14 Jun 2022 13:29:30 +0300 (MSK)
 Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
  (sas1-c73b4b4f4b95.qloud-c.yandex.net [2a02:6b8:c08:12a9:0:640:c73b:4b4f])
  by sas1-9c28cd37d27b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- NtVmLVszFN-TTJ4qBHS; Tue, 14 Jun 2022 13:29:30 +0300
+ VyNQx1hCXU-TUJOctTb; Tue, 14 Jun 2022 13:29:30 +0300
 X-Yandex-Fwd: 2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1655202570; bh=QbBmnNTbe6iFswnTCsMsaH0sPayNHQ3LBnxNAT+S6qA=;
+ t=1655202570; bh=ku8ALIX79cuIuWCmpiM0B9OceimAuKaWvZg7Px4M9uU=;
  h=Message-Id:References:Date:Subject:In-Reply-To:Cc:To:From;
- b=B9X7090X+vwcxN+2ZvBS+QYkKCSx2REx3PL7EsX98U8fJXRTy+4hlj3YKc56jdbRl
- vZcqccFWU7KPjMePJUAL9K8fYBJke73BoLMKA2rD0ytCCarTHRaAx7+iM/U3r6+PDB
- j2b23cuI0NTFTPwofMjwCWPnnfRkKMjn7LSaC3C8=
+ b=ELZs6FN7+BxdpF9zQti6YJ28Obcc6eSjoddVeD7uUC/yvqRX5ith4Jw5k6W76XNae
+ WyUZkKTuHo7mmi7gMWnlELMylxTY5RUIwbTH6C9JmOJjtEigVRYNi/yf0UD+GMSUbX
+ YHzbZFFxGIzxu4nsrYHoejFYCVMUvaczqeSgqqFQ=
 Authentication-Results: sas1-9c28cd37d27b.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:a427::1:2e])
  by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 15x97ivcvu-TSMmgb3G; Tue, 14 Jun 2022 13:29:29 +0300
+ 15x97ivcvu-TUMmC2L6; Tue, 14 Jun 2022 13:29:30 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com,
  eblake@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
- vsementsov@yandex-team.ru, peter.maydell@linaro.org,
- "Denis V. Lunev" <den@openvz.org>, John Snow <jsnow@redhat.com>
-Subject: [PULL 09/10] block: use 'unsigned' for in_flight field on driver state
-Date: Tue, 14 Jun 2022 13:29:09 +0300
-Message-Id: <20220614102910.1431380-10-vsementsov@yandex-team.ru>
+ vsementsov@yandex-team.ru, peter.maydell@linaro.org
+Subject: [PULL 10/10] MAINTAINERS: update Vladimir's address and repositories
+Date: Tue, 14 Jun 2022 13:29:10 +0300
+Message-Id: <20220614102910.1431380-11-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
 References: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,51 +80,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Denis V. Lunev" <den@openvz.org>
-
-This patch makes in_flight field 'unsigned' for BDRVNBDState and
-MirrorBlockJob. This matches the definition of this field on BDS
-and is generically correct - we should never get negative value here.
-
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: John Snow <jsnow@redhat.com>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Hanna Reitz <hreitz@redhat.com>
-CC: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- block/mirror.c | 2 +-
- block/nbd.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index d8ecb9efa2..3c4ab1159d 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -73,7 +73,7 @@ typedef struct MirrorBlockJob {
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0df25ed4b0..9e37bfe279 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2538,7 +2538,7 @@ F: scsi/*
  
-     uint64_t last_pause_ns;
-     unsigned long *in_flight_bitmap;
--    int in_flight;
-+    unsigned in_flight;
-     int64_t bytes_in_flight;
-     QTAILQ_HEAD(, MirrorOp) ops_in_flight;
-     int ret;
-diff --git a/block/nbd.c b/block/nbd.c
-index bc8f128087..19e773d602 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -77,7 +77,7 @@ typedef struct BDRVNBDState {
-     QemuMutex requests_lock;
-     NBDClientState state;
-     CoQueue free_sema;
--    int in_flight;
-+    unsigned in_flight;
-     NBDClientRequest requests[MAX_NBD_REQUESTS];
-     QEMUTimer *reconnect_delay_timer;
+ Block Jobs
+ M: John Snow <jsnow@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: blockjob.c
+@@ -2563,7 +2563,7 @@ F: block/aio_task.c
+ F: util/qemu-co-shared-resource.c
+ F: include/qemu/co-shared-resource.h
+ T: git https://gitlab.com/jsnow/qemu.git jobs
+-T: git https://src.openvz.org/scm/~vsementsov/qemu.git jobs
++T: git https://gitlab.com/vsementsov/qemu.git block
  
+ Block QAPI, monitor, command line
+ M: Markus Armbruster <armbru@redhat.com>
+@@ -2584,7 +2584,7 @@ F: include/hw/cxl/
+ 
+ Dirty Bitmaps
+ M: Eric Blake <eblake@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ R: John Snow <jsnow@redhat.com>
+ L: qemu-block@nongnu.org
+ S: Supported
+@@ -2598,6 +2598,7 @@ F: util/hbitmap.c
+ F: tests/unit/test-hbitmap.c
+ F: docs/interop/bitmaps.rst
+ T: git https://repo.or.cz/qemu/ericb.git bitmaps
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ Character device backends
+ M: Marc-André Lureau <marcandre.lureau@redhat.com>
+@@ -2808,16 +2809,17 @@ F: scripts/*.py
+ F: tests/*.py
+ 
+ Benchmark util
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ S: Maintained
+ F: scripts/simplebench/
+-T: git https://src.openvz.org/scm/~vsementsov/qemu.git simplebench
++T: git https://gitlab.com/vsementsov/qemu.git simplebench
+ 
+ Transactions helper
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ S: Maintained
+ F: include/qemu/transactions.h
+ F: util/transactions.c
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ QAPI
+ M: Markus Armbruster <armbru@redhat.com>
+@@ -3394,7 +3396,7 @@ F: block/iscsi-opts.c
+ 
+ Network Block Device (NBD)
+ M: Eric Blake <eblake@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ L: qemu-block@nongnu.org
+ S: Maintained
+ F: block/nbd*
+@@ -3406,7 +3408,7 @@ F: docs/interop/nbd.txt
+ F: docs/tools/qemu-nbd.rst
+ F: tests/qemu-iotests/tests/*nbd*
+ T: git https://repo.or.cz/qemu/ericb.git nbd
+-T: git https://src.openvz.org/scm/~vsementsov/qemu.git nbd
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ NFS
+ M: Peter Lieven <pl@kamp.de>
+@@ -3491,13 +3493,13 @@ F: block/dmg.c
+ parallels
+ M: Stefan Hajnoczi <stefanha@redhat.com>
+ M: Denis V. Lunev <den@openvz.org>
+-M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
++M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/parallels.c
+ F: block/parallels-ext.c
+ F: docs/interop/parallels.txt
+-T: git https://src.openvz.org/scm/~vsementsov/qemu.git parallels
++T: git https://gitlab.com/vsementsov/qemu.git block
+ 
+ qed
+ M: Stefan Hajnoczi <stefanha@redhat.com>
 -- 
 2.25.1
 
