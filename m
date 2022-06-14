@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98C454B3FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 16:57:29 +0200 (CEST)
-Received: from localhost ([::1]:36588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D0C54B408
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 17:00:42 +0200 (CEST)
+Received: from localhost ([::1]:40342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o17yy-00088n-NA
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 10:57:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56140)
+	id 1o1825-0002Hp-Us
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 11:00:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o17tC-0004TB-K4
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:51:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53843)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o17xw-00009h-Gh
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:56:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o17t9-0001cq-QU
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:51:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o17xu-0002N6-7y
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:56:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655218287;
+ s=mimecast20190719; t=1655218581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bieeJYcch7604MaeCv2YO2ZQ305299ceDwuPMTO/JXk=;
- b=YQxJtLT7XdGt5V0o3zF5hsTfdXpmOYVojg6QXn2IOr0mOnzUtOGmR5vRy0EFBNI28N2E+u
- OosimehJ+XrmECloMpAkOLpvV0A9lBGOHnmFrhbmNigEZzzoWBNOfqh2OAVSoLtOAMni3y
- JcfLekI36XBXrYCP4c+DwZ4McK3sEs0=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AgqnDdh9SkWdl9V4fZZiEvBxoUNAy8baQLtuPGsWjIk=;
+ b=K0eF2u+EkvGBh+KIlWphAwwe/o0xNg/q3qIPJg0lRJCcRolW80lRExHOnLGaF+UHFD43Ny
+ 9znHhZGkxQB+uvpoDl7Siscz9BZBcZmYmYvqog/fj10TpBrsOQUZxE5tjA16SbBHIOsqWN
+ MEM1KhJF0lWoCJ7WidWbpBWK+xr98Qs=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-VLWd8xh5On-wOJWwAWXTpw-1; Tue, 14 Jun 2022 10:51:26 -0400
-X-MC-Unique: VLWd8xh5On-wOJWwAWXTpw-1
-Received: by mail-vk1-f197.google.com with SMTP id
- k204-20020a1f3dd5000000b0035db6ead523so1486596vka.10
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 07:51:25 -0700 (PDT)
+ us-mta-410-Hny22R2oOiqTf6n_e23P6A-1; Tue, 14 Jun 2022 10:56:20 -0400
+X-MC-Unique: Hny22R2oOiqTf6n_e23P6A-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ s14-20020ab02bce000000b0035d45862725so4140900uar.22
+ for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 07:56:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bieeJYcch7604MaeCv2YO2ZQ305299ceDwuPMTO/JXk=;
- b=RCq60bEzweBSWqF92VXHgMyUTnah38XMbs8+xGSF1MrIBS+NJWmi1hLB9eUM3/v9TA
- fStd7mXd1XXosGPvtValZMS3dvSmgTtEg4/6EXEM9ts6stEAtisaLapqHLqVNXCqVWRS
- AezBNFQTUqVzn3NWMwNO3tRrxPzM0taRTOybJORUtVcllL8RCURtK5YeCK7o6P2CtXzM
- aykJ0Zs7ubFhnBtOcEs40NCLaPp+T2t6/Ya+bYO+W62iNWqt/qYozj65WqmTzmfUc4Qt
- RMX2wlqgQYccYN90li6xOQPbjA5VTOcibZhr3zj9p8Nme/OyEujCJQDWMU2WKfi1onDU
- 69nw==
-X-Gm-Message-State: AJIora+Eo+JBbsd3YABS/PxQAf1s7q3y6jMDgAbiVqokX0m14SRW7OR8
- tD+KwpNxFvv8U6oM7KKG+6RvBGL+3R5NwLZSvXlWDTwXNKdSJvJ6s7pRMQBjIAfW+uWrhf/y6rW
- KpVkgGpQAcOFXg+Fp+ijy5odG/f4JIu4=
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AgqnDdh9SkWdl9V4fZZiEvBxoUNAy8baQLtuPGsWjIk=;
+ b=lsnkIu2o6c5DdLWmKpauhYIEm/KvKYbtjvMnjtPopP6aTu+P9dTeyUj0BKzxlKWkf7
+ Mbp35q4hQuEb6jj+hIqEjquJeLuoyw1hs2Qker9ejyDpw89kzMgbRhRMLo3ssb5YZCdm
+ KIHL6QxYa1l/pV+o0dCCREq1titGuuQrFJn9Xh26GGBhnSSVNt0SQ18wOuE1V72num69
+ NxmKnupBoZ+hFi6Kpq+XFj7UgD6capb/E338QQWx0kDeXdSdmAhip/VymRmhtsD7ITG2
+ w3+crCti5qqRevc9xPCiaGs4l47dz+2/dooY42nU4quKctA9sH24Y+0SoVYmBzIepkra
+ iw5w==
+X-Gm-Message-State: AJIora99gbwgWDIKA1qzs7f1decIxLvy4uO8ZDwWAmmX52B7glqnJP9E
+ Gp/IfKFRe8L2UZbINKq+AsgU7QMEk8XbKDS8cSTwtoMDY/0MNwC00Dg97I0rhS76QLL5vW0NFdz
+ 0k6UlKBqBINQvppViTly2L0FwgYOB5j4=
 X-Received: by 2002:a67:f592:0:b0:34b:ba28:f7b4 with SMTP id
- i18-20020a67f592000000b0034bba28f7b4mr2379730vso.61.1655218285361; 
- Tue, 14 Jun 2022 07:51:25 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uB6bPhKt0aQIpMT4AgapqCUyHO4RJFGYNHnW3/eZyyk3DsH/WK8v0Bfl2yvIIkmjRWcIMOCTZoSz/qEM9v+Jk=
+ i18-20020a67f592000000b0034bba28f7b4mr2388447vso.61.1655218579867; 
+ Tue, 14 Jun 2022 07:56:19 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v3D2CG4SOyS+2KCAteAYoeb9xZ7hbkrg9XuizrKIPdf2eqSu/UtYlYYn7tKOLLoO39CJ74NsX8vbBz6lOtOCM=
 X-Received: by 2002:a67:f592:0:b0:34b:ba28:f7b4 with SMTP id
- i18-20020a67f592000000b0034bba28f7b4mr2379719vso.61.1655218285139; Tue, 14
- Jun 2022 07:51:25 -0700 (PDT)
+ i18-20020a67f592000000b0034bba28f7b4mr2388439vso.61.1655218579701; Tue, 14
+ Jun 2022 07:56:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220614015044.2501806-1-jsnow@redhat.com>
- <20220614015044.2501806-4-jsnow@redhat.com>
- <1cff5046-4248-437f-eba9-de1ef7fe6c66@redhat.com>
-In-Reply-To: <1cff5046-4248-437f-eba9-de1ef7fe6c66@redhat.com>
+ <20220614015044.2501806-5-jsnow@redhat.com>
+ <YqhQLC7vsLDAjLK7@redhat.com>
+In-Reply-To: <YqhQLC7vsLDAjLK7@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 14 Jun 2022 10:51:14 -0400
-Message-ID: <CAFn=p-bA+_7VgtWPzsO7WcO8F8EBiA1knJRTXUA_Eyskqt3jEw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] tests/vm: use 'cp' instead of 'ln' for temporary vm
- images
-To: Thomas Huth <thuth@redhat.com>
+Date: Tue, 14 Jun 2022 10:56:09 -0400
+Message-ID: <CAFn=p-bZRCD_grxoGgiC9spo7sf8rtB8J=dTdWxpL0E2C=fjmQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] tests/vm: switch CentOS 8 to CentOS 8 Stream
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
  Beraldo Leal <bleal@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>, 
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Hanna Reitz <hreitz@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,48 +99,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 12:40 AM Thomas Huth <thuth@redhat.com> wrote:
+On Tue, Jun 14, 2022 at 5:09 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> On 14/06/2022 03.50, John Snow wrote:
-> > If the initial setup fails, you've permanently altered the state of the
-> > downloaded image in an unknowable way. Use 'cp' like our other test
-> > setup scripts do.
+> On Mon, Jun 13, 2022 at 09:50:43PM -0400, John Snow wrote:
+> > The old CentOS image didn't work anymore because it was already EOL at
+> > the beginning of 2022.
 > >
 > > Signed-off-by: John Snow <jsnow@redhat.com>
 > > ---
-> >   tests/vm/centos | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >  tests/vm/centos | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
 > >
 > > diff --git a/tests/vm/centos b/tests/vm/centos
-> > index 5c7bc1c1a9a..be4f6ff2f14 100755
+> > index be4f6ff2f14..f5bbdecf62d 100755
 > > --- a/tests/vm/centos
 > > +++ b/tests/vm/centos
-> > @@ -34,7 +34,7 @@ class CentosVM(basevm.BaseVM):
-> >       def build_image(self, img):
-> >           cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
-> >           img_tmp = img + ".tmp"
-> > -        subprocess.check_call(["ln", "-f", cimg, img_tmp])
-> > +        subprocess.check_call(['cp', '-f', cimg, img_tmp])
+> > @@ -1,8 +1,8 @@
+> >  #!/usr/bin/env python3
+> >  #
+> > -# CentOS image
+> > +# CentOS 8 Stream image
+> >  #
+> > -# Copyright 2018 Red Hat Inc.
+> > +# Copyright 2018, 2022 Red Hat Inc.
+> >  #
+> >  # Authors:
+> >  #  Fam Zheng <famz@redhat.com>
+> > @@ -18,7 +18,7 @@ import basevm
+> >  import time
+> >
+> >  class CentosVM(basevm.BaseVM):
+> > -    name =3D "centos"
+> > +    name =3D "centos8s"
 >
-> I wonder whether it would make sense to use "qemu-img create -b" instead to
-> save some disk space?
 >
-> Anyway, your patch is certainly already an improvement, so:
+> What's the effect of this ?  It feels a little odd to set name to 'centos=
+8s'
+> here but have this file still called just 'centos' - I assume the 'name'
+> variable was intended to always match the filename
 >
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-I wondered the same, but decided to keep a smaller series this time
-around. VM tests already use a lot of space, so I doubt this is adding
-new constraints that didn't exist before. A more rigorous overhaul may
-be in order, but not right now. (It looks like the config file stuff
-to override defaults is not necessarily rigorously respected by the
-different installer recipes.)
+Changes the logfile names in ~/.cache/qemu-vm, changes the hostname
+config in gen_cloud_init_iso(), not much else.
 
-I think the caching of the fully set-up image needs work, too. In
-practice we leave the image sitting around, but we seem to always
-rebuild it no matter what, so it's not that useful. There's a few
-things that can be done here to drastically speed up some things,
-but... later.
+You're right, though, I shouldn't change it in one place but not the
+other ... I'll just leave it as "centos". I felt compelled briefly to
+indicate it was "the newer, different CentOS" but with the old one
+being EOL I suppose it's easy enough to infer.
 
 --js
 
