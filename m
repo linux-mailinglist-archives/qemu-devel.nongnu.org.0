@@ -2,93 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3CA54B210
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 15:11:26 +0200 (CEST)
-Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7351454B253
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 15:34:24 +0200 (CEST)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o16KK-0003KV-M8
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 09:11:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
+	id 1o16gZ-0001N3-1e
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 09:34:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1o16Iv-0001f1-Oo
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 09:09:57 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40792)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o16cY-0005vr-KR; Tue, 14 Jun 2022 09:30:16 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:43872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1o16Iq-0001DA-II
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 09:09:54 -0400
-Received: by mail-pg1-x533.google.com with SMTP id f65so8458078pgc.7
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 06:09:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:to:cc:references
- :from:in-reply-to;
- bh=OPeJZeFBtxUUgmgaSR+g8zE1rCb7/nO+biMpUhYpx10=;
- b=tPabGuwUt16Sypd+Q97oqm4YIxVa/ecwrsrqQ18qJgFr3o9G2Q7HCMyDOw3wzdQyvG
- lR4PpKPnfvxJYzh8x+5xjIt2K1I+ZsSr5PfhCmL9idJmLPwaOnEXYAKVfad8aRqX/0CT
- wHSRzsIE5QnOFfVBebpcOYBFbVpdH7hQDVgS28iQosTtv+Vs3MyI23Ou3qzZagwRXmVK
- zTqjCa3huFvytYOj0gxV1FGlmEZBHfBm7G1z19yvZCndSb1kPWdeuhRiNivduMEZGjno
- DnrErPvWS4MxL68EkDl57goWENrXgJ7bR5v7fakjxUMYpU1zxIDGTD00NbWm0ax9magT
- DHbA==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o16cS-0004mN-LO; Tue, 14 Jun 2022 09:30:11 -0400
+Received: by mail-oi1-x233.google.com with SMTP id q11so11560577oih.10;
+ Tue, 14 Jun 2022 06:30:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=MzIMgYPrkGcxk+uhhwb0i9JSY9EVOuZlvQzhOxJXQbk=;
+ b=R+KhlqjzYGvDjliC7zjV5JDsxmY9rNftkLGuMPhJQhZp3z3JDH8F8jYpL/AartsMog
+ AUrmyz/ywqclRHOsujCTluPXKTqOgq8Nvzs26gtjQ36yDJPfIlxEp+Fn30gKRRn0ztX5
+ mWi+bXiPXHuuz5StJMGrjqe1Oywag8UNOygvPZkAFEnjS/y1YTH41EMsuIWKlm4WLlob
+ 3E45MWcFZyqkSylrX9YqeJvi4HSEcCTeBnifWdAt24g79eXt1y20Lq+jqGx2KLDfap15
+ 6Q69mnFd7szNGkwkuR4v7x+2oeVbWctFfH5fx0Aj0U95Hy9f2eO/fMFxoS9KQebSNGpt
+ rDKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :to:cc:references:from:in-reply-to;
- bh=OPeJZeFBtxUUgmgaSR+g8zE1rCb7/nO+biMpUhYpx10=;
- b=mkTBAa4uwKCsIKlLhOP8vONudO0Q4Z7n2bDQT+n4IO9gI7uf5sPHRSk4tQXuy7IEqa
- EwoPQKLgUV/VvMiPgR/O57LxdARFx7STFkRIYdWI4/DUDEQcQojZf1AEfPGYM5sZ8tYD
- ED/8LLO+4YPnKtT6NTmyququvHjMB6uSC12GNtEWp3XvXH6ll2ZrgtTLBDlazjzYqz+y
- Ct3LSmWQRnzcQBR6aP6LXjYCIlIVJI9dr+TQu+zetU9YDssY+1Mg7CqRQeJZ8LW38rrb
- D7sIeQuT31CLUO/e9KdHFgg66v1O0nWxmZgna6WeL83Ucnq+Xbvj9Yg7cEAVgUCc3xoP
- hx2Q==
-X-Gm-Message-State: AJIora/vfkwRdVwRjbx+w8V1LvToot/iJnAS/d7pcFV5zzIIfW2J3aZs
- wakX57A3siNz7nZ243LZBh+ghg==
-X-Google-Smtp-Source: ABdhPJyoKYXeLPflJBwd9aR0M83Y8ngAVoCLpgCdh/uBhkaUgVyfOx0yPBgM74uwOPUVpX0ItZ+FKA==
-X-Received: by 2002:a05:6a00:1a56:b0:51b:f1af:c2e8 with SMTP id
- h22-20020a056a001a5600b0051bf1afc2e8mr4407233pfv.48.1655212190146; 
- Tue, 14 Jun 2022 06:09:50 -0700 (PDT)
-Received: from [10.94.53.13] ([139.177.225.249])
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=MzIMgYPrkGcxk+uhhwb0i9JSY9EVOuZlvQzhOxJXQbk=;
+ b=O217ZEiSEaxMy3ubGc8rajrGuqkRauI8Dlpj2+9jkmZbI64U7245a6LswA3lO7Siq8
+ wFhaQ2HpoMsuqzoJW7TIMMlKQpjRxUuIdm5dcnS5IU18CTR0gIxLBTABlRJ1pAp1IZ97
+ VMvfJ3oh+YavFsa+iiBpnrLbTJfsgrLE7Ii6fVWWFuHF57HvbROlxkwn0Ay8eWS7HXCH
+ rXotvGEyXsdxD0HTx/NkkbruTPgPtiKP1AGUDpgn5mxQuSAUQB836mTRSEk8sYwcjsHZ
+ PtTsmB5Cxwghu/AUFLg0mH7V4kUfxI1GaCnK8GYTylJmMFWX2NlBRtbmVEHYZ6Dg6O8S
+ DSpg==
+X-Gm-Message-State: AOAM530ajjDlMEEYBrWK/vtcqr+HJhrR95oefuA8g1jiewtHkGhRZerk
+ nJJxSNzHRyF2b5Y9aPjp4XY=
+X-Google-Smtp-Source: ABdhPJxQjhF2ovPl3+QAArgNUJ0rA3b1NLaLz7InSN5zNziz8/qjzgJT7FS1MzAzNYPfwOWoZPqoig==
+X-Received: by 2002:aca:2204:0:b0:32e:c3c0:88d7 with SMTP id
+ b4-20020aca2204000000b0032ec3c088d7mr2073064oic.203.1655213405981; 
+ Tue, 14 Jun 2022 06:30:05 -0700 (PDT)
+Received: from [192.168.10.102] ([191.255.109.90])
  by smtp.gmail.com with ESMTPSA id
- o22-20020aa79796000000b0051c6613b5basm7511099pfp.134.2022.06.14.06.09.44
+ k8-20020a544708000000b00328c9e63389sm4537258oik.11.2022.06.14.06.30.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jun 2022 06:09:49 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------7uoJWsPV2va3LCWzx75YR1Qe"
-Message-ID: <c951a606-e306-6f11-0bd9-204a8b0d223a@bytedance.com>
-Date: Tue, 14 Jun 2022 21:09:42 +0800
+ Tue, 14 Jun 2022 06:30:05 -0700 (PDT)
+Message-ID: <580c26a3-a701-6b91-f9a0-4c808b703082@gmail.com>
+Date: Tue, 14 Jun 2022 10:30:00 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [External] [PATCH v13 3/8] QIOChannelSocket: Implement io_writev
- zero copy flag & io_flush for CONFIG_LINUX
-To: Leonardo Bras <leobras@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Peter Xu
- <peterx@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Fam Zheng <fam@euphon.net>, lizefan.x@bytedance.com, zhouyibo@bytedance.com
-References: <20220513062836.965425-1-leobras@redhat.com>
- <20220513062836.965425-4-leobras@redhat.com>
-From: chuang xu <xuchuangxclwt@bytedance.com>
-In-Reply-To: <20220513062836.965425-4-leobras@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] Trivial: 3 char repeat typos
+Content-Language: en-US
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, qemu-trivial@nongnu.org, laurent@vivier.eu,
+ mjt@tls.msk.ru
+Cc: clg@kaod.org, mst@redhat.com, qemu-arm@nongnu.org, qemu-block@nongnu.org, 
+ kbusch@kernel.org, its@irrelevant.dk
+References: <20220614104045.85728-1-dgilbert@redhat.com>
+ <20220614104045.85728-2-dgilbert@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220614104045.85728-2-dgilbert@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x233.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,183 +95,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------7uoJWsPV2va3LCWzx75YR1Qe
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
 
-On 2022/5/13 下午2:28, Leonardo Bras wrote:
-> @@ -557,15 +578,31 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
->           memcpy(CMSG_DATA(cmsg), fds, fdsize);
+On 6/14/22 07:40, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> Inspired by Julia Lawall's fixing of Linux
+> kernel comments, I looked at qemu, although I did it manually.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/intc/openpic.c                | 2 +-
+>   hw/net/imx_fec.c                 | 2 +-
+>   hw/pci/pcie_aer.c                | 2 +-
+>   hw/pci/shpc.c                    | 3 ++-
+>   hw/ppc/spapr_caps.c              | 2 +-
+>   hw/scsi/spapr_vscsi.c            | 2 +-
+>   qapi/net.json                    | 2 +-
+>   tools/virtiofsd/passthrough_ll.c | 2 +-
+>   ui/input.c                       | 2 +-
+>   9 files changed, 10 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/intc/openpic.c b/hw/intc/openpic.c
+> index 49504e740f..b0787e8ee7 100644
+> --- a/hw/intc/openpic.c
+> +++ b/hw/intc/openpic.c
+> @@ -729,7 +729,7 @@ static void openpic_tmr_set_tmr(OpenPICTimer *tmr, uint32_t val, bool enabled)
+>   }
+>   
+>   /*
+> - * Returns the currrent tccr value, i.e., timer value (in clocks) with
+> + * Returns the current tccr value, i.e., timer value (in clocks) with
+>    * appropriate TOG.
+>    */
+>   static uint64_t openpic_tmr_get_timer(OpenPICTimer *tmr)
+> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+> index 0db9aaf76a..8c11b237de 100644
+> --- a/hw/net/imx_fec.c
+> +++ b/hw/net/imx_fec.c
+> @@ -438,7 +438,7 @@ static void imx_eth_update(IMXFECState *s)
+>        *   assignment fail.
+>        *
+>        * To ensure that all versions of Linux work, generate ENET_INT_MAC
+> -     * interrrupts on both interrupt lines. This should be changed if and when
+> +     * interrupts on both interrupt lines. This should be changed if and when
+>        * qemu supports IOMUX.
+>        */
+>       if (s->regs[ENET_EIR] & s->regs[ENET_EIMR] &
+> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+> index 92bd0530dd..eff62f3945 100644
+> --- a/hw/pci/pcie_aer.c
+> +++ b/hw/pci/pcie_aer.c
+> @@ -323,7 +323,7 @@ static void pcie_aer_msg_root_port(PCIDevice *dev, const PCIEAERMsg *msg)
+>            */
 >       }
 >   
-> +#ifdef QEMU_MSG_ZEROCOPY
-> +    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-> +        sflags = MSG_ZEROCOPY;
-> +    }
-> +#endif
-> +
->    retry:
-> -    ret = sendmsg(sioc->fd, &msg, 0);
-> +    ret = sendmsg(sioc->fd, &msg, sflags);
->       if (ret <= 0) {
-> -        if (errno == EAGAIN) {
-> +        switch (errno) {
-> +        case EAGAIN:
->               return QIO_CHANNEL_ERR_BLOCK;
-> -        }
-> -        if (errno == EINTR) {
-> +        case EINTR:
->               goto retry;
-> +#ifdef QEMU_MSG_ZEROCOPY
-> +        case ENOBUFS:
-> +            if (sflags & MSG_ZEROCOPY) {
-> +                error_setg_errno(errp, errno,
-> +                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
-> +                return -1;
-> +            }
-> +            break;
-> +#endif
->           }
-> +
->           error_setg_errno(errp, errno,
->                            "Unable to write to socket");
->           return -1;
-
-Hi, Leo.
-
-There are some other questions I would like to discuss with you.
-
-I tested the multifd zero_copy migration and found that sometimes even 
-if max locked memory of qemu was set to 16GB（much greater than 
-`MULTIFD_PACKET_SIZE`）, the error "Process can't lock enough memory for 
-using MSG_ZEROCOPY" would still be reported.
-
-I noticed that the 
-doc(https://www.kernel.org/doc/html/v5.12/networking/msg_zerocopy.html) 
-says "A zerocopy failure will return -1 with errno ENOBUFS. This happens 
-if the socket option was not set, _the socket exceeds its optmem limit_ 
-or the user exceeds its ulimit on locked pages."
-
-I also found that the RFC(https://lwn.net/Articles/715279/) says _"__The 
-change to allocate notification skbuffs from optmem requires__ensuring 
-that net.core.optmem is at least a few 100KB."_
-
-On my host,  optmem was initially set to 20KB, I tried to change it to 
-100KB (echo 102400 > /proc/sys/net/core/optmem_max) as the RFC says.Then 
-I tested the multifd zero_copy migration repeatedly，and the error 
-disappeared.
-
-So when sendmsg returns -1 with errno ENOBUFS, should we distinguish 
-between error ''socket exceeds optmem limit" and error "user exceeds 
-ulimit on locked pages"? Or is there any better way to avoid this problem?
-
-Best Regards,
-
-chuang xu
-
---------------7uoJWsPV2va3LCWzx75YR1Qe
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2022/5/13 下午2:28, Leonardo Bras
-      wrote:
-    </div>
-    <blockquote type="cite"
-      cite="mid:20220513062836.965425-4-leobras@redhat.com">
-      <pre class="moz-quote-pre" wrap="">@@ -557,15 +578,31 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-         memcpy(CMSG_DATA(cmsg), fds, fdsize);
-     }
- 
-+#ifdef QEMU_MSG_ZEROCOPY
-+    if (flags &amp; QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-+        sflags = MSG_ZEROCOPY;
-+    }
-+#endif
-+
-  retry:
--    ret = sendmsg(sioc-&gt;fd, &amp;msg, 0);
-+    ret = sendmsg(sioc-&gt;fd, &amp;msg, sflags);
-     if (ret &lt;= 0) {
--        if (errno == EAGAIN) {
-+        switch (errno) {
-+        case EAGAIN:
-             return QIO_CHANNEL_ERR_BLOCK;
--        }
--        if (errno == EINTR) {
-+        case EINTR:
-             goto retry;
-+#ifdef QEMU_MSG_ZEROCOPY
-+        case ENOBUFS:
-+            if (sflags &amp; MSG_ZEROCOPY) {
-+                error_setg_errno(errp, errno,
-+                                 "Process can't lock enough memory for using MSG_ZEROCOPY");
-+                return -1;
-+            }
-+            break;
-+#endif
-         }
-+
-         error_setg_errno(errp, errno,
-                          "Unable to write to socket");
-         return -1;
-</pre>
-    </blockquote>
-    <p>Hi, Leo.</p>
-    <p>There are some other questions I would like to discuss with you.</p>
-    <p>I tested the multifd zero_copy migration and found that sometimes
-      even if max locked memory of qemu was set to 16GB（much greater
-      than `MULTIFD_PACKET_SIZE`）, the error "Process can't lock enough
-      memory for using MSG_ZEROCOPY" would still be reported.</p>
-    <p>I noticed that the
-      doc(<a class="moz-txt-link-freetext" href="https://www.kernel.org/doc/html/v5.12/networking/msg_zerocopy.html">https://www.kernel.org/doc/html/v5.12/networking/msg_zerocopy.html</a>)
-      says "<span style="color: rgb(0, 0, 0); font-family: serif;
-        font-size: 16px; font-style: normal; font-variant-ligatures:
-        normal; font-variant-caps: normal; font-weight: 400;
-        letter-spacing: normal; orphans: 2; text-align: start;
-        text-indent: 0px; text-transform: none; white-space: normal;
-        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
-        background-color: rgb(252, 252, 252); text-decoration-thickness:
-        initial; text-decoration-style: initial; text-decoration-color:
-        initial; display: inline !important; float: none;">A zerocopy
-        failure will return -1 with errno ENOBUFS. This happens if the
-        socket option was not set, <u>the socket exceeds its optmem
-          limit</u> or the user exceeds its ulimit on locked pages.</span><span
-        style="color: rgb(0, 0, 0); font-family: serif; font-size: 16px;
-        font-style: normal; font-variant-ligatures: normal;
-        font-variant-caps: normal; font-weight: 400; letter-spacing:
-        normal; orphans: 2; text-align: start; text-indent: 0px;
-        text-transform: none; white-space: normal; widows: 2;
-        word-spacing: 0px; -webkit-text-stroke-width: 0px;
-        background-color: rgb(252, 252, 252); text-decoration-thickness:
-        initial; text-decoration-style: initial; text-decoration-color:
-        initial; display: inline !important; float: none;">"</span></p>
-    <p>I also found that the RFC(<a class="moz-txt-link-freetext" href="https://lwn.net/Articles/715279/">https://lwn.net/Articles/715279/</a>) says
-      <u>"</u><u>The change to allocate notification skbuffs from optmem
-        requires</u><u> ensuring that net.core.optmem is at least a few
-        100KB."</u></p>
-    <p> On my host,  optmem was initially set to 20KB, I tried to change
-      it to 100KB (echo 102400 &gt; /proc/sys/net/core/optmem_max) as
-      the RFC says.Then I tested the multifd zero_copy migration
-      repeatedly，and the error disappeared.<br>
-    </p>
-    <p>So when sendmsg returns -1 with errno ENOBUFS, should we
-      distinguish between error ''socket exceeds optmem limit" and error
-      "user exceeds ulimit on locked pages"? Or is there any better way
-      to avoid this problem?</p>
-    <p>Best Regards,</p>
-    <p>chuang xu<br>
-    </p>
-  </body>
-</html>
-
---------------7uoJWsPV2va3LCWzx75YR1Qe--
+> -    /* Errro Message Received: Root Error Status register */
+> +    /* Error Message Received: Root Error Status register */
+>       switch (msg->severity) {
+>       case PCI_ERR_ROOT_CMD_COR_EN:
+>           if (root_status & PCI_ERR_ROOT_COR_RCV) {
+> diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
+> index f822f18b98..e71f3a7483 100644
+> --- a/hw/pci/shpc.c
+> +++ b/hw/pci/shpc.c
+> @@ -480,7 +480,8 @@ static const MemoryRegionOps shpc_mmio_ops = {
+>       .endianness = DEVICE_LITTLE_ENDIAN,
+>       .valid = {
+>           /* SHPC ECN requires dword accesses, but the original 1.0 spec doesn't.
+> -         * It's easier to suppport all sizes than worry about it. */
+> +         * It's easier to support all sizes than worry about it.
+> +         */
+>           .min_access_size = 1,
+>           .max_access_size = 4,
+>       },
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 655ab856a0..b4283055c1 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -553,7 +553,7 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
+>                * instruction is a harmless no-op.  It won't correctly
+>                * implement the cache count flush *but* if we have
+>                * count-cache-disabled in the host, that flush is
+> -             * unnnecessary.  So, specifically allow this case.  This
+> +             * unnecessary.  So, specifically allow this case.  This
+>                * allows us to have better performance on POWER9 DD2.3,
+>                * while still working on POWER9 DD2.2 and POWER8 host
+>                * cpus.
+> diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
+> index a07a8e1523..e320ccaa23 100644
+> --- a/hw/scsi/spapr_vscsi.c
+> +++ b/hw/scsi/spapr_vscsi.c
+> @@ -1013,7 +1013,7 @@ static int vscsi_send_capabilities(VSCSIState *s, vscsi_req *req)
+>       }
+>   
+>       /*
+> -     * Current implementation does not suppport any migration or
+> +     * Current implementation does not support any migration or
+>        * reservation capabilities. Construct the response telling the
+>        * guest not to use them.
+>        */
+> diff --git a/qapi/net.json b/qapi/net.json
+> index d6f7cfd4d6..9af11e9a3b 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -298,7 +298,7 @@
+>   #
+>   # @udp: use the udp version of l2tpv3 encapsulation
+>   #
+> -# @cookie64: use 64 bit coookies
+> +# @cookie64: use 64 bit cookies
+>   #
+>   # @counter: have sequence counter
+>   #
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index b15c631ca5..7a73dfcce9 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -2319,7 +2319,7 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
+>            * If security.selinux has not been remapped and selinux is enabled,
+>            * use fscreate to set context before file creation. If not, use
+>            * tmpfile method for regular files. Otherwise fallback to
+> -         * non-atomic method of file creation and xattr settting.
+> +         * non-atomic method of file creation and xattr setting.
+>            */
+>           if (!mapped_name && lo->use_fscreate) {
+>               err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
+> diff --git a/ui/input.c b/ui/input.c
+> index 8ac407dec4..e2a90af889 100644
+> --- a/ui/input.c
+> +++ b/ui/input.c
+> @@ -364,7 +364,7 @@ void qemu_input_event_send(QemuConsole *src, InputEvent *evt)
+>        * when 'alt+print' was pressed. This flaw is now fixed and the
+>        * 'sysrq' key serves no further purpose. We normalize it to
+>        * 'print', so that downstream receivers of the event don't
+> -     * neeed to deal with this mistake
+> +     * need to deal with this mistake
+>        */
+>       if (evt->type == INPUT_EVENT_KIND_KEY &&
+>           evt->u.key.data->key->u.qcode.data == Q_KEY_CODE_SYSRQ) {
 
