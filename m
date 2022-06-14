@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903E054AE77
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:37:42 +0200 (CEST)
-Received: from localhost ([::1]:58420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A304F54AE78
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:37:44 +0200 (CEST)
+Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o13vZ-0005O4-Lj
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34488)
+	id 1o13vb-0005VL-O6
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:37:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o13ny-0001LJ-2q; Tue, 14 Jun 2022 06:29:50 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:57648)
+ id 1o13nz-0001MJ-Qp; Tue, 14 Jun 2022 06:29:51 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:34404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o13nh-0000ke-He; Tue, 14 Jun 2022 06:29:49 -0400
-Received: from sas1-9c28cd37d27b.qloud-c.yandex.net
- (sas1-9c28cd37d27b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c14:309b:0:640:9c28:cd37])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 868D52E0D43;
- Tue, 14 Jun 2022 13:29:24 +0300 (MSK)
+ id 1o13nk-0000kn-79; Tue, 14 Jun 2022 06:29:51 -0400
+Received: from sas1-3cba3404b018.qloud-c.yandex.net
+ (sas1-3cba3404b018.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bd26:0:640:3cba:3404])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id BC79B2E124D;
+ Tue, 14 Jun 2022 13:29:25 +0300 (MSK)
 Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
  (sas1-c73b4b4f4b95.qloud-c.yandex.net [2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by sas1-9c28cd37d27b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- AcoUs8LFkf-TOJ4lu3p; Tue, 14 Jun 2022 13:29:24 +0300
+ by sas1-3cba3404b018.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ AmVMJyhMp7-TPMCJ0fg; Tue, 14 Jun 2022 13:29:25 +0300
 X-Yandex-Fwd: 2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1655202564; bh=BNgD/KiMpl4g2nP+eF8gjfR8XFJvAFN8LW/9MVbgWXM=;
+ t=1655202565; bh=2Kkx+UoDek2yQPFAJI4dU4sxm9y8W9vvQE8FStDc1BY=;
  h=Message-Id:References:Date:Subject:In-Reply-To:Cc:To:From;
- b=Z/VY6LZ0gzYigqMuz8Wao8ijg/aSHLF0a4Z2KCBJX3/qZsHabrEDTn7AtUvuP9+JG
- QwyV59viEoZobyDqGjV0gW5JpQvTod+F10ayGAEcl/nh75gMmX7qvSAF7NI1Z7VUGX
- ZiXV6IngnqeVwiB/hQ0ZOwbcHej9xZHzLXZsV0Vc=
-Authentication-Results: sas1-9c28cd37d27b.qloud-c.yandex.net;
+ b=W6PEb9/RVR74JvFfvkkeA/xKDDnZ6gi/ehoH6pErhrRQD4PmBJQBd9LzUPm1GUuRj
+ SGh6Be0xsOLlRhsI/T9ecT9alplhpgGE2RuwXYI/lbnZf00Rjdqq6yuME11Bzmd7hr
+ RMoYx77CTUtFbLokoTs6K26IVU1JWMlCwq2G7/rU=
+Authentication-Results: sas1-3cba3404b018.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:a427::1:2e])
  by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 15x97ivcvu-TNMm7BW2; Tue, 14 Jun 2022 13:29:23 +0300
+ 15x97ivcvu-TOMmXvEf; Tue, 14 Jun 2022 13:29:25 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -48,16 +49,16 @@ Cc: qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com,
  eblake@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
  vsementsov@yandex-team.ru, peter.maydell@linaro.org,
  Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-Subject: [PULL 05/10] block/block-copy: block_copy(): add timeout_ns parameter
-Date: Tue, 14 Jun 2022 13:29:05 +0300
-Message-Id: <20220614102910.1431380-6-vsementsov@yandex-team.ru>
+Subject: [PULL 06/10] block/copy-before-write: implement cbw-timeout option
+Date: Tue, 14 Jun 2022 13:29:06 +0300
+Message-Id: <20220614102910.1431380-7-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
 References: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,105 +82,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 
-Add possibility to limit block_copy() call in time. To be used in the
-next commit.
+In some scenarios, when copy-before-write operations lasts too long
+time, it's better to cancel it.
 
-As timed-out block_copy() call will continue in background anyway (we
-can't immediately cancel IO operation), it's important also give user a
-possibility to pass a callback, to do some additional actions on
-block-copy call finish.
+Most useful would be to use the new option together with
+on-cbw-error=break-snapshot: this way if cbw operation takes too long
+time we'll just cancel backup process but do not disturb the guest too
+much.
+
+Note the tricky point of realization: we keep additional point in
+bs->in_flight during block_copy operation even if it's timed-out.
+Background "cancelled" block_copy operations will finish at some point
+and will want to access state. We should care to not free the state in
+.bdrv_close() earlier.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- block/block-copy.c         | 33 ++++++++++++++++++++++++++-------
- block/copy-before-write.c  |  2 +-
- include/block/block-copy.h |  4 +++-
- 3 files changed, 30 insertions(+), 9 deletions(-)
+ block/copy-before-write.c | 23 ++++++++++++++++++++++-
+ qapi/block-core.json      |  8 +++++++-
+ 2 files changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index ec46775ea5..bb947afdda 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -883,23 +883,42 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
-     return ret;
- }
- 
-+static void coroutine_fn block_copy_async_co_entry(void *opaque)
-+{
-+    block_copy_common(opaque);
-+}
-+
- int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
--                            bool ignore_ratelimit)
-+                            bool ignore_ratelimit, uint64_t timeout_ns,
-+                            BlockCopyAsyncCallbackFunc cb,
-+                            void *cb_opaque)
- {
--    BlockCopyCallState call_state = {
-+    int ret;
-+    BlockCopyCallState *call_state = g_new(BlockCopyCallState, 1);
-+
-+    *call_state = (BlockCopyCallState) {
-         .s = s,
-         .offset = start,
-         .bytes = bytes,
-         .ignore_ratelimit = ignore_ratelimit,
-         .max_workers = BLOCK_COPY_MAX_WORKERS,
-+        .cb = cb,
-+        .cb_opaque = cb_opaque,
-     };
- 
--    return block_copy_common(&call_state);
--}
-+    ret = qemu_co_timeout(block_copy_async_co_entry, call_state, timeout_ns,
-+                          g_free);
-+    if (ret < 0) {
-+        assert(ret == -ETIMEDOUT);
-+        block_copy_call_cancel(call_state);
-+        /* call_state will be freed by running coroutine. */
-+        return ret;
-+    }
- 
--static void coroutine_fn block_copy_async_co_entry(void *opaque)
--{
--    block_copy_common(opaque);
-+    ret = call_state->ret;
-+    g_free(call_state);
-+
-+    return ret;
- }
- 
- BlockCopyCallState *block_copy_async(BlockCopyState *s,
 diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index c8a11a09d2..fc13c7cd44 100644
+index fc13c7cd44..1bc2e7f9ba 100644
 --- a/block/copy-before-write.c
 +++ b/block/copy-before-write.c
-@@ -111,7 +111,7 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
+@@ -42,6 +42,7 @@ typedef struct BDRVCopyBeforeWriteState {
+     BlockCopyState *bcs;
+     BdrvChild *target;
+     OnCbwError on_cbw_error;
++    uint32_t cbw_timeout_ns;
+ 
+     /*
+      * @lock: protects access to @access_bitmap, @done_bitmap and
+@@ -83,6 +84,14 @@ static coroutine_fn int cbw_co_preadv(
+     return bdrv_co_preadv(bs->file, offset, bytes, qiov, flags);
+ }
+ 
++static void block_copy_cb(void *opaque)
++{
++    BlockDriverState *bs = opaque;
++
++    bs->in_flight--;
++    aio_wait_kick();
++}
++
+ /*
+  * Do copy-before-write operation.
+  *
+@@ -111,7 +120,16 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
      off = QEMU_ALIGN_DOWN(offset, cluster_size);
      end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
  
--    ret = block_copy(s->bcs, off, end - off, true);
-+    ret = block_copy(s->bcs, off, end - off, true, 0, NULL, NULL);
+-    ret = block_copy(s->bcs, off, end - off, true, 0, NULL, NULL);
++    /*
++     * Increase in_flight, so that in case of timed-out block-copy, the
++     * remaining background block_copy() request (which can't be immediately
++     * cancelled by timeout) is presented in bs->in_flight. This way we are
++     * sure that on bs close() we'll previously wait for all timed-out but yet
++     * running block_copy calls.
++     */
++    bs->in_flight++;
++    ret = block_copy(s->bcs, off, end - off, true, s->cbw_timeout_ns,
++                     block_copy_cb, bs);
      if (ret < 0 && s->on_cbw_error == ON_CBW_ERROR_BREAK_GUEST_WRITE) {
          return ret;
      }
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 68bbd344b2..ba0b425d78 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -40,7 +40,9 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
-                                      int64_t offset, int64_t *count);
+@@ -377,6 +395,7 @@ static BlockdevOptions *cbw_parse_options(QDict *options, Error **errp)
+      */
+     qdict_extract_subqdict(options, NULL, "bitmap");
+     qdict_del(options, "on-cbw-error");
++    qdict_del(options, "cbw-timeout");
  
- int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
--                            bool ignore_ratelimit);
-+                            bool ignore_ratelimit, uint64_t timeout_ns,
-+                            BlockCopyAsyncCallbackFunc cb,
-+                            void *cb_opaque);
+ out:
+     visit_free(v);
+@@ -423,6 +442,8 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+     s->on_cbw_error = opts->has_on_cbw_error ? opts->on_cbw_error :
+             ON_CBW_ERROR_BREAK_GUEST_WRITE;
++    s->cbw_timeout_ns = opts->has_cbw_timeout ?
++        opts->cbw_timeout * NANOSECONDS_PER_SECOND : 0;
  
- /*
-  * Run block-copy in a coroutine, create corresponding BlockCopyCallState
+     bs->total_sectors = bs->file->bs->total_sectors;
+     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 4abf26b42d..9fc06e7862 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4198,12 +4198,18 @@
+ # @on-cbw-error: Behavior on failure of copy-before-write operation.
+ #                Default is @break-guest-write. (Since 7.1)
+ #
++# @cbw-timeout: Zero means no limit. Non-zero sets the timeout in seconds
++#               for copy-before-write operation. When a timeout occurs,
++#               the respective copy-before-write operation will fail, and
++#               the @on-cbw-error parameter will decide how this failure
++#               is handled. Default 0. (Since 7.1)
++#
+ # Since: 6.2
+ ##
+ { 'struct': 'BlockdevOptionsCbw',
+   'base': 'BlockdevOptionsGenericFormat',
+   'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap',
+-            '*on-cbw-error': 'OnCbwError' } }
++            '*on-cbw-error': 'OnCbwError', '*cbw-timeout': 'uint32' } }
+ 
+ ##
+ # @BlockdevOptions:
 -- 
 2.25.1
 
