@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB5254B3E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 16:53:26 +0200 (CEST)
-Received: from localhost ([::1]:32906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98C454B3FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 16:57:29 +0200 (CEST)
+Received: from localhost ([::1]:36588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o17v3-0005LQ-0T
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 10:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56024)
+	id 1o17yy-00088n-NA
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 10:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o17sS-00046C-RK
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:50:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55952)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o17tC-0004TB-K4
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:51:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o17sN-0001Zk-FI
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:50:41 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o17t9-0001cq-QU
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:51:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655218238;
+ s=mimecast20190719; t=1655218287;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ez+Jp0deAp0qllrRa43Ovb37vY+5D1VDxadrLIYYwms=;
- b=WcnWZKc7AJ0DY4Ge+D2tjs3UsZUVfQGWHBet3YydDxlOIydjuNd+u1p3yPzNFdodm8SUEV
- Z5PRjkyjO4PkERTnXm1VEUdKYlL8SUKgTTu8s8vj4zJhbIflZHcAe5r/QHX/5yTrB7TJQC
- JldYscMmsi55ds2qfnSsmuTHtIYm4qE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bieeJYcch7604MaeCv2YO2ZQ305299ceDwuPMTO/JXk=;
+ b=YQxJtLT7XdGt5V0o3zF5hsTfdXpmOYVojg6QXn2IOr0mOnzUtOGmR5vRy0EFBNI28N2E+u
+ OosimehJ+XrmECloMpAkOLpvV0A9lBGOHnmFrhbmNigEZzzoWBNOfqh2OAVSoLtOAMni3y
+ JcfLekI36XBXrYCP4c+DwZ4McK3sEs0=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-323-9YSLy3YiPl-sf4GScLnNag-1; Tue, 14 Jun 2022 10:50:36 -0400
-X-MC-Unique: 9YSLy3YiPl-sf4GScLnNag-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m22-20020a7bcb96000000b0039c4f6ade4dso3884782wmi.8
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 07:50:35 -0700 (PDT)
+ us-mta-413-VLWd8xh5On-wOJWwAWXTpw-1; Tue, 14 Jun 2022 10:51:26 -0400
+X-MC-Unique: VLWd8xh5On-wOJWwAWXTpw-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ k204-20020a1f3dd5000000b0035db6ead523so1486596vka.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 07:51:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ez+Jp0deAp0qllrRa43Ovb37vY+5D1VDxadrLIYYwms=;
- b=da2JfhsA612j+STkdim0qH7GW0aduwym3atCpjFMjpL0ynuugolRPeQoppCtdR72Wt
- 62cs6CNPSqtT9opg1KGycmTG38IZD9cbI0Rku0XeatwUcfu0ZFOdkIV1gKDStZduEg31
- lHd/XO6eBlDLpghws4B0hq6TM/1FpjcRo+xPdAX9EFk+SmqhSSR+R1jzVf/nQOmQW5M+
- iJSf6cksIcjFeJWscXKlTe/PrHjHpHtrCMxregzxanb+yvpLiM3MKrTNLXxuQDDQ1Sgp
- Y+2EWIFuj+ndW+Ge+/YqrigOUtxjVbZPo8xG90JDF9INcusxSmWfyaN64W0vE7mUoN0l
- MbNg==
-X-Gm-Message-State: AJIora+ESmS0Md/lcIdP2qmJHovKawePLOi/KzpI981QePASvvadaYUD
- g1nq/+/0I3tVeeQdSnrLIX9J8MpWvWqVUQL2RqriU0jweFYd1vtsBZ8VFRq9YKWA/A5+V++GpWo
- 6zbeMicsJncnxeauxglgKwvc8ZLp3RoB8nxVl325XZYtL5SmAOtHE4PvnH7PjsBuAI4g=
-X-Received: by 2002:adf:f884:0:b0:21a:6a:7b55 with SMTP id
- u4-20020adff884000000b0021a006a7b55mr5224066wrp.376.1655218234195; 
- Tue, 14 Jun 2022 07:50:34 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sQyNlc8qOKWFxYCCdt64dbjFEGrjaA9muF4/3Uu/RgJCvwj+57ntD91oyBrhIdeucPR4tfuQ==
-X-Received: by 2002:adf:f884:0:b0:21a:6a:7b55 with SMTP id
- u4-20020adff884000000b0021a006a7b55mr5224042wrp.376.1655218233834; 
- Tue, 14 Jun 2022 07:50:33 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- q2-20020a05600c2c0200b003942a244f51sm17684178wmg.42.2022.06.14.07.50.32
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jun 2022 07:50:32 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: cleanup -fno-pie detection
-Date: Tue, 14 Jun 2022 16:50:31 +0200
-Message-Id: <20220614145031.1766976-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bieeJYcch7604MaeCv2YO2ZQ305299ceDwuPMTO/JXk=;
+ b=RCq60bEzweBSWqF92VXHgMyUTnah38XMbs8+xGSF1MrIBS+NJWmi1hLB9eUM3/v9TA
+ fStd7mXd1XXosGPvtValZMS3dvSmgTtEg4/6EXEM9ts6stEAtisaLapqHLqVNXCqVWRS
+ AezBNFQTUqVzn3NWMwNO3tRrxPzM0taRTOybJORUtVcllL8RCURtK5YeCK7o6P2CtXzM
+ aykJ0Zs7ubFhnBtOcEs40NCLaPp+T2t6/Ya+bYO+W62iNWqt/qYozj65WqmTzmfUc4Qt
+ RMX2wlqgQYccYN90li6xOQPbjA5VTOcibZhr3zj9p8Nme/OyEujCJQDWMU2WKfi1onDU
+ 69nw==
+X-Gm-Message-State: AJIora+Eo+JBbsd3YABS/PxQAf1s7q3y6jMDgAbiVqokX0m14SRW7OR8
+ tD+KwpNxFvv8U6oM7KKG+6RvBGL+3R5NwLZSvXlWDTwXNKdSJvJ6s7pRMQBjIAfW+uWrhf/y6rW
+ KpVkgGpQAcOFXg+Fp+ijy5odG/f4JIu4=
+X-Received: by 2002:a67:f592:0:b0:34b:ba28:f7b4 with SMTP id
+ i18-20020a67f592000000b0034bba28f7b4mr2379730vso.61.1655218285361; 
+ Tue, 14 Jun 2022 07:51:25 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uB6bPhKt0aQIpMT4AgapqCUyHO4RJFGYNHnW3/eZyyk3DsH/WK8v0Bfl2yvIIkmjRWcIMOCTZoSz/qEM9v+Jk=
+X-Received: by 2002:a67:f592:0:b0:34b:ba28:f7b4 with SMTP id
+ i18-20020a67f592000000b0034bba28f7b4mr2379719vso.61.1655218285139; Tue, 14
+ Jun 2022 07:51:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+References: <20220614015044.2501806-1-jsnow@redhat.com>
+ <20220614015044.2501806-4-jsnow@redhat.com>
+ <1cff5046-4248-437f-eba9-de1ef7fe6c66@redhat.com>
+In-Reply-To: <1cff5046-4248-437f-eba9-de1ef7fe6c66@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 14 Jun 2022 10:51:14 -0400
+Message-ID: <CAFn=p-bA+_7VgtWPzsO7WcO8F8EBiA1knJRTXUA_Eyskqt3jEw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] tests/vm: use 'cp' instead of 'ln' for temporary vm
+ images
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Hanna Reitz <hreitz@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -95,45 +98,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Place it only inside the 'if test "$pie" = "no"' conditional.
+On Tue, Jun 14, 2022 at 12:40 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 14/06/2022 03.50, John Snow wrote:
+> > If the initial setup fails, you've permanently altered the state of the
+> > downloaded image in an unknowable way. Use 'cp' like our other test
+> > setup scripts do.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >   tests/vm/centos | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/tests/vm/centos b/tests/vm/centos
+> > index 5c7bc1c1a9a..be4f6ff2f14 100755
+> > --- a/tests/vm/centos
+> > +++ b/tests/vm/centos
+> > @@ -34,7 +34,7 @@ class CentosVM(basevm.BaseVM):
+> >       def build_image(self, img):
+> >           cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
+> >           img_tmp = img + ".tmp"
+> > -        subprocess.check_call(["ln", "-f", cimg, img_tmp])
+> > +        subprocess.check_call(['cp', '-f', cimg, img_tmp])
+>
+> I wonder whether it would make sense to use "qemu-img create -b" instead to
+> save some disk space?
+>
+> Anyway, your patch is certainly already an improvement, so:
+>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+I wondered the same, but decided to keep a smaller series this time
+around. VM tests already use a lot of space, so I doubt this is adding
+new constraints that didn't exist before. A more rigorous overhaul may
+be in order, but not right now. (It looks like the config file stuff
+to override defaults is not necessarily rigorously respected by the
+different installer recipes.)
 
-diff --git a/configure b/configure
-index f3dcbd10c3..e2b64334b5 100755
---- a/configure
-+++ b/configure
-@@ -1346,13 +1346,6 @@ static THREAD int tls_var;
- int main(void) { return tls_var; }
- EOF
- 
--# Check we support -fno-pie and -no-pie first; we will need the former for
--# building ROMs, and both for everything if --disable-pie is passed.
--if compile_prog "-Werror -fno-pie" "-no-pie"; then
--  CFLAGS_NOPIE="-fno-pie"
--  LDFLAGS_NOPIE="-no-pie"
--fi
--
- if test "$static" = "yes"; then
-   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
-     CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
-@@ -1365,8 +1358,10 @@ if test "$static" = "yes"; then
-     pie="no"
-   fi
- elif test "$pie" = "no"; then
--  CONFIGURE_CFLAGS="$CFLAGS_NOPIE $CONFIGURE_CFLAGS"
--  CONFIGURE_LDFLAGS="$LDFLAGS_NOPIE $CONFIGURE_LDFLAGS"
-+  if compile_prog "-Werror -fno-pie" "-no-pie"; then
-+    CONFIGURE_CFLAGS="-fno-pie $CONFIGURE_CFLAGS"
-+    CONFIGURE_LDFLAGS="-no-pie $CONFIGURE_LDFLAGS"
-+  fi
- elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
-   CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
-   CONFIGURE_LDFLAGS="-pie $CONFIGURE_LDFLAGS"
--- 
-2.36.1
+I think the caching of the fully set-up image needs work, too. In
+practice we leave the image sitting around, but we seem to always
+rebuild it no matter what, so it's not that useful. There's a few
+things that can be done here to drastically speed up some things,
+but... later.
+
+--js
 
 
