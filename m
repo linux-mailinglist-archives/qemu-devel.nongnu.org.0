@@ -2,90 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA42D54A8EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 07:50:47 +0200 (CEST)
-Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 919E154A8FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 07:58:52 +0200 (CEST)
+Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0zRu-0005Vg-Th
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 01:50:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58484)
+	id 1o0zZj-0000RW-6V
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 01:58:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0zOE-0003rh-HS
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:47:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0zOB-000577-7i
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:46:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655185613;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RBrCXRF1O8NPqAlhKRttjWXlq/2VRGMHIa5CKqjtJ0s=;
- b=BZ4UTLCEObay+SGMPQvhT+E6E0xbuKyBs69V9XVMUILUN/8JBBkfG0P7erJ9IHAYnHOftP
- UyddPD6FA5SkZMsYYwWwpdmx7XbfkFXFprbqg5QZaRF4dKLLqcc+TRuh6LKYFqnQ+ha4hY
- KStXupkAe+fSn5Wv7dHb0hzrp4gVPq8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-TlTwxM3ZP4qQdk3wfMSJ1A-1; Tue, 14 Jun 2022 01:46:51 -0400
-X-MC-Unique: TlTwxM3ZP4qQdk3wfMSJ1A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o2-20020a05600c510200b0039747b0216fso7075980wms.0
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 22:46:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RBrCXRF1O8NPqAlhKRttjWXlq/2VRGMHIa5CKqjtJ0s=;
- b=iYAgHN7MUCCJ/UEfjKKNdnCI91Oas5F4uw+TBvyubEcbPws/CBNt1svvZNF1hYhmBZ
- TXZMdFit+NBHouxnS/hxbk7MiK7yqcYBZpySs2qOkw4DRspySFswXKYhr8vUpHpKIVI7
- Ot8phDd+QLLSC2mDE+rSmyN5l8N4WXkTvD0E7tvwrBkh3I8nj1iOJa137M76rdpXDuYp
- l/V01RQrOc8rxKe/dISIEeRSFUTVqIIKi/iobjxJInBvUTAqb10x+QzZLCr1UlDA+ZpI
- dyXWoKgXqpm71grsC+DPJZsMArS5YLYAWxAldtSFlIz6ZYIdsox6TySn4y8t8VXumWca
- ClRQ==
-X-Gm-Message-State: AJIora8aNIfQ70iM+vqOr4MlvlAjzUjH36c5PfXNl2jv88YyUeLA+saF
- RHgKr3EhNKjHGOVUOYbRgPNaVZZHyN5L05QgT2SBPO00Gnn1NgviP1rr5w9k0yMqbGazxNqPm3o
- YeK6VjRufT1oC2RA=
-X-Received: by 2002:a05:6000:1e1b:b0:219:e32d:cbe8 with SMTP id
- bj27-20020a0560001e1b00b00219e32dcbe8mr2980188wrb.129.1655185610279; 
- Mon, 13 Jun 2022 22:46:50 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s/dXCs/V4VaeBOyrzcToWhKEFyhpg954UOXDSc8J0g7yPHoU1ukPPiC/hRvCQ4GVRSsrYvCg==
-X-Received: by 2002:a05:6000:1e1b:b0:219:e32d:cbe8 with SMTP id
- bj27-20020a0560001e1b00b00219e32dcbe8mr2980171wrb.129.1655185610051; 
- Mon, 13 Jun 2022 22:46:50 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-42-114-75.web.vodafone.de.
- [109.42.114.75]) by smtp.gmail.com with ESMTPSA id
- h206-20020a1c21d7000000b0039746638d6esm11971296wmh.33.2022.06.13.22.46.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 22:46:49 -0700 (PDT)
-Message-ID: <bf53b02c-df25-728a-08c0-826337bb8594@redhat.com>
-Date: Tue, 14 Jun 2022 07:46:48 +0200
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1o0zXa-0007Ba-Bb
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:56:40 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:51540)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1o0zXY-0006Ce-5M
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:56:37 -0400
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 2043D40737A8;
+ Tue, 14 Jun 2022 05:55:19 +0000 (UTC)
+Message-ID: <1e5f6355-61a2-28e9-27c7-2930d128153d@ispras.ru>
+Date: Tue, 14 Jun 2022 08:55:16 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] qemu-iotests: Discard stderr when probing devices
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 3/3] target/mips: implement Octeon-specific arithmetic
+ instructions
 Content-Language: en-US
-To: Cole Robinson <crobinso@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <a535c532fb5a9a607f4e3e187cf386e3eaadf892.1654441037.git.crobinso@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <a535c532fb5a9a607f4e3e187cf386e3eaadf892.1654441037.git.crobinso@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, jiaxun.yang@flygoat.com, aurelien@aurel32.net,
+ aleksandar.rikalo@syrmia.com
+References: <165476301211.40568.5713018312386387782.stgit@pasha-ThinkPad-X280>
+ <165476302832.40568.14732977026786901317.stgit@pasha-ThinkPad-X280>
+ <5f8a2a73-dc3b-821c-8ee3-127d4e0c78d2@linaro.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+In-Reply-To: <5f8a2a73-dc3b-821c-8ee3-127d4e0c78d2@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,57 +63,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/06/2022 16.57, Cole Robinson wrote:
-> ./configure --enable-modules --enable-smartcard \
->      --target-list=x86_64-softmmu,s390x-softmmu
-> make
-> cd build
-> QEMU_PROG=`pwd`/s390x-softmmu/qemu-system-s390x \
->      ../tests/check-block.sh qcow2
-> ...
-> --- /home/crobinso/src/qemu/tests/qemu-iotests/127.out
-> +++ /home/crobinso/src/qemu/build/tests/qemu-iotests/scratch/127.out.bad
-> @@ -1,4 +1,18 @@
->   QA output created by 127
-> +Failed to open module: /home/crobinso/src/qemu/build/hw-usb-smartcard.so: undefined symbol: ccid_card_ccid_attach
-> ...
-> --- /home/crobinso/src/qemu/tests/qemu-iotests/267.out
-> +++ /home/crobinso/src/qemu/build/tests/qemu-iotests/scratch/267.out.bad
-> @@ -1,4 +1,11 @@
->   QA output created by 267
-> +Failed to open module: /home/crobinso/src/qemu/build/hw-usb-smartcard.so: undefined symbol: ccid_card_ccid_attach
+On 09.06.2022 18:53, Richard Henderson wrote:
+> On 6/9/22 01:23, Pavel Dovgalyuk wrote:
+>> +static bool trans_BADDU(DisasContext *ctx, arg_BADDU *a)
+>> +{
+>> +    TCGv t0, t1;
+>> +
+>> +    if (a->rt == 0) {
+>> +        /* nop */
+>> +        return true;
+>> +    }
 > 
-> The stderr spew is its own known issue, but seems like iotests should
-> be discarding stderr in this case.
-> 
-> Signed-off-by: Cole Robinson <crobinso@redhat.com>
-> ---
->   tests/qemu-iotests/common.rc | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-> index 165b54a61e..db757025cb 100644
-> --- a/tests/qemu-iotests/common.rc
-> +++ b/tests/qemu-iotests/common.rc
-> @@ -982,7 +982,7 @@ _require_large_file()
->   #
->   _require_devices()
->   {
-> -    available=$($QEMU -M none -device help | \
-> +    available=$($QEMU -M none -device help 2> /dev/null | \
->                   grep ^name | sed -e 's/^name "//' -e 's/".*$//')
->       for device
->       do
-> @@ -994,7 +994,7 @@ _require_devices()
->   
->   _require_one_device_of()
->   {
-> -    available=$($QEMU -M none -device help | \
-> +    available=$($QEMU -M none -device help 2> /dev/null | \
->                   grep ^name | sed -e 's/^name "//' -e 's/".*$//')
->       for device
->       do
+> I believe that we're standardizing on using gen_store_gpr, and not 
+> checking for r0 everywhere.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I didn't remove this condition for making translation a bit faster.
+Now there are no jumps or helpers, and I believe that optimizer
+can remove everything in case of r0.
+But if you insist, I'll remove this check.
+
+> 
+> 
+>> +static bool trans_EXTS(DisasContext *ctx, arg_EXTS *a)
+>> +{
+>> +    TCGv t0;
+>> +
+>> +    if (a->rt == 0) {
+>> +        /* nop */
+>> +        return true;
+>> +    }
+>> +
+>> +    t0 = tcg_temp_new();
+>> +    gen_load_gpr(t0, a->rs);
+>> +    tcg_gen_sextract_tl(t0, t0, a->p, a->lenm1);
+> 
+> a->lenm1 + 1.
+> 
+>> +    tcg_gen_deposit_z_tl(t0, t0, a->p, a->lenm1);
+> 
+> Likewise.
+> 
+> 
+> r~
 
 
