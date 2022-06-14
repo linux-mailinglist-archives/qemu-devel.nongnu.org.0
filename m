@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A3C54AF52
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 13:30:29 +0200 (CEST)
-Received: from localhost ([::1]:58942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC8B54AF4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 13:29:06 +0200 (CEST)
+Received: from localhost ([::1]:54782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o14ke-0007HK-5k
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 07:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52266)
+	id 1o14jI-0004Pr-Pz
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 07:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arbn@yandex-team.com>)
- id 1o14hq-0004UC-Ni
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 07:27:35 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:58412)
+ id 1o14dw-0001r0-Bu
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 07:23:32 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:46320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arbn@yandex-team.com>)
- id 1o14hm-0004QD-1A
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 07:27:31 -0400
-Received: from myt5-4c5921969858.qloud-c.yandex.net
- (myt5-4c5921969858.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3b1a:0:640:4c59:2196])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 99E412E0F79;
- Tue, 14 Jun 2022 14:18:12 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by myt5-4c5921969858.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- dzp2u22e61-IBJCGU7Y; Tue, 14 Jun 2022 14:18:12 +0300
+ id 1o14dt-0003X0-D8
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 07:23:31 -0400
+Received: from iva8-c5ee4261001e.qloud-c.yandex.net
+ (iva8-c5ee4261001e.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:a8a6:0:640:c5ee:4261])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id CCBB12E0FA4;
+ Tue, 14 Jun 2022 14:21:21 +0300 (MSK)
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 1D9NBe4btf-LKJWPbku; Tue, 14 Jun 2022 14:21:21 +0300
 X-Yandex-Fwd: 2
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.com;
  s=default; 
- t=1655205492; bh=lVyPOTP/ffkTfXHFBEs6gknVQySoZXVbLNXlA7SyL1w=;
+ t=1655205681; bh=rX7W3a286WJVB9w2NsRhrVtQ7sG04KTIiHHNhbXu3/E=;
  h=Message-Id:References:Date:Subject:In-Reply-To:Cc:To:From;
- b=nsjqKLSe8Ssd/Xg4lq1287s9x3CxrcAxJw+/ecWOFScJI+Os2gMwQ8Q4d8FmA+i/k
- Ec5RRKwOCtvurCGUwZq+94ngl/hLMC37hPUPfpQkCVKF2ImxYVxbvsTJ1nQNuSPHUQ
- yIF75hggJa8sMYLW5x6IQFn4yxSEqGEnjAWsGUXM=
-Authentication-Results: myt5-4c5921969858.qloud-c.yandex.net;
+ b=HlJ7w/efQ7HWbIAvW+ThvEy7foZJhjg8i2gljvG1XJv2S4VS8OcPm4OD7tv+EEEHF
+ 0Tvx7OPpbVKm+HZZyHS1FcLvgNpM997cuCdSO9iHJIVsq4r6dGkseZIgHQBBItccti
+ vwyCFEohtpKEZePxO8/XG70FZOzDYG4fk1kVoWbk=
+Authentication-Results: iva8-c5ee4261001e.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.com
 Received: from dellarbn.yandex.net (unknown [2a02:6b8:b081:32::1:13])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- ctCbEGGKR4-I6MaKc7I; Tue, 14 Jun 2022 14:18:11 +0300
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ sHPeVXHJAo-LEMu1IYT; Tue, 14 Jun 2022 14:21:18 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Andrey Ryabinin <arbn@yandex-team.com>
@@ -54,24 +54,23 @@ To: qemu-devel@nongnu.org,
  Jason Wang <jasowang@redhat.com>
 Cc: Stefan Hajnoczi <stefanha@redhat.com>, yc-core@yandex-team.ru,
  Andrey Ryabinin <arbn@yandex-team.com>
-Subject: [PATCH 1/2] chardev: don't set O_NONBLOCK on SCM_RIGHTS file
- descriptors.
-Date: Tue, 14 Jun 2022 14:18:42 +0300
-Message-Id: <20220614111843.24960-2-arbn@yandex-team.com>
+Subject: [PATCH 2/2] tap: initialize TAPState->enabled according to the actual
+ state of queue
+Date: Tue, 14 Jun 2022 14:21:44 +0300
+Message-Id: <20220614112144.25324-1-arbn@yandex-team.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220614111843.24960-1-arbn@yandex-team.com>
 References: <20220614111843.24960-1-arbn@yandex-team.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=95.108.205.193; envelope-from=arbn@yandex-team.com;
- helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=arbn@yandex-team.com; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,71 +85,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 9b938c7262e4 ("chardev: clear O_NONBLOCK on SCM_RIGHTS file descriptors").
-File descriptor passed to QEMU via 'getfd' QMP command always
-changed to blocking mode. Instead of that, change blocking mode by QEMU
-file descriptors users when necessary, e.g. like migration.
+Currently TAPState->enabled initialized as true. If fd was passed to qemu
+in a disabled state it will cause an assert at the attempt to detach queue
+in virtio_net_set_queues():
 
-We need to preserve the state of the file descriptor in case it's still
-used by an external process and before the QEMU itself started
-using it.
+virtio_net_set_queues() :
+            r = peer_detach() -> tap_disable():
+                                    if (s->enabled == 0) {
+                                       return 0;
+				    } else {
+				       //Will return an error.
+                                       ret = tap_fd_disable(s->fd);
+                                       ...
+				       return ret;
+            assert(!r);
 
-E.g. our local migration scenario with TAP networking looks like this:
- 1. Create TAP devices and pass file descriptors to source QEMU
- 2. Launch destination QEMU (-incoming defer) and pass same descriptors to it.
- 3. Start migration
-
-In such scenario setting blocking state at stage (2) will hang source QEMU
-since TAP fd suddenly become blocking.
+Initialize ->enabled according to the actual state of fd to fix this.
 
 Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
 ---
- chardev/char-socket.c | 3 ---
- io/channel-socket.c   | 3 ---
- migration/fd.c        | 2 ++
- 3 files changed, 2 insertions(+), 6 deletions(-)
+ net/tap-bsd.c     |  5 +++++
+ net/tap-linux.c   | 12 ++++++++++++
+ net/tap-solaris.c |  5 +++++
+ net/tap.c         |  2 +-
+ net/tap_int.h     |  1 +
+ 5 files changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index dc4e218eeb6..c9592fb5836 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -310,9 +310,6 @@ static ssize_t tcp_chr_recv(Chardev *chr, char *buf, size_t len)
-             continue;
-         }
+diff --git a/net/tap-bsd.c b/net/tap-bsd.c
+index 005ce05c6e0..8c21f058c8c 100644
+--- a/net/tap-bsd.c
++++ b/net/tap-bsd.c
+@@ -217,6 +217,11 @@ int tap_probe_vnet_hdr_len(int fd, int len)
+     return 0;
+ }
  
--        /* O_NONBLOCK is preserved across SCM_RIGHTS so reset it */
--        qemu_socket_set_block(fd);
--
- #ifndef MSG_CMSG_CLOEXEC
-         qemu_set_cloexec(fd);
- #endif
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index dc9c165de11..8b9679460dc 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -479,9 +479,6 @@ static void qio_channel_socket_copy_fds(struct msghdr *msg,
-                 continue;
-             }
- 
--            /* O_NONBLOCK is preserved across SCM_RIGHTS so reset it */
--            qemu_socket_set_block(fd);
--
- #ifndef MSG_CMSG_CLOEXEC
-             qemu_set_cloexec(fd);
- #endif
-diff --git a/migration/fd.c b/migration/fd.c
-index 6f2f50475f4..793fffeb169 100644
---- a/migration/fd.c
-+++ b/migration/fd.c
-@@ -60,6 +60,8 @@ void fd_start_incoming_migration(const char *fdname, Error **errp)
-         return;
-     }
- 
-+    qemu_socket_set_block(fd);
++bool tap_probe_enabled(int fd)
++{
++    return true;
++}
 +
-     trace_migration_fd_incoming(fd);
+ void tap_fd_set_vnet_hdr_len(int fd, int len)
+ {
+ }
+diff --git a/net/tap-linux.c b/net/tap-linux.c
+index 304ff45071d..6078ba03af6 100644
+--- a/net/tap-linux.c
++++ b/net/tap-linux.c
+@@ -193,6 +193,18 @@ int tap_probe_vnet_hdr_len(int fd, int len)
+     return 1;
+ }
  
-     ioc = qio_channel_new_fd(fd, errp);
++bool tap_probe_enabled(int fd)
++{
++    struct ifreq ifr;
++
++    if (ioctl(fd, TUNGETIFF, &ifr) != 0) {
++        error_report("TUNGETIFF ioctl() failed: %s",
++                     strerror(errno));
++        return false;
++    }
++    return !(ifr.ifr_flags & IFF_DETACH_QUEUE);
++}
++
+ void tap_fd_set_vnet_hdr_len(int fd, int len)
+ {
+     if (ioctl(fd, TUNSETVNETHDRSZ, &len) == -1) {
+diff --git a/net/tap-solaris.c b/net/tap-solaris.c
+index a44f8805c23..ccaa3334882 100644
+--- a/net/tap-solaris.c
++++ b/net/tap-solaris.c
+@@ -221,6 +221,11 @@ int tap_probe_vnet_hdr_len(int fd, int len)
+     return 0;
+ }
+ 
++bool tap_probe_enabled(int fd)
++{
++    return true;
++}
++
+ void tap_fd_set_vnet_hdr_len(int fd, int len)
+ {
+ }
+diff --git a/net/tap.c b/net/tap.c
+index b3ddfd4a74b..799f8ec7c76 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -399,7 +399,7 @@ static TAPState *net_tap_fd_init(NetClientState *peer,
+     s->host_vnet_hdr_len = vnet_hdr ? sizeof(struct virtio_net_hdr) : 0;
+     s->using_vnet_hdr = false;
+     s->has_ufo = tap_probe_has_ufo(s->fd);
+-    s->enabled = true;
++    s->enabled = tap_probe_enabled(s->fd);
+     tap_set_offload(&s->nc, 0, 0, 0, 0, 0);
+     /*
+      * Make sure host header length is set correctly in tap:
+diff --git a/net/tap_int.h b/net/tap_int.h
+index 547f8a5a28f..b8fc3dfbfa7 100644
+--- a/net/tap_int.h
++++ b/net/tap_int.h
+@@ -37,6 +37,7 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp);
+ int tap_probe_vnet_hdr(int fd, Error **errp);
+ int tap_probe_vnet_hdr_len(int fd, int len);
+ int tap_probe_has_ufo(int fd);
++bool tap_probe_enabled(int fd);
+ void tap_fd_set_offload(int fd, int csum, int tso4, int tso6, int ecn, int ufo);
+ void tap_fd_set_vnet_hdr_len(int fd, int len);
+ int tap_fd_set_vnet_le(int fd, int vnet_is_le);
 -- 
 2.35.1
 
