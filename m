@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A166854A852
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 06:49:18 +0200 (CEST)
-Received: from localhost ([::1]:46512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD9654A8A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 07:21:50 +0200 (CEST)
+Received: from localhost ([::1]:35778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0yUP-0000cA-M2
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 00:49:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52056)
+	id 1o0yzt-0006rS-Mm
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 01:21:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0ySJ-0007et-TR
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 00:47:07 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:47065)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1o0yvF-0000h7-OS
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:17:01 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o0ySG-0005XD-1a
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 00:47:07 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id d13so6781484plh.13
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 21:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=MPVs8irn0hVaIAxkgTr91sMun1IJvTEwGBT4x0HOpQg=;
- b=yqq0FYem4OrcAjlD26XLcbpeCIF4RvuA6Pg3TR86jWBYbaGS2h9JChaV+w3mr/lx5x
- bDCMZceTwjE7x00gQCPK6UYYIkurT6ZmW7yNc3Rwln+FnSCMJiDjdgw4kEthmXUv+u1G
- XUGuDtoLp+EFLQsbbYWUsKdGMhuIElqBszMqqNVd6OZSfzBkLWxt+j8nzvpTEhiDlWaV
- z/CTUseFSb2RpH4MalvekzEOwESCz0vQ6SARkhKqRhFUOS55jjI1KlAer8LrJ/PDVf+J
- 4lsymY/i0iy2CUJnuN3uWZw7ffiOeUyWyuZYq9Rl1jPHW33LMwGQSH1QnL9YqeLlZhPl
- 7tYw==
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1o0yvA-0000zC-QN
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:16:58 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id i64so7618764pfc.8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 22:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4KGR369QU1+tLcugq19QCBCNZU/suug/t00sj2c0vDA=;
+ b=x8+Ha8ZdDkvHZPs4/YpI0dkjPrhlnzm8JmFyWAfviaZJG8TMm4CPgplFDYehF2LDpK
+ UI5EemnsZiwWYbloFt2aX+V1JPH+t6LEoKEMcR07bBS9JUAPxA7N89hf5gxPTi2Y1Aom
+ t2CddBRd9xkfygLAbRQWbOPO6AwnvVD91FoM+n2KsfUagxyR1El0KZSLaOcWAkbwH+R4
+ MRRDzDTm7s5bzjSQoENF00AC3nBEte444U5IGse0T9KFk7KN8zW3GwfPFNPZYDB59Wha
+ IEgpeWnbiLlgattDjmUFR6xRDdLrEZb5zUb6Z+YAaZ1mFNFNmeCqNc+rFdcqBAw0vPog
+ WTVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=MPVs8irn0hVaIAxkgTr91sMun1IJvTEwGBT4x0HOpQg=;
- b=4QUnsz+Zq36yWODnZ1t5RAZDpOSATiWyGoI4SI5H8dMPGn19MbsZeK2uPnmqrG2Sh9
- qERHhsfKSv9oQZit5mi3Tw+RGrhoj9396/p1UsC9c+hbrgWlSmFqyZv4r9Uoej24H9+Y
- 47o6BChf13ZrAvSUKpi+mX2pI4b8RhFaslf12JwdWNeFomech3supCuxYjOWb6ttaS0v
- kTSAAz0Czyx7rc5PKCHGHAhKuygpeJA4M4SOaP3oB0q4CT/8YTcN0MPYZA4cjFW3VcZF
- rgnZLhslaVUJEgwxdjcrDXTqojbmRI2zXuifJVurIUTnMNfGe1Ww8vWGQKRfZWnOd7ne
- zSCQ==
-X-Gm-Message-State: AJIora/DXCeVNCiKb9Rs/nMQNh71LbJC7XcJNbShO6AT4xq3EVdN7Fxo
- +hhjBCQPKEzGxhr6BvcZeUvpmA==
-X-Google-Smtp-Source: AGRyM1sRD/tdwKovwSSuQ8pxSfZAwmkksSnPqa/Xq3u/w6rQnT3CPV2vfZ0GVP0YuU57+AXG3EtNrg==
-X-Received: by 2002:a17:90a:6602:b0:1e3:17e:6290 with SMTP id
- l2-20020a17090a660200b001e3017e6290mr2512812pjj.37.1655182018939; 
- Mon, 13 Jun 2022 21:46:58 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
- by smtp.gmail.com with ESMTPSA id
- ix1-20020a170902f80100b001615f64aaabsm6023003plb.244.2022.06.13.21.46.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 21:46:58 -0700 (PDT)
-Message-ID: <751e05ff-92c9-453c-728c-03a31d84e372@linaro.org>
-Date: Mon, 13 Jun 2022 21:46:56 -0700
+ bh=4KGR369QU1+tLcugq19QCBCNZU/suug/t00sj2c0vDA=;
+ b=iFYVTWnHcY4Q53bye2QgoQni6xIY2hqiSCFdipGj6TRFTWtSxLsQ/7dVWkRxjNSoat
+ iBkbjJXFq2I9UlbV8lA+Nbrm9NI4iH/ybbPaE3mK6EyT5afAsjRNbIqzMLx1rMgYZ1m0
+ oqbp+4BhsQTf0YSryin1pr7dX8GJO/HTcvc/N3U58qYwFlfhKmqmkIdVJOdDk9nzdSDg
+ xqU7KfOs/hcVr8o9jGiZznwOBSvh3rwP7LwdYtesWXzgmG77JxB+U+e+VRyZVTQSjw3H
+ KBI74naGZvkgc5Hk0mW37myUSikZDZDgEfUfulw1UIzqXWRI45VISzMzHWbe6L7D2E7N
+ vtzg==
+X-Gm-Message-State: AOAM531P2zc4pOxCRD7J1EluPZC4iFydrZFJvzmeRryEPr44reQxGbAd
+ PWIDVnjAj0+eM44e5ZrldpSc
+X-Google-Smtp-Source: ABdhPJy6AUlNX93kZyltpJBqEBw1FJo9TKyJJHrNGToi+Wz7XFqgA/aBWCntt+GQbGR7ouhdmC/Jag==
+X-Received: by 2002:a63:6cc8:0:b0:3fa:387b:3991 with SMTP id
+ h191-20020a636cc8000000b003fa387b3991mr2897112pgc.19.1655183814897; 
+ Mon, 13 Jun 2022 22:16:54 -0700 (PDT)
+Received: from localhost ([139.177.225.237]) by smtp.gmail.com with ESMTPSA id
+ 19-20020a170902e9d300b001677841e9c2sm6111467plk.119.2022.06.13.22.16.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 22:16:54 -0700 (PDT)
+From: Xie Yongji <xieyongji@bytedance.com>
+To: kwolf@redhat.com,
+	stefanha@redhat.com
+Cc: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] Some fixes and improvements for vduse-blk
+Date: Tue, 14 Jun 2022 13:15:26 +0800
+Message-Id: <20220614051532.92-1-xieyongji@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 08/11] bsd-user: Implement rmdir and undocumented
- __getcwd
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>, arrowd@freebsd.org, jrtc27@FreeBSD.org,
- def@FreeBSD.org, Stacey Son <sson@FreeBSD.org>,
- Jung-uk Kim <jkim@FreeBSD.org>
-References: <20220614042010.40327-1-imp@bsdimp.com>
- <20220614042010.40327-9-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220614042010.40327-9-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,16 +87,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/13/22 21:20, Warner Losh wrote:
-> Implemenet rmdir and __getcwd. __getcwd is the undocumented
-> back end to getcwd(3).
-> 
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Jung-uk Kim <jkim@FreeBSD.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
+This series includes few fixes and improvements for the
+vduse-blk export.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Patch 1 fixes some compile errors with clang in 32-bit machine.
 
+Patch 2 fixes resources leak when vduse fd is zero.
 
-r~
+Patch 3, 4 fixes two bugs which could be triggered
+by force deleting a vduse-blk export with high I/O loads.
+
+Patch 5, 6 adds two new options for vduse-blk export.
+
+V1 to V2:
+- Add a patch to fix some compile errors with clang
+
+Xie Yongji (6):
+  libvduse: Fix some compile errors with clang
+  libvduse: Fix resources leak in vduse_dev_destroy()
+  vduse-blk: Don't unlink the reconnect file if device exists
+  vduse-blk: Don't delete the export until all inflight I/Os completed
+  vduse-blk: Add serial option
+  vduse-blk: Add name option
+
+ block/export/vduse-blk.c             | 53 ++++++++++++++++++++++------
+ block/export/vhost-user-blk-server.c |  4 ++-
+ block/export/virtio-blk-handler.h    |  2 +-
+ docs/tools/qemu-storage-daemon.rst   |  5 +--
+ qapi/block-export.json               | 11 +++---
+ storage-daemon/qemu-storage-daemon.c |  9 ++---
+ subprojects/libvduse/libvduse.c      | 27 +++-----------
+ 7 files changed, 67 insertions(+), 44 deletions(-)
+
+-- 
+2.20.1
+
 
