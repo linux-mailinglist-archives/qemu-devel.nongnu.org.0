@@ -2,78 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BC154A82D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 06:32:58 +0200 (CEST)
-Received: from localhost ([::1]:56446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E624F54A837
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 06:36:45 +0200 (CEST)
+Received: from localhost ([::1]:34538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0yEb-00040Q-5d
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 00:32:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49130)
+	id 1o0yIH-0000WM-25
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 00:36:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o0y2F-0003nQ-A3
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 00:20:11 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:40457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o0y2D-0001qG-Py
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 00:20:11 -0400
-Received: by mail-il1-x12b.google.com with SMTP id h18so5744925ilj.7
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 21:20:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gMytXGUn22yDNlAtdSy95841H0sZIx/2Jw4ZsIHWhmc=;
- b=Aj1Dm1+luIwjri50wRxnVB/xZXdUHWjVJWaH7EkWNnC2BVk7jA/frd8TK4lLat37Q1
- BsZv/huXhQvB0nMmdpXCTpdUiB5GnEOMnd0tdd8xDvzwNaw0uOMHHldsSjlADRBweU+9
- BW4xaFrJh3/wZPb6vBvgg0V/QrNlpG4c+t5rv3At98xccdb6CQGouTLFdjtkSP/RtYLr
- HCX5odHejE8+LJ6onUw17GigU1ytwyunrMOkYUvUXcynKqmLN9mUjE/yNm1B7lYlwDsB
- PnziYCZ8HzdEJKTFt8kPUAvPk8AuDIRfcdqLot8NDwATyeMKnDv4iYI5H4HFKNYBbyR7
- ebVA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0yCf-0003Rg-DJ
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 00:30:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o0yCc-0003K9-As
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 00:30:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655181053;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KAkgUVoIihxvqPGRWWs5cZ3mRqCepECImWtcwEa/t8k=;
+ b=KnXGISEnvFWGYS9hkBTZONciMs7ofue2oUiMoAEBhMtJXrbcNSwVB+lDDjRrG4LsXWc1RT
+ mv2Jny1n4mGiaqtiINWh7Afc9XWvoM0Zz0dxD1nrnt764pSFKCRDkPJNYh4jAVUJ0yvNfT
+ gbdcgI2rDZgDGlZT7KA2srMrKXLr9/0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-660-LG6yVzqWMeiw3mKQvr6UJQ-1; Tue, 14 Jun 2022 00:30:50 -0400
+X-MC-Unique: LG6yVzqWMeiw3mKQvr6UJQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j20-20020a05600c1c1400b0039c747a1e5aso4237693wms.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 21:30:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gMytXGUn22yDNlAtdSy95841H0sZIx/2Jw4ZsIHWhmc=;
- b=OhfksUWxK/9jsCfwPQDLWCeoHdqSQZ8h63XzbTmwakGljawUNdUN96wInEiBTEmfH3
- tl+V4nE7vVT4bG9XxOli9emDXyep0IaQN2bqZEwzbaq6Dm/b27BtHlSaOFLrnNsxUKD3
- Ng2GEgwjLV61zFh5FlNFqtvfmk8ofJkCfdbtL2U6NNj/bjGK/y3VncB6iE3HmMUU64cY
- J1fWK1fmoQlICt44XdtdOyiYF0DAXsx6WIC9rVFgwIwmMbJNMFKJMQyhJk/Hl5/JuMyc
- tiDOfGY2Oc9iznnrPg0coHeZg11S+GiDqHhnEgegsgf3rtLxerIUqoyXonTkXGHMIsaz
- BHeg==
-X-Gm-Message-State: AJIora/+CvaTdP+FQEDwjplswsz8rZQD1/FvU4olT5MZQOxnCeiyjXCB
- mORcmi4Fg2z9+cfmdCB3VXIlMZPm94K1tg==
-X-Google-Smtp-Source: AGRyM1uPkZtHwBrBtgKoRroICLm/WILBsUYwqLtwSgcS5XYUPhADuKBs+Ul7hViTMMowgtdiLoUBXA==
-X-Received: by 2002:a92:c54a:0:b0:2d3:b2ac:eb with SMTP id
- a10-20020a92c54a000000b002d3b2ac00ebmr1773510ilj.323.1655180408630; 
- Mon, 13 Jun 2022 21:20:08 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- a3-20020a5ec303000000b0066579afd3cbsm4803742iok.50.2022.06.13.21.20.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 21:20:08 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>, arrowd@freebsd.org,
- Richard Henderson <richard.henderson@linaro.org>, jrtc27@FreeBSD.org,
- Warner Losh <imp@bsdimp.com>, def@FreeBSD.org,
- Stacey Son <sson@FreeBSD.org>
-Subject: [PATCH v2 11/11] bsd-user: Implement acct and sync
-Date: Mon, 13 Jun 2022 22:20:10 -0600
-Message-Id: <20220614042010.40327-12-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220614042010.40327-1-imp@bsdimp.com>
-References: <20220614042010.40327-1-imp@bsdimp.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KAkgUVoIihxvqPGRWWs5cZ3mRqCepECImWtcwEa/t8k=;
+ b=bMWeN5WS8bEUJLI1b1K2z4l9LrArqkw3QBZYISjMVt5T9fbmMIF0LO1srpFVD4hkPZ
+ EbjToczyEVQFFaTNhSmC2NDbKX6e5Vn9S1zzsFe91XuCrZ8UWf7Gq8EGUzbTJCjUpvkH
+ 5d8vkfJLneeVsjICrCOLXC9bV+gg0X+JTQgkzFpbhr4/ScKiudSQ7Gf24br9hT04Y935
+ dy6ed1jUOhLlacAxmks2pRDcJQzQLRNYjUefxMF62L+B7eVTXXPKlDZa0ReQ4eIXCrQb
+ TfhcVNa6NlMonkZ++YjgwYDmg+WhxlcqqCDeSLwXlIfMfNfBd1iQFl0VBSPnOkt/sSEu
+ 8aHA==
+X-Gm-Message-State: AJIora+tQWBZZhC0LmRzHLlDjiyqFgAJTxr9SPDWafZTPGmJ6T4UU0kM
+ v3/hQRITDzTmTItEDS30hQzBKip7ROr1JjHmpILCgUcf8CPcHvgrzv3BMaRQ7wGhLMjFXQrmW38
+ B+zJOxx/vD7XcuCI=
+X-Received: by 2002:adf:f610:0:b0:213:b4e1:7276 with SMTP id
+ t16-20020adff610000000b00213b4e17276mr2704843wrp.712.1655181049312; 
+ Mon, 13 Jun 2022 21:30:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uMG+KrPAZm/7KaEVal9Jko8bfq5VGK6XK8qb1WNZLRAmEQftrsGkvxef47T7GsTAq3eLlKMQ==
+X-Received: by 2002:adf:f610:0:b0:213:b4e1:7276 with SMTP id
+ t16-20020adff610000000b00213b4e17276mr2704825wrp.712.1655181049047; 
+ Mon, 13 Jun 2022 21:30:49 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-42-114-75.web.vodafone.de.
+ [109.42.114.75]) by smtp.gmail.com with ESMTPSA id
+ w3-20020a5d6083000000b00219b932ffc8sm10546908wrt.1.2022.06.13.21.30.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jun 2022 21:30:48 -0700 (PDT)
+Message-ID: <8ad852ab-9580-fc52-b641-679a70212245@redhat.com>
+Date: Tue, 14 Jun 2022 06:30:47 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1 3/7] gitlab-ci: Fix the build-cfi-aarch64 and
+ build-cfi-ppc64-s390x jobs
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220613171258.1905715-1-alex.bennee@linaro.org>
+ <20220613171258.1905715-4-alex.bennee@linaro.org>
+ <39615b6d-6454-2a4f-013e-478766e0c3f8@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <39615b6d-6454-2a4f-013e-478766e0c3f8@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,66 +107,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- bsd-user/bsd-file.h           | 23 +++++++++++++++++++++++
- bsd-user/freebsd/os-syscall.c |  8 ++++++++
- 2 files changed, 31 insertions(+)
+On 13/06/2022 23.46, Richard Henderson wrote:
+> On 6/13/22 10:12, Alex Bennée wrote:
+>> From: Thomas Huth <thuth@redhat.com>
+>>
+>> The job definitions recently got a second "variables:" section by
+>> accident and thus are failing now if one tries to run them. Merge
+>> the two sections into one again to fix the issue.
+>>
+>> And while we're at it, bump the timeout here (70 minutes are currently
+>> not enough for the aarch64 job). The jobs are marked as manual anyway,
+>> so if the user starts them, they want to see their result for sure and
+>> then it's annoying if the job timeouts too early.
+>>
+>> Fixes: e312d1fdbb ("gitlab: convert build/container jobs to 
+>> .base_job_template")
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+>> Message-Id: <20220603124809.70794-1-thuth@redhat.com>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> ---
+>>   .gitlab-ci.d/buildtest.yml | 22 ++++++++++------------
+>>   1 file changed, 10 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+>> index 544385f5be..cb7cad44b5 100644
+>> --- a/.gitlab-ci.d/buildtest.yml
+>> +++ b/.gitlab-ci.d/buildtest.yml
+>> @@ -357,16 +357,15 @@ build-cfi-aarch64:
+>>         --enable-safe-stack --enable-slirp=git
+>>       TARGETS: aarch64-softmmu
+>>       MAKE_CHECK_ARGS: check-build
+>> -  timeout: 70m
+>> -  artifacts:
+>> -    expire_in: 2 days
+>> -    paths:
+>> -      - build
+>> -  variables:
+>>       # FIXME: This job is often failing, likely due to out-of-memory 
+>> problems in
+>>       # the constrained containers of the shared runners. Thus this is 
+>> marked as
+>>       # skipped until the situation has been solved.
+>>       QEMU_JOB_SKIPPED: 1
+>> +  timeout: 90m
+>> +  artifacts:
+>> +    expire_in: 2 days
+>> +    paths:
+>> +      - build
+> 
+> FWIW, 90 minutes was close, but insufficient:
+> 
+> https://gitlab.com/qemu-project/qemu/-/jobs/2584472225
 
-diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
-index fda36894605..b2dca586129 100644
---- a/bsd-user/bsd-file.h
-+++ b/bsd-user/bsd-file.h
-@@ -526,4 +526,27 @@ static abi_long do_bsd_ftruncate(void *cpu_env, abi_long arg1,
-     return get_errno(ftruncate(arg1, target_arg64(arg2, arg3)));
- }
- 
-+/* acct(2) */
-+static abi_long do_bsd_acct(abi_long arg1)
-+{
-+    abi_long ret;
-+    void *p;
-+
-+    if (arg1 == 0) {
-+        ret = get_errno(acct(NULL));
-+    } else {
-+        LOCK_PATH(p, arg1);
-+        ret = get_errno(acct(path(p)));
-+        UNLOCK_PATH(p, arg1);
-+    }
-+    return ret;
-+}
-+
-+/* sync(2) */
-+static abi_long do_bsd_sync(void)
-+{
-+    sync();
-+    return 0;
-+}
-+
- #endif /* BSD_FILE_H */
-diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index 3c8f6cad0e8..2623caf8007 100644
---- a/bsd-user/freebsd/os-syscall.c
-+++ b/bsd-user/freebsd/os-syscall.c
-@@ -365,6 +365,14 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         ret = do_bsd_ftruncate(cpu_env, arg1, arg2, arg3, arg4);
-         break;
- 
-+    case TARGET_FREEBSD_NR_acct: /* acct(2) */
-+        ret = do_bsd_acct(arg1);
-+        break;
-+
-+    case TARGET_FREEBSD_NR_sync: /* sync(2) */
-+        ret = do_bsd_sync();
-+        break;
-+
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-         ret = -TARGET_ENOSYS;
--- 
-2.33.1
+Hmm, it was working at least once for me while I was working on the patch. 
+But as I already wrote here:
+
+  https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg00463.html
+
+I think nobody really used this build-cfi-aarch64 in month ... so we should 
+maybe have a try with the 90 min timeout first (maybe the CI servers were 
+just a little bit overloaded when you tried), but if the test continues to 
+hit the 90 minutes timeout, I'd say we rather delete it instead of bumping 
+the timeout even further. 90 minutes are really very close to the pain level 
+already - at least for me.
+
+> But certainly, let us fix the job definition:
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Thanks!
+
+  Thomas
 
 
