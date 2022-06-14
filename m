@@ -2,99 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A1454B4EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 17:42:59 +0200 (CEST)
-Received: from localhost ([::1]:58304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08CB54B4F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 17:45:28 +0200 (CEST)
+Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o18gs-0001iy-OK
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 11:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38894)
+	id 1o18jP-0003Hw-Of
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 11:45:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o18du-0000n7-H1; Tue, 14 Jun 2022 11:39:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25752)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1o18fv-000220-Cp
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 11:41:52 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:52688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
- id 1o18dr-0000Xu-W3; Tue, 14 Jun 2022 11:39:46 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25EFVReX001109;
- Tue, 14 Jun 2022 15:39:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=0GJ4Vp4ST4kaM8hpWdYbh0N2hbygybiSVPgSXDaNqKY=;
- b=BSROz02D327GyCHbJBce2PfSZ+mM7G6Npk2W1Z6bA1EcP9ISrKyErEYLE3L6Om5ltzN8
- YEFt2Vzx2aOmzIwGrVjRmH8l9bWm+396Lrm0R56eU1/xVbRyj3mLXRKJ0FWNbC8iO7up
- FLCoaU9s8H0hpj/xYrXiSGdgIrlyZF6UY8wTiK3lhmKOYSpvyI1+bOvwpK/poeh0YFH9
- 9PLo85r90Em5pmGunepcBNO2fD0nB2627TNkYJq6DM/R+8FJ3fudQcPTGiPrFu9i5dXO
- K7fQ4BVjFSfTE62GG++sigj8QTl2NKlA2OCQ5i9rImVxwp+RATAG4WZjOMVTq46DNHoS aQ== 
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gpqnbag9b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jun 2022 15:39:28 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25EF5mpD019140;
- Tue, 14 Jun 2022 15:39:27 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04wdc.us.ibm.com with ESMTP id 3gmjp9n9ms-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jun 2022 15:39:27 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25EFdQow10420910
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Jun 2022 15:39:26 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8F22AC6055;
- Tue, 14 Jun 2022 15:39:26 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 09E39C6083;
- Tue, 14 Jun 2022 15:39:25 +0000 (GMT)
-Received: from [9.160.187.150] (unknown [9.160.187.150])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 14 Jun 2022 15:39:24 +0000 (GMT)
-Message-ID: <3638290a-8bcb-699a-5304-e397853957b4@linux.ibm.com>
-Date: Tue, 14 Jun 2022 12:39:06 -0300
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1o18fk-00012P-FA
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 11:41:48 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A6221612D3;
+ Tue, 14 Jun 2022 15:41:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7965C3411B;
+ Tue, 14 Jun 2022 15:41:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1655221296;
+ bh=YdoeEVuwtT79PVK06WiEaLkp0JxCI7a/od4Ukr4OBBk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kjPap0Dj33WxEBR/Gnqdg4335OIcZ3J9zPsiVkApbyp62ZdZNkKZ+X3mCgssl3MeR
+ gv9j31ivziPJ9+4ZCdv9GkFTcQW9A9wmSI49O7qiLdA6VGcPfxGAo0qbwnh3hC6DRC
+ Yt0HLXSMQsu+7GVJr74mIy7wdVrJiMOO9ItmNtcjmgBa/MafM1JhglwskOpc+tXIvP
+ hUMs9ET0oc0kxsHqEiC/UZfOkdYAWl659CcdQPXytaSvS5+FDr74JglTkg0lxY6prF
+ Ql38c3Y5HsLjE+gF08sTXmoSkrw0zp+rs/MGoU9W1VNnNA5I2Nlfyeu1uhjY5VM/oF
+ 9q0XmkDhlK0HQ==
+Date: Tue, 14 Jun 2022 08:41:31 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: Klaus Jensen <its@irrelevant.dk>, John Levon <levon@movementarian.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] hw/nvme: Implement shadow doorbell buffer support
+Message-ID: <YqisK8iYANhY/mCm@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220608013659.472500-1-fanjinhao21s@ict.ac.cn>
+ <20220608013659.472500-2-fanjinhao21s@ict.ac.cn>
+ <YqEMwsclktptJvQI@apples>
+ <YqIDyjxrZnkeMfcE@kbusch-mbp.dhcp.thefacebook.com>
+ <YqIXIiQr+dpksBh6@movementarian.org> <YqItnbgtw7BNPBZH@apples>
+ <D9A53959-6A31-4105-B0A9-37B8180D973C@ict.ac.cn>
+ <Yqeo4EKtQJq8XRm+@kbusch-mbp.dhcp.thefacebook.com>
+ <0CC03CA7-1BC5-4FDF-92BA-4256778AD113@ict.ac.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 08/11] ppc/pnv: turn chip8->phbs[] into a PnvPHB3* array
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, mark.cave-ayland@ilande.co.uk
-References: <20220613154456.359674-1-danielhb@linux.ibm.com>
- <20220613154456.359674-9-danielhb@linux.ibm.com>
- <d220e41c-a171-7263-a32c-3fc0d6c22ebd@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb@linux.ibm.com>
-In-Reply-To: <d220e41c-a171-7263-a32c-3fc0d6c22ebd@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: mc52zRvaFFTzibZHyp18_6J9wqOjDmfJ
-X-Proofpoint-GUID: mc52zRvaFFTzibZHyp18_6J9wqOjDmfJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-14_05,2022-06-13_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 spamscore=0 phishscore=0
- mlxlogscore=999 suspectscore=0 bulkscore=0 priorityscore=1501 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206140061
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=danielhb@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <0CC03CA7-1BC5-4FDF-92BA-4256778AD113@ict.ac.cn>
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=kbusch@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,137 +78,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 6/14/22 06:53, Frederic Barrat wrote:
+On Tue, Jun 14, 2022 at 03:24:37PM +0800, Jinhao Fan wrote:
+> > On Jun 14, 2022, at 5:15 AM, Keith Busch <kbusch@kernel.org> wrote:
+> > @@ -6538,9 +6544,25 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+> > 
+> >         trace_pci_nvme_mmio_doorbell_sq(sq->sqid, new_tail);
+> > 
+> > -        if (!sq->db_addr) {
+> >         sq->tail = new_tail;
+> > +        if (sq->db_addr) {
+> > +            /*
+> > +             * The spec states "the host shall also update the controller's
+> > +             * corresponding doorbell property to match the value of that entry
+> > +             * in the Shadow Doorbell buffer."
+> > +             *
+> > +             * Since this context is currently a VM trap, we can safely enforce
+> > +             * the requirement from the device side in case the host is
+> > +             * misbehaving.
+> > +             *
+> > +             * Note, we shouldn't have to do this, but various drivers
+> > +             * including ones that run on Linux, are not updating Admin Queues,
+> > +             * so we can't trust reading it for an appropriate sq tail.
+> > +             */
+> > +            pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
+> > +                    sizeof(sq->tail));
+> >         }
+> > +
+> >         timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+> >     }
+> > }
+> > --
 > 
+> Thanks Keith,
 > 
-> On 13/06/2022 17:44, Daniel Henrique Barboza wrote:
->> When enabling user created PHBs (a change reverted by commit 9c10d86fee)
->> we were handling PHBs created by default versus by the user in different
->> manners. The only difference between these PHBs is that one will have a
->> valid phb3->chip that is assigned during pnv_chip_power8_realize(),
->> while the user created needs to search which chip it belongs to.
->>
->> Aside from that there shouldn't be any difference. Making the default
->> PHBs behave in line with the user created ones will make it easier to
->> re-introduce them later on. It will also make the code easier to follow
->> since we are dealing with them in equal manner.
->>
->> The first step is to turn chip8->phbs[] into a PnvPHB3 pointer array.
->> This will allow us to assign user created PHBs into it later on. The way
->> we initilize the default case is now more in line with that would happen
->> with the user created case: the object is created, parented by the chip
->> because pnv_xscom_dt() relies on it, and then assigned to the array.
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
->> ---
-> 
-> 
-> This patch is more prep work for the user-created device instead of general cleanup like the previous ones, but I don't see anything wrong with it. So:
-> 
-> Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> This is an interesting hack. I wonder how should I incorporate your changes in my patch. I guess I can modify the code in PATCH 1/2 and add a “Proposed-by” tag. Is this the correct way?
 
+It's a pretty nasty hack, and definitely not in compliance with the spec: the
+db_addr is supposed to be read-only from the device side, though I do think
+it's safe for this environment. Unless Klaus or anyone finds something I'm
+missing, I feel this is an acceptable compromise to address this odd
+discrepency.
 
-I've been thinking about it and I guess I could do better with this
-and the proxy pnv-phb series that is already in v2. What I'm thinking
-is:
+I believe the recommended tag for something like this is "Suggested-by:", but
+no need to credit me. Just fold it into your first patch and send a v2.
 
-- crop patches 8-11 from this series. Patches 1-7 would be the prep cleanup
-series;
-
-- split the pnv-phb series in two:
-
-   - first series will just introduce the pnv-phb devices and consolidate the
-root ports. We're going to deal just with default devices. No consideration
-about future user-created devices will be made;
-
-   - a second series would then re-introduce user creatable phbs and root ports.
-Patches 8-11 of this series would be handled in this second patch set since it's
-closely related to user devices.
-
-
-Does that sound fair?
-
-
-Thanks,
-
-
-Daniel
-
-
-
-
-> 
->    Fred
-> 
-> 
-> 
->>   hw/ppc/pnv.c         | 19 ++++++++++++++-----
->>   include/hw/ppc/pnv.h |  6 +++++-
->>   2 files changed, 19 insertions(+), 6 deletions(-)
->>
->> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
->> index 5e3323e950..6ce9e94e05 100644
->> --- a/hw/ppc/pnv.c
->> +++ b/hw/ppc/pnv.c
->> @@ -660,7 +660,7 @@ static void pnv_chip_power8_pic_print_info(PnvChip *chip, Monitor *mon)
->>       ics_pic_print_info(&chip8->psi.ics, mon);
->>       for (i = 0; i < chip8->num_phbs; i++) {
->> -        PnvPHB3 *phb3 = &chip8->phbs[i];
->> +        PnvPHB3 *phb3 = chip8->phbs[i];
->>           pnv_phb3_msi_pic_print_info(&phb3->msis, mon);
->>           ics_pic_print_info(&phb3->lsis, mon);
->> @@ -1149,7 +1149,16 @@ static void pnv_chip_power8_instance_init(Object *obj)
->>       chip8->num_phbs = pcc->num_phbs;
->>       for (i = 0; i < chip8->num_phbs; i++) {
->> -        object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
->> +        PnvPHB3 *phb3 = PNV_PHB3(object_new(TYPE_PNV_PHB3));
->> +
->> +        /*
->> +         * We need the chip to parent the PHB to allow the DT
->> +         * to build correctly (via pnv_xscom_dt()).
->> +         *
->> +         * TODO: the PHB should be parented by a PEC device.
->> +         */
->> +        object_property_add_child(obj, "phb[*]", OBJECT(phb3));
->> +        chip8->phbs[i] = phb3;
->>       }
->>   }
->> @@ -1278,7 +1287,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
->>       /* PHB3 controllers */
->>       for (i = 0; i < chip8->num_phbs; i++) {
->> -        PnvPHB3 *phb = &chip8->phbs[i];
->> +        PnvPHB3 *phb = chip8->phbs[i];
->>           object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
->>           object_property_set_int(OBJECT(phb), "chip-id", chip->chip_id,
->> @@ -1963,7 +1972,7 @@ static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
->>           }
->>           for (j = 0; j < chip8->num_phbs; j++) {
->> -            pnv_ics_get_phb_ics(&chip8->phbs[j], &args);
->> +            pnv_ics_get_phb_ics(chip8->phbs[j], &args);
->>               if (args.ics) {
->>                   return args.ics;
->> @@ -1996,7 +2005,7 @@ static void pnv_ics_resend(XICSFabric *xi)
->>           Pnv8Chip *chip8 = PNV8_CHIP(pnv->chips[i]);
->>           for (j = 0; j < chip8->num_phbs; j++) {
->> -            PnvPHB3 *phb3 = &chip8->phbs[j];
->> +            PnvPHB3 *phb3 = chip8->phbs[j];
->>               ics_resend(&phb3->lsis);
->>               ics_resend(ICS(&phb3->msis));
->> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
->> index 033890a23f..11f1089289 100644
->> --- a/include/hw/ppc/pnv.h
->> +++ b/include/hw/ppc/pnv.h
->> @@ -80,7 +80,11 @@ struct Pnv8Chip {
->>       PnvHomer     homer;
->>   #define PNV8_CHIP_PHB3_MAX 4
->> -    PnvPHB3      phbs[PNV8_CHIP_PHB3_MAX];
->> +    /*
->> +     * The array is used to allow quick access to the phbs by
->> +     * pnv_ics_get_child() and pnv_ics_resend_child().
->> +     */
->> +    PnvPHB3      *phbs[PNV8_CHIP_PHB3_MAX];
->>       uint32_t     num_phbs;
->>       XICSFabric    *xics;
+By the way, I noticed that the patch never updates the cq's ei_addr value. Is
+that on purpose?
 
