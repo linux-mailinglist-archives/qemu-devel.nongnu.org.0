@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0603D54B1C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 14:58:07 +0200 (CEST)
-Received: from localhost ([::1]:43438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4170954B08F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 14:29:05 +0200 (CEST)
+Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o167R-0008L6-Lf
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 08:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
+	id 1o15fM-0005c5-Bu
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 08:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TK-0006aj-37
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56817)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TE-0006Xi-8h
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TC-0007mA-2M
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:37 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TA-0007ll-2Z
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655208989;
+ s=mimecast20190719; t=1655208986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ebiRccH2awWxGwAppvEzoFJ/M1x++CURc9+zFzjg06Y=;
- b=JmTFpgaWK0wYMCKtH/nQrsuiOWIBYdtKZ8pePG/ZRjdvUPE7mmOtkryoCs3Sn+Uexn17G2
- umSZ0mntgeWDJjdSJ8ZoL+a14pbnnUiM4pyv/z849up2EqCu0uk5s8arBx1coxFdDtMS2y
- hvOMDA9KA/zpL3JcGF3XU0IYbnyUmt8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fjkT/ghvgIP+ASWCtRqN8cFZ3mDw+gAHZxFgoi4zHGM=;
+ b=VgxUziE8uhLC+rQ0gEU5G9yqj1A8dNwFl4K/3PynYs4kaW2OCp8aV4XjFUNKHTY6uEMYsr
+ fAP+U0U5nwu6aBES20zOKJ1h1R8tHVLMoy2WZ3JnlNlPznFWCb9nE59LqUEZ8Mb8U7lFm3
+ d/g7dIlu7FlYxru1ina1FXhhYSDP35M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-Wfr5vr_lM5eHXKXnMWOPLw-1; Tue, 14 Jun 2022 08:16:25 -0400
-X-MC-Unique: Wfr5vr_lM5eHXKXnMWOPLw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-253-9-V6lrRoPN-wePOBAR4HAQ-1; Tue, 14 Jun 2022 08:16:25 -0400
+X-MC-Unique: 9-V6lrRoPN-wePOBAR4HAQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE1AD299E753;
- Tue, 14 Jun 2022 12:16:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4430B185A7B2;
+ Tue, 14 Jun 2022 12:16:24 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DC97202699A;
- Tue, 14 Jun 2022 12:16:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 009C72166B26;
+ Tue, 14 Jun 2022 12:16:24 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BEF1F1800799; Tue, 14 Jun 2022 14:16:11 +0200 (CEST)
+ id D094A180079D; Tue, 14 Jun 2022 14:16:11 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
@@ -56,14 +56,14 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  "Canokeys.org" <contact@canokeys.org>,
  Stefano Stabellini <sstabellini@kernel.org>,
  Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PULL 14/15] ui: Deliver refresh rate via QemuUIInfo
-Date: Tue, 14 Jun 2022 14:16:09 +0200
-Message-Id: <20220614121610.508356-15-kraxel@redhat.com>
+Subject: [PULL 15/15] virtio-gpu: Respect UI refresh rate for EDID
+Date: Tue, 14 Jun 2022 14:16:10 +0200
+Message-Id: <20220614121610.508356-16-kraxel@redhat.com>
 In-Reply-To: <20220614121610.508356-1-kraxel@redhat.com>
 References: <20220614121610.508356-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -90,254 +90,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-This change adds a new member, refresh_rate to QemuUIInfo in
-include/ui/console.h. It represents the refresh rate of the
-physical display backend, and it is more appropriate than
-GUI update interval as the refresh rate which the emulated device
-reports:
-- sdl may set GUI update interval shorter than the refresh rate
-  of the physical display to respond to user-generated events.
-- sdl and vnc aggressively changes GUI update interval, but
-  a guests is typically not designed to respond to frequent
-  refresh rate changes, or frequent "display mode" changes in
-  general. The frequency of refresh rate changes of the physical
-  display backend matches better to the guest's expectation.
-
-QemuUIInfo also has other members representing "display mode",
-which makes it suitable for refresh rate representation. It has
-a throttling of update notifications, and prevents frequent changes
-of the display mode.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20220226115516.59830-3-akihiko.odaki@gmail.com>
+Message-Id: <20220226115516.59830-4-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/console.h |  2 +-
- include/ui/gtk.h     |  2 +-
- hw/display/xenfb.c   | 14 +++++++++++---
- ui/console.c         |  6 ------
- ui/gtk-egl.c         |  4 ++--
- ui/gtk-gl-area.c     |  3 +--
- ui/gtk.c             | 45 +++++++++++++++++++++++++-------------------
- 7 files changed, 42 insertions(+), 34 deletions(-)
+ include/hw/virtio/virtio-gpu.h | 1 +
+ hw/display/virtio-gpu-base.c   | 1 +
+ hw/display/virtio-gpu.c        | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index 642d6f5248cf..b64d82436097 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -139,6 +139,7 @@ typedef struct QemuUIInfo {
-     int       yoff;
-     uint32_t  width;
-     uint32_t  height;
-+    uint32_t  refresh_rate;
- } QemuUIInfo;
- 
- /* cursor data format is 32bit RGBA */
-@@ -431,7 +432,6 @@ typedef struct GraphicHwOps {
-     void (*gfx_update)(void *opaque);
-     bool gfx_update_async; /* if true, calls graphic_hw_update_done() */
-     void (*text_update)(void *opaque, console_ch_t *text);
--    void (*update_interval)(void *opaque, uint64_t interval);
-     void (*ui_info)(void *opaque, uint32_t head, QemuUIInfo *info);
-     void (*gl_block)(void *opaque, bool block);
- } GraphicHwOps;
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 101b147d1b98..ae0f53740d19 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -155,7 +155,7 @@ extern bool gtk_use_gl_area;
- 
- /* ui/gtk.c */
- void gd_update_windowsize(VirtualConsole *vc);
--int gd_monitor_update_interval(GtkWidget *widget);
-+void gd_update_monitor_refresh_rate(VirtualConsole *vc, GtkWidget *widget);
- void gd_hw_gl_flushed(void *vc);
- 
- /* ui/gtk-egl.c */
-diff --git a/hw/display/xenfb.c b/hw/display/xenfb.c
-index cea10fe3c780..50857cd97a0b 100644
---- a/hw/display/xenfb.c
-+++ b/hw/display/xenfb.c
-@@ -777,16 +777,24 @@ static void xenfb_update(void *opaque)
-     xenfb->up_fullscreen = 0;
- }
- 
--static void xenfb_update_interval(void *opaque, uint64_t interval)
-+static void xenfb_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
- {
-     struct XenFB *xenfb = opaque;
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index afff9e158e31..2e28507efe21 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -80,6 +80,7 @@ struct virtio_gpu_scanout {
+ struct virtio_gpu_requested_state {
+     uint16_t width_mm, height_mm;
+     uint32_t width, height;
 +    uint32_t refresh_rate;
- 
-     if (xenfb->feature_update) {
- #ifdef XENFB_TYPE_REFRESH_PERIOD
-         if (xenfb_queue_full(xenfb)) {
-             return;
-         }
--        xenfb_send_refresh_period(xenfb, interval);
-+
-+        refresh_rate = info->refresh_rate;
-+        if (!refresh_rate) {
-+            refresh_rate = 75;
-+        }
-+
-+        /* T = 1 / f = 1 [s*Hz] / f = 1000*1000 [ms*mHz] / f */
-+        xenfb_send_refresh_period(xenfb, 1000 * 1000 / refresh_rate);
- #endif
-     }
- }
-@@ -983,5 +991,5 @@ struct XenDevOps xen_framebuffer_ops = {
- static const GraphicHwOps xenfb_ops = {
-     .invalidate  = xenfb_invalidate,
-     .gfx_update  = xenfb_update,
--    .update_interval = xenfb_update_interval,
-+    .ui_info     = xenfb_ui_info,
+     int x, y;
  };
-diff --git a/ui/console.c b/ui/console.c
-index 36c80cd1de85..9331b85203a0 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -160,7 +160,6 @@ static void gui_update(void *opaque)
-     uint64_t dcl_interval;
-     DisplayState *ds = opaque;
-     DisplayChangeListener *dcl;
--    QemuConsole *con;
  
-     ds->refreshing = true;
-     dpy_refresh(ds);
-@@ -175,11 +174,6 @@ static void gui_update(void *opaque)
-     }
-     if (ds->update_interval != interval) {
-         ds->update_interval = interval;
--        QTAILQ_FOREACH(con, &consoles, next) {
--            if (con->hw_ops->update_interval) {
--                con->hw_ops->update_interval(con->hw, interval);
--            }
--        }
-         trace_console_refresh(interval);
-     }
-     ds->last_update = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index e3bd4bc27431..b5bffbab2522 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -140,8 +140,8 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
- {
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index b21d6e5b0be8..a29f191aa82e 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -79,6 +79,7 @@ static void virtio_gpu_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
  
--    vc->gfx.dcl.update_interval = gd_monitor_update_interval(
--            vc->window ? vc->window : vc->gfx.drawing_area);
-+    gd_update_monitor_refresh_rate(
-+            vc, vc->window ? vc->window : vc->gfx.drawing_area);
+     g->req_state[idx].x = info->xoff;
+     g->req_state[idx].y = info->yoff;
++    g->req_state[idx].refresh_rate = info->refresh_rate;
+     g->req_state[idx].width = info->width;
+     g->req_state[idx].height = info->height;
+     g->req_state[idx].width_mm = info->width_mm;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 55c6dd576318..20cc703dcc6e 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -217,6 +217,7 @@ virtio_gpu_generate_edid(VirtIOGPU *g, int scanout,
+         .height_mm = b->req_state[scanout].height_mm,
+         .prefx = b->req_state[scanout].width,
+         .prefy = b->req_state[scanout].height,
++        .refresh_rate = b->req_state[scanout].refresh_rate,
+     };
  
-     if (!vc->gfx.esurface) {
-         gd_egl_init(vc);
-diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
-index 2e0129c28cd4..682638a197d2 100644
---- a/ui/gtk-gl-area.c
-+++ b/ui/gtk-gl-area.c
-@@ -121,8 +121,7 @@ void gd_gl_area_refresh(DisplayChangeListener *dcl)
- {
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
- 
--    vc->gfx.dcl.update_interval = gd_monitor_update_interval(
--            vc->window ? vc->window : vc->gfx.drawing_area);
-+    gd_update_monitor_refresh_rate(vc, vc->window ? vc->window : vc->gfx.drawing_area);
- 
-     if (!vc->gfx.gls) {
-         if (!gtk_widget_get_realized(vc->gfx.drawing_area)) {
-diff --git a/ui/gtk.c b/ui/gtk.c
-index c57c36749e0e..2a791dd2aa04 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -710,11 +710,20 @@ static gboolean gd_window_close(GtkWidget *widget, GdkEvent *event,
-     return TRUE;
- }
- 
--static void gd_set_ui_info(VirtualConsole *vc, gint width, gint height)
-+static void gd_set_ui_refresh_rate(VirtualConsole *vc, int refresh_rate)
- {
-     QemuUIInfo info;
- 
--    memset(&info, 0, sizeof(info));
-+    info = *dpy_get_ui_info(vc->gfx.dcl.con);
-+    info.refresh_rate = refresh_rate;
-+    dpy_set_ui_info(vc->gfx.dcl.con, &info, true);
-+}
-+
-+static void gd_set_ui_size(VirtualConsole *vc, gint width, gint height)
-+{
-+    QemuUIInfo info;
-+
-+    info = *dpy_get_ui_info(vc->gfx.dcl.con);
-     info.width = width;
-     info.height = height;
-     dpy_set_ui_info(vc->gfx.dcl.con, &info, true);
-@@ -738,33 +747,32 @@ static void gd_resize_event(GtkGLArea *area,
- {
-     VirtualConsole *vc = (void *)opaque;
- 
--    gd_set_ui_info(vc, width, height);
-+    gd_set_ui_size(vc, width, height);
- }
- 
- #endif
- 
--/*
-- * If available, return the update interval of the monitor in ms,
-- * else return 0 (the default update interval).
-- */
--int gd_monitor_update_interval(GtkWidget *widget)
-+void gd_update_monitor_refresh_rate(VirtualConsole *vc, GtkWidget *widget)
- {
- #ifdef GDK_VERSION_3_22
-     GdkWindow *win = gtk_widget_get_window(widget);
-+    int refresh_rate;
- 
-     if (win) {
-         GdkDisplay *dpy = gtk_widget_get_display(widget);
-         GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
--        int refresh_rate = gdk_monitor_get_refresh_rate(monitor); /* [mHz] */
--
--        if (refresh_rate) {
--            /* T = 1 / f = 1 [s*Hz] / f = 1000*1000 [ms*mHz] / f */
--            return MIN(1000 * 1000 / refresh_rate,
--                       GUI_REFRESH_INTERVAL_DEFAULT);
--        }
-+        refresh_rate = gdk_monitor_get_refresh_rate(monitor); /* [mHz] */
-+    } else {
-+        refresh_rate = 0;
-     }
-+
-+    gd_set_ui_refresh_rate(vc, refresh_rate);
-+
-+    /* T = 1 / f = 1 [s*Hz] / f = 1000*1000 [ms*mHz] / f */
-+    vc->gfx.dcl.update_interval = refresh_rate ?
-+        MIN(1000 * 1000 / refresh_rate, GUI_REFRESH_INTERVAL_DEFAULT) :
-+        GUI_REFRESH_INTERVAL_DEFAULT;
- #endif
--    return 0;
- }
- 
- static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-@@ -801,8 +809,7 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-         return FALSE;
-     }
- 
--    vc->gfx.dcl.update_interval =
--        gd_monitor_update_interval(vc->window ? vc->window : s->window);
-+    gd_update_monitor_refresh_rate(vc, vc->window ? vc->window : s->window);
- 
-     fbw = surface_width(vc->gfx.ds);
-     fbh = surface_height(vc->gfx.ds);
-@@ -1691,7 +1698,7 @@ static gboolean gd_configure(GtkWidget *widget,
- {
-     VirtualConsole *vc = opaque;
- 
--    gd_set_ui_info(vc, cfg->width, cfg->height);
-+    gd_set_ui_size(vc, cfg->width, cfg->height);
-     return FALSE;
- }
- 
+     edid->size = cpu_to_le32(sizeof(edid->edid));
 -- 
 2.36.1
 
