@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288C154B855
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 20:11:51 +0200 (CEST)
-Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DAF54B866
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 20:17:17 +0200 (CEST)
+Received: from localhost ([::1]:45676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1B13-00082O-Um
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 14:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38310)
+	id 1o1B6L-0001aZ-0g
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 14:17:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
- id 1o1AyS-0006da-9b
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 14:09:08 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:44990)
+ (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
+ id 1o1B47-0000mG-5N
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 14:14:59 -0400
+Received: from vulcan.kevinlocke.name
+ ([2001:19f0:5:727:1e84:17da:7c52:5ab4]:46273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
- id 1o1AyD-0006C1-Ci
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 14:09:08 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-30ec2aa3b6cso37815417b3.11
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 11:08:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=xkz0TWZPozZh5NPnriXrV6r3b43E0tHNWDcR7Rqc7hs=;
- b=X9muRIhk2heM/kYZVRCZpec37aTqf8/etpcLnxtzagllYQQgopSDtG/9G7wNTV2TSx
- Df/csBlWJ7zWffX8bgKApCEF+FTwZ/DW0IrXkekFndxUpoKX1II4THTLS8jw32SH3R3W
- 8233yjgIaIg9YPtT3wm3SUeWqKS0wgkNANDctWdzoa7yfOp1Utf4D6yk/H7uNS9QJYF5
- NNmXess+JOKwS+IEkVur+b1uptLP1h/BdxpEXCXX03eVXf1Y/w8ZrEZKH0/nAGgglMfH
- oSZQmTjdWGvTjIrBZ8XP0dDcD7xn35TswJwxPsKxIYWWBrsA6Ovc/A8GXlYSBYfJF1bV
- C0qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=xkz0TWZPozZh5NPnriXrV6r3b43E0tHNWDcR7Rqc7hs=;
- b=4FtX+Y7IEJUIWWDJpGteoepGJiEcK+GFjnKa+xxQb9tjeFf2XXwexhnrZ204dUFcSE
- HJZkTiQHNn5Ax04uFIcujNdrBxKNnx7uIZ8OC6yiV6qoTWWXUU0HrKI+OuJFVgvbZ8w6
- BO+JsyuubhIaUl6PiqyKRmB+UHqRqSsAMZgG26R1SNl+3wveDOqL6Wn148WeVaT2yLp1
- 31J+4vSFnDVF3myg9wYUfrIFMEqUG1Du+NoAcncAZkL69TG8plVrml10qphtkQHG4Dth
- pZFZn+tbLPD9z7QePb6mvTJB/lhReXqR7AUpwPrqBu+ljO8l5ytQjKNyxz+S4YXL/95B
- 3pKQ==
-X-Gm-Message-State: AJIora+ssU68jZC4Jy6uXUXJrWEdj1kdIIdp4r6NOtdZtpe/Ah3AzX+F
- 6Tf0CwHZo8j/Skg+SlPplQGLQ3HqHfA6n0zRtJPCFgc+gJwRxw==
-X-Google-Smtp-Source: AGRyM1sQMvIuPVCfIfb2p1vs9VPpwRMv90oxQaCYJ7xY2pYhUARuXKLuRCndAdVEPh726+RPiWcwNy+wMJmi9mckqfo=
-X-Received: by 2002:a0d:ca08:0:b0:30c:b11b:8cfc with SMTP id
- m8-20020a0dca08000000b0030cb11b8cfcmr7386371ywd.362.1655230131004; Tue, 14
- Jun 2022 11:08:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
+ id 1o1B44-0006xd-8d
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 14:14:57 -0400
+Received: from kevinolos.kevinlocke.name
+ (2600-6c67-5000-3d1b-c15c-fe7b-05b5-35cd.res6.spectrum.com
+ [IPv6:2600:6c67:5000:3d1b:c15c:fe7b:5b5:35cd])
+ (Authenticated sender: kevin@kevinlocke.name)
+ by vulcan.kevinlocke.name (Postfix) with ESMTPSA id 31BE92F29ABA;
+ Tue, 14 Jun 2022 18:14:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kevinlocke.name;
+ s=vulcan; t=1655230490;
+ bh=xmXMk0LohHGecfFU/QACTpd3xa5Mz65GdL96BaJiL2Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Pq3Wm6BjhfOewq6fgxlgkmkuZdeBXJXuogWmGh0t7RFx8NslGYxhyc7pEsM8kYrdX
+ jAEL2m1GKf43lYDsd0NLZCxOchyDbAH7DUjMGnSo/h9cDLqzrJjdeiD/nPVgWTt/AW
+ axkRkuKxoj9KYMCZ4Pvio1Mh336wlnp8Yk6gu2VM=
+Received: by kevinolos.kevinlocke.name (Postfix, from userid 1000)
+ id B9CE01300437; Tue, 14 Jun 2022 12:14:47 -0600 (MDT)
+Date: Tue, 14 Jun 2022 12:14:47 -0600
+From: Kevin Locke <kevin@kevinlocke.name>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Laine Stump <laine@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2] docs: add PCIe root bus for VGA compat guideline
+Message-ID: <YqjQF83XBlnmyM3L@kevinlocke.name>
+References: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
+ <bde9fc450bc5143d616c7e9999c5d39ae9fd9cb8.1655054968.git.kevin@kevinlocke.name>
+ <3eebc773-a5ae-6652-95f5-4359872ea4d4@redhat.com>
+ <20220614085252.fyogpqyf7cfcty4x@sirius.home.kraxel.org>
 MIME-Version: 1.0
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-Date: Tue, 14 Jun 2022 11:08:39 -0700
-Message-ID: <CAAH4kHYyXv3x+89Ybnj7GXms2Bz2CNn5JK0+d6DzVtMz5owTrw@mail.gmail.com>
-Subject: New "IndustryStandard" fw_cfg?
-To: qemu-devel@nongnu.org
-Cc: "Xu, Min M" <min.m.xu@intel.com>, "Lendacky,
- Thomas" <Thomas.Lendacky@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=dionnaglaze@google.com; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220614085252.fyogpqyf7cfcty4x@sirius.home.kraxel.org>
+Received-SPF: pass client-ip=2001:19f0:5:727:1e84:17da:7c52:5ab4;
+ envelope-from=kevin@kevinlocke.name; helo=vulcan.kevinlocke.name
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,58 +76,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi y'all, I'm Dionna. I work on Confidential VMs at Google Cloud. I've
-been keeping up with the TDX and SEV-SNP developments in OVMF and
-Linux, and some in Qemu.
+On Tue, 2022-06-14 at 10:52 +0200, Gerd Hoffmann wrote:
+>> On 06/12/22 19:32, Kevin Locke wrote:
+>>> PCI Express devices which use legacy VGA compatibility should be placed
+>>> on the Root Complex.  This simplifies ioport access to VGA registers,
+>>> which requires use of a special exception bit to work across PCI(e)
+>>> bridges.  It is also necessary for ioport access to VESA BIOS Extension
+>>> (VBE) registers, which is not forwarded over PCI(e) bridges, even with
+>>> the special exception bit for VGA register access.[1]
+>>> 
+>>> Update the PCI Express Guidelines to add these to the list of devices
+>>> which can be placed directly on the Root Complex.
+>>> 
+>>> Note that the only PCI Express display devices currently supported
+>>> (bochs-display and virtio-gpu-pci) do not offer VGA compatibility.
+>>> Legacy PCI devices (e.g. vga, qxl-vga, virtio-vga) are already
+>>> documented as allowed on the Root Complex by the first item in the list.
+>>> However, this item documents an additional consideration for placing
+>>> devices which was not previously mentioned, and may be relevant for PCIe
+>>> devices offering VGA compatibility in the future.
+> 
+> Well, the *key* problem is emulated VGA devices with VBE registers in
+> io address space, because those are not forwarded over bridges.
+> 
+> For normal VGA registers this isn't much of a problem (in theory, not
+> fully sure whenever that holds in practice, Alex?).  The linux kernel
+> knows how to use the bridge control register to manage access to VGA
+> registers.
+> 
+> So, if the document already covers vga & qxl & virtio-vga (didn't check
+> that beforehand) I'm not sure we actually need an update ...
 
-There's a new UEFI feature in v2.9 of the specification (March 2021)
-that allows for memory ranges to be classified as "unaccepted", since
-both TDX and SEV-SNP require that the guest VM accept any host-made
-changes to page state. We should expect newer technologies on non-x86
-architectures to require memory acceptance as well. Operating systems
-are not necessarily going to support this memory type, however.
+Section 2.1 Root Bus mentions attaching legacy PCI devices to the Root
+Complex.  VGA/qxl-vga/virtio-vga are implicitly included (if the
+reader is aware they are PCI, not PCIe), but they are not specifically
+mentioned in the document.  By my reading, the document does not
+recommend for or against attaching legacy PCI devices to the Root
+Complex, other than noting hot-unplugging from the Root Complex is not
+supported (in Section 2.3) and the general advice to prefer flat
+hierarchies.
 
-This leads to a problem: how does the UEFI know that the OS it's going
-to boot will support unaccepted memory? Right now we (Google Compute
-Engine) have a system of "tagging" for guest image providers to state
-that their OS supports some new feature so that we can enable
-appropriate configurations for certain images.
+There is currently no mention of VGA or VBE in the document.
 
-I could go about adding a Google-specific fw_cfg file path and
-definition to tell our custom OVMF build to use unaccepted memory or
-not, but I personally prefer open source. I don't know y'all's process
-though, so I'm asking before making a patch set.
+I think documenting the issue with VBE registers would be helpful.
+Doing so with a recommendation for how to avoid the issue seems even
+better.  Would a recommendation to attach a device which supports VBE
+to the Root Complex if VBE will be used by the guest make sense?
 
-There are two approaches I've considered.
+As you noted, applying the recommendation to all VGA compatible
+devices may be too broad.  I'm not sure whether it makes sense to
+recommend attaching VGA compatible devices to the Root Complex to
+avoid the complexity of the VGA exception bits, or if that is a
+non-issue.  In fact, if I understand correctly, it may make sense to
+recommend attaching VGA compatible devices to separate PCI bridges if
+the VM will have multiple VGA compatible devices so that the guest can
+perform VGA arbitration.
 
-1. An arch-specific config key for a u64 value:
+Unless I hear otherwise, I'll plan to create a v4 which documents the
+issue with VBE registers more specifically.  Any suggestions for how
+best to do that would be appreciated.
 
-The idea would be that I would add QemuFwCfgItemUnacceptedMinimum = 0x8005 here
-https://github.com/tianocore/edk2/blob/master/OvmfPkg/Include/IndustryStandard/QemuFwCfg.h#L50
-
-For Qemu, the main code I see for adding config is here, but I'm not
-sure what y'all's preferred external configuration method is to get a
-value from an invocation (flag, config file, etc) to fw_cfg.c:
-https://github.com/qemu/qemu/blob/58b53669e87fed0d70903e05cd42079fbbdbc195/hw/i386/fw_cfg.c#L95
-
-We'd add something like
-
-fw_cfg_add_u64(fw_cfg, FW_CFG_MINIMUM_ACCEPTED_MEMORY_SIZE,
-ms->minimum_accepted_memory_size);
-
-where FW_CFG_MINIMUM_ACCEPTED_MEMORY_SIZE is #defined as
-FW_CFG_ARCH_LOCAL + 5 in
-https://github.com/qemu/qemu/blob/266469947161aa10b1d36843580d369d5aa38589/hw/i386/fw_cfg.h
-
-The name has "minimum" in it since the firmware can choose to accept
-more than the minimum, and specifically interpret 0 as UINT64_MAX.
-
-2. A "well-known" file path to be included in the file slots starting
-at 0x0020, such as "etc/min_accepted_mem_size", still plumbed through
-like in 1.
-
-Thanks!
-
--- 
--Dionna Glaze, PhD (she/her)
+Cheers,
+Kevin
 
