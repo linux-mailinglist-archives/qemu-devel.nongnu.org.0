@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80F554ACAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 11:02:14 +0200 (CEST)
-Received: from localhost ([::1]:36362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E629F54ACA3
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 10:59:15 +0200 (CEST)
+Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o12R9-0001dp-So
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 05:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39278)
+	id 1o12OI-0000l5-QK
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 04:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o12JU-0005Xj-Rb
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:54:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56635)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o12KM-000736-7y
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:55:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o12JR-0000nE-Ov
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:54:15 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o12KK-00013c-E0
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:55:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655196852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1655196907;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tpTATOEl51QpV/ywBY1ZDJHCX5iAffmrazeyrSnsa8Y=;
- b=NHOb2aH6RjcuuCGz3sLiiZRRvOhi9nCPeA75iFM8UGEvVP2QIBFDHdPNpneRBLyx9PBhD2
- ir/PfHQoPgP6bUZhL34ZmoqOUc0irH990vxsSUEc0srVWWEcOJojN/5F3uuAmuNuL6cY0j
- TwLyUfx0RHZZud2yfhhgw1Wndv9W6gk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=shO+9ggQWUM+5bIQh5djrmNyTOVskxEcTFFXvfwJshE=;
+ b=C560xbGwJoxdj74zorDQ/YPf8WI+ra4IW58l9KUY6NgqvDcy5ZcJJdUSPtfDLN4P5D5Shi
+ WEKZDBX3DeiwlYitW6h4XwsyFmdKzM8ZLKB9y+2chwW/gvzbMCwfEAZ7OLSDE+gVjKIcOa
+ tv+R0ThkkTt/i9yusu0yB5p4/zVRZoE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-QWme4d0gM4CI9Jxio3M7UA-1; Tue, 14 Jun 2022 04:54:11 -0400
-X-MC-Unique: QWme4d0gM4CI9Jxio3M7UA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o23-20020a05600c511700b0039743cd8093so4502621wms.6
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 01:54:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tpTATOEl51QpV/ywBY1ZDJHCX5iAffmrazeyrSnsa8Y=;
- b=D3Bf3vxy6IHP2pLPk1VV+JWOqDxlu8uWzcAmnEhIwfMJUhGDdQ2vJUMvyBW+m0jJ9+
- qfXouKqtMuBjPnGpQ+gwtZlmPPCmpT0xUOJ8rmp2Vs3dc1UCuZSlsHgLe5F12zBTMWn7
- TvTnDW3toWaLvvAMYbxV8nEZJqfin13X1cZ8ozFXYLY+zgWBTW+JPkjn13adVTJ7Trpw
- uBGszYpTj1jPPDOl572q8HGIWVpcDPeuYd0mfq7anWkJ7MAlEZfg6PfI7+H75vq9qW2j
- leTkjkI2a89CKOqax/GaujovAvyigFm6+9wP3tiSzYB+BVnLj2alXGAgZ/xkZXgOYFdB
- twzQ==
-X-Gm-Message-State: AJIora/Fr2Y61EMHlBRjlJSsNdKLR3oaR73GG/cgC8Q8w0XzXAetpsa2
- mQeIeRZD0Az8WoROoYjWMZOWTtiyQChvQSttSajnXM0OBfUFpDBp41jyHks0wByUAo32ugnBzsP
- tWd75cn3mrMMmFTY=
-X-Received: by 2002:a05:6000:1acf:b0:218:5a30:9067 with SMTP id
- i15-20020a0560001acf00b002185a309067mr3848885wry.48.1655196850466; 
- Tue, 14 Jun 2022 01:54:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sLjJPVk1NptUsTcxMQSdZP31Mm/qtstrxVSXUS16xVZXG8m3gyQFc+bDVci5P17Lds/f9HRQ==
-X-Received: by 2002:a05:6000:1acf:b0:218:5a30:9067 with SMTP id
- i15-20020a0560001acf00b002185a309067mr3848862wry.48.1655196850225; 
- Tue, 14 Jun 2022 01:54:10 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- t17-20020a05600c129100b0039754d1d327sm12211765wmd.13.2022.06.14.01.54.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jun 2022 01:54:09 -0700 (PDT)
-Date: Tue, 14 Jun 2022 10:54:08 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Julia Suvorova <jusual@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, Xiao Guangrong
- <xiaoguangrong.eric@gmail.com>, David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
-Message-ID: <20220614105408.235f0f41@redhat.com>
-In-Reply-To: <YqdTQYUhO/3dzJvZ@stefanha-x1.localdomain>
-References: <20220531145147.61112-1-jusual@redhat.com>
- <YpY0/Pc3uoA9QQD/@stefanha-x1.localdomain>
- <CAMDeoFUxG7B67BCm4nb303VEwBdiD=JNi_OWSaxirThWnTd6LA@mail.gmail.com>
- <YqdTQYUhO/3dzJvZ@stefanha-x1.localdomain>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ us-mta-117-pdZhXso7M9-hloMWKMLuFw-1; Tue, 14 Jun 2022 04:55:04 -0400
+X-MC-Unique: pdZhXso7M9-hloMWKMLuFw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3A8E1DC2426;
+ Tue, 14 Jun 2022 08:55:03 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D31A2166B26;
+ Tue, 14 Jun 2022 08:55:01 +0000 (UTC)
+Date: Tue, 14 Jun 2022 09:54:59 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 1/5] tests/qemu-iotests: hotfix for 307, 223 output
+Message-ID: <YqhM47DhwnzVp7dZ@redhat.com>
+References: <20220614015044.2501806-1-jsnow@redhat.com>
+ <20220614015044.2501806-2-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220614015044.2501806-2-jsnow@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -101,45 +86,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Jun 2022 16:09:53 +0100
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Mon, Jun 13, 2022 at 09:50:40PM -0400, John Snow wrote:
+> Fixes: 58a6fdcc
 
-> On Mon, Jun 13, 2022 at 05:01:10PM +0200, Julia Suvorova wrote:
-> > On Tue, May 31, 2022 at 5:32 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:  
-> > >
-> > > On Tue, May 31, 2022 at 04:51:47PM +0200, Julia Suvorova wrote:  
-> > > > In the ACPI specification [1], the 'unarmed' bit is set when a device
-> > > > cannot accept a persistent write. This means that when a memdev is
-> > > > read-only, the 'unarmed' flag must be turned on. The logic is correct,
-> > > > just changing the error message.
-> > > >
-> > > > [1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
-> > > >
-> > > > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > > > ---
-> > > >  hw/mem/nvdimm.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)  
-> > >
-> > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>  
-> > 
-> > It seems like Xiao is not active, whose tree should this patch go to?  
+CC'ing Eric given the above commit hash
 
-Perhaps David can add himself as maintainer (i.e. put it
-under memory mantanership umbrella) and merge it 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/qemu-iotests/223.out | 4 ++--
+>  tests/qemu-iotests/307.out | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+
+Tested-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 > 
-> Michael or Igor can merge it:
+> diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+> index 06479415312..26fb347c5da 100644
+> --- a/tests/qemu-iotests/223.out
+> +++ b/tests/qemu-iotests/223.out
+> @@ -93,7 +93,7 @@ exports available: 3
+>   export: 'n2'
+>    description: some text
+>    size:  4194304
+> -  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
+> +  flags: 0xded ( flush fua trim zeroes df multi cache fast-zero )
+>    min block: 1
+>    opt block: 4096
+>    max block: 33554432
+> @@ -212,7 +212,7 @@ exports available: 3
+>   export: 'n2'
+>    description: some text
+>    size:  4194304
+> -  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
+> +  flags: 0xded ( flush fua trim zeroes df multi cache fast-zero )
+>    min block: 1
+>    opt block: 4096
+>    max block: 33554432
+> diff --git a/tests/qemu-iotests/307.out b/tests/qemu-iotests/307.out
+> index ec8d2be0e0a..390f05d1b78 100644
+> --- a/tests/qemu-iotests/307.out
+> +++ b/tests/qemu-iotests/307.out
+> @@ -83,7 +83,7 @@ exports available: 2
+>   export: 'export1'
+>    description: This is the writable second export
+>    size:  67108864
+> -  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
+> +  flags: 0xded ( flush fua trim zeroes df multi cache fast-zero )
+>    min block: XXX
+>    opt block: XXX
+>    max block: XXX
+> @@ -109,7 +109,7 @@ exports available: 1
+>   export: 'export1'
+>    description: This is the writable second export
+>    size:  67108864
+> -  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
+> +  flags: 0xded ( flush fua trim zeroes df multi cache fast-zero )
+>    min block: XXX
+>    opt block: XXX
+>    max block: XXX
+> -- 
+> 2.34.3
 > 
->   $ scripts/get_maintainer.pl -f hw/mem/nvdimm.c
->   Xiao Guangrong <xiaoguangrong.eric@gmail.com> (maintainer:NVDIMM)
->   "Michael S. Tsirkin" <mst@redhat.com> (supporter:ACPI/SMBIOS)
->   Igor Mammedov <imammedo@redhat.com> (supporter:ACPI/SMBIOS)
->   Ani Sinha <ani@anisinha.ca> (reviewer:ACPI/SMBIOS)
->   qemu-devel@nongnu.org (open list:All patches CC here)
-> 
-> Stefan
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
