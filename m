@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9437E54A9D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 08:55:55 +0200 (CEST)
-Received: from localhost ([::1]:40328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5F754A9DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 09:01:18 +0200 (CEST)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o10Sw-0003yB-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 02:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
+	id 1o10Y9-00071R-SV
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 03:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o10M3-0000QJ-SO
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 02:48:47 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44732)
+ id 1o10P6-00028b-Qx
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 02:51:56 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:45829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o10Lx-0005U5-8e
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 02:48:47 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id s37so5092016pfg.11
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 23:48:39 -0700 (PDT)
+ id 1o10P5-00066E-Da
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 02:51:56 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ t3-20020a17090a510300b001ea87ef9a3dso8197683pjh.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 23:51:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dCpj0mmg9nB8LLmv6XIVDvs36DM5FLyeTvTA4ViQ7Is=;
- b=Ui5pc+gLLck1Xof2I76MvywftpqVNBK0hwbBNv3pY71gj2D0Mf+n0n7g45Q1NMNgny
- zGK9pwtwRUT+c5Zoaa+rMUJNVo1SZqj3PgTOuccuWsZwHOHc96q5rPUqkxhlOxyazFEe
- j3F0I416HTn88Nx5eSQ47tB0kgI/9cWIEOJpzYDuKK1geagrgrHPbMpLiE1Xr+gHjrn0
- aRl2qWDmb8kE4Nwhp7Lma98VirXnUHxxMXDov1AcxNNcWP1cq9/akuK9Ld5s9S9RZsHn
- 4Kxf2jYLxTlTZ5CDNQGnFZr2zHdY3wn+oZLKPU/QSwNM4iZfLoyAv5SxmCeL9jGRLkHI
- GYEg==
+ bh=1EG21iRt6rNAtqpS3PlFqph50BJP9ggt6bb9GEmlC+o=;
+ b=BSNPoGPbsNtnjKN8f1wZHjK+T9t/ZtfSPpIaE9er1Uq6PAQUgddskxQruEHz8DY7z7
+ mpvGCqIel9MfzqzfNGYgoki/84L7pVHJgJC1oL2kkiUNS7tgunQw+KkppxYT7zeW1ajZ
+ mbyKEo4bcBKCJOYmDCejz26GOscz17BQkZaLsjxeCl4wCIFhZtPz0oiJFj183YetlV57
+ 4nB/9zWNCDT5LwovYDGRKOffAQKkVAU04RIjSqRk+bo+Eo1fsaUiX3wNk3c2yVCeu2FR
+ 4znQubWRNvQ7Flp7tflEuJ0D76B3prt8dAjjQU9SfWe3mjkon4B3+zi7CRa0XJQndvPp
+ MPEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dCpj0mmg9nB8LLmv6XIVDvs36DM5FLyeTvTA4ViQ7Is=;
- b=kkPwYCYH6CYunN3Q7wZREOt7qAXC1g2iSOkK+CePvoZOecpqApa4YlnfhzJhrUDd2e
- ax3R/oucTDp0tAjAB3ESPAs0gM/mv+l7cv1DaBzvlw1ooA57iFRv4O8WTl/WVEXn3JJa
- p8mPzwJ1Dor61Tiv8UqV/j/QZadamaF/pbZbDN2NHLwY3EIFeXNS8JSe8B00B01gWKIn
- PgyH8OE6rxpl0Tt4J/1MIl8URRP02KRG6aYptQCcfGtXXlMS28ehsaB6MICb6H6LB3E0
- mWtDPRm6L0ra19U7O1ibv+C5W+WCMccwY5Rq35+6Ef9VIqIZhr6zKt6jvGmyMpphIsNL
- WZew==
-X-Gm-Message-State: AJIora+fnBZk5qDQ2uVMUL5+Q3osnB6qNiayO4naFan81BneK6x8gKKG
- HDLbbcX/4dAIxoP1zsWT+1A=
-X-Google-Smtp-Source: ABdhPJzbiyG2RBLtXdGF6nCcpGBg4Ld8FnjpnLjiKEAW9WIV1s0D7/wnTS6SiqhDAauJH2kteHj6Pw==
-X-Received: by 2002:a05:6a00:8cf:b0:522:93a6:46e9 with SMTP id
- s15-20020a056a0008cf00b0052293a646e9mr3242029pfu.62.1655189318301; 
- Mon, 13 Jun 2022 23:48:38 -0700 (PDT)
+ bh=1EG21iRt6rNAtqpS3PlFqph50BJP9ggt6bb9GEmlC+o=;
+ b=dp0eNFiLCkxnAtGKyOoEyRU7fju3aFQ0fbOLQkJpOX/f+dfzkyBou+mhJKW5a70/DR
+ qBJoXgp+52xPcwf1I+bGHy1KzO93VWujsgGB+NXYPvhF1+roUqSBBi09c7JWs61YTaTg
+ ZIRLakNj3nuzDSCl4aEyax59pSmRQc/YNdB+210m+6qoafKJTaM2zOJgAeZGUfOwlQEa
+ KB6XCDEFYQBRNXpzQ0cqO2D7FumYaBlIm0rAHPcCIYXvrio8s+TNpJcFEWWcwna+cRdj
+ M6fIQrG2it8/ig4s9vmP8x3pwIgGXZ2p9OFptzvd0hica1yn47JIU9gQI5h0xvbKAKdp
+ gkOg==
+X-Gm-Message-State: AJIora/Lqb77A8hoDN+6yCsCAjBbcBN8aJxlrKHOhrNbEV6qb/pc4ZHq
+ MZ/D6doDDkFPGhJ/BjW+6VQ=
+X-Google-Smtp-Source: AGRyM1sEE5hwRx9jOp852A59+bKjlDtnA3n/d5Yp8Z9lcfA1YW4HRebPkunub7Fy7cvXEI+qhm/4Aw==
+X-Received: by 2002:a17:902:c2d3:b0:168:e13c:4e23 with SMTP id
+ c19-20020a170902c2d300b00168e13c4e23mr3160437pla.99.1655189513918; 
+ Mon, 13 Jun 2022 23:51:53 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p10-20020a63950a000000b003fbfe88be17sm6907392pgd.24.2022.06.13.23.48.35
+ r33-20020a17090a43a400b001e305f5cd22sm6429604pjg.47.2022.06.13.23.51.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 23:48:37 -0700 (PDT)
-Message-ID: <94fe1761-4b22-3d95-05a6-601410833452@amsat.org>
-Date: Tue, 14 Jun 2022 08:48:32 +0200
+ Mon, 13 Jun 2022 23:51:53 -0700 (PDT)
+Message-ID: <a347da68-5b00-1e0b-0e8e-62cba81fa30f@amsat.org>
+Date: Tue, 14 Jun 2022 08:51:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [Phishing Risk] [External] Re: [PATCH 4/7] crypto: Add ECDSA key
- parser
+Subject: Re: [PATCH 1/7] crypto: Introduce ECDSA algorithm API
 Content-Language: en-US
-To: =?UTF-8?B?5L2V56OK?= <helei.sig11@bytedance.com>
-Cc: "S. Tsirkin, Michael" <mst@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, pizhenwei@bytedance.com, jasowang@redhat.com
+To: Lei He <helei.sig11@bytedance.com>, mst@redhat.com,
+ arei.gonglei@huawei.com, berrange@redhat.com, qemu-devel@nongnu.org
+Cc: pizhenwei@bytedance.com, jasowang@redhat.com
 References: <20220613084531.8086-1-helei.sig11@bytedance.com>
- <20220613084531.8086-5-helei.sig11@bytedance.com>
- <50d14368-8dca-0b11-d4d5-f3cd8814fe82@amsat.org>
- <F4394DBC-4594-4A45-8B11-048088A2D6D7@bytedance.com>
-In-Reply-To: <F4394DBC-4594-4A45-8B11-048088A2D6D7@bytedance.com>
+ <20220613084531.8086-2-helei.sig11@bytedance.com>
+In-Reply-To: <20220613084531.8086-2-helei.sig11@bytedance.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -102,120 +98,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 14/6/22 03:43, 何磊 wrote:
-> Hi Philippe, lots of thanks for your review!
+On 13/6/22 10:45, Lei He wrote:
+> Introduce ECDSA related structures to qapi-crypto.
 > 
->> On Jun 13, 2022, at 10:19 PM, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 13/6/22 10:45, Lei He wrote:
->>> Add ECDSA key parser and ECDSA signautre parser.
->>> Signed-off-by: lei he <helei.sig11@bytedance.com>
->>> ---
->>>   crypto/ecdsakey-builtin.c.inc | 248 ++++++++++++++++++++++++++++++++++++++++++
->>>   crypto/ecdsakey.c             | 118 ++++++++++++++++++++
->>>   crypto/ecdsakey.h             |  66 +++++++++++
->>>   crypto/meson.build            |   1 +
->>>   4 files changed, 433 insertions(+)
->>>   create mode 100644 crypto/ecdsakey-builtin.c.inc
->>>   create mode 100644 crypto/ecdsakey.c
->>>   create mode 100644 crypto/ecdsakey.h
->>> diff --git a/crypto/ecdsakey-builtin.c.inc b/crypto/ecdsakey-builtin.c.inc
->>> new file mode 100644
->>> index 0000000000..5da317ec44
->>> --- /dev/null
->>> +++ b/crypto/ecdsakey-builtin.c.inc
->>> @@ -0,0 +1,248 @@
->>> +/*
->>> + * QEMU Crypto akcipher algorithms
->>> + *
->>> + * Copyright (c) 2022 Bytedance
->>> + * Author: lei he <helei.sig11@bytedance.com>
->>> + *
->>> + * This library is free software; you can redistribute it and/or
->>> + * modify it under the terms of the GNU Lesser General Public
->>> + * License as published by the Free Software Foundation; either
->>> + * version 2.1 of the License, or (at your option) any later version.
->>> + *
->>> + * This library is distributed in the hope that it will be useful,
->>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->>> + * Lesser General Public License for more details.
->>> + *
->>> + * You should have received a copy of the GNU Lesser General Public
->>> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
->>> + *
->>> + */
->>> +
->>> +#include "der.h"
->>> +#include "ecdsakey.h"
->>> +
->>> +#define QCRYPTO_ECDSA_PUBKEY_FMT_UNCOMPRESSED 0x04
->>> +
->>> +static int extract_mpi(void *ctx, const uint8_t *value,
->>> +                       size_t vlen, Error **errp)
->>> +{
->>> +    QCryptoAkCipherMPI *mpi = (QCryptoAkCipherMPI *)ctx;
->>> +    if (vlen == 0) {
->>> +        error_setg(errp, "Empty mpi field");
->>> +        return -1;
->>
->> Functions taking Error* param usually return a boolean.
-> 
-> It's a good idea to make such functions that only return 0 or -1 return bool directly, but this change
-> will require modification of rsakey related code. If you strongly request it, I will modify it in another patch.
+> Signed-off-by: lei he <helei.sig11@bytedance.com>
+> ---
+>   qapi/crypto.json | 28 ++++++++++++++++++++++++++--
+>   1 file changed, 26 insertions(+), 2 deletions(-)
 
-QCryptoDERDecodeCb seems to only return a boolean, so should follow the
-style recommended in 
-https://gitlab.com/qemu-project/qemu/-/commit/e3fe3988d7. Can be done 
-later as a follow-up cleanup of course.
+> +##
+> +# @QCryptoAkCipherOptionsECDSA:
+> +#
+> +# Specific parameters for ECDSA algorithm.
+> +#
+> +# @curve-id: QCryptoCurveId
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'QCryptoAkCipherOptionsECDSA',
+> +  'data': { 'curve-id':'QCryptoCurveID' }}
 
->>> +    }
->>> +    mpi->data = g_memdup2(value, vlen);
->>> +    mpi->len = vlen;
->>> +    return 0;
->>> +}
->>> +
->>> +static int extract_version(void *ctx, const uint8_t *value,
->>> +                           size_t vlen, Error **errp)
->>> +{
->>> +    uint8_t *version = (uint8_t *)ctx;
->>> +    if (vlen != 1 || *value > 1) {
->>> +        error_setg(errp, "Invalid rsakey version");
->>> +        return -1;
->>> +    }
->>> +    *version = *value;
->>> +    return 0;
->>> +}
->>> +
->>> +static int extract_cons_content(void *ctx, const uint8_t *value,
->>> +                                size_t vlen, Error **errp)
->>> +{
->>> +    const uint8_t **content = (const uint8_t **)ctx;
->>> +    if (vlen == 0) {
->>> +        error_setg(errp, "Empty sequence");
->>> +        return -1;
->>> +    }
->>> +    *content = value;
->>
->> You need to check (vlen >= sizeof(uint8_t *)) to avoid overrun.
-> 
-> The decoder will parse the meta data of ASN1 types and pass the real data part to the callback function.
-> The above statement only saves the starting address of the ‘data part' and does not actually access the
-> data, so there is no need to check the size of vlen.
-
-Oops, indeed you are right :)
-
->>
->>> +    return 0;
->>> +}
->>> +
->>> +static int __qcrypto_akcipher_builtin_ecdsa_pubkey_parse(
->>> +    QCryptoAkCipherECDSAKey *ecdsa,
->>> +    const uint8_t *key, size_t keylen, Error **errp);
->>
->> Why use the reserved __prefix?
-> 
-> I will fix it later.
-> 
-
+Missing an extra space after 'curve-id':, otherwise
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
