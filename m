@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B707E54A2E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 01:47:55 +0200 (CEST)
-Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8169A54A32F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 02:45:59 +0200 (CEST)
+Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0tmk-0008GO-9P
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 19:47:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42178)
+	id 1o0ugw-0002he-4t
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 20:45:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o0tl6-0007X2-9g
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 19:46:12 -0400
-Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:45729)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o0udJ-0008LY-Sd
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 20:42:16 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o0tl3-00068c-BT
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 19:46:12 -0400
-Received: by mail-vs1-xe34.google.com with SMTP id q14so7378219vsr.12
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 16:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fUXTF865aF2MATWVJ+PoTLZ6yTdcUmUGLzESZ8w+B5c=;
- b=Zf4QWdNFtYlYcVgjO0QqMAvWNOMDe0RK/9uhoG9xka1S0j0ZYRqIFWT8kwcX1+0eHP
- jQ+Y1rPMJBY6p7XVevrdP9jC6ijxN9IWyA0yhGw8MkHMt4CLula1naP34w67t7txQRw1
- REOXDVFe3fWuBuVkCajN/lvhTeEEXar7Ws/gd+Vwc2qx09YdHAOZ4xdOjzM9zVXm2JiF
- lMiDLDjuJ/OZ0fva1eOZz5CvPnZbEe2FS49SqjXF98OSW5YsDjECVnnZHw3MVar06CEq
- tsmVz2Ck/Hjd3QbSiY0l4R7i0srhE4lTj57dQsQN0cbCmliK2WwUL8b9CwWy0BEpJa4P
- valA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o0udI-00051g-5f
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 20:42:13 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id w17so1576741wrg.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 17:42:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tm4WT5AsHKf5nHW8X5/uaW1jqdindg84mRL7k6Gz76w=;
+ b=ewJdW6W0eAsjJLmyFrNTIpiueo7qrAMQ6svBf2PncSp7jGqorFdRZJJVLPvZOqEKOt
+ /+7qG3thhf8twRukNl/REq3N3652kSdySUtKz3sDUsoquhKkeeHlWb5sKIjs0tAgx5Fh
+ 1LGJUrwSbSp4l0VP3G+d2DEwJpkJfT29w11nUyQBCsnfIpA4vphODICMxskmMv1crdT6
+ 0PmDcMkM9DFpyFYjY1JtegVC0YdHGgTc13G+uN0sfAlov+wi+tXpj4Gx3ZWWbl8P91rt
+ GOO5iPz30GKy+JcjKF6JN16ygE04uQilfyZb7RBBZpAnufAaaoMq80hjJ5t0+P6MHQKx
+ hwew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fUXTF865aF2MATWVJ+PoTLZ6yTdcUmUGLzESZ8w+B5c=;
- b=7kXgz5Qf114Ewbx81iLwgkHtLFl4rs57yG5IIaY0oYry2z6WdfWH3pNp1sqV0S8V9u
- eqRlYPklSx8ckuwGaO7PA15ta5IFl/dE8QIqTBs6AVdIA2eMU0V214wlXYJEOaAPp7UM
- bAbibjXDffdSKBKsNlrn736g2bCfsgPtBHuzBYpCmSxrUx8VMULd/Y9UvnxRgFFFuQUP
- TZmWVSA3DRpg20/hrnzxPN5TaqMygYF5qqaL8Fu/Vok0jWWuocNcbRsBGEui6lbNF4/d
- Idt+jzZIi8ajEwlkivyQgxk+LjK+O5ZOXtNWtUtB4sPk8QuFcEQduBPTHaTDMF7pco6Y
- A/Ag==
-X-Gm-Message-State: AJIora/zHhxYvGiXSEePNp0Nk+tKQEa1MnwCYPAiznYbDmk33UhrUOzB
- 0hRcWC9PyMxEjNv0l09W2VjDGz+1HPmZ4RuaoXBovQ==
-X-Google-Smtp-Source: AGRyM1udUohyTWab/Vsv8Ac5mI4twDp9vzUaQMhRoFsH08NPUn1f+3EFC4Em2VYtKQxumKDR774uitNSx6k5byRKPRo=
-X-Received: by 2002:a67:7186:0:b0:34b:a3f6:c6fd with SMTP id
- m128-20020a677186000000b0034ba3f6c6fdmr831293vsc.53.1655163956459; Mon, 13
- Jun 2022 16:45:56 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tm4WT5AsHKf5nHW8X5/uaW1jqdindg84mRL7k6Gz76w=;
+ b=CHcoCU08XT+j5HG4SK8+wgFKJDCNiKTdglHOUA7WcDjuToKBT8d2BM1SxU0I3jhDXR
+ LeFpFhRoHtlkBNSSAhAEr7lRkSll8/wH+9KfWKplrYVgW7qVjnL7zLk5FfDaOAFEnkAc
+ o6fOdeB9lNgG5x92e2IbH1xbEw1QGwiPom/VP1WFMrOmzyylsPor7YbgKUJw1fX7IwLk
+ 9xMy3jZNibv5rLp9i/ISNbSutX/1c69qyYcYqdur5Fo/9E9Umd3N71SQL0NOuiyFqcA0
+ n5JbMNxWBaCmeuudD8x+AP1OJss85qkgAlecCMMxgESnPVsUI/sMKMlXCIvZpDh+Rbga
+ 619g==
+X-Gm-Message-State: AJIora9xXdOp1T099LtKsv//Ka0nsNtkoptwOLHBFm2RHl8DJCNxDyy5
+ HcestzSW34OnXXLxRPhiCBBNWg==
+X-Google-Smtp-Source: AGRyM1tbQ5Kcxhd9yXMfJ9ewjSwwBDo5xhC95bRSNQqZaVAxohsLUmRxK0R96UoyVTbUIDrnax/kNw==
+X-Received: by 2002:a05:6000:15ca:b0:218:48a7:a45f with SMTP id
+ y10-20020a05600015ca00b0021848a7a45fmr2101218wry.591.1655167330510; 
+ Mon, 13 Jun 2022 17:42:10 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ a3-20020a056000050300b0020d09f0b766sm9947454wrf.71.2022.06.13.17.42.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 17:42:09 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1F2391FFB7;
+ Tue, 14 Jun 2022 01:42:09 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org,
+	richard.henderson@linaro.org
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 0/7] testing/next (docker, gitlab,tcg)
+Date: Tue, 14 Jun 2022 01:42:02 +0100
+Message-Id: <20220614004209.1970284-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220612204851.19914-1-imp@bsdimp.com>
- <20220612204851.19914-9-imp@bsdimp.com>
- <4fa22f2c-406f-25a8-4a13-f349512bff94@linaro.org>
-In-Reply-To: <4fa22f2c-406f-25a8-4a13-f349512bff94@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 13 Jun 2022 17:45:45 -0600
-Message-ID: <CANCZdfoLxoqPAMX+UZAvXS-6wwEeiJdFveBfJ-bOpTwwL6VDWA@mail.gmail.com>
-Subject: Re: [PATCH 08/11] bsd-user: Implement rmdir and undocumented -_getcwd
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Jessica Clarke <jrtc27@freebsd.org>, 
- Konrad Witaszczyk <def@freebsd.org>, Gleb Popov <arrowd@freebsd.org>,
- Kyle Evans <kevans@freebsd.org>, 
- Stacey Son <sson@freebsd.org>, Jung-uk Kim <jkim@freebsd.org>
-Content-Type: multipart/alternative; boundary="000000000000ab8d2b05e15ce3f3"
-Received-SPF: none client-ip=2607:f8b0:4864:20::e34;
- envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe34.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,116 +92,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ab8d2b05e15ce3f3
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit dcb40541ebca7ec98a14d461593b3cd7282b4fac:
 
-On Mon, Jun 13, 2022 at 1:52 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+  Merge tag 'mips-20220611' of https://github.com/philmd/qemu into staging (2022-06-11 21:13:27 -0700)
 
-> On 6/12/22 13:48, Warner Losh wrote:
-> > Implemenet rmdir and __getcwd. Declare __getcwd as extern because
-> > there's no installed FreeBSD header that has it. It's used internally by
-> > libc, which doesn't provide an external declaration, but does export the
-> > symbol.
->
-> Typo in subject: s/-/_/.
->
+are available in the Git repository at:
 
-Indeed.
+  https://github.com/stsquad/qemu.git tags/pull-testing-next-140622-1
 
+for you to fetch changes up to b56d1ee9514be227854a589b4e11551bed4448a0:
 
-> > @@ -55,6 +55,7 @@ extern struct iovec *lock_iovec(int type, abi_ulong
-> target_addr, int count,
-> >           int copy);
-> >   extern void unlock_iovec(struct iovec *vec, abi_ulong target_addr, int
-> count,
-> >           int copy);
-> > +extern int __getcwd(char *path, size_t len);
->
-> Do you really want to rely on this export?
-> Unless it does something special, I'd just declare a local version of the
-> syscall as you
-> do with safe_*.
->
+  .gitlab: use less aggressive nproc on our aarch64/32 runners (2022-06-14 00:15:06 +0100)
 
-Indeed not. I was just copying what we've been running, but I see now that
-was unwise.
-I'll do a safe_syscall directly here since we don't need to call it
-anywhere else. I'll do a
-sanity check on our upstream and make sure I can still run my favorite
-shells, which
-I believe use this call.
+----------------------------------------------------------------
+Various testing fixes:
 
+  - fix compiler abi for test-armv6m-undef
+  - fix isns suffixes for i386 tcg tests
+  - fix gitlab cfi jobs
+  - fix makefile docker invocation
+  - don't enable xtensa-linux-user builds with system compiler
+  - fix CIRRUS_nn var checking
+  - don't spam the aarch64/32 runners with too many jobs at once
 
-> > +/* undocumented __getcwd(char *buf, size_t len)  system call */
->
-> Surely the syscall itself is documented?
->
+----------------------------------------------------------------
+Alex Bennée (2):
+      tests/docker: fix the IMAGE for build invocation
+      .gitlab: use less aggressive nproc on our aarch64/32 runners
 
-One would think it was documented, but there's no man page for it and the
-getcwd()
-call has some extensions that it implements, plus there's some weird
-special cases
-that __getcwd() can sometimes return that getcwd() knows how to unwind (the
-oddest being that sometimes paths are returned backwards). All these quirks
-are not,
-alas, documented in any place except the code. Hence the characterization
-that this
-is undocumented :)... I was rather surprised by this when I went looking.
+Daniel P. Berrangé (1):
+      gitlab: compare CIRRUS_nn vars against 'null' not ""
 
-Warner
+Paolo Bonzini (1):
+      tests/tcg: disable xtensa-linux-user again
 
---000000000000ab8d2b05e15ce3f3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard Henderson (2):
+      test/tcg/arm: Use -mfloat-abi=soft for test-armv6m-undef
+      tests/tcg/i386: Use explicit suffix on fist insns
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 13, 2022 at 1:52 PM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 6/12/22 13:48, Warner Losh wrote:<br>
-&gt; Implemenet rmdir and __getcwd. Declare __getcwd as extern because<br>
-&gt; there&#39;s no installed FreeBSD header that has it. It&#39;s used int=
-ernally by<br>
-&gt; libc, which doesn&#39;t provide an external declaration, but does expo=
-rt the<br>
-&gt; symbol.<br>
-<br>
-Typo in subject: s/-/_/.<br></blockquote><div><br></div><div>Indeed.</div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; @@ -55,6 +55,7 @@ extern struct iovec *lock_iovec(int type, abi_ulong =
-target_addr, int count,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int copy);<br>
-&gt;=C2=A0 =C2=A0extern void unlock_iovec(struct iovec *vec, abi_ulong targ=
-et_addr, int count,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int copy);<br>
-&gt; +extern int __getcwd(char *path, size_t len);<br>
-<br>
-Do you really want to rely on this export?<br>
-Unless it does something special, I&#39;d just declare a local version of t=
-he syscall as you <br>
-do with safe_*.<br></blockquote><div><br></div><div>Indeed not. I was just =
-copying what we&#39;ve been running, but I see now that was unwise.</div><d=
-iv>I&#39;ll do a safe_syscall directly here since we don&#39;t need to call=
- it anywhere else. I&#39;ll do a</div><div>sanity check on our upstream and=
- make sure I can still run my favorite shells, which</div><div>I believe us=
-e this call.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-&gt; +/* undocumented __getcwd(char *buf, size_t len)=C2=A0 system call */<=
-br>
-<br>
-Surely the syscall itself is documented?<br></blockquote><div><br></div><di=
-v>One would think it was documented, but there&#39;s no man page for it and=
- the getcwd()</div><div>call has some extensions that it implements, plus t=
-here&#39;s some weird special cases</div><div>that __getcwd() can sometimes=
- return that getcwd() knows how to unwind (the</div><div>oddest being that =
-sometimes paths are returned backwards). All these quirks are not,</div><di=
-v>alas, documented in any place except the code. Hence the characterization=
- that this</div><div>is undocumented :)... I was rather surprised by this w=
-hen I went looking.</div><div><br></div><div>Warner</div></div></div>
+Thomas Huth (1):
+      gitlab-ci: Fix the build-cfi-aarch64 and build-cfi-ppc64-s390x jobs
 
---000000000000ab8d2b05e15ce3f3--
+ configure                                          |  5 ++++-
+ tests/tcg/i386/test-i386-fp-exceptions.c           | 24 +++++++++++-----------
+ tests/tcg/i386/test-i386.c                         |  2 +-
+ .gitlab-ci.d/base.yml                              |  2 +-
+ .gitlab-ci.d/buildtest.yml                         | 22 +++++++++-----------
+ .../custom-runners/ubuntu-20.04-aarch32.yml        |  4 ++--
+ .../custom-runners/ubuntu-20.04-aarch64.yml        | 24 +++++++++++-----------
+ tests/docker/Makefile.include                      |  2 +-
+ tests/tcg/arm/Makefile.softmmu-target              |  2 +-
+ 9 files changed, 44 insertions(+), 43 deletions(-)
+
+-- 
+2.30.2
+
 
