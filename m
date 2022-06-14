@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140E054ADDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:01:51 +0200 (CEST)
-Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F9054ADD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 11:59:10 +0200 (CEST)
+Received: from localhost ([::1]:55436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o13Ms-0001Ts-M9
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:01:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
+	id 1o13KF-0006qj-RA
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 05:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o13DF-0000lR-Rz
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 05:51:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57566)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o13Dp-0001AS-7C; Tue, 14 Jun 2022 05:52:29 -0400
+Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:35855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o13D9-0002Jb-D3
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 05:51:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655200306;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=kPsIb46gmdhHq2vvvdI5Q6gA7nrPKFn2iUBOa2L/v9k=;
- b=HkBp8SduvbxuFF2hgFkVYPQuLgf+vDeABKtwQAXMAoeiR0ayJbrnwTcoU8EF6AW0p63QHD
- /vCueEcOlg5RykJcL39ESx+IDA+UwrxVUjzPL1UiMv+lhiH8TQDzrFktSyHIW85HETOb9N
- 1oDo4148GUDLhHy+Hwttj99or/6bPWY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-pSbqAgPoOEKx6fcCh6x3dg-1; Tue, 14 Jun 2022 05:51:43 -0400
-X-MC-Unique: pSbqAgPoOEKx6fcCh6x3dg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A45431C0513E;
- Tue, 14 Jun 2022 09:51:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.137])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9568D1415103;
- Tue, 14 Jun 2022 09:51:40 +0000 (UTC)
-Date: Tue, 14 Jun 2022 10:51:38 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Canokeys.org" <contact@canokeys.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>
-Subject: Re: [PULL 00/16] Kraxel 20220613 patches
-Message-ID: <YqhaKi8K2EATpAlN@redhat.com>
-References: <20220613113655.3693872-1-kraxel@redhat.com>
- <37f8f623-bb1c-899b-5801-79acd6185c6d@linaro.org>
- <20220614094038.g2g6lzeviypcnqrb@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o13Dj-0002Ns-TU; Tue, 14 Jun 2022 05:52:28 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.10])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id C41DE2B5E4;
+ Tue, 14 Jun 2022 09:52:20 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 14 Jun
+ 2022 11:52:19 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R0015164baf3-316a-43cb-b614-b713a4a3dd1b,
+ 521BD0C7D9B1F43011BF9161B4E1AE1788365C94) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <8e08c33f-49a3-c486-87e4-9db32ea2da87@kaod.org>
+Date: Tue, 14 Jun 2022 11:52:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220614094038.g2g6lzeviypcnqrb@sirius.home.kraxel.org>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 05/11] ppc/pnv: make pnv_ics_get() use the chip8->phbs[]
+ array
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb@linux.ibm.com>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>, <fbarrat@linux.ibm.com>,
+ <mark.cave-ayland@ilande.co.uk>
+References: <20220613154456.359674-1-danielhb@linux.ibm.com>
+ <20220613154456.359674-6-danielhb@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220613154456.359674-6-danielhb@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 44a82a27-fcf9-4fc3-94b3-6f71016d70a8
+X-Ovh-Tracer-Id: 6508827365011000227
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudduledgvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhgrrhhkrdgtrghvvgdqrgihlhgrnhgusehilhgrnhguvgdrtghordhukhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,58 +73,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 11:40:38AM +0200, Gerd Hoffmann wrote:
-> On Mon, Jun 13, 2022 at 08:52:21AM -0700, Richard Henderson wrote:
-> > On 6/13/22 04:36, Gerd Hoffmann wrote:
-> > > The following changes since commit dcb40541ebca7ec98a14d461593b3cd7282b4fac:
-> > > 
-> > >    Merge tag 'mips-20220611' of https://github.com/philmd/qemu into staging (2022-06-11 21:13:27 -0700)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >    git://git.kraxel.org/qemu tags/kraxel-20220613-pull-request
-> > > 
-> > > for you to fetch changes up to 23b87f7a3a13e93e248eef8a4b7257548855a620:
-> > > 
-> > >    ui: move 'pc-bios/keymaps' to 'ui/keymaps' (2022-06-13 10:59:25 +0200)
-> > > 
-> > > ----------------------------------------------------------------
-> > > usb: add CanoKey device, fixes for ehci + redir
-> > > ui: fixes for gtk and cocoa, move keymaps (v2), rework refresh rate
-> > > virtio-gpu: scanout flush fix
-> > 
-> > This doesn't even configure:
-> > 
-> > ../src/ui/keymaps/meson.build:55:4: ERROR: File ar does not exist.
+On 6/13/22 17:44, Daniel Henrique Barboza wrote:
+> The function is working today by getting all the child objects of the
+> chip, interacting with each of them to check whether the child is a PHB,
+> and then doing what needs to be done.
 > 
-> Hmm, build worked here and CI passed too.
+> We have all the chip PHBs in the phbs[] array so interacting with all
+> child objects is unneeded.
 > 
-> I think this is one of those cases where the build directory must be
-> deleted because one subdirectory is replaced by a compatibility
-> symlink.
+> Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+> ---
+>   hw/ppc/pnv.c | 30 ++++++++++++++----------------
+>   1 file changed, 14 insertions(+), 16 deletions(-)
+> 
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 40e0cbd84d..05a8d5034f 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1944,41 +1944,39 @@ typedef struct ForeachPhb3Args {
+>       ICSState *ics;
+>   } ForeachPhb3Args;
+>   
+> -static int pnv_ics_get_child(Object *child, void *opaque)
+> +static void pnv_ics_get_phb_ics(PnvPHB3 *phb3, ForeachPhb3Args *args)
+>   {
+> -    ForeachPhb3Args *args = opaque;
+> -    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
+> +    if (ics_valid_irq(&phb3->lsis, args->irq)) {
+> +        args->ics = &phb3->lsis;
+> +    }
+>   
+> -    if (phb3) {
+> -        if (ics_valid_irq(&phb3->lsis, args->irq)) {
+> -            args->ics = &phb3->lsis;
+> -        }
+> -        if (ics_valid_irq(ICS(&phb3->msis), args->irq)) {
+> -            args->ics = ICS(&phb3->msis);
+> -        }
+> +    if (ics_valid_irq(ICS(&phb3->msis), args->irq)) {
+> +        args->ics = ICS(&phb3->msis);
+>       }
+> -    return args->ics ? 1 : 0;
+>   }
+>   
+>   static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
+>   {
+>       PnvMachineState *pnv = PNV_MACHINE(xi);
+>       ForeachPhb3Args args = { irq, NULL };
+> -    int i;
+> +    int i, j;
+>   
+>       for (i = 0; i < pnv->num_chips; i++) {
+> -        PnvChip *chip = pnv->chips[i];
+>           Pnv8Chip *chip8 = PNV8_CHIP(pnv->chips[i]);
+>   
+>           if (ics_valid_irq(&chip8->psi.ics, irq)) {
+>               return &chip8->psi.ics;
+>           }
+>   
+> -        object_child_foreach(OBJECT(chip), pnv_ics_get_child, &args);
+> -        if (args.ics) {
+> -            return args.ics;
+> +        for (j = 0; j < chip8->num_phbs; j++) {
+> +            pnv_ics_get_phb_ics(&chip8->phbs[j], &args);
 
-Except 'configure' deals with that, as it explicitly rm -rf's the
-symlink target:
+If we don't need this function elsewhere, why keep it ?
 
-symlink() {
-  rm -rf "$2"
-  mkdir -p "$(dirname "$2")"
-  ln -s "$1" "$2"
-}
+Thanks,
 
+C.
 
-so i'm pretty confused as to what's going wrong here still
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +
+> +            if (args.ics) {
+> +                return args.ics;
+> +            }
+>           }
+>       }
+> +
+>       return NULL;
+>   }
+>   
 
 
