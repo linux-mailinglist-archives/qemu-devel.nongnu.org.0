@@ -2,94 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7D954B2C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 16:10:15 +0200 (CEST)
-Received: from localhost ([::1]:57578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DF654B2CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 16:11:47 +0200 (CEST)
+Received: from localhost ([::1]:32822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o17FG-0006Ht-Fi
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 10:10:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47344)
+	id 1o17Gk-0000K5-R4
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 10:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o17De-0005Dj-SY
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:08:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27162)
+ (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
+ id 1o17FT-0007FX-OX; Tue, 14 Jun 2022 10:10:28 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o17Da-0003M8-9g
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 10:08:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655215709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kx/UuSeDHvtzUeetiHbKL7+G+mSOjE6abcY67he9j7M=;
- b=Ga/dvvZycDDg4A6Xn84DKbey53Zw4c1H0AdKcSIxXNyWSYaHAlEyWiYDiCeHJzs/gqmHIf
- /mz09aCQ+X2vEztt6zQh4JFteXPRgp9SdjODjIkg/QERd4fM46SmZODrT+k7V6fVqz0pdi
- shMS7J4bza3AzeFDmWQTN517haV7TYk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-r2sOdy6VMomFxiKaS-fSKA-1; Tue, 14 Jun 2022 10:08:27 -0400
-X-MC-Unique: r2sOdy6VMomFxiKaS-fSKA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- p8-20020a5d4588000000b0021033f1f79aso1335143wrq.5
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 07:08:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kx/UuSeDHvtzUeetiHbKL7+G+mSOjE6abcY67he9j7M=;
- b=Y6q1+tFRSiV9T535Fndj3ux16k/qq1KXHx1eqRlHU4DOLj5Gcv44KQfnFskWv1Vy9q
- H+kno9XzwXXVlPt8K9IWq0LZoUZxjr8JCHNgxX2fq3MCqHzUwe0RcagTNCkXNVm6OEEy
- 83SJlM0IspyiViZ0diXlPK15HSR9rRfz0d7JjtX2jOm1yKpEfgHId8dJiwfi3RegTwf9
- Jidafy8NLNjvnMgNl9PrCpIEpm5UPrG8PAt1p2WZBKf53mNkgBkZGXTjfVYO7WKgnnUK
- Jk8jeiui75RMeecY9mYEewHdFXzNvluL5MGIDKkU0R0ZiDLEa7bSM1HAhFXCJdUpQjH/
- sr+w==
-X-Gm-Message-State: AJIora9/XjvkwAyCwpQnQz5f7DmH99WJyEOyhWmpptPigwNEiW5Z3Q28
- 0woNwFPNNwaf3OX9Sz4zGWqgTm7tI5Xt/ZtiwiGKLcfEOxApT5wSIsatib5wmGKkB3bRNp+oQ5d
- RlyShk6W3CQJyxBc=
-X-Received: by 2002:adf:d1ed:0:b0:215:98d7:2a93 with SMTP id
- g13-20020adfd1ed000000b0021598d72a93mr5186705wrd.637.1655215706553; 
- Tue, 14 Jun 2022 07:08:26 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vpNSS5PSeEKRclO6DEectA9Mp0jlNPTPn4+V90udcCAlNrs1xyY7IFudiI+TwvxrBApvYS5A==
-X-Received: by 2002:adf:d1ed:0:b0:215:98d7:2a93 with SMTP id
- g13-20020adfd1ed000000b0021598d72a93mr5186681wrd.637.1655215706319; 
- Tue, 14 Jun 2022 07:08:26 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- c16-20020a7bc850000000b0039c96b97359sm6365420wml.37.2022.06.14.07.08.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jun 2022 07:08:25 -0700 (PDT)
-Date: Tue, 14 Jun 2022 16:08:24 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Julia Suvorova
- <jusual@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers
- <qemu-devel@nongnu.org>, Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-Subject: Re: [PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
-Message-ID: <20220614160824.342c03a6@redhat.com>
-In-Reply-To: <ac7c0d9c-4fb2-c67b-db25-00e4bbc0eb42@redhat.com>
-References: <20220531145147.61112-1-jusual@redhat.com>
- <YpY0/Pc3uoA9QQD/@stefanha-x1.localdomain>
- <CAMDeoFUxG7B67BCm4nb303VEwBdiD=JNi_OWSaxirThWnTd6LA@mail.gmail.com>
- <YqdTQYUhO/3dzJvZ@stefanha-x1.localdomain>
- <20220614105408.235f0f41@redhat.com>
- <ac7c0d9c-4fb2-c67b-db25-00e4bbc0eb42@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <danielhb@linux.ibm.com>)
+ id 1o17FR-0003qC-KE; Tue, 14 Jun 2022 10:10:27 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25EDF1lr022561;
+ Tue, 14 Jun 2022 14:10:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=oVJ3oJicknhAjxQMqUOUNxQLNvVtcn4yj4CdMHiRmEE=;
+ b=ByFmvORJdNUNJSAmMXpOvTF8Ue/WVA/fVotWJBx9OETIHelNuEDlnuop9u0VrPEzt9PQ
+ uUeIDfvAuAfDaHBMi5ex3ySv8pMflDEv3Jn0XDy9r2PfXntFwyC6qCxzQh/em+B8vXSv
+ USc/gWRJpysxHIsWZcShD+uQuP7ee63fhhVBVtLspS5AK8q5rqFnwbJLVbLS5W6drxzY
+ qWZLhDg6nrsxfYHemvxp2FloQUSVqPAP+0NEgOr1xnBHndA8Sn9kQ7McFpcbclxUShlg
+ YtHIZUB/IdpYgY8N8JTT6wwP0baemD7xQIoid16EA1MQP62PJft3DFyV7+vUOavj4vop NA== 
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gpr31ydpe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jun 2022 14:10:10 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25EE6mCa010758;
+ Tue, 14 Jun 2022 14:10:09 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma03wdc.us.ibm.com with ESMTP id 3gmjp9csvr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jun 2022 14:10:09 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25EEA8w735193336
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jun 2022 14:10:08 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 44026C6063;
+ Tue, 14 Jun 2022 14:10:08 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D9C29C6057;
+ Tue, 14 Jun 2022 14:10:06 +0000 (GMT)
+Received: from [9.160.187.150] (unknown [9.160.187.150])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 14 Jun 2022 14:10:06 +0000 (GMT)
+Message-ID: <104be42f-25e3-20b5-60f1-3db943ec65f8@linux.ibm.com>
+Date: Tue, 14 Jun 2022 11:10:05 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 01/11] ppc/pnv: move root port attach to pnv_phb4_realize()
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, fbarrat@linux.ibm.com, mark.cave-ayland@ilande.co.uk
+References: <20220613154456.359674-1-danielhb@linux.ibm.com>
+ <20220613154456.359674-2-danielhb@linux.ibm.com>
+ <eb6b85a6-d70a-aa1c-cde1-ffc5f86b2218@kaod.org>
+From: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+In-Reply-To: <eb6b85a6-d70a-aa1c-cde1-ffc5f86b2218@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tx_giiHNoxgIGKCi-aLOoQT9UDSaSgQz
+X-Proofpoint-ORIG-GUID: tx_giiHNoxgIGKCi-aLOoQT9UDSaSgQz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-14_05,2022-06-13_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 adultscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206140055
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=danielhb@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,48 +110,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Jun 2022 11:50:43 +0200
-David Hildenbrand <david@redhat.com> wrote:
 
-> On 14.06.22 10:54, Igor Mammedov wrote:
-> > On Mon, 13 Jun 2022 16:09:53 +0100
-> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >   
-> >> On Mon, Jun 13, 2022 at 05:01:10PM +0200, Julia Suvorova wrote:  
-> >>> On Tue, May 31, 2022 at 5:32 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:    
-> >>>>
-> >>>> On Tue, May 31, 2022 at 04:51:47PM +0200, Julia Suvorova wrote:    
-> >>>>> In the ACPI specification [1], the 'unarmed' bit is set when a device
-> >>>>> cannot accept a persistent write. This means that when a memdev is
-> >>>>> read-only, the 'unarmed' flag must be turned on. The logic is correct,
-> >>>>> just changing the error message.
-> >>>>>
-> >>>>> [1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
-> >>>>>
-> >>>>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> >>>>> ---
-> >>>>>  hw/mem/nvdimm.c | 2 +-
-> >>>>>  1 file changed, 1 insertion(+), 1 deletion(-)    
-> >>>>
-> >>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>    
-> >>>
-> >>> It seems like Xiao is not active, whose tree should this patch go to?    
-> 
-> Is that a temporary or a permanent thing? Do we know?
-> 
-> > 
-> > Perhaps David can add himself as maintainer (i.e. put it
-> > under memory mantanership umbrella) and merge it   
-> 
-> Maybe it makes sense to combine NVDIMM with pc-dimm.c and
-> memory-device.c into a "MEMORY DEVICE" section. Then, remove "hw/mem/*"
-> from "ACPI/SMBIOS".
-just keep me on supporter list for them so I won't miss
-patches that needs reviewing.
 
-> cxl_type3.c, npcm7xx_mc.c and sparse-mem.c in /hw/mem/ are a bit
-> different. We could add cxl_type3.c to "Compute Express Link".
-> npcm7xx_mc.c and sparse-mem.c should be already covered. 
-for cxl I'd add Michael as it's mostly all PCI stuff
+On 6/14/22 09:02, Cédric Le Goater wrote:
+> On 6/13/22 17:44, Daniel Henrique Barboza wrote:
+>> Creating a root port is something related to the PHB, not the PEC. It
+>> also makes the logic more in line with what pnv-phb3 does.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+> 
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> 
+> So the root port is back where it was.
+> 
+> Could we avoid the pci_new() and use object_initialize_child() instead ?
 
+
+We could but then we would need to deal with yet another difference with
+default versus user created devices, given that for user devices we can't
+initialize_child(). And since we're also unifying the root ports later on
+I'd rather wait to see how it turns out when everything is finished.
+
+
+Tanks,
+
+Daniel
+
+> 
+> Thanks,
+> 
+> C.
+> 
+> 
+>> ---
+>>   hw/pci-host/pnv_phb4.c     | 4 ++++
+>>   hw/pci-host/pnv_phb4_pec.c | 3 ---
+>>   2 files changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+>> index 6594016121..23ad8de7ee 100644
+>> --- a/hw/pci-host/pnv_phb4.c
+>> +++ b/hw/pci-host/pnv_phb4.c
+>> @@ -1547,6 +1547,7 @@ static void pnv_phb4_instance_init(Object *obj)
+>>   static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+>>   {
+>>       PnvPHB4 *phb = PNV_PHB4(dev);
+>> +    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(phb->pec);
+>>       PCIHostState *pci = PCI_HOST_BRIDGE(dev);
+>>       XiveSource *xsrc = &phb->xsrc;
+>>       int nr_irqs;
+>> @@ -1583,6 +1584,9 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+>>       pci_setup_iommu(pci->bus, pnv_phb4_dma_iommu, phb);
+>>       pci->bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
+>> +    /* Add a single Root port if running with defaults */
+>> +    pnv_phb_attach_root_port(pci, pecc->rp_model);
+>> +
+>>       /* Setup XIVE Source */
+>>       if (phb->big_phb) {
+>>           nr_irqs = PNV_PHB4_MAX_INTs;
+>> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+>> index 8b7e823fa5..c9aaf1c28e 100644
+>> --- a/hw/pci-host/pnv_phb4_pec.c
+>> +++ b/hw/pci-host/pnv_phb4_pec.c
+>> @@ -130,9 +130,6 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
+>>       if (!sysbus_realize(SYS_BUS_DEVICE(phb), errp)) {
+>>           return;
+>>       }
+>> -
+>> -    /* Add a single Root port if running with defaults */
+>> -    pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb), pecc->rp_model);
+>>   }
+>>   static void pnv_pec_realize(DeviceState *dev, Error **errp)
+> 
 
