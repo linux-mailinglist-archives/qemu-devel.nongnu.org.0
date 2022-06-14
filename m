@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374E154B5F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 18:29:50 +0200 (CEST)
-Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9973054B650
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 18:35:57 +0200 (CEST)
+Received: from localhost ([::1]:42550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o19QK-0002yk-Om
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 12:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46852)
+	id 1o19WG-0007uE-8p
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 12:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o19Iu-0007HB-ES
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 12:22:08 -0400
-Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:34438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o19Is-00075s-HO
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 12:22:07 -0400
-Received: by mail-qv1-xf35.google.com with SMTP id t6so5469261qvh.1
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 09:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NhVwwUME8bHPVT3yPaTS4iFFb+ISY+fGXqIxdMt+6S4=;
- b=naAv4fzqGkJ20X+ifhsxNc4lfGoOZOk8vdihEG8YoJ8YDGbgYC6hUZv4V/OKPgywPt
- UP/KdXEPjSv4qXbZ6mSMizAFNnBF5wc5ULHLJzXxkKsAm2yJJBbajhXJ/MY7hxXED8lO
- pYogVTq0HNMwPVa62UbIGiZwfAZLgP3VZrVMcXR05OLfGmc4aIuMjt+3cVsDZrp+5xUM
- KnutDQPyM73rw2kHHy4miW20Zi7WwjOTyfV5SpAiBjRXJzsGD94/HIgsg7JPMUEdBJ52
- 0eeJ0O7YeaoSUpSiNu8Mjl4uzUSpD7wM+JIC5dMFWt/NK9jyro4qsD2EO9+zYPucO2xq
- HY4Q==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1o19JD-0007UB-Q9
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 12:22:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1o19JA-00076z-HE
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 12:22:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655223743;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nh3kjymOtjrYWipkOy6nzBXH8AzwbA4DM37Cw5cf0yw=;
+ b=DkcNPAgWQQG8N7wMACrlXhnf2HT9zZDGKyfqE0epdHzhELXvC5yG+TR+jnMK/H4oRh5EnH
+ ZJbq9CXk4PAoZRWJU4vF747GOjFr01P420Un4tu2qC7WFOoor1pW3NZM/uOuJpHgwRjkWy
+ lPS41KfhbhPbD4N8vR4Du6JUJK21KEA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-539-N0BgIl8MN7OSl_0YSOOZOQ-1; Tue, 14 Jun 2022 12:22:21 -0400
+X-MC-Unique: N0BgIl8MN7OSl_0YSOOZOQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ m5-20020a056402430500b004319d8ba8afso6556771edc.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 09:22:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=NhVwwUME8bHPVT3yPaTS4iFFb+ISY+fGXqIxdMt+6S4=;
- b=kaTCSXIPd7cn043cmc44B/rEXtMfq81tU2jOkTuD2s9MUdz5ngfSWzJFFqfv+P6goS
- Tbf4FLiQ7bwFGCratQR8iMDPxMpW6A0RDcLxebJsrdtq8nDq3WoAaeFRFmx759xIYMmW
- mIPB058NRt+yoEOz+RmU0cZEn/U7DXA+E/AfbhNCDJp0gKHkzBfOrHqXXAn56mtquZfV
- VfzycKH8oBnXplWS5nR/fpVrKfktSbn6xfh4YXutEtM0B5WrgHK9zFl/pZZIe8D36T6H
- ahLUCag3O+OKoyq+B6lvkvHuYAeSaVpGiSF/1oz60e/mjYJ6sRGcHENayKtYTsr2kwHK
- zbmw==
-X-Gm-Message-State: AJIora9XDxRMPo8ocGfZ3ZS3oI2RYD+w58ihQmUlywY9DrY/uaBJheAn
- WplhLiAd0TEzPCDSt4gnJsfUQw==
-X-Google-Smtp-Source: AGRyM1stoEdsN30mDal/tq4UYdozciEC8VcDSQ7tfVXU3HA72zRQeCLYDoeCqmHYE3tCr+bOlQ1R9g==
-X-Received: by 2002:a05:6214:5589:b0:46e:630c:c000 with SMTP id
- mi9-20020a056214558900b0046e630cc000mr41996qvb.91.1655223725417; 
- Tue, 14 Jun 2022 09:22:05 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:806a:4827:adb5:6bfe:ffa:b215?
- ([2607:fb90:806a:4827:adb5:6bfe:ffa:b215])
- by smtp.gmail.com with ESMTPSA id
- s12-20020a05620a0bcc00b006a6ae636ce0sm4131035qki.131.2022.06.14.09.22.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jun 2022 09:22:04 -0700 (PDT)
-Message-ID: <099e6d5c-a48d-29eb-4a6b-0d1bec37b707@linaro.org>
-Date: Tue, 14 Jun 2022 09:21:58 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Nh3kjymOtjrYWipkOy6nzBXH8AzwbA4DM37Cw5cf0yw=;
+ b=zarZt2x+/KGtMCj/EFG9zq53no7WqeZ6SWfEIma8Y1otUaqPQFI2tRBklNDYLtcHtt
+ p39OLvJfaZPZpL7bql4zDHwFx4acPyJssGfDzDRrngc3Z5DiL90KifxUPU5ImOn4Nv1s
+ i1QY/1xIGPijp3OgRuvf8eae20+/cUrtmAJeDP3rLB1wRrNdF+6AmzJfMePc67qSKsuG
+ eYv1S8aNc/fbf3gAS++LTi0d0FipiQGQuXlrHEtdz1YTdyEziJ5anZfmQVPKEoQn5tWF
+ o15QFmmZ+4ucJE2hl/2Oci30L7PTpYrr9pjLB0wYZj95uX+eYoehiE2thvyr5VollQHS
+ SGhg==
+X-Gm-Message-State: AOAM531CoPmM5Kvpq+y1Jx64weJvJAZY7SdWnhAR8LATV+jTtax4Q5JG
+ 2MsFlaZiI4TUCtcn8mu4fOQ5K5lV5dSTS+gLPZejbTnl5axlt6jfSIERG8OvsG3ZoPWn+DGgYRk
+ lYPZIvNu327+WCXW+mn9nqIb1dGBxo0c=
+X-Received: by 2002:a05:6402:11d2:b0:42d:e68a:eae0 with SMTP id
+ j18-20020a05640211d200b0042de68aeae0mr6972363edw.111.1655223740548; 
+ Tue, 14 Jun 2022 09:22:20 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uKOPifKpRlvzxNLdgmAGMKbShmAnrnqLCme8a4WWco7b0vGd2IVt2ayNXSxx6Pg4ksD9Npfdt6zgWCbzwqaVs=
+X-Received: by 2002:a05:6402:11d2:b0:42d:e68a:eae0 with SMTP id
+ j18-20020a05640211d200b0042de68aeae0mr6972337edw.111.1655223740320; Tue, 14
+ Jun 2022 09:22:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v16 3/9] linux-user: Add LoongArch elf support
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220614090536.1103616-1-gaosong@loongson.cn>
- <20220614090536.1103616-4-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220614090536.1103616-4-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220608210403.84006-1-leobras@redhat.com>
+ <YqGq0Bw7V26vaNoI@redhat.com>
+ <CAJ6HWG41=Wwf5gMY=Q0G2VCKfdNsyDRGDXELwvgRBjXMNB9GKw@mail.gmail.com>
+ <YqL/3VTze/b9DKUL@redhat.com>
+ <CAJ6HWG5kCiprhCB6578ZibRSWW9ie5kBhbh7DFW-=K1sEnSHWg@mail.gmail.com>
+ <YqhIofy4h0hfHPPx@redhat.com>
+In-Reply-To: <YqhIofy4h0hfHPPx@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Tue, 14 Jun 2022 13:22:10 -0300
+Message-ID: <CAJ6HWG7rM7fC6uVTeUKDFGtwbSXYVGo4wwH-E9UgW6YSjS7O4Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] QIOChannelSocket: Reduce ifdefs to improve
+ readability
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>,
+ =?UTF-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>, 
+ David Gilbert <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>, 
+ qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,20 +102,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/22 02:05, Song Gao wrote:
-> +#define ELF_HWCAP get_elf_hwcap()
-> +
-> +static uint32_t get_elf_hwcap(void)
-> +{
-> +    return 0;
-> +}
+On Tue, Jun 14, 2022 at 5:36 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Mon, Jun 13, 2022 at 06:21:18PM -0300, Leonardo Bras Soares Passos wro=
+te:
+> > On Fri, Jun 10, 2022 at 5:25 AM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com> wrote:
+> > >
+> >
+> > [...]
+> >
+> > > Ok, so if it is checked earlier then we merely need an assert.
+> > >
+> > >      if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+> > >  #ifdef QEMU_MSG_ZEROCOPY
+> > >          sflags =3D MSG_ZEROCOPY;
+> > >          zero_copy_enabled =3D true;
+> > >  #else
+> > >          g_assert_unreachable();
+> > >  #endif
+> > > >     }
+> >
+> > Ok, I will add that in the next version.
+> >
+> > >
+> > >
+> > >
+> > > > > > @@ -592,15 +594,13 @@ static ssize_t qio_channel_socket_writev(=
+QIOChannel *ioc,
+> > > > > >              return QIO_CHANNEL_ERR_BLOCK;
+> > > > > >          case EINTR:
+> > > > > >              goto retry;
+> > > > > > -#ifdef QEMU_MSG_ZEROCOPY
+> > > > > >          case ENOBUFS:
+> > > > > > -            if (sflags & MSG_ZEROCOPY) {
+> > > > > > +            if (zero_copy_enabled) {
+> > > > >
+> > > > > if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY)
+> > > > >
+> > > > > avoids the #ifdef without needing to add yet another
+> > > > > variable expressing what's already expressed in both
+> > > > > 'flags' and 'sflags'.
+> > > >
+> > > > Yes, it does, but at the cost of not compiling-out the zero-copy pa=
+rt
+> > > > when it's not supported,
+> > > > since the QIO_CHANNEL_WRITE_FLAG_ZERO_COPY comes as a parameter. Th=
+is ends up
+> > > > meaning there will be at least one extra test for every time this
+> > > > function is called (the one in the next patch).
+> > >
+> > > The cost of a simple bit test is between negligible-and-non-existant
+> > > with branch prediction. I doubt it would be possible to even measure
+> > > it.
+> >
+> > Yeah, you are probably right on that.
+> > So the main learning point here is that it's not worth creating a new
+> > boolean for compiling-out
+> > code that should not impact performance ?
+>
+> As ever "it depends" so there's no hard rule, and sometimes it can
+> verge on bikeshed colouring :-)
+>
+> I didn't like the variable in this case, because it introduces a 3rd
+> variable to the method for representing whether zero copy is need,
+> which is excessive. I'm not a fan of redundancy as it can often then
+> lead to inconsistency. So it would need a compelling reason why it is
+> better, which is difficult for such a simple method. If the code was
+> more complex, a variable might have benefit of clarity, but in this
+> case IMHO it was just overkill.
 
-This should not be zero.  See cpu_probe_common in the kernel.  At minimum 
-HWCAP_LOONGARCH_CRC32 and HWCAP_LOONGARCH_FPU are missing.  I don't know how many of the 
-other features are implemented in target/loongarch/.
+I see. Thanks for the clarification!
 
-Missing ELF_PLATFORM, per the kernel's set_elf_platform(cpu, "loongarch").
+Best regards,
+Leo
 
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
-r~
 
