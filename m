@@ -2,65 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DAF54B866
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 20:17:17 +0200 (CEST)
-Received: from localhost ([::1]:45676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8157354BA21
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 21:11:29 +0200 (CEST)
+Received: from localhost ([::1]:40134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1B6L-0001aZ-0g
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 14:17:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39452)
+	id 1o1Bwk-0003uM-4K
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 15:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
- id 1o1B47-0000mG-5N
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 14:14:59 -0400
-Received: from vulcan.kevinlocke.name
- ([2001:19f0:5:727:1e84:17da:7c52:5ab4]:46273)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o1BuR-0002sv-W4
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 15:09:04 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:38543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kevin@kevinlocke.name>)
- id 1o1B44-0006xd-8d
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 14:14:57 -0400
-Received: from kevinolos.kevinlocke.name
- (2600-6c67-5000-3d1b-c15c-fe7b-05b5-35cd.res6.spectrum.com
- [IPv6:2600:6c67:5000:3d1b:c15c:fe7b:5b5:35cd])
- (Authenticated sender: kevin@kevinlocke.name)
- by vulcan.kevinlocke.name (Postfix) with ESMTPSA id 31BE92F29ABA;
- Tue, 14 Jun 2022 18:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kevinlocke.name;
- s=vulcan; t=1655230490;
- bh=xmXMk0LohHGecfFU/QACTpd3xa5Mz65GdL96BaJiL2Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Pq3Wm6BjhfOewq6fgxlgkmkuZdeBXJXuogWmGh0t7RFx8NslGYxhyc7pEsM8kYrdX
- jAEL2m1GKf43lYDsd0NLZCxOchyDbAH7DUjMGnSo/h9cDLqzrJjdeiD/nPVgWTt/AW
- axkRkuKxoj9KYMCZ4Pvio1Mh336wlnp8Yk6gu2VM=
-Received: by kevinolos.kevinlocke.name (Postfix, from userid 1000)
- id B9CE01300437; Tue, 14 Jun 2022 12:14:47 -0600 (MDT)
-Date: Tue, 14 Jun 2022 12:14:47 -0600
-From: Kevin Locke <kevin@kevinlocke.name>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Laine Stump <laine@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2] docs: add PCIe root bus for VGA compat guideline
-Message-ID: <YqjQF83XBlnmyM3L@kevinlocke.name>
-References: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
- <bde9fc450bc5143d616c7e9999c5d39ae9fd9cb8.1655054968.git.kevin@kevinlocke.name>
- <3eebc773-a5ae-6652-95f5-4359872ea4d4@redhat.com>
- <20220614085252.fyogpqyf7cfcty4x@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o1BuP-0006tA-V0
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 15:09:03 -0400
+Received: by mail-pg1-x531.google.com with SMTP id 123so9335773pgb.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 12:09:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=WxVFX8SQoTkO2asaGhNARNyU0t4WV/p9VWUwvDYpcsM=;
+ b=Xh80bV+FmkQM9epsA7aMCOshN8wzgXzzNfcH1Mc5l2PMPe+NVyrmidG+ZAIomvJRtU
+ RwgYBZBLNjvMpgnLGqwffyVKFtkt95EvQJE7V+yhNJd4WI+Y0tU/+mvZfD/c+ZQ5IwjW
+ awNyTzTiwwpe/fFELOsgLdQ+96PwyMOQ36VM5zE678kFN78bKFVWurGuCW2jPter6rTJ
+ UnK3MeTmvxnDOMbC1zWiS64QnXHMoJpqeZXS0bwZBWQpiEshgMr7JbhokFHwuNAu5XM4
+ XGvYYWMpjtxj1AxQuoVI4g6+R6kOiDBnYQeRcjBoiYkH2ZASJ7TlFQcVFSnBSo6YMR1V
+ KAAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WxVFX8SQoTkO2asaGhNARNyU0t4WV/p9VWUwvDYpcsM=;
+ b=gkh23+EL30pBJTAoZ3yl3BWUCbF/RehsAHADuwCw7ncSIeR7NfY3bL+TTYfstCn942
+ yS3OjhFgjTZX5UTNGhVjsQeB2aQgkmq0xPuD1yJO1Q2ymDMlo2z7REIVlhCwCpRFwodl
+ rbQ9dnaGFImYHLg+nJ+3CwSNobNFgc2a+A4IJkVNYojZWlPaYOlYRmwTmOoeYEUmy4G8
+ edZnB1/pe/csX1ulE1Xmd8UoWNVFPdqq9tONeTRPDhCDUz/D2qPWDg/sJAXYKbw+8ZiR
+ poeGsbuQbC2mM1Y5AuSxU0Bo0zmBLAoWmg1Q+v/vu3Su81tq6xooi9F6sKc7cURG4DBC
+ ShNQ==
+X-Gm-Message-State: AOAM5306vQFq95Mlvds6NqzY8S0BlHemRF8JmVYChUGwogaEA+s9FR0r
+ 2BL36KJEAu+bmzhKeflHj9FPaw==
+X-Google-Smtp-Source: ABdhPJzHn2Ye3YjC05M4BzToAcQNR5uLK5arwJemtulnC/fJwq6gRuGbN+I9cWXJrKe2+YDZm5QL5w==
+X-Received: by 2002:a05:6a00:1744:b0:51b:d4d5:f34 with SMTP id
+ j4-20020a056a00174400b0051bd4d50f34mr6274754pfc.0.1655233739275; 
+ Tue, 14 Jun 2022 12:08:59 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ s8-20020a170902a50800b00161ac982b9esm7590467plq.185.2022.06.14.12.08.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jun 2022 12:08:58 -0700 (PDT)
+Date: Tue, 14 Jun 2022 19:08:55 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>,
+ Vishal Annapurve <vannapurve@google.com>,
+ Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Jun Nakajima <jun.nakajima@intel.com>, Dave Hansen <dave.hansen@intel.com>,
+ Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <Yqjcx6u0KJcJuZfI@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+ <20220607065749.GA1513445@chaop.bj.intel.com>
+ <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com>
+ <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+ <YqJYEheLiGI4KqXF@google.com>
+ <20220614072800.GB1783435@chaop.bj.intel.com>
+ <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220614085252.fyogpqyf7cfcty4x@sirius.home.kraxel.org>
-Received-SPF: pass client-ip=2001:19f0:5:727:1e84:17da:7c52:5ab4;
- envelope-from=kevin@kevinlocke.name; helo=vulcan.kevinlocke.name
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=seanjc@google.com; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,66 +120,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2022-06-14 at 10:52 +0200, Gerd Hoffmann wrote:
->> On 06/12/22 19:32, Kevin Locke wrote:
->>> PCI Express devices which use legacy VGA compatibility should be placed
->>> on the Root Complex.  This simplifies ioport access to VGA registers,
->>> which requires use of a special exception bit to work across PCI(e)
->>> bridges.  It is also necessary for ioport access to VESA BIOS Extension
->>> (VBE) registers, which is not forwarded over PCI(e) bridges, even with
->>> the special exception bit for VGA register access.[1]
->>> 
->>> Update the PCI Express Guidelines to add these to the list of devices
->>> which can be placed directly on the Root Complex.
->>> 
->>> Note that the only PCI Express display devices currently supported
->>> (bochs-display and virtio-gpu-pci) do not offer VGA compatibility.
->>> Legacy PCI devices (e.g. vga, qxl-vga, virtio-vga) are already
->>> documented as allowed on the Root Complex by the first item in the list.
->>> However, this item documents an additional consideration for placing
->>> devices which was not previously mentioned, and may be relevant for PCIe
->>> devices offering VGA compatibility in the future.
+On Tue, Jun 14, 2022, Andy Lutomirski wrote:
+> On Tue, Jun 14, 2022 at 12:32 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> >
+> > On Thu, Jun 09, 2022 at 08:29:06PM +0000, Sean Christopherson wrote:
+> > > On Wed, Jun 08, 2022, Vishal Annapurve wrote:
+> > >
+> > > One argument is that userspace can simply rely on cgroups to detect misbehaving
+> > > guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
+> > > kill from the host is typically considered a _host_ issue and will be treated as
+> > > a missed SLO.
+> > >
+> > > An idea for handling this in the kernel without too much complexity would be to
+> > > add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
+> > > allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
+> > > faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
+> > > still work, but writes to previously unreserved/unallocated memory would get a
+> > > SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
+> > > unintentional allocations without having to coordinate unmapping/remapping across
+> > > multiple processes.
+> >
+> > Since this is mainly for shared memory and the motivation is catching
+> > misbehaved access, can we use mprotect(PROT_NONE) for this? We can mark
+> > those range backed by private fd as PROT_NONE during the conversion so
+> > subsequence misbehaved accesses will be blocked instead of causing double
+> > allocation silently.
+
+PROT_NONE, a.k.a. mprotect(), has the same vma downsides as munmap().
+ 
+> This patch series is fairly close to implementing a rather more
+> efficient solution.  I'm not familiar enough with hypervisor userspace
+> to really know if this would work, but:
 > 
-> Well, the *key* problem is emulated VGA devices with VBE registers in
-> io address space, because those are not forwarded over bridges.
-> 
-> For normal VGA registers this isn't much of a problem (in theory, not
-> fully sure whenever that holds in practice, Alex?).  The linux kernel
-> knows how to use the bridge control register to manage access to VGA
-> registers.
-> 
-> So, if the document already covers vga & qxl & virtio-vga (didn't check
-> that beforehand) I'm not sure we actually need an update ...
+> What if shared guest memory could also be file-backed, either in the
+> same fd or with a second fd covering the shared portion of a memslot?
+> This would allow changes to the backing store (punching holes, etc) to
+> be some without mmap_lock or host-userspace TLB flushes?  Depending on
+> what the guest is doing with its shared memory, userspace might need
+> the memory mapped or it might not.
 
-Section 2.1 Root Bus mentions attaching legacy PCI devices to the Root
-Complex.  VGA/qxl-vga/virtio-vga are implicitly included (if the
-reader is aware they are PCI, not PCIe), but they are not specifically
-mentioned in the document.  By my reading, the document does not
-recommend for or against attaching legacy PCI devices to the Root
-Complex, other than noting hot-unplugging from the Root Complex is not
-supported (in Section 2.3) and the general advice to prefer flat
-hierarchies.
+That's what I'm angling for with the F_SEAL_FAULT_ALLOCATIONS idea.  The issue,
+unless I'm misreading code, is that punching a hole in the shared memory backing
+store doesn't prevent reallocating that hole on fault, i.e. a helper process that
+keeps a valid mapping of guest shared memory can silently fill the hole.
 
-There is currently no mention of VGA or VBE in the document.
-
-I think documenting the issue with VBE registers would be helpful.
-Doing so with a recommendation for how to avoid the issue seems even
-better.  Would a recommendation to attach a device which supports VBE
-to the Root Complex if VBE will be used by the guest make sense?
-
-As you noted, applying the recommendation to all VGA compatible
-devices may be too broad.  I'm not sure whether it makes sense to
-recommend attaching VGA compatible devices to the Root Complex to
-avoid the complexity of the VGA exception bits, or if that is a
-non-issue.  In fact, if I understand correctly, it may make sense to
-recommend attaching VGA compatible devices to separate PCI bridges if
-the VM will have multiple VGA compatible devices so that the guest can
-perform VGA arbitration.
-
-Unless I hear otherwise, I'll plan to create a v4 which documents the
-issue with VBE registers more specifically.  Any suggestions for how
-best to do that would be appreciated.
-
-Cheers,
-Kevin
+What we're hoping to achieve is a way to prevent allocating memory without a very
+explicit action from userspace, e.g. fallocate().
 
