@@ -2,96 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CA754B7DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 19:43:20 +0200 (CEST)
-Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910C254B849
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 20:09:32 +0200 (CEST)
+Received: from localhost ([::1]:40562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1AZQ-0003Hk-Hc
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 13:43:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
+	id 1o1Ayp-00061s-7N
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 14:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1o1AUO-0002Yg-3r
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 13:38:04 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:56100)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1o1AUM-0001aE-2T
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 13:38:03 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 008FA61750
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 17:37:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6140DC341CF
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 17:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655228271;
- bh=IfvLnQR788L8QWGOY03Cidk5AO0MFCOejaXVfQOMPCw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=rVsqTEMCOYtQg0EhaeIyrGXi4SPR+xCja/Zzrm4/rXKs2rHudfxst4/iDfEc7IQHK
- 231UQkTDY6d6nmdAlt1kRM+zRgLLBDu035jXo5xVowLng3mEh3oiXDy8mQR20Hacmd
- LnzQlaeG3xrE2iaFi/ZdceqCE70b9VENcDWjU+WHKEa2HJsyqUZj0vCI94Pk49Z42u
- h/RWzCu6j4a9w8yEsj7rK5e9uiDjc2EiFUc+avH0qZI0dyuzeA/z91zXgiRd7yeSl3
- 8mOVqXBg2pv8zvUY79qtaym4zlYLKvBcSVb7us+LoO+lJ2erExWSiAMs/ARQBPGhP9
- Q8CDnPjgM2DNQ==
-Received: by mail-ej1-f54.google.com with SMTP id u12so18546795eja.8
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 10:37:51 -0700 (PDT)
-X-Gm-Message-State: AOAM530ny5bGxOhq6C4WpHU9z/Z3uJnB+OCeP/zdmDUfB7EXn2HCEUYV
- JL+jQNJZiFOuMF1mvQP5ya3OhpryehbjERj7ixYBkw==
-X-Google-Smtp-Source: ABdhPJww+lYVXFvUzPwylC2186LPMaNfdFPXgghAh2gRgIANvpNaY/HFZOJeSAxuhp7fvjON6/ZRor4QvsJ9snnK8jU=
-X-Received: by 2002:a17:906:2298:b0:715:7f3d:32ec with SMTP id
- p24-20020a170906229800b007157f3d32ecmr5255068eja.538.1655228269361; Tue, 14
- Jun 2022 10:37:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o1AvJ-0004Lj-Mu
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 14:05:53 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:46872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o1AvH-0005iR-Ru
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 14:05:53 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ k5-20020a17090a404500b001e8875e6242so9767714pjg.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 11:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4pR9oXXSw3RakAiOi0aqPbmVxCPJ967Anzsrs+8kip4=;
+ b=V1BuwkHlnq4qYME9HINCtvXITZ56H9rAhXIioii6TgI5ICxBrUdORycAi4wrk2GD2O
+ SyhW/qfmt4Px9gTvsKXtj9UejMlt96joWrxzJGqb0kdbCLHDPPITbEzVQas5l2jbg3h8
+ O/+DkXAkcQQUZH2c5ptr0zhPafDXCKORSBM/dx8veGEPlQOpjACN5wCyylqG3U9vCoQm
+ xWL/YKxNF16IUlwdDKU4OpBB47bBAloau30TFeO1ryL3xwGSULxGNZti9k59co4acL9p
+ 2OGJstxzEiK+xJnwm6sqToovRi0TIdULDbo6MnJXw05T1hgAZCdfPcr4suVX2kfb4ywE
+ AQ5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4pR9oXXSw3RakAiOi0aqPbmVxCPJ967Anzsrs+8kip4=;
+ b=0l5iCu2TUjNLKaUFktl+XR3Yy6X0qAUFsg3ApxBbxjiDFrNu6ri7D56oPuGxgUsdKN
+ uscm+Q5qFAC4+h+SxLpVSPd/oiecHtY7m5Yjd8sshot3LlsO1eVl6Sv+/gNo5gp3hzhy
+ GS32wBsKrSawur1iFPGgN7FQfuj9KQaC9b70CKVGE/Yocw1GrUCROuynXfqYZ30JIRLI
+ j3uk3p5ZTGVliLtMAmWH09l6976i0qurAuj/OwqvLrA4KMcOlKOxry+cSib/Vfe1O+CT
+ qZyuTXTq2esfwgsYy+UD852GDNlQSC/12TDbUCemCBCrOlisIRtZF2sw2PwhNFqlUmpQ
+ 6qDw==
+X-Gm-Message-State: AOAM533hhmeLR4wutAVJTwIef7t7QRevHNngLxipUscIlp3SUjXj7K8U
+ uOu7Mw82HuuVd6M7cOVzWiWEbA==
+X-Google-Smtp-Source: ABdhPJx+ykDWSvkgWKlUAWSlZMQx4f6zzneUM/KbGmCz77PzNMMEKKckCbvtwjFiwCGqmP6ubA1NFQ==
+X-Received: by 2002:a17:902:e5ca:b0:164:1958:c84a with SMTP id
+ u10-20020a170902e5ca00b001641958c84amr5429985plf.72.1655229949639; 
+ Tue, 14 Jun 2022 11:05:49 -0700 (PDT)
+Received: from [172.22.33.109] ([192.77.111.2])
+ by smtp.gmail.com with ESMTPSA id
+ g3-20020a62f943000000b0050dc7628168sm7856762pfm.66.2022.06.14.11.05.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Jun 2022 11:05:48 -0700 (PDT)
+Message-ID: <795ad7ac-27f9-4b84-4d47-86d107f5bf49@linaro.org>
+Date: Tue, 14 Jun 2022 11:05:46 -0700
 MIME-Version: 1.0
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
- <20220607065749.GA1513445@chaop.bj.intel.com>
- <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
- <20220608021820.GA1548172@chaop.bj.intel.com>
- <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
- <YqJYEheLiGI4KqXF@google.com> <20220614072800.GB1783435@chaop.bj.intel.com>
-In-Reply-To: <20220614072800.GB1783435@chaop.bj.intel.com>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Tue, 14 Jun 2022 10:37:37 -0700
-X-Gmail-Original-Message-ID: <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
-Message-ID: <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Sean Christopherson <seanjc@google.com>,
- Vishal Annapurve <vannapurve@google.com>, 
- Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>, 
- LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, 
- x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, 
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, 
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>, 
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, 
- Jun Nakajima <jun.nakajima@intel.com>, Dave Hansen <dave.hansen@intel.com>, 
- Andi Kleen <ak@linux.intel.com>, David Hildenbrand <david@redhat.com>,
- aarcange@redhat.com, 
- ddutile@redhat.com, dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=luto@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/10] Block jobs & NBD patches
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com,
+ eblake@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
+ peter.maydell@linaro.org
+References: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,41 +96,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 12:32 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> On Thu, Jun 09, 2022 at 08:29:06PM +0000, Sean Christopherson wrote:
-> > On Wed, Jun 08, 2022, Vishal Annapurve wrote:
-> >
-> > One argument is that userspace can simply rely on cgroups to detect misbehaving
-> > guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
-> > kill from the host is typically considered a _host_ issue and will be treated as
-> > a missed SLO.
-> >
-> > An idea for handling this in the kernel without too much complexity would be to
-> > add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
-> > allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
-> > faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
-> > still work, but writes to previously unreserved/unallocated memory would get a
-> > SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
-> > unintentional allocations without having to coordinate unmapping/remapping across
-> > multiple processes.
->
-> Since this is mainly for shared memory and the motivation is catching
-> misbehaved access, can we use mprotect(PROT_NONE) for this? We can mark
-> those range backed by private fd as PROT_NONE during the conversion so
-> subsequence misbehaved accesses will be blocked instead of causing double
-> allocation silently.
+On 6/14/22 03:29, Vladimir Sementsov-Ogievskiy wrote:
+> The following changes since commit debd0753663bc89c86f5462a53268f2e3f680f60:
+> 
+>    Merge tag 'pull-testing-next-140622-1' of https://github.com/stsquad/qemu into staging (2022-06-13 21:10:57 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/vsementsov/qemu.git tags/pull-block-2022-06-14
+> 
+> for you to fetch changes up to 5aef6747a250f545ff53ba7e1a3ed7a3d166011a:
+> 
+>    MAINTAINERS: update Vladimir's address and repositories (2022-06-14 12:51:48 +0300)
+> 
+> ----------------------------------------------------------------
+> Block jobs & NBD patches
+> 
+> - add new options for copy-before-write filter
+> - new trace points for NBD
+> - prefer unsigned type for some 'in_flight' fields
+> - update my addresses in MAINTAINERS (already in Stefan's tree, but
+>    I think it's OK to send it with this PULL)
+> 
+> 
+> Note also, that I've recently updated my pgp key with new address and
+> new expire time.
+> Updated key is here: https://keys.openpgp.org/search?q=vsementsov%40yandex-team.ru
 
-This patch series is fairly close to implementing a rather more
-efficient solution.  I'm not familiar enough with hypervisor userspace
-to really know if this would work, but:
+This introduces or exposes new timeouts:
 
-What if shared guest memory could also be file-backed, either in the
-same fd or with a second fd covering the shared portion of a memslot?
-This would allow changes to the backing store (punching holes, etc) to
-be some without mmap_lock or host-userspace TLB flushes?  Depending on
-what the guest is doing with its shared memory, userspace might need
-the memory mapped or it might not.
+https://gitlab.com/qemu-project/qemu/-/pipelines/563590515/failures
 
---Andy
+
+r~
 
