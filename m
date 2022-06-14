@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EA054A34C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 02:54:37 +0200 (CEST)
-Received: from localhost ([::1]:48262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386E954A36C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 03:08:34 +0200 (CEST)
+Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0upI-0005aV-NG
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 20:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48690)
+	id 1o0v2m-0005p5-Ra
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jun 2022 21:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o0udS-0008QK-R5
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 20:42:24 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44873)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1o0v0Z-0004Ld-4Z
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 21:06:15 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:38673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o0udR-00054D-99
- for qemu-devel@nongnu.org; Mon, 13 Jun 2022 20:42:22 -0400
-Received: by mail-wr1-x432.google.com with SMTP id q15so9034803wrc.11
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 17:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6W2OhkT13Bqd3qEKUsCAt2ot9YsgaiLRb6IaOc9KPSA=;
- b=UeG9Ku5KpZ/yAKj8SXk5xkzo/hbGVflEGRuvPWENoZ8f0fX4hczfVEnmVrKbHiyzDc
- 7IFbx/Nu3Y8BciPjZeMH3EKJRabiq9/A8koqcE08nhZXeiwNFKz6XpAhCWtnxy5pw5Zd
- t1mUdLFaNKFea5PBF2K/O1Pdp32l2cICQidAp7RY2+6C+n9LRlR6DZZKtwj7BATfCUEd
- 5FD8B7jgEBFHL6T8dXSSXPSSo5nOMkvNgnDfGu2rrjulhlyDs/ujeIeicfZmG35D4IkZ
- rRpXrnnwzoVxgJFFvBT+DJIPm0jgUTJv/fMmYWZlXdtrdZ3C0q4H4rnci4w3hl6DOpUj
- FaXA==
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1o0v0X-0008IO-H6
+ for qemu-devel@nongnu.org; Mon, 13 Jun 2022 21:06:14 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id w16so9844903oie.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 18:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MB+MGmBqdG5ypIyBkxcqeSz7p3hmdEfXnFn+SATujG0=;
+ b=YcbhpgJxZR1xsm9aOv7UlmzgH7eRZO0BQnVPFyD6JpQtFS9o6PuhQTFetp5RfOKYAQ
+ CuhkBgURGzt5z0hBrPxoVnECgpRnVo4Vl9qaLmJtN3yWrx3FFGsnbq3d9cHa5oaiUNv+
+ u77p8eb1PHs8xzCnvsNutgtG+lduu+9CUAM4nh87NCSXLN6rOZrdHHqm+tUzj16wA12i
+ Flp3bXIzo5ACA9YYanGrC/eupsyciljkpggEXuPCrSRBRfZLMm9aHTsp7c9b2O9g/TIz
+ C/2kB+hAARwvA5a+R40E+bjNbFTK6In1hMwpm5Qo8O+NZf1bMzz+eOl9irJF/3CmdzSX
+ Hq1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6W2OhkT13Bqd3qEKUsCAt2ot9YsgaiLRb6IaOc9KPSA=;
- b=ZChYhDLnMeEonKHrSiomIGHgJstPlRkocCNkt9h2GAN49Fcv9mV3gZsvZNk1CeJGt2
- sm6+vqeuUTG08gYs+5Ui0DDkShpLP5CFg+errUktP8LR/kxT0us99f3lXPPOz5B+EYTW
- sEJ9N0HGvbZ05HaLN/aIDIALDrXggHJHotTHwSp3t6eN2xJ1pXq1VK+7NEO0mleruMwu
- xNi5YljAkjngHfhDzDX5HUwp98inmenrGoJAQi4Qe7cA+Q1Z3BXcra5onM0/KtzBMgl/
- Np7kwDGRbQgy/Caw/3mu4jyp2+4D3SgihiuoFcYFnnwtzGy3Qi0addvg19E8xwUAW2aM
- AiqA==
-X-Gm-Message-State: AJIora+k2HRVnUN2TtcROfDGtfYEj/8nOoL0cBZj+VyvXo14DoUHr6LL
- z3ul97zWYl5Yol1YKmxHKa7Zzw==
-X-Google-Smtp-Source: AGRyM1utKRkmJaM7j9T3SKNJye3zD77UPWRfrmC9YBHY+c/I/3K5N8QIIYjqYEYPjXs/YvEqnzABaQ==
-X-Received: by 2002:a05:6000:1883:b0:205:c0cb:33c6 with SMTP id
- a3-20020a056000188300b00205c0cb33c6mr2198894wri.39.1655167339508; 
- Mon, 13 Jun 2022 17:42:19 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- o6-20020a05600c510600b0039748be12dbsm15802228wms.47.2022.06.13.17.42.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 17:42:15 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9D6FF1FFBF;
- Tue, 14 Jun 2022 01:42:09 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org,
-	richard.henderson@linaro.org
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 7/7] .gitlab: use less aggressive nproc on our aarch64/32
- runners
-Date: Tue, 14 Jun 2022 01:42:09 +0100
-Message-Id: <20220614004209.1970284-8-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220614004209.1970284-1-alex.bennee@linaro.org>
-References: <20220614004209.1970284-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MB+MGmBqdG5ypIyBkxcqeSz7p3hmdEfXnFn+SATujG0=;
+ b=R2db3O7OgkVPnCkhmndPt2KzWxUq4JE6tpAajy5l4ZMZH6sJjYHEMWBUoNPLO1Bqoq
+ HoLeVPZqbQ5eqZFSiDwm/7um81he1pRCxPhysPyj3WN3TCmLpfepAU56apbkvWxD7P0m
+ VeZw1SUPrem9gP0GYDF09QZlBzr2AeSzfXbuaRxAgUFRUYpPtqCznHVH7aenGi7W39aS
+ mzzVHn5LGLY2Kzm3Dcm+EeX/2P07G9Wyj8GptTLeYSRinuPgOTIMjl8rTfRd3T6oN/mf
+ EjbnI+HLmhHASPVAsO9FukFNX7Up1sn7jOm021OVmohXm3GIkNBqtYRGJzNOkNHLysUd
+ EvWQ==
+X-Gm-Message-State: AOAM5316qylE8ea8eoDg6VqvnlXEqm8wP+c+V5oFm/mAdvrZGRG9/aYN
+ frYE7sxkpXx05Jmy5L4HpMkPSYXi97+jFx7YRf4=
+X-Google-Smtp-Source: ABdhPJzzQXI5WF6KYOKw71df6gsOK+P4qC/P7TYbjiHqDlRdAQh6MxsYHpDmeaeJwMO/K2ue9ZK0aB1jmU3up7EdNwE=
+X-Received: by 2002:aca:3203:0:b0:32e:b45e:131b with SMTP id
+ y3-20020aca3203000000b0032eb45e131bmr836166oiy.210.1655168771926; Mon, 13 Jun
+ 2022 18:06:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20220608053650.811947-1-richard.henderson@linaro.org>
+ <20220608053650.811947-3-richard.henderson@linaro.org>
+In-Reply-To: <20220608053650.811947-3-richard.henderson@linaro.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Mon, 13 Jun 2022 18:06:01 -0700
+Message-ID: <CAMo8BfKVGD-6TUvea=QRP3MD=hdTw+yJ8zWsb44CGANTQakaVg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] target/xtensa: Use semihosting/syscalls.h
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,97 +83,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Running on all 80 cores of our aarch64 runner does occasionally
-trigger a race condition which fails the build. However the CI system
-is not the time and place to play with much heisenbugs so turn down
-the nproc to "only" use 40 cores in the build.
+On Tue, Jun 7, 2022 at 10:36 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This separates guest file descriptors from host file descriptors,
+> and utilizes shared infrastructure for integration with gdbstub.
+> Remove the xtensa custom console handing and rely on the
+> generic -semihosting-config handling of chardevs.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/xtensa/cpu.h         |   1 -
+>  hw/xtensa/sim.c             |   3 -
+>  target/xtensa/xtensa-semi.c | 323 +++++++++++-------------------------
+>  3 files changed, 97 insertions(+), 230 deletions(-)
+>
+> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+> index ea66895e7f..99ac3efd71 100644
+> --- a/target/xtensa/cpu.h
+> +++ b/target/xtensa/cpu.h
+> @@ -612,7 +612,6 @@ void xtensa_translate_init(void);
+>  void **xtensa_get_regfile_by_name(const char *name, int entries, int bits);
+>  void xtensa_breakpoint_handler(CPUState *cs);
+>  void xtensa_register_core(XtensaConfigList *node);
+> -void xtensa_sim_open_console(Chardev *chr);
+>  void check_interrupts(CPUXtensaState *s);
+>  void xtensa_irq_init(CPUXtensaState *env);
+>  qemu_irq *xtensa_get_extints(CPUXtensaState *env);
+> diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
+> index 946c71cb5b..5cca6a170e 100644
+> --- a/hw/xtensa/sim.c
+> +++ b/hw/xtensa/sim.c
+> @@ -87,9 +87,6 @@ XtensaCPU *xtensa_sim_common_init(MachineState *machine)
+>          xtensa_create_memory_regions(&sysram, "xtensa.sysram",
+>                                       get_system_memory());
+>      }
+> -    if (serial_hd(0)) {
+> -        xtensa_sim_open_console(serial_hd(0));
+> -    }
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220613171258.1905715-8-alex.bennee@linaro.org>
+Do I understand correctly that the sim machine will no longer
+support the -serial option with this change?
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-index 47856ac53c..1998460d06 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-@@ -19,5 +19,5 @@ ubuntu-20.04-aarch32-all:
-  - mkdir build
-  - cd build
-  - ../configure --cross-prefix=arm-linux-gnueabihf-
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc --ignore=40`
-+ - make --output-sync -j`nproc --ignore=40` check V=1
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-index 951e490db1..65718a188a 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-@@ -17,9 +17,9 @@ ubuntu-20.04-aarch64-all-linux-static:
-  - mkdir build
-  - cd build
-  - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-- - make --output-sync -j`nproc` check-tcg V=1
-+ - make --output-sync -j`nproc --ignore=40`
-+ - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check-tcg V=1
- 
- ubuntu-20.04-aarch64-all:
-  needs: []
-@@ -38,8 +38,8 @@ ubuntu-20.04-aarch64-all:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc --ignore=40`
-+ - make --output-sync -j`nproc --ignore=40` check V=1
- 
- ubuntu-20.04-aarch64-alldbg:
-  needs: []
-@@ -55,8 +55,8 @@ ubuntu-20.04-aarch64-alldbg:
-  - cd build
-  - ../configure --enable-debug --disable-libssh
-  - make clean
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc --ignore=40`
-+ - make --output-sync -j`nproc --ignore=40` check V=1
- 
- ubuntu-20.04-aarch64-clang:
-  needs: []
-@@ -75,8 +75,8 @@ ubuntu-20.04-aarch64-clang:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc --ignore=40`
-+ - make --output-sync -j`nproc --ignore=40` check V=1
- 
- ubuntu-20.04-aarch64-tci:
-  needs: []
-@@ -95,7 +95,7 @@ ubuntu-20.04-aarch64-tci:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --enable-tcg-interpreter
-- - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc --ignore=40`
- 
- ubuntu-20.04-aarch64-notcg:
-  needs: []
-@@ -114,5 +114,5 @@ ubuntu-20.04-aarch64-notcg:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --disable-tcg
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc --ignore=40`
-+ - make --output-sync -j`nproc --ignore=40` check V=1
+>      return cpu;
+>  }
+>
+> diff --git a/target/xtensa/xtensa-semi.c b/target/xtensa/xtensa-semi.c
+> index 5375f106fc..7ef4be353e 100644
+> --- a/target/xtensa/xtensa-semi.c
+> +++ b/target/xtensa/xtensa-semi.c
+> @@ -27,8 +27,10 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+> -#include "chardev/char-fe.h"
+> +#include "exec/gdbstub.h"
+>  #include "semihosting/semihost.h"
+> +#include "semihosting/syscalls.h"
+
+This does not build on top of the current master, is there a branch where
+it's buildable?
+
+...
+
+> -    switch (host_errno) {
+> -    case 0:         return 0;
+> -    case EPERM:     return TARGET_EPERM;
+> -    case ENOENT:    return TARGET_ENOENT;
+> -    case ESRCH:     return TARGET_ESRCH;
+> -    case EINTR:     return TARGET_EINTR;
+> -    case EIO:       return TARGET_EIO;
+> -    case ENXIO:     return TARGET_ENXIO;
+> -    case E2BIG:     return TARGET_E2BIG;
+> -    case ENOEXEC:   return TARGET_ENOEXEC;
+> -    case EBADF:     return TARGET_EBADF;
+> -    case ECHILD:    return TARGET_ECHILD;
+> -    case EAGAIN:    return TARGET_EAGAIN;
+> -    case ENOMEM:    return TARGET_ENOMEM;
+> -    case EACCES:    return TARGET_EACCES;
+> -    case EFAULT:    return TARGET_EFAULT;
+> -#ifdef ENOTBLK
+> -    case ENOTBLK:   return TARGET_ENOTBLK;
+> -#endif
+
+AFAIR there were reports that qemu doesn't build on some
+systems because they were missing ENOTBLK and other
+error codes that were made conditional here.
+
+...
+
+> +#define E(N) case E##N: err = TARGET_E##N; break
+...
+> +    E(PERM);
+> +    E(NOENT);
+> +    E(SRCH);
+> +    E(INTR);
+> +    E(IO);
+> +    E(NXIO);
+> +    E(2BIG);
+> +    E(NOEXEC);
+> +    E(BADF);
+> +    E(CHILD);
+> +    E(AGAIN);
+> +    E(NOMEM);
+> +    E(ACCES);
+> +    E(FAULT);
+> +    E(NOTBLK);
+> +    E(BUSY);
+> +    E(EXIST);
+> +    E(XDEV);
+> +    E(NODEV);
+> +    E(NOTDIR);
+> +    E(ISDIR);
+> +    E(INVAL);
+> +    E(NFILE);
+> +    E(MFILE);
+> +    E(NOTTY);
+> +    E(TXTBSY);
+> +    E(FBIG);
+> +    E(NOSPC);
+> +    E(SPIPE);
+> +    E(ROFS);
+> +    E(MLINK);
+> +    E(PIPE);
+> +    E(DOM);
+> +    E(RANGE);
+> +    E(NOSYS);
+> +    E(LOOP);
+
+I'm not sure mangling error code names is a good idea.
+
 -- 
-2.30.2
-
+Thanks.
+-- Max
 
