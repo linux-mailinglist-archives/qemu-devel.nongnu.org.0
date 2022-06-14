@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173DB54B163
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 14:40:26 +0200 (CEST)
-Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CFB54B090
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 14:29:32 +0200 (CEST)
+Received: from localhost ([::1]:38876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o15qK-0000Ky-Ef
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 08:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45246)
+	id 1o15fn-0006if-Jw
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 08:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TC-0006Wk-9w
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TC-0006We-8i
  for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47529)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TA-0007lv-9q
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:30 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o15TA-0007lo-2V
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 08:16:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1655208987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nK8ui8MGXo28dreQTzjS6bbhtNnN1TEyDDyCd/Q1Dgo=;
- b=bPuy5d7lsGeuuN6pFseXLb8MrmUwXl60BJbJJQNlJLpdJMJeR+63smU4/HonmZO4s3H3X2
- 2DMwVYFGwJW0s7Wp6YMZ4ubjNP2TBeplmcYjnHdTSGmjDaH6FFT8RozbOzj0UGmfTJuwH2
- S1oGBuHMYCa29YYtGzpbpYD3K87MC+4=
+ bh=hTTJvnegxxvfJsWseZ7+SmUjba5GRnY9ME/e3uOvaP0=;
+ b=GvlTBuNjShZbKgtjcwfS+9Q4RKHFxTnpGmjUL1U8hy8KV+QBGgBZWDMWIxG1G62QMPKsi4
+ 8QMg+RtPtPXLpd3nphWyxifU2JglqHdIw5NWUCyEX66zzwZtw77Iu0XLr5lRekldX4/x5L
+ UFlc3GnPpdxfKX7oSe8fTdlt7+wQKHU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-wdmex2yGOJ-VOeDajZfdxQ-1; Tue, 14 Jun 2022 08:16:22 -0400
-X-MC-Unique: wdmex2yGOJ-VOeDajZfdxQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-638-SPez3mJKOCOnjtiYtyhytA-1; Tue, 14 Jun 2022 08:16:23 -0400
+X-MC-Unique: SPez3mJKOCOnjtiYtyhytA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28842801E6B;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C031F811E75;
  Tue, 14 Jun 2022 12:16:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA58A1402403;
- Tue, 14 Jun 2022 12:16:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 87A64492CA2;
+ Tue, 14 Jun 2022 12:16:22 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 936FD1800634; Tue, 14 Jun 2022 14:16:11 +0200 (CEST)
+ id A63A51800795; Tue, 14 Jun 2022 14:16:11 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
@@ -55,17 +55,15 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  "Canokeys.org" <contact@canokeys.org>,
  Stefano Stabellini <sstabellini@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [PULL 12/15] virtio-gpu: update done only on the scanout associated
- with rect
-Date: Tue, 14 Jun 2022 14:16:07 +0200
-Message-Id: <20220614121610.508356-13-kraxel@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PULL 13/15] ui/console: Do not return a value with ui_info
+Date: Tue, 14 Jun 2022 14:16:08 +0200
+Message-Id: <20220614121610.508356-14-kraxel@redhat.com>
 In-Reply-To: <20220614121610.508356-1-kraxel@redhat.com>
 References: <20220614121610.508356-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -90,34 +88,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dongwon Kim <dongwon.kim@intel.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-It only needs to update the scanouts containing the rect area
-coming with the resource-flush request from the guest.
+The returned value is not used and misleading.
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-Message-Id: <20220505214030.4261-1-dongwon.kim@intel.com>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Message-Id: <20220226115516.59830-2-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/virtio-gpu.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/ui/console.h         | 2 +-
+ hw/display/virtio-gpu-base.c | 6 +++---
+ hw/display/virtio-vga.c      | 5 ++---
+ hw/vfio/display.c            | 8 +++-----
+ 4 files changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index cd4a56056fd9..55c6dd576318 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -514,6 +514,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
-         for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
-             scanout = &g->parent_obj.scanout[i];
-             if (scanout->resource_id == res->resource_id &&
-+                rf.r.x >= scanout->x && rf.r.y >= scanout->y &&
-+                rf.r.x + rf.r.width <= scanout->x + scanout->width &&
-+                rf.r.y + rf.r.height <= scanout->y + scanout->height &&
-                 console_has_gl(scanout->con)) {
-                 dpy_gl_update(scanout->con, 0, 0, scanout->width,
-                               scanout->height);
+diff --git a/include/ui/console.h b/include/ui/console.h
+index c44b28a972ca..642d6f5248cf 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -432,7 +432,7 @@ typedef struct GraphicHwOps {
+     bool gfx_update_async; /* if true, calls graphic_hw_update_done() */
+     void (*text_update)(void *opaque, console_ch_t *text);
+     void (*update_interval)(void *opaque, uint64_t interval);
+-    int (*ui_info)(void *opaque, uint32_t head, QemuUIInfo *info);
++    void (*ui_info)(void *opaque, uint32_t head, QemuUIInfo *info);
+     void (*gl_block)(void *opaque, bool block);
+ } GraphicHwOps;
+ 
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index 790cec333c8c..b21d6e5b0be8 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -69,12 +69,12 @@ static void virtio_gpu_notify_event(VirtIOGPUBase *g, uint32_t event_type)
+     virtio_notify_config(&g->parent_obj);
+ }
+ 
+-static int virtio_gpu_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
++static void virtio_gpu_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
+ {
+     VirtIOGPUBase *g = opaque;
+ 
+     if (idx >= g->conf.max_outputs) {
+-        return -1;
++        return;
+     }
+ 
+     g->req_state[idx].x = info->xoff;
+@@ -92,7 +92,7 @@ static int virtio_gpu_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
+ 
+     /* send event to guest */
+     virtio_gpu_notify_event(g, VIRTIO_GPU_EVENT_DISPLAY);
+-    return 0;
++    return;
+ }
+ 
+ static void
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index c206b5da384b..4dcb34c4a740 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -47,15 +47,14 @@ static void virtio_vga_base_text_update(void *opaque, console_ch_t *chardata)
+     }
+ }
+ 
+-static int virtio_vga_base_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
++static void virtio_vga_base_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
+ {
+     VirtIOVGABase *vvga = opaque;
+     VirtIOGPUBase *g = vvga->vgpu;
+ 
+     if (g->hw_ops->ui_info) {
+-        return g->hw_ops->ui_info(g, idx, info);
++        g->hw_ops->ui_info(g, idx, info);
+     }
+-    return -1;
+ }
+ 
+ static void virtio_vga_base_gl_block(void *opaque, bool block)
+diff --git a/hw/vfio/display.c b/hw/vfio/display.c
+index 89bc90508fb8..78f4d82c1c35 100644
+--- a/hw/vfio/display.c
++++ b/hw/vfio/display.c
+@@ -106,14 +106,14 @@ err:
+     return;
+ }
+ 
+-static int vfio_display_edid_ui_info(void *opaque, uint32_t idx,
+-                                     QemuUIInfo *info)
++static void vfio_display_edid_ui_info(void *opaque, uint32_t idx,
++                                      QemuUIInfo *info)
+ {
+     VFIOPCIDevice *vdev = opaque;
+     VFIODisplay *dpy = vdev->dpy;
+ 
+     if (!dpy->edid_regs) {
+-        return 0;
++        return;
+     }
+ 
+     if (info->width && info->height) {
+@@ -121,8 +121,6 @@ static int vfio_display_edid_ui_info(void *opaque, uint32_t idx,
+     } else {
+         vfio_display_edid_update(vdev, false, 0, 0);
+     }
+-
+-    return 0;
+ }
+ 
+ static void vfio_display_edid_init(VFIOPCIDevice *vdev)
 -- 
 2.36.1
 
