@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E9954A8AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 07:23:51 +0200 (CEST)
-Received: from localhost ([::1]:41928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6FC54A8A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 07:20:12 +0200 (CEST)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o0z1q-0002Wk-7b
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 01:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55142)
+	id 1o0yyI-0003a8-KU
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 01:20:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o0yvF-0000lx-Tu
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:17:01 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:38765)
+ id 1o0yvJ-0000sG-H6
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:17:06 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:42604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o0yvE-0000zX-DP
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:17:01 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id e11so7622850pfj.5
- for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 22:17:00 -0700 (PDT)
+ id 1o0yvI-0000zx-3Z
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 01:17:05 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ o33-20020a17090a0a2400b001ea806e48c6so8048534pjo.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Jun 2022 22:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bra4MXrkftG1CgYi5VJNtBbeWDP0NTrpYw+kRy2gXBY=;
- b=AVc4O/qX6GXxIN2/hewf9JY909hPO3jhYlwOjXk13mYY+Nxp1kLAgVjNd/SpsbTwT4
- ps3tYPDePZ6NuOLIDBrCQcIabBcHHpBpQa/B5jeHteAos2MKZ0n0Nhr+O+OIptIFE4EQ
- LBQ/A7RdOgH4ZFOHJRB3zEH2IR2IN4SVHGlHhvxzqDl/XRYe7jGGHKM5tQayWu5GQVdf
- AYEeldbntlpRtQgkSnj5y6b7BsqJCwGKCyJge1AoGF9+Oz7lPQVs5iye/ECmiLY+A9b+
- RW18uQMm1x4021xVFJh2Dj1imQ7A131xVBfE1AVLgXq91c1iywxrGlEhZEvDei+AXf1h
- RcKw==
+ bh=YKRxELDYmUMfhugMV5DcbLSb/amLG/qPOQgkHQTfT7g=;
+ b=E032+evQdRH2NuNgLiwG89CYUpUPj39VDFk33O/nudPj9/X10TSUXKJ337cTmbvlGJ
+ RuObnfYSpq557vuPMVunbGdRRJXOigi0SUTaNijlbyYEjOkiLlQ4jTviDG9ne+ZnUQvi
+ EI1GyiXWY4duJ/TioIG02Fott+tnJaMsAOkhkZyTUJ0U1eMaKVZVMQPTaMOCsUKpOZhc
+ AxLJ4t45Cg/AGWUFYiSnk0X3/nYvR8IVstXFPgcMSJC5j5y7XEc4+wLjrW4jD+gMjrw0
+ hGT+mHK8+OzuVTTIBdO8iCn6U3wSCL1mw72T/x1+8+pPMU5aGCPLFrw/jg+i88XB0Joa
+ iJvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bra4MXrkftG1CgYi5VJNtBbeWDP0NTrpYw+kRy2gXBY=;
- b=3QbgbjKse9eWTU72OmDoG5RCe4qwLi18bLha0klWTxqSMJIyAVYhDk47ouoHJt1EMQ
- pJMieUPS9erHf7JbRXpQdaC4K8N5A56zkvzGmo1Cz6ygumL9BLnsnPmyPYFIUNI+bRMz
- PKZROP6p5ZV30uwh7UOI//Q08guk8ahNpAj7Ks1LxJVsC/ZaeblBuYxa1lSrGmgV3i7U
- QBgWy425SEVA/7+BXQ98rs0LpV7anF0FfwAP3Lk9evRjGFyt5geBypPvjNm9/Q6Epz+j
- Wm+UVn7JiYkr+buxebN848l8p0PmEM1+Dta9sL+zre9TAdl1uX2RoTNEMzfajiakDK6J
- XkQg==
-X-Gm-Message-State: AOAM530urJCcbyUgR6t1w9bLrzf0iZZWD+imlPkR67+77Ia86tTfByz7
- SYAjsMMK+A35Yhaw/6xeWgJX
-X-Google-Smtp-Source: ABdhPJw5o8ipotRVWPh8t5pRkUhxV9RSIprQmN/+k89ajNUKvaqsMVgVHB7cTxR683wv1A8G3IDXyw==
-X-Received: by 2002:a05:6a00:1350:b0:51c:26d2:9ce5 with SMTP id
- k16-20020a056a00135000b0051c26d29ce5mr2891428pfu.69.1655183819091; 
- Mon, 13 Jun 2022 22:16:59 -0700 (PDT)
+ bh=YKRxELDYmUMfhugMV5DcbLSb/amLG/qPOQgkHQTfT7g=;
+ b=BdDGmVwW52lUAjYlyciqxImslD+9EcrW13ytp3sPT1OAqI6taotoI6PgcqVB2zlI7u
+ lD05I/piUVwfZbwVXAEHlxe/66ogOPmiDAppE98W/plVdqwPg9Tn11oCQAk7q/QC/0xm
+ Mb4+xJp9QDT/N4lq4R1a5bbUZcdZ9dMnQ0Qx2H1NZiL8VC+g6jazU6TYCmeknF4VK36S
+ YSp6jhbU9VaBrEtPNBXPxpX1e4RRvWo9PWVhe0t4DEjBguqrx/sYLB3F0tC01GmgNf6V
+ rfLlAwW1J/suA3o0Xpysomt9c4tknCsXJsHhel2AzuC2ilnwwUdJw1sLX/6UPz/HjoXW
+ W3IQ==
+X-Gm-Message-State: AJIora+4X6GnkfpqKwpIWegYyqlXM3dpVQ48TG3Bp8z9td/zj/EbXIoo
+ HcY4BP4JnkWeT39lPuN0YyTR
+X-Google-Smtp-Source: AGRyM1uJhJEjat560HfZEGzTJUMGmik8LAiUn0GvK5DbccYRfN2b5SnSNf4dVsBYbkyYyXriRQ8+Ew==
+X-Received: by 2002:a17:90b:368b:b0:1e6:67a0:1c17 with SMTP id
+ mj11-20020a17090b368b00b001e667a01c17mr2546599pjb.203.1655183822845; 
+ Mon, 13 Jun 2022 22:17:02 -0700 (PDT)
 Received: from localhost ([139.177.225.237]) by smtp.gmail.com with ESMTPSA id
- o9-20020a62f909000000b0052089e1b88esm5389979pfh.192.2022.06.13.22.16.57
+ l4-20020a170903120400b0016511314b94sm6103301plh.159.2022.06.13.22.17.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 22:16:58 -0700 (PDT)
+ Mon, 13 Jun 2022 22:17:02 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: kwolf@redhat.com,
 	stefanha@redhat.com
 Cc: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 1/6] libvduse: Fix some compile errors with clang
-Date: Tue, 14 Jun 2022 13:15:27 +0800
-Message-Id: <20220614051532.92-2-xieyongji@bytedance.com>
+Subject: [PATCH v2 2/6] libvduse: Fix resources leak in vduse_dev_destroy()
+Date: Tue, 14 Jun 2022 13:15:28 +0800
+Message-Id: <20220614051532.92-3-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220614051532.92-1-xieyongji@bytedance.com>
 References: <20220614051532.92-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=xieyongji@bytedance.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,94 +90,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes some compile errors with clang:
+This fixes resource leak when the fd is zero in
+vduse_dev_destroy().
 
-../subprojects/libvduse/libvduse.c:578:20: error: unused function
-'vring_used_flags_set_bit' [-Werror,-Wunused-function]
-static inline void vring_used_flags_set_bit(VduseVirtq *vq, int mask)
-                   ^
-../subprojects/libvduse/libvduse.c:587:20: error: unused function
-'vring_used_flags_unset_bit' [-Werror,-Wunused-function]
-static inline void vring_used_flags_unset_bit(VduseVirtq *vq, int mask)
-
-../subprojects/libvduse/libvduse.c:325:20: error: cast to pointer from
-integer of different size [-Werror=int-to-pointer-cast]
-   325 |             munmap((void *)dev->regions[i].mmap_addr,
-       |                    ^
-../subprojects/libvduse/libvduse.c: In function 'vduse_dev_create':
-../subprojects/libvduse/libvduse.c:1318:54: error: format '%lu' expects
-argument of type 'long unsigned int', but argument 3 has type 'uint64_t'
-{aka 'long long unsigned int'} [-Werror=format=]
- 1318 |         fprintf(stderr, "Failed to set api version %lu: %s\n",
-      |                                                    ~~^
-      |                                                      |
-      |                                                      long unsigned int
-      |                                                    %llu
- 1319 |                 version, strerror(errno));
-      |                 ~~~~~~~
-      |                 |
-      |                 uint64_t {aka long long unsigned int}
-
+Fixes: 8dbd281c1675 ("libvduse: Add VDUSE (vDPA Device in Userspace) library")
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- subprojects/libvduse/libvduse.c | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+ subprojects/libvduse/libvduse.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-index 78bb777402..dd1faffe66 100644
+index dd1faffe66..9a2bcec282 100644
 --- a/subprojects/libvduse/libvduse.c
 +++ b/subprojects/libvduse/libvduse.c
-@@ -27,6 +27,7 @@
- #include <unistd.h>
- #include <limits.h>
- #include <fcntl.h>
-+#include <inttypes.h>
- 
- #include <sys/ioctl.h>
- #include <sys/eventfd.h>
-@@ -322,7 +323,7 @@ static void vduse_iova_remove_region(VduseDev *dev, uint64_t start,
- 
-         if (start <= dev->regions[i].iova &&
-             last >= (dev->regions[i].iova + dev->regions[i].size - 1)) {
--            munmap((void *)dev->regions[i].mmap_addr,
-+            munmap((void *)(uintptr_t)dev->regions[i].mmap_addr,
-                    dev->regions[i].mmap_offset + dev->regions[i].size);
-             dev->regions[i].mmap_addr = 0;
-             dev->num_regions--;
-@@ -575,24 +576,6 @@ void vduse_queue_notify(VduseVirtq *vq)
+@@ -1357,11 +1357,11 @@ int vduse_dev_destroy(VduseDev *dev)
+         free(dev->vqs[i].resubmit_list);
      }
- }
- 
--static inline void vring_used_flags_set_bit(VduseVirtq *vq, int mask)
--{
--    uint16_t *flags;
--
--    flags = (uint16_t *)((char*)vq->vring.used +
--                         offsetof(struct vring_used, flags));
--    *flags = htole16(le16toh(*flags) | mask);
--}
--
--static inline void vring_used_flags_unset_bit(VduseVirtq *vq, int mask)
--{
--    uint16_t *flags;
--
--    flags = (uint16_t *)((char*)vq->vring.used +
--                         offsetof(struct vring_used, flags));
--    *flags = htole16(le16toh(*flags) & ~mask);
--}
--
- static inline void vring_set_avail_event(VduseVirtq *vq, uint16_t val)
- {
-     *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) = htole16(val);
-@@ -1315,7 +1298,7 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
- 
-     version = VDUSE_API_VERSION;
-     if (ioctl(ctrl_fd, VDUSE_SET_API_VERSION, &version)) {
--        fprintf(stderr, "Failed to set api version %lu: %s\n",
-+        fprintf(stderr, "Failed to set api version %" PRIu64 ": %s\n",
-                 version, strerror(errno));
-         goto err_dev;
+     free(dev->vqs);
+-    if (dev->fd > 0) {
++    if (dev->fd >= 0) {
+         close(dev->fd);
+         dev->fd = -1;
      }
+-    if (dev->ctrl_fd > 0) {
++    if (dev->ctrl_fd >= 0) {
+         if (ioctl(dev->ctrl_fd, VDUSE_DESTROY_DEV, dev->name)) {
+             ret = -errno;
+         }
 -- 
 2.20.1
 
