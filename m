@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B51A54ACD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 11:05:38 +0200 (CEST)
-Received: from localhost ([::1]:39676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68B354AD01
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 11:13:25 +0200 (CEST)
+Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o12UT-0004R4-9c
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 05:05:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40238)
+	id 1o12c0-0000IA-8t
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 05:13:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o12OY-00020S-E8
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:59:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o12OV-0001Y5-7y
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 04:59:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655197166;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=CB0PgzoWEELB5kkCSZXWim2W/P4bmVqi2YWC2i0rR8w=;
- b=F2L0U4owL/Ye7OQdOBWgL3j/PSxQOnNdwLG3Xx3/a5sdgo76DAKN7Tl9HlWkt+jsK9Dins
- AG9ubk7Pxley4MeVpoLX3E0LGNj8imiIvwdUBJY001NCSxKA9jb6pfYLvdnUlopMd31Gtz
- xYDgIR29Z/tAylB3Q3FEkIF0XEidrOg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-F4d3_4vgOBKZ10yETDfmTA-1; Tue, 14 Jun 2022 04:59:23 -0400
-X-MC-Unique: F4d3_4vgOBKZ10yETDfmTA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 060E3811E75;
- Tue, 14 Jun 2022 08:59:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.137])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89E9F492CA2;
- Tue, 14 Jun 2022 08:59:21 +0000 (UTC)
-Date: Tue, 14 Jun 2022 09:59:19 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 2/5] tests/qemu-iotests: skip 108 when FUSE is not loaded
-Message-ID: <YqhN50NeY3RIfvmy@redhat.com>
-References: <20220614015044.2501806-1-jsnow@redhat.com>
- <20220614015044.2501806-3-jsnow@redhat.com>
- <fa6e9152-73a1-d6ca-269a-1b1513472aa8@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1o12Uf-0005rX-Nw
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 05:05:49 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57794 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1o12Uc-0002lO-Vz
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 05:05:49 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_09gT6hixdVAAA--.2805S2;
+ Tue, 14 Jun 2022 17:05:36 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	laurent@vivier.eu,
+	gaosong@loongson.cn
+Subject: [PATCH v16 0/9] Add LoongArch linux-user emulation support
+Date: Tue, 14 Jun 2022 17:05:27 +0800
+Message-Id: <20220614090536.1103616-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fa6e9152-73a1-d6ca-269a-1b1513472aa8@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx_09gT6hixdVAAA--.2805S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGrWkGryxGFyxury7GF1kuFg_yoW5Kr43pr
+ Wfur1fGw4rGrZ7Jr1qqa45ZFn5Xa17Wr4ag3WSqry8CrWIkryrZwn3GF9xW3W3Z3WFgrW0
+ qryvyw1UWF4DXFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,66 +58,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 06:46:35AM +0200, Thomas Huth wrote:
-> On 14/06/2022 03.50, John Snow wrote:
-> > In certain container environments we may not have FUSE at all, so skip
-> > the test in this circumstance too.
-> > 
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >   tests/qemu-iotests/108 | 6 ++++++
-> >   1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/tests/qemu-iotests/108 b/tests/qemu-iotests/108
-> > index 9e923d6a59f..e401c5e9933 100755
-> > --- a/tests/qemu-iotests/108
-> > +++ b/tests/qemu-iotests/108
-> > @@ -60,6 +60,12 @@ if sudo -n losetup &>/dev/null; then
-> >   else
-> >       loopdev=false
-> > +    # Check for fuse support in the host environment:
-> > +    lsmod | grep fuse &>/dev/null;
-> 
-> That doesn't work if fuse has been linked statically into the kernel. Would
-> it make sense to test for /sys/fs/fuse instead?
-> 
-> (OTOH, we likely hardly won't run this on statically linked kernels anyway,
-> so it might not matter too much)
+Hi All,
 
-But more importantly 'lsmod' may not be installed in our container
-images. So checking /sys/fs/fuse avoids introducing a dep on the
-'kmod' package.
+This series add support linux-user emulation.
+As the LoongArch kernel had merged into 5.19-rc1,
+you can see the latest kernel at https://kernel.org
 
-> 
-> > +    if [[ $? -ne 0 ]]; then
-> 
-> I'd prefer single "[" instead of "[[" ... but since we're requiring bash
-> anyway, it likely doesn't matter.
+Need review patches:
 
-Or
+  0002-linux-user-Add-LoongArch-signal-support.patch
+  0007-target-loongarch-Adjust-functions-and-structure-to-s.patch
+  0009-target-loongarch-Update-README.patch
 
-    if  test $? != 0 ; then
+V16:
+  - Update signal.c;
+  - Update helper_rdtime_d();
+  - Update scripts/gensyscalls.sh, fixed a warning. 
 
-> 
-> > +        _notrun 'No Passwordless sudo nor FUSE kernel module'
-> > +    fi
-> > +
-> >       # QSD --export fuse will either yield "Parameter 'id' is missing"
-> >       # or "Invalid parameter 'fuse'", depending on whether there is
-> >       # FUSE support or not.
-> 
->  Thomas
-> 
+v15:
+  - Rebase;
+  - Update README;
+  - Adjust some functions and structure to support user-mode;
+  - Update syscall;
+  - Update target_sigcontext;
 
-With regards,
-Daniel
+
+Old series:
+   - https://patchew.org/QEMU/20220609024209.2406188-1-gaosong@loongson.cn/
+
+Test:
+   - user-mode:
+   make check  && make check-tcg  &&  run LoongArch bash 
+   - system-mode
+   make check  && make check-tcg
+
+Thanks.
+Song Gao
+
+Song Gao (9):
+  linux-user: Add LoongArch generic header files
+  linux-user: Add LoongArch signal support
+  linux-user: Add LoongArch elf support
+  linux-user: Add LoongArch syscall support
+  linux-user: Add LoongArch cpu_loop support
+  scripts: add loongarch64 binfmt config
+  target/loongarch: Adjust functions and structure to support user-mode
+  default-configs: Add loongarch linux-user support
+  target/loongarch: Update README
+
+ configs/targets/loongarch64-linux-user.mak    |   3 +
+ linux-user/elfload.c                          |  54 +++
+ linux-user/loongarch64/cpu_loop.c             |  96 ++++++
+ linux-user/loongarch64/signal.c               | 283 ++++++++++++++++
+ linux-user/loongarch64/sockbits.h             |  11 +
+ linux-user/loongarch64/syscall_nr.h           | 312 ++++++++++++++++++
+ linux-user/loongarch64/target_cpu.h           |  34 ++
+ linux-user/loongarch64/target_elf.h           |  12 +
+ linux-user/loongarch64/target_errno_defs.h    |  12 +
+ linux-user/loongarch64/target_fcntl.h         |  11 +
+ linux-user/loongarch64/target_prctl.h         |   1 +
+ linux-user/loongarch64/target_resource.h      |  11 +
+ linux-user/loongarch64/target_signal.h        |  13 +
+ linux-user/loongarch64/target_structs.h       |  11 +
+ linux-user/loongarch64/target_syscall.h       |  48 +++
+ linux-user/loongarch64/termbits.h             |  11 +
+ linux-user/syscall_defs.h                     |  10 +-
+ scripts/gensyscalls.sh                        |   2 +
+ scripts/qemu-binfmt-conf.sh                   |   6 +-
+ target/loongarch/README                       |  39 ++-
+ target/loongarch/cpu.c                        |  35 +-
+ target/loongarch/cpu.h                        |   8 +-
+ target/loongarch/gdbstub.c                    |   2 +-
+ target/loongarch/helper.h                     |   2 +
+ .../insn_trans/trans_privileged.c.inc         |  36 ++
+ target/loongarch/internals.h                  |   2 +
+ target/loongarch/op_helper.c                  |  11 +-
+ 27 files changed, 1061 insertions(+), 15 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_prctl.h
+ create mode 100644 linux-user/loongarch64/target_resource.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
