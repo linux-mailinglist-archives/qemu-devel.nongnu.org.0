@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C100054AE93
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:40:33 +0200 (CEST)
-Received: from localhost ([::1]:37498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903E054AE77
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:37:42 +0200 (CEST)
+Received: from localhost ([::1]:58420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o13yK-0002Fn-Re
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:40:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34468)
+	id 1o13vZ-0005O4-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:37:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o13nv-0001J8-BW; Tue, 14 Jun 2022 06:29:47 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:57622)
+ id 1o13ny-0001LJ-2q; Tue, 14 Jun 2022 06:29:50 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:57648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o13nj-0000kZ-Jv; Tue, 14 Jun 2022 06:29:46 -0400
-Received: from sas2-6a1db1376cb6.qloud-c.yandex.net
- (sas2-6a1db1376cb6.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:bb0f:0:640:6a1d:b137])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 71EE52E1B3B;
- Tue, 14 Jun 2022 13:29:23 +0300 (MSK)
+ id 1o13nh-0000ke-He; Tue, 14 Jun 2022 06:29:49 -0400
+Received: from sas1-9c28cd37d27b.qloud-c.yandex.net
+ (sas1-9c28cd37d27b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:309b:0:640:9c28:cd37])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 868D52E0D43;
+ Tue, 14 Jun 2022 13:29:24 +0300 (MSK)
 Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
  (sas1-c73b4b4f4b95.qloud-c.yandex.net [2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by sas2-6a1db1376cb6.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- DCh4GdX575-TMKCZls1; Tue, 14 Jun 2022 13:29:23 +0300
+ by sas1-9c28cd37d27b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ AcoUs8LFkf-TOJ4lu3p; Tue, 14 Jun 2022 13:29:24 +0300
 X-Yandex-Fwd: 2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1655202563; bh=mGGdCmEAhQQB++A8rPpCt9oQTAppyi+bJY7uxZdtrdY=;
+ t=1655202564; bh=BNgD/KiMpl4g2nP+eF8gjfR8XFJvAFN8LW/9MVbgWXM=;
  h=Message-Id:References:Date:Subject:In-Reply-To:Cc:To:From;
- b=MtuHPMoI+KEKW10oJu+8La+S77DqR2Av1bHtQh6+yujrlkAb+0NWcSr6eK2xUJhAQ
- R2UKHB0HFFiT7qQOBceT7tgVwsMDA7C+LI0nxMClBWDFCJ9fVU9pZOUHenoW7VGugQ
- +iGZN5XuL1QhBX9byc5a3cjmqWzm0v1NJsJO7NGM=
-Authentication-Results: sas2-6a1db1376cb6.qloud-c.yandex.net;
+ b=Z/VY6LZ0gzYigqMuz8Wao8ijg/aSHLF0a4Z2KCBJX3/qZsHabrEDTn7AtUvuP9+JG
+ QwyV59viEoZobyDqGjV0gW5JpQvTod+F10ayGAEcl/nh75gMmX7qvSAF7NI1Z7VUGX
+ ZiXV6IngnqeVwiB/hQ0ZOwbcHej9xZHzLXZsV0Vc=
+Authentication-Results: sas1-9c28cd37d27b.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:a427::1:2e])
  by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 15x97ivcvu-TMMm67lh; Tue, 14 Jun 2022 13:29:22 +0300
+ 15x97ivcvu-TNMm7BW2; Tue, 14 Jun 2022 13:29:23 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -48,9 +48,9 @@ Cc: qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com,
  eblake@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
  vsementsov@yandex-team.ru, peter.maydell@linaro.org,
  Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-Subject: [PULL 04/10] util: add qemu-co-timeout
-Date: Tue, 14 Jun 2022 13:29:04 +0300
-Message-Id: <20220614102910.1431380-5-vsementsov@yandex-team.ru>
+Subject: [PULL 05/10] block/block-copy: block_copy(): add timeout_ns parameter
+Date: Tue, 14 Jun 2022 13:29:05 +0300
+Message-Id: <20220614102910.1431380-6-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
 References: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
@@ -81,149 +81,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 
-Add new API, to make a time limited call of the coroutine.
+Add possibility to limit block_copy() call in time. To be used in the
+next commit.
+
+As timed-out block_copy() call will continue in background anyway (we
+can't immediately cancel IO operation), it's important also give user a
+possibility to pass a callback, to do some additional actions on
+block-copy call finish.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- include/qemu/coroutine.h | 13 ++++++
- util/meson.build         |  1 +
- util/qemu-co-timeout.c   | 89 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 103 insertions(+)
- create mode 100644 util/qemu-co-timeout.c
+ block/block-copy.c         | 33 ++++++++++++++++++++++++++-------
+ block/copy-before-write.c  |  2 +-
+ include/block/block-copy.h |  4 +++-
+ 3 files changed, 30 insertions(+), 9 deletions(-)
 
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index d1548d5b11..08c5bb3c76 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -331,6 +331,19 @@ static inline void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns)
-     qemu_co_sleep_ns_wakeable(&w, type, ns);
+diff --git a/block/block-copy.c b/block/block-copy.c
+index ec46775ea5..bb947afdda 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -883,23 +883,42 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+     return ret;
  }
  
-+typedef void CleanupFunc(void *opaque);
-+/**
-+ * Run entry in a coroutine and start timer. Wait for entry to finish or for
-+ * timer to elapse, what happen first. If entry finished, return 0, if timer
-+ * elapsed earlier, return -ETIMEDOUT.
-+ *
-+ * Be careful, entry execution is not canceled, user should handle it somehow.
-+ * If @clean is provided, it's called after coroutine finish if timeout
-+ * happened.
-+ */
-+int coroutine_fn qemu_co_timeout(CoroutineEntry *entry, void *opaque,
-+                                 uint64_t timeout_ns, CleanupFunc clean);
-+
- /**
-  * Wake a coroutine if it is sleeping in qemu_co_sleep_ns. The timer will be
-  * deleted. @sleep_state must be the variable whose address was given to
-diff --git a/util/meson.build b/util/meson.build
-index 8f16018cd4..9abd2f5bcc 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -85,6 +85,7 @@ if have_block
-   util_ss.add(files('block-helpers.c'))
-   util_ss.add(files('qemu-coroutine-sleep.c'))
-   util_ss.add(files('qemu-co-shared-resource.c'))
-+  util_ss.add(files('qemu-co-timeout.c'))
-   util_ss.add(files('thread-pool.c', 'qemu-timer.c'))
-   util_ss.add(files('readline.c'))
-   util_ss.add(files('throttle.c'))
-diff --git a/util/qemu-co-timeout.c b/util/qemu-co-timeout.c
-new file mode 100644
-index 0000000000..00cd335649
---- /dev/null
-+++ b/util/qemu-co-timeout.c
-@@ -0,0 +1,89 @@
-+/*
-+ * Helper functionality for distributing a fixed total amount of
-+ * an abstract resource among multiple coroutines.
-+ *
-+ * Copyright (c) 2022 Virtuozzo International GmbH
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/coroutine.h"
-+#include "block/aio.h"
-+
-+typedef struct QemuCoTimeoutState {
-+    CoroutineEntry *entry;
-+    void *opaque;
-+    QemuCoSleep sleep_state;
-+    bool marker;
-+    CleanupFunc *clean;
-+} QemuCoTimeoutState;
-+
-+static void coroutine_fn qemu_co_timeout_entry(void *opaque)
++static void coroutine_fn block_copy_async_co_entry(void *opaque)
 +{
-+    QemuCoTimeoutState *s = opaque;
-+
-+    s->entry(s->opaque);
-+
-+    if (s->marker) {
-+        assert(!s->sleep_state.to_wake);
-+        /* .marker set by qemu_co_timeout, it have been failed */
-+        if (s->clean) {
-+            s->clean(s->opaque);
-+        }
-+        g_free(s);
-+    } else {
-+        s->marker = true;
-+        qemu_co_sleep_wake(&s->sleep_state);
-+    }
++    block_copy_common(opaque);
 +}
 +
-+int coroutine_fn qemu_co_timeout(CoroutineEntry *entry, void *opaque,
-+                                 uint64_t timeout_ns, CleanupFunc clean)
-+{
-+    QemuCoTimeoutState *s;
-+    Coroutine *co;
+ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
+-                            bool ignore_ratelimit)
++                            bool ignore_ratelimit, uint64_t timeout_ns,
++                            BlockCopyAsyncCallbackFunc cb,
++                            void *cb_opaque)
+ {
+-    BlockCopyCallState call_state = {
++    int ret;
++    BlockCopyCallState *call_state = g_new(BlockCopyCallState, 1);
 +
-+    if (timeout_ns == 0) {
-+        entry(opaque);
-+        return 0;
++    *call_state = (BlockCopyCallState) {
+         .s = s,
+         .offset = start,
+         .bytes = bytes,
+         .ignore_ratelimit = ignore_ratelimit,
+         .max_workers = BLOCK_COPY_MAX_WORKERS,
++        .cb = cb,
++        .cb_opaque = cb_opaque,
+     };
+ 
+-    return block_copy_common(&call_state);
+-}
++    ret = qemu_co_timeout(block_copy_async_co_entry, call_state, timeout_ns,
++                          g_free);
++    if (ret < 0) {
++        assert(ret == -ETIMEDOUT);
++        block_copy_call_cancel(call_state);
++        /* call_state will be freed by running coroutine. */
++        return ret;
 +    }
+ 
+-static void coroutine_fn block_copy_async_co_entry(void *opaque)
+-{
+-    block_copy_common(opaque);
++    ret = call_state->ret;
++    g_free(call_state);
 +
-+    s = g_new(QemuCoTimeoutState, 1);
-+    *s = (QemuCoTimeoutState) {
-+        .entry = entry,
-+        .opaque = opaque,
-+        .clean = clean
-+    };
-+
-+    co = qemu_coroutine_create(qemu_co_timeout_entry, s);
-+
-+    aio_co_enter(qemu_get_current_aio_context(), co);
-+    qemu_co_sleep_ns_wakeable(&s->sleep_state, QEMU_CLOCK_REALTIME, timeout_ns);
-+
-+    if (s->marker) {
-+        /* .marker set by qemu_co_timeout_entry, success */
-+        g_free(s);
-+        return 0;
-+    }
-+
-+    /* Don't free s, as we can't cancel qemu_co_timeout_entry execution */
-+    s->marker = true;
-+    return -ETIMEDOUT;
-+}
++    return ret;
+ }
+ 
+ BlockCopyCallState *block_copy_async(BlockCopyState *s,
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index c8a11a09d2..fc13c7cd44 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -111,7 +111,7 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
+     off = QEMU_ALIGN_DOWN(offset, cluster_size);
+     end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
+ 
+-    ret = block_copy(s->bcs, off, end - off, true);
++    ret = block_copy(s->bcs, off, end - off, true, 0, NULL, NULL);
+     if (ret < 0 && s->on_cbw_error == ON_CBW_ERROR_BREAK_GUEST_WRITE) {
+         return ret;
+     }
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index 68bbd344b2..ba0b425d78 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -40,7 +40,9 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
+                                      int64_t offset, int64_t *count);
+ 
+ int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
+-                            bool ignore_ratelimit);
++                            bool ignore_ratelimit, uint64_t timeout_ns,
++                            BlockCopyAsyncCallbackFunc cb,
++                            void *cb_opaque);
+ 
+ /*
+  * Run block-copy in a coroutine, create corresponding BlockCopyCallState
 -- 
 2.25.1
 
