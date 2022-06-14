@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD3854AEEA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:59:35 +0200 (CEST)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD6B54AEB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jun 2022 12:47:30 +0200 (CEST)
+Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o14Gk-0004PK-1s
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37110)
+	id 1o1453-0008UE-4h
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 06:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o13yp-0004du-Ma
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 06:41:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56003)
+ id 1o13yt-0004lR-PV
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 06:41:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o13yk-00036Z-0J
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 06:41:03 -0400
+ id 1o13yk-00036k-Cy
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 06:41:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1655203257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dRPbVwIf4XnA0zbA8xjue/8uTf0N+sXNTJaH1FMa9rk=;
- b=iWBIrMIqydaLEeOKmtpR1vjvE6j+L6TdPKFX2al7HnwLqusAp5bVSxLRx9DfAne3+onp/V
- FhedW/lkjpxGhDWfs3HU5U4UZkua0l04bHsHWR07iW8gK8/HoAA2OUsuKMGymIfw4c1y7I
- vQVWK7eDq45LbSrgwa8PSwLLx46wqR4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B90yf32TDyd0GrHCDq/DaJ3P3NEJSQiplcj4q3Moy9M=;
+ b=OzmqXsG7frufEPQsyQWlrbhhIviwOnQRWfxRUUbY+FJ2bClydmphWUDu+CCjAoRDYk+X14
+ 82FLaAmT8Q6Go5OC+GhrNUGVC9pon9sv9K2FJSKGoHsAfSaHMWyZSz0NAP01l+vb1YG5CW
+ cycCZwmZEXNYHM/tyn/7IFVxA+sUIM0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-2h4qX7f_MqqDfNmAXisSxQ-1; Tue, 14 Jun 2022 06:40:53 -0400
-X-MC-Unique: 2h4qX7f_MqqDfNmAXisSxQ-1
+ us-mta-228-bUu6GQCuMyS_Uw8sFZy_tg-1; Tue, 14 Jun 2022 06:40:54 -0400
+X-MC-Unique: bUu6GQCuMyS_Uw8sFZy_tg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B0DD3811E75;
- Tue, 14 Jun 2022 10:40:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D859185A7A4;
+ Tue, 14 Jun 2022 10:40:54 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04F9A492C3B;
- Tue, 14 Jun 2022 10:40:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E384F492C3B;
+ Tue, 14 Jun 2022 10:40:52 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, laurent@vivier.eu,
  mjt@tls.msk.ru
 Cc: danielhb413@gmail.com, clg@kaod.org, mst@redhat.com, qemu-arm@nongnu.org,
  qemu-block@nongnu.org, kbusch@kernel.org, its@irrelevant.dk
-Subject: [PATCH 0/2] Two sets of trivials
-Date: Tue, 14 Jun 2022 11:40:43 +0100
-Message-Id: <20220614104045.85728-1-dgilbert@redhat.com>
+Subject: [PATCH 1/2] Trivial: 3 char repeat typos
+Date: Tue, 14 Jun 2022 11:40:44 +0100
+Message-Id: <20220614104045.85728-2-dgilbert@redhat.com>
+In-Reply-To: <20220614104045.85728-1-dgilbert@redhat.com>
+References: <20220614104045.85728-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -80,24 +83,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-I've sent the 3 char set last month, but have updated
-it a little; I cleaned up a comment style that was already
-broken so checkpatch is happy.
+Inspired by Julia Lawall's fixing of Linux
+kernel comments, I looked at qemu, although I did it manually.
 
-The 'namesapce' is a new patch; it's amazing how many places
-make the same typo!
-
-Dave
-
-Dr. David Alan Gilbert (2):
-  Trivial: 3 char repeat typos
-  trivial typos: namesapce
-
- hw/9pfs/9p-xattr-user.c          | 8 ++++----
- hw/acpi/nvdimm.c                 | 2 +-
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
  hw/intc/openpic.c                | 2 +-
  hw/net/imx_fec.c                 | 2 +-
- hw/nvme/ctrl.c                   | 2 +-
  hw/pci/pcie_aer.c                | 2 +-
  hw/pci/shpc.c                    | 3 ++-
  hw/ppc/spapr_caps.c              | 2 +-
@@ -105,8 +97,126 @@ Dr. David Alan Gilbert (2):
  qapi/net.json                    | 2 +-
  tools/virtiofsd/passthrough_ll.c | 2 +-
  ui/input.c                       | 2 +-
- 12 files changed, 16 insertions(+), 15 deletions(-)
+ 9 files changed, 10 insertions(+), 9 deletions(-)
 
+diff --git a/hw/intc/openpic.c b/hw/intc/openpic.c
+index 49504e740f..b0787e8ee7 100644
+--- a/hw/intc/openpic.c
++++ b/hw/intc/openpic.c
+@@ -729,7 +729,7 @@ static void openpic_tmr_set_tmr(OpenPICTimer *tmr, uint32_t val, bool enabled)
+ }
+ 
+ /*
+- * Returns the currrent tccr value, i.e., timer value (in clocks) with
++ * Returns the current tccr value, i.e., timer value (in clocks) with
+  * appropriate TOG.
+  */
+ static uint64_t openpic_tmr_get_timer(OpenPICTimer *tmr)
+diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+index 0db9aaf76a..8c11b237de 100644
+--- a/hw/net/imx_fec.c
++++ b/hw/net/imx_fec.c
+@@ -438,7 +438,7 @@ static void imx_eth_update(IMXFECState *s)
+      *   assignment fail.
+      *
+      * To ensure that all versions of Linux work, generate ENET_INT_MAC
+-     * interrrupts on both interrupt lines. This should be changed if and when
++     * interrupts on both interrupt lines. This should be changed if and when
+      * qemu supports IOMUX.
+      */
+     if (s->regs[ENET_EIR] & s->regs[ENET_EIMR] &
+diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+index 92bd0530dd..eff62f3945 100644
+--- a/hw/pci/pcie_aer.c
++++ b/hw/pci/pcie_aer.c
+@@ -323,7 +323,7 @@ static void pcie_aer_msg_root_port(PCIDevice *dev, const PCIEAERMsg *msg)
+          */
+     }
+ 
+-    /* Errro Message Received: Root Error Status register */
++    /* Error Message Received: Root Error Status register */
+     switch (msg->severity) {
+     case PCI_ERR_ROOT_CMD_COR_EN:
+         if (root_status & PCI_ERR_ROOT_COR_RCV) {
+diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
+index f822f18b98..e71f3a7483 100644
+--- a/hw/pci/shpc.c
++++ b/hw/pci/shpc.c
+@@ -480,7 +480,8 @@ static const MemoryRegionOps shpc_mmio_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         /* SHPC ECN requires dword accesses, but the original 1.0 spec doesn't.
+-         * It's easier to suppport all sizes than worry about it. */
++         * It's easier to support all sizes than worry about it.
++         */
+         .min_access_size = 1,
+         .max_access_size = 4,
+     },
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index 655ab856a0..b4283055c1 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -553,7 +553,7 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
+              * instruction is a harmless no-op.  It won't correctly
+              * implement the cache count flush *but* if we have
+              * count-cache-disabled in the host, that flush is
+-             * unnnecessary.  So, specifically allow this case.  This
++             * unnecessary.  So, specifically allow this case.  This
+              * allows us to have better performance on POWER9 DD2.3,
+              * while still working on POWER9 DD2.2 and POWER8 host
+              * cpus.
+diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
+index a07a8e1523..e320ccaa23 100644
+--- a/hw/scsi/spapr_vscsi.c
++++ b/hw/scsi/spapr_vscsi.c
+@@ -1013,7 +1013,7 @@ static int vscsi_send_capabilities(VSCSIState *s, vscsi_req *req)
+     }
+ 
+     /*
+-     * Current implementation does not suppport any migration or
++     * Current implementation does not support any migration or
+      * reservation capabilities. Construct the response telling the
+      * guest not to use them.
+      */
+diff --git a/qapi/net.json b/qapi/net.json
+index d6f7cfd4d6..9af11e9a3b 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -298,7 +298,7 @@
+ #
+ # @udp: use the udp version of l2tpv3 encapsulation
+ #
+-# @cookie64: use 64 bit coookies
++# @cookie64: use 64 bit cookies
+ #
+ # @counter: have sequence counter
+ #
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index b15c631ca5..7a73dfcce9 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2319,7 +2319,7 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
+          * If security.selinux has not been remapped and selinux is enabled,
+          * use fscreate to set context before file creation. If not, use
+          * tmpfile method for regular files. Otherwise fallback to
+-         * non-atomic method of file creation and xattr settting.
++         * non-atomic method of file creation and xattr setting.
+          */
+         if (!mapped_name && lo->use_fscreate) {
+             err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
+diff --git a/ui/input.c b/ui/input.c
+index 8ac407dec4..e2a90af889 100644
+--- a/ui/input.c
++++ b/ui/input.c
+@@ -364,7 +364,7 @@ void qemu_input_event_send(QemuConsole *src, InputEvent *evt)
+      * when 'alt+print' was pressed. This flaw is now fixed and the
+      * 'sysrq' key serves no further purpose. We normalize it to
+      * 'print', so that downstream receivers of the event don't
+-     * neeed to deal with this mistake
++     * need to deal with this mistake
+      */
+     if (evt->type == INPUT_EVENT_KIND_KEY &&
+         evt->u.key.data->key->u.qcode.data == Q_KEY_CODE_SYSRQ) {
 -- 
 2.36.1
 
