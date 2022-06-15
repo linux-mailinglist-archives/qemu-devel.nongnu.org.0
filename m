@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3AAC54C9C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 15:28:23 +0200 (CEST)
-Received: from localhost ([::1]:33346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E4954C972
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 15:11:35 +0200 (CEST)
+Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1T4I-0001et-Hy
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 09:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38600)
+	id 1o1So1-00017X-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 09:11:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ritul.bits@gmail.com>)
- id 1o1SWk-0001um-HE
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 08:53:43 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:46860)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o1Slf-0007O2-Ru
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:09:09 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ritul.bits@gmail.com>)
- id 1o1SWi-0007EP-Il
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 08:53:42 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-3137c877092so59529997b3.13
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 05:53:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o1Sld-0007Rj-6C
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:09:06 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id s37so8730983pfg.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 06:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=jsVda8jevM+fMdtFvPTM3LQVcbbrgHyx9IwkyOB8tiE=;
- b=lj15rIoOypsVqM7elcdnXsDANK6RfoPhULfDsq3CBf5LG4HwpmFZT1pXELJmDXICOR
- iJ+9t3l2DKyNK7JLRQiNC1BVQCF4sM0D7QUjeVJO3sHehjoKA+o+7yUJFPbfT7R2ke/J
- HxAmaFXEP0VPL3OviiovyHN9niQR9giUsfakhfWCB7Hbzir4YA0FpZaIoBUJTgPxslTX
- 43ssiMzu1g+DZVbaTtoi4TrXHzVq3+GrWQTwq2BZcSbXbWgxFuJwfV+yD1QgD7Yw4Bj7
- Td/lV2uRnIrbwtg6PDLZEvbveBrLldNeSXlZIsM4p7oSlu9LFfd8eqJONNZoVJk57Ws0
- qsgA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ha3ayKvHgDAyM/G7T2uHtMqEH6EAxZ2XVkL0lWevY4Y=;
+ b=kuWHoMZlz3z8/Ut2d82Q+TOe7glLw9F4Qg+AKpyQD8xlonVbbDZfbW866pVtT7nHZK
+ Wu52gYbbJfLchIUjhAfsaz2ov8hg9xwYXT3tz9YG3N322nSVfWFzXLpeKbKeuF7t+LT8
+ nKYYo2qNh8tX0qnkS8znVAkmLWsvBOSmFc6WBpe7petFfnqlAy0DV4HfpGZHkMTvncY3
+ +Js0ca17jgi2LCZHQ15jprs5saqf3Ncop8jfr/Ls8o3SuA2iUYABzkkiODAoj6cAadio
+ uRkEAmwp6tjoYksTcgbaMXsPx/J+B9JnzAwT/29J9R+1CXwu4NiPK+X/GDAF+ItUYVTO
+ lJJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=jsVda8jevM+fMdtFvPTM3LQVcbbrgHyx9IwkyOB8tiE=;
- b=sZ1KAmmVH18a6WYG9GOj5PGPMIYs6ADEeZMfb0PR3PnqRS4SvYCdyg7lRxaJUvwW1U
- qpC9f4nbPUNPGoF/DgfEAIu6Qbd6fwbFvnlpyaxlnAQSJbvQ974XF1AV3SXN14kgnPS9
- Qh7JfN4nEZpjaRmQ/9s4D9wEwc514vqJ/N/IB5rZUIGectZe7z72m+A7+0KpIBsC4Zct
- ya4jKG+bFZPvJ0B8swxKvJzfbGJOY2MyLvWl5/0fngAoQ//cuiFBi5I9+Y09HjqmOUru
- HoP2UnMaP9NKEaDZo79AZ31p5C1ZMwNqr2TWUjRvz2KL63JDP74s6kRchKXUSne9ZAyU
- zOSA==
-X-Gm-Message-State: AJIora98kYedoxHWg9Lyd/dF51VUhdc1Najwh6Amye6soloCwwQT5YDy
- dbSia2HR0wOpolE/J2NCeafg784PG/74xqcD0/5U0uUZV1C3Ng==
-X-Google-Smtp-Source: AGRyM1uKqBkn00c4uXI0fuPCicsTGG22KWrwrWnZM5DA4mmxElPk4+8PKo4iZCxQjjW54U0cWt/X1Mcn8efgvCY8RME=
-X-Received: by 2002:a0d:ea88:0:b0:30f:cd93:fddb with SMTP id
- t130-20020a0dea88000000b0030fcd93fddbmr11700873ywe.365.1655297619127; Wed, 15
- Jun 2022 05:53:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ha3ayKvHgDAyM/G7T2uHtMqEH6EAxZ2XVkL0lWevY4Y=;
+ b=NpgbbkofnoD486S8p9m5CZ2x6MMuIMTyNI1DL2UaV1ZbL0nqNm8PiXnp7pU16yncxS
+ C12KEcuz9eMJeGAf6LoJQElsp8UgJPJQTvbDckdFxEwHuIKEEkAxgklKbfdrciF6C/Z/
+ bROECBRVVCi9nFcGwXeAykrITXPCrrnY4eXO2TGCZHgNmwXs28R284rogGCI7oooLrGn
+ FDO3WtMbhdoufRTvoRZHLmZvGNFPoFp7lnjPUQXt6+KFWUiO9dO9LQo5Yny0FaRtvca6
+ Em4J2S0eR/MgBKRQdPvAlGYb9mfbpPdmWuxqGl7Cgiorl65GncNgnjWON4TaixAaTRiT
+ VI2g==
+X-Gm-Message-State: AOAM530D6hPvcmt1V2sKd8mf2mAubKnNMoF0qqkndUQtE5VjpMPeQh9Z
+ +tDhJh9M9ErjdMx/U3t5/V8=
+X-Google-Smtp-Source: ABdhPJwqWh8qcjFglTcd3OC9lkAb6dOn6YrW2ZB0pu6o0eX0NQmZB3rQCEyObmTOZkXlq4BkfPXQJw==
+X-Received: by 2002:a05:6a00:2447:b0:520:6b82:6dfd with SMTP id
+ d7-20020a056a00244700b005206b826dfdmr10038845pfj.39.1655298543753; 
+ Wed, 15 Jun 2022 06:09:03 -0700 (PDT)
+Received: from localhost.localdomain ([2400:4050:c360:8200:4126:b1a8:8fce:1a8])
+ by smtp.gmail.com with ESMTPSA id
+ f12-20020a170902684c00b0016392bd5060sm9278448pln.142.2022.06.15.06.09.00
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 15 Jun 2022 06:09:03 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: [PATCH v5 0/4] cutils: Introduce bundle mechanism
+Date: Wed, 15 Jun 2022 22:08:41 +0900
+Message-Id: <20220615130845.32674-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-From: ritul guru <ritul.bits@gmail.com>
-Date: Wed, 15 Jun 2022 18:23:28 +0530
-Message-ID: <CAHHF-2Kxj6LgiPB3gEy=r-e0QWGX7=BSxezqP6LjZ7V1MuEv5w@mail.gmail.com>
-Subject: regarding QEMU ACPI table generation and passing acpi tables/methods
- to guest OS
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000095f27e05e17c02ab"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=ritul.bits@gmail.com; helo=mail-yw1-x1129.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 15 Jun 2022 09:17:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,41 +93,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000095f27e05e17c02ab
-Content-Type: text/plain; charset="UTF-8"
+Developers often run QEMU without installing. The bundle mechanism
+allows to look up files which should be present in installation even in
+such a situation.
 
-Came across below link about QEMU to pass acpi tables to guest OS.
-https://wiki.qemu.org/Features/ACPITableGeneration
+It is a general mechanism and can find any files located relative
+to the installation tree. The build tree must have a new directory,
+qemu-bundle, to represent what files the installation tree would
+have for reference by the executables.
 
-Can I get more docs with respect to acpi tables/devices passing to guest OS
-from hypervisor or dom0?
+v5:
+* Prefer qemu-bundle if it exists. (Daniel P. Berrangé)
+* Check install_blobs option before installing BIOSes (Paolo Bonzini)
+* Add common code to set up qemu-bundle to the top level meson.build
+  (Paolo Bonzini)
 
-Looking for an example how an asl file which gets added in the SSDT table
-can be passed to the guest OS with the help of QEMU.
+v4:
+* Add Daniel P. Berrangé to CC. Hopefully this helps merging his patch:
+  https://mail.gnu.org/archive/html/qemu-devel/2022-06/msg02276.html
+* Rebased to the latest QEMU.
 
+v3:
+* Note that the bundle mechanism is for any files located relative to the
+  installation tree including but not limited to datadir. (Peter Maydell)
+* Fix "bridge" typo (Philippe Mathieu-Daudé)
 
+v2: Rebased to the latest QEMU.
 
-*Thanks & RegardsRitul Guru+91-9916513186*
+Akihiko Odaki (4):
+  cutils: Introduce bundle mechanism
+  datadir: Use bundle mechanism
+  ui/icons: Use bundle mechanism
+  net: Use bundle mechanism
 
---00000000000095f27e05e17c02ab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ .travis.yml                 |  2 +-
+ include/net/net.h           |  2 +-
+ include/qemu/cutils.h       | 19 +++++++++++++++++++
+ meson.build                 | 20 +++++++++++++++++---
+ net/tap.c                   |  6 +++++-
+ pc-bios/keymaps/meson.build |  2 ++
+ pc-bios/meson.build         | 19 +++++++++----------
+ qemu-options.hx             |  4 ++--
+ scripts/oss-fuzz/build.sh   |  2 +-
+ softmmu/datadir.c           | 35 ++++++++++++-----------------------
+ tests/qtest/fuzz/fuzz.c     | 15 ---------------
+ tests/vm/fedora             |  2 +-
+ tests/vm/freebsd            |  2 +-
+ tests/vm/netbsd             |  2 +-
+ tests/vm/openbsd            |  2 +-
+ ui/cocoa.m                  | 29 ++++++++++++++++-------------
+ ui/gtk.c                    |  6 +++++-
+ ui/icons/meson.build        | 32 ++++++++++++++++++++++++--------
+ ui/sdl2.c                   | 18 +++++++++++-------
+ util/cutils.c               | 33 +++++++++++++++++++++++++++++++++
+ 20 files changed, 162 insertions(+), 90 deletions(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
-sans-serif;font-size:small;color:#000099"><div class=3D"gmail_default">Came=
- across below link about QEMU to pass acpi tables to guest OS.=C2=A0</div><=
-div class=3D"gmail_default"><a href=3D"https://wiki.qemu.org/Features/ACPIT=
-ableGeneration" target=3D"_blank">https://wiki.qemu.org/Features/ACPITableG=
-eneration</a><br></div><div class=3D"gmail_default"><br></div><div class=3D=
-"gmail_default">Can I get more docs with respect to acpi tables/devices pas=
-sing to guest OS from hypervisor or dom0?</div><div class=3D"gmail_default"=
-><br></div><div class=3D"gmail_default">Looking for an example how an asl f=
-ile which gets added in the SSDT table can be passed to the guest OS with t=
-he help of QEMU.</div><div class=3D"gmail_default"><br></div></div><div><di=
-v dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature">=
-<div dir=3D"ltr"><b><font size=3D"2" face=3D"verdana, sans-serif"><span sty=
-le=3D"color:rgb(0,0,153)">Thanks &amp; Regards<br>Ritul Guru<br>+91<font si=
-ze=3D"2">-</font>9916513186</span></font></b></div></div></div></div>
+-- 
+2.32.1 (Apple Git-133)
 
---00000000000095f27e05e17c02ab--
 
