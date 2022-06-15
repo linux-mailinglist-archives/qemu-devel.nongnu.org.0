@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A865554C690
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 12:56:50 +0200 (CEST)
-Received: from localhost ([::1]:60308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4E854C6B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 13:01:20 +0200 (CEST)
+Received: from localhost ([::1]:39634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Qhd-00066R-7A
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 06:56:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
+	id 1o1Qlz-00034P-F5
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 07:01:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1QdQ-0003BR-Pf
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 06:52:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58602)
+ id 1o1QdR-0003CY-Pq
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 06:52:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1QdM-0001yD-7l
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 06:52:26 -0400
+ id 1o1QdP-0001yq-C0
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 06:52:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655290343;
+ s=mimecast20190719; t=1655290346;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rw02dKiEcdwmKxBhwRuwk1oX8MAqRXqcUQ/XBHdkB0w=;
- b=eO0iO4OJX+Jl1Ov3IZYINSyMgQGNlSXHyoSjXFUfxnnGfvBLrVVeg924bY8MoONFO1vE1j
- cgloJNGpVIzhc5Q7Q0zv+cyTzgiZS3VBtwEwHyGNknVKfz5FPIZ8aqRx9uozXzWbuQtVl2
- bE0Mq2MWomHAwpuETZvSoJx0J/9y/SM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3VB12SowWEnpyzRh7lCxDweNPSJqPeMYKzBHyF0Drog=;
+ b=TxXZ4LEfUDq3E265Z/lT68WdYYtunF/zUjY/P4MJRzAeWwZi2LmvSExgnrz/VzJZzMY/52
+ rm6w0alHUwWvr8QGyup91DyxW8bAyh8PKjMpcCOahKirlY3+YXuNngp/8auszSBdMdrAP4
+ n07/TdxcpcO2qFN9vaWn78IiwAEbagM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-138-D3qcS68aNqeDmHpHDMHUBw-1; Wed, 15 Jun 2022 06:52:20 -0400
-X-MC-Unique: D3qcS68aNqeDmHpHDMHUBw-1
+ us-mta-131-1A1Nc-qKNjaviNS2seLMKA-1; Wed, 15 Jun 2022 06:52:23 -0400
+X-MC-Unique: 1A1Nc-qKNjaviNS2seLMKA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03899811E75;
- Wed, 15 Jun 2022 10:52:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 099163C025C9;
+ Wed, 15 Jun 2022 10:52:23 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5CE1E111F5;
- Wed, 15 Jun 2022 10:52:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 47C9A18EA9;
+ Wed, 15 Jun 2022 10:52:20 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
@@ -56,23 +56,23 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v3 1/4] softmmu: rewrite handling of qemu_find_file
-Date: Wed, 15 Jun 2022 11:52:09 +0100
-Message-Id: <20220615105212.780256-2-berrange@redhat.com>
+Subject: [PATCH v3 2/4] ui: move 'pc-bios/keymaps' to 'ui/keymaps'
+Date: Wed, 15 Jun 2022 11:52:10 +0100
+Message-Id: <20220615105212.780256-3-berrange@redhat.com>
 In-Reply-To: <20220615105212.780256-1-berrange@redhat.com>
 References: <20220615105212.780256-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,319 +89,267 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu_find_file method has a couple of flaws in its current
-implementation:
-
- * The configure time 'qemu-firmware' search path is mistakenly
-   also used to find keymaps
-
- * The configure time 'qemu-firmware' search path is mistakenly
-   relocated even when running from build dir resulting in
-   non-sensical paths that won't resolve
-
- * When searching for files it has the assumption that the
-   in-build-tree layout will match the installed root layout
-
-The latter problem has forced us to keep the keymap files under a
-sub-dir of the pc-bios/ instead of ui/.
-
-This all stems from the way qemu_find_file tries to use a single
-list of data directory locations, appending a type specific
-subdir.
-
-This can be addressed by refactoring the logic as follows
-
-For each type of file to be found identify
-
-  * Optional: any user specified dir (non-relocated)
-  * Path relative to build dir
-  * Path relative to install dir
-  * Optional: extra configure time install dirs (bios only, relocated)
-  * The default install directory (relocated)
-
-We can then search through:
-
- * User specified dir
- * If running from build dir
-     - Path relative to build dir
-   else
-     - Extra configure time dirs
-     - Path relative to default install dir
-
-This is now flexible enough to extend to find any type of file,
-by plugging in different input values, regardless of what layout
-might be used in build dir vs install dir.
+The 'keymaps' directory contents is nothing to do with the firmware
+blobs. The 'pc-bios/keymaps' directory appears to have been used
+previously as a convenience for getting the files installed into
+a subdir of the firmware install dir, as well as to make it easier
+to launch QEMU directly from the build tree. These requirements
+do not need to be reflected in the source tree arrangement. The
+keymaps logically belong with the UI code, and meson can install
+them into the right place. For in-tree execution, we merely need
+a suitable symlink from the source tree to the build tree.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/qemu/datadir.h  |   5 +-
- softmmu/datadir.c       | 145 +++++++++++++++++++++++-----------------
- softmmu/trace-events    |   5 +-
- softmmu/vl.c            |   2 +-
- tests/qtest/fuzz/fuzz.c |   2 +-
- 5 files changed, 92 insertions(+), 67 deletions(-)
+ pc-bios/meson.build                 | 1 -
+ softmmu/datadir.c                   | 2 +-
+ {pc-bios => ui}/keymaps/ar          | 0
+ {pc-bios => ui}/keymaps/bepo        | 0
+ {pc-bios => ui}/keymaps/cz          | 0
+ {pc-bios => ui}/keymaps/da          | 0
+ {pc-bios => ui}/keymaps/de          | 0
+ {pc-bios => ui}/keymaps/de-ch       | 0
+ {pc-bios => ui}/keymaps/en-gb       | 0
+ {pc-bios => ui}/keymaps/en-us       | 0
+ {pc-bios => ui}/keymaps/es          | 0
+ {pc-bios => ui}/keymaps/et          | 0
+ {pc-bios => ui}/keymaps/fi          | 0
+ {pc-bios => ui}/keymaps/fo          | 0
+ {pc-bios => ui}/keymaps/fr          | 0
+ {pc-bios => ui}/keymaps/fr-be       | 0
+ {pc-bios => ui}/keymaps/fr-ca       | 0
+ {pc-bios => ui}/keymaps/fr-ch       | 0
+ {pc-bios => ui}/keymaps/hr          | 0
+ {pc-bios => ui}/keymaps/hu          | 0
+ {pc-bios => ui}/keymaps/is          | 0
+ {pc-bios => ui}/keymaps/it          | 0
+ {pc-bios => ui}/keymaps/ja          | 0
+ {pc-bios => ui}/keymaps/lt          | 0
+ {pc-bios => ui}/keymaps/lv          | 0
+ {pc-bios => ui}/keymaps/meson.build | 0
+ {pc-bios => ui}/keymaps/mk          | 0
+ {pc-bios => ui}/keymaps/nl          | 0
+ {pc-bios => ui}/keymaps/no          | 0
+ {pc-bios => ui}/keymaps/pl          | 0
+ {pc-bios => ui}/keymaps/pt          | 0
+ {pc-bios => ui}/keymaps/pt-br       | 0
+ {pc-bios => ui}/keymaps/ru          | 0
+ {pc-bios => ui}/keymaps/sl          | 0
+ {pc-bios => ui}/keymaps/sv          | 0
+ {pc-bios => ui}/keymaps/th          | 0
+ {pc-bios => ui}/keymaps/tr          | 0
+ ui/meson.build                      | 1 +
+ 38 files changed, 2 insertions(+), 2 deletions(-)
+ rename {pc-bios => ui}/keymaps/ar (100%)
+ rename {pc-bios => ui}/keymaps/bepo (100%)
+ rename {pc-bios => ui}/keymaps/cz (100%)
+ rename {pc-bios => ui}/keymaps/da (100%)
+ rename {pc-bios => ui}/keymaps/de (100%)
+ rename {pc-bios => ui}/keymaps/de-ch (100%)
+ rename {pc-bios => ui}/keymaps/en-gb (100%)
+ rename {pc-bios => ui}/keymaps/en-us (100%)
+ rename {pc-bios => ui}/keymaps/es (100%)
+ rename {pc-bios => ui}/keymaps/et (100%)
+ rename {pc-bios => ui}/keymaps/fi (100%)
+ rename {pc-bios => ui}/keymaps/fo (100%)
+ rename {pc-bios => ui}/keymaps/fr (100%)
+ rename {pc-bios => ui}/keymaps/fr-be (100%)
+ rename {pc-bios => ui}/keymaps/fr-ca (100%)
+ rename {pc-bios => ui}/keymaps/fr-ch (100%)
+ rename {pc-bios => ui}/keymaps/hr (100%)
+ rename {pc-bios => ui}/keymaps/hu (100%)
+ rename {pc-bios => ui}/keymaps/is (100%)
+ rename {pc-bios => ui}/keymaps/it (100%)
+ rename {pc-bios => ui}/keymaps/ja (100%)
+ rename {pc-bios => ui}/keymaps/lt (100%)
+ rename {pc-bios => ui}/keymaps/lv (100%)
+ rename {pc-bios => ui}/keymaps/meson.build (100%)
+ rename {pc-bios => ui}/keymaps/mk (100%)
+ rename {pc-bios => ui}/keymaps/nl (100%)
+ rename {pc-bios => ui}/keymaps/no (100%)
+ rename {pc-bios => ui}/keymaps/pl (100%)
+ rename {pc-bios => ui}/keymaps/pt (100%)
+ rename {pc-bios => ui}/keymaps/pt-br (100%)
+ rename {pc-bios => ui}/keymaps/ru (100%)
+ rename {pc-bios => ui}/keymaps/sl (100%)
+ rename {pc-bios => ui}/keymaps/sv (100%)
+ rename {pc-bios => ui}/keymaps/th (100%)
+ rename {pc-bios => ui}/keymaps/tr (100%)
 
-diff --git a/include/qemu/datadir.h b/include/qemu/datadir.h
-index 21f9097f58..a333cd9b0d 100644
---- a/include/qemu/datadir.h
-+++ b/include/qemu/datadir.h
-@@ -15,6 +15,9 @@
-  * configured at build time (DATADIR) or registered with the -L command
-  * line option.
-  *
-+ * @name may be NULL to indicate the caller just wants the
-+ * first search directory that is found.
-+ *
-  * The caller must use g_free() to free the returned data when it is
-  * no longer required.
-  *
-@@ -22,7 +25,7 @@
-  */
- char *qemu_find_file(int type, const char *name);
- void qemu_add_default_firmwarepath(void);
--void qemu_add_data_dir(char *path);
-+void qemu_set_user_data_dir(const char *path);
- void qemu_list_data_dirs(void);
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index 41ba1c0ec7..e49c0e5f56 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -97,4 +97,3 @@ foreach f : blobs
+ endforeach
  
- #endif
+ subdir('descriptors')
+-subdir('keymaps')
 diff --git a/softmmu/datadir.c b/softmmu/datadir.c
-index 160cac999a..7457717542 100644
+index 7457717542..32c765d228 100644
 --- a/softmmu/datadir.c
 +++ b/softmmu/datadir.c
-@@ -27,102 +27,121 @@
- #include "qemu/cutils.h"
- #include "trace.h"
- 
--static const char *data_dir[16];
--static int data_dir_idx;
-+/* User specified data directory */
-+static char *user_data_dir;
-+
-+/* Extra build time defined search locations for firmware (NULL terminated) */
-+static char **extra_firmware_dirs;
-+
-+/* Default built-in directories */
-+static char *default_data_dir;
-+
-+/* Whether we're known to be executing from a build tree */
-+static bool in_build_dir;
- 
- char *qemu_find_file(int type, const char *name)
- {
--    int i;
--    const char *subdir;
--    char *buf;
--
--    /* Try the name as a straight path first */
--    if (access(name, R_OK) == 0) {
--        trace_load_file(name, name);
--        return g_strdup(name);
--    }
-+    const char *user_install_dir = NULL;
-+    char **extra_install_dirs = NULL;
-+    const char *rel_build_dir;
-+    const char *rel_install_dir;
-+    const char *default_install_dir;
-+    char *maybepath = NULL;
-+    size_t i;
-+    int ret;
- 
-     switch (type) {
-     case QEMU_FILE_TYPE_BIOS:
--        subdir = "";
-+        user_install_dir = user_data_dir;
-+        extra_install_dirs = extra_firmware_dirs;
-+        rel_install_dir = "";
-+        rel_build_dir = "pc-bios";
-+        default_install_dir = default_data_dir;
-         break;
-+
+@@ -62,7 +62,7 @@ char *qemu_find_file(int type, const char *name)
      case QEMU_FILE_TYPE_KEYMAP:
--        subdir = "keymaps/";
-+        user_install_dir = user_data_dir;
-+        rel_install_dir = "keymaps";
-+        rel_build_dir = "pc-bios/keymaps";
-+        default_install_dir = default_data_dir;
+         user_install_dir = user_data_dir;
+         rel_install_dir = "keymaps";
+-        rel_build_dir = "pc-bios/keymaps";
++        rel_build_dir = "ui/keymaps";
+         default_install_dir = default_data_dir;
          break;
-+
-     default:
-         abort();
-     }
  
--    for (i = 0; i < data_dir_idx; i++) {
--        buf = g_strdup_printf("%s/%s%s", data_dir[i], subdir, name);
--        if (access(buf, R_OK) == 0) {
--            trace_load_file(name, buf);
--            return buf;
--        }
--        g_free(buf);
--    }
--    return NULL;
--}
--
--void qemu_add_data_dir(char *path)
--{
--    int i;
-+#define TRY_LOAD(path)                                                  \
-+    do {                                                                \
-+        ret = access(path, R_OK);                                       \
-+        trace_datadir_load_file(name, path, ret == 0 ? 0 : errno);      \
-+        if (ret == 0) {                                                 \
-+            return maybepath;                                           \
-+        }                                                               \
-+        g_clear_pointer(&path, g_free);                                 \
-+    } while (0)
+diff --git a/pc-bios/keymaps/ar b/ui/keymaps/ar
+similarity index 100%
+rename from pc-bios/keymaps/ar
+rename to ui/keymaps/ar
+diff --git a/pc-bios/keymaps/bepo b/ui/keymaps/bepo
+similarity index 100%
+rename from pc-bios/keymaps/bepo
+rename to ui/keymaps/bepo
+diff --git a/pc-bios/keymaps/cz b/ui/keymaps/cz
+similarity index 100%
+rename from pc-bios/keymaps/cz
+rename to ui/keymaps/cz
+diff --git a/pc-bios/keymaps/da b/ui/keymaps/da
+similarity index 100%
+rename from pc-bios/keymaps/da
+rename to ui/keymaps/da
+diff --git a/pc-bios/keymaps/de b/ui/keymaps/de
+similarity index 100%
+rename from pc-bios/keymaps/de
+rename to ui/keymaps/de
+diff --git a/pc-bios/keymaps/de-ch b/ui/keymaps/de-ch
+similarity index 100%
+rename from pc-bios/keymaps/de-ch
+rename to ui/keymaps/de-ch
+diff --git a/pc-bios/keymaps/en-gb b/ui/keymaps/en-gb
+similarity index 100%
+rename from pc-bios/keymaps/en-gb
+rename to ui/keymaps/en-gb
+diff --git a/pc-bios/keymaps/en-us b/ui/keymaps/en-us
+similarity index 100%
+rename from pc-bios/keymaps/en-us
+rename to ui/keymaps/en-us
+diff --git a/pc-bios/keymaps/es b/ui/keymaps/es
+similarity index 100%
+rename from pc-bios/keymaps/es
+rename to ui/keymaps/es
+diff --git a/pc-bios/keymaps/et b/ui/keymaps/et
+similarity index 100%
+rename from pc-bios/keymaps/et
+rename to ui/keymaps/et
+diff --git a/pc-bios/keymaps/fi b/ui/keymaps/fi
+similarity index 100%
+rename from pc-bios/keymaps/fi
+rename to ui/keymaps/fi
+diff --git a/pc-bios/keymaps/fo b/ui/keymaps/fo
+similarity index 100%
+rename from pc-bios/keymaps/fo
+rename to ui/keymaps/fo
+diff --git a/pc-bios/keymaps/fr b/ui/keymaps/fr
+similarity index 100%
+rename from pc-bios/keymaps/fr
+rename to ui/keymaps/fr
+diff --git a/pc-bios/keymaps/fr-be b/ui/keymaps/fr-be
+similarity index 100%
+rename from pc-bios/keymaps/fr-be
+rename to ui/keymaps/fr-be
+diff --git a/pc-bios/keymaps/fr-ca b/ui/keymaps/fr-ca
+similarity index 100%
+rename from pc-bios/keymaps/fr-ca
+rename to ui/keymaps/fr-ca
+diff --git a/pc-bios/keymaps/fr-ch b/ui/keymaps/fr-ch
+similarity index 100%
+rename from pc-bios/keymaps/fr-ch
+rename to ui/keymaps/fr-ch
+diff --git a/pc-bios/keymaps/hr b/ui/keymaps/hr
+similarity index 100%
+rename from pc-bios/keymaps/hr
+rename to ui/keymaps/hr
+diff --git a/pc-bios/keymaps/hu b/ui/keymaps/hu
+similarity index 100%
+rename from pc-bios/keymaps/hu
+rename to ui/keymaps/hu
+diff --git a/pc-bios/keymaps/is b/ui/keymaps/is
+similarity index 100%
+rename from pc-bios/keymaps/is
+rename to ui/keymaps/is
+diff --git a/pc-bios/keymaps/it b/ui/keymaps/it
+similarity index 100%
+rename from pc-bios/keymaps/it
+rename to ui/keymaps/it
+diff --git a/pc-bios/keymaps/ja b/ui/keymaps/ja
+similarity index 100%
+rename from pc-bios/keymaps/ja
+rename to ui/keymaps/ja
+diff --git a/pc-bios/keymaps/lt b/ui/keymaps/lt
+similarity index 100%
+rename from pc-bios/keymaps/lt
+rename to ui/keymaps/lt
+diff --git a/pc-bios/keymaps/lv b/ui/keymaps/lv
+similarity index 100%
+rename from pc-bios/keymaps/lv
+rename to ui/keymaps/lv
+diff --git a/pc-bios/keymaps/meson.build b/ui/keymaps/meson.build
+similarity index 100%
+rename from pc-bios/keymaps/meson.build
+rename to ui/keymaps/meson.build
+diff --git a/pc-bios/keymaps/mk b/ui/keymaps/mk
+similarity index 100%
+rename from pc-bios/keymaps/mk
+rename to ui/keymaps/mk
+diff --git a/pc-bios/keymaps/nl b/ui/keymaps/nl
+similarity index 100%
+rename from pc-bios/keymaps/nl
+rename to ui/keymaps/nl
+diff --git a/pc-bios/keymaps/no b/ui/keymaps/no
+similarity index 100%
+rename from pc-bios/keymaps/no
+rename to ui/keymaps/no
+diff --git a/pc-bios/keymaps/pl b/ui/keymaps/pl
+similarity index 100%
+rename from pc-bios/keymaps/pl
+rename to ui/keymaps/pl
+diff --git a/pc-bios/keymaps/pt b/ui/keymaps/pt
+similarity index 100%
+rename from pc-bios/keymaps/pt
+rename to ui/keymaps/pt
+diff --git a/pc-bios/keymaps/pt-br b/ui/keymaps/pt-br
+similarity index 100%
+rename from pc-bios/keymaps/pt-br
+rename to ui/keymaps/pt-br
+diff --git a/pc-bios/keymaps/ru b/ui/keymaps/ru
+similarity index 100%
+rename from pc-bios/keymaps/ru
+rename to ui/keymaps/ru
+diff --git a/pc-bios/keymaps/sl b/ui/keymaps/sl
+similarity index 100%
+rename from pc-bios/keymaps/sl
+rename to ui/keymaps/sl
+diff --git a/pc-bios/keymaps/sv b/ui/keymaps/sv
+similarity index 100%
+rename from pc-bios/keymaps/sv
+rename to ui/keymaps/sv
+diff --git a/pc-bios/keymaps/th b/ui/keymaps/th
+similarity index 100%
+rename from pc-bios/keymaps/th
+rename to ui/keymaps/th
+diff --git a/pc-bios/keymaps/tr b/ui/keymaps/tr
+similarity index 100%
+rename from pc-bios/keymaps/tr
+rename to ui/keymaps/tr
+diff --git a/ui/meson.build b/ui/meson.build
+index e9f48c5315..25c9a5ff8c 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -170,6 +170,7 @@ if have_system or xkbcommon.found()
+ endif
  
--    if (path == NULL) {
--        return;
-+    if (user_install_dir) {
-+        maybepath = g_build_filename(user_install_dir, rel_install_dir,
-+                                     name, NULL);
-+        TRY_LOAD(maybepath);
-     }
--    if (data_dir_idx == ARRAY_SIZE(data_dir)) {
--        return;
--    }
--    for (i = 0; i < data_dir_idx; i++) {
--        if (strcmp(data_dir[i], path) == 0) {
--            g_free(path); /* duplicate */
--            return;
-+
-+    if (in_build_dir) {
-+        maybepath = g_build_filename(qemu_get_exec_dir(), rel_build_dir,
-+                                     name, NULL);
-+    } else {
-+        if (extra_install_dirs) {
-+            for (i = 0; extra_install_dirs[i] != NULL; i++) {
-+                maybepath = g_build_filename(extra_install_dirs[i],
-+                                             name, NULL);
-+                TRY_LOAD(maybepath);
-+            }
-         }
-+
-+        maybepath = g_build_filename(default_install_dir, rel_install_dir,
-+                                     name, NULL);
-     }
--    data_dir[data_dir_idx++] = path;
-+    TRY_LOAD(maybepath);
-+
-+    return NULL;
- }
+ subdir('shader')
++subdir('keymaps')
  
--/*
-- * Find a likely location for support files using the location of the binary.
-- * When running from the build tree this will be "$bindir/pc-bios".
-- * Otherwise, this is CONFIG_QEMU_DATADIR (possibly relocated).
-- *
-- * The caller must use g_free() to free the returned data when it is
-- * no longer required.
-- */
--static char *find_datadir(void)
-+void qemu_set_user_data_dir(const char *path)
- {
--    g_autofree char *dir = NULL;
--
--    dir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
--    if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
--        return g_steal_pointer(&dir);
--    }
--
--    return get_relocated_path(CONFIG_QEMU_DATADIR);
-+    g_free(user_data_dir);
-+    user_data_dir = g_strdup(path);
- }
- 
- void qemu_add_default_firmwarepath(void)
- {
--    char **dirs;
-     size_t i;
-+    g_autofree char *builddir = NULL;
-+
-+    builddir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
-+    if (access(builddir, R_OK) == 0) {
-+        in_build_dir = true;
-+    }
- 
-     /* add configured firmware directories */
--    dirs = g_strsplit(CONFIG_QEMU_FIRMWAREPATH, G_SEARCHPATH_SEPARATOR_S, 0);
--    for (i = 0; dirs[i] != NULL; i++) {
--        qemu_add_data_dir(get_relocated_path(dirs[i]));
-+    extra_firmware_dirs = g_strsplit(CONFIG_QEMU_FIRMWAREPATH,
-+                                     G_SEARCHPATH_SEPARATOR_S, 0);
-+    for (i = 0; extra_firmware_dirs[i] != NULL ; i++) {
-+        g_autofree char *path = extra_firmware_dirs[i];
-+        extra_firmware_dirs[i] = get_relocated_path(path);
-     }
--    g_strfreev(dirs);
- 
--    /* try to find datadir relative to the executable path */
--    qemu_add_data_dir(find_datadir());
-+    /* Add default dirs relative to the executable path */
-+    default_data_dir = get_relocated_path(CONFIG_QEMU_DATADIR);
-+
-+    trace_datadir_init(default_data_dir, in_build_dir);
- }
- 
- void qemu_list_data_dirs(void)
- {
-     int i;
--    for (i = 0; i < data_dir_idx; i++) {
--        printf("%s\n", data_dir[i]);
-+    for (i = 0; extra_firmware_dirs[i] != NULL; i++) {
-+        printf("%s\n", extra_firmware_dirs[i]);
-     }
-+
-+    printf("%s\n", default_data_dir);
- }
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 9c88887b3c..a9ba53f50d 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -4,6 +4,10 @@
- # Since requests are raised via monitor, not many tracepoints are needed.
- balloon_event(void *opaque, unsigned long addr) "opaque %p addr %lu"
- 
-+# datadir.c
-+datadir_load_file(const char *name, const char *path, int err) "name %s location %s errno %d"
-+datadir_init(const char *defdatadir, bool inbuilddir) "default data dir %s in build dir %d"
-+
- # ioport.c
- cpu_in(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
- cpu_out(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
-@@ -26,7 +30,6 @@ vm_stop_flush_all(int ret) "ret %d"
- 
- # vl.c
- vm_state_notify(int running, int reason, const char *reason_str) "running %d reason %d (%s)"
--load_file(const char *name, const char *path) "name %s location %s"
- runstate_set(int current_state, const char *current_state_str, int new_state, const char *new_state_str) "current_run_state %d (%s) new_state %d (%s)"
- system_wakeup_request(int reason) "reason=%d"
- qemu_system_shutdown_request(int reason) "reason=%d"
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 54e920ada1..0a578255c7 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2898,7 +2898,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 if (is_help_option(optarg)) {
-                     list_data_dirs = true;
-                 } else {
--                    qemu_add_data_dir(g_strdup(optarg));
-+                    qemu_set_user_data_dir(optarg);
-                 }
-                 break;
-             case QEMU_OPTION_bios:
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 0ad4ba9e94..4438c7f141 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -186,7 +186,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-         bindir = qemu_get_exec_dir();
-         datadir = g_build_filename(bindir, "pc-bios", NULL);
-         if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
--            qemu_add_data_dir(datadir);
-+            qemu_set_data_dir(datadir);
-         } else {
-             g_free(datadir);
- 	}
+ if have_system
+   subdir('icons')
 -- 
 2.36.1
 
