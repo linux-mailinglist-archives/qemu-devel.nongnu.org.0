@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9DF54CD4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:43:04 +0200 (CEST)
-Received: from localhost ([::1]:47526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0AD54CD36
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:41:13 +0200 (CEST)
+Received: from localhost ([::1]:41460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1VAd-0006ZY-JS
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:43:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33130)
+	id 1o1V8p-00022D-Tw
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1UyT-0000oa-5b
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:30:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44869)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1V1l-0004O4-Hk
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:33:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1UyG-0004u9-Q8
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:30:23 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1V1j-000662-7V
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:33:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655307013;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1655307229;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AoEAACLyLOTXtEE7MKl1/X34mm8nOwaaDU+dMLw7vXc=;
- b=QwbCewKK3B+jWaDzB8PJkue+lGjrGGWjHvcZoP3hmUY6WAO6Wb4Tr5smdXunUzukIWTrwe
- gJdmhU+nHLcJTPcPUG1H58n9C5RCk/Y4zd4dVV0exG6UOjIdatnQJJhTimv6pOgWVyTGy+
- NiwxAdpruux8YlCVZ9iVO5apCQ0Ea4E=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=th5iRak7py2awA3WVPEYtYP7WNmoN9jahx5sDV0WN7Y=;
+ b=bh+t378RF/BO9aJJHchmlq4rRzT+Jps4d0WwZGNhhm0Cq12iECDGfvyhKmZvl2YYEU7JcH
+ k3AfeFmdJRtiJCX6u1gLlrmLDCr+ZsuBRX7sjonQQ3X54w0bzDtBMLklPW55xN3vzTs6N+
+ OWZy6dETwLR4ie1dPJCbdniu1113ZiE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-VSlhusuwOEu4p0CsVTo3kA-1; Wed, 15 Jun 2022 11:30:11 -0400
-X-MC-Unique: VSlhusuwOEu4p0CsVTo3kA-1
-Received: by mail-ua1-f71.google.com with SMTP id
- x24-20020ab07818000000b00378d73df633so5574594uaq.10
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 08:30:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AoEAACLyLOTXtEE7MKl1/X34mm8nOwaaDU+dMLw7vXc=;
- b=2g+zXzGdBsx7KpSlpkOXXUNmxGzysB8gg8g/CvoXRnz40PNKlYJdklQzfeWM7bneEz
- XbDHTyf/LOUIXJOUM6qQpkJCItnwc5Js9cjY9EttoFxI7905x8okw+Eiq+auCXuYRhEJ
- pyQePzQjFYKGhqO4oTBL6cRhI9kvpA/YuIsdsiLpTyYi2LVPHkrz+C6rDdulKOY5HIl+
- vAWSjUgQHhKOGpxkkG6SNN5MI4XQhDeYffJpOmp17qjh/EvRYpnDSIadlrGV06w1auo1
- XezHDfVk9aW+RtI8C2/Y1BWQWxAToZjc5iAF1SVFbPgzWeM2VQhCgGj3podUE8v9DVAV
- q2sw==
-X-Gm-Message-State: AJIora9tnFbAMJnWR+vulFHj+u2vSptDwy8wrkAmQa7fOQgVMnEQ9RxA
- olrsbJg0RwNBrfUzli5wom943QeuePUxJdPZwpOi5RDeJ+NC4P9o7pLmUvLqv47nN7fflY6X8zj
- K/e4ethi5xhPPZyvqB0+hNPdBHKc93tY=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr326946vsa.38.1655307010222; 
- Wed, 15 Jun 2022 08:30:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sgT7wrO7uxSg2q1KjZTlFh1ie1nAJ2jA7xzVD14hmOBMolmcoTgsal5hyd6yf9Hmrd8FNdm/wG2KgMfxQDEWA=
-X-Received: by 2002:a67:1a02:0:b0:320:a51f:8067 with SMTP id
- a2-20020a671a02000000b00320a51f8067mr326933vsa.38.1655307009949; Wed, 15 Jun
- 2022 08:30:09 -0700 (PDT)
+ us-mta-604-6fawEcBKMGmvgQud9La9Mg-1; Wed, 15 Jun 2022 11:33:48 -0400
+X-MC-Unique: 6fawEcBKMGmvgQud9La9Mg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A24E0811E76;
+ Wed, 15 Jun 2022 15:33:47 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E74ED492CA5;
+ Wed, 15 Jun 2022 15:33:45 +0000 (UTC)
+Date: Wed, 15 Jun 2022 16:33:43 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 2/5] tests/qemu-iotests: skip 108 when FUSE is not loaded
+Message-ID: <Yqn71w5X97dQXMlj@redhat.com>
+References: <20220614015044.2501806-1-jsnow@redhat.com>
+ <20220614015044.2501806-3-jsnow@redhat.com>
+ <fa6e9152-73a1-d6ca-269a-1b1513472aa8@redhat.com>
+ <YqhN50NeY3RIfvmy@redhat.com>
+ <CAFn=p-a0hf6tp7NYS73S3OW9N_KA+NQRcLNAxh-UreVF9RkZ2Q@mail.gmail.com>
+ <CAFn=p-a2kQcuy6T47dWiFUOR2eWZhMOw9VJNEYT0Y6xau7YqTQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220614165126.1776413-1-pbonzini@redhat.com>
-In-Reply-To: <20220614165126.1776413-1-pbonzini@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 15 Jun 2022 11:29:59 -0400
-Message-ID: <CAFn=p-bNV4vJG0UojUjigvMyA+7TOw12ZHhPTUMeG-zRDNY42Q@mail.gmail.com>
-Subject: Re: [PATCH] tests/vm: allow running tests in an unconfigured source
- tree
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFn=p-a2kQcuy6T47dWiFUOR2eWZhMOw9VJNEYT0Y6xau7YqTQ@mail.gmail.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -87,109 +89,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 12:51 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> tests/vm/Makefile.include used to assume that it could run in an unconfigured
-> source tree, and Cirrus CI relies on that.  It was however broken by commit
-> f4c66f1705 ("tests: use tests/venv to run basevm.py-based scripts", 2022-06-06),
-> which co-opted the virtual environment being used by avocado tests
-> to also run the basevm.py tests.
->
-> For now, reintroduce the usage of qemu.qmp from the source directory, but
-> without the sys.path() hacks.  The CI configuration can be changed to
-> install the package via pip when qemu.qmp is removed from the source tree.
+On Wed, Jun 15, 2022 at 09:41:32AM -0400, John Snow wrote:
+> On Tue, Jun 14, 2022 at 10:30 AM John Snow <jsnow@redhat.com> wrote:
+> >
+> > On Tue, Jun 14, 2022 at 4:59 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > >
+> > > On Tue, Jun 14, 2022 at 06:46:35AM +0200, Thomas Huth wrote:
+> > > > On 14/06/2022 03.50, John Snow wrote:
+> > > > > In certain container environments we may not have FUSE at all, so skip
+> > > > > the test in this circumstance too.
+> > > > >
+> > > > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > > > ---
+> > > > >   tests/qemu-iotests/108 | 6 ++++++
+> > > > >   1 file changed, 6 insertions(+)
+> > > > >
+> > > > > diff --git a/tests/qemu-iotests/108 b/tests/qemu-iotests/108
+> > > > > index 9e923d6a59f..e401c5e9933 100755
+> > > > > --- a/tests/qemu-iotests/108
+> > > > > +++ b/tests/qemu-iotests/108
+> > > > > @@ -60,6 +60,12 @@ if sudo -n losetup &>/dev/null; then
+> > > > >   else
+> > > > >       loopdev=false
+> > > > > +    # Check for fuse support in the host environment:
+> > > > > +    lsmod | grep fuse &>/dev/null;
+> > > >
+> > > > That doesn't work if fuse has been linked statically into the kernel. Would
+> > > > it make sense to test for /sys/fs/fuse instead?
+> > > >
+> > > > (OTOH, we likely hardly won't run this on statically linked kernels anyway,
+> > > > so it might not matter too much)
+> > >
+> > > But more importantly 'lsmod' may not be installed in our container
+> > > images. So checking /sys/fs/fuse avoids introducing a dep on the
+> > > 'kmod' package.
+> > >
+> > > >
+> > > > > +    if [[ $? -ne 0 ]]; then
+> > > >
+> > > > I'd prefer single "[" instead of "[[" ... but since we're requiring bash
+> > > > anyway, it likely doesn't matter.
+> > >
+> > > Or
+> > >
+> > >     if  test $? != 0 ; then
+> > >
+> > > >
+> > > > > +        _notrun 'No Passwordless sudo nor FUSE kernel module'
+> > > > > +    fi
+> > > > > +
+> > > > >       # QSD --export fuse will either yield "Parameter 'id' is missing"
+> > > > >       # or "Invalid parameter 'fuse'", depending on whether there is
+> > > > >       # FUSE support or not.
+> > > >
+> >
+> > Good suggestions, thanks!
+> >
+> 
+> I think I need to test against /dev/fuse instead, because /sys/fs/fuse
+> actually exists, but because of docker permissions (etc), FUSE isn't
+> actually usable from the child container.
+> 
+> I wound up with this:
+> 
+> # Check for usable FUSE in the host environment:
+> if test ! -c "/dev/fuse"; then
+>     _notrun 'No passwordless sudo nor usable /dev/fuse'
+> fi
+> 
+> Seems to work for my case here, at least, but I don't have a good
+> sense for how broadly flexible it might be. It might be nicer to
+> concoct some kind of NOP fuse mount instead, but I wasn't able to
+> figure out such a command quickly.
+> 
+> The next problem I have is actually related; test-qga (for the
+> Centos.x86_64 run) is failing because the guest agent is reading
+> /proc/self/mountinfo -- which contains entries for block devices that
+> are not visible in the current container scope. I think when QGA goes
+> to read info about these devices to populate a response, it chokes.
+> This might be a genuine bug in QGA if we want it to tolerate existing
+> inside of a container.
 
-Seems kinda fragile. If dependencies change etc they're not going to
-get processed here unless someone notices and keeps it up to date
-manually.
-Can we change the Cirrus CI config to just create the venv and bypass
-configure? (Like, just run mkvenv directly?)
+Yes, we should fix this. Even if you don't run QGA in a container,
+someone might configure the systemd service to harden it, by
+restricting what /dev it is able to see and thus trigger the
+same issue.
 
-Or ... actually, uh. what's the problem with running check-venv,
-actually? I guess because of build system magic that requires a call
-to configure and we can't do that for the Cirrus CI?
 
->
-> Cc: John Snow <jsnow@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  tests/vm/Makefile.include | 26 +++++++++++++++++---------
->  1 file changed, 17 insertions(+), 9 deletions(-)
->
-> diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-> index 588bc999cc..5f5b1fbfe6 100644
-> --- a/tests/vm/Makefile.include
-> +++ b/tests/vm/Makefile.include
-> @@ -1,8 +1,17 @@
->  # Makefile for VM tests
->
-> -.PHONY: vm-build-all vm-clean-all
-> +# Hack to allow running in an unconfigured build tree
-> +ifeq ($(wildcard $(SRC_PATH)/config-host.mak),)
-> +VM_PYTHON = PYTHONPATH=$(SRC_PATH)/python /usr/bin/env python3
-> +VM_VENV =
-> +HOST_ARCH := $(shell uname -m)
-> +else
-> +VM_PYTHON = $(TESTS_PYTHON)
-> +VM_VENV = check-venv
-> +HOST_ARCH = $(ARCH)
-> +endif
->
-> -HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
-> +.PHONY: vm-build-all vm-clean-all
->
->  EFI_AARCH64 = $(wildcard $(BUILD_DIR)/pc-bios/edk2-aarch64-code.fd)
->
-> @@ -85,10 +94,10 @@ vm-clean-all:
->  $(IMAGES_DIR)/%.img:   $(SRC_PATH)/tests/vm/% \
->                         $(SRC_PATH)/tests/vm/basevm.py \
->                         $(SRC_PATH)/tests/vm/Makefile.include \
-> -                       check-venv
-> +                       $(VM_VENV)
->         @mkdir -p $(IMAGES_DIR)
->         $(call quiet-command, \
-> -               $(TESTS_PYTHON) $< \
-> +               $(VM_PYTHON) $< \
->                 $(if $(V)$(DEBUG), --debug) \
->                 $(if $(GENISOIMAGE),--genisoimage $(GENISOIMAGE)) \
->                 $(if $(QEMU_LOCAL),--build-path $(BUILD_DIR)) \
-> @@ -100,11 +109,10 @@ $(IMAGES_DIR)/%.img:      $(SRC_PATH)/tests/vm/% \
->                 --build-image $@, \
->                 "  VM-IMAGE $*")
->
-> -
->  # Build in VM $(IMAGE)
-> -vm-build-%: $(IMAGES_DIR)/%.img check-venv
-> +vm-build-%: $(IMAGES_DIR)/%.img $(VM_VENV)
->         $(call quiet-command, \
-> -               $(TESTS_PYTHON) $(SRC_PATH)/tests/vm/$* \
-> +               $(VM_PYTHON) $(SRC_PATH)/tests/vm/$* \
->                 $(if $(V)$(DEBUG), --debug) \
->                 $(if $(DEBUG), --interactive) \
->                 $(if $(J),--jobs $(J)) \
-> @@ -128,9 +136,9 @@ vm-boot-serial-%: $(IMAGES_DIR)/%.img
->                 -device virtio-net-pci,netdev=vnet \
->         || true
->
-> -vm-boot-ssh-%: $(IMAGES_DIR)/%.img check-venv
-> +vm-boot-ssh-%: $(IMAGES_DIR)/%.img $(VM_VENV)
->         $(call quiet-command, \
-> -               $(TESTS_PYTHON) $(SRC_PATH)/tests/vm/$* \
-> +               $(VM_PYTHON) $(SRC_PATH)/tests/vm/$* \
->                 $(if $(J),--jobs $(J)) \
->                 $(if $(V)$(DEBUG), --debug) \
->                 $(if $(QEMU_LOCAL),--build-path $(BUILD_DIR)) \
-> --
-> 2.36.1
->
-
-as for this hack -- trusting your judgment on it for now, but I am not
-sure I agree with your proposed long term fix just yet. I'll add it to
-the list of criteria for the next series.
-
-Acked-By: John Snow <jsnow@redhat.com>
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
