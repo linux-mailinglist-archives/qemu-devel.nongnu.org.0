@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0EF54CEA7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:31:09 +0200 (CEST)
-Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9882854CED7
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:38:55 +0200 (CEST)
+Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Vv9-0008GC-9S
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:31:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45068)
+	id 1o1W2g-0001Af-3D
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1VOI-0000OP-G5
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:57:10 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:41672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1VOG-0008AZ-92
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:57:10 -0400
-Received: by mail-pg1-x529.google.com with SMTP id e66so11745019pgc.8
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 08:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=aG6jWR2ULP2xw6JngYJwBLq712UM8a2hVTANKtklgoI=;
- b=AhiPKTvezwR1nDW7fXaRxBWLMgWaHbXHTSWHvUGvnIjPfXsRjoR34OAwq915QyrtRD
- Sygd+fEfeEXc86yw+wb13J44yEdggaJz2eVx2luGcINGUIGKGfyznx2uaRBi/qskp2vX
- PJPLqOT0ZECkYDRpy0VfuKv9E/lGR1lXBG92szYS21GTIMmmUt0W1gYuO2ZzSiKFik2m
- +GO2Dw7Pgyji1IdGMxv4NlWJBQswFiAmmbT2j43xEhpHMVjVYucMkodtQXcMZF6RuA3C
- ZIXMxGUjynqXaFmWHxCMwH0ArU0QXK+3r1vnqS3e987+f1wanfTVTJ6tr1qvnQj10Ab/
- JHPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aG6jWR2ULP2xw6JngYJwBLq712UM8a2hVTANKtklgoI=;
- b=Nob7af5Vqp0lVx8odhHKoH9jh2JuJXwS7Q9Kn405pjyzHbKevd60SnHBMHqCf4WzUx
- 3uEzyjaqFWeqBRgT1vYMFNSFRnLi/ljbcCObcZV3JLhsqmxME4dBn2JnoyNUtsDn0cJQ
- lbKLw4lveh2s3IdrsbMMnCsYxo04WbZfHkGADf+0X+VZdcwQNblFX0JwJzqvPapCr8MF
- Nd0pS7Cmx9DvX+uuqzE/omI8mRbGH1HrrztJNRPd5JT3J8GT8mGx64F6eciVVZviY2eG
- JCASnDx5DL0RHZc8HFjDRZ2PljAK9nVxJsJldMQd48HLUBpCtA4pcAnPw+0n8YXMNP4+
- 6wqA==
-X-Gm-Message-State: AJIora83IiE2LSzXHc1poLb+5u3wXIxA+XJDoy0k4mrpUFm5AhDVGAXe
- TUNOtLG1O/AEbUdfJ0OftGc=
-X-Google-Smtp-Source: AGRyM1tXhSt5NlGILA20T/BUDP0DaOb3J6p6LmL+/tahR8sJREpniVtO36TJJTsXcf0HHo4xIqQRRg==
-X-Received: by 2002:a65:4183:0:b0:3fc:1370:9c37 with SMTP id
- a3-20020a654183000000b003fc13709c37mr451237pgq.4.1655308627019; 
- Wed, 15 Jun 2022 08:57:07 -0700 (PDT)
-Received: from localhost.localdomain ([2400:4050:c360:8200:4126:b1a8:8fce:1a8])
- by smtp.gmail.com with ESMTPSA id
- a34-20020a056a001d2200b0051874318772sm9860038pfx.201.2022.06.15.08.57.04
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Jun 2022 08:57:06 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v6 7/7] net: Use bundle mechanism
-Date: Thu, 16 Jun 2022 00:56:34 +0900
-Message-Id: <20220615155634.578-8-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
-In-Reply-To: <20220615155634.578-1-akihiko.odaki@gmail.com>
-References: <20220615155634.578-1-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o1VP8-0002ch-3J
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:58:02 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:36226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o1VP6-0008Hc-2x
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:58:01 -0400
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-427-lGrU5rIqMTKrBpQ_3dPErg-1; Wed, 15 Jun 2022 11:57:55 -0400
+X-MC-Unique: lGrU5rIqMTKrBpQ_3dPErg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6F771C03360;
+ Wed, 15 Jun 2022 15:57:54 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2839F2026D64;
+ Wed, 15 Jun 2022 15:57:54 +0000 (UTC)
+Date: Wed, 15 Jun 2022 17:57:53 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 7/7] tests/9pfs: check fid being unaffected in
+ fs_walk_2nd_nonexistent
+Message-ID: <20220615175753.1a43e4b0@bahia>
+In-Reply-To: <6f0813cafdbf683cdac8b1492dd4ef8699c5b1d9.1647339025.git.qemu_oss@crudebyte.com>
+References: <cover.1647339025.git.qemu_oss@crudebyte.com>
+ <6f0813cafdbf683cdac8b1492dd4ef8699c5b1d9.1647339025.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,39 +68,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- meson.build | 2 ++
- net/tap.c   | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+On Tue, 15 Mar 2022 11:08:47 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-diff --git a/meson.build b/meson.build
-index ab5ab85bf4e..72e42048cbe 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3574,6 +3574,8 @@ if have_tools
-                dependencies: [authz, crypto, io, qom, qemuutil,
-                               libcap_ng, mpathpersist],
-                install: true)
-+
-+    bundles += { get_option('libexecdir') / 'qemu-bridge-helper': '../../qemu-bridge-helper' }
-   endif
- 
-   if have_ivshmem
-diff --git a/net/tap.c b/net/tap.c
-index b3ddfd4a74b..5beba85fb22 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -507,7 +507,7 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
-     sigprocmask(SIG_BLOCK, &mask, &oldmask);
- 
-     if (!helper) {
--        helper = default_helper = get_relocated_path(DEFAULT_BRIDGE_HELPER);
-+        helper = default_helper = find_bundle(DEFAULT_BRIDGE_HELPER);
-     }
- 
-     if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
--- 
-2.32.1 (Apple Git-133)
+> Extend previously added test case by checking that fid was unaffected
+> by 'Twalk' request (i.e. when 2nd path component of request being
+> invalid). Do that by subsequently sending a 'Tgetattr' request with
+> the fid previously used for 'Twalk'; that 'Tgetattr' request should
+> return an 'Rlerror' response by 9p server with error code ENOENT as
+> that fid is basically invalid.
+> 
+> And as we are at it, also check that the QID returned by 'Twalk' is
+> not identical to the root node's QID.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  tests/qtest/virtio-9p-test.c | 26 ++++++++++++++++++++++----
+>  1 file changed, 22 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> index f6e78d388e..2784ee4b2d 100644
+> --- a/tests/qtest/virtio-9p-test.c
+> +++ b/tests/qtest/virtio-9p-test.c
+> @@ -721,14 +721,19 @@ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
+>      do_version(obj);
+>  }
+>  
+> -static void do_attach(QVirtio9P *v9p)
+> +static void do_attach_rqid(QVirtio9P *v9p, v9fs_qid *qid)
+>  {
+>      P9Req *req;
+>  
+>      do_version(v9p);
+>      req = v9fs_tattach(v9p, 0, getuid(), 0);
+>      v9fs_req_wait_for_reply(req, NULL);
+> -    v9fs_rattach(req, NULL);
+> +    v9fs_rattach(req, qid);
+> +}
+> +
+> +static void do_attach(QVirtio9P *v9p)
+> +{
+> +    do_attach_rqid(v9p, NULL);
+>  }
+>  
+>  static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
+> @@ -1101,19 +1106,32 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
+>  {
+>      QVirtio9P *v9p = obj;
+>      alloc = t_alloc;
+> +    v9fs_qid root_qid;
+>      uint16_t nwqid;
+> +    uint32_t fid, err;
+> +    P9Req *req;
+>      g_autofree v9fs_qid *wqid = NULL;
+>      g_autofree char *path = g_strdup_printf(
+>          QTEST_V9FS_SYNTH_WALK_FILE "/non-existent", 0
+>      );
+>  
+> -    do_attach(v9p);
+> -    do_walk_rqids(v9p, path, &nwqid, &wqid);
+> +    do_attach_rqid(v9p, &root_qid);
+> +    fid = do_walk_rqids(v9p, path, &nwqid, &wqid);
+>      /*
+>       * The 9p2000 protocol spec says: "nwqid is therefore either nwname or the
+>       * index of the first elementwise walk that failed."
+>       */
+>      assert(nwqid == 1);
+> +
+> +    /* returned QID wqid[0] is file ID of 1st subdir */
+> +    g_assert(wqid && wqid[0] && !is_same_qid(root_qid, wqid[0]));
+> +
+> +    /* expect fid being unaffected by walk above */
+> +    req = v9fs_tgetattr(v9p, fid, P9_GETATTR_BASIC, 0);
+> +    v9fs_req_wait_for_reply(req, NULL);
+> +    v9fs_rlerror(req, &err);
+> +
+> +    g_assert_cmpint(err, ==, ENOENT);
+>  }
+>  
+>  static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
 
 
