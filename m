@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE99354C762
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 13:25:04 +0200 (CEST)
-Received: from localhost ([::1]:53562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67CD54C783
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 13:30:30 +0200 (CEST)
+Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1R8x-0007ZW-Gg
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 07:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36858)
+	id 1o1REC-0001aB-NU
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 07:30:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o1R6h-0006KO-NC
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:22:43 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:36640 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o1R6e-0004tu-8j
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:22:43 -0400
-Received: from smtpclient.apple (unknown [202.38.79.134])
- by APP-05 (Coremail) with SMTP id zQCowACnyH3vwKliC8x9Aw--.5059S2;
- Wed, 15 Jun 2022 19:22:24 +0800 (CST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH 1/2] hw/nvme: Implement shadow doorbell buffer support
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <YqmwZ/FGIROp5ds7@movementarian.org>
-Date: Wed, 15 Jun 2022 19:22:22 +0800
-Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- qemu-devel@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1B9E7594-8DA6-4F04-A5FC-10CEDA25368A@ict.ac.cn>
-References: <YqIDyjxrZnkeMfcE@kbusch-mbp.dhcp.thefacebook.com>
- <YqIXIiQr+dpksBh6@movementarian.org> <YqItnbgtw7BNPBZH@apples>
- <D9A53959-6A31-4105-B0A9-37B8180D973C@ict.ac.cn>
- <Yqeo4EKtQJq8XRm+@kbusch-mbp.dhcp.thefacebook.com>
- <0CC03CA7-1BC5-4FDF-92BA-4256778AD113@ict.ac.cn>
- <YqisK8iYANhY/mCm@kbusch-mbp.dhcp.thefacebook.com> <Yqmc2vKXcMl4Xsme@apples>
- <YqmhO0+5rggd/V5T@movementarian.org> <YqmnTmxpYOeupgnt@apples>
- <YqmwZ/FGIROp5ds7@movementarian.org>
-To: John Levon <levon@movementarian.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: zQCowACnyH3vwKliC8x9Aw--.5059S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZFy7tFW7tF4Dtr4UCw1xZrb_yoW8XrykpF
- WxZa1xtFWqkw4jgws5trs7X3W5trW8XF98KrnrJF18WF9av34SkayjgFy5Gry5CrZYgF1j
- v3yY9rW3JrWrZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyab7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
- 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
- 3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
- WUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
- wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
- k0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
- Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8P5r7UUUUU==
-X-Originating-IP: [202.38.79.134]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1RBS-0000gR-EG
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:27:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56150)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1RBO-0005xl-Hb
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:27:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655292453;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3pRNOQc/M65XGy3Jv6mDi7CqMQ9+EzlnXjaC/To7apk=;
+ b=bmesmIlFut9u8IC5785LD2bdEsqSQ7aEMHKvzT0gcToc/cxoKy2hAj3fDTp54C4INphzOg
+ 2UbjmWABwtML3m/iwg322iuX1jOqUGe5qD0zzr6i/zJF8dLjDHBvzwt+M6C+7HqyUK5U+/
+ DRHFGE8SdW+n6JtEEbHvUiQwehj38YM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-489-vPWp4mbANHqkV8XWgzFzrg-1; Wed, 15 Jun 2022 07:27:29 -0400
+X-MC-Unique: vPWp4mbANHqkV8XWgzFzrg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AB443C025D1;
+ Wed, 15 Jun 2022 11:27:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 163FD111F5;
+ Wed, 15 Jun 2022 11:27:27 +0000 (UTC)
+Date: Wed, 15 Jun 2022 12:27:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Programmingkid <programmingkidx@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 0/4] cutils: Introduce bundle mechanism
+Message-ID: <YqnCHXx4iY5O0vnn@redhat.com>
+References: <20220614210746.78911-1-akihiko.odaki@gmail.com>
+ <YqmYrFjshfAopt3A@redhat.com>
+ <4d501ec8-836c-9d33-65a0-4a6ab943091b@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4d501ec8-836c-9d33-65a0-4a6ab943091b@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,80 +86,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jun 15, 2022 at 01:02:08PM +0200, Paolo Bonzini wrote:
+> On 6/15/22 10:30, Daniel P. Berrangé wrote:
+> > I don't think this is an attractive approach to the problem,
+> > because it results in us adding a bunch of meson rules to
+> > simulate 'make install' within the build dir. This is undesirable
+> > clutter IMHO, and can be solved more simply by just modifying the
+> > qemu_find_file() method.
+> > 
+> > The core problem is the impl of qemu_find_file is taking the wrong
+> > approach, in several ways, but mostly because of its use of a single
+> > 'data_dirs' array for all types of file. This is bad because it
+> > has the assumption that build dir and install dir layouts match,
+> > and second because when we add extra firmware data dirs, we don't
+> > want this used for non-firmware files.
+> > 
+> > We need to separate out the handling of different types of resources
+> > for this to work correctly.
+> 
+> In some sense this is what Akihiko did - instead of separating them in
+> qemu_find_file(), the "pre-install" layout separates them in the filesystem.
+> While I had remarks on the implementation I think it's a sensible approach.
+> 
+> The pre-install directory could even be created as a custom_target, using
+> the JSON files from Meson introspection.
 
+Doing that is more complicated than just refactoring qemu_find_file,
+such that its search locations can be tailored per file type, just
+by setting a couple variables in the code IMHO.
 
-> On Jun 15, 2022, at 6:11 PM, John Levon <levon@movementarian.org> =
-wrote:
->=20
-> On Wed, Jun 15, 2022 at 11:33:02AM +0200, Klaus Jensen wrote:
->=20
->>> BTW I'm surprised that this patch has just this:
->>>=20
->>> +static void nvme_update_sq_eventidx(const NvmeSQueue *sq)
->>> +{
->>> +    pci_dma_write(&sq->ctrl->parent_obj, sq->ei_addr, &sq->tail,
->>> +                  sizeof(sq->tail));
->>> +}
->>>=20
->>> Isn't this racy against the driver? Compare
->>> https://github.com/spdk/spdk/blob/master/lib/nvmf/vfio_user.c#L1317
->>>=20
->>> thanks
->>> john
->>=20
->> QEMU has full memory barriers on dma read/write, so I believe this is
->> safe?
->=20
-> But don't you need to re-read the tail still, for example:
-
-
-Hi John,
-
-I think we also have a check for concurrent update on the tail. After =
-writing eventidx, we read the tail again. It is here:
-
-@@ -5854,6 +5943,11 @@ static void nvme_process_sq(void *opaque)
-             req->status =3D status;
-             nvme_enqueue_req_completion(cq, req);
-         }
-+
-+        if (n->dbbuf_enabled) {
-+            nvme_update_sq_eventidx(sq);
-+            nvme_update_sq_tail(sq);
-+        }
-
->=20
->=20
-> driver 			device
->=20
-> 			eventidx is 3
->=20
-> write 4 to tail
-> 			read tail of 4
-> write 5 to tail
-> read eventidx of 3
-> nvme_dbbuf_need_event (1)
->=20
-> 			set eventidx to 4
-
-Therefore, at this point, we read the tail of 5.
-
-> 			go to sleep
->=20
-> at (1), our tail update of 4->5 doesn't straddle the eventidx, so we =
-don't send
-> any MMIO, and the device won't wake up. This is why the above code =
-checks the
-> tail twice for any concurrent update.
-
-Thanks,
-Jinhao Fan
-
->=20
-> regards
-> john
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
