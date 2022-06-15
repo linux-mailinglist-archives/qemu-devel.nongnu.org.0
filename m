@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DAD54C076
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 05:55:32 +0200 (CEST)
-Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7BC54C079
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 06:02:26 +0200 (CEST)
+Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1K7v-0002x3-1g
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jun 2022 23:55:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50272)
+	id 1o1KEb-0006JO-1s
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 00:02:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1o1K4d-0002Ff-8a
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 23:52:07 -0400
-Received: from mga09.intel.com ([134.134.136.24]:55414)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1o1K4Z-0001xg-C3
- for qemu-devel@nongnu.org; Tue, 14 Jun 2022 23:52:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655265123; x=1686801123;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=FspUsQIrx6b0MyOb0TO3s5vfVl71UDr4jFWg9dAe8Yw=;
- b=V4AkTR/pDeEBAdnq/lUf/Qlx/QkgTWPbnNNvEWcLcBRw0WbD08LQbpj8
- yDLPNvPL/lwnnCzDSDoxJq1wL0gF7KA65i+iSqY+0oLl/VRy4njd4rNWl
- tlQ5fS9Sbx1KCni4mBANGPX9jAUDsOhZAQQ92ZH5oWp07eeiq7jdAnApZ
- b7y1oM6k7r+m/wOBnm65Ps+ElqnoPeB+43yrpjQzXfA6KwOGgzRWOlfMp
- okIHkvSmPxCUiSi5IGRH+8TjgcZVi8rHjaC9EZeFg/S3n5KmtzGgJl0BP
- 6Pwm3dgWdlyyu9ex9FsQraYb3lKuOYnIP8PEuxg0MuIF2yCoQcQc6qE+c w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="279542037"
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="279542037"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2022 20:51:55 -0700
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="640757100"
-Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2022 20:51:53 -0700
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, lersek@redhat.com,
- imammedo@redhat.com, kraxel@redhat.com
-Subject: [PATCH] =?UTF-8?q?q35=EF=BC=9AEnable=20TSEG=20only=20when=20G=5FS?=
- =?UTF-8?q?MRAME=20and=20TSEG=5FEN=20both=20enabled?=
-Date: Wed, 15 Jun 2022 11:45:01 +0800
-Message-Id: <20220615034501.2733802-1-zhenzhong.duan@intel.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=zhenzhong.duan@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o1KBF-0005Az-RD
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 23:58:59 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:57804 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o1KB7-0002pU-BJ
+ for qemu-devel@nongnu.org; Tue, 14 Jun 2022 23:58:54 -0400
+Received: from smtpclient.apple (unknown [202.38.79.134])
+ by APP-01 (Coremail) with SMTP id qwCowAAniBXqWKli1kRvAw--.234S2;
+ Wed, 15 Jun 2022 11:58:35 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH 1/2] hw/nvme: Implement shadow doorbell buffer support
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <YqisK8iYANhY/mCm@kbusch-mbp.dhcp.thefacebook.com>
+Date: Wed, 15 Jun 2022 11:58:34 +0800
+Cc: Klaus Jensen <its@irrelevant.dk>, John Levon <levon@movementarian.org>,
+ qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A0E5C6FC-A020-4C0D-8DEA-04139F450455@ict.ac.cn>
+References: <20220608013659.472500-1-fanjinhao21s@ict.ac.cn>
+ <20220608013659.472500-2-fanjinhao21s@ict.ac.cn> <YqEMwsclktptJvQI@apples>
+ <YqIDyjxrZnkeMfcE@kbusch-mbp.dhcp.thefacebook.com>
+ <YqIXIiQr+dpksBh6@movementarian.org> <YqItnbgtw7BNPBZH@apples>
+ <D9A53959-6A31-4105-B0A9-37B8180D973C@ict.ac.cn>
+ <Yqeo4EKtQJq8XRm+@kbusch-mbp.dhcp.thefacebook.com>
+ <0CC03CA7-1BC5-4FDF-92BA-4256778AD113@ict.ac.cn>
+ <YqisK8iYANhY/mCm@kbusch-mbp.dhcp.thefacebook.com>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowAAniBXqWKli1kRvAw--.234S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7trWrZry5uFy8ZFW8urWDtwb_yoW8Ww4Dpr
+ Z7GF98K34kG3sakwnIvw40qF1FkrZYkry8Jrn8uws0kr90g3yIvr4vkF4Fva40qr9Yg3Z0
+ vF4jqasxJF4vyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkIb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_Gr4l42xK
+ 82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+ C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
+ MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+ IF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+ x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0YiiDUUUUU==
+X-Originating-IP: [202.38.79.134]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,34 +83,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to spec:
-"TSEG Enable (T_EN): Enabling of SMRAM memory for Extended SMRAM space
-only. When G_SMRAME = 1 and TSEG_EN = 1, the TSEG is enabled to appear
-in the appropriate physical address space. Note that once D_LCK is set,
-this bit becomes read only."
 
-Changed to match the spec description.
+> On Jun 14, 2022, at 11:41 PM, Keith Busch <kbusch@kernel.org> wrote:
+>=20
+> It's a pretty nasty hack, and definitely not in compliance with the =
+spec: the
+> db_addr is supposed to be read-only from the device side, though I do =
+think
+> it's safe for this environment. Unless Klaus or anyone finds something =
+I'm
+> missing, I feel this is an acceptable compromise to address this odd
+> discrepency.
 
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
----
- hw/pci-host/q35.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+:) In my next patch I will check the performance numbers with this hack. =
+Not
+sure if updating db_addr value from the host will have any performance=20=
 
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index ab5a47aff560..20da1213747c 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -379,7 +379,8 @@ static void mch_update_smram(MCHPCIState *mch)
-         memory_region_set_enabled(&mch->high_smram, false);
-     }
- 
--    if (pd->config[MCH_HOST_BRIDGE_ESMRAMC] & MCH_HOST_BRIDGE_ESMRAMC_T_EN) {
-+    if ((pd->config[MCH_HOST_BRIDGE_ESMRAMC] & MCH_HOST_BRIDGE_ESMRAMC_T_EN) &&
-+        (pd->config[MCH_HOST_BRIDGE_SMRAM] & SMRAM_G_SMRAME)) {
-         switch (pd->config[MCH_HOST_BRIDGE_ESMRAMC] &
-                 MCH_HOST_BRIDGE_ESMRAMC_TSEG_SZ_MASK) {
-         case MCH_HOST_BRIDGE_ESMRAMC_TSEG_SZ_1MB:
--- 
-2.25.1
+implications but I guess it should be OK.
+
+>=20
+> I believe the recommended tag for something like this is =
+"Suggested-by:", but
+> no need to credit me. Just fold it into your first patch and send a =
+v2.
+
+Sure. Thanks!
+
+>=20
+> By the way, I noticed that the patch never updates the cq's ei_addr =
+value. Is
+> that on purpose?
+
+Klaus also raised a similar question in a prior comment. I think we need =
+to figure
+this out before we move on to the v2 patch. I did this because the =
+original Google
+extension patch did not update cq=E2=80=99s ei_addr. This seems to make =
+sense because
+the purpose of cq=E2=80=99s ei_addr is for the guest to notify the host =
+about cq head
+changes when necessary. However, the host does not need this =
+notification=20
+because we let the host proactively check for cq=E2=80=99s db_addr value =
+when it wants
+to post a new cqe. This is also the only point where the host uses the =
+cq=E2=80=99s
+db_addr. Therefore, it is OK to postpone the check for cq=E2=80=99s =
+db_addr to this point,
+instead of getting timely but not useful notifications by updating =
+cq=E2=80=99s ei_addr.
+This helps to reduce the number of MMIO=E2=80=99s on the cq=E2=80=99s =
+doorbell register.
+
+Klaus, Keith, do you think this design makes sense?=
 
 
