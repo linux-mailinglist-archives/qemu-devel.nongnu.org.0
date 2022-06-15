@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4954254C246
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 08:57:49 +0200 (CEST)
-Received: from localhost ([::1]:59998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE9054C253
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 09:04:10 +0200 (CEST)
+Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1MyG-0005Rr-8u
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 02:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
+	id 1o1N4S-0000XA-Hw
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 03:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1Mjd-0007bT-IW
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 02:42:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44739)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1MyA-0006gl-7D
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 02:57:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1MjZ-0006C3-AU
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 02:42:35 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1My5-00012I-Ea
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 02:57:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655275351;
+ s=mimecast20190719; t=1655276252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=C0u6wosPYf+yzMshLNo4oqYmAY58Uty69QtNHSwlHRs=;
- b=Frppg7imFRjBnSc3D4aWTgyTIZKSmtp4mTgzaXA1G7xaOjGynM9dSdryK9pQY99KwAp4Vc
- UxXVRuoK+TNLsRwOrRUGPRplcB1lAPlSPxK0vp2Nz8c8vsRDEJbjnf84Ifo6LGAij2qrJZ
- LoebkXj6K/P6jvvrcKfYC0hQ7c2u/Fo=
+ bh=SrA8FzBUEdeGRKPBITHs1wfmxyw/e3sW7P/oFwToI3k=;
+ b=V0kp57836YAbNgvVyWuSJUOCL/n6kUXk33jqanm3wt7NSsp0a1ZepeIuDpuSbXXQBVNEXo
+ EYHzuJVhHdwKv1DeJ9TZUaDNUocVM1p8Ieoi+xXHEfqlIGoHnb74kQX4mG3WH9XwCiDLUF
+ pCKBd5Sd4rhZ5NWaSH/M+k9VEG4ziiw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-508-fekoQO3gORapDT7fEQ1UHA-1; Wed, 15 Jun 2022 02:42:24 -0400
-X-MC-Unique: fekoQO3gORapDT7fEQ1UHA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-631-Q4HCAZ0xNGmhl3GorvNVWw-1; Wed, 15 Jun 2022 02:57:29 -0400
+X-MC-Unique: Q4HCAZ0xNGmhl3GorvNVWw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 137DB2999B28;
- Wed, 15 Jun 2022 06:42:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB3433C025CC;
+ Wed, 15 Jun 2022 06:57:28 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8182040466AD;
- Wed, 15 Jun 2022 06:42:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79B511415106;
+ Wed, 15 Jun 2022 06:57:28 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F05591800081; Wed, 15 Jun 2022 08:42:21 +0200 (CEST)
-Date: Wed, 15 Jun 2022 08:42:21 +0200
+ id 0EB5B1800081; Wed, 15 Jun 2022 08:57:27 +0200 (CEST)
+Date: Wed, 15 Jun 2022 08:57:27 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Kevin Locke <kevin@kevinlocke.name>
-Cc: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Laine Stump <laine@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2] docs: add PCIe root bus for VGA compat guideline
-Message-ID: <20220615064221.kzqd3fcsbia7h5vc@sirius.home.kraxel.org>
-References: <922cc3081ff9c986188f881ef4d1cf15bd3adf48.1654739990.git.kevin@kevinlocke.name>
- <bde9fc450bc5143d616c7e9999c5d39ae9fd9cb8.1655054968.git.kevin@kevinlocke.name>
- <3eebc773-a5ae-6652-95f5-4359872ea4d4@redhat.com>
- <20220614085252.fyogpqyf7cfcty4x@sirius.home.kraxel.org>
- <YqjQF83XBlnmyM3L@kevinlocke.name>
+To: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, marcel.apfelbaum@gmail.com,
+ lersek@redhat.com, imammedo@redhat.com
+Subject: Re: [PATCH] =?utf-8?B?cTM177yaRW5hYmw=?= =?utf-8?Q?e?= TSEG only
+ when G_SMRAME and TSEG_EN both enabled
+Message-ID: <20220615065727.wznkjmuqsc5ejjmv@sirius.home.kraxel.org>
+References: <20220615034501.2733802-1-zhenzhong.duan@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YqjQF83XBlnmyM3L@kevinlocke.name>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+In-Reply-To: <20220615034501.2733802-1-zhenzhong.duan@intel.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,27 +80,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Wed, Jun 15, 2022 at 11:45:01AM +0800, Zhenzhong Duan wrote:
+> According to spec:
+> "TSEG Enable (T_EN): Enabling of SMRAM memory for Extended SMRAM space
+> only. When G_SMRAME = 1 and TSEG_EN = 1, the TSEG is enabled to appear
+> in the appropriate physical address space. Note that once D_LCK is set,
+> this bit becomes read only."
 
-> I think documenting the issue with VBE registers would be helpful.
-> Doing so with a recommendation for how to avoid the issue seems even
-> better.  Would a recommendation to attach a device which supports VBE
-> to the Root Complex if VBE will be used by the guest make sense?
+edk2 agrees and explicitly sets SMRAM_G_SMRAME:
 
-Yes.  This affects all vga-compatible devices emulated by qemu except cirrus.
+  //
+  // TSEG should be closed (see above), but unlocked, initially. Set G_SMRAME
+  // (Global SMRAM Enable) too, as both D_LCK and T_EN depend on it.
+  //
+  PciAndThenOr8 (
+    DRAMC_REGISTER_Q35 (MCH_SMRAM),
+    (UINT8)((~(UINT32)MCH_SMRAM_D_LCK) & 0xff),
+    MCH_SMRAM_G_SMRAME
+    );
 
-> As you noted, applying the recommendation to all VGA compatible
-> devices may be too broad.  I'm not sure whether it makes sense to
-> recommend attaching VGA compatible devices to the Root Complex to
-> avoid the complexity of the VGA exception bits, or if that is a
-> non-issue.  In fact, if I understand correctly, it may make sense to
-> recommend attaching VGA compatible devices to separate PCI bridges if
-> the VM will have multiple VGA compatible devices so that the guest can
-> perform VGA arbitration.
+Good.
 
-Yes.  Also guest drivers for pci-attached might be confused in case they
-find a pcie gpu which is *not* in a pcie root port (which is impossible
-on physical hardware).
+> -    if (pd->config[MCH_HOST_BRIDGE_ESMRAMC] & MCH_HOST_BRIDGE_ESMRAMC_T_EN) {
+> +    if ((pd->config[MCH_HOST_BRIDGE_ESMRAMC] & MCH_HOST_BRIDGE_ESMRAMC_T_EN) &&
+> +        (pd->config[MCH_HOST_BRIDGE_SMRAM] & SMRAM_G_SMRAME)) {
+
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 
 take care,
   Gerd
