@@ -2,78 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740C154D186
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 21:25:50 +0200 (CEST)
-Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAAD54D183
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 21:25:35 +0200 (CEST)
+Received: from localhost ([::1]:39746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1YeD-0004Fh-A5
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 15:25:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39246)
+	id 1o1Ydx-0003zF-Ll
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 15:25:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
- id 1o1Yby-0002pV-NO
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 15:23:30 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:34737)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o1Ybr-0002kG-Rb
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 15:23:23 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:34306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
- id 1o1Ybx-0002qm-6y
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 15:23:30 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id p13so22270345ybm.1
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 12:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GwdiFAzg9OyCm6z6rzXhnezmvKsswS+TyH70/5WuJ9g=;
- b=hjzFBiAXvhahTi+HNSsSMC65YPg8YRjsrFoX/aoFi89Dvh2B4Bvm14FHxDXh1idnt0
- wwLVckSx+iK3awkRdK1PKQ66UR51qj0W8zruJaa3aT54Q6+DwEubFVAtQI/OXgadpcIG
- x680qucbhA696HWXo7bpqPWAV6YrIH1FhOcj7KlzyZDxqcSxxZ1zV4YC2k5TabEUW/4/
- nwX9n7IruPILU03DnJz5lVcBkZ25rbFmaFGK5XDVcQOWSLesPOoFDY0gCgOvrvlVq8Tz
- vFiLd8Icul1zToZdUpasekw9pM35ET8uwsYxYjvjUW6Py+zfMLUBMI2Yrp28CHAEUqB2
- O+xQ==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o1Ybq-0002qJ-99
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 15:23:23 -0400
+Received: by mail-ej1-x631.google.com with SMTP id o7so25176096eja.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 12:23:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IYvue2KCXfox+j1W8EWfcxKsGHuta0er+s/222TcEa8=;
+ b=iUqILA5/t+DveYVadwC/zFfdHgvzndaGU0XlNl358XOWYfvOopkmxnlIzVxuvRvmXd
+ uZpHLHxkKwKQ2GcIxSM3wx+2kOA9p+S8XN/UUTZGFWFbifqRu+D9SEWKuCbU6vVcX0vI
+ Mf61enZjgvdBAZDfJVSX1BA8c57ytJ4xTM/FQrP/8+ieP+Hzd/JlChK9+xbyIiUI5ctC
+ dq8y7cFNWKdvY1QCy9xiLK7EbJvT7xw1sxb/SAzwaVO2Pa2xqydlIxfuruGVtcKXEV4p
+ OXGOGTRgqDM8OyXjzeerTp1Eer1QQb5ZG15qvM0IzkiwNNZwtzxMrx5vg6gCo2E863uH
+ gHXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GwdiFAzg9OyCm6z6rzXhnezmvKsswS+TyH70/5WuJ9g=;
- b=8GozR5D977f4vI+ueeVysg9rs2hVrS3PurVI/rPmSq1Pqsbo6LLiOrv6HMZgGftuOr
- 1Y7V+3XZh9ZHOZStfI//Ppc7PLUvplTz9MiwDhnZPHbjgSQBuneM4GpjnNk4Tkg4ZPZP
- 44yu9pRMgZ+9uWSVYJ/WGAARLEKHdpY5evEIgbEJwV9Gailu5bw+x1qMwmJUwIRZs/3t
- kLDUo5Ym2dWb4UhG7iYo9FZqJf4/BdTT0PyyAQ3u6HiiPcoLdGGjv+RYMSee3GjK+vfV
- +/qlcJ04ea1GxS/u/AQgokReFukPxnsvWOOuSVPjF9OEdppq2BNu22G9TyoW6p3uOm/x
- GsIQ==
-X-Gm-Message-State: AJIora8XcC7kLEB6JeeP50NPf0nk4kOx9TnHz6MM3NfLQmIYcInOQIdB
- xldIEzeQM/Kw4BnBTOOs9HGAk6PFFM3Hf7NawqofUA==
-X-Google-Smtp-Source: AGRyM1uBXEZ2zHXRW3bp7/YftqDDJMIA/WGGDyD7sU+99HEc/npns1jXfVPc2CZzzHdZOC9UqlvpH2xj2+ycQtZcvMQ=
-X-Received: by 2002:a25:b5c1:0:b0:664:5a43:61a0 with SMTP id
- d1-20020a25b5c1000000b006645a4361a0mr1528549ybg.321.1655321006399; Wed, 15
- Jun 2022 12:23:26 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IYvue2KCXfox+j1W8EWfcxKsGHuta0er+s/222TcEa8=;
+ b=oc9zdfc0VFwX8eRpg/hQeZMWF87cB8IOjyxr+MH5OZaXlI3ZVskR2egDoqe1EJCVE9
+ cBbwwWE6YFC7TWpGK8ai3rUknjzOJJ8azccupAs0r01j2tLrGvLqIowjq8YMZ3i/g3f1
+ DP9Anoej95lBRN7ow1PUof/bl6YlBU0ggEXaZiXPfOtENx8GBnINF4barpbe3Oo8jNNP
+ kVPLh/zH6hs5QL+0uMd1WTxRm1MAUl6hQkt7FoinuFGU1npuut1n48bHQsUK84OmWHmv
+ nkRwbKbSsVTdUFmfEyQ/FKCAznzMZYLSa85gIuQJhgbAPuvdQb0uaKy1SxdWqYocnPpn
+ S+Ow==
+X-Gm-Message-State: AJIora/JjVkhckvgyCxLCf8cXSbZltfx1B2uufv16qIkym7abU0EQrwa
+ m6GpZGpraRi2Q1bHr3V5Kdw=
+X-Google-Smtp-Source: AGRyM1sydromeGIpl6AtivgLUkqD0xHcMOnpcqx8rjFJ9Of4c7dYQmfPj2H8DXO3tqVsBtcS6BJWsg==
+X-Received: by 2002:a17:906:1193:b0:70d:cf39:a4db with SMTP id
+ n19-20020a170906119300b0070dcf39a4dbmr1246556eja.44.1655321000687; 
+ Wed, 15 Jun 2022 12:23:20 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ z23-20020a17090655d700b006fef0c7072esm6839331ejp.144.2022.06.15.12.23.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jun 2022 12:23:20 -0700 (PDT)
+Message-ID: <79228447-890d-b518-f379-55eaa74c190a@redhat.com>
+Date: Wed, 15 Jun 2022 21:23:18 +0200
 MIME-Version: 1.0
-References: <CAAH4kHYyXv3x+89Ybnj7GXms2Bz2CNn5JK0+d6DzVtMz5owTrw@mail.gmail.com>
- <PH0PR11MB50643B5AEE5A399EB8AFB000C5AD9@PH0PR11MB5064.namprd11.prod.outlook.com>
- <20220615073337.jq654i7ba33xttwh@sirius.home.kraxel.org>
-In-Reply-To: <20220615073337.jq654i7ba33xttwh@sirius.home.kraxel.org>
-From: Dionna Amalie Glaze <dionnaglaze@google.com>
-Date: Wed, 15 Jun 2022 12:23:15 -0700
-Message-ID: <CAAH4kHabyqiWL=yP94OvGhauPy3rv2zGq0w+3Be_rVGm8=y38g@mail.gmail.com>
-Subject: Re: New "IndustryStandard" fw_cfg?
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: "Xu, Min M" <min.m.xu@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Yao,
- Jiewen" <jiewen.yao@intel.com>, 
- "Li, Xiaoyao" <xiaoyao.li@intel.com>, "Aktas, Erdem" <erdemaktas@google.com>, 
- "Yamahata, Isaku" <isaku.yamahata@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=dionnaglaze@google.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 5/7] datadir: Use bundle mechanism
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang
+ <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20220615155634.578-1-akihiko.odaki@gmail.com>
+ <20220615155634.578-6-akihiko.odaki@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220615155634.578-6-akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,50 +101,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > > For Qemu, the main code I see for adding config is here, but I'm not sure
-> > > what y'all's preferred external configuration method is to get a value from an
->
-> Ideally no external configuration, although I suspect we need something
-> at least temporarily.
+On 6/15/22 17:56, Akihiko Odaki wrote:
+> diff --git a/tests/vm/fedora b/tests/vm/fedora
+> index 92b78d6e2c9..4ccd31bba61 100755
+> --- a/tests/vm/fedora
+> +++ b/tests/vm/fedora
+> @@ -79,7 +79,7 @@ class FedoraVM(basevm.BaseVM):
+>           self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+>           self.print_step("Booting installer")
+>           self.boot(img_tmp, extra_args = [
+> -            "-bios", "pc-bios/bios-256k.bin",
+> +            "-bios", "qemu-bundle/share/qemu/bios-256k.bin",
+>               "-machine", "graphics=off",
+>               "-device", "VGA",
+>               "-cdrom", iso
+> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+> index 805db759d67..2095d8c5204 100755
+> --- a/tests/vm/freebsd
+> +++ b/tests/vm/freebsd
+> @@ -95,7 +95,7 @@ class FreeBSDVM(basevm.BaseVM):
+>   
+>           self.print_step("Booting installer")
+>           self.boot(img_tmp, extra_args = [
+> -            "-bios", "pc-bios/bios-256k.bin",
+> +            "-bios", "qemu-bundle/share/qemu/bios-256k.bin",
+>               "-machine", "graphics=off",
+>               "-device", "VGA",
+>               "-cdrom", iso
 
-Yes, whereas TDX can assume unaccepted memory is supported as part of
-its "TDX support" set of capabilities an OS has, SEV-SNP has already
-been released and is supported. We therefore need to not break
-existing images that "support SEV-SNP".
+I think -bios can be removed completely here.
 
->
-> IMHO the long-term goal should be to make this fully automatic, by
-> having efi apps (which includes the linux kernel's efi stub) and
-> firmware negotiate this.  Problem is this most likely requires changing
-> the uefi specs, which will take a while.
->
-> One possible way I see is extending efi boot services with a
-> GetMemoryMapEx() call, with an additional flags parameter where the
-> caller can specify that it can handle unaccepted memory with a flag
-> bit.  When the guest does not set the flag (or uses the old GetMemoryMap
-> call) the firmware must accept all memory and return a memory map
-> without unaccepted memory.
-
-To allow for future weird memory extensions, I'd recommend this being
-a struct with initial size field, but yes.
-Sounds like a new UEFI spec would be needed for this negotiation.
-
->
-> > > 2. A "well-known" file path to be included in the file slots starting at 0x0020,
-> > > such as "etc/min_accepted_mem_size", still plumbed through like in 1.
->
-> New options should use a file path.
->
-> See also docs/specs/fw_cfg.txt in qemu source tree.
->
-
-Thanks for this.
-
-> take care,
->   Gerd
->
-
-
--- 
--Dionna Glaze, PhD (she/her)
+Paolo
 
