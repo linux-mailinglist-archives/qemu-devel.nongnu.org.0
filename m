@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E37054C743
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 13:20:46 +0200 (CEST)
-Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE99354C762
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 13:25:04 +0200 (CEST)
+Received: from localhost ([::1]:53562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1R4m-0005D8-SO
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 07:20:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1o1R8x-0007ZW-Gg
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 07:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoguangrong.eric@gmail.com>)
- id 1o1R1x-0004N0-02
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:17:52 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37567)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xiaoguangrong.eric@gmail.com>)
- id 1o1R1t-0003us-MC
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:17:48 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id h27so19955226ybj.4
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 04:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0MPSVey5c36dYBw9hObPHfTXyqBwCa9A0e81VpRD4TE=;
- b=DJiD6uXT0Xhm4/yMc7HfRHGsAZa8rE9eJuXTMwkh6P3BDjU9cjZHoQh9sywAoSCCJ+
- /z19bcfvWzG3djyLRvF0gboaHh3UZu7XM85gcSngQDvj94KomGvVG5sX3B+OnRhf3Fsw
- Eup2r0Azg8TjnjJ5e9LV3rTwTN91QHR3K/YgLuDzzVBnlBB4w+zEWSX/sQPUau3TUgUa
- PXk0yx5owBqN3rLVKMuVtrMiDOfHE2TS16F+JaOPcrn2FXWaQHb03FagHjlDL3kAYE4D
- 5s9bKiNW6mnMPr/gnQwYWSRm6mtbud0q9L2G9ALb4Cx/f/rUhw+ympBwSgCOfvE7rRPl
- xZKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0MPSVey5c36dYBw9hObPHfTXyqBwCa9A0e81VpRD4TE=;
- b=sZgqBq88GW57poDVXFMHdoesn6wRNA3k9mPbLq2F6eCbGVwb0Pe5Tto6hxggPM0aig
- OAovhjXGvlvUKofW9iuiQy5FDMVjPBfLR7yE7NUzxkuNdGKdE9SXfVYIuthKfrmVXX0y
- zVB8k6IR3i3au69JgwtBUE485O8a8qoZv3Bpw7CQrUITz9gDuO4Di7IAtoOuxk8NZW5E
- Jg5k8j4RFOyPlfmdWwXx2y0Q9g8IMyimRoYDpbXIPFdVFXzpcQaqT50Tc8QcEbeCy7rG
- MVMOFW5hcnoSB21/2M/kx1vh/FsUCLs+PLf8IAiGtHB+h5/Z+JYAWmsKUHtu5vQhgNE7
- SSTg==
-X-Gm-Message-State: AJIora8kn2N8kFANxdMejCnyD2rR48+bjG9h5RPLygE4QGWBpSqiONRp
- lkY87TXebr5eA9cgw24vk5U/rXlgowiB3oeAAQ+3OIrOgrpoCg==
-X-Google-Smtp-Source: AGRyM1sejX0F40BBaY0Er5T7Kp/TYRIgvMphVjdljWO8xz059Azc6ZmowMNuTWxDeGrfN0bOk03WCEo0aTcmQ9PuXhU=
-X-Received: by 2002:a25:820a:0:b0:664:7ad6:3fd6 with SMTP id
- q10-20020a25820a000000b006647ad63fd6mr9897982ybk.559.1655291864101; Wed, 15
- Jun 2022 04:17:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220531145147.61112-1-jusual@redhat.com>
- <YpY0/Pc3uoA9QQD/@stefanha-x1.localdomain>
- <CAMDeoFUxG7B67BCm4nb303VEwBdiD=JNi_OWSaxirThWnTd6LA@mail.gmail.com>
- <YqdTQYUhO/3dzJvZ@stefanha-x1.localdomain>
- <20220614105408.235f0f41@redhat.com>
- <ac7c0d9c-4fb2-c67b-db25-00e4bbc0eb42@redhat.com>
- <CAMDeoFV3SEWv5gAUd-ZJ=pGw3=JkHR9pOztkytGr1tRhM_uBNw@mail.gmail.com>
- <0fe9723a-620a-f388-68a8-c6a11f8aa3ca@redhat.com>
-In-Reply-To: <0fe9723a-620a-f388-68a8-c6a11f8aa3ca@redhat.com>
-From: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-Date: Wed, 15 Jun 2022 19:17:33 +0800
-Message-ID: <CALg51MOVVm2P5WUjnFF_xvsAk9+QYtWXjOqdU9wdCQJnv6oagg@mail.gmail.com>
-Subject: Re: [PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
-To: David Hildenbrand <david@redhat.com>
-Cc: Julia Suvorova <jusual@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=xiaoguangrong.eric@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o1R6h-0006KO-NC
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:22:43 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:36640 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o1R6e-0004tu-8j
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:22:43 -0400
+Received: from smtpclient.apple (unknown [202.38.79.134])
+ by APP-05 (Coremail) with SMTP id zQCowACnyH3vwKliC8x9Aw--.5059S2;
+ Wed, 15 Jun 2022 19:22:24 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH 1/2] hw/nvme: Implement shadow doorbell buffer support
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <YqmwZ/FGIROp5ds7@movementarian.org>
+Date: Wed, 15 Jun 2022 19:22:22 +0800
+Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1B9E7594-8DA6-4F04-A5FC-10CEDA25368A@ict.ac.cn>
+References: <YqIDyjxrZnkeMfcE@kbusch-mbp.dhcp.thefacebook.com>
+ <YqIXIiQr+dpksBh6@movementarian.org> <YqItnbgtw7BNPBZH@apples>
+ <D9A53959-6A31-4105-B0A9-37B8180D973C@ict.ac.cn>
+ <Yqeo4EKtQJq8XRm+@kbusch-mbp.dhcp.thefacebook.com>
+ <0CC03CA7-1BC5-4FDF-92BA-4256778AD113@ict.ac.cn>
+ <YqisK8iYANhY/mCm@kbusch-mbp.dhcp.thefacebook.com> <Yqmc2vKXcMl4Xsme@apples>
+ <YqmhO0+5rggd/V5T@movementarian.org> <YqmnTmxpYOeupgnt@apples>
+ <YqmwZ/FGIROp5ds7@movementarian.org>
+To: John Levon <levon@movementarian.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowACnyH3vwKliC8x9Aw--.5059S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFy7tFW7tF4Dtr4UCw1xZrb_yoW8XrykpF
+ WxZa1xtFWqkw4jgws5trs7X3W5trW8XF98KrnrJF18WF9av34SkayjgFy5Gry5CrZYgF1j
+ v3yY9rW3JrWrZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyab7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+ 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+ Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
+ 3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
+ WUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
+ wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
+ k0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
+ Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8P5r7UUUUU==
+X-Originating-IP: [202.38.79.134]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,20 +82,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 15, 2022 at 4:24 PM David Hildenbrand <david@redhat.com> wrote:
 
-> >> Is that a temporary or a permanent thing? Do we know?
-> >
-> > No idea. But his last signed-off was three years ago.
->
-> I sent a patch to Xiao, asking if he's still active in QEMU. If I don't
-> get a reply this week, I'll move forward with proposing an update to
-> MAINTAINERS as described.
->
 
-Okay, please do it.
+> On Jun 15, 2022, at 6:11 PM, John Levon <levon@movementarian.org> =
+wrote:
+>=20
+> On Wed, Jun 15, 2022 at 11:33:02AM +0200, Klaus Jensen wrote:
+>=20
+>>> BTW I'm surprised that this patch has just this:
+>>>=20
+>>> +static void nvme_update_sq_eventidx(const NvmeSQueue *sq)
+>>> +{
+>>> +    pci_dma_write(&sq->ctrl->parent_obj, sq->ei_addr, &sq->tail,
+>>> +                  sizeof(sq->tail));
+>>> +}
+>>>=20
+>>> Isn't this racy against the driver? Compare
+>>> https://github.com/spdk/spdk/blob/master/lib/nvmf/vfio_user.c#L1317
+>>>=20
+>>> thanks
+>>> john
+>>=20
+>> QEMU has full memory barriers on dma read/write, so I believe this is
+>> safe?
+>=20
+> But don't you need to re-read the tail still, for example:
 
-Sorry, I am just roughly reading the mailing list of qemu & kvm usually,
-and do not get enough time to actively review or contribute on these
-fields. :-(
+
+Hi John,
+
+I think we also have a check for concurrent update on the tail. After =
+writing eventidx, we read the tail again. It is here:
+
+@@ -5854,6 +5943,11 @@ static void nvme_process_sq(void *opaque)
+             req->status =3D status;
+             nvme_enqueue_req_completion(cq, req);
+         }
++
++        if (n->dbbuf_enabled) {
++            nvme_update_sq_eventidx(sq);
++            nvme_update_sq_tail(sq);
++        }
+
+>=20
+>=20
+> driver 			device
+>=20
+> 			eventidx is 3
+>=20
+> write 4 to tail
+> 			read tail of 4
+> write 5 to tail
+> read eventidx of 3
+> nvme_dbbuf_need_event (1)
+>=20
+> 			set eventidx to 4
+
+Therefore, at this point, we read the tail of 5.
+
+> 			go to sleep
+>=20
+> at (1), our tail update of 4->5 doesn't straddle the eventidx, so we =
+don't send
+> any MMIO, and the device won't wake up. This is why the above code =
+checks the
+> tail twice for any concurrent update.
+
+Thanks,
+Jinhao Fan
+
+>=20
+> regards
+> john
+
 
