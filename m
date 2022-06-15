@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742F454C6BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 13:01:25 +0200 (CEST)
-Received: from localhost ([::1]:39820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEAD54C696
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 12:58:18 +0200 (CEST)
+Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Qm4-0003Bk-GB
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 07:01:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58136)
+	id 1o1Qj3-0008SC-6V
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 06:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1QdW-0003FZ-Qa
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 06:52:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32944)
+ id 1o1Qf8-0005Jx-1I
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 06:54:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1QdU-0001zT-P5
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 06:52:34 -0400
+ id 1o1Qey-00026n-DU
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 06:54:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655290352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1655290435;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AHNoTjNExIE2yfua2XDNSZaph8Iy4XsvHUgF/wj8mNA=;
- b=K0OwwMcoVH78v8iKQfI23mrKqTkTLZGEdWx0/1nEujE6sm6yv5yxce6xCdelgobrY5N9fT
- NXuIsdW/JWh1rNX254C3R8KURyZA24AMtnyKr9XRZj5yEmOS76QNTgP6N7Xy8rTChdPFqg
- 2dv4wO1ZcFA33uaXL6gvJf9CYqy+P6k=
+ bh=gd9P8WhgZz2nf19PbmFBdCcjH+aMstJFnv+1OGl1u9M=;
+ b=afF2q51X3IqWOgLzACUMjEth7T61KzpbPIimtlRvtpmUEg6/pDdaGUVmDDO5hZWoP2sWHj
+ LZIrz8yyukpbcykqBrgDYZhvBHdUgy5Yf2iNbDm05FuWXyBerf3ZK+mHwAftozU1WJxaIB
+ iBzq1Vm4xyHyVgimFkCa940bggoA4b4=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-IX9o4wLCPZaLD_ZdPNXIWQ-1; Wed, 15 Jun 2022 06:52:30 -0400
-X-MC-Unique: IX9o4wLCPZaLD_ZdPNXIWQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-182-iqAXx0T1Oaqu1MQ3B6E15A-1; Wed, 15 Jun 2022 06:53:52 -0400
+X-MC-Unique: iqAXx0T1Oaqu1MQ3B6E15A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 388671C3E984;
- Wed, 15 Jun 2022 10:52:30 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 730C21131D;
- Wed, 15 Jun 2022 10:52:27 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v3 4/4] net: convert to use qemu_find_file to locate bridge
- helper
-Date: Wed, 15 Jun 2022 11:52:12 +0100
-Message-Id: <20220615105212.780256-5-berrange@redhat.com>
-In-Reply-To: <20220615105212.780256-1-berrange@redhat.com>
-References: <20220615105212.780256-1-berrange@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C34D4299E778;
+ Wed, 15 Jun 2022 10:53:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83B632166B26;
+ Wed, 15 Jun 2022 10:53:50 +0000 (UTC)
+Date: Wed, 15 Jun 2022 11:53:48 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Programmingkid <programmingkidx@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 0/4] cutils: Introduce bundle mechanism
+Message-ID: <Yqm6PMnlwnVx3vwG@redhat.com>
+References: <20220614210746.78911-1-akihiko.odaki@gmail.com>
+ <dc3cff18-e8ad-2817-d484-53f7197bf6f7@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+In-Reply-To: <dc3cff18-e8ad-2817-d484-53f7197bf6f7@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -87,148 +85,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TAP device code currently uses get_relocate_path to find the bridge
-helper, however, this fails when run from the build dir. Adding support
-to qemu_find_file for helper binaries, allows it to work from both the
-(relocated) install tree and build dir.
+On Wed, Jun 15, 2022 at 10:39:29AM +0200, Paolo Bonzini wrote:
+> On 6/14/22 23:07, Akihiko Odaki wrote:
+> > Developers often run QEMU without installing. The bundle mechanism
+> > allows to look up files which should be present in installation even in
+> > such a situation.
+> > 
+> > It is a general mechanism and can find any files located relative
+> > to the installation tree. The build tree must have a new directory,
+> > qemu-bundle, to represent what files the installation tree would
+> > have for reference by the executables.
+> > 
+> > v4:
+> > * Add Daniel P. Berrangé to CC. Hopefully this helps merging his patch:
+> >    https://mail.gnu.org/archive/html/qemu-devel/2022-06/msg02276.html
+> > * Rebased to the latest QEMU.
+> > 
+> > v3:
+> > * Note that the bundle mechanism is for any files located relative to the
+> >    installation tree including but not limited to datadir. (Peter Maydell)
+> > * Fix "bridge" typo (Philippe Mathieu-Daudé)
+> > 
+> > v2: Rebased to the latest QEMU.
+> 
+> I like the idea, but I have a couple issues with the implementation:
+> 
+> - at the meson level, there is some repetition of mkdir and ln run_commands.
+> Perhaps you could just fill in a dictionary, and then do something like
+> 
+>   created_paths = {}
+>   foreach source, dest: var
+>     path = fs.parent(qemu_bundledir / dest)
+>     created_paths += {path: true}
+>   endforeach
+>   run_command('mkdir', '-p', created_paths.keys())
+>   foreach source, dest: var
+>     run_command('ln', '-sf', meson.project_source_root() / source,
+>                 qemu_bundledir / dest)
+>   endforeach
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- include/net/net.h      | 3 ++-
- include/qemu/datadir.h | 1 +
- net/tap.c              | 5 ++++-
- qemu-options.hx        | 4 ++--
- softmmu/datadir.c      | 9 +++++++++
- softmmu/trace-events   | 2 +-
- 6 files changed, 19 insertions(+), 5 deletions(-)
+Per my other reply, IMHO, all the meson changes are redundant.
 
-diff --git a/include/net/net.h b/include/net/net.h
-index 523136c7ac..6a853512ac 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -228,7 +228,8 @@ NetClientState *net_hub_port_find(int hub_id);
- 
- #define DEFAULT_NETWORK_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifup"
- #define DEFAULT_NETWORK_DOWN_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifdown"
--#define DEFAULT_BRIDGE_HELPER CONFIG_QEMU_HELPERDIR "/qemu-bridge-helper"
-+#define DEFAULT_BRIDGE_HELPER "qemu-bridge-helper"
-+#define DEFAULT_BRIDGE_HELPER_PATH CONFIG_QEMU_HELPERDIR "/qemu-bridge-helper"
- #define DEFAULT_BRIDGE_INTERFACE "br0"
- 
- void qdev_set_nic_properties(DeviceState *dev, NICInfo *nd);
-diff --git a/include/qemu/datadir.h b/include/qemu/datadir.h
-index 427e90787a..a211b6b235 100644
---- a/include/qemu/datadir.h
-+++ b/include/qemu/datadir.h
-@@ -4,6 +4,7 @@
- #define QEMU_FILE_TYPE_BIOS   0
- #define QEMU_FILE_TYPE_KEYMAP 1
- #define QEMU_FILE_TYPE_ICON   2
-+#define QEMU_FILE_TYPE_HELPER 3
- 
- /**
-  * qemu_find_file:
-diff --git a/net/tap.c b/net/tap.c
-index b3ddfd4a74..161608e34a 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -42,6 +42,7 @@
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/sockets.h"
-+#include "qemu/datadir.h"
- 
- #include "net/tap.h"
- 
-@@ -507,9 +508,11 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
-     sigprocmask(SIG_BLOCK, &mask, &oldmask);
- 
-     if (!helper) {
--        helper = default_helper = get_relocated_path(DEFAULT_BRIDGE_HELPER);
-+        helper = default_helper = qemu_find_file(QEMU_FILE_TYPE_HELPER,
-+                                                 DEFAULT_BRIDGE_HELPER);
-     }
- 
-+    g_printerr("Helper %s\n", helper);
-     if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
-         error_setg_errno(errp, errno, "socketpair() failed");
-         return -1;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22fbd8..b5b7e75048 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2665,7 +2665,7 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "                to configure it and 'dfile' (default=" DEFAULT_NETWORK_DOWN_SCRIPT ")\n"
-     "                to deconfigure it\n"
-     "                use '[down]script=no' to disable script execution\n"
--    "                use network helper 'helper' (default=" DEFAULT_BRIDGE_HELPER ") to\n"
-+    "                use network helper 'helper' (default=" DEFAULT_BRIDGE_HELPER_PATH ") to\n"
-     "                configure it\n"
-     "                use 'fd=h' to connect to an already opened TAP interface\n"
-     "                use 'fds=x:y:...:z' to connect to already opened multiqueue capable TAP interfaces\n"
-@@ -2684,7 +2684,7 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "-netdev bridge,id=str[,br=bridge][,helper=helper]\n"
-     "                configure a host TAP network backend with ID 'str' that is\n"
-     "                connected to a bridge (default=" DEFAULT_BRIDGE_INTERFACE ")\n"
--    "                using the program 'helper (default=" DEFAULT_BRIDGE_HELPER ")\n"
-+    "                using the program 'helper (default=" DEFAULT_BRIDGE_HELPER_PATH ")\n"
- #endif
- #ifdef __linux__
-     "-netdev l2tpv3,id=str,src=srcaddr,dst=dstaddr[,srcport=srcport][,dstport=dstport]\n"
-diff --git a/softmmu/datadir.c b/softmmu/datadir.c
-index e5d1fd0116..a68fe7167a 100644
---- a/softmmu/datadir.c
-+++ b/softmmu/datadir.c
-@@ -36,6 +36,7 @@ static char **extra_firmware_dirs;
- /* Default built-in directories */
- static char *default_data_dir;
- static char *default_icon_dir;
-+static char *default_helper_dir;
- 
- /* Whether we're known to be executing from a build tree */
- static bool in_build_dir;
-@@ -73,6 +74,12 @@ char *qemu_find_file(int type, const char *name)
-         default_install_dir = default_icon_dir;
-         break;
- 
-+    case QEMU_FILE_TYPE_HELPER:
-+        rel_install_dir = "";
-+        rel_build_dir = "";
-+        default_install_dir = default_helper_dir;
-+        break;
-+
-     default:
-         abort();
-     }
-@@ -140,9 +147,11 @@ void qemu_add_default_firmwarepath(void)
-     /* Add default dirs relative to the executable path */
-     default_data_dir = get_relocated_path(CONFIG_QEMU_DATADIR);
-     default_icon_dir = get_relocated_path(CONFIG_QEMU_ICONDIR);
-+    default_helper_dir = get_relocated_path(CONFIG_QEMU_HELPERDIR);
- 
-     trace_datadir_init(default_data_dir,
-                        default_icon_dir,
-+                       default_helper_dir,
-                        in_build_dir);
- }
- 
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 9c00e9f389..b22d7e7714 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -6,7 +6,7 @@ balloon_event(void *opaque, unsigned long addr) "opaque %p addr %lu"
- 
- # datadir.c
- datadir_load_file(const char *name, const char *path, int err) "name %s location %s errno %d"
--datadir_init(const char *defdatadir, const char *deficondir, bool inbuilddir) "default data dir %s icon dir %s in build dir %d"
-+datadir_init(const char *defdatadir, const char *deficondir, const char *defhelperdir, bool inbuilddir) "default data dir %s icon dir %s helper dir %s in build dir %d"
- 
- # ioport.c
- cpu_in(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
+I've just sent a series that illustrates how we can improve the
+qemu_find_file method so it correctly copes with install dir
+vs build dir being different layouts, and be extensible to
+any types of file (bios, keymaps, icons, helper exes, and
+more).
+
+With regards,
+Daniel
 -- 
-2.36.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
