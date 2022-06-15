@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ED154CBFC
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 16:58:34 +0200 (CEST)
-Received: from localhost ([::1]:40236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31CF54CCD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:29:24 +0200 (CEST)
+Received: from localhost ([::1]:51264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1UTZ-0000al-UB
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 10:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47208)
+	id 1o1UxP-00066s-IC
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UO4-00061u-DT
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:52:52 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:53752)
+ id 1o1UPA-0008Cw-4d
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:54:00 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:59950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UO1-0000yI-PN
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:52:52 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FDvkVW002771;
- Wed, 15 Jun 2022 14:52:33 GMT
+ id 1o1UP8-0001Ay-Ce
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:59 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE3J1x025870;
+ Wed, 15 Jun 2022 14:52:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=cCVw1roIOvT9zJ6xa/6LWdkbmcnt8mrbADvUZWKRJcg=;
- b=Rif0i1sn+vyjJtKJheA6qgTzMNPfwnfbOKf9qOsNgXDsx9P4iooq5ONZiqtIKvfExuxk
- 3gqfSYC4GwYkUAFMvj2rqRAcbwQTxqRzfcW/8mfeX0At4TuXX+0d/WoA6oXa84Yh3Tds
- OUcAdtsb//b/2oBgk38DPiXD0OKfhnXm6XmvJmArO0U1180ApLBbbU1rcDTz85NdxTMr
- iQCfMZlXAtGrNMQBxbMlx7yJolMd+w5bu9gQIv/NVeuh+/R931lF7lf4cSJ773jtfc74
- 1/t8YnqRNhaWRAOyFTxQqGS13M8cS0VlG0eHosoCDZLIwXS7mdZn2SY54GhvwymAq+aX kA== 
+ bh=iie6J0ZOCsbwACDLnLnmBtO4hwdVnQOJIzMSfP4sjjU=;
+ b=DLnJnjKZ60FioCVwJf9xiTwsT7EWZc0UCa7Rmjnlo3txzYloh+6waGt14g9xQt+XHrzX
+ n5NT9Z0debIaO+IClP+igB+evAZkcWQVeVSpXQPt78S4bvNDvEuiyKXuT6TN1lzpawJP
+ h3xx4AZ8V1hJeSSy9zMZm/I91cPRmLbMR9jwZcKJSiBcX8w5XEjBicP9e6zFbBwQ2iUh
+ Mh2/5Yz+h7hIvayYBeWccCMeBUQmv2THun7zRRuJOEYQaARgftd87UMmbte3su/+2lgv
+ vHQDyxG/E1a7C1lEqe7Ty7z9gA5LxswIR2FgAPdH/aPlVV5/MG4V1xMfm9PqQ2jIPsYN xg== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjns8tjn-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhu2rxdc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:33 +0000
+ Wed, 15 Jun 2022 14:52:35 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25FEQ6QV023072; Wed, 15 Jun 2022 14:52:32 GMT
+ with SMTP id 25FEQ6o4023063; Wed, 15 Jun 2022 14:52:34 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vph1-1
+ 3gpr25vpj6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:32 +0000
+ Wed, 15 Jun 2022 14:52:34 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSMn018501;
- Wed, 15 Jun 2022 14:52:31 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSMr018501;
+ Wed, 15 Jun 2022 14:52:34 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpfm-4; Wed, 15 Jun 2022 14:52:31 +0000
+ 3gpr25vpfm-6; Wed, 15 Jun 2022 14:52:34 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,14 +72,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH V8 03/39] migration: simplify savevm
-Date: Wed, 15 Jun 2022 07:51:50 -0700
-Message-Id: <1655304746-102776-4-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V8 05/39] vl: start on wakeup request
+Date: Wed, 15 Jun 2022 07:51:52 -0700
+Message-Id: <1655304746-102776-6-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-GUID: -FCh_8HyIZ5idAE1WPvHInjPyYdJ4IYp
-X-Proofpoint-ORIG-GUID: -FCh_8HyIZ5idAE1WPvHInjPyYdJ4IYp
+X-Proofpoint-GUID: 350_X43yS6ry7fmpUwubVeNMpapUcA4f
+X-Proofpoint-ORIG-GUID: 350_X43yS6ry7fmpUwubVeNMpapUcA4f
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -104,71 +104,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use qemu_file_open to simplify a few functions in savevm.c.
-No functional change.
+If qemu starts and loads a VM in the suspended state, then a later wakeup
+request will set the state to running, which is not sufficient to initialize
+the vm, as vm_start was never called during this invocation of qemu.  See
+qemu_system_wakeup_request().
+
+Define the start_on_wakeup_requested() hook to cause vm_start() to be called
+when processing the wakeup request.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/savevm.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ include/sysemu/runstate.h |  1 +
+ softmmu/runstate.c        | 16 +++++++++++++++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index d907689..0b2c5cd 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2931,7 +2931,6 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-                                 Error **errp)
- {
-     QEMUFile *f;
--    QIOChannelFile *ioc;
-     int saved_vm_running;
-     int ret;
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+index f3ed525..16c1c41 100644
+--- a/include/sysemu/runstate.h
++++ b/include/sysemu/runstate.h
+@@ -57,6 +57,7 @@ void qemu_system_reset_request(ShutdownCause reason);
+ void qemu_system_suspend_request(void);
+ void qemu_register_suspend_notifier(Notifier *notifier);
+ bool qemu_wakeup_suspend_enabled(void);
++void qemu_system_start_on_wakeup_request(void);
+ void qemu_system_wakeup_request(WakeupReason reason, Error **errp);
+ void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);
+ void qemu_register_wakeup_notifier(Notifier *notifier);
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index fac7b63..9b27d74 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -115,6 +115,7 @@ static const RunStateTransition runstate_transitions_def[] = {
+     { RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },
+     { RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },
+     { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
++    { RUN_STATE_PRELAUNCH, RUN_STATE_SUSPENDED },
  
-@@ -2945,14 +2944,11 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-     vm_stop(RUN_STATE_SAVE_VM);
-     global_state_store_running();
- 
--    ioc = qio_channel_file_new_path(filename, O_WRONLY | O_CREAT | O_TRUNC,
--                                    0660, errp);
--    if (!ioc) {
-+    f = qemu_fopen_file(filename, O_WRONLY | O_CREAT | O_TRUNC, 0660,
-+                        "migration-xen-save-state", errp);
-+    if (!f) {
-         goto the_end;
+     { RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },
+     { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },
+@@ -335,6 +336,7 @@ void vm_state_notify(bool running, RunState state)
      }
--    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
--    f = qemu_fopen_channel_output(QIO_CHANNEL(ioc));
--    object_unref(OBJECT(ioc));
-     ret = qemu_save_device_state(f);
-     if (ret < 0 || qemu_fclose(f) < 0) {
-         error_setg(errp, QERR_IO_ERROR);
-@@ -2981,7 +2977,6 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
- void qmp_xen_load_devices_state(const char *filename, Error **errp)
+ }
+ 
++static bool start_on_wakeup_requested;
+ static ShutdownCause reset_requested;
+ static ShutdownCause shutdown_requested;
+ static int shutdown_signal;
+@@ -562,6 +564,11 @@ void qemu_register_suspend_notifier(Notifier *notifier)
+     notifier_list_add(&suspend_notifiers, notifier);
+ }
+ 
++void qemu_system_start_on_wakeup_request(void)
++{
++    start_on_wakeup_requested = true;
++}
++
+ void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
  {
-     QEMUFile *f;
--    QIOChannelFile *ioc;
-     int ret;
- 
-     /* Guest must be paused before loading the device state; the RAM state
-@@ -2993,14 +2988,11 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
-     }
-     vm_stop(RUN_STATE_RESTORE_VM);
- 
--    ioc = qio_channel_file_new_path(filename, O_RDONLY | O_BINARY, 0, errp);
--    if (!ioc) {
-+    f = qemu_fopen_file(filename, O_RDONLY | O_BINARY, 0,
-+                        "migration-xen-load-state", errp);
-+    if (!f) {
+     trace_system_wakeup_request(reason);
+@@ -574,7 +581,14 @@ void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+     if (!(wakeup_reason_mask & (1 << reason))) {
          return;
      }
--    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-load-state");
--    f = qemu_fopen_channel_input(QIO_CHANNEL(ioc));
--    object_unref(OBJECT(ioc));
--
-     ret = qemu_loadvm_state(f);
-     qemu_fclose(f);
-     if (ret < 0) {
+-    runstate_set(RUN_STATE_RUNNING);
++
++    if (start_on_wakeup_requested) {
++        start_on_wakeup_requested = false;
++        vm_start();
++    } else {
++        runstate_set(RUN_STATE_RUNNING);
++    }
++
+     wakeup_reason = reason;
+     qemu_notify_event();
+ }
 -- 
 1.8.3.1
 
