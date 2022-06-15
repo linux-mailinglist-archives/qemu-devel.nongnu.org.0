@@ -2,101 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F88154C3B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 10:41:17 +0200 (CEST)
-Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4B554C3B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 10:41:52 +0200 (CEST)
+Received: from localhost ([::1]:53016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1OaP-0002Q4-0l
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 04:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42374)
+	id 1o1Ob1-0002uD-OS
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 04:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o1OKZ-0005SI-FL
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:24:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46664)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1OQL-0008OL-6g
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:30:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o1OKW-0000Xr-Dg
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:24:49 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1OQF-0001fy-4G
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:30:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655281486;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ydi0jnoHBILNtdknejIZiQzGVD6PWVGV6R5nAHEWTbQ=;
- b=HrUSUIDznLdVgqdFhUomGgo61VW9iZ3jrij8tLgmydgIcsI9Dyc3yUa0MpQVTRuSqtIPre
- kbVbvHPMfQFiwG42Po+2ObxdwLPj9WJo1miqxFVgUkfiBLv/JZNsldyfDx+e76Qr0RQT66
- /jqbnwGEJTxSedC9thxpuMghNUwezf0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1655281842;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=lzWVaX6Uc1tiuuYdmyYal5m3c2ntd347F1ZpfaQ5ZH8=;
+ b=HucAXdHK9AIQsfJ7IW31m1UxZNOD9Vv3s3SULLbWhAhIG6OHZDUPgDlN8JTnUGQvRRV9FK
+ PfLk4TE2ItxzJ9MGtKgWevE+u3TTYnNDsE5L0cpq5RPI/3sVlVtPrZD//8K8iid+YSAzzy
+ PKDfVqeA1sXEpokks4yjIk0bNM9lNC0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-RVjy79lnPfSUtH5WseboWg-1; Wed, 15 Jun 2022 04:24:37 -0400
-X-MC-Unique: RVjy79lnPfSUtH5WseboWg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j31-20020a05600c1c1f00b0039c481c4664so4787893wms.7
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 01:24:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=ydi0jnoHBILNtdknejIZiQzGVD6PWVGV6R5nAHEWTbQ=;
- b=qmYXkM9UA1FJBvINArc6Y1XVOdtYPK+SXK+272B0NbUk4rKa+d3b8x6kcJAqEGa5xw
- m3EPaXjEUJpMyoaIYSLoEmyUdTuyB9HllQTAdbINiWiA7WKbZVSpO1GvbI7Cysng3mHG
- 8smqD8vOfSaeudsxYdpgBJ2bbDvbZliJnitutgokVPn+rIYV0lTdALZwknrpWLsKHuQ/
- J4N1Mpb4pVDsIST6aAALiict9b/m/8TrsAe9ZN99zEhjotPsntMQgIX96FMdwlfkN1rW
- I8YdJNO7/TakjodCFnrRFkeUkbxNELZ6in8sbOlxrvZsetxizGyxXzIB9dvJZ+uZ7Mrc
- aPPg==
-X-Gm-Message-State: AJIora8OAo+U44BKlAvsujWlQZjt0YSzo9BG3inuI9ZiVEYxfHsN4xW+
- VXzC4hx/AgBRyorbk2rlCBT5zc2lvH2CyTEA7AyHUJf2ANDv4zWhBmmMWhe8jPwTLJFyR/EMXF9
- ItUDP7uvWEfo+XXg=
-X-Received: by 2002:a05:6000:1b03:b0:210:3372:2bd9 with SMTP id
- f3-20020a0560001b0300b0021033722bd9mr8916358wrz.704.1655281476485; 
- Wed, 15 Jun 2022 01:24:36 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uOCyvJQxkqLVxPoZw/CZMlDvTO2x7T4Z4H1im0g0wG3kSPitdJX4AKN3DGkNBCfWavhH+s0Q==
-X-Received: by 2002:a05:6000:1b03:b0:210:3372:2bd9 with SMTP id
- f3-20020a0560001b0300b0021033722bd9mr8916334wrz.704.1655281476268; 
- Wed, 15 Jun 2022 01:24:36 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70a:2700:1d28:26c3:b272:fcc6?
- (p200300cbc70a27001d2826c3b272fcc6.dip0.t-ipconnect.de.
- [2003:cb:c70a:2700:1d28:26c3:b272:fcc6])
- by smtp.gmail.com with ESMTPSA id
- r66-20020a1c2b45000000b0039c97cc82fbsm1569762wmr.15.2022.06.15.01.24.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jun 2022 01:24:35 -0700 (PDT)
-Message-ID: <0fe9723a-620a-f388-68a8-c6a11f8aa3ca@redhat.com>
-Date: Wed, 15 Jun 2022 10:24:34 +0200
+ us-mta-627-dqVHcqMzORu9XCEKqUi7-A-1; Wed, 15 Jun 2022 04:30:40 -0400
+X-MC-Unique: dqVHcqMzORu9XCEKqUi7-A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DF5283397E;
+ Wed, 15 Jun 2022 08:30:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 082BB1131D;
+ Wed, 15 Jun 2022 08:30:38 +0000 (UTC)
+Date: Wed, 15 Jun 2022 09:30:36 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Programmingkid <programmingkidx@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 0/4] cutils: Introduce bundle mechanism
+Message-ID: <YqmYrFjshfAopt3A@redhat.com>
+References: <20220614210746.78911-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
-Content-Language: en-US
-To: Julia Suvorova <jusual@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-References: <20220531145147.61112-1-jusual@redhat.com>
- <YpY0/Pc3uoA9QQD/@stefanha-x1.localdomain>
- <CAMDeoFUxG7B67BCm4nb303VEwBdiD=JNi_OWSaxirThWnTd6LA@mail.gmail.com>
- <YqdTQYUhO/3dzJvZ@stefanha-x1.localdomain>
- <20220614105408.235f0f41@redhat.com>
- <ac7c0d9c-4fb2-c67b-db25-00e4bbc0eb42@redhat.com>
- <CAMDeoFV3SEWv5gAUd-ZJ=pGw3=JkHR9pOztkytGr1tRhM_uBNw@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAMDeoFV3SEWv5gAUd-ZJ=pGw3=JkHR9pOztkytGr1tRhM_uBNw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220614210746.78911-1-akihiko.odaki@gmail.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,47 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.06.22 14:13, Julia Suvorova wrote:
-> On Tue, Jun 14, 2022 at 11:50 AM David Hildenbrand <david@redhat.com> wrote:
->>
->> On 14.06.22 10:54, Igor Mammedov wrote:
->>> On Mon, 13 Jun 2022 16:09:53 +0100
->>> Stefan Hajnoczi <stefanha@redhat.com> wrote:
->>>
->>>> On Mon, Jun 13, 2022 at 05:01:10PM +0200, Julia Suvorova wrote:
->>>>> On Tue, May 31, 2022 at 5:32 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->>>>>>
->>>>>> On Tue, May 31, 2022 at 04:51:47PM +0200, Julia Suvorova wrote:
->>>>>>> In the ACPI specification [1], the 'unarmed' bit is set when a device
->>>>>>> cannot accept a persistent write. This means that when a memdev is
->>>>>>> read-only, the 'unarmed' flag must be turned on. The logic is correct,
->>>>>>> just changing the error message.
->>>>>>>
->>>>>>> [1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
->>>>>>>
->>>>>>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
->>>>>>> ---
->>>>>>>  hw/mem/nvdimm.c | 2 +-
->>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->>>>>
->>>>> It seems like Xiao is not active, whose tree should this patch go to?
->>
->> Is that a temporary or a permanent thing? Do we know?
+On Wed, Jun 15, 2022 at 06:07:42AM +0900, Akihiko Odaki wrote:
+> Developers often run QEMU without installing. The bundle mechanism
+> allows to look up files which should be present in installation even in
+> such a situation.
 > 
-> No idea. But his last signed-off was three years ago.
+> It is a general mechanism and can find any files located relative
+> to the installation tree. The build tree must have a new directory,
+> qemu-bundle, to represent what files the installation tree would
+> have for reference by the executables.
 
-I sent a patch to Xiao, asking if he's still active in QEMU. If I don't
-get a reply this week, I'll move forward with proposing an update to
-MAINTAINERS as described.
+I don't think this is an attractive approach to the problem,
+because it results in us adding a bunch of meson rules to
+simulate 'make install' within the build dir. This is undesirable
+clutter IMHO, and can be solved more simply by just modifying the
+qemu_find_file() method.
 
+The core problem is the impl of qemu_find_file is taking the wrong
+approach, in several ways, but mostly because of its use of a single
+'data_dirs' array for all types of file. This is bad because it
+has the assumption that build dir and install dir layouts match,
+and second because when we add extra firmware data dirs, we don't
+want this used for non-firmware files.
+
+We need to separate out the handling of different types of resources
+for this to work correctly.
+
+With regards,
+Daniel
 -- 
-Thanks,
-
-David / dhildenb
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
