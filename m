@@ -2,99 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51E254C4E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 11:40:48 +0200 (CEST)
-Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E8554C4F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 11:46:14 +0200 (CEST)
+Received: from localhost ([::1]:45754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1PW2-0003LP-Pp
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 05:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36716)
+	id 1o1PbI-00064V-JL
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 05:46:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o1PTS-0002Vl-1R
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 05:38:06 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36187)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o1PXB-0005LU-OE
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 05:41:57 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:49707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o1PTQ-0001cn-Ds
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 05:38:05 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id B446F5C0184;
- Wed, 15 Jun 2022 05:38:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 15 Jun 2022 05:38:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655285882; x=1655372282; bh=qb
- UQjXabEG4kopdmBha9b/tDuRJGzB+ALppQAq3mW2Y=; b=WopCXNiRH8KzR0MNVU
- 90CE8i9URmpOerw1ju/Qt9ybIgnIDckgbjoCm+SJzkMdYYnu7pC02WulLvvtM8BI
- 7eomAHCCoHw3L9EyNRRnGFhAMbYuSVVhx8WT7IsIzpU6h6ee8MJtEvqNwcu9ApjP
- 1MCBp4x2Jy+rhmYUgGx7pxgdfekVmCjdnv+vpb0z4N6XESxiTYFU4xHzGnY8K4Jz
- mx3bIM8IZnDg0qe/k7CQH7Oo4ose3bxlgHK7GHXDjkJxPd7umpAmGi4epAdEIBk4
- QRmkvEbC5LChb0/uSUlmQjFdpiHKJMNA1ra7siIL+EXMxD4bvMMNELQEFOLT7fUx
- XoaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1655285882; x=1655372282; bh=qbUQjXabEG4kopdmBha9b/tDuRJG
- zB+ALppQAq3mW2Y=; b=xBrRj3X2LYLku/8J3uUynx+klP3nHZDcD1s54QSTySXV
- I8HXwE7PP048ZX4NP2PMyg3gis6KxKp4juGdTzm/mX0JZntesWwzX+kTBG3YQXz6
- otDpR8QpGfinAt9ROfyY5tWHmzrwz46phjlmSmwXrhZ0dEoKc4Nw4WQRZIu0DNBc
- +st2vEICAhqpMy6ah/4VloGmfB2rLbpXEzwP7wflsmSimx9zRm72Ze/ZvpPTYBO9
- 1Fg4Ut6HshLbYL9lenhvankSaw/xTZv8kxJOYrK1Y9sPFXktP5SkqiC+HCJMHq89
- Y0+lRS/j9ePbTVGMi4B/R2PfWpWw3ZawkZKSXHQugg==
-X-ME-Sender: <xms:eqipYnfn3atkkLm2kkwXHB9ViUCEGhKIXLXavGTFLb5Hree3astYhQ>
- <xme:eqipYtOTGmcnH4Lryuizq_ce5ewHVRROe4h7U5TR-pASyX8LvdI3iRFFvIPcOvLqo
- bnY_KYbSnkfayf54oc>
-X-ME-Received: <xmr:eqipYgjbBP9vXg0jYToTFGtppOmhXIfHTNz2TrspPwjLXObHiw0eG6g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvuddgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:eqipYo_eHRJOalDfJp0oyZhEgtQgVRoT6AtXqNLar4IVdvAIjqfodg>
- <xmx:eqipYjsBxPbJ6fc0XbqyVIUYE-r61XUzMULnU1gLUijm8TpIGXRv2A>
- <xmx:eqipYnEk2vcdc4Oio3OAXVznqtAp8WYarwqfd24CzqHiluz-4iEFoA>
- <xmx:eqipYjJHvsg7y92pbBTzx1BjslLjxNlV-569nAzDF-TkEWUw0ELLLA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Jun 2022 05:38:01 -0400 (EDT)
-Date: Wed, 15 Jun 2022 11:38:00 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: Keith Busch <kbusch@kernel.org>, John Levon <levon@movementarian.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/2] hw/nvme: Implement shadow doorbell buffer support
-Message-ID: <YqmoeD+gwvLYQGv9@apples>
-References: <20220608013659.472500-2-fanjinhao21s@ict.ac.cn>
- <YqEMwsclktptJvQI@apples>
- <YqIDyjxrZnkeMfcE@kbusch-mbp.dhcp.thefacebook.com>
- <YqIXIiQr+dpksBh6@movementarian.org> <YqItnbgtw7BNPBZH@apples>
- <D9A53959-6A31-4105-B0A9-37B8180D973C@ict.ac.cn>
- <Yqeo4EKtQJq8XRm+@kbusch-mbp.dhcp.thefacebook.com>
- <0CC03CA7-1BC5-4FDF-92BA-4256778AD113@ict.ac.cn>
- <YqisK8iYANhY/mCm@kbusch-mbp.dhcp.thefacebook.com>
- <A0E5C6FC-A020-4C0D-8DEA-04139F450455@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o1PX9-0003u9-FE
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 05:41:57 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.15])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 93128246AD;
+ Wed, 15 Jun 2022 09:41:44 +0000 (UTC)
+Received: from kaod.org (37.59.142.108) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 15 Jun
+ 2022 11:41:26 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-108S0022b2de988-b6db-476f-b2e5-fe5387573a50,
+ 3604600A7A17CF82FBB88DE7BC2BB74EF19CEDFF) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 80.215.207.109
+Message-ID: <20992f15-dd7f-f089-57e0-e934fb121d4a@kaod.org>
+Date: Wed, 15 Jun 2022 11:40:55 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ms+Zr1HhovfiSnO8"
-Content-Disposition: inline
-In-Reply-To: <A0E5C6FC-A020-4C0D-8DEA-04139F450455@ict.ac.cn>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] target/ppc: cpu_init: Clean up stop state on cpu reset
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, <danielhb413@gmail.com>,
+ <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220614082912.378355-1-fbarrat@linux.ibm.com>
+ <64d1330c-1996-622c-fc1a-ed81fd56cdda@kaod.org>
+ <3da1094b-b200-49ad-3a7c-dae31a7e7658@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <3da1094b-b200-49ad-3a7c-dae31a7e7658@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.108]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 0cea1cb5-25f0-4374-a567-d1de8f048430
+X-Ovh-Tracer-Id: 12202503194341575648
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvuddgudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,85 +75,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/15/22 09:17, Frederic Barrat wrote:
+> 
+> 
+> On 15/06/2022 07:23, Cédric Le Goater wrote:
+>> On 6/14/22 10:29, Frederic Barrat wrote:
+>>> The 'resume_as_sreset' attribute of a cpu can be set when a thread is
+>>> entering a stop state on ppc books. It causes the thread to be
+>>> re-routed to vector 0x100 when woken up by an exception. So it must be
+>>> cleaned on reset or a thread might be re-routed unexpectedly after a
+>>> reset, when it was not in a stop state and/or when the appropriate
+>>> exception handler isn't set up yet.
+>>
+>> What is the test scenario ? and what are the symptoms ?
+> 
+> 
+> I was hitting it because of another bug in skiboot: if you have many chips, we spend way too much time in add_opal_interrupts(), especially on powernv10 (I'm working on a separate patch in skiboot to fix that). Sufficiently so that the watchdog timer resets the system. When it happens, all the secondary threads are in stopped state, only the main thread is working. That's how I was reproducing.
+> 
+> What happens after the reset can vary a bit due to timing, but the most likely scenario is that we go through another primary thread election in skiboot. If the primary thread is the same as before, then there's no problem. If it's a different primary, then it will enter main_cpu_entry() while the other threads wait as secondaries. At some point, the primary thread (which still carries the wrong resume_as_sreset value from before reset) will enable the decrementer interrupt. The vector for the decrementer exception 0x900 is defined, so that shouldn't be a problem. However, because of the wrong resume_as_sreset value, it is re-routed to vector 0x100, which is still defined as the default boot-time handler, which is the entry point for BML. So the thread restarts as new, but this time it will be elected secondary. And we end up with all threads waiting as secondaries and a system stuck. All that happen before we've init the uart, so there's not a single trace on the console. 
+> Fun :-)
 
---ms+Zr1HhovfiSnO8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Great analysis !
 
-On Jun 15 11:58, Jinhao Fan wrote:
->=20
-> > On Jun 14, 2022, at 11:41 PM, Keith Busch <kbusch@kernel.org> wrote:
-> >=20
-> > It's a pretty nasty hack, and definitely not in compliance with the spe=
-c: the
-> > db_addr is supposed to be read-only from the device side, though I do t=
-hink
-> > it's safe for this environment. Unless Klaus or anyone finds something =
-I'm
-> > missing, I feel this is an acceptable compromise to address this odd
-> > discrepency.
->=20
-> :) In my next patch I will check the performance numbers with this hack. =
-Not
-> sure if updating db_addr value from the host will have any performance=20
-> implications but I guess it should be OK.
->=20
+I think this deserve a v2 just to put in the commit log what you
+just wrote :)
 
-I prefer we use the NVMe terminology to minimize misunderstandings, so
-"host" means the driver and "device" means the qemu side of things
+Thanks,
 
-> > By the way, I noticed that the patch never updates the cq's ei_addr val=
-ue. Is
-> > that on purpose?
->=20
-> Klaus also raised a similar question in a prior comment. I think we need =
-to figure
-> this out before we move on to the v2 patch. I did this because the origin=
-al Google
-> extension patch did not update cq=E2=80=99s ei_addr. This seems to make s=
-ense because
-> the purpose of cq=E2=80=99s ei_addr is for the guest to notify the host a=
-bout cq head
-> changes when necessary. However, the host does not need this notification=
-=20
-> because we let the host proactively check for cq=E2=80=99s db_addr value =
-when it wants
-> to post a new cqe.
-> This is also the only point where the host uses the cq=E2=80=99s
-> db_addr. Therefore, it is OK to postpone the check for cq=E2=80=99s db_ad=
-dr to this point,
-> instead of getting timely but not useful notifications by updating cq=E2=
-=80=99s ei_addr.
-> This helps to reduce the number of MMIO=E2=80=99s on the cq=E2=80=99s doo=
-rbell register.
->=20
-
-True, it does reduce it, but it may leave CQEs "lingering" on the device
-side (since the device has not been notified that the host has consumed
-them).
-
-> Klaus, Keith, do you think this design makes sense?
-
-As I mentioned in my reply to John, I can see why this is a perfectly
-reasonable optimization, we don't really care about the lingering CQEs
-since we read the head anyway prior to posting completions. I jumped the
-gun here in my eagerness to be "spec compliant" ;)
-
---ms+Zr1HhovfiSnO8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKpqHYACgkQTeGvMW1P
-Del+jQgApV4kpoQlMALeR5F1x3NUsUx1i1Hmcz2R61YV7l5HCJsMEPfZlV+Ec3yp
-dQ5OLUwocVHhGunVVqMwVPqDE+jUHaF/1xDhlcsk4LuJKufO1H8x7E/Sf2Zopo6d
-DMXgWcbQr9Z9i33jf8mK3kHIJX0EDT6UjxFr3JzfKkYSgDXpCvRnCqDvwdJ2ybUE
-KyUTpUHsc++tpCYa04r4ZBBqBKjla9XnwTEInN4hMUpUCZaGkcRA9XfppasoK/8Y
-9AnI+qZrjFPEJEkj6oHjNzbqlxjTDt8zfnj+gyM9//Dpv7Me5YtHpYyq3JUYeGaW
-qC278FkNIOzMALQXSl8xo6/PgPgZJg==
-=/BGt
------END PGP SIGNATURE-----
-
---ms+Zr1HhovfiSnO8--
+C.
 
