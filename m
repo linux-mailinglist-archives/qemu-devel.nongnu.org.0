@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368F654C520
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 11:52:41 +0200 (CEST)
-Received: from localhost ([::1]:50488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6392354C532
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 11:54:29 +0200 (CEST)
+Received: from localhost ([::1]:53752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1PhY-0001KJ-B0
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 05:52:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
+	id 1o1PjI-0003bG-7x
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 05:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o1Pcn-0007ou-NL; Wed, 15 Jun 2022 05:47:51 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:48666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o1Pcj-0004hD-E3; Wed, 15 Jun 2022 05:47:44 -0400
-Received: from myt5-23f0be3aa648.qloud-c.yandex.net
- (myt5-23f0be3aa648.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 314B72E11D6;
- Wed, 15 Jun 2022 12:47:15 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- YglmxI1cl6-lEJmR2gf; Wed, 15 Jun 2022 12:47:15 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1655286435; bh=77Bi4rEjnSiD4r6XEwwsCtQFxOImDFxaxOHoo2ddSsg=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=XHDivOUelFvZq7mF+AA+c0zujzHP03FvwUPEcW1qh3o/4j/UxPwy0EeRRR7t9ZXmr
- QB99Jt+J2qmqv9ynS3qS0UH30wjPS21VeLD+mLRFyt7RZYDs6i7cbeM995S7LBCLSl
- bMYUmgZllJBaPBlwsQtGbTLiIMy4fSfKyAHIsjts=
-Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:b67d::1:1e] (unknown
- [2a02:6b8:b081:b67d::1:1e])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 0GoOpp2AO4-lDM4vfAl; Wed, 15 Jun 2022 12:47:14 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <8b8ba4be-2713-7b8d-a7a1-398ee37f41a4@yandex-team.ru>
-Date: Wed, 15 Jun 2022 12:47:13 +0300
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1o1Pf0-0008Si-D6
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 05:50:04 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:59472 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1o1Pex-0004xV-Gu
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 05:50:01 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx701Cq6li7IRDAA--.6040S3;
+ Wed, 15 Jun 2022 17:49:54 +0800 (CST)
+Subject: Re: [PATCH v16 7/9] target/loongarch: Adjust functions and structure
+ to support user-mode
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20220614090536.1103616-1-gaosong@loongson.cn>
+ <20220614090536.1103616-8-gaosong@loongson.cn>
+ <a9539054-044f-7cfb-8de4-a5b821679b6f@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <c55d9b7a-910e-1052-d330-45d72cb5f02d@loongson.cn>
+Date: Wed, 15 Jun 2022 17:49:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PULL 00/10] Block jobs & NBD patches
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com,
- eblake@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
- peter.maydell@linaro.org
-References: <20220614102910.1431380-1-vsementsov@yandex-team.ru>
- <795ad7ac-27f9-4b84-4d47-86d107f5bf49@linaro.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <795ad7ac-27f9-4b84-4d47-86d107f5bf49@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <a9539054-044f-7cfb-8de4-a5b821679b6f@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9Dx701Cq6li7IRDAA--.6040S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7tr1rZFy8AF1UJr4Uury3Arb_yoW8Gw13pF
+ n7G393Jryfta1kXwn7Ja1jqry8Jws8J3WDGwn5Xas8tF4Sqr1jgr4kXw4q9rW7Jw4vqay7
+ AFW2qry3Za1DurJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9Y1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
+ JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ ACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl
+ 42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyU
+ JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjfUF9a9DUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,49 +79,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/22 21:05, Richard Henderson wrote:
-> On 6/14/22 03:29, Vladimir Sementsov-Ogievskiy wrote:
->> The following changes since commit debd0753663bc89c86f5462a53268f2e3f680f60:
->>
->>    Merge tag 'pull-testing-next-140622-1' of https://github.com/stsquad/qemu into staging (2022-06-13 21:10:57 -0700)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/vsementsov/qemu.git tags/pull-block-2022-06-14
->>
->> for you to fetch changes up to 5aef6747a250f545ff53ba7e1a3ed7a3d166011a:
->>
->>    MAINTAINERS: update Vladimir's address and repositories (2022-06-14 12:51:48 +0300)
->>
->> ----------------------------------------------------------------
->> Block jobs & NBD patches
->>
->> - add new options for copy-before-write filter
->> - new trace points for NBD
->> - prefer unsigned type for some 'in_flight' fields
->> - update my addresses in MAINTAINERS (already in Stefan's tree, but
->>    I think it's OK to send it with this PULL)
->>
->>
->> Note also, that I've recently updated my pgp key with new address and
->> new expire time.
->> Updated key is here: https://keys.openpgp.org/search?q=vsementsov%40yandex-team.ru
-> 
-> This introduces or exposes new timeouts:
-> 
-> https://gitlab.com/qemu-project/qemu/-/pipelines/563590515/failures
-> 
 
-Not obvious from logs, which iotest hangs. But excluding iotests that passed, it becomes obvious that problem is in copy-before-write iotest, which is added and then updated in the series..
+On 2022/6/15 上午12:43, Richard Henderson wrote:
+> On 6/14/22 02:05, Song Gao wrote:
+>> @@ -172,17 +173,20 @@ static void loongarch_cpu_do_interrupt(CPUState 
+>> *cs)
+>>           update_badinstr = 0;
+>>           break;
+>>       case EXCCODE_ADEM:
+>> +    case EXCCODE_BCE:
+>>       case EXCCODE_SYS:
+>>       case EXCCODE_BRK:
+>> +    case EXCCODE_INE:
+>> +    case EXCCODE_IPE:
+>> +    case EXCCODE_FPE:
+>> +        env->badvaddr = env->pc;
+>> +        QEMU_FALLTHROUGH;
+>
+> This is incorrect still.
+>
+> (1) env->badaddr (in this patch renamed badvaddr) is actually unused 
+> prior to this patch and should go away.  It seems to have been copied 
+> from RISC-V?  The correct LoongArch variable is env->CSR_BADV (see 
+> raise_mmu_exception in tlb_helper.c).
+>
+I also think we should remove env->badaddr,
+> (2) EXCCODE_ADEM is on the wrong side of this FALLTHROUGH.  This is 
+> the exception raised by TLB faults, and should retain the BADV address 
+> of the fault, not the faulting instruction.
+>
+> Also, this patch is trying to do too many things at once.  Please 
+> split it into smaller logical changes.  Any bug fixes for the system 
+> code, for instance raising EXCCODE_BCE instead of EXCCODE_ADEM for 
+> helper_asrtle_d should be completely separated.
+>
+Thanks you for you advice,  I will correct them on next version.
 
-And most probably, that's a new timeout feature, that doesn't work (patches 04-07).. It works for me locally still. I'd be glad if someone could look it through.
+Thanks.
+Song Gao
 
-I think, for now, I'll just resend a pull request without these 4 patches.
-
-Also, could/should I run all these test pipelines on gitlab by hand before sending a PULL request? Or can I rerun them on my qemu fork for debugging?
-
-
--- 
-Best regards,
-Vladimir
 
