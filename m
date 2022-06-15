@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059A154CA0C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 15:44:14 +0200 (CEST)
-Received: from localhost ([::1]:45432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A02B54CB0D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 16:19:35 +0200 (CEST)
+Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1TJc-0003SH-Gz
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 09:44:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56596)
+	id 1o1Trp-0006Ri-SE
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 10:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1THM-0002b5-HM
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:41:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49913)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o1ToC-0005EE-L0
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:15:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1THJ-0003RT-6I
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:41:51 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o1To7-0004A1-Nr
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:15:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655300507;
+ s=mimecast20190719; t=1655302542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aKDbUv/t8SK20cwR/GbEIINxAOlVcHYnT0SEaG29lJs=;
- b=OgByEP2Nm0QpSX/E7c/Jx39IT0wZZN5CjxJXHEgEg1tE3vdSxRumyVL0XUEu2nPRe/TUDR
- 0mbVCidqcIlvfS3BBrRtbXmmESHDxcUUdy2irvKwgDdwmt8xxbYaBR9aQg/p8WQL/qD3A/
- e1ZmX28KAoR5ZLJrGe8dHFLIjd4nQEM=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OeSIh0Q7bZc5zMIgxV4RjVQqqnnX7WyOb6fWOAEY+lQ=;
+ b=WW4MKRkdkas6yyt0EIoDhY0IZFppyen8v89fZMF+h9+fYPCzZGPYdwpyj0JC4Aa6Odmn/Y
+ s7ILy4rcfasES5Op7Qwn8qOsdA+QpsfL6MUDdfg8vK3tlMD+953LWWOU6mmigBjWQ5MlaW
+ y100AI0heM519rEXGq4MXguTjUc8NqY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-RC4vFEEfORmuVKAlVcFknA-1; Wed, 15 Jun 2022 09:41:44 -0400
-X-MC-Unique: RC4vFEEfORmuVKAlVcFknA-1
-Received: by mail-vk1-f198.google.com with SMTP id
- bk49-20020a0561220e3100b0035ce7546b32so2029279vkb.18
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 06:41:44 -0700 (PDT)
+ us-mta-113-jOhUWOZaO1SQHEEEGZSiRw-1; Wed, 15 Jun 2022 10:15:40 -0400
+X-MC-Unique: jOhUWOZaO1SQHEEEGZSiRw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z13-20020a7bc7cd000000b0039c4a238eadso5125324wmk.9
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 07:15:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aKDbUv/t8SK20cwR/GbEIINxAOlVcHYnT0SEaG29lJs=;
- b=JxV8zcosFxpytDvGRBCPrbjLvBEuU83swQ5bsfveKs/4SP3EU4KR9Tt39jgxwENdt/
- Sb82v+Hmal/Y7CK4bMmj4VPlIpTe3g2qIry14PW+HhOpqqDaGnaYIYxak3Iegjnoi7qG
- lCJYPt50IlxA+fe/8oyI0q/QCOFgpygDrpmldgmSSZOMi9BDDwGP23Sq0X28Pl9k8tB2
- umMdAzZuHlFYbXz3/HZn06dHjbxdj8irKJBlgXfsGCUO9ByegLINSDVyW8TUseZQKbrP
- Kv3tNbYLnF+Al8otp8aX3uJRkRL+izu1NvAtIOYdK4qkUbAdCKPpp1ZXKTpSSrCR2FPf
- 5jqg==
-X-Gm-Message-State: AJIora9m/yHLwzh+pxNd3yWLuKGmTH0fhGlYDEzrexvgUZoSL9fSvpBy
- xfFXmJb6u07GnIsyPysqCJK19dXBLON1ZCmB9B68ZqzaXVvq8SuHJJsr3w4REXQCUm2Fv3IwkIF
- h3lbvcrroCYa8PtvnZjaP2j23pent3dw=
-X-Received: by 2002:a1f:2093:0:b0:35e:21fb:1b65 with SMTP id
- g141-20020a1f2093000000b0035e21fb1b65mr4738340vkg.35.1655300503912; 
- Wed, 15 Jun 2022 06:41:43 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vfC6jAvIyTIc8jJStHzZtTL33em3LLVpesKF7G4aO2GH3h8Fu+ogw3fcMcNDKsMz72kpdncOaC8W1MEeAVWuo=
-X-Received: by 2002:a1f:2093:0:b0:35e:21fb:1b65 with SMTP id
- g141-20020a1f2093000000b0035e21fb1b65mr4738321vkg.35.1655300503667; Wed, 15
- Jun 2022 06:41:43 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OeSIh0Q7bZc5zMIgxV4RjVQqqnnX7WyOb6fWOAEY+lQ=;
+ b=BTAAaiZvNm6sgxvT+uXl1LSaYGmv3fIwMAF/Vdzh/kPMuYhOYW66MYUOcMlL/OlP3s
+ +ox8irkbTYueJrrFJYTzCykaGv5oq+Alk/XfHXxB2b6uNsAXN0kKh3PCycMqSkBxqfYd
+ okkfNm6XY3cqCpFElkcu4w+XEMzxO5sedvx7KSEqKuUm69hpJJSXhMyZewqs9slRbkM3
+ D0eiTT6Pj6Pq3lO6iDgXxVv7Io87K/K/urMAw6msOuz8nOZMa7wv7yULUgYNK+6cd9u7
+ mbRRprm3pjVE3/X+5bGbOiCpWdl1l39R3qrpe3xSQ7+QDYURcXdz0Q0lx+T3EJJS33EU
+ 9nTA==
+X-Gm-Message-State: AJIora8Sdbcd/1zaNuJ94cpmmFhLZAyFF9AuhTBFz2W5Et/Alkjq1tx2
+ x34ZlANwfQmu5pAHjiQ5EiEpTR8wVNGLlgU6GeOusAJ7XX4YCayrAjk5ZwwS7/Wvo5FBHUOTS8S
+ GU6R4EPoQTo56G1Q=
+X-Received: by 2002:a05:6000:108b:b0:213:abed:50fe with SMTP id
+ y11-20020a056000108b00b00213abed50femr12576wrw.425.1655302539378; 
+ Wed, 15 Jun 2022 07:15:39 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s2I9YiElaMvvDMNfc17e48uDKSd4FsKrDm1UIEfjuRniGVa22lt9TAMXsPV12Khr6tw7RyWA==
+X-Received: by 2002:a05:6000:108b:b0:213:abed:50fe with SMTP id
+ y11-20020a056000108b00b00213abed50femr12559wrw.425.1655302539144; 
+ Wed, 15 Jun 2022 07:15:39 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ p6-20020adfce06000000b00213ba0cab3asm15241576wrn.44.2022.06.15.07.15.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jun 2022 07:15:38 -0700 (PDT)
+Date: Wed, 15 Jun 2022 16:15:37 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: ritul guru <ritul.bits@gmail.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: regarding QEMU ACPI table generation and passing acpi
+ tables/methods to guest OS
+Message-ID: <20220615161537.7aec7656@redhat.com>
+In-Reply-To: <CAHHF-2Kxj6LgiPB3gEy=r-e0QWGX7=BSxezqP6LjZ7V1MuEv5w@mail.gmail.com>
+References: <CAHHF-2Kxj6LgiPB3gEy=r-e0QWGX7=BSxezqP6LjZ7V1MuEv5w@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220614015044.2501806-1-jsnow@redhat.com>
- <20220614015044.2501806-3-jsnow@redhat.com>
- <fa6e9152-73a1-d6ca-269a-1b1513472aa8@redhat.com>
- <YqhN50NeY3RIfvmy@redhat.com>
- <CAFn=p-a0hf6tp7NYS73S3OW9N_KA+NQRcLNAxh-UreVF9RkZ2Q@mail.gmail.com>
-In-Reply-To: <CAFn=p-a0hf6tp7NYS73S3OW9N_KA+NQRcLNAxh-UreVF9RkZ2Q@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 15 Jun 2022 09:41:32 -0400
-Message-ID: <CAFn=p-a2kQcuy6T47dWiFUOR2eWZhMOw9VJNEYT0Y6xau7YqTQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] tests/qemu-iotests: skip 108 when FUSE is not loaded
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Qemu-block <qemu-block@nongnu.org>, Beraldo Leal <bleal@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -84,7 +84,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,93 +100,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 10:30 AM John Snow <jsnow@redhat.com> wrote:
->
-> On Tue, Jun 14, 2022 at 4:59 AM Daniel P. Berrang=C3=A9 <berrange@redhat.=
-com> wrote:
-> >
-> > On Tue, Jun 14, 2022 at 06:46:35AM +0200, Thomas Huth wrote:
-> > > On 14/06/2022 03.50, John Snow wrote:
-> > > > In certain container environments we may not have FUSE at all, so s=
-kip
-> > > > the test in this circumstance too.
-> > > >
-> > > > Signed-off-by: John Snow <jsnow@redhat.com>
-> > > > ---
-> > > >   tests/qemu-iotests/108 | 6 ++++++
-> > > >   1 file changed, 6 insertions(+)
-> > > >
-> > > > diff --git a/tests/qemu-iotests/108 b/tests/qemu-iotests/108
-> > > > index 9e923d6a59f..e401c5e9933 100755
-> > > > --- a/tests/qemu-iotests/108
-> > > > +++ b/tests/qemu-iotests/108
-> > > > @@ -60,6 +60,12 @@ if sudo -n losetup &>/dev/null; then
-> > > >   else
-> > > >       loopdev=3Dfalse
-> > > > +    # Check for fuse support in the host environment:
-> > > > +    lsmod | grep fuse &>/dev/null;
-> > >
-> > > That doesn't work if fuse has been linked statically into the kernel.=
- Would
-> > > it make sense to test for /sys/fs/fuse instead?
-> > >
-> > > (OTOH, we likely hardly won't run this on statically linked kernels a=
-nyway,
-> > > so it might not matter too much)
-> >
-> > But more importantly 'lsmod' may not be installed in our container
-> > images. So checking /sys/fs/fuse avoids introducing a dep on the
-> > 'kmod' package.
-> >
-> > >
-> > > > +    if [[ $? -ne 0 ]]; then
-> > >
-> > > I'd prefer single "[" instead of "[[" ... but since we're requiring b=
-ash
-> > > anyway, it likely doesn't matter.
-> >
-> > Or
-> >
-> >     if  test $? !=3D 0 ; then
-> >
-> > >
-> > > > +        _notrun 'No Passwordless sudo nor FUSE kernel module'
-> > > > +    fi
-> > > > +
-> > > >       # QSD --export fuse will either yield "Parameter 'id' is miss=
-ing"
-> > > >       # or "Invalid parameter 'fuse'", depending on whether there i=
-s
-> > > >       # FUSE support or not.
-> > >
->
-> Good suggestions, thanks!
->
+On Wed, 15 Jun 2022 18:23:28 +0530
+ritul guru <ritul.bits@gmail.com> wrote:
 
-I think I need to test against /dev/fuse instead, because /sys/fs/fuse
-actually exists, but because of docker permissions (etc), FUSE isn't
-actually usable from the child container.
+> Came across below link about QEMU to pass acpi tables to guest OS.
+> https://wiki.qemu.org/Features/ACPITableGeneration
 
-I wound up with this:
+that link a bit outdated (project was completed but than later QEMU
+moved on to built-in library for composing ACPI tables)
 
-# Check for usable FUSE in the host environment:
-if test ! -c "/dev/fuse"; then
-    _notrun 'No passwordless sudo nor usable /dev/fuse'
-fi
+> Can I get more docs with respect to acpi tables/devices passing to guest OS
+> from hypervisor or dom0?
+> 
+> Looking for an example how an asl file which gets added in the SSDT table
+> can be passed to the guest OS with the help of QEMU.
 
-Seems to work for my case here, at least, but I don't have a good
-sense for how broadly flexible it might be. It might be nicer to
-concoct some kind of NOP fuse mount instead, but I wasn't able to
-figure out such a command quickly.
 
-The next problem I have is actually related; test-qga (for the
-Centos.x86_64 run) is failing because the guest agent is reading
-/proc/self/mountinfo -- which contains entries for block devices that
-are not visible in the current container scope. I think when QGA goes
-to read info about these devices to populate a response, it chokes.
-This might be a genuine bug in QGA if we want it to tolerate existing
-inside of a container.
+You can look at AML library QEMU utilizes currently to build DSDT/SSDT tables
+  ./hw/acpi/aml-build.c
+  ./include/hw/acpi/aml-build.h
 
---js
+and see build_dsdt* functions for examples how it's used to compose tables.
+
+> 
+> 
+> 
+> *Thanks & RegardsRitul Guru+91-9916513186*
 
 
