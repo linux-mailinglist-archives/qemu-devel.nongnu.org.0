@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0124754CC1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:04:08 +0200 (CEST)
-Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD12B54CC34
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:08:14 +0200 (CEST)
+Received: from localhost ([::1]:39628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1UYw-00034G-Pn
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:04:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47634)
+	id 1o1Ucw-0002t2-0a
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:08:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOX-0007HR-Tv
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:23 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:34582)
+ id 1o1UOn-0007mZ-IA
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:39 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:8800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOV-00015T-R9
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:21 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FDrshi015214;
- Wed, 15 Jun 2022 14:53:07 GMT
+ id 1o1UOl-00016I-3O
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:37 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE0Gw4025874;
+ Wed, 15 Jun 2022 14:53:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=u+USWiZ7o3DyQxWHdJI7EwK8AIskaFZDpN+FFhGWYKM=;
- b=XoR7Cc3PrSieTnP1mm+SUS+MhF+Kxc7XOsPBukQuqgow4JlZ7lPQpLAgI6TrIpuNsPFO
- 9g89KtaN4CE+jywXtGE7VOC6zOh92tbxChPn1yX91bQGrhk0BqIkrJ9lqM2jcRCf7GPA
- SZsOUI5jd3+DXawjNcHdvj3LKPw+641BBl5n3O7A4gZH9tScVFeqdxOnG1tISaZbi4lB
- XG356DdozQlybIBWwW9y3dQiJjvp/TOkzqZk+a53JUfgVncx2AjeqpKZPNRiX+7X1MUZ
- OLNxFJc5CLpRCVX8/Nt1TR6xL+hTKeEPMkysX7+mNhOku3NpVK+Ap5J1WNp6wk67jRoX 8Q== 
+ bh=VXFSP3he1Qn7f9PCKt9d1pzoHH/4Rt6Bt6/zgwsBvzo=;
+ b=OsXW/zdhTWVPa6ZsYOu/yM3MUnE3HryhBs1b5+yRPD6xeJqwPjh6spr6W9k8KjO0gMvr
+ ikp+4DWiWvC5vR4/rD2KxYlLFZrgI81oQKCrGGM/UXshHMu5AA92Y8++OkW7fLgh5tgH
+ j/XU0/IspgQSGrFgAzyBYDH99d/Op4fJWIQWrnpGiD2tgv4QQIFjeDiAlKScHiDSTcyT
+ 8T4fuk1bDHTLwH9sM4G8O74weh/6726UrS7B3BoKIdrqH3dOL/jhXeUyGWFFIbHiLUDl
+ O1Z706lRoxY905nKt5EjATrhE9iYNDVLz35wx9Apls9qVjEBbj68Nb4Mgcs39GVrNkPb xQ== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhn0gvfu-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhu2rxg3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:53:07 +0000
+ Wed, 15 Jun 2022 14:53:08 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25FEQ7KB023155; Wed, 15 Jun 2022 14:53:06 GMT
+ with SMTP id 25FEQ73I023089; Wed, 15 Jun 2022 14:53:07 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vq3v-1
+ 3gpr25vq4g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:53:06 +0000
+ Wed, 15 Jun 2022 14:53:07 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNj018501;
- Wed, 15 Jun 2022 14:53:05 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNl018501;
+ Wed, 15 Jun 2022 14:53:06 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpfm-32; Wed, 15 Jun 2022 14:53:05 +0000
+ 3gpr25vpfm-33; Wed, 15 Jun 2022 14:53:06 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,16 +72,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH V8 31/39] vhost: reset vhost devices for cpr
-Date: Wed, 15 Jun 2022 07:52:18 -0700
-Message-Id: <1655304746-102776-32-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V8 32/39] loader: suppress rom_reset during cpr
+Date: Wed, 15 Jun 2022 07:52:19 -0700
+Message-Id: <1655304746-102776-33-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-GUID: Qr0T5rhpOzzWG1gwnovkgnz-cuq7IxNH
-X-Proofpoint-ORIG-GUID: Qr0T5rhpOzzWG1gwnovkgnz-cuq7IxNH
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: yAhot5a2Dz8XMV1rBTKtyjKBPT13ba8o
+X-Proofpoint-ORIG-GUID: yAhot5a2Dz8XMV1rBTKtyjKBPT13ba8o
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -104,80 +104,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A vhost device is implicitly preserved across re-exec because its fd is not
-closed, and the value of the fd is specified on the command line for the
-new qemu to find.  However, new qemu issues an VHOST_RESET_OWNER ioctl,
-which fails because the device already has an owner.  To fix, reset the
-owner prior to exec.
-
-Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+Reported-by: Zheng Chuan <zhengchuan@huawei.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/virtio/vhost.c         | 17 +++++++++++++++++
- include/hw/virtio/vhost.h |  1 +
- 2 files changed, 18 insertions(+)
+ hw/core/loader.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index dd3263d..efaa28c 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -23,6 +23,7 @@
- #include "standard-headers/linux/vhost_types.h"
- #include "hw/virtio/virtio-bus.h"
- #include "hw/virtio/virtio-access.h"
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index 0548830..7b39c07 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -51,6 +51,7 @@
+ #include "hw/hw.h"
+ #include "disas/disas.h"
+ #include "migration/vmstate.h"
 +#include "migration/cpr.h"
- #include "migration/blocker.h"
- #include "migration/qemu-file-types.h"
- #include "sysemu/dma.h"
-@@ -1306,6 +1307,17 @@ static void vhost_virtqueue_cleanup(struct vhost_virtqueue *vq)
-     event_notifier_cleanup(&vq->masked_notifier);
- }
+ #include "monitor/monitor.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/sysemu.h"
+@@ -1153,6 +1154,7 @@ ssize_t rom_add_option(const char *file, int32_t bootindex)
+ static void rom_reset(void *unused)
+ {
+     Rom *rom;
++    bool cpr_is_active = (cpr_get_mode() != CPR_MODE_NONE);
  
-+static void vhost_cpr_exec_notifier(Notifier *notifier, void *data)
-+{
-+    struct vhost_dev *dev = container_of(notifier, struct vhost_dev,
-+                                         cpr_notifier);
-+    int r = dev->vhost_ops->vhost_reset_device(dev);
-+
-+    if (r < 0) {
-+        VHOST_OPS_DEBUG(r, "vhost_reset_device failed");
-+    }
-+}
-+
- int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-                    VhostBackendType backend_type, uint32_t busyloop_timeout,
-                    Error **errp)
-@@ -1405,6 +1417,8 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-     hdev->log_enabled = false;
-     hdev->started = false;
-     memory_listener_register(&hdev->memory_listener, &address_space_memory);
-+    cpr_add_notifier(&hdev->cpr_notifier, vhost_cpr_exec_notifier,
-+                     CPR_NOTIFY_EXEC);
-     QLIST_INSERT_HEAD(&vhost_devices, hdev, entry);
- 
-     if (used_memslots > hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
-@@ -1444,6 +1458,9 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
-         migrate_del_blocker(hdev->migration_blocker);
-         error_free(hdev->migration_blocker);
-     }
-+    if (hdev->cpr_notifier.notify) {
-+        cpr_remove_notifier(&hdev->cpr_notifier);
-+    }
-     g_free(hdev->mem);
-     g_free(hdev->mem_sections);
-     if (hdev->vhost_ops) {
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index b291fe4..1316b14 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -100,6 +100,7 @@ struct vhost_dev {
-     QLIST_ENTRY(vhost_dev) entry;
-     QLIST_HEAD(, vhost_iommu) iommu_list;
-     IOMMUNotifier n;
-+    Notifier cpr_notifier;
-     const VhostDevConfigOps *config_ops;
- };
- 
+     QTAILQ_FOREACH(rom, &roms, next) {
+         if (rom->fw_file) {
+@@ -1163,7 +1165,7 @@ static void rom_reset(void *unused)
+          * the data in during the next incoming migration in all cases.  Note
+          * that some of those RAMs can actually be modified by the guest.
+          */
+-        if (runstate_check(RUN_STATE_INMIGRATE)) {
++        if (runstate_check(RUN_STATE_INMIGRATE) || cpr_is_active) {
+             if (rom->data && rom->isrom) {
+                 /*
+                  * Free it so that a rom_reset after migration doesn't
 -- 
 1.8.3.1
 
