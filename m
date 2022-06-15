@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A8454CC7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:17:29 +0200 (CEST)
-Received: from localhost ([::1]:56982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0124754CC1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:04:08 +0200 (CEST)
+Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Uls-0006sE-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:17:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47902)
+	id 1o1UYw-00034G-Pn
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:04:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOu-0007tK-JH
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:47 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:25454)
+ id 1o1UOX-0007HR-Tv
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:23 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:34582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOs-00017j-L3
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:44 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE0O97002206;
- Wed, 15 Jun 2022 14:53:06 GMT
+ id 1o1UOV-00015T-R9
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:21 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FDrshi015214;
+ Wed, 15 Jun 2022 14:53:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=nJx101IJZVWEr28ZpjAal2ADXBW3GJypga1w1V4oiMc=;
- b=KhXpzTFZ60kv/DBLZfb6b8x2mPFNwx/+3swYryKTIshURceoYd8IQSCwCRCkWFsIX53q
- Z3pA8I66SrXMXkupUjYxXv9pmbRskPfXPzdOQmIrti9Ai35aBx4oOlPvZ2wy2k6WcAiB
- mnQs2y+/J7Z1aLjtnyefPNl9kRleuI3NZnZDBG8bq+Cqa8B1rz0HcZ6/b1t4mXSODE/U
- PqBanBb6DlW6hsM8ztp9s7N2Y83piJCxfYifh3emDndAdnfOeCAuGtsYQojf5/VMgl93
- LBXcrVgYlJgHg6LTlzeg3lQXgwqPtcjrTiSaCoquaH+PEmtfXQFIbFX+Iu2jpz7Jlp1I Ag== 
+ bh=u+USWiZ7o3DyQxWHdJI7EwK8AIskaFZDpN+FFhGWYKM=;
+ b=XoR7Cc3PrSieTnP1mm+SUS+MhF+Kxc7XOsPBukQuqgow4JlZ7lPQpLAgI6TrIpuNsPFO
+ 9g89KtaN4CE+jywXtGE7VOC6zOh92tbxChPn1yX91bQGrhk0BqIkrJ9lqM2jcRCf7GPA
+ SZsOUI5jd3+DXawjNcHdvj3LKPw+641BBl5n3O7A4gZH9tScVFeqdxOnG1tISaZbi4lB
+ XG356DdozQlybIBWwW9y3dQiJjvp/TOkzqZk+a53JUfgVncx2AjeqpKZPNRiX+7X1MUZ
+ OLNxFJc5CLpRCVX8/Nt1TR6xL+hTKeEPMkysX7+mNhOku3NpVK+Ap5J1WNp6wk67jRoX 8Q== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhfcrskr-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhn0gvfu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:53:06 +0000
+ Wed, 15 Jun 2022 14:53:07 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25FEQ7tR023103; Wed, 15 Jun 2022 14:53:05 GMT
+ with SMTP id 25FEQ7KB023155; Wed, 15 Jun 2022 14:53:06 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vq38-1
+ 3gpr25vq3v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:53:05 +0000
+ Wed, 15 Jun 2022 14:53:06 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNh018501;
- Wed, 15 Jun 2022 14:53:04 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNj018501;
+ Wed, 15 Jun 2022 14:53:05 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpfm-31; Wed, 15 Jun 2022 14:53:04 +0000
+ 3gpr25vpfm-32; Wed, 15 Jun 2022 14:53:05 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,16 +72,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH V8 30/39] vfio-pci: recover from unmap-all-vaddr failure
-Date: Wed, 15 Jun 2022 07:52:17 -0700
-Message-Id: <1655304746-102776-31-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V8 31/39] vhost: reset vhost devices for cpr
+Date: Wed, 15 Jun 2022 07:52:18 -0700
+Message-Id: <1655304746-102776-32-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-ORIG-GUID: 1YltT1aB1BL_KxijSAo9n8qcGOmbejHY
-X-Proofpoint-GUID: 1YltT1aB1BL_KxijSAo9n8qcGOmbejHY
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: Qr0T5rhpOzzWG1gwnovkgnz-cuq7IxNH
+X-Proofpoint-ORIG-GUID: Qr0T5rhpOzzWG1gwnovkgnz-cuq7IxNH
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -104,195 +104,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If vfio_cpr_save fails to unmap all vaddr's, then recover by walking all
-flat sections to restore the vaddr for each.  Do so by invoking the
-vfio listener callback, and passing a new "replay" flag that tells it
-to replay a mapping without re-allocating new userland data structures.
+A vhost device is implicitly preserved across re-exec because its fd is not
+closed, and the value of the fd is specified on the command line for the
+new qemu to find.  However, new qemu issues an VHOST_RESET_OWNER ioctl,
+which fails because the device already has an owner.  To fix, reset the
+owner prior to exec.
 
+Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/vfio/common.c              | 66 ++++++++++++++++++++++++++++++++-----------
- hw/vfio/cpr.c                 | 29 +++++++++++++++++++
- include/hw/vfio/vfio-common.h |  2 +-
- 3 files changed, 80 insertions(+), 17 deletions(-)
+ hw/virtio/vhost.c         | 17 +++++++++++++++++
+ include/hw/virtio/vhost.h |  1 +
+ 2 files changed, 18 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index c7d73b6..5f2bd50 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -895,15 +895,35 @@ static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
-     return true;
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index dd3263d..efaa28c 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -23,6 +23,7 @@
+ #include "standard-headers/linux/vhost_types.h"
+ #include "hw/virtio/virtio-bus.h"
+ #include "hw/virtio/virtio-access.h"
++#include "migration/cpr.h"
+ #include "migration/blocker.h"
+ #include "migration/qemu-file-types.h"
+ #include "sysemu/dma.h"
+@@ -1306,6 +1307,17 @@ static void vhost_virtqueue_cleanup(struct vhost_virtqueue *vq)
+     event_notifier_cleanup(&vq->masked_notifier);
  }
  
-+static VFIORamDiscardListener *vfio_find_ram_discard_listener(
-+    VFIOContainer *container, MemoryRegionSection *section)
++static void vhost_cpr_exec_notifier(Notifier *notifier, void *data)
 +{
-+    VFIORamDiscardListener *vrdl = NULL;
++    struct vhost_dev *dev = container_of(notifier, struct vhost_dev,
++                                         cpr_notifier);
++    int r = dev->vhost_ops->vhost_reset_device(dev);
 +
-+    QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
-+        if (vrdl->mr == section->mr &&
-+            vrdl->offset_within_address_space ==
-+            section->offset_within_address_space) {
-+            break;
-+        }
++    if (r < 0) {
++        VHOST_OPS_DEBUG(r, "vhost_reset_device failed");
 +    }
-+
-+    if (!vrdl) {
-+        hw_error("vfio: Trying to sync missing RAM discard listener");
-+        /* does not return */
-+    }
-+    return vrdl;
 +}
 +
- static void vfio_listener_region_add(MemoryListener *listener,
-                                      MemoryRegionSection *section)
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
--    vfio_container_region_add(container, section);
-+    vfio_container_region_add(container, section, false);
- }
+ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+                    VhostBackendType backend_type, uint32_t busyloop_timeout,
+                    Error **errp)
+@@ -1405,6 +1417,8 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+     hdev->log_enabled = false;
+     hdev->started = false;
+     memory_listener_register(&hdev->memory_listener, &address_space_memory);
++    cpr_add_notifier(&hdev->cpr_notifier, vhost_cpr_exec_notifier,
++                     CPR_NOTIFY_EXEC);
+     QLIST_INSERT_HEAD(&vhost_devices, hdev, entry);
  
- void vfio_container_region_add(VFIOContainer *container,
--                               MemoryRegionSection *section)
-+                               MemoryRegionSection *section, bool replay)
- {
-     hwaddr iova, end;
-     Int128 llend, llsize;
-@@ -1033,6 +1053,23 @@ void vfio_container_region_add(VFIOContainer *container,
-         int iommu_idx;
- 
-         trace_vfio_listener_region_add_iommu(iova, end);
-+
-+        if (replay) {
-+            hwaddr as_offset = section->offset_within_address_space;
-+            hwaddr iommu_offset = as_offset - section->offset_within_region;
-+
-+            QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
-+                if (giommu->iommu_mr == iommu_mr &&
-+                    giommu->iommu_offset == iommu_offset) {
-+                    memory_region_iommu_replay(giommu->iommu_mr, &giommu->n);
-+                    return;
-+                }
-+            }
-+            error_report("Container cannot find iommu region %s offset %lx",
-+                memory_region_name(section->mr), iommu_offset);
-+            goto fail;
-+        }
-+
-         /*
-          * FIXME: For VFIO iommu types which have KVM acceleration to
-          * avoid bouncing all map/unmaps through qemu this way, this
-@@ -1083,7 +1120,15 @@ void vfio_container_region_add(VFIOContainer *container,
-      * about changes.
-      */
-     if (memory_region_has_ram_discard_manager(section->mr)) {
--        vfio_register_ram_discard_listener(container, section);
-+        if (replay)  {
-+            VFIORamDiscardListener *vrdl =
-+                vfio_find_ram_discard_listener(container, section);
-+            if (vfio_ram_discard_notify_populate(&vrdl->listener, section)) {
-+                error_report("ram_discard_manager_replay_populated failed");
-+            }
-+        } else {
-+            vfio_register_ram_discard_listener(container, section);
-+        }
-         return;
+     if (used_memslots > hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
+@@ -1444,6 +1458,9 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
+         migrate_del_blocker(hdev->migration_blocker);
+         error_free(hdev->migration_blocker);
      }
- 
-@@ -1417,19 +1462,8 @@ static int vfio_sync_ram_discard_listener_dirty_bitmap(VFIOContainer *container,
-                                                    MemoryRegionSection *section)
- {
-     RamDiscardManager *rdm = memory_region_get_ram_discard_manager(section->mr);
--    VFIORamDiscardListener *vrdl = NULL;
--
--    QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
--        if (vrdl->mr == section->mr &&
--            vrdl->offset_within_address_space ==
--            section->offset_within_address_space) {
--            break;
--        }
--    }
--
--    if (!vrdl) {
--        hw_error("vfio: Trying to sync missing RAM discard listener");
--    }
-+    VFIORamDiscardListener *vrdl =
-+        vfio_find_ram_discard_listener(container, section);
- 
-     /*
-      * We only want/can synchronize the bitmap for actually mapped parts -
-diff --git a/hw/vfio/cpr.c b/hw/vfio/cpr.c
-index a227d5e..2b5e77c 100644
---- a/hw/vfio/cpr.c
-+++ b/hw/vfio/cpr.c
-@@ -32,6 +32,15 @@ vfio_dma_unmap_vaddr_all(VFIOContainer *container, Error **errp)
-     return 0;
- }
- 
-+static int
-+vfio_region_remap(MemoryRegionSection *section, void *handle, Error **errp)
-+{
-+    VFIOContainer *container = handle;
-+    vfio_container_region_add(container, section, true);
-+    container->vaddr_unmapped = false;
-+    return 0;
-+}
-+
- static bool vfio_is_cpr_capable(VFIOContainer *container, Error **errp)
- {
-     if (!ioctl(container->fd, VFIO_CHECK_EXTENSION, VFIO_UPDATE_VADDR) ||
-@@ -98,6 +107,22 @@ static const VMStateDescription vfio_container_vmstate = {
-     }
++    if (hdev->cpr_notifier.notify) {
++        cpr_remove_notifier(&hdev->cpr_notifier);
++    }
+     g_free(hdev->mem);
+     g_free(hdev->mem_sections);
+     if (hdev->vhost_ops) {
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index b291fe4..1316b14 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -100,6 +100,7 @@ struct vhost_dev {
+     QLIST_ENTRY(vhost_dev) entry;
+     QLIST_HEAD(, vhost_iommu) iommu_list;
+     IOMMUNotifier n;
++    Notifier cpr_notifier;
+     const VhostDevConfigOps *config_ops;
  };
  
-+static void vfio_cpr_save_failed_notifier(Notifier *notifier, void *data)
-+{
-+    Error *err;
-+    VFIOContainer *container =
-+        container_of(notifier, VFIOContainer, cpr_notifier);
-+
-+    /* Set reused so vfio_dma_map restores vaddr */
-+    container->reused = true;
-+    if (address_space_flat_for_each_section(container->space->as,
-+                                            vfio_region_remap,
-+                                            container, &err)) {
-+        error_report_err(err);
-+    }
-+    container->reused = false;
-+}
-+
- int vfio_cpr_register_container(VFIOContainer *container, Error **errp)
- {
-     container->cpr_blocker = NULL;
-@@ -108,6 +133,8 @@ int vfio_cpr_register_container(VFIOContainer *container, Error **errp)
- 
-     vmstate_register(NULL, -1, &vfio_container_vmstate, container);
- 
-+    cpr_add_notifier(&container->cpr_notifier, vfio_cpr_save_failed_notifier,
-+                     CPR_NOTIFY_SAVE_FAILED);
-     return 0;
- }
- 
-@@ -116,4 +143,6 @@ void vfio_cpr_unregister_container(VFIOContainer *container)
-     cpr_del_blocker(&container->cpr_blocker);
- 
-     vmstate_unregister(NULL, &vfio_container_vmstate, container);
-+
-+    cpr_remove_notifier(&container->cpr_notifier);
- }
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 17ad9ba..dd6bbcf 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -244,7 +244,7 @@ vfio_get_device_info_cap(struct vfio_device_info *info, uint16_t id);
- extern const MemoryListener vfio_prereg_listener;
- void vfio_listener_register(VFIOContainer *container);
- void vfio_container_region_add(VFIOContainer *container,
--                               MemoryRegionSection *section);
-+                               MemoryRegionSection *section, bool replay);
- 
- int vfio_spapr_create_window(VFIOContainer *container,
-                              MemoryRegionSection *section,
 -- 
 1.8.3.1
 
