@@ -2,94 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD6754CBB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 16:47:13 +0200 (CEST)
-Received: from localhost ([::1]:42584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE7154CBC2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 16:52:20 +0200 (CEST)
+Received: from localhost ([::1]:47514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1UIZ-0007wF-Qc
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 10:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
+	id 1o1UNT-0003Te-P4
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 10:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1o1UG9-0006wh-N5
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:44:43 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:34711)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1o1UG2-0007tv-5B
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:44:36 -0400
-Received: by mail-pf1-x431.google.com with SMTP id c196so11654729pfb.1
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 07:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:to:cc:references
- :from:in-reply-to;
- bh=mZ/mTmH8cqLi9vba9NMpw8seWwhG/785dXXi8qwXqR4=;
- b=6mJbtcSxSxReHb17Agxj2UnLtT8jpJrChXSrpx9eFmexco0LkAOf+4cEYi2TxJKdBb
- 0P2trH7+5nyT6v0lU/kyEfr+y5T5alKu3sMSMhpguAwhQ0foBWK7i9vaGX7wp9aZocU0
- 3xVqfomNtYkYUlHeOewGS/Hi5skjO90SqK3xdNGWNGvxqCwjEbi6lkrrDGEJZV5TpLG6
- 1XQ5AAqmWJ4Ar1ZIMM0ZJ8n1O4cMb4XyjjCHHmiHjYPrfRMw3t8Jp+L00NCL6QtdDvg/
- 5a95V42rV2gGMkiBNUTGR0jHHhq+/glQc5n4jR+z37Fa2tX8qyErTE21zSXvOJATT8Rs
- P/GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :to:cc:references:from:in-reply-to;
- bh=mZ/mTmH8cqLi9vba9NMpw8seWwhG/785dXXi8qwXqR4=;
- b=p4TVVulFtAW4EhVCc4OV5DlToGTF21lv5ir8GLz1/MvPazma5SOzXR/JgNkJHzkdx6
- 9TIgX5VL2bw+Bk3AH9sPK/w5sCNS15i7bXtBeTzq4EKTVvIir17nJJcgiDvvvo11DuFe
- ax8ukkTbQtmi629Xw7mBm3jd2igPRlODtNsKxfQPnW4PTwVcCbuw5CKKUydkNqbsNk1F
- w2/YuLhKv34CDCyt3ofznOysgIhi7B0HKBh1+D9YA+ayXtu2A4a7KH4VKmQQL+3phzgc
- gf8UdqS12z1UI4c05VpiPh3tp9vBnV50/L1dcEB4TFruCVp1IjUjq1/zNVEsOr5plS+7
- sQCw==
-X-Gm-Message-State: AJIora9M4xWQ1aDdgQWvzZMdYKdmsH6bAoNe5Km7Z8iXZ6lSDzr8vyhn
- zXh5gfmz2IBNcplshf8OHKRrCQ==
-X-Google-Smtp-Source: AGRyM1s4J4bK/Bf/FEMNxps3bn2DJSd5Dg5ODSViH8viEK/hSC7tfUS7MbUao2SW+XyMkXGN05b2LQ==
-X-Received: by 2002:a63:356:0:b0:3fd:7477:63f0 with SMTP id
- 83-20020a630356000000b003fd747763f0mr104909pgd.601.1655304271907; 
- Wed, 15 Jun 2022 07:44:31 -0700 (PDT)
-Received: from [10.94.53.13] ([139.177.225.249])
- by smtp.gmail.com with ESMTPSA id
- t2-20020a170902a5c200b0015e8d4eb26esm9382114plq.184.2022.06.15.07.44.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jun 2022 07:44:31 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------fPH2P5ntTLA1470ApHsxTeDA"
-Message-ID: <809418f4-343e-b730-1fe2-2a1e05ded8fb@bytedance.com>
-Date: Wed, 15 Jun 2022 22:44:24 +0800
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o1ULb-0001I6-PE
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:50:19 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:55980 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o1ULY-0000XS-SP
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:50:19 -0400
+Received: from localhost.localdomain (unknown [159.226.43.7])
+ by APP-05 (Coremail) with SMTP id zQCowACHjbGX8aliCU+PAw--.59018S2;
+ Wed, 15 Jun 2022 22:50:05 +0800 (CST)
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+To: qemu-devel@nongnu.org
+Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Subject: [PATCH v2 0/2] hw/nvme: Add shadow doorbell buffer support
+Date: Wed, 15 Jun 2022 22:49:05 +0800
+Message-Id: <20220615144907.3093384-1-fanjinhao21s@ict.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [External] [PATCH v13 3/8] QIOChannelSocket: Implement io_writev
- zero copy flag & io_flush for CONFIG_LINUX
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- lizefan.x@bytedance.com, zhouyibo@bytedance.com
-References: <20220513062836.965425-1-leobras@redhat.com>
- <20220513062836.965425-4-leobras@redhat.com>
- <c951a606-e306-6f11-0bd9-204a8b0d223a@bytedance.com>
- <YqiXwhG+TxG7IPY3@work-vm>
-From: chuang xu <xuchuangxclwt@bytedance.com>
-In-Reply-To: <YqiXwhG+TxG7IPY3@work-vm>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pf1-x431.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowACHjbGX8aliCU+PAw--.59018S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4UXFWrAF13ArWkXw1UZFb_yoW8tF4Dpa
+ yYgF15WF4ku3WxGan3Ga17WryrXan3XFs8Canrtw47Jrn8KFy7XFWxKF1UZFy5Zr4Igr1a
+ yFZxKFy7K34UArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
+ rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+ 67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUj6pB7UUUUU==
+X-Originating-IP: [159.226.43.7]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,174 +70,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------fPH2P5ntTLA1470ApHsxTeDA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+This patch adds shadow doorbell buffer support in NVMe 1.3 to QEMU
+NVMe. The Doorbell Buffer Config admin command is implemented for the
+guest to enable shadow doobell buffer. When this feature is enabled, each
+SQ/CQ is associated with two buffers, i.e., Shadow Doorbell buffer and
+EventIdx buffer. According to the Spec, each queue's doorbell register
+is only updated when the Shadow Doorbell buffer value changes from being
+less than or equal to the value of the corresponding EventIdx buffer
+entry to being greater than that value. Therefore, the number of MMIO's
+on the doorbell registers is greatly reduced.
 
+This patch is adapted from Huaicheng Li's patch[1] in 2018.
 
-On 2022/6/14 下午10:14, Dr. David Alan Gilbert wrote:
-> I don't think we can tell which one of them triggered the error; so the
-> only thing I can suggest is that we document the need for optmem_max
-> setting; I wonder how we get a better answer than 'a few 100KB'?
-> I guess it's something like the number of packets inflight *
-> sizeof(cmsghdr) ?
->
-> Dave
+[1] https://patchwork.kernel.org/project/qemu-devel/patch/20180305194906.GA3630@gmail.com/
 
-Three cases with errno ENOBUFS are described in the official 
-doc(https://www.kernel.org/doc/html/v5.12/networking/msg_zerocopy.html):
+IOPS comparison with FIO:
 
-1.The socket option was not set
+iodepth    1      2      4      8
+  QEMU   25.1k  25.9k  24.5k  24.0k
+ +dbbuf  29.1k  60.1k  99.8k  82.5k
 
-2.The socket exceeds its optmem limit
+MMIO's per IO measured by perf-kvm:
 
-3.The user exceeds its ulimit on locked pages
+iodepth    1      2      4      8
+  QEMU   2.01   1.99   1.99   1.99
+ +dbbuf  1.00   0.52   0.27   0.46
 
-For case 1, if the code logic is correct, this possibility can be ignored.
+The tests are done on Ubuntu 22.04 with 5.15.0-33 kernel with Intel(R) 
+Xeon(R) Gold 6248R CPU @ 3.00GHz.
 
-For case 2, I asked a kernel developer about the reason for "a few 
-100KB". He said that the recommended value should be for the purpose of 
-improving the performance of zero_copy send. If the NICsends data slower 
-than the data generation speed, even if optmem is set to 100KB, there is 
-a probability that sendmsg returns with errno ENOBUFS.
+QEMU set up:
 
-For case 3, If I do not set max locked memory for the qemu, the max 
-locked memory will be unlimited. I set the max locked memory for qemu 
-and found that once the memory usage exceeds the max locked memory, oom 
-will occur.  Does this mean that sendmsg cannot return with errno 
-ENOBUFS at all when user exceeds its ulimit on locked pages?
+bin/x86_64-softmmu/qemu-system-x86_64 \
+    -name "nvme-test" \
+    -machine accel=kvm \
+    -cpu host \
+    -smp 4 \
+    -m 8G \
+    -daemonize \
+    -device virtio-scsi-pci,id=scsi0 \
+    -device scsi-hd,drive=hd0 \
+    -drive file=$OSIMGF,if=none,aio=native,cache=none,format=qcow2,id=hd0,snapshot=on \
+    -drive "id=nvm,if=none,file=null-co://,file.read-zeroes=on,format=raw" \
+    -device nvme,serial=deadbeef,drive=nvm \
+    -net user,hostfwd=tcp::8080-:22 \
+    -net nic,model=virtio
 
-If the above is true, can we take the errno as the case 2？
+FIO configuration:
 
-I modified the code logic to call sendmsg again when the errno is 
-ENOBUFS and set optmem to the initial 20KB(echo 20480 > 
-/proc/sys/net/core/optmem_max), now the multifd zero_copy migration goes 
-well.
+[global]
+ioengine=libaio
+filename=/dev/nvme0n1
+thread=1
+group_reporting=1
+direct=1
+verify=0
+time_based=1
+ramp_time=0
+runtime=30
+;size=1G
+;iodepth=1
+rw=randread
+bs=4k
 
-Here are the changes I made to the code:
+[test]
+numjobs=1
 
+Changes since v1:
+  - Add compatibility with hosts that do not use admin queue shadow doorbell
 
-Signed-off-by: chuang xu <xuchuangxclwt@bytedance.com>
----
-  io/channel-socket.c | 4 +---
-  1 file changed, 1 insertion(+), 3 deletions(-)
+Jinhao Fan (2):
+  hw/nvme: Implement shadow doorbell buffer support
+  hw/nvme: Add trace events for shadow doorbell buffer
 
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index dc9c165de1..9267f55a1d 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -595,9 +595,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel 
-*ioc,
-  #ifdef QEMU_MSG_ZEROCOPY
-          case ENOBUFS:
-              if (sflags & MSG_ZEROCOPY) {
--                error_setg_errno(errp, errno,
--                                 "Process can't lock enough memory for 
-using MSG_ZEROCOPY");
--                return -1;
-+                goto retry;
-              }
-              break;
-  #endif
+ hw/nvme/ctrl.c       | 117 ++++++++++++++++++++++++++++++++++++++++++-
+ hw/nvme/nvme.h       |   8 +++
+ hw/nvme/trace-events |   5 ++
+ include/block/nvme.h |   2 +
+ 4 files changed, 131 insertions(+), 1 deletion(-)
+
 -- 
+2.25.1
 
-Dave, what's your take?
-
-Best Regards,
-
-chuang xu
-
---------------fPH2P5ntTLA1470ApHsxTeDA
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2022/6/14 下午10:14, Dr. David Alan
-      Gilbert wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:YqiXwhG+TxG7IPY3@work-vm">I don't
-      think we can tell which one of them triggered the error; so the
-      <pre class="moz-quote-pre" wrap="">only thing I can suggest is that we document the need for optmem_max
-setting; I wonder how we get a better answer than 'a few 100KB'?
-I guess it's something like the number of packets inflight *
-sizeof(cmsghdr) ?
-
-Dave
-</pre>
-    </blockquote>
-    <p>Three cases with errno ENOBUFS are described in the official
-      doc(<a class="moz-txt-link-freetext" href="https://www.kernel.org/doc/html/v5.12/networking/msg_zerocopy.html">https://www.kernel.org/doc/html/v5.12/networking/msg_zerocopy.html</a>):</p>
-    <p>1.The socket option was not set</p>
-    <p>2.The socket exceeds its optmem limit</p>
-    <p>3.The user exceeds its ulimit on locked pages</p>
-    <p>For case 1, if the code logic is correct, this possibility can be
-      ignored.</p>
-    <p>For case 2, I asked a kernel developer about the reason for "a
-      few 100KB". He said that the recommended value should be for the
-      purpose of improving the performance of zero_copy send. If the NIC<span
-        style="color: rgb(60, 64, 67); font-family: arial, sans-serif;
-        font-size: 14px; font-style: normal; font-variant-ligatures:
-        normal; font-variant-caps: normal; font-weight: 400;
-        letter-spacing: normal; orphans: 2; text-align: left;
-        text-indent: 0px; text-transform: none; white-space: normal;
-        widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
-        background-color: rgb(255, 255, 255); text-decoration-thickness:
-        initial; text-decoration-style: initial; text-decoration-color:
-        initial; display: inline !important; float: none;"></span> sends
-      data slower than the data generation speed, even if optmem is set
-      to 100KB, there is a probability that sendmsg returns with errno
-      ENOBUFS.</p>
-    <p>For case 3, If I do not set max locked memory for the qemu, the
-      max locked memory will be unlimited. I set the max locked memory
-      for qemu and found that once the memory usage exceeds the max
-      locked memory, oom will occur.  Does this mean that sendmsg cannot
-      return with errno ENOBUFS at all when user exceeds its ulimit on
-      locked pages?</p>
-    <p>If the above is true, can we take the errno as the case 2？</p>
-    <p>I modified the code logic to call sendmsg again when the errno is
-      ENOBUFS and set optmem to the initial 20KB(echo 20480 &gt;
-      /proc/sys/net/core/optmem_max), now the multifd zero_copy
-      migration goes well.</p>
-    <p>Here are the changes I made to the code:</p>
-    <p><br>
-    </p>
-    <p>Signed-off-by: chuang xu <a class="moz-txt-link-rfc2396E" href="mailto:xuchuangxclwt@bytedance.com">&lt;xuchuangxclwt@bytedance.com&gt;</a><br>
-      ---<br>
-       io/channel-socket.c | 4 +---<br>
-       1 file changed, 1 insertion(+), 3 deletions(-)<br>
-      <br>
-      diff --git a/io/channel-socket.c b/io/channel-socket.c<br>
-      index dc9c165de1..9267f55a1d 100644<br>
-      --- a/io/channel-socket.c<br>
-      +++ b/io/channel-socket.c<br>
-      @@ -595,9 +595,7 @@ static ssize_t
-      qio_channel_socket_writev(QIOChannel *ioc,<br>
-       #ifdef QEMU_MSG_ZEROCOPY<br>
-               case ENOBUFS:<br>
-                   if (sflags &amp; MSG_ZEROCOPY) {<br>
-      -                error_setg_errno(errp, errno,<br>
-      -                                 "Process can't lock enough
-      memory for using MSG_ZEROCOPY");<br>
-      -                return -1;<br>
-      +                goto retry;<br>
-                   }<br>
-                   break;<br>
-       #endif<br>
-      -- <br>
-    </p>
-    <p>Dave, what's your take?</p>
-    <p>Best Regards,</p>
-    <p>chuang xu<br>
-    </p>
-  </body>
-</html>
-
---------------fPH2P5ntTLA1470ApHsxTeDA--
 
