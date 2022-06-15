@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFFD54CEE4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:41:37 +0200 (CEST)
-Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC0954CEEB
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:43:06 +0200 (CEST)
+Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1W5I-00033G-9u
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:41:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53802)
+	id 1o1W6i-0005tQ-WA
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1o1W0j-0000qa-HJ
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 12:36:53 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:58329)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1o1W0h-0004ZU-FX
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 12:36:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=4rgjD+B9AkaMv/+FHTB92MJ6L2I4qTqZKLt2wQt1amU=; b=FAXWsDr+FM8RTp+wJgSo+3+j1N
- lW8GDVBg0jvnGGrR46lUVvsGCvyX1DQ7ef3xo9exHQN370g7c8RrRULtG3sHXlXjlgbVEpqzGUM75
- iFyILjGhX6V8wPQgiOItrYccvWVKTA8sFAn2kvrGQ+L7pVC2s6t9j2tXz9ZOd32mfnLbtY4UyXiOn
- ZpJhV+nyuDsPlVcoC0fHONAFPG62+kEuZ5cKKH/UCTN3zpbP3Yo3o7lUnxsSL/JtMZ1nriWcddV0N
- zz1pQc/vivvtLcJCetVA1JzWxo+AIGNi0BP+eL6FiJVuNkIsY7S6k26OkykKiGU2SYGYuJUdOotlo
- qlaJIsv5dgwypUELzHCcZlpxOs+0fhneuQPZivkrFsLMo9Is0zZ01vt8+dEfejrlb/x0IbiwjEfkL
- XgrImL1NVeqApDmrWsV1SbbKZ1M7zNlMk1B6gUb8yKTfnCy7ciWioQt30jwJbJJru5SCDvpygiIc4
- 6uR8SA6gubasuQS2mmuNuChKQgKKYAk26tmWHW0RuWQm4sf3NoRC3EIHpso7ckGBgcWois4glAOZN
- HgCRY+3FxJxEunP3uGgfW78eLkzfyEGB/fnvADfC0WsXOv+jO+Kv8AZbXI6QpZDV7iiJO7QY2InDZ
- gphvOvDqoLVl81JOIqGpTobMexE2Zcpy64RsdJJP0=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 5/7] 9pfs: fix 'Twalk' to only send error if no
- component walked
-Date: Wed, 15 Jun 2022 18:36:46 +0200
-Message-ID: <9146815.PM5Uiz2McI@silver>
-In-Reply-To: <20220615175249.21c497f3@bahia>
-References: <cover.1647339025.git.qemu_oss@crudebyte.com>
- <bc73e24258a75dc29458024c7936c8a036c3eac5.1647339025.git.qemu_oss@crudebyte.com>
- <20220615175249.21c497f3@bahia>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o1W2s-0002rN-M2
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 12:39:08 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:45942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o1W2c-0006Nc-NE
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 12:39:05 -0400
+Received: by mail-pl1-x635.google.com with SMTP id d5so8269273plo.12
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 09:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/e8HPnW6cPZQVWMnlzZxW/trXJbieQRDGjs7G9PSIq4=;
+ b=Ym6cRxW81nwSLKl6pIMtPsDIFYQrFhGlsvrMl506bX6AlrXlgo4PBUv6FUVRGqaWtH
+ pGAtVHhXzMQet58If2uI01fTfr3ooflbzvHMyEpwKu49Uc4nFVXBfC0pgPg4mkdd+I3c
+ zZk018rvVcRlrAnqtajZIgVcsN1yxDb5z49dcvNwVE3910flmrLQdjSfWNmi7UM5S14w
+ ONcKy45Uy+6CaGpPgRLoA8JQf8CAFqIRhwxjFIsSYtpeg866Pm1tMo01Rs/SD+3sPfxk
+ hFDgyr7nuBMM/v44S5wjS2Kq1T5gUJYV2TU/gK/7FeaH10BCeiIOsZ6LqozEQqi0HOfx
+ DmPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/e8HPnW6cPZQVWMnlzZxW/trXJbieQRDGjs7G9PSIq4=;
+ b=HvshcyGcgalEKogxU7yRcOrFMh1IhDj90y0dXAr5m+QdkLQjuW45VvNDiaNmAn8Oxn
+ 2thE4nHIIxrdRghi1p39rU9iVaoswydYx8prUOXTZO/1U/S6z2SMMZE3TeBNo5kiHQvP
+ 3uyVCOUPirEwQqdFWVTIyvtUSld2HkZNfYPPrq47/w0GJ2lA/jD07qorB+GVutmTITlJ
+ 9Oxg/DfxTKZ15NTpMxEL+iyZ4aJx9JdUiXnF18RCGFfEm/ufX65iY697Nxdb0NnBv+It
+ XLO5FmVifSXucSzzTIS3og8hC3iBPfo3CGfgIvBhXOsoPxzkNBvYlC2FbpH/i40TSnx4
+ AZaA==
+X-Gm-Message-State: AJIora+fP5T2xRy2mp6niEXjbEmKZUXp4tEV0mG2UFsuAhqAvSODGk0C
+ gtyjtIxE0bD7iWjiUDU63+RQv0txSycpzQ==
+X-Google-Smtp-Source: AGRyM1vnYOU+NGm0M0hPT5ifG1CiblkzaoMcYXnK883r+5Lvra51yRV2YJ0r7cwnz+0h4wEB555M6w==
+X-Received: by 2002:a17:902:d50b:b0:165:2aa0:4b22 with SMTP id
+ b11-20020a170902d50b00b001652aa04b22mr217218plg.131.1655311128811; 
+ Wed, 15 Jun 2022 09:38:48 -0700 (PDT)
+Received: from stoup.. ([192.77.111.2]) by smtp.gmail.com with ESMTPSA id
+ e11-20020a170902ed8b00b00163f8ddf160sm9579644plj.161.2022.06.15.09.38.47
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jun 2022 09:38:48 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] softmmu: Always initialize xlat in
+ address_space_translate_for_iotlb
+Date: Wed, 15 Jun 2022 09:38:46 -0700
+Message-Id: <20220615163846.313229-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,129 +86,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 15. Juni 2022 17:52:49 CEST Greg Kurz wrote:
-> On Tue, 15 Mar 2022 11:08:39 +0100
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > Current implementation of 'Twalk' request handling always sends an
-> > 'Rerror'
-> > 
-> > response if any error occured. The 9p2000 protocol spec says though:
-> >   "
-> >   If the first element cannot be walked for any reason, Rerror is
-> >   returned.
-> >   Otherwise, the walk will return an Rwalk message containing nwqid qids
-> >   corresponding, in order, to the files that are visited by the nwqid
-> >   successful elementwise walks; nwqid is therefore either nwname or the
-> >   index
-> >   of the first elementwise walk that failed.
-> >   "
-> >   
-> >   http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor33
-> > 
-> > For that reason we are no longer leaving from an error path in function
-> > v9fs_walk(), unless really no path component could be walked successfully
-> > or if the request has been interrupted.
-> > 
-> > Local variable 'nwalked' counts and reflects the number of path components
-> > successfully processed by background I/O thread, whereas local variable
-> > 'name_idx' subsequently counts and reflects the number of path components
-> > eventually accepted successfully by 9p server controller portion.
-> > 
-> > New local variable 'any_err' is an aggregate variable reflecting whether
-> > any error occurred at all, while already existing variable 'err' only
-> > reflects the last error.
-> > 
-> > Despite QIDs being delivered to client in a more relaxed way now, it is
-> > important to note though that fid still must remain unaffected if any
-> > error
-> > occurred.
-> > 
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> > 
-> >  hw/9pfs/9p.c | 43 +++++++++++++++++++++++++++----------------
-> >  1 file changed, 27 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index 298f4e6548..e770972a71 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -1766,7 +1766,7 @@ static void coroutine_fn v9fs_walk(void *opaque)
-> > 
-> >  {
-> >  
-> >      int name_idx, nwalked;
-> >      g_autofree V9fsQID *qids = NULL;
-> > 
-> > -    int i, err = 0;
-> > +    int i, err = 0, any_err = 0;
-> > 
-> >      V9fsPath dpath, path;
-> >      P9ARRAY_REF(V9fsPath) pathes = NULL;
-> >      uint16_t nwnames;
-> > 
-> > @@ -1832,19 +1832,20 @@ static void coroutine_fn v9fs_walk(void *opaque)
-> > 
-> >       * driver code altogether inside the following block.
-> >       */
-> >      
-> >      v9fs_co_run_in_worker({
-> > 
-> > +        nwalked = 0;
-> > 
-> >          if (v9fs_request_cancelled(pdu)) {
-> > 
-> > -            err = -EINTR;
-> > +            any_err |= err = -EINTR;
-> 
-> Not super fan of such constructs but I cannot think of anything
-> better.. so be it ! :-)
+The bug is an uninitialized memory read, along the translate_fail
+path, which results in garbage being read from iotlb_to_section,
+which can lead to a crash in io_readx/io_writex.
 
-Mwa, :( and I thought this was a slick (though probably yet again unorthodox) 
-way to handle aggregate errors.
+The bug may be fixed by writing any value with zero
+in ~TARGET_PAGE_MASK, so that the call to iotlb_to_section using
+the xlat'ed address returns io_mem_unassigned, as desired by the
+translate_fail path.
 
-[...]
-> > @@ -1874,12 +1875,12 @@ static void coroutine_fn v9fs_walk(void *opaque)
-> > 
-> >      /*
-> >      
-> >       * Handle all the rest of this Twalk request on main thread ...
-> >       */
-> > 
-> > -    if (err < 0) {
-> > +    if ((err < 0 && !nwalked) || err == -EINTR) {
-> 
-> So this is making an exception to the spec excerpt you're mentioning
-> in the changelog.
-> 
-> EINTR can only come from the v9fs_request_cancelled(pdu) == true case,
-> since QEMU doesn't have signal handlers AFAIK. This would be the result
-> of a TFLUSH , likely to handle ^C from the client side. I guess that in
-> that peculiar case, it quite makes sense to return RERROR/RLERROR instead
-> of the "degraded" RWALK that the end user isn't waiting for. To sum up,
-> TFLUSH behavior prevails on TWALK. Please add a comment though since
-> this isn't super obvious in the spec.
+It is most useful to record the original physical page address,
+which will eventually be logged by memory_region_access_valid
+when the access is rejected by unassigned_mem_accepts.
 
-Yes, everything you said is depicting this exception here precisely, and I 
-agree that it deserves a comment for further clarification, which I'll simply 
-add on my end to avoid the noise.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1065
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ softmmu/physmem.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Does the following sound good to you?
-
-"NOTE: -EINTR is an exception where we deviate from the protocol spec and 
-simply send an (R)Lerror response instead of bothering to assemble a 
-(deducted) Rwalk response; because -EINTR is always the result of a Tflush 
-request, so client would no longer wait for a response in this case anyway."
-
-> Apart from that, LGTM.
-> 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-
-Thanks for your reviews, much appreciated!
-
-Best regards,
-Christian Schoenebeck
-
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 657841eed0..fb0f0709b5 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -681,6 +681,9 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
+     AddressSpaceDispatch *d =
+         qatomic_rcu_read(&cpu->cpu_ases[asidx].memory_dispatch);
+ 
++    /* Record the original phys page for use by the translate_fail path. */
++    *xlat = addr;
++
+     for (;;) {
+         section = address_space_translate_internal(d, addr, &addr, plen, false);
+ 
+-- 
+2.34.1
 
 
