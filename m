@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C71C54C973
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 15:11:36 +0200 (CEST)
-Received: from localhost ([::1]:38860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0DA54C987
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 15:15:18 +0200 (CEST)
+Received: from localhost ([::1]:45526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1So2-0001B1-RN
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 09:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46632)
+	id 1o1Srd-0005wk-EK
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 09:15:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1Sll-0007R9-3z
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:09:13 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:45805)
+ id 1o1Slo-0007ZH-Ii
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:09:17 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:41698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1Sli-0007SX-TM
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:09:12 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id d5so7758889plo.12
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 06:09:10 -0700 (PDT)
+ id 1o1Sll-0007T0-Nm
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:09:16 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id g8so5163376plt.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 06:09:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3bLNlDtw3f/zAaqgNiCKmE8QYq9vbkjYUSzdMASAlVA=;
- b=KAHJh/lB+k7Uo77PhblcLQSASNAtq0kC4GbPeMwnrjm5pYKqtkzkLox15aW2MlClgJ
- Zni/jblRegggk72Ca5OsKLcgzHgH80yGc5peu/mBhW7NGY5fb6KF1skPq3rhyVg2uiEY
- pNVR0N1JhA+c5MIO3Y/Jt1WY26ySsv7/jqQrMqREhMFjf1/qxOOPLtbYZJe8aFs/QfhU
- DphUD0tavdfTB8clngc6dbEPhcwvaVzwMJUJxp3h2clxUGEGn0mBd7H18bmkhqfPKI+a
- nDowfPe1ZwdgDcdFyotTsj211z4/oObuRDaSk1GuqsU9jc4taj2t6g299ONWwuky2sja
- 4fTA==
+ bh=MGW3e1E/CYa3kjgPxDwHDQ2+e7vazH5z8w764VIDq+M=;
+ b=E+DnhTpcM/I9cV1kthOSByRB6IzvvM5Hog6XSBKBVzO56rOzdZbnrZMJkRMGo47f9Q
+ Bud8Mh2XfAU67okSJljHg2tHFXxECyr6tV9qmNwDExTWb450znDAGU6RZB4N8FhSZNgS
+ KNfcpGIgbw3fsSARrb9Iuw/m4FsHBJ5ZGKNTUnVOaGKLB6VAeCkGROBw503AMiC+Rtcc
+ EivIttkGT9vChAlSNTY5M613DUZ5AodIBEi3HCcMayAq6HBBBnyO0T475mfsmNFYN9sr
+ 6lXDA/18uJ1FBHBW99ri1gIOPG6zXPDxZLraJIbftCzVkc/UYjMi4K1ZZBh6SuE1BKy8
+ vmHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3bLNlDtw3f/zAaqgNiCKmE8QYq9vbkjYUSzdMASAlVA=;
- b=DWxhBR946JcJQrXBcSoFUQTCgj2nRQAaWU/fm0q8LHaUD5iSiRUgrJroi6KeUarX2m
- yhLkJWjXHWG5idByfEmCm+HmDh1OYFmkhCJyIUuZeKeBdn2UTYSMGHHjO4ckHvfCfL/q
- vjjjgOZe+CIdgz/u5bMr5f+VkuIDHLRB1DUNDyHhujzACDCu7JqhUseoL01heUyN3a9m
- WRSW06T4AiH34z9ZmDU2OIxN0jMa6mKGjoVUgLpYO0voOIDstso9/CimGe289HGQZZoE
- uPBmt02saSSkR9juTVV3nvlXtKPVPRfv97ypQPKrZkRlImpYK2lG148e3SN2dozHA1zC
- n9ZA==
-X-Gm-Message-State: AJIora+WCSV73tjpcP3VJLA89AF+9KIN64Q/7JTFWrODaOkoSbFXp6Xm
- Ji0JoaMJNr+Y0PRXBv5SapE=
-X-Google-Smtp-Source: AGRyM1sRVe3eSK9dLNGF24WCwqwLT8SyX4DdQMejybp5yUTQd6OD1f0LA8PktvPjeT/gj3bIRQYcqQ==
-X-Received: by 2002:a17:90b:314a:b0:1e8:5362:5620 with SMTP id
- ip10-20020a17090b314a00b001e853625620mr10257344pjb.9.1655298549529; 
- Wed, 15 Jun 2022 06:09:09 -0700 (PDT)
+ bh=MGW3e1E/CYa3kjgPxDwHDQ2+e7vazH5z8w764VIDq+M=;
+ b=2a/hDdKRwWDqcjsvgto1fbbF65QKyntR9gdFPO61dRO5cgmC68JbXNiub8dlnU4AOB
+ Az2j8+nLxMvwMqLSbC/+ZkfSB3KeEmuaHUddBoeBUwsm8k9NZd2X9QWfx+LdRPqQQv0t
+ 8Ooe1xiLivQjkQ6h2fWIRWOzv+J9XA5IZ4uvD4R8MKmgumSUakXS9S+LRj2WkBW1qIfL
+ Vb7RFOOU8dBtaQva/iVFZJKw7tas44CbXU2NnZAbnGyW9qS4fxwDWPoT/7q2wduoyRct
+ hZPi0hj7hxDNW1O3RKSeQbpeih1MiffefySJMERayIHwpam/foECRHpHheRWYcrzWhwR
+ 8f7w==
+X-Gm-Message-State: AJIora+RmisdSt48SLYqrrfLpfaW1y3Ld4olMF0dl7i4A5WGndDiwyeT
+ zaexdyI7G05YcvcQJtQwLHY=
+X-Google-Smtp-Source: AGRyM1uDlgYkkB32SjpP5uIElXXWzbsd8w9uSPAXPvLwGg0ltdCJ5W9G7Bi4YBYr2Ag35DvqmoAShA==
+X-Received: by 2002:a17:902:ab42:b0:165:7d40:fa80 with SMTP id
+ ij2-20020a170902ab4200b001657d40fa80mr9293894plb.43.1655298552485; 
+ Wed, 15 Jun 2022 06:09:12 -0700 (PDT)
 Received: from localhost.localdomain ([2400:4050:c360:8200:4126:b1a8:8fce:1a8])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a170902684c00b0016392bd5060sm9278448pln.142.2022.06.15.06.09.06
+ f12-20020a170902684c00b0016392bd5060sm9278448pln.142.2022.06.15.06.09.09
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Jun 2022 06:09:08 -0700 (PDT)
+ Wed, 15 Jun 2022 06:09:11 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
@@ -62,16 +62,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v5 2/4] datadir: Use bundle mechanism
-Date: Wed, 15 Jun 2022 22:08:43 +0900
-Message-Id: <20220615130845.32674-3-akihiko.odaki@gmail.com>
+Subject: [PATCH v5 3/4] ui/icons: Use bundle mechanism
+Date: Wed, 15 Jun 2022 22:08:44 +0900
+Message-Id: <20220615130845.32674-4-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 In-Reply-To: <20220615130845.32674-1-akihiko.odaki@gmail.com>
 References: <20220615130845.32674-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,261 +94,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-softmmu/datadir.c had its own implementation to find files in the
-build tree, but now bundle mechanism provides the unified
-implementation which works for datadir and the other files.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- .travis.yml                 |  2 +-
- meson.build                 |  2 +-
- pc-bios/keymaps/meson.build |  2 ++
- pc-bios/meson.build         | 19 +++++++++----------
- scripts/oss-fuzz/build.sh   |  2 +-
- softmmu/datadir.c           | 35 ++++++++++++-----------------------
- tests/qtest/fuzz/fuzz.c     | 15 ---------------
- tests/vm/fedora             |  2 +-
- tests/vm/freebsd            |  2 +-
- tests/vm/netbsd             |  2 +-
- tests/vm/openbsd            |  2 +-
- 11 files changed, 30 insertions(+), 55 deletions(-)
+ meson.build          |  2 +-
+ ui/cocoa.m           | 29 ++++++++++++++++-------------
+ ui/gtk.c             |  6 +++++-
+ ui/icons/meson.build | 32 ++++++++++++++++++++++++--------
+ ui/sdl2.c            | 18 +++++++++++-------
+ 5 files changed, 57 insertions(+), 30 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 9afc4a54b8f..9fee2167b95 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -223,7 +223,7 @@ jobs:
-         - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
-         - |
-           if [ "$BUILD_RC" -eq 0 ] ; then
--              mv pc-bios/s390-ccw/*.img pc-bios/ ;
-+              mv pc-bios/s390-ccw/*.img qemu-bundle/share/qemu ;
-               ${TEST_CMD} ;
-           else
-               $(exit $BUILD_RC);
 diff --git a/meson.build b/meson.build
-index 2f9bb27554c..9bdcd26a4af 100644
+index 9bdcd26a4af..e17c1ebc1c9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1683,7 +1683,7 @@ endif
- config_host_data.set_quoted('CONFIG_BINDIR', get_option('prefix') / get_option('bindir'))
- config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
- config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
--config_host_data.set_quoted('CONFIG_QEMU_DATADIR', get_option('prefix') / qemu_datadir)
-+config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_DATADIR', qemu_datadir)
+@@ -1687,7 +1687,7 @@ config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_DATADIR', qemu_datadir)
  config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
  config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('prefix') / get_option('qemu_firmwarepath'))
  config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
-diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
-index 44247a12b54..dd103092290 100644
---- a/pc-bios/keymaps/meson.build
-+++ b/pc-bios/keymaps/meson.build
-@@ -67,3 +67,5 @@ if native_qemu_keymap.found()
- endif
- 
- install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
-+
-+bundles += { qemu_datadir / 'keymaps': '../../../pc-bios/keymaps' }
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index 41ba1c0ec7b..0d2119836bd 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -20,6 +20,8 @@ if unpack_edk2_blobs
-                   install: get_option('install_blobs'),
-                   install_dir: qemu_datadir,
-                   command: [ bzip2, '-dc', '@INPUT0@' ])
-+
-+    bundles += { qemu_datadir / f: '../../../pc-bios' / f  }
-   endforeach
- endif
- 
-@@ -85,16 +87,13 @@ blobs = [
-   'vof-nvram.bin',
- ]
- 
--ln_s = [find_program('ln', required: true), '-sf']
--foreach f : blobs
--  roms += custom_target(f,
--                build_by_default: have_system,
--                output: f,
--                input: files('meson.build'),            # dummy input
--                install: get_option('install_blobs'),
--                install_dir: qemu_datadir,
--                command: [ ln_s, meson.project_source_root() / 'pc-bios' / f, '@OUTPUT@' ])
--endforeach
-+if get_option('install_blobs')
-+  install_data(blobs, install_dir: qemu_datadir)
-+
-+  foreach f : blobs
-+    bundles += { qemu_datadir / f: meson.current_source_dir() / f }
-+  endforeach
-+endif
- 
- subdir('descriptors')
- subdir('keymaps')
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 98b56e05210..cbf8b3080e9 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -88,7 +88,7 @@ if [ "$GITLAB_CI" != "true" ]; then
- fi
- 
- # Copy over the datadir
--cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
-+cp  -r ../pc-bios/ "$DEST_DIR/qemu-bundle/share/qemu"
- 
- targets=$(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}')
- base_copy="$DEST_DIR/qemu-fuzz-i386-target-$(echo "$targets" | head -n 1)"
-diff --git a/softmmu/datadir.c b/softmmu/datadir.c
-index 160cac999a6..4dadf0e010c 100644
---- a/softmmu/datadir.c
-+++ b/softmmu/datadir.c
-@@ -35,6 +35,7 @@ char *qemu_find_file(int type, const char *name)
-     int i;
-     const char *subdir;
-     char *buf;
-+    char *bundle;
- 
-     /* Try the name as a straight path first */
-     if (access(name, R_OK) == 0) {
-@@ -61,6 +62,16 @@ char *qemu_find_file(int type, const char *name)
-         }
-         g_free(buf);
-     }
-+
-+    bundle = g_strdup_printf("%s/%s%s",
-+                             CONFIG_QEMU_BUNDLE_DATADIR, subdir, name);
-+    buf = find_bundle(bundle);
-+    g_free(bundle);
-+    if (buf) {
-+        trace_load_file(name, buf);
-+        return buf;
-+    }
-+
-     return NULL;
- }
- 
-@@ -83,26 +94,6 @@ void qemu_add_data_dir(char *path)
-     data_dir[data_dir_idx++] = path;
- }
- 
--/*
-- * Find a likely location for support files using the location of the binary.
-- * When running from the build tree this will be "$bindir/pc-bios".
-- * Otherwise, this is CONFIG_QEMU_DATADIR (possibly relocated).
-- *
-- * The caller must use g_free() to free the returned data when it is
-- * no longer required.
-- */
--static char *find_datadir(void)
--{
--    g_autofree char *dir = NULL;
--
--    dir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
--    if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
--        return g_steal_pointer(&dir);
--    }
--
--    return get_relocated_path(CONFIG_QEMU_DATADIR);
--}
--
- void qemu_add_default_firmwarepath(void)
+-config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') / qemu_icondir)
++config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_ICONDIR', qemu_icondir)
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') / get_option('localstatedir'))
+ config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 84c84e98fc5..bd8a3211d3b 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1562,21 +1562,24 @@ - (BOOL)verifyQuit
+ - (IBAction) do_about_menu_item: (id) sender
  {
-     char **dirs;
-@@ -114,9 +105,6 @@ void qemu_add_default_firmwarepath(void)
-         qemu_add_data_dir(get_relocated_path(dirs[i]));
+     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+-    char *icon_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
+-    NSString *icon_path = [NSString stringWithUTF8String:icon_path_c];
+-    g_free(icon_path_c);
+-    NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
++    char *icon_path_c = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/512x512/apps/qemu.png");
+     NSString *version = @"QEMU emulator version " QEMU_FULL_VERSION;
+     NSString *copyright = @QEMU_COPYRIGHT;
+-    NSDictionary *options;
+-    if (icon) {
+-        options = @{
+-            NSAboutPanelOptionApplicationIcon : icon,
+-            NSAboutPanelOptionApplicationVersion : version,
+-            @"Copyright" : copyright,
+-        };
+-        [icon release];
+-    } else {
++    NSDictionary *options = nil;
++    if (icon_path_c) {
++        NSString *icon_path = [NSString stringWithUTF8String:icon_path_c];
++        g_free(icon_path_c);
++        NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
++        if (icon) {
++            options = @{
++                NSAboutPanelOptionApplicationIcon : icon,
++                NSAboutPanelOptionApplicationVersion : version,
++                @"Copyright" : copyright,
++            };
++            [icon release];
++        }
++    }
++    if (!options) {
+         options = @{
+             NSAboutPanelOptionApplicationVersion : version,
+             @"Copyright" : copyright,
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 2a791dd2aa0..8f7afe795f4 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2321,7 +2321,11 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+     s->opts = opts;
+ 
+     theme = gtk_icon_theme_get_default();
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR);
++    if (dir) {
++        gtk_icon_theme_prepend_search_path(theme, dir);
++        g_free(dir);
++    }
+     gtk_icon_theme_prepend_search_path(theme, dir);
+     g_free(dir);
+     g_set_prgname("qemu");
+diff --git a/ui/icons/meson.build b/ui/icons/meson.build
+index 12c52080ebd..1d99aff10ed 100644
+--- a/ui/icons/meson.build
++++ b/ui/icons/meson.build
+@@ -1,13 +1,29 @@
++icons = [
++  {
++    'source': 'qemu_32x32.bmp',
++    'install': 'hicolor' / '32x32' / 'apps' / 'qemu.bmp',
++  },
++  {
++    'source': 'qemu.svg',
++    'install': 'hicolor' / 'scalable' / 'apps' / 'qemu.svg',
++  },
++]
++
+ foreach s: [16, 24, 32, 48, 64, 128, 256, 512]
+   s = '@0@x@0@'.format(s.to_string())
+-  install_data('qemu_@0@.png'.format(s),
+-               rename: 'qemu.png',
+-               install_dir: qemu_icondir / 'hicolor' / s / 'apps')
++  icons += {
++    'source': 'qemu_@0@.png'.format(s),
++    'install': 'hicolor' / s / 'apps' / 'qemu.png',
++  }
+ endforeach
+ 
+-install_data('qemu_32x32.bmp',
+-             rename: 'qemu.bmp',
+-             install_dir: qemu_icondir / 'hicolor' / '32x32' / 'apps')
++foreach icon: icons
++  source = icon.get('source')
++  install = icon.get('install')
++
++  install_data(source,
++               rename: fs.name(install),
++               install_dir: qemu_icondir / fs.parent(install))
+ 
+-install_data('qemu.svg',
+-             install_dir: qemu_icondir / 'hicolor' / 'scalable' / 'apps')
++  bundles += { qemu_bundledir / qemu_icondir / install: meson.current_source_dir() / source }
++endforeach
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 8cb77416af2..bbcb4762e1b 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -910,15 +910,19 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
      }
-     g_strfreev(dirs);
--
--    /* try to find datadir relative to the executable path */
--    qemu_add_data_dir(find_datadir());
- }
  
- void qemu_list_data_dirs(void)
-@@ -125,4 +113,5 @@ void qemu_list_data_dirs(void)
-     for (i = 0; i < data_dir_idx; i++) {
-         printf("%s\n", data_dir[i]);
+ #ifdef CONFIG_SDL_IMAGE
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/128x128/apps/qemu.png");
+-    icon = IMG_Load(dir);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/128x128/apps/qemu.png");
++    if (dir) {
++        icon = IMG_Load(dir);
++    }
+ #else
+     /* Load a 32x32x4 image. White pixels are transparent. */
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
+-    icon = SDL_LoadBMP(dir);
+-    if (icon) {
+-        uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
+-        SDL_SetColorKey(icon, SDL_TRUE, colorkey);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
++    if (dir) {
++        icon = SDL_LoadBMP(dir);
++        if (icon) {
++            uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
++            SDL_SetColorKey(icon, SDL_TRUE, colorkey);
++        }
      }
-+    list_bundle_candidates(CONFIG_QEMU_BUNDLE_DATADIR);
- }
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 0ad4ba9e94d..2062b40d82b 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -174,21 +174,6 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-     target_name = strstr(**argv, "-target-");
-     if (target_name) {        /* The binary name specifies the target */
-         target_name += strlen("-target-");
--        /*
--         * With oss-fuzz, the executable is kept in the root of a directory (we
--         * cannot assume the path). All data (including bios binaries) must be
--         * in the same dir, or a subdir. Thus, we cannot place the pc-bios so
--         * that it would be in exec_dir/../pc-bios.
--         * As a workaround, oss-fuzz allows us to use argv[0] to get the
--         * location of the executable. Using this we add exec_dir/pc-bios to
--         * the datadirs.
--         */
--        bindir = qemu_get_exec_dir();
--        datadir = g_build_filename(bindir, "pc-bios", NULL);
--        if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
--            qemu_add_data_dir(datadir);
--        } else {
--            g_free(datadir);
- 	}
-     } else if (*argc > 1) {  /* The target is specified as an argument */
-         target_name = (*argv)[1];
-diff --git a/tests/vm/fedora b/tests/vm/fedora
-index 92b78d6e2c9..4ccd31bba61 100755
---- a/tests/vm/fedora
-+++ b/tests/vm/fedora
-@@ -79,7 +79,7 @@ class FedoraVM(basevm.BaseVM):
-         self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
-         self.print_step("Booting installer")
-         self.boot(img_tmp, extra_args = [
--            "-bios", "pc-bios/bios-256k.bin",
-+            "-bios", "qemu-bundle/share/qemu/bios-256k.bin",
-             "-machine", "graphics=off",
-             "-device", "VGA",
-             "-cdrom", iso
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 805db759d67..2095d8c5204 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -95,7 +95,7 @@ class FreeBSDVM(basevm.BaseVM):
- 
-         self.print_step("Booting installer")
-         self.boot(img_tmp, extra_args = [
--            "-bios", "pc-bios/bios-256k.bin",
-+            "-bios", "qemu-bundle/share/qemu/bios-256k.bin",
-             "-machine", "graphics=off",
-             "-device", "VGA",
-             "-cdrom", iso
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 45aa9a7fda7..d59cfedb83e 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -86,7 +86,7 @@ class NetBSDVM(basevm.BaseVM):
- 
-         self.print_step("Booting installer")
-         self.boot(img_tmp, extra_args = [
--            "-bios", "pc-bios/bios-256k.bin",
-+            "-bios", "qemu-bundle/share/qemu/bios-256k.bin",
-             "-machine", "graphics=off",
-             "-cdrom", iso
-         ])
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 13c82542140..036907c6243 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -82,7 +82,7 @@ class OpenBSDVM(basevm.BaseVM):
- 
-         self.print_step("Booting installer")
-         self.boot(img_tmp, extra_args = [
--            "-bios", "pc-bios/bios-256k.bin",
-+            "-bios", "qemu-bundle/share/qemu/bios-256k.bin",
-             "-machine", "graphics=off",
-             "-device", "VGA",
-             "-cdrom", iso
+ #endif
+     g_free(dir);
 -- 
 2.32.1 (Apple Git-133)
 
