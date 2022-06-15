@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BDF54CE8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:23:06 +0200 (CEST)
-Received: from localhost ([::1]:59008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914CC54CE8E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:22:47 +0200 (CEST)
+Received: from localhost ([::1]:57834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1VnN-0005NO-Hc
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44920)
+	id 1o1Vn4-0004a7-Li
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1VO6-0008C9-Iy
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:56:58 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:47024)
+ id 1o1VO9-0008Kh-9K
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:57:01 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:42649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1VO4-00088h-KJ
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:56:58 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id d13so10751353plh.13
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 08:56:56 -0700 (PDT)
+ id 1o1VO7-00089G-Ik
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:57:01 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ o33-20020a17090a0a2400b001ea806e48c6so2456212pjo.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 08:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bqJxgBQjormSo/al6PQl+CqdvjqOY+iZWbpHVrlRF1o=;
- b=lxRlgbnDSqE55JEvgOnrg7SWlHktZGKEY8Gaoew0ZIFq6yNjl7jQSWQamrrfjh82gJ
- aEtmAtrU5FgX9WRvjPoUolqLz5em0im5+9G/0sfQjTttfNlTYuREKS29GehV3qauXu+9
- DrSk3hA1Kp3zWLcm3MKberLr/Ct+ZMXl8I9237Zc4072fJT0k7FXKk90sS0YXuF1qYDb
- +DIT5tcuDyiqmqArItyc/6KMaMBG5xzQWM7MtSjCJesGpugJImpIZ/v8w9gxPnhMjmir
- HjL9lF9YjOcajayhx/UOc4UucxKc9PTwEY+ZdYfr2Adt1+bYHB3ELk7Npp3utizKmE5q
- hjew==
+ bh=KXc6SQ4/ZT/156FA8Jji8li+LKGk+3eODBLnw943x5o=;
+ b=RYXyKyw52FAh/dKz07E3jhacN+SrjGeqV1Q+zHVYW2+GryK0Nohvhq1Dq50UET4rJR
+ LiAfmwGzZLYHye5ys7fmpMOLckbMOwOxNTVpWta9IkvkVeFxLWttJDYqZpwgo39hWW71
+ H61N5yYCif/GGSARScoyOe8/OIWujJgsHCx2A41YaqDymCqGGmFsnflNP4ye4oJ/9x21
+ VjoECpdgZqfN4ZDEwIj6SyDFyj997NqYYdufEOO9QkgkvSaSUX9crBVIzf9QKTZTjebO
+ sKdRJSglr4Hgzc0q7OCRESn5nwPFz1Uc5oB9nQiZVRQB4EmAe+Sd4vLKIQQPXQuwxV8b
+ VqeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bqJxgBQjormSo/al6PQl+CqdvjqOY+iZWbpHVrlRF1o=;
- b=E8u/syfPdbAvrgW9Jh4TrBYHANrDh0yXjaOStBKMPkhP3vQHQi31FFGXmVjZwv30Zs
- 8INtxq9+snlm5LKcOAOwrx7SftFvm+srE+r9mJ7PKCB1CzkZYCGqtrRRftC03pILbCkl
- kIqc35Y2GiliJiWVLE51UdFKSw5VTSvhkSyhXLo6mNfL+fHWT3X4Fjqftqrkaxnp0t7O
- VKSP/tz/TA0/xulxsJNooq/iRpWSVONBhjwa+3YCmlyZxcN4HUa1wD2eglarmBlzt876
- FF/WvvwbkLDuPdHsSzg5E1YN9C+O5s1eeb7cAoeT7M7QrRybBlVygOJr00/G8stNTgA6
- i5fA==
-X-Gm-Message-State: AJIora8Be/BYRscVKucVg2dOZo46EkJvTbgeb9dGXZZv5dpIBBeR25zP
- Ar09mrr8GWsyfK3ZaF1JmvXXaT5ogao=
-X-Google-Smtp-Source: AGRyM1sNAwn5nP04bSX2AzsFoLOA1Ws1jqDoSDcu4V6yth7of37MAafNNLTGiY9i6H714cEK0Sx1Ng==
-X-Received: by 2002:a17:903:2291:b0:167:59ad:52e8 with SMTP id
- b17-20020a170903229100b0016759ad52e8mr232062plh.121.1655308615317; 
- Wed, 15 Jun 2022 08:56:55 -0700 (PDT)
+ bh=KXc6SQ4/ZT/156FA8Jji8li+LKGk+3eODBLnw943x5o=;
+ b=Fjsf3Ojb9w7Dc291uowDaKEVi0BGQM/TkOBNCsGWBuNS8X6q8M0Nn9NJZRPMkhiMZj
+ w0x8U2BvbWg6dcNwzClciA5JJ4FwYxSg/gj5oUZpHuUHXXHHOANf2YIQKqHRdI87ywTG
+ PZV+G4I8X3pOoBhkFtxfd+za1kShM8znHLihAUitqlL+FSQd3jyD8+9SSYPO+LYG7L7L
+ Je6MZRG9gkyyjPjcmjjOGxvNL4vx6J1PMkEHapdugUrVOZQnwyF2w5RU2raykkyROU2s
+ z2lxIjfi87BNnpeBKYYwKdFzge1rbUfO5axAQ5+x+2jtRrA9N0+I7QjO2YZwHInX7YaK
+ NQNw==
+X-Gm-Message-State: AJIora9Kk04RKu7kKtTj2v/SR1bTID2z6VxvhEfDwxss8Oowjnk9xJJ0
+ 0AsrJIEqsZlXB5KEQUML/as=
+X-Google-Smtp-Source: AGRyM1vYokWyee8Jzq+tdoAHlW541h+IPfnUNB5Dn3+9kAbYNdscDkLUFv+1fjbdZ0GkzWYRMUW5OQ==
+X-Received: by 2002:a17:903:186:b0:167:62b0:a556 with SMTP id
+ z6-20020a170903018600b0016762b0a556mr270864plg.122.1655308618253; 
+ Wed, 15 Jun 2022 08:56:58 -0700 (PDT)
 Received: from localhost.localdomain ([2400:4050:c360:8200:4126:b1a8:8fce:1a8])
  by smtp.gmail.com with ESMTPSA id
- a34-20020a056a001d2200b0051874318772sm9860038pfx.201.2022.06.15.08.56.52
+ a34-20020a056a001d2200b0051874318772sm9860038pfx.201.2022.06.15.08.56.55
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Jun 2022 08:56:54 -0700 (PDT)
+ Wed, 15 Jun 2022 08:56:57 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
@@ -62,16 +63,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v6 3/7] Remove prefixes from path configuration macros
-Date: Thu, 16 Jun 2022 00:56:30 +0900
-Message-Id: <20220615155634.578-4-akihiko.odaki@gmail.com>
+Subject: [PATCH v6 4/7] cutils: Introduce bundle mechanism
+Date: Thu, 16 Jun 2022 00:56:31 +0900
+Message-Id: <20220615155634.578-5-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 In-Reply-To: <20220615155634.578-1-akihiko.odaki@gmail.com>
 References: <20220615155634.578-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,178 +95,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The path configuration macros are often supplied to
-get_relocated_path(), and the function had some logics to remove the
-prefixes.
+Developers often run QEMU without installing. The bundle mechanism
+allows to look up files which should be present in installation even in
+such a situation.
 
-With this change, the prefixes are removed from those macros and
-get_relocated_path() is also simplified.
+It is a general mechanism and can find any files located relative
+to the installation tree. The build tree must have a new directory,
+qemu-bundle, to represent what files the installation tree would
+have for reference by the executables.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- include/qemu/cutils.h |  2 +-
- meson.build           | 21 ++++++++++-----------
- qemu-options.hx       | 11 +++++------
- util/cutils.c         | 34 +++++++---------------------------
- 4 files changed, 23 insertions(+), 45 deletions(-)
+ include/qemu/cutils.h | 19 +++++++++++++++++++
+ meson.build           | 12 ++++++++++++
+ util/cutils.c         | 23 +++++++++++++++++++++++
+ 3 files changed, 54 insertions(+)
 
 diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
-index 40e10e19a7e..57de1da5c95 100644
+index 57de1da5c95..ca5bddb9e1c 100644
 --- a/include/qemu/cutils.h
 +++ b/include/qemu/cutils.h
-@@ -207,7 +207,7 @@ const char *qemu_get_exec_dir(void);
-  *
-  * Returns a path for @dir that uses the directory of the running executable
-  * as the prefix.  For example, if `bindir` is `/usr/bin` and @dir is
-- * `/usr/share/qemu`, the function will append `../share/qemu` to the
-+ * `share/qemu`, the function will append `../share/qemu` to the
-  * directory that contains the running executable and return the result.
-  * The returned string should be freed by the caller.
+@@ -213,6 +213,25 @@ const char *qemu_get_exec_dir(void);
   */
+ char *get_relocated_path(const char *dir);
+ 
++/**
++ * find_bundle:
++ * @path: Relative path
++ *
++ * Returns a path for the specified directory or file bundled in QEMU. It uses
++ * the directory of the running executable as the prefix first. See
++ * get_relocated_path() for the details. The next candidate is "qemu-bundle"
++ * directory in the directory of the running executable. "qemu-bundle"
++ * directory is typically present in the build tree.
++ *
++ * The returned string should be freed by the caller.
++ *
++ * Returns: a path that can access the bundle, or NULL if no matching bundle
++ * exists.
++ */
++char *find_bundle(const char *path);
++
++void list_bundle_candidates(const char *path);
++
+ static inline const char *yes_no(bool b)
+ {
+      return b ? "yes" : "no";
 diff --git a/meson.build b/meson.build
-index 0c2e11ff071..01d5e32615e 100644
+index 01d5e32615e..ab5ab85bf4e 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1679,18 +1679,17 @@ config_host_data.set_quoted('CONFIG_TLS_PRIORITY', get_option('tls_priority'))
- if iasl.found()
-   config_host_data.set_quoted('CONFIG_IASL', iasl.full_path())
+@@ -32,6 +32,7 @@ if get_option('qemu_suffix').startswith('/')
+   error('qemu_suffix cannot start with a /')
  endif
--config_host_data.set_quoted('CONFIG_BINDIR', get_option('prefix') / get_option('bindir'))
-+config_host_data.set_quoted('CONFIG_BINDIR', get_option('bindir'))
- config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
--config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
--config_host_data.set_quoted('CONFIG_QEMU_DATADIR', get_option('prefix') / qemu_datadir)
--config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
--config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('prefix') / get_option('qemu_firmwarepath'))
--config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
--config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') / qemu_icondir)
--config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
--config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') / get_option('localstatedir'))
--config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
--config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_option('sysconfdir'))
-+config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', qemu_confdir)
-+config_host_data.set_quoted('CONFIG_QEMU_DATADIR', qemu_datadir)
-+config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('qemu_firmwarepath'))
-+config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('libexecdir'))
-+config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', qemu_icondir)
-+config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('localedir'))
-+config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('localstatedir'))
-+config_host_data.set_quoted('CONFIG_QEMU_MODDIR', qemu_moddir)
-+config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('sysconfdir'))
  
- if config_host.has_key('CONFIG_MODULES')
-   config_host_data.set('CONFIG_STAMP', run_command(
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22fbd82..f0ae8f44ff2 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2661,12 +2661,11 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "         [,poll-us=n]\n"
-     "                configure a host TAP network backend with ID 'str'\n"
-     "                connected to a bridge (default=" DEFAULT_BRIDGE_INTERFACE ")\n"
--    "                use network scripts 'file' (default=" DEFAULT_NETWORK_SCRIPT ")\n"
--    "                to configure it and 'dfile' (default=" DEFAULT_NETWORK_DOWN_SCRIPT ")\n"
--    "                to deconfigure it\n"
-+    "                use custom network script 'file' to configure it (optional)\n"
-+    "                use custom network script 'dfile' to deconfigure it (optional)\n"
-     "                use '[down]script=no' to disable script execution\n"
--    "                use network helper 'helper' (default=" DEFAULT_BRIDGE_HELPER ") to\n"
--    "                configure it\n"
-+    "                use custom network helper 'helper' to\n"
-+    "                configure it (optional)\n"
-     "                use 'fd=h' to connect to an already opened TAP interface\n"
-     "                use 'fds=x:y:...:z' to connect to already opened multiqueue capable TAP interfaces\n"
-     "                use 'sndbuf=nbytes' to limit the size of the send buffer (the\n"
-@@ -2684,7 +2683,7 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "-netdev bridge,id=str[,br=bridge][,helper=helper]\n"
-     "                configure a host TAP network backend with ID 'str' that is\n"
-     "                connected to a bridge (default=" DEFAULT_BRIDGE_INTERFACE ")\n"
--    "                using the program 'helper (default=" DEFAULT_BRIDGE_HELPER ")\n"
-+    "                using the custom program 'helper' (optional)\n"
- #endif
- #ifdef __linux__
-     "-netdev l2tpv3,id=str,src=srcaddr,dst=dstaddr[,srcport=srcport][,dstport=dstport]\n"
++qemu_bundledir = meson.project_build_root() / 'qemu-bundle'
+ qemu_confdir = get_option('sysconfdir') / get_option('qemu_suffix')
+ qemu_datadir = get_option('datadir') / get_option('qemu_suffix')
+ qemu_docdir = get_option('docdir') / get_option('qemu_suffix')
+@@ -2843,6 +2844,8 @@ target_arch = {}
+ target_softmmu_arch = {}
+ target_user_arch = {}
+ 
++bundles = {}
++
+ ###############
+ # Trace files #
+ ###############
+@@ -3613,6 +3616,15 @@ if host_machine.system() == 'windows'
+   alias_target('installer', nsis)
+ endif
+ 
++###########
++# Bundles #
++###########
++
++foreach dst, src: bundles
++  run_command('mkdir', '-p', qemu_bundledir / fs.parent(dst), check: true)
++  run_command('ln', '-sf', src, qemu_bundledir / dst, check: true)
++endforeach
++
+ #########################
+ # Configuration summary #
+ #########################
 diff --git a/util/cutils.c b/util/cutils.c
-index a58bcfd80e7..983db97b4df 100644
+index 983db97b4df..64cb1616b9c 100644
 --- a/util/cutils.c
 +++ b/util/cutils.c
-@@ -917,13 +917,6 @@ int qemu_pstrcmp0(const char **str1, const char **str2)
-     return g_strcmp0(*str1, *str2);
- }
+@@ -1066,3 +1066,26 @@ char *get_relocated_path(const char *dir)
  
--static inline bool starts_with_prefix(const char *dir)
--{
--    size_t prefix_len = strlen(CONFIG_PREFIX);
--    return !memcmp(dir, CONFIG_PREFIX, prefix_len) &&
--        (!dir[prefix_len] || G_IS_DIR_SEPARATOR(dir[prefix_len]));
--}
--
- /* Return the next path component in dir, and store its length in *p_len.  */
- static inline const char *next_component(const char *dir, int *p_len)
- {
-@@ -967,7 +960,7 @@ void qemu_init_exec_dir(const char *argv0)
-     if (access(buf, R_OK) == 0) {
-         exec_dir = g_strdup(buf);
-     } else {
--        exec_dir = CONFIG_BINDIR;
-+        exec_dir = CONFIG_PREFIX G_DIR_SEPARATOR_S CONFIG_BINDIR;
-     }
- #else
-     char *p = NULL;
-@@ -1038,7 +1031,7 @@ void qemu_init_exec_dir(const char *argv0)
-     if (p) {
-         exec_dir = g_path_get_dirname(p);
-     } else {
--        exec_dir = CONFIG_BINDIR;
-+        exec_dir = CONFIG_PREFIX G_DIR_SEPARATOR_S CONFIG_BINDIR;
-     }
- #endif
- }
-@@ -1050,39 +1043,26 @@ const char *qemu_get_exec_dir(void)
- 
- char *get_relocated_path(const char *dir)
- {
--    size_t prefix_len = strlen(CONFIG_PREFIX);
-     const char *bindir = CONFIG_BINDIR;
-     const char *exec_dir = qemu_get_exec_dir();
-     GString *result;
--    int len_dir, len_bindir;
-+    int len_bindir;
- 
-     /* Fail if qemu_init_exec_dir was not called.  */
-     assert(exec_dir[0]);
--    if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
--        return g_strdup(dir);
--    }
- 
-     result = g_string_new(exec_dir);
- 
--    /* Advance over common components.  */
--    len_dir = len_bindir = prefix_len;
--    do {
--        dir += len_dir;
--        bindir += len_bindir;
--        dir = next_component(dir, &len_dir);
--        bindir = next_component(bindir, &len_bindir);
--    } while (len_dir && len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
--
-     /* Ascend from bindir to the common prefix with dir.  */
-+    len_bindir = 0;
-     while (len_bindir) {
-         bindir += len_bindir;
-         g_string_append(result, "/..");
-         bindir = next_component(bindir, &len_bindir);
-     }
- 
--    if (*dir) {
--        assert(G_IS_DIR_SEPARATOR(dir[-1]));
--        g_string_append(result, dir - 1);
--    }
-+    g_string_append_c(result, G_DIR_SEPARATOR);
-+    g_string_append(result, dir);
-+
      return g_string_free(result, false);
  }
++
++char *find_bundle(const char *path)
++{
++    char *bundle = g_strdup_printf("%s/qemu-bundle/%s", qemu_get_exec_dir(), path);
++    if (access(bundle, R_OK) == 0) {
++        return bundle;
++    }
++
++    g_free(bundle);
++
++    return get_relocated_path(path);
++}
++
++void list_bundle_candidates(const char *path)
++{
++    const char *dir = qemu_get_exec_dir();
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(bundle_formats); i++) {
++        printf(bundle_formats[i], dir, path);
++        putc('\n', stdout);
++    }
++}
 -- 
 2.32.1 (Apple Git-133)
 
