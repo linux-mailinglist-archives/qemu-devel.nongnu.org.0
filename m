@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EB254CDA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:57:49 +0200 (CEST)
-Received: from localhost ([::1]:44492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09ED54CDAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:58:59 +0200 (CEST)
+Received: from localhost ([::1]:48018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1VOu-0008Ei-2P
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:57:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42930)
+	id 1o1VQ2-0002CY-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:58:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o1VLd-0003n7-5i
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:54:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44705)
+ id 1o1VLe-0003qL-SI
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:54:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o1VLZ-0007Ga-W9
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:54:24 -0400
+ id 1o1VLa-0007H8-89
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:54:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655308460;
+ s=mimecast20190719; t=1655308461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KO0ufAsBnBIG45JVneh8vSVmquRKlnIT5NnIf0eJpLc=;
- b=YErhHZI4LrlFg4jyqQb4kOR3xl5RDEXwfYvAAK2h7GZiEGwrgVZ+ipH498n5XA4/wES0+J
- SCUAZ799jEVv9t1m52UWszOirK8FjCicq50pBO3kAwlI1XsJyp9t2v2XQd91jBp1twfYXr
- 5CaMsS07Y2CawnY8y5Sl+rXmzKALzfc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=E/Xes3Sx/m22LuAiH/kQPVPos8EAj3hA5tpXxXIp8pM=;
+ b=Lp8tWWe1rNN6wu06waLidls4BWczj/dkCza+eXbN3KIGTTfzHDtNvhAUa4U4TttKq+rrS+
+ nVPloZdlgePwgNjz+mdqPEHey7s7liSHEDRAUfXHn0cSlchUlPvth656K58WctGjGQ+3cg
+ MsOnBpKhhLvCLE11T4GGUrqVDxAGuDo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-Qldfxaj6Ox6Dmn2OvfKvlQ-1; Wed, 15 Jun 2022 11:54:14 -0400
-X-MC-Unique: Qldfxaj6Ox6Dmn2OvfKvlQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-620-N2rf4UvuMiuAovityDAxXA-1; Wed, 15 Jun 2022 11:54:18 -0400
+X-MC-Unique: N2rf4UvuMiuAovityDAxXA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69D22802D1C;
- Wed, 15 Jun 2022 15:54:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E789538005C9;
+ Wed, 15 Jun 2022 15:54:17 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFAB6C2810D;
- Wed, 15 Jun 2022 15:54:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AF93492C3B;
+ Wed, 15 Jun 2022 15:54:17 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
@@ -65,25 +65,23 @@ Cc: Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
  Alexander Bulekov <alxndr@bu.edu>, Julia Suvorova <jusual@redhat.com>,
  Darren Kenny <darren.kenny@oracle.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PULL 01/18] MAINTAINERS: update Vladimir's address and repositories
-Date: Wed, 15 Jun 2022 16:51:12 +0100
-Message-Id: <20220615155129.1025811-2-stefanha@redhat.com>
+ John G Johnson <john.g.johnson@oracle.com>
+Subject: [PULL 03/18] qdev: unplug blocker for devices
+Date: Wed, 15 Jun 2022 16:51:14 +0100
+Message-Id: <20220615155129.1025811-4-stefanha@redhat.com>
 In-Reply-To: <20220615155129.1025811-1-stefanha@redhat.com>
 References: <20220615155129.1025811-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,109 +98,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+From: Jagannathan Raman <jag.raman@oracle.com>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-id: 20220526115432.138384-1-vsementsov@yandex-team.ru
+Add blocker to prevent hot-unplug of devices
+
+TYPE_VFIO_USER_SERVER, which is introduced shortly, attaches itself to a
+PCIDevice on which it depends. If the attached PCIDevice gets removed
+while the server in use, it could cause it crash. To prevent this,
+TYPE_VFIO_USER_SERVER adds an unplug blocker for the PCIDevice.
+
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-id: c41ef80b7cc063314d629737bed2159e5713f2e0.1655151679.git.jag.raman@oracle.com
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- MAINTAINERS | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ include/hw/qdev-core.h | 29 +++++++++++++++++++++++++++++
+ hw/core/qdev.c         | 24 ++++++++++++++++++++++++
+ softmmu/qdev-monitor.c |  4 ++++
+ 3 files changed, 57 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4cf6174f9f..5ba93348aa 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2546,7 +2546,7 @@ F: scsi/*
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 92c3d65208..98774e2835 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -193,6 +193,7 @@ struct DeviceState {
+     int instance_id_alias;
+     int alias_required_for_version;
+     ResettableState reset;
++    GSList *unplug_blockers;
+ };
  
- Block Jobs
- M: John Snow <jsnow@redhat.com>
--M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-+M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
- L: qemu-block@nongnu.org
- S: Supported
- F: blockjob.c
-@@ -2571,7 +2571,7 @@ F: block/aio_task.c
- F: util/qemu-co-shared-resource.c
- F: include/qemu/co-shared-resource.h
- T: git https://gitlab.com/jsnow/qemu.git jobs
--T: git https://src.openvz.org/scm/~vsementsov/qemu.git jobs
-+T: git https://gitlab.com/vsementsov/qemu.git block
+ struct DeviceListener {
+@@ -419,6 +420,34 @@ void qdev_simple_device_unplug_cb(HotplugHandler *hotplug_dev,
+ void qdev_machine_creation_done(void);
+ bool qdev_machine_modified(void);
  
- Block QAPI, monitor, command line
- M: Markus Armbruster <armbru@redhat.com>
-@@ -2592,7 +2592,7 @@ F: include/hw/cxl/
++/**
++ * qdev_add_unplug_blocker: Add an unplug blocker to a device
++ *
++ * @dev: Device to be blocked from unplug
++ * @reason: Reason for blocking
++ */
++void qdev_add_unplug_blocker(DeviceState *dev, Error *reason);
++
++/**
++ * qdev_del_unplug_blocker: Remove an unplug blocker from a device
++ *
++ * @dev: Device to be unblocked
++ * @reason: Pointer to the Error used with qdev_add_unplug_blocker.
++ *          Used as a handle to lookup the blocker for deletion.
++ */
++void qdev_del_unplug_blocker(DeviceState *dev, Error *reason);
++
++/**
++ * qdev_unplug_blocked: Confirm if a device is blocked from unplug
++ *
++ * @dev: Device to be tested
++ * @reason: Returns one of the reasons why the device is blocked,
++ *          if any
++ *
++ * Returns: true if device is blocked from unplug, false otherwise
++ */
++bool qdev_unplug_blocked(DeviceState *dev, Error **errp);
++
+ /**
+  * GpioPolarity: Polarity of a GPIO line
+  *
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 84f3019440..0806d8fcaa 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -468,6 +468,28 @@ char *qdev_get_dev_path(DeviceState *dev)
+     return NULL;
+ }
  
- Dirty Bitmaps
- M: Eric Blake <eblake@redhat.com>
--M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-+M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
- R: John Snow <jsnow@redhat.com>
- L: qemu-block@nongnu.org
- S: Supported
-@@ -2606,6 +2606,7 @@ F: util/hbitmap.c
- F: tests/unit/test-hbitmap.c
- F: docs/interop/bitmaps.rst
- T: git https://repo.or.cz/qemu/ericb.git bitmaps
-+T: git https://gitlab.com/vsementsov/qemu.git block
++void qdev_add_unplug_blocker(DeviceState *dev, Error *reason)
++{
++    dev->unplug_blockers = g_slist_prepend(dev->unplug_blockers, reason);
++}
++
++void qdev_del_unplug_blocker(DeviceState *dev, Error *reason)
++{
++    dev->unplug_blockers = g_slist_remove(dev->unplug_blockers, reason);
++}
++
++bool qdev_unplug_blocked(DeviceState *dev, Error **errp)
++{
++    ERRP_GUARD();
++
++    if (dev->unplug_blockers) {
++        error_propagate(errp, error_copy(dev->unplug_blockers->data));
++        return true;
++    }
++
++    return false;
++}
++
+ static bool device_get_realized(Object *obj, Error **errp)
+ {
+     DeviceState *dev = DEVICE(obj);
+@@ -704,6 +726,8 @@ static void device_finalize(Object *obj)
  
- Character device backends
- M: Marc-André Lureau <marcandre.lureau@redhat.com>
-@@ -2816,16 +2817,17 @@ F: scripts/*.py
- F: tests/*.py
+     DeviceState *dev = DEVICE(obj);
  
- Benchmark util
--M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-+M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
- S: Maintained
- F: scripts/simplebench/
--T: git https://src.openvz.org/scm/~vsementsov/qemu.git simplebench
-+T: git https://gitlab.com/vsementsov/qemu.git simplebench
++    g_assert(!dev->unplug_blockers);
++
+     QLIST_FOREACH_SAFE(ngl, &dev->gpios, node, next) {
+         QLIST_REMOVE(ngl, node);
+         qemu_free_irqs(ngl->in, ngl->num_in);
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index bb5897fc76..4b0ef65780 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -899,6 +899,10 @@ void qdev_unplug(DeviceState *dev, Error **errp)
+     HotplugHandlerClass *hdc;
+     Error *local_err = NULL;
  
- Transactions helper
--M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-+M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
- S: Maintained
- F: include/qemu/transactions.h
- F: util/transactions.c
-+T: git https://gitlab.com/vsementsov/qemu.git block
- 
- QAPI
- M: Markus Armbruster <armbru@redhat.com>
-@@ -3402,7 +3404,7 @@ F: block/iscsi-opts.c
- 
- Network Block Device (NBD)
- M: Eric Blake <eblake@redhat.com>
--M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-+M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
- L: qemu-block@nongnu.org
- S: Maintained
- F: block/nbd*
-@@ -3414,7 +3416,7 @@ F: docs/interop/nbd.txt
- F: docs/tools/qemu-nbd.rst
- F: tests/qemu-iotests/tests/*nbd*
- T: git https://repo.or.cz/qemu/ericb.git nbd
--T: git https://src.openvz.org/scm/~vsementsov/qemu.git nbd
-+T: git https://gitlab.com/vsementsov/qemu.git block
- 
- NFS
- M: Peter Lieven <pl@kamp.de>
-@@ -3499,13 +3501,13 @@ F: block/dmg.c
- parallels
- M: Stefan Hajnoczi <stefanha@redhat.com>
- M: Denis V. Lunev <den@openvz.org>
--M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-+M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
- L: qemu-block@nongnu.org
- S: Supported
- F: block/parallels.c
- F: block/parallels-ext.c
- F: docs/interop/parallels.txt
--T: git https://src.openvz.org/scm/~vsementsov/qemu.git parallels
-+T: git https://gitlab.com/vsementsov/qemu.git block
- 
- qed
- M: Stefan Hajnoczi <stefanha@redhat.com>
++    if (qdev_unplug_blocked(dev, errp)) {
++        return;
++    }
++
+     if (dev->parent_bus && !qbus_is_hotpluggable(dev->parent_bus)) {
+         error_setg(errp, QERR_BUS_NO_HOTPLUG, dev->parent_bus->name);
+         return;
 -- 
 2.36.1
 
