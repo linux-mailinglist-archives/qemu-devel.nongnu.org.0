@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242E154D36A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 23:13:59 +0200 (CEST)
-Received: from localhost ([::1]:54726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D6B54D4F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 01:04:33 +0200 (CEST)
+Received: from localhost ([::1]:40968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1aKr-00030q-Rn
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 17:13:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33596)
+	id 1o1c3r-0006lr-TU
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 19:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nico@fluxnic.net>)
- id 1o1aJ1-0001I5-DS; Wed, 15 Jun 2022 17:12:03 -0400
-Received: from pb-smtp20.pobox.com ([173.228.157.52]:57458)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nico@fluxnic.net>)
- id 1o1aIz-0005R1-BQ; Wed, 15 Jun 2022 17:12:03 -0400
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
- by pb-smtp20.pobox.com (Postfix) with ESMTP id 1331A1A83BA;
- Wed, 15 Jun 2022 17:11:58 -0400 (EDT)
- (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
- :to:cc:subject:message-id:mime-version:content-type; s=sasl; bh=
- X2NeBToT0LEImInR0fiKCPjXexxbY8sZgQAWrigkCVc=; b=WLacvZPmlrijWCC9
- /8/hqdH/5UfDYU3LsznH3apTp9FpfpNomI1ku1LJUF7lOpLGJO+MnLgdX448XDKP
- aj6BQjTSAbSiNnybARQ6/p4rEX9IbxtmxTj8ZUwkpLP4soXOH2PSCjsd09D7w3n6
- u+ISFEu7znRwwh3h2sqj42vRkmQ=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
- by pb-smtp20.pobox.com (Postfix) with ESMTP id 0BD891A83B9;
- Wed, 15 Jun 2022 17:11:58 -0400 (EDT)
- (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2016-12.pbsmtp; bh=X2NeBToT0LEImInR0fiKCPjXexxbY8sZgQAWrigkCVc=;
- b=LYTCHixJ/iXzag+JzmKGpQ58tvm0Sj2lfLGB6FdbgcGYc00PgA11zYWjsvuyb3jomei0Oua2uwSdI/m5IncM42D+btfHf1rdDUlAhXPVfbeokvkdn3LS4ZVVzOZkXl6uh22r5IolddL2IVgBgbxMUHFYgnQ9ytzOAkbqOZq2gYA=
-Received: from yoda.home (unknown [96.21.170.108])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by pb-smtp20.pobox.com (Postfix) with ESMTPSA id D7D5D1A83B7;
- Wed, 15 Jun 2022 17:11:53 -0400 (EDT)
- (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
- by yoda.home (Postfix) with ESMTPSA id 70A862DF4B8;
- Wed, 15 Jun 2022 17:11:51 -0400 (EDT)
-Date: Wed, 15 Jun 2022 17:11:51 -0400 (EDT)
-From: Nicolas Pitre <nico@fluxnic.net>
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-cc: Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH] target/riscv/pmp: guard against PMP ranges with a negative
- size
-Message-ID: <3oq0sqs1-67o0-145-5n1s-453o118804q@syhkavp.arg>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o1c1t-00061k-0z
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 19:02:29 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o1c1r-0001fr-6D
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 19:02:28 -0400
+Received: by mail-pl1-x630.google.com with SMTP id o6so11654235plg.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 16:02:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=qWCEAL+HAJiCXpVIw3vDUSrrI1GHEdYOrXZ8uv0im7o=;
+ b=Z1eZpDf174pGHJ6HjCZL0GAwnvmn2FIx2ek4Cg6yTpOjJSbnrbJquGuCxbLbB3mXoN
+ VpmMd2JGTV6Sah/4VNiV1tYldj2wsyIwVgUzlI/Mu4V/jmS+VB4h1ByYVmhc1iQ0k4b/
+ DffG2Lk+uh50RiliMr+NzLbltjAkXbP5xH7Y4nji0CXqRqYdqFl7yV1VIgen4ZFkcQfk
+ X+YZCtD3yLdzYAx9RNgkCsEtLIKDpO+6ycsw7TOMTZmpiTaezjlR4rtep1GVVOHIBofQ
+ ZPl5uqp7GH1Z/+4j1uljPzxrBcd+n1izCA2h9Ke+tGEZAUXVY88jQv96bj3b/rb6C09U
+ j8sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qWCEAL+HAJiCXpVIw3vDUSrrI1GHEdYOrXZ8uv0im7o=;
+ b=efswu9xzl9HOq5DBWmCzVHfRv6PM7F8bqiXAYBeEJWstUxzlO/BJoG/nL8KeqJ++1s
+ qHggGddWhdcdtU5rle5dB10R7DnkDSwAdImGv0qm4fguCJeD/NIVqNZbWzzCi/6SPdWL
+ by1ssY7zxYkoQWlnhd2ENMzCiQn0Y7tqaerXqXjehb8wpFEw2EESDI0w4oL03YDdPvnN
+ P0r/h4o07lkRR/AWJi/acWg35pM27atPJn1Rt67ZVq19RCQPia0XORjkEUdjm3SYaFfg
+ aUtPd2rxNIO83k0dR267Sy0tKX5DiWb98kO6Td0ud3o9WL7jYJy7Q9bCiVqYawUHLj5U
+ WP9g==
+X-Gm-Message-State: AJIora+bqwe2Ogx2lRsJHUE3fjpDcUW96AhEfHpois2qKI2WEZaWvWam
+ LcZmoWdiVZPNiSeVSdEAyWTaPg==
+X-Google-Smtp-Source: AGRyM1u7JQjAXyz8+rR7TgyjkZUP8jVM2Q36Bq8D2+S9eVJ8nNVbmOQrFHm67CWAYeBJ4TGjbRLg/A==
+X-Received: by 2002:a17:90b:1b10:b0:1e8:2966:3232 with SMTP id
+ nu16-20020a17090b1b1000b001e829663232mr12675713pjb.103.1655334145167; 
+ Wed, 15 Jun 2022 16:02:25 -0700 (PDT)
+Received: from [172.22.33.109] ([192.77.111.2])
+ by smtp.gmail.com with ESMTPSA id
+ g18-20020a170902d1d200b0016782c55790sm142355plb.232.2022.06.15.16.02.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jun 2022 16:02:24 -0700 (PDT)
+Message-ID: <8daf295d-7af1-73ad-739f-7311a5584626@linaro.org>
+Date: Wed, 15 Jun 2022 16:02:22 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: C8088CB4-ECEF-11EC-A7B3-C85A9F429DF0-78420484!pb-smtp20.pobox.com
-Received-SPF: pass client-ip=173.228.157.52; envelope-from=nico@fluxnic.net;
- helo=pb-smtp20.pobox.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/18] Block patches
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20220615155129.1025811-1-stefanha@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220615155129.1025811-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, URIBL_CSS=0.1 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,50 +91,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For a TOR entry to match, the stard address must be lower than the end
-address. Normally this is always the case, but correct code might still
-run into the following scenario:
+On 6/15/22 08:51, Stefan Hajnoczi wrote:
+> The following changes since commit 8e6c70b9d4a1b1f3011805947925cfdb31642f7f:
+> 
+>    Merge tag 'kraxel-20220614-pull-request' of git://git.kraxel.org/qemu into staging (2022-06-14 06:21:46 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> 
+> for you to fetch changes up to 99b969fbe105117f5af6060d3afef40ca39cc9c1:
+> 
+>    linux-aio: explain why max batch is checked in laio_io_unplug() (2022-06-15 16:43:42 +0100)
+> 
+> ----------------------------------------------------------------
+> Pull request
+> 
+> This pull request includes an important aio=native I/O stall fix, the
+> experimental vifo-user server, the io_uring_register_ring_fd() optimization for
+> aio=io_uring, and an update to Vladimir Sementsov-Ogievskiy's maintainership
+> details.
 
-Initial state:
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-	pmpaddr3 = 0x2000	pmp3cfg = OFF
-	pmpaddr4 = 0x3000	pmp4cfg = TOR
 
-Execution:
+r~
 
-	1. write 0x40ff to pmpaddr3
-	2. write 0x32ff to pmpaddr4
-	3. set pmp3cfg to NAPOT with a read-modify-write on pmpcfg0
-	4. set pmp4cfg to NAPOT with a read-modify-write on pmpcfg1
 
-When (2) is emulated, a call to pmp_update_rule() creates a negative
-range for pmp4 as pmp4cfg is still set to TOR. And when (3) is emulated,
-a call to tlb_flush() is performed, causing pmp_get_tlb_size() to return
-a very creatively large TLB size for pmp4. This, in turn, may result in
-accesses to non-existent/unitialized memory regions and a fault, so that
-(4) ends up never being executed.
+> 
+> ----------------------------------------------------------------
+> 
+> Jagannathan Raman (14):
+>    qdev: unplug blocker for devices
+>    remote/machine: add HotplugHandler for remote machine
+>    remote/machine: add vfio-user property
+>    vfio-user: build library
+>    vfio-user: define vfio-user-server object
+>    vfio-user: instantiate vfio-user context
+>    vfio-user: find and init PCI device
+>    vfio-user: run vfio-user context
+>    vfio-user: handle PCI config space accesses
+>    vfio-user: IOMMU support for remote device
+>    vfio-user: handle DMA mappings
+>    vfio-user: handle PCI BAR accesses
+>    vfio-user: handle device interrupts
+>    vfio-user: handle reset of remote device
+> 
+> Sam Li (1):
+>    Use io_uring_register_ring_fd() to skip fd operations
+> 
+> Stefan Hajnoczi (2):
+>    linux-aio: fix unbalanced plugged counter in laio_io_unplug()
+>    linux-aio: explain why max batch is checked in laio_io_unplug()
+> 
+> Vladimir Sementsov-Ogievskiy (1):
+>    MAINTAINERS: update Vladimir's address and repositories
+> 
+>   MAINTAINERS                             |  27 +-
+>   meson_options.txt                       |   2 +
+>   qapi/misc.json                          |  31 +
+>   qapi/qom.json                           |  20 +-
+>   configure                               |  17 +
+>   meson.build                             |  24 +-
+>   include/exec/memory.h                   |   3 +
+>   include/hw/pci/msi.h                    |   1 +
+>   include/hw/pci/msix.h                   |   1 +
+>   include/hw/pci/pci.h                    |  13 +
+>   include/hw/qdev-core.h                  |  29 +
+>   include/hw/remote/iommu.h               |  40 +
+>   include/hw/remote/machine.h             |   4 +
+>   include/hw/remote/vfio-user-obj.h       |   6 +
+>   block/io_uring.c                        |  12 +-
+>   block/linux-aio.c                       |  10 +-
+>   hw/core/qdev.c                          |  24 +
+>   hw/pci/msi.c                            |  49 +-
+>   hw/pci/msix.c                           |  35 +-
+>   hw/pci/pci.c                            |  13 +
+>   hw/remote/iommu.c                       | 131 ++++
+>   hw/remote/machine.c                     |  88 ++-
+>   hw/remote/vfio-user-obj.c               | 958 ++++++++++++++++++++++++
+>   softmmu/physmem.c                       |   4 +-
+>   softmmu/qdev-monitor.c                  |   4 +
+>   stubs/vfio-user-obj.c                   |   6 +
+>   tests/qtest/fuzz/generic_fuzz.c         |   9 +-
+>   .gitlab-ci.d/buildtest.yml              |   1 +
+>   .gitmodules                             |   3 +
+>   Kconfig.host                            |   4 +
+>   hw/remote/Kconfig                       |   4 +
+>   hw/remote/meson.build                   |   4 +
+>   hw/remote/trace-events                  |  11 +
+>   scripts/meson-buildoptions.sh           |   4 +
+>   stubs/meson.build                       |   1 +
+>   subprojects/libvfio-user                |   1 +
+>   tests/docker/dockerfiles/centos8.docker |   2 +
+>   37 files changed, 1565 insertions(+), 31 deletions(-)
+>   create mode 100644 include/hw/remote/iommu.h
+>   create mode 100644 include/hw/remote/vfio-user-obj.h
+>   create mode 100644 hw/remote/iommu.c
+>   create mode 100644 hw/remote/vfio-user-obj.c
+>   create mode 100644 stubs/vfio-user-obj.c
+>   create mode 160000 subprojects/libvfio-user
+> 
 
-This is in m-mode with MPRV unset, meaning that unlocked PMP entries
-should have no effect. Therefore such a behavior based on PMP content
-is very unexpected.
-
-Make sure no negative PMP range can be created, whether explicitly by
-the emulated code or implicitly like the above.
-
-Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
-
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 151da3fa08..ea2b67d947 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -167,6 +167,9 @@ void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index)
-     case PMP_AMATCH_TOR:
-         sa = prev_addr << 2; /* shift up from [xx:0] to [xx+2:2] */
-         ea = (this_addr << 2) - 1u;
-+        if (sa > ea) {
-+            sa = ea = 0u;
-+        }
-         break;
- 
-     case PMP_AMATCH_NA4:
 
