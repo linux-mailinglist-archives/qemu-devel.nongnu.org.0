@@ -2,57 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9882854CED7
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:38:55 +0200 (CEST)
-Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDDB54CEBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:33:41 +0200 (CEST)
+Received: from localhost ([::1]:50658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1W2g-0001Af-3D
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:38:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45496)
+	id 1o1Vxc-0002Y9-3H
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:33:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o1VP8-0002ch-3J
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:58:02 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:36226)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o1Vke-0002ey-Rb
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 12:20:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o1VP6-0008Hc-2x
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:58:01 -0400
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o1VkY-0000M5-5Q
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 12:20:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655310008;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xtZrUFmx8MSp1Dmj5SflfLJjOf+9cOLWuIlsjH8aEqs=;
+ b=ZY0a0mxa2bH188F+P04XgKbseQJSVQR+Pz5EuD3M2AwFqWKNDdZ0XKKeXekw14d56QGLkj
+ gv5kGqY9bF5Xg01TkdVmuWTXMgNwQyEpH5C+bsy6mEXh+v/LmvvRnodQ6itSPOTutzlsH0
+ CASZoTGvxeoxjgywTR5qfzpMGG5Zw9U=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-lGrU5rIqMTKrBpQ_3dPErg-1; Wed, 15 Jun 2022 11:57:55 -0400
-X-MC-Unique: lGrU5rIqMTKrBpQ_3dPErg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6F771C03360;
- Wed, 15 Jun 2022 15:57:54 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2839F2026D64;
- Wed, 15 Jun 2022 15:57:54 +0000 (UTC)
-Date: Wed, 15 Jun 2022 17:57:53 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 7/7] tests/9pfs: check fid being unaffected in
- fs_walk_2nd_nonexistent
-Message-ID: <20220615175753.1a43e4b0@bahia>
-In-Reply-To: <6f0813cafdbf683cdac8b1492dd4ef8699c5b1d9.1647339025.git.qemu_oss@crudebyte.com>
-References: <cover.1647339025.git.qemu_oss@crudebyte.com>
- <6f0813cafdbf683cdac8b1492dd4ef8699c5b1d9.1647339025.git.qemu_oss@crudebyte.com>
+ us-mta-632-vLZMuEPBMIa4ZM8NuY78iA-1; Wed, 15 Jun 2022 12:20:07 -0400
+X-MC-Unique: vLZMuEPBMIa4ZM8NuY78iA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v14-20020a5d610e000000b00213b51a0234so1990339wrt.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 09:20:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=xtZrUFmx8MSp1Dmj5SflfLJjOf+9cOLWuIlsjH8aEqs=;
+ b=3i3PTZF9iTASKWmPWjlLz+I6VmE22DgkNcwXjceEWsdvDcqhGTTeEf3+Llnwu8MtWr
+ yOQ+XlYoba9VMBxM2TdNWZtnPOVF//4pPKhNfancSs+Ng849kCLHTFTr+zhmUAe/VF37
+ yPlzbxsfP8usJsZR6PFUk3XbUAa0+Z/TS0GursgWHtilquIeTs/4pKLBZEs67Yr4osQB
+ DxzVpT7BXCZQKY/qXM+VbfK4DVOGgRz2axa/Hb2/aJNIEwR4jq8JRJYkv3UcKVcaRIDB
+ XtbkpibvMITaSDLB6iuKSZAQPHpsfenp+JXdfYDBeOKcZZLjWuvLIifVuh5ananazt4L
+ YBcg==
+X-Gm-Message-State: AJIora8NfJ+642RzkreKdX91dDk8IiEXqXdwi0fG8q0uFlUsf2qd5Ml/
+ Yt7misxKk6SRPyyceID8hYNrrmnx+OhbtwVFSYcuIUfo13he9amMNS92eZSXkt0vcTzg5KAE2dT
+ 2FZ8EH7LnyOO2Jqk=
+X-Received: by 2002:a5d:4909:0:b0:219:f2bf:8932 with SMTP id
+ x9-20020a5d4909000000b00219f2bf8932mr549034wrq.585.1655310005800; 
+ Wed, 15 Jun 2022 09:20:05 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sA9YpoBbubTnzOT3qFGSvfb/ppeYEz8LRPSU1oH2i6sBhY3YixpcSA1PESieMRq4luM8Ed+g==
+X-Received: by 2002:a5d:4909:0:b0:219:f2bf:8932 with SMTP id
+ x9-20020a5d4909000000b00219f2bf8932mr549009wrq.585.1655310005543; 
+ Wed, 15 Jun 2022 09:20:05 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ i27-20020a1c541b000000b0039c5ab7167dsm2953548wmb.48.2022.06.15.09.20.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jun 2022 09:20:05 -0700 (PDT)
+Date: Wed, 15 Jun 2022 17:20:02 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v7 04/13] migration: Export ram_transferred_ram()
+Message-ID: <YqoGsuWUEeYd7XfL@work-vm>
+References: <20220531104318.7494-1-quintela@redhat.com>
+ <20220531104318.7494-5-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531104318.7494-5-quintela@redhat.com>
+User-Agent: Mutt/2.2.5 (2022-05-16)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,87 +103,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 11:08:47 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+* Juan Quintela (quintela@redhat.com) wrote:
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-> Extend previously added test case by checking that fid was unaffected
-> by 'Twalk' request (i.e. when 2nd path component of request being
-> invalid). Do that by subsequently sending a 'Tgetattr' request with
-> the fid previously used for 'Twalk'; that 'Tgetattr' request should
-> return an 'Rlerror' response by 9p server with error code ENOENT as
-> that fid is basically invalid.
-> 
-> And as we are at it, also check that the QID returned by 'Twalk' is
-> not identical to the root node's QID.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  tests/qtest/virtio-9p-test.c | 26 ++++++++++++++++++++++----
->  1 file changed, 22 insertions(+), 4 deletions(-)
+>  migration/ram.h | 2 ++
+>  migration/ram.c | 2 +-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index f6e78d388e..2784ee4b2d 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -721,14 +721,19 @@ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
->      do_version(obj);
->  }
+> diff --git a/migration/ram.h b/migration/ram.h
+> index ded0a3a086..7b641adc55 100644
+> --- a/migration/ram.h
+> +++ b/migration/ram.h
+> @@ -65,6 +65,8 @@ int ram_load_postcopy(QEMUFile *f);
 >  
-> -static void do_attach(QVirtio9P *v9p)
-> +static void do_attach_rqid(QVirtio9P *v9p, v9fs_qid *qid)
+>  void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
+>  
+> +void ram_transferred_add(uint64_t bytes);
+> +
+>  int ramblock_recv_bitmap_test(RAMBlock *rb, void *host_addr);
+>  bool ramblock_recv_bitmap_test_byte_offset(RAMBlock *rb, uint64_t byte_offset);
+>  void ramblock_recv_bitmap_set(RAMBlock *rb, void *host_addr);
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 5f5e37f64d..30b0680942 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -394,7 +394,7 @@ uint64_t ram_bytes_remaining(void)
+>  
+>  MigrationStats ram_counters;
+>  
+> -static void ram_transferred_add(uint64_t bytes)
+> +void ram_transferred_add(uint64_t bytes)
 >  {
->      P9Req *req;
->  
->      do_version(v9p);
->      req = v9fs_tattach(v9p, 0, getuid(), 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> -    v9fs_rattach(req, NULL);
-> +    v9fs_rattach(req, qid);
-> +}
-> +
-> +static void do_attach(QVirtio9P *v9p)
-> +{
-> +    do_attach_rqid(v9p, NULL);
->  }
->  
->  static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
-> @@ -1101,19 +1106,32 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
->  {
->      QVirtio9P *v9p = obj;
->      alloc = t_alloc;
-> +    v9fs_qid root_qid;
->      uint16_t nwqid;
-> +    uint32_t fid, err;
-> +    P9Req *req;
->      g_autofree v9fs_qid *wqid = NULL;
->      g_autofree char *path = g_strdup_printf(
->          QTEST_V9FS_SYNTH_WALK_FILE "/non-existent", 0
->      );
->  
-> -    do_attach(v9p);
-> -    do_walk_rqids(v9p, path, &nwqid, &wqid);
-> +    do_attach_rqid(v9p, &root_qid);
-> +    fid = do_walk_rqids(v9p, path, &nwqid, &wqid);
->      /*
->       * The 9p2000 protocol spec says: "nwqid is therefore either nwname or the
->       * index of the first elementwise walk that failed."
->       */
->      assert(nwqid == 1);
-> +
-> +    /* returned QID wqid[0] is file ID of 1st subdir */
-> +    g_assert(wqid && wqid[0] && !is_same_qid(root_qid, wqid[0]));
-> +
-> +    /* expect fid being unaffected by walk above */
-> +    req = v9fs_tgetattr(v9p, fid, P9_GETATTR_BASIC, 0);
-> +    v9fs_req_wait_for_reply(req, NULL);
-> +    v9fs_rlerror(req, &err);
-> +
-> +    g_assert_cmpint(err, ==, ENOENT);
->  }
->  
->  static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+>      if (runstate_is_running()) {
+>          ram_counters.precopy_bytes += bytes;
+> -- 
+> 2.35.3
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
