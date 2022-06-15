@@ -2,81 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0262254C288
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 09:18:29 +0200 (CEST)
-Received: from localhost ([::1]:45346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A9954C294
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 09:24:14 +0200 (CEST)
+Received: from localhost ([::1]:50224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1NIK-0000eB-FB
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 03:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41386)
+	id 1o1NNt-0004sH-3J
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 03:24:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1o1NBV-0006Wj-Ca
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 03:11:29 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:38837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1o1NBS-00009N-CP
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 03:11:25 -0400
-Received: by mail-pl1-x631.google.com with SMTP id n18so9667775plg.5
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 00:11:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:to:cc:references
- :content-language:from:in-reply-to:content-transfer-encoding;
- bh=CrS9/L+vZBtztNjsKhL3XPYQw9asv9WYioh/o99Vymk=;
- b=D/y4nhqcUQyhAuO/FvLz4sqCwoQb1yuHK7UXMF/DCinrwnlJKZLhDBp0jy43RCPBOV
- 0g17tiAx1kF7ChTk/oxL3Nin/IiXmRoB3rS1Ih/2RE5jbVDcCULXbQZNy4cTo3ViLAeX
- z6ai+DE36XuIxor82kcN1qv55rF/0POh8oqyR5zaoaEqDcTv2Bdkng+jw8N2bcHDDDyS
- 4LnUQTh1y+DEhlxfWwrPTkq/y7UM/nHu8xwosZv1V/XVY4mE1XUY9+nCWe41MFG952eZ
- vprhCL7KT7dC43bs0h3N2xv+kTmFbbZB05keCl0PXV11stvr9jsBH3BQ3p4Eeh9psilO
- T1Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :to:cc:references:content-language:from:in-reply-to
- :content-transfer-encoding;
- bh=CrS9/L+vZBtztNjsKhL3XPYQw9asv9WYioh/o99Vymk=;
- b=rmRuWy7Nhnt+VVMuP4vHNTSPI+f0wp4hp4KMpXOxKLOrmbFv9FsFNf/Oq+e9BwZ6gu
- oMnupjHDmCOFvrozoTM1Ig5axoIErgCMnoXAaU0PJvoCNoSGOyxsSNA35SfKOI3E48MN
- aAXVBys3JbIbkOqGT40yFJXdujBY/ISZKTey/T/0DzYqm/WN2jeBhxmTN4nWRpQP+xUp
- ndj75344WG5ebOxQXSddFxBuHAFFbRaJbhZMuNDXd0U5L/GU37L8CcLDXKj4uN1Jjq2C
- 7+94neELDZT/MO3PayWOkMUl80FKjhNTwxIKjtCR69W4RhrVTFAcnyEYdrutC2JOpwOs
- RKxw==
-X-Gm-Message-State: AJIora+Zv+I946X/DlNUyNkpSEDjIadU7KXiIPPYr94OQaugQj1lYi28
- 60K+mSy6MperZ3VD7/pLFJ5spg==
-X-Google-Smtp-Source: AGRyM1v7cWoIJxK4jCSKmdox44Js4tpE3sYtQ4KBtRlGt7lbqGgHnXzoUzADWVYxaPTvik5vRiQRZg==
-X-Received: by 2002:a17:90b:1e47:b0:1e6:7d04:2f4 with SMTP id
- pi7-20020a17090b1e4700b001e67d0402f4mr8495452pjb.93.1655277079070; 
- Wed, 15 Jun 2022 00:11:19 -0700 (PDT)
-Received: from [10.61.2.177] (110-175-254-242.static.tpgi.com.au.
- [110.175.254.242]) by smtp.gmail.com with ESMTPSA id
- jb14-20020a170903258e00b0015e8d4eb2c5sm8421070plb.271.2022.06.15.00.11.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jun 2022 00:11:18 -0700 (PDT)
-Message-ID: <2f635e96-7b1a-b860-ebbd-4080b6bc555f@ozlabs.ru>
-Date: Wed, 15 Jun 2022 17:11:13 +1000
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o1NHn-0002LR-6a; Wed, 15 Jun 2022 03:17:55 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o1NHl-0002sk-3y; Wed, 15 Jun 2022 03:17:54 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25F6HIT9019866;
+ Wed, 15 Jun 2022 07:17:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=RiRRQR+KVri3dPrsKUtuViQM8jasf5cL0e7SzVCOw9o=;
+ b=mPk+dGe5Ac8WFfmbYqBSBHidDCyrHgiFnSVyeg05SufESGkkNv1UHW9FMCUR0Ce6Wuy+
+ L3zaNiYxS0NRAeRO4OG23AF4BLvicrDqQrJxKzy8JetyzietJL7R77Bbxbkq0P1yLcUK
+ 2lJyH9nVyUpgUGobwR+2WFNiRpzUeKg68Taz27hzAACZulu3ZAt61WRIq+w7DfZzqw82
+ FTumVz5SuvFn4A510zBhhjOt5v0LLahw8KmUoDQXY9LFEJbFMv8UilMRzp/AP33/X5kB
+ e8CN0lWR+29Rx3zTU4MtUzn+HWyv7Ca1zO78jD+hobiKJUc4uBgXlRwC/3aBmBImoJP+ dg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gpr32mh7t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jun 2022 07:17:47 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25F7H5eO012482;
+ Wed, 15 Jun 2022 07:17:46 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gpr32mh6p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jun 2022 07:17:46 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25F76oaU003666;
+ Wed, 15 Jun 2022 07:17:44 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma01fra.de.ibm.com with ESMTP id 3gmjp8v749-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jun 2022 07:17:43 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 25F7Hje625493818
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Jun 2022 07:17:45 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4CA8942045;
+ Wed, 15 Jun 2022 07:17:41 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E82364203F;
+ Wed, 15 Jun 2022 07:17:40 +0000 (GMT)
+Received: from [9.145.94.108] (unknown [9.145.94.108])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 15 Jun 2022 07:17:40 +0000 (GMT)
+Message-ID: <3da1094b-b200-49ad-3a7c-dae31a7e7658@linux.ibm.com>
+Date: Wed, 15 Jun 2022 09:17:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.0
-Subject: Re: [PATCH qemu] ppc/spapr: Implement H_WATCHDOG
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, Scott Cheloha <cheloha@linux.ibm.com>
-References: <20220608030153.1862335-1-aik@ozlabs.ru>
- <51d016d2-4684-aad5-1319-e9d0cef7f98e@kaod.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] target/ppc: cpu_init: Clean up stop state on cpu reset
 Content-Language: en-US
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <51d016d2-4684-aad5-1319-e9d0cef7f98e@kaod.org>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, danielhb413@gmail.com,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20220614082912.378355-1-fbarrat@linux.ibm.com>
+ <64d1330c-1996-622c-fc1a-ed81fd56cdda@kaod.org>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <64d1330c-1996-622c-fc1a-ed81fd56cdda@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=aik@ozlabs.ru; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: KAm9kFc_ValF3RpnL-6XL-GFAVyB645Z
+X-Proofpoint-ORIG-GUID: ygR0Xe8_Cin3ogEO634EX55584gomTbs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-15_02,2022-06-13_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0 adultscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206150024
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,65 +118,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 6/15/22 14:48, Cédric Le Goater wrote:
-> Hello Alexey,
+On 15/06/2022 07:23, Cédric Le Goater wrote:
+> On 6/14/22 10:29, Frederic Barrat wrote:
+>> The 'resume_as_sreset' attribute of a cpu can be set when a thread is
+>> entering a stop state on ppc books. It causes the thread to be
+>> re-routed to vector 0x100 when woken up by an exception. So it must be
+>> cleaned on reset or a thread might be re-routed unexpectedly after a
+>> reset, when it was not in a stop state and/or when the appropriate
+>> exception handler isn't set up yet.
 > 
-> On 6/8/22 05:01, Alexey Kardashevskiy wrote:
->> The new PAPR 2.12 defines a watchdog facility managed via the new
->> H_WATCHDOG hypercall.
->>
->> This adds H_WATCHDOG support which a proposed driver for pseries uses:
->> https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=303120
->>
->> This was tested by running QEMU with a debug kernel and command line:
->> -append \
->>   "pseries-wdt.timeout=60 pseries-wdt.nowayout=1 pseries-wdt.action=2"
->>
->> and running "echo V > /dev/watchdog0" inside the VM.
->>
->> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> What is the test scenario ? and what are the symptoms ?
+
+
+I was hitting it because of another bug in skiboot: if you have many 
+chips, we spend way too much time in add_opal_interrupts(), especially 
+on powernv10 (I'm working on a separate patch in skiboot to fix that). 
+Sufficiently so that the watchdog timer resets the system. When it 
+happens, all the secondary threads are in stopped state, only the main 
+thread is working. That's how I was reproducing.
+
+What happens after the reset can vary a bit due to timing, but the most 
+likely scenario is that we go through another primary thread election in 
+skiboot. If the primary thread is the same as before, then there's no 
+problem. If it's a different primary, then it will enter 
+main_cpu_entry() while the other threads wait as secondaries. At some 
+point, the primary thread (which still carries the wrong 
+resume_as_sreset value from before reset) will enable the decrementer 
+interrupt. The vector for the decrementer exception 0x900 is defined, so 
+that shouldn't be a problem. However, because of the wrong 
+resume_as_sreset value, it is re-routed to vector 0x100, which is still 
+defined as the default boot-time handler, which is the entry point for 
+BML. So the thread restarts as new, but this time it will be elected 
+secondary. And we end up with all threads waiting as secondaries and a 
+system stuck. All that happen before we've init the uart, so there's not 
+a single trace on the console. Fun :-)
+
+   Fred
+
+
+> 
+> 
+>> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> 
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> 
+> 
 >> ---
->>   include/hw/ppc/spapr.h  |  23 +++-
->>   hw/ppc/spapr.c          |   5 +
->>   hw/ppc/spapr_watchdog.c | 239 ++++++++++++++++++++++++++++++++++++++++
-> 
-> Watchdogs are under :
-> 
->    hw/watchdog/
-> 
->>   hw/ppc/meson.build      |   1 +
->>   hw/ppc/trace-events     |   7 ++
->>   5 files changed, 274 insertions(+), 1 deletion(-)
->>   create mode 100644 hw/ppc/spapr_watchdog.c
 >>
->> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->> index 072dda2c7265..39aa8609df7b 100644
->> --- a/include/hw/ppc/spapr.h
->> +++ b/include/hw/ppc/spapr.h
->> @@ -164,6 +164,19 @@ struct SpaprMachineClass {
->>       SpaprIrq *irq;
->>   };
->> +#define WDT_MAX_WATCHDOGS       4      /* Maximum number of watchdog 
->> devices */
+>> I didn't find an appropriate commit to add a "Fixes:". It originates
+>> when adding support for power management states but the code looked
+>> quite different in 2016 and it's not clear whether we were supporting
+>> reset then.
+> 
+> It was added when we needed some support for the POWER8 stop states.
+> About that time.
+> 
+> Thanks,
+> 
+> C.
+> 
+>>
+>> target/ppc/cpu_init.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+>> index 0f891afa04..c16cb8dbe7 100644
+>> --- a/target/ppc/cpu_init.c
+>> +++ b/target/ppc/cpu_init.c
+>> @@ -7186,6 +7186,9 @@ static void ppc_cpu_reset(DeviceState *dev)
+>>           }
+>>           pmu_update_summaries(env);
+>>       }
 >> +
->> +#define WDT_HARD_POWER_OFF      0
->> +#define WDT_HARD_RESTART        1
->> +#define WDT_DUMP_RESTART        2
->> +
->> +typedef struct SpaprWatchdog {
->> +    unsigned num;
->> +    QEMUTimer timer;
->> +    uint8_t action;
->> +    uint64_t timeout;
->> +} SpaprWatchdog;
+>> +    /* clean any pending stop state */
+>> +    env->resume_as_sreset = 0;
+>>   #endif
+>>       hreg_compute_hflags(env);
+>>       env->reserve_addr = (target_ulong)-1ULL;
 > 
 > 
-> couldn't we QOM'ify this model ?
-
-
-What is the benefit of that besides inspecting those via QMP?
-
-
--- 
-Alexey
 
