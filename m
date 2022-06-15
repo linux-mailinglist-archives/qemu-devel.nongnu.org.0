@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5236354CC07
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:00:33 +0200 (CEST)
-Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D015354CBF9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 16:57:35 +0200 (CEST)
+Received: from localhost ([::1]:36102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1UVU-0003vX-BD
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:00:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47354)
+	id 1o1USb-0006I2-U4
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 10:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOC-0006OC-68
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:00 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:14470)
+ id 1o1UOB-0006Kr-El
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:52:59 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:15186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UO9-000110-TO
+ id 1o1UO9-000117-Km
  for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:52:59 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE3J22025870;
- Wed, 15 Jun 2022 14:52:43 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FDsU6d025877;
+ Wed, 15 Jun 2022 14:52:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=hPPI5U8n9By6D6CnUyM75BH/3nBeUyxSsGawJZht1hM=;
- b=HbsH32nBaLmJc32d1IDgdXb4cequX571O6U6A9M7kMPbGPKkgRixBSbiIqvyuSwji5pi
- hY3NOVjJ6pGbwffQA7yuQ+NHKGIumrgf+UHHXEDzQGPMtOsAykXGQ4XSa74hOAr+iLnr
- fZoOBIkJzVflI6MKEGrIkGzHmqp+pcoMFcTlftKj2Z2B7eGqoXOH/Xtg2sXjwprXL8Is
- zFhlU0r2BzOBp/L25A8jee2MC/v7jeTnup5GLUjAeKdnxnqyanKkiTUx0tDq73PGBNtz
- bHsj2QtO4o2BbiqQYJBMvTQGBQ/K1URhOYGrjOTNu71cF+xCJX/snZ2Y+OLwoudFxErM IA== 
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2021-07-09;
+ bh=aFdA3TZzMye7P/K0tucfHBThD91+DafoYxmtCnmqvOo=;
+ b=kdDmWRe/nrEjJZIyQWfQZ9O+CzADDY+mrjIIm/N66DrBsyEp8P+teo6H4evVoGGzfed6
+ NoDmrQIOvGAw9mYi94OTi6V1IPN2Q1rBUecfAAkLroK4YbaeN075dsGXZwg6nkEnJO+1
+ 9nrIxJrnTnrCm4zZRdsmMj27WOTh0HP0wyyiaZme070+NQuBoOvZ6xujXIPpSYvjhMBZ
+ p+epvh/+Qf0Lwt4vR9qXiLwPBouOThz4oK/IU+AExMjAgr+Nqz9Eo0RxL0c4ozkcIFbo
+ SMipkzCGkzPb3Eglo/g/XlbBqXxVnVwvtETP95GrTKoGJLhRk0qYMKJBvk6gzbP4WYXw hQ== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhu2rxdy-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhu2rxe3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:43 +0000
+ Wed, 15 Jun 2022 14:52:44 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25FEQ73b023111; Wed, 15 Jun 2022 14:52:42 GMT
+ with SMTP id 25FEQ79o023097; Wed, 15 Jun 2022 14:52:43 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpng-1
+ 3gpr25vpnw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:42 +0000
+ Wed, 15 Jun 2022 14:52:43 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSN5018501;
- Wed, 15 Jun 2022 14:52:41 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSN7018501;
+ Wed, 15 Jun 2022 14:52:42 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpfm-12; Wed, 15 Jun 2022 14:52:41 +0000
+ 3gpr25vpfm-13; Wed, 15 Jun 2022 14:52:42 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,14 +73,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH V8 11/39] cpr: save ram blocks
-Date: Wed, 15 Jun 2022 07:51:58 -0700
-Message-Id: <1655304746-102776-12-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V8 12/39] memory: flat section iterator
+Date: Wed, 15 Jun 2022 07:51:59 -0700
+Message-Id: <1655304746-102776-13-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-GUID: klIUTvxRPURiUkMmktsxzhEdmCJO--0E
-X-Proofpoint-ORIG-GUID: klIUTvxRPURiUkMmktsxzhEdmCJO--0E
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: jsmPdR8G6BVs0DHEOuv7IlnhL7bw4p-V
+X-Proofpoint-ORIG-GUID: jsmPdR8G6BVs0DHEOuv7IlnhL7bw4p-V
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -104,177 +108,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a vmstate handler to save volatile ram blocks in the state file.  This
-is used to preserve secondary guest ram blocks (those that cannot be
-specified on the command line) such as video ram and roms for cpr reboot,
-as there is no option to allocate them in shared memory.  For efficiency,
-the user should create a shared memory-backend-file for the VM's main ram,
-so it is not copied to the state file, but this is not enforced.
+Add an iterator over the sections of a flattened address space.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/exec/memory.h |  6 +++++
- migration/savevm.c    |  2 ++
- softmmu/memory.c      | 18 ++++++++++++++
- softmmu/physmem.c     | 67 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 93 insertions(+)
+ include/exec/memory.h | 31 +++++++++++++++++++++++++++++++
+ softmmu/memory.c      | 20 ++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 0daddd7..a03301d 100644
+index a03301d..6a257a4 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -3002,6 +3002,12 @@ bool ram_block_discard_is_disabled(void);
-  */
- bool ram_block_discard_is_required(void);
+@@ -2343,6 +2343,37 @@ void memory_region_set_ram_discard_manager(MemoryRegion *mr,
+                                            RamDiscardManager *rdm);
  
-+/*
-+ * Register/unregister a ram block for cpr.
+ /**
++ * memory_region_section_cb: callback for address_space_flat_for_each_section()
++ *
++ * @mrs: MemoryRegionSection of the range
++ * @opaque: data pointer passed to address_space_flat_for_each_section()
++ * @errp: error message, returned to the address_space_flat_for_each_section
++ *        caller.
++ *
++ * Returns: non-zero to stop the iteration, and 0 to continue.  The same
++ * non-zero value is returned to the address_space_flat_for_each_section caller.
 + */
-+void ram_block_register(RAMBlock *rb);
-+void ram_block_unregister(RAMBlock *rb);
 +
- #endif
- 
- #endif
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 0b2c5cd..9d528ed 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -3108,10 +3108,12 @@ void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
-     qemu_ram_set_idstr(mr->ram_block,
-                        memory_region_name(mr), dev);
-     qemu_ram_set_migratable(mr->ram_block);
-+    ram_block_register(mr->ram_block);
- }
- 
- void vmstate_unregister_ram(MemoryRegion *mr, DeviceState *dev)
- {
-+    ram_block_unregister(mr->ram_block);
-     qemu_ram_unset_idstr(mr->ram_block);
-     qemu_ram_unset_migratable(mr->ram_block);
- }
++typedef int (*memory_region_section_cb)(MemoryRegionSection *mrs,
++                                        void *opaque,
++                                        Error **errp);
++
++/**
++ * address_space_flat_for_each_section: walk the ranges in the address space
++ * flat view and call @func for each.  Return 0 on success, else return non-zero
++ * with a message in @errp.
++ *
++ * @as: target address space
++ * @func: callback function
++ * @opaque: passed to @func
++ * @errp: passed to @func
++ */
++int address_space_flat_for_each_section(AddressSpace *as,
++                                        memory_region_section_cb func,
++                                        void *opaque,
++                                        Error **errp);
++
++/**
+  * memory_region_find: translate an address/size relative to a
+  * MemoryRegion into a #MemoryRegionSection.
+  *
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 7ba2048..0fe6fac 100644
+index 0fe6fac..e5aefdd 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -3541,13 +3541,31 @@ void __attribute__((weak)) fuzz_dma_read_cb(size_t addr,
- }
- #endif
- 
-+static char *
-+memory_region_vmstate_if_get_id(VMStateIf *obj)
-+{
-+    MemoryRegion *mr = MEMORY_REGION(obj);
-+    return strdup(mr->ram_block->idstr);
-+}
-+
-+static void memory_region_class_init(ObjectClass *class, void *data)
-+{
-+    VMStateIfClass *vc = VMSTATE_IF_CLASS(class);
-+    vc->get_id = memory_region_vmstate_if_get_id;
-+}
-+
- static const TypeInfo memory_region_info = {
-     .parent             = TYPE_OBJECT,
-     .name               = TYPE_MEMORY_REGION,
-     .class_size         = sizeof(MemoryRegionClass),
-+    .class_init         = memory_region_class_init,
-     .instance_size      = sizeof(MemoryRegion),
-     .instance_init      = memory_region_initfn,
-     .instance_finalize  = memory_region_finalize,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_VMSTATE_IF },
-+        { }
-+    }
- };
- 
- static const TypeInfo iommu_memory_region_info = {
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 0f1ce28..822c424 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -66,7 +66,9 @@
- 
- #include "qemu/pmem.h"
- 
-+#include "migration/cpr.h"
- #include "migration/vmstate.h"
-+#include "migration/qemu-file.h"
- 
- #include "qemu/range.h"
- #ifndef _WIN32
-@@ -2450,6 +2452,71 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
-     return block->offset + offset;
+@@ -2683,6 +2683,26 @@ bool memory_region_is_mapped(MemoryRegion *mr)
+     return !!mr->container || mr->mapped_via_alias;
  }
  
-+static int put_ram_block(QEMUFile *f, void *pv, size_t size,
-+                         const VMStateField *field, JSONWriter *vmdesc)
++int address_space_flat_for_each_section(AddressSpace *as,
++                                        memory_region_section_cb func,
++                                        void *opaque,
++                                        Error **errp)
 +{
-+    RAMBlock *rb = pv;
++    FlatView *view = address_space_get_flatview(as);
++    FlatRange *fr;
++    int ret;
 +
-+    if (rb->used_length > 1024 * 1024) {
-+        warn_report("Large RAM block %s size %ld saved to state file. "
-+                    "Use a shared file memory backend to avoid the copy.",
-+                    rb->idstr, rb->used_length);
++    FOR_EACH_FLAT_RANGE(fr, view) {
++        MemoryRegionSection mrs = section_from_flat_range(fr, view);
++        ret = func(&mrs, opaque, errp);
++        if (ret) {
++            return ret;
++        }
 +    }
-+    qemu_put_buffer(f, rb->host, rb->used_length);
++
 +    return 0;
 +}
 +
-+static int get_ram_block(QEMUFile *f, void *pv, size_t size,
-+                         const VMStateField *field)
-+{
-+    RAMBlock *rb = pv;
-+    qemu_get_buffer(f, rb->host, rb->used_length);
-+    return 0;
-+}
-+
-+static const VMStateInfo vmstate_info_ram_block = {
-+    .name = "ram block host",
-+    .get  = get_ram_block,
-+    .put  = put_ram_block,
-+};
-+
-+#define VMSTATE_RAM_BLOCK() {           \
-+    .name  = "ram_block_host",          \
-+    .info  = &vmstate_info_ram_block,   \
-+    .flags = VMS_SINGLE,                \
-+}
-+
-+static bool ram_block_needed(void *opaque)
-+{
-+    RAMBlock *rb = opaque;
-+
-+    return cpr_get_mode() == CPR_MODE_REBOOT &&
-+        qemu_ram_is_migratable(rb) &&
-+        (!qemu_ram_is_shared(rb) || ramblock_is_anon(rb));
-+}
-+
-+const VMStateDescription vmstate_ram_block = {
-+    .name = "RAMBlock",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = ram_block_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(used_length, RAMBlock),
-+        VMSTATE_RAM_BLOCK(),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
-+void ram_block_register(RAMBlock *rb)
-+{
-+    vmstate_register(VMSTATE_IF(rb->mr), 0, &vmstate_ram_block, rb);
-+}
-+
-+void ram_block_unregister(RAMBlock *rb)
-+{
-+    vmstate_unregister(VMSTATE_IF(rb->mr), &vmstate_ram_block, rb);
-+}
-+
- static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
-                                  MemTxAttrs attrs, void *buf, hwaddr len);
- static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
+ /* Same as memory_region_find, but it does not add a reference to the
+  * returned region.  It must be called from an RCU critical section.
+  */
 -- 
 1.8.3.1
 
