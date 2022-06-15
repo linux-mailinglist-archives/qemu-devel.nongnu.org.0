@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9FE54C885
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 14:28:45 +0200 (CEST)
-Received: from localhost ([::1]:57134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7121E54C8A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 14:34:13 +0200 (CEST)
+Received: from localhost ([::1]:32858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1S8b-0003o3-0W
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 08:28:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
+	id 1o1SDj-0006b9-3r
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 08:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o1S3p-0001gl-41
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 08:23:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o1S3i-0002Vb-KM
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 08:23:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655295821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=X2G8SXWwjNWw4ujBpNZ7XcjGraCAfU1VBsDYJzYvNlo=;
- b=fWGE/gCFdgAp+aQSAzeaBogyzQZOYrwwa7DVN8tFjotXzccBqP88vI0435hI3GX1Ks7nia
- o7wYo5WKl5GK5GwSFMN2KhFet8btyGjvO3HR8QB32IVCqU5ML2p9awidzc9Z6P67nll6t0
- HQa2W3tF1RNOijtxRoGohO+TlNyQ4oI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-F0IVdb1NNGamPsbzVx5YCg-1; Wed, 15 Jun 2022 08:23:40 -0400
-X-MC-Unique: F0IVdb1NNGamPsbzVx5YCg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D2D43817A61;
- Wed, 15 Jun 2022 12:23:40 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B665404E4C6;
- Wed, 15 Jun 2022 12:23:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B116F21E59D1; Wed, 15 Jun 2022 14:23:38 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com,
-	qemu-trivial@nongnu.org
-Subject: [PATCH] MAINTAINERS: Add softmmu/runstate.c to "Main loop"
-Date: Wed, 15 Jun 2022 14:23:38 +0200
-Message-Id: <20220615122338.340426-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1o1S6v-0003xK-Ex; Wed, 15 Jun 2022 08:27:02 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:44668)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1o1S6t-0003Yw-ME; Wed, 15 Jun 2022 08:27:01 -0400
+Received: by mail-qt1-x832.google.com with SMTP id t21so7988745qtw.11;
+ Wed, 15 Jun 2022 05:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YxT8biFW0S18KNKax4nG7181CXXTYItoFTgvxyCFzxw=;
+ b=GLcVnI0lfsuxz+wxz6Db1T934gJLS1qz3oMIAuPTdj98Qx0ciL4JppzYb/N2EgZMVe
+ YjcD5LAT7Csy8LCun03uFaeBT5+q05ed+yatHJtV4aBnt2b5thRUUe+Qs2e6uRposSrg
+ Iw354dc9VCgCfrWCkh1iKyzDROhnnJKKHdBh7C5lPQD0FCxdTAc49KPjHa0EqUO1wSlt
+ FO+09X3YWu2/aeU5jSBSfAHmUuBqqhlsC33H2PHVQwf6W55cDjewIAL67RsLM6ZJkZAx
+ 1DWbBUhNRsHz6b2D4/kmYIo1x8ADO6oduF9cEOXSJ+2iWj/JOqImTfN/yEhn/CJV/iXK
+ 4F1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YxT8biFW0S18KNKax4nG7181CXXTYItoFTgvxyCFzxw=;
+ b=cKm8DD4XGSVpj6okcsMTJCEAvUL+9SC+6QQDtbljbq8zZF9G0uFWV78N5IgBUnh+Hy
+ h0CPooLbOX9aKf3FIXQgnGilxphOe5BesOTLKVjpGa6+Yo/zLfWQbNhMt6V+vwgyOuiu
+ rI3BxfXygQSCJzSBu6VHuLPzIAybuIuZwbTXGHhOkaCx4YB/HgnqfJdDykVOIlvFRa7C
+ MkmOTsGELpU2tLJJ0r6YtaRoDpmiNW4jyOWAlEBl9IiFQL4RDWegG6qP1iDdQ02FOUUE
+ Au80VY1IgbretitPtfc48747O7qzpMZ3XqS/XLbYxq6HcGrEj2i4ShSbYvVo8vhuog34
+ zNzw==
+X-Gm-Message-State: AOAM532dcQG2TRSEjqIAkeQbhnXdNrjPELihU6w1dVB3291N7P6mdtmW
+ b261Be59pXP008Mzxz3gIIRoNfmAkCtkGQ1DlF0=
+X-Google-Smtp-Source: ABdhPJwrUHSK//aBwCn0eZ5X1CerI14jCmMmXTb+yvNfnGKr4FpS2bjI4KHPlNDLDNlo6s/ZYw9zi7Wi0ctZnJQl/pk=
+X-Received: by 2002:a05:622a:156:b0:305:2b8e:8ae5 with SMTP id
+ v22-20020a05622a015600b003052b8e8ae5mr8286997qtw.543.1655296016928; Wed, 15
+ Jun 2022 05:26:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220610051328.7078-1-frank.chang@sifive.com>
+ <20220610051328.7078-6-frank.chang@sifive.com>
+In-Reply-To: <20220610051328.7078-6-frank.chang@sifive.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 15 Jun 2022 20:26:45 +0800
+Message-ID: <CAEUhbmUKpkqmzuE5YK+wAk5owReBnSgcC6Qw4i9FX1EC8n+gnQ@mail.gmail.com>
+Subject: Re: [PATCH 5/9] target/riscv: debug: Introduce tinfo CSR
+To: Frank Chang <frank.chang@sifive.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x832.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,24 +84,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, Jun 10, 2022 at 1:21 PM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> tinfo.info:
+>   One bit for each possible type enumerated in tdata1.
+>   If the bit is set, then that type is supported by the currently
+>   selected trigger.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>  target/riscv/cpu_bits.h |  1 +
+>  target/riscv/csr.c      |  8 ++++++++
+>  target/riscv/debug.c    | 10 +++++++---
+>  target/riscv/debug.h    |  2 ++
+>  4 files changed, 18 insertions(+), 3 deletions(-)
+>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4cf6174f9f..4c921c07db 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2745,6 +2745,7 @@ F: softmmu/cpu-throttle.c
- F: softmmu/cpu-timers.c
- F: softmmu/icount.c
- F: softmmu/runstate-action.c
-+F: softmmu/runstate.c
- F: qapi/run-state.json
- 
- Read, Copy, Update (RCU)
--- 
-2.35.3
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
