@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB3E54C823
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 14:08:40 +0200 (CEST)
-Received: from localhost ([::1]:38598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2661E54C825
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 14:09:03 +0200 (CEST)
+Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Rp9-0006BT-Hg
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 08:08:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48090)
+	id 1o1RpV-0006fA-W4
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 08:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1Rlm-0004Dj-DW
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 08:05:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21198)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1Rlh-0003lW-A6
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 08:05:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655294704;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QeHmRCBqSd2OdTxVb7olD9e6BwDF7paJIdiive+fub8=;
- b=PDUM0p8djLBjM50myMNJhPjjyuAKz20RwudKw01zQr1JClwlNNjxF/bRV5eKNSezB9I5fA
- 6ID63rE+Qyoi2yoTZhyGZnTMwjWLtitZQScOLD8EPqlFIa5hzqWjkMMek6gRS5WkSwDjBB
- hSk3m1nFyQNEg2mkfxw0oO8LY46yFLQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-571-rOtNwYNoPmKji2XDU454ZA-1; Wed, 15 Jun 2022 08:05:00 -0400
-X-MC-Unique: rOtNwYNoPmKji2XDU454ZA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F8C3801E67;
- Wed, 15 Jun 2022 12:05:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DFA334010E4D;
- Wed, 15 Jun 2022 12:04:57 +0000 (UTC)
-Date: Wed, 15 Jun 2022 13:04:55 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Darren Kenny <darren.kenny@oracle.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Jason Wang <jasowang@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 4/4] net: convert to use qemu_find_file to locate
- bridge helper
-Message-ID: <YqnK5z5l4e9gNqeE@redhat.com>
-References: <20220615105212.780256-1-berrange@redhat.com>
- <20220615105212.780256-5-berrange@redhat.com>
- <c614ed56-0c6e-e964-44a5-2b614ec3cd34@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1o1RmL-0004yS-06; Wed, 15 Jun 2022 08:05:45 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:40670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1o1RmJ-00046d-F7; Wed, 15 Jun 2022 08:05:44 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id o73so8514085qke.7;
+ Wed, 15 Jun 2022 05:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NMYX2qUNsfTaICP3nDDmWQw35FEry3h6t05C6RAsRpM=;
+ b=dUIdTPDZFc2X2nqF8lWHKH6pyF2tqjCI+aGQDQnqX7KgdcacFdzA4g5XIfUOSxx0Jh
+ uMr8gWNd6zeu42mFRf24VRiyRPtiahfQPgTAk/99O9HE8P2P/qxmkWMGEqN+jsbjZ7SB
+ iKica75uVqetrAnH7Qp7PTrNqqS1kkPcT0ZdJBVWFYBzCKseEB5e8IU9BNSb7avgwgVV
+ kqN+83b0L8/YNk6EudLTJiFp1O8x1wX61G4YndYr8ZfqQ3AkWlpibLj0GMY/jNlaaUxs
+ kQoNWcfliLPc0GcRJxGhjqR3XtS665zVc0DmgXFVWn/RVdKkrmOUt7JavQqqhhVCFT3q
+ 6KKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NMYX2qUNsfTaICP3nDDmWQw35FEry3h6t05C6RAsRpM=;
+ b=nw4J5RBsMmcHFPHrrTNXXh4OLKs1qSGwFvyI547OM6PRUBRvOPz+1BzTofnI8J6ydU
+ /uoOjGQrrU70dsu066Lc9vqpG59O+1ZGu+vnNbtODeBvGl+IpuKlTKLhC3KOvbhLr048
+ DTjNiRcycOrAkYUjkgU23TYsqCDjHLCcoX+uXGE3UZlkUQBN/480r2uUINe/2h/GcSiu
+ vMepabUS3Zz1QOvpWeVGhALFeoF9aasGfcbvx9LmkhIIvkyWd1Tz5nJbhJ/qJ1Q+wPUi
+ 1dNea+uQ5cKNsKiioXur/oVd123qmrHAxAMM05edWcAAcxMtASkCcDcuqUWS2gaTe4ul
+ 03dg==
+X-Gm-Message-State: AOAM531K5ZInJ+h55FuE0N6gE/OEMZS/d78yGEUWk+Uat0+qnEroISJG
+ JtXTN/4r6T0ILK28MFiqIJD9kRdSCu5DdzH1OZk=
+X-Google-Smtp-Source: ABdhPJzJjIF9kJDzmNJJzh3ATs3DS3C3ZdtbkUoqabfCH9uWnqJvQDPPVssG9rxRwPTY/mXT0PDpnCGLlBhXcmRTpUc=
+X-Received: by 2002:a05:620a:13a2:b0:6a6:f149:6d82 with SMTP id
+ m2-20020a05620a13a200b006a6f1496d82mr7842740qki.342.1655294741634; Wed, 15
+ Jun 2022 05:05:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c614ed56-0c6e-e964-44a5-2b614ec3cd34@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220610051328.7078-1-frank.chang@sifive.com>
+ <20220610051328.7078-3-frank.chang@sifive.com>
+In-Reply-To: <20220610051328.7078-3-frank.chang@sifive.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 15 Jun 2022 20:05:29 +0800
+Message-ID: <CAEUhbmUeFWFGNqq-nT12ZPKLP8yzBXdFb4G3+kXh1OOtH64hJQ@mail.gmail.com>
+Subject: Re: [PATCH 2/9] target/riscv: debug: Introduce build_tdata1() to
+ build tdata1 register content
+To: Frank Chang <frank.chang@sifive.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,41 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 15, 2022 at 01:42:58PM +0200, Paolo Bonzini wrote:
-> On 6/15/22 12:52, Daniel P. Berrangé wrote:
-> > +    case QEMU_FILE_TYPE_HELPER:
-> > +        rel_install_dir = "";
-> > +        rel_build_dir = "";
-> > +        default_install_dir = default_helper_dir;
-> > +        break;
-> > +
-> 
-> You're replacing ad hoc rules in Akihiko's meson.build with an ad hoc enum +
-> the corresponding "case"s here in qemu_find_file().  There is duplication
-> anyway, in this case between Meson and QEMU (plus QEMU needs to know about
-> two filesystem layouts).
+On Fri, Jun 10, 2022 at 1:14 PM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Introduce build_tdata1() to build tdata1 register content, which can be
+> shared among all types of triggers.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>  target/riscv/debug.c | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/riscv/debug.c b/target/riscv/debug.c
+> index abbcd38a17..089aae0696 100644
+> --- a/target/riscv/debug.c
+> +++ b/target/riscv/debug.c
+> @@ -94,18 +94,23 @@ static inline target_ulong get_trigger_type(CPURISCVState *env,
+>      return extract_trigger_type(env, tdata1);
+>  }
+>
+> -static inline target_ulong trigger_type(CPURISCVState *env,
+> -                                        trigger_type_t type)
+> +static inline target_ulong build_tdata1(CPURISCVState *env,
+> +                                        trigger_type_t type,
+> +                                        bool dmode, target_ulong data)
+>  {
+>      target_ulong tdata1;
+>
+>      switch (riscv_cpu_mxl(env)) {
+>      case MXL_RV32:
+> -        tdata1 = RV32_TYPE(type);
+> +        tdata1 = RV32_TYPE(type) |
+> +                 (dmode ? RV32_DMODE : 0) |
+> +                 (data & RV32_DATA_MASK);
 
-IMHO this is simpler to deal with than the meson additions, and also
-avoids the confusion of having files appearing in two places in the
-build dir.
+RV32_DATA_MASK should be introduced in this patch
 
-If we really want to have the build dir look just like the install
-dir though, why write custom meson commands per file type at all,
-instead add a rule that always invokes
+>          break;
+>      case MXL_RV64:
+>      case MXL_RV128:
+> -        tdata1 = RV64_TYPE(type);
+> +        tdata1 = RV64_TYPE(type) |
+> +                 (dmode ? RV64_DMODE : 0) |
+> +                 (data & RV64_DATA_MASK);
 
-   DESTDIR=$(BUILDDIR)/vroot ninja install
+ditto
 
-to populate a dir that's guaranteed identical to the install layout
+>          break;
+>      default:
+>          g_assert_not_reached();
+> @@ -490,7 +495,7 @@ bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
+>
+>  void riscv_trigger_init(CPURISCVState *env)
+>  {
+> -    target_ulong tdata1 = trigger_type(env, TRIGGER_TYPE_AD_MATCH);
+> +    target_ulong tdata1 = build_tdata1(env, TRIGGER_TYPE_AD_MATCH, 0, 0);
+>      int i;
+>
+>      /* init to type 2 triggers */
+> --
+>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Otherwise,
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
