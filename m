@@ -2,91 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA28054C45C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 11:10:57 +0200 (CEST)
-Received: from localhost ([::1]:44208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100DC54C45E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 11:11:05 +0200 (CEST)
+Received: from localhost ([::1]:44876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1P3A-0007Yj-I9
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 05:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53828)
+	id 1o1P3I-0008BZ-5O
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 05:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o1Ok6-0003t0-5B; Wed, 15 Jun 2022 04:51:14 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:50259)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1o1Opb-0000DE-4Y
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:56:55 -0400
+Received: from mga11.intel.com ([192.55.52.93]:28922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o1Ok4-0001no-95; Wed, 15 Jun 2022 04:51:13 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 9B2F65C0130;
- Wed, 15 Jun 2022 04:51:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 15 Jun 2022 04:51:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655283069; x=1655369469; bh=yD
- WpJWQ5LxQaXucC4V0FUbyyOwtTT2uoCHi0vJWsFhw=; b=aeEAeWBwKl/iVnWk4O
- wRQpjxHvSa4Aj7XmSJ06LeFHSWWR34UCVum7Wrqh4fQd2mK0BC2RUI9mFcv2lqgL
- 1+9t7OfEjuwY3Y/vPgVhs3kdPlEXSkDYZUFL90/lJD5jmr5EKz8FYBe00W7jCfw2
- gkjKAbmtbQ3/N6Zl/EXhQrWnwVC+4OUtFzChPxlKUtTRnpqbZ+N1kvS8rJFpJ/tz
- lb3QgK6ZlzJr2KVF2fhAFbyER5nt/e7fIVxQjyZZqgwN5ygosQ52TQiWxRfgifa8
- 0jS344lkkEvFSgrhYH+ece4GyDyP8Zn20Zb2ZH2TBclG0TdlEOgmLj4Ql7ZcaV5S
- 6Cbg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1655283069; x=1655369469; bh=yDWpJWQ5LxQaXucC4V0FUbyyOwtT
- T2uoCHi0vJWsFhw=; b=NxgbV4jM/Y1m8OiWvc7fUoDQAKOtJyy/Ei2OPTWbYzZ/
- /983R1nihWAOEJkTE+2x3juf6NE65qEXKnBWbmWak6ceGXfc9u5/KFM3Sb4umOIF
- jgKRKWZrk0hKkWIdESMxDRbe2wXLNhkJhxSltCdcWBDSAXw7PP0fWWX8Arutkufq
- llfyWWeQ6XZh7krCMvHBtPGMe4yDQFoib0NJM525Or9EI2uMBjwkAi13x/E/elt/
- pBgX8pUjoOO8tQG45AJWpIf2AZs2rGQFymHpWgYgg0Gttasfoic7xV6/TrXqEJ+W
- i/QEuBS2E19OVYhXh4P3UiODAbP9rnQrw7ri3CwQhA==
-X-ME-Sender: <xms:fJ2pYqKktgq_y6M218GumgvpECIm-Nky3k2-nAxcGchmHaFI8iC3Rg>
- <xme:fJ2pYiLB-zARpylz45YJ77nOsK0jBUOv2HIqcVYDB5JdB1RDftjxUvmHr6W-e55RR
- gkRMhvWkO2pNSiuVPk>
-X-ME-Received: <xmr:fJ2pYqsfbokmKRLTKNnHtH1EXOybgtg7jshNcjQBnw7_nY4up--iYy8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvuddgtdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:fJ2pYvaJ3jTY9aA7mVSVhnjbOavlJzCHcU3tqJkGfqkjzquBo-jV0Q>
- <xmx:fJ2pYhaGvzENBjPlap01K7dzxrXWJHiScsDdGh1wHpMCeWyKDfeeIw>
- <xmx:fJ2pYrB3MnLX1YLTxdpvGbarZ6bm2W_jRyIYkVzeNFYfZxQshRitWQ>
- <xmx:fZ2pYuTJC7NdZg5t5z2qUm75fYJxpBya1LE48WOJ6gncMI9oKLu2aA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Jun 2022 04:51:07 -0400 (EDT)
-Date: Wed, 15 Jun 2022 10:51:05 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, laurent@vivier.eu,
- mjt@tls.msk.ru, danielhb413@gmail.com, clg@kaod.org, mst@redhat.com,
- qemu-arm@nongnu.org, qemu-block@nongnu.org, kbusch@kernel.org
-Subject: Re: [PATCH 0/2] Two sets of trivials
-Message-ID: <YqmdeUCc+9dtVeV7@apples>
-References: <20220614104045.85728-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1o1OpX-0002ia-OB
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:56:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655283411; x=1686819411;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=YUylNu9M17rCKFlfGnkhsZRqok22qMLdjCA7fnGzy7c=;
+ b=PaqIOqYI5dbia/kXWKnlY+UCXzpA7x8A1lLDwhekYuTmv3xEJ/ehNTui
+ ncM9h2ObgFu0tDvtI/J6ooUpnFsQlTC+W79ui8pgYye48KKqwVCvlWnmk
+ SR1QhjyYPaAfVP3gcDOw0HMsQhc3pYIsmViZqvJvSqE9z+4+ZKvCY/VwR
+ 5dcgU4W7/XR/DCLM2EEsYpL465Fh+qmqlaqgHlx++nr4XTez1pX6nWWcc
+ B2tJf+JpxgLPbo5Hw45IhL5QTmLOCQPPPktkbKUsFb+tLdAbJGlURKHKQ
+ 7tN1X9inmYROxSHWiRJePHrL/87BUcfvgTJXezNRSt3tGLTSVzW3EkWMO Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="276461206"
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="276461206"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 01:56:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="589000276"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by fmsmga007.fm.intel.com with ESMTP; 15 Jun 2022 01:56:38 -0700
+Date: Wed, 15 Jun 2022 16:53:16 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+ Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>,
+ Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Message-ID: <20220615085316.GA1823790@chaop.bj.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-4-chao.p.peng@linux.intel.com>
+ <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
+ <20220601101747.GA1255243@chaop.bj.intel.com>
+ <1f1b17e8-a16d-c029-88e0-01f522cc077a@amd.com>
+ <20220602100733.GA1296997@chaop.bj.intel.com>
+ <YqjuUngpVg8cZTD/@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dgdY8oKLskTV074e"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220614104045.85728-1-dgilbert@redhat.com>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+In-Reply-To: <YqjuUngpVg8cZTD/@google.com>
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,67 +101,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jun 14, 2022 at 08:23:46PM +0000, Sean Christopherson wrote:
+> On Thu, Jun 02, 2022, Chao Peng wrote:
+> > On Wed, Jun 01, 2022 at 02:11:42PM +0200, Gupta, Pankaj wrote:
+> > > 
+> > > > > > Introduce a new memfd_create() flag indicating the content of the
+> > > > > > created memfd is inaccessible from userspace through ordinary MMU
+> > > > > > access (e.g., read/write/mmap). However, the file content can be
+> > > > > > accessed via a different mechanism (e.g. KVM MMU) indirectly.
+> > > > > > 
+> > > > > 
+> > > > > SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
+> > > > > initial guest boot memory with the needed blobs.
+> > > > > TDX already supports a KVM IOCTL to transfer contents to private
+> > > > > memory using the TDX module but rest of the implementations will need
+> > > > > to invent
+> > > > > a way to do this.
+> > > > 
+> > > > There are some discussions in https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F5%2F9%2F1292&amp;data=05%7C01%7Cpankaj.gupta%40amd.com%7Cb81ef334e2dd44c6143308da43b87d17%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637896756895977587%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=oQbM2Hj7GlhJTwnTM%2FPnwsfJlmTL7JR9ULBysAqm6V8%3D&amp;reserved=0
+> > > > already. I somehow agree with Sean. TDX is using an dedicated ioctl to
+> > > > copy guest boot memory to private fd so the rest can do that similarly.
+> > > > The concern is the performance (extra memcpy) but it's trivial since the
+> > > > initial guest payload is usually optimized in size.
+> > > > 
+> > > > > 
+> > > > > Is there a plan to support a common implementation for either allowing
+> > > > > initial write access from userspace to private fd or adding a KVM
+> > > > > IOCTL to transfer contents to such a file,
+> > > > > as part of this series through future revisions?
+> > > > 
+> > > > Indeed, adding pre-boot private memory populating on current design
+> > > > isn't impossible, but there are still some opens, e.g. how to expose
+> > > > private fd to userspace for access, pKVM and CC usages may have
+> > > > different requirements. Before that's well-studied I would tend to not
+> > > > add that and instead use an ioctl to copy. Whether we need a generic
+> > > > ioctl or feature-specific ioctl, I don't have strong opinion here.
+> > > > Current TDX uses a feature-specific ioctl so it's not covered in this
+> > > > series.
+> > > 
+> > > Common function or ioctl to populate preboot private memory actually makes
+> > > sense.
+> > > 
+> > > Sorry, did not follow much of TDX code yet, Is it possible to filter out
+> > > the current TDX specific ioctl to common function so that it can be used by
+> > > other technologies?
+> > 
+> > TDX code is here:
+> > https://patchwork.kernel.org/project/kvm/patch/70ed041fd47c1f7571aa259450b3f9244edda48d.1651774250.git.isaku.yamahata@intel.com/
+> > 
+> > AFAICS It might be possible to filter that out to a common function. But
+> > would like to hear from Paolo/Sean for their opinion.
+> 
+> Eh, I wouldn't put too much effort into creating a common helper, I would be very
+> surprised if TDX and SNP can share a meaningful amount of code that isn't already
+> shared, e.g. provided by MMU helpers.
+> 
+> The only part I truly care about sharing is whatever ioctl(s) get added, i.e. I
+> don't want to end up with two ioctls that do the same thing for TDX vs. SNP.
 
---dgdY8oKLskTV074e
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK, then that part would be better to be added in TDX or SNP series.
 
-On Jun 14 11:40, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> I've sent the 3 char set last month, but have updated
-> it a little; I cleaned up a comment style that was already
-> broken so checkpatch is happy.
->=20
-> The 'namesapce' is a new patch; it's amazing how many places
-> make the same typo!
->=20
-> Dave
->=20
-> Dr. David Alan Gilbert (2):
->   Trivial: 3 char repeat typos
->   trivial typos: namesapce
->=20
->  hw/9pfs/9p-xattr-user.c          | 8 ++++----
->  hw/acpi/nvdimm.c                 | 2 +-
->  hw/intc/openpic.c                | 2 +-
->  hw/net/imx_fec.c                 | 2 +-
->  hw/nvme/ctrl.c                   | 2 +-
->  hw/pci/pcie_aer.c                | 2 +-
->  hw/pci/shpc.c                    | 3 ++-
->  hw/ppc/spapr_caps.c              | 2 +-
->  hw/scsi/spapr_vscsi.c            | 2 +-
->  qapi/net.json                    | 2 +-
->  tools/virtiofsd/passthrough_ll.c | 2 +-
->  ui/input.c                       | 2 +-
->  12 files changed, 16 insertions(+), 15 deletions(-)
->=20
-> --=20
-> 2.36.1
->=20
-
-Nice (and Thanks)!
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---dgdY8oKLskTV074e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKpnXgACgkQTeGvMW1P
-Dekm2QgAvCvoFg4Oc3K6RCxEjBHA51yDw/MgoHEZbcJT7QyWlOGyMnwzQvF8PLiz
-liv/i+rt2KVvymqjTVYEFK2PmPi8OWEH4VaogKbC790hlpmYbLI6fxWkCufbYFcL
-JZXzNslcQ1otFmHVjeonzqMdQo7pj+jTN/6mM7sNfA5qltXHesHNq8iszpkVNIJX
-PztHuLBQTv6FMUU5U6VrXb+kKIWzuVG0deAC+HK4a1vT4fZUHgF/JlX93eAPmys4
-g+U3JB8zLnmUBY7ms9neuNQMVvbklgG/Y75aXh35Hl7s4DgIjX9ohQ3g1klRMX9m
-LBitp089lt4U8j24LtFbtbkklXHe3g==
-=GwDD
------END PGP SIGNATURE-----
-
---dgdY8oKLskTV074e--
+Chao
 
