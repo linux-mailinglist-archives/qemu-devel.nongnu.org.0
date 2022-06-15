@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22E554CC9D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:23:38 +0200 (CEST)
-Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C9F54CCB7
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:27:21 +0200 (CEST)
+Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Urp-0006Ch-Uw
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:23:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47814)
+	id 1o1UvQ-0003cA-8p
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOn-0007mf-TO
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:39 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:10412)
+ id 1o1UOv-0007tO-GO
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:45 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:27086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOl-00016R-3t
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:37 -0400
+ id 1o1UOt-00017n-8u
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:44 -0400
 Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE0c2X001492;
- Wed, 15 Jun 2022 14:53:14 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE0c2Z001492;
+ Wed, 15 Jun 2022 14:53:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=5kgwdTgYiH/ebPCufCeVFS5dIRPUl4P0QfsJgnWgqug=;
- b=ga+urvzmsuTxEofyRC/TLAmW9wNxX1dY/Bpz/mBGDfCTNPJYOX5zrlwZoaLcEZbaTUeh
- DiN+gg93H3f8nDsvlUGnWu8gtGS6tmNSSKYjW5/sUikPPO8TdANjRwW5HMco8MABFIYK
- DwHWQ1uSJK6f7MhD3PgdgQp3q8KgB+pcdZmmzSeBEqpjkHxeRYx1IHv0c58DDT0y/BSQ
- 3vdfZjGBurM2QkXB7ZNFNvAWvPMBM1zkZY5bOlrCzcDN1Pmhl92EDgEVjKFkmpbsUun6
- hzoAgXVBgz7SGnmNHkEz0aEsvtU4vz3GMzmD/JBDqWj3Akx5twr1X7oRhJEBcRzbcnym cg== 
+ bh=7tyxW1gFURtYbDz4zwB3N0WvJeD2az8xGMuQaS2NWYk=;
+ b=PtfZUHLrja8xtEiovHTMVpo5bhmTBGHR4vgWLK3moguRnglc0OVKPIQDkZLPLmZ51dZN
+ Fon32RVnwBP+gVcWUnbzWvZcQs53WqVooAInIebpGNNqA6o8Xp8xlMoPErjKDvJ03NkH
+ Jhhq+YW87/mfRZVk0WmjhB3HH65CukgUUtgipB/kcY7rnWKHK8FqGGVmhxIEKCYNRr9J
+ t7vd5GhMWJB5aVzhLzwyCyU7DAHmivwCvAfIqMTI1Y3ziiFnYcmWmPtBecFKmD+b+uFt
+ UjZiM+LIRblu+UD9WYxyOjYqsMA1wNVLfSFAtyN4q0jXw11hU/kfa89ZDQaaUS0MKA2K Yg== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjns8tnk-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjns8tnr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:53:14 +0000
+ Wed, 15 Jun 2022 14:53:15 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25FEQ7tX023103; Wed, 15 Jun 2022 14:53:13 GMT
+ with SMTP id 25FEQ7AB023097; Wed, 15 Jun 2022 14:53:14 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vq7m-1
+ 3gpr25vq8e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:53:13 +0000
+ Wed, 15 Jun 2022 14:53:14 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNv018501;
- Wed, 15 Jun 2022 14:53:12 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNx018501;
+ Wed, 15 Jun 2022 14:53:14 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpfm-38; Wed, 15 Jun 2022 14:53:12 +0000
+ 3gpr25vpfm-39; Wed, 15 Jun 2022 14:53:14 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,14 +72,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH V8 37/39] cpr: only-cpr-capable option
-Date: Wed, 15 Jun 2022 07:52:24 -0700
-Message-Id: <1655304746-102776-38-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V8 38/39] python/machine: add QEMUMachine accessors
+Date: Wed, 15 Jun 2022 07:52:25 -0700
+Message-Id: <1655304746-102776-39-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-GUID: UJHZ0Tr58QblZt33fFHWtILUxi8glJ0W
-X-Proofpoint-ORIG-GUID: UJHZ0Tr58QblZt33fFHWtILUxi8glJ0W
+X-Proofpoint-GUID: Hqdt7RJzoybz-tl9O1lKE1rTKbli5s8-
+X-Proofpoint-ORIG-GUID: Hqdt7RJzoybz-tl9O1lKE1rTKbli5s8-
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -104,121 +104,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the only-cpr-capable option, which causes qemu to exit with an error
-if any devices that are not capable of cpr are added.  This guarantees that
-cpr-save will not fail due to a blocker.
+Provide full_args() to return all command-line arguments used to start a
+vm, some of which are not otherwise visible to QEMUMachine clients.  This
+is needed by the cpr test, which must start a vm, then pass all qemu
+command-line arguments to the cpr-exec monitor call.
+
+Provide reopen_qmp_connection() to reopen a closed monitor connection.
+This is needed by cpr, because qemu-exec closes the monitor socket.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/migration/cpr.h |  2 +-
- migration/cpr.c         | 13 +++++++++++--
- qemu-options.hx         |  8 ++++++++
- softmmu/vl.c            |  6 +++++-
- 4 files changed, 25 insertions(+), 4 deletions(-)
+ python/qemu/machine/machine.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/include/migration/cpr.h b/include/migration/cpr.h
-index ab5f53e..c7eb914 100644
---- a/include/migration/cpr.h
-+++ b/include/migration/cpr.h
-@@ -11,7 +11,7 @@
- #include "qapi/qapi-types-cpr.h"
- #include "qemu/notify.h"
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index 37191f4..60b934d 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -332,6 +332,11 @@ def args(self) -> List[str]:
+         """Returns the list of arguments given to the QEMU binary."""
+         return self._args
  
--void cpr_init(int modes);
-+void cpr_init(int modes, bool only_cpr_capable);
- void cpr_set_mode(CprMode mode);
- CprMode cpr_get_mode(void);
- bool cpr_enabled(CprMode mode);
-diff --git a/migration/cpr.c b/migration/cpr.c
-index 9d6bca4..7f507f1 100644
---- a/migration/cpr.c
-+++ b/migration/cpr.c
-@@ -18,9 +18,11 @@
- #include "sysemu/sysemu.h"
- 
- static int cpr_enabled_modes;
-+static bool only_cpr_capable;
- 
--void cpr_init(int modes)
-+void cpr_init(int modes, bool only_cpr)
- {
-+    only_cpr_capable = only_cpr;
-     cpr_enabled_modes = modes;
-     cpr_state_load(&error_fatal);
- }
-@@ -36,7 +38,7 @@ static GSList *cpr_blockers[CPR_MODE__MAX];
-  * Add blocker for each mode in varargs list, or for all modes if CPR_MODE_ALL
-  * is specified.  Caller terminates the list with 0 or CPR_MODE_ALL.  This
-  * function takes ownership of *reasonp, and frees it on error, or in
-- * cpr_del_blocker.  errp is set in a later patch.
-+ * cpr_del_blocker.
-  */
- int cpr_add_blocker(Error **reasonp, Error **errp, CprMode mode, ...)
- {
-@@ -55,6 +57,13 @@ int cpr_add_blocker(Error **reasonp, Error **errp, CprMode mode, ...)
-         modes = BIT(CPR_MODE__MAX) - 1;
-     }
- 
-+    if (only_cpr_capable && (cpr_enabled_modes & modes)) {
-+        error_propagate_prepend(errp, *reasonp,
-+                                "-only-cpr-capable specified, but: ");
-+        *reasonp = NULL;
-+        return -EACCES;
-+    }
++    @property
++    def full_args(self) -> List[str]:
++        """Returns the full list of arguments used to launch QEMU."""
++        return list(self._qemu_full_args)
 +
-     for (mode = 0; mode < CPR_MODE__MAX; mode++) {
-         if (modes & BIT(mode)) {
-             cpr_blockers[mode] = g_slist_prepend(cpr_blockers[mode], *reasonp);
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 2f4bb2b..25e392f 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4511,6 +4511,14 @@ SRST
-     commands.
- ERST
+     def _pre_launch(self) -> None:
+         if self._console_set:
+             self._remove_files.append(self._console_address)
+@@ -486,6 +491,15 @@ def _close_qmp_connection(self) -> None:
+         finally:
+             self._qmp_connection = None
  
-+DEF("only-cpr-capable", 0, QEMU_OPTION_only_cpr_capable, \
-+    "-only-cpr-capable    allow only cpr capable devices\n", QEMU_ARCH_ALL)
-+SRST
-+``-only-cpr-capable``
-+    Only allow cpr capable devices, which guarantees that cpr-save will not
-+    fail due to a cpr blocker.
-+ERST
++    def reopen_qmp_connection(self):
++        self._close_qmp_connection()
++        self._qmp_connection = QEMUMonitorProtocol(
++            self._monitor_address,
++            server=True,
++            nickname=self._name
++        )
++        self._qmp.accept(self._qmp_timer)
 +
- DEF("nodefaults", 0, QEMU_OPTION_nodefaults, \
-     "-nodefaults     don't create default devices\n", QEMU_ARCH_ALL)
- SRST
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 3e19c74..1bee692 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2604,6 +2604,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     bool userconfig = true;
-     FILE *vmstate_dump_file = NULL;
-     int cpr_modes = 0;
-+    bool only_cpr_capable = false;
- 
-     qemu_add_opts(&qemu_drive_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-@@ -3321,6 +3322,9 @@ void qemu_init(int argc, char **argv, char **envp)
-                 cpr_modes |= BIT(qapi_enum_parse(&CprMode_lookup, optarg, -1,
-                                                  &error_fatal));
-                 break;
-+            case QEMU_OPTION_only_cpr_capable:
-+                only_cpr_capable = true;
-+                break;
-             case QEMU_OPTION_nodefaults:
-                 has_defaults = 0;
-                 break;
-@@ -3472,7 +3476,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_validate_options(machine_opts_dict);
-     qemu_process_sugar_options();
- 
--    cpr_init(cpr_modes);
-+    cpr_init(cpr_modes, only_cpr_capable);
- 
-     /*
-      * These options affect everything else and should be processed
+     def _early_cleanup(self) -> None:
+         """
+         Perform any cleanup that needs to happen before the VM exits.
 -- 
 1.8.3.1
 
