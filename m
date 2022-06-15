@@ -2,89 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A02B54CB0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 16:19:35 +0200 (CEST)
-Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA4054CB62
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 16:31:57 +0200 (CEST)
+Received: from localhost ([::1]:36848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Trp-0006Ri-SE
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 10:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37078)
+	id 1o1U3n-0002wl-Tz
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 10:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o1ToC-0005EE-L0
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:15:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30846)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o1To7-0004A1-Nr
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:15:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655302542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OeSIh0Q7bZc5zMIgxV4RjVQqqnnX7WyOb6fWOAEY+lQ=;
- b=WW4MKRkdkas6yyt0EIoDhY0IZFppyen8v89fZMF+h9+fYPCzZGPYdwpyj0JC4Aa6Odmn/Y
- s7ILy4rcfasES5Op7Qwn8qOsdA+QpsfL6MUDdfg8vK3tlMD+953LWWOU6mmigBjWQ5MlaW
- y100AI0heM519rEXGq4MXguTjUc8NqY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-113-jOhUWOZaO1SQHEEEGZSiRw-1; Wed, 15 Jun 2022 10:15:40 -0400
-X-MC-Unique: jOhUWOZaO1SQHEEEGZSiRw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z13-20020a7bc7cd000000b0039c4a238eadso5125324wmk.9
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 07:15:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o1U1p-0001Zt-Jt
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:29:53 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:39825)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o1U1n-0008Q1-PY
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:29:53 -0400
+Received: by mail-pf1-x434.google.com with SMTP id y196so11609064pfb.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 07:29:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=urXLCEo0HdMiwrT9/lHPLDvk+tFr+S8kFKoTasWYgTM=;
+ b=jE8+1EoaVPLQAQgJuF6uSHsVQUNEYiULaZEf4qWJ+FDCtBcy5wU+1PuRU/qTw6mXuJ
+ rhkDSC1GoM3r6gP1XqDzyFKdRxVJyQscQceF46fTmrMh4tpJ7/3OD4E0UUUL4FXaE4E4
+ HLsY4nWxsZ1bLbc4mtfRzI75UcR7ige6egZvCSqqgKpyeTsqtkTZjDQiW2mEf6TP1C0u
+ 784mpZz2YhCQYjeTdJsTJu7oJeXZ7GHllZjsJApUFHo2QiJHGuFpB3Xi7l8+I0pC+m8X
+ WUI+8LcLsPMDaqunWg8z0EiW4EPIpYE086RJe+7JyYOWlUAXkMPBTz0xEA+GhbwuK97s
+ EpUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OeSIh0Q7bZc5zMIgxV4RjVQqqnnX7WyOb6fWOAEY+lQ=;
- b=BTAAaiZvNm6sgxvT+uXl1LSaYGmv3fIwMAF/Vdzh/kPMuYhOYW66MYUOcMlL/OlP3s
- +ox8irkbTYueJrrFJYTzCykaGv5oq+Alk/XfHXxB2b6uNsAXN0kKh3PCycMqSkBxqfYd
- okkfNm6XY3cqCpFElkcu4w+XEMzxO5sedvx7KSEqKuUm69hpJJSXhMyZewqs9slRbkM3
- D0eiTT6Pj6Pq3lO6iDgXxVv7Io87K/K/urMAw6msOuz8nOZMa7wv7yULUgYNK+6cd9u7
- mbRRprm3pjVE3/X+5bGbOiCpWdl1l39R3qrpe3xSQ7+QDYURcXdz0Q0lx+T3EJJS33EU
- 9nTA==
-X-Gm-Message-State: AJIora8Sdbcd/1zaNuJ94cpmmFhLZAyFF9AuhTBFz2W5Et/Alkjq1tx2
- x34ZlANwfQmu5pAHjiQ5EiEpTR8wVNGLlgU6GeOusAJ7XX4YCayrAjk5ZwwS7/Wvo5FBHUOTS8S
- GU6R4EPoQTo56G1Q=
-X-Received: by 2002:a05:6000:108b:b0:213:abed:50fe with SMTP id
- y11-20020a056000108b00b00213abed50femr12576wrw.425.1655302539378; 
- Wed, 15 Jun 2022 07:15:39 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s2I9YiElaMvvDMNfc17e48uDKSd4FsKrDm1UIEfjuRniGVa22lt9TAMXsPV12Khr6tw7RyWA==
-X-Received: by 2002:a05:6000:108b:b0:213:abed:50fe with SMTP id
- y11-20020a056000108b00b00213abed50femr12559wrw.425.1655302539144; 
- Wed, 15 Jun 2022 07:15:39 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- p6-20020adfce06000000b00213ba0cab3asm15241576wrn.44.2022.06.15.07.15.38
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=urXLCEo0HdMiwrT9/lHPLDvk+tFr+S8kFKoTasWYgTM=;
+ b=XoOh5Fh4Lg9SeelXlQ2hotwo0MJ+HPzvpTriiixmvk5PYp1360K3FtH5Mljou2Cfy7
+ JiX9PcgxCPorLHFkPtqoCuhnKiyAZ8wYO8xKzmhK5byfPCjUvMu0/e1GjQwVg2WdsY2C
+ iCz1rk+Igw7XshHRvFQAMpLWN5f5uTFSH64YDt13/IrHv7z3W5941V/Funb3WlJ54TVN
+ QvdME3K1gfymkWdW31c5m6NUS8AwfDks2ZBdakYjK5b9woXukd8UiQQu+mczTuCBod7i
+ C/B/20V6giSKgBi3sx7huOej68Nue1XPNy68R0JoPIDCuZ48SA5mQBVkJY5WxPIy+xG9
+ ZHhw==
+X-Gm-Message-State: AJIora+JxofnZAWDbNwBd10swNMcfOOCWJJYKMELSPRToB2NpU7fnpuJ
+ gNEKekfH/Lek29cFzJEgltnKLQ==
+X-Google-Smtp-Source: AGRyM1tbE6e2B2i42MyE6StE9nppc07YDmrFHDgu8iNlTHFWW5xo4NNjzQzQb9yFXGjB6QHFLP8hJw==
+X-Received: by 2002:a63:e1c:0:b0:3fd:f319:df7b with SMTP id
+ d28-20020a630e1c000000b003fdf319df7bmr75509pgl.135.1655303389770; 
+ Wed, 15 Jun 2022 07:29:49 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com.
+ [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
+ z15-20020a170903018f00b0015eb200cc00sm9366660plg.138.2022.06.15.07.29.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jun 2022 07:15:38 -0700 (PDT)
-Date: Wed, 15 Jun 2022 16:15:37 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: ritul guru <ritul.bits@gmail.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: regarding QEMU ACPI table generation and passing acpi
- tables/methods to guest OS
-Message-ID: <20220615161537.7aec7656@redhat.com>
-In-Reply-To: <CAHHF-2Kxj6LgiPB3gEy=r-e0QWGX7=BSxezqP6LjZ7V1MuEv5w@mail.gmail.com>
-References: <CAHHF-2Kxj6LgiPB3gEy=r-e0QWGX7=BSxezqP6LjZ7V1MuEv5w@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ Wed, 15 Jun 2022 07:29:49 -0700 (PDT)
+Date: Wed, 15 Jun 2022 14:29:45 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>,
+ Vishal Annapurve <vannapurve@google.com>,
+ Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Jun Nakajima <jun.nakajima@intel.com>, Dave Hansen <dave.hansen@intel.com>,
+ Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <Yqns2ar0TND4RP9P@google.com>
+References: <20220607065749.GA1513445@chaop.bj.intel.com>
+ <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com>
+ <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+ <YqJYEheLiGI4KqXF@google.com>
+ <20220614072800.GB1783435@chaop.bj.intel.com>
+ <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
+ <Yqjcx6u0KJcJuZfI@google.com>
+ <CALCETrUdGoZ2yUnNGbxJ-Xr3KD7QhTi-ddhS8AUMjFyJM5pDfA@mail.gmail.com>
+ <20220615091759.GB1823790@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220615091759.GB1823790@chaop.bj.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=seanjc@google.com; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,31 +121,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jun 2022 18:23:28 +0530
-ritul guru <ritul.bits@gmail.com> wrote:
+On Wed, Jun 15, 2022, Chao Peng wrote:
+> On Tue, Jun 14, 2022 at 01:59:41PM -0700, Andy Lutomirski wrote:
+> > On Tue, Jun 14, 2022 at 12:09 PM Sean Christopherson <seanjc@google.com> wrote:
+> > >
+> > > On Tue, Jun 14, 2022, Andy Lutomirski wrote:
+> > > > This patch series is fairly close to implementing a rather more
+> > > > efficient solution.  I'm not familiar enough with hypervisor userspace
+> > > > to really know if this would work, but:
+> > > >
+> > > > What if shared guest memory could also be file-backed, either in the
+> > > > same fd or with a second fd covering the shared portion of a memslot?
+> > > > This would allow changes to the backing store (punching holes, etc) to
+> > > > be some without mmap_lock or host-userspace TLB flushes?  Depending on
+> > > > what the guest is doing with its shared memory, userspace might need
+> > > > the memory mapped or it might not.
+> > >
+> > > That's what I'm angling for with the F_SEAL_FAULT_ALLOCATIONS idea.  The issue,
+> > > unless I'm misreading code, is that punching a hole in the shared memory backing
+> > > store doesn't prevent reallocating that hole on fault, i.e. a helper process that
+> > > keeps a valid mapping of guest shared memory can silently fill the hole.
+> > >
+> > > What we're hoping to achieve is a way to prevent allocating memory without a very
+> > > explicit action from userspace, e.g. fallocate().
+> > 
+> > Ah, I misunderstood.  I thought your goal was to mmap it and prevent
+> > page faults from allocating.
 
-> Came across below link about QEMU to pass acpi tables to guest OS.
-> https://wiki.qemu.org/Features/ACPITableGeneration
+I don't think you misunderstood, that's also one of the goals.  The use case is
+that multiple processes in the host mmap() guest memory, and we'd like to be able
+to punch a hole without having to rendezvous with all processes and also to prevent
+an unintentional re-allocation.
 
-that link a bit outdated (project was completed but than later QEMU
-moved on to built-in library for composing ACPI tables)
+> I think we still need the mmap, but want to prevent allocating when
+> userspace touches previously mmaped area that has never filled the page.
 
-> Can I get more docs with respect to acpi tables/devices passing to guest OS
-> from hypervisor or dom0?
+Yes, or if a chunk was filled at some point but then was removed via PUNCH_HOLE.
+
+> I don't have clear answer if other operations like read/write should be
+> also prevented (probably yes). And only after an explicit fallocate() to
+> allocate the page these operations would act normally.
+
+I always forget about read/write.  I believe reads should be ok, the semantics of
+holes are that they return zeros, i.e. can use ZERO_PAGE() and not allocate a new
+backing page.  Not sure what to do about writes though.  Allocating on direct writes
+might be ok for our use case, but that could also result in a rather wierd API.
+
+> > It is indeed the case (and has been since before quite a few of us
+> > were born) that a hole in a sparse file is logically just a bunch of
+> > zeros.  A way to make a file for which a hole is an actual hole seems
+> > like it would solve this problem nicely.  It could also be solved more
+> > specifically for KVM by making sure that the private/shared mode that
+> > userspace programs is strict enough to prevent accidental allocations
+> > -- if a GPA is definitively private, shared, neither, or (potentially,
+> > on TDX only) both, then a page that *isn't* shared will never be
+> > accidentally allocated by KVM.
 > 
-> Looking for an example how an asl file which gets added in the SSDT table
-> can be passed to the guest OS with the help of QEMU.
+> KVM is clever enough to not allocate since it knows a GPA is shared or
+> not. This case it's the host userspace that can cause the allocating and
+> is too complex to check on every access from guest.
 
+Yes, KVM is not in the picture at all.  KVM won't trigger allocation, but KVM also
+is not in a position to prevent userspace from touching memory.
 
-You can look at AML library QEMU utilizes currently to build DSDT/SSDT tables
-  ./hw/acpi/aml-build.c
-  ./include/hw/acpi/aml-build.h
-
-and see build_dsdt* functions for examples how it's used to compose tables.
-
+> > If the shared backing is not mmapped,
+> > it also won't be accidentally allocated by host userspace on a stray
+> > or careless write.
 > 
-> 
-> 
-> *Thanks & RegardsRitul Guru+91-9916513186*
+> As said above, mmap is still prefered, otherwise too many changes are
+> needed for usespace VMM.
 
+Forcing userspace to change doesn't bother me too much, the biggest concern is
+having to take mmap_lock for write in a per-host process.
 
