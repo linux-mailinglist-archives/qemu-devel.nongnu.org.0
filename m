@@ -2,72 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4B554C3B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 10:41:52 +0200 (CEST)
-Received: from localhost ([::1]:53016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720B354C40D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 10:59:01 +0200 (CEST)
+Received: from localhost ([::1]:34000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Ob1-0002uD-OS
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 04:41:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43986)
+	id 1o1Orb-00038D-CB
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 04:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1OQL-0008OL-6g
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:30:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1OQF-0001fy-4G
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:30:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655281842;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=lzWVaX6Uc1tiuuYdmyYal5m3c2ntd347F1ZpfaQ5ZH8=;
- b=HucAXdHK9AIQsfJ7IW31m1UxZNOD9Vv3s3SULLbWhAhIG6OHZDUPgDlN8JTnUGQvRRV9FK
- PfLk4TE2ItxzJ9MGtKgWevE+u3TTYnNDsE5L0cpq5RPI/3sVlVtPrZD//8K8iid+YSAzzy
- PKDfVqeA1sXEpokks4yjIk0bNM9lNC0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-dqVHcqMzORu9XCEKqUi7-A-1; Wed, 15 Jun 2022 04:30:40 -0400
-X-MC-Unique: dqVHcqMzORu9XCEKqUi7-A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DF5283397E;
- Wed, 15 Jun 2022 08:30:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 082BB1131D;
- Wed, 15 Jun 2022 08:30:38 +0000 (UTC)
-Date: Wed, 15 Jun 2022 09:30:36 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Programmingkid <programmingkidx@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 0/4] cutils: Introduce bundle mechanism
-Message-ID: <YqmYrFjshfAopt3A@redhat.com>
-References: <20220614210746.78911-1-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o1OYu-0004b1-V0
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:39:44 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o1OYr-00084z-6f
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 04:39:39 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id m24so14317403wrb.10
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 01:39:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7Ie6VNmwmFTKFn95rJd664vk44nKnPaghFlxACJQHH0=;
+ b=M6Aq5Wr8QVnHCx3PyWXdie4ut2OGBV88+yCE5cSo7iRnQ/LpS6Xr5d5o9YHsKm2dts
+ kAAGkzOcfVmuU1TxRU52Tmuij7R9HaLZ/4Xava71xFyEw3e61956hMerBuMhBSKc/d5g
+ HBQKtYtvQze4b9ELJEtuVdy/AFKuMjZglnKHF8DcA7xF4BKbuMVjy2nOy9MjOgTcHg2i
+ 4HnN7LbgRJrZJBycJoKJI+uiuR1ZhY/sEeIbbEVzcKbkTUFuFNlB4zMnwCoj3qpBNJpJ
+ q4YUtzUCelQ1kM9n4vIcLLKM8bnCvHAFjwI23CeDO23+BnoJbDg0O3o0TrdZU1qK/BAx
+ 8IKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7Ie6VNmwmFTKFn95rJd664vk44nKnPaghFlxACJQHH0=;
+ b=l4FVz+4wDd7vK6JppNChptqmo6HNzgBitInwxj2YSW0PqzrVxN3QXLLotfui5leM8F
+ R6YCGODAd8ibGgFre8aCNYD0WOF4eOMlUIld9ob83jrBhJLuT7DeBrprePYf8BJYBrH0
+ 2C/Wu/8z110SH+1fwQQ3Uxah2oRAzxZvuSSFg6oU1Es/OID0Drz1fKEBkjnoTEJcFTuk
+ 2+JK0kLAsB7mPSruLfVqkflzu0IXohZ6/+jaee+MA0svypc+X2HB/Wst/eOGmehr02k8
+ 1NY8JrLVo8ScITPR3JXTtlLS2KF7zHiO5qqDgmdB3WkRQeFFBlPXEisK+zFnE/N3/+FO
+ LHOw==
+X-Gm-Message-State: AJIora/lsDtptnxvxaAso96OGWoYkYB51VcBwU36FaGhaKHpw8+2f7eL
+ PUMXFnapDOMqRgQhZ9siVT8=
+X-Google-Smtp-Source: AGRyM1urYRShzZcyKijPipz08Rd8iRhOZoDphw+UYTaLwpkpDC5H7imYCd6P7uNlp/JPLOMSGXkUog==
+X-Received: by 2002:adf:dd8e:0:b0:213:bbe1:ba56 with SMTP id
+ x14-20020adfdd8e000000b00213bbe1ba56mr8961086wrl.559.1655282370595; 
+ Wed, 15 Jun 2022 01:39:30 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ v13-20020a5d610d000000b0020c5253d914sm14277710wrt.96.2022.06.15.01.39.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jun 2022 01:39:30 -0700 (PDT)
+Message-ID: <dc3cff18-e8ad-2817-d484-53f7197bf6f7@redhat.com>
+Date: Wed, 15 Jun 2022 10:39:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 0/4] cutils: Introduce bundle mechanism
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang
+ <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20220614210746.78911-1-akihiko.odaki@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 In-Reply-To: <20220614210746.78911-1-akihiko.odaki@gmail.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,11 +97,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 15, 2022 at 06:07:42AM +0900, Akihiko Odaki wrote:
+On 6/14/22 23:07, Akihiko Odaki wrote:
 > Developers often run QEMU without installing. The bundle mechanism
 > allows to look up files which should be present in installation even in
 > such a situation.
@@ -93,28 +109,48 @@ On Wed, Jun 15, 2022 at 06:07:42AM +0900, Akihiko Odaki wrote:
 > to the installation tree. The build tree must have a new directory,
 > qemu-bundle, to represent what files the installation tree would
 > have for reference by the executables.
+> 
+> v4:
+> * Add Daniel P. Berrangé to CC. Hopefully this helps merging his patch:
+>    https://mail.gnu.org/archive/html/qemu-devel/2022-06/msg02276.html
+> * Rebased to the latest QEMU.
+> 
+> v3:
+> * Note that the bundle mechanism is for any files located relative to the
+>    installation tree including but not limited to datadir. (Peter Maydell)
+> * Fix "bridge" typo (Philippe Mathieu-Daudé)
+> 
+> v2: Rebased to the latest QEMU.
 
-I don't think this is an attractive approach to the problem,
-because it results in us adding a bunch of meson rules to
-simulate 'make install' within the build dir. This is undesirable
-clutter IMHO, and can be solved more simply by just modifying the
-qemu_find_file() method.
+I like the idea, but I have a couple issues with the implementation:
 
-The core problem is the impl of qemu_find_file is taking the wrong
-approach, in several ways, but mostly because of its use of a single
-'data_dirs' array for all types of file. This is bad because it
-has the assumption that build dir and install dir layouts match,
-and second because when we add extra firmware data dirs, we don't
-want this used for non-firmware files.
+- at the meson level, there is some repetition of mkdir and ln 
+run_commands.  Perhaps you could just fill in a dictionary, and then do 
+something like
 
-We need to separate out the handling of different types of resources
-for this to work correctly.
+   created_paths = {}
+   foreach source, dest: var
+     path = fs.parent(qemu_bundledir / dest)
+     created_paths += {path: true}
+   endforeach
+   run_command('mkdir', '-p', created_paths.keys())
+   foreach source, dest: var
+     run_command('ln', '-sf', meson.project_source_root() / source,
+                 qemu_bundledir / dest)
+   endforeach
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+at the end of the toplevel meson.build.
 
+- at the code level, it seems to me that this could reuse a lot of the 
+logic of get_relocated_path().  In particular, I would include $prefix 
+in the qemu_bundledir, so that the files in the bundle directory would 
+look like qemu-bundle/usr/share/qemu/bios.bin: just like an install that 
+uses DESTDIR.  Then, if an uninstalled QEMU somehow returns 
+$exec_path/qemu-bundle/$prefix/$bindir for qemu_get_exec_dir() instead 
+of $exec_path, then get_relocated_path() will automatically return the 
+correct paths from qemu-bundle/.
+
+Thanks,
+
+Paolo
 
