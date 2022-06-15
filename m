@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34F954D1F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 21:49:19 +0200 (CEST)
-Received: from localhost ([::1]:44828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 740C154D186
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 21:25:50 +0200 (CEST)
+Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Z0w-0001nN-S2
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 15:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
+	id 1o1YeD-0004Fh-A5
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 15:25:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.coutinho@eldorado.org.br>)
- id 1o1Yrc-0002o1-D6; Wed, 15 Jun 2022 15:39:41 -0400
-Received: from [187.72.171.209] (port=28423 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.coutinho@eldorado.org.br>)
- id 1o1Yra-0001AM-Dm; Wed, 15 Jun 2022 15:39:39 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 15 Jun 2022 16:20:39 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 071948001F1;
- Wed, 15 Jun 2022 16:20:39 -0300 (-03)
-From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org,
- Lucas Coutinho <lucas.coutinho@eldorado.org.br>
-Subject: [PATCH 11/11] target/ppc: Implement slbiag
-Date: Wed, 15 Jun 2022 16:20:06 -0300
-Message-Id: <20220615192006.3075821-12-lucas.coutinho@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220615192006.3075821-1-lucas.coutinho@eldorado.org.br>
-References: <20220615192006.3075821-1-lucas.coutinho@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
+ id 1o1Yby-0002pV-NO
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 15:23:30 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:34737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
+ id 1o1Ybx-0002qm-6y
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 15:23:30 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id p13so22270345ybm.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 12:23:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GwdiFAzg9OyCm6z6rzXhnezmvKsswS+TyH70/5WuJ9g=;
+ b=hjzFBiAXvhahTi+HNSsSMC65YPg8YRjsrFoX/aoFi89Dvh2B4Bvm14FHxDXh1idnt0
+ wwLVckSx+iK3awkRdK1PKQ66UR51qj0W8zruJaa3aT54Q6+DwEubFVAtQI/OXgadpcIG
+ x680qucbhA696HWXo7bpqPWAV6YrIH1FhOcj7KlzyZDxqcSxxZ1zV4YC2k5TabEUW/4/
+ nwX9n7IruPILU03DnJz5lVcBkZ25rbFmaFGK5XDVcQOWSLesPOoFDY0gCgOvrvlVq8Tz
+ vFiLd8Icul1zToZdUpasekw9pM35ET8uwsYxYjvjUW6Py+zfMLUBMI2Yrp28CHAEUqB2
+ O+xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GwdiFAzg9OyCm6z6rzXhnezmvKsswS+TyH70/5WuJ9g=;
+ b=8GozR5D977f4vI+ueeVysg9rs2hVrS3PurVI/rPmSq1Pqsbo6LLiOrv6HMZgGftuOr
+ 1Y7V+3XZh9ZHOZStfI//Ppc7PLUvplTz9MiwDhnZPHbjgSQBuneM4GpjnNk4Tkg4ZPZP
+ 44yu9pRMgZ+9uWSVYJ/WGAARLEKHdpY5evEIgbEJwV9Gailu5bw+x1qMwmJUwIRZs/3t
+ kLDUo5Ym2dWb4UhG7iYo9FZqJf4/BdTT0PyyAQ3u6HiiPcoLdGGjv+RYMSee3GjK+vfV
+ +/qlcJ04ea1GxS/u/AQgokReFukPxnsvWOOuSVPjF9OEdppq2BNu22G9TyoW6p3uOm/x
+ GsIQ==
+X-Gm-Message-State: AJIora8XcC7kLEB6JeeP50NPf0nk4kOx9TnHz6MM3NfLQmIYcInOQIdB
+ xldIEzeQM/Kw4BnBTOOs9HGAk6PFFM3Hf7NawqofUA==
+X-Google-Smtp-Source: AGRyM1uBXEZ2zHXRW3bp7/YftqDDJMIA/WGGDyD7sU+99HEc/npns1jXfVPc2CZzzHdZOC9UqlvpH2xj2+ycQtZcvMQ=
+X-Received: by 2002:a25:b5c1:0:b0:664:5a43:61a0 with SMTP id
+ d1-20020a25b5c1000000b006645a4361a0mr1528549ybg.321.1655321006399; Wed, 15
+ Jun 2022 12:23:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Jun 2022 19:20:39.0401 (UTC)
- FILETIME=[FF764D90:01D880EC]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.coutinho@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <CAAH4kHYyXv3x+89Ybnj7GXms2Bz2CNn5JK0+d6DzVtMz5owTrw@mail.gmail.com>
+ <PH0PR11MB50643B5AEE5A399EB8AFB000C5AD9@PH0PR11MB5064.namprd11.prod.outlook.com>
+ <20220615073337.jq654i7ba33xttwh@sirius.home.kraxel.org>
+In-Reply-To: <20220615073337.jq654i7ba33xttwh@sirius.home.kraxel.org>
+From: Dionna Amalie Glaze <dionnaglaze@google.com>
+Date: Wed, 15 Jun 2022 12:23:15 -0700
+Message-ID: <CAAH4kHabyqiWL=yP94OvGhauPy3rv2zGq0w+3Be_rVGm8=y38g@mail.gmail.com>
+Subject: Re: New "IndustryStandard" fw_cfg?
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: "Xu, Min M" <min.m.xu@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Yao,
+ Jiewen" <jiewen.yao@intel.com>, 
+ "Li, Xiaoyao" <xiaoyao.li@intel.com>, "Aktas, Erdem" <erdemaktas@google.com>, 
+ "Yamahata, Isaku" <isaku.yamahata@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=dionnaglaze@google.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,112 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
----
- target/ppc/helper.h                          |  1 +
- target/ppc/insn32.decode                     |  4 +++
- target/ppc/mmu-hash64.c                      | 27 ++++++++++++++++++++
- target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++
- 4 files changed, 46 insertions(+)
+> > > For Qemu, the main code I see for adding config is here, but I'm not sure
+> > > what y'all's preferred external configuration method is to get a value from an
+>
+> Ideally no external configuration, although I suspect we need something
+> at least temporarily.
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index de7bf9f175..4287f41880 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -687,6 +687,7 @@ DEF_HELPER_2(SLBMFEE, tl, env, tl)
- DEF_HELPER_2(SLBMFEV, tl, env, tl)
- DEF_HELPER_2(SLBFEE, tl, env, tl)
- DEF_HELPER_FLAGS_2(SLBIA, TCG_CALL_NO_RWG, void, env, i32)
-+DEF_HELPER_FLAGS_3(SLBIAG, TCG_CALL_NO_RWG, void, env, tl, i32)
- DEF_HELPER_FLAGS_2(SLBIE, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_FLAGS_2(SLBIEG, TCG_CALL_NO_RWG, void, env, tl)
- #endif
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index f7ebca578b..b36a093828 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -137,6 +137,9 @@
- &X_rb           rb
- @X_rb           ...... ..... ..... rb:5 .......... .            &X_rb
- 
-+&X_rs_l         rs l:bool
-+@X_rs_l         ...... rs:5 .... l:1 ..... .......... .         &X_rs_l
-+
- &X_uim5         xt uim:uint8_t
- @X_uim5         ...... ..... ..... uim:5 .......... .           &X_uim5 xt=%x_xt
- 
-@@ -799,6 +802,7 @@ SLBIE           011111 ----- ----- ..... 0110110010 -   @X_rb
- SLBIEG          011111 ..... ----- ..... 0111010010 -   @X_tb
- 
- SLBIA           011111 --... ----- ----- 0111110010 -   @X_ih
-+SLBIAG          011111 ..... ----. ----- 1101010010 -   @X_rs_l
- 
- SLBMTE          011111 ..... ----- ..... 0110010010 -   @X_tb
- 
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 7ec7a67a78..b9b31fd276 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -173,6 +173,33 @@ void helper_SLBIA(CPUPPCState *env, uint32_t ih)
-     }
- }
- 
-+#if defined(TARGET_PPC64)
-+void helper_SLBIAG(CPUPPCState *env, target_ulong rs, uint32_t l)
-+{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+    int n;
-+
-+    /*
-+     * slbiag must always flush all TLB (which is equivalent to ERAT in ppc
-+     * architecture). Matching on SLB_ESID_V is not good enough, because slbmte
-+     * can overwrite a valid SLB without flushing its lookaside information.
-+     *
-+     * It would be possible to keep the TLB in synch with the SLB by flushing
-+     * when a valid entry is overwritten by slbmte, and therefore slbiag would
-+     * not have to flush unless it evicts a valid SLB entry. However it is
-+     * expected that slbmte is more common than slbiag, and slbiag is usually
-+     * going to evict valid SLB entries, so that tradeoff is unlikely to be a
-+     * good one.
-+     */
-+    env->tlb_need_flush |= TLB_NEED_LOCAL_FLUSH;
-+
-+    for (n = 0; n < cpu->hash64_opts->slb_size; n++) {
-+        ppc_slb_t *slb = &env->slb[n];
-+        slb->esid &= ~SLB_ESID_V;
-+    }
-+}
-+#endif
-+
- static void __helper_slbie(CPUPPCState *env, target_ulong addr,
-                            target_ulong global)
- {
-diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
-index c90cad10b4..6a4ba4089e 100644
---- a/target/ppc/translate/storage-ctrl-impl.c.inc
-+++ b/target/ppc/translate/storage-ctrl-impl.c.inc
-@@ -63,6 +63,20 @@ static bool trans_SLBIA(DisasContext *ctx, arg_SLBIA *a)
-     return true;
- }
- 
-+static bool trans_SLBIAG(DisasContext *ctx, arg_SLBIAG *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_SV(ctx);
-+
-+#if !defined(CONFIG_USER_ONLY) && defined(TARGET_PPC64)
-+    gen_helper_SLBIAG(cpu_env, cpu_gpr[a->rs], tcg_constant_i32(a->l));
-+#else
-+    qemu_build_not_reached();
-+#endif
-+    return true;
-+}
-+
- static bool trans_SLBMTE(DisasContext *ctx, arg_SLBMTE *a)
- {
-     REQUIRE_64BIT(ctx);
+Yes, whereas TDX can assume unaccepted memory is supported as part of
+its "TDX support" set of capabilities an OS has, SEV-SNP has already
+been released and is supported. We therefore need to not break
+existing images that "support SEV-SNP".
+
+>
+> IMHO the long-term goal should be to make this fully automatic, by
+> having efi apps (which includes the linux kernel's efi stub) and
+> firmware negotiate this.  Problem is this most likely requires changing
+> the uefi specs, which will take a while.
+>
+> One possible way I see is extending efi boot services with a
+> GetMemoryMapEx() call, with an additional flags parameter where the
+> caller can specify that it can handle unaccepted memory with a flag
+> bit.  When the guest does not set the flag (or uses the old GetMemoryMap
+> call) the firmware must accept all memory and return a memory map
+> without unaccepted memory.
+
+To allow for future weird memory extensions, I'd recommend this being
+a struct with initial size field, but yes.
+Sounds like a new UEFI spec would be needed for this negotiation.
+
+>
+> > > 2. A "well-known" file path to be included in the file slots starting at 0x0020,
+> > > such as "etc/min_accepted_mem_size", still plumbed through like in 1.
+>
+> New options should use a file path.
+>
+> See also docs/specs/fw_cfg.txt in qemu source tree.
+>
+
+Thanks for this.
+
+> take care,
+>   Gerd
+>
+
+
 -- 
-2.25.1
-
+-Dionna Glaze, PhD (she/her)
 
