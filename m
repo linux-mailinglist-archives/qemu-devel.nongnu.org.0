@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1178F54C9A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 15:20:29 +0200 (CEST)
-Received: from localhost ([::1]:51826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E045154C97F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 15:14:13 +0200 (CEST)
+Received: from localhost ([::1]:44338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Swd-0002hF-VZ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 09:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46690)
+	id 1o1Sqa-00057p-Vi
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 09:14:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1Slq-0007dw-GI
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:09:18 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1Slo-0007TW-Ox
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:09:18 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id gd1so11220178pjb.2
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 06:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CzkQvOR6mj7YcW3f1bR2W0lXisdBjAOjyBnrfHspMUo=;
- b=kuw7vK5lFt+G7x8AWx29qHblGnWN/jbMzpB1ZvVpbPZ5UjGCtL1FuGcDPcrqn3Qd1w
- cywo5Wz2bhD2zEmyPD2Cp0fWjoD50ie2TjVVuBZ0hTArUyJldDJtYZzJ6iY/twoBi5OG
- /1c2EMJPCj9pQcwjUG/NeNOZH9FLUGspnRxkZL9qcqFZnNYLrTMZeCnbMFOFQrL3K4eo
- NI3weadVETdD1BqCoLGRygIo4kdpI5gR4krcLVEJsJEtsMFgoLXiPXcx/BSU5sVsD1kV
- hDqhQp7pv4XuFl/JTBRVj8hf4prSU8CPLwRs0o9lezXkC5AR/+TlZY+9fOh+XuP8KblR
- UKKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CzkQvOR6mj7YcW3f1bR2W0lXisdBjAOjyBnrfHspMUo=;
- b=SbIWQn1Mg8em/4ryMJM0HVwWFPLqtcZHZq9glUsY6y7whzSMi0EtwLLKTUxsbT5mu0
- irY1Bm8LsbqBuSG9Srnvtmy8zkKJjc4v2I1zvpCN1YxuDXAgF9CSJwoXbS82DXCVpwi5
- ZwFLF1ZVqrw1t586yDZImPI2gO8YWt6kF0vyNIjFPds4662dkcrTEgSWTNVfunWqRwfY
- 1UcY8GeDd3fuoiR0QkZZ86Ye7rDyquMNh1bYlvpn5nBsFBNEK/9b6MS/jtGzZzsBvXRC
- 68PHVDJfvUd02XlBZCAa1BGPQ5Rcp2B05W4O1bcriZLK61ZnX6/aJHbWZJVh4qMXsEk2
- kT7Q==
-X-Gm-Message-State: AJIora/Hhf9L5+jVm+q7U5Oo0NLfkvF7Yw8PWwj3Xa9G7li/iKvKtVAX
- XI9ehGx9uyjRcc1PisqoeXo=
-X-Google-Smtp-Source: AGRyM1sE2+pp0l+mWxMeccjU9CpsmLg3As1JMbc59oXBa7awMBOT+mxzzSN0ofPpNouXo3GaJGXRNA==
-X-Received: by 2002:a17:90a:de90:b0:1ea:7efe:e59a with SMTP id
- n16-20020a17090ade9000b001ea7efee59amr10002075pjv.115.1655298555547; 
- Wed, 15 Jun 2022 06:09:15 -0700 (PDT)
-Received: from localhost.localdomain ([2400:4050:c360:8200:4126:b1a8:8fce:1a8])
- by smtp.gmail.com with ESMTPSA id
- f12-20020a170902684c00b0016392bd5060sm9278448pln.142.2022.06.15.06.09.12
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Jun 2022 06:09:15 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o1Sni-0002BT-3K
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:11:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o1Sna-0000C0-7S
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 09:11:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655298664;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8vU0i5IteNW7CS6utQ3JOqJYGAiwGE3XYxqE366cbsQ=;
+ b=QaX3UIlUWTV5o28RgBVTHmf8cw2VPp1mdW0kwIHGq1WD1QrcZnN91dg8CIlKcb5CZAEDWc
+ DLVa50iHTJqRAQI1n9ZTgJcspxVJFDEeykYxOJiYZ6BASOUOTDO5yIjcqmSS2zU5TMeYIz
+ smvRGaZGggPM913kWm9KnKVdurbLCes=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-403-EfUbOI6JP_-jOlV4FbiBZQ-1; Wed, 15 Jun 2022 09:11:00 -0400
+X-MC-Unique: EfUbOI6JP_-jOlV4FbiBZQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E1F53C0F725;
+ Wed, 15 Jun 2022 13:11:00 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0965C28112;
+ Wed, 15 Jun 2022 13:10:58 +0000 (UTC)
+Date: Wed, 15 Jun 2022 14:10:57 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Andrey Ryabinin <arbn@yandex-team.com>
+Cc: qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v5 4/4] net: Use bundle mechanism
-Date: Wed, 15 Jun 2022 22:08:45 +0900
-Message-Id: <20220615130845.32674-5-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
-In-Reply-To: <20220615130845.32674-1-akihiko.odaki@gmail.com>
-References: <20220615130845.32674-1-akihiko.odaki@gmail.com>
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, yc-core@yandex-team.ru
+Subject: Re: [PATCH 0/2] Make local migration with TAP network device possible
+Message-ID: <YqnaYfYxv0yPCmpP@stefanha-x1.localdomain>
+References: <20220614111843.24960-1-arbn@yandex-team.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yFpjpLS5bgghq3Jm"
+Content-Disposition: inline
+In-Reply-To: <20220614111843.24960-1-arbn@yandex-team.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,89 +85,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- include/net/net.h | 2 +-
- meson.build       | 4 +++-
- net/tap.c         | 6 +++++-
- qemu-options.hx   | 4 ++--
- 4 files changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/include/net/net.h b/include/net/net.h
-index 523136c7acb..4a5ed27a4b7 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -228,7 +228,7 @@ NetClientState *net_hub_port_find(int hub_id);
- 
- #define DEFAULT_NETWORK_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifup"
- #define DEFAULT_NETWORK_DOWN_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifdown"
--#define DEFAULT_BRIDGE_HELPER CONFIG_QEMU_HELPERDIR "/qemu-bridge-helper"
-+#define DEFAULT_BUNDLE_BRIDGE_HELPER CONFIG_QEMU_BUNDLE_HELPERDIR "/qemu-bridge-helper"
- #define DEFAULT_BRIDGE_INTERFACE "br0"
- 
- void qdev_set_nic_properties(DeviceState *dev, NICInfo *nd);
-diff --git a/meson.build b/meson.build
-index e17c1ebc1c9..909c8a3c63d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1686,7 +1686,7 @@ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_c
- config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_DATADIR', qemu_datadir)
- config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
- config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('prefix') / get_option('qemu_firmwarepath'))
--config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
-+config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_HELPERDIR', get_option('libexecdir'))
- config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_ICONDIR', qemu_icondir)
- config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
- config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') / get_option('localstatedir'))
-@@ -3575,6 +3575,8 @@ if have_tools
-                dependencies: [authz, crypto, io, qom, qemuutil,
-                               libcap_ng, mpathpersist],
-                install: true)
-+
-+    bundles += { get_option('libexecdir') / 'qemu-bridge-helper': '../../qemu-bridge-helper' }
-   endif
- 
-   if have_ivshmem
-diff --git a/net/tap.c b/net/tap.c
-index b3ddfd4a74b..ea013ca3873 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -507,7 +507,11 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
-     sigprocmask(SIG_BLOCK, &mask, &oldmask);
- 
-     if (!helper) {
--        helper = default_helper = get_relocated_path(DEFAULT_BRIDGE_HELPER);
-+        helper = default_helper = find_bundle(DEFAULT_BUNDLE_BRIDGE_HELPER);
-+        if (!helper) {
-+            error_setg(errp, "bridge helper not found");
-+            return -1;
-+        }
-     }
- 
-     if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22fbd82..1959db01061 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2665,7 +2665,7 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "                to configure it and 'dfile' (default=" DEFAULT_NETWORK_DOWN_SCRIPT ")\n"
-     "                to deconfigure it\n"
-     "                use '[down]script=no' to disable script execution\n"
--    "                use network helper 'helper' (default=" DEFAULT_BRIDGE_HELPER ") to\n"
-+    "                use network helper 'helper' (default=" DEFAULT_BUNDLE_BRIDGE_HELPER ") to\n"
-     "                configure it\n"
-     "                use 'fd=h' to connect to an already opened TAP interface\n"
-     "                use 'fds=x:y:...:z' to connect to already opened multiqueue capable TAP interfaces\n"
-@@ -2684,7 +2684,7 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "-netdev bridge,id=str[,br=bridge][,helper=helper]\n"
-     "                configure a host TAP network backend with ID 'str' that is\n"
-     "                connected to a bridge (default=" DEFAULT_BRIDGE_INTERFACE ")\n"
--    "                using the program 'helper (default=" DEFAULT_BRIDGE_HELPER ")\n"
-+    "                using the program 'helper (default=" DEFAULT_BUNDLE_BRIDGE_HELPER ")\n"
- #endif
- #ifdef __linux__
-     "-netdev l2tpv3,id=str,src=srcaddr,dst=dstaddr[,srcport=srcport][,dstport=dstport]\n"
--- 
-2.32.1 (Apple Git-133)
+--yFpjpLS5bgghq3Jm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 14, 2022 at 02:18:41PM +0300, Andrey Ryabinin wrote:
+> Hi
+>=20
+> These couple patches aims to  make possible local migration (within one h=
+ost)
+> on the same TAP device used by source and destination QEMU
+>=20
+> The scenario looks like this
+>  1. Create TAP devices and pass file descriptors to source QEMU
+>  2. Launch destination QEMU (-incoming defer) and pass same descriptors t=
+o it.
+>  3. Start migration
+>=20
+>=20
+> Regarding the first patch: It makes possible to receive file descriptor i=
+n non-blocking
+> state. But I probably didn't cover all FD users which might need to set b=
+locking state after
+> the patch. So I'm hopping for the hints where else, besides fd_start_inco=
+ming_migration()
+> I need to put qemu_socket_set_block() calls.
+
+Nice feature. I am worried that these patches are unsafe/incomplete
+though.
+
+Tap local migration isn't explicitly visible in the code. How will other
+developers know the feature is there and how to avoid breaking it when
+modifying the code? Maybe a migration test case, comments that explain
+the rules about accessing the tap fd, and/or assertions?
+
+How does this interact with hw/net/vhost_net.c, which uses tap_get_fd()
+to borrow the fd? I guess the idea is that the source VM is paused and
+no tap activity is expected. Then migration handover happens and the
+destination VM starts running and is allowed to access the tap fd.
+However, the source VM still has vhost_net with the tap fd set up. I
+wonder if there is any issue with interference between the two vhost_net
+instances?
+
+These kinds of questions should be answered, mostly in the code but also
+in the cover letter. It should be clear why this approach is correct.
+
+Thanks,
+Stefan
+
+>=20
+>=20
+> Andrey Ryabinin (2):
+>   chardev: don't set O_NONBLOCK on SCM_RIGHTS file descriptors.
+>   tap: initialize TAPState->enabled according to the actual state of
+>     queue
+>=20
+>  chardev/char-socket.c |  3 ---
+>  io/channel-socket.c   |  3 ---
+>  migration/fd.c        |  2 ++
+>  net/tap-bsd.c         |  5 +++++
+>  net/tap-linux.c       | 12 ++++++++++++
+>  net/tap-solaris.c     |  5 +++++
+>  net/tap.c             |  2 +-
+>  net/tap_int.h         |  1 +
+>  8 files changed, 26 insertions(+), 7 deletions(-)
+>=20
+> --=20
+> 2.35.1
+>=20
+
+--yFpjpLS5bgghq3Jm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKp2mEACgkQnKSrs4Gr
+c8ik4Af+Kag49awcmdft9M1BDMP8CzwWKPaoFm7kEl0OuHfUQJsO6UoR+yfPw0AR
+C2urXhKt06P0F7+DJzahAGGfLnd3Td7TteuAoAHGjVuP1qvZ8tHR2kouAKB+vjUv
+HFUFIsK93gwrLg2vCI6nwnjbDNpo/jQRMjRU6bmHYo1BSN5c9tr//BB/aoEVA6L6
+ac4xjHXjcN/IB7R+Oks5rEtakE1Jidz/v++mN6Rj0PFySUkCfI4JASqAnPpZtqU5
+i3jFbx0+HB9ZC+1uGvnq0HdUkdANZKv+T/K3ixH8z/crkvLrGUICeIiUcCTJlGQ4
+1XAjvZupk4v5XmYQ0E1LJc6abSVv5g==
+=omhr
+-----END PGP SIGNATURE-----
+
+--yFpjpLS5bgghq3Jm--
 
 
