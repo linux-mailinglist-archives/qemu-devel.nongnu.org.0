@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DA054D1D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 21:43:55 +0200 (CEST)
-Received: from localhost ([::1]:37460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34F954D1F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 21:49:19 +0200 (CEST)
+Received: from localhost ([::1]:44828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Yvh-00057x-W1
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 15:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42912)
+	id 1o1Z0w-0001nN-S2
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 15:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.coutinho@eldorado.org.br>)
- id 1o1YqQ-000226-KP; Wed, 15 Jun 2022 15:38:26 -0400
-Received: from [187.72.171.209] (port=43830 helo=outlook.eldorado.org.br)
+ id 1o1Yrc-0002o1-D6; Wed, 15 Jun 2022 15:39:41 -0400
+Received: from [187.72.171.209] (port=28423 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.coutinho@eldorado.org.br>)
- id 1o1YqO-0000ee-86; Wed, 15 Jun 2022 15:38:26 -0400
+ id 1o1Yra-0001AM-Dm; Wed, 15 Jun 2022 15:39:39 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 15 Jun 2022 16:20:36 -0300
+ Wed, 15 Jun 2022 16:20:39 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 9592F8001F1;
- Wed, 15 Jun 2022 16:20:36 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 071948001F1;
+ Wed, 15 Jun 2022 16:20:39 -0300 (-03)
 From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  Lucas Coutinho <lucas.coutinho@eldorado.org.br>
-Subject: [PATCH 09/11] target/ppc: Move slbfee to decodetree
-Date: Wed, 15 Jun 2022 16:20:04 -0300
-Message-Id: <20220615192006.3075821-10-lucas.coutinho@eldorado.org.br>
+Subject: [PATCH 11/11] target/ppc: Implement slbiag
+Date: Wed, 15 Jun 2022 16:20:06 -0300
+Message-Id: <20220615192006.3075821-12-lucas.coutinho@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220615192006.3075821-1-lucas.coutinho@eldorado.org.br>
 References: <20220615192006.3075821-1-lucas.coutinho@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Jun 2022 19:20:37.0011 (UTC)
- FILETIME=[FE099E30:01D880EC]
+X-OriginalArrivalTime: 15 Jun 2022 19:20:39.0401 (UTC)
+ FILETIME=[FF764D90:01D880EC]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.coutinho@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,141 +65,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
 ---
- target/ppc/helper.h                          |  2 +-
- target/ppc/insn32.decode                     |  2 ++
- target/ppc/mmu-hash64.c                      |  2 +-
- target/ppc/translate.c                       | 26 ---------------
- target/ppc/translate/storage-ctrl-impl.c.inc | 34 ++++++++++++++++++++
- 5 files changed, 38 insertions(+), 28 deletions(-)
+ target/ppc/helper.h                          |  1 +
+ target/ppc/insn32.decode                     |  4 +++
+ target/ppc/mmu-hash64.c                      | 27 ++++++++++++++++++++
+ target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++
+ 4 files changed, 46 insertions(+)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 271dd585e0..de7bf9f175 100644
+index de7bf9f175..4287f41880 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -685,7 +685,7 @@ DEF_HELPER_FLAGS_4(tlbie_isa300, TCG_CALL_NO_WG, void, \
- DEF_HELPER_FLAGS_3(SLBMTE, TCG_CALL_NO_RWG, void, env, tl, tl)
- DEF_HELPER_2(SLBMFEE, tl, env, tl)
+@@ -687,6 +687,7 @@ DEF_HELPER_2(SLBMFEE, tl, env, tl)
  DEF_HELPER_2(SLBMFEV, tl, env, tl)
--DEF_HELPER_2(find_slb_vsid, tl, env, tl)
-+DEF_HELPER_2(SLBFEE, tl, env, tl)
+ DEF_HELPER_2(SLBFEE, tl, env, tl)
  DEF_HELPER_FLAGS_2(SLBIA, TCG_CALL_NO_RWG, void, env, i32)
++DEF_HELPER_FLAGS_3(SLBIAG, TCG_CALL_NO_RWG, void, env, tl, i32)
  DEF_HELPER_FLAGS_2(SLBIE, TCG_CALL_NO_RWG, void, env, tl)
  DEF_HELPER_FLAGS_2(SLBIEG, TCG_CALL_NO_RWG, void, env, tl)
+ #endif
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 22614ee915..34f0e3cbeb 100644
+index f7ebca578b..b36a093828 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -805,6 +805,8 @@ SLBMTE          011111 ..... ----- ..... 0110010010 -   @X_tb
- SLBMFEV         011111 ..... ----- ..... 1101010011 -   @X_tb
- SLBMFEE         011111 ..... ----- ..... 1110010011 -   @X_tb
+@@ -137,6 +137,9 @@
+ &X_rb           rb
+ @X_rb           ...... ..... ..... rb:5 .......... .            &X_rb
  
-+SLBFEE          011111 ..... ----- ..... 1111010011 1   @X_tb
++&X_rs_l         rs l:bool
++@X_rs_l         ...... rs:5 .... l:1 ..... .......... .         &X_rs_l
 +
- ## TLB Management Instructions
+ &X_uim5         xt uim:uint8_t
+ @X_uim5         ...... ..... ..... uim:5 .......... .           &X_uim5 xt=%x_xt
  
- &X_tlbie        rb rs ric prs:bool r:bool
+@@ -799,6 +802,7 @@ SLBIE           011111 ----- ----- ..... 0110110010 -   @X_rb
+ SLBIEG          011111 ..... ----- ..... 0111010010 -   @X_tb
+ 
+ SLBIA           011111 --... ----- ----- 0111110010 -   @X_ih
++SLBIAG          011111 ..... ----. ----- 1101010010 -   @X_rs_l
+ 
+ SLBMTE          011111 ..... ----- ..... 0110010010 -   @X_tb
+ 
 diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 5d73d64436..7ec7a67a78 100644
+index 7ec7a67a78..b9b31fd276 100644
 --- a/target/ppc/mmu-hash64.c
 +++ b/target/ppc/mmu-hash64.c
-@@ -331,7 +331,7 @@ target_ulong helper_SLBMFEE(CPUPPCState *env, target_ulong rb)
-     return rt;
+@@ -173,6 +173,33 @@ void helper_SLBIA(CPUPPCState *env, uint32_t ih)
+     }
  }
  
--target_ulong helper_find_slb_vsid(CPUPPCState *env, target_ulong rb)
-+target_ulong helper_SLBFEE(CPUPPCState *env, target_ulong rb)
++#if defined(TARGET_PPC64)
++void helper_SLBIAG(CPUPPCState *env, target_ulong rs, uint32_t l)
++{
++    PowerPCCPU *cpu = env_archcpu(env);
++    int n;
++
++    /*
++     * slbiag must always flush all TLB (which is equivalent to ERAT in ppc
++     * architecture). Matching on SLB_ESID_V is not good enough, because slbmte
++     * can overwrite a valid SLB without flushing its lookaside information.
++     *
++     * It would be possible to keep the TLB in synch with the SLB by flushing
++     * when a valid entry is overwritten by slbmte, and therefore slbiag would
++     * not have to flush unless it evicts a valid SLB entry. However it is
++     * expected that slbmte is more common than slbiag, and slbiag is usually
++     * going to evict valid SLB entries, so that tradeoff is unlikely to be a
++     * good one.
++     */
++    env->tlb_need_flush |= TLB_NEED_LOCAL_FLUSH;
++
++    for (n = 0; n < cpu->hash64_opts->slb_size; n++) {
++        ppc_slb_t *slb = &env->slb[n];
++        slb->esid &= ~SLB_ESID_V;
++    }
++}
++#endif
++
+ static void __helper_slbie(CPUPPCState *env, target_ulong addr,
+                            target_ulong global)
  {
-     PowerPCCPU *cpu = env_archcpu(env);
-     target_ulong rt = 0;
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index dc87316ce7..62f3c19e6a 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -5351,31 +5351,6 @@ static void gen_mtsrin_64b(DisasContext *ctx)
- #endif /* defined(CONFIG_USER_ONLY) */
- }
- 
--
--static void gen_slbfee_(DisasContext *ctx)
--{
--#if defined(CONFIG_USER_ONLY)
--    gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
--#else
--    TCGLabel *l1, *l2;
--
--    if (unlikely(ctx->pr)) {
--        gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
--        return;
--    }
--    gen_helper_find_slb_vsid(cpu_gpr[rS(ctx->opcode)], cpu_env,
--                             cpu_gpr[rB(ctx->opcode)]);
--    l1 = gen_new_label();
--    l2 = gen_new_label();
--    tcg_gen_trunc_tl_i32(cpu_crf[0], cpu_so);
--    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_gpr[rS(ctx->opcode)], -1, l1);
--    tcg_gen_ori_i32(cpu_crf[0], cpu_crf[0], CRF_EQ);
--    tcg_gen_br(l2);
--    gen_set_label(l1);
--    tcg_gen_movi_tl(cpu_gpr[rS(ctx->opcode)], 0);
--    gen_set_label(l2);
--#endif
--}
- #endif /* defined(TARGET_PPC64) */
- 
- /***                      Lookaside buffer management                      ***/
-@@ -6821,7 +6796,6 @@ GEN_HANDLER2(mfsrin_64b, "mfsrin", 0x1F, 0x13, 0x14, 0x001F0001,
- GEN_HANDLER2(mtsr_64b, "mtsr", 0x1F, 0x12, 0x06, 0x0010F801, PPC_SEGMENT_64B),
- GEN_HANDLER2(mtsrin_64b, "mtsrin", 0x1F, 0x12, 0x07, 0x001F0001,
-              PPC_SEGMENT_64B),
--GEN_HANDLER2(slbfee_, "slbfee.", 0x1F, 0x13, 0x1E, 0x001F0000, PPC_SEGMENT_64B),
- #endif
- GEN_HANDLER(tlbia, 0x1F, 0x12, 0x0B, 0x03FFFC01, PPC_MEM_TLBIA),
- /*
 diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
-index b169bd6317..260bce35ac 100644
+index c90cad10b4..6a4ba4089e 100644
 --- a/target/ppc/translate/storage-ctrl-impl.c.inc
 +++ b/target/ppc/translate/storage-ctrl-impl.c.inc
-@@ -105,6 +105,40 @@ static bool trans_SLBMFEE(DisasContext *ctx, arg_SLBMFEE *a)
+@@ -63,6 +63,20 @@ static bool trans_SLBIA(DisasContext *ctx, arg_SLBIA *a)
      return true;
  }
  
-+static bool trans_SLBFEE(DisasContext *ctx, arg_SLBFEE *a)
++static bool trans_SLBIAG(DisasContext *ctx, arg_SLBIAG *a)
 +{
 +    REQUIRE_64BIT(ctx);
-+    REQUIRE_INSNS_FLAGS(ctx, SEGMENT_64B);
++    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    REQUIRE_SV(ctx);
 +
-+#if defined(CONFIG_USER_ONLY)
-+    gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
-+#else
-+
-+#if defined(TARGET_PPC64)
-+    TCGLabel *l1, *l2;
-+
-+    if (unlikely(ctx->pr)) {
-+        gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
-+        return true;
-+    }
-+    gen_helper_SLBFEE(cpu_gpr[a->rt], cpu_env,
-+                             cpu_gpr[a->rb]);
-+    l1 = gen_new_label();
-+    l2 = gen_new_label();
-+    tcg_gen_trunc_tl_i32(cpu_crf[0], cpu_so);
-+    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_gpr[a->rt], -1, l1);
-+    tcg_gen_ori_i32(cpu_crf[0], cpu_crf[0], CRF_EQ);
-+    tcg_gen_br(l2);
-+    gen_set_label(l1);
-+    tcg_gen_movi_tl(cpu_gpr[a->rt], 0);
-+    gen_set_label(l2);
++#if !defined(CONFIG_USER_ONLY) && defined(TARGET_PPC64)
++    gen_helper_SLBIAG(cpu_env, cpu_gpr[a->rs], tcg_constant_i32(a->l));
 +#else
 +    qemu_build_not_reached();
-+#endif
 +#endif
 +    return true;
 +}
 +
- static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
+ static bool trans_SLBMTE(DisasContext *ctx, arg_SLBMTE *a)
  {
- #if defined(CONFIG_USER_ONLY)
+     REQUIRE_64BIT(ctx);
 -- 
 2.25.1
 
