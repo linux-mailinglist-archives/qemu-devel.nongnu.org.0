@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F24F54CC35
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:09:10 +0200 (CEST)
-Received: from localhost ([::1]:41838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD16854CC4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:13:44 +0200 (CEST)
+Received: from localhost ([::1]:50568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Udm-0004LH-Dz
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:09:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47596)
+	id 1o1UiF-00024S-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOW-0007Dd-HZ
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:20 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:39250)
+ id 1o1UOY-0007IA-Eo
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:24 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:44196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UOU-000137-L1
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:20 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE0c2J001492;
- Wed, 15 Jun 2022 14:52:57 GMT
+ id 1o1UOW-00013a-Rr
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:22 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE6ttO002488;
+ Wed, 15 Jun 2022 14:52:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=MmGDNuzn/lafDdcgChrTVv7tX1ybusyPVai0h9kiOHs=;
- b=nCCIiMZyzbJsZMaXUvpkV1Md3UQsV4jENS6q8MUOmVcgN9Bs+uzdkh7Ctnb8DuFv2XOZ
- 52IMDsAwhSFGx1nwCFS4u1TToMJ7/jlan0ac4yXKiiCDjnRtq2V5pckbgpZzOdumYiuQ
- akBh0KvAoG2kBVwPBljFTQqQdPIJ7KjmktCaSQbQgp0OOLuJORweBcRXV2SGLcx76fkT
- K0+8zUmIdPzT8ZsTcL6aHBfXEAA66ndaaq2QAuZOC5kLbuLVC87adtolk7NkhoZzgNaa
- c2MqaUZgrYlI0PNDoYl1Osti58oWN2pt1DtvPCXUEacMniCVkMxbQ7Vlc970HQC9ekP+ qw== 
+ bh=xHkvHEipDJ5d9aid8thw4P4U+q++R/wD7aoWuop3g+c=;
+ b=bylSyhrVfTRf09gJgSp71pcYrSdUtT18Nqs1YBsId/rS7UuVzcZYS3Hh4jzx16rqTR3f
+ PZd7wLymbMxiVKdi4mPOqJ+d4LW/Sx+ew4Yg+CsaiavNHUt/ZvCNVHfIj2bWYry3if/O
+ roq0JfG4/pHOXfueerTrG1jbFg9b2Ph8cSpkZTAZX+IuPmaYhyDHGFxu8wl/MGkmbuGr
+ +MD+INVItxj5AgWaQxOXO35sSRlCsI23ZU1ojwTRrgi97ZaXPUOAzZt94x5BSapdYAvb
+ xQ9zgUWJDAQnoKy2vdd50GoWaJeM/aUA2oLqAHMXgI7lcwN1wc4E3KnboADb6uax8Cjh Vg== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjns8tm9-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhfcrsk4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:57 +0000
+ Wed, 15 Jun 2022 14:52:58 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25FEQ7CD023114; Wed, 15 Jun 2022 14:52:56 GMT
+ with SMTP id 25FEQ7CF023114; Wed, 15 Jun 2022 14:52:57 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpw2-1
+ 3gpr25vpx4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:56 +0000
+ Wed, 15 Jun 2022 14:52:57 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNT018501;
- Wed, 15 Jun 2022 14:52:55 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNV018501;
+ Wed, 15 Jun 2022 14:52:57 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpfm-24; Wed, 15 Jun 2022 14:52:55 +0000
+ 3gpr25vpfm-25; Wed, 15 Jun 2022 14:52:56 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,14 +72,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH V8 23/39] hostmem-memfd: cpr for memory-backend-memfd
-Date: Wed, 15 Jun 2022 07:52:10 -0700
-Message-Id: <1655304746-102776-24-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V8 24/39] pci: export export msix_is_pending
+Date: Wed, 15 Jun 2022 07:52:11 -0700
+Message-Id: <1655304746-102776-25-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-GUID: EeSY2QL8Ud6SpNlmGFASwxRR7RZmnE-R
-X-Proofpoint-ORIG-GUID: EeSY2QL8Ud6SpNlmGFASwxRR7RZmnE-R
+X-Proofpoint-ORIG-GUID: 3ONCUe6pdFv0v4Eku8NcLI-QjS-xYkJy
+X-Proofpoint-GUID: 3ONCUe6pdFv0v4Eku8NcLI-QjS-xYkJy
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -104,88 +104,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Preserve memory-backend-memfd memory objects during cpr.
+Export msix_is_pending for use by cpr.  No functional change.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- backends/hostmem-memfd.c | 21 ++++++++++++---------
- hmp-commands.hx          |  2 +-
- qapi/cpr.json            |  2 +-
- 3 files changed, 14 insertions(+), 11 deletions(-)
+ hw/pci/msix.c         | 2 +-
+ include/hw/pci/msix.h | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-index c9d8001..2aeb5d1 100644
---- a/backends/hostmem-memfd.c
-+++ b/backends/hostmem-memfd.c
-@@ -14,6 +14,7 @@
- #include "sysemu/hostmem.h"
- #include "qom/object_interfaces.h"
- #include "qemu/memfd.h"
-+#include "migration/cpr.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
- #include "qom/object.h"
-@@ -36,23 +37,25 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index ae9331c..e492ce0 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -64,7 +64,7 @@ static uint8_t *msix_pending_byte(PCIDevice *dev, int vector)
+     return dev->msix_pba + vector / 8;
+ }
+ 
+-static int msix_is_pending(PCIDevice *dev, int vector)
++int msix_is_pending(PCIDevice *dev, unsigned int vector)
  {
-     HostMemoryBackendMemfd *m = MEMORY_BACKEND_MEMFD(backend);
-     uint32_t ram_flags;
--    char *name;
--    int fd;
-+    char *name = host_memory_backend_get_name(backend);
-+    int fd = cpr_find_fd(name, 0);
+     return *msix_pending_byte(dev, vector) & msix_pending_mask(vector);
+ }
+diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
+index 4c4a60c..0065354 100644
+--- a/include/hw/pci/msix.h
++++ b/include/hw/pci/msix.h
+@@ -32,6 +32,7 @@ int msix_present(PCIDevice *dev);
+ bool msix_is_masked(PCIDevice *dev, unsigned vector);
+ void msix_set_pending(PCIDevice *dev, unsigned vector);
+ void msix_clr_pending(PCIDevice *dev, int vector);
++int msix_is_pending(PCIDevice *dev, unsigned vector);
  
-     if (!backend->size) {
-         error_setg(errp, "can't create backend with size 0");
-         return;
-     }
- 
--    fd = qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
--                           m->hugetlb, m->hugetlbsize, m->seal ?
--                           F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
--                           errp);
--    if (fd == -1) {
--        return;
-+    if (fd < 0) {
-+        fd = qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
-+                               m->hugetlb, m->hugetlbsize, m->seal ?
-+                               F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
-+                               errp);
-+        if (fd == -1) {
-+            return;
-+        }
-+        cpr_save_fd(name, 0, fd);
-     }
- 
--    name = host_memory_backend_get_name(backend);
-     ram_flags = backend->share ? RAM_SHARED : 0;
-     ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
-     ram_flags |= RAM_ANON;
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index da5dd60..540f9be 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -380,7 +380,7 @@ SRST
- 
-   If *mode* is 'restart', the checkpoint remains valid after restarting
-   qemu using a subsequent cpr-exec.  Guest RAM must be backed by a
--  memory-backend-file with share=on.
-+  memory-backend-memfd or memory-backend-file object with share=on.
-   To resume from the checkpoint, issue the cpr-load command.
- ERST
- 
-diff --git a/qapi/cpr.json b/qapi/cpr.json
-index 47ee4ff..1ec5aae 100644
---- a/qapi/cpr.json
-+++ b/qapi/cpr.json
-@@ -41,7 +41,7 @@
- #
- # If @mode is 'restart', the checkpoint remains valid after restarting
- # qemu using a subsequent cpr-exec.  Guest RAM must be backed by a
--# memory-backend-file with share=on.
-+# memory-backend-memfd or memory-backend-file object with share=on.
- # To resume from the checkpoint, issue the cpr-load command.
- #
- # @filename: name of checkpoint file
+ int msix_vector_use(PCIDevice *dev, unsigned vector);
+ void msix_vector_unuse(PCIDevice *dev, unsigned vector);
 -- 
 1.8.3.1
 
