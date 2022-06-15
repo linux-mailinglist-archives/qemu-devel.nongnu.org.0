@@ -2,71 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629EE54C7C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 13:51:11 +0200 (CEST)
-Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E33E54C7EA
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 13:53:24 +0200 (CEST)
+Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1RYB-0000ML-9X
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 07:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43620)
+	id 1o1RaN-0003tN-2U
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 07:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o1RTS-0005Yk-FZ
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:46:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37885)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o1RWq-00016Z-AN
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:49:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o1RTM-0006Hl-HE
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:46:11 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o1RWk-0006lZ-3z
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 07:49:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655293565;
+ s=mimecast20190719; t=1655293769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wx7KiCr1PMWb1s6asd9vAf5zLtAvdTwvLxIug2MKA+4=;
- b=SZKcY77B41BVlmSKmnakbLXv2O2Mp4KcO+RK1wt5OArkw04Sn12No/c4djSUVCZ4HtJcVF
- yQcfbUv0JlZWolV7CgRIsZUs7AZKEZ4EnwGaK1dE9IHsBI+9OF7JtS6oNg0V7jXcI2+hkl
- wwUYfLo4NhOzyz9TJH0V2gT9KOvlg78=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ckgJLnA02HYBQu32vjYDoknctz2PhLaLWWm4YNyVOZA=;
+ b=dQ+8HvvTOML1BBjNH5OxChgLifA3A8YwrKuvwJzakcmzZWaQRXC1MBE5RPOY3+EadjRbhu
+ dIWIm2N+DPSQ7Gycve2hHYbTqwYBugf/UFV0xYPvwlfBIPkQDaKuafVmSS1cthITeufKiv
+ G65AnyXsbxlbbUJ+siQM1j/88uUM4cE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-LSK3dZjiOli4_-nA1cNpCA-1; Wed, 15 Jun 2022 07:46:04 -0400
-X-MC-Unique: LSK3dZjiOli4_-nA1cNpCA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08AB485A580
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 11:46:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB5B02026D64;
- Wed, 15 Jun 2022 11:46:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 99BB221E59D1; Wed, 15 Jun 2022 13:46:02 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 3/8] qapi: net: add stream and dgram netdevs
-References: <20220512080932.735962-1-lvivier@redhat.com>
- <20220512080932.735962-4-lvivier@redhat.com>
- <87fsld1wtw.fsf@pond.sub.org>
- <a2a0124d-5065-3c1e-9c84-8b6d92addfae@redhat.com>
-Date: Wed, 15 Jun 2022 13:46:02 +0200
-In-Reply-To: <a2a0124d-5065-3c1e-9c84-8b6d92addfae@redhat.com> (Laurent
- Vivier's message of "Tue, 14 Jun 2022 23:42:21 +0200")
-Message-ID: <87bkuugnet.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-163-Wpp2n1_fN2-p9PCRN-lWEQ-1; Wed, 15 Jun 2022 07:49:28 -0400
+X-MC-Unique: Wpp2n1_fN2-p9PCRN-lWEQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u18-20020adfb212000000b0021855847651so1778353wra.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 04:49:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=ckgJLnA02HYBQu32vjYDoknctz2PhLaLWWm4YNyVOZA=;
+ b=J4mdiQtDxOdEok0mecxW+k7MXJUW7/W9CQHhv4DrpkSI2PAIHlTf/jDTmu/8BTLnEQ
+ jhImCwKhjoa5bhToMs929C0nPFOJbuKyOUoWEJJyNE18OCbavGKds5bf4sXFW8edPsnF
+ UzTbjHte1e06/3BIim0NMpZcAe45SLktvKN4xa8f3a2XOUcvH230BEoukn16oNSutSOT
+ g/MTGrw3YgwY7sGrplAFdrsERXy5QlyjmPGOqbl0KPKLr37e4I6hrui4q6gzsZ3FKfDN
+ imJFSB0RWBN4AAOLD5qG5wI2rp89Uw82jbj5BWormWHY0blA1WowBREwzPjCUJgmsesf
+ FyPw==
+X-Gm-Message-State: AOAM533hoUMU1KsPAMLNoUVWVvVP4kZmgbyCMPrdk6Pf0D0k6kWmzQWn
+ rvUkXvitHKy4mILblSvnfd2daEzHd3FdbHoDgE0S2cQmZWxOexnu/0FKJPWfTd/tzw8Q6jSlbSR
+ QVq3oIie2j2K36nQ=
+X-Received: by 2002:a05:600c:3acc:b0:39c:7427:d379 with SMTP id
+ d12-20020a05600c3acc00b0039c7427d379mr9703779wms.32.1655293767027; 
+ Wed, 15 Jun 2022 04:49:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQ0O7f3Iz+DT3XsCPXMA90YOmBlmcwsl/MQpDhqlEi46w7vWhuwSssISR/Sb/3FlCRBhwcCw==
+X-Received: by 2002:a05:600c:3acc:b0:39c:7427:d379 with SMTP id
+ d12-20020a05600c3acc00b0039c7427d379mr9703761wms.32.1655293766757; 
+ Wed, 15 Jun 2022 04:49:26 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70a:2700:1d28:26c3:b272:fcc6?
+ (p200300cbc70a27001d2826c3b272fcc6.dip0.t-ipconnect.de.
+ [2003:cb:c70a:2700:1d28:26c3:b272:fcc6])
+ by smtp.gmail.com with ESMTPSA id
+ m17-20020adfc591000000b0020fff0ea0a3sm14923445wrg.116.2022.06.15.04.49.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jun 2022 04:49:26 -0700 (PDT)
+Message-ID: <5e00555e-1301-b1ce-db3f-e993e6a16567@redhat.com>
+Date: Wed, 15 Jun 2022 13:49:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
+Content-Language: en-US
+To: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Cc: Julia Suvorova <jusual@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <20220531145147.61112-1-jusual@redhat.com>
+ <YpY0/Pc3uoA9QQD/@stefanha-x1.localdomain>
+ <CAMDeoFUxG7B67BCm4nb303VEwBdiD=JNi_OWSaxirThWnTd6LA@mail.gmail.com>
+ <YqdTQYUhO/3dzJvZ@stefanha-x1.localdomain>
+ <20220614105408.235f0f41@redhat.com>
+ <ac7c0d9c-4fb2-c67b-db25-00e4bbc0eb42@redhat.com>
+ <CAMDeoFV3SEWv5gAUd-ZJ=pGw3=JkHR9pOztkytGr1tRhM_uBNw@mail.gmail.com>
+ <0fe9723a-620a-f388-68a8-c6a11f8aa3ca@redhat.com>
+ <CALg51MOVVm2P5WUjnFF_xvsAk9+QYtWXjOqdU9wdCQJnv6oagg@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <CALg51MOVVm2P5WUjnFF_xvsAk9+QYtWXjOqdU9wdCQJnv6oagg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,327 +113,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
-
-> On 13/05/2022 13:44, Markus Armbruster wrote:
->> Laurent Vivier <lvivier@redhat.com> writes:
->> 
->>> Copied from socket netdev file and modified to use SocketAddress
->>> to be able to introduce new features like unix socket.
+On 15.06.22 13:17, Xiao Guangrong wrote:
+> On Wed, Jun 15, 2022 at 4:24 PM David Hildenbrand <david@redhat.com> wrote:
+> 
+>>>> Is that a temporary or a permanent thing? Do we know?
 >>>
->>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
->>> according to the IP address type.
->>> "listen" and "connect" modes are managed by stream netdev. An optional
->>> parameter "server" defines the mode (server by default)
->>>
->>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>> ---
->>>   hmp-commands.hx |   2 +-
->>>   net/clients.h   |   6 +
->>>   net/dgram.c     | 630 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>   net/hub.c       |   2 +
->>>   net/meson.build |   2 +
->>>   net/net.c       |  24 +-
->>>   net/stream.c    | 425 ++++++++++++++++++++++++++++++++
->>>   qapi/net.json   |  38 ++-
->>>   8 files changed, 1125 insertions(+), 4 deletions(-)
->>>   create mode 100644 net/dgram.c
->>>   create mode 100644 net/stream.c
->>>
->>> diff --git a/hmp-commands.hx b/hmp-commands.hx
->>> index 03e6a73d1f55..172dbab1dfed 100644
->>> --- a/hmp-commands.hx
->>> +++ b/hmp-commands.hx
->>> @@ -1269,7 +1269,7 @@ ERST
->>>       {
->>>           .name       = "netdev_add",
->>>           .args_type  = "netdev:O",
->>> -        .params     = "[user|tap|socket|vde|bridge|hubport|netmap|vhost-user],id=str[,prop=value][,...]",
->>> +        .params     = "[user|tap|socket|stream|dgram|vde|bridge|hubport|netmap|vhost-user],id=str[,prop=value][,...]",
->>>           .help       = "add host network device",
->>>           .cmd        = hmp_netdev_add,
->>>           .command_completion = netdev_add_completion,
->> 
->> Does qemu-options.hx need an update, too?
->
-> Done
->
->> 
->>> diff --git a/net/clients.h b/net/clients.h
->>> index 92f9b59aedce..c1b51d79b147 100644
->>> --- a/net/clients.h
->>> +++ b/net/clients.h
->>> @@ -40,6 +40,12 @@ int net_init_hubport(const Netdev *netdev, const char *name,
->>>   int net_init_socket(const Netdev *netdev, const char *name,
->>>                       NetClientState *peer, Error **errp);
->>>   
->>> +int net_init_stream(const Netdev *netdev, const char *name,
->>> +                    NetClientState *peer, Error **errp);
->>> +
->>> +int net_init_dgram(const Netdev *netdev, const char *name,
->>> +                   NetClientState *peer, Error **errp);
->>> +
->>>   int net_init_tap(const Netdev *netdev, const char *name,
->>>                    NetClientState *peer, Error **errp);
->>>   
->>> diff --git a/net/dgram.c b/net/dgram.c
->>> new file mode 100644
->>> index 000000000000..aa4240501ed0
->>> --- /dev/null
->>> +++ b/net/dgram.c
->>> @@ -0,0 +1,630 @@
->>> +/*
->>> + * QEMU System Emulator
->>> + *
->>> + * Copyright (c) 2003-2008 Fabrice Bellard
->>> + *
->>> + * Permission is hereby granted, free of charge, to any person obtaining a copy
->>> + * of this software and associated documentation files (the "Software"), to deal
->>> + * in the Software without restriction, including without limitation the rights
->>> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
->>> + * copies of the Software, and to permit persons to whom the Software is
->>> + * furnished to do so, subject to the following conditions:
->>> + *
->>> + * The above copyright notice and this permission notice shall be included in
->>> + * all copies or substantial portions of the Software.
->>> + *
->>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
->>> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->>> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
->>> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
->>> + * THE SOFTWARE.
->>> + */
->> 
->> Blank line here, please.
->> 
->> Why not GPLv2+?
->
-> I've kept the original text copied from net/socket.c, but I can move this to GPL2+
+>>> No idea. But his last signed-off was three years ago.
+>>
+>> I sent a patch to Xiao, asking if he's still active in QEMU. If I don't
 
-If the file's contents is derived from net/socket.c, copying the
-legalese from there makes sense.
+s/patch/mail/ :)
 
->>> +#include "qemu/osdep.h"
->> 
->> [...]
->> 
->>> diff --git a/net/net.c b/net/net.c
->>> index 2aab7167316c..fd6b30a10c57 100644
->>> --- a/net/net.c
->>> +++ b/net/net.c
->>> @@ -1015,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
->>>   #endif
->>>           [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
->>>           [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
->>> +        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
->>> +        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
->>>   #ifdef CONFIG_VDE
->>>           [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
->>>   #endif
->>> @@ -1097,6 +1099,8 @@ void show_netdevs(void)
->>>       int idx;
->>>       const char *available_netdevs[] = {
->>>           "socket",
->>> +        "stream",
->>> +        "dgram",
->>>           "hubport",
->>>           "tap",
->>>   #ifdef CONFIG_SLIRP
->>> @@ -1606,7 +1610,25 @@ int net_init_clients(Error **errp)
->>>    */
->>>   static bool netdev_is_modern(const char *optarg)
->>>   {
->>> -    return false;
->>> +    static QemuOptsList dummy_opts = {
->>> +        .name = "netdev",
->>> +        .implied_opt_name = "type",
->>> +        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
->>> +        .desc = { { } },
->>> +    };
->>> +    const char *netdev;
->>> +    QemuOpts *opts;
->>> +    bool is_modern;
->>> +
->>> +    opts = qemu_opts_parse(&dummy_opts, optarg, true, &error_fatal);
->>> +    netdev = qemu_opt_get(opts, "type");
->>> +
->>> +    is_modern = strcmp(netdev, "stream") == 0 ||
->>> +                strcmp(netdev, "dgram") == 0;
->> 
->> Crashes when user neglects to pass "type".
->
-> I think "type" is always passed because of the '.implied_opt_name = "type"'. Am I wrong?
+>> get a reply this week, I'll move forward with proposing an update to
+>> MAINTAINERS as described.
+>>
+> 
+> Okay, please do it.
+> 
+> Sorry, I am just roughly reading the mailing list of qemu & kvm usually,
+> and do not get enough time to actively review or contribute on these
+> fields. :-(
 
-.implied_opt_name = "type" lets you shorten "type=T,..." to "T,...".  It
-doesn't make key "type" mandatory.  "-netdev id=foo" is still permitted.
-Even "-netdev ''" is.
+Not an issue, thanks for that information and thanks for your work in
+the past on that!
 
->>> +
->>> +    qemu_opts_reset(&dummy_opts);
->>> +
->>> +    return is_modern;
->>>   }
->> 
->> Reminder: netdev_is_modern() governs whether to use QemuOpts + opts
->> visitor or qobject_input_visitor_new_str().
->> 
->> To decide, it uses QemuOpts with a dummy QemuOptsList.
->> 
->> Since we parse errors are fatal here, new syntax must also parse fine as
->> QemuOpts.  Undesirable, I think.
->> 
->> Cleaner, I think:
->> 
->>      args = keyval_parse(optarg, "type", NULL, NULL);
->>      if (!args) {
->>          return false;
->>      }
->>      type = qdict_get_try_str(args, "type");
->>      return !g_strcmp0(type, "dgram") || !g_strcmp0(type, "stream");
->> 
->> Not even compile-tested.
->
-> ok, I try that.
->
->> Still probematic: syntax error reporting.  When keyval_parse() fails
->> here, we use QemuOpts, and therefore get QemuOpts syntax errors.  I fear
->> that could be quite confusing.
->> 
->>>   
->>>   int net_client_parse(QemuOptsList *opts_list, const char *optarg)
->>> diff --git a/net/stream.c b/net/stream.c
->>> new file mode 100644
->>> index 000000000000..fdc97ee43a56
->>> --- /dev/null
->>> +++ b/net/stream.c
->>> @@ -0,0 +1,425 @@
->>> +/*
->>> + * QEMU System Emulator
->>> + *
->>> + * Copyright (c) 2003-2008 Fabrice Bellard
->>> + *
->>> + * Permission is hereby granted, free of charge, to any person obtaining a copy
->>> + * of this software and associated documentation files (the "Software"), to deal
->>> + * in the Software without restriction, including without limitation the rights
->>> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
->>> + * copies of the Software, and to permit persons to whom the Software is
->>> + * furnished to do so, subject to the following conditions:
->>> + *
->>> + * The above copyright notice and this permission notice shall be included in
->>> + * all copies or substantial portions of the Software.
->>> + *
->>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
->>> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->>> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
->>> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
->>> + * THE SOFTWARE.
->>> + */
->> 
->> Blank line here, please.
->> 
->> Why not GPLv2+?
->
-> As above.
->
->> 
->>> +#include "qemu/osdep.h"
->> 
->> [...]
->> 
->>> diff --git a/qapi/net.json b/qapi/net.json
->>> index b92f3f5fb444..eef288886e1b 100644
->>> --- a/qapi/net.json
->>> +++ b/qapi/net.json
->>> @@ -7,6 +7,7 @@
->>>   ##
->>>   
->>>   { 'include': 'common.json' }
->>> +{ 'include': 'sockets.json' }
->>>   
->>>   ##
->>>   # @set_link:
->>> @@ -452,6 +453,37 @@
->>>       '*vhostdev':     'str',
->>>       '*queues':       'int' } }
->>>   
->>> +##
->>> +# @NetdevStreamOptions:
->>> +#
->>> +# Configuration info for stream socket netdev
->>> +#
->>> +# @addr: socket address to listen on (server=true)
->>> +#        or connect to (server=false)
->>> +# @server: create server socket (default: true)
->>> +#
->>> +# Since: 7.1
->>> +##
->>> +{ 'struct': 'NetdevStreamOptions',
->>> +  'data': {
->>> +    'addr':   'SocketAddress',
->>> +    '*server': 'bool' } }
->>> +
->>> +##
->>> +# @NetdevDgramOptions:
->>> +#
->>> +# Configuration info for datagram socket netdev.
->>> +#
->>> +# @remote: remote address
->>> +# @local: local address
->> 
->> Defaults?
->
-> We can't have a default because for multicast default is remoTe, and for unicast default 
-> is local.
+Should I keep you entered as a reviewer for the new section?
 
-Well, the members are optional, so there must be some default behavior,
-which may or may not correspond to a single default value.  Regardless,
-what happens when a member is absent ought to be documented.
->> 
->>> +#
->>> +# Since: 7.1
->>> +##
->>> +{ 'struct': 'NetdevDgramOptions',
->>> +  'data': {
->>> +    '*local':  'SocketAddress',
->>> +    '*remote': 'SocketAddress' } }
->>> +
->>>   ##
->>>   # @NetClientDriver:
->>>   #
->>> @@ -462,8 +494,8 @@
->>>   #        @vhost-vdpa since 5.1
->>>   ##
->>>   { 'enum': 'NetClientDriver',
->>> -  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
->>> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
->>> +  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'stream', 'dgram',
->>> +            'vde', 'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
->> 
->> Long lines.
->
-> ok
->
->>>   
->>>   ##
->>>   # @Netdev:
->>> @@ -487,6 +519,8 @@
->>>       'tap':      'NetdevTapOptions',
->>>       'l2tpv3':   'NetdevL2TPv3Options',
->>>       'socket':   'NetdevSocketOptions',
->>> +    'stream':   'NetdevStreamOptions',
->>> +    'dgram':    'NetdevDgramOptions',
->>>       'vde':      'NetdevVdeOptions',
->>>       'bridge':   'NetdevBridgeOptions',
->>>       'hubport':  'NetdevHubPortOptions',
->> 
->
-> Thanks,
-> Laurent
+-- 
+Thanks,
 
-You're welcome!
+David / dhildenb
 
 
