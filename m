@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FEA54CE20
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:14:13 +0200 (CEST)
-Received: from localhost ([::1]:41100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E0A54CE91
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 18:24:27 +0200 (CEST)
+Received: from localhost ([::1]:34776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1Vem-0000Ph-V1
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43434)
+	id 1o1Vof-00085q-UR
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 12:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o1VLu-0004Lw-Mm
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:54:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57533)
+ id 1o1VLx-0004Us-EW
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:54:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o1VLr-0007O4-Ss
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:54:42 -0400
+ id 1o1VLu-0007PI-8j
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:54:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655308479;
+ s=mimecast20190719; t=1655308481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LuD1dQBr5PDdf9gF6OwOpS+szju7RxeLsLEULQigrW0=;
- b=YrZjK1EThzQcCtdVqxp48if2ZmHQcwrIq6sIDbgxgitK7VmG/p+7QucExrPm0kUu0/RLFH
- 8stRJKpiUlfBWGLqtyixsC01hJzoIj5hHu85Q9Tn2Ss0h0720NkyJB5/NCHw52IGxQ0n9z
- +yyfjiJJCpVQLMcsX+YETj/nSPy3h/o=
+ bh=lvdkZMbxpHFXIESQrqoamL2Qi9LEU5mCxPzO2AqFVeE=;
+ b=N+WqoL24BAuI01Y+E0LS1P65DQtS4GvMxTao8+zgttvEIx0rC337jtPeh4ohw6pvTEDYz8
+ 6Vd2ODe6oKRfKGrY2hj8CNVHDmbMTmU7US8nNNkHfhD9ttGZ9XrNKG419WrQxa0v8jn80r
+ ZEeuL3GqZTIeWlz4YaaSN1urlQHwrCs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-rgRPNjs6PMeXavUL9ZRM8g-1; Wed, 15 Jun 2022 11:54:36 -0400
-X-MC-Unique: rgRPNjs6PMeXavUL9ZRM8g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-26-PrN3pmXbMDmYivE6hsB6lA-1; Wed, 15 Jun 2022 11:54:37 -0400
+X-MC-Unique: PrN3pmXbMDmYivE6hsB6lA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 227898339A5;
- Wed, 15 Jun 2022 15:54:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8E0285A584;
+ Wed, 15 Jun 2022 15:54:36 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 712CE2166B29;
- Wed, 15 Jun 2022 15:54:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 239F340CFD0A;
+ Wed, 15 Jun 2022 15:54:35 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
@@ -66,22 +66,22 @@ Cc: Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
  Darren Kenny <darren.kenny@oracle.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  John G Johnson <john.g.johnson@oracle.com>
-Subject: [PULL 14/18] vfio-user: handle PCI BAR accesses
-Date: Wed, 15 Jun 2022 16:51:25 +0100
-Message-Id: <20220615155129.1025811-15-stefanha@redhat.com>
+Subject: [PULL 15/18] vfio-user: handle device interrupts
+Date: Wed, 15 Jun 2022 16:51:26 +0100
+Message-Id: <20220615155129.1025811-16-stefanha@redhat.com>
 In-Reply-To: <20220615155129.1025811-1-stefanha@redhat.com>
 References: <20220615155129.1025811-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,314 +100,603 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-Determine the BARs used by the PCI device and register handlers to
-manage the access to the same.
+Forward remote device's interrupts to the guest
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-id: 3373e10b5be5f42846f0632d4382466e1698c505.1655151679.git.jag.raman@oracle.com
+Message-id: 9523479eaafe050677f4de2af5dd0df18c27cfd9.1655151679.git.jag.raman@oracle.com
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/exec/memory.h           |   3 +
- hw/remote/vfio-user-obj.c       | 190 ++++++++++++++++++++++++++++++++
- softmmu/physmem.c               |   4 +-
- tests/qtest/fuzz/generic_fuzz.c |   9 +-
- hw/remote/trace-events          |   3 +
- 5 files changed, 203 insertions(+), 6 deletions(-)
+ MAINTAINERS                       |   1 +
+ include/hw/pci/msi.h              |   1 +
+ include/hw/pci/msix.h             |   1 +
+ include/hw/pci/pci.h              |  13 +++
+ include/hw/remote/vfio-user-obj.h |   6 ++
+ hw/pci/msi.c                      |  49 +++++++--
+ hw/pci/msix.c                     |  35 ++++++-
+ hw/pci/pci.c                      |  13 +++
+ hw/remote/machine.c               |  16 ++-
+ hw/remote/vfio-user-obj.c         | 167 ++++++++++++++++++++++++++++++
+ stubs/vfio-user-obj.c             |   6 ++
+ hw/remote/trace-events            |   1 +
+ stubs/meson.build                 |   1 +
+ 13 files changed, 298 insertions(+), 12 deletions(-)
+ create mode 100644 include/hw/remote/vfio-user-obj.h
+ create mode 100644 stubs/vfio-user-obj.c
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index f1c19451bc..a6a0f4d8ad 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2810,6 +2810,9 @@ MemTxResult address_space_write_cached_slow(MemoryRegionCache *cache,
-                                             hwaddr addr, const void *buf,
-                                             hwaddr len);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 563259101b..aaa649a50d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3644,6 +3644,7 @@ F: hw/remote/iohub.c
+ F: include/hw/remote/iohub.h
+ F: subprojects/libvfio-user
+ F: hw/remote/vfio-user-obj.c
++F: include/hw/remote/vfio-user-obj.h
+ F: hw/remote/iommu.c
+ F: include/hw/remote/iommu.h
  
-+int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr);
-+bool prepare_mmio_access(MemoryRegion *mr);
-+
- static inline bool memory_access_is_direct(MemoryRegion *mr, bool is_write)
+diff --git a/include/hw/pci/msi.h b/include/hw/pci/msi.h
+index 4087688486..58aa576215 100644
+--- a/include/hw/pci/msi.h
++++ b/include/hw/pci/msi.h
+@@ -43,6 +43,7 @@ void msi_notify(PCIDevice *dev, unsigned int vector);
+ void msi_send_message(PCIDevice *dev, MSIMessage msg);
+ void msi_write_config(PCIDevice *dev, uint32_t addr, uint32_t val, int len);
+ unsigned int msi_nr_vectors_allocated(const PCIDevice *dev);
++void msi_set_mask(PCIDevice *dev, int vector, bool mask, Error **errp);
+ 
+ static inline bool msi_present(const PCIDevice *dev)
  {
-     if (is_write) {
+diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
+index 4c4a60c739..4f1cda0ebe 100644
+--- a/include/hw/pci/msix.h
++++ b/include/hw/pci/msix.h
+@@ -36,6 +36,7 @@ void msix_clr_pending(PCIDevice *dev, int vector);
+ int msix_vector_use(PCIDevice *dev, unsigned vector);
+ void msix_vector_unuse(PCIDevice *dev, unsigned vector);
+ void msix_unuse_all_vectors(PCIDevice *dev);
++void msix_set_mask(PCIDevice *dev, int vector, bool mask, Error **errp);
+ 
+ void msix_notify(PCIDevice *dev, unsigned vector);
+ 
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 44dacfa224..b54b6ef88f 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -16,6 +16,7 @@ extern bool pci_available;
+ #define PCI_SLOT(devfn)         (((devfn) >> 3) & 0x1f)
+ #define PCI_FUNC(devfn)         ((devfn) & 0x07)
+ #define PCI_BUILD_BDF(bus, devfn)     ((bus << 8) | (devfn))
++#define PCI_BDF_TO_DEVFN(x)     ((x) & 0xff)
+ #define PCI_BUS_MAX             256
+ #define PCI_DEVFN_MAX           256
+ #define PCI_SLOT_MAX            32
+@@ -127,6 +128,10 @@ typedef void PCIMapIORegionFunc(PCIDevice *pci_dev, int region_num,
+                                 pcibus_t addr, pcibus_t size, int type);
+ typedef void PCIUnregisterFunc(PCIDevice *pci_dev);
+ 
++typedef void MSITriggerFunc(PCIDevice *dev, MSIMessage msg);
++typedef MSIMessage MSIPrepareMessageFunc(PCIDevice *dev, unsigned vector);
++typedef MSIMessage MSIxPrepareMessageFunc(PCIDevice *dev, unsigned vector);
++
+ typedef struct PCIIORegion {
+     pcibus_t addr; /* current PCI mapping address. -1 means not mapped */
+ #define PCI_BAR_UNMAPPED (~(pcibus_t)0)
+@@ -329,6 +334,14 @@ struct PCIDevice {
+     /* Space to store MSIX table & pending bit array */
+     uint8_t *msix_table;
+     uint8_t *msix_pba;
++
++    /* May be used by INTx or MSI during interrupt notification */
++    void *irq_opaque;
++
++    MSITriggerFunc *msi_trigger;
++    MSIPrepareMessageFunc *msi_prepare_message;
++    MSIxPrepareMessageFunc *msix_prepare_message;
++
+     /* MemoryRegion container for msix exclusive BAR setup */
+     MemoryRegion msix_exclusive_bar;
+     /* Memory Regions for MSIX table and pending bit entries. */
+diff --git a/include/hw/remote/vfio-user-obj.h b/include/hw/remote/vfio-user-obj.h
+new file mode 100644
+index 0000000000..87ab78b875
+--- /dev/null
++++ b/include/hw/remote/vfio-user-obj.h
+@@ -0,0 +1,6 @@
++#ifndef VFIO_USER_OBJ_H
++#define VFIO_USER_OBJ_H
++
++void vfu_object_set_bus_irq(PCIBus *pci_bus);
++
++#endif
+diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+index 47d2b0f33c..5c471b9616 100644
+--- a/hw/pci/msi.c
++++ b/hw/pci/msi.c
+@@ -134,7 +134,7 @@ void msi_set_message(PCIDevice *dev, MSIMessage msg)
+     pci_set_word(dev->config + msi_data_off(dev, msi64bit), msg.data);
+ }
+ 
+-MSIMessage msi_get_message(PCIDevice *dev, unsigned int vector)
++static MSIMessage msi_prepare_message(PCIDevice *dev, unsigned int vector)
+ {
+     uint16_t flags = pci_get_word(dev->config + msi_flags_off(dev));
+     bool msi64bit = flags & PCI_MSI_FLAGS_64BIT;
+@@ -159,6 +159,11 @@ MSIMessage msi_get_message(PCIDevice *dev, unsigned int vector)
+     return msg;
+ }
+ 
++MSIMessage msi_get_message(PCIDevice *dev, unsigned int vector)
++{
++    return dev->msi_prepare_message(dev, vector);
++}
++
+ bool msi_enabled(const PCIDevice *dev)
+ {
+     return msi_present(dev) &&
+@@ -241,6 +246,8 @@ int msi_init(struct PCIDevice *dev, uint8_t offset,
+                      0xffffffff >> (PCI_MSI_VECTORS_MAX - nr_vectors));
+     }
+ 
++    dev->msi_prepare_message = msi_prepare_message;
++
+     return 0;
+ }
+ 
+@@ -256,6 +263,7 @@ void msi_uninit(struct PCIDevice *dev)
+     cap_size = msi_cap_sizeof(flags);
+     pci_del_capability(dev, PCI_CAP_ID_MSI, cap_size);
+     dev->cap_present &= ~QEMU_PCI_CAP_MSI;
++    dev->msi_prepare_message = NULL;
+ 
+     MSI_DEV_PRINTF(dev, "uninit\n");
+ }
+@@ -307,6 +315,39 @@ bool msi_is_masked(const PCIDevice *dev, unsigned int vector)
+     return mask & (1U << vector);
+ }
+ 
++void msi_set_mask(PCIDevice *dev, int vector, bool mask, Error **errp)
++{
++    ERRP_GUARD();
++    uint16_t flags = pci_get_word(dev->config + msi_flags_off(dev));
++    bool msi64bit = flags & PCI_MSI_FLAGS_64BIT;
++    uint32_t irq_state, vector_mask, pending;
++
++    if (vector > PCI_MSI_VECTORS_MAX) {
++        error_setg(errp, "msi: vector %d not allocated. max vector is %d",
++                   vector, PCI_MSI_VECTORS_MAX);
++        return;
++    }
++
++    vector_mask = (1U << vector);
++
++    irq_state = pci_get_long(dev->config + msi_mask_off(dev, msi64bit));
++
++    if (mask) {
++        irq_state |= vector_mask;
++    } else {
++        irq_state &= ~vector_mask;
++    }
++
++    pci_set_long(dev->config + msi_mask_off(dev, msi64bit), irq_state);
++
++    pending = pci_get_long(dev->config + msi_pending_off(dev, msi64bit));
++    if (!mask && (pending & vector_mask)) {
++        pending &= ~vector_mask;
++        pci_set_long(dev->config + msi_pending_off(dev, msi64bit), pending);
++        msi_notify(dev, vector);
++    }
++}
++
+ void msi_notify(PCIDevice *dev, unsigned int vector)
+ {
+     uint16_t flags = pci_get_word(dev->config + msi_flags_off(dev));
+@@ -334,11 +375,7 @@ void msi_notify(PCIDevice *dev, unsigned int vector)
+ 
+ void msi_send_message(PCIDevice *dev, MSIMessage msg)
+ {
+-    MemTxAttrs attrs = {};
+-
+-    attrs.requester_id = pci_requester_id(dev);
+-    address_space_stl_le(&dev->bus_master_as, msg.address, msg.data,
+-                         attrs, NULL);
++    dev->msi_trigger(dev, msg);
+ }
+ 
+ /* Normally called by pci_default_write_config(). */
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index ae9331cd0b..1e381a9813 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -31,7 +31,7 @@
+ #define MSIX_ENABLE_MASK (PCI_MSIX_FLAGS_ENABLE >> 8)
+ #define MSIX_MASKALL_MASK (PCI_MSIX_FLAGS_MASKALL >> 8)
+ 
+-MSIMessage msix_get_message(PCIDevice *dev, unsigned vector)
++static MSIMessage msix_prepare_message(PCIDevice *dev, unsigned vector)
+ {
+     uint8_t *table_entry = dev->msix_table + vector * PCI_MSIX_ENTRY_SIZE;
+     MSIMessage msg;
+@@ -41,6 +41,11 @@ MSIMessage msix_get_message(PCIDevice *dev, unsigned vector)
+     return msg;
+ }
+ 
++MSIMessage msix_get_message(PCIDevice *dev, unsigned vector)
++{
++    return dev->msix_prepare_message(dev, vector);
++}
++
+ /*
+  * Special API for POWER to configure the vectors through
+  * a side channel. Should never be used by devices.
+@@ -131,6 +136,31 @@ static void msix_handle_mask_update(PCIDevice *dev, int vector, bool was_masked)
+     }
+ }
+ 
++void msix_set_mask(PCIDevice *dev, int vector, bool mask, Error **errp)
++{
++    ERRP_GUARD();
++    unsigned offset;
++    bool was_masked;
++
++    if (vector > dev->msix_entries_nr) {
++        error_setg(errp, "msix: vector %d not allocated. max vector is %d",
++                   vector, dev->msix_entries_nr);
++        return;
++    }
++
++    offset = vector * PCI_MSIX_ENTRY_SIZE + PCI_MSIX_ENTRY_VECTOR_CTRL;
++
++    was_masked = msix_is_masked(dev, vector);
++
++    if (mask) {
++        dev->msix_table[offset] |= PCI_MSIX_ENTRY_CTRL_MASKBIT;
++    } else {
++        dev->msix_table[offset] &= ~PCI_MSIX_ENTRY_CTRL_MASKBIT;
++    }
++
++    msix_handle_mask_update(dev, vector, was_masked);
++}
++
+ static bool msix_masked(PCIDevice *dev)
+ {
+     return dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] & MSIX_MASKALL_MASK;
+@@ -344,6 +374,8 @@ int msix_init(struct PCIDevice *dev, unsigned short nentries,
+                           "msix-pba", pba_size);
+     memory_region_add_subregion(pba_bar, pba_offset, &dev->msix_pba_mmio);
+ 
++    dev->msix_prepare_message = msix_prepare_message;
++
+     return 0;
+ }
+ 
+@@ -429,6 +461,7 @@ void msix_uninit(PCIDevice *dev, MemoryRegion *table_bar, MemoryRegion *pba_bar)
+     g_free(dev->msix_entry_used);
+     dev->msix_entry_used = NULL;
+     dev->cap_present &= ~QEMU_PCI_CAP_MSIX;
++    dev->msix_prepare_message = NULL;
+ }
+ 
+ void msix_uninit_exclusive_bar(PCIDevice *dev)
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 6e7015329c..2f450f6a72 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -317,6 +317,15 @@ void pci_device_deassert_intx(PCIDevice *dev)
+     }
+ }
+ 
++static void pci_msi_trigger(PCIDevice *dev, MSIMessage msg)
++{
++    MemTxAttrs attrs = {};
++
++    attrs.requester_id = pci_requester_id(dev);
++    address_space_stl_le(&dev->bus_master_as, msg.address, msg.data,
++                         attrs, NULL);
++}
++
+ static void pci_reset_regions(PCIDevice *dev)
+ {
+     int r;
+@@ -1212,6 +1221,8 @@ static void pci_qdev_unrealize(DeviceState *dev)
+ 
+     pci_device_deassert_intx(pci_dev);
+     do_pci_unregister_device(pci_dev);
++
++    pci_dev->msi_trigger = NULL;
+ }
+ 
+ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+@@ -2251,6 +2262,8 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
+     }
+ 
+     pci_set_power(pci_dev, true);
++
++    pci_dev->msi_trigger = pci_msi_trigger;
+ }
+ 
+ PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
+diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+index 645b54343d..75d550daae 100644
+--- a/hw/remote/machine.c
++++ b/hw/remote/machine.c
+@@ -23,6 +23,8 @@
+ #include "hw/remote/iommu.h"
+ #include "hw/qdev-core.h"
+ #include "hw/remote/iommu.h"
++#include "hw/remote/vfio-user-obj.h"
++#include "hw/pci/msi.h"
+ 
+ static void remote_machine_init(MachineState *machine)
+ {
+@@ -54,13 +56,17 @@ static void remote_machine_init(MachineState *machine)
+ 
+     if (s->vfio_user) {
+         remote_iommu_setup(pci_host->bus);
++
++        msi_nonbroken = true;
++
++        vfu_object_set_bus_irq(pci_host->bus);
++    } else {
++        remote_iohub_init(&s->iohub);
++
++        pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
++                     &s->iohub, REMOTE_IOHUB_NB_PIRQS);
+     }
+ 
+-    remote_iohub_init(&s->iohub);
+-
+-    pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
+-                 &s->iohub, REMOTE_IOHUB_NB_PIRQS);
+-
+     qbus_set_hotplug_handler(BUS(pci_host->bus), OBJECT(s));
+ }
+ 
 diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index 7b21f77052..dd760a99e2 100644
+index dd760a99e2..5ecdec06f6 100644
 --- a/hw/remote/vfio-user-obj.c
 +++ b/hw/remote/vfio-user-obj.c
-@@ -52,6 +52,7 @@
- #include "hw/qdev-core.h"
+@@ -53,6 +53,9 @@
  #include "hw/pci/pci.h"
  #include "qemu/timer.h"
-+#include "exec/memory.h"
+ #include "exec/memory.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
++#include "hw/remote/vfio-user-obj.h"
  
  #define TYPE_VFU_OBJECT "x-vfio-user-server"
  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
-@@ -332,6 +333,193 @@ static void dma_unregister(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
-     trace_vfu_dma_unregister((uint64_t)info->iova.iov_base);
+@@ -96,6 +99,10 @@ struct VfuObject {
+     Error *unplug_blocker;
+ 
+     int vfu_poll_fd;
++
++    MSITriggerFunc *default_msi_trigger;
++    MSIPrepareMessageFunc *default_msi_prepare_message;
++    MSIxPrepareMessageFunc *default_msix_prepare_message;
+ };
+ 
+ static void vfu_object_init_ctx(VfuObject *o, Error **errp);
+@@ -520,6 +527,155 @@ static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
+     }
  }
  
-+static int vfu_object_mr_rw(MemoryRegion *mr, uint8_t *buf, hwaddr offset,
-+                            hwaddr size, const bool is_write)
++static int vfu_object_map_irq(PCIDevice *pci_dev, int intx)
 +{
-+    uint8_t *ptr = buf;
-+    bool release_lock = false;
-+    uint8_t *ram_ptr = NULL;
-+    MemTxResult result;
-+    int access_size;
-+    uint64_t val;
++    int pci_bdf = PCI_BUILD_BDF(pci_bus_num(pci_get_bus(pci_dev)),
++                                pci_dev->devfn);
 +
-+    if (memory_access_is_direct(mr, is_write)) {
-+        /**
-+         * Some devices expose a PCI expansion ROM, which could be buffer
-+         * based as compared to other regions which are primarily based on
-+         * MemoryRegionOps. memory_region_find() would already check
-+         * for buffer overflow, we don't need to repeat it here.
++    return pci_bdf;
++}
++
++static void vfu_object_set_irq(void *opaque, int pirq, int level)
++{
++    PCIBus *pci_bus = opaque;
++    PCIDevice *pci_dev = NULL;
++    vfu_ctx_t *vfu_ctx = NULL;
++    int pci_bus_num, devfn;
++
++    if (level) {
++        pci_bus_num = PCI_BUS_NUM(pirq);
++        devfn = PCI_BDF_TO_DEVFN(pirq);
++
++        /*
++         * pci_find_device() performs at O(1) if the device is attached
++         * to the root PCI bus. Whereas, if the device is attached to a
++         * secondary PCI bus (such as when a root port is involved),
++         * finding the parent PCI bus could take O(n)
 +         */
-+        ram_ptr = memory_region_get_ram_ptr(mr);
++        pci_dev = pci_find_device(pci_bus, pci_bus_num, devfn);
 +
-+        if (is_write) {
-+            memcpy((ram_ptr + offset), buf, size);
-+        } else {
-+            memcpy(buf, (ram_ptr + offset), size);
++        vfu_ctx = pci_dev->irq_opaque;
++
++        g_assert(vfu_ctx);
++
++        vfu_irq_trigger(vfu_ctx, 0);
++    }
++}
++
++static MSIMessage vfu_object_msi_prepare_msg(PCIDevice *pci_dev,
++                                             unsigned int vector)
++{
++    MSIMessage msg;
++
++    msg.address = 0;
++    msg.data = vector;
++
++    return msg;
++}
++
++static void vfu_object_msi_trigger(PCIDevice *pci_dev, MSIMessage msg)
++{
++    vfu_ctx_t *vfu_ctx = pci_dev->irq_opaque;
++
++    vfu_irq_trigger(vfu_ctx, msg.data);
++}
++
++static void vfu_object_setup_msi_cbs(VfuObject *o)
++{
++    o->default_msi_trigger = o->pci_dev->msi_trigger;
++    o->default_msi_prepare_message = o->pci_dev->msi_prepare_message;
++    o->default_msix_prepare_message = o->pci_dev->msix_prepare_message;
++
++    o->pci_dev->msi_trigger = vfu_object_msi_trigger;
++    o->pci_dev->msi_prepare_message = vfu_object_msi_prepare_msg;
++    o->pci_dev->msix_prepare_message = vfu_object_msi_prepare_msg;
++}
++
++static void vfu_object_restore_msi_cbs(VfuObject *o)
++{
++    o->pci_dev->msi_trigger = o->default_msi_trigger;
++    o->pci_dev->msi_prepare_message = o->default_msi_prepare_message;
++    o->pci_dev->msix_prepare_message = o->default_msix_prepare_message;
++}
++
++static void vfu_msix_irq_state(vfu_ctx_t *vfu_ctx, uint32_t start,
++                               uint32_t count, bool mask)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++    Error *err = NULL;
++    uint32_t vector;
++
++    for (vector = start; vector < count; vector++) {
++        msix_set_mask(o->pci_dev, vector, mask, &err);
++        if (err) {
++            VFU_OBJECT_ERROR(o, "vfu: %s: %s", o->device,
++                             error_get_pretty(err));
++            error_free(err);
++            err = NULL;
 +        }
++    }
++}
 +
-+        return 0;
++static void vfu_msi_irq_state(vfu_ctx_t *vfu_ctx, uint32_t start,
++                              uint32_t count, bool mask)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++    Error *err = NULL;
++    uint32_t vector;
++
++    for (vector = start; vector < count; vector++) {
++        msi_set_mask(o->pci_dev, vector, mask, &err);
++        if (err) {
++            VFU_OBJECT_ERROR(o, "vfu: %s: %s", o->device,
++                             error_get_pretty(err));
++            error_free(err);
++            err = NULL;
++        }
++    }
++}
++
++static int vfu_object_setup_irqs(VfuObject *o, PCIDevice *pci_dev)
++{
++    vfu_ctx_t *vfu_ctx = o->vfu_ctx;
++    int ret;
++
++    ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_INTX_IRQ, 1);
++    if (ret < 0) {
++        return ret;
 +    }
 +
-+    while (size) {
-+        /**
-+         * The read/write logic used below is similar to the ones in
-+         * flatview_read/write_continue()
-+         */
-+        release_lock = prepare_mmio_access(mr);
-+
-+        access_size = memory_access_size(mr, size, offset);
-+
-+        if (is_write) {
-+            val = ldn_he_p(ptr, access_size);
-+
-+            result = memory_region_dispatch_write(mr, offset, val,
-+                                                  size_memop(access_size),
-+                                                  MEMTXATTRS_UNSPECIFIED);
-+        } else {
-+            result = memory_region_dispatch_read(mr, offset, &val,
-+                                                 size_memop(access_size),
-+                                                 MEMTXATTRS_UNSPECIFIED);
-+
-+            stn_he_p(ptr, access_size, val);
-+        }
-+
-+        if (release_lock) {
-+            qemu_mutex_unlock_iothread();
-+            release_lock = false;
-+        }
-+
-+        if (result != MEMTX_OK) {
-+            return -1;
-+        }
-+
-+        size -= access_size;
-+        ptr += access_size;
-+        offset += access_size;
++    if (msix_nr_vectors_allocated(pci_dev)) {
++        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSIX_IRQ,
++                                       msix_nr_vectors_allocated(pci_dev));
++        vfu_setup_irq_state_callback(vfu_ctx, VFU_DEV_MSIX_IRQ,
++                                     &vfu_msix_irq_state);
++    } else if (msi_nr_vectors_allocated(pci_dev)) {
++        ret = vfu_setup_device_nr_irqs(vfu_ctx, VFU_DEV_MSI_IRQ,
++                                       msi_nr_vectors_allocated(pci_dev));
++        vfu_setup_irq_state_callback(vfu_ctx, VFU_DEV_MSI_IRQ,
++                                     &vfu_msi_irq_state);
 +    }
++
++    if (ret < 0) {
++        return ret;
++    }
++
++    vfu_object_setup_msi_cbs(o);
++
++    pci_dev->irq_opaque = vfu_ctx;
 +
 +    return 0;
 +}
 +
-+static size_t vfu_object_bar_rw(PCIDevice *pci_dev, int pci_bar,
-+                                hwaddr bar_offset, char * const buf,
-+                                hwaddr len, const bool is_write)
++void vfu_object_set_bus_irq(PCIBus *pci_bus)
 +{
-+    MemoryRegionSection section = { 0 };
-+    uint8_t *ptr = (uint8_t *)buf;
-+    MemoryRegion *section_mr = NULL;
-+    uint64_t section_size;
-+    hwaddr section_offset;
-+    hwaddr size = 0;
++    int bus_num = pci_bus_num(pci_bus);
++    int max_bdf = PCI_BUILD_BDF(bus_num, PCI_DEVFN_MAX - 1);
 +
-+    while (len) {
-+        section = memory_region_find(pci_dev->io_regions[pci_bar].memory,
-+                                     bar_offset, len);
-+
-+        if (!section.mr) {
-+            warn_report("vfu: invalid address 0x%"PRIx64"", bar_offset);
-+            return size;
-+        }
-+
-+        section_mr = section.mr;
-+        section_offset = section.offset_within_region;
-+        section_size = int128_get64(section.size);
-+
-+        if (is_write && section_mr->readonly) {
-+            warn_report("vfu: attempting to write to readonly region in "
-+                        "bar %d - [0x%"PRIx64" - 0x%"PRIx64"]",
-+                        pci_bar, bar_offset,
-+                        (bar_offset + section_size));
-+            memory_region_unref(section_mr);
-+            return size;
-+        }
-+
-+        if (vfu_object_mr_rw(section_mr, ptr, section_offset,
-+                             section_size, is_write)) {
-+            warn_report("vfu: failed to %s "
-+                        "[0x%"PRIx64" - 0x%"PRIx64"] in bar %d",
-+                        is_write ? "write to" : "read from", bar_offset,
-+                        (bar_offset + section_size), pci_bar);
-+            memory_region_unref(section_mr);
-+            return size;
-+        }
-+
-+        size += section_size;
-+        bar_offset += section_size;
-+        ptr += section_size;
-+        len -= section_size;
-+
-+        memory_region_unref(section_mr);
-+    }
-+
-+    return size;
-+}
-+
-+/**
-+ * VFU_OBJECT_BAR_HANDLER - macro for defining handlers for PCI BARs.
-+ *
-+ * To create handler for BAR number 2, VFU_OBJECT_BAR_HANDLER(2) would
-+ * define vfu_object_bar2_handler
-+ */
-+#define VFU_OBJECT_BAR_HANDLER(BAR_NO)                                         \
-+    static ssize_t vfu_object_bar##BAR_NO##_handler(vfu_ctx_t *vfu_ctx,        \
-+                                        char * const buf, size_t count,        \
-+                                        loff_t offset, const bool is_write)    \
-+    {                                                                          \
-+        VfuObject *o = vfu_get_private(vfu_ctx);                               \
-+        PCIDevice *pci_dev = o->pci_dev;                                       \
-+                                                                               \
-+        return vfu_object_bar_rw(pci_dev, BAR_NO, offset,                      \
-+                                 buf, count, is_write);                        \
-+    }                                                                          \
-+
-+VFU_OBJECT_BAR_HANDLER(0)
-+VFU_OBJECT_BAR_HANDLER(1)
-+VFU_OBJECT_BAR_HANDLER(2)
-+VFU_OBJECT_BAR_HANDLER(3)
-+VFU_OBJECT_BAR_HANDLER(4)
-+VFU_OBJECT_BAR_HANDLER(5)
-+VFU_OBJECT_BAR_HANDLER(6)
-+
-+static vfu_region_access_cb_t *vfu_object_bar_handlers[PCI_NUM_REGIONS] = {
-+    &vfu_object_bar0_handler,
-+    &vfu_object_bar1_handler,
-+    &vfu_object_bar2_handler,
-+    &vfu_object_bar3_handler,
-+    &vfu_object_bar4_handler,
-+    &vfu_object_bar5_handler,
-+    &vfu_object_bar6_handler,
-+};
-+
-+/**
-+ * vfu_object_register_bars - Identify active BAR regions of pdev and setup
-+ *                            callbacks to handle read/write accesses
-+ */
-+static void vfu_object_register_bars(vfu_ctx_t *vfu_ctx, PCIDevice *pdev)
-+{
-+    int flags = VFU_REGION_FLAG_RW;
-+    int i;
-+
-+    for (i = 0; i < PCI_NUM_REGIONS; i++) {
-+        if (!pdev->io_regions[i].size) {
-+            continue;
-+        }
-+
-+        if ((i == VFU_PCI_DEV_ROM_REGION_IDX) ||
-+            pdev->io_regions[i].memory->readonly) {
-+            flags &= ~VFU_REGION_FLAG_WRITE;
-+        }
-+
-+        vfu_setup_region(vfu_ctx, VFU_PCI_DEV_BAR0_REGION_IDX + i,
-+                         (size_t)pdev->io_regions[i].size,
-+                         vfu_object_bar_handlers[i],
-+                         flags, NULL, 0, -1, 0);
-+
-+        trace_vfu_bar_register(i, pdev->io_regions[i].addr,
-+                               pdev->io_regions[i].size);
-+    }
++    pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, pci_bus,
++                 max_bdf);
 +}
 +
  /*
   * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
   * properties. It also depends on devices instantiated in QEMU. These
-@@ -442,6 +630,8 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
-         goto fail;
-     }
+@@ -632,6 +788,13 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
  
-+    vfu_object_register_bars(o->vfu_ctx, o->pci_dev);
+     vfu_object_register_bars(o->vfu_ctx, o->pci_dev);
+ 
++    ret = vfu_object_setup_irqs(o, o->pci_dev);
++    if (ret < 0) {
++        error_setg(errp, "vfu: Failed to setup interrupts for %s",
++                   o->device);
++        goto fail;
++    }
 +
      ret = vfu_realize_ctx(o->vfu_ctx);
      if (ret < 0) {
          error_setg(errp, "vfu: Failed to realize device %s- %s",
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 657841eed0..fb16be57a6 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2719,7 +2719,7 @@ void memory_region_flush_rom_device(MemoryRegion *mr, hwaddr addr, hwaddr size)
-     invalidate_and_set_dirty(mr, addr, size);
- }
+@@ -657,6 +820,8 @@ fail:
+         o->unplug_blocker = NULL;
+     }
+     if (o->pci_dev) {
++        vfu_object_restore_msi_cbs(o);
++        o->pci_dev->irq_opaque = NULL;
+         object_unref(OBJECT(o->pci_dev));
+         o->pci_dev = NULL;
+     }
+@@ -716,6 +881,8 @@ static void vfu_object_finalize(Object *obj)
+     }
  
--static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
-+int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
- {
-     unsigned access_size_max = mr->ops->valid.max_access_size;
- 
-@@ -2746,7 +2746,7 @@ static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
-     return l;
- }
- 
--static bool prepare_mmio_access(MemoryRegion *mr)
-+bool prepare_mmio_access(MemoryRegion *mr)
- {
-     bool release_lock = false;
- 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 25df19fd5a..447ffe8178 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -144,7 +144,7 @@ static void *pattern_alloc(pattern p, size_t len)
-     return buf;
- }
- 
--static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
-+static int fuzz_memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
- {
-     unsigned access_size_max = mr->ops->valid.max_access_size;
- 
-@@ -242,11 +242,12 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
- 
-         /*
-          *  If mr1 isn't RAM, address_space_translate doesn't update l. Use
--         *  memory_access_size to identify the number of bytes that it is safe
--         *  to write without accidentally writing to another MemoryRegion.
-+         *  fuzz_memory_access_size to identify the number of bytes that it
-+         *  is safe to write without accidentally writing to another
-+         *  MemoryRegion.
-          */
-         if (!memory_region_is_ram(mr1)) {
--            l = memory_access_size(mr1, l, addr1);
-+            l = fuzz_memory_access_size(mr1, l, addr1);
-         }
-         if (memory_region_is_ram(mr1) ||
-             memory_region_is_romd(mr1) ||
+     if (o->pci_dev) {
++        vfu_object_restore_msi_cbs(o);
++        o->pci_dev->irq_opaque = NULL;
+         object_unref(OBJECT(o->pci_dev));
+         o->pci_dev = NULL;
+     }
+diff --git a/stubs/vfio-user-obj.c b/stubs/vfio-user-obj.c
+new file mode 100644
+index 0000000000..79100d768e
+--- /dev/null
++++ b/stubs/vfio-user-obj.c
+@@ -0,0 +1,6 @@
++#include "qemu/osdep.h"
++#include "hw/remote/vfio-user-obj.h"
++
++void vfu_object_set_bus_irq(PCIBus *pci_bus)
++{
++}
 diff --git a/hw/remote/trace-events b/hw/remote/trace-events
-index f945c7e33b..847d50d88f 100644
+index 847d50d88f..c167b3c7a5 100644
 --- a/hw/remote/trace-events
 +++ b/hw/remote/trace-events
-@@ -9,3 +9,6 @@ vfu_cfg_read(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u -> 0x%x"
- vfu_cfg_write(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u <- 0x%x"
- vfu_dma_register(uint64_t gpa, size_t len) "vfu: registering GPA 0x%"PRIx64", %zu bytes"
- vfu_dma_unregister(uint64_t gpa) "vfu: unregistering GPA 0x%"PRIx64""
-+vfu_bar_register(int i, uint64_t addr, uint64_t size) "vfu: BAR %d: addr 0x%"PRIx64" size 0x%"PRIx64""
-+vfu_bar_rw_enter(const char *op, uint64_t addr) "vfu: %s request for BAR address 0x%"PRIx64""
-+vfu_bar_rw_exit(const char *op, uint64_t addr) "vfu: Finished %s of BAR address 0x%"PRIx64""
+@@ -12,3 +12,4 @@ vfu_dma_unregister(uint64_t gpa) "vfu: unregistering GPA 0x%"PRIx64""
+ vfu_bar_register(int i, uint64_t addr, uint64_t size) "vfu: BAR %d: addr 0x%"PRIx64" size 0x%"PRIx64""
+ vfu_bar_rw_enter(const char *op, uint64_t addr) "vfu: %s request for BAR address 0x%"PRIx64""
+ vfu_bar_rw_exit(const char *op, uint64_t addr) "vfu: Finished %s of BAR address 0x%"PRIx64""
++vfu_interrupt(int pirq) "vfu: sending interrupt to device - PIRQ %d"
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 6f80fec761..d8f3fd5c44 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -60,3 +60,4 @@ if have_system
+ else
+   stub_ss.add(files('qdev.c'))
+ endif
++stub_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_false: files('vfio-user-obj.c'))
 -- 
 2.36.1
 
