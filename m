@@ -2,88 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D6954D1B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 21:36:08 +0200 (CEST)
-Received: from localhost ([::1]:56092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A73654D23F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 22:02:52 +0200 (CEST)
+Received: from localhost ([::1]:35018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1YoB-0006in-JW
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 15:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40120)
+	id 1o1ZE3-0006a5-5k
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 16:02:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1o1Ygz-0001aC-Fq
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 15:28:41 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:42788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1o1Ygy-0003at-0F
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 15:28:41 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id n28so17620621edb.9
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 12:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Bsd6+legzAuFom7mohoo/EpA8TcMJkGWWwC2FDU1SM4=;
- b=iBkbHnff1MUw8VFd6KdqfwwrtBGfS0mf/2dxnsH4VWAS9vgaqOuUGQ7v///R2DHsfa
- SXPpXSMeCGinD7LN1TvL6ovMrMbfHZtGWBO7ZONczAM+/oitRFKheoT82FmKyf5X3Fgf
- Emi8Wtg+xFam3gSg5mwraA6zl6/aPIU+5LxvEQQaFBUftKGWm/ZToyALIqjHk0rJphlh
- B1kPyUyMabymzBWZ/jAr47+f7NurMg4yRe+IAjNEElaLxce55EBaF0hxFETdwx+b0B2m
- vFzMJfSa6zVdpJoi496TWDZEte6W+SiFjQ/8uf0UqbubXUmUnlrcEFocvEVzfTxExjto
- ifcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Bsd6+legzAuFom7mohoo/EpA8TcMJkGWWwC2FDU1SM4=;
- b=Sb3fAjSswPX53jrLOQ+uIt2TVoiAi9DDzqUBMbKvxt5mPM/S1wgycfPCf8S/IAbDWi
- lzhzE87M4wZK8ItRtYFOf1SIqDBp2TsxBxUSrs0h2yCcTI5ZWXJrlnatDFnVJ9TAn7Hd
- 6vrpO2u+NuZOW/EzF24dMRSxjiPP33CNkhGMeygcBUZB9260SfdF+NYq02yx5+r6TO6E
- pZWd0MuynoB4DQRML5WocDUYpeSJm5j1WjOXZAO/pxUC+xEL8f9vnHfWEDAp7eVNkSTY
- fPOCko7/cQuFel6bplUxsjzNnKcrIt5Ws1avh+bxsqYXDzCS/b3qVYuAJ9TvmbaWWg99
- WZ2g==
-X-Gm-Message-State: AJIora8t3DzBHBGu/uXBy2n9K5SpTaw6Cb2JXIwabkkIS4icFYohxgX0
- SAD738thh/BOZKNrnEhsxuw=
-X-Google-Smtp-Source: AGRyM1scsiecQj5NP5JX6caqfaXGRDKJDMPJkWkhTxXbRarhaOY3TVMGm1ifde+O2XP+RgzJDkFIKA==
-X-Received: by 2002:a05:6402:f:b0:42e:561:a1c0 with SMTP id
- d15-20020a056402000f00b0042e0561a1c0mr1640379edu.309.1655321318349; 
- Wed, 15 Jun 2022 12:28:38 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- me2-20020a170906aec200b0070aaad0a173sm6596397ejb.192.2022.06.15.12.28.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jun 2022 12:28:37 -0700 (PDT)
-Message-ID: <ce778937-f051-14c2-65b4-0341850c21fa@redhat.com>
-Date: Wed, 15 Jun 2022 21:28:35 +0200
+ (Exim 4.90_1) (envelope-from <lucas.coutinho@eldorado.org.br>)
+ id 1o1Yq1-0001iw-8i; Wed, 15 Jun 2022 15:38:02 -0400
+Received: from [187.72.171.209] (port=43830 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.coutinho@eldorado.org.br>)
+ id 1o1Ypz-0000ee-Oi; Wed, 15 Jun 2022 15:38:01 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 15 Jun 2022 16:20:32 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 23F788001F1;
+ Wed, 15 Jun 2022 16:20:32 -0300 (-03)
+From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ Lucas Coutinho <lucas.coutinho@eldorado.org.br>
+Subject: [PATCH 05/11] target/ppc: Move slbia to decodetree
+Date: Wed, 15 Jun 2022 16:20:00 -0300
+Message-Id: <20220615192006.3075821-6-lucas.coutinho@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220615192006.3075821-1-lucas.coutinho@eldorado.org.br>
+References: <20220615192006.3075821-1-lucas.coutinho@eldorado.org.br>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 0/6] cutils: Introduce bundle mechanism
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang
- <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Programmingkid <programmingkidx@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20220615173345.32456-1-akihiko.odaki@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220615173345.32456-1-akihiko.odaki@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-OriginalArrivalTime: 15 Jun 2022 19:20:32.0540 (UTC)
+ FILETIME=[FB5F65C0:01D880EC]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.coutinho@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,19 +63,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/22 19:33, Akihiko Odaki wrote:
-> Developers often run QEMU without installing. The bundle mechanism
-> allows to look up files which should be present in installation even in
-> such a situation.
-> 
-> It is a general mechanism and can find any files located relative
-> to the installation tree. The build tree must have a new directory,
-> qemu-bundle, to represent what files the installation tree would
-> have for reference by the executables.
-> 
-> v7: Properly fix --firmwarepath (Daniel P. Berrangé)
+Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
+---
+ target/ppc/helper.h                          |  2 +-
+ target/ppc/insn32.decode                     |  5 +++++
+ target/ppc/mmu-hash64.c                      |  2 +-
+ target/ppc/translate.c                       | 17 -----------------
+ target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++++++
+ 5 files changed, 21 insertions(+), 19 deletions(-)
 
-Please give people a little time to review.  I left more comments on v6.
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 86cd12f399..4fbabda2f6 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -686,7 +686,7 @@ DEF_HELPER_FLAGS_3(store_slb, TCG_CALL_NO_RWG, void, env, tl, tl)
+ DEF_HELPER_2(load_slb_esid, tl, env, tl)
+ DEF_HELPER_2(load_slb_vsid, tl, env, tl)
+ DEF_HELPER_2(find_slb_vsid, tl, env, tl)
+-DEF_HELPER_FLAGS_2(slbia, TCG_CALL_NO_RWG, void, env, i32)
++DEF_HELPER_FLAGS_2(SLBIA, TCG_CALL_NO_RWG, void, env, i32)
+ DEF_HELPER_FLAGS_2(SLBIE, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(SLBIEG, TCG_CALL_NO_RWG, void, env, tl)
+ #endif
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index b900fd8f17..c378b34b58 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -131,6 +131,9 @@
+ &X_imm8         xt imm:uint8_t
+ @X_imm8         ...... ..... .. imm:8 .......... .              &X_imm8 xt=%x_xt
+ 
++&X_ih           ih:uint8_t
++@X_ih           ...... .. ih:3 ..... ..... .......... .         &X_ih
++
+ &X_rb           rb
+ @X_rb           ...... ..... ..... rb:5 .......... .            &X_rb
+ 
+@@ -795,6 +798,8 @@ XVF64GERNN      111011 ... -- .... 0 ..... 11111010 ..-  @XX3_at xa=%xx_xa_pair
+ SLBIE           011111 ----- ----- ..... 0110110010 -   @X_rb
+ SLBIEG          011111 ..... ----- ..... 0111010010 -   @X_tb
+ 
++SLBIA           011111 --... ----- ----- 0111110010 -   @X_ih
++
+ ## TLB Management Instructions
+ 
+ &X_tlbie        rb rs ric prs:bool r:bool
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index a842fbd6f6..dd2c7e588f 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -101,7 +101,7 @@ void dump_slb(PowerPCCPU *cpu)
+ }
+ 
+ #ifdef CONFIG_TCG
+-void helper_slbia(CPUPPCState *env, uint32_t ih)
++void helper_SLBIA(CPUPPCState *env, uint32_t ih)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+     int starting_entry;
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 6e47b81bf7..cf83890f82 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -5450,22 +5450,6 @@ static void gen_tlbsync(DisasContext *ctx)
+ }
+ 
+ #if defined(TARGET_PPC64)
+-/* slbia */
+-static void gen_slbia(DisasContext *ctx)
+-{
+-#if defined(CONFIG_USER_ONLY)
+-    GEN_PRIV(ctx);
+-#else
+-    uint32_t ih = (ctx->opcode >> 21) & 0x7;
+-    TCGv_i32 t0 = tcg_const_i32(ih);
+-
+-    CHK_SV(ctx);
+-
+-    gen_helper_slbia(cpu_env, t0);
+-    tcg_temp_free_i32(t0);
+-#endif /* defined(CONFIG_USER_ONLY) */
+-}
+-
+ /* slbsync */
+ static void gen_slbsync(DisasContext *ctx)
+ {
+@@ -6885,7 +6869,6 @@ GEN_HANDLER(tlbia, 0x1F, 0x12, 0x0B, 0x03FFFC01, PPC_MEM_TLBIA),
+  */
+ GEN_HANDLER(tlbsync, 0x1F, 0x16, 0x11, 0x03FFF801, PPC_MEM_TLBSYNC),
+ #if defined(TARGET_PPC64)
+-GEN_HANDLER(slbia, 0x1F, 0x12, 0x0F, 0x031FFC01, PPC_SLBI),
+ GEN_HANDLER_E(slbsync, 0x1F, 0x12, 0x0A, 0x03FFF801, PPC_NONE, PPC2_ISA300),
+ #endif
+ GEN_HANDLER(eciwx, 0x1F, 0x16, 0x0D, 0x00000001, PPC_EXTERN),
+diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
+index b9bb950f7d..cbb8b81f13 100644
+--- a/target/ppc/translate/storage-ctrl-impl.c.inc
++++ b/target/ppc/translate/storage-ctrl-impl.c.inc
+@@ -49,6 +49,20 @@ static bool trans_SLBIEG(DisasContext *ctx, arg_SLBIEG *a)
+     return true;
+ }
+ 
++static bool trans_SLBIA(DisasContext *ctx, arg_SLBIA *a)
++{
++    REQUIRE_64BIT(ctx);
++    REQUIRE_INSNS_FLAGS(ctx, SLBI);
++    REQUIRE_SV(ctx);
++
++#if !defined(CONFIG_USER_ONLY) && defined(TARGET_PPC64)
++    gen_helper_SLBIA(cpu_env, tcg_constant_i32(a->ih));
++#else
++    qemu_build_not_reached();
++#endif
++    return true;
++}
++
+ static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
+ {
+ #if defined(CONFIG_USER_ONLY)
+-- 
+2.25.1
 
-Paolo
 
