@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266B054CD10
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:34:18 +0200 (CEST)
-Received: from localhost ([::1]:59704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5162C54CD40
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:42:13 +0200 (CEST)
+Received: from localhost ([::1]:44760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1V29-0003Wm-3I
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
+	id 1o1V9o-0004hP-C5
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o1UVB-0005if-EQ
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:00:15 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:43895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o1UV9-0002FX-Vk
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:00:13 -0400
-Received: by mail-pf1-x435.google.com with SMTP id x4so11667887pfj.10
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 08:00:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=LJ0MgiKg4Csz/jID4OcBqdOFWm+wF7v0dZB38YqZcT4=;
- b=ZEZtdGhzJuqmo71SBpILwky4AU8KDqz/LthAi71Lf0Ooi+FJ49yj6kssQwGDnB1QVN
- jvvX6JLeRpetAMcYdt852XY0p1MCai81bJaJE1nNR774NbgvByySZMJtvFVh07iB01bU
- Lfg0++M5n4vYJdz2pwms4gQdMAzQssEd8j48hzcrpDXQPJnRHK9zSTG/BVQfwz4UPj6F
- Z5rP/3wDaL5ZFINX28Q8kaFpyC2QUwz4xpnUWgSmCkD13R28gUvIs7QlovHLLBaNPmnn
- e+Nx5FR5vMhC4iw9+2zlrrdXAb0xs5pbskSiAhf3OCwUfSlYugm55BAhoQV9VXIsWafk
- S1RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LJ0MgiKg4Csz/jID4OcBqdOFWm+wF7v0dZB38YqZcT4=;
- b=YSn20bZ/rP5NzHHbOfku3xd8sQFKUZLlwEOOHE5QX5EisxZm18VoC6oZc6bjw5UPOw
- hnv1iOpNR/DqKjx+rOoKxK+v5LFhTJ1gNfpLz0K1cM28ZEKcYP9mgQvLpPHTUGNL6vUM
- HnpvJe/xMIr3XhlE4awERlITSBDkRTbVmCJ19pT5TRnqzq/fPMzl/bBKUXNmNMahbHZN
- ld4vFPJQQqwF+oDPs/pf/JaYgUteqHuXmPQ51qhGq0bYvBUF1IXUFtQOOYawZuB05w6B
- w1uZw1VMU4N3Vv7kzGZ+lf+/uILM5OSjPYP5sFPOUQh/WDLj0B/KoAfunI6uNr4bl4KY
- cstA==
-X-Gm-Message-State: AJIora/JHne/PuRYLLna9Trn1GY9bGgBNnVgLWJwBB3InEEC7Zny+9zh
- N9Ovp5X8CmV68r9zcFWnIFppNrN/VkTqZA==
-X-Google-Smtp-Source: AGRyM1u125a80odK6CdYkbpxcx5VWO+8tPbbBRUJEKn7kXDMhEWx1sF8ADMVIL56Z0WAh3wu4ywtiQ==
-X-Received: by 2002:a63:77cc:0:b0:408:e3bc:6294 with SMTP id
- s195-20020a6377cc000000b00408e3bc6294mr222343pgc.154.1655305210490; 
- Wed, 15 Jun 2022 08:00:10 -0700 (PDT)
-Received: from [172.21.2.253] ([50.208.55.229])
- by smtp.gmail.com with ESMTPSA id
- y16-20020a17090264d000b0016362da9a03sm9314976pli.245.2022.06.15.08.00.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jun 2022 08:00:09 -0700 (PDT)
-Message-ID: <80e72c3b-40e2-402b-6d7b-ea0cc8bb049f@linaro.org>
-Date: Wed, 15 Jun 2022 08:00:07 -0700
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o1Ud6-00052a-WE
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:08:26 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:57319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o1Ud2-0004hA-2a
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 11:08:23 -0400
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-609-TtXlTjt9MNqkgL3osPub3g-1; Wed, 15 Jun 2022 11:08:07 -0400
+X-MC-Unique: TtXlTjt9MNqkgL3osPub3g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD9B33804516;
+ Wed, 15 Jun 2022 15:08:06 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BDF9492CA5;
+ Wed, 15 Jun 2022 15:08:06 +0000 (UTC)
+Date: Wed, 15 Jun 2022 17:08:05 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 3/7] tests/9pfs: compare QIDs in fs_walk_none() test
+Message-ID: <20220615170805.1dca73a9@bahia>
+In-Reply-To: <5bbe9c6931b4600a9a23742f5ff2d38c1188237d.1647339025.git.qemu_oss@crudebyte.com>
+References: <cover.1647339025.git.qemu_oss@crudebyte.com>
+ <5bbe9c6931b4600a9a23742f5ff2d38c1188237d.1647339025.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v16 2/9] linux-user: Add LoongArch signal support
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-References: <20220614090536.1103616-1-gaosong@loongson.cn>
- <20220614090536.1103616-3-gaosong@loongson.cn>
- <a50a74b3-f26a-c3cf-7aaf-12735b712968@linaro.org>
- <d537db33-26a6-5518-4292-32be5f8fc61f@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <d537db33-26a6-5518-4292-32be5f8fc61f@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,30 +67,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/22 02:57, gaosong wrote:
-> 
-> On 2022/6/15 上午12:15, Richard Henderson wrote:
->>> +static void *get_ctx(struct target_sctx_info *info)
->>> +{
->>> +    return (void *)((char *)info + sizeof(struct target_sctx_info));
->>> +}
->>
->> Return type should be struct target_sctx_info *. 
-> 
-> I wonder that if we return target_fpu_context * and rename get_ctx to get_fpu_context() 
-> would be better.
-> 
-> So we need't  cast  like this:
-> 
->      struct target_fpu_context *fpu_ctx = (struct target_fpu_context *)
->                                           get_ctx(info);
+On Tue, 15 Mar 2022 11:08:35 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Oh, hmm.  I think I mis-read the kernel code before -- retain the return type of void* so 
-that you do not need the cast at all in the caller.
+> Extend previously added fs_walk_none() test by comparing the QID
+> of the root fid with the QID of the cloned fid. They should be
+> equal.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
 
-The computation in the function is weirdly over-complicated -- it's really just "return 
-info + 1".
+LGTM.
 
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-r~
+>  tests/qtest/virtio-9p-test.c | 87 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+> 
+> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> index 6c00da03f4..a1160f4659 100644
+> --- a/tests/qtest/virtio-9p-test.c
+> +++ b/tests/qtest/virtio-9p-test.c
+> @@ -371,8 +371,15 @@ static P9Req *v9fs_tattach(QVirtio9P *v9p, uint32_t fid, uint32_t n_uname,
+>      return req;
+>  }
+>  
+> +/* type[1] version[4] path[8] */
+>  typedef char v9fs_qid[13];
+>  
+> +static inline bool is_same_qid(v9fs_qid a, v9fs_qid b)
+> +{
+> +    /* don't compare QID version for checking for file ID equalness */
+> +    return a[0] == b[0] && memcmp(&a[5], &b[5], 8) == 0;
+> +}
+> +
+>  /* size[4] Rattach tag[2] qid[13] */
+>  static void v9fs_rattach(P9Req *req, v9fs_qid *qid)
+>  {
+> @@ -425,6 +432,79 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
+>      v9fs_req_free(req);
+>  }
+>  
+> +/* size[4] Tgetattr tag[2] fid[4] request_mask[8] */
+> +static P9Req *v9fs_tgetattr(QVirtio9P *v9p, uint32_t fid, uint64_t request_mask,
+> +                            uint16_t tag)
+> +{
+> +    P9Req *req;
+> +
+> +    req = v9fs_req_init(v9p, 4 + 8, P9_TGETATTR, tag);
+> +    v9fs_uint32_write(req, fid);
+> +    v9fs_uint64_write(req, request_mask);
+> +    v9fs_req_send(req);
+> +    return req;
+> +}
+> +
+> +typedef struct v9fs_attr {
+> +    uint64_t valid;
+> +    v9fs_qid qid;
+> +    uint32_t mode;
+> +    uint32_t uid;
+> +    uint32_t gid;
+> +    uint64_t nlink;
+> +    uint64_t rdev;
+> +    uint64_t size;
+> +    uint64_t blksize;
+> +    uint64_t blocks;
+> +    uint64_t atime_sec;
+> +    uint64_t atime_nsec;
+> +    uint64_t mtime_sec;
+> +    uint64_t mtime_nsec;
+> +    uint64_t ctime_sec;
+> +    uint64_t ctime_nsec;
+> +    uint64_t btime_sec;
+> +    uint64_t btime_nsec;
+> +    uint64_t gen;
+> +    uint64_t data_version;
+> +} v9fs_attr;
+> +
+> +#define P9_GETATTR_BASIC    0x000007ffULL /* Mask for fields up to BLOCKS */
+> +
+> +/*
+> + * size[4] Rgetattr tag[2] valid[8] qid[13] mode[4] uid[4] gid[4] nlink[8]
+> + *                  rdev[8] size[8] blksize[8] blocks[8]
+> + *                  atime_sec[8] atime_nsec[8] mtime_sec[8] mtime_nsec[8]
+> + *                  ctime_sec[8] ctime_nsec[8] btime_sec[8] btime_nsec[8]
+> + *                  gen[8] data_version[8]
+> + */
+> +static void v9fs_rgetattr(P9Req *req, v9fs_attr *attr)
+> +{
+> +    v9fs_req_recv(req, P9_RGETATTR);
+> +
+> +    v9fs_uint64_read(req, &attr->valid);
+> +    v9fs_memread(req, &attr->qid, 13);
+> +    v9fs_uint32_read(req, &attr->mode);
+> +    v9fs_uint32_read(req, &attr->uid);
+> +    v9fs_uint32_read(req, &attr->gid);
+> +    v9fs_uint64_read(req, &attr->nlink);
+> +    v9fs_uint64_read(req, &attr->rdev);
+> +    v9fs_uint64_read(req, &attr->size);
+> +    v9fs_uint64_read(req, &attr->blksize);
+> +    v9fs_uint64_read(req, &attr->blocks);
+> +    v9fs_uint64_read(req, &attr->atime_sec);
+> +    v9fs_uint64_read(req, &attr->atime_nsec);
+> +    v9fs_uint64_read(req, &attr->mtime_sec);
+> +    v9fs_uint64_read(req, &attr->mtime_nsec);
+> +    v9fs_uint64_read(req, &attr->ctime_sec);
+> +    v9fs_uint64_read(req, &attr->ctime_nsec);
+> +    v9fs_uint64_read(req, &attr->btime_sec);
+> +    v9fs_uint64_read(req, &attr->btime_nsec);
+> +    v9fs_uint64_read(req, &attr->gen);
+> +    v9fs_uint64_read(req, &attr->data_version);
+> +
+> +    v9fs_req_free(req);
+> +}
+> +
+>  /* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
+>  static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t offset,
+>                              uint32_t count, uint16_t tag)
+> @@ -1009,6 +1089,7 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+>      v9fs_qid root_qid;
+>      g_autofree v9fs_qid *wqid = NULL;
+>      P9Req *req;
+> +    struct v9fs_attr attr;
+>  
+>      do_version(v9p);
+>      req = v9fs_tattach(v9p, 0, getuid(), 0);
+> @@ -1021,6 +1102,12 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+>  
+>      /* special case: no QID is returned if nwname=0 was sent */
+>      g_assert(wqid == NULL);
+> +
+> +    req = v9fs_tgetattr(v9p, 1, P9_GETATTR_BASIC, 0);
+> +    v9fs_req_wait_for_reply(req, NULL);
+> +    v9fs_rgetattr(req, &attr);
+> +
+> +    g_assert(is_same_qid(root_qid, attr.qid));
+>  }
+>  
+>  static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
+
 
