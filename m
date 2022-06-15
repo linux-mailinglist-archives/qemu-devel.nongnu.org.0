@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F68654C08D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 06:12:16 +0200 (CEST)
-Received: from localhost ([::1]:33576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C1E54C08E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 06:13:08 +0200 (CEST)
+Received: from localhost ([::1]:34666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1KO6-0002q3-Rn
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 00:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52602)
+	id 1o1KOx-0003jj-Mz
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 00:13:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1o1KI4-0000bR-SE
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 00:06:03 -0400
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:46684)
+ id 1o1KKE-0001Yp-Lv; Wed, 15 Jun 2022 00:08:20 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:36563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1o1KI2-0004gE-2A
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 00:05:59 -0400
-Received: by mail-qt1-x835.google.com with SMTP id j8so7533463qtn.13
- for <qemu-devel@nongnu.org>; Tue, 14 Jun 2022 21:05:57 -0700 (PDT)
+ id 1o1KKC-0006oo-HW; Wed, 15 Jun 2022 00:08:13 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ k12-20020a17090a404c00b001eaabc1fe5dso930720pjg.1; 
+ Tue, 14 Jun 2022 21:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JhO9nZ2uvBsXQfaLVJAIA9/ppXW18cBIDMdz6qFgHX4=;
- b=nsjlDWl5CZTvqtSqHsclf6suQSmJFP6GrUoiSgzjMMjQRNkgtCWRapeDJiG0Aywgyh
- xFFzs46oIwxk9aH+rV+h8Zq0GGObIBfUX+JdSxXBlwVBBHBXEx1vWdV3hRI7qfQquqlt
- DmwSPLeW691WtMlzuULSKJG6RfRxSfClK0kZeFTFygjifxFyHAGFoK1HxMk0IpObNX2t
- JKylgj1mxdNLpVIeL6J1G3rIJMZM27b+r/QPpCaaF5YvnTYlDaW48EFksKra7ld1DUBF
- Nx1G5OcWUCKqJWiVSi7VHP8it1CTQG1lf9G8bH1IYCZpUwttfh2Virb6+XsZzZ9+/2RA
- zOnA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X2Fti+zxT8eMbb06kl2o5oaRsqmJqpLb0B8xrRpoe/U=;
+ b=HmUqFXxdvlOwgxc8MOBJmEIrPEmQ7+eb9lpFuJV3ShNWfIlv+9hXJD9WVpe5O89RvJ
+ qEyGg6PIuC83jgRagxLiddPJvLLf9tRVPdfJep21M21QFd3Ynd05GA89wxk9pfLhDpp3
+ iNDwEGwR++3T8qV/STpiHelgiAHcp/OzF3GrCZX9Y8DFdhqSepsLrXwsjZDHXbh41vUP
+ GvhKPjJGVvVrmQVq+Z3MbyYRyH9Zff2s/dltY9v6ybYkyCqodmkCT3SzueHjMuu1ttx6
+ /h7MZ7jK5+0nmId6TZpP/L1o0FvmnW/NSZzvcy6kA8P+YNwmpSDfVbmothciwChK43R1
+ fDmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JhO9nZ2uvBsXQfaLVJAIA9/ppXW18cBIDMdz6qFgHX4=;
- b=WUIG3pD5XZlxzaYDMmimTseu3hZuEFBIb3JqOSNStWznNYZzOsAfAViXSUYR7rQtEq
- eqyJRqEYIK43iwfZ1Y8lVrWjoCebd0tdR2JPUjrqXtSVyt+QyTdoBUExcd7MVTSSQzjI
- 0UmxlDuetVTfpkMdzOLAAiBpkojm2LApOAy7g/Qo8oSSqxdzXhKiUeUfbh2zrHoffZ+n
- hworh2luqelW6x7TITXEMome9C+FfyQfzvpCyoRTlnBeWqenvAm5QTjKNMIEy3lKH/mt
- zz6UByDIHDr+okDWIscX+oMzFgMk00o05WygjemKV3Z84Xby/nxDdNwGMsmXlM97gm1O
- +OKg==
-X-Gm-Message-State: AOAM5301Ygz5MD2njG3+9VN/FPWe5OspdZr+La/AjlDedS/xHoBklu9E
- rAazjlF/vjRE+lRsmeQR9aNtkX8qdfnWSBpe1+w=
-X-Google-Smtp-Source: ABdhPJz8M8QwBJhyJ+q1biOBFY0MVYmku0beogBCj4FUP6qjvUt/o0LOyJ0hja8zwQhR/LAcQr9vch70SxydH5PTan4=
-X-Received: by 2002:ac8:7d55:0:b0:305:732:680b with SMTP id
- h21-20020ac87d55000000b003050732680bmr7254609qtb.391.1655265956608; Tue, 14
- Jun 2022 21:05:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220613115810.178210-1-Jason@zx2c4.com>
-In-Reply-To: <20220613115810.178210-1-Jason@zx2c4.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X2Fti+zxT8eMbb06kl2o5oaRsqmJqpLb0B8xrRpoe/U=;
+ b=CsdTdxQmanBFylEWdho3vr8Eh+a/dmBelY66+gxxnPXAsaIsyxG/FM5YvB/Zp7qhW+
+ RVDjaTkfEp6Mg9QiEj2xROxrKe9aBl7HaTpuo37fUsQrUl2DEXBLI8392w1mL98ETfyn
+ ngA00zlpbHcc3qBqt1keNdXDW/7WGsOiPNHjO85vrp5wcs61FZsatxubvM3Z6hUW+pgQ
+ lphju72RPpAd2WgVRBFHTqVBin4KzJVGISv/cgNG9DRc+3/e1iZeFXcjcmc2YV34Z9id
+ QT6y+BJM9jsutbWX+P6KsCERZnEPSJx6CVIyuJy5eYHYdCRWQIv0qzpUBohksk0vXKuk
+ gr9Q==
+X-Gm-Message-State: AJIora/I9kBNv28Ej0Zn3xhH/b6RJzgctzY/EkSCeX1UgTGQHAxjXhFx
+ X26YfpuMT/CEJKTNnpbaq0o=
+X-Google-Smtp-Source: AGRyM1tHNasHMladPCcD17IkP/WPaegjN+c/GCIMI3eXUdbpjBv6vJ8a98qTRtI594pSpfPl37oI2w==
+X-Received: by 2002:a17:90b:4b82:b0:1e6:7853:c004 with SMTP id
+ lr2-20020a17090b4b8200b001e67853c004mr8066714pjb.136.1655266090204; 
+ Tue, 14 Jun 2022 21:08:10 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ j9-20020aa79289000000b0051c79bd5047sm8436945pfa.139.2022.06.14.21.08.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jun 2022 21:08:09 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 15 Jun 2022 12:05:45 +0800
-Message-ID: <CAEUhbmX8hOuhHrT1xx3HrgUt5jZvO_jUN+64RPWfZADKCbGvKg@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: virt: pass random seed to fdt
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x835.google.com
+To: Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>
+Subject: [PATCH] target/riscv: Update tval for hardware watchpoint
+Date: Wed, 15 Jun 2022 12:08:06 +0800
+Message-Id: <20220615040806.137678-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,55 +86,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 13, 2022 at 8:08 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
-> initialize early. Set this using the usual guest random number
-> generation function. This is confirmed to successfully initialize the
-> RNG on Linux 5.19-rc2.
->
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->  hw/riscv/virt.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index bc424dd2f5..368a723bf6 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -21,6 +21,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
->  #include "qemu/error-report.h"
-> +#include "qemu/guest-random.h"
->  #include "qapi/error.h"
->  #include "hw/boards.h"
->  #include "hw/loader.h"
-> @@ -998,6 +999,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
->      MachineState *mc = MACHINE(s);
->      uint32_t phandle = 1, irq_mmio_phandle = 1, msi_pcie_phandle = 1;
->      uint32_t irq_pcie_phandle = 1, irq_virtio_phandle = 1;
-> +    uint8_t rng_seed[32];
->
->      if (mc->dtb) {
->          mc->fdt = load_device_tree(mc->dtb, &s->fdt_size);
-> @@ -1046,6 +1048,10 @@ update_bootargs:
->      if (cmdline && *cmdline) {
->          qemu_fdt_setprop_string(mc->fdt, "/chosen", "bootargs", cmdline);
->      }
-> +
-> +    /* Pass seed to RNG. */
+From: Bin Meng <bin.meng@windriver.com>
 
-nits: please remove the ending period
+When watchpoint is hit, the breakpoint exception should update tval
+to point to the faulting virtual address.
 
-> +    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-> +    qemu_fdt_setprop(mc->fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
->  }
->
->  static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-> --
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-Otherwise,
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+ target/riscv/cpu.h        | 1 +
+ target/riscv/cpu_helper.c | 6 ++++++
+ target/riscv/debug.c      | 2 ++
+ 3 files changed, 9 insertions(+)
+
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7d6397acdf..fdcba8978b 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -289,6 +289,7 @@ struct CPUArchState {
+ 
+     /* trigger module */
+     target_ulong trigger_cur;
++    bool wp_hit;
+     type2_trigger_t type2_trig[TRIGGER_TYPE2_NUM];
+ 
+     /* machine specific rdtime callback */
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 4a6700c890..f1564ce51e 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1345,6 +1345,12 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     target_ulong htval = 0;
+     target_ulong mtval2 = 0;
+ 
++    /* only update tval for watchpoint */
++    if (cause == RISCV_EXCP_BREAKPOINT && env->wp_hit) {
++        env->wp_hit = false;
++        tval = env->badaddr;
++    }
++
+     if  (cause == RISCV_EXCP_SEMIHOST) {
+         if (env->priv >= PRV_S) {
+             env->gpr[xA0] = do_common_semihosting(cs);
+diff --git a/target/riscv/debug.c b/target/riscv/debug.c
+index fc6e13222f..89b12c6bef 100644
+--- a/target/riscv/debug.c
++++ b/target/riscv/debug.c
+@@ -407,6 +407,8 @@ bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
+         if ((wp->flags & flags) && (wp->vaddr == addr)) {
+             /* check U/S/M bit against current privilege level */
+             if ((ctrl >> 3) & BIT(env->priv)) {
++                env->wp_hit = true;
++                env->badaddr = addr;
+                 return true;
+             }
+         }
+-- 
+2.34.1
+
 
