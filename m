@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F6254CBFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 16:57:42 +0200 (CEST)
-Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5236354CC07
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:00:33 +0200 (CEST)
+Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1USj-0006h3-5w
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 10:57:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47300)
+	id 1o1UVU-0003vX-BD
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:00:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UO9-0006EK-LH
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:52:57 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:11212)
+ id 1o1UOC-0006OC-68
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:53:00 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:14470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UO7-00010j-Kf
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:52:57 -0400
+ id 1o1UO9-000110-TO
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:52:59 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE0Gvm025874;
- Wed, 15 Jun 2022 14:52:42 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE3J22025870;
+ Wed, 15 Jun 2022 14:52:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=+sp4+cpxttCc+An/LgJTFXgwVuA5JVJmj7Xti2hEz1s=;
- b=KB3p2Uajbly1G1ce/7z9BOjJZij9jDxtdOexQx711d85btR2pkDFqbQAYTAgqg82GW4v
- wpVvDFBkyjaNHBYzJA++UcXJvv0l0lH/mP1wIb0h6b984gU1j2/9UWw7RkUDGIyRLQBg
- 2pUzLaCUnInD7374fsfj2cxAmMp0gi8sfC3ExzTsPAMfIU1p2Z2ZXJ1eJA0LVwFEvWs6
- qBSbN4pwZYPtI4qBF1mqHhFF9fi3gWcmvFFtPHBLkm1KIjUDNx/iJpz62GM3YH6Kss13
- G6rJHO3aSEw2mqug6gDCB9z3M7E8uPtWpzHZZ24yqumRus9EunIvtkGzrP+93fbl1Pyx tw== 
+ bh=hPPI5U8n9By6D6CnUyM75BH/3nBeUyxSsGawJZht1hM=;
+ b=HbsH32nBaLmJc32d1IDgdXb4cequX571O6U6A9M7kMPbGPKkgRixBSbiIqvyuSwji5pi
+ hY3NOVjJ6pGbwffQA7yuQ+NHKGIumrgf+UHHXEDzQGPMtOsAykXGQ4XSa74hOAr+iLnr
+ fZoOBIkJzVflI6MKEGrIkGzHmqp+pcoMFcTlftKj2Z2B7eGqoXOH/Xtg2sXjwprXL8Is
+ zFhlU0r2BzOBp/L25A8jee2MC/v7jeTnup5GLUjAeKdnxnqyanKkiTUx0tDq73PGBNtz
+ bHsj2QtO4o2BbiqQYJBMvTQGBQ/K1URhOYGrjOTNu71cF+xCJX/snZ2Y+OLwoudFxErM IA== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhu2rxdu-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhu2rxdy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:41 +0000
+ Wed, 15 Jun 2022 14:52:43 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25FEQ7UR023115; Wed, 15 Jun 2022 14:52:41 GMT
+ with SMTP id 25FEQ73b023111; Wed, 15 Jun 2022 14:52:42 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpmt-1
+ 3gpr25vpng-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:41 +0000
+ Wed, 15 Jun 2022 14:52:42 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSN3018501;
- Wed, 15 Jun 2022 14:52:40 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSN5018501;
+ Wed, 15 Jun 2022 14:52:41 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpfm-11; Wed, 15 Jun 2022 14:52:40 +0000
+ 3gpr25vpfm-12; Wed, 15 Jun 2022 14:52:41 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,14 +72,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH V8 10/39] cpr: cpr-enable option
-Date: Wed, 15 Jun 2022 07:51:57 -0700
-Message-Id: <1655304746-102776-11-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V8 11/39] cpr: save ram blocks
+Date: Wed, 15 Jun 2022 07:51:58 -0700
+Message-Id: <1655304746-102776-12-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-GUID: NpcBYuP1vJTfpkibW34CkOEW18gZSrt6
-X-Proofpoint-ORIG-GUID: NpcBYuP1vJTfpkibW34CkOEW18gZSrt6
+X-Proofpoint-GUID: klIUTvxRPURiUkMmktsxzhEdmCJO--0E
+X-Proofpoint-ORIG-GUID: klIUTvxRPURiUkMmktsxzhEdmCJO--0E
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -104,190 +104,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the '-cpr-enable <mode>' command-line option as a pre-requisite for
-using cpr-save and cpr-load for the mode.  Multiple -cpr-enable options
-may be specified, one per mode.
-
-Requiring -cpr-enable allows qemu to initialize objects differently, if
-necessary, so that cpr-save is not blocked.
+Add a vmstate handler to save volatile ram blocks in the state file.  This
+is used to preserve secondary guest ram blocks (those that cannot be
+specified on the command line) such as video ram and roms for cpr reboot,
+as there is no option to allocate them in shared memory.  For efficiency,
+the user should create a shared memory-backend-file for the VM's main ram,
+so it is not copied to the state file, but this is not enforced.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hmp-commands.hx         |  4 ++++
- include/migration/cpr.h |  2 ++
- migration/cpr.c         | 22 ++++++++++++++++++++++
- qapi/cpr.json           |  4 ++++
- qemu-options.hx         | 10 ++++++++++
- softmmu/vl.c            |  8 ++++++++
- 6 files changed, 50 insertions(+)
+ include/exec/memory.h |  6 +++++
+ migration/savevm.c    |  2 ++
+ softmmu/memory.c      | 18 ++++++++++++++
+ softmmu/physmem.c     | 67 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 93 insertions(+)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 9d9f984..d621968 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -370,6 +370,8 @@ SRST
-   and does not require that guest RAM be saved in the file.  The caller must
-   not modify guest block devices between cpr-save and cpr-load.
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 0daddd7..a03301d 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -3002,6 +3002,12 @@ bool ram_block_discard_is_disabled(void);
+  */
+ bool ram_block_discard_is_required(void);
  
-+  cpr-save requires that qemu was started with -cpr-enable for *mode*.
++/*
++ * Register/unregister a ram block for cpr.
++ */
++void ram_block_register(RAMBlock *rb);
++void ram_block_unregister(RAMBlock *rb);
 +
-   If *mode* is 'reboot', the checkpoint remains valid after a host reboot.
-   The guest RAM memory-backend should be shared and non-volatile across
-   reboot, else it will be saved to the file.  To resume from the checkpoint,
-@@ -391,6 +393,8 @@ SRST
-   Load a virtual machine from the checkpoint file *filename* that was created
-   earlier by the cpr-save command, and continue the VCPUs.  *mode* must match
-   the mode specified for cpr-save.
-+
-+  cpr-load requires that qemu was started with -cpr-enable for *mode*.
- ERST
+ #endif
  
-     {
-diff --git a/include/migration/cpr.h b/include/migration/cpr.h
-index dfe5a1d..f236cbf 100644
---- a/include/migration/cpr.h
-+++ b/include/migration/cpr.h
-@@ -10,8 +10,10 @@
- 
- #include "qapi/qapi-types-cpr.h"
- 
-+void cpr_init(int modes);
- void cpr_set_mode(CprMode mode);
- CprMode cpr_get_mode(void);
-+bool cpr_enabled(CprMode mode);
- 
- #define CPR_MODE_ALL CPR_MODE__MAX
- 
-diff --git a/migration/cpr.c b/migration/cpr.c
-index c1da784..76b9225 100644
---- a/migration/cpr.c
-+++ b/migration/cpr.c
-@@ -29,6 +29,18 @@ void cpr_set_mode(CprMode mode)
-     cpr_mode = mode;
+ #endif
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 0b2c5cd..9d528ed 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -3108,10 +3108,12 @@ void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
+     qemu_ram_set_idstr(mr->ram_block,
+                        memory_region_name(mr), dev);
+     qemu_ram_set_migratable(mr->ram_block);
++    ram_block_register(mr->ram_block);
  }
  
-+static int cpr_enabled_modes;
-+
-+void cpr_init(int modes)
+ void vmstate_unregister_ram(MemoryRegion *mr, DeviceState *dev)
+ {
++    ram_block_unregister(mr->ram_block);
+     qemu_ram_unset_idstr(mr->ram_block);
+     qemu_ram_unset_migratable(mr->ram_block);
+ }
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 7ba2048..0fe6fac 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -3541,13 +3541,31 @@ void __attribute__((weak)) fuzz_dma_read_cb(size_t addr,
+ }
+ #endif
+ 
++static char *
++memory_region_vmstate_if_get_id(VMStateIf *obj)
 +{
-+    cpr_enabled_modes = modes;
++    MemoryRegion *mr = MEMORY_REGION(obj);
++    return strdup(mr->ram_block->idstr);
 +}
 +
-+bool cpr_enabled(CprMode mode)
++static void memory_region_class_init(ObjectClass *class, void *data)
 +{
-+    return !!(cpr_enabled_modes & BIT(mode));
++    VMStateIfClass *vc = VMSTATE_IF_CLASS(class);
++    vc->get_id = memory_region_vmstate_if_get_id;
 +}
 +
- static GSList *cpr_blockers[CPR_MODE__MAX];
- 
- /*
-@@ -110,6 +122,11 @@ void qmp_cpr_save(const char *filename, CprMode mode, Error **errp)
-     QEMUFile *f;
-     int saved_vm_running = runstate_is_running();
- 
-+    if (!(cpr_enabled_modes & BIT(mode))) {
-+        error_setg(errp, "cpr mode is not enabled.  Use -cpr-enable.");
-+        return;
+ static const TypeInfo memory_region_info = {
+     .parent             = TYPE_OBJECT,
+     .name               = TYPE_MEMORY_REGION,
+     .class_size         = sizeof(MemoryRegionClass),
++    .class_init         = memory_region_class_init,
+     .instance_size      = sizeof(MemoryRegion),
+     .instance_init      = memory_region_initfn,
+     .instance_finalize  = memory_region_finalize,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_VMSTATE_IF },
++        { }
 +    }
-+
-     if (cpr_is_blocked(errp, mode)) {
-         return;
-     }
-@@ -154,6 +171,11 @@ void qmp_cpr_load(const char *filename, CprMode mode, Error **errp)
-     int ret;
-     RunState state;
+ };
  
-+    if (!(cpr_enabled_modes & BIT(mode))) {
-+        error_setg(errp, "cpr mode is not enabled.  Use -cpr-enable.");
-+        return;
-+    }
-+
-     if (runstate_is_running()) {
-         error_setg(errp, "cpr-load called for a running VM");
-         return;
-diff --git a/qapi/cpr.json b/qapi/cpr.json
-index bdaabcb..11c6f88 100644
---- a/qapi/cpr.json
-+++ b/qapi/cpr.json
-@@ -30,6 +30,8 @@
- # and does not require that guest RAM be saved in the file.  The caller must
- # not modify guest block devices between cpr-save and cpr-load.
- #
-+# cpr-save requires that qemu was started with -cpr-enable for @mode.
-+#
- # If @mode is 'reboot', the checkpoint remains valid after a host reboot.
- # The guest RAM memory-backend should be shared and non-volatile across
- # reboot, else it will be saved to the file.  To resume from the checkpoint,
-@@ -52,6 +54,8 @@
- # earlier by the cpr-save command, and continue the VCPUs.  @mode must match
- # the mode specified for cpr-save.
- #
-+# cpr-load requires that qemu was started with -cpr-enable for @mode.
-+#
- # @filename: name of checkpoint file
- # @mode: @CprMode mode
- #
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22f..6e51c33 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4483,6 +4483,16 @@ SRST
-     an unmigratable state.
- ERST
+ static const TypeInfo iommu_memory_region_info = {
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 0f1ce28..822c424 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -66,7 +66,9 @@
  
-+DEF("cpr-enable", HAS_ARG, QEMU_OPTION_cpr_enable, \
-+    "-cpr-enable reboot    enable the cpr mode\n",
-+    QEMU_ARCH_ALL)
-+SRST
-+``-cpr-enable reboot``
-+    Enable the specified cpr mode.  May be supplied multiple times, once
-+    per mode.  This is a pre-requisite for calling the cpr-save and cpr-load
-+    commands.
-+ERST
-+
- DEF("nodefaults", 0, QEMU_OPTION_nodefaults, \
-     "-nodefaults     don't create default devices\n", QEMU_ARCH_ALL)
- SRST
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 54e920a..ce779cf 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -78,6 +78,7 @@
- #include "hw/i386/pc.h"
- #include "migration/misc.h"
- #include "migration/snapshot.h"
+ #include "qemu/pmem.h"
+ 
 +#include "migration/cpr.h"
- #include "sysemu/tpm.h"
- #include "sysemu/dma.h"
- #include "hw/audio/soundhw.h"
-@@ -2600,6 +2601,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     MachineClass *machine_class;
-     bool userconfig = true;
-     FILE *vmstate_dump_file = NULL;
-+    int cpr_modes = 0;
+ #include "migration/vmstate.h"
++#include "migration/qemu-file.h"
  
-     qemu_add_opts(&qemu_drive_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-@@ -3313,6 +3315,10 @@ void qemu_init(int argc, char **argv, char **envp)
-             case QEMU_OPTION_only_migratable:
-                 only_migratable = 1;
-                 break;
-+            case QEMU_OPTION_cpr_enable:
-+                cpr_modes |= BIT(qapi_enum_parse(&CprMode_lookup, optarg, -1,
-+                                                 &error_fatal));
-+                break;
-             case QEMU_OPTION_nodefaults:
-                 has_defaults = 0;
-                 break;
-@@ -3464,6 +3470,8 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_validate_options(machine_opts_dict);
-     qemu_process_sugar_options();
+ #include "qemu/range.h"
+ #ifndef _WIN32
+@@ -2450,6 +2452,71 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
+     return block->offset + offset;
+ }
  
-+    cpr_init(cpr_modes);
++static int put_ram_block(QEMUFile *f, void *pv, size_t size,
++                         const VMStateField *field, JSONWriter *vmdesc)
++{
++    RAMBlock *rb = pv;
 +
-     /*
-      * These options affect everything else and should be processed
-      * before daemonizing.
++    if (rb->used_length > 1024 * 1024) {
++        warn_report("Large RAM block %s size %ld saved to state file. "
++                    "Use a shared file memory backend to avoid the copy.",
++                    rb->idstr, rb->used_length);
++    }
++    qemu_put_buffer(f, rb->host, rb->used_length);
++    return 0;
++}
++
++static int get_ram_block(QEMUFile *f, void *pv, size_t size,
++                         const VMStateField *field)
++{
++    RAMBlock *rb = pv;
++    qemu_get_buffer(f, rb->host, rb->used_length);
++    return 0;
++}
++
++static const VMStateInfo vmstate_info_ram_block = {
++    .name = "ram block host",
++    .get  = get_ram_block,
++    .put  = put_ram_block,
++};
++
++#define VMSTATE_RAM_BLOCK() {           \
++    .name  = "ram_block_host",          \
++    .info  = &vmstate_info_ram_block,   \
++    .flags = VMS_SINGLE,                \
++}
++
++static bool ram_block_needed(void *opaque)
++{
++    RAMBlock *rb = opaque;
++
++    return cpr_get_mode() == CPR_MODE_REBOOT &&
++        qemu_ram_is_migratable(rb) &&
++        (!qemu_ram_is_shared(rb) || ramblock_is_anon(rb));
++}
++
++const VMStateDescription vmstate_ram_block = {
++    .name = "RAMBlock",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = ram_block_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(used_length, RAMBlock),
++        VMSTATE_RAM_BLOCK(),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++void ram_block_register(RAMBlock *rb)
++{
++    vmstate_register(VMSTATE_IF(rb->mr), 0, &vmstate_ram_block, rb);
++}
++
++void ram_block_unregister(RAMBlock *rb)
++{
++    vmstate_unregister(VMSTATE_IF(rb->mr), &vmstate_ram_block, rb);
++}
++
+ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
+                                  MemTxAttrs attrs, void *buf, hwaddr len);
+ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
 -- 
 1.8.3.1
 
