@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF2A54CD33
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:40:45 +0200 (CEST)
-Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FA454CD0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 17:33:26 +0200 (CEST)
+Received: from localhost ([::1]:56294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1V8P-0001IU-04
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:40:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48070)
+	id 1o1V1J-00016l-Ct
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 11:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UPM-00005h-Bi
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:54:12 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:19306)
+ id 1o1UPK-0008Ut-Ca
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:54:10 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:17332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o1UPK-0001Bl-Ou
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:54:12 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FE0c2D001492;
- Wed, 15 Jun 2022 14:52:48 GMT
+ id 1o1UPI-0001Bc-OJ
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 10:54:10 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25FDwp4J026591;
+ Wed, 15 Jun 2022 14:52:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=6lCGXjI3tvu5Eh6CVGp/Ue+ESSsqoTyRpeyxBVbA3VY=;
- b=uSlkv5/1R1EpmZmUcjWJ3MbrLAK6IRvBea0qUGkzbanOWlgAKbuXoHbobUfz82v80XtF
- Fv/hLkjU1mmN24YpH+MKWxE04yLbXf/B9zDkZZfOGdRCZq4MTOykiJG+uoI95yCIXfEB
- MNmatJwwMqaettyxX7r4fuJ5PFh3RjKlu7BJYgk/4tMUCg1CLc1DpoEfTEe2o0RRmHA9
- KH5Aa3N/ixzMeWmswMjqaUj82u7mX4adxwloFyDTPDbYAJs45ZyGXWR5dOAQLrJhpv+J
- 4szQrUf/9A7OFRaIeWX1WgqksXZyw+Ixdb0JUUN9MqGVZGcJcBVPikmeXgIE/rwS7xb9 oQ== 
+ bh=GzI0gWvg80PtLp0f8GJXyhVdypXfBgAxwNMpPMIJU2k=;
+ b=n0Yk5OFlsCiZY6MxPNK7bsoiMdBZt0Jr/2icPiJRGAxv/K036fL20KHvN5+Nk8XtJeGx
+ jsieDsw9o8d2vWeY7E4eLRb4/KkzfT2kSv2tzdlBatoeofR2NFvQpKdunw+lYbSAsTNd
+ lEKb01p22KgW8f6bvx8mgAEylnMJDpKwFfv2dJ1wid0/bVQ0eOFrzZsqN4f52m3Hv4ZQ
+ UHhz6nO8DxjmRNFTAALgWWeyOn7IhoCuGPVK0zU7kVoLimH9nbbcctjOcXPRZA7WUG9y
+ U0HGNGK5vSx55Mjh828wV7YKrfNyku6Li2MZOkRsNS1AtLZeppQTLohVaAw4QA314Qp0 +g== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjns8tkp-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhu2rxeg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:47 +0000
+ Wed, 15 Jun 2022 14:52:49 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25FEQ73e023111; Wed, 15 Jun 2022 14:52:46 GMT
+ with SMTP id 25FEQ7C8023114; Wed, 15 Jun 2022 14:52:48 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpqp-1
+ 3gpr25vprk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jun 2022 14:52:46 +0000
+ Wed, 15 Jun 2022 14:52:48 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSND018501;
- Wed, 15 Jun 2022 14:52:46 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25FEqSNF018501;
+ Wed, 15 Jun 2022 14:52:47 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr25vpfm-16; Wed, 15 Jun 2022 14:52:46 +0000
+ 3gpr25vpfm-17; Wed, 15 Jun 2022 14:52:47 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,14 +72,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH V8 15/39] qapi: QAPI_LIST_LENGTH
-Date: Wed, 15 Jun 2022 07:52:02 -0700
-Message-Id: <1655304746-102776-16-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V8 16/39] qapi: strv_from_strList
+Date: Wed, 15 Jun 2022 07:52:03 -0700
+Message-Id: <1655304746-102776-17-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-GUID: IjBTIjaneRhh71UYMDnnYwgqYrVHHt05
-X-Proofpoint-ORIG-GUID: IjBTIjaneRhh71UYMDnnYwgqYrVHHt05
+X-Proofpoint-GUID: Mo-oSzF980FiQAMKkT4EyarIbTN5tlIR
+X-Proofpoint-ORIG-GUID: Mo-oSzF980FiQAMKkT4EyarIbTN5tlIR
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -106,31 +106,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/qapi/util.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ include/qapi/util.h |  6 ++++++
+ qapi/qapi-util.c    | 14 ++++++++++++++
+ 2 files changed, 20 insertions(+)
 
 diff --git a/include/qapi/util.h b/include/qapi/util.h
-index 7d88b09..75dddca 100644
+index 75dddca..51ff64e 100644
 --- a/include/qapi/util.h
 +++ b/include/qapi/util.h
-@@ -65,4 +65,17 @@ struct strList *strList_from_string(const char *in, char delim);
-     (tail) = &(*(tail))->next; \
- } while (0)
+@@ -33,6 +33,12 @@ bool qapi_bool_parse(const char *name, const char *value, bool *obj,
+ int parse_qapi_name(const char *name, bool complete);
  
-+/*
-+ * For any GenericList @list, return its length.
+ /*
++ * Produce and return a NULL-terminated array of strings from @args.
++ * All strings are g_strdup'd.
 + */
-+#define QAPI_LIST_LENGTH(list) \
-+    ({ \
-+        int len = 0; \
-+        typeof(list) elem; \
-+        for (elem = list; elem != NULL; elem = elem->next) { \
-+            len++; \
-+        } \
-+        len; \
-+    })
++GStrv strv_from_strList(const struct strList *args);
 +
- #endif
++/*
+  * Produce a strList from the character delimited string @in.
+  * All strings are g_strdup'd.
+  * A NULL or empty input string returns NULL.
+diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
+index b61c73c..8c96cab 100644
+--- a/qapi/qapi-util.c
++++ b/qapi/qapi-util.c
+@@ -154,6 +154,20 @@ int parse_qapi_name(const char *str, bool complete)
+     return p - str;
+ }
+ 
++GStrv strv_from_strList(const strList *args)
++{
++    const strList *arg;
++    int i = 0;
++    GStrv argv = g_malloc((QAPI_LIST_LENGTH(args) + 1) * sizeof(char *));
++
++    for (arg = args; arg != NULL; arg = arg->next) {
++        argv[i++] = g_strdup(arg->value);
++    }
++    argv[i] = NULL;
++
++    return argv;
++}
++
+ strList *strList_from_string(const char *in, char delim)
+ {
+     strList *res = NULL;
 -- 
 1.8.3.1
 
