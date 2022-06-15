@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A99A54D02D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 19:40:29 +0200 (CEST)
-Received: from localhost ([::1]:60438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCE354D044
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jun 2022 19:44:53 +0200 (CEST)
+Received: from localhost ([::1]:39428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1X0F-0002Yk-Uu
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 13:40:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39676)
+	id 1o1X4W-0008U3-Kt
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 13:44:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1Wtx-0007OO-OE
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 13:33:57 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:47017)
+ id 1o1Wu6-0007T9-O3
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 13:34:06 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:35446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o1Wtw-0006po-1Q
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 13:33:57 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id d13so10967712plh.13
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 10:33:55 -0700 (PDT)
+ id 1o1Wty-0006q0-U9
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 13:34:05 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ v17-20020a17090a899100b001ead067eaf9so2816584pjn.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 10:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9mOrhzBA04tjz7v+X+jAk4EHiQhaOObT90153U51D1U=;
- b=b/L+Z7kIyYouNokZg1uqazhi7FSgyyzmiVcpZ64M07n49GqyuI7WBQ5R3TpBZcxNUL
- LpNjRSIo16UNGKcg2mgs3WrcbPk6iDMSkdxVwud56NmtCZPyHhamQQ0NOL+72QJEFAqe
- Da2cP1iF+OB5lGlcOCUv/FZLoG+z8tsIBZc9j1H3MBtiuM3jgGlxDx+fYVwesOERR+Cc
- 94pquPAGGyX+tLP8PLJ77pIj1RW9Y00OW+Z5/4IEsqtd/RWzCfTWVhL22X0/CpZFD8J8
- EhiR3cScQ/z5YNzT5lQ52zGE7LbwwGW2BeaYH7tbs3QhA6r3O0AtSHYCeNAsMMTooWau
- j4mA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OSXg7oPe/KQHELyRK7+vtlzBlLcuc/ord7UoCPX+kn0=;
+ b=U7sG9P6iRj6juV0lA30RoY9dHE2zMfacgls5pCYPQa6IZT501hrg2TQq0/MTD35Yz0
+ lHfVGJMok0xJ8OBEXMW94qTfmyXGcCCoKtj/Z5I3IRyXzFRedJoGVnHDnX+RnsDQga2r
+ l6VW1sv0jpzGqkhJ1idblC9J1Ev5a84cSRBMwu2tohI0DOhSLXlMYcOYimImeDhSu3oE
+ m3fM0zRvZ7+sAdbH0YU3YygO9mvWhT5fxL23So6sv8KA85MbHgElw5GhFfZH08clqrhO
+ HFNo4W1Y3eM2TrykkwYZ2e7E5CZ1hKZLH3Glvi7fikJAjt4IXZa6E78vCBfiXfubQurz
+ g1gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9mOrhzBA04tjz7v+X+jAk4EHiQhaOObT90153U51D1U=;
- b=KnDRUPzP4VcEXuexSOGMj2IR75OAYET9YkIgPvLiGZQQrJgMHqpa5l2HJ56qiFt3Ir
- guigTS3NHIL3noNdiG02v8vqsd/4Idlwns8jykDPfcInY7g27oIPLfHluZxqaAV5avZm
- faFpMLQgTtEvUJLG0YqZqe0y9q5lDRDBR2QrJ3VrL95Ex0Cjp019gsRF17RVWshu8yrw
- jw5uz3dOy8FNFHhwJREBkx9GGcc6NNj2Ah2570N7U9ksDXl5GD3u/rz4SXUPbq82b40m
- H3nUD316+It6XASvrjyWhimU3G4UWbWQa47ArBpAzJPodQ9VJ3t1SsuIEEZkkan9/TFE
- oPPQ==
-X-Gm-Message-State: AJIora85pCeOnr923RraTlpLfS5OGOnIqVSkTucWOUVcbZQwXvZlqJUv
- tSpe1ZgujC46h/1E4cLGeRU=
-X-Google-Smtp-Source: AGRyM1sCzPueVi5nt4NQLccYnoFHW4NZE2yTzCq6kdDxQwSeSSLEGhFzoRmNhGrlXrSHDUe00uAipQ==
-X-Received: by 2002:a17:90b:388b:b0:1e8:7347:c3cd with SMTP id
- mu11-20020a17090b388b00b001e87347c3cdmr11502934pjb.135.1655314434480; 
- Wed, 15 Jun 2022 10:33:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OSXg7oPe/KQHELyRK7+vtlzBlLcuc/ord7UoCPX+kn0=;
+ b=SWRC6emJscQsx5OpiSH/8nT6KbWT1DCkbNbaacrSyQ/OVkRL93cgtwODU8pys0Zv6C
+ Pz4MWlglqmLyz2/WivW6Je5CSAS1FyK2sfX0cSom0zv4/RUz+Z9PDeuuDGLtzshIMCrm
+ WuKBqge6/EZY6/svt7ZP6RVyKKnF0Spo0qHU7PNfMEa3on4jY5ebPFtDdFdPDHStLs53
+ biRRW6C4M8BuijeHiRYqTvLDkQjq1qrZlAeIyc1ZAGyuZ6KKJYXauUSFeimlm4jwgqRU
+ YawQdPecI+/MArGQvSR8uLYn4WuFafpx0CoeQh6cbqAIVc2/oGFsLH++9kBsOObchhtc
+ sHow==
+X-Gm-Message-State: AJIora97LcWWMIzeN7tEuxmiGtomP5NpoOvxowynlQqiqr7jtPh9kz1i
+ 8dzDjbG/mgquvq3irw9TCYE=
+X-Google-Smtp-Source: AGRyM1tkW7Xa9CUlUHilDSZjSoQWrh58nr7ASVwQBJXeFUadVgRKftXJHRMd4NthIKAV77F2IWt0eA==
+X-Received: by 2002:a17:90b:1d08:b0:1e4:dad9:64e5 with SMTP id
+ on8-20020a17090b1d0800b001e4dad964e5mr11339843pjb.200.1655314437559; 
+ Wed, 15 Jun 2022 10:33:57 -0700 (PDT)
 Received: from localhost.localdomain ([2400:4050:c360:8200:4126:b1a8:8fce:1a8])
  by smtp.gmail.com with ESMTPSA id
- i13-20020a633c4d000000b003fcf1279c84sm10171451pgn.33.2022.06.15.10.33.51
+ i13-20020a633c4d000000b003fcf1279c84sm10171451pgn.33.2022.06.15.10.33.54
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 15 Jun 2022 10:33:53 -0700 (PDT)
+ Wed, 15 Jun 2022 10:33:56 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
@@ -62,15 +63,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v7 0/6] cutils: Introduce bundle mechanism
-Date: Thu, 16 Jun 2022 02:33:39 +0900
-Message-Id: <20220615173345.32456-1-akihiko.odaki@gmail.com>
+Subject: [PATCH v7 1/6] qga: Relocate a path emitted in the help text
+Date: Thu, 16 Jun 2022 02:33:40 +0900
+Message-Id: <20220615173345.32456-2-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
+In-Reply-To: <20220615173345.32456-1-akihiko.odaki@gmail.com>
+References: <20220615173345.32456-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,67 +95,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Developers often run QEMU without installing. The bundle mechanism
-allows to look up files which should be present in installation even in
-such a situation.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ qga/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It is a general mechanism and can find any files located relative
-to the installation tree. The build tree must have a new directory,
-qemu-bundle, to represent what files the installation tree would
-have for reference by the executables.
-
-v7: Properly fix --firmwarepath (Daniel P. Berrangé)
-
-v6: Reuse get_relocated_path() in find_bundle() (Paolo Bonzini)
-
-v5:
-* Prefer qemu-bundle if it exists. (Daniel P. Berrangé)
-* Check install_blobs option before installing BIOSes (Paolo Bonzini)
-* Add common code to set up qemu-bundle to the top level meson.build
-  (Paolo Bonzini)
-
-v4:
-* Add Daniel P. Berrangé to CC. Hopefully this helps merging his patch:
-  https://mail.gnu.org/archive/html/qemu-devel/2022-06/msg02276.html
-* Rebased to the latest QEMU.
-
-v3:
-* Note that the bundle mechanism is for any files located relative to the
-  installation tree including but not limited to datadir. (Peter Maydell)
-* Fix "bridge" typo (Philippe Mathieu-Daudé)
-
-v2: Rebased to the latest QEMU.
-
-Akihiko Odaki (6):
-  qga: Relocate a path emitted in the help text
-  Remove prefixes from path configuration macros
-  cutils: Introduce bundle mechanism
-  datadir: Use bundle mechanism
-  ui/icons: Use bundle mechanism
-  net: Use bundle mechanism
-
- .travis.yml                 |  2 +-
- include/qemu/cutils.h       | 21 ++++++++++++++-
- meson.build                 | 37 +++++++++++++++++---------
- net/tap.c                   |  2 +-
- pc-bios/keymaps/meson.build |  2 ++
- pc-bios/meson.build         | 19 +++++++------
- qemu-options.hx             | 11 ++++----
- qga/main.c                  |  2 +-
- scripts/oss-fuzz/build.sh   |  2 +-
- softmmu/datadir.c           | 41 +++++++++++-----------------
- tests/qtest/fuzz/fuzz.c     | 15 -----------
- tests/vm/fedora             |  2 +-
- tests/vm/freebsd            |  2 +-
- tests/vm/netbsd             |  2 +-
- tests/vm/openbsd            |  2 +-
- ui/cocoa.m                  |  2 +-
- ui/gtk.c                    |  2 +-
- ui/icons/meson.build        | 32 ++++++++++++++++------
- ui/sdl2.c                   |  4 +--
- util/cutils.c               | 53 ++++++++++++++++++-------------------
- 20 files changed, 138 insertions(+), 117 deletions(-)
-
+diff --git a/qga/main.c b/qga/main.c
+index c373fec3ee6..06e507b9979 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -270,7 +270,7 @@ QEMU_HELP_BOTTOM "\n"
+     , cmd, QGA_VIRTIO_PATH_DEFAULT, QGA_SERIAL_PATH_DEFAULT,
+     dfl_pathnames.pidfile,
+ #ifdef CONFIG_FSFREEZE
+-    QGA_FSFREEZE_HOOK_DEFAULT,
++    get_relocated_path(QGA_FSFREEZE_HOOK_DEFAULT),
+ #endif
+     dfl_pathnames.state_dir);
+ }
 -- 
 2.32.1 (Apple Git-133)
 
