@@ -2,86 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4EB54E1C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:21:07 +0200 (CEST)
-Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DBD54E1E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:25:27 +0200 (CEST)
+Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1pQn-0006oM-VL
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:21:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44450)
+	id 1o1pV0-0006Hy-6g
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:25:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1p0k-00017S-Si
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:54:10 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:43908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1p0j-0000Hj-9k
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:54:10 -0400
-Received: by mail-lj1-x231.google.com with SMTP id d19so1376319lji.10
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 05:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=openvz-org.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=qkjgIynhQ28yphOElfZ02Z/SQbehn7ES0tE88QyUI0w=;
- b=p1DTe3KXEmPMIVS2SMKboo8Wn+xggXkff0DHMTAYlIwGeATwIYrJopqXmpxx5bhI5j
- IoNFf5l8FsdiUkbrokmnOvq5Pl64RzfzH0sQCoLqRydgH1VwsdOISVWYjTLlqFC8LkjA
- 4Z1AOsONNusNw1l6wna7wXi5qECUdrwxGeyZ/WDqkHDwqt86FHrP6EsW6WJoGXw7m0z0
- tyqlBdD0GEvcW09Dy6MyZQmA6BOUb3cVWkMTzR0Jso4pYRcYGbfLs0Sl1sV5pPjXSisj
- YNBf/ROPiR2hIT7Hm2Wj22pCqlgLfinXt0GZp4RaF8meoOowXmJAjpPXUo37Bi+sZ3Xq
- WNCA==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o1pC7-0003wJ-Qb
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:05:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o1pBz-0003bP-Rp
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:05:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655384746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YZ5EJK0cGtNLbtPOD52HR+0nQiJsDvVQpArGvxNDOJc=;
+ b=BvPhXyEdYMLMXMo2mtc8UGHt/wRfgnngdJU84eEmLrMw1Z7x/dkx9ePharUpkFrf4nHFZE
+ lGHt0lj1Zv6yh7y34NPDbr5wSrTHu85uoTctCkKI0aCZ5ass7gr4UHEmOuFJwMb7EsyBQU
+ CyAUWj80M7oM5c56hQkA7JFiD04Qv04=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-107-KuieiLpENoKBq2oFoYfvFg-1; Thu, 16 Jun 2022 09:05:43 -0400
+X-MC-Unique: KuieiLpENoKBq2oFoYfvFg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay28-20020a05600c1e1c00b0039c5cbe76c1so1137104wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 06:05:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=qkjgIynhQ28yphOElfZ02Z/SQbehn7ES0tE88QyUI0w=;
- b=tCBUXsI3Lw4af8Qlh/sueDRLl+V1qvYM36bsDXydy/RWkfpqJehEphEWYP+0cUENmj
- 7OQV+cAF8Ykrfy9jRSfE3jYIr/wYyS5p+P8j1uUsdGnG3BcZckupWR7uq9mDwXNh10r9
- to1kA2cLqKKsHtd6LYv2cPQBulGYGEd+4TYFd+YicjRPsJfDake3T2DOQ7hI0HWjRxCf
- WTrrJBzw6fDJLedjmViQvTCEqOi+LG1PH4UTNffL9rdt935xGu1tNUWVWTdaHDfyRq3U
- qds6sHNTFS1sa/Sw5hfIOJQYrAx7yHCHAvkJP9KrQprKK6Fb8ijgQPp3rv/CeeGVyUeh
- bXxA==
-X-Gm-Message-State: AJIora+rQ5py2BNb0SnjIH+3B8SHpm0VJ/y/Ofg6WD3vpJ5enUdVF/0L
- 1Crq6XttO9dnZbqmXS6AwArQUQ==
-X-Google-Smtp-Source: AGRyM1snsCkviw5OTbVjE7Sk2aXtMavvbh/rVzCpMUVyQdKzNhH6MrPVQW+DNyQEp4hCZ60W2nXvIw==
-X-Received: by 2002:a2e:bf19:0:b0:259:1889:53dc with SMTP id
- c25-20020a2ebf19000000b00259188953dcmr2447496ljr.497.1655384047140; 
- Thu, 16 Jun 2022 05:54:07 -0700 (PDT)
-Received: from [192.168.0.101] ([93.175.28.49])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YZ5EJK0cGtNLbtPOD52HR+0nQiJsDvVQpArGvxNDOJc=;
+ b=vHz/MBCpUms+mPKdV1nJmXLHG+f2+MJcg5zoh4Hj5INvAQ09Zc5CaN93hw6PvFJdpl
+ 5bQnbSG6w+/A4gWCwMhQ9PUvXUPHqJXuAzC6HIVflRxplFXpAw4ZJ/eShPezBJy4V2Wx
+ gzrOnq/YmfTjgQbYxToXrSx/KI8Mli2v/B6nNqeUjb324up0U6QxfmGOSAa0Qi/74/7k
+ QKTLidasFBbN3M7CA0jVDzL91Mz1/q7xN9obscnVlX6XHqjKCGYgQnyafSUNPC2h/Lop
+ te5NQJsSWg5CUcU6I/1akkY7O1FMXWADYvDHM0hPNIP7lqGUYCgCx9/puiU/aCE530a0
+ S0qg==
+X-Gm-Message-State: AJIora+0podUbCu+t+NXsfCN9Jpm8s0RooVfCRhKTaXAUZCwHNCEkoJe
+ XkSxdiull4RZDnNqHEgP9pw4x02RUqLHidlWq7QMNgfwpoho55Z7RpHwW5szR+RGpb1uK3B58RU
+ i2RLXUnvFqxxdmm0=
+X-Received: by 2002:a7b:c392:0:b0:39c:4d27:e698 with SMTP id
+ s18-20020a7bc392000000b0039c4d27e698mr4875773wmj.57.1655384742104; 
+ Thu, 16 Jun 2022 06:05:42 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1szfFA8aYOAHQ7TbO6v24hOK1KIZkhum8ShJTzzUo6ggKW4rITNSHpSzecyo6zzvtXpNM95Bg==
+X-Received: by 2002:a7b:c392:0:b0:39c:4d27:e698 with SMTP id
+ s18-20020a7bc392000000b0039c4d27e698mr4875740wmj.57.1655384741838; 
+ Thu, 16 Jun 2022 06:05:41 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- p20-20020ac24ed4000000b0047976e7388bsm230975lfr.81.2022.06.16.05.54.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 05:54:06 -0700 (PDT)
-Subject: Re: [PATCH v3 11/17] migration/qemu-file: Fix qemu_ftell() for
- non-writable file
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, 
- quintela@redhat.com, dgilbert@redhat.com
-References: <20220616102811.219007-1-nikita.lapshin@openvz.org>
- <20220616102811.219007-12-nikita.lapshin@openvz.org>
- <YqsR+IlrxpU3CrC4@redhat.com>
-From: Nikita <nikita.lapshin@openvz.org>
-Message-ID: <cccf5f06-2954-4854-8057-cf4344c8a7e6@openvz.org>
-Date: Thu, 16 Jun 2022 15:54:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ v5-20020a1cf705000000b0039c5fb1f592sm5491396wmh.14.2022.06.16.06.05.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jun 2022 06:05:41 -0700 (PDT)
+Date: Thu, 16 Jun 2022 15:05:40 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
+ Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v5 1/5] hw/i386: add 4g boundary start to X86MachineState
+Message-ID: <20220616150540.31b51edf@redhat.com>
+In-Reply-To: <20220520104532.9816-2-joao.m.martins@oracle.com>
+References: <20220520104532.9816-1-joao.m.martins@oracle.com>
+ <20220520104532.9816-2-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YqsR+IlrxpU3CrC4@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=2a00:1450:4864:20::231;
- envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x231.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,54 +106,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 20 May 2022 11:45:28 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-On 6/16/22 2:20 PM, Daniel P. Berrangé wrote:
-> On Thu, Jun 16, 2022 at 01:28:05PM +0300, nikita.lapshin@openvz.org wrote:
->> From: Nikita Lapshin <nikita.lapshin@openvz.org>
->>
->> qemu_ftell() will return wrong value for non-writable QEMUFile.
->> This happens due to call qemu_fflush() inside qemu_ftell(), this
->> function won't flush if file is readable.
-> Well the return value isn't necessarily wrong today - it really
-> depends what semantics each callers desires.
->
-> Can you say what particular caller needs these semantics changed
-> and the impact on them from current behaviour ?
+> Rather than hardcoding the 4G boundary everywhere, introduce a
+> X86MachineState property @above_4g_mem_start and use it
+so far it's just field not a property /fix commit message/
 
-Sorry, it's my bad. It was used in previous version. But after 
-refactoring I threw this function out of implementation.
+> accordingly.
+> 
+> This is in preparation for relocating ram-above-4g to be
+> dynamically start at 1T on AMD platforms.
 
-So it is in fact not used now.
+possibly needs to be rebased on top of current master to include cxl_base
 
->
->> Signed-off-by: Nikita Lapshin <nikita.lapshin@openvz.org>
->> ---
->>   migration/qemu-file.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
->> index 1479cddad9..53ccef80ac 100644
->> --- a/migration/qemu-file.c
->> +++ b/migration/qemu-file.c
->> @@ -663,7 +663,8 @@ int64_t qemu_ftell_fast(QEMUFile *f)
->>   int64_t qemu_ftell(QEMUFile *f)
->>   {
->>       qemu_fflush(f);
->> -    return f->pos;
->> +    /* Consider that qemu_fflush() won't work if file is non-writable */
->> +    return f->pos + f->buf_index;
->>   }
-> IIUC, this is more or less trying to make 'qemu_ftell' be
-> equivalent to 'qemu_ftell_fast' semantics in the non-writable
-> case. But that makes me wonder if whichever calls has problems,
-> shouldn't be just changed to use  qemu_ftell_fast instead ?
+with comments fixed
 
-qemu_ftell_fast() counts iovec length. When we try to read from QEMUFile 
-using for exmaple qemu_peek_buffer f->buf will be filled with data so we 
-need to consider buf_index.
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
->
-> With regards,
-> Daniel
-Thank you for your review!
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  hw/i386/acpi-build.c  | 2 +-
+>  hw/i386/pc.c          | 9 +++++----
+>  hw/i386/sgx.c         | 2 +-
+>  hw/i386/x86.c         | 1 +
+>  include/hw/i386/x86.h | 3 +++
+>  5 files changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index c125939ed6f9..3160b20c9574 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2120,7 +2120,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>                  build_srat_memory(table_data, mem_base, mem_len, i - 1,
+>                                    MEM_AFFINITY_ENABLED);
+>              }
+> -            mem_base = 1ULL << 32;
+> +            mem_base = x86ms->above_4g_mem_start;
+>              mem_len = next_base - x86ms->below_4g_mem_size;
+>              next_base = mem_base + mem_len;
+>          }
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 7c39c913355b..f7da1d5dd40d 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -832,9 +832,10 @@ void pc_memory_init(PCMachineState *pcms,
+>                                   machine->ram,
+>                                   x86ms->below_4g_mem_size,
+>                                   x86ms->above_4g_mem_size);
+> -        memory_region_add_subregion(system_memory, 0x100000000ULL,
+> +        memory_region_add_subregion(system_memory, x86ms->above_4g_mem_start,
+>                                      ram_above_4g);
+> -        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
+> +        e820_add_entry(x86ms->above_4g_mem_start, x86ms->above_4g_mem_size,
+> +                       E820_RAM);
+>      }
+>  
+>      if (pcms->sgx_epc.size != 0) {
+> @@ -875,7 +876,7 @@ void pc_memory_init(PCMachineState *pcms,
+>              machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+>          } else {
+>              machine->device_memory->base =
+> -                0x100000000ULL + x86ms->above_4g_mem_size;
+> +                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+>          }
+>  
+>          machine->device_memory->base =
+> @@ -1019,7 +1020,7 @@ uint64_t pc_pci_hole64_start(void)
+>      } else if (pcms->sgx_epc.size != 0) {
+>              hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+>      } else {
+> -        hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
+> +        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+>      }
+>  
+>      return ROUND_UP(hole64_start, 1 * GiB);
+> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+> index a44d66ba2afc..09d9c7c73d9f 100644
+> --- a/hw/i386/sgx.c
+> +++ b/hw/i386/sgx.c
+> @@ -295,7 +295,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+>          return;
+>      }
+>  
+> -    sgx_epc->base = 0x100000000ULL + x86ms->above_4g_mem_size;
+> +    sgx_epc->base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+>  
+>      memory_region_init(&sgx_epc->mr, OBJECT(pcms), "sgx-epc", UINT64_MAX);
+>      memory_region_add_subregion(get_system_memory(), sgx_epc->base,
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 78b05ab7a2d1..af3c790a2830 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -1373,6 +1373,7 @@ static void x86_machine_initfn(Object *obj)
+>      x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+>      x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+>      x86ms->bus_lock_ratelimit = 0;
+> +    x86ms->above_4g_mem_start = 0x100000000ULL;
+
+s/0x.../4 * GiB/
+
+>  }
+>  
+>  static void x86_machine_class_init(ObjectClass *oc, void *data)
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index 9089bdd99c3a..df82c5fd4252 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -56,6 +56,9 @@ struct X86MachineState {
+>      /* RAM information (sizes, addresses, configuration): */
+>      ram_addr_t below_4g_mem_size, above_4g_mem_size;
+>  
+> +    /* Start address of the initial RAM above 4G */
+> +    uint64_t above_4g_mem_start;
+> +
+>      /* CPU and apic information: */
+>      bool apic_xrupt_override;
+>      unsigned pci_irq_mask;
+
 
