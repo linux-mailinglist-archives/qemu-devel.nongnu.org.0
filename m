@@ -2,45 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE0754E020
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 13:38:46 +0200 (CEST)
-Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC8B54DFEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 13:22:30 +0200 (CEST)
+Received: from localhost ([::1]:41470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1npk-0006N1-E3
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 07:38:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49742)
+	id 1o1na1-0004Ye-Bn
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 07:22:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <c1668948e8b74cd8f912054ba4412a1cbf0cd03c@lizzy.crudebyte.com>)
- id 1o1nLa-0007Ek-5Y
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:07:35 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:45745)
+ (envelope-from <0e43495d3b4a50fc5e22f7b71261fdd5b56fdfcb@lizzy.crudebyte.com>)
+ id 1o1nLQ-000782-Sy
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:07:25 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:39177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <c1668948e8b74cd8f912054ba4412a1cbf0cd03c@lizzy.crudebyte.com>)
- id 1o1nLY-0003IC-Lm
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:07:33 -0400
+ (envelope-from <0e43495d3b4a50fc5e22f7b71261fdd5b56fdfcb@lizzy.crudebyte.com>)
+ id 1o1nLP-0003Gu-1q
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:07:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=Sv3a/9mZpqBDK1dfzgFGiGVNXR8FfCfqve5RJdbsVh0=; b=g1a/j
- UIO1uKieEbBrw/uoLNc5Ah3GGYNhBOlS+qqzkti5R6pdpWUG77xWHAmnyCcSyROEwMGAC+r8QK6KM
- 0gQBu8W/zgMWdwbIl9HJHr/9RrasC+GfdO97pZ0D0GE7mWRJfwh1A2Du6LpD8NFVp+K5Zr7c0cpu5
- p3Lg9V0WvzkyeuehP0G/cMvEDZH381+Nr2iXc/9H2GD4WpvBk72QMfUPiJeQJXpZgxk+NPmTOf815
- l0gK2qXVtYPKCZZuVcLNAOnc0/L69ofD5umvrHH04A2w30hVagi2/hTbakI+of5KwdocwuEZM/EbM
- 11TIHFOR2BKFkASfyhgcf8HIuhYuw==;
-Message-Id: <c1668948e8b74cd8f912054ba4412a1cbf0cd03c.1655377203.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1655377203.git.qemu_oss@crudebyte.com>
-References: <cover.1655377203.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=lnrttqXuCbtP/iOQy+aFwAgw3k012aPCgS+OyXDngGs=; b=hJNTX
+ aXFCdECSsqm7B8x1WYHFs3l+7isdmeupXdyXcR9+uhu05IVzwexKoRAd8g+QIZWyfihSZNg+QsH16
+ tR6KR1ElNxVuvURH7BrDrk9lzboK+yqFiqspKa6AfYrlVbKX+izgfbOaSQksPaA5f1xD+zq5/sv9c
+ aUi5IJFtZMDfQ8ezBfEegcSmbtwRQIqnqhO3W4uVtiebDxyCsLk27Nw7y7xNB7qr3f3ptq0uBntjw
+ cWXO9BYRggohmrKOZjOh6qjbOirFmC88Uyv46GWmhEcAr8iBRQA3LcIDNwzO+rdFYF0fvbdyIzZEW
+ CHkaNgQtzOG3csCvuz6qV4dnmJSYw==;
+Message-Id: <cover.1655377203.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 16 Jun 2022 13:00:04 +0200
-Subject: [PULL 2/7] tests/9pfs: Twalk with nwname=0
+Subject: [PULL 0/7] 9p queue 2022-06-16
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=c1668948e8b74cd8f912054ba4412a1cbf0cd03c@lizzy.crudebyte.com;
+ envelope-from=0e43495d3b4a50fc5e22f7b71261fdd5b56fdfcb@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,57 +61,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Send Twalk request with nwname=0. In this case no QIDs should
-be returned by 9p server; this is equivalent to walking to dot.
+The following changes since commit 9ac873a46963098441be920ef7a2eaf244a3352d:
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <b5ead2775000203607801f09bcefc04c493d8bfa.1647339025.git.qemu_oss@crudebyte.com>
----
- tests/qtest/virtio-9p-test.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-06-15 09:47:24 -0700)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index b3837546be..7942d5fef9 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1002,6 +1002,27 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
-     do_walk_expect_error(v9p, "non-existent", ENOENT);
- }
- 
-+static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    v9fs_qid root_qid;
-+    g_autofree v9fs_qid *wqid = NULL;
-+    P9Req *req;
-+
-+    do_version(v9p);
-+    req = v9fs_tattach(v9p, 0, getuid(), 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rattach(req, &root_qid);
-+
-+    req = v9fs_twalk(v9p, 0, 1, 0, NULL, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rwalk(req, NULL, &wqid);
-+
-+    /* special case: no QID is returned if nwname=0 was sent */
-+    g_assert(wqid == NULL);
-+}
-+
- static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-@@ -1435,6 +1456,7 @@ static void register_virtio_9p_test(void)
-     qos_add_test("synth/walk/basic", "virtio-9p", fs_walk,  &opts);
-     qos_add_test("synth/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-                   &opts);
-+    qos_add_test("synth/walk/none", "virtio-9p", fs_walk_none, &opts);
-     qos_add_test("synth/walk/dotdot_from_root", "virtio-9p",
-                  fs_walk_dotdot,  &opts);
-     qos_add_test("synth/walk/non_existent", "virtio-9p", fs_walk_nonexistent,
--- 
-2.30.2
+are available in the Git repository at:
 
+  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220616
+
+for you to fetch changes up to 0e43495d3b4a50fc5e22f7b71261fdd5b56fdfcb:
+
+  tests/9pfs: check fid being unaffected in fs_walk_2nd_nonexistent (2022-06-16 12:44:52 +0200)
+
+----------------------------------------------------------------
+9pfs: fix 'Twalk' protocol violation
+
+Actual fix is patch 5, whereas patch 4 being preparatory, all other
+patches are test cases to guard this Twalk issue.
+
+----------------------------------------------------------------
+Christian Schoenebeck (7):
+      tests/9pfs: walk to non-existent dir
+      tests/9pfs: Twalk with nwname=0
+      tests/9pfs: compare QIDs in fs_walk_none() test
+      9pfs: refactor 'name_idx' -> 'nwalked' in v9fs_walk()
+      9pfs: fix 'Twalk' to only send error if no component walked
+      tests/9pfs: guard recent 'Twalk' behaviour fix
+      tests/9pfs: check fid being unaffected in fs_walk_2nd_nonexistent
+
+ hw/9pfs/9p.c                 |  63 +++++++++-----
+ tests/qtest/virtio-9p-test.c | 201 ++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 237 insertions(+), 27 deletions(-)
 
