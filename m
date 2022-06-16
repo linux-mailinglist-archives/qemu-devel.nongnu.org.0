@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8D554D987
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 07:07:56 +0200 (CEST)
-Received: from localhost ([::1]:47376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BBC454D9F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 07:47:36 +0200 (CEST)
+Received: from localhost ([::1]:37308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1hjX-0005wC-ES
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 01:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53318)
+	id 1o1iLv-00042I-0n
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 01:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o1hgF-0003xB-Ca; Thu, 16 Jun 2022 01:04:31 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:33395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o1hgD-0003hd-Q6; Thu, 16 Jun 2022 01:04:31 -0400
-Received: by mail-pf1-x434.google.com with SMTP id w21so527341pfc.0;
- Wed, 15 Jun 2022 22:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wlp6jPt5Y1RhTSG2IoEIG63BFmtkMFVpKd7JJfTnRTc=;
- b=XJON5N4ZhLS1ItYabiZNPvYfwzXAeRUXEJuVWHe76tLELCP+uYZX78x94XFTqpEFXW
- oG3eBAVmp6UZY9ekp2Mmp/Szv/IMvpguZ1MgMWbr30fng1fJu8sIpSHV/2bHwgr07paE
- huJg9srIC2/EGgYjDFVj55J6CsDwoGaVKYH7s/7wWA7uEv4fPgBqTpOR3Evjt0PE+T4j
- ecAclA6vBKWeoZnXgvxUTNXTRPOPwVuoXkE4TbeqRkiRhUZvll8FvMBQ7lIetsDspJMZ
- yEJ+AFUriycaamqxHYkxnAlvGBYuORK+ICaCNL9hEACDKKozcfx1cSBdqMVKDCy3D7mT
- Y0MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wlp6jPt5Y1RhTSG2IoEIG63BFmtkMFVpKd7JJfTnRTc=;
- b=Bc+dQFXtwhiLJ2ALq3duhM2xMbYmHi1lOvqGs5qS6xwWWqXejvH9/wT3QLiThtTBuo
- 6L/3+js8f0usUFO/88jSggWKhHZpRsLTwa4PXwAy+2nQW6NE86Xiw4aRnyTveVXqyiYs
- Ksecm/xZ6GyOLpbX5bexem8jcCAjizIdTsEcP2qiHrqBFaPouRG4VRZNl2kxm7bBTujp
- hmB3K8b4e7PXKjsdBKekztoa0cN6DSaygZ99n2RPbzMIvAmhpOVIYLmba6RoaE+GB69J
- 5gHpAcRTtPjLim5pt7fSdZD+3HTf+KgoZSsrOVN1vEklAuUj0IUBrlKM4CQf7g1q6H0m
- o9wQ==
-X-Gm-Message-State: AJIora9x0+qHo0IMqT3G8Ykt7IR/qoZv259gUlOtTsyJHWruKX2h6JYV
- ctf3arluIAPxyCxwMkeeRKJqBo0smcZ9SoZbgnU=
-X-Google-Smtp-Source: AGRyM1tZ19HhpqliQOF8PDi3ibQH0OOvPTu9W+wEKQ52Gx9nmFKhnl/b1GFVYmar5Jenfx78skoaHhE/F1wx8eCjAiE=
-X-Received: by 2002:a65:5385:0:b0:3fa:52e3:6468 with SMTP id
- x5-20020a655385000000b003fa52e36468mr2904601pgq.366.1655355867969; Wed, 15
- Jun 2022 22:04:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1iCa-0001Xv-Sj
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 01:37:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1iCW-0005sG-1o
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 01:37:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655357870;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GicNYq93cSbE858Cb6h+icc8Ys7Z/PX4MMslP23kOSI=;
+ b=GJcZ6tgnn7V28Mw8fbtzJ4ezMXQnOr6c/XqHY/vCNsYXE0tJeyH9Hdu0IRCkWls2ptEy9q
+ sh2T3E5vHIqF4yBAIuwUNo7TTdbKZgAp6iJ4qQJ+T3HV9itDX9Dk3JR/SdcPd5JRU9Tbmq
+ Ve3Q9l+lJvtV4oieY7qruzR+iIMeF1I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-182-zgYw489wNvqvqZ5HZuXD-Q-1; Thu, 16 Jun 2022 01:37:44 -0400
+X-MC-Unique: zgYw489wNvqvqZ5HZuXD-Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE0AB3816843;
+ Thu, 16 Jun 2022 05:37:43 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73CB3404E4C3;
+ Thu, 16 Jun 2022 05:37:43 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4D3E31800381; Thu, 16 Jun 2022 07:37:41 +0200 (CEST)
+Date: Thu, 16 Jun 2022 07:37:41 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: "Xu, Min M" <min.m.xu@intel.com>,
+ Dionna Amalie Glaze <dionnaglaze@google.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+ "Yao, Jiewen" <jiewen.yao@intel.com>,
+ "Aktas, Erdem" <erdemaktas@google.com>,
+ "Yamahata, Isaku" <isaku.yamahata@intel.com>
+Subject: Re: New "IndustryStandard" fw_cfg?
+Message-ID: <20220616053741.strgwe3mx3adxzui@sirius.home.kraxel.org>
+References: <CAAH4kHYyXv3x+89Ybnj7GXms2Bz2CNn5JK0+d6DzVtMz5owTrw@mail.gmail.com>
+ <PH0PR11MB50643B5AEE5A399EB8AFB000C5AD9@PH0PR11MB5064.namprd11.prod.outlook.com>
+ <843cb055-d28e-1753-5dd5-9d4565171084@intel.com>
 MIME-Version: 1.0
-References: <3oq0sqs1-67o0-145-5n1s-453o118804q@syhkavp.arg>
-In-Reply-To: <3oq0sqs1-67o0-145-5n1s-453o118804q@syhkavp.arg>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 16 Jun 2022 15:04:00 +1000
-Message-ID: <CAKmqyKPJ2Pxn8nG3Lwu2rLGuTZyTmGvjWOqbty8C6ayhtd0wqw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv/pmp: guard against PMP ranges with a
- negative size
-To: Nicolas Pitre <nico@fluxnic.net>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=alistair23@gmail.com; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <843cb055-d28e-1753-5dd5-9d4565171084@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,91 +86,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 16, 2022 at 7:12 AM Nicolas Pitre <nico@fluxnic.net> wrote:
->
-> For a TOR entry to match, the stard address must be lower than the end
-> address. Normally this is always the case, but correct code might still
-> run into the following scenario:
->
-> Initial state:
->
->         pmpaddr3 = 0x2000       pmp3cfg = OFF
->         pmpaddr4 = 0x3000       pmp4cfg = TOR
->
-> Execution:
->
->         1. write 0x40ff to pmpaddr3
->         2. write 0x32ff to pmpaddr4
+  Hi,
 
-Hey, thanks for that patch!
+> Per my understanding, Unaccepted Memory in UEFI is introduced for
+> confidential VMs, i.e., for Intel TDX and AMD SEV-SNP. The only reason
+> UEFI/OVMF reports "Unaccepted Memory" to OS, is a confidential VM is
+> desired.
 
-So, at this point we have a PMP region enforcing
+No.  Reporting "Unaccepted Memory" to the OS is not a hard requirement
+for confidential VMs, it only optimizes boot times.  Instead of doing
+that time-consuming process in the firmware for all memory we tell the
+guest OS which memory is accepted already and which is not.  So the
+guest OS can go accept the remaining memory in a background process.
 
-0x40ff <= addr < 0x32ff
+take care,
+  Gerd
 
-which is going to be wrong as that isn't valid. But this is also
-partially a guest bug. If a guest sets invalid PMP regions we should
-be throwing exceptions (if the PMP region is enabled and enforced in
-the current mode)
-
->         3. set pmp3cfg to NAPOT with a read-modify-write on pmpcfg0
->         4. set pmp4cfg to NAPOT with a read-modify-write on pmpcfg1
->
-> When (2) is emulated, a call to pmp_update_rule() creates a negative
-> range for pmp4 as pmp4cfg is still set to TOR. And when (3) is emulated,
-
-I don't see where the negative comes from. From what I can tell we
-should just set `sa` and `ea` to the values specified by the guest.
-
-> a call to tlb_flush() is performed, causing pmp_get_tlb_size() to return
-> a very creatively large TLB size for pmp4. This, in turn, may result in
-
-Hmm.. pmp_get_tlb_size() assumes pmp_ea > pmp_sa. Maybe we should add
-a check in there?
-
-> accesses to non-existent/unitialized memory regions and a fault, so that
-> (4) ends up never being executed.
->
-> This is in m-mode with MPRV unset, meaning that unlocked PMP entries
-> should have no effect. Therefore such a behavior based on PMP content
-> is very unexpected.
-
-Ok, this part is a QEMU bug. If we aren't enforcing PMP regions we
-should not be throwing PMP errors.
-
-get_physical_address_pmp() should give us full permissions though in
-this case, so I don't see where the failure is. Can you include some
-more details?
-
->
-> Make sure no negative PMP range can be created, whether explicitly by
-> the emulated code or implicitly like the above.
->
-> Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
->
-> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-> index 151da3fa08..ea2b67d947 100644
-> --- a/target/riscv/pmp.c
-> +++ b/target/riscv/pmp.c
-> @@ -167,6 +167,9 @@ void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index)
->      case PMP_AMATCH_TOR:
->          sa = prev_addr << 2; /* shift up from [xx:0] to [xx+2:2] */
->          ea = (this_addr << 2) - 1u;
-> +        if (sa > ea) {
-> +            sa = ea = 0u;
-> +        }
-
-This doesn't seem right though.
-
-Image if a guest sets the values you have above, then jumps to user
-mode. The spec doesn't seem to say what should happen with invalid PMP
-ranges, but I feel like we should throw exceptions instead of just
-ignoring the config.
-
-Alistair
-
->          break;
->
->      case PMP_AMATCH_NA4:
->
 
