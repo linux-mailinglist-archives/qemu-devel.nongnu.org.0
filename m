@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E71454E6CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 18:18:02 +0200 (CEST)
-Received: from localhost ([::1]:43734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB2F54E73F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 18:28:34 +0200 (CEST)
+Received: from localhost ([::1]:55640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1sC1-0000sl-He
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 12:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38488)
+	id 1o1sMC-0000nh-LO
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 12:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o1s8O-00074g-2i
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:14:16 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39907)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o1s8L-0001Jc-VH
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:14:15 -0400
-Received: by mail-pg1-x535.google.com with SMTP id q140so1669850pgq.6
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 09:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=M73+V1fWZDwdGBq6vktqKh70KdQSgYeH42DWREkAboU=;
- b=F0DEVZMD+8dR0dEL94DL+OCqMn1LQmhdEuFS8pA5sqgHmagQw11RXS3/U77kYZnLQ+
- XnyVE4iEDGuoKPl+GP2+GjRPRxpfc4+29X6pnyHUs5GfGEhYbH/isR354QIwgDeXbgk7
- ydvaFGJIAyfOzM1na7Vw6vc3HpjPgz172kZdmAbkkC5cs4yznWiAYcElypkrYJJ1rh8/
- NChjGchmdquLP1rNBmv0QZRSsazfArxuiTox0Y0QsMbRyaCcobfN7kh6Rgin9F0FiJf/
- 12TNoUoOhQKSxjZEnh6KVKrjb+282+7EBp2y1iR+l0VJVr1QE0UCEcDCq6xcD4xKH/Mm
- oVJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=M73+V1fWZDwdGBq6vktqKh70KdQSgYeH42DWREkAboU=;
- b=e5UwKfOzHsp0n9gYkqQ7jUhikpDuSzZYp7s1evgq98t8smcAayMJWj3gjpH+nAtU2p
- hlXhlhBSV+KH2OqbDSGR+gbY4gCEKorujM2/DjTQgnUtZP+Rox2Ed63V58gAHS7eX05/
- ASZ1NfJtKfAbSTSj0AXCQANxti6+Fs+la0vWMVLzznGWDJ/wZCAc9Roi366mhSQsLv13
- g+tg+Z0MTfZyKYbEwDlE3TnecQIJ0VGv0BQsgXQHV1QK9IjJKFi45TjYePHLL+UGpxYy
- Bod1ylTglusIiEMQrPIlWptTXhzMdttEa75GCSERnHTJZ230h7ofZSsXTG12QQCK2LCP
- FYSA==
-X-Gm-Message-State: AJIora9ybRBvuMVXZgCN/sCptCj81eTbZFG54npfb1XfLdZm98pUaiwM
- lJ6YuozbV5sULeNRkwEuJj3l+A==
-X-Google-Smtp-Source: AGRyM1uViHzX+5V4/gYi2e8KxdObCGIK7ZdCOx+GfzEy77LdsYBGipisjL6spe8Tfa1jSdoWhxN67Q==
-X-Received: by 2002:a65:6b95:0:b0:408:9d1b:2e56 with SMTP id
- d21-20020a656b95000000b004089d1b2e56mr5132738pgw.381.1655396051892; 
- Thu, 16 Jun 2022 09:14:11 -0700 (PDT)
-Received: from [172.22.33.109] ([192.77.111.2])
- by smtp.gmail.com with ESMTPSA id
- x13-20020a17090300cd00b00161455d8029sm1837747plc.12.2022.06.16.09.14.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 09:14:11 -0700 (PDT)
-Message-ID: <fe18ed57-2051-ccca-8ad8-b016d784e2be@linaro.org>
-Date: Thu, 16 Jun 2022 09:14:08 -0700
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1sKT-0008N7-Lx
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:26:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1sKR-0003P3-BU
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:26:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655396802;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ylM5BznvGLbBpRU4m7Tua2iw+9moxZ/yPZSJOOvtPyc=;
+ b=Sn4cO+KY8kLApl8NcRjq5Mkurw/OF9lLmcJQ4uNeGvlYzyqrS1+TTpbZDCBSR6R+IpDKff
+ LkIJLyh1znWTSytblVs8aR4/C3J4v3ZUOgn+E8hZPhHf3p1x+b2wnsN8u5sRtuAKAdT6VR
+ 9bq0kYdWNOjnR22kNzWRvIgJGDYCIOo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-512-BHPe_AdxOD2_ODG589eYLA-1; Thu, 16 Jun 2022 12:26:39 -0400
+X-MC-Unique: BHPe_AdxOD2_ODG589eYLA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DC6D83395D;
+ Thu, 16 Jun 2022 16:26:39 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7DB72166B26;
+ Thu, 16 Jun 2022 16:26:37 +0000 (UTC)
+Date: Thu, 16 Jun 2022 17:26:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>
+Subject: Re: [PATCH 01/20] io: add a QIOChannelNull equivalent to /dev/null
+Message-ID: <YqtZu5pX4uUGfz4G@redhat.com>
+References: <20220524110235.145079-1-berrange@redhat.com>
+ <20220524110235.145079-2-berrange@redhat.com>
+ <20220524211406.hskzsft3qezuepfp@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/21] Statistics, preconfig and cleanup patches for
- 2022-06-16
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220616083209.117397-1-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220616083209.117397-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220524211406.hskzsft3qezuepfp@redhat.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,92 +84,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/22 01:31, Paolo Bonzini wrote:
-> The following changes since commit debd0753663bc89c86f5462a53268f2e3f680f60:
+On Tue, May 24, 2022 at 04:14:31PM -0500, Eric Blake wrote:
+> On Tue, May 24, 2022 at 12:02:16PM +0100, Daniel P. Berrangé wrote:
+> > This is for code which needs a portable equivalent to a QIOChannelFile
+> > connected to /dev/null.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  include/io/channel-null.h         |  55 +++++++
+> >  io/channel-null.c                 | 237 ++++++++++++++++++++++++++++++
+> >  io/meson.build                    |   1 +
+> >  io/trace-events                   |   3 +
+> >  tests/unit/meson.build            |   1 +
+> >  tests/unit/test-io-channel-null.c |  95 ++++++++++++
+> >  6 files changed, 392 insertions(+)
+> >  create mode 100644 include/io/channel-null.h
+> >  create mode 100644 io/channel-null.c
+> >  create mode 100644 tests/unit/test-io-channel-null.c
 > 
->    Merge tag 'pull-testing-next-140622-1' of https://github.com/stsquad/qemu into staging (2022-06-13 21:10:57 -0700)
+> > +/**
+> > + * QIOChannelNull:
+> > + *
+> > + * The QIOChannelNull object provides a channel implementation
+> > + * that discards all writes and returns zero bytes for all reads.
 > 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/bonzini/qemu.git tags/for-upstream
-> 
-> for you to fetch changes up to 76ca98b0f85222601bd449252ac71df19e0dab29:
-> 
->    build: include pc-bios/ part in the ROMS variable (2022-06-15 11:12:32 +0200)
-> 
-> ----------------------------------------------------------------
-> * statistics subsystem
-> * virtio reset cleanups
-> * build system cleanups
-> * fix Cirrus CI
+> That describes the behavior of /dev/zero, not /dev/null, where reads
+> always fail with EOF.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Nb, I wrote 'zero bytes' (as in "byte count equal to zero")  not
+'zeroed bytes' (as in "set all bytes to the value zero").
 
-
-r~
-
+I'll reword it to make it less confusing though.
 
 > 
-> ----------------------------------------------------------------
-> Alexander Bulekov (1):
->        build: fix check for -fsanitize-coverage-allowlist
+> > + */
+> > +
+> > +struct QIOChannelNull {
+> > +    QIOChannel parent;
+> > +    bool closed;
+> > +};
+> > +
 > 
-> Mark Kanda (3):
->        qmp: Support for querying stats
->        kvm: Support for querying fd-based stats
->        hmp: add basic "info stats" implementation
+> > diff --git a/io/channel-null.c b/io/channel-null.c
 > 
-> Paolo Bonzini (16):
->        qmp: add filtering of statistics by target vCPU
->        cutils: add functions for IEC and SI prefixes
->        qmp: add filtering of statistics by provider
->        hmp: add filtering of statistics by provider
->        qmp: add filtering of statistics by name
->        hmp: add filtering of statistics by name
->        block: add more commands to preconfig mode
->        s390x: simplify virtio_ccw_reset_virtio
->        virtio-mmio: stop ioeventfd on legacy reset
->        virtio: stop ioeventfd on reset
->        virtio-mmio: cleanup reset
->        configure: update list of preserved environment variables
->        configure: cleanup -fno-pie detection
->        tests/vm: allow running tests in an unconfigured source tree
->        meson: put cross compiler info in a separate section
->        build: include pc-bios/ part in the ROMS variable
+> > +
+> > +static ssize_t
+> > +qio_channel_null_readv(QIOChannel *ioc,
+> > +                       const struct iovec *iov,
+> > +                       size_t niov,
+> > +                       int **fds G_GNUC_UNUSED,
+> > +                       size_t *nfds G_GNUC_UNUSED,
+> > +                       Error **errp)
+> > +{
+> > +    QIOChannelNull *nioc = QIO_CHANNEL_NULL(ioc);
+> > +
+> > +    if (nioc->closed) {
+> > +        error_setg_errno(errp, EINVAL,
+> > +                         "Channel is closed");
+> > +        return -1;
+> > +    }
+> > +
+> > +    return 0;
+> > +}
 > 
-> Zhenzhong Duan (1):
->        q35：Enable TSEG only when G_SMRAME and TSEG_EN both enabled
+> But this behavior is returning early EOF instead of using iov_memset()
+> to read all zeroes the way /dev/zero would.
 > 
->   Makefile                  |  12 +-
->   accel/kvm/kvm-all.c       | 403 ++++++++++++++++++++++++++++++++++++++++++++++
->   configure                 |  22 +--
->   hmp-commands-info.hx      |  14 ++
->   hmp-commands.hx           |  14 ++
->   hw/pci-host/q35.c         |   3 +-
->   hw/s390x/virtio-ccw.c     |  12 +-
->   hw/virtio/virtio-bus.c    |   1 +
->   hw/virtio/virtio-mmio.c   |  18 +--
->   hw/virtio/virtio-pci.c    |   1 -
->   include/monitor/hmp.h     |   1 +
->   include/monitor/stats.h   |  45 ++++++
->   include/qemu/cutils.h     |  18 +++
->   meson.build               |  25 +--
->   monitor/hmp-cmds.c        | 232 ++++++++++++++++++++++++++
->   monitor/qmp-cmds.c        | 155 ++++++++++++++++++
->   qapi/block-core.json      | 117 +++++++++-----
->   qapi/block-export.json    |  21 ++-
->   qapi/block.json           |   6 +-
->   qapi/meson.build          |   1 +
->   qapi/qapi-schema.json     |   1 +
->   qapi/stats.json           | 249 ++++++++++++++++++++++++++++
->   tests/unit/test-cutils.c  |  52 ++++++
->   tests/vm/Makefile.include |  26 +--
->   util/cutils.c             |  34 ++--
->   25 files changed, 1368 insertions(+), 115 deletions(-)
->   create mode 100644 include/monitor/stats.h
->   create mode 100644 qapi/stats.json
+> > +++ b/tests/unit/test-io-channel-null.c
+> 
+> > +static void test_io_channel_null_io(void)
+> > +{
+> > +    g_autoptr(QIOChannelNull) null = qio_channel_null_new();
+> > +    char buf[1024];
+> > +    GIOCondition gotcond = 0;
+> > +    Error *local_err = NULL;
+> > +
+> > +    g_assert(qio_channel_write(QIO_CHANNEL(null),
+> > +                               "Hello World", 11,
+> > +                               &error_abort) == 11);
+> 
+> I still cringe seeing tests inside g_assert(), but this is not the
+> first instance of it.
+> 
+> > +
+> > +    g_assert(qio_channel_read(QIO_CHANNEL(null),
+> > +                              buf, sizeof(buf),
+> > +                              &error_abort) == 0);
+> 
+> Okay, you're testing for /dev/null behavior of early EOF.
+> 
+> Other than misleading comments, this looks reasonable.  But those
+> comments are core enough as to what this channel does that I don't
+> feel comfortable giving R-b yet.
+> 
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
