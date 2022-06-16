@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD9154DACF
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 08:39:20 +0200 (CEST)
-Received: from localhost ([::1]:55188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FE254DB25
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 08:57:45 +0200 (CEST)
+Received: from localhost ([::1]:33156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1j9y-00028u-VO
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 02:39:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42186)
+	id 1o1jRn-00078C-Rd
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 02:57:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1o1j4a-0000cz-2J
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 02:33:46 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:29135 helo=mga06.intel.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1o1j4X-0003IZ-19
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 02:33:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655361220; x=1686897220;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=14eXm+vYVl6RkXQqMQxdS3FEgcWqyDNa7FfqsMkcnec=;
- b=PDtnhbwkCV48O+dILipRyGn/FJx6ZYfe0jvlr7AUTbXA1iwcgHg6WjqX
- cFBRZmtSaLLB+G3IfSxKuTJvfwEQcIlInROfJZzLN6H9/J8ylrEUroBA2
- 9mahQH4x+54sd4DlW7N8vSk4/o3DmJk+U8IrvrVZ044MX70sxiY2bMxzh
- /jbNnW0NUg9CekDR8hIXZoQnAi5qaJzoWuazm8xpsvvmpR2ffDksaeKoe
- 4FD4o6/CiIBgMGbNNryNiBYrjbz+eAyd36+DrGhY0RJKwIuq4DfsfZLWF
- vuq4AWYv7IE5kE+NJ6WiFb8DEEobnyn9rx8tkmYxaHOV71vDWqTN67pEt Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="340834519"
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="340834519"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 23:33:32 -0700
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="831428108"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.169.162])
- ([10.249.169.162])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 23:33:30 -0700
-Message-ID: <a89cb720-3600-51ad-2671-ea0f987cd3d1@intel.com>
-Date: Thu, 16 Jun 2022 14:33:28 +0800
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o1jOr-0006Da-R6; Thu, 16 Jun 2022 02:54:41 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:40685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o1jOq-0001Rg-2x; Thu, 16 Jun 2022 02:54:41 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id f65so435450pgc.7;
+ Wed, 15 Jun 2022 23:54:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aW/H9+rcL9yD9dEYA0UK+MouGrbc2CJD8dH5NkkDYZQ=;
+ b=krNfjAFknefazKy+Nxo8H+ctz+7ifwypVqDsErrtJ0M4fkrAcKLL0RPcdNu//cmW68
+ +uaLAhZs6QpK3o13agXPirDh/fcvkr5S6dXv/x87OPYpZqvyGRXN17f1d4ldyL8Jvn9T
+ Yc14mlLhdFuKwoLJn29uPa/dFimUJGDRJ+bzCs5mp2QKRKhNg2Wx6i8qTXmCD9PwvqZn
+ SlLCi1hmGm1Tmn8ZzCflUla/PdmjmmMYdbjzzgjWfmYWsYmcRHQ3wDow9O3B6A2mu3DO
+ UY1Z5vBWX5QRmJTncdykZdK+p38dcUs+Y4ELgDmfdDrYHvmqVmHNgteU5+HZKdbRPRod
+ qrcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aW/H9+rcL9yD9dEYA0UK+MouGrbc2CJD8dH5NkkDYZQ=;
+ b=TvXHbX1X9JsfwLM/cWyg3D2hO8ElDnC2E/EzbspOqomuTiE2VepwslLtoYCKqzazLM
+ NhMVCqC9ybG/guoSV2jRqjapK8dnxb/jtyZt45rFUYFlIXi1nCaCQbV4Dd4x8I6d/4bZ
+ wXvNxFFA1Ujc1xP8+1ZNlTR64yIOnNURLu1ZpcBef5kLznYqHvKbOGmev7xtBL/Vl4gd
+ HSGmqruVJ5y25GsRePzCbNco2SkuNZnOUrQFd2bNfzHpsv8/wDEfuVds3e9BR/ar9CQ3
+ 1tdbeqgzv9UtLiP+EJZ5oW6Tnoa/xiRw2JQD4Z8h/HIg9fVkWSWrVs7aFnOo+sJC4xn5
+ /pQA==
+X-Gm-Message-State: AJIora81Ah8KaSyXVLb0i5uOt9EpmCqepyPAI93WlmJcBqqOgBsttBDN
+ ZjnYJyGXS9dwA6aCbOR0/NpChqAKJxP+W3KBxdg=
+X-Google-Smtp-Source: AGRyM1tWaXbL0bnH08V9h5HGHh5fOl+XOCKUqRLiJuqch7MZtgpTnGxFpSTO3cAuQWuSl5VW54phOLluC4hTcsv459c=
+X-Received: by 2002:a65:5385:0:b0:3fa:52e3:6468 with SMTP id
+ x5-20020a655385000000b003fa52e36468mr3185357pgq.366.1655362478344; Wed, 15
+ Jun 2022 23:54:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.10.0
-Subject: Re: New "IndustryStandard" fw_cfg?
-Content-Language: en-US
-To: "Xu, Min M" <min.m.xu@intel.com>,
- Dionna Amalie Glaze <dionnaglaze@google.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "Yao, Jiewen" <jiewen.yao@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Aktas, Erdem" <erdemaktas@google.com>,
- "Yamahata, Isaku" <isaku.yamahata@intel.com>
-References: <CAAH4kHYyXv3x+89Ybnj7GXms2Bz2CNn5JK0+d6DzVtMz5owTrw@mail.gmail.com>
- <PH0PR11MB50643B5AEE5A399EB8AFB000C5AD9@PH0PR11MB5064.namprd11.prod.outlook.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <PH0PR11MB50643B5AEE5A399EB8AFB000C5AD9@PH0PR11MB5064.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220603160425.3667456-1-mchitale@ventanamicro.com>
+ <20220603160425.3667456-3-mchitale@ventanamicro.com>
+In-Reply-To: <20220603160425.3667456-3-mchitale@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 16 Jun 2022 16:54:11 +1000
+Message-ID: <CAKmqyKNTKgSfLdZp4QSATi8mdmfV4YQ_n_+_6DPaMDQbAWRHMg@mail.gmail.com>
+Subject: Re: [RFC PATCH v5 2/4] target/riscv: smstateen check for h/senvcfg
+To: Mayuresh Chitale <mchitale@ventanamicro.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,82 +83,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/2022 8:46 AM, Xu, Min M wrote:
-> I would like to add more engineers (Confidential Computing Reviewers in EDK2 community and Intel's QEMU engineers) in this mail thread.
-> 
->> -----Original Message-----
->> From: Dionna Amalie Glaze <dionnaglaze@google.com>
->> Sent: Wednesday, June 15, 2022 2:09 AM
->> To: qemu-devel@nongnu.org
->> Cc: Xu, Min M <min.m.xu@intel.com>; Lendacky, Thomas
->> <Thomas.Lendacky@amd.com>
->> Subject: New "IndustryStandard" fw_cfg?
->>
->> Hi y'all, I'm Dionna. I work on Confidential VMs at Google Cloud. I've been
->> keeping up with the TDX and SEV-SNP developments in OVMF and Linux,
->> and some in Qemu.
->>
->> There's a new UEFI feature in v2.9 of the specification (March 2021) that
->> allows for memory ranges to be classified as "unaccepted", since both TDX
->> and SEV-SNP require that the guest VM accept any host-made changes to
->> page state. We should expect newer technologies on non-x86 architectures
->> to require memory acceptance as well. Operating systems are not
->> necessarily going to support this memory type, however.
->>
->> This leads to a problem: how does the UEFI know that the OS it's going to
->> boot will support unaccepted memory? 
+On Sat, Jun 4, 2022 at 2:16 AM Mayuresh Chitale
+<mchitale@ventanamicro.com> wrote:
+>
+> Accesses to henvcfg, henvcfgh and senvcfg are allowed
+> only if corresponding bit in mstateen0/hstateen0 is
+> enabled. Otherwise an illegal instruction trap is
+> generated.
+>
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> ---
+>  target/riscv/csr.c | 84 ++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 78 insertions(+), 6 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 324fefce59..ae91ae1f7e 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -39,6 +39,37 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
+>  }
+>
+>  /* Predicates */
+> +static RISCVException smstateen_acc_ok(CPURISCVState *env, int mode, int bit)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    bool virt = riscv_cpu_virt_enabled(env);
+> +
+> +    if (!cpu->cfg.ext_smstateen) {
+> +        return RISCV_EXCP_NONE;
+> +    }
+> +
+> +#if !defined(CONFIG_USER_ONLY)
+> +    if (!(env->mstateen[0] & 1UL << bit)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (virt) {
+> +        if (!(env->hstateen[0] & 1UL << bit)) {
+> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +        }
+> +    }
+> +
+> +    if (mode == PRV_U) {
+> +        if (!(env->sstateen[0] & 1UL << bit)) {
+> +            return RISCV_EXCP_ILLEGAL_INST;
+> +        }
+> +    }
+> +#endif
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException fs(CPURISCVState *env, int csrno)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+> @@ -1557,6 +1588,13 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+>  static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
+>                                   target_ulong *val)
+>  {
+> +    RISCVException ret;
+> +
+> +    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
 
-After re-read and re-think, I think the problem is better to state as: 
-we need an interface for QEMU to tell OVMF how much memory it needs to 
-accept, from [Minimum to All]. So for the case that user wants to boot 
-an partial-enabled confidential VMs (like current Linux TDX and SNP 
-guest), user needs to specify from QEMU to tell OVMF to accept all the 
-memory.
+Couldn't this be part of the original permission check so we don't
+need a second check?
 
-> Right now we (Google Compute
->> Engine) have a system of "tagging" for guest image providers to state that
->> their OS supports some new feature so that we can enable appropriate
->> configurations for certain images.
->>
->> I could go about adding a Google-specific fw_cfg file path and definition to
->> tell our custom OVMF build to use unaccepted memory or not, but I
->> personally prefer open source. I don't know y'all's process though, so I'm
->> asking before making a patch set.
->>
->> There are two approaches I've considered.
->>
->> 1. An arch-specific config key for a u64 value:
->>
->> The idea would be that I would add QemuFwCfgItemUnacceptedMinimum =
->> 0x8005 here
->> https://github.com/tianocore/edk2/blob/master/OvmfPkg/Include/Industry
->> Standard/QemuFwCfg.h#L50
->>
->> For Qemu, the main code I see for adding config is here, but I'm not sure
->> what y'all's preferred external configuration method is to get a value from an
->> invocation (flag, config file, etc) to fw_cfg.c:
->> https://github.com/qemu/qemu/blob/58b53669e87fed0d70903e05cd42079
->> fbbdbc195/hw/i386/fw_cfg.c#L95
->>
->> We'd add something like
->>
->> fw_cfg_add_u64(fw_cfg, FW_CFG_MINIMUM_ACCEPTED_MEMORY_SIZE,
->> ms->minimum_accepted_memory_size);
->>
->> where FW_CFG_MINIMUM_ACCEPTED_MEMORY_SIZE is #defined as
->> FW_CFG_ARCH_LOCAL + 5 in
->> https://github.com/qemu/qemu/blob/266469947161aa10b1d36843580d36
->> 9d5aa38589/hw/i386/fw_cfg.h
->>
->> The name has "minimum" in it since the firmware can choose to accept
->> more than the minimum, and specifically interpret 0 as UINT64_MAX.
->>
->> 2. A "well-known" file path to be included in the file slots starting at 0x0020,
->> such as "etc/min_accepted_mem_size", still plumbed through like in 1.
->>
->> Thanks!
->>
->> --
->> -Dionna Glaze, PhD (she/her)
+Alistair
 
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+> +
+>      *val = env->senvcfg;
+>      return RISCV_EXCP_NONE;
+>  }
+> @@ -1565,15 +1603,27 @@ static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
+>                                    target_ulong val)
+>  {
+>      uint64_t mask = SENVCFG_FIOM | SENVCFG_CBIE | SENVCFG_CBCFE | SENVCFG_CBZE;
+> +    RISCVException ret;
+>
+> -    env->senvcfg = (env->senvcfg & ~mask) | (val & mask);
+> +    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+>
+> +    env->senvcfg = (env->senvcfg & ~mask) | (val & mask);
+>      return RISCV_EXCP_NONE;
+>  }
+>
+>  static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
+>                                   target_ulong *val)
+>  {
+> +    RISCVException ret;
+> +
+> +    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+> +
+>      *val = env->henvcfg;
+>      return RISCV_EXCP_NONE;
+>  }
+> @@ -1582,6 +1632,12 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
+>                                    target_ulong val)
+>  {
+>      uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE | HENVCFG_CBZE;
+> +    RISCVException ret;
+> +
+> +    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+>
+>      if (riscv_cpu_mxl(env) == MXL_RV64) {
+>          mask |= HENVCFG_PBMTE | HENVCFG_STCE;
+> @@ -1595,6 +1651,13 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
+>  static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
+>                                   target_ulong *val)
+>  {
+> +    RISCVException ret;
+> +
+> +    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+> +
+>      *val = env->henvcfg >> 32;
+>      return RISCV_EXCP_NONE;
+>  }
+> @@ -1604,9 +1667,14 @@ static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
+>  {
+>      uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
+>      uint64_t valh = (uint64_t)val << 32;
+> +    RISCVException ret;
+>
+> -    env->henvcfg = (env->henvcfg & ~mask) | (valh & mask);
+> +    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
+> +    if (ret != RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+>
+> +    env->henvcfg = (env->henvcfg & ~mask) | (valh & mask);
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> @@ -1628,7 +1696,8 @@ static RISCVException write_mstateen(CPURISCVState *env, int csrno,
+>                                       target_ulong new_val)
+>  {
+>      uint64_t *reg;
+> -    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
+> +    uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
+> +                       (1UL << SMSTATEEN0_HSENVCFG);
+>
+>      reg = &env->mstateen[csrno - CSR_MSTATEEN0];
+>      write_smstateen(env, reg, wr_mask, new_val);
+> @@ -1649,7 +1718,8 @@ static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
+>  {
+>      uint64_t *reg;
+>      uint64_t val;
+> -    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
+> +    uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
+> +                       (1UL << SMSTATEEN0_HSENVCFG);
+>
+>      reg = &env->mstateen[csrno - CSR_MSTATEEN0H];
+>      val = (uint64_t)new_val << 32;
+> @@ -1671,7 +1741,8 @@ static RISCVException write_hstateen(CPURISCVState *env, int csrno,
+>                                       target_ulong new_val)
+>  {
+>      uint64_t *reg;
+> -    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
+> +    uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
+> +                       (1UL << SMSTATEEN0_HSENVCFG);
+>      int index = csrno - CSR_HSTATEEN0;
+>
+>      reg = &env->hstateen[index];
+> @@ -1694,8 +1765,9 @@ static RISCVException write_hstateenh(CPURISCVState *env, int csrno,
+>  {
+>      uint64_t *reg;
+>      uint64_t val;
+> -    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
+>      int index = csrno - CSR_HSTATEEN0H;
+> +    uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
+> +                       (1UL << SMSTATEEN0_HSENVCFG);
+>
+>      reg = &env->hstateen[index];
+>      val = (uint64_t)new_val << 32;
+> --
+> 2.25.1
+>
+>
 
