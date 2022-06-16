@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB4A54DF12
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:28:06 +0200 (CEST)
-Received: from localhost ([::1]:48276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1879954DED2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:23:56 +0200 (CEST)
+Received: from localhost ([::1]:39646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1mjO-0007J0-1o
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39514)
+	id 1o1mfL-0001OB-3p
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mc8-0006tJ-V0
+ id 1o1mcA-0006tP-US
  for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:40 -0400
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:40499)
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:43835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mc6-0000V0-T4
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:36 -0400
-Received: by mail-lj1-x234.google.com with SMTP id y29so982421ljd.7
+ id 1o1mc6-0000VK-UQ
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:38 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id be31so1486052lfb.10
  for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7IlllWalbol55jcjJ2c0idnBkF17iN1AJ6PBWM49+f8=;
- b=d1ueLu4vHjKhqc96du8l0lwkyW5A0nb7/Zx9VqTjux2/CzeDEKZRgCXvVP4TaLGUP9
- qXkF90Ugq4+l/YG1Gt6Sj7bXJW+NsiUnTT3sJX/HIKnIfSJFFTE5dMWTCXA8DAdLXKOt
- LAMNAUGbgY0iQINYD966Vkgvu8w3emm8dcORi1PGLQ60J94RvbE9fxHtdqYYwnkiy1pE
- aq0P1iyqAURjieobaA2NFmTEhW0E7n0kkZrGsjYONLJwMHcCRTU4V3oOShxMI3+JLduh
- ceoZj8aZ9A1mI5JC5O1hawyWTM/v6Q5mNA97uE+dqH3ePKmLevaoajFjt1ppEZbNr/8i
- 4oAg==
+ bh=Tr3zUpzB0GffCzKr/MY5AoUXPXUzW4B6SXMURDobjpE=;
+ b=U0NWxVVKjQBoPz+U1nhbBAWAlbVcmUNMRrBQWLIx8M9RXS3oZYWWuo5kftYCFymu3H
+ Jy5bnJRjAXipQmCNhvWquLbxY/Vynbwlf6xBIDWzs0evOeimPRZEATDHvxfqrzi9Tlbi
+ a16LwCO9eKoHQPF6B2drsv297aj1zoL3EuXoMo3YvPd9SuW1VfdWPZNcUups+2fgh+UL
+ IfQe83hDiH/fI3FL6wvsGzyL5MVa0zUoEZKOuMAfJQB1NcmUo+D0mOGiFwCvDOC3+0sm
+ y5k7pDt1ZMyz9G50f/vFZybdTjZO+AljtwGQMF9H56P+GpOuWIQURJx3jussltI6Jj6E
+ i6BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7IlllWalbol55jcjJ2c0idnBkF17iN1AJ6PBWM49+f8=;
- b=Be4+XHvtcbtwZaHfHGOcdrN+n7PnfjgQVmpXO9qexerDIsYBWLDTsFPLQgFtQ01GiO
- 5j29YEIwv3MFmdoK+dZWgLcF1wmjc3XGXkngdabbgJtOOzBBKZclmHd7mANZ8i/tbiiV
- wH8wQ5dWBUXDnZzn8ssIpUCrLRyfFyPty6dwD9HdsK9NvMU/Icjx/89f5CO+aL24C8/O
- Fm7xhFVc5cZG85KWssQv3CWUwT73ZvxiD+Psl1ZTjmORxbsTHcYec+GtRixbvs11TMzO
- oOfoMTYUCXCI3Pl1PwqjTIn2e7BuXUs/lKcqbQzk0HXfLjwsUvh0OalO6dBGIFa9Od0C
- qikQ==
-X-Gm-Message-State: AJIora8hstHzaE/QMngZ849IOftnySMwXv28JGNFFLIE2YCYbqjVHCP+
- +OGHuolxpLCJcvKEeKGx8nB61PnQ3zSOAmQm
-X-Google-Smtp-Source: AGRyM1vYWtExQ4i0WLxTDMIUrvqt6SfpDwnWW1E1Mw0d7qH01djkpzCdAbgKU4D/Godm2saL2LeJqA==
-X-Received: by 2002:a2e:9e04:0:b0:255:a211:f440 with SMTP id
- e4-20020a2e9e04000000b00255a211f440mr2107701ljk.159.1655374830588; 
- Thu, 16 Jun 2022 03:20:30 -0700 (PDT)
+ bh=Tr3zUpzB0GffCzKr/MY5AoUXPXUzW4B6SXMURDobjpE=;
+ b=El4yiIuNRQfqSY6Frmup7/7Dn7JuiDzxn6SlSvpKovQnVjiRNNbeFfNfsnDWSxBHqT
+ OKMuERZMToT/52vfq9mok2fIa3pkkiAP8E6NCXKpOKKnKdy6/0FH4DkdOc/4f/4eGjOx
+ ePT8gti3dD/D9j5GY31VByLaHpK5F/KuJRosYXCH7KG7r9M24KM6wTNvMoXuI/bxXoLC
+ olPbWYk+8PObLPeTM6k2BaQeg/u0hjlxEQTiBmKDcArRRnuJcO3SUPBYVFRwAPPGwD5A
+ UPiKNSbMI0fJJZy6uRQIpjIKMDSknDSES2C1pSIqguGfpLMVBdiWUxsGgCE70n47Xzgq
+ nThQ==
+X-Gm-Message-State: AJIora+B3oVT/TAca6Nu1frr2+nGyh3Edzs9M8RtGzrkj4PMPvdMlkPt
+ Qxz5z/iatldHHpnh2ccYl7O4Y4IN8A5WEUW2
+X-Google-Smtp-Source: AGRyM1tu88visg4C6vHFU1mFFkzmNTbetIJpJGUGjTzul/o2I/22JdjmICAkl8i0CqrR63JnrsJflw==
+X-Received: by 2002:a05:6512:3132:b0:478:f2f1:3a75 with SMTP id
+ p18-20020a056512313200b00478f2f13a75mr2358432lfd.100.1655374831623; 
+ Thu, 16 Jun 2022 03:20:31 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.28.49])
  by smtp.gmail.com with ESMTPSA id
- q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.29
+ q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 03:20:30 -0700 (PDT)
+ Thu, 16 Jun 2022 03:20:31 -0700 (PDT)
 From: nikita.lapshin@openvz.org
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, quintela@redhat.com,
  dgilbert@redhat.com, nikita.lapshin@openvz.org
-Subject: [PATCH 2/8] migration: should_skip() implemented
-Date: Thu, 16 Jun 2022 13:19:58 +0300
-Message-Id: <20220616102006.218693-3-nikita.lapshin@openvz.org>
+Subject: [PATCH 3/8] migration: Add vmstate part of migration stream
+Date: Thu, 16 Jun 2022 13:19:59 +0300
+Message-Id: <20220616102006.218693-4-nikita.lapshin@openvz.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220616102006.218693-1-nikita.lapshin@openvz.org>
 References: <20220616102006.218693-1-nikita.lapshin@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::234;
- envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x234.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=nikita.lapshin@openvz.org; helo=mail-lf1-x12f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,142 +91,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nikita Lapshin <nikita.lapshin@openvz.org>
 
-For next changes it is convenient to make all decisions about
-sections skipping in one function.
+Now we can disable and enable vmstate part by stream_content parameter.
 
 Signed-off-by: Nikita Lapshin <nikita.lapshin@openvz.org>
 ---
- migration/savevm.c | 54 ++++++++++++++++++++++++----------------------
- 1 file changed, 28 insertions(+), 26 deletions(-)
+ migration/migration.c | 10 ++++++++--
+ migration/savevm.c    | 15 +++++++++++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 02ed94c180..c68f187ef7 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -943,6 +943,15 @@ static int vmstate_save(QEMUFile *f, SaveStateEntry *se,
-     return vmstate_save_state(f, se->vmsd, se->opaque, vmdesc);
+diff --git a/migration/migration.c b/migration/migration.c
+index 4adcc87d1d..bbf9b6aad1 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1334,9 +1334,15 @@ void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
+     }
  }
  
-+static bool should_skip(SaveStateEntry *se)
-+{
-+    if (se->ops && se->ops->is_active && !se->ops->is_active(se->opaque)) {
+-static bool check_stream_parts(strList *stream_content_list)
++static bool check_stream_parts(strList *stream_list)
+ {
+-    /* To be implemented in ext commits */
++    for (; stream_list; stream_list = stream_list->next) {
++        if (!strcmp(stream_list->value, "vmstate")) {
++            continue;
++        }
++
++        return false;
++    }
+     return true;
+ }
+ 
+diff --git a/migration/savevm.c b/migration/savevm.c
+index c68f187ef7..48603517ba 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -949,6 +949,21 @@ static bool should_skip(SaveStateEntry *se)
+         return true;
+     }
+ 
++    /*
++     * Assume that any SaveStateEntry with non-null vmsd is
++     * part of vmstate.
++     *
++     *
++     * Vmstate is included by default so firstly check if
++     * stream-content-list is enabled.
++     */
++
++    if (se->vmsd &&
++        migrate_get_current()->parameters.has_stream_content_list &&
++        !migrate_find_stream_content("vmstate")) {
 +        return true;
 +    }
 +
-+    return false;
-+}
-+
- /*
-  * Write the header for device section (QEMU_VM_SECTION START/END/PART/FULL)
-  */
-@@ -1207,10 +1216,8 @@ void qemu_savevm_state_setup(QEMUFile *f)
-         if (!se->ops || !se->ops->save_setup) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         save_section_header(f, se, QEMU_VM_SECTION_START);
+     return false;
+ }
  
-@@ -1238,10 +1245,8 @@ int qemu_savevm_state_resume_prepare(MigrationState *s)
-         if (!se->ops || !se->ops->resume_prepare) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         ret = se->ops->resume_prepare(s, se->opaque);
-         if (ret < 0) {
-@@ -1268,8 +1273,7 @@ int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
-         if (!se->ops || !se->ops->save_live_iterate) {
-             continue;
-         }
--        if (se->ops->is_active &&
--            !se->ops->is_active(se->opaque)) {
-+        if (should_skip(se)) {
-             continue;
-         }
-         if (se->ops->is_active_iterate &&
-@@ -1337,10 +1341,8 @@ void qemu_savevm_state_complete_postcopy(QEMUFile *f)
-         if (!se->ops || !se->ops->save_live_complete_postcopy) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         trace_savevm_section_start(se->idstr, se->section_id);
-         /* Section type */
-@@ -1374,10 +1376,8 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
-             continue;
-         }
- 
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         trace_savevm_section_start(se->idstr, se->section_id);
- 
-@@ -1417,6 +1417,9 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-             trace_savevm_section_skip(se->idstr, se->section_id);
-             continue;
-         }
-+        if (should_skip(se)) {
-+            continue;
-+        }
- 
-         trace_savevm_section_start(se->idstr, se->section_id);
- 
-@@ -1522,10 +1525,8 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
-         if (!se->ops || !se->ops->save_live_pending) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         se->ops->save_live_pending(f, se->opaque, threshold_size,
-                                    res_precopy_only, res_compatible,
-@@ -1635,6 +1636,9 @@ int qemu_save_device_state(QEMUFile *f)
-         if (se->vmsd && !vmstate_save_needed(se->vmsd, se->opaque)) {
-             continue;
-         }
-+        if (should_skip(se)) {
-+            continue;
-+        }
- 
-         save_section_header(f, se, QEMU_VM_SECTION_FULL);
- 
-@@ -2542,10 +2546,8 @@ static int qemu_loadvm_state_setup(QEMUFile *f)
-         if (!se->ops || !se->ops->load_setup) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
- 
-         ret = se->ops->load_setup(f, se->opaque);
 -- 
 2.31.1
 
