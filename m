@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01A554E190
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:13:23 +0200 (CEST)
-Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E0B54E173
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:07:40 +0200 (CEST)
+Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1pJK-0005XR-VZ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41812)
+	id 1o1pDn-0003jd-3J
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1o1ooT-0001Kq-M5
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:41:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39623)
+ id 1o1ooW-0001SC-SQ
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:41:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1o1ooK-0005Yp-6h
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:41:29 -0400
+ id 1o1ooN-0005ZD-N5
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:41:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655383277;
+ s=mimecast20190719; t=1655383279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w4voxXrKbyhL/lOz9FRDmaZJ++LuTFoliK+/VyoayUo=;
- b=TK3+8MqopHrh8z27Kcmg4LuXJwim5N/4aHN2+4+sMCMaNSkdB+Xzu79/Tz7KawieuA2dJV
- +909asxmflm5i1GMC9DpFynXvFUwDDZ3ZibueEOXojK1rdC5Eonck9Dl+bRRolgW2ApRIj
- fbZf09QJc7YxWukecY822FYLk237xX0=
+ bh=4JCwGVreW5Z5NC5FZ9pjBxLt89NA5vi3SysqTGNE1zk=;
+ b=Nl84ir6tgIpQYDEnFgo1zm5CjcM0IDE9Mh01co9O5BOAAoIOHXscSgfX4UeELSAiLJuOTu
+ GnkvM+WNXUNjQtFU+8sbUDIbLJaLqZB+F0Z+5t1x+aYg2DlA2reXWXpVS/crqKoyW2qpqT
+ H4ApD/Wl2FeXu3TLzJfsy6GWjz1M3/E=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-574-Xn-lT_swMpOT305bRNzjOw-1; Thu, 16 Jun 2022 08:41:11 -0400
-X-MC-Unique: Xn-lT_swMpOT305bRNzjOw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-283-8YAX20ZCMKOsEfH_co3-qQ-1; Thu, 16 Jun 2022 08:41:16 -0400
+X-MC-Unique: 8YAX20ZCMKOsEfH_co3-qQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E1F1D833976;
- Thu, 16 Jun 2022 12:41:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC57D802D1C;
+ Thu, 16 Jun 2022 12:41:15 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2235D492CA5;
- Thu, 16 Jun 2022 12:41:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90D061121314;
+ Thu, 16 Jun 2022 12:41:14 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
@@ -54,25 +54,25 @@ Cc: Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 6/9] error-report: add a callback to overwrite error_vprintf
-Date: Thu, 16 Jun 2022 16:40:31 +0400
-Message-Id: <20220616124034.3381391-7-marcandre.lureau@redhat.com>
+Subject: [PATCH 7/9] qapi: move QEMU-specific dispatch code in monitor
+Date: Thu, 16 Jun 2022 16:40:32 +0400
+Message-Id: <20220616124034.3381391-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
 References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,300 +90,285 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-error_vprintf() is implemented in monitor.c, which overrides the
-default implementation from stubs/, while avoiding a direct dependency
-to the monitor from error-report.c.
+Make QMP-dispatch code free from QEMU-specific OOB dispatch/async
+coroutine handling. This will allow to move the base code to
+qemu-common, and clear other users from potential mis-ususe (QGA doesn't
+have OOB or coroutine).
 
-However, the stub solution isn't working when moving error-report.c and
-stubs/error-printf.c in a common library. Linking with such library
-creates conflicts for the error_vprintf() implementations (and weak
-symbols aren't great either). Instead, use the "traditional" approach to
-provide overidable callbacks.
+To do that, introduce an optional callback QmpDispatchRun called when a
+QMP command should be run, to allow QEMU to override the default
+behaviour.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/monitor/monitor.h            |  1 +
- include/qemu/error-report.h          |  6 ++++--
- bsd-user/main.c                      |  2 +-
- linux-user/main.c                    |  2 +-
- monitor/monitor.c                    |  2 +-
- qemu-img.c                           |  2 +-
- qemu-io.c                            |  2 +-
- qemu-nbd.c                           |  2 +-
- scsi/qemu-pr-helper.c                |  2 +-
- softmmu/vl.c                         |  2 +-
- storage-daemon/qemu-storage-daemon.c |  2 +-
- stubs/error-printf.c                 | 18 ------------------
- util/error-report.c                  | 27 ++++++++++++++++++++++++---
- stubs/meson.build                    |  1 -
- 14 files changed, 38 insertions(+), 33 deletions(-)
- delete mode 100644 stubs/error-printf.c
+ include/qapi/qmp/dispatch.h |  7 ++--
+ monitor/qmp.c               | 68 ++++++++++++++++++++++++++++++++++++-
+ qapi/qmp-dispatch.c         | 64 +++-------------------------------
+ qga/main.c                  |  2 +-
+ tests/unit/test-qmp-cmds.c  |  6 ++--
+ 5 files changed, 81 insertions(+), 66 deletions(-)
 
-diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index 44653e195b45..e94ab2e74889 100644
---- a/include/monitor/monitor.h
-+++ b/include/monitor/monitor.h
-@@ -16,6 +16,7 @@ extern QemuOptsList qemu_mon_opts;
- Monitor *monitor_cur(void);
- Monitor *monitor_set_cur(Coroutine *co, Monitor *mon);
- bool monitor_cur_is_qmp(void);
-+int monitor_error_vprintf(const char *fmt, va_list ap);
+diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+index 1e4240fd0dbc..b659da613f2e 100644
+--- a/include/qapi/qmp/dispatch.h
++++ b/include/qapi/qmp/dispatch.h
+@@ -14,7 +14,6 @@
+ #ifndef QAPI_QMP_DISPATCH_H
+ #define QAPI_QMP_DISPATCH_H
  
- void monitor_init_globals(void);
- void monitor_init_globals_core(void);
-diff --git a/include/qemu/error-report.h b/include/qemu/error-report.h
-index e2e630f207f0..a2bc030b4bfe 100644
---- a/include/qemu/error-report.h
-+++ b/include/qemu/error-report.h
-@@ -14,6 +14,7 @@
- #define QEMU_ERROR_REPORT_H
- 
- typedef bool (*ErrorReportDetailedFunc)(void);
-+typedef int (*ErrorReportVPrintfFunc)(const char *fmt, va_list ap) G_GNUC_PRINTF(1, 0);
- 
- typedef struct Location {
-     /* all members are private to qemu-error.c */
-@@ -32,7 +33,6 @@ void loc_set_none(void);
- void loc_set_cmdline(char **argv, int idx, int cnt);
- void loc_set_file(const char *fname, int lno);
- 
--int error_vprintf(const char *fmt, va_list ap) G_GNUC_PRINTF(1, 0);
- int error_printf(const char *fmt, ...) G_GNUC_PRINTF(1, 2);
- 
- void error_vreport(const char *fmt, va_list ap) G_GNUC_PRINTF(1, 0);
-@@ -48,7 +48,9 @@ bool error_report_once_cond(bool *printed, const char *fmt, ...)
- bool warn_report_once_cond(bool *printed, const char *fmt, ...)
-     G_GNUC_PRINTF(2, 3);
- 
--void error_init(const char *argv0, ErrorReportDetailedFunc detailed_fn);
-+void error_init(const char *argv0,
-+                ErrorReportDetailedFunc detailed_fn,
-+                ErrorReportVPrintfFunc vprintf_fn);
- 
- /*
-  * Similar to error_report(), except it prints the message just once.
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index d5f8fca863d7..1cc1ba9b2e6e 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -292,7 +292,7 @@ int main(int argc, char **argv)
- 
-     save_proc_pathname(argv[0]);
- 
--    error_init(argv[0], NULL);
-+    error_init(argv[0], NULL, NULL);
-     module_call_init(MODULE_INIT_TRACE);
-     qemu_init_cpu_list();
-     module_call_init(MODULE_INIT_QOM);
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 84f380bd366d..75f72099739d 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -646,7 +646,7 @@ int main(int argc, char **argv, char **envp)
-     unsigned long max_reserved_va;
-     bool preserve_argv0;
- 
--    error_init(argv[0], NULL);
-+    error_init(argv[0], NULL, NULL);
-     module_call_init(MODULE_INIT_TRACE);
-     qemu_init_cpu_list();
-     module_call_init(MODULE_INIT_QOM);
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index ba4c1716a48a..490e7babd895 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -263,7 +263,7 @@ int monitor_printf(Monitor *mon, const char *fmt, ...)
- /*
-  * Print to current monitor if we have one, else to stderr.
-  */
--int error_vprintf(const char *fmt, va_list ap)
-+int monitor_error_vprintf(const char *fmt, va_list ap)
- {
-     Monitor *cur_mon = monitor_cur();
- 
-diff --git a/qemu-img.c b/qemu-img.c
-index 1f27a9fc70f6..00383f48f7bc 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -5396,7 +5396,7 @@ int main(int argc, char **argv)
- #endif
- 
-     socket_init();
--    error_init(argv[0], NULL);
-+    error_init(argv[0], NULL, NULL);
-     module_call_init(MODULE_INIT_TRACE);
-     qemu_init_exec_dir(argv[0]);
- 
-diff --git a/qemu-io.c b/qemu-io.c
-index b5cdc7c922a7..09794cd781be 100644
---- a/qemu-io.c
-+++ b/qemu-io.c
-@@ -539,7 +539,7 @@ int main(int argc, char **argv)
- #endif
- 
-     socket_init();
--    error_init(argv[0], NULL);
-+    error_init(argv[0], NULL, NULL);
-     module_call_init(MODULE_INIT_TRACE);
-     qemu_init_exec_dir(argv[0]);
- 
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 6bc632c93611..112303674cfb 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -587,7 +587,7 @@ int main(int argc, char **argv)
- #endif
- 
-     socket_init();
--    error_init(argv[0], NULL);
-+    error_init(argv[0], NULL, NULL);
-     module_call_init(MODULE_INIT_TRACE);
-     qcrypto_init(&error_fatal);
- 
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 8d80e58d4498..d265d11b6261 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -910,7 +910,7 @@ int main(int argc, char **argv)
- 
-     signal(SIGPIPE, SIG_IGN);
- 
--    error_init(argv[0], NULL);
-+    error_init(argv[0], NULL, NULL);
-     module_call_init(MODULE_INIT_TRACE);
-     module_call_init(MODULE_INIT_QOM);
-     qemu_add_opts(&qemu_trace_opts);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 3b46fc9c1fc5..ef54af0efd6f 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2639,7 +2639,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_add_opts(&qemu_action_opts);
-     module_call_init(MODULE_INIT_OPTS);
- 
--    error_init(argv[0], error_is_detailed);
-+    error_init(argv[0], error_is_detailed, monitor_error_vprintf);
-     qemu_init_exec_dir(argv[0]);
- 
-     qemu_init_arch_modules();
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 7e4d5030a045..0e0893695628 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -379,7 +379,7 @@ int main(int argc, char *argv[])
-     signal(SIGPIPE, SIG_IGN);
- #endif
- 
--    error_init(argv[0], error_is_detailed);
-+    error_init(argv[0], error_is_detailed, monitor_error_vprintf);
-     qemu_init_exec_dir(argv[0]);
-     os_setup_signal_handling();
- 
-diff --git a/stubs/error-printf.c b/stubs/error-printf.c
-deleted file mode 100644
-index 1afa0f62ca26..000000000000
---- a/stubs/error-printf.c
-+++ /dev/null
-@@ -1,18 +0,0 @@
--#include "qemu/osdep.h"
--#include "qemu/error-report.h"
 -#include "monitor/monitor.h"
--
--int error_vprintf(const char *fmt, va_list ap)
--{
--    int ret;
--
--    if (g_test_initialized() && !g_test_subprocess() &&
--        getenv("QTEST_SILENT_ERRORS")) {
--        char *msg = g_strdup_vprintf(fmt, ap);
--        g_test_message("%s", msg);
--        ret = strlen(msg);
--        g_free(msg);
--        return ret;
--    }
--    return vfprintf(stderr, fmt, ap);
--}
-diff --git a/util/error-report.c b/util/error-report.c
-index c2181f80a83d..1452047cd2e8 100644
---- a/util/error-report.c
-+++ b/util/error-report.c
-@@ -23,11 +23,14 @@ typedef enum {
-     REPORT_TYPE_INFO,
- } report_type;
+ #include "qemu/queue.h"
  
-+static int error_vprintf(const char *fmt, va_list ap);
+ typedef void (QmpCommandFunc)(QDict *, QObject **, Error **);
+@@ -41,6 +40,10 @@ typedef struct QmpCommand
+ 
+ typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
+ 
++typedef void (QmpDispatchRun)(bool oob, const QmpCommand *cmd,
++                              QDict *args, QObject **ret, Error **errp,
++                              void *run_data);
 +
- /* Prepend timestamp to messages */
- bool message_with_timestamp;
- bool error_with_guestname;
- const char *error_guest_name;
- ErrorReportDetailedFunc detailed_fn = NULL;
-+ErrorReportVPrintfFunc vprintf_fn = error_vprintf;
+ void qmp_register_command(QmpCommandList *cmds, const char *name,
+                           QmpCommandFunc *fn, QmpCommandOptions options,
+                           unsigned special_features);
+@@ -56,7 +59,7 @@ const char *qmp_command_name(const QmpCommand *cmd);
+ bool qmp_has_success_response(const QmpCommand *cmd);
+ QDict *qmp_error_response(Error *err);
+ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+-                    bool allow_oob, Monitor *cur_mon);
++                    bool allow_oob, QmpDispatchRun run_cb, void *run_data);
+ bool qmp_is_oob(const QDict *dict);
  
- int error_printf(const char *fmt, ...)
- {
-@@ -35,7 +38,7 @@ int error_printf(const char *fmt, ...)
-     int ret;
- 
-     va_start(ap, fmt);
--    ret = error_vprintf(fmt, ap);
-+    ret = vprintf_fn(fmt, ap);
-     va_end(ap);
-     return ret;
- }
-@@ -222,7 +225,7 @@ static void vreport(report_type type, const char *fmt, va_list ap)
-         break;
-     }
- 
--    error_vprintf(fmt, ap);
-+    vprintf_fn(fmt, ap);
-     error_printf("\n");
- }
- 
-@@ -387,7 +390,24 @@ static void qemu_log_func(const gchar *log_domain,
+ typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaque);
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 092c527b6fc9..f8dec97c96bb 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -132,6 +132,72 @@ static void monitor_qmp_respond(MonitorQMP *mon, QDict *rsp)
      }
  }
  
--void error_init(const char *argv0, ErrorReportDetailedFunc detailed)
-+static int error_vprintf(const char *fmt, va_list ap)
++typedef struct QmpDispatchBH {
++    const QmpCommand *cmd;
++    Monitor *cur_mon;
++    QDict *args;
++    QObject **ret;
++    Error **errp;
++    Coroutine *co;
++} QmpDispatchBH;
++
++static void do_qmp_dispatch_bh(void *opaque)
 +{
-+    int ret;
++    QmpDispatchBH *data = opaque;
 +
-+    if (g_test_initialized() && !g_test_subprocess() &&
-+        getenv("QTEST_SILENT_ERRORS")) {
-+        char *msg = g_strdup_vprintf(fmt, ap);
-+        g_test_message("%s", msg);
-+        ret = strlen(msg);
-+        g_free(msg);
-+        return ret;
-+    }
-+    return vfprintf(stderr, fmt, ap);
++    assert(monitor_cur() == NULL);
++    monitor_set_cur(qemu_coroutine_self(), data->cur_mon);
++    data->cmd->fn(data->args, data->ret, data->errp);
++    monitor_set_cur(qemu_coroutine_self(), NULL);
++    aio_co_wake(data->co);
 +}
 +
-+void error_init(const char *argv0,
-+                ErrorReportDetailedFunc detailed,
-+                ErrorReportVPrintfFunc vprintf)
++/*
++ * Runs outside of coroutine context for OOB commands, but in coroutine
++ * context for everything else.
++ */
++static void qmp_dispatch_run(bool oob, const QmpCommand *cmd,
++                             QDict *args, QObject **ret, Error **errp,
++                             void *run_data)
++{
++    Monitor *cur_mon = run_data;
++
++    assert(!(oob && qemu_in_coroutine()));
++    assert(monitor_cur() == NULL);
++
++    if (!!(cmd->options & QCO_COROUTINE) == qemu_in_coroutine()) {
++        monitor_set_cur(qemu_coroutine_self(), cur_mon);
++        cmd->fn(args, ret, errp);
++        monitor_set_cur(qemu_coroutine_self(), NULL);
++    } else {
++       /*
++        * Actual context doesn't match the one the command needs.
++        *
++        * Case 1: we are in coroutine context, but command does not
++        * have QCO_COROUTINE.  We need to drop out of coroutine
++        * context for executing it.
++        *
++        * Case 2: we are outside coroutine context, but command has
++        * QCO_COROUTINE.  Can't actually happen, because we get here
++        * outside coroutine context only when executing a command
++        * out of band, and OOB commands never have QCO_COROUTINE.
++        */
++        assert(!oob && qemu_in_coroutine() && !(cmd->options & QCO_COROUTINE));
++
++        QmpDispatchBH data = {
++            .cur_mon    = cur_mon,
++            .cmd        = cmd,
++            .args       = args,
++            .ret        = ret,
++            .errp       = errp,
++            .co         = qemu_coroutine_self(),
++        };
++        aio_bh_schedule_oneshot(qemu_get_aio_context(), do_qmp_dispatch_bh,
++                                &data);
++        qemu_coroutine_yield();
++    }
++}
++
+ /*
+  * Runs outside of coroutine context for OOB commands, but in
+  * coroutine context for everything else.
+@@ -142,7 +208,7 @@ static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
+     QDict *error;
+ 
+     rsp = qmp_dispatch(mon->commands, req, qmp_oob_enabled(mon),
+-                       &mon->common);
++                       qmp_dispatch_run, &mon->common);
+ 
+     if (mon->commands == &qmp_cap_negotiation_commands) {
+         error = qdict_get_qdict(rsp, "error");
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 0990873ec8ec..342b13d7ebbd 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -13,7 +13,6 @@
+ 
+ #include "qemu/osdep.h"
+ 
+-#include "block/aio.h"
+ #include "qapi/compat-policy.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/dispatch.h"
+@@ -22,8 +21,6 @@
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/qobject-output-visitor.h"
+ #include "qapi/qmp/qbool.h"
+-#include "qemu/coroutine.h"
+-#include "qemu/main-loop.h"
+ 
+ Visitor *qobject_input_visitor_new_qmp(QObject *obj)
  {
-     const char *p = strrchr(argv0, '/');
- 
-@@ -403,4 +423,5 @@ void error_init(const char *argv0, ErrorReportDetailedFunc detailed)
-     qemu_glog_domains = g_strdup(g_getenv("G_MESSAGES_DEBUG"));
- 
-     detailed_fn = detailed;
-+    vprintf_fn = vprintf ?: error_vprintf;
+@@ -110,32 +107,8 @@ bool qmp_is_oob(const QDict *dict)
+         && !qdict_haskey(dict, "execute");
  }
-diff --git a/stubs/meson.build b/stubs/meson.build
-index d8f3fd5c44f2..498b6ee0466e 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -9,7 +9,6 @@ stub_ss.add(files('cpus-get-virtual-clock.c'))
- stub_ss.add(files('qemu-timer-notify-cb.c'))
- stub_ss.add(files('icount.c'))
- stub_ss.add(files('dump.c'))
--stub_ss.add(files('error-printf.c'))
- stub_ss.add(files('fdset.c'))
- stub_ss.add(files('gdbstub.c'))
- stub_ss.add(files('get-vm-name.c'))
+ 
+-typedef struct QmpDispatchBH {
+-    const QmpCommand *cmd;
+-    Monitor *cur_mon;
+-    QDict *args;
+-    QObject **ret;
+-    Error **errp;
+-    Coroutine *co;
+-} QmpDispatchBH;
+-
+-static void do_qmp_dispatch_bh(void *opaque)
+-{
+-    QmpDispatchBH *data = opaque;
+-
+-    assert(monitor_cur() == NULL);
+-    monitor_set_cur(qemu_coroutine_self(), data->cur_mon);
+-    data->cmd->fn(data->args, data->ret, data->errp);
+-    monitor_set_cur(qemu_coroutine_self(), NULL);
+-    aio_co_wake(data->co);
+-}
+-
+-/*
+- * Runs outside of coroutine context for OOB commands, but in coroutine
+- * context for everything else.
+- */
+ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+-                    bool allow_oob, Monitor *cur_mon)
++                    bool allow_oob, QmpDispatchRun run_cb, void *run_data)
+ {
+     Error *err = NULL;
+     bool oob;
+@@ -203,39 +176,12 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+         qobject_ref(args);
+     }
+ 
+-    assert(!(oob && qemu_in_coroutine()));
+-    assert(monitor_cur() == NULL);
+-    if (!!(cmd->options & QCO_COROUTINE) == qemu_in_coroutine()) {
+-        monitor_set_cur(qemu_coroutine_self(), cur_mon);
+-        cmd->fn(args, &ret, &err);
+-        monitor_set_cur(qemu_coroutine_self(), NULL);
++    if (run_cb) {
++        run_cb(oob, cmd, args, &ret, &err, run_data);
+     } else {
+-       /*
+-        * Actual context doesn't match the one the command needs.
+-        *
+-        * Case 1: we are in coroutine context, but command does not
+-        * have QCO_COROUTINE.  We need to drop out of coroutine
+-        * context for executing it.
+-        *
+-        * Case 2: we are outside coroutine context, but command has
+-        * QCO_COROUTINE.  Can't actually happen, because we get here
+-        * outside coroutine context only when executing a command
+-        * out of band, and OOB commands never have QCO_COROUTINE.
+-        */
+-        assert(!oob && qemu_in_coroutine() && !(cmd->options & QCO_COROUTINE));
+-
+-        QmpDispatchBH data = {
+-            .cur_mon    = cur_mon,
+-            .cmd        = cmd,
+-            .args       = args,
+-            .ret        = &ret,
+-            .errp       = &err,
+-            .co         = qemu_coroutine_self(),
+-        };
+-        aio_bh_schedule_oneshot(qemu_get_aio_context(), do_qmp_dispatch_bh,
+-                                &data);
+-        qemu_coroutine_yield();
++        cmd->fn(args, &ret, &err);
+     }
++
+     qobject_unref(args);
+     if (err) {
+         /* or assert(!ret) after reviewing all handlers: */
+diff --git a/qga/main.c b/qga/main.c
+index c373fec3ee69..fb7d673bea9f 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -569,7 +569,7 @@ static void process_event(void *opaque, QObject *obj, Error *err)
+     }
+ 
+     g_debug("processing command");
+-    rsp = qmp_dispatch(&ga_commands, obj, false, NULL);
++    rsp = qmp_dispatch(&ga_commands, obj, false, NULL, NULL);
+ 
+ end:
+     ret = send_response(s, rsp);
+diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+index 6085c099950b..abe67a9bd880 100644
+--- a/tests/unit/test-qmp-cmds.c
++++ b/tests/unit/test-qmp-cmds.c
+@@ -150,7 +150,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
+     req = qdict_from_vjsonf_nofail(template, ap);
+     va_end(ap);
+ 
+-    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, NULL);
++    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, NULL, NULL);
+     g_assert(resp);
+     ret = qdict_get(resp, "return");
+     g_assert(ret);
+@@ -173,7 +173,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
+     req = qdict_from_vjsonf_nofail(template, ap);
+     va_end(ap);
+ 
+-    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, NULL);
++    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, NULL, NULL);
+     g_assert(resp);
+     error = qdict_get_qdict(resp, "error");
+     g_assert(error);
+@@ -229,7 +229,7 @@ static void test_dispatch_cmd_success_response(void)
+     QDict *resp;
+ 
+     qdict_put_str(req, "execute", "cmd-success-response");
+-    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), false, NULL);
++    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), false, NULL, NULL);
+     g_assert_null(resp);
+     qobject_unref(req);
+ }
 -- 
 2.37.0.rc0
 
