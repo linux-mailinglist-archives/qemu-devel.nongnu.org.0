@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9241D54E182
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:10:34 +0200 (CEST)
-Received: from localhost ([::1]:49774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF95354E11B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 14:51:22 +0200 (CEST)
+Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1pGb-0000kD-N4
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40598)
+	id 1o1oy1-0003Na-Qj
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 08:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o1ohl-0004Nk-QI
+ id 1o1ohl-0004Nj-Pz
  for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:34:35 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:47002 helo=cstnet.cn)
+Received: from smtp84.cstnet.cn ([159.226.251.84]:47006 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o1ohd-0002dg-SQ
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:34:29 -0400
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o1ohe-0002dh-2n
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:34:31 -0400
 Received: from localhost.localdomain (unknown [159.226.43.7])
- by APP-05 (Coremail) with SMTP id zQCowADnlu1EI6tiya3mAw--.16512S2;
- Thu, 16 Jun 2022 20:34:16 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowADnlu1EI6tiya3mAw--.16512S3;
+ Thu, 16 Jun 2022 20:34:19 +0800 (CST)
 From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 To: qemu-devel@nongnu.org
 Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Subject: [PATCH v3 0/2] hw/nvme: Add shadow doorbell buffer support
-Date: Thu, 16 Jun 2022 20:34:06 +0800
-Message-Id: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
+Subject: [PATCH v3 1/2] hw/nvme: Implement shadow doorbell buffer support
+Date: Thu, 16 Jun 2022 20:34:07 +0800
+Message-Id: <20220616123408.3306055-2-fanjinhao21s@ict.ac.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
+References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADnlu1EI6tiya3mAw--.16512S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4UXFWrAF13ArWkXw1UZFb_yoW8KFWDpa
- yY9FnxJr4ku3W7Gan3Ja17Xr1rXan3XFZ8Ganrtw47JFn8tFy7XFWfKF1UZr90vr4Igr1a
- yFZxKFy7K34UArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
- rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
- vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
- x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
- xKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
- xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbrMaUUUUUU==
+X-CM-TRANSID: zQCowADnlu1EI6tiya3mAw--.16512S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxKrW7WF47JrWUWw4xWw18uFg_yoWDGw4DpF
+ Z0qr9IywsaqF17Xr4kJrZxX3Z8uws3ZFyjkwsxKw42yan3Ary8uFWDKFyUAF4Y9F4vgr4F
+ vrsayFsxXF4xXrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9v14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+ x26xkF7I0E14v26r1Y6r1xM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+ ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+ vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+ r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxC20s
+ 026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+ JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+ v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
+ j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
+ W8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbLL0UUUUUU==
 X-Originating-IP: [159.226.43.7]
 X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
 Received-SPF: pass client-ip=159.226.251.84;
@@ -70,89 +73,308 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds shadow doorbell buffer support in NVMe 1.3 to QEMU
-NVMe. The Doorbell Buffer Config admin command is implemented for the
-guest to enable shadow doobell buffer. When this feature is enabled, each
-SQ/CQ is associated with two buffers, i.e., Shadow Doorbell buffer and
-EventIdx buffer. According to the Spec, each queue's doorbell register
-is only updated when the Shadow Doorbell buffer value changes from being
-less than or equal to the value of the corresponding EventIdx buffer
-entry to being greater than that value. Therefore, the number of MMIO's
-on the doorbell registers is greatly reduced.
+Implement Doorbel Buffer Config command (Section 5.7 in NVMe Spec 1.3)
+and Shadow Doorbel buffer & EventIdx buffer handling logic (Section 7.13
+in NVMe Spec 1.3). For queues created before the Doorbell Buffer Config
+command, the nvme_dbbuf_config function tries to associate each existing
+SQ and CQ with its Shadow Doorbel buffer and EventIdx buffer address.
+Queues created after the Doorbell Buffer Config command will have the
+doorbell buffers associated with them when they are initialized.
 
-This patch is adapted from Huaicheng Li's patch[1] in 2018.
+In nvme_process_sq and nvme_post_cqe, proactively check for Shadow
+Doorbell buffer changes instead of wait for doorbell register changes.
+This reduces the number of MMIOs.
 
-[1] https://patchwork.kernel.org/project/qemu-devel/patch/20180305194906.GA3630@gmail.com/
+In nvme_process_db(), update the shadow doorbell buffer value with
+the doorbell register value if it is the admin queue. This is a hack
+since hosts like Linux NVMe driver and SPDK do not use shadow
+doorbell buffer for the admin queue. Copying the doorbell register
+value to the shadow doorbell buffer allows us to support these hosts
+as well as spec-compliant hosts that use shadow doorbell buffer for
+the admin queue.
 
-IOPS comparison with FIO:
-
-iodepth    1      2      4      8
-  QEMU   25.1k  25.9k  24.5k  24.0k
- +dbbuf  29.1k  60.1k  99.8k  82.5k
-
-MMIO's per IO measured by perf-kvm:
-
-iodepth    1      2      4      8
-  QEMU   2.01   1.99   1.99   1.99
- +dbbuf  1.00   0.52   0.27   0.46
-
-The tests are done on Ubuntu 22.04 with 5.15.0-33 kernel with Intel(R) 
-Xeon(R) Gold 6248R CPU @ 3.00GHz.
-
-QEMU set up:
-
-bin/x86_64-softmmu/qemu-system-x86_64 \
-    -name "nvme-test" \
-    -machine accel=kvm \
-    -cpu host \
-    -smp 4 \
-    -m 8G \
-    -daemonize \
-    -device virtio-scsi-pci,id=scsi0 \
-    -device scsi-hd,drive=hd0 \
-    -drive file=$OSIMGF,if=none,aio=native,cache=none,format=qcow2,id=hd0,snapshot=on \
-    -drive "id=nvm,if=none,file=null-co://,file.read-zeroes=on,format=raw" \
-    -device nvme,serial=deadbeef,drive=nvm \
-    -net user,hostfwd=tcp::8080-:22 \
-    -net nic,model=virtio
-
-FIO configuration:
-
-[global]
-ioengine=libaio
-filename=/dev/nvme0n1
-thread=1
-group_reporting=1
-direct=1
-verify=0
-time_based=1
-ramp_time=0
-runtime=30
-;size=1G
-;iodepth=1
-rw=randread
-bs=4k
-
-[test]
-numjobs=1
-
-Changes since v2:
-  - Do not ignore admin queue updates in nvme_process_db and nvme_post_cqes
-  - Calculate db_addr and ei_addr in hard-coded way
-
-Changes since v1:
-  - Add compatibility with hosts that do not use admin queue shadow doorbell
-
-Jinhao Fan (2):
-  hw/nvme: Implement shadow doorbell buffer support
-  hw/nvme: Add trace events for shadow doorbell buffer
-
- hw/nvme/ctrl.c       | 118 ++++++++++++++++++++++++++++++++++++++++++-
+Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+---
+ hw/nvme/ctrl.c       | 113 ++++++++++++++++++++++++++++++++++++++++++-
  hw/nvme/nvme.h       |   8 +++
- hw/nvme/trace-events |   5 ++
  include/block/nvme.h |   2 +
- 4 files changed, 132 insertions(+), 1 deletion(-)
+ 3 files changed, 122 insertions(+), 1 deletion(-)
 
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 03760ddeae..f3aaff3e8d 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -223,6 +223,7 @@ static const uint32_t nvme_cse_acs[256] = {
+     [NVME_ADM_CMD_GET_FEATURES]     = NVME_CMD_EFF_CSUPP,
+     [NVME_ADM_CMD_ASYNC_EV_REQ]     = NVME_CMD_EFF_CSUPP,
+     [NVME_ADM_CMD_NS_ATTACHMENT]    = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_NIC,
++    [NVME_ADM_CMD_DBBUF_CONFIG]     = NVME_CMD_EFF_CSUPP,
+     [NVME_ADM_CMD_FORMAT_NVM]       = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
+ };
+ 
+@@ -1304,6 +1305,12 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
+     }
+ }
+ 
++static void nvme_update_cq_head(NvmeCQueue *cq)
++{
++    pci_dma_read(&cq->ctrl->parent_obj, cq->db_addr, &cq->head,
++            sizeof(cq->head));
++}
++
+ static void nvme_post_cqes(void *opaque)
+ {
+     NvmeCQueue *cq = opaque;
+@@ -1316,6 +1323,10 @@ static void nvme_post_cqes(void *opaque)
+         NvmeSQueue *sq;
+         hwaddr addr;
+ 
++        if (n->dbbuf_enabled) {
++            nvme_update_cq_head(cq);
++        }
++
+         if (nvme_cq_full(cq)) {
+             break;
+         }
+@@ -4256,6 +4267,11 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
+     }
+     sq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_sq, sq);
+ 
++    if (n->dbbuf_enabled) {
++        sq->db_addr = n->dbbuf_dbs + (sqid << 3);
++        sq->ei_addr = n->dbbuf_eis + (sqid << 3);
++    }
++
+     assert(n->cq[cqid]);
+     cq = n->cq[cqid];
+     QTAILQ_INSERT_TAIL(&(cq->sq_list), sq, entry);
+@@ -4615,6 +4631,10 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+     cq->head = cq->tail = 0;
+     QTAILQ_INIT(&cq->req_list);
+     QTAILQ_INIT(&cq->sq_list);
++    if (n->dbbuf_enabled) {
++        cq->db_addr = n->dbbuf_dbs + (cqid << 3) + (1 << 2);
++        cq->ei_addr = n->dbbuf_eis + (cqid << 3) + (1 << 2);
++    }
+     n->cq[cqid] = cq;
+     cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
+ }
+@@ -5767,6 +5787,50 @@ out:
+     return status;
+ }
+ 
++static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
++{
++    uint64_t dbs_addr = le64_to_cpu(req->cmd.dptr.prp1);
++    uint64_t eis_addr = le64_to_cpu(req->cmd.dptr.prp2);
++    int i;
++
++    /* Address should be page aligned */
++    if (dbs_addr & (n->page_size - 1) || eis_addr & (n->page_size - 1)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    /* Save shadow buffer base addr for use during queue creation */
++    n->dbbuf_dbs = dbs_addr;
++    n->dbbuf_eis = eis_addr;
++    n->dbbuf_enabled = true;
++
++    for (i = 0; i < n->params.max_ioqpairs + 1; i++) {
++        NvmeSQueue *sq = n->sq[i];
++        NvmeCQueue *cq = n->cq[i];
++
++        if (sq) {
++            /* 
++             * CAP.DSTRD is 0, so offset of ith sq db_addr is (i<<3)
++             * nvme_process_db() uses this hard-coded way to calculate
++             * doorbell offsets. Be consistent with that here.
++             */
++            sq->db_addr = dbs_addr + (i << 3);
++            sq->ei_addr = eis_addr + (i << 3);
++            pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
++                    sizeof(sq->tail));
++        }
++
++        if (cq) {
++            /* CAP.DSTRD is 0, so offset of ith cq db_addr is (i<<3)+(1<<2) */
++            cq->db_addr = dbs_addr + (i << 3) + (1 << 2);
++            cq->ei_addr = eis_addr + (i << 3) + (1 << 2);
++            pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
++                    sizeof(cq->head));
++        }
++    }
++
++    return NVME_SUCCESS;
++}
++
+ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+ {
+     trace_pci_nvme_admin_cmd(nvme_cid(req), nvme_sqid(req), req->cmd.opcode,
+@@ -5809,6 +5873,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_aer(n, req);
+     case NVME_ADM_CMD_NS_ATTACHMENT:
+         return nvme_ns_attachment(n, req);
++    case NVME_ADM_CMD_DBBUF_CONFIG:
++        return nvme_dbbuf_config(n, req);
+     case NVME_ADM_CMD_FORMAT_NVM:
+         return nvme_format(n, req);
+     default:
+@@ -5818,6 +5884,18 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_INVALID_OPCODE | NVME_DNR;
+ }
+ 
++static void nvme_update_sq_eventidx(const NvmeSQueue *sq)
++{
++    pci_dma_write(&sq->ctrl->parent_obj, sq->ei_addr, &sq->tail,
++                  sizeof(sq->tail));
++}
++
++static void nvme_update_sq_tail(NvmeSQueue *sq)
++{
++    pci_dma_read(&sq->ctrl->parent_obj, sq->db_addr, &sq->tail,
++                 sizeof(sq->tail));
++}
++
+ static void nvme_process_sq(void *opaque)
+ {
+     NvmeSQueue *sq = opaque;
+@@ -5829,6 +5907,10 @@ static void nvme_process_sq(void *opaque)
+     NvmeCmd cmd;
+     NvmeRequest *req;
+ 
++    if (n->dbbuf_enabled) {
++        nvme_update_sq_tail(sq);
++    }
++
+     while (!(nvme_sq_empty(sq) || QTAILQ_EMPTY(&sq->req_list))) {
+         addr = sq->dma_addr + sq->head * n->sqe_size;
+         if (nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd))) {
+@@ -5852,6 +5934,11 @@ static void nvme_process_sq(void *opaque)
+             req->status = status;
+             nvme_enqueue_req_completion(cq, req);
+         }
++
++        if (n->dbbuf_enabled) {
++            nvme_update_sq_eventidx(sq);
++            nvme_update_sq_tail(sq);
++        }
+     }
+ }
+ 
+@@ -5889,6 +5976,9 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
+     n->aer_queued = 0;
+     n->outstanding_aers = 0;
+     n->qs_created = false;
++    n->dbbuf_dbs = 0;
++    n->dbbuf_eis = 0;
++    n->dbbuf_enabled = false;
+ }
+ 
+ static void nvme_ctrl_shutdown(NvmeCtrl *n)
+@@ -6398,6 +6488,10 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+ 
+         start_sqs = nvme_cq_full(cq) ? 1 : 0;
+         cq->head = new_head;
++        if (!qid && n->dbbuf_enabled) {
++            pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
++                          sizeof(cq->head));
++        }
+         if (start_sqs) {
+             NvmeSQueue *sq;
+             QTAILQ_FOREACH(sq, &cq->sq_list, entry) {
+@@ -6455,6 +6549,23 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+         trace_pci_nvme_mmio_doorbell_sq(sq->sqid, new_tail);
+ 
+         sq->tail = new_tail;
++        if (!qid && n->dbbuf_enabled) {
++            /*
++             * The spec states "the host shall also update the controller's
++             * corresponding doorbell property to match the value of that entry
++             * in the Shadow Doorbell buffer."
++             *
++             * Since this context is currently a VM trap, we can safely enforce
++             * the requirement from the device side in case the host is
++             * misbehaving.
++             *
++             * Note, we shouldn't have to do this, but various drivers
++             * including ones that run on Linux, are not updating Admin Queues,
++             * so we can't trust reading it for an appropriate sq tail.
++             */
++            pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
++                          sizeof(sq->tail));
++        }
+         timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+     }
+ }
+@@ -6733,7 +6844,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+ 
+     id->mdts = n->params.mdts;
+     id->ver = cpu_to_le32(NVME_SPEC_VER);
+-    id->oacs = cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT);
++    id->oacs = cpu_to_le16(NVME_OACS_NS_MGMT | NVME_OACS_FORMAT | NVME_OACS_DBBUF);
+     id->cntrltype = 0x1;
+ 
+     /*
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 6773819325..4452e4b1bf 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -334,6 +334,7 @@ static inline const char *nvme_adm_opc_str(uint8_t opc)
+     case NVME_ADM_CMD_GET_FEATURES:     return "NVME_ADM_CMD_GET_FEATURES";
+     case NVME_ADM_CMD_ASYNC_EV_REQ:     return "NVME_ADM_CMD_ASYNC_EV_REQ";
+     case NVME_ADM_CMD_NS_ATTACHMENT:    return "NVME_ADM_CMD_NS_ATTACHMENT";
++    case NVME_ADM_CMD_DBBUF_CONFIG:     return "NVME_ADM_CMD_DBBUF_CONFIG";
+     case NVME_ADM_CMD_FORMAT_NVM:       return "NVME_ADM_CMD_FORMAT_NVM";
+     default:                            return "NVME_ADM_CMD_UNKNOWN";
+     }
+@@ -365,6 +366,8 @@ typedef struct NvmeSQueue {
+     uint32_t    tail;
+     uint32_t    size;
+     uint64_t    dma_addr;
++    uint64_t    db_addr;
++    uint64_t    ei_addr;
+     QEMUTimer   *timer;
+     NvmeRequest *io_req;
+     QTAILQ_HEAD(, NvmeRequest) req_list;
+@@ -382,6 +385,8 @@ typedef struct NvmeCQueue {
+     uint32_t    vector;
+     uint32_t    size;
+     uint64_t    dma_addr;
++    uint64_t    db_addr;
++    uint64_t    ei_addr;
+     QEMUTimer   *timer;
+     QTAILQ_HEAD(, NvmeSQueue) sq_list;
+     QTAILQ_HEAD(, NvmeRequest) req_list;
+@@ -432,6 +437,9 @@ typedef struct NvmeCtrl {
+     uint64_t    starttime_ms;
+     uint16_t    temperature;
+     uint8_t     smart_critical_warning;
++    uint64_t    dbbuf_dbs;
++    uint64_t    dbbuf_eis;
++    bool        dbbuf_enabled;
+ 
+     struct {
+         MemoryRegion mem;
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 3737351cc8..5b522d7b0e 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -595,6 +595,7 @@ enum NvmeAdminCommands {
+     NVME_ADM_CMD_ACTIVATE_FW    = 0x10,
+     NVME_ADM_CMD_DOWNLOAD_FW    = 0x11,
+     NVME_ADM_CMD_NS_ATTACHMENT  = 0x15,
++    NVME_ADM_CMD_DBBUF_CONFIG   = 0x7c,
+     NVME_ADM_CMD_FORMAT_NVM     = 0x80,
+     NVME_ADM_CMD_SECURITY_SEND  = 0x81,
+     NVME_ADM_CMD_SECURITY_RECV  = 0x82,
+@@ -1134,6 +1135,7 @@ enum NvmeIdCtrlOacs {
+     NVME_OACS_FORMAT    = 1 << 1,
+     NVME_OACS_FW        = 1 << 2,
+     NVME_OACS_NS_MGMT   = 1 << 3,
++    NVME_OACS_DBBUF     = 1 << 8,
+ };
+ 
+ enum NvmeIdCtrlOncs {
 -- 
 2.25.1
 
