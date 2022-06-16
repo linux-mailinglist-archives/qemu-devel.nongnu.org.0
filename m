@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C38054E061
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 13:59:10 +0200 (CEST)
-Received: from localhost ([::1]:44628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 392EB54E097
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 14:12:46 +0200 (CEST)
+Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1o9V-00027z-Mh
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 07:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55584)
+	id 1o1oMe-0006hy-0M
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 08:12:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o1npR-0007l7-MU
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:38:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33882)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1oHR-0005om-Hu
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:07:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o1npO-0004ij-7C
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:38:24 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1oHO-0003bi-Un
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:07:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655379500;
+ s=mimecast20190719; t=1655381238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ggu7SGLAmUcoYZU6O8+e0/Maz+Cc8kjqZBjUnwyklo8=;
- b=UXg/dOs4NiEzBJExXas4JOJyBV8IogJHr/4fKN6chtjP6fHBbLcfxhr9+CO1/3jPU2gjXy
- juNx5625F/JJR5/A43oRrG+tNDwxVmUE+GygAnfZYRZMpEnp+ZFUNzq4sYNKUczi9WgZmZ
- yqQjDH21u4TBmp+cIrNfz9BgsESypgM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Sez9RUmgYaj+7vlVI3i4YnUcyTgK0nLSSMeHL8X/pw8=;
+ b=P6y2k6AuemXvanW5xvhAz9NhPgdCZIYA78cpoDLr0dHLdbJAnLwsrso2gomLnpo4NYi89Q
+ kazp6myQ3UDnY41H4PD0b4RpJhY9Bnl5BhMxaf3GnmvQ0n3gf48v6KApVBMR2gOTdON0gc
+ 6Ib8wqY7AtuCb/VnmIQl9Fm2s8gs7ZA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-IC_k8lHdPv-gGRqtuB-ivw-1; Thu, 16 Jun 2022 07:38:19 -0400
-X-MC-Unique: IC_k8lHdPv-gGRqtuB-ivw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m23-20020a05600c3b1700b0039c6e3c169aso783168wms.2
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 04:38:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ggu7SGLAmUcoYZU6O8+e0/Maz+Cc8kjqZBjUnwyklo8=;
- b=MQYXUKVgbr4JHZZU1d3iWiarUcwCMe+sISu3bMRZ+22wXZbeWhdQNWfX6UZKn3w8ke
- jJA9CuR4yLghmdJq2BHtIYIxqatzqu4tyOQHQ2w21koWc91lTx2WDrVg8TTKg74kT3OD
- SvixV+osyJZaNuChpEXMSkYCew2ksoABtyYhdSCSgrXX8oUj7NpO3eHTDNjo8EOBTyEC
- S1vycz49nf1yaTG2XvJd1oKw1/5Pzdfliyzo7iLTrIm5ZMieSm/0VfJ7DbxlCRlv2hk2
- nSHhl7Zwsl6X4QoPbjohYXDuWkrMcKppcEEne+xUjLIOWJQ2f7WJpTvmf0lfdbt5Jyp6
- SPNQ==
-X-Gm-Message-State: AJIora9m9Vl0YOVHcTzoIEC/OUiVqwqbZHuqSZdLL4Z4lDs4QiKRg3xr
- WNlgIE9SavbQrfS9vvi8XwXB4o+i/B7cePxD8tcvU9zwO7tT/nmY79m3KnW77mvGuufXfc3JhGc
- tOjA5rduyH5FYCZA=
-X-Received: by 2002:a05:6000:248:b0:213:bb11:2fdf with SMTP id
- m8-20020a056000024800b00213bb112fdfmr4348427wrz.250.1655379498592; 
- Thu, 16 Jun 2022 04:38:18 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v/qGusH19bBJkyU/VZrxIraNfqmO2EUOckhfie2zGj2CUq01RdtKJKMKSYhPbw9doaNgk6hA==
-X-Received: by 2002:a05:6000:248:b0:213:bb11:2fdf with SMTP id
- m8-20020a056000024800b00213bb112fdfmr4348404wrz.250.1655379498375; 
- Thu, 16 Jun 2022 04:38:18 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- j38-20020a05600c1c2600b0039c7f790f6asm5522809wms.30.2022.06.16.04.38.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 04:38:17 -0700 (PDT)
-Date: Thu, 16 Jun 2022 13:38:16 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
- dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org,
- robert.hu@intel.com
-Subject: Re: [QEMU PATCH v2 3/6] acpi/nvdimm: NVDIMM _DSM Spec supports
- revision 2
-Message-ID: <20220616133816.74cb2eb7@redhat.com>
-In-Reply-To: <20220530034047.730356-4-robert.hu@linux.intel.com>
-References: <20220530034047.730356-1-robert.hu@linux.intel.com>
- <20220530034047.730356-4-robert.hu@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ us-mta-245-PIsT_r05MJ23euf4QQRWHw-1; Thu, 16 Jun 2022 08:07:17 -0400
+X-MC-Unique: PIsT_r05MJ23euf4QQRWHw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF77F3C10228;
+ Thu, 16 Jun 2022 12:07:16 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DDCF415F5E;
+ Thu, 16 Jun 2022 12:07:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0ACB91800381; Thu, 16 Jun 2022 14:07:15 +0200 (CEST)
+Date: Thu, 16 Jun 2022 14:07:15 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
+Subject: Re: Corrupted display changing screen colour depth in
+ qemu-system-ppc/MacOS
+Message-ID: <20220616120715.uksbwjynvb6usjhu@sirius.home.kraxel.org>
+References: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -103,66 +83,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 May 2022 11:40:44 +0800
-Robert Hoo <robert.hu@linux.intel.com> wrote:
+On Thu, Jun 16, 2022 at 09:54:46AM +0100, Mark Cave-Ayland wrote:
+> Hi all,
+> 
+> Howard pointed me off-list to a corrupted screen display issue experienced
+> when changing the screen colour depth in MacOS under qemu-system-ppc. I was
+> able to reproduce it here, and noticed from the output that the issue was
+> likely due to the host display not updating its depth accordingly.
+> 
+> After it was confirmed to me that this was working in QEMU 6.2, I was able
+> to eventually bisect the problem down to this commit:
+> 
+> 
+> cb8962c146b2633a4b04562281de9b2703bba849 is the first bad commit
+> commit cb8962c146b2633a4b04562281de9b2703bba849
+> Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Date:   Tue Feb 15 00:13:37 2022 +0400
+> 
+>     ui: do not create a surface when resizing a GL scanout
+> 
+>     qemu_console_resize() will create a blank surface and replace the
+>     current scanout with it if called while the current scanout is
+>     GL (texture or dmabuf).
+> 
+>     This is not only very costly, but also can produce glitches on the
+>     display/listener side.
+> 
+>     Instead, compare the current console size with the fitting console
+>     functions, which also works when the scanout is GL.
+> 
+>     Note: there might be still an unnecessary surface creation on calling
+>     qemu_console_resize() when the size is actually changing, but display
+>     backends currently rely on DisplaySurface details during
+>     dpy_gfx_switch() to handle various resize aspects. We would need more
+>     refactoring to handle resize without DisplaySurface, this is left for a
+>     future improvement.
+> 
+>     Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>     Message-Id: <20220214201337.1814787-4-marcandre.lureau@redhat.com>
+>     Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> 
+>  ui/console.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> 
+> Some more background: the screen in qemu-system-ppc's MacOS is controlled
+> via a custom driver written by Ben which uses the Bochs VBE registers to
+> change the screen width/height/depth. The code used to do this can be found
+> at https://gitlab.com/qemu-project/QemuMacDrivers/-/blob/master/QemuVGADriver/src/QemuVga.c#L354.
+> 
+> Looking at the changes in cb8962c146 my guess would be that either the
+> updated check in qemu_console_resize() should also check to see if the
+> surface depth is unchanged before exiting early, or that there is an extra
+> update required in the VGA device when changing just the screen colour depth
+> by itself.
 
-> The Intel Optane PMem DSM Interface, Version 2.0 [1], is the up-to-date
-> spec for NVDIMM _DSM definition, which supports revision_id =3D=3D 2.
->=20
-> Nevertheless, Rev.2 of NVDIMM _DSM has no functional change on those Label
-> Data _DSM Functions, which are the only ones implemented for vNVDIMM.
-> So, simple change to support this revision_id =3D=3D 2 case.
->=20
-> [1] https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
+Can you try ditch the QEMU_ALLOCATED_FLAG check added by the commit?
 
-pls enumerate functions that QEMU implement and that are supported by rev=
-=3D2,
-do we really need rev2 ?
+Which depth changes triggers this?  Going from direct color to a
+paletted mode?
 
-also don't we need make sure that rev1 only function are excluded?
-/spec above says, functions 3-6 are deprecated and limited to rev1 only/
-"
-Warning: This function has been deprecated in preference to the ACPI 6.2 _L=
-SW (Label Storage Write)
-NVDIMM Device Interface and is only supported with Arg1 =E2=80=93 Revision =
-Id =3D 1. It is included here for
-backwards compatibility with existing Arg1 - Revision Id =3D 1 implementati=
-ons.
-"
-
->=20
-> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-> Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
-> ---
->  hw/acpi/nvdimm.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> index 0ab247a870..59b42afcf1 100644
-> --- a/hw/acpi/nvdimm.c
-> +++ b/hw/acpi/nvdimm.c
-> @@ -849,9 +849,13 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t=
- val, unsigned size)
->      nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revi=
-sion,
->                   in->handle, in->function);
-> =20
-> -    if (in->revision !=3D 0x1 /* Currently we only support DSM Spec Rev1=
-. */) {
-> -        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
-> -                     in->revision, 0x1);
-> +    /*
-> +     * Current NVDIMM _DSM Spec supports Rev1 and Rev2
-> +     * Intel=C2=AE OptanePersistent Memory Module DSM Interface, Revisio=
-n 2.0
-> +     */
-> +    if (in->revision !=3D 0x1 && in->revision !=3D 0x2) {
-> +        nvdimm_debug("Revision 0x%x is not supported, expect 0x1 or 0x2.=
-\n",
-> +                     in->revision);
->          nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_a=
-ddr);
->          goto exit;
->      }
+take care,
+  Gerd
 
 
