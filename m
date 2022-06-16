@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3508C54E00B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 13:30:47 +0200 (CEST)
-Received: from localhost ([::1]:49542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA0A54DFEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 13:22:48 +0200 (CEST)
+Received: from localhost ([::1]:42666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1ni1-0001pu-2S
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 07:30:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49848)
+	id 1o1naJ-0005MU-IQ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 07:22:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <15fbff488a908af01210071ffad70f9254d077fc@lizzy.crudebyte.com>)
- id 1o1nLz-0007PF-Pi
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:08:00 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:44189)
+ (envelope-from <fd6c979e651a2163062b746e01adf6f267c8e874@lizzy.crudebyte.com>)
+ id 1o1nLl-0007K0-I7
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:07:45 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:57481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <15fbff488a908af01210071ffad70f9254d077fc@lizzy.crudebyte.com>)
- id 1o1nLy-0003PD-7g
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:07:59 -0400
+ (envelope-from <fd6c979e651a2163062b746e01adf6f267c8e874@lizzy.crudebyte.com>)
+ id 1o1nLk-0003KI-5W
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 07:07:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=5ximnrdjmuNJ7F+rLu47YcLj79K0sHNt06kxYGAEflc=; b=eszYi
- ZrpLopVp3VpNceFwWSxzx55TxjzZXSWrrcGCdytTgLgdaZ1nwrzlHiHLh1ZcvD/wicJuRdfRlIFT/
- LknBJV+D1I6FtV6mqApjX4DQ9kku1Yv/D4ZFTs8q195A/IIRNpbtFJL8ZJHs+g664svaXPn1D5r5+
- 2EmNVbs8QfkXZQ22PpKnAMT+d9RHY1x7xxjDm/kTsnOrdJLLnaAVuUHCSVs6uMGMPFqWCmUjQ45a9
- KKDpg8Zoe4R5GwYUBHVb4e35SFZn4XduNWAVrEs/6RmBOkEa+l7rjuzXJBiSh075bggY9dM4bffRf
- fngBsiQEZtihwzZ53lHpZ0b++4BGg==;
-Message-Id: <15fbff488a908af01210071ffad70f9254d077fc.1655377203.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=LfOg2LJMp+lzmauAGTMKtTKYtVr9WibU0AurDQsfIYI=; b=d2SR/
+ QH//QplBsViZTxcD1trRxVz8DdOEMuir3n2KLLmkt3MKG+J6SkixraejP5OOtUYhZSVrJz8PTxboI
+ dlXUUgwdfN4WpuF66Ynt0eb4iWTeorOVsG2hW7oChrcSEK4rWrwCJLnkIiNNqPyi1+IXvZ1QGCCZm
+ zfs9Zh1bLkbLfgsZG8LVCOwjYP4rz7iOA6Xkjt8nr+06KqgDAqCBbP2D76u5azf54/bsn5WXvpGSw
+ +702dvleeOX6CwdEK7STDgng4PRrs6z4hUlAy17MnAAvq/XBlwHLTUy4CJxfIZyuNrg/HQcEKGGRZ
+ Ty4cKahG8BTrAou4KXQ/nHsHavp8w==;
+Message-Id: <fd6c979e651a2163062b746e01adf6f267c8e874.1655377203.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1655377203.git.qemu_oss@crudebyte.com>
 References: <cover.1655377203.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 16 Jun 2022 13:00:04 +0200
-Subject: [PULL 6/7] tests/9pfs: guard recent 'Twalk' behaviour fix
+Subject: [PULL 4/7] 9pfs: refactor 'name_idx' -> 'nwalked' in v9fs_walk()
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=15fbff488a908af01210071ffad70f9254d077fc@lizzy.crudebyte.com;
+ envelope-from=fd6c979e651a2163062b746e01adf6f267c8e874@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,104 +63,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous 9p patch fixed 'Twalk' request handling, which was previously not
-behaving as specified by the 9p2000 protocol spec. This patch adds a new test
-case which guards the new 'Twalk' behaviour in question.
-
-More specifically: it sends a 'Twalk' request where the 1st path component
-is valid, whereas the 2nd path component transmitted to server does not
-exist. The expected behaviour is that 9p server would respond by sending
-a 'Rwalk' response with exactly 1 QID (instead of 'Rlerror' response).
+The local variable 'name_idx' is used in two loops in function v9fs_walk().
+Let the first loop use its own variable 'nwalked' instead, which we will
+use in subsequent patch as the number of (requested) path components
+successfully walked by background I/O thread.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <61bde2f44b87e24b70ec098dfb81765665b2dfcb.1647339025.git.qemu_oss@crudebyte.com>
+Message-Id: <d506308e7e343023c4db95d0e6053dd2627ed3c1.1647339025.git.qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 42 +++++++++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 3 deletions(-)
+ hw/9pfs/9p.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 3c0f094929..c787ded4d2 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -669,8 +669,12 @@ static void do_version(QVirtio9P *v9p)
-     g_assert_cmpmem(server_version, server_len, version, strlen(version));
- }
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 0cd0c14c2a..f29611e9ed 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1766,7 +1766,7 @@ static bool same_stat_id(const struct stat *a, const struct stat *b)
  
--/* utility function: walk to requested dir and return fid for that dir */
--static uint32_t do_walk(QVirtio9P *v9p, const char *path)
-+/*
-+ * utility function: walk to requested dir and return fid for that dir and
-+ * the QIDs of server response
-+ */
-+static uint32_t do_walk_rqids(QVirtio9P *v9p, const char *path, uint16_t *nwqid,
-+                              v9fs_qid **wqid)
+ static void coroutine_fn v9fs_walk(void *opaque)
  {
-     char **wnames;
-     P9Req *req;
-@@ -680,12 +684,18 @@ static uint32_t do_walk(QVirtio9P *v9p, const char *path)
- 
-     req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rwalk(req, NULL, NULL);
-+    v9fs_rwalk(req, nwqid, wqid);
- 
-     split_free(&wnames);
-     return fid;
- }
- 
-+/* utility function: walk to requested dir and return fid for that dir */
-+static uint32_t do_walk(QVirtio9P *v9p, const char *path)
-+{
-+    return do_walk_rqids(v9p, path, NULL, NULL);
-+}
-+
- /* utility function: walk to requested dir and expect passed error response */
- static void do_walk_expect_error(QVirtio9P *v9p, const char *path, uint32_t err)
- {
-@@ -1079,9 +1089,33 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
-     alloc = t_alloc;
- 
-     do_attach(v9p);
-+    /*
-+     * The 9p2000 protocol spec says: "If the first element cannot be walked
-+     * for any reason, Rerror is returned."
-+     */
-     do_walk_expect_error(v9p, "non-existent", ENOENT);
- }
- 
-+static void fs_walk_2nd_nonexistent(void *obj, void *data,
-+                                    QGuestAllocator *t_alloc)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    uint16_t nwqid;
-+    g_autofree v9fs_qid *wqid = NULL;
-+    g_autofree char *path = g_strdup_printf(
-+        QTEST_V9FS_SYNTH_WALK_FILE "/non-existent", 0
-+    );
-+
-+    do_attach(v9p);
-+    do_walk_rqids(v9p, path, &nwqid, &wqid);
-+    /*
-+     * The 9p2000 protocol spec says: "nwqid is therefore either nwname or the
-+     * index of the first elementwise walk that failed."
-+     */
-+    assert(nwqid == 1);
-+}
-+
- static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-@@ -1548,6 +1582,8 @@ static void register_virtio_9p_test(void)
-                  fs_walk_dotdot,  &opts);
-     qos_add_test("synth/walk/non_existent", "virtio-9p", fs_walk_nonexistent,
-                   &opts);
-+    qos_add_test("synth/walk/2nd_non_existent", "virtio-9p",
-+                 fs_walk_2nd_nonexistent, &opts);
-     qos_add_test("synth/lopen/basic", "virtio-9p", fs_lopen,  &opts);
-     qos_add_test("synth/write/basic", "virtio-9p", fs_write,  &opts);
-     qos_add_test("synth/flush/success", "virtio-9p", fs_flush_success,
+-    int name_idx;
++    int name_idx, nwalked;
+     g_autofree V9fsQID *qids = NULL;
+     int i, err = 0;
+     V9fsPath dpath, path;
+@@ -1844,17 +1844,17 @@ static void coroutine_fn v9fs_walk(void *opaque)
+             break;
+         }
+         stbuf = fidst;
+-        for (name_idx = 0; name_idx < nwnames; name_idx++) {
++        for (nwalked = 0; nwalked < nwnames; nwalked++) {
+             if (v9fs_request_cancelled(pdu)) {
+                 err = -EINTR;
+                 break;
+             }
+             if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
+-                strcmp("..", wnames[name_idx].data))
++                strcmp("..", wnames[nwalked].data))
+             {
+                 err = s->ops->name_to_path(&s->ctx, &dpath,
+-                                           wnames[name_idx].data,
+-                                           &pathes[name_idx]);
++                                           wnames[nwalked].data,
++                                           &pathes[nwalked]);
+                 if (err < 0) {
+                     err = -errno;
+                     break;
+@@ -1863,13 +1863,13 @@ static void coroutine_fn v9fs_walk(void *opaque)
+                     err = -EINTR;
+                     break;
+                 }
+-                err = s->ops->lstat(&s->ctx, &pathes[name_idx], &stbuf);
++                err = s->ops->lstat(&s->ctx, &pathes[nwalked], &stbuf);
+                 if (err < 0) {
+                     err = -errno;
+                     break;
+                 }
+-                stbufs[name_idx] = stbuf;
+-                v9fs_path_copy(&dpath, &pathes[name_idx]);
++                stbufs[nwalked] = stbuf;
++                v9fs_path_copy(&dpath, &pathes[nwalked]);
+             }
+         }
+     });
 -- 
 2.30.2
 
