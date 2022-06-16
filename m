@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5795A54DF9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 13:01:53 +0200 (CEST)
-Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663E154DF80
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:51:33 +0200 (CEST)
+Received: from localhost ([::1]:56724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1nG4-0001iJ-2T
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 07:01:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42032)
+	id 1o1n64-0007zP-5x
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mjq-0001qX-C9
+ id 1o1mjq-0001rg-QI
  for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:28:34 -0400
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:33746)
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:40570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mjo-0001vR-3f
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:28:33 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id c2so1579095lfk.0
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:28:31 -0700 (PDT)
+ id 1o1mjo-0001ve-IT
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:28:34 -0400
+Received: by mail-lj1-x232.google.com with SMTP id y29so1002409ljd.7
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pWGCHW+lQRAJRjV07RDQFguV/KMNn0rs6neHhcaYk04=;
- b=8DbDXN7G445MA2lSQqCCcpR5QjleIGwltnWZfl0wrNPbmxaEuHaOL3lEwpI45a7iYj
- J9xzHRm/H7PgUfVt9gCODinKmoMHbqpKBFiBtd++anPQxkZTAqlGTRWfJH/ABDbQTjNw
- 8u2jTA4GDFimzb8jWpAyAHbHspgzPxzMwkV13O63sU47WmUX+uV9tncicRHvOY2gVKBx
- VV7Bpiyvk9snbonKkuHdMiH8VVFJNH3P8/u8/i1nVNJMvwY09kFSmItY9MpEXLaL1533
- 8OhCSsLqLceM3VrlNpu1TnSoVmEn+cpkTq/MCTp9a7dItauguM431QvHWSpUiOKwYHA3
- hr4w==
+ bh=WJ7+MX4Kqnm+nK5yrjeUKJvlApxuSFy4g1bDKgqMtkM=;
+ b=7Qf9jQEMlBgMKVaWrCX5RNsqPY9Dt8n1CgZ0nSfSPVkIwnRCxqWg+StKjtHCUHe50n
+ aowB2iwXdUUTv99QuyeeecdvsxU6wWssFrWVc7SGXYjxdrr+J4nw2ze9mzK0aH4VZGiQ
+ tt/1SfHr9yoKa8YSXy083etzTJC0lmQ0Wr7MydH2L/z4oDazc7oGHVTyS5rN0WIDDlh8
+ DOkEUGq5ubR5UvfUhE5sKZanIQNNKo3uXpBpmnFsl3VKsOOZNqtMvjcLTYZPiYkg+Na4
+ i1PDFeNQvS2JGwKpGLpF4w7IIQOgRu0UDkuz/izfPy6/kmPc9Y3p5YeQ1b35fGOMVOvB
+ sZtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pWGCHW+lQRAJRjV07RDQFguV/KMNn0rs6neHhcaYk04=;
- b=GqWeKtHMYjXrIutdxoKFWZHBNvwSXTq2GPRUO8napeMsfHUdG/fUojdFIubK9/Hz9e
- cLKc4he+95/xx6/I9WkFoV1f3hCOh4baTtKcNudcqTvVSw5C7CKu2J+ZYb4mffT3wt8N
- SnFyflCI6QBbbBVpVJ2cadabIlSkR+I6Gth1ipv2ojcekloKV/mf9n0T+2a4gYij98vx
- Y+SjMNKHRLGSITnDtPbMrVpuQVbWTJlRJ5C63OGQRR/YPQJfSCOsQYGT+eB5QpKw0EdT
- AXHwzSPjfD86SRi9yz8Plia4WFKAxackQ+ArIJ62gYpnPO6sCvz3+esc/IbRNx3YvEAW
- s4Yg==
-X-Gm-Message-State: AJIora/qVF4rnwRtf55bzvLi7Xm7fRWIZB6vt4fA0fAA4b/0cAImrztC
- jaKDH/zMJ4Zyojddwh9rKJ73V9takiJZldas
-X-Google-Smtp-Source: AGRyM1tZSzWWx4jHGOoQMv2tPqvCxNkY2RLTbk8ZmEfWKw9Oy7TqT5BlJp/hMl1NrNvnu2R3pZe4Qg==
-X-Received: by 2002:a19:a417:0:b0:479:15ef:4ded with SMTP id
- q23-20020a19a417000000b0047915ef4dedmr2192149lfc.225.1655375309718; 
- Thu, 16 Jun 2022 03:28:29 -0700 (PDT)
+ bh=WJ7+MX4Kqnm+nK5yrjeUKJvlApxuSFy4g1bDKgqMtkM=;
+ b=oaSzW55UFYvr7dY41wx/OxrlDmk/ge5zp4tpJejMCuygX0mlhmCZ/MujSmLiHDlv3e
+ XgmQV6vwmElwVZ2l/RdRecv7LnP2nKRxxK2ZcPC1vToogb5FnxhgpMNY/O4OWlxKeP+I
+ qPEgbV0KXqof1e+IB1A19zZdpbUOORmVtPhYGkwf0SfP/Egi3aPEZ+1CF8E4GtN9jpsv
+ 3N9UUzxDVZkZFEjW7iKTvy24A7/O6QNXZbQ6htEzV8J/F9JwiMYKCIukIWSWbCQ+f7c2
+ y/7xVlAwuTH5U7qjRzGdgBNnHRzsp5xNRYkVSfFTkCfay+h8ALWwFY8dhV93n5C3FSoA
+ 5vxw==
+X-Gm-Message-State: AJIora8pd4jQpZQvChOwss+PgfA8ELS8u0qYhFUws8geKjRzHiHkhHA2
+ SMbwCA5rehZ+fFfzXMAE7VRpuGWU9M7Z48m0
+X-Google-Smtp-Source: AGRyM1vu1Ab4oFkM5jMh/0T5xIhCWDlRW8p0IdWxtACQ4+A0HriJOdxQWzqT1efAXPprQOKhm6b1ag==
+X-Received: by 2002:a2e:819a:0:b0:255:615c:6570 with SMTP id
+ e26-20020a2e819a000000b00255615c6570mr2062917ljg.17.1655375310852; 
+ Thu, 16 Jun 2022 03:28:30 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.28.49])
  by smtp.gmail.com with ESMTPSA id
- y24-20020a199158000000b0047255d21128sm182581lfj.87.2022.06.16.03.28.28
+ y24-20020a199158000000b0047255d21128sm182581lfj.87.2022.06.16.03.28.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 03:28:29 -0700 (PDT)
+ Thu, 16 Jun 2022 03:28:30 -0700 (PDT)
 From: nikita.lapshin@openvz.org
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, quintela@redhat.com,
  dgilbert@redhat.com, nikita.lapshin@openvz.org
-Subject: [PATCH v3 13/17] migration/snapshot: Block layer support in
- qemu-snapshot
-Date: Thu, 16 Jun 2022 13:28:07 +0300
-Message-Id: <20220616102811.219007-14-nikita.lapshin@openvz.org>
+Subject: [PATCH v3 14/17] migration/snpashot: Implement API for RAMBlock
+Date: Thu, 16 Jun 2022 13:28:08 +0300
+Message-Id: <20220616102811.219007-15-nikita.lapshin@openvz.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220616102811.219007-1-nikita.lapshin@openvz.org>
 References: <20220616102811.219007-1-nikita.lapshin@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=nikita.lapshin@openvz.org; helo=mail-lf1-x12c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x232.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,159 +91,216 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nikita Lapshin <nikita.lapshin@openvz.org>
 
-This commit enables few functions to simplify block layer work
-for qemu-snapshot tool.
+Implemented RAMBlock is used for managing ram block from VM.
+This structure is close to existing RAMBlock in migration but
+has few differences.
+
+May be it should be replaced with existing RAMBlock it can lead to
+lots of reuses.
 
 Signed-off-by: Nikita Lapshin <nikita.lapshin@openvz.org>
 ---
- include/qemu-snapshot.h      |   3 +
- migration/meson.build        |   1 +
- migration/qemu-snapshot-io.c | 112 +++++++++++++++++++++++++++++++++++
- 3 files changed, 116 insertions(+)
- create mode 100644 migration/qemu-snapshot-io.c
+ migration/qemu-snapshot.c | 180 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 180 insertions(+)
 
-diff --git a/include/qemu-snapshot.h b/include/qemu-snapshot.h
-index 8e548e7630..be2557f6a0 100644
---- a/include/qemu-snapshot.h
-+++ b/include/qemu-snapshot.h
-@@ -62,4 +62,7 @@ StateLoadCtx *get_load_context(void);
- int coroutine_fn save_state_main(StateSaveCtx *s);
- int coroutine_fn load_state_main(StateLoadCtx *s);
+diff --git a/migration/qemu-snapshot.c b/migration/qemu-snapshot.c
+index f7695e75c7..394c6acb77 100644
+--- a/migration/qemu-snapshot.c
++++ b/migration/qemu-snapshot.c
+@@ -23,13 +23,193 @@
+ #include "migration/ram.h"
+ #include "qemu-snapshot.h"
  
-+QEMUFile *qemu_fopen_bdrv_vmstate(BlockDriverState *bs, int is_writable);
-+void qemu_fsplice(QEMUFile *f_dst, QEMUFile *f_src, size_t size);
-+size_t qemu_fsplice_tail(QEMUFile *f_dst, QEMUFile *f_src);
- #endif /* QEMU_SNAPSHOT_H */
-diff --git a/migration/meson.build b/migration/meson.build
-index 13498a6db3..3a04576c30 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -9,6 +9,7 @@ migration_files = files(
-   'yank_functions.c',
-   'migration.c',
-   'qemu-snapshot.c',
-+  'qemu-snapshot-io.c'
- )
- softmmu_ss.add(migration_files)
++/* RAM block */
++/* TODO RAMBlock should be replace with existing struct RAMBlock in ram.c */
++typedef struct RAMBlock {
++    int64_t bdrv_offset;        /* Offset on backing storage */
++    int64_t length;             /* Length */
++    int64_t nr_pages;           /* Page count */
++    int64_t nr_slices;          /* Number of slices (for bitmap bookkeeping) */
++    int64_t discard_offset;     /* Used for postcopy dicarding of ram blocks */
++
++    unsigned long *bitmap;      /* Bitmap of RAM slices */
++
++    /* Link into ram_list */
++    QSIMPLEQ_ENTRY(RAMBlock) next;
++
++    char idstr[256];            /* RAM block id string */
++} RAMBlock;
++
+ /* RAM transfer context */
+ typedef struct RAMCtx {
+     int64_t normal_pages;       /* Total number of normal pages */
++
++    /* RAM block list head */
++    QSIMPLEQ_HEAD(, RAMBlock) ram_block_list;
++
+ } RAMCtx;
  
-diff --git a/migration/qemu-snapshot-io.c b/migration/qemu-snapshot-io.c
-new file mode 100644
-index 0000000000..904cb92c84
---- /dev/null
-+++ b/migration/qemu-snapshot-io.c
-@@ -0,0 +1,112 @@
-+/*
-+ * QEMU External Snapshot Utility
-+ *
-+ * Copyright Virtuozzo GmbH, 2021
-+ *
-+ * Authors:
-+ *  Andrey Gruzdev   <andrey.gruzdev@virtuozzo.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later. See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/coroutine.h"
-+#include "sysemu/block-backend.h"
-+#include "migration/qemu-file.h"
-+#include "qemu-snapshot.h"
-+
-+static ssize_t bdrv_vmstate_get_buffer(void *opaque, uint8_t *buf, int64_t pos,
-+                                       size_t size, Error **errp)
+ static RAMCtx ram_ctx;
+ 
++static inline
++bool ram_offset_in_block(RAMBlock *block, int64_t offset)
 +{
-+    return bdrv_load_vmstate((BlockDriverState *) opaque, buf, pos, size);
++    return block && offset < block->length;
 +}
 +
-+static ssize_t bdrv_vmstate_writev_buffer(void *opaque, struct iovec *iov,
-+        int iovcnt, int64_t pos, Error **errp)
++static inline
++bool ram_bdrv_offset_in_block(RAMBlock *block, int64_t bdrv_offset)
 +{
-+    QEMUIOVector qiov;
-+    int res;
++    return block && bdrv_offset >= block->bdrv_offset &&
++            bdrv_offset < block->bdrv_offset + block->length;
++}
 +
-+    qemu_iovec_init_external(&qiov, iov, iovcnt);
-+
-+    res = bdrv_writev_vmstate((BlockDriverState *) opaque, &qiov, pos);
-+    if (res < 0) {
-+        return res;
++static inline
++int64_t ram_bdrv_from_block_offset(RAMBlock *block, int64_t offset)
++{
++    if (!ram_offset_in_block(block, offset)) {
++        return INVALID_OFFSET;
 +    }
 +
-+    return qiov.size;
++    return block->bdrv_offset + offset;
 +}
 +
-+static int bdrv_vmstate_fclose(void *opaque, Error **errp)
++static inline
++int64_t ram_block_offset_from_bdrv(RAMBlock *block, int64_t bdrv_offset)
 +{
-+    return bdrv_flush((BlockDriverState *) opaque);
-+}
++    int64_t offset;
 +
-+static const QEMUFileOps bdrv_vmstate_read_ops = {
-+    .get_buffer = bdrv_vmstate_get_buffer,
-+    .close      = bdrv_vmstate_fclose,
-+};
-+
-+static const QEMUFileOps bdrv_vmstate_write_ops = {
-+    .writev_buffer  = bdrv_vmstate_writev_buffer,
-+    .close          = bdrv_vmstate_fclose,
-+};
-+
-+/* Create QEMUFile to access vmstate stream on QCOW2 image */
-+QEMUFile *qemu_fopen_bdrv_vmstate(BlockDriverState *bs, int is_writable)
-+{
-+    if (is_writable) {
-+        return qemu_fopen_ops(bs, &bdrv_vmstate_write_ops, true);
++    if (!block) {
++        return INVALID_OFFSET;
 +    }
 +
-+    return qemu_fopen_ops(bs, &bdrv_vmstate_read_ops, true);
++    offset = bdrv_offset - block->bdrv_offset;
++    return offset >= 0 ? offset : INVALID_OFFSET;
 +}
 +
-+/* Move number of bytes from the source QEMUFile to destination */
-+void qemu_fsplice(QEMUFile *f_dst, QEMUFile *f_src, size_t size)
++static RAMBlock *ram_block_by_idstr(const char *idstr)
 +{
-+    size_t rest = size;
++    RAMBlock *block;
 +
-+    while (rest) {
-+        uint8_t *ptr = NULL;
-+        size_t req_size;
-+        size_t count;
-+
-+        req_size = MIN(rest, INPLACE_READ_MAX);
-+        count = qemu_peek_buffer(f_src, &ptr, req_size, 0);
-+        qemu_file_skip(f_src, count);
-+
-+        qemu_put_buffer(f_dst, ptr, count);
-+        rest -= count;
++    QSIMPLEQ_FOREACH(block, &ram_ctx.ram_block_list, next) {
++        if (!strcmp(idstr, block->idstr)) {
++            return block;
++        }
 +    }
++
++    return NULL;
 +}
 +
 +/*
-+ * Move data from source QEMUFile to destination
-+ * until EOF is reached on source.
++ * Assume QEMUFile is migration stream and try to get ram block from it.
++ * Also check if this ram block exists.
 + */
-+size_t qemu_fsplice_tail(QEMUFile *f_dst, QEMUFile *f_src)
++static RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
 +{
-+    bool eof = false;
-+    size_t res = 0;
++    static RAMBlock *block;
++    char idstr[256];
 +
-+    while (!eof) {
-+        const size_t size = INPLACE_READ_MAX;
-+        uint8_t *buffer = NULL;
-+        size_t count;
-+
-+        count = qemu_peek_buffer(f_src, &buffer, size, 0);
-+        qemu_file_skip(f_src, count);
-+
-+        /* Reached EOF on source? */
-+        if (count != size) {
-+            eof = true;
++    if (flags & RAM_SAVE_FLAG_CONTINUE) {
++        if (!block) {
++            error_report("RAM_SAVE_FLAG_CONTINUE outside RAM block");
++            return NULL;
 +        }
 +
-+        qemu_put_buffer(f_dst, buffer, count);
-+        res += count;
++        return block;
 +    }
 +
-+    return res;
++    if (!qemu_get_counted_string(f, idstr)) {
++        error_report("Failed to get RAM block name");
++        return NULL;
++    }
++
++    block = ram_block_by_idstr(idstr);
++    if (!block) {
++        error_report("Can't find RAM block %s", idstr);
++        return NULL;
++    }
++
++    return block;
 +}
++
++static int64_t ram_block_next_bdrv_offset(void)
++{
++    RAMBlock *last_block;
++    int64_t offset;
++
++    last_block = QSIMPLEQ_LAST(&ram_ctx.ram_block_list, RAMBlock, next);
++    if (!last_block) {
++        return 0;
++    }
++
++    offset = last_block->bdrv_offset + last_block->length;
++    return ROUND_UP(offset, BDRV_CLUSTER_SIZE);
++}
++
++static void ram_block_add(const char *idstr, int64_t size)
++{
++    RAMBlock *block;
++
++    block = g_new0(RAMBlock, 1);
++    block->length = size;
++    block->bdrv_offset = ram_block_next_bdrv_offset();
++    strcpy(block->idstr, idstr);
++
++    QSIMPLEQ_INSERT_TAIL(&ram_ctx.ram_block_list, block, next);
++}
++
++/*
++ * Assume that QEMUFile is migration stream and try to get
++ * from f_src ram blocks list. mem_size is a total amount of bytes of whole
++ * ram blocks.
++ */
++static int ram_block_list_from_stream(QEMUFile *f_src, int64_t mem_size)
++{
++    int64_t total_ram_bytes;
++
++    total_ram_bytes = mem_size;
++    while (total_ram_bytes > 0) {
++        char idstr[256];
++        int64_t size;
++
++        if (!qemu_get_counted_string(f_src, idstr)) {
++            error_report("Failed to get RAM block list");
++            return -EINVAL;
++        }
++
++        size = qemu_get_be64(f_src);
++
++        ram_block_add(idstr, size);
++        total_ram_bytes -= size;
++    }
++
++    if (total_ram_bytes != 0) {
++        error_report("Corrupted RAM block list");
++        return -EINVAL;
++    }
++
++    return 0;
++}
++
++/* Send ram block list using migration rule */
++static int ram_block_list_to_stream(QEMUFile *f_dest)
++{
++    RAMBlock *block;
++    uint64_t total = 0;
++
++    QSIMPLEQ_FOREACH(block, &ram_ctx.ram_block_list, next) {
++        total += block->length;
++    }
++    qemu_put_be64(f_dest, total | RAM_SAVE_FLAG_MEM_SIZE);
++
++    QSIMPLEQ_FOREACH(block, &ram_ctx.ram_block_list, next) {
++        qemu_put_counted_string(f_dest, block->idstr);
++        qemu_put_be64(f_dest, block->length);
++    }
++
++    return qemu_file_get_error(f_dest);
++}
++
+ int coroutine_fn save_state_main(StateSaveCtx *s)
+ {
+     /* TODO: implement */
 -- 
 2.31.1
 
