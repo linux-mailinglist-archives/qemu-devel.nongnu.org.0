@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A8D54DF2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:34:12 +0200 (CEST)
-Received: from localhost ([::1]:58316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A02FC54DF4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:43:15 +0200 (CEST)
+Received: from localhost ([::1]:45866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1mpG-00065F-7M
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39590)
+	id 1o1my2-0000ZN-Mw
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mcB-0006tc-PN
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:42 -0400
-Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:35579)
+ id 1o1mcG-00070c-PU
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:44 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:37535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mc8-0000Vh-JN
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:39 -0400
-Received: by mail-lf1-x12e.google.com with SMTP id a29so1524045lfk.2
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:20:36 -0700 (PDT)
+ id 1o1mc9-0000Vr-FP
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:44 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id h23so1506698lfe.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:20:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
  bh=DSeTt1QB5HDWqFVTnSya2l9lA2ROxRGP0qePz5aGaP4=;
- b=04KQLJzfvPdl1NFUTxrhTPGCKAl+hCl8PEbKit9sDGYkZDwzwOGrveMnqfKb5by2iR
- IUD/0Dx4lUNzrF/lKX0SAhYi1rhDLmywwA4CPZ7BtbEEl3nQ2/DbHbcFRoIMx0Bp/Vnw
- VtaE2NtkF4ingopjDcnC33/6B21xcBLJz5BPso8iQVl0YdqGYh2uFkn0uxklIieFboKv
- 3911eNVF8DTr3IFJQhxaM2JXFZBiz4mTZXQrACh1PwujLTYREP9vSMbHXJ7OPu+41BFv
- NzWtwePJuFVjE4ZthKSwP536Ab/neGUuO4cdSlFnRLSZ3eCNiro2C8SWJ3e6jeds6eUf
- Jabg==
+ b=BbrqfBiGN88yRjR0NV4OjTLWq/ojJnYni/Rn0/fzXNYH6GN+o7xdjMM0+/N++BBRWF
+ UgdzNNn+2rk5XZybDVW6g76J9OP6Z2TIFm8EKDGjpBi+pWn1/cjOtDOtjWsX7uju1Prz
+ yCYqItrw/mUNnYoXwpuNko30i+OSv0MDIgjVDnCl0tsadhrD8OHrNwPyHui+qqN7H2di
+ jfiWGdXQGV+3+ejHvWHEVVRbOwWG6c7CS6b1qjRYuz4RSbeBFANqDV21Dwo/pGWso1Ca
+ QyHQQiTTCOtfwsgYuwT2kUl8OIbFO2jQdtCiVMpaG0oP0v/W1WyfYd0jfiy0Fw3ZusBg
+ TCeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
  bh=DSeTt1QB5HDWqFVTnSya2l9lA2ROxRGP0qePz5aGaP4=;
- b=Bn2CiSxJnYCXKHY9c78WOYVCn6pdQZXQ07cqal3tKdHHadOWZpptNTgl1H92mk4LtX
- OE8gp3xCehZDXi2UJ3tyFu2bnuXX/kQqOuM2SsDMJe3Fs71V74XXHr03wSAol2qm0+rE
- PbR9PHsw+ULZPiNDUtGN3U4nInBRxwRgBUNhbIlNhxznQRAnLXnX7AgO5hX8V1hac/s9
- rpdRZhggD1uHpf+fMG2XScZQkpQPLQOvx84tcrnL0hljoWZ5SqSyrEy8HnSL7tR9ceHz
- CJCdpzZWwnFy1mqlk22bg2/dr8EGO9Lr9BpCx/vZw1i28jNaJWhDS/hsaQ+rRY7r29gM
- qlFQ==
-X-Gm-Message-State: AJIora/rTxpEpJLTSM6gMKbGNDOMYlws7+61DiRrljtUqumnC5IZfQPt
- plSWXP3LNvb6KUYHPMIUU1ZYzYERID27oJCN
-X-Google-Smtp-Source: AGRyM1tX5xpyOFwovXDqMFVJx7uo9WPnTbzSFNCXv3dgKvUPkq4G99kr/CNQTjnszWdNdotwfn5dDw==
-X-Received: by 2002:a05:6512:2088:b0:47d:a3ac:3512 with SMTP id
- t8-20020a056512208800b0047da3ac3512mr2212261lfr.108.1655374834437; 
- Thu, 16 Jun 2022 03:20:34 -0700 (PDT)
+ b=a3fOpTsiwiFxhF4h2CtjNiWgKOrk2HTaxViIkG+HCm8aYQv+Tczx5KSvPf7yA8s3WO
+ MLnq4OZ8XjpCOUAUX4/jZlau4BshS15JWoqsNZlKzN+BCClPVj+ut8/2kWSAtgz1vGE1
+ p4Epwjo1M9kdwQmLv11OhVInxJDJof3ACstdyiYXx4EOfuGrWwbkV6LbUfyNsZnfcraA
+ lSEnsTUWxU18rWQCF5UbQEu7gmv4j8pLSXhHg7KjyQNmOeRlvdwvvu35bAt7Dmk0/0r9
+ dzMr3QH9bJHisy7wgEcE+IX8Cc1A4M7EGbRATq6wxJi9jxCEvgfH/bIg6rBnt99Dtaoc
+ l82w==
+X-Gm-Message-State: AJIora/TUZpigVVtAXnOjqGsvoKWa8ulVDtSRBKMHDKEZbcmpJcdEOgG
+ ZoIYhoS0dqhhWuXXT+TBnlTBosLl1LafvkKy
+X-Google-Smtp-Source: AGRyM1ufEayzAqavnZV5yiBncDcybBp+Ajrn28S9pi8nSBrt0zB6L20yNfHeVnPyjifD1nAz3aJb3w==
+X-Received: by 2002:a05:6512:2814:b0:47d:cbbe:33f8 with SMTP id
+ cf20-20020a056512281400b0047dcbbe33f8mr2261640lfb.601.1655374835778; 
+ Thu, 16 Jun 2022 03:20:35 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.28.49])
  by smtp.gmail.com with ESMTPSA id
- q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.33
+ q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 03:20:34 -0700 (PDT)
+ Thu, 16 Jun 2022 03:20:35 -0700 (PDT)
 From: nikita.lapshin@openvz.org
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, quintela@redhat.com,
  dgilbert@redhat.com, nikita.lapshin@openvz.org
-Subject: [PATCH 5/8] Add block part of migration stream
-Date: Thu, 16 Jun 2022 13:20:02 +0300
-Message-Id: <20220616102006.218693-7-nikita.lapshin@openvz.org>
+Subject: [PATCH 5/8] migration: Add block part of migration stream
+Date: Thu, 16 Jun 2022 13:20:03 +0300
+Message-Id: <20220616102006.218693-8-nikita.lapshin@openvz.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220616102006.218693-1-nikita.lapshin@openvz.org>
 References: <20220616102006.218693-1-nikita.lapshin@openvz.org>
