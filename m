@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1122854DD5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:49:20 +0200 (CEST)
-Received: from localhost ([::1]:47380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB16A54DD1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:43:24 +0200 (CEST)
+Received: from localhost ([::1]:38902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1lBn-0002c3-1D
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:49:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41242)
+	id 1o1l63-000583-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1kvo-0001q7-FZ
+ id 1o1kvq-0001qW-1x
  for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51958)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1kvm-0002tm-EA
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:47 -0400
+ id 1o1kvn-0002tv-Us
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655368365;
+ s=mimecast20190719; t=1655368367;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UhU5hIpnBhngBCDdQdspoAO2R7ca5GkL0HNZN9gkK3Q=;
- b=aESSVmxPFU6sOWN8ZMBYzvFoRBCrOzP3npay+aDU5GclUjfmWt9THdq70mIVjT+BwMprBT
- Euy7kYEV9FZ9j7RFXibyrcKqtynpPMkcvf4jNxfUt9e3Hx9+GKglrQ1Vm7c/Gzkc7c8wHu
- 5tl9mzrFE8Cv8HKwMYIIynYCarIlr9Y=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fBsuJkBaK49xYkBSfED4nMxGZwjPP4fEEospD3RWZ9s=;
+ b=iC6Tn01XolT/S8MsQ0FfEA+LYLYm1zn6bxmNd3nzJfkjYqwPJGkZl2Tbcz8X39GXEj4evD
+ aotAFVbZx2st2f/9fyds/odLNvzWeqIr78M8HdM1gQ7xWrDdMHBqgg8mbWOrrZ119DytMG
+ tletaiXxbDnwMtE8uMiq+O6CkcD1rMw=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-102-kfnJdMFGPSq1HzdBzMMtDw-1; Thu, 16 Jun 2022 04:32:44 -0400
-X-MC-Unique: kfnJdMFGPSq1HzdBzMMtDw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- a4-20020a056402168400b0042dc5b94da6so767130edv.10
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:44 -0700 (PDT)
+ us-mta-295-byVIDIcsPOucvfhN85Pj5Q-1; Thu, 16 Jun 2022 04:32:45 -0400
+X-MC-Unique: byVIDIcsPOucvfhN85Pj5Q-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ l2-20020a170906078200b006fed42bfeacso309763ejc.16
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UhU5hIpnBhngBCDdQdspoAO2R7ca5GkL0HNZN9gkK3Q=;
- b=G6wAKqWz2JIn+tlh9j1vT4gggSUDyT9PN7jn/kT1qEkwE3igI+ZoTgVjvpfhuOKp9n
- OKz6f3mKEVhjKeG5L7yVkvVtpAS1vzoXyfX9ueQlziiC8fDpl+kq313hPccvy00jpe3/
- lSsf/C+ksjX1tAO3bsUNY0HXC4Szywrx2A8ozVSdz0XlsZo23US9AGMYex3yUpThsFZz
- mVwj49X376JR7vvAD5xK+YrcjALih9FO5x8TFitQX1ZVLkxeQhIg6ZityxZ2J40FzC1/
- RaHWAVen7+Hze1WEbsdXGQuxksACFAwz7lPFC4IWRQmr9Px5PtN5tXnbS40FzlETJkp+
- hudA==
-X-Gm-Message-State: AJIora8FkzbhbLfFD7PoBFgIXkbM+1FNYiEJSFXkauHpZLyXml5B2YjW
- KKh/3uoNVpoSLaj1yoxuxtiaBiWRktCcm2nWLnfccEwkDaFWc5X5TbRwAOJCL+Wkfll5fvr9CYE
- LHOMa139c6CWhJyuAsFdz75ndSiwYnyY6DvaVbHzygrsIxROGEa0N2ttER4dpxxbo4Ng=
-X-Received: by 2002:a05:6402:24a4:b0:434:e43e:2462 with SMTP id
- q36-20020a05640224a400b00434e43e2462mr4957199eda.312.1655368362983; 
- Thu, 16 Jun 2022 01:32:42 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uyvpTfJA3nq7ylZ8SlcJpBxFrFoOdoKeNzn39/4fOxYAH6/YoM07I6uxGqj1CX//ztQkeAgg==
-X-Received: by 2002:a05:6402:24a4:b0:434:e43e:2462 with SMTP id
- q36-20020a05640224a400b00434e43e2462mr4957176eda.312.1655368362641; 
- Thu, 16 Jun 2022 01:32:42 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- y3-20020a056402358300b0042dc25fdf5bsm1331136edc.29.2022.06.16.01.32.41
+ bh=fBsuJkBaK49xYkBSfED4nMxGZwjPP4fEEospD3RWZ9s=;
+ b=cVRsOH4KBxfYgoZt49OWmpCgY2nmY1Xp+zQqDGDX+vv50V0ChfG9e5MEuM/Qhz9MCM
+ o8ACQ6GtGzKqyABT1NPmXDzOdrXdlBxYVwsFZ9WHaU22TaUfXl3yf/Mi5YCF4V2Lmjo6
+ 7Rf8HRipybkzo9Erxu88jb0jGSRsP36J7bWblcQ0VYKtMa3UsQFRbtvx2jVVwJyTbe80
+ VrXEG5LKV+y29LKtNC2tMhgRA94t3WpVAL5vsce/t3wRtOXAdEGhqa2OYeaa35YmHe3T
+ TyMUiw0IUaSlPY2pAbo5ey1f0FxxPkGTEv6zyW+I5sbBez620bQHSf/7d/31O3A9/crh
+ EmRw==
+X-Gm-Message-State: AJIora8rEvHxISmQAi7LVtNHyQ+qHrp5m0FJ+QrSBNyc1Hk0DOtStdz6
+ 5J1uEBzsPiXCrDwttN3Zh3R82Dp/kCccT5QXjOfBkjGDaSdCGHVepnnNudex2oSV2NF+3KdsSBS
+ bB59i89gvZXLs7rxQFNh9qrmARYgKESvj8u9IjlwKz4rzme1LnInahUFMh8s8OzLLaXg=
+X-Received: by 2002:a17:907:8a13:b0:707:194c:30df with SMTP id
+ sc19-20020a1709078a1300b00707194c30dfmr3498007ejc.154.1655368364509; 
+ Thu, 16 Jun 2022 01:32:44 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uipCy8p0xfLhig9U9WWEasEK4+HTgyz83btBdzalHYCMS4RvJ0FelFis+JSrJkEvDGTEhoUQ==
+X-Received: by 2002:a17:907:8a13:b0:707:194c:30df with SMTP id
+ sc19-20020a1709078a1300b00707194c30dfmr3497996ejc.154.1655368364296; 
+ Thu, 16 Jun 2022 01:32:44 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ o16-20020a50fd90000000b0042617ba63basm1251028edt.68.2022.06.16.01.32.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 01:32:41 -0700 (PDT)
+ Thu, 16 Jun 2022 01:32:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/21] virtio-mmio: cleanup reset
-Date: Thu, 16 Jun 2022 10:32:02 +0200
-Message-Id: <20220616083209.117397-15-pbonzini@redhat.com>
+Subject: [PULL 15/21] configure: update list of preserved environment variables
+Date: Thu, 16 Jun 2022 10:32:03 +0200
+Message-Id: <20220616083209.117397-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220616083209.117397-1-pbonzini@redhat.com>
 References: <20220616083209.117397-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,73 +98,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make virtio_mmio_soft_reset reset the virtio device, which is performed by
-both the "soft" and the "hard" reset; and then call virtio_mmio_soft_reset
-from virtio_mmio_reset to emphasize that the latter is a superset of the
-former.
+INSTALL and LIBTOOL are not used anymore, but OBJCFLAGS is new and
+was not listed.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/virtio/virtio-mmio.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ configure | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 6d81a26473..d240efef97 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -72,12 +72,12 @@ static void virtio_mmio_soft_reset(VirtIOMMIOProxy *proxy)
- {
-     int i;
- 
--    if (proxy->legacy) {
--        return;
--    }
-+    virtio_bus_reset(&proxy->bus);
- 
--    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--        proxy->vqs[i].enabled = 0;
-+    if (!proxy->legacy) {
-+        for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-+            proxy->vqs[i].enabled = 0;
-+        }
-     }
- }
- 
-@@ -376,7 +376,7 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
-             return;
-         }
-         if (value == 0) {
--            virtio_bus_reset(&vdev->bus);
-+            virtio_mmio_soft_reset(proxy);
-         } else {
-             virtio_queue_set_addr(vdev, vdev->queue_sel,
-                                   value << proxy->guest_page_shift);
-@@ -432,7 +432,6 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
-         }
- 
-         if (vdev->status == 0) {
--            virtio_reset(vdev);
-             virtio_mmio_soft_reset(proxy);
-         }
-         break;
-@@ -627,7 +626,8 @@ static void virtio_mmio_reset(DeviceState *d)
-     VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
-     int i;
- 
--    virtio_bus_reset(&proxy->bus);
-+    virtio_mmio_soft_reset(proxy);
-+
-     proxy->host_features_sel = 0;
-     proxy->guest_features_sel = 0;
-     proxy->guest_page_shift = 0;
-@@ -636,7 +636,6 @@ static void virtio_mmio_reset(DeviceState *d)
-         proxy->guest_features[0] = proxy->guest_features[1] = 0;
- 
-         for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--            proxy->vqs[i].enabled = 0;
-             proxy->vqs[i].num = 0;
-             proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
-             proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
+diff --git a/configure b/configure
+index 4b12a8094c..d41c7eddff 100755
+--- a/configure
++++ b/configure
+@@ -2722,13 +2722,12 @@ preserve_env CC
+ preserve_env CFLAGS
+ preserve_env CXX
+ preserve_env CXXFLAGS
+-preserve_env INSTALL
+ preserve_env LD
+ preserve_env LDFLAGS
+ preserve_env LD_LIBRARY_PATH
+-preserve_env LIBTOOL
+ preserve_env MAKE
+ preserve_env NM
++preserve_env OBJCFLAGS
+ preserve_env OBJCOPY
+ preserve_env PATH
+ preserve_env PKG_CONFIG
 -- 
 2.36.1
 
