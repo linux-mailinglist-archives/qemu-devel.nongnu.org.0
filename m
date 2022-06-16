@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411F954D6FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 03:24:33 +0200 (CEST)
-Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B52854D858
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 04:30:00 +0200 (CEST)
+Received: from localhost ([::1]:36346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1eFL-00075o-Tq
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 21:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46216)
+	id 1o1fGh-00007m-5X
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 22:29:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o1eDv-0006ND-BR
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 21:23:03 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:45716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o1eDs-0001nr-Uh
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 21:23:02 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id h23so26422203ejj.12
- for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 18:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=al9wHa9DpJMVvpq8M22WdYq1iLjAF5JZgwZ/z3GRV3c=;
- b=ATpGe5r1V+4g4QEf2G44xzk8IHjaQ+icbZA177raDAOqFOExKA43QwZ3sDx2kYf21T
- zkDreJbsIsYmXZNfYLiZGeCZVIU5zsmAL/kaMWcShrmbvgTgaBCuQz311eSnLuT1aWKi
- yl5+GCEfPZ2M1Aeh0lueSU2D4ooRXSTmgPs5rHnd94w6HrHwOHA35C0/YdQI+2GL2dWG
- Ab08gcwwTWWeUVJnY7ENZ9bFGGTA+FsA090js6J08n3JEqOUi7AJVVmLUjNWRJ6SgVjX
- hEyYvkLKpZlhpwlm8XGXnl/KpQ75do8aEv8JDsdheKq0EnnVtzk6ec+KBmgDHIKNav9u
- xgeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=al9wHa9DpJMVvpq8M22WdYq1iLjAF5JZgwZ/z3GRV3c=;
- b=yGdSvK/3ZbJH740egXj57ivBKWdHmiYHvdidqYsIjwzZO0dePVQm4gDOYAa7vstHgP
- H5btWpw4fx/YivjhPXikuKDSkvEWjlUEc2ScSfNNZdRU0TtlwUL9DUMmdpci5XFJxLrA
- U6EhZDyY24xh5G0MzZHUzMinnHSi5j8T9WzPpPz5BXGshhkFMvwyZ+3pmrTQ3r3l7NsW
- kl2Gp3yN5fEG4cVnYTBDJJ1TMVkt/ClHNL2wXTsHhUuLUIYybQP4Ix57JxR5UjQv+x2j
- q+cspJmdQjmE/qAgnAqgDhoReHKFiQTo3Be9on+Nxtj0Ad/icOW8U8bInALv0TTagt8P
- g/NQ==
-X-Gm-Message-State: AJIora9cdlvfALT5KihOUKNEIIHJSkRWfqRux5TDfshHIxlcFu3gwuwG
- J70iT3gvzs9zKHTIREzfSbJbYg==
-X-Google-Smtp-Source: AGRyM1uEd3wC3tcOPcTus9D4GWyBlRFJnGHCxvRe5VIIOdaIYIWarCZ472LfjwI3Lv/ogJ1f0aWzEA==
-X-Received: by 2002:a17:906:7a1b:b0:712:237d:8562 with SMTP id
- d27-20020a1709067a1b00b00712237d8562mr2407644ejo.446.1655342578551; 
- Wed, 15 Jun 2022 18:22:58 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- cy2-20020a0564021c8200b0042ab2127051sm592024edb.64.2022.06.15.18.22.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jun 2022 18:22:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D81031FFB7;
- Thu, 16 Jun 2022 02:22:56 +0100 (BST)
-References: <20220601180537.2329566-1-alex.bennee@linaro.org>
- <20220601180537.2329566-21-alex.bennee@linaro.org>
- <c655723a-95df-82e4-2105-678cdea9e702@eldorado.org.br>
-User-agent: mu4e 1.7.27; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: Re: [PULL 20/33] configure: handle host compiler in
- probe_target_compiler
-Date: Thu, 16 Jun 2022 02:20:56 +0100
-In-reply-to: <c655723a-95df-82e4-2105-678cdea9e702@eldorado.org.br>
-Message-ID: <87sfo54d1r.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <tugy@chinatelecom.cn>)
+ id 1o1fFZ-0007Jg-41
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 22:28:49 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:42022
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <tugy@chinatelecom.cn>) id 1o1fFU-0002kq-Vo
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 22:28:48 -0400
+HMM_SOURCE_IP: 172.18.0.218:33474.623171563
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 6420F2800DB;
+ Thu, 16 Jun 2022 10:18:06 +0800 (CST)
+X-189-SAVE-TO-SEND: +tugy@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id e8bf9b8f0e2a4bd5be830a12e7164da3 for
+ steven.sistare@oracle.com; Thu, 16 Jun 2022 10:18:24 CST
+X-Transaction-ID: e8bf9b8f0e2a4bd5be830a12e7164da3
+X-Real-From: tugy@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+Message-ID: <dc6e5024-aa12-ac97-b85c-024688913edb@chinatelecom.cn>
+Date: Thu, 16 Jun 2022 10:18:06 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Cc: tugy@chinatelecom.cn, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Zheng Chuan <zhengchuan@huawei.com>, Mark Kanda <mark.kanda@oracle.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH V8 02/39] migration: qemu file wrappers
+Content-Language: en-US
+To: Steve Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org
+References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
+ <1655304746-102776-3-git-send-email-steven.sistare@oracle.com>
+From: Guoyi Tu <tugy@chinatelecom.cn>
+In-Reply-To: <1655304746-102776-3-git-send-email-steven.sistare@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=42.123.76.226; envelope-from=tugy@chinatelecom.cn;
+ helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,89 +85,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2022/6/15 22:51, Steve Sistare wrote:
+> Add qemu_file_open and qemu_fd_open to create QEMUFile objects for unix
+> files and file descriptors.
+> 
+the function names should be updated.
 
-Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br> writes:
-
-> On 01/06/2022 15:05, Alex Benn=C3=A9e wrote:
->> From: Paolo Bonzini <pbonzini@redhat.com>
->>=20
->> In preparation for handling more binaries than just cc, handle
->> the case of "probe_target_compiler $cpu" directly in the function,
->> setting the target_* variables based on the ones that are used to
->> build QEMU.  The clang check also needs to be moved after this
->> fallback.
->>=20
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Message-Id: <20220517092616.1272238-10-pbonzini@redhat.com>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20220527153603.887929-21-alex.bennee@linaro.org>
->
-> Hi,
->
-> After this patch, a clean build in ppc64le hosts will not build=20
-> ppc64{,le}-linux-user tests with "make check-tcg"
->
->>=20
->> diff --git a/configure b/configure
->> index fbf6d39f96..217c8b3cac 100755
->> --- a/configure
->> +++ b/configure
->> @@ -954,10 +954,6 @@ case $git_submodules_action in
->>       ;;
->>   esac
->>=20
->> -if eval test -z "\${cross_cc_$cpu}"; then
->> -    eval "cross_cc_${cpu}=3D\$cc"
->> -fi
->> -
->>   default_target_list=3D""
->>   mak_wilds=3D""
->>=20
->> @@ -2008,13 +2004,6 @@ probe_target_compiler() {
->>     if eval test -n "\"\${cross_cc_$1}\""; then
->>       if eval has "\"\${cross_cc_$1}\""; then
->>         eval "target_cc=3D\"\${cross_cc_$1}\""
->> -      case $1 in
->> -        i386|x86_64)
->> -          if $target_cc --version | grep -qi "clang"; then
->> -            unset target_cc
->> -          fi
->> -          ;;
->> -      esac
->>       fi
->>     fi
->>     if eval test -n "\"\${cross_as_$1}\""; then
->> @@ -2027,6 +2016,20 @@ probe_target_compiler() {
->>         eval "target_ld=3D\"\${cross_ld_$1}\""
->>       fi
->>     fi
->> +  if test "$1" =3D $cpu; then > +    : ${target_cc:=3D$cc}
->> +    : ${target_as:=3D$as}
->> +    : ${target_ld:=3D$ld}
->> +  fi
->
-> $cpu is normalized[1] to ppc64 on little-endian hosts, so=20
-> ppc64le-linux-user will not have $target_{cc,as,ld} set, and=20
-> ppc64-linux-user will have them set to a toolchain that may not support=20
-> -mbig-endian. I suppose we have a similar problem with MIPS targets on=20
-> MIPS hosts.
-
-For now you can always explicitly tell configure about the host compiler
-with:
-
- --cross-cc-ppc64le=3Dgcc
-
-but we should fix the broken detection. It seems the var cpu has an
-overloaded meaning so I wonder if we just need an explicit host_cpu
-setting when we normalize cpu?
-
->
-> [1]=20
-> https://gitlab.com/qemu-project/qemu/-/blob/2ad60f6f8c12ca0acd8834fdd70e0=
-88361b8791f/configure#L611
-
-
---=20
-Alex Benn=C3=A9e
+--
+Guoyi
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>   migration/qemu-file-channel.c | 36 ++++++++++++++++++++++++++++++++++++
+>   migration/qemu-file-channel.h |  6 ++++++
+>   2 files changed, 42 insertions(+)
+> 
+> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+> index bb5a575..cc5aebc 100644
+> --- a/migration/qemu-file-channel.c
+> +++ b/migration/qemu-file-channel.c
+> @@ -27,8 +27,10 @@
+>   #include "qemu-file.h"
+>   #include "io/channel-socket.h"
+>   #include "io/channel-tls.h"
+> +#include "io/channel-file.h"
+>   #include "qemu/iov.h"
+>   #include "qemu/yank.h"
+> +#include "qapi/error.h"
+>   #include "yank_functions.h"
+>   
+>   
+> @@ -192,3 +194,37 @@ QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
+>       object_ref(OBJECT(ioc));
+>       return qemu_fopen_ops(ioc, &channel_output_ops, true);
+>   }
+> +
+> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
+> +                          const char *name, Error **errp)
+> +{
+> +    g_autoptr(QIOChannelFile) fioc = NULL;
+> +    QIOChannel *ioc;
+> +    QEMUFile *f;
+> +
+> +    if (flags & O_RDWR) {
+> +        error_setg(errp, "qemu_fopen_file %s: O_RDWR not supported", path);
+> +        return NULL;
+> +    }
+> +
+> +    fioc = qio_channel_file_new_path(path, flags, mode, errp);
+> +    if (!fioc) {
+> +        return NULL;
+> +    }
+> +
+> +    ioc = QIO_CHANNEL(fioc);
+> +    qio_channel_set_name(ioc, name);
+> +    f = (flags & O_WRONLY) ? qemu_fopen_channel_output(ioc) :
+> +                             qemu_fopen_channel_input(ioc);
+> +    return f;
+> +}
+> +
+> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name)
+> +{
+> +    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
+> +    QIOChannel *ioc = QIO_CHANNEL(fioc);
+> +    QEMUFile *f = writable ? qemu_fopen_channel_output(ioc) :
+> +                             qemu_fopen_channel_input(ioc);
+> +    qio_channel_set_name(ioc, name);
+> +    return f;
+> +}
+> diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
+> index 0028a09..75fd0ad 100644
+> --- a/migration/qemu-file-channel.h
+> +++ b/migration/qemu-file-channel.h
+> @@ -29,4 +29,10 @@
+>   
+>   QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
+>   QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
+> +
+> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
+> +                         const char *name, Error **errp);
+> +
+> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name);
+> +
+>   #endif
 
