@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140CC54EB71
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 22:47:37 +0200 (CEST)
-Received: from localhost ([::1]:34800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA2B54EC91
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 23:29:19 +0200 (CEST)
+Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1wOt-0007CQ-Ku
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 16:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37998)
+	id 1o1x3G-0007CX-BJ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 17:29:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o1wNc-0006UT-OB
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 16:46:17 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:41586)
+ (Exim 4.90_1) (envelope-from <mark.mielke@gmail.com>)
+ id 1o1x26-0006Bo-EK; Thu, 16 Jun 2022 17:28:06 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o1wNY-0003bv-SO
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 16:46:15 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id w29so2261131pgl.8
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 13:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=GrLsfvP0ImCuYhUzQjuHa+L0rAcU+ciUkruVc5Ongw0=;
- b=vtwMd5meM2gqMLXD+D/JfgG5xjD5CUfRENUm2OgCILDTRojaCXmRsFowKYSDbRaTWF
- DALWIOCOmyHg3oTHnz+k0EKonmiBIGYGRlqwRBqQnkkHBI+fCj7lRLoCGRfLIMnnbita
- d+KrRoIzHbAN0rdJTQt/WgohpkdIWYrfxRN8FtCTDaHK5tGojyk6noVXhE/L8SE0dc9v
- 85qj8v08no6CPzjvzmEKhTJvcnoj+9Dz6o0iv+InVeP8BfIFiW80pcrRM6EJyH8fFZ44
- BQ/siko92Dzju1jSBnFQfPBaw/XJ6QuzpK1HL95inT2K/Pv0mVRvT0RdJxMIXpgkUoE+
- RfVw==
+ (Exim 4.90_1) (envelope-from <mark.mielke@gmail.com>)
+ id 1o1x24-0002sF-1p; Thu, 16 Jun 2022 17:28:06 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id m20so5078504ejj.10;
+ Thu, 16 Jun 2022 14:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XOPPUXqeLOlHoCSIGcznCkYf6Ps7sFv2iPT3tpWja8s=;
+ b=fXCr2CBP+Aruh/NcCdWvsuXJUH5VgKDUOzIKQtRp0tQhZCdLEl1HPQOppj24eWHsav
+ yxGniq5XICKoDAWBMiTtiJj1c2jhGmBRX1AjfL6uxRTz+ClVfEz61q2CK4s0WPOo/5eM
+ OXdzm1OdW/26QRCYFxgK2T3S1C+H7Sv0Ef+yqCJUD+eJvXuJ1DjgPWKiEmRxjVGJhyXP
+ rvHspEhlTSDuRGoZtP0KhHhELQ2CX24tCZY8ZuB8/mrDrfr4w37p3h7JtjjgCXGG2K/q
+ IUhDGk5DXCNA+0hv+1F3x8xANw3oWmn0bpyi0arx8pKUO+worDnQYlx59t/uCAvU8no2
+ hghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GrLsfvP0ImCuYhUzQjuHa+L0rAcU+ciUkruVc5Ongw0=;
- b=cykMwbwbsaXseqGSKo5jb8u7ASR/hmQYtPA98B5LJekRYNzoIdv8518uXna3aVAzxP
- s0UwrFCunLuv4pWrdr/o9KJHJv9yBCpdMzMht5pZPQJN0Ch5cUf09Dw+jmHXK2OH2jhk
- O3gIpUuyJY2Yi9FQhHeUMX8xC5ZK6Ns+Lxx5k5mCHNcAA0OcMf7zia9GgWb3JI9XSJOe
- G9/yQzX4JaT8qRVTuVEh72qCilSJsoxFjqv/Yj87hIvLOdz1uYYxl6Tu170W+J65HF78
- f/y5icbH1M7z2XqBxk7L1X+MelUp/H7JbV7WWjhLUQ6IgvIO1yrqU8MjQByuZeLCcdi8
- 4mwQ==
-X-Gm-Message-State: AJIora+eybbIw/S5TlbpkZxj5WPWbdNXKb19VqjQ+JfapuuQsz9S/OOG
- 0sIRVjTG/kVLOLdeUxqMNBzPww==
-X-Google-Smtp-Source: AGRyM1uIiGuOYDN4g0KPseELn9fWRc5Me/XikuCNfZj3m8RSvGyNEcx1nzBYv6oh01PD3slDgXSeTg==
-X-Received: by 2002:a05:6a00:a8f:b0:51b:5ca1:47f1 with SMTP id
- b15-20020a056a000a8f00b0051b5ca147f1mr6501103pfl.50.1655412370891; 
- Thu, 16 Jun 2022 13:46:10 -0700 (PDT)
-Received: from [172.22.33.109] ([192.77.111.2])
- by smtp.gmail.com with ESMTPSA id
- m18-20020a17090b069200b001e2ff3a1221sm1923587pjz.33.2022.06.16.13.46.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 13:46:10 -0700 (PDT)
-Message-ID: <dd67d7c2-d4d0-0f51-64cd-16ca99b33e78@linaro.org>
-Date: Thu, 16 Jun 2022 13:46:08 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XOPPUXqeLOlHoCSIGcznCkYf6Ps7sFv2iPT3tpWja8s=;
+ b=oSBTqi46D3EsBm7+DgpIjSJUkYSAl5FFpXF6priqX7SZhA8YgWb0I5aMge4LaaI+SU
+ YcFZoIaF6VwP51+pt3Tin+tMd0g4WPN4VXKV3C27upaD2CHHE0SZ521SDk3yW+7stqtd
+ MC1NAIxU17kjAZ1hH8P+w7bDHSW7D2Zdjo5taIu8s/QCkDYhjdd7TBsqPoGEmsEd9sH2
+ VuEhlAEpBS8OBUdlBEfVXNUIIee1DRKUiB+VLquFNWLwVjlJv17aJj98dOCnH3MFRQyi
+ XPpY7rRigPFfNwH0uyQxXuiYOzmBfDZT6Us47kevjhctCNPHzwxRzzReo4prS5PhtnwV
+ ja0w==
+X-Gm-Message-State: AJIora8TJvjoInxliiE4J1d8KMaJcjSbVyE4HebSGqBtBADPQZj3vCCS
+ 1w2gOVidB1LOEFg3kmZZhgfOXasSjFhelELgOjQ=
+X-Google-Smtp-Source: AGRyM1ucUcLcv85CFSt/jb1wbYNjMR1jYX4BXG95WaQNLiaWe+p33EbxrRMjKXW+Qz2ClslXrrh4lrfPyRRwsUAwbM0=
+X-Received: by 2002:a17:907:6289:b0:6e0:eb0c:8ee7 with SMTP id
+ nd9-20020a170907628900b006e0eb0c8ee7mr5984646ejc.245.1655414879091; Thu, 16
+ Jun 2022 14:27:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/10] virtio,pc,pci: fixes,cleanups,features
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-References: <20220616165703.42226-1-mst@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220616165703.42226-1-mst@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+References: <20220609164712.1539045-1-stefanha@redhat.com>
+ <Yqi3gMu8pHuhqxXz@stefanha-x1.localdomain>
+In-Reply-To: <Yqi3gMu8pHuhqxXz@stefanha-x1.localdomain>
+From: Mark Mielke <mark.mielke@gmail.com>
+Date: Thu, 16 Jun 2022 17:27:48 -0400
+Message-ID: <CALm7yL0XrxsM=2RWpKCEGF3ayiEYieo93NLq6iznJcw53dgGqA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] linux-aio: fix unbalanced plugged counter in
+ laio_io_unplug()
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ qemu-stable@nongnu.org, 
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000d2ffa505e1974f04"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=mark.mielke@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,80 +83,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/22 09:57, Michael S. Tsirkin wrote:
-> The following changes since commit def6fd6c9ce9e00a30cdd0066e0fde206b3f3d2f:
-> 
->    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-06-16 07:13:04 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to 8c97e4deeca9ad791ab369d3879ebfb0267b24ca:
-> 
->    acpi/erst: fix fallthrough code upon validation failure (2022-06-16 12:54:58 -0400)
-> 
-> ----------------------------------------------------------------
-> virtio,pc,pci: fixes,cleanups,features
-> 
-> more CXL patches
-> RSA support for crypto
-> fixes, cleanups all over the place
+--000000000000d2ffa505e1974f04
+Content-Type: text/plain; charset="UTF-8"
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Thank you for finding this and fixing it. This issue has been giving us
+grief for months, and this patch appears to resolve the problem.
+
+In our case, it seemed to have much greater severity with the RHEL / CentOS
+7.x Linux 3.10 kernel when tied to SolidFire iSCSI based storage. This
+caused it to escape notice in our original soak period, and is likely a
+contributor to why others didn't encounter the problem. However, I believe
+this looks like a serious problem that could affect any guest machine that
+does a large amount of I/O. I believe the SolidFire connection may be that
+the I/O can queue up more easily than the local NVMe storage we also use,
+and there could be something related to the SolidFire QoS re-balancing
+where the iSCSI connection may be re-negotiated from time to time. So, I
+think this is more like "happens in some environments more than others",
+and unfortunately it happened a lot in one of our environments. :-(
 
 
-r~
+On Tue, Jun 14, 2022 at 12:36 PM Stefan Hajnoczi <stefanha@redhat.com>
+wrote:
+
+> On Thu, Jun 09, 2022 at 05:47:10PM +0100, Stefan Hajnoczi wrote:
+> > An unlucky I/O pattern can result in stalled Linux AIO requests when the
+> > plugged counter becomes unbalanced. See Patch 1 for details.
+> >
+> > Patch 2 adds a comment to explain why the laio_io_unplug() even checks
+> max
+> > batch in the first place.
+> >
+> > Stefan Hajnoczi (2):
+> >   linux-aio: fix unbalanced plugged counter in laio_io_unplug()
+> >   linux-aio: explain why max batch is checked in laio_io_unplug()
+> >
+> >  block/linux-aio.c | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > --
+> > 2.36.1
+> >
+>
+> Thanks, applied to my block tree:
+> https://gitlab.com/stefanha/qemu/commits/block
+>
+> Stefan
+>
 
 
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Ani Sinha (1):
->        acpi/erst: fix fallthrough code upon validation failure
-> 
-> Jonathan Cameron (3):
->        pci-bridge/cxl_upstream: Add a CXL switch upstream port
->        pci-bridge/cxl_downstream: Add a CXL switch downstream port
->        docs/cxl: Add switch documentation
-> 
-> Ni Xun (1):
->        vhost: also check queue state in the vhost_dev_set_log error routine
-> 
-> Yajun Wu (1):
->        virtio/vhost-user: Fix wrong vhost notifier GPtrArray size
-> 
-> Zhenwei Pi (1):
->        crypto: Introduce RSA algorithm
-> 
-> Zhenzhong Duan (3):
->        virtio-iommu: Add bypass mode support to assigned device
->        virtio-iommu: Use recursive lock to avoid deadlock
->        virtio-iommu: Add an assert check in translate routine
-> 
->   include/hw/cxl/cxl.h              |   5 +
->   include/hw/virtio/virtio-crypto.h |   5 +-
->   include/hw/virtio/virtio-iommu.h  |   4 +-
->   include/sysemu/cryptodev.h        |  83 ++++++++--
->   backends/cryptodev-builtin.c      | 276 ++++++++++++++++++++++++++++-----
->   backends/cryptodev-vhost-user.c   |  34 +++-
->   backends/cryptodev.c              |  32 ++--
->   hw/acpi/erst.c                    |   3 +
->   hw/cxl/cxl-host.c                 |  43 ++++-
->   hw/pci-bridge/cxl_downstream.c    | 249 +++++++++++++++++++++++++++++
->   hw/pci-bridge/cxl_upstream.c      | 216 ++++++++++++++++++++++++++
->   hw/virtio/vhost-user.c            |   2 +-
->   hw/virtio/vhost.c                 |   4 +
->   hw/virtio/virtio-crypto.c         | 319 ++++++++++++++++++++++++++++++--------
->   hw/virtio/virtio-iommu.c          | 135 ++++++++++++++--
->   docs/system/devices/cxl.rst       |  88 ++++++++++-
->   hw/pci-bridge/meson.build         |   2 +-
->   hw/virtio/trace-events            |   1 +
->   18 files changed, 1343 insertions(+), 158 deletions(-)
->   create mode 100644 hw/pci-bridge/cxl_downstream.c
->   create mode 100644 hw/pci-bridge/cxl_upstream.c
-> 
-> 
+-- 
+Mark Mielke <mark.mielke@gmail.com>
 
+--000000000000d2ffa505e1974f04
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thank you for finding this and fixing it. This issue has b=
+een giving us grief for months, and this patch appears to resolve the probl=
+em.<div><br></div><div>In our case, it seemed to have much greater severity=
+ with the RHEL / CentOS 7.x Linux 3.10 kernel when tied to SolidFire iSCSI =
+based storage. This caused it to escape notice in our original soak period,=
+ and is likely a contributor to why others didn&#39;t encounter the problem=
+. However, I believe this looks like a serious problem that could affect an=
+y guest machine that does a large amount of I/O. I believe the SolidFire co=
+nnection may be that the I/O can queue up more easily than the local NVMe s=
+torage we also use, and there could be something related to the SolidFire Q=
+oS re-balancing where the iSCSI connection may be re-negotiated from time t=
+o time. So, I think this is more like &quot;happens in some environments mo=
+re than others&quot;, and unfortunately it happened a lot in one of our env=
+ironments. :-(</div><div><br></div></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 14, 2022 at 12:36 PM Stefan =
+Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefanha@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On T=
+hu, Jun 09, 2022 at 05:47:10PM +0100, Stefan Hajnoczi wrote:<br>
+&gt; An unlucky I/O pattern can result in stalled Linux AIO requests when t=
+he<br>
+&gt; plugged counter becomes unbalanced. See Patch 1 for details.<br>
+&gt; <br>
+&gt; Patch 2 adds a comment to explain why the laio_io_unplug() even checks=
+ max<br>
+&gt; batch in the first place.<br>
+&gt; <br>
+&gt; Stefan Hajnoczi (2):<br>
+&gt;=C2=A0 =C2=A0linux-aio: fix unbalanced plugged counter in laio_io_unplu=
+g()<br>
+&gt;=C2=A0 =C2=A0linux-aio: explain why max batch is checked in laio_io_unp=
+lug()<br>
+&gt; <br>
+&gt;=C2=A0 block/linux-aio.c | 10 +++++++++-<br>
+&gt;=C2=A0 1 file changed, 9 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; -- <br>
+&gt; 2.36.1<br>
+&gt; <br>
+<br>
+Thanks, applied to my block tree:<br>
+<a href=3D"https://gitlab.com/stefanha/qemu/commits/block" rel=3D"noreferre=
+r" target=3D"_blank">https://gitlab.com/stefanha/qemu/commits/block</a><br>
+<br>
+Stefan<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Mark Mielke &lt;<a href=3D"mailto:mark.mielke@gm=
+ail.com" target=3D"_blank">mark.mielke@gmail.com</a>&gt;<br><br></div>
+
+--000000000000d2ffa505e1974f04--
 
