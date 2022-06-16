@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A1754DD03
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:37:18 +0200 (CEST)
-Received: from localhost ([::1]:54716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A596B54DD10
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:42:06 +0200 (CEST)
+Received: from localhost ([::1]:34762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1l09-0004dR-GX
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40680)
+	id 1o1l4n-0002A8-OK
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:42:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1ktd-0000dj-OD
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:30:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54143)
+ id 1o1kvL-0001a1-Mg
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1ktb-0002Vo-5Q
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:30:33 -0400
+ id 1o1kvI-0002jo-Ar
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655368229;
+ s=mimecast20190719; t=1655368335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=vvCO5iW75Uo0QBR8ClgsLomr7SuVTuh71gKSSgESR6U=;
- b=PhyIlph23n62a89wp2WOspmC3wrX8BPze4BkS6riBHcJ6gHL3y4NjqmMQPs6CcTSsGc3MP
- Tr1PTGC4Ng7doIMwdNYkJ0IPJEGnccaLy8OD/fLK8OUPrXLevgYUzGWUOKMmLRbPIshKY7
- VNgdkv5E5dWRvbmMCh3d3jznC9DJb5w=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=q4snfMQmg9G/Y1psDnFgm/1ugVmvJfE5Y43xaWo6/P8=;
+ b=DhuE+C6airQqyc0Lx8Y4RtT1uKP3ODg4nEJQnyVvgqAZkTLm/dolulu1ICERdyLOvqM0qZ
+ i2SXFaEZlQDrYi7bu7V8spyLzcA/wi2n3x3kMS67YJ4MDBElRM0GMha9nh4rxCYzCb56XX
+ EpnbK3ZozPzd5FSKr80AiO6cFd621rA=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-nc5YOafaNO-7osM3B5r9iQ-1; Thu, 16 Jun 2022 04:30:28 -0400
-X-MC-Unique: nc5YOafaNO-7osM3B5r9iQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- x15-20020a05640226cf00b004318eab9feaso759044edd.12
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:30:28 -0700 (PDT)
+ us-mta-502-k-tzWeG8P9ivuSFILTJfHA-1; Thu, 16 Jun 2022 04:32:13 -0400
+X-MC-Unique: k-tzWeG8P9ivuSFILTJfHA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ kf3-20020a17090776c300b0070d149300e9so311469ejc.15
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vvCO5iW75Uo0QBR8ClgsLomr7SuVTuh71gKSSgESR6U=;
- b=n984FO9CRETu68Hp5QmQaoj2ZHNFtvbXOabl9MZ7Lm+0Mgk5ZMJ1bOYmFqLFczFqP9
- ChKCXKuNOFYD6f5ceDAMb0kQ4f9bvQGbDM1fDgR7BSP6OrMNr88r/hnZWTCS/kPD1FWR
- P2e9RUC3AW8G4a3hm7wdgHfXyj1e0f8SkSlNAqsLKbhBb3G+YKt+xRJqUNvPL9jsHOG+
- vBNeT/AHCS4aWJPjn0hcCEAiIluTR8TwHDAJ2MKH8rED2c5Ue5TdkhU1vl0qfaAhnM5n
- 0vlr7VkrVowNH2ghIfAJdVZqqu2AEUV1fIX8OvAAPcakujG8quinfB+Lefs3/3HjMdOU
- ZvbQ==
-X-Gm-Message-State: AJIora/CsMFkRCEMV2jKxb7dfCopWV7ZwpZAhGkDa+MH1JP/IidQjJcr
- JuqZKCVfarNpQ9o+0maycmUDCRVvf4PEkMDzaToC4kbhX7wZy7ZxisQ3BvZYrW02qGHvqr131i5
- ypaFu8t2TXNnPFxguPolbqpOpxPDzW9Ai3MAoazOz8ccA7arCT+fHbtUXKA9wfAX0zto=
-X-Received: by 2002:a17:907:94c3:b0:711:8b08:e7e with SMTP id
- dn3-20020a17090794c300b007118b080e7emr3463236ejc.451.1655368227227; 
- Thu, 16 Jun 2022 01:30:27 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1twECO9dEVVizW6fNFd3PEd0+5tHXPBpGrbfuA9MaemNWa0jwdTc5+9QMf+eV0FNqx86mXeSA==
-X-Received: by 2002:a17:907:94c3:b0:711:8b08:e7e with SMTP id
- dn3-20020a17090794c300b007118b080e7emr3463216ejc.451.1655368226845; 
- Thu, 16 Jun 2022 01:30:26 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- v18-20020a170906293200b006fece722508sm471239ejd.135.2022.06.16.01.30.25
+ bh=q4snfMQmg9G/Y1psDnFgm/1ugVmvJfE5Y43xaWo6/P8=;
+ b=aPiOghR2uEF1g1q4drqZSk8DNv7v5Bd35ULLiUWxd3LWPUZxrCuY+rOS9P/AEBA7Au
+ uUZpgEDZkaCOpFcm4lLxPCOQuLp1ZBjyrnm45QVI/1CwKl6GQRFEUXYXb1Qlmc0hF9bn
+ oHUEEKBAH1WyzYIan/FuStRGLG7oWqhAxqMiO1Pd6zNChpnrWC2jvF2K7PEKP5XZ2DQ1
+ G6AohBU7+PXTtOjjZMlOXsp9Rs9whlpgw/+tu6Z1a7eqyfBFc/cmuA19tWWb+wDytwbg
+ 2AjwQsr/ffsM7SPVmo5EaXWautEqqIaf3AbNScCi11xE+nOUcW5voo56MZDvLczNAuGK
+ WXew==
+X-Gm-Message-State: AJIora92GzURfqmlDJ1yOqlHFe99cryUmVp+RO9aL9Lcqa1Udi7zQogb
+ MpnRrBxhwU4VD9dCqkVgR7zlpOasJt9u22U4Z9HhMQaoby2AGmjxbk8UJuznTUBo9rPsbWyovLj
+ /3vFKYis9JCzt3kvxbB4QU+l1kc3nvfCEv92s8p+feUOi1nejupFF9Zzs+lAaAY9iaKE=
+X-Received: by 2002:a05:6402:228d:b0:42d:e319:7297 with SMTP id
+ cw13-20020a056402228d00b0042de3197297mr4927653edb.79.1655368332268; 
+ Thu, 16 Jun 2022 01:32:12 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u3gf2Ar0Gqwk/csAAlpwA3PbzVYrrdBtdDhKe2BlftHuAKHg0X1OPS94bXjFIjECTpaYzZnA==
+X-Received: by 2002:a05:6402:228d:b0:42d:e319:7297 with SMTP id
+ cw13-20020a056402228d00b0042de3197297mr4927620edb.79.1655368331909; 
+ Thu, 16 Jun 2022 01:32:11 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ 18-20020a170906201200b006fee7b5dff2sm477266ejo.143.2022.06.16.01.32.10
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 01:30:26 -0700 (PDT)
+ Thu, 16 Jun 2022 01:32:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org,
-	akihiko.odaki@gmail.com
-Subject: [PATCH] tests/vm: do not specify -bios option
-Date: Thu, 16 Jun 2022 10:30:25 +0200
-Message-Id: <20220616083025.116902-1-pbonzini@redhat.com>
+Subject: [PULL 00/21] Statistics, preconfig and cleanup patches for 2022-06-16
+Date: Thu, 16 Jun 2022 10:31:48 +0200
+Message-Id: <20220616083209.117397-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,71 +97,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running from the build tree, the executable is able to find
-the BIOS on its own; when running from the source tree, a firmware
-blob should already be installed and there is no guarantee that
-the one in the source tree works with the QEMU that is being used for
-the installation.
+The following changes since commit debd0753663bc89c86f5462a53268f2e3f680f60:
 
-Just remove the -bios option, since it is unnecessary and in fact
-there are other x86 VM tests that do not bother specifying it.
+  Merge tag 'pull-testing-next-140622-1' of https://github.com/stsquad/qemu into staging (2022-06-13 21:10:57 -0700)
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/vm/fedora  | 1 -
- tests/vm/freebsd | 1 -
- tests/vm/netbsd  | 1 -
- tests/vm/openbsd | 1 -
- 4 files changed, 4 deletions(-)
+are available in the Git repository at:
 
-diff --git a/tests/vm/fedora b/tests/vm/fedora
-index 92b78d6e2c..12eca919a0 100755
---- a/tests/vm/fedora
-+++ b/tests/vm/fedora
-@@ -79,7 +79,6 @@ class FedoraVM(basevm.BaseVM):
-         self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
-         self.print_step("Booting installer")
-         self.boot(img_tmp, extra_args = [
--            "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
-             "-device", "VGA",
-             "-cdrom", iso
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 805db759d6..cd1fabde52 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -95,7 +95,6 @@ class FreeBSDVM(basevm.BaseVM):
- 
-         self.print_step("Booting installer")
-         self.boot(img_tmp, extra_args = [
--            "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
-             "-device", "VGA",
-             "-cdrom", iso
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 45aa9a7fda..aa883ec23c 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -86,7 +86,6 @@ class NetBSDVM(basevm.BaseVM):
- 
-         self.print_step("Booting installer")
-         self.boot(img_tmp, extra_args = [
--            "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
-             "-cdrom", iso
-         ])
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 13c8254214..6f1b6f5b98 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -82,7 +82,6 @@ class OpenBSDVM(basevm.BaseVM):
- 
-         self.print_step("Booting installer")
-         self.boot(img_tmp, extra_args = [
--            "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=off",
-             "-device", "VGA",
-             "-cdrom", iso
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 76ca98b0f85222601bd449252ac71df19e0dab29:
+
+  build: include pc-bios/ part in the ROMS variable (2022-06-15 11:12:32 +0200)
+
+----------------------------------------------------------------
+* statistics subsystem
+* virtio reset cleanups
+* build system cleanups
+* fix Cirrus CI
+
+----------------------------------------------------------------
+Alexander Bulekov (1):
+      build: fix check for -fsanitize-coverage-allowlist
+
+Mark Kanda (3):
+      qmp: Support for querying stats
+      kvm: Support for querying fd-based stats
+      hmp: add basic "info stats" implementation
+
+Paolo Bonzini (16):
+      qmp: add filtering of statistics by target vCPU
+      cutils: add functions for IEC and SI prefixes
+      qmp: add filtering of statistics by provider
+      hmp: add filtering of statistics by provider
+      qmp: add filtering of statistics by name
+      hmp: add filtering of statistics by name
+      block: add more commands to preconfig mode
+      s390x: simplify virtio_ccw_reset_virtio
+      virtio-mmio: stop ioeventfd on legacy reset
+      virtio: stop ioeventfd on reset
+      virtio-mmio: cleanup reset
+      configure: update list of preserved environment variables
+      configure: cleanup -fno-pie detection
+      tests/vm: allow running tests in an unconfigured source tree
+      meson: put cross compiler info in a separate section
+      build: include pc-bios/ part in the ROMS variable
+
+Zhenzhong Duan (1):
+      q35：Enable TSEG only when G_SMRAME and TSEG_EN both enabled
+
+ Makefile                  |  12 +-
+ accel/kvm/kvm-all.c       | 403 ++++++++++++++++++++++++++++++++++++++++++++++
+ configure                 |  22 +--
+ hmp-commands-info.hx      |  14 ++
+ hmp-commands.hx           |  14 ++
+ hw/pci-host/q35.c         |   3 +-
+ hw/s390x/virtio-ccw.c     |  12 +-
+ hw/virtio/virtio-bus.c    |   1 +
+ hw/virtio/virtio-mmio.c   |  18 +--
+ hw/virtio/virtio-pci.c    |   1 -
+ include/monitor/hmp.h     |   1 +
+ include/monitor/stats.h   |  45 ++++++
+ include/qemu/cutils.h     |  18 +++
+ meson.build               |  25 +--
+ monitor/hmp-cmds.c        | 232 ++++++++++++++++++++++++++
+ monitor/qmp-cmds.c        | 155 ++++++++++++++++++
+ qapi/block-core.json      | 117 +++++++++-----
+ qapi/block-export.json    |  21 ++-
+ qapi/block.json           |   6 +-
+ qapi/meson.build          |   1 +
+ qapi/qapi-schema.json     |   1 +
+ qapi/stats.json           | 249 ++++++++++++++++++++++++++++
+ tests/unit/test-cutils.c  |  52 ++++++
+ tests/vm/Makefile.include |  26 +--
+ util/cutils.c             |  34 ++--
+ 25 files changed, 1368 insertions(+), 115 deletions(-)
+ create mode 100644 include/monitor/stats.h
+ create mode 100644 qapi/stats.json
 -- 
 2.36.1
 
