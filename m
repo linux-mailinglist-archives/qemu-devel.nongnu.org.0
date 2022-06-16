@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB68654E1C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:21:20 +0200 (CEST)
-Received: from localhost ([::1]:43260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FC354E1AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:16:33 +0200 (CEST)
+Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1pR1-0007TX-OS
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
+	id 1o1pMO-0001Zc-Qc
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:16:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1o1ooe-0001X3-N5
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:41:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1o1ood-0005sN-4b
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:41:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655383295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Et7o+gm789s34jZqe/LwIE8WIv+NIHpOHYPmrL3ytP8=;
- b=bbG1g7pZ8MUlOY2W7dp6upgt4+ynMwHO6P4ArcrqlRS3mZnRDYGrrCGrRQnNqc4XnAF+17
- 1ZTcO5ODTG4oU2Oy2IrLhcyBUx/I7N6KtPZ6nMbDgcwz2k8wOyd1riddTo3UUkQdNUQrt3
- JsQlmAXOq4QwYDaBcGfUMD56ZPKNMT8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-mf8Vj5tQNSCy7A57D0VbIw-1; Thu, 16 Jun 2022 08:41:31 -0400
-X-MC-Unique: mf8Vj5tQNSCy7A57D0VbIw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 301D5101E986;
- Thu, 16 Jun 2022 12:41:31 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D71D111F5;
- Thu, 16 Jun 2022 12:41:29 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 9/9] scripts/qapi: add required system includes to visitor
-Date: Thu, 16 Jun 2022 16:40:34 +0400
-Message-Id: <20220616124034.3381391-10-marcandre.lureau@redhat.com>
-In-Reply-To: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
-References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
+ id 1o1p0F-0000da-Ac
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:53:39 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:45902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
+ id 1o1p0B-0000Dd-Ew
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:53:38 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id s10so1363886ljh.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 05:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=openvz-org.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=jSED7nYeJiCaPBZPfo5BFLpJCDhp2pBn7+gGv8ZvIgM=;
+ b=ithg8l5+CqT83XkTeovUo/JbZ9J5oBxfzgtYF4d6anZoiMZhOppn9X+2xIgfpYrI+K
+ rVCqtSwRFnQGZvK5i5wlAGFPprq3BEwp+2ss/powUTcJr9U+PnPEdfdsSDu8+c8W9IoJ
+ aTK8+Y1t2ftfLWuWBgyau+TmEdc+cGhWoL/H3HHc1ffFbY5qXJBY19ccUIADGrqSF+nw
+ LMISQ3qMLiUip+sOIfdU2KHVhbGySm8e55AEUhymBzzGE9hZ2TvFSV0VdYL9+rpUWiyH
+ fewmh+To6nlsBlquaBZS0+0svNlIfhp9Z4b6muKpj2estLNsW4QQ6ZlegVqR1y0SpK6U
+ JePA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=jSED7nYeJiCaPBZPfo5BFLpJCDhp2pBn7+gGv8ZvIgM=;
+ b=zDIvBWaImIMCNkzm6/VnOyg/Wfbyey7t8p5GdE4bkdYGmyr/5dPB/h4883gK4zJ09+
+ g/BMQG7N9IcvsM7JtTaicT6Pr/X3s4mdqnYLNVVmqVVPqMfy/1P10oDU7DYsinOSdZhi
+ 74s9Tkb4371br9aXodW9b2fjNHoEiVFcsJZCIpU3Sf0sFRnOECoxRkF479FHRlQfwO2W
+ 1/sclpledBxcGb77Pm/TbsHkLNhtgQl8EtfWj6DBEkT2VONqA905O1W53lQwXio8jPPr
+ JE0nntP4/9P7Fy9AK2w1VVWMxRi1tkuYPoZ7rFlQi4selTQy4Lemp6Ah4TK420/fXHGr
+ AOZw==
+X-Gm-Message-State: AJIora+vVNRyZOF1M1xgm/KcXXyRKPGVWC288I24SWIkr/YNwVJ/EgFR
+ AtWMQ80z3rj/18INtxLjx5dKnA==
+X-Google-Smtp-Source: AGRyM1tiBpwGdZGCMHT7VGNoCZVMDZ0kPY3Fze6Hux63uY5lmJI/X/hs7ffMIYHZ1cQ5MEH21kzHhQ==
+X-Received: by 2002:a2e:2c15:0:b0:255:b03f:b483 with SMTP id
+ s21-20020a2e2c15000000b00255b03fb483mr2483254ljs.363.1655384012450; 
+ Thu, 16 Jun 2022 05:53:32 -0700 (PDT)
+Received: from [192.168.0.101] ([93.175.28.49])
+ by smtp.gmail.com with ESMTPSA id
+ k7-20020a05651c10a700b0025572941cc0sm239218ljn.113.2022.06.16.05.53.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jun 2022 05:53:31 -0700 (PDT)
+Subject: Re: [PATCH 1/8] migration: Implemented new parameter stream_content
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, 
+ quintela@redhat.com, dgilbert@redhat.com
+References: <20220616102006.218693-1-nikita.lapshin@openvz.org>
+ <20220616102006.218693-2-nikita.lapshin@openvz.org>
+ <YqsGp55KDVGtKOAH@redhat.com>
+From: Nikita <nikita.lapshin@openvz.org>
+Message-ID: <7d86202a-5d77-a12d-9022-5bc0315af76b@openvz.org>
+Date: Thu, 16 Jun 2022 15:53:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <YqsGp55KDVGtKOAH@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,39 +96,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The generated visitor code includes abort() & assert(), we shouldn't
-rely on the global "-i" headers to include the necessary system headers.
+On 6/16/22 1:32 PM, Daniel P. Berrangé wrote:
+> On Thu, Jun 16, 2022 at 01:19:57PM +0300, nikita.lapshin@openvz.org wrote:
+>> From: Nikita Lapshin <nikita.lapshin@openvz.org>
+>>
+>> This new optional parameter contains inormation about migration
+>> stream parts to be sent (such as RAM, block, bitmap). This looks
+>> better than using capabilities to solve problem of dividing
+>> migration stream.
+>>
+>> Signed-off-by: Nikita Lapshin <nikita.lapshin@openvz.org>
+>> ---
+>>   migration/migration.c | 47 ++++++++++++++++++++++++++++++++++++++++++-
+>>   migration/migration.h |  2 ++
+>>   qapi/migration.json   | 21 ++++++++++++++++---
+>>   3 files changed, 66 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index 18e2610e88..80acf6dbc3 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -760,6 +760,12 @@
+>>   #                        block device name if there is one, and to their node name
+>>   #                        otherwise. (Since 5.2)
+>>   #
+>> +# @stream-content-list: Parameter control content of migration stream such as RAM,
+>> +#                       vmstate, block and dirty-bitmaps. This is optional parameter
+>> +#                       so migration will work correctly without it.
+>> +#                       This parameter takes string list as description of content
+>> +#                       and include that part of migration stream. (Since 7.0)
+>> +#
+>>   # Features:
+>>   # @unstable: Member @x-checkpoint-delay is experimental.
+>>   #
+>> @@ -780,7 +786,8 @@
+>>              'xbzrle-cache-size', 'max-postcopy-bandwidth',
+>>              'max-cpu-throttle', 'multifd-compression',
+>>              'multifd-zlib-level' ,'multifd-zstd-level',
+>> -           'block-bitmap-mapping' ] }
+>> +           'block-bitmap-mapping',
+>> +           'stream-content-list' ] }
+>>   
+>>   ##
+>>   # @MigrateSetParameters:
+>> @@ -925,6 +932,12 @@
+>>   #                        block device name if there is one, and to their node name
+>>   #                        otherwise. (Since 5.2)
+>>   #
+>> +# @stream-content-list: Parameter control content of migration stream such as RAM,
+>> +#                       vmstate, block and dirty-bitmaps. This is optional parameter
+>> +#                       so migration will work correctly without it.
+>> +#                       This parameter takes string list as description of content
+>> +#                       and include that part of migration stream. (Since 7.0)
+>> +#
+>>   # Features:
+>>   # @unstable: Member @x-checkpoint-delay is experimental.
+>>   #
+>> @@ -960,7 +973,8 @@
+>>               '*multifd-compression': 'MultiFDCompression',
+>>               '*multifd-zlib-level': 'uint8',
+>>               '*multifd-zstd-level': 'uint8',
+>> -            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
+>> +            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
+>> +            '*stream-content-list': [ 'str' ] } }
+>>   
+>>   ##
+>>   # @migrate-set-parameters:
+>> @@ -1158,7 +1172,8 @@
+>>               '*multifd-compression': 'MultiFDCompression',
+>>               '*multifd-zlib-level': 'uint8',
+>>               '*multifd-zstd-level': 'uint8',
+>> -            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
+>> +            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
+>> +            '*stream-content-list': [ 'str' ] } }
+> These will need to be represented using an enum type rather than
+> a string, since this value accepts a fixed pre-determined list of
+> strings.
+>
+> With regards,
+> Daniel
+First of all thank you for your review!
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- scripts/qapi/visit.py | 4 ++++
- 1 file changed, 4 insertions(+)
+May be I misunderstood you, but is enum convenient for this purpose? 
+List for describing looks pretty good.
 
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 1ff464c0360f..d686df17f4b6 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -326,6 +326,8 @@ def __init__(self, prefix: str, include: List[str]):
-     def _begin_builtin_module(self) -> None:
-         self._genc.preamble_add(mcgen('''
- %(include)s
-+#include <assert.h>
-+#include <stdlib.h>
- 
- #include "qapi/error.h"
- #include "qapi/qapi-builtin-visit.h"
-@@ -342,6 +344,8 @@ def _begin_user_module(self, name: str) -> None:
-         visit = self._module_basename('qapi-visit', name)
-         self._genc.preamble_add(mcgen('''
- %(include)s
-+#include <assert.h>
-+#include <stdlib.h>
- 
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
--- 
-2.37.0.rc0
+Or you mean that it is better to use list of enums?
 
 
