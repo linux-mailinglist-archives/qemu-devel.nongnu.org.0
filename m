@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4F954D536
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 01:28:31 +0200 (CEST)
-Received: from localhost ([::1]:49786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C577154D6C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 03:08:42 +0200 (CEST)
+Received: from localhost ([::1]:47216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1cR4-0006fQ-Tj
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 19:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56104)
+	id 1o1e01-0007vP-3a
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jun 2022 21:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1o1cNn-0004zh-Qt
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 19:25:08 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:58836 helo=mga06.intel.com)
+ (Exim 4.90_1) (envelope-from <prvs=7166425211=pdel@fb.com>)
+ id 1o1dx6-0005YM-N3
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 21:05:40 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:47766
+ helo=mx0a-00082601.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1o1cNl-000102-TY
- for qemu-devel@nongnu.org; Wed, 15 Jun 2022 19:25:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655335505; x=1686871505;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=SkgAQFYz4EK2WkdQqaiDuicQvGHdG056PA3fRXjuwjo=;
- b=ji1PvXgZFX0fDXXvJKyQvkc2rwH2ShzCmF+tAWC4qvbZtzuRxuB/WtNt
- i7RHzdi2FIqkSnmju5YLn1QEm3lMHu0yiccnN4/cKpT9oxLlX85KALfFc
- SVLKaXFccBkUH+ZSBx6MejgGFaXtP45t7J12O7rW1lsAOphWSO+/maa5y
- b/YchO+7opuy+3E5mX4AVVfrKek4ZtNwQDQLmPGw1+DrvfaG7HxAfMhU6
- +u/QwNL/2y+xvttm2fHdwaPnmu/+SQhp3LCUKwlmis0TVKVL225LSemD5
- xRqM+efV98/q28JW9eh3MsBh+GGxrjbYmJ20cu2xmkSipjJywSPUxsyys Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="340778249"
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; d="scan'208";a="340778249"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 16:25:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; d="scan'208";a="589378018"
-Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
- ([10.105.129.122])
- by fmsmga007.fm.intel.com with ESMTP; 15 Jun 2022 16:25:01 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: qemu-devel@nongnu.org
-Cc: Dongwon Kim <dongwon.kim@intel.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [PATCH v2 2/2] ui/gtk: a new array param monitor to specify the
- target displays
-Date: Wed, 15 Jun 2022 16:19:42 -0700
-Message-Id: <20220615231942.29981-3-dongwon.kim@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220615231942.29981-1-dongwon.kim@intel.com>
-References: <20220615231942.29981-1-dongwon.kim@intel.com>
+ (Exim 4.90_1) (envelope-from <prvs=7166425211=pdel@fb.com>)
+ id 1o1dx4-0006AO-Q8
+ for qemu-devel@nongnu.org; Wed, 15 Jun 2022 21:05:40 -0400
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+ by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 25FLpuO7007002
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 18:05:35 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=facebook; bh=jwJDSwI//Z1CpvkGU9lJh2dszDiA5iCdvux1Pc2JrwM=;
+ b=W5XN0suPSvK/nlNhdy7cAtQXeW8y/0h1+TwN4K1Yg9/lficwRmYQ/HZheLPbiSKETPW5
+ Z9v5Me21jqGHyZQJbNMuEFl7LqRfEJ2vHdHx6qTBqdMkItSVhSFsfuEOJ++tQnWxrCks
+ IE2gWXPZ7tZxHiFvNkwxydlS7w2ZQfyfzrA= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+ by m0001303.ppops.net (PPS) with ESMTPS id 3gpw7r7y0s-6
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 15 Jun 2022 18:05:35 -0700
+Received: from twshared18213.14.prn3.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:21d::4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Wed, 15 Jun 2022 18:05:33 -0700
+Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
+ id F03CE8092C59; Wed, 15 Jun 2022 18:05:27 -0700 (PDT)
+From: Peter Delevoryas <pdel@fb.com>
+To: 
+CC: <pdel@fb.com>, <samuel.thibault@ens-lyon.org>, <jasowang@redhat.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <qemu-devel@nongnu.org>
+Subject: [PATCH 0/4] slirp: Update submodule to include NC-SI features
+Date: Wed, 15 Jun 2022 18:05:22 -0700
+Message-ID: <20220616010526.1895564-1-pdel@fb.com>
+X-Mailer: git-send-email 2.30.2
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: D72sk4okDvnzBa4CzgqeFkUPk9myNj9r
+X-Proofpoint-ORIG-GUID: D72sk4okDvnzBa4CzgqeFkUPk9myNj9r
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31;
- envelope-from=dongwon.kim@intel.com; helo=mga06.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-15_17,2022-06-15_01,2022-02-23_01
+Received-SPF: pass client-ip=67.231.153.30;
+ envelope-from=prvs=7166425211=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,118 +83,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New integer array parameter, 'monitor' is for specifying the target
-displays where individual QEMU windows are placed upon launching.
+I recently submitted some NC-SI changes ([1], [2]) to libslirp, and I'd like
+to include them as netdev options in QEMU now.
 
-The array contains a series of numbers representing the monitor where
-QEMU windows are placed.
+I'm guessing that before we can do that though, there probably needs
+to be a new libslirp release, right? Right now we're on 4.7.0, with
+SlirpConfig version 4. I guess I'd like to create (or wait, either
+is fine) 4.8.0, and update QEMU to use SlirpConfig version 5 if
+that version is available.
 
-Numbers in the array are mapped to QEMU windows like,
+By the way: do I need to add #if SLIRP_CHECK_VERSION(4,7,0) around any code
+I'm adding? I'm hoping that's not the case, but I see that was necessary
+with the recent timer changes.
 
-[1st detached window, 2nd detached window,.... Main window]
+Let me know what I should do, I am fully expecting that I'll need to either
+wait for the next slirp release, submit a v2, etc. Just wanted to get the
+ball rolling.
 
-Usage example: -display gtk,monitor.0=0,monitor.1=1.....
+Thanks,
+Peter
 
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
----
- qapi/ui.json    |  7 ++++++-
- qemu-options.hx |  2 +-
- ui/gtk.c        | 32 +++++++++++++++++++++++++++++++-
- 3 files changed, 38 insertions(+), 3 deletions(-)
+[1] https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/122
+[2] https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/125
 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 413371d5e8..5980f30c7f 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1195,12 +1195,17 @@
- #               assuming the guest will resize the display to match
- #               the window size then.  Otherwise it defaults to "off".
- #               Since 3.1
-+# @monitor:     Array of numbers, each of which represents physical
-+#               monitor where individual QEMU window is placed in case
-+#               there are multiple of them
-+#               since 7.1
- #
- # Since: 2.12
- ##
- { 'struct'  : 'DisplayGTK',
-   'data'    : { '*grab-on-hover' : 'bool',
--                '*zoom-to-fit'   : 'bool'  } }
-+                '*zoom-to-fit'   : 'bool',
-+                '*monitor'       : ['uint16']  } }
- 
- ##
- # @DisplayEGLHeadless:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22fbd8..f79f533e9d 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1938,7 +1938,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
- #endif
- #if defined(CONFIG_GTK)
-     "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
--    "            [,show-cursor=on|off][,window-close=on|off]\n"
-+    "            [,monitor.<order>=<value>][,show-cursor=on|off][,window-close=on|off]\n"
- #endif
- #if defined(CONFIG_VNC)
-     "-display vnc=<display>[,<optargs>]\n"
-diff --git a/ui/gtk.c b/ui/gtk.c
-index e6878c3209..fc9bf04680 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2316,6 +2316,10 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     GtkDisplayState *s = g_malloc0(sizeof(*s));
-     GdkDisplay *window_display;
-     GtkIconTheme *theme;
-+    GtkWidget *win;
-+    GdkRectangle dest;
-+    uint16List *mon;
-+    int n_mon;
-     int i;
-     char *dir;
- 
-@@ -2393,7 +2397,33 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-             gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
-         }
-     }
--    if (opts->has_full_screen &&
-+    if (opts->u.gtk.has_monitor) {
-+        i = 0;
-+        n_mon = gdk_display_get_n_monitors(window_display);
-+        for (mon = opts->u.gtk.monitor; mon; mon = mon->next) {
-+            if (mon->value < n_mon) {
-+                for (; i < s->nb_vcs; i++) {
-+                    win = s->vc[i].window ? s->vc[i].window : s->window;
-+                    if (opts->has_full_screen && opts->full_screen) {
-+                        gtk_window_fullscreen_on_monitor(
-+                            GTK_WINDOW(win),
-+                            gdk_display_get_default_screen(window_display),
-+                            mon->value);
-+                    } else {
-+                        gdk_monitor_get_geometry(
-+                            gdk_display_get_monitor(window_display, mon->value),
-+                            &dest);
-+                        gtk_window_move(GTK_WINDOW(win),
-+                                        dest.x, dest.y);
-+                    }
-+                    i++;
-+                    break;
-+                }
-+            }
-+        }
-+    }
-+    if (!opts->u.gtk.has_monitor &&
-+        opts->has_full_screen &&
-         opts->full_screen) {
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
-     }
--- 
+
+
+Peter Delevoryas (4):
+  slirp: Update submodule to include NC-SI updates
+  slirp: Update SlirpConfig version to 5
+  slirp: Add mfr-id to -netdev options
+  slirp: Add oob-eth-addr to -netdev options
+
+ net/slirp.c   | 18 ++++++++++++++----
+ qapi/net.json |  8 +++++++-
+ slirp         |  2 +-
+ 3 files changed, 22 insertions(+), 6 deletions(-)
+
+--=20
 2.30.2
 
 
