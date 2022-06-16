@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327A354E615
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 17:30:32 +0200 (CEST)
-Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E881854E66A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 17:53:16 +0200 (CEST)
+Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1rS2-0000Oh-Ri
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 11:30:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
+	id 1o1ro3-0008Aq-KZ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 11:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1rQx-000834-Lx
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:29:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48599)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o1rlz-0007TW-Tn
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:51:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1rQt-000634-KK
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:29:21 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o1rlw-00045M-U9
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:51:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655393358;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=9MTxsqeRvhIC3co1C7GnyavpcVlF2IDmlaAZEkpZO/0=;
- b=b5ebsz2RcZxubNa5kEFuJON3NsIQKI+LwWZCozh8EDUX1glaWhd+gr79swDRmo0CsP9i9E
- fGqZHWEElWAdo+0cdWn0TKVKXaQDYfrKGl5xjx1ZrlikJO3udtLZX3HAWiskoQynaa68Vh
- EsQfcC+BCHFmpwNPh6lxzFI1L7HdNE8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1655394664;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ypPsvZ/mHH1Gp75/vO9ffXH67chUR84jBqSUO/Lh5gA=;
+ b=JYMDZ3DG75JGn7JvZtqZ9Mw4WeSPhPr5HpSQ8g9GhMyxxoaFgOelfb7zbeO2whApSVcv+a
+ TLPFgyPe0SRuteoyJRiDZIj4gu3HGOClbJrU3unl86FCsnYz29muFYRJs/TqycZU+K+7ot
+ I4BUhZubghHuxCKOc6WfyevVrZjaP2w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-wCDJ2gHEP_WDCggtXzd2Mw-1; Thu, 16 Jun 2022 11:29:15 -0400
-X-MC-Unique: wCDJ2gHEP_WDCggtXzd2Mw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F08C5811E83;
- Thu, 16 Jun 2022 15:29:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17AA41121314;
- Thu, 16 Jun 2022 15:29:06 +0000 (UTC)
-Date: Thu, 16 Jun 2022 16:29:04 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Zheng Chuan <zhengchuan@huawei.com>,
- Mark Kanda <mark.kanda@oracle.com>, Guoyi Tu <tugy@chinatelecom.cn>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>,
- David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH V8 02/39] migration: qemu file wrappers
-Message-ID: <YqtMQFqFR3+b26YO@redhat.com>
-References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-3-git-send-email-steven.sistare@oracle.com>
+ us-mta-444-_vyURPEyO-yJbkmqjkNyxQ-1; Thu, 16 Jun 2022 11:51:02 -0400
+X-MC-Unique: _vyURPEyO-yJbkmqjkNyxQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p6-20020a05600c358600b0039c873184b9so1071616wmq.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 08:51:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=ypPsvZ/mHH1Gp75/vO9ffXH67chUR84jBqSUO/Lh5gA=;
+ b=feyUpSBPILf/Ikj/LhUYxv2uHL7H9zDSBfXxCFsw6VIarTTx7p5wK+8VOknH5ZBodI
+ /QC94yRB1Podhphi/+ENpJFDEx1OAqOVJKsRdk5TJ+O2Hnr3gYprlrsgV85aI8CgBIA5
+ sT8c7icl7uqpZjZDb81S4x5CWN7xMbAkSN6pw5m8sp2siZSoPjScpsSv6JvfGGMJ1zvt
+ 2BorZ9vTV/Xe4hfvWJBmLRULZv5q/g4E5/Nfk5nu4PZRxp6Qez7tgG1LqI+aIwRMqnNJ
+ 1DwXUWtgNnMz+P4Zpr4C/FWvERNPdcO1MykybtbdSaDpKsa43/RqKI3rDFoelxLz6UEn
+ Nu3g==
+X-Gm-Message-State: AJIora+Itg8n2Y5nVCUkmL9je+fEb4JyaJKcNeMM7tMq9wvrG/ZKT386
+ UY2R/ICkBp00CJFT2NTX910IW/ziKjw9kDmR95wcv6jZdptnBSFmxtclJa2OsvE8nzm+0PXcrsv
+ wNL/IMX7+WoZDSJ0=
+X-Received: by 2002:a05:600c:acf:b0:39c:56ea:2121 with SMTP id
+ c15-20020a05600c0acf00b0039c56ea2121mr5685443wmr.39.1655394661719; 
+ Thu, 16 Jun 2022 08:51:01 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1saXD2Sz2imaMbm43PhJL7tsJ/EINC26txabbndpKqL9jcFQnTvjSVwOcUrHcek4HbXb36NPw==
+X-Received: by 2002:a05:600c:acf:b0:39c:56ea:2121 with SMTP id
+ c15-20020a05600c0acf00b0039c56ea2121mr5685412wmr.39.1655394661486; 
+ Thu, 16 Jun 2022 08:51:01 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ u9-20020a5d4349000000b0021004d7d75asm2326957wrr.84.2022.06.16.08.51.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jun 2022 08:51:00 -0700 (PDT)
+Date: Thu, 16 Jun 2022 16:50:58 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: "manish.mishra" <manish.mishra@nutanix.com>,
+ Het Gala <het.gala@nutanix.com>, qemu-devel@nongnu.org,
+ quintela@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
+ eblake@redhat.com
+Subject: Re: [PATCH 0/4] Multiple interface support on top of Multi-FD
+Message-ID: <YqtRYs1wGEQR4wfo@work-vm>
+References: <20220609073305.142515-1-het.gala@nutanix.com>
+ <YqIWDoSJ/xQC8Vvt@redhat.com>
+ <7209116d-ef87-ee6f-5126-e23b55121f49@nutanix.com>
+ <YqoMMCbF3PBnYSn/@redhat.com> <YqrpVRJazpbMz/HE@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1655304746-102776-3-git-send-email-steven.sistare@oracle.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YqrpVRJazpbMz/HE@redhat.com>
+User-Agent: Mutt/2.2.5 (2022-05-16)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -92,115 +104,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 15, 2022 at 07:51:49AM -0700, Steve Sistare wrote:
-> Add qemu_file_open and qemu_fd_open to create QEMUFile objects for unix
-> files and file descriptors.
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Wed, Jun 15, 2022 at 05:43:28PM +0100, Daniel P. Berrangé wrote:
+> > On Fri, Jun 10, 2022 at 05:58:31PM +0530, manish.mishra wrote:
+> > > 
+> > > On 09/06/22 9:17 pm, Daniel P. Berrangé wrote:
+> > > > On Thu, Jun 09, 2022 at 07:33:01AM +0000, Het Gala wrote:
+> > > > > As of now, the multi-FD feature supports connection over the default network
+> > > > > only. This Patchset series is a Qemu side implementation of providing multiple
+> > > > > interfaces support for multi-FD. This enables us to fully utilize dedicated or
+> > > > > multiple NICs in case bonding of NICs is not possible.
+> > > > > 
+> > > > > 
+> > > > > Introduction
+> > > > > -------------
+> > > > > Multi-FD Qemu implementation currently supports connection only on the default
+> > > > > network. This forbids us from advantages like:
+> > > > > - Separating VM live migration traffic from the default network.
+> > > 
+> > > Hi Daniel,
+> > > 
+> > > I totally understand your concern around this approach increasing compexity inside qemu,
+> > > 
+> > > when similar things can be done with NIC teaming. But we thought this approach provides
+> > > 
+> > > much more flexibility to user in few cases like.
+> > > 
+> > > 1. We checked our customer data, almost all of the host had multiple NIC, but LACP support
+> > > 
+> > >     in their setups was very rare. So for those cases this approach can help in utilise multiple
+> > > 
+> > >     NICs as teaming is not possible there.
+> > 
+> > AFAIK,  LACP is not required in order to do link aggregation with Linux.
+> > Traditional Linux bonding has no special NIC hardware or switch requirements,
+> > so LACP is merely a "nice to have" in order to simplify some aspects.
+> > 
+> > IOW, migration with traffic spread across multiple NICs is already
+> > possible AFAICT.
+> > 
+> > I can understand that some people may not have actually configured
+> > bonding on their hosts, but it is not unreasonable to request that
+> > they do so, if they want to take advantage fo aggrated bandwidth.
+> > 
+> > It has the further benefit that it will be fault tolerant. With
+> > this proposal if any single NIC has a problem, the whole migration
+> > will get stuck. With kernel level bonding, if any single NIC haus
+> > a problem, it'll get offlined by the kernel and migration will
+> > continue to  work across remaining active NICs.
+> > 
+> > > 2. We have seen requests recently to separate out traffic of storage, VM netwrok, migration
+> > > 
+> > >     over different vswitch which can be backed by 1 or more NICs as this give better
+> > > 
+> > >     predictability and assurance. So host with multiple ips/vswitches can be very common
+> > > 
+> > >     environment. In this kind of enviroment this approach gives per vm or migration level
+> > > 
+> > >     flexibilty, like for critical VM we can still use bandwidth from all available vswitch/interface
+> > > 
+> > >     but for normal VM they can keep live migration only on dedicated NICs without changing
+> > > 
+> > >     complete host network topology.
+> > > 
+> > >     At final we want it to be something like this [<ip-pair>, <multiFD-channels>, <bandwidth_control>]
+> > > 
+> > >     to provide bandwidth_control per interface.
+> > 
+> > Again, it is already possible to separate migration traffic from storage
+> > traffic, from other network traffic. The target IP given will influence
+> > which NIC is used based on routing table and I know this is already
+> > done widely with OpenStack deployments.
 > 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> ---
->  migration/qemu-file-channel.c | 36 ++++++++++++++++++++++++++++++++++++
->  migration/qemu-file-channel.h |  6 ++++++
->  2 files changed, 42 insertions(+)
+> Actually I should clarify this is only practical if the two NICs are
+> using different IP subnets, otherwise routing rules are not viable.
+> So needing to set source IP would be needed to select between a pair
+> of NICs on the same IP subnet.
+
+Yeh so I think that's one reason that the idea in this series is OK
+(together with the idea for the NUMA stuff) and I suspect there are
+other cases as well.
+
+Dave
+
+> Previous usage I've seen has always setup fully distinct IP subnets
+> for generic vs storage vs migration network traffic.
 > 
-> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> index bb5a575..cc5aebc 100644
-> --- a/migration/qemu-file-channel.c
-> +++ b/migration/qemu-file-channel.c
-> @@ -27,8 +27,10 @@
->  #include "qemu-file.h"
->  #include "io/channel-socket.h"
->  #include "io/channel-tls.h"
-> +#include "io/channel-file.h"
->  #include "qemu/iov.h"
->  #include "qemu/yank.h"
-> +#include "qapi/error.h"
->  #include "yank_functions.h"
->  
->  
-> @@ -192,3 +194,37 @@ QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
->      object_ref(OBJECT(ioc));
->      return qemu_fopen_ops(ioc, &channel_output_ops, true);
->  }
-> +
-> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
-> +                          const char *name, Error **errp)
-> +{
-> +    g_autoptr(QIOChannelFile) fioc = NULL;
-> +    QIOChannel *ioc;
-> +    QEMUFile *f;
-> +
-> +    if (flags & O_RDWR) {
-
-IIRC, O_RDWR may expand to more than 1 bit, so needs a strict
-equality test
-
-   if ((flags & O_RDWR) == O_RDWR)
-
-> +        error_setg(errp, "qemu_fopen_file %s: O_RDWR not supported", path);
-> +        return NULL;
-> +    }
-> +
-> +    fioc = qio_channel_file_new_path(path, flags, mode, errp);
-> +    if (!fioc) {
-> +        return NULL;
-> +    }
-> +
-> +    ioc = QIO_CHANNEL(fioc);
-> +    qio_channel_set_name(ioc, name);
-> +    f = (flags & O_WRONLY) ? qemu_fopen_channel_output(ioc) :
-> +                             qemu_fopen_channel_input(ioc);
-> +    return f;
-> +}
-> +
-> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name)
-> +{
-> +    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
-> +    QIOChannel *ioc = QIO_CHANNEL(fioc);
-> +    QEMUFile *f = writable ? qemu_fopen_channel_output(ioc) :
-> +                             qemu_fopen_channel_input(ioc);
-> +    qio_channel_set_name(ioc, name);
-> +    return f;
-> +}
-> diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
-> index 0028a09..75fd0ad 100644
-> --- a/migration/qemu-file-channel.h
-> +++ b/migration/qemu-file-channel.h
-> @@ -29,4 +29,10 @@
->  
->  QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
->  QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
-> +
-> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
-> +                         const char *name, Error **errp);
-> +
-> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name);
-
-Note we used the explicit names "_input" and "_output" in
-the existing methods as they're more readable in the calling
-sides than "true" / "false".
-
-Similarly we had qemu_open vs qemu_create, so that we don't
-have the ambiguity of whuether 'mode' is needed or not. IOW,
-I'd suggest we have 
-
- QEMUFile *qemu_fopen_file_output(const char *path, int mode,
-                                  const char *name, Error **errp);
- QEMUFile *qemu_fopen_file_input(const char *path,
-                                  const char *name, Error **errp);
-
- QEMUFile *qemu_fopen_fd_input(int fd, const char *name);
- QEMUFile *qemu_fopen_fd_output(int fd, const char *name);
-
-
-With regards,
-Daniel
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
