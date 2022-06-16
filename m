@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F067E54E55D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 16:50:55 +0200 (CEST)
-Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78EA54E547
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 16:47:22 +0200 (CEST)
+Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1qpj-0007hH-3S
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 10:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42850)
+	id 1o1qmH-0003mK-R9
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 10:47:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o1qhC-0000e3-6M
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:42:06 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:47084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o1qh9-0004TT-F9
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:42:04 -0400
-Received: by mail-lj1-x235.google.com with SMTP id l18so1706497lje.13
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 07:42:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=86NhjvFuQJapdnubqu2iUm4j/uRqNrHzJegip0iiiqs=;
- b=I1dwaABO18yCf/vLSZ4xZQ3m2GI+lnyYudFgwt1ZvzC1ach0C/F+KQY1F1M4ZQwGTj
- EHuihbPu//G9SZxjtPVGdjC5cIi4HQlYIN/looRPfqLe/VKOx374JeMVQfXhfEksjhJn
- 3pK9dvBhqNZOqsvUbZHNE5VUHJi/IILKoVMoEiu4iyMghAK7MnoDsegOwVW1DRHMyqfW
- 2/p3VGTbfexdj3JKxGnoKVU8WatWRzwAnOD8GVLfkLxouF+jdes+bKNYGKWm1ENIIIry
- qpRUeRiL0rEtvzJHqEMINsKFLu0gwjYbhdXPPDLHZktgMF9KTGDAZjwKcv5m0EJl6pb5
- wGPQ==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1qiW-0001wJ-4v
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:43:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1qiU-0004Yu-CF
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:43:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655390604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7dLVOwu6SHp6K05ziIxuafgkS7VPOoTSkV7e3J3ZgSw=;
+ b=dnpJrK5mOSIKsdkqkHGuehR4SWIBFIQyoxTI6brXIDCHhrW0Fll0qmbnGbnpAMrWbi2F79
+ ZOtOzMngWPJvo9K7UCa+82KtNRZgW2rCgsCqPpVXxcXjsu3NJAokgzcC24ZMKNAhYdWNm+
+ mHuxOqqjBFmWInyBr78uSVpZAMJM6Bk=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-14-HcuQ1v0JPNCW0vFl_NQ2fw-1; Thu, 16 Jun 2022 10:43:23 -0400
+X-MC-Unique: HcuQ1v0JPNCW0vFl_NQ2fw-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ a189-20020a1f4dc6000000b0036860a8fe7aso148318vkb.8
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 07:43:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=86NhjvFuQJapdnubqu2iUm4j/uRqNrHzJegip0iiiqs=;
- b=UIHbURTyrpciHP6MxydPGqh5K6Larm3vk1e0aDWRsnGKJdd8WIK9k1m0/Ld49bIxTa
- 2yXlmii0aJKWqGOWmrbzb8jY3BfDwW/kG9HJBh8hPkzNXhZkDhwrX1UgsS0UM4pNXGOP
- LtMRRt/rIZbuH3C8vn1jlXuuuvoLNPdpmJhLox5yPe0SyykMpLASevDWZEAfrCq8LYVS
- PFwa1n8nnEjaS4ZWXGwKOj0cycZJnf7SSBDgU2HEOf/Yv2uzl160T43wIARzGepFMgsi
- 2NXASQNJr3TIp7+mLgRnuC7TaoQvppzwO8fQi2sS3AdrjuMwI24odC8AmddfPbb2MmEN
- 5wbA==
-X-Gm-Message-State: AJIora8EQ5iNpSEPl2eJLEGkz2/s3MTd46yfzyVJdkp4yCUUtfic7iO/
- aTfgfsqXXJXA+CxrSdDMtKY1EsZ2q/9IOlEgQmQ=
-X-Google-Smtp-Source: AGRyM1shJynmp/BSXiO9B0jAuhghmdpVypJnA0IcIm4qQkjD1dxiiFtN+3VLURLGpSojgkxNAbNE2AUkA34fTW3mnPY=
-X-Received: by 2002:a2e:2281:0:b0:258:e918:2611 with SMTP id
- i123-20020a2e2281000000b00258e9182611mr2684675lji.14.1655390521895; Thu, 16
- Jun 2022 07:42:01 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7dLVOwu6SHp6K05ziIxuafgkS7VPOoTSkV7e3J3ZgSw=;
+ b=ND3PJv95h5LNv/SHpbiqW1ksj9mi9A7RMEvyArEs1dnHd8hY/jwPYiCDC6U3qnhwz8
+ DVcyOg7ba9gm5VLYn+DrxyXOPBf4llbkRsoEcF2xdUJ5HjKRwygpaYbbNS5eYSzhrOZM
+ 7h3A59XVt3q5vB9soIKo3SNqG+JrreLRWF5m2py72AE4+GgFDHd1bA/Xn2z6VcJW6lNW
+ JkiUNloNT1Rc1ZxOpqyCitNlbu9x//a+OxX2bA9QKMvzrjh+ytpDkGNmXHPphClXijUW
+ tuQBcx56ys230ZdUYDyLZ83yK6gL3LpE7IyI05RbjC9ujlYzsBpaxsIY3OFSH8GRHcvw
+ xnlw==
+X-Gm-Message-State: AJIora/EvqKxUimyB6AoImwTWhhqlOLZ+egKfWJTuy5RJ1eTwN25hQeY
+ Ick5pCfsU1+I/WIxWVMSBg82jm1sVPdneOkPqrHEzHshBAO57p7s+HxHnNjMyBZXl37zNbOGIvm
+ WwnZD81f0nR6sUvAjfXTzdk/b3m9TeJ4=
+X-Received: by 2002:a67:f592:0:b0:34b:ba28:f7b4 with SMTP id
+ i18-20020a67f592000000b0034bba28f7b4mr2269526vso.61.1655390602968; 
+ Thu, 16 Jun 2022 07:43:22 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vwb0/IJJUgqfF56zKjzFr3/tMRC6crv2IpYg/wqzr9TYRriGQjSYb7aiB2AOUhzpZCn7oivwNXDihwGHdazLo=
+X-Received: by 2002:a67:f592:0:b0:34b:ba28:f7b4 with SMTP id
+ i18-20020a67f592000000b0034bba28f7b4mr2269506vso.61.1655390602690; Thu, 16
+ Jun 2022 07:43:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-2-git-send-email-steven.sistare@oracle.com>
-In-Reply-To: <1655304746-102776-2-git-send-email-steven.sistare@oracle.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 16 Jun 2022 18:41:50 +0400
-Message-ID: <CAJ+F1CJUcbb-_ue7OjyjYFaAEOucnQC2RYrMQwAC_5VMWEBchw@mail.gmail.com>
-Subject: Re: [PATCH V8 01/39] migration: fix populate_vfio_info
-To: Steve Sistare <steven.sistare@oracle.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
+References: <20220616142659.3184115-1-jsnow@redhat.com>
+ <20220616142659.3184115-4-jsnow@redhat.com>
+ <CAJ+F1C+iHv-RvnbvUikD431tNN8PJ+Z=EO0Hgi8Dht-sX1OKBQ@mail.gmail.com>
+In-Reply-To: <CAJ+F1C+iHv-RvnbvUikD431tNN8PJ+Z=EO0Hgi8Dht-sX1OKBQ@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 16 Jun 2022 10:43:11 -0400
+Message-ID: <CAFn=p-ayV9vrF7JE=rwkfC_E8kmxAZE-_kwse0RsQdDS7PXtEw@mail.gmail.com>
+Subject: Re: [PATCH v2 03/10] qga: treat get-guest-fsinfo as "best effort"
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Beraldo Leal <bleal@redhat.com>, 
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>, 
- "Daniel P. Berrange" <berrange@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Jason Zeng <jason.zeng@linux.intel.com>, Zheng Chuan <zhengchuan@huawei.com>, 
- Mark Kanda <mark.kanda@oracle.com>, Guoyi Tu <tugy@chinatelecom.cn>, 
- Peter Maydell <peter.maydell@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
- Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
- John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000005af2905e191a43b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,92 +100,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000005af2905e191a43b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 15, 2022 at 7:20 PM Steve Sistare <steven.sistare@oracle.com>
-wrote:
-
-> Include CONFIG_DEVICES so that populate_vfio_info is instantiated for
-> CONFIG_VFIO.
+On Thu, Jun 16, 2022 at 10:36 AM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
 >
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> Hi
 >
-
-Fixes: 43bd0bf30fce ("migration: Move populate_vfio_info() into a separate
-file")
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
----
->  migration/target.c | 1 +
->  1 file changed, 1 insertion(+)
+> On Thu, Jun 16, 2022 at 6:27 PM John Snow <jsnow@redhat.com> wrote:
+>>
+>> In some container environments, there may be references to block devices
+>> witnessable from a container through /proc/self/mountinfo that reference
+>> devices we simply don't have access to in the container, and could not
+>> provide information about.
+>>
+>> Instead of failing the entire fsinfo command, return stub information
+>> for these failed lookups.
+>>
+>> This allows test-qga to pass under docker tests, which are in turn used
+>> by the CentOS VM tests.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>  qga/commands-posix.c | 8 +++++++-
+>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+>> index 0469dc409d4..5989d4dca9d 100644
+>> --- a/qga/commands-posix.c
+>> +++ b/qga/commands-posix.c
+>> @@ -1207,7 +1207,13 @@ static void build_guest_fsinfo_for_device(char co=
+nst *devpath,
+>>
+>>      syspath =3D realpath(devpath, NULL);
+>>      if (!syspath) {
+>> -        error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
+>> +        if (errno =3D=3D ENOENT) {
+>> +            /* This devpath may not exist because of container config, =
+etc. */
+>> +            fprintf(stderr, "realpath(%s) returned NULL/ENOENT\n", devp=
+ath);
 >
-> diff --git a/migration/target.c b/migration/target.c
-> index 907ebf0..a0991bc 100644
-> --- a/migration/target.c
-> +++ b/migration/target.c
-> @@ -8,6 +8,7 @@
->  #include "qemu/osdep.h"
->  #include "qapi/qapi-types-migration.h"
->  #include "migration.h"
-> +#include CONFIG_DEVICES
 >
->  #ifdef CONFIG_VFIO
->  #include "hw/vfio/vfio-common.h"
+> qga uses g_critical() (except for some win32 code paths atm)
+
+Whoops, this is a debugging thing that I left in by accident. I was
+just so excited that after testing overnight, everything worked. :)
+
+>
+>>
+>> +            fs->name =3D g_strdup("??\?-ENOENT");
+>
+>
+> Hmm, maybe we should make the field optional instead.
+
+Does that harm compatibility in a meaningful way? I'm happy to do
+whatever QGA maintainers want me to do. I just did something quick and
+dirty to get it working at all as a conversation starter. O:-)
+
+>
+>>
+>> +        } else {
+>> +            error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
+>> +        }
+>>          return;
+>>      }
+>>
+>> --
+>> 2.34.3
+>>
+>>
+>
+>
 > --
-> 1.8.3.1
->
->
->
+> Marc-Andr=C3=A9 Lureau
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000005af2905e191a43b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, 2022 at 7:20 PM Steve=
- Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@or=
-acle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">Include CONFIG_DEVICES so that populate_vfio_info is instantiated f=
-or<br>
-CONFIG_VFIO.<br>
-<br>
-Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
-m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br></blockquote><div=
-><br></div><div>Fixes: 43bd0bf30fce (&quot;migration: Move populate_vfio_in=
-fo() into a separate file&quot;)</div><div><br></div><div>Reviewed-by: Marc=
--Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marca=
-ndre.lureau@redhat.com</a>&gt;</div><div><br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
----<br>
-=C2=A0migration/target.c | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/migration/target.c b/migration/target.c<br>
-index 907ebf0..a0991bc 100644<br>
---- a/migration/target.c<br>
-+++ b/migration/target.c<br>
-@@ -8,6 +8,7 @@<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-types-migration.h&quot;<br>
-=C2=A0#include &quot;migration.h&quot;<br>
-+#include CONFIG_DEVICES<br>
-<br>
-=C2=A0#ifdef CONFIG_VFIO<br>
-=C2=A0#include &quot;hw/vfio/vfio-common.h&quot;<br>
--- <br>
-1.8.3.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000005af2905e191a43b--
 
