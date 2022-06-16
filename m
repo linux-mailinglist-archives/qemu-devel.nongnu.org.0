@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E46854E51C
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 16:41:22 +0200 (CEST)
-Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F067E54E55D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 16:50:55 +0200 (CEST)
+Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1qgT-0007CZ-Ht
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 10:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41642)
+	id 1o1qpj-0007hH-3S
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 10:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o1qbO-00047g-Pw; Thu, 16 Jun 2022 10:36:06 -0400
-Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:38547)
+ id 1o1qhC-0000e3-6M
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:42:06 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:47084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o1qbM-0001XV-Lx; Thu, 16 Jun 2022 10:36:05 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id g2so1710881ljk.5;
- Thu, 16 Jun 2022 07:35:57 -0700 (PDT)
+ id 1o1qh9-0004TT-F9
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:42:04 -0400
+Received: by mail-lj1-x235.google.com with SMTP id l18so1706497lje.13
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 07:42:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lw3nYykeF4EYiU+dF5fyoplQKMgpIKRwFpjBH86rRko=;
- b=g40FULPyUyfhiTUsltpj90myNW/jkNn3qNRXE211BTDgerYnvOOUNzKkbEK6gI8sbx
- AYmEoTsVEuCxPite5lw3SZLBrcgWx2Rov3RmK/U5QlpMp1xB8Xwukye6Ot8ezKBAlU3L
- KdVJ6lLLRmHwl0olJzwO6alzuT7M4ccSt3k0EAzHGRIfSQwopWuLyxa97AS8oL9li79w
- 0tCyh/MgxQDiYBgrff/+7GJOZcQv2udb7q590cYfqZmtTBrWG1ldKaYIbKWJ+CqVdojS
- BY01Jr7KHLb+R1DJyyNXccov4DJ+wHUEA+r/8QeFqxkpK8EuZLtQtUIIFMn+ybF3G62D
- qpfQ==
+ :cc; bh=86NhjvFuQJapdnubqu2iUm4j/uRqNrHzJegip0iiiqs=;
+ b=I1dwaABO18yCf/vLSZ4xZQ3m2GI+lnyYudFgwt1ZvzC1ach0C/F+KQY1F1M4ZQwGTj
+ EHuihbPu//G9SZxjtPVGdjC5cIi4HQlYIN/looRPfqLe/VKOx374JeMVQfXhfEksjhJn
+ 3pK9dvBhqNZOqsvUbZHNE5VUHJi/IILKoVMoEiu4iyMghAK7MnoDsegOwVW1DRHMyqfW
+ 2/p3VGTbfexdj3JKxGnoKVU8WatWRzwAnOD8GVLfkLxouF+jdes+bKNYGKWm1ENIIIry
+ qpRUeRiL0rEtvzJHqEMINsKFLu0gwjYbhdXPPDLHZktgMF9KTGDAZjwKcv5m0EJl6pb5
+ wGPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=lw3nYykeF4EYiU+dF5fyoplQKMgpIKRwFpjBH86rRko=;
- b=rMoFslmqG9jNchJm+8Dwb2yGFCvfC4dj8Wq3yPpdFNCF7WPEEh0SwaCMqz73HQVt/q
- u24sfADwPwkQxDUK7YNRcMuLttWOeoKWDAzprKpG6Dc6vQCh8QYBZ2f9YJEv5lbV72Q0
- /r2FyhWX/EgY37TGmr0du8MbF0bp7qDTxasrwPFlBcLOOeW/BL6T7Z1B0Fmugdj/lLL4
- uuKh2h0uTelWAp2y8L0tlvspIvvzG9fmfbHPUk/ihBVH5ZCg+0ZuGyxKOkIuFtHX3sqt
- y8kDQweNq0NFu6p74rruLXaKYJFK5Vl+kxo4DqdZAt+KLmGDkDWjP58cSygZRjCRFzzK
- Uvvw==
-X-Gm-Message-State: AJIora8Z0idq5U3UWStga6XV8vPbHa0ECeCElGLcybT87vCa6gS2yUtm
- kisDaoL5JxSEmPbIog+bToYrVz+6CtQO49DR76g=
-X-Google-Smtp-Source: AGRyM1vcKJRrDgEMbRhfgNf5RZLczEH8JhLQOQdayhKdD+wMu6B/wTF1WGSWvguflzAcSY57mLUrxqY0RxVaqRquDtY=
-X-Received: by 2002:a2e:8881:0:b0:255:7790:25e6 with SMTP id
- k1-20020a2e8881000000b00255779025e6mr2641831lji.525.1655390156060; Thu, 16
- Jun 2022 07:35:56 -0700 (PDT)
+ bh=86NhjvFuQJapdnubqu2iUm4j/uRqNrHzJegip0iiiqs=;
+ b=UIHbURTyrpciHP6MxydPGqh5K6Larm3vk1e0aDWRsnGKJdd8WIK9k1m0/Ld49bIxTa
+ 2yXlmii0aJKWqGOWmrbzb8jY3BfDwW/kG9HJBh8hPkzNXhZkDhwrX1UgsS0UM4pNXGOP
+ LtMRRt/rIZbuH3C8vn1jlXuuuvoLNPdpmJhLox5yPe0SyykMpLASevDWZEAfrCq8LYVS
+ PFwa1n8nnEjaS4ZWXGwKOj0cycZJnf7SSBDgU2HEOf/Yv2uzl160T43wIARzGepFMgsi
+ 2NXASQNJr3TIp7+mLgRnuC7TaoQvppzwO8fQi2sS3AdrjuMwI24odC8AmddfPbb2MmEN
+ 5wbA==
+X-Gm-Message-State: AJIora8EQ5iNpSEPl2eJLEGkz2/s3MTd46yfzyVJdkp4yCUUtfic7iO/
+ aTfgfsqXXJXA+CxrSdDMtKY1EsZ2q/9IOlEgQmQ=
+X-Google-Smtp-Source: AGRyM1shJynmp/BSXiO9B0jAuhghmdpVypJnA0IcIm4qQkjD1dxiiFtN+3VLURLGpSojgkxNAbNE2AUkA34fTW3mnPY=
+X-Received: by 2002:a2e:2281:0:b0:258:e918:2611 with SMTP id
+ i123-20020a2e2281000000b00258e9182611mr2684675lji.14.1655390521895; Thu, 16
+ Jun 2022 07:42:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220616142659.3184115-1-jsnow@redhat.com>
- <20220616142659.3184115-4-jsnow@redhat.com>
-In-Reply-To: <20220616142659.3184115-4-jsnow@redhat.com>
+References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
+ <1655304746-102776-2-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1655304746-102776-2-git-send-email-steven.sistare@oracle.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 16 Jun 2022 18:35:44 +0400
-Message-ID: <CAJ+F1C+iHv-RvnbvUikD431tNN8PJ+Z=EO0Hgi8Dht-sX1OKBQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] qga: treat get-guest-fsinfo as "best effort"
-To: John Snow <jsnow@redhat.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Beraldo Leal <bleal@redhat.com>, 
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
+Date: Thu, 16 Jun 2022 18:41:50 +0400
+Message-ID: <CAJ+F1CJUcbb-_ue7OjyjYFaAEOucnQC2RYrMQwAC_5VMWEBchw@mail.gmail.com>
+Subject: Re: [PATCH V8 01/39] migration: fix populate_vfio_info
+To: Steve Sistare <steven.sistare@oracle.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000377f4a05e1918eca"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>, 
+ "Daniel P. Berrange" <berrange@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ Jason Zeng <jason.zeng@linux.intel.com>, Zheng Chuan <zhengchuan@huawei.com>, 
+ Mark Kanda <mark.kanda@oracle.com>, Guoyi Tu <tugy@chinatelecom.cn>, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
+ Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000005af2905e191a43b"
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,64 +96,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000377f4a05e1918eca
+--00000000000005af2905e191a43b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Wed, Jun 15, 2022 at 7:20 PM Steve Sistare <steven.sistare@oracle.com>
+wrote:
 
-On Thu, Jun 16, 2022 at 6:27 PM John Snow <jsnow@redhat.com> wrote:
-
-> In some container environments, there may be references to block devices
-> witnessable from a container through /proc/self/mountinfo that reference
-> devices we simply don't have access to in the container, and could not
-> provide information about.
+> Include CONFIG_DEVICES so that populate_vfio_info is instantiated for
+> CONFIG_VFIO.
 >
-> Instead of failing the entire fsinfo command, return stub information
-> for these failed lookups.
->
-> This allows test-qga to pass under docker tests, which are in turn used
-> by the CentOS VM tests.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  qga/commands-posix.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 0469dc409d4..5989d4dca9d 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1207,7 +1207,13 @@ static void build_guest_fsinfo_for_device(char
-> const *devpath,
->
->      syspath =3D realpath(devpath, NULL);
->      if (!syspath) {
-> -        error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
-> +        if (errno =3D=3D ENOENT) {
-> +            /* This devpath may not exist because of container config,
-> etc. */
-> +            fprintf(stderr, "realpath(%s) returned NULL/ENOENT\n",
-> devpath);
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 >
 
-qga uses g_critical() (except for some win32 code paths atm)
+Fixes: 43bd0bf30fce ("migration: Move populate_vfio_info() into a separate
+file")
 
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-> +            fs->name =3D g_strdup("??\?-ENOENT");
+---
+>  migration/target.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-
-Hmm, maybe we should make the field optional instead.
-
-
-> +        } else {
-> +            error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
-> +        }
->          return;
->      }
+> diff --git a/migration/target.c b/migration/target.c
+> index 907ebf0..a0991bc 100644
+> --- a/migration/target.c
+> +++ b/migration/target.c
+> @@ -8,6 +8,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qapi/qapi-types-migration.h"
+>  #include "migration.h"
+> +#include CONFIG_DEVICES
 >
+>  #ifdef CONFIG_VFIO
+>  #include "hw/vfio/vfio-common.h"
 > --
-> 2.34.3
+> 1.8.3.1
 >
 >
 >
@@ -152,71 +139,49 @@ Hmm, maybe we should make the field optional instead.
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000377f4a05e1918eca
+--00000000000005af2905e191a43b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 16, 2022 at 6:27 PM Joh=
-n Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">In some cont=
-ainer environments, there may be references to block devices<br>
-witnessable from a container through /proc/self/mountinfo that reference<br=
->
-devices we simply don&#39;t have access to in the container, and could not<=
-br>
-provide information about.<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, 2022 at 7:20 PM Steve=
+ Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@or=
+acle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Include CONFIG_DEVICES so that populate_vfio_info is instantiated f=
+or<br>
+CONFIG_VFIO.<br>
 <br>
-Instead of failing the entire fsinfo command, return stub information<br>
-for these failed lookups.<br>
-<br>
-This allows test-qga to pass under docker tests, which are in turn used<br>
-by the CentOS VM tests.<br>
-<br>
-Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"=
-_blank">jsnow@redhat.com</a>&gt;<br>
+Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
+m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br></blockquote><div=
+><br></div><div>Fixes: 43bd0bf30fce (&quot;migration: Move populate_vfio_in=
+fo() into a separate file&quot;)</div><div><br></div><div>Reviewed-by: Marc=
+-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marca=
+ndre.lureau@redhat.com</a>&gt;</div><div><br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">
 ---<br>
-=C2=A0qga/commands-posix.c | 8 +++++++-<br>
-=C2=A01 file changed, 7 insertions(+), 1 deletion(-)<br>
+=C2=A0migration/target.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
 <br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 0469dc409d4..5989d4dca9d 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -1207,7 +1207,13 @@ static void build_guest_fsinfo_for_device(char const=
- *devpath,<br>
+diff --git a/migration/target.c b/migration/target.c<br>
+index 907ebf0..a0991bc 100644<br>
+--- a/migration/target.c<br>
++++ b/migration/target.c<br>
+@@ -8,6 +8,7 @@<br>
+=C2=A0#include &quot;qemu/osdep.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-types-migration.h&quot;<br>
+=C2=A0#include &quot;migration.h&quot;<br>
++#include CONFIG_DEVICES<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0syspath =3D realpath(devpath, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0if (!syspath) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;realpath(\=
-&quot;%s\&quot;)&quot;, devpath);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D ENOENT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* This devpath may not exist be=
-cause of container config, etc. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;realpath(%=
-s) returned NULL/ENOENT\n&quot;, devpath);<br></blockquote><div><br></div><=
-div>qga uses g_critical() (except for some win32 code paths atm)<br></div><=
-div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fs-&gt;name =3D g_strdup(&quot;?=
-?\?-ENOENT&quot;);<br></blockquote><div><br></div><div>Hmm, maybe we should=
- make the field optional instead.</div><div>=C2=A0<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;realpath(\&quot;%s\&quot;)&quot;, devpath);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
+=C2=A0#ifdef CONFIG_VFIO<br>
+=C2=A0#include &quot;hw/vfio/vfio-common.h&quot;<br>
 -- <br>
-2.34.3<br>
+1.8.3.1<br>
 <br>
 <br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000377f4a05e1918eca--
+--00000000000005af2905e191a43b--
 
