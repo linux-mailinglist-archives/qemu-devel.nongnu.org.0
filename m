@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8D854E0C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 14:26:30 +0200 (CEST)
-Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFFE54E0F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 14:41:59 +0200 (CEST)
+Received: from localhost ([::1]:57638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1oZx-0002BO-HR
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 08:26:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37294)
+	id 1o1oow-0007sK-Oh
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 08:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o1oRw-0003pW-F0
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:18:12 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:42272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o1oRt-0007SS-QU
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:18:11 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- 73-20020a17090a0fcf00b001eaee69f600so1323933pjz.1
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 05:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HT3XCh8zga3m7ytHGKiV4p8LVk1a/Q5+eIuxY/AIYoY=;
- b=b7XBvKpGKuoy+t1i7KYKRPVIHzEtuWDQh0UQJmg/l1fuJIS7NzKUbl+KiTw/hQV7E1
- BYoSTW1WFHy/YKyX50ywucOzr684yjFNGsTZtgX9UPioh1yzdXdnR4nAe3pjwkalRsx1
- DRBvjI0w5j6C/hf7dJflCiRp8jJTMohnHCs6CRLKI9N+tJ/6Kiul75ds4quYMOZYldG3
- 8HHK0R7NAqfHlgD0gbF1qnHw0TPYBHBYuPHowcDbNcY/V+N37PjPLAvp3HQStHyBEgmu
- L4PGjtDruk18uABkOQn1lm3xVrrmrKxUBqgZNBPIGaWPBkabKFjiamT6+MZ4VPaxz9WG
- oSpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HT3XCh8zga3m7ytHGKiV4p8LVk1a/Q5+eIuxY/AIYoY=;
- b=nKCy0cg06WfioaoVmCiyI0AL50jkCzRCE9wYnVnmi6CM2w2l18T43unQEAzNU54DWk
- R9sbRIrIaHbhxYF6y46BEgyN7/KB6rf9IfE5qst333CwTpirEpYh3k/7hN4QoyLiWPif
- arAgPEGWGAOIJETWk3GIm+htF97Nac5zu8EzSmouPEhElNldfEi/Rsb5Kmg787rW9sSG
- 6CZiK0KCrfj9l81OM63kq1E6yMiRMd5Tqcb0PbIgg9sdXLKlvUcqzoaTHycreVBcYm/x
- AUSJy4yCb0tD7smop/TVU4CDaskMyEUUr1Da6PdvdNdZtcVgl40LTDB6cQg2RiQCO9ED
- Jr/A==
-X-Gm-Message-State: AJIora/i1UaMJ8gE10k/2DXz3WeqopF/9Fiip/6O4RpDCwkyh94v0c4G
- lxBKfFVUUAO7QXyBCNp+FMMRAW7OC+0hoVA5XFY=
-X-Google-Smtp-Source: AGRyM1sG5BECQGgk646bZcRg8HjauEyHXBZRIgGh4d3iUaowgcK5EW6imcEgKjEqlIciJ04vdb4JiZc7ynONsNE/QJU=
-X-Received: by 2002:a17:903:2291:b0:167:59ad:52e8 with SMTP id
- b17-20020a170903229100b0016759ad52e8mr4399446plh.121.1655381887245; Thu, 16
- Jun 2022 05:18:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <nico@fluxnic.net>)
+ id 1o1oUJ-0006HS-LL; Thu, 16 Jun 2022 08:20:41 -0400
+Received: from pb-smtp1.pobox.com ([64.147.108.70]:55832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nico@fluxnic.net>)
+ id 1o1oUG-0008GC-W3; Thu, 16 Jun 2022 08:20:39 -0400
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+ by pb-smtp1.pobox.com (Postfix) with ESMTP id BA25112B635;
+ Thu, 16 Jun 2022 08:20:33 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
+ :to:cc:subject:in-reply-to:message-id:references:mime-version
+ :content-type; s=sasl; bh=W0PCqn+zOysWs6yMKPn42p/J02BEro1xmorR0s
+ tQz74=; b=hak9apV9arXViTrYW8x/4dda8K4VZyIiFDHl8vfG8Pf0LMU8hKEQ5q
+ eECcMPtga9yAnh4Z+AFvNbmepNH3SviZTOlqRDenRZ7DYYjvGOUnXl8aKl8ot+0y
+ P1Myt5kUILckzQm+C+MkNUDAmmzUPw6GRZ7i9Oy2UCnZ1sG4y00aI=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+ by pb-smtp1.pobox.com (Postfix) with ESMTP id B080C12B634;
+ Thu, 16 Jun 2022 08:20:33 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type;
+ s=2016-12.pbsmtp; bh=W0PCqn+zOysWs6yMKPn42p/J02BEro1xmorR0stQz74=;
+ b=EnOxHa8gSNJPK8WjkvEkqixwNnvSuQ2fcYqfPFPDYkboKl3g/+DsXuq5KjyCmPeYX+NGd0j+AhkuPpPtk+GWdLTqVD0vw5AOtAeGPqnk4HvIziIP9bpg3QTxVjugBadCd4PV3dswMA54HaAECmsVMHgnn4fMBLefMyhDrPCHKjw=
+Received: from yoda.home (unknown [96.21.170.108])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 1FEC612B632;
+ Thu, 16 Jun 2022 08:20:33 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+ by yoda.home (Postfix) with ESMTPSA id 0054B2E2030;
+ Thu, 16 Jun 2022 08:20:31 -0400 (EDT)
+Date: Thu, 16 Jun 2022 08:20:31 -0400 (EDT)
+From: Nicolas Pitre <nico@fluxnic.net>
+To: Alistair Francis <alistair23@gmail.com>
+cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>
+Subject: Re: [PATCH] target/riscv/pmp: guard against PMP ranges with a negative
+ size
+In-Reply-To: <CAKmqyKPJ2Pxn8nG3Lwu2rLGuTZyTmGvjWOqbty8C6ayhtd0wqw@mail.gmail.com>
+Message-ID: <o8p9829n-58n8-o38o-r533-p2q056pq65p@syhkavp.arg>
+References: <3oq0sqs1-67o0-145-5n1s-453o118804q@syhkavp.arg>
+ <CAKmqyKPJ2Pxn8nG3Lwu2rLGuTZyTmGvjWOqbty8C6ayhtd0wqw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220613115810.178210-1-Jason@zx2c4.com>
- <CAEUhbmX8hOuhHrT1xx3HrgUt5jZvO_jUN+64RPWfZADKCbGvKg@mail.gmail.com>
- <CAKmqyKOO1o9BX66pNd3fevkK5URnHqefkbnuJqBrqYt4=4VXdA@mail.gmail.com>
- <Yqr/jN1bnEmDVIKm@zx2c4.com>
-In-Reply-To: <Yqr/jN1bnEmDVIKm@zx2c4.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 16 Jun 2022 22:17:40 +1000
-Message-ID: <CAKmqyKPRd-aA=R3d+naV4YC=9KqRLvGBwkyqDGvs91AzOCOsHQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: virt: pass random seed to fdt
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: B80A032C-ED6E-11EC-9402-5E84C8D8090B-78420484!pb-smtp1.pobox.com
+Received-SPF: pass client-ip=64.147.108.70; envelope-from=nico@fluxnic.net;
+ helo=pb-smtp1.pobox.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,21 +85,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 16, 2022 at 8:01 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> Hi Alistair,
->
-> On Thu, Jun 16, 2022 at 12:32:36PM +1000, Alistair Francis wrote:
-> > Applied to riscv-to-apply.next with the full stop removed
->
-> Great, thanks. Just wondering: am I looking in the right repo? I don't
-> see it here: https://github.com/alistair23/qemu/commits/riscv-to-apply.next
+On Thu, 16 Jun 2022, Alistair Francis wrote:
 
-That's the right repo, I just have to push the latest updates. You
-should see it there tomorrow
+> On Thu, Jun 16, 2022 at 7:12 AM Nicolas Pitre <nico@fluxnic.net> wrote:
+> >
+> > For a TOR entry to match, the stard address must be lower than the end
+> > address. Normally this is always the case, but correct code might still
+> > run into the following scenario:
+> >
+> > Initial state:
+> >
+> >         pmpaddr3 = 0x2000       pmp3cfg = OFF
+> >         pmpaddr4 = 0x3000       pmp4cfg = TOR
+> >
+> > Execution:
+> >
+> >         1. write 0x40ff to pmpaddr3
+> >         2. write 0x32ff to pmpaddr4
+> 
+> Hey, thanks for that patch!
+> 
+> So, at this point we have a PMP region enforcing
+> 
+> 0x40ff <= addr < 0x32ff
+> 
+> which is going to be wrong as that isn't valid. But this is also
+> partially a guest bug. If a guest sets invalid PMP regions we should
+> be throwing exceptions (if the PMP region is enabled and enforced in
+> the current mode)
 
-Alistair
+The guest cannot change all the relevant PMP registers for a single PMP 
+entry atomically. This is why you normally update the PMP configuration 
+in m-mode with MPRV unset for invalid but transient PMP states to have 
+no adverse effects.
 
->
-> Jason
+> >         3. set pmp3cfg to NAPOT with a read-modify-write on pmpcfg0
+> >         4. set pmp4cfg to NAPOT with a read-modify-write on pmpcfg1
+> >
+> > When (2) is emulated, a call to pmp_update_rule() creates a negative
+> > range for pmp4 as pmp4cfg is still set to TOR. And when (3) is emulated,
+> 
+> I don't see where the negative comes from. From what I can tell we
+> should just set `sa` and `ea` to the values specified by the guest.
+
+Eventually that is the case i.e. when the type is changed from TOR to 
+NAPOT in (4), at which point everything is well and sane. But that can't 
+happen atomically as I said. Yet QEMU does interpret the intermediate 
+state although it shouldn't.
+
+> > a call to tlb_flush() is performed, causing pmp_get_tlb_size() to return
+> > a very creatively large TLB size for pmp4. This, in turn, may result in
+> 
+> Hmm.. pmp_get_tlb_size() assumes pmp_ea > pmp_sa. Maybe we should add
+> a check in there?
+
+It is more efficient to prevent sa > ea in the first place as 
+pmp_get_tlb_size() is called way more often than pmp_update_rule_addr().
+
+Let's not forget that those sa/ea are simplified representations of the 
+hardware and not what the guest can see. The original register content 
+written by the guest is preserved.
+
+> > accesses to non-existent/unitialized memory regions and a fault, so that
+> > (4) ends up never being executed.
+> >
+> > This is in m-mode with MPRV unset, meaning that unlocked PMP entries
+> > should have no effect. Therefore such a behavior based on PMP content
+> > is very unexpected.
+> 
+> Ok, this part is a QEMU bug. If we aren't enforcing PMP regions we
+> should not be throwing PMP errors.
+
+Right. But this is not a PMP error. It is QEMU screwing up its internal 
+state. It does even segfault when this condition occur if -d cpu is 
+provided.
+
+> get_physical_address_pmp() should give us full permissions though in
+> this case, so I don't see where the failure is.
+
+And it does. That's not where the problem is.
+
+> Can you include some more details?
+
+As I said, in the middle of updating the pmpcfg registers in (3), 
+tlb_flush() is invoked which causes the core to revalidate its memory 
+TLB cache down through pmp_get_tlb_size() where bad answers are 
+returned. This causes the core to assume a different memory area which 
+doesn't exist and the next memory access ends up calling 
+unassigned_mem_accepts() where false is unconditionally returned. And I 
+suspect this is also the result of a buffer overflow as the address 
+logged in memory_region_access_valid() is sometimes complete garbage 
+too, and the occasional QEMU segfault.
+
+> > Make sure no negative PMP range can be created, whether explicitly by
+> > the emulated code or implicitly like the above.
+> >
+> > Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+> >
+> > diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> > index 151da3fa08..ea2b67d947 100644
+> > --- a/target/riscv/pmp.c
+> > +++ b/target/riscv/pmp.c
+> > @@ -167,6 +167,9 @@ void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index)
+> >      case PMP_AMATCH_TOR:
+> >          sa = prev_addr << 2; /* shift up from [xx:0] to [xx+2:2] */
+> >          ea = (this_addr << 2) - 1u;
+> > +        if (sa > ea) {
+> > +            sa = ea = 0u;
+> > +        }
+> 
+> This doesn't seem right though.
+> 
+> Image if a guest sets the values you have above, then jumps to user
+> mode. The spec doesn't seem to say what should happen with invalid PMP
+> ranges, but I feel like we should throw exceptions instead of just
+> ignoring the config.
+
+The spec says that a given memory access has to be >= the bottom 
+boundary and < the top boundary for a PMP entry to match. So an invalid 
+PMP entry should simply not match. That's what a hardware comparator 
+would do: it would just not match. Furthermore, you cannot tell if the 
+guest is in the middle of updating its PMP configuration which are split 
+across several registers as illustrated above, therefore transient 
+invalid states are unavoidable.
+
+
+Nicolas
 
