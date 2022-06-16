@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DE554DE46
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 11:38:14 +0200 (CEST)
-Received: from localhost ([::1]:39354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF9154DE99
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:06:10 +0200 (CEST)
+Received: from localhost ([::1]:51552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1lx6-0004WR-Ly
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 05:38:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
+	id 1o1mO9-0005oi-9n
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.pour@hetzner.com>)
- id 1o1lsv-0002GS-Ch; Thu, 16 Jun 2022 05:33:53 -0400
-Received: from mail.hetzner.company ([2a01:4f8:d0a:203a::1]:50892)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YYNU=WX=zx2c4.com=Jason@kernel.org>)
+ id 1o1mKJ-0004nU-Vb
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:02:11 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:42896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.pour@hetzner.com>)
- id 1o1lss-0003p1-9l; Thu, 16 Jun 2022 05:33:52 -0400
-Received: from [2a01:4f8:0:a53b:9775:b751:8e88:cd9d]
- (helo=[IPV6:2a01:4f8:0:a63b:9775:b751:8e88:cd9d])
- by mail.hetzner.company with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.92) (envelope-from <raphael.pour@hetzner.com>)
- id 1o1lsj-0004zl-12; Thu, 16 Jun 2022 11:33:41 +0200
-Message-ID: <eb151a37-c471-6c65-c399-a332911d0d2a@hetzner.com>
-Date: Thu, 16 Jun 2022 11:33:37 +0200
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YYNU=WX=zx2c4.com=Jason@kernel.org>)
+ id 1o1mKE-0002uT-0d
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:02:07 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5200E61337;
+ Thu, 16 Jun 2022 10:01:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2694AC34114;
+ Thu, 16 Jun 2022 10:01:52 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="nIN1S1Vi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1655373710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=irEf8zLQFqTqnGqywin6jMqX4Hfw5jo58NWvT2Kt9IQ=;
+ b=nIN1S1Vi2DTXZTl0AMiRJohM6Au3LC4NZ8N8V1c8YjNvTYtSyQUN7xkdzvz4z9WppbxBUW
+ TT5ptRGnL1d+BF52HWNRpZTb/9L0P2wDqkjK2Ap+s51P6C0dsxNts9adxDuXkZlF+aNCqL
+ g2/AzP5omCHz59rwFtol2CBYw//NqBg=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2087ac11
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Thu, 16 Jun 2022 10:01:50 +0000 (UTC)
+Date: Thu, 16 Jun 2022 12:01:48 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH] hw/riscv: virt: pass random seed to fdt
+Message-ID: <Yqr/jN1bnEmDVIKm@zx2c4.com>
+References: <20220613115810.178210-1-Jason@zx2c4.com>
+ <CAEUhbmX8hOuhHrT1xx3HrgUt5jZvO_jUN+64RPWfZADKCbGvKg@mail.gmail.com>
+ <CAKmqyKOO1o9BX66pNd3fevkK5URnHqefkbnuJqBrqYt4=4VXdA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-In-Reply-To: <20220413122656.3070251-1-raphael.pour@hetzner.com>
-From: Raphael Pour <raphael.pour@hetzner.com>
-Autocrypt: addr=raphael.pour@hetzner.com; keydata=
- xjMEXmXjyxYJKwYBBAHaRw8BAQdAtiEYnlLIuIUjvvqOH//nEbhrxSa54ZyAl7Iel403QaXN
- J1JhcGhhZWwgUG91ciA8cmFwaGFlbC5wb3VyQGhldHpuZXIuY29tPsKWBBMWCAA+FiEEvj4O
- DnHb6pxm/uWJzbHrt4XF634FAl5l48sCGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
- F4AACgkQzbHrt4XF635TcwD+NEMqL1HZPHP/WRsYujCDtqt0p+7uxGcpvzv//AjqMZ0A+wUh
- 0bOYYNdlXWNMMNLA88SsAT2mxAfD+F/paVmLpdoLzjgEXmXjyxIKKwYBBAGXVQEFAQEHQB0z
- JYP6jtTj989IJL1vguinsiIxia5fkW83OB1+Bb4QAwEIB8J+BBgWCAAmFiEEvj4ODnHb6pxm
- /uWJzbHrt4XF634FAl5l48sCGwwFCQlmAYAACgkQzbHrt4XF6372LgEAi3qfceU+R53Ehg/Y
- SSHV4wg+zfPwrD6ylEg/xKabYDcBALrD0E3YX458RPjLIOC8H0u0rcFIvBqNYx/kGaMEmbEG
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:RBD" <qemu-block@nongnu.org>,
- Peter Lieven <pl@kamp.de>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Ilya Dryomov <idryomov@gmail.com>
-Subject: [PATCH] block/rbd: support driver-specific reopen
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------dZOu0pmNSH5em00wtD8ECh2u"
-X-Authenticated-Sender: raphael.pour@hetzner.com
-Received-SPF: pass client-ip=2a01:4f8:d0a:203a::1;
- envelope-from=raphael.pour@hetzner.com; helo=mail.hetzner.company
-X-Spam_score_int: -68
-X-Spam_score: -6.9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKmqyKOO1o9BX66pNd3fevkK5URnHqefkbnuJqBrqYt4=4VXdA@mail.gmail.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=YYNU=WX=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
 X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,65 +83,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------dZOu0pmNSH5em00wtD8ECh2u
-Content-Type: multipart/mixed; boundary="------------FSuViYRQirzdxQswIhDM09DY";
- protected-headers="v1"
-From: Raphael Pour <raphael.pour@hetzner.com>
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:RBD" <qemu-block@nongnu.org>,
- Peter Lieven <pl@kamp.de>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Ilya Dryomov <idryomov@gmail.com>
-Message-ID: <eb151a37-c471-6c65-c399-a332911d0d2a@hetzner.com>
-Subject: [PATCH] block/rbd: support driver-specific reopen
+Hi Alistair,
 
---------------FSuViYRQirzdxQswIhDM09DY
-Content-Type: multipart/mixed; boundary="------------oyTYU70EqLpSrmHPkqvXsh6z"
+On Thu, Jun 16, 2022 at 12:32:36PM +1000, Alistair Francis wrote:
+> Applied to riscv-to-apply.next with the full stop removed
 
---------------oyTYU70EqLpSrmHPkqvXsh6z
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Great, thanks. Just wondering: am I looking in the right repo? I don't
+see it here: https://github.com/alistair23/qemu/commits/riscv-to-apply.next
 
-SGVsbG8gZXZlcnlvbmUsDQoNCndoYXQgZG8geW91IHRoaW5rPyBUZWxsIG1lIGlmIHNvbWV0
-aGluZyBuZWVkcyB0byBiZSBjbGFyaWZpZWQgb3IgaW1wcm92ZWQuDQoNClJhcGhhZWwNCg==
-
---------------oyTYU70EqLpSrmHPkqvXsh6z
-Content-Type: application/pgp-keys; name="OpenPGP_0xCDB1EBB785C5EB7E.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xCDB1EBB785C5EB7E.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEXmXjyxYJKwYBBAHaRw8BAQdAtiEYnlLIuIUjvvqOH//nEbhrxSa54ZyAl7Ie
-l403QaXNJ1JhcGhhZWwgUG91ciA8cmFwaGFlbC5wb3VyQGhldHpuZXIuY29tPsKW
-BBMWCAA+FiEEvj4ODnHb6pxm/uWJzbHrt4XF634FAl5l48sCGwMFCQlmAYAFCwkI
-BwIGFQoJCAsCBBYCAwECHgECF4AACgkQzbHrt4XF635TcwD+NEMqL1HZPHP/WRsY
-ujCDtqt0p+7uxGcpvzv//AjqMZ0A+wUh0bOYYNdlXWNMMNLA88SsAT2mxAfD+F/p
-aVmLpdoLzjgEXmXjyxIKKwYBBAGXVQEFAQEHQB0zJYP6jtTj989IJL1vguinsiIx
-ia5fkW83OB1+Bb4QAwEIB8J+BBgWCAAmFiEEvj4ODnHb6pxm/uWJzbHrt4XF634F
-Al5l48sCGwwFCQlmAYAACgkQzbHrt4XF6372LgEAi3qfceU+R53Ehg/YSSHV4wg+
-zfPwrD6ylEg/xKabYDcBALrD0E3YX458RPjLIOC8H0u0rcFIvBqNYx/kGaMEmbEG
-=3D3kgq
------END PGP PUBLIC KEY BLOCK-----
-
---------------oyTYU70EqLpSrmHPkqvXsh6z--
-
---------------FSuViYRQirzdxQswIhDM09DY--
-
---------------dZOu0pmNSH5em00wtD8ECh2u
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQS+Pg4OcdvqnGb+5YnNseu3hcXrfgUCYqr48QUDAAAAAAAKCRDNseu3hcXrfoCm
-AQDoTyUMN9UmLFEnsFgCaoAhB1SAnvBUqJ9zNm7QGYr5OgEA/Za+F6GzT+NRZQzf9a3XpAZfO/Xm
-+js+JWTC3vff+wI=
-=neJh
------END PGP SIGNATURE-----
-
---------------dZOu0pmNSH5em00wtD8ECh2u--
+Jason
 
