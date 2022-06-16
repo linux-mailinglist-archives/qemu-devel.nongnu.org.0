@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9285954E36E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 16:30:40 +0200 (CEST)
-Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C495954E37B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 16:34:50 +0200 (CEST)
+Received: from localhost ([::1]:50674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1qW7-0002Q6-JP
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 10:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39834)
+	id 1o1qa9-0008UX-Rf
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 10:34:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1qSh-00073Z-1L
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:27:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44396)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1qSi-00074q-8V
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:27:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1qSe-0008HX-Ve
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:27:06 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o1qSg-0008IX-Ja
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:27:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655389624;
+ s=mimecast20190719; t=1655389626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EgUccb+zEmq3ftmNdrMOdyrQC5NgxY4N9eRBs3lxWdA=;
- b=bi6gaujPrWeJpGaJXm+5S6ZmgY5wYCfg5tZrjPbr57Z/0+kMpE2W0CC2Nq/z6sv+yFRJCD
- gOj1CB+gMK0aaPRYzsKjOrs9RXf3e6SAM18TxV/+AFMDUm0WsnRpcsFh1FPGrrAPfvTy9q
- CHxynkeEr7vUKjne1YI0t5kkIsngmrE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dvIAdWWPVC6PS5ery4qe80FI/IIRHE71s1pIPXZ/D8k=;
+ b=DJ0jgmZM5OhzW/ukV1ZyqKVNfKRzN5/g15UfHit99TNLdfa6PsgicJC0UdzM+vKXj9UsjG
+ 5iJqfvLvfRm2Yan+UDF4x5pZnDF901KbEbwxTo0MCpRnxlgPj62yIsmt6I2pjaT4JEc/IC
+ 0P0eixSuL+CBYKKuTdjKhJGayhDRtwk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-9tGX11SvOaaOogJf_b7Lpw-1; Thu, 16 Jun 2022 10:27:01 -0400
-X-MC-Unique: 9tGX11SvOaaOogJf_b7Lpw-1
+ us-mta-493-LZrqgMzdPPempN90R4aiiQ-1; Thu, 16 Jun 2022 10:27:01 -0400
+X-MC-Unique: LZrqgMzdPPempN90R4aiiQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFB2F3833283;
- Thu, 16 Jun 2022 14:27:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5457C85A583;
+ Thu, 16 Jun 2022 14:27:01 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.34.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 118602026985;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE11A2027EB4;
  Thu, 16 Jun 2022 14:27:00 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
@@ -50,12 +51,14 @@ Cc: Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
  Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  John Snow <jsnow@redhat.com>
-Subject: [PATCH v2 00/10] Improve reliability of VM tests
-Date: Thu, 16 Jun 2022 10:26:49 -0400
-Message-Id: <20220616142659.3184115-1-jsnow@redhat.com>
+Subject: [PATCH v2 01/10] tests/qemu-iotests: hotfix for 307, 223 output
+Date: Thu, 16 Jun 2022 10:26:50 -0400
+Message-Id: <20220616142659.3184115-2-jsnow@redhat.com>
+In-Reply-To: <20220616142659.3184115-1-jsnow@redhat.com>
+References: <20220616142659.3184115-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,74 +84,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series attempts to improve the reliability of several of the=0D
-VM test targets. In particular, both CentOS 8 tests are non-functional=0D
-because CentOS 8 was EOL at the beginning of this calendar year, with=0D
-repositories and mirrors going offline.=0D
-=0D
-Notably, I also remove the ubuntu.i386 test because we no longer support=0D
-Ubuntu 18.04 nor do we have explicit need of an i386 build test.=0D
-=0D
-After this series, I am able to successfully run every VM target on an=0D
-x86_64 host, except:=0D
-=0D
-- ubuntu.aarch64: Hangs often during testing, see below.=0D
-- centos.aarch64: Hangs often during testing, see below.=0D
-- haiku.x86_64: Build failures not addressed by this series, see=0D
-  https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg02103.html=0D
-=0D
-The unit tests that I see fail most often are:=0D
-=0D
-- qom-test: ENOMEM with default config and many cores=0D
-- test-hmp: ENOMEM with default config and many cores=0D
-- virtio-net-failover: Seems to like to hang on openbsd=0D
-- migration-test: Tends to hang under aarch64 tcg=0D
-=0D
-Increasing the default memory (patch 10) has seemingly helped both=0D
-reliability *and* reduced race conditions quite a bit, both on my=0D
-12-thread intel laptop and on my 32-thread AMD 5950x desktop.=0D
-=0D
-Due to how long it takes to run these tests, though, I can't claim=0D
-perfect reliability. The flakiness of virtio-net-failover and=0D
-migration-test is something that probably still needs to be addressed,=0D
-but it's outside of my expertise and time budget at present to pursue=0D
-it.=0D
-=0D
-Future work (next version? next series?);=0D
-=0D
-- Try to get centos.aarch64 working reliably under TCG=0D
-- Upgrade ubuntu.aarch64 to 20.04 after fixing centos.aarch64=0D
-- Fix the Haiku build test, if possible.=0D
-- Ensure I can reliably run and pass "make vm-build-all".=0D
-  (Remove VMs from this recipe if necessary.)=0D
-=0D
-John Snow (10):=0D
-  tests/qemu-iotests: hotfix for 307, 223 output=0D
-  tests/qemu-iotests: skip 108 when FUSE is not loaded=0D
-  qga: treat get-guest-fsinfo as "best effort"=0D
-  tests/vm: use 'cp' instead of 'ln' for temporary vm images=0D
-  tests/vm: switch CentOS 8 to CentOS 8 Stream=0D
-  tests/vm: switch centos.aarch64 to CentOS 8 Stream=0D
-  tests/vm: update sha256sum for ubuntu.aarch64=0D
-  tests/vm: remove ubuntu.i386 VM test=0D
-  tests/vm: remove duplicate 'centos' VM test=0D
-  tests/vm: add 512MB extra memory per core=0D
-=0D
- qga/commands-posix.c       |   8 +-=0D
- tests/qemu-iotests/108     |   5 ++=0D
- tests/qemu-iotests/223.out |   4 +-=0D
- tests/qemu-iotests/307.out |   4 +-=0D
- tests/vm/Makefile.include  |   5 +-=0D
- tests/vm/basevm.py         |   6 ++=0D
- tests/vm/centos            |   8 +-=0D
- tests/vm/centos.aarch64    | 174 +++++--------------------------------=0D
- tests/vm/ubuntu.aarch64    |   8 +-=0D
- tests/vm/ubuntu.i386       |  40 ---------=0D
- 10 files changed, 58 insertions(+), 204 deletions(-)=0D
- delete mode 100755 tests/vm/ubuntu.i386=0D
-=0D
--- =0D
-2.34.3=0D
-=0D
+Fixes: 58a6fdcc
+Signed-off-by: John Snow <jsnow@redhat.com>
+Tested-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ tests/qemu-iotests/223.out | 4 ++--
+ tests/qemu-iotests/307.out | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+index 06479415312..26fb347c5da 100644
+--- a/tests/qemu-iotests/223.out
++++ b/tests/qemu-iotests/223.out
+@@ -93,7 +93,7 @@ exports available: 3
+  export: 'n2'
+   description: some text
+   size:  4194304
+-  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
++  flags: 0xded ( flush fua trim zeroes df multi cache fast-zero )
+   min block: 1
+   opt block: 4096
+   max block: 33554432
+@@ -212,7 +212,7 @@ exports available: 3
+  export: 'n2'
+   description: some text
+   size:  4194304
+-  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
++  flags: 0xded ( flush fua trim zeroes df multi cache fast-zero )
+   min block: 1
+   opt block: 4096
+   max block: 33554432
+diff --git a/tests/qemu-iotests/307.out b/tests/qemu-iotests/307.out
+index ec8d2be0e0a..390f05d1b78 100644
+--- a/tests/qemu-iotests/307.out
++++ b/tests/qemu-iotests/307.out
+@@ -83,7 +83,7 @@ exports available: 2
+  export: 'export1'
+   description: This is the writable second export
+   size:  67108864
+-  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
++  flags: 0xded ( flush fua trim zeroes df multi cache fast-zero )
+   min block: XXX
+   opt block: XXX
+   max block: XXX
+@@ -109,7 +109,7 @@ exports available: 1
+  export: 'export1'
+   description: This is the writable second export
+   size:  67108864
+-  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
++  flags: 0xded ( flush fua trim zeroes df multi cache fast-zero )
+   min block: XXX
+   opt block: XXX
+   max block: XXX
+-- 
+2.34.3
 
 
