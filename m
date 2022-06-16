@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6878854DE0B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 11:20:36 +0200 (CEST)
-Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5B654DDF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 11:13:35 +0200 (CEST)
+Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1lg2-0008S6-P8
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 05:20:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41340)
+	id 1o1lZF-0004no-Gs
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 05:13:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1kw0-00020y-69
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:33:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43155)
+ id 1o1kvx-0001yN-UP
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1kvv-0002v9-FP
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:59 -0400
+ id 1o1kvw-0002vF-Ec
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655368374;
+ s=mimecast20190719; t=1655368375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZVARjugAIjnT/VKUsTwlLt+SkZNqOAcdCvLVW7E7KE8=;
- b=OF+5/CdR2w/1gs0Grd88eZI8Y5EH2cpEK3a69hVEMcgyjeLn9bwGLu1wWQWIXzAhcY/kNJ
- ZLlSdoGZiCjqbZd7E82om1M3K+0Jm0Qwzyq8S/8xbBuCUuftryoyxqpgOY+bqc2ly2E/9U
- 4rzF+dxzA16sDtwRs88dQeSIO1VPRtE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TkMcaMw54kqRicgUZ5/Gqp/miDgkyZfV9Nj3WpRnuSs=;
+ b=Bxt1seUvDOEujU4H6R3HLs3EF/WoeI3kFR3zGaLfZ2F73Dn+RpySC1565Vdr17ayz+7y/Z
+ kuTXCMOy8i3pIBC9AEPZzrTYtNVTjPHfyKA4M8/rMy8QILe3myd8cLeiJD71OtzDbYzvjv
+ jW3axJJKWvSilDy/1BG2rLXkgJ9XugY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-70-A_VLtL6EM66CyR4-yjSdBw-1; Thu, 16 Jun 2022 04:32:52 -0400
-X-MC-Unique: A_VLtL6EM66CyR4-yjSdBw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- g7-20020a056402424700b0042dee9d11d0so777925edb.3
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:52 -0700 (PDT)
+ us-mta-625-9AkW6TKgNzGiUB-7uylaHw-1; Thu, 16 Jun 2022 04:32:54 -0400
+X-MC-Unique: 9AkW6TKgNzGiUB-7uylaHw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ n8-20020a05640205c800b00434fb0c150cso744193edx.19
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZVARjugAIjnT/VKUsTwlLt+SkZNqOAcdCvLVW7E7KE8=;
- b=JmksTcxOKGQBLgczL9EUdN14UEKchQ3IzlZcEweFUKH9JHXSoyXm5FfmKqPJCudI2I
- 2ihcnSLL5JPjqcYLT1aSs19OTQr6WIEZFnuaE+nOm6tST3u52kKdyzt95K8t8iUWq39M
- 2NwmoFINgpOeEHGP8JurtFR4RWnbDfTzmdKdYqnfwtebOE9WAKmwQtexx1xsPCHCiGZW
- awNz16Ztuho4nBKTQPBPQXHwsZMC0kj4PnZ091Yjl+VamLpCChdZEhSWwv6BbaKClZH4
- GFwoB0F9j7JqKPbbXHr6UmV8q89RbCpcyQ2ypvyvqZ/LeSeeM6hANJJaDZyfdxSPGLZv
- sCKQ==
-X-Gm-Message-State: AJIora/+H4XarLEPh71fOmL+1YgEfQDQQJ61vT4+7zKD46oNUadToyxa
- QbkuIpDBm9vvdRORQ+kqftBb/hMVjRQKRnN6wtVJGMUP07WpsA8Mm2c1R51e1lGchvqVzpO0AG3
- smD6K6quBIP4I2p8YZWc90Ok9z5C4RWLHAVDS/TG8fRQgs5tZa3qVfAukRFuh9D1JV2A=
-X-Received: by 2002:a05:6402:2397:b0:42d:dd10:6c11 with SMTP id
- j23-20020a056402239700b0042ddd106c11mr4885819eda.167.1655368371372; 
- Thu, 16 Jun 2022 01:32:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v6vl4bLQGV21CAfsiS3JNZIu6IWiQvI3pb4qSmDazuTTf1UwLsFdLcCbUsk/+sgwGG+uCTyA==
-X-Received: by 2002:a05:6402:2397:b0:42d:dd10:6c11 with SMTP id
- j23-20020a056402239700b0042ddd106c11mr4885794eda.167.1655368371123; 
- Thu, 16 Jun 2022 01:32:51 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- ky20-20020a170907779400b006f4cb79d9a8sm488863ejc.75.2022.06.16.01.32.50
+ bh=TkMcaMw54kqRicgUZ5/Gqp/miDgkyZfV9Nj3WpRnuSs=;
+ b=l8WBPJuGJ3i1AyCIQNU2wj2wA5qk+4fbnKNvy9dOEXDxqcXtPdZ9Ko8wo64zBp0u9Y
+ Egb4TVcP+r+zZIRaFt6euWdVQYk06OsFg4Okvhz+Rl+agXKfsCrEiRnrc75dkEdo6mYv
+ 3uEvP9se0sjji8isQepoe4kB0az0bm+XQ8tAZYduLxWEwWOG2P7pNdfwjVFq16TZRUEd
+ x8IeEdalfua1D4gX9B21utNdPHC0dOUrll40CVsdX/FWi8BKN5Z7N7XF/CUiVtECxSWT
+ K8lqL7ZY8REkjN99Pn55iNX4V3c/8r6hpj0lRDlNmM7cyxSsMF2tn4Dn/z8Sd3hpLwWr
+ wfag==
+X-Gm-Message-State: AJIora/68Jqad6j2fnQcjmFomW0vNfOIE10bt8fgu/BhzzoH6fEQyIv7
+ lk2JH8rYyZEbVnNZ5gXhUUB+aCYYbBK1ac035IVP9xioWTaMcA0R2ehFqO/UmRNvj/Jsinlb2bv
+ 2857fZZ24XP7LgiOFjnNxOWKSJlG+T0vFlnuOpv9Y70dOv2+sK01IS5GGU1RYI1gRFbg=
+X-Received: by 2002:a05:6402:51d3:b0:431:6c7b:28d with SMTP id
+ r19-20020a05640251d300b004316c7b028dmr4762729edd.281.1655368372822; 
+ Thu, 16 Jun 2022 01:32:52 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tuhrK9XpTUW2FyQvB7ISqXwQhzoZw71gSUcdX/AzGfjVcQImCIq/X9xN1MW6tLZsOqeAR1Yg==
+X-Received: by 2002:a05:6402:51d3:b0:431:6c7b:28d with SMTP id
+ r19-20020a05640251d300b004316c7b028dmr4762711edd.281.1655368372630; 
+ Thu, 16 Jun 2022 01:32:52 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ d5-20020a170906344500b006fed062c68esm464309ejb.182.2022.06.16.01.32.51
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 01:32:50 -0700 (PDT)
+ Thu, 16 Jun 2022 01:32:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Subject: [PULL 19/21] =?UTF-8?q?q35=EF=BC=9AEnable=20TSEG=20only=20when?=
- =?UTF-8?q?=20G=5FSMRAME=20and=20TSEG=5FEN=20both=20enabled?=
-Date: Thu, 16 Jun 2022 10:32:07 +0200
-Message-Id: <20220616083209.117397-20-pbonzini@redhat.com>
+Subject: [PULL 20/21] meson: put cross compiler info in a separate section
+Date: Thu, 16 Jun 2022 10:32:08 +0200
+Message-Id: <20220616083209.117397-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220616083209.117397-1-pbonzini@redhat.com>
 References: <20220616083209.117397-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,37 +98,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+While at it, remove a dead assignment and simply inline the value of the
+"target" variable, which is used just once.
 
-According to spec:
-"TSEG Enable (T_EN): Enabling of SMRAM memory for Extended SMRAM space
-only. When G_SMRAME = 1 and TSEG_EN = 1, the TSEG is enabled to appear
-in the appropriate physical address space. Note that once D_LCK is set,
-this bit becomes read only."
-
-Changed to match the spec description.
-
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Message-Id: <20220615034501.2733802-1-zhenzhong.duan@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/pci-host/q35.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meson.build | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index ab5a47aff5..20da121374 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -379,7 +379,8 @@ static void mch_update_smram(MCHPCIState *mch)
-         memory_region_set_enabled(&mch->high_smram, false);
-     }
+diff --git a/meson.build b/meson.build
+index fe5d6632fb..0458b69cdf 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3744,21 +3744,24 @@ endif
+ summary_info += {'strip binaries':    get_option('strip')}
+ summary_info += {'sparse':            sparse}
+ summary_info += {'mingw32 support':   targetos == 'windows'}
++summary(summary_info, bool_yn: true, section: 'Compilation')
  
--    if (pd->config[MCH_HOST_BRIDGE_ESMRAMC] & MCH_HOST_BRIDGE_ESMRAMC_T_EN) {
-+    if ((pd->config[MCH_HOST_BRIDGE_ESMRAMC] & MCH_HOST_BRIDGE_ESMRAMC_T_EN) &&
-+        (pd->config[MCH_HOST_BRIDGE_SMRAM] & SMRAM_G_SMRAME)) {
-         switch (pd->config[MCH_HOST_BRIDGE_ESMRAMC] &
-                 MCH_HOST_BRIDGE_ESMRAMC_TSEG_SZ_MASK) {
-         case MCH_HOST_BRIDGE_ESMRAMC_TSEG_SZ_1MB:
+ # snarf the cross-compilation information for tests
++summary_info = {}
++have_cross = false
+ foreach target: target_dirs
+   tcg_mak = meson.current_build_dir() / 'tests/tcg' / 'config-' + target + '.mak'
+   if fs.exists(tcg_mak)
+     config_cross_tcg = keyval.load(tcg_mak)
+-    target = config_cross_tcg['TARGET_NAME']
+-    compiler = ''
+     if 'CC' in config_cross_tcg
+-      summary_info += {target + ' tests': config_cross_tcg['CC']}
++      summary_info += {config_cross_tcg['TARGET_NAME']: config_cross_tcg['CC']}
++      have_cross = true
+     endif
+-   endif
++  endif
+ endforeach
+-
+-summary(summary_info, bool_yn: true, section: 'Compilation')
++if have_cross
++  summary(summary_info, bool_yn: true, section: 'Cross compilers')
++endif
+ 
+ # Targets and accelerators
+ summary_info = {}
 -- 
 2.36.1
 
