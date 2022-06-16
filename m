@@ -2,90 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753D554E2BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:59:49 +0200 (CEST)
-Received: from localhost ([::1]:37024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA6854E284
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:52:58 +0200 (CEST)
+Received: from localhost ([::1]:51818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1q2G-0003Y2-Jc
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52340)
+	id 1o1pvd-0002Mw-TA
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1o1pQc-0008SR-TR
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:20:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31842)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o1pRg-0002S5-Gq
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:22:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1o1pQX-00080u-Bs
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:20:54 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o1pRe-0008Fc-NF
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:22:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655385648;
+ s=mimecast20190719; t=1655385718;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mShNVimvuzEtrB2ElqwuxIkpfubj4bh80jkmM7CXwW4=;
- b=EGxjMOmWxGgVuiTPKBCPqD5zDxAsaeZ1xvpr7gDexd64hv1YyJK1WXgBemKT/6EA5DC1MO
- j/I8rpFqzp7rZRLSgmhhqRI8Uu08NE6DPRNSQgu3kg5eAEww/atG+HL+VbIQdGcI4YbX4D
- RsFtLcGkhORrjMJ8YXcB61sj0AS/rho=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OT0a4G5BpwHD4I40u6I4AcxmqxtVp2rBcaFIU3/Ub40=;
+ b=GgE+137AbskFx9jEr8oyf0a2SyXUCZJyZhkCtZ9ffa5XbsJGFggQyb1rxVrWMZzYFTZdxs
+ ibvBt3ZsUPGdePckXKtYtwB6VQi4/Xe1zxPRv7pkRMlmpf0RIhWvE/5gGDg0lhJh8yPdR1
+ QvFbdzhEEfDUt//eXv+KCUeQhBqmL5s=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-GexApzujMiqN9QuG3_pFig-1; Thu, 16 Jun 2022 09:20:45 -0400
-X-MC-Unique: GexApzujMiqN9QuG3_pFig-1
-Received: by mail-ot1-f72.google.com with SMTP id
- n18-20020a9d7112000000b0060bdd3bad6fso726324otj.12
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 06:20:45 -0700 (PDT)
+ us-mta-516--ZYNiSxYPAm89AIHkuETuA-1; Thu, 16 Jun 2022 09:21:55 -0400
+X-MC-Unique: -ZYNiSxYPAm89AIHkuETuA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v125-20020a1cac83000000b0039c832fbd02so1144713wme.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 06:21:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mShNVimvuzEtrB2ElqwuxIkpfubj4bh80jkmM7CXwW4=;
- b=ni3hYSdmUAMEqeBUhgplcAAfA7kwtIdCnf9mueHB2OuyBcWpEP8H7174NrZthSxUxZ
- 1byVZ1uoPPrqlSAekPT6TCQbYHzdTk9H6wMbmf/RkAQh9AtqTs3fytz0cUEAXJkinAi/
- zcJtjdD+G2U1mtbvuxw4lx3XyKcTELrHjEjYnCxdcOkgbOOVw6v2NlBJ7aKDJTeSvoQg
- hQy2Eq3UhypLAHtAkYeecn1LJtWZIsPNKGKSOKj3JlFc4F/4pdMGI8HOfsLCjd6BTHnY
- nYUn+dz/c6iaZeuW6mT4sl4iK1MvKEZiJxW9t2Mis/zArEGtBqI3EVYVFghAWwGvVCnE
- 6ukg==
-X-Gm-Message-State: AJIora9vXO32wN4Nds3hZEApM0KPc59thdxwMkc/ZSHIvDO5nCnXXnd0
- qG9WlZEON57J8I3yqgwBgtRD4w7YAlkfGtXtJ5Cl5Qg7mEdfOnUoeqxtxCsX9MyhIG3ooDkJm1l
- CouvfJtS7E+MkAU9bFGRvHgELTRiEbos=
-X-Received: by 2002:a05:6808:3021:b0:2f7:4c5b:2783 with SMTP id
- ay33-20020a056808302100b002f74c5b2783mr2484908oib.53.1655385644455; 
- Thu, 16 Jun 2022 06:20:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vK0ZPVEMOWh8rsgj0yjYELhjU03njByGWEin/LNEcs56JMsmwefEuysRMaqMTIAOyXNHvt2L9qYlrmhAVRg5o=
-X-Received: by 2002:a05:6808:3021:b0:2f7:4c5b:2783 with SMTP id
- ay33-20020a056808302100b002f74c5b2783mr2484893oib.53.1655385644236; Thu, 16
- Jun 2022 06:20:44 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OT0a4G5BpwHD4I40u6I4AcxmqxtVp2rBcaFIU3/Ub40=;
+ b=z7E+lhYJe7rWZZEGssREfsrDVGvbosUlQgCMzdAVYkdBjrK0avafkfZ//d+mz/vPWX
+ QUu8gN4cTwp341LK8GFZ/RSbkS1vAOopgYdELdkD5ByJejWw5mUYHgU4uruwcBCeryVh
+ IqkyitlsMLSzHOS0oNfS9dEosunlz5rp4h632jtU+VgF6ul7AH2904ueGDIeKVjjzTq9
+ /Q40abj+RJAnd67EaDzQ8JA8FWAWFKKWob4YW2SGPHV8wr37FSLhkZUoiPqOVTMZWLOu
+ MiETdcTIfntuqHgWGzIYbUH44AQijXQptpdms+2WPScMmf7Ix6Th4HD5CZVN8N1ZKIIe
+ rkag==
+X-Gm-Message-State: AJIora+nb2dxWDjl+O9M9UvSxUeLTD96rLwMEdxtwifJ8NgDQ/pPMawc
+ sTc8Ls1n3+ZGFsHPtV+zimHsUjRjmJJ3jl46RPi0avUKxFHszSU33kKVUOGKvit40vIIyDPvt8e
+ vhtAHpEtZppCAfWg=
+X-Received: by 2002:a5d:56d0:0:b0:21a:3101:93d8 with SMTP id
+ m16-20020a5d56d0000000b0021a310193d8mr3962405wrw.406.1655385713839; 
+ Thu, 16 Jun 2022 06:21:53 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vlAvSIJLCgwPdapgYHSLhmva8qCBN4Db1N3cJP0iCm2t2XULJgnZqIft+YN5BPehHh3EBLjA==
+X-Received: by 2002:a5d:56d0:0:b0:21a:3101:93d8 with SMTP id
+ m16-20020a5d56d0000000b0021a310193d8mr3962375wrw.406.1655385713562; 
+ Thu, 16 Jun 2022 06:21:53 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ x1-20020adff0c1000000b002103cfd2fbasm1879253wro.65.2022.06.16.06.21.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jun 2022 06:21:52 -0700 (PDT)
+Date: Thu, 16 Jun 2022 15:21:51 +0200
+From: "Reviewed-by: Igor Mammedov" <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
+ Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v5 2/5] i386/pc: create pci-host qdev prior to
+ pc_memory_init()
+Message-ID: <20220616152151.42d6140a@redhat.com>
+In-Reply-To: <20220520104532.9816-3-joao.m.martins@oracle.com>
+References: <20220520104532.9816-1-joao.m.martins@oracle.com>
+ <20220520104532.9816-3-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
- <ef5aeba2-6f86-89ae-bee9-de16d267f226@redhat.com>
-In-Reply-To: <ef5aeba2-6f86-89ae-bee9-de16d267f226@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 16 Jun 2022 17:20:33 +0400
-Message-ID: <CAMxuvay93P5HdW57a00dBVy0B+POkuxqiYGWLYNeSCaMx86=tw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] Preliminary patches for subproject split
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Kevin Wolf <kwolf@redhat.com>, 
- Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>,
- Kyle Evans <kevans@freebsd.org>, Hanna Reitz <hreitz@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Fam Zheng <fam@euphon.net>, 
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,83 +107,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Fri, 20 May 2022 11:45:29 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-On Thu, Jun 16, 2022 at 5:12 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 6/16/22 14:40, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Hi,
-> >
-> > Here is another subset of the large "subproject(qga)"" series I intend =
-to send
-> > soon after (https://gitlab.com/marcandre.lureau/qemu/-/commits/qga).
->
-> Hi,
->
-> I took a peek there and I have a question.  While the configure script
-> has had enough of a diet that it should be possible to compile the
-> subprojects as standalone with relatively little effort, how do you plan
-> to handle things such as compiler flags that are detected by meson.build
-> (especially enabling/disabling warnings)?
->
+> At the start of pc_memory_init() we usually pass a range of
+> 0..UINT64_MAX as pci_memory, when really its 2G (i440fx) or
+> 32G (q35). To get the real user value, we need to get pci-host
+> passed property for default pci_hole64_size. Thus to get that,
+> create the qdev prior to memory init to better make estimations
+> on max used/phys addr.
+> 
+> This is in preparation to determine that host-phys-bits are
+> enough and also for pci-hole64-size to be considered to relocate
+> ram-above-4g to be at 1T (on AMD platforms).
 
-If you run top-level qemu configure, then I think flags should be
-shared with add_global_arguments() (to be verified).
+with comments below fixed
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+ 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  hw/i386/pc_piix.c            | 5 ++++-
+>  hw/i386/pc_q35.c             | 6 +++---
+>  hw/pci-host/i440fx.c         | 3 +--
+>  include/hw/pci-host/i440fx.h | 2 +-
+>  4 files changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 578e537b3525..12d4a279c793 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -91,6 +91,7 @@ static void pc_init1(MachineState *machine,
+>      MemoryRegion *pci_memory;
+>      MemoryRegion *rom_memory;
+>      ram_addr_t lowmem;
+> +    DeviceState *i440fx_dev;
+>  
+>      /*
+>       * Calculate ram split, for memory below and above 4G.  It's a bit
+> @@ -164,9 +165,11 @@ static void pc_init1(MachineState *machine,
+>          pci_memory = g_new(MemoryRegion, 1);
+>          memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
+>          rom_memory = pci_memory;
+> +        i440fx_dev = qdev_new(host_type);
+>      } else {
+>          pci_memory = NULL;
+>          rom_memory = system_memory;
+> +        i440fx_dev = NULL;
+>      }
+>  
+>      pc_guest_info_init(pcms);
+> @@ -199,7 +202,7 @@ static void pc_init1(MachineState *machine,
+>  
+>          pci_bus = i440fx_init(host_type,
+>                                pci_type,
+> -                              &i440fx_state,
+> +                              i440fx_dev, &i440fx_state,
+confusing names, suggest to rename i440fx_state -> pci_i440fx and i440fx_dev -> i440fx_host
+or something like this
 
-qemu-ga (and qemu-common) in the branch do compile standalone. There
-are still small quirks to fix the CI though with the last patches.
-Also the last patch could probably deserve a little bit more splitting
-(for ex, switching from QEMU_FULL_VERSION to VCS_TAG etc), that branch
-is still WIP (after 2 months!).
+>                                system_memory, system_io, machine->ram_size,
+>                                x86ms->below_4g_mem_size,
+>                                x86ms->above_4g_mem_size,
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 42eb8b97079a..8d867bdb274a 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -203,12 +203,12 @@ static void pc_q35_init(MachineState *machine)
+>                              pcms->smbios_entry_point_type);
+>      }
+>  
+> -    /* allocate ram and load rom/bios */
+> -    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
+> -
+>      /* create pci host bus */
+>      q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
+>  
+> +    /* allocate ram and load rom/bios */
+> +    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
+> +
+>      object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
+>      object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
+>                               OBJECT(ram_memory), NULL);
+> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+> index e08716142b6e..5c1bab5c58ed 100644
+> --- a/hw/pci-host/i440fx.c
+> +++ b/hw/pci-host/i440fx.c
+> @@ -238,6 +238,7 @@ static void i440fx_realize(PCIDevice *dev, Error **errp)
+>  }
+>  
+>  PCIBus *i440fx_init(const char *host_type, const char *pci_type,
 
+does it still need 'host_type'?
 
-> Paolo
->
-> > Thanks
-> >
-> > Marc-Andr=C3=A9 Lureau (9):
-> >    monitor: make error_vprintf_unless_qmp() static
-> >    error-report: misc comment fix
-> >    error-report: introduce "detailed" variable
-> >    error-report: simplify print_loc()
-> >    error-report: introduce ErrorReportDetailedFunc
-> >    error-report: add a callback to overwrite error_vprintf
-> >    qapi: move QEMU-specific dispatch code in monitor
-> >    scripts/qapi-gen: add -i option
-> >    scripts/qapi: add required system includes to visitor
-> >
-> >   include/monitor/monitor.h            |  2 +-
-> >   include/qapi/qmp/dispatch.h          |  7 ++-
-> >   include/qemu/error-report.h          |  8 +++-
-> >   bsd-user/main.c                      |  2 +-
-> >   linux-user/main.c                    |  2 +-
-> >   monitor/monitor.c                    |  5 +-
-> >   monitor/qmp.c                        | 68 +++++++++++++++++++++++++++=
--
-> >   qapi/qmp-dispatch.c                  | 64 ++------------------------
-> >   qemu-img.c                           |  2 +-
-> >   qemu-io.c                            |  2 +-
-> >   qemu-nbd.c                           |  2 +-
-> >   qga/main.c                           |  2 +-
-> >   scsi/qemu-pr-helper.c                |  2 +-
-> >   softmmu/vl.c                         |  7 ++-
-> >   storage-daemon/qemu-storage-daemon.c |  7 ++-
-> >   stubs/error-printf.c                 | 23 ----------
-> >   tests/unit/test-qmp-cmds.c           |  6 +--
-> >   util/error-report.c                  | 46 ++++++++++++++-----
-> >   scripts/qapi/commands.py             | 15 ++++--
-> >   scripts/qapi/events.py               | 17 ++++---
-> >   scripts/qapi/gen.py                  | 17 +++++++
-> >   scripts/qapi/introspect.py           | 11 +++--
-> >   scripts/qapi/main.py                 | 17 ++++---
-> >   scripts/qapi/types.py                | 17 ++++---
-> >   scripts/qapi/visit.py                | 21 ++++++---
-> >   stubs/meson.build                    |  1 -
-> >   26 files changed, 226 insertions(+), 147 deletions(-)
-> >   delete mode 100644 stubs/error-printf.c
-> >
->
+> +                    DeviceState *dev,
+>                      PCII440FXState **pi440fx_state,
+>                      MemoryRegion *address_space_mem,
+>                      MemoryRegion *address_space_io,
+> @@ -247,7 +248,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+>                      MemoryRegion *pci_address_space,
+>                      MemoryRegion *ram_memory)
+>  {
+> -    DeviceState *dev;
+>      PCIBus *b;
+>      PCIDevice *d;
+>      PCIHostState *s;
+> @@ -255,7 +255,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+>      unsigned i;
+>      I440FXState *i440fx;
+>  
+> -    dev = qdev_new(host_type);
+>      s = PCI_HOST_BRIDGE(dev);
+>      b = pci_root_bus_new(dev, NULL, pci_address_space,
+>                           address_space_io, 0, TYPE_PCI_BUS);
+> diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
+> index f068aaba8fda..c4710445e30a 100644
+> --- a/include/hw/pci-host/i440fx.h
+> +++ b/include/hw/pci-host/i440fx.h
+> @@ -36,7 +36,7 @@ struct PCII440FXState {
+>  #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
+>  
+>  PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+> -                    PCII440FXState **pi440fx_state,
+> +                    DeviceState *dev, PCII440FXState **pi440fx_state,
+>                      MemoryRegion *address_space_mem,
+>                      MemoryRegion *address_space_io,
+>                      ram_addr_t ram_size,
 
 
