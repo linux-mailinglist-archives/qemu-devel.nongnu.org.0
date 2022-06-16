@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBD754E83C
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 19:00:34 +0200 (CEST)
-Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA4354E834
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 19:00:22 +0200 (CEST)
+Received: from localhost ([::1]:46574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1srB-00077S-AU
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 13:00:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47064)
+	id 1o1sqz-00073C-8r
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 13:00:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o1soF-0004PM-Tq
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:57:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20609)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o1soH-0004PY-0v
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:57:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o1soC-0001vB-1d
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:57:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o1soE-0001vG-UZ
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:57:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655398646;
+ s=mimecast20190719; t=1655398649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=iavVkJvGy6ecCXNXwOrMKmfKLNh4j8jPCdxE9vm5FEc=;
- b=hKOHJFv/g6gdIk2FEH2Uega4SB2JvNe9CBckJdOI+10TyL1bN9Nf/YxkoAhykYx5bu7ZMN
- ISth4wjngSLKKawY0a/kmrDWvA8uWVAFcg1SmtuHdsMFauUgwZqwebTJQFxmwzRsIP0TQn
- cYeDfOygDxtygwGWDOl2Th3za/cf/UM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/flcdRkN4jdv9LZCU81PkiG7X5P2WUuDgQBiTM9iZJs=;
+ b=iTZ6JsXBs7kl2eM8M+I4cVpMTkjI5RZkGFSPq7ZlJPWOYvlDs0Yp2IAPGqDvV8D5KLPxwF
+ g9+4OJQaKaDBKCKTfdglICreEaE9aBYXDEezX4WQuRIzZCleKxpI5+EfZOMpIUR44f831S
+ AiEJsS5o4edJuiH8aVKZqfWg3SdJ9AA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-487-7Qu09_7EMY6azHBhvVMRYg-1; Thu, 16 Jun 2022 12:57:25 -0400
-X-MC-Unique: 7Qu09_7EMY6azHBhvVMRYg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l3-20020a05600c1d0300b0039c7efa2526so1145170wms.3
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 09:57:25 -0700 (PDT)
+ us-mta-29--QhxSWv3NgKjjgox0xVxEA-1; Thu, 16 Jun 2022 12:57:28 -0400
+X-MC-Unique: -QhxSWv3NgKjjgox0xVxEA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r13-20020adff10d000000b002160e9d64f8so388328wro.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 09:57:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=iavVkJvGy6ecCXNXwOrMKmfKLNh4j8jPCdxE9vm5FEc=;
- b=mbIFci0QykYZ93gg55bkCN3Tl5mictKIRQf2NwVhs2vF+Hnay+bApwXundlmgi53lG
- C1OZejIiIzye7RR8udcAEmMi1lfFuD5d73xKUNByEcIjzTV5+rP9UdH2pClOvj3/Ih4s
- PTiA/J69jSTb6lc0slj7IZsHSh3UzauHL33u1rw+LXPXt09Nq1U5tOKpX1RZzXKV0ZLu
- scYKPign7p9lH1WmcT4iNJ8GXc45nZx3Sx2S69g+WHc6vMr7rsiL+VJKJkj0r9STYuqs
- rWiqP5kC4fb1fsMm1/YZ6IL+MJjrXeXegPXnnLPi7P1AEXW1qgzBVJ+xmFUp97glxlg5
- rFRA==
-X-Gm-Message-State: AJIora8mALyaEKtNkmNtUBj6AGv36WPVgOgftMALw+0/4dRTGnBBo9Et
- TKwfy03syLyQ9DV1kt6KOrK6ZnbmAFed1KlLDmHM8xCHOfCHB1WpBsNkW2nk9K7C6bv/sEnSpDw
- ha6ks3CKh+6pngGI4730mXVFHhrBWbO0VsurIxVYdH9qkmU/HG5Db1OF+v5M1
-X-Received: by 2002:a05:6000:1c02:b0:218:42ab:281f with SMTP id
- ba2-20020a0560001c0200b0021842ab281fmr5533844wrb.607.1655398643749; 
- Thu, 16 Jun 2022 09:57:23 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sMEfznvLaGtGq7apWw7sFGvKaiV1u3KKuhCkhBacIBed2n4BC/qVoua00iYcQPIZ3BTV8bvw==
-X-Received: by 2002:a05:6000:1c02:b0:218:42ab:281f with SMTP id
- ba2-20020a0560001c0200b0021842ab281fmr5533815wrb.607.1655398643380; 
- Thu, 16 Jun 2022 09:57:23 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/flcdRkN4jdv9LZCU81PkiG7X5P2WUuDgQBiTM9iZJs=;
+ b=kVK55/qUtR2UildtyyncKJpDcj31u7BC+vtizLEP0jWtb9U65uRuKBRvdMFKvCACZZ
+ rFLP4PTBwa4bdQBuaBAIeEKLWHqpCpoKL0qB0Zazu6rUSeeTnTtUtbb4DI8SuLstj/rB
+ I1X9sOKhGxL30FWLgvyyXPkwPb/rJ1l7A6+aYEYbCN29mHqyIVrak9En1XLahKVDc6T/
+ kNK93sy3UKvQIPcKpkCdc8D0OLJ6xEbn0wUZKs0LMYwEdl1nAejHbs3/xxEv1jaTowz3
+ rWFpW+Z4pPKl7H1bi0h2nMQOaxdrmXKtObsOseJMAXVjp//6MAd8sgkXY/NwZMzxlFM4
+ DvTA==
+X-Gm-Message-State: AJIora8lA1/CeCk0VKXZkFcZa9TeXxcy2Onh0pSJzXrptX63jKsqB1Vr
+ rjjQ3fPWSPY4QmHKfymtOoOJYV5am7EFPbqDbt9ybi6tdrwO9JsABc4ON2b2o0wrb98ctlyzzLd
+ jIaSwxju5wIMvuowi3LLkBfuHmgeXoPn/fe9+dEZooZhjZ842I2ABMNTGIKna
+X-Received: by 2002:adf:e782:0:b0:219:f719:216c with SMTP id
+ n2-20020adfe782000000b00219f719216cmr5632975wrm.613.1655398646503; 
+ Thu, 16 Jun 2022 09:57:26 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vbKkld6e7pXDjyU9EFitrClGwXKbnxdSOlHysb4tJFQTbSJJ9XL9UqrMWJJcidQlAvoPWIxQ==
+X-Received: by 2002:adf:e782:0:b0:219:f719:216c with SMTP id
+ n2-20020adfe782000000b00219f719216cmr5632948wrm.613.1655398646238; 
+ Thu, 16 Jun 2022 09:57:26 -0700 (PDT)
 Received: from redhat.com ([2.53.13.204]) by smtp.gmail.com with ESMTPSA id
- d18-20020a5d6452000000b00215859413f3sm2259793wrw.107.2022.06.16.09.57.22
+ v15-20020adff68f000000b0021576694d9dsm2416533wrp.97.2022.06.16.09.57.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 09:57:22 -0700 (PDT)
-Date: Thu, 16 Jun 2022 12:57:20 -0400
+ Thu, 16 Jun 2022 09:57:25 -0700 (PDT)
+Date: Thu, 16 Jun 2022 12:57:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/10] virtio,pc,pci: fixes,cleanups,features
-Message-ID: <20220616165703.42226-1-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Ben Widawsky <ben.widawsky@intel.com>
+Subject: [PULL 01/10] pci-bridge/cxl_upstream: Add a CXL switch upstream port
+Message-ID: <20220616165703.42226-2-mst@redhat.com>
+References: <20220616165703.42226-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220616165703.42226-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
@@ -93,70 +99,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit def6fd6c9ce9e00a30cdd0066e0fde206b3f3d2f:
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-06-16 07:13:04 -0700)
+An initial simple upstream port emulation to allow the creation
+of CXL switches. The Device ID has been allocated for this use.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 8c97e4deeca9ad791ab369d3879ebfb0267b24ca:
-
-  acpi/erst: fix fallthrough code upon validation failure (2022-06-16 12:54:58 -0400)
-
-----------------------------------------------------------------
-virtio,pc,pci: fixes,cleanups,features
-
-more CXL patches
-RSA support for crypto
-fixes, cleanups all over the place
-
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Message-Id: <20220616145126.8002-2-Jonathan.Cameron@huawei.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
-----------------------------------------------------------------
-Ani Sinha (1):
-      acpi/erst: fix fallthrough code upon validation failure
-
-Jonathan Cameron (3):
-      pci-bridge/cxl_upstream: Add a CXL switch upstream port
-      pci-bridge/cxl_downstream: Add a CXL switch downstream port
-      docs/cxl: Add switch documentation
-
-Ni Xun (1):
-      vhost: also check queue state in the vhost_dev_set_log error routine
-
-Yajun Wu (1):
-      virtio/vhost-user: Fix wrong vhost notifier GPtrArray size
-
-Zhenwei Pi (1):
-      crypto: Introduce RSA algorithm
-
-Zhenzhong Duan (3):
-      virtio-iommu: Add bypass mode support to assigned device
-      virtio-iommu: Use recursive lock to avoid deadlock
-      virtio-iommu: Add an assert check in translate routine
-
- include/hw/cxl/cxl.h              |   5 +
- include/hw/virtio/virtio-crypto.h |   5 +-
- include/hw/virtio/virtio-iommu.h  |   4 +-
- include/sysemu/cryptodev.h        |  83 ++++++++--
- backends/cryptodev-builtin.c      | 276 ++++++++++++++++++++++++++++-----
- backends/cryptodev-vhost-user.c   |  34 +++-
- backends/cryptodev.c              |  32 ++--
- hw/acpi/erst.c                    |   3 +
- hw/cxl/cxl-host.c                 |  43 ++++-
- hw/pci-bridge/cxl_downstream.c    | 249 +++++++++++++++++++++++++++++
- hw/pci-bridge/cxl_upstream.c      | 216 ++++++++++++++++++++++++++
- hw/virtio/vhost-user.c            |   2 +-
- hw/virtio/vhost.c                 |   4 +
- hw/virtio/virtio-crypto.c         | 319 ++++++++++++++++++++++++++++++--------
- hw/virtio/virtio-iommu.c          | 135 ++++++++++++++--
- docs/system/devices/cxl.rst       |  88 ++++++++++-
- hw/pci-bridge/meson.build         |   2 +-
- hw/virtio/trace-events            |   1 +
- 18 files changed, 1343 insertions(+), 158 deletions(-)
- create mode 100644 hw/pci-bridge/cxl_downstream.c
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/hw/cxl/cxl.h         |   5 +
+ hw/pci-bridge/cxl_upstream.c | 216 +++++++++++++++++++++++++++++++++++
+ hw/pci-bridge/meson.build    |   2 +-
+ 3 files changed, 222 insertions(+), 1 deletion(-)
  create mode 100644 hw/pci-bridge/cxl_upstream.c
+
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 134b295b40..38e0e271d5 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -53,4 +53,9 @@ struct CXLHost {
+ #define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+ OBJECT_DECLARE_SIMPLE_TYPE(CXLHost, PXB_CXL_HOST)
+ 
++#define TYPE_CXL_USP "cxl-upstream"
++
++typedef struct CXLUpstreamPort CXLUpstreamPort;
++DECLARE_INSTANCE_CHECKER(CXLUpstreamPort, CXL_USP, TYPE_CXL_USP)
++CXLComponentState *cxl_usp_to_cstate(CXLUpstreamPort *usp);
+ #endif
+diff --git a/hw/pci-bridge/cxl_upstream.c b/hw/pci-bridge/cxl_upstream.c
+new file mode 100644
+index 0000000000..a83a3e81e4
+--- /dev/null
++++ b/hw/pci-bridge/cxl_upstream.c
+@@ -0,0 +1,216 @@
++/*
++ * Emulated CXL Switch Upstream Port
++ *
++ * Copyright (c) 2022 Huawei Technologies.
++ *
++ * Based on xio3130_upstream.c
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/pcie.h"
++#include "hw/pci/pcie_port.h"
++
++#define CXL_UPSTREAM_PORT_MSI_NR_VECTOR 1
++
++#define CXL_UPSTREAM_PORT_MSI_OFFSET 0x70
++#define CXL_UPSTREAM_PORT_PCIE_CAP_OFFSET 0x90
++#define CXL_UPSTREAM_PORT_AER_OFFSET 0x100
++#define CXL_UPSTREAM_PORT_DVSEC_OFFSET \
++    (CXL_UPSTREAM_PORT_AER_OFFSET + PCI_ERR_SIZEOF)
++
++typedef struct CXLUpstreamPort {
++    /*< private >*/
++    PCIEPort parent_obj;
++
++    /*< public >*/
++    CXLComponentState cxl_cstate;
++} CXLUpstreamPort;
++
++CXLComponentState *cxl_usp_to_cstate(CXLUpstreamPort *usp)
++{
++    return &usp->cxl_cstate;
++}
++
++static void cxl_usp_dvsec_write_config(PCIDevice *dev, uint32_t addr,
++                                       uint32_t val, int len)
++{
++    CXLUpstreamPort *usp = CXL_USP(dev);
++
++    if (range_contains(&usp->cxl_cstate.dvsecs[EXTENSIONS_PORT_DVSEC], addr)) {
++        uint8_t *reg = &dev->config[addr];
++        addr -= usp->cxl_cstate.dvsecs[EXTENSIONS_PORT_DVSEC].lob;
++        if (addr == PORT_CONTROL_OFFSET) {
++            if (pci_get_word(reg) & PORT_CONTROL_UNMASK_SBR) {
++                /* unmask SBR */
++                qemu_log_mask(LOG_UNIMP, "SBR mask control is not supported\n");
++            }
++            if (pci_get_word(reg) & PORT_CONTROL_ALT_MEMID_EN) {
++                /* Alt Memory & ID Space Enable */
++                qemu_log_mask(LOG_UNIMP,
++                              "Alt Memory & ID space is not supported\n");
++            }
++        }
++    }
++}
++
++static void cxl_usp_write_config(PCIDevice *d, uint32_t address,
++                                 uint32_t val, int len)
++{
++    pci_bridge_write_config(d, address, val, len);
++    pcie_cap_flr_write_config(d, address, val, len);
++    pcie_aer_write_config(d, address, val, len);
++
++    cxl_usp_dvsec_write_config(d, address, val, len);
++}
++
++static void latch_registers(CXLUpstreamPort *usp)
++{
++    uint32_t *reg_state = usp->cxl_cstate.crb.cache_mem_registers;
++    uint32_t *write_msk = usp->cxl_cstate.crb.cache_mem_regs_write_mask;
++
++    cxl_component_register_init_common(reg_state, write_msk,
++                                       CXL2_UPSTREAM_PORT);
++    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 8);
++}
++
++static void cxl_usp_reset(DeviceState *qdev)
++{
++    PCIDevice *d = PCI_DEVICE(qdev);
++    CXLUpstreamPort *usp = CXL_USP(qdev);
++
++    pci_bridge_reset(qdev);
++    pcie_cap_deverr_reset(d);
++    latch_registers(usp);
++}
++
++static void build_dvsecs(CXLComponentState *cxl)
++{
++    uint8_t *dvsec;
++
++    dvsec = (uint8_t *)&(CXLDVSECPortExtensions){
++        .status = 0x1, /* Port Power Management Init Complete */
++    };
++    cxl_component_create_dvsec(cxl, CXL2_UPSTREAM_PORT,
++                               EXTENSIONS_PORT_DVSEC_LENGTH,
++                               EXTENSIONS_PORT_DVSEC,
++                               EXTENSIONS_PORT_DVSEC_REVID, dvsec);
++    dvsec = (uint8_t *)&(CXLDVSECPortFlexBus){
++        .cap                     = 0x27, /* Cache, IO, Mem, non-MLD */
++        .ctrl                    = 0x27, /* Cache, IO, Mem */
++        .status                  = 0x26, /* same */
++        .rcvd_mod_ts_data_phase1 = 0xef, /* WTF? */
++    };
++    cxl_component_create_dvsec(cxl, CXL2_UPSTREAM_PORT,
++                               PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
++                               PCIE_FLEXBUS_PORT_DVSEC,
++                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
++
++    dvsec = (uint8_t *)&(CXLDVSECRegisterLocator){
++        .rsvd         = 0,
++        .reg0_base_lo = RBI_COMPONENT_REG | CXL_COMPONENT_REG_BAR_IDX,
++        .reg0_base_hi = 0,
++    };
++    cxl_component_create_dvsec(cxl, CXL2_UPSTREAM_PORT,
++                               REG_LOC_DVSEC_LENGTH, REG_LOC_DVSEC,
++                               REG_LOC_DVSEC_REVID, dvsec);
++}
++
++static void cxl_usp_realize(PCIDevice *d, Error **errp)
++{
++    PCIEPort *p = PCIE_PORT(d);
++    CXLUpstreamPort *usp = CXL_USP(d);
++    CXLComponentState *cxl_cstate = &usp->cxl_cstate;
++    ComponentRegisters *cregs = &cxl_cstate->crb;
++    MemoryRegion *component_bar = &cregs->component_registers;
++    int rc;
++
++    pci_bridge_initfn(d, TYPE_PCIE_BUS);
++    pcie_port_init_reg(d);
++
++    rc = msi_init(d, CXL_UPSTREAM_PORT_MSI_OFFSET,
++                  CXL_UPSTREAM_PORT_MSI_NR_VECTOR, true, true, errp);
++    if (rc) {
++        assert(rc == -ENOTSUP);
++        goto err_bridge;
++    }
++
++    rc = pcie_cap_init(d, CXL_UPSTREAM_PORT_PCIE_CAP_OFFSET,
++                       PCI_EXP_TYPE_UPSTREAM, p->port, errp);
++    if (rc < 0) {
++        goto err_msi;
++    }
++
++    pcie_cap_flr_init(d);
++    pcie_cap_deverr_init(d);
++    rc = pcie_aer_init(d, PCI_ERR_VER, CXL_UPSTREAM_PORT_AER_OFFSET,
++                       PCI_ERR_SIZEOF, errp);
++    if (rc) {
++        goto err_cap;
++    }
++
++    cxl_cstate->dvsec_offset = CXL_UPSTREAM_PORT_DVSEC_OFFSET;
++    cxl_cstate->pdev = d;
++    build_dvsecs(cxl_cstate);
++    cxl_component_register_block_init(OBJECT(d), cxl_cstate, TYPE_CXL_USP);
++    pci_register_bar(d, CXL_COMPONENT_REG_BAR_IDX,
++                     PCI_BASE_ADDRESS_SPACE_MEMORY |
++                     PCI_BASE_ADDRESS_MEM_TYPE_64,
++                     component_bar);
++
++    return;
++
++err_cap:
++    pcie_cap_exit(d);
++err_msi:
++    msi_uninit(d);
++err_bridge:
++    pci_bridge_exitfn(d);
++}
++
++static void cxl_usp_exitfn(PCIDevice *d)
++{
++    pcie_aer_exit(d);
++    pcie_cap_exit(d);
++    msi_uninit(d);
++    pci_bridge_exitfn(d);
++}
++
++static void cxl_upstream_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(oc);
++
++    k->is_bridge = true;
++    k->config_write = cxl_usp_write_config;
++    k->realize = cxl_usp_realize;
++    k->exit = cxl_usp_exitfn;
++    k->vendor_id = 0x19e5; /* Huawei */
++    k->device_id = 0xa128; /* Emulated CXL Switch Upstream Port */
++    k->revision = 0;
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->desc = "CXL Switch Upstream Port";
++    dc->reset = cxl_usp_reset;
++}
++
++static const TypeInfo cxl_usp_info = {
++    .name = TYPE_CXL_USP,
++    .parent = TYPE_PCIE_PORT,
++    .instance_size = sizeof(CXLUpstreamPort),
++    .class_init = cxl_upstream_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_PCIE_DEVICE },
++        { INTERFACE_CXL_DEVICE },
++        { }
++    },
++};
++
++static void cxl_usp_register_type(void)
++{
++    type_register_static(&cxl_usp_info);
++}
++
++type_init(cxl_usp_register_type);
+diff --git a/hw/pci-bridge/meson.build b/hw/pci-bridge/meson.build
+index fdbe2e07c5..6828f0e08d 100644
+--- a/hw/pci-bridge/meson.build
++++ b/hw/pci-bridge/meson.build
+@@ -6,7 +6,7 @@ pci_ss.add(when: 'CONFIG_PCIE_PORT', if_true: files('pcie_root_port.c', 'gen_pci
+ pci_ss.add(when: 'CONFIG_PXB', if_true: files('pci_expander_bridge.c'),
+                                if_false: files('pci_expander_bridge_stubs.c'))
+ pci_ss.add(when: 'CONFIG_XIO3130', if_true: files('xio3130_upstream.c', 'xio3130_downstream.c'))
+-pci_ss.add(when: 'CONFIG_CXL', if_true: files('cxl_root_port.c'))
++pci_ss.add(when: 'CONFIG_CXL', if_true: files('cxl_root_port.c', 'cxl_upstream.c'))
+ 
+ # NewWorld PowerMac
+ pci_ss.add(when: 'CONFIG_DEC_PCI', if_true: files('dec.c'))
+-- 
+MST
 
 
