@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB16A54DD1B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:43:24 +0200 (CEST)
-Received: from localhost ([::1]:38902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AE354DDC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 11:01:57 +0200 (CEST)
+Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1l63-000583-Qy
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41256)
+	id 1o1lO0-0004Fy-AN
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 05:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1kvq-0001qW-1x
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50136)
+ id 1o1kvr-0001re-Qw
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1kvn-0002tv-Us
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:49 -0400
+ id 1o1kvp-0002uM-Og
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655368367;
+ s=mimecast20190719; t=1655368368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fBsuJkBaK49xYkBSfED4nMxGZwjPP4fEEospD3RWZ9s=;
- b=iC6Tn01XolT/S8MsQ0FfEA+LYLYm1zn6bxmNd3nzJfkjYqwPJGkZl2Tbcz8X39GXEj4evD
- aotAFVbZx2st2f/9fyds/odLNvzWeqIr78M8HdM1gQ7xWrDdMHBqgg8mbWOrrZ119DytMG
- tletaiXxbDnwMtE8uMiq+O6CkcD1rMw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ns720VWulrkWhyB7bozvdSN9VEh7MyrdoQ2B4TQTFW4=;
+ b=PJ41AUg3rAvC9oTWoybOHQuo0pAL42szaEy5yZ7FwxKV34HI7Fr7NgdPwG13uNnZgFIguq
+ jyTBDxheewY62pAoSBT4PwcDMcDHjO7Qh6lotzfvoL87KLDTpTilBozi6/mt9+6xCM77aT
+ hiXMsT9ho7x3aFH2rGguOAidDvBHHJ4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-295-byVIDIcsPOucvfhN85Pj5Q-1; Thu, 16 Jun 2022 04:32:45 -0400
-X-MC-Unique: byVIDIcsPOucvfhN85Pj5Q-1
-Received: by mail-ej1-f72.google.com with SMTP id
- l2-20020a170906078200b006fed42bfeacso309763ejc.16
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:45 -0700 (PDT)
+ us-mta-99-X5w0d5TpNdGYrOy2PxTo-A-1; Thu, 16 Jun 2022 04:32:47 -0400
+X-MC-Unique: X5w0d5TpNdGYrOy2PxTo-A-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ kf3-20020a17090776c300b0070d149300e9so312155ejc.15
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fBsuJkBaK49xYkBSfED4nMxGZwjPP4fEEospD3RWZ9s=;
- b=cVRsOH4KBxfYgoZt49OWmpCgY2nmY1Xp+zQqDGDX+vv50V0ChfG9e5MEuM/Qhz9MCM
- o8ACQ6GtGzKqyABT1NPmXDzOdrXdlBxYVwsFZ9WHaU22TaUfXl3yf/Mi5YCF4V2Lmjo6
- 7Rf8HRipybkzo9Erxu88jb0jGSRsP36J7bWblcQ0VYKtMa3UsQFRbtvx2jVVwJyTbe80
- VrXEG5LKV+y29LKtNC2tMhgRA94t3WpVAL5vsce/t3wRtOXAdEGhqa2OYeaa35YmHe3T
- TyMUiw0IUaSlPY2pAbo5ey1f0FxxPkGTEv6zyW+I5sbBez620bQHSf/7d/31O3A9/crh
- EmRw==
-X-Gm-Message-State: AJIora8rEvHxISmQAi7LVtNHyQ+qHrp5m0FJ+QrSBNyc1Hk0DOtStdz6
- 5J1uEBzsPiXCrDwttN3Zh3R82Dp/kCccT5QXjOfBkjGDaSdCGHVepnnNudex2oSV2NF+3KdsSBS
- bB59i89gvZXLs7rxQFNh9qrmARYgKESvj8u9IjlwKz4rzme1LnInahUFMh8s8OzLLaXg=
-X-Received: by 2002:a17:907:8a13:b0:707:194c:30df with SMTP id
- sc19-20020a1709078a1300b00707194c30dfmr3498007ejc.154.1655368364509; 
- Thu, 16 Jun 2022 01:32:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uipCy8p0xfLhig9U9WWEasEK4+HTgyz83btBdzalHYCMS4RvJ0FelFis+JSrJkEvDGTEhoUQ==
-X-Received: by 2002:a17:907:8a13:b0:707:194c:30df with SMTP id
- sc19-20020a1709078a1300b00707194c30dfmr3497996ejc.154.1655368364296; 
- Thu, 16 Jun 2022 01:32:44 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- o16-20020a50fd90000000b0042617ba63basm1251028edt.68.2022.06.16.01.32.43
- for <qemu-devel@nongnu.org>
+ bh=ns720VWulrkWhyB7bozvdSN9VEh7MyrdoQ2B4TQTFW4=;
+ b=Ss0LZsY2lawAFSKgRHUEGicH0VG5wdI1e1uJVRV60zDV5EJTOw0g+2lfvoTk31DkTu
+ +zmbmNFaD6ymI/zGYvNHWry1sjwrOnL9rDoy/CbMvmUsWCrT8mBcVsDxuH9rRiMRyZ+E
+ cpGDlCPj6mlp034bDr2Y2EOnUAAcd8aXNnNNmf2TZ839ja+OzgazIyVebZ4nS131G8H1
+ A7SXyKsaVyLwGygtGNqVC0vPtl7nDnmF+gYZDK7Y1SWBpY41Aof2zBMVGZOJtjh4DRXq
+ jMzBRu5N7ADvdYaxwQsUl0r5Cxal1QlJEv87Q4EQ2Xp4uGJS4IYREPcDWGDj2yP+1L5J
+ WjHg==
+X-Gm-Message-State: AJIora80qUuLL1SaJhuJOi51SDf91TJgm4TYnOFSkTVUZnbmFnN9MIGA
+ 60O60ExNCnkFJf1QIp5t7VdJhoBa6DO+vhJk17xErFVlNOZvNa4O1XeHRodldZ8fat+boXge8TT
+ wPijssj66sSDOWkzD6HBA3qP+w0Ea3rIbVCRIxsEx4Sw8E6XZGCCszURFct6HmOcfkeI=
+X-Received: by 2002:a17:906:7a08:b0:712:12f6:243a with SMTP id
+ d8-20020a1709067a0800b0071212f6243amr3501276ejo.619.1655368365911; 
+ Thu, 16 Jun 2022 01:32:45 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tbvgIogi3vWEyQPWi6mq2WTkqyENpCmX6yTkIYeFkLL7/AK4lrJtpX0y/k5T8jjGE1cB4EFg==
+X-Received: by 2002:a17:906:7a08:b0:712:12f6:243a with SMTP id
+ d8-20020a1709067a0800b0071212f6243amr3501261ejo.619.1655368365637; 
+ Thu, 16 Jun 2022 01:32:45 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ la12-20020a170907780c00b007081282cbd8sm487413ejc.76.2022.06.16.01.32.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 01:32:43 -0700 (PDT)
+ Thu, 16 Jun 2022 01:32:45 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/21] configure: update list of preserved environment variables
-Date: Thu, 16 Jun 2022 10:32:03 +0200
-Message-Id: <20220616083209.117397-16-pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 16/21] configure: cleanup -fno-pie detection
+Date: Thu, 16 Jun 2022 10:32:04 +0200
+Message-Id: <20220616083209.117397-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220616083209.117397-1-pbonzini@redhat.com>
 References: <20220616083209.117397-1-pbonzini@redhat.com>
@@ -98,33 +99,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-INSTALL and LIBTOOL are not used anymore, but OBJCFLAGS is new and
-was not listed.
+Place it only inside the 'if test "$pie" = "no"' conditional.  Since
+commit 43924d1e53 ("pc-bios/optionrom: detect -fno-pie", 2022-05-12),
+the PIE options are detected independently by pc-bios/optionrom/Makefile,
+and the CFLAGS_NOPIE/LDFLAGS_NOPIE variables are not used anymore.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ configure | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
 diff --git a/configure b/configure
-index 4b12a8094c..d41c7eddff 100755
+index d41c7eddff..9fba134746 100755
 --- a/configure
 +++ b/configure
-@@ -2722,13 +2722,12 @@ preserve_env CC
- preserve_env CFLAGS
- preserve_env CXX
- preserve_env CXXFLAGS
--preserve_env INSTALL
- preserve_env LD
- preserve_env LDFLAGS
- preserve_env LD_LIBRARY_PATH
--preserve_env LIBTOOL
- preserve_env MAKE
- preserve_env NM
-+preserve_env OBJCFLAGS
- preserve_env OBJCOPY
- preserve_env PATH
- preserve_env PKG_CONFIG
+@@ -1346,13 +1346,6 @@ static THREAD int tls_var;
+ int main(void) { return tls_var; }
+ EOF
+ 
+-# Check we support -fno-pie and -no-pie first; we will need the former for
+-# building ROMs, and both for everything if --disable-pie is passed.
+-if compile_prog "-Werror -fno-pie" "-no-pie"; then
+-  CFLAGS_NOPIE="-fno-pie"
+-  LDFLAGS_NOPIE="-no-pie"
+-fi
+-
+ if test "$static" = "yes"; then
+   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
+     CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+@@ -1365,8 +1358,10 @@ if test "$static" = "yes"; then
+     pie="no"
+   fi
+ elif test "$pie" = "no"; then
+-  CONFIGURE_CFLAGS="$CFLAGS_NOPIE $CONFIGURE_CFLAGS"
+-  CONFIGURE_LDFLAGS="$LDFLAGS_NOPIE $CONFIGURE_LDFLAGS"
++  if compile_prog "-Werror -fno-pie" "-no-pie"; then
++    CONFIGURE_CFLAGS="-fno-pie $CONFIGURE_CFLAGS"
++    CONFIGURE_LDFLAGS="-no-pie $CONFIGURE_LDFLAGS"
++  fi
+ elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+   CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+   CONFIGURE_LDFLAGS="-pie $CONFIGURE_LDFLAGS"
 -- 
 2.36.1
 
