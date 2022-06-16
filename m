@@ -2,76 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBEC854DCB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:21:07 +0200 (CEST)
-Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E33454DCCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:25:00 +0200 (CEST)
+Received: from localhost ([::1]:42914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1kkU-0002Tk-Ki
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:21:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38334)
+	id 1o1koE-0004cz-VW
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1kgO-0001Cr-D5
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:16:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1kgL-0000PE-Mr
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:16:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655367408;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=946ugFRGYctKItvem3OyAcyzB/AmblOQ1M06xS4xsE0=;
- b=bXlMYHoaQlQOlnFHijF04ORq5rxSV7/KCHLB4pc4qmGZ/uSNvOhKyl1+Y+N9YxUeryiSAk
- +98MNIHFtblv97tVwN26ZMY7vfspcHFqY7cSmhpmYS5MG+14DXvkuvk3LUrA+p6Xpi7Eak
- 8aoL5U90oMX87wUNd4CxNdqm78v/S5o=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-M9w1pSsaO0uLMbs-CDN-1Q-1; Thu, 16 Jun 2022 04:16:44 -0400
-X-MC-Unique: M9w1pSsaO0uLMbs-CDN-1Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8371F3C0ED4F;
- Thu, 16 Jun 2022 08:16:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F0FD1121314;
- Thu, 16 Jun 2022 08:16:43 +0000 (UTC)
-Date: Thu, 16 Jun 2022 09:16:40 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: "manish.mishra" <manish.mishra@nutanix.com>,
- Het Gala <het.gala@nutanix.com>, qemu-devel@nongnu.org,
- quintela@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com
-Subject: Re: [PATCH 0/4] Multiple interface support on top of Multi-FD
-Message-ID: <Yqrm6ARhSWllUDul@redhat.com>
-References: <20220609073305.142515-1-het.gala@nutanix.com>
- <YqIWDoSJ/xQC8Vvt@redhat.com>
- <7209116d-ef87-ee6f-5126-e23b55121f49@nutanix.com>
- <YqoMMCbF3PBnYSn/@redhat.com> <Yqovkrm37mUdggws@work-vm>
+ (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
+ id 1o1km4-0003Sc-14
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:22:44 -0400
+Received: from mout-u-107.mailbox.org ([91.198.250.252]:56638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
+ id 1o1km1-0001G6-Ur
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:22:43 -0400
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4LNwCF6gtFz9sQv;
+ Thu, 16 Jun 2022 10:22:33 +0200 (CEST)
+From: Lev Kujawski <lkujaw@member.fsf.org>
+To: qemu-devel@nongnu.org
+Cc: Lev Kujawski <lkujaw@member.fsf.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH 1/2] hw/pci-host/pam.c: Fully support RE^WE semantics of
+ i440FX PAM
+Date: Thu, 16 Jun 2022 08:22:22 +0000
+Message-Id: <20220616082223.622688-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yqovkrm37mUdggws@work-vm>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Rspamd-Queue-Id: 4LNwCF6gtFz9sQv
+Received-SPF: pass client-ip=91.198.250.252;
+ envelope-from=lkujaw@member.fsf.org; helo=mout-u-107.mailbox.org
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,101 +58,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 15, 2022 at 08:14:26PM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Fri, Jun 10, 2022 at 05:58:31PM +0530, manish.mishra wrote:
-> > > 
-> > > On 09/06/22 9:17 pm, Daniel P. Berrangé wrote:
-> > > > On Thu, Jun 09, 2022 at 07:33:01AM +0000, Het Gala wrote:
-> > > > > As of now, the multi-FD feature supports connection over the default network
-> > > > > only. This Patchset series is a Qemu side implementation of providing multiple
-> > > > > interfaces support for multi-FD. This enables us to fully utilize dedicated or
-> > > > > multiple NICs in case bonding of NICs is not possible.
-> > > > > 
-> > > > > 
-> > > > > Introduction
-> > > > > -------------
-> > > > > Multi-FD Qemu implementation currently supports connection only on the default
-> > > > > network. This forbids us from advantages like:
-> > > > > - Separating VM live migration traffic from the default network.
-> > > 
-> > > Hi Daniel,
-> > > 
-> > > I totally understand your concern around this approach increasing compexity inside qemu,
-> > > 
-> > > when similar things can be done with NIC teaming. But we thought this approach provides
-> > > 
-> > > much more flexibility to user in few cases like.
-> > > 
-> > > 1. We checked our customer data, almost all of the host had multiple NIC, but LACP support
-> > > 
-> > >     in their setups was very rare. So for those cases this approach can help in utilise multiple
-> > > 
-> > >     NICs as teaming is not possible there.
-> > 
-> > AFAIK,  LACP is not required in order to do link aggregation with Linux.
-> > Traditional Linux bonding has no special NIC hardware or switch requirements,
-> > so LACP is merely a "nice to have" in order to simplify some aspects.
-> > 
-> > IOW, migration with traffic spread across multiple NICs is already
-> > possible AFAICT.
-> 
-> Are we sure that works with multifd?  I've seen a lot of bonding NIC
-> setups which spread based on a hash of source/destination IP and port
-> numbers; given that we use the same dest port and IP at the moment what
-> happens in reality?  That hashing can be quite delicate for high
-> bandwidth single streams.
+The Programmable Attribute Registers (PAM) of QEMU's emulated i440FX
+chipset now fully support the exclusive Read Enable (RE) and Write
+Enable (WE) modes by forwarding reads of the applicable PAM region to
+RAM and writes to the bus or vice versa, respectively.
 
-The simplest Linux bonding mode does per-packet round-robin across 
-NICs, so traffic from the collection of multifd connections should
-fill up all the NICs in the bond. There are of course other modes
-which may be sub-optimal for the reasons you describe. Which mode
-to pick depends on the type of service traffic patterns you're
-aiming to balance.
+The prior behavior for the RE case was to setup a RAM alias and mark
+it read-only, but no attempt was made to forward writes to the bus,
+and read-only aliases of RAM do not prevent writes. Now, pam.c creates
+a ROMD region (with read-only memory backing) coupled with a memory
+operation that forwards writes to the bus.
 
-> > > > > Multi-interface with Multi-FD
-> > > > > -----------------------------
-> > > > > Multiple-interface support over basic multi-FD has been implemented in the
-> > > > > patches. Advantages of this implementation are:
-> > > > > - Able to separate live migration traffic from default network interface by
-> > > > >    creating multiFD channels on ip addresses of multiple non-default interfaces.
-> > > > > - Can optimize the number of multi-FD channels on a particular interface
-> > > > >    depending upon the network bandwidth limit on a particular interface.
-> > > > Manually assigning individual channels to different NICs is a pretty
-> > > > inefficient way to optimizing traffic. Feels like you could easily get
-> > > > into a situation where one NIC ends up idle while the other is busy,
-> > > > especially if the traffic patterns are different. For example with
-> > > > post-copy there's an extra channel for OOB async page requests, and
-> > > > its far from clear that manually picking NICs per chanel upfront is
-> > > > going work for that.  The kernel can continually dynamically balance
-> > > > load on the fly and so do much better than any static mapping QEMU
-> > > > tries to apply, especially if there are multiple distinct QEMU's
-> > > > competing for bandwidth.
-> > > > 
-> > > Yes, Daniel current solution is only for pre-copy. As with postcopy
-> > > multiFD is not yet supported but in future we can extend it for postcopy
-> 
-> I had been thinking about explicit selection of network device for NUMA
-> use though; ideally I'd like to be able to associate a set of multifd
-> threads to each NUMA node, and then associate a NIC with that set of
-> threads; so that the migration happens down the NIC that's on the node
-> the RAM is on.  On a really good day you'd have one NIC per top level
-> NUMA node.
+For the WE case, a RAM alias was created, but with no attempt to
+forward reads to the bus. Now, pam.c creates a MMIO region that writes
+directly to RAM (bypassing the PAM region) and forwards reads to the
+bus.
 
-Now that's an interesting idea, and not one that can be dealt with
-by bonding, since the network layer won't be aware of the NUMA
-affinity constraints.
+Additional changes:
+- Change the type of pam_update parameter idx to type uint8_t,
+  eliminating an assert check.
+- Remove the fourth PAM alias, for normal RAM-based reads and writes
+  of PAM regions, saving memory and clutter in mtree output.
 
+Tested with SeaBIOS and AMIBIOS.
 
-With regards,
-Daniel
+Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
+---
+ hw/pci-host/pam.c         | 135 +++++++++++++++++++++++++++++++-------
+ include/hw/pci-host/pam.h |   7 +-
+ 2 files changed, 117 insertions(+), 25 deletions(-)
+
+diff --git a/hw/pci-host/pam.c b/hw/pci-host/pam.c
+index 454dd120db..da89ca3b50 100644
+--- a/hw/pci-host/pam.c
++++ b/hw/pci-host/pam.c
+@@ -28,43 +28,132 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qapi/error.h"
+ #include "hw/pci-host/pam.h"
+ 
++static void
++pam_rmem_write(void *opaque, hwaddr addr, uint64_t val, unsigned int size)
++{
++    PAMMemoryRegion * const pam = (PAMMemoryRegion *)opaque;
++
++    (void)memory_region_dispatch_write(pam->pci_mr, pam->offset + addr, val,
++                                       size_memop(size), MEMTXATTRS_UNSPECIFIED);
++}
++
++static uint64_t
++pam_wmem_read(void *opaque, hwaddr addr, unsigned int size)
++{
++    PAMMemoryRegion * const pam = (PAMMemoryRegion *)opaque;
++    uint64_t val = (uint64_t)~0;
++
++    (void)memory_region_dispatch_read(pam->pci_mr, pam->offset + addr, &val,
++                                      size_memop(size), MEMTXATTRS_UNSPECIFIED);
++
++    return val;
++}
++
++static void
++pam_wmem_write(void *opaque, hwaddr addr, uint64_t val, unsigned int size)
++{
++    PAMMemoryRegion * const pam = (PAMMemoryRegion *)opaque;
++
++    switch (size) {
++    case 1:
++        stb_p(pam->system_memory + addr, val);
++        break;
++    case 2:
++        stw_le_p(pam->system_memory + addr, val);
++        break;
++    case 4:
++        stl_le_p(pam->system_memory + addr, val);
++        break;
++    case 8:
++        stq_le_p(pam->system_memory + addr, val);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static const MemoryRegionOps pam_rmem_ops = {
++    .write = pam_rmem_write,
++};
++
++static const MemoryRegionOps pam_wmem_ops = {
++    .read = pam_wmem_read,
++    .write = pam_wmem_write,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++        .unaligned = true,
++    },
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++        .unaligned = true,
++    },
++};
++
+ void init_pam(DeviceState *dev, MemoryRegion *ram_memory,
+-              MemoryRegion *system_memory, MemoryRegion *pci_address_space,
+-              PAMMemoryRegion *mem, uint32_t start, uint32_t size)
++              MemoryRegion *system, MemoryRegion *pci,
++              PAMMemoryRegion *pam, uint32_t start, uint32_t size)
+ {
++    char name[12] = "pam-splitr";
+     int i;
+ 
+-    /* RAM */
+-    memory_region_init_alias(&mem->alias[3], OBJECT(dev), "pam-ram", ram_memory,
+-                             start, size);
+-    /* ROM (XXX: not quite correct) */
+-    memory_region_init_alias(&mem->alias[1], OBJECT(dev), "pam-rom", ram_memory,
+-                             start, size);
+-    memory_region_set_readonly(&mem->alias[1], true);
++    name[10] = (start >> 14) + 17;
++    name[11] = '\0';
++
++    /* Forward all memory accesses to the bus.  */
++    memory_region_init_alias(&pam->alias[0], OBJECT(dev), "pam-pci",
++                             pci, start, size);
+ 
+-    /* XXX: should distinguish read/write cases */
+-    memory_region_init_alias(&mem->alias[0], OBJECT(dev), "pam-pci", pci_address_space,
+-                             start, size);
+-    memory_region_init_alias(&mem->alias[2], OBJECT(dev), "pam-pci", ram_memory,
+-                             start, size);
++    /* Split modes */
++    /* Forward reads to RAM, writes to the bus.  */
++    memory_region_init_rom_device(&pam->alias[1], OBJECT(dev),
++                                  &pam_rmem_ops, pam, name, size,
++                                  &error_fatal);
++
++    /* Forward writes to RAM, reads to the bus.  */
++    name[9] = 'w';
++    memory_region_init_io(&pam->alias[2], OBJECT(dev), &pam_wmem_ops,
++                          pam, name, size);
+ 
+     memory_region_transaction_begin();
+-    for (i = 0; i < 4; ++i) {
+-        memory_region_set_enabled(&mem->alias[i], false);
+-        memory_region_add_subregion_overlap(system_memory, start,
+-                                            &mem->alias[i], 1);
++    for (i = 0; i < 3; ++i) {
++        /* The caller is responsible for the initial state.  */
++        memory_region_set_enabled(&pam->alias[i], false);
++        memory_region_add_subregion_overlap(system, start,
++                                            &pam->alias[i], 1);
+     }
++    pam->system_memory = memory_region_get_ram_ptr(ram_memory) + start;
+     memory_region_transaction_commit();
+-    mem->current = 0;
++    pam->current = 0;
++    pam->pci_mr = pci;
++    pam->offset = start;
+ }
+ 
+-void pam_update(PAMMemoryRegion *pam, int idx, uint8_t val)
++void pam_update(PAMMemoryRegion *pam, uint8_t idx, uint8_t val)
+ {
+-    assert(0 <= idx && idx < PAM_REGIONS_COUNT);
++    uint8_t ai;
++    assert(idx < PAM_REGIONS_COUNT);
++
++    ai = (val >> ((!(idx & 1)) * 4)) & PAM_ATTR_MASK;
+ 
++    /* The caller is responsible for setting up a transaction.  */
+     memory_region_set_enabled(&pam->alias[pam->current], false);
+-    pam->current = (val >> ((!(idx & 1)) * 4)) & PAM_ATTR_MASK;
+-    memory_region_set_enabled(&pam->alias[pam->current], true);
++    switch (ai) {
++    case 1: {
++        const hwaddr pamsize = memory_region_size(&pam->alias[ai]);
++
++        memcpy(memory_region_get_ram_ptr(&pam->alias[ai]),
++               pam->system_memory, pamsize);
++        memory_region_flush_rom_device(&pam->alias[ai], 0, pamsize);
++    }
++    /* FALLTHROUGH */
++    case 0:
++    case 2:
++        memory_region_set_enabled(&pam->alias[ai], true);
++        pam->current = ai;
++    }
+ }
+diff --git a/include/hw/pci-host/pam.h b/include/hw/pci-host/pam.h
+index c1fd06ba2a..7e819ed88b 100644
+--- a/include/hw/pci-host/pam.h
++++ b/include/hw/pci-host/pam.h
+@@ -83,12 +83,15 @@
+ #define PAM_REGIONS_COUNT       13
+ 
+ typedef struct PAMMemoryRegion {
+-    MemoryRegion alias[4];  /* index = PAM value */
++    MemoryRegion alias[3];  /* index = PAM value */
+     unsigned current;
++    void *system_memory;
++    ram_addr_t offset;
++    MemoryRegion *pci_mr;
+ } PAMMemoryRegion;
+ 
+ void init_pam(DeviceState *dev, MemoryRegion *ram, MemoryRegion *system,
+               MemoryRegion *pci, PAMMemoryRegion *mem, uint32_t start, uint32_t size);
+-void pam_update(PAMMemoryRegion *mem, int idx, uint8_t val);
++void pam_update(PAMMemoryRegion *mem, uint8_t idx, uint8_t val);
+ 
+ #endif /* QEMU_PAM_H */
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.34.1
 
 
