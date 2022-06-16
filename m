@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F32F54DED1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:23:55 +0200 (CEST)
-Received: from localhost ([::1]:39774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9362C54DF11
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:28:05 +0200 (CEST)
+Received: from localhost ([::1]:48180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1mfK-0001Sk-J1
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39016)
+	id 1o1mjM-0007FL-Lv
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o1mZk-0005Qf-Q0
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:18:10 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:57218)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o1mZg-0008TE-IP
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:18:06 -0400
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-448-38z1qM-ANI2pIvzrZmncTQ-1; Thu, 16 Jun 2022 06:18:00 -0400
-X-MC-Unique: 38z1qM-ANI2pIvzrZmncTQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C388C1C14489;
- Thu, 16 Jun 2022 10:17:59 +0000 (UTC)
-Received: from bahia (unknown [10.39.193.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 47BF32166B26;
- Thu, 16 Jun 2022 10:17:59 +0000 (UTC)
-Date: Thu, 16 Jun 2022 12:17:57 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 5/7] 9pfs: fix 'Twalk' to only send error if no
- component walked
-Message-ID: <20220616075217.087941be@bahia>
-In-Reply-To: <9146815.PM5Uiz2McI@silver>
-References: <cover.1647339025.git.qemu_oss@crudebyte.com>
- <bc73e24258a75dc29458024c7936c8a036c3eac5.1647339025.git.qemu_oss@crudebyte.com>
- <20220615175249.21c497f3@bahia> <9146815.PM5Uiz2McI@silver>
+ (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
+ id 1o1mcA-0006tR-Up
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:40 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:46017)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
+ id 1o1mc6-0000UV-UR
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:37 -0400
+Received: by mail-lj1-x235.google.com with SMTP id s10so956398ljh.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:20:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=openvz-org.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xLll8c/0bFC5Kv+uYZ98u4kVrKBDnnI+LAN9UJuvyDI=;
+ b=CyaN6iiO2gaPm5b8MTSLbrU5mF6i2lN+0qOcI2RmhIVw54vmGhpa1y1TuwpDk4Ufxv
+ kKB74A157ZkcIGTO0fULADhC8d56wGmKsDjylSf31r9ksGaeP+sxH9C6tVMhEh7fHrt8
+ fOt1ZxNNj0JqTVSCt6wH/QMtqm5VbRZsiHmKwfHEPvbC0m/49GzSfkX0eu0qSjQBKlKN
+ Y6vDdgLVFniRdA+X9KUoi7N2Pbdqh5eBGkdpQu3oO0+HqSZX8HnZeuo6hwULoCle5KFN
+ BxdkGGrWArq9GXrMnb7GR0c3nvJy1fdxDr56e+sn91p69HwdBCIGreTqKb/zEXOIqA10
+ 4tVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xLll8c/0bFC5Kv+uYZ98u4kVrKBDnnI+LAN9UJuvyDI=;
+ b=5BmuzQ+x8ssXP9o6IxQPJrsPdmD1YOmhvlxxORQqRdJesFUZKool04u4oDD8qd+2+S
+ UTchPMF/SZocDzMUl2Z+wsXJIbJdfaCfBU7QPU+UtR2XKjSbVj2Gk1YirJjxmJZJXDD4
+ 3c7VJl/ds7cfyZS9Rql9c0r3XM34KdAtZXfHK/vuLUrV9bWEkAJYM9YxvaCaNQ/Kq8eo
+ TvPVRD+S4CtHabhcAoWZjMUI0mGF8EMm7Q8s/yNHyAR2GpOVnadqX73ScUjK8WVNgmG8
+ j414E6KT4DnNLdAVUrpvrpX/FfClcOILxs8bpvxSpRoSw++aiM2q21sOtiFACnuuTi/H
+ XuNA==
+X-Gm-Message-State: AJIora9uJLW5CWZxUUUbklfZ2X/0Bito+QhXyY3AIRk22MhQMpogD3Zp
+ Q7OFoxtspHiCpVy09L4mbzSAwb8uv9UJWmlk
+X-Google-Smtp-Source: AGRyM1uE9EwQc8U6fp8b8BJb3np7P+XSeCpgXZyRNTxExwu2m89iqz9iCR6f8f3BP/FfdEIrY9apdQ==
+X-Received: by 2002:a2e:8083:0:b0:258:eac9:70d2 with SMTP id
+ i3-20020a2e8083000000b00258eac970d2mr2130331ljg.150.1655374826765; 
+ Thu, 16 Jun 2022 03:20:26 -0700 (PDT)
+Received: from localhost.localdomain ([93.175.28.49])
+ by smtp.gmail.com with ESMTPSA id
+ q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jun 2022 03:20:26 -0700 (PDT)
+From: nikita.lapshin@openvz.org
+To: qemu-devel@nongnu.org
+Cc: den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, quintela@redhat.com,
+ dgilbert@redhat.com, nikita.lapshin@openvz.org
+Subject: [PATCH 0/8] New parameter for migration stream
+Date: Thu, 16 Jun 2022 13:19:56 +0300
+Message-Id: <20220616102006.218693-1-nikita.lapshin@openvz.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,144 +87,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jun 2022 18:36:46 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+From: Nikita Lapshin <nikita.lapshin@openvz.org>
 
-> On Mittwoch, 15. Juni 2022 17:52:49 CEST Greg Kurz wrote:
-> > On Tue, 15 Mar 2022 11:08:39 +0100
-> > 
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > Current implementation of 'Twalk' request handling always sends an
-> > > 'Rerror'
-> > > 
-> > > response if any error occured. The 9p2000 protocol spec says though:
-> > >   "
-> > >   If the first element cannot be walked for any reason, Rerror is
-> > >   returned.
-> > >   Otherwise, the walk will return an Rwalk message containing nwqid qids
-> > >   corresponding, in order, to the files that are visited by the nwqid
-> > >   successful elementwise walks; nwqid is therefore either nwname or the
-> > >   index
-> > >   of the first elementwise walk that failed.
-> > >   "
-> > >   
-> > >   http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor33
-> > > 
-> > > For that reason we are no longer leaving from an error path in function
-> > > v9fs_walk(), unless really no path component could be walked successfully
-> > > or if the request has been interrupted.
-> > > 
-> > > Local variable 'nwalked' counts and reflects the number of path components
-> > > successfully processed by background I/O thread, whereas local variable
-> > > 'name_idx' subsequently counts and reflects the number of path components
-> > > eventually accepted successfully by 9p server controller portion.
-> > > 
-> > > New local variable 'any_err' is an aggregate variable reflecting whether
-> > > any error occurred at all, while already existing variable 'err' only
-> > > reflects the last error.
-> > > 
-> > > Despite QIDs being delivered to client in a more relaxed way now, it is
-> > > important to note though that fid still must remain unaffected if any
-> > > error
-> > > occurred.
-> > > 
-> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > ---
-> > > 
-> > >  hw/9pfs/9p.c | 43 +++++++++++++++++++++++++++----------------
-> > >  1 file changed, 27 insertions(+), 16 deletions(-)
-> > > 
-> > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > > index 298f4e6548..e770972a71 100644
-> > > --- a/hw/9pfs/9p.c
-> > > +++ b/hw/9pfs/9p.c
-> > > @@ -1766,7 +1766,7 @@ static void coroutine_fn v9fs_walk(void *opaque)
-> > > 
-> > >  {
-> > >  
-> > >      int name_idx, nwalked;
-> > >      g_autofree V9fsQID *qids = NULL;
-> > > 
-> > > -    int i, err = 0;
-> > > +    int i, err = 0, any_err = 0;
-> > > 
-> > >      V9fsPath dpath, path;
-> > >      P9ARRAY_REF(V9fsPath) pathes = NULL;
-> > >      uint16_t nwnames;
-> > > 
-> > > @@ -1832,19 +1832,20 @@ static void coroutine_fn v9fs_walk(void *opaque)
-> > > 
-> > >       * driver code altogether inside the following block.
-> > >       */
-> > >      
-> > >      v9fs_co_run_in_worker({
-> > > 
-> > > +        nwalked = 0;
-> > > 
-> > >          if (v9fs_request_cancelled(pdu)) {
-> > > 
-> > > -            err = -EINTR;
-> > > +            any_err |= err = -EINTR;
-> > 
-> > Not super fan of such constructs but I cannot think of anything
-> > better.. so be it ! :-)
-> 
-> Mwa, :( and I thought this was a slick (though probably yet again unorthodox) 
-> way to handle aggregate errors.
-> 
-> [...]
-> > > @@ -1874,12 +1875,12 @@ static void coroutine_fn v9fs_walk(void *opaque)
-> > > 
-> > >      /*
-> > >      
-> > >       * Handle all the rest of this Twalk request on main thread ...
-> > >       */
-> > > 
-> > > -    if (err < 0) {
-> > > +    if ((err < 0 && !nwalked) || err == -EINTR) {
-> > 
-> > So this is making an exception to the spec excerpt you're mentioning
-> > in the changelog.
-> > 
-> > EINTR can only come from the v9fs_request_cancelled(pdu) == true case,
-> > since QEMU doesn't have signal handlers AFAIK. This would be the result
-> > of a TFLUSH , likely to handle ^C from the client side. I guess that in
-> > that peculiar case, it quite makes sense to return RERROR/RLERROR instead
-> > of the "degraded" RWALK that the end user isn't waiting for. To sum up,
-> > TFLUSH behavior prevails on TWALK. Please add a comment though since
-> > this isn't super obvious in the spec.
-> 
-> Yes, everything you said is depicting this exception here precisely, and I 
-> agree that it deserves a comment for further clarification, which I'll simply 
-> add on my end to avoid the noise.
-> 
-> Does the following sound good to you?
-> 
-> "NOTE: -EINTR is an exception where we deviate from the protocol spec and 
-> simply send an (R)Lerror response instead of bothering to assemble a 
-> (deducted) Rwalk response; because -EINTR is always the result of a Tflush 
-> request, so client would no longer wait for a response in this case anyway."
-> 
+We want to implement exteranl bg-snapshot tool for saving RAM. For this it
+is important to be able manage migration stream because tool has no idea
+about non-RAM part and how to parse it.
 
-LGTM
+This paramter provides gurantee about migration content. Now there are 4
+parts of migration stream which can be specified: "ram", "block",
+"dirty-bitmaps", "vmstate". "vmstate" can be any section which handler has
+vmdesc. "block" and "dirty-bitmpas" impleneted just like existing
+capabilities.
 
-> > Apart from that, LGTM.
-> > 
-> > Reviewed-by: Greg Kurz <groug@kaod.org>
-> 
-> Thanks for your reviews, much appreciated!
-> 
+This way of specifying can be extended on future parts of migration.
 
-Sorry for the 3-month delay...
+Nikita Lapshin (8):
+  migration: Implemented new parameter stream_content
+  migration: should_skip() implemented
+  migration: Add vmstate part of migration stream
+  migration: Add dirty-bitmaps part of migration stream
+  migration: Add block part of migration stream
+  migration: Add RAM part of migration stream
+  migration: analyze-migration script changed
+  migration: Test for RAM and vmstate parts
 
-Cheers,
+ migration/migration.c                         | 76 ++++++++++++++-
+ migration/migration.h                         |  3 +
+ migration/ram.c                               |  6 ++
+ migration/savevm.c                            | 69 ++++++++-----
+ qapi/migration.json                           | 21 +++-
+ scripts/analyze-migration.py                  | 19 ++--
+ .../tests/migrate-ram-stream-content-test     | 96 +++++++++++++++++++
+ .../tests/migrate-ram-stream-content-test.out |  5 +
+ 8 files changed, 256 insertions(+), 39 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/migrate-ram-stream-content-test
+ create mode 100644 tests/qemu-iotests/tests/migrate-ram-stream-content-test.out
 
---
-Greg
-
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
+-- 
+2.31.1
 
 
