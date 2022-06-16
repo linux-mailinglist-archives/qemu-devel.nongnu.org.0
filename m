@@ -2,90 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE30054E9AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 20:51:56 +0200 (CEST)
-Received: from localhost ([::1]:58854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A649954E9C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 21:06:15 +0200 (CEST)
+Received: from localhost ([::1]:39490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1uay-0001mV-09
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 14:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
+	id 1o1uoo-0000dK-B1
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 15:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o1uWo-0008C4-FY
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 14:47:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48356)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o1um3-0007KC-RX
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 15:03:25 -0400
+Received: from esa11.hc2706-39.iphmx.com ([216.71.137.81]:18623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o1uWk-0002pr-RS
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 14:47:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655405253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ApNGxrQQlNTzl9zGVrubUZHR06HHQXnJrjxsIoy9hIw=;
- b=Lp/9zk/EuZSja8fdLAY0cukm+8I3Q6SlJjWOiKQLujMS6//3RdKUZxKK5ilJjQFBmmcSAD
- Sg1R0GU8T+igWs+f8fUiKWzP66L4jXbt+XRDw3CF61/7/UpvXhkF70XIrNtVTIT7TWmdhB
- dGRUca2E3AJRTKT0kxfRU08WJh3+nEI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-YmJpg5_EMeSkYdmn6hyPpg-1; Thu, 16 Jun 2022 14:47:32 -0400
-X-MC-Unique: YmJpg5_EMeSkYdmn6hyPpg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m23-20020a05600c3b1700b0039c6e3c169aso1264904wms.2
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 11:47:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o1um1-0005xZ-9l
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 15:03:23 -0400
+X-IronPort-RemoteIP: 209.85.222.198
+X-IronPort-MID: 206929601
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:JSC6eKD7lEATnBVW/77hw5YqxClBgxIJ4kV8jS/XYbTApG4ghTBTy
+ TAXXmyBb/vcM2X0ftBwPd7l8EgH7JGHx9c1TANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
+ ynLQoCYdKjYdleF+lH1dOKJQUBUjclkfJKlYAL/En03FFUMpBsJ00o5wbZn29Aw3bBVPivW0
+ T/Mi5yHULOa82MsWo4kw/rrRMRH5amaVJsw5zTSVNgS1LPsvyB94KE3fMldG0DFrrx8RYZWc
+ QpiIIaRpQs19z91Yj+sfy2SnkciG9Y+NiDX4pZatjTLbrGvaUXe345iXMfwZ3u7hB2vwNJp2
+ OR0haWxWAsSBY7rwPQDURtXRnQW0a1uoNcrIFC6uM2XilTFKj7imqQ+Sk4xOoIc96B8BmQmG
+ f4wcmhcKEDewbjsmvTiG7kEascLdaEHOKsWvmFmwSvxB+tgTJzeK0nPzYUAgmZq154WRJ4yY
+ eIgeyJRYBvMPiRjYFIdVrQjhrrvh3TgJmgwRFW94PBfD3Lo5BV81aWoPNfLd9iiQ8JTkUCF4
+ GXc8AzE7goyMdWezX+c8SvpiLaezWX0X4UdELD+/flv6LGO+lEu5NQtfQPTiZGEZoSWAIM3x
+ 5A8ksb2kZUPyQ==
+IronPort-HdrOrdr: A9a23:m/qb4KznXVBH5wBPj+VTKrPxo+skLtp133Aq2lEZdPULSKGlfp
+ GV9sjziyWetN9IYgBZpTnyAtj6fZq8z+8/3WB1B9uftWbdyQ+Vxe1ZjLcKhgeQYhEWldQtn5
+ uIEZIOb+EYZGIS5amV3OD7KadH/DDtytHKuQ6q9QYJcegcUdAD0+4WMGamO3wzYDMDKYsyFZ
+ Ka6MYCjSGnY24rYsOyAWRAd/TfpvXQ/aiWLSIuNloC0k2jnDmo4Ln1H1yzxREFSQ5Cxr8k7C
+ zsjxH53KO+qPu2oyWsmFM7rq4m1ucJ+OEzRPBkufJlaQkETTzYJriJbofy/QzdZtvfrWrC3u
+ O85yvIdP4DkU85NlvF3CcFnTOQnQrGokWStWOwkD/tp9f0Syk9DNcEjYVFcgHB405lp91k1r
+ lXtljpwaa/oimw7xgVyuK4Iy2CrHDE1kbKUNRj/0B3QM8bcvtcvIYf9ERaHNMJGz/78pkuFK
+ 1rANvH7PhbfFuGZzSB11MfiOCETzA2BFOLU0ICssua33xfm2141VIRwIgakm0b/JwwRpFY76
+ DPM7hulrtJUsgKBJgNTdspUI+yECjAUBjMOGWdLRDuE7wGIWvEr9rt7LA89IiRCek1JVsJ6e
+ b8uX9jxBAPkhjVeLKzNbVwg2HwfFk=
+Received: from mail-qk1-f198.google.com ([209.85.222.198])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 Jun 2022 15:03:09 -0400
+Received: by mail-qk1-f198.google.com with SMTP id
+ de4-20020a05620a370400b006a9711bd9f8so2607813qkb.9
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 12:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=j4ogsOSFG4OzrScvbxbe7jBVhjhSx+RjAMaVZdX0J/A=;
+ b=frNdY4SYBA0mvOP/c3Wrol8QRqZx+LrMCuIarr+uy0NdVFRqYkKJ/yKXSZmcOKVfzj
+ cdIg9A3RL/FCDUsM0qOnZY0kn6oNGpjIFxjYPCwi9XhBF1QT/hmuiSgcJz5kXkjhmFeF
+ pVd5RwO0Xw7DE6o6Fd5WLpmmtTKdtVs/oplBmfhPTnWfI+7hoUzFCYQlzHsYqHvIzysM
+ Dd/WUkbVgWOZvnl12pMroY4iux3mO+YfHEmbH/YAt3rwkUrUnLyhmWLUKP5ieNZRg0qm
+ kNdNo8D8n9R2YPuecucMDzRQFtXmJShV5ZlK9H/HNGiwobPWUtNqbcqJrRcV8qx3FZc5
+ XjAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ApNGxrQQlNTzl9zGVrubUZHR06HHQXnJrjxsIoy9hIw=;
- b=tV4MGV6O1V4eDerlMtrpaHyv1wATObOa5vUCMhJ7IsxohUlmZNoWaBNswIWr9FH4Ss
- Kbzb9pjvLeReLCOMwTGk5X9dc98GGfFH9PG6WxAQdZUbRgwRI35mfzKOXYPvzlRttQlR
- r1UxyBpOzxP8lCPEU9sM/YUT3d2IPcjuDSTNfNmklAHjS2yghcRvnPtES0DHazdRJgtm
- H564ehV5Ai6f9MiKFwCKzBeva1a7Vt6HCIw9J1OIM7xeSkynbi+JCGb2Vh24Vz2QMue3
- uh6TV9oAW/qcNIEPrTZJKHD/OlWIJoZkZuofufddg2pIz3gQvGlgUYHhB4oCWVmJi6cp
- r8eA==
-X-Gm-Message-State: AJIora8D5IBPJImsLtPvE1aUrOVDRxIoBo+w4U1FwfZK6Oadj1wcxUiB
- 56BivJntf5pVNNz/M42oPSlCsQNOzZJ6C7Af/Xsa/lsOyXEg7+D+pGqqjtR/B3xKbEnUeJCEXTT
- rFg52L2IIbJI1YBU=
-X-Received: by 2002:a5d:4dc9:0:b0:215:c611:db73 with SMTP id
- f9-20020a5d4dc9000000b00215c611db73mr6159945wru.551.1655405251108; 
- Thu, 16 Jun 2022 11:47:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sYYfT9/SDEgOSmsTD39XNpL0F5jNpC7HGEzVx1lHB1NuY2ApWlkMsabQ4c9gpUse4fKKqTfA==
-X-Received: by 2002:a5d:4dc9:0:b0:215:c611:db73 with SMTP id
- f9-20020a5d4dc9000000b00215c611db73mr6159928wru.551.1655405250811; 
- Thu, 16 Jun 2022 11:47:30 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- p10-20020adff20a000000b0020fe4c5e94csm2541678wro.19.2022.06.16.11.47.29
+ :mime-version:content-disposition:in-reply-to;
+ bh=j4ogsOSFG4OzrScvbxbe7jBVhjhSx+RjAMaVZdX0J/A=;
+ b=NLbxFAd7q9PhlfLGFa2tJGyE54CoCVvv24kkeIfhHSk8jyrot3inSTs+qsTcPv+K7Y
+ VspXYthy/98gCq8d5lXOiS8b8nkoqYkQAdlAJDhh3Pgc66zVfJF+LtPTCS8GgvwpZGac
+ nXpb4w0T/7UWGEH6Sp2UCkA1pY14BZIk1hzWobBZTT9BhdwOt0+NIfFz6NYeZo0FWsbC
+ h90YhJH410xW3l7Q0ubJ16yeg5N6URSM7e6jnMuMruxJCyZ8klLFzMJOUi9r87mfBDkT
+ P4lyBMk6v4BT044XbL5d9S7PVbkdqTyC4x5lgHhvTPUcCfh6UF4Hn9V1UtSpgy5WrTIC
+ MBTQ==
+X-Gm-Message-State: AJIora+5kGmirsm5n0hJ8Lx/+op33iItv3U97R99g/+YyBvvR0a+nBBd
+ CGx0haxqu+sPdb0aCkqow6iRS4F4qYliUQhUf7l8GGO6ekfjaY4w9FwWTzb6LuVSc9OnYAc9N03
+ 7iidYFTS3/UWZdX513RUKv/XOV+sC9A==
+X-Received: by 2002:a05:622a:1387:b0:306:aafc:fd32 with SMTP id
+ o7-20020a05622a138700b00306aafcfd32mr5032292qtk.462.1655406189054; 
+ Thu, 16 Jun 2022 12:03:09 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tVPQObmJEJQ0/+IZY+3bf9utwK7k0GLTzMhcMWx8VpQmJLGfrtA4nH1YIqK+kfscbERUtrAw==
+X-Received: by 2002:a05:622a:1387:b0:306:aafc:fd32 with SMTP id
+ o7-20020a05622a138700b00306aafcfd32mr5032258qtk.462.1655406188679; 
+ Thu, 16 Jun 2022 12:03:08 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ j5-20020a05620a000500b006a74458410csm2583340qki.123.2022.06.16.12.03.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 11:47:30 -0700 (PDT)
-Date: Thu, 16 Jun 2022 19:47:28 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com, pbonzini@redhat.com,
- berrange@redhat.com, armbru@redhat.com, eblake@redhat.com,
- Manish Mishra <manish.mishra@nutanix.com>
-Subject: Re: [PATCH 4/4] Adding support for multi-FD connections dynamically
-Message-ID: <Yqt6wH8+i+pDBHNU@work-vm>
-References: <20220609073305.142515-1-het.gala@nutanix.com>
- <20220609073305.142515-5-het.gala@nutanix.com>
+ Thu, 16 Jun 2022 12:03:08 -0700 (PDT)
+Date: Thu, 16 Jun 2022 15:03:04 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Patrick Venture <venture@google.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Foley <pefoley@google.com>
+Subject: Re: misaligned-pointer-use libslirp/src/tcp_input.c
+Message-ID: <20220616190304.5bqkov2p2c6khbdc@mozz.bu.edu>
+References: <CAO=notxhNUkps9_aLKmy=oDKYC8xsUjErrEMAycwJHjUvkWHRA@mail.gmail.com>
+ <20220616133057.bq4m5rzc2tjpeqdn@mozz.bu.edu>
+ <CAO=notzeN6OrcfjKNVJ9Q6ttbLv6s-zgiW3dGQTbn4eP6WHcsQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220609073305.142515-5-het.gala@nutanix.com>
-User-Agent: Mutt/2.2.5 (2022-05-16)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <CAO=notzeN6OrcfjKNVJ9Q6ttbLv6s-zgiW3dGQTbn4eP6WHcsQ@mail.gmail.com>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.81; envelope-from=alxndr@bu.edu;
+ helo=esa11.hc2706-39.iphmx.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_PORT=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,384 +124,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Het Gala (het.gala@nutanix.com) wrote:
-> i) Dynamically decide appropriate source and destination ip pairs for the
->    corresponding multi-FD channel to be connected.
+On 220616 0930, Patrick Venture wrote:
+> On Thu, Jun 16, 2022 at 6:31 AM Alexander Bulekov <alxndr@bu.edu> wrote:
 > 
-> ii) Removed the support for setting the number of multi-fd channels from qmp
->     commands. As now all multiFD parameters will be passed via qmp: migrate
->     command or incoming flag itself.
-
-We can't do that, because it's part of the API already; what you'll need
-to do is check that the number of entries in your list corresponds to
-the value set there and error if it's different.
-
-Dave
-
-> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
-> ---
->  migration/migration.c | 15 ---------------
->  migration/migration.h |  1 -
->  migration/multifd.c   | 42 +++++++++++++++++++++---------------------
->  migration/socket.c    | 42 +++++++++++++++++++++++++++++++++---------
->  migration/socket.h    |  4 +++-
->  monitor/hmp-cmds.c    |  4 ----
->  qapi/migration.json   |  6 ------
->  7 files changed, 57 insertions(+), 57 deletions(-)
+> > Is this an --enable-sanitizers build? The virtual-device fuzzer catches
+> >
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 9b0ad732e7..57dd4494b4 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1585,9 +1585,6 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
->      if (params->has_block_incremental) {
->          dest->block_incremental = params->block_incremental;
->      }
-> -    if (params->has_multifd_channels) {
-> -        dest->multifd_channels = params->multifd_channels;
-> -    }
->      if (params->has_multifd_compression) {
->          dest->multifd_compression = params->multifd_compression;
->      }
-> @@ -1702,9 +1699,6 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
->      if (params->has_block_incremental) {
->          s->parameters.block_incremental = params->block_incremental;
->      }
-> -    if (params->has_multifd_channels) {
-> -        s->parameters.multifd_channels = params->multifd_channels;
-> -    }
->      if (params->has_multifd_compression) {
->          s->parameters.multifd_compression = params->multifd_compression;
->      }
-> @@ -2686,15 +2680,6 @@ bool migrate_pause_before_switchover(void)
->          MIGRATION_CAPABILITY_PAUSE_BEFORE_SWITCHOVER];
->  }
->  
-> -int migrate_multifd_channels(void)
-> -{
-> -    MigrationState *s;
-> -
-> -    s = migrate_get_current();
-> -
-> -    return s->parameters.multifd_channels;
-> -}
-> -
->  MultiFDCompression migrate_multifd_compression(void)
->  {
->      MigrationState *s;
-> diff --git a/migration/migration.h b/migration/migration.h
-> index fa8717ec9e..9464de8ef7 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -372,7 +372,6 @@ bool migrate_validate_uuid(void);
->  bool migrate_auto_converge(void);
->  bool migrate_use_multifd(void);
->  bool migrate_pause_before_switchover(void);
-> -int migrate_multifd_channels(void);
->  MultiFDCompression migrate_multifd_compression(void);
->  int migrate_multifd_zlib_level(void);
->  int migrate_multifd_zstd_level(void);
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 9282ab6aa4..ce017436fb 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -225,7 +225,7 @@ static int multifd_recv_initial_packet(QIOChannel *c, Error **errp)
->          return -1;
->      }
->  
-> -    if (msg.id > migrate_multifd_channels()) {
-> +    if (msg.id > total_multifd_channels()) {
->          error_setg(errp, "multifd: received channel version %u "
->                     "expected %u", msg.version, MULTIFD_VERSION);
->          return -1;
-> @@ -410,8 +410,8 @@ static int multifd_send_pages(QEMUFile *f)
->       * using more channels, so ensure it doesn't overflow if the
->       * limit is lower now.
->       */
-> -    next_channel %= migrate_multifd_channels();
-> -    for (i = next_channel;; i = (i + 1) % migrate_multifd_channels()) {
-> +    next_channel %= total_multifd_channels();
-> +    for (i = next_channel;; i = (i + 1) % total_multifd_channels()) {
->          p = &multifd_send_state->params[i];
->  
->          qemu_mutex_lock(&p->mutex);
-> @@ -422,7 +422,7 @@ static int multifd_send_pages(QEMUFile *f)
->          }
->          if (!p->pending_job) {
->              p->pending_job++;
-> -            next_channel = (i + 1) % migrate_multifd_channels();
-> +            next_channel = (i + 1) % total_multifd_channels();
->              break;
->          }
->          qemu_mutex_unlock(&p->mutex);
-> @@ -500,7 +500,7 @@ static void multifd_send_terminate_threads(Error *err)
->          return;
->      }
->  
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDSendParams *p = &multifd_send_state->params[i];
->  
->          qemu_mutex_lock(&p->mutex);
-> @@ -521,14 +521,14 @@ void multifd_save_cleanup(void)
->          return;
->      }
->      multifd_send_terminate_threads(NULL);
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDSendParams *p = &multifd_send_state->params[i];
->  
->          if (p->running) {
->              qemu_thread_join(&p->thread);
->          }
->      }
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDSendParams *p = &multifd_send_state->params[i];
->          Error *local_err = NULL;
->  
-> @@ -594,7 +594,7 @@ int multifd_send_sync_main(QEMUFile *f)
->  
->      flush_zero_copy = migrate_use_zero_copy_send();
->  
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDSendParams *p = &multifd_send_state->params[i];
->  
->          trace_multifd_send_sync_main_signal(p->id);
-> @@ -627,7 +627,7 @@ int multifd_send_sync_main(QEMUFile *f)
->              }
->          }
->      }
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDSendParams *p = &multifd_send_state->params[i];
->  
->          trace_multifd_send_sync_main_wait(p->id);
-> @@ -903,7 +903,7 @@ int multifd_save_setup(Error **errp)
->      int thread_count;
->      uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
->      uint8_t i;
-> -
-> +    int idx;
->      if (!migrate_use_multifd()) {
->          return 0;
->      }
-> @@ -912,7 +912,7 @@ int multifd_save_setup(Error **errp)
->          return -1;
->      }
->  
-> -    thread_count = migrate_multifd_channels();
-> +    thread_count = total_multifd_channels();
->      multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
->      multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
->      multifd_send_state->pages = multifd_pages_init(page_count);
-> @@ -945,8 +945,8 @@ int multifd_save_setup(Error **errp)
->          } else {
->              p->write_flags = 0;
->          }
-> -
-> -        socket_send_channel_create(multifd_new_send_channel_async, p);
-> +        idx = multifd_index(i);
-> +        socket_send_channel_create(multifd_new_send_channel_async, p, idx);
->      }
->  
->      for (i = 0; i < thread_count; i++) {
-> @@ -991,7 +991,7 @@ static void multifd_recv_terminate_threads(Error *err)
->          }
->      }
->  
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDRecvParams *p = &multifd_recv_state->params[i];
->  
->          qemu_mutex_lock(&p->mutex);
-> @@ -1017,7 +1017,7 @@ int multifd_load_cleanup(Error **errp)
->          return 0;
->      }
->      multifd_recv_terminate_threads(NULL);
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDRecvParams *p = &multifd_recv_state->params[i];
->  
->          if (p->running) {
-> @@ -1030,7 +1030,7 @@ int multifd_load_cleanup(Error **errp)
->              qemu_thread_join(&p->thread);
->          }
->      }
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDRecvParams *p = &multifd_recv_state->params[i];
->  
->          migration_ioc_unregister_yank(p->c);
-> @@ -1065,13 +1065,13 @@ void multifd_recv_sync_main(void)
->      if (!migrate_use_multifd()) {
->          return;
->      }
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDRecvParams *p = &multifd_recv_state->params[i];
->  
->          trace_multifd_recv_sync_main_wait(p->id);
->          qemu_sem_wait(&multifd_recv_state->sem_sync);
->      }
-> -    for (i = 0; i < migrate_multifd_channels(); i++) {
-> +    for (i = 0; i < total_multifd_channels(); i++) {
->          MultiFDRecvParams *p = &multifd_recv_state->params[i];
->  
->          WITH_QEMU_LOCK_GUARD(&p->mutex) {
-> @@ -1166,7 +1166,7 @@ int multifd_load_setup(Error **errp)
->          error_setg(errp, "multifd is not supported by current protocol");
->          return -1;
->      }
-> -    thread_count = migrate_multifd_channels();
-> +    thread_count = total_multifd_channels();
->      multifd_recv_state = g_malloc0(sizeof(*multifd_recv_state));
->      multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
->      qatomic_set(&multifd_recv_state->count, 0);
-> @@ -1204,7 +1204,7 @@ int multifd_load_setup(Error **errp)
->  
->  bool multifd_recv_all_channels_created(void)
->  {
-> -    int thread_count = migrate_multifd_channels();
-> +    int thread_count = total_multifd_channels();
->  
->      if (!migrate_use_multifd()) {
->          return true;
-> @@ -1259,5 +1259,5 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
->                         QEMU_THREAD_JOINABLE);
->      qatomic_inc(&multifd_recv_state->count);
->      return qatomic_read(&multifd_recv_state->count) ==
-> -           migrate_multifd_channels();
-> +           total_multifd_channels();
->  }
-> diff --git a/migration/socket.c b/migration/socket.c
-> index d0cb7cc6a6..c0ac6dbbe2 100644
-> --- a/migration/socket.c
-> +++ b/migration/socket.c
-> @@ -28,9 +28,6 @@
->  #include "trace.h"
->  
->  
-> -struct SocketOutgoingArgs {
-> -    SocketAddress *saddr;
-> -} outgoing_args;
->  
->  struct SocketArgs {
->      struct SrcDestAddr data;
-> @@ -43,20 +40,47 @@ struct OutgoingMigrateParams {
->      uint64_t total_multifd_channel;
->  } outgoing_migrate_params;
->  
-> -void socket_send_channel_create(QIOTaskFunc f, void *data)
-> +
-> +int total_multifd_channels(void)
-> +{
-> +    return outgoing_migrate_params.total_multifd_channel;
-> +}
-> +
-> +int multifd_index(int i)
-> +{
-> +    int length = outgoing_migrate_params.length;
-> +    int j = 0;
-> +    int runn_sum = 0;
-> +    while (j < length) {
-> +        runn_sum += outgoing_migrate_params.socket_args[j].multifd_channels;
-> +        if (i >= runn_sum) {
-> +            j++;
-> +        } else {
-> +            break;
-> +        }
-> +    }
-> +    return j;
-> +}
-> +
-> +void socket_send_channel_create(QIOTaskFunc f, void *data, int idx)
->  {
->      QIOChannelSocket *sioc = qio_channel_socket_new();
-> -    qio_channel_socket_connect_async(sioc, outgoing_args.saddr,
-> -                                     f, data, NULL, NULL, NULL);
-> +    qio_channel_socket_connect_async(sioc,
-> +                       outgoing_migrate_params.socket_args[idx].data.dst_addr,
-> +                       f, data, NULL, NULL,
-> +                       outgoing_migrate_params.socket_args[idx].data.src_addr);
->  }
->  
->  int socket_send_channel_destroy(QIOChannel *send)
->  {
->      /* Remove channel */
->      object_unref(OBJECT(send));
-> -    if (outgoing_args.saddr) {
-> -        qapi_free_SocketAddress(outgoing_args.saddr);
-> -        outgoing_args.saddr = NULL;
-> +    if (outgoing_migrate_params.socket_args != NULL) {
-> +        g_free(outgoing_migrate_params.socket_args);
-> +        outgoing_migrate_params.socket_args = NULL;
-> +    }
-> +    if (outgoing_migrate_params.length) {
-> +        outgoing_migrate_params.length = 0;
->      }
->  
->      if (outgoing_migrate_params.socket_args != NULL) {
-> diff --git a/migration/socket.h b/migration/socket.h
-> index b9e3699167..c8b9252384 100644
-> --- a/migration/socket.h
-> +++ b/migration/socket.h
-> @@ -27,7 +27,9 @@ struct SrcDestAddr {
->      SocketAddress *src_addr;
->  };
->  
-> -void socket_send_channel_create(QIOTaskFunc f, void *data);
-> +int total_multifd_channels(void);
-> +int multifd_index(int i);
-> +void socket_send_channel_create(QIOTaskFunc f, void *data, int idx);
->  int socket_send_channel_destroy(QIOChannel *send);
->  
->  void socket_start_incoming_migration(const char *str, uint8_t number,
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 32a6b67d5f..9a3d76d6ba 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1281,10 +1281,6 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
->          p->has_block_incremental = true;
->          visit_type_bool(v, param, &p->block_incremental, &err);
->          break;
-> -    case MIGRATION_PARAMETER_MULTIFD_CHANNELS:
-> -        p->has_multifd_channels = true;
-> -        visit_type_uint8(v, param, &p->multifd_channels, &err);
-> -        break;
->      case MIGRATION_PARAMETER_MULTIFD_COMPRESSION:
->          p->has_multifd_compression = true;
->          visit_type_MultiFDCompression(v, param, &p->multifd_compression,
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 62a7b22d19..1b1c6d01d3 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -877,11 +877,6 @@
->  #                     migrated and the destination must already have access to the
->  #                     same backing chain as was used on the source.  (since 2.10)
->  #
-> -# @multifd-channels: Number of channels used to migrate data in
-> -#                    parallel. This is the same number that the
-> -#                    number of sockets used for migration.  The
-> -#                    default value is 2 (since 4.0)
-> -#
->  # @xbzrle-cache-size: cache size to be used by XBZRLE migration.  It
->  #                     needs to be a multiple of the target page size
->  #                     and a power of 2
-> @@ -965,7 +960,6 @@
->              '*x-checkpoint-delay': { 'type': 'uint32',
->                                       'features': [ 'unstable' ] },
->              '*block-incremental': 'bool',
-> -            '*multifd-channels': 'uint8',
->              '*xbzrle-cache-size': 'size',
->              '*max-postcopy-bandwidth': 'size',
->              '*max-cpu-throttle': 'uint8',
-> -- 
-> 2.22.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Yeah - it should be reproducible with a sanitizers build from HEAD -- I can
+> try to get a manual instance going again without automation to try and
+> reproduce it.  We're testing on v7.0.0 which is when we started seeing
+> this, I don't think we saw it in 6.2.0.
 
+Here are a few reproducers (run with --enable-sanitizers):
+
+This one complains about misalignments in ip_header, ipasfrag, qlink,
+ip...
+
+cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
+512M,slots=4,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
+vmxnet3,netdev=net0 -netdev user,id=net0 -object \
+memory-backend-ram,id=mem1,size=10M -device \
+pc-dimm,id=nv1,memdev=mem1,addr=0xba19ff00000000 -object \
+memory-backend-ram,id=mem2,size=10M -device \
+pc-dimm,id=nv2,memdev=mem2,addr=0xbe53e14abaa00000 -object \
+memory-backend-ram,id=mem3,size=10M -device \
+pc-dimm,id=nv3,memdev=mem3,addr=0xfe0000e9cae00000 -object \
+memory-backend-ram,id=mem4,size=10M -device \
+pc-dimm,id=nv4,memdev=mem4,addr=0xf0f0f0f00000000 -qtest stdio
+outl 0xcf8 0x80000810
+outl 0xcfc 0xe0000000
+outl 0xcf8 0x80000814
+outl 0xcfc 0xe0001000
+outl 0xcf8 0x80000804
+outw 0xcfc 0x06
+write 0x3e 0x1 0x02
+write 0x39 0x1 0x20
+write 0x29 0x1 0x10
+write 0x2c 0x1 0x0f
+write 0x2d 0x1 0x0f
+write 0x2e 0x1 0x0f
+write 0x2f 0x1 0x0f
+write 0xf0f0f0f00001012 0x1 0xfe
+write 0xf0f0f0f00001013 0x1 0xca
+write 0xf0f0f0f00001014 0x1 0xe9
+write 0xf0f0f0f00001017 0x1 0xfe
+write 0xf0f0f0f0000103a 0x1 0x01
+write 0xfe0000e9cafe0009 0x1 0x40
+write 0xfe0000e9cafe0019 0x1 0x40
+write 0x0 0x1 0xe1
+write 0x1 0x1 0xfe
+write 0x2 0x1 0xbe
+write 0x3 0x1 0xba
+writel 0xe0001020 0xcafe0000
+write 0xfe0000e9cafe0029 0x1 0x40
+write 0xfe0000e9cafe0039 0x1 0x40
+write 0xfe0000e9cafe0049 0x1 0x40
+write 0xfe0000e9cafe0059 0x1 0x40
+write 0x1f65190b 0x1 0x08
+write 0x1f65190d 0x1 0x46
+write 0x1f65190e 0x1 0x03
+write 0x1f651915 0x1 0x01
+write 0xfe0000e9cafe0069 0x1 0x40
+write 0xfe0000e9cafe0079 0x1 0x40
+write 0xfe0000e9cafe0089 0x1 0x40
+write 0xfe0000e9cafe0099 0x1 0x40
+write 0xfe0000e9cafe009d 0x1 0x10
+write 0xfe0000e9cafe00a0 0x1 0xff
+write 0xfe0000e9cafe00a1 0x1 0x18
+write 0xfe0000e9cafe00a2 0x1 0x65
+write 0xfe0000e9cafe00a3 0x1 0x1f
+write 0xfe0000e9cafe00a9 0x1 0x40
+write 0xfe0000e9cafe00ad 0x1 0x1c
+write 0xe0000602 0x1 0x00
+EOF
+
+This one complains about misalignments in ip6_header, ip6_hdrctl...
+
+cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
+512M,slots=1,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
+vmxnet3,netdev=net0 -netdev user,id=net0 -object \
+memory-backend-ram,id=mem1,size=4M -device \
+pc-dimm,id=nv1,memdev=mem1,addr=0x1dd860000000000 -qtest stdio
+outl 0xcf8 0x80000810
+outl 0xcfc 0xe0000000
+outl 0xcf8 0x80000814
+outl 0xcfc 0xe0001000
+outl 0xcf8 0x80000804
+outw 0xcfc 0x06
+write 0x0 0x1 0xe1
+write 0x1 0x1 0xfe
+write 0x2 0x1 0xbe
+write 0x3 0x1 0xba
+write 0x3e 0x1 0x01
+write 0x39 0x1 0x01
+write 0x28 0x1 0x01
+write 0x29 0x1 0x01
+write 0x2d 0x1 0x86
+write 0x2e 0x1 0xdd
+write 0x2f 0x1 0x01
+write 0x1dd860000000112 0x1 0x10
+write 0x1dd86000000013c 0x1 0x02
+writel 0xe0001020 0xcafe0000
+write 0x1009 0x1 0x40
+write 0x100c 0x1 0x86
+write 0x100d 0x1 0xdd
+write 0x1011 0x1 0x10
+write 0x1019 0x1 0x7e
+write 0x101d 0x1 0x10
+write 0x4d56 0x1 0x02
+write 0xe0000603 0x1 0x00
+EOF
+
+-Alex
+
+> 
+> 
+> > these periodically while fuzzing network-devices. However I don't think
+> > OSS-Fuzz creates reports for them for some reason. I can create qtest
+> > reproducers, if that is useful.
+> > -Alex
+> >
+> > On 220615 0942, Patrick Venture wrote:
+> > > Hey - I wanted to ask if someone else has seen this or has suggestions on
+> > > how to fix it in libslirp / qemu.
+> > >
+> > > libslirp version: 3ad1710a96678fe79066b1469cead4058713a1d9
+> > >
+> > > The blow is line:
+> > >
+> > https://gitlab.freedesktop.org/slirp/libslirp/-/blob/master/src/tcp_input.c#L310
+> > >
+> > > I0614 13:44:44.304087    2040 bytestream.cc:22] QEMU:
+> > > third_party/libslirp/src/tcp_input.c:310:56: runtime error: member access
+> > > within misaligned address 0xffff9a4000f4 for type 'struct qlink', which
+> > > requires 8 byte alignment
+> > > I0614 13:44:44.304156    2040 bytestream.cc:22] QEMU: 0xffff9a4000f4:
+> > note:
+> > > pointer points here
+> > > I0614 13:44:44.304184    2040 bytestream.cc:22] QEMU:   00 00 00 00 00 00
+> > > 00 02  20 02 0a 00 00 01 42 01  0a 00 02 02 42 01 0a 00  00 01 86 dd 60
+> > 02
+> > > dd 79
+> > > I0614 13:44:44.304204    2040 bytestream.cc:22] QEMU:               ^
+> > > I0614 13:44:44.641173    2040 bytestream.cc:22] QEMU:     #0
+> > 0xaaaacbe34bd8
+> > > in tcp_input third_party/libslirp/src/tcp_input.c:310:56
+> > > I0614 13:44:44.641239    2040 bytestream.cc:22] QEMU:     #1
+> > 0xaaaacbe22a94
+> > > in ip6_input third_party/libslirp/src/ip6_input.c:74:9
+> > > I0614 13:44:44.641262    2040 bytestream.cc:22] QEMU:     #2
+> > 0xaaaacbe0bbbc
+> > > in slirp_input third_party/libslirp/src/slirp.c:1169:13
+> > > I0614 13:44:44.641280    2040 bytestream.cc:22] QEMU:     #3
+> > 0xaaaacbd55f6c
+> > > in net_slirp_receive third_party/qemu/net/slirp.c:136:5
+> > > I0614 13:44:44.641296    2040 bytestream.cc:22] QEMU:     #4
+> > 0xaaaacbd4e77c
+> > > in nc_sendv_compat third_party/qemu/net/net.c
+> > > I0614 13:44:44.641323    2040 bytestream.cc:22] QEMU:     #5
+> > 0xaaaacbd4e77c
+> > > in qemu_deliver_packet_iov third_party/qemu/net/net.c:850:15
+> > > I0614 13:44:44.641342    2040 bytestream.cc:22] QEMU:     #6
+> > 0xaaaacbd50bfc
+> > > in qemu_net_queue_deliver_iov third_party/qemu/net/queue.c:179:11
+> > > I0614 13:44:44.641359    2040 bytestream.cc:22] QEMU:     #7
+> > 0xaaaacbd50bfc
+> > > in qemu_net_queue_send_iov third_party/qemu/net/queue.c:246:11
+> > > I0614 13:44:44.641382    2040 bytestream.cc:22] QEMU:     #8
+> > 0xaaaacbd4a88c
+> > > in qemu_sendv_packet_async third_party/qemu/net/net.c:891:12
+> > > I0614 13:44:44.641396    2040 bytestream.cc:22] QEMU:     #9
+> > 0xaaaacacb1de0
+> > > in virtio_net_flush_tx third_party/qemu/hw/net/virtio-net.c:2586:15
+> > > I0614 13:44:44.641416    2040 bytestream.cc:22] QEMU:     #10
+> > > 0xaaaacacb1580 in virtio_net_tx_bh
+> > > third_party/qemu/hw/net/virtio-net.c:2703:11
+> > > I0614 13:44:44.641438    2040 bytestream.cc:22] QEMU:     #11
+> > > 0xaaaacc2bcf64 in aio_bh_call third_party/qemu/util/async.c:142:5
+> > > I0614 13:44:44.641463    2040 bytestream.cc:22] QEMU:     #12
+> > > 0xaaaacc2bcf64 in aio_bh_poll third_party/qemu/util/async.c:170:13
+> > > I0614 13:44:44.641477    2040 bytestream.cc:22] QEMU:     #13
+> > > 0xaaaacc2b8f70 in aio_dispatch third_party/qemu/util/aio-posix.c:420:5
+> > > I0614 13:44:44.641495    2040 bytestream.cc:22] QEMU:     #14
+> > > 0xaaaacc2bf120 in aio_ctx_dispatch third_party/qemu/util/async.c:312:5
+> > > I0614 13:44:44.641510    2040 bytestream.cc:22] QEMU:     #15
+> > > 0xaaaacc3a7690 in g_main_dispatch third_party/glib/glib/gmain.c:3417:27
+> > > I0614 13:44:44.641525    2040 bytestream.cc:22] QEMU:     #16
+> > > 0xaaaacc3a7690 in g_main_context_dispatch
+> > > third_party/glib/glib/gmain.c:4135:7
+> > > I0614 13:44:44.641546    2040 bytestream.cc:22] QEMU:     #17
+> > > 0xaaaacc2de3ec in glib_pollfds_poll
+> > third_party/qemu/util/main-loop.c:232:9
+> > > I0614 13:44:44.641562    2040 bytestream.cc:22] QEMU:     #18
+> > > 0xaaaacc2de3ec in os_host_main_loop_wait
+> > > third_party/qemu/util/main-loop.c:255:5
+> > > I0614 13:44:44.641580    2040 bytestream.cc:22] QEMU:     #19
+> > > 0xaaaacc2de3ec in main_loop_wait third_party/qemu/util/main-loop.c:531:11
+> > > I0614 13:44:44.641598    2040 bytestream.cc:22] QEMU:     #20
+> > > 0xaaaacbd82798 in qemu_main_loop
+> > third_party/qemu/softmmu/runstate.c:727:9
+> > > I0614 13:44:44.641612    2040 bytestream.cc:22] QEMU:     #21
+> > > 0xaaaacadacb5c in main
+> > >
+> > > Patrick
+> >
 
