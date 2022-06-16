@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E325454E58A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 17:01:03 +0200 (CEST)
-Received: from localhost ([::1]:60878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327A354E615
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 17:30:32 +0200 (CEST)
+Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1qzX-0001x7-14
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 11:01:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46476)
+	id 1o1rS2-0000Oh-Ri
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 11:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o1qxr-0001Fr-OJ
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:59:21 -0400
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:36679)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o1qxq-0007Dm-0l
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 10:59:19 -0400
-Received: by mail-lf1-x133.google.com with SMTP id i29so2639727lfp.3
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 07:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YwjMbuNmRyqbPa0UwFhz1TF31GAKRqeH2rGNymIkmQo=;
- b=Xm6TVJw3YPYmU/3wgKlx+V+f67cIWkfsj48K+gGRGx83ksd+5qxS6k78nvEARM8fMj
- U62+jh1up8DQAhdkpLQ7Da9aqkF/QSmeaXaBNE3J5Dgyq+xMovfRI6lr1fqgMu+5COhA
- /yrkw8bPtDwWirNUkNAVpUrHC+Eaulv+O+7Y84PRVRdvD241ZjpUzAjthaVmPfMtvCFw
- Sb2Bchxmmy/cHMgP/Rc5wpGkEMj5jvdbTeG8R7hEdZB6PoRCCiuYGPwTud/zI8HH+gSu
- LMNr0LzQQSCSTEzmYwPYzphtqZstAxWS7dWt/LkQXB/q5r652tE9sC0m6kFJufHc8wTV
- vzbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YwjMbuNmRyqbPa0UwFhz1TF31GAKRqeH2rGNymIkmQo=;
- b=gYDrAwhUNpSOchrhbROv2dQsRWvHTZnwm4aFbiPJ2rKBVEP5a4/kOWWF763Hsjk5C+
- Aj10nHqAYqQcTXe/+qKZPKNe+rH+g8aKa6g5ZXqStaBNNbt8GuYVnDS5o1wFNeyhA4hS
- p9cxDa6ZYmO1fcy2yPuI9Hsr8CIZmtAdvbUmUkjnMjzXgKaDoXHBOLa5p+15mrn/CKSN
- 9EmyG/kLNm2Fkom/gE0ozOqsJziXRxHtTBrffFjFaXh49N7qhRL0AH5Uv26smJl6b0gj
- 3DPZFLc0boLPWySSM6IfYJ3NsRNElvO3ebRyTL0yDPWXiKsIZhlo0cJoH9RPbndlDuj8
- 5eFg==
-X-Gm-Message-State: AJIora/UJqHjZpgn5cn0GjgPbSX/ixDJ/kEunAijbhj2B6OnnqnlwWCd
- RkuNhJdjMpGlbtMoAD92VQe65d7I8VkSrn5oyWA=
-X-Google-Smtp-Source: AGRyM1tD0Uw6+cGuAbNadoq4cSN+707rFLbfJ76BQ6Qbr5wPw9G5h6kHAYGUPSrj1tQqLu4lf4/G0CXgAchJfUiNFxE=
-X-Received: by 2002:a05:6512:108b:b0:479:4cce:7ab1 with SMTP id
- j11-20020a056512108b00b004794cce7ab1mr2922142lfg.94.1655391556312; Thu, 16
- Jun 2022 07:59:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-4-git-send-email-steven.sistare@oracle.com>
-In-Reply-To: <1655304746-102776-4-git-send-email-steven.sistare@oracle.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 16 Jun 2022 18:59:04 +0400
-Message-ID: <CAJ+F1CL85hOgz+d9TT+4uq+T1EdZz8f=_O+SeGbbewWT2e2Yew@mail.gmail.com>
-Subject: Re: [PATCH V8 03/39] migration: simplify savevm
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1rQx-000834-Lx
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:29:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o1rQt-000634-KK
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:29:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655393358;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=9MTxsqeRvhIC3co1C7GnyavpcVlF2IDmlaAZEkpZO/0=;
+ b=b5ebsz2RcZxubNa5kEFuJON3NsIQKI+LwWZCozh8EDUX1glaWhd+gr79swDRmo0CsP9i9E
+ fGqZHWEElWAdo+0cdWn0TKVKXaQDYfrKGl5xjx1ZrlikJO3udtLZX3HAWiskoQynaa68Vh
+ EsQfcC+BCHFmpwNPh6lxzFI1L7HdNE8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-294-wCDJ2gHEP_WDCggtXzd2Mw-1; Thu, 16 Jun 2022 11:29:15 -0400
+X-MC-Unique: wCDJ2gHEP_WDCggtXzd2Mw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F08C5811E83;
+ Thu, 16 Jun 2022 15:29:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 17AA41121314;
+ Thu, 16 Jun 2022 15:29:06 +0000 (UTC)
+Date: Thu, 16 Jun 2022 16:29:04 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Steve Sistare <steven.sistare@oracle.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>, 
- "Daniel P. Berrange" <berrange@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Jason Zeng <jason.zeng@linux.intel.com>, Zheng Chuan <zhengchuan@huawei.com>, 
- Mark Kanda <mark.kanda@oracle.com>, Guoyi Tu <tugy@chinatelecom.cn>, 
- Peter Maydell <peter.maydell@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
- Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
- John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000ada3d605e191e1ee"
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ Alex Williamson <alex.williamson@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Zheng Chuan <zhengchuan@huawei.com>,
+ Mark Kanda <mark.kanda@oracle.com>, Guoyi Tu <tugy@chinatelecom.cn>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH V8 02/39] migration: qemu file wrappers
+Message-ID: <YqtMQFqFR3+b26YO@redhat.com>
+References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
+ <1655304746-102776-3-git-send-email-steven.sistare@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1655304746-102776-3-git-send-email-steven.sistare@oracle.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,207 +92,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ada3d605e191e1ee
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Wed, Jun 15, 2022 at 6:57 PM Steve Sistare <steven.sistare@oracle.com>
-wrote:
-
-> Use qemu_file_open to simplify a few functions in savevm.c.
-> No functional change.
->
+On Wed, Jun 15, 2022 at 07:51:49AM -0700, Steve Sistare wrote:
+> Add qemu_file_open and qemu_fd_open to create QEMUFile objects for unix
+> files and file descriptors.
+> 
 > Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->
+> ---
+>  migration/qemu-file-channel.c | 36 ++++++++++++++++++++++++++++++++++++
+>  migration/qemu-file-channel.h |  6 ++++++
+>  2 files changed, 42 insertions(+)
+> 
+> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+> index bb5a575..cc5aebc 100644
+> --- a/migration/qemu-file-channel.c
+> +++ b/migration/qemu-file-channel.c
+> @@ -27,8 +27,10 @@
+>  #include "qemu-file.h"
+>  #include "io/channel-socket.h"
+>  #include "io/channel-tls.h"
+> +#include "io/channel-file.h"
+>  #include "qemu/iov.h"
+>  #include "qemu/yank.h"
+> +#include "qapi/error.h"
+>  #include "yank_functions.h"
+>  
+>  
+> @@ -192,3 +194,37 @@ QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
+>      object_ref(OBJECT(ioc));
+>      return qemu_fopen_ops(ioc, &channel_output_ops, true);
+>  }
+> +
+> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
+> +                          const char *name, Error **errp)
+> +{
+> +    g_autoptr(QIOChannelFile) fioc = NULL;
+> +    QIOChannel *ioc;
+> +    QEMUFile *f;
+> +
+> +    if (flags & O_RDWR) {
 
-(ok, I get why you keep the mode_t in fopen)
+IIRC, O_RDWR may expand to more than 1 bit, so needs a strict
+equality test
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+   if ((flags & O_RDWR) == O_RDWR)
 
----
->  migration/savevm.c | 20 ++++++--------------
->  1 file changed, 6 insertions(+), 14 deletions(-)
->
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index d907689..0b2c5cd 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2931,7 +2931,6 @@ void qmp_xen_save_devices_state(const char
-> *filename, bool has_live, bool live,
->                                  Error **errp)
->  {
->      QEMUFile *f;
-> -    QIOChannelFile *ioc;
->      int saved_vm_running;
->      int ret;
->
-> @@ -2945,14 +2944,11 @@ void qmp_xen_save_devices_state(const char
-> *filename, bool has_live, bool live,
->      vm_stop(RUN_STATE_SAVE_VM);
->      global_state_store_running();
->
-> -    ioc =3D qio_channel_file_new_path(filename, O_WRONLY | O_CREAT |
-> O_TRUNC,
-> -                                    0660, errp);
-> -    if (!ioc) {
-> +    f =3D qemu_fopen_file(filename, O_WRONLY | O_CREAT | O_TRUNC, 0660,
-> +                        "migration-xen-save-state", errp);
-> +    if (!f) {
->          goto the_end;
->      }
-> -    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
-> -    f =3D qemu_fopen_channel_output(QIO_CHANNEL(ioc));
-> -    object_unref(OBJECT(ioc));
->      ret =3D qemu_save_device_state(f);
->      if (ret < 0 || qemu_fclose(f) < 0) {
->          error_setg(errp, QERR_IO_ERROR);
-> @@ -2981,7 +2977,6 @@ void qmp_xen_save_devices_state(const char
-> *filename, bool has_live, bool live,
->  void qmp_xen_load_devices_state(const char *filename, Error **errp)
->  {
->      QEMUFile *f;
-> -    QIOChannelFile *ioc;
->      int ret;
->
->      /* Guest must be paused before loading the device state; the RAM sta=
-te
-> @@ -2993,14 +2988,11 @@ void qmp_xen_load_devices_state(const char
-> *filename, Error **errp)
->      }
->      vm_stop(RUN_STATE_RESTORE_VM);
->
-> -    ioc =3D qio_channel_file_new_path(filename, O_RDONLY | O_BINARY, 0,
-> errp);
-> -    if (!ioc) {
-> +    f =3D qemu_fopen_file(filename, O_RDONLY | O_BINARY, 0,
-> +                        "migration-xen-load-state", errp);
-> +    if (!f) {
->          return;
->      }
-> -    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-load-state");
-> -    f =3D qemu_fopen_channel_input(QIO_CHANNEL(ioc));
-> -    object_unref(OBJECT(ioc));
-> -
->      ret =3D qemu_loadvm_state(f);
->      qemu_fclose(f);
->      if (ret < 0) {
-> --
-> 1.8.3.1
->
->
->
+> +        error_setg(errp, "qemu_fopen_file %s: O_RDWR not supported", path);
+> +        return NULL;
+> +    }
+> +
+> +    fioc = qio_channel_file_new_path(path, flags, mode, errp);
+> +    if (!fioc) {
+> +        return NULL;
+> +    }
+> +
+> +    ioc = QIO_CHANNEL(fioc);
+> +    qio_channel_set_name(ioc, name);
+> +    f = (flags & O_WRONLY) ? qemu_fopen_channel_output(ioc) :
+> +                             qemu_fopen_channel_input(ioc);
+> +    return f;
+> +}
+> +
+> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name)
+> +{
+> +    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
+> +    QIOChannel *ioc = QIO_CHANNEL(fioc);
+> +    QEMUFile *f = writable ? qemu_fopen_channel_output(ioc) :
+> +                             qemu_fopen_channel_input(ioc);
+> +    qio_channel_set_name(ioc, name);
+> +    return f;
+> +}
+> diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
+> index 0028a09..75fd0ad 100644
+> --- a/migration/qemu-file-channel.h
+> +++ b/migration/qemu-file-channel.h
+> @@ -29,4 +29,10 @@
+>  
+>  QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
+>  QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
+> +
+> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
+> +                         const char *name, Error **errp);
+> +
+> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name);
 
---=20
-Marc-Andr=C3=A9 Lureau
+Note we used the explicit names "_input" and "_output" in
+the existing methods as they're more readable in the calling
+sides than "true" / "false".
 
---000000000000ada3d605e191e1ee
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Similarly we had qemu_open vs qemu_create, so that we don't
+have the ambiguity of whuether 'mode' is needed or not. IOW,
+I'd suggest we have 
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, 2022 at 6:57 PM Ste=
-ve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@=
-oracle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Use qemu_file_open to simplify a few functions in savevm.c.<br>
-No functional change.<br>
-<br>
-Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
-m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br>
-Reviewed-by: Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.c=
-om" target=3D"_blank">dgilbert@redhat.com</a>&gt;<br></blockquote><div><br>=
-</div><div>(ok, I get why you keep the mode_t in fopen)<br></div><div><br><=
-/div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcand=
-re.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; <br></div><div><b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0migration/savevm.c | 20 ++++++--------------<br>
-=C2=A01 file changed, 6 insertions(+), 14 deletions(-)<br>
-<br>
-diff --git a/migration/savevm.c b/migration/savevm.c<br>
-index d907689..0b2c5cd 100644<br>
---- a/migration/savevm.c<br>
-+++ b/migration/savevm.c<br>
-@@ -2931,7 +2931,6 @@ void qmp_xen_save_devices_state(const char *filename,=
- bool has_live, bool live,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0QEMUFile *f;<br>
--=C2=A0 =C2=A0 QIOChannelFile *ioc;<br>
-=C2=A0 =C2=A0 =C2=A0int saved_vm_running;<br>
-=C2=A0 =C2=A0 =C2=A0int ret;<br>
-<br>
-@@ -2945,14 +2944,11 @@ void qmp_xen_save_devices_state(const char *filenam=
-e, bool has_live, bool live,<br>
-=C2=A0 =C2=A0 =C2=A0vm_stop(RUN_STATE_SAVE_VM);<br>
-=C2=A0 =C2=A0 =C2=A0global_state_store_running();<br>
-<br>
--=C2=A0 =C2=A0 ioc =3D qio_channel_file_new_path(filename, O_WRONLY | O_CRE=
-AT | O_TRUNC,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0660, errp);<br>
--=C2=A0 =C2=A0 if (!ioc) {<br>
-+=C2=A0 =C2=A0 f =3D qemu_fopen_file(filename, O_WRONLY | O_CREAT | O_TRUNC=
-, 0660,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &quot;migration-xen-save-state&quot;, errp);<br>
-+=C2=A0 =C2=A0 if (!f) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto the_end;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 qio_channel_set_name(QIO_CHANNEL(ioc), &quot;migration-xen-s=
-ave-state&quot;);<br>
--=C2=A0 =C2=A0 f =3D qemu_fopen_channel_output(QIO_CHANNEL(ioc));<br>
--=C2=A0 =C2=A0 object_unref(OBJECT(ioc));<br>
-=C2=A0 =C2=A0 =C2=A0ret =3D qemu_save_device_state(f);<br>
-=C2=A0 =C2=A0 =C2=A0if (ret &lt; 0 || qemu_fclose(f) &lt; 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, QERR_IO_ERROR);<br>
-@@ -2981,7 +2977,6 @@ void qmp_xen_save_devices_state(const char *filename,=
- bool has_live, bool live,<br>
-=C2=A0void qmp_xen_load_devices_state(const char *filename, Error **errp)<b=
-r>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0QEMUFile *f;<br>
--=C2=A0 =C2=A0 QIOChannelFile *ioc;<br>
-=C2=A0 =C2=A0 =C2=A0int ret;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Guest must be paused before loading the device state=
-; the RAM state<br>
-@@ -2993,14 +2988,11 @@ void qmp_xen_load_devices_state(const char *filenam=
-e, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0vm_stop(RUN_STATE_RESTORE_VM);<br>
-<br>
--=C2=A0 =C2=A0 ioc =3D qio_channel_file_new_path(filename, O_RDONLY | O_BIN=
-ARY, 0, errp);<br>
--=C2=A0 =C2=A0 if (!ioc) {<br>
-+=C2=A0 =C2=A0 f =3D qemu_fopen_file(filename, O_RDONLY | O_BINARY, 0,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &quot;migration-xen-load-state&quot;, errp);<br>
-+=C2=A0 =C2=A0 if (!f) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 qio_channel_set_name(QIO_CHANNEL(ioc), &quot;migration-xen-l=
-oad-state&quot;);<br>
--=C2=A0 =C2=A0 f =3D qemu_fopen_channel_input(QIO_CHANNEL(ioc));<br>
--=C2=A0 =C2=A0 object_unref(OBJECT(ioc));<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0ret =3D qemu_loadvm_state(f);<br>
-=C2=A0 =C2=A0 =C2=A0qemu_fclose(f);<br>
-=C2=A0 =C2=A0 =C2=A0if (ret &lt; 0) {<br>
--- <br>
-1.8.3.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+ QEMUFile *qemu_fopen_file_output(const char *path, int mode,
+                                  const char *name, Error **errp);
+ QEMUFile *qemu_fopen_file_input(const char *path,
+                                  const char *name, Error **errp);
 
---000000000000ada3d605e191e1ee--
+ QEMUFile *qemu_fopen_fd_input(int fd, const char *name);
+ QEMUFile *qemu_fopen_fd_output(int fd, const char *name);
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
