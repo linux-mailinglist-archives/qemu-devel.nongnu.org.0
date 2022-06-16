@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F172854E81E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 18:52:02 +0200 (CEST)
-Received: from localhost ([::1]:39350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBD754E83C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 19:00:34 +0200 (CEST)
+Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1siv-0001sU-8Q
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 12:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45172)
+	id 1o1srB-00077S-AU
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 13:00:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o1shb-0000pd-5a
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:50:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39624)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o1soF-0004PM-Tq
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:57:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o1shX-0000mk-JT
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:50:37 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o1soC-0001vB-1d
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:57:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655398234;
+ s=mimecast20190719; t=1655398646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U6TqkAF9Tn8+3/tsEwpurn9tA7lhy/UmRkOQiBW52io=;
- b=G5K8mKiYVk5XHfiLcZ/wiq2b4EU4ggnMUJyqtxxj569Z+IzKkqH7o/Lt/DP4FyfkLZv/+L
- mbPqnsRxFKt9mP/1O54a7eWwrCUOx0v52aS0UKB4aAM1w9T5UFgXQ5Pa3ucCjQyNh3nqlN
- /S3EKusVw1uI30y+3XVcnu9g4fzP2MA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=iavVkJvGy6ecCXNXwOrMKmfKLNh4j8jPCdxE9vm5FEc=;
+ b=hKOHJFv/g6gdIk2FEH2Uega4SB2JvNe9CBckJdOI+10TyL1bN9Nf/YxkoAhykYx5bu7ZMN
+ ISth4wjngSLKKawY0a/kmrDWvA8uWVAFcg1SmtuHdsMFauUgwZqwebTJQFxmwzRsIP0TQn
+ cYeDfOygDxtygwGWDOl2Th3za/cf/UM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-O2W_IGSHNKSYl5H-MaoM6g-1; Thu, 16 Jun 2022 12:50:33 -0400
-X-MC-Unique: O2W_IGSHNKSYl5H-MaoM6g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so862098wmr.0
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 09:50:32 -0700 (PDT)
+ us-mta-487-7Qu09_7EMY6azHBhvVMRYg-1; Thu, 16 Jun 2022 12:57:25 -0400
+X-MC-Unique: 7Qu09_7EMY6azHBhvVMRYg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l3-20020a05600c1d0300b0039c7efa2526so1145170wms.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 09:57:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=U6TqkAF9Tn8+3/tsEwpurn9tA7lhy/UmRkOQiBW52io=;
- b=ndkIjh/ppwruvXJKqLDaUfyrsYKsm5uwP8B/EHQ2MO+T8xGeXLYS3VgP7C3fSNkdbd
- RMCpY2rtlSchmMn7EJtnDiGk/cCyxWIdyc3qdaI2n0sC0BcJIAvVxEYodmwqqN9Bb+Ha
- +BrnF42+lOIDQXgv381S42hTYgDPFSRYC4ncoDWWUuqwr72yJdu9WlgCwM2DvhnkQVmZ
- sVqpYBAC3l6A2RoWQhvqTxs6SuUdSYr2osyhbk/3pBxQ5IKmgCHu7jRGV5q6bNiLo1KO
- UNpvzsXfsyPWg8W2WLstKVXddw6/BSRkZrwmVHaqnfO/52pPfxujAbz/O9/sJamjDvkJ
- W0XA==
-X-Gm-Message-State: AJIora9qxXi4HsQSnH3BTGGHzx14FZ+pdEE7/zWBo3XX3n7qd8Fy0vS+
- 3B2O4apvrq8dWU1hIkkAgfACj3OvnupvVLTUGoy0b5Ly93u6kj/+zwQetvGiHp7ajKZ9u4FECPw
- XJ0Kyaub3OpgYh6A=
-X-Received: by 2002:a5d:684d:0:b0:219:e68b:55f4 with SMTP id
- o13-20020a5d684d000000b00219e68b55f4mr5501443wrw.215.1655398231597; 
- Thu, 16 Jun 2022 09:50:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tzGxotyKKEMCqa8fneNiqOUX7UuV/uNQ/2WbHXsbGhzkXmlAkk/eGd8S72qEi8nuHxR1CVMA==
-X-Received: by 2002:a5d:684d:0:b0:219:e68b:55f4 with SMTP id
- o13-20020a5d684d000000b00219e68b55f4mr5501419wrw.215.1655398231318; 
- Thu, 16 Jun 2022 09:50:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=iavVkJvGy6ecCXNXwOrMKmfKLNh4j8jPCdxE9vm5FEc=;
+ b=mbIFci0QykYZ93gg55bkCN3Tl5mictKIRQf2NwVhs2vF+Hnay+bApwXundlmgi53lG
+ C1OZejIiIzye7RR8udcAEmMi1lfFuD5d73xKUNByEcIjzTV5+rP9UdH2pClOvj3/Ih4s
+ PTiA/J69jSTb6lc0slj7IZsHSh3UzauHL33u1rw+LXPXt09Nq1U5tOKpX1RZzXKV0ZLu
+ scYKPign7p9lH1WmcT4iNJ8GXc45nZx3Sx2S69g+WHc6vMr7rsiL+VJKJkj0r9STYuqs
+ rWiqP5kC4fb1fsMm1/YZ6IL+MJjrXeXegPXnnLPi7P1AEXW1qgzBVJ+xmFUp97glxlg5
+ rFRA==
+X-Gm-Message-State: AJIora8mALyaEKtNkmNtUBj6AGv36WPVgOgftMALw+0/4dRTGnBBo9Et
+ TKwfy03syLyQ9DV1kt6KOrK6ZnbmAFed1KlLDmHM8xCHOfCHB1WpBsNkW2nk9K7C6bv/sEnSpDw
+ ha6ks3CKh+6pngGI4730mXVFHhrBWbO0VsurIxVYdH9qkmU/HG5Db1OF+v5M1
+X-Received: by 2002:a05:6000:1c02:b0:218:42ab:281f with SMTP id
+ ba2-20020a0560001c0200b0021842ab281fmr5533844wrb.607.1655398643749; 
+ Thu, 16 Jun 2022 09:57:23 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sMEfznvLaGtGq7apWw7sFGvKaiV1u3KKuhCkhBacIBed2n4BC/qVoua00iYcQPIZ3BTV8bvw==
+X-Received: by 2002:a05:6000:1c02:b0:218:42ab:281f with SMTP id
+ ba2-20020a0560001c0200b0021842ab281fmr5533815wrb.607.1655398643380; 
+ Thu, 16 Jun 2022 09:57:23 -0700 (PDT)
 Received: from redhat.com ([2.53.13.204]) by smtp.gmail.com with ESMTPSA id
- r184-20020a1c2bc1000000b0039749b01ea7sm3657597wmr.32.2022.06.16.09.50.29
+ d18-20020a5d6452000000b00215859413f3sm2259793wrw.107.2022.06.16.09.57.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 09:50:30 -0700 (PDT)
-Date: Thu, 16 Jun 2022 12:50:27 -0400
+ Thu, 16 Jun 2022 09:57:22 -0700 (PDT)
+Date: Thu, 16 Jun 2022 12:57:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 4/8] virtio: categorize callbacks in GS
-Message-ID: <20220616125019-mutt-send-email-mst@kernel.org>
-References: <20220609143727.1151816-1-eesposit@redhat.com>
- <20220609143727.1151816-5-eesposit@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/10] virtio,pc,pci: fixes,cleanups,features
+Message-ID: <20220616165703.42226-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220609143727.1151816-5-eesposit@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -82,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,134 +93,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 09, 2022 at 10:37:23AM -0400, Emanuele Giuseppe Esposito wrote:
-> All the callbacks below are always running in the main loop.
-> 
-> The callbacks are the following:
-> - start/stop_ioeventfd: these are the callbacks where
->   blk_set_aio_context(iothread) is done, so they are called in the main
->   loop.
-> 
-> - save and load: called during migration, when VM is stopped from the
->   main loop.
-> 
-> - reset: before calling this callback, stop_ioeventfd is invoked, so
->   it can only run in the main loop.
-> 
-> - set_status: going through all the callers we can see it is called
->   from a MemoryRegionOps callback, which always run in the main loop.
-> 
-> - realize: iothread is not even created yet.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+The following changes since commit def6fd6c9ce9e00a30cdd0066e0fde206b3f3d2f:
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-06-16 07:13:04 -0700)
 
+are available in the Git repository at:
 
-> ---
->  hw/block/virtio-blk.c  | 2 ++
->  hw/virtio/virtio-bus.c | 5 +++++
->  hw/virtio/virtio-pci.c | 2 ++
->  hw/virtio/virtio.c     | 8 ++++++++
->  4 files changed, 17 insertions(+)
-> 
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index 29a9c53ebc..4e6421c35e 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -1032,6 +1032,8 @@ static void virtio_blk_set_status(VirtIODevice *vdev, uint8_t status)
->  {
->      VirtIOBlock *s = VIRTIO_BLK(vdev);
->  
-> +    GLOBAL_STATE_CODE();
-> +
->      if (!(status & (VIRTIO_CONFIG_S_DRIVER | VIRTIO_CONFIG_S_DRIVER_OK))) {
->          assert(!s->dataplane_started);
->      }
-> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> index d7ec023adf..0891ddb2ff 100644
-> --- a/hw/virtio/virtio-bus.c
-> +++ b/hw/virtio/virtio-bus.c
-> @@ -23,6 +23,7 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "qemu/main-loop.h"
->  #include "qemu/error-report.h"
->  #include "qemu/module.h"
->  #include "qapi/error.h"
-> @@ -223,6 +224,8 @@ int virtio_bus_start_ioeventfd(VirtioBusState *bus)
->      VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
->      int r;
->  
-> +    GLOBAL_STATE_CODE();
-> +
->      if (!k->ioeventfd_assign || !k->ioeventfd_enabled(proxy)) {
->          return -ENOSYS;
->      }
-> @@ -247,6 +250,8 @@ void virtio_bus_stop_ioeventfd(VirtioBusState *bus)
->      VirtIODevice *vdev;
->      VirtioDeviceClass *vdc;
->  
-> +    GLOBAL_STATE_CODE();
-> +
->      if (!bus->ioeventfd_started) {
->          return;
->      }
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 0566ad7d00..6798039391 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -301,6 +301,8 @@ static void virtio_ioport_write(void *opaque, uint32_t addr, uint32_t val)
->      VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->      hwaddr pa;
->  
-> +    GLOBAL_STATE_CODE();
-> +
->      switch (addr) {
->      case VIRTIO_PCI_GUEST_FEATURES:
->          /* Guest does not negotiate properly?  We have to assume nothing. */
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 5d607aeaa0..2650504dd4 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -1977,6 +1977,8 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val)
->      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->      trace_virtio_set_status(vdev, val);
->  
-> +    GLOBAL_STATE_CODE();
-> +
->      if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
->          if (!(vdev->status & VIRTIO_CONFIG_S_FEATURES_OK) &&
->              val & VIRTIO_CONFIG_S_FEATURES_OK) {
-> @@ -2025,6 +2027,8 @@ void virtio_reset(void *opaque)
->      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->      int i;
->  
-> +    GLOBAL_STATE_CODE();
-> +
->      virtio_set_status(vdev, 0);
->      if (current_cpu) {
->          /* Guest initiated reset */
-> @@ -2882,6 +2886,8 @@ int virtio_save(VirtIODevice *vdev, QEMUFile *f)
->      uint32_t guest_features_lo = (vdev->guest_features & 0xffffffff);
->      int i;
->  
-> +    GLOBAL_STATE_CODE();
-> +
->      if (k->save_config) {
->          k->save_config(qbus->parent, f);
->      }
-> @@ -3024,6 +3030,8 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
->      VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
->      VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
->  
-> +    GLOBAL_STATE_CODE();
-> +
->      /*
->       * We poison the endianness to ensure it does not get used before
->       * subsections have been loaded.
-> -- 
-> 2.31.1
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 8c97e4deeca9ad791ab369d3879ebfb0267b24ca:
+
+  acpi/erst: fix fallthrough code upon validation failure (2022-06-16 12:54:58 -0400)
+
+----------------------------------------------------------------
+virtio,pc,pci: fixes,cleanups,features
+
+more CXL patches
+RSA support for crypto
+fixes, cleanups all over the place
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Ani Sinha (1):
+      acpi/erst: fix fallthrough code upon validation failure
+
+Jonathan Cameron (3):
+      pci-bridge/cxl_upstream: Add a CXL switch upstream port
+      pci-bridge/cxl_downstream: Add a CXL switch downstream port
+      docs/cxl: Add switch documentation
+
+Ni Xun (1):
+      vhost: also check queue state in the vhost_dev_set_log error routine
+
+Yajun Wu (1):
+      virtio/vhost-user: Fix wrong vhost notifier GPtrArray size
+
+Zhenwei Pi (1):
+      crypto: Introduce RSA algorithm
+
+Zhenzhong Duan (3):
+      virtio-iommu: Add bypass mode support to assigned device
+      virtio-iommu: Use recursive lock to avoid deadlock
+      virtio-iommu: Add an assert check in translate routine
+
+ include/hw/cxl/cxl.h              |   5 +
+ include/hw/virtio/virtio-crypto.h |   5 +-
+ include/hw/virtio/virtio-iommu.h  |   4 +-
+ include/sysemu/cryptodev.h        |  83 ++++++++--
+ backends/cryptodev-builtin.c      | 276 ++++++++++++++++++++++++++++-----
+ backends/cryptodev-vhost-user.c   |  34 +++-
+ backends/cryptodev.c              |  32 ++--
+ hw/acpi/erst.c                    |   3 +
+ hw/cxl/cxl-host.c                 |  43 ++++-
+ hw/pci-bridge/cxl_downstream.c    | 249 +++++++++++++++++++++++++++++
+ hw/pci-bridge/cxl_upstream.c      | 216 ++++++++++++++++++++++++++
+ hw/virtio/vhost-user.c            |   2 +-
+ hw/virtio/vhost.c                 |   4 +
+ hw/virtio/virtio-crypto.c         | 319 ++++++++++++++++++++++++++++++--------
+ hw/virtio/virtio-iommu.c          | 135 ++++++++++++++--
+ docs/system/devices/cxl.rst       |  88 ++++++++++-
+ hw/pci-bridge/meson.build         |   2 +-
+ hw/virtio/trace-events            |   1 +
+ 18 files changed, 1343 insertions(+), 158 deletions(-)
+ create mode 100644 hw/pci-bridge/cxl_downstream.c
+ create mode 100644 hw/pci-bridge/cxl_upstream.c
 
 
