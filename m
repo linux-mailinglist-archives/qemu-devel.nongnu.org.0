@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4F554E675
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 17:57:37 +0200 (CEST)
-Received: from localhost ([::1]:50448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E988F54E6AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 18:08:04 +0200 (CEST)
+Received: from localhost ([::1]:58142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1rsF-0001e5-Mf
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 11:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34110)
+	id 1o1s2N-000808-Dn
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 12:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o1rqx-0000xw-Oj
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:56:15 -0400
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:34450)
+ id 1o1rvo-0003H6-8O
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:01:17 -0400
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:43986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o1rqu-0004qJ-7E
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:56:15 -0400
-Received: by mail-lf1-x133.google.com with SMTP id p18so2897036lfr.1
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 08:56:11 -0700 (PDT)
+ id 1o1rvm-0005eu-FE
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 12:01:16 -0400
+Received: by mail-lf1-x135.google.com with SMTP id be31so2870615lfb.10
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 09:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nqmsU0FtAwxIjM6v5F+17p4V1U0pVkSPTzfuopH1vBs=;
- b=Qo+YPtfZhSVVkNJo5cM/05coBSyrZX0F6VigGdi6Nrx7OmmfYfIGk32GVGyGl9U3/L
- 6jVYjImR3BSR2d02mHDHeWWnqpBDsvyvMTDcjhibAio4fvVLyMoNya/1TRVZW9SpTRR7
- PJ5AqX2B2iAlwOeZUvHmgKh9hXS+ZGzDwthL36QJLPTO49/KphNdsCXQHJAumNFFLtDp
- kwU47MSyVwWz617UJwaRF7fYOjmst0PDRZEswDyzCvdbHpvynBKHUL77BIMDH9f6xuFf
- z5JEV9JVOPzYn/MGlgXWGZfNquJCspi8RJy5rRTo8NXs+B/UavXImONUzuZPILWqv3rh
- kj6g==
+ :cc; bh=qJkbT1Fg+qlLjrj2FdLYONACiI9re3dBO3drSJDA/kw=;
+ b=mFnCJ7jhzuTZqqGn0mgnfn/ysVbuoRFvdhX3GBKwFJAw+96lxo6sy8iMZORzkhphMJ
+ hS6EzIkCDqiLBselI60I47YvovDJllmkXy8CGu29XgDJAXMxvItFPoZpZCQWzgP2w4Ff
+ 8M2KPGA3kmHGz5QTONErZIuhF6P/uhOnxKqwQhGW4ptdlj2cf2zX6bMorcNH+6jX8wjT
+ kywmeTajGW6wZKD96vMYvB3CW4ep5RUgjcYZX/5iV0uWDhg+ATFtvMTWalroWMpaUfj/
+ 7vc9t1Fu6VZ+4M4zXgbLOJfwQf/pjQpSDWv2lbozmnNYqvTq0cF9lXCIIVGnMiX8+Bqg
+ 2rVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nqmsU0FtAwxIjM6v5F+17p4V1U0pVkSPTzfuopH1vBs=;
- b=bwaePtPf/yUPv0SYWhodD3sVE63u0H4CJgAghD3FiCYrZ9cuzvYdIBNVnD4ffYOFBg
- tbXCCU/pfjvDG6lhl9AEzwka4uFNMoNiC991/v6xjJOphi19GZ7jMEIyRr44Ee9RqMzm
- BGBypeWKM82HyB0tv5p8oI4hyTRkbKvlvM4gMHNyP3TBQluUjUDrPjjQaXLiS81p4pWG
- n1OstcoiG3c6CvY6Z5GCeBdfNxbx2WWZnfXq9AZuLk+qEm5+WB/0+YvcvW2A12DpgoBt
- My9j70TwIlH4J6u4v6z4Ulu6fJDuLeDDOUro+w/65rkUXSM7Gcoy8saqI84HaKCCx2mN
- UjGQ==
-X-Gm-Message-State: AJIora+v/veO6gJUpS1U3LGFRgDTEplLWRhcl+hFGDmcXpLBQ3izvPlv
- gqPSYXs7AivPHhjt7Qe7I1LuhRg9Gk/o57dUA3o=
-X-Google-Smtp-Source: AGRyM1vGKKLaUYVV8SNnn8FW0RWl3slTZWnR36yFaV4OTQNS2yYRGJ5DWtj2N8vckYUuL+ZqIhDUZokWz9p+9e/NVSk=
-X-Received: by 2002:a05:6512:3e03:b0:479:2e0c:3d2c with SMTP id
- i3-20020a0565123e0300b004792e0c3d2cmr3059727lfv.654.1655394969844; Thu, 16
- Jun 2022 08:56:09 -0700 (PDT)
+ bh=qJkbT1Fg+qlLjrj2FdLYONACiI9re3dBO3drSJDA/kw=;
+ b=izxzYjO4L0xqMj4Sl98fkOorspiIFoAZX87uBfxCwJfjiu65XyPPFgtb2I5NLwVhFS
+ JjFgRYrSf3QMYxII1XX69hYlfDUOjdcy3LHSq1obvSoIVxINfAybRktCW4ymADDDA6Q9
+ HMoVFX+UjZyaw5Tw3BaWFbnG/WWPWDqY35FVUyz5kr2SA9bAzoXHGyv1IOCxr9/+8MfF
+ tun6nOd1GexUbMYrQDfg+Fnb0nJSAdPklnuAARsgfKZ6YqU/MYFoVNJLXWW6m4qvlRmK
+ EVzc8PnczNGZ5dRVPxfl8l9B8FZPg/eqAgqTEwcDIwacLCxHPiAEmxUUEx0LYuwb5gkz
+ V8PQ==
+X-Gm-Message-State: AJIora+Aj8nr1zgHEUqJoOhUFF/cMXFYHX/G0+PcBxxmqX67tzY98yW5
+ Ip+tDuhRj+gTHXGulv3TNp5WCSy0vPAS/6Yl6mY=
+X-Google-Smtp-Source: AGRyM1uVyQ7FocIHzZorFap03CUhKJ09E1lAEuYqVrLEZMcHqjWMrdT8MnyeqyyNv2f8pYQ8ZLCgMfX4wCYb90A4bPw=
+X-Received: by 2002:ac2:5c44:0:b0:479:11e1:36f7 with SMTP id
+ s4-20020ac25c44000000b0047911e136f7mr3085179lfp.432.1655395272107; Thu, 16
+ Jun 2022 09:01:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-6-git-send-email-steven.sistare@oracle.com>
-In-Reply-To: <1655304746-102776-6-git-send-email-steven.sistare@oracle.com>
+ <1655304746-102776-14-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1655304746-102776-14-git-send-email-steven.sistare@oracle.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 16 Jun 2022 19:55:58 +0400
-Message-ID: <CAJ+F1CLZrnj=AXb=-C+MOU5xB7h_4YUqrn4W+rV6yoUax2ur7g@mail.gmail.com>
-Subject: Re: [PATCH V8 05/39] vl: start on wakeup request
+Date: Thu, 16 Jun 2022 20:01:00 +0400
+Message-ID: <CAJ+F1CL8FVp9EVQm09CZdtqP-xzwim2+j3x2XTq42NZLuceHLg@mail.gmail.com>
+Subject: Re: [PATCH V8 13/39] oslib: qemu_clear_cloexec
 To: Steve Sistare <steven.sistare@oracle.com>
 Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
  Stefan Hajnoczi <stefanha@redhat.com>,
@@ -71,9 +71,9 @@ Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
  Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
  John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000023ff7f05e192adaf"
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
+Content-Type: multipart/alternative; boundary="00000000000028297605e192bf41"
+Received-SPF: pass client-ip=2a00:1450:4864:20::135;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x135.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,101 +96,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000023ff7f05e192adaf
+--00000000000028297605e192bf41
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-On Wed, Jun 15, 2022 at 7:27 PM Steve Sistare <steven.sistare@oracle.com>
+On Wed, Jun 15, 2022 at 7:01 PM Steve Sistare <steven.sistare@oracle.com>
 wrote:
 
-> If qemu starts and loads a VM in the suspended state, then a later wakeup
-> request will set the state to running, which is not sufficient to
-> initialize
-> the vm, as vm_start was never called during this invocation of qemu.  See
-> qemu_system_wakeup_request().
+> Define qemu_clear_cloexec, analogous to qemu_set_cloexec.
 >
-> Define the start_on_wakeup_requested() hook to cause vm_start() to be
-> called
-> when processing the wakeup request.
->
-
-Nothing calls qemu_system_start_on_wakeup_request() yet, so it would be
-useful to say where this is going to be used next.
-
-(otherwise, it seems ok to me)
-
-
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 > ---
->  include/sysemu/runstate.h |  1 +
->  softmmu/runstate.c        | 16 +++++++++++++++-
->  2 files changed, 16 insertions(+), 1 deletion(-)
+>  include/qemu/osdep.h | 1 +
+>  util/oslib-posix.c   | 9 +++++++++
+>  util/oslib-win32.c   | 4 ++++
+>  3 files changed, 14 insertions(+)
 >
-> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-> index f3ed525..16c1c41 100644
-> --- a/include/sysemu/runstate.h
-> +++ b/include/sysemu/runstate.h
-> @@ -57,6 +57,7 @@ void qemu_system_reset_request(ShutdownCause reason);
->  void qemu_system_suspend_request(void);
->  void qemu_register_suspend_notifier(Notifier *notifier);
->  bool qemu_wakeup_suspend_enabled(void);
-> +void qemu_system_start_on_wakeup_request(void);
->  void qemu_system_wakeup_request(WakeupReason reason, Error **errp);
->  void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);
->  void qemu_register_wakeup_notifier(Notifier *notifier);
-> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-> index fac7b63..9b27d74 100644
-> --- a/softmmu/runstate.c
-> +++ b/softmmu/runstate.c
-> @@ -115,6 +115,7 @@ static const RunStateTransition
-> runstate_transitions_def[] =3D {
->      { RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },
->      { RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },
->      { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
-> +    { RUN_STATE_PRELAUNCH, RUN_STATE_SUSPENDED },
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index b1c161c..e916f3b 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -548,6 +548,7 @@ ssize_t qemu_write_full(int fd, const void *buf,
+> size_t count)
+>      G_GNUC_WARN_UNUSED_RESULT;
 >
->      { RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },
->      { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },
-> @@ -335,6 +336,7 @@ void vm_state_notify(bool running, RunState state)
->      }
+>  void qemu_set_cloexec(int fd);
+> +void qemu_clear_cloexec(int fd);
+>
+>  /* Return a dynamically allocated directory path that is appropriate for
+> storing
+>   * local state.
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 7a34c16..421e987 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -261,6 +261,15 @@ void qemu_set_cloexec(int fd)
+>      assert(f !=3D -1);
 >  }
 >
-> +static bool start_on_wakeup_requested;
->  static ShutdownCause reset_requested;
->  static ShutdownCause shutdown_requested;
->  static int shutdown_signal;
-> @@ -562,6 +564,11 @@ void qemu_register_suspend_notifier(Notifier
-> *notifier)
->      notifier_list_add(&suspend_notifiers, notifier);
->  }
->
-> +void qemu_system_start_on_wakeup_request(void)
+> +void qemu_clear_cloexec(int fd)
 > +{
-> +    start_on_wakeup_requested =3D true;
+> +    int f;
+> +    f =3D fcntl(fd, F_GETFD);
+> +    assert(f !=3D -1);
+> +    f =3D fcntl(fd, F_SETFD, f & ~FD_CLOEXEC);
+> +    assert(f !=3D -1);
 > +}
 > +
->  void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+>  char *
+>  qemu_get_local_state_dir(void)
 >  {
->      trace_system_wakeup_request(reason);
-> @@ -574,7 +581,14 @@ void qemu_system_wakeup_request(WakeupReason reason,
-> Error **errp)
->      if (!(wakeup_reason_mask & (1 << reason))) {
->          return;
->      }
-> -    runstate_set(RUN_STATE_RUNNING);
-> +
-> +    if (start_on_wakeup_requested) {
-> +        start_on_wakeup_requested =3D false;
-> +        vm_start();
-> +    } else {
-> +        runstate_set(RUN_STATE_RUNNING);
-> +    }
-> +
->      wakeup_reason =3D reason;
->      qemu_notify_event();
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index 5723d3e..5bed148 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -226,6 +226,10 @@ void qemu_set_cloexec(int fd)
+>  {
 >  }
+>
+> +void qemu_clear_cloexec(int fd)
+> +{
+> +}
+> +
+>  int qemu_get_thread_id(void)
+>  {
+>      return GetCurrentThreadId();
 > --
 > 1.8.3.1
 >
@@ -200,108 +176,80 @@ useful to say where this is going to be used next.
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000023ff7f05e192adaf
+--00000000000028297605e192bf41
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, 2022 at 7:27 PM Ste=
-ve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@=
-oracle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">If qemu starts and loads a VM in the suspended state, then a lat=
-er wakeup<br>
-request will set the state to running, which is not sufficient to initializ=
-e<br>
-the vm, as vm_start was never called during this invocation of qemu.=C2=A0 =
-See<br>
-qemu_system_wakeup_request().<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, 2022 at 7:01 PM Steve=
+ Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@or=
+acle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Define qemu_clear_cloexec, analogous to qemu_set_cloexec.<br>
 <br>
-Define the start_on_wakeup_requested() hook to cause vm_start() to be calle=
-d<br>
-when processing the wakeup request.<br></blockquote><div><br></div><div>Not=
-hing calls qemu_system_start_on_wakeup_request() yet, so it would be useful=
- to say where this is going to be used next.</div><div><br></div><div>(othe=
-rwise, it seems ok to me)</div><div><br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">
-<br>
+Reviewed-by: Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.c=
+om" target=3D"_blank">dgilbert@redhat.com</a>&gt;<br>
 Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
-m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br>
+m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br></blockquote><div=
+><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
+arcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0include/sysemu/runstate.h |=C2=A0 1 +<br>
-=C2=A0softmmu/runstate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 16 +++++++++++++++-<b=
-r>
-=C2=A02 files changed, 16 insertions(+), 1 deletion(-)<br>
+=C2=A0include/qemu/osdep.h | 1 +<br>
+=C2=A0util/oslib-posix.c=C2=A0 =C2=A0| 9 +++++++++<br>
+=C2=A0util/oslib-win32.c=C2=A0 =C2=A0| 4 ++++<br>
+=C2=A03 files changed, 14 insertions(+)<br>
 <br>
-diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h<br>
-index f3ed525..16c1c41 100644<br>
---- a/include/sysemu/runstate.h<br>
-+++ b/include/sysemu/runstate.h<br>
-@@ -57,6 +57,7 @@ void qemu_system_reset_request(ShutdownCause reason);<br>
-=C2=A0void qemu_system_suspend_request(void);<br>
-=C2=A0void qemu_register_suspend_notifier(Notifier *notifier);<br>
-=C2=A0bool qemu_wakeup_suspend_enabled(void);<br>
-+void qemu_system_start_on_wakeup_request(void);<br>
-=C2=A0void qemu_system_wakeup_request(WakeupReason reason, Error **errp);<b=
-r>
-=C2=A0void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);<br=
->
-=C2=A0void qemu_register_wakeup_notifier(Notifier *notifier);<br>
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c<br>
-index fac7b63..9b27d74 100644<br>
---- a/softmmu/runstate.c<br>
-+++ b/softmmu/runstate.c<br>
-@@ -115,6 +115,7 @@ static const RunStateTransition runstate_transitions_de=
-f[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },<br>
-=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },<br>
-=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },<br>
-+=C2=A0 =C2=A0 { RUN_STATE_PRELAUNCH, RUN_STATE_SUSPENDED },<br>
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h<br>
+index b1c161c..e916f3b 100644<br>
+--- a/include/qemu/osdep.h<br>
++++ b/include/qemu/osdep.h<br>
+@@ -548,6 +548,7 @@ ssize_t qemu_write_full(int fd, const void *buf, size_t=
+ count)<br>
+=C2=A0 =C2=A0 =C2=A0G_GNUC_WARN_UNUSED_RESULT;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },<br>
-=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },<br>
-@@ -335,6 +336,7 @@ void vm_state_notify(bool running, RunState state)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0void qemu_set_cloexec(int fd);<br>
++void qemu_clear_cloexec(int fd);<br>
+<br>
+=C2=A0/* Return a dynamically allocated directory path that is appropriate =
+for storing<br>
+=C2=A0 * local state.<br>
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c<br>
+index 7a34c16..421e987 100644<br>
+--- a/util/oslib-posix.c<br>
++++ b/util/oslib-posix.c<br>
+@@ -261,6 +261,15 @@ void qemu_set_cloexec(int fd)<br>
+=C2=A0 =C2=A0 =C2=A0assert(f !=3D -1);<br>
 =C2=A0}<br>
 <br>
-+static bool start_on_wakeup_requested;<br>
-=C2=A0static ShutdownCause reset_requested;<br>
-=C2=A0static ShutdownCause shutdown_requested;<br>
-=C2=A0static int shutdown_signal;<br>
-@@ -562,6 +564,11 @@ void qemu_register_suspend_notifier(Notifier *notifier=
-)<br>
-=C2=A0 =C2=A0 =C2=A0notifier_list_add(&amp;suspend_notifiers, notifier);<br=
->
-=C2=A0}<br>
-<br>
-+void qemu_system_start_on_wakeup_request(void)<br>
++void qemu_clear_cloexec(int fd)<br>
 +{<br>
-+=C2=A0 =C2=A0 start_on_wakeup_requested =3D true;<br>
++=C2=A0 =C2=A0 int f;<br>
++=C2=A0 =C2=A0 f =3D fcntl(fd, F_GETFD);<br>
++=C2=A0 =C2=A0 assert(f !=3D -1);<br>
++=C2=A0 =C2=A0 f =3D fcntl(fd, F_SETFD, f &amp; ~FD_CLOEXEC);<br>
++=C2=A0 =C2=A0 assert(f !=3D -1);<br>
 +}<br>
 +<br>
-=C2=A0void qemu_system_wakeup_request(WakeupReason reason, Error **errp)<br=
->
+=C2=A0char *<br>
+=C2=A0qemu_get_local_state_dir(void)<br>
 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0trace_system_wakeup_request(reason);<br>
-@@ -574,7 +581,14 @@ void qemu_system_wakeup_request(WakeupReason reason, E=
-rror **errp)<br>
-=C2=A0 =C2=A0 =C2=A0if (!(wakeup_reason_mask &amp; (1 &lt;&lt; reason))) {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 runstate_set(RUN_STATE_RUNNING);<br>
-+<br>
-+=C2=A0 =C2=A0 if (start_on_wakeup_requested) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 start_on_wakeup_requested =3D false;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vm_start();<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 runstate_set(RUN_STATE_RUNNING);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0wakeup_reason =3D reason;<br>
-=C2=A0 =C2=A0 =C2=A0qemu_notify_event();<br>
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c<br>
+index 5723d3e..5bed148 100644<br>
+--- a/util/oslib-win32.c<br>
++++ b/util/oslib-win32.c<br>
+@@ -226,6 +226,10 @@ void qemu_set_cloexec(int fd)<br>
+=C2=A0{<br>
 =C2=A0}<br>
+<br>
++void qemu_clear_cloexec(int fd)<br>
++{<br>
++}<br>
++<br>
+=C2=A0int qemu_get_thread_id(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0return GetCurrentThreadId();<br>
 -- <br>
 1.8.3.1<br>
 <br>
@@ -309,5 +257,5 @@ br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000023ff7f05e192adaf--
+--00000000000028297605e192bf41--
 
