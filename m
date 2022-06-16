@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA2B54EC91
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 23:29:19 +0200 (CEST)
-Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8306354ED5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 00:32:28 +0200 (CEST)
+Received: from localhost ([::1]:57276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1x3G-0007CX-BJ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 17:29:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
+	id 1o1y2N-0003bM-5Z
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 18:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.mielke@gmail.com>)
- id 1o1x26-0006Bo-EK; Thu, 16 Jun 2022 17:28:06 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43871)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o1y07-0002M8-1L; Thu, 16 Jun 2022 18:30:07 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mark.mielke@gmail.com>)
- id 1o1x24-0002sF-1p; Thu, 16 Jun 2022 17:28:06 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id m20so5078504ejj.10;
- Thu, 16 Jun 2022 14:28:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o1y03-00071w-Mm; Thu, 16 Jun 2022 18:30:06 -0400
+Received: by mail-pg1-x529.google.com with SMTP id q140so2459639pgq.6;
+ Thu, 16 Jun 2022 15:30:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XOPPUXqeLOlHoCSIGcznCkYf6Ps7sFv2iPT3tpWja8s=;
- b=fXCr2CBP+Aruh/NcCdWvsuXJUH5VgKDUOzIKQtRp0tQhZCdLEl1HPQOppj24eWHsav
- yxGniq5XICKoDAWBMiTtiJj1c2jhGmBRX1AjfL6uxRTz+ClVfEz61q2CK4s0WPOo/5eM
- OXdzm1OdW/26QRCYFxgK2T3S1C+H7Sv0Ef+yqCJUD+eJvXuJ1DjgPWKiEmRxjVGJhyXP
- rvHspEhlTSDuRGoZtP0KhHhELQ2CX24tCZY8ZuB8/mrDrfr4w37p3h7JtjjgCXGG2K/q
- IUhDGk5DXCNA+0hv+1F3x8xANw3oWmn0bpyi0arx8pKUO+worDnQYlx59t/uCAvU8no2
- hghg==
+ :cc:content-transfer-encoding;
+ bh=Gpt1p+FJTQmpPoV5Zh/pGJap/xMtpXm+bfF2VpiyGjs=;
+ b=q7wcdMsWqYuVpkpTQC5Zu10xttg4fooCpRwV3uF2qwd3M8lhIJ2W8rRE6NvrtsV1m0
+ hqkIAoQh5ZbWeLK+EybUrb5gLm422+M3XBK+rqYtEPwGcEMHprPYUyvKCf/vIOEAKm7P
+ IArGCnxht6Q8j3yinDZZGWStpj3LZTzXrqtNovlZNdy02cdVqkYwglJUPdUvL+Mq61xI
+ DONCXY0VJ9//0/n7tzQzpb/VEqA2hsvrV6QsrNzs14xYgbY4hbqtRem/K9iTnk5l6WQ8
+ eKPqPxO5qj1KxcrK7dp7BighHbKVit4BUJf6w2CrQR1Pj0Sl+K8PI8wSJpssV3YnTzW4
+ QNMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XOPPUXqeLOlHoCSIGcznCkYf6Ps7sFv2iPT3tpWja8s=;
- b=oSBTqi46D3EsBm7+DgpIjSJUkYSAl5FFpXF6priqX7SZhA8YgWb0I5aMge4LaaI+SU
- YcFZoIaF6VwP51+pt3Tin+tMd0g4WPN4VXKV3C27upaD2CHHE0SZ521SDk3yW+7stqtd
- MC1NAIxU17kjAZ1hH8P+w7bDHSW7D2Zdjo5taIu8s/QCkDYhjdd7TBsqPoGEmsEd9sH2
- VuEhlAEpBS8OBUdlBEfVXNUIIee1DRKUiB+VLquFNWLwVjlJv17aJj98dOCnH3MFRQyi
- XPpY7rRigPFfNwH0uyQxXuiYOzmBfDZT6Us47kevjhctCNPHzwxRzzReo4prS5PhtnwV
- ja0w==
-X-Gm-Message-State: AJIora8TJvjoInxliiE4J1d8KMaJcjSbVyE4HebSGqBtBADPQZj3vCCS
- 1w2gOVidB1LOEFg3kmZZhgfOXasSjFhelELgOjQ=
-X-Google-Smtp-Source: AGRyM1ucUcLcv85CFSt/jb1wbYNjMR1jYX4BXG95WaQNLiaWe+p33EbxrRMjKXW+Qz2ClslXrrh4lrfPyRRwsUAwbM0=
-X-Received: by 2002:a17:907:6289:b0:6e0:eb0c:8ee7 with SMTP id
- nd9-20020a170907628900b006e0eb0c8ee7mr5984646ejc.245.1655414879091; Thu, 16
- Jun 2022 14:27:59 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Gpt1p+FJTQmpPoV5Zh/pGJap/xMtpXm+bfF2VpiyGjs=;
+ b=2e1l5OiWMTm1YCLtq49XAvVcecB5NbNHZGBvO/UkxlAaclICUnFiPJc8TTiQIn5zGB
+ 7q1KKGXsUFE89ud3oMyh95HE3DoPfmwQvsgaDDRr/1kfYe9gCjS+L0bnzH207GBNk8TJ
+ +Uzcbe0NYTXqhymbFhnzWUdpjUhmH+0AWkbWiCb1bOJIjF2IkBrFnLJD2jAv8HTimZBC
+ gPeNl/fbaivGXQty3WoAYXQgoQts7PqAJxEoc+K/6cqWwfW5Po68LwAU2SnJ3XOGSWeX
+ SPheg+RcXdRQcmOwjGHQgBzqymg85XKkOfyinDeTqd51UM6sseM3j9D0Ljti5VbViQa/
+ oHZA==
+X-Gm-Message-State: AJIora/8FH7nVPhWH/9Xf7UfQ4KI0pb1GlaXbwYVWPwLZV2S3V0XvxVG
+ gFsRXRbzG85tMgfPJOlRukJSKpAIY3LiZ4kYIh8=
+X-Google-Smtp-Source: AGRyM1uj8D0x2mpGCNW5NSR1WmmCBDvogrz18BHq2BfNgZGoNVNTdZgpzZNCoo8i7d2vPY3DPhqM6J2hSv3UBv8FXPk=
+X-Received: by 2002:a65:5385:0:b0:3fa:52e3:6468 with SMTP id
+ x5-20020a655385000000b003fa52e36468mr6389850pgq.366.1655418601662; Thu, 16
+ Jun 2022 15:30:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220609164712.1539045-1-stefanha@redhat.com>
- <Yqi3gMu8pHuhqxXz@stefanha-x1.localdomain>
-In-Reply-To: <Yqi3gMu8pHuhqxXz@stefanha-x1.localdomain>
-From: Mark Mielke <mark.mielke@gmail.com>
-Date: Thu, 16 Jun 2022 17:27:48 -0400
-Message-ID: <CALm7yL0XrxsM=2RWpKCEGF3ayiEYieo93NLq6iznJcw53dgGqA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] linux-aio: fix unbalanced plugged counter in
- laio_io_unplug()
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- qemu-stable@nongnu.org, 
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000d2ffa505e1974f04"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=mark.mielke@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <3oq0sqs1-67o0-145-5n1s-453o118804q@syhkavp.arg>
+ <CAKmqyKPJ2Pxn8nG3Lwu2rLGuTZyTmGvjWOqbty8C6ayhtd0wqw@mail.gmail.com>
+ <o8p9829n-58n8-o38o-r533-p2q056pq65p@syhkavp.arg>
+In-Reply-To: <o8p9829n-58n8-o38o-r533-p2q056pq65p@syhkavp.arg>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 17 Jun 2022 08:29:34 +1000
+Message-ID: <CAKmqyKNBhJdRZfGWFFZmNYxHw9TCtaZ563g2501CqRz2Ct7nOg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv/pmp: guard against PMP ranges with a
+ negative size
+To: Nicolas Pitre <nico@fluxnic.net>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,109 +89,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d2ffa505e1974f04
-Content-Type: text/plain; charset="UTF-8"
-
-Thank you for finding this and fixing it. This issue has been giving us
-grief for months, and this patch appears to resolve the problem.
-
-In our case, it seemed to have much greater severity with the RHEL / CentOS
-7.x Linux 3.10 kernel when tied to SolidFire iSCSI based storage. This
-caused it to escape notice in our original soak period, and is likely a
-contributor to why others didn't encounter the problem. However, I believe
-this looks like a serious problem that could affect any guest machine that
-does a large amount of I/O. I believe the SolidFire connection may be that
-the I/O can queue up more easily than the local NVMe storage we also use,
-and there could be something related to the SolidFire QoS re-balancing
-where the iSCSI connection may be re-negotiated from time to time. So, I
-think this is more like "happens in some environments more than others",
-and unfortunately it happened a lot in one of our environments. :-(
-
-
-On Tue, Jun 14, 2022 at 12:36 PM Stefan Hajnoczi <stefanha@redhat.com>
-wrote:
-
-> On Thu, Jun 09, 2022 at 05:47:10PM +0100, Stefan Hajnoczi wrote:
-> > An unlucky I/O pattern can result in stalled Linux AIO requests when the
-> > plugged counter becomes unbalanced. See Patch 1 for details.
-> >
-> > Patch 2 adds a comment to explain why the laio_io_unplug() even checks
-> max
-> > batch in the first place.
-> >
-> > Stefan Hajnoczi (2):
-> >   linux-aio: fix unbalanced plugged counter in laio_io_unplug()
-> >   linux-aio: explain why max batch is checked in laio_io_unplug()
-> >
-> >  block/linux-aio.c | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > --
-> > 2.36.1
-> >
+On Thu, Jun 16, 2022 at 10:20 PM Nicolas Pitre <nico@fluxnic.net> wrote:
 >
-> Thanks, applied to my block tree:
-> https://gitlab.com/stefanha/qemu/commits/block
+> On Thu, 16 Jun 2022, Alistair Francis wrote:
 >
-> Stefan
+> > On Thu, Jun 16, 2022 at 7:12 AM Nicolas Pitre <nico@fluxnic.net> wrote:
+> > >
+> > > For a TOR entry to match, the stard address must be lower than the en=
+d
+> > > address. Normally this is always the case, but correct code might sti=
+ll
+> > > run into the following scenario:
+> > >
+> > > Initial state:
+> > >
+> > >         pmpaddr3 =3D 0x2000       pmp3cfg =3D OFF
+> > >         pmpaddr4 =3D 0x3000       pmp4cfg =3D TOR
+> > >
+> > > Execution:
+> > >
+> > >         1. write 0x40ff to pmpaddr3
+> > >         2. write 0x32ff to pmpaddr4
+> >
+> > Hey, thanks for that patch!
+> >
+> > So, at this point we have a PMP region enforcing
+> >
+> > 0x40ff <=3D addr < 0x32ff
+> >
+> > which is going to be wrong as that isn't valid. But this is also
+> > partially a guest bug. If a guest sets invalid PMP regions we should
+> > be throwing exceptions (if the PMP region is enabled and enforced in
+> > the current mode)
 >
+> The guest cannot change all the relevant PMP registers for a single PMP
+> entry atomically. This is why you normally update the PMP configuration
+> in m-mode with MPRV unset for invalid but transient PMP states to have
+> no adverse effects.
+>
+> > >         3. set pmp3cfg to NAPOT with a read-modify-write on pmpcfg0
+> > >         4. set pmp4cfg to NAPOT with a read-modify-write on pmpcfg1
+> > >
+> > > When (2) is emulated, a call to pmp_update_rule() creates a negative
+> > > range for pmp4 as pmp4cfg is still set to TOR. And when (3) is emulat=
+ed,
+> >
+> > I don't see where the negative comes from. From what I can tell we
+> > should just set `sa` and `ea` to the values specified by the guest.
+>
+> Eventually that is the case i.e. when the type is changed from TOR to
+> NAPOT in (4), at which point everything is well and sane. But that can't
+> happen atomically as I said. Yet QEMU does interpret the intermediate
+> state although it shouldn't.
+>
+> > > a call to tlb_flush() is performed, causing pmp_get_tlb_size() to ret=
+urn
+> > > a very creatively large TLB size for pmp4. This, in turn, may result =
+in
+> >
+> > Hmm.. pmp_get_tlb_size() assumes pmp_ea > pmp_sa. Maybe we should add
+> > a check in there?
+>
+> It is more efficient to prevent sa > ea in the first place as
+> pmp_get_tlb_size() is called way more often than pmp_update_rule_addr().
+>
+> Let's not forget that those sa/ea are simplified representations of the
+> hardware and not what the guest can see. The original register content
+> written by the guest is preserved.
+>
+> > > accesses to non-existent/unitialized memory regions and a fault, so t=
+hat
+> > > (4) ends up never being executed.
+> > >
+> > > This is in m-mode with MPRV unset, meaning that unlocked PMP entries
+> > > should have no effect. Therefore such a behavior based on PMP content
+> > > is very unexpected.
+> >
+> > Ok, this part is a QEMU bug. If we aren't enforcing PMP regions we
+> > should not be throwing PMP errors.
+>
+> Right. But this is not a PMP error. It is QEMU screwing up its internal
+> state. It does even segfault when this condition occur if -d cpu is
+> provided.
+>
+> > get_physical_address_pmp() should give us full permissions though in
+> > this case, so I don't see where the failure is.
+>
+> And it does. That's not where the problem is.
+>
+> > Can you include some more details?
+>
+> As I said, in the middle of updating the pmpcfg registers in (3),
+> tlb_flush() is invoked which causes the core to revalidate its memory
+> TLB cache down through pmp_get_tlb_size() where bad answers are
+> returned. This causes the core to assume a different memory area which
+> doesn't exist and the next memory access ends up calling
+> unassigned_mem_accepts() where false is unconditionally returned. And I
+> suspect this is also the result of a buffer overflow as the address
+> logged in memory_region_access_valid() is sometimes complete garbage
+> too, and the occasional QEMU segfault.
+>
+> > > Make sure no negative PMP range can be created, whether explicitly by
+> > > the emulated code or implicitly like the above.
+> > >
+> > > Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+> > >
+> > > diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> > > index 151da3fa08..ea2b67d947 100644
+> > > --- a/target/riscv/pmp.c
+> > > +++ b/target/riscv/pmp.c
+> > > @@ -167,6 +167,9 @@ void pmp_update_rule_addr(CPURISCVState *env, uin=
+t32_t pmp_index)
+> > >      case PMP_AMATCH_TOR:
+> > >          sa =3D prev_addr << 2; /* shift up from [xx:0] to [xx+2:2] *=
+/
+> > >          ea =3D (this_addr << 2) - 1u;
+> > > +        if (sa > ea) {
+> > > +            sa =3D ea =3D 0u;
+> > > +        }
+> >
+> > This doesn't seem right though.
+> >
+> > Image if a guest sets the values you have above, then jumps to user
+> > mode. The spec doesn't seem to say what should happen with invalid PMP
+> > ranges, but I feel like we should throw exceptions instead of just
+> > ignoring the config.
+>
+> The spec says that a given memory access has to be >=3D the bottom
+> boundary and < the top boundary for a PMP entry to match. So an invalid
+> PMP entry should simply not match. That's what a hardware comparator
+> would do: it would just not match. Furthermore, you cannot tell if the
+> guest is in the middle of updating its PMP configuration which are split
+> across several registers as illustrated above, therefore transient
+> invalid states are unavoidable.
 
+Good point, also I just found this in the spec:
 
--- 
-Mark Mielke <mark.mielke@gmail.com>
+"If pmpaddri=E2=88=921 =E2=89=A5 pmpaddri and pmpcfgi .A=3DTOR, then PMP en=
+try i matches
+no addresses." so it clearly should not match then.
 
---000000000000d2ffa505e1974f04
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-<div dir=3D"ltr">Thank you for finding this and fixing it. This issue has b=
-een giving us grief for months, and this patch appears to resolve the probl=
-em.<div><br></div><div>In our case, it seemed to have much greater severity=
- with the RHEL / CentOS 7.x Linux 3.10 kernel when tied to SolidFire iSCSI =
-based storage. This caused it to escape notice in our original soak period,=
- and is likely a contributor to why others didn&#39;t encounter the problem=
-. However, I believe this looks like a serious problem that could affect an=
-y guest machine that does a large amount of I/O. I believe the SolidFire co=
-nnection may be that the I/O can queue up more easily than the local NVMe s=
-torage we also use, and there could be something related to the SolidFire Q=
-oS re-balancing where the iSCSI connection may be re-negotiated from time t=
-o time. So, I think this is more like &quot;happens in some environments mo=
-re than others&quot;, and unfortunately it happened a lot in one of our env=
-ironments. :-(</div><div><br></div></div><br><div class=3D"gmail_quote"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 14, 2022 at 12:36 PM Stefan =
-Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefanha@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On T=
-hu, Jun 09, 2022 at 05:47:10PM +0100, Stefan Hajnoczi wrote:<br>
-&gt; An unlucky I/O pattern can result in stalled Linux AIO requests when t=
-he<br>
-&gt; plugged counter becomes unbalanced. See Patch 1 for details.<br>
-&gt; <br>
-&gt; Patch 2 adds a comment to explain why the laio_io_unplug() even checks=
- max<br>
-&gt; batch in the first place.<br>
-&gt; <br>
-&gt; Stefan Hajnoczi (2):<br>
-&gt;=C2=A0 =C2=A0linux-aio: fix unbalanced plugged counter in laio_io_unplu=
-g()<br>
-&gt;=C2=A0 =C2=A0linux-aio: explain why max batch is checked in laio_io_unp=
-lug()<br>
-&gt; <br>
-&gt;=C2=A0 block/linux-aio.c | 10 +++++++++-<br>
-&gt;=C2=A0 1 file changed, 9 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; -- <br>
-&gt; 2.36.1<br>
-&gt; <br>
-<br>
-Thanks, applied to my block tree:<br>
-<a href=3D"https://gitlab.com/stefanha/qemu/commits/block" rel=3D"noreferre=
-r" target=3D"_blank">https://gitlab.com/stefanha/qemu/commits/block</a><br>
-<br>
-Stefan<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Mark Mielke &lt;<a href=3D"mailto:mark.mielke@gm=
-ail.com" target=3D"_blank">mark.mielke@gmail.com</a>&gt;<br><br></div>
+Alistair
 
---000000000000d2ffa505e1974f04--
+>
+>
+> Nicolas
 
