@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392EB54E097
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 14:12:46 +0200 (CEST)
-Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663C854E0C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 14:26:23 +0200 (CEST)
+Received: from localhost ([::1]:38478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1oMe-0006hy-0M
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 08:12:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34402)
+	id 1o1oZq-0001uJ-Ev
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 08:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1oHR-0005om-Hu
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:07:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35671)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o1oHO-0003bi-Un
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:07:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655381238;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Sez9RUmgYaj+7vlVI3i4YnUcyTgK0nLSSMeHL8X/pw8=;
- b=P6y2k6AuemXvanW5xvhAz9NhPgdCZIYA78cpoDLr0dHLdbJAnLwsrso2gomLnpo4NYi89Q
- kazp6myQ3UDnY41H4PD0b4RpJhY9Bnl5BhMxaf3GnmvQ0n3gf48v6KApVBMR2gOTdON0gc
- 6Ib8wqY7AtuCb/VnmIQl9Fm2s8gs7ZA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-PIsT_r05MJ23euf4QQRWHw-1; Thu, 16 Jun 2022 08:07:17 -0400
-X-MC-Unique: PIsT_r05MJ23euf4QQRWHw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF77F3C10228;
- Thu, 16 Jun 2022 12:07:16 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DDCF415F5E;
- Thu, 16 Jun 2022 12:07:16 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0ACB91800381; Thu, 16 Jun 2022 14:07:15 +0200 (CEST)
-Date: Thu, 16 Jun 2022 14:07:15 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>
-Subject: Re: Corrupted display changing screen colour depth in
- qemu-system-ppc/MacOS
-Message-ID: <20220616120715.uksbwjynvb6usjhu@sirius.home.kraxel.org>
-References: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1o1oQD-0001RW-02
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:16:25 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:45462 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1o1oQ9-0006QM-KQ
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:16:24 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxD08LH6tiaiNGAA--.9326S2;
+ Thu, 16 Jun 2022 20:16:11 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	laurent@vivier.eu,
+	gaosong@loongson.cn
+Subject: [PATCH v17 00/13] Add LoongArch linux-user emulation support
+Date: Thu, 16 Jun 2022 20:15:58 +0800
+Message-Id: <20220616121611.3316074-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf9DxD08LH6tiaiNGAA--.9326S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAryfXr1DXr1fXr43uF4xXrb_yoWrAF1kpr
+ Wfur1fGw48JrZ7JrnFqa45uFn5Xa17Wr4ag3WSqry8CrWIyry8Zwn3GasxWa45Z3WrKrWj
+ qFyvyw1UWF4DXFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,67 +61,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 16, 2022 at 09:54:46AM +0100, Mark Cave-Ayland wrote:
-> Hi all,
-> 
-> Howard pointed me off-list to a corrupted screen display issue experienced
-> when changing the screen colour depth in MacOS under qemu-system-ppc. I was
-> able to reproduce it here, and noticed from the output that the issue was
-> likely due to the host display not updating its depth accordingly.
-> 
-> After it was confirmed to me that this was working in QEMU 6.2, I was able
-> to eventually bisect the problem down to this commit:
-> 
-> 
-> cb8962c146b2633a4b04562281de9b2703bba849 is the first bad commit
-> commit cb8962c146b2633a4b04562281de9b2703bba849
-> Author: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Date:   Tue Feb 15 00:13:37 2022 +0400
-> 
->     ui: do not create a surface when resizing a GL scanout
-> 
->     qemu_console_resize() will create a blank surface and replace the
->     current scanout with it if called while the current scanout is
->     GL (texture or dmabuf).
-> 
->     This is not only very costly, but also can produce glitches on the
->     display/listener side.
-> 
->     Instead, compare the current console size with the fitting console
->     functions, which also works when the scanout is GL.
-> 
->     Note: there might be still an unnecessary surface creation on calling
->     qemu_console_resize() when the size is actually changing, but display
->     backends currently rely on DisplaySurface details during
->     dpy_gfx_switch() to handle various resize aspects. We would need more
->     refactoring to handle resize without DisplaySurface, this is left for a
->     future improvement.
-> 
->     Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->     Message-Id: <20220214201337.1814787-4-marcandre.lureau@redhat.com>
->     Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> 
->  ui/console.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> 
-> Some more background: the screen in qemu-system-ppc's MacOS is controlled
-> via a custom driver written by Ben which uses the Bochs VBE registers to
-> change the screen width/height/depth. The code used to do this can be found
-> at https://gitlab.com/qemu-project/QemuMacDrivers/-/blob/master/QemuVGADriver/src/QemuVga.c#L354.
-> 
-> Looking at the changes in cb8962c146 my guess would be that either the
-> updated check in qemu_console_resize() should also check to see if the
-> surface depth is unchanged before exiting early, or that there is an extra
-> update required in the VGA device when changing just the screen colour depth
-> by itself.
+Hi All,
 
-Can you try ditch the QEMU_ALLOCATED_FLAG check added by the commit?
+This series add support linux-user emulation.
+As the LoongArch kernel had merged into 5.19-rc1,
+you can see the latest kernel at https://kernel.org
 
-Which depth changes triggers this?  Going from direct color to a
-paletted mode?
+Need review patches:
 
-take care,
-  Gerd
+  0002-linux-user-Add-LoongArch-signal-support.patch
+  0007-target-loongarch-remove-badaddr-from-CPULoongArch.patch
+  0008-target-loongarch-Fix-missing-update-CSR_BADV.patch
+  0009-target-loongarch-Fix-helper_asrtle_d-asrtgt_d-raise-.patch
+  0010-target-loongarch-remove-unused-include-hw-loader.h.patch
+  0011-target-loongarch-Adjust-functions-and-structure-to-s.patch
+
+
+V17:
+  - Split v16 patch7 to  patch7-11, and fix some bugs for system-mode;
+  - Update signal.c, add parse_extcontext();
+  - Add get_elf_hwcap(), and ELF_PLATFORM.
+
+V16:
+  - Update signal.c;
+  - Update helper_rdtime_d();
+  - Update scripts/gensyscalls.sh, fixed a warning.
+
+v15:
+  - Rebase;
+  - Update README;
+  - Adjust some functions and structure to support user-mode;
+  - Update syscall;
+  - Update target_sigcontext;
+
+Old series:
+   - https://patchew.org/QEMU/20220614090536.1103616-1-gaosong@loongson.cn/
+
+Test:
+   - user-mode:
+   make check  && make check-tcg  &&  run LoongArch bash
+   - system-mode
+   make check  && make check-tcg
+
+Thanks.
+Song Gao
+
+
+Song Gao (13):
+  linux-user: Add LoongArch generic header files
+  linux-user: Add LoongArch signal support
+  linux-user: Add LoongArch elf support
+  linux-user: Add LoongArch syscall support
+  linux-user: Add LoongArch cpu_loop support
+  scripts: add loongarch64 binfmt config
+  target/loongarch: remove badaddr from CPULoongArch
+  target/loongarch: Fix missing update CSR_BADV
+  target/loongarch: Fix helper_asrtle_d/asrtgt_d raise wrong exception
+  target/loongarch: remove unused include hw/loader.h
+  target/loongarch: Adjust functions and structure to support user-mode
+  default-configs: Add loongarch linux-user support
+  target/loongarch: Update README
+
+ configs/targets/loongarch64-linux-user.mak    |   3 +
+ linux-user/elfload.c                          |  91 +++++
+ linux-user/loongarch64/cpu_loop.c             |  96 ++++++
+ linux-user/loongarch64/signal.c               | 312 ++++++++++++++++++
+ linux-user/loongarch64/sockbits.h             |  11 +
+ linux-user/loongarch64/syscall_nr.h           | 312 ++++++++++++++++++
+ linux-user/loongarch64/target_cpu.h           |  34 ++
+ linux-user/loongarch64/target_elf.h           |  12 +
+ linux-user/loongarch64/target_errno_defs.h    |  12 +
+ linux-user/loongarch64/target_fcntl.h         |  11 +
+ linux-user/loongarch64/target_prctl.h         |   1 +
+ linux-user/loongarch64/target_resource.h      |  11 +
+ linux-user/loongarch64/target_signal.h        |  13 +
+ linux-user/loongarch64/target_structs.h       |  11 +
+ linux-user/loongarch64/target_syscall.h       |  48 +++
+ linux-user/loongarch64/termbits.h             |  11 +
+ linux-user/syscall_defs.h                     |   6 +-
+ scripts/gensyscalls.sh                        |   2 +
+ scripts/qemu-binfmt-conf.sh                   |   6 +-
+ target/loongarch/README                       |  39 ++-
+ target/loongarch/cpu.c                        |  34 +-
+ target/loongarch/cpu.h                        |   8 +-
+ target/loongarch/gdbstub.c                    |   2 +-
+ target/loongarch/helper.h                     |   2 +
+ .../insn_trans/trans_privileged.c.inc         |  36 ++
+ target/loongarch/internals.h                  |   2 +
+ target/loongarch/op_helper.c                  |  10 +-
+ 27 files changed, 1121 insertions(+), 15 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_prctl.h
+ create mode 100644 linux-user/loongarch64/target_resource.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+
+-- 
+2.31.1
 
 
