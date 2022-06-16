@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E33454DCCE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:25:00 +0200 (CEST)
-Received: from localhost ([::1]:42914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1212454DCD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:28:19 +0200 (CEST)
+Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1koE-0004cz-VW
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:24:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39336)
+	id 1o1krS-0006DR-2y
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o1km4-0003Sc-14
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:22:44 -0400
-Received: from mout-u-107.mailbox.org ([91.198.250.252]:56638)
+ id 1o1kmD-0003Wv-Oe
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:22:53 -0400
+Received: from mout-u-204.mailbox.org ([2001:67c:2050:101:465::204]:49404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o1km1-0001G6-Ur
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:22:43 -0400
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
+ id 1o1kmB-0001Kn-V6
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:22:53 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4LNwCF6gtFz9sQv;
- Thu, 16 Jun 2022 10:22:33 +0200 (CEST)
+ by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4LNwCS4kYYz9sMC;
+ Thu, 16 Jun 2022 10:22:44 +0200 (CEST)
 From: Lev Kujawski <lkujaw@member.fsf.org>
 To: qemu-devel@nongnu.org
-Cc: Lev Kujawski <lkujaw@member.fsf.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH 1/2] hw/pci-host/pam.c: Fully support RE^WE semantics of
- i440FX PAM
-Date: Thu, 16 Jun 2022 08:22:22 +0000
-Message-Id: <20220616082223.622688-1-lkujaw@member.fsf.org>
+Cc: Lev Kujawski <lkujaw@member.fsf.org>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 2/2] tests/qtest/i440fx-test.c: Enable full test of i440FX PAM
+ operation
+Date: Thu, 16 Jun 2022 08:22:23 +0000
+Message-Id: <20220616082223.622688-2-lkujaw@member.fsf.org>
+In-Reply-To: <20220616082223.622688-1-lkujaw@member.fsf.org>
+References: <20220616082223.622688-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4LNwCF6gtFz9sQv
-Received-SPF: pass client-ip=91.198.250.252;
- envelope-from=lkujaw@member.fsf.org; helo=mout-u-107.mailbox.org
+X-Rspamd-Queue-Id: 4LNwCS4kYYz9sMC
+Received-SPF: pass client-ip=2001:67c:2050:101:465::204;
+ envelope-from=lkujaw@member.fsf.org; helo=mout-u-204.mailbox.org
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -61,218 +62,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Programmable Attribute Registers (PAM) of QEMU's emulated i440FX
-chipset now fully support the exclusive Read Enable (RE) and Write
-Enable (WE) modes by forwarding reads of the applicable PAM region to
-RAM and writes to the bus or vice versa, respectively.
+With the prior patch in this series adding support for RE^WE PAM
+semantics, the '#ifndef BROKEN' segments of test_i440fx_pam can now be
+enabled.
 
-The prior behavior for the RE case was to setup a RAM alias and mark
-it read-only, but no attempt was made to forward writes to the bus,
-and read-only aliases of RAM do not prevent writes. Now, pam.c creates
-a ROMD region (with read-only memory backing) coupled with a memory
-operation that forwards writes to the bus.
-
-For the WE case, a RAM alias was created, but with no attempt to
-forward reads to the bus. Now, pam.c creates a MMIO region that writes
-directly to RAM (bypassing the PAM region) and forwards reads to the
-bus.
-
-Additional changes:
-- Change the type of pam_update parameter idx to type uint8_t,
-  eliminating an assert check.
-- Remove the fourth PAM alias, for normal RAM-based reads and writes
-  of PAM regions, saving memory and clutter in mtree output.
-
-Tested with SeaBIOS and AMIBIOS.
+Additionally:
+- Verify that changing attributes does not affect the initial contents
+  of the PAM region;
+- Verify that that the first new mask is written before switching
+  attributes;
+- Switch back to PAM_RE after PAM_WE to read original contents;
+- Tighten logic of the !WE write test because we know what the
+  original contents were; and
+- Write the last mask before testing for it.
 
 Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
 ---
- hw/pci-host/pam.c         | 135 +++++++++++++++++++++++++++++++-------
- include/hw/pci-host/pam.h |   7 +-
- 2 files changed, 117 insertions(+), 25 deletions(-)
+ tests/qtest/i440fx-test.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/hw/pci-host/pam.c b/hw/pci-host/pam.c
-index 454dd120db..da89ca3b50 100644
---- a/hw/pci-host/pam.c
-+++ b/hw/pci-host/pam.c
-@@ -28,43 +28,132 @@
-  */
+diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
+index 6d7d4d8d8f..073a16bbed 100644
+--- a/tests/qtest/i440fx-test.c
++++ b/tests/qtest/i440fx-test.c
+@@ -236,33 +236,34 @@ static void test_i440fx_pam(gconstpointer opaque)
  
- #include "qemu/osdep.h"
-+#include "qapi/error.h"
- #include "hw/pci-host/pam.h"
+         /* Switch to WE for the area */
+         pam_set(dev, i, PAM_RE | PAM_WE);
++        /* Verify the RAM is still all zeros */
++        g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0));
+         /* Write out a non-zero mask to the full area */
+         write_area(pam_area[i].start, pam_area[i].end, 0x42);
+-
+-#ifndef BROKEN
+-        /* QEMU only supports a limited form of PAM */
++        /* Verify the area contains the new mask */
++        g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0x42));
  
-+static void
-+pam_rmem_write(void *opaque, hwaddr addr, uint64_t val, unsigned int size)
-+{
-+    PAMMemoryRegion * const pam = (PAMMemoryRegion *)opaque;
-+
-+    (void)memory_region_dispatch_write(pam->pci_mr, pam->offset + addr, val,
-+                                       size_memop(size), MEMTXATTRS_UNSPECIFIED);
-+}
-+
-+static uint64_t
-+pam_wmem_read(void *opaque, hwaddr addr, unsigned int size)
-+{
-+    PAMMemoryRegion * const pam = (PAMMemoryRegion *)opaque;
-+    uint64_t val = (uint64_t)~0;
-+
-+    (void)memory_region_dispatch_read(pam->pci_mr, pam->offset + addr, &val,
-+                                      size_memop(size), MEMTXATTRS_UNSPECIFIED);
-+
-+    return val;
-+}
-+
-+static void
-+pam_wmem_write(void *opaque, hwaddr addr, uint64_t val, unsigned int size)
-+{
-+    PAMMemoryRegion * const pam = (PAMMemoryRegion *)opaque;
-+
-+    switch (size) {
-+    case 1:
-+        stb_p(pam->system_memory + addr, val);
-+        break;
-+    case 2:
-+        stw_le_p(pam->system_memory + addr, val);
-+        break;
-+    case 4:
-+        stl_le_p(pam->system_memory + addr, val);
-+        break;
-+    case 8:
-+        stq_le_p(pam->system_memory + addr, val);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static const MemoryRegionOps pam_rmem_ops = {
-+    .write = pam_rmem_write,
-+};
-+
-+static const MemoryRegionOps pam_wmem_ops = {
-+    .read = pam_wmem_read,
-+    .write = pam_wmem_write,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 8,
-+        .unaligned = true,
-+    },
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 8,
-+        .unaligned = true,
-+    },
-+};
-+
- void init_pam(DeviceState *dev, MemoryRegion *ram_memory,
--              MemoryRegion *system_memory, MemoryRegion *pci_address_space,
--              PAMMemoryRegion *mem, uint32_t start, uint32_t size)
-+              MemoryRegion *system, MemoryRegion *pci,
-+              PAMMemoryRegion *pam, uint32_t start, uint32_t size)
- {
-+    char name[12] = "pam-splitr";
-     int i;
+         /* Switch to !RE for the area */
+         pam_set(dev, i, PAM_WE);
+         /* Verify the area is not our mask */
+         g_assert(!verify_area(pam_area[i].start, pam_area[i].end, 0x42));
+-#endif
  
--    /* RAM */
--    memory_region_init_alias(&mem->alias[3], OBJECT(dev), "pam-ram", ram_memory,
--                             start, size);
--    /* ROM (XXX: not quite correct) */
--    memory_region_init_alias(&mem->alias[1], OBJECT(dev), "pam-rom", ram_memory,
--                             start, size);
--    memory_region_set_readonly(&mem->alias[1], true);
-+    name[10] = (start >> 14) + 17;
-+    name[11] = '\0';
+-        /* Verify the area is our new mask */
++        /* Switch to !WE for the area */
++        pam_set(dev, i, PAM_RE);
++        /* Verify the area is once again our mask */
+         g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0x42));
+ 
+         /* Write out a new mask */
+         write_area(pam_area[i].start, pam_area[i].end, 0x82);
+ 
+-#ifndef BROKEN
+-        /* QEMU only supports a limited form of PAM */
+-
+-        /* Verify the area is not our mask */
+-        g_assert(!verify_area(pam_area[i].start, pam_area[i].end, 0x82));
++        /* Verify the area is not the new mask */
++        g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0x42));
+ 
+         /* Switch to RE for the area */
+         pam_set(dev, i, PAM_RE | PAM_WE);
+-#endif
++        /* Write out a new mask again */
++        write_area(pam_area[i].start, pam_area[i].end, 0x82);
 +
-+    /* Forward all memory accesses to the bus.  */
-+    memory_region_init_alias(&pam->alias[0], OBJECT(dev), "pam-pci",
-+                             pci, start, size);
+         /* Verify the area is our new mask */
+         g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0x82));
  
--    /* XXX: should distinguish read/write cases */
--    memory_region_init_alias(&mem->alias[0], OBJECT(dev), "pam-pci", pci_address_space,
--                             start, size);
--    memory_region_init_alias(&mem->alias[2], OBJECT(dev), "pam-pci", ram_memory,
--                             start, size);
-+    /* Split modes */
-+    /* Forward reads to RAM, writes to the bus.  */
-+    memory_region_init_rom_device(&pam->alias[1], OBJECT(dev),
-+                                  &pam_rmem_ops, pam, name, size,
-+                                  &error_fatal);
-+
-+    /* Forward writes to RAM, reads to the bus.  */
-+    name[9] = 'w';
-+    memory_region_init_io(&pam->alias[2], OBJECT(dev), &pam_wmem_ops,
-+                          pam, name, size);
- 
-     memory_region_transaction_begin();
--    for (i = 0; i < 4; ++i) {
--        memory_region_set_enabled(&mem->alias[i], false);
--        memory_region_add_subregion_overlap(system_memory, start,
--                                            &mem->alias[i], 1);
-+    for (i = 0; i < 3; ++i) {
-+        /* The caller is responsible for the initial state.  */
-+        memory_region_set_enabled(&pam->alias[i], false);
-+        memory_region_add_subregion_overlap(system, start,
-+                                            &pam->alias[i], 1);
-     }
-+    pam->system_memory = memory_region_get_ram_ptr(ram_memory) + start;
-     memory_region_transaction_commit();
--    mem->current = 0;
-+    pam->current = 0;
-+    pam->pci_mr = pci;
-+    pam->offset = start;
- }
- 
--void pam_update(PAMMemoryRegion *pam, int idx, uint8_t val)
-+void pam_update(PAMMemoryRegion *pam, uint8_t idx, uint8_t val)
- {
--    assert(0 <= idx && idx < PAM_REGIONS_COUNT);
-+    uint8_t ai;
-+    assert(idx < PAM_REGIONS_COUNT);
-+
-+    ai = (val >> ((!(idx & 1)) * 4)) & PAM_ATTR_MASK;
- 
-+    /* The caller is responsible for setting up a transaction.  */
-     memory_region_set_enabled(&pam->alias[pam->current], false);
--    pam->current = (val >> ((!(idx & 1)) * 4)) & PAM_ATTR_MASK;
--    memory_region_set_enabled(&pam->alias[pam->current], true);
-+    switch (ai) {
-+    case 1: {
-+        const hwaddr pamsize = memory_region_size(&pam->alias[ai]);
-+
-+        memcpy(memory_region_get_ram_ptr(&pam->alias[ai]),
-+               pam->system_memory, pamsize);
-+        memory_region_flush_rom_device(&pam->alias[ai], 0, pamsize);
-+    }
-+    /* FALLTHROUGH */
-+    case 0:
-+    case 2:
-+        memory_region_set_enabled(&pam->alias[ai], true);
-+        pam->current = ai;
-+    }
- }
-diff --git a/include/hw/pci-host/pam.h b/include/hw/pci-host/pam.h
-index c1fd06ba2a..7e819ed88b 100644
---- a/include/hw/pci-host/pam.h
-+++ b/include/hw/pci-host/pam.h
-@@ -83,12 +83,15 @@
- #define PAM_REGIONS_COUNT       13
- 
- typedef struct PAMMemoryRegion {
--    MemoryRegion alias[4];  /* index = PAM value */
-+    MemoryRegion alias[3];  /* index = PAM value */
-     unsigned current;
-+    void *system_memory;
-+    ram_addr_t offset;
-+    MemoryRegion *pci_mr;
- } PAMMemoryRegion;
- 
- void init_pam(DeviceState *dev, MemoryRegion *ram, MemoryRegion *system,
-               MemoryRegion *pci, PAMMemoryRegion *mem, uint32_t start, uint32_t size);
--void pam_update(PAMMemoryRegion *mem, int idx, uint8_t val);
-+void pam_update(PAMMemoryRegion *mem, uint8_t idx, uint8_t val);
- 
- #endif /* QEMU_PAM_H */
 -- 
 2.34.1
 
