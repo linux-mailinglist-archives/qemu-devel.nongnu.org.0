@@ -2,96 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E881854E66A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 17:53:16 +0200 (CEST)
-Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4F554E675
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 17:57:37 +0200 (CEST)
+Received: from localhost ([::1]:50448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1ro3-0008Aq-KZ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 11:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33238)
+	id 1o1rsF-0001e5-Mf
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 11:57:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o1rlz-0007TW-Tn
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:51:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43011)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o1rlw-00045M-U9
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:51:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655394664;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ypPsvZ/mHH1Gp75/vO9ffXH67chUR84jBqSUO/Lh5gA=;
- b=JYMDZ3DG75JGn7JvZtqZ9Mw4WeSPhPr5HpSQ8g9GhMyxxoaFgOelfb7zbeO2whApSVcv+a
- TLPFgyPe0SRuteoyJRiDZIj4gu3HGOClbJrU3unl86FCsnYz29muFYRJs/TqycZU+K+7ot
- I4BUhZubghHuxCKOc6WfyevVrZjaP2w=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-_vyURPEyO-yJbkmqjkNyxQ-1; Thu, 16 Jun 2022 11:51:02 -0400
-X-MC-Unique: _vyURPEyO-yJbkmqjkNyxQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p6-20020a05600c358600b0039c873184b9so1071616wmq.4
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 08:51:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o1rqx-0000xw-Oj
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:56:15 -0400
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:34450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o1rqu-0004qJ-7E
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 11:56:15 -0400
+Received: by mail-lf1-x133.google.com with SMTP id p18so2897036lfr.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 08:56:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nqmsU0FtAwxIjM6v5F+17p4V1U0pVkSPTzfuopH1vBs=;
+ b=Qo+YPtfZhSVVkNJo5cM/05coBSyrZX0F6VigGdi6Nrx7OmmfYfIGk32GVGyGl9U3/L
+ 6jVYjImR3BSR2d02mHDHeWWnqpBDsvyvMTDcjhibAio4fvVLyMoNya/1TRVZW9SpTRR7
+ PJ5AqX2B2iAlwOeZUvHmgKh9hXS+ZGzDwthL36QJLPTO49/KphNdsCXQHJAumNFFLtDp
+ kwU47MSyVwWz617UJwaRF7fYOjmst0PDRZEswDyzCvdbHpvynBKHUL77BIMDH9f6xuFf
+ z5JEV9JVOPzYn/MGlgXWGZfNquJCspi8RJy5rRTo8NXs+B/UavXImONUzuZPILWqv3rh
+ kj6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=ypPsvZ/mHH1Gp75/vO9ffXH67chUR84jBqSUO/Lh5gA=;
- b=feyUpSBPILf/Ikj/LhUYxv2uHL7H9zDSBfXxCFsw6VIarTTx7p5wK+8VOknH5ZBodI
- /QC94yRB1Podhphi/+ENpJFDEx1OAqOVJKsRdk5TJ+O2Hnr3gYprlrsgV85aI8CgBIA5
- sT8c7icl7uqpZjZDb81S4x5CWN7xMbAkSN6pw5m8sp2siZSoPjScpsSv6JvfGGMJ1zvt
- 2BorZ9vTV/Xe4hfvWJBmLRULZv5q/g4E5/Nfk5nu4PZRxp6Qez7tgG1LqI+aIwRMqnNJ
- 1DwXUWtgNnMz+P4Zpr4C/FWvERNPdcO1MykybtbdSaDpKsa43/RqKI3rDFoelxLz6UEn
- Nu3g==
-X-Gm-Message-State: AJIora+Itg8n2Y5nVCUkmL9je+fEb4JyaJKcNeMM7tMq9wvrG/ZKT386
- UY2R/ICkBp00CJFT2NTX910IW/ziKjw9kDmR95wcv6jZdptnBSFmxtclJa2OsvE8nzm+0PXcrsv
- wNL/IMX7+WoZDSJ0=
-X-Received: by 2002:a05:600c:acf:b0:39c:56ea:2121 with SMTP id
- c15-20020a05600c0acf00b0039c56ea2121mr5685443wmr.39.1655394661719; 
- Thu, 16 Jun 2022 08:51:01 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1saXD2Sz2imaMbm43PhJL7tsJ/EINC26txabbndpKqL9jcFQnTvjSVwOcUrHcek4HbXb36NPw==
-X-Received: by 2002:a05:600c:acf:b0:39c:56ea:2121 with SMTP id
- c15-20020a05600c0acf00b0039c56ea2121mr5685412wmr.39.1655394661486; 
- Thu, 16 Jun 2022 08:51:01 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- u9-20020a5d4349000000b0021004d7d75asm2326957wrr.84.2022.06.16.08.51.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 08:51:00 -0700 (PDT)
-Date: Thu, 16 Jun 2022 16:50:58 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: "manish.mishra" <manish.mishra@nutanix.com>,
- Het Gala <het.gala@nutanix.com>, qemu-devel@nongnu.org,
- quintela@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com
-Subject: Re: [PATCH 0/4] Multiple interface support on top of Multi-FD
-Message-ID: <YqtRYs1wGEQR4wfo@work-vm>
-References: <20220609073305.142515-1-het.gala@nutanix.com>
- <YqIWDoSJ/xQC8Vvt@redhat.com>
- <7209116d-ef87-ee6f-5126-e23b55121f49@nutanix.com>
- <YqoMMCbF3PBnYSn/@redhat.com> <YqrpVRJazpbMz/HE@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nqmsU0FtAwxIjM6v5F+17p4V1U0pVkSPTzfuopH1vBs=;
+ b=bwaePtPf/yUPv0SYWhodD3sVE63u0H4CJgAghD3FiCYrZ9cuzvYdIBNVnD4ffYOFBg
+ tbXCCU/pfjvDG6lhl9AEzwka4uFNMoNiC991/v6xjJOphi19GZ7jMEIyRr44Ee9RqMzm
+ BGBypeWKM82HyB0tv5p8oI4hyTRkbKvlvM4gMHNyP3TBQluUjUDrPjjQaXLiS81p4pWG
+ n1OstcoiG3c6CvY6Z5GCeBdfNxbx2WWZnfXq9AZuLk+qEm5+WB/0+YvcvW2A12DpgoBt
+ My9j70TwIlH4J6u4v6z4Ulu6fJDuLeDDOUro+w/65rkUXSM7Gcoy8saqI84HaKCCx2mN
+ UjGQ==
+X-Gm-Message-State: AJIora+v/veO6gJUpS1U3LGFRgDTEplLWRhcl+hFGDmcXpLBQ3izvPlv
+ gqPSYXs7AivPHhjt7Qe7I1LuhRg9Gk/o57dUA3o=
+X-Google-Smtp-Source: AGRyM1vGKKLaUYVV8SNnn8FW0RWl3slTZWnR36yFaV4OTQNS2yYRGJ5DWtj2N8vckYUuL+ZqIhDUZokWz9p+9e/NVSk=
+X-Received: by 2002:a05:6512:3e03:b0:479:2e0c:3d2c with SMTP id
+ i3-20020a0565123e0300b004792e0c3d2cmr3059727lfv.654.1655394969844; Thu, 16
+ Jun 2022 08:56:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YqrpVRJazpbMz/HE@redhat.com>
-User-Agent: Mutt/2.2.5 (2022-05-16)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
+ <1655304746-102776-6-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1655304746-102776-6-git-send-email-steven.sistare@oracle.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 16 Jun 2022 19:55:58 +0400
+Message-ID: <CAJ+F1CLZrnj=AXb=-C+MOU5xB7h_4YUqrn4W+rV6yoUax2ur7g@mail.gmail.com>
+Subject: Re: [PATCH V8 05/39] vl: start on wakeup request
+To: Steve Sistare <steven.sistare@oracle.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>, 
+ "Daniel P. Berrange" <berrange@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ Jason Zeng <jason.zeng@linux.intel.com>, Zheng Chuan <zhengchuan@huawei.com>, 
+ Mark Kanda <mark.kanda@oracle.com>, Guoyi Tu <tugy@chinatelecom.cn>, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
+ Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000023ff7f05e192adaf"
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,100 +96,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Wed, Jun 15, 2022 at 05:43:28PM +0100, Daniel P. Berrangé wrote:
-> > On Fri, Jun 10, 2022 at 05:58:31PM +0530, manish.mishra wrote:
-> > > 
-> > > On 09/06/22 9:17 pm, Daniel P. Berrangé wrote:
-> > > > On Thu, Jun 09, 2022 at 07:33:01AM +0000, Het Gala wrote:
-> > > > > As of now, the multi-FD feature supports connection over the default network
-> > > > > only. This Patchset series is a Qemu side implementation of providing multiple
-> > > > > interfaces support for multi-FD. This enables us to fully utilize dedicated or
-> > > > > multiple NICs in case bonding of NICs is not possible.
-> > > > > 
-> > > > > 
-> > > > > Introduction
-> > > > > -------------
-> > > > > Multi-FD Qemu implementation currently supports connection only on the default
-> > > > > network. This forbids us from advantages like:
-> > > > > - Separating VM live migration traffic from the default network.
-> > > 
-> > > Hi Daniel,
-> > > 
-> > > I totally understand your concern around this approach increasing compexity inside qemu,
-> > > 
-> > > when similar things can be done with NIC teaming. But we thought this approach provides
-> > > 
-> > > much more flexibility to user in few cases like.
-> > > 
-> > > 1. We checked our customer data, almost all of the host had multiple NIC, but LACP support
-> > > 
-> > >     in their setups was very rare. So for those cases this approach can help in utilise multiple
-> > > 
-> > >     NICs as teaming is not possible there.
-> > 
-> > AFAIK,  LACP is not required in order to do link aggregation with Linux.
-> > Traditional Linux bonding has no special NIC hardware or switch requirements,
-> > so LACP is merely a "nice to have" in order to simplify some aspects.
-> > 
-> > IOW, migration with traffic spread across multiple NICs is already
-> > possible AFAICT.
-> > 
-> > I can understand that some people may not have actually configured
-> > bonding on their hosts, but it is not unreasonable to request that
-> > they do so, if they want to take advantage fo aggrated bandwidth.
-> > 
-> > It has the further benefit that it will be fault tolerant. With
-> > this proposal if any single NIC has a problem, the whole migration
-> > will get stuck. With kernel level bonding, if any single NIC haus
-> > a problem, it'll get offlined by the kernel and migration will
-> > continue to  work across remaining active NICs.
-> > 
-> > > 2. We have seen requests recently to separate out traffic of storage, VM netwrok, migration
-> > > 
-> > >     over different vswitch which can be backed by 1 or more NICs as this give better
-> > > 
-> > >     predictability and assurance. So host with multiple ips/vswitches can be very common
-> > > 
-> > >     environment. In this kind of enviroment this approach gives per vm or migration level
-> > > 
-> > >     flexibilty, like for critical VM we can still use bandwidth from all available vswitch/interface
-> > > 
-> > >     but for normal VM they can keep live migration only on dedicated NICs without changing
-> > > 
-> > >     complete host network topology.
-> > > 
-> > >     At final we want it to be something like this [<ip-pair>, <multiFD-channels>, <bandwidth_control>]
-> > > 
-> > >     to provide bandwidth_control per interface.
-> > 
-> > Again, it is already possible to separate migration traffic from storage
-> > traffic, from other network traffic. The target IP given will influence
-> > which NIC is used based on routing table and I know this is already
-> > done widely with OpenStack deployments.
-> 
-> Actually I should clarify this is only practical if the two NICs are
-> using different IP subnets, otherwise routing rules are not viable.
-> So needing to set source IP would be needed to select between a pair
-> of NICs on the same IP subnet.
+--00000000000023ff7f05e192adaf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yeh so I think that's one reason that the idea in this series is OK
-(together with the idea for the NUMA stuff) and I suspect there are
-other cases as well.
+Hi
 
-Dave
+On Wed, Jun 15, 2022 at 7:27 PM Steve Sistare <steven.sistare@oracle.com>
+wrote:
 
-> Previous usage I've seen has always setup fully distinct IP subnets
-> for generic vs storage vs migration network traffic.
-> 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> If qemu starts and loads a VM in the suspended state, then a later wakeup
+> request will set the state to running, which is not sufficient to
+> initialize
+> the vm, as vm_start was never called during this invocation of qemu.  See
+> qemu_system_wakeup_request().
+>
+> Define the start_on_wakeup_requested() hook to cause vm_start() to be
+> called
+> when processing the wakeup request.
+>
 
+Nothing calls qemu_system_start_on_wakeup_request() yet, so it would be
+useful to say where this is going to be used next.
+
+(otherwise, it seems ok to me)
+
+
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>  include/sysemu/runstate.h |  1 +
+>  softmmu/runstate.c        | 16 +++++++++++++++-
+>  2 files changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+> index f3ed525..16c1c41 100644
+> --- a/include/sysemu/runstate.h
+> +++ b/include/sysemu/runstate.h
+> @@ -57,6 +57,7 @@ void qemu_system_reset_request(ShutdownCause reason);
+>  void qemu_system_suspend_request(void);
+>  void qemu_register_suspend_notifier(Notifier *notifier);
+>  bool qemu_wakeup_suspend_enabled(void);
+> +void qemu_system_start_on_wakeup_request(void);
+>  void qemu_system_wakeup_request(WakeupReason reason, Error **errp);
+>  void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);
+>  void qemu_register_wakeup_notifier(Notifier *notifier);
+> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> index fac7b63..9b27d74 100644
+> --- a/softmmu/runstate.c
+> +++ b/softmmu/runstate.c
+> @@ -115,6 +115,7 @@ static const RunStateTransition
+> runstate_transitions_def[] =3D {
+>      { RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },
+>      { RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },
+>      { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
+> +    { RUN_STATE_PRELAUNCH, RUN_STATE_SUSPENDED },
+>
+>      { RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },
+>      { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },
+> @@ -335,6 +336,7 @@ void vm_state_notify(bool running, RunState state)
+>      }
+>  }
+>
+> +static bool start_on_wakeup_requested;
+>  static ShutdownCause reset_requested;
+>  static ShutdownCause shutdown_requested;
+>  static int shutdown_signal;
+> @@ -562,6 +564,11 @@ void qemu_register_suspend_notifier(Notifier
+> *notifier)
+>      notifier_list_add(&suspend_notifiers, notifier);
+>  }
+>
+> +void qemu_system_start_on_wakeup_request(void)
+> +{
+> +    start_on_wakeup_requested =3D true;
+> +}
+> +
+>  void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+>  {
+>      trace_system_wakeup_request(reason);
+> @@ -574,7 +581,14 @@ void qemu_system_wakeup_request(WakeupReason reason,
+> Error **errp)
+>      if (!(wakeup_reason_mask & (1 << reason))) {
+>          return;
+>      }
+> -    runstate_set(RUN_STATE_RUNNING);
+> +
+> +    if (start_on_wakeup_requested) {
+> +        start_on_wakeup_requested =3D false;
+> +        vm_start();
+> +    } else {
+> +        runstate_set(RUN_STATE_RUNNING);
+> +    }
+> +
+>      wakeup_reason =3D reason;
+>      qemu_notify_event();
+>  }
+> --
+> 1.8.3.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000023ff7f05e192adaf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, 2022 at 7:27 PM Ste=
+ve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@=
+oracle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">If qemu starts and loads a VM in the suspended state, then a lat=
+er wakeup<br>
+request will set the state to running, which is not sufficient to initializ=
+e<br>
+the vm, as vm_start was never called during this invocation of qemu.=C2=A0 =
+See<br>
+qemu_system_wakeup_request().<br>
+<br>
+Define the start_on_wakeup_requested() hook to cause vm_start() to be calle=
+d<br>
+when processing the wakeup request.<br></blockquote><div><br></div><div>Not=
+hing calls qemu_system_start_on_wakeup_request() yet, so it would be useful=
+ to say where this is going to be used next.</div><div><br></div><div>(othe=
+rwise, it seems ok to me)</div><div><br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">
+<br>
+Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
+m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br>
+---<br>
+=C2=A0include/sysemu/runstate.h |=C2=A0 1 +<br>
+=C2=A0softmmu/runstate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 16 +++++++++++++++-<b=
+r>
+=C2=A02 files changed, 16 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h<br>
+index f3ed525..16c1c41 100644<br>
+--- a/include/sysemu/runstate.h<br>
++++ b/include/sysemu/runstate.h<br>
+@@ -57,6 +57,7 @@ void qemu_system_reset_request(ShutdownCause reason);<br>
+=C2=A0void qemu_system_suspend_request(void);<br>
+=C2=A0void qemu_register_suspend_notifier(Notifier *notifier);<br>
+=C2=A0bool qemu_wakeup_suspend_enabled(void);<br>
++void qemu_system_start_on_wakeup_request(void);<br>
+=C2=A0void qemu_system_wakeup_request(WakeupReason reason, Error **errp);<b=
+r>
+=C2=A0void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);<br=
+>
+=C2=A0void qemu_register_wakeup_notifier(Notifier *notifier);<br>
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c<br>
+index fac7b63..9b27d74 100644<br>
+--- a/softmmu/runstate.c<br>
++++ b/softmmu/runstate.c<br>
+@@ -115,6 +115,7 @@ static const RunStateTransition runstate_transitions_de=
+f[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },<br>
+=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },<br>
+=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },<br>
++=C2=A0 =C2=A0 { RUN_STATE_PRELAUNCH, RUN_STATE_SUSPENDED },<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },<br>
+=C2=A0 =C2=A0 =C2=A0{ RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },<br>
+@@ -335,6 +336,7 @@ void vm_state_notify(bool running, RunState state)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
++static bool start_on_wakeup_requested;<br>
+=C2=A0static ShutdownCause reset_requested;<br>
+=C2=A0static ShutdownCause shutdown_requested;<br>
+=C2=A0static int shutdown_signal;<br>
+@@ -562,6 +564,11 @@ void qemu_register_suspend_notifier(Notifier *notifier=
+)<br>
+=C2=A0 =C2=A0 =C2=A0notifier_list_add(&amp;suspend_notifiers, notifier);<br=
+>
+=C2=A0}<br>
+<br>
++void qemu_system_start_on_wakeup_request(void)<br>
++{<br>
++=C2=A0 =C2=A0 start_on_wakeup_requested =3D true;<br>
++}<br>
++<br>
+=C2=A0void qemu_system_wakeup_request(WakeupReason reason, Error **errp)<br=
+>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0trace_system_wakeup_request(reason);<br>
+@@ -574,7 +581,14 @@ void qemu_system_wakeup_request(WakeupReason reason, E=
+rror **errp)<br>
+=C2=A0 =C2=A0 =C2=A0if (!(wakeup_reason_mask &amp; (1 &lt;&lt; reason))) {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 runstate_set(RUN_STATE_RUNNING);<br>
++<br>
++=C2=A0 =C2=A0 if (start_on_wakeup_requested) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 start_on_wakeup_requested =3D false;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vm_start();<br>
++=C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 runstate_set(RUN_STATE_RUNNING);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0wakeup_reason =3D reason;<br>
+=C2=A0 =C2=A0 =C2=A0qemu_notify_event();<br>
+=C2=A0}<br>
+-- <br>
+1.8.3.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000023ff7f05e192adaf--
 
