@@ -2,81 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8964454E9A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 20:47:49 +0200 (CEST)
-Received: from localhost ([::1]:54576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE30054E9AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 20:51:56 +0200 (CEST)
+Received: from localhost ([::1]:58854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1uWy-00075M-Cq
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 14:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43088)
+	id 1o1uay-0001mV-09
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 14:51:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o1uS5-0004kV-E1; Thu, 16 Jun 2022 14:42:45 -0400
-Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:45703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o1uRr-0001d1-LY; Thu, 16 Jun 2022 14:42:45 -0400
-Received: by mail-oo1-xc2c.google.com with SMTP id
- w3-20020a4ab6c3000000b0041c1e737283so402200ooo.12; 
- Thu, 16 Jun 2022 11:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IbQXyFTzwmW76RY83+zG5vHy0vJlUXTif4cmcuVHdmA=;
- b=qqINgaj9AM2UfZeqlyEa8hvmXz5fz/LL9U1DSfJxlmcA/gwn+TjvARWRFRkN/myDqE
- OWxpbrHIMaKaghRFP/eu3sNi8vLZHWhLiHPmPIrxJBBpT9gk/7pdJ7RTC8TUCdjVoH6q
- bcyxxX6r7hDyDq+BKKMWmw28HkQlaOyVp2/GsFbms2azPPIRIaTorsKWkTG0EvVUtYFn
- YGxqGCWINNKx1OarMKybgZso1k6BC9rCYiy5cpYXAnRSWGDZbalystu9VI8boj+cNzhU
- NexV6uhoXW1KWWbBcb/7o2YtWfMbYMCyWm7ezB1sp+0Rh8cFtwikcvUDRfdW/8OWQ3bP
- 0gqA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o1uWo-0008C4-FY
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 14:47:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48356)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o1uWk-0002pr-RS
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 14:47:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655405253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ApNGxrQQlNTzl9zGVrubUZHR06HHQXnJrjxsIoy9hIw=;
+ b=Lp/9zk/EuZSja8fdLAY0cukm+8I3Q6SlJjWOiKQLujMS6//3RdKUZxKK5ilJjQFBmmcSAD
+ Sg1R0GU8T+igWs+f8fUiKWzP66L4jXbt+XRDw3CF61/7/UpvXhkF70XIrNtVTIT7TWmdhB
+ dGRUca2E3AJRTKT0kxfRU08WJh3+nEI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-527-YmJpg5_EMeSkYdmn6hyPpg-1; Thu, 16 Jun 2022 14:47:32 -0400
+X-MC-Unique: YmJpg5_EMeSkYdmn6hyPpg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m23-20020a05600c3b1700b0039c6e3c169aso1264904wms.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 11:47:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IbQXyFTzwmW76RY83+zG5vHy0vJlUXTif4cmcuVHdmA=;
- b=yRRCHPhcZJmu77sx6OmteYvQCFvXOFQMGbrQjafjw8jQn1uubNQPh3aRUw/sAV+wh4
- kDVr+wU4SN9lVTBxIH6YcdcSYhzsPM4y+1ud0CaKyEVv0EJm8iVez4mlbXyMH+3xcgRR
- feV/JFt0J0hS5uQdVlJo7AYuQ5j+o1VN+pp4Cpvz5unmom2r+c200BIrs1eogWeoDFG+
- 5s7j3+1wIg4PIZBoObhT/3C6NqvuWkkUus7wHwwF6ZVNrbk7dKtHJNQpPjFdzYyR1UIw
- FAvRq+N/mXIeHigQviGwTuvRuc5hP8D8v+sz2jm61FdRs/Rr2GbS63ICxMuCSjgA77wv
- +bjg==
-X-Gm-Message-State: AJIora81o4znRVKE3QL1TIw4ct4sVGQzVQUPr2iqztwRnR6ubuLotZD+
- gQ7MAMGTlfo2L3CvQxF/WtE=
-X-Google-Smtp-Source: AGRyM1vPS1z2bHG7DPrNbYWuyVN2kGPp5UcZ1onKXoBSDWUAfN9nk2FrgoLtERAIKd8gx0bNrok7aA==
-X-Received: by 2002:a4a:e1b2:0:b0:41b:b072:9fbd with SMTP id
- 18-20020a4ae1b2000000b0041bb0729fbdmr2582973ooy.29.1655404944915; 
- Thu, 16 Jun 2022 11:42:24 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:ccc8:8e07:268b:a09:2834?
- ([2804:431:c7c6:ccc8:8e07:268b:a09:2834])
- by smtp.gmail.com with ESMTPSA id
- p1-20020a056870868100b000f34dacf350sm1251481oam.6.2022.06.16.11.42.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 11:42:24 -0700 (PDT)
-Message-ID: <43282864-6d82-e84d-bc8f-c04f76c27f8d@gmail.com>
-Date: Thu, 16 Jun 2022 15:42:21 -0300
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ApNGxrQQlNTzl9zGVrubUZHR06HHQXnJrjxsIoy9hIw=;
+ b=tV4MGV6O1V4eDerlMtrpaHyv1wATObOa5vUCMhJ7IsxohUlmZNoWaBNswIWr9FH4Ss
+ Kbzb9pjvLeReLCOMwTGk5X9dc98GGfFH9PG6WxAQdZUbRgwRI35mfzKOXYPvzlRttQlR
+ r1UxyBpOzxP8lCPEU9sM/YUT3d2IPcjuDSTNfNmklAHjS2yghcRvnPtES0DHazdRJgtm
+ H564ehV5Ai6f9MiKFwCKzBeva1a7Vt6HCIw9J1OIM7xeSkynbi+JCGb2Vh24Vz2QMue3
+ uh6TV9oAW/qcNIEPrTZJKHD/OlWIJoZkZuofufddg2pIz3gQvGlgUYHhB4oCWVmJi6cp
+ r8eA==
+X-Gm-Message-State: AJIora8D5IBPJImsLtPvE1aUrOVDRxIoBo+w4U1FwfZK6Oadj1wcxUiB
+ 56BivJntf5pVNNz/M42oPSlCsQNOzZJ6C7Af/Xsa/lsOyXEg7+D+pGqqjtR/B3xKbEnUeJCEXTT
+ rFg52L2IIbJI1YBU=
+X-Received: by 2002:a5d:4dc9:0:b0:215:c611:db73 with SMTP id
+ f9-20020a5d4dc9000000b00215c611db73mr6159945wru.551.1655405251108; 
+ Thu, 16 Jun 2022 11:47:31 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sYYfT9/SDEgOSmsTD39XNpL0F5jNpC7HGEzVx1lHB1NuY2ApWlkMsabQ4c9gpUse4fKKqTfA==
+X-Received: by 2002:a5d:4dc9:0:b0:215:c611:db73 with SMTP id
+ f9-20020a5d4dc9000000b00215c611db73mr6159928wru.551.1655405250811; 
+ Thu, 16 Jun 2022 11:47:30 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ p10-20020adff20a000000b0020fe4c5e94csm2541678wro.19.2022.06.16.11.47.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jun 2022 11:47:30 -0700 (PDT)
+Date: Thu, 16 Jun 2022 19:47:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, pbonzini@redhat.com,
+ berrange@redhat.com, armbru@redhat.com, eblake@redhat.com,
+ Manish Mishra <manish.mishra@nutanix.com>
+Subject: Re: [PATCH 4/4] Adding support for multi-FD connections dynamically
+Message-ID: <Yqt6wH8+i+pDBHNU@work-vm>
+References: <20220609073305.142515-1-het.gala@nutanix.com>
+ <20220609073305.142515-5-het.gala@nutanix.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH qemu] ppc/spapr: Implement H_WATCHDOG
-Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, Scott Cheloha <cheloha@linux.ibm.com>
-References: <20220608030153.1862335-1-aik@ozlabs.ru>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220608030153.1862335-1-aik@ozlabs.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220609073305.142515-5-het.gala@nutanix.com>
+User-Agent: Mutt/2.2.5 (2022-05-16)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,423 +101,384 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey,
+* Het Gala (het.gala@nutanix.com) wrote:
+> i) Dynamically decide appropriate source and destination ip pairs for the
+>    corresponding multi-FD channel to be connected.
+> 
+> ii) Removed the support for setting the number of multi-fd channels from qmp
+>     commands. As now all multiFD parameters will be passed via qmp: migrate
+>     command or incoming flag itself.
 
-As you might have seen in the kernel thread I was unable to test the implementation.
+We can't do that, because it's part of the API already; what you'll need
+to do is check that the number of entries in your list corresponds to
+the value set there and error if it's different.
 
-The code errors out down there:
+Dave
 
-On 6/8/22 00:01, Alexey Kardashevskiy wrote:
-> The new PAPR 2.12 defines a watchdog facility managed via the new
-> H_WATCHDOG hypercall.
-> 
-> This adds H_WATCHDOG support which a proposed driver for pseries uses:
-> https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=303120
-> 
-> This was tested by running QEMU with a debug kernel and command line:
-> -append \
->   "pseries-wdt.timeout=60 pseries-wdt.nowayout=1 pseries-wdt.action=2"
-> 
-> and running "echo V > /dev/watchdog0" inside the VM.
-> 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+> Signed-off-by: Het Gala <het.gala@nutanix.com>
 > ---
->   include/hw/ppc/spapr.h  |  23 +++-
->   hw/ppc/spapr.c          |   5 +
->   hw/ppc/spapr_watchdog.c | 239 ++++++++++++++++++++++++++++++++++++++++
->   hw/ppc/meson.build      |   1 +
->   hw/ppc/trace-events     |   7 ++
->   5 files changed, 274 insertions(+), 1 deletion(-)
->   create mode 100644 hw/ppc/spapr_watchdog.c
+>  migration/migration.c | 15 ---------------
+>  migration/migration.h |  1 -
+>  migration/multifd.c   | 42 +++++++++++++++++++++---------------------
+>  migration/socket.c    | 42 +++++++++++++++++++++++++++++++++---------
+>  migration/socket.h    |  4 +++-
+>  monitor/hmp-cmds.c    |  4 ----
+>  qapi/migration.json   |  6 ------
+>  7 files changed, 57 insertions(+), 57 deletions(-)
 > 
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 072dda2c7265..39aa8609df7b 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -164,6 +164,19 @@ struct SpaprMachineClass {
->       SpaprIrq *irq;
->   };
->   
-> +#define WDT_MAX_WATCHDOGS       4      /* Maximum number of watchdog devices */
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 9b0ad732e7..57dd4494b4 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1585,9 +1585,6 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
+>      if (params->has_block_incremental) {
+>          dest->block_incremental = params->block_incremental;
+>      }
+> -    if (params->has_multifd_channels) {
+> -        dest->multifd_channels = params->multifd_channels;
+> -    }
+>      if (params->has_multifd_compression) {
+>          dest->multifd_compression = params->multifd_compression;
+>      }
+> @@ -1702,9 +1699,6 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
+>      if (params->has_block_incremental) {
+>          s->parameters.block_incremental = params->block_incremental;
+>      }
+> -    if (params->has_multifd_channels) {
+> -        s->parameters.multifd_channels = params->multifd_channels;
+> -    }
+>      if (params->has_multifd_compression) {
+>          s->parameters.multifd_compression = params->multifd_compression;
+>      }
+> @@ -2686,15 +2680,6 @@ bool migrate_pause_before_switchover(void)
+>          MIGRATION_CAPABILITY_PAUSE_BEFORE_SWITCHOVER];
+>  }
+>  
+> -int migrate_multifd_channels(void)
+> -{
+> -    MigrationState *s;
+> -
+> -    s = migrate_get_current();
+> -
+> -    return s->parameters.multifd_channels;
+> -}
+> -
+>  MultiFDCompression migrate_multifd_compression(void)
+>  {
+>      MigrationState *s;
+> diff --git a/migration/migration.h b/migration/migration.h
+> index fa8717ec9e..9464de8ef7 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -372,7 +372,6 @@ bool migrate_validate_uuid(void);
+>  bool migrate_auto_converge(void);
+>  bool migrate_use_multifd(void);
+>  bool migrate_pause_before_switchover(void);
+> -int migrate_multifd_channels(void);
+>  MultiFDCompression migrate_multifd_compression(void);
+>  int migrate_multifd_zlib_level(void);
+>  int migrate_multifd_zstd_level(void);
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 9282ab6aa4..ce017436fb 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -225,7 +225,7 @@ static int multifd_recv_initial_packet(QIOChannel *c, Error **errp)
+>          return -1;
+>      }
+>  
+> -    if (msg.id > migrate_multifd_channels()) {
+> +    if (msg.id > total_multifd_channels()) {
+>          error_setg(errp, "multifd: received channel version %u "
+>                     "expected %u", msg.version, MULTIFD_VERSION);
+>          return -1;
+> @@ -410,8 +410,8 @@ static int multifd_send_pages(QEMUFile *f)
+>       * using more channels, so ensure it doesn't overflow if the
+>       * limit is lower now.
+>       */
+> -    next_channel %= migrate_multifd_channels();
+> -    for (i = next_channel;; i = (i + 1) % migrate_multifd_channels()) {
+> +    next_channel %= total_multifd_channels();
+> +    for (i = next_channel;; i = (i + 1) % total_multifd_channels()) {
+>          p = &multifd_send_state->params[i];
+>  
+>          qemu_mutex_lock(&p->mutex);
+> @@ -422,7 +422,7 @@ static int multifd_send_pages(QEMUFile *f)
+>          }
+>          if (!p->pending_job) {
+>              p->pending_job++;
+> -            next_channel = (i + 1) % migrate_multifd_channels();
+> +            next_channel = (i + 1) % total_multifd_channels();
+>              break;
+>          }
+>          qemu_mutex_unlock(&p->mutex);
+> @@ -500,7 +500,7 @@ static void multifd_send_terminate_threads(Error *err)
+>          return;
+>      }
+>  
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+>  
+>          qemu_mutex_lock(&p->mutex);
+> @@ -521,14 +521,14 @@ void multifd_save_cleanup(void)
+>          return;
+>      }
+>      multifd_send_terminate_threads(NULL);
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+>  
+>          if (p->running) {
+>              qemu_thread_join(&p->thread);
+>          }
+>      }
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+>          Error *local_err = NULL;
+>  
+> @@ -594,7 +594,7 @@ int multifd_send_sync_main(QEMUFile *f)
+>  
+>      flush_zero_copy = migrate_use_zero_copy_send();
+>  
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+>  
+>          trace_multifd_send_sync_main_signal(p->id);
+> @@ -627,7 +627,7 @@ int multifd_send_sync_main(QEMUFile *f)
+>              }
+>          }
+>      }
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+>  
+>          trace_multifd_send_sync_main_wait(p->id);
+> @@ -903,7 +903,7 @@ int multifd_save_setup(Error **errp)
+>      int thread_count;
+>      uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+>      uint8_t i;
+> -
+> +    int idx;
+>      if (!migrate_use_multifd()) {
+>          return 0;
+>      }
+> @@ -912,7 +912,7 @@ int multifd_save_setup(Error **errp)
+>          return -1;
+>      }
+>  
+> -    thread_count = migrate_multifd_channels();
+> +    thread_count = total_multifd_channels();
+>      multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
+>      multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
+>      multifd_send_state->pages = multifd_pages_init(page_count);
+> @@ -945,8 +945,8 @@ int multifd_save_setup(Error **errp)
+>          } else {
+>              p->write_flags = 0;
+>          }
+> -
+> -        socket_send_channel_create(multifd_new_send_channel_async, p);
+> +        idx = multifd_index(i);
+> +        socket_send_channel_create(multifd_new_send_channel_async, p, idx);
+>      }
+>  
+>      for (i = 0; i < thread_count; i++) {
+> @@ -991,7 +991,7 @@ static void multifd_recv_terminate_threads(Error *err)
+>          }
+>      }
+>  
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+>  
+>          qemu_mutex_lock(&p->mutex);
+> @@ -1017,7 +1017,7 @@ int multifd_load_cleanup(Error **errp)
+>          return 0;
+>      }
+>      multifd_recv_terminate_threads(NULL);
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+>  
+>          if (p->running) {
+> @@ -1030,7 +1030,7 @@ int multifd_load_cleanup(Error **errp)
+>              qemu_thread_join(&p->thread);
+>          }
+>      }
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+>  
+>          migration_ioc_unregister_yank(p->c);
+> @@ -1065,13 +1065,13 @@ void multifd_recv_sync_main(void)
+>      if (!migrate_use_multifd()) {
+>          return;
+>      }
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+>  
+>          trace_multifd_recv_sync_main_wait(p->id);
+>          qemu_sem_wait(&multifd_recv_state->sem_sync);
+>      }
+> -    for (i = 0; i < migrate_multifd_channels(); i++) {
+> +    for (i = 0; i < total_multifd_channels(); i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+>  
+>          WITH_QEMU_LOCK_GUARD(&p->mutex) {
+> @@ -1166,7 +1166,7 @@ int multifd_load_setup(Error **errp)
+>          error_setg(errp, "multifd is not supported by current protocol");
+>          return -1;
+>      }
+> -    thread_count = migrate_multifd_channels();
+> +    thread_count = total_multifd_channels();
+>      multifd_recv_state = g_malloc0(sizeof(*multifd_recv_state));
+>      multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
+>      qatomic_set(&multifd_recv_state->count, 0);
+> @@ -1204,7 +1204,7 @@ int multifd_load_setup(Error **errp)
+>  
+>  bool multifd_recv_all_channels_created(void)
+>  {
+> -    int thread_count = migrate_multifd_channels();
+> +    int thread_count = total_multifd_channels();
+>  
+>      if (!migrate_use_multifd()) {
+>          return true;
+> @@ -1259,5 +1259,5 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+>                         QEMU_THREAD_JOINABLE);
+>      qatomic_inc(&multifd_recv_state->count);
+>      return qatomic_read(&multifd_recv_state->count) ==
+> -           migrate_multifd_channels();
+> +           total_multifd_channels();
+>  }
+> diff --git a/migration/socket.c b/migration/socket.c
+> index d0cb7cc6a6..c0ac6dbbe2 100644
+> --- a/migration/socket.c
+> +++ b/migration/socket.c
+> @@ -28,9 +28,6 @@
+>  #include "trace.h"
+>  
+>  
+> -struct SocketOutgoingArgs {
+> -    SocketAddress *saddr;
+> -} outgoing_args;
+>  
+>  struct SocketArgs {
+>      struct SrcDestAddr data;
+> @@ -43,20 +40,47 @@ struct OutgoingMigrateParams {
+>      uint64_t total_multifd_channel;
+>  } outgoing_migrate_params;
+>  
+> -void socket_send_channel_create(QIOTaskFunc f, void *data)
 > +
-> +#define WDT_HARD_POWER_OFF      0
-> +#define WDT_HARD_RESTART        1
-> +#define WDT_DUMP_RESTART        2
-> +
-> +typedef struct SpaprWatchdog {
-> +    unsigned num;
-> +    QEMUTimer timer;
-> +    uint8_t action;
-> +    uint64_t timeout;
-> +} SpaprWatchdog;
-> +
->   /**
->    * SpaprMachineState:
->    */
-> @@ -264,6 +277,8 @@ struct SpaprMachineState {
->       uint32_t FORM2_assoc_array[NUMA_NODES_MAX_NUM][FORM2_NUMA_ASSOC_SIZE];
->   
->       Error *fwnmi_migration_blocker;
-> +
-> +    SpaprWatchdog wds[WDT_MAX_WATCHDOGS];
->   };
->   
->   #define H_SUCCESS         0
-> @@ -344,6 +359,7 @@ struct SpaprMachineState {
->   #define H_P7              -60
->   #define H_P8              -61
->   #define H_P9              -62
-> +#define H_NOOP            -63
->   #define H_UNSUPPORTED     -67
->   #define H_OVERLAP         -68
->   #define H_UNSUPPORTED_FLAG -256
-> @@ -564,8 +580,9 @@ struct SpaprMachineState {
->   #define H_SCM_HEALTH            0x400
->   #define H_RPT_INVALIDATE        0x448
->   #define H_SCM_FLUSH             0x44C
-> +#define H_WATCHDOG              0x45C
->   
-> -#define MAX_HCALL_OPCODE        H_SCM_FLUSH
-> +#define MAX_HCALL_OPCODE        H_WATCHDOG
->   
->   /* The hcalls above are standardized in PAPR and implemented by pHyp
->    * as well.
-> @@ -1027,6 +1044,7 @@ extern const VMStateDescription vmstate_spapr_cap_large_decr;
->   extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
->   extern const VMStateDescription vmstate_spapr_cap_fwnmi;
->   extern const VMStateDescription vmstate_spapr_cap_rpt_invalidate;
-> +extern const VMStateDescription vmstate_spapr_wdt;
->   
->   static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int cap)
->   {
-> @@ -1063,4 +1081,7 @@ target_ulong spapr_vof_client_architecture_support(MachineState *ms,
->                                                      target_ulong ovec_addr);
->   void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt);
->   
-> +/* H_WATCHDOG */
-> +void spapr_watchdog_init(SpaprMachineState *spapr);
-> +
->   #endif /* HW_SPAPR_H */
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index fd4942e8813c..eaa75f5afd02 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -898,6 +898,8 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
->           add_str(hypertas, "hcall-hpt-resize");
->       }
->   
-> +    add_str(hypertas, "hcall-watchdog");
-> +
->       _FDT(fdt_setprop(fdt, rtas, "ibm,hypertas-functions",
->                        hypertas->str, hypertas->len));
->       g_string_free(hypertas, TRUE);
-> @@ -2067,6 +2069,7 @@ static const VMStateDescription vmstate_spapr = {
->           &vmstate_spapr_cap_fwnmi,
->           &vmstate_spapr_fwnmi,
->           &vmstate_spapr_cap_rpt_invalidate,
-> +        &vmstate_spapr_wdt,
->           NULL
->       }
->   };
-> @@ -3051,6 +3054,8 @@ static void spapr_machine_init(MachineState *machine)
->           spapr->vof->fw_size = fw_size; /* for claim() on itself */
->           spapr_register_hypercall(KVMPPC_H_VOF_CLIENT, spapr_h_vof_client);
->       }
-> +
-> +    spapr_watchdog_init(spapr);
->   }
->   
->   #define DEFAULT_KVM_TYPE "auto"
-> diff --git a/hw/ppc/spapr_watchdog.c b/hw/ppc/spapr_watchdog.c
-> new file mode 100644
-> index 000000000000..5206e40078b5
-> --- /dev/null
-> +++ b/hw/ppc/spapr_watchdog.c
-> @@ -0,0 +1,239 @@
-> +/*
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "sysemu/runstate.h"
-> +#include "migration/vmstate.h"
-> +#include "trace.h"
-> +
-> +#include "hw/ppc/spapr.h"
-> +
-> +#define PPC_BITLSHIFT(be)       (BITS_PER_LONG - 1 - (be))
-> +
-> +#define SETFIELD(val, start, end)   \
-> +    (((unsigned long)(val) << PPC_BITLSHIFT(end)) & PPC_BITMASK(start, end))
-> +#define GETFIELD(val, start, end)   \
-> +    (((unsigned long)(val) & PPC_BITMASK(start, end)) >> PPC_BITLSHIFT(end))
-> +
-> +/*
-> + * Bits 47: "leaveOtherWatchdogsRunningOnTimeout", specified on
-> + * the "Start watchdog" operation,
-> + * 0 - stop out-standing watchdogs on timeout,
-> + * 1 - leave outstanding watchdogs running on timeout
-> + */
-> +#define PSERIES_WDTF_LEAVE_OTHER    PPC_BIT(47)
-> +
-> +/*    Bits 48-55: "operation" */
-> +#define PSERIES_WDTF_OP(op)             SETFIELD((op), 48, 55)
-> +#define PSERIES_WDTF_OP_START           PSERIES_WDTF_OP(0x1)
-> +#define PSERIES_WDTF_OP_STOP            PSERIES_WDTF_OP(0x2)
-> +#define PSERIES_WDTF_OP_QUERY           PSERIES_WDTF_OP(0x3)
-> +#define PSERIES_WDTF_OP_QUERY_LPM       PSERIES_WDTF_OP(0x4)
-> +
-> +/*    Bits 56-63: "timeoutAction" */
-> +#define PSERIES_WDTF_ACTION(ac)             SETFIELD(ac, 56, 63)
-> +#define PSERIES_WDTF_ACTION_HARD_POWER_OFF  PSERIES_WDTF_ACTION(0x1)
-> +#define PSERIES_WDTF_ACTION_HARD_RESTART    PSERIES_WDTF_ACTION(0x2)
-> +#define PSERIES_WDTF_ACTION_DUMP_RESTART    PSERIES_WDTF_ACTION(0x3)
-> +
-> +#define PSERIES_WDTF_RESERVED           PPC_BITMASK(0, 46)
-> +
-> +/*
-> + * For the "Query watchdog capabilities" operation, a uint64 structure
-> + * defined as:
-> + * Bits 0-15: The minimum supported timeout in milliseconds
-> + * Bits 16-31: The number of watchdogs supported
-> + * Bits 32-63: Reserved
-> + */
-> +#define PSERIES_WDTQ_MIN_TIMEOUT(ms)    SETFIELD((ms), 0, 15)
-> +#define PSERIES_WDTQ_NUM(n)             SETFIELD((n), 16, 31)
-> +#define PSERIES_WDTQ_RESERVED           PPC_BITMASK(32, 63)
-> +
-> +/*
-> + * For the "Query watchdog LPM requirement" operation:
-> + * 1 = The given "watchdogNumber" must be stopped prior to suspending
-> + * 2 = The given "watchdogNumber" does not have to be stopped prior to
-> + * suspending
-> + */
-> +#define PSERIES_WDTQL_STOPPED               1
-> +#define PSERIES_WDTQL_QUERY_NOT_STOPPED     2
-> +
-> +#define WDT_MIN_TIMEOUT 1 /* 1ms */
-> +
-> +static void watchdog_expired(void *pw)
+> +int total_multifd_channels(void)
 > +{
-> +    struct SpaprWatchdog *w = pw;
-> +    CPUState *cs;
-> +
-> +    trace_spapr_watchdog_expired(w->num, w->action);
-> +    switch (w->action) {
-> +    case WDT_HARD_POWER_OFF:
-> +        qemu_system_vmstop_request(RUN_STATE_SHUTDOWN);
-> +        break;
-> +    case WDT_HARD_RESTART:
-> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> +        break;
-> +    case WDT_DUMP_RESTART:
-> +        CPU_FOREACH(cs) {
-> +            async_run_on_cpu(cs, spapr_do_system_reset_on_cpu, RUN_ON_CPU_NULL);
-> +        }
-> +        break;
-> +    }
+> +    return outgoing_migrate_params.total_multifd_channel;
 > +}
 > +
-> +static target_ulong watchdog_stop(unsigned watchdogNumber,
-> +                                  struct SpaprWatchdog *w)
+> +int multifd_index(int i)
 > +{
-> +    target_ulong ret = H_NOOP;
-> +
-> +    if (timer_pending(&w->timer)) {
-> +        timer_del(&w->timer);
-> +        ret = H_SUCCESS;
-> +    }
-> +    trace_spapr_watchdog_stop(watchdogNumber, ret);
-> +
-> +    return ret;
-> +}
-> +
-> +static target_ulong h_watchdog(PowerPCCPU *cpu,
-> +                               SpaprMachineState *spapr,
-> +                               target_ulong opcode, target_ulong *args)
-> +{
-> +    target_ulong flags = args[0];
-> +    target_ulong watchdogNumber = args[1];
-> +    target_ulong timeoutInMs = args[2];
-> +    unsigned operation = flags & PSERIES_WDTF_OP(~0);
-> +    unsigned timeoutAction = flags & PSERIES_WDTF_ACTION(~0);
-> +    struct SpaprWatchdog *w;
-> +
-> +    if (flags & PSERIES_WDTF_RESERVED || watchdogNumber == 0) {
-
-Here. I've put some old fashioned printfs (feel free to add more traces btw) and
-it seems that watchdogNumber is == 0. H_PARAMETER is being returned and the module
-fails probe().
-
-There's a good chance that I'm missing something in my testing, so any advice
-is welcome.
-
-
-
-Thanks,
-
-
-Daniel
-
-
-
-> +        return H_PARAMETER;
-> +    }
-> +
-> +    switch (operation) {
-> +    case PSERIES_WDTF_OP_START:
-> +        if (watchdogNumber > ARRAY_SIZE(spapr->wds)) {
-> +            return H_P2;
-> +        }
-> +        if (timeoutInMs <= WDT_MIN_TIMEOUT) {
-> +            return H_P3;
-> +        }
-> +
-> +        w = &spapr->wds[watchdogNumber - 1];
-> +        switch (timeoutAction) {
-> +        case PSERIES_WDTF_ACTION_HARD_POWER_OFF:
-> +            w->action = WDT_HARD_POWER_OFF;
-> +            break;
-> +        case PSERIES_WDTF_ACTION_HARD_RESTART:
-> +            w->action = WDT_HARD_RESTART;
-> +            break;
-> +        case PSERIES_WDTF_ACTION_DUMP_RESTART:
-> +            w->action = WDT_DUMP_RESTART;
-> +            break;
-> +        default:
-> +            return H_PARAMETER;
-> +        }
-> +        timer_mod(&w->timer,
-> +                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + timeoutInMs);
-> +        trace_spapr_watchdog_start(flags, watchdogNumber, timeoutInMs);
-> +        break;
-> +    case PSERIES_WDTF_OP_STOP:
-> +        if (watchdogNumber == (uint64_t) ~0) {
-> +            int i;
-> +
-> +            for (i = 1; i <= ARRAY_SIZE(spapr->wds); ++i) {
-> +                watchdog_stop(i, &spapr->wds[i - 1]);
-> +            }
-> +        } else if (watchdogNumber <= ARRAY_SIZE(spapr->wds)) {
-> +            watchdog_stop(watchdogNumber, &spapr->wds[watchdogNumber - 1]);
+> +    int length = outgoing_migrate_params.length;
+> +    int j = 0;
+> +    int runn_sum = 0;
+> +    while (j < length) {
+> +        runn_sum += outgoing_migrate_params.socket_args[j].multifd_channels;
+> +        if (i >= runn_sum) {
+> +            j++;
 > +        } else {
-> +            return H_P2;
-> +        }
-> +        break;
-> +    case PSERIES_WDTF_OP_QUERY:
-> +        args[0] = PSERIES_WDTQ_MIN_TIMEOUT(WDT_MIN_TIMEOUT) |
-> +            PSERIES_WDTQ_NUM(ARRAY_SIZE(spapr->wds));
-> +        trace_spapr_watchdog_query(args[0]);
-> +        break;
-> +    case PSERIES_WDTF_OP_QUERY_LPM:
-> +        if (watchdogNumber > ARRAY_SIZE(spapr->wds)) {
-> +            return H_P2;
-> +        }
-> +        args[0] = PSERIES_WDTQL_QUERY_NOT_STOPPED;
-> +        trace_spapr_watchdog_query_lpm(args[0]);
-> +        break;
-> +    default:
-> +        return H_PARAMETER;
-> +    }
-> +
-> +    return H_SUCCESS;
-> +}
-> +
-> +void spapr_watchdog_init(SpaprMachineState *spapr)
-> +{
-> +    int i;
-> +
-> +    for (i = 0; i < ARRAY_SIZE(spapr->wds); ++i) {
-> +        SpaprWatchdog *w = &spapr->wds[i];
-> +
-> +        w->num = i + 1;
-> +        timer_init_ms(&w->timer, QEMU_CLOCK_VIRTUAL, watchdog_expired, w);
-> +    }
-> +}
-> +
-> +static const VMStateDescription vmstate_wdt = {
-> +    .name = "spapr_watchdog",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT8(action, SpaprWatchdog),
-> +        VMSTATE_UINT64(timeout, SpaprWatchdog),
-> +        VMSTATE_TIMER(timer, SpaprWatchdog),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static bool watchdog_needed(void *opaque)
-> +{
-> +    SpaprMachineState *spapr = opaque;
-> +    int i;
-> +
-> +    for (i = 0; i < ARRAY_SIZE(spapr->wds); ++i) {
-> +        if (timer_pending(&spapr->wds[i].timer)) {
-> +            return true;
+> +            break;
 > +        }
 > +    }
-> +
-> +    return false;
+> +    return j;
 > +}
 > +
-> +const VMStateDescription vmstate_spapr_wdt = {
-> +    .name = "spapr_watchdogs",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = watchdog_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_STRUCT_ARRAY(wds, SpaprMachineState, WDT_MAX_WATCHDOGS, 0,
-> +                             vmstate_wdt, SpaprWatchdog),
-> +        VMSTATE_END_OF_LIST()
-> +    },
-> +};
-> +
-> +static void spapr_watchdog_register_types(void)
-> +{
-> +    spapr_register_hypercall(H_WATCHDOG, h_watchdog);
-> +}
-> +
-> +type_init(spapr_watchdog_register_types)
-> diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-> index aa4c8e6a2eac..2d1f6c262ce9 100644
-> --- a/hw/ppc/meson.build
-> +++ b/hw/ppc/meson.build
-> @@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
->     'spapr_nvdimm.c',
->     'spapr_rtas_ddw.c',
->     'spapr_numa.c',
-> +  'spapr_watchdog.c',
->     'pef.c',
->   ))
->   ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_TCG'], if_true: files(
-> diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
-> index 5c0a215cad90..24f2eca26da0 100644
-> --- a/hw/ppc/trace-events
-> +++ b/hw/ppc/trace-events
-> @@ -71,6 +71,13 @@ spapr_rtas_ibm_configure_connector_invalid(uint32_t index) "DRC index: 0x%"PRIx3
->   spapr_vio_h_reg_crq(uint64_t reg, uint64_t queue_addr, uint64_t queue_len) "CRQ for dev 0x%" PRIx64 " registered at 0x%" PRIx64 "/0x%" PRIx64
->   spapr_vio_free_crq(uint32_t reg) "CRQ for dev 0x%" PRIx32 " freed"
->   
-> +# spapr_watchdog.c
-> +spapr_watchdog_start(uint64_t flags, uint64_t num, uint64_t timeout) "Flags 0x%" PRIx64 " num=%" PRId64 " %" PRIu64 "ms"
-> +spapr_watchdog_stop(uint64_t num, uint64_t ret) "num=%" PRIu64 " ret=%" PRId64
-> +spapr_watchdog_query(uint64_t caps) "caps=0x%" PRIx64
-> +spapr_watchdog_query_lpm(uint64_t caps) "caps=0x%" PRIx64
-> +spapr_watchdog_expired(uint64_t num, unsigned action) "num=%" PRIu64 " action=%u"
-> +
->   # vof.c
->   vof_error_str_truncated(const char *s, int len) "%s truncated to %d"
->   vof_error_param(const char *method, int nargscheck, int nretcheck, int nargs, int nret) "%s takes/returns %d/%d, not %d/%d"
+> +void socket_send_channel_create(QIOTaskFunc f, void *data, int idx)
+>  {
+>      QIOChannelSocket *sioc = qio_channel_socket_new();
+> -    qio_channel_socket_connect_async(sioc, outgoing_args.saddr,
+> -                                     f, data, NULL, NULL, NULL);
+> +    qio_channel_socket_connect_async(sioc,
+> +                       outgoing_migrate_params.socket_args[idx].data.dst_addr,
+> +                       f, data, NULL, NULL,
+> +                       outgoing_migrate_params.socket_args[idx].data.src_addr);
+>  }
+>  
+>  int socket_send_channel_destroy(QIOChannel *send)
+>  {
+>      /* Remove channel */
+>      object_unref(OBJECT(send));
+> -    if (outgoing_args.saddr) {
+> -        qapi_free_SocketAddress(outgoing_args.saddr);
+> -        outgoing_args.saddr = NULL;
+> +    if (outgoing_migrate_params.socket_args != NULL) {
+> +        g_free(outgoing_migrate_params.socket_args);
+> +        outgoing_migrate_params.socket_args = NULL;
+> +    }
+> +    if (outgoing_migrate_params.length) {
+> +        outgoing_migrate_params.length = 0;
+>      }
+>  
+>      if (outgoing_migrate_params.socket_args != NULL) {
+> diff --git a/migration/socket.h b/migration/socket.h
+> index b9e3699167..c8b9252384 100644
+> --- a/migration/socket.h
+> +++ b/migration/socket.h
+> @@ -27,7 +27,9 @@ struct SrcDestAddr {
+>      SocketAddress *src_addr;
+>  };
+>  
+> -void socket_send_channel_create(QIOTaskFunc f, void *data);
+> +int total_multifd_channels(void);
+> +int multifd_index(int i);
+> +void socket_send_channel_create(QIOTaskFunc f, void *data, int idx);
+>  int socket_send_channel_destroy(QIOChannel *send);
+>  
+>  void socket_start_incoming_migration(const char *str, uint8_t number,
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 32a6b67d5f..9a3d76d6ba 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1281,10 +1281,6 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
+>          p->has_block_incremental = true;
+>          visit_type_bool(v, param, &p->block_incremental, &err);
+>          break;
+> -    case MIGRATION_PARAMETER_MULTIFD_CHANNELS:
+> -        p->has_multifd_channels = true;
+> -        visit_type_uint8(v, param, &p->multifd_channels, &err);
+> -        break;
+>      case MIGRATION_PARAMETER_MULTIFD_COMPRESSION:
+>          p->has_multifd_compression = true;
+>          visit_type_MultiFDCompression(v, param, &p->multifd_compression,
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 62a7b22d19..1b1c6d01d3 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -877,11 +877,6 @@
+>  #                     migrated and the destination must already have access to the
+>  #                     same backing chain as was used on the source.  (since 2.10)
+>  #
+> -# @multifd-channels: Number of channels used to migrate data in
+> -#                    parallel. This is the same number that the
+> -#                    number of sockets used for migration.  The
+> -#                    default value is 2 (since 4.0)
+> -#
+>  # @xbzrle-cache-size: cache size to be used by XBZRLE migration.  It
+>  #                     needs to be a multiple of the target page size
+>  #                     and a power of 2
+> @@ -965,7 +960,6 @@
+>              '*x-checkpoint-delay': { 'type': 'uint32',
+>                                       'features': [ 'unstable' ] },
+>              '*block-incremental': 'bool',
+> -            '*multifd-channels': 'uint8',
+>              '*xbzrle-cache-size': 'size',
+>              '*max-postcopy-bandwidth': 'size',
+>              '*max-cpu-throttle': 'uint8',
+> -- 
+> 2.22.3
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
