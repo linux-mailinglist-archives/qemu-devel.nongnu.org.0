@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473ED54DED3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:23:57 +0200 (CEST)
-Received: from localhost ([::1]:39684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1EF54DF3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:38:33 +0200 (CEST)
+Received: from localhost ([::1]:37264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1mfM-0001Pa-29
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:23:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39628)
+	id 1o1mtU-0002ho-UJ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mcD-0006vR-It
+ id 1o1mcD-0006vS-LU
  for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:42 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:40841)
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:36464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mcB-0000WF-Su
+ id 1o1mcB-0000Vd-RJ
  for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:41 -0400
-Received: by mail-lf1-x142.google.com with SMTP id t25so1502069lfg.7
+Received: by mail-lj1-x232.google.com with SMTP id h23so990848ljl.3
  for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ph3j4rH0WZ7c2HoYuVqV3UOm1O3CpslfaOVdfqGvGvE=;
- b=sStIH6rbbvkDtEDz78prr4n0DVqTYw/wTTfCvx06D+557Ok4M6k4DQO1trHsqB1vLi
- evVip2RYfflnzI6kDK4UL2vot5Inls3FCpsijTfSXvVmYjQH6Hns1mmfk4DLBYQ3Kvj0
- h9KOksXnmYLbJghSTCtTrE3kfxIM6M2m5xivu6WK9CDMEkOMDVldfBuCyFnG8rCiRJVj
- Qyl4jMcpSXf+XC02QHDsfwr9H9wIRHqECGmOqtkwf9xbPd4xHf9NI4QXTNOuoWK8sX+X
- b9Wdw5FJzM8V8kHLwp0kZdqtmscTmLc/qrrd+yHoirXdSORZJ5YOgEQtTwOiAfZ2P+3F
- N0Tw==
+ bh=7QiRPB+DwgPdQ5tbpC7RSf9cTa8Nua9jBz5J8RJizgs=;
+ b=i4h78/bO4m+3cRgWpeMpcAk3PJk30omzF5vhIuhmogS03MKng4TBOcDx9cSRwtxslI
+ CKV0zVvSv1WRijYI2qcTby3OZW2vN6tAXzuPKmk4YLCl6Kko2nVfc0DyK2PwZT6BDpyz
+ hzimkwv8kGcga4hg16OTOWxiTQyJOLTJ8pvo76RxdaFi/T8+p9dIk516Pm+26mrG02Ai
+ GuKdV0PS5noIx86dftB7uk5dsNBqVi7ZMeho29bcxKlcZ7xV1J0/JlWdB6zKAay5wIKZ
+ 2EA7CDmh+CCeZ5N9hP59DGbQsrdgaxTtmDyTHvFHM16RXZWdE4GSHeD4BhYru6dWLbij
+ 7ydg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ph3j4rH0WZ7c2HoYuVqV3UOm1O3CpslfaOVdfqGvGvE=;
- b=gEXBbx+SYZClCMohBOADja/truGeO58mhE6jQYCM/nPqiFmzuq5DLyAkWiY4OWrLMX
- qhS52Zlb+Igq35jFhd7OMUNZAMySlSIdpXAETAABQ7MAzNIkFSnSohHcIZicB8dHb+jF
- zPyQTCtVQOKeMbTmXRt1m8LargM0F3Z5PrfpBhDMxstxthxqn18xRFlHP4mCkFZIMkeb
- m/+m+/4br8h32xmwYmNqPwQLyZjtRoCxgHOrKNePJaatk2frfjG16A4W0BCbBEc7leZh
- m9xT1lZLzQn9rkzDOFTfr3Rr9bgz7Sq9J03mF6/3TGDxUdZGQpCqGoWEXP5HokZDzqhM
- r6Bg==
-X-Gm-Message-State: AJIora/E+b/gfd/uvJk7cC5gnctvM8JI4HYcZWUWLBgS5txQOmS+fXiX
- rH4dLigfVcEUYcXKiH6375V19kdkXsdFriXF
-X-Google-Smtp-Source: AGRyM1tAyzbkc2Mw7c8JUhE3oQ97JKVgnvsGVXpVY0T+csPh2zMTa5cJXr7Y1/eEJoeXpC5r2WkXNw==
-X-Received: by 2002:a19:2d18:0:b0:47d:c71c:a88c with SMTP id
- k24-20020a192d18000000b0047dc71ca88cmr2224911lfj.622.1655374837629; 
- Thu, 16 Jun 2022 03:20:37 -0700 (PDT)
+ bh=7QiRPB+DwgPdQ5tbpC7RSf9cTa8Nua9jBz5J8RJizgs=;
+ b=nTcNyRRXvS/1YyRT/TDnlEOBVZCEDXNyw8Cd+6joNp5lo2wropB1lDoq5Fl2pezMg7
+ EyZh/VGVaQPvQjlHWIEVf/oWwKFsexBGBEu7+Qv+ZB/z0nzvLTNLUSIte9XsaU89L55+
+ aD+zicEAee2Pa8KGJHUw5s6aZFMCoJYRif6Bjm5AxXs8HJDsQF7k+b4VlEpOCaeqa2Y/
+ 545BNnkRnRobwcaDfn+pHf9ZCRSRcgeFjNSJuk9Apz5Qg6H8xQ4UBU2222ALUvVlCRAk
+ yG2izK73SVmWESXub0XBY6joiMRm2HioClYSrWs6AASZHZ5M2xCMrBNFSnbWuw/3XyYI
+ V6NA==
+X-Gm-Message-State: AJIora/WBXeVVNSpGWdhVnVvv7IAY0+ZsWV/U2EIBX+RiGZCKkscK9NR
+ 0atDTQ/n3dmrQXXPPKFL56PbVp2Rjxs7hJwV
+X-Google-Smtp-Source: AGRyM1s4f45CqSWA3tNwbhgLaW3S6A7OjNFO8wKcZQ9kGoKqnM9pVaGzt5GPHE80XOkMW27x55JWJQ==
+X-Received: by 2002:a2e:818e:0:b0:25a:4363:78b2 with SMTP id
+ e14-20020a2e818e000000b0025a436378b2mr2093647ljg.31.1655374838629; 
+ Thu, 16 Jun 2022 03:20:38 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.28.49])
  by smtp.gmail.com with ESMTPSA id
- q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.36
+ q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 03:20:37 -0700 (PDT)
+ Thu, 16 Jun 2022 03:20:38 -0700 (PDT)
 From: nikita.lapshin@openvz.org
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, quintela@redhat.com,
  dgilbert@redhat.com, nikita.lapshin@openvz.org
-Subject: [PATCH 7/8] migration: analyze-migration script changed
-Date: Thu, 16 Jun 2022 13:20:05 +0300
-Message-Id: <20220616102006.218693-10-nikita.lapshin@openvz.org>
+Subject: [PATCH 8/8] migration: Test for RAM and vmstate parts
+Date: Thu, 16 Jun 2022 13:20:06 +0300
+Message-Id: <20220616102006.218693-11-nikita.lapshin@openvz.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220616102006.218693-1-nikita.lapshin@openvz.org>
 References: <20220616102006.218693-1-nikita.lapshin@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=nikita.lapshin@openvz.org; helo=mail-lf1-x142.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x232.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,91 +91,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nikita Lapshin <nikita.lapshin@openvz.org>
 
-This script is used for RAM capabilities test. But it cannot work
-in case of no vm description in migration stream.
-So new flag is added to allow work this script with ram-only
-migration stream.
+All other parts works just like existed capabilities. Thus there is
+no need to make new tests. Though RAM and vmstate are new so here
+is new test for that parts.
 
 Signed-off-by: Nikita Lapshin <nikita.lapshin@openvz.org>
 ---
- scripts/analyze-migration.py | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ .../tests/migrate-ram-stream-content-test     | 96 +++++++++++++++++++
+ .../tests/migrate-ram-stream-content-test.out |  5 +
+ 2 files changed, 101 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/migrate-ram-stream-content-test
+ create mode 100644 tests/qemu-iotests/tests/migrate-ram-stream-content-test.out
 
-diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
-index b82a1b0c58..80077a09bc 100755
---- a/scripts/analyze-migration.py
-+++ b/scripts/analyze-migration.py
-@@ -495,7 +495,7 @@ def __init__(self, filename):
-         self.filename = filename
-         self.vmsd_desc = None
- 
--    def read(self, desc_only = False, dump_memory = False, write_memory = False):
-+    def read(self, ram_only, desc_only = False, dump_memory = False, write_memory = False):
-         # Read in the whole file
-         file = MigrationFile(self.filename)
- 
-@@ -509,7 +509,8 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
-         if data != self.QEMU_VM_FILE_VERSION:
-             raise Exception("Invalid version number %d" % data)
- 
--        self.load_vmsd_json(file)
-+        if not ram_only:
-+            self.load_vmsd_json(file)
- 
-         # Read sections
-         self.sections = collections.OrderedDict()
-@@ -518,7 +519,10 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
-             return
- 
-         ramargs = {}
--        ramargs['page_size'] = self.vmsd_desc['page_size']
-+        if ram_only:
-+            ramargs['page_size'] = 4096
+diff --git a/tests/qemu-iotests/tests/migrate-ram-stream-content-test b/tests/qemu-iotests/tests/migrate-ram-stream-content-test
+new file mode 100755
+index 0000000000..2855ca4a64
+--- /dev/null
++++ b/tests/qemu-iotests/tests/migrate-ram-stream-content-test
+@@ -0,0 +1,96 @@
++#!/usr/bin/env python3
++# group: rw migration
++#
++# Tests for 'no-ram' and 'ram-only' capabilities
++#
++# Copyright (c) 2021 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import os
++import json
++import subprocess
++import iotests
++
++img = os.path.join(iotests.test_dir, 'disk.img')
++
++class TestRamCapabilities(iotests.QMPTestCase):
++    def setUp(self):
++        iotests.qemu_img('create', '-f', iotests.imgfmt, img, '10M')
++        self.vm = iotests.VM()
++        self.vm.launch()
++        self.vm.qmp('migrate-set-capabilities', capabilities=[
++            {
++                'capability': 'events',
++                'state': True
++            }
++        ])
++
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(img)
++
++    def check_ram_only(self, output):
++        str_json = output.decode()
++        json_obj = json.loads(str_json)
++
++        success = False
++        for key in json_obj:
++            self.assertTrue("ram" in key)
++            success = True
++        self.assertTrue(success)
++
++    def run_migration(self, no_ram, tmp_stream):
++        if no_ram:
++            output = self.vm.qmp('migrate-set-parameters',
++                    stream_content_list = ['vmstate'])
 +        else:
-+            ramargs['page_size'] = self.vmsd_desc['page_size']
-         ramargs['dump_memory'] = dump_memory
-         ramargs['write_memory'] = write_memory
-         self.section_classes[('ram',0)][1] = ramargs
-@@ -579,6 +583,7 @@ def default(self, o):
- parser.add_argument("-m", "--memory", help='dump RAM contents as well', action='store_true')
- parser.add_argument("-d", "--dump", help='what to dump ("state" or "desc")', default='state')
- parser.add_argument("-x", "--extract", help='extract contents into individual files', action='store_true')
-+parser.add_argument("--ram-only", help='parse migration dump containing only RAM', action='store_true')
- args = parser.parse_args()
- 
- jsonenc = JSONEncoder(indent=4, separators=(',', ': '))
-@@ -586,14 +591,14 @@ def default(self, o):
- if args.extract:
-     dump = MigrationDump(args.file)
- 
--    dump.read(desc_only = True)
-+    dump.read(desc_only = True, ram_only = args.ram_only)
-     print("desc.json")
-     f = open("desc.json", "w")
-     f.truncate()
-     f.write(jsonenc.encode(dump.vmsd_desc))
-     f.close()
- 
--    dump.read(write_memory = True)
-+    dump.read(write_memory = True, ram_only = args.ram_only)
-     dict = dump.getDict()
-     print("state.json")
-     f = open("state.json", "w")
-@@ -602,12 +607,12 @@ def default(self, o):
-     f.close()
- elif args.dump == "state":
-     dump = MigrationDump(args.file)
--    dump.read(dump_memory = args.memory)
-+    dump.read(dump_memory = args.memory, ram_only = args.ram_only)
-     dict = dump.getDict()
-     print(jsonenc.encode(dict))
- elif args.dump == "desc":
-     dump = MigrationDump(args.file)
--    dump.read(desc_only = True)
-+    dump.read(desc_only = True, ram_only = args.ram_only)
-     print(jsonenc.encode(dump.vmsd_desc))
- else:
-     raise Exception("Please specify either -x, -d state or -d desc")
++            self.vm.qmp('migrate-set-parameters',
++                    stream_content_list = ['ram'])
++
++        self.vm.qmp('migrate', uri='exec:cat>' + tmp_stream)
++
++        while True:
++            event = self.vm.event_wait('MIGRATION')
++
++            if event['data']['status'] == 'completed':
++                break
++
++
++    def test_no_ram(self):
++        with iotests.FilePath('tmp_stream') as tmp_stream:
++            self.run_migration(True, tmp_stream)
++            output = subprocess.run(
++                ['../../../scripts/analyze-migration.py', '-f', tmp_stream],
++                stdout=subprocess.PIPE,
++                stderr=subprocess.STDOUT,
++                check=False).stdout
++
++            self.assertFalse('ram' in output.decode())
++
++    def test_ram_only(self):
++        with iotests.FilePath('tmp_stream') as tmp_stream:
++            self.run_migration(False, tmp_stream)
++            output = subprocess.run(
++                ['../../../scripts/analyze-migration.py', '-f', tmp_stream,
++                    '--ram-only'],
++                stdout=subprocess.PIPE,
++                stderr=subprocess.STDOUT,
++                check=False).stdout
++
++            self.check_ram_only(output)
++
++if __name__ == '__main__':
++    iotests.main(supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/migrate-ram-stream-content-test.out b/tests/qemu-iotests/tests/migrate-ram-stream-content-test.out
+new file mode 100644
+index 0000000000..fbc63e62f8
+--- /dev/null
++++ b/tests/qemu-iotests/tests/migrate-ram-stream-content-test.out
+@@ -0,0 +1,5 @@
++..
++----------------------------------------------------------------------
++Ran 2 tests
++
++OK
 -- 
 2.31.1
 
