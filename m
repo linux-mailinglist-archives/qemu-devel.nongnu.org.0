@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBABA54DE23
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 11:26:43 +0200 (CEST)
-Received: from localhost ([::1]:56824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6231754DDBA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:59:58 +0200 (CEST)
+Received: from localhost ([::1]:60618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1lly-0004az-OR
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 05:26:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43358)
+	id 1o1lM4-0003N1-Ek
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:59:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1l7l-0001ZC-9K
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:45:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24653)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o1lHE-0000VH-PR
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:54:56 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o1l7f-0007wI-W4
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:45:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655369102;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Pdt5f39BgTSvWoHfOfZ4sFcFCfyTyyY65RwdESZlA5Y=;
- b=JAtTjzxl4efltdfQL5XxM9gF3Mf1FIxdP7Epwm4lGdnxjjrScdGxakMjLwt5rgJSPHfd64
- /XrDyM+x475dyhkY6JOxQQNKKWT2v667X0h1+9OjAN7xAgvjaEZ8XYsg3jIrq8vULjTBwI
- WygnrnxIOmYykmYp2AVU72IWvGxgEog=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-zCOA0ca4MTikao-hOy-jYA-1; Thu, 16 Jun 2022 04:45:01 -0400
-X-MC-Unique: zCOA0ca4MTikao-hOy-jYA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17B0485A581;
- Thu, 16 Jun 2022 08:45:01 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E60DC40334E;
- Thu, 16 Jun 2022 08:44:59 +0000 (UTC)
-Date: Thu, 16 Jun 2022 09:44:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org, akihiko.odaki@gmail.com
-Subject: Re: [PATCH] tests/vm: do not specify -bios option
-Message-ID: <YqrtiL18Z2jWCHM3@redhat.com>
-References: <20220616083025.116902-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o1lHD-00015c-28
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:54:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ From:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=31nD444C5MiVccAV9DjYaIAtFACKh5zvrDLM8HFckTI=; b=fcn87YpXaFUpBIgmTGzvJ1Y+5p
+ eF9TWjECAsXEDpqeayuiOf5AVDlmGVldKLxMo8UJwljm/365VquchY0p/6zIlBTiyv9RpJR9dpIC4
+ nSOnJtjdOdvP9izQ0XOjBF9TQh1ZydDSZWLpuuDOveKqT1nIeaSZQ/QE47i/9CIDU5fNlMG8fvFRR
+ z26wzqW9wPsq1s062lYmxwhJHdSTs+Q5O7PEd1vdtt+XdfCHFMP9JzMdp+QdQGucLazKYednrLqSf
+ XPhOO25hLcbB+ppQXNLlFZ8T/v6ERDQfSyzs2I45tDhF9mQJrD9hZMs/Hbf6LoK47A8PQidwX7dVV
+ j4mt0PbZ+R9u7s74b4XsxPYnGPPPWL5PVNFTX1vtO3aPDvhQ96ijyQHwzeeQuWyU0Ovo9vsGOcwVl
+ IMv/yRPxoP39XpUOLc35WNjYDIu/UhThxPsOtXnCdD9ZZTVguJU7tTisfoRRb1go8fLjCNeb3P5aD
+ 3EhPDHpqiM4PLHsdXGY1tD86Zn3gsLDPmzNhmvZWVtFYieEk0lPl8zsHhGeEZHFCRcKl8vhDbIs+T
+ gfHeu/zxpaCwA4DXaVHAflUori2aJZ01sYT36VNZd1z+Wgc+tFJ7Pmsp6ngL/qHz4GuTsadOzHVc7
+ D8lhRNO8XVwNEUlFOYU9jqDPozzSoSs/WsvS32Nnc=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o1lFz-0002Tg-KU; Thu, 16 Jun 2022 09:53:43 +0100
+Message-ID: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
+Date: Thu, 16 Jun 2022 09:54:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220616083025.116902-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Corrupted display changing screen colour depth in
+ qemu-system-ppc/MacOS
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,98 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 16, 2022 at 10:30:25AM +0200, Paolo Bonzini wrote:
-> When running from the build tree, the executable is able to find
-> the BIOS on its own; when running from the source tree, a firmware
-> blob should already be installed and there is no guarantee that
-> the one in the source tree works with the QEMU that is being used for
-> the installation.
+Hi all,
 
-I think there is interaction with
+Howard pointed me off-list to a corrupted screen display issue experienced when 
+changing the screen colour depth in MacOS under qemu-system-ppc. I was able to 
+reproduce it here, and noticed from the output that the issue was likely due to the 
+host display not updating its depth accordingly.
 
-  --firmwarepath=/usr/share/qemu-firmware:/usr/share/ipxe/qemu:/usr/share/seavgabios:/usr/share/seabios:/usr/share/sgabios
+After it was confirmed to me that this was working in QEMU 6.2, I was able to 
+eventually bisect the problem down to this commit:
 
-as the firmware path listed there will be searched before the local
-build tree.
 
-I agree with your desire to remove the -bios option, but I'm not
-sure it is entirely safe unless logic in qemu_find_file is fixed
-to ignore the global search path when running from the build
-tree.
+cb8962c146b2633a4b04562281de9b2703bba849 is the first bad commit
+commit cb8962c146b2633a4b04562281de9b2703bba849
+Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+Date:   Tue Feb 15 00:13:37 2022 +0400
 
-> Just remove the -bios option, since it is unnecessary and in fact
-> there are other x86 VM tests that do not bother specifying it.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  tests/vm/fedora  | 1 -
->  tests/vm/freebsd | 1 -
->  tests/vm/netbsd  | 1 -
->  tests/vm/openbsd | 1 -
->  4 files changed, 4 deletions(-)
-> 
-> diff --git a/tests/vm/fedora b/tests/vm/fedora
-> index 92b78d6e2c..12eca919a0 100755
-> --- a/tests/vm/fedora
-> +++ b/tests/vm/fedora
-> @@ -79,7 +79,6 @@ class FedoraVM(basevm.BaseVM):
->          self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
->          self.print_step("Booting installer")
->          self.boot(img_tmp, extra_args = [
-> -            "-bios", "pc-bios/bios-256k.bin",
->              "-machine", "graphics=off",
->              "-device", "VGA",
->              "-cdrom", iso
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index 805db759d6..cd1fabde52 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -95,7 +95,6 @@ class FreeBSDVM(basevm.BaseVM):
->  
->          self.print_step("Booting installer")
->          self.boot(img_tmp, extra_args = [
-> -            "-bios", "pc-bios/bios-256k.bin",
->              "-machine", "graphics=off",
->              "-device", "VGA",
->              "-cdrom", iso
-> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-> index 45aa9a7fda..aa883ec23c 100755
-> --- a/tests/vm/netbsd
-> +++ b/tests/vm/netbsd
-> @@ -86,7 +86,6 @@ class NetBSDVM(basevm.BaseVM):
->  
->          self.print_step("Booting installer")
->          self.boot(img_tmp, extra_args = [
-> -            "-bios", "pc-bios/bios-256k.bin",
->              "-machine", "graphics=off",
->              "-cdrom", iso
->          ])
-> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-> index 13c8254214..6f1b6f5b98 100755
-> --- a/tests/vm/openbsd
-> +++ b/tests/vm/openbsd
-> @@ -82,7 +82,6 @@ class OpenBSDVM(basevm.BaseVM):
->  
->          self.print_step("Booting installer")
->          self.boot(img_tmp, extra_args = [
-> -            "-bios", "pc-bios/bios-256k.bin",
->              "-machine", "graphics=off",
->              "-device", "VGA",
->              "-cdrom", iso
-> -- 
-> 2.36.1
-> 
-> 
+     ui: do not create a surface when resizing a GL scanout
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+     qemu_console_resize() will create a blank surface and replace the
+     current scanout with it if called while the current scanout is
+     GL (texture or dmabuf).
 
+     This is not only very costly, but also can produce glitches on the
+     display/listener side.
+
+     Instead, compare the current console size with the fitting console
+     functions, which also works when the scanout is GL.
+
+     Note: there might be still an unnecessary surface creation on calling
+     qemu_console_resize() when the size is actually changing, but display
+     backends currently rely on DisplaySurface details during
+     dpy_gfx_switch() to handle various resize aspects. We would need more
+     refactoring to handle resize without DisplaySurface, this is left for a
+     future improvement.
+
+     Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+     Message-Id: <20220214201337.1814787-4-marcandre.lureau@redhat.com>
+     Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+  ui/console.c | 7 +++----
+  1 file changed, 3 insertions(+), 4 deletions(-)
+
+
+Some more background: the screen in qemu-system-ppc's MacOS is controlled via a 
+custom driver written by Ben which uses the Bochs VBE registers to change the screen 
+width/height/depth. The code used to do this can be found at 
+https://gitlab.com/qemu-project/QemuMacDrivers/-/blob/master/QemuVGADriver/src/QemuVga.c#L354.
+
+Looking at the changes in cb8962c146 my guess would be that either the updated check 
+in qemu_console_resize() should also check to see if the surface depth is unchanged 
+before exiting early, or that there is an extra update required in the VGA device 
+when changing just the screen colour depth by itself.
+
+
+ATB,
+
+Mark.
 
