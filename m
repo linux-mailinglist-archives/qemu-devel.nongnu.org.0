@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0954E54DD04
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:37:19 +0200 (CEST)
-Received: from localhost ([::1]:54420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B900254DD02
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 10:37:14 +0200 (CEST)
+Received: from localhost ([::1]:54334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1l0A-0004Rp-3V
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41032)
+	id 1o1l05-0004OU-Pn
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 04:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1kvR-0001az-95
+ id 1o1kvS-0001b5-G3
  for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33564)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o1kvO-0002ne-HO
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:24 -0400
+ id 1o1kvP-0002o4-D9
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 04:32:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655368341;
+ s=mimecast20190719; t=1655368342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SYBRYiawYtP09jyU7ci5CXeY5D1qb2ObZJkrD/tnmFg=;
- b=NQPQp6JCXKfMB6a+6cgrP8x54yCsXB0OqP/kI67e+mM94w7iujrdIdQe/tjnbvsge7bdhy
- p4OZ0ooWU1wapiLTEzuqJSawY8s2Io9JMWmh+wvNSLe9l4JxRejuoHWHOo+qyp4+waCXwa
- 0xrT6DWNGOLYchbQBpBjAE0Rl1VsYSc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Glh9d8yFY0poxuW4I6ZKFimyvEHRkSEEwBdX8rUliEg=;
+ b=eRICxtbk+EsgE6XwtUyEnD27p4rS8zvRyAPw1flZcco7ts1rDRAu3Xg1UzALX+LlzPZWly
+ Pjhd8fZFrQIAFuHIHDk68kH4A8w1vn3Lu6l3jegpaw/QbscNLRUqEUm00Lfp9TthIYbC2g
+ +7EQlKsYoompCTs7W93klsUtcdrcNQU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-672-0tJRGMcVNwmri-IkR7da2A-1; Thu, 16 Jun 2022 04:32:19 -0400
-X-MC-Unique: 0tJRGMcVNwmri-IkR7da2A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cy18-20020a0564021c9200b0042dc7b4f36fso776788edb.4
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:19 -0700 (PDT)
+ us-mta-22-jFPKM1gUOyqN0w3JD_KOPw-1; Thu, 16 Jun 2022 04:32:21 -0400
+X-MC-Unique: jFPKM1gUOyqN0w3JD_KOPw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ co13-20020a0564020c0d00b0042dc9ef4f01so751506edb.16
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 01:32:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SYBRYiawYtP09jyU7ci5CXeY5D1qb2ObZJkrD/tnmFg=;
- b=CzUYeUwHYsJc8YTL3+o2wN4vw5zRTs6Oav6eG9PhknLhojA0sj4+M29fxhlDXYmJIC
- 6etjRQ9IIBX48dUMZL4Ky+XJHqG745uXrfYK7P+ia+wm9yNz6UdD2ZWpvnEP5x81EM4f
- /izxWh/9iIN+asl0dO8VP3ssWbpy4H+hYQ+INo1JsstC9uxT7XitTHw9snOCoJGYDTwD
- G4GIBHGoUQjAycyeFIQ2SLKv+xyj861yiQM1pfQWAffGiE9VMSz4+5aj69yebRzE8EJ7
- CQKoGdqzXVlTTv3wdTa6F4RU/IuOpGC40dDnBxcUHwPUmwqXpPzlOIoj8QGzvK1hQW2Y
- JMAw==
-X-Gm-Message-State: AJIora9Z/wnldvKZrtlga5bCHogtQ8sJl9j9V5oK+QgBg9Wblluo/0AL
- tkv94d15qgfPpkUFdus055ladhssdnMdYngM5H+8HzzK4CUcZYovvwbFPHv/mPH9nERDTJ3jGGL
- VMhwQReTjY49V3ybwYlYjKzgVDatu8U59jl+Qi2QmzfF5dNewydwyW3TWjtggRpNTnzo=
-X-Received: by 2002:a17:906:72cf:b0:712:20aa:46c7 with SMTP id
- m15-20020a17090672cf00b0071220aa46c7mr3392422ejl.768.1655368338278; 
- Thu, 16 Jun 2022 01:32:18 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tL4EtWeFyxV24Vsg9Fn0EMRtoBqVNno0SIa7pWTcqHzRpUT7xPIPMVqEcxaLXj70+Bi7yuPw==
-X-Received: by 2002:a17:906:72cf:b0:712:20aa:46c7 with SMTP id
- m15-20020a17090672cf00b0071220aa46c7mr3392407ejl.768.1655368337964; 
- Thu, 16 Jun 2022 01:32:17 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- j4-20020a50ed04000000b004318ba244dcsm1291058eds.10.2022.06.16.01.32.16
+ bh=Glh9d8yFY0poxuW4I6ZKFimyvEHRkSEEwBdX8rUliEg=;
+ b=wRXtojfAseo+vCCMsglStXgoZTN9DRc0W8sxz7OUhK4A3gZLs6VdloX//OTSNHXH8S
+ WYVSxTRgbjsYZipT1EfYBCuTjFd1DuQSJ2u1Fp/EYonU2CNdGZLnu6L5HJJXutUTw6wZ
+ V/XORWV6RV8waaFT3PnyG2ExIMs7lWmaYzmCeGEMzXv6gFheR9YHWRisSV7lPqMm7h2P
+ gu4yq8YqIRgVP0OrblcnU7a8TA2KrlDl1gy/p/0y0biAiUEG73A686KVa/zIUNkj4ObK
+ kJownLcKs5VIKVLLI7aAt7qP791ME3Uo3NhE3Pbl1ScgW/CXo/hIUvL+A6Sx9dTcBGfy
+ 5QMA==
+X-Gm-Message-State: AJIora9U1o7BeIKyAiT8SoI/3o1ioci26zENzlhhU0QVH+pJnR/95o3O
+ fp3tnB1ywSIE/DZsth9/J9r/mJLUsUJfuKGe0TLmYg40MuNeQu72ZFpNA6isgEkh3P23ZPf9ZEg
+ QqVdQu+HE2zBebkDkOPX9+8wb1quEaFNE52CJv1DVVlR8iljnoH9NgMZHvTEXo5swSoo=
+X-Received: by 2002:a05:6402:378a:b0:431:6d8d:9023 with SMTP id
+ et10-20020a056402378a00b004316d8d9023mr4854965edb.98.1655368339882; 
+ Thu, 16 Jun 2022 01:32:19 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uahxKBS/3n2nOO/dFNBEkSOxNWwTY9B8rB0ZATTOJ9v1Df/S1NMarqbSuKG86wqQwNhBQ63w==
+X-Received: by 2002:a05:6402:378a:b0:431:6d8d:9023 with SMTP id
+ et10-20020a056402378a00b004316d8d9023mr4854934edb.98.1655368339438; 
+ Thu, 16 Jun 2022 01:32:19 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ z6-20020a05640235c600b0043158c608e4sm1325225edc.27.2022.06.16.01.32.18
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 01:32:17 -0700 (PDT)
+ Thu, 16 Jun 2022 01:32:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>
-Subject: [PULL 03/21] qmp: add filtering of statistics by target vCPU
-Date: Thu, 16 Jun 2022 10:31:51 +0200
-Message-Id: <20220616083209.117397-4-pbonzini@redhat.com>
+Subject: [PULL 04/21] cutils: add functions for IEC and SI prefixes
+Date: Thu, 16 Jun 2022 10:31:52 +0200
+Message-Id: <20220616083209.117397-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220616083209.117397-1-pbonzini@redhat.com>
 References: <20220616083209.117397-1-pbonzini@redhat.com>
@@ -99,180 +98,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a simple filtering of statistics, that allows to retrieve
-statistics for a subset of the guest vCPUs.  This will be used for
-example by the HMP monitor, in order to retrieve the statistics
-for the currently selected CPU.
+Extract the knowledge of IEC and SI prefixes out of size_to_str and
+freq_to_str, so that it can be reused when printing statistics.
 
-Example:
-{ "execute": "query-stats",
-  "arguments": {
-    "target": "vcpu",
-    "vcpus": [ "/machine/unattached/device[2]",
-               "/machine/unattached/device[4]" ] } }
-
-Extracted from a patch by Mark Kanda.
-
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c     |  9 +++++++--
- include/monitor/stats.h | 11 ++++++++++-
- monitor/qmp-cmds.c      | 34 +++++++++++++++++++++++++++++++++-
- qapi/stats.json         | 24 +++++++++++++++++++-----
- 4 files changed, 69 insertions(+), 9 deletions(-)
+ include/qemu/cutils.h    | 18 ++++++++++++++
+ tests/unit/test-cutils.c | 52 ++++++++++++++++++++++++++++++++++++++++
+ util/cutils.c            | 34 +++++++++++++++++++-------
+ 3 files changed, 95 insertions(+), 9 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 7cc9e33bab..547de842fd 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2311,7 +2311,8 @@ bool kvm_dirty_ring_enabled(void)
-     return kvm_state->kvm_dirty_ring_size ? true : false;
- }
- 
--static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp);
-+static void query_stats_cb(StatsResultList **result, StatsTarget target,
-+                           strList *targets, Error **errp);
- static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
- 
- static int kvm_init(MachineState *ms)
-@@ -4038,7 +4039,8 @@ static void query_stats_schema_vcpu(CPUState *cpu, run_on_cpu_data data)
-     close(stats_fd);
- }
- 
--static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp)
-+static void query_stats_cb(StatsResultList **result, StatsTarget target,
-+                           strList *targets, Error **errp)
- {
-     KVMState *s = kvm_state;
-     CPUState *cpu;
-@@ -4062,6 +4064,9 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target, Error *
-         stats_args.result.stats = result;
-         stats_args.errp = errp;
-         CPU_FOREACH(cpu) {
-+            if (!apply_str_list_filter(cpu->parent_obj.canonical_path, targets)) {
-+                continue;
-+            }
-             run_on_cpu(cpu, query_stats_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
-         }
-         break;
-diff --git a/include/monitor/stats.h b/include/monitor/stats.h
-index 912eeadb2f..8c50feeaa9 100644
---- a/include/monitor/stats.h
-+++ b/include/monitor/stats.h
-@@ -11,7 +11,7 @@
- #include "qapi/qapi-types-stats.h"
- 
- typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target,
--                              Error **errp);
-+                              strList *targets, Error **errp);
- typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
- 
- /*
-@@ -31,4 +31,13 @@ void add_stats_entry(StatsResultList **, StatsProvider, const char *id,
- void add_stats_schema(StatsSchemaList **, StatsProvider, StatsTarget,
-                       StatsSchemaValueList *);
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index 40e10e19a7..d3e532b64c 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -1,6 +1,24 @@
+ #ifndef QEMU_CUTILS_H
+ #define QEMU_CUTILS_H
  
 +/*
-+ * True if a string matches the filter passed to the stats_fn callabck,
-+ * false otherwise.
++ * si_prefix:
++ * @exp10: exponent of 10, a multiple of 3 between -18 and 18 inclusive.
 + *
-+ * Note that an empty list means no filtering, i.e. all strings will
-+ * return true.
++ * Return a SI prefix (n, u, m, K, M, etc.) corresponding
++ * to the given exponent of 10.
 + */
-+bool apply_str_list_filter(const char *string, strList *list);
++const char *si_prefix(unsigned int exp10);
 +
- #endif /* STATS_H */
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index a6ac8d7473..5f8f1e620b 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -468,9 +468,26 @@ static bool invoke_stats_cb(StatsCallbacks *entry,
-                             StatsFilter *filter,
-                             Error **errp)
- {
-+    strList *targets = NULL;
-     ERRP_GUARD();
- 
--    entry->stats_cb(stats_results, filter->target, errp);
-+    switch (filter->target) {
-+    case STATS_TARGET_VM:
-+        break;
-+    case STATS_TARGET_VCPU:
-+        if (filter->u.vcpu.has_vcpus) {
-+            if (!filter->u.vcpu.vcpus) {
-+                /* No targets allowed?  Return no statistics.  */
-+                return true;
-+            }
-+            targets = filter->u.vcpu.vcpus;
-+        }
-+        break;
-+    default:
-+        abort();
-+    }
++/*
++ * iec_binary_prefix:
++ * @exp2: exponent of 2, a multiple of 10 between 0 and 60 inclusive.
++ *
++ * Return an IEC binary prefix (Ki, Mi, etc.) corresponding
++ * to the given exponent of 2.
++ */
++const char *iec_binary_prefix(unsigned int exp2);
 +
-+    entry->stats_cb(stats_results, filter->target, targets, errp);
-     if (*errp) {
-         qapi_free_StatsResultList(*stats_results);
-         *stats_results = NULL;
-@@ -536,3 +553,18 @@ void add_stats_schema(StatsSchemaList **schema_results,
-     entry->stats = stats_list;
-     QAPI_LIST_PREPEND(*schema_results, entry);
+ /**
+  * pstrcpy:
+  * @buf: buffer to copy string into
+diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
+index 98671f1ac3..f5b780f012 100644
+--- a/tests/unit/test-cutils.c
++++ b/tests/unit/test-cutils.c
+@@ -2450,6 +2450,50 @@ static void test_qemu_strtosz_metric(void)
+     g_assert(endptr == str + 7);
  }
-+
-+bool apply_str_list_filter(const char *string, strList *list)
+ 
++static void test_freq_to_str(void)
 +{
-+    strList *str_list = NULL;
-+
-+    if (!list) {
-+        return true;
-+    }
-+    for (str_list = list; str_list; str_list = str_list->next) {
-+        if (g_str_equal(string, str_list->value)) {
-+            return true;
-+        }
-+    }
-+    return false;
++    g_assert_cmpstr(freq_to_str(999), ==, "999 Hz");
++    g_assert_cmpstr(freq_to_str(1000), ==, "1 KHz");
++    g_assert_cmpstr(freq_to_str(1010), ==, "1.01 KHz");
 +}
-diff --git a/qapi/stats.json b/qapi/stats.json
-index df7c4d886c..8c9abb57f1 100644
---- a/qapi/stats.json
-+++ b/qapi/stats.json
-@@ -70,15 +70,29 @@
-   'data': [ 'vm', 'vcpu' ] }
- 
- ##
--# @StatsFilter:
-+# @StatsVCPUFilter:
- #
--# The arguments to the query-stats command; specifies a target for which to
--# request statistics.
-+# @vcpus: list of QOM paths for the desired vCPU objects.
- #
- # Since: 7.1
- ##
--{ 'struct': 'StatsFilter',
--  'data': { 'target': 'StatsTarget' } }
-+{ 'struct': 'StatsVCPUFilter',
-+  'data': { '*vcpus': [ 'str' ] } }
 +
-+##
-+# @StatsFilter:
-+#
-+# The arguments to the query-stats command; specifies a target for which to
-+# request statistics and optionally the required subset of information for
-+# that target:
-+# - which vCPUs to request statistics for
-+#
-+# Since: 7.1
-+##
-+{ 'union': 'StatsFilter',
-+        'base': { 'target': 'StatsTarget' },
-+  'discriminator': 'target',
-+  'data': { 'vcpu': 'StatsVCPUFilter' } }
++static void test_size_to_str(void)
++{
++    g_assert_cmpstr(size_to_str(0), ==, "0 B");
++    g_assert_cmpstr(size_to_str(1), ==, "1 B");
++    g_assert_cmpstr(size_to_str(1016), ==, "0.992 KiB");
++    g_assert_cmpstr(size_to_str(1024), ==, "1 KiB");
++    g_assert_cmpstr(size_to_str(512ull << 20), ==, "512 MiB");
++}
++
++static void test_iec_binary_prefix(void)
++{
++    g_assert_cmpstr(iec_binary_prefix(0), ==, "");
++    g_assert_cmpstr(iec_binary_prefix(10), ==, "Ki");
++    g_assert_cmpstr(iec_binary_prefix(20), ==, "Mi");
++    g_assert_cmpstr(iec_binary_prefix(30), ==, "Gi");
++    g_assert_cmpstr(iec_binary_prefix(40), ==, "Ti");
++    g_assert_cmpstr(iec_binary_prefix(50), ==, "Pi");
++    g_assert_cmpstr(iec_binary_prefix(60), ==, "Ei");
++}
++
++static void test_si_prefix(void)
++{
++    g_assert_cmpstr(si_prefix(-18), ==, "a");
++    g_assert_cmpstr(si_prefix(-15), ==, "f");
++    g_assert_cmpstr(si_prefix(-12), ==, "p");
++    g_assert_cmpstr(si_prefix(-9), ==, "n");
++    g_assert_cmpstr(si_prefix(-6), ==, "u");
++    g_assert_cmpstr(si_prefix(-3), ==, "m");
++    g_assert_cmpstr(si_prefix(0), ==, "");
++    g_assert_cmpstr(si_prefix(3), ==, "K");
++    g_assert_cmpstr(si_prefix(6), ==, "M");
++    g_assert_cmpstr(si_prefix(9), ==, "G");
++    g_assert_cmpstr(si_prefix(12), ==, "T");
++    g_assert_cmpstr(si_prefix(15), ==, "P");
++    g_assert_cmpstr(si_prefix(18), ==, "E");
++}
++
+ int main(int argc, char **argv)
+ {
+     g_test_init(&argc, &argv, NULL);
+@@ -2729,5 +2773,13 @@ int main(int argc, char **argv)
+     g_test_add_func("/cutils/strtosz/metric",
+                     test_qemu_strtosz_metric);
  
- ##
- # @StatsValue:
++    g_test_add_func("/cutils/size_to_str",
++                    test_size_to_str);
++    g_test_add_func("/cutils/freq_to_str",
++                    test_freq_to_str);
++    g_test_add_func("/cutils/iec_binary_prefix",
++                    test_iec_binary_prefix);
++    g_test_add_func("/cutils/si_prefix",
++                    test_si_prefix);
+     return g_test_run();
+ }
+diff --git a/util/cutils.c b/util/cutils.c
+index a58bcfd80e..6d04e52907 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -872,6 +872,25 @@ int parse_debug_env(const char *name, int max, int initial)
+     return debug;
+ }
+ 
++const char *si_prefix(unsigned int exp10)
++{
++    static const char *prefixes[] = {
++        "a", "f", "p", "n", "u", "m", "", "K", "M", "G", "T", "P", "E"
++    };
++
++    exp10 += 18;
++    assert(exp10 % 3 == 0 && exp10 / 3 < ARRAY_SIZE(prefixes));
++    return prefixes[exp10 / 3];
++}
++
++const char *iec_binary_prefix(unsigned int exp2)
++{
++    static const char *prefixes[] = { "", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei" };
++
++    assert(exp2 % 10 == 0 && exp2 / 10 < ARRAY_SIZE(prefixes));
++    return prefixes[exp2 / 10];
++}
++
+ /*
+  * Return human readable string for size @val.
+  * @val can be anything that uint64_t allows (no more than "16 EiB").
+@@ -880,7 +899,6 @@ int parse_debug_env(const char *name, int max, int initial)
+  */
+ char *size_to_str(uint64_t val)
+ {
+-    static const char *suffixes[] = { "", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei" };
+     uint64_t div;
+     int i;
+ 
+@@ -891,25 +909,23 @@ char *size_to_str(uint64_t val)
+      * (see e41b509d68afb1f for more info)
+      */
+     frexp(val / (1000.0 / 1024.0), &i);
+-    i = (i - 1) / 10;
+-    div = 1ULL << (i * 10);
++    i = (i - 1) / 10 * 10;
++    div = 1ULL << i;
+ 
+-    return g_strdup_printf("%0.3g %sB", (double)val / div, suffixes[i]);
++    return g_strdup_printf("%0.3g %sB", (double)val / div, iec_binary_prefix(i));
+ }
+ 
+ char *freq_to_str(uint64_t freq_hz)
+ {
+-    static const char *const suffixes[] = { "", "K", "M", "G", "T", "P", "E" };
+     double freq = freq_hz;
+-    size_t idx = 0;
++    size_t exp10 = 0;
+ 
+     while (freq >= 1000.0) {
+         freq /= 1000.0;
+-        idx++;
++        exp10 += 3;
+     }
+-    assert(idx < ARRAY_SIZE(suffixes));
+ 
+-    return g_strdup_printf("%0.3g %sHz", freq, suffixes[idx]);
++    return g_strdup_printf("%0.3g %sHz", freq, si_prefix(exp10));
+ }
+ 
+ int qemu_pstrcmp0(const char **str1, const char **str2)
 -- 
 2.36.1
 
