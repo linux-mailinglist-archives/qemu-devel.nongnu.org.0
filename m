@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9362C54DF11
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:28:05 +0200 (CEST)
-Received: from localhost ([::1]:48180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3421154DF2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 12:33:30 +0200 (CEST)
+Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1mjM-0007FL-Lv
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39570)
+	id 1o1mob-0004zD-AA
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 06:33:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mcA-0006tR-Up
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:40 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:46017)
+ id 1o1mcB-0006td-Pv
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:42 -0400
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:43840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1mc6-0000UV-UR
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:37 -0400
-Received: by mail-lj1-x235.google.com with SMTP id s10so956398ljh.12
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:20:28 -0700 (PDT)
+ id 1o1mc6-0000Uw-UT
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 06:20:39 -0400
+Received: by mail-lf1-x135.google.com with SMTP id be31so1485938lfb.10
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 03:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xLll8c/0bFC5Kv+uYZ98u4kVrKBDnnI+LAN9UJuvyDI=;
- b=CyaN6iiO2gaPm5b8MTSLbrU5mF6i2lN+0qOcI2RmhIVw54vmGhpa1y1TuwpDk4Ufxv
- kKB74A157ZkcIGTO0fULADhC8d56wGmKsDjylSf31r9ksGaeP+sxH9C6tVMhEh7fHrt8
- fOt1ZxNNj0JqTVSCt6wH/QMtqm5VbRZsiHmKwfHEPvbC0m/49GzSfkX0eu0qSjQBKlKN
- Y6vDdgLVFniRdA+X9KUoi7N2Pbdqh5eBGkdpQu3oO0+HqSZX8HnZeuo6hwULoCle5KFN
- BxdkGGrWArq9GXrMnb7GR0c3nvJy1fdxDr56e+sn91p69HwdBCIGreTqKb/zEXOIqA10
- 4tVA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7tNdbLBzRKOlUlgc8g7K1sMB89Nl+L+jwQpxvFRcsBc=;
+ b=EDG4zxN9qhfGpAK//9RwU3Vl3VKXKvll0CMeVWfu0ojKceDM1dVi0V+lmijD8vXKO+
+ J2Sxgco9hspv4wwJ6JU1IEQdlwD8CtW2FsDCiHhBwn6HlKCYPH6a+7T2MZwtgDO4gBu6
+ vEaym+IG2L/x7sWqiBKrRKB+HuBvpkkV7gMD7foQbfi7sY5UP11mowJf8wwyYBG3fksp
+ 6Cu5FS2R0bkfnsL45R/gF+r7vuut+fLoDCAuKrQvAWQ7L6+LycSA2KhyBIGPIN0gwHQC
+ Z/m8C0hKj1uueeCQ6o/gSvgJ5PoaypjJbM+qDHFYbD7mS+ofSFhMmQNLYx4wEkqhA7sC
+ SwfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xLll8c/0bFC5Kv+uYZ98u4kVrKBDnnI+LAN9UJuvyDI=;
- b=5BmuzQ+x8ssXP9o6IxQPJrsPdmD1YOmhvlxxORQqRdJesFUZKool04u4oDD8qd+2+S
- UTchPMF/SZocDzMUl2Z+wsXJIbJdfaCfBU7QPU+UtR2XKjSbVj2Gk1YirJjxmJZJXDD4
- 3c7VJl/ds7cfyZS9Rql9c0r3XM34KdAtZXfHK/vuLUrV9bWEkAJYM9YxvaCaNQ/Kq8eo
- TvPVRD+S4CtHabhcAoWZjMUI0mGF8EMm7Q8s/yNHyAR2GpOVnadqX73ScUjK8WVNgmG8
- j414E6KT4DnNLdAVUrpvrpX/FfClcOILxs8bpvxSpRoSw++aiM2q21sOtiFACnuuTi/H
- XuNA==
-X-Gm-Message-State: AJIora9uJLW5CWZxUUUbklfZ2X/0Bito+QhXyY3AIRk22MhQMpogD3Zp
- Q7OFoxtspHiCpVy09L4mbzSAwb8uv9UJWmlk
-X-Google-Smtp-Source: AGRyM1uE9EwQc8U6fp8b8BJb3np7P+XSeCpgXZyRNTxExwu2m89iqz9iCR6f8f3BP/FfdEIrY9apdQ==
-X-Received: by 2002:a2e:8083:0:b0:258:eac9:70d2 with SMTP id
- i3-20020a2e8083000000b00258eac970d2mr2130331ljg.150.1655374826765; 
- Thu, 16 Jun 2022 03:20:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7tNdbLBzRKOlUlgc8g7K1sMB89Nl+L+jwQpxvFRcsBc=;
+ b=eSm7GlJeFb2vjOKWPEPiiW13StNJoYLB56OwsPXYL3hAejwBVNjFhyDDl5Td68XEeS
+ y5Lmh8lVycYp4J5+E4XcGBg2vDu4YxSSHR40obqGeRytjV/VygMx/I2NXqiBAf1Rvoq6
+ xPGZMFB4aRHLBTHn0leOs6F6m832aof45E5OKEwgvUM1oLimUlrGm5oMXHCvnVY3Itt9
+ l7SBhJHx3DKGiP9x+gYmci0ahFODtjmz5xwiC3FEHyKSkGnp/tOo+GJrb8tmYgusmPjr
+ COzt36jDJbM7b5e2nVaPeei99Ysk0b4RDXX7SC+gyuGbeCVATz/MMVGJL1mKzx2iu5LH
+ Vfag==
+X-Gm-Message-State: AJIora8zx69w9E7F0trQ//+xH7kVPlJbEoPoRDzK7mFroPMCxBWUXzQC
+ EcM6KUTxwLVsVQNykp6yNMY45EKC2jmufGIX
+X-Google-Smtp-Source: AGRyM1vGy234g8B7xZENdG21m9lq6kwoiEyO/Cz126iXRH8Q1H0G4hlmuQ1COTi4GyQ0uFFdrSHX2Q==
+X-Received: by 2002:a05:6512:3d8c:b0:479:51be:727f with SMTP id
+ k12-20020a0565123d8c00b0047951be727fmr2279669lfv.289.1655374829657; 
+ Thu, 16 Jun 2022 03:20:29 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.28.49])
  by smtp.gmail.com with ESMTPSA id
- q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.25
+ q17-20020a05651232b100b0047255d21166sm179014lfe.149.2022.06.16.03.20.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 03:20:26 -0700 (PDT)
+ Thu, 16 Jun 2022 03:20:29 -0700 (PDT)
 From: nikita.lapshin@openvz.org
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, quintela@redhat.com,
  dgilbert@redhat.com, nikita.lapshin@openvz.org
-Subject: [PATCH 0/8] New parameter for migration stream
-Date: Thu, 16 Jun 2022 13:19:56 +0300
-Message-Id: <20220616102006.218693-1-nikita.lapshin@openvz.org>
+Subject: [PATCH 1/8] migration: Implemented new parameter stream_content
+Date: Thu, 16 Jun 2022 13:19:57 +0300
+Message-Id: <20220616102006.218693-2-nikita.lapshin@openvz.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220616102006.218693-1-nikita.lapshin@openvz.org>
+References: <20220616102006.218693-1-nikita.lapshin@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x235.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::135;
+ envelope-from=nikita.lapshin@openvz.org; helo=mail-lf1-x135.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,40 +91,177 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nikita Lapshin <nikita.lapshin@openvz.org>
 
-We want to implement exteranl bg-snapshot tool for saving RAM. For this it
-is important to be able manage migration stream because tool has no idea
-about non-RAM part and how to parse it.
+This new optional parameter contains inormation about migration
+stream parts to be sent (such as RAM, block, bitmap). This looks
+better than using capabilities to solve problem of dividing
+migration stream.
 
-This paramter provides gurantee about migration content. Now there are 4
-parts of migration stream which can be specified: "ram", "block",
-"dirty-bitmaps", "vmstate". "vmstate" can be any section which handler has
-vmdesc. "block" and "dirty-bitmpas" impleneted just like existing
-capabilities.
+Signed-off-by: Nikita Lapshin <nikita.lapshin@openvz.org>
+---
+ migration/migration.c | 47 ++++++++++++++++++++++++++++++++++++++++++-
+ migration/migration.h |  2 ++
+ qapi/migration.json   | 21 ++++++++++++++++---
+ 3 files changed, 66 insertions(+), 4 deletions(-)
 
-This way of specifying can be extended on future parts of migration.
-
-Nikita Lapshin (8):
-  migration: Implemented new parameter stream_content
-  migration: should_skip() implemented
-  migration: Add vmstate part of migration stream
-  migration: Add dirty-bitmaps part of migration stream
-  migration: Add block part of migration stream
-  migration: Add RAM part of migration stream
-  migration: analyze-migration script changed
-  migration: Test for RAM and vmstate parts
-
- migration/migration.c                         | 76 ++++++++++++++-
- migration/migration.h                         |  3 +
- migration/ram.c                               |  6 ++
- migration/savevm.c                            | 69 ++++++++-----
- qapi/migration.json                           | 21 +++-
- scripts/analyze-migration.py                  | 19 ++--
- .../tests/migrate-ram-stream-content-test     | 96 +++++++++++++++++++
- .../tests/migrate-ram-stream-content-test.out |  5 +
- 8 files changed, 256 insertions(+), 39 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/migrate-ram-stream-content-test
- create mode 100644 tests/qemu-iotests/tests/migrate-ram-stream-content-test.out
-
+diff --git a/migration/migration.c b/migration/migration.c
+index 695f0f2900..4adcc87d1d 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1334,6 +1334,12 @@ void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
+     }
+ }
+ 
++static bool check_stream_parts(strList *stream_content_list)
++{
++    /* To be implemented in ext commits */
++    return true;
++}
++
+ /*
+  * Check whether the parameters are valid. Error will be put into errp
+  * (if provided). Return true if valid, otherwise false.
+@@ -1482,7 +1488,12 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+         return false;
+     }
+ 
+-    return true;
++    if (params->has_stream_content_list &&
++        !check_stream_parts(params->stream_content_list)) {
++        error_setg(errp, "Invalid parts of stream given for stream-content");
++    }
++
++   return true;
+ }
+ 
+ static void migrate_params_test_apply(MigrateSetParameters *params,
+@@ -1581,6 +1592,11 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
+         dest->has_block_bitmap_mapping = true;
+         dest->block_bitmap_mapping = params->block_bitmap_mapping;
+     }
++
++    if (params->has_stream_content_list) {
++        dest->has_stream_content_list = true;
++        dest->stream_content_list = params->stream_content_list;
++    }
+ }
+ 
+ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
+@@ -1703,6 +1719,13 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
+             QAPI_CLONE(BitmapMigrationNodeAliasList,
+                        params->block_bitmap_mapping);
+     }
++
++    if (params->has_stream_content_list) {
++        qapi_free_strList(s->parameters.stream_content_list);
++        s->parameters.has_stream_content_list = true;
++        s->parameters.stream_content_list =
++            QAPI_CLONE(strList, params->stream_content_list);
++    }
+ }
+ 
+ void qmp_migrate_set_parameters(MigrateSetParameters *params, Error **errp)
+@@ -2620,6 +2643,28 @@ bool migrate_background_snapshot(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
+ }
+ 
++/* Checks if stream-content parameter has section_name in list */
++bool migrate_find_stream_content(const char *section_name)
++{
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    if (!s->parameters.has_stream_content_list) {
++        return false;
++    }
++
++    strList *list = s->parameters.stream_content_list;
++
++    for (; list; list = list->next) {
++        if (!strcmp(list->value, section_name)) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
+ /* migration thread support */
+ /*
+  * Something bad happened to the RP stream, mark an error
+diff --git a/migration/migration.h b/migration/migration.h
+index 2de861df01..411c58e919 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -396,6 +396,8 @@ bool migrate_use_events(void);
+ bool migrate_postcopy_blocktime(void);
+ bool migrate_background_snapshot(void);
+ 
++bool migrate_find_stream_content(const char *section_name);
++
+ /* Sending on the return path - generic and then for each message type */
+ void migrate_send_rp_shut(MigrationIncomingState *mis,
+                           uint32_t value);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 18e2610e88..80acf6dbc3 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -760,6 +760,12 @@
+ #                        block device name if there is one, and to their node name
+ #                        otherwise. (Since 5.2)
+ #
++# @stream-content-list: Parameter control content of migration stream such as RAM,
++#                       vmstate, block and dirty-bitmaps. This is optional parameter
++#                       so migration will work correctly without it.
++#                       This parameter takes string list as description of content
++#                       and include that part of migration stream. (Since 7.0)
++#
+ # Features:
+ # @unstable: Member @x-checkpoint-delay is experimental.
+ #
+@@ -780,7 +786,8 @@
+            'xbzrle-cache-size', 'max-postcopy-bandwidth',
+            'max-cpu-throttle', 'multifd-compression',
+            'multifd-zlib-level' ,'multifd-zstd-level',
+-           'block-bitmap-mapping' ] }
++           'block-bitmap-mapping',
++           'stream-content-list' ] }
+ 
+ ##
+ # @MigrateSetParameters:
+@@ -925,6 +932,12 @@
+ #                        block device name if there is one, and to their node name
+ #                        otherwise. (Since 5.2)
+ #
++# @stream-content-list: Parameter control content of migration stream such as RAM,
++#                       vmstate, block and dirty-bitmaps. This is optional parameter
++#                       so migration will work correctly without it.
++#                       This parameter takes string list as description of content
++#                       and include that part of migration stream. (Since 7.0)
++#
+ # Features:
+ # @unstable: Member @x-checkpoint-delay is experimental.
+ #
+@@ -960,7 +973,8 @@
+             '*multifd-compression': 'MultiFDCompression',
+             '*multifd-zlib-level': 'uint8',
+             '*multifd-zstd-level': 'uint8',
+-            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
++            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
++            '*stream-content-list': [ 'str' ] } }
+ 
+ ##
+ # @migrate-set-parameters:
+@@ -1158,7 +1172,8 @@
+             '*multifd-compression': 'MultiFDCompression',
+             '*multifd-zlib-level': 'uint8',
+             '*multifd-zstd-level': 'uint8',
+-            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
++            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
++            '*stream-content-list': [ 'str' ] } }
+ 
+ ##
+ # @query-migrate-parameters:
 -- 
 2.31.1
 
