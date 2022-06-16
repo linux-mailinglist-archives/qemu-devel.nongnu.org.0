@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E931F54E2A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:57:22 +0200 (CEST)
-Received: from localhost ([::1]:59324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA0E54E1F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:28:48 +0200 (CEST)
+Received: from localhost ([::1]:33702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1pzu-0007yY-2c
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51938)
+	id 1o1pYF-0003e3-Im
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:28:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o1pOn-0005LI-GD
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:19:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32100)
+ id 1o1pOi-0005J4-Ml
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:19:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o1pOb-0007aR-Io
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:18:57 -0400
+ id 1o1pOb-0007ZV-FZ
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 09:18:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655385528;
+ s=mimecast20190719; t=1655385527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6PnsuividGAWomjSmg+GpWQpfQ1Q9J2j9yQcH+u9X2Y=;
- b=N/dFExsTWLE59COGLzkhsuCUV7QRYUHEnW4yuyEkX9rwmPkFJNxHNgFTtseK7+QN19ADoV
- ZU9/nqi5kySxTzU2uFY47PSNIkLgjcGqohs2p0XaTo8KWSVM4WSUr7x6G4oKl65WKRwq44
- TQLh0o1beb162NtYWBfspyRY6JG1kB4=
+ bh=OOPisGnzq61NrxsrGIdgBT7pO374tGQlU2DhkhUYj8E=;
+ b=INfzLY5LOBZdTpLOBKufPhySd+HY/j9QQoHU1GkECgcfSCZt8bgvBW7e/dQT7xxUi589Ec
+ kyNNbSRDkrUbwgudxKLuQ5C3IPlGlxppJkjQtJEpyqzSZB0y7Bd311d3Bn2nZmUyKN2Au5
+ YWrzIWPB+kWwK/nXRlxQhWD/VrQKhXE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-499--MkTpKIhN5CNUD288CoAAQ-1; Thu, 16 Jun 2022 09:18:42 -0400
-X-MC-Unique: -MkTpKIhN5CNUD288CoAAQ-1
+ us-mta-159-hw4pvg4qMLWD4kecOTVgRg-1; Thu, 16 Jun 2022 09:18:43 -0400
+X-MC-Unique: hw4pvg4qMLWD4kecOTVgRg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B2AB101A56D;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A623B185A7A4;
  Thu, 16 Jun 2022 13:18:42 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDF5F403350;
- Thu, 16 Jun 2022 13:18:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5319C40334E;
+ Thu, 16 Jun 2022 13:18:42 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -54,9 +54,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v7 13/18] job.h: define unlocked functions
-Date: Thu, 16 Jun 2022 09:18:30 -0400
-Message-Id: <20220616131835.2004262-14-eesposit@redhat.com>
+Subject: [PATCH v7 14/18] commit and mirror: create new nodes using
+ bdrv_get_aio_context, and not the job aiocontext
+Date: Thu, 16 Jun 2022 09:18:31 -0400
+Message-Id: <20220616131835.2004262-15-eesposit@redhat.com>
 In-Reply-To: <20220616131835.2004262-1-eesposit@redhat.com>
 References: <20220616131835.2004262-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -70,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,224 +87,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All these functions assume that the lock is not held, and acquire
-it internally.
+We are always using the given bs AioContext, so there is no need
+to take the job ones (which is identical anyways).
+This also reduces the point we need to check when protecting
+job.aio_context field.
 
-These functions will be useful when job_lock is globally applied,
-as they will allow callers to access the job struct fields
-without worrying about the job lock.
-
-Update also the comments in blockjob.c (and move them in job.c).
-
-Note: at this stage, job_{lock/unlock} and job lock guard macros
-are *nop*.
-
-No functional change intended.
-
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- blockjob.c         | 20 --------------------
- include/qemu/job.h | 36 +++++++++++++++++++++++++++++++++---
- job.c              | 16 ++++++++++++++++
- 3 files changed, 49 insertions(+), 23 deletions(-)
+ block/commit.c | 4 ++--
+ block/mirror.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/blockjob.c b/blockjob.c
-index 0745f4e745..2c075db45b 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -36,21 +36,6 @@
- #include "qemu/main-loop.h"
- #include "qemu/timer.h"
+diff --git a/block/commit.c b/block/commit.c
+index 851d1c557a..336f799172 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -370,7 +370,7 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+         goto fail;
+     }
  
--/*
-- * The block job API is composed of two categories of functions.
-- *
-- * The first includes functions used by the monitor.  The monitor is
-- * peculiar in that it accesses the block job list with block_job_get, and
-- * therefore needs consistency across block_job_get and the actual operation
-- * (e.g. block_job_set_speed).  The consistency is achieved with
-- * aio_context_acquire/release.  These functions are declared in blockjob.h.
-- *
-- * The second includes functions used by the block job drivers and sometimes
-- * by the core block layer.  These do not care about locking, because the
-- * whole coroutine runs under the AioContext lock, and are declared in
-- * blockjob_int.h.
-- */
--
- static bool is_block_job(Job *job)
- {
-     return job_type(job) == JOB_TYPE_BACKUP ||
-@@ -446,11 +431,6 @@ static void block_job_event_ready_locked(Notifier *n, void *opaque)
- }
+-    s->base = blk_new(s->common.job.aio_context,
++    s->base = blk_new(bdrv_get_aio_context(bs),
+                       base_perms,
+                       BLK_PERM_CONSISTENT_READ
+                       | BLK_PERM_WRITE_UNCHANGED);
+@@ -382,7 +382,7 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+     s->base_bs = base;
  
+     /* Required permissions are already taken with block_job_add_bdrv() */
+-    s->top = blk_new(s->common.job.aio_context, 0, BLK_PERM_ALL);
++    s->top = blk_new(bdrv_get_aio_context(bs), 0, BLK_PERM_ALL);
+     ret = blk_insert_bs(s->top, top, errp);
+     if (ret < 0) {
+         goto fail;
+diff --git a/block/mirror.c b/block/mirror.c
+index b38676e19d..1977e25171 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1728,7 +1728,7 @@ static BlockJob *mirror_start_job(
+         goto fail;
+     }
  
--/*
-- * API for block job drivers and the block layer.  These functions are
-- * declared in blockjob_int.h.
-- */
--
- void *block_job_create(const char *job_id, const BlockJobDriver *driver,
-                        JobTxn *txn, BlockDriverState *bs, uint64_t perm,
-                        uint64_t shared_perm, int64_t speed, int flags,
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 246af068a1..2c9011329a 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -362,6 +362,7 @@ void job_txn_unref_locked(JobTxn *txn);
- 
- /**
-  * Create a new long-running job and return it.
-+ * Called with job_mutex *not* held.
-  *
-  * @job_id: The id of the newly-created job, or %NULL for internal jobs
-  * @driver: The class object for the newly-created job.
-@@ -397,6 +398,8 @@ void job_unref_locked(Job *job);
-  * @done: How much progress the job made since the last call
-  *
-  * Updates the progress counter of the job.
-+ *
-+ * Progress API is thread safe.
-  */
- void job_progress_update(Job *job, uint64_t done);
- 
-@@ -407,6 +410,8 @@ void job_progress_update(Job *job, uint64_t done);
-  *
-  * Sets the expected end value of the progress counter of a job so that a
-  * completion percentage can be calculated when the progress is updated.
-+ *
-+ * Progress API is thread safe.
-  */
- void job_progress_set_remaining(Job *job, uint64_t remaining);
- 
-@@ -422,6 +427,8 @@ void job_progress_set_remaining(Job *job, uint64_t remaining);
-  * length before, and job_progress_update() afterwards.
-  * (So the operation acts as a parenthesis in regards to the main job
-  * operation running in background.)
-+ *
-+ * Progress API is thread safe.
-  */
- void job_progress_increase_remaining(Job *job, uint64_t delta);
- 
-@@ -439,6 +446,8 @@ void job_enter_cond_locked(Job *job, bool(*fn)(Job *job));
-  *
-  * Begins execution of a job.
-  * Takes ownership of one reference to the job object.
-+ *
-+ * Called with job_mutex *not* held.
-  */
- void job_start(Job *job);
- 
-@@ -446,6 +455,7 @@ void job_start(Job *job);
-  * @job: The job to enter.
-  *
-  * Continue the specified job by entering the coroutine.
-+ * Called with job_mutex lock *not* held.
-  */
- void job_enter(Job *job);
- 
-@@ -454,6 +464,9 @@ void job_enter(Job *job);
-  *
-  * Pause now if job_pause_locked() has been called. Jobs that perform lots of
-  * I/O must call this between requests so that the job can be paused.
-+ *
-+ * Called with job_mutex *not* held (we don't want the coroutine
-+ * to yield with the lock held!).
-  */
- void coroutine_fn job_pause_point(Job *job);
- 
-@@ -461,6 +474,8 @@ void coroutine_fn job_pause_point(Job *job);
-  * @job: The job that calls the function.
-  *
-  * Yield the job coroutine.
-+ * Called with job_mutex *not* held (we don't want the coroutine
-+ * to yield with the lock held!).
-  */
- void job_yield(Job *job);
- 
-@@ -471,6 +486,9 @@ void job_yield(Job *job);
-  * Put the job to sleep (assuming that it wasn't canceled) for @ns
-  * %QEMU_CLOCK_REALTIME nanoseconds.  Canceling the job will immediately
-  * interrupt the wait.
-+ *
-+ * Called with job_mutex *not* held (we don't want the coroutine
-+ * to yield with the lock held!).
-  */
- void coroutine_fn job_sleep_ns(Job *job, int64_t ns);
- 
-@@ -582,10 +600,16 @@ Job *job_get_locked(const char *id);
-  */
- int job_apply_verb_locked(Job *job, JobVerb verb, Error **errp);
- 
--/** The @job could not be started, free it. */
-+/**
-+ * The @job could not be started, free it.
-+ * Called with job_mutex *not* held.
-+ */
- void job_early_fail(Job *job);
- 
--/** Moves the @job from RUNNING to READY */
-+/**
-+ * Moves the @job from RUNNING to READY.
-+ * Called with job_mutex *not* held.
-+ */
- void job_transition_to_ready(Job *job);
- 
- /**
-@@ -624,7 +648,13 @@ void job_user_cancel_locked(Job *job, bool force, Error **errp);
-  */
- int job_cancel_sync_locked(Job *job, bool force);
- 
--/** Synchronously force-cancels all jobs using job_cancel_sync_locked(). */
-+/**
-+ * Synchronously force-cancels all jobs using job_cancel_sync_locked().
-+ *
-+ * Called with job_lock *not* held, unlike most other APIs consumed
-+ * by the monitor! This is primarly to avoid adding unnecessary lock-unlock
-+ * patterns in the caller.
-+ */
- void job_cancel_sync_all(void);
- 
- /**
-diff --git a/job.c b/job.c
-index 5c0cb37175..b6b9431b2d 100644
---- a/job.c
-+++ b/job.c
-@@ -32,12 +32,27 @@
- #include "trace/trace-root.h"
- #include "qapi/qapi-events-job.h"
- 
-+/*
-+ * The job API is composed of two categories of functions.
-+ *
-+ * The first includes functions used by the monitor.  The monitor is
-+ * peculiar in that it accesses the block job list with job_get, and
-+ * therefore needs consistency across job_get and the actual operation
-+ * (e.g. job_user_cancel). To achieve this consistency, the caller
-+ * calls job_lock/job_unlock itself around the whole operation.
-+ *
-+ *
-+ * The second includes functions used by the block job drivers and sometimes
-+ * by the core block layer. These delegate the locking to the callee instead.
-+ */
-+
- /*
-  * job_mutex protects the jobs list, but also makes the
-  * struct job fields thread-safe.
-  */
- QemuMutex job_mutex;
- 
-+/* Protected by job_mutex */
- static QLIST_HEAD(, Job) jobs = QLIST_HEAD_INITIALIZER(jobs);
- 
- /* Job State Transition Table */
-@@ -353,6 +368,7 @@ Job *job_get_locked(const char *id)
-     return NULL;
- }
- 
-+/* Called with job_mutex *not* held. */
- static void job_sleep_timer_cb(void *opaque)
- {
-     Job *job = opaque;
+-    s->target = blk_new(s->common.job.aio_context,
++    s->target = blk_new(bdrv_get_aio_context(bs),
+                         target_perms, target_shared_perms);
+     ret = blk_insert_bs(s->target, target, errp);
+     if (ret < 0) {
 -- 
 2.31.1
 
