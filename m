@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FC354E1AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:16:33 +0200 (CEST)
-Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4EB54E1C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 15:21:07 +0200 (CEST)
+Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1pMO-0001Zc-Qc
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:16:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
+	id 1o1pQn-0006oM-VL
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 09:21:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1p0F-0000da-Ac
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:53:39 -0400
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:45902)
+ id 1o1p0k-00017S-Si
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:54:10 -0400
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:43908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@openvz.org>)
- id 1o1p0B-0000Dd-Ew
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:53:38 -0400
-Received: by mail-lj1-x22c.google.com with SMTP id s10so1363886ljh.12
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 05:53:33 -0700 (PDT)
+ id 1o1p0j-0000Hj-9k
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 08:54:10 -0400
+Received: by mail-lj1-x231.google.com with SMTP id d19so1376319lji.10
+ for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 05:54:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=jSED7nYeJiCaPBZPfo5BFLpJCDhp2pBn7+gGv8ZvIgM=;
- b=ithg8l5+CqT83XkTeovUo/JbZ9J5oBxfzgtYF4d6anZoiMZhOppn9X+2xIgfpYrI+K
- rVCqtSwRFnQGZvK5i5wlAGFPprq3BEwp+2ss/powUTcJr9U+PnPEdfdsSDu8+c8W9IoJ
- aTK8+Y1t2ftfLWuWBgyau+TmEdc+cGhWoL/H3HHc1ffFbY5qXJBY19ccUIADGrqSF+nw
- LMISQ3qMLiUip+sOIfdU2KHVhbGySm8e55AEUhymBzzGE9hZ2TvFSV0VdYL9+rpUWiyH
- fewmh+To6nlsBlquaBZS0+0svNlIfhp9Z4b6muKpj2estLNsW4QQ6ZlegVqR1y0SpK6U
- JePA==
+ bh=qkjgIynhQ28yphOElfZ02Z/SQbehn7ES0tE88QyUI0w=;
+ b=p1DTe3KXEmPMIVS2SMKboo8Wn+xggXkff0DHMTAYlIwGeATwIYrJopqXmpxx5bhI5j
+ IoNFf5l8FsdiUkbrokmnOvq5Pl64RzfzH0sQCoLqRydgH1VwsdOISVWYjTLlqFC8LkjA
+ 4Z1AOsONNusNw1l6wna7wXi5qECUdrwxGeyZ/WDqkHDwqt86FHrP6EsW6WJoGXw7m0z0
+ tyqlBdD0GEvcW09Dy6MyZQmA6BOUb3cVWkMTzR0Jso4pYRcYGbfLs0Sl1sV5pPjXSisj
+ YNBf/ROPiR2hIT7Hm2Wj22pCqlgLfinXt0GZp4RaF8meoOowXmJAjpPXUo37Bi+sZ3Xq
+ WNCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=jSED7nYeJiCaPBZPfo5BFLpJCDhp2pBn7+gGv8ZvIgM=;
- b=zDIvBWaImIMCNkzm6/VnOyg/Wfbyey7t8p5GdE4bkdYGmyr/5dPB/h4883gK4zJ09+
- g/BMQG7N9IcvsM7JtTaicT6Pr/X3s4mdqnYLNVVmqVVPqMfy/1P10oDU7DYsinOSdZhi
- 74s9Tkb4371br9aXodW9b2fjNHoEiVFcsJZCIpU3Sf0sFRnOECoxRkF479FHRlQfwO2W
- 1/sclpledBxcGb77Pm/TbsHkLNhtgQl8EtfWj6DBEkT2VONqA905O1W53lQwXio8jPPr
- JE0nntP4/9P7Fy9AK2w1VVWMxRi1tkuYPoZ7rFlQi4selTQy4Lemp6Ah4TK420/fXHGr
- AOZw==
-X-Gm-Message-State: AJIora+vVNRyZOF1M1xgm/KcXXyRKPGVWC288I24SWIkr/YNwVJ/EgFR
- AtWMQ80z3rj/18INtxLjx5dKnA==
-X-Google-Smtp-Source: AGRyM1tiBpwGdZGCMHT7VGNoCZVMDZ0kPY3Fze6Hux63uY5lmJI/X/hs7ffMIYHZ1cQ5MEH21kzHhQ==
-X-Received: by 2002:a2e:2c15:0:b0:255:b03f:b483 with SMTP id
- s21-20020a2e2c15000000b00255b03fb483mr2483254ljs.363.1655384012450; 
- Thu, 16 Jun 2022 05:53:32 -0700 (PDT)
+ bh=qkjgIynhQ28yphOElfZ02Z/SQbehn7ES0tE88QyUI0w=;
+ b=tCBUXsI3Lw4af8Qlh/sueDRLl+V1qvYM36bsDXydy/RWkfpqJehEphEWYP+0cUENmj
+ 7OQV+cAF8Ykrfy9jRSfE3jYIr/wYyS5p+P8j1uUsdGnG3BcZckupWR7uq9mDwXNh10r9
+ to1kA2cLqKKsHtd6LYv2cPQBulGYGEd+4TYFd+YicjRPsJfDake3T2DOQ7hI0HWjRxCf
+ WTrrJBzw6fDJLedjmViQvTCEqOi+LG1PH4UTNffL9rdt935xGu1tNUWVWTdaHDfyRq3U
+ qds6sHNTFS1sa/Sw5hfIOJQYrAx7yHCHAvkJP9KrQprKK6Fb8ijgQPp3rv/CeeGVyUeh
+ bXxA==
+X-Gm-Message-State: AJIora+rQ5py2BNb0SnjIH+3B8SHpm0VJ/y/Ofg6WD3vpJ5enUdVF/0L
+ 1Crq6XttO9dnZbqmXS6AwArQUQ==
+X-Google-Smtp-Source: AGRyM1snsCkviw5OTbVjE7Sk2aXtMavvbh/rVzCpMUVyQdKzNhH6MrPVQW+DNyQEp4hCZ60W2nXvIw==
+X-Received: by 2002:a2e:bf19:0:b0:259:1889:53dc with SMTP id
+ c25-20020a2ebf19000000b00259188953dcmr2447496ljr.497.1655384047140; 
+ Thu, 16 Jun 2022 05:54:07 -0700 (PDT)
 Received: from [192.168.0.101] ([93.175.28.49])
  by smtp.gmail.com with ESMTPSA id
- k7-20020a05651c10a700b0025572941cc0sm239218ljn.113.2022.06.16.05.53.30
+ p20-20020ac24ed4000000b0047976e7388bsm230975lfr.81.2022.06.16.05.54.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 05:53:31 -0700 (PDT)
-Subject: Re: [PATCH 1/8] migration: Implemented new parameter stream_content
+ Thu, 16 Jun 2022 05:54:06 -0700 (PDT)
+Subject: Re: [PATCH v3 11/17] migration/qemu-file: Fix qemu_ftell() for
+ non-writable file
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org, den@virtuozzo.com, andrey.drobyshev@virtuozzo.com, 
  quintela@redhat.com, dgilbert@redhat.com
-References: <20220616102006.218693-1-nikita.lapshin@openvz.org>
- <20220616102006.218693-2-nikita.lapshin@openvz.org>
- <YqsGp55KDVGtKOAH@redhat.com>
+References: <20220616102811.219007-1-nikita.lapshin@openvz.org>
+ <20220616102811.219007-12-nikita.lapshin@openvz.org>
+ <YqsR+IlrxpU3CrC4@redhat.com>
 From: Nikita <nikita.lapshin@openvz.org>
-Message-ID: <7d86202a-5d77-a12d-9022-5bc0315af76b@openvz.org>
-Date: Thu, 16 Jun 2022 15:53:29 +0300
+Message-ID: <cccf5f06-2954-4854-8057-cf4344c8a7e6@openvz.org>
+Date: Thu, 16 Jun 2022 15:54:05 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YqsGp55KDVGtKOAH@redhat.com>
+In-Reply-To: <YqsR+IlrxpU3CrC4@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
- envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x22c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=nikita.lapshin@openvz.org; helo=mail-lj1-x231.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,90 +98,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 6/16/22 1:32 PM, Daniel P. Berrangé wrote:
-> On Thu, Jun 16, 2022 at 01:19:57PM +0300, nikita.lapshin@openvz.org wrote:
+On 6/16/22 2:20 PM, Daniel P. Berrangé wrote:
+> On Thu, Jun 16, 2022 at 01:28:05PM +0300, nikita.lapshin@openvz.org wrote:
 >> From: Nikita Lapshin <nikita.lapshin@openvz.org>
 >>
->> This new optional parameter contains inormation about migration
->> stream parts to be sent (such as RAM, block, bitmap). This looks
->> better than using capabilities to solve problem of dividing
->> migration stream.
->>
+>> qemu_ftell() will return wrong value for non-writable QEMUFile.
+>> This happens due to call qemu_fflush() inside qemu_ftell(), this
+>> function won't flush if file is readable.
+> Well the return value isn't necessarily wrong today - it really
+> depends what semantics each callers desires.
+>
+> Can you say what particular caller needs these semantics changed
+> and the impact on them from current behaviour ?
+
+Sorry, it's my bad. It was used in previous version. But after 
+refactoring I threw this function out of implementation.
+
+So it is in fact not used now.
+
+>
 >> Signed-off-by: Nikita Lapshin <nikita.lapshin@openvz.org>
 >> ---
->>   migration/migration.c | 47 ++++++++++++++++++++++++++++++++++++++++++-
->>   migration/migration.h |  2 ++
->>   qapi/migration.json   | 21 ++++++++++++++++---
->>   3 files changed, 66 insertions(+), 4 deletions(-)
+>>   migration/qemu-file.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
 >>
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index 18e2610e88..80acf6dbc3 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -760,6 +760,12 @@
->>   #                        block device name if there is one, and to their node name
->>   #                        otherwise. (Since 5.2)
->>   #
->> +# @stream-content-list: Parameter control content of migration stream such as RAM,
->> +#                       vmstate, block and dirty-bitmaps. This is optional parameter
->> +#                       so migration will work correctly without it.
->> +#                       This parameter takes string list as description of content
->> +#                       and include that part of migration stream. (Since 7.0)
->> +#
->>   # Features:
->>   # @unstable: Member @x-checkpoint-delay is experimental.
->>   #
->> @@ -780,7 +786,8 @@
->>              'xbzrle-cache-size', 'max-postcopy-bandwidth',
->>              'max-cpu-throttle', 'multifd-compression',
->>              'multifd-zlib-level' ,'multifd-zstd-level',
->> -           'block-bitmap-mapping' ] }
->> +           'block-bitmap-mapping',
->> +           'stream-content-list' ] }
->>   
->>   ##
->>   # @MigrateSetParameters:
->> @@ -925,6 +932,12 @@
->>   #                        block device name if there is one, and to their node name
->>   #                        otherwise. (Since 5.2)
->>   #
->> +# @stream-content-list: Parameter control content of migration stream such as RAM,
->> +#                       vmstate, block and dirty-bitmaps. This is optional parameter
->> +#                       so migration will work correctly without it.
->> +#                       This parameter takes string list as description of content
->> +#                       and include that part of migration stream. (Since 7.0)
->> +#
->>   # Features:
->>   # @unstable: Member @x-checkpoint-delay is experimental.
->>   #
->> @@ -960,7 +973,8 @@
->>               '*multifd-compression': 'MultiFDCompression',
->>               '*multifd-zlib-level': 'uint8',
->>               '*multifd-zstd-level': 'uint8',
->> -            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
->> +            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
->> +            '*stream-content-list': [ 'str' ] } }
->>   
->>   ##
->>   # @migrate-set-parameters:
->> @@ -1158,7 +1172,8 @@
->>               '*multifd-compression': 'MultiFDCompression',
->>               '*multifd-zlib-level': 'uint8',
->>               '*multifd-zstd-level': 'uint8',
->> -            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
->> +            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
->> +            '*stream-content-list': [ 'str' ] } }
-> These will need to be represented using an enum type rather than
-> a string, since this value accepts a fixed pre-determined list of
-> strings.
+>> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+>> index 1479cddad9..53ccef80ac 100644
+>> --- a/migration/qemu-file.c
+>> +++ b/migration/qemu-file.c
+>> @@ -663,7 +663,8 @@ int64_t qemu_ftell_fast(QEMUFile *f)
+>>   int64_t qemu_ftell(QEMUFile *f)
+>>   {
+>>       qemu_fflush(f);
+>> -    return f->pos;
+>> +    /* Consider that qemu_fflush() won't work if file is non-writable */
+>> +    return f->pos + f->buf_index;
+>>   }
+> IIUC, this is more or less trying to make 'qemu_ftell' be
+> equivalent to 'qemu_ftell_fast' semantics in the non-writable
+> case. But that makes me wonder if whichever calls has problems,
+> shouldn't be just changed to use  qemu_ftell_fast instead ?
+
+qemu_ftell_fast() counts iovec length. When we try to read from QEMUFile 
+using for exmaple qemu_peek_buffer f->buf will be filled with data so we 
+need to consider buf_index.
+
 >
 > With regards,
 > Daniel
-First of all thank you for your review!
-
-May be I misunderstood you, but is enum convenient for this purpose? 
-List for describing looks pretty good.
-
-Or you mean that it is better to use list of enums?
-
+Thank you for your review!
 
