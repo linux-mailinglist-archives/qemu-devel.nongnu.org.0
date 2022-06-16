@@ -2,113 +2,163 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A649954E9C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 21:06:15 +0200 (CEST)
-Received: from localhost ([::1]:39490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC8454EA47
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jun 2022 21:43:32 +0200 (CEST)
+Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o1uoo-0000dK-B1
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 15:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47236)
+	id 1o1vOt-0005Zx-34
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jun 2022 15:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o1um3-0007KC-RX
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 15:03:25 -0400
-Received: from esa11.hc2706-39.iphmx.com ([216.71.137.81]:18623)
+ (Exim 4.90_1) (envelope-from <venu.busireddy@oracle.com>)
+ id 1o1vNJ-0004tk-Lv
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 15:41:53 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:4930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o1um1-0005xZ-9l
- for qemu-devel@nongnu.org; Thu, 16 Jun 2022 15:03:23 -0400
-X-IronPort-RemoteIP: 209.85.222.198
-X-IronPort-MID: 206929601
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:JSC6eKD7lEATnBVW/77hw5YqxClBgxIJ4kV8jS/XYbTApG4ghTBTy
- TAXXmyBb/vcM2X0ftBwPd7l8EgH7JGHx9c1TANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
- ynLQoCYdKjYdleF+lH1dOKJQUBUjclkfJKlYAL/En03FFUMpBsJ00o5wbZn29Aw3bBVPivW0
- T/Mi5yHULOa82MsWo4kw/rrRMRH5amaVJsw5zTSVNgS1LPsvyB94KE3fMldG0DFrrx8RYZWc
- QpiIIaRpQs19z91Yj+sfy2SnkciG9Y+NiDX4pZatjTLbrGvaUXe345iXMfwZ3u7hB2vwNJp2
- OR0haWxWAsSBY7rwPQDURtXRnQW0a1uoNcrIFC6uM2XilTFKj7imqQ+Sk4xOoIc96B8BmQmG
- f4wcmhcKEDewbjsmvTiG7kEascLdaEHOKsWvmFmwSvxB+tgTJzeK0nPzYUAgmZq154WRJ4yY
- eIgeyJRYBvMPiRjYFIdVrQjhrrvh3TgJmgwRFW94PBfD3Lo5BV81aWoPNfLd9iiQ8JTkUCF4
- GXc8AzE7goyMdWezX+c8SvpiLaezWX0X4UdELD+/flv6LGO+lEu5NQtfQPTiZGEZoSWAIM3x
- 5A8ksb2kZUPyQ==
-IronPort-HdrOrdr: A9a23:m/qb4KznXVBH5wBPj+VTKrPxo+skLtp133Aq2lEZdPULSKGlfp
- GV9sjziyWetN9IYgBZpTnyAtj6fZq8z+8/3WB1B9uftWbdyQ+Vxe1ZjLcKhgeQYhEWldQtn5
- uIEZIOb+EYZGIS5amV3OD7KadH/DDtytHKuQ6q9QYJcegcUdAD0+4WMGamO3wzYDMDKYsyFZ
- Ka6MYCjSGnY24rYsOyAWRAd/TfpvXQ/aiWLSIuNloC0k2jnDmo4Ln1H1yzxREFSQ5Cxr8k7C
- zsjxH53KO+qPu2oyWsmFM7rq4m1ucJ+OEzRPBkufJlaQkETTzYJriJbofy/QzdZtvfrWrC3u
- O85yvIdP4DkU85NlvF3CcFnTOQnQrGokWStWOwkD/tp9f0Syk9DNcEjYVFcgHB405lp91k1r
- lXtljpwaa/oimw7xgVyuK4Iy2CrHDE1kbKUNRj/0B3QM8bcvtcvIYf9ERaHNMJGz/78pkuFK
- 1rANvH7PhbfFuGZzSB11MfiOCETzA2BFOLU0ICssua33xfm2141VIRwIgakm0b/JwwRpFY76
- DPM7hulrtJUsgKBJgNTdspUI+yECjAUBjMOGWdLRDuE7wGIWvEr9rt7LA89IiRCek1JVsJ6e
- b8uX9jxBAPkhjVeLKzNbVwg2HwfFk=
-Received: from mail-qk1-f198.google.com ([209.85.222.198])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 16 Jun 2022 15:03:09 -0400
-Received: by mail-qk1-f198.google.com with SMTP id
- de4-20020a05620a370400b006a9711bd9f8so2607813qkb.9
- for <qemu-devel@nongnu.org>; Thu, 16 Jun 2022 12:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=j4ogsOSFG4OzrScvbxbe7jBVhjhSx+RjAMaVZdX0J/A=;
- b=frNdY4SYBA0mvOP/c3Wrol8QRqZx+LrMCuIarr+uy0NdVFRqYkKJ/yKXSZmcOKVfzj
- cdIg9A3RL/FCDUsM0qOnZY0kn6oNGpjIFxjYPCwi9XhBF1QT/hmuiSgcJz5kXkjhmFeF
- pVd5RwO0Xw7DE6o6Fd5WLpmmtTKdtVs/oplBmfhPTnWfI+7hoUzFCYQlzHsYqHvIzysM
- Dd/WUkbVgWOZvnl12pMroY4iux3mO+YfHEmbH/YAt3rwkUrUnLyhmWLUKP5ieNZRg0qm
- kNdNo8D8n9R2YPuecucMDzRQFtXmJShV5ZlK9H/HNGiwobPWUtNqbcqJrRcV8qx3FZc5
- XjAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=j4ogsOSFG4OzrScvbxbe7jBVhjhSx+RjAMaVZdX0J/A=;
- b=NLbxFAd7q9PhlfLGFa2tJGyE54CoCVvv24kkeIfhHSk8jyrot3inSTs+qsTcPv+K7Y
- VspXYthy/98gCq8d5lXOiS8b8nkoqYkQAdlAJDhh3Pgc66zVfJF+LtPTCS8GgvwpZGac
- nXpb4w0T/7UWGEH6Sp2UCkA1pY14BZIk1hzWobBZTT9BhdwOt0+NIfFz6NYeZo0FWsbC
- h90YhJH410xW3l7Q0ubJ16yeg5N6URSM7e6jnMuMruxJCyZ8klLFzMJOUi9r87mfBDkT
- P4lyBMk6v4BT044XbL5d9S7PVbkdqTyC4x5lgHhvTPUcCfh6UF4Hn9V1UtSpgy5WrTIC
- MBTQ==
-X-Gm-Message-State: AJIora+5kGmirsm5n0hJ8Lx/+op33iItv3U97R99g/+YyBvvR0a+nBBd
- CGx0haxqu+sPdb0aCkqow6iRS4F4qYliUQhUf7l8GGO6ekfjaY4w9FwWTzb6LuVSc9OnYAc9N03
- 7iidYFTS3/UWZdX513RUKv/XOV+sC9A==
-X-Received: by 2002:a05:622a:1387:b0:306:aafc:fd32 with SMTP id
- o7-20020a05622a138700b00306aafcfd32mr5032292qtk.462.1655406189054; 
- Thu, 16 Jun 2022 12:03:09 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tVPQObmJEJQ0/+IZY+3bf9utwK7k0GLTzMhcMWx8VpQmJLGfrtA4nH1YIqK+kfscbERUtrAw==
-X-Received: by 2002:a05:622a:1387:b0:306:aafc:fd32 with SMTP id
- o7-20020a05622a138700b00306aafcfd32mr5032258qtk.462.1655406188679; 
- Thu, 16 Jun 2022 12:03:08 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- j5-20020a05620a000500b006a74458410csm2583340qki.123.2022.06.16.12.03.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 12:03:08 -0700 (PDT)
-Date: Thu, 16 Jun 2022 15:03:04 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Patrick Venture <venture@google.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Foley <pefoley@google.com>
-Subject: Re: misaligned-pointer-use libslirp/src/tcp_input.c
-Message-ID: <20220616190304.5bqkov2p2c6khbdc@mozz.bu.edu>
-References: <CAO=notxhNUkps9_aLKmy=oDKYC8xsUjErrEMAycwJHjUvkWHRA@mail.gmail.com>
- <20220616133057.bq4m5rzc2tjpeqdn@mozz.bu.edu>
- <CAO=notzeN6OrcfjKNVJ9Q6ttbLv6s-zgiW3dGQTbn4eP6WHcsQ@mail.gmail.com>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <venu.busireddy@oracle.com>)
+ id 1o1vNF-0007D8-Kl
+ for qemu-devel@nongnu.org; Thu, 16 Jun 2022 15:41:53 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GJWcNw029747;
+ Thu, 16 Jun 2022 19:41:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=OMGPZXFe1qGL5E5vpLoLZiuHX5O/lwCfoD/vHXS0OSQ=;
+ b=lm5Xy4PUP78hu3G8AzWmb+soF/MLMRjAMP43vlhuWhG5nI+CjVuy6XXa0GmFhM0TMbG3
+ ywpARXtEPAb2E/7Cjj0EaP7icIoI8oAM3MlvavAyEViZ78APViulRbIVGH6pJVPwLVXW
+ 7fGGGXel1YayFUIkdSlBm4HACCFJKvMapwHpS5r6TUqHdAryrm5/97/Fm5/9j7tO8y8a
+ KgTndyAfZNL+nWnPHh3xCdfJj2S6F/uVbyipR9O2zXpnSRoNjkHN4yGoWME7coCqaKa1
+ 2KDGcwPR+b/Mjz7RPn69fCRvKcnkcbDviCkbOd+XMSiYaXIoVoQsO89Zp9vRTuV9oja3 Jg== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjx9ky8n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Jun 2022 19:41:41 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 25GJFeTv037128; Thu, 16 Jun 2022 19:41:39 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2177.outbound.protection.outlook.com [104.47.58.177])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3gpqwcdfr4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Jun 2022 19:41:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BpfNz+m1nLI7DKvUehaJfiPATXM/BHb4y126OtA4vR/8V4OLIuvIxX9jdp8OkeQD8a3DtC76Wyq1vL71ZMf0VbqTiHpG88NKLfPYiqd5+Yy/wVJg73YzPJp9wOr8fqyuTazVb0prjijAGAa/wX6CPi6De3HGhSQpR0h83DGtqECUt/PFCymNsjMzA7/2jcgSSq1TFVK0BeCodD1wF4jLUZIkdP/Vm4DFWk1JwFqiHewpP1xkmr9y92XdAYSDbV9msIYaegSmV5TKjJzp1bzDMlLXuMkKbbFAYeFotxWZzBeuoAbM0p4yh8ZS+1XrF+UGWcgxlqnrPAiaiPjXsngpmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OMGPZXFe1qGL5E5vpLoLZiuHX5O/lwCfoD/vHXS0OSQ=;
+ b=H4ozvgKhPBUG51SyuPmfikiM0Iucz4KyVnA2Tc2Pzs2kXR3Jx8Lvyyj9R/X7S50fDp81oZF/QxuAdqYz5iKkSfUfHxcm1frCh5VUkrLbhCbhYWctFrxtK1WdQw4EwhlX+Fp+S2zmU3OPXb2GzxN6ucqmW2ASYU4lJv7cZ1GUPDwVnzRYJD+uDJl22la/BTC+YduBtmzO6LIj692Xq6eJgKdtIXiYhazW2BrejDMxq/fTinz5XSKJvKJg3+HVk8/hJadE9xKyqNtjLf9QMGctnRLR4TMOvCql6URaSuKSjqEyGj1OcZHZxnu9gKJPvxAkT6wvSz/fBTMOGcizhyh1Gg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OMGPZXFe1qGL5E5vpLoLZiuHX5O/lwCfoD/vHXS0OSQ=;
+ b=awrwFycRwZtHGYSwT2fdtrjjPss74YQEbBsih1wQNvRc1oeQkEPOgS9NCRxzPwIi9pcDbXdc2WswlU3yReih239CJbHrpJjn4yKzVGJKtgOISfSMpn+4bBm13UpGVRxvkPgavGtYVCcv7aiI9+rUz2YUPPAXi8MBkWF7HX4/t6c=
+Received: from SN6PR10MB2576.namprd10.prod.outlook.com (2603:10b6:805:44::15)
+ by DM5PR10MB1676.namprd10.prod.outlook.com (2603:10b6:4:3::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5332.14; Thu, 16 Jun 2022 19:41:38 +0000
+Received: from SN6PR10MB2576.namprd10.prod.outlook.com
+ ([fe80::286d:9e89:2450:f0e7]) by SN6PR10MB2576.namprd10.prod.outlook.com
+ ([fe80::286d:9e89:2450:f0e7%7]) with mapi id 15.20.5332.024; Thu, 16 Jun 2022
+ 19:41:38 +0000
+Date: Thu, 16 Jun 2022 14:41:34 -0500
+From: Venu Busireddy <venu.busireddy@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v1] virtio-scsi: Send "REPORTED LUNS
+ CHANGED" sense data upon a disk hotplug.
+Message-ID: <YquHbvTcksdMZfsp@dt>
+References: <20220531202237.274483-1-venu.busireddy@oracle.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAO=notzeN6OrcfjKNVJ9Q6ttbLv6s-zgiW3dGQTbn4eP6WHcsQ@mail.gmail.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.81; envelope-from=alxndr@bu.edu;
- helo=esa11.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+In-Reply-To: <20220531202237.274483-1-venu.busireddy@oracle.com>
+X-ClientProxiedBy: DM6PR03CA0009.namprd03.prod.outlook.com
+ (2603:10b6:5:40::22) To SN6PR10MB2576.namprd10.prod.outlook.com
+ (2603:10b6:805:44::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8794dc60-f063-43ea-0cd9-08da4fd03a90
+X-MS-TrafficTypeDiagnostic: DM5PR10MB1676:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR10MB16769FCAAAEB08D43C46E266E6AC9@DM5PR10MB1676.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dSqNrGRYZoM3LzuEv50+EBtymp9OWpZb3GLfjQCV6PIl3AAaElGIHgMNL4w+bq66TssNBL5jEUujJWtBCEV5rfRm6DhxCpcgqd5Dewx8DVPRhvap18K2dWD9TB2uTrHhqxX98nhdOduZtJHssps+0ALKnH1aqQSYXxE7j3CvIaqkkx5ENk52qSMm2lOoAGjvP2s+wMwuUhL8ctLycyKGT8z2XGRvwjchEzd42RIgXtj4i9hMj2rStOhfLgz7kmDgz9hG+zlXtRc1zi9MpnBt13wqv1PyDFvXZZ4Nas+wZBi4MEc+8saf9YgxnlVC8Gd9oWJm1mezNClQQ14VHq1x3yDsAaLfUOM+CrYReEzWC4e0yLvLXHhd5sJIsI8mMJeoWuJ4m+eonZfIt2wtbl6i9Hm3iGpDlXAWrPzX0qfjeGdKywlc9zPJ0zCDv0Dxdg1m/4+sz8GoDDd4RLVqw3E1qu+tVQ6QoJmPjMGKnbqMpNugCNRb7JDeJkW7aQBCFYK8XpadFAVx5swgKi/IW/mclYus0DBz/GQhiOQw5Q/6KZC7idGopf/GyY2ZkAX0pYtiN/STr+VuZS9awE9Ddrx98EadX1dLuGMf43JOEO0vmSAzkSA3kIzw6aLRJFtoiyvNsoU5iOii5JOJ+CO/gAUS0Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR10MB2576.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(7916004)(366004)(33716001)(9686003)(66946007)(86362001)(6512007)(2906002)(66476007)(6506007)(53546011)(83380400001)(186003)(8676002)(6916009)(8936002)(5660300002)(44832011)(54906003)(316002)(6486002)(38100700002)(6666004)(508600001)(66556008)(26005)(4326008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SRoQ6LORdwDVRDHhSdNLigCoZg2yPlksUisnYwF9SL24wi/BszYUIQNNT7me?=
+ =?us-ascii?Q?VJN53j8TBhJ+/7ZbJWfU46sxtvJ8cTFkd8uxbqSY9+me3pVh8yCSjS6M9tJS?=
+ =?us-ascii?Q?3XtlBJRCtLQtHjhGo+S0FPDr6WLp4RS0ztBnlWyjAN/D8XZR4zl2d/TcOUDX?=
+ =?us-ascii?Q?bvHthD5UpucSVqaLGwsotaGH8lE8d9+HV0msRVlAS1g7i1mVLH9Nvz3xSdiC?=
+ =?us-ascii?Q?KEqlaLhmw+oIbmy61fQInzbmiW2fIFiR6oNtsD4Wzzkg8DeUN3UkB3pIfpaU?=
+ =?us-ascii?Q?cYmKijXEP88i856G+J4m662e/VoOAz9LGeq92STajOGxRECvHtMg/DabuCEg?=
+ =?us-ascii?Q?7mTE7ToGoxERqwnXJ5HXyNc7MAKTiboHxAgobABueHM3kOId2a2bHWCBhDp8?=
+ =?us-ascii?Q?eJtP3hJ8zV4b0D+LiLXkuk1IGmMGFhNe2QQ0TxFuDg1ensbozUvYpvFoXLpI?=
+ =?us-ascii?Q?xcasTIEX9uw5XMFaOV9NANS+tD0/AV+3d16HZ470gvzGbAu4SlhxsJ5nIUzV?=
+ =?us-ascii?Q?bCo3EMtf9Nr+8435HlBE8TYfasUdOfKJwZ3VT3pRgQqUwDXoCBDwSuGoo+I3?=
+ =?us-ascii?Q?rsq2bT3i7oe0pxsVSCXaMwNfe63l6ffkUI7jwUnfcnyV/OMwDmatY2eRV8q8?=
+ =?us-ascii?Q?x85XkiqXKWqnT6OYuXkQczXkjYqaacpUnerNmez0Lp3xFc2c7jABcTuU5GRM?=
+ =?us-ascii?Q?FxBTYC/TyPm+MuNKrPJJEKuY39eAlqDil1vqGHcjVTvvW9lm9ByCKuxiSQDl?=
+ =?us-ascii?Q?BFFZTNL3XksKqGkwlYFFagh0GlFwVevcuDRTtAtiFJAdXywl9U6xkfvE1JBh?=
+ =?us-ascii?Q?3YXGLyQ50yPA2G9vWbPsl5YMeQByDTc+la/m50gdgzarF1mcHaGTw7BSTKiP?=
+ =?us-ascii?Q?ZGsTvfujsqhy6VrFLjChZ5uAYzO8Ad/zK93HLi21bI5fDPTFRGg2TohtQpte?=
+ =?us-ascii?Q?Evgv08YN34yArebB6cXv0tMirN/jK8GCzhOIRKQ/J6ZEafHNfEnyIweFSNT/?=
+ =?us-ascii?Q?Nd92jrnzAN1fEBVSad5W0LIwUhq8bStnoBJuYnpwOPDsCQGykVfAwqY4pNR6?=
+ =?us-ascii?Q?CEPR2DSQzA5ac2KgHOOUJvyK7493zJfOk/anw3s0oRYlJsnNUmbx5A30IHHm?=
+ =?us-ascii?Q?DN0NFXZ6VqGD9fS8iwClpyuIEeh/Cgy9AIkYoiaEaA3sWL8AxY6KZB8ZqQ/k?=
+ =?us-ascii?Q?eN2ZmofeFN/1VjCt/B9U6kHJJuLDyiyIYYio8nRZQgVzferuuOMSKDImn8mX?=
+ =?us-ascii?Q?sD2En0oGxpZIy9hp9RyDYELAUI8NvzXq3QvvHe7KMxvS18+xIXHvoXiTu0LE?=
+ =?us-ascii?Q?K1Ud0DtPvPpqpRirvPqR4MW4aLW8puNW/Qv9csLtGMFYjqB5LGrOqIOGboNL?=
+ =?us-ascii?Q?x8OJHYiao2WjatwxfpMAvxBfKndxx1UAX7w37FbkBbKi46lQnu19WD5BfsEG?=
+ =?us-ascii?Q?FNyyk3H67xaoYjYBA2PpeMjUTvxQq2vund8+ZLNH0LMjSmANP661HoN1C8oF?=
+ =?us-ascii?Q?QMEpJ9QAviWXanifI6H5pZelK94x4R2dd7MuEyQvN+wg60FU/ul8SE5TWFo6?=
+ =?us-ascii?Q?w2Nr/wuMnCG5nTuM0m8MeZcvZvZ0xQMhANYlI9IX5u/EZBFmgaLikCgds+xx?=
+ =?us-ascii?Q?skoITIO1YAZyUULCXFHzCNyAFVcTnSgCTuf7SHGgV/mZ2yuKpmTDLNHpuzIM?=
+ =?us-ascii?Q?mg+6NgTf9bxkjcWp+6i12gwnP9mCrN42+0zg8MiwwcFP9TcYpT9nemZ/EGFR?=
+ =?us-ascii?Q?FTm53YTIWyd0kIbhlD0bBoAUHnDpgLM=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8794dc60-f063-43ea-0cd9-08da4fd03a90
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2576.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2022 19:41:38.1751 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xnzD5bTaH04GCYh8oJJEMTIpnBsHJcl90UoLdIJEURK/oaFg5ec18v1SC6yNiDQnepYYb7yY86HTwp8qyP89XcpwfCw+9SlcDnfqbOw4E9E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1676
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
+ definitions=2022-06-16_15:2022-06-16,
+ 2022-06-16 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206160079
+X-Proofpoint-ORIG-GUID: T37MIskEGnlYCkD96F_umhg1gCJxHQLG
+X-Proofpoint-GUID: T37MIskEGnlYCkD96F_umhg1gCJxHQLG
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=venu.busireddy@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_PORT=0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -124,208 +174,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 220616 0930, Patrick Venture wrote:
-> On Thu, Jun 16, 2022 at 6:31 AM Alexander Bulekov <alxndr@bu.edu> wrote:
+
+Ping?
+
+On 2022-05-31 15:22:37 -0500, Venu Busireddy wrote:
+> When a disk is hotplugged, QEMU reports a VIRTIO_SCSI_EVT_RESET_RESCAN
+> event, but does not send the "REPORTED LUNS CHANGED" sense data. This
+> does not conform to Section 5.6.6.3 of the VirtIO specification, which
+> states "Events will also be reported via sense codes..." SCSI layer on
+> Solaris depends on this sense data, and hence does not recognize the
+> hotplugged disks (until a reboot).
 > 
-> > Is this an --enable-sanitizers build? The virtual-device fuzzer catches
-> >
+> As specified in SAM-4, Section 5.14, return a CHECK_CONDITION status with
+> a sense data of 0x06/0x3F/0x0E, whenever a command other than INQUIRY,
+> REPORT_LUNS, or REQUEST_SENSE is received.
 > 
-> Yeah - it should be reproducible with a sanitizers build from HEAD -- I can
-> try to get a manual instance going again without automation to try and
-> reproduce it.  We're testing on v7.0.0 which is when we started seeing
-> this, I don't think we saw it in 6.2.0.
-
-Here are a few reproducers (run with --enable-sanitizers):
-
-This one complains about misalignments in ip_header, ipasfrag, qlink,
-ip...
-
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
-512M,slots=4,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
-vmxnet3,netdev=net0 -netdev user,id=net0 -object \
-memory-backend-ram,id=mem1,size=10M -device \
-pc-dimm,id=nv1,memdev=mem1,addr=0xba19ff00000000 -object \
-memory-backend-ram,id=mem2,size=10M -device \
-pc-dimm,id=nv2,memdev=mem2,addr=0xbe53e14abaa00000 -object \
-memory-backend-ram,id=mem3,size=10M -device \
-pc-dimm,id=nv3,memdev=mem3,addr=0xfe0000e9cae00000 -object \
-memory-backend-ram,id=mem4,size=10M -device \
-pc-dimm,id=nv4,memdev=mem4,addr=0xf0f0f0f00000000 -qtest stdio
-outl 0xcf8 0x80000810
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80000814
-outl 0xcfc 0xe0001000
-outl 0xcf8 0x80000804
-outw 0xcfc 0x06
-write 0x3e 0x1 0x02
-write 0x39 0x1 0x20
-write 0x29 0x1 0x10
-write 0x2c 0x1 0x0f
-write 0x2d 0x1 0x0f
-write 0x2e 0x1 0x0f
-write 0x2f 0x1 0x0f
-write 0xf0f0f0f00001012 0x1 0xfe
-write 0xf0f0f0f00001013 0x1 0xca
-write 0xf0f0f0f00001014 0x1 0xe9
-write 0xf0f0f0f00001017 0x1 0xfe
-write 0xf0f0f0f0000103a 0x1 0x01
-write 0xfe0000e9cafe0009 0x1 0x40
-write 0xfe0000e9cafe0019 0x1 0x40
-write 0x0 0x1 0xe1
-write 0x1 0x1 0xfe
-write 0x2 0x1 0xbe
-write 0x3 0x1 0xba
-writel 0xe0001020 0xcafe0000
-write 0xfe0000e9cafe0029 0x1 0x40
-write 0xfe0000e9cafe0039 0x1 0x40
-write 0xfe0000e9cafe0049 0x1 0x40
-write 0xfe0000e9cafe0059 0x1 0x40
-write 0x1f65190b 0x1 0x08
-write 0x1f65190d 0x1 0x46
-write 0x1f65190e 0x1 0x03
-write 0x1f651915 0x1 0x01
-write 0xfe0000e9cafe0069 0x1 0x40
-write 0xfe0000e9cafe0079 0x1 0x40
-write 0xfe0000e9cafe0089 0x1 0x40
-write 0xfe0000e9cafe0099 0x1 0x40
-write 0xfe0000e9cafe009d 0x1 0x10
-write 0xfe0000e9cafe00a0 0x1 0xff
-write 0xfe0000e9cafe00a1 0x1 0x18
-write 0xfe0000e9cafe00a2 0x1 0x65
-write 0xfe0000e9cafe00a3 0x1 0x1f
-write 0xfe0000e9cafe00a9 0x1 0x40
-write 0xfe0000e9cafe00ad 0x1 0x1c
-write 0xe0000602 0x1 0x00
-EOF
-
-This one complains about misalignments in ip6_header, ip6_hdrctl...
-
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
-512M,slots=1,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
-vmxnet3,netdev=net0 -netdev user,id=net0 -object \
-memory-backend-ram,id=mem1,size=4M -device \
-pc-dimm,id=nv1,memdev=mem1,addr=0x1dd860000000000 -qtest stdio
-outl 0xcf8 0x80000810
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80000814
-outl 0xcfc 0xe0001000
-outl 0xcf8 0x80000804
-outw 0xcfc 0x06
-write 0x0 0x1 0xe1
-write 0x1 0x1 0xfe
-write 0x2 0x1 0xbe
-write 0x3 0x1 0xba
-write 0x3e 0x1 0x01
-write 0x39 0x1 0x01
-write 0x28 0x1 0x01
-write 0x29 0x1 0x01
-write 0x2d 0x1 0x86
-write 0x2e 0x1 0xdd
-write 0x2f 0x1 0x01
-write 0x1dd860000000112 0x1 0x10
-write 0x1dd86000000013c 0x1 0x02
-writel 0xe0001020 0xcafe0000
-write 0x1009 0x1 0x40
-write 0x100c 0x1 0x86
-write 0x100d 0x1 0xdd
-write 0x1011 0x1 0x10
-write 0x1019 0x1 0x7e
-write 0x101d 0x1 0x10
-write 0x4d56 0x1 0x02
-write 0xe0000603 0x1 0x00
-EOF
-
--Alex
-
+> Signed-off-by: Venu Busireddy <venu.busireddy@oracle.com>
+> ---
+>  hw/scsi/virtio-scsi.c           | 15 ++++++++++++++-
+>  include/hw/virtio/virtio-scsi.h |  1 +
+>  2 files changed, 15 insertions(+), 1 deletion(-)
 > 
-> 
-> > these periodically while fuzzing network-devices. However I don't think
-> > OSS-Fuzz creates reports for them for some reason. I can create qtest
-> > reproducers, if that is useful.
-> > -Alex
-> >
-> > On 220615 0942, Patrick Venture wrote:
-> > > Hey - I wanted to ask if someone else has seen this or has suggestions on
-> > > how to fix it in libslirp / qemu.
-> > >
-> > > libslirp version: 3ad1710a96678fe79066b1469cead4058713a1d9
-> > >
-> > > The blow is line:
-> > >
-> > https://gitlab.freedesktop.org/slirp/libslirp/-/blob/master/src/tcp_input.c#L310
-> > >
-> > > I0614 13:44:44.304087    2040 bytestream.cc:22] QEMU:
-> > > third_party/libslirp/src/tcp_input.c:310:56: runtime error: member access
-> > > within misaligned address 0xffff9a4000f4 for type 'struct qlink', which
-> > > requires 8 byte alignment
-> > > I0614 13:44:44.304156    2040 bytestream.cc:22] QEMU: 0xffff9a4000f4:
-> > note:
-> > > pointer points here
-> > > I0614 13:44:44.304184    2040 bytestream.cc:22] QEMU:   00 00 00 00 00 00
-> > > 00 02  20 02 0a 00 00 01 42 01  0a 00 02 02 42 01 0a 00  00 01 86 dd 60
-> > 02
-> > > dd 79
-> > > I0614 13:44:44.304204    2040 bytestream.cc:22] QEMU:               ^
-> > > I0614 13:44:44.641173    2040 bytestream.cc:22] QEMU:     #0
-> > 0xaaaacbe34bd8
-> > > in tcp_input third_party/libslirp/src/tcp_input.c:310:56
-> > > I0614 13:44:44.641239    2040 bytestream.cc:22] QEMU:     #1
-> > 0xaaaacbe22a94
-> > > in ip6_input third_party/libslirp/src/ip6_input.c:74:9
-> > > I0614 13:44:44.641262    2040 bytestream.cc:22] QEMU:     #2
-> > 0xaaaacbe0bbbc
-> > > in slirp_input third_party/libslirp/src/slirp.c:1169:13
-> > > I0614 13:44:44.641280    2040 bytestream.cc:22] QEMU:     #3
-> > 0xaaaacbd55f6c
-> > > in net_slirp_receive third_party/qemu/net/slirp.c:136:5
-> > > I0614 13:44:44.641296    2040 bytestream.cc:22] QEMU:     #4
-> > 0xaaaacbd4e77c
-> > > in nc_sendv_compat third_party/qemu/net/net.c
-> > > I0614 13:44:44.641323    2040 bytestream.cc:22] QEMU:     #5
-> > 0xaaaacbd4e77c
-> > > in qemu_deliver_packet_iov third_party/qemu/net/net.c:850:15
-> > > I0614 13:44:44.641342    2040 bytestream.cc:22] QEMU:     #6
-> > 0xaaaacbd50bfc
-> > > in qemu_net_queue_deliver_iov third_party/qemu/net/queue.c:179:11
-> > > I0614 13:44:44.641359    2040 bytestream.cc:22] QEMU:     #7
-> > 0xaaaacbd50bfc
-> > > in qemu_net_queue_send_iov third_party/qemu/net/queue.c:246:11
-> > > I0614 13:44:44.641382    2040 bytestream.cc:22] QEMU:     #8
-> > 0xaaaacbd4a88c
-> > > in qemu_sendv_packet_async third_party/qemu/net/net.c:891:12
-> > > I0614 13:44:44.641396    2040 bytestream.cc:22] QEMU:     #9
-> > 0xaaaacacb1de0
-> > > in virtio_net_flush_tx third_party/qemu/hw/net/virtio-net.c:2586:15
-> > > I0614 13:44:44.641416    2040 bytestream.cc:22] QEMU:     #10
-> > > 0xaaaacacb1580 in virtio_net_tx_bh
-> > > third_party/qemu/hw/net/virtio-net.c:2703:11
-> > > I0614 13:44:44.641438    2040 bytestream.cc:22] QEMU:     #11
-> > > 0xaaaacc2bcf64 in aio_bh_call third_party/qemu/util/async.c:142:5
-> > > I0614 13:44:44.641463    2040 bytestream.cc:22] QEMU:     #12
-> > > 0xaaaacc2bcf64 in aio_bh_poll third_party/qemu/util/async.c:170:13
-> > > I0614 13:44:44.641477    2040 bytestream.cc:22] QEMU:     #13
-> > > 0xaaaacc2b8f70 in aio_dispatch third_party/qemu/util/aio-posix.c:420:5
-> > > I0614 13:44:44.641495    2040 bytestream.cc:22] QEMU:     #14
-> > > 0xaaaacc2bf120 in aio_ctx_dispatch third_party/qemu/util/async.c:312:5
-> > > I0614 13:44:44.641510    2040 bytestream.cc:22] QEMU:     #15
-> > > 0xaaaacc3a7690 in g_main_dispatch third_party/glib/glib/gmain.c:3417:27
-> > > I0614 13:44:44.641525    2040 bytestream.cc:22] QEMU:     #16
-> > > 0xaaaacc3a7690 in g_main_context_dispatch
-> > > third_party/glib/glib/gmain.c:4135:7
-> > > I0614 13:44:44.641546    2040 bytestream.cc:22] QEMU:     #17
-> > > 0xaaaacc2de3ec in glib_pollfds_poll
-> > third_party/qemu/util/main-loop.c:232:9
-> > > I0614 13:44:44.641562    2040 bytestream.cc:22] QEMU:     #18
-> > > 0xaaaacc2de3ec in os_host_main_loop_wait
-> > > third_party/qemu/util/main-loop.c:255:5
-> > > I0614 13:44:44.641580    2040 bytestream.cc:22] QEMU:     #19
-> > > 0xaaaacc2de3ec in main_loop_wait third_party/qemu/util/main-loop.c:531:11
-> > > I0614 13:44:44.641598    2040 bytestream.cc:22] QEMU:     #20
-> > > 0xaaaacbd82798 in qemu_main_loop
-> > third_party/qemu/softmmu/runstate.c:727:9
-> > > I0614 13:44:44.641612    2040 bytestream.cc:22] QEMU:     #21
-> > > 0xaaaacadacb5c in main
-> > >
-> > > Patrick
-> >
+> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+> index 4141dddd517a..7ae1cfa6e584 100644
+> --- a/hw/scsi/virtio-scsi.c
+> +++ b/hw/scsi/virtio-scsi.c
+> @@ -608,7 +608,19 @@ static void virtio_scsi_command_complete(SCSIRequest *r, size_t resid)
+>  
+>      req->resp.cmd.response = VIRTIO_SCSI_S_OK;
+>      req->resp.cmd.status = r->status;
+> -    if (req->resp.cmd.status == GOOD) {
+> +    if (req->dev->reported_luns_changed &&
+> +            (req->req.cmd.cdb[0] != INQUIRY) &&
+> +            (req->req.cmd.cdb[0] != REPORT_LUNS) &&
+> +            (req->req.cmd.cdb[0] != REQUEST_SENSE)) {
+> +        req->dev->reported_luns_changed = false;
+> +        req->resp.cmd.resid = 0;
+> +        req->resp.cmd.status_qualifier = 0;
+> +        req->resp.cmd.status = CHECK_CONDITION;
+> +        sense_len = scsi_build_sense(sense, SENSE_CODE(REPORTED_LUNS_CHANGED));
+> +        qemu_iovec_from_buf(&req->resp_iov, sizeof(req->resp.cmd),
+> +                            sense, sense_len);
+> +        req->resp.cmd.sense_len = virtio_tswap32(vdev, sense_len);
+> +    } else if (req->resp.cmd.status == GOOD) {
+>          req->resp.cmd.resid = virtio_tswap32(vdev, resid);
+>      } else {
+>          req->resp.cmd.resid = 0;
+> @@ -956,6 +968,7 @@ static void virtio_scsi_hotplug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>                                 VIRTIO_SCSI_T_TRANSPORT_RESET,
+>                                 VIRTIO_SCSI_EVT_RESET_RESCAN);
+>          virtio_scsi_release(s);
+> +        s->reported_luns_changed = true;
+>      }
+>  }
+>  
+> diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scsi.h
+> index a36aad9c8695..efbcf9ba069a 100644
+> --- a/include/hw/virtio/virtio-scsi.h
+> +++ b/include/hw/virtio/virtio-scsi.h
+> @@ -81,6 +81,7 @@ struct VirtIOSCSI {
+>      SCSIBus bus;
+>      int resetting;
+>      bool events_dropped;
+> +    bool reported_luns_changed;
+>  
+>      /* Fields for dataplane below */
+>      AioContext *ctx; /* one iothread per virtio-scsi-pci for now */
 
