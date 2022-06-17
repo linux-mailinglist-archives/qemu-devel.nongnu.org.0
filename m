@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E441754F7AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:34:33 +0200 (CEST)
-Received: from localhost ([::1]:55354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCB454F784
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:28:31 +0200 (CEST)
+Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2BBI-0006cI-F8
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:34:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
+	id 1o2B5S-00025F-7N
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1o2Ax0-0001Um-HO
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:19:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49725)
+ id 1o2Ax2-0001Z8-EV
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:19:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1o2Awy-0004zB-K9
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:19:46 -0400
+ id 1o2Ax0-0004zm-DU
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:19:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655468383;
+ s=mimecast20190719; t=1655468385;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UxLiIhoCRhDUEQB4LloOvnDaqMfE1O9VhJfYCIPTDo8=;
- b=G+tiHRISFAnzy4F/+fGUP8ST47KuSLD9DCID/Ue4ZodGor8qJl9kJnGLdbYFi5gMRYx7R8
- t+yup+L1/B0eDpYqiO593Zx/eGC965Hk3kvvea/hvLb5Zy+blTYE6J0rVItWNjmLf00TVj
- gu43ZmcGCIJLose6GzkfcJq5tLr9Rgk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bWBkF88ZLS2dEY/eZXueOzV74Qv41we61gYIwdDw3kw=;
+ b=Dm0bt9ffv1xshnBt8uGWskQbmNCKckeqLQkmle/rFHaIui3L5sRoH8Lv6nAgEw3ENiK4VV
+ zvb1PvGFyadF6O64XfYLT9UQQSbaCsl7bxMd5dX+jYrSYrgew7p5L9dPDLvAFjY71+hfYH
+ jLXDDmn7SQi8f/UHcRz01RDzgnCp/iA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-8aETMbMJOzW40n0xVbxtbw-1; Fri, 17 Jun 2022 08:19:42 -0400
-X-MC-Unique: 8aETMbMJOzW40n0xVbxtbw-1
+ us-mta-633-oOFd9xP6OLiKf63y5FtvuQ-1; Fri, 17 Jun 2022 08:19:44 -0400
+X-MC-Unique: oOFd9xP6OLiKf63y5FtvuQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10474811E76
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 12:19:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 353C41C01B23
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 12:19:44 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.192.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 337CA40334E;
- Fri, 17 Jun 2022 12:19:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7067140334E;
+ Fri, 17 Jun 2022 12:19:42 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  John Snow <jsnow@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [RFC PATCH v2 3/8] qapi: golang: Generate qapi's struct types in Go
-Date: Fri, 17 Jun 2022 14:19:27 +0200
-Message-Id: <20220617121932.249381-4-victortoso@redhat.com>
+Subject: [RFC PATCH v2 4/8] qapi: golang: Generate qapi's union types in Go
+Date: Fri, 17 Jun 2022 14:19:28 +0200
+Message-Id: <20220617121932.249381-5-victortoso@redhat.com>
 In-Reply-To: <20220617121932.249381-1-victortoso@redhat.com>
 References: <20220617121932.249381-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -81,208 +81,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch handles QAPI struct types and generates the equivalent
-types in Go.
+This patch handles QAPI union types and generates the equivalent data
+structures and methods in Go to handle it.
 
-At the time of this writing, it generates 388 structures.
+At the moment of this writing, it generates 38 structures.
 
-The highlights of this implementation are:
+The QAPI union type has two types of fields: The @base and the
+@variants members. The @base fields can be considered common members
+for the union while only one field maximum is set for the @variants.
 
-1. Generating an Go struct that requires a @base type, the @base type
-   fields are copied over to the Go struct. The advantage of this
-   approach is to not have embed structs in any of the QAPI types.
-   The downside are some generated Types that are likely useless now,
-   like InetSocketAddressBase from InetSocketAddress.
+In the QAPI specification, it defines a @discriminator field, which is
+an Enum type. The purpose of the  @discriminator is to identify which
+@variant type is being used. The @discriminator is not used in the
+generated union Go structs as it suffices to check which one of the
+@variants fields were set.
 
-2. About the Go struct's fields:
-
-  i) They can be either by Value or Reference.
-
-  ii) Every field that is marked as optional in the QAPI specification
-  are translated to Reference fields in its Go structure. This design
-  decision is the most straightforward way to check if a given field
-  was set or not.
-
-  iii) Mandatory fields are always by Value with the exception of QAPI
-  arrays, which are handled by Reference (to a block of memory) by Go.
-
-  iv) All the fields are named with Uppercase due Golang's export
-  convention.
-
-  v) In order to avoid any kind of issues when encoding ordecoding, to
-  or from JSON, we mark all fields with its @name and, when it is
-  optional, member, with @omitempty
-
-Example:
+The union types implement the Marshaler and Unmarshaler interfaces to
+seamless decode from JSON objects to Golang structs and vice versa.
 
 qapi:
-  | { 'struct': 'BlockdevCreateOptionsFile',
-  |   'data': { 'filename':             'str',
-  |             'size':                 'size',
-  |             '*preallocation':       'PreallocMode',
-  |             '*nocow':               'bool',
-  |             '*extent-size-hint':    'size'} }
+  | { 'union': 'SetPasswordOptions',
+  |   'base': { 'protocol': 'DisplayProtocol',
+  |             'password': 'str',
+  |             '*connected': 'SetPasswordAction' },
+  |   'discriminator': 'protocol',
+  |   'data': { 'vnc': 'SetPasswordOptionsVnc' } }
 
 go:
-  | type BlockdevCreateOptionsFile struct {
-  |         Filename       string        `json:"filename"`
-  |         Size           uint64        `json:"size"`
-  |         Preallocation  *PreallocMode `json:"preallocation,omitempty"`
-  |         Nocow          *bool         `json:"nocow,omitempty"`
-  |         ExtentSizeHint *uint64       `json:"extent-size-hint,omitempty"`
+  | type SetPasswordOptions struct {
+  | 	// Base fields
+  | 	Password  string             `json:"password"`
+  | 	Connected *SetPasswordAction `json:"connected,omitempty"`
+  |
+  | 	// Variants fields
+  | 	Vnc *SetPasswordOptionsVnc `json:"-"`
   | }
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- scripts/qapi/golang.py | 117 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 115 insertions(+), 2 deletions(-)
+ scripts/qapi/golang.py | 112 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 105 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/qapi/golang.py b/scripts/qapi/golang.py
-index 37d7c062c9..1ab0c0bb46 100644
+index 1ab0c0bb46..6c6a5cea97 100644
 --- a/scripts/qapi/golang.py
 +++ b/scripts/qapi/golang.py
-@@ -53,7 +53,7 @@ class QAPISchemaGenGolangVisitor(QAPISchemaVisitor):
+@@ -53,7 +53,8 @@ class QAPISchemaGenGolangVisitor(QAPISchemaVisitor):
  
      def __init__(self, prefix: str):
          super().__init__()
--        self.target = {name: "" for name in ["alternate", "enum", "helper"]}
-+        self.target = {name: "" for name in ["alternate", "enum", "helper", "struct"]}
+-        self.target = {name: "" for name in ["alternate", "enum", "helper", "struct"]}
++        self.target = {name: "" for name in ["alternate", "enum", "helper", "struct",
++                                             "union"]}
          self.objects_seen = {}
          self.schema = None
          self.golang_package_name = "qapi"
-@@ -79,7 +79,37 @@ def visit_object_type(self: QAPISchemaGenGolangVisitor,
+@@ -79,10 +80,14 @@ def visit_object_type(self: QAPISchemaGenGolangVisitor,
                            members: List[QAPISchemaObjectTypeMember],
                            variants: Optional[QAPISchemaVariants]
                            ) -> None:
--        pass
-+        # Do not handle anything besides structs
-+        if (name == self.schema.the_empty_object_type.name or
-+                not isinstance(name, str) or
-+                info.defn_meta not in ["struct"]):
+-        # Do not handle anything besides structs
++        # Do not handle anything besides struct and unions.
+         if (name == self.schema.the_empty_object_type.name or
+                 not isinstance(name, str) or
+-                info.defn_meta not in ["struct"]):
++                info.defn_meta not in ["struct", "union"]):
 +            return
 +
-+        # Safety checks.
-+        assert name not in self.objects_seen
-+        self.objects_seen[name] = True
-+
-+        # visit all inner objects as well, they are not going to be
-+        # called by python's generator.
-+        if variants:
-+            for var in variants.variants:
-+                assert isinstance(var.type, QAPISchemaObjectType)
-+                self.visit_object_type(self,
-+                                       var.type.name,
-+                                       var.type.info,
-+                                       var.type.ifcond,
-+                                       var.type.base,
-+                                       var.type.local_members,
-+                                       var.type.variants)
-+
-+        # Save generated Go code to be written later
-+        self.target[info.defn_meta] += qapi_to_golang_struct(name,
-+                                                             info,
-+                                                             ifcond,
-+                                                             features,
-+                                                             base,
-+                                                             members,
-+                                                             variants)
++        # Base structs are embed
++        if qapi_name_is_base(name):
+             return
+ 
+         # Safety checks.
+@@ -110,6 +115,10 @@ def visit_object_type(self: QAPISchemaGenGolangVisitor,
+                                                              base,
+                                                              members,
+                                                              variants)
++        if info.defn_meta == "union":
++            self.target[info.defn_meta] += qapi_to_golang_methods_union(name,
++                                                                        info,
++                                                                        variants)
  
      def visit_alternate_type(self: QAPISchemaGenGolangVisitor,
                               name: str,
-@@ -223,6 +253,72 @@ def generate_struct_type(type_name, args="") -> str:
- '''
+@@ -311,14 +320,99 @@ def qapi_to_golang_struct(name: str,
+             # Variant's are handled in the Marshal/Unmarshal methods
+             fieldtag = '`json:"-"`'
+             fields += f"\t{field} *{member_type}{fieldtag}\n"
+-            member_type = qapi_schema_type_to_go_type(var.type.name)
+-            # Variant's are handled in the Marshal/Unmarshal methods
+-            fieldtag = '`json:"-"`'
+-            fields += f"\t{field} *{member_type}{fieldtag}\n"
+ 
+     return generate_struct_type(type_name, fields)
  
  
-+# Helper function that is used for most of QAPI types
-+def qapi_to_golang_struct(name: str,
-+                          info: Optional[QAPISourceInfo],
-+                          ifcond: QAPISchemaIfCond,
-+                          features: List[QAPISchemaFeature],
-+                          base: Optional[QAPISchemaObjectType],
-+                          members: List[QAPISchemaObjectTypeMember],
-+                          variants: Optional[QAPISchemaVariants]) -> str:
++def qapi_to_golang_methods_union(name: str,
++                                 info: Optional[QAPISourceInfo],
++                                 variants: Optional[QAPISchemaVariants]
++                                 ) -> str:
 +
 +    type_name = qapi_to_go_type_name(name, info.defn_meta)
 +
-+    fields = ""
-+
-+    if base:
-+        base_fields = ""
-+        for lm in base.local_members:
-+            # We do not include the Union's discriminator
-+            # into the generated Go struct as the selection
-+            # of what variant was set is enough on Go side.
-+            if variants and variants.tag_member.name == lm.name:
-+                continue
-+
-+            field = qapi_to_field_name(lm.name)
-+            member_type = qapi_schema_type_to_go_type(lm.type.name)
-+
-+            isptr = "*" if lm.optional and member_type[0] not in "*[" else ""
-+            optional = ",omitempty" if lm.optional else ""
-+            fieldtag = f'`json:"{lm.name}{optional}"`'
-+
-+            base_fields += f"\t{field} {isptr}{member_type}{fieldtag}\n"
-+
-+        if len(base_fields) > 0:
-+            fields += f"\t// Base fields\n\t{base_fields}\n"
-+
-+    if members:
-+        for memb in members:
-+            field = qapi_to_field_name(memb.name)
-+            member_type = qapi_schema_type_to_go_type(memb.type.name)
-+
-+            isptr = "*" if memb.optional and member_type[0] not in "*[" else ""
-+            optional = ",omitempty" if memb.optional else ""
-+            fieldtag = f'`json:"{memb.name}{optional}"`'
-+
-+            fields += f"\t{field} {isptr}{member_type}{fieldtag}\n"
-+
-+        fields += "\n"
-+
++    driverCases = ""
++    checkFields = ""
 +    if variants:
-+        fields += "\t// Variants fields\n"
 +        for var in variants.variants:
 +            if var.type.is_implicit():
 +                continue
 +
 +            field = qapi_to_field_name(var.name)
 +            member_type = qapi_schema_type_to_go_type(var.type.name)
-+            # Variant's are handled in the Marshal/Unmarshal methods
-+            fieldtag = '`json:"-"`'
-+            fields += f"\t{field} *{member_type}{fieldtag}\n"
-+            member_type = qapi_schema_type_to_go_type(var.type.name)
-+            # Variant's are handled in the Marshal/Unmarshal methods
-+            fieldtag = '`json:"-"`'
-+            fields += f"\t{field} *{member_type}{fieldtag}\n"
 +
-+    return generate_struct_type(type_name, fields)
++            if len(checkFields) > 0:
++                checkFields += "\t} else "
++            checkFields += f'''if s.{field} != nil {{
++        driver = "{var.name}"
++        payload, err = json.Marshal(s.{field})
++'''
++            # for Unmarshal method
++            driverCases += f'''
++    case "{var.name}":
++        s.{field} = new({member_type})
++        if err := json.Unmarshal(data, s.{field}); err != nil {{
++            s.{field} = nil
++            return err
++        }}'''
++
++        checkFields += "}"
++
++    return f'''
++func (s {type_name}) MarshalJSON() ([]byte, error) {{
++    type Alias {type_name}
++    alias := Alias(s)
++    base, err := json.Marshal(alias)
++    if err != nil {{
++        return nil, err
++    }}
++
++    driver := ""
++    payload := []byte{{}}
++    {checkFields}
++
++    if err != nil {{
++        return nil, err
++    }}
++
++    if len(base) == len("{{}}") {{
++        base = []byte("")
++    }} else {{
++        base = append([]byte{{','}}, base[1:len(base)-1]...)
++    }}
++
++    if len(payload) == 0 || len(payload) == len("{{}}") {{
++        payload = []byte("")
++    }} else {{
++        payload = append([]byte{{','}}, payload[1:len(payload)-1]...)
++    }}
++
++    result := fmt.Sprintf(`{{"{variants.tag_member.name}":"%s"%s%s}}`, driver, base, payload)
++    return []byte(result), nil
++}}
++
++func (s *{type_name}) UnmarshalJSON(data []byte) error {{
++    type Alias {type_name}
++    peek := struct {{
++        Alias
++        Driver string `json:"{variants.tag_member.name}"`
++    }}{{}}
++
++
++    if err := json.Unmarshal(data, &peek); err != nil {{
++        return err
++    }}
++    *s = {type_name}(peek.Alias)
++
++    switch peek.Driver {{
++    {driverCases}
++    }}
++    // Unrecognizer drivers are silently ignored.
++    return nil
++}}
++'''
 +
 +
  def qapi_schema_type_to_go_type(type: str) -> str:
      schema_types_to_go = {
              'str': 'string', 'null': 'nil', 'bool': 'bool', 'number':
-@@ -247,3 +343,20 @@ def qapi_to_field_name_enum(name: str) -> str:
- 
- def qapi_to_field_name(name: str) -> str:
+@@ -345,6 +439,10 @@ def qapi_to_field_name(name: str) -> str:
      return name.title().replace("_", "").replace("-", "")
+ 
+ 
++def qapi_name_is_base(name: str) -> bool:
++    return name.startswith("q_obj_") and name.endswith("-base")
 +
 +
-+def qapi_to_go_type_name(name: str, meta: str) -> str:
-+    if name.startswith("q_obj_"):
-+        name = name[6:]
-+
-+    # We want to keep CamelCase for Golang types. We want to avoid removing
-+    # already set CameCase names while fixing uppercase ones, eg:
-+    # 1) q_obj_SocketAddress_base -> SocketAddressBase
-+    # 2) q_obj_WATCHDOG-arg -> WatchdogArg
-+    words = [word for word in name.replace("_", "-").split("-")]
-+    name = words[0]
-+    if name.islower() or name.isupper():
-+        name = name.title()
-+
-+    name += ''.join(word.title() for word in words[1:])
-+    return name
+ def qapi_to_go_type_name(name: str, meta: str) -> str:
+     if name.startswith("q_obj_"):
+         name = name[6:]
 -- 
 2.36.1
 
