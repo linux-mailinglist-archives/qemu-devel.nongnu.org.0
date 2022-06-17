@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D51D54FDD5
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 21:49:11 +0200 (CEST)
-Received: from localhost ([::1]:57040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35D354FDFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 21:59:42 +0200 (CEST)
+Received: from localhost ([::1]:35766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2Hxs-00025V-Am
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 15:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52484)
+	id 1o2I85-0005qM-9c
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 15:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o2HuU-00017c-Lt; Fri, 17 Jun 2022 15:45:38 -0400
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:44676)
+ (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
+ id 1o2I6c-00059L-5T
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 15:58:10 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:42522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o2HuS-0005IC-Uu; Fri, 17 Jun 2022 15:45:38 -0400
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1014b2752c1so6733458fac.11; 
- Fri, 17 Jun 2022 12:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=gJp3RuhiWD+2jvMVJw4i3nu2PHOgwEGW+bN1QWJEYCs=;
- b=HPqkXuGGPcljmQue49H8YbM2ifuqeMbgOMtVIb/Dtse+B1RyGZBOqp7vEdgbZZQdK4
- RS0S9zslhshIa9U4cn5U/Wtd7AJad6uiceS9LNLpfTtp0V1J5+1KcWaXbMlUD+oKo9+M
- RMTJ4jOh/64UKARvVP6bNVXvBIJ2yaNptx2qBGlrbSSs07hLP9lRyKBXZvHD8eyPGbCj
- MNVfPFiVBFMjhh+KqAFsmHjLCJJsV4YPsJy7UIyg6lTpCQGaBMK42FlgLDggY0q1SCKl
- t/T7rXna5T9AuHYAmi0hxgQqTR4A/miVkk7dV1nslqIHpygYxXc40aXqxeCM9gr9v3uF
- c51Q==
+ (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
+ id 1o2I6X-0007CB-EZ
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 15:58:09 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-2ef5380669cso51976187b3.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 12:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jcQo8wv/oavbAmJ2+Q+zaRoe/aKdHvx1a2FPpAjGeP0=;
+ b=Eb2cXrHtzJB00FsQ3nLkTbX/W1EEhYKgJx5gVwTXKmIN9icJg/ZVT5ztAbyq+y1Ngw
+ XwIMgyoe7PYKP7oVAc6uSPYHvTuA1cD8XUsiveAObfbrC6Ypcwq03ju2F2EmEGnzHEOt
+ TDxGj+WvAu6Qb1FthCi7uOhvRnuMvzw+YrVJ8zloMaUi3e5zBbYb20pZWQ/oBRZaDyxQ
+ CsWMsN/oQWAaDd+LN0cqDp4qeFnwHElyquN8h/MZMl4q6YgHasDGDzTXobQBdB7neIhy
+ K5pLB1fhFhO/Zta8nl8SMdQu/lvYBp1bt+KAlP0t0sEXWSF/0QCyxk8UTzlqWV+rdz/I
+ pViA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gJp3RuhiWD+2jvMVJw4i3nu2PHOgwEGW+bN1QWJEYCs=;
- b=z7WEatZ1lU4N+lwm7uhAS2wCt50PiCCLQU6786XJms7riPQK9HLkO6NT8rOe5nrTJA
- pdCJGfSDFG1dWOuj6aRuASBztvx7WxzAenM5K/28OiL4az2isdyEczgFP90l/DHkgi0K
- RmxuqY8yJ+6HbApIUvTH8tgvl+OodAwTVR/a2j1R+1hzCHp4ACxa4O7JwpRv5qJIg5Kp
- 8hpaDLnjFt/3PvwhzosWtBCrEqfLi4BsFO5TkUtc+melrjuNio1AQnh3AQ2T9OSqDWA+
- OSKq53UecW3VCfupM4nMxwORChenvhry25/Yj6/nezXXyZlm4yTELQs12H7Ur71htW1C
- 5pOw==
-X-Gm-Message-State: AJIora/Xz1W1fx4DLlL8VPgwxqJ6NzBVBL7QCahFveR8VjbU7s/CS1ui
- K4UwB+ODjPV0Ab7wKiLJCVo=
-X-Google-Smtp-Source: AGRyM1v/hMFIJ9AdKpeG5IOWpgEZkvLiJxDRvrG8zULgcoqMWl53nfNlbOt89Zz103puwvRcKaMfcw==
-X-Received: by 2002:a05:6870:b602:b0:f2:aa65:3e3 with SMTP id
- cm2-20020a056870b60200b000f2aa6503e3mr6750858oab.240.1655495134241; 
- Fri, 17 Jun 2022 12:45:34 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c6:ccc8:8e07:268b:a09:2834?
- ([2804:431:c7c6:ccc8:8e07:268b:a09:2834])
- by smtp.gmail.com with ESMTPSA id
- b5-20020a4a3405000000b0035eb4e5a6b0sm3161857ooa.6.2022.06.17.12.45.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 12:45:33 -0700 (PDT)
-Message-ID: <4acaa1cd-453f-b44b-b3db-5bdf522788a0@gmail.com>
-Date: Fri, 17 Jun 2022 16:45:30 -0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jcQo8wv/oavbAmJ2+Q+zaRoe/aKdHvx1a2FPpAjGeP0=;
+ b=DASTrM4i0wCZ+Da1g5T4ndMz1OBkRq0AlWIuULJl+UHz4Iq5mD1QYf6Aj7I6KkVc19
+ stpc9nTIsl7w2GzhJfdegDwepKXHhGg/My8YwHlL8UlrOID4EJX4Gt33gMdkAOXs1uKN
+ f3EaeVVXEin1lpIy6gcKLW8DYTkON7SzvvzsadXOoigh6JGceqJBXthvOJOA/e6xoPPK
+ f2M+99rgeOc6pDsSGCGNvtiBwhpzsUfGBQKSeryXXxvCfCEYZLPcpF3zmIIrXbBMgoDT
+ SS5JrPruStCaCBbhlOS0qJM3wUFTl5D8iLBc8170PHiP9EjEmFILL2TR5A9Mg7HgoJBB
+ 2A/A==
+X-Gm-Message-State: AJIora/nNmY+W1Rgi6hxm7TSxjgx7QMX7k9ixNdHIhoppqTxlBaCE0Za
+ 9zdK/PWkVkVLGEehpEx48ayOJeozTE7g2qcvgm+bdw==
+X-Google-Smtp-Source: AGRyM1vWRCHwfcWzHz+BZj7FBqUt6bUGO1IzajWXhDKgL67gven1G0nG2YfbhzmnrgI5YorS9vH/S8l2UNGT7dfI1jc=
+X-Received: by 2002:a05:690c:18:b0:314:cf3:3c79 with SMTP id
+ bc24-20020a05690c001800b003140cf33c79mr14102246ywb.72.1655495883645; Fri, 17
+ Jun 2022 12:58:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] target/ppc: cpu_init: Clean up stop state on cpu reset
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20220617095222.612212-1-fbarrat@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220617095222.612212-1-fbarrat@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <CAAH4kHYyXv3x+89Ybnj7GXms2Bz2CNn5JK0+d6DzVtMz5owTrw@mail.gmail.com>
+ <PH0PR11MB50643B5AEE5A399EB8AFB000C5AD9@PH0PR11MB5064.namprd11.prod.outlook.com>
+ <a89cb720-3600-51ad-2671-ea0f987cd3d1@intel.com>
+ <20220616082846.wtmf3wbxzilzvqt4@sirius.home.kraxel.org>
+ <503fadf7-c6d1-61dd-236e-fcca895e8aef@intel.com>
+In-Reply-To: <503fadf7-c6d1-61dd-236e-fcca895e8aef@intel.com>
+From: Dionna Amalie Glaze <dionnaglaze@google.com>
+Date: Fri, 17 Jun 2022 12:57:52 -0700
+Message-ID: <CAAH4kHYK5XRUvUC3-QeRuFGn1uTu6LJ=TOHik_oOqw0PSYoKOw@mail.gmail.com>
+Subject: Re: New "IndustryStandard" fw_cfg?
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Xu, Min M" <min.m.xu@intel.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Lendacky,
+ Thomas" <Thomas.Lendacky@amd.com>, 
+ "Yao, Jiewen" <jiewen.yao@intel.com>, "Aktas, Erdem" <erdemaktas@google.com>, 
+ "Yamahata, Isaku" <isaku.yamahata@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=dionnaglaze@google.com; helo=mail-yw1-x1130.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,64 +91,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next after adding
-Cedric's R-b from v1.
+I think the option should be boolean since it doesn't look like we're
+going to need to tune the number very much.
+It all boils down to "does the OS affirmatively support unaccepted
+memory?" as in, we have no way to negotiate it, but force unaccepted
+memory on.
+Ovmf can interpret the existence of an opt/ovmf/unaccepted_memory file
+to mean that it's allowed to create unaccepted memory entries in the
+memory map.
+It's then up to the firmware if it will minimize its use of unaccepted
+memory or not. It's not Qemu's place to say.
 
 
-Thanks,
+> >    * accept all memory below 4G
+> >    * accept all memory
+> >
+> > Possibly we need:
+> >
+> >    * accept all memory below 4G
+> >    * accept all memory below 4G, plus x GB of high memory.
+> >    * accept all memory
+> >
+> > In any case the config option should be designed in a way that we can
+> > add a 'automatic' choice later, i.e. we can have ...
+> >
+> >    * automatic (default)
+> >    * accept all memory below 4G
+> >    * accept all memory
+> >
 
-Daniel
+I think "false" can mean either accept all memory or "do what you need
+to" and negotiate if the memory map boot service can create unaccepted
+memory entries. Whichever appears supported.
+Then "true" can be "do whatever, including creating unaccepted memory
+entries in the memory map".
 
+That seems the simplest way to allow a configuration of this feature.
 
-On 6/17/22 06:52, Frederic Barrat wrote:
-> The 'resume_as_sreset' attribute of a cpu is set when a thread is
-> entering a stop state on ppc books. It causes the thread to be
-> re-routed to vector 0x100 when woken up by an exception. So it must be
-> cleared on reset or a thread might be re-routed unexpectedly after a
-> reset, when it was not in a stop state and/or when the appropriate
-> exception handler isn't set up yet.
-> 
-> Using skiboot, it can be tested by resetting the system when it is
-> quiet and most threads are idle and in stop state.
-> 
-> After the reset occurs, skiboot elects a primary thread and all the
-> others wait in secondary_wait. The primary thread does all the system
-> initialization from main_cpu_entry() and at some point, the
-> decrementer interrupt starts ticking. The exception vector for the
-> decrementer interrupt is in place, so that shouldn't be a
-> problem. However, if that primary thread was in stop state prior to
-> the reset, and because the resume_as_sreset parameters is still set,
-> it is re-routed to exception vector 0x100. Which, at that time, is
-> still defined as the entry point for BML. So that primary thread
-> restarts as new and ends up being treated like any other secondary
-> thread. All threads are now waiting in secondary_wait.
-> 
-> It results in a full system hang with no message on the console, as
-> the uart hasn't been init'ed yet. It's actually not obvious to realise
-> what's happening if not tracing reset (-d cpu_reset). The fix is
-> simply to clear the 'resume_as_sreset' attribute on reset.
-> 
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-> ---
-> Changelog:
-> v2: rework commit message
-> 
-> 
->   target/ppc/cpu_init.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 0f891afa04..c16cb8dbe7 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -7186,6 +7186,9 @@ static void ppc_cpu_reset(DeviceState *dev)
->           }
->           pmu_update_summaries(env);
->       }
-> +
-> +    /* clean any pending stop state */
-> +    env->resume_as_sreset = 0;
->   #endif
->       hreg_compute_hflags(env);
->       env->reserve_addr = (target_ulong)-1ULL;
+-- 
+-Dionna Glaze, PhD (she/her)
 
