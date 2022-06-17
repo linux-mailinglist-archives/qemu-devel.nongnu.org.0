@@ -2,99 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF75354FE8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 22:55:00 +0200 (CEST)
-Received: from localhost ([::1]:53012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F1254FF44
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 23:17:42 +0200 (CEST)
+Received: from localhost ([::1]:58772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2Izb-0004cJ-Hg
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 16:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35746)
+	id 1o2JLZ-0001pB-6a
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 17:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o2Ix5-0003Ap-Sw
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 16:52:24 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:51958)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o2JJn-0000uZ-24; Fri, 17 Jun 2022 17:15:51 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:46920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o2Ix4-000236-0q
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 16:52:23 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id f16so3831328pjj.1
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 13:52:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=0gvTzgsYSiMbpMdNzx7QQ0trcTLfq0qz6qq+d/xtlqM=;
- b=Tm8fa78A+8xoP3d1vCfCPWpSCzWj+i2sJA/HPesmtuW0WMA5RtXd8iQDFxpA6qnpWj
- wBRS1u0wecIeTRbxK8Gvt9RweINogdUBePYhR7lrzoNnF83AL1EhBDPIsG2P4LsKfvjj
- ttjEyi9Fit5b3gG154/moMPm/lVvZAp4uLT57JQgKeitkDyKmrVK02sDA6Ax1ld05qdf
- pHz22A+L+cEY7/LSa3Ah2ecGSGVEe+9KAB/GSJIfCUDRfXSVs0RllQyfmcEru1D0w1Fe
- lz1ro/0YeBLRjS5RYvDHkjd9t+a0tND1zjuM8uuDkkuZHNsaQui6mPrJ1fudbeWdMDCh
- b2yg==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o2JJl-0002B8-5l; Fri, 17 Jun 2022 17:15:50 -0400
+Received: by mail-ot1-x335.google.com with SMTP id
+ 93-20020a9d02e6000000b0060c252ee7a4so3951514otl.13; 
+ Fri, 17 Jun 2022 14:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=mmeLYro2LEelF0Lhi2+hGfcVRzs81JWv1h+a8CBKwFQ=;
+ b=jZgYN0KU2uer+ers0sxsxiXbJ0jMsbcgdnKc0L9bMQEQhXk0JspA73F1BwX0QwF0wZ
+ DL1kLTeeRtFdxBboejlyLk7Yt3Ia/qrcxPNQhD9xVNDtl7q8PjQusbECaNlqWaZq1QTH
+ 0bZ2s/oDn2BgGoUSJJj9BauKswogO2ieR6Oc6AbaCT8plMyRNsiYqQIWHHHmLsPmyjY9
+ gv7YilGdb7UjfZmyFo5p9AKxWPVe7TeMBOF892AFPto4wIYTtVBKSRd1eTTevHI9y7XH
+ NbKaUMKWjuCcjVv0uJZVkIHHDLQghn6d4mL6Fl5z9Pedw9dQvwPW7+wn97SD1msXRNfS
+ 6LmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0gvTzgsYSiMbpMdNzx7QQ0trcTLfq0qz6qq+d/xtlqM=;
- b=l5erM2hbPOw5E2cfBaVUsRqK4dAHdh8OfOOUdvafu5PX6Cc4EcQtb6oAFz6rtWo+tG
- kcAEMRC1wouqD7QZcPhrRK+2f/op59cPiDB/Wabl6La7GdYE7XFzQ9exQ/FgpPxFK5V2
- tJqjPMqLoMUUAtGeZBdtBzav4LpxrqFCqCpu884GfNwG5LhDc7RSoldOGZ4uFzKXFugw
- drUHZkBNzUBTSo70SyyjSdEfPcfRsKXcpFsgne86rx02HMpm46zWU2nP1FVi/SLj3leD
- jGCGD7FAGT+bGySYIaa4aWelOzq2q29D784Erih90jVTv/8ENZbSaquoh2K5Q9x7Su6Y
- bWSw==
-X-Gm-Message-State: AJIora90gD2GTF95UbDnZTCL00apMJ06m5amTe/T6RX+KNaxEXEDO3BB
- TPxfHzuvTZ/cE29ypI0b1Oq1YQ==
-X-Google-Smtp-Source: AGRyM1t/zG6fhbTElhgwQ8jpzkHKKzon/AJS4F2Xyo6NtESIYzM5NELoKnpSdcxh3Foi9ICA7Z0Xtg==
-X-Received: by 2002:a17:902:ef47:b0:169:a2a7:94cf with SMTP id
- e7-20020a170902ef4700b00169a2a794cfmr7330944plx.143.1655499139356; 
- Fri, 17 Jun 2022 13:52:19 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com.
- [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
- y1-20020a63ad41000000b003fae8a7e3e5sm4127465pgo.91.2022.06.17.13.52.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jun 2022 13:52:18 -0700 (PDT)
-Date: Fri, 17 Jun 2022 20:52:15 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Yqzpf3AEYabFWjnW@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mmeLYro2LEelF0Lhi2+hGfcVRzs81JWv1h+a8CBKwFQ=;
+ b=aphR3cXwYzB8nqbSZHjY65ErEPmxlCsPFFa7w+ZkqaL9sZvsYBtIqyFH9ZlR8YG4w0
+ EmHE789g984oWCALMj4VrYOgwGH3u5Oeq6IYqpFNffrbpMEuXtUXmAOifkVpNd5lmeEC
+ GXVY6zoKalvSF9yAqzoNiDgbR3d17HzFmUWjsd//Wtew1wDOteAfkIX8trPVeIFF3CId
+ vIv+k6RbVy6BiOTmyDfcsgdkPkySfelzVBDv2OR2AF9TxNHEsKDiG4pol8bd527U3oly
+ IMPQnl/Q+UedVQLjMjlufNjMxjnFbw1rRp5WNf94xTkrXQH2tk5D2MPwbgYKeFVNHrPA
+ ffQQ==
+X-Gm-Message-State: AJIora9Oa1VM/RnC3EjfbkuvKsXi98BNIWSd3RYhMEVV5w40zeHKXywi
+ ltteyVMOavVZlwOxYlc1t8w=
+X-Google-Smtp-Source: AGRyM1un7BSIwU8P/hR1nppKi+JLb9V7Ct/gFhgkxcdF9Qrs33XTEPHm7xLubWMpJBlC0sQJrjJA6g==
+X-Received: by 2002:a05:6830:1b65:b0:60c:116f:9e19 with SMTP id
+ d5-20020a0568301b6500b0060c116f9e19mr4851847ote.345.1655500547549; 
+ Fri, 17 Jun 2022 14:15:47 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:ccc8:8e07:268b:a09:2834?
+ ([2804:431:c7c6:ccc8:8e07:268b:a09:2834])
+ by smtp.gmail.com with ESMTPSA id
+ v22-20020a05683018d600b0060b1e040014sm2990801ote.51.2022.06.17.14.15.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jun 2022 14:15:47 -0700 (PDT)
+Message-ID: <42267f51-2424-27e9-0856-b60c9c32f607@gmail.com>
+Date: Fri, 17 Jun 2022 18:15:43 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519153713.819591-5-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=seanjc@google.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 03/11] ppc/pnv: use dev->parent_bus->parent to get the PHB
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, fbarrat@linux.ibm.com, mark.cave-ayland@ilande.co.uk
+References: <20220613154456.359674-1-danielhb@linux.ibm.com>
+ <20220613154456.359674-4-danielhb@linux.ibm.com>
+ <f3612399-e5d4-9631-ef7f-59aeeeabadac@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <f3612399-e5d4-9631-ef7f-59aeeeabadac@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x335.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,190 +96,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 19, 2022, Chao Peng wrote:
-> @@ -653,12 +662,12 @@ struct kvm_irq_routing_table {
->  };
->  #endif
->  
-> -#ifndef KVM_PRIVATE_MEM_SLOTS
-> -#define KVM_PRIVATE_MEM_SLOTS 0
-> +#ifndef KVM_INTERNAL_MEM_SLOTS
-> +#define KVM_INTERNAL_MEM_SLOTS 0
->  #endif
-
-This rename belongs in a separate patch.
-
->  #define KVM_MEM_SLOTS_NUM SHRT_MAX
-> -#define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_PRIVATE_MEM_SLOTS)
-> +#define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_INTERNAL_MEM_SLOTS)
->  
->  #ifndef __KVM_VCPU_MULTIPLE_ADDRESS_SPACE
->  static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
-> @@ -1087,9 +1096,9 @@ enum kvm_mr_change {
->  };
->  
->  int kvm_set_memory_region(struct kvm *kvm,
-> -			  const struct kvm_userspace_memory_region *mem);
-> +			  const struct kvm_user_mem_region *mem);
->  int __kvm_set_memory_region(struct kvm *kvm,
-> -			    const struct kvm_userspace_memory_region *mem);
-> +			    const struct kvm_user_mem_region *mem);
->  void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot);
->  void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen);
->  int kvm_arch_prepare_memory_region(struct kvm *kvm,
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index e10d131edd80..28cacd3656d4 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -103,6 +103,29 @@ struct kvm_userspace_memory_region {
->  	__u64 userspace_addr; /* start of the userspace allocated memory */
->  };
->  
-> +struct kvm_userspace_memory_region_ext {
-> +	struct kvm_userspace_memory_region region;
-> +	__u64 private_offset;
-> +	__u32 private_fd;
-> +	__u32 pad1;
-> +	__u64 pad2[14];
-> +};
-> +
-> +#ifdef __KERNEL__
-> +/* Internal helper, the layout must match above user visible structures */
-
-It's worth explicity calling out which structureso this aliases.  And rather than
-add a comment about the layout needing to match that, enforce it in code. I
-personally wouldn't bother with an expolicit comment about the layout, IMO that's
-a fairly obvious implication of aliasing.
-
-/*
- * kvm_user_mem_region is a kernel-only alias of kvm_userspace_memory_region_ext
- * that "unpacks" kvm_userspace_memory_region so that KVM can directly access
- * all fields from the top-level "extended" region.
- */
 
 
-And I think it's in this patch that you missed a conversion to the alias, in the
-prototype for check_memory_region_flags() (looks like it gets fixed up later in
-the series).
+On 6/14/22 09:10, Cédric Le Goater wrote:
+> On 6/13/22 17:44, Daniel Henrique Barboza wrote:
+>> It is not advisable to execute an object_dynamic_cast() to poke into
+>> bus->qbus.parent and follow it up with a C cast into the PnvPHB type we
+>> think we got.
+>>
+>> A better way is to access the PnvPHB object via a QOM macro accessing
+>> the existing parent links of the DeviceState. For a given
+>> pnv-phb3/4-root-port 'dev', dev->parent_bus will give us the PHB bus,
+>> and dev->parent_bus->parent is the PHB. Use the adequate QOM macro to
+>> assert the type, and keep the NULL check in case we didn't get the
+>> object we were expecting.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
+>> ---
+>>   hw/pci-host/pnv_phb3.c | 10 +++++++---
+>>   hw/pci-host/pnv_phb4.c | 10 +++++++---
+>>   2 files changed, 14 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+>> index 4ba660f8b9..7901d8172c 100644
+>> --- a/hw/pci-host/pnv_phb3.c
+>> +++ b/hw/pci-host/pnv_phb3.c
+>> @@ -1139,12 +1139,16 @@ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
+>>   {
+>>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>>       PCIDevice *pci = PCI_DEVICE(dev);
+>> -    PCIBus *bus = pci_get_bus(pci);
+>>       PnvPHB3 *phb = NULL;
+>>       Error *local_err = NULL;
+>> -    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+>> -                                          TYPE_PNV_PHB3);
+>> +    /*
+>> +     * dev->parent_bus gives access to the pnv-phb-root bus.
+>> +     * The PnvPHB3 is the owner (parent) of the bus.
+>> +     */
+>> +    if (dev && dev->parent_bus) {
+>> +        phb = PNV_PHB3(dev->parent_bus->parent);
+>> +    }
+>>
+> 
+> Couldn't we simply use :
+> 
+>        phb = PNV_PHB3(bus);
+> 
+> ?
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 0f81bf0407be..8765b334477d 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -1466,7 +1466,7 @@ static void kvm_replace_memslot(struct kvm *kvm,
-        }
- }
+No. This will give us a reference to a pnv-phb3-root object.
 
--static int check_memory_region_flags(const struct kvm_userspace_memory_region *mem)
-+static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
- {
-        u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
 
-@@ -4514,6 +4514,33 @@ static int kvm_vm_ioctl_get_stats_fd(struct kvm *kvm)
-        return fd;
- }
+Getting a reference to the PHB by using bus->parent happens in other parts of
+code, such as:
 
-+#define SANITY_CHECK_MEM_REGION_FIELD(field)                                   \
-+do {                                                                           \
-+       BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=             \
-+                    offsetof(struct kvm_userspace_memory_region, field));      \
-+       BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=         \
-+                    sizeof_field(struct kvm_userspace_memory_region, field));  \
-+} while (0)
-+
-+#define SANITY_CHECK_MEM_REGION_EXT_FIELD(field)                                       \
-+do {                                                                                   \
-+       BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=                     \
-+                    offsetof(struct kvm_userspace_memory_region_ext, field));          \
-+       BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=                 \
-+                    sizeof_field(struct kvm_userspace_memory_region_ext, field));      \
-+} while (0)
-+
-+static void kvm_sanity_check_user_mem_region_alias(void)
-+{
-+       SANITY_CHECK_MEM_REGION_FIELD(slot);
-+       SANITY_CHECK_MEM_REGION_FIELD(flags);
-+       SANITY_CHECK_MEM_REGION_FIELD(guest_phys_addr);
-+       SANITY_CHECK_MEM_REGION_FIELD(memory_size);
-+       SANITY_CHECK_MEM_REGION_FIELD(userspace_addr);
-+       SANITY_CHECK_MEM_REGION_EXT_FIELD(private_offset);
-+       SANITY_CHECK_MEM_REGION_EXT_FIELD(private_fd);
-+}
-+
- static long kvm_vm_ioctl(struct file *filp,
-                           unsigned int ioctl, unsigned long arg)
- {
-@@ -4541,6 +4568,8 @@ static long kvm_vm_ioctl(struct file *filp,
-                unsigned long size;
-                u32 flags;
 
-+               kvm_sanity_check_user_mem_region_alias();
-+
-                memset(&mem, 0, sizeof(mem));
+hw/pci-host/gpex-acpi.c:            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set,
+hw/pci-bridge/pci_expander_bridge.c:    main_host = PCI_HOST_BRIDGE(pxb_dev_base->parent_bus->parent);
 
-                r = -EFAULT;
 
-> +struct kvm_user_mem_region {
-> +	__u32 slot;
-> +	__u32 flags;
-> +	__u64 guest_phys_addr;
-> +	__u64 memory_size;
-> +	__u64 userspace_addr;
-> +	__u64 private_offset;
-> +	__u32 private_fd;
-> +	__u32 pad1;
-> +	__u64 pad2[14];
-> +};
-> +#endif
-> +
->  /*
->   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
->   * other bits are reserved for kvm internal use which are defined in
-> @@ -110,6 +133,7 @@ struct kvm_userspace_memory_region {
->   */
->  #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
->  #define KVM_MEM_READONLY	(1UL << 1)
-> +#define KVM_MEM_PRIVATE		(1UL << 2)
+So I believe we're not out of line here.
 
-Hmm, KVM_MEM_PRIVATE is technically wrong now that a "private" memslot maps private
-and/or shared memory.  Strictly speaking, we don't actually need a new flag.  Valid
-file descriptors must be >=0, so the logic for specifying a memslot that can be
-converted between private and shared could be that "(int)private_fd < 0" means
-"not convertible", i.e. derive the flag from private_fd.
 
-And looking at the two KVM consumers of the flag, via kvm_slot_is_private(), they're
-both wrong.  Both kvm_faultin_pfn() and kvm_mmu_max_mapping_level() should operate
-on the _fault_, not the slot.  So it would actually be a positive to not have an easy
-way to query if a slot supports conversion.
+Thanks,
 
->  /* for KVM_IRQ_LINE */
->  struct kvm_irq_level {
 
-...
+Daniel
 
-> +		if (flags & KVM_MEM_PRIVATE) {
 
-An added bonus of dropping KVM_MEM_PRIVATE is that these checks go away.
-
-> +			r = -EINVAL;
-> +			goto out;
-> +		}
-> +
-> +		size = sizeof(struct kvm_userspace_memory_region);
-> +
-> +		if (copy_from_user(&mem, argp, size))
-> +			goto out;
-> +
-> +		r = -EINVAL;
-> +		if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
->  			goto out;
->  
-> -		r = kvm_vm_ioctl_set_memory_region(kvm, &kvm_userspace_mem);
-> +		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->  		break;
->  	}
->  	case KVM_GET_DIRTY_LOG: {
-> -- 
-> 2.25.1
+> 
+> Thanks,
+> 
+> C.
+> 
+>>       if (!phb) {
+>>           error_setg(errp,
+>> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+>> index ffd9d8a947..bae9398d86 100644
+>> --- a/hw/pci-host/pnv_phb4.c
+>> +++ b/hw/pci-host/pnv_phb4.c
+>> @@ -1782,12 +1782,16 @@ static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
+>>   {
+>>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>>       PCIDevice *pci = PCI_DEVICE(dev);
+>> -    PCIBus *bus = pci_get_bus(pci);
+>>       PnvPHB4 *phb = NULL;
+>>       Error *local_err = NULL;
+>> -    phb = (PnvPHB4 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+>> -                                          TYPE_PNV_PHB4);
+>> +    /*
+>> +     * dev->parent_bus gives access to the pnv-phb-root bus.
+>> +     * The PnvPHB4 is the owner (parent) of the bus.
+>> +     */
+>> +    if (dev && dev->parent_bus) {
+>> +        phb = PNV_PHB4(dev->parent_bus->parent);
+>> +    }
+>>       if (!phb) {
+>>           error_setg(errp, "%s must be connected to pnv-phb4 buses", dev->id);
+> 
 > 
 
