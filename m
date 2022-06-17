@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02F454F23F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 09:54:38 +0200 (CEST)
-Received: from localhost ([::1]:50460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 382A354F24E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 09:59:17 +0200 (CEST)
+Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o26oP-0007m2-AJ
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 03:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39376)
+	id 1o26su-0005Be-4x
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 03:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26lB-000575-Hg
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:17 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:28791 helo=mga06.intel.com)
+ id 1o26lD-00057i-51
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:19 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:28798 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26l9-00074u-6l
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:16 -0400
+ id 1o26lA-000779-L3
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655452275; x=1686988275;
+ t=1655452276; x=1686988276;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=whdQNEMqdbB7synrgxp+I8MwnlGsyMBCOizN8yk/qDo=;
- b=HWhZq7vsVbjRs/DNOFuN5lRdS+XwdkYL769pEi9B58MHfF5/raMWxlr5
- XUVQb1VK+1iKVZqJmmWrBRBcy28Caq3mWx59XQ6VPhXR/QMm6CExQO6Vj
- xDyfw8NQ8W6NArvqAOxMqcBV8zAOfnnebmvY2SgOJoxIr4CosoYHqr6qo
- aw8MdM+mzjKlCZjMVGF9bK3ontaNWiHefGs2suK7Z2AyWO7SfMVHoc5kV
- VXeXTxfR+qYCjVYCk42VsyHTNulYcKz8myGQVC85FsH7GI3tmRtxsgAhL
- JlLXuFVndHlIvDCXW8vkZyi66CHA63vUzYm2Qx3ioF6t5Q5HhCXEDIqI5 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102125"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102125"
+ bh=itrH3lwJEdenqHNk/rzk/jU1d9vLWcacw9Xlg0BpOgI=;
+ b=h+XJc/VzrCw0A9dK2372tWxKznQHiCGNPjohTSECuhnGATMXJ2voE/k3
+ aWnflP2IQkHIj/fvIRh47mCPHvOzxAFhDc/C7jHcgFlVDOP8/CWquKJD/
+ 90Ha9/h2C1RYHk8Ak5r2kZTNtSSL+Q8eNbhAOraXKwILnX0kFe/TVrxKT
+ qRaUF9btKMGQ6hwH8W1FXufNm4Fnpg8w413VSXAjZyW/Pejw2QiO1q5mR
+ S/8sc3miti5QyMnkQPx4PMPc+dCFeOVbkw6n4WZdRC5fdriseQ3S3+F98
+ YYmkyDd7SpmL5jQDNtltjeR2r+JniBHgstA6dgMYMCibX29MqfpRlSy6G w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102138"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102138"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:12 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936669"
+ 17 Jun 2022 00:51:15 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936688"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:10 -0700
+ 17 Jun 2022 00:51:13 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Zhang Chen <chen.zhang@intel.com>,
  Laurent Vivier <lvivier@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Andrew Melnychenko <andrew@daynix.com>
-Subject: [RFC PATCH 03/12] ebpf/uBPF: Introduce userspace ebpf data structure
-Date: Fri, 17 Jun 2022 15:36:21 +0800
-Message-Id: <20220617073630.535914-4-chen.zhang@intel.com>
+Subject: [RFC PATCH 04/12] ebpf/uBPF: Introduce ubpf initialize functions
+Date: Fri, 17 Jun 2022 15:36:22 +0800
+Message-Id: <20220617073630.535914-5-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220617073630.535914-1-chen.zhang@intel.com>
 References: <20220617073630.535914-1-chen.zhang@intel.com>
@@ -83,22 +83,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add ebpf/ubpf.h for the UbpfState.
+Introduce ubpf.c/ubpf-stub.c with basic read and init_jit functions.
+Add ubpf related .c files to meson.build.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- ebpf/ubpf.h | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 ebpf/ubpf.h
+ ebpf/meson.build |   1 +
+ ebpf/ubpf-stub.c |  24 +++++++++++
+ ebpf/ubpf.c      | 101 +++++++++++++++++++++++++++++++++++++++++++++++
+ ebpf/ubpf.h      |   4 ++
+ 4 files changed, 130 insertions(+)
+ create mode 100644 ebpf/ubpf-stub.c
+ create mode 100644 ebpf/ubpf.c
 
-diff --git a/ebpf/ubpf.h b/ebpf/ubpf.h
+diff --git a/ebpf/meson.build b/ebpf/meson.build
+index 2dd0fd8948..f4457fbd28 100644
+--- a/ebpf/meson.build
++++ b/ebpf/meson.build
+@@ -1 +1,2 @@
+ softmmu_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: files('ebpf_rss-stub.c'))
++softmmu_ss.add(when: ubpf, if_true: files('ubpf.c'), if_false: files('ubpf-stub.c'))
+diff --git a/ebpf/ubpf-stub.c b/ebpf/ubpf-stub.c
 new file mode 100644
-index 0000000000..2562fff503
+index 0000000000..2e8bf15b91
 --- /dev/null
-+++ b/ebpf/ubpf.h
-@@ -0,0 +1,37 @@
++++ b/ebpf/ubpf-stub.c
+@@ -0,0 +1,24 @@
 +/*
-+ * QEMU Userspace eBPF Header
++ * QEMU Userspace eBPF Stub File
 + *
 + * Copyright(C) 2022 Intel Corporation.
 + *
@@ -110,30 +122,137 @@ index 0000000000..2562fff503
 + *
 + */
 +
-+#ifndef QEMU_UBPF_H
-+#define QEMU_UBPF_H
++bool qemu_ubpf_read_code(UbpfState *u_ebpf, char *path)
++{
++    return 0;
++}
 +
-+#include <ubpf.h>
-+#include <math.h>
-+#include <elf.h>
++bool qemu_ubpf_read_target(UbpfState *u_ebpf, char *path)
++{
++    return 0;
++}
 +
-+#define MAX_LEN (1024 * 1024)
++void qemu_ubpf_init_jit(UbpfState *u_ebpf, bool jit) {}
+diff --git a/ebpf/ubpf.c b/ebpf/ubpf.c
+new file mode 100644
+index 0000000000..38a6530903
+--- /dev/null
++++ b/ebpf/ubpf.c
+@@ -0,0 +1,101 @@
++/*
++ * QEMU Userspace eBPF Support
++ *
++ * Copyright(C) 2022 Intel Corporation.
++ *
++ * Author:
++ *  Zhang Chen <chen.zhang@intel.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
-+typedef struct UbpfState {
-+    bool jit;
-+    char *code_path;
-+    void *code;
-+    size_t code_len;
-+    char *target_path;
-+    void *target;
-+    size_t target_len;
-+    struct ubpf_vm *vm;
-+    ubpf_jit_fn fn;
-+    int type;
-+    char *func;
-+} UbpfState;
++#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++#include "ebpf/ubpf.h"
 +
-+#endif /* QEMU_UBPF_H */
++static void *qemu_ubpf_read(const char *path, size_t maxlen, size_t *len)
++{
++    FILE *file;
++    size_t offset = 0, rv;
++    void *data;
++
++    if (!strcmp(path, "-")) {
++        file = fdopen(STDIN_FILENO, "r");
++    } else {
++        file = fopen(path, "r");
++    }
++
++    if (file == NULL) {
++        error_report("Failed to open %s: %s", path, strerror(errno));
++        return NULL;
++    }
++
++    data = g_malloc0(maxlen);
++
++    while ((rv = fread(data + offset, 1, maxlen - offset, file)) > 0) {
++        offset += rv;
++    }
++
++    if (ferror(file)) {
++        error_report("Failed to read %s: %s", path, strerror(errno));
++        goto err;
++    }
++
++    if (!feof(file)) {
++        error_report("Failed to read %s because it is too large"
++                     " (max %u bytes)", path, (unsigned)maxlen);
++        goto err;
++    }
++
++    fclose(file);
++    if (len) {
++        *len = offset;
++    }
++    return data;
++
++err:
++    fclose(file);
++    free(data);
++    return false;
++}
++
++/* Read Userspace eBPF binary file to QEMU */
++bool qemu_ubpf_read_code(UbpfState *u_ebpf, char *path)
++{
++    if (!path) {
++        return false;
++    }
++    u_ebpf->code_path = path;
++
++    u_ebpf->code = qemu_ubpf_read(u_ebpf->code_path, MAX_LEN,
++                                  &u_ebpf->code_len);
++    if (u_ebpf->code) {
++        return true;
++    } else {
++        return false;
++    }
++}
++
++/* Read Userspace eBPF target */
++bool qemu_ubpf_read_target(UbpfState *u_ebpf, char *path)
++{
++    if (!path) {
++        return false;
++    }
++    u_ebpf->target_path = path;
++
++    u_ebpf->target = qemu_ubpf_read(u_ebpf->target_path, MAX_LEN,
++                                    &u_ebpf->target_len);
++    if (u_ebpf->target) {
++        return true;
++    } else {
++        return false;
++    }
++}
++
++void qemu_ubpf_init_jit(UbpfState *u_ebpf, bool jit)
++{
++    u_ebpf->jit = jit;
++}
+diff --git a/ebpf/ubpf.h b/ebpf/ubpf.h
+index 2562fff503..808c02565c 100644
+--- a/ebpf/ubpf.h
++++ b/ebpf/ubpf.h
+@@ -34,4 +34,8 @@ typedef struct UbpfState {
+     char *func;
+ } UbpfState;
+ 
++bool qemu_ubpf_read_code(UbpfState *u_ebpf, char *path);
++bool qemu_ubpf_read_target(UbpfState *u_ebpf, char *path);
++void qemu_ubpf_init_jit(UbpfState *u_ebpf, bool jit);
++
+ #endif /* QEMU_UBPF_H */
 -- 
 2.25.1
 
