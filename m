@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ED754F9AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 16:52:44 +0200 (CEST)
-Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5FB54F9B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 16:57:12 +0200 (CEST)
+Received: from localhost ([::1]:46714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2DL1-0006O2-Nw
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 10:52:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35530)
+	id 1o2DPL-0003ae-R5
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 10:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o2DHa-0003hP-BC
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 10:49:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57088)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o2DHb-0003k0-Mc
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 10:49:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o2DHY-0008Ce-Bq
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 10:49:10 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o2DHZ-0008Cu-Vg
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 10:49:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655477347;
+ s=mimecast20190719; t=1655477349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pBk6B+Bo0PfX83P4HlyD0NwaXmkNfrQ4M7ZS6wcjkwk=;
- b=QVa8pepOXOlYtn2pQYUCOSu3uK2p5oBjHzZGAkgmbI7ShCNhy8FGEexoR+UDCkyrMuswj6
- rS405sWaUK+1q5Utjy99CpsRO50U2dKlzYe95ZUvhWa0oY5lX+KQ4/AYkXG8NDviqF7kYB
- zN+cURbU4wa0wewaNpMUMF6lE838v2U=
+ bh=pP2NADRE9oOFEa/D5phGxp4aqs8ySJ4/3PmGOiorPaI=;
+ b=ZIvszDdzJ3N2/4n4Y0ejoFyF0z0dLaZg5EFXoyG+3N2OJ1/+hL+0HG9ybz/leQK98Xx8Wd
+ 9p4ajl7EYrw9gqf91O9jh+1uPV1AbA2OKef1CQAjDnLLm2xIsIx6FUcUXqvZYSyBnV+2GU
+ mituONwfZRpiZqpdMkaizS08lqqE4H8=
 Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
  [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-PfqqNHyQOtKxEZR7Y2WSfw-1; Fri, 17 Jun 2022 10:49:06 -0400
-X-MC-Unique: PfqqNHyQOtKxEZR7Y2WSfw-1
+ us-mta-528-JQyx64t-PDuhRFLza_nRsg-1; Fri, 17 Jun 2022 10:49:08 -0400
+X-MC-Unique: JQyx64t-PDuhRFLza_nRsg-1
 Received: by mail-io1-f70.google.com with SMTP id
- i198-20020a6b3bcf000000b0066cf0d427daso821212ioa.11
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 07:49:06 -0700 (PDT)
+ e195-20020a6bb5cc000000b0066cc9ece80fso2647333iof.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 07:49:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pBk6B+Bo0PfX83P4HlyD0NwaXmkNfrQ4M7ZS6wcjkwk=;
- b=Vs3HZgI+6Iqsr6GXPgtsCE5mRNtsUpEGZJOjU49XUdly7AX1XXdgtJjOfohgl3dJK3
- WGPjQY5TWhMMHbpur+MSjMkLV2M4Pffrqsi89jWhyp16573OBmYOugyX+0OjV7i1qot4
- 83Y/IdnRtaiPJM3kuRQuXAcUZ7T54yjLQYMCXeCCIxACGWGiSPx/suykQITrUCW5P7pG
- PJM5v7Tm07gN+c0eXAlE5p8fH5xUy/Q4YkeXh77YI0/2JreomND+egzhA3s0mCHc48ss
- uSD0cY/hkhXzYAoBWT7s/IuM4Ysf4CsUqzqa7ttZkjy5/Q+PxPadRC5ticuK1+S5pbs3
- Ts+g==
-X-Gm-Message-State: AJIora+fQ7z+GO424iy6wCRKgyPX07P3WNsCVHYpajHDHakmtpgnANVc
- z8BxfQVfoK3gnEF3ZNQPRLZIvq2qxePQTGRHYDGky7A+3Ac6jXWAvcSqa+lKEYYJSjGBplzfOB/
- 8kWlySW3NZhwTHIdYu3okOeBadZI4BYkMIslpU6Q4/lSwlZB3Kw6Q14xU5ZhDPcIn
-X-Received: by 2002:a05:6e02:1b87:b0:2d6:5e74:217a with SMTP id
- h7-20020a056e021b8700b002d65e74217amr5846250ili.74.1655477345544; 
- Fri, 17 Jun 2022 07:49:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u6yRIwVZ534mz7LIJewh/FPli5QiG3BeAdZA73rhJnm8g8dLaGUAwpm5Gpdbdj2/wIuX4D3w==
-X-Received: by 2002:a05:6e02:1b87:b0:2d6:5e74:217a with SMTP id
- h7-20020a056e021b8700b002d65e74217amr5846227ili.74.1655477345236; 
- Fri, 17 Jun 2022 07:49:05 -0700 (PDT)
+ bh=pP2NADRE9oOFEa/D5phGxp4aqs8ySJ4/3PmGOiorPaI=;
+ b=5uY0E1rRxJnU5XZSB/kClAisnFFRKFZ6jvbXybgzwyhrksrw4/s+L8oPwiSzmXaU47
+ QUq89Rd4dsoonyqkIzIy1BZugSoD5Gj5Q1g7whchQlNPjpcraLuOwphrrYPoGOSZrEBB
+ z2JTxUAdC7KAC8yuGSbzCHWCPyq3Uz18gFB9Ztrt7yv5kesj80kREf2aD4FBgjaPP6mv
+ UCyZMsjvJCAaMoNsYnc2ur/uEunvQGsTXo5jDxAaFWzH6hSE4Jv5zpul5S762C3725tK
+ Fgd3J1/I7BLrkFh/QWoo8GCvDB+PToXGqeuemGncAQrjQmy/W8Hq1fnQZ9kp9BgZLyPN
+ uIMw==
+X-Gm-Message-State: AJIora/J6m6qOiHMP2iHUZdQRpz5KrVuSv2rRyM/Q4gZoeK3hn0EMZ7e
+ BSZKrfKxJ2YzlV3p5Yo9ub//VShFWrRGp+uDAewFeed6X41JLZ3V1hWdLX+idU0zO+cn3rEIiov
+ LBgyJRDpPu9AVNj1w291fT5AkkAs9+uuKR4HYOobroEWO/2WO8MB4Kp4kvtb/s1kn
+X-Received: by 2002:a5e:c307:0:b0:668:b809:ecbb with SMTP id
+ a7-20020a5ec307000000b00668b809ecbbmr5074392iok.174.1655477347419; 
+ Fri, 17 Jun 2022 07:49:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ulTI5jf9v+SxLsKOm0xVjWjOhqBBUMtqTPrYVM5hTCGt4mVyXcz0pwN4eP4CRlSWGCrbaeHA==
+X-Received: by 2002:a5e:c307:0:b0:668:b809:ecbb with SMTP id
+ a7-20020a5ec307000000b00668b809ecbbmr5074366iok.174.1655477347096; 
+ Fri, 17 Jun 2022 07:49:07 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- n24-20020a02cc18000000b0032e168fa56fsm2294838jap.83.2022.06.17.07.49.03
+ n24-20020a02cc18000000b0032e168fa56fsm2294838jap.83.2022.06.17.07.49.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 17 Jun 2022 07:49:04 -0700 (PDT)
+ Fri, 17 Jun 2022 07:49:06 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>,
@@ -71,16 +71,16 @@ Cc: Juan Quintela <quintela@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>
-Subject: [PATCH 3/5] accel: Allow synchronize_post_init() to take an Error**
-Date: Fri, 17 Jun 2022 10:48:55 -0400
-Message-Id: <20220617144857.34189-4-peterx@redhat.com>
+Subject: [PATCH 4/5] cpu: Allow cpu_synchronize_all_post_init() to take an errp
+Date: Fri, 17 Jun 2022 10:48:56 -0400
+Message-Id: <20220617144857.34189-5-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220617144857.34189-1-peterx@redhat.com>
 References: <20220617144857.34189-1-peterx@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,150 +104,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It allows accel->synchronize_post_init() hook to return an error upwards.
-Add a new cpu_synchronize_post_init_full() for it, then let the existing
-cpu_synchronize_post_init() to call it with errp==NULL.
+Allow cpu_synchronize_all_post_init() to fail with an errp when it's set.
+Modify both precopy and postcopy to try to detect such error.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- accel/hvf/hvf-accel-ops.c     |  2 +-
- accel/kvm/kvm-all.c           |  2 +-
- include/sysemu/accel-ops.h    |  2 +-
- include/sysemu/hw_accel.h     |  1 +
- softmmu/cpus.c                | 10 ++++++++--
- stubs/cpu-synchronize-state.c |  3 +++
- target/i386/hax/hax-all.c     |  2 +-
- target/i386/nvmm/nvmm-all.c   |  2 +-
- target/i386/whpx/whpx-all.c   |  2 +-
- 9 files changed, 18 insertions(+), 8 deletions(-)
+ hw/core/machine.c     |  2 +-
+ include/sysemu/cpus.h |  2 +-
+ migration/savevm.c    | 20 +++++++++++++++++---
+ softmmu/cpus.c        |  2 +-
+ 4 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index 24913ca9c4..dec4446264 100644
---- a/accel/hvf/hvf-accel-ops.c
-+++ b/accel/hvf/hvf-accel-ops.c
-@@ -228,7 +228,7 @@ static void hvf_cpu_synchronize_post_reset(CPUState *cpu)
-     run_on_cpu(cpu, do_hvf_cpu_synchronize_set_dirty, RUN_ON_CPU_NULL);
- }
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index a673302cce..e1a072080a 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1419,7 +1419,7 @@ void qemu_remove_machine_init_done_notifier(Notifier *notify)
  
--static void hvf_cpu_synchronize_post_init(CPUState *cpu)
-+static void hvf_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
+ void qdev_machine_creation_done(void)
  {
-     run_on_cpu(cpu, do_hvf_cpu_synchronize_set_dirty, RUN_ON_CPU_NULL);
+-    cpu_synchronize_all_post_init();
++    cpu_synchronize_all_post_init(NULL);
+ 
+     if (current_machine->boot_config.has_once) {
+         qemu_boot_set(current_machine->boot_config.once, &error_fatal);
+diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+index b5c87d48b3..a51ee46441 100644
+--- a/include/sysemu/cpus.h
++++ b/include/sysemu/cpus.h
+@@ -45,7 +45,7 @@ bool cpus_are_resettable(void);
+ 
+ void cpu_synchronize_all_states(void);
+ void cpu_synchronize_all_post_reset(void);
+-void cpu_synchronize_all_post_init(void);
++void cpu_synchronize_all_post_init(Error **errp);
+ void cpu_synchronize_all_pre_loadvm(void);
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/migration/savevm.c b/migration/savevm.c
+index d9076897b8..1175ddefd4 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2005,7 +2005,17 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+     /* TODO we should move all of this lot into postcopy_ram.c or a shared code
+      * in migration.c
+      */
+-    cpu_synchronize_all_post_init();
++    cpu_synchronize_all_post_init(&local_err);
++    if (local_err) {
++        /*
++         * TODO: a better way to do this is to tell the src that we cannot
++         * run the VM here so hopefully we can keep the VM running on src
++         * and immediately halt the switch-over.  But that needs work.
++         */
++        error_report_err(local_err);
++        local_err = NULL;
++        autostart = false;
++    }
+ 
+     trace_loadvm_postcopy_handle_run_bh("after cpu sync");
+ 
+@@ -2772,7 +2782,11 @@ int qemu_loadvm_state(QEMUFile *f)
+     }
+ 
+     qemu_loadvm_state_cleanup();
+-    cpu_synchronize_all_post_init();
++    cpu_synchronize_all_post_init(&local_err);
++    if (local_err) {
++        error_report_err(local_err);
++        return -EINVAL;
++    }
+ 
+     return ret;
  }
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index ba3210b1c1..df4f7c98f3 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2777,7 +2777,7 @@ static void do_kvm_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
-     cpu->vcpu_dirty = false;
+@@ -2789,7 +2803,7 @@ int qemu_load_device_state(QEMUFile *f)
+         return ret;
+     }
+ 
+-    cpu_synchronize_all_post_init();
++    cpu_synchronize_all_post_init(NULL);
+     return 0;
  }
  
--void kvm_cpu_synchronize_post_init(CPUState *cpu)
-+void kvm_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_kvm_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
-diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index a0572ea87a..7e526d3c65 100644
---- a/include/sysemu/accel-ops.h
-+++ b/include/sysemu/accel-ops.h
-@@ -35,7 +35,7 @@ struct AccelOpsClass {
-     bool (*cpu_thread_is_idle)(CPUState *cpu);
- 
-     void (*synchronize_post_reset)(CPUState *cpu);
--    void (*synchronize_post_init)(CPUState *cpu);
-+    void (*synchronize_post_init)(CPUState *cpu, Error **errp);
-     void (*synchronize_state)(CPUState *cpu);
-     void (*synchronize_pre_loadvm)(CPUState *cpu);
-     void (*synchronize_pre_resume)(bool step_pending);
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 22903a55f7..3ee3508411 100644
---- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -21,6 +21,7 @@
- void cpu_synchronize_state(CPUState *cpu);
- void cpu_synchronize_post_reset(CPUState *cpu);
- void cpu_synchronize_post_init(CPUState *cpu);
-+void cpu_synchronize_post_init_full(CPUState *cpu, Error **errp);
- void cpu_synchronize_pre_loadvm(CPUState *cpu);
- 
- #endif /* QEMU_HW_ACCEL_H */
 diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 898363a1d0..464c06201c 100644
+index 464c06201c..59c70fd496 100644
 --- a/softmmu/cpus.c
 +++ b/softmmu/cpus.c
-@@ -178,13 +178,19 @@ void cpu_synchronize_post_reset(CPUState *cpu)
+@@ -146,7 +146,7 @@ void cpu_synchronize_all_post_reset(void)
      }
  }
  
--void cpu_synchronize_post_init(CPUState *cpu)
-+void cpu_synchronize_post_init_full(CPUState *cpu, Error **errp)
+-void cpu_synchronize_all_post_init(void)
++void cpu_synchronize_all_post_init(Error **errp)
  {
-     if (cpus_accel->synchronize_post_init) {
--        cpus_accel->synchronize_post_init(cpu);
-+        cpus_accel->synchronize_post_init(cpu, errp);
-     }
- }
+     CPUState *cpu;
  
-+void cpu_synchronize_post_init(CPUState *cpu)
-+{
-+    /* errp=NULL means we won't capture any error */
-+    cpu_synchronize_post_init_full(cpu, NULL);
-+}
-+
- void cpu_synchronize_pre_loadvm(CPUState *cpu)
- {
-     if (cpus_accel->synchronize_pre_loadvm) {
-diff --git a/stubs/cpu-synchronize-state.c b/stubs/cpu-synchronize-state.c
-index d9211da66c..6d2c9f509a 100644
---- a/stubs/cpu-synchronize-state.c
-+++ b/stubs/cpu-synchronize-state.c
-@@ -7,3 +7,6 @@ void cpu_synchronize_state(CPUState *cpu)
- void cpu_synchronize_post_init(CPUState *cpu)
- {
- }
-+void cpu_synchronize_post_init_full(CPUState *cpu, Error **errp)
-+{
-+}
-diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
-index b185ee8de4..782d83b531 100644
---- a/target/i386/hax/hax-all.c
-+++ b/target/i386/hax/hax-all.c
-@@ -651,7 +651,7 @@ static void do_hax_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
-     cpu->vcpu_dirty = false;
- }
- 
--void hax_cpu_synchronize_post_init(CPUState *cpu)
-+void hax_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_hax_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
-diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
-index b75738ee9c..f429e940af 100644
---- a/target/i386/nvmm/nvmm-all.c
-+++ b/target/i386/nvmm/nvmm-all.c
-@@ -869,7 +869,7 @@ void nvmm_cpu_synchronize_post_reset(CPUState *cpu)
-     run_on_cpu(cpu, do_nvmm_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
- }
- 
--void nvmm_cpu_synchronize_post_init(CPUState *cpu)
-+void nvmm_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_nvmm_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index b22a3314b4..09bf5681ce 100644
---- a/target/i386/whpx/whpx-all.c
-+++ b/target/i386/whpx/whpx-all.c
-@@ -2123,7 +2123,7 @@ void whpx_cpu_synchronize_post_reset(CPUState *cpu)
-     run_on_cpu(cpu, do_whpx_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
- }
- 
--void whpx_cpu_synchronize_post_init(CPUState *cpu)
-+void whpx_cpu_synchronize_post_init(CPUState *cpu, Error **errp)
- {
-     run_on_cpu(cpu, do_whpx_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
 -- 
 2.32.0
 
