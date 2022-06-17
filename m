@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697B754F7D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:50:38 +0200 (CEST)
-Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C246154F803
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:59:24 +0200 (CEST)
+Received: from localhost ([::1]:58854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2BQr-0008HR-Gt
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:50:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55536)
+	id 1o2BZL-0004Jg-Dd
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o2BOA-0005Dx-Th
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:47:50 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:36384 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o2BO6-0000co-E3
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:47:49 -0400
-Received: from smtpclient.apple (unknown [202.38.79.134])
- by APP-01 (Coremail) with SMTP id qwCowACHVFnid6xi8WSRBA--.15998S2;
- Fri, 17 Jun 2022 20:47:31 +0800 (CST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o2BWq-0003YR-AC
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:56:48 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36431)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o2BWl-0002S3-5s
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:56:44 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 276D55C00DD;
+ Fri, 17 Jun 2022 08:56:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 17 Jun 2022 08:56:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1655470601; x=1655557001; bh=f3
+ rsKljFebc4h22wllVTUtC4hzl8BM/3g0wEF9IDt7E=; b=QeRCEpPosdYT9j4hiR
+ kPCpEhzAcirU5hBIwEi86SkiMhjeYQPTnDhCdHELoe7jFm5fpEaIz4N8w1eWhI1z
+ rVtcSW+u6ezLjPvXf8q8a0Q1RfdqTo73hwiZa7+UsPn2zv8pG5S6tzYKPGHquY2f
+ mTNehQi6+YmSPeqjG2W26CQnNbWck55MiKjaqX3/ozlOT5otPUfdmLbLeEBGHuUz
+ Nfo1FLA2AC6XlsTVVo/vy11lYQ9Q6e9vurXVXbs8GCJ8zQfStNn2WZgewru3twjR
+ tHVxQP5dko3X/xiRbEPWykKCpzu+6+kuMzQ/37nbHsnTt8oHPOyCIflyoUM4nzzq
+ FTnQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1655470601; x=1655557001; bh=f3rsKljFebc4h22wllVTUtC4hzl8
+ BM/3g0wEF9IDt7E=; b=dgtwDhSLhnPSn63dOxudtW25xhf4O2ecCe/audRxW8fm
+ h9VxWqmrfKSvKZeaz+QOgkBwMJyU+6B4XQDyXCPS6qqub36foLdMY0zXJmgutpP7
+ kuTClAsYnTq0MPwVvu0pOseAtziVTtFaxjwtrI3bvsx3IYSUXEoA8w+E+aDmRSkJ
+ 30rvFO8LOUPAGsjG/Nk6IiStpnM7s5rbJSETFp00ys1DNP+n2CarpZw1qzfWCyPI
+ pfaRQfFJ6mqgt8kK1vxe+YzdsA4A4hZ4K6wvz45XFkJB0anQzN5fhLG3GlJsG/sv
+ pc+g6ABKPec0KqCbjtcznHpoQQKEzYWTSFaPATrD4g==
+X-ME-Sender: <xms:B3qsYq555skiVNzTdKne1B9rcnJg8481Z-0lzy7loPd2LwtY7C1u5g>
+ <xme:B3qsYj4_0mBNga-UleWQdSxN7bAv4tfLPHvJ00S31extCPlZwiBEz46eCL7PqaaeD
+ 4Ez0zmsHAC5mGHc3Dw>
+X-ME-Received: <xmr:B3qsYpf53iZDSgLZR2OXPhng270J4lK1mAAKEFYyyZvTciDCu8DF7qdWfGwfGIhmf8pYWZZsFd2m-Y9psw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvhedgheeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
+ elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:B3qsYnJbRS83LPAxhgwyYpJaBRZrZGgVscwFLWP_FDeW1Mle6usoHg>
+ <xmx:B3qsYuIfDNZ0gl6vc34WaXKbxyVR9y_8Wj4MMM-qzEtIGrf6LWRD9A>
+ <xmx:B3qsYow7Denew5T2hX1dxqxPW4d19c6XqSvyxT5vuQvO-qIrk7ucdg>
+ <xmx:CXqsYlWH0tUI74W7usT-Dghnp0K3n5-1k_r7yABUdFEnuXMREFmV_A>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Jun 2022 08:56:38 -0400 (EDT)
+Date: Fri, 17 Jun 2022 14:56:36 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org
 Subject: Re: [PATCH v3 0/2] hw/nvme: Add shadow doorbell buffer support
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <YqxrXgLeMdVKFQ4P@apples>
-Date: Fri, 17 Jun 2022 20:47:29 +0800
-Cc: qemu-devel@nongnu.org,
- kbusch@kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <75D77EF8-3A0E-4CFB-A7CB-2342C28CB60C@ict.ac.cn>
+Message-ID: <Yqx6BK6sh5s0FG3O@apples>
 References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
  <YqxrXgLeMdVKFQ4P@apples>
-To: Klaus Jensen <its@irrelevant.dk>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: qwCowACHVFnid6xi8WSRBA--.15998S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw1fur48tF48Xr48XryrJFb_yoW5AF4fpa
- yY9F13tF4kWr17Gws3KF17JF1Fqws3XrWkWFsrJw17GFn0kFyaqa4Ykr18uF90vrs2gw4S
- yFWqqry7G34jyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyIb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
- vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2Iq
- xVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
- 106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
- xVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7
- xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWU
- JVW8JbIYCTnIWIevJa73UjIFyTuYvjxUgg_TUUUUU
-X-Originating-IP: [202.38.79.134]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ <75D77EF8-3A0E-4CFB-A7CB-2342C28CB60C@ict.ac.cn>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Dy/JwgfMtLc3Ixbg"
+Content-Disposition: inline
+In-Reply-To: <75D77EF8-3A0E-4CFB-A7CB-2342C28CB60C@ict.ac.cn>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,129 +103,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--Dy/JwgfMtLc3Ixbg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Jun 17, 2022, at 7:54 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+On Jun 17 20:47, Jinhao Fan wrote:
 >=20
-> On Jun 16 20:34, Jinhao Fan wrote:
->> This patch adds shadow doorbell buffer support in NVMe 1.3 to QEMU
->> NVMe. The Doorbell Buffer Config admin command is implemented for the
->> guest to enable shadow doobell buffer. When this feature is enabled, =
-each
->> SQ/CQ is associated with two buffers, i.e., Shadow Doorbell buffer =
-and
->> EventIdx buffer. According to the Spec, each queue's doorbell =
-register
->> is only updated when the Shadow Doorbell buffer value changes from =
-being
->> less than or equal to the value of the corresponding EventIdx buffer
->> entry to being greater than that value. Therefore, the number of =
-MMIO's
->> on the doorbell registers is greatly reduced.
->>=20
->> This patch is adapted from Huaicheng Li's patch[1] in 2018.
->>=20
->> [1] =
-https://patchwork.kernel.org/project/qemu-devel/patch/20180305194906.GA363=
-0@gmail.com/
->>=20
->> IOPS comparison with FIO:
->>=20
->> iodepth    1      2      4      8
->>  QEMU   25.1k  25.9k  24.5k  24.0k
->> +dbbuf  29.1k  60.1k  99.8k  82.5k
->>=20
->> MMIO's per IO measured by perf-kvm:
->>=20
->> iodepth    1      2      4      8
->>  QEMU   2.01   1.99   1.99   1.99
->> +dbbuf  1.00   0.52   0.27   0.46
->>=20
->> The tests are done on Ubuntu 22.04 with 5.15.0-33 kernel with =
-Intel(R)=20
->> Xeon(R) Gold 6248R CPU @ 3.00GHz.
->>=20
->> QEMU set up:
->>=20
->> bin/x86_64-softmmu/qemu-system-x86_64 \
->>    -name "nvme-test" \
->>    -machine accel=3Dkvm \
->>    -cpu host \
->>    -smp 4 \
->>    -m 8G \
->>    -daemonize \
->>    -device virtio-scsi-pci,id=3Dscsi0 \
->>    -device scsi-hd,drive=3Dhd0 \
->>    -drive =
-file=3D$OSIMGF,if=3Dnone,aio=3Dnative,cache=3Dnone,format=3Dqcow2,id=3Dhd0=
-,snapshot=3Don \
->>    -drive =
-"id=3Dnvm,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3Don,format=3Draw" =
-\
->>    -device nvme,serial=3Ddeadbeef,drive=3Dnvm \
->>    -net user,hostfwd=3Dtcp::8080-:22 \
->>    -net nic,model=3Dvirtio
->>=20
->> FIO configuration:
->>=20
->> [global]
->> ioengine=3Dlibaio
->> filename=3D/dev/nvme0n1
->> thread=3D1
->> group_reporting=3D1
->> direct=3D1
->> verify=3D0
->> time_based=3D1
->> ramp_time=3D0
->> runtime=3D30
->> ;size=3D1G
->> ;iodepth=3D1
->> rw=3Drandread
->> bs=3D4k
->>=20
->> [test]
->> numjobs=3D1
->>=20
->> Changes since v2:
->>  - Do not ignore admin queue updates in nvme_process_db and =
-nvme_post_cqes
->>  - Calculate db_addr and ei_addr in hard-coded way
->>=20
->> Changes since v1:
->>  - Add compatibility with hosts that do not use admin queue shadow =
-doorbell
->>=20
->> Jinhao Fan (2):
->>  hw/nvme: Implement shadow doorbell buffer support
->>  hw/nvme: Add trace events for shadow doorbell buffer
->>=20
->> hw/nvme/ctrl.c       | 118 =
-++++++++++++++++++++++++++++++++++++++++++-
->> hw/nvme/nvme.h       |   8 +++
->> hw/nvme/trace-events |   5 ++
->> include/block/nvme.h |   2 +
->> 4 files changed, 132 insertions(+), 1 deletion(-)
->>=20
->> --=20
->> 2.25.1
->>=20
 >=20
-> LGTM,
+> > On Jun 17, 2022, at 7:54 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+> >=20
+> > LGTM,
+> >=20
+> > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> >=20
 >=20
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> Great!
+>=20
+> I have two questions:
+>=20
+> How many =E2=80=9CReviewed-by=E2=80=9D=E2=80=99s do I need to get my patc=
+h applied?
 >=20
 
-Great!
+That depends ;) The maintainers decide that.
 
-I have two questions:
+> Do I need to post a v4 patch to add the =E2=80=9CReviewed-by=E2=80=9D=E2=
+=80=99s in my commit=20
+> message?
+>=20
 
-How many =E2=80=9CReviewed-by=E2=80=9D=E2=80=99s do I need to get my =
-patch applied?
+Nope, the maintainer will pick that up when applying.
 
-Do I need to post a v4 patch to add the =E2=80=9CReviewed-by=E2=80=9D=E2=80=
-=99s in my commit=20
-message?
+--Dy/JwgfMtLc3Ixbg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Jinhao Fan
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKsegIACgkQTeGvMW1P
+DenlsAgApeCjplSyP+0YNxvLQ2RQdkNCNvgLlhfYRlUydEpDety2Zy0icK4HZJiq
+SgyY3CJpQS4xNFogM6d5EY15T71vqv35bB4tYfC7KT1t/RshzlfRyjVB1jq6mJga
+aoPzUw+XI7waP5Qr0O/svJI+TSVr+gPPG6dhWSHle+xTnnsS3FbR27UXStOI8yTj
+ycbrmDCcdos0zyRXr1Wlo3R+hDHEYclTjoR5YAagiXQ7ewM1pXdHI+8lQoIJnGbY
+PCEuHz0jtiQJnwfLVzdhR5Qj3kic8kJJocdgGC1qBpTZ6Rrsb4K3rXnJKyoZnaf2
+cpfcN3sJZfCtf1be7eTHZzs8gd3EJg==
+=Y+JO
+-----END PGP SIGNATURE-----
+
+--Dy/JwgfMtLc3Ixbg--
 
