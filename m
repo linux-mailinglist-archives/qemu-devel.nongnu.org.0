@@ -2,98 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B273854FF63
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 23:33:11 +0200 (CEST)
-Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A422154FF86
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 23:53:39 +0200 (CEST)
+Received: from localhost ([::1]:45276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2JaY-0008IP-CI
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 17:33:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
+	id 1o2JuM-0005hS-Bd
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 17:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o2JYT-0006dy-3U
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 17:31:01 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:35519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o2JYR-0005Rp-7O
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 17:31:00 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id o6so4896168plg.2
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 14:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=UqA+O2iAjJVJVS6ckVZAwOszKMvVWnDYVURyulma9/8=;
- b=rLPJAR88grVVrICam06LN8y5WgV/N1UDXOZUtwxnT05CZs2/+ScUbmlvPg7YNGt8jN
- CP/H23Hb5io+PPWzCiRobvcwa6QKaczN/XFJbCJ1xw5FJnKufBcNrQBq2QH3TVs6m/8S
- pT7Ot2jqLIXY5UYrEa9kMivftMhJQ3dtAiEYVicHj41LHpVN49WNN2gyfFOFkPL51bRO
- e2VE7PExegoxz8xRDdxSEKwgJlf0YXMCZQmM3cCvHURRIH33DMEbdALixtIGM0z5DMcv
- vU/sCc0n/YzSIEkmBVf46E+uON/ergwqcFB9WJP4GXemBs6Udj4I3LMO75CQIwPrcj5u
- /Kow==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1o2JsR-00051G-RH
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 17:51:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21875)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1o2JsN-0004jQ-Ll
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 17:51:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655502693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j/tuWSlwt0oMU6XKidLh6JcKtipDuYEi2BKCOFeeGBk=;
+ b=Sy9tL6NkGMwOZ/16NtNskvnQYQ6cVgDoBc34LtMSMCnoRg7H7KdJ4VnsAKFIGl84YNg8Du
+ /uZc2rBNC+e7eJD110wDofU6YeulnDHpuRkCx1FgOD/+PAV+Dh9efG+st8+1W26/CY9SHJ
+ /zwgLKnr3h5l6x65kdtVAT5wBbtC4Gw=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-90-TNl4iamFPh6ERafBn0j7gw-1; Fri, 17 Jun 2022 17:51:32 -0400
+X-MC-Unique: TNl4iamFPh6ERafBn0j7gw-1
+Received: by mail-io1-f71.google.com with SMTP id
+ p3-20020a6b8d03000000b00669c6d6c089so3203388iod.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 14:51:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UqA+O2iAjJVJVS6ckVZAwOszKMvVWnDYVURyulma9/8=;
- b=GXvLlUxE3G3zAJC/9NSCPQ4Wh7C6CyDieCxp00a5/vNEBySzGjaBXUyQ0URLBignui
- dtVGd9DkmELWoW+k8LBQJ/Vf4P1Am/lvdgQ34YUwrk7zF8cLsmTbyE1MR+8t1X8Au9wP
- JO0n7DKqitQVxy6GdQ1YIzvZSVB9/i3ienGAzp8s5/gEESYXHxSTYwKn6GyF0ztY0u1m
- 3LC6vmsa6nE8yeZHpOZR4u8obK5AF6oM7KPn7y+aKNmSw1JWFFR2xPOtdONxV1ziGl8x
- 7ivQs6LANosIytQ+/+XUXNZhnMjw1fdVbcrp86o41KYdOZuCA7rPrGh8OuZO1nUWgald
- LG+w==
-X-Gm-Message-State: AJIora+prnAGpgTS7uJBttHbG4YWJ4x8qbqNjPAwjiAu0HLmbr4lYKeS
- 0aeuib6U0dhN+g3VSJqnCsExzQ==
-X-Google-Smtp-Source: AGRyM1uGkQimPoB8kL1Wht4vTq43JoT8EC6dik/7IAdBWeLMjfdAenHlbc0UpgOFY4oFjdeqquWEtw==
-X-Received: by 2002:a17:90a:e507:b0:1ea:fa43:21de with SMTP id
- t7-20020a17090ae50700b001eafa4321demr9134913pjy.177.1655501457594; 
- Fri, 17 Jun 2022 14:30:57 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com.
- [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
- f16-20020a633810000000b003fd9b8b865dsm4281929pga.0.2022.06.17.14.30.57
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=j/tuWSlwt0oMU6XKidLh6JcKtipDuYEi2BKCOFeeGBk=;
+ b=XSA0WdkzJJgTDgrUYi9y5VGUgFPx5i8ucAkvigqgLS0BAHEVmruGE0DZhPbqIt6ljI
+ fZaSR2GxwqVCmp78y1EdJn3p4qhsI7XriosQLaPYC0L+qDdwI07z2eI2w05+OYD0oxMc
+ jcnsKnZRBlkSyKkoGX/OJeUnVdXpIiRQcT1yiHCL9oQ8uAVYRjQuIWlTzl2uxS2CKm9B
+ aMzmJkKQXulQh+/sNmYUxdo3kvP1LVp+e1tdoi9JUrNx6HTbK86or+n+eU8+X8ReiWtR
+ uPJ7qiacfNjt6Lqp/Qu3X2dLb38pYq8MtK0bmTjYXAYNKwlRSicnyuoi0SY9hCorj1jW
+ FgVw==
+X-Gm-Message-State: AJIora8//cvWdinO8TRvZi483jruBTeS65XlHWW8xEfzY7Mm7eG3UUB5
+ MasCHoM1WmwYy5Kf3KcTUTrlW6tMP70di2MYaxE9g5KjgN8L/+sTDpPUSj7OmJVrTLXeSOD3W+A
+ JBMzQsvcPpLwcOSs=
+X-Received: by 2002:a05:6602:27cc:b0:5f0:876e:126b with SMTP id
+ l12-20020a05660227cc00b005f0876e126bmr6151087ios.129.1655502691586; 
+ Fri, 17 Jun 2022 14:51:31 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sX/qVRfLw+HxR5X3m83lvuk6oiO+QWui7ZEO8Ow4zH7iy5aiWJ+UOnN7LDGrYrCIuUsz24dw==
+X-Received: by 2002:a05:6602:27cc:b0:5f0:876e:126b with SMTP id
+ l12-20020a05660227cc00b005f0876e126bmr6151068ios.129.1655502691254; 
+ Fri, 17 Jun 2022 14:51:31 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ o33-20020a027421000000b00331a211407fsm2693748jac.93.2022.06.17.14.51.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jun 2022 14:30:57 -0700 (PDT)
-Date: Fri, 17 Jun 2022 21:30:53 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
-Message-ID: <YqzyjZnflCMPo8b/@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-7-chao.p.peng@linux.intel.com>
+ Fri, 17 Jun 2022 14:51:30 -0700 (PDT)
+Date: Fri, 17 Jun 2022 15:51:29 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Mark Bloch
+ <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH v2 00/11] vfio/migration: Implement VFIO migration
+ protocol v2
+Message-ID: <20220617155129.206749cb.alex.williamson@redhat.com>
+In-Reply-To: <4973fad7-5e71-aa4c-dfbe-24da254f3cfa@nvidia.com>
+References: <20220530170739.19072-1-avihaih@nvidia.com>
+ <a3c0e7ca-4707-5154-d270-c1034881462a@nvidia.com>
+ <20220607153239.386fbed4.alex.williamson@redhat.com>
+ <4973fad7-5e71-aa4c-dfbe-24da254f3cfa@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519153713.819591-7-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=seanjc@google.com; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,201 +108,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 19, 2022, Chao Peng wrote:
-> @@ -4028,8 +4081,11 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
->  	if (!sp && kvm_test_request(KVM_REQ_MMU_FREE_OBSOLETE_ROOTS, vcpu))
->  		return true;
->  
-> -	return fault->slot &&
-> -	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
-> +	if (fault->is_private)
-> +		return mmu_notifier_retry(vcpu->kvm, mmu_seq);
+On Mon, 13 Jun 2022 14:21:26 +0300
+Avihai Horon <avihaih@nvidia.com> wrote:
 
-Hmm, this is somewhat undesirable, because faulting in private pfns will be blocked
-by unrelated mmu_notifier updates.  The issue is mitigated to some degree by bumping
-the sequence count if and only if overlap with a memslot is detected, e.g. mapping
-changes that affects only userspace won't block the guest.
+> On 6/8/2022 12:32 AM, Alex Williamson wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Tue, 7 Jun 2022 20:44:23 +0300
+> > Avihai Horon <avihaih@nvidia.com> wrote:
+> > =20
+> >> On 5/30/2022 8:07 PM, Avihai Horon wrote: =20
+> >>> Hello,
+> >>>
+> >>> Following VFIO migration protocol v2 acceptance in kernel, this series
+> >>> implements VFIO migration according to the new v2 protocol and replac=
+es
+> >>> the now deprecated v1 implementation.
+> >>>
+> >>> The main differences between v1 and v2 migration protocols are:
+> >>> 1. VFIO device state is represented as a finite state machine instead=
+ of
+> >>>      a bitmap.
+> >>>
+> >>> 2. The migration interface with kernel is done using VFIO_DEVICE_FEAT=
+URE
+> >>>      ioctl and normal read() and write() instead of the migration reg=
+ion
+> >>>      used in v1.
+> >>>
+> >>> 3. Migration protocol v2 currently doesn't support the pre-copy phase=
+ of
+> >>>      migration.
+> >>>
+> >>> Full description of the v2 protocol and the differences from v1 can be
+> >>> found here [1].
+> >>>
+> >>> Patches 1-3 are prep patches fixing bugs and adding QEMUFile function
+> >>> that will be used later.
+> >>>
+> >>> Patches 4-6 refactor v1 protocol code to make it easier to add v2
+> >>> protocol.
+> >>>
+> >>> Patches 7-11 implement v2 protocol and remove v1 protocol.
+> >>>
+> >>> Thanks.
+> >>>
+> >>> [1]
+> >>> https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.c=
+om/
+> >>>
+> >>> Changes from v1: https://lore.kernel.org/all/20220512154320.19697-1-a=
+vihaih@nvidia.com/
+> >>> - Split the big patch that replaced v1 with v2 into several patches as
+> >>>     suggested by Joao, to make review easier.
+> >>> - Change warn_report to warn_report_once when container doesn't suppo=
+rt
+> >>>     dirty tracking.
+> >>> - Add Reviewed-by tag.
+> >>>
+> >>> Avihai Horon (11):
+> >>>     vfio/migration: Fix NULL pointer dereference bug
+> >>>     vfio/migration: Skip pre-copy if dirty page tracking is not suppo=
+rted
+> >>>     migration/qemu-file: Add qemu_file_get_to_fd()
+> >>>     vfio/common: Change vfio_devices_all_running_and_saving() logic to
+> >>>       equivalent one
+> >>>     vfio/migration: Move migration v1 logic to vfio_migration_init()
+> >>>     vfio/migration: Rename functions/structs related to v1 protocol
+> >>>     vfio/migration: Implement VFIO migration protocol v2
+> >>>     vfio/migration: Remove VFIO migration protocol v1
+> >>>     vfio/migration: Reset device if setting recover state fails
+> >>>     vfio: Alphabetize migration section of VFIO trace-events file
+> >>>     docs/devel: Align vfio-migration docs to VFIO migration v2
+> >>>
+> >>>    docs/devel/vfio-migration.rst |  77 ++--
+> >>>    hw/vfio/common.c              |  21 +-
+> >>>    hw/vfio/migration.c           | 640 ++++++++----------------------=
+----
+> >>>    hw/vfio/trace-events          |  25 +-
+> >>>    include/hw/vfio/vfio-common.h |   8 +-
+> >>>    migration/migration.c         |   5 +
+> >>>    migration/migration.h         |   3 +
+> >>>    migration/qemu-file.c         |  34 ++
+> >>>    migration/qemu-file.h         |   1 +
+> >>>    9 files changed, 252 insertions(+), 562 deletions(-)
+> >>> =20
+> >> Ping. =20
+> > Based on the changelog, this seems like a mostly cosmetic spin and I
+> > don't see that all of the discussion threads from v1 were resolved to
+> > everyone's satisfaction.  I'm certainly still uncomfortable with the
+> > pre-copy behavior and I thought there were still some action items to
+> > figure out whether an SLA is present and vet the solution with
+> > management tools.  Thanks, =20
+>=20
+> Yes.
+> OK, so let's clear things up and reach an agreement before I prepare the=
+=20
+> v3 series.
+>=20
+> There are three topics that came up in previous discussion:
+>=20
+>  1. [PATCH v2 01/11] vfio/migration: Fix NULL pointer dereference bug.
+>     Juan gave his Reviewed-by but he wasn't sure about qemu_file_* usage
+>     outside migration thread.
+>     This code existed before and I fixed a NULL pointer dereference that
+>     I encountered.
+>     I suggested that later we can refactor VMChangeStateHandler to
+>     return error.
+>     I prefer not to do this refactor right now because I am not sure
+>     it's as straightforward change as it might seem - if some notifier
+>     fails and we abort do_vm_stop/vm_prepare_start in the middle, can
+>     this leave the VM in some unstable state?
+>     We plan to leave it as is and not do the refactor as part of this
+>     series.
+>     Are you ok with this?
 
-It probably won't be an issue, but at the same time it's easy to solve, and I don't
-like piggybacking mmu_notifier_seq as private mappings shouldn't be subject to the
-mmu_notifier.
+I'll defer to Juan here, it's not 100% clear to me from the last reply
+if he's looking for that sooner than later.  Juan?
+=20
+>  2. [PATCH v2 02/11] vfio/migration: Skip pre-copy if dirty page
+>     tracking is not supported.
+>     As previously discussed, this patch doesn't consider the configured
+>     downtime limit.
+>     One way to fix it is to allow such migration only when "no SLA" (no
+>     downtime limit) is set. AFAIK today there is no way that one can set
+>     "no SLA".
+>     If we go with this option, we change normal flow of migration
+>     (skipping pre-copy) and might need to change management tools.
+>=20
+> Instead, what about letting QEMU VFIO code mark all pages dirty (instead=
+=20
+> of kernel)?
+> This way we don=E2=80=99t skip pre-copy and we get the same behavior we h=
+ave now=20
+> of perpetual dirtying all RAM, which respects SLA.
+> If we go with this option, do we need to block migration when IOMMU is=20
+> sPAPR TCE?
+> Until now migration would be blocked because sPAPR TCE doesn't report=20
+> dirty_pages_supported cap, but going with this option we will allow=20
+> migration even when dirty_pages_supported cap is not set (and let QEMU=20
+> dirty all pages).
 
-That would also fix a theoretical bug in this patch where mmu_notifier_retry()
-wouldn't be defined if CONFIG_MEMFILE_NOTIFIER=y && CONFIG_MMU_NOTIFIER=n.a
+It's ok by me if QEMU vfio is the one that marks all mapped pages dirty
+if the host interface provides no way to do so.  Would we toggle that
+based on whether the device has bus-master enabled?
 
----
- arch/x86/kvm/mmu/mmu.c   | 11 ++++++-----
- include/linux/kvm_host.h | 16 +++++++++++-----
- virt/kvm/kvm_main.c      |  2 +-
- 3 files changed, 18 insertions(+), 11 deletions(-)
+Regarding SPAPR, I'd tend to think that if we're dirtying in QEMU then
+nothing prevents us from implementing the same there, but also I'm not
+going to stand in the way of simply disabling migration for that IOMMU
+backend unless someone speaks up that they think it deserves parity.
+=20
+>  3. [PATCH v2 03/11] migration/qemu-file: Add qemu_file_get_to_fd().
+>     Juan expressed his concern about the amount of data that will go
+>     through main migration thread.
+>=20
+> This is already the case in v1 protocol - VFIO devices send all their=20
+> data in the main migration thread. Note that like in v1 protocol, here=20
+> as well the data is sent in small sized chunks, each with a header.
+> This patch just aims to eliminate an extra copy.
+>=20
+> We plan to leave it as is. Is this ok?
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 0b455c16ec64..a4cbd29433e7 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -4100,10 +4100,10 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
- 		return true;
+I don't think we should lean too heavily on this being a bump from v1 to
+v2 protocol as v1 was only ever experimental and hasn't been widely
+used in practice AFAIK.  Again, I'll defer to the migration folks for
+this, it requires their buy-in.  Thanks,
 
- 	if (fault->is_private)
--		return mmu_notifier_retry(vcpu->kvm, mmu_seq);
--	else
--		return fault->slot &&
--			mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
-+		return memfile_notifier_retry(vcpu->kvm, mmu_seq);
-+
-+	return fault->slot &&
-+	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
- }
+Alex
 
- static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-@@ -4127,7 +4127,8 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
- 	if (r)
- 		return r;
-
--	mmu_seq = vcpu->kvm->mmu_notifier_seq;
-+	mmu_seq = fault->is_private ? vcpu->kvm->memfile_notifier_seq :
-+				      vcpu->kvm->mmu_notifier_seq;
- 	smp_rmb();
-
- 	r = kvm_faultin_pfn(vcpu, fault);
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 92afa5bddbc5..31f704c83099 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -773,16 +773,15 @@ struct kvm {
- 	struct hlist_head irq_ack_notifier_list;
- #endif
-
--#if (defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)) ||\
--	defined(CONFIG_MEMFILE_NOTIFIER)
-+#if (defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER))
- 	unsigned long mmu_notifier_seq;
--#endif
--
--#if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
- 	struct mmu_notifier mmu_notifier;
- 	long mmu_notifier_count;
- 	unsigned long mmu_notifier_range_start;
- 	unsigned long mmu_notifier_range_end;
-+#endif
-+#ifdef CONFIG_MEMFILE_NOTIFIER
-+	unsigned long memfile_notifier_seq;
- #endif
- 	struct list_head devices;
- 	u64 manual_dirty_log_protect;
-@@ -1964,6 +1963,13 @@ static inline int mmu_notifier_retry_hva(struct kvm *kvm,
- }
- #endif
-
-+#ifdef CONFIG_MEMFILE_NOTIFIER
-+static inline bool memfile_notifier_retry(struct kvm *kvm, unsigned long mmu_seq)
-+{
-+	return kvm->memfile_notifier_seq != mmu_seq;
-+}
-+#endif
-+
- #ifdef CONFIG_HAVE_KVM_IRQ_ROUTING
-
- #define KVM_MAX_IRQ_ROUTES 4096 /* might need extension/rework in the future */
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 2b416d3bd60e..e6d34c964d51 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -898,7 +898,7 @@ static void kvm_private_mem_notifier_handler(struct memfile_notifier *notifier,
- 	KVM_MMU_LOCK(kvm);
- 	if (kvm_unmap_gfn_range(kvm, &gfn_range))
- 		kvm_flush_remote_tlbs(kvm);
--	kvm->mmu_notifier_seq++;
-+	kvm->memfile_notifier_seq++;
- 	KVM_MMU_UNLOCK(kvm);
- 	srcu_read_unlock(&kvm->srcu, idx);
- }
-
-base-commit: 333ef501c7f6c6d4ef2b7678905cad0f8ef3e271
---
-
-> +	else
-> +		return fault->slot &&
-> +			mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
->  }
->  
->  static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> @@ -4088,7 +4144,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  		read_unlock(&vcpu->kvm->mmu_lock);
->  	else
->  		write_unlock(&vcpu->kvm->mmu_lock);
-> -	kvm_release_pfn_clean(fault->pfn);
-> +
-> +	if (fault->is_private)
-> +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
-
-Why does the shmem path lock the page, and then unlock it here?
-
-Same question for why this path marks it dirty?  The guest has the page mapped
-so the dirty flag is immediately stale.
-
-In other words, why does KVM need to do something different for private pfns?
-
-> +	else
-> +		kvm_release_pfn_clean(fault->pfn);
-> +
->  	return r;
->  }
->  
-
-...
-
-> diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
-> index 7f8f1c8dbed2..1d857919a947 100644
-> --- a/arch/x86/kvm/mmu/paging_tmpl.h
-> +++ b/arch/x86/kvm/mmu/paging_tmpl.h
-> @@ -878,7 +878,10 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  
->  out_unlock:
->  	write_unlock(&vcpu->kvm->mmu_lock);
-> -	kvm_release_pfn_clean(fault->pfn);
-> +	if (fault->is_private)
-
-Indirect MMUs can't support private faults, i.e. this is unnecessary.
-
-> +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
-> +	else
-> +		kvm_release_pfn_clean(fault->pfn);
->  	return r;
->  }
->  
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 3fd168972ecd..b0a7910505ed 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -2241,4 +2241,26 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
->  /* Max number of entries allowed for each kvm dirty ring */
->  #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
->  
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +static inline int kvm_private_mem_get_pfn(struct kvm_memory_slot *slot,
-> +					  gfn_t gfn, kvm_pfn_t *pfn, int *order)
-> +{
-> +	int ret;
-> +	pfn_t pfnt;
-> +	pgoff_t index = gfn - slot->base_gfn +
-> +			(slot->private_offset >> PAGE_SHIFT);
-> +
-> +	ret = slot->notifier.bs->get_lock_pfn(slot->private_file, index, &pfnt,
-> +						order);
-> +	*pfn = pfn_t_to_pfn(pfnt);
-> +	return ret;
-> +}
-> +
-> +static inline void kvm_private_mem_put_pfn(struct kvm_memory_slot *slot,
-> +					   kvm_pfn_t pfn)
-> +{
-> +	slot->notifier.bs->put_unlock_pfn(pfn_to_pfn_t(pfn));
-> +}
-> +#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
-> +
->  #endif
-> -- 
-> 2.25.1
-> 
 
