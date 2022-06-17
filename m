@@ -2,62 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB48854F11E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 08:40:01 +0200 (CEST)
-Received: from localhost ([::1]:44614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28ACB54F139
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 08:51:39 +0200 (CEST)
+Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o25eC-0006Ds-HN
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 02:40:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52040)
+	id 1o25pR-0002It-MN
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 02:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1o25S9-0001xo-Tr
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 02:27:36 -0400
-Received: from mga17.intel.com ([192.55.52.151]:8479)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1o25fI-0007hN-GD; Fri, 17 Jun 2022 02:41:08 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:51795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1o25S6-0000FY-GS
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 02:27:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655447250; x=1686983250;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=HHRxCRo8nccqX9iaBtaQsm1tqkBAJ0ZbGoclZYK9GxU=;
- b=IsGq4hmbbebVRulvxiz7xrf4sl4/WIjiA+ctMF4oxB+C+Y6QWiDnpVOL
- fCcBNpXSSTRbDF8RAn2kBGR9zLWzb0K2+uMIkrv3yWOJMixKVtkII/51H
- F7T5nFnAi5MHdrB/hzpGzXMKYzIfYhN8YutTHLw+EwOiqsbFgo/V2VyzR
- Jb2KXEIAXZqtD7JrCpndGi5FJ8UJBJpGNDp1ehg/nO9+JGJTF7drA7SHT
- ZMB/GnWTQrOuBgX/5j9tO8IQu87IeABr0xTg9FLArj+SufpH+MJ5CPC0i
- ZBgd6qFFX1apQ+y/iHxCCIIv3XrLyQfDw1DONznZ4lPjE8JFQOlq9clee Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="259891956"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="259891956"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 23:27:25 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641907327"
-Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 23:27:23 -0700
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1o25fB-0008U5-Ff; Fri, 17 Jun 2022 02:41:07 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 230B75C00D9;
+ Fri, 17 Jun 2022 02:41:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 17 Jun 2022 02:41:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1655448060; x=1655534460; bh=mc
+ 91Cklbr3H9EupsKkyM21/iF1cYCMMZZMxdxir9pNk=; b=gYur4pugluG9AhAd+l
+ eedeyaK98FmFJoccn/EN318Lz8dswEN2xXMutl1QgfHnttlvYExbqRLgxaz0vAFO
+ M8FbgcPHxZ5xwWChI0cMOlziqdaWPqYsptytDGRzXW9nWJ9dXH5OovcBU5cfwVo4
+ LhbEXN1R9p2hS9txW7150MtX3DW2XhaNC0AQT39b9dall8KN7jKwPRFexThiZRSL
+ bkJGrgOzzgX03kbaI/F3Rq95bXCeRd57z8e0mFrc59bIq6ScB1wGHgzaNCyNhveU
+ pQm3ARpzm4xrXbwC/9lKozacxxx+NHVUt25om4ph09d0b6THhKGpQypPaoUckQnW
+ HhTA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1655448060; x=1655534460; bh=mc91Cklbr3H9EupsKkyM21/iF1cY
+ CMMZZMxdxir9pNk=; b=OxyYAuLE9dRTLTO9spA5sT7ZCTo9LguKp4fh+UyyLxNU
+ LK0vnb+ft5LxwpL25Bj6c3gZ6zDE6Zx5m7A5QG1j8G1SqEoqMcSicaALoflXfbfg
+ RBcbQ1S679DoPoDa9KMUdj4IQ9GbK4pa4hEZBnk68FyBQhaK8ifvFYrB58N4XIXZ
+ qaG6Nk0x50rsMWjeOBODMVquDQzyrzp6ojDfxBgZCHmG3scHvyEnqGpZZvxR7BRG
+ 8fpctAUMFbNyjPJF2LCKVVtFNUyNEqiN+CV19MIRZS189UIpJu/L4oJGTe2ms55K
+ UjEc+4m1mJxShic+ufnEEzoTHjcLLr0Ih6h9dEQEhw==
+X-ME-Sender: <xms:-yGsYnZqYiEnAekby4NMIPLQemFb6mTAMxoZ8TgPr6YdfAa-1NdbTw>
+ <xme:-yGsYmZ0S2OdIIEgx6zLwEq0Pu4rh12QFdK4GMw0W1cS2KCKgEQHiGoyDX5-G-QiT
+ ZZYFPiuQA6lJU7PrHA>
+X-ME-Received: <xmr:-yGsYp-LHMtBhVH-ZCWAA7iGjbdVMJvc_Xjpsbn75MgwTMMTeyFjOiYwdDBh0SoZojl_Wn3yLfuKzsXW_w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedguddtkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
+ ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:-yGsYtq4D_4GAcItMbqSxvXqtJLc5xQhgJ-fO9kEn88WImgPKd5uLw>
+ <xmx:-yGsYipVAf7UP04ovcureNIexF-58eVDIGTlbzJKw8iyf-t7YlWpvg>
+ <xmx:-yGsYjSbs8hlewFWdsYuxtQAmkIMSNIue7UdGmBaw9W9y8tztnMvpA>
+ <xmx:_CGsYlWzuAyr4JoHaoDPaHud1Gg792AqNDnDcK2W8HAqk8UprlDyMQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Jun 2022 02:40:58 -0400 (EDT)
+Date: Fri, 17 Jun 2022 08:40:56 +0200
+From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Cc: eric.auger@redhat.com,
-	mst@redhat.com
-Subject: [PATCH v2] virtio-iommu: Fix the partial copy of probe request
-Date: Fri, 17 Jun 2022 14:20:24 +0800
-Message-Id: <20220617062024.3168331-1-zhenzhong.duan@intel.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH] hw/nvme: clear aen mask on reset
+Message-ID: <Yqwh+OaLfcN4madq@apples>
+References: <20220512093055.726022-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.151;
- envelope-from=zhenzhong.duan@intel.com; helo=mga17.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="a8r/GblAk6ODGdjv"
+Content-Disposition: inline
+In-Reply-To: <20220512093055.726022-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,34 +101,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The structure of probe request doesn't include the tail, this leads
-to a few field missed to be copied. Currently this isn't an issue as
-those missed field belong to reserved field, just in case reserved
-field will be used in the future.
 
-Fixes: 1733eebb9e75b ("virtio-iommu: Implement RESV_MEM probe request")
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
----
- v2: keep bugfix change and drop cleanup change
+--a8r/GblAk6ODGdjv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- hw/virtio/virtio-iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On May 12 11:30, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> The internally maintained AEN mask is not cleared on reset. Fix this.
+>=20
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/nvme/ctrl.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 1e6e0fcad918..4c8200dfb859 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -5889,6 +5889,7 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
+>      }
+> =20
+>      n->aer_queued =3D 0;
+> +    n->aer_mask =3D 0;
+>      n->outstanding_aers =3D 0;
+>      n->qs_created =3D false;
+>  }
+> --=20
+> 2.36.0
+>=20
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 7c122ab95780..195f909620ab 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -708,7 +708,8 @@ static int virtio_iommu_handle_probe(VirtIOIOMMU *s,
-                                      uint8_t *buf)
- {
-     struct virtio_iommu_req_probe req;
--    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req));
-+    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req,
-+                    sizeof(req) + sizeof(struct virtio_iommu_req_tail));
- 
-     return ret ? ret : virtio_iommu_probe(s, &req, buf);
- }
--- 
-2.25.1
+Applied to nvme-next.
 
+--a8r/GblAk6ODGdjv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKsIfYACgkQTeGvMW1P
+DenXFQf/QA10eterRyNtuynoJe960U0xmIex1dHrMJkMpmhzkzsYx3j4uDr5870L
+aq/w9duN4iNCC55pHDawGy3QE7oerdTIxH4wCUpQhpKhG+DjmQG4gjoxINrpMfrh
+2zL4FAXXtUe6zDhP4Kd4OERR1WVacII655NJhFR9zhKLZXzFbY0MxMPiVFNR9TgS
+OLxRa5QN5/41Go5oybaKmCoGtGDXN1RJsY3rpI7nWSVYCYFdK57s+jmlahVaSTM5
+1pcB9ytUk5vufPecNTT4yucqGLUris5VHQ+OQruMn+bNgKYwwhG2txbO/p9Gzn0N
+LLS8gOtdtgyjBOJjKmVh8HTHYRCqfw==
+=aiLa
+-----END PGP SIGNATURE-----
+
+--a8r/GblAk6ODGdjv--
 
