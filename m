@@ -2,183 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EDF54FAE5
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 18:15:07 +0200 (CEST)
-Received: from localhost ([::1]:58258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A22554FB84
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 18:52:27 +0200 (CEST)
+Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2Ecj-00032E-MU
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 12:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34260)
+	id 1o2FCs-0006Vy-7I
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 12:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1o2Eas-0000fS-8W
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 12:13:10 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:44526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1o2Eak-0000mi-LI
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 12:13:09 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25HFcxjT026649;
- Fri, 17 Jun 2022 16:12:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=haOWMoBTqfBgdGIxdy6XHq2QoPOQ2aEulhtXmBZE3Us=;
- b=iJ6BLDyrZTP9o3k32Q7dbLR8BDZtcA8HfqCTLPBTACYBVOkIblUehvqMtrYiMC2Mvd+m
- gsEc+XF99pUpIYv6UekOjjPfoN/sSs/wjXZ4MV5M8OtyGKAUXwAw3ctASAPnyUMUi4rM
- hcK2WvAerLO5QjVgepZ0JHe0mkibmE3B+01XydhCKTlsOTMNlwOUC8TKoMQzePBkzhTr
- mOCF1bYlqGycq6NQY+vv1F9iCB71WHfXdZTeAm5FbTvVUkWqW0+nJu4Z592s1jSCsm8O
- NA+/rCnh+N27anGo/+AMMTZGu7M+dfapwwFNOVnU8J+Y0SWhlsUsxOh1UZXMbgT0j4ae kg== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhn0panp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Jun 2022 16:12:54 +0000
-Received: from pps.filterd
- (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25HGA9tK019159; Fri, 17 Jun 2022 16:12:53 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3gpr28at6r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Jun 2022 16:12:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tennvg/bb88Wg3as28t1ykhupCYUwR1TCRfQ1XiQOLuenWgAvwOM5Ebz4nuXTObpGCsH49LypVOQINtKTsLr2UGVgx614U3eO5VgfxtGVKZURg7UtXsx2zPdClADsZq9iQS71puRdaYjuT0/HmsS+N/24rzwhtvWBN8bd4ISz4QouFp3V+145yL13EbmHPrLvPpO2ZPKJdDI/9kr3lhsSpvfRTK739gzpcStAc9EgzoWUT2Wuz0sWpKt8fiG6t7TVW89TYW2FxJ31BVmNQwzOKSqE69XQEs83mwD0cE0GPKMl3tQIHCivmdkWFrnf82pj4Y2rLk/vjS2GqPM5ioonQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=haOWMoBTqfBgdGIxdy6XHq2QoPOQ2aEulhtXmBZE3Us=;
- b=Q+IAWW0QSswTmX7Xl+MNVUOsTxf1RUr7iDSO87QIrtF1PhaZbW9TTlM1a/oYazcusj5N5lsT73ZALgcWYKJNLnXevDgSsQB+4Ofpp0GG1hHaVC83AoTTU6OK/cATV9rYgG14d5mOGgYK0V9RGWu0W55OWmfdq6RVSRx0SGp+mVoI3JPOF0EKrJHtUnVp5GVpiP2EsiFh90r6bIUlZWKnPn4vFYSicDgdnSt4ne91Ybl8WH6vh9WSS4YwYmhLctegzemaiiYDZ7rX+YXsRtYD9aEzOVZ9iY3zpZ8/nXRQW5YRGbiK1B6+H4nLKa34wFSSdP70gt9AsA1ya8DqkgZL6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=haOWMoBTqfBgdGIxdy6XHq2QoPOQ2aEulhtXmBZE3Us=;
- b=Ly+Hx0Ps5klAc/1oIJtE7elbbhUptQo4TsLut7pUiiIlNoSjE5n+bh/G/+3b+GqWivJC6N3n2fI/NudGzwVPBBQAVnKoTEiLhX73dpPg38D/BogcmGQYc2x0TIOE2W2uh+PmJky8W+XyFsaPtY+t+RixFYWvGXiSTlYsDl+eB7A=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by PH0PR10MB4710.namprd10.prod.outlook.com (2603:10b6:510:3e::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.16; Fri, 17 Jun
- 2022 16:12:50 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::b842:a301:806d:231e]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::b842:a301:806d:231e%9]) with mapi id 15.20.5353.015; Fri, 17 Jun 2022
- 16:12:50 +0000
-Message-ID: <3f5f8514-5581-8488-7b9e-81904f8dc06f@oracle.com>
-Date: Fri, 17 Jun 2022 17:12:43 +0100
-Subject: Re: [PATCH v5 4/5] i386/pc: relocate 4g start to 1T where applicable
-Content-Language: en-US
-From: Joao Martins <joao.m.martins@oracle.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-References: <20220520104532.9816-1-joao.m.martins@oracle.com>
- <20220520104532.9816-5-joao.m.martins@oracle.com>
- <20220616162328.64138d4f@redhat.com>
- <bc50bb88-5330-a839-bd50-ca49b0edec9d@oracle.com>
-In-Reply-To: <bc50bb88-5330-a839-bd50-ca49b0edec9d@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0216.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:9e::36) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o2FA9-0004dj-Hs; Fri, 17 Jun 2022 12:49:37 -0400
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:42701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o2FA0-00064o-5E; Fri, 17 Jun 2022 12:49:30 -0400
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so6222398fac.9; 
+ Fri, 17 Jun 2022 09:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=XCBV1SdFkcpPZNTj+ZaVVkWipaZ9qPq06yo30x+E9H4=;
+ b=ErqoaRS3dN0UDZCZ61vZQ/eTZrTX7LjB5cK3Ej14x4oC8yY1y0O3nubpqC1hf/4+tZ
+ mW2cVZptDHmPAvFuoaaKQZYpWktzdoZLAhMJrQVOcdaNFuExKL3SRHI0teqCvA9i/f/t
+ WjwbiQ7fQ78NjWu0VJDv5Lf5N+KCML+QSzKrE3N9tk0cZ9APXDZ42C8WUlDC+jjg6ZGX
+ IzANzgGykHfE2SjAQDcnIN5Hor1Uf5UD7FmNwUVwg0x+JiMN+UzhmyCGiPVF6jeXYIpB
+ uyo1yIRmrmdTBYpoiBArD50L2JZkUMTJ+hSWFN2ykz0VbzKWOherxH97DRdi+43rwkCC
+ xt2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XCBV1SdFkcpPZNTj+ZaVVkWipaZ9qPq06yo30x+E9H4=;
+ b=Ktc/FlOQdIRwSl5K3oFn0rYFaXQure05Rm/dzVLU9vcwmxvpqfeSHGgBtB7S+xv+z/
+ ohqzOvA9lsROzzaWh3YJzeCA6F3DOq69IUpNHLU2UWJSzcGPHPoLCsNWX60u8DtFbpG9
+ YyzUPvgg67yi3nMcl1O/YL5MJ+r+msb4aofEvmRczLG4RE5zurPRB0PiPr1v/lBWhIqi
+ /Cp3C6A3kQ+4K/QGdFXHcdTbDrdU+YB5lkfyviMu48bgexb1qsWRex2L3nnI7J7ccog4
+ VIn4UbTRYScGUAey899ih6qqyigLk27209gC9JtdjdTWe+k8ZaPviM64Nu8GcVpK/JdK
+ DCNA==
+X-Gm-Message-State: AJIora/jWTsXjFQvKXLUCHNZg5EiM3USF7OZm+QjCwR1VbBkd+4IjSHt
+ i/PB7si88Ip5apKnWi73ncYRqAh/hvI=
+X-Google-Smtp-Source: AGRyM1u+XHXz7svPGzNsrMtE9uuXFkE9NL38WgziaQ9CSZ1VNBwXqhoIw4cVmhtoLvfj5lJx7pJbPw==
+X-Received: by 2002:a05:6870:89aa:b0:fb:13a9:de68 with SMTP id
+ f42-20020a05687089aa00b000fb13a9de68mr11445422oaq.63.1655484566537; 
+ Fri, 17 Jun 2022 09:49:26 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:ccc8:8e07:268b:a09:2834?
+ ([2804:431:c7c6:ccc8:8e07:268b:a09:2834])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a9d4c0b000000b0060bd52bf77csm2729717otf.21.2022.06.17.09.49.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jun 2022 09:49:26 -0700 (PDT)
+Message-ID: <7c7b83af-7ee7-4def-af87-f5bcb8f799ca@gmail.com>
+Date: Fri, 17 Jun 2022 13:49:23 -0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bddbb6be-a5d7-4cd1-8cd1-08da507c39f9
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4710:EE_
-X-Microsoft-Antispam-PRVS: <PH0PR10MB47101D8372FEBB498EB23123BBAF9@PH0PR10MB4710.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OrBpQ1cMCJfCSRDzdK/TBai6upY4SQUt092RCvaT7a56xUKSWLFWOqoKKNeXkVX4nDm96tIPmz5xg/Hrvmp4ZmfFNEcVadwy8BD2/zwZnMv6EU7FihasNT9JoZGhWeSv1/yK1ngQHTf1n8sIh77TkxvKRLauyS7SOV3M4Xt+254j1rC+8nTvLdDVihxH8hQ6Ym/yZqWulmPvgubgTtfTFvmKlsvb3VHG62MP0Tdg/nS9SBL9r7YaRQXg0plMAXn+yxEUHto0PiXKiDFjoMDfxrcLnwKeneJIhzl0EZ04/BlUIdnGaehJTluOdDD+kS40E3NueSOBHujGqB8OpMAnwC9DQ9BZ2G44x+rKDtVUS/rDZhhHHtW1f10pkDdEOkz3pBfmL06a+l0KFoBVBwmiDTgyHFur3ta/cF3xvQiuexJ3Pla5kGNC/c/FJLu+gc564ojYin9iii4dmKYkbE8CntrRxOwqLQzvPrmnlW+na+68VTmuZc33IgjvGmYMj32Q6HNeaMAA/Rp98myNQnXFVZqzM0S1Sk/jL/f4iy7Ruxl5Q/7VGDpqauqqWo5E7n7GyJ/AluQLS45d7Jqjn0K7fLF+h/CjXVxPi9L8MK0qzAPzlNUPD6l0cuWwjBHm9mc6vM/0fJpeOKEsfPNxU6NWmtGO0YSfKdaxnZfU/pgNa0HZcE1JCXQqS9C74S4CouKX6mpwFN18WEyFnlGvkFbDww==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(366004)(316002)(31696002)(83380400001)(54906003)(6916009)(66946007)(186003)(86362001)(8676002)(4326008)(66476007)(66556008)(7416002)(38100700002)(6506007)(6512007)(498600001)(2906002)(6666004)(8936002)(36756003)(53546011)(5660300002)(31686004)(2616005)(26005)(6486002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L2pXYVM2eEZhcnlPVEsrK0Q3Vkt6Q2ZSRTRocUI3WGZKelk1NmV6N2RUYmJD?=
- =?utf-8?B?cHlvUE1XWDBJYmtmSzJvbW91MzUwbHN1dFppWGp1VVpoRTR4SXoyWWF5UVdE?=
- =?utf-8?B?VmhjMlJWTktsT0tHNStQWVlnZFl3TkQyeHBVbFJQa2xNMHh0UjVObXBkMDcy?=
- =?utf-8?B?Znoyc0hyREJYY1hwRHgzeWtPdkJYK0JSSTV6b0V0M1U5bUp2VjZkc0g4Z1Zr?=
- =?utf-8?B?NXk1Z0tCODhCQ2wxeXJ2bnl4NUVlOE9abThEenB5MXE3NzZuQWhKaU90QzAv?=
- =?utf-8?B?ZUwyaUM3ejRVQWp0cGYwQXdjNERyQlhDcDh1VmIzamxHeWsxYW83bjJFQ1Bq?=
- =?utf-8?B?ZnVZNkNLd1ovUEVYemZlc1pmYzExVWlaTDZwMlBRR0Zkbks1WVBGWTA3aDJU?=
- =?utf-8?B?cVZuZmlZMFhmblMxWUoyNmsvZEFkZy9OZHlZazRabDNDbi91bFhSYXAxR3NS?=
- =?utf-8?B?L2o0ZW1QQjVSOGZEOURLd1ZTb2w2NFpLTERRd2hNRXVhVUIyUGhLMU8rbHJT?=
- =?utf-8?B?Nm9TSmlkR3BuTzBZT1RLZjRXT0VRdGJDRkpkeWxGTWdKeDhjNlF1K0ZsRmF5?=
- =?utf-8?B?VmNtdVJickIwR2JZcUU0bjZhU2laNlFuK1l1eGdtUWdzdTlYV1FzMGpucmhL?=
- =?utf-8?B?QU1keWR1TEMxMnRUQmEzSEQ4OFFLUlg4YnRGWmZtdWF4TDcrVHV1V0NvMkFR?=
- =?utf-8?B?Wnk0WDFvTjNHMGQzekhMSStmZ2ZmdlZXU1QzUm9weXVOYitnZVFwOS9veFYz?=
- =?utf-8?B?a25TQyt1aHltVzI5V1U4VGJzNi9YVk4vTEtVS0RPQjYrZnZIb2JjYlU0WmJW?=
- =?utf-8?B?NHV0QlpHQ3VVR0V1T0hGV3F4cEZoeGNFN1VQWVg0Y3ZXclFyM0llSVBWVzZl?=
- =?utf-8?B?T0htc0haRlB5eldacmNpaWVtdjE4dnJ4cnR1UmRFUFdET0xWVkFLSmxualBs?=
- =?utf-8?B?RjU0YXRWM0dtK1NVT0NoNk5FN1p6WEZFZXdzL2pPUisveGREK0cwVmJMUjBr?=
- =?utf-8?B?OG0wUkI2a0Q3VXljUWdYbTlkTUcwUC83UC9zQ1pDeERNSDJzelNOQkVlbm5K?=
- =?utf-8?B?KzkvZEp6OVNyVnMxSUxXUjJkYUt0MmMyQit0YUtJSnl6c3A4dDJaRGJ4L2J5?=
- =?utf-8?B?RUlsNzRNMWM1UTNWeEc1ZTZTQ2Q4d1FpMElZd2QvbWVJbEVJdnRIcHVHeGxB?=
- =?utf-8?B?WDdldmJXa1JyY1dCWktldjYyOFUwTnV0ZmpKVkpKdWVKN0wrSU9jc21wdWdo?=
- =?utf-8?B?Z05DZHBYVkl6YlAwRTFoa1M4MVRzd0JQOUl0VUZ2RGp3czh6NjVvaUNaL0dY?=
- =?utf-8?B?ZktjS2pmREtrWWVYS2NDY2t5SUpOMkNic3E0WkdxZEUyN2xraGdhT2orYlNv?=
- =?utf-8?B?REZwVjZqOFFRa1E4VUVUSDl6RXBZKzdGRFBEeHNsdzhJemdiVmtPVFF0ajhm?=
- =?utf-8?B?Y2VOZkl1amZzMXd3Vk1qOFl2bS9aRmZzZ2VzUDVtN211cTAxeGM3d2Yrcndq?=
- =?utf-8?B?bHlUK0hhdUZDNXpXa21wK1h4eXhiQ1J6MVNsbXU2eVh2dHl0aUFuTklROXYw?=
- =?utf-8?B?ZlRUODBkUDlFYzRvYWpKQU54VGR2OFNxeEVXdC9DZG43MWlrVXQzOWFqV2c3?=
- =?utf-8?B?Vi9ZYnFRRDJjb1FBZnp4MEVTRmxwcXg2NmJONjREVEdsN1BxVnBmaDJYOXh6?=
- =?utf-8?B?WmJSSDJwdkE1SE52Z1ljRWFhRDF3SWk5S0s2bGN5dFVNcG1mbjJzWlNXNVQ2?=
- =?utf-8?B?SmxmMTNXcWdPK1VBYVFUK1NJYkVYN3hwSEtpMVVOQWIvaWtMTGw5NFhmT2dv?=
- =?utf-8?B?eHR5WWNRVjljU3plNUl2MFB6VW9CT3Z5ek9wYXM3aC9mT2x1L1QvbWx2aW54?=
- =?utf-8?B?allGeWNuMGJ0NTV0WGRqVm5LZUZ4RnNSbVVoWTRxYzlkM3hId0lyOXlWYlkx?=
- =?utf-8?B?MkJKdVh1cTBEMkRnNXJiamRkanZaSG1PSFZ5ZVNETzNEaWpIM3FBT0tKUmJD?=
- =?utf-8?B?TEZGdXdGUXF5SldpRFQyVk5ES1RSekFYZlBFU2pVRFN3U3ZDand0eGFGM082?=
- =?utf-8?B?SnAxaGd2Vjh5SmdKd0pxa1ZTWGVsSGU5RWtTbDFpckRWejNpREtZVGt3c3dS?=
- =?utf-8?B?bGVmTldhcGtSYmg1eEFWOHdTSWpYU2FwSTRINFJnTmljVWUrbVBmcGVwM0N1?=
- =?utf-8?B?OVhUL0pxakFaSVhvcmVWNEJ1MUNaazhlSUlFV2ZhNUMvNWJmbVpIQ2Q2bUlj?=
- =?utf-8?B?aVdpNkhsQ3J2ZzMyVWc0WXBSbXFkM21SZjBhRFlRSHhTc1dWb0l5WGtHL0JO?=
- =?utf-8?B?RGFIbkVoczFDRTF2UnpqMGMxRHFWdWNPbHV5b2RGbGlEOXdYSHRWTTZCN2h5?=
- =?utf-8?Q?W4pOdNGjSXJrbVKA=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bddbb6be-a5d7-4cd1-8cd1-08da507c39f9
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2022 16:12:50.7840 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dzV4TWCndpz7XApm4gPu/bVeKpvU22ofEXsAjDbbJocEquoIOX4yseWnX3oujc+sF0F54YubqkPTjxyATPO/e/B9QPrT/U0ByHpUxl44tSI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4710
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
- definitions=2022-06-17_09:2022-06-17,
- 2022-06-17 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0
- suspectscore=0 spamscore=0 mlxscore=0 phishscore=0 bulkscore=0
- mlxlogscore=841 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206170071
-X-Proofpoint-GUID: Jafl2_LbDGyciGxkPBBHS99uips3vOZr
-X-Proofpoint-ORIG-GUID: Jafl2_LbDGyciGxkPBBHS99uips3vOZr
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH qemu v2 2/2] ppc/spapr: Implement H_WATCHDOG
+Content-Language: en-US
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20220617060703.951747-1-aik@ozlabs.ru>
+ <20220617060703.951747-3-aik@ozlabs.ru>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220617060703.951747-3-aik@ozlabs.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -194,71 +94,426 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/22 13:18, Joao Martins wrote:
-> On 6/16/22 15:23, Igor Mammedov wrote:
->> On Fri, 20 May 2022 11:45:31 +0100
->> Joao Martins <joao.m.martins@oracle.com> wrote:
->>> +    }
->>> +
->>> +    if (pcmc->has_reserved_memory &&
->>> +       (machine->ram_size < machine->maxram_size)) {
->>> +        device_mem_size = machine->maxram_size - machine->ram_size;
->>> +    }
->>> +
->>> +    base = ROUND_UP(above_4g_mem_start + x86ms->above_4g_mem_size +
->>> +                    pcms->sgx_epc.size, 1 * GiB);
->>> +
->>> +    return base + device_mem_size + pci_hole64_size;
->>
->> it's not guarantied that pci64 hole starts right away device_mem,
->> but you are not 1st doing this assumption in code, maybe instead of
->> all above use existing 
->>    pc_pci_hole64_start() + pci_hole64_size
->> to gestimate max address 
->>
-> I've switched the block above to that instead.
+
+
+On 6/17/22 03:07, Alexey Kardashevskiy wrote:
+> The new PAPR 2.12 defines a watchdog facility managed via the new
+> H_WATCHDOG hypercall.
 > 
+> This adds H_WATCHDOG support which a proposed driver for pseries uses:
+> https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=303120
+> 
+> This was tested by running QEMU with a debug kernel and command line:
+> -append \
+>   "pseries-wdt.timeout=60 pseries-wdt.nowayout=1 pseries-wdt.action=2"
+> 
+> and running "echo V > /dev/watchdog0" inside the VM.
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
 
-I had done this, albeit on a second look (and confirmed with testing) this
-will crash, provided @device_memory isn't yet initialized. And even without
-hotplug, CXL might have had issues.
+LGTM. The watchdogs can be found under /machines/wdtN:
 
-The problem is largely that pc_pci_hole64_start() that the above check relies
-on info we only populate later on in pc_memory_init(), and I don't think I can
-move this done to a later point as definitely don't want to re-initialize
-MRs or anything.
+(qemu) info qom-tree /machine/wdt1
+/wdt1 (spapr-wdt)
+(qemu) info qom-tree /machine/wdt2
+/wdt2 (spapr-wdt)
+(qemu) info qom-tree /machine/wdt3
+/wdt3 (spapr-wdt)
+(qemu) info qom-tree /machine/wdt4
+/wdt4 (spapr-wdt)
 
-So we might be left with manually calculating as I was doing in this patch
-but maybe try to arrange some form of new helper that has somewhat shared
-logic with pc_pci_hole64_start().
 
-  1114  uint64_t pc_pci_hole64_start(void)
-  1115  {
-  1116      PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-  1117      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-  1118      MachineState *ms = MACHINE(pcms);
-  1119      X86MachineState *x86ms = X86_MACHINE(pcms);
-  1120      uint64_t hole64_start = 0;
-  1121
-  1122      if (pcms->cxl_devices_state.host_mr.addr) {
-  1123          hole64_start = pcms->cxl_devices_state.host_mr.addr +
-  1124              memory_region_size(&pcms->cxl_devices_state.host_mr);
-  1125          if (pcms->cxl_devices_state.fixed_windows) {
-  1126              GList *it;
-  1127              for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
-  1128                  CXLFixedWindow *fw = it->data;
-  1129                  hole64_start = fw->mr.addr + memory_region_size(&fw->mr);
-  1130              }
-  1131          }
-* 1132      } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
-  1133          hole64_start = ms->device_memory->base;
-  1134          if (!pcmc->broken_reserved_end) {
-  1135              hole64_start += memory_region_size(&ms->device_memory->mr);
-  1136          }
-  1137      } else if (pcms->sgx_epc.size != 0) {
-  1138              hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
-  1139      } else {
-  1140          hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-  1141      }
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
+> Changes:
+> v2:
+> * QOM'ed timers, "action" and "expire" are available via QMP
+> * removed @timeout from SpaprWatchdog
+> * moved the driver to hw/watchdog
+> * fixed error handling in the hcall handler
+> * used new SETFIELD/GETFIELD
+> ---
+>   include/hw/ppc/spapr.h       |  29 +++-
+>   hw/ppc/spapr.c               |   4 +
+>   hw/watchdog/spapr_watchdog.c | 248 +++++++++++++++++++++++++++++++++++
+>   hw/watchdog/meson.build      |   1 +
+>   hw/watchdog/trace-events     |   7 +
+>   5 files changed, 288 insertions(+), 1 deletion(-)
+>   create mode 100644 hw/watchdog/spapr_watchdog.c
+> 
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 072dda2c7265..ef1e38abd5c7 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -164,6 +164,25 @@ struct SpaprMachineClass {
+>       SpaprIrq *irq;
+>   };
+>   
+> +#define WDT_MAX_WATCHDOGS       4      /* Maximum number of watchdog devices */
+> +
+> +#define WDT_HARD_POWER_OFF      0
+> +#define WDT_HARD_RESTART        1
+> +#define WDT_DUMP_RESTART        2
+> +
+> +#define TYPE_SPAPR_WDT "spapr-wdt"
+> +OBJECT_DECLARE_SIMPLE_TYPE(SpaprWatchdog, SPAPR_WDT)
+> +
+> +typedef struct SpaprWatchdog {
+> +    /*< private >*/
+> +    DeviceState parent_obj;
+> +    /*< public >*/
+> +
+> +    unsigned num;
+> +    QEMUTimer timer;
+> +    uint8_t action;
+> +} SpaprWatchdog;
+> +
+>   /**
+>    * SpaprMachineState:
+>    */
+> @@ -264,6 +283,8 @@ struct SpaprMachineState {
+>       uint32_t FORM2_assoc_array[NUMA_NODES_MAX_NUM][FORM2_NUMA_ASSOC_SIZE];
+>   
+>       Error *fwnmi_migration_blocker;
+> +
+> +    SpaprWatchdog wds[WDT_MAX_WATCHDOGS];
+>   };
+>   
+>   #define H_SUCCESS         0
+> @@ -344,6 +365,7 @@ struct SpaprMachineState {
+>   #define H_P7              -60
+>   #define H_P8              -61
+>   #define H_P9              -62
+> +#define H_NOOP            -63
+>   #define H_UNSUPPORTED     -67
+>   #define H_OVERLAP         -68
+>   #define H_UNSUPPORTED_FLAG -256
+> @@ -564,8 +586,9 @@ struct SpaprMachineState {
+>   #define H_SCM_HEALTH            0x400
+>   #define H_RPT_INVALIDATE        0x448
+>   #define H_SCM_FLUSH             0x44C
+> +#define H_WATCHDOG              0x45C
+>   
+> -#define MAX_HCALL_OPCODE        H_SCM_FLUSH
+> +#define MAX_HCALL_OPCODE        H_WATCHDOG
+>   
+>   /* The hcalls above are standardized in PAPR and implemented by pHyp
+>    * as well.
+> @@ -1027,6 +1050,7 @@ extern const VMStateDescription vmstate_spapr_cap_large_decr;
+>   extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
+>   extern const VMStateDescription vmstate_spapr_cap_fwnmi;
+>   extern const VMStateDescription vmstate_spapr_cap_rpt_invalidate;
+> +extern const VMStateDescription vmstate_spapr_wdt;
+>   
+>   static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int cap)
+>   {
+> @@ -1063,4 +1087,7 @@ target_ulong spapr_vof_client_architecture_support(MachineState *ms,
+>                                                      target_ulong ovec_addr);
+>   void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt);
+>   
+> +/* H_WATCHDOG */
+> +void spapr_watchdog_init(SpaprMachineState *spapr);
+> +
+>   #endif /* HW_SPAPR_H */
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index fd4942e8813c..9a5382d5270f 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -898,6 +898,8 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+>           add_str(hypertas, "hcall-hpt-resize");
+>       }
+>   
+> +    add_str(hypertas, "hcall-watchdog");
+> +
+>       _FDT(fdt_setprop(fdt, rtas, "ibm,hypertas-functions",
+>                        hypertas->str, hypertas->len));
+>       g_string_free(hypertas, TRUE);
+> @@ -3051,6 +3053,8 @@ static void spapr_machine_init(MachineState *machine)
+>           spapr->vof->fw_size = fw_size; /* for claim() on itself */
+>           spapr_register_hypercall(KVMPPC_H_VOF_CLIENT, spapr_h_vof_client);
+>       }
+> +
+> +    spapr_watchdog_init(spapr);
+>   }
+>   
+>   #define DEFAULT_KVM_TYPE "auto"
+> diff --git a/hw/watchdog/spapr_watchdog.c b/hw/watchdog/spapr_watchdog.c
+> new file mode 100644
+> index 000000000000..aeaf7c52cbad
+> --- /dev/null
+> +++ b/hw/watchdog/spapr_watchdog.c
+> @@ -0,0 +1,248 @@
+> +/*
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "target/ppc/cpu.h"
+> +#include "migration/vmstate.h"
+> +#include "trace.h"
+> +
+> +#include "hw/ppc/spapr.h"
+> +
+> +/*
+> + * Bits 47: "leaveOtherWatchdogsRunningOnTimeout", specified on
+> + * the "Start watchdog" operation,
+> + * 0 - stop out-standing watchdogs on timeout,
+> + * 1 - leave outstanding watchdogs running on timeout
+> + */
+> +#define PSERIES_WDTF_LEAVE_OTHER    PPC_BIT(47)
+> +
+> +/*    Bits 48-55: "operation" */
+> +#define PSERIES_WDTF_OP(op)             SETFIELD(PPC_BITMASK(48, 55), 0, (op))
+> +#define PSERIES_WDTF_OP_START           PSERIES_WDTF_OP(0x1)
+> +#define PSERIES_WDTF_OP_STOP            PSERIES_WDTF_OP(0x2)
+> +#define PSERIES_WDTF_OP_QUERY           PSERIES_WDTF_OP(0x3)
+> +#define PSERIES_WDTF_OP_QUERY_LPM       PSERIES_WDTF_OP(0x4)
+> +
+> +/*    Bits 56-63: "timeoutAction" */
+> +#define PSERIES_WDTF_ACTION(ac)         SETFIELD(PPC_BITMASK(56, 63), 0, (ac))
+> +#define PSERIES_WDTF_ACTION_HARD_POWER_OFF  PSERIES_WDTF_ACTION(0x1)
+> +#define PSERIES_WDTF_ACTION_HARD_RESTART    PSERIES_WDTF_ACTION(0x2)
+> +#define PSERIES_WDTF_ACTION_DUMP_RESTART    PSERIES_WDTF_ACTION(0x3)
+> +#define PSERIES_WDTF_RESERVED           PPC_BITMASK(0, 46)
+> +
+> +/*
+> + * For the "Query watchdog capabilities" operation, a uint64 structure
+> + * defined as:
+> + * Bits 0-15: The minimum supported timeout in milliseconds
+> + * Bits 16-31: The number of watchdogs supported
+> + * Bits 32-63: Reserved
+> + */
+> +#define PSERIES_WDTQ_MIN_TIMEOUT(ms)    SETFIELD(PPC_BITMASK(0, 15), 0, (ms))
+> +#define PSERIES_WDTQ_NUM(n)             SETFIELD(PPC_BITMASK(16, 31), 0, (n))
+> +
+> +/*
+> + * For the "Query watchdog LPM requirement" operation:
+> + * 1 = The given "watchdogNumber" must be stopped prior to suspending
+> + * 2 = The given "watchdogNumber" does not have to be stopped prior to
+> + * suspending
+> + */
+> +#define PSERIES_WDTQL_STOPPED               1
+> +#define PSERIES_WDTQL_QUERY_NOT_STOPPED     2
+> +
+> +#define WDT_MIN_TIMEOUT 1 /* 1ms */
+> +
+> +static void watchdog_expired(void *pw)
+> +{
+> +    struct SpaprWatchdog *w = pw;
+> +    CPUState *cs;
+> +
+> +    trace_spapr_watchdog_expired(w->num, w->action);
+> +    switch (w->action) {
+> +    case WDT_HARD_POWER_OFF:
+> +        qemu_system_vmstop_request(RUN_STATE_SHUTDOWN);
+> +        break;
+> +    case WDT_HARD_RESTART:
+> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> +        break;
+> +    case WDT_DUMP_RESTART:
+> +        CPU_FOREACH(cs) {
+> +            async_run_on_cpu(cs, spapr_do_system_reset_on_cpu, RUN_ON_CPU_NULL);
+> +        }
+> +        break;
+> +    }
+> +}
+> +
+> +static target_ulong watchdog_stop(unsigned watchdogNumber,
+> +                                  struct SpaprWatchdog *w)
+> +{
+> +    target_ulong ret = H_NOOP;
+> +
+> +    if (timer_pending(&w->timer)) {
+> +        timer_del(&w->timer);
+> +        ret = H_SUCCESS;
+> +    }
+> +    trace_spapr_watchdog_stop(watchdogNumber, ret);
+> +
+> +    return ret;
+> +}
+> +
+> +static target_ulong h_watchdog(PowerPCCPU *cpu,
+> +                               SpaprMachineState *spapr,
+> +                               target_ulong opcode, target_ulong *args)
+> +{
+> +    target_ulong flags = args[0];
+> +    target_ulong watchdogNumber = args[1];
+> +    target_ulong timeoutInMs = args[2];
+> +    unsigned operation = flags & PSERIES_WDTF_OP(~0);
+> +    unsigned timeoutAction = flags & PSERIES_WDTF_ACTION(~0);
+> +    struct SpaprWatchdog *w;
+> +
+> +    if (flags & PSERIES_WDTF_RESERVED) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    switch (operation) {
+> +    case PSERIES_WDTF_OP_START:
+> +        if (watchdogNumber > ARRAY_SIZE(spapr->wds)) {
+> +            return H_P2;
+> +        }
+> +        if (timeoutInMs <= WDT_MIN_TIMEOUT) {
+> +            return H_P3;
+> +        }
+> +
+> +        w = &spapr->wds[watchdogNumber - 1];
+> +        switch (timeoutAction) {
+> +        case PSERIES_WDTF_ACTION_HARD_POWER_OFF:
+> +            w->action = WDT_HARD_POWER_OFF;
+> +            break;
+> +        case PSERIES_WDTF_ACTION_HARD_RESTART:
+> +            w->action = WDT_HARD_RESTART;
+> +            break;
+> +        case PSERIES_WDTF_ACTION_DUMP_RESTART:
+> +            w->action = WDT_DUMP_RESTART;
+> +            break;
+> +        default:
+> +            return H_PARAMETER;
+> +        }
+> +        timer_mod(&w->timer,
+> +                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + timeoutInMs);
+> +        trace_spapr_watchdog_start(flags, watchdogNumber, timeoutInMs);
+> +        break;
+> +    case PSERIES_WDTF_OP_STOP:
+> +        if (watchdogNumber == (uint64_t) ~0) {
+> +            int i;
+> +
+> +            for (i = 1; i <= ARRAY_SIZE(spapr->wds); ++i) {
+> +                watchdog_stop(i, &spapr->wds[i - 1]);
+> +            }
+> +        } else if (watchdogNumber <= ARRAY_SIZE(spapr->wds)) {
+> +            watchdog_stop(watchdogNumber, &spapr->wds[watchdogNumber - 1]);
+> +        } else {
+> +            return H_P2;
+> +        }
+> +        break;
+> +    case PSERIES_WDTF_OP_QUERY:
+> +        args[0] = PSERIES_WDTQ_MIN_TIMEOUT(WDT_MIN_TIMEOUT) |
+> +            PSERIES_WDTQ_NUM(ARRAY_SIZE(spapr->wds));
+> +        trace_spapr_watchdog_query(args[0]);
+> +        break;
+> +    case PSERIES_WDTF_OP_QUERY_LPM:
+> +        if (watchdogNumber > ARRAY_SIZE(spapr->wds)) {
+> +            return H_P2;
+> +        }
+> +        args[0] = PSERIES_WDTQL_QUERY_NOT_STOPPED;
+> +        trace_spapr_watchdog_query_lpm(args[0]);
+> +        break;
+> +    default:
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    return H_SUCCESS;
+> +}
+> +
+> +void spapr_watchdog_init(SpaprMachineState *spapr)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < ARRAY_SIZE(spapr->wds); ++i) {
+> +        char name[16];
+> +        SpaprWatchdog *w = &spapr->wds[i];
+> +
+> +        w->num = i + 1;
+> +        snprintf(name, sizeof(name) - 1, "wdt%d", i + 1);
+> +        object_initialize_child_with_props(OBJECT(spapr), name, w,
+> +                                           sizeof(SpaprWatchdog),
+> +                                           TYPE_SPAPR_WDT,
+> +                                           &error_fatal, NULL);
+> +        qdev_realize(DEVICE(w), NULL, &error_fatal);
+> +    }
+> +}
+> +
+> +static bool watchdog_needed(void *opaque)
+> +{
+> +    SpaprWatchdog *w = opaque;
+> +
+> +    return timer_pending(&w->timer);
+> +}
+> +
+> +static const VMStateDescription vmstate_wdt = {
+> +    .name = "spapr_watchdog",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = watchdog_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT8(action, SpaprWatchdog),
+> +        VMSTATE_TIMER(timer, SpaprWatchdog),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void spapr_wdt_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SpaprWatchdog *w = SPAPR_WDT(dev);
+> +
+> +    timer_init_ms(&w->timer, QEMU_CLOCK_VIRTUAL, watchdog_expired, w);
+> +
+> +    object_property_add_uint64_ptr(OBJECT(dev), "expire",
+> +                                   (uint64_t *)&w->timer.expire_time,
+> +                                   OBJ_PROP_FLAG_READ);
+> +    object_property_add_uint8_ptr(OBJECT(dev), "action", &w->action,
+> +                                  OBJ_PROP_FLAG_READ);
+> +}
+> +
+> +static void spapr_wdt_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = spapr_wdt_realize;
+> +    dc->vmsd = &vmstate_wdt;
+> +    dc->user_creatable = false;
+> +}
+> +
+> +static const TypeInfo spapr_wdt_info = {
+> +    .name          = TYPE_SPAPR_WDT,
+> +    .parent        = TYPE_DEVICE,
+> +    .instance_size = sizeof(SpaprWatchdog),
+> +    .class_init    = spapr_wdt_class_init,
+> +};
+> +
+> +static void spapr_watchdog_register_types(void)
+> +{
+> +    spapr_register_hypercall(H_WATCHDOG, h_watchdog);
+> +    type_register_static(&spapr_wdt_info);
+> +}
+> +
+> +type_init(spapr_watchdog_register_types)
+> diff --git a/hw/watchdog/meson.build b/hw/watchdog/meson.build
+> index 054c403dea7c..8974b5cf4c8a 100644
+> --- a/hw/watchdog/meson.build
+> +++ b/hw/watchdog/meson.build
+> @@ -6,3 +6,4 @@ softmmu_ss.add(when: 'CONFIG_WDT_DIAG288', if_true: files('wdt_diag288.c'))
+>   softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('wdt_aspeed.c'))
+>   softmmu_ss.add(when: 'CONFIG_WDT_IMX2', if_true: files('wdt_imx2.c'))
+>   softmmu_ss.add(when: 'CONFIG_WDT_SBSA', if_true: files('sbsa_gwdt.c'))
+> +specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_watchdog.c'))
+> diff --git a/hw/watchdog/trace-events b/hw/watchdog/trace-events
+> index e7523e22aaf2..89ccbcfdfd20 100644
+> --- a/hw/watchdog/trace-events
+> +++ b/hw/watchdog/trace-events
+> @@ -9,3 +9,10 @@ cmsdk_apb_watchdog_lock(uint32_t lock) "CMSDK APB watchdog: lock %" PRIu32
+>   # wdt-aspeed.c
+>   aspeed_wdt_read(uint64_t addr, uint32_t size) "@0x%" PRIx64 " size=%d"
+>   aspeed_wdt_write(uint64_t addr, uint32_t size, uint64_t data) "@0x%" PRIx64 " size=%d value=0x%"PRIx64
+> +
+> +# spapr_watchdog.c
+> +spapr_watchdog_start(uint64_t flags, uint64_t num, uint64_t timeout) "Flags 0x%" PRIx64 " num=%" PRId64 " %" PRIu64 "ms"
+> +spapr_watchdog_stop(uint64_t num, uint64_t ret) "num=%" PRIu64 " ret=%" PRId64
+> +spapr_watchdog_query(uint64_t caps) "caps=0x%" PRIx64
+> +spapr_watchdog_query_lpm(uint64_t caps) "caps=0x%" PRIx64
+> +spapr_watchdog_expired(uint64_t num, unsigned action) "num=%" PRIu64 " action=%u"
 
