@@ -2,95 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A1554F53A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 12:21:47 +0200 (CEST)
-Received: from localhost ([::1]:43650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A44454F600
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 12:54:34 +0200 (CEST)
+Received: from localhost ([::1]:56166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o296n-0000eW-NN
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 06:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46496)
+	id 1o29cW-0002Qw-S1
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 06:54:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o292O-0008Ej-18
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 06:17:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41850)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o29Zz-0001MR-Cz
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 06:51:55 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o292I-0002gx-U0
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 06:17:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655461025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3aRKT5fdXh5sFoV9oOSSqVIY9Srux4hq44UryR33nbM=;
- b=g1eeo4zHo7PeaMRrme0dOCWS7UQoeOCG3Yy24kHxEma+knRi1RoDhaFr7JLBFm2He0MFQy
- sVD4ooVUvzWxfxcPcoNU/cSaWuAlqKL6LxyXbA5u3t/apUinF/P9/7QQ2PZw8oKe5dp+z7
- eaqI0j7MlTXvPLi1N8FMr8Iw2gHDptU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-aEeI3llnNvSOufcHXGUNOQ-1; Fri, 17 Jun 2022 06:17:03 -0400
-X-MC-Unique: aEeI3llnNvSOufcHXGUNOQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u18-20020adfb212000000b0021855847651so856099wra.6
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 03:17:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3aRKT5fdXh5sFoV9oOSSqVIY9Srux4hq44UryR33nbM=;
- b=u62bftgyvS1FQCJAuBWH3Xiu88KJhuTQQ8HxOQ1ZOEZL3ex1r01D8d6T2u532MGYz0
- mSUr63+N9ODp45NdhLNQMFGr3Zsw5uzgPyzKyUoO/CumJVQCxfveH9kYM/KTMs15V96e
- x3mZvCfebH6I+qiJVmy4lxjqj6dHSnMOSylreYD3jUANT8pHy5g61E3kz+vMrEoeCVED
- wHmlBT0ffRjzDQBB2bLBvFTkI6Ne/1yU/rLpi4QZk0o4w50M0En56QJ/ia1ysgGOU2TN
- GCOSzh5b2UueSc8x9RuQysF4uScaiNjRPqQ/M8KU0wgvM4+KF1x1MoLWk2JdIz8WhkIE
- ewjQ==
-X-Gm-Message-State: AJIora83HPnlSu9Lk4pDX5vq0eBF5/DSe6yznTdD0YhovILNoCd4QUWC
- Q4jbxK6buSDqRBjFwNaydGjgt4EIpNXbnWqcU+1OdPHfAV+oS6FIhAOGKYC1UjXGb3MjqN9vp2G
- /gS/N7vRejnGEm+s=
-X-Received: by 2002:a05:600c:19c7:b0:39c:30b0:2b05 with SMTP id
- u7-20020a05600c19c700b0039c30b02b05mr9353929wmq.170.1655461022720; 
- Fri, 17 Jun 2022 03:17:02 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sZo7CHc8VQ6lP+HtTKPGKdKgl4v5qkE7P5kFdzdRsHX8KrazkYmWEA5n0V0dJfoIADPFdn1w==
-X-Received: by 2002:a05:600c:19c7:b0:39c:30b0:2b05 with SMTP id
- u7-20020a05600c19c700b0039c30b02b05mr9353900wmq.170.1655461022489; 
- Fri, 17 Jun 2022 03:17:02 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-42-114-75.web.vodafone.de.
- [109.42.114.75]) by smtp.gmail.com with ESMTPSA id
- z7-20020a056000110700b0020c5253d8f7sm4226366wrw.67.2022.06.17.03.17.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 03:17:01 -0700 (PDT)
-Message-ID: <265dbc1f-9898-7d69-82dd-168852912a48@redhat.com>
-Date: Fri, 17 Jun 2022 12:17:00 +0200
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o29Zw-0000Zd-HM
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 06:51:55 -0400
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LPbR3033Rz67VbM;
+ Fri, 17 Jun 2022 18:50:07 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 17 Jun 2022 12:51:49 +0200
+Received: from localhost (10.81.209.131) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.24; Fri, 17 Jun
+ 2022 11:51:48 +0100
+Date: Fri, 17 Jun 2022 11:51:44 +0100
+To: Igor Mammedov <imammedo@redhat.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Ben Widawsky <ben.widawsky@intel.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Ani Sinha
+ <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, "Paolo
+ Bonzini" <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PULL v2 25/86] hw/cxl/component: Implement host bridge MMIO
+ (8.2.5, table 142)
+Message-ID: <20220617115144.00007690@Huawei.com>
+In-Reply-To: <20220616164500.274842cb@redhat.com>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-26-mst@redhat.com>
+ <20220616164500.274842cb@redhat.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: misaligned-pointer-use libslirp/src/tcp_input.c
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, Patrick Venture <venture@google.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Foley
- <pefoley@google.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Samuel Thibault <samuel.thibault@ens-lyon.org>
-References: <CAO=notxhNUkps9_aLKmy=oDKYC8xsUjErrEMAycwJHjUvkWHRA@mail.gmail.com>
- <20220616133057.bq4m5rzc2tjpeqdn@mozz.bu.edu>
- <CAO=notzeN6OrcfjKNVJ9Q6ttbLv6s-zgiW3dGQTbn4eP6WHcsQ@mail.gmail.com>
- <20220616190304.5bqkov2p2c6khbdc@mozz.bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220616190304.5bqkov2p2c6khbdc@mozz.bu.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.81.209.131]
+X-ClientProxiedBy: lhreml709-chm.china.huawei.com (10.201.108.58) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,215 +76,359 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 16/06/2022 21.03, Alexander Bulekov wrote:
-> On 220616 0930, Patrick Venture wrote:
->> On Thu, Jun 16, 2022 at 6:31 AM Alexander Bulekov <alxndr@bu.edu> wrote:
->>
->>> Is this an --enable-sanitizers build? The virtual-device fuzzer catches
->>>
->>
->> Yeah - it should be reproducible with a sanitizers build from HEAD -- I can
->> try to get a manual instance going again without automation to try and
->> reproduce it.  We're testing on v7.0.0 which is when we started seeing
->> this, I don't think we saw it in 6.2.0.
-> 
-> Here are a few reproducers (run with --enable-sanitizers):
-> 
-> This one complains about misalignments in ip_header, ipasfrag, qlink,
-> ip...
-> 
-> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
-> 512M,slots=4,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
-> vmxnet3,netdev=net0 -netdev user,id=net0 -object \
-> memory-backend-ram,id=mem1,size=10M -device \
-> pc-dimm,id=nv1,memdev=mem1,addr=0xba19ff00000000 -object \
-> memory-backend-ram,id=mem2,size=10M -device \
-> pc-dimm,id=nv2,memdev=mem2,addr=0xbe53e14abaa00000 -object \
-> memory-backend-ram,id=mem3,size=10M -device \
-> pc-dimm,id=nv3,memdev=mem3,addr=0xfe0000e9cae00000 -object \
-> memory-backend-ram,id=mem4,size=10M -device \
-> pc-dimm,id=nv4,memdev=mem4,addr=0xf0f0f0f00000000 -qtest stdio
-> outl 0xcf8 0x80000810
-> outl 0xcfc 0xe0000000
-> outl 0xcf8 0x80000814
-> outl 0xcfc 0xe0001000
-> outl 0xcf8 0x80000804
-> outw 0xcfc 0x06
-> write 0x3e 0x1 0x02
-> write 0x39 0x1 0x20
-> write 0x29 0x1 0x10
-> write 0x2c 0x1 0x0f
-> write 0x2d 0x1 0x0f
-> write 0x2e 0x1 0x0f
-> write 0x2f 0x1 0x0f
-> write 0xf0f0f0f00001012 0x1 0xfe
-> write 0xf0f0f0f00001013 0x1 0xca
-> write 0xf0f0f0f00001014 0x1 0xe9
-> write 0xf0f0f0f00001017 0x1 0xfe
-> write 0xf0f0f0f0000103a 0x1 0x01
-> write 0xfe0000e9cafe0009 0x1 0x40
-> write 0xfe0000e9cafe0019 0x1 0x40
-> write 0x0 0x1 0xe1
-> write 0x1 0x1 0xfe
-> write 0x2 0x1 0xbe
-> write 0x3 0x1 0xba
-> writel 0xe0001020 0xcafe0000
-> write 0xfe0000e9cafe0029 0x1 0x40
-> write 0xfe0000e9cafe0039 0x1 0x40
-> write 0xfe0000e9cafe0049 0x1 0x40
-> write 0xfe0000e9cafe0059 0x1 0x40
-> write 0x1f65190b 0x1 0x08
-> write 0x1f65190d 0x1 0x46
-> write 0x1f65190e 0x1 0x03
-> write 0x1f651915 0x1 0x01
-> write 0xfe0000e9cafe0069 0x1 0x40
-> write 0xfe0000e9cafe0079 0x1 0x40
-> write 0xfe0000e9cafe0089 0x1 0x40
-> write 0xfe0000e9cafe0099 0x1 0x40
-> write 0xfe0000e9cafe009d 0x1 0x10
-> write 0xfe0000e9cafe00a0 0x1 0xff
-> write 0xfe0000e9cafe00a1 0x1 0x18
-> write 0xfe0000e9cafe00a2 0x1 0x65
-> write 0xfe0000e9cafe00a3 0x1 0x1f
-> write 0xfe0000e9cafe00a9 0x1 0x40
-> write 0xfe0000e9cafe00ad 0x1 0x1c
-> write 0xe0000602 0x1 0x00
-> EOF
-> 
-> This one complains about misalignments in ip6_header, ip6_hdrctl...
-> 
-> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
-> 512M,slots=1,maxmem=0xffff000000000000 -machine q35 -nodefaults -device \
-> vmxnet3,netdev=net0 -netdev user,id=net0 -object \
-> memory-backend-ram,id=mem1,size=4M -device \
-> pc-dimm,id=nv1,memdev=mem1,addr=0x1dd860000000000 -qtest stdio
-> outl 0xcf8 0x80000810
-> outl 0xcfc 0xe0000000
-> outl 0xcf8 0x80000814
-> outl 0xcfc 0xe0001000
-> outl 0xcf8 0x80000804
-> outw 0xcfc 0x06
-> write 0x0 0x1 0xe1
-> write 0x1 0x1 0xfe
-> write 0x2 0x1 0xbe
-> write 0x3 0x1 0xba
-> write 0x3e 0x1 0x01
-> write 0x39 0x1 0x01
-> write 0x28 0x1 0x01
-> write 0x29 0x1 0x01
-> write 0x2d 0x1 0x86
-> write 0x2e 0x1 0xdd
-> write 0x2f 0x1 0x01
-> write 0x1dd860000000112 0x1 0x10
-> write 0x1dd86000000013c 0x1 0x02
-> writel 0xe0001020 0xcafe0000
-> write 0x1009 0x1 0x40
-> write 0x100c 0x1 0x86
-> write 0x100d 0x1 0xdd
-> write 0x1011 0x1 0x10
-> write 0x1019 0x1 0x7e
-> write 0x101d 0x1 0x10
-> write 0x4d56 0x1 0x02
-> write 0xe0000603 0x1 0x00
-> EOF
+On Thu, 16 Jun 2022 16:45:00 +0200
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-Could you please open bugs on 
-https://gitlab.freedesktop.org/slirp/libslirp/-/issues so that this 
-information does not get lost?
+> On Mon, 16 May 2022 16:51:34 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+>=20
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> >=20
+> > CXL host bridges themselves may have MMIO. Since host bridges don't have
+> > a BAR they are treated as special for MMIO.  This patch includes
+> > i386/pc support.
+> > Also hook up the device reset now that we have have the MMIO
+> > space in which the results are visible.
+> >=20
+> > Note that we duplicate the PCI express case for the aml_build but
+> > the implementations will diverge when the CXL specific _OSC is
+> > introduced.
+> >=20
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> > Message-Id: <20220429144110.25167-24-Jonathan.Cameron@huawei.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >  include/hw/cxl/cxl.h                | 14 ++++++
+> >  hw/i386/acpi-build.c                | 25 ++++++++++-
+> >  hw/i386/pc.c                        | 27 +++++++++++-
+> >  hw/pci-bridge/pci_expander_bridge.c | 66 ++++++++++++++++++++++++++---
+> >  4 files changed, 122 insertions(+), 10 deletions(-)
+> >=20
+> > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+> > index 31af92fd5e..8d1a7245d0 100644
+> > --- a/include/hw/cxl/cxl.h
+> > +++ b/include/hw/cxl/cxl.h
+> > @@ -10,6 +10,7 @@
+> >  #ifndef CXL_H
+> >  #define CXL_H
+> > =20
+> > +#include "hw/pci/pci_host.h"
+> >  #include "cxl_pci.h"
+> >  #include "cxl_component.h"
+> >  #include "cxl_device.h"
+> > @@ -17,8 +18,21 @@
+> >  #define CXL_COMPONENT_REG_BAR_IDX 0
+> >  #define CXL_DEVICE_REG_BAR_IDX 2
+> > =20
+> > +#define CXL_WINDOW_MAX 10
+> > +
+> >  typedef struct CXLState {
+> >      bool is_enabled;
+> > +    MemoryRegion host_mr;
+> > +    unsigned int next_mr_idx;
+> >  } CXLState;
+> > =20
+> > +struct CXLHost {
+> > +    PCIHostState parent_obj;
+> > +
+> > +    CXLComponentState cxl_cstate;
+> > +};
+> > +
+> > +#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+> > +OBJECT_DECLARE_SIMPLE_TYPE(CXLHost, PXB_CXL_HOST)
+> > +
+> >  #endif
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index dcf6ece3d0..2d81b0f40c 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -28,6 +28,7 @@
+> >  #include "qemu/bitmap.h"
+> >  #include "qemu/error-report.h"
+> >  #include "hw/pci/pci.h"
+> > +#include "hw/cxl/cxl.h"
+> >  #include "hw/core/cpu.h"
+> >  #include "target/i386/cpu.h"
+> >  #include "hw/misc/pvpanic.h"
+> > @@ -1572,10 +1573,21 @@ build_dsdt(GArray *table_data, BIOSLinker *link=
+er,
+> >              }
+> > =20
+> >              scope =3D aml_scope("\\_SB");
+> > -            dev =3D aml_device("PC%.02X", bus_num);
+> > +
+> > +            if (pci_bus_is_cxl(bus)) {
+> > +                dev =3D aml_device("CL%.02X", bus_num);
+> > +            } else {
+> > +                dev =3D aml_device("PC%.02X", bus_num);
+> > +            }
+> >              aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+> >              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
+> > -            if (pci_bus_is_express(bus)) {
+> > +            if (pci_bus_is_cxl(bus)) {
+> > +                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0=
+A08")));
+> > +                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0=
+A03")));
+> > +
+> > +                /* Expander bridges do not have ACPI PCI Hot-plug enab=
+led */
+> > +                aml_append(dev, build_q35_osc_method(true));
+> > +            } else if (pci_bus_is_express(bus)) {
+> >                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0=
+A08")));
+> >                  aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0=
+A03")));
+> > =20
+> > @@ -1595,6 +1607,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linke=
+r,
+> >              aml_append(dev, aml_name_decl("_CRS", crs));
+> >              aml_append(scope, dev);
+> >              aml_append(dsdt, scope);
+> > +
+> > +            /* Handle the ranges for the PXB expanders */
+> > +            if (pci_bus_is_cxl(bus)) {
+> > +                MemoryRegion *mr =3D &machine->cxl_devices_state->host=
+_mr;
+> > +                uint64_t base =3D mr->addr;
+> > +
+> > +                crs_range_insert(crs_range_set.mem_ranges, base,
+> > +                                 base + memory_region_size(mr) - 1);
+> > +            }
+> >          }
+> >      }
+> > =20
+> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> > index 45e2d6092f..03d14f6564 100644
+> > --- a/hw/i386/pc.c
+> > +++ b/hw/i386/pc.c
+> > @@ -75,6 +75,7 @@
+> >  #include "acpi-build.h"
+> >  #include "hw/mem/pc-dimm.h"
+> >  #include "hw/mem/nvdimm.h"
+> > +#include "hw/cxl/cxl.h"
+> >  #include "qapi/error.h"
+> >  #include "qapi/qapi-visit-common.h"
+> >  #include "qapi/qapi-visit-machine.h"
+> > @@ -816,6 +817,7 @@ void pc_memory_init(PCMachineState *pcms,
+> >      MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+> >      PCMachineClass *pcmc =3D PC_MACHINE_GET_CLASS(pcms);
+> >      X86MachineState *x86ms =3D X86_MACHINE(pcms);
+> > +    hwaddr cxl_base;
+> > =20
+> >      assert(machine->ram_size =3D=3D x86ms->below_4g_mem_size +
+> >                                  x86ms->above_4g_mem_size);
+> > @@ -905,6 +907,26 @@ void pc_memory_init(PCMachineState *pcms,
+> >                                      &machine->device_memory->mr);
+> >      }
+> > =20
+> > +    if (machine->cxl_devices_state->is_enabled) {
+> > +        MemoryRegion *mr =3D &machine->cxl_devices_state->host_mr;
+> > +        hwaddr cxl_size =3D MiB;
+> > +
+> > +        if (pcmc->has_reserved_memory && machine->device_memory->base)=
+ {
+> > +            cxl_base =3D machine->device_memory->base;
+> > +            if (!pcmc->broken_reserved_end) {
+> > +                cxl_base +=3D memory_region_size(&machine->device_memo=
+ry->mr);
+> > +            } =20
+>=20
+> while reviewing 1Tb hole patches, I've stumbled onto this
+> it looks wrong to ignore device_memory size here as RAM is/might still be=
+ mapped there
+> and guest can try to use it as RAM and then as CXL MMIO or other way arou=
+nd.
+> Most likely nothing good will come out of it, suggest make it uncondition=
+al and
+> always put cxl_base _after_ actual device_memory
 
-  Thomas
+Ah. I didn't fully understand the broken_reserved_end handling.
 
->>
->>> these periodically while fuzzing network-devices. However I don't think
->>> OSS-Fuzz creates reports for them for some reason. I can create qtest
->>> reproducers, if that is useful.
->>> -Alex
->>>
->>> On 220615 0942, Patrick Venture wrote:
->>>> Hey - I wanted to ask if someone else has seen this or has suggestions on
->>>> how to fix it in libslirp / qemu.
->>>>
->>>> libslirp version: 3ad1710a96678fe79066b1469cead4058713a1d9
->>>>
->>>> The blow is line:
->>>>
->>> https://gitlab.freedesktop.org/slirp/libslirp/-/blob/master/src/tcp_input.c#L310
->>>>
->>>> I0614 13:44:44.304087    2040 bytestream.cc:22] QEMU:
->>>> third_party/libslirp/src/tcp_input.c:310:56: runtime error: member access
->>>> within misaligned address 0xffff9a4000f4 for type 'struct qlink', which
->>>> requires 8 byte alignment
->>>> I0614 13:44:44.304156    2040 bytestream.cc:22] QEMU: 0xffff9a4000f4:
->>> note:
->>>> pointer points here
->>>> I0614 13:44:44.304184    2040 bytestream.cc:22] QEMU:   00 00 00 00 00 00
->>>> 00 02  20 02 0a 00 00 01 42 01  0a 00 02 02 42 01 0a 00  00 01 86 dd 60
->>> 02
->>>> dd 79
->>>> I0614 13:44:44.304204    2040 bytestream.cc:22] QEMU:               ^
->>>> I0614 13:44:44.641173    2040 bytestream.cc:22] QEMU:     #0
->>> 0xaaaacbe34bd8
->>>> in tcp_input third_party/libslirp/src/tcp_input.c:310:56
->>>> I0614 13:44:44.641239    2040 bytestream.cc:22] QEMU:     #1
->>> 0xaaaacbe22a94
->>>> in ip6_input third_party/libslirp/src/ip6_input.c:74:9
->>>> I0614 13:44:44.641262    2040 bytestream.cc:22] QEMU:     #2
->>> 0xaaaacbe0bbbc
->>>> in slirp_input third_party/libslirp/src/slirp.c:1169:13
->>>> I0614 13:44:44.641280    2040 bytestream.cc:22] QEMU:     #3
->>> 0xaaaacbd55f6c
->>>> in net_slirp_receive third_party/qemu/net/slirp.c:136:5
->>>> I0614 13:44:44.641296    2040 bytestream.cc:22] QEMU:     #4
->>> 0xaaaacbd4e77c
->>>> in nc_sendv_compat third_party/qemu/net/net.c
->>>> I0614 13:44:44.641323    2040 bytestream.cc:22] QEMU:     #5
->>> 0xaaaacbd4e77c
->>>> in qemu_deliver_packet_iov third_party/qemu/net/net.c:850:15
->>>> I0614 13:44:44.641342    2040 bytestream.cc:22] QEMU:     #6
->>> 0xaaaacbd50bfc
->>>> in qemu_net_queue_deliver_iov third_party/qemu/net/queue.c:179:11
->>>> I0614 13:44:44.641359    2040 bytestream.cc:22] QEMU:     #7
->>> 0xaaaacbd50bfc
->>>> in qemu_net_queue_send_iov third_party/qemu/net/queue.c:246:11
->>>> I0614 13:44:44.641382    2040 bytestream.cc:22] QEMU:     #8
->>> 0xaaaacbd4a88c
->>>> in qemu_sendv_packet_async third_party/qemu/net/net.c:891:12
->>>> I0614 13:44:44.641396    2040 bytestream.cc:22] QEMU:     #9
->>> 0xaaaacacb1de0
->>>> in virtio_net_flush_tx third_party/qemu/hw/net/virtio-net.c:2586:15
->>>> I0614 13:44:44.641416    2040 bytestream.cc:22] QEMU:     #10
->>>> 0xaaaacacb1580 in virtio_net_tx_bh
->>>> third_party/qemu/hw/net/virtio-net.c:2703:11
->>>> I0614 13:44:44.641438    2040 bytestream.cc:22] QEMU:     #11
->>>> 0xaaaacc2bcf64 in aio_bh_call third_party/qemu/util/async.c:142:5
->>>> I0614 13:44:44.641463    2040 bytestream.cc:22] QEMU:     #12
->>>> 0xaaaacc2bcf64 in aio_bh_poll third_party/qemu/util/async.c:170:13
->>>> I0614 13:44:44.641477    2040 bytestream.cc:22] QEMU:     #13
->>>> 0xaaaacc2b8f70 in aio_dispatch third_party/qemu/util/aio-posix.c:420:5
->>>> I0614 13:44:44.641495    2040 bytestream.cc:22] QEMU:     #14
->>>> 0xaaaacc2bf120 in aio_ctx_dispatch third_party/qemu/util/async.c:312:5
->>>> I0614 13:44:44.641510    2040 bytestream.cc:22] QEMU:     #15
->>>> 0xaaaacc3a7690 in g_main_dispatch third_party/glib/glib/gmain.c:3417:27
->>>> I0614 13:44:44.641525    2040 bytestream.cc:22] QEMU:     #16
->>>> 0xaaaacc3a7690 in g_main_context_dispatch
->>>> third_party/glib/glib/gmain.c:4135:7
->>>> I0614 13:44:44.641546    2040 bytestream.cc:22] QEMU:     #17
->>>> 0xaaaacc2de3ec in glib_pollfds_poll
->>> third_party/qemu/util/main-loop.c:232:9
->>>> I0614 13:44:44.641562    2040 bytestream.cc:22] QEMU:     #18
->>>> 0xaaaacc2de3ec in os_host_main_loop_wait
->>>> third_party/qemu/util/main-loop.c:255:5
->>>> I0614 13:44:44.641580    2040 bytestream.cc:22] QEMU:     #19
->>>> 0xaaaacc2de3ec in main_loop_wait third_party/qemu/util/main-loop.c:531:11
->>>> I0614 13:44:44.641598    2040 bytestream.cc:22] QEMU:     #20
->>>> 0xaaaacbd82798 in qemu_main_loop
->>> third_party/qemu/softmmu/runstate.c:727:9
->>>> I0614 13:44:44.641612    2040 bytestream.cc:22] QEMU:     #21
->>>> 0xaaaacadacb5c in main
->>>>
->>>> Patrick
->>>
-> 
+Just to check I understand correctly are you suggesting.
+
+        if (pcmc->has_reserved_memory && machine->device_memory->base) {
+            cxl_base =3D machine->device_memory->base +=20
+                memory_region_size(&machine->device_memory->mr);
+        } else if (pcms->sgx_epc.size !=3D 0) {
+...
+
+?
+
+Thanks,
+
+Jonathan
+
+
+
+>=20
+>=20
+> > +        } else if (pcms->sgx_epc.size !=3D 0) {
+> > +            cxl_base =3D sgx_epc_above_4g_end(&pcms->sgx_epc);
+> > +        } else {
+> > +            cxl_base =3D 0x100000000ULL + x86ms->above_4g_mem_size;
+> > +        }
+> > +
+> > +        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+> > +        memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_si=
+ze);
+> > +        memory_region_add_subregion(system_memory, cxl_base, mr);
+> > +    }
+> > +
+> >      /* Initialize PC system firmware */
+> >      pc_system_firmware_init(pcms, rom_memory);
+> > =20
+> > @@ -965,7 +987,10 @@ uint64_t pc_pci_hole64_start(void)
+> >      X86MachineState *x86ms =3D X86_MACHINE(pcms);
+> >      uint64_t hole64_start =3D 0;
+> > =20
+> > -    if (pcmc->has_reserved_memory && ms->device_memory->base) {
+> > +    if (ms->cxl_devices_state->host_mr.addr) {
+> > +        hole64_start =3D ms->cxl_devices_state->host_mr.addr +
+> > +            memory_region_size(&ms->cxl_devices_state->host_mr);
+> > +    } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
+> >          hole64_start =3D ms->device_memory->base;
+> >          if (!pcmc->broken_reserved_end) {
+> >              hole64_start +=3D memory_region_size(&ms->device_memory->m=
+r);
+> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_ex=
+pander_bridge.c
+> > index f762eb4a6e..8fb4f2ea91 100644
+> > --- a/hw/pci-bridge/pci_expander_bridge.c
+> > +++ b/hw/pci-bridge/pci_expander_bridge.c
+> > @@ -61,12 +61,6 @@ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_PCIE_DEV,
+> >  DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
+> >                           TYPE_PXB_CXL_DEVICE)
+> > =20
+> > -typedef struct CXLHost {
+> > -    PCIHostState parent_obj;
+> > -
+> > -    CXLComponentState cxl_cstate;
+> > -} CXLHost;
+> > -
+> >  struct PXBDev {
+> >      /*< private >*/
+> >      PCIDevice parent_obj;
+> > @@ -75,6 +69,9 @@ struct PXBDev {
+> >      uint8_t bus_nr;
+> >      uint16_t numa_node;
+> >      bool bypass_iommu;
+> > +    struct cxl_dev {
+> > +        CXLHost *cxl_host_bridge;
+> > +    } cxl;
+> >  };
+> > =20
+> >  static PXBDev *convert_to_pxb(PCIDevice *dev)
+> > @@ -197,6 +194,52 @@ static const TypeInfo pxb_host_info =3D {
+> >      .class_init    =3D pxb_host_class_init,
+> >  };
+> > =20
+> > +static void pxb_cxl_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    MachineState *ms =3D MACHINE(qdev_get_machine());
+> > +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+> > +    CXLHost *cxl =3D PXB_CXL_HOST(dev);
+> > +    CXLComponentState *cxl_cstate =3D &cxl->cxl_cstate;
+> > +    struct MemoryRegion *mr =3D &cxl_cstate->crb.component_registers;
+> > +    hwaddr offset;
+> > +
+> > +    cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
+> > +                                      TYPE_PXB_CXL_HOST);
+> > +    sysbus_init_mmio(sbd, mr);
+> > +
+> > +    offset =3D memory_region_size(mr) * ms->cxl_devices_state->next_mr=
+_idx;
+> > +    if (offset > memory_region_size(&ms->cxl_devices_state->host_mr)) {
+> > +        error_setg(errp, "Insufficient space for pxb cxl host register=
+ space");
+> > +        return;
+> > +    }
+> > +
+> > +    memory_region_add_subregion(&ms->cxl_devices_state->host_mr, offse=
+t, mr);
+> > +    ms->cxl_devices_state->next_mr_idx++;
+> > +}
+> > +
+> > +static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
+> > +{
+> > +    DeviceClass *dc =3D DEVICE_CLASS(class);
+> > +    PCIHostBridgeClass *hc =3D PCI_HOST_BRIDGE_CLASS(class);
+> > +
+> > +    hc->root_bus_path =3D pxb_host_root_bus_path;
+> > +    dc->fw_name =3D "cxl";
+> > +    dc->realize =3D pxb_cxl_realize;
+> > +    /* Reason: Internal part of the pxb/pxb-pcie device, not usable by=
+ itself */
+> > +    dc->user_creatable =3D false;
+> > +}
+> > +
+> > +/*
+> > + * This is a device to handle the MMIO for a CXL host bridge. It does =
+nothing
+> > + * else.
+> > + */
+> > +static const TypeInfo cxl_host_info =3D {
+> > +    .name          =3D TYPE_PXB_CXL_HOST,
+> > +    .parent        =3D TYPE_PCI_HOST_BRIDGE,
+> > +    .instance_size =3D sizeof(CXLHost),
+> > +    .class_init    =3D pxb_cxl_host_class_init,
+> > +};
+> > +
+> >  /*
+> >   * Registers the PXB bus as a child of pci host root bus.
+> >   */
+> > @@ -245,6 +288,13 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int =
+pin)
+> > =20
+> >  static void pxb_dev_reset(DeviceState *dev)
+> >  {
+> > +    CXLHost *cxl =3D PXB_CXL_DEV(dev)->cxl.cxl_host_bridge;
+> > +    CXLComponentState *cxl_cstate =3D &cxl->cxl_cstate;
+> > +    uint32_t *reg_state =3D cxl_cstate->crb.cache_mem_registers;
+> > +    uint32_t *write_msk =3D cxl_cstate->crb.cache_mem_regs_write_mask;
+> > +
+> > +    cxl_component_register_init_common(reg_state, write_msk, CXL2_ROOT=
+_PORT);
+> > +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COU=
+NT, 8);
+> >  }
+> > =20
+> >  static gint pxb_compare(gconstpointer a, gconstpointer b)
+> > @@ -281,12 +331,13 @@ static void pxb_dev_realize_common(PCIDevice *dev=
+, enum BusType type,
+> >          dev_name =3D dev->qdev.id;
+> >      }
+> > =20
+> > -    ds =3D qdev_new(TYPE_PXB_HOST);
+> > +    ds =3D qdev_new(type =3D=3D CXL ? TYPE_PXB_CXL_HOST : TYPE_PXB_HOS=
+T);
+> >      if (type =3D=3D PCIE) {
+> >          bus =3D pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB=
+_PCIE_BUS);
+> >      } else if (type =3D=3D CXL) {
+> >          bus =3D pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB=
+_CXL_BUS);
+> >          bus->flags |=3D PCI_BUS_CXL;
+> > +        PXB_CXL_DEV(dev)->cxl.cxl_host_bridge =3D PXB_CXL_HOST(ds);
+> >      } else {
+> >          bus =3D pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TY=
+PE_PXB_BUS);
+> >          bds =3D qdev_new("pci-bridge");
+> > @@ -475,6 +526,7 @@ static void pxb_register_types(void)
+> >      type_register_static(&pxb_pcie_bus_info);
+> >      type_register_static(&pxb_cxl_bus_info);
+> >      type_register_static(&pxb_host_info);
+> > +    type_register_static(&cxl_host_info);
+> >      type_register_static(&pxb_dev_info);
+> >      type_register_static(&pxb_pcie_dev_info);
+> >      type_register_static(&pxb_cxl_dev_info); =20
+>=20
 
 
