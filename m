@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0B954F7C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:46:25 +0200 (CEST)
-Received: from localhost ([::1]:44266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414C454F7C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:46:08 +0200 (CEST)
+Received: from localhost ([::1]:43464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2BMm-00022M-8j
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52718)
+	id 1o2BMU-0001Ui-Ty
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:46:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1o2BEq-0005H6-V4
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:38:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57114)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o2BIi-0007wO-RI
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:42:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1o2BEo-0003jf-Af
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:38:11 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o2BIg-0005vV-73
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:42:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655469489;
+ s=mimecast20190719; t=1655469729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sruUjnEoxUvb5USAiCjCEZl8YC67DOv1HWaqZU1f0SE=;
- b=WQzq8/hD3n0wPIk6jcPvqQZl1spWot4LViNy6R3bboTkL3UwGXpew0yclxOWl50IX0lFjN
- ST7ka+e8M0ue87v8c3pPCH2uSrmT7N4h1RgpekrliveYWuLuks7KEEPiIPgPoJM6J9/aAa
- K/V3gvkF8BsdTb7aV6Uf4XTGDu2gNAQ=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FrdOsHSaFbLfNW07OM5GQn8+XgU+1N5zl2F9crQG84k=;
+ b=DTUcrc0HZ6le576SyW/4BP/XwQrkj/p4lx2YsFozwdTLNaNmOVWPkctOB4MgMDjA0YK0k/
+ y6GQkUqw1W4oZA64IZjVGQuaxSAjqtCpCHTWpA3ci6Ob6yZQU5aXFbtyssed2ekDaHVYY0
+ RGPK5r1AK5j65kYvs9Y5Z5JJZMdR/JA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-388-gTN4Q5ALPo6QD8eQ8Oa_dQ-1; Fri, 17 Jun 2022 08:38:08 -0400
-X-MC-Unique: gTN4Q5ALPo6QD8eQ8Oa_dQ-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-101b3601c5dso569785fac.19
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 05:38:07 -0700 (PDT)
+ us-mta-302-A0yJNpWqN3CQf6wOIMorEg-1; Fri, 17 Jun 2022 08:42:06 -0400
+X-MC-Unique: A0yJNpWqN3CQf6wOIMorEg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h205-20020a1c21d6000000b0039c96ec500fso2654898wmh.8
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 05:42:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sruUjnEoxUvb5USAiCjCEZl8YC67DOv1HWaqZU1f0SE=;
- b=2pzH1NF+BIWCBW84DloCUXZOc3h9NTb2Qv9qINgp7VArnN/VnMDFalYzJOA8b9CA3O
- oceJcOuzSiz08p3llvM+UiTlxa34q1ijZ9MfC8+LhcbkqQDZDbWYXjmRJUwp88UV7hj5
- k/lyiQ6K1AIbIkFBUbOhlTmWndfeYwARZ8yP1c7gF063Xdf1uOaL4Oqqk+bG6+hwponD
- 58kBHZO+R07I4P8h9bGLHcmlGmoet+/RPN5bK5M4o01SGODDyb6dAFlsDlLn90zmrSoP
- pxNnHFaozRHBfY2Bq2V0vVq3VzusrFgLPJcxBj8Gso0yHqooKFf/joCW1uZTKxQvS3Ri
- w5pw==
-X-Gm-Message-State: AJIora8Ive1mOJNLqfPPsOUty7OHHYCY32/qCBniAqlpRWX8Ev55+nZO
- dYFVOO4zGZEo2IyQoEEPhhE3QowQF5RWTu6/4hSMmsAeEfniXXK+wq4z1B7UMYICjB5+Kdpglie
- wxABwURLQOVil58uBWhtDJxUE3CNxCOI=
-X-Received: by 2002:a9d:7581:0:b0:60c:13a3:8a11 with SMTP id
- s1-20020a9d7581000000b0060c13a38a11mr3762273otk.378.1655469487368; 
- Fri, 17 Jun 2022 05:38:07 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v5Yz55U5g1petCYB0KMZ2N4XM2XZy58XEcw32azIjTc6E22kV3q8zCT/k/3lGoTBwQ1eUMqXFCejk++9SkOGg=
-X-Received: by 2002:a9d:7581:0:b0:60c:13a3:8a11 with SMTP id
- s1-20020a9d7581000000b0060c13a38a11mr3762264otk.378.1655469487177; Fri, 17
- Jun 2022 05:38:07 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FrdOsHSaFbLfNW07OM5GQn8+XgU+1N5zl2F9crQG84k=;
+ b=xxpTDdH/tlkBlMEelT6qmIoSoMa98UE8xPdzP8q0jCY9gzGoMVv1KKD+FVq0SNbEtP
+ m8+HbU2LC41w7EmgSvNHg0kkXVLKx7coQRu3aAoQ1IfopBA5aT+icLHq3aKtgKfhV1HJ
+ yecBa/28TKY1D5hjudytP+8B2kYHKuWXISuwpLnBeKM6ZHW0rOFCubyiTnMeO4zcddCq
+ zINeN7IKENMNyFxUv5biWBgQkxi9Tq0UFfAeYmvV6+lb9NIBa69lOr7dmu9GNEAwQdC1
+ 5EPvN/X7TLvTjm84bN3AUxY8f/sFoo76HtJs4JfgvWt3K6hUEfGM2IEhjbpNwVq9uLO6
+ 7u/w==
+X-Gm-Message-State: AJIora8ODNtj32B+Sv/hackjhvNXnNrt1AAPhm3xp1NIfiabJ5XN4cDX
+ YoorCrKhcOA7k1/GQD3kxwP94JvAhFgH7ABTnHCiwLuSAfQe+tlurquUZw6FdpEp7rYT/Nhikeo
+ SKOkG5xJwHjRGNbo=
+X-Received: by 2002:adf:e902:0:b0:213:a337:92ae with SMTP id
+ f2-20020adfe902000000b00213a33792aemr9370914wrm.84.1655469725180; 
+ Fri, 17 Jun 2022 05:42:05 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1toHWTY/lCpcerHyBzleLwvcUaUGm8ONZwKRfW/cKxikEtliN2WJ5Z4HT9W9dcXIPTYe9tU6A==
+X-Received: by 2002:adf:e902:0:b0:213:a337:92ae with SMTP id
+ f2-20020adfe902000000b00213a33792aemr9370884wrm.84.1655469724966; 
+ Fri, 17 Jun 2022 05:42:04 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ z7-20020a1c4c07000000b0039c4b518df4sm6775375wmf.5.2022.06.17.05.42.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jun 2022 05:42:04 -0700 (PDT)
+Date: Fri, 17 Jun 2022 14:42:03 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Ben Widawsky <ben.widawsky@intel.com>, Jonathan
+ Cameron <jonathan.cameron@huawei.com>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>, Xiao Guangrong
+ <xiaoguangrong.eric@gmail.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <f4bug@amsat.org>, Richard Henderson <richard.henderson@linaro.org>, Peter
+ Maydell <peter.maydell@linaro.org>, Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH v1] MAINTAINERS: Collect memory device files in "Memory
+ devices"
+Message-ID: <20220617144203.2cbdcea8@redhat.com>
+In-Reply-To: <20220617123151.103033-1-david@redhat.com>
+References: <20220617123151.103033-1-david@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
- <20220616120715.uksbwjynvb6usjhu@sirius.home.kraxel.org>
- <b93a1312-2272-d7b4-5a45-d04a7fd35840@ilande.co.uk>
- <20220617095558.xggyv6qk7igofii4@sirius.home.kraxel.org>
-In-Reply-To: <20220617095558.xggyv6qk7igofii4@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 17 Jun 2022 16:37:56 +0400
-Message-ID: <CAMxuvawyO4uViOTUpji553dkqzRmvoL3YbDXXjd3Ca8SMmWxoA@mail.gmail.com>
-Subject: Re: Corrupted display changing screen colour depth in
- qemu-system-ppc/MacOS
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,55 +105,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Fri, 17 Jun 2022 14:31:51 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
-On Fri, Jun 17, 2022 at 1:56 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > > Can you try ditch the QEMU_ALLOCATED_FLAG check added by the commit?
-> >
-> > Commit cb8962c146 drops the QEMU_ALLOCATED_FLAG check: if I add it back in
-> > with the following diff on top then everything works again:
->
-> Ah, the other way around.
->
-> > diff --git a/ui/console.c b/ui/console.c
-> > index 365a2c14b8..decae4287f 100644
-> > --- a/ui/console.c
-> > +++ b/ui/console.c
-> > @@ -2400,11 +2400,12 @@ static void vc_chr_open(Chardev *chr,
-> >
-> >  void qemu_console_resize(QemuConsole *s, int width, int height)
-> >  {
-> > -    DisplaySurface *surface;
-> > +    DisplaySurface *surface = qemu_console_surface(s);
-> >
-> >      assert(s->console_type == GRAPHIC_CONSOLE);
-> >
-> > -    if (qemu_console_get_width(s, -1) == width &&
-> > +    if (surface && (surface->flags & QEMU_ALLOCATED_FLAG) &&
-> > +        qemu_console_get_width(s, -1) == width &&
-> >          qemu_console_get_height(s, -1) == height) {
-> >          return;
-> >      }
-> >
-> > > Which depth changes triggers this?  Going from direct color to a
-> > > paletted mode?
-> >
-> > A quick test suggests anything that isn't 32-bit colour is affected.
->
-> Hmm, I think the commit should simply be reverted.
->
-> Short-cutting the qemu_console_resize() call is only valid in case the
-> current surface was created by qemu_console_resize() too.  When it is
-> something else -- typically a surface backed by vga vram -- it's not.
-> Looking at the QEMU_ALLOCATED_FLAG checks exactly that ...
+> Xiao Guangrong doesn't have enough time to actively review or contribute
+> to our NVDIMM implementation. Let's dissolve the "NVDIMM" section, moving
+> relevant ACPI parts to "ACPI/SMBIOS" and moving memory device stuff into a
+> new "Memory devices" section. Make that new section cover other memory
+> device stuff as well.
+>=20
+> We can now drop the "hw/mem/*" rule from "ACPI/SMBIOS". Note that
+> hw/acpi/nvdimm.c is already covered by "ACPI/SMBIOS".
+>=20
+> The following files in hw/mem don't fall into the TYPE_MEMPORY_DEVICE
+> category:
+> * hw/mem/cxl_type3.c is CXL specific and belongs to "Compute Express Link"
+> * hw/mem/sparse-mem.c is already covered by "Device Fuzzing"
+> * hw/mem/npcm7xx_mc.c is already covered by "Nuvoton NPCM7xx"
+>=20
+> Thanks Xiao for your work on NVDIMM!
+>=20
+> Cc: Ben Widawsky <ben.widawsky@intel.com>
+> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Ani Sinha <ani@anisinha.ca>
+> Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+> Cc: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Julia Suvorova <jusual@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Oh ok, it might be worth adding a comment to clarify that. By
-reverting, we are going back to the situation where
-qemu_console_resize() will create a needless surface when rendering
-with GL. As I tried to explain in the commit message, it will need
-more changes to prevent that. I can take a look later.
+
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  MAINTAINERS | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index aaa649a50d..909e8dbb1b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1840,7 +1840,6 @@ R: Ani Sinha <ani@anisinha.ca>
+>  S: Supported
+>  F: include/hw/acpi/*
+>  F: include/hw/firmware/smbios.h
+> -F: hw/mem/*
+>  F: hw/acpi/*
+>  F: hw/smbios/*
+>  F: hw/i386/acpi-build.[hc]
+> @@ -1851,6 +1850,7 @@ F: tests/qtest/acpi-utils.[hc]
+>  F: tests/data/acpi/
+>  F: docs/specs/acpi_cpu_hotplug.rst
+>  F: docs/specs/acpi_mem_hotplug.rst
+> +F: docs/specs/acpi_nvdimm.rst
+>  F: docs/specs/acpi_pci_hotplug.rst
+>  F: docs/specs/acpi_hw_reduced_hotplug.rst
+> =20
+> @@ -2158,15 +2158,6 @@ F: qapi/rocker.json
+>  F: tests/rocker/
+>  F: docs/specs/rocker.txt
+> =20
+> -NVDIMM
+> -M: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+> -S: Maintained
+> -F: hw/acpi/nvdimm.c
+> -F: hw/mem/nvdimm.c
+> -F: include/hw/mem/nvdimm.h
+> -F: docs/nvdimm.txt
+> -F: docs/specs/acpi_nvdimm.rst
+> -
+>  e1000x
+>  M: Dmitry Fleytman <dmitry.fleytman@gmail.com>
+>  S: Maintained
+> @@ -2588,6 +2579,7 @@ M: Ben Widawsky <ben.widawsky@intel.com>
+>  M: Jonathan Cameron <jonathan.cameron@huawei.com>
+>  S: Supported
+>  F: hw/cxl/
+> +F: hw/mem/cxl_type3.c
+>  F: include/hw/cxl/
+> =20
+>  Dirty Bitmaps
+> @@ -2704,6 +2696,19 @@ F: softmmu/physmem.c
+>  F: include/exec/memory-internal.h
+>  F: scripts/coccinelle/memory-region-housekeeping.cocci
+> =20
+> +Memory devices
+> +M: David Hildenbrand <david@redhat.com>
+> +M: Igor Mammedov <imammedo@redhat.com>
+> +R: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+> +S: Supported
+> +F: hw/mem/memory-device.c
+> +F: hw/mem/nvdimm.c
+> +F: hw/mem/pc-dimm.c
+> +F: include/hw/mem/memory-device.h
+> +F: include/hw/mem/nvdimm.h
+> +F: include/hw/mem/pc-dimm.h
+> +F: docs/nvdimm.txt
+> +
+>  SPICE
+>  M: Gerd Hoffmann <kraxel@redhat.com>
+>  S: Odd Fixes
 
 
