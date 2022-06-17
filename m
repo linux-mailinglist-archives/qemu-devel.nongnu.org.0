@@ -2,97 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B798154F47E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 11:39:52 +0200 (CEST)
-Received: from localhost ([::1]:50418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5EE54F4B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 11:56:51 +0200 (CEST)
+Received: from localhost ([::1]:58966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o28SD-00010M-4v
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 05:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37000)
+	id 1o28if-0007TJ-Ru
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 05:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o28Mw-0007al-JY
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:34:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34550)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o28cB-0005kM-0m
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:50:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o28Mu-00016Z-Dg
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:34:21 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o28c5-0001XN-1H
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:50:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655458459;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1655459397;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Elj+7vw7WLIoWU07bQnWIGNRkhZTxsFl52yPV0Tt9js=;
- b=cMxSnNYjH7bdzx/lqWoQQmpEpXFsNVFASkxTx2IW2Id0o/yGtCSwzF4rdkkTtVU87UU5Py
- R5XMbP7kW62U8/0ymDmAZIO+Pk15vBSddQFQcaBMYKbrqS86c+k8+Tpc970VdUNlZg/XKw
- DcOIg039EnNRI5GxVCqlU82TrRKCMHo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8kylTe9dWC4cC4SI5PQt95stM3F3ln7OxOXtB9+kS3s=;
+ b=YkfJ11qU85UKczonCYgFtDrgK8rlnD1VlxfIv3UG20BJ7Wma/Yc0Ovm6Q8zOpGnrfVmGDn
+ 6jzdS1+x6ToiCFVS1cx6kD9EgjJ1um8kBC81JwCV0ShbqHTRh4Q9+QQnuzKdnJsQmVGm/W
+ 8Ewk30KY5m6IkEZWIeVxBn9tqVdxD+I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-68-OAQxaC17PEavXrraT9Bhtw-1; Fri, 17 Jun 2022 05:34:07 -0400
-X-MC-Unique: OAQxaC17PEavXrraT9Bhtw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- m24-20020adfa3d8000000b00219ea0ecfbaso827600wrb.16
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 02:34:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Elj+7vw7WLIoWU07bQnWIGNRkhZTxsFl52yPV0Tt9js=;
- b=7tY7fUwihOrSiXdc0w2/T0CmSfKyhEaoSf+heyjqwLiqzqVjSB/S5AcxlfJ1CnLDzm
- DjLdO9kU+2dkq1YuUejQvnxJDJmR0a/yur7X26gZ+nV7TBdkqCJqtbtx3cfWVp56QbVH
- RYKSfmcShpxJJEj7/+wqtHzQfM0qpl/NMip4mEh1jYyCnfks95XXv+UEd++vpnMaTP1L
- /bJhCwF1OkUay3NLrdGDFPm8w07ScAhhbYkSjmskBZYTSJqdtNRyHPspUlRpZB2morLa
- yP0zi203lz+NFS+tURr17NmHpA8ERhuyXniOSnL98evkyaKBK4sG7Zu/N9nbEsaMJajb
- g5RQ==
-X-Gm-Message-State: AJIora8F67hYTQzGbwSOB5Gaemx3rbPOPil3esrlezpHM445RVu8wOo2
- ptZ1snSpSvIuUaYR2gj1beODPoJG9wqGcAkyS49Whz/Yk0E41xjWvC1XYfwpU90BdKaMz9QGQwK
- 47bDnCcidJSHVpj8=
-X-Received: by 2002:a7b:cd1a:0:b0:39c:4133:ade7 with SMTP id
- f26-20020a7bcd1a000000b0039c4133ade7mr9029317wmj.111.1655458446124; 
- Fri, 17 Jun 2022 02:34:06 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sD6rUFX6XekzK92utOOvoub5sPYYiCa7VhkBTHQyQLskS7doztjIFeY/GEWwwI2+k8eTSDIQ==
-X-Received: by 2002:a7b:cd1a:0:b0:39c:4133:ade7 with SMTP id
- f26-20020a7bcd1a000000b0039c4133ade7mr9029298wmj.111.1655458445936; 
- Fri, 17 Jun 2022 02:34:05 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-42-114-75.web.vodafone.de.
- [109.42.114.75]) by smtp.gmail.com with ESMTPSA id
- n5-20020a05600c4f8500b0039c18d3fe27sm4924130wmq.19.2022.06.17.02.34.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 02:34:05 -0700 (PDT)
-Message-ID: <841d2152-d843-0bff-d877-6944e486a3d3@redhat.com>
-Date: Fri, 17 Jun 2022 11:34:03 +0200
+ us-mta-451-YY6Tmyh8PAmXJLhjRbxCKQ-1; Fri, 17 Jun 2022 05:49:53 -0400
+X-MC-Unique: YY6Tmyh8PAmXJLhjRbxCKQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3704F185A794;
+ Fri, 17 Jun 2022 09:49:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81C624619F3;
+ Fri, 17 Jun 2022 09:49:50 +0000 (UTC)
+Date: Fri, 17 Jun 2022 10:49:48 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Cc: John Snow <jsnow@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 03/10] qga: treat get-guest-fsinfo as "best effort"
+Message-ID: <YqxOPI4L/oMcgY0y@redhat.com>
+References: <20220616142659.3184115-1-jsnow@redhat.com>
+ <20220616142659.3184115-4-jsnow@redhat.com>
+ <CAJ+F1C+iHv-RvnbvUikD431tNN8PJ+Z=EO0Hgi8Dht-sX1OKBQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC PATCH 12/12] test/qtest: Add ubpf basic test case
-Content-Language: en-US
-To: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Laurent Vivier <lvivier@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>
-References: <20220617073630.535914-1-chen.zhang@intel.com>
- <20220617073630.535914-13-chen.zhang@intel.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220617073630.535914-13-chen.zhang@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ+F1C+iHv-RvnbvUikD431tNN8PJ+Z=EO0Hgi8Dht-sX1OKBQ@mail.gmail.com>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,94 +89,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/06/2022 09.36, Zhang Chen wrote:
-> TODO: This test case does not work. Need add ubpf.h header in qtest
-> compile "-I ../ubpf/vm -I ../ubpf/vm/inc".
-> I'm not sure if we need it in qtest. Because normal tests/qtest
-> not including external module test case like fdt. Or we just
-> need a qtest case for filter-ubpf module.
-> This test will load pre-compiled ebpf binary and run it in QEMU.
+On Thu, Jun 16, 2022 at 06:35:44PM +0400, Marc-André Lureau wrote:
+> Hi
 > 
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> ---
-[...]
-> diff --git a/tests/qtest/ubpf-test.c b/tests/qtest/ubpf-test.c
-> new file mode 100644
-> index 0000000000..6e70a99320
-> --- /dev/null
-> +++ b/tests/qtest/ubpf-test.c
-> @@ -0,0 +1,64 @@
-> +/*
-> + * QEMU Userspace eBPF test case
-> + *
-> + * Copyright(C) 2022 Intel Corporation.
-> + *
-> + * Author:
-> + *  Zhang Chen <chen.zhang@intel.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "libqtest.h"
-> +#include "ebpf/ubpf.h"
-> +
-> +/*
-> + * Demo userspace ebpf program
-> + * The test binary use clang to build this source code:
-> + * demo_ubpf.c
-> + *
-> + * #include <stdint.h>
-> + *
-> + * static uint32_t double_it(uint32_t a)
-> + * {
-> + *      return (a * 2);
-> + * }
-> + *
-> + * uint32_t bpf_prog(int32_t *arg) {
-> + *       uint32_t result = 0;
-> + *       result = double_it(*arg);
-> + *
-> + *       return result;
-> + * }
-> + *
-> + * Build the userspace ebpf program binary file:
-> + * clang -O2 -target bpf -c demo_ubpf.c -o demo_ubpf.o
-> + *
-> + * The external terget source:
-> + * printf "%b" '\x05\x00\x00\x00' > integer_5.mem
-> + *
-> + */
-> +
-> +int main(int argc, char **argc)
-> +{
-> +    UbpfState u_ebpf;
-> +    char program_path[] = "demo_ubpf.o";
-> +    /* uBPF can read target from internal source or external source*/
-> +    char target_path[] = "integer_5.mem";
-> +
-> +    qemu_ubpf_init_jit(&u_ebpf, true);
-> +
-> +    g_assert_cmpuint(qemu_ubpf_prepare(&u_ebpf, program_path), ==, 0);
-> +
-> +    g_assert_true(qemu_ubpf_read_target(&u_ebpf, target_path));
-> +
-> +    g_assert_cmpuint(qemu_run_ubpf_once(&u_ebpf, u_ebpf.target,
-> +		     u_ebpf.target_len), ==, 10);
-> +
-> +    ubpf_destroy(u_ebpf.vm);
-> +
-> +    return 0;
-> +}
+> On Thu, Jun 16, 2022 at 6:27 PM John Snow <jsnow@redhat.com> wrote:
+> 
+> > In some container environments, there may be references to block devices
+> > witnessable from a container through /proc/self/mountinfo that reference
+> > devices we simply don't have access to in the container, and could not
+> > provide information about.
+> >
+> > Instead of failing the entire fsinfo command, return stub information
+> > for these failed lookups.
+> >
+> > This allows test-qga to pass under docker tests, which are in turn used
+> > by the CentOS VM tests.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  qga/commands-posix.c | 8 +++++++-
+> >  1 file changed, 7 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> > index 0469dc409d4..5989d4dca9d 100644
+> > --- a/qga/commands-posix.c
+> > +++ b/qga/commands-posix.c
+> > @@ -1207,7 +1207,13 @@ static void build_guest_fsinfo_for_device(char
+> > const *devpath,
+> >
+> >      syspath = realpath(devpath, NULL);
+> >      if (!syspath) {
+> > -        error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
+> > +        if (errno == ENOENT) {
+> > +            /* This devpath may not exist because of container config,
+> > etc. */
+> > +            fprintf(stderr, "realpath(%s) returned NULL/ENOENT\n",
+> > devpath);
+> >
+> 
+> qga uses g_critical() (except for some win32 code paths atm)
+> 
+> 
+> > +            fs->name = y
+> >
+> 
+> Hmm, maybe we should make the field optional instead.
 
-Apart from the #include "libqtest.h" there is nothing related to qtest in 
-here ... should this maybe rather go into test/unit/ instead?
+In my own testing, this method is called in various scenarios.
+Some example:
 
-  Thomas
+  devpath==/sys/dev/block/253:0
+  syspath==/sys/devices/virtual/block/dm-0
+
+    => fs->name == dm-0
+
+  devpath==/sys/devices/virtual/block/dm-0/slaves/nvme0n1p4
+  syspath==/sys/devices/pci0000:00/0000:00:1d.0/0000:02:00.0/nvme/nvme0/nvme0n1/nvme0n1p4
+
+    => fs->name == nvme0n1p4
+
+  devpath==/sys/dev/block/259:2
+  syspath==/sys/devices/pci0000:00/0000:00:1d.0/0000:02:00.0/nvme/nvme0/nvme0n1/nvme0n1p2
+
+    => fs->name == nvme0n1p2
+
+We set fs->name from  basename(syspath)
+
+If the realpath call fails, we could use  basename(devpath). That
+would sometimes give the correct answer, and in other types it
+would at least give the major:minor number, which an admin can
+manually correlate if desired via /proc/partitions.
+
+If we want to be really advanced, we could just open /proc/partitions
+and resolve the proper name ourselves, but that's probably overkill
+
+  basename(sysfspath)
+
+is better than g_strdup("??\?-ENOENT")  IMHO
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
