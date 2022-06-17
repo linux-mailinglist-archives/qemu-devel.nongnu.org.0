@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7250654F7B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:37:54 +0200 (CEST)
-Received: from localhost ([::1]:34954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279CA54F7B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:41:32 +0200 (CEST)
+Received: from localhost ([::1]:39208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2BEX-0003g7-Jc
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:37:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47134)
+	id 1o2BI3-0006ng-69
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1o2Ax7-0001hs-Eq
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:19:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58911)
+ id 1o2AxA-0001p1-UX
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:19:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1o2Ax4-00050l-NW
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:19:53 -0400
+ id 1o2Ax6-000512-Hr
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:19:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655468390;
+ s=mimecast20190719; t=1655468392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ya/yFxVJyK8+F3qyfRthaOOUOhY7r2uw8VIya/1UxQA=;
- b=ViIar478482QqOgg1OgzIqskku67JPjcLL3Ka+MHMKmiAk77b6UjeK4iSUWGYt1SlLDYe1
- gqzEXQQcBP/8pfPk1sCCGagRmcHulb2DpKS7cwQ3pXorZIS4XTwHy77VGrSt1rTOvG+CzW
- 04vR0tTad01cRmKP14lYBfUvHRvrNF4=
+ bh=JZ0vOcnsF21RFn7nIjZPVMrS8wCUCtbccTUvlstCT7Y=;
+ b=I/bbjFZOzLC/gqTynwOv8BMXnYsOhyp3guLMzk2u2XtJeF/aLD4uEWlJ+MwWcvWAApRDtf
+ EDLBBxCV1tH0HMKB9edR27QZ6oPoKNtNKEp82CtgKWkqD5CGB0yA+pm8VO3gnD412+VZeJ
+ SxpF6IIwXik+y38gqAluYecozGZ0M20=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-bQw6AqnrNSOAubOputJQIQ-1; Fri, 17 Jun 2022 08:19:48 -0400
-X-MC-Unique: bQw6AqnrNSOAubOputJQIQ-1
+ us-mta-630-FxUZXtkaPA6tcTgSG_PYPw-1; Fri, 17 Jun 2022 08:19:50 -0400
+X-MC-Unique: FxUZXtkaPA6tcTgSG_PYPw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E0973C0D85D
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 12:19:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89AC71C01B2B
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 12:19:50 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.192.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BAB5040334E;
- Fri, 17 Jun 2022 12:19:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE770415F5E;
+ Fri, 17 Jun 2022 12:19:48 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  John Snow <jsnow@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [RFC PATCH v2 6/8] qapi: golang: Generate qapi's command types in Go
-Date: Fri, 17 Jun 2022 14:19:30 +0200
-Message-Id: <20220617121932.249381-7-victortoso@redhat.com>
+Subject: [RFC PATCH v2 7/8] qapi: golang: Add CommandResult type to Go
+Date: Fri, 17 Jun 2022 14:19:31 +0200
+Message-Id: <20220617121932.249381-8-victortoso@redhat.com>
 In-Reply-To: <20220617121932.249381-1-victortoso@redhat.com>
 References: <20220617121932.249381-1-victortoso@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,216 +81,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch handles QAPI command types and generates data structures in
-Go that decodes from QMP JSON Object to Go data structure and vice
-versa.
+This patch adds a struct type in Go that will handle return values for
+QAPI's command types.
 
-Simlar to Event, this patch adds a Command interface and two helper
-functions MarshalCommand and UnmarshalCommand.
+The return value of a Command is, encouraged to be, QAPI's complex
+types or an Array of those.
 
-At the time of this writing, it generates 209 structures.
+Every Command has a underlying CommandResult. The EmptyCommandReturn
+is for those that don't expect any data e.g: `{ "return": {} }`.
+
+All CommandReturn types implement the CommandResult interface.
 
 Example:
-
 qapi:
-  | { 'command': 'set_password',
-  |   'boxed': true,
-  |   'data': 'SetPasswordOptions' }
+  | { 'command': 'query-sev', 'returns': 'SevInfo',
+  |   'if': 'TARGET_I386' }
 
 go:
-  | type SetPasswordCommand struct {
-  |         SetPasswordOptions
-  |         CommandId string `json:"-"`
+  | type QuerySevCommandReturn struct {
+  |         CommandId string     `json:"id,omitempty"`
+  |         Result    *SevInfo   `json:"return"`
+  |         Error     *QapiError `json:"error,omitempty"`
   | }
 
 usage:
-  | input := `{"execute":"set_password",` +
-  |     `"arguments":{"protocol":"vnc","password":"secret"}}`
-  | c, err := UnmarshalCommand([]byte(input))
-  | if err != nil {
-  |     panic(err)
-  | }
-  | if c.GetName() == `set_password` {
-  |         m := c.(*SetPasswordCommand)
-  |         // m.Password == "secret"
+  | // One can use QuerySevCommandReturn directly or
+  | // command's interface GetReturnType() instead.
+  |
+  | input := `{ "return": { "enabled": true, "api-major" : 0,` +
+  |                        `"api-minor" : 0, "build-id" : 0,` +
+  |                        `"policy" : 0, "state" : "running",` +
+  |                        `"handle" : 1 } } `
+  | ret := QuerySevCommandReturn{}
+  | err := json.Unmarshal([]byte(input), &ret)
+  | if ret.Error != nil {
+  |     // Handle command failure {"error": { ...}}
+  | } else if ret.Result != nil {
+  |     // ret.Result.Enable == true
   | }
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- scripts/qapi/golang.py | 123 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 120 insertions(+), 3 deletions(-)
+ scripts/qapi/golang.py | 73 ++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 70 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/qapi/golang.py b/scripts/qapi/golang.py
-index b2e08cebdf..123179cced 100644
+index 123179cced..ab91cf124f 100644
 --- a/scripts/qapi/golang.py
 +++ b/scripts/qapi/golang.py
-@@ -88,6 +88,63 @@
-     return nil, errors.New("Failed to recognize event")
+@@ -89,7 +89,8 @@
  }}
  '''
+ 
+-# Only variable is @unm_cases to handle all command's names and associated types.
++# Only variable is @unm_cases to handle
++# all command's names and associated types.
+ TEMPLATE_COMMAND = '''
+ type Command interface {{
+     GetId()         string
+@@ -145,10 +146,49 @@
+ }}
+ '''
+ 
++TEMPLATE_COMMAND_RETURN = '''
++type CommandReturn interface {
++    GetId()          string
++    GetCommandName() string
++    GetError()       error
++}
 +
-+# Only variable is @unm_cases to handle all command's names and associated types.
-+TEMPLATE_COMMAND = '''
-+type Command interface {{
-+    GetId()         string
-+    GetName()       string
-+    GetReturnType() CommandReturn
-+}}
++type EmptyCommandReturn struct {
++    CommandId string          `json:"id,omitempty"`
++    Error     *QapiError      `json:"error,omitempty"`
++    Name      string          `json:"-"`
++}
 +
-+func MarshalCommand(c Command) ([]byte, error) {{
-+    baseStruct := struct {{
-+        CommandId   string `json:"id,omitempty"`
-+        Name        string `json:"execute"`
-+    }}{{
-+        CommandId: c.GetId(),
-+        Name:      c.GetName(),
-+    }}
-+    base, err := json.Marshal(baseStruct)
-+    if err != nil {{
-+        return []byte{{}}, err
-+    }}
++func (r EmptyCommandReturn) MarshalJSON() ([]byte, error) {
++    return []byte(`{"return":{}}`), nil
++}
 +
-+    argsStruct := struct {{
-+        Args Command `json:"arguments,omitempty"`
-+    }}{{
-+        Args: c,
-+    }}
-+    args, err := json.Marshal(argsStruct)
-+    if err != nil {{
-+        return []byte{{}}, err
-+    }}
++func (r *EmptyCommandReturn) GetId() string {
++    return r.CommandId
++}
 +
-+    if len(args) == len(`{{"arguments":{{}}}}`) {{
-+        return base, nil
-+    }}
++func (r *EmptyCommandReturn) GetCommandName() string {
++    return r.Name
++}
 +
-+    // Combines Event's base and data in a single JSON object
-+    result := fmt.Sprintf("%s,%s", base[:len(base)-1], args[1:])
-+    return []byte(result), nil
-+}}
-+
-+func UnmarshalCommand(data []byte) (Command, error) {{
-+    base := struct {{
-+        CommandId string `json:"id,omitempty"`
-+        Name      string `json:"execute"`
-+    }}{{}}
-+    if err := json.Unmarshal(data, &base); err != nil {{
-+        return nil, errors.New(fmt.Sprintf("Failed to decode command: %s", string(data)))
-+    }}
-+
-+    switch base.Name {{
-+    {unm_cases}
-+    }}
-+    return nil, errors.New("Failed to recognize command")
-+}}
++func (r *EmptyCommandReturn) GetError() error {
++    return r.Error
++}
 +'''
 +
  TEMPLATE_HELPER = '''
  // Alias for go version lower than 1.18
  type Any = interface{}
-@@ -112,12 +169,13 @@ class QAPISchemaGenGolangVisitor(QAPISchemaVisitor):
  
-     def __init__(self, prefix: str):
-         super().__init__()
--        self.target = {name: "" for name in ["alternate", "enum",
-+        self.target = {name: "" for name in ["alternate", "command", "enum",
-                                              "event", "helper", "struct",
-                                              "union"]}
-         self.objects_seen = {}
++type QapiError struct {
++    Class       string `json:"class"`
++    Description string `json:"desc"`
++}
++
++func (err *QapiError) Error() string {
++    return fmt.Sprintf("%s: %s", err.Class, err.Description)
++}
++
+ // Creates a decoder that errors on unknown Fields
+ // Returns true if successfully decoded @from string @into type
+ // Returns false without error is failed with "unknown field"
+@@ -176,6 +216,7 @@ def __init__(self, prefix: str):
          self.schema = None
          self.events = {}
-+        self.commands = {}
+         self.commands = {}
++        self.command_results = {}
          self.golang_package_name = "qapi"
  
      def visit_begin(self, schema):
-@@ -149,6 +207,23 @@ def visit_end(self):
+@@ -224,6 +265,7 @@ def visit_end(self):
  '''
-         self.target["event"] += TEMPLATE_EVENT.format(unm_cases=unm_cases)
+         self.target["command"] += TEMPLATE_COMMAND.format(unm_cases=unm_cases)
  
-+        unm_cases = ""
-+        for name in sorted(self.commands):
-+            case_type = self.commands[name]
-+            unm_cases += f'''
-+    case "{name}":
-+        command := struct {{
-+            Args {case_type} `json:"arguments"`
-+        }}{{}}
-+
-+        if err := json.Unmarshal(data, &command); err != nil {{
-+            return nil, errors.New(fmt.Sprintf("Failed to unmarshal: %s", string(data)))
-+        }}
-+        command.Args.CommandId = base.CommandId
-+        return &command.Args, nil
-+'''
-+        self.target["command"] += TEMPLATE_COMMAND.format(unm_cases=unm_cases)
-+
++        self.target["command"] += TEMPLATE_COMMAND_RETURN
  
      def visit_object_type(self: QAPISchemaGenGolangVisitor,
                            name: str,
-@@ -308,7 +383,47 @@ def visit_command(self,
-                       allow_oob: bool,
-                       allow_preconfig: bool,
-                       coroutine: bool) -> None:
--        pass
-+        # Safety check
-+        assert name == info.defn_name
+@@ -390,6 +432,31 @@ def visit_command(self,
+         self.commands[name] = type_name
+         command_ret = ""
+         init_ret_type_name = f'''EmptyCommandReturn {{ Name: "{name}" }}'''
++        if ret_type:
++            cmd_ret_name = qapi_to_go_type_name(name, "command return")
++            ret_type_name = qapi_schema_type_to_go_type(ret_type.name)
++            init_ret_type_name = f'''{cmd_ret_name}{{}}'''
++            isptr = "*" if ret_type_name[0] not in "*[" else ""
++            self.command_results[name] = ret_type_name
++            command_ret = f'''
++type {cmd_ret_name} struct {{
++    CommandId  string                `json:"id,omitempty"`
++    Result    {isptr}{ret_type_name} `json:"return"`
++    Error     *QapiError             `json:"error,omitempty"`
++}}
 +
-+        type_name = qapi_to_go_type_name(name, info.defn_meta)
-+        self.commands[name] = type_name
-+        command_ret = ""
-+        init_ret_type_name = f'''EmptyCommandReturn {{ Name: "{name}" }}'''
-+
-+        self_contained = True
-+        if arg_type and arg_type.name.startswith("q_obj"):
-+            self_contained = False
-+
-+        content = ""
-+        if boxed or self_contained:
-+            args = "" if not arg_type else "\n" + arg_type.name
-+            args += '''\n\tCommandId   string `json:"-"`'''
-+            content = generate_struct_type(type_name, args)
-+        else:
-+            assert isinstance(arg_type, QAPISchemaObjectType)
-+            content = qapi_to_golang_struct(name,
-+                                            arg_type.info,
-+                                            arg_type.ifcond,
-+                                            arg_type.features,
-+                                            arg_type.base,
-+                                            arg_type.members,
-+                                            arg_type.variants)
-+
-+        methods = f'''
-+func (c *{type_name}) GetName() string {{
++func (r *{cmd_ret_name}) GetCommandName() string {{
 +    return "{name}"
 +}}
 +
-+func (s *{type_name}) GetId() string {{
-+    return s.CommandId
++func (r *{cmd_ret_name}) GetId() string {{
++    return r.CommandId
 +}}
 +
-+func (s *{type_name}) GetReturnType() CommandReturn {{
-+    return &{init_ret_type_name}
++func (r *{cmd_ret_name}) GetError() error {{
++    return r.Error
 +}}
 +'''
-+        self.target["command"] += content + methods
+ 
+         self_contained = True
+         if arg_type and arg_type.name.startswith("q_obj"):
+@@ -423,7 +490,7 @@ def visit_command(self,
+     return &{init_ret_type_name}
+ }}
+ '''
+-        self.target["command"] += content + methods
++        self.target["command"] += content + methods + command_ret
  
      def visit_event(self, name, info, ifcond, features, arg_type, boxed):
          assert name == info.defn_name
-@@ -385,6 +500,8 @@ def qapi_to_golang_struct(name: str,
-     fields = ""
-     if info.defn_meta == "event":
-         fields += '''\tEventTimestamp Timestamp `json:"-"`\n'''
-+    elif info.defn_meta == "command":
-+        fields += '''\tCommandId string `json:"-"`\n'''
- 
-     if base:
-         base_fields = ""
-@@ -569,7 +686,7 @@ def qapi_to_go_type_name(name: str, meta: str) -> str:
+@@ -686,7 +753,7 @@ def qapi_to_go_type_name(name: str, meta: str) -> str:
  
      name += ''.join(word.title() for word in words[1:])
  
--    if meta in ["event"]:
-+    if meta in ["event", "command"]:
+-    if meta in ["event", "command"]:
++    if meta in ["event", "command", "command return"]:
          name = name[:-3] if name.endswith("Arg") else name
          name += meta.title().replace(" ", "")
  
