@@ -2,97 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529FA54F4B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 11:57:55 +0200 (CEST)
-Received: from localhost ([::1]:60546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536E254F4B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 11:59:00 +0200 (CEST)
+Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o28ji-00007S-Da
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 05:57:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
+	id 1o28kl-0001x7-Cl
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 05:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1o28ed-0006Nu-9V; Fri, 17 Jun 2022 05:52:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21176)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o28i2-00005l-1u
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:56:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1o28eb-0002AK-7V; Fri, 17 Jun 2022 05:52:39 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25H8YQ8n023089;
- Fri, 17 Jun 2022 09:52:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : subject :
- date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=nVcYMxMssy8glgTb/HVDkVIjA/0yJhN3pauYcBpvixc=;
- b=PITWSFayPJ39J7Rv4RL55N+ASAnm8nSsoHdTYi/2W6yxUiZZeobd6aTlMZaE0XdWeCy4
- kvrP9fuuDmm/UeUeiJOFCoXyXHCGN9mX+3FUMpeBGBGR1cPKtpSKFRIioCdwe7CNtgqA
- VNMRKBu53pSdW3ZKx/nhyx7SIpesrHC0jv9zF2WgzeZeuRqUQz5vSFqRBy4Yq0xKFgvu
- And7eJeI/uVnVU3qaenXqFdlp0WECuQ33VFIzrmAEa7Jvfe0pGtMwpH5yyiQKsU5fllt
- gSWDdbeUHylrll5HZtHrafR0K252sj5T7fg/0y2YGp5s/eZpJTWp9bI+T+l17wr6f8Fz rw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3grp7e1rr8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jun 2022 09:52:27 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25H9Umwc029576;
- Fri, 17 Jun 2022 09:52:26 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3grp7e1rqq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jun 2022 09:52:26 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25H9oinp004265;
- Fri, 17 Jun 2022 09:52:25 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3gmjajgncc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jun 2022 09:52:25 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 25H9qRYD23789876
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Jun 2022 09:52:27 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E77E8A4054;
- Fri, 17 Jun 2022 09:52:22 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B36E2A405B;
- Fri, 17 Jun 2022 09:52:22 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.145.174.203])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 17 Jun 2022 09:52:22 +0000 (GMT)
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH v2] target/ppc: cpu_init: Clean up stop state on cpu reset
-Date: Fri, 17 Jun 2022 11:52:22 +0200
-Message-Id: <20220617095222.612212-1-fbarrat@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o28hy-0002fz-PJ
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:56:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655459764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=420+DkVFrTPyji5/7CRJV57rzTviFYoxIyOZD0ZfXGM=;
+ b=b4MnVN0oClT3AN//2hizgyevSJEDfrH3jrGmgN6hM/PZf4p32PM6uqbWp6a5vOQVhQ25Kp
+ zofx5sc1sHJCmL/r+aPsuLQcQGX0R/kdtTt1FGMsZesTqu7c8W9BpNbipgSZiudIk1jAB2
+ RMBbq0wyHYo8g621DRzilUz0Ju5t4QE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-275-k2fbfR2CPFefoS4cZwaE3Q-1; Fri, 17 Jun 2022 05:56:01 -0400
+X-MC-Unique: k2fbfR2CPFefoS4cZwaE3Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B1DF1C068C0;
+ Fri, 17 Jun 2022 09:56:01 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 122632166B26;
+ Fri, 17 Jun 2022 09:56:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 964BE1800995; Fri, 17 Jun 2022 11:55:58 +0200 (CEST)
+Date: Fri, 17 Jun 2022 11:55:58 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
+Subject: Re: Corrupted display changing screen colour depth in
+ qemu-system-ppc/MacOS
+Message-ID: <20220617095558.xggyv6qk7igofii4@sirius.home.kraxel.org>
+References: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
+ <20220616120715.uksbwjynvb6usjhu@sirius.home.kraxel.org>
+ <b93a1312-2272-d7b4-5a45-d04a7fd35840@ilande.co.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: gQk3IPohZHIIs4XAsdwHqBt3fyYUQ4Us
-X-Proofpoint-GUID: xwNHj4LA_S_ne8P6Xt27kRFZMKPUUSFC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-17_08,2022-06-16_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 adultscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 spamscore=0 malwarescore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206170042
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b93a1312-2272-d7b4-5a45-d04a7fd35840@ilande.co.uk>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,57 +83,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'resume_as_sreset' attribute of a cpu is set when a thread is
-entering a stop state on ppc books. It causes the thread to be
-re-routed to vector 0x100 when woken up by an exception. So it must be
-cleared on reset or a thread might be re-routed unexpectedly after a
-reset, when it was not in a stop state and/or when the appropriate
-exception handler isn't set up yet.
+  Hi,
 
-Using skiboot, it can be tested by resetting the system when it is
-quiet and most threads are idle and in stop state.
+> > Can you try ditch the QEMU_ALLOCATED_FLAG check added by the commit?
+> 
+> Commit cb8962c146 drops the QEMU_ALLOCATED_FLAG check: if I add it back in
+> with the following diff on top then everything works again:
 
-After the reset occurs, skiboot elects a primary thread and all the
-others wait in secondary_wait. The primary thread does all the system
-initialization from main_cpu_entry() and at some point, the
-decrementer interrupt starts ticking. The exception vector for the
-decrementer interrupt is in place, so that shouldn't be a
-problem. However, if that primary thread was in stop state prior to
-the reset, and because the resume_as_sreset parameters is still set,
-it is re-routed to exception vector 0x100. Which, at that time, is
-still defined as the entry point for BML. So that primary thread
-restarts as new and ends up being treated like any other secondary
-thread. All threads are now waiting in secondary_wait.
+Ah, the other way around.
 
-It results in a full system hang with no message on the console, as
-the uart hasn't been init'ed yet. It's actually not obvious to realise
-what's happening if not tracing reset (-d cpu_reset). The fix is
-simply to clear the 'resume_as_sreset' attribute on reset.
+> diff --git a/ui/console.c b/ui/console.c
+> index 365a2c14b8..decae4287f 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -2400,11 +2400,12 @@ static void vc_chr_open(Chardev *chr,
+> 
+>  void qemu_console_resize(QemuConsole *s, int width, int height)
+>  {
+> -    DisplaySurface *surface;
+> +    DisplaySurface *surface = qemu_console_surface(s);
+> 
+>      assert(s->console_type == GRAPHIC_CONSOLE);
+> 
+> -    if (qemu_console_get_width(s, -1) == width &&
+> +    if (surface && (surface->flags & QEMU_ALLOCATED_FLAG) &&
+> +        qemu_console_get_width(s, -1) == width &&
+>          qemu_console_get_height(s, -1) == height) {
+>          return;
+>      }
+> 
+> > Which depth changes triggers this?  Going from direct color to a
+> > paletted mode?
+> 
+> A quick test suggests anything that isn't 32-bit colour is affected.
 
-Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
----
-Changelog:
-v2: rework commit message
+Hmm, I think the commit should simply be reverted.
 
+Short-cutting the qemu_console_resize() call is only valid in case the
+current surface was created by qemu_console_resize() too.  When it is
+something else -- typically a surface backed by vga vram -- it's not.
+Looking at the QEMU_ALLOCATED_FLAG checks exactly that ...
 
- target/ppc/cpu_init.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 0f891afa04..c16cb8dbe7 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -7186,6 +7186,9 @@ static void ppc_cpu_reset(DeviceState *dev)
-         }
-         pmu_update_summaries(env);
-     }
-+
-+    /* clean any pending stop state */
-+    env->resume_as_sreset = 0;
- #endif
-     hreg_compute_hflags(env);
-     env->reserve_addr = (target_ulong)-1ULL;
--- 
-2.35.3
+take care,
+  Gerd
 
 
