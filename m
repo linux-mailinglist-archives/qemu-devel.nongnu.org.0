@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8AF54FA2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 17:25:28 +0200 (CEST)
-Received: from localhost ([::1]:37050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F7954FAB8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 18:03:15 +0200 (CEST)
+Received: from localhost ([::1]:39780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2Dqh-0000ib-Ek
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 11:25:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
+	id 1o2ERF-0006Ot-9Q
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 12:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1o2Dp7-00083X-HF
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 11:23:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22650)
+ (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
+ id 1o2ENp-0004AQ-30
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 11:59:41 -0400
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:35774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1o2Dp3-00054a-Ks
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 11:23:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655479424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zc65QO/oAdyI9nMsCTpvhRZaaGT06FrIdtAWNITdmUk=;
- b=bU1CU5iVEfXFQUmLcRVl7zPBgh7DzCLgPE5+VGlCt5/qNYTGPwOBElyGsBA4/LMC2ChRvc
- j8zaXruJZDNwbZJ4d7b/RzMtFE+WyaD2uzNZWUUeclhx/0Axp4YF8QTQMm8b1YtwRDjYj1
- 07KkuaNabBbM9C0V7QPAGuN6VcqV2w8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-BoiwQByWOD21feMBcrCDfg-1; Fri, 17 Jun 2022 11:23:43 -0400
-X-MC-Unique: BoiwQByWOD21feMBcrCDfg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D824785A583
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 15:23:41 +0000 (UTC)
-Received: from localhost (unknown [10.40.192.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F2F84010E4D;
- Fri, 17 Jun 2022 15:23:41 +0000 (UTC)
-Date: Fri, 17 Jun 2022 17:23:40 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [RFC PATCH v2 3/8] qapi: golang: Generate qapi's struct types in
- Go
-Message-ID: <20220617152340.vopda4oneidcozaq@tapioca>
-References: <20220617121932.249381-1-victortoso@redhat.com>
- <20220617121932.249381-4-victortoso@redhat.com>
- <YqySho/9/orXWT7j@redhat.com>
+ (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
+ id 1o2ENm-0001I8-JZ
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 11:59:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
+ h=subject:from:to:cc:references:message-id:date:
+ mime-version:in-reply-to;
+ bh=9AEG6+PpoJDIzD529+Cg3XWUTSTxDCtGo8rNmeayufM=;
+ b=A3/9Z2zOdsxmehAvA7OqtyxoYLtrfQvlt9TdwrJDNevxD7KjoAQA7jFA
+ RRy71QLzmTWL3v/6fZiFyHZPpv6HLxbOHY1aUexndFrTgPL1vB7/HO1nn
+ ByIr2mmEOjS0SlFpVuxwAEIKVmRgUo4OGcOOfi7nFcixcBJBILhPIvTS3 s=;
+Authentication-Results: mail3-relais-sop.national.inria.fr;
+ dkim=none (message not signed) header.i=none;
+ spf=SoftFail smtp.mailfrom=Brice.Goglin@inria.fr;
+ dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.92,306,1650924000"; d="scan'208";a="17095300"
+Received: from clt-128-93-180-198.vpn.inria.fr (HELO [128.93.180.198])
+ ([128.93.180.198]) by mail3-relais-sop.national.inria.fr with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2022 17:59:34 +0200
+Subject: Re: [PATCH] hmat acpi: Don't require initiator value in -numa when
+ hmat=on
+From: Brice Goglin <Brice.Goglin@inria.fr>
+To: qemu-devel@nongnu.org
+Cc: Liu Jingqi <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>
+References: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
+Message-ID: <5e7978ef-9938-95e7-45b1-5588036726ff@inria.fr>
+Date: Fri, 17 Jun 2022 17:59:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4vyxhlofeemmighv"
-Content-Disposition: inline
-In-Reply-To: <YqySho/9/orXWT7j@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ protocol="application/pgp-signature";
+ boundary="reDTWKiJYcKzuyezVtkT8SgQrePqm0f3j"
+Received-SPF: pass client-ip=192.134.164.104;
+ envelope-from=Brice.Goglin@inria.fr; helo=mail3-relais-sop.national.inria.fr
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,133 +78,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--reDTWKiJYcKzuyezVtkT8SgQrePqm0f3j
+Content-Type: multipart/mixed; boundary="HmEBI87tSCDrJfLeZS3IxZvkvRxOlZ0vg";
+ protected-headers="v1"
+From: Brice Goglin <Brice.Goglin@inria.fr>
+To: qemu-devel@nongnu.org
+Cc: Liu Jingqi <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>
+Message-ID: <5e7978ef-9938-95e7-45b1-5588036726ff@inria.fr>
+Subject: Re: [PATCH] hmat acpi: Don't require initiator value in -numa when
+ hmat=on
+References: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
+In-Reply-To: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
 
---4vyxhlofeemmighv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--HmEBI87tSCDrJfLeZS3IxZvkvRxOlZ0vg
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-Hi,
+Hello
 
-On Fri, Jun 17, 2022 at 03:41:10PM +0100, Daniel P. Berrang=E9 wrote:
-> On Fri, Jun 17, 2022 at 02:19:27PM +0200, Victor Toso wrote:
-> > This patch handles QAPI struct types and generates the equivalent
-> > types in Go.
-> >=20
-> > At the time of this writing, it generates 388 structures.
-> >=20
-> > The highlights of this implementation are:
-> >=20
-> > 1. Generating an Go struct that requires a @base type, the @base type
-> >    fields are copied over to the Go struct. The advantage of this
-> >    approach is to not have embed structs in any of the QAPI types.
-> >    The downside are some generated Types that are likely useless now,
-> >    like InetSocketAddressBase from InetSocketAddress.
-> >=20
-> > 2. About the Go struct's fields:
-> >=20
-> >   i) They can be either by Value or Reference.
-> >=20
-> >   ii) Every field that is marked as optional in the QAPI specification
-> >   are translated to Reference fields in its Go structure. This design
-> >   decision is the most straightforward way to check if a given field
-> >   was set or not.
-> >=20
-> >   iii) Mandatory fields are always by Value with the exception of QAPI
-> >   arrays, which are handled by Reference (to a block of memory) by Go.
-> >=20
-> >   iv) All the fields are named with Uppercase due Golang's export
-> >   convention.
-> >=20
-> >   v) In order to avoid any kind of issues when encoding ordecoding, to
-> >   or from JSON, we mark all fields with its @name and, when it is
-> >   optional, member, with @omitempty
-> >=20
-> > Example:
-> >=20
-> > qapi:
-> >   | { 'struct': 'BlockdevCreateOptionsFile',
-> >   |   'data': { 'filename':             'str',
-> >   |             'size':                 'size',
-> >   |             '*preallocation':       'PreallocMode',
-> >   |             '*nocow':               'bool',
-> >   |             '*extent-size-hint':    'size'} }
-> >=20
-> > go:
-> >   | type BlockdevCreateOptionsFile struct {
-> >   |         Filename       string        `json:"filename"`
-> >   |         Size           uint64        `json:"size"`
-> >   |         Preallocation  *PreallocMode `json:"preallocation,omitempty=
-"`
-> >   |         Nocow          *bool         `json:"nocow,omitempty"`
-> >   |         ExtentSizeHint *uint64       `json:"extent-size-hint,omitem=
-pty"`
-> >   | }
->=20
-> One thing to bear in mind here
->=20
-> At the QAPI level, changing a field from mandatory to optional has
-> been considered a backwards compatible change by QEMU maintainers,
-> because any existing caller can happily continue passing the
-> optional field with no downside.
->=20
-> With this Go design, changing a field from mandatory to optional
-> will be an API breakage, because the developer will need to change
-> from passing a literal value, to a pointer to the value, when
-> initializing the struct.
->=20
-> IOW, this Go impl provides weaker compat guarantees than even
-> QAPI does, and QAPI compat guarantees were already weaker than
-> I would like as an app developer.
+Could somebody please apply (or reject) this commit?
 
-I think the current draft should be considered an interface that
-can work with the QEMU version this was generated from. That is
-the first thing we should get right.
+Thanks
 
-> If we want to make ourselves future proof, we would have to
-> make all struct fields optional from the start, even if they
-> are mandatory at QAPI level. This would make the code less
-> self-documenting though, so that's not very appealing either.
-=20
-> If we want to avoid this, we would need the same approach I
-> suggested wrt support multiple versions of the API
-> concurrently. Namely have versioned structs, so every time
-> there's a field change of any kind, we introduce a new struct
-> version.
+Brice
 
-That's more or less what I had in mind. I mentioned it in the
-item 8 of the cover-letter. I just did not want to address it at
-before deciding what the structs should look like first, for the
-version we are generating from.
 
-Just to clarify, so far I plan to follow the suggestion:
-    https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg02147.html
+Le 06/04/2022 =C3=A0 14:29, Brice Goglin a =C3=A9crit=C2=A0:
+> From: Brice Goglin<Brice.Goglin@inria.fr>
+>
+> The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
+> has a "Processor Proximity Domain Valid" flag that is currently
+> always set because Qemu -numa requires initiator=3DX when hmat=3Don.
+>
+> Unsetting this flag allows to create more complex memory topologies
+> by having multiple best initiators for a single memory target.
+>
+> This patch allows -numa with initiator=3DX when hmat=3Don by keeping
+> the default value MAX_NODES in numa_state->nodes[i].initiator.
+> All places reading numa_state->nodes[i].initiator already check
+> whether it's different from MAX_NODES before using it. And
+> hmat_build_table_structs() already unset the Valid flag when needed.
+>
+> Tested with
+> qemu-system-x86_64 -accel kvm \
+>   -machine pc,hmat=3Don \
+>   -drive if=3Dpflash,format=3Draw,file=3D./OVMF.fd \
+>   -drive media=3Ddisk,format=3Dqcow2,file=3Defi.qcow2 \
+>   -smp 4 \
+>   -m 3G \
+>   -object memory-backend-ram,size=3D1G,id=3Dram0 \
+>   -object memory-backend-ram,size=3D1G,id=3Dram1 \
+>   -object memory-backend-ram,size=3D1G,id=3Dram2 \
+>   -numa node,nodeid=3D0,memdev=3Dram0,cpus=3D0-1 \
+>   -numa node,nodeid=3D1,memdev=3Dram1,cpus=3D2-3 \
+>   -numa node,nodeid=3D2,memdev=3Dram2 \
+>   -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3D=
+access-latency,latency=3D10 \
+>   -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3D=
+access-bandwidth,bandwidth=3D10485760 \
+>   -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3D=
+access-latency,latency=3D20 \
+>   -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3D=
+access-bandwidth,bandwidth=3D5242880 \
+>   -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3D=
+access-latency,latency=3D30 \
+>   -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3D=
+access-bandwidth,bandwidth=3D1048576 \
+>   -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3D=
+access-latency,latency=3D20 \
+>   -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3D=
+access-bandwidth,bandwidth=3D5242880 \
+>   -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3D=
+access-latency,latency=3D10 \
+>   -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3D=
+access-bandwidth,bandwidth=3D10485760 \
+>   -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3D=
+access-latency,latency=3D30 \
+>   -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3D=
+access-bandwidth,bandwidth=3D1048576 \
+>
+> This exposes NUMA node2 at same distance from both node0 and node1 as s=
+een in lstopo:
+>
+> Machine (2966MB total) + Package P#0
+>    NUMANode P#2 (979MB)
+>    Group0
+>      NUMANode P#0 (980MB)
+>      Core P#0 + PU P#0
+>      Core P#1 + PU P#1
+>    Group0
+>      NUMANode P#1 (1007MB)
+>      Core P#2 + PU P#2
+>      Core P#3 + PU P#3
+>
+> Signed-off-by: Brice Goglin<Brice.Goglin@inria.fr>
+> ---
+>   hw/core/machine.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index d856485cb4..9884ef7ac6 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1012,9 +1012,7 @@ static void numa_validate_initiator(NumaState *nu=
+ma_state)
+>  =20
+>       for (i =3D 0; i < numa_state->num_nodes; i++) {
+>           if (numa_info[i].initiator =3D=3D MAX_NODES) {
+> -            error_report("The initiator of NUMA node %d is missing, us=
+e "
+> -                         "'-numa node,initiator' option to declare it"=
+, i);
+> -            exit(1);
+> +            continue;
+>           }
+>  =20
+>           if (!numa_info[numa_info[i].initiator].present) {
+> --=20
+> 2.30.2
+>
+>
 
-Of course, If there are other ideas, we can discuss it too.
 
-Cheers,
-Victor
+--HmEBI87tSCDrJfLeZS3IxZvkvRxOlZ0vg--
 
---4vyxhlofeemmighv
-Content-Type: application/pgp-signature; name="signature.asc"
+--reDTWKiJYcKzuyezVtkT8SgQrePqm0f3j
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmKsnHwACgkQl9kSPeN6
-SE/ERQ/+NrnGq0iVL5ld68cF6Vdwp4AVp3R+8l1TIpZrzMUOhRf7YNgeJqLE+7Tf
-2gwjDPJyn9GEQacFMDl8nHL7wh7P6eG8UdrdYm67PvZnV0ySYwd5PvkXXLPeFOED
-hAFMO156Ia3JWBRazY5AVjkHPdSqvVosSL+82VoFI63Rbxh+U91NULPlcaMmms/V
-jySV3mmzI0as3kTvCZnqlgWvJ1ZHIvHphld1altXxKU8Yfid1MI1ffL8EXqsp+l6
-qw4pinaizKQIAt96Q1yjgjZOTmciZHMunGdoyFbh0+qoJAdKuJBzGlN/E9pAXnAZ
-o3319FrcJAUdegfcvGqEFTwbrtHbpb3q5oPWRSb33jARIg8M2xxA3gJviAj0Ndng
-z/teOT5tXgeOyA4snsJvXK9FvOWFAE1ZucFhhXYGw+5BHa3aeBxRWR++Uq7pHD9f
-8bAFXbpMztJha7PYWcQKzoZdIXD+Pz7LUV80hPxsA4ph52TE/qLo7tcvDNNthsYW
-FkFw3IZLLobCqdEk0YVvuJetXc2OhMJWcRC1YBmWkSBLgzSFgnoHO7y9ckb0hJ1x
-4nVZsxL80iC1qJ+kKQomP88XCQ2G+loqxfzkm+PuZMD6BS8eg8Ni52Anw3ZWDnwi
-c+2iF68uVKOnvg2vap8ECcZw+swuQ9nkVTG9NOlP7DSYlu/4kgk=
-=4fHK
+wsF5BAABCAAjFiEEelpOgOQAl7r26tY4RJGQ8yNavTsFAmKspOUFAwAAAAAACgkQRJGQ8yNavTsC
+qA//TNKr5pqC8RO7CLnYYNI88mmnkItIIUZj2EqXl3UFcJjxK2Ukd+2usbhTzvcuUdSF1cj9JFPG
+QwYIvVY59DwwLjqXK3E/7XC9GoPOkN5+ac57/ZgQuvuWOYjL2FF2VepzFQ3uQ+WRVzvhieKEQDK7
+5UIBKBPaWPACAUJnmkc0cLtGCKkQEsjdyJAi8h6L10uQ+O4xB6Q9ba5loeHQotDcOR2e0815BhcQ
+5qXlsrSYd4haIiC+h+ciHheldwslcFAeoHs+61PxnoVGHpU36UUTvvpNmwHol87MEv9ptChXlJU+
+TMnBfIhYP3xSajSWX/TDW46zK8sxvDu/FEna7jUDi4dqtG1V56A0V6v3lxz1jvyshZe4NSqaSNHb
+Hf8ep83BA5cp3C+932GiW7y3NWY3WS9p3yw9wY7y2gAFlRwwHJBjgQSgMIa+W5HIHTj/UaX9Pgjs
+3hB4oe7EeiNVku3Kpqqsa46KiFGIic6B9+an4BytLw6sJlQ2461VyGOo/no0kcayu/iRSemO+TMA
+Wlh4f6wu8EfiJBWD3aGuYd8TAx8rIOI6honqzaGEFS5ABs3iywpdVie3L5myrDofplWDuyuzq0p9
+LdeN1BypITL7G/gVMhR9RnWjcxC26IyWvIYZCp+32B9gQMFpyDfIesnPTBPeo0RFhi4nCrnWkNia
+Ej8=
+=QssJ
 -----END PGP SIGNATURE-----
 
---4vyxhlofeemmighv--
-
+--reDTWKiJYcKzuyezVtkT8SgQrePqm0f3j--
 
