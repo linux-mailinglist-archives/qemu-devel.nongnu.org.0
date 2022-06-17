@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601B354F255
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 09:59:24 +0200 (CEST)
-Received: from localhost ([::1]:59702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C4354F242
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 09:55:28 +0200 (CEST)
+Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o26t1-0005c8-EG
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 03:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39438)
+	id 1o26pD-0008QV-9q
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 03:55:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26lI-0005EB-9o
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:24 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:28798 helo=mga06.intel.com)
+ id 1o26lS-0005Xq-Rs
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:35 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:28828 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26lG-000779-LG
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:24 -0400
+ id 1o26lR-0007CE-BG
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655452282; x=1686988282;
+ t=1655452293; x=1686988293;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MfsDDohzwVJoLUtP3NNLreffjaePujHfV6sS1Be7igQ=;
- b=ArmUmNj/6jC+7ETTDQ4P1QCsB3xFyKnEDUpnEQJ9Gy5uKwB5hEyxCI7b
- 8hTPCUxD1Zjjzc71nltdsPEYexxHeEkO9gYvDwOh0j+G+4Mb8+oWZmkZY
- BFLh5enm84jWwwlcjyhM8bfza3ASzlKic9/1dCOLMX/H3P6R/T0ChJBtN
- osLpmnGxturqL7UCOMOkfZY2A1gWVjnIFJ/ziV0FQ+pVmvXZEx8GQJTQo
- OqgJ4mfgfwH81/ckBa9/+TOuT8K4R5rvB4WxEtxsait1/manmMRgfWLhB
- ySeMiI0U4v7nEei4SsYtELmErcLUG6H2vizYr6bHU0Kt2qDkZhxl9CJck A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102155"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102155"
+ bh=SEZhIf8jMNQNhciEdWpMu+aT2ALSvfXugGxJqxuImrg=;
+ b=ODUr3e2RAbhecC8etg6pDLnilOhAXtP4/32KpLbp1lTPIAS7T58ZpoFG
+ eVT4mdlynXZX9FSiLGY1Teq1FsN6x7ILPt5Zh3yR5LGgFgL/JOtviAGMr
+ VlUK1UBWF1EBxXh8lYNRBL52lkrqRw8vMoPo7tmC0s58rGpGsesgi73O1
+ 2eugCWUc1YJVOV4XQW5lncBcl4H89ZYZq48WWsqLDA1EG+rK7cCpOi86T
+ X7+UHad7XNx/ZsBgRMj/SrtBeW34l8nh1zh4f9yjBQiRctvr4u1yoWDgc
+ EZLKeJFk2UDthIUtBOEkvJQ3sH3bd2duj5IE0Nq0ftS8t+YSWybwT3OWm A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102171"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102171"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:21 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936736"
+ 17 Jun 2022 00:51:31 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936768"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:19 -0700
+ 17 Jun 2022 00:51:28 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -51,10 +51,10 @@ Cc: Zhang Chen <chen.zhang@intel.com>,
  Laurent Vivier <lvivier@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Andrew Melnychenko <andrew@daynix.com>
-Subject: [RFC PATCH 06/12] ebpf/uBPF: Add qemu_ubpf_run_once excute real ebpf
- program
-Date: Fri, 17 Jun 2022 15:36:24 +0800
-Message-Id: <20220617073630.535914-7-chen.zhang@intel.com>
+Subject: [RFC PATCH 09/12] softmmu/vl.c: Add filter-ubpf for netdev as other
+ netfilters
+Date: Fri, 17 Jun 2022 15:36:27 +0800
+Message-Id: <20220617073630.535914-10-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220617073630.535914-1-chen.zhang@intel.com>
 References: <20220617073630.535914-1-chen.zhang@intel.com>
@@ -84,66 +84,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before running this function, we need to ensure that the
-userspace ebpf program has been loaded correctly.
-
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- ebpf/ubpf-stub.c |  6 ++++++
- ebpf/ubpf.c      | 16 ++++++++++++++++
- ebpf/ubpf.h      |  2 ++
- 3 files changed, 24 insertions(+)
+ softmmu/vl.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/ebpf/ubpf-stub.c b/ebpf/ubpf-stub.c
-index 885bd954b7..70da421629 100644
---- a/ebpf/ubpf-stub.c
-+++ b/ebpf/ubpf-stub.c
-@@ -27,3 +27,9 @@ int qemu_ubpf_prepare(UbpfState *u_ebpf, char *code_path)
- {
-     return 0;
- }
-+
-+uint64_t qemu_ubpf_run_once(UbpfState *u_ebpf, void *target,
-+                            size_t target_len)
-+{
-+    return 0;
-+}
-diff --git a/ebpf/ubpf.c b/ebpf/ubpf.c
-index d65fffeda3..8ac513c7ed 100644
---- a/ebpf/ubpf.c
-+++ b/ebpf/ubpf.c
-@@ -199,3 +199,19 @@ int qemu_ubpf_prepare(UbpfState *u_ebpf, char *code_path)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 4c1e94b00e..d924fb1c71 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1822,7 +1822,8 @@ static bool object_create_early(const char *type)
+         g_str_equal(type, "filter-redirector") ||
+         g_str_equal(type, "colo-compare") ||
+         g_str_equal(type, "filter-rewriter") ||
+-        g_str_equal(type, "filter-replay")) {
++        g_str_equal(type, "filter-replay") ||
++        g_str_equal(type, "filter-ubpf")) {
+         return false;
+     }
  
-     return 0;
- }
-+
-+uint64_t qemu_ubpf_run_once(UbpfState *u_ebpf, void *target,
-+                            size_t target_len)
-+{
-+    uint64_t result;
-+
-+    if (u_ebpf->jit) {
-+        result = u_ebpf->fn(target, target_len);
-+    } else {
-+        if (ubpf_exec(u_ebpf->vm, target, target_len, &result) < 0) {
-+            result = UINT64_MAX;
-+        }
-+    }
-+
-+    return result;
-+}
-diff --git a/ebpf/ubpf.h b/ebpf/ubpf.h
-index 9a35efbeb6..fc40e84e51 100644
---- a/ebpf/ubpf.h
-+++ b/ebpf/ubpf.h
-@@ -38,5 +38,7 @@ bool qemu_ubpf_read_code(UbpfState *u_ebpf, char *path);
- bool qemu_ubpf_read_target(UbpfState *u_ebpf, char *path);
- void qemu_ubpf_init_jit(UbpfState *u_ebpf, bool jit);
- int qemu_ubpf_prepare(UbpfState *u_ebpf, char *code_path);
-+uint64_t qemu_ubpf_run_once(UbpfState *u_ebpf, void *target,
-+                            size_t target_len);
- 
- #endif /* QEMU_UBPF_H */
 -- 
 2.25.1
 
