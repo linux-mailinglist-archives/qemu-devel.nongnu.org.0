@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536E254F4B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 11:59:00 +0200 (CEST)
-Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D3054F515
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 12:14:35 +0200 (CEST)
+Received: from localhost ([::1]:41470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o28kl-0001x7-Cl
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 05:58:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
+	id 1o28zp-0007LH-IT
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 06:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o28i2-00005l-1u
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:56:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40584)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1o28xv-0005zF-DO
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 06:12:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o28hy-0002fz-PJ
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:56:09 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1o28xr-0000Hp-58
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 06:12:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655459764;
+ s=mimecast20190719; t=1655460746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=420+DkVFrTPyji5/7CRJV57rzTviFYoxIyOZD0ZfXGM=;
- b=b4MnVN0oClT3AN//2hizgyevSJEDfrH3jrGmgN6hM/PZf4p32PM6uqbWp6a5vOQVhQ25Kp
- zofx5sc1sHJCmL/r+aPsuLQcQGX0R/kdtTt1FGMsZesTqu7c8W9BpNbipgSZiudIk1jAB2
- RMBbq0wyHYo8g621DRzilUz0Ju5t4QE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eGYphXTb/VLaDeNjeDa1y7DZU7chgJRBUsO/mx4UHoA=;
+ b=SFSJR2ThC1xTpxHdQRQwN/mEnH1KVqeODCOFEX3EAOyq16ndlHEonyQLYa61bt6Vfvpfv9
+ lxdeieh49b+E3ks+o3b2cEULsJToXgb0rgAeK1bTQL6gHrv45cxzFiiGfuoRwl5mD9TDpu
+ 3x9r/fTSCXRnWpJAmcM1/dzUX44+Lo0=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-k2fbfR2CPFefoS4cZwaE3Q-1; Fri, 17 Jun 2022 05:56:01 -0400
-X-MC-Unique: k2fbfR2CPFefoS4cZwaE3Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B1DF1C068C0;
- Fri, 17 Jun 2022 09:56:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 122632166B26;
- Fri, 17 Jun 2022 09:56:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 964BE1800995; Fri, 17 Jun 2022 11:55:58 +0200 (CEST)
-Date: Fri, 17 Jun 2022 11:55:58 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>
-Subject: Re: Corrupted display changing screen colour depth in
- qemu-system-ppc/MacOS
-Message-ID: <20220617095558.xggyv6qk7igofii4@sirius.home.kraxel.org>
-References: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
- <20220616120715.uksbwjynvb6usjhu@sirius.home.kraxel.org>
- <b93a1312-2272-d7b4-5a45-d04a7fd35840@ilande.co.uk>
+ us-mta-450-NA_n0QiWMcevLUnOTfgFww-1; Fri, 17 Jun 2022 06:12:25 -0400
+X-MC-Unique: NA_n0QiWMcevLUnOTfgFww-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ l22-20020a17090a3f1600b001eaf9daa316so1701145pjc.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 03:12:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eGYphXTb/VLaDeNjeDa1y7DZU7chgJRBUsO/mx4UHoA=;
+ b=C7XEJm48BE9gvXT5djViTiGEuiGVv8ddgxrOAB/UvCXYmXbQBgy9tyqh53c5Ry/TMo
+ nprXen43AnoY5bi0GL+4nL0aWj3UE65F4ohVBnlUW/dFflDOliCf44U+Ip3r9YJFIvX6
+ l628ViShG0HfbeZZSRDy3LVVvyk3CiwidzLIj5UgRBfYWOIzAFc7s/4qoDY2QJ9EFa9l
+ UvDu36xQsngvdCyWQ5LpXHzDuCvc2QAg/lS5rM+PyGPAsPr9nP9dHVGydGYu3P7CXWPW
+ HIUmIVoKzmYZprqRn7A5wTdxDZN5abcppkzw8G/R1wl82t0ReBJgpAFlIOsOVVjVDzbM
+ gpcw==
+X-Gm-Message-State: AJIora+8GJT5AL6p6iO+KRJfjWegyqnBLvMccE8c35EO0Vh42BdyhOyz
+ 3P831ydfBqRgRKs2r109qG/WfYwEmprBJkCfjyrqjWxf0XOK20Pe10J0tSnPguf0lXi9r2J8fH1
+ iN/9vQpqS8TPGOuJWfVy/sf3mJLimMPE=
+X-Received: by 2002:a63:bf4d:0:b0:40c:4060:f6d with SMTP id
+ i13-20020a63bf4d000000b0040c40600f6dmr4488539pgo.254.1655460744074; 
+ Fri, 17 Jun 2022 03:12:24 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sVFDTV1QiADtGQvB5BGrx6mB3O4/dYx9n+t70HuTv01cLaVT8XSb6I+h3mDNsNDdwHN163TBGY5IwQ/3/6EWE=
+X-Received: by 2002:a63:bf4d:0:b0:40c:4060:f6d with SMTP id
+ i13-20020a63bf4d000000b0040c40600f6dmr4488513pgo.254.1655460743668; Fri, 17
+ Jun 2022 03:12:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b93a1312-2272-d7b4-5a45-d04a7fd35840@ilande.co.uk>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+References: <20220601180537.2329566-1-alex.bennee@linaro.org>
+ <20220601180537.2329566-21-alex.bennee@linaro.org>
+ <c655723a-95df-82e4-2105-678cdea9e702@eldorado.org.br>
+In-Reply-To: <c655723a-95df-82e4-2105-678cdea9e702@eldorado.org.br>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 17 Jun 2022 12:12:12 +0200
+Message-ID: <CABgObfYEiV_TK4BDxG6+zZ1Qq06y6GtmnP1uF__eV31XDKggDA@mail.gmail.com>
+Subject: Re: [PULL 20/33] configure: handle host compiler in
+ probe_target_compiler
+To: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>, 
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,48 +100,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Hi Matheus,
 
-> > Can you try ditch the QEMU_ALLOCATED_FLAG check added by the commit?
-> 
-> Commit cb8962c146 drops the QEMU_ALLOCATED_FLAG check: if I add it back in
-> with the following diff on top then everything works again:
+could you please test the tests-tcg-next branch at
+https://gitlab.com/bonzini/qemu?
 
-Ah, the other way around.
+Thanks,
 
-> diff --git a/ui/console.c b/ui/console.c
-> index 365a2c14b8..decae4287f 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -2400,11 +2400,12 @@ static void vc_chr_open(Chardev *chr,
-> 
->  void qemu_console_resize(QemuConsole *s, int width, int height)
->  {
-> -    DisplaySurface *surface;
-> +    DisplaySurface *surface = qemu_console_surface(s);
-> 
->      assert(s->console_type == GRAPHIC_CONSOLE);
-> 
-> -    if (qemu_console_get_width(s, -1) == width &&
-> +    if (surface && (surface->flags & QEMU_ALLOCATED_FLAG) &&
-> +        qemu_console_get_width(s, -1) == width &&
->          qemu_console_get_height(s, -1) == height) {
->          return;
->      }
-> 
-> > Which depth changes triggers this?  Going from direct color to a
-> > paletted mode?
-> 
-> A quick test suggests anything that isn't 32-bit colour is affected.
+Paolo
 
-Hmm, I think the commit should simply be reverted.
+On Thu, Jun 16, 2022 at 3:23 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+>
+> Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br> writes:
+>
+> > On 01/06/2022 15:05, Alex Benn=C3=A9e wrote:
+> >> From: Paolo Bonzini <pbonzini@redhat.com>
+> >>
+> >> In preparation for handling more binaries than just cc, handle
+> >> the case of "probe_target_compiler $cpu" directly in the function,
+> >> setting the target_* variables based on the ones that are used to
+> >> build QEMU.  The clang check also needs to be moved after this
+> >> fallback.
+> >>
+> >> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> >> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> >> Message-Id: <20220517092616.1272238-10-pbonzini@redhat.com>
+> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> >> Message-Id: <20220527153603.887929-21-alex.bennee@linaro.org>
+> >
+> > Hi,
+> >
+> > After this patch, a clean build in ppc64le hosts will not build
+> > ppc64{,le}-linux-user tests with "make check-tcg"
+> >
+> >>
+> >> diff --git a/configure b/configure
+> >> index fbf6d39f96..217c8b3cac 100755
+> >> --- a/configure
+> >> +++ b/configure
+> >> @@ -954,10 +954,6 @@ case $git_submodules_action in
+> >>       ;;
+> >>   esac
+> >>
+> >> -if eval test -z "\${cross_cc_$cpu}"; then
+> >> -    eval "cross_cc_${cpu}=3D\$cc"
+> >> -fi
+> >> -
+> >>   default_target_list=3D""
+> >>   mak_wilds=3D""
+> >>
+> >> @@ -2008,13 +2004,6 @@ probe_target_compiler() {
+> >>     if eval test -n "\"\${cross_cc_$1}\""; then
+> >>       if eval has "\"\${cross_cc_$1}\""; then
+> >>         eval "target_cc=3D\"\${cross_cc_$1}\""
+> >> -      case $1 in
+> >> -        i386|x86_64)
+> >> -          if $target_cc --version | grep -qi "clang"; then
+> >> -            unset target_cc
+> >> -          fi
+> >> -          ;;
+> >> -      esac
+> >>       fi
+> >>     fi
+> >>     if eval test -n "\"\${cross_as_$1}\""; then
+> >> @@ -2027,6 +2016,20 @@ probe_target_compiler() {
+> >>         eval "target_ld=3D\"\${cross_ld_$1}\""
+> >>       fi
+> >>     fi
+> >> +  if test "$1" =3D $cpu; then > +    : ${target_cc:=3D$cc}
+> >> +    : ${target_as:=3D$as}
+> >> +    : ${target_ld:=3D$ld}
+> >> +  fi
+> >
+> > $cpu is normalized[1] to ppc64 on little-endian hosts, so
+> > ppc64le-linux-user will not have $target_{cc,as,ld} set, and
+> > ppc64-linux-user will have them set to a toolchain that may not support
+> > -mbig-endian. I suppose we have a similar problem with MIPS targets on
+> > MIPS hosts.
+>
+> For now you can always explicitly tell configure about the host compiler
+> with:
+>
+>  --cross-cc-ppc64le=3Dgcc
+>
+> but we should fix the broken detection. It seems the var cpu has an
+> overloaded meaning so I wonder if we just need an explicit host_cpu
+> setting when we normalize cpu?
+>
+> >
+> > [1]
+> > https://gitlab.com/qemu-project/qemu/-/blob/2ad60f6f8c12ca0acd8834fdd70=
+e088361b8791f/configure#L611
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
-Short-cutting the qemu_console_resize() call is only valid in case the
-current surface was created by qemu_console_resize() too.  When it is
-something else -- typically a surface backed by vga vram -- it's not.
-Looking at the QEMU_ALLOCATED_FLAG checks exactly that ...
-
-take care,
-  Gerd
+On Wed, Jun 15, 2022 at 1:57 PM Matheus Kowalczuk Ferst
+<matheus.ferst@eldorado.org.br> wrote:
+>
+> On 01/06/2022 15:05, Alex Benn=C3=A9e wrote:
+> > From: Paolo Bonzini <pbonzini@redhat.com>
+> >
+> > In preparation for handling more binaries than just cc, handle
+> > the case of "probe_target_compiler $cpu" directly in the function,
+> > setting the target_* variables based on the ones that are used to
+> > build QEMU.  The clang check also needs to be moved after this
+> > fallback.
+> >
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > Message-Id: <20220517092616.1272238-10-pbonzini@redhat.com>
+> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > Message-Id: <20220527153603.887929-21-alex.bennee@linaro.org>
+>
+> Hi,
+>
+> After this patch, a clean build in ppc64le hosts will not build
+> ppc64{,le}-linux-user tests with "make check-tcg"
+>
+> >
+> > diff --git a/configure b/configure
+> > index fbf6d39f96..217c8b3cac 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -954,10 +954,6 @@ case $git_submodules_action in
+> >       ;;
+> >   esac
+> >
+> > -if eval test -z "\${cross_cc_$cpu}"; then
+> > -    eval "cross_cc_${cpu}=3D\$cc"
+> > -fi
+> > -
+> >   default_target_list=3D""
+> >   mak_wilds=3D""
+> >
+> > @@ -2008,13 +2004,6 @@ probe_target_compiler() {
+> >     if eval test -n "\"\${cross_cc_$1}\""; then
+> >       if eval has "\"\${cross_cc_$1}\""; then
+> >         eval "target_cc=3D\"\${cross_cc_$1}\""
+> > -      case $1 in
+> > -        i386|x86_64)
+> > -          if $target_cc --version | grep -qi "clang"; then
+> > -            unset target_cc
+> > -          fi
+> > -          ;;
+> > -      esac
+> >       fi
+> >     fi
+> >     if eval test -n "\"\${cross_as_$1}\""; then
+> > @@ -2027,6 +2016,20 @@ probe_target_compiler() {
+> >         eval "target_ld=3D\"\${cross_ld_$1}\""
+> >       fi
+> >     fi
+> > +  if test "$1" =3D $cpu; then > +    : ${target_cc:=3D$cc}
+> > +    : ${target_as:=3D$as}
+> > +    : ${target_ld:=3D$ld}
+> > +  fi
+>
+> $cpu is normalized[1] to ppc64 on little-endian hosts, so
+> ppc64le-linux-user will not have $target_{cc,as,ld} set, and
+> ppc64-linux-user will have them set to a toolchain that may not support
+> -mbig-endian. I suppose we have a similar problem with MIPS targets on
+> MIPS hosts.
+>
+> [1]
+> https://gitlab.com/qemu-project/qemu/-/blob/2ad60f6f8c12ca0acd8834fdd70e0=
+88361b8791f/configure#L611
+>
+> --
+> Matheus K. Ferst
+> Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+> Analista de Software
+> Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
 
