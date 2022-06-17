@@ -2,80 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5EE54F4B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 11:56:51 +0200 (CEST)
-Received: from localhost ([::1]:58966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 529FA54F4B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 11:57:55 +0200 (CEST)
+Received: from localhost ([::1]:60546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o28if-0007TJ-Ru
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 05:56:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40504)
+	id 1o28ji-00007S-Da
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 05:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o28cB-0005kM-0m
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:50:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48994)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o28ed-0006Nu-9V; Fri, 17 Jun 2022 05:52:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o28c5-0001XN-1H
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 05:50:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655459397;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8kylTe9dWC4cC4SI5PQt95stM3F3ln7OxOXtB9+kS3s=;
- b=YkfJ11qU85UKczonCYgFtDrgK8rlnD1VlxfIv3UG20BJ7Wma/Yc0Ovm6Q8zOpGnrfVmGDn
- 6jzdS1+x6ToiCFVS1cx6kD9EgjJ1um8kBC81JwCV0ShbqHTRh4Q9+QQnuzKdnJsQmVGm/W
- 8Ewk30KY5m6IkEZWIeVxBn9tqVdxD+I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-451-YY6Tmyh8PAmXJLhjRbxCKQ-1; Fri, 17 Jun 2022 05:49:53 -0400
-X-MC-Unique: YY6Tmyh8PAmXJLhjRbxCKQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3704F185A794;
- Fri, 17 Jun 2022 09:49:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.139])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81C624619F3;
- Fri, 17 Jun 2022 09:49:50 +0000 (UTC)
-Date: Fri, 17 Jun 2022 10:49:48 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: John Snow <jsnow@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Beraldo Leal <bleal@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 03/10] qga: treat get-guest-fsinfo as "best effort"
-Message-ID: <YqxOPI4L/oMcgY0y@redhat.com>
-References: <20220616142659.3184115-1-jsnow@redhat.com>
- <20220616142659.3184115-4-jsnow@redhat.com>
- <CAJ+F1C+iHv-RvnbvUikD431tNN8PJ+Z=EO0Hgi8Dht-sX1OKBQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o28eb-0002AK-7V; Fri, 17 Jun 2022 05:52:39 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25H8YQ8n023089;
+ Fri, 17 Jun 2022 09:52:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : subject :
+ date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=nVcYMxMssy8glgTb/HVDkVIjA/0yJhN3pauYcBpvixc=;
+ b=PITWSFayPJ39J7Rv4RL55N+ASAnm8nSsoHdTYi/2W6yxUiZZeobd6aTlMZaE0XdWeCy4
+ kvrP9fuuDmm/UeUeiJOFCoXyXHCGN9mX+3FUMpeBGBGR1cPKtpSKFRIioCdwe7CNtgqA
+ VNMRKBu53pSdW3ZKx/nhyx7SIpesrHC0jv9zF2WgzeZeuRqUQz5vSFqRBy4Yq0xKFgvu
+ And7eJeI/uVnVU3qaenXqFdlp0WECuQ33VFIzrmAEa7Jvfe0pGtMwpH5yyiQKsU5fllt
+ gSWDdbeUHylrll5HZtHrafR0K252sj5T7fg/0y2YGp5s/eZpJTWp9bI+T+l17wr6f8Fz rw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3grp7e1rr8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Jun 2022 09:52:27 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25H9Umwc029576;
+ Fri, 17 Jun 2022 09:52:26 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3grp7e1rqq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Jun 2022 09:52:26 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25H9oinp004265;
+ Fri, 17 Jun 2022 09:52:25 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3gmjajgncc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Jun 2022 09:52:25 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 25H9qRYD23789876
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Jun 2022 09:52:27 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E77E8A4054;
+ Fri, 17 Jun 2022 09:52:22 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B36E2A405B;
+ Fri, 17 Jun 2022 09:52:22 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.145.174.203])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 17 Jun 2022 09:52:22 +0000 (GMT)
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2] target/ppc: cpu_init: Clean up stop state on cpu reset
+Date: Fri, 17 Jun 2022 11:52:22 +0200
+Message-Id: <20220617095222.612212-1-fbarrat@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1C+iHv-RvnbvUikD431tNN8PJ+Z=EO0Hgi8Dht-sX1OKBQ@mail.gmail.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: gQk3IPohZHIIs4XAsdwHqBt3fyYUQ4Us
+X-Proofpoint-GUID: xwNHj4LA_S_ne8P6Xt27kRFZMKPUUSFC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-17_08,2022-06-16_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 adultscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206170042
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,93 +106,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 16, 2022 at 06:35:44PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Thu, Jun 16, 2022 at 6:27 PM John Snow <jsnow@redhat.com> wrote:
-> 
-> > In some container environments, there may be references to block devices
-> > witnessable from a container through /proc/self/mountinfo that reference
-> > devices we simply don't have access to in the container, and could not
-> > provide information about.
-> >
-> > Instead of failing the entire fsinfo command, return stub information
-> > for these failed lookups.
-> >
-> > This allows test-qga to pass under docker tests, which are in turn used
-> > by the CentOS VM tests.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  qga/commands-posix.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> > index 0469dc409d4..5989d4dca9d 100644
-> > --- a/qga/commands-posix.c
-> > +++ b/qga/commands-posix.c
-> > @@ -1207,7 +1207,13 @@ static void build_guest_fsinfo_for_device(char
-> > const *devpath,
-> >
-> >      syspath = realpath(devpath, NULL);
-> >      if (!syspath) {
-> > -        error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
-> > +        if (errno == ENOENT) {
-> > +            /* This devpath may not exist because of container config,
-> > etc. */
-> > +            fprintf(stderr, "realpath(%s) returned NULL/ENOENT\n",
-> > devpath);
-> >
-> 
-> qga uses g_critical() (except for some win32 code paths atm)
-> 
-> 
-> > +            fs->name = y
-> >
-> 
-> Hmm, maybe we should make the field optional instead.
+The 'resume_as_sreset' attribute of a cpu is set when a thread is
+entering a stop state on ppc books. It causes the thread to be
+re-routed to vector 0x100 when woken up by an exception. So it must be
+cleared on reset or a thread might be re-routed unexpectedly after a
+reset, when it was not in a stop state and/or when the appropriate
+exception handler isn't set up yet.
 
-In my own testing, this method is called in various scenarios.
-Some example:
+Using skiboot, it can be tested by resetting the system when it is
+quiet and most threads are idle and in stop state.
 
-  devpath==/sys/dev/block/253:0
-  syspath==/sys/devices/virtual/block/dm-0
+After the reset occurs, skiboot elects a primary thread and all the
+others wait in secondary_wait. The primary thread does all the system
+initialization from main_cpu_entry() and at some point, the
+decrementer interrupt starts ticking. The exception vector for the
+decrementer interrupt is in place, so that shouldn't be a
+problem. However, if that primary thread was in stop state prior to
+the reset, and because the resume_as_sreset parameters is still set,
+it is re-routed to exception vector 0x100. Which, at that time, is
+still defined as the entry point for BML. So that primary thread
+restarts as new and ends up being treated like any other secondary
+thread. All threads are now waiting in secondary_wait.
 
-    => fs->name == dm-0
+It results in a full system hang with no message on the console, as
+the uart hasn't been init'ed yet. It's actually not obvious to realise
+what's happening if not tracing reset (-d cpu_reset). The fix is
+simply to clear the 'resume_as_sreset' attribute on reset.
 
-  devpath==/sys/devices/virtual/block/dm-0/slaves/nvme0n1p4
-  syspath==/sys/devices/pci0000:00/0000:00:1d.0/0000:02:00.0/nvme/nvme0/nvme0n1/nvme0n1p4
+Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+---
+Changelog:
+v2: rework commit message
 
-    => fs->name == nvme0n1p4
 
-  devpath==/sys/dev/block/259:2
-  syspath==/sys/devices/pci0000:00/0000:00:1d.0/0000:02:00.0/nvme/nvme0/nvme0n1/nvme0n1p2
+ target/ppc/cpu_init.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-    => fs->name == nvme0n1p2
-
-We set fs->name from  basename(syspath)
-
-If the realpath call fails, we could use  basename(devpath). That
-would sometimes give the correct answer, and in other types it
-would at least give the major:minor number, which an admin can
-manually correlate if desired via /proc/partitions.
-
-If we want to be really advanced, we could just open /proc/partitions
-and resolve the proper name ourselves, but that's probably overkill
-
-  basename(sysfspath)
-
-is better than g_strdup("??\?-ENOENT")  IMHO
-
-With regards,
-Daniel
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 0f891afa04..c16cb8dbe7 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -7186,6 +7186,9 @@ static void ppc_cpu_reset(DeviceState *dev)
+         }
+         pmu_update_summaries(env);
+     }
++
++    /* clean any pending stop state */
++    env->resume_as_sreset = 0;
+ #endif
+     hreg_compute_hflags(env);
+     env->reserve_addr = (target_ulong)-1ULL;
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.35.3
 
 
