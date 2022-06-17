@@ -2,93 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414C454F7C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:46:08 +0200 (CEST)
-Received: from localhost ([::1]:43464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 878A854F7CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:46:37 +0200 (CEST)
+Received: from localhost ([::1]:44558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2BMU-0001Ui-Ty
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:46:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53786)
+	id 1o2BMy-0002Hc-79
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:46:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o2BIi-0007wO-RI
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:42:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59323)
+ (Exim 4.90_1)
+ (envelope-from <prvs=160677330=anthony.perard@citrix.com>)
+ id 1o2BJB-0008RD-It; Fri, 17 Jun 2022 08:42:41 -0400
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:51042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o2BIg-0005vV-73
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:42:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655469729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FrdOsHSaFbLfNW07OM5GQn8+XgU+1N5zl2F9crQG84k=;
- b=DTUcrc0HZ6le576SyW/4BP/XwQrkj/p4lx2YsFozwdTLNaNmOVWPkctOB4MgMDjA0YK0k/
- y6GQkUqw1W4oZA64IZjVGQuaxSAjqtCpCHTWpA3ci6Ob6yZQU5aXFbtyssed2ekDaHVYY0
- RGPK5r1AK5j65kYvs9Y5Z5JJZMdR/JA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-302-A0yJNpWqN3CQf6wOIMorEg-1; Fri, 17 Jun 2022 08:42:06 -0400
-X-MC-Unique: A0yJNpWqN3CQf6wOIMorEg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h205-20020a1c21d6000000b0039c96ec500fso2654898wmh.8
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 05:42:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FrdOsHSaFbLfNW07OM5GQn8+XgU+1N5zl2F9crQG84k=;
- b=xxpTDdH/tlkBlMEelT6qmIoSoMa98UE8xPdzP8q0jCY9gzGoMVv1KKD+FVq0SNbEtP
- m8+HbU2LC41w7EmgSvNHg0kkXVLKx7coQRu3aAoQ1IfopBA5aT+icLHq3aKtgKfhV1HJ
- yecBa/28TKY1D5hjudytP+8B2kYHKuWXISuwpLnBeKM6ZHW0rOFCubyiTnMeO4zcddCq
- zINeN7IKENMNyFxUv5biWBgQkxi9Tq0UFfAeYmvV6+lb9NIBa69lOr7dmu9GNEAwQdC1
- 5EPvN/X7TLvTjm84bN3AUxY8f/sFoo76HtJs4JfgvWt3K6hUEfGM2IEhjbpNwVq9uLO6
- 7u/w==
-X-Gm-Message-State: AJIora8ODNtj32B+Sv/hackjhvNXnNrt1AAPhm3xp1NIfiabJ5XN4cDX
- YoorCrKhcOA7k1/GQD3kxwP94JvAhFgH7ABTnHCiwLuSAfQe+tlurquUZw6FdpEp7rYT/Nhikeo
- SKOkG5xJwHjRGNbo=
-X-Received: by 2002:adf:e902:0:b0:213:a337:92ae with SMTP id
- f2-20020adfe902000000b00213a33792aemr9370914wrm.84.1655469725180; 
- Fri, 17 Jun 2022 05:42:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1toHWTY/lCpcerHyBzleLwvcUaUGm8ONZwKRfW/cKxikEtliN2WJ5Z4HT9W9dcXIPTYe9tU6A==
-X-Received: by 2002:adf:e902:0:b0:213:a337:92ae with SMTP id
- f2-20020adfe902000000b00213a33792aemr9370884wrm.84.1655469724966; 
- Fri, 17 Jun 2022 05:42:04 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- z7-20020a1c4c07000000b0039c4b518df4sm6775375wmf.5.2022.06.17.05.42.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jun 2022 05:42:04 -0700 (PDT)
-Date: Fri, 17 Jun 2022 14:42:03 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Ben Widawsky <ben.widawsky@intel.com>, Jonathan
- Cameron <jonathan.cameron@huawei.com>, "Michael S . Tsirkin"
- <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>, Xiao Guangrong
- <xiaoguangrong.eric@gmail.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <f4bug@amsat.org>, Richard Henderson <richard.henderson@linaro.org>, Peter
- Maydell <peter.maydell@linaro.org>, Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH v1] MAINTAINERS: Collect memory device files in "Memory
- devices"
-Message-ID: <20220617144203.2cbdcea8@redhat.com>
-In-Reply-To: <20220617123151.103033-1-david@redhat.com>
-References: <20220617123151.103033-1-david@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1)
+ (envelope-from <prvs=160677330=anthony.perard@citrix.com>)
+ id 1o2BJ8-000695-VB; Fri, 17 Jun 2022 08:42:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1655469758;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=aQ2JFJdgxW+bvJ7wlrkPH1pYSZsqotk9gFtitGX3Kfo=;
+ b=D1fmndEmk7h3rYynn55vaUwXo5QpE413xGsuhT2VuJpdPJoR8gMmFpuq
+ tQ4752Hoimiywdb1oLXIRNiXlBmbm0UfVZN1Zh0c/trIJbJd7EDYCgXrY
+ TNyNvIBMKTxUt98N1fhKJOrRgeX5v5MWBF7i4bowaHPA2OqcdStJMuAh3 4=;
+Authentication-Results: esa1.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 5.1
+X-MesageID: 74267833
+X-Ironport-Server: esa1.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:A6+buqOqEc0TJXjvrR2Cl8FynXyQoLVcMsEvi/4bfWQNrUoj3mNRn
+ zcWXG6HO//fNmamLtBzO4jl9k9UupLWx9JlQAto+SlhQUwRpJueD7x1DKtR0wB+jCHnZBg6h
+ ynLQoCYdKjYdleF+lH1dOKJQUBUjclkfJKlYAL/En03FFUMpBsJ00o5wbZn29Aw3bBVPivW0
+ T/Mi5yHULOa82Yc3lI8s8pvfzs24ZweEBtB1rAPTagjUG32zhH5P7pGTU2FFFPqQ5E8IwKPb
+ 72rIIdVXI/u10xF5tuNyt4Xe6CRK1LYFVDmZnF+A8BOjvXez8CbP2lS2Pc0MC9qZzu1c99Z2
+ fFsiZWqVCkSIKzLid4cYhJ7CjFTBPgTkFPHCSDXXc27ykTHdz3nwul0DVFwNoodkgp1KTgQr
+ 7pCcmlLN03dwbLtqF64YrAEasALJc/3PIQZqzd4wCvQF/oOSpHfWaTao9Rf2V/cg+gRQayAO
+ JpCMlKDajyaYTpoO1I8U6kwt7unp1ehXT9H+W6a8P9fD2/7k1UqjemF3MDuUsWHQNgQglyZu
+ GPP+0z/BRcVMsHZziCKmlq3nfPGly7/XIMUFZW7++RsjVnVwXYcYDUOXEa/iem0jAi5Qd03A
+ 0YO8Sozpqsg3EWsSp/2WBjQiGeJuwNZV9dOHukS7gaLxazJpQGDCQAsXjNHLdArqsIybTgrz
+ UOS2cPkAyR1t7+YQm7b8a2bxQ5eIgBMczVEP3VdC1JYvZ+z++nfky4jUP5yNI+Jh8foNwruw
+ jeblikPjJYKneMygvDTEU/8v968mnTYZldru1iLBTr/tl4RiJ2NPNLxtwWChRpUBMPAFwTa4
+ iBZ8ySLxLpWZaxhghBhVwnk8FuBw/+eeAPRjld0d3XK32T8oiXzFWy8DdwXGauIDirnUWWwC
+ KMrkVkNjKK/xVPzBUONX6q/Ct4x0Y/rHsn/W/bfY7JmO8YsKVPfoH0zPRfNhQgBdXTAdoluU
+ ap3jO72VSpKYUiZ5GHeqxghPU8DmXllmDK7qWHTxBW7y7uODEOopUM+GALWNIgRtfrcyC2Mq
+ oo3H5bamn13DbylCgGKoNF7ELz/BSVibXwAg5cMLbDrz8sPMDxJNsI9Npt4I9Q7x/8OyraXl
+ px/M2cBoGfCabT8AV3iQhhehHnHBP6TcVpT0fQQAGuV
+IronPort-HdrOrdr: A9a23:ofSIZKHW6Xg6BiWIpLqE6MeALOsnbusQ8zAXP0AYc3Jom+ij5q
+ STdZUgpHrJYVkqNU3I9ertBEDEewK6yXcX2/hyAV7BZmnbUQKTRekIh7cKgQeQeBEWntQts5
+ uIGJIeNDSfNzdHsfo=
+X-IronPort-AV: E=Sophos;i="5.92,306,1650945600"; d="scan'208";a="74267833"
+Date: Fri, 17 Jun 2022 13:42:21 +0100
+To: Chuck Zmudzinski <brchuckz@aol.com>
+CC: <qemu-devel@nongnu.org>, <xen-devel@lists.xenproject.org>,
+ <qemu-trivial@nongnu.org>, Stefano Stabellini <sstabellini@kernel.org>, Paul
+ Durrant <paul@xen.org>
+Subject: Re: [PATCH v2] xen/pass-through: merge emulated bits correctly
+Message-ID: <Yqx2rYn+9jEV679a@perard.uk.xensource.com>
+References: <b6718a3512ec0a97c6ef4a5b5c1f3de72238c603.1654961918.git.brchuckz.ref@aol.com>
+ <b6718a3512ec0a97c6ef4a5b5c1f3de72238c603.1654961918.git.brchuckz@aol.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <b6718a3512ec0a97c6ef4a5b5c1f3de72238c603.1654961918.git.brchuckz@aol.com>
+Received-SPF: pass client-ip=216.71.145.142;
+ envelope-from=prvs=160677330=anthony.perard@citrix.com;
+ helo=esa1.hc3370-68.iphmx.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,109 +92,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-On Fri, 17 Jun 2022 14:31:51 +0200
-David Hildenbrand <david@redhat.com> wrote:
+On Sat, Jun 11, 2022 at 12:43:29PM -0400, Chuck Zmudzinski wrote:
+> In xen_pt_config_reg_init(), there is an error in the merging of the
+> emulated data with the host value. With the current Qemu, instead of
+> merging the emulated bits with the host bits as defined by emu_mask,
+> the emulated bits are merged with the host bits as defined by the
+> inverse of emu_mask. In some cases, depending on the data in the
+> registers on the host, the way the registers are setup, and the
+> initial values of the emulated bits, the end result will be that
+> the register is initialized with the wrong value.
+> 
+> To correct this error, use the XEN_PT_MERGE_VALUE macro to help ensure
+> the merge is done correctly.
+> 
+> This correction is needed to resolve Qemu project issue #1061, which
+> describes the failure of Xen HVM Linux guests to boot in certain
+> configurations with passed through PCI devices, that is, when this error
+> disables instead of enables the PCI_STATUS_CAP_LIST bit of the
+> PCI_STATUS register of a passed through PCI device, which in turn
+> disables the MSI-X capability of the device in Linux guests with the end
+> result being that the Linux guest never completes the boot process.
+> 
+> Fixes: 2e87512eccf3
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1061
+> Buglink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=988333
+> 
+> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
 
-> Xiao Guangrong doesn't have enough time to actively review or contribute
-> to our NVDIMM implementation. Let's dissolve the "NVDIMM" section, moving
-> relevant ACPI parts to "ACPI/SMBIOS" and moving memory device stuff into a
-> new "Memory devices" section. Make that new section cover other memory
-> device stuff as well.
->=20
-> We can now drop the "hw/mem/*" rule from "ACPI/SMBIOS". Note that
-> hw/acpi/nvdimm.c is already covered by "ACPI/SMBIOS".
->=20
-> The following files in hw/mem don't fall into the TYPE_MEMPORY_DEVICE
-> category:
-> * hw/mem/cxl_type3.c is CXL specific and belongs to "Compute Express Link"
-> * hw/mem/sparse-mem.c is already covered by "Device Fuzzing"
-> * hw/mem/npcm7xx_mc.c is already covered by "Nuvoton NPCM7xx"
->=20
-> Thanks Xiao for your work on NVDIMM!
->=20
-> Cc: Ben Widawsky <ben.widawsky@intel.com>
-> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Ani Sinha <ani@anisinha.ca>
-> Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-> Cc: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Julia Suvorova <jusual@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 
+Thank you, looks like it's been a long quest to figure this one out.
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  MAINTAINERS | 25 +++++++++++++++----------
->  1 file changed, 15 insertions(+), 10 deletions(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index aaa649a50d..909e8dbb1b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1840,7 +1840,6 @@ R: Ani Sinha <ani@anisinha.ca>
->  S: Supported
->  F: include/hw/acpi/*
->  F: include/hw/firmware/smbios.h
-> -F: hw/mem/*
->  F: hw/acpi/*
->  F: hw/smbios/*
->  F: hw/i386/acpi-build.[hc]
-> @@ -1851,6 +1850,7 @@ F: tests/qtest/acpi-utils.[hc]
->  F: tests/data/acpi/
->  F: docs/specs/acpi_cpu_hotplug.rst
->  F: docs/specs/acpi_mem_hotplug.rst
-> +F: docs/specs/acpi_nvdimm.rst
->  F: docs/specs/acpi_pci_hotplug.rst
->  F: docs/specs/acpi_hw_reduced_hotplug.rst
-> =20
-> @@ -2158,15 +2158,6 @@ F: qapi/rocker.json
->  F: tests/rocker/
->  F: docs/specs/rocker.txt
-> =20
-> -NVDIMM
-> -M: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-> -S: Maintained
-> -F: hw/acpi/nvdimm.c
-> -F: hw/mem/nvdimm.c
-> -F: include/hw/mem/nvdimm.h
-> -F: docs/nvdimm.txt
-> -F: docs/specs/acpi_nvdimm.rst
-> -
->  e1000x
->  M: Dmitry Fleytman <dmitry.fleytman@gmail.com>
->  S: Maintained
-> @@ -2588,6 +2579,7 @@ M: Ben Widawsky <ben.widawsky@intel.com>
->  M: Jonathan Cameron <jonathan.cameron@huawei.com>
->  S: Supported
->  F: hw/cxl/
-> +F: hw/mem/cxl_type3.c
->  F: include/hw/cxl/
-> =20
->  Dirty Bitmaps
-> @@ -2704,6 +2696,19 @@ F: softmmu/physmem.c
->  F: include/exec/memory-internal.h
->  F: scripts/coccinelle/memory-region-housekeeping.cocci
-> =20
-> +Memory devices
-> +M: David Hildenbrand <david@redhat.com>
-> +M: Igor Mammedov <imammedo@redhat.com>
-> +R: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-> +S: Supported
-> +F: hw/mem/memory-device.c
-> +F: hw/mem/nvdimm.c
-> +F: hw/mem/pc-dimm.c
-> +F: include/hw/mem/memory-device.h
-> +F: include/hw/mem/nvdimm.h
-> +F: include/hw/mem/pc-dimm.h
-> +F: docs/nvdimm.txt
-> +
->  SPICE
->  M: Gerd Hoffmann <kraxel@redhat.com>
->  S: Odd Fixes
-
+-- 
+Anthony PERARD
 
