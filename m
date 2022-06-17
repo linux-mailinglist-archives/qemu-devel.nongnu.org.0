@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3169454FF5B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 23:29:17 +0200 (CEST)
-Received: from localhost ([::1]:34660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B273854FF63
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 23:33:11 +0200 (CEST)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2JWl-000567-Rg
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 17:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41376)
+	id 1o2JaY-0008IP-CI
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 17:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o2JV7-0003ag-Bj
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 17:27:33 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:46979)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o2JYT-0006dy-3U
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 17:31:01 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:35519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o2JV5-0004jE-MG
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 17:27:33 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- k5-20020a17090a404500b001e8875e6242so5170760pjg.5
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 14:27:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1o2JYR-0005Rp-7O
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 17:31:00 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id o6so4896168plg.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 14:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=4Nh/ioaLxS4TiMuv6mrO3BuuJxs5edtEcbJCJ0DlzHg=;
- b=kqV10ZowD4mEAwkhnGeH7Vi46uyd6cVb+D27K/8D7q4ZgbepI0UMc7Xg/GhUj7mWCn
- sUXIO1GdA6DWiQTudDzJU8yc0x7fO1CRRIYu+qGUSrN9fwrVOrLdD1rfHGdBXyFAfxoY
- HUeLpXo40NmxK6NMGADGQ7EfuqeHEdheydvWwcQvIfZxA5YfRVWSMGNAX2325hWiHuHY
- 7FXv22PI/DmPa7E2x1nANjza+zy8ei0HlKM5niFMLK6Y/yuw6Rd/UBQlspC2hX9x3Qb4
- bTlUA9qVQpHAf6cfcS9FKqlK43DFOWeREbCmJaIPzqYk2+TsXXbIzRcnGQoReMxVEUKW
- K2kA==
+ bh=UqA+O2iAjJVJVS6ckVZAwOszKMvVWnDYVURyulma9/8=;
+ b=rLPJAR88grVVrICam06LN8y5WgV/N1UDXOZUtwxnT05CZs2/+ScUbmlvPg7YNGt8jN
+ CP/H23Hb5io+PPWzCiRobvcwa6QKaczN/XFJbCJ1xw5FJnKufBcNrQBq2QH3TVs6m/8S
+ pT7Ot2jqLIXY5UYrEa9kMivftMhJQ3dtAiEYVicHj41LHpVN49WNN2gyfFOFkPL51bRO
+ e2VE7PExegoxz8xRDdxSEKwgJlf0YXMCZQmM3cCvHURRIH33DMEbdALixtIGM0z5DMcv
+ vU/sCc0n/YzSIEkmBVf46E+uON/ergwqcFB9WJP4GXemBs6Udj4I3LMO75CQIwPrcj5u
+ /Kow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=4Nh/ioaLxS4TiMuv6mrO3BuuJxs5edtEcbJCJ0DlzHg=;
- b=gdh+yLHzcn47kO6GH9bkYJy/u38+8kPAEn4Sy9o/fIVKNjkTGCxe0qwnklAabR64lR
- 2snjnxwSxdYPt9m/vGL4jp1ItiIiJKCwUrzzXRTS+sD1cmmKuL4bzyxDOP3M2z3fGMqE
- d8Nk03WdFENZX8mbgQWk+5lSwniKmd1DX6r6XomOW6w0eoYhp9+XoSKL7zxg2egO+eaH
- u217EczncLUg46/51x6dM8+cTC9k6j61tOTpgLPE9n1fQdIVy8Te5bSH9jYAjxRZBA7I
- /vYq62OGyMIDuS0SqCGm9Tg7CiduZPXtYDkF3nNTc0CPFJ9WHtGo8ApUJSGfAbcqJRUC
- 0HnA==
-X-Gm-Message-State: AJIora/SmKt/KIlZLNPcAPV/h3UjLlpWR124HAI7TVm1Kfg4rlI3tfOk
- VMMek+BegS+tAvjLT9mOY6bZDw==
-X-Google-Smtp-Source: AGRyM1uRS2fAbjyxhFU2PYlmkBtwm8UeO62IZrWZixGAXkVAe6FeSFCI9nOgPKmO0Bfh0yLM2ya5lQ==
-X-Received: by 2002:a17:90a:4503:b0:1ea:4718:829f with SMTP id
- u3-20020a17090a450300b001ea4718829fmr12496982pjg.103.1655501249895; 
- Fri, 17 Jun 2022 14:27:29 -0700 (PDT)
+ bh=UqA+O2iAjJVJVS6ckVZAwOszKMvVWnDYVURyulma9/8=;
+ b=GXvLlUxE3G3zAJC/9NSCPQ4Wh7C6CyDieCxp00a5/vNEBySzGjaBXUyQ0URLBignui
+ dtVGd9DkmELWoW+k8LBQJ/Vf4P1Am/lvdgQ34YUwrk7zF8cLsmTbyE1MR+8t1X8Au9wP
+ JO0n7DKqitQVxy6GdQ1YIzvZSVB9/i3ienGAzp8s5/gEESYXHxSTYwKn6GyF0ztY0u1m
+ 3LC6vmsa6nE8yeZHpOZR4u8obK5AF6oM7KPn7y+aKNmSw1JWFFR2xPOtdONxV1ziGl8x
+ 7ivQs6LANosIytQ+/+XUXNZhnMjw1fdVbcrp86o41KYdOZuCA7rPrGh8OuZO1nUWgald
+ LG+w==
+X-Gm-Message-State: AJIora+prnAGpgTS7uJBttHbG4YWJ4x8qbqNjPAwjiAu0HLmbr4lYKeS
+ 0aeuib6U0dhN+g3VSJqnCsExzQ==
+X-Google-Smtp-Source: AGRyM1uGkQimPoB8kL1Wht4vTq43JoT8EC6dik/7IAdBWeLMjfdAenHlbc0UpgOFY4oFjdeqquWEtw==
+X-Received: by 2002:a17:90a:e507:b0:1ea:fa43:21de with SMTP id
+ t7-20020a17090ae50700b001eafa4321demr9134913pjy.177.1655501457594; 
+ Fri, 17 Jun 2022 14:30:57 -0700 (PDT)
 Received: from google.com (123.65.230.35.bc.googleusercontent.com.
  [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
- f2-20020a62db02000000b0051868677e6dsm4218356pfg.51.2022.06.17.14.27.29
+ f16-20020a633810000000b003fd9b8b865dsm4281929pga.0.2022.06.17.14.30.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jun 2022 14:27:29 -0700 (PDT)
-Date: Fri, 17 Jun 2022 21:27:25 +0000
+ Fri, 17 Jun 2022 14:30:57 -0700 (PDT)
+Date: Fri, 17 Jun 2022 21:30:53 +0000
 From: Sean Christopherson <seanjc@google.com>
 To: Chao Peng <chao.p.peng@linux.intel.com>
 Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -77,18 +76,16 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  ddutile@redhat.com, dhildenb@redhat.com,
  Quentin Perret <qperret@google.com>,
  Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <YqzxvYU7EtHab6U7@google.com>
+Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
+Message-ID: <YqzyjZnflCMPo8b/@google.com>
 References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <Yqzpf3AEYabFWjnW@google.com>
+ <20220519153713.819591-7-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yqzpf3AEYabFWjnW@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1032.google.com
+In-Reply-To: <20220519153713.819591-7-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -175
 X-Spam_score: -17.6
 X-Spam_bar: -----------------
@@ -112,55 +109,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 17, 2022, Sean Christopherson wrote:
-> > @@ -110,6 +133,7 @@ struct kvm_userspace_memory_region {
-> >   */
-> >  #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
-> >  #define KVM_MEM_READONLY	(1UL << 1)
-> > +#define KVM_MEM_PRIVATE		(1UL << 2)
-> 
-> Hmm, KVM_MEM_PRIVATE is technically wrong now that a "private" memslot maps private
-> and/or shared memory.  Strictly speaking, we don't actually need a new flag.  Valid
-> file descriptors must be >=0, so the logic for specifying a memslot that can be
-> converted between private and shared could be that "(int)private_fd < 0" means
-> "not convertible", i.e. derive the flag from private_fd.
-> 
-> And looking at the two KVM consumers of the flag, via kvm_slot_is_private(), they're
-> both wrong.  Both kvm_faultin_pfn() and kvm_mmu_max_mapping_level() should operate
-> on the _fault_, not the slot.  So it would actually be a positive to not have an easy
-> way to query if a slot supports conversion.
+On Thu, May 19, 2022, Chao Peng wrote:
+> @@ -4028,8 +4081,11 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
+>  	if (!sp && kvm_test_request(KVM_REQ_MMU_FREE_OBSOLETE_ROOTS, vcpu))
+>  		return true;
+>  
+> -	return fault->slot &&
+> -	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
+> +	if (fault->is_private)
+> +		return mmu_notifier_retry(vcpu->kvm, mmu_seq);
 
-I take that back, the usage in kvm_faultin_pfn() is correct, but the names ends
-up being confusing because it suggests that it always faults in a private pfn.
+Hmm, this is somewhat undesirable, because faulting in private pfns will be blocked
+by unrelated mmu_notifier updates.  The issue is mitigated to some degree by bumping
+the sequence count if and only if overlap with a memslot is detected, e.g. mapping
+changes that affects only userspace won't block the guest.
+
+It probably won't be an issue, but at the same time it's easy to solve, and I don't
+like piggybacking mmu_notifier_seq as private mappings shouldn't be subject to the
+mmu_notifier.
+
+That would also fix a theoretical bug in this patch where mmu_notifier_retry()
+wouldn't be defined if CONFIG_MEMFILE_NOTIFIER=y && CONFIG_MMU_NOTIFIER=n.a
+
+---
+ arch/x86/kvm/mmu/mmu.c   | 11 ++++++-----
+ include/linux/kvm_host.h | 16 +++++++++++-----
+ virt/kvm/kvm_main.c      |  2 +-
+ 3 files changed, 18 insertions(+), 11 deletions(-)
 
 diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index b6d75016e48c..e1008f00609d 100644
+index 0b455c16ec64..a4cbd29433e7 100644
 --- a/arch/x86/kvm/mmu/mmu.c
 +++ b/arch/x86/kvm/mmu/mmu.c
-@@ -4045,7 +4045,7 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-                        return RET_PF_EMULATE;
-        }
+@@ -4100,10 +4100,10 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
+ 		return true;
 
--       if (fault->is_private) {
-+       if (kvm_slot_can_be_private(slot)) {
-                r = kvm_faultin_pfn_private(vcpu, fault);
-                if (r != RET_PF_CONTINUE)
-                        return r == RET_PF_FIXED ? RET_PF_CONTINUE : r;
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 31f704c83099..c5126190fb71 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -583,9 +583,9 @@ struct kvm_memory_slot {
-        struct kvm *kvm;
- };
-
--static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
-+static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
- {
--       return slot && (slot->flags & KVM_MEM_PRIVATE);
-+       return slot && !!slot->private_file;
+ 	if (fault->is_private)
+-		return mmu_notifier_retry(vcpu->kvm, mmu_seq);
+-	else
+-		return fault->slot &&
+-			mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
++		return memfile_notifier_retry(vcpu->kvm, mmu_seq);
++
++	return fault->slot &&
++	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
  }
 
- static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
+ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+@@ -4127,7 +4127,8 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+ 	if (r)
+ 		return r;
 
+-	mmu_seq = vcpu->kvm->mmu_notifier_seq;
++	mmu_seq = fault->is_private ? vcpu->kvm->memfile_notifier_seq :
++				      vcpu->kvm->mmu_notifier_seq;
+ 	smp_rmb();
+
+ 	r = kvm_faultin_pfn(vcpu, fault);
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 92afa5bddbc5..31f704c83099 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -773,16 +773,15 @@ struct kvm {
+ 	struct hlist_head irq_ack_notifier_list;
+ #endif
+
+-#if (defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)) ||\
+-	defined(CONFIG_MEMFILE_NOTIFIER)
++#if (defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER))
+ 	unsigned long mmu_notifier_seq;
+-#endif
+-
+-#if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
+ 	struct mmu_notifier mmu_notifier;
+ 	long mmu_notifier_count;
+ 	unsigned long mmu_notifier_range_start;
+ 	unsigned long mmu_notifier_range_end;
++#endif
++#ifdef CONFIG_MEMFILE_NOTIFIER
++	unsigned long memfile_notifier_seq;
+ #endif
+ 	struct list_head devices;
+ 	u64 manual_dirty_log_protect;
+@@ -1964,6 +1963,13 @@ static inline int mmu_notifier_retry_hva(struct kvm *kvm,
+ }
+ #endif
+
++#ifdef CONFIG_MEMFILE_NOTIFIER
++static inline bool memfile_notifier_retry(struct kvm *kvm, unsigned long mmu_seq)
++{
++	return kvm->memfile_notifier_seq != mmu_seq;
++}
++#endif
++
+ #ifdef CONFIG_HAVE_KVM_IRQ_ROUTING
+
+ #define KVM_MAX_IRQ_ROUTES 4096 /* might need extension/rework in the future */
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 2b416d3bd60e..e6d34c964d51 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -898,7 +898,7 @@ static void kvm_private_mem_notifier_handler(struct memfile_notifier *notifier,
+ 	KVM_MMU_LOCK(kvm);
+ 	if (kvm_unmap_gfn_range(kvm, &gfn_range))
+ 		kvm_flush_remote_tlbs(kvm);
+-	kvm->mmu_notifier_seq++;
++	kvm->memfile_notifier_seq++;
+ 	KVM_MMU_UNLOCK(kvm);
+ 	srcu_read_unlock(&kvm->srcu, idx);
+ }
+
+base-commit: 333ef501c7f6c6d4ef2b7678905cad0f8ef3e271
+--
+
+> +	else
+> +		return fault->slot &&
+> +			mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
+>  }
+>  
+>  static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+> @@ -4088,7 +4144,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+>  		read_unlock(&vcpu->kvm->mmu_lock);
+>  	else
+>  		write_unlock(&vcpu->kvm->mmu_lock);
+> -	kvm_release_pfn_clean(fault->pfn);
+> +
+> +	if (fault->is_private)
+> +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
+
+Why does the shmem path lock the page, and then unlock it here?
+
+Same question for why this path marks it dirty?  The guest has the page mapped
+so the dirty flag is immediately stale.
+
+In other words, why does KVM need to do something different for private pfns?
+
+> +	else
+> +		kvm_release_pfn_clean(fault->pfn);
+> +
+>  	return r;
+>  }
+>  
+
+...
+
+> diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+> index 7f8f1c8dbed2..1d857919a947 100644
+> --- a/arch/x86/kvm/mmu/paging_tmpl.h
+> +++ b/arch/x86/kvm/mmu/paging_tmpl.h
+> @@ -878,7 +878,10 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+>  
+>  out_unlock:
+>  	write_unlock(&vcpu->kvm->mmu_lock);
+> -	kvm_release_pfn_clean(fault->pfn);
+> +	if (fault->is_private)
+
+Indirect MMUs can't support private faults, i.e. this is unnecessary.
+
+> +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
+> +	else
+> +		kvm_release_pfn_clean(fault->pfn);
+>  	return r;
+>  }
+>  
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 3fd168972ecd..b0a7910505ed 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -2241,4 +2241,26 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
+>  /* Max number of entries allowed for each kvm dirty ring */
+>  #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
+>  
+> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> +static inline int kvm_private_mem_get_pfn(struct kvm_memory_slot *slot,
+> +					  gfn_t gfn, kvm_pfn_t *pfn, int *order)
+> +{
+> +	int ret;
+> +	pfn_t pfnt;
+> +	pgoff_t index = gfn - slot->base_gfn +
+> +			(slot->private_offset >> PAGE_SHIFT);
+> +
+> +	ret = slot->notifier.bs->get_lock_pfn(slot->private_file, index, &pfnt,
+> +						order);
+> +	*pfn = pfn_t_to_pfn(pfnt);
+> +	return ret;
+> +}
+> +
+> +static inline void kvm_private_mem_put_pfn(struct kvm_memory_slot *slot,
+> +					   kvm_pfn_t pfn)
+> +{
+> +	slot->notifier.bs->put_unlock_pfn(pfn_to_pfn_t(pfn));
+> +}
+> +#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
+> +
+>  #endif
+> -- 
+> 2.25.1
+> 
 
