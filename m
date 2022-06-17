@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2815754FB85
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 18:52:43 +0200 (CEST)
-Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC5754FB90
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 18:53:50 +0200 (CEST)
+Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2FD7-000706-6S
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 12:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43458)
+	id 1o2FED-0000m2-5m
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 12:53:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o2FAd-00056h-Tb; Fri, 17 Jun 2022 12:50:11 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:35774)
+ id 1o2FC1-0006eS-I0; Fri, 17 Jun 2022 12:51:33 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:38431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o2FAc-0006IU-1U; Fri, 17 Jun 2022 12:50:07 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-100eb6f7782so6244514fac.2; 
- Fri, 17 Jun 2022 09:50:05 -0700 (PDT)
+ id 1o2FBz-0006WB-VO; Fri, 17 Jun 2022 12:51:33 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ c3-20020a9d6843000000b0060c2c63c337so3516010oto.5; 
+ Fri, 17 Jun 2022 09:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=N60Pztn9bXOpC8s0DpNooTnCg7eMuW8ROOdvbMFylP0=;
- b=mrIWVArmwSAzpRSTTkcS0/bEPMzYtlee8PUlbDaF+JxR2MfDTshOGk2RzHZIIfDMi2
- L2M3vVnu6FDWduRZyGQY6GueMsZh+fNTlnKBNa/y/bhJphj8Q4HKSGMLgmV95D6/qOWG
- rlsX0DSLZr63dWASoeWXlO4oQD4hZ2r0613HklO97FgOxP80omBLD3/UyQZZ6M0iE0/P
- vYcQmmgqe30VpQEvbxIX9ZAdJAghqL402rpjb75/R2HLPSiCF9jWXXyUZbW9EzHJQg+6
- qCdwF1R/jihOKtsyjodjtBvKKE7kwGmdY/8eNpMvnMLMjBZRFF92/a67NkmPJzvgTwZR
- 4uiQ==
+ bh=BZTcArPER9W2pNqRtdZj1bT8lUVZqsqwwYrSt4JEteg=;
+ b=asL8K1UK7OpcNsxuQe7ZT3CAfEMllMtOc9xIfyjfctKuhMZJ0VbM2YfwnkfeKv4P1P
+ eFqeP8VGjsm82XskjfzmaZSRyGAdSnlUGnpz4fGfyf0SeP97u23a5ZZJp98AjrL+CXSO
+ iNURUdTyByguzb/cxvzDFdlAMqOFrXsh9H0fYtVef9B2vwqqnibkjNBySLJXFwUmB+9q
+ ysa5+0Qr/I6G7+UBVeV+ehelk/3qPKW5oAk+EvQvRq1hPmD7QLczr5E9NCTgRhUDmCqV
+ CzZ6TnkbQ2cnSplDtIfmcnCHKXFZ1Uxp+IGT3/3l1rp+kP/70cSzwuEvn1oKLyRbk+Wv
+ 0u/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=N60Pztn9bXOpC8s0DpNooTnCg7eMuW8ROOdvbMFylP0=;
- b=dFhhH3uHPRT6kMmHjgpfIOLXzhh0gbR1OeTJHSW/6saOjihl9szkDpDcEjnXErdAJ8
- U2EWilDdip4SllkY2muGqpeK2Ljd5utLQ62m4q/4rYkECeSAstcik8unZ5t4M0yLW5yw
- c9GTQKwigr9ATuJNWEj/Nci1NTfr+8pK1Ct+Ba4IAdNSqpX/wRRfkwwsA/dgNN7sAlcE
- 8NorQcakcxSXY4LQ4qLS5qiUNlY9QmYkzJdefFLeI8JO3TBqmMborzWdubu9sLe47skD
- n0AXjfEm+hE7PvlZkKG1sOe/pc5NC8gsKaOiqPdJIrEra2sb4NwIa+Aqe9UamFlPq0h4
- WHFQ==
-X-Gm-Message-State: AJIora/l2U0KSG/xJXNSFpQNP7t/XIlT4ZINnluwWP7tRFNpuUBIiRmR
- YnyPyOx0WdN+QyZCaC/5qnU=
-X-Google-Smtp-Source: AGRyM1tOqQxTn6HgxsvTNzVcWvzW8lVdAa8mVVVnik2Cx3yiy3saJMUoafv36dEeXvwL1IoQJjQNRQ==
-X-Received: by 2002:a05:6870:8311:b0:100:ef5f:77b6 with SMTP id
- p17-20020a056870831100b00100ef5f77b6mr11446533oae.157.1655484604276; 
- Fri, 17 Jun 2022 09:50:04 -0700 (PDT)
+ bh=BZTcArPER9W2pNqRtdZj1bT8lUVZqsqwwYrSt4JEteg=;
+ b=XIVH5Q1D4Dot6z3iQ1xIhB8vUNwdp3Iv6ivcvMWXFDBqgnyeQ7EzmmqKw5Tb4p/ZwE
+ LmVybtRpskA54mByeAyIlhwm2+o37U6f3WRpWddV0IKdrJymcylKanfHHnNCa1WycP0y
+ 2jL7pAEAyd47mlMpyFb0GeEuH6QEZMauVtdw1EeXzG6zu2WpSFP7s0kmqAFFi2xuZ209
+ YUePT08nFdS4L1thkZeV971d5IPcINL5hqH/mk5Cdrl81zrhoy67P1NHOLjrSYFfp+gT
+ 0xa3arNs8Krfsephxdb3RrZ96BYC8VgQOmeSOEF9NgpefrGRrBNZ47VQjttVovpHU30C
+ ghHQ==
+X-Gm-Message-State: AJIora/HLavZIH2zO9DH6+p4PgTL1WLiyg7I5EWKTe/QZ3HTyyxMDYtw
+ FpgbVB3832KodWiCk+U3f3amn5wa6Uc=
+X-Google-Smtp-Source: AGRyM1sexED9bCDdnMqzpE70cMrW8iJlqDAwsHKJwIZ6xV9wYRw6etk9cE/2lLUmpfUVP026HHsHnw==
+X-Received: by 2002:a05:6830:12d4:b0:60c:3572:ec7b with SMTP id
+ a20-20020a05683012d400b0060c3572ec7bmr4434912otq.338.1655484690413; 
+ Fri, 17 Jun 2022 09:51:30 -0700 (PDT)
 Received: from ?IPV6:2804:431:c7c6:ccc8:8e07:268b:a09:2834?
  ([2804:431:c7c6:ccc8:8e07:268b:a09:2834])
  by smtp.gmail.com with ESMTPSA id
- e3-20020a056870a60300b000f8851d777bsm2670254oam.39.2022.06.17.09.50.02
+ bk37-20020a0568081a2500b003289f51c2d7sm2751043oib.34.2022.06.17.09.51.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 09:50:03 -0700 (PDT)
-Message-ID: <14983389-aace-f030-65a8-2234b94952bd@gmail.com>
-Date: Fri, 17 Jun 2022 13:50:01 -0300
+ Fri, 17 Jun 2022 09:51:30 -0700 (PDT)
+Message-ID: <6e0da706-657b-3209-bb71-bbcc234f73a8@gmail.com>
+Date: Fri, 17 Jun 2022 13:51:27 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH qemu v2 1/2] ppc: Define SETFIELD for the ppc target
+Subject: Re: [PATCH qemu v2 0/2] ppc/spapr: Implement H_WATCHDOG
 Content-Language: en-US
 To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
 Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 References: <20220617060703.951747-1-aik@ozlabs.ru>
- <20220617060703.951747-2-aik@ozlabs.ru>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220617060703.951747-2-aik@ozlabs.ru>
+In-Reply-To: <20220617060703.951747-1-aik@ozlabs.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,152 +96,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 6/17/22 03:07, Alexey Kardashevskiy wrote:
-> It keeps repeating, move it to the header. This uses __builtin_ctzl() to
-> allow using the macros in #define.
+> This implements H_WATCHDOG. More detailed comments are in the patches.
 > 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
->   include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
->   target/ppc/cpu.h                    |  5 +++++
->   hw/intc/pnv_xive.c                  | 20 --------------------
->   hw/intc/pnv_xive2.c                 | 20 --------------------
->   hw/pci-host/pnv_phb4.c              | 16 ----------------
->   5 files changed, 5 insertions(+), 72 deletions(-)
+> This is based on sha1
+> 96c343cc774b Joel Stanley "linux-user: Add PowerPC ISA 3.1 and MMA to hwcap".
 > 
-> diff --git a/include/hw/pci-host/pnv_phb3_regs.h b/include/hw/pci-host/pnv_phb3_regs.h
-> index a174ef1f7045..38f8ce9d7406 100644
-> --- a/include/hw/pci-host/pnv_phb3_regs.h
-> +++ b/include/hw/pci-host/pnv_phb3_regs.h
-> @@ -12,22 +12,6 @@
->   
->   #include "qemu/host-utils.h"
->   
-> -/*
-> - * QEMU version of the GETFIELD/SETFIELD macros
-> - *
-> - * These are common with the PnvXive model.
-> - */
-> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-> -{
-> -    return (word & mask) >> ctz64(mask);
-> -}
-> -
-> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-> -                                uint64_t value)
-> -{
-> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
-> -}
-> -
->   /*
->    * PBCQ XSCOM registers
->    */
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 6d78078f379d..9a1f1e9999a3 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -47,6 +47,11 @@
->                                    PPC_BIT32(bs))
->   #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
->   
-> +#define GETFIELD(mask, word)   \
-> +    (((word) & (mask)) >> __builtin_ctzl(mask))
-> +#define SETFIELD(mask, word, val)   \
-> +    (((word) & ~(mask)) | (((uint64_t)(val) << __builtin_ctzl(mask)) & (mask)))
-> +
->   /*****************************************************************************/
->   /* Exception vectors definitions                                             */
->   enum {
-> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-> index 1ce1d7b07d63..c7b75ed12ee0 100644
-> --- a/hw/intc/pnv_xive.c
-> +++ b/hw/intc/pnv_xive.c
-> @@ -66,26 +66,6 @@ static const XiveVstInfo vst_infos[] = {
->       qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
->                     (xive)->chip->chip_id, ## __VA_ARGS__);
->   
-> -/*
-> - * QEMU version of the GETFIELD/SETFIELD macros
-> - *
-> - * TODO: It might be better to use the existing extract64() and
-> - * deposit64() but this means that all the register definitions will
-> - * change and become incompatible with the ones found in skiboot.
-> - *
-> - * Keep it as it is for now until we find a common ground.
-> - */
-> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-> -{
-> -    return (word & mask) >> ctz64(mask);
-> -}
-> -
-> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-> -                                uint64_t value)
-> -{
-> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
-> -}
-> -
->   /*
->    * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
->    * field overrides the hardwired chip ID in the Powerbus operations
-> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-> index a39e070e82d2..3fe349749384 100644
-> --- a/hw/intc/pnv_xive2.c
-> +++ b/hw/intc/pnv_xive2.c
-> @@ -75,26 +75,6 @@ static const XiveVstInfo vst_infos[] = {
->       qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
->                     (xive)->chip->chip_id, ## __VA_ARGS__);
->   
-> -/*
-> - * QEMU version of the GETFIELD/SETFIELD macros
-> - *
-> - * TODO: It might be better to use the existing extract64() and
-> - * deposit64() but this means that all the register definitions will
-> - * change and become incompatible with the ones found in skiboot.
-> - *
-> - * Keep it as it is for now until we find a common ground.
-> - */
-> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-> -{
-> -    return (word & mask) >> ctz64(mask);
-> -}
-> -
-> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-> -                                uint64_t value)
-> -{
-> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
-> -}
-> -
->   /*
->    * TODO: Document block id override
->    */
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 13ba9e45d8b6..0913e7c8f015 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -31,22 +31,6 @@
->       qemu_log_mask(LOG_GUEST_ERROR, "phb4_pec[%d:%d]: " fmt "\n",        \
->                     (pec)->chip_id, (pec)->index, ## __VA_ARGS__)
->   
-> -/*
-> - * QEMU version of the GETFIELD/SETFIELD macros
-> - *
-> - * These are common with the PnvXive model.
-> - */
-> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-> -{
-> -    return (word & mask) >> ctz64(mask);
-> -}
-> -
-> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-> -                                uint64_t value)
-> -{
-> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
-> -}
-> -
->   static PCIDevice *pnv_phb4_find_cfg_dev(PnvPHB4 *phb)
->   {
->       PCIHostState *pci = PCI_HOST_BRIDGE(phb);
+> Please comment. Thanks.
+
+This version worked with the kernel side patches you mentioned in patch 2/2,
+thanks. Also tested migrating the guest with the WDT active and the guest
+rebooted in the destination.
+
+
+Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+> 
+> 
+> 
+> Alexey Kardashevskiy (2):
+>    ppc: Define SETFIELD for the ppc target
+>    ppc/spapr: Implement H_WATCHDOG
+> 
+>   include/hw/pci-host/pnv_phb3_regs.h |  16 --
+>   include/hw/ppc/spapr.h              |  29 +++-
+>   target/ppc/cpu.h                    |   5 +
+>   hw/intc/pnv_xive.c                  |  20 ---
+>   hw/intc/pnv_xive2.c                 |  20 ---
+>   hw/pci-host/pnv_phb4.c              |  16 --
+>   hw/ppc/spapr.c                      |   4 +
+>   hw/watchdog/spapr_watchdog.c        | 248 ++++++++++++++++++++++++++++
+>   hw/watchdog/meson.build             |   1 +
+>   hw/watchdog/trace-events            |   7 +
+>   10 files changed, 293 insertions(+), 73 deletions(-)
+>   create mode 100644 hw/watchdog/spapr_watchdog.c
+> 
 
