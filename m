@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767F654F282
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 10:08:37 +0200 (CEST)
-Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8210654F28B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 10:13:17 +0200 (CEST)
+Received: from localhost ([::1]:42802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o271q-0002KT-IS
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 04:08:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39418)
+	id 1o276S-0005cu-4N
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 04:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26lF-00059X-IN
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:21 -0400
+ id 1o26lN-0005MO-9I
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:29 -0400
 Received: from mga06b.intel.com ([134.134.136.31]:28798 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26lD-000779-Hj
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:21 -0400
+ id 1o26lK-000779-B6
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655452279; x=1686988279;
+ t=1655452286; x=1686988286;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=urlV7c37WJynsUdaqFjV/mT7ZEVNkHueLzfaaSMF5sM=;
- b=NYPYphGRjgs0lBtf+upaDKQfmj6gdissxHWsXACZ0XT+Zd7tC1ifq4T4
- kRRPiRr94VN4YaN7aXfcm8vpXm4IVT1Jrp2hdBMzLGn4ShW94NnOu/1Sq
- 7UmQIUhknCL/TtOcNNqkn01uu6OMzhsLWE2cupR8npkyxiqQq/cVULz4j
- xE/MjlecxioyDZmiMNFb/dHOol4m8BwuIzHOI8YZjKRbLzkyW5GFvxEAX
- OqZ/Aux/eYDw9jBFgLmsOG991RJ6K8E7G6uOQnlxc1c4iGQw9h605oJYK
- D2Yme1o+yVICRLvlHV+/fah9uaYddSEDpr2tIDRbZyym5kFGLSCISVduy g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102147"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102147"
+ bh=TmmymS2zMdJqwA2QJe8CWQ23Yt3VkbkPJtURlcK+Es4=;
+ b=VNXoPkGsWWRDBhhp+G/MD4w5JjyATfu/qPuRMcZfBtDvve6fuV5hgx/D
+ PFDrc2YhoWBwFO95uxbU2MbbE8IxJfeJjeSpFFoBrKSaG5+u/oHSIY3aY
+ Z3tp9mUBbxlYVwxcez6cu/ndEwk89X5sDdDZWJnISQCNTEyPJD+yRbu4W
+ 0RxXSnIK/Lp35rEBWdSI/jC+o2kIVZorteEhLHenkT5qXqMrinTh60sq0
+ Q/B+6Cd8bCBX4VI8T7sLVe0ef0iZNDN0I1dmPAZcvtxQ00d6ifsQ7H7c2
+ i9Q9S+XjRrQL0SbZdIbjxoKfeeDxvgBgT9rJffXxktETeEpK1x9soCajL g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102159"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102159"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:18 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936707"
+ 17 Jun 2022 00:51:25 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936751"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:16 -0700
+ 17 Jun 2022 00:51:22 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -51,9 +51,9 @@ Cc: Zhang Chen <chen.zhang@intel.com>,
  Laurent Vivier <lvivier@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Andrew Melnychenko <andrew@daynix.com>
-Subject: [RFC PATCH 05/12] ebpf/uBPF: Add qemu_prepare_ubpf to load ebpf binary
-Date: Fri, 17 Jun 2022 15:36:23 +0800
-Message-Id: <20220617073630.535914-6-chen.zhang@intel.com>
+Subject: [RFC PATCH 07/12] net/filter: Introduce filter-ubpf module
+Date: Fri, 17 Jun 2022 15:36:25 +0800
+Message-Id: <20220617073630.535914-8-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220617073630.535914-1-chen.zhang@intel.com>
 References: <20220617073630.535914-1-chen.zhang@intel.com>
@@ -83,149 +83,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu_prepare_ubpf() can load user defined userspace ebpf binary
-file to Qemu userspace ebpf VM but not run it. The ebpf program
-will triggered in the hook point.
+The filter-ubpf module able to load user defined ebpf program
+to handle network packet based on filter framework.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- ebpf/ubpf-stub.c |   5 +++
- ebpf/ubpf.c      | 100 +++++++++++++++++++++++++++++++++++++++++++++++
- ebpf/ubpf.h      |   1 +
- 3 files changed, 106 insertions(+)
+ net/filter-ubpf.c | 149 ++++++++++++++++++++++++++++++++++++++++++++++
+ net/meson.build   |   1 +
+ 2 files changed, 150 insertions(+)
+ create mode 100644 net/filter-ubpf.c
 
-diff --git a/ebpf/ubpf-stub.c b/ebpf/ubpf-stub.c
-index 2e8bf15b91..885bd954b7 100644
---- a/ebpf/ubpf-stub.c
-+++ b/ebpf/ubpf-stub.c
-@@ -22,3 +22,8 @@ bool qemu_ubpf_read_target(UbpfState *u_ebpf, char *path)
- }
- 
- void qemu_ubpf_init_jit(UbpfState *u_ebpf, bool jit) {}
+diff --git a/net/filter-ubpf.c b/net/filter-ubpf.c
+new file mode 100644
+index 0000000000..c63a021759
+--- /dev/null
++++ b/net/filter-ubpf.c
+@@ -0,0 +1,149 @@
++/*
++ * QEMU Userspace eBPF Support
++ *
++ * Copyright(C) 2022 Intel Corporation.
++ *
++ * Author:
++ *  Zhang Chen <chen.zhang@intel.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
-+int qemu_ubpf_prepare(UbpfState *u_ebpf, char *code_path)
++#include "qemu/osdep.h"
++#include "net/filter.h"
++#include "net/net.h"
++#include "qapi/error.h"
++#include "qom/object.h"
++#include "qemu/main-loop.h"
++#include "qemu/error-report.h"
++#include "trace.h"
++#include "ebpf/ubpf.h"
++
++#define TYPE_FILTER_UBPF "filter-ubpf"
++OBJECT_DECLARE_SIMPLE_TYPE(FiliterUbpfState, FILTER_UBPF)
++
++struct FiliterUbpfState {
++    NetFilterState parent_obj;
++    bool ip_mode;
++    char *handler;
++    UbpfState ubpf;
++};
++
++static ssize_t filter_ubpf_receive_iov(NetFilterState *nf,
++                                       NetClientState *sender,
++                                       unsigned flags,
++                                       const struct iovec *iov,
++                                       int iovcnt,
++                                       NetPacketSent *sent_cb)
 +{
-+    return 0;
-+}
-diff --git a/ebpf/ubpf.c b/ebpf/ubpf.c
-index 38a6530903..d65fffeda3 100644
---- a/ebpf/ubpf.c
-+++ b/ebpf/ubpf.c
-@@ -99,3 +99,103 @@ void qemu_ubpf_init_jit(UbpfState *u_ebpf, bool jit)
- {
-     u_ebpf->jit = jit;
- }
-+
-+static uint64_t gather_bytes(uint8_t a, uint8_t b, uint8_t c,
-+                             uint8_t d, uint8_t e)
-+{
-+    return ((uint64_t)a << 32) |
-+           ((uint32_t)b << 24) |
-+           ((uint32_t)c << 16) |
-+           ((uint16_t)d << 8) |
-+           e;
-+}
-+
-+static void trash_registers(void)
-+{
-+    /* Overwrite all caller-save registers */
-+    asm(
-+        "mov $0xf0, %rax;"
-+        "mov $0xf1, %rcx;"
-+        "mov $0xf2, %rdx;"
-+        "mov $0xf3, %rsi;"
-+        "mov $0xf4, %rdi;"
-+        "mov $0xf5, %r8;"
-+        "mov $0xf6, %r9;"
-+        "mov $0xf7, %r10;"
-+        "mov $0xf8, %r11;"
-+    );
-+}
-+
-+static uint32_t sqrti(uint32_t x)
-+{
-+    return sqrt(x);
-+}
-+
-+static uint64_t unwind(uint64_t i)
-+{
-+    return i;
-+}
-+
-+static void register_functions(struct ubpf_vm *vm)
-+{
-+    ubpf_register(vm, 0, "gather_bytes", gather_bytes);
-+    ubpf_register(vm, 1, "memfrob", memfrob);
-+    ubpf_register(vm, 2, "trash_registers", trash_registers);
-+    ubpf_register(vm, 3, "sqrti", sqrti);
-+    ubpf_register(vm, 4, "strcmp_ext", strcmp);
-+    ubpf_register(vm, 5, "unwind", unwind);
-+    ubpf_set_unwind_function_index(vm, 5);
-+}
-+
-+int qemu_ubpf_prepare(UbpfState *u_ebpf, char *code_path)
-+{
-+    bool is_elf;
-+    char *errmsg;
-+    int ret;
-+
-+    if (!qemu_ubpf_read_code(u_ebpf, code_path)) {
-+        error_report("Ubpf failed to read code");
-+        return -1;
-+    }
-+
-+    u_ebpf->vm = ubpf_create();
-+    if (!u_ebpf->vm) {
-+        error_report("Failed to create ubpf VM");
-+        return -1;
-+    }
-+
-+    register_functions(u_ebpf->vm);
-+
-+    /*
-+     * The ELF magic corresponds to an RSH instruction with an offset,
-+     * which is invalid.
-+     */
-+     is_elf = u_ebpf->code_len >= SELFMAG && !memcmp(u_ebpf->code,
-+                                                     ELFMAG, SELFMAG);
-+
-+    if (is_elf) {
-+        ret = ubpf_load_elf(u_ebpf->vm, u_ebpf->code,
-+                            u_ebpf->code_len, &errmsg);
-+    } else {
-+        ret = ubpf_load(u_ebpf->vm, u_ebpf->code,
-+                        u_ebpf->code_len, &errmsg);
-+    }
-+
-+    if (ret < 0) {
-+        error_report("Failed to load ubpf code: %s ", errmsg);
-+        free(errmsg);
-+        ubpf_destroy(u_ebpf->vm);
-+        return -1;
-+    }
-+
-+    if (u_ebpf->jit) {
-+        u_ebpf->fn = ubpf_compile(u_ebpf->vm, &errmsg);
-+        if (u_ebpf->fn == NULL) {
-+            error_report("Failed to ubpf compile: %s", errmsg);
-+            free(errmsg);
-+            return -1;
-+        }
-+    }
++    /* TODO: handle packet by loaded userspace ebpf program */
 +
 +    return 0;
 +}
-diff --git a/ebpf/ubpf.h b/ebpf/ubpf.h
-index 808c02565c..9a35efbeb6 100644
---- a/ebpf/ubpf.h
-+++ b/ebpf/ubpf.h
-@@ -37,5 +37,6 @@ typedef struct UbpfState {
- bool qemu_ubpf_read_code(UbpfState *u_ebpf, char *path);
- bool qemu_ubpf_read_target(UbpfState *u_ebpf, char *path);
- void qemu_ubpf_init_jit(UbpfState *u_ebpf, bool jit);
-+int qemu_ubpf_prepare(UbpfState *u_ebpf, char *code_path);
++
++static void filter_ubpf_cleanup(NetFilterState *nf)
++{
++    /* cleanup */
++}
++
++static void filter_ubpf_setup(NetFilterState *nf, Error **errp)
++{
++    FiliterUbpfState *s = FILTER_UBPF(nf);
++
++    if (s->handler == NULL) {
++        error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND, "filter-ubpf parameter"\
++                  " 'ubpf-handler' cannot be empty");
++        return;
++    }
++
++    qemu_ubpf_init_jit(&s->ubpf, true);
++
++    if (qemu_ubpf_prepare(&s->ubpf, s->handler)) {
++        error_set(errp, ERROR_CLASS_DEVICE_NOT_ACTIVE, "filter-ubpf parameter"\
++                  " 'ubpf-handler' cannot be load");
++        return;
++    }
++}
++
++static char *filter_ubpf_get_handler(Object *obj, Error **errp)
++{
++    FiliterUbpfState *s = FILTER_UBPF(obj);
++
++    return g_strdup(s->handler);
++}
++
++static void filter_ubpf_set_handler(Object *obj,
++                                    const char *value,
++                                    Error **errp)
++{
++    FiliterUbpfState *s = FILTER_UBPF(obj);
++
++    g_free(s->handler);
++    s->handler = g_strdup(value);
++    if (!s->handler) {
++        error_setg(errp, "filter ubpf needs 'ubpf-handler' "
++                   "property set");
++        return;
++    }
++}
++
++static bool filter_ubpf_get_mode(Object *obj, Error **errp)
++{
++    FiliterUbpfState *s = FILTER_UBPF(obj);
++
++    return s->ip_mode;
++}
++
++static void filter_ubpf_set_mode(Object *obj, bool value, Error **errp)
++{
++    FiliterUbpfState *s = FILTER_UBPF(obj);
++
++    s->ip_mode = value;
++}
++
++static void filter_ubpf_class_init(ObjectClass *oc, void *data)
++{
++    NetFilterClass *nfc = NETFILTER_CLASS(oc);
++
++    object_class_property_add_str(oc, "ubpf-handler",
++                                  filter_ubpf_get_handler,
++                                  filter_ubpf_set_handler);
++    object_class_property_add_bool(oc, "ip-mode",
++                                   filter_ubpf_get_mode,
++                                   filter_ubpf_set_mode);
++
++    nfc->setup = filter_ubpf_setup;
++    nfc->cleanup = filter_ubpf_cleanup;
++    nfc->receive_iov = filter_ubpf_receive_iov;
++}
++
++static void filter_ubpf_init(Object *obj)
++{
++    FiliterUbpfState *s = FILTER_UBPF(obj);
++
++    /* Filter-ubpf default is ip_mode */
++    s->ip_mode = true;
++}
++
++static void filter_ubpf_fini(Object *obj)
++{
++    /* do some thing */
++}
++
++static const TypeInfo filter_ubpf_info = {
++    .name = TYPE_FILTER_UBPF,
++    .parent = TYPE_NETFILTER,
++    .class_init = filter_ubpf_class_init,
++    .instance_init = filter_ubpf_init,
++    .instance_finalize = filter_ubpf_fini,
++    .instance_size = sizeof(FiliterUbpfState),
++};
++
++static void register_types(void)
++{
++    type_register_static(&filter_ubpf_info);
++}
++
++type_init(register_types);
+diff --git a/net/meson.build b/net/meson.build
+index 754e2d1d40..177078fa7a 100644
+--- a/net/meson.build
++++ b/net/meson.build
+@@ -14,6 +14,7 @@ softmmu_ss.add(files(
+   'queue.c',
+   'socket.c',
+   'util.c',
++  'filter-ubpf.c',
+ ))
  
- #endif /* QEMU_UBPF_H */
+ softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
 -- 
 2.25.1
 
