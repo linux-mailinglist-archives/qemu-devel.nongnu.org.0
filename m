@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C4354F242
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 09:55:28 +0200 (CEST)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FBB54F26E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 10:01:24 +0200 (CEST)
+Received: from localhost ([::1]:34368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o26pD-0008QV-9q
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 03:55:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39530)
+	id 1o26ux-0007YJ-9F
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 04:01:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26lS-0005Xq-Rs
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:35 -0400
+ id 1o26lU-0005cP-P5
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:36 -0400
 Received: from mga06b.intel.com ([134.134.136.31]:28828 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26lR-0007CE-BG
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:34 -0400
+ id 1o26lT-0007CE-6U
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655452293; x=1686988293;
+ t=1655452295; x=1686988295;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SEZhIf8jMNQNhciEdWpMu+aT2ALSvfXugGxJqxuImrg=;
- b=ODUr3e2RAbhecC8etg6pDLnilOhAXtP4/32KpLbp1lTPIAS7T58ZpoFG
- eVT4mdlynXZX9FSiLGY1Teq1FsN6x7ILPt5Zh3yR5LGgFgL/JOtviAGMr
- VlUK1UBWF1EBxXh8lYNRBL52lkrqRw8vMoPo7tmC0s58rGpGsesgi73O1
- 2eugCWUc1YJVOV4XQW5lncBcl4H89ZYZq48WWsqLDA1EG+rK7cCpOi86T
- X7+UHad7XNx/ZsBgRMj/SrtBeW34l8nh1zh4f9yjBQiRctvr4u1yoWDgc
- EZLKeJFk2UDthIUtBOEkvJQ3sH3bd2duj5IE0Nq0ftS8t+YSWybwT3OWm A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102171"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102171"
+ bh=gTGywrzpCzMNpBHyDMvcuxeMX8+gcZ5UiuUYs94rVR4=;
+ b=IjhRyD3YdEYGM6YWAkXA59olvNBBUHV6+nFx2QuB2qOL1VvhtEy+3W/Q
+ uGpOyCGG/rlST2GSh6xTz7pAIVS7uWruQ2JwmZruSXjDsA2NcHaWIvG+k
+ tQJOzn8ZaqmU4/b7KaFQo7aCFJ5qVMXeF4MyCzb30xlZN5avO533vMki7
+ hOJ3EetIh/byQmc6jy6RpH7go1X1ICL4RJVmwMnBLrpCz8jC5J24oFwpG
+ 6ClVBTH2/PBPI2DQKy47rIs8KnL651FuO/VGwRQp9m8OuOvcCd4jDreb1
+ Br1ZriTr+BD8q7PKOpOnh6NgBo1HUFSo63e3H9Cyd/FVnYKVocomKP4ZL A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102176"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102176"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:31 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936768"
+ 17 Jun 2022 00:51:33 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936773"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:28 -0700
+ 17 Jun 2022 00:51:31 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -51,10 +51,10 @@ Cc: Zhang Chen <chen.zhang@intel.com>,
  Laurent Vivier <lvivier@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Andrew Melnychenko <andrew@daynix.com>
-Subject: [RFC PATCH 09/12] softmmu/vl.c: Add filter-ubpf for netdev as other
- netfilters
-Date: Fri, 17 Jun 2022 15:36:27 +0800
-Message-Id: <20220617073630.535914-10-chen.zhang@intel.com>
+Subject: [RFC PATCH 10/12] net/filter-ubpf.c: run the ubpf program to handle
+ network packet
+Date: Fri, 17 Jun 2022 15:36:28 +0800
+Message-Id: <20220617073630.535914-11-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220617073630.535914-1-chen.zhang@intel.com>
 References: <20220617073630.535914-1-chen.zhang@intel.com>
@@ -84,25 +84,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Run the loaded userspace ebpf program with the packet.
+
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- softmmu/vl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ net/filter-ubpf.c | 40 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 4c1e94b00e..d924fb1c71 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1822,7 +1822,8 @@ static bool object_create_early(const char *type)
-         g_str_equal(type, "filter-redirector") ||
-         g_str_equal(type, "colo-compare") ||
-         g_str_equal(type, "filter-rewriter") ||
--        g_str_equal(type, "filter-replay")) {
-+        g_str_equal(type, "filter-replay") ||
-+        g_str_equal(type, "filter-ubpf")) {
-         return false;
-     }
+diff --git a/net/filter-ubpf.c b/net/filter-ubpf.c
+index c63a021759..554cc24d8f 100644
+--- a/net/filter-ubpf.c
++++ b/net/filter-ubpf.c
+@@ -20,6 +20,8 @@
+ #include "qemu/error-report.h"
+ #include "trace.h"
+ #include "ebpf/ubpf.h"
++#include "colo.h"
++#include "util.h"
  
+ #define TYPE_FILTER_UBPF "filter-ubpf"
+ OBJECT_DECLARE_SIMPLE_TYPE(FiliterUbpfState, FILTER_UBPF)
+@@ -38,9 +40,43 @@ static ssize_t filter_ubpf_receive_iov(NetFilterState *nf,
+                                        int iovcnt,
+                                        NetPacketSent *sent_cb)
+ {
+-    /* TODO: handle packet by loaded userspace ebpf program */
++    FiliterUbpfState *s = FILTER_UBPF(nf);
++    size_t size;
++    char *buf;
++    Packet *pkt = NULL;
++    uint64_t result;
++
++    size = iov_size(iov, iovcnt);
++    if (!size) {
++        return 0;
++    }
++
++    buf = g_malloc(size);
++    if (unlikely(iov_to_buf(iov, iovcnt, 0, buf, size) != size)) {
++        g_free(buf);
++        return 0;
++    }
++
++    pkt = packet_new_nocopy(buf, size, 0);
+ 
+-    return 0;
++    if (parse_packet_early(pkt)) {
++        packet_destroy(pkt, NULL);
++        pkt = NULL;
++        return 0;
++    }
++
++    if (s->ip_mode) {
++        result = qemu_ubpf_run_once(&s->ubpf, pkt->ip, sizeof(struct ip));
++    } else {
++        result = qemu_ubpf_run_once(&s->ubpf, pkt->data, pkt->size);
++    }
++
++    /* If result == 1, means trigger the ebpf program rules */
++    if (result) {
++        return -1;
++    } else {
++        return 0;
++    }
+ }
+ 
+ static void filter_ubpf_cleanup(NetFilterState *nf)
 -- 
 2.25.1
 
