@@ -2,89 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C246154F803
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:59:24 +0200 (CEST)
-Received: from localhost ([::1]:58854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075E854F816
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 15:04:53 +0200 (CEST)
+Received: from localhost ([::1]:35106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2BZL-0004Jg-Dd
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58554)
+	id 1o2Bed-0007c9-Ih
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 09:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o2BWq-0003YR-AC
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:56:48 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36431)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o2BWl-0002S3-5s
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:56:44 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 276D55C00DD;
- Fri, 17 Jun 2022 08:56:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 17 Jun 2022 08:56:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655470601; x=1655557001; bh=f3
- rsKljFebc4h22wllVTUtC4hzl8BM/3g0wEF9IDt7E=; b=QeRCEpPosdYT9j4hiR
- kPCpEhzAcirU5hBIwEi86SkiMhjeYQPTnDhCdHELoe7jFm5fpEaIz4N8w1eWhI1z
- rVtcSW+u6ezLjPvXf8q8a0Q1RfdqTo73hwiZa7+UsPn2zv8pG5S6tzYKPGHquY2f
- mTNehQi6+YmSPeqjG2W26CQnNbWck55MiKjaqX3/ozlOT5otPUfdmLbLeEBGHuUz
- Nfo1FLA2AC6XlsTVVo/vy11lYQ9Q6e9vurXVXbs8GCJ8zQfStNn2WZgewru3twjR
- tHVxQP5dko3X/xiRbEPWykKCpzu+6+kuMzQ/37nbHsnTt8oHPOyCIflyoUM4nzzq
- FTnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1655470601; x=1655557001; bh=f3rsKljFebc4h22wllVTUtC4hzl8
- BM/3g0wEF9IDt7E=; b=dgtwDhSLhnPSn63dOxudtW25xhf4O2ecCe/audRxW8fm
- h9VxWqmrfKSvKZeaz+QOgkBwMJyU+6B4XQDyXCPS6qqub36foLdMY0zXJmgutpP7
- kuTClAsYnTq0MPwVvu0pOseAtziVTtFaxjwtrI3bvsx3IYSUXEoA8w+E+aDmRSkJ
- 30rvFO8LOUPAGsjG/Nk6IiStpnM7s5rbJSETFp00ys1DNP+n2CarpZw1qzfWCyPI
- pfaRQfFJ6mqgt8kK1vxe+YzdsA4A4hZ4K6wvz45XFkJB0anQzN5fhLG3GlJsG/sv
- pc+g6ABKPec0KqCbjtcznHpoQQKEzYWTSFaPATrD4g==
-X-ME-Sender: <xms:B3qsYq555skiVNzTdKne1B9rcnJg8481Z-0lzy7loPd2LwtY7C1u5g>
- <xme:B3qsYj4_0mBNga-UleWQdSxN7bAv4tfLPHvJ00S31extCPlZwiBEz46eCL7PqaaeD
- 4Ez0zmsHAC5mGHc3Dw>
-X-ME-Received: <xmr:B3qsYpf53iZDSgLZR2OXPhng270J4lK1mAAKEFYyyZvTciDCu8DF7qdWfGwfGIhmf8pYWZZsFd2m-Y9psw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvhedgheeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
- elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:B3qsYnJbRS83LPAxhgwyYpJaBRZrZGgVscwFLWP_FDeW1Mle6usoHg>
- <xmx:B3qsYuIfDNZ0gl6vc34WaXKbxyVR9y_8Wj4MMM-qzEtIGrf6LWRD9A>
- <xmx:B3qsYow7Denew5T2hX1dxqxPW4d19c6XqSvyxT5vuQvO-qIrk7ucdg>
- <xmx:CXqsYlWH0tUI74W7usT-Dghnp0K3n5-1k_r7yABUdFEnuXMREFmV_A>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Jun 2022 08:56:38 -0400 (EDT)
-Date: Fri, 17 Jun 2022 14:56:36 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o2Bcu-0006KR-UU
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 09:03:08 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:38964 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o2Bcs-0003Z1-CI
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 09:03:04 -0400
+Received: from smtpclient.apple (unknown [202.38.79.134])
+ by APP-01 (Coremail) with SMTP id qwCowAAnLw95e6xicZySBA--.8910S2;
+ Fri, 17 Jun 2022 21:02:50 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
 Subject: Re: [PATCH v3 0/2] hw/nvme: Add shadow doorbell buffer support
-Message-ID: <Yqx6BK6sh5s0FG3O@apples>
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <Yqx6BK6sh5s0FG3O@apples>
+Date: Fri, 17 Jun 2022 21:02:48 +0800
+Cc: qemu-devel@nongnu.org,
+ kbusch@kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CDB4B749-6B87-4BB4-B04C-5DCD3F068F49@ict.ac.cn>
 References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
- <YqxrXgLeMdVKFQ4P@apples>
- <75D77EF8-3A0E-4CFB-A7CB-2342C28CB60C@ict.ac.cn>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Dy/JwgfMtLc3Ixbg"
-Content-Disposition: inline
-In-Reply-To: <75D77EF8-3A0E-4CFB-A7CB-2342C28CB60C@ict.ac.cn>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ <YqxrXgLeMdVKFQ4P@apples> <75D77EF8-3A0E-4CFB-A7CB-2342C28CB60C@ict.ac.cn>
+ <Yqx6BK6sh5s0FG3O@apples>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowAAnLw95e6xicZySBA--.8910S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY17k0a2IF6F4UM7kC6x804xWl14x267AK
+ xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
+ A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j
+ 6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gc
+ CE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxI
+ r21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87
+ Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK
+ 67AK6ry8MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+ AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUxO
+ 6pDUUUU
+X-Originating-IP: [202.38.79.134]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,53 +77,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---Dy/JwgfMtLc3Ixbg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Jun 17 20:47, Jinhao Fan wrote:
+> On Jun 17, 2022, at 8:56 PM, Klaus Jensen <its@irrelevant.dk> wrote:
 >=20
+> On Jun 17 20:47, Jinhao Fan wrote:
+>>=20
+>>=20
+>>> On Jun 17, 2022, at 7:54 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+>>>=20
+>>> LGTM,
+>>>=20
+>>> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+>>>=20
+>>=20
+>> Great!
+>>=20
+>> I have two questions:
+>>=20
+>> How many =E2=80=9CReviewed-by=E2=80=9D=E2=80=99s do I need to get my =
+patch applied?
+>>=20
 >=20
-> > On Jun 17, 2022, at 7:54 PM, Klaus Jensen <its@irrelevant.dk> wrote:
-> >=20
-> > LGTM,
-> >=20
-> > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> >=20
+> That depends ;) The maintainers decide that.
 >=20
-> Great!
->=20
-> I have two questions:
->=20
-> How many =E2=80=9CReviewed-by=E2=80=9D=E2=80=99s do I need to get my patc=
-h applied?
->=20
-
-That depends ;) The maintainers decide that.
-
-> Do I need to post a v4 patch to add the =E2=80=9CReviewed-by=E2=80=9D=E2=
+>> Do I need to post a v4 patch to add the =E2=80=9CReviewed-by=E2=80=9D=E2=
 =80=99s in my commit=20
-> message?
+>> message?
+>>=20
 >=20
+> Nope, the maintainer will pick that up when applying.
 
-Nope, the maintainer will pick that up when applying.
+Gotcha! Thanks!=
 
---Dy/JwgfMtLc3Ixbg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKsegIACgkQTeGvMW1P
-DenlsAgApeCjplSyP+0YNxvLQ2RQdkNCNvgLlhfYRlUydEpDety2Zy0icK4HZJiq
-SgyY3CJpQS4xNFogM6d5EY15T71vqv35bB4tYfC7KT1t/RshzlfRyjVB1jq6mJga
-aoPzUw+XI7waP5Qr0O/svJI+TSVr+gPPG6dhWSHle+xTnnsS3FbR27UXStOI8yTj
-ycbrmDCcdos0zyRXr1Wlo3R+hDHEYclTjoR5YAagiXQ7ewM1pXdHI+8lQoIJnGbY
-PCEuHz0jtiQJnwfLVzdhR5Qj3kic8kJJocdgGC1qBpTZ6Rrsb4K3rXnJKyoZnaf2
-cpfcN3sJZfCtf1be7eTHZzs8gd3EJg==
-=Y+JO
------END PGP SIGNATURE-----
-
---Dy/JwgfMtLc3Ixbg--
 
