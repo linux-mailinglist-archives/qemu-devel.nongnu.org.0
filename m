@@ -2,98 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555A354FF62
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 23:32:30 +0200 (CEST)
-Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4297B54FE12
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 22:03:53 +0200 (CEST)
+Received: from localhost ([::1]:40592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2JZt-0007d6-6C
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 17:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48864)
+	id 1o2IC7-0000yQ-Rz
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 16:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o2Hb4-0004lq-Ur
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 15:25:38 -0400
-Received: from sonic316-54.consmr.mail.gq1.yahoo.com ([98.137.69.30]:45352)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o2IAs-000074-7M; Fri, 17 Jun 2022 16:02:34 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:37536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o2Hb2-0004Td-Hn
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 15:25:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netscape.net; s=a2048;
- t=1655493930; bh=vlcQCj9UTfubRdysfbCKFBRm8+4ciyYN0AmNZyeI72E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=W64Hyk0KdhYnX9eXyT8dkHrcfb1X5XZv8AEebzrnxObyxENzQd9OIgAO4PkNtn3wQBrRRMhQkVNtPlSyzi/4S+lnxxvgTvW+UfOdKK0RgY3JeqeKBguqiBPq9mkCKQ0fheaFk26ItpBqkHL8sszGW8YQ4uljRJ9ohpx8YV8m/khgVTBt/tUV8Bub/w0jB+jYRQxeMS1iwrJQJ/kCxKJdsca4OuecVjfExkj6B7UoC1juTbgsBZXP3MNKV3Ck1Fky03zv6pzojaIGHagcMbwydJJLeeKejyzjrTI/Oay/weoj95rHxGQF7uRRbIFHmkwZ9KpTLtcT/5s9atF/6QNy1g==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1655493930; bh=qNjS/Va1GoI+ySU9xTMv+RsojFuWBUgo1wrTLH0W6Vs=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=Es6T2TayzTooeK/TnHPFo8rXiTQUGjG2tDGzDEqXwGQnjpU73Vq9HBZNX3a/uKnQrapPVLG5GwY8DXZFQyhBAfpyuCCap373EKRufPHwVjnsyn91c5uWoGUkkNNOoLg861tBMlC1ri2iCr6K62w0CxfUjXuQshzqxVoIq4Ar6qi+J8nuw5AQVkfKKfKOzcl4ZKhs0tDBz57Br1Unhtf5EW546UKiJJ0UG0FX3jcXjEYEcUSrmAK8H3wuqcivrfy2cQWDOZw1qUFZpSZ4yxw2bqehuRP9AD5I5xPJw6wuaso6h47PlP1ykGyfijXZtC5+gBw0lh8J+CpDOrnfeJVU/Q==
-X-YMail-OSG: 8g2H05QVM1nOwZscjg4ZJammOfHkIfN3ZZ6OZuNaC42ui4CQlRdSNH5Y4XZuTRr
- Tx5uiohXqqP.4gxpF6vLw0XO3mSP_NO_YwGtBH2rMGHE0GtTBpbYG1tFXuDk1lt6cIfRHxo62Jp0
- aQpASMlIHe.J2gpkpqNlFyzcNKuqPMDcC85J2i73Pc7Sms9hG.eTGFcnVPkM8IEHmagqhqmwjqFc
- y1pkUWsr4Wkl8Jap4.NUt6GCVfkmVRQvD6cDC_h1z3YRjoYRKdzPYVFDtAlFXyNqEpLQ6Eug.nPu
- FDdUJtHYxSLmUv1adccIl8hu3AjINPI2UkFcaPtKDHrmtdR4TiziXzmt8W9B5y_Qiodv0k2.ZCOd
- .zpcQBlpkTnvG3hWtUkMMA_N12KiNYmuOnAGJh_frFTWHUs3XtL4dkDPfeywu3Z3SGMhLWNxMRB.
- 7Zl6PmyYV3Kbv0vrXyrf93nTvQO.xHuJ7jHl57tSRcguczjZx.1FjdPEuk4cVLqZrCqLVytaw6Qn
- v65OuttbLHE4frViHxInC6_dURYnZuxxu1ikhUJ7aRbWJY83KUvaUibnvpBtpK0gtGkYeaFjQpxx
- VR9J0A4.zs.P7Hle.2lYoaLIlBUGaq0vxi873dJUfW0zoxllY7QBKhKpOPyIG_qr6PJRJ3gAVOBP
- BdMeTzw8.toDi_uZ9Bm8oYU_5Vu7BIdWLD3KG7j2lleyK4xt73XIIGIF7VOZMjhT8AdZa8QSvkb9
- AFV3RsVvsJUYj5AYMPNCcVlhKEcyTzZgBVOaEweEliWY196Tq71MQGksHwfJ6kCn9TUJVAirDy5Z
- pHHasKn_3m7N1wtq54PSB.pCSgIU.0qUkRwfhs_H4LZ_y7Ub5GFcxRY_NBwi78emUNyAbjPl5BQm
- MrmCXAaLuC8nQNUFLF5LW_GI8Zim_RdszAVH.U5VfAoT4Hbb2zz.0QWdD4oQR9jsO_z0bQnZPJNq
- Pufpqb9CF675czz0GgV4uYBXpjkuZQtoSN6RMiQ00QFGwaLdi0WcOpNft7P7ZrnLU0Vh5.fU_Pfg
- m07_pJJ8Lhe87vhwpi7JMEgBxfhqdoCT.e9rmHYk8b6S8u9GCZa92wXW4FJH2nfTMwsfcaGS5alx
- V4BR8QEuAGHq7UNQvWsnhTtu1PIlQyYGvr_mknCRO2TNiiN3.6D9WyPNn_fvquqB3VSAP5Hkljwc
- U8emc0tnAxKmb8TVYY3sPl8IpB1qjIvitBJ5nzAqwWRB4D7mz_2yuvuCznt.Tl2fEQU9uc7BYkRV
- jSs2q6BIk8FcABySKuMhnvDrxWwxAwtrSLV6MHBKKsoqNoKLt6AciTcOtb3yPZUJjpf2mxYpbrbj
- sXA3YgXEe.J3K1pcq8Es94ijnHufjh34e8nfLFlKDQy0LrOwGpEOsQbBuIPY7vU79L_ulmsPNusK
- LWiutpmNJeIt0QW4iBpF8_FFLlpyYR7.oQ0McGCg0ksk2d1ypF2zi3V0uKzwjh3XIoGg3YUKzbta
- IuK4hDSlkNddQhE1u9EGXZ9rRsx_CW499xfxEw1w3HOQVBoPkbKeXIOb9LGdpYlD5mH69_EA7LUZ
- n5GbCe.xjve1sX19h7mAaVo55huC_27w3Zi8qajh3zo10h5fJ.zwamWoA4iPQCUAlyckNID1s29J
- GWm17gh1D6sd1t1kmVXErVD105PHE5imSOb0pAOaahK78Q_v3f6M3siFQODxjaHs4t6E6CW5Pl3z
- 84w9.JdAp.Nv6d3KrY205XOFhKYfJKLtpDS1p5TR0L.SiuCt6SWCudrnC8NxyG7wwiYNQljFxXxJ
- 7.ytMcnivJyY7IzfBgtZ0pHAT6Gie9yjKzPBZXqSiUi3yzC5RXUCQ.TsKuVo9YvMY5hnSutLFjm.
- WKygxDVi3kBZN1.5b2dRXzC7sYT0yYLZEtpXvAVz.iayioMZazqd8UHRsrYQvUjYx2gIxDCaso1m
- cp6jKTb.MRyqmrQrs9jQ2xvSyafQTMvmue56WWJKkU85QTguKsrmaJOk6B7yLaV_G19MbdZLVQO_
- R1RCESAk3H5QRa0CdxKKhj5gf93a2Sa9RydT5NTiEp13Ze3ouiIml8DR7YR.m59jmECuEVolxa8g
- 73UTBmDY16JqUi7aL8.v3B4_XbyY5Nhefc7PF_i9IuzJFDP.cazDG.wpzIQqHYrGIlM.h1txA1kb
- JLmgpRltGFgmLKco7IPcb1FszlNgjaV3MCSGS0FiVwvQr97Le5TJ75jDKcAKGc6SpD_dKO9RFcNw
- 8.XryB.FFbJQ7QxhtXXU1
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic316.consmr.mail.gq1.yahoo.com with HTTP; Fri, 17 Jun 2022 19:25:30 +0000
-Received: by hermes--canary-production-bf1-8bb76d6cf-7lzpt (Yahoo Inc. Hermes
- SMTP Server) with ESMTPA ID 53c15538f9520d4ca7add3ad628bdd99; 
- Fri, 17 Jun 2022 19:25:27 +0000 (UTC)
-Message-ID: <40ffbdbb-6af7-5ab0-7065-db5c0e718ed5@netscape.net>
-Date: Fri, 17 Jun 2022 15:25:25 -0400
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o2IAq-0007zJ-K1; Fri, 17 Jun 2022 16:02:33 -0400
+Received: by mail-oi1-x232.google.com with SMTP id h187so6602221oif.4;
+ Fri, 17 Jun 2022 13:02:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=+ciRlpJwQqMF7EZvi+on9KXLpmgdctxl5adu5yBRrVU=;
+ b=avkRKSE8HTfsqTYSBSjfsGB+0uf8yLfpb1OXDkd90xk1j6PnwRDuSzHEh3AZB/okBt
+ OHAlrFh+r2XKeImlygLVP0G7tg2eLw0GTPrGJrgAZ+al0xEKX7YcvY68IjKmmQ9JcBab
+ O7SPqMqHsomor5DEGhe8p8h4rudsiGYlAWuxPx61W+jsQqq4pQQ4AARZz8TPcU6+qQ4F
+ KxCnVMbnfp/GmBp6QF7MY4JUE85XozpdKz7+HksNcuSZPOF4CaeNfJGx9eEaZ1GVbzUZ
+ cB863hy9bDran9LEMGxzRJxLl1kT+DAF5Tn27m5eCI5YXdUkN9VW3P6baxCchLuzS6iQ
+ qlZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+ciRlpJwQqMF7EZvi+on9KXLpmgdctxl5adu5yBRrVU=;
+ b=eWs/Vyar/XdrBUHDgsGzlWYuP0pR7v2hWoBG3RJ/ofzmVLCW8C19i0xL8/Qr2iwzmP
+ yrraG4T3fVZ/ppcIiU0QbvngcblRTmfpA9e7iT3CN0jrexMJykftVZjFYOuWBEAJkXx/
+ 8Nj6YfPAGdrVAjNBR4jL57gwQsIb6ozgxeoOQTyd1e1ft6WkCNCP3icqNX/pJwTZrWxQ
+ KuhqizQ010VJfp0DWHYA+0WZB2ufn30cx0L98Fc0x476I88BHu+5Whqqtn2LxpFZSio8
+ b7sYd0A+Js8z6pMbrWSAZnbmc+mHUJ3r4bybxjOsswSrbVsBkINVISM+W0rmHOsurHTI
+ 4KIg==
+X-Gm-Message-State: AJIora8Kzw9HlTAFTrRuoK8Bh1ogmiOhIQUayHqcOYprGWzk9aC7mxgS
+ YpUnzCfrCxjHZbvFpwxQfvI=
+X-Google-Smtp-Source: AGRyM1sVVHG+1g2s1tl9CGqNdx+vSIXrlhf4SKJMEEHdMJbmWzIH6iFwG3SubO/Lk12Yt5BBpUZciA==
+X-Received: by 2002:a05:6808:150e:b0:331:39bf:2228 with SMTP id
+ u14-20020a056808150e00b0033139bf2228mr6079057oiw.9.1655496150964; 
+ Fri, 17 Jun 2022 13:02:30 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c6:ccc8:8e07:268b:a09:2834?
+ ([2804:431:c7c6:ccc8:8e07:268b:a09:2834])
+ by smtp.gmail.com with ESMTPSA id
+ n4-20020a056870e40400b000f5ccbb7d75sm2969718oag.1.2022.06.17.13.02.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jun 2022 13:02:30 -0700 (PDT)
+Message-ID: <eafa0763-8b51-2ec4-5131-aebb75455787@gmail.com>
+Date: Fri, 17 Jun 2022 17:02:27 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] xen/pass-through: don't create needless register group
+Subject: Re: [PATCH 03/11] ppc/pnv: use dev->parent_bus->parent to get the PHB
 Content-Language: en-US
-To: Anthony PERARD <anthony.perard@citrix.com>
-Cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org,
- qemu-trivial@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>
-References: <a2e946dfb45260a5e29cec3b2195e4c1385b0d63.1654876622.git.brchuckz.ref@aol.com>
- <a2e946dfb45260a5e29cec3b2195e4c1385b0d63.1654876622.git.brchuckz@aol.com>
- <Yqx8ht2teAoRJF4b@perard.uk.xensource.com>
-From: Chuck Zmudzinski <brchuckz@netscape.net>
-In-Reply-To: <Yqx8ht2teAoRJF4b@perard.uk.xensource.com>
+To: Frederic Barrat <fbarrat@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, mark.cave-ayland@ilande.co.uk
+References: <20220613154456.359674-1-danielhb@linux.ibm.com>
+ <20220613154456.359674-4-danielhb@linux.ibm.com>
+ <a8194fd7-9563-fec1-9d70-0e25ba648b73@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <a8194fd7-9563-fec1-9d70-0e25ba648b73@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.20280
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.30; envelope-from=brchuckz@aim.com;
- helo=sonic316-54.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 17 Jun 2022 17:30:23 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,53 +95,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/22 9:07 AM, Anthony PERARD wrote:
-> On Fri, Jun 10, 2022 at 12:23:35PM -0400, Chuck Zmudzinski wrote:
->> Currently we are creating a register group for the Intel IGD OpRegion
->> for every device we pass through, but the XEN_PCI_INTEL_OPREGION
->> register group is only valid for an Intel IGD. Add a check to make
->> sure the device is an Intel IGD and a check that the administrator has
->> enabled gfx_passthru in the xl domain configuration. Require both checks
->> to be true before creating the register group. Use the existing
->> is_igd_vga_passthrough() function to check for a graphics device from
->> any vendor and that the administrator enabled gfx_passthru in the xl
->> domain configuration, but further require that the vendor be Intel,
->> because only Intel IGD devices have an Intel OpRegion. These are the
->> same checks hvmloader and libxl do to determine if the Intel OpRegion
->> needs to be mapped into the guest's memory.
+
+
+On 6/14/22 06:10, Frederic Barrat wrote:
+> 
+> 
+> On 13/06/2022 17:44, Daniel Henrique Barboza wrote:
+>> It is not advisable to execute an object_dynamic_cast() to poke into
+>> bus->qbus.parent and follow it up with a C cast into the PnvPHB type we
+>> think we got.
 >>
->> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+>> A better way is to access the PnvPHB object via a QOM macro accessing
+>> the existing parent links of the DeviceState. For a given
+>> pnv-phb3/4-root-port 'dev', dev->parent_bus will give us the PHB bus,
+>> and dev->parent_bus->parent is the PHB. Use the adequate QOM macro to
+>> assert the type, and keep the NULL check in case we didn't get the
+>> object we were expecting.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb@linux.ibm.com>
 >> ---
->>   hw/xen/xen_pt_config_init.c | 4 ++++
->>   1 file changed, 4 insertions(+)
+>>   hw/pci-host/pnv_phb3.c | 10 +++++++---
+>>   hw/pci-host/pnv_phb4.c | 10 +++++++---
+>>   2 files changed, 14 insertions(+), 6 deletions(-)
 >>
->> diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
->> index c5c4e943a8..ffd915654c 100644
->> --- a/hw/xen/xen_pt_config_init.c
->> +++ b/hw/xen/xen_pt_config_init.c
->> @@ -2037,6 +2037,10 @@ void xen_pt_config_init(XenPCIPassthroughState *s, Error **errp)
->>            * therefore the size should be 0xff.
->>            */
-> Could you move that comment? I think it would make more sense to comment
-> the "reg_grp_offset=XEN_PCI_INTEL_OPREGION" line now that the `if` block
-> also skip setting up the group on non-intel devices.
+>> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+>> index 4ba660f8b9..7901d8172c 100644
+>> --- a/hw/pci-host/pnv_phb3.c
+>> +++ b/hw/pci-host/pnv_phb3.c
+>> @@ -1139,12 +1139,16 @@ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
+>>   {
+>>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>>       PCIDevice *pci = PCI_DEVICE(dev);
+>> -    PCIBus *bus = pci_get_bus(pci);
+>>       PnvPHB3 *phb = NULL;
+>>       Error *local_err = NULL;
+>> -    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+>> -                                          TYPE_PNV_PHB3);
+>> +    /*
+>> +     * dev->parent_bus gives access to the pnv-phb-root bus.
+>> +     * The PnvPHB3 is the owner (parent) of the bus.
+>> +     */
+>> +    if (dev && dev->parent_bus) {
+>> +        phb = PNV_PHB3(dev->parent_bus->parent);
+>> +    }
+>>       if (!phb) {
+>>           error_setg(errp,
+>> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+>> index ffd9d8a947..bae9398d86 100644
+>> --- a/hw/pci-host/pnv_phb4.c
+>> +++ b/hw/pci-host/pnv_phb4.c
+>> @@ -1782,12 +1782,16 @@ static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
+>>   {
+>>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>>       PCIDevice *pci = PCI_DEVICE(dev);
+>> -    PCIBus *bus = pci_get_bus(pci);
+>>       PnvPHB4 *phb = NULL;
+>>       Error *local_err = NULL;
+>> -    phb = (PnvPHB4 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+>> -                                          TYPE_PNV_PHB4);
+>> +    /*
+>> +     * dev->parent_bus gives access to the pnv-phb-root bus.
+>> +     * The PnvPHB4 is the owner (parent) of the bus.
+>> +     */
+>> +    if (dev && dev->parent_bus) {
+> 
+> 
+> Does it make sense to test 'dev' first when it's the device being realized?
 
-OK. I just e-mailed interested parties v2 that moves the comment
-and mentions that the comment is moved in the commit message.
+Hmmm not really. I got overzealous here it seems.
 
-Best Regards,
+I'll keep just the check for dev->parent in v2.
 
-Chuck
 
->
->>           if (xen_pt_emu_reg_grps[i].grp_id == XEN_PCI_INTEL_OPREGION) {
->> +            if (!is_igd_vga_passthrough(&s->real_device) ||
->> +                s->real_device.vendor_id != PCI_VENDOR_ID_INTEL) {
->> +                continue;
->> +            }
->>               reg_grp_offset = XEN_PCI_INTEL_OPREGION;
->>           }
-> Thanks,
->
+Thanks,
 
+
+Daniel
+
+> 
+>    Fred
+> 
+> 
+> 
+> 
+>> +        phb = PNV_PHB4(dev->parent_bus->parent);
+>> +    }
+>>       if (!phb) {
+>>           error_setg(errp, "%s must be connected to pnv-phb4 buses", dev->id);
+> 
 
