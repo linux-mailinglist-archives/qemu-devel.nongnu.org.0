@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F7954FAB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 18:03:15 +0200 (CEST)
-Received: from localhost ([::1]:39780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7899C54FAD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 18:09:06 +0200 (CEST)
+Received: from localhost ([::1]:50768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2ERF-0006Ot-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 12:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58104)
+	id 1o2EWv-0005Xw-5d
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 12:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
- id 1o2ENp-0004AQ-30
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 11:59:41 -0400
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:35774)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o2ETS-0001uc-NF
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 12:05:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
- id 1o2ENm-0001I8-JZ
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 11:59:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=subject:from:to:cc:references:message-id:date:
- mime-version:in-reply-to;
- bh=9AEG6+PpoJDIzD529+Cg3XWUTSTxDCtGo8rNmeayufM=;
- b=A3/9Z2zOdsxmehAvA7OqtyxoYLtrfQvlt9TdwrJDNevxD7KjoAQA7jFA
- RRy71QLzmTWL3v/6fZiFyHZPpv6HLxbOHY1aUexndFrTgPL1vB7/HO1nn
- ByIr2mmEOjS0SlFpVuxwAEIKVmRgUo4OGcOOfi7nFcixcBJBILhPIvTS3 s=;
-Authentication-Results: mail3-relais-sop.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=Brice.Goglin@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.92,306,1650924000"; d="scan'208";a="17095300"
-Received: from clt-128-93-180-198.vpn.inria.fr (HELO [128.93.180.198])
- ([128.93.180.198]) by mail3-relais-sop.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2022 17:59:34 +0200
-Subject: Re: [PATCH] hmat acpi: Don't require initiator value in -numa when
- hmat=on
-From: Brice Goglin <Brice.Goglin@inria.fr>
-To: qemu-devel@nongnu.org
-Cc: Liu Jingqi <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>
-References: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
-Message-ID: <5e7978ef-9938-95e7-45b1-5588036726ff@inria.fr>
-Date: Fri, 17 Jun 2022 17:59:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o2ETP-0002Zl-HD
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 12:05:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655481924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=n8IA4l644Ah5pQ8j0ESEqVvwKyKM01r4rQPrO91VLww=;
+ b=TU+nxsUO738SMXqcyWAE1Jizz/yFwXS3EdumjE/7saD68slZjWE5LmhruR0VUPSmFkgVOf
+ 3T3U/HCi6rOKbQHeJrsrdGUmWaC2PZ72dtJAQ3Ui85TYO0qjYc09G6Tpjza+J6/jtdJhhw
+ YBkd1nPriAm6aI25pcUBZtIvuichUFs=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-92-wyWm4UFvOCixmfRGZ5nYVg-1; Fri, 17 Jun 2022 12:05:23 -0400
+X-MC-Unique: wyWm4UFvOCixmfRGZ5nYVg-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ v19-20020ab05593000000b0037ed9894dfbso1510858uaa.19
+ for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 09:05:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n8IA4l644Ah5pQ8j0ESEqVvwKyKM01r4rQPrO91VLww=;
+ b=J19hhrLvpwqEJo3vP69NhSKYiDxW3p65pMVAXKd/BF80WHT85TUCJMfITUbF9xmaRe
+ 3twPWYE97bybx1EZqRGmrq1YW/iaOmMYoekuiGtmT8zS4T9mS9PYjloAqwOPu2tXrfl9
+ fq6FDXyZf/aXowWOSOBnomFOyl3+K6QG51FPCmAtPZw6+NdrDo6kWlQYG8BpzKJm4p11
+ RSuPeSs4sGqsjfdfYZTGyLfcLT0mKvDqW7PLlboxyZLEFvlUAsRJU8p+963Ku10DUJo8
+ LJ6CQt5jkIW41/b0dVhqzPDbysnATmRTZ+4T2BQUnZbyHJDxy4SRmcPV0wUAODVZZrr/
+ 7mzw==
+X-Gm-Message-State: AJIora+vwAxgE9Wz5EwMlpR1vs8a8PdN9vJ5i3IKcHl3DnQKxIrnno2s
+ ZP1KEiCycC221peWqAdf5h6mP0VvTDQQL0WeOJEnaRJ8E1QSguBMAOz4Awzu89PrEmxSMddjwqY
+ JJ3imV12bAJKY+A9FsVYq4YSVNCc/0vg=
+X-Received: by 2002:a05:6122:caa:b0:365:2e13:cdeb with SMTP id
+ ba42-20020a0561220caa00b003652e13cdebmr5299604vkb.24.1655481923227; 
+ Fri, 17 Jun 2022 09:05:23 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sWxuet1Mj1XEstbQbD2dyrefkBpQGeGWjmtRf9ef3z4KbUZ6WbcpGt+vULpaKEQESmB3ViAm/yTEQgyYlb3Sc=
+X-Received: by 2002:a05:6122:caa:b0:365:2e13:cdeb with SMTP id
+ ba42-20020a0561220caa00b003652e13cdebmr5299560vkb.24.1655481922941; Fri, 17
+ Jun 2022 09:05:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="reDTWKiJYcKzuyezVtkT8SgQrePqm0f3j"
-Received-SPF: pass client-ip=192.134.164.104;
- envelope-from=Brice.Goglin@inria.fr; helo=mail3-relais-sop.national.inria.fr
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220616142659.3184115-1-jsnow@redhat.com>
+In-Reply-To: <20220616142659.3184115-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 17 Jun 2022 12:05:12 -0400
+Message-ID: <CAFn=p-a=ucX02HYjAjeDv9oGF_3FnQxyNOFfRpYHROr68sMhcA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] Improve reliability of VM tests
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
+ Hanna Reitz <hreitz@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,156 +95,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---reDTWKiJYcKzuyezVtkT8SgQrePqm0f3j
-Content-Type: multipart/mixed; boundary="HmEBI87tSCDrJfLeZS3IxZvkvRxOlZ0vg";
- protected-headers="v1"
-From: Brice Goglin <Brice.Goglin@inria.fr>
-To: qemu-devel@nongnu.org
-Cc: Liu Jingqi <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>
-Message-ID: <5e7978ef-9938-95e7-45b1-5588036726ff@inria.fr>
-Subject: Re: [PATCH] hmat acpi: Don't require initiator value in -numa when
- hmat=on
-References: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
-In-Reply-To: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
+On Thu, Jun 16, 2022 at 10:27 AM John Snow <jsnow@redhat.com> wrote:
+>
+> This patch series attempts to improve the reliability of several of the
+> VM test targets. In particular, both CentOS 8 tests are non-functional
+> because CentOS 8 was EOL at the beginning of this calendar year, with
+> repositories and mirrors going offline.
+>
+> Notably, I also remove the ubuntu.i386 test because we no longer support
+> Ubuntu 18.04 nor do we have explicit need of an i386 build test.
+>
+> After this series, I am able to successfully run every VM target on an
+> x86_64 host, except:
+>
+> - ubuntu.aarch64: Hangs often during testing, see below.
+> - centos.aarch64: Hangs often during testing, see below.
 
---HmEBI87tSCDrJfLeZS3IxZvkvRxOlZ0vg
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+I've since gotten a clean run on centos.aarch64 for the first time in
+a long time by upping the memory allocation to be 1G per job; so my 12
+thread, 6 core intel laptop used 6GB to complete this test
+successfully. With that not having a hard blocker on it anymore, I'll
+work on upgrading the ubuntu container.
 
-Hello
-
-Could somebody please apply (or reject) this commit?
-
-Thanks
-
-Brice
-
-
-Le 06/04/2022 =C3=A0 14:29, Brice Goglin a =C3=A9crit=C2=A0:
-> From: Brice Goglin<Brice.Goglin@inria.fr>
+> - haiku.x86_64: Build failures not addressed by this series, see
+>   https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg02103.html
 >
-> The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
-> has a "Processor Proximity Domain Valid" flag that is currently
-> always set because Qemu -numa requires initiator=3DX when hmat=3Don.
+> The unit tests that I see fail most often are:
 >
-> Unsetting this flag allows to create more complex memory topologies
-> by having multiple best initiators for a single memory target.
+> - qom-test: ENOMEM with default config and many cores
+> - test-hmp: ENOMEM with default config and many cores
+> - virtio-net-failover: Seems to like to hang on openbsd
+> - migration-test: Tends to hang under aarch64 tcg
 >
-> This patch allows -numa with initiator=3DX when hmat=3Don by keeping
-> the default value MAX_NODES in numa_state->nodes[i].initiator.
-> All places reading numa_state->nodes[i].initiator already check
-> whether it's different from MAX_NODES before using it. And
-> hmat_build_table_structs() already unset the Valid flag when needed.
+> Increasing the default memory (patch 10) has seemingly helped both
+> reliability *and* reduced race conditions quite a bit, both on my
+> 12-thread intel laptop and on my 32-thread AMD 5950x desktop.
 >
-> Tested with
-> qemu-system-x86_64 -accel kvm \
->   -machine pc,hmat=3Don \
->   -drive if=3Dpflash,format=3Draw,file=3D./OVMF.fd \
->   -drive media=3Ddisk,format=3Dqcow2,file=3Defi.qcow2 \
->   -smp 4 \
->   -m 3G \
->   -object memory-backend-ram,size=3D1G,id=3Dram0 \
->   -object memory-backend-ram,size=3D1G,id=3Dram1 \
->   -object memory-backend-ram,size=3D1G,id=3Dram2 \
->   -numa node,nodeid=3D0,memdev=3Dram0,cpus=3D0-1 \
->   -numa node,nodeid=3D1,memdev=3Dram1,cpus=3D2-3 \
->   -numa node,nodeid=3D2,memdev=3Dram2 \
->   -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3D=
-access-latency,latency=3D10 \
->   -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3D=
-access-bandwidth,bandwidth=3D10485760 \
->   -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3D=
-access-latency,latency=3D20 \
->   -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3D=
-access-bandwidth,bandwidth=3D5242880 \
->   -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3D=
-access-latency,latency=3D30 \
->   -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3D=
-access-bandwidth,bandwidth=3D1048576 \
->   -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3D=
-access-latency,latency=3D20 \
->   -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3D=
-access-bandwidth,bandwidth=3D5242880 \
->   -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3D=
-access-latency,latency=3D10 \
->   -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3D=
-access-bandwidth,bandwidth=3D10485760 \
->   -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3D=
-access-latency,latency=3D30 \
->   -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3D=
-access-bandwidth,bandwidth=3D1048576 \
+> Due to how long it takes to run these tests, though, I can't claim
+> perfect reliability. The flakiness of virtio-net-failover and
+> migration-test is something that probably still needs to be addressed,
+> but it's outside of my expertise and time budget at present to pursue
+> it.
 >
-> This exposes NUMA node2 at same distance from both node0 and node1 as s=
-een in lstopo:
+> Future work (next version? next series?);
 >
-> Machine (2966MB total) + Package P#0
->    NUMANode P#2 (979MB)
->    Group0
->      NUMANode P#0 (980MB)
->      Core P#0 + PU P#0
->      Core P#1 + PU P#1
->    Group0
->      NUMANode P#1 (1007MB)
->      Core P#2 + PU P#2
->      Core P#3 + PU P#3
+> - Try to get centos.aarch64 working reliably under TCG
+> - Upgrade ubuntu.aarch64 to 20.04 after fixing centos.aarch64
+> - Fix the Haiku build test, if possible.
+> - Ensure I can reliably run and pass "make vm-build-all".
+>   (Remove VMs from this recipe if necessary.)
 >
-> Signed-off-by: Brice Goglin<Brice.Goglin@inria.fr>
-> ---
->   hw/core/machine.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+> John Snow (10):
+>   tests/qemu-iotests: hotfix for 307, 223 output
+>   tests/qemu-iotests: skip 108 when FUSE is not loaded
+>   qga: treat get-guest-fsinfo as "best effort"
+>   tests/vm: use 'cp' instead of 'ln' for temporary vm images
+>   tests/vm: switch CentOS 8 to CentOS 8 Stream
+>   tests/vm: switch centos.aarch64 to CentOS 8 Stream
+>   tests/vm: update sha256sum for ubuntu.aarch64
+>   tests/vm: remove ubuntu.i386 VM test
+>   tests/vm: remove duplicate 'centos' VM test
+>   tests/vm: add 512MB extra memory per core
 >
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index d856485cb4..9884ef7ac6 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -1012,9 +1012,7 @@ static void numa_validate_initiator(NumaState *nu=
-ma_state)
->  =20
->       for (i =3D 0; i < numa_state->num_nodes; i++) {
->           if (numa_info[i].initiator =3D=3D MAX_NODES) {
-> -            error_report("The initiator of NUMA node %d is missing, us=
-e "
-> -                         "'-numa node,initiator' option to declare it"=
-, i);
-> -            exit(1);
-> +            continue;
->           }
->  =20
->           if (!numa_info[numa_info[i].initiator].present) {
-> --=20
-> 2.30.2
+>  qga/commands-posix.c       |   8 +-
+>  tests/qemu-iotests/108     |   5 ++
+>  tests/qemu-iotests/223.out |   4 +-
+>  tests/qemu-iotests/307.out |   4 +-
+>  tests/vm/Makefile.include  |   5 +-
+>  tests/vm/basevm.py         |   6 ++
+>  tests/vm/centos            |   8 +-
+>  tests/vm/centos.aarch64    | 174 +++++--------------------------------
+>  tests/vm/ubuntu.aarch64    |   8 +-
+>  tests/vm/ubuntu.i386       |  40 ---------
+>  10 files changed, 58 insertions(+), 204 deletions(-)
+>  delete mode 100755 tests/vm/ubuntu.i386
+>
+> --
+> 2.34.3
 >
 >
 
-
---HmEBI87tSCDrJfLeZS3IxZvkvRxOlZ0vg--
-
---reDTWKiJYcKzuyezVtkT8SgQrePqm0f3j
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEelpOgOQAl7r26tY4RJGQ8yNavTsFAmKspOUFAwAAAAAACgkQRJGQ8yNavTsC
-qA//TNKr5pqC8RO7CLnYYNI88mmnkItIIUZj2EqXl3UFcJjxK2Ukd+2usbhTzvcuUdSF1cj9JFPG
-QwYIvVY59DwwLjqXK3E/7XC9GoPOkN5+ac57/ZgQuvuWOYjL2FF2VepzFQ3uQ+WRVzvhieKEQDK7
-5UIBKBPaWPACAUJnmkc0cLtGCKkQEsjdyJAi8h6L10uQ+O4xB6Q9ba5loeHQotDcOR2e0815BhcQ
-5qXlsrSYd4haIiC+h+ciHheldwslcFAeoHs+61PxnoVGHpU36UUTvvpNmwHol87MEv9ptChXlJU+
-TMnBfIhYP3xSajSWX/TDW46zK8sxvDu/FEna7jUDi4dqtG1V56A0V6v3lxz1jvyshZe4NSqaSNHb
-Hf8ep83BA5cp3C+932GiW7y3NWY3WS9p3yw9wY7y2gAFlRwwHJBjgQSgMIa+W5HIHTj/UaX9Pgjs
-3hB4oe7EeiNVku3Kpqqsa46KiFGIic6B9+an4BytLw6sJlQ2461VyGOo/no0kcayu/iRSemO+TMA
-Wlh4f6wu8EfiJBWD3aGuYd8TAx8rIOI6honqzaGEFS5ABs3iywpdVie3L5myrDofplWDuyuzq0p9
-LdeN1BypITL7G/gVMhR9RnWjcxC26IyWvIYZCp+32B9gQMFpyDfIesnPTBPeo0RFhi4nCrnWkNia
-Ej8=
-=QssJ
------END PGP SIGNATURE-----
-
---reDTWKiJYcKzuyezVtkT8SgQrePqm0f3j--
 
