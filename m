@@ -2,66 +2,181 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A44454F600
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 12:54:34 +0200 (CEST)
-Received: from localhost ([::1]:56166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0504154F69C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 13:26:02 +0200 (CEST)
+Received: from localhost ([::1]:48714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o29cW-0002Qw-S1
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 06:54:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54714)
+	id 1o2A6y-0001zW-MQ
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 07:26:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1o29Zz-0001MR-Cz
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 06:51:55 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2629)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1o29zp-00051A-Di
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 07:18:38 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:49798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1o29Zw-0000Zd-HM
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 06:51:55 -0400
-Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LPbR3033Rz67VbM;
- Fri, 17 Jun 2022 18:50:07 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 17 Jun 2022 12:51:49 +0200
-Received: from localhost (10.81.209.131) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.24; Fri, 17 Jun
- 2022 11:51:48 +0100
-Date: Fri, 17 Jun 2022 11:51:44 +0100
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1o29zn-0004gO-54
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 07:18:37 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25H7aAlv026644;
+ Fri, 17 Jun 2022 11:18:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=ryYkmq7ttZ5JOxAzvARPQG0mEmfAPmultlCwDV6y7Iw=;
+ b=sHvCr1CQa0iC4weOKZFPQFqKWKHTN5krurGzEIHD4MUAU1wKmbCGK9Ow7TYsvhayvd3h
+ c2emd2vYe+yOMCKqCrBI8KZhsQe+1FLVDyztr6eRW+lPromRItXltBiZe0LPZV4H+jvn
+ CX5foP8Xpv6d87xi4WrbVrKf35djkBmvvSAyBF+5UlXo9Khdu3pi0wavgPMWO5v/vYfp
+ Zs2wScDj2NYYyEXyhxZbQOEEjmq0Hayv5dt/7kpndZi3kzzdRYMdCkeIhd5AX0RTmvv4
+ AABGEVf8ZQg1kyvNmFiOcTNT4q427rDPNuQ6GFYMbvlkrfBnud0aIfI4r2IwX07GET9/ tA== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhn0nn8d-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Jun 2022 11:18:27 +0000
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 25HAv40S021152; Fri, 17 Jun 2022 10:57:43 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com ([104.47.56.176])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3gpr2c8w2f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Jun 2022 10:57:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WFuVpgYulUsaw+ACmPecl+Cpbtm4YukhAONdRaggPM15rz+mLZhzBpWIrQl4XdIlbQ8rNt2WmEW83+Z+WRRWE5OketDCb9POYVzjenJcp3y8QhRg6vrGJF44a+MlsHL6Ps/2pO2Ubrdxn2Bf45z0DI/JQsHL10PGP77q2yF7Gt72dyJI7UW47oKRqntwqsVvYivquaB0cKlEMWZ+LNlN+26PeqChyeSc70Gb5WhFqVm4KaDheqnFW6S0QEfDFGqJkBwJR9+T9Aq88/J/AAYDkTdnB10ThpX3Fw8f3Ko7Pow+l9mcZygPlhvZ4sO63jEC7QaDaFx3lfSwwzZauRvsWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ryYkmq7ttZ5JOxAzvARPQG0mEmfAPmultlCwDV6y7Iw=;
+ b=SOUzVEKxz21GpsdFhDYlhcw2Pgv/n3gMkQ55d6pMfpUuDM3fzldKS7wykuQtrj3a8nwHwJ8yM+R0FGUcijy6laP7lGxLuNx9z8gd8hmdLFfqbwlhY+5v34K5Iuniea3XWR0IyFaT/Vr/s/5sKZ2m2mjREn1kaXvjwQwnjyVDIaW0U1+jWUKJp7dPukLeEso0aLgA/afNQMX7wnzosfIGLzhw4jbY5/8y8nNnGprZVtnA2M79pgdNqHMeYD6bGoXj4tffz797c9omQRn8fVedLpRgMuUYMt+ngh+PPARkbZqFS5v5pH79EATkgEv7yZ/XBobLtJJ3zVX4M6egdOWxQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ryYkmq7ttZ5JOxAzvARPQG0mEmfAPmultlCwDV6y7Iw=;
+ b=GQSQBrUYUcB6OG/N3GKHu4sW3OqDzQXO0Wzut38Ttg0jObXbbWaXzncJIW7olI6Joqk1d1tB9M9jqCwPqThWnmIBkQC/ey9q9GvhNG/I8Ex3TbferX/SyXCQwuEcSkTIcvN8D/zTP9Pa9uk5jP6mnVePfvOa51d7t5vVzEsoNd0=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by MW5PR10MB5805.namprd10.prod.outlook.com (2603:10b6:303:192::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Fri, 17 Jun
+ 2022 10:57:25 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b842:a301:806d:231e]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::b842:a301:806d:231e%9]) with mapi id 15.20.5353.015; Fri, 17 Jun 2022
+ 10:57:25 +0000
+Message-ID: <a451d4ad-8beb-2e31-1516-e7cbecc9764b@oracle.com>
+Date: Fri, 17 Jun 2022 11:57:15 +0100
+Subject: Re: [PATCH v5 1/5] hw/i386: add 4g boundary start to X86MachineState
+Content-Language: en-US
 To: Igor Mammedov <imammedo@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>, "Peter
- Maydell" <peter.maydell@linaro.org>, Ben Widawsky <ben.widawsky@intel.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Ani Sinha
- <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PULL v2 25/86] hw/cxl/component: Implement host bridge MMIO
- (8.2.5, table 142)
-Message-ID: <20220617115144.00007690@Huawei.com>
-In-Reply-To: <20220616164500.274842cb@redhat.com>
-References: <20220516204913.542894-1-mst@redhat.com>
- <20220516204913.542894-26-mst@redhat.com>
- <20220616164500.274842cb@redhat.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+References: <20220520104532.9816-1-joao.m.martins@oracle.com>
+ <20220520104532.9816-2-joao.m.martins@oracle.com>
+ <20220616150540.31b51edf@redhat.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+In-Reply-To: <20220616150540.31b51edf@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0193.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:318::7) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.81.209.131]
-X-ClientProxiedBy: lhreml709-chm.china.huawei.com (10.201.108.58) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 275af989-e02f-419d-0a5e-08da505029e2
+X-MS-TrafficTypeDiagnostic: MW5PR10MB5805:EE_
+X-Microsoft-Antispam-PRVS: <MW5PR10MB5805825B51D6F3C167467E64BBAF9@MW5PR10MB5805.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PHRFVwgmt2MnmOvAMzEdesN/MdTN65uADCUGGneBmLsxTkbufLrvu7ZPevg71yg82IVxAtc1rGfeBK0K0OCqmwl+Ce9AEFZrgiPqcy6A4BfDhUVJQkOEDvVokZedIVcMlPbrv5B4VyNzkkkeUAiNkG+AcuFHUvoXeRenVWU4yyJuFs/uOHYTl/0JYKahyoN9iTU17ZEpkABN7hqy2W6CY1fdVFq8gdHC+j4bEHnxJIPw0wb7AkvdN6eTLH3oinmVMLupVisWqsXXiMcZSwytUq2rjVWzVgjpYhzUagp1+oS4QgvEDNNiOOYBZ/K4+ySZ6YsQec5TpU2sIw+m2ZNjM0xhm7Xze/fnJs9ZZRjPZS1n7bjZVp+5o5n4lpy/ZAK+nyPAyMDzFOmNbqlL7fr09nWshWFFZdlOxgqvr95KDYEnAGcZyX7xFVwV4Ju5qJJy5mCGoB2wsR8tHqTqI0NOqbgBgdrFKHn4SVErBLoryLSgVq9fR8CG2VVX5gRdamUOsQkVZfn7oeYOB+h6oepZGrOAjMAqHhTvck4W032z5SBEjYe/ItvwRdhxPu69HUfoqn4IU4HwCvHfT2bf9VEveHTrXItsNAUsspj1fNDfTBIlpRTYNQOPIkVuGZUedRayLa1ggENeL6UQpCO5VuierMydRk8pq5ysRbbHMCHJMCBzM94QWz8fHpvlYm8jQO9ElQDWWRhGpnG0D6PsUpkDkw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(366004)(31686004)(498600001)(7416002)(2616005)(31696002)(5660300002)(38100700002)(53546011)(66946007)(4326008)(36756003)(6486002)(6916009)(6666004)(6512007)(54906003)(2906002)(66556008)(66476007)(8676002)(83380400001)(186003)(26005)(6506007)(8936002)(316002)(86362001)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UElSNGVsOWNVNGgrbnBCcjFPd3VPR00ya0tVUWM3UWJXaVlGRi9CY3NvcEV3?=
+ =?utf-8?B?TlpGU1ZRaU9JbjRDTkJzYzJGMksxcVFHQVZlMVJLU1lZa25PNmZTVDJ4SVBB?=
+ =?utf-8?B?VDlieDRhSkIvN0l1ay9VUEhOZW5OaXRGSEs3NEYyZldlMUp3V1ZYNkkyS2R4?=
+ =?utf-8?B?TGNkVWFhV0c2Qk42ZHRDTFpUamVxL3dRaTFpcitpOUlpaWVqRGUvSXkwMEdF?=
+ =?utf-8?B?VVV1Qzcrd3QvWWsvMlNKamlQeWtRUTdLbUZ0NnU3TnhlU1pDbVdlWnBCVzYx?=
+ =?utf-8?B?UW82eW1tTll4azd2NXhBdUZIclFiZDROK2tNTzRidEdGZVE0bmZuNzlhUFNG?=
+ =?utf-8?B?bC9SdFk2MmFabEh0T3c5VnprQlZoVkRHNlpvekV4UnNCRGlYNGNYc1ZVaTh2?=
+ =?utf-8?B?SVZ1Mk1EU2ZxSEVjZUdJSUFxRGMyNkwwY0Y4NWgvYzZQOEN5M2FoMWkyaUFn?=
+ =?utf-8?B?M08ydUNNR3pwbFJRaXVlZFNuT3c2VzkvVGFUZEdNSVlaVGp3alFoMjVCT3pJ?=
+ =?utf-8?B?SGJrL0tDajc2Si9LMk8rcHBBb1JsOGdvYXRFWU8yaGQyendNT28vSncyUVdi?=
+ =?utf-8?B?d0EydEpFVDd1UnhzZGxkVTQyVHJPMG4yenFzRXhndmdRTXVZcmZoaERLSlRj?=
+ =?utf-8?B?eDhYeTh5QkpEZ0p6WGZ3bVlwR2dTQ1BxcG5qS0dtU3dkN0kxUzNtbzhzTEhM?=
+ =?utf-8?B?R2dUTDloYXJ1RVJpaXl2akhPLytzWkpHSmMyVWlJMzVzOHQ3a09LZEpXUGx5?=
+ =?utf-8?B?ZDVYYnlza3JOVXZpeDJUWEdMQVB2RURzUnpTdThiNzFPY2pmWG5Vc0NjQTVP?=
+ =?utf-8?B?NEdnNWJnQVg4T0lsZkdlUm9hbEMrc3dDdTlaV1pBeFVGL3IyeVBjMnhjd3o3?=
+ =?utf-8?B?bmJtbVJVTUgyL2g1aC9sNzBreTF0TVc2RFZVeDZ2YVVSSWc1ZCs5Mlozb3Vi?=
+ =?utf-8?B?QzdqcjhqcFhtNm9saTNNNlJJaGxGdUhCcFQxRzZLV0o3RXlmVExubXVCbnJG?=
+ =?utf-8?B?cjAvOElGd3ZDVkx1VHptWEdhenZ5Z0NOb2xHVnlnN0Z3SERDQjBLZG1BUEJt?=
+ =?utf-8?B?bW52VlNVR1RhcUN6Y3NUR1MxV0szcWx0NWFMamQ3SDJyNnFaNkVCZUd1cWt6?=
+ =?utf-8?B?T2NPZ0tqTHJvblpRcXhEb1V1dUF4UUlWTmtvd2w5MDZiZVBMRnNZZHE4OGwy?=
+ =?utf-8?B?dHhsbllOOW9BNUs5NlhaU1hVMnNWSTdwNjVhQVRMczBXNzNzZ2tVVmY5OEF1?=
+ =?utf-8?B?dS9oN3IweXJhcWZsOGRaV1BDRGZxTUMwU01vbTRkOGpCbGNoa3lyRjArWUpL?=
+ =?utf-8?B?Q05iV3IyZE1pdG9MWHZPeTB4WWtJSlFSK3FyTmV2YU1UTTN3U0wwbU84TkRD?=
+ =?utf-8?B?a0RnRUE5KytZcUtrMXhaSjIzNzJucitPTVBuOWNscGxrYytyK2EvZHlKemlN?=
+ =?utf-8?B?bkVVYzdGRFFaTEZIT1F3N0g3RUJmM0lINzdlLzBlYXlNaEw0UHJiaGZoZG05?=
+ =?utf-8?B?d1FJSFFCUFNlZmxGc2pvakJCdUN5b1F6ZkdscjMvUlRtTFRTdktTRURRWTZo?=
+ =?utf-8?B?LzN5WmhEVXVIMGNUR2RxdGdyckRHZElkcytuSWJUOXhvbkV3ZWRKMGxvV1Na?=
+ =?utf-8?B?Z1lhTVpGN0ZiTFJnVzhyaFd4ZDl2eXp3U3dXdGJvZVZ3bjk2NzhLcEVsOWZw?=
+ =?utf-8?B?WDY2UHEyOEpvbTdVUE9uRWsrNk1JMzRtU1VYOUFqNy90MXozZGlYa2V2SFNQ?=
+ =?utf-8?B?MTNLTk1Ra0ZNV3FYekp4N2hqMVY2T0ZRcG1wYWVNZlREOGVHWnhIZzZmb1By?=
+ =?utf-8?B?bis3TFN2bno4eTREOEY4S282RHZoWHNNTk1XaEI1WlFjVVNxK3I3enJ5T0Jq?=
+ =?utf-8?B?b3VWVWhVTWswcWpuanJSdStLQTdibFVCL1JvMjRXck1rSUhuc1ROazJIUXFs?=
+ =?utf-8?B?N3pMc0xib2N5TldpbENqdmQ4OENzZ1NOMEk2N3gzTkdvSzY4MURieERFYTNR?=
+ =?utf-8?B?azd5VWxLckNoQWVKQWV6K1RNNWtRZ29qSXNMUWErNEVOK2duWjljRmMzWGc1?=
+ =?utf-8?B?Q1hZVk1sL01BMDVjd2pHNXVWbCtmQUR3NzU1UXBFWmk5NTVERFhMYWpZTkVs?=
+ =?utf-8?B?OTEyZTlSeVU3MWtvMXZQZTYva1RKNmhSQ1dwdHNSKzJVNWt3bkZ3RGptYnZm?=
+ =?utf-8?B?amxldnJ5MnBBMlFRTXUrYStXZjRud1gya1l6UFZaMk1LeURoV2J0MWhBR29P?=
+ =?utf-8?B?dDdVKzMwNlYzMmNlMGFQakJqaVk1M2VMc0l1ZHZ1eVFXWTFrVURtSWNkREZ2?=
+ =?utf-8?B?ZTRrdVpRU3FiYXVWYWVYYmhvbnNhVEhEQjhocm5oUlVMR29EYUVuM1QzWkZn?=
+ =?utf-8?Q?BOhsWZh5HEIO0DFY=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 275af989-e02f-419d-0a5e-08da505029e2
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2022 10:57:25.8506 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dehKUlHRjm+a2c/7NZOHW9LSNsfpq9RTyHwOdzpSqtkxcfM/MK34vfBE7uE1CoHSpTX8KH9H9a8oP4u4eavKOXXTLTxSMzdPFnrsoxPcctw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5805
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
+ definitions=2022-06-17_07:2022-06-16,
+ 2022-06-17 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206170049
+X-Proofpoint-GUID: 3-JHDqOyDufqNsNOYCzlUQ2ZNpkNgWdU
+X-Proofpoint-ORIG-GUID: 3-JHDqOyDufqNsNOYCzlUQ2ZNpkNgWdU
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,359 +191,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, 16 Jun 2022 16:45:00 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+On 6/16/22 14:05, Igor Mammedov wrote:
+> On Fri, 20 May 2022 11:45:28 +0100
+> Joao Martins <joao.m.martins@oracle.com> wrote:
+>> Rather than hardcoding the 4G boundary everywhere, introduce a
+>> X86MachineState property @above_4g_mem_start and use it
+> so far it's just field not a property /fix commit message/
+> 
+Fixed.
 
-> On Mon, 16 May 2022 16:51:34 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->=20
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> >=20
-> > CXL host bridges themselves may have MMIO. Since host bridges don't have
-> > a BAR they are treated as special for MMIO.  This patch includes
-> > i386/pc support.
-> > Also hook up the device reset now that we have have the MMIO
-> > space in which the results are visible.
-> >=20
-> > Note that we duplicate the PCI express case for the aml_build but
-> > the implementations will diverge when the CXL specific _OSC is
-> > introduced.
-> >=20
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> > Message-Id: <20220429144110.25167-24-Jonathan.Cameron@huawei.com>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
-> >  include/hw/cxl/cxl.h                | 14 ++++++
-> >  hw/i386/acpi-build.c                | 25 ++++++++++-
-> >  hw/i386/pc.c                        | 27 +++++++++++-
-> >  hw/pci-bridge/pci_expander_bridge.c | 66 ++++++++++++++++++++++++++---
-> >  4 files changed, 122 insertions(+), 10 deletions(-)
-> >=20
-> > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> > index 31af92fd5e..8d1a7245d0 100644
-> > --- a/include/hw/cxl/cxl.h
-> > +++ b/include/hw/cxl/cxl.h
-> > @@ -10,6 +10,7 @@
-> >  #ifndef CXL_H
-> >  #define CXL_H
-> > =20
-> > +#include "hw/pci/pci_host.h"
-> >  #include "cxl_pci.h"
-> >  #include "cxl_component.h"
-> >  #include "cxl_device.h"
-> > @@ -17,8 +18,21 @@
-> >  #define CXL_COMPONENT_REG_BAR_IDX 0
-> >  #define CXL_DEVICE_REG_BAR_IDX 2
-> > =20
-> > +#define CXL_WINDOW_MAX 10
-> > +
-> >  typedef struct CXLState {
-> >      bool is_enabled;
-> > +    MemoryRegion host_mr;
-> > +    unsigned int next_mr_idx;
-> >  } CXLState;
-> > =20
-> > +struct CXLHost {
-> > +    PCIHostState parent_obj;
-> > +
-> > +    CXLComponentState cxl_cstate;
-> > +};
-> > +
-> > +#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
-> > +OBJECT_DECLARE_SIMPLE_TYPE(CXLHost, PXB_CXL_HOST)
-> > +
-> >  #endif
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index dcf6ece3d0..2d81b0f40c 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -28,6 +28,7 @@
-> >  #include "qemu/bitmap.h"
-> >  #include "qemu/error-report.h"
-> >  #include "hw/pci/pci.h"
-> > +#include "hw/cxl/cxl.h"
-> >  #include "hw/core/cpu.h"
-> >  #include "target/i386/cpu.h"
-> >  #include "hw/misc/pvpanic.h"
-> > @@ -1572,10 +1573,21 @@ build_dsdt(GArray *table_data, BIOSLinker *link=
-er,
-> >              }
-> > =20
-> >              scope =3D aml_scope("\\_SB");
-> > -            dev =3D aml_device("PC%.02X", bus_num);
-> > +
-> > +            if (pci_bus_is_cxl(bus)) {
-> > +                dev =3D aml_device("CL%.02X", bus_num);
-> > +            } else {
-> > +                dev =3D aml_device("PC%.02X", bus_num);
-> > +            }
-> >              aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-> >              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-> > -            if (pci_bus_is_express(bus)) {
-> > +            if (pci_bus_is_cxl(bus)) {
-> > +                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0=
-A08")));
-> > +                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0=
-A03")));
-> > +
-> > +                /* Expander bridges do not have ACPI PCI Hot-plug enab=
-led */
-> > +                aml_append(dev, build_q35_osc_method(true));
-> > +            } else if (pci_bus_is_express(bus)) {
-> >                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0=
-A08")));
-> >                  aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0=
-A03")));
-> > =20
-> > @@ -1595,6 +1607,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linke=
-r,
-> >              aml_append(dev, aml_name_decl("_CRS", crs));
-> >              aml_append(scope, dev);
-> >              aml_append(dsdt, scope);
-> > +
-> > +            /* Handle the ranges for the PXB expanders */
-> > +            if (pci_bus_is_cxl(bus)) {
-> > +                MemoryRegion *mr =3D &machine->cxl_devices_state->host=
-_mr;
-> > +                uint64_t base =3D mr->addr;
-> > +
-> > +                crs_range_insert(crs_range_set.mem_ranges, base,
-> > +                                 base + memory_region_size(mr) - 1);
-> > +            }
-> >          }
-> >      }
-> > =20
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index 45e2d6092f..03d14f6564 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -75,6 +75,7 @@
-> >  #include "acpi-build.h"
-> >  #include "hw/mem/pc-dimm.h"
-> >  #include "hw/mem/nvdimm.h"
-> > +#include "hw/cxl/cxl.h"
-> >  #include "qapi/error.h"
-> >  #include "qapi/qapi-visit-common.h"
-> >  #include "qapi/qapi-visit-machine.h"
-> > @@ -816,6 +817,7 @@ void pc_memory_init(PCMachineState *pcms,
-> >      MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-> >      PCMachineClass *pcmc =3D PC_MACHINE_GET_CLASS(pcms);
-> >      X86MachineState *x86ms =3D X86_MACHINE(pcms);
-> > +    hwaddr cxl_base;
-> > =20
-> >      assert(machine->ram_size =3D=3D x86ms->below_4g_mem_size +
-> >                                  x86ms->above_4g_mem_size);
-> > @@ -905,6 +907,26 @@ void pc_memory_init(PCMachineState *pcms,
-> >                                      &machine->device_memory->mr);
-> >      }
-> > =20
-> > +    if (machine->cxl_devices_state->is_enabled) {
-> > +        MemoryRegion *mr =3D &machine->cxl_devices_state->host_mr;
-> > +        hwaddr cxl_size =3D MiB;
-> > +
-> > +        if (pcmc->has_reserved_memory && machine->device_memory->base)=
- {
-> > +            cxl_base =3D machine->device_memory->base;
-> > +            if (!pcmc->broken_reserved_end) {
-> > +                cxl_base +=3D memory_region_size(&machine->device_memo=
-ry->mr);
-> > +            } =20
->=20
-> while reviewing 1Tb hole patches, I've stumbled onto this
-> it looks wrong to ignore device_memory size here as RAM is/might still be=
- mapped there
-> and guest can try to use it as RAM and then as CXL MMIO or other way arou=
-nd.
-> Most likely nothing good will come out of it, suggest make it uncondition=
-al and
-> always put cxl_base _after_ actual device_memory
+>> accordingly.
+>>
+>> This is in preparation for relocating ram-above-4g to be
+>> dynamically start at 1T on AMD platforms.
+> 
+> possibly needs to be rebased on top of current master to include cxl_base
+> 
+Yeap. I fxed the cxl_base as following:
 
-Ah. I didn't fully understand the broken_reserved_end handling.
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 82cfafc1c3b6..a9d1bf95649a 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -930,7 +930,7 @@ void pc_memory_init(PCMachineState *pcms,
+         } else if (pcms->sgx_epc.size != 0) {
+             cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+         } else {
+-            cxl_base = 0x100000000ULL + x86ms->above_4g_mem_size;
++            cxl_base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+         }
 
-Just to check I understand correctly are you suggesting.
-
-        if (pcmc->has_reserved_memory && machine->device_memory->base) {
-            cxl_base =3D machine->device_memory->base +=20
-                memory_region_size(&machine->device_memory->mr);
-        } else if (pcms->sgx_epc.size !=3D 0) {
-...
-
-?
-
-Thanks,
-
-Jonathan
+         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
 
 
+> with comments fixed
+> 
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> 
 
->=20
->=20
-> > +        } else if (pcms->sgx_epc.size !=3D 0) {
-> > +            cxl_base =3D sgx_epc_above_4g_end(&pcms->sgx_epc);
-> > +        } else {
-> > +            cxl_base =3D 0x100000000ULL + x86ms->above_4g_mem_size;
-> > +        }
-> > +
-> > +        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-> > +        memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_si=
-ze);
-> > +        memory_region_add_subregion(system_memory, cxl_base, mr);
-> > +    }
-> > +
-> >      /* Initialize PC system firmware */
-> >      pc_system_firmware_init(pcms, rom_memory);
-> > =20
-> > @@ -965,7 +987,10 @@ uint64_t pc_pci_hole64_start(void)
-> >      X86MachineState *x86ms =3D X86_MACHINE(pcms);
-> >      uint64_t hole64_start =3D 0;
-> > =20
-> > -    if (pcmc->has_reserved_memory && ms->device_memory->base) {
-> > +    if (ms->cxl_devices_state->host_mr.addr) {
-> > +        hole64_start =3D ms->cxl_devices_state->host_mr.addr +
-> > +            memory_region_size(&ms->cxl_devices_state->host_mr);
-> > +    } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
-> >          hole64_start =3D ms->device_memory->base;
-> >          if (!pcmc->broken_reserved_end) {
-> >              hole64_start +=3D memory_region_size(&ms->device_memory->m=
-r);
-> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_ex=
-pander_bridge.c
-> > index f762eb4a6e..8fb4f2ea91 100644
-> > --- a/hw/pci-bridge/pci_expander_bridge.c
-> > +++ b/hw/pci-bridge/pci_expander_bridge.c
-> > @@ -61,12 +61,6 @@ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_PCIE_DEV,
-> >  DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
-> >                           TYPE_PXB_CXL_DEVICE)
-> > =20
-> > -typedef struct CXLHost {
-> > -    PCIHostState parent_obj;
-> > -
-> > -    CXLComponentState cxl_cstate;
-> > -} CXLHost;
-> > -
-> >  struct PXBDev {
-> >      /*< private >*/
-> >      PCIDevice parent_obj;
-> > @@ -75,6 +69,9 @@ struct PXBDev {
-> >      uint8_t bus_nr;
-> >      uint16_t numa_node;
-> >      bool bypass_iommu;
-> > +    struct cxl_dev {
-> > +        CXLHost *cxl_host_bridge;
-> > +    } cxl;
-> >  };
-> > =20
-> >  static PXBDev *convert_to_pxb(PCIDevice *dev)
-> > @@ -197,6 +194,52 @@ static const TypeInfo pxb_host_info =3D {
-> >      .class_init    =3D pxb_host_class_init,
-> >  };
-> > =20
-> > +static void pxb_cxl_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    MachineState *ms =3D MACHINE(qdev_get_machine());
-> > +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-> > +    CXLHost *cxl =3D PXB_CXL_HOST(dev);
-> > +    CXLComponentState *cxl_cstate =3D &cxl->cxl_cstate;
-> > +    struct MemoryRegion *mr =3D &cxl_cstate->crb.component_registers;
-> > +    hwaddr offset;
-> > +
-> > +    cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
-> > +                                      TYPE_PXB_CXL_HOST);
-> > +    sysbus_init_mmio(sbd, mr);
-> > +
-> > +    offset =3D memory_region_size(mr) * ms->cxl_devices_state->next_mr=
-_idx;
-> > +    if (offset > memory_region_size(&ms->cxl_devices_state->host_mr)) {
-> > +        error_setg(errp, "Insufficient space for pxb cxl host register=
- space");
-> > +        return;
-> > +    }
-> > +
-> > +    memory_region_add_subregion(&ms->cxl_devices_state->host_mr, offse=
-t, mr);
-> > +    ms->cxl_devices_state->next_mr_idx++;
-> > +}
-> > +
-> > +static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
-> > +{
-> > +    DeviceClass *dc =3D DEVICE_CLASS(class);
-> > +    PCIHostBridgeClass *hc =3D PCI_HOST_BRIDGE_CLASS(class);
-> > +
-> > +    hc->root_bus_path =3D pxb_host_root_bus_path;
-> > +    dc->fw_name =3D "cxl";
-> > +    dc->realize =3D pxb_cxl_realize;
-> > +    /* Reason: Internal part of the pxb/pxb-pcie device, not usable by=
- itself */
-> > +    dc->user_creatable =3D false;
-> > +}
-> > +
-> > +/*
-> > + * This is a device to handle the MMIO for a CXL host bridge. It does =
-nothing
-> > + * else.
-> > + */
-> > +static const TypeInfo cxl_host_info =3D {
-> > +    .name          =3D TYPE_PXB_CXL_HOST,
-> > +    .parent        =3D TYPE_PCI_HOST_BRIDGE,
-> > +    .instance_size =3D sizeof(CXLHost),
-> > +    .class_init    =3D pxb_cxl_host_class_init,
-> > +};
-> > +
-> >  /*
-> >   * Registers the PXB bus as a child of pci host root bus.
-> >   */
-> > @@ -245,6 +288,13 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int =
-pin)
-> > =20
-> >  static void pxb_dev_reset(DeviceState *dev)
-> >  {
-> > +    CXLHost *cxl =3D PXB_CXL_DEV(dev)->cxl.cxl_host_bridge;
-> > +    CXLComponentState *cxl_cstate =3D &cxl->cxl_cstate;
-> > +    uint32_t *reg_state =3D cxl_cstate->crb.cache_mem_registers;
-> > +    uint32_t *write_msk =3D cxl_cstate->crb.cache_mem_regs_write_mask;
-> > +
-> > +    cxl_component_register_init_common(reg_state, write_msk, CXL2_ROOT=
-_PORT);
-> > +    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COU=
-NT, 8);
-> >  }
-> > =20
-> >  static gint pxb_compare(gconstpointer a, gconstpointer b)
-> > @@ -281,12 +331,13 @@ static void pxb_dev_realize_common(PCIDevice *dev=
-, enum BusType type,
-> >          dev_name =3D dev->qdev.id;
-> >      }
-> > =20
-> > -    ds =3D qdev_new(TYPE_PXB_HOST);
-> > +    ds =3D qdev_new(type =3D=3D CXL ? TYPE_PXB_CXL_HOST : TYPE_PXB_HOS=
-T);
-> >      if (type =3D=3D PCIE) {
-> >          bus =3D pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB=
-_PCIE_BUS);
-> >      } else if (type =3D=3D CXL) {
-> >          bus =3D pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB=
-_CXL_BUS);
-> >          bus->flags |=3D PCI_BUS_CXL;
-> > +        PXB_CXL_DEV(dev)->cxl.cxl_host_bridge =3D PXB_CXL_HOST(ds);
-> >      } else {
-> >          bus =3D pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TY=
-PE_PXB_BUS);
-> >          bds =3D qdev_new("pci-bridge");
-> > @@ -475,6 +526,7 @@ static void pxb_register_types(void)
-> >      type_register_static(&pxb_pcie_bus_info);
-> >      type_register_static(&pxb_cxl_bus_info);
-> >      type_register_static(&pxb_host_info);
-> > +    type_register_static(&cxl_host_info);
-> >      type_register_static(&pxb_dev_info);
-> >      type_register_static(&pxb_pcie_dev_info);
-> >      type_register_static(&pxb_cxl_dev_info); =20
->=20
+I added this -- Thanks a lot!
 
+>>
+>> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+>> ---
+>>  hw/i386/acpi-build.c  | 2 +-
+>>  hw/i386/pc.c          | 9 +++++----
+>>  hw/i386/sgx.c         | 2 +-
+>>  hw/i386/x86.c         | 1 +
+>>  include/hw/i386/x86.h | 3 +++
+>>  5 files changed, 11 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index c125939ed6f9..3160b20c9574 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -2120,7 +2120,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>>                  build_srat_memory(table_data, mem_base, mem_len, i - 1,
+>>                                    MEM_AFFINITY_ENABLED);
+>>              }
+>> -            mem_base = 1ULL << 32;
+>> +            mem_base = x86ms->above_4g_mem_start;
+>>              mem_len = next_base - x86ms->below_4g_mem_size;
+>>              next_base = mem_base + mem_len;
+>>          }
+>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+>> index 7c39c913355b..f7da1d5dd40d 100644
+>> --- a/hw/i386/pc.c
+>> +++ b/hw/i386/pc.c
+>> @@ -832,9 +832,10 @@ void pc_memory_init(PCMachineState *pcms,
+>>                                   machine->ram,
+>>                                   x86ms->below_4g_mem_size,
+>>                                   x86ms->above_4g_mem_size);
+>> -        memory_region_add_subregion(system_memory, 0x100000000ULL,
+>> +        memory_region_add_subregion(system_memory, x86ms->above_4g_mem_start,
+>>                                      ram_above_4g);
+>> -        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
+>> +        e820_add_entry(x86ms->above_4g_mem_start, x86ms->above_4g_mem_size,
+>> +                       E820_RAM);
+>>      }
+>>  
+>>      if (pcms->sgx_epc.size != 0) {
+>> @@ -875,7 +876,7 @@ void pc_memory_init(PCMachineState *pcms,
+>>              machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+>>          } else {
+>>              machine->device_memory->base =
+>> -                0x100000000ULL + x86ms->above_4g_mem_size;
+>> +                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+>>          }
+>>  
+>>          machine->device_memory->base =
+>> @@ -1019,7 +1020,7 @@ uint64_t pc_pci_hole64_start(void)
+>>      } else if (pcms->sgx_epc.size != 0) {
+>>              hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+>>      } else {
+>> -        hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
+>> +        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+>>      }
+>>  
+>>      return ROUND_UP(hole64_start, 1 * GiB);
+>> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+>> index a44d66ba2afc..09d9c7c73d9f 100644
+>> --- a/hw/i386/sgx.c
+>> +++ b/hw/i386/sgx.c
+>> @@ -295,7 +295,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+>>          return;
+>>      }
+>>  
+>> -    sgx_epc->base = 0x100000000ULL + x86ms->above_4g_mem_size;
+>> +    sgx_epc->base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+>>  
+>>      memory_region_init(&sgx_epc->mr, OBJECT(pcms), "sgx-epc", UINT64_MAX);
+>>      memory_region_add_subregion(get_system_memory(), sgx_epc->base,
+>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+>> index 78b05ab7a2d1..af3c790a2830 100644
+>> --- a/hw/i386/x86.c
+>> +++ b/hw/i386/x86.c
+>> @@ -1373,6 +1373,7 @@ static void x86_machine_initfn(Object *obj)
+>>      x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+>>      x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+>>      x86ms->bus_lock_ratelimit = 0;
+>> +    x86ms->above_4g_mem_start = 0x100000000ULL;
+> 
+> s/0x.../4 * GiB/
+> 
+Fixed.
+
+>>  }
+>>  
+>>  static void x86_machine_class_init(ObjectClass *oc, void *data)
+>> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+>> index 9089bdd99c3a..df82c5fd4252 100644
+>> --- a/include/hw/i386/x86.h
+>> +++ b/include/hw/i386/x86.h
+>> @@ -56,6 +56,9 @@ struct X86MachineState {
+>>      /* RAM information (sizes, addresses, configuration): */
+>>      ram_addr_t below_4g_mem_size, above_4g_mem_size;
+>>  
+>> +    /* Start address of the initial RAM above 4G */
+>> +    uint64_t above_4g_mem_start;
+>> +
+>>      /* CPU and apic information: */
+>>      bool apic_xrupt_override;
+>>      unsigned pci_irq_mask;
+> 
 
