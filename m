@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D1D54F240
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 09:54:42 +0200 (CEST)
-Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8709554F241
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 09:54:49 +0200 (CEST)
+Received: from localhost ([::1]:51052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o26oS-0007ta-Vv
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 03:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
+	id 1o26oa-0008A9-Kp
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 03:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26l8-00056e-TJ
+ id 1o26l9-00056f-2Y
  for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:15 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:28791 helo=mga06.intel.com)
+Received: from mga06b.intel.com ([134.134.136.31]:28798 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o26l5-00074u-Md
+ id 1o26l5-000779-NF
  for qemu-devel@nongnu.org; Fri, 17 Jun 2022 03:51:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1655452271; x=1686988271;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PVPHvP/TAkXQitDanIQ6TmgG/MRsZgnG2oQCkqbIFzg=;
- b=OisuWcHtp9QEgkzJdR6VP3NleHZ7h5/UxtzuSLPuI/55/zHtYkNJm0iO
- sfpICEehLHo8MwAYk53c3Okpi/zCbjSqnXyhJenwtHxuH+tnwx11aoFba
- uSVaeiM1nCjve0wwSTa/H5Xwt1B66dvemeBSuN/+/3gh83fAgaq+QfWcI
- jKHQYdk2Af5G9419NXu3AMxA2mqY6hKNaaiWGJxNHrZ+99sdIDTxfLuMD
- K90mQ3zYAfBlhlji3gJ+OM/0CkMhf5LUnUxM+pcNcpgj1ZJitSjzfleZc
- JphdWve+fSTsn4Ftq/uOuspQ+IuTvzJdvDjW0RDavl4tM41Gvdr/eHabJ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102100"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102100"
+ bh=JVcVA2OckO5nc/tQNrzCeTGJe2wl+Hute7/BhRzsybY=;
+ b=mPdmMETtoG361485L27LApaZAu/pnlgdlqam7zGV1uDEXTt1UHO3xu6G
+ f86LIImLT/tkUJyc64QJM7dtFz4hT6/9Vt5GMkuhmLqFN2zIcBvsh8Shz
+ Zd39P0XlSZymW2kt4OM9+gNltJhClakzJRjB7OVxj1GTek3jQiqnZx6z8
+ e8rO7bcTESLoJgBa5oPzxcUpXa27gmoXpRqY+V+Ro89tRH71yoF1Y2WFE
+ KxkFOdjE9fM9BQ6BR6o6DzEtwIBmGxDK+aKkIhAGSLouSucYvdAVhGA5v
+ sSnZL01jta+eKBdvMKi2NJbzO4kGR7euVmPIgIZgPfCQ+vmGMTRGCo/NC Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341102114"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341102114"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:06 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936626"
+ 17 Jun 2022 00:51:10 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641936646"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 00:51:04 -0700
+ 17 Jun 2022 00:51:07 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -51,10 +51,9 @@ Cc: Zhang Chen <chen.zhang@intel.com>,
  Laurent Vivier <lvivier@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Andrew Melnychenko <andrew@daynix.com>
-Subject: [RFC PATCH 01/12] configure: Add iovisor/ubpf project as a submodule
- for QEMU
-Date: Fri, 17 Jun 2022 15:36:19 +0800
-Message-Id: <20220617073630.535914-2-chen.zhang@intel.com>
+Subject: [RFC PATCH 02/12] meson: Add ubpf build config and misc
+Date: Fri, 17 Jun 2022 15:36:20 +0800
+Message-Id: <20220617073630.535914-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220617073630.535914-1-chen.zhang@intel.com>
 References: <20220617073630.535914-1-chen.zhang@intel.com>
@@ -84,87 +83,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make iovisor/ubpf project be a git submodule for QEMU.
-It will auto clone ubpf project when configure QEMU.
+Make meson to build iovisor/ubpf code in Qemu.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- .gitmodules |  3 +++
- configure   | 20 ++++++++++++++++++++
- ubpf        |  1 +
- 3 files changed, 24 insertions(+)
- create mode 160000 ubpf
+ meson.build                         | 47 +++++++++++++++++++++++++++++
+ meson_options.txt                   |  3 ++
+ scripts/coverity-scan/COMPONENTS.md |  3 ++
+ scripts/meson-buildoptions.sh       |  5 +++
+ 4 files changed, 58 insertions(+)
 
-diff --git a/.gitmodules b/.gitmodules
-index b8bff47df8..30fb082f39 100644
---- a/.gitmodules
-+++ b/.gitmodules
-@@ -64,3 +64,6 @@
- [submodule "tests/lcitool/libvirt-ci"]
- 	path = tests/lcitool/libvirt-ci
- 	url = https://gitlab.com/libvirt/libvirt-ci.git
-+[submodule "ubpf"]
-+	path = ubpf
-+	url = https://github.com/iovisor/ubpf.git
-diff --git a/configure b/configure
-index e69537c756..7dde1429dc 100755
---- a/configure
-+++ b/configure
-@@ -326,6 +326,7 @@ else
-   slirp="auto"
- fi
- fdt="auto"
-+ubpf="auto"
+diff --git a/meson.build b/meson.build
+index 21cd949082..f370c1aba7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2717,9 +2717,53 @@ if not fdt.found() and fdt_required.length() > 0
+   error('fdt not available but required by targets ' + ', '.join(fdt_required))
+ endif
  
- # 2. Automatically enable/disable other options
- tcg="enabled"
-@@ -820,6 +821,14 @@ for opt do
-   ;;
-   --enable-slirp=*) slirp="$optarg"
-   ;;
-+  --disable-ubpf) ubpf="disabled"
-+  ;;
-+  --enable-ubpf) ubpf="enabled"
-+  ;;
-+  --enable-ubpf=git) ubpf="internal"
-+  ;;
-+  --enable-ubpf=*) ubpf="$optarg"
-+  ;;
-   --disable-tcg) tcg="disabled"
-                  plugins="no"
-   ;;
-@@ -2176,6 +2185,16 @@ if test "$have_ubsan" = "yes"; then
-   QEMU_LDFLAGS="-fsanitize=undefined $QEMU_LDFLAGS"
- fi
- 
-+##########################################
-+# check for ubpf
++ubpf = not_found
++ubpf_opt = 'disabled'
++if have_system
++  ubpf_opt = get_option('ubpf')
++  if ubpf_opt in ['enabled', 'auto', 'system']
++    have_internal = fs.exists(meson.current_source_dir() / 'ubpf/vm/Makefile')
++    ubpf = dependency('ubpf', kwargs: static_kwargs,
++                      method: 'pkg-config',
++                      required: ubpf_opt == 'system' or
++                      ubpf_opt == 'enabled' and not have_internal)
++    if ubpf.found()
++      ubpf_opt = 'system'
++    elif have_internal
++      ubpf_opt = 'internal'
++    else
++      ubpf_opt = 'disabled'
++    endif
++  endif
++  if ubpf_opt == 'internal'
++    ubpf_data = configuration_data()
 +
-+case "$ubpf" in
-+  auto | enabled | internal)
-+    # Simpler to always update submodule, even if not needed.
-+    git_submodules="${git_submodules} ubpf"
-+    ;;
-+esac
++    ubpf_files = files(
++      'ubpf/vm/ubpf_jit_x86_64.c',
++      'ubpf/vm/ubpf_vm.c',
++      'ubpf/vm/ubpf_loader.c',
++    )
 +
- ##########################################
++    ubpf_cargs = [
++      '-Wno-error', '-w',
++      '-include', 'ubpf-defs.h'
++    ]
++
++    configure_file(output: 'ubpf-defs.h', configuration: ubpf_data)
++    ubpf_inc = include_directories('ubpf/vm', 'ubpf/vm/inc')
++    libubpf = static_library('ubpf',
++                             sources: ubpf_files,
++                             c_args: ubpf_cargs,
++                             include_directories: ubpf_inc)
++    ubpf = declare_dependency(link_with: libubpf,
++                              include_directories: ubpf_inc)
++  endif
++endif
++
+ config_host_data.set('CONFIG_CAPSTONE', capstone.found())
+ config_host_data.set('CONFIG_FDT', fdt.found())
+ config_host_data.set('CONFIG_SLIRP', slirp.found())
++config_host_data.set('CONFIG_UBPF', ubpf.found())
  
- # Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
-@@ -2664,6 +2683,7 @@ if test "$skip_meson" = no; then
-   # QEMU options
-   test "$cfi" != false && meson_option_add "-Dcfi=$cfi"
-   test "$fdt" != auto && meson_option_add "-Dfdt=$fdt"
-+  test "$ubpf" != auto && meson_option_add "-Dubpf=$ubpf"
-   test -n "${LIB_FUZZING_ENGINE+xxx}" && meson_option_add "-Dfuzzing_engine=$LIB_FUZZING_ENGINE"
-   test "$qemu_suffix" != qemu && meson_option_add "-Dqemu_suffix=$qemu_suffix"
-   test "$slirp" != auto && meson_option_add "-Dslirp=$slirp"
-diff --git a/ubpf b/ubpf
-new file mode 160000
-index 0000000000..0dd334daf4
---- /dev/null
-+++ b/ubpf
-@@ -0,0 +1 @@
-+Subproject commit 0dd334daf4849137fa40d2b7676d2bf920d5c81d
+ #####################
+ # Generated sources #
+@@ -3046,6 +3090,8 @@ subdir('softmmu')
+ common_ss.add(capstone)
+ specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
+ 
++common_ss.add(ubpf)
++
+ # Work around a gcc bug/misfeature wherein constant propagation looks
+ # through an alias:
+ #   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99696
+@@ -3911,6 +3957,7 @@ summary_info += {'libudev':           libudev}
+ # Dummy dependency, keep .found()
+ summary_info += {'FUSE lseek':        fuse_lseek.found()}
+ summary_info += {'selinux':           selinux}
++summary_info += {'ubpf support':      ubpf_opt == 'internal' ? ubpf_opt : ubpf}
+ summary(summary_info, bool_yn: true, section: 'Dependencies')
+ 
+ if not supported_cpus.contains(cpu)
+diff --git a/meson_options.txt b/meson_options.txt
+index 2de94af037..1eb9164857 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -262,6 +262,9 @@ option('slirp', type: 'combo', value: 'auto',
+ option('fdt', type: 'combo', value: 'auto',
+        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+        description: 'Whether and how to find the libfdt library')
++option('ubpf', type: 'combo', value: 'auto',
++       choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
++       description: 'Whether and how to find the ubpf library')
+ 
+ option('selinux', type: 'feature', value: 'auto',
+        description: 'SELinux support in qemu-nbd')
+diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
+index 183f26a32c..dd28116674 100644
+--- a/scripts/coverity-scan/COMPONENTS.md
++++ b/scripts/coverity-scan/COMPONENTS.md
+@@ -72,6 +72,9 @@ char
+ capstone
+   ~ (/qemu)?(/capstone/.*)
+ 
++ubpf
++  ~ (/qemu)?(/ubpf/vm/.*)
++
+ crypto
+   ~ (/qemu)?((/include)?/crypto/.*|/hw/.*/crypto.*)
+ 
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 00ea4d8cd1..044dde1cff 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -37,6 +37,8 @@ meson_options_help() {
+   printf "%s\n" '                           getrandom()'
+   printf "%s\n" '  --enable-slirp[=CHOICE]  Whether and how to find the slirp library'
+   printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
++  printf "%s\n" '  --enable-ubpf[=CHOICE]   Whether and how to find the ubpf library'
++  printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
+   printf "%s\n" '  --enable-strip           Strip targets on install'
+   printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (slow)'
+   printf "%s\n" '  --enable-trace-backends=CHOICES'
+@@ -379,6 +381,9 @@ _meson_option_parse() {
+     --enable-slirp=*) quote_sh "-Dslirp=$2" ;;
+     --enable-slirp-smbd) printf "%s" -Dslirp_smbd=enabled ;;
+     --disable-slirp-smbd) printf "%s" -Dslirp_smbd=disabled ;;
++    --enable-ubpf) printf "%s" -Dubpf=enabled ;;
++    --disable-ubpf) printf "%s" -Dubpf=disabled ;;
++    --enable-ubpf=*) quote_sh "-Dubpf=$2" ;;
+     --enable-smartcard) printf "%s" -Dsmartcard=enabled ;;
+     --disable-smartcard) printf "%s" -Dsmartcard=disabled ;;
+     --enable-snappy) printf "%s" -Dsnappy=enabled ;;
 -- 
 2.25.1
 
