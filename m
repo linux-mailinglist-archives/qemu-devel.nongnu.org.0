@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1FE54F7D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:50:03 +0200 (CEST)
-Received: from localhost ([::1]:50778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697B754F7D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jun 2022 14:50:38 +0200 (CEST)
+Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2BQI-0006qy-6N
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:50:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54608)
+	id 1o2BQr-0008HR-Gt
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 08:50:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1o2BLg-0002IK-Vm
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:45:18 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2630)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1o2BLY-0000At-B8
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:45:11 -0400
-Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LPdzT1vL2z6GD4T;
- Fri, 17 Jun 2022 20:44:53 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 17 Jun 2022 14:45:04 +0200
-Received: from localhost (10.81.209.131) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.24; Fri, 17 Jun
- 2022 13:45:03 +0100
-Date: Fri, 17 Jun 2022 13:44:59 +0100
-To: David Hildenbrand <david@redhat.com>
-CC: <qemu-devel@nongnu.org>, Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Ani Sinha
- <ani@anisinha.ca>, Xiao Guangrong <xiaoguangrong.eric@gmail.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Richard Henderson
- <richard.henderson@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH v1] MAINTAINERS: Collect memory device files in "Memory
- devices"
-Message-ID: <20220617134459.0000398e@Huawei.com>
-In-Reply-To: <20220617123151.103033-1-david@redhat.com>
-References: <20220617123151.103033-1-david@redhat.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o2BOA-0005Dx-Th
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:47:50 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:36384 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o2BO6-0000co-E3
+ for qemu-devel@nongnu.org; Fri, 17 Jun 2022 08:47:49 -0400
+Received: from smtpclient.apple (unknown [202.38.79.134])
+ by APP-01 (Coremail) with SMTP id qwCowACHVFnid6xi8WSRBA--.15998S2;
+ Fri, 17 Jun 2022 20:47:31 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v3 0/2] hw/nvme: Add shadow doorbell buffer support
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <YqxrXgLeMdVKFQ4P@apples>
+Date: Fri, 17 Jun 2022 20:47:29 +0800
+Cc: qemu-devel@nongnu.org,
+ kbusch@kernel.org
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.81.209.131]
-X-ClientProxiedBy: lhreml709-chm.china.huawei.com (10.201.108.58) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Message-Id: <75D77EF8-3A0E-4CFB-A7CB-2342C28CB60C@ict.ac.cn>
+References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
+ <YqxrXgLeMdVKFQ4P@apples>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowACHVFnid6xi8WSRBA--.15998S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJw1fur48tF48Xr48XryrJFb_yoW5AF4fpa
+ yY9F13tF4kWr17Gws3KF17JF1Fqws3XrWkWFsrJw17GFn0kFyaqa4Ykr18uF90vrs2gw4S
+ yFWqqry7G34jyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyIb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2Iq
+ xVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
+ 106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
+ xVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7
+ xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWU
+ JVW8JbIYCTnIWIevJa73UjIFyTuYvjxUgg_TUUUUU
+X-Originating-IP: [202.38.79.134]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,110 +76,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, 17 Jun 2022 14:31:51 +0200
-David Hildenbrand <david@redhat.com> wrote:
 
-> Xiao Guangrong doesn't have enough time to actively review or contribute
-> to our NVDIMM implementation. Let's dissolve the "NVDIMM" section, moving
-> relevant ACPI parts to "ACPI/SMBIOS" and moving memory device stuff into a
-> new "Memory devices" section. Make that new section cover other memory
-> device stuff as well.
->=20
-> We can now drop the "hw/mem/*" rule from "ACPI/SMBIOS". Note that
-> hw/acpi/nvdimm.c is already covered by "ACPI/SMBIOS".
->=20
-> The following files in hw/mem don't fall into the TYPE_MEMPORY_DEVICE
-> category:
-> * hw/mem/cxl_type3.c is CXL specific and belongs to "Compute Express Link"
-> * hw/mem/sparse-mem.c is already covered by "Device Fuzzing"
-> * hw/mem/npcm7xx_mc.c is already covered by "Nuvoton NPCM7xx"
->=20
-> Thanks Xiao for your work on NVDIMM!
->=20
-> Cc: Ben Widawsky <ben.widawsky@intel.com>
-> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Ani Sinha <ani@anisinha.ca>
-> Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-> Cc: "Philippe Mathieu-Daud=E9" <f4bug@amsat.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Julia Suvorova <jusual@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-> ---
->  MAINTAINERS | 25 +++++++++++++++----------
->  1 file changed, 15 insertions(+), 10 deletions(-)
+> On Jun 17, 2022, at 7:54 PM, Klaus Jensen <its@irrelevant.dk> wrote:
 >=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index aaa649a50d..909e8dbb1b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1840,7 +1840,6 @@ R: Ani Sinha <ani@anisinha.ca>
->  S: Supported
->  F: include/hw/acpi/*
->  F: include/hw/firmware/smbios.h
-> -F: hw/mem/*
->  F: hw/acpi/*
->  F: hw/smbios/*
->  F: hw/i386/acpi-build.[hc]
-> @@ -1851,6 +1850,7 @@ F: tests/qtest/acpi-utils.[hc]
->  F: tests/data/acpi/
->  F: docs/specs/acpi_cpu_hotplug.rst
->  F: docs/specs/acpi_mem_hotplug.rst
-> +F: docs/specs/acpi_nvdimm.rst
->  F: docs/specs/acpi_pci_hotplug.rst
->  F: docs/specs/acpi_hw_reduced_hotplug.rst
-> =20
-> @@ -2158,15 +2158,6 @@ F: qapi/rocker.json
->  F: tests/rocker/
->  F: docs/specs/rocker.txt
-> =20
-> -NVDIMM
-> -M: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-> -S: Maintained
-> -F: hw/acpi/nvdimm.c
-> -F: hw/mem/nvdimm.c
-> -F: include/hw/mem/nvdimm.h
-> -F: docs/nvdimm.txt
-> -F: docs/specs/acpi_nvdimm.rst
-> -
->  e1000x
->  M: Dmitry Fleytman <dmitry.fleytman@gmail.com>
->  S: Maintained
-> @@ -2588,6 +2579,7 @@ M: Ben Widawsky <ben.widawsky@intel.com>
->  M: Jonathan Cameron <jonathan.cameron@huawei.com>
->  S: Supported
->  F: hw/cxl/
-> +F: hw/mem/cxl_type3.c
->  F: include/hw/cxl/
-> =20
->  Dirty Bitmaps
-> @@ -2704,6 +2696,19 @@ F: softmmu/physmem.c
->  F: include/exec/memory-internal.h
->  F: scripts/coccinelle/memory-region-housekeeping.cocci
-> =20
-> +Memory devices
-> +M: David Hildenbrand <david@redhat.com>
-> +M: Igor Mammedov <imammedo@redhat.com>
-> +R: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-> +S: Supported
-> +F: hw/mem/memory-device.c
-> +F: hw/mem/nvdimm.c
-> +F: hw/mem/pc-dimm.c
-> +F: include/hw/mem/memory-device.h
-> +F: include/hw/mem/nvdimm.h
-> +F: include/hw/mem/pc-dimm.h
-> +F: docs/nvdimm.txt
-> +
->  SPICE
->  M: Gerd Hoffmann <kraxel@redhat.com>
->  S: Odd Fixes
+> On Jun 16 20:34, Jinhao Fan wrote:
+>> This patch adds shadow doorbell buffer support in NVMe 1.3 to QEMU
+>> NVMe. The Doorbell Buffer Config admin command is implemented for the
+>> guest to enable shadow doobell buffer. When this feature is enabled, =
+each
+>> SQ/CQ is associated with two buffers, i.e., Shadow Doorbell buffer =
+and
+>> EventIdx buffer. According to the Spec, each queue's doorbell =
+register
+>> is only updated when the Shadow Doorbell buffer value changes from =
+being
+>> less than or equal to the value of the corresponding EventIdx buffer
+>> entry to being greater than that value. Therefore, the number of =
+MMIO's
+>> on the doorbell registers is greatly reduced.
+>>=20
+>> This patch is adapted from Huaicheng Li's patch[1] in 2018.
+>>=20
+>> [1] =
+https://patchwork.kernel.org/project/qemu-devel/patch/20180305194906.GA363=
+0@gmail.com/
+>>=20
+>> IOPS comparison with FIO:
+>>=20
+>> iodepth    1      2      4      8
+>>  QEMU   25.1k  25.9k  24.5k  24.0k
+>> +dbbuf  29.1k  60.1k  99.8k  82.5k
+>>=20
+>> MMIO's per IO measured by perf-kvm:
+>>=20
+>> iodepth    1      2      4      8
+>>  QEMU   2.01   1.99   1.99   1.99
+>> +dbbuf  1.00   0.52   0.27   0.46
+>>=20
+>> The tests are done on Ubuntu 22.04 with 5.15.0-33 kernel with =
+Intel(R)=20
+>> Xeon(R) Gold 6248R CPU @ 3.00GHz.
+>>=20
+>> QEMU set up:
+>>=20
+>> bin/x86_64-softmmu/qemu-system-x86_64 \
+>>    -name "nvme-test" \
+>>    -machine accel=3Dkvm \
+>>    -cpu host \
+>>    -smp 4 \
+>>    -m 8G \
+>>    -daemonize \
+>>    -device virtio-scsi-pci,id=3Dscsi0 \
+>>    -device scsi-hd,drive=3Dhd0 \
+>>    -drive =
+file=3D$OSIMGF,if=3Dnone,aio=3Dnative,cache=3Dnone,format=3Dqcow2,id=3Dhd0=
+,snapshot=3Don \
+>>    -drive =
+"id=3Dnvm,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3Don,format=3Draw" =
+\
+>>    -device nvme,serial=3Ddeadbeef,drive=3Dnvm \
+>>    -net user,hostfwd=3Dtcp::8080-:22 \
+>>    -net nic,model=3Dvirtio
+>>=20
+>> FIO configuration:
+>>=20
+>> [global]
+>> ioengine=3Dlibaio
+>> filename=3D/dev/nvme0n1
+>> thread=3D1
+>> group_reporting=3D1
+>> direct=3D1
+>> verify=3D0
+>> time_based=3D1
+>> ramp_time=3D0
+>> runtime=3D30
+>> ;size=3D1G
+>> ;iodepth=3D1
+>> rw=3Drandread
+>> bs=3D4k
+>>=20
+>> [test]
+>> numjobs=3D1
+>>=20
+>> Changes since v2:
+>>  - Do not ignore admin queue updates in nvme_process_db and =
+nvme_post_cqes
+>>  - Calculate db_addr and ei_addr in hard-coded way
+>>=20
+>> Changes since v1:
+>>  - Add compatibility with hosts that do not use admin queue shadow =
+doorbell
+>>=20
+>> Jinhao Fan (2):
+>>  hw/nvme: Implement shadow doorbell buffer support
+>>  hw/nvme: Add trace events for shadow doorbell buffer
+>>=20
+>> hw/nvme/ctrl.c       | 118 =
+++++++++++++++++++++++++++++++++++++++++++-
+>> hw/nvme/nvme.h       |   8 +++
+>> hw/nvme/trace-events |   5 ++
+>> include/block/nvme.h |   2 +
+>> 4 files changed, 132 insertions(+), 1 deletion(-)
+>>=20
+>> --=20
+>> 2.25.1
+>>=20
+>=20
+> LGTM,
+>=20
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
+
+Great!
+
+I have two questions:
+
+How many =E2=80=9CReviewed-by=E2=80=9D=E2=80=99s do I need to get my =
+patch applied?
+
+Do I need to post a v4 patch to add the =E2=80=9CReviewed-by=E2=80=9D=E2=80=
+=99s in my commit=20
+message?
+
+Thanks,
+Jinhao Fan
 
 
