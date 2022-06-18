@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887DB5506A8
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 22:18:55 +0200 (CEST)
-Received: from localhost ([::1]:51200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27615506A7
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 22:18:11 +0200 (CEST)
+Received: from localhost ([::1]:50286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2euE-0005jx-85
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 16:18:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36698)
+	id 1o2etW-00056l-Kw
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 16:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1o2eqF-0002z7-QM; Sat, 18 Jun 2022 16:14:47 -0400
+ id 1o2eqE-0002yg-OJ; Sat, 18 Jun 2022 16:14:46 -0400
 Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
- ([86.15.83.122]:41238 helo=luna)
+ ([86.15.83.122]:41232 helo=luna)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1o2eqC-00051M-UO; Sat, 18 Jun 2022 16:14:47 -0400
+ id 1o2eqC-00051I-TI; Sat, 18 Jun 2022 16:14:46 -0400
 Received: from ben by luna with local (Exim 4.95)
- (envelope-from <ben@luna.fluff.org>) id 1o2eq2-0010hf-B2;
+ (envelope-from <ben@luna.fluff.org>) id 1o2eq2-0010hi-CE;
  Sat, 18 Jun 2022 21:14:34 +0100
 From: Ben Dooks <qemu@ben.fluff.org>
 To: qemu-devel@nongnu.org
 Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, Ben Dooks <qemu@ben.fluff.org>
-Subject: [PATCH 1/4] device_tree: add qemu_fdt_setprop_reg64_map helper
-Date: Sat, 18 Jun 2022 21:14:30 +0100
-Message-Id: <20220618201433.240973-2-qemu@ben.fluff.org>
+Subject: [PATCH 2/4] hw/riscv: use qemu_fdt_setprop_reg64_map() in sifive_u.c
+Date: Sat, 18 Jun 2022 21:14:31 +0100
+Message-Id: <20220618201433.240973-3-qemu@ben.fluff.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220618201433.240973-1-qemu@ben.fluff.org>
 References: <20220618201433.240973-1-qemu@ben.fluff.org>
@@ -57,48 +57,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a macro qemu_fdt_setprop_reg64_map() to set the given
-node's reg property directly from the memory map entry
-to avoid open coding of the following:
-
-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-        0x0, memmap[SIFIVE_U_DEV_OTP].base,
-        0x0, memmap[SIFIVE_U_DEV_OTP].size);
+Use the qemu_fdt_setprop_reg64_map() to replace the code
+that sets the property manually.
 
 Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
 --
 v2:
-- changed qemu_fdt_setprop_reg64 to qemu_fdt_setprop_reg64_map
+- changed to qemu_fdt_setprop_reg64_map() from previous
 ---
- include/sysemu/device_tree.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/riscv/sifive_u.c | 41 +++++++++++------------------------------
+ 1 file changed, 11 insertions(+), 30 deletions(-)
 
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index ef060a9759..79ce009a22 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -135,6 +135,21 @@ int qemu_fdt_add_path(void *fdt, const char *path);
-                          sizeof(qdt_tmp));                                    \
-     } while (0)
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index e4c814a3ea..89d7aa2a52 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -223,9 +223,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     qemu_fdt_add_subnode(fdt, nodename);
+     qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
+         (char **)&clint_compat, ARRAY_SIZE(clint_compat));
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_CLINT].base,
+-        0x0, memmap[SIFIVE_U_DEV_CLINT].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_CLINT]);
+     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
+         cells, ms->smp.cpus * sizeof(uint32_t) * 4);
+     g_free(cells);
+@@ -235,9 +233,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+         (long)memmap[SIFIVE_U_DEV_OTP].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+     qemu_fdt_setprop_cell(fdt, nodename, "fuse-count", SIFIVE_U_OTP_REG_SIZE);
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_OTP].base,
+-        0x0, memmap[SIFIVE_U_DEV_OTP].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_OTP]);
+     qemu_fdt_setprop_string(fdt, nodename, "compatible",
+         "sifive,fu540-c000-otp");
+     g_free(nodename);
+@@ -250,9 +246,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x1);
+     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+         hfclk_phandle, rtcclk_phandle);
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_PRCI].base,
+-        0x0, memmap[SIFIVE_U_DEV_PRCI].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_PRCI]);
+     qemu_fdt_setprop_string(fdt, nodename, "compatible",
+         "sifive,fu540-c000-prci");
+     g_free(nodename);
+@@ -284,9 +278,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
+     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
+         cells, (ms->smp.cpus * 4 - 2) * sizeof(uint32_t));
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_PLIC].base,
+-        0x0, memmap[SIFIVE_U_DEV_PLIC].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_PLIC]);
+     qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", 0x35);
+     qemu_fdt_setprop_cell(fdt, nodename, "phandle", plic_phandle);
+     plic_phandle = qemu_fdt_get_phandle(fdt, nodename);
+@@ -304,9 +296,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
+     qemu_fdt_setprop_cell(fdt, nodename, "#gpio-cells", 2);
+     qemu_fdt_setprop(fdt, nodename, "gpio-controller", NULL, 0);
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_GPIO].base,
+-        0x0, memmap[SIFIVE_U_DEV_GPIO].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_GPIO]);
+     qemu_fdt_setprop_cells(fdt, nodename, "interrupts", SIFIVE_U_GPIO_IRQ0,
+         SIFIVE_U_GPIO_IRQ1, SIFIVE_U_GPIO_IRQ2, SIFIVE_U_GPIO_IRQ3,
+         SIFIVE_U_GPIO_IRQ4, SIFIVE_U_GPIO_IRQ5, SIFIVE_U_GPIO_IRQ6,
+@@ -342,9 +332,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     nodename = g_strdup_printf("/soc/cache-controller@%lx",
+         (long)memmap[SIFIVE_U_DEV_L2CC].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_L2CC].base,
+-        0x0, memmap[SIFIVE_U_DEV_L2CC].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_L2CC]);
+     qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
+         SIFIVE_U_L2CC_IRQ0, SIFIVE_U_L2CC_IRQ1, SIFIVE_U_L2CC_IRQ2);
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+@@ -366,9 +354,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+         prci_phandle, PRCI_CLK_TLCLK);
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_QSPI2_IRQ);
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_QSPI2].base,
+-        0x0, memmap[SIFIVE_U_DEV_QSPI2].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_QSPI2]);
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,spi0");
+     g_free(nodename);
  
-+/**
-+ * qemu_fdt_setprop_reg64_map:
-+ * @fdt: the device tree path
-+ * @node_path: node to set property on
-+ * @map: the map entry to set the reg from
-+ *
-+ * A helper tp set the 'reg' node on the specified node from the given map
-+ * entry.
-+ */
-+#define qemu_fdt_setprop_reg64_map(fdt, path, map)              \
-+    qemu_fdt_setprop_cells(fdt, path, "reg",                    \
-+                           (map)->base >> 32, (map)->base,      \
-+                           (map)->size >> 32, (map)->size)
-+
-+
- void qemu_fdt_dumpdtb(void *fdt, int size);
+@@ -391,9 +377,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+         prci_phandle, PRCI_CLK_TLCLK);
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_QSPI0_IRQ);
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_QSPI0].base,
+-        0x0, memmap[SIFIVE_U_DEV_QSPI0].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_QSPI0]);
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,spi0");
+     g_free(nodename);
  
- /**
+@@ -449,9 +433,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+         (long)memmap[SIFIVE_U_DEV_PWM0].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,pwm0");
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_PWM0].base,
+-        0x0, memmap[SIFIVE_U_DEV_PWM0].size);
++qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_PWM0]);
++
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+     qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
+                            SIFIVE_U_PWM0_IRQ0, SIFIVE_U_PWM0_IRQ1,
+@@ -496,9 +479,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+         (long)memmap[SIFIVE_U_DEV_UART0].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,uart0");
+-    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+-        0x0, memmap[SIFIVE_U_DEV_UART0].base,
+-        0x0, memmap[SIFIVE_U_DEV_UART0].size);
++    qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_UART0]);
+     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+         prci_phandle, PRCI_CLK_TLCLK);
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
 -- 
 2.35.1
 
