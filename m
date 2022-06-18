@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48C3550234
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 04:58:01 +0200 (CEST)
-Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A72B455039C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 11:06:53 +0200 (CEST)
+Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2Oeu-0006Yu-TI
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jun 2022 22:58:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56596)
+	id 1o2UPs-0005gC-BR
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 05:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o2Odm-0005sT-Gy
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 22:56:50 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:40578)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1o2UKj-0004Zf-6E; Sat, 18 Jun 2022 05:01:33 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o2Odk-0003Lr-VC
- for qemu-devel@nongnu.org; Fri, 17 Jun 2022 22:56:50 -0400
-Received: by mail-pg1-x535.google.com with SMTP id f65so5501811pgc.7
- for <qemu-devel@nongnu.org>; Fri, 17 Jun 2022 19:56:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6YRn3WN7Q113EcFPVYxX2bkqKahTYddqtk82WT1jPjc=;
- b=dDkSbuCh/G16Eq3qTlTiS1W0+HBG0sGwgHEQBKvBT0G3ExIcM9jAL8sf/4+E6JL2oe
- /LEEOejPhNqRCV7JWK0MH2VDQ6IELLTzg+DgX6Zm44HhIhOwtjKs6EIwCA94ooWpVXsb
- VH+zDf1hxUGuvlolNZwTDOteTDLZd6dQ68f3ecQomZk2FjbRlT9cSm7ADo0a7FT1rMNj
- afj70U52pVOuBbASNbzQBWjFBbt8I+Prs6tya0XNNCPpN65NiDPGm1MyEl3acLVDkj17
- e+P270gx/0V14LLcGVcsQj2Gj0fXPlPOD+12vu5IU7mZQH1h4fdm/8rl4r4IRqqWulZL
- 8I0g==
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1o2UKf-0002bY-Qv; Sat, 18 Jun 2022 05:01:31 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id p5so303586pjt.2;
+ Sat, 18 Jun 2022 02:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=63cavFc5cxjvfePJTjWfXSGCWx+MupVUzl1XIVF5GEw=;
+ b=Ydh08QN68JZJXUcHfV7ObXi6L4hWXU9PIuqRb+QSAOo5Iw6Ilvg53mDOXIUToPHa0T
+ D9ALNxIZ4tMVPCpVbiOpnnfMwHlzY0Vw6hB5XCZRF1cvwY88AvdlltjW2X2fUIqyNlBy
+ s0fu9fAJngf/ruidYt0YQ4jWnG0atPpdk/+tJTau0r75fP7cZgopFXnYmnrMWgRTD4r9
+ szYbXxFaDjogpJhwHze0zj9fj9Gmm7QC9psHXQK+rHxtepG6R5yvJvfNt3KphXe1ltzl
+ 6F0sNS+Vb6zeG+FB+XDiwkFwsTF/sZlOTUPk21NPaWb/Wa9+O0EwpJv9xp0UDYeC4JOw
+ fyOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6YRn3WN7Q113EcFPVYxX2bkqKahTYddqtk82WT1jPjc=;
- b=qb9+hziGPJClstTSglc1fMKWhdNTBsmfxE9EW4epCt7bN87Gb3QjVhErmNgpbpP1cu
- tWKtqiYMYCTN4dHnDS+BAotP7MJHihrClvZLZV3KrLXUMdEpOvnRKe3FwnW4Jb0H6hxM
- uIv3wChL1ZR9uV3QfnketEvXMR+ePYc+87I/fwF2jSVWKbg+enP+LeDaRZsU3S9wsRWq
- nXH9Bbf4viHuWf30HoLYqxemaaO+9SuYSVeUSAwIFMaLmsadiNsVI7VDp/C6Og4HdL5R
- WLpyjSJP7FshUt03J8wY2d8Eiw22FeWfo1E84rudzlLnsdRhlIY1JHh7gV46UCHVZehd
- +Tcg==
-X-Gm-Message-State: AJIora+iiLVFR/t7Sqym/vEqNtC/sbfQwgG/yx18pYrl1bbr13Pkvg6O
- rSOsVT/HBOPWVWYFYcYI1V1uww==
-X-Google-Smtp-Source: AGRyM1t7gjNoJktLnhw20qrmi4D0LWKBUsY1lqsPDgfvEHDCkLJGMQkIgMqC9fv8tvD92XB8Z8wigA==
-X-Received: by 2002:a63:7258:0:b0:40c:7483:969b with SMTP id
- c24-20020a637258000000b0040c7483969bmr1651326pgn.612.1655521007262; 
- Fri, 17 Jun 2022 19:56:47 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49e:3c01:da58:e2:88d1:d15b?
- ([2602:47:d49e:3c01:da58:e2:88d1:d15b])
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=63cavFc5cxjvfePJTjWfXSGCWx+MupVUzl1XIVF5GEw=;
+ b=PeEj0jp7qh5htrb9/4Q8YvdOMZxtCAtwVa3Jtqn6AabObEsj6YBW0X/Dx3fBo9MgIN
+ 890b7pX1QZO2kmFyAumJVaQe+ejL3GMrrhg7cCpgKvVY1rFLO5hjjAW24yaqzSF93FwZ
+ AvPr6pbf7prhTROyASPs1EvWVPkqMBK/IHm5Q1wI/P9pvMTxnd9JZq/mD2bIPXUCDDEV
+ yPPnXDRQd9uYHwgyfgM6k4dq7xiiYbDX+tVUicVJsrZ2Q8gC1niEKf+xhbgzipn06NEV
+ 6PtBwTb34zWw+4DRuitN0rBLTARxtRDG35zinC8AkisJdW0eyA42ka+BwIa2CgiiotI+
+ dYrw==
+X-Gm-Message-State: AJIora9QD6khUAvUrzZKZd/EJ3FKfljBcR0K0+fxjrR2KTCXxGEp+OeX
+ 0ZJqGlMxpsIvOed0j4vGVKo=
+X-Google-Smtp-Source: AGRyM1tzjxIF0ZF2wBAlNvDqDdJWM00uc5uBfnNO3q4+zSzF2l3VuhryPFcTYAD70nAWJobFrKbV8A==
+X-Received: by 2002:a17:90b:314a:b0:1e8:5362:5620 with SMTP id
+ ip10-20020a17090b314a00b001e853625620mr15377190pjb.9.1655542884662; 
+ Sat, 18 Jun 2022 02:01:24 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.18])
  by smtp.gmail.com with ESMTPSA id
- ij29-20020a170902ab5d00b0016a0bf0ce2esm1131734plb.92.2022.06.17.19.56.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 19:56:46 -0700 (PDT)
-Message-ID: <563431b9-06b8-9055-fa00-99b041bb19f6@linaro.org>
-Date: Fri, 17 Jun 2022 19:56:42 -0700
+ x4-20020a17090a530400b001e0cc5b13c6sm6783622pjh.26.2022.06.18.02.01.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 18 Jun 2022 02:01:23 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] aspeed/hace: Add missing newlines to unimp messages
+Date: Sat, 18 Jun 2022 18:31:14 +0930
+Message-Id: <20220618090114.3158904-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v17 11/13] target/loongarch: Adjust functions and
- structure to support user-mode
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-References: <20220616121611.3316074-1-gaosong@loongson.cn>
- <20220616121611.3316074-12-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220616121611.3316074-12-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=joel.stan@gmail.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,22 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/22 05:16, Song Gao wrote:
-> Some functions and member of the structure are different with softmmu-mode
-> So we need adjust them to support user-mode.
-> 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
-> ---
->   target/loongarch/cpu.c                        | 21 ++++++++++-
->   target/loongarch/cpu.h                        |  6 ++++
->   target/loongarch/helper.h                     |  2 ++
->   .../insn_trans/trans_privileged.c.inc         | 36 +++++++++++++++++++
->   target/loongarch/internals.h                  |  2 ++
->   target/loongarch/op_helper.c                  |  6 ++++
->   6 files changed, 72 insertions(+), 1 deletion(-)
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ hw/misc/aspeed_hace.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+index 4b5997e18fad..731234b78c4c 100644
+--- a/hw/misc/aspeed_hace.c
++++ b/hw/misc/aspeed_hace.c
+@@ -340,12 +340,12 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
+ 
+         if ((data & HASH_HMAC_MASK)) {
+             qemu_log_mask(LOG_UNIMP,
+-                          "%s: HMAC engine command mode %"PRIx64" not implemented",
++                          "%s: HMAC engine command mode %"PRIx64" not implemented\n",
+                           __func__, (data & HASH_HMAC_MASK) >> 8);
+         }
+         if (data & BIT(1)) {
+             qemu_log_mask(LOG_UNIMP,
+-                          "%s: Cascaded mode not implemented",
++                          "%s: Cascaded mode not implemented\n",
+                           __func__);
+         }
+         algo = hash_algo_lookup(data);
+-- 
+2.35.1
 
-r~
 
