@@ -2,54 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2391E5503F8
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 12:09:28 +0200 (CEST)
-Received: from localhost ([::1]:50680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7780055040A
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 12:39:05 +0200 (CEST)
+Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2VOR-0000OJ-3S
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 06:09:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53560)
+	id 1o2Vr5-0000TW-18
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 06:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1o2VKo-0006Aj-F3
- for qemu-devel@nongnu.org; Sat, 18 Jun 2022 06:05:44 -0400
-Received: from fencepost.gnu.org ([2001:470:142:3::e]:60990)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o2Vog-0007tQ-3E
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 06:36:35 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:33039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1o2VKn-00050W-5q; Sat, 18 Jun 2022 06:05:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gnu.org;
- s=fencepost-gnu-org; h=In-Reply-To:MIME-Version:References:Subject:To:From:
- Date; bh=b0+EyA1ZaW5J8AeF4MALS9wyck/P1A+dLFOrLZClvPc=; b=T41TKq+r7S7sIKblnvF2
- wPjZU+H7Jo0Dvkh1xzSQn8QvVzXRvSdB18VPLWEaVPsjg1PU/dDOtBhmKeOhxG+L1Qx4AtgrFqgsP
- 2aiIXHBcW0I4IEKvPdvIunQPtho/qByh8HdAqc2A+h2/1cKhL1cAswCTkN+J+RVeImuz5Y4or9AWr
- 1OQydFnPjif4A1Iq+Vmk5v91jKxeDFA8c+YtGzL8zAStXW3VxLbGH0Go9G0gf9s2J6Xgt0UDPfQTq
- LJagnmD92D5EeFhkeJjywCLL+pfJTRjeALlRPuxX0XGPrPsoXuiasYNDXjqJqVreRwkldCaHoCLkp
- piwJx+p4k76wAA==;
-Received: from 2a02-8440-611c-788e-de41-a9ff-fe47-ec49.rev.sfr.net
- ([2a02:8440:611c:788e:de41:a9ff:fe47:ec49]:45228 helo=begin)
- by fencepost.gnu.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1o2VKm-0002kx-Qc; Sat, 18 Jun 2022 06:05:40 -0400
-Received: from samy by begin with local (Exim 4.95)
- (envelope-from <samuel.thibault@gnu.org>) id 1o2VKf-00BXZm-DU;
- Sat, 18 Jun 2022 12:05:33 +0200
-Date: Sat, 18 Jun 2022 12:05:33 +0200
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Peter Delevoryas <pdel@fb.com>
-Cc: jasowang@redhat.com, eblake@redhat.com, armbru@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 4/4] slirp: Add oob-eth-addr to -netdev options
-Message-ID: <20220618100533.eb6frd5wu2hyfncu@begin>
-References: <20220616010526.1895564-1-pdel@fb.com>
- <20220616010526.1895564-5-pdel@fb.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o2Voc-0005n3-P0
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 06:36:32 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.188])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id AD26127843;
+ Sat, 18 Jun 2022 10:36:17 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Sat, 18 Jun
+ 2022 12:36:16 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G00458397c0e-826b-4519-887c-550d700640d9,
+ BAF84DB0DB05FDEF1A4BB1A6E7E7D3617E6C7C11) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <54a4f8a0-e8a9-5616-b9fc-3505d1e4a63f@kaod.org>
+Date: Sat, 18 Jun 2022 12:36:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH qemu v2 1/2] ppc: Define SETFIELD for the ppc target
+Content-Language: en-US
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, <qemu-ppc@nongnu.org>
+CC: <qemu-devel@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>
+References: <20220617060703.951747-1-aik@ozlabs.ru>
+ <20220617060703.951747-2-aik@ozlabs.ru>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220617060703.951747-2-aik@ozlabs.ru>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220616010526.1895564-5-pdel@fb.com>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 05af2afa-6f7f-4d9f-8073-847acf6dd6e4
+X-Ovh-Tracer-Id: 12295108459769924576
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvjedgfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,146 +74,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Delevoryas, le mer. 15 juin 2022 18:05:26 -0700, a ecrit:
-> With this change, you can now request the out-of-band MAC address from
-> slirp in fby35-bmc:
+On 6/17/22 08:07, Alexey Kardashevskiy wrote:
+> It keeps repeating, move it to the header. This uses __builtin_ctzl() to
+> allow using the macros in #define.
 > 
->     wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
->     qemu-system-arm -machine fby35-bmc \
->         -drive file=fby35.mtd,format=raw,if=mtd \
->         -nographic \
->         -netdev user,id=nic,mfr-id=0x8119,oob-eth-addr=de:ad:be:ef:ca:fe,hostfwd=::2222-:22 \
->         -net nic,model=ftgmac100,netdev=nic
-> 
->     ...
->     username: root
->     password: 0penBmc
->     ...
-> 
->     root@bmc-oob:~# ncsi-util -n eth0 -c 0 0x50 0 0 0x81 0x19 0 0 0x1b 0
->     NC-SI Command Response:
->     cmd: NCSI_OEM_CMD(0x50)
->     Response: COMMAND_COMPLETED(0x0000)  Reason: NO_ERROR(0x0000)
->     Payload length = 24
-> 
->     20: 0x00 0x00 0x81 0x19
->     24: 0x01 0x00 0x1b 0x00
->     28: 0x00 0x00 0x00 0x00
->     32: 0xde 0xad 0xbe 0xef
->     36: 0xca 0xfe 0x00 0x00
-> 
->     root@bmc-oob:~# ifconfig
->     eth0      Link encap:Ethernet  HWaddr DE:AD:BE:EF:CA:FE
-> 	      inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
-> 	      inet6 addr: fec0::dcad:beff:feef:cafe/64 Scope:Site
-> 	      inet6 addr: fe80::dcad:beff:feef:cafe/64 Scope:Link
-> 	      UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-> 	      RX packets:253 errors:0 dropped:0 overruns:0 frame:0
-> 	      TX packets:271 errors:0 dropped:0 overruns:0 carrier:0
-> 	      collisions:0 txqueuelen:1000
-> 	      RX bytes:24638 (24.0 KiB)  TX bytes:18876 (18.4 KiB)
-> 	      Interrupt:32
-> 
->     lo        Link encap:Local Loopback
-> 	      inet addr:127.0.0.1  Mask:255.0.0.0
-> 	      inet6 addr: ::1/128 Scope:Host
-> 	      UP LOOPBACK RUNNING  MTU:65536  Metric:1
-> 	      RX packets:2 errors:0 dropped:0 overruns:0 frame:0
-> 	      TX packets:2 errors:0 dropped:0 overruns:0 carrier:0
-> 	      collisions:0 txqueuelen:1000
-> 	      RX bytes:120 (120.0 B)  TX bytes:120 (120.0 B)
-> 
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks Alexey,
+
+C.
+
+
 > ---
->  net/slirp.c   | 13 +++++++++++--
->  qapi/net.json |  5 ++++-
->  2 files changed, 15 insertions(+), 3 deletions(-)
+>   include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
+>   target/ppc/cpu.h                    |  5 +++++
+>   hw/intc/pnv_xive.c                  | 20 --------------------
+>   hw/intc/pnv_xive2.c                 | 20 --------------------
+>   hw/pci-host/pnv_phb4.c              | 16 ----------------
+>   5 files changed, 5 insertions(+), 72 deletions(-)
 > 
-> diff --git a/net/slirp.c b/net/slirp.c
-> index 231068c1e2..858d3da859 100644
-> --- a/net/slirp.c
-> +++ b/net/slirp.c
-> @@ -414,7 +414,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
->                            const char *smb_export, const char *vsmbserver,
->                            const char **dnssearch, const char *vdomainname,
->                            const char *tftp_server_name, uint32_t mfr_id,
-> -                          Error **errp)
-> +                          uint8_t oob_eth_addr[ETH_ALEN], Error **errp)
->  {
->      /* default settings according to historic slirp */
->      struct in_addr net  = { .s_addr = htonl(0x0a000200) }; /* 10.0.2.0 */
-> @@ -637,6 +637,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
->      cfg.vdnssearch = dnssearch;
->      cfg.vdomainname = vdomainname;
->      cfg.mfr_id = mfr_id;
-> +    memcpy(cfg.oob_eth_addr, oob_eth_addr, ETH_ALEN);
-
-And similarly here.
-
->      s->slirp = slirp_new(&cfg, &slirp_cb, s);
->      QTAILQ_INSERT_TAIL(&slirp_stacks, s, entry);
->  
-> @@ -1142,6 +1143,7 @@ int net_init_slirp(const Netdev *netdev, const char *name,
->      const NetdevUserOptions *user;
->      const char **dnssearch;
->      bool ipv4 = true, ipv6 = true;
-> +    MACAddr oob_eth_addr = {};
->  
->      assert(netdev->type == NET_CLIENT_DRIVER_USER);
->      user = &netdev->u.user;
-> @@ -1166,6 +1168,12 @@ int net_init_slirp(const Netdev *netdev, const char *name,
->      net_init_slirp_configs(user->hostfwd, SLIRP_CFG_HOSTFWD);
->      net_init_slirp_configs(user->guestfwd, 0);
->  
-> +    if (user->has_oob_eth_addr &&
-> +        net_parse_macaddr(oob_eth_addr.a, user->oob_eth_addr) < 0) {
-> +        error_setg(errp, "invalid syntax for OOB ethernet address");
-> +        return -1;
-> +    }
+> diff --git a/include/hw/pci-host/pnv_phb3_regs.h b/include/hw/pci-host/pnv_phb3_regs.h
+> index a174ef1f7045..38f8ce9d7406 100644
+> --- a/include/hw/pci-host/pnv_phb3_regs.h
+> +++ b/include/hw/pci-host/pnv_phb3_regs.h
+> @@ -12,22 +12,6 @@
+>   
+>   #include "qemu/host-utils.h"
+>   
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * These are common with the PnvXive model.
+> - */
+> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+> -{
+> -    return (word & mask) >> ctz64(mask);
+> -}
+> -
+> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+> -                                uint64_t value)
+> -{
+> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+> -}
+> -
+>   /*
+>    * PBCQ XSCOM registers
+>    */
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 6d78078f379d..9a1f1e9999a3 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -47,6 +47,11 @@
+>                                    PPC_BIT32(bs))
+>   #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
+>   
+> +#define GETFIELD(mask, word)   \
+> +    (((word) & (mask)) >> __builtin_ctzl(mask))
+> +#define SETFIELD(mask, word, val)   \
+> +    (((word) & ~(mask)) | (((uint64_t)(val) << __builtin_ctzl(mask)) & (mask)))
 > +
->      ret = net_slirp_init(peer, "user", name, user->q_restrict,
->                           ipv4, vnet, user->host,
->                           ipv6, user->ipv6_prefix, user->ipv6_prefixlen,
-> @@ -1173,7 +1181,8 @@ int net_init_slirp(const Netdev *netdev, const char *name,
->                           user->bootfile, user->dhcpstart,
->                           user->dns, user->ipv6_dns, user->smb,
->                           user->smbserver, dnssearch, user->domainname,
-> -                         user->tftp_server_name, user->mfr_id, errp);
-> +                         user->tftp_server_name, user->mfr_id, oob_eth_addr.a,
-> +                         errp);
->  
->      while (slirp_configs) {
->          config = slirp_configs;
-> diff --git a/qapi/net.json b/qapi/net.json
-> index efc5cb3fb6..7b2c3c205c 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -169,6 +169,8 @@
->  #
->  # @mfr-id: Manufacturer ID (Private Enterprise Number: IANA)
->  #
-> +# @oob-eth-addr: Out-of-band ethernet address for BMC
-> +#
->  # Since: 1.2
->  ##
->  { 'struct': 'NetdevUserOptions',
-> @@ -195,7 +197,8 @@
->      '*hostfwd':   ['String'],
->      '*guestfwd':  ['String'],
->      '*tftp-server-name': 'str',
-> -    '*mfr-id': 'uint32' } }
-> +    '*mfr-id': 'uint32',
-> +    '*oob-eth-addr': 'str' } }
->  
->  ##
->  # @NetdevTapOptions:
-> -- 
-> 2.30.2
-> 
+>   /*****************************************************************************/
+>   /* Exception vectors definitions                                             */
+>   enum {
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 1ce1d7b07d63..c7b75ed12ee0 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -66,26 +66,6 @@ static const XiveVstInfo vst_infos[] = {
+>       qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
+>                     (xive)->chip->chip_id, ## __VA_ARGS__);
+>   
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * TODO: It might be better to use the existing extract64() and
+> - * deposit64() but this means that all the register definitions will
+> - * change and become incompatible with the ones found in skiboot.
+> - *
+> - * Keep it as it is for now until we find a common ground.
+> - */
+> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+> -{
+> -    return (word & mask) >> ctz64(mask);
+> -}
+> -
+> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+> -                                uint64_t value)
+> -{
+> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+> -}
+> -
+>   /*
+>    * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
+>    * field overrides the hardwired chip ID in the Powerbus operations
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index a39e070e82d2..3fe349749384 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -75,26 +75,6 @@ static const XiveVstInfo vst_infos[] = {
+>       qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
+>                     (xive)->chip->chip_id, ## __VA_ARGS__);
+>   
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * TODO: It might be better to use the existing extract64() and
+> - * deposit64() but this means that all the register definitions will
+> - * change and become incompatible with the ones found in skiboot.
+> - *
+> - * Keep it as it is for now until we find a common ground.
+> - */
+> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+> -{
+> -    return (word & mask) >> ctz64(mask);
+> -}
+> -
+> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+> -                                uint64_t value)
+> -{
+> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+> -}
+> -
+>   /*
+>    * TODO: Document block id override
+>    */
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index 13ba9e45d8b6..0913e7c8f015 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -31,22 +31,6 @@
+>       qemu_log_mask(LOG_GUEST_ERROR, "phb4_pec[%d:%d]: " fmt "\n",        \
+>                     (pec)->chip_id, (pec)->index, ## __VA_ARGS__)
+>   
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * These are common with the PnvXive model.
+> - */
+> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+> -{
+> -    return (word & mask) >> ctz64(mask);
+> -}
+> -
+> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+> -                                uint64_t value)
+> -{
+> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+> -}
+> -
+>   static PCIDevice *pnv_phb4_find_cfg_dev(PnvPHB4 *phb)
+>   {
+>       PCIHostState *pci = PCI_HOST_BRIDGE(phb);
 
--- 
-Samuel
----
-Pour une évaluation indépendante, transparente et rigoureuse !
-Je soutiens la Commission d'Évaluation de l'Inria.
 
