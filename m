@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82ED55042C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 13:12:55 +0200 (CEST)
-Received: from localhost ([::1]:36046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA14550440
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 13:42:52 +0200 (CEST)
+Received: from localhost ([::1]:53888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2WNq-0008Bv-UQ
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 07:12:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37864)
+	id 1o2Wqp-0006me-Am
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 07:42:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o2WDo-0007tq-6i; Sat, 18 Jun 2022 07:02:32 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:45725)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o2WDm-0005gL-PE; Sat, 18 Jun 2022 07:02:31 -0400
-Received: by mail-oi1-x230.google.com with SMTP id u9so8219829oiv.12;
- Sat, 18 Jun 2022 04:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=O27ma9UfDqSDwWIQr1tkTTbTWNQtnhkNtSvsm18kXE0=;
- b=bRbzcYiAQH0HJK9/XzkFqIIQXd8YgE6qpWEtGKyqoSyX9oz48hfEwvK591EwK9KbrC
- 0e6cP/MQVN6Xf4CrdeR/X7KBjPWFph/y3nOFjsvBJpZdC9TrDXc1cnjdA3z5PXbY5PTy
- c01VhJnt0Tk3jG8Get++viUQGrtD0cmyOZSVrDqb1znhzYIlSwXYVkjknHDEcRc2mMaR
- XDvh9gClJ9pVKsFNnVlaJxafp45PvbfQV/40uvRT73vqC+p1tvpZ0Wl6dtNY7VbRyeL5
- 15bpl9BGZVvHINwVMEX0BeKOrMVeqGvmz9FXCFSbIsU72SBw3ECBTiSXiIp6RCd83dcl
- V4dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=O27ma9UfDqSDwWIQr1tkTTbTWNQtnhkNtSvsm18kXE0=;
- b=TN2WjJlbPvjK2ORmGc4l7W30LD2FDi84yOTV5d4abZkhKoow+uxF4p36gpN10iXUsF
- u/lFZ3at0+yvcK7VbKpqHzH0xm4oldmIkYt5s6Z44uzd0k9JtWxh4l3LaUCbpSVySmEk
- oixO2vxapeRxPxhMiVtMZyoRJvxxt7M0mw3RjkVcsbQjJROw03xYSVYbILO+phbV9oMT
- 6xCgZ0Fqpwrs/V/6tPoQ9ZGvcC7fqdQaQdbVsXlVokj41msVwbfJ6B47gdV9Ws3Ur5jI
- iSZFLRdDZ0HOinIe7trSiq+tllDxWEil6xuEtzHuz3Z4kBIODiK9iCgCuoY76mHDNIUL
- isXw==
-X-Gm-Message-State: AOAM5327WU4Q3PlLAvjSLN7dBv6VQ+B+xh+azt3Mfcv9nLBzrRgItUiP
- 5buruoCtqA4Es4wxQQCkHYsWBpxgWRA=
-X-Google-Smtp-Source: ABdhPJzo1Vq3Co2xkjuvbyQUx6qSuFBg+QamjhvEUzSBnuEuK1/wGxG9F7e7hJUqbdHrBCZu0rmw+w==
-X-Received: by 2002:a05:6808:4cc:b0:32a:f4d8:932a with SMTP id
- a12-20020a05680804cc00b0032af4d8932amr12570115oie.109.1655550148764; 
- Sat, 18 Jun 2022 04:02:28 -0700 (PDT)
-Received: from balboa.ibmmodules.com ([2804:431:c7c6:ccc8:8e07:268b:a09:2834])
- by smtp.gmail.com with ESMTPSA id
- w16-20020a9d5a90000000b0060603221280sm4075456oth.80.2022.06.18.04.02.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jun 2022 04:02:28 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v2 9/9] ppc/pnv: remove 'INTERFACE_PCIE_DEVICE' from phb4 root
- bus
-Date: Sat, 18 Jun 2022 08:02:02 -0300
-Message-Id: <20220618110202.87735-10-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220618110202.87735-1-danielhb413@gmail.com>
-References: <20220618110202.87735-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o2Wk6-00037e-Bw
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 07:35:54 -0400
+Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:54417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o2Wk1-0008Cv-8M
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 07:35:51 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.201])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 7946021412;
+ Sat, 18 Jun 2022 11:35:44 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Sat, 18 Jun
+ 2022 13:35:43 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S003550a8f61-d308-478c-bd74-3f3380b5f2a7,
+ BAF84DB0DB05FDEF1A4BB1A6E7E7D3617E6C7C11) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c84bcd17-87d4-053c-5c7b-72e2e420288e@kaod.org>
+Date: Sat, 18 Jun 2022 13:35:38 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2] target/ppc: cpu_init: Clean up stop state on cpu reset
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, <danielhb413@gmail.com>,
+ <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220617095222.612212-1-fbarrat@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220617095222.612212-1-fbarrat@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 20029be6-9993-4e01-928d-0448fb13bc9c
+X-Ovh-Tracer-Id: 13299129700548905952
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvjedggeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegke
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,30 +74,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's unneeded. No other PCIE_BUS implements this interface.
+On 6/17/22 11:52, Frederic Barrat wrote:
+> The 'resume_as_sreset' attribute of a cpu is set when a thread is
+> entering a stop state on ppc books. It causes the thread to be
+> re-routed to vector 0x100 when woken up by an exception. So it must be
+> cleared on reset or a thread might be re-routed unexpectedly after a
+> reset, when it was not in a stop state and/or when the appropriate
+> exception handler isn't set up yet.
+> 
+> Using skiboot, it can be tested by resetting the system when it is
+> quiet and most threads are idle and in stop state.
+> 
+> After the reset occurs, skiboot elects a primary thread and all the
+> others wait in secondary_wait. The primary thread does all the system
+> initialization from main_cpu_entry() and at some point, the
+> decrementer interrupt starts ticking. The exception vector for the
+> decrementer interrupt is in place, so that shouldn't be a
+> problem. However, if that primary thread was in stop state prior to
+> the reset, and because the resume_as_sreset parameters is still set,
+> it is re-routed to exception vector 0x100. Which, at that time, is
+> still defined as the entry point for BML. So that primary thread
+> restarts as new and ends up being treated like any other secondary
+> thread. All threads are now waiting in secondary_wait.
+> 
+> It results in a full system hang with no message on the console, as
+> the uart hasn't been init'ed yet. It's actually not obvious to realise
+> what's happening if not tracing reset (-d cpu_reset). The fix is
+> simply to clear the 'resume_as_sreset' attribute on reset.
+> 
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> ---
+> Changelog:
+> v2: rework commit message
 
-Fixes: 4f9924c4d4cf ("ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge")
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/pci-host/pnv_phb4.c | 4 ----
- 1 file changed, 4 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 61b45fe33c..81f7c1fe8f 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1751,10 +1751,6 @@ static const TypeInfo pnv_phb4_root_bus_info = {
-     .name = TYPE_PNV_PHB4_ROOT_BUS,
-     .parent = TYPE_PCIE_BUS,
-     .class_init = pnv_phb4_root_bus_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_PCIE_DEVICE },
--        { }
--    },
- };
- 
- static void pnv_phb4_root_port_reset(DeviceState *dev)
--- 
-2.36.1
+Nice ! This has been a long standing bug. I chased it for weeks.
+I was reproducing with intensive I/Os, doing an scp on an emulated
+PowerNV machine. It hung after a while (unless using powersave=off)
+
+Now, with this patch, a QEMU PowerNV POWER9 machine (SMP) running a
+Linux 5.18 sustains the load :
+
+   $ scp ./ubuntu-22.04-ppc64le.qcow2 root@vm103:/dev/null
+   root@vm103's password:
+   ubuntu-22.04-ppc64le.qcow2                    100% 8581MB   5.8MB/s   24:39
+
+Quite a few interrupts :
+
+   # grep PNV-PCI-MSI  /proc/interrupts
+    51:          9          0  PNV-PCI-MSI 403177472 Edge      nvme0q0
+    52:          2          0  PNV-PCI-MSI 403177473 Edge      nvme0q1
+    53:          0          0  PNV-PCI-MSI 403177474 Edge      nvme0q2
+    54:    3427556          0  PNV-PCI-MSI 135315456 Edge      eth0-rx-0
+    55:          0    4261742  PNV-PCI-MSI 135315457 Edge      eth0-tx-0
+    56:          1          0  PNV-PCI-MSI 135315458 Edge      eth0
+    57:          0         71  PNV-PCI-MSI 135299072 Edge      xhci_hcd
+    58:          0          0  PNV-PCI-MSI 135299073 Edge      xhci_hcd
+    59:          0          0  PNV-PCI-MSI 135299074 Edge      xhci_hcd
+
+
+It would be nice to explain what you did to corner the issue. It would
+help other people chasing similar bugs in QEMU or in the kernel.
+
+Thanks,
+
+C.
+
+
+
+
+
+> 
+> 
+>   target/ppc/cpu_init.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index 0f891afa04..c16cb8dbe7 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -7186,6 +7186,9 @@ static void ppc_cpu_reset(DeviceState *dev)
+>           }
+>           pmu_update_summaries(env);
+>       }
+> +
+> +    /* clean any pending stop state */
+> +    env->resume_as_sreset = 0;
+>   #endif
+>       hreg_compute_hflags(env);
+>       env->reserve_addr = (target_ulong)-1ULL;
 
 
