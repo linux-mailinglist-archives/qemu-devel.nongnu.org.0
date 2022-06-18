@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71463550424
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 13:06:50 +0200 (CEST)
-Received: from localhost ([::1]:50728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389C755042A
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 13:11:01 +0200 (CEST)
+Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2WHx-0006SS-HZ
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 07:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37752)
+	id 1o2WM0-0003zd-AD
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 07:11:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o2WDa-0007qd-LF; Sat, 18 Jun 2022 07:02:21 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:38560)
+ id 1o2WDc-0007qp-Ox; Sat, 18 Jun 2022 07:02:21 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:33669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o2WDY-0005es-UE; Sat, 18 Jun 2022 07:02:18 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-101b4f9e825so3991009fac.5; 
- Sat, 18 Jun 2022 04:02:16 -0700 (PDT)
+ id 1o2WDb-0005fA-0Q; Sat, 18 Jun 2022 07:02:20 -0400
+Received: by mail-oi1-x234.google.com with SMTP id s124so8300770oia.0;
+ Sat, 18 Jun 2022 04:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Eckipunu8DdgKOEbpsdAZWxd3eae/mTpVb8Dq8go+VI=;
- b=RETRNzPxKDV02DAxTF1uPFVsGVRUqYFa7YwCWoFTN/cvX8ML/yMDwgFI/eyP+gJmFz
- 2dui/f81frGxdxP4tagXrrGQpD0BJhztpe6S9mB/d79Fi0FT4QPONUGsma6D5N99mRwN
- Pt7N0XlluhDtOjXBXl+KxCKTGVEHMZrl5OesUU8cTFVcixTKT3+8aG1V5q3O55/evWHF
- PQiVaKMikBYJwEhJaGFAeyC/Q7rWxtBOk8HY8R2FEHLX3MaTljwRhpBimdEJuwFMwrO0
- Tz1ygdCjfXQD+FGmC8uyLoJKD/Ox6Z9bnIqaLrAur98ehyTXiRtoYKnzEZ5Vdger6sId
- 0GGw==
+ bh=vgBvX04lektdxvLkMI1I/YjOTssBF/J1Ycnx3vGzq1M=;
+ b=XNKgUatWQBpqCNDXt0lwleFQie5+lLJ0NNaAiuhontmXKAhoNi8KHzF77UqIwP72kj
+ /KpWzrxfZwI74kq5doAzzha83vHnq4Zo+J+vU0bBvBzWNJWYbq1YguqCgbakWZ6b8Ai4
+ wUqp6g2qQEJFDkPkKbN63kkLFmOXGVzyyvncS3FtT+qnOaZ8A4HExUQOAGAePg+UI+it
+ ba8yDSPvqI7Gz0Z5S3sSiiIKkrFX+FS66xez63XwrzHrxeKnlsZuP4iZbHB1aXA4yk3h
+ C5rG6nBYuoSBRsO4+PWw4DmWvCpZPBeFl44Bz3X9NCuj8VpOxD7mofIHhmDBRbKUKZEL
+ HxfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Eckipunu8DdgKOEbpsdAZWxd3eae/mTpVb8Dq8go+VI=;
- b=fKICW05bsY6SRIy5YmxcFviQ+m6EVM1/BNEuWCx4bHpWGI0RvXy0OzJASlnmwvU+b3
- hBKCBRtwNLGSLwQcDxC8xyH+8Qsoe82+j9MrCgA3kOkNKAIjrOs1H1UFhjQX1bw33NRO
- 0CExEEtyvg2nDVPQqoL7i9avtPptqh+MP0fdcrsfYsHLYScYcz8fcUdKs91SRj9lOjL+
- OnTov1F873wIzRTmsDMv6btCbXkPyYuGWkvggP3L/WZxfWJAtt6diiacodrF0rCqwF4W
- 9/WJS8UjD+D+wi33dyBt7ysfc+caNycY5QUXe+MVu6oOEniyuVlkYgSGKqCcd0fVCoLw
- CsDQ==
-X-Gm-Message-State: AJIora9Kv8SQx2lGLwetq1fh5w3fxcSV2r7FUOVqHViK9QHDqmkn+d4G
- dT19YxV7wvALMczE7GGdEm3QpwxJlq8=
-X-Google-Smtp-Source: AGRyM1tBCtMDDDSgP/JvIMk6H45IuX26NxDE7ydjZmCj+9ok6oxJCtpJVK4o6wIARN4DFbXwnqFw4g==
-X-Received: by 2002:a05:6870:23a8:b0:101:ae39:a0f3 with SMTP id
- e40-20020a05687023a800b00101ae39a0f3mr3590237oap.236.1655550135531; 
- Sat, 18 Jun 2022 04:02:15 -0700 (PDT)
+ bh=vgBvX04lektdxvLkMI1I/YjOTssBF/J1Ycnx3vGzq1M=;
+ b=J5Bl07lHK5L2Ks1I0Br+Yl4Hj1cDidRBgGTcURkX/oTohuBxbWtD2zfbnUsUdRELNR
+ i/b+OLpuXt8LqmbMRMl4UGNTSidAN1Gp6VhLaOHVWI+vw5rHMOgQkD35CKEpxgwnqZrY
+ dq/y4+IrPztMAkLnAcrOpRyEGT8dFx5T7SDs17hhEC+/INJutgkFOBhW1JJeHMizQKGF
+ V6L2y8Kd8TEj50aGXBDfAx4zj3/USoXxxQ8J4+ds7HdioMV9MytWhWK/wPHSRwdZklE2
+ WfOUGLDrcjpxYrugCAIigRDx33d3KYlYbMgd0Uw9TmT1iTi0pbqnaP+KJLeEIPH7gJz/
+ n2xA==
+X-Gm-Message-State: AOAM530rpD6KFu97RwRFYYQPQWEpwGlxXR++Olq7FMIMox0ZHiEmPoIZ
+ Ox9SIyy3vl8coqy49vgKHgLciqASKO8=
+X-Google-Smtp-Source: ABdhPJy3qEpHYCcmWlqNHj41GWSnWfsTj6V2/ud9WHDstvORLPk+n7tyM68aqjYRGMMX8CTQYdmswA==
+X-Received: by 2002:a54:4e95:0:b0:32e:1ad1:2d4 with SMTP id
+ c21-20020a544e95000000b0032e1ad102d4mr12839899oiy.235.1655550137474; 
+ Sat, 18 Jun 2022 04:02:17 -0700 (PDT)
 Received: from balboa.ibmmodules.com ([2804:431:c7c6:ccc8:8e07:268b:a09:2834])
  by smtp.gmail.com with ESMTPSA id
- w16-20020a9d5a90000000b0060603221280sm4075456oth.80.2022.06.18.04.02.13
+ w16-20020a9d5a90000000b0060603221280sm4075456oth.80.2022.06.18.04.02.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jun 2022 04:02:15 -0700 (PDT)
+ Sat, 18 Jun 2022 04:02:17 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v2 3/9] ppc/pnv: use dev->parent_bus->parent to get the PHB
-Date: Sat, 18 Jun 2022 08:01:56 -0300
-Message-Id: <20220618110202.87735-4-danielhb413@gmail.com>
+Subject: [PATCH v2 4/9] ppc/pnv: use dev instead of pci->qdev in
+ root_port_realize()
+Date: Sat, 18 Jun 2022 08:01:57 -0300
+Message-Id: <20220618110202.87735-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220618110202.87735-1-danielhb413@gmail.com>
 References: <20220618110202.87735-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,71 +89,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not advisable to execute an object_dynamic_cast() to poke into
-bus->qbus.parent and follow it up with a C cast into the PnvPHB type we
-think we got.
+We already have access to the 'dev' object.
 
-A better way is to access the PnvPHB object via a QOM macro accessing
-the existing parent links of the DeviceState. For a given
-pnv-phb3/4-root-port 'dev', dev->parent_bus will give us the PHB bus,
-and dev->parent_bus->parent is the PHB. Use the adequate QOM macro to
-assert the type, and keep the NULL check in case we didn't get the
-object we were expecting.
-
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb3.c | 10 +++++++---
- hw/pci-host/pnv_phb4.c | 10 +++++++---
- 2 files changed, 14 insertions(+), 6 deletions(-)
+ hw/pci-host/pnv_phb3.c | 4 ++--
+ hw/pci-host/pnv_phb4.c | 5 ++---
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index 4ba660f8b9..5e7f827415 100644
+index 5e7f827415..8c03cc94f2 100644
 --- a/hw/pci-host/pnv_phb3.c
 +++ b/hw/pci-host/pnv_phb3.c
-@@ -1139,12 +1139,16 @@ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
- {
-     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
-     PCIDevice *pci = PCI_DEVICE(dev);
--    PCIBus *bus = pci_get_bus(pci);
-     PnvPHB3 *phb = NULL;
-     Error *local_err = NULL;
+@@ -1157,8 +1157,8 @@ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
+     }
  
--    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
--                                          TYPE_PNV_PHB3);
-+    /*
-+     * dev->parent_bus gives access to the pnv-phb-root bus.
-+     * The PnvPHB3 is the owner (parent) of the bus.
-+     */
-+    if (dev->parent_bus) {
-+        phb = PNV_PHB3(dev->parent_bus->parent);
-+    }
+     /* Set unique chassis/slot values for the root port */
+-    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
+-    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
++    qdev_prop_set_uint8(dev, "chassis", phb->chip_id);
++    qdev_prop_set_uint16(dev, "slot", phb->phb_id);
  
-     if (!phb) {
-         error_setg(errp,
+     rpc->parent_realize(dev, &local_err);
+     if (local_err) {
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index ffd9d8a947..a0ee52e820 100644
+index a0ee52e820..61b45fe33c 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -1782,12 +1782,16 @@ static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
+@@ -1781,7 +1781,6 @@ static void pnv_phb4_root_port_reset(DeviceState *dev)
+ static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
  {
      PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
-     PCIDevice *pci = PCI_DEVICE(dev);
--    PCIBus *bus = pci_get_bus(pci);
+-    PCIDevice *pci = PCI_DEVICE(dev);
      PnvPHB4 *phb = NULL;
      Error *local_err = NULL;
  
--    phb = (PnvPHB4 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
--                                          TYPE_PNV_PHB4);
-+    /*
-+     * dev->parent_bus gives access to the pnv-phb-root bus.
-+     * The PnvPHB4 is the owner (parent) of the bus.
-+     */
-+    if (dev->parent_bus) {
-+        phb = PNV_PHB4(dev->parent_bus->parent);
-+    }
+@@ -1799,8 +1798,8 @@ static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
+     }
  
-     if (!phb) {
-         error_setg(errp, "%s must be connected to pnv-phb4 buses", dev->id);
+     /* Set unique chassis/slot values for the root port */
+-    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
+-    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
++    qdev_prop_set_uint8(dev, "chassis", phb->chip_id);
++    qdev_prop_set_uint16(dev, "slot", phb->phb_id);
+ 
+     rpc->parent_realize(dev, &local_err);
+     if (local_err) {
 -- 
 2.36.1
 
