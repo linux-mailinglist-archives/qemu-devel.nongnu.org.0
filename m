@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72B455039C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 11:06:53 +0200 (CEST)
-Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A8E5503F5
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 12:07:01 +0200 (CEST)
+Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2UPs-0005gC-BR
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 05:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
+	id 1o2VM4-0005O2-2Z
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 06:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o2UKj-0004Zf-6E; Sat, 18 Jun 2022 05:01:33 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o2UKf-0002bY-Qv; Sat, 18 Jun 2022 05:01:31 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id p5so303586pjt.2;
- Sat, 18 Jun 2022 02:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=63cavFc5cxjvfePJTjWfXSGCWx+MupVUzl1XIVF5GEw=;
- b=Ydh08QN68JZJXUcHfV7ObXi6L4hWXU9PIuqRb+QSAOo5Iw6Ilvg53mDOXIUToPHa0T
- D9ALNxIZ4tMVPCpVbiOpnnfMwHlzY0Vw6hB5XCZRF1cvwY88AvdlltjW2X2fUIqyNlBy
- s0fu9fAJngf/ruidYt0YQ4jWnG0atPpdk/+tJTau0r75fP7cZgopFXnYmnrMWgRTD4r9
- szYbXxFaDjogpJhwHze0zj9fj9Gmm7QC9psHXQK+rHxtepG6R5yvJvfNt3KphXe1ltzl
- 6F0sNS+Vb6zeG+FB+XDiwkFwsTF/sZlOTUPk21NPaWb/Wa9+O0EwpJv9xp0UDYeC4JOw
- fyOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=63cavFc5cxjvfePJTjWfXSGCWx+MupVUzl1XIVF5GEw=;
- b=PeEj0jp7qh5htrb9/4Q8YvdOMZxtCAtwVa3Jtqn6AabObEsj6YBW0X/Dx3fBo9MgIN
- 890b7pX1QZO2kmFyAumJVaQe+ejL3GMrrhg7cCpgKvVY1rFLO5hjjAW24yaqzSF93FwZ
- AvPr6pbf7prhTROyASPs1EvWVPkqMBK/IHm5Q1wI/P9pvMTxnd9JZq/mD2bIPXUCDDEV
- yPPnXDRQd9uYHwgyfgM6k4dq7xiiYbDX+tVUicVJsrZ2Q8gC1niEKf+xhbgzipn06NEV
- 6PtBwTb34zWw+4DRuitN0rBLTARxtRDG35zinC8AkisJdW0eyA42ka+BwIa2CgiiotI+
- dYrw==
-X-Gm-Message-State: AJIora9QD6khUAvUrzZKZd/EJ3FKfljBcR0K0+fxjrR2KTCXxGEp+OeX
- 0ZJqGlMxpsIvOed0j4vGVKo=
-X-Google-Smtp-Source: AGRyM1tzjxIF0ZF2wBAlNvDqDdJWM00uc5uBfnNO3q4+zSzF2l3VuhryPFcTYAD70nAWJobFrKbV8A==
-X-Received: by 2002:a17:90b:314a:b0:1e8:5362:5620 with SMTP id
- ip10-20020a17090b314a00b001e853625620mr15377190pjb.9.1655542884662; 
- Sat, 18 Jun 2022 02:01:24 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.18])
- by smtp.gmail.com with ESMTPSA id
- x4-20020a17090a530400b001e0cc5b13c6sm6783622pjh.26.2022.06.18.02.01.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jun 2022 02:01:23 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] aspeed/hace: Add missing newlines to unimp messages
-Date: Sat, 18 Jun 2022 18:31:14 +0930
-Message-Id: <20220618090114.3158904-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1o2VIN-0003uU-7y
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 06:03:11 -0400
+Received: from fencepost.gnu.org ([2001:470:142:3::e]:60974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1o2VIM-00043s-3H; Sat, 18 Jun 2022 06:03:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gnu.org;
+ s=fencepost-gnu-org; h=In-Reply-To:MIME-Version:References:Subject:To:From:
+ Date; bh=QHouEt69LJwZTCAITRAI8ErVHlaanxdmR0KuCeBTT+8=; b=ZjYFfoLaSmoVrODZRPGu
+ RRsCn5r3Jqj2HilxGAZ/t95k0t6/7HJO8RKZEb0kPm21ulAZ0o5FDK3pV9mrZq6uNdEV0x7c7Ugr1
+ XE1YtIDRxH31gmXucB/Er5CGGw4n8123LEHh0UKdCEnMxnNF7mCzLGZUTvsY5L7VcOQRkKqQJM0g7
+ 9ZytW+Zmq4IzJPX2OnNFcpsN19B/gCJR+8fKcG2r697TNNQdwvthP36/KA9Rb6DGwW5rfu5Ffww2A
+ RVlqq3mTVPAobj62BgiG7QbETRR38qR8mo4q7mq40kpq3VoImLq80OEMpCIJgVxxobWIOgp/arlK/
+ DbX7bMicIU7yDA==;
+Received: from 2a02-8440-611c-788e-de41-a9ff-fe47-ec49.rev.sfr.net
+ ([2a02:8440:611c:788e:de41:a9ff:fe47:ec49]:42954 helo=begin)
+ by fencepost.gnu.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1o2VIL-0000XS-So; Sat, 18 Jun 2022 06:03:09 -0400
+Received: from samy by begin with local (Exim 4.95)
+ (envelope-from <samuel.thibault@gnu.org>) id 1o2VID-00BXRj-Os;
+ Sat, 18 Jun 2022 12:03:01 +0200
+Date: Sat, 18 Jun 2022 12:03:01 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Peter Delevoryas <pdel@fb.com>
+Cc: jasowang@redhat.com, eblake@redhat.com, armbru@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/4] slirp: Update SlirpConfig version to 5
+Message-ID: <20220618100301.qdsls3bxugwv7ekm@begin>
+References: <20220616010526.1895564-1-pdel@fb.com>
+ <20220616010526.1895564-3-pdel@fb.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=joel.stan@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
-X-Spam_action: no action
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616010526.1895564-3-pdel@fb.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,31 +63,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/misc/aspeed_hace.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hello,
 
-diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-index 4b5997e18fad..731234b78c4c 100644
---- a/hw/misc/aspeed_hace.c
-+++ b/hw/misc/aspeed_hace.c
-@@ -340,12 +340,12 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
- 
-         if ((data & HASH_HMAC_MASK)) {
-             qemu_log_mask(LOG_UNIMP,
--                          "%s: HMAC engine command mode %"PRIx64" not implemented",
-+                          "%s: HMAC engine command mode %"PRIx64" not implemented\n",
-                           __func__, (data & HASH_HMAC_MASK) >> 8);
-         }
-         if (data & BIT(1)) {
-             qemu_log_mask(LOG_UNIMP,
--                          "%s: Cascaded mode not implemented",
-+                          "%s: Cascaded mode not implemented\n",
-                           __func__);
-         }
-         algo = hash_algo_lookup(data);
--- 
-2.35.1
+Peter Delevoryas, le mer. 15 juin 2022 18:05:24 -0700, a ecrit:
+> I think we probably need a new Slirp release
+> (4.8.0) and a switch statement here instead, right?
+> 
+> So that we can preserve the behavior for 4.7.0?
 
+Yes, that's the idea.
+
+Samuel
 
