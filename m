@@ -2,55 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414EC55069D
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 21:42:10 +0200 (CEST)
-Received: from localhost ([::1]:32972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455A85506A9
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 22:20:41 +0200 (CEST)
+Received: from localhost ([::1]:55958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2eKe-0007mf-TT
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 15:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60014)
+	id 1o2evw-0000c8-Ay
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 16:20:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@fluff.org>)
- id 1o2eIs-0006t4-D8; Sat, 18 Jun 2022 15:40:18 -0400
-Received: from test-v6.fluff.org ([2a01:4f8:222:2004::3]:50922
- helo=hetzy.fluff.org)
+ (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
+ id 1o2eqF-0002z4-Lf; Sat, 18 Jun 2022 16:14:47 -0400
+Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
+ ([86.15.83.122]:41236 helo=luna)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@fluff.org>)
- id 1o2eIq-0002U0-91; Sat, 18 Jun 2022 15:40:18 -0400
-Received: from ben by hetzy.fluff.org with local (Exim 4.89)
- (envelope-from <ben@fluff.org>)
- id 1o2eIc-0008NW-BH; Sat, 18 Jun 2022 20:40:02 +0100
-Date: Sat, 18 Jun 2022 20:40:02 +0100
-From: Ben Dooks <ben@fluff.org>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Ben Dooks <qemu@ben.fluff.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH 4/4] hw/riscv: use qemu_fdt_setprop_strings() in sifive_u.c
-Message-ID: <20220618194002.tecvyvb3qdlijinm@hetzy.fluff.org>
-References: <20220416193034.538161-1-qemu@ben.fluff.org>
- <20220416193034.538161-5-qemu@ben.fluff.org>
- <CAEUhbmUAYtS1bshMrVceWe_B=uWVacty0scHUv9MoAfBQxeMKQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
+ id 1o2eqC-00051L-TZ; Sat, 18 Jun 2022 16:14:47 -0400
+Received: from ben by luna with local (Exim 4.95)
+ (envelope-from <ben@luna.fluff.org>) id 1o2eq2-0010hc-9b;
+ Sat, 18 Jun 2022 21:14:34 +0100
+From: Ben Dooks <qemu@ben.fluff.org>
+To: qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org
+Subject: [v2] pair of device-tree helpers
+Date: Sat, 18 Jun 2022 21:14:29 +0100
+Message-Id: <20220618201433.240973-1-qemu@ben.fluff.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmUAYtS1bshMrVceWe_B=uWVacty0scHUv9MoAfBQxeMKQ@mail.gmail.com>
-X-Disclaimer: These are my views alone.
-X-URL: http://www.fluff.org/
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: ben@fluff.org
-X-SA-Exim-Scanned: No (on hetzy.fluff.org); SAEximRunCond expanded to false
-Received-SPF: pass client-ip=2a01:4f8:222:2004::3; envelope-from=ben@fluff.org;
- helo=hetzy.fluff.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=86.15.83.122; envelope-from=ben@luna.fluff.org;
+ helo=luna
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, FSL_HELO_NON_FQDN_1=0.001,
+ HELO_NO_DOMAIN=0.001, KHOP_HELO_FCRDNS=0.187, PDS_RDNS_DYNAMIC_FP=0.001,
+ RCVD_IN_SORBS_DUL=0.001, RDNS_DYNAMIC=0.982, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,24 +55,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 22, 2022 at 10:19:34AM +0800, Bin Meng wrote:
-> On Mon, Apr 18, 2022 at 5:13 AM Ben Dooks <qemu@ben.fluff.org> wrote:
-> >
-> > Use the qemu_fdt_setprop_strings() in sifve_u.c to simplify
-> > the code.
-> >
-> > Signed-off-by; Ben Dooks <qemu@ben.fluff.org>
-> 
-> ; should be replaced to :
-> 
-> Not sure how you did that, but you can do with "git commit -s" and git
-> will take care of the SoB tag.
+I've been doing a bit of looking at riscv and dt creation, and                  
+was thinking the following two helper functions would be useful                 
+so implemented qemu_fdt_setprop_reg64_map() and qemu_fdt_setprop_strings()          
+and then applied them to the hw/riscv/sifive_u.c machine.                       
 
-I'm used to adding them manually to git commit messages.
-
--- 
-Ben Dooks, ben@fluff.org, http://www.fluff.org/ben/
-
-Large Hadron Colada: A large Pina Colada that makes the universe disappear.
 
 
