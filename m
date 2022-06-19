@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2775507A8
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jun 2022 02:18:05 +0200 (CEST)
-Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D0055081C
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jun 2022 05:35:30 +0200 (CEST)
+Received: from localhost ([::1]:43790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2idh-00020k-0I
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 20:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
+	id 1o2lij-0007UW-9s
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 23:35:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o2ibf-0007XM-Id
- for qemu-devel@nongnu.org; Sat, 18 Jun 2022 20:15:59 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:34483)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1o2lhf-0006j3-4Y
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 23:34:23 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:40837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o2ibR-0001xB-SK
- for qemu-devel@nongnu.org; Sat, 18 Jun 2022 20:15:58 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id i15so6807982plr.1
- for <qemu-devel@nongnu.org>; Sat, 18 Jun 2022 17:15:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cQ3LSmMq/PEbxO4xqtFc8lNO19/pPJ0Q5K0mnc2j/gw=;
- b=aSH7Eh6dEq3QXFoaoAqNIvWxq4x/l7/ouqdQhkaZG1eTwCkFzEG4kVXo4OIjTuI9Xz
- gGT7qY7bKNMCoa3o4dDr7/kpQeH//7yvNLkgVz5bpCZyp9G8KEEbLWy3BjwKWYZ/UNZV
- z6IVo7Yh8JFFsSa1jN5o1olOXdbVOL/hkJg21a5kiHNHBTf0S41SuSFc3NXkai/zQlrx
- WK/ptP1/GMp3Qzl5FoicebpFBdTQmXauyFdvyo3b/y11a+6Xb2atlVkBflprOPfa4vtb
- BtHfgjrBmfAM48XGZj5So5rHw6cbwcllDwwIxrsEwjFzLlXRQegE10HWv1JSWcGCcBKv
- G2nw==
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1o2lhd-0008HZ-M9
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 23:34:22 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-101cdfddfacso2059202fac.7
+ for <qemu-devel@nongnu.org>; Sat, 18 Jun 2022 20:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=1M496IL0aSVaZMg6snbk68KC1XSD7pdapcaoQyy6zfI=;
+ b=nV7KXt3NhJt0tTYBQa0Dp0VctThZ8DycDBVFtjKvlGlFDUbEy5RXqqj8qgmpImNrE9
+ v+d46MtjC56CbwhV2Q1an1DnA1YTnJjR8CfQpmCPy34VaDQPQVwlMhJXR6WQX9Nhb7uS
+ cIsssWVUhKDrWFXdNNtvmOddD7ODkTPncTCxvbqm5EWRk6MN7Z3pCim3lVDOU1ka9NDf
+ ZdgXn4Fd5weUO3KdzorUL03BCVGwgQqOhzHEa6M27qCIRt1V6O7L2y/NCerUgxtZ4DNA
+ 2kEP3Ot41w2ODHYdJVVVKaX28PLCqG/gcyxvf6Q36nKMoeaR0/ct5GKGuveZ2QwBre7Z
+ ROZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cQ3LSmMq/PEbxO4xqtFc8lNO19/pPJ0Q5K0mnc2j/gw=;
- b=ErBlkI7Djg4aUYOvOYHwZXvdX2D1Cevgx3u28uALSFVdoD2mOnkyVNWxByJJ60KJyO
- 6JPQO3XhgMJTbpxuEW8dmi4hescHD7GS2DgXnU8yw8sZMWXFP/My8JF7fUw60+M7fMsm
- avJxLaxd54MGdt4VgZQS4nrAFUDZ11bvuU+Vp8ypCPN1yq9NqeRvdyOjEjvq9oMsNtJ2
- Ros2dGbwkzJiP7zKVgNPK0AJW2Ka4xfF6ToFYzkUOXUobmwLH6a7ZMJHrj3uTHuXAoRF
- +70c/VvDHQeBPvWomQp+nAlPId7M1OffC9YTPi8Z/ldxS0RAUmdRynmtqGVzbpoh88/R
- UwLw==
-X-Gm-Message-State: AJIora9ALYW5y8/PYXgJy/zu4U6HONne4uLf1GTo+lgzL41qYYlVuPFG
- ke+OLLBBeuOSK9fhECVo59wYKs1L1FWgXQ==
-X-Google-Smtp-Source: AGRyM1s/4BD1QSOP8ucJ9t9LFWqNkvgo8Xa8UKdnDC4POOBoH+DnsGR8RrJp2VJMca4T7cK0W8GQ6A==
-X-Received: by 2002:a17:90b:4ac1:b0:1e6:7c82:9aee with SMTP id
- mh1-20020a17090b4ac100b001e67c829aeemr29260148pjb.234.1655597744476; 
- Sat, 18 Jun 2022 17:15:44 -0700 (PDT)
-Received: from stoup.. ([2602:47:d49e:3c01:848a:b814:8a9c:88d6])
- by smtp.gmail.com with ESMTPSA id
- s17-20020a17090a5d1100b001e0d4169365sm7790724pji.17.2022.06.18.17.15.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jun 2022 17:15:44 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Subject: [PATCH 2/2] target/arm: Check V7VE as well as LPAE in arm_pamax
-Date: Sat, 18 Jun 2022 17:15:41 -0700
-Message-Id: <20220619001541.131672-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220619001541.131672-1-richard.henderson@linaro.org>
-References: <20220619001541.131672-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=1M496IL0aSVaZMg6snbk68KC1XSD7pdapcaoQyy6zfI=;
+ b=3alH0YwfGH5B+JCkIVwAWjxcca6tHztXJP/z6aqY2IOPsmh9qVP4SYKlENzbPDbOLQ
+ 7xYh3DBHlaRBrTEa4mhj6dWsmMujfMk3o3MMGyo1x8OyfIvtnYaWyP0bsH7BFgkC96d1
+ nC/IbeSXQyoLEAF4TNfi9na2S8Uizr5YBniUWDJKyNEavM56aOxG+DJVUBdaLlnVq858
+ 2Q1ybLLmOuF60mEjOsY4U7YM6G8ni3x1w40s56EsI9sbjsOubUtCV5ZpEl40g+SvTz8j
+ HftRTWf0VaaKFrpUapPRyDngnF/kJ4sL66VgZUdT6xXBWxb/QiH6Nj8mgbHfYdca5OXa
+ 1P3g==
+X-Gm-Message-State: AJIora+33Eak6J90dGeCJ+4SN6JOg8nGjZ2wYAbWKZOZ7s3DFTMzTeIe
+ TRT4mgOoUzxIWs/c7z60mfuNwRuS4wz5f5nu08stAW8d
+X-Google-Smtp-Source: AGRyM1tIfRy6o5EQtXTo2gnIgrrQOsMIyrJx050YuZ0QPRbpmVdjJuHJVakwMGFwXiLyREGtvbyfpZMoL8yZoBWRtds=
+X-Received: by 2002:a05:6870:d68e:b0:e2:861:8b15 with SMTP id
+ z14-20020a056870d68e00b000e208618b15mr15092433oap.156.1655609659335; Sat, 18
+ Jun 2022 20:34:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+From: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Date: Sat, 18 Jun 2022 23:34:07 -0400
+Message-ID: <CAK7rcp8M=B0PmvZ4FnXNAnSh5TuvxNA4aKXJ8+JF06XogMmsEg@mail.gmail.com>
+Subject: TCG development tools?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000a1a8a905e1c4a976"
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=kennethadammiller@gmail.com; helo=mail-oa1-x2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,36 +78,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In machvirt_init we create a cpu but do not fully initialize it.
-Thus the propagation of V7VE to LPAE has not been done, and we
-compute the wrong value for some v7 cpus, e.g. cortex-a15.
+--000000000000a1a8a905e1c4a976
+Content-Type: text/plain; charset="UTF-8"
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1078
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/ptw.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Hello all,
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 07f7a21861..da478104f0 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -47,7 +47,13 @@ unsigned int arm_pamax(ARMCPU *cpu)
-         assert(parange < ARRAY_SIZE(pamax_map));
-         return pamax_map[parange];
-     }
--    if (arm_feature(&cpu->env, ARM_FEATURE_LPAE)) {
-+
-+    /*
-+     * In machvirt_init, we call arm_pamax on a cpu that is not fully
-+     * initialized, so we can't rely on the propagation done in realize.
-+     */
-+    if (arm_feature(&cpu->env, ARM_FEATURE_LPAE) ||
-+        arm_feature(&cpu->env, ARM_FEATURE_V7VE)) {
-         /* v7 with LPAE */
-         return 40;
-     }
--- 
-2.34.1
+Suppose I am wanting to implement and test for the TCG. Is there any set of
+interactive binaries or other things that I could use to work with it?
+Could I open a shell to it?  Perhaps feed it specific byte sequences for
+tests to ensure correct operation? Are there a canonical set of unit tests
+that exercise the TCG that each architecture implements?
 
+--000000000000a1a8a905e1c4a976
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello all,<br><br>Suppose I am wanting to implement and te=
+st for the TCG. Is there any set of interactive binaries or other things th=
+at I could use to work with it? Could I open a shell to it?=C2=A0 Perhaps f=
+eed it specific byte sequences for tests to ensure correct operation? Are t=
+here a canonical set of unit tests that exercise the TCG that each architec=
+ture implements?<br></div>
+
+--000000000000a1a8a905e1c4a976--
 
