@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D30550AB4
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jun 2022 14:57:21 +0200 (CEST)
-Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05A5550B1F
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jun 2022 16:14:01 +0200 (CEST)
+Received: from localhost ([::1]:35296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2uUS-0005Lw-4N
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jun 2022 08:57:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48340)
+	id 1o2vge-0006IJ-F6
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jun 2022 10:14:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o2uSY-0003h2-68
- for qemu-devel@nongnu.org; Sun, 19 Jun 2022 08:55:22 -0400
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:59173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o2uSW-00009t-C4
- for qemu-devel@nongnu.org; Sun, 19 Jun 2022 08:55:21 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2AE4921F3B;
- Sun, 19 Jun 2022 12:55:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Sun, 19 Jun
- 2022 14:54:46 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G00468795994-786a-4724-8a21-67fd54e8fb38,
- F3BB28978D5D33C371BBBD2B34D0F30B2C684C62) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <82ad0e87-01ce-4ce0-81b3-5d3ac5425245@kaod.org>
-Date: Sun, 19 Jun 2022 14:54:46 +0200
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o2vdx-0005A9-NU
+ for qemu-devel@nongnu.org; Sun, 19 Jun 2022 10:11:13 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:46732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o2vdv-0006a2-FG
+ for qemu-devel@nongnu.org; Sun, 19 Jun 2022 10:11:13 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id z7so11796776edm.13
+ for <qemu-devel@nongnu.org>; Sun, 19 Jun 2022 07:11:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A7jdiSJVtjQJm9aehAxVCzeZMALZP4eZYxrjgPANViU=;
+ b=K/DxnBNm3woZCDKrR7L/dt91GSsr7K/ckQOlVg4z2aSOhO63qykOkjQwk6YPJ8nhlG
+ VnoodtHXPVPb83GnRsoH3/95Ox5bcNYovYcT0O1XJ8JHG5en6nzzFP8XP069p+aMFWDq
+ G8+gm3KDrXRvFHXxSxdNGW3ZjvbPLd/lnEgrNkXpN6MM1sHMf7ee9W5hBOiRFb/MhDGw
+ dNujttS5Vy+IEXzpPx0bEI/TvX6hMZDmL6G9XqRHlITp9XxlzqOapvghBUy6i4spgkk4
+ OKhglhMv/KhmLL/QW4LN85Ei1GRY7RGcfD6cha2g+i2kEn3qhUBd9qOa/Z1+OEgwLb7k
+ WRwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A7jdiSJVtjQJm9aehAxVCzeZMALZP4eZYxrjgPANViU=;
+ b=HMJuaNmJTe+pwIGd/7yRcOGUZiE1dOqrrPaZH8mLuLFwviecQLJJMn7w53TPd0To1D
+ 4UoOICDX1+31WqCK3Nx4L5Vopzl6eKWDjV88N8pXYL6qUrQYfXimiD1OrlukQkPLTs6S
+ HfZ8PfGKWbPiAC71JB89aQmwKrrd1ZzoUN/hZcDbIJOyzkJ13MbzjYZp2FyjIMq69lKQ
+ Kl5K1owd9nap5aYJ/T6vM/VCVwtupG7PEyYBj0x8CTGXWFhFOU2a96v7k6T5W7rUd0/D
+ u7XxTbGjXxo5s9QMvx55r3IBESIMlGBk2ke+ZgGadnsFlnOeCF52xB/gXh6iF8vfqADu
+ yB0g==
+X-Gm-Message-State: AJIora/sNABy/CRlpp2GDIH2I5miNwA6D94WEbAZryOay7E5xZEfw+MP
+ q1RvasqAHlrvvsY7pRF/QcI+ruddSYxuu9icktlUNQwLpNkx9PST
+X-Google-Smtp-Source: AGRyM1uhybBmwEaJUWvGjBH0iZabxukCOKRofLJPKWAuoJCb6A2wCRypdeTURhT0warha6sDqX8hWP7lGSGTj+VW3+E=
+X-Received: by 2002:a05:6402:2987:b0:434:ef34:6617 with SMTP id
+ eq7-20020a056402298700b00434ef346617mr23824964edb.176.1655647869133; Sun, 19
+ Jun 2022 07:11:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] aspeed/hace: Add missing newlines to unimp messages
-Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
-CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220618090114.3158904-1-joel@jms.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220618090114.3158904-1-joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 470eaaa9-f44a-459a-82b7-eb2d388c78c9
-X-Ovh-Tracer-Id: 2060115355252394976
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvledgheelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
+References: <CAARzgwxLQt13Ago2jDSr4oqkrP0DHzjO8HP_wotwxnmi-=Wdmw@mail.gmail.com>
+ <CAARzgwzxOj=WKMhnMR7Xdgj0MGBRaO89zbc2FWV4j7+UU7j+Fw@mail.gmail.com>
+In-Reply-To: <CAARzgwzxOj=WKMhnMR7Xdgj0MGBRaO89zbc2FWV4j7+UU7j+Fw@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Sun, 19 Jun 2022 19:40:57 +0530
+Message-ID: <CAARzgwyU81MA-GNg66G37FNEiBvSQYhZT4BPy5KD=Se=dfoXQw@mail.gmail.com>
+Subject: Re: A new qemu acpi test with bios bits
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::52f;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,38 +82,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/22 11:01, Joel Stanley wrote:
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+On Fri, Jun 17, 2022 at 10:44 PM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> oops, Phil's redhat email bounced!
+>
+> On Fri, Jun 17, 2022 at 10:41 PM Ani Sinha <ani@anisinha.ca> wrote:
+> >
+> > Hi :
+> > I am trying to write a new ACPI/smbios test framework that uses bios
+> > bits (https://biosbits.org/ ).
+> > This test will effectively:
+> > (a) use a pre-built bits software zip file kept somewhere (where to
+> > keep is TBD).
+> > (b) unzip it.
+> > (c) add a python based acpi and smbios test script to the unzipped
+> > bits directory.
+> > (d) make an iso out of the directory.
+> > (e) spawn a qemu instance with the iso. The iso is built such that it
+> > runs the acpi/smbios tests in batch mode. After running the test, the
+> > spawned instance is killed automatically (vm shutdown).
+> > (f) Collect the logs the vm has sent out.
+> > (g) look for test failures.
+> >
+> > My question is, what framework would be best to achieve the above?
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Never mind. docs/devel/testing.rst talks about QEMUMachine which seems
+to be exactly what I want to use for this relatively simple test.
 
-Thanks,
-
-C.
-
-
-> ---
->   hw/misc/aspeed_hace.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-> index 4b5997e18fad..731234b78c4c 100644
-> --- a/hw/misc/aspeed_hace.c
-> +++ b/hw/misc/aspeed_hace.c
-> @@ -340,12 +340,12 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
->   
->           if ((data & HASH_HMAC_MASK)) {
->               qemu_log_mask(LOG_UNIMP,
-> -                          "%s: HMAC engine command mode %"PRIx64" not implemented",
-> +                          "%s: HMAC engine command mode %"PRIx64" not implemented\n",
->                             __func__, (data & HASH_HMAC_MASK) >> 8);
->           }
->           if (data & BIT(1)) {
->               qemu_log_mask(LOG_UNIMP,
-> -                          "%s: Cascaded mode not implemented",
-> +                          "%s: Cascaded mode not implemented\n",
->                             __func__);
->           }
->           algo = hash_algo_lookup(data);
-
+I
+> > looked around and it seems closest to the avocado based integration
+> > tests. I do not think it is qtest and qtest backend is not required
+> > here.
+> >
+> > Suggestions welcome.
+> > Thanks
+> > ani
 
