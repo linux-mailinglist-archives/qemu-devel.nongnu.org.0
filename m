@@ -2,46 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760005506A6
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jun 2022 22:18:10 +0200 (CEST)
-Received: from localhost ([::1]:50208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DE35507A6
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jun 2022 02:17:50 +0200 (CEST)
+Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o2etU-00053J-1r
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 16:18:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
+	id 1o2idR-0001JA-7A
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jun 2022 20:17:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1o2eqE-0002yf-Mp; Sat, 18 Jun 2022 16:14:46 -0400
-Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
- ([86.15.83.122]:41240 helo=luna)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1o2eqC-00051Y-SC; Sat, 18 Jun 2022 16:14:46 -0400
-Received: from ben by luna with local (Exim 4.95)
- (envelope-from <ben@luna.fluff.org>) id 1o2eq2-0010ho-Ee;
- Sat, 18 Jun 2022 21:14:34 +0100
-From: Ben Dooks <qemu@ben.fluff.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o2ibS-0007T1-Ez
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 20:15:46 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38674)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o2ibQ-0001wr-OC
+ for qemu-devel@nongnu.org; Sat, 18 Jun 2022 20:15:46 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ p3-20020a17090a428300b001ec865eb4a2so2512133pjg.3
+ for <qemu-devel@nongnu.org>; Sat, 18 Jun 2022 17:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ujn5G+wwPlkF3YRhTOae2EhzDxKtq1O/qgyrxfdb2t8=;
+ b=NgUNnZjAO1+LMKA0zYI8X+0f3FfmucQYaadfnA9B7IuOIeHwr5RmrHwZgHsYczdfBq
+ OygypcezEBTeW+k039MJl8Sed3UTBI0tRGyvXR9DdRAcPz8WNj5isL644855EXR9TnRu
+ pmYJsMILxcmgy4kF3pYirVevxtx87uJ/qF6a5UzJ8CrHFyMY6FsRd2fbddoYIalkUz0r
+ QNrQWMZEBTMXT8ZoGFBQBbzqur4UYeWFkvZbEHW70cNVec2j1ZUfLtcvuV1hfK7mBEvu
+ EUdnSzfPf4NMkfc7waUqWPuxzsCojEhVC1clL6iWJXQMN++Vaoh/u0P4t9p9qX82hUqx
+ nl0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ujn5G+wwPlkF3YRhTOae2EhzDxKtq1O/qgyrxfdb2t8=;
+ b=8DCDBTf0hOUkOYzkulhczwwzCUUiNU1nEdoBfmpqCUPTlew8Tky/p/h84Zr+ySUAJJ
+ 7kCWNVd9Hz0joKa45HM2+KuXnKZ0Fts3Xxx1siVfgtvjFxpNt9PEBFjoYZd+qhWx5fkr
+ JX/1xn9kHV5CLuhDILpYY++168VUT/tj1VRAHZnvafYBuyoJp7gKWZZvcQR/yDkgjfZN
+ Ge60i3blTsZTGyv8Aagyt14TLK2ty+XOT6L8AM/Blj3y9Q7r+cuicjz9p6EfV2UdwyJt
+ 1lNDfKW5k57w8VTfokEPM5E+A25yg7scK8D8/pzaJDXKjU/nEgM9bReqXJfYL7uUKcbn
+ daTA==
+X-Gm-Message-State: AJIora+uth1i9HG3pQAtYec+oTx9UIDrjM1TopHOzhA8ZJF1u0jdEd40
+ eJhu1oOqB5D6fnbVWKBeCKF0abh1NeIEcA==
+X-Google-Smtp-Source: AGRyM1uQKx0X8ZgAHXaGweOvA/1tU1tSgA0e7IhM6aP9E7TlZo5u0Ywydm6AqmJz2QimDfA7qjL0XQ==
+X-Received: by 2002:a17:90a:1109:b0:1ea:f413:f72d with SMTP id
+ d9-20020a17090a110900b001eaf413f72dmr16247372pja.127.1655597742869; 
+ Sat, 18 Jun 2022 17:15:42 -0700 (PDT)
+Received: from stoup.. ([2602:47:d49e:3c01:848a:b814:8a9c:88d6])
+ by smtp.gmail.com with ESMTPSA id
+ s17-20020a17090a5d1100b001e0d4169365sm7790724pji.17.2022.06.18.17.15.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 18 Jun 2022 17:15:42 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, Ben Dooks <qemu@ben.fluff.org>
-Subject: [PATCH 4/4] hw/riscv: use qemu_fdt_setprop_strings() in sifive_u.c
-Date: Sat, 18 Jun 2022 21:14:33 +0100
-Message-Id: <20220618201433.240973-5-qemu@ben.fluff.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220618201433.240973-1-qemu@ben.fluff.org>
-References: <20220618201433.240973-1-qemu@ben.fluff.org>
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH 0/2] target/arm: Fix issue 1078
+Date: Sat, 18 Jun 2022 17:15:39 -0700
+Message-Id: <20220619001541.131672-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.15.83.122; envelope-from=ben@luna.fluff.org;
- helo=luna
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, FSL_HELO_NON_FQDN_1=0.001,
- HELO_NO_DOMAIN=0.001, KHOP_HELO_FCRDNS=0.187, PDS_RDNS_DYNAMIC_FP=0.001,
- RCVD_IN_SORBS_DUL=0.001, RDNS_DYNAMIC=0.982, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,65 +87,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the qemu_fdt_setprop_strings() in sifve_u.c to simplify
-the code.
+Nicely summarized by the reporter, but I thought it would be
+nicer to pull all of the logic into arm_pamax, rather than
+leave it separated.
 
-Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
----
- hw/riscv/sifive_u.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 89d7aa2a52..16b18d90bd 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -103,13 +103,6 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     char *nodename;
-     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
-     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
--    static const char * const ethclk_names[2] = { "pclk", "hclk" };
--    static const char * const clint_compat[2] = {
--        "sifive,clint0", "riscv,clint0"
--    };
--    static const char * const plic_compat[2] = {
--        "sifive,plic-1.0.0", "riscv,plic0"
--    };
- 
-     if (ms->dtb) {
-         fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
-@@ -221,8 +214,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     nodename = g_strdup_printf("/soc/clint@%lx",
-         (long)memmap[SIFIVE_U_DEV_CLINT].base);
-     qemu_fdt_add_subnode(fdt, nodename);
--    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
--        (char **)&clint_compat, ARRAY_SIZE(clint_compat));
-+    qemu_fdt_setprop_strings(fdt, nodename, "compatible",
-+                             "sifive,clint0", "riscv,clint0");
-     qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_CLINT]);
-     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
-         cells, ms->smp.cpus * sizeof(uint32_t) * 4);
-@@ -273,8 +266,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-         (long)memmap[SIFIVE_U_DEV_PLIC].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-     qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 1);
--    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
--        (char **)&plic_compat, ARRAY_SIZE(plic_compat));
-+    qemu_fdt_setprop_strings(fdt, nodename, "compatbile",
-+                             "sifive,plic-1.0.0", "riscv,plic0");
-     qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
-         cells, (ms->smp.cpus * 4 - 2) * sizeof(uint32_t));
-@@ -410,8 +403,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
-     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-         prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
--    qemu_fdt_setprop_string_array(fdt, nodename, "clock-names",
--        (char **)&ethclk_names, ARRAY_SIZE(ethclk_names));
-+    qemu_fdt_setprop_strings(fdt, nodename, "clock-names", "pclk", "hclk");
-     qemu_fdt_setprop(fdt, nodename, "local-mac-address",
-         s->soc.gem.conf.macaddr.a, ETH_ALEN);
-     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
+r~
+
+
+Richard Henderson (2):
+  target/arm: Extend arm_pamax to more than aarch64
+  target/arm: Check V7VE as well as LPAE in arm_pamax
+
+ hw/arm/virt.c    | 10 +---------
+ target/arm/ptw.c | 26 ++++++++++++++++++++------
+ 2 files changed, 21 insertions(+), 15 deletions(-)
+
 -- 
-2.35.1
+2.34.1
 
 
