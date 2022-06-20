@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83F5552466
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:08:56 +0200 (CEST)
-Received: from localhost ([::1]:36106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E97552473
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:14:54 +0200 (CEST)
+Received: from localhost ([::1]:47190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Mlb-00069A-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:08:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57102)
+	id 1o3MrN-0003jL-1N
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:14:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3Mi3-0003mx-PN; Mon, 20 Jun 2022 15:05:16 -0400
-Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b]:44900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3Mi2-0004Uz-45; Mon, 20 Jun 2022 15:05:15 -0400
-Received: by mail-oo1-xc2b.google.com with SMTP id
- v33-20020a4a9764000000b0035f814bb06eso2276852ooi.11; 
- Mon, 20 Jun 2022 12:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=JxRokALGr/J/qfYuKuDDsl3MwKXZIfg3jKdVS4ud76E=;
- b=Nly7PLpTzP+crJ2r1tkvZMXZEau3w43XZ3bJeyxVL+147fXKHsSaw19DixsrO5OvNc
- xUxfNQrLNLvBD90ZtxJvryWos04s3t9hVPIT4uPUmGDc1YUJbSc3t8Pswgw0M9cAGZrX
- cZuiVQ5AETdl/59G/qA2RwWH1MlYjr1/2loaL9JQIR3eD0LgHNQ6A9lncGQrs1yKeQ+6
- bpT5CbjvHOFxbxgo1bXZJKVXp18Y0TQezZPJN6khz/kfPlSK1Y8BewpBUrZWPxnWN7EM
- 3XN5fKD9D4VCUPKZi9Wj6Hhwq5zF34G8ty3n6tvKAeOQ6nkq8UVUwUB+fiuBcEn3knbo
- N+GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JxRokALGr/J/qfYuKuDDsl3MwKXZIfg3jKdVS4ud76E=;
- b=bu44YqUK5tmTg/YmwYIvaM8hAiOX4BzKx/5YZcbkMXtgxOSzDZDhDIOjwTkWKLSY6j
- M9aIGA8CJasCL5YhlZQThD2joxSs8fr1vXlm7He5K25b37KNe8pJcuHcZtJ0Hz8v9RGG
- e0ivLyyaKXyMXvXVz7WpkdJLlN6Gh/kjEpK8VHpAjZhz1HvRF+ogP5eU/o0qaOR9wcux
- umDkbtyFfrhA6NDHi7RjB/FFWRQFstcCrq0zeb7RYISgoAeGFsN3JcffC1DXcKE1fYLd
- dCc+039bJihTxXztetGtX0rRLK+1SGoqcgD2N1eZL4fGHVc99STKkFCY5oEfcwaxAIco
- +9SQ==
-X-Gm-Message-State: AJIora/L5e7SGiyXQ+TsUiL0o4mmPeOICj1z7C/blnVBACjy8EzUyfdS
- DwedBCMl8r6NKe0wf7/ZcahDqWR/hKlF9Q==
-X-Google-Smtp-Source: AGRyM1u8RL0+bfSKw7NfA4kbzsQHp6wcK8eb/g0RU8UFEZMuKyyDc4dsgSTpNajFQ/iXM/heYph8kA==
-X-Received: by 2002:a4a:254e:0:b0:35e:679f:5f78 with SMTP id
- v14-20020a4a254e000000b0035e679f5f78mr9575554ooe.26.1655751912001; 
- Mon, 20 Jun 2022 12:05:12 -0700 (PDT)
-Received: from [192.168.10.102] ([187.34.29.129])
- by smtp.gmail.com with ESMTPSA id
- u2-20020acaab02000000b0032eafcbd294sm7798266oie.16.2022.06.20.12.05.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 12:05:11 -0700 (PDT)
-Message-ID: <675e09f8-ab0c-d2c7-e0f0-1f3c57bb7dd6@gmail.com>
-Date: Mon, 20 Jun 2022 16:05:03 -0300
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3MlQ-0007mi-BM
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:08:44 -0400
+Received: from smtpout140.security-mail.net ([85.31.212.143]:21613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3MlM-00052R-RP
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:08:42 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by fx403.security-mail.net (Postfix) with ESMTP id D26B512FC6B
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 21:08:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+ s=sec-sig-email; t=1655752116;
+ bh=4j6h5RN4ZuPsCtxoq7fu+wCwTtButAjUAV/tfNzzHtc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=x1sUrgrTXzBcR65dY/dA4bHZ+2KL0H6LbvrjKa44fmGVZTnESkPPtup9MFzJoFemX
+ 5ohu7X+mOxDiTvKoidUCXyxsQii+HPEStcA//Y1nvcTr3jXVb6zYnKVLRAxgIRC6c6
+ 1CdT43DerTMPA6RGhk0A3VZjl2ylBWsh2WP0wr5A=
+Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
+ (Postfix) with ESMTP id 431BA12FC6A; Mon, 20 Jun 2022 21:08:36 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx403.security-mail.net (Postfix) with ESMTPS id A76F612FC65; Mon, 20 Jun
+ 2022 21:08:35 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 8AEF627E04D6; Mon, 20 Jun 2022
+ 21:08:35 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 72ABB27E04B5; Mon, 20 Jun 2022 21:08:35 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ optY_swwzyfN; Mon, 20 Jun 2022 21:08:35 +0200 (CEST)
+Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
+ (Postfix) with ESMTPSA id 5481A27E04D6; Mon, 20 Jun 2022 21:08:35 +0200
+ (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <5a94.62b0c5b3.a64cb.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 72ABB27E04B5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655752115;
+ bh=vuKVnQ8Q69XZwLhI/APx8t0KeXw1ob51BlKuXE92cr0=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=U/qbrR8q5wtss9Hp0jBKislSvsBg9q2tyqPKszGT+dpvx61AIkt5bnfVKu9DcQMIk
+ +MBYOzfprDJT+hMaxzz0HllcUyXgmkrm1YURYHrfAo9znsKRMXQUhffejHG4AfuYkx
+ T+CRN/pvStZknY9IKpeACX/VNgXK8dVmEp7bsdsA=
+Date: Mon, 20 Jun 2022 21:08:34 +0200
+From: Luc Michel <lmichel@kalray.eu>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/7] semihosting: proper QEMU exit on semihosted exit
+ syscall
+Message-ID: <20220620190834.GA16887@ws2101.lin.mbt.kalray.eu>
+References: <20220620142426.15040-1-lmichel@kalray.eu>
+ <f7375667-4dc3-17f5-987e-a7d3339c6c00@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 3/9] ppc/pnv: use dev->parent_bus->parent to get the PHB
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com
-References: <20220618110202.87735-1-danielhb413@gmail.com>
- <20220618110202.87735-4-danielhb413@gmail.com>
- <d36775a8-15f7-ab03-fc08-3fdcfc72d293@ilande.co.uk>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <d36775a8-15f7-ab03-fc08-3fdcfc72d293@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <f7375667-4dc3-17f5-987e-a7d3339c6c00@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-ALTERMIMEV2_out: done
+Received-SPF: pass client-ip=85.31.212.143; envelope-from=lmichel@kalray.eu;
+ helo=smtpout140.security-mail.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,130 +93,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 6/20/22 04:27, Mark Cave-Ayland wrote:
-> On 18/06/2022 12:01, Daniel Henrique Barboza wrote:
+On 08:59 Mon 20 Jun     , Richard Henderson wrote:
+> On 6/20/22 07:24, Luc Michel wrote:
+> > Hi,
+> > 
+> > This series implements a clean way for semihosted exit syscalls to
+> > terminate QEMU with a given return code.
+> > 
+> > Until now, exit syscalls implementations consisted in calling exit()
+> > with the wanted return code. The problem with this approach is that
+> > other CPUs are not properly stopped, leading to possible crashes in
+> > MTTCG mode, especially when at_exit callbacks have been registered. This
+> > can be the case e.g., when plugins are in use. Plugins can register
+> > at_exit callbacks. Those will be called on the CPU thread the exit
+> > syscall is comming from, while other CPUs can continue to run and thus
+> > call other plugin callbacks.
+> > 
+> > The semihosting_exit_request function provides a mean to cleanly
+> > terminate QEMU. It introduces an new exit reason
+> > (SHUTDOWN_CAUSE_GUEST_SEMI_EXIT) used in this case. The CPU is stopped
+> > and returns to the main CPU loop so that no more instruction get
+> > executed (the semihosting_exit_request is declared G_NORETURN).
+> > 
+> > All targets are converted to use this new function.
 > 
->> It is not advisable to execute an object_dynamic_cast() to poke into
->> bus->qbus.parent and follow it up with a C cast into the PnvPHB type we
->> think we got.
->>
->> A better way is to access the PnvPHB object via a QOM macro accessing
->> the existing parent links of the DeviceState. For a given
->> pnv-phb3/4-root-port 'dev', dev->parent_bus will give us the PHB bus,
->> and dev->parent_bus->parent is the PHB. Use the adequate QOM macro to
->> assert the type, and keep the NULL check in case we didn't get the
->> object we were expecting.
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/pci-host/pnv_phb3.c | 10 +++++++---
->>   hw/pci-host/pnv_phb4.c | 10 +++++++---
->>   2 files changed, 14 insertions(+), 6 deletions(-)
->>
->> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
->> index 4ba660f8b9..5e7f827415 100644
->> --- a/hw/pci-host/pnv_phb3.c
->> +++ b/hw/pci-host/pnv_phb3.c
->> @@ -1139,12 +1139,16 @@ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
->>   {
->>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
->>       PCIDevice *pci = PCI_DEVICE(dev);
->> -    PCIBus *bus = pci_get_bus(pci);
->>       PnvPHB3 *phb = NULL;
->>       Error *local_err = NULL;
->> -    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
->> -                                          TYPE_PNV_PHB3);
->> +    /*
->> +     * dev->parent_bus gives access to the pnv-phb-root bus.
->> +     * The PnvPHB3 is the owner (parent) of the bus.
->> +     */
->> +    if (dev->parent_bus) {
-> 
-> Here dev->parent_bus shouldn't be accessed directly: you should use qdev_get_parent_bus() instead.
-> 
->> +        phb = PNV_PHB3(dev->parent_bus->parent);
->> +    }
-> 
-> This one is a bit trickier, since part of the qdev design is that devices should only be aware of their immediate bus, and not the device parenting that bus i.e. dev->parent_bus->parent shouldn't be allowed.
-> 
-> What is really needed here is to use QOM links (or embed the device as a suitable QOM child) to get the PHB reference which I imagine will be changed as part of the follow-up series. So I think this can be left as-is for now, and fixed later.
+> Did you test a complete build?  At a glance I would guess that
+> arm-linux-user will no longer link because qemu_set/get_exit_status is
+> missing.
 
+You are right I forgot to test build *-linux-user. There is a
+compilation issue because I forgot "static inline" on the
+semihosting_exit_request function on the CONFIG_USER_ONLY side. I'll fix
+that in v2.
 
-In the previous patch (2) I've put the root port as a child of the bus,
-giving us this hierarchy:
+qemu_set/get_exit_status is fine though as it is only called from
+softmmu-only code (and declared in sysemu/sysemu.h).
 
-
-     /pnv-phb3[0] (pnv-phb3)  <====== PHB
-       /lsi (ics)
-       /msi (phb3-msi)
-       /msi32[0] (memory-region)
-       /msi64[0] (memory-region)
-       /pbcq (pnv-pbcq)
-     (...)
-       /phb3_iommu[0] (pnv-phb3-iommu-memory-region)
-       /pnv-phb3-root.0 (pnv-phb3-root)  <=== bus
-         /pnv-phb3-root-port[0] (pnv-phb3-root-port) <==== root-port
-           /bus master container[0] (memory-region)
-           /bus master[0] (memory-region)
-           /pci_bridge_io[0] (memory-region)
-           /pci_bridge_io[1] (memory-region)
-           /pci_bridge_mem[0] (memory-region)
-           /pci_bridge_pci[0] (memory-region)
-           /pci_bridge_pref_mem[0] (memory-region)
-           /pci_bridge_vga_io_hi[0] (memory-region)
-           /pci_bridge_vga_io_lo[0] (memory-region)
-           /pci_bridge_vga_mem[0] (memory-region)
-           /pcie.0 (PCIE)
-
-
-I did it like this instead of the PHB for no particular reason. If the root port of
-other PHBs are located as a direct child of the PHB I can change it.
-
-
-All that said, thinking more about it, since I need to access the PHB just
-to set "chassis" and "slot" of the device, and I'm already setting a QOM
-parent for it, I guess I'll just set that before root_port_realize() and spare us
-from having to accessing the parent of the parent bus of the root_port.
-
-
-
-Thanks,
-
-
-Daniel
+thanks,
+Luc
 
 > 
->>       if (!phb) {
->>           error_setg(errp,
->> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
->> index ffd9d8a947..a0ee52e820 100644
->> --- a/hw/pci-host/pnv_phb4.c
->> +++ b/hw/pci-host/pnv_phb4.c
->> @@ -1782,12 +1782,16 @@ static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
->>   {
->>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
->>       PCIDevice *pci = PCI_DEVICE(dev);
->> -    PCIBus *bus = pci_get_bus(pci);
->>       PnvPHB4 *phb = NULL;
->>       Error *local_err = NULL;
->> -    phb = (PnvPHB4 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
->> -                                          TYPE_PNV_PHB4);
->> +    /*
->> +     * dev->parent_bus gives access to the pnv-phb-root bus.
->> +     * The PnvPHB4 is the owner (parent) of the bus.
->> +     */
->> +    if (dev->parent_bus) {
->> +        phb = PNV_PHB4(dev->parent_bus->parent);
->> +    }
->>       if (!phb) {
->>           error_setg(errp, "%s must be connected to pnv-phb4 buses", dev->id);
 > 
-> I've had a quick look over the rest of the series and from what I can see this is definitely heading in the right direction :)
+> r~
+> 
+> > 
+> > Thanks,
+> > Luc
+> > 
+> > Luc Michel (7):
+> >    softmmu: add qemu_[set|get]_exit_status functions
+> >    semihosting: add the semihosting_exit_request function
+> >    semihosting/arm-compat-semi: use semihosting_exit_request
+> >    target/m68k: use semihosting_exit_request on semihosted exit syscall
+> >    target/mips: use semihosting_exit_request on semihosted exit syscall
+> >    target/nios2: use semihosting_exit_request on semihosted exit syscall
+> >    target/xtensa: use semihosting_exit_request on semihosted exit syscall
+> > 
+> >   qapi/run-state.json                |  4 +++-
+> >   include/semihosting/semihost.h     |  4 ++++
+> >   include/sysemu/sysemu.h            |  2 ++
+> >   semihosting/arm-compat-semi.c      |  3 +--
+> >   semihosting/config.c               | 17 +++++++++++++++++
+> >   softmmu/main.c                     |  2 +-
+> >   softmmu/runstate.c                 | 11 +++++++++++
+> >   target/m68k/m68k-semi.c            |  4 ++--
+> >   target/mips/tcg/sysemu/mips-semi.c |  2 +-
+> >   target/nios2/nios2-semi.c          |  4 ++--
+> >   target/xtensa/xtensa-semi.c        |  2 +-
+> >   11 files changed, 45 insertions(+), 10 deletions(-)
+> > 
 > 
 > 
-> ATB,
 > 
-> Mark.
+> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=bb16.62b09954.79e61.0&r=lmichel%40kalray.eu&s=richard.henderson%40linaro.org&o=Re%3A+%5BPATCH+0%2F7%5D+semihosting%3A+proper+QEMU+exit+on+semihosted+exit+syscall&verdict=C&c=d52db680df8df28629e4a26f18787c389730fd78
+> 
+
+-- 
+
+
+
+
 
