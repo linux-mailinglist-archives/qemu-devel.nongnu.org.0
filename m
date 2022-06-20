@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694A15515D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 12:28:05 +0200 (CEST)
-Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415C85515CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 12:27:26 +0200 (CEST)
+Received: from localhost ([::1]:33748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3EdY-0003Xs-HT
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 06:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
+	id 1o3Ecv-0001lh-C1
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 06:27:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o3EUY-0006YD-M6
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:18:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40753)
+ id 1o3EUa-0006ZZ-Ue
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:18:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o3EUX-0007VH-3b
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:18:46 -0400
+ id 1o3EUZ-0007VY-5a
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:18:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655720324;
+ s=mimecast20190719; t=1655720326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TdSl0Wma9r+2Zrg1Bat0Z2/9CgDDRhqBKpUhqXgmX+o=;
- b=QHLFa98UB60aM/IbA/hlZd3Dmfz9yCwaymh3ebmkNeZQbHFWBFSBWt4jl4X9RmckNUzREr
- MhckiYPMSDaVFeJ5ew0nyi/mtUW7V/1tNME0IiErArYEYYWl3qgbmarLbIx0RYaFX4nz3H
- 92b77o/jFAsO8e4cg6kTBwZlSOYHOqU=
+ bh=FLWhKU1wI72i3O/mX/gIHQNuqut0rRvKtSfKd8n9ElU=;
+ b=hKNEZWDH/8Bh1rYuhO85oYO4BujGdKTyqWVcaZrVaWE+2+Aqb3OgyvhGQmqTIf4X9FQG9E
+ Fyzdy24eDqdj4OOTo/VX5dAlu2GvVHvEC0CSKVxRM667WJSOP/YP/Zff3M5iZKyHjc3A5q
+ Y+wUUrS9O+2j3hObMF0FTnUIXKca8pQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-222-DWOF4_XyMWmZAuHoaxBWpA-1; Mon, 20 Jun 2022 06:18:43 -0400
-X-MC-Unique: DWOF4_XyMWmZAuHoaxBWpA-1
+ us-mta-541-2X8Yf3t3Ml-J3ZYfPxLAKQ-1; Mon, 20 Jun 2022 06:18:45 -0400
+X-MC-Unique: 2X8Yf3t3Ml-J3ZYfPxLAKQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 205CB85A583
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:18:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 223B585A584
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:18:45 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.193.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72BCC492C3B;
- Mon, 20 Jun 2022 10:18:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67FA9492C3B;
+ Mon, 20 Jun 2022 10:18:43 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
@@ -51,15 +51,15 @@ Cc: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Stefano Brivio <sbrivio@redhat.com>
-Subject: [RFC PATCH v3 06/11] net: stream: add unix socket
-Date: Mon, 20 Jun 2022 12:18:23 +0200
-Message-Id: <20220620101828.518865-7-lvivier@redhat.com>
+Subject: [RFC PATCH v3 07/11] net: dgram: make dgram_dst generic
+Date: Mon, 20 Jun 2022 12:18:24 +0200
+Message-Id: <20220620101828.518865-8-lvivier@redhat.com>
 In-Reply-To: <20220620101828.518865-1-lvivier@redhat.com>
 References: <20220620101828.518865-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,157 +83,251 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+dgram_dst is a sockaddr_in structure. To be able to use it with
+unix socket, use a pointer to a generic sockaddr structure.
+
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 ---
- net/stream.c | 106 +++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 99 insertions(+), 7 deletions(-)
+ net/dgram.c | 76 +++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 45 insertions(+), 31 deletions(-)
 
-diff --git a/net/stream.c b/net/stream.c
-index 12fc26b9f4c7..dca50508ed84 100644
---- a/net/stream.c
-+++ b/net/stream.c
-@@ -234,7 +234,7 @@ static NetStreamState *net_stream_fd_init_stream(NetClientState *peer,
- static void net_stream_accept(void *opaque)
- {
-     NetStreamState *s = opaque;
--    struct sockaddr_in saddr;
-+    struct sockaddr_storage saddr;
-     socklen_t len;
+diff --git a/net/dgram.c b/net/dgram.c
+index aa4240501ed0..16b4d4c94c81 100644
+--- a/net/dgram.c
++++ b/net/dgram.c
+@@ -39,9 +39,8 @@ typedef struct NetDgramState {
+     int listen_fd;
      int fd;
+     SocketReadState rs;
+-  /* contains inet host and port destination iff connectionless (SOCK_DGRAM) */
+-    struct sockaddr_in dgram_dst;
+-    IOHandler *send_fn;           /* differs between SOCK_STREAM/SOCK_DGRAM */
++    struct sockaddr *dgram_dst; /* contains destination iff connectionless */
++    IOHandler *send_fn;
+     bool read_poll;               /* waiting to receive data? */
+     bool write_poll;              /* waiting to transmit data? */
+ } NetDgramState;
+@@ -85,10 +84,9 @@ static ssize_t net_dgram_receive_dgram(NetClientState *nc,
+     ssize_t ret;
  
-@@ -252,9 +252,27 @@ static void net_stream_accept(void *opaque)
-     s->fd = fd;
-     s->nc.link_down = false;
-     net_stream_connect(s);
--    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--             "connection from %s:%d",
--             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-+    switch (saddr.ss_family) {
-+    case AF_INET: {
-+        struct sockaddr_in *saddr_in = (struct sockaddr_in *)&saddr;
-+
-+        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-+                 "connection from %s:%d",
-+                 inet_ntoa(saddr_in->sin_addr), ntohs(saddr_in->sin_port));
-+        break;
-+    }
-+    case AF_UNIX: {
-+        struct sockaddr_un saddr_un;
-+
-+        len = sizeof(saddr_un);
-+        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
-+        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-+                 "connect from %s", saddr_un.sun_path);
-+        break;
-+    }
-+    default:
-+        g_assert_not_reached();
-+    }
+     do {
+-        if (s->dgram_dst.sin_family != AF_UNIX) {
+-            ret = sendto(s->fd, buf, size, 0,
+-                         (struct sockaddr *)&s->dgram_dst,
+-                         sizeof(s->dgram_dst));
++        if (s->dgram_dst) {
++            ret = sendto(s->fd, buf, size, 0, s->dgram_dst,
++                         sizeof(struct sockaddr_in));
+         } else {
+             ret = send(s->fd, buf, size, 0);
+         }
+@@ -289,6 +287,8 @@ static void net_dgram_cleanup(NetClientState *nc)
+         closesocket(s->listen_fd);
+         s->listen_fd = -1;
+     }
++    g_free(s->dgram_dst);
++    s->dgram_dst = NULL;
  }
  
- static int net_stream_server_init(NetClientState *peer,
-@@ -295,8 +313,40 @@ static int net_stream_server_init(NetClientState *peer,
-         break;
+ static NetClientInfo net_dgram_socket_info = {
+@@ -305,7 +305,7 @@ static NetDgramState *net_dgram_fd_init_dgram(NetClientState *peer,
+                                               SocketAddress *mcast,
+                                               Error **errp)
+ {
+-    struct sockaddr_in saddr;
++    struct sockaddr_in *saddr = NULL;
+     int newfd;
+     NetClientState *nc;
+     NetDgramState *s;
+@@ -327,24 +327,25 @@ static NetDgramState *net_dgram_fd_init_dgram(NetClientState *peer,
+      */
+ 
+     if (is_fd && mcast != NULL) {
+-            if (convert_host_port(&saddr, mcast->u.inet.host,
+-                                  mcast->u.inet.port, errp) < 0) {
++            saddr = g_new(struct sockaddr_in, 1);
++
++            if (convert_host_port(saddr, mcast->u.inet.host, mcast->u.inet.port,
++                                  errp) < 0) {
+                 goto err;
+             }
+             /* must be bound */
+-            if (saddr.sin_addr.s_addr == 0) {
++            if (saddr->sin_addr.s_addr == 0) {
+                 error_setg(errp, "can't setup multicast destination address");
+                 goto err;
+             }
+             /* clone dgram socket */
+-            newfd = net_dgram_mcast_create(&saddr, NULL, errp);
++            newfd = net_dgram_mcast_create(saddr, NULL, errp);
+             if (newfd < 0) {
+                 goto err;
+             }
+             /* clone newfd to fd, close newfd */
+             dup2(newfd, fd);
+             close(newfd);
+-
      }
-     case SOCKET_ADDRESS_TYPE_UNIX: {
--        error_setg(errp, "only support inet type");
--        return -1;
-+        struct sockaddr_un saddr_un;
-+
-+        ret = unlink(addr->u.q_unix.path);
-+        if (ret < 0 && errno != ENOENT) {
-+            error_setg_errno(errp, errno, "failed to unlink socket %s",
-+                             addr->u.q_unix.path);
-+            return -1;
-+        }
-+
-+        saddr_un.sun_family = PF_UNIX;
-+        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
-+                       addr->u.q_unix.path);
-+        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
-+            error_setg(errp, "UNIX socket path '%s' is too long",
-+                       addr->u.q_unix.path);
-+            error_append_hint(errp, "Path must be less than %zu bytes\n",
-+                              sizeof(saddr_un.sun_path));
-+        }
-+
-+        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
-+        if (fd < 0) {
-+            error_setg_errno(errp, errno, "can't create stream socket");
-+            return -1;
-+        }
-+        qemu_socket_set_nonblock(fd);
-+
-+        ret = bind(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
-+        if (ret < 0) {
-+            error_setg_errno(errp, errno, "can't create socket with path: %s",
-+                             saddr_un.sun_path);
-+            closesocket(fd);
-+            return -1;
-+        }
-+        break;
+ 
+     nc = qemu_new_net_client(&net_dgram_socket_info, peer, model, name);
+@@ -358,16 +359,13 @@ static NetDgramState *net_dgram_fd_init_dgram(NetClientState *peer,
+     net_dgram_read_poll(s, true);
+ 
+     /* mcast: save bound address as dst */
+-    if (is_fd && mcast != NULL) {
+-        s->dgram_dst = saddr;
++    if (saddr) {
++        g_assert(s->dgram_dst == NULL);
++        s->dgram_dst = (struct sockaddr *)saddr;
+         snprintf(nc->info_str, sizeof(nc->info_str),
+                  "fd=%d (cloned mcast=%s:%d)",
+-                 fd, inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++                 fd, inet_ntoa(saddr->sin_addr), ntohs(saddr->sin_port));
+     } else {
+-        if (sa_type == SOCKET_ADDRESS_TYPE_UNIX) {
+-            s->dgram_dst.sin_family = AF_UNIX;
+-        }
+-
+         snprintf(nc->info_str, sizeof(nc->info_str), "fd=%d %s", fd,
+                  SocketAddressType_str(sa_type));
      }
-     case SOCKET_ADDRESS_TYPE_FD:
-         fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
-@@ -382,6 +432,48 @@ static int net_stream_client_init(NetClientState *peer,
-                                    ntohs(saddr_in.sin_port));
-         break;
-     }
-+    case SOCKET_ADDRESS_TYPE_UNIX: {
-+        struct sockaddr_un saddr_un;
-+
-+        saddr_un.sun_family = PF_UNIX;
-+        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
-+                       addr->u.q_unix.path);
-+        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
-+            error_setg(errp, "UNIX socket path '%s' is too long",
-+                       addr->u.q_unix.path);
-+            error_append_hint(errp, "Path must be less than %zu bytes\n",
-+                              sizeof(saddr_un.sun_path));
-+        }
-+
-+        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
-+        if (fd < 0) {
-+            error_setg_errno(errp, errno, "can't create stream socket");
-+            return -1;
-+        }
-+        qemu_socket_set_nonblock(fd);
-+
-+        connected = 0;
-+        for (;;) {
-+            ret = connect(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
-+            if (ret < 0) {
-+                if (errno == EINTR || errno == EWOULDBLOCK) {
-+                    /* continue */
-+                } else if (errno == EAGAIN ||
-+                           errno == EALREADY) {
-+                    break;
-+                } else {
-+                    error_setg_errno(errp, errno, "can't connect socket");
-+                    closesocket(fd);
-+                    return -1;
-+                }
-+            } else {
-+                connected = 1;
-+                break;
-+            }
-+        }
-+        info_str = g_strdup_printf(" connect to %s", saddr_un.sun_path);
-+        break;
-+    }
-     case SOCKET_ADDRESS_TYPE_FD:
-         fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
-         if (fd == -1) {
-@@ -397,7 +489,7 @@ static int net_stream_client_init(NetClientState *peer,
-         info_str = g_strdup_printf("connect to fd %d", fd);
-         break;
-     default:
--        error_setg(errp, "only support inet or fd type");
-+        error_setg(errp, "only support inet, unix or fd type");
+@@ -375,6 +373,7 @@ static NetDgramState *net_dgram_fd_init_dgram(NetClientState *peer,
+     return s;
+ 
+ err:
++    g_free(saddr);
+     closesocket(fd);
+     return NULL;
+ }
+@@ -420,21 +419,24 @@ static int net_dgram_mcast_init(NetClientState *peer,
+ {
+     NetDgramState *s;
+     int fd, ret;
+-    struct sockaddr_in saddr;
++    struct sockaddr_in *saddr;
+ 
+     if (remote->type != SOCKET_ADDRESS_TYPE_INET) {
+         error_setg(errp, "multicast only support inet type");
          return -1;
      }
  
+-    if (convert_host_port(&saddr, remote->u.inet.host, remote->u.inet.port,
++    saddr = g_new(struct sockaddr_in, 1);
++    if (convert_host_port(saddr, remote->u.inet.host, remote->u.inet.port,
+                           errp) < 0) {
++        g_free(saddr);
+         return -1;
+     }
+ 
+     if (!local) {
+-        fd = net_dgram_mcast_create(&saddr, NULL, errp);
++        fd = net_dgram_mcast_create(saddr, NULL, errp);
+         if (fd < 0) {
++            g_free(saddr);
+             return -1;
+         }
+     } else {
+@@ -443,13 +445,15 @@ static int net_dgram_mcast_init(NetClientState *peer,
+             struct in_addr localaddr;
+ 
+             if (inet_aton(local->u.inet.host, &localaddr) == 0) {
++                g_free(saddr);
+                 error_setg(errp, "localaddr '%s' is not a valid IPv4 address",
+                            local->u.inet.host);
+                 return -1;
+             }
+ 
+-            fd = net_dgram_mcast_create(&saddr, &localaddr, errp);
++            fd = net_dgram_mcast_create(saddr, &localaddr, errp);
+             if (fd < 0) {
++                g_free(saddr);
+                 return -1;
+             }
+             break;
+@@ -457,16 +461,19 @@ static int net_dgram_mcast_init(NetClientState *peer,
+         case SOCKET_ADDRESS_TYPE_FD:
+             fd = monitor_fd_param(monitor_cur(), local->u.fd.str, errp);
+             if (fd == -1) {
++                g_free(saddr);
+                 return -1;
+             }
+             ret = qemu_socket_try_set_nonblock(fd);
+             if (ret < 0) {
++                g_free(saddr);
+                 error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
+                                  name, fd);
+                 return -1;
+             }
+             break;
+         default:
++            g_free(saddr);
+             error_setg(errp, "only support inet or fd type for local");
+             return -1;
+         }
+@@ -476,13 +483,16 @@ static int net_dgram_mcast_init(NetClientState *peer,
+                                  local->type == SOCKET_ADDRESS_TYPE_FD,
+                                  remote, errp);
+     if (!s) {
++        g_free(saddr);
+         return -1;
+     }
+ 
+-    s->dgram_dst = saddr;
++    g_assert(s->dgram_dst == NULL);
++    s->dgram_dst = (struct sockaddr *)saddr;
+ 
+     snprintf(s->nc.info_str, sizeof(s->nc.info_str), "mcast=%s:%d",
+-             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++             inet_ntoa(saddr->sin_addr), ntohs(saddr->sin_port));
++
+     return 0;
+ 
+ }
+@@ -496,8 +506,8 @@ static int net_dgram_udp_init(NetClientState *peer,
+ {
+     NetDgramState *s;
+     int fd, ret;
+-    struct sockaddr_in raddr_in;
+     gchar *info_str;
++    struct sockaddr *dgram_dst;
+ 
+     if (remote) {
+         if (local->type == SOCKET_ADDRESS_TYPE_FD) {
+@@ -517,7 +527,7 @@ static int net_dgram_udp_init(NetClientState *peer,
+ 
+     switch (local->type) {
+     case SOCKET_ADDRESS_TYPE_INET: {
+-        struct sockaddr_in laddr_in;
++        struct sockaddr_in laddr_in, raddr_in;
+ 
+         if (convert_host_port(&laddr_in, local->u.inet.host, local->u.inet.port,
+                               errp) < 0) {
+@@ -551,9 +561,12 @@ static int net_dgram_udp_init(NetClientState *peer,
+         }
+         qemu_socket_set_nonblock(fd);
+ 
++        dgram_dst = g_malloc(sizeof(raddr_in));
++        memcpy(dgram_dst, &raddr_in, sizeof(raddr_in));
++
+         info_str = g_strdup_printf("udp=%s:%d/%s:%d",
+-                 inet_ntoa(laddr_in.sin_addr), ntohs(laddr_in.sin_port),
+-                 inet_ntoa(raddr_in.sin_addr), ntohs(raddr_in.sin_port));
++                        inet_ntoa(laddr_in.sin_addr), ntohs(laddr_in.sin_port),
++                        inet_ntoa(raddr_in.sin_addr), ntohs(raddr_in.sin_port));
+ 
+         break;
+     }
+@@ -580,7 +593,8 @@ static int net_dgram_udp_init(NetClientState *peer,
+     }
+ 
+     if (remote) {
+-        s->dgram_dst = raddr_in;
++        g_assert(s->dgram_dst == NULL);
++        s->dgram_dst = dgram_dst;
+ 
+         pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), info_str);
+         g_free(info_str);
 -- 
 2.36.1
 
