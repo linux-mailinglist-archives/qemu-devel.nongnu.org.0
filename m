@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9186551FED
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 17:11:44 +0200 (CEST)
-Received: from localhost ([::1]:52080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D94155200E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 17:12:39 +0200 (CEST)
+Received: from localhost ([::1]:54062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3J43-0003FT-AP
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 11:11:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
+	id 1o3J4w-0004Zl-Cr
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 11:12:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3J1r-0002H4-L2
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:09:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55101)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3J38-000316-Ja
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:10:46 -0400
+Received: from smtpout140.security-mail.net ([85.31.212.143]:58496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3J1n-0007vc-N2
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:09:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655737762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Y5DvdTGb2RhcK7Z7WQlzd+J7ZdtdywWHBvO8SabowZ0=;
- b=XGRAx2MnHPxuln+wBN421IGEN54K57iLIWxfkqHSEFOpc69o2GNjnl4WC4/OtO/SK6uiIP
- JtsEquw5FW0RAGCnidtHroP3bLosI0jwbLi9bcwskVKV4bB5Mvts79Beo7IZ67xylhWgxy
- v0A7sGOFBh6i8wfILKkvgE1ISWwIvJc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-S2qO8gBaOaGrq6PCMnd9_Q-1; Mon, 20 Jun 2022 11:09:20 -0400
-X-MC-Unique: S2qO8gBaOaGrq6PCMnd9_Q-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 560968316FB
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 15:09:20 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C02B40314B;
- Mon, 20 Jun 2022 15:09:19 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: [PATCH] migration: Remove RDMA_UNREGISTRATION_EXAMPLE
-Date: Mon, 20 Jun 2022 17:09:18 +0200
-Message-Id: <20220620150918.57471-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3J36-0008JC-CF
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:10:46 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by fx403.security-mail.net (Postfix) with ESMTP id 2FD4E116FB7
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 17:10:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+ s=sec-sig-email; t=1655737841;
+ bh=n8z1QnEzU41TcCH6Pw6bYlVQDNAg/NCBm3ukt5GYJqI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=nEGZcWNKyCHD7Cx7nBpGqKHeElphzIQZGCX8h4r1AGEqIxxhAjbaNnuqyo4TrmtuH
+ sLFxRIt8M3G1qeMRGBfu9DMvBcwyx0D15C6GsUx8/Q8xgycf4gfInN7NmtxF8Dz1lX
+ Ar8G2Fn42jUS23HYhfqvbzX3QxLL19EKK5Lrn8e4=
+Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
+ (Postfix) with ESMTP id 2908D116F89; Mon, 20 Jun 2022 17:10:39 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx403.security-mail.net (Postfix) with ESMTPS id 87B6B116F7A; Mon, 20 Jun
+ 2022 17:10:38 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 62B6927E04B5; Mon, 20 Jun 2022
+ 17:10:38 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 4772427E04D6; Mon, 20 Jun 2022 17:10:38 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ i_u8DkW2PGSj; Mon, 20 Jun 2022 17:10:38 +0200 (CEST)
+Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
+ (Postfix) with ESMTPSA id 2AAA727E04B5; Mon, 20 Jun 2022 17:10:38 +0200
+ (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <17990.62b08dee.86cbd.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 4772427E04D6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655737838;
+ bh=j7it9fC6s7jGiN4T6wyBs/vOt6uQy52H6/9CGanBiO8=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=Kq5oo2ybUF8C7EBOkDVz6Ghkp5EFnB78nJONmXEb/XvdmXrNtGYtpeOz3t93Yztm9
+ i25gs/XLOPqSuEsTUT9UrEMkzStWNko+M/Vvar2Yrsx6D6LzhN46s0uPF+YAIqS4/Q
+ 9lg86d8vSAFT9os1pZexY2Kivw+BlpnF4O8/zwow=
+Date: Mon, 20 Jun 2022 17:10:37 +0200
+From: Luc Michel <lmichel@kalray.eu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?b?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Alex =?utf-8?b?QmVubsOpZQ==?=
+ <alex.bennee@linaro.org>, Eric Blake <eblake@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno
+ <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Aleksandar
+ Rikalo <aleksandar.rikalo@syrmia.com>, Chris Wulff <crwulff@gmail.com>,
+ Marek Vasut <marex@denx.de>, Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: [PATCH 0/7] semihosting: proper QEMU exit on semihosted exit
+ syscall
+Message-ID: <20220620151037.GB4427@ws2101.lin.mbt.kalray.eu>
+References: <20220620142426.15040-1-lmichel@kalray.eu>
+ <CAFEAcA-++01L_S=G13AtMO9n4H0vvHZf3M68SOTAJ4sOzu9KGw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-++01L_S=G13AtMO9n4H0vvHZf3M68SOTAJ4sOzu9KGw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-ALTERMIMEV2_out: done
+Received-SPF: pass client-ip=85.31.212.143; envelope-from=lmichel@kalray.eu;
+ helo=smtpout140.security-mail.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,82 +100,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nobody has ever showed up to unregister individual pages, and another
-set of patches written by Daniel P. Berrangé <berrange@redhat.com>
-just remove qemu_rdma_signal_unregister() function needed here.
+On 15:35 Mon 20 Jun     , Peter Maydell wrote:
+> On Mon, 20 Jun 2022 at 15:25, Luc Michel <lmichel@kalray.eu> wrote:
+> > This series implements a clean way for semihosted exit syscalls to
+> > terminate QEMU with a given return code.
+> >
+> > Until now, exit syscalls implementations consisted in calling exit()
+> > with the wanted return code. The problem with this approach is that
+> > other CPUs are not properly stopped, leading to possible crashes in
+> > MTTCG mode, especially when at_exit callbacks have been registered. This
+> > can be the case e.g., when plugins are in use. Plugins can register
+> > at_exit callbacks. Those will be called on the CPU thread the exit
+> > syscall is comming from, while other CPUs can continue to run and thus
+> > call other plugin callbacks.
+> 
+> The other option would be to say "if you register an atexit
+> callback in your plugin that's your problem to sort out" :-)
+> There's lots of situations where code inside QEMU might just
+> call exit(), not just this one. (Mostly these are "we detected
+> an error and decided to just bail out" codepaths.)
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/rdma.c | 41 -----------------------------------------
- 1 file changed, 41 deletions(-)
+Sorry I was a bit unclear. I meant plugins using the
+qemu_plugin_register_atexit_cb() register function, not directly calling
+atexit(). This function documentation stats:
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 672d1958a9..8504152f39 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -1370,30 +1370,6 @@ const char *print_wrid(int wrid)
-     return wrid_desc[wrid];
- }
- 
--/*
-- * RDMA requires memory registration (mlock/pinning), but this is not good for
-- * overcommitment.
-- *
-- * In preparation for the future where LRU information or workload-specific
-- * writable writable working set memory access behavior is available to QEMU
-- * it would be nice to have in place the ability to UN-register/UN-pin
-- * particular memory regions from the RDMA hardware when it is determine that
-- * those regions of memory will likely not be accessed again in the near future.
-- *
-- * While we do not yet have such information right now, the following
-- * compile-time option allows us to perform a non-optimized version of this
-- * behavior.
-- *
-- * By uncommenting this option, you will cause *all* RDMA transfers to be
-- * unregistered immediately after the transfer completes on both sides of the
-- * connection. This has no effect in 'rdma-pin-all' mode, only regular mode.
-- *
-- * This will have a terrible impact on migration performance, so until future
-- * workload information or LRU information is available, do not attempt to use
-- * this feature except for basic testing.
-- */
--/* #define RDMA_UNREGISTRATION_EXAMPLE */
--
- /*
-  * Perform a non-optimized memory unregistration after every transfer
-  * for demonstration purposes, only if pin-all is not requested.
-@@ -1571,18 +1547,6 @@ static uint64_t qemu_rdma_poll(RDMAContext *rdma, struct ibv_cq *cq,
-         if (rdma->nb_sent > 0) {
-             rdma->nb_sent--;
-         }
--
--        if (!rdma->pin_all) {
--            /*
--             * FYI: If one wanted to signal a specific chunk to be unregistered
--             * using LRU or workload-specific information, this is the function
--             * you would call to do so. That chunk would then get asynchronously
--             * unregistered later.
--             */
--#ifdef RDMA_UNREGISTRATION_EXAMPLE
--            qemu_rdma_signal_unregister(rdma, index, chunk, wc.wr_id);
--#endif
--        }
-     } else {
-         trace_qemu_rdma_poll_other(print_wrid(wr_id), wr_id, rdma->nb_sent);
-     }
-@@ -2137,11 +2101,6 @@ retry:
- 
-     chunk_end = ram_chunk_end(block, chunk + chunks);
- 
--    if (!rdma->pin_all) {
--#ifdef RDMA_UNREGISTRATION_EXAMPLE
--        qemu_rdma_unregister_waiting(rdma);
--#endif
--    }
- 
-     while (test_bit(chunk, block->transit_bitmap)) {
-         (void)count;
--- 
-2.35.3
+"Plugins should be able to free all their resources at this point much like
+after a reset/uninstall callback is called."
+
+If other CPUs are still running, this is not possible. I guess it's
+reasonable to assume CPUs have reached a quiescent state when those
+callbacks are called.
+
+> 
+> Is there a situation where we get a crash that doesn't involve
+> code in a plugin doing something odd?
+
+I'm not sure... I always feel a bit uncomfortable calling exit() from
+a CPU thread in the middle of a translation block :)
+I guess if you're monitoring QEMU through a QMP connection, it's better
+to have a proper exit reason than having the connection suddenly
+dropped. I guess the semihosting mode is not that popular among QEMU
+users so there are probably other corner cases I'm not aware about. 
+
+Thanks,
+
+Luc
+
+
+
 
 
