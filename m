@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E701551ED9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:33:23 +0200 (CEST)
-Received: from localhost ([::1]:50874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6310551F06
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:38:00 +0200 (CEST)
+Received: from localhost ([::1]:34900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ISw-000793-Gf
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46366)
+	id 1o3IXP-000700-Ur
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:37:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL7-0005eu-Qq
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:17 -0400
-Received: from smtpout30.security-mail.net ([85.31.212.36]:12602)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL8-0005hn-NU
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:18 -0400
+Received: from smtpout140.security-mail.net ([85.31.212.148]:38379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL5-0001SH-Mh
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:17 -0400
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL5-0001SC-Ms
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:18 -0400
 Received: from localhost (localhost [127.0.0.1])
- by fx301.security-mail.net (Postfix) with ESMTP id 185B124BD0D7
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 16:25:13 +0200 (CEST)
+ by fx408.security-mail.net (Postfix) with ESMTP id 74D1A1B7B1BD
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 16:25:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1655735113;
- bh=u/lIOm00bNErb9bvAE44lqv3tXUVGVmSakhfbg9cgco=;
+ s=sec-sig-email; t=1655735112;
+ bh=Vi1A8wBnLovlrTEdXogPrB/Mx/jPqmMzAtBqZuqPZn8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=1rETEw849RCiG+wzD1NMDZ8nlRrKlcAfORcH5My2VMwzBnCuTS3m4gNqYbp7XvrHs
- QX24/HKacu8T2tD9NCDk2FtIt2VbsZseEOym/rt1GiUOX9U12LxmgI6A/nYkK/VKYx
- /kFXxygfq844ljxVAGN8No0MZ99NYImAISwF/mUQ=
-Received: from fx301 (localhost [127.0.0.1])
- by fx301.security-mail.net (Postfix) with ESMTP id 4188424BD0DB;
+ b=lWw7ZzpNUTJjYg7BBnU8Ecumf9lnucAb+vs7iV/fBeiZnqTJX38Cdb7X1ljprnJyn
+ OjANauefCHxr0dyGGXj+ZeAwPXm2JVeWGLHOaAnWB0EEMqSygF08NzbSbh5zUK2tSc
+ WJZADNStikFD3gM1KW9ab1hAkKY/nXboaC6Jf6hk=
+Received: from fx408 (localhost [127.0.0.1])
+ by fx408.security-mail.net (Postfix) with ESMTP id 2BD371B7B075;
  Mon, 20 Jun 2022 16:25:10 +0200 (CEST)
 X-Virus-Scanned: E-securemail
-Secumail-id: <d7c8.62b08345.9126e.0>
+Secumail-id: <76b9.62b08345.acbad.0>
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
- by fx301.security-mail.net (Postfix) with ESMTPS id 92B2224BD0CA;
+ by fx408.security-mail.net (Postfix) with ESMTPS id AD76B1B7B194;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTPS id 6EA8A27E04DA;
+ by zimbra2.kalray.eu (Postfix) with ESMTPS id 8362427E04D6;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id 5510027E04E7;
+ by zimbra2.kalray.eu (Postfix) with ESMTP id 6D11927E04D9;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 5510027E04E7
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 6D11927E04D9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
  s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655735109;
- bh=4+cDIWbGM7mzrvRHCeSgPwxY5vp5EgRm8yefmeNSXao=;
+ bh=lXnnbnuAZ1izT8Grm0O8SSDegE9ud6CZeXY6J795CTc=;
  h=From:To:Date:Message-Id;
- b=obDS7aLbQ/eMHD3cYxFyYEqhk5UEqojAk9CcTUddAqb7FGhukEUI0SvfMTUFCN6Mm
- mgsZ/B09tpE60bQOr5yVSoSz2GFltRtHcEs13XEFWgHHZnUZj+ufFMBXfp2UI4zWxW
- KjEaJb+L4oRwJUrRlrcfP+Wx66EkkThfF5aKsFZQ=
+ b=NfhTAwoIsCWF+FbsJAoOswBkjqQTaiAnYXw4JDsBLnUrLmfShle8/q//G/iOa7KBc
+ TNgw0ISAjxaCWi4B9QexfQAmXb1g1zLbVR8zvE08OpOaYDCDAk1Qn4C11O4CnF/+qH
+ 92j4q9m4O439DktjbxQWbCokcfnVJ0cgWp4mFlV4=
 Received: from zimbra2.kalray.eu ([127.0.0.1])
  by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id X3PTdYkmX7tw; Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
+ with ESMTP id BGWdhZ2Bgw3e; Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from ws2101.lin.mbt.kalray.eu (unknown [192.168.36.68])
- by zimbra2.kalray.eu (Postfix) with ESMTPSA id 38F0327E04DA;
+ by zimbra2.kalray.eu (Postfix) with ESMTPSA id 47E6F27E04B5;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 From: Luc Michel <lmichel@kalray.eu>
 To: qemu-devel@nongnu.org
@@ -69,15 +69,15 @@ Cc: Luc Michel <lmichel@kalray.eu>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
  Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH 2/7] semihosting: add the semihosting_exit_request function
-Date: Mon, 20 Jun 2022 16:24:21 +0200
-Message-Id: <20220620142426.15040-4-lmichel@kalray.eu>
+Subject: [PATCH 3/7] semihosting/arm-compat-semi: use semihosting_exit_request
+Date: Mon, 20 Jun 2022 16:24:22 +0200
+Message-Id: <20220620142426.15040-5-lmichel@kalray.eu>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220620142426.15040-1-lmichel@kalray.eu>
 References: <20220620142426.15040-1-lmichel@kalray.eu>
 X-Virus-Scanned: by Secumail
-Received-SPF: pass client-ip=85.31.212.36; envelope-from=lmichel@kalray.eu;
- helo=smtpout30.security-mail.net
+Received-SPF: pass client-ip=85.31.212.148; envelope-from=lmichel@kalray.eu;
+ helo=smtpout140.security-mail.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -100,123 +100,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the semihosting_exit_request function to be used by targets when
-handling an `exit' semihosted syscall. This function calls gdb_exit to
-close existing GDB connections, and qemu_system_shutdown_request with
-the new `guest-semi-exit' exit reason. It sets the QEMU exit status
-given by the exit syscall parameter. Finally it stops the CPU to prevent
-further execution, and exit the CPU loop as the syscall caller expects
-this syscall to not return.
-
-This function is meant to be used in place of a raw exit() call when
-handling semihosted `exit' syscalls. Such a call is not safe because
-it does not allow other CPU threads to exit properly, leading to e.g.
-at_exit callbacks being called while other CPUs still run. This can lead
-to strange bugs, especially in plugins with a registered at_exit function.
+Use the new semihosting_exit_request instead of a call to exit when
+handling a semihosted exit syscall.
 
 Signed-off-by: Luc Michel <lmichel@kalray.eu>
 ---
- qapi/run-state.json            |  4 +++-
- include/semihosting/semihost.h |  4 ++++
- semihosting/config.c           | 17 +++++++++++++++++
- 3 files changed, 24 insertions(+), 1 deletion(-)
+ semihosting/arm-compat-semi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 6e2162d7b3..a4f08dd32e 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -80,20 +80,22 @@
- # @guest-reset: Guest reset request, and command line turns that into
- #               a shutdown
- #
- # @guest-panic: Guest panicked, and command line turns that into a shutdown
- #
-+# @guest-semi-exit: Guest exit request via a semi-hosted exit syscall
-+#
- # @subsystem-reset: Partial guest reset that does not trigger QMP events and
- #                   ignores --no-reboot. This is useful for sanitizing
- #                   hypercalls on s390 that are used during kexec/kdump/boot
- #
- ##
- { 'enum': 'ShutdownCause',
-   # Beware, shutdown_caused_by_guest() depends on enumeration order
-   'data': [ 'none', 'host-error', 'host-qmp-quit', 'host-qmp-system-reset',
-             'host-signal', 'host-ui', 'guest-shutdown', 'guest-reset',
--            'guest-panic', 'subsystem-reset'] }
-+            'guest-panic', 'guest-semi-exit', 'subsystem-reset'] }
- 
- ##
- # @StatusInfo:
- #
- # Information about VCPU run state
-diff --git a/include/semihosting/semihost.h b/include/semihosting/semihost.h
-index 0c55ade3ac..9a3214a0c8 100644
---- a/include/semihosting/semihost.h
-+++ b/include/semihosting/semihost.h
-@@ -54,10 +54,13 @@ static inline const char *semihosting_get_cmdline(void)
- 
- static inline Chardev *semihosting_get_chardev(void)
- {
-     return NULL;
- }
-+void semihosting_exit_request(int status)
-+{
-+}
- static inline void qemu_semihosting_console_init(void)
- {
- }
- #else /* !CONFIG_USER_ONLY */
- bool semihosting_enabled(void);
-@@ -65,10 +68,11 @@ SemihostingTarget semihosting_get_target(void);
- const char *semihosting_get_arg(int i);
- int semihosting_get_argc(void);
- const char *semihosting_get_cmdline(void);
- void semihosting_arg_fallback(const char *file, const char *cmd);
- Chardev *semihosting_get_chardev(void);
-+G_NORETURN void semihosting_exit_request(int status);
- /* for vl.c hooks */
- void qemu_semihosting_enable(void);
- int qemu_semihosting_config_options(const char *opt);
- void qemu_semihosting_connect_chardevs(void);
- void qemu_semihosting_console_init(void);
-diff --git a/semihosting/config.c b/semihosting/config.c
-index 3afacf54ab..7913c83033 100644
---- a/semihosting/config.c
-+++ b/semihosting/config.c
-@@ -22,10 +22,15 @@
- #include "qemu/option.h"
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
- #include "semihosting/semihost.h"
- #include "chardev/char.h"
-+#include "sysemu/sysemu.h"
-+#include "sysemu/runstate.h"
-+#include "sysemu/cpus.h"
-+#include "exec/exec-all.h"
-+#include "exec/gdbstub.h"
- 
- QemuOptsList qemu_semihosting_config_opts = {
-     .name = "semihosting-config",
-     .merge_lists = true,
-     .implied_opt_name = "enable",
-@@ -183,5 +188,17 @@ void qemu_semihosting_connect_chardevs(void)
-             exit(1);
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index b6ddaf863a..fad5116f3c 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -1253,12 +1253,11 @@ target_ulong do_common_semihosting(CPUState *cs)
+              * allow the guest to specify the exit status code.
+              * Everything else is considered an error.
+              */
+             ret = (args == ADP_Stopped_ApplicationExit) ? 0 : 1;
          }
-         semihosting.chardev = chr;
-     }
- }
-+
-+void semihosting_exit_request(int status)
-+{
-+    gdb_exit(status);
-+    qemu_set_exit_status(status);
-+    qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SEMI_EXIT);
-+    cpu_stop_current();
-+
-+    current_cpu->exception_index = EXCP_HLT;
-+    current_cpu->halted = 1;
-+    cpu_loop_exit(current_cpu);
-+}
+-        gdb_exit(ret);
+-        exit(ret);
++        semihosting_exit_request(ret);
+     case TARGET_SYS_ELAPSED:
+         elapsed = get_clock() - clock_start;
+         if (sizeof(target_ulong) == 8) {
+             SET_ARG(0, elapsed);
+         } else {
 -- 
 2.17.1
 
