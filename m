@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0CF0551EF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:36:36 +0200 (CEST)
-Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2164D551ED5
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:29:02 +0200 (CEST)
+Received: from localhost ([::1]:43710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3IW3-0003RJ-WD
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46422)
+	id 1o3IOj-0001py-08
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL9-0005jB-1J
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:19 -0400
-Received: from mxout.security-mail.net ([85.31.212.42]:34069)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3ILA-0005mm-2y
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:20 -0400
+Received: from smtpout140.security-mail.net ([85.31.212.148]:38550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL6-0001Sd-IT
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:18 -0400
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL8-0001TA-DD
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:19 -0400
 Received: from localhost (localhost [127.0.0.1])
- by fx302.security-mail.net (Postfix) with ESMTP id 483693D3B108
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 16:25:15 +0200 (CEST)
+ by fx408.security-mail.net (Postfix) with ESMTP id 28C041B7B1EC
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 16:25:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1655735115;
- bh=T95sWA5zxe4fWS53roiVVcEs3JYFnRvZjn+m8zQR/+I=;
+ s=sec-sig-email; t=1655735117;
+ bh=XVWQIrqLfbq44o7nhRpky02WJ56xIVfQPbtuiuuMCOs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=5OeM9K3LjoHF0qEKE55kLdCQZLzU7zVa1XeqoJVsADw7ScbZqD/geut6ZKqL6QMJa
- +gPAdWbFkoLUY2m2NZXSA1Y7Vx7vcFGR6ZCdgNwvjaxQ2kHOsn0q7eTH5EA7Tugf4y
- 3C0OPsEyqA1pDreNdo3k316kyD1Fj+VYWGe75QAM=
-Received: from fx302 (localhost [127.0.0.1])
- by fx302.security-mail.net (Postfix) with ESMTP id 527693D3B11B;
+ b=3tr+0L5YqyNpWLGw5gwpz6I/Ep5raljrQFXIi2VAC7GR1Hu/5e/FA5/JclfqysZEM
+ LR6mSAVHfMtfkSqZdryH5EXuN7ZJE6bB+Ipa7bhD0Dn8ZSyhxtv+a5hvUfoK24ek0Z
+ 9kNFFWZkfvv/QmRg8UoCzRf7CwtnATOBHWx/Uga0=
+Received: from fx408 (localhost [127.0.0.1])
+ by fx408.security-mail.net (Postfix) with ESMTP id 843A11B7AC88;
  Mon, 20 Jun 2022 16:25:10 +0200 (CEST)
 X-Virus-Scanned: E-securemail
-Secumail-id: <9b0e.62b08345.c01cf.0>
+Secumail-id: <6381.62b08345.c81a6.0>
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
- by fx302.security-mail.net (Postfix) with ESMTPS id C0E003D3B13A;
+ by fx408.security-mail.net (Postfix) with ESMTPS id 0B0751B7B1FA;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTPS id 9D19E27E04DD;
+ by zimbra2.kalray.eu (Postfix) with ESMTPS id A895027E04DA;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id 793DD27E04D7;
+ by zimbra2.kalray.eu (Postfix) with ESMTP id 89F8F27E04B5;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 793DD27E04D7
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 89F8F27E04B5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
  s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655735109;
- bh=pqO+2rhibMGYfEqFI+8R0ermok68nZKn3dLnJ/SKXcM=;
+ bh=noDv+i8A3nUMntl+CKPUJTHI8Qi4mLZXGmf4EwFwLlc=;
  h=From:To:Date:Message-Id;
- b=liwULzCxnJjZ1m2AEasAr6ym0hX31FqIQGDprC66mv+5to/Xfc79fYxMyyPyOlcZl
- KSk207ua3FciEKpL0ek58m10V1LZaP+LSdAvVvNVkvLrTjDX5G4F1dSXSZI+jIaFL5
- w5c/5Ol+WAC4kEHg1XR2hKGyuYlnmZveqIw8q1w4=
+ b=EPLXpF+2Cr5+sh8NW1WoYT+4hyJgJtd31f+gySyT9Iwa/aIYhoNw5a1jKfL4OB6td
+ +6AoE6Jsh+uSbUTusF1QqssE5zsUD7FBEp78w8dK+6kFqNJ1Pd3wqnyqTFQsLpJxqP
+ M8v0t7K7/DptRCnjbTDI5m4SXF1+AfnR8z9C9pbE=
 Received: from zimbra2.kalray.eu ([127.0.0.1])
  by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id Sb7X1iJqwTtQ; Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
+ with ESMTP id 3xdtOcjnUa1w; Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from ws2101.lin.mbt.kalray.eu (unknown [192.168.36.68])
- by zimbra2.kalray.eu (Postfix) with ESMTPSA id 5F96D27E04D8;
+ by zimbra2.kalray.eu (Postfix) with ESMTPSA id 698F527E04ED;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 From: Luc Michel <lmichel@kalray.eu>
 To: qemu-devel@nongnu.org
@@ -69,16 +69,16 @@ Cc: Luc Michel <lmichel@kalray.eu>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
  Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH 4/7] target/m68k: use semihosting_exit_request on semihosted
+Subject: [PATCH 5/7] target/mips: use semihosting_exit_request on semihosted
  exit syscall
-Date: Mon, 20 Jun 2022 16:24:23 +0200
-Message-Id: <20220620142426.15040-6-lmichel@kalray.eu>
+Date: Mon, 20 Jun 2022 16:24:24 +0200
+Message-Id: <20220620142426.15040-7-lmichel@kalray.eu>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220620142426.15040-1-lmichel@kalray.eu>
 References: <20220620142426.15040-1-lmichel@kalray.eu>
 X-Virus-Scanned: by Secumail
-Received-SPF: pass client-ip=85.31.212.42; envelope-from=lmichel@kalray.eu;
- helo=mxout.security-mail.net
+Received-SPF: pass client-ip=85.31.212.148; envelope-from=lmichel@kalray.eu;
+ helo=smtpout140.security-mail.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -106,39 +106,26 @@ handling a semihosted exit syscall.
 
 Signed-off-by: Luc Michel <lmichel@kalray.eu>
 ---
- target/m68k/m68k-semi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/mips/tcg/sysemu/mips-semi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index 37343d47e2..b3de3c6874 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -27,10 +27,11 @@
- #else
- #include "exec/softmmu-semi.h"
- #include "hw/boards.h"
- #endif
- #include "qemu/log.h"
-+#include "semihosting/semihost.h"
+diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+index b4a383ae90..94be486925 100644
+--- a/target/mips/tcg/sysemu/mips-semi.c
++++ b/target/mips/tcg/sysemu/mips-semi.c
+@@ -245,11 +245,11 @@ void helper_do_semihosting(CPUMIPSState *env)
+     char *p, *p2;
  
- #define HOSTED_EXIT  0
- #define HOSTED_INIT_SIM 1
- #define HOSTED_OPEN 2
- #define HOSTED_CLOSE 3
-@@ -193,12 +194,11 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
-     uint32_t result;
- 
-     args = env->dregs[1];
-     switch (nr) {
-     case HOSTED_EXIT:
--        gdb_exit(env->dregs[0]);
--        exit(env->dregs[0]);
-+        semihosting_exit_request(env->dregs[0]);
-     case HOSTED_OPEN:
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
-         GET_ARG(3);
+     switch (op) {
+     case UHI_exit:
+         qemu_log("UHI(%d): exit(%d)\n", op, (int)gpr[4]);
+-        exit(gpr[4]);
++        semihosting_exit_request(gpr[4]);
+     case UHI_open:
+         GET_TARGET_STRING(p, gpr[4]);
+         if (!strcmp("/dev/stdin", p)) {
+             gpr[2] = 0;
+         } else if (!strcmp("/dev/stdout", p)) {
 -- 
 2.17.1
 
