@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D2A551646
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 12:54:00 +0200 (CEST)
-Received: from localhost ([::1]:35244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C00255166A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 12:59:04 +0200 (CEST)
+Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3F2Y-0006Df-Nf
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 06:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1o3F7X-00009o-B7
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 06:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3Ezq-0005RL-6e
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:51:06 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:45906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3Ezo-00054S-As
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:51:05 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-3177e60d980so74420567b3.12
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 03:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MOACMW4ukJBnur3BDZJyqOknHkjiDshYNnDC81Q+PTk=;
- b=pPvDpjP6FJ2Z08NleCSmpEEqe6Hw6vZR+H9rlBk1DO4fO3O3/Gq5d+LVXPMaaWeThJ
- hv17mtrUPiiCBArtMeqKOXeUJpTFpSf5eSW9DKROdJMHP+ZUMKT6yy9pJJk+/zLzkQ1U
- VJj2PO9PCsPzoJAbqc4nMt+xDBttYf/bimFnlihP+vQU1icyo+gGe+UeqrZceRE5j90t
- cQsNTu+tyXybXEwCng7p828mbARmlUot/PqfKoqciqrO73L0fHu9Gy8t2X4HvnDZ2M7t
- RFoNWudB1j5g6z/CRpgh7wmFC3oNWjfKaxS8JQk69cTQrNoN2BDI1D464+HhHdLOva6v
- RbSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MOACMW4ukJBnur3BDZJyqOknHkjiDshYNnDC81Q+PTk=;
- b=m6tZKeUSNvs+p2//r7i7/yQ36BSZ3lKfpvnEPtDW7PUYYyiAxyoyWPlme8fT+Rp6hz
- zKoUfrfVZf9aBQVKyfvn13BGek0Lvg1o/j+5OYiWZncOuYrR8+lkDJZueeP0NOmfTKSi
- X4cwqjbJyneDEUwWAVSiEbOQ6EyVKggvJLrOKAeEGF+JsRVf8CFTBXc62F1kSl73xLog
- +hBP2z/qV9aPz6jMqFrxsLz8rcAUFkpA+JntbUJLmB+JP/SBqGzZLQDFyYa0CbX9nBB3
- BQddAZ7Mwq8JLV++kap+tbTvYyLbTETPZC/8LYsyHtR9BwN14J7o5BfY2rSlDCqR8Hvj
- u+iw==
-X-Gm-Message-State: AJIora8mM3SXx8+43bOyic8gvfaImA73f41rK1sz3P0FBjF5cvDWRi5Y
- JzGc/rzEqChrPWh85odcUgPC70aiMQL0ZbgWuW1z1w==
-X-Google-Smtp-Source: AGRyM1tfp5Z42kpqyWhz6iAu/RskdksOug5iAeoxw+sfUtKnRV7xGovxLj95aEfNOqWmDuezVFvCaqVAcDFxFp87LSM=
-X-Received: by 2002:a0d:d712:0:b0:317:a108:9778 with SMTP id
- z18-20020a0dd712000000b00317a1089778mr10993993ywd.64.1655722263034; Mon, 20
- Jun 2022 03:51:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1o3F3V-0007Wk-QZ
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:54:53 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:47685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1o3F3S-0005Yf-PD
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:54:52 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 96FCE40A38;
+ Mon, 20 Jun 2022 13:54:36 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id D229813A;
+ Mon, 20 Jun 2022 13:54:35 +0300 (MSK)
+Message-ID: <0b98e946-3f1b-0e2c-8beb-9cc878190c06@msgid.tls.msk.ru>
+Date: Mon, 20 Jun 2022 13:54:35 +0300
 MIME-Version: 1.0
-References: <CAFEAcA80ABJ+RXFeoH4mo5yJk5oNh4Zc5QTBN35vVOL4eg0cNQ@mail.gmail.com>
- <a8f5f61a-c976-e48f-48e1-e87fecd61901@linaro.org>
-In-Reply-To: <a8f5f61a-c976-e48f-48e1-e87fecd61901@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jun 2022 11:50:52 +0100
-Message-ID: <CAFEAcA_LzYqxSe=Pa7KJg-GuR8_E=Qfjj0s1by9LMasRiUR9sA@mail.gmail.com>
-Subject: Re: proposed 7.1 release schedule
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: Building tools on unsupported cpu/arch
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+References: <31fb2fcb-6ad0-b769-9ec9-94fba0679065@msgid.tls.msk.ru>
+ <beb38967-f089-c0f2-eb41-f33277e38d44@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <beb38967-f089-c0f2-eb41-f33277e38d44@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,34 +62,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 May 2022 at 16:08, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/23/22 02:53, Peter Maydell wrote:
-> > I just put some proposed dates into the 7.1 schedule page:
-> > https://wiki.qemu.org/Planning/7.1#Release_Schedule
-> >
-> > * 2022-07-12  Softfreeze
-> > * 2022-07-19  Hardfreeze. Tag rc0
-> > * 2022-07-26  Tag rc1
-> > * 2022-08-02  Tag rc2
-> > * 2022-08-09  Tag rc3
-> > * 2022-08-16  Release; or tag rc4 if needed
-> > * 2022-08-23  Release if we needed an rc4
-> >
-> > Does this work for people? I just worked backwards
-> > from a final release date about 4 months after 7.0; easy
-> > enough to shift it forward or back by a week or so if
-> > that works better for some reason.
->
-> Shifting later a week or so would be better. I'm on holiday from 13-22 July -- unless
-> someone would like to manage merges in that period?
+20.06.2022 13:31, Thomas Huth write:
+> On 30/04/2022 16.11, Michael Tokarev wrote:
+>> Hello!
+>>
+>> Previously, it was possible to build qemu tools (such as qemu-img, or qemu-ga)
+>> on an unsupported cpu/architecture.  In a hackish way, by specifying
+>> --enable-tcg-interpreter on the ./configure line.
+>>
+>> Today (with 7.0), it does not work anymore, with the following error
+>> during configure:
+>>
+>>   common-user/meson.build:1:0: ERROR: Include dir host/unknown does not exist.
+> 
+> Did you ever send a patch for this? I something like this should do the job:
+> 
+> diff a/common-user/meson.build b/common-user/meson.build
+> --- a/common-user/meson.build
+> +++ b/common-user/meson.build
+> @@ -1,3 +1,7 @@
+> +if not have_user
+> +   subdir_done()
+> +endif
+> +
 
-I've updated the wiki page to move the dates all one week
-later, and removed the "tentative" label.
+https://salsa.debian.org/qemu-team/qemu/-/blob/master/debian/patches/common-user-no-user.patch
 
-Ping me when we get closer to your holiday to remind
-me that I agreed to do merges then :-)
+I dunno which one is right - "have_user" or "have_linux_user & have_bsd_user".
 
--- PMM
+>   common_user_inc += include_directories('host/' / host_arch)
+> 
+>   user_ss.add(files(
+> 
+> 
+>> This is with --disable-system --disable-linux-user --disable-user.
+>>
+>> And without --enable-tcg-interpreter, it gives:
+>>
+>>   meson.build:390:6: ERROR: Problem encountered: Unsupported CPU m68k, try --enable-tcg-interpreter
+>>
+>> What's the way to build tools on an unsupported architecture these days?
+> 
+> You could try to use --disable-tcg instead of --enable-tcg-interpreter ... but I guess we should improve the logic in configure / meson.build a little 
+> bit to do that automatically...
+
+It fails down the line when building trace files, I don't remember where exactly.
+It's trivial to reproduce and the failure is at the beginning of the build procedure.
+
+> I guess Philippe's patch from February should do the job:
+> 
+>   https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg00894.html
+
+Lemme give it a try...
+
+Thanks,
+
+/mjt
 
