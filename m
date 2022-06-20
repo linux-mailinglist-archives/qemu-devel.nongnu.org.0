@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D27F5522EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:48:59 +0200 (CEST)
-Received: from localhost ([::1]:58128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92139552307
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:51:32 +0200 (CEST)
+Received: from localhost ([::1]:37124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3LWE-00054v-3T
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:48:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39188)
+	id 1o3LYh-0001g0-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPm-0005PR-3i
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:42:19 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:34316)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPo-0005TN-8J
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:42:20 -0400
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:34582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPk-00081g-He
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:42:17 -0400
-Received: by mail-io1-xd33.google.com with SMTP id p128so11845481iof.1
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:42:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPm-00082q-Hz
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:42:19 -0400
+Received: by mail-il1-x133.google.com with SMTP id p14so890770ile.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i5fJrgungaspLDb/UzsKPN+C5C6kK/KV/rxEAxS2HOs=;
- b=UWipyA4CfxGN5rBJXYu8QsQqdOPMAQla5Cq/oshXd+ww+WtYE0Ipyqm3aTPedU7YPe
- QLzRWlTot/sxVDxlTx5XX8o/n9vcbVVQb97KmvLJy6+WZFT9No5EDy4jfosFQKbCT26s
- WgowNE6lw/2bNdKsr9HJPzsf0prweNIji+TsMi99FbLgs3/HsPROBN/Hlsai8k6aZAei
- crQO/0TT7nbYNGvLWK9FnHeYx5xNj8pxzu32eel619utC6uI1ZBuISvdxNV/RpyRypdh
- 4l60/0oMfG0C2DoCzyl+XZ8zO9SUf/iVfa3KYUq8jczq6LjTUhsWBzH5O6BvNasM4LRO
- zM9w==
+ bh=+6fkV3rZQcNrC50APHdA91tW/kmRuFqbo7K+AeZTYAo=;
+ b=xlZF0qA4v58cB+sErw+VT4Um81NxOWXlLh/I+OWoyWGVY+zzTb7LFwYGSKZ/sFMFuQ
+ n7d8iihd4fdleA/jdiFEQiIv6dHX6DJL8gS1ZasMCBv/CrLEhV6o8AYQMyizTCDuhC0J
+ A1O9lpNeeyWhffdv3brEytbYZoRl8amuyVMfJi5Z8SDwiM8EIEth7XWAmLSw6lZoIJUZ
+ OcVc6qIpdujBMhu92yrhvjbPOw8u+SSKMvHenScL9S09dEigXgsJmy19VPj1sL2PFMNt
+ dvBVTIMmegiePR8jZh7wB/YNjbG4G4AENdUzyRrizMAHNhFtFlmNcC4YEf4YoDQMSS8W
+ Zl6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i5fJrgungaspLDb/UzsKPN+C5C6kK/KV/rxEAxS2HOs=;
- b=xpKjKQpKA6OpBEAUVho+anrJI5kRhsASxx7wsrAgurdZJEhkh9pAPWd45c2m9vHO3Z
- AdlP3SHFPcq5TwkpuMnEfGkWt1RcTCpQuOgbTE5v7cD62Ms1yp8BHh1vbiawqm3yOVEm
- zkjt2PLOBu19TavSQPhe7e3/7upfOfS2yRdMOate2SyaGpaiMWJtTw04YVlUMCyjTCTR
- 6g8EL6PIB9NLo0i3SZZLU6r1hj3tsNiXq920UWuqzHQuvSr26IJMkxn8IIB2Ae0+kct0
- z8EtdQspIiLRCGk2wQEvRKDEWIbgQeVDk8Np6mjGIYvII9esqLjaV4E63XztBS7u7irZ
- 8nrg==
-X-Gm-Message-State: AJIora9333vo8Cj0znD34lNZqX4AxtgzpJ2UPZdVhYen3vx2w0G1o92l
- CSdBNQY3tfjHXfPO4ngGwMglc0OITJk61Q==
-X-Google-Smtp-Source: AGRyM1sbEOjSrx95ToRXKiA1Q6n9L3GeWg4DbfYhZax+9U940yX/Kuw7TsQgfdD3hXyExGdkHBWvXQ==
-X-Received: by 2002:a05:6638:204d:b0:332:292d:9a06 with SMTP id
- t13-20020a056638204d00b00332292d9a06mr14307744jaj.39.1655746935586; 
- Mon, 20 Jun 2022 10:42:15 -0700 (PDT)
+ bh=+6fkV3rZQcNrC50APHdA91tW/kmRuFqbo7K+AeZTYAo=;
+ b=ZdxpslRr0kXv4bDLIvYOuJrqzpYfF+xjDwfXO6u++qDX+BB1T1cACanUtLvh/RvR2L
+ FrTg3A5iUfEY3NDXbs/AhvCCuITDS4/mR+eTtAno4FBLjkcy4LlWP4J95M2TQofItGvK
+ JusIm36znAGFIT9UnQqBdyO0NY3RL1kMkEKU3PLMtC36Xic0Dxz5I2NfKJpdWhdxtaOK
+ kDuvqXBra3CR8/0wCWSvt916/zkYIy4tAmscqxaGtNP4ZujOt5mEagrD84koAM2817ih
+ alxj3tyTgq8COw7e+i2EBdJ445B7w95TL6ha0t+A1FP6ToECA+ldY2U8nq7Llppt2wnW
+ ujkA==
+X-Gm-Message-State: AJIora/fxXEgwF9SbaTpP7LgXS27/TBhF5QPqYPx8rjh4GTrk9g0A8JR
+ AbXSg1KZrXtvyfEntU0Cb9TB0mvozspugQ==
+X-Google-Smtp-Source: AGRyM1s3oUEt77TsqVn8MXw9OetxlejhNxpBtXHSQVJSALdqZlXPgmtgTblOoNW4BvfnaGpJoNR/6w==
+X-Received: by 2002:a92:c24c:0:b0:2d1:cdd0:1959 with SMTP id
+ k12-20020a92c24c000000b002d1cdd01959mr13579607ilo.39.1655746937020; 
+ Mon, 20 Jun 2022 10:42:17 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- k19-20020a02c773000000b00331e4e4fac9sm6202953jao.47.2022.06.20.10.42.13
+ k19-20020a02c773000000b00331e4e4fac9sm6202953jao.47.2022.06.20.10.42.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 10:42:15 -0700 (PDT)
+ Mon, 20 Jun 2022 10:42:16 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
  Stacey Son <sson@FreeBSD.org>
-Subject: [PATCH 07/10] bsd-user: Implement chroot and flock
-Date: Mon, 20 Jun 2022 11:42:17 -0600
-Message-Id: <20220620174220.22179-8-imp@bsdimp.com>
+Subject: [PATCH 08/10] bsd-user: Implement mkfifo and mkfifoat
+Date: Mon, 20 Jun 2022 11:42:18 -0600
+Message-Id: <20220620174220.22179-9-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220620174220.22179-1-imp@bsdimp.com>
 References: <20220620174220.22179-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::133;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x133.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,52 +90,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/bsd-file.h           | 19 +++++++++++++++++++
+ bsd-user/bsd-file.h           | 27 +++++++++++++++++++++++++++
  bsd-user/freebsd/os-syscall.c |  8 ++++++++
- 2 files changed, 27 insertions(+)
+ 2 files changed, 35 insertions(+)
 
 diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
-index f5375a39a2c..f11369655a0 100644
+index f11369655a0..0b4b89c8d5c 100644
 --- a/bsd-user/bsd-file.h
 +++ b/bsd-user/bsd-file.h
-@@ -861,4 +861,23 @@ static abi_long do_bsd_fchflags(abi_long arg1, abi_long arg2)
-     return get_errno(fchflags(arg1, arg2));
+@@ -880,4 +880,31 @@ static abi_long do_bsd_flock(abi_long arg1, abi_long arg2)
+     return get_errno(flock(arg1, arg2));
  }
  
-+/* chroot(2) */
-+static abi_long do_bsd_chroot(abi_long arg1)
++/* mkfifo(2) */
++static abi_long do_bsd_mkfifo(abi_long arg1, abi_long arg2)
 +{
 +    abi_long ret;
 +    void *p;
 +
 +    LOCK_PATH(p, arg1);
-+    ret = get_errno(chroot(p)); /* XXX path(p)? */
++    ret = get_errno(mkfifo(p, arg2)); /* XXX path(p)? */
 +    UNLOCK_PATH(p, arg1);
 +
 +    return ret;
 +}
 +
-+/* flock(2) */
-+static abi_long do_bsd_flock(abi_long arg1, abi_long arg2)
++/* mkfifoat(2) */
++static abi_long do_bsd_mkfifoat(abi_long arg1, abi_long arg2,
++        abi_long arg3)
 +{
-+    return get_errno(flock(arg1, arg2));
++    abi_long ret;
++    void *p;
++
++    LOCK_PATH(p, arg2);
++    ret = get_errno(mkfifoat(arg1, p, arg3));
++    UNLOCK_PATH(p, arg2);
++
++    return ret;
 +}
 +
  #endif /* BSD_FILE_H */
 diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index d10635eae05..f3fb585b7ec 100644
+index f3fb585b7ec..ff3893b9197 100644
 --- a/bsd-user/freebsd/os-syscall.c
 +++ b/bsd-user/freebsd/os-syscall.c
-@@ -461,6 +461,14 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         ret = do_bsd_fchflags(arg1, arg2);
+@@ -469,6 +469,14 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+         ret = do_bsd_flock(arg1, arg2);
          break;
  
-+    case TARGET_FREEBSD_NR_chroot: /* chroot(2) */
-+        ret = do_bsd_chroot(arg1);
++    case TARGET_FREEBSD_NR_mkfifo: /* mkfifo(2) */
++        ret = do_bsd_mkfifo(arg1, arg2);
 +        break;
 +
-+    case TARGET_FREEBSD_NR_flock: /* flock(2) */
-+        ret = do_bsd_flock(arg1, arg2);
++    case TARGET_FREEBSD_NR_mkfifoat: /* mkfifoat(2) */
++        ret = do_bsd_mkfifoat(arg1, arg2, arg3);
 +        break;
 +
      default:
