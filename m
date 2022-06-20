@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B8355224C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:31:52 +0200 (CEST)
-Received: from localhost ([::1]:42974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09438552246
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:29:36 +0200 (CEST)
+Received: from localhost ([::1]:38938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3KJb-0002jx-1t
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52470)
+	id 1o3KHO-0008Ty-KC
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KF9-0005ek-5r
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KF9-0005el-5P
  for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48308)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KF5-0005Hw-TB
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KF6-0005IL-Pl
  for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655742430;
+ s=mimecast20190719; t=1655742432;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9I6OjyTmx9o3Yi4Vwfplt31NAiJmb8LFOaJgJMJWUhg=;
- b=NC8GeVyweHVSxwz0okEuYGZW0MMw/XjmM0qL/dY0MBPeDewB8rcTI/cNH7ZQuIf4/8hTZc
- MRL4BloHuPQgiNSANq2DQo1+MeLd6Wkd3cRqwf2jVKqdi/D7LXIe+hoYvpr9WlZUFkkiA7
- Lzq/UhUxyIYV7/Ssg5wjI14kM8Udysw=
+ bh=6RsjjJd0xWLonB3st7VmcEoP3cHKpd4nP4y316E//KM=;
+ b=QvA3+Z4o7CZnOq0fET0ivvC6GhRIw5qzmtLIa0Q5J974lcc1z3qhz0LlN+Hj5ZGC3DPUqm
+ VXLNGfnbi5URukDhts7QS1mrnlfkafLNWZmjanOelKZ4/5rx1l2l380SoItKuhK0TrMct8
+ zQfAVU+oLYJAYxgoXYhEfZmAtD0AwQQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-17--rTSKz8FPeS4rEcyAIwy4g-1; Mon, 20 Jun 2022 12:27:09 -0400
-X-MC-Unique: -rTSKz8FPeS4rEcyAIwy4g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-121-gEHCzc_HNiWrGRzRXffiWA-1; Mon, 20 Jun 2022 12:27:10 -0400
+X-MC-Unique: gEHCzc_HNiWrGRzRXffiWA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E672F801756;
- Mon, 20 Jun 2022 16:27:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 826A6101E166;
+ Mon, 20 Jun 2022 16:27:10 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A37412166B26;
- Mon, 20 Jun 2022 16:27:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D12B1121314;
+ Mon, 20 Jun 2022 16:27:10 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 02/12] block/file: Add file-specific image info
-Date: Mon, 20 Jun 2022 18:26:54 +0200
-Message-Id: <20220620162704.80987-3-hreitz@redhat.com>
+Subject: [PATCH v2 03/12] block/vmdk: Change extent info type
+Date: Mon, 20 Jun 2022 18:26:55 +0200
+Message-Id: <20220620162704.80987-4-hreitz@redhat.com>
 In-Reply-To: <20220620162704.80987-1-hreitz@redhat.com>
 References: <20220620162704.80987-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -79,130 +79,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some (optional) information that the file driver can provide for
-image files, namely the extent size hint.
+VMDK's implementation of .bdrv_get_specific_info() returns information
+about its extent files, ostensibly in the form of ImageInfo objects.
+However, it does not get this information through
+bdrv_query_image_info(), but fills only a select few fields with custom
+information that does not always match the fields' purposes.
+
+For example, @format, which is supposed to be a block driver name, is
+filled with the extent type, e.g. SPARSE or FLAT.
+
+In ImageInfo, @compressed shows whether the data that can be seen in the
+image is stored in compressed form or not.  For example, a compressed
+qcow2 image will store compressed data in its data file, but when
+accessing the qcow2 node, you will see normal data.  This is not how
+VMDK uses the @compressed field for its extent files: Instead, it
+signifies whether accessing the extent file will yield compressed data
+(which the VMDK driver then (de-)compresses).
+
+Create a new structure to represent the extent information.  This allows
+us to clarify the fields' meanings, and it clearly shows that these are
+not complete ImageInfo objects.  (That is, if a user wants an extent
+file's ImageInfo object, they will need to query it separately, and will
+not get it from ImageInfoSpecificVmdk.extents.)
+
+Note that this removes the last use of ['ImageInfo'] (i.e. an array of
+ImageInfo objects), so the QAPI generator will no longer generate
+ImageInfoList by default.  However, we use it in qemu-img.c, so we need
+to create a dummy object to force the generate to create that type,
+similarly to DummyForceArrays in machine.json (introduced in commit
+9f08c8ec73878122ad4b061ed334f0437afaaa32 ("qapi: Lazy creation of array
+types")).
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- qapi/block-core.json | 26 ++++++++++++++++++++++++--
- block/file-posix.c   | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+), 2 deletions(-)
+I'm not sure whether this is an incompatible change.  I'm also not sure
+if it even matters whether it's an incompatible change (i.e. whether
+anyone cares).
+
+I believe we can get away without this change.  I find it useful to make
+it clear that (A) this extent information is not what you would find in
+other ImageInfo objects (i.e., I consider this a fix for
+ImageInfoSpecificVmdk's @extents field), and (B) that the upcoming
+BlockGraphInfo type will not duplicate the extent nodes' ImageInfo
+information, because those are actual ImageInfo objects.
+
+We can probably replace this patch by clarifying all of this in
+documentation, but if possible I would prefer a syntactic clarification
+(as done here).
+---
+ qapi/block-core.json | 38 +++++++++++++++++++++++++++++++++++++-
+ block/vmdk.c         |  8 ++++----
+ 2 files changed, 41 insertions(+), 5 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 457df16638..40fb307e2d 100644
+index 40fb307e2d..e0c8f07932 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -139,16 +139,29 @@
-       '*encryption-format': 'RbdImageEncryptionFormat'
-   } }
- 
-+##
-+# @ImageInfoSpecificFile:
-+#
-+# @extent-size-hint: Extent size hint (if available)
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'ImageInfoSpecificFile',
-+  'data': {
-+      '*extent-size-hint': 'size'
+@@ -124,7 +124,33 @@
+       'create-type': 'str',
+       'cid': 'int',
+       'parent-cid': 'int',
+-      'extents': ['ImageInfo']
++      'extents': ['VmdkExtentInfo']
 +  } }
 +
- ##
- # @ImageInfoSpecificKind:
- #
- # @luks: Since 2.7
- # @rbd: Since 6.1
-+# @file: Since 7.1
- #
- # Since: 1.7
- ##
- { 'enum': 'ImageInfoSpecificKind',
--  'data': [ 'qcow2', 'vmdk', 'luks', 'rbd' ] }
-+  'data': [ 'qcow2', 'vmdk', 'luks', 'rbd', 'file' ] }
- 
- ##
- # @ImageInfoSpecificQCow2Wrapper:
-@@ -185,6 +198,14 @@
- { 'struct': 'ImageInfoSpecificRbdWrapper',
-   'data': { 'data': 'ImageInfoSpecificRbd' } }
- 
 +##
-+# @ImageInfoSpecificFileWrapper:
++# @VmdkExtentInfo:
++#
++# Information about a VMDK extent file
++#
++# @filename: Name of the extent file
++#
++# @format: Extent type (e.g. FLAT or SPARSE)
++#
++# @virtual-size: Number of bytes covered by this extent
++#
++# @cluster-size: Cluster size in bytes (for non-flat extents)
++#
++# @compressed: Whether this extent contains compressed data
 +#
 +# Since: 7.1
 +##
-+{ 'struct': 'ImageInfoSpecificFileWrapper',
-+  'data': { 'data': 'ImageInfoSpecificFile' } }
-+
- ##
- # @ImageInfoSpecific:
- #
-@@ -199,7 +220,8 @@
-       'qcow2': 'ImageInfoSpecificQCow2Wrapper',
-       'vmdk': 'ImageInfoSpecificVmdkWrapper',
-       'luks': 'ImageInfoSpecificLUKSWrapper',
--      'rbd': 'ImageInfoSpecificRbdWrapper'
-+      'rbd': 'ImageInfoSpecificRbdWrapper',
-+      'file': 'ImageInfoSpecificFileWrapper'
++{ 'struct': 'VmdkExtentInfo',
++  'data': {
++      'filename': 'str',
++      'format': 'str',
++      'virtual-size': 'int',
++      '*cluster-size': 'int',
++      '*compressed': 'bool'
    } }
  
  ##
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 48cd096624..74a649b409 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3083,6 +3083,34 @@ static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-     return 0;
+@@ -5638,3 +5664,13 @@
+   'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
+   'returns': 'SnapshotInfo',
+   'allow-preconfig': true }
++
++##
++# @DummyBlockCoreForceArrays:
++#
++# Not used by QMP; hack to let us use ImageInfoList internally
++#
++# Since: 7.1
++##
++{ 'struct': 'DummyBlockCoreForceArrays',
++  'data': { 'unused-image-info': ['ImageInfo'] } }
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 38e5ab3806..35131a916e 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2908,12 +2908,12 @@ static int vmdk_has_zero_init(BlockDriverState *bs)
+     return 1;
  }
  
-+static ImageInfoSpecific *raw_get_specific_info(BlockDriverState *bs,
-+                                                Error **errp)
-+{
-+    BDRVRawState *s = bs->opaque;
-+    ImageInfoSpecificFile *file_info = g_new0(ImageInfoSpecificFile, 1);
-+    ImageInfoSpecific *spec_info = g_new(ImageInfoSpecific, 1);
-+
-+    *spec_info = (ImageInfoSpecific){
-+        .type = IMAGE_INFO_SPECIFIC_KIND_FILE,
-+        .u.file.data = file_info,
-+    };
-+
-+#ifdef FS_IOC_FSGETXATTR
-+    {
-+        struct fsxattr attr;
-+        int ret;
-+
-+        ret = ioctl(s->fd, FS_IOC_FSGETXATTR, &attr);
-+        if (!ret && attr.fsx_extsize != 0) {
-+            file_info->has_extent_size_hint = true;
-+            file_info->extent_size_hint = attr.fsx_extsize;
-+        }
-+    }
-+#endif
-+
-+    return spec_info;
-+}
-+
- static BlockStatsSpecificFile get_blockstats_specific_file(BlockDriverState *bs)
+-static ImageInfo *vmdk_get_extent_info(VmdkExtent *extent)
++static VmdkExtentInfo *vmdk_get_extent_info(VmdkExtent *extent)
  {
-     BDRVRawState *s = bs->opaque;
-@@ -3316,6 +3344,7 @@ BlockDriver bdrv_file = {
-     .bdrv_co_truncate = raw_co_truncate,
-     .bdrv_getlength = raw_getlength,
-     .bdrv_get_info = raw_get_info,
-+    .bdrv_get_specific_info = raw_get_specific_info,
-     .bdrv_get_allocated_file_size
-                         = raw_get_allocated_file_size,
-     .bdrv_get_specific_stats = raw_get_specific_stats,
-@@ -3688,6 +3717,7 @@ static BlockDriver bdrv_host_device = {
-     .bdrv_co_truncate       = raw_co_truncate,
-     .bdrv_getlength	= raw_getlength,
-     .bdrv_get_info = raw_get_info,
-+    .bdrv_get_specific_info = raw_get_specific_info,
-     .bdrv_get_allocated_file_size
-                         = raw_get_allocated_file_size,
-     .bdrv_get_specific_stats = hdev_get_specific_stats,
+-    ImageInfo *info = g_new0(ImageInfo, 1);
++    VmdkExtentInfo *info = g_new0(VmdkExtentInfo, 1);
+ 
+     bdrv_refresh_filename(extent->file->bs);
+-    *info = (ImageInfo){
++    *info = (VmdkExtentInfo){
+         .filename         = g_strdup(extent->file->bs->filename),
+         .format           = g_strdup(extent->type),
+         .virtual_size     = extent->sectors * BDRV_SECTOR_SIZE,
+@@ -2992,7 +2992,7 @@ static ImageInfoSpecific *vmdk_get_specific_info(BlockDriverState *bs,
+     int i;
+     BDRVVmdkState *s = bs->opaque;
+     ImageInfoSpecific *spec_info = g_new0(ImageInfoSpecific, 1);
+-    ImageInfoList **tail;
++    VmdkExtentInfoList **tail;
+ 
+     *spec_info = (ImageInfoSpecific){
+         .type = IMAGE_INFO_SPECIFIC_KIND_VMDK,
 -- 
 2.35.3
 
