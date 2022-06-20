@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B848A55224B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:30:44 +0200 (CEST)
-Received: from localhost ([::1]:41370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E17B552256
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:33:55 +0200 (CEST)
+Received: from localhost ([::1]:49250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3KIV-0001fQ-Jb
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:30:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52610)
+	id 1o3KLa-0007GF-92
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:33:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFH-0005ir-PN
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44093)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFK-0005jx-7b
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFD-0005KL-PE
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:21 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFH-0005Lb-HO
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655742437;
+ s=mimecast20190719; t=1655742442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QBl8D55J3wkL4vzH5q+CBhlJZXBKayii7nNAPVHdt3o=;
- b=RhouIMERMo8hilLELLuaFo1X9wMrVcHcpTyFQ4l+ibBzDcnQ9nGQbNdQaVHZ+BtyGhr0lk
- FuyQK9M0ORQpp9zNhLqnx1HvDSRJ5xZ6jYFcd1SomO3Mmc5DpVQe8R2xxNlh2XU4vw7fws
- ngP5qwG9t1cJSuHGaxbIp7QS1YcGffs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qnNcy7us2A1nC5/F++kD1Vlw6UlMQtk1NBGLuz6NJ8s=;
+ b=Eab653Oe1Zdhvc1ZnLskntsYp0iys0tmrRmRz+rznVYa0yksTR9UtZ6OXy4AKVFDHSCgQR
+ IcssTLH3vSr0isswxpHIw8gWGBUHaVb7+5qJxKWyTM4AwTVEvGBMJzICy8uW08pplr79hT
+ EI5UrqQedhTV/UJmMSdnXu00OCVb9mI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-258-meNQnjIlP_SAzpjTFyidqA-1; Mon, 20 Jun 2022 12:27:14 -0400
-X-MC-Unique: meNQnjIlP_SAzpjTFyidqA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-120-n-bVl1TfNvqzXZw9poHLVw-1; Mon, 20 Jun 2022 12:27:16 -0400
+X-MC-Unique: n-bVl1TfNvqzXZw9poHLVw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2422585A580;
- Mon, 20 Jun 2022 16:27:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B67B31C00AC5;
+ Mon, 20 Jun 2022 16:27:15 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B40D640466B2;
- Mon, 20 Jun 2022 16:27:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FA802026D64;
+ Mon, 20 Jun 2022 16:27:15 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 05/12] qemu-img: Use BlockNodeInfo
-Date: Mon, 20 Jun 2022 18:26:57 +0200
-Message-Id: <20220620162704.80987-6-hreitz@redhat.com>
+Subject: [PATCH v2 06/12] block/qapi: Let bdrv_query_image_info() recurse
+Date: Mon, 20 Jun 2022 18:26:58 +0200
+Message-Id: <20220620162704.80987-7-hreitz@redhat.com>
 In-Reply-To: <20220620162704.80987-1-hreitz@redhat.com>
 References: <20220620162704.80987-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -79,226 +79,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-img info never uses ImageInfo's backing-image field, because it
-opens the backing chain one by one with BDRV_O_NO_BACKING, and prints
-all backing chain nodes' information consecutively.  Use BlockNodeInfo
-to make it clear that we only print information about a single node, and
-that we are not using the backing-image field.
+There is no real reason why bdrv_query_image_info() should generally not
+recurse.  The ImageInfo struct has a pointer to the backing image, so it
+should generally be filled, unless the caller explicitly opts out.
 
-Notably, bdrv_image_info_dump() does not evaluate the backing-image
-field, so we can easily make it take a BlockNodeInfo pointer (and
-consequentially rename it to bdrv_node_info_dump()).  It makes more
-sense this way, because again, the interface now makes it syntactically
-clear that backing-image is ignored by this function.
+This moves the recursing code from bdrv_block_device_info() into
+bdrv_query_image_info().
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- qapi/block-core.json           |  4 +--
- include/block/qapi.h           |  2 +-
- block/monitor/block-hmp-cmds.c |  2 +-
- block/qapi.c                   |  2 +-
- qemu-img.c                     | 48 +++++++++++++++++-----------------
- 5 files changed, 29 insertions(+), 29 deletions(-)
+ include/block/qapi.h |  2 +
+ block/qapi.c         | 94 +++++++++++++++++++++++++++-----------------
+ 2 files changed, 59 insertions(+), 37 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 8c06deacdf..d5d1c8ff15 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -5680,9 +5680,9 @@
- ##
- # @DummyBlockCoreForceArrays:
- #
--# Not used by QMP; hack to let us use ImageInfoList internally
-+# Not used by QMP; hack to let us use BlockNodeInfoList internally
- #
- # Since: 7.1
- ##
- { 'struct': 'DummyBlockCoreForceArrays',
--  'data': { 'unused-image-info': ['ImageInfo'] } }
-+  'data': { 'unused-block-node-info': ['BlockNodeInfo'] } }
 diff --git a/include/block/qapi.h b/include/block/qapi.h
-index c7de4e3fa9..22198dcd0c 100644
+index 22198dcd0c..2174bf8fa2 100644
 --- a/include/block/qapi.h
 +++ b/include/block/qapi.h
-@@ -45,5 +45,5 @@ void bdrv_query_image_info(BlockDriverState *bs,
+@@ -40,6 +40,8 @@ void bdrv_query_block_node_info(BlockDriverState *bs,
+                                 Error **errp);
+ void bdrv_query_image_info(BlockDriverState *bs,
+                            ImageInfo **p_info,
++                           bool flat,
++                           bool skip_implicit_filters,
+                            Error **errp);
+ 
  void bdrv_snapshot_dump(QEMUSnapshotInfo *sn);
- void bdrv_image_info_specific_dump(ImageInfoSpecific *info_spec,
-                                    const char *prefix);
--void bdrv_image_info_dump(ImageInfo *info);
-+void bdrv_node_info_dump(BlockNodeInfo *info);
- #endif
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index bfb3c043a0..d286f2d1c5 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -734,7 +734,7 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
-         monitor_printf(mon, "\nImages:\n");
-         image_info = inserted->image;
-         while (1) {
--                bdrv_image_info_dump(image_info);
-+            bdrv_node_info_dump(qapi_ImageInfo_base(image_info));
-             if (image_info->has_backing_image) {
-                 image_info = image_info->backing_image;
-             } else {
 diff --git a/block/qapi.c b/block/qapi.c
-index e5022b4481..ad88bf9b38 100644
+index ad88bf9b38..5d0a8d2ce3 100644
 --- a/block/qapi.c
 +++ b/block/qapi.c
-@@ -865,7 +865,7 @@ void bdrv_image_info_specific_dump(ImageInfoSpecific *info_spec,
-     visit_free(v);
- }
- 
--void bdrv_image_info_dump(ImageInfo *info)
-+void bdrv_node_info_dump(BlockNodeInfo *info)
+@@ -47,8 +47,10 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+                                         Error **errp)
  {
-     char *size_buf, *dsize_buf;
-     if (!info->has_actual_size) {
-diff --git a/qemu-img.c b/qemu-img.c
-index 4cf4d2423d..3b1f950c85 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2800,13 +2800,13 @@ static void dump_snapshots(BlockDriverState *bs)
-     g_free(sn_tab);
- }
+     ImageInfo **p_image_info;
++    ImageInfo *backing_info;
+     BlockDriverState *bs0, *backing;
+     BlockDeviceInfo *info;
++    ERRP_GUARD();
  
--static void dump_json_image_info_list(ImageInfoList *list)
-+static void dump_json_block_node_info_list(BlockNodeInfoList *list)
- {
-     GString *str;
-     QObject *obj;
-     Visitor *v = qobject_output_visitor_new(&obj);
+     if (!bs->drv) {
+         error_setg(errp, "Block device %s is ejected", bs->node_name);
+@@ -149,38 +151,21 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+     bs0 = bs;
+     p_image_info = &info->image;
+     info->backing_file_depth = 0;
+-    while (1) {
+-        Error *local_err = NULL;
+-        bdrv_query_image_info(bs0, p_image_info, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
+-            qapi_free_BlockDeviceInfo(info);
+-            return NULL;
+-        }
+-
+-        /* stop gathering data for flat output */
+-        if (flat) {
+-            break;
+-        }
  
--    visit_type_ImageInfoList(v, NULL, &list, &error_abort);
-+    visit_type_BlockNodeInfoList(v, NULL, &list, &error_abort);
-     visit_complete(v, &obj);
-     str = qobject_to_json_pretty(obj, true);
-     assert(str != NULL);
-@@ -2816,13 +2816,13 @@ static void dump_json_image_info_list(ImageInfoList *list)
-     g_string_free(str, true);
- }
+-        if (bs0->drv && bdrv_filter_or_cow_child(bs0)) {
+-            /*
+-             * Put any filtered child here (for backwards compatibility to when
+-             * we put bs0->backing here, which might be any filtered child).
+-             */
+-            info->backing_file_depth++;
+-            bs0 = bdrv_filter_or_cow_bs(bs0);
+-            (*p_image_info)->has_backing_image = true;
+-            p_image_info = &((*p_image_info)->backing_image);
+-        } else {
+-            break;
+-        }
++    /*
++     * Skip automatically inserted nodes that the user isn't aware of for
++     * query-block (blk != NULL), but not for query-named-block-nodes
++     */
++    bdrv_query_image_info(bs0, p_image_info, flat, blk != NULL, errp);
++    if (*errp) {
++        qapi_free_BlockDeviceInfo(info);
++        return NULL;
++    }
  
--static void dump_json_image_info(ImageInfo *info)
-+static void dump_json_block_node_info(BlockNodeInfo *info)
- {
-     GString *str;
-     QObject *obj;
-     Visitor *v = qobject_output_visitor_new(&obj);
- 
--    visit_type_ImageInfo(v, NULL, &info, &error_abort);
-+    visit_type_BlockNodeInfo(v, NULL, &info, &error_abort);
-     visit_complete(v, &obj);
-     str = qobject_to_json_pretty(obj, true);
-     assert(str != NULL);
-@@ -2832,9 +2832,9 @@ static void dump_json_image_info(ImageInfo *info)
-     g_string_free(str, true);
- }
- 
--static void dump_human_image_info_list(ImageInfoList *list)
-+static void dump_human_image_info_list(BlockNodeInfoList *list)
- {
--    ImageInfoList *elem;
-+    BlockNodeInfoList *elem;
-     bool delim = false;
- 
-     for (elem = list; elem; elem = elem->next) {
-@@ -2843,7 +2843,7 @@ static void dump_human_image_info_list(ImageInfoList *list)
-         }
-         delim = true;
- 
--        bdrv_image_info_dump(elem->value);
-+        bdrv_node_info_dump(elem->value);
+-        /* Skip automatically inserted nodes that the user isn't aware of for
+-         * query-block (blk != NULL), but not for query-named-block-nodes */
+-        if (blk) {
+-            bs0 = bdrv_skip_implicit_filters(bs0);
+-        }
++    backing_info = info->image->backing_image;
++    while (backing_info) {
++        info->backing_file_depth++;
++        backing_info = backing_info->backing_image;
      }
- }
  
-@@ -2853,24 +2853,24 @@ static gboolean str_equal_func(gconstpointer a, gconstpointer b)
- }
- 
- /**
-- * Open an image file chain and return an ImageInfoList
-+ * Open an image file chain and return an BlockNodeInfoList
+     return info;
+@@ -363,19 +348,28 @@ void bdrv_query_block_node_info(BlockDriverState *bs,
+  * bdrv_query_image_info:
+  * @bs: block node to examine
+  * @p_info: location to store image information
++ * @flat: skip backing node information
++ * @skip_implicit_filters: skip implicit filters in the backing chain
+  * @errp: location to store error information
   *
-  * @filename: topmost image filename
-  * @fmt: topmost image format (may be NULL to autodetect)
-  * @chain: true  - enumerate entire backing file chain
-  *         false - only topmost image file
+- * Store "flat" image information in @p_info.
++ * Store image information in @p_info, potentially recursively covering the
++ * backing chain.
   *
-- * Returns a list of ImageInfo objects or NULL if there was an error opening an
-- * image file.  If there was an error a message will have been printed to
-- * stderr.
-+ * Returns a list of BlockNodeInfo objects or NULL if there was an error
-+ * opening an image file.  If there was an error a message will have been
-+ * printed to stderr.
+- * "Flat" means it does *not* query backing image information,
+- * i.e. (*pinfo)->has_backing_image will be set to false and
+- * (*pinfo)->backing_image to NULL even when the image does in fact have
+- * a backing image.
++ * If @flat is true, do not query backing image information, i.e.
++ * (*p_info)->has_backing_image will be set to false and
++ * (*p_info)->backing_image to NULL even when the image does in fact have a
++ * backing image.
++ *
++ * If @skip_implicit_filters is true, implicit filter nodes in the backing chain
++ * will be skipped when querying backing image information.
++ * (@skip_implicit_filters is ignored when @flat is true.)
+  *
+  * @p_info will be set only on success. On error, store error in @errp.
   */
--static ImageInfoList *collect_image_info_list(bool image_opts,
--                                              const char *filename,
--                                              const char *fmt,
--                                              bool chain, bool force_share)
-+static BlockNodeInfoList *collect_image_info_list(bool image_opts,
-+                                                  const char *filename,
-+                                                  const char *fmt,
-+                                                  bool chain, bool force_share)
+ void bdrv_query_image_info(BlockDriverState *bs,
+                            ImageInfo **p_info,
++                           bool flat,
++                           bool skip_implicit_filters,
+                            Error **errp)
  {
--    ImageInfoList *head = NULL;
--    ImageInfoList **tail = &head;
-+    BlockNodeInfoList *head = NULL;
-+    BlockNodeInfoList **tail = &head;
-     GHashTable *filenames;
-     Error *err = NULL;
- 
-@@ -2879,7 +2879,7 @@ static ImageInfoList *collect_image_info_list(bool image_opts,
-     while (filename) {
-         BlockBackend *blk;
-         BlockDriverState *bs;
--        ImageInfo *info;
-+        BlockNodeInfo *info;
- 
-         if (g_hash_table_lookup_extended(filenames, filename, NULL, NULL)) {
-             error_report("Backing file '%s' creates an infinite loop.",
-@@ -2896,7 +2896,7 @@ static ImageInfoList *collect_image_info_list(bool image_opts,
-         }
-         bs = blk_bs(blk);
- 
--        bdrv_query_image_info(bs, &info, &err);
-+        bdrv_query_block_node_info(bs, &info, &err);
-         if (err) {
-             error_report_err(err);
-             blk_unref(blk);
-@@ -2929,7 +2929,7 @@ static ImageInfoList *collect_image_info_list(bool image_opts,
-     return head;
- 
- err:
--    qapi_free_ImageInfoList(head);
-+    qapi_free_BlockNodeInfoList(head);
-     g_hash_table_destroy(filenames);
-     return NULL;
- }
-@@ -2940,7 +2940,7 @@ static int img_info(int argc, char **argv)
-     OutputFormat output_format = OFORMAT_HUMAN;
-     bool chain = false;
-     const char *filename, *fmt, *output;
--    ImageInfoList *list;
-+    BlockNodeInfoList *list;
-     bool image_opts = false;
-     bool force_share = false;
- 
-@@ -3019,14 +3019,14 @@ static int img_info(int argc, char **argv)
-         break;
-     case OFORMAT_JSON:
-         if (chain) {
--            dump_json_image_info_list(list);
-+            dump_json_block_node_info_list(list);
-         } else {
--            dump_json_image_info(list->value);
-+            dump_json_block_node_info(list->value);
-         }
-         break;
+     ImageInfo *info;
+@@ -384,11 +378,37 @@ void bdrv_query_image_info(BlockDriverState *bs,
+     info = g_new0(ImageInfo, 1);
+     bdrv_do_query_node_info(bs, qapi_ImageInfo_base(info), errp);
+     if (*errp) {
+-        qapi_free_ImageInfo(info);
+-        return;
++        goto fail;
++    }
++
++    if (!flat) {
++        BlockDriverState *backing;
++
++        /*
++         * Use any filtered child here (for backwards compatibility to when
++         * we always took bs->backing, which might be any filtered child).
++         */
++        backing = bdrv_filter_or_cow_bs(bs);
++        if (skip_implicit_filters) {
++            backing = bdrv_skip_implicit_filters(backing);
++        }
++
++        if (backing) {
++            bdrv_query_image_info(backing, &info->backing_image, false,
++                                  skip_implicit_filters, errp);
++            if (*errp) {
++                goto fail;
++            }
++            info->has_backing_image = true;
++        }
      }
  
--    qapi_free_ImageInfoList(list);
-+    qapi_free_BlockNodeInfoList(list);
-     return 0;
+     *p_info = info;
++    return;
++
++fail:
++    assert(*errp);
++    qapi_free_ImageInfo(info);
  }
  
+ /* @p_info will be set only on success. */
 -- 
 2.35.3
 
