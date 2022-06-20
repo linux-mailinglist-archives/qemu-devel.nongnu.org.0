@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F655526FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 00:36:14 +0200 (CEST)
-Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5C0552720
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 00:51:29 +0200 (CEST)
+Received: from localhost ([::1]:51986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Q0D-0000zw-8s
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 18:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36892)
+	id 1o3QEx-0003IV-N2
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 18:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3DPawYgsKCtc6BHGG39E3S79HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--dionnaglaze.bounces.google.com>)
- id 1o3Pyz-0000Gf-AK
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 18:34:57 -0400
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a]:57172)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3DPawYgsKCtc6BHGG39E3S79HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--dionnaglaze.bounces.google.com>)
- id 1o3Pyx-0000bC-Cf
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 18:34:56 -0400
-Received: by mail-pg1-x54a.google.com with SMTP id
- f9-20020a636a09000000b00401b6bc63beso6677065pgc.23
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 15:34:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=qQRzji+xvf4KIRu9GCgaqWx/TAp4pRlZQs5WLnqES10=;
- b=S0UT9YXindc+vVdTHA7J3RgKJHWAUO7xVMCjPFtjGjQJANKXPu6RRoCp0nR1Tl7QIh
- 886nAL7ENCo1UjTmtkMq/Es673W5qKo7MQlriVH0TujEFmwt+rb1AY7902QvvpAUppX/
- dVVMp0taQUHEDbyeOUTc1zU4+leZb5VqWX3skw2HtWBmqIXZQqhvXIZGbx23HY6PSTfo
- 9BDW1tPtCjYK9zoOPDD6sTCn9aNd9OO8cSoZG6R2k94nVMqCwA4NF36iWz6r2QGLyj0Z
- aNKUzRO0WgcYOzFbH33g0H+Kq0CPo/gheT7Fqz9QnO/xh8bpY9LP+LA6O023n5KSG7Jp
- ceiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=qQRzji+xvf4KIRu9GCgaqWx/TAp4pRlZQs5WLnqES10=;
- b=tUP2xXiH+nC1eqLiHHRMMLMIgp1YCFAyb2dnrI369D6zTG7V7Uiz+MnNIYiFUP/7Bw
- peT5A3+aKSETpxuaNcWGccDuWjl1ekcl3nzjlLiduZuNEdVMiorh6s6AK4SUcM1sPsda
- ZCzeWYnqTvXFehTkyDFliia/mvBzkDej2kXpRgXoyJ0AKSXZmFifHb3CoJmyf0yU8pDD
- f2jzrRMCh3UFT+JxZj6lbQmOEZmqTAGG3w57eyF1IH2m1ytoigwXO0Rt7C5JuJfXJkmE
- 7uQ+OK984Z1UKF6uBf4TyPtKqKV6SQiPKH6fXqlVKsQr9ZOt3d0L563DP0cHwArRBeVQ
- gKjw==
-X-Gm-Message-State: AJIora973vbLRTLQDBtvXjcfgSpLiOwRW5ttNUhj1gtcPfBp66G7DD9v
- oazcSnTtK6ULQObuJX3pIqMqPsZTcdOLfM8be/CNcdCZC0dHrPq+GJ70vxYjo0FwBYsEmFvgPCK
- bttVuYH0qr58ah9HiI3KKidaglPgFJJJpE6r7Lv3wL0U7PJbA/x7LS8x7YUFGvdoB81Pq4XxOyQ
- ==
-X-Google-Smtp-Source: AGRyM1vhrA4eKfpMLrDlUbX3aGYFCS7p3QGvDr/+fZpNgWoimg3/Z+NitpH2MMtZOKy23+CBSsGoaRlK5cFJfzlwPA==
-X-Received: from dionnaglaze.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:2ee6])
- (user=dionnaglaze job=sendgmr) by 2002:a17:902:6946:b0:167:8ff3:1608 with
- SMTP id k6-20020a170902694600b001678ff31608mr25799683plt.116.1655764492634;
- Mon, 20 Jun 2022 15:34:52 -0700 (PDT)
-Date: Mon, 20 Jun 2022 22:33:00 +0000
-Message-Id: <20220620223300.1555849-1-dionnaglaze@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.0.rc0.104.g0611611a94-goog
-Subject: [PATCH] hw/i386: Add unaccepted memory configuration
-From: Dionna Glaze <dionnaglaze@google.com>
-To: qemu-devel@nongnu.org
-Cc: Dionna Glaze <dionnaglaze@google.com>, Xu@google.com,
- Min M <min.m.xu@intel.com>, 
- Xiaoyao Li <xiaoyao.li@intel.com>, Thomas Lendacky <Thomas.Lendacky@amd.com>, 
- Gerd Hoffman <kraxel@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3DPawYgsKCtc6BHGG39E3S79HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--dionnaglaze.bounces.google.com;
- helo=mail-pg1-x54a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o3QDU-0002bN-Ld
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 18:49:56 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55172)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o3QDP-0002Wq-Un
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 18:49:56 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25KMLrE9000954;
+ Mon, 20 Jun 2022 22:49:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=5Q+l/njBcij0fIkhO0w6QhI7etk3UxXa8/TiIKQ2ePs=;
+ b=REBowLrPkezGyor2ty0amQBeoQui/BQJmxUorj5JHqmS1E1D5W1vOrIFwOvxWw8f0lzw
+ pdTr7HWFKDrGXzMDUBBiDgEyI8qZ4GbHveXAONiLSgRHt5l1eFQetC6ss020UgMWQYsr
+ rqJJns9J/vZewErBFsOrO5UYOUv8ecHzZS5KbHY+EeWxty1ErGfHsgQjnkURk7wtA+dt
+ 9lLkPY1wlXtGcED1bcJohzFQCXxb2Wuojiz7YAJZkYcFhuw5t97yEgVB90c7bhE5iWQA
+ Ur6CT9kdcPISVaocmBosnz1m83u4XlvZ4EnsNtdFdmexoyPZEq0jE5eu2ObaetCE5/su fA== 
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gu1mdgdfx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Jun 2022 22:49:43 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25KMbpSA013315;
+ Mon, 20 Jun 2022 22:49:41 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04fra.de.ibm.com with ESMTP id 3gs6b8tdjm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Jun 2022 22:49:41 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25KMncmI18481622
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 20 Jun 2022 22:49:38 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 36879A404D;
+ Mon, 20 Jun 2022 22:49:38 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BF90FA4040;
+ Mon, 20 Jun 2022 22:49:37 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.12.179])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 20 Jun 2022 22:49:37 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Simon Hausmann <Simon.Hausmann@qt.io>, Chris Fallin <chris@cfallin.org>,
+ Ulrich Weigand <ulrich.weigand@de.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] linux-user: Add partial support for MADV_DONTNEED
+Date: Tue, 21 Jun 2022 00:49:36 +0200
+Message-Id: <20220620224936.52623-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: dWGJMToRCZdYoKaSp5BynDZuRqNJmAIy
+X-Proofpoint-ORIG-GUID: dWGJMToRCZdYoKaSp5BynDZuRqNJmAIy
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-20_06,2022-06-17_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0
+ malwarescore=0 bulkscore=0 clxscore=1011 mlxscore=0 mlxlogscore=999
+ spamscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206200101
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,117 +107,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For SEV-SNP, an OS is "SEV-SNP capable" without supporting this UEFI
-v2.9 memory type. In order for OVMF to be able to avoid pre-validating
-potentially hundreds of gibibytes of data before booting, it needs to
-know if the guest OS can support its use of the new type of memory in
-the memory map.
+Currently QEMU ignores madvise(MADV_DONTNEED), which break apps that
+rely on this for zeroing out memory [1]. Improve the situation by doing
+a passthrough when the range in question is a host-page-aligned
+anonymous mapping.
 
-Cc: Xu, Min M <min.m.xu@intel.com>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>
-Cc: Gerd Hoffman <kraxel@redhat.com>
-Signed-off-by: Dionna Glaze <dionnaglaze@google.com>
+This is based on the patches from Simon Hausmann [2] and Chris Fallin
+[3]. The structure is taken from Simon's patch. The PAGE_MAP_ANONYMOUS
+bits are superseded by commit 26bab757d41b ("linux-user: Introduce
+PAGE_ANON"). In the end the patch acts like the one from Chris: we
+either pass-through the entire syscall, or do nothing, since doing this
+only partially would not help the affected applications much. Finally,
+add some extra checks to match the behavior of the Linux kernel [4].
+
+[1] https://gitlab.com/qemu-project/qemu/-/issues/326
+[2] https://patchew.org/QEMU/20180827084037.25316-1-simon.hausmann@qt.io/
+[3] https://github.com/bytecodealliance/wasmtime/blob/v0.37.0/ci/qemu-madvise.patch
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/madvise.c?h=v5.19-rc3#n1368
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- hw/core/machine.c   | 33 +++++++++++++++++++++++++++++++++
- hw/i386/fw_cfg.c    |  5 +++++
- include/hw/boards.h |  1 +
- 3 files changed, 39 insertions(+)
+ linux-user/mmap.c      | 68 ++++++++++++++++++++++++++++++++++++++++++
+ linux-user/syscall.c   |  6 +---
+ linux-user/user-mmap.h |  1 +
+ 3 files changed, 70 insertions(+), 5 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index c53548d0b1..d2b9513951 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -263,6 +263,15 @@ GlobalProperty hw_compat_2_1[] = {
- };
- const size_t hw_compat_2_1_len = G_N_ELEMENTS(hw_compat_2_1);
- 
-+static QEnumLookup memory_acceptance_lookup = {
-+    .array = (const char *const[]) {
-+        "default",
-+        "true",
-+        "false",
-+    },
-+    .size = 3,
-+};
-+
- MachineState *current_machine;
- 
- static char *machine_get_kernel(Object *obj, Error **errp)
-@@ -502,6 +511,20 @@ static void machine_check_confidential_guest_support(const Object *obj,
-      */
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 48e1373796..900df7b28c 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -835,3 +835,71 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+     mmap_unlock();
+     return new_addr;
  }
- 
-+static int machine_get_accept_all_memory(Object *obj, Error **errp)
++
++static bool can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
 +{
-+    MachineState *ms = MACHINE(obj);
++    ulong addr;
 +
-+    return ms->accept_all_memory;
-+}
-+
-+static void machine_set_accept_all_memory(Object *obj, int value, Error **errp)
-+{
-+    MachineState *ms = MACHINE(obj);
-+
-+    ms->accept_all_memory = value;
-+}
-+
- static bool machine_get_nvdimm(Object *obj, Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
-@@ -1022,6 +1045,15 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "confidential-guest-support",
-                                           "Set confidential guest scheme to support");
- 
-+    object_class_property_add_enum(oc, "accept-all-memory",
-+                                   "MemoryAcceptance",
-+                                   &memory_acceptance_lookup,
-+        machine_get_accept_all_memory, machine_set_accept_all_memory);
-+    object_class_property_set_description(
-+        oc, "accept-all-memory",
-+        "false: Accept all memory, true: Accept up to 4G and leave the rest unaccepted (UEFI"
-+        " v2.9 memory type), default: default firmware behavior.");
-+
-     /* For compatibility */
-     object_class_property_add_str(oc, "memory-encryption",
-         machine_get_memory_encryption, machine_set_memory_encryption);
-@@ -1072,6 +1104,7 @@ static void machine_initfn(Object *obj)
-     ms->kernel_cmdline = g_strdup("");
-     ms->ram_size = mc->default_ram_size;
-     ms->maxram_size = mc->default_ram_size;
-+    ms->accept_all_memory = 0;
- 
-     if (mc->nvdimm_supported) {
-         Object *obj = OBJECT(ms);
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index a283785a8d..96164994f8 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -131,6 +131,11 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
-                      &e820_reserve, sizeof(e820_reserve));
-     fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
-                     sizeof(struct e820_entry) * e820_get_num_entries());
-+    if (ms->accept_all_memory) {
-+        bool accept_all = ms->accept_all_memory == 1;
-+        fw_cfg_add_file(fw_cfg, "opt/ovmf/AcceptAllMemory",
-+                        &accept_all, sizeof(accept_all));
++    if ((start | end) & ~qemu_host_page_mask) {
++        return false;
 +    }
++
++    for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
++        if (!(page_get_flags(addr) & PAGE_ANON)) {
++            return false;
++        }
++    }
++
++    return true;
++}
++
++int target_madvise(abi_ulong start, abi_ulong len_in, int advice)
++{
++    abi_ulong len, end;
++    int ret = 0;
++
++    if (start & ~TARGET_PAGE_MASK) {
++        errno = EINVAL;
++        return -1;
++    }
++    len = TARGET_PAGE_ALIGN(len_in);
++
++    if (len_in && !len) {
++        errno = EINVAL;
++        return -1;
++    }
++
++    end = start + len;
++    if (end < start) {
++        errno = EINVAL;
++        return -1;
++    }
++
++    if (end == start) {
++        return 0;
++    }
++
++    if (!guest_range_valid_untagged(start, len)) {
++        errno = EINVAL;
++        return -1;
++    }
++
++    /*
++     * A straight passthrough may not be safe because qemu sometimes turns
++     * private file-backed mappings into anonymous mappings.
++     *
++     * This is a hint, so ignoring and returning success is ok.
++     *
++     * This breaks MADV_DONTNEED, completely implementing which is quite
++     * complicated. However, there is one low-hanging fruit: host-page-aligned
++     * anonymous mappings. In this case passthrough is safe, so do it.
++     */
++    mmap_lock();
++    if ((advice & MADV_DONTNEED) &&
++        can_passthrough_madv_dontneed(start, end)) {
++        ret = madvise(g2h_untagged(start), len, MADV_DONTNEED);
++    }
++    mmap_unlock();
++
++    return ret;
++}
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f55cdebee5..d25759b992 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11807,11 +11807,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
  
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
-     /* allocate memory for the NUMA channel: one (64bit) word for the number
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index fa57bac4fb..eaf73498c4 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -362,6 +362,7 @@ struct MachineState {
-     struct NVDIMMState *nvdimms_state;
-     struct CXLState *cxl_devices_state;
-     struct NumaState *numa_state;
-+    int accept_all_memory;
- };
- 
- #define DEFINE_MACHINE(namestr, machine_initfn) \
+ #ifdef TARGET_NR_madvise
+     case TARGET_NR_madvise:
+-        /* A straight passthrough may not be safe because qemu sometimes
+-           turns private file-backed mappings into anonymous mappings.
+-           This will break MADV_DONTNEED.
+-           This is a hint, so ignoring and returning success is ok.  */
+-        return 0;
++        return get_errno(target_madvise(arg1, arg2, arg3));
+ #endif
+ #ifdef TARGET_NR_fcntl64
+     case TARGET_NR_fcntl64:
+diff --git a/linux-user/user-mmap.h b/linux-user/user-mmap.h
+index d1dec99c02..41cd358c7a 100644
+--- a/linux-user/user-mmap.h
++++ b/linux-user/user-mmap.h
+@@ -25,6 +25,7 @@ int target_munmap(abi_ulong start, abi_ulong len);
+ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+                        abi_ulong new_size, unsigned long flags,
+                        abi_ulong new_addr);
++int target_madvise(abi_ulong start, abi_ulong len_in, int advice);
+ extern unsigned long last_brk;
+ extern abi_ulong mmap_next_start;
+ abi_ulong mmap_find_vma(abi_ulong, abi_ulong, abi_ulong);
 -- 
-2.37.0.rc0.104.g0611611a94-goog
+2.35.3
 
 
