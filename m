@@ -2,83 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E72C552492
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:30:45 +0200 (CEST)
-Received: from localhost ([::1]:37296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79D05524A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:35:19 +0200 (CEST)
+Received: from localhost ([::1]:42872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3N6i-0000ST-J4
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:30:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
+	id 1o3NB6-0004O6-8m
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3MyH-0003Ou-75
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:22:02 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3MyE-0007Eb-PY
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:22:00 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id m14so10571619plg.5
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 12:21:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=SutZKq5Wuf8ceByu+vKRHJEPhDJAzISIjdni+v8jIgI=;
- b=xvqqaYlrlLvDDq+D+wHojpimtYBw4lSIxjiZFU/k/LK8DlNCaf4PCpJKflYSXMGv+K
- 96CBRKZP7+39m0rq/wz77y/Rv774DiKKueG3t/PrdlErp+jieAkXciSc25eu25iIcvgt
- KsiG2Md5a+V4tQGNZmNnO+nVGDzZnvQucCb48buNSiAjiXuEULxELLOdc5CkD2s53Klr
- 35omF2F6V0m261Kzkq8FncpvsuvRiSpkvnjqdMNI7pSTbKdnjWMfPKTDJpxj/V1RQKnM
- jzUoMtQ6B9UgBqCPeNZT93ee40+XHcj+BJdO/SEAJkONcP552aHag99MTPPb4XiTS/jM
- tLvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SutZKq5Wuf8ceByu+vKRHJEPhDJAzISIjdni+v8jIgI=;
- b=3i2+Kw2DO41KCuaWCshz5xcgTSc7zaeMhsUm9pcgq7CdfQa5vBA5zi/0DXtkzWoskL
- pzJaXDxehALMHCzL/jX1sKzG5HRvmVt6KzYL/jKJgefPZIqzPfNA7SXsRhANofFWaABQ
- swPOSiMmgY9++MhPXHmRWOW41zJ9zRMpUVnzn+32g8mwWy46ZAmrx5PidqVmrEigaYIK
- DToLkOtx1PXq5U7IiJ4IItO+IELJFxHeBTbblH7T5x3zJUPF/JwyMGqrCACXF86W13RI
- Z7aQEB60z5FFUlWk9uLIpmZTyuITmM5MxUK+PdVJnrWYhKgd7gLBgvdrxY2emy4GOyEQ
- 3isg==
-X-Gm-Message-State: AJIora+5tPNSNNp2SNIlfDR0vAI+pr/zfc7aqUZaG3BDfWtCFng+UX+B
- kopkD0yyLQb0b/XT+AyWUPkQ8A==
-X-Google-Smtp-Source: AGRyM1sLlTH0ay+zam/J4tcGsSa89Bmn8ldcpbPbL0esUyUW52c6sU9QncKn3dAYzUQQBrgdztQS2A==
-X-Received: by 2002:a17:903:11c6:b0:167:90e5:59ac with SMTP id
- q6-20020a17090311c600b0016790e559acmr25491875plh.143.1655752915432; 
- Mon, 20 Jun 2022 12:21:55 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49e:3c01:a3e0:8a80:7b85:aea6?
- ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
- by smtp.gmail.com with ESMTPSA id
- jd15-20020a170903260f00b0015e8d4eb1dbsm5816703plb.37.2022.06.20.12.21.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 12:21:55 -0700 (PDT)
-Message-ID: <7b5fcf62-dff9-bdcf-83a3-d355c59022ba@linaro.org>
-Date: Mon, 20 Jun 2022 12:21:53 -0700
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1o3Mz3-0003xJ-9z; Mon, 20 Jun 2022 15:22:53 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:58856 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1o3Mz1-0007O3-CO; Mon, 20 Jun 2022 15:22:48 -0400
+Received: from localhost.localdomain
+ (dynamic-077-007-106-140.77.7.pool.telefonica.de [77.7.106.140])
+ by csgraf.de (Postfix) with ESMTPSA id 9D9146080263;
+ Mon, 20 Jun 2022 21:22:43 +0200 (CEST)
+From: Alexander Graf <agraf@csgraf.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v2 1/2] accel: Introduce current_accel_name()
+Date: Mon, 20 Jun 2022 21:22:41 +0200
+Message-Id: <20220620192242.70573-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 08/10] bsd-user: Implement mkfifo and mkfifoat
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>
-References: <20220620174220.22179-1-imp@bsdimp.com>
- <20220620174220.22179-9-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220620174220.22179-9-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,16 +53,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/22 10:42, Warner Losh wrote:
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->   bsd-user/bsd-file.h           | 27 +++++++++++++++++++++++++++
->   bsd-user/freebsd/os-syscall.c |  8 ++++++++
->   2 files changed, 35 insertions(+)
+We need to fetch the name of the current accelerator in flexible error
+messages more going forward. Let's create a helper that gives it to us
+without casting in the target code.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
+---
+ accel/accel-common.c | 8 ++++++++
+ include/qemu/accel.h | 1 +
+ softmmu/vl.c         | 3 +--
+ 3 files changed, 10 insertions(+), 2 deletions(-)
 
-r~
+diff --git a/accel/accel-common.c b/accel/accel-common.c
+index 7b8ec7e0f7..50035bda55 100644
+--- a/accel/accel-common.c
++++ b/accel/accel-common.c
+@@ -49,6 +49,14 @@ AccelClass *accel_find(const char *opt_name)
+     return ac;
+ }
+ 
++/* Return the name of the current accelerator */
++const char *current_accel_name(void)
++{
++    AccelClass *ac = ACCEL_GET_CLASS(current_accel());
++
++    return ac->name;
++}
++
+ static void accel_init_cpu_int_aux(ObjectClass *klass, void *opaque)
+ {
+     CPUClass *cc = CPU_CLASS(klass);
+diff --git a/include/qemu/accel.h b/include/qemu/accel.h
+index 4f4c283f6f..be56da1b99 100644
+--- a/include/qemu/accel.h
++++ b/include/qemu/accel.h
+@@ -68,6 +68,7 @@ typedef struct AccelClass {
+ 
+ AccelClass *accel_find(const char *opt_name);
+ AccelState *current_accel(void);
++const char *current_accel_name(void);
+ 
+ void accel_init_interfaces(AccelClass *ac);
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 54e920ada1..3dca5936c7 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2271,8 +2271,7 @@ static void configure_accelerators(const char *progname)
+     }
+ 
+     if (init_failed && !qtest_chrdev) {
+-        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+-        error_report("falling back to %s", ac->name);
++        error_report("falling back to %s", current_accel_name());
+     }
+ 
+     if (icount_enabled() && !tcg_enabled()) {
+-- 
+2.32.1 (Apple Git-133)
 
 
