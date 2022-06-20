@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76950551783
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:38:22 +0200 (CEST)
-Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B89F551772
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:30:12 +0200 (CEST)
+Received: from localhost ([::1]:41356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3FjZ-0000mu-Jn
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:38:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37924)
+	id 1o3Fbf-0000ge-4o
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:30:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3FU8-0008Pn-Tw
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:22:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40017)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3FU3-0003uy-Rp
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:22:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655724138;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fUV7MN8FZ3qzi2Fn3CJgAc1Z9hCiaLrBau2et0zAgdM=;
- b=TZV7jNqeHXBeaZwWxythILGm+y6qjbWqkQHVE5VvGa7vHUpgBI74yOjtm046J7czSHwNV0
- XuY+EnO8482XVui59wDFRrVclHKCLLytmKtW2ZGkrW4YaJh8n0TYfBCD3pUr8cL0MovJPx
- 0Yhij/b3TsWkNGjvdk8UnhFujmjuxV4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-X-iQ72Z8PXeV23lQqDDO4w-1; Mon, 20 Jun 2022 07:22:17 -0400
-X-MC-Unique: X-iQ72Z8PXeV23lQqDDO4w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A173811E84
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 11:22:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEFF7492C3B;
- Mon, 20 Jun 2022 11:22:16 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8521D21E688E; Mon, 20 Jun 2022 13:22:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 3/8] qapi: net: add stream and dgram netdevs
-References: <20220512080932.735962-1-lvivier@redhat.com>
- <20220512080932.735962-4-lvivier@redhat.com>
- <87fsld1wtw.fsf@pond.sub.org>
- <a2a0124d-5065-3c1e-9c84-8b6d92addfae@redhat.com>
- <87bkuugnet.fsf@pond.sub.org>
- <a31f2370-71dc-4623-9966-eeab52b2632d@redhat.com>
-Date: Mon, 20 Jun 2022 13:22:15 +0200
-In-Reply-To: <a31f2370-71dc-4623-9966-eeab52b2632d@redhat.com> (Laurent
- Vivier's message of "Mon, 20 Jun 2022 11:12:15 +0200")
-Message-ID: <87tu8f1swo.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1o3FUH-0008TI-Fz; Mon, 20 Jun 2022 07:22:35 -0400
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:36385)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1o3FUE-0003vm-32; Mon, 20 Jun 2022 07:22:32 -0400
+Received: by mail-lj1-x232.google.com with SMTP id s14so4799442ljs.3;
+ Mon, 20 Jun 2022 04:22:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ktQyS9qe1Zi57yRP9diYDunebGgZrbzRWtPn8/Ak/bY=;
+ b=nQG93lV3NGGx/S8Y92oAEtLLIs2ck740MJd8P7uzVenJ2WvsoXanydwypswlrZ6B5l
+ 7/rxS52ZZoxM4vZfyeSZ2/9BNmX1zW4YuGsoQDWSugDfi5xhuhwPGvLY1YCFPSHLm60j
+ /80A+n3BWtrCLW2HjjonvBPS3B+dMRCbd8WXjX6w1HtZgYwfjjV7rm/Vg2ALUDQgSK6s
+ xlgIFqLh8WO6I1DZqf5Xyt4/CpJ+XUHpwu1rLGqMWuEJwjjqoMkcv9FVtvhVjgZWZj4x
+ 7bOKglHIsGrPqFwaiPK+SLOf5LnRH7qWYIyMm1VjfLKQ+odgyl6tGQrk8uoPuQHk4lR9
+ ChJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ktQyS9qe1Zi57yRP9diYDunebGgZrbzRWtPn8/Ak/bY=;
+ b=VXEdeE4my6OWr7UfGeWHjWrKp+INBXfHlXIQPudzuDnNRWCAU7GTW9ue5mbrSDeuaf
+ o8+S9TtlrHc1Q7gEzLVCS7cLuLuPdsgpBMkUsptEeaPFmlFKyJPBKYnkKkUA+mi00XnM
+ HDoWIONHcIcgpmHr+lyy0vt1flVMocZksPpiAURHSA7QwqgaNFIt0GZWnG2eDe5Cap82
+ Baagv6CvV8K2Q/wSpcoceNWQYLx1QWbFZr3OQyKvfai8RB9WufEp6nxF9XhvsRtNPWys
+ te243vYzh0rqQJd2AklLabOZmbG7RFo9o5wmPRu3NSyGeU6aqn9wH7xgt545RIL/cfcD
+ Vtxw==
+X-Gm-Message-State: AJIora9+ie2ZrSkHKvP5amX5xWjzMdXcBP/WtEouggFgCBNTXOZqXwyo
+ BLFHW2L0z6TRmU2/+9Jx8e0=
+X-Google-Smtp-Source: AGRyM1tiQXcmlq2pvo+ycB0b2EJ0Y0WkvOzOfCtgPGkjRFn5g2QPIM3Ri76k7vTOg6NEUy/R3g9tIQ==
+X-Received: by 2002:a2e:b708:0:b0:258:e01f:bce0 with SMTP id
+ j8-20020a2eb708000000b00258e01fbce0mr11187462ljo.494.1655724146660; 
+ Mon, 20 Jun 2022 04:22:26 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ g2-20020a2eb0c2000000b002555d6ca497sm1604724ljl.115.2022.06.20.04.22.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jun 2022 04:22:25 -0700 (PDT)
+Date: Mon, 20 Jun 2022 13:22:23 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Dan Zhang <dz4list@gmail.com>
+Cc: qemu-devel@nongnu.org, clg@kaod.org, alistair@alistair23.me,
+ andrew@aj.id.au, hreitz@redhat.com, irischenlj@fb.com,
+ irischenlj@gmail.com, joel@jms.id.au, kwolf@redhat.com,
+ lvivier@redhat.com, patrick@stwcx.xyz, pbonzini@redhat.com,
+ pdel@fb.com, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-block@nongnu.org, thuth@redhat.com
+Subject: Re: [PATCH] hw:m25p80: Add STATE_STANDBY command state
+Message-ID: <20220620112220.GA10802@fralle-msi>
+References: <20220614200205.2945065-1-dz4list@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220614200205.2945065-1-dz4list@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x232.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,128 +93,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+Hi Dan,
 
-> On 15/06/2022 13:46, Markus Armbruster wrote:
->> Laurent Vivier <lvivier@redhat.com> writes:
->> 
->>> On 13/05/2022 13:44, Markus Armbruster wrote:
->>>> Laurent Vivier <lvivier@redhat.com> writes:
->>>>
->>>>> Copied from socket netdev file and modified to use SocketAddress
->>>>> to be able to introduce new features like unix socket.
->>>>>
->>>>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
->>>>> according to the IP address type.
->>>>> "listen" and "connect" modes are managed by stream netdev. An optional
->>>>> parameter "server" defines the mode (server by default)
->>>>>
->>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>>> ---
->>>>>    hmp-commands.hx |   2 +-
->>>>>    net/clients.h   |   6 +
->>>>>    net/dgram.c     | 630 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>    net/hub.c       |   2 +
->>>>>    net/meson.build |   2 +
->>>>>    net/net.c       |  24 +-
->>>>>    net/stream.c    | 425 ++++++++++++++++++++++++++++++++
->>>>>    qapi/net.json   |  38 ++-
->>>>>    8 files changed, 1125 insertions(+), 4 deletions(-)
->>>>>    create mode 100644 net/dgram.c
->>>>>    create mode 100644 net/stream.c
->>>>>
-> ...
->>>>> diff --git a/net/net.c b/net/net.c
->>>>> index 2aab7167316c..fd6b30a10c57 100644
->>>>> --- a/net/net.c
->>>>> +++ b/net/net.c
->>>>> @@ -1015,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
->>>>>    #endif
->>>>>            [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
->>>>>            [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
->>>>> +        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
->>>>> +        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
->>>>>    #ifdef CONFIG_VDE
->>>>>            [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
->>>>>    #endif
->>>>> @@ -1097,6 +1099,8 @@ void show_netdevs(void)
->>>>>        int idx;
->>>>>        const char *available_netdevs[] = {
->>>>>            "socket",
->>>>> +        "stream",
->>>>> +        "dgram",
->>>>>            "hubport",
->>>>>            "tap",
->>>>>    #ifdef CONFIG_SLIRP
->>>>> @@ -1606,7 +1610,25 @@ int net_init_clients(Error **errp)
->>>>>     */
->>>>>    static bool netdev_is_modern(const char *optarg)
->>>>>    {
->>>>> -    return false;
->>>>> +    static QemuOptsList dummy_opts = {
->>>>> +        .name = "netdev",
->>>>> +        .implied_opt_name = "type",
->>>>> +        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
->>>>> +        .desc = { { } },
->>>>> +    };
->>>>> +    const char *netdev;
->>>>> +    QemuOpts *opts;
->>>>> +    bool is_modern;
->>>>> +
->>>>> +    opts = qemu_opts_parse(&dummy_opts, optarg, true, &error_fatal);
->>>>> +    netdev = qemu_opt_get(opts, "type");
->>>>> +
->>>>> +    is_modern = strcmp(netdev, "stream") == 0 ||
->>>>> +                strcmp(netdev, "dgram") == 0;
->>>>
->>>> Crashes when user neglects to pass "type".
->>>
->>> I think "type" is always passed because of the '.implied_opt_name = "type"'. Am I wrong?
->> 
->> .implied_opt_name = "type" lets you shorten "type=T,..." to "T,...".  It
->> doesn't make key "type" mandatory.  "-netdev id=foo" is still permitted.
->> Even "-netdev ''" is.
->
->
-> In fact type is checked before by QAPI definition:
->
-> { 'union': 'Netdev',
->    'base': { 'id': 'str', 'type': 'NetClientDriver' },
->    'discriminator': 'type',
-> ...
->
-> As it's the discriminator it must be there.
->
->    $ qemu-system-x86_64 -netdev id=foo
->    qemu-system-x86_64: -netdev id=foo: Parameter 'type' is missing
+On [2022 Jun 14] Tue 13:02:05, Dan Zhang wrote:
+> HW normally will switch it to stand by mode when receive incorrect
+> command.
+> i.e. Macronix MX66L1G45G data sheet section 8 DEVICE OPERATION described
+> ```
+> 2. When an incorrect command is written to this device, it enters
+> standby mode and stays in standby mode until the next CS# falling edge.
+> In standby mode, This device's SO pin should be High-Z.
+> ```
+> Add STATE_STANDBY CMDState and let the device ignore all input and keep
+> SO as HIZ (output 1)
+> 
+> Signed-off-by: Dan Zhang <dz4list@gmail.com>
+> ---
+> A usage of this new state can be aborting in HPM checking 
+> or unknown command code received.
+> 
+>  hw/block/m25p80.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index b6bd430a99..9f89773b11 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -423,6 +423,7 @@ typedef enum {
+>      STATE_COLLECTING_DATA,
+>      STATE_COLLECTING_VAR_LEN_DATA,
+>      STATE_READING_DATA,
+> +    STATE_STANDBY,
 
-It does crash for me:
+Should we enter the state also? (Otherwise we will be adding code that is
+unused).
 
-    (gdb) bt
-    #0  0x00007ffff4d25dcb in __strcmp_avx2 () at /lib64/libc.so.6
-    #1  0x0000555555b4574b in netdev_is_modern (optarg=0x7fffffffe2ae "id=foo")
-        at ../net/net.c:1626
-    #2  0x0000555555b457ad in net_client_parse
-        (opts_list=0x555556563780 <qemu_netdev_opts>, optarg=0x7fffffffe2ae "id=foo") at ../net/net.c:1636
-    #3  0x0000555555ad98de in qemu_init (argc=3, argv=0x7fffffffdf08, envp=0x0)
-        at ../softmmu/vl.c:2901
-    #4  0x0000555555842c01 in qemu_main (argc=3, argv=0x7fffffffdf08, envp=0x0)
-        at ../softmmu/main.c:35
-    #5  0x0000555555842c37 in main (argc=3, argv=0x7fffffffdf08)
-        at ../softmmu/main.c:45
-    (gdb) up
-    #1  0x0000555555b4574b in netdev_is_modern (optarg=0x7fffffffe2ae "id=foo")
-        at ../net/net.c:1626
-    1626	    is_modern = strcmp(netdev, "stream") == 0 ||
-    (gdb) p netdev
-    $1 = 0x0
+>  } CMDState;
+>  
+>  typedef enum {
+> @@ -1472,6 +1473,9 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
+>                            s->cur_addr, (uint8_t)tx);
+>  
+>      switch (s->state) {
+> +    case STATE_STANDBY:
+> +        r = 0xFFFFFFFF; /* StandBy state SO shall be HiZ */
 
-This is
+0xFF should be enough here (since we are dealing with 8 bits, e.g.
+m25p80_transfer8). More safe is probably to return 0 though and see this as if
+a pulldown was connected to the line instead (this because r has been default
+to 0 and was the most likely return value before in this situation). If you
+would agree we can remove above line.
 
-     https://github.com/patchew-project/qemu tags/patchew/20220512080932.735962-1-lvivier@redhat.com 
+Thanks,
+Best regards,
+Francisco Iglesias
 
-I suspect you tested with your v3, which doesn't crash for me, either.
-
-[...]
-
+> +        break;
+>  
+>      case STATE_PAGE_PROGRAM:
+>          trace_m25p80_page_program(s, s->cur_addr, (uint8_t)tx);
+> -- 
+> 2.34.3
+> 
 
