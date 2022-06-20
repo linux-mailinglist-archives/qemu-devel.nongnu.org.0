@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7405510AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 08:49:47 +0200 (CEST)
-Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846485510CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 08:58:20 +0200 (CEST)
+Received: from localhost ([::1]:35484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3BEI-0008Rp-I0
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 02:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43938)
+	id 1o3BMZ-0002NB-Id
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 02:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o3BCr-0006rh-If; Mon, 20 Jun 2022 02:48:17 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o3BCm-0003wL-K5; Mon, 20 Jun 2022 02:48:17 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id s185so3731322pgs.3;
- Sun, 19 Jun 2022 23:48:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XtbtOtWAFmuyK90Ynvhgj7Xise4nXYxwLd+lSniPumk=;
- b=Oj43rljy17CHoREWU85gnpFdZDoUraJd6shNnVJ1O4bOzyshhqtuRCRFRPZLBIOIOm
- DP/U58wClzi/qyxyupwN/6janYovSpCGzMvyfNmQePCWvdoBAGlt6PM1Q6Dx/nJXP1Jw
- 1PYm0u+UxRagSrxswiIH0lNuUW0ahX+/4VnPu3dgoOOukvVL0EWFTc0JNpgAoaNrrJiB
- VrHe15Ba3YRQB219zavOPtYOoTGUELPfIu4OhOnr3TVot6vLARm23cU12he56kn+u9bs
- fBCuGHYaCypCFb/qgCTUemKMRAz96CH2rBTiElbS/J4dTUE5QeYNX9xqBw/687+f0tmT
- +zIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XtbtOtWAFmuyK90Ynvhgj7Xise4nXYxwLd+lSniPumk=;
- b=AYKynTKL2E5rdzxl+7PiCA2C7b4/gQZoT6GIcC6e34kB5WdUeUgZF4L0dFMYEtbVZv
- yPJyhQPVVetAV3BArxIq+4XU+CWMWjJ6gXUZYKxa2bjasFYIE4pC7lcgK7Rpn+GyQRMM
- gJJbru6uzs3ZLsQngv3OA3KEVZ1MvHUj9tqnEDHCXGdMr24hJmjJnGRu5fGZkHFKsG6e
- i5PDtatkaCH4DRX/PsdloqO8VOH8Ajj0BCmHdoLvAyA0QeO+lKdMeGS8I4olXefYZsyI
- raZaD081or6C+5rP9rlfAWh8Ig53kS6oulag24/c3Q/X8+/o2buOCfDrtxtIggtPgHXt
- Eavw==
-X-Gm-Message-State: AJIora/ZDupQhT7wUCUog6S9W+Qnm5zpMkffWIdwvVW9xVofNpdvOZlw
- H8dMjQFdH9zjabLaa3GxrVcWUlM5gmljNgrTFzI=
-X-Google-Smtp-Source: AGRyM1uqZd5rx33q0tCy6EXKYHvOj00cpNI8lT6ymyvsc864HG7D4vPmmG6Tk628AIBx6ODYCO2p5UwklFlKd2Fl2qc=
-X-Received: by 2002:a63:385c:0:b0:40c:bd3a:1506 with SMTP id
- h28-20020a63385c000000b0040cbd3a1506mr3352101pgn.366.1655707690825; Sun, 19
- Jun 2022 23:48:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1o3BFU-0001gX-1h; Mon, 20 Jun 2022 02:51:00 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:49160)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1o3BFQ-0004Gu-Pp; Mon, 20 Jun 2022 02:50:59 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id B68A411EF31;
+ Mon, 20 Jun 2022 06:50:41 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Mon, 20 Jun 2022 06:50:41 +0000
+Subject: [PATCH qemu v6 00/10] Add mask agnostic behavior for rvv instructions
 MIME-Version: 1.0
-References: <20220618201433.240973-1-qemu@ben.fluff.org>
- <20220618201433.240973-5-qemu@ben.fluff.org>
-In-Reply-To: <20220618201433.240973-5-qemu@ben.fluff.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 20 Jun 2022 16:47:44 +1000
-Message-ID: <CAKmqyKMWz7qgYXjHJLTHbMMkW=Amv0CZqTBg72iHW2Ntx0+HYg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] hw/riscv: use qemu_fdt_setprop_strings() in sifive_u.c
-To: Ben Dooks <qemu@ben.fluff.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Message-ID: <165570784143.17634.35095816584573691-0@git.sr.ht>
+X-Mailer: git.sr.ht
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,78 +54,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 19, 2022 at 6:14 AM Ben Dooks <qemu@ben.fluff.org> wrote:
->
-> Use the qemu_fdt_setprop_strings() in sifve_u.c to simplify
-> the code.
->
-> Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
+According to v-spec, mask agnostic behavior can be either kept as
+undisturbed or set elements' bits to all 1s. To distinguish the
+difference of mask policies, QEMU should be able to simulate the mask
+agnostic behavior as "set mask elements' bits to all 1s".
 
-Do you mind updating the other machines as well?
+There are multiple possibility for agnostic elements according to
+v-spec. The main intent of this patch-set tries to add option that
+can distinguish between mask policies. Setting agnostic elements to
+all 1s allows QEMU to express this.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+The following instructions that are always unmasked and not affected:
 
-Alistair
+- Vector add-with-carry and subtract-with-borrow instructions
+- Vector merge and move instructions
+- Vector reduction instructions
+- Vector mask-register logical instructions
+- `vcompress`
 
-> ---
->  hw/riscv/sifive_u.c | 18 +++++-------------
->  1 file changed, 5 insertions(+), 13 deletions(-)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 89d7aa2a52..16b18d90bd 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -103,13 +103,6 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->      char *nodename;
->      uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
->      uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
-> -    static const char * const ethclk_names[2] = { "pclk", "hclk" };
-> -    static const char * const clint_compat[2] = {
-> -        "sifive,clint0", "riscv,clint0"
-> -    };
-> -    static const char * const plic_compat[2] = {
-> -        "sifive,plic-1.0.0", "riscv,plic0"
-> -    };
->
->      if (ms->dtb) {
->          fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
-> @@ -221,8 +214,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->      nodename = g_strdup_printf("/soc/clint@%lx",
->          (long)memmap[SIFIVE_U_DEV_CLINT].base);
->      qemu_fdt_add_subnode(fdt, nodename);
-> -    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
-> -        (char **)&clint_compat, ARRAY_SIZE(clint_compat));
-> +    qemu_fdt_setprop_strings(fdt, nodename, "compatible",
-> +                             "sifive,clint0", "riscv,clint0");
->      qemu_fdt_setprop_reg64_map(fdt, nodename, &memmap[SIFIVE_U_DEV_CLINT]);
->      qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
->          cells, ms->smp.cpus * sizeof(uint32_t) * 4);
-> @@ -273,8 +266,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->          (long)memmap[SIFIVE_U_DEV_PLIC].base);
->      qemu_fdt_add_subnode(fdt, nodename);
->      qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 1);
-> -    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
-> -        (char **)&plic_compat, ARRAY_SIZE(plic_compat));
-> +    qemu_fdt_setprop_strings(fdt, nodename, "compatbile",
-> +                             "sifive,plic-1.0.0", "riscv,plic0");
->      qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
->      qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
->          cells, (ms->smp.cpus * 4 - 2) * sizeof(uint32_t));
-> @@ -410,8 +403,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->      qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
->      qemu_fdt_setprop_cells(fdt, nodename, "clocks",
->          prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
-> -    qemu_fdt_setprop_string_array(fdt, nodename, "clock-names",
-> -        (char **)&ethclk_names, ARRAY_SIZE(ethclk_names));
-> +    qemu_fdt_setprop_strings(fdt, nodename, "clock-names", "pclk", "hclk");
->      qemu_fdt_setprop(fdt, nodename, "local-mac-address",
->          s->soc.gem.conf.macaddr.a, ETH_ALEN);
->      qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
-> --
-> 2.35.1
->
->
+v2 updates:
+- Rebase upon changes of the tail agnostic patch-set
+- Minor change for vector load/store instructions
+
+v3 updates:
+- Rebase upon changes of the tail agnostic patch-set
+- Fix coding style, add missing space
+- Trigger `vma` when encountering vector load instructions and not in
+  vector stores
+
+v4 updates:
+- Rebase upon changes of the tail agnostic patch-set
+
+v5 updates:
+- Tag WeiWei as Reviewed-by for this patch-set
+
+v6 updates:
+- Now that the tail agnostic patch-set has been merged, this
+  patch-set no longer depends on it. Rebased to latest master.
+
+Yueh-Ting (eop) Chen (9):
+  target/riscv: rvv: Add mask agnostic for vv instructions
+  target/riscv: rvv: Add mask agnostic for vector load / store
+    instructions
+  target/riscv: rvv: Add mask agnostic for vx instructions
+  target/riscv: rvv: Add mask agnostic for vector integer shift
+    instructions
+  target/riscv: rvv: Add mask agnostic for vector integer comparison
+    instructions
+  target/riscv: rvv: Add mask agnostic for vector fix-point arithmetic
+    instructions
+  target/riscv: rvv: Add mask agnostic for vector floating-point
+    instructions
+  target/riscv: rvv: Add mask agnostic for vector mask instructions
+  target/riscv: rvv: Add mask agnostic for vector permutation
+    instructions
+
+eopXD (1):
+  target/riscv: rvv: Add option 'rvv_ma_all_1s' to enable optional mask
+    agnostic behavior
+
+ target/riscv/cpu.c                      |   1 +
+ target/riscv/cpu.h                      |   2 +
+ target/riscv/cpu_helper.c               |   2 +
+ target/riscv/insn_trans/trans_rvv.c.inc |  28 +++++
+ target/riscv/internals.h                |   5 +-
+ target/riscv/translate.c                |   2 +
+ target/riscv/vector_helper.c            | 152 ++++++++++++++++++++----
+ 7 files changed, 167 insertions(+), 25 deletions(-)
+
+-- 
+2.34.2
 
