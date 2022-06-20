@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71734550D57
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jun 2022 23:46:10 +0200 (CEST)
-Received: from localhost ([::1]:32856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5488A550DCA
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 02:21:44 +0200 (CEST)
+Received: from localhost ([::1]:45228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o32kD-0001Se-08
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jun 2022 17:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37246)
+	id 1o35Ak-0003zh-HF
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jun 2022 20:21:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o32ia-0000To-0q; Sun, 19 Jun 2022 17:44:28 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37705)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o359Q-0003Fk-VJ
+ for qemu-devel@nongnu.org; Sun, 19 Jun 2022 20:20:21 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:34580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o32iY-0005CF-Ao; Sun, 19 Jun 2022 17:44:27 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id es26so10955214edb.4;
- Sun, 19 Jun 2022 14:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=jDyeLgnmw1vtJkn84QJNvQTS6x9ae8YSmjSFMBPgcfU=;
- b=D0D7vNHWZR1Nn+QJmc86KDtvSl6M6lEkcu7P5thCVjfpbgBW2AegguzLy7u4kvu4NX
- EpnMJ2r6KMX9Ib+4UNPDd+mxtLF3T0pESLinzBohLYc/wB8MI1IbyCZX6pGCACZ0YENz
- I9hP809+0zgxT+qye3y4sm0vIYQ2lka91I1VFLxa62LkB1ccEAJA6Xxa4zwC1jJ3IRMO
- YIKjJDcsi08Wz8ZQKm6M/zHhb7O6lUmBRJxf6B3OuORiIxU+WvxBTqvvf48PXBV7NMlW
- ZL3dvUKzptyg0hQVUMLe56JSnIZNI8BU7F0QTxbt3Jw6KVJwnLaKYXXbSjMniljDN8HC
- fo8Q==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o359P-000074-7Y
+ for qemu-devel@nongnu.org; Sun, 19 Jun 2022 20:20:20 -0400
+Received: by mail-pg1-x529.google.com with SMTP id g186so8843868pgc.1
+ for <qemu-devel@nongnu.org>; Sun, 19 Jun 2022 17:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=wiRkuwltAVMnG11qz+1SbROts/5H3OBEEroJyTKg5xQ=;
+ b=g4RLtT/VhU0eiERBv2hAlu8fKhXuMvkGjTlJzDsvdfwDnl/Sij+Gu/TUpg/UNMvmLS
+ AD8ankXrV1i59wnBMmYDDJVWG2yAR0uNRMxcf05Buf71+9Xa7Wf6pZxD6laWOtrKgKkX
+ Xx86U6Ko8jljVJgW6brYsb7jNlH0u3SEo2yRoIXV1LDZP3JTj8u7RvFhDoPZb4CJL3vS
+ v1lKpbVzI1E3j9pMezevFUaNBE6U8NT/CwN89EbjRjDP8DwRHcj2U64pne5c6vuUgH04
+ nOgnZJzzs+PoKPCyEUd+tm6PCtSmz3jfwMf4456bJ/ugSR5y9lXZq7ACAPVVX9mdiLlN
+ NWSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=jDyeLgnmw1vtJkn84QJNvQTS6x9ae8YSmjSFMBPgcfU=;
- b=6hwTJydJK8T8PKm5NuWxVjUeedN6kFgismB//RAkOLwwo1LwwySi32eTzquO8ongM5
- Oy38BydkQOKFUq2Hq+fsQ3P6g3KCR3FURutl2Na97cEbQn86OgLz9GL008lpy8l66vqu
- hZs8JSQSjqlU5wfCBH7+iUFo6+WcYklrBVbewKh+PVkAH5XK4JPtgtDEjAwRAqwMSdPK
- 1HYYJ/8Eol6HbkO/HvISAOnvaoQGYP4Itb3xt+xXaunPCxK5y4svriH6PF2WT+fAGdEo
- yQmS7+2oW1Gqs/rrQ3k/PMoovMjg37cDsrGSZ+XCx0XvxIWeSwKEH/hKIMnBWFZY0rba
- 6PCA==
-X-Gm-Message-State: AJIora/glGUVUM1MtyPUWLoDzyrKJ3ocV7cA+xUmeTRR7NLQraOLX7jn
- omjMOjC4Py3DQXpLsiig+TBZShh8G5Vw0g==
-X-Google-Smtp-Source: AGRyM1tKUz5kKK2Xz+Ty9Y1BjZhMQLdik8Gp7hJfFnyqnLaDWRpoBllcIvjGOddXkJYdSiDPS+39wg==
-X-Received: by 2002:aa7:c80a:0:b0:435:7784:18e with SMTP id
- a10-20020aa7c80a000000b004357784018emr6779020edt.136.1655675063878; 
- Sun, 19 Jun 2022 14:44:23 -0700 (PDT)
-Received: from ?IPv6:::1? ([2001:9e8:1946:f600:a881:84ce:a3ed:9c43])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wiRkuwltAVMnG11qz+1SbROts/5H3OBEEroJyTKg5xQ=;
+ b=os8xtYzBuSL/8VuRUMGxL+EGj0/h/IwBuM2VIYt1aXelFJBcxZwYcegDib09FsFxST
+ wIZ4GVW1myXp3nhgxdciEtjzN7cDuYSOPquuwws/x2lzyJouPuDkpUzEWDHzKqghGeog
+ V+E6K3S8/GphnRZItmzyLgkMlECrVNnhUOO2BTrwYSxmZ3ojeR0/6fw8xMOlnQQOGX9/
+ 33tebLm8hEfEBzpR1PDdFqxniwRL9jN2x0ymuCQnGrMOcXPHWV6t/2dLHd7f+68gqA7T
+ eevm0oRBqNh4upXsKzwoX/WoFmfSvXLS6wovrHPuznPc0RRm92yqvSJSze0r585Vx6Qy
+ 0DtQ==
+X-Gm-Message-State: AJIora+KYcDwJVg4a/iu1JP2VPK9Ecq5ZTPU+nK26LGjIMle0GZbeCjS
+ lYuHv6f88qjh0l7xZEMt3s6I2A==
+X-Google-Smtp-Source: AGRyM1sMFKeZsmI/DgLb7Ojcy1CzO+IaAw52FwBZf4RoIVk7P/Ulv8oW4y4zk3uQ5eKxkbJ1xm6dNw==
+X-Received: by 2002:a63:dd56:0:b0:405:34ac:9bc9 with SMTP id
+ g22-20020a63dd56000000b0040534ac9bc9mr19435504pgj.324.1655684417011; 
+ Sun, 19 Jun 2022 17:20:17 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:7550:11ea:e955:446b?
+ ([2602:47:d49e:3c01:7550:11ea:e955:446b])
  by smtp.gmail.com with ESMTPSA id
- 24-20020a170906309800b006f3ef214dbesm4954901ejv.36.2022.06.19.14.44.23
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 19 Jun 2022 14:44:23 -0700 (PDT)
-Date: Sun, 19 Jun 2022 21:44:21 +0000
-From: B <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-CC: Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-trivial@nongnu.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_hw/pci-host/i440fx=3A_Remov?=
- =?US-ASCII?Q?e_unused_parameter_from_i440fx=5Finit=28=29?=
-In-Reply-To: <20220612192800.40813-1-shentey@gmail.com>
-References: <20220612192800.40813-1-shentey@gmail.com>
-Message-ID: <14F9EAAB-1FF2-4718-BA5B-9F5971099C94@gmail.com>
+ h19-20020a170902f7d300b0016a1fdb5efasm1348423plw.86.2022.06.19.17.20.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Jun 2022 17:20:16 -0700 (PDT)
+Message-ID: <cb794b80-4254-f944-a278-579e438776f6@linaro.org>
+Date: Sun, 19 Jun 2022 17:20:14 -0700
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/11] Bsd user syscall 2022q2 patches
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+Cc: Kyle Evans <kevans@freebsd.org>, jrtc27@FreeBSD.org, arrowd@freebsd.org,
+ def@FreeBSD.org
+References: <20220619180531.9161-1-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220619180531.9161-1-imp@bsdimp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,87 +94,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/19/22 11:05, Warner Losh wrote:
+> The following changes since commit dcb40541ebca7ec98a14d461593b3cd7282b4fac:
+> 
+>    Merge tag 'mips-20220611' of https://github.com/philmd/qemu into staging (2022-06-11 21:13:27 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    ssh://git@github.com/qemu-bsd-user/qemu-bsd-user.git tags/bsd-user-syscall-2022q2-pull-request
+> 
+> for you to fetch changes up to d35020ed00b1cb649ccd73ba4f5e918a5cc5363a:
+> 
+>    bsd-user: Implement acct and sync (2022-06-14 08:17:44 -0600)
+> 
+> ----------------------------------------------------------------
+> bsd-user: Next round of syscalls
+> 
+> Implement the next round of system calls. These are open, openat, close,
+> fdatasync, fsync, close_from, revoke, access, eacccess, facccessat, chdir,
+> fchdir, rename, renameat, mkdir, mkdirat, rmdir, _getcwd, dup, dup2, truncate,
+> ftruncate, acct and sync. In addition, the helper functions needed for these to
+> work are included. With the helper functions, all of these system calls are the
+> 'obvious' wrapper...
+
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
-Am 12=2E Juni 2022 19:28:00 UTC schrieb Bernhard Beschow <shentey@gmail=2E=
-com>:
->pi440fx_state is an out-parameter which is never read by the caller=2E
->
->Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+r~
 
-Ping
 
->---
-> hw/i386/pc_piix=2Ec            | 3 ---
-> hw/pci-host/i440fx=2Ec         | 4 +---
-> include/hw/pci-host/i440fx=2Eh | 1 -
-> 3 files changed, 1 insertion(+), 7 deletions(-)
->
->diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
->index 0fc2361ffe=2E=2Ea234989ac3 100644
->--- a/hw/i386/pc_piix=2Ec
->+++ b/hw/i386/pc_piix=2Ec
->@@ -82,7 +82,6 @@ static void pc_init1(MachineState *machine,
->     MemoryRegion *system_io =3D get_system_io();
->     PCIBus *pci_bus;
->     ISABus *isa_bus;
->-    PCII440FXState *i440fx_state;
->     int piix3_devfn =3D -1;
->     qemu_irq smi_irq;
->     GSIState *gsi_state;
->@@ -203,7 +202,6 @@ static void pc_init1(MachineState *machine,
->=20
->         pci_bus =3D i440fx_init(host_type,
->                               pci_type,
->-                              &i440fx_state,
->                               system_memory, system_io, machine->ram_siz=
-e,
->                               x86ms->below_4g_mem_size,
->                               x86ms->above_4g_mem_size,
->@@ -217,7 +215,6 @@ static void pc_init1(MachineState *machine,
->         isa_bus =3D ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa=2E0")=
-);
->     } else {
->         pci_bus =3D NULL;
->-        i440fx_state =3D NULL;
->         isa_bus =3D isa_bus_new(NULL, get_system_memory(), system_io,
->                               &error_abort);
->         pcms->hpet_enabled =3D false;
->diff --git a/hw/pci-host/i440fx=2Ec b/hw/pci-host/i440fx=2Ec
->index e08716142b=2E=2E1c5ad5f918 100644
->--- a/hw/pci-host/i440fx=2Ec
->+++ b/hw/pci-host/i440fx=2Ec
->@@ -238,7 +238,6 @@ static void i440fx_realize(PCIDevice *dev, Error **er=
-rp)
-> }
->=20
-> PCIBus *i440fx_init(const char *host_type, const char *pci_type,
->-                    PCII440FXState **pi440fx_state,
->                     MemoryRegion *address_space_mem,
->                     MemoryRegion *address_space_io,
->                     ram_addr_t ram_size,
->@@ -264,8 +263,7 @@ PCIBus *i440fx_init(const char *host_type, const char=
- *pci_type,
->     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->=20
->     d =3D pci_create_simple(b, 0, pci_type);
->-    *pi440fx_state =3D I440FX_PCI_DEVICE(d);
->-    f =3D *pi440fx_state;
->+    f =3D I440FX_PCI_DEVICE(d);
->     f->system_memory =3D address_space_mem;
->     f->pci_address_space =3D pci_address_space;
->     f->ram_memory =3D ram_memory;
->diff --git a/include/hw/pci-host/i440fx=2Eh b/include/hw/pci-host/i440fx=
-=2Eh
->index f068aaba8f=2E=2E52518dbf08 100644
->--- a/include/hw/pci-host/i440fx=2Eh
->+++ b/include/hw/pci-host/i440fx=2Eh
->@@ -36,7 +36,6 @@ struct PCII440FXState {
-> #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
->=20
-> PCIBus *i440fx_init(const char *host_type, const char *pci_type,
->-                    PCII440FXState **pi440fx_state,
->                     MemoryRegion *address_space_mem,
->                     MemoryRegion *address_space_io,
->                     ram_addr_t ram_size,
+> 
+> ----------------------------------------------------------------
+> 
+> Warner Losh (11):
+>    bsd-user: Implement open, openat and close
+>    bsd-user: Implement fdatasync, fsync and close_from
+>    bsd-user: Implement revoke, access, eaccess and faccessat
+>    bsd-user: Implement chdir and fchdir
+>    bsd-user: Implement rename and renameat
+>    bsd-user: Implement link, linkat, unlink and unlinkat
+>    bsd-user: Implement mkdir and mkdirat
+>    bsd-user: Implement rmdir and undocumented __getcwd
+>    bsd-user: Implement dup and dup2
+>    bsd-user: Implement trunctate and ftruncate
+>    bsd-user: Implement acct and sync
+> 
+>   bsd-user/bsd-file.h           | 359 ++++++++++++++++++++++++++++++++++
+>   bsd-user/freebsd/os-syscall.c | 116 +++++++++++
+>   bsd-user/syscall_defs.h       |   4 +
+>   3 files changed, 479 insertions(+)
+> 
+
 
