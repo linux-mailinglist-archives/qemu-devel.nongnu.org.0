@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56258551117
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:13:32 +0200 (CEST)
-Received: from localhost ([::1]:52422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D43551143
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:17:35 +0200 (CEST)
+Received: from localhost ([::1]:60908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3BbH-0006Rb-DQ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48666)
+	id 1o3BfC-0003nq-Pk
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o3BYf-0004l6-6c
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:10:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36638)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3BYq-0004oB-6G; Mon, 20 Jun 2022 03:11:00 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o3BYX-0007Xu-B4
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:10:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655709037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LuIBePAIZVrsmPqUFnAzXgMzT/84qWitRLhhiVeTIh0=;
- b=UnDAJrkS52tfhME8FJ8XTFOMNa0nWCoR6fBUFuJtwq73gfsqubidXOYYQe/DhMvXYD5yzl
- 3nIG5JUvRN24uyFzBUlLPyZ1IHeHEinBd4Xbu1QMGhdfhOAXiwAIV3NQEYojuEgEI0r42R
- ZBg5EorHzCoX6Avvc9jKCUyzaGJecIM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-493-QlcvmSjhPteWKjdQa0BJMg-1; Mon, 20 Jun 2022 03:10:28 -0400
-X-MC-Unique: QlcvmSjhPteWKjdQa0BJMg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- bv8-20020a0560001f0800b002183c5d5c26so2152400wrb.20
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 00:10:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
- :content-transfer-encoding;
- bh=LuIBePAIZVrsmPqUFnAzXgMzT/84qWitRLhhiVeTIh0=;
- b=xYz43/U4na8tGefzsReVAkJ9g6g95Jha2ejJs/vY3M4X5IjQ2yADyyfwP2M2XdvcIs
- g82NQTD903v/cBp7eMIOKIMIlqHMAQYvDJD45zqZGAx8i8x+2On0fwYWdDfXxioHF+2F
- 977bqnaaIoDCvLIVeDq6ta64vQz47UhyQ72fkGn0Nb0klefxux7pfZxvvy8E4z1iPUXx
- DFFpsvuFPse1oYCxL+MIPtefuoITltbB1iqcegor95af1WNw3Krv6VAmcYAeH05UWHJC
- xLTCFsdsuRnsILJnDbngWpT1zpQntxG6nDUq2ZXGGOWdYmR37yUsXgy6h5Iw+wU1Uriw
- IJAQ==
-X-Gm-Message-State: AJIora/3GHTUUQrsBIMxCmRqrgzxoJIVaW8ls3/aSwGhCCMBZt4Vt13J
- zwqwUh6JBOVR+LgERjDKDwX+SuN+ismUssuvA4zgnamYlvwwaz/BBjfewuFfC4JncJlINux9w5x
- k3LEv87aRCq9ATOc=
-X-Received: by 2002:a05:6000:990:b0:21b:90e6:42ad with SMTP id
- by16-20020a056000099000b0021b90e642admr2454210wrb.491.1655709026889; 
- Mon, 20 Jun 2022 00:10:26 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uM7qr5/r+/iejKoom7ZNT3p15ebWd2Oi4svlgrtf4MPPTn7v9Bov1t5VEII7YNj1d0rKHMWA==
-X-Received: by 2002:a05:6000:990:b0:21b:90e6:42ad with SMTP id
- by16-20020a056000099000b0021b90e642admr2454195wrb.491.1655709026697; 
- Mon, 20 Jun 2022 00:10:26 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-178-241.web.vodafone.de.
- [109.43.178.241]) by smtp.gmail.com with ESMTPSA id
- k7-20020a7bc407000000b0039c747a1e8fsm19288820wmi.7.2022.06.20.00.10.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 00:10:26 -0700 (PDT)
-Message-ID: <89d6b974-667e-d331-7f55-0ab71a117e13@redhat.com>
-Date: Mon, 20 Jun 2022 09:10:24 +0200
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3BYn-0007dD-EL; Mon, 20 Jun 2022 03:10:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=GDCDtTYAR3HGpH8dDi6CchK0q/fpoc6D2cHWlf0tQic=; b=ouCmtTFFN24McajADXRPn/fgoL
+ ojBZzphteWAbbRUZlEePU9YJUIMAT4rsO1iQk322N0swiY7b/CN9pM00RQRikha67/HlPnrw/nA6c
+ qIsX2qaUqoGwQ0IuEmBoGPBVl9N/RcsyoRig8RJCoE/Pj12Tftso3OZhsfJKTm8VUt1Xs4s+54ADY
+ HYXdIF4RPMjUwQngvFtJkNTP/PdjlUAS+MzRQWJ4rtbTiSXbT1IhssQAbP0B5mWCZa4zBeFx/Irpy
+ 2EpHkHND5hngZgC0QxY6/2zjrLHA6JCH2+DTG/Va1RWnZChwP+1E2Bx/wgx71kVJSTAZBAnhcSOUS
+ Jh5Rm+hvE6TQ6/PScNg6w20GsE8RuqzsPzNBlLeb02UIA407zQ6pqpDyozUjz6iYSoEVfJM33QxKs
+ vdyFB1fHy1/o7sExx3e5JF22VbJ9FZJIP/ZcEfLKqKmX6OWKtExWYiQE9RTb4LkvOdnTAV667LHXx
+ vnPLZYWajLTXRyvsO6zqnZ+Ei8T2aiGTaOao48z464bi9kHDL1jMFBfPPhDUu5m3B32kMXbP8BPJG
+ Qe0AC1BFyPH/m3aul+mR4BeeaVciCIn7P8ImY8RjzZJz1Gr00hifdfX7w7arWMID5AVFHmlYDGCs4
+ 1mSgPujpVWL8TK2KB7FaoxTwxF5W47WFRmeYnElDw=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3BXW-00084r-EF; Mon, 20 Jun 2022 08:09:42 +0100
+Message-ID: <9175c24f-e026-3fcd-5a0e-4861d9668a62@ilande.co.uk>
+Date: Mon, 20 Jun 2022 08:10:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: TCG development tools?
 Content-Language: en-US
-To: Kenneth Adam Miller <kennethadammiller@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAK7rcp8M=B0PmvZ4FnXNAnSh5TuvxNA4aKXJ8+JF06XogMmsEg@mail.gmail.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAK7rcp8M=B0PmvZ4FnXNAnSh5TuvxNA4aKXJ8+JF06XogMmsEg@mail.gmail.com>
+To: B <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, qemu-trivial@nongnu.org
+References: <20220612192800.40813-1-shentey@gmail.com>
+ <14F9EAAB-1FF2-4718-BA5B-9F5971099C94@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <14F9EAAB-1FF2-4718-BA5B-9F5971099C94@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] hw/pci-host/i440fx: Remove unused parameter from
+ i440fx_init()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,19 +85,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/06/2022 05.34, Kenneth Adam Miller wrote:
-> Hello all,
+On 19/06/2022 22:44, B wrote:
+
+> Am 12. Juni 2022 19:28:00 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
+>> pi440fx_state is an out-parameter which is never read by the caller.
+>>
+>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > 
-> Suppose I am wanting to implement and test for the TCG. Is there any set of 
-> interactive binaries or other things that I could use to work with it? Could 
-> I open a shell to it?  Perhaps feed it specific byte sequences for tests to 
-> ensure correct operation? Are there a canonical set of unit tests that 
-> exercise the TCG that each architecture implements?
+> Ping
+> 
+>> ---
+>> hw/i386/pc_piix.c            | 3 ---
+>> hw/pci-host/i440fx.c         | 4 +---
+>> include/hw/pci-host/i440fx.h | 1 -
+>> 3 files changed, 1 insertion(+), 7 deletions(-)
+>>
+>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+>> index 0fc2361ffe..a234989ac3 100644
+>> --- a/hw/i386/pc_piix.c
+>> +++ b/hw/i386/pc_piix.c
+>> @@ -82,7 +82,6 @@ static void pc_init1(MachineState *machine,
+>>      MemoryRegion *system_io = get_system_io();
+>>      PCIBus *pci_bus;
+>>      ISABus *isa_bus;
+>> -    PCII440FXState *i440fx_state;
+>>      int piix3_devfn = -1;
+>>      qemu_irq smi_irq;
+>>      GSIState *gsi_state;
+>> @@ -203,7 +202,6 @@ static void pc_init1(MachineState *machine,
+>>
+>>          pci_bus = i440fx_init(host_type,
+>>                                pci_type,
+>> -                              &i440fx_state,
+>>                                system_memory, system_io, machine->ram_size,
+>>                                x86ms->below_4g_mem_size,
+>>                                x86ms->above_4g_mem_size,
+>> @@ -217,7 +215,6 @@ static void pc_init1(MachineState *machine,
+>>          isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
+>>      } else {
+>>          pci_bus = NULL;
+>> -        i440fx_state = NULL;
+>>          isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
+>>                                &error_abort);
+>>          pcms->hpet_enabled = false;
+>> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+>> index e08716142b..1c5ad5f918 100644
+>> --- a/hw/pci-host/i440fx.c
+>> +++ b/hw/pci-host/i440fx.c
+>> @@ -238,7 +238,6 @@ static void i440fx_realize(PCIDevice *dev, Error **errp)
+>> }
+>>
+>> PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+>> -                    PCII440FXState **pi440fx_state,
+>>                      MemoryRegion *address_space_mem,
+>>                      MemoryRegion *address_space_io,
+>>                      ram_addr_t ram_size,
+>> @@ -264,8 +263,7 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+>>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>>
+>>      d = pci_create_simple(b, 0, pci_type);
+>> -    *pi440fx_state = I440FX_PCI_DEVICE(d);
+>> -    f = *pi440fx_state;
+>> +    f = I440FX_PCI_DEVICE(d);
+>>      f->system_memory = address_space_mem;
+>>      f->pci_address_space = pci_address_space;
+>>      f->ram_memory = ram_memory;
+>> diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
+>> index f068aaba8f..52518dbf08 100644
+>> --- a/include/hw/pci-host/i440fx.h
+>> +++ b/include/hw/pci-host/i440fx.h
+>> @@ -36,7 +36,6 @@ struct PCII440FXState {
+>> #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
+>>
+>> PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+>> -                    PCII440FXState **pi440fx_state,
+>>                      MemoryRegion *address_space_mem,
+>>                      MemoryRegion *address_space_io,
+>>                      ram_addr_t ram_size,
 
-We've got a bunch of TCG-related tests in the tests/tcg/ , so I suggest you 
-start with these.
+Looks good to me, so:
 
-  HTH,
-   Thomas
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
+In fact that whole i440fx_init() function looks like it's another candidate for 
+QOM-ification...
+
+
+ATB,
+
+Mark.
 
