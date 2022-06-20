@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5848551131
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:15:39 +0200 (CEST)
-Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C732355114E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:19:04 +0200 (CEST)
+Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3BdK-0001QW-Q8
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:15:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49392)
+	id 1o3Bgd-0005Jf-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3BaW-0006sj-Ki
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:12:44 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33502)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3Bee-0003rC-RO
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:17:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3BaT-0007r4-IL
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:12:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=b6s5cdgFwBdQ31RgLw8CeAtflbp1GgdfDiR86jVSUS0=; b=DtyXl4dfoQuUqXMCvgmWwGFjh7
- Gv8WKakt2U30PjbAr2pni7OAgujPPZo2ODGX2FveMB3MzQSOPiZVWqgZFGQ7L9gN1FlEvCkt3CPYs
- Ge12VLiRk8nXOlgR1G+7zCKHzJa6fU6anUZdbwQxORAyLkM30JyAbkmJg95oEKe4hbm2HPvWi3ATk
- N+7dphfzqV73Sc1xTWV/LbSVmEGpQwoy9ixFY8W8+1MXxSf4B7sEcmcPfNlCajgJssAOrSAG7Gb/3
- pYewLjWVngNMr5TPJ6RqcMObFvANra/bdrEGTx1P21rQ4Cc63Ipv+6stXs5SZnH+l0LZv2iREg80I
- X6ZU7sAkOoD/6gy0ivXCoOgZMqwimiEgj3wpTan9sZjlIHB8Gn1ATriR7cZeUZSsyA1rTPwx1En9j
- sso/4i4/RTHVh2dvzgZR56HimXMUv36zrU2a4Q5t4lO0u3bP0UIwobc/hPp9tCdwY53JPROne/6TR
- d41dTvEsBAzOxX9g1gBIcVrU1bGlYzWLBxbyMErip06/vjDyHavr96Tow3ncQptLR0LZQScE/qkST
- BTdjw99n9ZG8NXhYjP9g6U2iopIBBmCCIEa7wrDBTZLU13+yGz4peyKcuoj+gMRVcZxfoRTNt1s2e
- zkn96sfdGpi0dgpoe5vm+WIgJ+8fOHYp6NCyLATI8=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3BZD-00085o-HZ; Mon, 20 Jun 2022 08:11:27 +0100
-Message-ID: <7be04e62-2f9a-e05f-e5f6-9e40ae00a924@ilande.co.uk>
-Date: Mon, 20 Jun 2022 08:12:31 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3Beb-00008p-Hb
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:16:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655709416;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/QcCuub8SEMlboqDG5MKYfWzT35QYfCtZK7HzDplqmY=;
+ b=gHpiBZ+q/ZZ3fiFXxszZJTO/LyknEhywwBMq71sUMD3TX/38p5PrFlWPopZkEsCVPKGCPc
+ iSwuESqaJ1utcD3hrAJVH/OJRoGx53Qb490HTcbuqhyNGgHoEG/Odptzip8d6H047S8KWQ
+ S/+CMCxVWEKgYNejpJWcRLBrBGkG8Zs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612-Sd8kQVvLPrm8zfBQaJgvdA-1; Mon, 20 Jun 2022 03:16:52 -0400
+X-MC-Unique: Sd8kQVvLPrm8zfBQaJgvdA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE2FA80159B;
+ Mon, 20 Jun 2022 07:16:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98A3F40314B;
+ Mon, 20 Jun 2022 07:16:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 69FF321E688E; Mon, 20 Jun 2022 09:16:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Delevoryas <pdel@fb.com>
+Cc: <samuel.thibault@ens-lyon.org>,  <jasowang@redhat.com>,
+ <eblake@redhat.com>,  <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 3/4] slirp: Add mfr-id to -netdev options
+References: <20220616010526.1895564-1-pdel@fb.com>
+ <20220616010526.1895564-4-pdel@fb.com>
+Date: Mon, 20 Jun 2022 09:16:50 +0200
+In-Reply-To: <20220616010526.1895564-4-pdel@fb.com> (Peter Delevoryas's
+ message of "Wed, 15 Jun 2022 18:05:25 -0700")
+Message-ID: <87k09b6bz1.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-References: <20220520104532.9816-1-joao.m.martins@oracle.com>
- <20220520104532.9816-3-joao.m.martins@oracle.com>
- <20220616152151.42d6140a@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220616152151.42d6140a@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v5 2/5] i386/pc: create pci-host qdev prior to
- pc_memory_init()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,139 +81,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/06/2022 14:21, Reviewed-by: Igor Mammedov wrote:
+Peter Delevoryas <pdel@fb.com> writes:
 
-> On Fri, 20 May 2022 11:45:29 +0100
-> Joao Martins <joao.m.martins@oracle.com> wrote:
-> 
->> At the start of pc_memory_init() we usually pass a range of
->> 0..UINT64_MAX as pci_memory, when really its 2G (i440fx) or
->> 32G (q35). To get the real user value, we need to get pci-host
->> passed property for default pci_hole64_size. Thus to get that,
->> create the qdev prior to memory init to better make estimations
->> on max used/phys addr.
->>
->> This is in preparation to determine that host-phys-bits are
->> enough and also for pci-hole64-size to be considered to relocate
->> ram-above-4g to be at 1T (on AMD platforms).
-> 
-> with comments below fixed
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->   
->> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
->> ---
->>   hw/i386/pc_piix.c            | 5 ++++-
->>   hw/i386/pc_q35.c             | 6 +++---
->>   hw/pci-host/i440fx.c         | 3 +--
->>   include/hw/pci-host/i440fx.h | 2 +-
->>   4 files changed, 9 insertions(+), 7 deletions(-)
->>
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index 578e537b3525..12d4a279c793 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -91,6 +91,7 @@ static void pc_init1(MachineState *machine,
->>       MemoryRegion *pci_memory;
->>       MemoryRegion *rom_memory;
->>       ram_addr_t lowmem;
->> +    DeviceState *i440fx_dev;
->>   
->>       /*
->>        * Calculate ram split, for memory below and above 4G.  It's a bit
->> @@ -164,9 +165,11 @@ static void pc_init1(MachineState *machine,
->>           pci_memory = g_new(MemoryRegion, 1);
->>           memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
->>           rom_memory = pci_memory;
->> +        i440fx_dev = qdev_new(host_type);
->>       } else {
->>           pci_memory = NULL;
->>           rom_memory = system_memory;
->> +        i440fx_dev = NULL;
->>       }
->>   
->>       pc_guest_info_init(pcms);
->> @@ -199,7 +202,7 @@ static void pc_init1(MachineState *machine,
->>   
->>           pci_bus = i440fx_init(host_type,
->>                                 pci_type,
->> -                              &i440fx_state,
->> +                              i440fx_dev, &i440fx_state,
-> confusing names, suggest to rename i440fx_state -> pci_i440fx and i440fx_dev -> i440fx_host
-> or something like this
+> This lets you set the manufacturer's ID for a slirp netdev, which can be
+> queried from the guest through the Get Version ID NC-SI command. For
+> example, by setting the manufacturer's ID to 0x8119:
+>
+>     wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
+>     qemu-system-arm -machine fby35-bmc \
+>         -drive file=fby35.mtd,format=raw,if=mtd -nographic \
+>         -netdev user,id=nic,mfr-id=0x8119,hostfwd=::2222-:22 \
+>         -net nic,model=ftgmac100,netdev=nic
+>     ...
+>     username: root
+>     password: 0penBmc
+>     ...
+>     root@bmc-oob:~# ncsi-util 0x15
+>     NC-SI Command Response:
+>     cmd: GET_VERSION_ID(0x15)
+>     Response: COMMAND_COMPLETED(0x0000)  Reason: NO_ERROR(0x0000)
+>     Payload length = 40
+>
+>     20: 0xf1 0xf0 0xf0 0x00
+>     24: 0x00 0x00 0x00 0x00
+>     28: 0x00 0x00 0x00 0x00
+>     32: 0x00 0x00 0x00 0x00
+>     36: 0x00 0x00 0x00 0x00
+>     40: 0x00 0x00 0x00 0x00
+>     44: 0x00 0x00 0x00 0x00
+>     48: 0x00 0x00 0x00 0x00
+>     52: 0x00 0x00 0x81 0x19
+>
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> ---
 
-It might be worth considering this series on top of Bernhard's patch here: 
-https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg02206.html.
+[...]
 
->>                                 system_memory, system_io, machine->ram_size,
->>                                 x86ms->below_4g_mem_size,
->>                                 x86ms->above_4g_mem_size,
->> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
->> index 42eb8b97079a..8d867bdb274a 100644
->> --- a/hw/i386/pc_q35.c
->> +++ b/hw/i386/pc_q35.c
->> @@ -203,12 +203,12 @@ static void pc_q35_init(MachineState *machine)
->>                               pcms->smbios_entry_point_type);
->>       }
->>   
->> -    /* allocate ram and load rom/bios */
->> -    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
->> -
->>       /* create pci host bus */
->>       q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
->>   
->> +    /* allocate ram and load rom/bios */
->> +    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
->> +
->>       object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
->>       object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
->>                                OBJECT(ram_memory), NULL);
->> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
->> index e08716142b6e..5c1bab5c58ed 100644
->> --- a/hw/pci-host/i440fx.c
->> +++ b/hw/pci-host/i440fx.c
->> @@ -238,6 +238,7 @@ static void i440fx_realize(PCIDevice *dev, Error **errp)
->>   }
->>   
->>   PCIBus *i440fx_init(const char *host_type, const char *pci_type,
-> 
-> does it still need 'host_type'?
-> 
->> +                    DeviceState *dev,
->>                       PCII440FXState **pi440fx_state,
->>                       MemoryRegion *address_space_mem,
->>                       MemoryRegion *address_space_io,
->> @@ -247,7 +248,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
->>                       MemoryRegion *pci_address_space,
->>                       MemoryRegion *ram_memory)
->>   {
->> -    DeviceState *dev;
->>       PCIBus *b;
->>       PCIDevice *d;
->>       PCIHostState *s;
->> @@ -255,7 +255,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
->>       unsigned i;
->>       I440FXState *i440fx;
->>   
->> -    dev = qdev_new(host_type);
->>       s = PCI_HOST_BRIDGE(dev);
->>       b = pci_root_bus_new(dev, NULL, pci_address_space,
->>                            address_space_io, 0, TYPE_PCI_BUS);
->> diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
->> index f068aaba8fda..c4710445e30a 100644
->> --- a/include/hw/pci-host/i440fx.h
->> +++ b/include/hw/pci-host/i440fx.h
->> @@ -36,7 +36,7 @@ struct PCII440FXState {
->>   #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
->>   
->>   PCIBus *i440fx_init(const char *host_type, const char *pci_type,
->> -                    PCII440FXState **pi440fx_state,
->> +                    DeviceState *dev, PCII440FXState **pi440fx_state,
->>                       MemoryRegion *address_space_mem,
->>                       MemoryRegion *address_space_io,
->>                       ram_addr_t ram_size,
+> diff --git a/qapi/net.json b/qapi/net.json
+> index d6f7cfd4d6..efc5cb3fb6 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -167,6 +167,8 @@
+>  #
+>  # @tftp-server-name: RFC2132 "TFTP server name" string (Since 3.1)
+>  #
+> +# @mfr-id: Manufacturer ID (Private Enterprise Number: IANA)
+> +#
 
+Is 'mfr-id' an established technical term, or an abbreviation you came
+up with?  If the latter, please use @manufacturer-id instead.
 
-ATB,
+Documentation is rather terse.  It basically provides a bunch of
+keywords you can throw at the search engine of your choice.  Can we cut
+out that middle man and point straight to a suitable resource?
 
-Mark.
+>  # Since: 1.2
+>  ##
+>  { 'struct': 'NetdevUserOptions',
+> @@ -192,7 +194,8 @@
+>      '*smbserver': 'str',
+>      '*hostfwd':   ['String'],
+>      '*guestfwd':  ['String'],
+> -    '*tftp-server-name': 'str' } }
+> +    '*tftp-server-name': 'str',
+> +    '*mfr-id': 'uint32' } }
+>  
+>  ##
+>  # @NetdevTapOptions:
+
 
