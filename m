@@ -2,82 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D065513CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 11:14:44 +0200 (CEST)
-Received: from localhost ([::1]:46926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748285513F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 11:16:46 +0200 (CEST)
+Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3DUZ-0007HG-1b
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 05:14:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53228)
+	id 1o3DWT-0007wC-Ir
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 05:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1o3DQi-0005TV-Hj; Mon, 20 Jun 2022 05:10:45 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:42717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1o3DQa-00039T-Uw; Mon, 20 Jun 2022 05:10:39 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id g4so3839380lfv.9;
- Mon, 20 Jun 2022 02:10:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=YzrE3ubLHPXWSEZ0Nn7384TQFxa8gKiqCOwRRAoE1R8=;
- b=L1j/fShKz/DOQ7ZhU28vGhxOMM8/pglvYps/KtGCs00IN0U3DKrXZ9MjQGPBGgRlZz
- FW3UnoNZL3DGpkrSB4JcdJECCmDhmcFYgA+GSgBuDncrtX8idMG0OWqxaTmXV2ydT5Yc
- M7LMqkdX3i4XxXBG7Ev+c35NWGZ7WCL/zBKlPPfia53GDowDO67PB3jREqXup5mMdED2
- m4JR/HYDO1omSj/tFL58Ja1QPo7uIewsSZmfpL3B8ua3c7H/jrKgD3JVku2rX/l1+2wH
- 0whwZV1YtPcVKFFyvsRgyPPX1O5W35uBfh3OCwS0AZ6B7XQBjpSepgfIDdGVVzrNgq6P
- xoDQ==
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o3DSM-0006M7-B3
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 05:12:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o3DSI-0003Wy-4E
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 05:12:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655716340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PBOKx49NehWhV/w5WZHl7IhP9B+kM7C5bgsxkAPVVDU=;
+ b=CRLPVRiLHO0JKTpucIvBPXb2C7IxQgGXvW829Y9pjgG9j3ESiACN0MYsk7W5A6YnjVXXDZ
+ wenCL2HPvYVIEXjsQSK6QGfPBugSgNS6KWG3M56UeqjarCbghVHMgYjnPhLZCJMk6pIlOw
+ 70zlowfs1fzJGmfoBOds4O1ztY2aK/s=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-44-yrOhSQSKMUecFVkU1Z0bZg-1; Mon, 20 Jun 2022 05:12:19 -0400
+X-MC-Unique: yrOhSQSKMUecFVkU1Z0bZg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ w22-20020a05620a445600b006a6c18678f2so12474713qkp.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 02:12:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=YzrE3ubLHPXWSEZ0Nn7384TQFxa8gKiqCOwRRAoE1R8=;
- b=DoYN9+T+7FYv1ZqxsA6q2hgm4za6wQA+8lNCt9ZecBBl75Fo4Ob+1TRlhEeODXp1tk
- 2xxDHntZQyJTwbqorEI6/Lv8dVDSeanaBRDtwu9nCAllSW2U5uQukvbHXvfRMk1eEysV
- OjeKUIwGa8NskZTuQwT+ocyV1Hx00gngk06dD/fmxt8gCNFsqWRLPMjd2/JM4hfPbGqz
- 4F9riwp6jH65yq44wFJsvg6sHsxsv7Kt6DYhBj/W7wRiInPnkgK+xsAwwzlpaORR/r3w
- W9nGMYE5hf/B61m8+KJZ4xh1WjMJwVGHcms/MGqsNRo9RsFGOkYQSMPuFGiM/mj+2zkI
- fBBQ==
-X-Gm-Message-State: AJIora9gkFwUAhSNLzHhnNJ4qppS29d2qLSM/Al4N4qbvAzIC9Nixn2S
- ZEi3F9YVN7aNW14pYlYJ2QY=
-X-Google-Smtp-Source: AGRyM1tLNMk3UPmVtkHnbjy2pg2KpYN24e0jC/mMrAk9qPw+Qx4QfQ43UoiGw1mXTGLJ9Zl40CReGQ==
-X-Received: by 2002:a19:2d10:0:b0:47f:55d1:3c4e with SMTP id
- k16-20020a192d10000000b0047f55d13c4emr8266974lfj.640.1655716231763; 
- Mon, 20 Jun 2022 02:10:31 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PBOKx49NehWhV/w5WZHl7IhP9B+kM7C5bgsxkAPVVDU=;
+ b=K/b6ScCZ3Ks7QfiNQWxv8y1jitmQaCNRynNX6tSk3Hax9Z3e/hwJQGKqASMvgoAyaU
+ iLEsmRAgwtFmEQG/BSA28ZjqrMtwabYxZ0WE0/J8ZZrS88dD+X4Ao0jADVf98ryFjg5u
+ Q7mQ96am/JySAptOvVV/tUlhRpi//RR9Xk2m4DHsUS2gRf4kAItKNXSI44U06F4ExZhS
+ I+hvTj6VVpgaJVNu64dn/0zWxGo5SRxdHXO00k1jJ31cdJoY2iTRfQwW2NyIMDf6kkvO
+ OdY01di6EiyPYksPJFSB46riaMmmg31I5Mag87B4iCrmVpEe+KrhPPWbODAO02rlFOWX
+ d0+w==
+X-Gm-Message-State: AJIora++M0KrIFWgzVaX2qhZkX+6eCrFH1t2Ulmwt+RWkeimis+N0rGE
+ m2ci/qa9dI975CTdVCmNG+Ll0rl+MAwJfwAZIK//CtPFnX60mhkr82j+V/vkiufjhkEwgwcoRLs
+ VuliTV2VZGUmdsyo=
+X-Received: by 2002:ac8:5996:0:b0:305:1041:372e with SMTP id
+ e22-20020ac85996000000b003051041372emr18240091qte.520.1655716338502; 
+ Mon, 20 Jun 2022 02:12:18 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v2c6/HYFXOjQfupOYYGrweI/VaA8ZH41O05SSSYf1+e8gJyXIgbeBf2g+h2FR+V4H+sq6R0w==
+X-Received: by 2002:ac8:5996:0:b0:305:1041:372e with SMTP id
+ e22-20020ac85996000000b003051041372emr18240076qte.520.1655716338097; 
+ Mon, 20 Jun 2022 02:12:18 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.8.70])
  by smtp.gmail.com with ESMTPSA id
- e7-20020a196747000000b0047255d211e5sm1685833lfj.276.2022.06.20.02.10.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 02:10:31 -0700 (PDT)
-Date: Mon, 20 Jun 2022 11:10:29 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Iris Chen <irischenlj@fb.com>
-Cc: pdel@fb.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org,
- patrick@stwcx.xyz, alistair@alistair23.me, kwolf@redhat.com,
- hreitz@redhat.com, peter.maydell@linaro.org, andrew@aj.id.au,
- joel@jms.id.au, thuth@redhat.com, lvivier@redhat.com,
- pbonzini@redhat.com, qemu-block@nongnu.org, dz4list@gmail.com
-Subject: Re: [PATCH v3 1/2] hw: m25p80: add WP# pin and SRWD bit for write
- protection
-Message-ID: <20220620091028.GD10629@fralle-msi>
-References: <20220617220245.2285150-1-irischenlj@fb.com>
+ u11-20020a05620a454b00b006a74da327fcsm11721576qkp.99.2022.06.20.02.12.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jun 2022 02:12:17 -0700 (PDT)
+Message-ID: <a31f2370-71dc-4623-9966-eeab52b2632d@redhat.com>
+Date: Mon, 20 Jun 2022 11:12:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220617220245.2285150-1-irischenlj@fb.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -1010
-X-Spam_score: -101.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-101.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FREEMAIL_REPLY=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC PATCH v2 3/8] qapi: net: add stream and dgram netdevs
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20220512080932.735962-1-lvivier@redhat.com>
+ <20220512080932.735962-4-lvivier@redhat.com> <87fsld1wtw.fsf@pond.sub.org>
+ <a2a0124d-5065-3c1e-9c84-8b6d92addfae@redhat.com>
+ <87bkuugnet.fsf@pond.sub.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <87bkuugnet.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,207 +105,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Iris,
-
-On [2022 Jun 17] Fri 15:02:45, Iris Chen wrote:
-> Signed-off-by: Iris Chen <irischenlj@fb.com>
-> ---
-> Thanks everyone for your comments. This is a v3 patch that addresses all 
-> suggestions (moving write_enable to decode_new_cmd). 
-> I am waiting on some feedback from Dan's (dz4list@gmail.com) patch
-> regarding adding a STATE_STANDBY state. 
+On 15/06/2022 13:46, Markus Armbruster wrote:
+> Laurent Vivier <lvivier@redhat.com> writes:
 > 
-> Currently, all tests are passing. 
->  
->  hw/block/m25p80.c | 77 ++++++++++++++++++++++++++++++++++++++---------
->  1 file changed, 62 insertions(+), 15 deletions(-)
+>> On 13/05/2022 13:44, Markus Armbruster wrote:
+>>> Laurent Vivier <lvivier@redhat.com> writes:
+>>>
+>>>> Copied from socket netdev file and modified to use SocketAddress
+>>>> to be able to introduce new features like unix socket.
+>>>>
+>>>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
+>>>> according to the IP address type.
+>>>> "listen" and "connect" modes are managed by stream netdev. An optional
+>>>> parameter "server" defines the mode (server by default)
+>>>>
+>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>>> ---
+>>>>    hmp-commands.hx |   2 +-
+>>>>    net/clients.h   |   6 +
+>>>>    net/dgram.c     | 630 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>    net/hub.c       |   2 +
+>>>>    net/meson.build |   2 +
+>>>>    net/net.c       |  24 +-
+>>>>    net/stream.c    | 425 ++++++++++++++++++++++++++++++++
+>>>>    qapi/net.json   |  38 ++-
+>>>>    8 files changed, 1125 insertions(+), 4 deletions(-)
+>>>>    create mode 100644 net/dgram.c
+>>>>    create mode 100644 net/stream.c
+>>>>
+...
+>>>> diff --git a/net/net.c b/net/net.c
+>>>> index 2aab7167316c..fd6b30a10c57 100644
+>>>> --- a/net/net.c
+>>>> +++ b/net/net.c
+>>>> @@ -1015,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+>>>>    #endif
+>>>>            [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
+>>>>            [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
+>>>> +        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
+>>>> +        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
+>>>>    #ifdef CONFIG_VDE
+>>>>            [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
+>>>>    #endif
+>>>> @@ -1097,6 +1099,8 @@ void show_netdevs(void)
+>>>>        int idx;
+>>>>        const char *available_netdevs[] = {
+>>>>            "socket",
+>>>> +        "stream",
+>>>> +        "dgram",
+>>>>            "hubport",
+>>>>            "tap",
+>>>>    #ifdef CONFIG_SLIRP
+>>>> @@ -1606,7 +1610,25 @@ int net_init_clients(Error **errp)
+>>>>     */
+>>>>    static bool netdev_is_modern(const char *optarg)
+>>>>    {
+>>>> -    return false;
+>>>> +    static QemuOptsList dummy_opts = {
+>>>> +        .name = "netdev",
+>>>> +        .implied_opt_name = "type",
+>>>> +        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
+>>>> +        .desc = { { } },
+>>>> +    };
+>>>> +    const char *netdev;
+>>>> +    QemuOpts *opts;
+>>>> +    bool is_modern;
+>>>> +
+>>>> +    opts = qemu_opts_parse(&dummy_opts, optarg, true, &error_fatal);
+>>>> +    netdev = qemu_opt_get(opts, "type");
+>>>> +
+>>>> +    is_modern = strcmp(netdev, "stream") == 0 ||
+>>>> +                strcmp(netdev, "dgram") == 0;
+>>>
+>>> Crashes when user neglects to pass "type".
+>>
+>> I think "type" is always passed because of the '.implied_opt_name = "type"'. Am I wrong?
 > 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 81ba3da4df..12a59ca57c 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -27,12 +27,14 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/qdev-properties-system.h"
->  #include "hw/ssi/ssi.h"
-> +#include "hw/irq.h"
->  #include "migration/vmstate.h"
->  #include "qemu/bitops.h"
->  #include "qemu/log.h"
->  #include "qemu/module.h"
->  #include "qemu/error-report.h"
->  #include "qapi/error.h"
-> +#include "qapi/visitor.h"
-
-We can remove above two new header includes (sorry for missing this last time).
-
->  #include "trace.h"
->  #include "qom/object.h"
->  
-> @@ -472,11 +474,13 @@ struct Flash {
->      uint8_t spansion_cr2v;
->      uint8_t spansion_cr3v;
->      uint8_t spansion_cr4v;
-> +    bool wp_level;
->      bool write_enable;
->      bool four_bytes_address_mode;
->      bool reset_enable;
->      bool quad_enable;
->      bool aai_enable;
-> +    bool status_register_write_disabled;
->      uint8_t ear;
->  
->      int64_t dirty_page;
-> @@ -723,6 +727,8 @@ static void complete_collecting_data(Flash *s)
->          flash_erase(s, s->cur_addr, s->cmd_in_progress);
->          break;
->      case WRSR:
-> +        s->status_register_write_disabled = extract32(s->data[0], 7, 1);
-> +
->          switch (get_man(s)) {
->          case MAN_SPANSION:
->              s->quad_enable = !!(s->data[1] & 0x02);
-> @@ -1165,22 +1171,34 @@ static void decode_new_cmd(Flash *s, uint32_t value)
->          break;
->  
->      case WRSR:
-> -        if (s->write_enable) {
-> -            switch (get_man(s)) {
-> -            case MAN_SPANSION:
-> -                s->needed_bytes = 2;
-> -                s->state = STATE_COLLECTING_DATA;
-> -                break;
-> -            case MAN_MACRONIX:
-> -                s->needed_bytes = 2;
-> -                s->state = STATE_COLLECTING_VAR_LEN_DATA;
-> -                break;
-> -            default:
-> -                s->needed_bytes = 1;
-> -                s->state = STATE_COLLECTING_DATA;
-> -            }
-> -            s->pos = 0;
-> +        /*
-> +         * If WP# is low and status_register_write_disabled is high,
-> +         * status register writes are disabled.
-> +         * This is also called "hardware protected mode" (HPM). All other
-> +         * combinations of the two states are called "software protected mode"
-> +         * (SPM), and status register writes are permitted.
-> +         */
-> +        if ((s->wp_level == 0 && s->status_register_write_disabled)
-> +            || !s->write_enable) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "M25P80: Status register write is disabled!\n");
-> +            break;
->          }
-> +
-> +        switch (get_man(s)) {
-> +        case MAN_SPANSION:
-> +            s->needed_bytes = 2;
-> +            s->state = STATE_COLLECTING_DATA;
-> +            break;
-> +        case MAN_MACRONIX:
-> +            s->needed_bytes = 2;
-> +            s->state = STATE_COLLECTING_VAR_LEN_DATA;
-> +            break;
-> +        default:
-> +            s->needed_bytes = 1;
-> +            s->state = STATE_COLLECTING_DATA;
-> +        }
-> +        s->pos = 0;
->          break;
->  
->      case WRDI:
-> @@ -1195,6 +1213,8 @@ static void decode_new_cmd(Flash *s, uint32_t value)
->  
->      case RDSR:
->          s->data[0] = (!!s->write_enable) << 1;
-> +        s->data[0] |= (!!s->status_register_write_disabled) << 7;
-> +
->          if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
->              s->data[0] |= (!!s->quad_enable) << 6;
->          }
-> @@ -1484,6 +1504,14 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
->      return r;
->  }
->  
-> +static void m25p80_write_protect_pin_irq_handler(void *opaque, int n, int level)
-> +{
-> +    Flash *s = M25P80(opaque);
-> +    /* WP# is just a single pin. */
-> +    assert(n == 0);
-> +    s->wp_level = !!level;
-> +}
-> +
->  static void m25p80_realize(SSIPeripheral *ss, Error **errp)
->  {
->      Flash *s = M25P80(ss);
-> @@ -1515,12 +1543,18 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
->          s->storage = blk_blockalign(NULL, s->size);
->          memset(s->storage, 0xFF, s->size);
->      }
-> +
-> +    qdev_init_gpio_in_named(DEVICE(s),
-> +                            m25p80_write_protect_pin_irq_handler, "WP#", 1);
->  }
->  
->  static void m25p80_reset(DeviceState *d)
->  {
->      Flash *s = M25P80(d);
->  
-> +    s->wp_level = true;
-> +    s->status_register_write_disabled = false;
-> +
->      reset_memory(s);
->  }
->  
-> @@ -1587,6 +1621,18 @@ static const VMStateDescription vmstate_m25p80_aai_enable = {
->      }
->  };
->  
-> +static const VMStateDescription vmstate_m25p80_write_protect = {
-> +    .name = "m25p80/write_protect",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = false,
-
-Above is a function, something like:
-
-static bool m25p80_wp_level_srwd_needed(void *opaque)
-{
-    Flash *s = (Flash *)opaque;
-
-    return !s->wp_level || s->status_register_write_disabled;
-}
-
-    .needed = m25p80_wp_level_srwd_needed,
+> .implied_opt_name = "type" lets you shorten "type=T,..." to "T,...".  It
+> doesn't make key "type" mandatory.  "-netdev id=foo" is still permitted.
+> Even "-netdev ''" is.
 
 
-Looks good otherwise!
+In fact type is checked before by QAPI definition:
+
+{ 'union': 'Netdev',
+   'base': { 'id': 'str', 'type': 'NetClientDriver' },
+   'discriminator': 'type',
+...
+
+As it's the discriminator it must be there.
+
+   $ qemu-system-x86_64 -netdev id=foo
+   qemu-system-x86_64: -netdev id=foo: Parameter 'type' is missing
+
+...
+>>>> diff --git a/qapi/net.json b/qapi/net.json
+>>>> index b92f3f5fb444..eef288886e1b 100644
+>>>> --- a/qapi/net.json
+>>>> +++ b/qapi/net.json
+>>>> @@ -7,6 +7,7 @@
+>>>>    ##
+>>>>    
+>>>>    { 'include': 'common.json' }
+>>>> +{ 'include': 'sockets.json' }
+>>>>    
+>>>>    ##
+>>>>    # @set_link:
+>>>> @@ -452,6 +453,37 @@
+>>>>        '*vhostdev':     'str',
+>>>>        '*queues':       'int' } }
+>>>>    
+>>>> +##
+>>>> +# @NetdevStreamOptions:
+>>>> +#
+>>>> +# Configuration info for stream socket netdev
+>>>> +#
+>>>> +# @addr: socket address to listen on (server=true)
+>>>> +#        or connect to (server=false)
+>>>> +# @server: create server socket (default: true)
+>>>> +#
+>>>> +# Since: 7.1
+>>>> +##
+>>>> +{ 'struct': 'NetdevStreamOptions',
+>>>> +  'data': {
+>>>> +    'addr':   'SocketAddress',
+>>>> +    '*server': 'bool' } }
+>>>> +
+>>>> +##
+>>>> +# @NetdevDgramOptions:
+>>>> +#
+>>>> +# Configuration info for datagram socket netdev.
+>>>> +#
+>>>> +# @remote: remote address
+>>>> +# @local: local address
+>>>
+>>> Defaults?
+>>
+>> We can't have a default because for multicast default is remoTe, and for unicast default
+>> is local.
+> 
+> Well, the members are optional, so there must be some default behavior,
+> which may or may not correspond to a single default value.  Regardless,
+> what happens when a member is absent ought to be documented.
+
+The code checks there is at least one of these options and reports an error if not.
+
+if remote address is present and it's a multicast address, local address is optional.
+
+otherwise local address is required and remote address is optional.
+I've updated qemu-options.hx with that syntax.
 
 Thanks,
-Best regards,
-Francisco
+Laurent
 
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_BOOL(wp_level, Flash),
-> +        VMSTATE_BOOL(status_register_write_disabled, Flash),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static const VMStateDescription vmstate_m25p80 = {
->      .name = "m25p80",
->      .version_id = 0,
-> @@ -1618,6 +1664,7 @@ static const VMStateDescription vmstate_m25p80 = {
->      .subsections = (const VMStateDescription * []) {
->          &vmstate_m25p80_data_read_loop,
->          &vmstate_m25p80_aai_enable,
-> +        &vmstate_m25p80_write_protect,
->          NULL
->      }
->  };
-> -- 
-> 2.30.2
-> 
-> 
 
