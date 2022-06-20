@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DF65523C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 20:20:10 +0200 (CEST)
-Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2958255245E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:05:37 +0200 (CEST)
+Received: from localhost ([::1]:59646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3M0P-0004IP-M4
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 14:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43054)
+	id 1o3MiN-0002vg-Cg
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3LaO-0006OV-Bb
+ id 1o3LaO-0006OX-C0
  for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:53:18 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:43149)
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:42726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3LaH-0001ZF-OS
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:53:12 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- y13-20020a17090a154d00b001eaaa3b9b8dso10987572pja.2
+ id 1o3LaI-0001Ws-0f
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:53:13 -0400
+Received: by mail-pf1-x434.google.com with SMTP id d17so1903664pfq.9
  for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:53:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zl3UQa9L83DTzd5dN0hhGMfsA9e6o+OsnHnXrS/Os6s=;
- b=xh2uG1T/oYbbuFNqTvwHHhyXVAxgJZQei6IkfqezkwKW39CsLPX0qmRt5a0VDfn6Vm
- NlUplWm5ipFiQv8z8o4afiKAE6yYOwKZ4qZzz8tSCXkj2J0C8qBsaYgRthq+uUoUx9ek
- Kfy5+FFZL0dtS7qfm5SiPNgY29M+SUb1yYx+T2ln5eML2xISaRKJPgk79w0S2L/knmbS
- GDPx8xwd7haF9vKvTHetZveq4DeEWijg0s8lIxa58Ov63gbUAZ6/fUlw/p6I0ecPqjll
- q9pl3E6yYtGHZjoXejqTRbTMWoDAkzB/PmtJKd2txVgpYG6N0Kl36Uf8r6hpveU5HjCe
- UXgQ==
+ bh=3nuS/o5N0jY1sctqPNAwUS/VxwGp/HFm2vpuT3BHgTM=;
+ b=gACsrSkEIbXBFWUJ0MTV1dinp9/Zho40qd5qjo8gEHGdmZitXiMl8l0LvRS0bU9a6R
+ cJJFlA15xZ9esKRj++CcyoyVAuXpkKrZF0BoJD/6qzZM+kMNeLMZT0OdOKjP459UA4dn
+ aJyl7CytzCEhlCjkNzlW4ToXqKkrtJhqJJ3NBTChm5DWpFBGyxuHf9bpBsPala9Q5Cgf
+ F6Wqy17oW7JJ+CETvVbFDoro5ToWI8ZQ+ml9I783aaOcu00cq42ppZBEUp2zC4Y7tvW0
+ pLoGwHg6pqqf76kMGPC9T9ab0S17Fv6okV4pbzqhI79sliOPy6G54bNV6cW/q5z7iqVy
+ IYHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zl3UQa9L83DTzd5dN0hhGMfsA9e6o+OsnHnXrS/Os6s=;
- b=Aegy+E+rbIwmKFO3ukr9phjFqmA5+8AOcV+h8Xd657QTmwySJJRtVCS9ZrmKnPxVyB
- tOjkD7K8FGV7nLrMXoxV9tlE33XIf6oFNkHEXCDFvck/J7LlsfHKcBZIdpipn1pAAU7M
- NUSrfDFrJakzS/EMsSBFXauroHeyp/Zvjb0aoCNKeQ+dinBVqmdiT3KqDZ5JFe3dOv7a
- K5+FqSH7Ndu+pCl8xPZCfJKi0rZT1ZEtHo7MWoGOI2JFCt08v1jEZ6sNVK8/jOkkngR7
- ZH3QoVmZPrdLbmyVWmTZ0hGAgt/AmQP8St1I8TazKWc6WbWidMNMVGXmbWpYR7BHjU1Z
- t4tQ==
-X-Gm-Message-State: AJIora8RMsuoLJauR3FAIWXxQa2x4Wtv0Z0IDmD9M4cFQVSUB8yzd6d4
- /pKqGd2mHGUdY78ks1tJps3MicQsKJ8vEA==
-X-Google-Smtp-Source: AGRyM1v0XBOeBdREkAFWhtm/phcGeD7ziaIQzBVeNmis1qqds6HeycyUEdQemu/Z+Nk7EI5IsOolOg==
-X-Received: by 2002:a17:90a:2f87:b0:1ec:87b2:ff15 with SMTP id
- t7-20020a17090a2f8700b001ec87b2ff15mr16295045pjd.135.1655747588348; 
- Mon, 20 Jun 2022 10:53:08 -0700 (PDT)
+ bh=3nuS/o5N0jY1sctqPNAwUS/VxwGp/HFm2vpuT3BHgTM=;
+ b=XoGrjXrmCEQtXzZnB4DLz58lqiRPkwD4TwJEnQyhClgfcjS2d13qWMtXIf90IDAfoQ
+ lxqJ99ladb4jVDmglUSCpJBRggicuH5EELsOPKtrvd0Z6GE8AZsarz8xFBAZpYBdTzoN
+ wI5ldPxRXLfpSOVmFtHY8pnEisdvezXwtnxfOH855GB3AMc149h++kil+Z48OGk3JnRz
+ Sxndh3Jtifmeq81qBqIj+DJf/LpT+u19cJMi1Em30VdAprHuORgjWhqqobBSSUtKjTAV
+ m8h2wb26FKDnAH9I4Tp8PjBk+AY79/urAC614l6yOwAa8aTO33gAx2bufUIKDxfeunV/
+ kuow==
+X-Gm-Message-State: AJIora/FTTZrdOJinM6ASAtRNorgtIumOcCoA870ZM0QmvBC405jT1Xm
+ /RizIFilOsP4SiHiGh735WuHfWdgDAWMjg==
+X-Google-Smtp-Source: AGRyM1vXemZctG1JjKUhjC34FIh/jwDFkzWti8PCsN4zcHaynOkwccvTUjPd36m0p5oNWZLqqYhptA==
+X-Received: by 2002:a05:6a00:21c8:b0:4c4:4bd:dc17 with SMTP id
+ t8-20020a056a0021c800b004c404bddc17mr25931294pfj.57.1655747589237; 
+ Mon, 20 Jun 2022 10:53:09 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
  by smtp.gmail.com with ESMTPSA id
- j14-20020aa7928e000000b00525133f98adsm5138138pfa.146.2022.06.20.10.53.07
+ j14-20020aa7928e000000b00525133f98adsm5138138pfa.146.2022.06.20.10.53.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 10:53:07 -0700 (PDT)
+ Mon, 20 Jun 2022 10:53:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v3 37/51] target/arm: Reset streaming sve state on exception
- boundaries
-Date: Mon, 20 Jun 2022 10:52:21 -0700
-Message-Id: <20220620175235.60881-38-richard.henderson@linaro.org>
+Subject: [PATCH v3 38/51] target/arm: Enable SME for -cpu max
+Date: Mon, 20 Jun 2022 10:52:22 -0700
+Message-Id: <20220620175235.60881-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220620175235.60881-1-richard.henderson@linaro.org>
 References: <20220620175235.60881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,48 +88,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can handle both exception entry and exception return by
-hooking into aarch64_sve_change_el.
+Note that SME remains effectively disabled for user-only,
+because we do not yet set CPACR_EL1.SMEN.  This needs to
+wait until the kernel ABI is implemented.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ docs/system/arm/emulation.rst |  4 ++++
+ target/arm/cpu64.c            | 11 +++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 26f4a4bc26..9c5b1a10eb 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11754,6 +11754,19 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
-         return;
-     }
- 
-+    old_a64 = old_el ? arm_el_is_aa64(env, old_el) : el0_a64;
-+    new_a64 = new_el ? arm_el_is_aa64(env, new_el) : el0_a64;
-+
-+    /*
-+     * Both AArch64.TakeException and AArch64.ExceptionReturn
-+     * invoke ResetSVEState when taking an exception from, or
-+     * returning to, AArch32 state when PSTATE.SM is enabled.
-+     */
-+    if (old_a64 != new_a64 && FIELD_EX64(env->svcr, SVCR, SM)) {
-+        arm_reset_sve_state(env);
-+        return;
-+    }
-+
-     /*
-      * DDI0584A.d sec 3.2: "If SVE instructions are disabled or trapped
-      * at ELx, or not available because the EL is in AArch32 state, then
-@@ -11766,10 +11779,8 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
-      * we already have the correct register contents when encountering the
-      * vq0->vq0 transition between EL0->EL1.
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index 83b4410065..8e494c8bea 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -65,6 +65,10 @@ the following architecture extensions:
+ - FEAT_SHA512 (Advanced SIMD SHA512 instructions)
+ - FEAT_SM3 (Advanced SIMD SM3 instructions)
+ - FEAT_SM4 (Advanced SIMD SM4 instructions)
++- FEAT_SME (Scalable Matrix Extension)
++- FEAT_SME_FA64 (Full A64 instruction set in Streaming SVE mode)
++- FEAT_SME_F64F64 (Double-precision floating-point outer product instructions)
++- FEAT_SME_I16I64 (16-bit to 64-bit integer widening outer product instructions)
+ - FEAT_SPECRES (Speculation restriction instructions)
+ - FEAT_SSBS (Speculative Store Bypass Safe)
+ - FEAT_TLBIOS (TLB invalidate instructions in Outer Shareable domain)
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 19188d6cc2..40a0f043d0 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -1018,6 +1018,7 @@ static void aarch64_max_initfn(Object *obj)
       */
--    old_a64 = old_el ? arm_el_is_aa64(env, old_el) : el0_a64;
-     old_len = (old_a64 && !sve_exception_el(env, old_el)
-                ? sve_vqm1_for_el(env, old_el) : 0);
--    new_a64 = new_el ? arm_el_is_aa64(env, new_el) : el0_a64;
-     new_len = (new_a64 && !sve_exception_el(env, new_el)
-                ? sve_vqm1_for_el(env, new_el) : 0);
+     t = FIELD_DP64(t, ID_AA64PFR1, MTE, 3);       /* FEAT_MTE3 */
+     t = FIELD_DP64(t, ID_AA64PFR1, RAS_FRAC, 0);  /* FEAT_RASv1p1 + FEAT_DoubleFault */
++    t = FIELD_DP64(t, ID_AA64PFR1, SME, 1);       /* FEAT_SME */
+     t = FIELD_DP64(t, ID_AA64PFR1, CSV2_FRAC, 0); /* FEAT_CSV2_2 */
+     cpu->isar.id_aa64pfr1 = t;
+ 
+@@ -1068,6 +1069,16 @@ static void aarch64_max_initfn(Object *obj)
+     t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5);    /* FEAT_PMUv3p4 */
+     cpu->isar.id_aa64dfr0 = t;
+ 
++    t = cpu->isar.id_aa64smfr0;
++    t = FIELD_DP64(t, ID_AA64SMFR0, F32F32, 1);   /* FEAT_SME */
++    t = FIELD_DP64(t, ID_AA64SMFR0, B16F32, 1);   /* FEAT_SME */
++    t = FIELD_DP64(t, ID_AA64SMFR0, F16F32, 1);   /* FEAT_SME */
++    t = FIELD_DP64(t, ID_AA64SMFR0, I8I32, 0xf);  /* FEAT_SME */
++    t = FIELD_DP64(t, ID_AA64SMFR0, F64F64, 1);   /* FEAT_SME_F64F64 */
++    t = FIELD_DP64(t, ID_AA64SMFR0, I16I64, 0xf); /* FEAT_SME_I16I64 */
++    t = FIELD_DP64(t, ID_AA64SMFR0, FA64, 1);     /* FEAT_SME_FA64 */
++    cpu->isar.id_aa64smfr0 = t;
++
+     /* Replicate the same data to the 32-bit id registers.  */
+     aa32_max_features(cpu);
  
 -- 
 2.34.1
