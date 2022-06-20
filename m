@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5575524A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:39:01 +0200 (CEST)
-Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC14D55248F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:28:43 +0200 (CEST)
+Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3NEi-0000od-Cp
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60734)
+	id 1o3N4k-0007Lr-Tq
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:28:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3MzY-000474-B1
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:23:20 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:41875)
+ id 1o3N02-0004T9-Jw
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:23:54 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:37445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3MzW-0007Py-O9
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:23:19 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- g10-20020a17090a708a00b001ea8aadd42bso11213901pjk.0
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 12:23:18 -0700 (PDT)
+ id 1o3N01-0007Rm-3i
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:23:50 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id p2so1183483pls.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 12:23:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vcH3D8ORIUk+caI/YcF0fm1BdgBq03NGayjULhS0QKs=;
- b=cAGyaUF83BywHebhI72SSjvvnc/+faAanYBypVG3+HETPEAFQyYfA3COGpcL89WuFx
- TLulcVTnTJaYLKjsaXa7eJ+vxCgqr8Qr/U1St8e2dBfBm/nhr+jgyYYnqDp0o2ZFPRh1
- wqMHskQzTi1Pd4hUU3MIdCWZZ6e0nexb/2KxGrjXoeEGBkjULg4B+9P50lale8MSd//6
- bzfxmsI2MdpR33FTiMWvSYdROKI3hzkt4rofkEBfbrWe+ASOWf3F660oghgquLU5a7GI
- qPfYYl8kM7fpXiP3ABNDr8mxgbaV/U/ElMvRzm9XT+Gk1/SQiBGj1zvpikqNKRzGPuhf
- HAOw==
+ bh=VR9JE66KaNFf61SRL+2ko7LSXhXrXfBPW9fW6wmTl2k=;
+ b=Yfqdx546jw/ts7qeOxm6DvBG26zx2y9cIrBpCWak7Dae8aZ2hrNo5RIgMDzBnW6VO/
+ VWdcCvJ8OiE3YwFl6i7NDOrp+Q4IATn9VVGxbSV75N4cM7LJq8yc2RJjXUtDJQ7TFtIH
+ irTvGHhxKKsuy7nAo/L5AiDdMXzvrbpQ0wp47Ta5WPIo/xXTRmCaRNXzY/0xZAdX/NcY
+ 9BtEetDEJKp8lL1v9LaLxtLSWdGw7mMykKqQjXYzrfOB8v+YJ8H3JuIFnlM/qs+7uuoX
+ OMluwVaqnnnbSe+GvgTaii8AoBqMY3Ym5esKoQQxg7WNHKbH4+m4JMF0aRjqrrv+g2Hj
+ ch6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vcH3D8ORIUk+caI/YcF0fm1BdgBq03NGayjULhS0QKs=;
- b=OePD+PllQiKidevSJwPx4AXwTD91kKsmq73zRnAmQQ0dn3EMipehvjyqicc0RXWNwH
- hbcDWgrwmG6gtUYbR2eP3YCC3V2yE0HPL9eUbIjRpQqDwzahYVlXnTA3aaUXUhDjoDaS
- L9VhWN+kWjdqj7gmlkEj9MgfyqvRzjsRviS3RyaoihY3+SNV7o/CmwU+s9z9ZsMkXwE/
- bxUxvkElB5vPgLanvMV6Nn+IxIBDwa63YE9te5S/dh6mwY3AcK964NjdfPnFyXLBd4n0
- uK2V1Y4FH4ZvmAIiEYtjbobPrk5Az1Apn6aGVV/bGxrOSe9TwlX8q+NvN0qjGf84wbUO
- SEUA==
-X-Gm-Message-State: AJIora+Kp0sKOATAAqKDrabVwTFiO4y2Qt6IOiRZZ37vh1tJKeznrRjG
- eMeHOrzyHIN145FOPOptuqcqXQ==
-X-Google-Smtp-Source: AGRyM1uE+ZqVRQZ8ffKJFoZ1VloTMThjGSMkyXHultuE+Aa1PDsgF///NzukGlFPtwo2zK71bX3Qjw==
-X-Received: by 2002:a17:902:d650:b0:168:b027:1a58 with SMTP id
- y16-20020a170902d65000b00168b0271a58mr24930270plh.60.1655752997350; 
- Mon, 20 Jun 2022 12:23:17 -0700 (PDT)
+ bh=VR9JE66KaNFf61SRL+2ko7LSXhXrXfBPW9fW6wmTl2k=;
+ b=boBrstJcH2vlqrWi1JWg7Mt/NhxxMaUoAwAXTXuuQjCfSsciYZyzAjNqZrXLpUkOyO
+ LFTZZwUFB13OHSlgojSo69AOd/s0aTr3fYwY1T7gTYtd+/T0ymwFE7xkW2Bc4lwiIREG
+ sMF4hxzmLqa4PyvWYcdlxOHa6mrRGy3f8n0kz1j68uQCfEQeVwKH12Xmd9HghWDOa2D7
+ YPlgNVknQIhMKvCx1Gmnj/JyfOl4dItC+5BMEScIZVd3ZcsXvPkmZxd7/jLPa5w93y+h
+ Ck5W5PL0fanJn4es/Vve89zPm5Dg4sxaBOCqFAP+R2wSiF0dThyHLAdMnSqLeKenzj/o
+ BKaA==
+X-Gm-Message-State: AJIora/8GFhzfXbC8wdQWgTAR3Wr7jnnlWT2SCdjGcSSZIFZFGaLuEBo
+ IhnZBjP4IIzPegESTVrecKkVpQ==
+X-Google-Smtp-Source: AGRyM1u6fmxTHdqFynZvFKGa0+v2+/eHV9OAi4jqxezGRreI0oCB7roJ/Z1+OIl6GqpqTzZwgEAhrA==
+X-Received: by 2002:a17:902:ecc9:b0:163:f779:f97a with SMTP id
+ a9-20020a170902ecc900b00163f779f97amr24645129plh.167.1655753027790; 
+ Mon, 20 Jun 2022 12:23:47 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49e:3c01:a3e0:8a80:7b85:aea6?
  ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
  by smtp.gmail.com with ESMTPSA id
- m9-20020a1709026bc900b00163bddfb109sm9138947plt.10.2022.06.20.12.23.16
+ j2-20020a170902da8200b0016a1c216b73sm3411480plx.9.2022.06.20.12.23.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 12:23:16 -0700 (PDT)
-Message-ID: <f34ef8a6-1a97-a125-b59d-042de7892f6f@linaro.org>
-Date: Mon, 20 Jun 2022 12:23:15 -0700
+ Mon, 20 Jun 2022 12:23:47 -0700 (PDT)
+Message-ID: <b92559a1-83d2-bcf7-6270-29e5a57ae7c7@linaro.org>
+Date: Mon, 20 Jun 2022 12:23:45 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 09/10] bsd-user: Implement pathconf, lpathconf and
- fpathconf
+Subject: Re: [PATCH 10/10] bsd-user: Implement undelete
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>
 References: <20220620174220.22179-1-imp@bsdimp.com>
- <20220620174220.22179-10-imp@bsdimp.com>
+ <20220620174220.22179-11-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220620174220.22179-10-imp@bsdimp.com>
+In-Reply-To: <20220620174220.22179-11-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,9 +98,9 @@ On 6/20/22 10:42, Warner Losh wrote:
 > Signed-off-by: Stacey Son<sson@FreeBSD.org>
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/bsd-file.h           | 32 ++++++++++++++++++++++++++++++++
->   bsd-user/freebsd/os-syscall.c | 12 ++++++++++++
->   2 files changed, 44 insertions(+)
+>   bsd-user/bsd-file.h           | 13 +++++++++++++
+>   bsd-user/freebsd/os-syscall.c |  4 ++++
+>   2 files changed, 17 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
