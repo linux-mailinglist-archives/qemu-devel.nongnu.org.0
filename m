@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E97552473
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:14:54 +0200 (CEST)
-Received: from localhost ([::1]:47190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B6E552477
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:17:59 +0200 (CEST)
+Received: from localhost ([::1]:51148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3MrN-0003jL-1N
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57832)
+	id 1o3MuM-0006Rm-GA
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3MlQ-0007mi-BM
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:08:44 -0400
-Received: from smtpout140.security-mail.net ([85.31.212.143]:21613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3MlM-00052R-RP
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:08:42 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx403.security-mail.net (Postfix) with ESMTP id D26B512FC6B
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 21:08:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1655752116;
- bh=4j6h5RN4ZuPsCtxoq7fu+wCwTtButAjUAV/tfNzzHtc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=x1sUrgrTXzBcR65dY/dA4bHZ+2KL0H6LbvrjKa44fmGVZTnESkPPtup9MFzJoFemX
- 5ohu7X+mOxDiTvKoidUCXyxsQii+HPEStcA//Y1nvcTr3jXVb6zYnKVLRAxgIRC6c6
- 1CdT43DerTMPA6RGhk0A3VZjl2ylBWsh2WP0wr5A=
-Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
- (Postfix) with ESMTP id 431BA12FC6A; Mon, 20 Jun 2022 21:08:36 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx403.security-mail.net (Postfix) with ESMTPS id A76F612FC65; Mon, 20 Jun
- 2022 21:08:35 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 8AEF627E04D6; Mon, 20 Jun 2022
- 21:08:35 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 72ABB27E04B5; Mon, 20 Jun 2022 21:08:35 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- optY_swwzyfN; Mon, 20 Jun 2022 21:08:35 +0200 (CEST)
-Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id 5481A27E04D6; Mon, 20 Jun 2022 21:08:35 +0200
- (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <5a94.62b0c5b3.a64cb.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 72ABB27E04B5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655752115;
- bh=vuKVnQ8Q69XZwLhI/APx8t0KeXw1ob51BlKuXE92cr0=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=U/qbrR8q5wtss9Hp0jBKislSvsBg9q2tyqPKszGT+dpvx61AIkt5bnfVKu9DcQMIk
- +MBYOzfprDJT+hMaxzz0HllcUyXgmkrm1YURYHrfAo9znsKRMXQUhffejHG4AfuYkx
- T+CRN/pvStZknY9IKpeACX/VNgXK8dVmEp7bsdsA=
-Date: Mon, 20 Jun 2022 21:08:34 +0200
-From: Luc Michel <lmichel@kalray.eu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/7] semihosting: proper QEMU exit on semihosted exit
- syscall
-Message-ID: <20220620190834.GA16887@ws2101.lin.mbt.kalray.eu>
-References: <20220620142426.15040-1-lmichel@kalray.eu>
- <f7375667-4dc3-17f5-987e-a7d3339c6c00@linaro.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3MqC-0003ra-VK
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:13:42 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:51941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3MqB-0005uu-7r
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 15:13:40 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id f16so9632222pjj.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 12:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=+dmaT4R+NQXvoacNlaSECDIagb/kfWPz5lAa6OoI4R4=;
+ b=ss//aluffGcZ9hTsseEtT/tnVUoSPE2u5kMW5bsw2Qy5Oc9JRcnYW+0EoVCD9mnlXf
+ 7Ts0+4BuyEv5FZmkLWmmJ+40t7DBF8Fs3WfyS0J0JiEAsqSe9rSNmy7vemH9AhT7yKeu
+ 4ywEU9HKydZmkqSF8f4x4Yw6SNro+15fpK27A2dTe5DJbNHeY/DzeZX6QZ6X8RgpOqW+
+ ZZVtzHRoRQQboCZnD4J7cCF2eHgC2YQPpqVfZ4QDgL2KYX3RjxB+xV52FcOLy1ZvXrMl
+ pbKnKeiciH0DpekzlIR+kXu75kIuNGimMU76ybxqARz8j81l2o2XefkIp6UehUlzVGJn
+ itIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+dmaT4R+NQXvoacNlaSECDIagb/kfWPz5lAa6OoI4R4=;
+ b=DXdQp2bL/jSmydpA8skoj753I7wZPZu8CJuHkGS620+al7xRd+9T+BgKQhwky/xJgu
+ 1rbcdAvnnJObC3c2BIZV5AAsbYQ7DUaJ4g0Mtb+mqYEGHf2Z8zATafoEpIRiPKw94JdZ
+ +kXt0tjUztJMMe++sUcapdvUVyd0wwOS6oQz96VZaOnlRk9RV58D7j8hz6huxaRY3Ozo
+ xU+YpjErKM4jxldEZ1GDMNYHaTTKgAAVxzjv6fkV7KSAzdrNK4WphH0b6saD7Tqkufri
+ MalKi0Z5wlbdjEHuKtdwecd7KvnlLhRijq9jjPK8CgaPBm+Ok0uqrluPXm6z7nx48CuF
+ IdCQ==
+X-Gm-Message-State: AJIora/k+n6X8MbKJbao/O+fzXw3599cPgwknnaS7q+pNrLfHNlYkVSK
+ XVOjFejFCjOK/HzgqnF+pYoXLQ==
+X-Google-Smtp-Source: AGRyM1uIdRqtuEJ6B7qQ928FRhvXKarSSTh4WW6gzq5/OOZb4nqx+duwehPHuMM2jLKjKNSHMUtPWw==
+X-Received: by 2002:a17:902:e84c:b0:167:6ef7:b09b with SMTP id
+ t12-20020a170902e84c00b001676ef7b09bmr24608397plg.43.1655752417392; 
+ Mon, 20 Jun 2022 12:13:37 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:a3e0:8a80:7b85:aea6?
+ ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
+ by smtp.gmail.com with ESMTPSA id
+ y21-20020a056a00191500b005252867671esm39832pfi.66.2022.06.20.12.13.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jun 2022 12:13:36 -0700 (PDT)
+Message-ID: <76249ff6-cd3c-5b1c-f480-8c10c5b04429@linaro.org>
+Date: Mon, 20 Jun 2022 12:13:35 -0700
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f7375667-4dc3-17f5-987e-a7d3339c6c00@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.143; envelope-from=lmichel@kalray.eu;
- helo=smtpout140.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 04/10] bsd-user: Implement freebsd11_mknod,
+ freebsd11_mknodat and mknodat
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
+ Michal Meloun <mmel@FreeBSD.org>
+References: <20220620174220.22179-1-imp@bsdimp.com>
+ <20220620174220.22179-5-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220620174220.22179-5-imp@bsdimp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,84 +96,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08:59 Mon 20 Jun     , Richard Henderson wrote:
-> On 6/20/22 07:24, Luc Michel wrote:
-> > Hi,
-> > 
-> > This series implements a clean way for semihosted exit syscalls to
-> > terminate QEMU with a given return code.
-> > 
-> > Until now, exit syscalls implementations consisted in calling exit()
-> > with the wanted return code. The problem with this approach is that
-> > other CPUs are not properly stopped, leading to possible crashes in
-> > MTTCG mode, especially when at_exit callbacks have been registered. This
-> > can be the case e.g., when plugins are in use. Plugins can register
-> > at_exit callbacks. Those will be called on the CPU thread the exit
-> > syscall is comming from, while other CPUs can continue to run and thus
-> > call other plugin callbacks.
-> > 
-> > The semihosting_exit_request function provides a mean to cleanly
-> > terminate QEMU. It introduces an new exit reason
-> > (SHUTDOWN_CAUSE_GUEST_SEMI_EXIT) used in this case. The CPU is stopped
-> > and returns to the main CPU loop so that no more instruction get
-> > executed (the semihosting_exit_request is declared G_NORETURN).
-> > 
-> > All targets are converted to use this new function.
+On 6/20/22 10:42, Warner Losh wrote:
+> These implement both the old-pre INO64 mknod variations, as well as the
+> now current INO64 variant. To implement the old stuff, we use some
+> linker magic to bind to the old versions of these functions.
 > 
-> Did you test a complete build?  At a glance I would guess that
-> arm-linux-user will no longer link because qemu_set/get_exit_status is
-> missing.
-
-You are right I forgot to test build *-linux-user. There is a
-compilation issue because I forgot "static inline" on the
-semihosting_exit_request function on the CONFIG_USER_ONLY side. I'll fix
-that in v2.
-
-qemu_set/get_exit_status is fine though as it is only called from
-softmmu-only code (and declared in sysemu/sysemu.h).
-
-thanks,
-Luc
-
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Michal Meloun <mmel@FreeBSD.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>   bsd-user/bsd-file.h           | 59 +++++++++++++++++++++++++++++++++++
+>   bsd-user/freebsd/os-syscall.c | 15 +++++++++
+>   2 files changed, 74 insertions(+)
 > 
-> 
-> r~
-> 
-> > 
-> > Thanks,
-> > Luc
-> > 
-> > Luc Michel (7):
-> >    softmmu: add qemu_[set|get]_exit_status functions
-> >    semihosting: add the semihosting_exit_request function
-> >    semihosting/arm-compat-semi: use semihosting_exit_request
-> >    target/m68k: use semihosting_exit_request on semihosted exit syscall
-> >    target/mips: use semihosting_exit_request on semihosted exit syscall
-> >    target/nios2: use semihosting_exit_request on semihosted exit syscall
-> >    target/xtensa: use semihosting_exit_request on semihosted exit syscall
-> > 
-> >   qapi/run-state.json                |  4 +++-
-> >   include/semihosting/semihost.h     |  4 ++++
-> >   include/sysemu/sysemu.h            |  2 ++
-> >   semihosting/arm-compat-semi.c      |  3 +--
-> >   semihosting/config.c               | 17 +++++++++++++++++
-> >   softmmu/main.c                     |  2 +-
-> >   softmmu/runstate.c                 | 11 +++++++++++
-> >   target/m68k/m68k-semi.c            |  4 ++--
-> >   target/mips/tcg/sysemu/mips-semi.c |  2 +-
-> >   target/nios2/nios2-semi.c          |  4 ++--
-> >   target/xtensa/xtensa-semi.c        |  2 +-
-> >   11 files changed, 45 insertions(+), 10 deletions(-)
-> > 
-> 
-> 
-> 
-> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=bb16.62b09954.79e61.0&r=lmichel%40kalray.eu&s=richard.henderson%40linaro.org&o=Re%3A+%5BPATCH+0%2F7%5D+semihosting%3A+proper+QEMU+exit+on+semihosted+exit+syscall&verdict=C&c=d52db680df8df28629e4a26f18787c389730fd78
-> 
+> diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
+> index 0585f6a2a40..3be832b2a74 100644
+> --- a/bsd-user/bsd-file.h
+> +++ b/bsd-user/bsd-file.h
+> @@ -51,6 +51,16 @@ do {                                        \
+>       unlock_user(p1, arg1, 0);               \
+>   } while (0)
+>   
+> +#ifndef BSD_HAVE_INO64
+> +#define freebsd11_mknod         mknod
+> +#define freebsd11_mknodat       mknodat
+> +#else
+> +int freebsd11_mknod(char *path, mode_t mode, uint32_t dev);
+> +__sym_compat(mknod, freebsd11_mknod, FBSD_1.0);
+> +int freebsd11_mknodat(int fd, char *path, mode_t mode, uint32_t dev);
+> +__sym_compat(mknodat, freebsd11_mknodat, FBSD_1.1);
+> +#endif
 
--- 
+Where does BSD_HAVE_INO64 come from?  I can't find it defined in freebsd git.
+
+You should probably avoid the linker tricks and use direct syscalls of 
+SYS_freebsd11_mknodat etc.
 
 
-
-
+r~
 
