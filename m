@@ -2,46 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846485510CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 08:58:20 +0200 (CEST)
-Received: from localhost ([::1]:35484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1560A551107
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:11:50 +0200 (CEST)
+Received: from localhost ([::1]:49902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3BMZ-0002NB-Id
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 02:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44392)
+	id 1o3BZd-0004c1-5v
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1o3BFU-0001gX-1h; Mon, 20 Jun 2022 02:51:00 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:49160)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1o3BFQ-0004Gu-Pp; Mon, 20 Jun 2022 02:50:59 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id B68A411EF31;
- Mon, 20 Jun 2022 06:50:41 +0000 (UTC)
-From: ~eopxd <eopxd@git.sr.ht>
-Date: Mon, 20 Jun 2022 06:50:41 +0000
-Subject: [PATCH qemu v6 00/10] Add mask agnostic behavior for rvv instructions
+ (Exim 4.90_1) (envelope-from <richy.liu.2002@gmail.com>)
+ id 1o3BJv-00014v-5g
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 02:55:35 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:34403)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richy.liu.2002@gmail.com>)
+ id 1o3BJt-0004vv-F4
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 02:55:34 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id t21so3129093pfq.1
+ for <qemu-devel@nongnu.org>; Sun, 19 Jun 2022 23:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=goWwuUuTp+oFheuWNxQ/cuMvI+6GPiazmzh2/kKLbKQ=;
+ b=cILdN7A9HJYNfuTKLqiR2gfQF5TrNPfQw1x7p4UNclo5D1XMv4ByAckGP4SyjTp7ZB
+ rqZjBs075MM+hmqx8QkR1Dm406D8YGgF+vbucCyfcztpEzCbuaot+MxijVG192NSFPos
+ k9rxFIhKSB9zqb0QHm4Ay6zfhGW53fr4yCn9qPTxaZfmHh+l9Ch6X1C8A1i+8RCqRqwY
+ rdJV79pU2BydRmjoUgnScE2gsED7SFTUCpINaQxLOzjZ4MWuVf71VjolxB9B7HfjAQxu
+ bi8SpLXA8imhYYIhGVXE/ObIGavGbXJlkIq/BNAblyJuBGdq5Z+TAf340mfE11UxdI0W
+ GTPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=goWwuUuTp+oFheuWNxQ/cuMvI+6GPiazmzh2/kKLbKQ=;
+ b=sZuAfy5t67YQuaOrHNOkiwnmopciG+Z1H2uaqJcfYyUyV+aN72cdHdT0chZdMqxeMl
+ Mcq5+cQLHQN3UHWSZCcDOndhT795AxEtPLnTDphtMdbhrrnoRpoc4rJdplJ/hDUk9MxB
+ OMu8Cow6A4W60kEBNECxzKsE5xRMUxJ/SytucSaSPKwQua/5uEJ7PM750Yn4Bq/qOMjw
+ vpwtMup6wXMzjbe2/ge9qMg+Msbxsjr70g6M3SpTwViPGckBuIW7TQk3nyB2knegAfub
+ yNJOgVYdaEu3l/KH+cZfRrKYz0Ndr1eZCRXuwDj/V6eKSwTKPPGeH0h91j5LNJk0sxBa
+ B/7w==
+X-Gm-Message-State: AJIora/XED58ng21333TLAEAzIadhTeOVJpG5zt+LrYR47ceBWcyZzSL
+ RU1PpGsezqvNSpiwh0ZyW8TbHhSKzcnRmw==
+X-Google-Smtp-Source: AGRyM1t7t+UheaYB0J1HEryFu4R0ItcaQZweucy6YNQ+bhkPpjCqPk6dMaNJCfhIE9AbTtqX5XrJMQ==
+X-Received: by 2002:a63:b443:0:b0:40c:d8f6:fb23 with SMTP id
+ n3-20020a63b443000000b0040cd8f6fb23mr170352pgu.145.1655708131287; 
+ Sun, 19 Jun 2022 23:55:31 -0700 (PDT)
+Received: from localhost.localdomain ([76.132.29.156])
+ by smtp.gmail.com with ESMTPSA id
+ b16-20020a170902d89000b001616b71e5e3sm7849437plz.171.2022.06.19.23.55.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Jun 2022 23:55:30 -0700 (PDT)
+From: Richard Liu <richy.liu.2002@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: alxndr@bu.edu,
+	Richard Liu <richy.liu.2002@gmail.com>
+Subject: [PATCH] new snapshot/restore mechanism for fuzzing
+Date: Sun, 19 Jun 2022 23:55:27 -0700
+Message-Id: <20220620065527.92252-1-richy.liu.2002@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Message-ID: <165570784143.17634.35095816584573691-0@git.sr.ht>
-X-Mailer: git.sr.ht
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richy.liu.2002@gmail.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,78 +85,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to v-spec, mask agnostic behavior can be either kept as
-undisturbed or set elements' bits to all 1s. To distinguish the
-difference of mask policies, QEMU should be able to simulate the mask
-agnostic behavior as "set mask elements' bits to all 1s".
+- create a document outlining specifications for a virtual device to
+  manage snapshot/restore mechanism for fuzzing
 
-There are multiple possibility for agnostic elements according to
-v-spec. The main intent of this patch-set tries to add option that
-can distinguish between mask policies. Setting agnostic elements to
-all 1s allows QEMU to express this.
+Signed-off-by: Richard Liu <richy.liu.2002@gmail.com>
+---
+ docs/devel/snapshot.rst | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 docs/devel/snapshot.rst
 
-The following instructions that are always unmasked and not affected:
-
-- Vector add-with-carry and subtract-with-borrow instructions
-- Vector merge and move instructions
-- Vector reduction instructions
-- Vector mask-register logical instructions
-- `vcompress`
-
-v2 updates:
-- Rebase upon changes of the tail agnostic patch-set
-- Minor change for vector load/store instructions
-
-v3 updates:
-- Rebase upon changes of the tail agnostic patch-set
-- Fix coding style, add missing space
-- Trigger `vma` when encountering vector load instructions and not in
-  vector stores
-
-v4 updates:
-- Rebase upon changes of the tail agnostic patch-set
-
-v5 updates:
-- Tag WeiWei as Reviewed-by for this patch-set
-
-v6 updates:
-- Now that the tail agnostic patch-set has been merged, this
-  patch-set no longer depends on it. Rebased to latest master.
-
-Yueh-Ting (eop) Chen (9):
-  target/riscv: rvv: Add mask agnostic for vv instructions
-  target/riscv: rvv: Add mask agnostic for vector load / store
-    instructions
-  target/riscv: rvv: Add mask agnostic for vx instructions
-  target/riscv: rvv: Add mask agnostic for vector integer shift
-    instructions
-  target/riscv: rvv: Add mask agnostic for vector integer comparison
-    instructions
-  target/riscv: rvv: Add mask agnostic for vector fix-point arithmetic
-    instructions
-  target/riscv: rvv: Add mask agnostic for vector floating-point
-    instructions
-  target/riscv: rvv: Add mask agnostic for vector mask instructions
-  target/riscv: rvv: Add mask agnostic for vector permutation
-    instructions
-
-eopXD (1):
-  target/riscv: rvv: Add option 'rvv_ma_all_1s' to enable optional mask
-    agnostic behavior
-
- target/riscv/cpu.c                      |   1 +
- target/riscv/cpu.h                      |   2 +
- target/riscv/cpu_helper.c               |   2 +
- target/riscv/insn_trans/trans_rvv.c.inc |  28 +++++
- target/riscv/internals.h                |   5 +-
- target/riscv/translate.c                |   2 +
- target/riscv/vector_helper.c            | 152 ++++++++++++++++++++----
- 7 files changed, 167 insertions(+), 25 deletions(-)
-
+diff --git a/docs/devel/snapshot.rst b/docs/devel/snapshot.rst
+new file mode 100644
+index 0000000000..a333de69b6
+--- /dev/null
++++ b/docs/devel/snapshot.rst
+@@ -0,0 +1,26 @@
++================
++Snapshot/restore
++================
++
++The ability to rapidly snapshot and restore guest VM state is a
++crucial component of fuzzing applications with QEMU. A special virtual
++device can be used by fuzzers to interface with snapshot/restores
++commands in QEMU. The virtual device should have the following
++commands supported that can be called by the guest:
++
++- snapshot: save a copy of the guest VM memory, registers, and virtual
++  device state
++- restore: restore the saved copy of guest VM state
++- coverage_location: given a location in guest memory, specifying
++  where the coverage data is to be passed to the fuzzer
++- input_location: specify where in the guest memory the fuzzing input
++  should be stored
++- done: indicates whether or not the run succeeded and that the
++  coverage data has been populated
++
++The first version of the virtual device will only accept snapshot and
++restore commands from the guest. Coverage data will be collected by
++code on the guest with source-based coverage tracking.
++
++Further expansions could include controlling the snapshot/restore from
++host and gathering code coverage information directly from TCG.
 -- 
-2.34.2
+2.35.1
+
 
