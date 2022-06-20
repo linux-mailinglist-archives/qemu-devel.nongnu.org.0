@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E81551EDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:35:33 +0200 (CEST)
-Received: from localhost ([::1]:55996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15776551ED6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:29:35 +0200 (CEST)
+Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3IV2-000270-Hs
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46400)
+	id 1o3IPF-0002I5-Va
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL8-0005hS-J1
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:18 -0400
-Received: from smtpout140.security-mail.net ([85.31.212.146]:51217)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL7-0005dK-Bk
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:17 -0400
+Received: from mxout.security-mail.net ([85.31.212.42]:33824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL5-0001SF-Mv
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:18 -0400
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3IL4-0001Rv-Vx
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:25:16 -0400
 Received: from localhost (localhost [127.0.0.1])
- by fx601.security-mail.net (Postfix) with ESMTP id D712E3ACDE0
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 16:25:12 +0200 (CEST)
+ by fx302.security-mail.net (Postfix) with ESMTP id 65AAB3D3B147
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 16:25:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1655735112;
- bh=nhXnMVrXx0V4sl/soMoVnyEcpvtcT0xijYB89k3X6t0=;
- h=From:To:Cc:Subject:Date;
- b=MNarfGWOc3v1Vsru3r/zr+ugAhwHbvjn+Q2xopRoc+lya/5S4is9HxJc1xoIA+Xh/
- GZvfkBL4E8jbgpZAcdkRSFqsbNY2DPhsrWDC3WpqciaExob8rFTA4fSoKLRAFfvz1W
- 53SbobJV9kh9kwX0XFNjwRH4PSUP/xVF3s8p+GtM=
-Received: from fx601 (localhost [127.0.0.1])
- by fx601.security-mail.net (Postfix) with ESMTP id 285723ACD0A;
+ s=sec-sig-email; t=1655735110;
+ bh=Z0LiL7ZtsJtzmKHmhv7FK1DekcDf7qm2jfvY9Bmun1A=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=HXOegg5bXUe/aVNYRVa2tZPmkLUpERgupWRfGH+waXI3SlJ8n5rMtwJWyfEBt0vg5
+ vxSGDlHlirdkefdwmVGd6rxthoYfq4utdHg6UsMrQc7dX0jFU8Ei388cbatg5se7XD
+ 1SQIvDDM5jcZHw6XvvV7nqxo25h6uA01pr2sIHjA=
+Received: from fx302 (localhost [127.0.0.1])
+ by fx302.security-mail.net (Postfix) with ESMTP id 10DD93D3B13B;
  Mon, 20 Jun 2022 16:25:10 +0200 (CEST)
 X-Virus-Scanned: E-securemail
-Secumail-id: <13793.62b08345.776e4.0>
+Secumail-id: <9b0b.62b08345.729f0.0>
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
- by fx601.security-mail.net (Postfix) with ESMTPS id 78CC73ACD3E;
+ by fx302.security-mail.net (Postfix) with ESMTPS id 735353D3B11A;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTPS id 4580927E04DD;
+ by zimbra2.kalray.eu (Postfix) with ESMTPS id 4CBEB27E04D6;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id 2817527E04D8;
+ by zimbra2.kalray.eu (Postfix) with ESMTP id 329F227E04D9;
  Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 2817527E04D8
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 329F227E04D9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
  s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655735109;
- bh=RDo27fykTqrD277gjJvXKpSIhgoCyBafIGCGUIYnh94=;
+ bh=avs1+E3HdP016j80CtHlqh8NCWuNNIFczqLikOUjyro=;
  h=From:To:Date:Message-Id;
- b=FFICkQyqrWzznM7Kw2fL67L0FdNtXwyUl8xQuuJ8d/MGAxTPFTRoauSu2I5E1BcPd
- uSI/imRDWmZgkN7azQHnkWCgSa+Eqo7Zbqo61WCNHNJPruSPWsi6/525asaiY9zppx
- 1B434XyNukU8IjUNfjGOZk0Wd5+qGzWwaX7UYukQ=
+ b=E71zSYL1T/dWvdQrddN/jUOv/C2/y1sn5xx2GnGUr73/8cAI9gW85JcyQ1R9m5qzD
+ EjwAV5yTvoNm7BuLa7I77wEFq5l5KHJiybDOekR7QAQkkMngncJRjfcMftrcrcH5aj
+ 1JrT1TH47AEEjguwimbFHJxkeDqEgUyQds2HPa2Y=
 Received: from zimbra2.kalray.eu ([127.0.0.1])
  by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id QPSIZ_zhvre4; Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
+ with ESMTP id X93LYCqijcKB; Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 Received: from ws2101.lin.mbt.kalray.eu (unknown [192.168.36.68])
- by zimbra2.kalray.eu (Postfix) with ESMTPSA id 00CD627E04B5;
- Mon, 20 Jun 2022 16:25:08 +0200 (CEST)
+ by zimbra2.kalray.eu (Postfix) with ESMTPSA id 185E027E04D6;
+ Mon, 20 Jun 2022 16:25:09 +0200 (CEST)
 From: Luc Michel <lmichel@kalray.eu>
 To: qemu-devel@nongnu.org
 Cc: Luc Michel <lmichel@kalray.eu>,
  Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
- Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH 0/7] semihosting: proper QEMU exit on semihosted exit syscall
-Date: Mon, 20 Jun 2022 16:24:18 +0200
-Message-Id: <20220620142426.15040-1-lmichel@kalray.eu>
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] accel/tcg/cpu-exec: fix precise single-stepping after
+ interrupt
+Date: Mon, 20 Jun 2022 16:24:19 +0200
+Message-Id: <20220620142426.15040-2-lmichel@kalray.eu>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220620142426.15040-1-lmichel@kalray.eu>
+References: <20220620142426.15040-1-lmichel@kalray.eu>
 X-Virus-Scanned: by Secumail
-Received-SPF: pass client-ip=85.31.212.146; envelope-from=lmichel@kalray.eu;
- helo=smtpout140.security-mail.net
+Received-SPF: pass client-ip=85.31.212.42; envelope-from=lmichel@kalray.eu;
+ helo=mxout.security-mail.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -98,53 +94,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+In some cases, cpu->exit_request can be false after handling the
+interrupt, leading to another TB being executed instead of returning
+to the main loop.
 
-This series implements a clean way for semihosted exit syscalls to
-terminate QEMU with a given return code.
+Fix this by returning true unconditionally when in single-step mode.
 
-Until now, exit syscalls implementations consisted in calling exit()
-with the wanted return code. The problem with this approach is that
-other CPUs are not properly stopped, leading to possible crashes in
-MTTCG mode, especially when at_exit callbacks have been registered. This
-can be the case e.g., when plugins are in use. Plugins can register
-at_exit callbacks. Those will be called on the CPU thread the exit
-syscall is comming from, while other CPUs can continue to run and thus
-call other plugin callbacks.
+Fixes: ba3c35d9c4026361fd380b269dc6def9510b7166
 
-The semihosting_exit_request function provides a mean to cleanly
-terminate QEMU. It introduces an new exit reason
-(SHUTDOWN_CAUSE_GUEST_SEMI_EXIT) used in this case. The CPU is stopped
-and returns to the main CPU loop so that no more instruction get
-executed (the semihosting_exit_request is declared G_NORETURN).
+Signed-off-by: Luc Michel <lmichel@kalray.eu>
+---
+Coming back on this issue I worked on with Richard in 2020. The issue is
+that when debugging the guest with GDB, the first instruction of the IRQ
+handler is missed by GDB (it's still executed though).
 
-All targets are converted to use this new function.
+It happened to me again in TCG RR mode (but not in MTTCG). It seems that
+cpu->exit_request can be false in RR mode when returning from
+cc->tcg_ops->cpu_exec_interrupt, leading to cpu_handle_interrupt
+returning false and the next TB being executed, instead of the EXCP_DEBUG
+being handled.
+---
+ accel/tcg/cpu-exec.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Thanks,
-Luc
-
-Luc Michel (7):
-  softmmu: add qemu_[set|get]_exit_status functions
-  semihosting: add the semihosting_exit_request function
-  semihosting/arm-compat-semi: use semihosting_exit_request
-  target/m68k: use semihosting_exit_request on semihosted exit syscall
-  target/mips: use semihosting_exit_request on semihosted exit syscall
-  target/nios2: use semihosting_exit_request on semihosted exit syscall
-  target/xtensa: use semihosting_exit_request on semihosted exit syscall
-
- qapi/run-state.json                |  4 +++-
- include/semihosting/semihost.h     |  4 ++++
- include/sysemu/sysemu.h            |  2 ++
- semihosting/arm-compat-semi.c      |  3 +--
- semihosting/config.c               | 17 +++++++++++++++++
- softmmu/main.c                     |  2 +-
- softmmu/runstate.c                 | 11 +++++++++++
- target/m68k/m68k-semi.c            |  4 ++--
- target/mips/tcg/sysemu/mips-semi.c |  2 +-
- target/nios2/nios2-semi.c          |  4 ++--
- target/xtensa/xtensa-semi.c        |  2 +-
- 11 files changed, 45 insertions(+), 10 deletions(-)
-
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 8b4cd6c59d..74d7f83f34 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -796,13 +796,17 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+                 /*
+                  * After processing the interrupt, ensure an EXCP_DEBUG is
+                  * raised when single-stepping so that GDB doesn't miss the
+                  * next instruction.
+                  */
+-                cpu->exception_index =
+-                    (cpu->singlestep_enabled ? EXCP_DEBUG : -1);
+-                *last_tb = NULL;
++                if (unlikely(cpu->singlestep_enabled)) {
++                    cpu->exception_index = EXCP_DEBUG;
++                    return true;
++                } else {
++                    cpu->exception_index = -1;
++                    *last_tb = NULL;
++                }
+             }
+             /* The target hook may have updated the 'cpu->interrupt_request';
+              * reload the 'interrupt_request' value */
+             interrupt_request = cpu->interrupt_request;
+         }
 -- 
 2.17.1
 
