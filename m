@@ -2,73 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B1A655179F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:44:39 +0200 (CEST)
-Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A68551841
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 14:09:06 +0200 (CEST)
+Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Fpe-0003iW-0t
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42912)
+	id 1o3GDJ-00021e-Bb
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 08:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3Fko-0001t8-UB
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:39:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30169)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3Fkm-0007Gm-06
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:39:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655725174;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IeSPDJ56PgAsOWSYflegb61XvzgTgfwlOdVMY+e80lk=;
- b=hNmWX8zk2w8yC6njQUh3voMJvr10VKJdyeU/A6Bij1ZIHCtJ7UumPpsFoycRoWtF1r/ran
- vVDTAQeqcGNBNbS6G5Pi+OP8HAvCIBRTrst3OdCCWvtEQFCM45wdJvFBrh4ZJfzelwvGZS
- G8OAa2UBkIhIWzYn4f9UkhCcBiJL3tI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-XF7rcQR4OzOdLNsiVjUwTQ-1; Mon, 20 Jun 2022 07:39:33 -0400
-X-MC-Unique: XF7rcQR4OzOdLNsiVjUwTQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6F601C01B24
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 11:39:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C365840D282F;
- Mon, 20 Jun 2022 11:39:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8C7A921E688E; Mon, 20 Jun 2022 13:39:31 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Jason Wang
- <jasowang@redhat.com>
-Subject: Re: [RFC PATCH v3 02/11] net: remove the @errp argument of
- net_client_inits()
-References: <20220620101828.518865-1-lvivier@redhat.com>
- <20220620101828.518865-3-lvivier@redhat.com>
-Date: Mon, 20 Jun 2022 13:39:31 +0200
-In-Reply-To: <20220620101828.518865-3-lvivier@redhat.com> (Laurent Vivier's
- message of "Mon, 20 Jun 2022 12:18:19 +0200")
-Message-ID: <87pmj31s3w.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1o3G9b-0005os-T5
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:05:15 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:41328)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1o3G9Z-0004BK-Sx
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:05:15 -0400
+Received: from [127.0.1.1] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5812E40737D8;
+ Mon, 20 Jun 2022 12:04:44 +0000 (UTC)
+Subject: [PATCH v3 0/2] Cavium Octeon MIPS extensions
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+To: qemu-devel@nongnu.org
+Cc: pavel.dovgalyuk@ispras.ru, f4bug@amsat.org, jiaxun.yang@flygoat.com,
+ aurelien@aurel32.net, aleksandar.rikalo@syrmia.com
+Date: Mon, 20 Jun 2022 15:04:44 +0300
+Message-ID: <165572668412.167690.5960121228753905627.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,14 +55,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+The following series includes emulation of the platform-specific MIPS extension
+for Cavium Octeon CPUS:
+- basic Octeon vCPU model
+- custom instruction decoder for Octeon
+- implementation of arithmetic and logic instructions
 
-> The only caller passes &error_fatal, so use this directly in the function.
->
-> It's what we do for -blockdev, -device, and -object.
->
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+v3 changes:
+ - separated vCPU model definition and decodetree for Octeon
+   (suggested by Philippe Mathieu-Daudé)
+ - fixed length field for EXTS/CINS (bug found by Richard Henderson)
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+v2 changes:
+ - simplified instruction decoding and translation (suggested by Richard Henderson)
 
+---
+
+Pavel Dovgalyuk (2):
+      target/mips: introduce Cavium Octeon CPU model
+      target/mips: implement Octeon-specific arithmetic instructions
+
+
+ target/mips/cpu-defs.c.inc | 28 ----------------------------
+ 1 file changed, 28 deletions(-)
+
+--
+Pavel Dovgalyuk
 
