@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9CF55225F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:37:33 +0200 (CEST)
-Received: from localhost ([::1]:32900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5ED55225E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:36:57 +0200 (CEST)
+Received: from localhost ([::1]:59936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3KP7-0006yI-0T
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:37:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52672)
+	id 1o3KOW-0006B6-G8
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:36:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFJ-0005jm-J2
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34480)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFK-0005jy-8d
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFF-0005Ko-L8
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:24 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFH-0005Li-Hf
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655742439;
+ s=mimecast20190719; t=1655742442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=azDHCkLZKgDRmP2fzg4kWG8pSOIHzq7N9h+EqjJrB+0=;
- b=Zfof5ZpllOv0AeuvDN5aFqY5yC74Du2JCszyDwYrSuzO6bpjVUsqREe9TVrGyWFikmChdN
- hrCKK+s0tQ19Zo0RwbQQQljJssqrGqCNxcbMOjjRGhRWlmX1UlcnyhTGDQA4DFvH6xJE5K
- 3VzMctH6Y/3mCHkF2JFpVmBpzxyA9BQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EA7ONpO+2HIMdqqzStXL4UXUjmQpxaOF0OuP5bUaEhM=;
+ b=fS9IidYJVF+wGHdPwwKDkmvDh/xH7CRlFdkEljzeaCzxk0l/NFp2D1ClnZDskKuccq+TXo
+ dNOL3hyvJ6rv0bBA/iRQy1FivvU78pMOZYdqDx+Vb+eohwiZf9k0eTZo/2No7LUSYQazPk
+ TVwgsNRNl231+7wwumoEzwp7tW3Dzr8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-512-fb5aJ-ykNcSMrHuHG0v4tw-1; Mon, 20 Jun 2022 12:27:17 -0400
-X-MC-Unique: fb5aJ-ykNcSMrHuHG0v4tw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-142-hoQ9ENP1NN2TtW2e6kEMww-1; Mon, 20 Jun 2022 12:27:19 -0400
+X-MC-Unique: hoQ9ENP1NN2TtW2e6kEMww-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 700B03C30103;
- Mon, 20 Jun 2022 16:27:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E829801756;
+ Mon, 20 Jun 2022 16:27:19 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BE981121314;
- Mon, 20 Jun 2022 16:27:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BDA502166B26;
+ Mon, 20 Jun 2022 16:27:18 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 07/12] block/qapi: Introduce BlockGraphInfo
-Date: Mon, 20 Jun 2022 18:26:59 +0200
-Message-Id: <20220620162704.80987-8-hreitz@redhat.com>
+Subject: [PATCH v2 08/12] block/qapi: Add indentation to bdrv_node_info_dump()
+Date: Mon, 20 Jun 2022 18:27:00 +0200
+Message-Id: <20220620162704.80987-9-hreitz@redhat.com>
 In-Reply-To: <20220620162704.80987-1-hreitz@redhat.com>
 References: <20220620162704.80987-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -63,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,140 +79,191 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a new QAPI type BlockGraphInfo and an associated
-bdrv_query_block_graph_info() function that recursively gathers
-BlockNodeInfo objects through a block graph.
-
-A follow-up patch is going to make "qemu-img info" use this to print
-information about all nodes that are (usually implicitly) opened for a
-given image file.
+In order to let qemu-img info present a block graph, add a parameter to
+bdrv_node_info_dump() and bdrv_image_info_specific_dump() so that the
+information of nodes below the root level can be given an indentation.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- qapi/block-core.json | 35 ++++++++++++++++++++++++++++++++
- include/block/qapi.h |  3 +++
- block/qapi.c         | 48 ++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 86 insertions(+)
+ include/block/qapi.h           |  5 ++--
+ block/monitor/block-hmp-cmds.c |  2 +-
+ block/qapi.c                   | 47 +++++++++++++++++++---------------
+ qemu-img.c                     |  2 +-
+ qemu-io-cmds.c                 |  3 ++-
+ 5 files changed, 34 insertions(+), 25 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index d5d1c8ff15..b7e5708487 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -307,6 +307,41 @@
-       '*backing-image': 'ImageInfo'
-   } }
- 
-+##
-+# @BlockChildInfo:
-+#
-+# Information about all nodes in the block graph starting at some node,
-+# annotated with information about that node in relation to its parent.
-+#
-+# @name: Child name of the root node in the BlockGraphInfo struct, in its role
-+#        as the child of some undescribed parent node
-+#
-+# @info: Block graph information starting at this node
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'BlockChildInfo',
-+  'data': {
-+      'name': 'str',
-+      'info': 'BlockGraphInfo'
-+  } }
-+
-+##
-+# @BlockGraphInfo:
-+#
-+# Information about all nodes in a block (sub)graph in the form of BlockNodeInfo
-+# data.
-+# The base BlockNodeInfo struct contains the information for the (sub)graph's
-+# root node.
-+#
-+# @children: Array of links to this node's child nodes' information
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'BlockGraphInfo',
-+  'base': 'BlockNodeInfo',
-+  'data': { 'children': ['BlockChildInfo'] } }
-+
- ##
- # @ImageCheck:
- #
 diff --git a/include/block/qapi.h b/include/block/qapi.h
-index 2174bf8fa2..196436020e 100644
+index 196436020e..38855f2ae9 100644
 --- a/include/block/qapi.h
 +++ b/include/block/qapi.h
-@@ -43,6 +43,9 @@ void bdrv_query_image_info(BlockDriverState *bs,
-                            bool flat,
-                            bool skip_implicit_filters,
-                            Error **errp);
-+void bdrv_query_block_graph_info(BlockDriverState *bs,
-+                                 BlockGraphInfo **p_info,
-+                                 Error **errp);
+@@ -49,6 +49,7 @@ void bdrv_query_block_graph_info(BlockDriverState *bs,
  
  void bdrv_snapshot_dump(QEMUSnapshotInfo *sn);
  void bdrv_image_info_specific_dump(ImageInfoSpecific *info_spec,
+-                                   const char *prefix);
+-void bdrv_node_info_dump(BlockNodeInfo *info);
++                                   const char *prefix,
++                                   int indentation);
++void bdrv_node_info_dump(BlockNodeInfo *info, int indentation);
+ #endif
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index d286f2d1c5..a63c25c208 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -734,7 +734,7 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
+         monitor_printf(mon, "\nImages:\n");
+         image_info = inserted->image;
+         while (1) {
+-            bdrv_node_info_dump(qapi_ImageInfo_base(image_info));
++            bdrv_node_info_dump(qapi_ImageInfo_base(image_info), 0);
+             if (image_info->has_backing_image) {
+                 image_info = image_info->backing_image;
+             } else {
 diff --git a/block/qapi.c b/block/qapi.c
-index 5d0a8d2ce3..f208c21ccf 100644
+index f208c21ccf..3e35603f0c 100644
 --- a/block/qapi.c
 +++ b/block/qapi.c
-@@ -411,6 +411,54 @@ fail:
-     qapi_free_ImageInfo(info);
+@@ -915,7 +915,8 @@ static bool qobject_is_empty_dump(const QObject *obj)
+  * prepending an optional prefix if the dump is not empty.
+  */
+ void bdrv_image_info_specific_dump(ImageInfoSpecific *info_spec,
+-                                   const char *prefix)
++                                   const char *prefix,
++                                   int indentation)
+ {
+     QObject *obj, *data;
+     Visitor *v = qobject_output_visitor_new(&obj);
+@@ -925,48 +926,51 @@ void bdrv_image_info_specific_dump(ImageInfoSpecific *info_spec,
+     data = qdict_get(qobject_to(QDict, obj), "data");
+     if (!qobject_is_empty_dump(data)) {
+         if (prefix) {
+-            qemu_printf("%s", prefix);
++            qemu_printf("%*s%s", indentation * 4, "", prefix);
+         }
+-        dump_qobject(1, data);
++        dump_qobject(indentation + 1, data);
+     }
+     qobject_unref(obj);
+     visit_free(v);
  }
  
-+/**
-+ * bdrv_query_block_graph_info:
-+ * @bs: root node to start from
-+ * @p_info: location to store image information
-+ * @errp: location to store error information
-+ *
-+ * Store image information about the graph starting from @bs in @p_info.
-+ *
-+ * @p_info will be set only on success. On error, store error in @errp.
-+ */
-+void bdrv_query_block_graph_info(BlockDriverState *bs,
-+                                 BlockGraphInfo **p_info,
-+                                 Error **errp)
-+{
-+    BlockGraphInfo *info;
-+    BlockChildInfoList **children_list_tail;
-+    BdrvChild *c;
-+    ERRP_GUARD();
+-void bdrv_node_info_dump(BlockNodeInfo *info)
++void bdrv_node_info_dump(BlockNodeInfo *info, int indentation)
+ {
+     char *size_buf, *dsize_buf;
++    g_autofree char *ind_s = g_strdup_printf("%*s", indentation * 4, "");
 +
-+    info = g_new0(BlockGraphInfo, 1);
-+    bdrv_do_query_node_info(bs, qapi_BlockGraphInfo_base(info), errp);
-+    if (*errp) {
-+        goto fail;
-+    }
-+
-+    children_list_tail = &info->children;
-+
-+    QLIST_FOREACH(c, &bs->children, next) {
-+        BlockChildInfo *c_info;
-+
-+        c_info = g_new0(BlockChildInfo, 1);
-+        QAPI_LIST_APPEND(children_list_tail, c_info);
-+
-+        c_info->name = g_strdup(c->name);
-+        bdrv_query_block_graph_info(c->bs, &c_info->info, errp);
-+        if (*errp) {
-+            goto fail;
-+        }
-+    }
-+
-+    *p_info = info;
-+    return;
-+
-+fail:
-+    assert(*errp != NULL);
-+    qapi_free_BlockGraphInfo(info);
-+}
-+
- /* @p_info will be set only on success. */
- static void bdrv_query_info(BlockBackend *blk, BlockInfo **p_info,
-                             Error **errp)
+     if (!info->has_actual_size) {
+         dsize_buf = g_strdup("unavailable");
+     } else {
+         dsize_buf = size_to_str(info->actual_size);
+     }
+     size_buf = size_to_str(info->virtual_size);
+-    qemu_printf("image: %s\n"
+-                "file format: %s\n"
+-                "virtual size: %s (%" PRId64 " bytes)\n"
+-                "disk size: %s\n",
+-                info->filename, info->format, size_buf,
+-                info->virtual_size,
+-                dsize_buf);
++    qemu_printf("%simage: %s\n"
++                "%sfile format: %s\n"
++                "%svirtual size: %s (%" PRId64 " bytes)\n"
++                "%sdisk size: %s\n",
++                ind_s, info->filename,
++                ind_s, info->format,
++                ind_s, size_buf, info->virtual_size,
++                ind_s, dsize_buf);
+     g_free(size_buf);
+     g_free(dsize_buf);
+ 
+     if (info->has_encrypted && info->encrypted) {
+-        qemu_printf("encrypted: yes\n");
++        qemu_printf("%sencrypted: yes\n", ind_s);
+     }
+ 
+     if (info->has_cluster_size) {
+-        qemu_printf("cluster_size: %" PRId64 "\n",
+-                    info->cluster_size);
++        qemu_printf("%scluster_size: %" PRId64 "\n",
++                    ind_s, info->cluster_size);
+     }
+ 
+     if (info->has_dirty_flag && info->dirty_flag) {
+-        qemu_printf("cleanly shut down: no\n");
++        qemu_printf("%scleanly shut down: no\n", ind_s);
+     }
+ 
+     if (info->has_backing_filename) {
+-        qemu_printf("backing file: %s", info->backing_filename);
++        qemu_printf("%sbacking file: %s", ind_s, info->backing_filename);
+         if (!info->has_full_backing_filename) {
+             qemu_printf(" (cannot determine actual path)");
+         } else if (strcmp(info->backing_filename,
+@@ -975,15 +979,16 @@ void bdrv_node_info_dump(BlockNodeInfo *info)
+         }
+         qemu_printf("\n");
+         if (info->has_backing_filename_format) {
+-            qemu_printf("backing file format: %s\n",
+-                        info->backing_filename_format);
++            qemu_printf("%sbacking file format: %s\n",
++                        ind_s, info->backing_filename_format);
+         }
+     }
+ 
+     if (info->has_snapshots) {
+         SnapshotInfoList *elem;
+ 
+-        qemu_printf("Snapshot list:\n");
++        qemu_printf("%sSnapshot list:\n", ind_s);
++        qemu_printf("%s", ind_s);
+         bdrv_snapshot_dump(NULL);
+         qemu_printf("\n");
+ 
+@@ -1003,6 +1008,7 @@ void bdrv_node_info_dump(BlockNodeInfo *info)
+ 
+             pstrcpy(sn.id_str, sizeof(sn.id_str), elem->value->id);
+             pstrcpy(sn.name, sizeof(sn.name), elem->value->name);
++            qemu_printf("%s", ind_s);
+             bdrv_snapshot_dump(&sn);
+             qemu_printf("\n");
+         }
+@@ -1010,6 +1016,7 @@ void bdrv_node_info_dump(BlockNodeInfo *info)
+ 
+     if (info->has_format_specific) {
+         bdrv_image_info_specific_dump(info->format_specific,
+-                                      "Format specific information:\n");
++                                      "Format specific information:\n",
++                                      indentation);
+     }
+ }
+diff --git a/qemu-img.c b/qemu-img.c
+index 3b1f950c85..f835ce6feb 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2843,7 +2843,7 @@ static void dump_human_image_info_list(BlockNodeInfoList *list)
+         }
+         delim = true;
+ 
+-        bdrv_node_info_dump(elem->value);
++        bdrv_node_info_dump(elem->value, 0);
+     }
+ }
+ 
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index 084ec44d3b..00f1f78cdd 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -1820,7 +1820,8 @@ static int info_f(BlockBackend *blk, int argc, char **argv)
+     }
+     if (spec_info) {
+         bdrv_image_info_specific_dump(spec_info,
+-                                      "Format specific information:\n");
++                                      "Format specific information:\n",
++                                      0);
+         qapi_free_ImageInfoSpecific(spec_info);
+     }
+ 
 -- 
 2.35.3
 
