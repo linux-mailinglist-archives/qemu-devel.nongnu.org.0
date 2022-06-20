@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA74A551881
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 14:12:50 +0200 (CEST)
-Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1DE5518E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 14:28:55 +0200 (CEST)
+Received: from localhost ([::1]:54930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3GGv-00080z-VC
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 08:12:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52356)
+	id 1o3GWU-0000Sp-9U
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 08:28:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1o3GEO-0005av-HS
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:10:12 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:42584)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3GUK-00085P-NG
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:26:40 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:41674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1o3GEM-0005Vh-Nm
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:10:12 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id x38so18584837ybd.9
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 05:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3GUG-0000QR-HP
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:26:38 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id 23so18663049ybe.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 05:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xnIITciV8haa/THeYrVw9dV/Zy6FRpnqTaG6psHd29A=;
- b=OATyM+JQ2u9uVMIr2xQj/9fLdLWkSwzigXfnr+DSVYrzhVgdwmUOABDnO08WGx73t8
- GnH2eIoj5QngQI/+m4RBpuDIXVBce1GhQSOH9CwmxDuxdFM8+s1bTmxOUqb6NNQYCH9p
- 98NFkXmBXE43aw7kzwrXlcvVSSptVua+VOnN993k/yfYdFAAHF6BZKwlfVRMeHWy33SI
- NQF60/rrL5MvaTKZHQMgFxSwdEZAh3U5B448xeMnJk+sxgGPDri2Y/LrHYQWFDZ+jcdn
- pDSrmkZNsFnzrMIU2ZdKIArmITV00WibuAIUzhpQ1v2smsHEryf18/fnflfYCpTzZ8lx
- /ARw==
+ :cc; bh=EeBK/uAYUItsxJotbQxV1mCakwWSeN0wMlVpCt51krY=;
+ b=Nr9A2aW+x5gnxDB5bjeM6bVZiE9RPwD0U4av+HzrOThmT9VSUOSpXj0+hDCozWUPHr
+ r2vmV2dsHD6FEg019nB1fpI88q89tJRla/pa2xR/nsm5VD7wdB1NkxYKMlE/gV/OBKSD
+ EOJjFI+uPVmd3VeKMduh028iisSRxpJAQsKqEAaZ0bcWX0Hihnn/4PRQ84nIOOqmfxIB
+ Nx1Y+M0P6XYmOaQY2Uabm1Jbd/mF2UnMBLhG12JvG9InFSjl2RzsqxcLgrME559VyN9e
+ DG5TwfKfQbQ4BWMgFHtBY5gd0oBQHjAphKY6eAITVFc6yqW0Ss05AdUIIYyd3Q++c3Pw
+ 2y2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xnIITciV8haa/THeYrVw9dV/Zy6FRpnqTaG6psHd29A=;
- b=Vt2y+ZZweeX456iYGld90BND/piCSgnPucs/1n8HMS17OjaprZw++p8PUM8T7m4fAI
- HPo5d8IQgs49A+TnkxS0CALEn0upNyVW/R8FEoWQvhfugqh9qArenRuJlxsH3hNOwJfu
- ozG/Xxpzxm29rmMkD9+amdQL0tzx1PdXcjaYdw71VQFE57WchHwBK6rnLf1/95qRlxdh
- H/N3Pc0fZdsSvd29iV2GNohnfs+Wn35YTr9oXouD84emA2TwFx6+xzA7q33KxcarNw1G
- aFdsQ5E5If7iiK2qT6G+Csc1QPvBw737WBjK1UCtWc38z+lp80n31oJnIXPo5MZxlRX/
- DByw==
-X-Gm-Message-State: AJIora/U6Xb1sUXmRNnIkmcWb42csoEASb8Fq/A24zigBOUWcBd9ZGaC
- zV2AlvGt705OJwFYdAUUQZP5GbFhgutrkoPRmiw=
-X-Google-Smtp-Source: AGRyM1t51D0NISsGIJpp7xYZEN7Zdlrqzj2R0ocHufaxlrwGUb6uth7bWq/uOvHx+zSWvVwGc7+5thbsIXGxD1SkNrY=
-X-Received: by 2002:a25:f807:0:b0:668:b5ea:a36b with SMTP id
- u7-20020a25f807000000b00668b5eaa36bmr17657674ybd.335.1655727008218; Mon, 20
- Jun 2022 05:10:08 -0700 (PDT)
+ bh=EeBK/uAYUItsxJotbQxV1mCakwWSeN0wMlVpCt51krY=;
+ b=STWcgOi1sFJpT4qv7L9AiP8SfwtYT3xr/TOmOXlroP6X/5gYW0x4XF4VYsmR3pb4Bt
+ F/JgotSFe8t8hPH34AZ3eRsykZQVnEcPZvn8Z9RVmkbNvjwRSRCd3LkfG3eI8QUogryP
+ czKUp4UBqkULHrYtHVsYxsmH0XBYJMnIHoo0mteKaNN8kxxBKiDqRhzLXR22BTtbN2kp
+ h2i2XR58QNq+orT8ROWEyKpAbHAmBm/cTLJwfJSBkB263LSwlxQwPPrpD+nbLlrauhTR
+ bssthxgLO01DqPA8sc9HwfVIUcnx54y3xJUbpSqdXQdAcl41A804kUOZ1b8xG0S+2ewg
+ QG8g==
+X-Gm-Message-State: AJIora9WfYLET+X/PzMdkgur/weHfTnToe9hlJMBrZoZvaPf1oecg5i1
+ PXCTOHijlktfBpT42lZpTJhlZLMB4IITHNczZWCY3Q==
+X-Google-Smtp-Source: AGRyM1ukc5hpU/B0j/n7CiTmzjNEfm++TPMCar3FW74TvsNC8FFHOREesNQ5tyXp7Jwqddes+XM3vkNaO2kUTA+cNM8=
+X-Received: by 2002:a25:907:0:b0:668:afc1:65e6 with SMTP id
+ 7-20020a250907000000b00668afc165e6mr19712936ybj.85.1655727988822; Mon, 20 Jun
+ 2022 05:26:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220613104402.10279-1-lizhang@suse.de>
- <20220613161937.333a6b82@redhat.com>
- <CAD8of+pp-3bKX44Q0++gRofx4gmzzjpq1N2HfgRacXT196pR7w@mail.gmail.com>
- <2041c609-75e7-4743-d33a-dee0339a361e@redhat.com>
-In-Reply-To: <2041c609-75e7-4743-d33a-dee0339a361e@redhat.com>
-From: Li Zhang <zhlcindy@gmail.com>
-Date: Mon, 20 Jun 2022 14:09:57 +0200
-Message-ID: <CAD8of+oFOGUfuWNA9W5VqdyfKC8Qof3jnPGmzK36CR4VMMLDkg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] Fix the coredump when memory backend id conflicts
- with default_ram_id
-To: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, Li Zhang <lizhang@suse.de>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Yanan Wang <wangyanan55@huawei.com>, QEMU <qemu-devel@nongnu.org>
+References: <20220614211909.94060-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20220614211909.94060-1-akihiko.odaki@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 Jun 2022 13:26:17 +0100
+Message-ID: <CAFEAcA8NS_fWpeKd2-c446ETJM2jRr7_bZ5ABOXr75A9TpnxSA@mail.gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Take refresh rate into account
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=zhlcindy@gmail.com; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,81 +82,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 13, 2022 at 5:31 PM David Hildenbrand <david@redhat.com> wrote:
+On Tue, 14 Jun 2022 at 22:19, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
 >
-> On 13.06.22 16:37, Li Zhang wrote:
-> > On Mon, Jun 13, 2022 at 4:19 PM Igor Mammedov <imammedo@redhat.com> wrote:
-> >>
-> >> On Mon, 13 Jun 2022 12:44:02 +0200
-> >> Li Zhang <lizhang@suse.de> wrote:
-> >>
-> >>> When no memory backend is specified in machine options,
-> >>> a default memory device will be added with default_ram_id.
-> >>> However, if a memory backend object is added in QEMU options
-> >>> and id is the same as default_ram_id, a coredump happens.
-> >>>
-> >>> Command line:
-> >>> qemu-system-x86_64 -name guest=vmtest,debug-threads=on \
-> >>> -machine pc-q35-6.0,accel=kvm,usb=off,vmport=off \
-> >>> -smp 16,sockets=16,cores=1,threads=1 \
-> >>> -m 4G \
-> >>> -object memory-backend-ram,id=pc.ram,size=4G \
-> >>> -no-user-config -nodefaults -nographic
-> >>>
-> >>> Stack trace of thread 16903:
-> >>>     #0  0x00007fb109a9318b raise (libc.so.6 + 0x3a18b)
-> >>>     #1  0x00007fb109a94585 abort (libc.so.6 + 0x3b585)
-> >>>     #2  0x0000558c34bc89be error_handle_fatal (qemu-system-x86_64 + 0x9c89be)
-> >>>     #3  0x0000558c34bc8aee error_setv (qemu-system-x86_64 + 0x9c8aee)
-> >>>     #4  0x0000558c34bc8ccf error_setg_internal (qemu-system-x86_64 + 0x9c8ccf)
-> >>>     #5  0x0000558c349f6899 object_property_try_add (qemu-system-x86_64 + 0x7f6899)
-> >>>     #6  0x0000558c349f7df8 object_property_try_add_child (qemu-system-x86_64 + 0x7f7df8)
-> >>>     #7  0x0000558c349f7e91 object_property_add_child (qemu-system-x86_64 + 0x7f7e91)
-> >>>     #8  0x0000558c3454686d create_default_memdev (qemu-system-x86_64 + 0x34686d)
-> >>>     #9  0x0000558c34546f58 qemu_init_board (qemu-system-x86_64 + 0x346f58)
-> >>>     #10 0x0000558c345471b9 qmp_x_exit_preconfig (qemu-system-x86_64 + 0x3471b9)
-> >>>     #11 0x0000558c345497d9 qemu_init (qemu-system-x86_64 + 0x3497d9)
-> >>>     #12 0x0000558c344e54c2 main (qemu-system-x86_64 + 0x2e54c2)
-> >>>     #13 0x00007fb109a7e34d __libc_start_main (libc.so.6 + 0x2534d)
-> >>>     #14 0x0000558c344e53ba _start (qemu-system-x86_64 + 0x2e53ba)
-> >>>
-> >>> Signed-off-by: Li Zhang <lizhang@suse.de>
-> >>
-> >> Acked-by: Igor Mammedov <imammedo@redhat.com>
-> >>
-> >>
-> >> CCing David as he probably would be the one to merge it
-> >>
-> >
-> > Thanks for your review.
->
->
-> Acked-by: David Hildenbrand <david@redhat.com>
->
->
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Thanks David.
+Hi; generally all commits should have some useful description
+in the commit message body. In this case, it would be useful
+to describe the motivation for the patch: is it fixing a bug?
+What goes wrong with the current code?
 
-> Paolo, can you queue this?
->
-> https://lore.kernel.org/qemu-devel/20220613104402.10279-1-lizhang@suse.de/
->
-
-Hi Paolo,
-It's been acked by Igor and David. Would you please queue this patch?
-
-Thanks
-Li
-
-> --
-> Thanks,
->
-> David / dhildenb
->
-
-
---
-
-Best Regards
--Li
+thanks
+-- PMM
 
