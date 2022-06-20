@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B14551177
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:26:35 +0200 (CEST)
-Received: from localhost ([::1]:43090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5B1551179
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:28:41 +0200 (CEST)
+Received: from localhost ([::1]:45668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Bnu-0002ii-Dx
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:26:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52870)
+	id 1o3Bpw-0004X7-A2
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3BmE-00016L-NZ
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:24:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37552)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3BoS-0003Xo-PB; Mon, 20 Jun 2022 03:27:09 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3BmC-0001OS-KA
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:24:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655709888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=byubxzZHCvSr/0NostF7YHTQrtJeorDOQ0qHzAL75fs=;
- b=EaSak7kC7sqlat7kxVsoxSJkG+WCuawAL+vxVmdFGmV+4YgiEC0/2CPKjVSo3Ft2GS5Sbc
- VbqW6vsDnySosJ1IB5zL+JnYA9mY0/duicmECaopkNyDe5UavF1XCUuc4/7g/EtDJNvLfH
- 9OcGeafLA84+vvKmFovwix26E5k7E4U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-MeQeLhkyOeWVjhYXMTNMuA-1; Mon, 20 Jun 2022 03:24:44 -0400
-X-MC-Unique: MeQeLhkyOeWVjhYXMTNMuA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90421811E76;
- Mon, 20 Jun 2022 07:24:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65FEC40C141F;
- Mon, 20 Jun 2022 07:24:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5F06221E688E; Mon, 20 Jun 2022 09:24:42 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Kevin Wolf
- <kwolf@redhat.com>,  Laurent Vivier <laurent@vivier.eu>,  Warner Losh
- <imp@bsdimp.com>,  Kyle Evans <kevans@freebsd.org>,  Hanna Reitz
- <hreitz@redhat.com>,  Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>,  Fam Zheng <fam@euphon.net>,  Eric Blake
- <eblake@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,  qemu-block@nongnu.org
-Subject: Re: [PATCH 4/9] error-report: simplify print_loc()
-References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
- <20220616124034.3381391-5-marcandre.lureau@redhat.com>
-Date: Mon, 20 Jun 2022 09:24:42 +0200
-In-Reply-To: <20220616124034.3381391-5-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Thu, 16 Jun 2022 16:40:29 +0400")
-Message-ID: <875ykv6blx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3BoR-0001xk-5g; Mon, 20 Jun 2022 03:27:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=6OWzLIZuLRPSllSyrmY7UT1EElkIqcyVobIGUHIHBbM=; b=aeGq0xGWSB3kLrjPoCqCD92KX0
+ 9AXGVQQpGqxocHMaJras1Pn5TGOU2zIL2Myv9XOvvehLphgihFhlNDcxtSuh0G2MKz/9qLwvQVvMF
+ Bazd5O6ymB5mlC6drOnBLvXifX8dhLjWpqg17HhuuCv6VgRKqx/yO8E2rGEXxwOVFD5/8ntnFYTr1
+ ICUJ4blx0UUys/m6KLw6TXg/5NzhZcloZQVnaH1RxdlLuje9XpCBpl1h9md1ocnBJq2wC3I1S2a9X
+ vMmDt9arOYJu+IvsPKaiA36SPrOkheh7de3bozxbA9rW7ywW5FZJGXDEPcPBJ0h8SMTj36r9FbUjD
+ kuLCqzwtlk50ioAi11fFDoUbey+r6yei1EbHvp85t1Ar0t4bY3S78F6RCKJQ/j66yx01NVr2jun7H
+ 1pmsYpRa3C7QNDs65oESJ6edqCKRwtv2+vrhDTNOysB2VLi3tpNvzQcSzenQd4SErhwiDN2hrHRQ+
+ 36eIyqzFxykPixbUsP+6PQX9dXqPh4JP/JxucwTJkkzUutrmXk9F3EUXi2qkLV/QIb4EfviLqAeq4
+ kLCawK9kpjN/7zxf0y475JiUPVMpdO68ok4Oa5vd3YgyBOR/mBebq1R/VwS0dXhd7It5lolgTLnUW
+ 63hLdKPXzKm7+b2fnn2OzmqUbOSr6MO6ebHEkDE7E=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3BnI-00089R-0X; Mon, 20 Jun 2022 08:25:56 +0100
+Message-ID: <d36775a8-15f7-ab03-fc08-3fdcfc72d293@ilande.co.uk>
+Date: Mon, 20 Jun 2022 08:27:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com
+References: <20220618110202.87735-1-danielhb413@gmail.com>
+ <20220618110202.87735-4-danielhb413@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220618110202.87735-4-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 3/9] ppc/pnv: use dev->parent_bus->parent to get the PHB
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,56 +80,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+On 18/06/2022 12:01, Daniel Henrique Barboza wrote:
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Pass the program name as "prefix" argument to print_loc() if printing
-> with "details". This allows to get rid of monitor_cur() call in
-> print_loc().
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> It is not advisable to execute an object_dynamic_cast() to poke into
+> bus->qbus.parent and follow it up with a C cast into the PnvPHB type we
+> think we got.
+> 
+> A better way is to access the PnvPHB object via a QOM macro accessing
+> the existing parent links of the DeviceState. For a given
+> pnv-phb3/4-root-port 'dev', dev->parent_bus will give us the PHB bus,
+> and dev->parent_bus->parent is the PHB. Use the adequate QOM macro to
+> assert the type, and keep the NULL check in case we didn't get the
+> object we were expecting.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  util/error-report.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/util/error-report.c b/util/error-report.c
-> index 893da10f19bc..c43227a975e2 100644
-> --- a/util/error-report.c
-> +++ b/util/error-report.c
-> @@ -138,14 +138,14 @@ void loc_set_file(const char *fname, int lno)
->  /*
->   * Print current location to current monitor if we have one, else to std=
-err.
+>   hw/pci-host/pnv_phb3.c | 10 +++++++---
+>   hw/pci-host/pnv_phb4.c | 10 +++++++---
+>   2 files changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+> index 4ba660f8b9..5e7f827415 100644
+> --- a/hw/pci-host/pnv_phb3.c
+> +++ b/hw/pci-host/pnv_phb3.c
+> @@ -1139,12 +1139,16 @@ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
+>   {
+>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>       PCIDevice *pci = PCI_DEVICE(dev);
+> -    PCIBus *bus = pci_get_bus(pci);
+>       PnvPHB3 *phb = NULL;
+>       Error *local_err = NULL;
+>   
+> -    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+> -                                          TYPE_PNV_PHB3);
+> +    /*
+> +     * dev->parent_bus gives access to the pnv-phb-root bus.
+> +     * The PnvPHB3 is the owner (parent) of the bus.
+> +     */
+> +    if (dev->parent_bus) {
 
-Document the argument?  Not sure it's worth the bother...
+Here dev->parent_bus shouldn't be accessed directly: you should use 
+qdev_get_parent_bus() instead.
 
->   */
-> -static void print_loc(void)
-> +static void print_loc(const char *prefix)
->  {
->      const char *sep =3D "";
->      int i;
->      const char *const *argp;
->=20=20
-> -    if (!monitor_cur() && g_get_prgname()) {
-> -        error_printf("%s:", g_get_prgname());
-> +    if (prefix) {
-> +        error_printf("%s:", prefix);
->          sep =3D " ";
->      }
->      switch (cur_loc->kind) {
-> @@ -209,7 +209,7 @@ static void vreport(report_type type, const char *fmt=
-, va_list ap)
->          error_printf("%s ", error_guest_name);
->      }
->=20=20
-> -    print_loc();
-> +    print_loc(detailed ? g_get_prgname() : NULL);
->=20=20
->      switch (type) {
->      case REPORT_TYPE_ERROR:
+> +        phb = PNV_PHB3(dev->parent_bus->parent);
+> +    }
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+This one is a bit trickier, since part of the qdev design is that devices should only 
+be aware of their immediate bus, and not the device parenting that bus i.e. 
+dev->parent_bus->parent shouldn't be allowed.
 
+What is really needed here is to use QOM links (or embed the device as a suitable QOM 
+child) to get the PHB reference which I imagine will be changed as part of the 
+follow-up series. So I think this can be left as-is for now, and fixed later.
+
+>       if (!phb) {
+>           error_setg(errp,
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index ffd9d8a947..a0ee52e820 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1782,12 +1782,16 @@ static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
+>   {
+>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+>       PCIDevice *pci = PCI_DEVICE(dev);
+> -    PCIBus *bus = pci_get_bus(pci);
+>       PnvPHB4 *phb = NULL;
+>       Error *local_err = NULL;
+>   
+> -    phb = (PnvPHB4 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
+> -                                          TYPE_PNV_PHB4);
+> +    /*
+> +     * dev->parent_bus gives access to the pnv-phb-root bus.
+> +     * The PnvPHB4 is the owner (parent) of the bus.
+> +     */
+> +    if (dev->parent_bus) {
+> +        phb = PNV_PHB4(dev->parent_bus->parent);
+> +    }
+>   
+>       if (!phb) {
+>           error_setg(errp, "%s must be connected to pnv-phb4 buses", dev->id);
+
+I've had a quick look over the rest of the series and from what I can see this is 
+definitely heading in the right direction :)
+
+
+ATB,
+
+Mark.
 
