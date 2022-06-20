@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B225516FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:14:54 +0200 (CEST)
-Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76950551783
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:38:22 +0200 (CEST)
+Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3FMs-0002wE-0i
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:14:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32802)
+	id 1o3FjZ-0000mu-Jn
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:38:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o3FBE-0003FV-SP
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60754)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3FU8-0008Pn-Tw
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:22:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o3FBC-0007ez-HP
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:52 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3FU3-0003uy-Rp
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:22:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655722969;
+ s=mimecast20190719; t=1655724138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Afz/iVidH5fsdfUqVLZPzH6XfLR8bCmbN1BvouWI3S0=;
- b=AXstbcB5zsE8vtNPafP/nuWsFFwVgd5nMr7Y1FvIKQoHNMwXubr8B5atZTIgAJ6Bbi3QkX
- FefqGvYp7GQy8aFLfZxqJH1HSJWRS5Buv92ILYQWVe1hbhUKI0T7ETVb4ouqTCIpMWGTN/
- yHxEuKywSn9dZVJebsfQaRpKqbWiMoI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fUV7MN8FZ3qzi2Fn3CJgAc1Z9hCiaLrBau2et0zAgdM=;
+ b=TZV7jNqeHXBeaZwWxythILGm+y6qjbWqkQHVE5VvGa7vHUpgBI74yOjtm046J7czSHwNV0
+ XuY+EnO8482XVui59wDFRrVclHKCLLytmKtW2ZGkrW4YaJh8n0TYfBCD3pUr8cL0MovJPx
+ 0Yhij/b3TsWkNGjvdk8UnhFujmjuxV4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-P2h-bKtXPCSHFQ2fcsag4w-1; Mon, 20 Jun 2022 07:02:44 -0400
-X-MC-Unique: P2h-bKtXPCSHFQ2fcsag4w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-393-X-iQ72Z8PXeV23lQqDDO4w-1; Mon, 20 Jun 2022 07:22:17 -0400
+X-MC-Unique: X-iQ72Z8PXeV23lQqDDO4w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33EC0299E74D;
- Mon, 20 Jun 2022 11:02:44 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6735C2811B;
- Mon, 20 Jun 2022 11:02:42 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>
-Subject: [PATCH v2 21/21] migration: remove the QEMUFileOps abstraction
-Date: Mon, 20 Jun 2022 12:02:05 +0100
-Message-Id: <20220620110205.1357829-22-berrange@redhat.com>
-In-Reply-To: <20220620110205.1357829-1-berrange@redhat.com>
-References: <20220620110205.1357829-1-berrange@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A173811E84
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 11:22:17 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BEFF7492C3B;
+ Mon, 20 Jun 2022 11:22:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8521D21E688E; Mon, 20 Jun 2022 13:22:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 3/8] qapi: net: add stream and dgram netdevs
+References: <20220512080932.735962-1-lvivier@redhat.com>
+ <20220512080932.735962-4-lvivier@redhat.com>
+ <87fsld1wtw.fsf@pond.sub.org>
+ <a2a0124d-5065-3c1e-9c84-8b6d92addfae@redhat.com>
+ <87bkuugnet.fsf@pond.sub.org>
+ <a31f2370-71dc-4623-9966-eeab52b2632d@redhat.com>
+Date: Mon, 20 Jun 2022 13:22:15 +0200
+In-Reply-To: <a31f2370-71dc-4623-9966-eeab52b2632d@redhat.com> (Laurent
+ Vivier's message of "Mon, 20 Jun 2022 11:12:15 +0200")
+Message-ID: <87tu8f1swo.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -69,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,443 +84,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all QEMUFile callbacks are removed, the entire concept can be
-deleted.
+Laurent Vivier <lvivier@redhat.com> writes:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- migration/channel.c           |  4 +--
- migration/colo.c              |  5 ++--
- migration/meson.build         |  1 -
- migration/migration.c         |  7 ++---
- migration/qemu-file-channel.c | 53 -----------------------------------
- migration/qemu-file-channel.h | 32 ---------------------
- migration/qemu-file.c         | 20 ++++++-------
- migration/qemu-file.h         |  7 ++---
- migration/ram.c               |  3 +-
- migration/rdma.c              |  5 ++--
- migration/savevm.c            | 11 ++++----
- tests/unit/test-vmstate.c     |  5 ++--
- 12 files changed, 27 insertions(+), 126 deletions(-)
- delete mode 100644 migration/qemu-file-channel.c
- delete mode 100644 migration/qemu-file-channel.h
+> On 15/06/2022 13:46, Markus Armbruster wrote:
+>> Laurent Vivier <lvivier@redhat.com> writes:
+>> 
+>>> On 13/05/2022 13:44, Markus Armbruster wrote:
+>>>> Laurent Vivier <lvivier@redhat.com> writes:
+>>>>
+>>>>> Copied from socket netdev file and modified to use SocketAddress
+>>>>> to be able to introduce new features like unix socket.
+>>>>>
+>>>>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
+>>>>> according to the IP address type.
+>>>>> "listen" and "connect" modes are managed by stream netdev. An optional
+>>>>> parameter "server" defines the mode (server by default)
+>>>>>
+>>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>>>> ---
+>>>>>    hmp-commands.hx |   2 +-
+>>>>>    net/clients.h   |   6 +
+>>>>>    net/dgram.c     | 630 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>    net/hub.c       |   2 +
+>>>>>    net/meson.build |   2 +
+>>>>>    net/net.c       |  24 +-
+>>>>>    net/stream.c    | 425 ++++++++++++++++++++++++++++++++
+>>>>>    qapi/net.json   |  38 ++-
+>>>>>    8 files changed, 1125 insertions(+), 4 deletions(-)
+>>>>>    create mode 100644 net/dgram.c
+>>>>>    create mode 100644 net/stream.c
+>>>>>
+> ...
+>>>>> diff --git a/net/net.c b/net/net.c
+>>>>> index 2aab7167316c..fd6b30a10c57 100644
+>>>>> --- a/net/net.c
+>>>>> +++ b/net/net.c
+>>>>> @@ -1015,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+>>>>>    #endif
+>>>>>            [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
+>>>>>            [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
+>>>>> +        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
+>>>>> +        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
+>>>>>    #ifdef CONFIG_VDE
+>>>>>            [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
+>>>>>    #endif
+>>>>> @@ -1097,6 +1099,8 @@ void show_netdevs(void)
+>>>>>        int idx;
+>>>>>        const char *available_netdevs[] = {
+>>>>>            "socket",
+>>>>> +        "stream",
+>>>>> +        "dgram",
+>>>>>            "hubport",
+>>>>>            "tap",
+>>>>>    #ifdef CONFIG_SLIRP
+>>>>> @@ -1606,7 +1610,25 @@ int net_init_clients(Error **errp)
+>>>>>     */
+>>>>>    static bool netdev_is_modern(const char *optarg)
+>>>>>    {
+>>>>> -    return false;
+>>>>> +    static QemuOptsList dummy_opts = {
+>>>>> +        .name = "netdev",
+>>>>> +        .implied_opt_name = "type",
+>>>>> +        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
+>>>>> +        .desc = { { } },
+>>>>> +    };
+>>>>> +    const char *netdev;
+>>>>> +    QemuOpts *opts;
+>>>>> +    bool is_modern;
+>>>>> +
+>>>>> +    opts = qemu_opts_parse(&dummy_opts, optarg, true, &error_fatal);
+>>>>> +    netdev = qemu_opt_get(opts, "type");
+>>>>> +
+>>>>> +    is_modern = strcmp(netdev, "stream") == 0 ||
+>>>>> +                strcmp(netdev, "dgram") == 0;
+>>>>
+>>>> Crashes when user neglects to pass "type".
+>>>
+>>> I think "type" is always passed because of the '.implied_opt_name = "type"'. Am I wrong?
+>> 
+>> .implied_opt_name = "type" lets you shorten "type=T,..." to "T,...".  It
+>> doesn't make key "type" mandatory.  "-netdev id=foo" is still permitted.
+>> Even "-netdev ''" is.
+>
+>
+> In fact type is checked before by QAPI definition:
+>
+> { 'union': 'Netdev',
+>    'base': { 'id': 'str', 'type': 'NetClientDriver' },
+>    'discriminator': 'type',
+> ...
+>
+> As it's the discriminator it must be there.
+>
+>    $ qemu-system-x86_64 -netdev id=foo
+>    qemu-system-x86_64: -netdev id=foo: Parameter 'type' is missing
 
-diff --git a/migration/channel.c b/migration/channel.c
-index a162d00fea..90087d8986 100644
---- a/migration/channel.c
-+++ b/migration/channel.c
-@@ -14,7 +14,7 @@
- #include "channel.h"
- #include "tls.h"
- #include "migration.h"
--#include "qemu-file-channel.h"
-+#include "qemu-file.h"
- #include "trace.h"
- #include "qapi/error.h"
- #include "io/channel-tls.h"
-@@ -85,7 +85,7 @@ void migration_channel_connect(MigrationState *s,
-                 return;
-             }
-         } else {
--            QEMUFile *f = qemu_fopen_channel_output(ioc);
-+            QEMUFile *f = qemu_file_new_output(ioc);
- 
-             migration_ioc_register_yank(ioc);
- 
-diff --git a/migration/colo.c b/migration/colo.c
-index 5f7071b3cd..2b71722fd6 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -14,7 +14,6 @@
- #include "sysemu/sysemu.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-migration.h"
--#include "qemu-file-channel.h"
- #include "migration.h"
- #include "qemu-file.h"
- #include "savevm.h"
-@@ -559,7 +558,7 @@ static void colo_process_checkpoint(MigrationState *s)
-         goto out;
-     }
-     bioc = qio_channel_buffer_new(COLO_BUFFER_BASE_SIZE);
--    fb = qemu_fopen_channel_output(QIO_CHANNEL(bioc));
-+    fb = qemu_file_new_output(QIO_CHANNEL(bioc));
-     object_unref(OBJECT(bioc));
- 
-     qemu_mutex_lock_iothread();
-@@ -873,7 +872,7 @@ void *colo_process_incoming_thread(void *opaque)
-     colo_incoming_start_dirty_log();
- 
-     bioc = qio_channel_buffer_new(COLO_BUFFER_BASE_SIZE);
--    fb = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
-+    fb = qemu_file_new_input(QIO_CHANNEL(bioc));
-     object_unref(OBJECT(bioc));
- 
-     qemu_mutex_lock_iothread();
-diff --git a/migration/meson.build b/migration/meson.build
-index 8d309f5849..690487cf1a 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -4,7 +4,6 @@ migration_files = files(
-   'xbzrle.c',
-   'vmstate-types.c',
-   'vmstate.c',
--  'qemu-file-channel.c',
-   'qemu-file.c',
-   'yank_functions.c',
- )
-diff --git a/migration/migration.c b/migration/migration.c
-index c4a9d8f20f..837b3743db 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -30,7 +30,6 @@
- #include "migration/misc.h"
- #include "migration.h"
- #include "savevm.h"
--#include "qemu-file-channel.h"
- #include "qemu-file.h"
- #include "migration/vmstate.h"
- #include "block/block.h"
-@@ -722,7 +721,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
- 
-     if (!mis->from_src_file) {
-         /* The first connection (multifd may have multiple) */
--        QEMUFile *f = qemu_fopen_channel_input(ioc);
-+        QEMUFile *f = qemu_file_new_input(ioc);
- 
-         if (!migration_incoming_setup(f, errp)) {
-             return;
-@@ -3081,7 +3080,7 @@ static int postcopy_start(MigrationState *ms)
-      */
-     bioc = qio_channel_buffer_new(4096);
-     qio_channel_set_name(QIO_CHANNEL(bioc), "migration-postcopy-buffer");
--    fb = qemu_fopen_channel_output(QIO_CHANNEL(bioc));
-+    fb = qemu_file_new_output(QIO_CHANNEL(bioc));
-     object_unref(OBJECT(bioc));
- 
-     /*
-@@ -3971,7 +3970,7 @@ static void *bg_migration_thread(void *opaque)
-      */
-     s->bioc = qio_channel_buffer_new(512 * 1024);
-     qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
--    fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
-+    fb = qemu_file_new_output(QIO_CHANNEL(s->bioc));
-     object_unref(OBJECT(s->bioc));
- 
-     update_iteration_initial_status(s);
-diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-deleted file mode 100644
-index 51717c1137..0000000000
---- a/migration/qemu-file-channel.c
-+++ /dev/null
-@@ -1,53 +0,0 @@
--/*
-- * QEMUFile backend for QIOChannel objects
-- *
-- * Copyright (c) 2015-2016 Red Hat, Inc
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--#include "qemu/osdep.h"
--#include "qemu-file-channel.h"
--#include "qemu-file.h"
--#include "io/channel-socket.h"
--#include "io/channel-tls.h"
--#include "qemu/iov.h"
--#include "qemu/yank.h"
--#include "yank_functions.h"
--
--
--static const QEMUFileOps channel_input_ops = {
--};
--
--
--static const QEMUFileOps channel_output_ops = {
--};
--
--
--QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc)
--{
--    object_ref(OBJECT(ioc));
--    return qemu_file_new_input(ioc, &channel_input_ops);
--}
--
--QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
--{
--    object_ref(OBJECT(ioc));
--    return qemu_file_new_output(ioc, &channel_output_ops);
--}
-diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
-deleted file mode 100644
-index 0028a09eb6..0000000000
---- a/migration/qemu-file-channel.h
-+++ /dev/null
-@@ -1,32 +0,0 @@
--/*
-- * QEMUFile backend for QIOChannel objects
-- *
-- * Copyright (c) 2015-2016 Red Hat, Inc
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--#ifndef QEMU_FILE_CHANNEL_H
--#define QEMU_FILE_CHANNEL_H
--
--#include "io/channel.h"
--
--QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
--QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
--#endif
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index cea9a0de7d..3a380a6072 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -35,7 +35,6 @@
- #define MAX_IOV_SIZE MIN_CONST(IOV_MAX, 64)
- 
- struct QEMUFile {
--    const QEMUFileOps *ops;
-     const QEMUFileHooks *hooks;
-     QIOChannel *ioc;
-     bool is_writable;
-@@ -107,16 +106,14 @@ bool qemu_file_mode_is_not_valid(const char *mode)
-     return false;
- }
- 
--static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
--                                    const QEMUFileOps *ops,
--                                    bool is_writable)
-+static QEMUFile *qemu_file_new_impl(QIOChannel *ioc, bool is_writable)
- {
-     QEMUFile *f;
- 
-     f = g_new0(QEMUFile, 1);
- 
-+    object_ref(ioc);
-     f->ioc = ioc;
--    f->ops = ops;
-     f->is_writable = is_writable;
- 
-     return f;
-@@ -128,21 +125,19 @@ static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
-  */
- QEMUFile *qemu_file_get_return_path(QEMUFile *f)
- {
--    object_ref(f->ioc);
--    return qemu_file_new_impl(f->ioc, f->ops, !f->is_writable);
-+    return qemu_file_new_impl(f->ioc, !f->is_writable);
- }
- 
--QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops)
-+QEMUFile *qemu_file_new_output(QIOChannel *ioc)
- {
--    return qemu_file_new_impl(ioc, ops, true);
-+    return qemu_file_new_impl(ioc, true);
- }
- 
--QEMUFile *qemu_file_new_input(QIOChannel *ioc, const QEMUFileOps *ops)
-+QEMUFile *qemu_file_new_input(QIOChannel *ioc)
- {
--    return qemu_file_new_impl(ioc, ops, false);
-+    return qemu_file_new_impl(ioc, false);
- }
- 
--
- void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks)
- {
-     f->hooks = hooks;
-@@ -238,6 +233,7 @@ static void qemu_iovec_release_ram(QEMUFile *f)
-     memset(f->may_free, 0, sizeof(f->may_free));
- }
- 
-+
- /**
-  * Flushes QEMUFile buffer
-  *
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index fe8f9766d1..96e72d8bd8 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -55,9 +55,6 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
-                                  size_t size,
-                                  uint64_t *bytes_sent);
- 
--typedef struct QEMUFileOps {
--} QEMUFileOps;
--
- typedef struct QEMUFileHooks {
-     QEMURamHookFunc *before_ram_iterate;
-     QEMURamHookFunc *after_ram_iterate;
-@@ -65,8 +62,8 @@ typedef struct QEMUFileHooks {
-     QEMURamSaveFunc *save_page;
- } QEMUFileHooks;
- 
--QEMUFile *qemu_file_new_input(QIOChannel *ioc, const QEMUFileOps *ops);
--QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops);
-+QEMUFile *qemu_file_new_input(QIOChannel *ioc);
-+QEMUFile *qemu_file_new_output(QIOChannel *ioc);
- void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks);
- int qemu_fclose(QEMUFile *f);
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index bf321e1e72..01f9cc1d72 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -38,7 +38,6 @@
- #include "migration.h"
- #include "migration/register.h"
- #include "migration/misc.h"
--#include "migration/qemu-file-channel.h"
- #include "qemu-file.h"
- #include "postcopy-ram.h"
- #include "page_cache.h"
-@@ -569,7 +568,7 @@ static int compress_threads_save_setup(void)
-         /* comp_param[i].file is just used as a dummy buffer to save data,
-          * set its ops to empty.
-          */
--        comp_param[i].file = qemu_fopen_channel_output(
-+        comp_param[i].file = qemu_file_new_output(
-             QIO_CHANNEL(qio_channel_null_new()));
-         comp_param[i].done = true;
-         comp_param[i].quit = false;
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 83265513d9..49e6dba323 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -21,7 +21,6 @@
- #include "migration.h"
- #include "qemu-file.h"
- #include "ram.h"
--#include "qemu-file-channel.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
-@@ -4093,12 +4092,12 @@ static QEMUFile *qemu_fopen_rdma(RDMAContext *rdma, const char *mode)
-     rioc = QIO_CHANNEL_RDMA(object_new(TYPE_QIO_CHANNEL_RDMA));
- 
-     if (mode[0] == 'w') {
--        rioc->file = qemu_fopen_channel_output(QIO_CHANNEL(rioc));
-+        rioc->file = qemu_file_new_output(QIO_CHANNEL(rioc));
-         rioc->rdmaout = rdma;
-         rioc->rdmain = rdma->return_path;
-         qemu_file_set_hooks(rioc->file, &rdma_write_hooks);
-     } else {
--        rioc->file = qemu_fopen_channel_input(QIO_CHANNEL(rioc));
-+        rioc->file = qemu_file_new_input(QIO_CHANNEL(rioc));
-         rioc->rdmain = rdma;
-         rioc->rdmaout = rdma->return_path;
-         qemu_file_set_hooks(rioc->file, &rdma_read_hooks);
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 24a50376dc..e8a1b96fcd 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -37,7 +37,6 @@
- #include "migration/global_state.h"
- #include "migration/channel-block.h"
- #include "ram.h"
--#include "qemu-file-channel.h"
- #include "qemu-file.h"
- #include "savevm.h"
- #include "postcopy-ram.h"
-@@ -134,9 +133,9 @@ static struct mig_cmd_args {
- static QEMUFile *qemu_fopen_bdrv(BlockDriverState *bs, int is_writable)
- {
-     if (is_writable) {
--        return qemu_fopen_channel_output(QIO_CHANNEL(qio_channel_block_new(bs)));
-+        return qemu_file_new_output(QIO_CHANNEL(qio_channel_block_new(bs)));
-     } else {
--        return qemu_fopen_channel_input(QIO_CHANNEL(qio_channel_block_new(bs)));
-+        return qemu_file_new_input(QIO_CHANNEL(qio_channel_block_new(bs)));
-     }
- }
- 
-@@ -2159,7 +2158,7 @@ static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
-     bioc->usage += length;
-     trace_loadvm_handle_cmd_packaged_received(ret);
- 
--    QEMUFile *packf = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
-+    QEMUFile *packf = qemu_file_new_input(QIO_CHANNEL(bioc));
- 
-     ret = qemu_loadvm_state_main(packf, mis);
-     trace_loadvm_handle_cmd_packaged_main(ret);
-@@ -2917,7 +2916,7 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-         goto the_end;
-     }
-     qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
--    f = qemu_fopen_channel_output(QIO_CHANNEL(ioc));
-+    f = qemu_file_new_output(QIO_CHANNEL(ioc));
-     object_unref(OBJECT(ioc));
-     ret = qemu_save_device_state(f);
-     if (ret < 0 || qemu_fclose(f) < 0) {
-@@ -2964,7 +2963,7 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
-         return;
-     }
-     qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-load-state");
--    f = qemu_fopen_channel_input(QIO_CHANNEL(ioc));
-+    f = qemu_file_new_input(QIO_CHANNEL(ioc));
-     object_unref(OBJECT(ioc));
- 
-     ret = qemu_loadvm_state(f);
-diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
-index 6a417bb102..72077b5780 100644
---- a/tests/unit/test-vmstate.c
-+++ b/tests/unit/test-vmstate.c
-@@ -28,7 +28,6 @@
- #include "migration/vmstate.h"
- #include "migration/qemu-file-types.h"
- #include "../migration/qemu-file.h"
--#include "../migration/qemu-file-channel.h"
- #include "../migration/savevm.h"
- #include "qemu/coroutine.h"
- #include "qemu/module.h"
-@@ -52,9 +51,9 @@ static QEMUFile *open_test_file(bool write)
-     }
-     ioc = QIO_CHANNEL(qio_channel_file_new_fd(fd));
-     if (write) {
--        f = qemu_fopen_channel_output(ioc);
-+        f = qemu_file_new_output(ioc);
-     } else {
--        f = qemu_fopen_channel_input(ioc);
-+        f = qemu_file_new_input(ioc);
-     }
-     object_unref(OBJECT(ioc));
-     return f;
--- 
-2.36.1
+It does crash for me:
+
+    (gdb) bt
+    #0  0x00007ffff4d25dcb in __strcmp_avx2 () at /lib64/libc.so.6
+    #1  0x0000555555b4574b in netdev_is_modern (optarg=0x7fffffffe2ae "id=foo")
+        at ../net/net.c:1626
+    #2  0x0000555555b457ad in net_client_parse
+        (opts_list=0x555556563780 <qemu_netdev_opts>, optarg=0x7fffffffe2ae "id=foo") at ../net/net.c:1636
+    #3  0x0000555555ad98de in qemu_init (argc=3, argv=0x7fffffffdf08, envp=0x0)
+        at ../softmmu/vl.c:2901
+    #4  0x0000555555842c01 in qemu_main (argc=3, argv=0x7fffffffdf08, envp=0x0)
+        at ../softmmu/main.c:35
+    #5  0x0000555555842c37 in main (argc=3, argv=0x7fffffffdf08)
+        at ../softmmu/main.c:45
+    (gdb) up
+    #1  0x0000555555b4574b in netdev_is_modern (optarg=0x7fffffffe2ae "id=foo")
+        at ../net/net.c:1626
+    1626	    is_modern = strcmp(netdev, "stream") == 0 ||
+    (gdb) p netdev
+    $1 = 0x0
+
+This is
+
+     https://github.com/patchew-project/qemu tags/patchew/20220512080932.735962-1-lvivier@redhat.com 
+
+I suspect you tested with your v3, which doesn't crash for me, either.
+
+[...]
 
 
