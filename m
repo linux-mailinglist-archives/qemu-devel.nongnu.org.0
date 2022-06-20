@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A68551841
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 14:09:06 +0200 (CEST)
-Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC86551860
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 14:11:50 +0200 (CEST)
+Received: from localhost ([::1]:56588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3GDJ-00021e-Bb
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 08:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50622)
+	id 1o3GFx-0006nK-KS
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 08:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1o3G9b-0005os-T5
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:05:15 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:41328)
+ id 1o3G9f-0005xW-GM
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:05:19 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:41420)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1o3G9Z-0004BK-Sx
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:05:15 -0400
+ id 1o3G9d-0004RV-Ts
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:05:19 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 5812E40737D8;
- Mon, 20 Jun 2022 12:04:44 +0000 (UTC)
-Subject: [PATCH v3 0/2] Cavium Octeon MIPS extensions
+ by mail.ispras.ru (Postfix) with ESMTPSA id 625DB40737DD;
+ Mon, 20 Jun 2022 12:05:16 +0000 (UTC)
+Subject: [PATCH v3 0/4] Cavium Octeon MIPS extensions
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
 Cc: pavel.dovgalyuk@ispras.ru, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  aurelien@aurel32.net, aleksandar.rikalo@syrmia.com
-Date: Mon, 20 Jun 2022 15:04:44 +0300
-Message-ID: <165572668412.167690.5960121228753905627.stgit@pasha-ThinkPad-X280>
+Date: Mon, 20 Jun 2022 15:05:16 +0300
+Message-ID: <165572671617.167724.12940170194930233873.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -71,13 +71,17 @@ v2 changes:
 
 ---
 
-Pavel Dovgalyuk (2):
-      target/mips: introduce Cavium Octeon CPU model
+Pavel Dovgalyuk (4):
+      target/mips: introduce decodetree structure for Cavium Octeon extension
+      target/mips: implement Octeon-specific BBIT instructions
       target/mips: implement Octeon-specific arithmetic instructions
+      target/mips: introduce Cavium Octeon CPU model
 
 
- target/mips/cpu-defs.c.inc | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+ target/mips/cpu-defs.c.inc         |  28 +++++
+ target/mips/tcg/octeon.decode      |  35 ++++++
+ target/mips/tcg/octeon_translate.c | 185 +++++++++++++++++++++++++++++
+ 3 files changed, 248 insertions(+)
 
 --
 Pavel Dovgalyuk
