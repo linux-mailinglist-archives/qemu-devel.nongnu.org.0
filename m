@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5B1551179
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:28:41 +0200 (CEST)
-Received: from localhost ([::1]:45668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 081395511C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 09:47:47 +0200 (CEST)
+Received: from localhost ([::1]:50832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Bpw-0004X7-A2
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53618)
+	id 1o3C8P-0000al-Kp
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 03:47:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3BoS-0003Xo-PB; Mon, 20 Jun 2022 03:27:09 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33552)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3C65-00083Y-0C
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:45:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3BoR-0001xk-5g; Mon, 20 Jun 2022 03:27:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=6OWzLIZuLRPSllSyrmY7UT1EElkIqcyVobIGUHIHBbM=; b=aeGq0xGWSB3kLrjPoCqCD92KX0
- 9AXGVQQpGqxocHMaJras1Pn5TGOU2zIL2Myv9XOvvehLphgihFhlNDcxtSuh0G2MKz/9qLwvQVvMF
- Bazd5O6ymB5mlC6drOnBLvXifX8dhLjWpqg17HhuuCv6VgRKqx/yO8E2rGEXxwOVFD5/8ntnFYTr1
- ICUJ4blx0UUys/m6KLw6TXg/5NzhZcloZQVnaH1RxdlLuje9XpCBpl1h9md1ocnBJq2wC3I1S2a9X
- vMmDt9arOYJu+IvsPKaiA36SPrOkheh7de3bozxbA9rW7ywW5FZJGXDEPcPBJ0h8SMTj36r9FbUjD
- kuLCqzwtlk50ioAi11fFDoUbey+r6yei1EbHvp85t1Ar0t4bY3S78F6RCKJQ/j66yx01NVr2jun7H
- 1pmsYpRa3C7QNDs65oESJ6edqCKRwtv2+vrhDTNOysB2VLi3tpNvzQcSzenQd4SErhwiDN2hrHRQ+
- 36eIyqzFxykPixbUsP+6PQX9dXqPh4JP/JxucwTJkkzUutrmXk9F3EUXi2qkLV/QIb4EfviLqAeq4
- kLCawK9kpjN/7zxf0y475JiUPVMpdO68ok4Oa5vd3YgyBOR/mBebq1R/VwS0dXhd7It5lolgTLnUW
- 63hLdKPXzKm7+b2fnn2OzmqUbOSr6MO6ebHEkDE7E=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3BnI-00089R-0X; Mon, 20 Jun 2022 08:25:56 +0100
-Message-ID: <d36775a8-15f7-ab03-fc08-3fdcfc72d293@ilande.co.uk>
-Date: Mon, 20 Jun 2022 08:27:02 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3C61-0004ph-3T
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 03:45:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655711116;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VsuOPJyDdhNw1LA/IYLmP7EvH4W949TyXkBQKFa8tfw=;
+ b=VU69GsTTrV/5ZmDTfoHCi/DJSv2Gz8wsGP64lenMhxbuWb1YIgTRjhQ3lnOpOqIQFrsH6E
+ PXTTYMtd0hRzcZEEtZterpz2EclgvlG6+InkdXmZXzd1F7xXgRf65dkasDDR8DAhfPZjlB
+ Z3mOUwI2EcJm8eUMprW9LOCLo8JT+0U=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-102-WoEEFEEFMgCiVOuJkgIWRA-1; Mon, 20 Jun 2022 03:45:12 -0400
+X-MC-Unique: WoEEFEEFMgCiVOuJkgIWRA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52A843C163C0;
+ Mon, 20 Jun 2022 07:45:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 041B51415109;
+ Mon, 20 Jun 2022 07:45:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BACC921E688E; Mon, 20 Jun 2022 09:45:10 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Zhang Chen <chen.zhang@intel.com>
+Cc: Jason Wang <jasowang@redhat.com>,  qemu-dev <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,  Eric Blake
+ <eblake@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,  Thomas
+ Huth <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Yuri
+ Benditovich <yuri.benditovich@daynix.com>,  Andrew Melnychenko
+ <andrew@daynix.com>
+Subject: Re: [RFC PATCH 08/12] qapi: Add FilterUbpfProperties and qemu-options
+References: <20220617073630.535914-1-chen.zhang@intel.com>
+ <20220617073630.535914-9-chen.zhang@intel.com>
+Date: Mon, 20 Jun 2022 09:45:10 +0200
+In-Reply-To: <20220617073630.535914-9-chen.zhang@intel.com> (Zhang Chen's
+ message of "Fri, 17 Jun 2022 15:36:26 +0800")
+Message-ID: <871qvj6ant.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com
-References: <20220618110202.87735-1-danielhb413@gmail.com>
- <20220618110202.87735-4-danielhb413@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220618110202.87735-4-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 3/9] ppc/pnv: use dev->parent_bus->parent to get the PHB
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,91 +86,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/06/2022 12:01, Daniel Henrique Barboza wrote:
+Zhang Chen <chen.zhang@intel.com> writes:
 
-> It is not advisable to execute an object_dynamic_cast() to poke into
-> bus->qbus.parent and follow it up with a C cast into the PnvPHB type we
-> think we got.
-> 
-> A better way is to access the PnvPHB object via a QOM macro accessing
-> the existing parent links of the DeviceState. For a given
-> pnv-phb3/4-root-port 'dev', dev->parent_bus will give us the PHB bus,
-> and dev->parent_bus->parent is the PHB. Use the adequate QOM macro to
-> assert the type, and keep the NULL check in case we didn't get the
-> object we were expecting.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Add filter-ubpf related QOM and qemu-options.
+>
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 > ---
->   hw/pci-host/pnv_phb3.c | 10 +++++++---
->   hw/pci-host/pnv_phb4.c | 10 +++++++---
->   2 files changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-> index 4ba660f8b9..5e7f827415 100644
-> --- a/hw/pci-host/pnv_phb3.c
-> +++ b/hw/pci-host/pnv_phb3.c
-> @@ -1139,12 +1139,16 @@ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
->   {
->       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
->       PCIDevice *pci = PCI_DEVICE(dev);
-> -    PCIBus *bus = pci_get_bus(pci);
->       PnvPHB3 *phb = NULL;
->       Error *local_err = NULL;
->   
-> -    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
-> -                                          TYPE_PNV_PHB3);
-> +    /*
-> +     * dev->parent_bus gives access to the pnv-phb-root bus.
-> +     * The PnvPHB3 is the owner (parent) of the bus.
-> +     */
-> +    if (dev->parent_bus) {
+>  qapi/qom.json   | 18 ++++++++++++++++++
+>  qemu-options.hx |  6 ++++++
+>  2 files changed, 24 insertions(+)
+>
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index 6a653c6636..820a5218e8 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -444,6 +444,22 @@
+>    'base': 'NetfilterProperties',
+>    'data': { '*vnet_hdr_support': 'bool' } }
+>  
+> +##
+> +# @FilterUbpfProperties:
+> +#
+> +# Properties for filter-ubpf objects.
+> +#
+> +# @ip-mode: if true, IP packet handle mode is enabled(default: true).
 
-Here dev->parent_bus shouldn't be accessed directly: you should use 
-qdev_get_parent_bus() instead.
+Space between "enabled" and "(default: true)", please.
 
-> +        phb = PNV_PHB3(dev->parent_bus->parent);
-> +    }
+I'm not sure about the name @ip-mode.  A mode tends to be an enum.  A
+boolean tends to be a flag, like @disable-packed-handle-mode.  Note that
+I reverted the sense there, to make the default false.
 
-This one is a bit trickier, since part of the qdev design is that devices should only 
-be aware of their immediate bus, and not the device parenting that bus i.e. 
-dev->parent_bus->parent shouldn't be allowed.
+> +#
+> +# @ubpf-handler: The filename where the userspace ebpf packets handler.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'FilterUbpfProperties',
+> +  'base': 'NetfilterProperties',
+> +  'data': { '*ip-mode': 'bool',
+> +            '*ubpf-handler': 'str' } }
+> +
+>  ##
+>  # @InputBarrierProperties:
+>  #
+> @@ -845,6 +861,7 @@
+>      'filter-redirector',
+>      'filter-replay',
+>      'filter-rewriter',
+> +    'filter-ubpf',
+>      'input-barrier',
+>      { 'name': 'input-linux',
+>        'if': 'CONFIG_LINUX' },
+> @@ -911,6 +928,7 @@
+>        'filter-redirector':          'FilterRedirectorProperties',
+>        'filter-replay':              'NetfilterProperties',
+>        'filter-rewriter':            'FilterRewriterProperties',
+> +      'filter-ubpf':                'FilterUbpfProperties',
+>        'input-barrier':              'InputBarrierProperties',
+>        'input-linux':                { 'type': 'InputLinuxProperties',
+>                                        'if': 'CONFIG_LINUX' },
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 60cf188da4..3dfb858867 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -5080,6 +5080,12 @@ SRST
+>          stored. The file format is libpcap, so it can be analyzed with
+>          tools such as tcpdump or Wireshark.
+>  
+> +    ``-object filter-ubpf,id=id,netdev=dev,ubpf-handler=filename[,ip-mode][,position=head|tail|id=<id>][,insert=behind|before]``
+> +        filter-ubpf is the userspace ebpf network traffic handler on netdev dev
+> +        from the userspace ebpf handler file specified by filename.
 
-What is really needed here is to use QOM links (or embed the device as a suitable QOM 
-child) to get the PHB reference which I imagine will be changed as part of the 
-follow-up series. So I think this can be left as-is for now, and fixed later.
+I believe the conventional capitalization is eBPF.
 
->       if (!phb) {
->           error_setg(errp,
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index ffd9d8a947..a0ee52e820 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1782,12 +1782,16 @@ static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
->   {
->       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
->       PCIDevice *pci = PCI_DEVICE(dev);
-> -    PCIBus *bus = pci_get_bus(pci);
->       PnvPHB4 *phb = NULL;
->       Error *local_err = NULL;
->   
-> -    phb = (PnvPHB4 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
-> -                                          TYPE_PNV_PHB4);
-> +    /*
-> +     * dev->parent_bus gives access to the pnv-phb-root bus.
-> +     * The PnvPHB4 is the owner (parent) of the bus.
-> +     */
-> +    if (dev->parent_bus) {
-> +        phb = PNV_PHB4(dev->parent_bus->parent);
-> +    }
->   
->       if (!phb) {
->           error_setg(errp, "%s must be connected to pnv-phb4 buses", dev->id);
+> +        If disable ip_mode, the loaded ebpf program will handle raw
 
-I've had a quick look over the rest of the series and from what I can see this is 
-definitely heading in the right direction :)
+Markup: ``ip_mode``.
 
+> +        network packet.
 
-ATB,
+Suggest something like "If ``ip_mode`` is off, the eBPF program is fed
+raw network packets" (hope I'm not misinterpreting things).
 
-Mark.
+> +
+>      ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
+>          Colo-compare gets packet from primary\_in chardevid and
+>          secondary\_in, then compare whether the payload of primary packet
+
 
