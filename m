@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D571D552277
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:45:03 +0200 (CEST)
-Received: from localhost ([::1]:47136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9BE552287
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:56:51 +0200 (CEST)
+Received: from localhost ([::1]:54308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3KWM-0008Om-VC
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56424)
+	id 1o3Khn-0005Lj-35
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3KUh-000787-Sw
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:43:19 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:44913)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3Kf7-0003T9-Ta
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:54:05 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:36719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3KUg-0007wA-Ca
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:43:19 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-3176b6ed923so106061347b3.11
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 09:43:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3Kf6-00010h-1h
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:54:05 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id m2so2992686plx.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 09:54:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VsnTbMdEHmcoTQ6adslI+V2n/dboZlaGXQ4U64zov/o=;
- b=NluNerT5rZnpugZP9Cf0taekyRB5ACmIuFrAW0V1VEPqZIMLFmLefQ3igEVyAMlbrq
- 9ndEQBumso8beQPlVYzjEU5lgJMxpmvr1AvT5Q5dV1rrO4Gx/zaWVC7FRir/bqAeySu0
- XLRBERwjmgTErCjhPEjiKPqWNZuttSESjw8v1057EgNnBL/ZhXmDML7aC4lC7hMnf6a0
- wsf1iUSUcXqw0VJ4gdQo3Aplua/e4qAr48KPlVXPm89qfguuwnC6LL47JTgEjMQfc8E0
- +DRIAUhAPRoyv7k5eL6ho+//4TZGf0a6JZkoV9WCXfS0Qo/pJe4DqNNK4DcopmXDFNhw
- LTvQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=kLdmTBIBP9HpHiS22Di8KK93Of/BrBpiUVTPzq/66m8=;
+ b=hjQL6/8sq54vMEqdbUdrjRP0TKWgTnmgyc3/veaCCSKvHh8+hVedU78i3tiFTXFmrV
+ uQBmUOzXh2/ddbYU8Lvvdmap7aZD7tvJGsIa5WbbDILaWfTyUHKHR9IO88+RslXX0HLH
+ YfCuTMxGH721rtNpoYFEWhbRgFx/Lq9Eqq8Lv2Ky9pw93crsEF5vtcp/7jwJfujlo4eW
+ TbHIIWorg4q9zTOfE2oZYHGqMNaqSY1oWL3Ey6T0IgBWJH2jB/mfC37dOghPk3q87iTX
+ ewA/ADzsS+sddYlZ36ElOvflAp99t78U+dwYocsZIioVsOCbEVDSgfr1mSgouPa+aPa8
+ u6+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VsnTbMdEHmcoTQ6adslI+V2n/dboZlaGXQ4U64zov/o=;
- b=3vEFvTqEDlGEUJBjL5TB3+TmzW00FChbfKj0aMoDZywbc/TT57jkEDNnllZwWpBvaU
- 4+9u7MF5Ugp+ma5sG9VdG+yFTq0fA5WdX88Bg6bUiQZHBvSj0g8A1EAZYxbyUA7voLDE
- Nhn8iUDEIA4pPyr3JBQJVC5lKkuJ3iCwDq2rjTcGAF1UyHLCQFILEzKZSm9pib0nGRso
- pT6apI6UKyYPOSyAjRn6eWmSFeWF4A6WVBgriIBWEIduL4KIANZTil0pE4ptZN1eoRrQ
- QXpmObXRxGpoSj9BE50qqhxGYnxWG1jIk9fTgzdCmDJVXIlvbgwAD6jDMBZs96SoLqBA
- 9EiQ==
-X-Gm-Message-State: AJIora+gs7Po8hVuelsJyAqxu9v//xEV/K95QJ0jKPNf2GHeL1RfUwUP
- 2pxm3ZTCnM84Sa1gXbwpziJQHQevN5+Acz5dTI8Bkg==
-X-Google-Smtp-Source: AGRyM1tEPvXK1CvbewZSR7h0TUwOA3mdtsPfldTANMhY3eiw6Ai9nUrMZ0OuNw6efKbM6Xm8W3xpEuvWYxBVlHaqSTY=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr28101397ywb.257.1655743397321; Mon, 20
- Jun 2022 09:43:17 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kLdmTBIBP9HpHiS22Di8KK93Of/BrBpiUVTPzq/66m8=;
+ b=fPY95Jj5FxJ0zNeo+yh+oTAw0xbGrN6OTHN3m7IQKIj/Jx+GJQZlB7NBos0vonxhvJ
+ gB9eBGKhy9bb/CpgpHCQuxPRr44z2mS0vdLSj5ptvawaRT94Q/XK8DuIDI6CENGz0Jay
+ Sp2+S0XYlX67QTVVTOb5vxENyqfN/Ezz4ZzAUYY9CrSTbsm3ooJoBig2oTBwwssoSsW/
+ KPqoyO9Hi1Vx40fuq0eLV9WqjgyZ+gjZqEYnB7LvGyJdoSOMKVKJZdqfa7eEHOv++Xwp
+ 5pwd2O0JQ911FZQp551a+1OBx/xqoGEURNFq7GR+gCAD3bvASdae4K1W1XRISF6fVHqM
+ 0z/g==
+X-Gm-Message-State: AJIora8MMLrhAGiWil4lIQU2uTmMKxUUItAb0fjv/UF6ug1uAPBSbLJB
+ IFcxU6GXPkStuEnPhKfLKa9/4w==
+X-Google-Smtp-Source: AGRyM1vEdfs6/IDdBw56OGuC/nVI79zYDWWqqQCONmDLp/k3c9tfOR9q8EFgJHOPV0N5g+OuELuIAQ==
+X-Received: by 2002:a17:902:ea04:b0:16a:1f33:cb0d with SMTP id
+ s4-20020a170902ea0400b0016a1f33cb0dmr7637982plg.103.1655744040375; 
+ Mon, 20 Jun 2022 09:54:00 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:a3e0:8a80:7b85:aea6?
+ ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
+ by smtp.gmail.com with ESMTPSA id
+ bc10-20020a170902930a00b0016413dbbf92sm8948761plb.234.2022.06.20.09.53.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jun 2022 09:53:59 -0700 (PDT)
+Message-ID: <fa9f1337-e294-524c-5988-188b503171fc@linaro.org>
+Date: Mon, 20 Jun 2022 09:53:57 -0700
 MIME-Version: 1.0
-References: <20220620162825.19977-1-akihiko.odaki@gmail.com>
-In-Reply-To: <20220620162825.19977-1-akihiko.odaki@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jun 2022 17:43:06 +0100
-Message-ID: <CAFEAcA9KEZxv19FcV_Y8ZfOecY_aeNNWrQotZVpKK+=DikFMcw@mail.gmail.com>
-Subject: Re: [PATCH v2] ui/cocoa: Take refresh rate into account
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] softmmu: Always initialize xlat in
+ address_space_translate_for_iotlb
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20220615163846.313229-1-richard.henderson@linaro.org>
+ <CAFEAcA9FvaJKD4=jBuWijd3ym1+aj=RJfr=7mugrFTLMCEfq+A@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA9FvaJKD4=jBuWijd3ym1+aj=RJfr=7mugrFTLMCEfq+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,15 +95,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Jun 2022 at 17:28, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->
-> Retreieve the refresh rate of the display and reflect it with
-> dpy_set_ui_info() and update_displaychangelistener().
+On 6/20/22 05:52, Peter Maydell wrote:
+> On Wed, 15 Jun 2022 at 17:43, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> The bug is an uninitialized memory read, along the translate_fail
+>> path, which results in garbage being read from iotlb_to_section,
+>> which can lead to a crash in io_readx/io_writex.
+>>
+>> The bug may be fixed by writing any value with zero
+>> in ~TARGET_PAGE_MASK, so that the call to iotlb_to_section using
+>> the xlat'ed address returns io_mem_unassigned, as desired by the
+>> translate_fail path.
+>>
+>> It is most useful to record the original physical page address,
+>> which will eventually be logged by memory_region_access_valid
+>> when the access is rejected by unassigned_mem_accepts.
+>>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1065
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   softmmu/physmem.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>> index 657841eed0..fb0f0709b5 100644
+>> --- a/softmmu/physmem.c
+>> +++ b/softmmu/physmem.c
+>> @@ -681,6 +681,9 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
+>>       AddressSpaceDispatch *d =
+>>           qatomic_rcu_read(&cpu->cpu_ases[asidx].memory_dispatch);
+>>
+>> +    /* Record the original phys page for use by the translate_fail path. */
+>> +    *xlat = addr;
+> 
+> There's no doc comment for address_space_translate_for_iotlb(),
+> so there's nothing that says explicitly that addr is obliged
+> to be page aligned, although it happens that its only caller
+> does pass a page-aligned address. Were we already implicitly
+> requiring a page-aligned address here, or does not masking
+> addr before assigning to *xlat impose a new requirement ?
+
+I have no idea.  The whole lookup process is both undocumented and twistedly complex.  I'm 
+willing to add an extra masking operation here, if it seems necessary?
 
 
-This is still missing the "why" of the change, which is the
-most important thing to state in a commit message.
-
-thanks
--- PMM
+r~
 
