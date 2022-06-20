@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3221255207A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 17:22:03 +0200 (CEST)
-Received: from localhost ([::1]:44366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBCD552027
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 17:17:36 +0200 (CEST)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3JE1-0000T5-3F
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 11:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
+	id 1o3J9j-00021h-FH
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 11:17:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3J5L-0006Xa-7R
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:13:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50620)
+ id 1o3J5m-0007D6-NM
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:13:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3J5J-000091-9g
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:13:02 -0400
+ id 1o3J5i-0000Ag-NP
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:13:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655737980;
+ s=mimecast20190719; t=1655738004;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jjp2iLbD7Sz7x1c+22pDG+YQi9/GrXLZe8oE39onNNU=;
- b=UqEl9etMQQvPp/48EbeXcF4a9ZI+lpRxRBNCW0iIHMA4V9/g16Z8TbUWTlyawLzx+IRi+O
- 37czQpZrxiD4Nb/dSx1622jiz2nHZSLy1IsXmN8T1HLQk+dc81SJPkWDYewuS18xAX2wvm
- vA/SRJPfbRoy2CBhou8MTYA4YvpB25g=
+ bh=VQXwM0LyqoOoHW0IdpOYKBIXuomh8FCPXnB70hl9A4A=;
+ b=JzrKh8Nq6MOcAJ+S05W3w2JuH/tfayslqanCiczY2cO5SdKS4Olr7G53KAC4zYfaE7P49E
+ 6KQVUTSO426zXVc+nPhKOY53y3S2jah34dzG+nh1nih5a15wt+jWYpCktDxurMVFGV+c24
+ k0eWTGf1TmrJcHK4Pq0bO9V7UOpHh+w=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-G3m3GtK-N3ah5NCMQ1daag-1; Mon, 20 Jun 2022 11:12:59 -0400
-X-MC-Unique: G3m3GtK-N3ah5NCMQ1daag-1
+ us-mta-634-KxkpFyOEPOq51q8Gz1boNQ-1; Mon, 20 Jun 2022 11:13:23 -0400
+X-MC-Unique: KxkpFyOEPOq51q8Gz1boNQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- o2-20020a05600c510200b0039747b0216fso7039630wms.0
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 08:12:59 -0700 (PDT)
+ l17-20020a05600c4f1100b0039c860db521so5123235wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 08:13:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jjp2iLbD7Sz7x1c+22pDG+YQi9/GrXLZe8oE39onNNU=;
- b=D9lr8tUHKsdrrH0sMER4Moh3vWLuuUdHUY5621RlVNckKZqhUx4xz1FEf5Kbo/Rmf2
- J/fyv1VYHthu6y2d4PD6MMhUhN1ouNw1K9O+32VTeAtPtKWIl3B7vhl8tjWxDmYKEw2q
- qIgUJqBEjlsnZH2IeRVYkC4i+Q7lSyNmAIPj9ZCCJEtPI3a9gVgFRNqfoHOddqvYJ6lI
- stcTpcSQ2ypiu4jaj+Ld6LZhdfFeaBM/IL/Rs2JMp++hKNuSjTft4Db+WYp5hou4RAfu
- FwqKbSGhQ2D2oUlv4yqkW9z1uFGXh4uNUx0IIvxNHiABP1yut8P+6DvHGM0W85uyhS7z
- nGzQ==
-X-Gm-Message-State: AJIora9NIefWwavSj+RhjPz2ymk2qGceKI5X//ObT5h+1KmLlCqIGg9N
- +sTPPRHLeKDm7owpRsHvk8NUcz/ehYHrSoUndIihDxz2cWxwCm5ktjxlfstZA9GvFmFLLhzXkmp
- HMmAAtX3Nw0rm52w=
-X-Received: by 2002:adf:eb84:0:b0:21b:84dd:4d86 with SMTP id
- t4-20020adfeb84000000b0021b84dd4d86mr12676314wrn.288.1655737978249; 
- Mon, 20 Jun 2022 08:12:58 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vGKV70zcuzs/DUKmnVlcdLJ4pcTCgYLxnn9xz0EesIa5zAogc7CI+Z2tvBRa6rYJFGAqad8g==
-X-Received: by 2002:adf:eb84:0:b0:21b:84dd:4d86 with SMTP id
- t4-20020adfeb84000000b0021b84dd4d86mr12676298wrn.288.1655737978074; 
- Mon, 20 Jun 2022 08:12:58 -0700 (PDT)
+ bh=VQXwM0LyqoOoHW0IdpOYKBIXuomh8FCPXnB70hl9A4A=;
+ b=AfIEMxOmRrVgh220NSPA2pCNtYZDM+8WwhnS7JCm2IrBKoaqxfS1PRF8xwNq+R60o5
+ R+FUODrG+5hI6slYWKN4ruS395Y77X8IMu2yzPu7+s3oUfTv/h1w63EeZZOTDJB2Lh+v
+ 4zCdpVkS3uIBvz24OTCMxqV1Z3xEuZdKcYJzdJyUk0jjKYnBLo4eCpNREEy8bU894PVi
+ A/+168W04gMdSZMyhF1tU0j3gFSCDg+jRvLsJUrri2kOA3WcnBv7h3azx/VX8aYG9XE0
+ Y1MI2cfFEhv79DgDuWnK3nthjyE/2u/xc6UxWZUMWQdSOazHeZytkpdINubFpFaSDxhl
+ d3aw==
+X-Gm-Message-State: AJIora+N3rdqrmN1Kg/jsaU1fhiVmZhWejJLehhlk7SlhR6mSnI8h2F7
+ HT0DyrmZ1sLKTppnPzNKcHUBHZD9DCnzNhIPRwYM41J7Y3fWvCqmRhzaI47wnYfa0OzJQejMSGb
+ UZssbNpv+8D87XE4=
+X-Received: by 2002:a05:6000:156d:b0:210:3135:ce1c with SMTP id
+ 13-20020a056000156d00b002103135ce1cmr24141157wrz.409.1655738002186; 
+ Mon, 20 Jun 2022 08:13:22 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uyreGhr63QsbywQd23w+JV+/gAarm8NTaVQK7QlFfzvi9dOEe5Ta7Lb6AV6jzAJ1uALsaNpQ==
+X-Received: by 2002:a05:6000:156d:b0:210:3135:ce1c with SMTP id
+ 13-20020a056000156d00b002103135ce1cmr24141132wrz.409.1655738001974; 
+ Mon, 20 Jun 2022 08:13:21 -0700 (PDT)
 Received: from localhost ([212.145.226.77]) by smtp.gmail.com with ESMTPSA id
- q7-20020adff947000000b0021b90d7b2c9sm2755487wrr.24.2022.06.20.08.12.57
+ e1-20020a5d5941000000b0020c5253d907sm13602337wri.83.2022.06.20.08.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 08:12:57 -0700 (PDT)
+ Mon, 20 Jun 2022 08:13:21 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  "Dr. David Alan Gilbert"
  <dgilbert@redhat.com>,  Stefan Hajnoczi <stefanha@redhat.com>,  Hailiang
  Zhang <zhang.zhanghailiang@huawei.com>,  Fam Zheng <fam@euphon.net>,
  Hailiang Zhang <zhanghailiang@xfusion.com>
-Subject: Re: [PATCH v2 05/21] migration: rename 'pos' field in QEMUFile to
- 'bytes_processed'
-In-Reply-To: <20220620110205.1357829-6-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Mon, 20 Jun 2022 12:01:49
+Subject: Re: [PATCH v2 06/21] migration: rename qemu_ftell to
+ qemu_file_total_transferred
+In-Reply-To: <20220620110205.1357829-7-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Mon, 20 Jun 2022 12:01:50
  +0100")
 References: <20220620110205.1357829-1-berrange@redhat.com>
- <20220620110205.1357829-6-berrange@redhat.com>
+ <20220620110205.1357829-7-berrange@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 20 Jun 2022 17:12:56 +0200
-Message-ID: <87tu8f2wsn.fsf@secure.mitica>
+Date: Mon, 20 Jun 2022 17:13:20 +0200
+Message-ID: <87pmj32wrz.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -109,27 +109,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> The field name 'pos' gives the misleading impression that the QEMUFile
+> The name 'ftell' gives the misleading impression that the QEMUFile
 > objects are seekable. This is not the case, as in general we just
 > have an opaque stream. The users of this method are only interested
 > in the total bytes processed. This switches to a new name that
 > reflects the intended usage.
 >
-> Every QIOChannel backed impl of QEMUFile is currently ignoring the
-> 'pos' field.
->
-> The only QEMUFile impl using 'pos' as an offset for I/O is the block
-> device vmstate. A later patch is introducing a QIOChannel impl for the
-> vmstate, and to handle this it is tracking a file offset itself
-> internally to the QIOChannel impl. So when we later eliminate the
-> QEMUFileOps callbacks later, the 'pos' field will no longer be used
-> from any I/O read/write methods.
->
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-Thanks, I always wondered why it had that name, but never did the patch.
 
 
