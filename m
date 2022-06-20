@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A74755176C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:28:14 +0200 (CEST)
-Received: from localhost ([::1]:39334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B225516FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:14:54 +0200 (CEST)
+Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3FZl-0007XI-3Q
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60954)
+	id 1o3FMs-0002wE-0i
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:14:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o3FBC-0003Es-H0
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26604)
+ id 1o3FBE-0003FV-SP
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o3FBA-0007df-9S
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:50 -0400
+ id 1o3FBC-0007ez-HP
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655722967;
+ s=mimecast20190719; t=1655722969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LjTq4eq3z7WzafcGH1gKCpF6TR7pAvMOFiSyohaoDPw=;
- b=geZ5RfwOBqhEiVWYJOvRtjadbSFzZQk6/6qLPWCCj1UxowUVsElwzJ35NnNTthJk+fm9k7
- nwW6kLtTH0NvZKUZLsOYdfrJ67Z7tG/BpStifZhUFnSi70J5Muk6vpkEeB+by6QHZmvrW3
- 5JLemzYIbq85/f+2irxS7f+oWAEbKJc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Afz/iVidH5fsdfUqVLZPzH6XfLR8bCmbN1BvouWI3S0=;
+ b=AXstbcB5zsE8vtNPafP/nuWsFFwVgd5nMr7Y1FvIKQoHNMwXubr8B5atZTIgAJ6Bbi3QkX
+ FefqGvYp7GQy8aFLfZxqJH1HSJWRS5Buv92ILYQWVe1hbhUKI0T7ETVb4ouqTCIpMWGTN/
+ yHxEuKywSn9dZVJebsfQaRpKqbWiMoI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-h310LV3SNViSCT-Bz3qpBg-1; Mon, 20 Jun 2022 07:02:43 -0400
-X-MC-Unique: h310LV3SNViSCT-Bz3qpBg-1
+ us-mta-617-P2h-bKtXPCSHFQ2fcsag4w-1; Mon, 20 Jun 2022 07:02:44 -0400
+X-MC-Unique: P2h-bKtXPCSHFQ2fcsag4w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F5D2811E76;
- Mon, 20 Jun 2022 11:02:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33EC0299E74D;
+ Mon, 20 Jun 2022 11:02:44 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C373C2810D;
- Mon, 20 Jun 2022 11:02:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6735C2811B;
+ Mon, 20 Jun 2022 11:02:42 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org,
@@ -52,17 +52,16 @@ Cc: qemu-block@nongnu.org,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
  Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>
-Subject: [PATCH v2 20/21] migration: remove the QEMUFileOps 'get_return_path'
- callback
-Date: Mon, 20 Jun 2022 12:02:04 +0100
-Message-Id: <20220620110205.1357829-21-berrange@redhat.com>
+Subject: [PATCH v2 21/21] migration: remove the QEMUFileOps abstraction
+Date: Mon, 20 Jun 2022 12:02:05 +0100
+Message-Id: <20220620110205.1357829-22-berrange@redhat.com>
 In-Reply-To: <20220620110205.1357829-1-berrange@redhat.com>
 References: <20220620110205.1357829-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,106 +85,442 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This directly implements the get_return_path logic using QIOChannel APIs.
+Now that all QEMUFile callbacks are removed, the entire concept can be
+deleted.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/qemu-file-channel.c | 16 ----------------
- migration/qemu-file.c         | 22 ++++++++++------------
- migration/qemu-file.h         |  6 ------
- 3 files changed, 10 insertions(+), 34 deletions(-)
+ migration/channel.c           |  4 +--
+ migration/colo.c              |  5 ++--
+ migration/meson.build         |  1 -
+ migration/migration.c         |  7 ++---
+ migration/qemu-file-channel.c | 53 -----------------------------------
+ migration/qemu-file-channel.h | 32 ---------------------
+ migration/qemu-file.c         | 20 ++++++-------
+ migration/qemu-file.h         |  7 ++---
+ migration/ram.c               |  3 +-
+ migration/rdma.c              |  5 ++--
+ migration/savevm.c            | 11 ++++----
+ tests/unit/test-vmstate.c     |  5 ++--
+ 12 files changed, 27 insertions(+), 126 deletions(-)
+ delete mode 100644 migration/qemu-file-channel.c
+ delete mode 100644 migration/qemu-file-channel.h
 
+diff --git a/migration/channel.c b/migration/channel.c
+index a162d00fea..90087d8986 100644
+--- a/migration/channel.c
++++ b/migration/channel.c
+@@ -14,7 +14,7 @@
+ #include "channel.h"
+ #include "tls.h"
+ #include "migration.h"
+-#include "qemu-file-channel.h"
++#include "qemu-file.h"
+ #include "trace.h"
+ #include "qapi/error.h"
+ #include "io/channel-tls.h"
+@@ -85,7 +85,7 @@ void migration_channel_connect(MigrationState *s,
+                 return;
+             }
+         } else {
+-            QEMUFile *f = qemu_fopen_channel_output(ioc);
++            QEMUFile *f = qemu_file_new_output(ioc);
+ 
+             migration_ioc_register_yank(ioc);
+ 
+diff --git a/migration/colo.c b/migration/colo.c
+index 5f7071b3cd..2b71722fd6 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -14,7 +14,6 @@
+ #include "sysemu/sysemu.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-migration.h"
+-#include "qemu-file-channel.h"
+ #include "migration.h"
+ #include "qemu-file.h"
+ #include "savevm.h"
+@@ -559,7 +558,7 @@ static void colo_process_checkpoint(MigrationState *s)
+         goto out;
+     }
+     bioc = qio_channel_buffer_new(COLO_BUFFER_BASE_SIZE);
+-    fb = qemu_fopen_channel_output(QIO_CHANNEL(bioc));
++    fb = qemu_file_new_output(QIO_CHANNEL(bioc));
+     object_unref(OBJECT(bioc));
+ 
+     qemu_mutex_lock_iothread();
+@@ -873,7 +872,7 @@ void *colo_process_incoming_thread(void *opaque)
+     colo_incoming_start_dirty_log();
+ 
+     bioc = qio_channel_buffer_new(COLO_BUFFER_BASE_SIZE);
+-    fb = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
++    fb = qemu_file_new_input(QIO_CHANNEL(bioc));
+     object_unref(OBJECT(bioc));
+ 
+     qemu_mutex_lock_iothread();
+diff --git a/migration/meson.build b/migration/meson.build
+index 8d309f5849..690487cf1a 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -4,7 +4,6 @@ migration_files = files(
+   'xbzrle.c',
+   'vmstate-types.c',
+   'vmstate.c',
+-  'qemu-file-channel.c',
+   'qemu-file.c',
+   'yank_functions.c',
+ )
+diff --git a/migration/migration.c b/migration/migration.c
+index c4a9d8f20f..837b3743db 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -30,7 +30,6 @@
+ #include "migration/misc.h"
+ #include "migration.h"
+ #include "savevm.h"
+-#include "qemu-file-channel.h"
+ #include "qemu-file.h"
+ #include "migration/vmstate.h"
+ #include "block/block.h"
+@@ -722,7 +721,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+ 
+     if (!mis->from_src_file) {
+         /* The first connection (multifd may have multiple) */
+-        QEMUFile *f = qemu_fopen_channel_input(ioc);
++        QEMUFile *f = qemu_file_new_input(ioc);
+ 
+         if (!migration_incoming_setup(f, errp)) {
+             return;
+@@ -3081,7 +3080,7 @@ static int postcopy_start(MigrationState *ms)
+      */
+     bioc = qio_channel_buffer_new(4096);
+     qio_channel_set_name(QIO_CHANNEL(bioc), "migration-postcopy-buffer");
+-    fb = qemu_fopen_channel_output(QIO_CHANNEL(bioc));
++    fb = qemu_file_new_output(QIO_CHANNEL(bioc));
+     object_unref(OBJECT(bioc));
+ 
+     /*
+@@ -3971,7 +3970,7 @@ static void *bg_migration_thread(void *opaque)
+      */
+     s->bioc = qio_channel_buffer_new(512 * 1024);
+     qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
+-    fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
++    fb = qemu_file_new_output(QIO_CHANNEL(s->bioc));
+     object_unref(OBJECT(s->bioc));
+ 
+     update_iteration_initial_status(s);
 diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-index 2e139f7bcd..51717c1137 100644
+deleted file mode 100644
+index 51717c1137..0000000000
 --- a/migration/qemu-file-channel.c
-+++ b/migration/qemu-file-channel.c
-@@ -32,27 +32,11 @@
- #include "yank_functions.h"
- 
- 
--static QEMUFile *channel_get_input_return_path(void *opaque)
--{
--    QIOChannel *ioc = QIO_CHANNEL(opaque);
++++ /dev/null
+@@ -1,53 +0,0 @@
+-/*
+- * QEMUFile backend for QIOChannel objects
+- *
+- * Copyright (c) 2015-2016 Red Hat, Inc
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a copy
+- * of this software and associated documentation files (the "Software"), to deal
+- * in the Software without restriction, including without limitation the rights
+- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+- * copies of the Software, and to permit persons to whom the Software is
+- * furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included in
+- * all copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+- * THE SOFTWARE.
+- */
 -
--    return qemu_fopen_channel_output(ioc);
+-#include "qemu/osdep.h"
+-#include "qemu-file-channel.h"
+-#include "qemu-file.h"
+-#include "io/channel-socket.h"
+-#include "io/channel-tls.h"
+-#include "qemu/iov.h"
+-#include "qemu/yank.h"
+-#include "yank_functions.h"
+-
+-
+-static const QEMUFileOps channel_input_ops = {
+-};
+-
+-
+-static const QEMUFileOps channel_output_ops = {
+-};
+-
+-
+-QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc)
+-{
+-    object_ref(OBJECT(ioc));
+-    return qemu_file_new_input(ioc, &channel_input_ops);
 -}
 -
--static QEMUFile *channel_get_output_return_path(void *opaque)
+-QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
 -{
--    QIOChannel *ioc = QIO_CHANNEL(opaque);
--
--    return qemu_fopen_channel_input(ioc);
+-    object_ref(OBJECT(ioc));
+-    return qemu_file_new_output(ioc, &channel_output_ops);
 -}
+diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
+deleted file mode 100644
+index 0028a09eb6..0000000000
+--- a/migration/qemu-file-channel.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-/*
+- * QEMUFile backend for QIOChannel objects
+- *
+- * Copyright (c) 2015-2016 Red Hat, Inc
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a copy
+- * of this software and associated documentation files (the "Software"), to deal
+- * in the Software without restriction, including without limitation the rights
+- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+- * copies of the Software, and to permit persons to whom the Software is
+- * furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included in
+- * all copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+- * THE SOFTWARE.
+- */
 -
- static const QEMUFileOps channel_input_ops = {
--    .get_return_path = channel_get_input_return_path,
- };
- 
- 
- static const QEMUFileOps channel_output_ops = {
--    .get_return_path = channel_get_output_return_path,
- };
- 
- 
+-#ifndef QEMU_FILE_CHANNEL_H
+-#define QEMU_FILE_CHANNEL_H
+-
+-#include "io/channel.h"
+-
+-QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
+-QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
+-#endif
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index b787dabff7..cea9a0de7d 100644
+index cea9a0de7d..3a380a6072 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -95,18 +95,6 @@ int qemu_file_shutdown(QEMUFile *f)
-     return ret;
+@@ -35,7 +35,6 @@
+ #define MAX_IOV_SIZE MIN_CONST(IOV_MAX, 64)
+ 
+ struct QEMUFile {
+-    const QEMUFileOps *ops;
+     const QEMUFileHooks *hooks;
+     QIOChannel *ioc;
+     bool is_writable;
+@@ -107,16 +106,14 @@ bool qemu_file_mode_is_not_valid(const char *mode)
+     return false;
  }
  
--/*
-- * Result: QEMUFile* for a 'return path' for comms in the opposite direction
-- *         NULL if not available
-- */
--QEMUFile *qemu_file_get_return_path(QEMUFile *f)
--{
--    if (!f->ops->get_return_path) {
--        return NULL;
--    }
--    return f->ops->get_return_path(f->ioc);
--}
--
- bool qemu_file_mode_is_not_valid(const char *mode)
+-static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
+-                                    const QEMUFileOps *ops,
+-                                    bool is_writable)
++static QEMUFile *qemu_file_new_impl(QIOChannel *ioc, bool is_writable)
  {
-     if (mode == NULL ||
-@@ -134,6 +122,16 @@ static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
+     QEMUFile *f;
+ 
+     f = g_new0(QEMUFile, 1);
+ 
++    object_ref(ioc);
+     f->ioc = ioc;
+-    f->ops = ops;
+     f->is_writable = is_writable;
+ 
      return f;
+@@ -128,21 +125,19 @@ static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
+  */
+ QEMUFile *qemu_file_get_return_path(QEMUFile *f)
+ {
+-    object_ref(f->ioc);
+-    return qemu_file_new_impl(f->ioc, f->ops, !f->is_writable);
++    return qemu_file_new_impl(f->ioc, !f->is_writable);
  }
  
-+/*
-+ * Result: QEMUFile* for a 'return path' for comms in the opposite direction
-+ *         NULL if not available
-+ */
-+QEMUFile *qemu_file_get_return_path(QEMUFile *f)
-+{
-+    object_ref(f->ioc);
-+    return qemu_file_new_impl(f->ioc, f->ops, !f->is_writable);
-+}
-+
- QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops)
+-QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops)
++QEMUFile *qemu_file_new_output(QIOChannel *ioc)
  {
-     return qemu_file_new_impl(ioc, ops, true);
+-    return qemu_file_new_impl(ioc, ops, true);
++    return qemu_file_new_impl(ioc, true);
+ }
+ 
+-QEMUFile *qemu_file_new_input(QIOChannel *ioc, const QEMUFileOps *ops)
++QEMUFile *qemu_file_new_input(QIOChannel *ioc)
+ {
+-    return qemu_file_new_impl(ioc, ops, false);
++    return qemu_file_new_impl(ioc, false);
+ }
+ 
+-
+ void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks)
+ {
+     f->hooks = hooks;
+@@ -238,6 +233,7 @@ static void qemu_iovec_release_ram(QEMUFile *f)
+     memset(f->may_free, 0, sizeof(f->may_free));
+ }
+ 
++
+ /**
+  * Flushes QEMUFile buffer
+  *
 diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index de3f066014..fe8f9766d1 100644
+index fe8f9766d1..96e72d8bd8 100644
 --- a/migration/qemu-file.h
 +++ b/migration/qemu-file.h
-@@ -55,13 +55,7 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
+@@ -55,9 +55,6 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
                                   size_t size,
                                   uint64_t *bytes_sent);
  
--/*
-- * Return a QEMUFile for comms in the opposite direction
-- */
--typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
+-typedef struct QEMUFileOps {
+-} QEMUFileOps;
 -
- typedef struct QEMUFileOps {
--    QEMURetPathFunc *get_return_path;
- } QEMUFileOps;
- 
  typedef struct QEMUFileHooks {
+     QEMURamHookFunc *before_ram_iterate;
+     QEMURamHookFunc *after_ram_iterate;
+@@ -65,8 +62,8 @@ typedef struct QEMUFileHooks {
+     QEMURamSaveFunc *save_page;
+ } QEMUFileHooks;
+ 
+-QEMUFile *qemu_file_new_input(QIOChannel *ioc, const QEMUFileOps *ops);
+-QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops);
++QEMUFile *qemu_file_new_input(QIOChannel *ioc);
++QEMUFile *qemu_file_new_output(QIOChannel *ioc);
+ void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks);
+ int qemu_fclose(QEMUFile *f);
+ 
+diff --git a/migration/ram.c b/migration/ram.c
+index bf321e1e72..01f9cc1d72 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -38,7 +38,6 @@
+ #include "migration.h"
+ #include "migration/register.h"
+ #include "migration/misc.h"
+-#include "migration/qemu-file-channel.h"
+ #include "qemu-file.h"
+ #include "postcopy-ram.h"
+ #include "page_cache.h"
+@@ -569,7 +568,7 @@ static int compress_threads_save_setup(void)
+         /* comp_param[i].file is just used as a dummy buffer to save data,
+          * set its ops to empty.
+          */
+-        comp_param[i].file = qemu_fopen_channel_output(
++        comp_param[i].file = qemu_file_new_output(
+             QIO_CHANNEL(qio_channel_null_new()));
+         comp_param[i].done = true;
+         comp_param[i].quit = false;
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 83265513d9..49e6dba323 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -21,7 +21,6 @@
+ #include "migration.h"
+ #include "qemu-file.h"
+ #include "ram.h"
+-#include "qemu-file-channel.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+@@ -4093,12 +4092,12 @@ static QEMUFile *qemu_fopen_rdma(RDMAContext *rdma, const char *mode)
+     rioc = QIO_CHANNEL_RDMA(object_new(TYPE_QIO_CHANNEL_RDMA));
+ 
+     if (mode[0] == 'w') {
+-        rioc->file = qemu_fopen_channel_output(QIO_CHANNEL(rioc));
++        rioc->file = qemu_file_new_output(QIO_CHANNEL(rioc));
+         rioc->rdmaout = rdma;
+         rioc->rdmain = rdma->return_path;
+         qemu_file_set_hooks(rioc->file, &rdma_write_hooks);
+     } else {
+-        rioc->file = qemu_fopen_channel_input(QIO_CHANNEL(rioc));
++        rioc->file = qemu_file_new_input(QIO_CHANNEL(rioc));
+         rioc->rdmain = rdma;
+         rioc->rdmaout = rdma->return_path;
+         qemu_file_set_hooks(rioc->file, &rdma_read_hooks);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 24a50376dc..e8a1b96fcd 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -37,7 +37,6 @@
+ #include "migration/global_state.h"
+ #include "migration/channel-block.h"
+ #include "ram.h"
+-#include "qemu-file-channel.h"
+ #include "qemu-file.h"
+ #include "savevm.h"
+ #include "postcopy-ram.h"
+@@ -134,9 +133,9 @@ static struct mig_cmd_args {
+ static QEMUFile *qemu_fopen_bdrv(BlockDriverState *bs, int is_writable)
+ {
+     if (is_writable) {
+-        return qemu_fopen_channel_output(QIO_CHANNEL(qio_channel_block_new(bs)));
++        return qemu_file_new_output(QIO_CHANNEL(qio_channel_block_new(bs)));
+     } else {
+-        return qemu_fopen_channel_input(QIO_CHANNEL(qio_channel_block_new(bs)));
++        return qemu_file_new_input(QIO_CHANNEL(qio_channel_block_new(bs)));
+     }
+ }
+ 
+@@ -2159,7 +2158,7 @@ static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
+     bioc->usage += length;
+     trace_loadvm_handle_cmd_packaged_received(ret);
+ 
+-    QEMUFile *packf = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
++    QEMUFile *packf = qemu_file_new_input(QIO_CHANNEL(bioc));
+ 
+     ret = qemu_loadvm_state_main(packf, mis);
+     trace_loadvm_handle_cmd_packaged_main(ret);
+@@ -2917,7 +2916,7 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
+         goto the_end;
+     }
+     qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
+-    f = qemu_fopen_channel_output(QIO_CHANNEL(ioc));
++    f = qemu_file_new_output(QIO_CHANNEL(ioc));
+     object_unref(OBJECT(ioc));
+     ret = qemu_save_device_state(f);
+     if (ret < 0 || qemu_fclose(f) < 0) {
+@@ -2964,7 +2963,7 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
+         return;
+     }
+     qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-load-state");
+-    f = qemu_fopen_channel_input(QIO_CHANNEL(ioc));
++    f = qemu_file_new_input(QIO_CHANNEL(ioc));
+     object_unref(OBJECT(ioc));
+ 
+     ret = qemu_loadvm_state(f);
+diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
+index 6a417bb102..72077b5780 100644
+--- a/tests/unit/test-vmstate.c
++++ b/tests/unit/test-vmstate.c
+@@ -28,7 +28,6 @@
+ #include "migration/vmstate.h"
+ #include "migration/qemu-file-types.h"
+ #include "../migration/qemu-file.h"
+-#include "../migration/qemu-file-channel.h"
+ #include "../migration/savevm.h"
+ #include "qemu/coroutine.h"
+ #include "qemu/module.h"
+@@ -52,9 +51,9 @@ static QEMUFile *open_test_file(bool write)
+     }
+     ioc = QIO_CHANNEL(qio_channel_file_new_fd(fd));
+     if (write) {
+-        f = qemu_fopen_channel_output(ioc);
++        f = qemu_file_new_output(ioc);
+     } else {
+-        f = qemu_fopen_channel_input(ioc);
++        f = qemu_file_new_input(ioc);
+     }
+     object_unref(OBJECT(ioc));
+     return f;
 -- 
 2.36.1
 
