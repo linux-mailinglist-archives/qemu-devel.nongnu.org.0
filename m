@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE776551541
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 12:05:52 +0200 (CEST)
-Received: from localhost ([::1]:58890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563AF551552
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 12:07:56 +0200 (CEST)
+Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3EI3-0004z9-Me
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 06:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
+	id 1o3EK3-0006hC-EE
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 06:07:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1o3EED-0003Lf-5L
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:01:59 -0400
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:35557)
+ id 1o3EGW-0004aA-GU
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:04:17 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:38803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1o3EE9-0004hm-0B
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:01:51 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id a29so16428124lfk.2
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 03:01:47 -0700 (PDT)
+ id 1o3EGU-0004yN-GH
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:04:16 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id a11so2534072ljb.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 03:04:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lRpipmCaJsy5hRD6gpSLN+6ObO+68CVYuezbMKvyqS8=;
- b=WiPFd4CqDIYAvhbpCaMf4y8JPPbwiP+CS4zaLECE6PulCkutXuGBjojOfSUNlxJNFU
- GTXazmrfWOtTt2XoPeSqunRaiaqBXpqgg1cEMs03H4Rt6dJ67TPqfPpKamaIxIaOyBzb
- Z77U+YgUKnF6i88kaByXYgAzQUh+UBwMUOXqZbuCLflWZRyQg1FrBVJLW7UJdvtlqhIu
- BvKqO4I8vgXxNLfVrzEQPZW8ECHa2vCCGciQFxXZb6ZrN0etUyH/kyGwGjSK+7WJ9jaS
- oQuJWUeJiwy5IUo6j4KkVDJudLKGtKsC7gERLaxEgPOlvniGP1EcL+7bUC+N7mkqjt1h
- RE0A==
+ :cc; bh=hp+1LnjMgf5PJiurHEQZA/YtvvUeAljK12a0JyytHFU=;
+ b=l5wOk5LZ9Hn9i7ClQhpoWjAwIjvOi4Jv52PjcvjZm9WL6v1vMjUrU5T/HLrhFtWptK
+ aIott2GsgA+299K45Yjt6yz1MSP9y2iHRmVQtGV4rY4Yo0t6gWgnpPqA6jETpR+nz9RM
+ KOMIlqm4n3QMsmV53k4aQEzYR1DPy3XXQCwJquE5ToMlGwk43Wx0p+SyblzSsSGXSl3m
+ f6qt+6AicIobl/AtCvuS0Qnsu9xYocMQBlm1KORRs00CXR8g21oz85LAecg1fbs2VRiP
+ to4IoX5bKZ4xC3M/K1ImCjzOc60Z6S4QL/yq5J+7mBHcTFKR6KHhoB55yWn5Po62NnGG
+ xhcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=lRpipmCaJsy5hRD6gpSLN+6ObO+68CVYuezbMKvyqS8=;
- b=NhTd7+q0w57IVWRXTPAs6fen5OORbMd91WlY0xRfO28+4hRCzmMwlX/MRM7HLGuyYX
- t1DF8x0Zx6U3cMpOaBHP4/dVUamNRM/WEcgR9/K++ZjmNIzKtEwBB3Sheovy425HCOpC
- MNYvMGv8vuCIoV91vjs+/xSWeKUqzV2qhDsAdxhnapsjnoSUUPu9oYdVKo887ONSHOeJ
- 9dOOc4PX4rfXHrUKJaURnSjMF7bwyb8N52xcaLtvToXxR+ZWpLtr6JHuYWsS0NUlVogF
- MZFW2G7kS4QsA5JotEaH/5pFQp3js7PicChv05RFW5nUBAPbUx+RZojbDYEc4TW024T+
- 980g==
-X-Gm-Message-State: AJIora+cxa6YrDcvvQkmtfBMc/pOXta3S7nq2cT8PHQ0GLoRd0QyWmv0
- bgkjdCx/6pykFShIV782g2V3dZsVHFeYxuXhT9A=
-X-Google-Smtp-Source: AGRyM1s/OatxFz0/zBQzVVC2CEoF37cZpmDpK94AuSzDi8a//HoI5wFn5BwbSuL7Ma4+tEmxtHi07a/E8S/RIcd7sbs=
-X-Received: by 2002:a19:e007:0:b0:479:6860:2972 with SMTP id
- x7-20020a19e007000000b0047968602972mr12805271lfg.341.1655719305607; Mon, 20
- Jun 2022 03:01:45 -0700 (PDT)
+ bh=hp+1LnjMgf5PJiurHEQZA/YtvvUeAljK12a0JyytHFU=;
+ b=7XuGgK7yHPb+iDBktlWExXra+6qcKRC4A8Kt0SI2XU2Oyf6GK1jDgnZWPOM5zBQdt/
+ XxE7PkP2eFd+jrEn1wO1SqhmcFF8sYFuWC8zmoTfvtkaQoe9oP+9SdVT/QHYaTSo/QQY
+ ZmDbc7TbgJecRbvxxv8GsKTmnMVrPVBeWGHahVW/r1nLAQMRBPUgbE1AxDGLi1dsdcbm
+ hboxmKW93o69iHzqhEfY8omKPMnBoxw540GZwxTwJ5FEReaIY/zTKHfnRsxV+zgOegRR
+ FRsyIyPgj/i3AQqKeT8GhY6zLCh3ZFFDCIZ8CG4v81XrGuG0r4ii2qOoXSrKbkQBT8/x
+ jGTQ==
+X-Gm-Message-State: AJIora/4sb0UFPGWp93/XZgXq2dStsphDWIKjb6fJAwgNuqk7eY+uCWQ
+ //xLPmFXzgk4935PfZN8MTrBiQgguxpVoUfdTRc=
+X-Google-Smtp-Source: AGRyM1t3lNvq0otxVw+kV5B0UUXbKEKWhuNDrGvvdK61v0agvoSjtrW/i2z4ZYd7CGsdvL9fa+BzDPx5A9y30zw7epM=
+X-Received: by 2002:a2e:b88e:0:b0:255:953a:8d33 with SMTP id
+ r14-20020a2eb88e000000b00255953a8d33mr10898085ljp.38.1655719452717; Mon, 20
+ Jun 2022 03:04:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220620080451.3711049-1-yangxiaojuan@loongson.cn>
- <20220620080451.3711049-6-yangxiaojuan@loongson.cn>
-In-Reply-To: <20220620080451.3711049-6-yangxiaojuan@loongson.cn>
+ <20220620080451.3711049-2-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220620080451.3711049-2-yangxiaojuan@loongson.cn>
 From: chen huacai <zltjiangshi@gmail.com>
-Date: Mon, 20 Jun 2022 18:01:33 +0800
-Message-ID: <CABDp7VoN4FpKDrKgYoFP60k4J--WeQQ2=Fqyj2NVi614qROCJw@mail.gmail.com>
-Subject: Re: [PATCH 5/8] hw/loongarch: Add fdt support
+Date: Mon, 20 Jun 2022 18:04:00 +0800
+Message-ID: <CABDp7Vp_Z=Ed+S_h0CGhTkEMCUGf1-hKd_v8z7Y7+1qEy-pr_w@mail.gmail.com>
+Subject: Re: [PATCH 1/8] hw/loongarch: Add default bios startup support
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Cc: qemu-level <qemu-devel@nongnu.org>,
  Richard Henderson <richard.henderson@linaro.org>, 
@@ -64,8 +64,8 @@ Cc: qemu-level <qemu-devel@nongnu.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
  Peter Maydell <peter.maydell@linaro.org>, chenhuacai@loongson.cn
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=zltjiangshi@gmail.com; helo=mail-lf1-x12d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-lj1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,245 +90,236 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi, Xiaojuan,
 
-On Mon, Jun 20, 2022 at 4:11 PM Xiaojuan Yang <yangxiaojuan@loongson.cn> wrote:
+On Mon, Jun 20, 2022 at 4:21 PM Xiaojuan Yang <yangxiaojuan@loongson.cn> wrote:
 >
 > Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > ---
->  hw/loongarch/loongson3.c    | 136 +++++++++++++++++++++++++++++++++++-
->  include/hw/loongarch/virt.h |   4 ++
->  target/loongarch/cpu.c      |   1 +
->  target/loongarch/cpu.h      |   3 +
->  4 files changed, 141 insertions(+), 3 deletions(-)
+>  hw/loongarch/fw_cfg.c       | 33 +++++++++++++++
+>  hw/loongarch/fw_cfg.h       | 15 +++++++
+>  hw/loongarch/loongson3.c    | 81 ++++++++++++++++++++++++++++++++++++-
+>  include/hw/loongarch/virt.h |  7 ++++
+>  4 files changed, 135 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/loongarch/fw_cfg.c
+>  create mode 100644 hw/loongarch/fw_cfg.h
 >
-> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-> index cc449a12ae..146f582dbe 100644
-> --- a/hw/loongarch/loongson3.c
-> +++ b/hw/loongarch/loongson3.c
-> @@ -37,6 +37,129 @@
->  #include "qapi/qapi-visit-common.h"
->  #include "hw/acpi/generic_event_device.h"
->  #include "hw/mem/nvdimm.h"
-> +#include "sysemu/device_tree.h"
-> +#include <libfdt.h>
+> diff --git a/hw/loongarch/fw_cfg.c b/hw/loongarch/fw_cfg.c
+> new file mode 100644
+> index 0000000000..a641f603b6
+> --- /dev/null
+> +++ b/hw/loongarch/fw_cfg.c
+> @@ -0,0 +1,33 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * QEMU fw_cfg helpers (LoongArch specific)
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
 > +
-> +static void create_fdt(LoongArchMachineState *lams)
+> +#include "qemu/osdep.h"
+> +#include "hw/loongarch/fw_cfg.h"
+> +#include "hw/loongarch/virt.h"
+> +#include "hw/nvram/fw_cfg.h"
+> +#include "sysemu/sysemu.h"
+> +
+> +static void fw_cfg_boot_set(void *opaque, const char *boot_device,
+> +                            Error **errp)
 > +{
-> +    MachineState *ms = MACHINE(lams);
-> +
-> +    ms->fdt = create_device_tree(&lams->fdt_size);
-> +    if (!ms->fdt) {
-> +        error_report("create_device_tree() failed");
-> +        exit(1);
-> +    }
-> +
-> +    /* Header */
-> +    qemu_fdt_setprop_string(ms->fdt, "/", "compatible",
-> +                            "linux,dummy-loongson3");
-> +    qemu_fdt_setprop_cell(ms->fdt, "/", "#address-cells", 0x2);
-> +    qemu_fdt_setprop_cell(ms->fdt, "/", "#size-cells", 0x2);
+> +    fw_cfg_modify_i16(opaque, FW_CFG_BOOT_DEVICE, boot_device[0]);
 > +}
 > +
-> +static void fdt_add_cpu_nodes(const LoongArchMachineState *lams)
+> +FWCfgState *loongarch_fw_cfg_init(ram_addr_t ram_size, MachineState *ms)
 > +{
-> +    int num;
-> +    const MachineState *ms = MACHINE(lams);
+> +    FWCfgState *fw_cfg;
+> +    int max_cpus = ms->smp.max_cpus;
 > +    int smp_cpus = ms->smp.cpus;
 > +
-> +    qemu_fdt_add_subnode(ms->fdt, "/cpus");
-> +    qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#address-cells", 0x1);
-> +    qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#size-cells", 0x0);
+> +    fw_cfg = fw_cfg_init_mem_wide(FW_CFG_ADDR + 8, FW_CFG_ADDR, 8, 0, NULL);
+> +    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
+> +    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
+> +    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
 > +
-> +    /* cpu nodes */
-> +    for (num = smp_cpus - 1; num >= 0; num--) {
-> +        char *nodename = g_strdup_printf("/cpus/cpu@%d", num);
-> +        LoongArchCPU *cpu = LOONGARCH_CPU(qemu_get_cpu(num));
-> +
-> +        qemu_fdt_add_subnode(ms->fdt, nodename);
-> +        qemu_fdt_setprop_string(ms->fdt, nodename, "device_type", "cpu");
-> +        qemu_fdt_setprop_string(ms->fdt, nodename, "compatible",
-> +                                cpu->dtb_compatible);
-> +        qemu_fdt_setprop_cell(ms->fdt, nodename, "reg", num);
-> +        qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
-> +                              qemu_fdt_alloc_phandle(ms->fdt));
-> +        g_free(nodename);
-> +    }
-> +
-> +    /*cpu map */
-> +    qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
-> +
-> +    for (num = smp_cpus - 1; num >= 0; num--) {
-> +        char *cpu_path = g_strdup_printf("/cpus/cpu@%d", num);
-> +        char *map_path;
-> +
-> +        if (ms->smp.threads > 1) {
-> +            map_path = g_strdup_printf(
-> +                "/cpus/cpu-map/socket%d/core%d/thread%d",
-> +                num / (ms->smp.cores * ms->smp.threads),
-> +                (num / ms->smp.threads) % ms->smp.cores,
-> +                num % ms->smp.threads);
-> +        } else {
-> +            map_path = g_strdup_printf(
-> +                "/cpus/cpu-map/socket%d/core%d",
-> +                num / ms->smp.cores,
-> +                num % ms->smp.cores);
-> +        }
-> +        qemu_fdt_add_path(ms->fdt, map_path);
-> +        qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
-> +
-> +        g_free(map_path);
-> +        g_free(cpu_path);
-> +    }
+> +    qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+> +    return fw_cfg;
 > +}
+> diff --git a/hw/loongarch/fw_cfg.h b/hw/loongarch/fw_cfg.h
+> new file mode 100644
+> index 0000000000..7c0de4db4a
+> --- /dev/null
+> +++ b/hw/loongarch/fw_cfg.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * QEMU fw_cfg helpers (LoongArch specific)
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
 > +
-> +static void fdt_add_fw_cfg_node(const LoongArchMachineState *lams)
-> +{
-> +    char *nodename;
-> +    hwaddr base = FW_CFG_ADDR;
-> +    const MachineState *ms = MACHINE(lams);
+> +#ifndef HW_LOONGARCH_FW_CFG_H
+> +#define HW_LOONGARCH_FW_CFG_H
 > +
-> +    nodename = g_strdup_printf("/fw_cfg@%" PRIx64, base);
-> +    qemu_fdt_add_subnode(ms->fdt, nodename);
-> +    qemu_fdt_setprop_string(ms->fdt, nodename,
-> +                            "compatible", "qemu,fw-cfg-mmio");
-> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-> +                                 2, base, 2, 0x8);
-> +    qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-> +    g_free(nodename);
-> +}
+> +#include "hw/boards.h"
+> +#include "hw/nvram/fw_cfg.h"
 > +
-> +static void fdt_add_pcie_node(const LoongArchMachineState *lams)
-> +{
-> +    char *nodename;
-> +    hwaddr base_mmio = LS7A_PCI_MEM_BASE;
-> +    hwaddr size_mmio = LS7A_PCI_MEM_SIZE;
-> +    hwaddr base_pio = LS7A_PCI_IO_BASE;
-> +    hwaddr size_pio = LS7A_PCI_IO_SIZE;
-> +    hwaddr base_pcie = LS_PCIECFG_BASE;
-> +    hwaddr size_pcie = LS_PCIECFG_SIZE;
-Why not use LS7A_PCIECFG_BASE or even LS7A_PCI_CFG_BASE to keep consistency?
-
-Huacai
-
-> +    hwaddr base = base_pcie;
-> +
-> +    const MachineState *ms = MACHINE(lams);
-> +
-> +    nodename = g_strdup_printf("/pcie@%" PRIx64, base);
-> +    qemu_fdt_add_subnode(ms->fdt, nodename);
-> +    qemu_fdt_setprop_string(ms->fdt, nodename,
-> +                            "compatible", "pci-host-ecam-generic");
-> +    qemu_fdt_setprop_string(ms->fdt, nodename, "device_type", "pci");
-> +    qemu_fdt_setprop_cell(ms->fdt, nodename, "#address-cells", 3);
-> +    qemu_fdt_setprop_cell(ms->fdt, nodename, "#size-cells", 2);
-> +    qemu_fdt_setprop_cell(ms->fdt, nodename, "linux,pci-domain", 0);
-> +    qemu_fdt_setprop_cells(ms->fdt, nodename, "bus-range", 0,
-> +                           PCIE_MMCFG_BUS(LS_PCIECFG_SIZE - 1));
-> +    qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-> +                                 2, base_pcie, 2, size_pcie);
-> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "ranges",
-> +                                 1, FDT_PCI_RANGE_IOPORT, 2, LS7A_PCI_IO_OFFSET,
-> +                                 2, base_pio, 2, size_pio,
-> +                                 1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
-> +                                 2, base_mmio, 2, size_mmio);
-> +    g_free(nodename);
-> +    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
-> +}
-> +
+> +FWCfgState *loongarch_fw_cfg_init(ram_addr_t ram_size, MachineState *ms);
+> +#endif
+> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+> index bd20ebbb78..1e2c69dd8e 100644
+> --- a/hw/loongarch/loongson3.c
+> +++ b/hw/loongarch/loongson3.c
+> @@ -28,13 +28,46 @@
+>  #include "hw/pci-host/ls7a.h"
+>  #include "hw/pci-host/gpex.h"
+>  #include "hw/misc/unimp.h"
+> -
+> +#include "hw/loongarch/fw_cfg.h"
+>  #include "target/loongarch/cpu.h"
 >
 >  #define PM_BASE 0x10080000
 >  #define PM_SIZE 0x100
-> @@ -546,12 +669,12 @@ static void loongarch_init(MachineState *machine)
->          error_report("ram_size must be greater than 1G.");
->          exit(1);
->      }
-> -
-> +    create_fdt(lams);
->      /* Init CPUs */
->      for (i = 0; i < machine->smp.cpus; i++) {
->          cpu_create(machine->cpu_type);
->      }
-> -
-> +    fdt_add_cpu_nodes(lams);
->      /* Add memory region */
->      memory_region_init_alias(&lams->lowmem, NULL, "loongarch.lowram",
->                               machine->ram, 0, 256 * MiB);
-> @@ -572,12 +695,12 @@ static void loongarch_init(MachineState *machine)
->      firmware_loaded = loongarch_firmware_init(lams);
->      lams->fw_cfg = loongarch_fw_cfg_init(ram_size, machine);
->      rom_set_fw(lams->fw_cfg);
-> -
->      if (lams->fw_cfg != NULL) {
->          fw_cfg_add_file(lams->fw_cfg, "etc/memmap",
->                          la_memmap_table,
->                          sizeof(struct la_memmap_entry) * (la_memmap_entries));
->      }
-> +    fdt_add_fw_cfg_node(lams);
->      loaderparams.ram_size = ram_size;
->      loaderparams.kernel_filename = machine->kernel_filename;
->      loaderparams.kernel_cmdline = machine->kernel_cmdline;
-> @@ -594,6 +717,13 @@ static void loongarch_init(MachineState *machine)
->      loongarch_irq_init(lams);
->      lams->machine_done.notify = virt_machine_done;
->      qemu_add_machine_init_done_notifier(&lams->machine_done);
-> +    fdt_add_pcie_node(lams);
+>  #define PM_CTRL 0x10
+>
+> +struct la_memmap_entry {
+> +    uint64_t address;
+> +    uint64_t length;
+> +    uint32_t type;
+> +    uint32_t reserved;
+> +};
 > +
-> +    /* load fdt */
-> +    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
-> +    memory_region_init_rom(fdt_rom, NULL, "fdt", LA_FDT_SIZE, &error_fatal);
-> +    memory_region_add_subregion(get_system_memory(), LA_FDT_BASE, fdt_rom);
-> +    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, LA_FDT_BASE);
+> +static struct la_memmap_entry *la_memmap_table;
+> +static unsigned la_memmap_entries;
+Since they are static, we can drop the la_ prefix here. And if a
+prefix is really needed, I prefer loongarch_ or larch rather than la_.
+
+Huacai
+
+> +
+> +static int la_memmap_add_entry(uint64_t address, uint64_t length, uint32_t type)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < la_memmap_entries; i++) {
+> +        if (la_memmap_table[i].address == address) {
+> +            fprintf(stderr, "%s address:0x%lx length:0x%lx already exists\n",
+> +                     __func__, address, length);
+> +            return 0;
+> +        }
+> +    }
+> +
+> +    la_memmap_table = g_renew(struct la_memmap_entry, la_memmap_table,
+> +                                                      la_memmap_entries + 1);
+> +    la_memmap_table[la_memmap_entries].address = cpu_to_le64(address);
+> +    la_memmap_table[la_memmap_entries].length = cpu_to_le64(length);
+> +    la_memmap_table[la_memmap_entries].type = cpu_to_le32(type);
+> +    la_memmap_entries++;
+> +
+> +    return la_memmap_entries;
+> +}
+> +
+> +
+>  /*
+>   * This is a placeholder for missing ACPI,
+>   * and will eventually be replaced.
+> @@ -279,6 +312,38 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+>      loongarch_devices_init(pch_pic);
 >  }
 >
->  bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
+> +static bool loongarch_firmware_init(LoongArchMachineState *lams)
+> +{
+> +    char *filename = MACHINE(lams)->firmware;
+> +    char *bios_name = NULL;
+> +    bool loaded = false;
+> +    int bios_size;
+> +
+> +    if (filename) {
+> +        bios_name = qemu_find_file(QEMU_FILE_TYPE_BIOS, filename);
+> +        if (!bios_name) {
+> +            error_report("Could not find ROM image '%s'", filename);
+> +            exit(1);
+> +        }
+> +
+> +        bios_size = load_image_targphys(bios_name, LA_BIOS_BASE, LA_BIOS_SIZE);
+> +        if (bios_size < 0) {
+> +            error_report("Could not load ROM image '%s'", bios_name);
+> +            exit(1);
+> +        }
+> +
+> +        g_free(bios_name);
+> +
+> +        memory_region_init_ram(&lams->bios, NULL, "loongarch.bios",
+> +                               LA_BIOS_SIZE, &error_fatal);
+> +        memory_region_set_readonly(&lams->bios, true);
+> +        memory_region_add_subregion(get_system_memory(), LA_BIOS_BASE, &lams->bios);
+> +        loaded = true;
+> +    }
+> +
+> +    return loaded;
+> +}
+> +
+>  static void reset_load_elf(void *opaque)
+>  {
+>      LoongArchCPU *cpu = opaque;
+> @@ -301,6 +366,7 @@ static void loongarch_init(MachineState *machine)
+>      LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+>      LoongArchCPU *lacpu;
+>      int i;
+> +    bool firmware_loaded;
+>      int64_t kernel_addr = 0;
+>
+>      if (!cpu_model) {
+> @@ -327,15 +393,28 @@ static void loongarch_init(MachineState *machine)
+>                               machine->ram, 0, 256 * MiB);
+>      memory_region_add_subregion(address_space_mem, offset, &lams->lowmem);
+>      offset += 256 * MiB;
+> +    la_memmap_add_entry(0, 256 * MiB, 1);
+>      highram_size = ram_size - 256 * MiB;
+>      memory_region_init_alias(&lams->highmem, NULL, "loongarch.highmem",
+>                               machine->ram, offset, highram_size);
+>      memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
+> +    la_memmap_add_entry(0x90000000, highram_size, 1);
+>      /* Add isa io region */
+>      memory_region_init_alias(&lams->isa_io, NULL, "isa-io",
+>                               get_system_io(), 0, LOONGARCH_ISA_IO_SIZE);
+>      memory_region_add_subregion(address_space_mem, LOONGARCH_ISA_IO_BASE,
+>                                  &lams->isa_io);
+> +    /* load the BIOS image. */
+> +    firmware_loaded = loongarch_firmware_init(lams);
+> +    lams->fw_cfg = loongarch_fw_cfg_init(ram_size, machine);
+> +    rom_set_fw(lams->fw_cfg);
+> +
+> +    if (lams->fw_cfg != NULL) {
+> +        fw_cfg_add_file(lams->fw_cfg, "etc/memmap",
+> +                        la_memmap_table,
+> +                        sizeof(struct la_memmap_entry) * (la_memmap_entries));
+> +    }
+> +
+>      if (kernel_filename) {
+>          loaderparams.ram_size = ram_size;
+>          loaderparams.kernel_filename = kernel_filename;
 > diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-> index 63b6917c15..e31ddde045 100644
+> index 09a816191c..448f46fc6b 100644
 > --- a/include/hw/loongarch/virt.h
 > +++ b/include/hw/loongarch/virt.h
-> @@ -28,6 +28,9 @@
->  #define GED_MEM_ADDR (GED_EVT_ADDR + ACPI_GED_EVT_SEL_LEN)
->  #define GED_REG_ADDR (GED_MEM_ADDR + MEMORY_HOTPLUG_IO_LEN)
+> @@ -17,6 +17,9 @@
 >
-> +#define LA_FDT_BASE             0x1c400000
-> +#define LA_FDT_SIZE             0x100000
-> +
+>  #define LOONGARCH_ISA_IO_BASE   0x18000000UL
+>  #define LOONGARCH_ISA_IO_SIZE   0x0004000
+> +#define FW_CFG_ADDR             0x1e020000
+> +#define LA_BIOS_BASE            0x1c000000
+> +#define LA_BIOS_SIZE            (4 * MiB)
+>
 >  struct LoongArchMachineState {
 >      /*< private >*/
->      MachineState parent_obj;
-> @@ -45,6 +48,7 @@ struct LoongArchMachineState {
->      char        *oem_id;
->      char        *oem_table_id;
->      DeviceState *acpi_ged;
-> +    int fdt_size;
+> @@ -26,6 +29,10 @@ struct LoongArchMachineState {
+>      MemoryRegion lowmem;
+>      MemoryRegion highmem;
+>      MemoryRegion isa_io;
+> +    MemoryRegion bios;
+> +
+> +    /* State for other subsystems/APIs: */
+> +    FWCfgState  *fw_cfg;
 >  };
 >
 >  #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
-> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-> index 4c8f96bc3a..401d3fd30a 100644
-> --- a/target/loongarch/cpu.c
-> +++ b/target/loongarch/cpu.c
-> @@ -328,6 +328,7 @@ static void loongarch_la464_initfn(Object *obj)
->          env->cpucfg[i] = 0x0;
->      }
->
-> +    cpu->dtb_compatible = "loongarch,Loongson-3A5000";
->      env->cpucfg[0] = 0x14c010;  /* PRID */
->
->      uint32_t data = 0;
-> diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-> index 71a5036c3c..ce394c3287 100644
-> --- a/target/loongarch/cpu.h
-> +++ b/target/loongarch/cpu.h
-> @@ -326,6 +326,9 @@ struct ArchCPU {
->      CPUNegativeOffsetState neg;
->      CPULoongArchState env;
->      QEMUTimer timer;
-> +
-> +    /* 'compatible' string for this CPU for Linux device trees */
-> +    const char *dtb_compatible;
->  };
->
->  #define TYPE_LOONGARCH_CPU "loongarch-cpu"
 > --
 > 2.31.1
 >
