@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C171552368
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:59:33 +0200 (CEST)
-Received: from localhost ([::1]:58802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76D0552343
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:57:40 +0200 (CEST)
+Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3LgS-000054-Ex
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41698)
+	id 1o3Led-0002gG-AP
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3LZs-0005TQ-31
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:44 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40763)
+ id 1o3LZr-0005UV-Su
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:43 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:36372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3LZp-0001L7-Gm
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:42 -0400
-Received: by mail-pl1-x629.google.com with SMTP id k7so10385861plg.7
+ id 1o3LZq-0001LQ-9z
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:43 -0400
+Received: by mail-pf1-x436.google.com with SMTP id u37so10871622pfg.3
  for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=38/RXM+WBzUHBMMyw1UzayoHMGrAYWzz75ajNBMC4nI=;
- b=ALhXlJpgckf2Tf2jQoui0dflUa2+yJCVBBg/8tL9MsW8LuqDBe5OAQ7B1qunrauCxp
- pVQjyUs1JQDfog5wLLrkDMCpXPisxiEZvALe/j3CTJD2C57OiDZmuUpeRAparqeI9hBY
- AZ0OPlfBDuDfVPv6A6b1IpoHoL3QyvJ0JJLAfx5qotfYnz/vSqnb/wRscjXHKMl4OkyI
- yq2sZDNp666cbZXMOEmYnZUotI6g+0/LB6Wjgstl7UNQpqVNxq3TbILl0NxJGlNEdmjx
- y+l1WQBz6sC+yXX5S8LI8p5y2cTdN6XIYaOdZm5Q9hVzFTL/E4ecH84+fNOWyY7/Bnvh
- TDdw==
+ bh=1PNp/XYs5YunJOFbsiS1iEWGQfYs0LVgbeVjPPzYS3Q=;
+ b=W2pNv0xghyWlimlqi3zh3qQQuVosN6cmLa4DpGRVyBEhuabJdRp6Sc0qsxlI5WULKw
+ T5WDoMWOJIcJ+Ujk90ZRm0GwUag0HjI0UT2sNwf7CZ2uw+YdoYNbRyX7JrngY9Qb4/u0
+ b0eKFuz4elhswytKsTKsaYacizLeC+c3udGBH5L84Y/NmdHtt2kaW/iCyGfZN6KieTz7
+ cRnWPVwbaid+0D9lFqOVBrBu6WrSn53xjNBvH01ODbMHwzhiRsy1YfKDLW9+ese29coi
+ jhLXRn/5UVGBocLVmQcjAKn0/OptSSedZSkCdSd0rPf2lwtPJdHKH4XeJu3i1pwXr19U
+ +Gyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=38/RXM+WBzUHBMMyw1UzayoHMGrAYWzz75ajNBMC4nI=;
- b=z0moRp03oadaDQFPg0zQtR869GUqfhHcnbwzmf7SY0ciUyetfxhM5pfjS4yHps3t5r
- vmkXe3dxEQ1KcZJit6BtaKAiIHm/00rUfoGLXAaPKsw4hCLtvQg6wqh1yeEyFwPfVF3B
- tshn6UxUFdQ2CGf5D4cokrhG6KuxXBpFzFZEsaUhlYTCbLzPv+IKS/+pPVMy///aNkQi
- 9vdqwZFqE/WqibcimNA44FyCMp9GR9iJStBUaPcP6N+b9k7toh94kJImmIZLzvEm7UkX
- eMinIVVifj7znX+1vF8ajo4MIgCcWgVFqpg1sS5mDLa6iMxKx+OkSeFfrS/lWcVrdAwz
- QHJQ==
-X-Gm-Message-State: AJIora/TxderrzS9Kz7tRbZAU9vM4dKi7ZsqklJPuaPo+87MQ/a+KgfC
- QnpThV4juwrMnI+LpqMg8xRLZ5zVtjLvIg==
-X-Google-Smtp-Source: AGRyM1tztUT1xbW3o8rNoA/ypgWurJI2H2UETXSwaGgFXWk/8dMzsS1WIWsYIlTtCXdL4pfgiVXHlg==
-X-Received: by 2002:a17:903:2494:b0:168:fee7:6daa with SMTP id
- p20-20020a170903249400b00168fee76daamr24474943plw.39.1655747560186; 
+ bh=1PNp/XYs5YunJOFbsiS1iEWGQfYs0LVgbeVjPPzYS3Q=;
+ b=00aMttAq1JaW9DiyyRJnaIz29PCjJ7Ebt/23a8Qtjrb1kJ+QgMp0fhT1wwKrGqYNVw
+ o+2RivGDMfFs+gRJFHPEFu0grH12gdrvNI3Xvn0skqh98cLvwyVPD7SyVdJT0wywdrrs
+ 7Z08RKJutyv7iXujkFNdkNMFjgLXAa9kluJ9IMx1hDOYW0SmMFoqVoMcAbvz0W3iSDPt
+ n8T9p/JqBrXqs+H8i54y3Tf8+bfqCkhptIntKQiDVhrKVntePGeIx7eypphnmcKpOsuP
+ Nc5AJkwLxq+CrJ3XM+W8wg52R9hf19ZGWjGUMT70DBi3BLU5dLGUgMx3Aw2rUNu+15au
+ SiUg==
+X-Gm-Message-State: AJIora+mqexg9sYoRRvOrCIPXbIwKiucJvEvjSYLum8SYhfQSoEejBPX
+ J36++lOVyt/EaOcD/BpSU1p9THsZ7zCmpg==
+X-Google-Smtp-Source: AGRyM1vToTQVDg0HBhjuOwLPaXfItQxwved561VAUh5cL6OHq2rqdMtrqiPR2Gj3WqXp404LeyeD9Q==
+X-Received: by 2002:a63:3d46:0:b0:40c:76b1:3eda with SMTP id
+ k67-20020a633d46000000b0040c76b13edamr12151718pga.48.1655747560917; 
  Mon, 20 Jun 2022 10:52:40 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
  by smtp.gmail.com with ESMTPSA id
- j14-20020aa7928e000000b00525133f98adsm5138138pfa.146.2022.06.20.10.52.39
+ j14-20020aa7928e000000b00525133f98adsm5138138pfa.146.2022.06.20.10.52.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 10:52:39 -0700 (PDT)
+ Mon, 20 Jun 2022 10:52:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 04/51] target/arm: Add ARM_CP_SME
-Date: Mon, 20 Jun 2022 10:51:48 -0700
-Message-Id: <20220620175235.60881-5-richard.henderson@linaro.org>
+Subject: [PATCH v3 05/51] target/arm: Add SVCR
+Date: Mon, 20 Jun 2022 10:51:49 -0700
+Message-Id: <20220620175235.60881-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220620175235.60881-1-richard.henderson@linaro.org>
 References: <20220620175235.60881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,67 +89,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be used for controlling access to SME cpregs.
+This cpreg is used to access two new bits of PSTATE
+that are not visible via any other mechanism.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpregs.h        |  5 +++++
- target/arm/translate-a64.c | 18 ++++++++++++++++++
- 2 files changed, 23 insertions(+)
+ target/arm/cpu.h    |  6 ++++++
+ target/arm/helper.c | 13 +++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index d9b678c2f1..d30758ee71 100644
---- a/target/arm/cpregs.h
-+++ b/target/arm/cpregs.h
-@@ -113,6 +113,11 @@ enum {
-     ARM_CP_EL3_NO_EL2_UNDEF      = 1 << 16,
-     ARM_CP_EL3_NO_EL2_KEEP       = 1 << 17,
-     ARM_CP_EL3_NO_EL2_C_NZ       = 1 << 18,
-+    /*
-+     * Flag: Access check for this sysreg is constrained by the
-+     * ARM pseudocode function CheckSMEAccess().
-+     */
-+    ARM_CP_SME                   = 1 << 19,
- };
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index e99de18097..bb8cb959d1 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -258,6 +258,7 @@ typedef struct CPUArchState {
+      *  nRW (also known as M[4]) is kept, inverted, in env->aarch64
+      *  DAIF (exception masks) are kept in env->daif
+      *  BTYPE is kept in env->btype
++     *  SM and ZA are kept in env->svcr
+      *  all other bits are stored in their correct places in env->pstate
+      */
+     uint32_t pstate;
+@@ -292,6 +293,7 @@ typedef struct CPUArchState {
+     uint32_t condexec_bits; /* IT bits.  cpsr[15:10,26:25].  */
+     uint32_t btype;  /* BTI branch type.  spsr[11:10].  */
+     uint64_t daif; /* exception masks, in the bits they are in PSTATE */
++    uint64_t svcr; /* PSTATE.{SM,ZA} in the bits they are in SVCR */
  
- /*
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 9a285dd177..8f609f46b6 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1187,6 +1187,22 @@ bool sve_access_check(DisasContext *s)
-     return fp_access_check(s);
+     uint64_t elr_el[4]; /* AArch64 exception link regs  */
+     uint64_t sp_el[4]; /* AArch64 banked stack pointers */
+@@ -1428,6 +1430,10 @@ FIELD(CPTR_EL3, TCPAC, 31, 1)
+ #define PSTATE_MODE_EL1t 4
+ #define PSTATE_MODE_EL0t 0
+ 
++/* PSTATE bits that are accessed via SVCR and not stored in SPSR_ELx. */
++FIELD(SVCR, SM, 0, 1)
++FIELD(SVCR, ZA, 1, 1)
++
+ /* Write a new value to v7m.exception, thus transitioning into or out
+  * of Handler mode; this may result in a change of active stack pointer.
+  */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 2c080c6cac..3acc1dc378 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6349,11 +6349,24 @@ static CPAccessResult access_tpidr2(CPUARMState *env, const ARMCPRegInfo *ri,
+     return CP_ACCESS_OK;
  }
  
-+/*
-+ * Check that SME access is enabled, raise an exception if not.
-+ * Note that this function corresponds to CheckSMEAccess and is
-+ * only used directly for cpregs.
-+ */
-+static bool sme_access_check(DisasContext *s)
++static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                       uint64_t value)
 +{
-+    if (s->sme_excp_el) {
-+        gen_exception_insn_el(s, s->pc_curr, EXCP_UDEF,
-+                              syn_smetrap(SME_ET_AccessTrap, false),
-+                              s->sme_excp_el);
-+        return false;
-+    }
-+    return true;
++    value &= R_SVCR_SM_MASK | R_SVCR_ZA_MASK;
++    /* TODO: Side effects. */
++    env->svcr = value;
 +}
 +
- /*
-  * This utility function is for doing register extension with an
-  * optional shift. You will likely want to pass a temporary for the
-@@ -1958,6 +1974,8 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
-         return;
-     } else if ((ri->type & ARM_CP_SVE) && !sve_access_check(s)) {
-         return;
-+    } else if ((ri->type & ARM_CP_SME) && !sme_access_check(s)) {
-+        return;
-     }
+ static const ARMCPRegInfo sme_reginfo[] = {
+     { .name = "TPIDR2_EL0", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 3, .crn = 13, .crm = 0, .opc2 = 5,
+       .access = PL0_RW, .accessfn = access_tpidr2,
+       .fieldoffset = offsetof(CPUARMState, cp15.tpidr2_el0) },
++    { .name = "SVCR", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 3, .crn = 4, .crm = 2, .opc2 = 2,
++      .access = PL0_RW, .type = ARM_CP_SME,
++      .fieldoffset = offsetof(CPUARMState, svcr),
++      .writefn = svcr_write, .raw_writefn = raw_write },
+ };
+ #endif /* TARGET_AARCH64 */
  
-     if ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) && (ri->type & ARM_CP_IO)) {
 -- 
 2.34.1
 
