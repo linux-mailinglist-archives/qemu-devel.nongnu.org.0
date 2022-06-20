@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE95552367
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:59:32 +0200 (CEST)
-Received: from localhost ([::1]:59002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F273552372
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 20:02:58 +0200 (CEST)
+Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3LgR-0000FR-Fl
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42310)
+	id 1o3Ljl-00061o-51
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 14:02:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3La5-00067v-1n
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:57 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:45817)
+ id 1o3LZt-0005aZ-RS
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:45 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:44650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3La1-0001Sr-Ob
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:56 -0400
-Received: by mail-pf1-x432.google.com with SMTP id 128so3865217pfv.12
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:52:53 -0700 (PDT)
+ id 1o3LZr-0001M7-27
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:45 -0400
+Received: by mail-pg1-x534.google.com with SMTP id a14so1282696pgh.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GesrIHFMTO3ZtieooBkDR9w2srxIqgw/UObtz7kR7Fg=;
- b=AEzUSW4qGELEI/OfU+TDrrcFyo/U5Zn7asQ38D/i6zOCeoIQOZOBDbVUYJ/evSyQpi
- rN/vZPc8TgMg29E35HOkwq5ABbfg+XRQ8dWzp94P7sN5IclOiDB4ogsD46ozk1wO4JPp
- TUxpRb0O3vTilO0K0I94DN4QqgRGzBi9lZTqLBI8oiPmA8PUsgZ7ub+0DLBvEyGJ+pmn
- kSRzYw4a9PyV4UFpHNM6WZwxaECMVIFSv26DMmo7YqOe2DrFEWhaY7FiEvkOZU0Qewj+
- ChN1JXBBvO8w3nJ6BZ934Ru/3qs7vsROSCAaVi568LPWo1WiRI14n1E6yEDuz/JVzxC1
- mBxg==
+ bh=OZpiX7LtYWl5urPMXRvMPogY6FpHDH7uieDT8X+wM0g=;
+ b=lyS9bEfs/KFTbXGWofRu6KoP7tqbOIpCvJ4ClsMshs78OyVyFKzilzf10KGhyfK2+b
+ nl4iYxqEJaTJgEND6SZ9YLlDUQS1g72ePk6/BsesxM07aj8JHpG+DpvkBE451hW4q59c
+ wL1DMTPGY+naQqi8F68KOG9u+HVckanQBaB1EoyLMlEC+gjQIxU0kj96wo2TzVdKl5gN
+ 4XDDIBvZx3CT/Xmuqtjg2Tt7P8i8XmYoGByh7y3IMNhn7DU0XwoBnACN7SGgnpkauP6k
+ z7Tu3F6P77qkeHjSAQwuTgPdweZ3JglCZ703+1hpGU2nG5BtU4sWmsk+M2gWECoBklLl
+ lXZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GesrIHFMTO3ZtieooBkDR9w2srxIqgw/UObtz7kR7Fg=;
- b=n9wS/Odti6aEskbAKPeFrG7zXLzhfcGqwSHrUMwrE6vtrN//WvWgYW1sQc7PMZ8yin
- 3OpLZ5Sf06I4rTRcu1IE/z+/c3fWr0qS6SmHlilIEFle0opBa1CsU3DBDU7wxJaJtbIQ
- GpXr4pRvrNeRJtne6VH2qL5/ITkbYqQcB94IfxN98/9BNZlkRlFioujE3gPdHne5ZXJr
- lDorEGhAqLAYeHzYOzgYkQCKL8C3w0t6c92kMrQyh8Nyx+hNYMt2y3kstzY+WxuOAlMr
- LwGfL5b9plQio08It91m3iLl2Ynm/ElmxrtTdad4j9jtLAieS6nNOx07N2Y7tLSuKfvD
- byTw==
-X-Gm-Message-State: AJIora8Ll9iC7ATLmLidWsXdV4qPN6kQYmFWYUO6+8Eepym079eJDaZh
- M6DFaEdgAFnP2+nssTknPfKE1XMQbLCGZA==
-X-Google-Smtp-Source: AGRyM1sqeTtZU86cEtBq9mIIRRG8FuFeF7xayU3gMpa6yJCA0qAFBRTRIiyaDdha4PRod7mQeNju0w==
-X-Received: by 2002:a63:7e1a:0:b0:40c:c3b9:f97c with SMTP id
- z26-20020a637e1a000000b0040cc3b9f97cmr4945563pgc.498.1655747572433; 
- Mon, 20 Jun 2022 10:52:52 -0700 (PDT)
+ bh=OZpiX7LtYWl5urPMXRvMPogY6FpHDH7uieDT8X+wM0g=;
+ b=GMYTKiDiB2VNu9oPv1dWxIas0yd6RgiAlI4LCPgk1Rfs3t+EQiexO8MaS5nC/L9eeb
+ YOax83Bj6ANi1x9tYZX4X6Jj7p+pdGJUI1JGDSoDEJ1+mbVsDCzJq2ydhU9ssQwoaeI6
+ ONZ7AcinJ9BMQW1a/L4U+QK0L21TXgB6Ykp6aWXY3B0NiYgHjn3AfPQP55D+1s0h+aZm
+ 8CBw7XETs4mFgYVLzmHiKzXM974SgmPmGfh0W+dmSrEIh5sjFXLdDqXUmGTOipiKu1I/
+ RJYJMBPJ/XZetn/JvlYLXFWxqEBQL67Po7skEq09gGb0eAQosV8hjU+tJe0xGk57cMaf
+ vjtQ==
+X-Gm-Message-State: AJIora/DmvfrQzG0Ked5Va+Pl6/KAF9VGvZRJdyVrMwRTjNA4h+QHALk
+ 4Er5jVzY/nmeOrDgmJHb8vMHv64LpNDD1Q==
+X-Google-Smtp-Source: AGRyM1tz8a2ceSWO/tom5njRTeJrm8lON0RCjUyvoSrkdJgDBEOWaIu7mV/JIdyv5Rx9H2BYm6xyBA==
+X-Received: by 2002:a05:6a00:1496:b0:525:33c5:9c1e with SMTP id
+ v22-20020a056a00149600b0052533c59c1emr650276pfu.31.1655747561689; 
+ Mon, 20 Jun 2022 10:52:41 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
  by smtp.gmail.com with ESMTPSA id
- j14-20020aa7928e000000b00525133f98adsm5138138pfa.146.2022.06.20.10.52.51
+ j14-20020aa7928e000000b00525133f98adsm5138138pfa.146.2022.06.20.10.52.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 10:52:51 -0700 (PDT)
+ Mon, 20 Jun 2022 10:52:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 18/51] target/arm: Introduce sve_vqm1_for_el_sm
-Date: Mon, 20 Jun 2022 10:52:02 -0700
-Message-Id: <20220620175235.60881-19-richard.henderson@linaro.org>
+Subject: [PATCH v3 06/51] target/arm: Add SMCR_ELx
+Date: Mon, 20 Jun 2022 10:51:50 -0700
+Message-Id: <20220620175235.60881-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220620175235.60881-1-richard.henderson@linaro.org>
 References: <20220620175235.60881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,99 +89,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When Streaming SVE mode is enabled, the size is taken from
-SMCR_ELx instead of ZCR_ELx.  The format is shared, but the
-set of vector lengths is not.  Further, Streaming SVE does
-not require any particular length to be supported.
-
-Adjust sve_vqm1_for_el to pass the current value of PSTATE.SM
-to the new function.
+These cpregs control the streaming vector length and whether the
+full a64 instruction set is allowed while in streaming mode.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h    |  9 +++++++--
- target/arm/helper.c | 32 +++++++++++++++++++++++++-------
- 2 files changed, 32 insertions(+), 9 deletions(-)
+ target/arm/cpu.h    |  8 ++++++--
+ target/arm/helper.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 8b00d29af4..244f8428e9 100644
+index bb8cb959d1..dec52c6c3b 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -1140,13 +1140,18 @@ int sve_exception_el(CPUARMState *env, int cur_el);
- int sme_exception_el(CPUARMState *env, int cur_el);
+@@ -669,8 +669,8 @@ typedef struct CPUArchState {
+         float_status standard_fp_status;
+         float_status standard_fp_status_f16;
  
- /**
-- * sve_vqm1_for_el:
-+ * sve_vqm1_for_el_sm:
-  * @env: CPUARMState
-  * @el: exception level
-+ * @sm: streaming mode
-  *
-- * Compute the current SVE vector length for @el, in units of
-+ * Compute the current vector length for @el & @sm, in units of
-  * Quadwords Minus 1 -- the same scale used for ZCR_ELx.LEN.
-+ * If @sm, compute for SVL, otherwise NVL.
-  */
-+uint32_t sve_vqm1_for_el_sm(CPUARMState *env, int el, bool sm);
+-        /* ZCR_EL[1-3] */
+-        uint64_t zcr_el[4];
++        uint64_t zcr_el[4];   /* ZCR_EL[1-3] */
++        uint64_t smcr_el[4];  /* SMCR_EL[1-3] */
+     } vfp;
+     uint64_t exclusive_addr;
+     uint64_t exclusive_val;
+@@ -1434,6 +1434,10 @@ FIELD(CPTR_EL3, TCPAC, 31, 1)
+ FIELD(SVCR, SM, 0, 1)
+ FIELD(SVCR, ZA, 1, 1)
+ 
++/* Fields for SMCR_ELx. */
++FIELD(SMCR, LEN, 0, 4)
++FIELD(SMCR, FA64, 31, 1)
 +
-+/* Likewise, but using @sm = PSTATE.SM. */
- uint32_t sve_vqm1_for_el(CPUARMState *env, int el);
- 
- static inline bool is_a64(CPUARMState *env)
+ /* Write a new value to v7m.exception, thus transitioning into or out
+  * of Handler mode; this may result in a change of active stack pointer.
+  */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a80ca461e5..2e4e739969 100644
+index 3acc1dc378..2072f2a550 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6272,23 +6272,41 @@ int sme_exception_el(CPUARMState *env, int el)
- /*
-  * Given that SVE is enabled, return the vector length for EL.
-  */
--uint32_t sve_vqm1_for_el(CPUARMState *env, int el)
-+uint32_t sve_vqm1_for_el_sm(CPUARMState *env, int el, bool sm)
- {
-     ARMCPU *cpu = env_archcpu(env);
--    uint32_t len = cpu->sve_max_vq - 1;
-+    uint64_t *cr = env->vfp.zcr_el;
-+    uint32_t map = cpu->sve_vq.map;
-+    uint32_t len = ARM_MAX_VQ - 1;
-+
-+    if (sm) {
-+        cr = env->vfp.smcr_el;
-+        map = cpu->sme_vq.map;
-+    }
+@@ -5879,6 +5879,8 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
+          */
+         { K(3, 0,  1, 2, 0), K(3, 4,  1, 2, 0), K(3, 5, 1, 2, 0),
+           "ZCR_EL1", "ZCR_EL2", "ZCR_EL12", isar_feature_aa64_sve },
++        { K(3, 0,  1, 2, 6), K(3, 4,  1, 2, 6), K(3, 5, 1, 2, 6),
++          "SMCR_EL1", "SMCR_EL2", "SMCR_EL12", isar_feature_aa64_sme },
  
-     if (el <= 1 && !el_is_in_host(env, el)) {
--        len = MIN(len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
-+        len = MIN(len, 0xf & (uint32_t)cr[1]);
-     }
-     if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
--        len = MIN(len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
-+        len = MIN(len, 0xf & (uint32_t)cr[2]);
-     }
-     if (arm_feature(env, ARM_FEATURE_EL3)) {
--        len = MIN(len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
-+        len = MIN(len, 0xf & (uint32_t)cr[3]);
-     }
- 
--    len = 31 - clz32(cpu->sve_vq.map & MAKE_64BIT_MASK(0, len + 1));
--    return len;
-+    map &= MAKE_64BIT_MASK(0, len + 1);
-+    if (map != 0) {
-+        return 31 - clz32(map);
-+    }
-+
-+    /* Bit 0 is always set for Normal SVE -- not so for Streaming SVE. */
-+    assert(sm);
-+    return ctz32(cpu->sme_vq.map);
-+}
-+
-+uint32_t sve_vqm1_for_el(CPUARMState *env, int el)
-+{
-+    return sve_vqm1_for_el_sm(env, el, FIELD_EX64(env->svcr, SVCR, SM));
+         { K(3, 0,  5, 6, 0), K(3, 4,  5, 6, 0), K(3, 5, 5, 6, 0),
+           "TFSR_EL1", "TFSR_EL2", "TFSR_EL12", isar_feature_aa64_mte },
+@@ -6357,6 +6359,30 @@ static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     env->svcr = value;
  }
  
- static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
++static void smcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                       uint64_t value)
++{
++    int cur_el = arm_current_el(env);
++    int old_len = sve_vqm1_for_el(env, cur_el);
++    int new_len;
++
++    QEMU_BUILD_BUG_ON(ARM_MAX_VQ > R_SMCR_LEN_MASK + 1);
++    value &= R_SMCR_LEN_MASK | R_SMCR_FA64_MASK;
++    raw_write(env, ri, value);
++
++    /*
++     * Note that it is CONSTRAINED UNPREDICTABLE what happens to ZA storage
++     * when SVL is widened (old values kept, or zeros).  Choose to keep the
++     * current values for simplicity.  But for QEMU internals, we must still
++     * apply the narrower SVL to the Zregs and Pregs -- see the comment
++     * above aarch64_sve_narrow_vq.
++     */
++    new_len = sve_vqm1_for_el(env, cur_el);
++    if (new_len < old_len) {
++        aarch64_sve_narrow_vq(env, new_len + 1);
++    }
++}
++
+ static const ARMCPRegInfo sme_reginfo[] = {
+     { .name = "TPIDR2_EL0", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 3, .crn = 13, .crm = 0, .opc2 = 5,
+@@ -6367,6 +6393,21 @@ static const ARMCPRegInfo sme_reginfo[] = {
+       .access = PL0_RW, .type = ARM_CP_SME,
+       .fieldoffset = offsetof(CPUARMState, svcr),
+       .writefn = svcr_write, .raw_writefn = raw_write },
++    { .name = "SMCR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 1, .crm = 2, .opc2 = 6,
++      .access = PL1_RW, .type = ARM_CP_SME,
++      .fieldoffset = offsetof(CPUARMState, vfp.smcr_el[1]),
++      .writefn = smcr_write, .raw_writefn = raw_write },
++    { .name = "SMCR_EL2", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 2, .opc2 = 6,
++      .access = PL2_RW, .type = ARM_CP_SME,
++      .fieldoffset = offsetof(CPUARMState, vfp.smcr_el[2]),
++      .writefn = smcr_write, .raw_writefn = raw_write },
++    { .name = "SMCR_EL3", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 2, .opc2 = 6,
++      .access = PL3_RW, .type = ARM_CP_SME,
++      .fieldoffset = offsetof(CPUARMState, vfp.smcr_el[3]),
++      .writefn = smcr_write, .raw_writefn = raw_write },
+ };
+ #endif /* TARGET_AARCH64 */
+ 
 -- 
 2.34.1
 
