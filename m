@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B89F551772
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:30:12 +0200 (CEST)
-Received: from localhost ([::1]:41356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965BD55177A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:33:05 +0200 (CEST)
+Received: from localhost ([::1]:44376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Fbf-0000ge-4o
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:30:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37952)
+	id 1o3FeS-0002oM-5C
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:33:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1o3FUH-0008TI-Fz; Mon, 20 Jun 2022 07:22:35 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:36385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1o3FUE-0003vm-32; Mon, 20 Jun 2022 07:22:32 -0400
-Received: by mail-lj1-x232.google.com with SMTP id s14so4799442ljs.3;
- Mon, 20 Jun 2022 04:22:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ktQyS9qe1Zi57yRP9diYDunebGgZrbzRWtPn8/Ak/bY=;
- b=nQG93lV3NGGx/S8Y92oAEtLLIs2ck740MJd8P7uzVenJ2WvsoXanydwypswlrZ6B5l
- 7/rxS52ZZoxM4vZfyeSZ2/9BNmX1zW4YuGsoQDWSugDfi5xhuhwPGvLY1YCFPSHLm60j
- /80A+n3BWtrCLW2HjjonvBPS3B+dMRCbd8WXjX6w1HtZgYwfjjV7rm/Vg2ALUDQgSK6s
- xlgIFqLh8WO6I1DZqf5Xyt4/CpJ+XUHpwu1rLGqMWuEJwjjqoMkcv9FVtvhVjgZWZj4x
- 7bOKglHIsGrPqFwaiPK+SLOf5LnRH7qWYIyMm1VjfLKQ+odgyl6tGQrk8uoPuQHk4lR9
- ChJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ktQyS9qe1Zi57yRP9diYDunebGgZrbzRWtPn8/Ak/bY=;
- b=VXEdeE4my6OWr7UfGeWHjWrKp+INBXfHlXIQPudzuDnNRWCAU7GTW9ue5mbrSDeuaf
- o8+S9TtlrHc1Q7gEzLVCS7cLuLuPdsgpBMkUsptEeaPFmlFKyJPBKYnkKkUA+mi00XnM
- HDoWIONHcIcgpmHr+lyy0vt1flVMocZksPpiAURHSA7QwqgaNFIt0GZWnG2eDe5Cap82
- Baagv6CvV8K2Q/wSpcoceNWQYLx1QWbFZr3OQyKvfai8RB9WufEp6nxF9XhvsRtNPWys
- te243vYzh0rqQJd2AklLabOZmbG7RFo9o5wmPRu3NSyGeU6aqn9wH7xgt545RIL/cfcD
- Vtxw==
-X-Gm-Message-State: AJIora9+ie2ZrSkHKvP5amX5xWjzMdXcBP/WtEouggFgCBNTXOZqXwyo
- BLFHW2L0z6TRmU2/+9Jx8e0=
-X-Google-Smtp-Source: AGRyM1tiQXcmlq2pvo+ycB0b2EJ0Y0WkvOzOfCtgPGkjRFn5g2QPIM3Ri76k7vTOg6NEUy/R3g9tIQ==
-X-Received: by 2002:a2e:b708:0:b0:258:e01f:bce0 with SMTP id
- j8-20020a2eb708000000b00258e01fbce0mr11187462ljo.494.1655724146660; 
- Mon, 20 Jun 2022 04:22:26 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- g2-20020a2eb0c2000000b002555d6ca497sm1604724ljl.115.2022.06.20.04.22.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 04:22:25 -0700 (PDT)
-Date: Mon, 20 Jun 2022 13:22:23 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Dan Zhang <dz4list@gmail.com>
-Cc: qemu-devel@nongnu.org, clg@kaod.org, alistair@alistair23.me,
- andrew@aj.id.au, hreitz@redhat.com, irischenlj@fb.com,
- irischenlj@gmail.com, joel@jms.id.au, kwolf@redhat.com,
- lvivier@redhat.com, patrick@stwcx.xyz, pbonzini@redhat.com,
- pdel@fb.com, peter.maydell@linaro.org, qemu-arm@nongnu.org,
- qemu-block@nongnu.org, thuth@redhat.com
-Subject: Re: [PATCH] hw:m25p80: Add STATE_STANDBY command state
-Message-ID: <20220620112220.GA10802@fralle-msi>
-References: <20220614200205.2945065-1-dz4list@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o3FaX-0000er-VN
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:29:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52739)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o3FaV-0005HP-1e
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:29:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655724537;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qHVF4FisVUZQHRY7iFZ281+nRBrywW1NdPEPtvm4mZs=;
+ b=M7o94apf2dWjo/UKQM+4fv76K802yFMvl84csigzI82sd7gnQVcOxjJfxwvrd5b6Fw3nZA
+ /JPSTRCmqWP/Qe8f9GcFXYUSzLOOV8xxgi4311gi8MoNNBNLyzkpUF5JTfCb12QXGA6M+D
+ LNO3HNonbKvvxflYRV1C6Hs4104Qm5w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-383-HuG6AFfHMCasWrKhcRpTSQ-1; Mon, 20 Jun 2022 07:28:54 -0400
+X-MC-Unique: HuG6AFfHMCasWrKhcRpTSQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03D89811E7A;
+ Mon, 20 Jun 2022 11:28:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B0D5492C3B;
+ Mon, 20 Jun 2022 11:28:53 +0000 (UTC)
+Date: Mon, 20 Jun 2022 12:28:52 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org,
+ dmitry.fomichev@wdc.com, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, hare@suse.de
+Subject: Re: [RFC v2] Adding block layer APIs resembling Linux
+ ZoneBlockDevice ioctls.
+Message-ID: <YrBZ9JPABRLlEA5d@stefanha-x1.localdomain>
+References: <20220620033611.82166-1-faithilikerun@gmail.com>
+ <YrAn2f4ORFziZ8vk@stefanha-x1.localdomain>
+ <61cbccee-c865-1765-bf62-b74da130d62f@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6/IdY7giwqYvFqDK"
 Content-Disposition: inline
-In-Reply-To: <20220614200205.2945065-1-dz4list@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x232.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+In-Reply-To: <61cbccee-c865-1765-bf62-b74da130d62f@opensource.wdc.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,66 +85,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dan,
 
-On [2022 Jun 14] Tue 13:02:05, Dan Zhang wrote:
-> HW normally will switch it to stand by mode when receive incorrect
-> command.
-> i.e. Macronix MX66L1G45G data sheet section 8 DEVICE OPERATION described
-> ```
-> 2. When an incorrect command is written to this device, it enters
-> standby mode and stays in standby mode until the next CS# falling edge.
-> In standby mode, This device's SO pin should be High-Z.
-> ```
-> Add STATE_STANDBY CMDState and let the device ignore all input and keep
-> SO as HIZ (output 1)
-> 
-> Signed-off-by: Dan Zhang <dz4list@gmail.com>
-> ---
-> A usage of this new state can be aborting in HPM checking 
-> or unknown command code received.
-> 
->  hw/block/m25p80.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index b6bd430a99..9f89773b11 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -423,6 +423,7 @@ typedef enum {
->      STATE_COLLECTING_DATA,
->      STATE_COLLECTING_VAR_LEN_DATA,
->      STATE_READING_DATA,
-> +    STATE_STANDBY,
+--6/IdY7giwqYvFqDK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Should we enter the state also? (Otherwise we will be adding code that is
-unused).
+On Mon, Jun 20, 2022 at 07:11:40PM +0900, Damien Le Moal wrote:
+> On 6/20/22 16:55, Stefan Hajnoczi wrote:
+> > On Mon, Jun 20, 2022 at 11:36:11AM +0800, Sam Li wrote:
+> >> +    uint32_t nr_zones;
+> >=20
+> > Should this really be limited to 32-bit? For example, take 256 MB zones,
+> > then the max nr_zones * 256 MB is much smaller than a uint64_t capacity
+> > value. It seems safer to make this 64-bit, but maybe Dmitry, Hannes, or
+> > Damien can tell us what to do here.
+>=20
+> u32 is fine. We are nowhere near 4G zones :)
+> The max out there today is 20TB SMR drive with 128MB zones. About 150,000
+> zones. Nowhere near 4G limit. Linux kernel also uses unsigned int for
+> number of zones everywhere.
 
->  } CMDState;
->  
->  typedef enum {
-> @@ -1472,6 +1473,9 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
->                            s->cur_addr, (uint8_t)tx);
->  
->      switch (s->state) {
-> +    case STATE_STANDBY:
-> +        r = 0xFFFFFFFF; /* StandBy state SO shall be HiZ */
+Thanks!
 
-0xFF should be enough here (since we are dealing with 8 bits, e.g.
-m25p80_transfer8). More safe is probably to return 0 though and see this as if
-a pulldown was connected to the line instead (this because r has been default
-to 0 and was the most likely return value before in this situation). If you
-would agree we can remove above line.
+Stefan
 
-Thanks,
-Best regards,
-Francisco Iglesias
+--6/IdY7giwqYvFqDK
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +        break;
->  
->      case STATE_PAGE_PROGRAM:
->          trace_m25p80_page_program(s, s->cur_addr, (uint8_t)tx);
-> -- 
-> 2.34.3
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmKwWfQACgkQnKSrs4Gr
+c8jbVAf/YA3Krt2Juv7xMKL98/mT8HASDHLnNpDQwCrkbea4GS2JyYVQ1P0rJicE
+vIB/86NH7CZlbjrDUFjOxWiIUoxOEW1BPBy/kUeAWKuwT5Le2ka6Xc6an15b1yIB
+s0xxu8cIuIhn4RxfXsXabszM3HrTVG0BIh0dZSy3IEsMvicUdBZkVfpQ9El3pMq4
+u4cdEcBqgdHKf2hlACniYSGcDzem1XorrjcqbwBnLBC3Plgn/qKcMrWJqLBXJIqv
+XF0CvByZcteqk15hWjyh9xWkymId8qUD2P6F4IqQ+0j5WqpZiQ6dw4tB/8izf5ix
+6Fe1aULdTPY1LFoR3lEwUBM3v4iO5w==
+=ec8A
+-----END PGP SIGNATURE-----
+
+--6/IdY7giwqYvFqDK--
+
 
