@@ -2,117 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E752A551D86
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:19:25 +0200 (CEST)
-Received: from localhost ([::1]:48516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FA7551D85
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:18:49 +0200 (CEST)
+Received: from localhost ([::1]:45278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3IFR-00031f-0n
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:19:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42920)
+	id 1o3IEq-00017k-SQ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o3I3U-0002E1-5C
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:07:05 -0400
-Received: from esa10.hc2706-39.iphmx.com ([216.71.140.198]:27318)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1o3I8Y-0003V5-V5
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:12:19 -0400
+Received: from mga07.intel.com ([134.134.136.100]:5933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o3I3O-00070z-Ue
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:07:03 -0400
-X-IronPort-RemoteIP: 209.85.222.200
-X-IronPort-MID: 207949002
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:z+DqTK+xKpq2kNhP0eAaDrUDF3yTJUtcMsCJ2f8bNWPcYEJGY0x3y
- DZLUGyDPPrcYTShfd9xb4jnox9V7ceAz4JkTQVq+SwxFiIbosf7XuiUfxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yE6j8lkf5KkYAL+EnkZqTRMFWFw03qPp8Zj2tQy2YbgXVvR0
- T/Pi5a31GGNimYc3l08tvrrRCNH5JwebxtB4zTSzdgS1LPvvyB94KA3fMldHFOhKmVgJdNWc
- s6YpF2PEsI1yD92Yj+tuu6TnkTn2dc+NyDX4pZdc/HKbhSvOkXee0v0XRYRQR4/ttmHozx+4
- NZxl5WySCYTB6rvhcY7cyJ1EyMhGYQTrdcrIVDn2SCS50jPcn+p2vY3SU9sZdVe9eFwDmVDs
- /cfLVjhbDjZ37PwkO/9ELM2wJ57dKEHP6tG0p1k5TjdHfAqW7jJXuPH6cIwMDIY3JgRTKqPP
- 5JDAdZpRA/dPw1RGk4pMq4Fksv2qH7RcD5J+V3A8MLb5ECWlmSdyoPFKdfQZ5mGSNtYmm6eo
- WTJ+Xm/BQsVXOFz0hKA+3Oow/bMxGb1AtpKUrK/8fFujRuYwWl75AAqaGZXaMKR0iaWM++z4
- WRNpULCcYBaGJSXc+TA
-IronPort-HdrOrdr: A9a23:Wh1xKqFOU+IRDIylpLqEzMeALOsnbusQ8zAXPidKJiC9E/b1qy
- nKpp8mPHDP5gr5J0tQ/OxoVJPhfZqkz+8Q3WBJB8bEYOCEggaVxeNZnPbfKlTbckWVygc679
- YCT0EUMqyTMbEVt6fHCdiDYq4dKJfuytHSuQ+Tp00dND2CwJsQlTuQRW6gYytLeDU=
-Received: from mail-qk1-f200.google.com ([209.85.222.200])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Jun 2022 10:06:48 -0400
-Received: by mail-qk1-f200.google.com with SMTP id
- ay8-20020a05620a178800b006a76e584761so13125513qkb.13
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 07:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=n9zY54nr8M/vmcz7ZuhTOc9ejunf1jlMa1IcUpl7cT0=;
- b=ZD/DAT36ACBhBpPygHLThywgJ27eE/xKISN09vv4JtzrrU6/T/Pdu6L/IV/zZkmP+F
- o05rjcHNBEkIX3zOxKCsKct3ibSfGeaSQFn0lQd/oKqeEbJ5dAdtb02fYzy+4bSJnpBw
- a2+ht/MqyPww3QZm4R3GgrPvNSgnEyPsMKsxeywvNIwBpalKJ/qvz7nquzYYw7+/zttm
- PMOB7N9HERaZEyyGqejOLw4/ce3S9VCWgqd8cOt1LSaotUhGjvFPnNRvzg96vUX5tIPF
- YBAnz8hHMijyEY1TnsqnMTU0IqRYY2Q8QUSommawGLen1ceWa7FME/OpdeH+HTsHzODo
- 3K4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=n9zY54nr8M/vmcz7ZuhTOc9ejunf1jlMa1IcUpl7cT0=;
- b=KwtQxX//V0yGvfJ5Anf8nKg+RW/HZkw5EUW8j7Yk/khWWxJ1VEPfmAZpy/SEhutfpg
- px3rU5pXaTpsMJXZCKbsNGnLAIEIMhVUeWEEOlPQ9MdPzCJ14tOuslYKRM5V2cSzGk9x
- ETgQibS7IoRtFKsDRoQYlYGtQChuOQFCqnczXjbfGQ0paQij+D60wd19q9syVXlRpENB
- GR3x3VzqWySDmNylCc1OsDkO/z4sp9U13Y9y+BpdXlmLsdDKNGFNVvfnzXT98aLQZlQ+
- w3vBYme2Y1X7Gaw6YtXc9oJ4lSaZrmTfDAeqfUDSZbK9kD90CPakMOMLoojp7mzurYqo
- 2Pmw==
-X-Gm-Message-State: AJIora/2P10Ovr3nxfAl/zP6S9ee8jswu74/Z1CJu8eTqbgOjypE+W+l
- Apotl0UIIXthsYMNXRZ1ljpbChJ1LXe+44gPUVoD/QqY6K7ijABmRddPhNZSMtqtI6A0ZQnTPPh
- 7PzWYmH/f/EBGVxapp9BuakajUh9Ogg==
-X-Received: by 2002:a05:6214:202b:b0:46e:60d9:d956 with SMTP id
- 11-20020a056214202b00b0046e60d9d956mr19098280qvf.80.1655734007901; 
- Mon, 20 Jun 2022 07:06:47 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v6uUis6pzUTSG5dQjnIa1rsHSKX0CC4cOvnjUHDnRWhPC1u8maTXaYyQB3KMUi+p2v0cU0MA==
-X-Received: by 2002:a05:6214:202b:b0:46e:60d9:d956 with SMTP id
- 11-20020a056214202b00b0046e60d9d956mr19098242qvf.80.1655734007571; 
- Mon, 20 Jun 2022 07:06:47 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- a5-20020a05622a02c500b00304f3e320f2sm11136953qtx.4.2022.06.20.07.06.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 07:06:47 -0700 (PDT)
-Date: Mon, 20 Jun 2022 10:06:42 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Li Qiang <liq3ea@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
-Message-ID: <20220620140635.cw3ldyt4npwvocky@mozz.bu.edu>
-References: <20220609135851.42193-1-alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1o3I8W-0007r2-1y
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:12:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655734336; x=1687270336;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=K/d62gPSVg4NmMutWFje50dPhFVYB3cepmG67K0wcUc=;
+ b=D3f3lhcOhbdiY1OPuWYNtACj13OsjIvHkrWzGCWt76iKJaGkMcM8/rPk
+ gcq8Mh4oQzf0vycGrOo4NvcYn5PTsNX3IvQmKKmwJYb/kJT7vwvFVD4nW
+ fEPXTsuFpEbhkDc6T1ZRqwJPLVPhU2wRaz++jB7w7B2LFIqzj44abfsnj
+ HzpJ80+8mSwI4RQwfarEBfBPI0kaE7CkUuKI85cuNrD45Lp4fZMMk0Xxf
+ Wta0+jz7lpflbCv2vljgh6kVznjxKbm9rRDLmmCH0abR3q8rqc9Fu1SEW
+ zZn4xx4X3VzGu9H6s3Qu502fySi7LnXEAGG1vS16uLQb7fPJT+Av5CKVA A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="343897072"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="343897072"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2022 07:12:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="584911886"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga007.jf.intel.com with ESMTP; 20 Jun 2022 07:12:02 -0700
+Date: Mon, 20 Jun 2022 22:08:41 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220620140841.GA2016793@chaop.bj.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <Yqzpf3AEYabFWjnW@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220609135851.42193-1-alxndr@bu.edu>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.198; envelope-from=alxndr@bu.edu;
- helo=esa10.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <Yqzpf3AEYabFWjnW@google.com>
+Received-SPF: none client-ip=134.134.136.100;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga07.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -125,164 +96,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 220609 0958, Alexander Bulekov wrote:
-> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> This flag is set/checked prior to calling a device's MemoryRegion
-> handlers, and set when device code initiates DMA.  The purpose of this
-> flag is to prevent two types of DMA-based reentrancy issues:
+On Fri, Jun 17, 2022 at 08:52:15PM +0000, Sean Christopherson wrote:
+> On Thu, May 19, 2022, Chao Peng wrote:
+> > @@ -653,12 +662,12 @@ struct kvm_irq_routing_table {
+> >  };
+> >  #endif
+> >  
+> > -#ifndef KVM_PRIVATE_MEM_SLOTS
+> > -#define KVM_PRIVATE_MEM_SLOTS 0
+> > +#ifndef KVM_INTERNAL_MEM_SLOTS
+> > +#define KVM_INTERNAL_MEM_SLOTS 0
+> >  #endif
 > 
-> 1.) mmio -> dma -> mmio case
-> 2.) bh -> dma write -> mmio case
+> This rename belongs in a separate patch.
+
+Will separate it out, thanks.
+
 > 
-> These issues have led to problems such as stack-exhaustion and
-> use-after-frees.
+> >  #define KVM_MEM_SLOTS_NUM SHRT_MAX
+> > -#define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_PRIVATE_MEM_SLOTS)
+> > +#define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_INTERNAL_MEM_SLOTS)
+> >  
+> >  #ifndef __KVM_VCPU_MULTIPLE_ADDRESS_SPACE
+> >  static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
+> > @@ -1087,9 +1096,9 @@ enum kvm_mr_change {
+> >  };
+> >  
+> >  int kvm_set_memory_region(struct kvm *kvm,
+> > -			  const struct kvm_userspace_memory_region *mem);
+> > +			  const struct kvm_user_mem_region *mem);
+> >  int __kvm_set_memory_region(struct kvm *kvm,
+> > -			    const struct kvm_userspace_memory_region *mem);
+> > +			    const struct kvm_user_mem_region *mem);
+> >  void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot);
+> >  void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen);
+> >  int kvm_arch_prepare_memory_region(struct kvm *kvm,
+> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > index e10d131edd80..28cacd3656d4 100644
+> > --- a/include/uapi/linux/kvm.h
+> > +++ b/include/uapi/linux/kvm.h
+> > @@ -103,6 +103,29 @@ struct kvm_userspace_memory_region {
+> >  	__u64 userspace_addr; /* start of the userspace allocated memory */
+> >  };
+> >  
+> > +struct kvm_userspace_memory_region_ext {
+> > +	struct kvm_userspace_memory_region region;
+> > +	__u64 private_offset;
+> > +	__u32 private_fd;
+> > +	__u32 pad1;
+> > +	__u64 pad2[14];
+> > +};
+> > +
+> > +#ifdef __KERNEL__
+> > +/* Internal helper, the layout must match above user visible structures */
 > 
-> Summary of the problem from Peter Maydell:
-> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
+> It's worth explicity calling out which structureso this aliases.  And rather than
+> add a comment about the layout needing to match that, enforce it in code. I
+> personally wouldn't bother with an expolicit comment about the layout, IMO that's
+> a fairly obvious implication of aliasing.
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->  include/hw/pci/pci.h   | 13 +++++++++++--
->  include/hw/qdev-core.h |  3 +++
->  softmmu/dma-helpers.c  | 12 ++++++++++++
->  softmmu/memory.c       | 15 +++++++++++++++
->  softmmu/trace-events   |  1 +
->  5 files changed, 42 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 44dacfa224..ab1ad0f7a8 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
->                                       void *buf, dma_addr_t len,
->                                       DMADirection dir, MemTxAttrs attrs)
->  {
-> -    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-> -                         dir, attrs);
-> +    bool prior_engaged_state;
-> +    MemTxResult result;
-> +
-> +    prior_engaged_state = dev->qdev.engaged_in_io;
-> +
-> +    dev->qdev.engaged_in_io = true;
-> +    result = dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-> +                           dir, attrs);
-> +    dev->qdev.engaged_in_io = prior_engaged_state;
-> +
-> +    return result;
->  }
->  
->  /**
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 92c3d65208..6474dc51fa 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -193,6 +193,9 @@ struct DeviceState {
->      int instance_id_alias;
->      int alias_required_for_version;
->      ResettableState reset;
-> +
-> +    /* Is the device currently in mmio/pio/dma? Used to prevent re-entrancy */
-> +    int engaged_in_io;
->  };
->  
->  struct DeviceListener {
-> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-> index 7820fec54c..7a4f1fb9b3 100644
-> --- a/softmmu/dma-helpers.c
-> +++ b/softmmu/dma-helpers.c
-> @@ -288,8 +288,16 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
->      uint8_t *ptr = buf;
->      dma_addr_t xresidual;
->      int sg_cur_index;
-> +    DeviceState *dev;
-> +    bool prior_engaged_state;
->      MemTxResult res = MEMTX_OK;
->  
-> +    dev = sg->dev;
-> +    if (dev) {
-> +        prior_engaged_state = dev->engaged_in_io;
-> +        dev->engaged_in_io = true;
-> +    }
-> +
->      xresidual = sg->size;
->      sg_cur_index = 0;
->      len = MIN(len, xresidual);
-> @@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
->          xresidual -= xfer;
->      }
->  
-> +    if (dev) {
-> +        dev->engaged_in_io = prior_engaged_state;
-> +    }
-> +
->      if (residual) {
->          *residual = xresidual;
->      }
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 7ba2048836..44a14bb4f5 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -532,6 +532,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
->      uint64_t access_mask;
->      unsigned access_size;
->      unsigned i;
-> +    DeviceState *dev = NULL;
->      MemTxResult r = MEMTX_OK;
->  
->      if (!access_size_min) {
-> @@ -541,6 +542,17 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
->          access_size_max = 4;
->      }
->  
-> +    /* Do not allow more than one simultanous access to a device's IO Regions */
-> +    if (mr->owner &&
-> +        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
-> +        dev = (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEVICE);
-> +        if (dev->engaged_in_io) {
-> +            trace_memory_region_reentrant_io(get_cpu_index(), mr, addr, size);
-> +            return MEMTX_ERROR;
-> +        }
-> +        dev->engaged_in_io = true;
-> +    }
-> +
->      /* FIXME: support unaligned access? */
->      access_size = MAX(MIN(size, access_size_max), access_size_min);
->      access_mask = MAKE_64BIT_MASK(0, access_size * 8);
-> @@ -555,6 +567,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
->                          access_mask, attrs);
->          }
->      }
-> +    if (dev) {
-> +        dev->engaged_in_io = false;
-> +    }
->      return r;
->  }
->  
-> diff --git a/softmmu/trace-events b/softmmu/trace-events
-> index 9c88887b3c..d7228316db 100644
-> --- a/softmmu/trace-events
-> +++ b/softmmu/trace-events
-> @@ -13,6 +13,7 @@ memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, u
->  memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
->  memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
->  memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> +memory_region_reentrant_io(int cpu_index, void *mr, uint64_t offset, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" size %u"
->  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
->  memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
->  memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '%s' listener '%s' synced (global=%d)"
-> -- 
-> 2.33.0
+> /*
+>  * kvm_user_mem_region is a kernel-only alias of kvm_userspace_memory_region_ext
+>  * that "unpacks" kvm_userspace_memory_region so that KVM can directly access
+>  * all fields from the top-level "extended" region.
+>  */
 > 
 
-ping
+Thanks.
+
+> 
+> And I think it's in this patch that you missed a conversion to the alias, in the
+> prototype for check_memory_region_flags() (looks like it gets fixed up later in
+> the series).
+> 
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 0f81bf0407be..8765b334477d 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -1466,7 +1466,7 @@ static void kvm_replace_memslot(struct kvm *kvm,
+>         }
+>  }
+> 
+> -static int check_memory_region_flags(const struct kvm_userspace_memory_region *mem)
+> +static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
+>  {
+>         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
+> 
+> @@ -4514,6 +4514,33 @@ static int kvm_vm_ioctl_get_stats_fd(struct kvm *kvm)
+>         return fd;
+>  }
+> 
+> +#define SANITY_CHECK_MEM_REGION_FIELD(field)                                   \
+> +do {                                                                           \
+> +       BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=             \
+> +                    offsetof(struct kvm_userspace_memory_region, field));      \
+> +       BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=         \
+> +                    sizeof_field(struct kvm_userspace_memory_region, field));  \
+> +} while (0)
+> +
+> +#define SANITY_CHECK_MEM_REGION_EXT_FIELD(field)                                       \
+> +do {                                                                                   \
+> +       BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=                     \
+> +                    offsetof(struct kvm_userspace_memory_region_ext, field));          \
+> +       BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=                 \
+> +                    sizeof_field(struct kvm_userspace_memory_region_ext, field));      \
+> +} while (0)
+> +
+> +static void kvm_sanity_check_user_mem_region_alias(void)
+> +{
+> +       SANITY_CHECK_MEM_REGION_FIELD(slot);
+> +       SANITY_CHECK_MEM_REGION_FIELD(flags);
+> +       SANITY_CHECK_MEM_REGION_FIELD(guest_phys_addr);
+> +       SANITY_CHECK_MEM_REGION_FIELD(memory_size);
+> +       SANITY_CHECK_MEM_REGION_FIELD(userspace_addr);
+> +       SANITY_CHECK_MEM_REGION_EXT_FIELD(private_offset);
+> +       SANITY_CHECK_MEM_REGION_EXT_FIELD(private_fd);
+> +}
+> +
+>  static long kvm_vm_ioctl(struct file *filp,
+>                            unsigned int ioctl, unsigned long arg)
+>  {
+> @@ -4541,6 +4568,8 @@ static long kvm_vm_ioctl(struct file *filp,
+>                 unsigned long size;
+>                 u32 flags;
+> 
+> +               kvm_sanity_check_user_mem_region_alias();
+> +
+>                 memset(&mem, 0, sizeof(mem));
+> 
+>                 r = -EFAULT;
+> 
+> > +struct kvm_user_mem_region {
+> > +	__u32 slot;
+> > +	__u32 flags;
+> > +	__u64 guest_phys_addr;
+> > +	__u64 memory_size;
+> > +	__u64 userspace_addr;
+> > +	__u64 private_offset;
+> > +	__u32 private_fd;
+> > +	__u32 pad1;
+> > +	__u64 pad2[14];
+> > +};
+> > +#endif
+> > +
+> >  /*
+> >   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
+> >   * other bits are reserved for kvm internal use which are defined in
+> > @@ -110,6 +133,7 @@ struct kvm_userspace_memory_region {
+> >   */
+> >  #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+> >  #define KVM_MEM_READONLY	(1UL << 1)
+> > +#define KVM_MEM_PRIVATE		(1UL << 2)
+> 
+> Hmm, KVM_MEM_PRIVATE is technically wrong now that a "private" memslot maps private
+> and/or shared memory.  Strictly speaking, we don't actually need a new flag.  Valid
+> file descriptors must be >=0, so the logic for specifying a memslot that can be
+> converted between private and shared could be that "(int)private_fd < 0" means
+> "not convertible", i.e. derive the flag from private_fd.
+
+I think a flag is still needed, the problem is private_fd can be safely
+accessed only when this flag is set, e.g. without this flag, we can't
+copy_from_user these new fields since they don't exist for previous
+kvm_userspace_memory_region callers.
+
+> 
+> And looking at the two KVM consumers of the flag, via kvm_slot_is_private(), they're
+> both wrong.  Both kvm_faultin_pfn() and kvm_mmu_max_mapping_level() should operate
+> on the _fault_, not the slot.  So it would actually be a positive to not have an easy
+> way to query if a slot supports conversion.
+> 
+> >  /* for KVM_IRQ_LINE */
+> >  struct kvm_irq_level {
+> 
+> ...
+> 
+> > +		if (flags & KVM_MEM_PRIVATE) {
+> 
+> An added bonus of dropping KVM_MEM_PRIVATE is that these checks go away.
+> 
+> > +			r = -EINVAL;
+> > +			goto out;
+> > +		}
+> > +
+> > +		size = sizeof(struct kvm_userspace_memory_region);
+> > +
+> > +		if (copy_from_user(&mem, argp, size))
+> > +			goto out;
+> > +
+> > +		r = -EINVAL;
+> > +		if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
+> >  			goto out;
+> >  
+> > -		r = kvm_vm_ioctl_set_memory_region(kvm, &kvm_userspace_mem);
+> > +		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
+> >  		break;
+> >  	}
+> >  	case KVM_GET_DIRTY_LOG: {
+> > -- 
+> > 2.25.1
+> > 
 
