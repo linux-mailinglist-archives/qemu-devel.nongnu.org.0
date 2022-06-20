@@ -2,84 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E944D5524A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:40:49 +0200 (CEST)
-Received: from localhost ([::1]:50442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8353A5524C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 21:43:03 +0200 (CEST)
+Received: from localhost ([::1]:53834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3NGN-0001XQ-9i
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
+	id 1o3NIc-00040s-Kv
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 15:43:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3LzX-000441-An
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 14:19:15 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:41580)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3LzV-0005nB-LA
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 14:19:15 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- g10-20020a17090a708a00b001ea8aadd42bso11077342pjk.0
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 11:19:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=e+hSe+jLxazpdn/cTPQ2gf79EKVMrBC33dYqgbV9e2o=;
- b=B/2t2LE+kUDSPx3FAxROPeCCJ3nYfOdTZvYJv1EHwDNOr5OfvFxodrrfef/wFYbzc7
- TgA460gYz2Zj27zK0pXBZy0g+2cy+kWtseHtCryRJu3MIOhK/A2YR5c3m620L1P3krV0
- 3baNhRgPF/9+aH7qEDGsyILt4UD+0ktGeeLZ52UO/L2cf/VamSsLQVVZXwHSxYqwdpr7
- 7br6D+6nZCnYkgTmoqQxbhXRdE2rL51rHMtpyLRz1/k4+3m+hTo6XZ5cn1PsATjkwFd9
- YAeNMaz8EiRjnBnhMgJspY/MWk4k8qjhMFAqx12BOMsWGgGimIYSElZwZo/42nHVW+OI
- JQ6Q==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o3M4c-00050U-7U
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 14:24:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22999)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o3M4Y-0006YW-FE
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 14:24:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655749464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h9s/rc7mx2lBl6+KDikkz/mD8342YzCqLpmcb5HZmpk=;
+ b=cH1aN9C600eSu72oQkEuHEJ+bqTGZIR50Avei0zSUEgpG59xmQffM91Pt4DM2i3/vi44NZ
+ GVPoRVrDGpAvjPNve4Xsk8k4b2/Ly4p+EzSRXKSht6J2lWYXC6Ay+I59dzOOXxe8TI6Ml9
+ eP+UIlNqV13Cghc5wmvBPEQoZDHjHIc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-280-74PWyRFJOcyr4Rls8sJMjA-1; Mon, 20 Jun 2022 14:24:23 -0400
+X-MC-Unique: 74PWyRFJOcyr4Rls8sJMjA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ p22-20020a05600c359600b0039c7b23a1c7so7226328wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 11:24:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=e+hSe+jLxazpdn/cTPQ2gf79EKVMrBC33dYqgbV9e2o=;
- b=4NVHCAPV0z7Ej4zQbYhgDZFaAVcl2H9ufj1QPGQ/s7ldJ1A24068MTGua2se8OQ6lk
- MbGekbIuyIqcvct7oNIfVY4/R+O0USObK6Ap2de1dwtt1RRNx4LoEHBTLoMlkJSy+XRH
- u4ijM3exPjoHAuvVmA8SwPrwsOnXVbMGWMb5FCN0mGLqu0U8FmBEKVZNQi6VdErISVdc
- rpOpO+yqbF3WlC484Pv7zB6R9cJkvcgWpQu5JNrfDwlwVnhBUs8zbQ4xh2x58POgM8LA
- iASV6ZwRqjlKYWbRS6jZLoOULdk89e9HgskZYf3LVLQQPfQyGTVNh7ueBJjzpSDT/3oF
- mp3w==
-X-Gm-Message-State: AJIora9nKtT0eP8+HuRUmazIuIzrPoB27ztvFmk7btyWfE/Os/hf2ta/
- qwHuu/MIvY6TV2YPMOEgshCRKQ==
-X-Google-Smtp-Source: AGRyM1ucoHoOnyRgk5VKt8Tg4H3mhd4PIByHZWIS8pUY62RVZ8cPzhYeoqnkyWEWtdAqgjbMoS32Bw==
-X-Received: by 2002:a17:902:8b85:b0:168:d854:be84 with SMTP id
- ay5-20020a1709028b8500b00168d854be84mr25124166plb.94.1655749152047; 
- Mon, 20 Jun 2022 11:19:12 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49e:3c01:a3e0:8a80:7b85:aea6?
- ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
- by smtp.gmail.com with ESMTPSA id
- b8-20020a170902650800b00167942e0ee9sm9066876plk.61.2022.06.20.11.19.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 11:19:11 -0700 (PDT)
-Message-ID: <4eeee2f9-3289-4f2c-fb9d-2b78caccc68d@linaro.org>
-Date: Mon, 20 Jun 2022 11:19:09 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=h9s/rc7mx2lBl6+KDikkz/mD8342YzCqLpmcb5HZmpk=;
+ b=peUtKyJHwmEdB/mimME5o0cDk7zT08UbB5S1lp3jcmvCLuwzikYvlZX1NlDaWVQss4
+ YqeHeEn03lA7ff9xVR4B5f9mu5IwM+HF1kDAPbc9G9A4SOpvfzUPJf8HrHO4IHng29C1
+ hausCoSc3T53b6hsKN16Bm4f+mbFqy0Srb5i8M8YRC/rd0dI4x7EuLurt6Ah8XWMCzP0
+ wZp8LPryrbAYegCR2BD1VoxKSUenlaX90a+Qq8EUs/t8npos0l9fgmY/jueKqLrr3mir
+ DtSw32c99a3PxF+e4p/YUkgOn4PwgAOsP9L0zKAOiZkozavFp2FcB4gbG5O5eYLJ8j4U
+ ABsQ==
+X-Gm-Message-State: AJIora+FQV0pHEcO1CT/QINqx++lgOhzvHxUhG/EP/qXl/ZBPZionmjK
+ IibueV0Jpie+c515Mj5DBx4UMUkC9pMjUM4fZ0iU7eF83iAIYiHjrAq3w5b8MRsstREoP9MHB3O
+ R9Lm5WOV/WMREQ/c=
+X-Received: by 2002:a5d:64c4:0:b0:219:b73f:48a7 with SMTP id
+ f4-20020a5d64c4000000b00219b73f48a7mr23849294wri.180.1655749462685; 
+ Mon, 20 Jun 2022 11:24:22 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vCH4XlK0ydH0QJxynr51QaYe1HC8Gj6Ro/+bPYwyTpxPPo59pRKThE305n3o2oQyjalF+URA==
+X-Received: by 2002:a5d:64c4:0:b0:219:b73f:48a7 with SMTP id
+ f4-20020a5d64c4000000b00219b73f48a7mr23849271wri.180.1655749462362; 
+ Mon, 20 Jun 2022 11:24:22 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ o4-20020adfcf04000000b0020ff877cfbdsm11332477wrj.87.2022.06.20.11.24.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jun 2022 11:24:21 -0700 (PDT)
+Date: Mon, 20 Jun 2022 19:24:19 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Ralph Schmieder <ralph.schmieder@gmail.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [RFC PATCH v3 00/11] qapi: net: add unix socket type support to
+ netdev backend
+Message-ID: <YrC7U1XH0pGsn5Df@work-vm>
+References: <20220620101828.518865-1-lvivier@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 01/10] bsd-user: Implement mount, umount and nmount
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
- Jung-uk Kim <jkim@FreeBSD.org>
-References: <20220620174220.22179-1-imp@bsdimp.com>
- <20220620174220.22179-2-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220620174220.22179-2-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220620101828.518865-1-lvivier@redhat.com>
+User-Agent: Mutt/2.2.5 (2022-05-16)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,17 +107,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/22 10:42, Warner Losh wrote:
-> +    /*
-> +     * XXX arg4 should be locked, but it isn't clear how to do that
-> +     * since it's it may be not be a NULL-terminated string.
+* Laurent Vivier (lvivier@redhat.com) wrote:
+> "-netdev socket" only supports inet sockets.
+> 
+> It's not a complex task to add support for unix sockets, but
+> the socket netdev parameters are not defined to manage well unix
+> socket parameters.
+> 
+> As discussed in:
+> 
+>   "socket.c added support for unix domain socket datagram transport"
+>   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
+> 
+> This series adds support of unix socket type using SocketAddress QAPI structure.
+> 
+> Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
+> backend but they use the SocketAddress QAPI to provide socket parameters.
+> And then they also implement unix sockets (TCP and UDP).
 
-it's it.
+Had you considered a -netdev chardev?
 
-Unless you meant https://www.itsiticecream.com/  ;-)
+Dave
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Some examples of CLI syntax:
+> 
+>   for TCP:
+> 
+>   -netdev stream,id=socket0,addr.type=inet,addr.host=localhost,addr.port=1234
+>   -netdev stream,id=socket0,server=off,addr.type=inet,addr.host=localhost,addr.port=1234
+> 
+>   -netdev dgram,id=socket0,\
+>           local.type=inet,local.host=localhost,local.port=1234,\
+>           remote.type=inet,remote.host=localhost,remote.port=1235
+> 
+>   for UNIX:
+> 
+>   -netdev stream,id=socket0,addr.type=unix,addr.path=/tmp/qemu0
+>   -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=/tmp/qemu0
+> 
+>   -netdev dgram,id=socket0,\
+>           local.type=unix,local.path=/tmp/qemu0,\
+>           remote.type=unix,remote.path=/tmp/qemu1
+> 
+>   for FD:
+> 
+>   -netdev stream,id=socket0,addr.type=fd,addr.str=4
+>   -netdev stream,id=socket0,server=off,addr.type=fd,addr.str=5
+> 
+>   -netdev dgram,id=socket0,local.type=fd,addr.str=4
+> 
+> v3:
+>   - remove support of "-net" for dgram and stream. They are only
+>     supported with "-netdev" option.
+>   - use &error_fatal directly in net_client_inits()
+>   - update qemu-options.hx
+>   - move to QIO for stream socket
+> 
+> v2:
+>   - use "stream" and "dgram" rather than "socket-ng,mode=stream"
+>     and ""socket-ng,mode=dgram"
+>   - extract code to bypass qemu_opts_parse_noisily() to
+>     a new patch
+>   - do not ignore EINVAL (Stefano)
+>   - fix "-net" option
+> 
+> CC: Ralph Schmieder <ralph.schmieder@gmail.com>
+> CC: Stefano Brivio <sbrivio@redhat.com>
+> CC: Daniel P. Berrangé <berrange@redhat.com>
+> CC: Markus Armbruster <armbru@redhat.com>
+> 
+> Laurent Vivier (10):
+>   net: introduce convert_host_port()
+>   net: remove the @errp argument of net_client_inits()
+>   qapi: net: introduce a way to bypass qemu_opts_parse_noisily()
+>   qapi: net: add stream and dgram netdevs
+>   net: stream: add unix socket
+>   net: dgram: make dgram_dst generic
+>   net: dgram: move mcast specific code from net_socket_fd_init_dgram()
+>   net: dgram: add unix socket
+>   qemu-sockets: introduce socket_uri()
+>   net: stream: move to QIO
+> 
+> Stefano Brivio (1):
+>   net: stream: Don't ignore EINVAL on netdev socket connection
+> 
+>  hmp-commands.hx        |   2 +-
+>  include/net/net.h      |   3 +-
+>  include/qemu/sockets.h |   4 +-
+>  monitor/hmp-cmds.c     |  23 +-
+>  net/clients.h          |   6 +
+>  net/dgram.c            | 706 +++++++++++++++++++++++++++++++++++++++++
+>  net/hub.c              |   2 +
+>  net/meson.build        |   2 +
+>  net/net.c              | 149 ++++++---
+>  net/stream.c           | 371 ++++++++++++++++++++++
+>  qapi/net.json          |  40 ++-
+>  qemu-options.hx        |  12 +
+>  softmmu/vl.c           |   5 +-
+>  util/qemu-sockets.c    |  20 ++
+>  14 files changed, 1277 insertions(+), 68 deletions(-)
+>  create mode 100644 net/dgram.c
+>  create mode 100644 net/stream.c
+> 
+> -- 
+> 2.36.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-
-r~
 
