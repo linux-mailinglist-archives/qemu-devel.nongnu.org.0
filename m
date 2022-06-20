@@ -2,68 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114FB551A9F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 15:09:07 +0200 (CEST)
-Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33390551AA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 15:14:06 +0200 (CEST)
+Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3H9N-0007oo-Lb
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 09:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39350)
+	id 1o3HEC-0002Ks-At
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 09:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1o3H7g-0006ym-BB
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:07:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28965)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1o3H7Z-0000Ld-1B
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:07:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655730431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FzYejRPIG9nwJ8iSQUBB7SwiX3STTcei9/08qivSdUU=;
- b=fVMtoeGSqM2Wk7MxYmdyZQ1IL/d/IGQ0x3dDqI8r7pYBu0B99QvRS4G4nmCQ8Msm3wSqq4
- 7u4buen3E/FnMBKokG2c7x8GT8ox9OLDDi+rQK8QGeqviMJ1e/T4Vk0OBQWbdOFMMwBKO9
- roDAs9X+fTdoenl/9+K/NRBuqSjgQ+w=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-397-6Ro6ytFVM_algRaDCF5r1Q-1; Mon, 20 Jun 2022 09:07:10 -0400
-X-MC-Unique: 6Ro6ytFVM_algRaDCF5r1Q-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-2eb7d137101so94220747b3.12
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 06:07:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o3HBh-0000fC-8h
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:11:29 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:40554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o3HBe-000187-JR
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:11:29 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id b23so3281522ljh.7
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 06:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7gMMqISBIbXLkKDJjpv3vkDxdNNppVy8tMFJlAEeOxQ=;
+ b=d6bIUCL43XLNm7pJdDWfcWFhtUmbSuYFIH3fuk16NKMXQ5ymI9e/uDXUHx6hm8IppV
+ ZfCsL3uvRDNwvU/p9YeNR0F0MiKNmsG9mDV5k7BmNWYqw8+M4RUDhepDblfrWrnSfMl2
+ AO0s7QeLVqvCyMvW1jrxNrUC67gMXh+mo5/UWoNgkKcpctYM5l7uG2T6Oh31/7ww3ee9
+ +EbnJtx4CCHbbYoZLAP1QhzWbuRqrZrw+1XhOnrDeBQ3yrI8u3mWJc/fxI/EYdimcAmT
+ 2qJ8CZfMR/9vLUJHcUhJUfuxQ5lhnAXMZ4TmJD9NFOyL0z7Cxo18EBTahF8IyzquxdXm
+ K5EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FzYejRPIG9nwJ8iSQUBB7SwiX3STTcei9/08qivSdUU=;
- b=27Ju+iarEZ5Xl52uL8eHWT2RdBZnoHF9/80LQ2b8/H1YbCur8dOEpPU4Df6y0+M0gt
- EavIhe5nKJdxecwd3YBIoZe0a4Uzumb7yBNJkYQscr30ozzy/VpklfI8K+ZrcvM6qCxc
- 7suDgdytQZXMmG11w0Y0yfvVtDYAI3Tc/iqqCvXEdDM/3+GvXmI582NXhnc5JVVQL7At
- j1cPAvHX/IPQT3ZUyGk/LKym17aIfcQROdLOsqf/eZIC/s9tu1luarqshkGkUacaULuQ
- TbpLXbG7ZMx9a1P0/4PKGy/Ds+k6RgCdRLdUAaoSqB76kxqZlwBpNdd56EgwaACvXl/i
- l8uQ==
-X-Gm-Message-State: AJIora8MoQYYxkkXZWkgp8GIpeLhtJ/NohMwM+CwSHQVB6qEjn3yZ/fu
- TCq2tiqofJ3QgPMtcLkYOVLdz39QpI7VNe80rQs8UG8ul10jtW8wVHRX7P3Fj71p0T4QQ6Io4iz
- yTHO/+OkoAx+ajDAkUrv3Qz1dWMNEDRY=
-X-Received: by 2002:a81:74d7:0:b0:317:7463:d852 with SMTP id
- p206-20020a8174d7000000b003177463d852mr23255112ywc.385.1655730429497; 
- Mon, 20 Jun 2022 06:07:09 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t/st1xGIoApOJbwl/rSSnKoU2KocjaAWgjQOuTWy9LcTgyHfPv8hBuyKYAgiOA0oJY0TXwBI/OE/tj+bShHuY=
-X-Received: by 2002:a81:74d7:0:b0:317:7463:d852 with SMTP id
- p206-20020a8174d7000000b003177463d852mr23255089ywc.385.1655730429276; Mon, 20
- Jun 2022 06:07:09 -0700 (PDT)
+ bh=7gMMqISBIbXLkKDJjpv3vkDxdNNppVy8tMFJlAEeOxQ=;
+ b=0cgAm16ADBD8s9D2XrYtb4SMRJC51O+k6CX6qwlHDI00zYJVKR/f3Y9uL28MmRzlfW
+ O0CEN8zPwHXg9GwhJsjjnjdJRMX4quckEm102euwzQwOSwxuiRlLVGrQVGpkjtm+Dj4H
+ JLuF/yIsA6Q1DpVt730EfZdOebCHENBxkXVrUxtHuh/VzBhUXsmZ7uhO09HhPDhNiPEq
+ v/IpCfpMn4O/P8fFm5OdcKIkwPM4ub8nYoygPwS20/g2kkXQzmEb0LA/CVcnWh9BloYe
+ THdU4gyjeOSl8afNvRJqLxiIWiYv/ZZuVEo7muaw6wQp2Xxcix+Au2Fu6bxqt3sWDc3g
+ 9VaQ==
+X-Gm-Message-State: AJIora8CMiODup0OPrEQjx08ePYTVii65f/bA8ekbXhHkDPPWaVqu9wg
+ jQIdKVH+CGwRME7VnniNm1eVGuMKq8YdKjoCLvQ=
+X-Google-Smtp-Source: AGRyM1unlcL26DoJBKeuP6hO7gWtMjAzf2MHtAOfkeOyZTjTB+k9vTrHb2maGu9z6S/M1z4/PAcJXTuVLnMzz79GUA8=
+X-Received: by 2002:a2e:a801:0:b0:24a:ff0b:ae7a with SMTP id
+ l1-20020a2ea801000000b0024aff0bae7amr11099367ljq.287.1655730672567; Mon, 20
+ Jun 2022 06:11:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220615173345.32456-1-akihiko.odaki@gmail.com>
  <20220615173345.32456-2-akihiko.odaki@gmail.com>
 In-Reply-To: <20220615173345.32456-2-akihiko.odaki@gmail.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 20 Jun 2022 16:06:58 +0300
-Message-ID: <CAPMcbCp-vzvS9Bp4pkqbDBkuEkOhYXMwC3qyAT4kWyX3u9wEnw@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 20 Jun 2022 17:11:00 +0400
+Message-ID: <CAJ+F1CJNmoyroKHvwWkKfNPPjEaM1MBAepZ_uoEdAuwY-RYEnw@mail.gmail.com>
 Subject: Re: [PATCH v7 1/6] qga: Relocate a path emitted in the help text
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
@@ -72,15 +62,15 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
  Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000014c5cf05e1e0c8f0"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: multipart/alternative; boundary="000000000000950d4605e1e0d67f"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,16 +87,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000014c5cf05e1e0c8f0
+--000000000000950d4605e1e0d67f
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-
-
-On Wed, Jun 15, 2022 at 8:43 PM Akihiko Odaki <akihiko.odaki@gmail.com>
+On Wed, Jun 15, 2022 at 9:43 PM Akihiko Odaki <akihiko.odaki@gmail.com>
 wrote:
 
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 > ---
 >  qga/main.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -130,21 +123,24 @@ wrote:
 >
 >
 
---00000000000014c5cf05e1e0c8f0
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000950d4605e1e0d67f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" data-smartmail=3D"=
-gmail_signature"><div dir=3D"ltr"><div id=3D"gmail-:vz" class=3D"gmail-a3s =
-gmail-aiL"><div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"=
-mailto:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</=
-div></div></div></div></div><br></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, 2022 at 8:43 PM Akihiko Oda=
-ki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"_blank">akihiko=
-.odaki@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.=
-odaki@gmail.com" target=3D"_blank">akihiko.odaki@gmail.com</a>&gt;<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, 2022 at 9:43 PM Akihi=
+ko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gmail=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.=
+com" target=3D"_blank">akihiko.odaki@gmail.com</a>&gt;<br></blockquote><div=
+><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
+arcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=
+=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
 =C2=A0qga/main.c | 2 +-<br>
 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
@@ -167,8 +163,8 @@ index c373fec3ee6..06e507b9979 100644<br>
 2.32.1 (Apple Git-133)<br>
 <br>
 <br>
-</blockquote></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000014c5cf05e1e0c8f0--
-
+--000000000000950d4605e1e0d67f--
 
