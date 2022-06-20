@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62FFE552267
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:39:54 +0200 (CEST)
-Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3358155226B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:40:35 +0200 (CEST)
+Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3KRN-0002G6-Fi
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:39:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52748)
+	id 1o3KS2-0003yu-0n
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFM-0005lZ-8J
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48776)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFO-0005ni-07
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFK-0005N3-HR
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:27 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3KFM-0005Na-46
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 12:27:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655742446;
+ s=mimecast20190719; t=1655742447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MAZeZkYpGCQOItsNFseIPRpqqRPm3vhYpjjCbxi4WWA=;
- b=OfxZZAkOvoZCSpb3/7XrJp+2n/gjQWr4fDAFvrglZYexWxEG/UF4sLIW/Z/JIxr3LcYdE6
- BqyAOVaWcjubCNuE97LwoVNU8y8ZdyjGgKVz9LxWL9ClGIn1diR8+0afiv5EggdtlmNdIX
- T+nuoFSfxqY3uZnJhztbnlaLfay+ZKE=
+ bh=QJ8Nuc3zkFJwQM3cTVy/o2w2yLOJqNRxWSNZG+R81Yo=;
+ b=OyHcDg37/1mJvxNlEZitJEcgncKggp0lLfsUjxDgYuNhOYFITcntziE7M3UXWJYWMEN0oZ
+ bX83+pYGSFSC/Z6Kmek00zsFUrjQ83YgD/tQGa/viXQK6nvX1tn4juESGDXslQAILpDKUm
+ +uauXgRscV/dWZw1YN6KdpaZ/YoK5To=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-388-vcmPXKziNfqiXTnnzxr8pg-1; Mon, 20 Jun 2022 12:27:22 -0400
-X-MC-Unique: vcmPXKziNfqiXTnnzxr8pg-1
+ us-mta-222-7C6cLFItPIOs5PhVMZ0zlQ-1; Mon, 20 Jun 2022 12:27:24 -0400
+X-MC-Unique: 7C6cLFItPIOs5PhVMZ0zlQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4CDE585A580;
- Mon, 20 Jun 2022 16:27:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27CE4811E75;
+ Mon, 20 Jun 2022 16:27:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 098622166B26;
- Mon, 20 Jun 2022 16:27:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B678D2166B26;
+ Mon, 20 Jun 2022 16:27:23 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 10/12] iotests/106, 214, 308: Read only one size line
-Date: Mon, 20 Jun 2022 18:27:02 +0200
-Message-Id: <20220620162704.80987-11-hreitz@redhat.com>
+Subject: [PATCH v2 11/12] qemu-img: Let info print block graph
+Date: Mon, 20 Jun 2022 18:27:03 +0200
+Message-Id: <20220620162704.80987-12-hreitz@redhat.com>
 In-Reply-To: <20220620162704.80987-1-hreitz@redhat.com>
 References: <20220620162704.80987-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -79,84 +79,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These tests read size information (sometimes disk size, sometimes
-virtual size) from qemu-img info's output.  Once qemu-img starts
-printing info about child nodes, we are going to see multiple instances
-of that per image, but these tests are only interested in the first one,
-so use "head -n 1" to get it.
+For every node in the backing chain, collect its BlockGraphInfo struct
+using bdrv_query_block_graph_info().  Print all nodes' information,
+indenting child nodes and labelling them with a path constructed from
+the child names leading to the node from the root (e.g. /file/file).
+
+Note that we open each image with BDRV_O_NO_BACKING, so its backing
+child is omitted from this graph, and thus presented in the previous
+manner: By simply concatenating all images' information, separated with
+blank lines.
+
+This affects two iotests:
+- 065: Here we try to get the format node's format specific information.
+  The pre-patch code does so by taking all lines from "Format specific
+  information:" until an empty line.  This format specific information
+  is no longer followed by an empty line, though, but by child node
+  information, so limit the range by "Child node '/file':".
+- 302: Calls qemu_img() for qemu-img info directly, which does not
+  filter the output, so the child node information ends up in the
+  output.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/106 | 4 ++--
- tests/qemu-iotests/214 | 6 ++++--
- tests/qemu-iotests/308 | 4 ++--
- 3 files changed, 8 insertions(+), 6 deletions(-)
+ qapi/block-core.json       |  4 +--
+ qemu-img.c                 | 69 ++++++++++++++++++++++++++------------
+ tests/qemu-iotests/065     |  2 +-
+ tests/qemu-iotests/302.out |  5 +++
+ 4 files changed, 56 insertions(+), 24 deletions(-)
 
-diff --git a/tests/qemu-iotests/106 b/tests/qemu-iotests/106
-index 9d6adb542d..ae0fc46691 100755
---- a/tests/qemu-iotests/106
-+++ b/tests/qemu-iotests/106
-@@ -66,7 +66,7 @@ for create_mode in off falloc full; do
-             expected_size=$((expected_size + $GROWTH_SIZE))
-         fi
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index b7e5708487..5597c783e7 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -5715,9 +5715,9 @@
+ ##
+ # @DummyBlockCoreForceArrays:
+ #
+-# Not used by QMP; hack to let us use BlockNodeInfoList internally
++# Not used by QMP; hack to let us use BlockGraphInfoList internally
+ #
+ # Since: 7.1
+ ##
+ { 'struct': 'DummyBlockCoreForceArrays',
+-  'data': { 'unused-block-node-info': ['BlockNodeInfo'] } }
++  'data': { 'unused-block-graph-info': ['BlockGraphInfo'] } }
+diff --git a/qemu-img.c b/qemu-img.c
+index f835ce6feb..6da4064d57 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2800,13 +2800,13 @@ static void dump_snapshots(BlockDriverState *bs)
+     g_free(sn_tab);
+ }
  
--        actual_size=$($QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep 'disk size')
-+        actual_size=$($QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep 'disk size' | head -n 1)
-         actual_size=$(echo "$actual_size" | sed -e 's/^[^0-9]*\([0-9]\+\).*$/\1/')
+-static void dump_json_block_node_info_list(BlockNodeInfoList *list)
++static void dump_json_block_graph_info_list(BlockGraphInfoList *list)
+ {
+     GString *str;
+     QObject *obj;
+     Visitor *v = qobject_output_visitor_new(&obj);
  
-         # The actual size may exceed the expected size, depending on the file
-@@ -105,7 +105,7 @@ for growth_mode in falloc full; do
-     _make_test_img -o "extent_size_hint=0" 2G
-     $QEMU_IMG resize -f "$IMGFMT" --preallocation=$growth_mode "$TEST_IMG" +${GROWTH_SIZE}K
+-    visit_type_BlockNodeInfoList(v, NULL, &list, &error_abort);
++    visit_type_BlockGraphInfoList(v, NULL, &list, &error_abort);
+     visit_complete(v, &obj);
+     str = qobject_to_json_pretty(obj, true);
+     assert(str != NULL);
+@@ -2816,13 +2816,13 @@ static void dump_json_block_node_info_list(BlockNodeInfoList *list)
+     g_string_free(str, true);
+ }
  
--    actual_size=$($QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep 'disk size')
-+    actual_size=$($QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep 'disk size' | head -n 1)
-     actual_size=$(echo "$actual_size" | sed -e 's/^[^0-9]*\([0-9]\+\).*$/\1/')
+-static void dump_json_block_node_info(BlockNodeInfo *info)
++static void dump_json_block_graph_info(BlockGraphInfo *info)
+ {
+     GString *str;
+     QObject *obj;
+     Visitor *v = qobject_output_visitor_new(&obj);
  
-     if [ $actual_size -lt $GROWTH_SIZE ]; then
-diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
-index c66e246ba2..55ffcd7f44 100755
---- a/tests/qemu-iotests/214
-+++ b/tests/qemu-iotests/214
-@@ -102,7 +102,8 @@ let data_size="8 * $cluster_size"
- $QEMU_IO -c "write -P 0xaa 0 $data_size" "$TEST_IMG" \
-          2>&1 | _filter_qemu_io | _filter_testdir
- sizeA=$($QEMU_IMG info --output=json "$TEST_IMG" |
--        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+        sed -n '/"actual-size":/ s/[^0-9]//gp' |
-+        head -n 1)
+-    visit_type_BlockNodeInfo(v, NULL, &info, &error_abort);
++    visit_type_BlockGraphInfo(v, NULL, &info, &error_abort);
+     visit_complete(v, &obj);
+     str = qobject_to_json_pretty(obj, true);
+     assert(str != NULL);
+@@ -2832,9 +2832,29 @@ static void dump_json_block_node_info(BlockNodeInfo *info)
+     g_string_free(str, true);
+ }
  
- _make_test_img 2M -o cluster_size=$cluster_size
- echo "Write compressed data:"
-@@ -124,7 +125,8 @@ $QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
-                           _filter_qemu_io | _filter_testdir
+-static void dump_human_image_info_list(BlockNodeInfoList *list)
++static void dump_human_image_info(BlockGraphInfo *info, int indentation,
++                                  const char *path)
+ {
+-    BlockNodeInfoList *elem;
++    BlockChildInfoList *children_list;
++
++    bdrv_node_info_dump(qapi_BlockGraphInfo_base(info), indentation);
++
++    for (children_list = info->children; children_list;
++         children_list = children_list->next)
++    {
++        BlockChildInfo *child = children_list->value;
++        g_autofree char *child_path;
++
++        printf("%*sChild node '%s%s':\n",
++               indentation * 4, "", path, child->name);
++        child_path = g_strdup_printf("%s%s/", path, child->name);
++        dump_human_image_info(child->info, indentation + 1, child_path);
++    }
++}
++
++static void dump_human_image_info_list(BlockGraphInfoList *list)
++{
++    BlockGraphInfoList *elem;
+     bool delim = false;
  
- sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
--        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+        sed -n '/"actual-size":/ s/[^0-9]//gp' |
-+        head -n 1)
+     for (elem = list; elem; elem = elem->next) {
+@@ -2843,7 +2863,7 @@ static void dump_human_image_info_list(BlockNodeInfoList *list)
+         }
+         delim = true;
  
- if [ $sizeA -lt $sizeB ]
- then
-diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
-index bde4aac2fa..09275e9a10 100755
---- a/tests/qemu-iotests/308
-+++ b/tests/qemu-iotests/308
-@@ -217,12 +217,12 @@ echo
- echo '=== Remove export ==='
+-        bdrv_node_info_dump(elem->value, 0);
++        dump_human_image_info(elem->value, 0, "/");
+     }
+ }
  
- # Double-check that $EXT_MP appears as a non-empty file (the raw image)
--$QEMU_IMG info -f raw "$EXT_MP" | grep 'virtual size'
-+$QEMU_IMG info -f raw "$EXT_MP" | grep 'virtual size' | head -n 1
+@@ -2853,7 +2873,7 @@ static gboolean str_equal_func(gconstpointer a, gconstpointer b)
+ }
  
- fuse_export_del 'export-mp'
+ /**
+- * Open an image file chain and return an BlockNodeInfoList
++ * Open an image file chain and return an BlockGraphInfoList
+  *
+  * @filename: topmost image filename
+  * @fmt: topmost image format (may be NULL to autodetect)
+@@ -2864,13 +2884,13 @@ static gboolean str_equal_func(gconstpointer a, gconstpointer b)
+  * opening an image file.  If there was an error a message will have been
+  * printed to stderr.
+  */
+-static BlockNodeInfoList *collect_image_info_list(bool image_opts,
+-                                                  const char *filename,
+-                                                  const char *fmt,
+-                                                  bool chain, bool force_share)
++static BlockGraphInfoList *collect_image_info_list(bool image_opts,
++                                                   const char *filename,
++                                                   const char *fmt,
++                                                   bool chain, bool force_share)
+ {
+-    BlockNodeInfoList *head = NULL;
+-    BlockNodeInfoList **tail = &head;
++    BlockGraphInfoList *head = NULL;
++    BlockGraphInfoList **tail = &head;
+     GHashTable *filenames;
+     Error *err = NULL;
  
- # See that the file appears empty again
--$QEMU_IMG info -f raw "$EXT_MP" | grep 'virtual size'
-+$QEMU_IMG info -f raw "$EXT_MP" | grep 'virtual size' | head -n 1
+@@ -2879,7 +2899,7 @@ static BlockNodeInfoList *collect_image_info_list(bool image_opts,
+     while (filename) {
+         BlockBackend *blk;
+         BlockDriverState *bs;
+-        BlockNodeInfo *info;
++        BlockGraphInfo *info;
  
- echo
- echo '=== Writable export ==='
+         if (g_hash_table_lookup_extended(filenames, filename, NULL, NULL)) {
+             error_report("Backing file '%s' creates an infinite loop.",
+@@ -2896,7 +2916,14 @@ static BlockNodeInfoList *collect_image_info_list(bool image_opts,
+         }
+         bs = blk_bs(blk);
+ 
+-        bdrv_query_block_node_info(bs, &info, &err);
++        /*
++         * Note that the returned BlockGraphInfo object will not have
++         * information about this image's backing node, because we have opened
++         * it with BDRV_O_NO_BACKING.  Printing this object will therefore not
++         * duplicate the backing chain information that we obtain by walking
++         * the chain manually here.
++         */
++        bdrv_query_block_graph_info(bs, &info, &err);
+         if (err) {
+             error_report_err(err);
+             blk_unref(blk);
+@@ -2929,7 +2956,7 @@ static BlockNodeInfoList *collect_image_info_list(bool image_opts,
+     return head;
+ 
+ err:
+-    qapi_free_BlockNodeInfoList(head);
++    qapi_free_BlockGraphInfoList(head);
+     g_hash_table_destroy(filenames);
+     return NULL;
+ }
+@@ -2940,7 +2967,7 @@ static int img_info(int argc, char **argv)
+     OutputFormat output_format = OFORMAT_HUMAN;
+     bool chain = false;
+     const char *filename, *fmt, *output;
+-    BlockNodeInfoList *list;
++    BlockGraphInfoList *list;
+     bool image_opts = false;
+     bool force_share = false;
+ 
+@@ -3019,14 +3046,14 @@ static int img_info(int argc, char **argv)
+         break;
+     case OFORMAT_JSON:
+         if (chain) {
+-            dump_json_block_node_info_list(list);
++            dump_json_block_graph_info_list(list);
+         } else {
+-            dump_json_block_node_info(list->value);
++            dump_json_block_graph_info(list->value);
+         }
+         break;
+     }
+ 
+-    qapi_free_BlockNodeInfoList(list);
++    qapi_free_BlockGraphInfoList(list);
+     return 0;
+ }
+ 
+diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
+index b724c89c7c..b76701c71e 100755
+--- a/tests/qemu-iotests/065
++++ b/tests/qemu-iotests/065
+@@ -56,7 +56,7 @@ class TestQemuImgInfo(TestImageInfoSpecific):
+     def test_human(self):
+         data = qemu_img('info', '--output=human', test_img).stdout.split('\n')
+         data = data[(data.index('Format specific information:') + 1)
+-                    :data.index('')]
++                    :data.index("Child node '/file':")]
+         for field in data:
+             self.assertTrue(re.match('^ {4}[^ ]', field) is not None)
+         data = [line.strip() for line in data]
+diff --git a/tests/qemu-iotests/302.out b/tests/qemu-iotests/302.out
+index 3e7c281b91..edfa1c4f05 100644
+--- a/tests/qemu-iotests/302.out
++++ b/tests/qemu-iotests/302.out
+@@ -4,6 +4,11 @@ image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
+ file format: raw
+ virtual size: 448 KiB (458752 bytes)
+ disk size: unavailable
++Child node '/file':
++    image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
++    file format: nbd
++    virtual size: 448 KiB (458752 bytes)
++    disk size: unavailable
+ 
+ === Converted image info ===
+ image: TEST_IMG
 -- 
 2.35.3
 
