@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B838E55219C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 17:52:27 +0200 (CEST)
-Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B57552192
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 17:50:06 +0200 (CEST)
+Received: from localhost ([::1]:38334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3JhS-000572-Rp
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 11:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38884)
+	id 1o3JfB-0001kP-KT
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 11:50:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3JaY-0007Wg-Ks
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:45:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41639)
+ id 1o3JcS-0008VQ-00
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:47:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3JaV-0006Dy-JY
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:45:18 -0400
+ id 1o3JcQ-0006bv-BL
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:47:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655739913;
+ s=mimecast20190719; t=1655740033;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ctj+iTGJbOWSVIP02uFMbtgi4bSPnwLF4wJ7j14nlqE=;
- b=bWTyVCIkdUu9IMjPzHTJ9u3EmPUMQvvMVJBGtTpYs4uC3JAv5ahoOy2LfU5TR5v3LnSQYe
- 5wLpXGExIJ3c019qQiOsFDWqFqT6BNhKdfN5qOwjiwoADuDmbcZhEwoikcuXH42l/g8xtK
- 8+xVEI5/89lgiS3CHXlFeT01KUgTZwo=
+ bh=fyjQ/V2v3bnipHP/hcB7aGW5mrimo4Kby6BpF6syFoA=;
+ b=MEofb5Y5AEgIfh+FvThr78GfgX8jIRrKMhWzyF3HqUZQo1JKaZwkGneXMFRhrRHCbm/Tzh
+ TIX00fD1KmeG9BdxZepcUdtNnVF1YkXZRvYWZz6b2vU0nlU2SiiK4wS7WryjSkEUv/70V4
+ ai9fPqZuwNDFzVqUF0ioyYbSR8mB5Zk=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-VhXhEWh0PXa8uWV_OjwAcA-1; Mon, 20 Jun 2022 11:45:12 -0400
-X-MC-Unique: VhXhEWh0PXa8uWV_OjwAcA-1
+ us-mta-609-Xsp0rHAsPuGl_GySYRs4Tg-1; Mon, 20 Jun 2022 11:47:12 -0400
+X-MC-Unique: Xsp0rHAsPuGl_GySYRs4Tg-1
 Received: by mail-wm1-f70.google.com with SMTP id
- v125-20020a1cac83000000b0039c832fbd02so7046098wme.4
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 08:45:11 -0700 (PDT)
+ p24-20020a05600c1d9800b0039c51c2da19so5969692wms.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 08:47:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ctj+iTGJbOWSVIP02uFMbtgi4bSPnwLF4wJ7j14nlqE=;
- b=7pVTPUbhE+eNGwRzVDA6nbQkcCutFmzMsakZNFVPhdLkS2tpp28qARe7czjnl7WsDj
- fSc3EV0etOylZyLjCsNfjDz0u25EUYawJkBbn/dDHEaXw/ppLBbsA9ZG9awJuJAASbDX
- kpQLdzJtWztVf0xJvioZz+Yz6GKyq6i82Y/q2D+DpkzlPTS22aECmWP31reXPzQcnfin
- iceEb4+rk39sXOr3CA+A6yoyUVIv35Ierv70QKQ2tS/6IYKAOrlCe07F57f9JK9654mN
- /bIEDkVb85dLhjwiS0UYH7kp1VflBuO6/2iw2OYzB+z/FzoXOiKpibj/6sr5DXa8Ph83
- 7pmg==
-X-Gm-Message-State: AOAM533bpC48BJntop3473Z/CI4sopGLmWZiI2T1I5D+43H4FjNthNoj
- g1TOSpPcU7q85Bo5kCZ8hdjAunNi+fUJugAjGmXqqLI1EZahcuiUHVHV9wJNbyB+WALCYdwz+M/
- /139i7YkpE1KtibQ=
-X-Received: by 2002:a05:600c:1f05:b0:39c:51c6:7c85 with SMTP id
- bd5-20020a05600c1f0500b0039c51c67c85mr36893873wmb.33.1655739910867; 
- Mon, 20 Jun 2022 08:45:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLIXqEAIIdWA+j/PkywLjgXCI7EyPZnl+kZL3AnhMfE0LqtM+/rVkTVckdDudn7fEIw80BQg==
-X-Received: by 2002:a05:600c:1f05:b0:39c:51c6:7c85 with SMTP id
- bd5-20020a05600c1f0500b0039c51c67c85mr36893842wmb.33.1655739910607; 
- Mon, 20 Jun 2022 08:45:10 -0700 (PDT)
+ bh=fyjQ/V2v3bnipHP/hcB7aGW5mrimo4Kby6BpF6syFoA=;
+ b=eCV2hFyuje7spMAOyf8CuIczloWcpXqmKSl1Y1kCYKBp794IuOJLeWwHipb0BDQfjo
+ EX3D0NjrUPPTqBahOQFVSf9kYLw5xNPrAvw/GK0SSS0y5NmCueKRMRV6/erwa3JS7Keb
+ J/RMjneUKsJ1B6sxaZ8LbA1CsZk1FGW/KojZS3HWD37n3/R3txwQkJRH4E3wgbKg9Z+1
+ 2bIWl4RhECpaYNFAl6HXD+WbB6auJDK8Vs6FsymCMtFuejB7/jRn4SXDM3O5E0y6akM/
+ qM+pOzOIhQX3R4JPRSsqRmRCysIS87dgwpShD+4S3QPM97ggPYjY8iA8eF/3aFHcWpq3
+ OQaw==
+X-Gm-Message-State: AJIora+ASly3/OqF3a9D6IGYTv88vlEgmaPsnF2l0m8YW6pAcFKvtmRe
+ VwO3OO2dJ43nN9H3BxcDzm8KQ1qk7Q2KgqUrb6lvP5mnVl/084aXOG4OuKNyIbTXN/1XqRz226N
+ NSfRkrjLFoGtFuxY=
+X-Received: by 2002:adf:decc:0:b0:21b:8915:36da with SMTP id
+ i12-20020adfdecc000000b0021b891536damr10687264wrn.261.1655740031173; 
+ Mon, 20 Jun 2022 08:47:11 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vpWu/ognJqBj0Vgm18NACmeKgdd2+kHg7LwVsDwRHpEqE92nYWMt8UcD222+qMYdbpijmQPg==
+X-Received: by 2002:adf:decc:0:b0:21b:8915:36da with SMTP id
+ i12-20020adfdecc000000b0021b891536damr10687244wrn.261.1655740030962; 
+ Mon, 20 Jun 2022 08:47:10 -0700 (PDT)
 Received: from localhost ([212.145.226.77]) by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c3b8900b0039c5b9e9142sm15877085wms.17.2022.06.20.08.45.09
+ b1-20020adfe301000000b00219b391c2d2sm16649127wrj.36.2022.06.20.08.47.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 08:45:10 -0700 (PDT)
+ Mon, 20 Jun 2022 08:47:10 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  "Dr. David Alan Gilbert"
  <dgilbert@redhat.com>,  Stefan Hajnoczi <stefanha@redhat.com>,  Hailiang
  Zhang <zhang.zhanghailiang@huawei.com>,  Fam Zheng <fam@euphon.net>,
  Hailiang Zhang <zhanghailiang@xfusion.com>
-Subject: Re: [PATCH v2 20/21] migration: remove the QEMUFileOps
- 'get_return_path' callback
-In-Reply-To: <20220620110205.1357829-21-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Mon, 20 Jun 2022 12:02:04
+Subject: Re: [PATCH v2 21/21] migration: remove the QEMUFileOps abstraction
+In-Reply-To: <20220620110205.1357829-22-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Mon, 20 Jun 2022 12:02:05
  +0100")
 References: <20220620110205.1357829-1-berrange@redhat.com>
- <20220620110205.1357829-21-berrange@redhat.com>
+ <20220620110205.1357829-22-berrange@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 20 Jun 2022 17:45:09 +0200
-Message-ID: <871qvj1gqi.fsf@secure.mitica>
+Date: Mon, 20 Jun 2022 17:47:09 +0200
+Message-ID: <87wndbz69u.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,7 +90,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,7 +108,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> This directly implements the get_return_path logic using QIOChannel APIs.
+> Now that all QEMUFile callbacks are removed, the entire concept can be
+> deleted.
 >
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
