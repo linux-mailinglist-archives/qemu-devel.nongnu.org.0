@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45926552371
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 20:02:45 +0200 (CEST)
-Received: from localhost ([::1]:37822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA0B552392
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 20:09:02 +0200 (CEST)
+Received: from localhost ([::1]:56140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3LjY-0005FQ-8T
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 14:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
+	id 1o3Lpd-0000tx-7X
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 14:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3LZu-0005cZ-F3
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:46 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:44641)
+ id 1o3LZv-0005h8-Rj
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:47 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:40538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3LZs-0001NO-Qv
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:46 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id a14so1282766pgh.11
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:52:44 -0700 (PDT)
+ id 1o3LZt-0001Nz-Q6
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:52:47 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id c205so4147669pfc.7
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GI+YlDQYkDB/N7mh7auOF6n5z7sxW3awZsRTI+xJ+O8=;
- b=Ui6Jv1VSNxw+TnwLYlwaSuTkhMfo67zUK/R/myq0tuXimgLuLEgDxZ37H3nc/nM9X3
- 8eeogw77pGTjhLOuD7gqx1KtB3pePwHaD44qg4m6MdIuN9hUAlepIsEk+Vt6j4p/UhPk
- PccBPij1v5Q3Eg2tzuzQIAINlSFVeg0tXJ4eawbn6nnoGiZaDd76rWq+uFBij7X1dRcP
- glNy7Mk+cW6+OaWAYrHU62KJlSFmqGTu86lvSmP62uM7VD1aBfDLMt3+ioxe8fHFIJks
- kdh08mabEBMn9n6ss/PbcUB2pQm5KgwngI31G+208oKOc+wPhI6se37mKJnEzldEg9f2
- SbUg==
+ bh=bZQ/+9oH8WDS9FGV3y9tSTDQVCQZ26UllDhjGlm8djg=;
+ b=pUchknfOpwJ/0g5CCmOSVvKIsUzP8B/CnSDyLfgjxFK1W8mNMMK6eFY/IcB48g33jK
+ SAccq0K76KO8PS9d3nkvbnTpCq+bWAzWz/Tbsa1AjhYgMQmWGSOZVFFMpWPBdckkzhWt
+ l5Ud3XAsb/xPhITnYmHiw/uxdFu7BPCFbjwc1vJyXVMBGmBq/sTsojON5KxC64wU99r1
+ JxtqlbvVJe+yggCfEkRUVE8LtpWD5RyYzLbl6oLHPGtHNOBhr3sLb4ybXR/VC4ciNm8D
+ Yx/vOF1sFgzSMqE3e9F8JcluopLqmSAmrMLXj98iZlPo0CM+eSB7HTpP0hwLOqj8hdGN
+ +Fhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GI+YlDQYkDB/N7mh7auOF6n5z7sxW3awZsRTI+xJ+O8=;
- b=egjX5BMRd7to0MDduaCNVaT2OmLwuFUJ9REcLuBEQnY5+1BPjtMBzd37iJMc3enp1M
- aAKKVObk1LD2PBMAkcCi0NhKd1AtFUqcR295v5IUjv4kkNSsMn8CZqDRwvnzvBFLQZcL
- nxJSRGR0Bg/7aVkNsYONeKlIV0Cxa0XaVYvf40+XPAjz5lkE5+yhBd6zmWkHwYV9Y6kg
- A9s4SIn3Uar6KbcOYWSrorPtUSVtE0EVBMWt1G+/xEzU+gR8A+GKtXKY5zixZEgR3c/x
- N8jmb8b+g8dgO9zVBulzEXEmWbH1cfB3Ims7GJMjc4wPGJkuG6EbhRIvOLgNF8ieo9SA
- DzhQ==
-X-Gm-Message-State: AJIora++qlyahUWxEDOz0IV6NtyvsTAOIJt3qtJTsksU7nhmUVtqKQ7w
- 3Q0zVPjj1UrtFSeEDbNpPaEUsQsI0O+y+Q==
-X-Google-Smtp-Source: AGRyM1tt3F6mcClzIjDh7IMHdKO4A2oef7cUyczI5VABR/JdGdbKZ+7bAd9RyE5y8IIHIfWS7EtqNw==
-X-Received: by 2002:a05:6a00:2185:b0:520:7276:6570 with SMTP id
- h5-20020a056a00218500b0052072766570mr25433927pfi.84.1655747563472; 
- Mon, 20 Jun 2022 10:52:43 -0700 (PDT)
+ bh=bZQ/+9oH8WDS9FGV3y9tSTDQVCQZ26UllDhjGlm8djg=;
+ b=HyQIS6FS8hK86OS5gkPglnK1vjHaKYc4CwkHAx9ZjyRamSEyUSAOBDn2WfbatYYVPi
+ 5xUFZ8R+3tKTFWxzfHSu/rxdxmwrJnwKOCkxmqnH0QY9xWKaY45Ircg+3MXfKaOLLHjh
+ Lo+hM1V1cTWuhBto8y9yU/wS9ahHNCTOZoP7NkdS+4c5p8FSFVP69AGar77m3OY/Scaz
+ rVsQZcN3LkJ2X5+O2YTGaUByij/8cS729kI3Kb9fCPeDU82Z/yyTeoAyykaR/vrJCRSS
+ Dzkk6A5EUv19Zbi6aFdVyfaIroCH6++v60Ur0KUlkg+sJm9zyXphWA1RzrB70PP1vWBh
+ SEWw==
+X-Gm-Message-State: AJIora+015cCRmN1tYDL4CIA3/z7BhUvngl7FP2shqMdjSErSrXGwOT5
+ f9aUQlxMwGfXsE45JCzriWj3NTAKWs6plg==
+X-Google-Smtp-Source: AGRyM1uRk9mFVAvmnK8EWZKbQ+eQP2p0n280NzKfuEg7cbGjRpWt03dyW4i5/D6esPx/lt5U4a+0BQ==
+X-Received: by 2002:a05:6a00:23ca:b0:525:28b4:9e3b with SMTP id
+ g10-20020a056a0023ca00b0052528b49e3bmr3563538pfc.43.1655747564483; 
+ Mon, 20 Jun 2022 10:52:44 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
  by smtp.gmail.com with ESMTPSA id
- j14-20020aa7928e000000b00525133f98adsm5138138pfa.146.2022.06.20.10.52.42
+ j14-20020aa7928e000000b00525133f98adsm5138138pfa.146.2022.06.20.10.52.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 10:52:43 -0700 (PDT)
+ Mon, 20 Jun 2022 10:52:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 08/51] target/arm: Add PSTATE.{SM,ZA} to TB flags
-Date: Mon, 20 Jun 2022 10:51:52 -0700
-Message-Id: <20220620175235.60881-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/51] target/arm: Add the SME ZA storage to CPUARMState
+Date: Mon, 20 Jun 2022 10:51:53 -0700
+Message-Id: <20220620175235.60881-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220620175235.60881-1-richard.henderson@linaro.org>
 References: <20220620175235.60881-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,74 +89,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are required to determine if various insns
-are allowed to issue.
+Place this late in the resettable section of the structure,
+to keep the most common element offsets from being > 64k.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h           | 2 ++
- target/arm/translate.h     | 4 ++++
- target/arm/helper.c        | 4 ++++
- target/arm/translate-a64.c | 2 ++
- 4 files changed, 12 insertions(+)
+ target/arm/cpu.h     |  8 ++++++++
+ target/arm/machine.c | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index dec52c6c3b..05d369e690 100644
+index 05d369e690..c3c7ec697d 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3160,6 +3160,8 @@ FIELD(TBFLAG_A64, TCMA, 16, 2)
- FIELD(TBFLAG_A64, MTE_ACTIVE, 18, 1)
- FIELD(TBFLAG_A64, MTE0_ACTIVE, 19, 1)
- FIELD(TBFLAG_A64, SMEEXC_EL, 20, 2)
-+FIELD(TBFLAG_A64, PSTATE_SM, 22, 1)
-+FIELD(TBFLAG_A64, PSTATE_ZA, 23, 1)
+@@ -694,6 +694,14 @@ typedef struct CPUArchState {
+     } keys;
  
- /*
-  * Helpers for using the above.
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index c88c953325..93766649f7 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -97,6 +97,10 @@ typedef struct DisasContext {
-     bool align_mem;
-     /* True if PSTATE.IL is set */
-     bool pstate_il;
-+    /* True if PSTATE.SM is set. */
-+    bool pstate_sm;
-+    /* True if PSTATE.ZA is set. */
-+    bool pstate_za;
-     /* True if MVE insns are definitely not predicated by VPR or LTPSIZE */
-     bool mve_no_pred;
-     /*
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index bbd04fbd67..e06c054c3d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11335,6 +11335,10 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-     }
-     if (cpu_isar_feature(aa64_sme, env_archcpu(env))) {
-         DP_TBFLAG_A64(flags, SMEEXC_EL, sme_exception_el(env, el));
-+        if (FIELD_EX64(env->svcr, SVCR, SM)) {
-+            DP_TBFLAG_A64(flags, PSTATE_SM, 1);
-+        }
-+        DP_TBFLAG_A64(flags, PSTATE_ZA, FIELD_EX64(env->svcr, SVCR, ZA));
-     }
+     uint64_t scxtnum_el[4];
++
++    /*
++     * SME ZA storage -- 256 x 256 byte array, with bytes in host word order,
++     * as we do with vfp.zregs[].  Because this is so large, keep this toward
++     * the end of the reset area, to keep the offsets into the rest of the
++     * structure smaller.
++     */
++    ARMVectorReg zarray[ARM_MAX_VQ * 16];
+ #endif
  
-     sctlr = regime_sctlr(env, stage1);
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 8f609f46b6..5cf4a283ba 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14630,6 +14630,8 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->ata = EX_TBFLAG_A64(tb_flags, ATA);
-     dc->mte_active[0] = EX_TBFLAG_A64(tb_flags, MTE_ACTIVE);
-     dc->mte_active[1] = EX_TBFLAG_A64(tb_flags, MTE0_ACTIVE);
-+    dc->pstate_sm = EX_TBFLAG_A64(tb_flags, PSTATE_SM);
-+    dc->pstate_za = EX_TBFLAG_A64(tb_flags, PSTATE_ZA);
-     dc->vec_len = 0;
-     dc->vec_stride = 0;
-     dc->cp_regs = arm_cpu->cp_regs;
+ #if defined(CONFIG_USER_ONLY)
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index 285e387d2c..54c5c62433 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -167,6 +167,39 @@ static const VMStateDescription vmstate_sve = {
+         VMSTATE_END_OF_LIST()
+     }
+ };
++
++static const VMStateDescription vmstate_vreg = {
++    .name = "vreg",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64_ARRAY(d, ARMVectorReg, ARM_MAX_VQ * 2),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool za_needed(void *opaque)
++{
++    ARMCPU *cpu = opaque;
++
++    /*
++     * When ZA storage is disabled, its contents are discarded.
++     * It will be zeroed when ZA storage is re-enabled.
++     */
++    return FIELD_EX64(cpu->env.svcr, SVCR, ZA);
++}
++
++static const VMStateDescription vmstate_za = {
++    .name = "cpu/sme",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = za_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT_ARRAY(env.zarray, ARMCPU, ARM_MAX_VQ * 16, 0,
++                             vmstate_vreg, ARMVectorReg),
++        VMSTATE_END_OF_LIST()
++    }
++};
+ #endif /* AARCH64 */
+ 
+ static bool serror_needed(void *opaque)
+@@ -884,6 +917,7 @@ const VMStateDescription vmstate_arm_cpu = {
+         &vmstate_m_security,
+ #ifdef TARGET_AARCH64
+         &vmstate_sve,
++        &vmstate_za,
+ #endif
+         &vmstate_serror,
+         &vmstate_irq_line_state,
 -- 
 2.34.1
 
