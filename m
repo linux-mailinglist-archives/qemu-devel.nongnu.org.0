@@ -2,98 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB63551ED8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:33:08 +0200 (CEST)
-Received: from localhost ([::1]:49878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9404B551F42
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:44:45 +0200 (CEST)
+Received: from localhost ([::1]:44616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ISh-0006TV-PS
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46898)
+	id 1o3Idw-0005FP-NC
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o3ING-00014K-Ib
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:27:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o3INC-0001pL-DD
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:27:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655735245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3c/Rptnd0VRSX8faOslbPxBGhxLNgusauGEB6P26/WM=;
- b=HUpRPBQSVBb5wB9Q713Q6FlpoNsHeg4X8lrIzqD7w/19zc8r2Es54V9eNaXsiXIh6LtqAn
- E0xCq+Ak3QcrLrvuJlfsQTFCRJ/u+aWobYh9yB87vCcp7Ji0lsLQN8G7LYScqRINV6gK1v
- hxyAVZCxCEm3fMh7hIuKEpxcC84G+II=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-iiYWyDRcMim2X8iMS0JzBQ-1; Mon, 20 Jun 2022 10:27:23 -0400
-X-MC-Unique: iiYWyDRcMim2X8iMS0JzBQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m23-20020a05600c3b1700b0039c6e3c169aso5088811wms.2
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 07:27:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3INx-0002Q5-RQ
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:28:14 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:40644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3INv-0001xz-Sq
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 10:28:13 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ g16-20020a17090a7d1000b001ea9f820449so10923288pjl.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 07:28:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=9K6mtjzoDqovgQg2ye9Y32ljTHqjIORbw6htsWnKFiY=;
+ b=YUc9oYhDg+7Si0hSfVp7Gp+kKEELCLyqM5EXeelW7qveJoucITA/yJQQOx7FSmiQKz
+ giQEuNX8YrkFqZtCcBtTsUuWvLOGzLJMpEnahOhrKNgqKRgt3yHRxqjEWmCPGxXwKZFe
+ 1LJ4TxTJ9tWp6pIc12LN/RZECPxUsKslQNGvB9H/3YL8LtT8Kvjbe3NEOF4cKdzXBeA+
+ fIz0AW1eEjHd7QpPfhy3cZivyRwzzLT400+Z+VRTBtISD9KRIQ4MJyjMdthu3XDTF6ps
+ h2RjRkUmPOxIcA8cyIDTP1SKJPSwOJqHmbxDIx8+7TR9utbSFXDuS8WO6AWJqISrxBQV
+ 97ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3c/Rptnd0VRSX8faOslbPxBGhxLNgusauGEB6P26/WM=;
- b=Ss4RrCPcCK6j/Ud5qS0RsYyMLljeGQ9A+4fctA7+U9B09Rjc9umtDto+0eQYuecxLR
- XmRdLuBLRSRZ3USXZSEPyybryGivR+UTGxrOTTA4YfGNS5XD2O9C02TYoAkyx3Xz2aov
- EIQT9aTLZt4VXN8ykiBi+/trG7Z+seBacGZIYRj1+Ia2ADYDLQ8COdOa9VCliqMbvzod
- 2+wX9gFRhvGUy2dXWPHnLCK4rdRTN3TlpI1f7nmnMAa09ACRCWBtm2LisRTzt9IFEZVe
- wyyp634oskkmFnluL6UnlgZzuRU2RkkJCjDQnmHMsB0e+ba2b9gt15VRQBq2qHOOftG9
- j2dw==
-X-Gm-Message-State: AJIora/+uOIhd1gST0n+st+H6iA0j8GBE+8TR/HrUec14/lfogsgq1my
- CZazCrFHYnVUjUtTqGwJGImRGiFIbTnUn3v63lDxIui20IV/kFYjPOsCVHxeA6l8QpD4mse/Kv5
- Q7fRmQYRVhOoB7sM=
-X-Received: by 2002:a5d:4d02:0:b0:21b:89e9:87a9 with SMTP id
- z2-20020a5d4d02000000b0021b89e987a9mr9722893wrt.601.1655735242758; 
- Mon, 20 Jun 2022 07:27:22 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s53NmTRlyMW/bFkfAT1xP0eRL4xdaJM6/LsDpziHUpWML16ihcebLJTajM/EdG/i5o1Rro6g==
-X-Received: by 2002:a5d:4d02:0:b0:21b:89e9:87a9 with SMTP id
- z2-20020a5d4d02000000b0021b89e987a9mr9722864wrt.601.1655735242491; 
- Mon, 20 Jun 2022 07:27:22 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9K6mtjzoDqovgQg2ye9Y32ljTHqjIORbw6htsWnKFiY=;
+ b=fW9uZX5SXiEbM33ciaOwL/xmkjzyelgx8FG/NINeon4ktZR2f8cRSXXdtDpRBOM1Uj
+ y/TILsvqwRJla4Pr1vU0KOogqGpREj3EOipGTIvENiaDX7Sdjl//giyQuswS2dgDTDIt
+ srqrSbCLTds38OstDwGmAoMbGA7Blchrza8mO3+4wlo8m9wO8TRrfdJAPtiYp5Ncwywc
+ Oms1gu/EG6br+23pZ6JGCzwXtTKzLpPj17HsFH7QYYwgzqeWx3QFH1S4EYGJ5eUfTGwT
+ 0exoOT45Qh0Y11EPVxQuG/C+teo2JlsS9VXhcscSDQHJfqS+URXydCZNJ+TLxYX9k23+
+ jD6w==
+X-Gm-Message-State: AJIora/5V0Ul4Ui49hMqVJzqMS9qvXzIlicKaiSMd4UWlJGDKHMZapzh
+ uAOM6ukeZ6ybrk4OhkQCiAS+lQ==
+X-Google-Smtp-Source: AGRyM1sV1bb2j6Ls1m13eDbQ/tzeWuem7Ex5YHv50F/Xfujr/j4Cf+KBbavKcT55lH1V91judkmu/A==
+X-Received: by 2002:a17:90b:3b4e:b0:1e8:743a:735c with SMTP id
+ ot14-20020a17090b3b4e00b001e8743a735cmr38279841pjb.189.1655735290153; 
+ Mon, 20 Jun 2022 07:28:10 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:60c5:8f7f:e684:b81d?
+ ([2602:47:d49e:3c01:60c5:8f7f:e684:b81d])
  by smtp.gmail.com with ESMTPSA id
- a17-20020a056000101100b00213465d202esm13506736wrx.46.2022.06.20.07.27.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 07:27:21 -0700 (PDT)
-Date: Mon, 20 Jun 2022 16:27:20 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>, Alex Williamson
- <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v5 4/5] i386/pc: relocate 4g start to 1T where applicable
-Message-ID: <20220620162720.2ea44444@redhat.com>
-In-Reply-To: <4f3e051e-fb13-5860-b39f-5ace782cdea0@oracle.com>
-References: <20220520104532.9816-1-joao.m.martins@oracle.com>
- <20220520104532.9816-5-joao.m.martins@oracle.com>
- <20220616162328.64138d4f@redhat.com>
- <bc50bb88-5330-a839-bd50-ca49b0edec9d@oracle.com>
- <20220617143251.5f064694@redhat.com>
- <4f3e051e-fb13-5860-b39f-5ace782cdea0@oracle.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ e11-20020a63744b000000b003c25dfd7372sm9116423pgn.26.2022.06.20.07.28.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jun 2022 07:28:09 -0700 (PDT)
+Message-ID: <41e54f7f-317d-79bd-ca91-a67e8ba6a721@linaro.org>
+Date: Mon, 20 Jun 2022 07:28:07 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: proposed 7.1 release schedule
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <CAFEAcA80ABJ+RXFeoH4mo5yJk5oNh4Zc5QTBN35vVOL4eg0cNQ@mail.gmail.com>
+ <a8f5f61a-c976-e48f-48e1-e87fecd61901@linaro.org>
+ <CAFEAcA_LzYqxSe=Pa7KJg-GuR8_E=Qfjj0s1by9LMasRiUR9sA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_LzYqxSe=Pa7KJg-GuR8_E=Qfjj0s1by9LMasRiUR9sA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,82 +97,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Jun 2022 14:33:02 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
-
-> On 6/17/22 13:32, Igor Mammedov wrote:
-> > On Fri, 17 Jun 2022 13:18:38 +0100
-> > Joao Martins <joao.m.martins@oracle.com> wrote:  
-> >> On 6/16/22 15:23, Igor Mammedov wrote:  
-> >>> On Fri, 20 May 2022 11:45:31 +0100
-> >>> Joao Martins <joao.m.martins@oracle.com> wrote:  
-> >>>> +                                hwaddr above_4g_mem_start,
-> >>>> +                                uint64_t pci_hole64_size)
-> >>>> +{
-> >>>> +    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-> >>>> +    X86MachineState *x86ms = X86_MACHINE(pcms);
-> >>>> +    MachineState *machine = MACHINE(pcms);
-> >>>> +    ram_addr_t device_mem_size = 0;
-> >>>> +    hwaddr base;
-> >>>> +
-> >>>> +    if (!x86ms->above_4g_mem_size) {
-> >>>> +       /*
-> >>>> +        * 32-bit pci hole goes from
-> >>>> +        * end-of-low-ram (@below_4g_mem_size) to IOAPIC.
-> >>>> +        */
-> >>>> +        return IO_APIC_DEFAULT_ADDRESS - 1;    
-> >>>
-> >>> lack of above_4g_mem, doesn't mean absence of device_mem_size or anything else
-> >>> that's located above it.
-> >>>     
-> >>
-> >> True. But the intent is to fix 32-bit boundaries as one of the qtests was failing
-> >> otherwise. We won't hit the 1T hole, hence a nop.  
-> > 
-> > I don't get the reasoning, can you clarify it pls?
-> >   
+On 6/20/22 03:50, Peter Maydell wrote:
+> On Mon, 23 May 2022 at 16:08, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 5/23/22 02:53, Peter Maydell wrote:
+>>> I just put some proposed dates into the 7.1 schedule page:
+>>> https://wiki.qemu.org/Planning/7.1#Release_Schedule
+>>>
+>>> * 2022-07-12  Softfreeze
+>>> * 2022-07-19  Hardfreeze. Tag rc0
+>>> * 2022-07-26  Tag rc1
+>>> * 2022-08-02  Tag rc2
+>>> * 2022-08-09  Tag rc3
+>>> * 2022-08-16  Release; or tag rc4 if needed
+>>> * 2022-08-23  Release if we needed an rc4
+>>>
+>>> Does this work for people? I just worked backwards
+>>> from a final release date about 4 months after 7.0; easy
+>>> enough to shift it forward or back by a week or so if
+>>> that works better for some reason.
+>>
+>> Shifting later a week or so would be better. I'm on holiday from 13-22 July -- unless
+>> someone would like to manage merges in that period?
 > 
-> I was trying to say that what lead me here was a couple of qtests failures (from v3->v4).
-> 
-> I was doing this before based on pci_hole64. phys-bits=32 was for example one
-> of the test failures, and pci-hole64 sits above what 32-bit can reference.
+> I've updated the wiki page to move the dates all one week
+> later, and removed the "tentative" label.
 
-if user sets phys-bits=32, then nothing above 4Gb should work (be usable)
-(including above-4g-ram, hotplug region or pci64 hole or sgx or cxl)
+Thanks.
 
-and this doesn't look to me as AMD specific issue
+> Ping me when we get closer to your holiday to remind
+> me that I agreed to do merges then :-)
 
-perhaps do a phys-bits check as a separate patch
-that will error out if max_used_gpa is above phys-bits limit
-(maybe at machine_done time)
-(i.e. defining max_gpa and checking if compatible with configured cpu
-are 2 different things)
+Will do.  :-)
 
-(it might be possible that tests need to be fixed too to account for it)
 
-> >>  Unless we plan on using
-> >> pc_max_used_gpa() for something else other than this.  
-> > 
-> > Even if '!above_4g_mem_sizem', we can still have hotpluggable memory region
-> > present and that can  hit 1Tb. The same goes for pci64_hole if it's configured
-> > large enough on CLI.
-> >   
-> So hotpluggable memory seems to assume it sits above 4g mem.
-> 
-> pci_hole64 likewise as it uses similar computations as hotplug.
-> 
-> Unless I am misunderstanding something here.
-> 
-> > Looks like guesstimate we could use is taking pci64_hole_end as max used GPA
-> >   
-> I think this was what I had before (v3[0]) and did not work.
-
-that had been tied to host's phys-bits directly, all in one patch
-and duplicating existing pc_pci_hole64_start().
- 
-> Let me revisit this edge case again.
-> 
-> [0] https://lore.kernel.org/all/20220223184455.9057-5-joao.m.martins@oracle.com/
-> 
+r~
 
 
