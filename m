@@ -2,96 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29145518A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 14:18:56 +0200 (CEST)
-Received: from localhost ([::1]:40216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA74A551881
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 14:12:50 +0200 (CEST)
+Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3GMp-0006kV-9t
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 08:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52188)
+	id 1o3GGv-00080z-VC
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 08:12:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o3GE0-00055b-Te
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:09:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o3GDy-0005Hc-9F
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:09:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655726985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7HeMhmdKsQDLyZntP2vHqr78q6h5gHWjeaiCs6lU8N8=;
- b=ggAIb6Mt5Jz024w00jcbEEMvkd/HLBvGCqAAMpb3c92xzhAYa76j6NXkgzadU0uJfnozmh
- N5JooVoHqBaOq2TuJGq5DJxYhlxt3S73Z5CjBB9aOMV/T7GgYMnPSPcUOEB1qDBvX5zPaJ
- YHXvs09NNt3XZcVZUkG4rYQe4eNE4dk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-630-KUFrdnMMMN66Sks4L6ax0g-1; Mon, 20 Jun 2022 08:09:44 -0400
-X-MC-Unique: KUFrdnMMMN66Sks4L6ax0g-1
-Received: by mail-qk1-f197.google.com with SMTP id
- r6-20020a05620a298600b006a98e988ba4so12863314qkp.3
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 05:09:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1o3GEO-0005av-HS
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:10:12 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:42584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1o3GEM-0005Vh-Nm
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 08:10:12 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id x38so18584837ybd.9
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 05:10:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xnIITciV8haa/THeYrVw9dV/Zy6FRpnqTaG6psHd29A=;
+ b=OATyM+JQ2u9uVMIr2xQj/9fLdLWkSwzigXfnr+DSVYrzhVgdwmUOABDnO08WGx73t8
+ GnH2eIoj5QngQI/+m4RBpuDIXVBce1GhQSOH9CwmxDuxdFM8+s1bTmxOUqb6NNQYCH9p
+ 98NFkXmBXE43aw7kzwrXlcvVSSptVua+VOnN993k/yfYdFAAHF6BZKwlfVRMeHWy33SI
+ NQF60/rrL5MvaTKZHQMgFxSwdEZAh3U5B448xeMnJk+sxgGPDri2Y/LrHYQWFDZ+jcdn
+ pDSrmkZNsFnzrMIU2ZdKIArmITV00WibuAIUzhpQ1v2smsHEryf18/fnflfYCpTzZ8lx
+ /ARw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7HeMhmdKsQDLyZntP2vHqr78q6h5gHWjeaiCs6lU8N8=;
- b=6fKUMkvx0PH6/Da9SAZvX8fvZa3T1QF3RQhJoquQIC3Dwn4f5obRaNI54sPXaf1n14
- b175i0zi0bRd8huuNuwautUK2Fbj3ws1l0BFGLeTBt+/6OaDK0MXdCkeiPdO4yYIBoCq
- 1IHV8PTNA7jD9ZT3cA5TI4PmZvJeHt69ejixF6iKayVlForHb2UQZmNjD/CRrgLPi+pI
- addZPbXn1dwJHQQeTr6jV+jf1tBZDuroS6OLHO3uAJMjBfuj2dQJEVlaad7v1q0iFhp7
- ikFF1cV+5grXS/UHJWd6NUG26sSQda3YQUIZuU2uS+Qd5eO+6q+AEVyLmXBq1nBqFUPh
- CHjQ==
-X-Gm-Message-State: AJIora/wowfAbF7jcfsHg6uh1OvWfuTaLEZGzCceIvEiDp8Pi16k/I46
- X/bqIVfSyLqbSzOB6qXVVZR632nOpc2+mkmiwbYc1loTs4RSALjtqFge2JqDhzJlyGzxYiOH7Fy
- J4SPEhdPX3wnG5oI=
-X-Received: by 2002:a37:66d6:0:b0:6a6:bdb9:cfba with SMTP id
- a205-20020a3766d6000000b006a6bdb9cfbamr16050546qkc.566.1655726983385; 
- Mon, 20 Jun 2022 05:09:43 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uaS9RXxDxEopvKI01YmWJJgswn94YF/niB0BhaqfLfzYEkusmHFgVJpcGekHMcl/DHxs9Vgw==
-X-Received: by 2002:a37:66d6:0:b0:6a6:bdb9:cfba with SMTP id
- a205-20020a3766d6000000b006a6bdb9cfbamr16050522qkc.566.1655726983086; 
- Mon, 20 Jun 2022 05:09:43 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- u12-20020a05620a0c4c00b006a760640118sm11692549qki.27.2022.06.20.05.09.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 05:09:42 -0700 (PDT)
-Message-ID: <cdf2736f-5e10-91a0-13aa-92d3e4838bae@redhat.com>
-Date: Mon, 20 Jun 2022 14:09:41 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xnIITciV8haa/THeYrVw9dV/Zy6FRpnqTaG6psHd29A=;
+ b=Vt2y+ZZweeX456iYGld90BND/piCSgnPucs/1n8HMS17OjaprZw++p8PUM8T7m4fAI
+ HPo5d8IQgs49A+TnkxS0CALEn0upNyVW/R8FEoWQvhfugqh9qArenRuJlxsH3hNOwJfu
+ ozG/Xxpzxm29rmMkD9+amdQL0tzx1PdXcjaYdw71VQFE57WchHwBK6rnLf1/95qRlxdh
+ H/N3Pc0fZdsSvd29iV2GNohnfs+Wn35YTr9oXouD84emA2TwFx6+xzA7q33KxcarNw1G
+ aFdsQ5E5If7iiK2qT6G+Csc1QPvBw737WBjK1UCtWc38z+lp80n31oJnIXPo5MZxlRX/
+ DByw==
+X-Gm-Message-State: AJIora/U6Xb1sUXmRNnIkmcWb42csoEASb8Fq/A24zigBOUWcBd9ZGaC
+ zV2AlvGt705OJwFYdAUUQZP5GbFhgutrkoPRmiw=
+X-Google-Smtp-Source: AGRyM1t51D0NISsGIJpp7xYZEN7Zdlrqzj2R0ocHufaxlrwGUb6uth7bWq/uOvHx+zSWvVwGc7+5thbsIXGxD1SkNrY=
+X-Received: by 2002:a25:f807:0:b0:668:b5ea:a36b with SMTP id
+ u7-20020a25f807000000b00668b5eaa36bmr17657674ybd.335.1655727008218; Mon, 20
+ Jun 2022 05:10:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC PATCH v2 3/8] qapi: net: add stream and dgram netdevs
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220512080932.735962-1-lvivier@redhat.com>
- <20220512080932.735962-4-lvivier@redhat.com> <87fsld1wtw.fsf@pond.sub.org>
- <a2a0124d-5065-3c1e-9c84-8b6d92addfae@redhat.com>
- <87bkuugnet.fsf@pond.sub.org>
- <a31f2370-71dc-4623-9966-eeab52b2632d@redhat.com>
- <87tu8f1swo.fsf@pond.sub.org>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <87tu8f1swo.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220613104402.10279-1-lizhang@suse.de>
+ <20220613161937.333a6b82@redhat.com>
+ <CAD8of+pp-3bKX44Q0++gRofx4gmzzjpq1N2HfgRacXT196pR7w@mail.gmail.com>
+ <2041c609-75e7-4743-d33a-dee0339a361e@redhat.com>
+In-Reply-To: <2041c609-75e7-4743-d33a-dee0339a361e@redhat.com>
+From: Li Zhang <zhlcindy@gmail.com>
+Date: Mon, 20 Jun 2022 14:09:57 +0200
+Message-ID: <CAD8of+oFOGUfuWNA9W5VqdyfKC8Qof3jnPGmzK36CR4VMMLDkg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] Fix the coredump when memory backend id conflicts
+ with default_ram_id
+To: Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, Li Zhang <lizhang@suse.de>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Yanan Wang <wangyanan55@huawei.com>, QEMU <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=zhlcindy@gmail.com; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,132 +88,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/06/2022 13:22, Markus Armbruster wrote:
-> Laurent Vivier <lvivier@redhat.com> writes:
-> 
->> On 15/06/2022 13:46, Markus Armbruster wrote:
->>> Laurent Vivier <lvivier@redhat.com> writes:
->>>
->>>> On 13/05/2022 13:44, Markus Armbruster wrote:
->>>>> Laurent Vivier <lvivier@redhat.com> writes:
->>>>>
->>>>>> Copied from socket netdev file and modified to use SocketAddress
->>>>>> to be able to introduce new features like unix socket.
->>>>>>
->>>>>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
->>>>>> according to the IP address type.
->>>>>> "listen" and "connect" modes are managed by stream netdev. An optional
->>>>>> parameter "server" defines the mode (server by default)
->>>>>>
->>>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>>>> ---
->>>>>>     hmp-commands.hx |   2 +-
->>>>>>     net/clients.h   |   6 +
->>>>>>     net/dgram.c     | 630 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>>     net/hub.c       |   2 +
->>>>>>     net/meson.build |   2 +
->>>>>>     net/net.c       |  24 +-
->>>>>>     net/stream.c    | 425 ++++++++++++++++++++++++++++++++
->>>>>>     qapi/net.json   |  38 ++-
->>>>>>     8 files changed, 1125 insertions(+), 4 deletions(-)
->>>>>>     create mode 100644 net/dgram.c
->>>>>>     create mode 100644 net/stream.c
->>>>>>
->> ...
->>>>>> diff --git a/net/net.c b/net/net.c
->>>>>> index 2aab7167316c..fd6b30a10c57 100644
->>>>>> --- a/net/net.c
->>>>>> +++ b/net/net.c
->>>>>> @@ -1015,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
->>>>>>     #endif
->>>>>>             [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
->>>>>>             [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
->>>>>> +        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
->>>>>> +        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
->>>>>>     #ifdef CONFIG_VDE
->>>>>>             [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
->>>>>>     #endif
->>>>>> @@ -1097,6 +1099,8 @@ void show_netdevs(void)
->>>>>>         int idx;
->>>>>>         const char *available_netdevs[] = {
->>>>>>             "socket",
->>>>>> +        "stream",
->>>>>> +        "dgram",
->>>>>>             "hubport",
->>>>>>             "tap",
->>>>>>     #ifdef CONFIG_SLIRP
->>>>>> @@ -1606,7 +1610,25 @@ int net_init_clients(Error **errp)
->>>>>>      */
->>>>>>     static bool netdev_is_modern(const char *optarg)
->>>>>>     {
->>>>>> -    return false;
->>>>>> +    static QemuOptsList dummy_opts = {
->>>>>> +        .name = "netdev",
->>>>>> +        .implied_opt_name = "type",
->>>>>> +        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
->>>>>> +        .desc = { { } },
->>>>>> +    };
->>>>>> +    const char *netdev;
->>>>>> +    QemuOpts *opts;
->>>>>> +    bool is_modern;
->>>>>> +
->>>>>> +    opts = qemu_opts_parse(&dummy_opts, optarg, true, &error_fatal);
->>>>>> +    netdev = qemu_opt_get(opts, "type");
->>>>>> +
->>>>>> +    is_modern = strcmp(netdev, "stream") == 0 ||
->>>>>> +                strcmp(netdev, "dgram") == 0;
->>>>>
->>>>> Crashes when user neglects to pass "type".
->>>>
->>>> I think "type" is always passed because of the '.implied_opt_name = "type"'. Am I wrong?
->>>
->>> .implied_opt_name = "type" lets you shorten "type=T,..." to "T,...".  It
->>> doesn't make key "type" mandatory.  "-netdev id=foo" is still permitted.
->>> Even "-netdev ''" is.
->>
->>
->> In fact type is checked before by QAPI definition:
->>
->> { 'union': 'Netdev',
->>     'base': { 'id': 'str', 'type': 'NetClientDriver' },
->>     'discriminator': 'type',
->> ...
->>
->> As it's the discriminator it must be there.
->>
->>     $ qemu-system-x86_64 -netdev id=foo
->>     qemu-system-x86_64: -netdev id=foo: Parameter 'type' is missing
-> 
-> It does crash for me:
-> 
->      (gdb) bt
->      #0  0x00007ffff4d25dcb in __strcmp_avx2 () at /lib64/libc.so.6
->      #1  0x0000555555b4574b in netdev_is_modern (optarg=0x7fffffffe2ae "id=foo")
->          at ../net/net.c:1626
->      #2  0x0000555555b457ad in net_client_parse
->          (opts_list=0x555556563780 <qemu_netdev_opts>, optarg=0x7fffffffe2ae "id=foo") at ../net/net.c:1636
->      #3  0x0000555555ad98de in qemu_init (argc=3, argv=0x7fffffffdf08, envp=0x0)
->          at ../softmmu/vl.c:2901
->      #4  0x0000555555842c01 in qemu_main (argc=3, argv=0x7fffffffdf08, envp=0x0)
->          at ../softmmu/main.c:35
->      #5  0x0000555555842c37 in main (argc=3, argv=0x7fffffffdf08)
->          at ../softmmu/main.c:45
->      (gdb) up
->      #1  0x0000555555b4574b in netdev_is_modern (optarg=0x7fffffffe2ae "id=foo")
->          at ../net/net.c:1626
->      1626	    is_modern = strcmp(netdev, "stream") == 0 ||
->      (gdb) p netdev
->      $1 = 0x0
-> 
-> This is
-> 
->       https://github.com/patchew-project/qemu tags/patchew/20220512080932.735962-1-lvivier@redhat.com
-> 
-> I suspect you tested with your v3, which doesn't crash for me, either.
-> 
+On Mon, Jun 13, 2022 at 5:31 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 13.06.22 16:37, Li Zhang wrote:
+> > On Mon, Jun 13, 2022 at 4:19 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >>
+> >> On Mon, 13 Jun 2022 12:44:02 +0200
+> >> Li Zhang <lizhang@suse.de> wrote:
+> >>
+> >>> When no memory backend is specified in machine options,
+> >>> a default memory device will be added with default_ram_id.
+> >>> However, if a memory backend object is added in QEMU options
+> >>> and id is the same as default_ram_id, a coredump happens.
+> >>>
+> >>> Command line:
+> >>> qemu-system-x86_64 -name guest=vmtest,debug-threads=on \
+> >>> -machine pc-q35-6.0,accel=kvm,usb=off,vmport=off \
+> >>> -smp 16,sockets=16,cores=1,threads=1 \
+> >>> -m 4G \
+> >>> -object memory-backend-ram,id=pc.ram,size=4G \
+> >>> -no-user-config -nodefaults -nographic
+> >>>
+> >>> Stack trace of thread 16903:
+> >>>     #0  0x00007fb109a9318b raise (libc.so.6 + 0x3a18b)
+> >>>     #1  0x00007fb109a94585 abort (libc.so.6 + 0x3b585)
+> >>>     #2  0x0000558c34bc89be error_handle_fatal (qemu-system-x86_64 + 0x9c89be)
+> >>>     #3  0x0000558c34bc8aee error_setv (qemu-system-x86_64 + 0x9c8aee)
+> >>>     #4  0x0000558c34bc8ccf error_setg_internal (qemu-system-x86_64 + 0x9c8ccf)
+> >>>     #5  0x0000558c349f6899 object_property_try_add (qemu-system-x86_64 + 0x7f6899)
+> >>>     #6  0x0000558c349f7df8 object_property_try_add_child (qemu-system-x86_64 + 0x7f7df8)
+> >>>     #7  0x0000558c349f7e91 object_property_add_child (qemu-system-x86_64 + 0x7f7e91)
+> >>>     #8  0x0000558c3454686d create_default_memdev (qemu-system-x86_64 + 0x34686d)
+> >>>     #9  0x0000558c34546f58 qemu_init_board (qemu-system-x86_64 + 0x346f58)
+> >>>     #10 0x0000558c345471b9 qmp_x_exit_preconfig (qemu-system-x86_64 + 0x3471b9)
+> >>>     #11 0x0000558c345497d9 qemu_init (qemu-system-x86_64 + 0x3497d9)
+> >>>     #12 0x0000558c344e54c2 main (qemu-system-x86_64 + 0x2e54c2)
+> >>>     #13 0x00007fb109a7e34d __libc_start_main (libc.so.6 + 0x2534d)
+> >>>     #14 0x0000558c344e53ba _start (qemu-system-x86_64 + 0x2e53ba)
+> >>>
+> >>> Signed-off-by: Li Zhang <lizhang@suse.de>
+> >>
+> >> Acked-by: Igor Mammedov <imammedo@redhat.com>
+> >>
+> >>
+> >> CCing David as he probably would be the one to merge it
+> >>
+> >
+> > Thanks for your review.
+>
+>
+> Acked-by: David Hildenbrand <david@redhat.com>
+>
+>
 
-Yes, thank you. So this is fixed now :)
+Thanks David.
 
-Laurent
+> Paolo, can you queue this?
+>
+> https://lore.kernel.org/qemu-devel/20220613104402.10279-1-lizhang@suse.de/
+>
 
+Hi Paolo,
+It's been acked by Igor and David. Would you please queue this patch?
+
+Thanks
+Li
+
+> --
+> Thanks,
+>
+> David / dhildenb
+>
+
+
+--
+
+Best Regards
+-Li
 
