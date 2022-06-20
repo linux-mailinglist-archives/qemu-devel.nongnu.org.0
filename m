@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9203E55219E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 17:53:37 +0200 (CEST)
-Received: from localhost ([::1]:44684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EB75521D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 18:06:51 +0200 (CEST)
+Received: from localhost ([::1]:58232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Jia-00067N-GG
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 11:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
+	id 1o3JvO-0007PO-H6
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 12:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3JgE-0004I1-49
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:51:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3JgC-0007Ap-8K
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:51:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655740267;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8Pv5cgNETIx+m3dhXS8w6qP92pk6R4FOm2V4v5NOM9w=;
- b=aQmDnPBqy+hK+ZqE7Q5fuuCsziKvpap+i702aCbbHoow5BrHF3WVJxAvZL65Ow59dMhcbk
- U7eLk2uZpdZxlFS62l/aOv+RJMrBce+bo93mNiDfIPs9GYjl1iJLzIGlmKGh0bWGEZdO2x
- d8psxYMt/WGU+WspGynNUEr51oyT+nA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-JYz-3aIMPR6n3FgpR1bIaQ-1; Mon, 20 Jun 2022 11:51:05 -0400
-X-MC-Unique: JYz-3aIMPR6n3FgpR1bIaQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- be12-20020a05600c1e8c00b0039c506b52a4so5879883wmb.1
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 08:51:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3Jo6-0004Yn-1x
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:59:18 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:45255)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3Jo4-000051-9H
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 11:59:17 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ t3-20020a17090a510300b001ea87ef9a3dso10704842pjh.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 08:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=RZs8/gV6NTeCKkUnHwB0cToNo4U1+j2szoFc6j7z4JA=;
+ b=b+7Jp6BJd7Tw1APIIBay4LOk/bPd6RIeOhQBWYfCwsoEi0ZXlQGXPJa08Ec7dPDwc/
+ nDpJKCAEAyiKI7v9BlNfKHRTiQHQLfNF4namCvB/V4DIxKRTkdzHOWM6RvyFcvi/Rib2
+ a/5ZFtwokeDsyqLYc+qsDXK49EDl/ZSuz3RkFRXTrOtv4zpACL1zSWW71eOfBrpd/+NB
+ kPJlYo6mFnzocc5c2NK7WchCdompiIrxCy7fOS1qx6WoOhODwzzkmsC3LXpm+kDHqQFm
+ YWgEozj4yhOqdpWUWeQ9emlDU6R22Y8+znm+MFwyQI+lNmF511r+dZvNnJPfVbetyI8x
+ O0vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=8Pv5cgNETIx+m3dhXS8w6qP92pk6R4FOm2V4v5NOM9w=;
- b=S2P21qAvGTHlu/mep2uxISOfzauQs8DXPfnUJzt2F4llqo0x/PA6j2REDf++I/Bag4
- OPSQhnBayJGzTgUtGeeTL6/mGgn23NN7iBaaWQxCcERXx16udh8TOg3oyLyYBT4+p+KD
- dIB0FprACHf56Po1xr+NxziVCK42SWIHQATRlmPIX6xirEJZVe53JJmjkIx5835Vo7oo
- rAwWWeoVr/MB3yq1BYWaHMxA1HNWhxvfZ+p8q6OKOU3tisRrI3gzx9xzqQDpYOElvqhG
- jUgPcDmu8sN8Mk81iN5ocJW/nuoZcMaBEbUPnYu6RCT30GozMQR4QHZGslYnS27q+qWw
- YHQw==
-X-Gm-Message-State: AJIora86pFtB/m31mn79Ew7gz1Wtsir/9cGvsBJcyyBrTMn/NNTMNKDW
- FAfAvbrPnmw7rn+7IO0ExCNFB37BUkSuKKqmfv+BnZ3YECukC6Dh9Gg3OSYRsfHfhiaAYVSDoGz
- 6DY5dHBu50hxeMlI=
-X-Received: by 2002:a5d:5e81:0:b0:21a:3a74:6f36 with SMTP id
- ck1-20020a5d5e81000000b0021a3a746f36mr20273503wrb.316.1655740264639; 
- Mon, 20 Jun 2022 08:51:04 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sZCL14NbNwBc70ulaklf6GKw9fxfq7usjzL6yi3Yvt+BTDpfaxwtR/ZyDkg7gF/NlCOXACDw==
-X-Received: by 2002:a5d:5e81:0:b0:21a:3a74:6f36 with SMTP id
- ck1-20020a5d5e81000000b0021a3a746f36mr20273480wrb.316.1655740264399; 
- Mon, 20 Jun 2022 08:51:04 -0700 (PDT)
-Received: from localhost ([212.145.226.77]) by smtp.gmail.com with ESMTPSA id
- l9-20020a1c7909000000b0039c96b97359sm15462724wme.37.2022.06.20.08.51.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 08:51:04 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>,  Markus Armbruster <armbru@redhat.com>,
- =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 4/4] migration: Change zero_copy_send from migration
- parameter to migration capability
-In-Reply-To: <YrCS7OTweyxcLmzE@xz-m1.local> (Peter Xu's message of "Mon, 20
- Jun 2022 11:31:56 -0400")
-References: <20220620053944.257547-1-leobras@redhat.com>
- <20220620053944.257547-5-leobras@redhat.com>
- <YrCS7OTweyxcLmzE@xz-m1.local>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 20 Jun 2022 17:51:03 +0200
-Message-ID: <87sfnzz63c.fsf@secure.mitica>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RZs8/gV6NTeCKkUnHwB0cToNo4U1+j2szoFc6j7z4JA=;
+ b=o3uBsHAzo1f3iVd5qqXLq0Iq1Xrky5McXQGnsved98etPrbDfrQIweqFpJYnznjRjN
+ Xnny85wA8trEbXF1YLW5s/KqhyoFOYm+S2wAZqXfe3xLte3ZSECFWTScCBqZplQ4rWTI
+ Qddg04QfWJEVfwTzLKdJu2PNruJDESrxk6h7aAEmYPvap1XTv/34oMIT3PEeOo8UwWp4
+ CCX9mR3j3m7BbrazBjYPexz8OExaTR+pOz4MqC1Jezhx7M59TLKspWki4rWurgvx4fDt
+ CLmqJpag5yWV8fzwnOKWCn5F0I4k/HZF/xcqiJ5A744HwV4fnIEDc8SiOfURp5PEJ+do
+ CjlA==
+X-Gm-Message-State: AJIora88sUuKXJ2NITRgvZs6XHWIVfW3VpJquL5Og15jBFqRCl8rU5pM
+ vZTEmOx/JG1f5g0P2qlkY43pKg==
+X-Google-Smtp-Source: AGRyM1ttT7KhCzrl0XWmRrmbkcItZU4UVi1Atky4NC+rkO56pFU/KZ+PWZFasBKXrVkXIN+ueIou4g==
+X-Received: by 2002:a17:902:d483:b0:163:e9cf:7cef with SMTP id
+ c3-20020a170902d48300b00163e9cf7cefmr24745113plg.82.1655740754640; 
+ Mon, 20 Jun 2022 08:59:14 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:a3e0:8a80:7b85:aea6?
+ ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
+ by smtp.gmail.com with ESMTPSA id
+ jd2-20020a170903260200b0015e8d4eb1f7sm5205229plb.65.2022.06.20.08.59.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jun 2022 08:59:14 -0700 (PDT)
+Message-ID: <f7375667-4dc3-17f5-987e-a7d3339c6c00@linaro.org>
+Date: Mon, 20 Jun 2022 08:59:11 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 0/7] semihosting: proper QEMU exit on semihosted exit
+ syscall
+Content-Language: en-US
+To: Luc Michel <lmichel@kalray.eu>, qemu-devel@nongnu.org
+References: <20220620142426.15040-1-lmichel@kalray.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220620142426.15040-1-lmichel@kalray.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,36 +91,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Xu <peterx@redhat.com> wrote:
-> On Mon, Jun 20, 2022 at 02:39:45AM -0300, Leonardo Bras wrote:
->> When originally implemented, zero_copy_send was designed as a Migration
->> paramenter.
->> 
->> But taking into account how is that supposed to work, and how
->> the difference between a capability and a parameter, it only makes sense
->> that zero-copy-send would work better as a capability.
->> 
->> Taking into account how recently the change got merged, it was decided
->> that it's still time to make it right, and convert zero_copy_send into
->> a Migration capability.
->> 
->> Signed-off-by: Leonardo Bras <leobras@redhat.com>
->
-> I assume this is a request from Libvirt? We don't have a release yet so
-> yeah probably we still have time..
->
-> Acked-by: Peter Xu <peterx@redhat.com>
+On 6/20/22 07:24, Luc Michel wrote:
+> Hi,
+> 
+> This series implements a clean way for semihosted exit syscalls to
+> terminate QEMU with a given return code.
+> 
+> Until now, exit syscalls implementations consisted in calling exit()
+> with the wanted return code. The problem with this approach is that
+> other CPUs are not properly stopped, leading to possible crashes in
+> MTTCG mode, especially when at_exit callbacks have been registered. This
+> can be the case e.g., when plugins are in use. Plugins can register
+> at_exit callbacks. Those will be called on the CPU thread the exit
+> syscall is comming from, while other CPUs can continue to run and thus
+> call other plugin callbacks.
+> 
+> The semihosting_exit_request function provides a mean to cleanly
+> terminate QEMU. It introduces an new exit reason
+> (SHUTDOWN_CAUSE_GUEST_SEMI_EXIT) used in this case. The CPU is stopped
+> and returns to the main CPU loop so that no more instruction get
+> executed (the semihosting_exit_request is declared G_NORETURN).
+> 
+> All targets are converted to use this new function.
 
-Livirt already have a concept of migration capabilities (bools) that
-lets layered products to check/discover/etc.  Putting it there instead
-of one parameter makes their life much easier (i.e. more common code).
+Did you test a complete build?  At a glance I would guess that arm-linux-user will no 
+longer link because qemu_set/get_exit_status is missing.
 
-As this code hasn't been in a stable release yet, I think it is ok.
 
-Later, Juan.
+r~
+
+> 
+> Thanks,
+> Luc
+> 
+> Luc Michel (7):
+>    softmmu: add qemu_[set|get]_exit_status functions
+>    semihosting: add the semihosting_exit_request function
+>    semihosting/arm-compat-semi: use semihosting_exit_request
+>    target/m68k: use semihosting_exit_request on semihosted exit syscall
+>    target/mips: use semihosting_exit_request on semihosted exit syscall
+>    target/nios2: use semihosting_exit_request on semihosted exit syscall
+>    target/xtensa: use semihosting_exit_request on semihosted exit syscall
+> 
+>   qapi/run-state.json                |  4 +++-
+>   include/semihosting/semihost.h     |  4 ++++
+>   include/sysemu/sysemu.h            |  2 ++
+>   semihosting/arm-compat-semi.c      |  3 +--
+>   semihosting/config.c               | 17 +++++++++++++++++
+>   softmmu/main.c                     |  2 +-
+>   softmmu/runstate.c                 | 11 +++++++++++
+>   target/m68k/m68k-semi.c            |  4 ++--
+>   target/mips/tcg/sysemu/mips-semi.c |  2 +-
+>   target/nios2/nios2-semi.c          |  4 ++--
+>   target/xtensa/xtensa-semi.c        |  2 +-
+>   11 files changed, 45 insertions(+), 10 deletions(-)
+> 
 
 
