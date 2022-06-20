@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CD85522E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:46:10 +0200 (CEST)
-Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE0E5522E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:46:12 +0200 (CEST)
+Received: from localhost ([::1]:49832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3LTV-0007lX-Pj
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39120)
+	id 1o3LTX-0007n0-Dn
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:46:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPe-00055z-1S
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPe-00056E-8G
  for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:42:10 -0400
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:44023)
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:34316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPb-00081a-Cd
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPc-00081g-IR
  for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:42:09 -0400
-Received: by mail-il1-x12f.google.com with SMTP id z16so64026ile.10
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:42:07 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id p128so11845481iof.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IxN5+FtiUGJyc7XVu/a8YwMMoYC5uxl3zjuqzVgtANI=;
- b=0zQRB+qSt4k4VWKGeJYN/pCrhbSmpmFH3i0sV2803cWGNbps9CcjZkgtgdSWB5oRZe
- B8VaAn+w70pbAkFHTiazVowb6zvKp3S39H+fIORLjKAaJbiCka+F0VyYdpSCKksnNpGU
- TcTdO+4BiaYeI0z1UghOHmHmq5kq2yaTIwtPAaPDX801GKa0wn4pM71pGkHyBfcWMO5A
- H8rr7EhO4KA0WxEeH/8V8bpZPF+sBkHC6G0MU7aP2YmW5mxiNEv6/JEZHIWkLwPo8XUg
- mepjaBvJvwtBfQYu8QqSthnCbxOGeTXZ5gcZmJwUU1HMqyNaW8dFzk3hOmm8pVTX8h2f
- fZZw==
+ bh=nW7mBBIc5zzP6+xjuSHv5mY+f3R/Ch0mpWQhcpFjbok=;
+ b=xcH/Ow3oLisdUbEPW1rwwNVz++smIaDrp1uxdHKpo8FQns226LeI3uNSVRoYOwng6k
+ ZZ01n0RnbYos0ecu0jqJdavUc0nVardQXRFJvh1WXEHLa5d9S8EFX7LSXsPItaLlgMCo
+ 0Q+zjnqauusDbM3+5t3ZP91LmJ8h1Jcgw2Ls7FtlNONADmBVb6jzjrDvcX8vxwu4D9Vp
+ cypQiBJQQxFkhW9rzJEYg5XCBzdWEpfhEB+S/2U+cpMhm8qduyUV3MHfUVwCB4EgrXKe
+ a1+RvK+IaWMfDgLTtQS7ucMj3GKkyJWnLNH72ugf6slJE4nPqWK57wjof3+2hrW/cv9Y
+ T+Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IxN5+FtiUGJyc7XVu/a8YwMMoYC5uxl3zjuqzVgtANI=;
- b=yvYD9oeqqe2PKVi75Fn2FRy0aIKFbPuvry71Nx6ZEBsefR5Na1J9tRDVJwNtEVQjPF
- XI/RLEWst51KISRIUsyu0bggUW1IlMm4nwn3zI9BiyZVi1Ejlc0q117DNJkrmIXvECvR
- 4c+WVvM2Agf0nLfzU6CcAem/ow39wSSho/gqgo1T7pdiN5nWT1qh+yP6liWhTDoAG1xG
- iKPL3Uxumil8jbG0Qo+BNsmobBc724E+IfJdkMXUiYRcEwsGrPeOG06keG6sTcIo+t8c
- fYnLFq6iOFjYC3pK+9biC/Ceot0vbMAd64FbVvwWx2mIM2Ut5yG+aVPkFBZhsiTAj5qB
- 24pg==
-X-Gm-Message-State: AJIora8GEFXZrP7/s5Nq8rqWHAlS7UkTftvLN4gjOjo3pS6PvUVl8ogZ
- b5lTfYuAgZxho5daE/v4rmXBGR7abHR+Kw==
-X-Google-Smtp-Source: AGRyM1tf5YB2YDM0a9S/bKyEX98Y9ckE3PIpWN11G04jQqozLvmvsXIDClICmg57InfF0AAjblwG5g==
-X-Received: by 2002:a05:6e02:1564:b0:2d6:5b63:80ec with SMTP id
- k4-20020a056e02156400b002d65b6380ecmr13759837ilu.46.1655746926025; 
- Mon, 20 Jun 2022 10:42:06 -0700 (PDT)
+ bh=nW7mBBIc5zzP6+xjuSHv5mY+f3R/Ch0mpWQhcpFjbok=;
+ b=uyPTKgqLEaFtzabK5H7q+4PXus3OEj+u3vq3RtHwzNUCiGmpHmt4U/9fOW8IcLRHtW
+ rsW+RrNHFIWsaHn5ZVvQ+/dLjNYRvHO1OwTLmIfNYPRGIw/uKRmQLlkki7qW1pVf7rdt
+ HVaUy5L494idPyplr26s1iREWOLb6nAoHYJsV3wwE5tI6JJur2lbTvy29qpcBaR2wNMR
+ BqhsZCcVFbUNt94pAHFFBEhw9YW9t7G6WbMwQW7tmsxA4yPYRhS9SrGxAIHafzLrvtcK
+ fYvC3zfrviRcyvqmJu1NHJiHPJi65LR+L/PLQPVYUsjASZqHI7JF1s9LG9mAf79thJne
+ JyXQ==
+X-Gm-Message-State: AJIora9vpvlo8JvVKRY99G5uLXQzs1h0fJXz8XclKKYksJuYKWguDmH0
+ f4Wn6VxWv2LAYjgwvAgS3j8vr5I82Shhow==
+X-Google-Smtp-Source: AGRyM1sICQGzCgwtcohYXY9pqk85zSaF7j2dqQBUeRC43XdaeP7E2sXrb8wgOHekxqbvzNrwbw1t/w==
+X-Received: by 2002:a05:6638:220e:b0:335:b65b:6a7d with SMTP id
+ l14-20020a056638220e00b00335b65b6a7dmr14024365jas.220.1655746927243; 
+ Mon, 20 Jun 2022 10:42:07 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- k19-20020a02c773000000b00331e4e4fac9sm6202953jao.47.2022.06.20.10.42.04
+ k19-20020a02c773000000b00331e4e4fac9sm6202953jao.47.2022.06.20.10.42.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 10:42:05 -0700 (PDT)
+ Mon, 20 Jun 2022 10:42:06 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
  Stacey Son <sson@FreeBSD.org>, Jung-uk Kim <jkim@FreeBSD.org>
-Subject: [PATCH 01/10] bsd-user: Implement mount, umount and nmount
-Date: Mon, 20 Jun 2022 11:42:11 -0600
-Message-Id: <20220620174220.22179-2-imp@bsdimp.com>
+Subject: [PATCH 02/10] bsd-user: Implement symlink, symlinkat,
+ readlink and readlinkat
+Date: Mon, 20 Jun 2022 11:42:12 -0600
+Message-Id: <20220620174220.22179-3-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220620174220.22179-1-imp@bsdimp.com>
 References: <20220620174220.22179-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,97 +92,116 @@ Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Jung-uk Kim <jkim@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/bsd-file.h           | 52 +++++++++++++++++++++++++++++++++++
- bsd-user/freebsd/os-syscall.c | 13 +++++++++
- 2 files changed, 65 insertions(+)
+ bsd-user/bsd-file.h           | 75 +++++++++++++++++++++++++++++++++++
+ bsd-user/freebsd/os-syscall.c | 16 ++++++++
+ 2 files changed, 91 insertions(+)
 
 diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
-index b2dca586129..4545df3a056 100644
+index 4545df3a056..e5133268546 100644
 --- a/bsd-user/bsd-file.h
 +++ b/bsd-user/bsd-file.h
-@@ -549,4 +549,56 @@ static abi_long do_bsd_sync(void)
-     return 0;
+@@ -601,4 +601,79 @@ static abi_long do_bsd_nmount(abi_long arg1, abi_long count,
+     return ret;
  }
  
-+/* mount(2) */
-+static abi_long do_bsd_mount(abi_long arg1, abi_long arg2, abi_long arg3,
-+        abi_long arg4)
++/* symlink(2) */
++static abi_long do_bsd_symlink(abi_long arg1, abi_long arg2)
 +{
 +    abi_long ret;
 +    void *p1, *p2;
 +
 +    LOCK_PATH2(p1, arg1, p2, arg2);
-+    /*
-+     * XXX arg4 should be locked, but it isn't clear how to do that
-+     * since it's it may be not be a NULL-terminated string.
-+     */
-+    if (arg4 == 0) {
-+        ret = get_errno(mount(p1, p2, arg3, NULL)); /* XXX path(p2)? */
-+    } else {
-+        ret = get_errno(mount(p1, p2, arg3, g2h_untagged(arg4))); /* XXX path(p2)? */
-+    }
++    ret = get_errno(symlink(p1, p2)); /* XXX path(p1), path(p2) */
 +    UNLOCK_PATH2(p1, arg1, p2, arg2);
 +
 +    return ret;
 +}
 +
-+/* unmount(2) */
-+static abi_long do_bsd_unmount(abi_long arg1, abi_long arg2)
++/* symlinkat(2) */
++static abi_long do_bsd_symlinkat(abi_long arg1, abi_long arg2,
++        abi_long arg3)
 +{
 +    abi_long ret;
-+    void *p;
++    void *p1, *p2;
 +
-+    LOCK_PATH(p, arg1);
-+    ret = get_errno(unmount(p, arg2)); /* XXX path(p)? */
-+    UNLOCK_PATH(p, arg1);
++    LOCK_PATH2(p1, arg1, p2, arg3);
++    ret = get_errno(symlinkat(p1, arg2, p2)); /* XXX path(p1), path(p2) */
++    UNLOCK_PATH2(p1, arg1, p2, arg3);
 +
 +    return ret;
 +}
 +
-+/* nmount(2) */
-+static abi_long do_bsd_nmount(abi_long arg1, abi_long count,
-+        abi_long flags)
++/* readlink(2) */
++static abi_long do_bsd_readlink(CPUArchState *env, abi_long arg1,
++        abi_long arg2, abi_long arg3)
 +{
 +    abi_long ret;
-+    struct iovec *vec = lock_iovec(VERIFY_READ, arg1, count, 1);
++    void *p1, *p2;
 +
-+    if (vec != NULL) {
-+        ret = get_errno(nmount(vec, count, flags));
-+        unlock_iovec(vec, arg1, count, 0);
-+    } else {
++    LOCK_PATH(p1, arg1);
++    p2 = lock_user(VERIFY_WRITE, arg2, arg3, 0);
++    if (p2 == NULL) {
++        UNLOCK_PATH(p1, arg1);
 +        return -TARGET_EFAULT;
 +    }
++#ifdef __FreeBSD__
++    if (strcmp(p1, "/proc/curproc/file") == 0) {
++        CPUState *cpu = env_cpu(env);
++        TaskState *ts = (TaskState *)cpu->opaque;
++        strncpy(p2, ts->bprm->fullpath, arg3);
++        ret = MIN((abi_long)strlen(ts->bprm->fullpath), arg3);
++    } else
++#endif
++    ret = get_errno(readlink(path(p1), p2, arg3));
++    unlock_user(p2, arg2, ret);
++    UNLOCK_PATH(p1, arg1);
++
++    return ret;
++}
++
++/* readlinkat(2) */
++static abi_long do_bsd_readlinkat(abi_long arg1, abi_long arg2,
++        abi_long arg3, abi_long arg4)
++{
++    abi_long ret;
++    void *p1, *p2;
++
++    LOCK_PATH(p1, arg2);
++    p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
++    if (p2 == NULL) {
++        UNLOCK_PATH(p1, arg2);
++        return -TARGET_EFAULT;
++    }
++    ret = get_errno(readlinkat(arg1, p1, p2, arg4));
++    unlock_user(p2, arg3, ret);
++    UNLOCK_PATH(p1, arg2);
 +
 +    return ret;
 +}
 +
  #endif /* BSD_FILE_H */
 diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index 2623caf8007..bd4dfa6ddc7 100644
+index bd4dfa6ddc7..80ec9dd4954 100644
 --- a/bsd-user/freebsd/os-syscall.c
 +++ b/bsd-user/freebsd/os-syscall.c
-@@ -33,6 +33,7 @@
- #include "qemu/path.h"
- #include <sys/syscall.h>
- #include <sys/param.h>
-+#include <sys/mount.h>
- #include <sys/sysctl.h>
- #include <utime.h>
- 
-@@ -373,6 +374,18 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         ret = do_bsd_sync();
+@@ -386,6 +386,22 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+         ret = do_bsd_nmount(arg1, arg2, arg3);
          break;
  
-+    case TARGET_FREEBSD_NR_mount: /* mount(2) */
-+        ret = do_bsd_mount(arg1, arg2, arg3, arg4);
++    case TARGET_FREEBSD_NR_symlink: /* symlink(2) */
++        ret = do_bsd_symlink(arg1, arg2);
 +        break;
 +
-+    case TARGET_FREEBSD_NR_unmount: /* unmount(2) */
-+        ret = do_bsd_unmount(arg1, arg2);
++    case TARGET_FREEBSD_NR_symlinkat: /* symlinkat(2) */
++        ret = do_bsd_symlinkat(arg1, arg2, arg3);
 +        break;
 +
-+    case TARGET_FREEBSD_NR_nmount: /* nmount(2) */
-+        ret = do_bsd_nmount(arg1, arg2, arg3);
++    case TARGET_FREEBSD_NR_readlink: /* readlink(2) */
++        ret = do_bsd_readlink(cpu_env, arg1, arg2, arg3);
++        break;
++
++    case TARGET_FREEBSD_NR_readlinkat: /* readlinkat(2) */
++        ret = do_bsd_readlinkat(arg1, arg2, arg3, arg4);
 +        break;
 +
      default:
