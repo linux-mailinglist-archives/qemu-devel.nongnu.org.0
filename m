@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A89551780
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:36:51 +0200 (CEST)
-Received: from localhost ([::1]:51074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBAB55172A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:20:08 +0200 (CEST)
+Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Fi6-0007Ww-Mj
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:36:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33008)
+	id 1o3FRu-0001ZZ-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o3FBZ-0004B7-C9
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:03:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51628)
+ id 1o3FB2-0003D5-PO
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o3FBX-0007ou-Ph
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:03:13 -0400
+ id 1o3FAv-0007Ze-JT
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655722991;
+ s=mimecast20190719; t=1655722952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YZLrUiVagUPeFVD5YiZAfX1mBn01HIwLe/pLvSHwT6M=;
- b=Kb3h+BB02/5lpfJD0Jea4uUjI6dPNr1cUiA6/ZZknUPKdI97gkNHJCqo7ebMwEg0dV+rjJ
- oySMyovoyk8NpuX7WNbLnrolXENzdVxCmfAvT5AlgTDGtB5MwdHC5oCb8u9kSvYcOThlpd
- pqPd3QbXl8Hcg6HvVoHEqUn0DdAPZuQ=
+ bh=Bii81+5cPbNcQvLi1k3r8ya1PODnQU2o6ZLg47dNnZQ=;
+ b=FyPZQe7XY8/9uq555du+eaDuC5333iJsNhZXOvbnw9KU+bcRlbgxW0TPTac3oI6sQOZQzd
+ EJJTAEmQc4429d7sdueAnGH87XXRs7SwhV+BQM6CTjzBQH6sE3tRY4KV7LF59TuGrk1dQi
+ 4r1bNysym4y3oDUU7RWGhRMfDw2bpsY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-345-afgzHJ56NdWzwqwoETE8Gg-1; Mon, 20 Jun 2022 07:02:39 -0400
-X-MC-Unique: afgzHJ56NdWzwqwoETE8Gg-1
+ us-mta-442-p2sI7VEAOi2XTv-wdgxDjA-1; Mon, 20 Jun 2022 07:02:25 -0400
+X-MC-Unique: p2sI7VEAOi2XTv-wdgxDjA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0895B802C17;
- Mon, 20 Jun 2022 11:02:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A54CC185A79C;
+ Mon, 20 Jun 2022 11:02:24 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3B16C2810D;
- Mon, 20 Jun 2022 11:02:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F42EC08087;
+ Mon, 20 Jun 2022 11:02:23 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org,
@@ -52,17 +52,17 @@ Cc: qemu-block@nongnu.org,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
  Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>
-Subject: [PATCH v2 08/21] migration: rename qemu_file_update_transfer to
- qemu_file_acct_rate_limit
-Date: Mon, 20 Jun 2022 12:01:52 +0100
-Message-Id: <20220620110205.1357829-9-berrange@redhat.com>
+Subject: [PATCH v2 09/21] migration: introduce a QIOChannel impl for
+ BlockDriverState VMState
+Date: Mon, 20 Jun 2022 12:01:53 +0100
+Message-Id: <20220620110205.1357829-10-berrange@redhat.com>
 In-Reply-To: <20220620110205.1357829-1-berrange@redhat.com>
 References: <20220620110205.1357829-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,74 +86,300 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu_file_update_transfer name doesn't give a clear guide on what
-its purpose is, and how it differs from the qemu_file_credit_transfer
-method. The latter is specifically for accumulating for total migration
-traffic, while the former is specifically for accounting in thue rate
-limit calculations. The new name give better guidance on its usage.
+Introduce a QIOChannelBlock class that exposes the BlockDriverState
+VMState region for I/O.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+This is kept in the migration/ directory rather than io/, to avoid
+a mutual dependancy between block/ <-> io/ directories. Also the
+VMState should only be used by the migration code.
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/multifd.c   | 4 ++--
- migration/qemu-file.c | 2 +-
- migration/qemu-file.h | 9 ++++++++-
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ migration/channel-block.c | 195 ++++++++++++++++++++++++++++++++++++++
+ migration/channel-block.h |  59 ++++++++++++
+ migration/meson.build     |   1 +
+ 3 files changed, 255 insertions(+)
+ create mode 100644 migration/channel-block.c
+ create mode 100644 migration/channel-block.h
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 9282ab6aa4..684c014c86 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -435,7 +435,7 @@ static int multifd_send_pages(QEMUFile *f)
-     p->pages = pages;
-     transferred = ((uint64_t) pages->num) * qemu_target_page_size()
-                 + p->packet_len;
--    qemu_file_update_transfer(f, transferred);
-+    qemu_file_acct_rate_limit(f, transferred);
-     ram_counters.multifd_bytes += transferred;
-     ram_counters.transferred += transferred;
-     qemu_mutex_unlock(&p->mutex);
-@@ -610,7 +610,7 @@ int multifd_send_sync_main(QEMUFile *f)
-         p->packet_num = multifd_send_state->packet_num++;
-         p->flags |= MULTIFD_FLAG_SYNC;
-         p->pending_job++;
--        qemu_file_update_transfer(f, p->packet_len);
-+        qemu_file_acct_rate_limit(f, p->packet_len);
-         ram_counters.multifd_bytes += p->packet_len;
-         ram_counters.transferred += p->packet_len;
-         qemu_mutex_unlock(&p->mutex);
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 9a7f715e17..6bbdb60d4d 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -704,7 +704,7 @@ void qemu_file_reset_rate_limit(QEMUFile *f)
-     f->rate_limit_used = 0;
- }
- 
--void qemu_file_update_transfer(QEMUFile *f, int64_t len)
-+void qemu_file_acct_rate_limit(QEMUFile *f, int64_t len)
- {
-     f->rate_limit_used += len;
- }
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index d96f5f7118..901f2cf697 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -188,7 +188,14 @@ void qemu_file_skip(QEMUFile *f, int size);
-  */
- void qemu_file_credit_transfer(QEMUFile *f, size_t size);
- void qemu_file_reset_rate_limit(QEMUFile *f);
--void qemu_file_update_transfer(QEMUFile *f, int64_t len);
+diff --git a/migration/channel-block.c b/migration/channel-block.c
+new file mode 100644
+index 0000000000..ad52342c10
+--- /dev/null
++++ b/migration/channel-block.c
+@@ -0,0 +1,195 @@
 +/*
-+ * qemu_file_acct_rate_limit:
++ * QEMU I/O channels block driver
 + *
-+ * Report on a number of bytes the have been transferred
-+ * out of band from the main file object I/O methods, and
-+ * need to be applied to the rate limiting calcuations
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
 + */
-+void qemu_file_acct_rate_limit(QEMUFile *f, int64_t len);
- void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
- int64_t qemu_file_get_rate_limit(QEMUFile *f);
- int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
++
++#include "qemu/osdep.h"
++#include "migration/channel-block.h"
++#include "qapi/error.h"
++#include "block/block.h"
++#include "trace.h"
++
++QIOChannelBlock *
++qio_channel_block_new(BlockDriverState *bs)
++{
++    QIOChannelBlock *ioc;
++
++    ioc = QIO_CHANNEL_BLOCK(object_new(TYPE_QIO_CHANNEL_BLOCK));
++
++    bdrv_ref(bs);
++    ioc->bs = bs;
++
++    return ioc;
++}
++
++
++static void
++qio_channel_block_finalize(Object *obj)
++{
++    QIOChannelBlock *ioc = QIO_CHANNEL_BLOCK(obj);
++
++    g_clear_pointer(&ioc->bs, bdrv_unref);
++}
++
++
++static ssize_t
++qio_channel_block_readv(QIOChannel *ioc,
++                        const struct iovec *iov,
++                        size_t niov,
++                        int **fds,
++                        size_t *nfds,
++                        Error **errp)
++{
++    QIOChannelBlock *bioc = QIO_CHANNEL_BLOCK(ioc);
++    QEMUIOVector qiov;
++    int ret;
++
++    qemu_iovec_init_external(&qiov, (struct iovec *)iov, niov);
++    ret = bdrv_readv_vmstate(bioc->bs, &qiov, bioc->offset);
++    if (ret < 0) {
++        return ret;
++    }
++
++    bioc->offset += qiov.size;
++    return qiov.size;
++}
++
++
++static ssize_t
++qio_channel_block_writev(QIOChannel *ioc,
++                         const struct iovec *iov,
++                         size_t niov,
++                         int *fds,
++                         size_t nfds,
++                         int flags,
++                         Error **errp)
++{
++    QIOChannelBlock *bioc = QIO_CHANNEL_BLOCK(ioc);
++    QEMUIOVector qiov;
++    int ret;
++
++    qemu_iovec_init_external(&qiov, (struct iovec *)iov, niov);
++    ret = bdrv_writev_vmstate(bioc->bs, &qiov, bioc->offset);
++    if (ret < 0) {
++        return ret;
++    }
++
++    bioc->offset += qiov.size;
++    return qiov.size;
++}
++
++
++static int
++qio_channel_block_set_blocking(QIOChannel *ioc,
++                               bool enabled,
++                               Error **errp)
++{
++    if (!enabled) {
++        error_setg(errp, "Non-blocking mode not supported for block devices");
++        return -1;
++    }
++    return 0;
++}
++
++
++static off_t
++qio_channel_block_seek(QIOChannel *ioc,
++                       off_t offset,
++                       int whence,
++                       Error **errp)
++{
++    QIOChannelBlock *bioc = QIO_CHANNEL_BLOCK(ioc);
++
++    switch (whence) {
++    case SEEK_SET:
++        bioc->offset = offset;
++        break;
++    case SEEK_CUR:
++        bioc->offset += whence;
++        break;
++    case SEEK_END:
++        error_setg(errp, "Size of VMstate region is unknown");
++        return (off_t)-1;
++    default:
++        g_assert_not_reached();
++    }
++
++    return bioc->offset;
++}
++
++
++static int
++qio_channel_block_close(QIOChannel *ioc,
++                        Error **errp)
++{
++    QIOChannelBlock *bioc = QIO_CHANNEL_BLOCK(ioc);
++    int rv;
++
++    if ((rv = bdrv_flush(bioc->bs)) < 0) {
++        error_setg_errno(errp, -rv,
++                         "Unable to flush VMState");
++        return -1;
++    }
++
++    g_clear_pointer(&bioc->bs, bdrv_unref);
++    bioc->offset = 0;
++
++    return 0;
++}
++
++
++static void
++qio_channel_block_set_aio_fd_handler(QIOChannel *ioc,
++                                     AioContext *ctx,
++                                     IOHandler *io_read,
++                                     IOHandler *io_write,
++                                     void *opaque)
++{
++    /* XXX anything we can do here ? */
++}
++
++
++static void
++qio_channel_block_class_init(ObjectClass *klass,
++                             void *class_data G_GNUC_UNUSED)
++{
++    QIOChannelClass *ioc_klass = QIO_CHANNEL_CLASS(klass);
++
++    ioc_klass->io_writev = qio_channel_block_writev;
++    ioc_klass->io_readv = qio_channel_block_readv;
++    ioc_klass->io_set_blocking = qio_channel_block_set_blocking;
++    ioc_klass->io_seek = qio_channel_block_seek;
++    ioc_klass->io_close = qio_channel_block_close;
++    ioc_klass->io_set_aio_fd_handler = qio_channel_block_set_aio_fd_handler;
++}
++
++static const TypeInfo qio_channel_block_info = {
++    .parent = TYPE_QIO_CHANNEL,
++    .name = TYPE_QIO_CHANNEL_BLOCK,
++    .instance_size = sizeof(QIOChannelBlock),
++    .instance_finalize = qio_channel_block_finalize,
++    .class_init = qio_channel_block_class_init,
++};
++
++static void
++qio_channel_block_register_types(void)
++{
++    type_register_static(&qio_channel_block_info);
++}
++
++type_init(qio_channel_block_register_types);
+diff --git a/migration/channel-block.h b/migration/channel-block.h
+new file mode 100644
+index 0000000000..31673824e6
+--- /dev/null
++++ b/migration/channel-block.h
+@@ -0,0 +1,59 @@
++/*
++ * QEMU I/O channels block driver
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#ifndef QIO_CHANNEL_BLOCK_H
++#define QIO_CHANNEL_BLOCK_H
++
++#include "io/channel.h"
++#include "qom/object.h"
++
++#define TYPE_QIO_CHANNEL_BLOCK "qio-channel-block"
++OBJECT_DECLARE_SIMPLE_TYPE(QIOChannelBlock, QIO_CHANNEL_BLOCK)
++
++
++/**
++ * QIOChannelBlock:
++ *
++ * The QIOChannelBlock object provides a channel implementation
++ * that is able to perform I/O on the BlockDriverState objects
++ * to the VMState region.
++ */
++
++struct QIOChannelBlock {
++    QIOChannel parent;
++    BlockDriverState *bs;
++    off_t offset;
++};
++
++
++/**
++ * qio_channel_block_new:
++ * @bs: the block driver state
++ *
++ * Create a new IO channel object that can perform
++ * I/O on a BlockDriverState object to the VMState
++ * region
++ *
++ * Returns: the new channel object
++ */
++QIOChannelBlock *
++qio_channel_block_new(BlockDriverState *bs);
++
++#endif /* QIO_CHANNEL_BLOCK_H */
+diff --git a/migration/meson.build b/migration/meson.build
+index 6880b61b10..8d309f5849 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -13,6 +13,7 @@ softmmu_ss.add(migration_files)
+ softmmu_ss.add(files(
+   'block-dirty-bitmap.c',
+   'channel.c',
++  'channel-block.c',
+   'colo-failover.c',
+   'colo.c',
+   'exec.c',
 -- 
 2.36.1
 
