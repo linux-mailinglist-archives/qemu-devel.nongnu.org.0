@@ -2,84 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787165512DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 10:33:57 +0200 (CEST)
-Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682B355132E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 10:48:40 +0200 (CEST)
+Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Cr6-0001nb-5I
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 04:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38452)
+	id 1o3D5K-0006j9-VH
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 04:48:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1o3CmV-0000A5-Bf
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 04:29:12 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:33344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1o3CmM-0003DB-D2
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 04:29:10 -0400
-Received: by mail-pf1-x436.google.com with SMTP id n12so2639133pfq.0
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 01:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0KnuQ717XVJkJmYHUDl2DJ8LKWo2zEcYzB32kfLuGRE=;
- b=Iodt+KwksvuANGPG7+PW2x+Zdg9gKFBF63C/WEvrOP2C55V3iOf/XvzDe3gU6S6oms
- f1QmsoE9MbLJUqG2xiRKEuZpCpA+dJteyAIBeYtsi1hOAqjNJV67r1mlzomJlLqMvPCp
- XcaJDbu6ucPY9Bo5aOyszfN82/97TaK0VII8z9erMtvGHFFLLEPJI/+QzJ7q+04MNfaW
- E9fv9FeHwqBvBG+rTT82w0XJXYFDOBmsVKOiV7H/ZE+jJ4RkXFpnDjqPmWu4EajBWHAW
- ACVIRGbDD4OCkwJVcS0S3PQDQgcL81UsDV1yVB7Kmr/27eru9kZhHCjvq4eRRzxBOrO1
- KXgg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o3D3R-0005o1-EK
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 04:46:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o3D3N-0006x5-RQ
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 04:46:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655714796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2UukSdNcK8+tPX4A2eM3gPgqBJBMCI/U1tNGU7Q47lE=;
+ b=Oay6jbbyACWgw5eKK9zvEY8IZcB3RBtummXnkUffFyJyE7FHGmMEw1AqsV7k4bbJ+xTrlf
+ YlJCkQz+8X5MwEiBLU2r+7IbRnKMSTsNJ4UrtMEgaYWIQNCCn69jSgS3oVcpnxJltsyJT0
+ REYdgsewSQ/eXV2Yj2plMPQPGwvjfZQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-190-D-jYZ5igMaKUh81DZOHm0A-1; Mon, 20 Jun 2022 04:46:35 -0400
+X-MC-Unique: D-jYZ5igMaKUh81DZOHm0A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 2-20020a1c0202000000b0039c94528746so6604771wmc.6
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 01:46:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0KnuQ717XVJkJmYHUDl2DJ8LKWo2zEcYzB32kfLuGRE=;
- b=nyU+m2LWeRZcnRYeXkVjHhplImmodl404RAgniLT7uQZW+1ZJNVAd53bKNKBolpjnf
- 6xZ6rbFSwKPqYk3A7gyMoDqtZIKTAfzNSrKRcObhXX8SlyfDRsmgUdYslLOPwan69jPI
- wogjOomGLY95U5gPSviUfn7AElhkyL61HjWDYGy6gontGIg5c5u3SYVcRnV2HX+h+JBh
- lRGgaJ8LKzfTixi7SYf/rdbNsBB6yMAZpE4UOl5axtfaTfc905qEI4DbJcoFn2zYNUWh
- rsf1bj2WuU++5/UCWtQOSdEiRAorn0C0LvXpiHJrqaVk+et307MKwWOx0sw59ycHLTne
- HhaQ==
-X-Gm-Message-State: AJIora9UZOZWbEXZJDY/VKdN2j+UP2oevqwg76HldBRqw6a4Chl/vhmI
- gt0QaTRYDi5kEAAkvOom3xaE6w==
-X-Google-Smtp-Source: AGRyM1t+Z8VW6Nrpysf4rcR4v/WOyPkMrwIDq9rvjUk+zh9PS4LSUgLpzR6Q9tBbwuvlPWtxjBqRjA==
-X-Received: by 2002:a63:9516:0:b0:40c:c3b9:f984 with SMTP id
- p22-20020a639516000000b0040cc3b9f984mr2996277pgd.116.1655713739358; 
- Mon, 20 Jun 2022 01:28:59 -0700 (PDT)
-Received: from [10.61.2.177] (110-175-254-242.static.tpgi.com.au.
- [110.175.254.242]) by smtp.gmail.com with ESMTPSA id
- ji1-20020a170903324100b0016a15842cf5sm3320256plb.121.2022.06.20.01.28.56
+ bh=2UukSdNcK8+tPX4A2eM3gPgqBJBMCI/U1tNGU7Q47lE=;
+ b=Kr9fMdxy69d4G9ndAZFeNC0WfjYAMRUOzPwWrlCR4x/fEK/ETrdjYXotMNtqyLvAET
+ hhJRgc3h7dILPHSvMsrqpKMSMxyrOLriRAGCZp6FZsElLYlETj5b0FK+uO397glSDFe6
+ N9osLuQj63ggJxMFT8/M1QamVaWhlgHkCLyxDiV+QwoARsDEqVoOplmrmdgA+/t7g2f/
+ wDulZT+onMqL6vn409H3ie9LYBVQeD81KzhwYcKOUK8eaTHNABcJKkAWVAMdsS6cGgDs
+ YwVdXGGoRxa2mU+ytdxLgwZ2n9LEdYzqxUmCRLWAFMUrDZUSmosriNV+orYa/uetDS8F
+ 5/Vg==
+X-Gm-Message-State: AJIora/4q1LqiPYeAdDW5mtMKmZlfz7P+b1SeAHmAUOA2OVs8KRXti0c
+ hwsD9QqWYRys6X1idXDATraZMIAYOFBqb+pRfEFq9RZ/Ndy/svgvmmGWTl/MvRFag60uz6IiaQ6
+ fIdfcgkIVsdWTRA0=
+X-Received: by 2002:a5d:4892:0:b0:20c:d4eb:1886 with SMTP id
+ g18-20020a5d4892000000b0020cd4eb1886mr22620016wrq.96.1655714793853; 
+ Mon, 20 Jun 2022 01:46:33 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vXhw+lmCLsdd9AiDeGRZaug4n7wIwrllJKUUOEw4YiVOGCP/B9ayyzLgCkrWaR+tFwJ10mIQ==
+X-Received: by 2002:a5d:4892:0:b0:20c:d4eb:1886 with SMTP id
+ g18-20020a5d4892000000b0020cd4eb1886mr22619987wrq.96.1655714793629; 
+ Mon, 20 Jun 2022 01:46:33 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-178-241.web.vodafone.de.
+ [109.43.178.241]) by smtp.gmail.com with ESMTPSA id
+ d6-20020adfef86000000b0021b8d1b0568sm3541260wro.52.2022.06.20.01.46.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 01:28:58 -0700 (PDT)
-Message-ID: <ef2a1374-a610-3adb-956e-823f483f2014@ozlabs.ru>
-Date: Mon, 20 Jun 2022 18:28:54 +1000
+ Mon, 20 Jun 2022 01:46:33 -0700 (PDT)
+Message-ID: <151603a7-7c5f-baa2-81b5-afb8aa30ff38@redhat.com>
+Date: Mon, 20 Jun 2022 10:46:31 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.0
-Subject: Re: [PATCH qemu v2 2/2] ppc/spapr: Implement H_WATCHDOG
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC PATCH 01/12] configure: Add iovisor/ubpf project as a
+ submodule for QEMU
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20220617060703.951747-1-aik@ozlabs.ru>
- <20220617060703.951747-3-aik@ozlabs.ru>
- <c96a6eb7-5b9d-62c7-f989-1679ecda92e5@kaod.org>
- <a4316701-3af0-e65a-6a42-773aaade5dc1@ozlabs.ru>
- <95537399-29c8-03cf-d68f-8f33ce2e0b5a@kaod.org>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <95537399-29c8-03cf-d68f-8f33ce2e0b5a@kaod.org>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Zhang, Chen" <chen.zhang@intel.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier
+ <lvivier@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>
+References: <20220617073630.535914-1-chen.zhang@intel.com>
+ <20220617073630.535914-2-chen.zhang@intel.com> <Yqw1wf+QjaBQ3I6M@redhat.com>
+ <MWHPR11MB0031A589B82138F6E541B8BF9BB09@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <YrArvxwzVWQK4Hu8@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YrArvxwzVWQK4Hu8@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=aik@ozlabs.ru; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,529 +110,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 20/06/2022 10.11, Daniel P. Berrangé wrote:
+> On Mon, Jun 20, 2022 at 05:59:06AM +0000, Zhang, Chen wrote:
+>>
+>>
+>>> -----Original Message-----
+>>> From: Daniel P. Berrangé <berrange@redhat.com>
+>>> Sent: Friday, June 17, 2022 4:05 PM
+>>> To: Zhang, Chen <chen.zhang@intel.com>
+>>> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+>>> devel@nongnu.org>; Paolo Bonzini <pbonzini@redhat.com>; Eduardo
+>>> Habkost <eduardo@habkost.net>; Eric Blake <eblake@redhat.com>; Markus
+>>> Armbruster <armbru@redhat.com>; Peter Maydell
+>>> <peter.maydell@linaro.org>; Thomas Huth <thuth@redhat.com>; Laurent
+>>> Vivier <lvivier@redhat.com>; Yuri Benditovich
+>>> <yuri.benditovich@daynix.com>; Andrew Melnychenko
+>>> <andrew@daynix.com>
+>>> Subject: Re: [RFC PATCH 01/12] configure: Add iovisor/ubpf project as a
+>>> submodule for QEMU
+>>>
+>>> On Fri, Jun 17, 2022 at 03:36:19PM +0800, Zhang Chen wrote:
+>>>> Make iovisor/ubpf project be a git submodule for QEMU.
+>>>> It will auto clone ubpf project when configure QEMU.
+>>>
+>>> I don't think we need todo this. As it is brand new functionality we don't have
+>>> any back compat issues. We should just expect the distros to ship ubpf if
+>>> they want their QEMU builds to take advantage of it.
+>>>
+>>
+>> Yes, agree. It's the best way to use the uBPF project.
+>> But current status is distros(ubuntu, RHEL...) does not ship
+>> the iovisor/ubpf like the iovisor/bcc. So I have to do it.
+>> Or do you have any better suggestions?
+> 
+> If distros want to support the functionality, they can add packages for
+> it IMHO.
 
+Yes, let's please avoid new submodules. Submodules can sometimes be a real 
+PITA (e.g. if you forget to update before rsync'ing your code to a machine 
+that has limited internet access), and if users install QEMU from sources, 
+they can also install ubpf from sources, too.
+And if distros want to support this feature, they can package ubpf on their 
+own, as Daniel said.
 
-On 6/20/22 16:23, Cédric Le Goater wrote:
-> On 6/20/22 05:13, Alexey Kardashevskiy wrote:
->>
->>
->> On 6/18/22 21:01, Cédric Le Goater wrote:
->>> On 6/17/22 08:07, Alexey Kardashevskiy wrote:
->>>> The new PAPR 2.12 defines a watchdog facility managed via the new
->>>> H_WATCHDOG hypercall.
->>>>
->>>> This adds H_WATCHDOG support which a proposed driver for pseries uses:
->>>> https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=303120
->>>>
->>>> This was tested by running QEMU with a debug kernel and command line:
->>>> -append \
->>>>   "pseries-wdt.timeout=60 pseries-wdt.nowayout=1 pseries-wdt.action=2"
->>>>
->>>> and running "echo V > /dev/watchdog0" inside the VM.
->>>>
->>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>>> ---
->>>> Changes:
->>>> v2:
->>>> * QOM'ed timers, "action" and "expire" are available via QMP
->>>> * removed @timeout from SpaprWatchdog
->>>> * moved the driver to hw/watchdog
->>>> * fixed error handling in the hcall handler
->>>> * used new SETFIELD/GETFIELD
->>>> ---
->>>>   include/hw/ppc/spapr.h       |  29 +++-
->>>>   hw/ppc/spapr.c               |   4 +
->>>>   hw/watchdog/spapr_watchdog.c | 248 
->>>> +++++++++++++++++++++++++++++++++++
->>>>   hw/watchdog/meson.build      |   1 +
->>>>   hw/watchdog/trace-events     |   7 +
->>>>   5 files changed, 288 insertions(+), 1 deletion(-)
->>>>   create mode 100644 hw/watchdog/spapr_watchdog.c
->>>>
->>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->>>> index 072dda2c7265..ef1e38abd5c7 100644
->>>> --- a/include/hw/ppc/spapr.h
->>>> +++ b/include/hw/ppc/spapr.h
->>>> @@ -164,6 +164,25 @@ struct SpaprMachineClass {
->>>>       SpaprIrq *irq;
->>>>   };
->>>> +#define WDT_MAX_WATCHDOGS       4      /* Maximum number of 
->>>> watchdog devices */
->>>> +
->>>> +#define WDT_HARD_POWER_OFF      0
->>>> +#define WDT_HARD_RESTART        1
->>>> +#define WDT_DUMP_RESTART        2
->>>> +
->>>> +#define TYPE_SPAPR_WDT "spapr-wdt"
->>>> +OBJECT_DECLARE_SIMPLE_TYPE(SpaprWatchdog, SPAPR_WDT)
->>>> +
->>>> +typedef struct SpaprWatchdog {
->>>> +    /*< private >*/
->>>> +    DeviceState parent_obj;
->>>> +    /*< public >*/
->>>> +
->>>> +    unsigned num;
->>>
->>> uint8_t should be enough no ? I see num is only used for trace events.
->>
->>
->> It should but why? It is not migrating, and using uint8_t creates 
->> alignment gap here, and no benefit :) And I am removing it anyway, see 
->> below.
->>
->>>
->>>> +    QEMUTimer timer;
->>>> +    uint8_t action;
->>>> +} SpaprWatchdog;
->>>> +
->>>>   /**
->>>>    * SpaprMachineState:
->>>>    */
->>>> @@ -264,6 +283,8 @@ struct SpaprMachineState {
->>>>       uint32_t 
->>>> FORM2_assoc_array[NUMA_NODES_MAX_NUM][FORM2_NUMA_ASSOC_SIZE];
->>>>       Error *fwnmi_migration_blocker;
->>>> +
->>>> +    SpaprWatchdog wds[WDT_MAX_WATCHDOGS];
->>>>   };
->>>>   #define H_SUCCESS         0
->>>> @@ -344,6 +365,7 @@ struct SpaprMachineState {
->>>>   #define H_P7              -60
->>>>   #define H_P8              -61
->>>>   #define H_P9              -62
->>>> +#define H_NOOP            -63
->>>>   #define H_UNSUPPORTED     -67
->>>>   #define H_OVERLAP         -68
->>>>   #define H_UNSUPPORTED_FLAG -256
->>>> @@ -564,8 +586,9 @@ struct SpaprMachineState {
->>>>   #define H_SCM_HEALTH            0x400
->>>>   #define H_RPT_INVALIDATE        0x448
->>>>   #define H_SCM_FLUSH             0x44C
->>>> +#define H_WATCHDOG              0x45C
->>>> -#define MAX_HCALL_OPCODE        H_SCM_FLUSH
->>>> +#define MAX_HCALL_OPCODE        H_WATCHDOG
->>>>   /* The hcalls above are standardized in PAPR and implemented by pHyp
->>>>    * as well.
->>>> @@ -1027,6 +1050,7 @@ extern const VMStateDescription 
->>>> vmstate_spapr_cap_large_decr;
->>>>   extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
->>>>   extern const VMStateDescription vmstate_spapr_cap_fwnmi;
->>>>   extern const VMStateDescription vmstate_spapr_cap_rpt_invalidate;
->>>> +extern const VMStateDescription vmstate_spapr_wdt;
->>>>   static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int 
->>>> cap)
->>>>   {
->>>> @@ -1063,4 +1087,7 @@ target_ulong 
->>>> spapr_vof_client_architecture_support(MachineState *ms,
->>>>                                                      target_ulong 
->>>> ovec_addr);
->>>>   void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void 
->>>> *fdt);
->>>> +/* H_WATCHDOG */
->>>> +void spapr_watchdog_init(SpaprMachineState *spapr);
->>>> +
->>>>   #endif /* HW_SPAPR_H */
->>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->>>> index fd4942e8813c..9a5382d5270f 100644
->>>> --- a/hw/ppc/spapr.c
->>>> +++ b/hw/ppc/spapr.c
->>>> @@ -898,6 +898,8 @@ static void spapr_dt_rtas(SpaprMachineState 
->>>> *spapr, void *fdt)
->>>>           add_str(hypertas, "hcall-hpt-resize");
->>>>       }
->>>> +    add_str(hypertas, "hcall-watchdog");
->>>> +
->>>>       _FDT(fdt_setprop(fdt, rtas, "ibm,hypertas-functions",
->>>>                        hypertas->str, hypertas->len));
->>>>       g_string_free(hypertas, TRUE);
->>>> @@ -3051,6 +3053,8 @@ static void spapr_machine_init(MachineState 
->>>> *machine)
->>>>           spapr->vof->fw_size = fw_size; /* for claim() on itself */
->>>>           spapr_register_hypercall(KVMPPC_H_VOF_CLIENT, 
->>>> spapr_h_vof_client);
->>>>       }
->>>> +
->>>> +    spapr_watchdog_init(spapr);
->>>>   }
->>>>   #define DEFAULT_KVM_TYPE "auto"
->>>> diff --git a/hw/watchdog/spapr_watchdog.c 
->>>> b/hw/watchdog/spapr_watchdog.c
->>>> new file mode 100644
->>>> index 000000000000..aeaf7c52cbad
->>>> --- /dev/null
->>>> +++ b/hw/watchdog/spapr_watchdog.c
->>>> @@ -0,0 +1,248 @@
->>>> +/*
->>>> + * This library is free software; you can redistribute it and/or
->>>> + * modify it under the terms of the GNU Lesser General Public
->>>> + * License as published by the Free Software Foundation; either
->>>> + * version 2.1 of the License, or (at your option) any later version.
->>>> + *
->>>> + * This library is distributed in the hope that it will be useful,
->>>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->>>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->>>> + * Lesser General Public License for more details.
->>>> + *
->>>> + * You should have received a copy of the GNU Lesser General Public
->>>> + * License along with this library; if not, see 
->>>> <http://www.gnu.org/licenses/>.
->>>> + */
->>>> +
->>>> +#include "qemu/osdep.h"
->>>> +#include "qapi/error.h"
->>>> +#include "target/ppc/cpu.h"
->>>> +#include "migration/vmstate.h"
->>>> +#include "trace.h"
->>>> +
->>>> +#include "hw/ppc/spapr.h"
->>>> +
->>>> +/*
->>>> + * Bits 47: "leaveOtherWatchdogsRunningOnTimeout", specified on
->>>> + * the "Start watchdog" operation,
->>>> + * 0 - stop out-standing watchdogs on timeout,
->>>> + * 1 - leave outstanding watchdogs running on timeout
->>>> + */
->>>> +#define PSERIES_WDTF_LEAVE_OTHER    PPC_BIT(47)
->>>> +
->>>> +/*    Bits 48-55: "operation" */
->>>> +#define PSERIES_WDTF_OP(op)             SETFIELD(PPC_BITMASK(48, 
->>>> 55), 0, (op))
->>>> +#define PSERIES_WDTF_OP_START           PSERIES_WDTF_OP(0x1)
->>>> +#define PSERIES_WDTF_OP_STOP            PSERIES_WDTF_OP(0x2)
->>>> +#define PSERIES_WDTF_OP_QUERY           PSERIES_WDTF_OP(0x3)
->>>> +#define PSERIES_WDTF_OP_QUERY_LPM       PSERIES_WDTF_OP(0x4)
->>>> +
->>>> +/*    Bits 56-63: "timeoutAction" */
->>>> +#define PSERIES_WDTF_ACTION(ac)         SETFIELD(PPC_BITMASK(56, 
->>>> 63), 0, (ac))
->>>> +#define PSERIES_WDTF_ACTION_HARD_POWER_OFF  PSERIES_WDTF_ACTION(0x1)
->>>> +#define PSERIES_WDTF_ACTION_HARD_RESTART    PSERIES_WDTF_ACTION(0x2)
->>>> +#define PSERIES_WDTF_ACTION_DUMP_RESTART    PSERIES_WDTF_ACTION(0x3)
->>>> +#define PSERIES_WDTF_RESERVED           PPC_BITMASK(0, 46)
->>>> +
->>>> +/*
->>>> + * For the "Query watchdog capabilities" operation, a uint64 structure
->>>> + * defined as:
->>>> + * Bits 0-15: The minimum supported timeout in milliseconds
->>>> + * Bits 16-31: The number of watchdogs supported
->>>> + * Bits 32-63: Reserved
->>>> + */
->>>> +#define PSERIES_WDTQ_MIN_TIMEOUT(ms)    SETFIELD(PPC_BITMASK(0, 
->>>> 15), 0, (ms))
->>>> +#define PSERIES_WDTQ_NUM(n)             SETFIELD(PPC_BITMASK(16, 
->>>> 31), 0, (n))
->>>> +
->>>> +/*
->>>> + * For the "Query watchdog LPM requirement" operation:
->>>> + * 1 = The given "watchdogNumber" must be stopped prior to suspending
->>>> + * 2 = The given "watchdogNumber" does not have to be stopped prior to
->>>> + * suspending
->>>> + */
->>>> +#define PSERIES_WDTQL_STOPPED               1
->>>> +#define PSERIES_WDTQL_QUERY_NOT_STOPPED     2
->>>> +
->>>> +#define WDT_MIN_TIMEOUT 1 /* 1ms */
->>>> +
->>>> +static void watchdog_expired(void *pw)
->>>> +{
->>>> +    struct SpaprWatchdog *w = pw;
->>>
->>> s/struct//
->>>
->>>> +    CPUState *cs;
->>>> +
->>>> +    trace_spapr_watchdog_expired(w->num, w->action);
->>>> +    switch (w->action) {
->>>> +    case WDT_HARD_POWER_OFF:
->>>> +        qemu_system_vmstop_request(RUN_STATE_SHUTDOWN);
->>>> +        break;
->>>> +    case WDT_HARD_RESTART:
->>>> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
->>>> +        break;
->>>> +    case WDT_DUMP_RESTART:
->>>> +        CPU_FOREACH(cs) {
->>>> +            async_run_on_cpu(cs, spapr_do_system_reset_on_cpu, 
->>>> RUN_ON_CPU_NULL);
->>>> +        }
->>>> +        break;
->>>> +    }
->>>> +}
->>>> +
->>>> +static target_ulong watchdog_stop(unsigned watchdogNumber,
->>>> +                                  struct SpaprWatchdog *w)
->>>> +{
->>>> +    target_ulong ret = H_NOOP;
->>>> +
->>>> +    if (timer_pending(&w->timer)) {
->>>> +        timer_del(&w->timer);
->>>> +        ret = H_SUCCESS;
->>>> +    }
->>>> +    trace_spapr_watchdog_stop(watchdogNumber, ret);
->>>> +
->>>> +    return ret;
->>>> +}
->>>> +
->>>> +static target_ulong h_watchdog(PowerPCCPU *cpu,
->>>> +                               SpaprMachineState *spapr,
->>>> +                               target_ulong opcode, target_ulong 
->>>> *args)
->>>> +{
->>>> +    target_ulong flags = args[0];
->>>> +    target_ulong watchdogNumber = args[1];
->>>> +    target_ulong timeoutInMs = args[2];
->>>> +    unsigned operation = flags & PSERIES_WDTF_OP(~0);
->>>> +    unsigned timeoutAction = flags & PSERIES_WDTF_ACTION(~0);
->>>> +    struct SpaprWatchdog *w;
->>>> +
->>>> +    if (flags & PSERIES_WDTF_RESERVED) {
->>>> +        return H_PARAMETER;
->>>> +    }
->>>> +
->>>> +    switch (operation) {
->>>> +    case PSERIES_WDTF_OP_START:
->>>> +        if (watchdogNumber > ARRAY_SIZE(spapr->wds)) {
->>>> +            return H_P2;
->>>> +        }
->>>> +        if (timeoutInMs <= WDT_MIN_TIMEOUT) {
->>>> +            return H_P3;
->>>> +        }
->>>> +
->>>> +        w = &spapr->wds[watchdogNumber - 1];
->>>
->>> So first index is 1 in PAPR ...
->>
->>
->> Yes, I thought I commented on this somewhere but lost in rebases.
->>
->>
->>>
->>>> +        switch (timeoutAction) {
->>>> +        case PSERIES_WDTF_ACTION_HARD_POWER_OFF:
->>>> +            w->action = WDT_HARD_POWER_OFF;
->>>> +            break;
->>>> +        case PSERIES_WDTF_ACTION_HARD_RESTART:
->>>> +            w->action = WDT_HARD_RESTART;
->>>> +            break;
->>>> +        case PSERIES_WDTF_ACTION_DUMP_RESTART:
->>>> +            w->action = WDT_DUMP_RESTART;
->>>> +            break;
->>>> +        default:
->>>> +            return H_PARAMETER;
->>>> +        }
->>>> +        timer_mod(&w->timer,
->>>> +                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 
->>>> timeoutInMs);
->>>> +        trace_spapr_watchdog_start(flags, watchdogNumber, 
->>>> timeoutInMs);
->>>> +        break;
->>>> +    case PSERIES_WDTF_OP_STOP:
->>>> +        if (watchdogNumber == (uint64_t) ~0) {
->>>
->>> May be add a define for this special value. It's better for readability.
->>
->> Will do.
->>
->>
->>>> +            int i;
->>>> +
->>>> +            for (i = 1; i <= ARRAY_SIZE(spapr->wds); ++i) {
->>>> +                watchdog_stop(i, &spapr->wds[i - 1]);
->>>> +            }
->>>> +        } else if (watchdogNumber <= ARRAY_SIZE(spapr->wds)) {
->>>> +            watchdog_stop(watchdogNumber, 
->>>> &spapr->wds[watchdogNumber - 1]);
->>>> +        } else {
->>>> +            return H_P2;
->>>> +        }
->>>> +        break;
->>>> +    case PSERIES_WDTF_OP_QUERY:
->>>> +        args[0] = PSERIES_WDTQ_MIN_TIMEOUT(WDT_MIN_TIMEOUT) |
->>>> +            PSERIES_WDTQ_NUM(ARRAY_SIZE(spapr->wds));
->>>> +        trace_spapr_watchdog_query(args[0]);
->>>> +        break;
->>>> +    case PSERIES_WDTF_OP_QUERY_LPM:
->>>> +        if (watchdogNumber > ARRAY_SIZE(spapr->wds)) {
->>>> +            return H_P2;
->>>> +        }
->>>> +        args[0] = PSERIES_WDTQL_QUERY_NOT_STOPPED;
->>>> +        trace_spapr_watchdog_query_lpm(args[0]);
->>>> +        break;
->>>> +    default:
->>>> +        return H_PARAMETER;
->>>> +    }
->>>> +
->>>> +    return H_SUCCESS;
->>>> +}
->>>> +
->>>> +void spapr_watchdog_init(SpaprMachineState *spapr)
->>>
->>> This could have a 'Error **errp' parameter.
->>
->>
->> I was repeating somewhat similar spapr_rtc_create(), and the called - 
->> spapr_machine_init() - does not have *errp. Seems pointless as it 
->> fails - something is horrendously broken.
-> 
-> 
-> Well, it's up to the caller to decide what to do in case of
-> errors. If in this case, it is "log an error and exit",
-> I would simply :
-> 
->    spapr_watchdog_init(spapr, &error_fatal);
-> 
-> But it is not necessarily fatal to fail to initialize some
-> device.
+  Thomas
 
-The device is so simple and not configurable via the command line that 
-it is fatal. And it does not touch *errp anyway.
-
-Passing errp also means spapr_watchdog_init() should do clean up of 
-whatever it did in a loop before hitting the error, for example in this 
-case - unrealize() previously realized watchdogs. This adds useless code 
-as it is going to be fatal anyway. Thanks,
-
-
-> 
->>
->>
->>>
->>>> +{
->>>> +    int i;
->>>> +
->>>> +    for (i = 0; i < ARRAY_SIZE(spapr->wds); ++i) {
->>>> +        char name[16];g_autofree char *name = 
->>>> g_strdup_printf("wdt%d", i + 1);
->>>
->>>> +        SpaprWatchdog *w = &spapr->wds[i];
->>>> +
->>>> +        w->num = i + 1;
->>>
->>> it should be a property.
->>
->> This cannot change and used only for tracing, and the QOM name has the 
->> number as well. I am replacing it with
->>
->> SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
->> unsigned num = w - spapr->wds;
->>
->> and removing the @num from the struct.
-> 
-> Nice !
-> 
-> Thanks
-> 
-> C.
-> 
-> 
->>
->> Thanks,
->>
->>>
->>> Thanks,
->>>
->>> C.
->>>
->>>> +        snprintf(name, sizeof(name) - 1, "wdt%d", i + 1);
->>>> +        object_initialize_child_with_props(OBJECT(spapr), name, w,
->>>> +                                           sizeof(SpaprWatchdog),
->>>> +                                           TYPE_SPAPR_WDT,
->>>> +                                           &error_fatal, NULL);
->>>> +        qdev_realize(DEVICE(w), NULL, &error_fatal);
->>>> +    }
->>>> +}
->>>> +
->>>> +static bool watchdog_needed(void *opaque)
->>>> +{
->>>> +    SpaprWatchdog *w = opaque;
->>>> +
->>>> +    return timer_pending(&w->timer);
->>>> +}
->>>> +
->>>> +static const VMStateDescription vmstate_wdt = {
->>>> +    .name = "spapr_watchdog",
->>>> +    .version_id = 1,
->>>> +    .minimum_version_id = 1,
->>>> +    .needed = watchdog_needed,
->>>> +    .fields = (VMStateField[]) {
->>>> +        VMSTATE_UINT8(action, SpaprWatchdog),
->>>> +        VMSTATE_TIMER(timer, SpaprWatchdog),
->>>> +        VMSTATE_END_OF_LIST()
->>>> +    }
->>>> +};
->>>> +
->>>> +static void spapr_wdt_realize(DeviceState *dev, Error **errp)
->>>> +{
->>>> +    SpaprWatchdog *w = SPAPR_WDT(dev);
->>>> +
->>>> +    timer_init_ms(&w->timer, QEMU_CLOCK_VIRTUAL, watchdog_expired, w);
->>>> +
->>>> +    object_property_add_uint64_ptr(OBJECT(dev), "expire",
->>>> +                                   (uint64_t *)&w->timer.expire_time,
->>>> +                                   OBJ_PROP_FLAG_READ);
->>>> +    object_property_add_uint8_ptr(OBJECT(dev), "action", &w->action,
->>>> +                                  OBJ_PROP_FLAG_READ);
->>>> +}
->>>> +
->>>> +static void spapr_wdt_class_init(ObjectClass *oc, void *data)
->>>> +{
->>>> +    DeviceClass *dc = DEVICE_CLASS(oc);
->>>> +
->>>> +    dc->renualize = spapr_wdt_realize;
->>>> +    dc->vmsd = &vmstate_wdt;
->>>> +    dc->user_creatable = false;
->>>> +}
->>>> +
->>>> +static const TypeInfo spapr_wdt_info = {
->>>> +    .name          = TYPE_SPAPR_WDT,
->>>> +    .parent        = TYPE_DEVICE,
->>>> +    .instance_size = sizeof(SpaprWatchdog),
->>>> +    .class_init    = spapr_wdt_class_init,
->>>> +};
->>>> +
->>>> +static void spapr_watchdog_register_types(void)
->>>> +{
->>>> +    spapr_register_hypercall(H_WATCHDOG, h_watchdog);
->>>> +    type_register_static(&spapr_wdt_info);
->>>> +}
->>>> +
->>>> +type_init(spapr_watchdog_register_types)
->>>> diff --git a/hw/watchdog/meson.build b/hw/watchdog/meson.build
->>>> index 054c403dea7c..8974b5cf4c8a 100644
->>>> --- a/hw/watchdog/meson.build
->>>> +++ b/hw/watchdog/meson.build
->>>> @@ -6,3 +6,4 @@ softmmu_ss.add(when: 'CONFIG_WDT_DIAG288', if_true: 
->>>> files('wdt_diag288.c'))
->>>>   softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: 
->>>> files('wdt_aspeed.c'))
->>>>   softmmu_ss.add(when: 'CONFIG_WDT_IMX2', if_true: files('wdt_imx2.c'))
->>>>   softmmu_ss.add(when: 'CONFIG_WDT_SBSA', if_true: 
->>>> files('sbsa_gwdt.c'))
->>>> +specific_ss.add(when: 'CONFIG_PSERIES', if_true: 
->>>> files('spapr_watchdog.c'))
->>>> diff --git a/hw/watchdog/trace-events b/hw/watchdog/trace-events
->>>> index e7523e22aaf2..89ccbcfdfd20 100644
->>>> --- a/hw/watchdog/trace-events
->>>> +++ b/hw/watchdog/trace-events
->>>> @@ -9,3 +9,10 @@ cmsdk_apb_watchdog_lock(uint32_t lock) "CMSDK APB 
->>>> watchdog: lock %" PRIu32
->>>>   # wdt-aspeed.c
->>>>   aspeed_wdt_read(uint64_t addr, uint32_t size) "@0x%" PRIx64 " 
->>>> size=%d"
->>>>   aspeed_wdt_write(uint64_t addr, uint32_t size, uint64_t data) 
->>>> "@0x%" PRIx64 " size=%d value=0x%"PRIx64
->>>> +
->>>> +# spapr_watchdog.c
->>>> +spapr_watchdog_start(uint64_t flags, uint64_t num, uint64_t 
->>>> timeout) "Flags 0x%" PRIx64 " num=%" PRId64 " %" PRIu64 "ms"
->>>> +spapr_watchdog_stop(uint64_t num, uint64_t ret) "num=%" PRIu64 " 
->>>> ret=%" PRId64
->>>> +spapr_watchdog_query(uint64_t caps) "caps=0x%" PRIx64
->>>> +spapr_watchdog_query_lpm(uint64_t caps) "caps=0x%" PRIx64
->>>> +spapr_watchdog_expired(uint64_t num, unsigned action) "num=%" 
->>>> PRIu64 " action=%u"
->>
-> 
-
--- 
-Alexey
 
