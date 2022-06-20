@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C00255166A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 12:59:04 +0200 (CEST)
-Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6A855168B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 13:05:43 +0200 (CEST)
+Received: from localhost ([::1]:45816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3F7X-00009o-B7
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 06:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56192)
+	id 1o3FDy-0005rE-5w
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 07:05:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1o3F3V-0007Wk-QZ
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:54:53 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:47685)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o3FAf-0002m4-Ut
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1o3F3S-0005Yf-PD
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 06:54:52 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 96FCE40A38;
- Mon, 20 Jun 2022 13:54:36 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id D229813A;
- Mon, 20 Jun 2022 13:54:35 +0300 (MSK)
-Message-ID: <0b98e946-3f1b-0e2c-8beb-9cc878190c06@msgid.tls.msk.ru>
-Date: Mon, 20 Jun 2022 13:54:35 +0300
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o3FAd-0007Tp-Jx
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 07:02:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655722934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=k7M9eG4ES0Tb9RcaMGRjXBPRle1hQce1Gzhgv+9UBsw=;
+ b=F5i+/hXGEIFIbaEuRTepfx+i1PDhZZ6yqTM+z/8yv2uKbyLqjo0sxbSs+Kl8XMgo3KzXQU
+ OMbV2TYs/g1KdolbI5ahmzMMMCWYBBWNz5H/8DAzZKIpuWh0d0rvH+iVpjpvrpJiUFGrM5
+ 94TyWOcEkfHm/NQH9QW/yEvflDiktj8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-34-J26uDEXZPKiOmHUDixspUg-1; Mon, 20 Jun 2022 07:02:09 -0400
+X-MC-Unique: J26uDEXZPKiOmHUDixspUg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4DC5A80B70E;
+ Mon, 20 Jun 2022 11:02:09 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5EDDCC2810D;
+ Mon, 20 Jun 2022 11:02:07 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>
+Subject: [PATCH v2 00/21] migration: remove QEMUFileOps concept and assume use
+ of QIOChannel
+Date: Mon, 20 Jun 2022 12:01:44 +0100
+Message-Id: <20220620110205.1357829-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: Building tools on unsupported cpu/arch
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-References: <31fb2fcb-6ad0-b769-9ec9-94fba0679065@msgid.tls.msk.ru>
- <beb38967-f089-c0f2-eb41-f33277e38d44@redhat.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-In-Reply-To: <beb38967-f089-c0f2-eb41-f33277e38d44@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,60 +83,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-20.06.2022 13:31, Thomas Huth write:
-> On 30/04/2022 16.11, Michael Tokarev wrote:
->> Hello!
->>
->> Previously, it was possible to build qemu tools (such as qemu-img, or qemu-ga)
->> on an unsupported cpu/architecture.  In a hackish way, by specifying
->> --enable-tcg-interpreter on the ./configure line.
->>
->> Today (with 7.0), it does not work anymore, with the following error
->> during configure:
->>
->>   common-user/meson.build:1:0: ERROR: Include dir host/unknown does not exist.
-> 
-> Did you ever send a patch for this? I something like this should do the job:
-> 
-> diff a/common-user/meson.build b/common-user/meson.build
-> --- a/common-user/meson.build
-> +++ b/common-user/meson.build
-> @@ -1,3 +1,7 @@
-> +if not have_user
-> +   subdir_done()
-> +endif
-> +
+Quite a while ago now, the majority of QEMUFile implementations were=0D
+switched over to use QIOChannel APIs, but a couple remained.=0D
+=0D
+The newish multifd code is directly using QIOChannel, only calling=0D
+in to QEMUFile for the VMState transfer and for rate limiting=0D
+purposes.=0D
+=0D
+This series finishes the job of converting QEMUFile to always have=0D
+a QIOChannel as its backend, enabling a removal of QEMUFileOps.=0D
+=0D
+Most callers still need to use the QEMUFile APIs though, as that=0D
+performs buffering of reads/writes.=0D
+=0D
+As a followup to this series, however, it would be practical to=0D
+introduce a QIOChannelCache that layers on top of another QIOChannel=0D
+to add buffering equivalent to what QEMUFile does, possibly with=0D
+the rate limiting too.=0D
+=0D
+At that point QEMUFile would not really be doing much at all and=0D
+could possibly go away entirely, leaving just the MigrationState=0D
+object for global state tracking, managing one or more QIOChannel=0D
+objects for the data transfer. I think this could simplify future=0D
+evolution of migration code.=0D
+=0D
+I'm not likely to have time in the immediate future to work on=0D
+such a followup though.=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Fix explanation of QIOChannelNull functionality=0D
+ - Improve commit message wrt renaming 'pos' field=0D
+ - Add patch to rename qemu_update_transfer method too=0D
+ - Avoid redundancy in qemu_file_total_transferred=0D
+   and qemu_file_total_transferred_fast docs=0D
+ - Address line length / trailing whitespace=0D
+ - Remove qemu_get_fd prototype at same time as=0D
+   QEMUFileGetFD typedef=0D
+=0D
+Daniel P. Berrang=C3=A9 (21):=0D
+  io: add a QIOChannelNull equivalent to /dev/null=0D
+  migration: switch to use QIOChannelNull for dummy channel=0D
+  migration: remove unreachble RDMA code in save_hook impl=0D
+  migration: rename rate limiting fields in QEMUFile=0D
+  migration: rename 'pos' field in QEMUFile to 'bytes_processed'=0D
+  migration: rename qemu_ftell to qemu_file_total_transferred=0D
+  migration: rename qemu_update_position to qemu_file_credit_transfer=0D
+  migration: rename qemu_file_update_transfer to=0D
+    qemu_file_acct_rate_limit=0D
+  migration: introduce a QIOChannel impl for BlockDriverState VMState=0D
+  migration: convert savevm to use QIOChannelBlock for VMState=0D
+  migration: stop passing 'opaque' parameter to QEMUFile hooks=0D
+  migration: hardcode assumption that QEMUFile is backed with QIOChannel=0D
+  migration: introduce new constructors for QEMUFile=0D
+  migration: remove unused QEMUFileGetFD typedef / qemu_get_fd method=0D
+  migration: remove the QEMUFileOps 'shut_down' callback=0D
+  migration: remove the QEMUFileOps 'set_blocking' callback=0D
+  migration: remove the QEMUFileOps 'close' callback=0D
+  migration: remove the QEMUFileOps 'get_buffer' callback=0D
+  migration: remove the QEMUFileOps 'writev_buffer' callback=0D
+  migration: remove the QEMUFileOps 'get_return_path' callback=0D
+  migration: remove the QEMUFileOps abstraction=0D
+=0D
+ include/io/channel-null.h         |  55 +++++++=0D
+ io/channel-null.c                 | 237 ++++++++++++++++++++++++++++++=0D
+ io/meson.build                    |   1 +=0D
+ io/trace-events                   |   3 +=0D
+ migration/block.c                 |  10 +-=0D
+ migration/channel-block.c         | 195 ++++++++++++++++++++++++=0D
+ migration/channel-block.h         |  59 ++++++++=0D
+ migration/channel.c               |   4 +-=0D
+ migration/colo.c                  |   5 +-=0D
+ migration/meson.build             |   2 +-=0D
+ migration/migration.c             |  10 +-=0D
+ migration/multifd.c               |   4 +-=0D
+ migration/qemu-file-channel.c     | 194 ------------------------=0D
+ migration/qemu-file-channel.h     |  32 ----=0D
+ migration/qemu-file.c             | 193 +++++++++++++-----------=0D
+ migration/qemu-file.h             | 125 +++++++---------=0D
+ migration/ram.c                   |   8 +-=0D
+ migration/rdma.c                  | 144 +++++-------------=0D
+ migration/savevm.c                |  55 ++-----=0D
+ migration/vmstate.c               |   4 +-=0D
+ tests/unit/meson.build            |   1 +=0D
+ tests/unit/test-io-channel-null.c |  95 ++++++++++++=0D
+ tests/unit/test-vmstate.c         |   5 +-=0D
+ 23 files changed, 879 insertions(+), 562 deletions(-)=0D
+ create mode 100644 include/io/channel-null.h=0D
+ create mode 100644 io/channel-null.c=0D
+ create mode 100644 migration/channel-block.c=0D
+ create mode 100644 migration/channel-block.h=0D
+ delete mode 100644 migration/qemu-file-channel.c=0D
+ delete mode 100644 migration/qemu-file-channel.h=0D
+ create mode 100644 tests/unit/test-io-channel-null.c=0D
+=0D
+-- =0D
+2.36.1=0D
+=0D
 
-https://salsa.debian.org/qemu-team/qemu/-/blob/master/debian/patches/common-user-no-user.patch
-
-I dunno which one is right - "have_user" or "have_linux_user & have_bsd_user".
-
->   common_user_inc += include_directories('host/' / host_arch)
-> 
->   user_ss.add(files(
-> 
-> 
->> This is with --disable-system --disable-linux-user --disable-user.
->>
->> And without --enable-tcg-interpreter, it gives:
->>
->>   meson.build:390:6: ERROR: Problem encountered: Unsupported CPU m68k, try --enable-tcg-interpreter
->>
->> What's the way to build tools on an unsupported architecture these days?
-> 
-> You could try to use --disable-tcg instead of --enable-tcg-interpreter ... but I guess we should improve the logic in configure / meson.build a little 
-> bit to do that automatically...
-
-It fails down the line when building trace files, I don't remember where exactly.
-It's trivial to reproduce and the failure is at the beginning of the build procedure.
-
-> I guess Philippe's patch from February should do the job:
-> 
->   https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg00894.html
-
-Lemme give it a try...
-
-Thanks,
-
-/mjt
 
