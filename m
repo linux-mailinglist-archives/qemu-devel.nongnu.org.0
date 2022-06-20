@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01754551AAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 15:19:31 +0200 (CEST)
-Received: from localhost ([::1]:38094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65BB551AB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 15:24:28 +0200 (CEST)
+Received: from localhost ([::1]:46944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3HJS-0005x6-97
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 09:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40902)
+	id 1o3HOF-0004OS-U6
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 09:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o3HCf-0001OR-Ot
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:12:29 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:45705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o3HCe-0001Iz-2j
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:12:29 -0400
-Received: by mail-lj1-x231.google.com with SMTP id s10so11841123ljh.12
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 06:12:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sn4fDjK871+kOO+FBBUggX/tv07cshjN1lvMq9KTnRs=;
- b=OqmNzkMTW6L+jsGUZqOEX8t1T5okPG1DlLcH/DjaB8eqEIN07ctMuh9+7ZyCg21E9n
- ryIHWdI3sLZgpteTjGQBLdS2CM3EPTPjYybFQYPeayXpbXhtNsul11wTlZMWVenkM4Q7
- K9P3YeR3qbyss8kQ8dbZDev+7Z7idmVgHlSneFb3CiAy+VBOpBLdWIAMa8APUomL/TLl
- Ff9er4d2mnssqzAsUrPUIArhoorKxkJvFn0g2dyBePH8TBdF7PdRwuoC13+NZdNc4+Ai
- wnF1wWRSVBfPr7ylIutR9zwdn3ChKmLndUwsr0KK9T1fmyQOZAORLMhhpAETIyXHkA/p
- rKtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Sn4fDjK871+kOO+FBBUggX/tv07cshjN1lvMq9KTnRs=;
- b=Gt1nPyGDU/MUXSrZl7W74cwOgU9AUnZMZOXdC1f7tTmQv1V5qTYmTA/FeWVXVA7TA+
- 7yDbXaLFSNMkdaHQ4ULZkl4ILqI3jHglgzjg0yiBsMPSvQ3ruBAxlnov6Ff3mARMidOL
- RnN65aheg+jxVt/12yYOguKcCIS2IiD+1UYHCniiVrwbbIJLJz6NbM7q4YSO9X9NDgAa
- d1a/fHcc78cIwHn96DPF8LaLIyhwZNBh3oWBL2yZaLH1LlP675Lu+Kjq/gsCSHCDHQJ5
- Jny5lichNpnn2joHRTb2ste4+ErcizKxFz1f5Q6ugyxqDNvBY2SKDPBx+NyjO0RAFFif
- IhMA==
-X-Gm-Message-State: AJIora95EzTfViKFycYa53zIsYZVBJB7U36EHz5PmfRTIp1h1RAs6buX
- bYh43pOgFUV6OAoNsXXeXLx5nXVd6rua1Tm2gv0=
-X-Google-Smtp-Source: AGRyM1sY+6v1LdRVadu0xCuqKbYYzYzHqvIqJrHNeCy66NtTAoAAXq0fcPYvjOJY51AQcyOXlK21buZzpXjrUgAOV00=
-X-Received: by 2002:a05:651c:1542:b0:249:5d86:3164 with SMTP id
- y2-20020a05651c154200b002495d863164mr12009008ljp.500.1655730746474; Mon, 20
- Jun 2022 06:12:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3HMi-0003MH-KT; Mon, 20 Jun 2022 09:22:52 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3HMg-0006hW-Av; Mon, 20 Jun 2022 09:22:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=MqLeeeRys0DVwxgb/0X7DuaU+hbNe6+/PQp46M6bPrE=; b=GJTbCiKDwnKFcRQhM3Hgs3Qy5/
+ Hvlv+waDAzgdftMo5dOFQZqpP2Yuh7BhdsQVlQdlnjDLkrKD8RhbHmLblsL1YtbKF67kmH9OkN/l7
+ WWNPQr+2wDvh07+5G0c0quNOdXyRvDBa45riFQVFGFEWW7Fax6E6YOG5EFHl6h2i8l/fobZrFv8hl
+ W40XcOdkFDWi8JNq2zcSNI9T+RTDa2pKxRyvnRjvIClXrXCfXKkiWfeSw+ENMp7GHtNaoKTIhlS4m
+ ugg50y6l7FJ/agEEwbrFWMoClEvEmv5pz5TkIOT5ZOKtqZ4zwDjI8jgSQPnWU3FiQGhh8Hnwm79vF
+ ky/qsIZjG1lLvCQaEspH5HhwG6f2cZ/vh8GCHYPNPjmdNVeNqAfFDAOfyO1md1y0pcsM/+9K0w5Yw
+ zFcUFoobWZlIhSaDHeqrjx6HC4HSb0cpfDSdwNxtv9MFIftDpuWwOVZBb+IsdxFqMfGZRGOTeYTdR
+ X/OoeQM/wIyPIUAfqQ6bUahCeKeExvhqwn7lCQQtEryeXoEnQzPrOWl+d8o/+/upy82h1QS8aCCPz
+ WFRL9Uq7S5kE1TaPJoYNZeCMny9d+121g2B41N/s7d+UhcgPO6yyzDxYtbDm7NXce4EgyZnbr9ajl
+ EY2StAu3KmWWrqpAxqT6OnzBVNc3sRtxbJByZQfqQ=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o3HLJ-000A3F-4H; Mon, 20 Jun 2022 14:21:29 +0100
+Message-ID: <ee98844e-93e6-1c43-ae1c-57af166d9beb@ilande.co.uk>
+Date: Mon, 20 Jun 2022 14:22:32 +0100
 MIME-Version: 1.0
-References: <20220615173345.32456-1-akihiko.odaki@gmail.com>
- <20220615173345.32456-2-akihiko.odaki@gmail.com>
- <CAJ+F1CJNmoyroKHvwWkKfNPPjEaM1MBAepZ_uoEdAuwY-RYEnw@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJNmoyroKHvwWkKfNPPjEaM1MBAepZ_uoEdAuwY-RYEnw@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 20 Jun 2022 17:12:14 +0400
-Message-ID: <CAJ+F1C+9Ma=A8TkDaPx61zncRwZTqJoUxDSrhkLMN4VRRLPwBw@mail.gmail.com>
-Subject: Re: [PATCH v7 1/6] qga: Relocate a path emitted in the help text
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Programmingkid <programmingkidx@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000fcc37b05e1e0dacb"
-Received-SPF: pass client-ip=2a00:1450:4864:20::231;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x231.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
+ pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
+ f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
+ <20220522181836.864-46-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA9CxLKNZzfvaoUFSRtykEymu23er+zj=7GA1V2nRtcU9A@mail.gmail.com>
+ <939ffd58-3a89-ea5b-157d-d4a9bd4dffa4@ilande.co.uk>
+ <a425db75-5636-8b29-26d2-9bef52c8eb25@ilande.co.uk>
+ <CAFEAcA-F_v_S3TMbtQvboBCzg9OsXM3YZ-Bs6yVabTpE9_yJ5Q@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAFEAcA-F_v_S3TMbtQvboBCzg9OsXM3YZ-Bs6yVabTpE9_yJ5Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 45/50] lasips2: use qdev gpio for output IRQ
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,114 +87,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fcc37b05e1e0dacb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 20/06/2022 11:17, Peter Maydell wrote:
 
-Hi
-
-On Mon, Jun 20, 2022 at 5:11 PM Marc-Andr=C3=A9 Lureau <
-marcandre.lureau@gmail.com> wrote:
-
->
->
-> On Wed, Jun 15, 2022 at 9:43 PM Akihiko Odaki <akihiko.odaki@gmail.com>
-> wrote:
->
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> On Sat, 11 Jun 2022 at 16:44, Mark Cave-Ayland
+> <mark.cave-ayland@ilande.co.uk> wrote:
 >>
->
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
->
-
-Oops, could you avoid leaking the result? g_autofree makes that easy.
-thanks
-
-
-> ---
->>  qga/main.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> On 10/06/2022 08:17, Mark Cave-Ayland wrote:
 >>
->> diff --git a/qga/main.c b/qga/main.c
->> index c373fec3ee6..06e507b9979 100644
->> --- a/qga/main.c
->> +++ b/qga/main.c
->> @@ -270,7 +270,7 @@ QEMU_HELP_BOTTOM "\n"
->>      , cmd, QGA_VIRTIO_PATH_DEFAULT, QGA_SERIAL_PATH_DEFAULT,
->>      dfl_pathnames.pidfile,
->>  #ifdef CONFIG_FSFREEZE
->> -    QGA_FSFREEZE_HOOK_DEFAULT,
->> +    get_relocated_path(QGA_FSFREEZE_HOOK_DEFAULT),
->>  #endif
->>      dfl_pathnames.state_dir);
->>  }
->> --
->> 2.32.1 (Apple Git-133)
+>>> On 09/06/2022 12:18, Peter Maydell wrote:
+>>>> If you find yourself #defining names for IRQ lines then this is
+>>>> probably a sign you should be using named GPIO lines :-)
+>>>
+>>> Yeah that's something I've done a few times here, mainly to have just one "set IRQ"
+>>> function rather a separate one for both keyboard and mouse. It takes a bit more work,
+>>> but I can certainly separate them out.
 >>
+>> Looking at this again, the gpio being defined here actually is the (only) lasips2
+>> output IRQ, and so should be left unnamed.
 >>
+>> The reason for adding LASIPS2_IRQ was so that the gpio connection process looked like:
 >>
->
-> --
-> Marc-Andr=C3=A9 Lureau
->
+>>       qdev_connect_gpio_out(dev, LASIPS2_IRQ, irq);
+>>
+>> instead of:
+>>
+>>       qdev_connect_gpio_out(dev, 0, irq);
+>>
+>> Would you still prefer for me to simply hardcode 0 here and drop the LASIPS2_IRQ
+>> define in this case since there is only one output IRQ?
+> 
+> Well, I think that "unnamed GPIO out" lines should be for
+> actual GPIO lines, ie on a GPIO controller or similar.
+> If you want an outbound IRQ line and don't want to name it,
+> that's what sysbus IRQ lines do. Otherwise, name the GPIO line.
+
+That's interesting - I've always been under the impression that this was the other 
+way around, i.e. for a TYPE_DEVICE then unnamed gpios are equivalent to IRQs, and 
+that gpio lines for any other non-IRQ purpose should be named :/
+
+So... I'm not really sure what to do in the context of this patchset. Would using 
+qdev gpios with suitable "QEMU interface" comments be good enough, or do you really 
+feel strongly that these should be converted to SysBus IRQs?
+
+Following on from this we should also consider starting a new thread re: the future 
+of SysBusDevice and how we would like to model SysBus IRQs and mmio regions going 
+forward.
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+ATB,
 
---000000000000fcc37b05e1e0dacb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 20, 2022 at 5:11 PM Mar=
-c-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com">marca=
-ndre.lureau@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 15, =
-2022 at 9:43 PM Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com=
-" target=3D"_blank">akihiko.odaki@gmail.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">Signed-off-by: Akihiko Odaki &lt=
-;<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"_blank">akihiko.odaki=
-@gmail.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed-by: Marc-An=
-dr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" target=
-=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></div><=
-/div></div></blockquote><div><br></div><div>Oops, could you avoid leaking t=
-he result? g_autofree makes that easy.</div><div>thanks<br></div><div>=C2=
-=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"=
-ltr"><div class=3D"gmail_quote"><div></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
----<br>
-=C2=A0qga/main.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/main.c b/qga/main.c<br>
-index c373fec3ee6..06e507b9979 100644<br>
---- a/qga/main.c<br>
-+++ b/qga/main.c<br>
-@@ -270,7 +270,7 @@ QEMU_HELP_BOTTOM &quot;\n&quot;<br>
-=C2=A0 =C2=A0 =C2=A0, cmd, QGA_VIRTIO_PATH_DEFAULT, QGA_SERIAL_PATH_DEFAULT=
-,<br>
-=C2=A0 =C2=A0 =C2=A0dfl_pathnames.pidfile,<br>
-=C2=A0#ifdef CONFIG_FSFREEZE<br>
--=C2=A0 =C2=A0 QGA_FSFREEZE_HOOK_DEFAULT,<br>
-+=C2=A0 =C2=A0 get_relocated_path(QGA_FSFREEZE_HOOK_DEFAULT),<br>
-=C2=A0#endif<br>
-=C2=A0 =C2=A0 =C2=A0dfl_pathnames.state_dir);<br>
-=C2=A0}<br>
--- <br>
-2.32.1 (Apple Git-133)<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000fcc37b05e1e0dacb--
+Mark.
 
