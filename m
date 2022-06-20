@@ -2,92 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1802B551ABF
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 15:29:46 +0200 (CEST)
-Received: from localhost ([::1]:52126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E98551C4F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 15:48:41 +0200 (CEST)
+Received: from localhost ([::1]:33434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3HTM-00085N-Ow
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 09:29:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59476)
+	id 1o3Hlg-0007NZ-4D
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 09:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o3HRm-000729-NA
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:28:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26372)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o3Hjj-0006h5-23
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:46:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o3HRj-000854-9M
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:28:04 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o3Hjf-0003os-9e
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:46:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655731682;
+ s=mimecast20190719; t=1655732794;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iPkh54vlbU6ZRio1svO+2YpIiafY2KriAEEdyuaczpE=;
- b=TA1CFlzf3UfGcnEDIFoEOCb4ygqii4GUOCZzUu1BjBSnXrv1j1s3z/5G1tmP/bWb+s7pXT
- rD9Q1AN1E7+fzKCBoMcL5y6i4/6/4B9IF6KL6r6zhGVkR03SmADrcjea/EmZuAN6yaybSx
- x2T0+wZO6FX8lEmQWhZQ7977GOHbCFA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ej6fmqaOuquaEdqzalzmXBFN82fCbZlVtw6jg4LTiik=;
+ b=GWHWdlpsWOwtZKK6DZt5mkEoHtF+0WPln1fGpcT/HaSFoD6l02AE3cN06BqXRGwQVMmucC
+ rdR6OJbvjs/I7yek+SDMfozmupWGawPRIH65NX5xQu0HZBBkx6v9ry4D9aCASAVz0RvVr+
+ X4LXEL2V2XgBfSmRlOct1uSh/rmcgfs=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121-CuPOGKlxMKmzr5MimOfQpw-1; Mon, 20 Jun 2022 09:28:00 -0400
-X-MC-Unique: CuPOGKlxMKmzr5MimOfQpw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so5045609wmj.0
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 06:28:00 -0700 (PDT)
+ us-mta-284-xYxyQw9CMziNg9biT_CWkQ-1; Mon, 20 Jun 2022 09:46:33 -0400
+X-MC-Unique: xYxyQw9CMziNg9biT_CWkQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ w18-20020a0ce112000000b0046e7f2c5a06so10401122qvk.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 06:46:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iPkh54vlbU6ZRio1svO+2YpIiafY2KriAEEdyuaczpE=;
- b=R+0BnioR4VekPYLbHyE8GtoUtrAElz00TgT43VWui6EtzIaPQkD1iX5m9PvgZozfXc
- 5pu0nAf0zEybVog5+KSKn5g1o21J/2xsceRIcA1lMsoutEdwQgq9Q4h1e0u8j9i7+09/
- eF6lUV7GNLKe3DaR0IR4ROg+BY4tw/Ml2ox8fmr5eotxQnX2y9XxZJC47SNVvXSedYRp
- MCc0NzInvvWoXFiuSTvST4+c3L6UZqbOdycYbLcdjmP/Mvpt9G3OeGyaIM7J3S4zXDvd
- Pr3nchzNqH/cpyFF4AN9FZIN5Hei0Z8EY2xVbtG71RqadWWpaB8DxLM6rfuOXMe/KeCq
- 7O2Q==
-X-Gm-Message-State: AOAM53102YVElmrxRUg4oSQQ+lBilOOjIlhqkVMW2M4N6AnvW7yy9j+A
- Fz5peXkPDKLHSbuKPlPDNCpFQOgNqNdoa9PhVmBurmTNQ/eQLHmSi5Y6SHTVHaUOmT8ZFZ35pdM
- jdj+++imhFOBnOTk=
-X-Received: by 2002:a05:600c:1d12:b0:39c:4307:8b10 with SMTP id
- l18-20020a05600c1d1200b0039c43078b10mr35266530wms.103.1655731679806; 
- Mon, 20 Jun 2022 06:27:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDQ074JtmIptCVLUJhz/C0EM584sfExq0zsiaAie1iq82WI19UHebFiyZl2HtxgRWz0+4eAQ==
-X-Received: by 2002:a05:600c:1d12:b0:39c:4307:8b10 with SMTP id
- l18-20020a05600c1d1200b0039c43078b10mr35266430wms.103.1655731679008; 
- Mon, 20 Jun 2022 06:27:59 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ej6fmqaOuquaEdqzalzmXBFN82fCbZlVtw6jg4LTiik=;
+ b=xjYZMfqx8EFbZGFWrjLQMUbiIz6xRsNq82cAnNQaLF6AhFaLUfW8GuSp2RSgZiKanC
+ VPlHxS26E7UBOJQMQK9+lgSD5Vyt0bwEVTJGrRKmAgpdcrcHvHlOzlmkL22a1685P9NL
+ 8h85WG03PjxY2969w//f3i4oa8lswP0ae4ff8SPTZrSkW7TwUbtKu9dDpPW2C51Xuw8E
+ /dqPBeycx1s768+dHUqEWrhLb9dGyEJuK0YYM5uPT24uqtz3wDz5EqBpQS2UKLbBeRTa
+ 5n9y4cY6VJnIp83BrGXH770bOWwmE643Wou/dyUhziB8GmFjt+kCOaBClgv2RQeAG345
+ +XOA==
+X-Gm-Message-State: AJIora++S6X9LYN1sMTpRnYWiCQ/jXmiSIpGBMhByVebX+wFwKRjrHsA
+ QUHHVtBuI/XLglOs9kUkcmIZwao0xlIspPJZDCgDtXxiz9WM3DVn2pgpQFgacXQ8OIy64pirN5u
+ IxnmElUDdHzxx2U8=
+X-Received: by 2002:a05:622a:118e:b0:305:3275:b9b9 with SMTP id
+ m14-20020a05622a118e00b003053275b9b9mr19455016qtk.636.1655732792710; 
+ Mon, 20 Jun 2022 06:46:32 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1syqFqkfXtpzEa/EMl7lm+ohw6YVKSs3JNCihc7OtU5gwYeRKg0ryy3lTS/XYrhQHUWECQ+wA==
+X-Received: by 2002:a05:622a:118e:b0:305:3275:b9b9 with SMTP id
+ m14-20020a05622a118e00b003053275b9b9mr19454984qtk.636.1655732792412; 
+ Mon, 20 Jun 2022 06:46:32 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.8.70])
  by smtp.gmail.com with ESMTPSA id
- v6-20020adfa1c6000000b0021b8905e797sm6543310wrv.69.2022.06.20.06.27.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 06:27:58 -0700 (PDT)
-Date: Mon, 20 Jun 2022 15:27:57 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Brice Goglin <Brice.Goglin@inria.fr>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, Liu Jingqi
- <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>, Philippe
- =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, Yanan Wang
- <wangyanan55@huawei.com>
-Subject: Re: [PATCH] hmat acpi: Don't require initiator value in -numa when
- hmat=on
-Message-ID: <20220620152757.5dd721b9@redhat.com>
-In-Reply-To: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
-References: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ f35-20020a05622a1a2300b0030515120916sm10727262qtb.44.2022.06.20.06.46.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jun 2022 06:46:32 -0700 (PDT)
+Message-ID: <e6bed870-8b6f-48a7-dd59-0e2477738319@redhat.com>
+Date: Mon, 20 Jun 2022 15:46:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC PATCH v3 03/11] qapi: net: introduce a way to bypass
+ qemu_opts_parse_noisily()
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Jason Wang <jasowang@redhat.com>
+References: <20220620101828.518865-1-lvivier@redhat.com>
+ <20220620101828.518865-4-lvivier@redhat.com> <87ilov1p54.fsf@pond.sub.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <87ilov1p54.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,88 +107,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Apr 2022 14:29:56 +0200
-Brice Goglin <Brice.Goglin@inria.fr> wrote:
+On 20/06/2022 14:43, Markus Armbruster wrote:
+> Laurent Vivier <lvivier@redhat.com> writes:
+> 
+>> As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
+>> of Netdev structure can collides with "type" field of SocketAddress),
+>> we introduce a way to bypass qemu_opts_parse_noisily() and use directly
+>> visit_type_Netdev() to parse the backend parameters.
+>>
+>> More details from Markus:
+>>
+>> qemu_init() passes the argument of -netdev, -nic, and -net to
+>> net_client_parse().
+>>
+>> net_client_parse() parses with qemu_opts_parse_noisily(), passing
+>> QemuOptsList qemu_netdev_opts for -netdev, qemu_nic_opts for -nic, and
+>> qemu_net_opts for -net.  Their desc[] are all empty, which means any
+>> keys are accepted.  The result of the parse (a QemuOpts) is stored in
+>> the QemuOptsList.
+>>
+>> Note that QemuOpts is flat by design.  In some places, we layer non-flat
+>> on top using dotted keys convention, but not here.
+>>
+>> net_init_clients() iterates over the stored QemuOpts, and passes them to
+>> net_init_netdev(), net_param_nic(), or net_init_client(), respectively.
+>>
+>> These functions pass the QemuOpts to net_client_init().  They also do
+>> other things with the QemuOpts, which we can ignore here.
+>>
+>> net_client_init() uses the opts visitor to convert the (flat) QemOpts to
+>> a (non-flat) QAPI object Netdev.  Netdev is also the argument of QMP
+>> command netdev_add.
+>>
+>> The opts visitor was an early attempt to support QAPI in
+>> (QemuOpts-based) CLI.  It restricts QAPI types to a certain shape; see
+>> commit eb7ee2cbeb "qapi: introduce OptsVisitor".
+>>
+>> A more modern way to support QAPI is qobject_input_visitor_new_str().
+>> It uses keyval_parse() instead of QemuOpts for KEY=VALUE,... syntax, and
+>> it also supports JSON syntax.  The former isn't quite as expressive as
+>> JSON, but it's a lot closer than QemuOpts + opts visitor.
+>>
+>> This commit paves the way to use of the modern way instead.
+>>
+>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>> ---
+>>   include/net/net.h |  1 +
+>>   net/net.c         | 60 +++++++++++++++++++++++++++++++++++++++++++++++
+>>   softmmu/vl.c      |  3 ++-
+>>   3 files changed, 63 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/net/net.h b/include/net/net.h
+>> index c53c64ac18c4..4ae8ed480f73 100644
+>> --- a/include/net/net.h
+>> +++ b/include/net/net.h
+>> @@ -214,6 +214,7 @@ extern NICInfo nd_table[MAX_NICS];
+>>   extern const char *host_net_devices[];
+>>   
+>>   /* from net.c */
+>> +int netdev_parse_modern(const char *optarg);
+>>   int net_client_parse(QemuOptsList *opts_list, const char *str);
+>>   void show_netdevs(void);
+>>   void net_init_clients(void);
+>> diff --git a/net/net.c b/net/net.c
+>> index 15958f881776..c337d3d753fe 100644
+>> --- a/net/net.c
+>> +++ b/net/net.c
+>> @@ -54,6 +54,7 @@
+>>   #include "net/colo-compare.h"
+>>   #include "net/filter.h"
+>>   #include "qapi/string-output-visitor.h"
+>> +#include "qapi/qobject-input-visitor.h"
+>>   
+>>   /* Net bridge is currently not supported for W32. */
+>>   #if !defined(_WIN32)
+>> @@ -63,6 +64,16 @@
+>>   static VMChangeStateEntry *net_change_state_entry;
+>>   static QTAILQ_HEAD(, NetClientState) net_clients;
+>>   
+>> +typedef struct NetdevQueueEntry {
+>> +    Netdev *nd;
+>> +    Location loc;
+>> +    QSIMPLEQ_ENTRY(NetdevQueueEntry) entry;
+>> +} NetdevQueueEntry;
+>> +
+>> +typedef QSIMPLEQ_HEAD(, NetdevQueueEntry) NetdevQueue;
+>> +
+>> +static NetdevQueue nd_queue = QSIMPLEQ_HEAD_INITIALIZER(nd_queue);
+>> +
+>>   /***********************************************************/
+>>   /* network device redirectors */
+>>   
+>> @@ -1562,6 +1573,20 @@ out:
+>>       return ret;
+>>   }
+>>   
+>> +static void netdev_init_modern(void)
+>> +{
+>> +    while (!QSIMPLEQ_EMPTY(&nd_queue)) {
+>> +        NetdevQueueEntry *nd = QSIMPLEQ_FIRST(&nd_queue);
+>> +
+>> +        QSIMPLEQ_REMOVE_HEAD(&nd_queue, entry);
+>> +        loc_push_restore(&nd->loc);
+>> +        net_client_init1(nd->nd, true, &error_fatal);
+>> +        loc_pop(&nd->loc);
+>> +        qapi_free_Netdev(nd->nd);
+>> +        g_free(nd);
+>> +    }
+>> +}
+>> +
+>>   void net_init_clients(void)
+>>   {
+>>       net_change_state_entry =
+>> @@ -1569,6 +1594,8 @@ void net_init_clients(void)
+>>   
+>>       QTAILQ_INIT(&net_clients);
+>>   
+>> +    netdev_init_modern();
+>> +
+>>       qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
+>>                         &error_fatal);
+>>   
+>> @@ -1579,6 +1606,39 @@ void net_init_clients(void)
+>>                         &error_fatal);
+>>   }
+>>   
+>> +/*
+>> + * netdev_is_modern() returns true when the backend needs to bypass
+>> + * qemu_opts_parse_noisily()
+>> + */
+>> +static bool netdev_is_modern(const char *optarg)
+>> +{
+>> +    return false;
+>> +}
+>> +
+>> +/*
+>> + * netdev_parse_modern() uses modern, more expressive syntax than
+>> + * net_client_parse(), supports only the netdev option.
+>> + */
+>> +int netdev_parse_modern(const char *optarg)
+>> +{
+>> +    Visitor *v;
+>> +    NetdevQueueEntry *nd;
+>> +
+>> +    if (!netdev_is_modern(optarg)) {
+>> +        return -1;
+>> +    }
+>> +
+>> +    v = qobject_input_visitor_new_str(optarg, "type", &error_fatal);
+>> +    nd = g_new(NetdevQueueEntry, 1);
+>> +    visit_type_Netdev(v, NULL, &nd->nd, &error_fatal);
+>> +    visit_free(v);
+>> +    loc_save(&nd->loc);
+>> +
+>> +    QSIMPLEQ_INSERT_TAIL(&nd_queue, nd, entry);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+>>   {
+>>       if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index 8eed0f31c073..838f5b48c447 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -2839,7 +2839,8 @@ void qemu_init(int argc, char **argv, char **envp)
+>>                   break;
+>>               case QEMU_OPTION_netdev:
+>>                   default_net = 0;
+>> -                if (net_client_parse(qemu_find_opts("netdev"), optarg) == -1) {
+>> +                if (netdev_parse_modern(optarg) == -1 &&
+>> +                    net_client_parse(qemu_find_opts("netdev"), optarg) == -1) {
+>>                       exit(1);
+>>                   }
+>>                   break;
+> 
+> To make this work, netdev_parse_modern() must
+> 
+> * either succeeed, or
+> 
+> * fail without reporting an error, or
+> 
+> * report an error and exit()
+> 
+> Recommend to spell that out in its function comment.
+> 
+> Alternatively:
+> 
+>                     if (netdev_is_modern(optarg)) {
+>                         netdev_parse_modern(optarg);
+>                     } else {
+>                         if (net_client_parse(qemu_find_opts("netdev"), optarg) == -1) {
+>                             exit(1);
+>                         }
+>                     }
+> 
+> netdev_is_modern() needs external linkage, and netdev_parse_modern()
+> loses its return value.
+> 
+> Note that all callers net_client_parse() handle failure exactly the same
+> way.  If we let net_client_parse() exit(), then this becomes
+> 
+>                     if (netdev_is_modern(optarg)) {
+>                         netdev_parse_modern(optarg);
+>                     } else {
+>                         net_client_parse(qemu_find_opts("netdev"), optarg);
+>                     }
+> 
+> I like this one best.  What do you think?
+> 
 
-> From: Brice Goglin <Brice.Goglin@inria.fr>
-> 
-> The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
-> has a "Processor Proximity Domain Valid" flag that is currently
-> always set because Qemu -numa requires initiator=X when hmat=on.
->
-> Unsetting this flag allows to create more complex memory topologies
-> by having multiple best initiators for a single memory target.
-> 
-> This patch allows -numa with initiator=X when hmat=on by keeping
-> the default value MAX_NODES in numa_state->nodes[i].initiator.
-> All places reading numa_state->nodes[i].initiator already check
-> whether it's different from MAX_NODES before using it. And
-> hmat_build_table_structs() already unset the Valid flag when needed.
-> 
-> Tested with
-> qemu-system-x86_64 -accel kvm \
->   -machine pc,hmat=on \
->   -drive if=pflash,format=raw,file=./OVMF.fd \
->   -drive media=disk,format=qcow2,file=efi.qcow2 \
->   -smp 4 \
->   -m 3G \
->   -object memory-backend-ram,size=1G,id=ram0 \
->   -object memory-backend-ram,size=1G,id=ram1 \
->   -object memory-backend-ram,size=1G,id=ram2 \
->   -numa node,nodeid=0,memdev=ram0,cpus=0-1 \
->   -numa node,nodeid=1,memdev=ram1,cpus=2-3 \
->   -numa node,nodeid=2,memdev=ram2 \
->   -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
->   -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
->   -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
->   -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
->   -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
->   -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
->   -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
->   -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
->   -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
->   -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
->   -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
->   -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
-> 
+Me too.
 
-> This exposes NUMA node2 at same distance from both node0 and node1 as seen in lstopo:
-> 
-> Machine (2966MB total) + Package P#0
->    NUMANode P#2 (979MB)
->    Group0
->      NUMANode P#0 (980MB)
->      Core P#0 + PU P#0
->      Core P#1 + PU P#1
->    Group0
->      NUMANode P#1 (1007MB)
->      Core P#2 + PU P#2
->      Core P#3 + PU P#3
+I wanted to have only entry point in net.c it's why I didn't export netdev_is_modern() but 
+I think it's better to export it not to mix error return (parse has failed) and checking 
+result (is modern or not).
 
-here should be a dis-assembled dump of generated HMAT table
-+ a test case, see tests/qtest/bios-tables-test.c
-for the process (at tho top) and test examples
+And I agree it's more consistent to have both parse functions behaving in the same way 
+(exit or not exit...).
 
-> 
-> Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
-> ---
->   hw/core/machine.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index d856485cb4..9884ef7ac6 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -1012,9 +1012,7 @@ static void numa_validate_initiator(NumaState *numa_state)
->   
->       for (i = 0; i < numa_state->num_nodes; i++) {
->           if (numa_info[i].initiator == MAX_NODES) {
-> -            error_report("The initiator of NUMA node %d is missing, use "
-> -                         "'-numa node,initiator' option to declare it", i);
-> -            exit(1);
-> +            continue;
->           }
->   
->           if (!numa_info[numa_info[i].initiator].present) {
+I update the patch in that way.
+
+Thanks,
+Laurent
 
 
