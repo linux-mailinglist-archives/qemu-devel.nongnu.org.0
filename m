@@ -2,85 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85590551D67
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 15:56:26 +0200 (CEST)
-Received: from localhost ([::1]:36440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2ED551D6E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 16:04:19 +0200 (CEST)
+Received: from localhost ([::1]:42554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3HtB-0001M1-3Y
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 09:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39428)
+	id 1o3I0o-0005pp-2D
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 10:04:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1o3HrC-0000WB-03
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:54:22 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:57822)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o3HwO-0002rP-2j; Mon, 20 Jun 2022 09:59:44 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13986
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1o3Hr7-0004uL-5i
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 09:54:20 -0400
-Received: from iva5-51baefb7689f.qloud-c.yandex.net
- (iva5-51baefb7689f.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:69d:0:640:51ba:efb7])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 5664B2E1222;
- Mon, 20 Jun 2022 16:49:08 +0300 (MSK)
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by iva5-51baefb7689f.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- mlixkhEaIo-n7K4UOBL; Mon, 20 Jun 2022 16:49:08 +0300
-X-Yandex-Fwd: 2
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1655732948; bh=VW4jczBlzPW7u+WnViM8Caw81Zq6j6mZ/Tk+fN2g6K8=;
- h=In-Reply-To:Subject:Cc:Date:References:To:From:Message-ID;
- b=UpeaARCoH7+xkmdmxnPpBlcuoxKd0Ucg+g5vym3joryIM/2DO/6aPGiKdhDPHOZLg
- m2W2DABhMC6eTrgLIvju6EELTgsUIdoU4+fDwJnBIlNRo+i7Meax1JxEUugZ/YME/j
- a+qa2vLtdqw0175dIILAIZZ5Ni3u1cdHLzd8OolI=
-Authentication-Results: iva5-51baefb7689f.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from rvkaganb (unknown [2a02:6b8:b081:b597::1:1d])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- dvI0qKWP2T-n7MaCVeV; Mon, 20 Jun 2022 16:49:07 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Mon, 20 Jun 2022 16:49:06 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
- qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@gmail.com>, Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 1/4] qdev: add DEVICE_RUNTIME_ERROR event
-Message-ID: <YrB60nlxNeelb6r0@rvkaganb>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Markus Armbruster <armbru@redhat.com>,
- Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
- qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@gmail.com>,
- Eric Blake <eblake@redhat.com>
-References: <165296995578.196133.16183155555450040914.stgit@buzz>
- <87zgj5hog8.fsf@pond.sub.org> <YpDI5IMRzTbDu93A@rvkaganb>
- <87sforb6pa.fsf@pond.sub.org> <YpTdAPAo8RGD735z@rvkaganb>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o3HwL-0005j8-LH; Mon, 20 Jun 2022 09:59:43 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25KC1WqJ022761;
+ Mon, 20 Jun 2022 13:59:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=bmenbTYJ6WB5+vz9UX+ZDF22ncPFbEcH14Ns/0O6ofQ=;
+ b=LQTYG48HOYZKscfuWmlbqunIzsnVuNMWlZ9nYnu7tI/n5BZuxb91a8DVyuvm+G+psngs
+ COCdWYp08MiVsAzeYhC2WU24RNRZwQ6/AHnwgQqmL/UsGV2OA17xs/H56BSznIxVCKli
+ WGVMAc8ftJWFr2G14BJ/oC6hv9cF+85UAQ4B9UtjKGsL4JFZsWVitGeNWsu0sLMPiLx9
+ vVm/CaunYYIr1RqME5x4ey6si/LUGRdp3Wh4/qx4T1bpPwiOFZvXVskEBFzgiKZwavqA
+ aSN3KPGhJUkrK4NTg1IixFXtDgUcDgE2vdknKKEoNP+JRCYrpsCsEX9N2ddqzlN0x7kk VQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gsrs7js00-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Jun 2022 13:59:36 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25KD8K47018488;
+ Mon, 20 Jun 2022 13:59:36 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gsrs7jry7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Jun 2022 13:59:35 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25KDpOas023579;
+ Mon, 20 Jun 2022 13:59:33 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03ams.nl.ibm.com with ESMTP id 3gs6b8tknb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Jun 2022 13:59:33 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25KDxUrv11862290
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 20 Jun 2022 13:59:30 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CF3B511C04C;
+ Mon, 20 Jun 2022 13:59:30 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 01CC911C04A;
+ Mon, 20 Jun 2022 13:59:30 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
+ [9.171.62.140])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 20 Jun 2022 13:59:29 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+Subject: [PATCH v8 00/12] s390x: CPU Topology
+Date: Mon, 20 Jun 2022 16:03:40 +0200
+Message-Id: <20220620140352.39398-1-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: xPy_00iAN4dMYkg_gszr0VhKN9vc3QXt
+X-Proofpoint-ORIG-GUID: 5vbjkoyhU6xgFKtxqKxm8r-eV-ky6a2O
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YpTdAPAo8RGD735z@rvkaganb>
-Received-SPF: pass client-ip=77.88.29.217; envelope-from=rvkagan@yandex-team.ru;
- helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-20_05,2022-06-17_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206200063
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,57 +117,253 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 30, 2022 at 06:04:32PM +0300, Roman Kagan wrote:
-> On Mon, May 30, 2022 at 01:28:17PM +0200, Markus Armbruster wrote:
-> > Roman Kagan <rvkagan@yandex-team.ru> writes:
-> > 
-> > > On Wed, May 25, 2022 at 12:54:47PM +0200, Markus Armbruster wrote:
-> > >> Konstantin Khlebnikov <khlebnikov@yandex-team.ru> writes:
-> > >> 
-> > >> > This event represents device runtime errors to give time and
-> > >> > reason why device is broken.
-> > >> 
-> > >> Can you give an or more examples of the "device runtime errors" you have
-> > >> in mind?
-> > >
-> > > Initially we wanted to address a situation when a vhost device
-> > > discovered an inconsistency during virtqueue processing and silently
-> > > stopped the virtqueue.  This resulted in device stall (partial for
-> > > multiqueue devices) and we were the last to notice that.
-> > >
-> > > The solution appeared to be to employ errfd and, upon receiving a
-> > > notification through it, to emit a QMP event which is actionable in the
-> > > management layer or further up the stack.
-> > >
-> > > Then we observed that virtio (non-vhost) devices suffer from the same
-> > > issue: they only log the error but don't signal it to the management
-> > > layer.  The case was very similar so we thought it would make sense to
-> > > share the infrastructure and the QMP event between virtio and vhost.
-> > >
-> > > Then Konstantin went a bit further and generalized the concept into
-> > > generic "device runtime error".  I'm personally not completely convinced
-> > > this generalization is appropriate here; we'd appreciate the opinions
-> > > from the community on the matter.
-> > 
-> > "Device emulation sending an even on entering certain error states, so
-> > that a management application can do something about it" feels
-> > reasonable enough to me as a general concept.
-> > 
-> > The key point is of course "can do something": the event needs to be
-> > actionable.  Can you describe possible actions for the cases you
-> > implement?
-> 
-> The first one that we had in mind was informational, like triggering an
-> alert in the monitoring system and/or painting the VM as malfunctioning
-> in the owner's UI.
-> 
-> There can be more advanced scenarios like autorecovery by resetting the
-> faulty VM, or fencing it if it's a cluster member.
+Hi,
 
-The discussion kind of stalled here.  Do you think the approach makes
-sense or not?  Should we try and resubmit the series with a proper cover
-letter and possibly other improvements or is it a dead end?
+This new spin is essentially for coherence with the last Linux CPU
+Topology patch, function testing and coding style modifications.
 
-Thanks,
-Roman.
+Forword
+=======
+
+The goal of this series is to implement CPU topology for S390, it
+improves the preceeding series with the implementation of books and
+drawers, of non uniform CPU topology and with documentation.
+
+To use these patches, you will need the Linux series version 10.
+You find it there:
+https://lkml.org/lkml/2022/6/20/590
+
+Currently this code is for KVM only, I have no idea if it is interesting
+to provide a TCG patch. If ever it will be done in another series.
+
+To have a better understanding of the S390x CPU Topology and its
+implementation in QEMU you can have a look at the documentation in the
+last patch or follow the introduction here under.
+
+A short introduction
+====================
+
+CPU Topology is described in the S390 POP with essentially the description
+of two instructions:
+
+PTF Perform Topology function used to poll for topology change
+    and used to set the polarization but this part is not part of this item.
+
+STSI Store System Information and the SYSIB 15.1.x providing the Topology
+    configuration.
+
+S390 Topology is a 6 levels hierarchical topology with up to 5 level
+    of containers. The last topology level, specifying the CPU cores.
+
+    This patch series only uses the two lower levels sockets and cores.
+    
+    To get the information on the topology, S390 provides the STSI
+    instruction, which stores a structures providing the list of the
+    containers used in the Machine topology: the SYSIB.
+    A selector within the STSI instruction allow to chose how many topology
+    levels will be provide in the SYSIB.
+
+    Using the Topology List Entries (TLE) provided inside the SYSIB we
+    the Linux kernel is able to compute the information about the cache
+    distance between two cores and can use this information to take
+    scheduling decisions.
+
+The design
+==========
+
+1) To be ready for hotplug, I chose an Object oriented design
+of the topology containers:
+- A node is a bridge on the SYSBUS and defines a "node bus"
+- A drawer is hotplug on the "node bus"
+- A book on the "drawer bus"
+- A socket on the "book bus"
+- And the CPU Topology List Entry (CPU-TLE)sits on the socket bus.
+These objects will be enhanced with the cache information when
+NUMA is implemented.
+
+This also allows for easy retrieval when building the different SYSIB
+for Store Topology System Information (STSI)
+
+2) Perform Topology Function (PTF) instruction is made available to the
+guest with a new KVM capability and intercepted in QEMU, allowing the
+guest to pool for topology changes.
+
+
+Features
+========
+
+- There is no direct match between IDs shown by:
+    - lscpu (unrelated numbered list),
+    - SYSIB 15.1.x (topology ID)
+
+- The CPU number, left column of lscpu, is used to reference a CPU
+    by Linux tools
+    While the CPU address is used by QEMU for hotplug.
+
+- Effect of -smp parsing on the topology with an example:
+    -smp 9,sockets=4,cores=4,maxcpus=16
+
+    We have 4 socket each holding 4 cores so that we have a maximum 
+    of 16 CPU, 9 of them are active on boot. (Should be obvious)
+
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+# 
+
+
+- To plug a new CPU inside the topology one can simply use the CPU
+    address like in:
+  
+(qemu) device_add host-s390x-cpu,core-id=12
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+  9    -      -    -      -    - :::                 no yes        horizontal   12
+# chcpu -e 9
+CPU 9 enabled
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+  9    0      0    0      3    9 9:9:9:9            yes yes        horizontal   12
+#
+
+It is up to the admin level, Libvirt for example, to pin the righ CPU to the right
+vCPU, but as we can see without NUMA, chosing separate sockets for CPUs is not easy
+without hotplug because without information the code will assign the vCPU and fill
+the sockets one after the other.
+Note that this is also the default behavior on the LPAR.
+
+Conclusion
+==========
+
+This patch, together with the associated KVM patch allows to provide CPU topology
+information to the guest.
+Currently, only dedicated vCPU and CPU are supported and a NUMA topology can only
+be handled using CPU hotplug inside the guest.
+
+Regards,
+Pierre
+
+Pierre Morel (12):
+  Update Linux Headers
+  s390x/cpu_topology: CPU topology objects and structures
+  s390x/cpu_topology: implementating Store Topology System Information
+  s390x/cpu_topology: Adding books to CPU topology
+  s390x/cpu_topology: Adding books to STSI
+  s390x/cpu_topology: Adding drawers to CPU topology
+  s390x/cpu_topology: Adding drawers to STSI
+  s390x/cpu_topology: implementing numa for the s390x topology
+  target/s390x: interception of PTF instruction
+  s390x/cpu_topology: resetting the Topology-Change-Report
+  s390x/cpu_topology: CPU topology migration
+  s390x/cpu_topology: activating CPU topology
+
+ hw/core/machine-smp.c              |  48 +-
+ hw/core/machine.c                  |  22 +
+ hw/s390x/cpu-topology.c            | 754 +++++++++++++++++++++++++++++
+ hw/s390x/meson.build               |   1 +
+ hw/s390x/s390-virtio-ccw.c         |  77 ++-
+ include/hw/boards.h                |   8 +
+ include/hw/s390x/cpu-topology.h    |  99 ++++
+ include/hw/s390x/s390-virtio-ccw.h |   6 +
+ include/hw/s390x/sclp.h            |   1 +
+ linux-headers/asm-s390/kvm.h       |   9 +
+ linux-headers/linux/kvm.h          |   1 +
+ qapi/machine.json                  |  14 +-
+ qemu-options.hx                    |   6 +-
+ softmmu/vl.c                       |   6 +
+ target/s390x/cpu-sysemu.c          |   7 +
+ target/s390x/cpu.h                 |  52 ++
+ target/s390x/cpu_models.c          |   1 +
+ target/s390x/cpu_topology.c        | 169 +++++++
+ target/s390x/kvm/kvm.c             |  93 ++++
+ target/s390x/kvm/kvm_s390x.h       |   2 +
+ target/s390x/meson.build           |   1 +
+ 21 files changed, 1359 insertions(+), 18 deletions(-)
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 include/hw/s390x/cpu-topology.h
+ create mode 100644 target/s390x/cpu_topology.c
+
+-- 
+2.31.1
+
+Changelog:
+
+- since v7
+
+- Coherence with the Linux patch series changes for MTCR get
+  (Pierre)
+
+- check return values during new CPU creation
+  (Thomas)
+
+- Improving codding style and argument usages
+  (Thomas)
+
+- since v6
+
+- Changes on smp args in qemu-options
+  (Daniel)
+  
+- changed comments in machine.jason
+  (Daniel)
+ 
+- Added reset
+  (Janosch)
+
+- since v5
+
+- rebasing on newer QEMU version
+
+- reworked most lines above 80 characters.
+
+- since v4
+
+- Added drawer and books to topology
+
+- Added numa topology
+
+- Added documentation
+
+- since v3
+
+- Added migration
+  (Thomas)
+
+- Separated STSI instruction from KVM to prepare TCG
+  (Thomas)
+
+- Take care of endianess to prepare TCG
+  (Thomas)
+
+- Added comments on STSI CPU container and PFT instruction
+  (Thomas)
+
+- Moved enabling the instructions as the last patch
+  (Thomas)
 
