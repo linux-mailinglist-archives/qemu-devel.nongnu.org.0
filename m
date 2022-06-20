@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AF25522C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:31:42 +0200 (CEST)
-Received: from localhost ([::1]:43862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD19D5522E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jun 2022 19:46:10 +0200 (CEST)
+Received: from localhost ([::1]:49656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3LFU-0002aj-2Z
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37400)
+	id 1o3LTV-0007gH-3k
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 13:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o3LEI-0001q4-OX
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:30:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o3LEC-0006SN-WC
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:30:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655746219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JekTRJu+Dab5DiMy+XjKUBzN59D0vLArtVdg2RgjGM8=;
- b=OR0agFDAsH28mLLOjPEjqxhtJxxb7y3lpkzuG+9NoCFFLneLbR1Jr8Hl0f1IgjJKeJndtC
- ZPKeRhfQ7OafMCW836otUw1E5J7ox+lDSYERVMXdSlzchHjmj3kNZI7t7bx/AwkxGVCw3s
- zOUBfAilHbw9yvnS5WfCSD+JNpiZ3LA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-367-51BlffuBOim83E2pL3WSZA-1; Mon, 20 Jun 2022 13:30:16 -0400
-X-MC-Unique: 51BlffuBOim83E2pL3WSZA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 2-20020a1c0202000000b0039c94528746so7153952wmc.6
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:30:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPc-00055o-MF
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:42:08 -0400
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:40639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o3LPa-00081U-MY
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 13:42:08 -0400
+Received: by mail-il1-x12d.google.com with SMTP id c4so4337031ilj.7
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 10:42:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rej5q2fYmXWWgrf9YAewGGu0rV2K0OnPwTzFTSOmU2E=;
+ b=vkBDdZAPUPz2cDQP38nNTU3S1PZ5BOJo8eejClITgKrp77KenrFKkGtbdx8hh1Gf2J
+ HTyp8Mv3+cTN+ENfH0wpQq9QkZbTPDKu+E2wI0M6TCeykwh22cAwqFd+tWBWPYV9m13Z
+ OOmBvbbZwb9f0HV2RQiP30VXFE4a0TQimYkyj/ZZ2UCl0NbvJ5Sb88gjwiQxKo5xMPJm
+ vREFyLvZSzsso8P55o4Y01dn446+nn9obxNIrhkgWYpfvZHoJgqDRGhRNtKjTNiFBHLz
+ ZhUy6I8uFtmkB78QXybfmxkJ5FCpm0/4KEUhjFz4X010vkHZTTq8AlGXWbeiu2y1ltKh
+ 2+mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=JekTRJu+Dab5DiMy+XjKUBzN59D0vLArtVdg2RgjGM8=;
- b=8E4VH7AjS8Tc2zJH6jILV/jp+TKImarVLVS4D2+nwZSGEMV3ge5o+8hrmIB7wIVR0x
- lalsCz3+0kZhA8RJW7FJJ5SPgjsnJoBhobvewc9FWwwt6VueUdFmJVR5iVQHL41KirU1
- zcDpC9996wBFm/Mmq7QeUWikZ+1b5NnQXiHPP1YQB9yUV83AJeSTegtE/mAVujOqwLBF
- CWVG6RZ/Sj97tvhmN/8n2QZikmbJn5Lzg0n3q4f1K9D1z0sEhj21JYzhr6Ny5sR3DdFy
- NAjwUU+M9qpJT9240QNgTEUFg5cz579tjOqKiBIwBTBs95rpFHvBXCRZUNeEJgpxHvXX
- +V7Q==
-X-Gm-Message-State: AOAM533cBCHo/oMzF8BOT1MUKCXTvUyeQUGl6WRU+AO12Z8CjIp1Nxno
- tIMx1MCFCBBmDQ6/GT5jqmlC7ojNBSR65S8PTghBXvI8Zi1hWxjbhTGC3+3xu9eIOeL08NA5g4Z
- ZLzT3+6fhWtgpK3M=
-X-Received: by 2002:a05:600c:4f95:b0:39c:9897:5290 with SMTP id
- n21-20020a05600c4f9500b0039c98975290mr36466377wmq.149.1655746213770; 
- Mon, 20 Jun 2022 10:30:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlSzxQAtGYNrTVbc/dmbkLS2ZvrEkxaDqFk8pCk3Mv4bN2cXDr2+SMwHSjn1KAZosyXm8ZkA==
-X-Received: by 2002:a05:600c:4f95:b0:39c:9897:5290 with SMTP id
- n21-20020a05600c4f9500b0039c98975290mr36466351wmq.149.1655746213542; 
- Mon, 20 Jun 2022 10:30:13 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- v1-20020a5d6781000000b0021b93b29cacsm2283538wru.99.2022.06.20.10.30.12
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rej5q2fYmXWWgrf9YAewGGu0rV2K0OnPwTzFTSOmU2E=;
+ b=msjKzZUxByVAd4h/VxaaCxYAbhMJfktglaN4cQDEbMiUfcxvDQHLr3M99vhgOm7e4Q
+ t7SraJ/GOSw05G8afZAq6JL7yBl8iOAkymq7DsCRVUFOq1MWNj+AGHCBGbKg5yRcZIAa
+ ue/QVo6oq4dT78r7SHFdOf+JEyqJoQfR4Ow2MrUIXc88A7kOsyTYKoVHVgrnkFTS96/2
+ 1SDR/RPzgaZJKFjY38hbKy3kb1LlVQQjAiytbj1MmW2XC9uzkPQ4xg2+JetO3N9m1ET8
+ YKoN3FiCIOa/IEXGSkPz46Fds5tC5P0Pza8wb5BgER5fdsKCK9xvICsRD9mTNGdt63Cj
+ FuQQ==
+X-Gm-Message-State: AJIora/3xIW337hR6Tr5c9UzhvL73mF04JgtafvgYcQo5wcgXGJWGBBm
+ 3pjK/5BNyQmUZutfWFazFEUwFeu+ZxAXUQ==
+X-Google-Smtp-Source: AGRyM1sk9R+MLEZpWPDhrpPf9yWCGjQPF8MTDCgRWmVyRVe625skliScgKahZvd5q7nm6mkdIdH+hw==
+X-Received: by 2002:a92:cd87:0:b0:2d3:ce9a:f9a5 with SMTP id
+ r7-20020a92cd87000000b002d3ce9af9a5mr13809852ilb.76.1655746924865; 
+ Mon, 20 Jun 2022 10:42:04 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
+ k19-20020a02c773000000b00331e4e4fac9sm6202953jao.47.2022.06.20.10.42.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 10:30:13 -0700 (PDT)
-Date: Mon, 20 Jun 2022 18:30:11 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] migration: Remove RDMA_UNREGISTRATION_EXAMPLE
-Message-ID: <YrCuoxF6iPWQxh4q@work-vm>
-References: <20220620150918.57471-1-quintela@redhat.com>
+ Mon, 20 Jun 2022 10:42:04 -0700 (PDT)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Cc: Warner Losh <imp@bsdimp.com>,
+	Kyle Evans <kevans@freebsd.org>
+Subject: [PATCH 00/10] bsd-user: More file-related system calls
+Date: Mon, 20 Jun 2022 11:42:10 -0600
+Message-Id: <20220620174220.22179-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220620150918.57471-1-quintela@redhat.com>
-User-Agent: Mutt/2.2.5 (2022-05-16)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,89 +86,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Nobody has ever showed up to unregister individual pages, and another
-> set of patches written by Daniel P. Berrangé <berrange@redhat.com>
-> just remove qemu_rdma_signal_unregister() function needed here.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+A second round of mostly BSD-independent filesystem calls: mount, unmount,
+nmount, symlink, symlinkat, readlink, readlinkat, chmod, fchmod, lchmod,
+fchmodat, freebsd11_mknod, freebsd11_monodat, mknodat, chown, fchown, lchown,
+fchownat, chflags, lchflags, fchflags, chroot, flock, mkfifo, mkfifoat,
+pathconf, lpathconf, fpathconf, undelete.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+These are all non-reentrant system calls, so these wrappers are pretty simple
+and no safe_* versions need to be created.
 
-> ---
->  migration/rdma.c | 41 -----------------------------------------
->  1 file changed, 41 deletions(-)
-> 
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index 672d1958a9..8504152f39 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -1370,30 +1370,6 @@ const char *print_wrid(int wrid)
->      return wrid_desc[wrid];
->  }
->  
-> -/*
-> - * RDMA requires memory registration (mlock/pinning), but this is not good for
-> - * overcommitment.
-> - *
-> - * In preparation for the future where LRU information or workload-specific
-> - * writable writable working set memory access behavior is available to QEMU
-> - * it would be nice to have in place the ability to UN-register/UN-pin
-> - * particular memory regions from the RDMA hardware when it is determine that
-> - * those regions of memory will likely not be accessed again in the near future.
-> - *
-> - * While we do not yet have such information right now, the following
-> - * compile-time option allows us to perform a non-optimized version of this
-> - * behavior.
-> - *
-> - * By uncommenting this option, you will cause *all* RDMA transfers to be
-> - * unregistered immediately after the transfer completes on both sides of the
-> - * connection. This has no effect in 'rdma-pin-all' mode, only regular mode.
-> - *
-> - * This will have a terrible impact on migration performance, so until future
-> - * workload information or LRU information is available, do not attempt to use
-> - * this feature except for basic testing.
-> - */
-> -/* #define RDMA_UNREGISTRATION_EXAMPLE */
-> -
->  /*
->   * Perform a non-optimized memory unregistration after every transfer
->   * for demonstration purposes, only if pin-all is not requested.
-> @@ -1571,18 +1547,6 @@ static uint64_t qemu_rdma_poll(RDMAContext *rdma, struct ibv_cq *cq,
->          if (rdma->nb_sent > 0) {
->              rdma->nb_sent--;
->          }
-> -
-> -        if (!rdma->pin_all) {
-> -            /*
-> -             * FYI: If one wanted to signal a specific chunk to be unregistered
-> -             * using LRU or workload-specific information, this is the function
-> -             * you would call to do so. That chunk would then get asynchronously
-> -             * unregistered later.
-> -             */
-> -#ifdef RDMA_UNREGISTRATION_EXAMPLE
-> -            qemu_rdma_signal_unregister(rdma, index, chunk, wc.wr_id);
-> -#endif
-> -        }
->      } else {
->          trace_qemu_rdma_poll_other(print_wrid(wr_id), wr_id, rdma->nb_sent);
->      }
-> @@ -2137,11 +2101,6 @@ retry:
->  
->      chunk_end = ram_chunk_end(block, chunk + chunks);
->  
-> -    if (!rdma->pin_all) {
-> -#ifdef RDMA_UNREGISTRATION_EXAMPLE
-> -        qemu_rdma_unregister_waiting(rdma);
-> -#endif
-> -    }
->  
->      while (test_bit(chunk, block->transit_bitmap)) {
->          (void)count;
-> -- 
-> 2.35.3
-> 
+Warner Losh (10):
+  bsd-user: Implement mount, umount and nmount
+  bsd-user: Implement symlink, symlinkat, readlink and readlinkat
+  bsd-user: implement chmod, fchmod, lchmod and fchmodat
+  bsd-user: Implement freebsd11_mknod, freebsd11_mknodat and mknodat
+  bsd-user: Implement chown, fchown, lchown and fchownat
+  bsd-user: Implement chflags, lchflags and fchflags
+  bsd-user: Implement chroot and flock
+  bsd-user: Implement mkfifo and mkfifoat
+  bsd-user: Implement pathconf, lpathconf and fpathconf
+  bsd-user: Implement undelete
+
+ bsd-user/bsd-file.h           | 403 ++++++++++++++++++++++++++++++++++
+ bsd-user/freebsd/os-syscall.c | 120 ++++++++++
+ 2 files changed, 523 insertions(+)
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.33.1
 
 
