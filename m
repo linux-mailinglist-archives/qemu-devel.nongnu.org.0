@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DB45538D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 19:26:29 +0200 (CEST)
-Received: from localhost ([::1]:56874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175B85538DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 19:28:25 +0200 (CEST)
+Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3he0-0006AO-IY
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 13:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
+	id 1o3hfs-0008EL-4K
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 13:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3hbJ-0004Wh-TO
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 13:23:43 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:37814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3hbI-0000bp-0D
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 13:23:41 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id w6so25646273ybl.4
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 10:23:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x/dYsGrgRzHNBwe6t8AZYBArxopH0NdT/0/e+BsMAF8=;
- b=EXSCwMYNOH5EqISuu7CtQgRsb7hnYaocFGQZ+0uNs8tm70tMKbCADBE0/7Phob+vz9
- dcNwFFQgS86dAZM5FhiTmTUCwRJPosYcuQJ7cbnh4TFxhcRp1U/cPg5elv+gt/L6yqb+
- 1LxnEwRlbUn+irkZjNCu3XZIdY3+LMPJWlFsvydj1QGrHP1WdoKVA8xX5xEOWtmNe4yN
- x8s1W6iv08rvhgBXK0PSntdtLJN8f166EZpRPYQDGqCh3BqC9e+2r124WipTroBd6Ew+
- G2HLZeJ5gK0wlM8evn3RwTdK29uv/7h63M8faj+sputD32JBF8ATHFi47F/+mBVAmSaW
- ngFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x/dYsGrgRzHNBwe6t8AZYBArxopH0NdT/0/e+BsMAF8=;
- b=JwoItsOQp1mQExyXfHnYzJu6EKsZtP5Kqa03+5580pTSVvVyi3PZwlXaL4n0h+oL1V
- lW6xpVXYWwBFdoNVWSNO9t8L4U150G1e5rrxHeUkbpqCX1v5GdKMWsUSzuahdQiihyst
- aJ8pjHxmhq6T+efZ3bCChe9zeseP7lGa/sPg3JHgtH5V8I7JupjDtbYXBxPRI4QRAKLo
- CmJ7XJo04NEYxgu+Gf7cxiT+DjvTmaQLgWxld+xoETYXeDUkYDQe3AyPjUwnPe3b71dG
- 0pXYSTwmZXG66Nj04KIsLdd6TKiWIqgDm6fM0nNr7hfcAor/bMkGWws/P6jwyBzWs5jC
- Li7g==
-X-Gm-Message-State: AJIora+SsQjmra0ihj65D9ZDPs2XyH2nnokkNDdLk5JRxHDDFhTge3xv
- lS4qaq1TpEIJBF8LiwQ6L2gbKlFoxMYXJZzY1xdwEg==
-X-Google-Smtp-Source: AGRyM1sM9nD/T1BP+YNjPjvoCEaKgUoHtQtCEaGzGhUQN8MtnUJ7We7H5s2sPav1v0kyXv41PTNUqXRBYHzq2eNzc/c=
-X-Received: by 2002:a5b:14c:0:b0:64f:c826:a76b with SMTP id
- c12-20020a5b014c000000b0064fc826a76bmr31547619ybp.479.1655832218630; Tue, 21
- Jun 2022 10:23:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o3hed-0007KN-EK; Tue, 21 Jun 2022 13:27:07 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:43696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o3heZ-0001Fh-3w; Tue, 21 Jun 2022 13:27:05 -0400
+Received: from sas2-6a1db1376cb6.qloud-c.yandex.net
+ (sas2-6a1db1376cb6.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bb0f:0:640:6a1d:b137])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 5649F2E133A;
+ Tue, 21 Jun 2022 20:26:52 +0300 (MSK)
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net [2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by sas2-6a1db1376cb6.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ AHrk4M9BXr-QpJeqIWs; Tue, 21 Jun 2022 20:26:52 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1655832412; bh=uvV8B7Jny5u1IQID2qicwzvcZemrhZvUFILn9PyKVnM=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=xYjMIZHHUIrHId5F+M7h9P0qYTEoQ7JwDyeG1ViMk2azcba5GBHwy/0MlsyJvdMOF
+ SFcCtaaSD6+NoNe8F8Jzau61C695Uja6eW9Umauubr0togI2+AXQWQSSPEmngBI5bF
+ LWUTxli3YCz8yeTGqDtemKp7rkgehzMxG0bZbsqc=
+Authentication-Results: sas2-6a1db1376cb6.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:23::1:8] (unknown [2a02:6b8:b081:23::1:8])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id uhoBpeiVbr-QoNGkEfE; Tue, 21 Jun 2022 20:26:50 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <c0401616-f246-ce1d-2a0f-b7e23dd55ab8@yandex-team.ru>
+Date: Tue, 21 Jun 2022 20:26:50 +0300
 MIME-Version: 1.0
-References: <20220620175235.60881-1-richard.henderson@linaro.org>
- <20220620175235.60881-24-richard.henderson@linaro.org>
-In-Reply-To: <20220620175235.60881-24-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jun 2022 18:23:01 +0100
-Message-ID: <CAFEAcA_f1dtuiTLuwZL+MTeNsJc1fiWUZmRzvZBHAFpbDzu4hg@mail.gmail.com>
-Subject: Re: [PATCH v3 23/51] target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v7 10/18] jobs: rename static functions called with
+ job_mutex held
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220616131835.2004262-1-eesposit@redhat.com>
+ <20220616131835.2004262-11-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220616131835.2004262-11-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,87 +87,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Jun 2022 at 19:13, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> These SME instructions are nominally within the SVE decode space,
-> so we add them to sve.decode and translate-sve.c.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate-a64.h |  1 +
->  target/arm/sve.decode      |  5 ++++-
->  target/arm/translate-a64.c | 15 +++++++++++++++
->  target/arm/translate-sve.c | 38 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 58 insertions(+), 1 deletion(-)
+On 6/16/22 16:18, Emanuele Giuseppe Esposito wrote:
+> With the*nop*  job_lock/unlock placed, rename the static
+> functions that are always under job_mutex, adding "_locked" suffix.
+> 
+> List of functions that get this suffix:
+> job_txn_ref		   job_txn_del_job
+> job_txn_apply		   job_state_transition
+> job_should_pause	   job_event_cancelled
+> job_event_completed	   job_event_pending
+> job_event_ready		   job_event_idle
+> job_do_yield		   job_timer_not_pending
+> job_do_dismiss		   job_conclude
+> job_update_rc		   job_commit
+> job_abort		   job_clean
+> job_finalize_single	   job_cancel_async
+> job_completed_txn_abort	   job_prepare
+> job_needs_finalize	   job_do_finalize
+> job_transition_to_pending  job_completed_txn_success
+> job_completed		   job_cancel_err
+> job_force_cancel_err
+> 
+> Note that "locked" refers to the*nop*  job_lock/unlock, and not
+> real_job_lock/unlock.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
 
-> diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-> index 62b5f3040c..13bdd027a5 100644
-> --- a/target/arm/translate-sve.c
-> +++ b/target/arm/translate-sve.c
-> @@ -1286,6 +1286,19 @@ static bool trans_ADDVL(DisasContext *s, arg_ADDVL *a)
->      return true;
->  }
->
-> +static bool trans_ADDSVL(DisasContext *s, arg_ADDSVL *a)
-> +{
-> +    if (!dc_isar_feature(aa64_sme, s)) {
-> +        return false;
-> +    }
-> +    if (sme_enabled_check(s)) {
-> +        TCGv_i64 rd = cpu_reg_sp(s, a->rd);
-> +        TCGv_i64 rn = cpu_reg_sp(s, a->rn);
-> +        tcg_gen_addi_i64(rd, rn, a->imm * s->svl);
-> +    }
-> +    return true;
-> +}
-> +
->  static bool trans_ADDPL(DisasContext *s, arg_ADDPL *a)
->  {
->      if (!dc_isar_feature(aa64_sve, s)) {
-> @@ -1299,6 +1312,19 @@ static bool trans_ADDPL(DisasContext *s, arg_ADDPL *a)
->      return true;
->  }
->
-> +static bool trans_ADDSPL(DisasContext *s, arg_ADDSPL *a)
-> +{
-> +    if (!dc_isar_feature(aa64_sme, s)) {
-> +        return false;
-> +    }
-> +    if (sme_enabled_check(s)) {
-> +        TCGv_i64 rd = cpu_reg_sp(s, a->rd);
-> +        TCGv_i64 rn = cpu_reg_sp(s, a->rn);
-> +        tcg_gen_addi_i64(rd, rn, a->imm * (s->svl / 8));
-> +    }
-> +    return true;
-> +}
-> +
->  static bool trans_RDVL(DisasContext *s, arg_RDVL *a)
->  {
->      if (!dc_isar_feature(aa64_sve, s)) {
-> @@ -1311,6 +1337,18 @@ static bool trans_RDVL(DisasContext *s, arg_RDVL *a)
->      return true;
->  }
->
-> +static bool trans_RDSVL(DisasContext *s, arg_RDSVL *a)
-> +{
-> +    if (!dc_isar_feature(aa64_sme, s)) {
-> +        return false;
-> +    }
-> +    if (sme_enabled_check(s)) {
-> +        TCGv_i64 reg = cpu_reg(s, a->rd);
-> +        tcg_gen_movi_i64(reg, a->imm * s->svl);
-> +    }
-> +    return true;
-> +}
 
-I think we should define functions that parallel the SVE
-vec_full_reg_size() and pred_full_reg_size() rather than directly
-looking at s->svl, for consistency with how we did the SVE code.
+Hmm. Maybe it was already discussed.. But for me it seems, that it would be simpler to review previous patches, that fix job_ API users to use locking properly, if this renaming go earlier.
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Anyway, in this series, we can't update everything at once. So patch to patch, we make the code more and more correct. (yes I remember that lock() is a noop, but I should review thinking that it real, otherwise, how to review?)
 
-thanks
--- PMM
+So, I'm saying about formal correctness of using lock() unlock() function in connection with introduced _locked prifixes and in connection with how it should finally work.
+
+You do:
+
+05. introduce some _locked functions, that just duplicates, and job_pause_point_locked() is formally inconsistent, as I said.
+
+06. Update a lot of places, to give them their final form (but not final, as some functions will be renamed to _locked, some not, hard to imagine)
+
+07,08,09. Update some more, and even more places. very hard to track formal correctness of using locks
+
+10-...: rename APIs.
+
+
+What do you think about the following:
+
+1. Introduce noop lock, and some internal _locked() versions, and keep formal consistency inside job.c, considering all public interfaces as unlocked:
+
+  at this point:
+   - everything correct inside job.c
+   - no public interfaces with _locked prefix
+   - all public interfaces take mutex internally
+   - no external user take mutex by hand
+
+We can rename all internal static functions at this step too.
+
+2. Introduce some public _locked APIs, that we'll use in next patches
+
+3. Now start fixing external users in several patches:
+   
+   - protect by mutex direct use of job fields
+   - make wider locks and move to _locked APIs inside them where needed
+
+
+In this scenario, every updated unit becomes formally correct after update, and after all steps everything is formally correct, and we can move to turning-on the mutex.
+
+-- 
+Best regards,
+Vladimir
 
