@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B8755369F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:50:14 +0200 (CEST)
-Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A5E5536EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:57:24 +0200 (CEST)
+Received: from localhost ([::1]:57470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3g8r-000130-57
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:50:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
+	id 1o3gFn-0001Da-En
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3g64-00005Q-W0
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:47:21 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:44888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3g63-0001sQ-Bc
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:47:20 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id i7so7488413ybe.11
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=82zHlXjdD6WhdPKQtoOwwdS6o4mNXOg3EycCenNFa98=;
- b=u9HXGwBKqKSfg9dEFCOsJ/G+6sjeeIXBalJ3/xM98ST9+wwviP2Vcl6uxBjYevPC3A
- 4K/hxaAQYGUs13TBiBu6HlrTy7fWyDi51MBaxQObjlo9f7TE/3HCMgmDnv7QaCLhTP1V
- RyCJNIfedx9vUUsFPWMhXcRMIQJmvuQaZb//ELhYV/a4p2YzotOSQtqpdGy1P7XiT+Se
- EXiHLkh0Mic6eyJE6SCkhwpWpLC7L3re0XM/3egFHXG6hQgIPHKT8ZAMjWbi8pRCzkXt
- b5qLKJaMD0KTR2QCVY1rMvViLlJun8NzM9cgy3uJY8TTscTTYPFnTdTNqiov0h09J2ey
- tnGQ==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o3gBs-0005Gb-KK
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:53:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o3gBp-0002yF-AK
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:53:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655826796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2OGRG/F80R/q9RG9KBo1oxxJibxV+C8amG8KTdAO5PU=;
+ b=Ta7mfGUXxHtS7rCsPgu1gLE0kzSqxBUHgIG/O1TSDS3CGfrtaIC6P2rUgxiBqziIQUMfts
+ Ulyn4eqPXIZGRzEeVA9SVuxS7vuqEpylagj7QU/G0ooq1U0TqUrwcmGChYdgZ0keySVVc7
+ D58cS+q8oNukOqhu4pfZliVBOSshWDk=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-408-hbZVditiN56fo-viCvxRxw-1; Tue, 21 Jun 2022 11:53:14 -0400
+X-MC-Unique: hbZVditiN56fo-viCvxRxw-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ r11-20020ab06dcb000000b0037f1faaf14dso2345634uaf.22
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:53:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=82zHlXjdD6WhdPKQtoOwwdS6o4mNXOg3EycCenNFa98=;
- b=K3AvlXuHn4ijp2cNA2ojJheVGd8UQZkOmlDgcPd5tvbvhOXTc2SWYF2cJJZJQc1WJH
- uwThtMj9xmcCel7GdzFrfkxWlSskhl7mYyezFnEvW07C119d/h35mgReHNwApT6doHqL
- AgtmNnzmgn+DGGCqtQd22mNQhUydGw2xScJU1P9bn3tyW+kRRcku+QrjCCUTaipeMMom
- NrPbINLaQ1UTioXqXaaGtKwdPy9vIjvZjBnXEUitISyjr0HpaMH/SDLvR0d26NqdyChI
- mtdIHza09nqJZefoQ2KV9ndg9MddOwGoyRMCgkIy2blJz/yZhMqAhrLd0jnolrzMcTiM
- VJwA==
-X-Gm-Message-State: AJIora9TVqCbkiSHHco+cfIGU07Lp4Tt7m2ikMsJVbXkfCbVr3ss1NCq
- zt0g7HzK+6cvIioDRM1s3y5bS6vmxNq1bs+yewEB4A==
-X-Google-Smtp-Source: AGRyM1vsKcJaPjMoesqTUQildVqZQDrKlN/Wm3hHrpwOmJJUS3Uz425PZJ92OjlAGIRbRhbbNIC4o6Bjw+QBZ7AZv2M=
-X-Received: by 2002:a05:6902:1505:b0:668:c93b:d1d0 with SMTP id
- q5-20020a056902150500b00668c93bd1d0mr21772644ybu.140.1655826437065; Tue, 21
- Jun 2022 08:47:17 -0700 (PDT)
+ bh=2OGRG/F80R/q9RG9KBo1oxxJibxV+C8amG8KTdAO5PU=;
+ b=4+DaReaiLcp+JMhmReu3uSV4eMllGICN9NUolXJZboyyOTXDQMw+GJXLPT+Z7dVbEg
+ irYdGTxj8EPxie1ojHP0H9AxFWkQlza43/WiHjSoAPLp3cULp0Ar5pAIgyphkrIvNy1k
+ mUHzOjmnmb3bQGDnEMmOIt/PjOhrCVZBn9J/uDlNZqB1PNP3y3fMrvJV+07jYDdat9Qn
+ jTHsIg1uaSHKCad/CWuRrJlHwUiFqhcGoX1meokXg3uLH3SXf3xfiwJkIpPOdsHRtNC/
+ fWzAGrB7dLa9K0E9jE3m9NJqRULrisOCWFzTIzAdaJkCW/67ZGzAqDge2J2RzmZaTwRh
+ D0fw==
+X-Gm-Message-State: AJIora+jwgoY2KFWyCIp2jpOi3/bFar69Z1FYKHZrwcCpcZywXjDdEbB
+ t7YcTHXO2PU0/4Y0i18QO6qnSX4Vg83qvKDYN6bxZ8ZD+sn4EHyG7o1WG7JxaRbxaGIXpdHA3+q
+ 3Y2WKlS0xIuPzybFBb/MEZhCCbgCrzjg=
+X-Received: by 2002:ab0:67cf:0:b0:341:257f:ce52 with SMTP id
+ w15-20020ab067cf000000b00341257fce52mr10603585uar.109.1655826793953; 
+ Tue, 21 Jun 2022 08:53:13 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1twRrBb856i1iXpaSGrQ5Pjhw9e7kmitf8U6TDKmL8aC+oJJdGASPWYZ4URnvoZd/ofjmbvIdAOKM3B+OriliI=
+X-Received: by 2002:ab0:67cf:0:b0:341:257f:ce52 with SMTP id
+ w15-20020ab067cf000000b00341257fce52mr10603574uar.109.1655826793745; Tue, 21
+ Jun 2022 08:53:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220621153829.366423-1-richard.henderson@linaro.org>
-In-Reply-To: <20220621153829.366423-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jun 2022 16:46:39 +0100
-Message-ID: <CAFEAcA_SRK59SYLa9CnMTvAvKMT_5P2vjGXAMquTq8zPLSKw8w@mail.gmail.com>
-Subject: Re: [PATCH v2] softmmu: Always initialize xlat in
- address_space_translate_for_iotlb
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220621092536.19837-1-hreitz@redhat.com>
+In-Reply-To: <20220621092536.19837-1-hreitz@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 21 Jun 2022 11:53:02 -0400
+Message-ID: <CAFn=p-a8pDQto-3=ZxRJV-gjG3LWd6eUQCvbnuY_9bQhyF9u3g@mail.gmail.com>
+Subject: Re: [PATCH] iotests/297: Have mypy ignore unused ignores
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>, 
+ Kevin Wolf <kwolf@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000d9e6bb05e1f73784"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,27 +90,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jun 2022 at 16:38, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The bug is an uninitialized memory read, along the translate_fail
-> path, which results in garbage being read from iotlb_to_section,
-> which can lead to a crash in io_readx/io_writex.
->
-> The bug may be fixed by writing any value with zero
-> in ~TARGET_PAGE_MASK, so that the call to iotlb_to_section using
-> the xlat'ed address returns io_mem_unassigned, as desired by the
-> translate_fail path.
->
-> It is most useful to record the original physical page address,
-> which will eventually be logged by memory_region_access_valid
-> when the access is rejected by unassigned_mem_accepts.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1065
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+--000000000000d9e6bb05e1f73784
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+On Tue, Jun 21, 2022, 5:25 AM Hanna Reitz <hreitz@redhat.com> wrote:
 
-thanks
--- PMM
+> e7874a50ff3f5b20fb46f36958ad ("python: update for mypy 0.950") has added
+> `warn_unused_ignores =3D False` to python/setup.cfg, to be able to keep
+> compatibility with both pre- and post-0.950 mypy versions.
+>
+> The iotests' mypy.ini needs the same, or 297 will fail (on both pre- and
+> post-0.950 mypy, as far as I can tell; just for different `ignore`
+> lines).
+>
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/mypy.ini | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/qemu-iotests/mypy.ini b/tests/qemu-iotests/mypy.ini
+> index 4c0339f558..d66ffc2e3c 100644
+> --- a/tests/qemu-iotests/mypy.ini
+> +++ b/tests/qemu-iotests/mypy.ini
+> @@ -9,4 +9,4 @@ no_implicit_optional =3D True
+>  scripts_are_modules =3D True
+>  warn_redundant_casts =3D True
+>  warn_unused_configs =3D True
+> -warn_unused_ignores =3D True
+> +warn_unused_ignores =3D False
+> --
+> 2.35.3
+>
+
+I'm away for the week, but:
+
+Acked-By: John Snow <jsnow@redhat.com>
+
+=F0=9F=99=82
+
+>
+
+--000000000000d9e6bb05e1f73784
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, Jun 21, 2022, 5:25 AM Hanna Reitz &lt;<a href=
+=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">e7874a50ff3f5b20fb46f36958ad (&quot;python: upd=
+ate for mypy 0.950&quot;) has added<br>
+`warn_unused_ignores =3D False` to python/setup.cfg, to be able to keep<br>
+compatibility with both pre- and post-0.950 mypy versions.<br>
+<br>
+The iotests&#39; mypy.ini needs the same, or 297 will fail (on both pre- an=
+d<br>
+post-0.950 mypy, as far as I can tell; just for different `ignore`<br>
+lines).<br>
+<br>
+Signed-off-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" target=
+=3D"_blank" rel=3D"noreferrer">hreitz@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0tests/qemu-iotests/mypy.ini | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/tests/qemu-iotests/mypy.ini b/tests/qemu-iotests/mypy.ini<br>
+index 4c0339f558..d66ffc2e3c 100644<br>
+--- a/tests/qemu-iotests/mypy.ini<br>
++++ b/tests/qemu-iotests/mypy.ini<br>
+@@ -9,4 +9,4 @@ no_implicit_optional =3D True<br>
+=C2=A0scripts_are_modules =3D True<br>
+=C2=A0warn_redundant_casts =3D True<br>
+=C2=A0warn_unused_configs =3D True<br>
+-warn_unused_ignores =3D True<br>
++warn_unused_ignores =3D False<br>
+-- <br>
+2.35.3<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
+auto">I&#39;m away for the week, but:</div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto">Acked-By: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">j=
+snow@redhat.com</a>&gt;</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
+=F0=9F=99=82</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">
+</blockquote></div></div></div>
+
+--000000000000d9e6bb05e1f73784--
+
 
