@@ -2,90 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42C4553C51
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 23:06:10 +0200 (CEST)
-Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7AD553D78
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 23:22:37 +0200 (CEST)
+Received: from localhost ([::1]:49564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3l4b-0000ET-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 17:06:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57484)
+	id 1o3lKW-0003oB-0d
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 17:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3l2Z-0007oD-D3
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 17:04:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33247)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1o3lJQ-0002td-Qh; Tue, 21 Jun 2022 17:21:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3l2V-0003Y8-9F
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 17:04:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655845438;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=KXKn49rZGTzIIaEjVA5c+LgKDuUr4Fd2P/H61EIaKss=;
- b=D60gu9aD0vUnVLWIa+b+uViP/rX6lENmg3EZSD17BLQYE0h/5lxJTiC5c6BqP8YephwDJN
- 2PhyUnYPsYSRBGomAdlSeVmQYIvE85GAc7FWBxvp5yBD4fJDSdXHtKYjhDQGteGLRH44RV
- oAtdSqvKyQlNK8vajMR6nUCak0/wsnE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-NtWVuX4IOeCEioJG6imrBQ-1; Tue, 21 Jun 2022 17:03:56 -0400
-X-MC-Unique: NtWVuX4IOeCEioJG6imrBQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k34-20020a05600c1ca200b0039c7db490c8so6745625wms.1
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 14:03:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=KXKn49rZGTzIIaEjVA5c+LgKDuUr4Fd2P/H61EIaKss=;
- b=XOVuxF4CI9xLWMCDMEtqBp1LfELxlKCERIC+F60ywfOqG2UyUonwlh0jKhSzYtQLEf
- IIVmwdG2cSj3q29slAz7GxHfgBHPDGHA8PyplSFt/6FkwxJEvWrCk+uZiWboGyMgJP0J
- qRyHDHIJ+Lvl3d8fu5gvWrqpVdatJ8qIzzPZJPhKdhF2p5xkXZvs697v8+Nvwb+Z2Of6
- cNy1vA7BnEOjoEKuNFApBPNBp6kUsdrGkjRhw5LfSz0tY1P7yD9i/jOrEIxKsmw+G+LM
- FJE6W+m14OBOHrPRaqsPkQKGfP6xPSkUd60Atk/QJF0bkXjJPs9ZHshh+YX+7UyYHXgm
- mHKA==
-X-Gm-Message-State: AJIora+TMmOaFUI0J8E2vJsbR/ahJnfCjDXQwMm4lA8YIRR68csLXSCJ
- WufECfDuY3UQj68QzJNn7/dXVb9PV6nBQDK+s6Bxp4wxvFBUoLQdzvQbgdMx32J2/sL7++qfQxq
- ttsa+KSdxV8BUNjI=
-X-Received: by 2002:adf:d084:0:b0:21b:8a7c:d260 with SMTP id
- y4-20020adfd084000000b0021b8a7cd260mr15769461wrh.68.1655845435579; 
- Tue, 21 Jun 2022 14:03:55 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tF5dHI28Uu7lqxi6k4PkwAvqQcMomZw8ul3/QQiTgNAbbmKp7TM+grx6wEOsh9xFO+Zz8uKw==
-X-Received: by 2002:adf:d084:0:b0:21b:8a7c:d260 with SMTP id
- y4-20020adfd084000000b0021b8a7cd260mr15769439wrh.68.1655845435309; 
- Tue, 21 Jun 2022 14:03:55 -0700 (PDT)
-Received: from localhost (84.125.73.40.dyn.user.ono.com. [84.125.73.40])
- by smtp.gmail.com with ESMTPSA id
- o20-20020a1c7514000000b0039c4ec6fdacsm19219263wmc.40.2022.06.21.14.03.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 14:03:54 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>,  "Daniel P . Berrange" <berrange@redhat.com>,  "Dr
- . David Alan Gilbert" <dgilbert@redhat.com>,  Manish Mishra
- <manish.mishra@nutanix.com>
-Subject: Re: [PATCH v7 01/14] migration: Add postcopy-preempt capability
-In-Reply-To: <20220524221151.18225-2-peterx@redhat.com> (Peter Xu's message of
- "Tue, 24 May 2022 18:11:38 -0400")
-References: <20220524221151.18225-1-peterx@redhat.com>
- <20220524221151.18225-2-peterx@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 21 Jun 2022 23:03:53 +0200
-Message-ID: <87v8stvidi.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1o3lJO-0006LB-8c; Tue, 21 Jun 2022 17:21:28 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25LK3VHP024663;
+ Tue, 21 Jun 2022 21:21:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=437h6QLVy78DzpJSiY0pAnBUIlrNMibujzAS7sXT3Ps=;
+ b=fTAUNbq3hPsCeY5+Dql/OmMgZwQcH2KeF2KnF0j5rFHiL/1LFop7SrBywzCUqW0fklgP
+ sEsl8hNCW6ea4Mtft2XVFgKNTTuBPXAg4JS4U+aIHzPTa/Jt3lgh6qsLSdgwaWX4cNKn
+ sNwoIL7hmA/8nKoJxjbLKn836YEgDftQY58zZpuab8szcINJE4QQrPlOfq59FllTqYVp
+ DEVaAQkvRH/ka8m1TxSFGcnFr3k7jNfNa849QmOmifSUzzg5MfHRz8wUXH89pI2Zz70/
+ NvDouVle+ysEF+yNmvOH7ktdAMeKRmSRezH/kl86+CehaECL34r9lJ54KOWaL9Ee6Qzg 7A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gumpm20sf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 21:21:08 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25LKqOYu005445;
+ Tue, 21 Jun 2022 21:21:08 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gumpm20s0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 21:21:08 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25LL5lw4011807;
+ Tue, 21 Jun 2022 21:21:07 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01wdc.us.ibm.com with ESMTP id 3gs6b9efv3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 21:21:07 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25LLL7ob28115348
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Jun 2022 21:21:07 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ECCCEBE053;
+ Tue, 21 Jun 2022 21:21:06 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 28B94BE04F;
+ Tue, 21 Jun 2022 21:21:06 +0000 (GMT)
+Received: from localhost (unknown [9.160.71.76])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue, 21 Jun 2022 21:21:05 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: Re: [PATCH 2/3] target/ppc: Improve Radix xlate level validation
+In-Reply-To: <20220620202704.78978-3-leandro.lupori@eldorado.org.br>
+References: <20220620202704.78978-1-leandro.lupori@eldorado.org.br>
+ <20220620202704.78978-3-leandro.lupori@eldorado.org.br>
+Date: Tue, 21 Jun 2022 18:21:03 -0300
+Message-ID: <87h74daf28.fsf@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: S9xxtYR8QZqdsMdvJlniIpzI9rf_cGY_
+X-Proofpoint-ORIG-GUID: ZT7b_v1IvxNSY_7chz2-JSw5nPO2ALuH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-21_09,2022-06-21_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1011
+ mlxlogscore=999 malwarescore=0 spamscore=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206210089
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,145 +110,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Xu <peterx@redhat.com> wrote:
-> Firstly, postcopy already preempts precopy due to the fact that we do
-> unqueue_page() first before looking into dirty bits.
+Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
+
+> Check if the number and size of Radix levels are valid on
+> POWER9/POWER10 CPUs, according to the supported Radix Tree
+> Configurations described in their User Manuals.
 >
-> However that's not enough, e.g., when there're host huge page enabled, when
-> sending a precopy huge page, a postcopy request needs to wait until the whole
-> huge page that is sending to finish.  That could introduce quite some delay,
-> the bigger the huge page is the larger delay it'll bring.
->
-> This patch adds a new capability to allow postcopy requests to preempt existing
-> precopy page during sending a huge page, so that postcopy requests can be
-> serviced even faster.
->
-> Meanwhile to send it even faster, bypass the precopy stream by providing a
-> standalone postcopy socket for sending requested pages.
->
-> Since the new behavior will not be compatible with the old behavior, this will
-> not be the default, it's enabled only when the new capability is set on both
-> src/dst QEMUs.
->
-> This patch only adds the capability itself, the logic will be added in follow
-> up patches.
->
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 > ---
->  migration/migration.c | 23 +++++++++++++++++++++++
->  migration/migration.h |  1 +
->  qapi/migration.json   |  8 +++++++-
->  3 files changed, 31 insertions(+), 1 deletion(-)
+>  target/ppc/mmu-radix64.c | 36 +++++++++++++++++++++++++++++-------
+>  1 file changed, 29 insertions(+), 7 deletions(-)
 >
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 31739b2af9..f15e1593ac 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1240,6 +1240,11 @@ static bool migrate_caps_check(bool *cap_list,
->              error_setg(errp, "Postcopy is not compatible with ignore-shared");
->              return false;
->          }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
-> +            error_setg(errp, "Multifd is not supported in postcopy");
-> +            return false;
-> +        }
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index 9a8a2e2875..2f0bcbfe2e 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -236,13 +236,31 @@ static void ppc_radix64_set_rc(PowerPCCPU *cpu, MMUAccessType access_type,
 >      }
-
-
-Multifd is supported with postcopy.  We just switch to old precopy when
-we switch to postcopy.
-
-I am dropping that chunk.
-
-For the rest:
-
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-
->  
->      if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
-> @@ -1283,6 +1288,13 @@ static bool migrate_caps_check(bool *cap_list,
->          return false;
->      }
->  
-> +    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
-> +        if (!cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
-> +            error_setg(errp, "Postcopy preempt requires postcopy-ram");
-> +            return false;
-> +        }
-> +    }
-> +
->      return true;
 >  }
 >  
-> @@ -2669,6 +2681,15 @@ bool migrate_background_snapshot(void)
->      return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
->  }
->  
-> +bool migrate_postcopy_preempt(void)
-> +{
-> +    MigrationState *s;
-> +
-> +    s = migrate_get_current();
-> +
-> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT];
-> +}
-> +
->  /* migration thread support */
->  /*
->   * Something bad happened to the RP stream, mark an error
-> @@ -4283,6 +4304,8 @@ static Property migration_properties[] = {
->      DEFINE_PROP_MIG_CAP("x-compress", MIGRATION_CAPABILITY_COMPRESS),
->      DEFINE_PROP_MIG_CAP("x-events", MIGRATION_CAPABILITY_EVENTS),
->      DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
-> +    DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
-> +                        MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
->      DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
->      DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
->      DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 485d58b95f..d2269c826c 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -400,6 +400,7 @@ int migrate_decompress_threads(void);
->  bool migrate_use_events(void);
->  bool migrate_postcopy_blocktime(void);
->  bool migrate_background_snapshot(void);
-> +bool migrate_postcopy_preempt(void);
->  
->  /* Sending on the return path - generic and then for each message type */
->  void migrate_send_rp_shut(MigrationIncomingState *mis,
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 6130cd9fae..d8c3810ba2 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -461,6 +461,12 @@
->  #                       procedure starts. The VM RAM is saved with running VM.
->  #                       (since 6.0)
->  #
-> +# @postcopy-preempt: If enabled, the migration process will allow postcopy
-> +#                    requests to preempt precopy stream, so postcopy requests
-> +#                    will be handled faster.  This is a performance feature and
-> +#                    should not affect the correctness of postcopy migration.
-> +#                    (since 7.1)
-> +#
->  # Features:
->  # @unstable: Members @x-colo and @x-ignore-shared are experimental.
->  #
-> @@ -474,7 +480,7 @@
->             'block', 'return-path', 'pause-before-switchover', 'multifd',
->             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
->             { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
-> -           'validate-uuid', 'background-snapshot'] }
-> +           'validate-uuid', 'background-snapshot', 'postcopy-preempt'] }
->  
->  ##
->  # @MigrationCapabilityStatus:
+> +static bool ppc_radix64_is_valid_level(int level, int psize, uint64_t nls)
+
+I wonder if we should take the time to make this per-CPU now to prepare
+for any future CPU that supports a different layout.
 
 
