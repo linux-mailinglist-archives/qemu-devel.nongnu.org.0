@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1745535BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:19:32 +0200 (CEST)
-Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47CE15535CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:20:49 +0200 (CEST)
+Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ff9-0005n7-5q
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58122)
+	id 1o3fgO-0007kc-CT
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:20:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fc4-0004ET-Fa
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:16:24 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:38752)
+ id 1o3fdC-0005Yy-37
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:17:30 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:46602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fc2-0004TY-Sc
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:16:20 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-3177f4ce3e2so110672457b3.5
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:16:18 -0700 (PDT)
+ id 1o3fdA-0004Z1-Ky
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:17:29 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id l11so24974329ybu.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:17:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qu9VG2DWb9yDEii8UW7ZeZBFsFvGUAS9BUO3OKjlwV8=;
- b=wVa0hBgVkUxz30tBRf8ElDaWL6mllpYt3jcO8Iey4MQpUe/rMm+zCx3wv7WISQc53D
- l3RKhLIe15Jy62xeHwwiTXOm7zzs+xMCdMO665cqp/v97oJ6rZbVUZOeO6yHRv8BZNh8
- fFLypVA/A5+58xRMn4bkfYlO0zfcUDfOgVeQlZMwLuXWkj6zkQNXg5o0wJ/92WbTcRXz
- nbRssG8DIwDRWr8CAqrulYZ9VtDciR29GFjgAnZfGo7CTsfZv/nfGkamsPUYEzThji8+
- 9BNp7ZsF0DMeUso84hZ7lZsRhnF1rcw0PYWczZyDQsU+pp/2ueKm3T9rzxf8Q1KiZOUn
- XkhA==
+ :cc; bh=P7ELnSGNP1ouk/cYYICG2CVGGvfbKa/Z1F0ptBKCkX4=;
+ b=HJxJWvglWG6yxfm45wJBNJu6o0aaw+WnGwmnePzCV+mEHr5DkScQs+NmLigKGpz8C6
+ +tltCG1E/ch2zD/9qMV/YdzkqIrwyxuQcI5z1UpBAScvAdheauvs+fKaW1o55mltNcfK
+ Gp2z6+brTvof+uSrp16KcYSQJSCAhSHKOpt7rqsQ7xa0Qp9rTvryG6la3/41nHT66Z23
+ 8mnlLEG6o+N9/aJOJwbKchyWtBcrdnACyK+gKCVloVl4rVNIP1PuHbAtQxczPaY4eikF
+ LvnIYexcv/tKZ9Aps0jOkzFIZuvqWP5YD47otV5aYFxIkc/MreF/jkg9yzRxzUiPB+u8
+ rJjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Qu9VG2DWb9yDEii8UW7ZeZBFsFvGUAS9BUO3OKjlwV8=;
- b=nVp3qBXie7u285JaHGFhyP2pvUXDB/1da9xWYyYnCK+oGKGGVtqTI7ouB6t2MuW/xS
- /eVUt3Vsu2WmJ8NjOClC7ldGsPBeURGycIUkFiBlUafUsMhGbdY1AMwsFWuP6443DYMj
- Kh63xLNit0QKcF13TauvFzZ6YMbfo+pqHudoPNEe4Uf3OcZu4R1797CBGI1/0htwIPI/
- XsCr9gYIP5KYLDOekWRwynYL7Tx4UCeWnTyhOQqmCW9xZwmnTsD6WSX3W28hiMF52ySm
- TjWQA6MjMDhzFqHQbHTbe+1rt9xkcoXnEg7YD8UnFZp2W3a4PKLsobFvZ40PSzG+mm2g
- jFvQ==
-X-Gm-Message-State: AJIora8ULdS70vAN3HY0BU9trLlc4UIXLHJuunAvb76k7L9nGR2vqTCl
- 5U9TNFtlVeAEjcbaAvV93TP5S4N3c+Y7OroUJqZW5g==
-X-Google-Smtp-Source: AGRyM1svy5ukNB7HoJH8ZEqX9ZsKs7tRt+tSgn+wvcHnAOGzHy3Z98VSt0LqdpEyyZ36hURZ5oFkwwmPkecKnTF+574=
-X-Received: by 2002:a0d:ca0f:0:b0:317:a2cc:aa2 with SMTP id
- m15-20020a0dca0f000000b00317a2cc0aa2mr19040088ywd.347.1655824577618; Tue, 21
- Jun 2022 08:16:17 -0700 (PDT)
+ bh=P7ELnSGNP1ouk/cYYICG2CVGGvfbKa/Z1F0ptBKCkX4=;
+ b=Gbn1r5RTLnzdcNbOSOJMC/FEtRmCq0DMdqyah59JRrz6QHZEoDe+QkafjBoWLC9kgK
+ ZBsSuCzEE4ogsezqWLz/k0Waye+mFUeK9597CVTMZMsv4A8Ko2nhlqkGStkfSGe8xbeG
+ CqrTb8K8eN8Faqossgtuw0DsUlbMT1wVu+3Hnz7EWRW7cmSBG0DOkCazCdtUdXp84DMF
+ RPT56lcPnCmmC9BoWRO8gTg8w49jNdGJ8XrBT20kCFhl3ov5wxTnQpHlK7vkxNnf6wb1
+ QKWHXe7t4h/a8SK/R3mz4FSG5KVWw9FFyoJ1jZjXMUd2MyvD+qbinMcDc4fSpqtY+0/W
+ Vgkw==
+X-Gm-Message-State: AJIora/F7ZiLGF3+phhWzr0D93KuT9AdLeHhTS11eaz1bhCZbnemiK/d
+ Kad1hJl07YGuQTBdWqh81vtEY9plOUArG8fECEGNPw==
+X-Google-Smtp-Source: AGRyM1uSSqTSyS/Hds9jH+//92xcXQNybLH36P+BAEo828LylS3CQ+LBWR9NfjC4dfCaK3KICDNAPneiq7E8DeDOac8=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr13639747ybr.39.1655824647309; Tue, 21
+ Jun 2022 08:17:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220614212131.94696-1-akihiko.odaki@gmail.com>
-In-Reply-To: <20220614212131.94696-1-akihiko.odaki@gmail.com>
+References: <20220621014837.189139-1-richard.henderson@linaro.org>
+ <20220621014837.189139-2-richard.henderson@linaro.org>
+In-Reply-To: <20220621014837.189139-2-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jun 2022 16:15:40 +0100
-Message-ID: <CAFEAcA9H4G=t5c2F519Za7-X7yH4cZZyjspNLBu1z3=YeDw+Ww@mail.gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Fix clipboard text release
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Date: Tue, 21 Jun 2022 16:16:50 +0100
+Message-ID: <CAFEAcA-Fiviv00Npv-xxF-nX3DPJJ4S3e8dSyU29uezD5WRKng@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] util: Merge cacheflush.c and cacheinfo.c
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, npiggin@gmail.com, qemu-ppc@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,14 +82,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Jun 2022 at 22:21, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+On Tue, 21 Jun 2022 at 02:51, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> [-NSPasteboard dataForType:] returns an autoreleased NSString,
-> and callings its release method will result in double-free when
-> the global autorelease pool is released. Use NSAutoreleasePool to
-> release it properly.
+> Combine the two files into cacheflush.c.  There's a couple of bits
+> that would be helpful to share between the two, and combining them
+> seems better than exporting the bits.
 >
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
