@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC95553E4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 00:06:14 +0200 (CEST)
-Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1493A553EBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 00:51:59 +0200 (CEST)
+Received: from localhost ([::1]:37326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3m0i-0004UH-EB
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 18:06:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39044)
+	id 1o3miz-0003v6-LW
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 18:51:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3lzN-0003Al-1e; Tue, 21 Jun 2022 18:04:49 -0400
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:34513)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3mhk-0003AL-GK
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 18:50:40 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:44437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3lzL-0003lK-Bl; Tue, 21 Jun 2022 18:04:48 -0400
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-101ab23ff3fso16406934fac.1; 
- Tue, 21 Jun 2022 15:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=MqkNTP9wQ1g00uHPuwj4paBsaeuIscZchKlVeR30qjQ=;
- b=TQ2mquHdQZVVzvFR0WALORXBHkRVn9CjkBr9L/G5wqX2phfj0c2JxNr8zw4Qh9NMfR
- oL8d79fkFNDWKACJVi5icA/2fARb1WSFzgMbmpYjXeZmvROiwEflhjaoVOqh47cJGyjj
- KVdLcUfmoeKgTZXIqu9f1ApiXTaHE8lpOOazatuYsCNLaDs+KgJJpXMJJ+p4j5h6t7ZV
- EqUD2dTANZWv7xicYzCho272Y8ZdPCPVp+NeabbE4jxTXDo5LVantgrz5/KSI1/7SxHF
- 2TKfNnbL5zoKjJMu4XhCFTBR5XagsosRxFp1v8LFGhi50iUkDAOiZ+JyxdxoueNsBrY9
- dGyA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3mhi-0001kU-S8
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 18:50:40 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ h34-20020a17090a29a500b001eb01527d9eso14096394pjd.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 15:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:content-language:to:from
+ :subject:cc:content-transfer-encoding;
+ bh=9OXQxKxSsbuqTA5DmRZNpnE7Dg/0GlPYbhONesZzzuk=;
+ b=TGmsavQ07PNfb99huVtgUoP3gDTSVGbLGeq2q8SNXozeHN/Bt1LWk63wVuN7O7+xeu
+ n1dCpNOxrjhsQrbrJwpuV0PzjWRtXQCYON6c0CAiers77otnwgqiPk2vWDYFIo0QwKRz
+ GKkWJVM93pmU9RXYmBaeNP3VWYpL9449+yAWK85RFhIeAQkEvvbTJCoDT2LdVOsXNScT
+ Jn9vvKuKE09UAr6v8d9aJ5dvTSGCbphXuWxBbR04bmDtNbbdcHxvZ6F6LkcKMpIlF9WP
+ miWgwd6GQrArxl6dETxdxidMJrx/kNzJANYLs9T1miZ3nI5y05Bg8T5C0lDmJCO7J21r
+ I7Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MqkNTP9wQ1g00uHPuwj4paBsaeuIscZchKlVeR30qjQ=;
- b=WF3OmpWrwWJPmDOJ+etwD5y3GgSNzsAFNZ8DeEt5+CgbPUiu3EVS1/VcD9sRMy3ose
- CPAbyHGNGAmVgUxXBTzNw8q0ZN1VflKaOVyYf2pRFGe4unh53IIOZsKWIkfXgUJ+hJ/r
- wW2jt4Fq3uRKEZ/YmhEY8zIhIQpUK4t2vLOkUKuvvtEW0As9q3ZWCZeQAnFeL7l9WHrs
- i5gDsACBQ2XblKDsGAWFMTd1JBYzGIr44+w68irlh85JutH7RCQVjUqKw1FMRrt2s5aZ
- rBfovZ+iCeD7a8eXBeHuLflKAeCShSrPAFGpJpW1tvRy8YE1Vx058dhiC0P43mgtttZf
- TF2w==
-X-Gm-Message-State: AJIora8VbWhWWctOF5wh4sGNUCnvnnKGb/ISjD5epup6IjRZjhfy1wY8
- 8mMbYvv9Zr+RtTha1WOmxf4hvSp2Dbf4Vg==
-X-Google-Smtp-Source: AGRyM1syk/r8BNIlBnbkf75np98VRS088A2LPg+/L4si5ZJlBx290THV4NW6F/niF5yiscLYWL97LA==
-X-Received: by 2002:a05:6870:51cb:b0:fb:5c97:bd1b with SMTP id
- b11-20020a05687051cb00b000fb5c97bd1bmr170353oaj.104.1655849085265; 
- Tue, 21 Jun 2022 15:04:45 -0700 (PDT)
-Received: from [192.168.10.102] ([187.34.29.129])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:from:subject:cc:content-transfer-encoding;
+ bh=9OXQxKxSsbuqTA5DmRZNpnE7Dg/0GlPYbhONesZzzuk=;
+ b=y1RyTnNKFqwq8QWPbkmRdSe1a54Rz+7qPbtY14yf0rSjcuc2/CIucvt0Lm68aKm5xj
+ KVFXahb2x1WenO3NoMfatoiJV4xyw9Bas3u4jB4HdTLppPW45gA0bAUcIU9EmTx6xVpN
+ suIsZ9SoWuqnNwQ7d5nuMfVxRs2BdZNcCddWb92WotTLGjlbTFWiH4ekhwV1fM/CJ8bc
+ +tWQ6kKnm95iEvCVGwrUdMUQzp3RmstlZjgF1rl+xK6uWsaChcd7H+9NfC7U84vxhgUJ
+ kK6U1Ek3bqB57mNVCWwoiWMAeFiTQnG3nB+/XuntIpxk66AZjtPPpl3FoLeqlEDxRRrM
+ ftsA==
+X-Gm-Message-State: AJIora9H9dxWte0cj39Yh/6uxvJkkYJFx+W8tR7NGmpKJOag4JfWWobG
+ SZlFSuW+8ZLEqI9H8D8Ov3P00w==
+X-Google-Smtp-Source: AGRyM1t/WPROtsGdgxW567TQcN2qDMS4FR/zzfqD1U0cesHaeZN22zlFNmlfEm6enTvRMsZARvyDGA==
+X-Received: by 2002:a17:902:7204:b0:16a:22f1:f87 with SMTP id
+ ba4-20020a170902720400b0016a22f10f87mr13432268plb.3.1655851837134; 
+ Tue, 21 Jun 2022 15:50:37 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:8adc:a144:6ec2:4d71?
+ ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
  by smtp.gmail.com with ESMTPSA id
- d1-20020a056870540100b000f342119f41sm9782273oan.42.2022.06.21.15.04.43
+ jh20-20020a170903329400b00168b113f222sm5804230plb.173.2022.06.21.15.50.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 15:04:45 -0700 (PDT)
-Message-ID: <b2f5539f-2504-3c20-1f2b-5b7f03f2ea52@gmail.com>
-Date: Tue, 21 Jun 2022 19:04:41 -0300
+ Tue, 21 Jun 2022 15:50:36 -0700 (PDT)
+Message-ID: <dbf7e57b-a57e-8ed8-67b9-6d43c534a317@linaro.org>
+Date: Tue, 21 Jun 2022 15:50:34 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: AIX 7.2 guest, Windows 10 host, networking, qemu 6.0.50.
+ Thunderbird/91.9.1
 Content-Language: en-US
-To: pade@trifox.com, qemu-ppc@nongnu.org,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <00d101d88588$173538c0$459faa40$@trifox.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <00d101d88588$173538c0$459faa40$@trifox.com>
+To: Luis Machado <luis.machado@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Subject: [RESOLVED] aarch64 edk2 + linux kernel crash with gicv4
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,49 +91,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paul,
+Hi Luis,
 
-I'm CC'ing the overall QEMU mailing list as well to increase the chance
-of finding someone that runs QEMU on Windows.
+Cc'ing qemu-devel just in case someone else runs into this problem:
 
-On 6/21/22 13:00, Paul Dembry wrote:
-> I have AIX 7.2 installed and running fine however I cannot get any access to it via my LAN. I have tried multiple variations of -netdev and -device, the AIX system “sees” en0, but nothing more.
+The symptom is an early-ish crash booting the linux kernel -- without earlycon there is no 
+output at all.  Reproducing it requires both -bios QEMU_EFI.fd and -kernel Image.gz. 
+Using only one of the two options works.
 
+I tracked the crash to the qemu commit that enabled GICv4.  So I tried using -M 
+gic-version=3, and that works.
 
-This is a working example of an AIX guest with network using the spapr-vlan
-net device:
+I wondered if the problem is that the edk2 image from Ubuntu 20.04 is too old and can't 
+properly handle GICv4, leaving the device in an inconsistent state for the kernel.  So I 
+tried an image from https://retrage.github.io/edk2-nightly/ with gic-version=max, and that 
+works.
 
--M pseries,ic-mode=xics -cpu POWER9 -smp 2 \
--device spapr-vlan,netdev=net0,mac=52:54:00:49:53:14 \
--netdev tap,id=net0,helper=/usr/libexec/qemu-bridge-helper,br=virbr0 \
--device virtio-scsi,id=scsi0 \
--drive file=./disk.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none \
--device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=1
-
+So... solved.
 
 
-> The examples I have found all use a linux host which I can use however when I set up the bridge device, I lost LAN connectivity to my linux machine (ESXi guest). What I want to accomplish is the AIX system appearing like any other machine on my LAN with bi-directional connectivity. Failing that, it would be ok if it spoke only to the Windows host because I could move files to/from the Windows host and AIX guest. Has anyone been successful at this at doing this or have any ideas of how I can accomplish this feat? This would be very handy because my “real” AIX box does not have an HMC and so I cannot remote boot it.
-
-I've never tried to run QEMU using Windows. I'll give a try when I have the
-chance. I guess that one core difference is how you'll create the network
-bridge for the guest.
-
-
-Which command line did you use to create the AIX guest?
-
-
-> 
-> That fact that AIX 7.2 even comes up on qemu ppc64 is a tremendous achievement 😊!!
-
-An even greater achievement would be to make it work under a Windows 10 host :D
-
-
-Take care,
-
-
-Daniel
-
-> 
-> Paul
-> 
+r~
 
