@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175B85538DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 19:28:25 +0200 (CEST)
-Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4291553917
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 19:43:40 +0200 (CEST)
+Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3hfs-0008EL-4K
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 13:28:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
+	id 1o3hud-0003Xf-UI
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 13:43:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o3hed-0007KN-EK; Tue, 21 Jun 2022 13:27:07 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:43696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o3heZ-0001Fh-3w; Tue, 21 Jun 2022 13:27:05 -0400
-Received: from sas2-6a1db1376cb6.qloud-c.yandex.net
- (sas2-6a1db1376cb6.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:bb0f:0:640:6a1d:b137])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 5649F2E133A;
- Tue, 21 Jun 2022 20:26:52 +0300 (MSK)
-Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
- (sas1-c73b4b4f4b95.qloud-c.yandex.net [2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by sas2-6a1db1376cb6.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- AHrk4M9BXr-QpJeqIWs; Tue, 21 Jun 2022 20:26:52 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1655832412; bh=uvV8B7Jny5u1IQID2qicwzvcZemrhZvUFILn9PyKVnM=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=xYjMIZHHUIrHId5F+M7h9P0qYTEoQ7JwDyeG1ViMk2azcba5GBHwy/0MlsyJvdMOF
- SFcCtaaSD6+NoNe8F8Jzau61C695Uja6eW9Umauubr0togI2+AXQWQSSPEmngBI5bF
- LWUTxli3YCz8yeTGqDtemKp7rkgehzMxG0bZbsqc=
-Authentication-Results: sas2-6a1db1376cb6.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:23::1:8] (unknown [2a02:6b8:b081:23::1:8])
- by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id uhoBpeiVbr-QoNGkEfE; Tue, 21 Jun 2022 20:26:50 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <c0401616-f246-ce1d-2a0f-b7e23dd55ab8@yandex-team.ru>
-Date: Tue, 21 Jun 2022 20:26:50 +0300
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3hm4-0002qC-6c
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 13:34:49 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:46751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3hm2-0002L6-E4
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 13:34:47 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id l11so25651055ybu.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 10:34:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=d9ZbXmQLFhnX/3ekXkvyrQROH4oz1tGU4TXGUU5TFME=;
+ b=L8GLYDDQTeAHLZCH1u7v6b//rZCow6FkVOijrqtcBBaYwKzmKjDvO9uf/orzUJDYkw
+ t2qmgI1hP6B1vtp+CQp9ChhGcH936oDPCrv5/ML18PC5zzy7KzNUGKviPwjJ5P7Rezzq
+ HsBOrbER4mY4trGt7mM8zwMhS21a/moazpu0jdA7Nmu1OXW8A7TzaVpwsSXpZqHj4yzM
+ OkUyUm9hj/iqS6xOINpOvTDLUA023g2ioXR4D7PA/TUAAl9uNVL4utxQE8P27F12g7RD
+ +WRItr6p5SQS2HHK+xiPim+PX7KbtSz3h+j1z7BCdAshzigbZOG47NM7PkgpKWHQapzL
+ oMqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d9ZbXmQLFhnX/3ekXkvyrQROH4oz1tGU4TXGUU5TFME=;
+ b=u7FwFWY+UzwMY4QXG/egVm0+OtqTx4zPqaQqjGNtrnRLCfOGQsRQLqgvGM4/J2CoxL
+ qzbNkkoU5kMDEuzf4bS5QNYmpcYrl961Mb6tYzUxY3fQoibYAtXdcVxy7D0W+c4FajZO
+ fSN8dD9bNzgkyqvsyY2SjErNDEzQPxbrs6mJao2ttM/Ylxx38Qvb05EYCOncp/5zUlB6
+ 1pgLd5GGXbqxyRnlKGyIkdMMnixSHqIL0DQyH5SF9d37O6n/eCihCM67OEr07rJkrz9Q
+ dfVg1gUaqCqFbC3Sf6L5fFjTak3B0D9Pw9qX8wO94Gu2m08g4jir7FhTWFjg10gAdFuf
+ ZTTA==
+X-Gm-Message-State: AJIora8JbYm/evJt8AuTbLx6Mrd1h/zaNQh87dGN5PSZjWs/IqU0Vk1T
+ M0t/aN9z7i1Zmxo8pHlzKtdjIW1NqOY43lXU5muIJQ==
+X-Google-Smtp-Source: AGRyM1tfCIMneb2jjZqnEjb1is4xZO9LM42kHusL/euWDHGVIZMghiSGC9Ji7mVMOQkPR4HXijdMnMc+Md4zweLm8nw=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr14319015ybr.39.1655832885122; Tue, 21
+ Jun 2022 10:34:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v7 10/18] jobs: rename static functions called with
- job_mutex held
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220616131835.2004262-1-eesposit@redhat.com>
- <20220616131835.2004262-11-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220616131835.2004262-11-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220620192242.70573-1-agraf@csgraf.de>
+ <20220620192242.70573-2-agraf@csgraf.de>
+ <CAFEAcA8=ThZ_texhcH2vqMicpAxOR9G1jtpCyBDbz9gbk5yg=w@mail.gmail.com>
+In-Reply-To: <CAFEAcA8=ThZ_texhcH2vqMicpAxOR9G1jtpCyBDbz9gbk5yg=w@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jun 2022 18:34:07 +0100
+Message-ID: <CAFEAcA9kRP+dHj=a2OFnx0k+d9FSnQShjr+5Ff85tLQNZXZoyw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] target/arm: Catch invalid kvm state also for hvf
+To: Alexander Graf <agraf@csgraf.de>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,75 +84,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/22 16:18, Emanuele Giuseppe Esposito wrote:
-> With the*nop*  job_lock/unlock placed, rename the static
-> functions that are always under job_mutex, adding "_locked" suffix.
-> 
-> List of functions that get this suffix:
-> job_txn_ref		   job_txn_del_job
-> job_txn_apply		   job_state_transition
-> job_should_pause	   job_event_cancelled
-> job_event_completed	   job_event_pending
-> job_event_ready		   job_event_idle
-> job_do_yield		   job_timer_not_pending
-> job_do_dismiss		   job_conclude
-> job_update_rc		   job_commit
-> job_abort		   job_clean
-> job_finalize_single	   job_cancel_async
-> job_completed_txn_abort	   job_prepare
-> job_needs_finalize	   job_do_finalize
-> job_transition_to_pending  job_completed_txn_success
-> job_completed		   job_cancel_err
-> job_force_cancel_err
-> 
-> Note that "locked" refers to the*nop*  job_lock/unlock, and not
-> real_job_lock/unlock.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
+On Tue, 21 Jun 2022 at 12:41, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 20 Jun 2022 at 20:22, Alexander Graf <agraf@csgraf.de> wrote:
+> >
+> > Some features such as running in EL3 or running M profile code are
+> > incompatible with virtualization as QEMU implements it today. To prevent
+> > users from picking invalid configurations on other virt solutions like
+> > Hvf, let's run the same checks there too.
+> >
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1073
+> > Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>
+>
+> > --- a/target/arm/cpu.c
+> > +++ b/target/arm/cpu.c
+> > @@ -1490,7 +1490,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+> >          }
+> >      }
+> >
+> > -    if (kvm_enabled()) {
+> > +    if (!tcg_enabled()) {
+>
+> I'm a bit surprised we don't need to also have "&& !qtest_enabled()",
+> but I guess if "make check" works then we're fine :-)
+
+In fact you do need to handle qtest here too, otherwise
+lots of tests in 'make check' barf on the unexpected error...
+
+I'm going to squash the following fix in and take the patchset into
+target-arm.next. (PS: you forgot the cover letter, I think ?)
+
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 0862dcd63cb..d9c4a9f56d2 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -39,6 +39,7 @@
+ #include "hw/boards.h"
+ #endif
+ #include "sysemu/tcg.h"
++#include "sysemu/qtest.h"
+ #include "sysemu/hw_accel.h"
+ #include "kvm_arm.h"
+ #include "disas/capstone.h"
+@@ -1490,8 +1491,12 @@ static void arm_cpu_realizefn(DeviceState *dev,
+Error **errp)
+         }
+     }
+
+-    if (!tcg_enabled()) {
++    if (!tcg_enabled() && !qtest_enabled()) {
+         /*
++         * We assume that no accelerator except TCG (and the "not really an
++         * accelerator" qtest) can handle these features, because Arm hardware
++         * virtualization can't virtualize them.
++         *
+          * Catch all the cases which might cause us to create more than one
+          * address space for the CPU (otherwise we will assert() later in
+          * cpu_address_space_init()).
 
 
-Hmm. Maybe it was already discussed.. But for me it seems, that it would be simpler to review previous patches, that fix job_ API users to use locking properly, if this renaming go earlier.
-
-Anyway, in this series, we can't update everything at once. So patch to patch, we make the code more and more correct. (yes I remember that lock() is a noop, but I should review thinking that it real, otherwise, how to review?)
-
-So, I'm saying about formal correctness of using lock() unlock() function in connection with introduced _locked prifixes and in connection with how it should finally work.
-
-You do:
-
-05. introduce some _locked functions, that just duplicates, and job_pause_point_locked() is formally inconsistent, as I said.
-
-06. Update a lot of places, to give them their final form (but not final, as some functions will be renamed to _locked, some not, hard to imagine)
-
-07,08,09. Update some more, and even more places. very hard to track formal correctness of using locks
-
-10-...: rename APIs.
-
-
-What do you think about the following:
-
-1. Introduce noop lock, and some internal _locked() versions, and keep formal consistency inside job.c, considering all public interfaces as unlocked:
-
-  at this point:
-   - everything correct inside job.c
-   - no public interfaces with _locked prefix
-   - all public interfaces take mutex internally
-   - no external user take mutex by hand
-
-We can rename all internal static functions at this step too.
-
-2. Introduce some public _locked APIs, that we'll use in next patches
-
-3. Now start fixing external users in several patches:
-   
-   - protect by mutex direct use of job fields
-   - make wider locks and move to _locked APIs inside them where needed
-
-
-In this scenario, every updated unit becomes formally correct after update, and after all steps everything is formally correct, and we can move to turning-on the mutex.
-
--- 
-Best regards,
-Vladimir
+thanks
+-- PMM
 
