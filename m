@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5173552DE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:06:45 +0200 (CEST)
-Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92418552E3C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:27:02 +0200 (CEST)
+Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ZqO-000844-UR
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36112)
+	id 1o3a9z-0002pi-JG
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o3Zoc-0007DR-OL
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 05:04:54 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:52001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o3Zob-0001S1-8x
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 05:04:54 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id f16so11083967pjj.1
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 02:04:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=87qrlMPfD7KC3ZW5jZfyFYQwLsDffab9luG8oBhbw+o=;
- b=pyiq52m80MdD7gneTWGUIZa4mAqgqFzMQ84qRFLIybqmqsVJN12GkSgNS1q1bO33nI
- ayrXlyqiqKhlXVJjpgcBv3QRk+FyGXg53RLHT/OJ50RRpddGmQFSEXgdCMz4nLcqex/J
- zJFlpXGg47QDPLcAY2frjdaQK2Yve5/P3VlPx2DXSzlnbjkZsXWiqLJDYOQy4Gs17uce
- 8s856q3jjS1rXiNaPoflYkG9bFTjwNkOHfI9AF2sDiDPBFgKCrv2757eCbomE2qhhlcs
- yby3f6Ako7aZ2CDD1MdE0dF9ZwCSyGHclaDpD+IKugZBKsOjlPvhIYuGdMd+OP1U1TA/
- DxJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=87qrlMPfD7KC3ZW5jZfyFYQwLsDffab9luG8oBhbw+o=;
- b=e3DaLgDXjI1gsKmwH7TNaRSwu6MSUyMA5ZZc3kWNkTPPqYa8eEpMec1PgxC7tzEaRE
- hvy96Xm/TVl6R0b9miahBApytGvgEMGmfG5m4omNAwYkOrE30HawSWAGeP8ugdL0aqGv
- +HW2pxh6m1X0c7KBz/IGVuUsBAn5x/PLY1Cyo3Uzf+fWJkKTM3hmLRABfXz+86hLlSnX
- yYxXE2ZnfIFTsS0Yy0pqEmOtk6w9NYRLbFNrDMf/JQv63YXaNjyxj3j+A/mvfXYnwvg+
- J0Zg3ijNgbmdK2wlYaAPd6MeoM8sOp0n0k/DQY3Z29Tv1bif7Nja29JabO2re6SYbtrE
- XMVg==
-X-Gm-Message-State: AJIora9gS1d4sNCoxUKus57QEAPwcjSo2x5uN7kC2SCHQUM2TcuvMXo4
- caSTASxFGEVWbd2jLc3CvWI=
-X-Google-Smtp-Source: AGRyM1sNWJLCQAmX6eBzDCQgMXZG676NX8n+fqNfmqWxhQDtTDsewZodFwaNWs5BeRnF6wupZbEv7A==
-X-Received: by 2002:a17:902:cf12:b0:169:f241:65ae with SMTP id
- i18-20020a170902cf1200b00169f24165aemr23619790plg.107.1655802291654; 
- Tue, 21 Jun 2022 02:04:51 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- iz18-20020a170902ef9200b0016a275623c1sm3344444plb.219.2022.06.21.02.04.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 02:04:51 -0700 (PDT)
-Message-ID: <cb947bf3-1c8e-a63f-d90f-b3e81d7eb51d@gmail.com>
-Date: Tue, 21 Jun 2022 18:04:47 +0900
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3a8n-00026W-8t
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 05:25:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o3a8l-0004m0-Gx
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 05:25:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655803543;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=o8AHjn9KKm4PG+L7M95T+smP/SKSkKz8KTatO9T5Rtc=;
+ b=V3iRTb60pj1zbCXIwei47K6wplJGsKwEHT9t9orqEyi5Gl6FBo4EGw4ANcKfFi9Piumojk
+ CHrk63O562C8QSwHFQXIUy+t4/nskGyZmsBdQLQFlmeGYBCo8YsemmDnlLUKNbOp81MdZP
+ p+Jnpxm3nXPmuwZGdueCAlFloLEvsfg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-633-MNKm6dIjPyGGGpEaZzj7FA-1; Tue, 21 Jun 2022 05:25:38 -0400
+X-MC-Unique: MNKm6dIjPyGGGpEaZzj7FA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B6E785A58A;
+ Tue, 21 Jun 2022 09:25:38 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3759840EC003;
+ Tue, 21 Jun 2022 09:25:38 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH] iotests/297: Have mypy ignore unused ignores
+Date: Tue, 21 Jun 2022 11:25:36 +0200
+Message-Id: <20220621092536.19837-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3] ui/cocoa: Take refresh rate into account
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20220620202921.21062-1-akihiko.odaki@gmail.com>
- <CAFEAcA-xUnoM9NSuqdgx6i3n==fk+Uxr3_5dk3hqdWvucwZ6oQ@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CAFEAcA-xUnoM9NSuqdgx6i3n==fk+Uxr3_5dk3hqdWvucwZ6oQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,27 +75,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/06/21 17:51, Peter Maydell wrote:
-> On Mon, 20 Jun 2022 at 21:29, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->>
->> Retreieve the refresh rate of the display and reflect it with
->> dpy_set_ui_info() and update_displaychangelistener(), allowing the
->> guest and DisplayChangeListener to consume the information.
-> 
-> But why? What goes wrong if we don't bother to do this?
-> 
-> thanks
-> -- PMM
+e7874a50ff3f5b20fb46f36958ad ("python: update for mypy 0.950") has added
+`warn_unused_ignores = False` to python/setup.cfg, to be able to keep
+compatibility with both pre- and post-0.950 mypy versions.
 
-Regarding dpy_set_ui_info(), it depends on the guest. 
-update_displaychangelistener() would change the frequency of the calls 
-of the DisplayChangeListener.
+The iotests' mypy.ini needs the same, or 297 will fail (on both pre- and
+post-0.950 mypy, as far as I can tell; just for different `ignore`
+lines).
 
-I think it is obvious that delivering the refresh rate with 
-dpy_set_ui_info() and update_displaychangelistener() makes sense, 
-considering that those functions actually exist. They shouldn't exist at 
-first place if we don't have to bother to do this.
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ tests/qemu-iotests/mypy.ini | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Akihiko Odaki
+diff --git a/tests/qemu-iotests/mypy.ini b/tests/qemu-iotests/mypy.ini
+index 4c0339f558..d66ffc2e3c 100644
+--- a/tests/qemu-iotests/mypy.ini
++++ b/tests/qemu-iotests/mypy.ini
+@@ -9,4 +9,4 @@ no_implicit_optional = True
+ scripts_are_modules = True
+ warn_redundant_casts = True
+ warn_unused_configs = True
+-warn_unused_ignores = True
++warn_unused_ignores = False
+-- 
+2.35.3
+
 
