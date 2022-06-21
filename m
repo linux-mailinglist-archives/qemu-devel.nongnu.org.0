@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F12552F44
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:59:12 +0200 (CEST)
-Received: from localhost ([::1]:56184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0243552F28
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:51:48 +0200 (CEST)
+Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3af9-0004n1-WC
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43414)
+	id 1o3aXz-0001FC-SI
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aR3-0007qn-6V; Tue, 21 Jun 2022 05:44:37 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:38437)
+ id 1o3aR6-0007sk-Vg; Tue, 21 Jun 2022 05:44:40 -0400
+Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:45022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aR1-0007Ot-IW; Tue, 21 Jun 2022 05:44:36 -0400
-Received: by mail-ot1-x335.google.com with SMTP id
- c3-20020a9d6843000000b0060c2c63c337so10278690oto.5; 
- Tue, 21 Jun 2022 02:44:34 -0700 (PDT)
+ id 1o3aR3-0007MW-UO; Tue, 21 Jun 2022 05:44:39 -0400
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ v33-20020a4a9764000000b0035f814bb06eso2594704ooi.11; 
+ Tue, 21 Jun 2022 02:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/ZxwtskLmFvgISK1U3su1Dai1pSu06Ej2pDh25MW1aY=;
- b=DR9fY6/mWr1jhFCwwllDhF48zkKZn8xlQNfXE8tu8C5EFvj2BDwqFfVlkve6dLTE2R
- K8FDiTo2FjwHH/E3N0Oeagnra0G5Srmu/CxdHQHleQ0VP9g41vC1ECffl9PtqSqD8BDO
- psmi78WecU2SfEecWVxiMoLnmv7c0IqYsgwHrqqZRjkJGVUMOLWTthFafelYWoC/nqRL
- eZFubrw9OCu1Fova0CputZ14BkwP0MZ54aYeLJPtrlxIiI0pEYqkVHoxQXz1U2R2EnGc
- 8laHXJBFngtwQshQyLSx9EjiCFWfSD8lCkaxXZBhUEM6gzMBT+G6CFZJIgVV9XDnvUrc
- 8dkw==
+ bh=8j3mSBud8SR0reAw6KEwp2o8Neb26wSgmj15b5qeYag=;
+ b=D7rYvkXRuR1pkowzpiyKq7CRtAOZ3UL3F7Bfre77TqUcE+IbmU8Jpm6YlSa3ExKJjS
+ lRGFMKiuAJyIWc4rsCM0TMB24gJ0zswRWXAfEHRyzHbELxzoJ7nuSGyaDtOt2tl2cNps
+ f5s2aqqPHmX94DkT6c/iR2/ccZ5Vu2Q7Np+CGwkF561QIk+tzDNdaOpRegK/IXyeT5Jx
+ rxnYNLeqrhWZL9pYjNXCEN/AMQQTEII9FpHHEj7S1FTQWcUpzlr82Y4RsMFB2CZjpWuv
+ MQNcIE4BTqMSy6YNejQ/8pY3GwLq25XdNPfzeab10M8xFfjO6xe2w0jIlrht64cgDgkS
+ D9Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/ZxwtskLmFvgISK1U3su1Dai1pSu06Ej2pDh25MW1aY=;
- b=6bxE41WG4REnqdjZaKFzwta0NvhxRJxEXbSX/MK+OI+XzG6nvvKreGVn6beKAnRlx+
- CPuNJAUO1v2FJ1d1HdA0xC9lvUq8pTnMnzWc3S6uRFQcS+WIL4wifrWtiAsx2+hVvlJ8
- tUdWBQG11RU4a80YOeYeV7nzUPwuD588V9f01ZhiQKZJ7dVTMmxSw5KYtWjpp91GtZNi
- ZHdAXR+RHapQc6C7aFmZGXLYYRgYmID2TDYLRod1hLX3MJiy9YO5m9RgvsZ78zBXmbxN
- VpX2fOwv+Vd2NvrOAsYooCU5D8qQgFvhF/e0WBChaaqLog6iIy+lYjy38987NrSXIb2y
- OE8g==
-X-Gm-Message-State: AJIora/gTriUTqS7TxMtLWQV2CHt79ovO+UTnJhDL5W/A3PKBvqd99qp
- wzdyGxLVlhj42HQ9d3B5MPrgA55DSUVA1Q==
-X-Google-Smtp-Source: AGRyM1s2Q0MqJjsgvmI8KTLzs65skmSTPwSAktQKjlkft+0H5Cvn4pla3EbHJl+poqZ/tl7djvyE4g==
-X-Received: by 2002:a9d:468b:0:b0:610:f9d0:885e with SMTP id
- z11-20020a9d468b000000b00610f9d0885emr6049631ote.66.1655804674119; 
- Tue, 21 Jun 2022 02:44:34 -0700 (PDT)
+ bh=8j3mSBud8SR0reAw6KEwp2o8Neb26wSgmj15b5qeYag=;
+ b=eEY5H9Km0UGIvWcs/AcDAW0J83uIqLRP/PoCLOtP1YVeMpt3xxzePC6fiuaTboaCAW
+ a4tSzBtukADWDwH0jV4OkEOXM2YU88AyAhhMk7NkH2fwenJhU+1kkg9c2vLnxd0vTJeo
+ +UPf0P35oM1djtyoDBa9I2Wv591KOXJ0xrr4mjlsQjwgQBkbeKFQ7xBxltgccTYqZtgS
+ Prvqvdbflz0djQyGswD+C8lZjYihosZMrvlm7LtuWUu0xk4g6K72JHHXipIwLhjGSMj/
+ 8Nopn0Z0HWTNmsCVtRlv5/cAgYx2hfL+UZMg2a5/WIqjW9fbX2zmzYD7nfkHSL65xhKf
+ p/Dw==
+X-Gm-Message-State: AJIora+rrDDhH1HhahtFDw7oIhFxS3+q+Q979+t0xE4+on87qipzDI9E
+ B8GR6rLY2BYzD0Jvnw/kmzgVzlGGGTTyDw==
+X-Google-Smtp-Source: AGRyM1sOrsNi5fhhk9ShTlHGKCoYU3pkAx4UyVRUyYFwqwj46/ub1Yw59Qth7aNd+0ZbfWWzycj3YQ==
+X-Received: by 2002:a05:6820:614:b0:41b:8f3f:a6c9 with SMTP id
+ e20-20020a056820061400b0041b8f3fa6c9mr10844995oow.95.1655804676310; 
+ Tue, 21 Jun 2022 02:44:36 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.32
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:33 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:36 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PULL 12/15] ppc/pnv: fix extra indent spaces with DEFINE_PROP*
-Date: Tue, 21 Jun 2022 06:43:57 -0300
-Message-Id: <20220621094400.122800-13-danielhb413@gmail.com>
+ Lucas Mateus Castro <lucas.araujo@eldorado.org.br>
+Subject: [PULL 13/15] target/ppc: avoid int32 multiply overflow in int_helper.c
+Date: Tue, 21 Jun 2022 06:43:58 -0300
+Message-Id: <20220621094400.122800-14-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
 References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x335.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,81 +90,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DEFINE_PROP* macros in pnv files are using extra spaces for no good
-reason.
+Coverity is not thrilled about the multiply operations being done in
+ger_rank8() and ger_rank2(), giving an error like the following:
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Integer handling issues  (OVERFLOW_BEFORE_WIDEN)
+    Potentially overflowing expression "sextract32(a, 4 * i, 4) *
+sextract32(b, 4 * i, 4)" with type "int" (32 bits, signed) is evaluated
+using 32-bit arithmetic, and then used in a context that expects an
+expression of type "int64_t" (64 bits, signed).
+
+Fix both instances where this occur by adding an int64_t cast in the
+first operand, forcing the result to be 64 bit.
+
+Fixes: Coverity CID 1489444, 1489443
+Fixes: 345531533f26 ("target/ppc: Implemented xvi*ger* instructions")
+Cc: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20220602215351.149910-1-danielhb413@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Message-Id: <20220602141449.118173-1-danielhb413@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb3.c     |  8 ++++----
- hw/pci-host/pnv_phb4.c     | 10 +++++-----
- hw/pci-host/pnv_phb4_pec.c | 10 +++++-----
- 3 files changed, 14 insertions(+), 14 deletions(-)
+ target/ppc/int_helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index 3f03467dde..26ac9b7123 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -1088,10 +1088,10 @@ static const char *pnv_phb3_root_bus_path(PCIHostState *host_bridge,
- }
- 
- static Property pnv_phb3_properties[] = {
--        DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
--        DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
--        DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
--        DEFINE_PROP_END_OF_LIST(),
-+    DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
-+    DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
-+    DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
-+    DEFINE_PROP_END_OF_LIST(),
- };
- 
- static void pnv_phb3_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 13ba9e45d8..6594016121 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1692,11 +1692,11 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno,
- }
- 
- static Property pnv_phb4_properties[] = {
--        DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
--        DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
--        DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
--                         PnvPhb4PecState *),
--        DEFINE_PROP_END_OF_LIST(),
-+    DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
-+    DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
-+    DEFINE_PROP_LINK("pec", PnvPHB4, pec, TYPE_PNV_PHB4_PEC,
-+                     PnvPhb4PecState *),
-+    DEFINE_PROP_END_OF_LIST(),
- };
- 
- static void pnv_phb4_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 61bc0b503e..8b7e823fa5 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -215,11 +215,11 @@ static int pnv_pec_dt_xscom(PnvXScomInterface *dev, void *fdt,
- }
- 
- static Property pnv_pec_properties[] = {
--        DEFINE_PROP_UINT32("index", PnvPhb4PecState, index, 0),
--        DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
--        DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
--                         PnvChip *),
--        DEFINE_PROP_END_OF_LIST(),
-+    DEFINE_PROP_UINT32("index", PnvPhb4PecState, index, 0),
-+    DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
-+    DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
-+                     PnvChip *),
-+    DEFINE_PROP_END_OF_LIST(),
- };
- 
- static uint32_t pnv_pec_xscom_pci_base(PnvPhb4PecState *pec)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 11871947bc..3ae03f73d3 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -789,7 +789,7 @@ static int64_t ger_rank8(uint32_t a, uint32_t b, uint32_t mask)
+     int64_t psum = 0;
+     for (int i = 0; i < 8; i++, mask >>= 1) {
+         if (mask & 1) {
+-            psum += sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
++            psum += (int64_t)sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
+         }
+     }
+     return psum;
+@@ -811,7 +811,8 @@ static int64_t ger_rank2(uint32_t a, uint32_t b, uint32_t mask)
+     int64_t psum = 0;
+     for (int i = 0; i < 2; i++, mask >>= 1) {
+         if (mask & 1) {
+-            psum += sextract32(a, 16 * i, 16) * sextract32(b, 16 * i, 16);
++            psum += (int64_t)sextract32(a, 16 * i, 16) *
++                             sextract32(b, 16 * i, 16);
+         }
+     }
+     return psum;
 -- 
 2.36.1
 
