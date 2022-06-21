@@ -2,72 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65F455351E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:02:15 +0200 (CEST)
-Received: from localhost ([::1]:46856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED71D553501
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:54:34 +0200 (CEST)
+Received: from localhost ([::1]:39924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3fOQ-0002Bw-H6
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52618)
+	id 1o3fGz-0005d3-MZ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fDL-0002mY-VM
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:50:47 -0400
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:39502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fDJ-00085F-Ou
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:50:47 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-3178acf2a92so99498027b3.6
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m7uFM9zUpIIlEWeNOend/HTHPABWG2rMqzGwE3GDRbs=;
- b=B3TRyzTPhBv54w12Ncq/w4Qzgpzd2riJSv0zCh2/YuDphk/3n79iQNKZrtXof56Vvr
- 2ECUp2bOdXoEWnvzkPAluwBnh44AeD98ENVH3wD97fz6faMzzoCedjRdjwdYT90NFrMk
- gCQxXrOdCS5NL3STTrKVe4QU8QXQKbKsxBLpZRtIeoV/nT5NX2hLL6X7nhP5qK63+Ds6
- +y2czqNtEoUHkEjSCKcsUhOshOaKEzrQ7H0kfvihjUuUed1nPAnXpJj1bEIbpg42r2pm
- 4YO8oohqB2jWgEleKOhcoRrIUA7RxTh7N0ZTYWs6b5iKxLRrSJi8RtVnauSq4oaVK1ON
- XDSQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1o3fEU-00046d-6H
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:51:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54908)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1o3fEP-0008Hx-JO
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:51:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655823109;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mPBZiq8rngDUsBl1yN0SK/JaGIajVgel4NQCuarwPls=;
+ b=M7aNtCpI7DhgHIxgSv6LZAr+y5WzR1hw13pwePQVTpkS6v0G7Zl/6tB7MbSQnhgsa/fdJU
+ QSqqKgjlnSb+U547UCVwyE379Cirvxcuj+Qq9VAqd1yjsfpisvwBEAJupr0PdElNpSW7Yl
+ XwReQirqe6B17RojGn6N9aCPaOBbHAk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-130-ofSJo4QiMNiFkdcr1iju8g-1; Tue, 21 Jun 2022 10:51:48 -0400
+X-MC-Unique: ofSJo4QiMNiFkdcr1iju8g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k5-20020a05600c0b4500b003941ca130f9so4395522wmr.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:51:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m7uFM9zUpIIlEWeNOend/HTHPABWG2rMqzGwE3GDRbs=;
- b=v9AAiQCt6isfKgejIXptYcI68PosLm2BJoAyoEbHfcQdtO8thLxG5w/4OVq7a2aPub
- /yYXKejJ+3b5dvk9PpGOHIZeoWtUj/HT4S/WCQ28fbCJGXS46/1jaSjvWu1TegfqjiLL
- 4cTjc6zG4xKMFOfF6ldcz+lh0ZcONcCyVaoiPqPlnsyTs2Mwc6xSUHn9KZvYAjMsm7dT
- EJBA9gCMvN67vEO5Z53aeTR1uZnsAMepWE1g689WnJbNKaNVlYagqWvK57CiFbonLA4n
- L4nx58J7mY0ijBH7DEI7ub2599KV+AnCkzMk6sVmd6Qk/xS+jgOA8SKWjhM0Fd+cPy6S
- Zu7g==
-X-Gm-Message-State: AJIora8ZDB/Z87VAR2ygTRRQlOEKpWdJy6xJ0RWRUHq0r7IUCzCBfvtP
- rUINDkJU3KIXvusDvyb1fEX07/ItzK/2YYj+cU0Hrg==
-X-Google-Smtp-Source: AGRyM1t3LtFMoZ9Bsqk+gqVaCIMFS+Y8wYtVe2GfToXa7nacKzWaMNoM05hns2kRnxZrr8EW8YWWml3jkpafzy5WUXA=
-X-Received: by 2002:a81:8486:0:b0:317:a4af:4e0a with SMTP id
- u128-20020a818486000000b00317a4af4e0amr17906082ywf.455.1655823042919; Tue, 21
- Jun 2022 07:50:42 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mPBZiq8rngDUsBl1yN0SK/JaGIajVgel4NQCuarwPls=;
+ b=CLf0j+HAy54+NW+G4USxPanX3xeEFE6ke+6Ab6Il9zxjoXjFb27fJkTaqEaCBwYh8G
+ oKbQLY7nTmJeVmPb58LlADkOrnXAlON51DHRNmFFEaDAAAmlJ2J4sjDJ6f7yht+sxTLC
+ +lJt5f59EpM2zzU/+3zos84tyWmNDI28I/riQ8cuY7M3RMIyqM3WX8nitB7lVViDyNt+
+ 0eWPrUL97BeJcIAgTZAGuevs08fbJ2DJ+v9iiD+pTZdPQbEmlWs9psRt06J/5kN4glkF
+ YmijTCKSB7G9zLW1mVuZodS0X51i0J5dKO1kaiVwsETV/sL331eBa6NQZKv5ik1OdShG
+ DcXw==
+X-Gm-Message-State: AJIora8SWPya/5cOy35pqh07fAFXAkTJl52GO+fR3ciqiHH1HXCCg2mN
+ kBS5yUp/uCR0ecAoqcJgms/XxWUW1SX0lcfnO5ufFgcXDNr7biXSBc6aLPw9x2rKfGa1MpJQYNh
+ 0DTjONc8Ic35zc6o=
+X-Received: by 2002:a05:600c:35ce:b0:39c:7dc2:aec0 with SMTP id
+ r14-20020a05600c35ce00b0039c7dc2aec0mr30986917wmq.33.1655823102274; 
+ Tue, 21 Jun 2022 07:51:42 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tNhowo+YR06h6AnhlErHMlnVxJuqsE0xB0EUIKVZVBd5Qf2xS7KUrmyBpCtTI2tiR3pGXe9g==
+X-Received: by 2002:a05:600c:35ce:b0:39c:7dc2:aec0 with SMTP id
+ r14-20020a05600c35ce00b0039c7dc2aec0mr30986893wmq.33.1655823102012; 
+ Tue, 21 Jun 2022 07:51:42 -0700 (PDT)
+Received: from localhost ([31.4.180.61]) by smtp.gmail.com with ESMTPSA id
+ c5-20020a5d63c5000000b0020c5253d8c2sm15645615wrw.14.2022.06.21.07.51.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jun 2022 07:51:41 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Leonardo =?utf-8?Q?Br=C3=A1s?= <leobras@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>,  Leonardo Bras Soares Passos
+ <lsoaresp@redhat.com>,  "Daniel P." =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 3/4] migration: zero-copy flush only at the end of
+ bitmap scanning
+In-Reply-To: <7fbc118dedbaf7d01dd72220255affc98abffc9d.camel@redhat.com>
+ ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Tue, 21 Jun 2022 00:35:54
+ -0300")
+References: <20220620053944.257547-1-leobras@redhat.com>
+ <20220620053944.257547-4-leobras@redhat.com>
+ <87wndb4riu.fsf@secure.mitica> <YrCV089JKhc067sm@xz-m1.local>
+ <7fbc118dedbaf7d01dd72220255affc98abffc9d.camel@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 21 Jun 2022 16:51:39 +0200
+Message-ID: <875ykuvzlw.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20220422142851.28128-1-damien.hedde@greensocs.com>
-In-Reply-To: <20220422142851.28128-1-damien.hedde@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jun 2022 15:50:05 +0100
-Message-ID: <CAFEAcA9Dy0DXshrKHLAEkGV_Zy-vRMPAhd4t+S7fSGSCPuPJ1g@mail.gmail.com>
-Subject: Re: [PATCH] docs/devel: add doc about device life cycles
-To: Damien Hedde <damien.hedde@greensocs.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,225 +108,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Apr 2022 at 15:29, Damien Hedde <damien.hedde@greensocs.com> wrote:
+Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
+> On Mon, 2022-06-20 at 11:44 -0400, Peter Xu wrote:
+>> On Mon, Jun 20, 2022 at 11:23:53AM +0200, Juan Quintela wrote:
+>> > Once discussed this, what I asked in the past is that you are having t=
+oo
+>> > much dirty memory on zero_copy.=C2=A0 When you have a Multiterabyte gu=
+est, in
+>> > a single round you have a "potentially" dirty memory on each channel o=
+f:
+>> >=20
+>> > =C2=A0=C2=A0 total_amount_memory / number of channels.
+>> >=20
+>> > In a Multiterabyte guest, this is going to be more that probably in the
+>> > dozens of gigabytes.=C2=A0 As far as I know there is no card/driver th=
+at will
+>> > benefit for so many pages in zero_copy, and kernel will move to
+>> > synchronous copy at some point.=C2=A0 (In older threads, daniel showed=
+ how to
+>> > test for this case).
+>>=20
+>> I was wondering whether the kernel needs to cache a lot of messages for
+>> zero copy if we don't flush it for a long time, as recvmsg(MSG_ERRQUEUE)
+>> seems to be fetching one message from the kernel one at a time.=C2=A0 An=
+d,
+>> whether that queue has a limit in length or something.
 >
-> Document the 3 life cycles cases that can happen with devices.
+> IIRC, if all messages look the same, it 'merges' them in a single message=
+, like,
+> 'this range has these flags and output'.
 >
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> So, if no issue happens, we should have a single message with the confirm=
+ation
+> of all sent buffers, meaning just a little memory is used for that.
+>
+>>=20
+>> Does it mean that when the kernel could have cached enough of these
+>> messages then it'll fallback to the no-zero-copy mode?=C2=A0 And probabl=
+y that's
+>> the way how kernel protects itself from using too much buffer for the er=
+ror
+>> msgs?
+>
+> Since it merges the messages, I don't think it uses a lot of space for th=
+at.
+>
+> IIRC, the kernel will fall back to copying only if the network adapter / =
+driver
+> does not support MSG_ZEROCOPY, like when it does not support scatter-gath=
+er.
 
-Firstly, sorry it's taken me two months to get to this patch.
-The underlying reason for this is that I'm not myself 100%
-certain about how the QOM/qdev device lifecycle works and what
-things should go in what lifecycle methods, so I didn't really
-feel very confident about reviewing it...
+My understanding is that it will fallback when you have too much stuff
+inflight.
 
-To start with, I think we should definitely have some documentation
-for this, and I like the structure you have here with:
- (1) the various ways devices are created and deleted
- (2) what the corresponding lifecycles are in terms of which
-     methods get called
- (3) the concrete consequences for what a device should and
-     should not do in each method
+>>=20
+>> This reminded me - Leo, have you considered adding the patch altogether =
+to
+>> detect the "fallback to non-zero-copy" condition?=C2=A0 Because when wit=
+h it and
+>> when the fallback happens at some point (e.g. when the guest memory is
+>> larger than some value) we'll know.
+>
+> I still did not consider that, but sure, how do you see that working?
 
-I'll try to get into some more detailed review below.
+send with zero_copy(1MB)
+send with zero_copy(1MB)
+.... (repeat)
+at some point kernel decides:
+sync all queue()
+send synchronously next package.
 
-> diff --git a/docs/devel/device.rst b/docs/devel/device.rst
-> new file mode 100644
-> index 0000000000..80e3016e80
-> --- /dev/null
-> +++ b/docs/devel/device.rst
-
-I think we should name the file device-lifecycle.rst -- we're
-(hopefully) going to accumulate a bunch of documentation on devices
-generally and we don't want it all to end up in this one file.
-
-> @@ -0,0 +1,111 @@
-> +QEMU device life-cycle
-> +======================
-> +
-> +This document details the specifics of devices.
-> +
-> +Devices can be created in two ways: either internally by code or through a
-> +user interface:
-> +
-> ++ command line interface provides ``-device`` option
-> ++ QAPI interface provides ``device_add`` command
-
-I think this bulleted list should list all the ways that devices
-get created (and destroyed), so:
-
- Devices can be created in several ways:
-  + programmatically, by the C code that implements board and SoC models
-  + on the command line, via the -device option
-  + via the QMP and HMP device_add monitor commands
-  + temporarily as part of the introspection of device objects
-    when the user asks for help on a device type or about what
-    properties it implements
- In some cases, devices will also be destroyed:
-  + if a device is hot-unpluggable then after an 'unplug' it will
-    be destroyed
-  + the temporary objects created for introspection are destroyed
-    after they have been examined
-
- To do this, devices must implement at least some of these methods
- which are present on all QOM objects:
-  + instance_init
-  + instance_post_init
-  + unparent
-  + instance_finalize
- and these which are specific to devices:
-  + realize
-  + unrealize
-
- These methods will be called in fixed sequences by QEMU core code
- as the device is created, used, and destroyed. These sequences form
- the lifecycle of a device object. Understanding the possible
- lifecycles helps in working out which methods you need to implement
- and what code belongs in what method.
+we are not wondering if the kernel does this (it does).  What we are
+wondering is when it does it, i.e. after 1MB worth of writes, 2MB, 10MB
+....
+That is the thing that depends on kernel/network card/driver.
 
 
-> +
-> +Error handling is most important for the user interfaces. Internal code is
-> +generally designed so that errors do not happen and if some happen, the error
-> +is probably fatal (and QEMU will exit or abort).
-> +
-> +Devices are a particular type of QEMU objects. In addition of the
-> +``instance_init``, ``instance_post_init``, ``unparent`` and
-> +``instance_finalize`` methods (common to all QOM objects), they have the
-> +additional methods:
-> +
-> ++ ``realize``
-> ++ ``unrealize``
-> +
-> +In the following we will ignore ``instance_post_init`` and consider is
-> +associated with ``instance_init``.
-> +
-> +``realize`` is the only method that can fail. In that case it should
-> +return an adequate error. Some devices does not do this and should
-> +not be created by means of user interfaces.
+> We can't just disable zero-copy-send because the user actually opted in, =
+so we
+> could instead add a one time error message for when it falls back to copy=
+ing, as
+> it should happen in the first try of zero-copy send.
 
-I don't think we really need to say that some of our device implementations
-are buggy code :-)
+On your 1st (or second) series, Dan Berrange explained hew to use the
+error message interface to detect it.
 
-> +
-> +Device succesfully realized
-> +---------------------------
-> +
-> +The normal use case for device is the following:
-> +
-> +1. ``instance_init``
+> Or we could fail the migration, stating the interface does not support
+> MSG_ZEROCOPY, since it should happen in the first sendmsg().
 
-   N. The device is configured by setting its QOM properties.
+> I would personally opt for the last option.
+>
+> What do you think?
 
-> +2. ``realize`` with success
-> +3. The device takes part in emulation
-> +4. ``unrealize`` and ``unparent``
-> +5. ``instance_finalize``
-> +
-> +``instance_init`` and ``realize`` are part of the device creation procedure, whereas
-> +``unrealize`` and ``instance_finalize`` are part of the device deletion procedure.
+Later, Juan.
 
-We should describe here what the difference is.
-
-> +
-> +In case of an object created by code, ``realize`` has to be done explicitly
-> +(eg: by calling ``qdev_realize(...)``). This is done automatically in case of a
-> +device created via a user interface.
-> +
-> +On the other hand ``unrealize`` is done automatically.
-> +``unparent`` will take care of unrealizing the device then undoing any bus
-> +relationships (children and parent).
-
-This (realize is done by calling qdev_realize, unrealize happens via unparent)
-is part of how you use a device, not how you implement one. We might want
-to document that, but that should be a separate document. Let's keep this one
-to how the system looks from the point of view of a device implementation.
-
-> +Note that ``instance_finalize`` may not occur just after ``unrealize`` because
-> +other objects than the parent can hold references to a device. It may even not
-> +happen at all if a reference is never released.
-> +
-> +Device realize failure
-> +----------------------
-> +
-> +This use case is most important when the device is created through a user
-> +interface. The user might for example invalid properties and in that case
-
-"set invalid properties", I guess.
-
-> +realize will fail and the device should then be deleted.
-> +
-> +1. ``instance_init``
-> +2. ``realize`` failure
-> +3. ``unparent``
-> +4. ``instance_finalize``
-> +
-> +Failure to create a device should not leave traces. The emulation state after
-> +that should be as if the device has not be created. ``realize`` and
-> +``instance_finalize`` must take care of this.
-> +
-> +Device help
-> +-----------
-
-Call this "Device introspection" I think.
-
-> +
-> +Last use case is only a user interface case. When requesting help about a device
-> +type, the following life cycle exists:
-> +
-> +1. ``instance_init``
-> +2. Introspect device properties
-> +3. ``unparent``
-> +4. ``instance_finalize``
-> +
-> +This use case is simple but it means that ``instance_finalize`` cannot assume that
-> +``realize`` has been called.
-> +
-> +Implementation consequences
-> +---------------------------
-> +
-> +A device developer should ensure the above use cases are
-> +supported so that the device is *user-creatable*.
-
-Do we want to document the current requirements (every device has to
-support the 'device introspection' cycle, hot pluggable/unpluggable
-devices have to support full creation-and-deletion, devices that are
-only cold-plugged or created by board models must support creation but
-may not care about deletion), or some hypothetical hoped-for future
-where the baseline for all devices is that they support the full
-create-and-delete?
-
-> +
-> +In particular, fail cases must checked in realize and reported using the error
-> +parameter. One should particularly take care of cleaning correctly whatever has
-> +been previously done if realize fails. Cleaning tasks (eg: memory freeing) can
-> +be done in ``realize`` or ``instance_finalize`` as they will be called in a row by
-> +the user interface.
-> +
-> +To this end ``realize`` must ensure than no additional reference to the device is
-> +dangling when it fails. Otherwise the device will never be finalized and deleted.
-> +
-> +If a device has created some children, they should be deleted as well in the
-> +cleaning process. If ``object_initialize_child()`` was used to create a child
-> +hosted into the device structure, the child memory space will disappear with the
-> +parent. No reference to such child must be dangling to ensure the child will
-> +not survive its parent deletion.
-> +
-> +Although it is not asserted by code, one can assume ``realize`` will not be tried
-> +again in case of failure and that the device will be finalized if no references
-> +have been added during ``realize``.
-
-I'm not sure what exactly this paragraph is trying to say. If our lifecycle
-design says "realize only happens once" we can just document that that's
-what the design is. We don't need to say whether or not something will assert().
-
-I think there is scope for extending this last 'consequences' section to
-be the place where we clearly say "Do X in instance_init; do Y in realize"
-(possibly with annotations about whether nay particular case of that is
-necessary or just convention).
-
--- PMM
 
