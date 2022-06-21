@@ -2,82 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB46553999
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 20:37:15 +0200 (CEST)
-Received: from localhost ([::1]:33874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB3C553996
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 20:36:31 +0200 (CEST)
+Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ikU-0003fr-4e
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 14:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45502)
+	id 1o3ijm-0001sO-UV
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 14:36:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3idy-0005YY-6O
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 14:30:31 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:33313)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3idw-0003PR-DL
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 14:30:29 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id z14so13906242pgh.0
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 11:30:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Sr83b/r8tDWAgS5j9Vg1WzTpzfgzR2Khrujy9d565Rw=;
- b=PAIODbwz4aePyPSO17GoX5TShnLQj/p8x5Bh1gMVFwluZa8ykejkqv8NjM5tzUIJdF
- 19Wi0lN37zSPlXDyyzUbrkkoyNNV4JOfYJ9gWVZeZip8/FzNbsLaflt4EiWaIHFvZZgn
- XAtFjsFVxmv6OJKQyaDcAYQFxT4wHxCYIczB5l3UFtmeGfTI7kX9eG0LcMrlNiG4vwsS
- KglEG3Jp/Zb2HJgdyq8dUJSzLc5a1mwUfOir4wqlOuNa9mbGuhJ5J5atCCa+yNo+s4sP
- 5nfj7K6XjyE1UMRMgMmigo65U6lRCXKuIPq3PaK14/K9B1SPjOPrjLr0TsLIrjr3yXdW
- uXNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Sr83b/r8tDWAgS5j9Vg1WzTpzfgzR2Khrujy9d565Rw=;
- b=oiTfYLnnOeDtxkVUIT/FgTeY6qpliCBPrD0x0M7LWeS+11izXdb9UXReDhY0TlrOu8
- g7mbZzynaDct5mifo69ZHpuX3GPGtsaEKqWLQYZg5peJkzGe9EI/OKwnbFhV9gXbRc62
- sT16Ip7hAfSffXLsBoItzHq0KbW1UDAMx7RdCpqBILe8SYJEYRoM1l34QUCPia9wvrmJ
- eIe6QknTAQElOpwV8ozElTbJHuBRaLeowI0bZG5VMfJ0VFMNEOMAfVYiF6EuTT6z9ym4
- BROvKf9TcSJv+mOlXm1aRWy171bubmpCuPAI0V/WHaZJHmGDTYoXIW78+FeabnDx8tjy
- WS/A==
-X-Gm-Message-State: AJIora8u1QgeqgKPhOsIq3nz5o86DwddPVvUco80dJvpEctSc+Nlfmoq
- 1E7J5htzwCre/35fGvVc9aYFZg==
-X-Google-Smtp-Source: AGRyM1uLaNrsW3mMBtp1J15jqrHqO09AOwYbVXFdc0wmKmNeKxXN099boS7owgK4KcZF3i6L67SMeQ==
-X-Received: by 2002:a63:68c4:0:b0:3fb:984f:6779 with SMTP id
- d187-20020a6368c4000000b003fb984f6779mr27760800pgc.444.1655836226939; 
- Tue, 21 Jun 2022 11:30:26 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49e:3c01:8adc:a144:6ec2:4d71?
- ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
- by smtp.gmail.com with ESMTPSA id
- l25-20020a637019000000b003fdc7e490a6sm11645373pgc.20.2022.06.21.11.30.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 11:30:26 -0700 (PDT)
-Message-ID: <3f08612b-68f7-3971-b570-33cb6b3b5d52@linaro.org>
-Date: Tue, 21 Jun 2022 11:30:24 -0700
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3igw-0008A2-HN
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 14:33:34 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:46969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3igt-0003pG-PP
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 14:33:34 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MofPt-1nJyjI1w3V-00p2Fd; Tue, 21 Jun 2022 20:33:29 +0200
+Message-ID: <3a7fc7a8-38c4-ebf5-a2dc-3dfb9637f6aa@vivier.eu>
+Date: Tue, 21 Jun 2022 20:33:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/15] ppc queue
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org
-References: <20220621094400.122800-1-danielhb413@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3] linux-user: Adjust child_tidptr on set_tid_address()
+ syscall
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
+References: <YpH+2sw1PCRqx/te@p100>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <YpH+2sw1PCRqx/te@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:UFapuZLl1EPg92tvxCHn94b53Nf9gq1ussLf/r/fiiSBkP204Xc
+ pPClLBEvuHqs7UBuccVTZlO8THn/8utZb3YXJGFi72yixLk8VYilVHlpQYJGzjTrTRGF2YN
+ GredCAHo2BRlhGO9QWLlggcyUMeRNiuX1ZIgevUV3fNO78GWg+nZMj9NCyNAdwOBMF+422I
+ HeexK7LYEAaR1q7lLo5cA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mYX6NrRYLLo=:lcf3u9gA+oBLfn795BLZJR
+ nG1JzEnYt8wLWGKra55je22yllRxT2fAIsEcsL3FIVVljQBNEKZvyriWl63clv236t8ghZvZS
+ jo+TSs3mrKNKLgStHP+WG68/2fUpHLIAuQvdsHlo7P46u+PshNX0ndavFx+M9PKOSZ+KAiZfc
+ zWmJI/U/fYyPu6slSoN9NP73m9xet6BnAcbbl37FABZ3GrY1KfL8ziwc858p/yL1FNMXr66g0
+ JMDFU7yBW/SfcCQrateoS0Nj8sxJ0Gzwf8aLL9WNKrXpaojciJ3zW03fS9ndBPq9SED8xut7j
+ 3VuCzsYTpFKrKqZ+8WQgqs0Oh1cSECGXmQRyNshCP6brGPJgUpdwhRaWXAUFMlsRbXXfNJL+K
+ NZVzpwFcD8O36PSKGSrxZcpv81aX8g/7nIdmqrnVHeYr5UvJ2XQghafKEH8DBJJnAlmIww3W4
+ oA+KYSHhCLDod/nRcL83hlm6Kkly6JpeYWR2Qx5R9y7YnD9uED/bO6LYegkFj7VOk2ZnJJUqD
+ cKlWSaXOS9kz4jJWJeYYWhoBzDEQng6O6LIrOkP+YeOXX2dQLzGfMdahiKvv1gg3+rbhhMGjw
+ lfQNJcsrnsYfxVeCw5uuCw0/y6k2G8r1mQeUyRQGybsjWoE1tjq6kXuxJUStqk01t76s9fZwj
+ 3Tjygyrt54Aui/hNArj/yHKeimvON4AOnxBFZraSvTxcMAfdUYpqs0d2dbizcUy0pyEEAxFol
+ Sux4tRRJ45HaRMA7xNaYyouhDb6oIt27D/cXAg==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,76 +74,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/22 02:43, Daniel Henrique Barboza wrote:
-> The following changes since commit c8b2d413761af732a0798d8df45ce968732083fe:
+Le 28/05/2022 à 12:52, Helge Deller a écrit :
+> Keep track of the new child tidptr given by a set_tid_address() syscall.
 > 
->    Merge tag 'bsd-user-syscall-2022q2-pull-request' of ssh://github.com/qemu-bsd-user/qemu-bsd-user into staging (2022-06-19 13:56:13 -0700)
+> Do not call the host set_tid_address() syscall because we are emulating
+> the behaviour of writing to child_tidptr in the exit() path.
 > 
-> are available in the Git repository at:
+> Signed-off-by: Helge Deller<deller@gmx.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > 
->    https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20220621
+> --
+> v3:
+> - Respin of the patch because the v2 version was mungled in-between the
+>    mail of the v1 version. Now it's possible to get correct patch with b4
+> - Rephrased commit message
+> - Added Richard's Reviewed-by
+> v2:
+> - was mungled in v1 mail thread
 > 
-> for you to fetch changes up to 609b1c866925049f22a79623021076192f7a6595:
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index f55cdebee5..1166e9f014 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -320,9 +320,6 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
+>   #ifdef __NR_exit_group
+>   _syscall1(int,exit_group,int,error_code)
+>   #endif
+> -#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
+> -_syscall1(int,set_tid_address,int *,tidptr)
+> -#endif
+>   #if defined(__NR_futex)
+>   _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+>             const struct timespec *,timeout,int *,uaddr2,int,val3)
+> @@ -12200,9 +12197,14 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>       }
+>   #endif
 > 
->    target/ppc: cpu_init: Clean up stop state on cpu reset (2022-06-20 08:38:59 -0300)
+> -#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
+> +#if defined(TARGET_NR_set_tid_address)
+>       case TARGET_NR_set_tid_address:
+> -        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
+> +    {
+> +        TaskState *ts = cpu->opaque;
+> +        ts->child_tidptr = arg1;
+> +        /* do not call host set_tid_address() syscall, instead return tid() */
+> +        return get_errno(sys_gettid());
+> +    }
+>   #endif
 > 
-> ----------------------------------------------------------------
-> ppc patch queue for 2022-06-21:
+>       case TARGET_NR_tkill:
 > 
-> - tcg and target/ppc: vector divide instructions and a vbpermd fix for
->    BE hosts
-> - ppc440_uc.c: fix boot of sam460ex machine
-> - target/ppc: fix stop state on cpu reset
-> - xive2: Access direct mapped thread contexts from all chips
-> - a couple of Coverity fixes
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Applied to my linux-user-for-7.1 branch.
 
-
-r~
-
-
-> 
-> ----------------------------------------------------------------
-> Daniel Henrique Barboza (3):
->        ppc/pnv: fix extra indent spaces with DEFINE_PROP*
->        target/ppc: avoid int32 multiply overflow in int_helper.c
->        target/ppc: fix unreachable code in fpu_helper.c
-> 
-> Frederic Barrat (2):
->        pnv/xive2: Access direct mapped thread contexts from all chips
->        target/ppc: cpu_init: Clean up stop state on cpu reset
-> 
-> Lucas Mateus Castro (alqotel) (8):
->        target/ppc: Implemented vector divide instructions
->        target/ppc: Implemented vector divide quadword
->        target/ppc: Implemented vector divide extended word
->        host-utils: Implemented unsigned 256-by-128 division
->        host-utils: Implemented signed 256-by-128 division
->        target/ppc: Implemented remaining vector divide extended
->        target/ppc: Implemented vector module word/doubleword
->        target/ppc: Implemented vector module quadword
-> 
-> Matheus Ferst (1):
->        target/ppc: fix vbpermd in big endian hosts
-> 
-> Michael S. Tsirkin (1):
->        ppc: fix boot with sam460ex
-> 
->   hw/intc/pnv_xive2.c                 |  18 +++-
->   hw/pci-host/pnv_phb3.c              |   8 +-
->   hw/pci-host/pnv_phb4.c              |  10 +-
->   hw/pci-host/pnv_phb4_pec.c          |  10 +-
->   hw/ppc/ppc440_uc.c                  |   8 ++
->   include/qemu/host-utils.h           |   3 +
->   include/qemu/int128.h               |  38 ++++++++
->   target/ppc/cpu_init.c               |   3 +
->   target/ppc/fpu_helper.c             |   2 +-
->   target/ppc/helper.h                 |   8 ++
->   target/ppc/insn32.decode            |  23 +++++
->   target/ppc/int_helper.c             | 116 ++++++++++++++++++++++-
->   target/ppc/translate/vmx-impl.c.inc | 151 ++++++++++++++++++++++++++++++
->   util/host-utils.c                   | 180 ++++++++++++++++++++++++++++++++++++
->   14 files changed, 554 insertions(+), 24 deletions(-)
+Thanks,
+Laurent
 
 
