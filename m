@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6694D552C81
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 10:01:19 +0200 (CEST)
-Received: from localhost ([::1]:55028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D549552C71
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 09:56:40 +0200 (CEST)
+Received: from localhost ([::1]:47770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Yp4-0003fp-HK
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 04:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
+	id 1o3YkY-0006dW-T0
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 03:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o3Yg5-0002xv-I4
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:52:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51748)
+ id 1o3Yg6-00030T-Ud
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:52:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o3Yg2-0005uv-9N
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:52:00 -0400
+ id 1o3Yg3-0005v3-9T
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:52:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655797917;
+ s=mimecast20190719; t=1655797918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1ImzJMwhR9wPVnFIPtIciK8UDE1hqPREDSJo0a91d7Q=;
- b=Avn03t0BjmJKSutVQniL9QK2U/j7xvQmM/yoDWmj8FO1ZSp/H9VanwZBqQ2JWuHONB7MHs
- NTwy0JSGGIU4v9payxF/4JSAtjB3cZFEPsafcoVH9TXOxCahGww4t8ybSPX39Uos55mr+T
- Wr69ioVQlwGqgAPd6MWB91VhqUudJLU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Pm+OaO7P0DHdX0xOLqNO9AxjhVX2HalJiFlLI/sz0ao=;
+ b=Q+d0e3NdLZIqCYcjnS/zPgXVHjCRhoe7a2dVo9HHZ9yO5pquWOJuKDHWKUwhlsMpmDYcAM
+ 5cIadmJbZX8BL/cU6ZqZo6t9JwjCeKMGKlzOgUVJKh3i/RWEFDKvSMfQ2+sZZkli8/gH7t
+ 4R86Cp7G4SWDp78uo9eEWesYcBXWVDY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-63-OXUL9_W7N8OFVs0xQ2YnRg-1; Tue, 21 Jun 2022 03:51:55 -0400
-X-MC-Unique: OXUL9_W7N8OFVs0xQ2YnRg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- ne36-20020a1709077ba400b00722d5f547d8so1285535ejc.19
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 00:51:55 -0700 (PDT)
+ us-mta-483-LDI5SDTTPfWZvtjvgFLv5g-1; Tue, 21 Jun 2022 03:51:57 -0400
+X-MC-Unique: LDI5SDTTPfWZvtjvgFLv5g-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ z4-20020a05640240c400b004358a7d5a1dso3000629edb.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 00:51:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1ImzJMwhR9wPVnFIPtIciK8UDE1hqPREDSJo0a91d7Q=;
- b=lHIwpYt3rOqWSHRr5vJ9Uiedjl4+8skJVHFuvsRfFBuGcsKA4/Z/DtKWn5+QvdCkiW
- KE+At05x6QEa5DSDmwEHDR4b2yMqyNS0nZB0wVDZBnugf8rnONSgduY0f7JsQmkU83FA
- lDPUgPc5KZrmzHtMuuwIwnbsBq+j85js8D+mAt/kM+8YztFLTHHT5XrbqatfatRyjzeF
- uQ73kF86ep9JcxhXE1qdi7hzQDLuUxQZoo/7/KZlzwMuGuq9icJYdimguWLsOM4o878t
- ScRKoekFaJAegFdFpnJSMUzgrt4Y3TlPgqtjwNTHvHyO05CEzGppZXbsYF4N+d7NvnhT
- K9Ag==
-X-Gm-Message-State: AJIora85ItF2rVbGSl1on1uR5VT+glndY8AKFfjKfc1JlI0bZWLaNAWW
- aDkcOdf2qNsLQpB/RI5M3IyUrjHZ2hfIgyrUGMl+wpmxOsbHmOSaoDfpm/uHHhHQUDH1I4hg0Z+
- wnxNPg3k/8GemNswgELX/ahbAl+ras48ZGqFUE5Zj2Gbb8yHxibU02Tx8Xf5i1yCCgqg=
-X-Received: by 2002:a17:906:2086:b0:712:1257:77bf with SMTP id
- 6-20020a170906208600b00712125777bfmr25715139ejq.655.1655797914071; 
- Tue, 21 Jun 2022 00:51:54 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vhM3nIc+lh4Ubs9X6LCaokpxjTAkSU9KvuQz6eDtuQ+XAGG4YMA9sLCkvV9dKb5aCtP1nhBw==
-X-Received: by 2002:a17:906:2086:b0:712:1257:77bf with SMTP id
- 6-20020a170906208600b00712125777bfmr25715118ejq.655.1655797913681; 
- Tue, 21 Jun 2022 00:51:53 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- o2-20020a170906768200b0070b8a467c82sm7144780ejm.22.2022.06.21.00.51.52
+ bh=Pm+OaO7P0DHdX0xOLqNO9AxjhVX2HalJiFlLI/sz0ao=;
+ b=LeNPcyq49okWNDrvw2XY2tn3LAhoiHDaAePPCV1T6cOHr1/ktluTY/TS5iA9YnabZL
+ brNUhlSy45L+6ldfUEN2JfVlXSWf3OWr1jd+5YDjTVsDLWsUU3o6f/Vg9Y3LKlwAruYl
+ 9vM11kN6dwV3nWaY39yS//1bnVInnh9L+26KO5a781nEjiEquD7V3+qflJviDOmeKco9
+ +dTtVgWm+uKRQxFdCBuYxt3m8gfo0ORjWTT5rf0rrh++cGD3dFurm3LxkxAiVK9xZKPE
+ Qeg4SvzHrwFpoQHjid5dw0jIRgBLoPshb/xiojIJpKj8PwEhqbGd5qDQ4jxwQDb4QkvQ
+ Z3JA==
+X-Gm-Message-State: AJIora+3FSIvFpdIVTg/VgMeVM/+KrFL3K3zV3cGw/ztMBbCaY0WwYWt
+ jefdQRBr8SCPXcXKCc1pwIo/MPW2CeFrV+xksFoZJdMq+1oLxRnOIo6NmJMYjsamZYbQSi51QUy
+ EthwZ5X1/uVGfLfIjEJCWh+Ff1VgX+j6Q/IpsJDO5EF/IxipbF0K923NfeKSm0j+TCT4=
+X-Received: by 2002:a50:c8cd:0:b0:435:688d:6c59 with SMTP id
+ k13-20020a50c8cd000000b00435688d6c59mr21626344edh.271.1655797915607; 
+ Tue, 21 Jun 2022 00:51:55 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tTEfcldqdZEdc4rHqxC74zriSUsEhWCC32/RfdH3TfwEEg9zPpu8OJCJdu8/aOBx6c75iFpg==
+X-Received: by 2002:a50:c8cd:0:b0:435:688d:6c59 with SMTP id
+ k13-20020a50c8cd000000b00435688d6c59mr21626315edh.271.1655797915238; 
+ Tue, 21 Jun 2022 00:51:55 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ w13-20020a056402268d00b004359202969esm1601924edd.4.2022.06.21.00.51.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 00:51:52 -0700 (PDT)
+ Tue, 21 Jun 2022 00:51:54 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] configure, pc-bios/optionrom: pass cross CFLAGS correctly
-Date: Tue, 21 Jun 2022 09:51:43 +0200
-Message-Id: <20220621075147.36297-3-pbonzini@redhat.com>
+Subject: [PATCH 3/6] configure, pc-bios/s390-ccw: pass cross CFLAGS correctly
+Date: Tue, 21 Jun 2022 09:51:44 +0200
+Message-Id: <20220621075147.36297-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621075147.36297-1-pbonzini@redhat.com>
 References: <20220621075147.36297-1-pbonzini@redhat.com>
@@ -99,87 +98,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The optionrom build is disregarding the flags passed to the configure
-script via --cross-cflags-i386.  Pass it down and add it to the Makefile.
-
-This also fixes compilation of TCG i386 tests using an x86_64 compiler.
+QEMU_CFLAGS is not available in pc-bios/s390-ccw/netboot.mak, but the Makefile
+needs to access the flags passed to the configure script for the s390x
+cross compiler.  Fix everything and rename QEMU_CFLAGS to EXTRA_CFLAGS for
+consistency with tests/tcg.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                  | 32 ++++++++++++++++++--------------
- pc-bios/optionrom/Makefile |  2 +-
- 2 files changed, 19 insertions(+), 15 deletions(-)
+ configure                    |  1 +
+ pc-bios/s390-ccw/Makefile    | 20 ++++++++++----------
+ pc-bios/s390-ccw/netboot.mak |  6 +++---
+ 3 files changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/configure b/configure
-index 76728b31f7..3d00b361d7 100755
+index 3d00b361d7..bf9282e2a1 100755
 --- a/configure
 +++ b/configure
-@@ -2057,19 +2057,22 @@ probe_target_compiler() {
-   compute_target_variable $1 target_objcopy objcopy
-   compute_target_variable $1 target_ranlib ranlib
-   compute_target_variable $1 target_strip strip
--  if test "$1" = $cpu; then
--    : ${target_cc:=$cc}
--    : ${target_ccas:=$ccas}
--    : ${target_as:=$as}
--    : ${target_ld:=$ld}
--    : ${target_ar:=$ar}
--    : ${target_as:=$as}
--    : ${target_ld:=$ld}
--    : ${target_nm:=$nm}
--    : ${target_objcopy:=$objcopy}
--    : ${target_ranlib:=$ranlib}
--    : ${target_strip:=$strip}
--  fi
-+  case "$1:$cpu" in
-+    i386:x86_64 | \
-+    "$cpu:$cpu")
-+      : ${target_cc:=$cc}
-+      : ${target_ccas:=$ccas}
-+      : ${target_as:=$as}
-+      : ${target_ld:=$ld}
-+      : ${target_ar:=$ar}
-+      : ${target_as:=$as}
-+      : ${target_ld:=$ld}
-+      : ${target_nm:=$nm}
-+      : ${target_objcopy:=$objcopy}
-+      : ${target_ranlib:=$ranlib}
-+      : ${target_strip:=$strip}
-+      ;;
-+  esac
-   if test -n "$target_cc"; then
-     case $1 in
-       i386|x86_64)
-@@ -2238,7 +2241,7 @@ done
+@@ -2290,6 +2290,7 @@ if test -n "$target_cc" && test "$softmmu" = yes; then
+     config_mak=pc-bios/s390-ccw/config-host.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+     echo "SRC_PATH=$source_path/pc-bios/s390-ccw" >> $config_mak
++    echo "EXTRA_CFLAGS=$target_cflags" >> $config_mak
+     write_target_makefile >> $config_mak
+     # SLOF is required for building the s390-ccw firmware on s390x,
+     # since it is using the libnet code from SLOF for network booting.
+diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+index 6eb713bf37..26ad40f94e 100644
+--- a/pc-bios/s390-ccw/Makefile
++++ b/pc-bios/s390-ccw/Makefile
+@@ -18,11 +18,11 @@ $(call set-vpath, $(SRC_PATH))
+ QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
  
- # Mac OS X ships with a broken assembler
- roms=
--probe_target_compilers i386 x86_64
-+probe_target_compiler i386
- if test -n "$target_cc" &&
-         test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
-         test "$targetos" != "haiku" && test "$softmmu" = yes ; then
-@@ -2257,6 +2260,7 @@ if test -n "$target_cc" &&
-         echo "# Automatically generated by configure - do not modify" > $config_mak
-         echo "TOPSRC_DIR=$source_path" >> $config_mak
-         echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_mak
-+        echo "EXTRA_CFLAGS=$target_cflags" >> $config_mak
-         write_target_makefile >> $config_mak
-     fi
- fi
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index ea89ce9d59..e90ca2e1c6 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -11,7 +11,7 @@ CFLAGS = -O2 -g
- quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
- cc-option = $(if $(shell $(CC) $1 -c -o /dev/null -xc /dev/null >/dev/null 2>&1 && echo OK), $1, $2)
+ %.o: %.c
+-	$(call quiet-command,$(CC) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
++	$(call quiet-command,$(CC) $(EXTRA_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
+ 	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
  
--override CFLAGS += -march=i486 -Wall -m16
-+override CFLAGS += -march=i486 -Wall $(EXTRA_CFLAGS) -m16
+ %.o: %.S
+-	$(call quiet-command,$(CCAS) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
++	$(call quiet-command,$(CCAS) $(EXTRA_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
+ 	       -c -o $@ $<,"CCAS","$(TARGET_DIR)$@")
  
- # If -fcf-protection is enabled in flags or compiler defaults that will
- # conflict with -march=i486
+ .PHONY : all clean build-all
+@@ -30,14 +30,14 @@ QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
+ 	  virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
+ 
+-QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
+-QEMU_CFLAGS += $(call cc-option,-Werror $(QEMU_CFLAGS),-Wno-stringop-overflow)
+-QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
+-QEMU_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
+-QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
+-QEMU_CFLAGS += -msoft-float
+-QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS),-march=z900,-march=z10)
+-QEMU_CFLAGS += -std=gnu99
++EXTRA_CFLAGS := $(EXTRA_CFLAGS) -Wall
++EXTRA_CFLAGS += $(call cc-option,-Werror $(EXTRA_CFLAGS),-Wno-stringop-overflow)
++EXTRA_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
++EXTRA_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
++EXTRA_CFLAGS += $(call cc-option, $(EXTRA_CFLAGS), -fno-stack-protector)
++EXTRA_CFLAGS += -msoft-float
++EXTRA_CFLAGS += $(call cc-option, $(EXTRA_CFLAGS),-march=z900,-march=z10)
++EXTRA_CFLAGS += -std=gnu99
+ LDFLAGS += -Wl,-pie -nostdlib
+ 
+ build-all: s390-ccw.img s390-netboot.img
+diff --git a/pc-bios/s390-ccw/netboot.mak b/pc-bios/s390-ccw/netboot.mak
+index 1a06befa4b..ee59a5f4de 100644
+--- a/pc-bios/s390-ccw/netboot.mak
++++ b/pc-bios/s390-ccw/netboot.mak
+@@ -8,7 +8,7 @@ LIBNET_INC := -I$(SLOF_DIR)/lib/libnet
+ 
+ NETLDFLAGS := $(LDFLAGS) -Wl,-Ttext=0x7800000
+ 
+-$(NETOBJS): QEMU_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
++$(NETOBJS): EXTRA_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
+ 
+ s390-netboot.elf: $(NETOBJS) libnet.a libc.a
+ 	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $^,"BUILD","$(TARGET_DIR)$@")
+@@ -18,7 +18,7 @@ s390-netboot.img: s390-netboot.elf
+ 
+ # libc files:
+ 
+-LIBC_CFLAGS = $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
++LIBC_CFLAGS = $(EXTRA_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
+ 	      -MMD -MP -MT $@ -MF $(@:%.o=%.d)
+ 
+ CTYPE_OBJS = isdigit.o isxdigit.o toupper.o
+@@ -52,7 +52,7 @@ libc.a: $(LIBCOBJS)
+ 
+ LIBNETOBJS := args.o dhcp.o dns.o icmpv6.o ipv6.o tcp.o udp.o bootp.o \
+ 	      dhcpv6.o ethernet.o ipv4.o ndp.o tftp.o pxelinux.o
+-LIBNETCFLAGS = $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
++LIBNETCFLAGS = $(EXTRA_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
+ 	       -DDHCPARCH=0x1F -MMD -MP -MT $@ -MF $(@:%.o=%.d)
+ 
+ %.o : $(SLOF_DIR)/lib/libnet/%.c
 -- 
 2.36.1
 
