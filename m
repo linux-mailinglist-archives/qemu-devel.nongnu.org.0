@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7052D552F27
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:51:40 +0200 (CEST)
-Received: from localhost ([::1]:38448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF762552F3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:57:34 +0200 (CEST)
+Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3aXp-0000zh-Qc
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43372)
+	id 1o3adZ-0001ve-Ts
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQx-0007m6-KL; Tue, 21 Jun 2022 05:44:33 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:40858)
+ id 1o3aQz-0007mz-DT; Tue, 21 Jun 2022 05:44:35 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:33767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQu-0007O5-MF; Tue, 21 Jun 2022 05:44:30 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-101cdfddfacso9532313fac.7; 
- Tue, 21 Jun 2022 02:44:28 -0700 (PDT)
+ id 1o3aQx-0007OO-W7; Tue, 21 Jun 2022 05:44:33 -0400
+Received: by mail-oi1-x233.google.com with SMTP id s124so16459758oia.0;
+ Tue, 21 Jun 2022 02:44:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f3RRMoys7qX1NzX5bYgdLFUw70oXiZ53EQ8nVjhmz0U=;
- b=l1Ru2pBx7yQUuMREAppGw2u8pu+9x9mSckE6E7ZEIbi5Ge4Osu6Vw7py1hfWuWvTwz
- eZSedsMX5xZ3SAgWSsCqOpcqFW/h4iDrYNYwlYCHXu6leu7NNvXJYk9nPDTpqKzYg/N2
- CZMvXSP86HPCy3mLziuQEituNdu4osT0kN739JAi9w4VpOzdOqcisyY/MHWJuzvYu5cO
- vvG8qafUOs4hQ8ebZtkDqQ3B16rlBk61HiAiHPBzX1ekt8/18gyb6xBqQYctwsb5ZGFD
- 6nP6saQ36YBaE9UlSYIHP6zB6NWXvOZIj/E+dbh+HtfqShQSNYwcELiiVROSsW9MRcFP
- duXw==
+ bh=V7yhW9LpMmKGzBXwAjsWvLaDaxNgxsE3wMeuD2ea0AU=;
+ b=H9UZYGLc6STaRXKWyKPbPSy5uS9++6V9Fp/gXV2XgG26SPBJu7aFpQ0l3rhYjhxAzf
+ 0EY2azf9Ag6ANJrn1FlPqfJLrGRlcSPO2LdR82IDxCFs29YgOiO5tJSDQtmbFp/cOHxF
+ 7wAxSUe9Fm9jEjdrZN7R7IdP+WgQwjNjIUDs05PUr2/OABvhRCAT75nSEYMcrjgKPrpl
+ umV8UsxtA0+eyw2oTl013cBa5HpCNdakdMAvXnSwOxVDNeiAeFy+dhjp/pSroI0wKGl/
+ S/UxierJDjO+SWowWGocZbjvU8e2hOzLKYlQd+6AIXoSLKLlaM2dqypMLq9rkJ8LQoIU
+ G52g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f3RRMoys7qX1NzX5bYgdLFUw70oXiZ53EQ8nVjhmz0U=;
- b=u9sgERqJKjsD1qXGFYS/bkLtll9sAaWkEMiZp9uQD30nLaCsVlzEar/omgzr2CMVJ0
- +jMzXYHO7TBktiy/2NINhKLWGPLjVPBCaQhw9SZFeipvfF4xPqEewzMEyUr/56Dnt8cb
- L0RbU0qTmPafhgISJBa6xWN0dknvC0xHCIgO1Yex5Wmh8PPn5f0ZFA3HI/+5I6ayxQ51
- qICcNWc75iz76IlvRM+5l+IVciM54EJWY7WeHM1xa03pqi6+7DkVt2OlkPp1lnGWoGVM
- NizjiY57S6e8+V/3KLaSLqdY20xG0WuyrVEJnngwUjn+vIGe9iPrGzfaenf+aw38fEzO
- 0ZQQ==
-X-Gm-Message-State: AJIora8z1O5dl0tE9UT/CO7kL7MZMIHZEiwIV9V/c0Icat9l+gz7RZoT
- m3GmcWb0THtxR8nmSJBdsZo9Ay2pMGxNzw==
-X-Google-Smtp-Source: AGRyM1v3cSVwaWIH6dp+qXY2oAYeaqKV4nbsFIPWQCMkJOhaw8sABrNtABtAieJBhr8k/wNiskDEPA==
-X-Received: by 2002:a05:6870:d350:b0:fe:1e87:ed13 with SMTP id
- h16-20020a056870d35000b000fe1e87ed13mr20210180oag.166.1655804667213; 
- Tue, 21 Jun 2022 02:44:27 -0700 (PDT)
+ bh=V7yhW9LpMmKGzBXwAjsWvLaDaxNgxsE3wMeuD2ea0AU=;
+ b=KpF5PRC4R7Yc1vxPwNtmNONrH/shp1KiGoX/yBAA2vYcgVTev6Bkcsf1CHdlF3Vavs
+ ySFxFnup4KBO8tSuIIsIUEjox9kM+84oORLHb/SF1bbmL33Yf4sk0ZPdvBXCkfl2Bkrz
+ VYbi9OuJWAkq1CZbPIvoZkodF0PBUZXx+eGHoZwVps6/EDxG5GiNREoDskI2jWJf2YVY
+ NH3q9Bq4+IRI1K6uOFOcmHamunU6c+kKqogFBCbCS988YB3RV5xuF+Wy+VjvQ4gf6NlN
+ 8DnRhqsIjbmFoG3ujHqXQMc+LTL64CRrETlraFWkf8sP/xAPPQ9ysQg+1xztjCbaxCml
+ FnOg==
+X-Gm-Message-State: AJIora+Lj1z2Uou/T+wc43dliAkQUajpn1AsHIqVUYMFc9Mjo+ykY3Tk
+ c6vWlTppH0TO7olKSU1g6cLKAbGfJKYcHg==
+X-Google-Smtp-Source: AGRyM1ukIgxQ1VNLUiYhfZ9yDj4D12XbxQjy80n8rgv7UW83cTRijAAXmAeWnJ27Qdx4qSDGf21ivw==
+X-Received: by 2002:a05:6808:18a6:b0:332:fae8:dbd7 with SMTP id
+ bi38-20020a05680818a600b00332fae8dbd7mr8618340oib.172.1655804669541; 
+ Tue, 21 Jun 2022 02:44:29 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.24
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:27 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:29 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 09/15] ppc: fix boot with sam460ex
-Date: Tue, 21 Jun 2022 06:43:54 -0300
-Message-Id: <20220621094400.122800-10-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
+Subject: [PULL 10/15] target/ppc: fix vbpermd in big endian hosts
+Date: Tue, 21 Jun 2022 06:43:55 -0300
+Message-Id: <20220621094400.122800-11-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
 References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x233.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,55 +88,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Recent changes to pcie_host corrected size of its internal region to
-match what it expects: only the low 28 bits are ever decoded. Previous
-code just ignored bit 29 (if size was 1 << 29) in the address which does
-not make much sense.  We are now asserting on size > 1 << 28 instead,
-but PPC 4xx actually allows guest to configure different sizes, and some
-firmwares seem to set it to 1 << 29.
+The extract64 arguments are not endian dependent as they are only used
+for bitwise operations. The current behavior in little-endian hosts is
+correct; since the indexes in VRB are in PowerISA-ordering, we should
+always invert the value before calling extract64. Also, using the VsrD
+macro, we can have a single EXTRACT_BIT definition for big and
+little-endian with the correct behavior.
 
-This caused e.g. qemu-system-ppc -M sam460ex to exit with an assert when
-the guest writes a value to CFGMSK register when trying to map config
-space. This is done in the board firmware in ppc4xx_init_pcie_port() in
-roms/u-boot-sam460ex/arch/powerpc/cpu/ppc4xx/4xx_pcie.c
-
-It's not clear what the proper fix should be but for now let's force the
-size to 256MB, so anything outside the expected address range is
-ignored.
-
-Fixes: commit 1f1a7b2269 ("include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX")
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220526224229.95183-1-mst@redhat.com>
-[danielhb: changed commit msg as BALATON Zoltan suggested]
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220601125355.1266165-1-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc440_uc.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/ppc/int_helper.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 993e3ba955..a1ecf6dd1c 100644
---- a/hw/ppc/ppc440_uc.c
-+++ b/hw/ppc/ppc440_uc.c
-@@ -1180,6 +1180,14 @@ static void dcr_write_pcie(void *opaque, int dcrn, uint32_t val)
-     case PEGPL_CFGMSK:
-         s->cfg_mask = val;
-         size = ~(val & 0xfffffffe) + 1;
-+        /*
-+         * Firmware sets this register to E0000001. Why we are not sure,
-+         * but the current guess is anything above PCIE_MMCFG_SIZE_MAX is
-+         * ignored.
-+         */
-+        if (size > PCIE_MMCFG_SIZE_MAX) {
-+            size = PCIE_MMCFG_SIZE_MAX;
-+        }
-         pcie_host_mmcfg_update(PCIE_HOST_BRIDGE(s), val & 1, s->cfg_base, size);
-         break;
-     case PEGPL_MSGBAH:
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 16357c0900..11871947bc 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1413,14 +1413,13 @@ XXGENPCV(XXGENPCVDM, 8)
+ #define VBPERMQ_INDEX(avr, i) ((avr)->u8[(i)])
+ #define VBPERMD_INDEX(i) (i)
+ #define VBPERMQ_DW(index) (((index) & 0x40) != 0)
+-#define EXTRACT_BIT(avr, i, index) (extract64((avr)->u64[i], index, 1))
+ #else
+ #define VBPERMQ_INDEX(avr, i) ((avr)->u8[15 - (i)])
+ #define VBPERMD_INDEX(i) (1 - i)
+ #define VBPERMQ_DW(index) (((index) & 0x40) == 0)
+-#define EXTRACT_BIT(avr, i, index) \
+-        (extract64((avr)->u64[1 - i], 63 - index, 1))
+ #endif
++#define EXTRACT_BIT(avr, i, index) \
++        (extract64((avr)->VsrD(i), 63 - index, 1))
+ 
+ void helper_vbpermd(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+ {
 -- 
 2.36.1
 
