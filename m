@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610AD553918
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 19:43:44 +0200 (CEST)
-Received: from localhost ([::1]:47396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B844655392E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 19:51:00 +0200 (CEST)
+Received: from localhost ([::1]:57878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3huh-0003cQ-Em
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 13:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32948)
+	id 1o3i1j-00037M-Qc
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 13:50:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3hmG-00034a-71; Tue, 21 Jun 2022 13:35:00 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:39562)
+ id 1o3hmH-00036r-Qf; Tue, 21 Jun 2022 13:35:02 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:46014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3hmE-0002Mp-O1; Tue, 21 Jun 2022 13:34:59 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-101dc639636so9465417fac.6; 
- Tue, 21 Jun 2022 10:34:57 -0700 (PDT)
+ id 1o3hmG-0002NV-An; Tue, 21 Jun 2022 13:35:01 -0400
+Received: by mail-oi1-x231.google.com with SMTP id u9so17930054oiv.12;
+ Tue, 21 Jun 2022 10:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3COvtPLp8gq9jm3OulvWR91jjHHNwIwWcQWcPFWJeMc=;
- b=bTRo3X0vgA66CilyRKmEJGbz6hSYR9OaeKn4Sl8r7Q4a/wfixW716pTsUcHchhsz94
- 4rARIeVBOirV5+5cpo29EqDwW7//V77MV7iPizIYSCuCNlyjXpjCSD9y74lP2MwB9TTN
- q+MHh7qcT1iAVPjuFLLI6+WRVIxcA3CQD6Y7pqFYmwMJcexGeVRJCQfXwgayzryEAmSw
- QK5wND6dp07OnpK5VxBK7la7zuUSVEmpcCtOVQGB3NruipjDgF7WHJeyleZvWLWCdhAT
- RaxbejSsJO18vKAgt61ATSiavnNQSUBgUn+b3GhgFrezDBx1R8K5OXuRmtoiF59GUJpW
- xuMw==
+ bh=KUxGvOjzbE+pLKSYI6StCyRo086XpSxbnsss/wkwQrA=;
+ b=mD/ESzAWh8JTymmOY5U2u6CU8ZNvAIj3RY3p6/PeTJo0zzFmOmf6X6SfD2UmzN9XIF
+ j3aCX/lcsiV2hhPXdKIHkAHI0xJnGL8zQIJuPpjy+gqQCO4DO5Iz+Ev6aSI0DLSsV95i
+ HnTID88wB0qfsJISrporsaUXFrlmIewxwzQmYJUFTrjthtu4NhqNZMkL14W6ZeUVBIA/
+ LQC8+q6mZNwIIuHYOql9ZyRDwttR03UoddXA460e2lC4+TrbIMDMrM/MkbePRg2BDBl4
+ c6vSQLIZASxsnUDhCsvt/5f5qZIKt1VH8AzjGWn0SfQC30KjXd/3oYu1rg7s0i/W8JJh
+ /SNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3COvtPLp8gq9jm3OulvWR91jjHHNwIwWcQWcPFWJeMc=;
- b=Ip1eABLYJAXtNtWirFd48oZUBXsX+RCdG/QlRoubtxkGDKjCoOlvVr+4evnTS31FoY
- UYZ7fBO9BALKdwLEanFeLd6/7hhquDmYAoTCWfmPSEsfl9WNSYpc1iconib84mcQJkGr
- i2o9MdiZThnaCuLUEOIi/KzQqoNl1KKuwunGa4qXhtWNyA1JZIEsPRYCSo1hBaohygLW
- p+UBObYH/kW6hZ3gHc3ZYB1eT4wvzo8wkCAF0xox4twVYUPQO6JlwxlGpjEcWcTAbv3f
- OWXd4tbP2vfqCYIMOTkMgmc7CW5b7+d9q/xPxtSDMOC4qVKV8QHzWl+9xa5H50ElivxP
- cDjw==
-X-Gm-Message-State: AJIora8o4dX4j/yUcbyqxJwCAt1nt+HHRkNY90NcqBGzs4CBNpBarjOO
- uMFrZEBB7ulz8m6seXHfvzB/PKh9PDocuw==
-X-Google-Smtp-Source: AGRyM1vLSG5X0cuhBr4/i9T9kP36Ks0jxcDwir19qu47ki8o0X0vt+8r95LdlZY3fCPxan1dR8gMtw==
-X-Received: by 2002:a05:6870:4210:b0:f3:20cd:7904 with SMTP id
- u16-20020a056870421000b000f320cd7904mr21960509oac.284.1655832896669; 
- Tue, 21 Jun 2022 10:34:56 -0700 (PDT)
+ bh=KUxGvOjzbE+pLKSYI6StCyRo086XpSxbnsss/wkwQrA=;
+ b=6empr8/QTnqaNyzcfwPEvxzlEw9uolu8D7viMTXqzwDgkFVW0W4yPazGDpPm12XrTw
+ 95Q9zO70ut6Wighv3gAVI0+OPiy9RKyTJ9ZqVtRPabInP3Wssr1bkAAsXgqF4aPuNRQd
+ HFn5GqyCwYKCwI0VCi+aRErB8O/2Y9w+On+359x4uima3riH5nYf7GoBSHTktGxM/u1S
+ 3mVno1SJZdqHTCJZ71N2deU0DhC2rLikzzTFwWzZXhf29HUCIH1QOghKJCvQbRA1+NK0
+ IOJWfeEtVlNT1ZCCaAQ2largqLW81/R3KK4JmiSkS4Tfa3B+7uuRL3/lSx6yVHJ+pfPF
+ nsow==
+X-Gm-Message-State: AJIora+0B7Cm3pehU5YFAAShgwmAKJ6UR0z+hLQzbHhCajAXyIR+pqXk
+ X5S3JDuVwrdkGdKqKj/m5HGqh56WF2oqMw==
+X-Google-Smtp-Source: AGRyM1uk24YCwJ6i1T6rj+kW23RzzxpzLibm1AYLNyS8A9UqNikDR8s0/GXh/D06hi3WhcbfKIQBFw==
+X-Received: by 2002:aca:618b:0:b0:32f:3e2c:60d1 with SMTP id
+ v133-20020aca618b000000b0032f3e2c60d1mr14919499oib.123.1655832898680; 
+ Tue, 21 Jun 2022 10:34:58 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z22-20020a056870385600b0010200e2828fsm2886556oal.30.2022.06.21.10.34.54
+ z22-20020a056870385600b0010200e2828fsm2886556oal.30.2022.06.21.10.34.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 10:34:56 -0700 (PDT)
+ Tue, 21 Jun 2022 10:34:58 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v3 7/8] ppc/pnv: remove 'INTERFACE_PCIE_DEVICE' from phb3 root
+Subject: [PATCH v3 8/8] ppc/pnv: remove 'INTERFACE_PCIE_DEVICE' from phb4 root
  bus
-Date: Tue, 21 Jun 2022 14:34:35 -0300
-Message-Id: <20220621173436.165912-8-danielhb413@gmail.com>
+Date: Tue, 21 Jun 2022 14:34:36 -0300
+Message-Id: <20220621173436.165912-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621173436.165912-1-danielhb413@gmail.com>
 References: <20220621173436.165912-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x231.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,27 +92,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 It's unneeded. No other PCIE_BUS implements this interface.
 
 Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-Fixes: 9ae1329ee2fe ("ppc/pnv: Add models for POWER8 PHB3 PCIe Host bridge")
+Fixes: 4f9924c4d4cf ("ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge")
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb3.c | 4 ----
+ hw/pci-host/pnv_phb4.c | 4 ----
  1 file changed, 4 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index afe5698167..d58d3c1701 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -1130,10 +1130,6 @@ static const TypeInfo pnv_phb3_root_bus_info = {
-     .name = TYPE_PNV_PHB3_ROOT_BUS,
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index 725b3d740b..d225ab5b0f 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -1752,10 +1752,6 @@ static const TypeInfo pnv_phb4_root_bus_info = {
+     .name = TYPE_PNV_PHB4_ROOT_BUS,
      .parent = TYPE_PCIE_BUS,
-     .class_init = pnv_phb3_root_bus_class_init,
+     .class_init = pnv_phb4_root_bus_class_init,
 -    .interfaces = (InterfaceInfo[]) {
 -        { INTERFACE_PCIE_DEVICE },
 -        { }
 -    },
  };
  
- static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
+ static void pnv_phb4_root_port_reset(DeviceState *dev)
 -- 
 2.36.1
 
