@@ -2,73 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11212552D6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 10:53:02 +0200 (CEST)
-Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FE1552D6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 10:52:42 +0200 (CEST)
+Received: from localhost ([::1]:60724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Zd7-0007WA-5F
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 04:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33234)
+	id 1o3Zcn-0006ej-8J
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 04:52:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3ZZf-00048k-L7
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 04:49:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25738)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o3Zaq-0004sn-1R; Tue, 21 Jun 2022 04:50:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3ZZd-0007Yi-Go
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 04:49:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655801364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uzvH7LmOBLUNKgik5UC4wg3zpJPHicC/s9WfzEnNpZg=;
- b=HS5bQ15Mf8d7Xbw2hRHkKiPVV/5jfrTIoxprQv9pPRdokFw4Dn1CrHV4ir4s2Qiu7wbu7f
- QeKXWUi6PDnoMRHuf44BHiOx0vehDu1kkD5TawtrLMAna88sk5VwbeKMd6A7JARlua8HmG
- RajzNp8iYBY2zXeaSYCHODmWOvozTwI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-512-jQ-8_d33MQS8_6AinfB7rg-1; Tue, 21 Jun 2022 04:49:23 -0400
-X-MC-Unique: jQ-8_d33MQS8_6AinfB7rg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D13A8185A79C
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:49:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E39D2166B26;
- Tue, 21 Jun 2022 08:49:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 476D121E688E; Tue, 21 Jun 2022 10:49:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Jason Wang
- <jasowang@redhat.com>,  Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [RFC PATCH v3 04/11] qapi: net: add stream and dgram netdevs
-References: <20220620101828.518865-1-lvivier@redhat.com>
- <20220620101828.518865-5-lvivier@redhat.com>
- <874k0fz7gg.fsf@pond.sub.org>
- <7eb9f5a3-5166-ee8d-86f8-1d05770331f6@redhat.com>
-Date: Tue, 21 Jun 2022 10:49:21 +0200
-In-Reply-To: <7eb9f5a3-5166-ee8d-86f8-1d05770331f6@redhat.com> (Laurent
- Vivier's message of "Mon, 20 Jun 2022 19:52:01 +0200")
-Message-ID: <87tu8ev1ta.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o3Zan-00082I-Vo; Tue, 21 Jun 2022 04:50:39 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25L8CCCc026263;
+ Tue, 21 Jun 2022 08:50:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=JDMs0FoGTugkUP0RFvt2lzcW/7xnTqeUgyAnD1EAtyw=;
+ b=bhHXx3G2Cp9gxBgWVNaG5uSnEdu02xblNhOduIdPaNT9Kzp/7TwgACawMlQSgs2FF7ch
+ j85at0ik61l+Xat7R79q9/7QI1cLpIYxmQy4F96xVKA6xNGGMwYwCUhtzBYz5nvGCfth
+ 6F8uasaCAATADLVL0VdbhC+5cItYVnAjSXzNeOuBeqrigeZuMItjX3Ui0cKy23NEp5iz
+ XE3eagqWROHSerQ1S3axpAQQXvw8tjZzNNEGiPdQXL6ayPY8YE81lnjdJYda94sVl/vi
+ FcSIKIV9gurCCitlZ6eW+2Q1qE7IH4IFCEeBlNQUHwUnqiN5MUIak0M1JOx9UR/uzAD6 0A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gua8w114m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 08:50:32 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25L8Cbwt029080;
+ Tue, 21 Jun 2022 08:50:32 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gua8w113e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 08:50:31 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25L8bAKd020870;
+ Tue, 21 Jun 2022 08:50:29 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma02fra.de.ibm.com with ESMTP id 3gs6b8tw6y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 08:50:29 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25L8oQ0l21168498
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Jun 2022 08:50:26 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B3EC111C04C;
+ Tue, 21 Jun 2022 08:50:26 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 53B8911C04A;
+ Tue, 21 Jun 2022 08:50:26 +0000 (GMT)
+Received: from [9.145.155.216] (unknown [9.145.155.216])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 21 Jun 2022 08:50:26 +0000 (GMT)
+Message-ID: <0b7324dc-2c49-2ff5-af5b-2d4cf016fab3@linux.ibm.com>
+Date: Tue, 21 Jun 2022 10:50:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 6/9] ppc/pnv: make pnv_ics_resend() use chip8->phbs[]
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org
+References: <20220618110202.87735-1-danielhb413@gmail.com>
+ <20220618110202.87735-7-danielhb413@gmail.com>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <20220618110202.87735-7-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: zVBUnjQAhdiPtpFx0dSdNuDfLyJbnBff
+X-Proofpoint-ORIG-GUID: G_2xL8j5gl5NFJN1uZQSb8twXzGi1cl_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-21_03,2022-06-17_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 phishscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 mlxlogscore=571 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206210036
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,156 +116,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
 
-> On 20/06/2022 17:21, Markus Armbruster wrote:
->> Laurent Vivier <lvivier@redhat.com> writes:
->> 
->>> Copied from socket netdev file and modified to use SocketAddress
->>> to be able to introduce new features like unix socket.
->>>
->>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
->>> according to the IP address type.
->>> "listen" and "connect" modes are managed by stream netdev. An optional
->>> parameter "server" defines the mode (server by default)
->>>
->>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
->>> ---
 
-[...]
+On 18/06/2022 13:01, Daniel Henrique Barboza wrote:
+> pnv_ics_resend() is scrolling through all the child objects of the chip
+> to search for the PHBs. It's faster and simpler to just use the phbs[]
+> array.
+> 
+> pnv_ics_resend_child() was folded into pnv_ics_resend() since it's too
+> simple to justify its own function.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
 
->>> diff --git a/net/net.c b/net/net.c
->>> index c337d3d753fe..440957b272ee 100644
->>> --- a/net/net.c
->>> +++ b/net/net.c
-> ...
->>> @@ -1612,7 +1617,19 @@ void net_init_clients(void)
->>>    */
->>>   static bool netdev_is_modern(const char *optarg)
->>>   {
->>> -    return false;
->>> +    QDict *args;
->>> +    const char *type;
->>> +    bool is_modern;
->>> +
->>> +    args = keyval_parse(optarg, "type", NULL, NULL);
->>> +    if (!args) {
->>> +        return false;
->>> +    }
->>> +    type = qdict_get_try_str(args, "type");
->>> +    is_modern = !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
->>> +    qobject_unref(args);
->>> +
->>> +    return is_modern;
->>>   }
->> 
->> You could use g_autoptr here:
->> 
->>         g_autoptr(QDict) args = NULL;
->>         const char *type;
->>         bool is_modern;
->> 
->>         args = keyval_parse(optarg, "type", NULL, NULL);
->>         if (!args) {
->>             return false;
->>         }
->>         type = qdict_get_try_str(args, "type");
->>         return !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
->> 
->> Matter of taste; you decide.
->
-> Looks good. We already had some series to convert existing code to g_autoptr(), so it 
-> seems the way to do.
->
->> 
->> Now recall how this function is used: it decides whether to parse the
->> modern way (with qobject_input_visitor_new_str()) or the traditional way
->> (with qemu_opts_parse_noisily()).
->> 
->> qemu_opts_parse_noisily() parses into a QemuOpts, for later use with the
->> opts visitor.
->> 
->> qobject_input_visitor_new_str() supports both dotted keys and JSON.  The
->> former is parsed with keyval_parse(), the latter with
->> qobject_from_json().  It returns the resulting parse tree wrapped in a
->> suitable QAPI input visitor.
->> 
->> Issue 1: since we get there only when keyval_parse() succeeds, JSON is
->> unreachable.  Reproducer:
->> 
->>      $ qemu-system-x86_64 -netdev '{"id":"foo"}'
->>      upstream-qemu: -netdev {"id":"foo"}: Parameter 'id' is missing
->> 
->> This is parsed with qemu_opts_parse_noisily(), resulting in a QemuOpts
->> with a single option 'type' with value '{"id":"foo"}'.  The error
->> message comes from the opts visitor.
->> 
->> To fix this, make netdev_is_modern() return true when optarg[0] == '{'.
->> This matches how qobject_input_visitor_new_str() recognizes JSON.
->
-> OK
->
->> 
->> Issue 2: when keyval_parse() detects an error, we throw it away and fall
->> back to QemuOpts.  This is commonly what we want.  But not always.  For
->> instance:
->> 
->>      $ qemu-system-x86_64 -netdev 'type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off'
->> 
->> Note the typo "ipv4-off" instead of ipv4=off.  The error reporting is crap:
->> 
->>      qemu-system-x86_64: -netdev type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off: warning: short-form boolean option 'addr.ipv4-off' deprecated
->>      Please use addr.ipv4-off=on instead
->>      qemu-system-x86_64: -netdev type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off: Parameter 'type' is missing
->> 
->> We get this because netdev_is_modern() guesses wrongly: keyval_parse()
->> fails with the perfectly reasonable error message "Expected '=' after
->> parameter 'addr.ipv4-off'", but netdev_is_modern() ignores the error,
->> and fails.  We fall back to QemuOpts, and confusion ensues.
->> 
->> I'm not sure we can do much better with reasonable effort.  If we decide
->> to accept this behavior, it should be documented at least in the source
->> code.
->
-> What about using modern syntax by default?
->
->      args = keyval_parse(optarg, "type", NULL, NULL);
->      if (!args) {
->          /* cannot detect the syntax, use new style syntax */
->          return true;
->      }
 
-As is, netdev_is_modern() has three cases:
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
 
-1. keyval_parse() fails
+   Fred
 
-2. keyval_parse() succeeds, but value of @type is not modern
-
-3. keyval_parse() succeeds, and value of @type is modern
-
-In case 3. we're sure, because even if qemu_opts_parse_noisily() also
-succeeded, it would result in the same value of @type.
-
-In case 2, assuming traditional seems reasonable.  The assumption can be
-wrong when the user intends modern, but fat-fingers the type=T part.
-
-In case 1, we know nothing.
-
-Guessing modern is wrong when the user intends traditional.  This
-happens when a meant-to-be-traditional @optarg also parses as modern.
-Quite possible.
-
-Guessing traditional is wrong when the user intends modern.  This
-happens when a meant-to-be-modern @optarg fails to parse as modern,
-i.e. whenever the user screws up modern syntax.
-
-Which guess is less bad?  I'm not sure.  Thoughts?
-
-Note that additionally checking whether qemu_opts_parse() succeeds would
-be next to useless, since qemu_opts_parse() accepts pretty much
-anything.
-
-[...]
-
+>   hw/ppc/pnv.c | 22 ++++++++--------------
+>   1 file changed, 8 insertions(+), 14 deletions(-)
+> 
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index ff7f803662..08136def8e 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1979,28 +1979,22 @@ PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
+>       return NULL;
+>   }
+>   
+> -static int pnv_ics_resend_child(Object *child, void *opaque)
+> -{
+> -    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
+> -
+> -    if (phb3) {
+> -        ics_resend(&phb3->lsis);
+> -        ics_resend(ICS(&phb3->msis));
+> -    }
+> -    return 0;
+> -}
+> -
+>   static void pnv_ics_resend(XICSFabric *xi)
+>   {
+>       PnvMachineState *pnv = PNV_MACHINE(xi);
+> -    int i;
+> +    int i, j;
+>   
+>       for (i = 0; i < pnv->num_chips; i++) {
+> -        PnvChip *chip = pnv->chips[i];
+>           Pnv8Chip *chip8 = PNV8_CHIP(pnv->chips[i]);
+>   
+>           ics_resend(&chip8->psi.ics);
+> -        object_child_foreach(OBJECT(chip), pnv_ics_resend_child, NULL);
+> +
+> +        for (j = 0; j < chip8->num_phbs; j++) {
+> +            PnvPHB3 *phb3 = &chip8->phbs[j];
+> +
+> +            ics_resend(&phb3->lsis);
+> +            ics_resend(ICS(&phb3->msis));
+> +        }
+>       }
+>   }
+>   
 
