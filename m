@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E4F553547
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:10:51 +0200 (CEST)
-Received: from localhost ([::1]:36762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D73553591
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:12:18 +0200 (CEST)
+Received: from localhost ([::1]:38792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3fWk-0006Hl-2Y
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:10:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55992)
+	id 1o3fY8-0007m9-Hh
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fTf-00035i-J1
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:07:39 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:35568)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fTd-0002w7-OA
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:07:39 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id t1so24964954ybd.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Bh/+VgyEnBAWXbPoCZemyEMFawVlEjneAZ1GLT2QwAc=;
- b=gP2QiuZEld2I7sJJSqftPluo42pEYx4HCOLX9OGrOQsvdJhNIZEPFnVgGeJSRC7KHP
- XisHx25p6J5buEmHaH4eAsA1fI7PJQfP4Rtzp+jGei6aU1+x4IjuEl/TcNYUbo1p0RXM
- ol1dhBBfWXnru7luoCUZQk5TZyWMhG3LMxJ7L4pzbnbeyYHygTmWUUHv2azBPgcR977y
- j0cMx6eYyC8FkZEBnEYe7Hudi4sLjc08ktIc/EM3njn4SeGa8BgHoMnX4HOtJbXvItEh
- KlxSiOZu6CvEIIyIfFOiEyb3hbXZ4/ebWZPvGU9VSaw2kqedQFVSw/nrWj0UDFRyXSIn
- ZLYQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o3fVJ-0005Yi-00
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:09:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o3fVE-00034I-L9
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:09:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655824155;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NK2kJ0dyb6gOSpKHYB9QxZlWRsDfXaCaFXkqObXQjTI=;
+ b=Jd/y/a5DVuMXiv8mP8cjsOIgWJhHmjC6p3ROZJzKeJ8QpXEmsQCYYx7uGj54BRPl0BOj0M
+ RIQ/UrFgIcgg1PhNN1JUMcSf16B/GGZyhpbPNE6vhCIpyK/YbP7JlK/LPuj1TSbpYarBB1
+ br5a59YeFD+JBUHlwSwqKLaA9h+Ml+Y=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-638-58P96rd1PYOeAJG_wAOCdw-1; Tue, 21 Jun 2022 11:09:14 -0400
+X-MC-Unique: 58P96rd1PYOeAJG_wAOCdw-1
+Received: by mail-il1-f197.google.com with SMTP id
+ k8-20020a056e02156800b002d91998aef7so2961457ilu.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:09:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Bh/+VgyEnBAWXbPoCZemyEMFawVlEjneAZ1GLT2QwAc=;
- b=SyVbVCSS0flCuGHmzUt6hzlqLXZF5RJkSaWXDvm9IQMvcr3ZORZ9JVzXntaLqqp2Ux
- UzYYPnHT9w+gNCDtf5j+vtXp8Rs6IhHJr/u76e6ah24i3fXoZYCtsDVjhkA1MNmzP5/S
- k55N1HH9t5Q9yGBspEvl3Bs7b8aWUlH+q7vg0dJO6oEZUmQYpCYSJA99I7HEe7aQskfV
- lLQbcDAFzqf7Bt9U8uE4wC/E5SkcYc0x1+SyGcMjz+GfI2af1PkcZ2ibYUkdmwyxJ6k7
- zH87228WFqcieBfn5RsrSKO/w1f9AOoSHQ93eJyiNyFuvxQOuzigsYUqh1a/9dgaewwZ
- +RHg==
-X-Gm-Message-State: AJIora+3OSRMaT+cCWWy2zfOxC7RHafwhhme3y0TN74WBU9AoQekifgn
- OR6sOE/ZPhAQ6bQIp9qSJICDzqnVcBLuKXxuTaN2Ow==
-X-Google-Smtp-Source: AGRyM1sjyEU9DCWKDYpzFAuuXwSvs6TM6+iu9mFVSpoZ3bJXP/4pXuNzH340lwrwNo2nKzN5YK0rYo+FC+CujiZsi0s=
-X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
- t18-20020a5b0dd2000000b00668fc4a9403mr13587391ybr.39.1655824052548; Tue, 21
- Jun 2022 08:07:32 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NK2kJ0dyb6gOSpKHYB9QxZlWRsDfXaCaFXkqObXQjTI=;
+ b=mVxPnaWnPc+uPbSqwc7s45m9C1EplF3rLVOo0D3EOfpTektQIoeZDkv6S8wVFGZPd3
+ RoAbE3Vnrx/KS7TBeTJ6wEacs9w4HYny+WF7N1yj3ttN9K+/5dz7jB6VVIVyn5tfJKSN
+ BbXlwQIEBGiGld8Br0xoifO+zuKbljbTR0H8nhdWHoEN/7JxpJgluXIPtkQ7N7JF6iTu
+ NWLv7iIGbK4poUDzzeWfcUXUgeyKNx+uK+y21r1/rutZuqMtqHdyCgdqvd7LhN/7sves
+ qJCYN5L8pkLP5KslhAomy7pKjQTVmTbd84HB5+P7cWJMmDsdPTcP2oyQDoMs9OtCMCfY
+ /N2g==
+X-Gm-Message-State: AJIora/tt3uDGM90uO5qDj4INM32kIh++rJ4f2GxeIG//JhoK42sbb/o
+ 4RTYpDlhnRc3tV+9UTkYau5hbpQqDTb5H8b2Vk3aJbjycnnSg6aePx6lECqL26I+vAzOPaJ9f34
+ h++/f3Js25FSEdP8=
+X-Received: by 2002:a5d:83c7:0:b0:66c:cc68:2f2d with SMTP id
+ u7-20020a5d83c7000000b0066ccc682f2dmr13742453ior.74.1655824153600; 
+ Tue, 21 Jun 2022 08:09:13 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vFEaNGuEm7Hv6BIJCKuMqbsbvW4X+36XVxTKiB3kZ4SOaFvHaLp/HmDK0vzTYX5s2awqfmrA==
+X-Received: by 2002:a5d:83c7:0:b0:66c:cc68:2f2d with SMTP id
+ u7-20020a5d83c7000000b0066ccc682f2dmr13742439ior.74.1655824153354; 
+ Tue, 21 Jun 2022 08:09:13 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ k12-20020a92c9cc000000b002d9257d3eefsm1361638ilq.71.2022.06.21.08.09.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jun 2022 08:09:12 -0700 (PDT)
+Date: Tue, 21 Jun 2022 11:09:10 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: Leonardo =?utf-8?B?QnLDoXM=?= <leobras@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 3/4] migration: zero-copy flush only at the end of
+ bitmap scanning
+Message-ID: <YrHfFiFbk+s13Zqg@xz-m1.local>
+References: <20220620053944.257547-1-leobras@redhat.com>
+ <20220620053944.257547-4-leobras@redhat.com>
+ <87wndb4riu.fsf@secure.mitica> <YrCV089JKhc067sm@xz-m1.local>
+ <7fbc118dedbaf7d01dd72220255affc98abffc9d.camel@redhat.com>
+ <875ykuvzlw.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20220615163846.313229-1-richard.henderson@linaro.org>
- <CAFEAcA9FvaJKD4=jBuWijd3ym1+aj=RJfr=7mugrFTLMCEfq+A@mail.gmail.com>
- <fa9f1337-e294-524c-5988-188b503171fc@linaro.org>
-In-Reply-To: <fa9f1337-e294-524c-5988-188b503171fc@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jun 2022 16:06:55 +0100
-Message-ID: <CAFEAcA_ndXgKWCTfMDxZoEDV43xBZ_SL4AQwqzCSukhwvEctbw@mail.gmail.com>
-Subject: Re: [PATCH] softmmu: Always initialize xlat in
- address_space_translate_for_iotlb
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <875ykuvzlw.fsf@secure.mitica>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,62 +106,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Jun 2022 at 17:54, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 6/20/22 05:52, Peter Maydell wrote:
-> > On Wed, 15 Jun 2022 at 17:43, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> The bug is an uninitialized memory read, along the translate_fail
-> >> path, which results in garbage being read from iotlb_to_section,
-> >> which can lead to a crash in io_readx/io_writex.
-> >>
-> >> The bug may be fixed by writing any value with zero
-> >> in ~TARGET_PAGE_MASK, so that the call to iotlb_to_section using
-> >> the xlat'ed address returns io_mem_unassigned, as desired by the
-> >> translate_fail path.
-> >>
-> >> It is most useful to record the original physical page address,
-> >> which will eventually be logged by memory_region_access_valid
-> >> when the access is rejected by unassigned_mem_accepts.
-> >>
-> >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1065
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>   softmmu/physmem.c | 3 +++
-> >>   1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> >> index 657841eed0..fb0f0709b5 100644
-> >> --- a/softmmu/physmem.c
-> >> +++ b/softmmu/physmem.c
-> >> @@ -681,6 +681,9 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
-> >>       AddressSpaceDispatch *d =
-> >>           qatomic_rcu_read(&cpu->cpu_ases[asidx].memory_dispatch);
-> >>
-> >> +    /* Record the original phys page for use by the translate_fail path. */
-> >> +    *xlat = addr;
-> >
-> > There's no doc comment for address_space_translate_for_iotlb(),
-> > so there's nothing that says explicitly that addr is obliged
-> > to be page aligned, although it happens that its only caller
-> > does pass a page-aligned address. Were we already implicitly
-> > requiring a page-aligned address here, or does not masking
-> > addr before assigning to *xlat impose a new requirement ?
->
-> I have no idea.  The whole lookup process is both undocumented and twistedly complex.  I'm
-> willing to add an extra masking operation here, if it seems necessary?
+On Tue, Jun 21, 2022 at 04:51:39PM +0200, Juan Quintela wrote:
+> > IIRC, the kernel will fall back to copying only if the network adapter / driver
+> > does not support MSG_ZEROCOPY, like when it does not support scatter-gather.
+> 
+> My understanding is that it will fallback when you have too much stuff
+> inflight.
 
-I think we should do one of:
- * document that we assume the address is page-aligned
- * assert that the address is page-aligned
- * mask to force it to page-alignedness
+I think we'd better figure this out soon, because if so then IMHO we can't
+simply fail the migration when the fallback happens..  If we're not sure
+about that, we can always be on the safe side to dump an error only.
 
-but I much don't care which one of those we do. Maybe we should
-assert((*xlat & ~TARGET_PAGE_MASK) == 0) at the translate_fail
-label, with a suitable comment ?
+-- 
+Peter Xu
 
-thanks
--- PMM
 
