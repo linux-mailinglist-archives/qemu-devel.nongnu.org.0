@@ -2,94 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13B0553515
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:59:35 +0200 (CEST)
-Received: from localhost ([::1]:44396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004425534EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:51:12 +0200 (CEST)
+Received: from localhost ([::1]:34496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3fLq-0000UC-NU
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
+	id 1o3fDk-0001he-2n
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o3f5O-0003z9-Js
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:42:36 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o3f59-0006h9-H8
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:42:34 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25LEEW6g010299;
- Tue, 21 Jun 2022 14:42:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=xSAMTVU0c3HD1ZvHyf6K9wyzVblK+6qj+mQoc1iJyh4=;
- b=fekT6LvmXCMrUZ1Sk68KSKEPdPS4DG3XqOKJhriKZIYNkhtZ4YKWHCj7qhPUCA/ed30N
- DtTA6zW0na2J++ALa3xUph7Q/COqPsx6HtwnZJ1g2Ac8fKbNNfL9pqoIZFx9MKkb+D1n
- rWwhdXhHckO5MXr8BRvvUjJLXJwrO1expWe1Hk0vgUxMsTUsi76M856BZfTjnE4D1o6E
- efaep0CPo+zmsasSl1GVCzOtt0379lIIbA0Qlefod3rB7Fcn+acSgFpvpTQUSeLVwTe3
- +OooWl7SO6xt52+HOlE+RIwCk8sB5zu3ocSLWA1PbSQ4nA45TaRGfMAVsoB4GIpn5Gpq dA== 
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gufjxs2fu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jun 2022 14:42:16 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25LELJCI027725;
- Tue, 21 Jun 2022 14:42:14 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04fra.de.ibm.com with ESMTP id 3gs6b8u9km-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jun 2022 14:42:14 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25LEgBKw23068932
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 21 Jun 2022 14:42:11 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E88A74C046;
- Tue, 21 Jun 2022 14:42:10 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7BF084C044;
- Tue, 21 Jun 2022 14:42:10 +0000 (GMT)
-Received: from heavy.ibmuc.com (unknown [9.171.12.179])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 21 Jun 2022 14:42:10 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Simon Hausmann <Simon.Hausmann@qt.io>, Chris Fallin <chris@cfallin.org>,
- Ulrich Weigand <ulrich.weigand@de.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2] linux-user: Add partial support for MADV_DONTNEED
-Date: Tue, 21 Jun 2022 16:42:05 +0200
-Message-Id: <20220621144205.158452-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GmkOA3c1KBUKdikGlz54lJrm7shhqtHc
-X-Proofpoint-ORIG-GUID: GmkOA3c1KBUKdikGlz54lJrm7shhqtHc
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3fBO-0000ED-V9
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:48:47 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:44641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3fBN-0007hl-Fs
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:48:46 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ h34-20020a17090a29a500b001eb01527d9eso12783698pjd.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=IZfNAPKIr7X318WBXQpNaogy4UgSPXgzIRd3gAus38k=;
+ b=vSvGBE8jE+FZ4FN7N04TCGSQX7sx0aITniOrXc9nqtFz6tJ+G6+Mn7nedXYsLEBV06
+ EYZZsnr4CEnriChoUGMvoBzJEgOrOKQptV4tPpatsxwHgPb68NPdA492XC7MPnzyWoWD
+ IZJuYjfOCe2mGHfu6aabLd5HYhu5R7FgOYYmZlhY0QBG3Fmx0/FSVnP06UQhtCNe/jx4
+ /mGRKv6ijjkThepniHXSqm7YdHxLzETNtqWH6GylPaqhgcfipeimUr3kZ9XHDL/XItyx
+ D+VUx5UJbaM1LOr/ikm7u9/aBOXs1OplD8odnsxAc7CdhI3dTZBwBOGtSc5PTdo2nvY+
+ 2tEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IZfNAPKIr7X318WBXQpNaogy4UgSPXgzIRd3gAus38k=;
+ b=Z2roy6MnFJJYTWLMvMv19BkNSaD8W446IgSh3Du/V19LFbxgSV2neYvNgIKKnfdkp8
+ H43q/JEDzsBS30FL21EDoKdEGJjPwdAAI1BNSKPQB2CLL4WqmfeOdQSWdyxGdxd7+Zjj
+ lVVDQzFOF1rhFSJsNKjFbQpsd59nrbIBguSCFn0/AmIjrTRa7u2isCIAkRhaJ9Uashu8
+ f+vGdnn8yJwcH8ywMqccyj1X7OamW2msNe8ujZGCrEX+K5zIvU4pNvzWZ+3bKAMOmIqr
+ dswR+NK621yH/SeFXczFFN/fajVo8h5Gcfmg/2ePa0ANu2h5r2wZ/aDVsoHYJiAlPOzh
+ C41A==
+X-Gm-Message-State: AJIora8+KJTziI+FqJMhvxOZXJ3gQ6TQOcRWOq4ZB+tafkkLTfzXTuhY
+ c/yTSEzHlOMK37r//RiyHaMIcw==
+X-Google-Smtp-Source: AGRyM1s+yxvGB+ITzsAudt7vkNZFjocA975seDihsmcpHoq09Z7R+yP3+w5VQveA9ZzBCdCdXVraNg==
+X-Received: by 2002:a17:90b:3b44:b0:1ec:d7a8:7528 with SMTP id
+ ot4-20020a17090b3b4400b001ecd7a87528mr1142554pjb.231.1655822923537; 
+ Tue, 21 Jun 2022 07:48:43 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:8adc:a144:6ec2:4d71?
+ ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
+ by smtp.gmail.com with ESMTPSA id
+ a2-20020a624d02000000b0051e7b6ec81dsm11444921pfb.108.2022.06.21.07.48.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jun 2022 07:48:43 -0700 (PDT)
+Message-ID: <8c391d14-5743-1a6a-f34e-a209ffb0ba46@linaro.org>
+Date: Tue, 21 Jun 2022 07:48:41 -0700
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-21_07,2022-06-21_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 clxscore=1015 mlxlogscore=999 priorityscore=1501 bulkscore=0
- malwarescore=0 impostorscore=0 mlxscore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206210063
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/6] pc-bios/optionrom: use -m16 unconditionally
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220621075147.36297-1-pbonzini@redhat.com>
+ <20220621075147.36297-2-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220621075147.36297-2-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,162 +94,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently QEMU ignores madvise(MADV_DONTNEED), which break apps that
-rely on this for zeroing out memory [1]. Improve the situation by doing
-a passthrough when the range in question is a host-page-aligned
-anonymous mapping.
+On 6/21/22 00:51, Paolo Bonzini wrote:
+> Remove support for .code16gcc, all supported platforms have -m16.
+> 
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   pc-bios/optionrom/Makefile    | 15 +--------------
+>   pc-bios/optionrom/code16gcc.h |  3 ---
+>   2 files changed, 1 insertion(+), 17 deletions(-)
+>   delete mode 100644 pc-bios/optionrom/code16gcc.h
 
-This is based on the patches from Simon Hausmann [2] and Chris Fallin
-[3]. The structure is taken from Simon's patch. The PAGE_MAP_ANONYMOUS
-bits are superseded by commit 26bab757d41b ("linux-user: Introduce
-PAGE_ANON"). In the end the patch acts like the one from Chris: we
-either pass-through the entire syscall, or do nothing, since doing this
-only partially would not help the affected applications much. Finally,
-add some extra checks to match the behavior of the Linux kernel [4].
+It was a bit dicey using .code16gcc behind the compiler's back anyway.
 
-[1] https://gitlab.com/qemu-project/qemu/-/issues/326
-[2] https://patchew.org/QEMU/20180827084037.25316-1-simon.hausmann@qt.io/
-[3] https://github.com/bytecodealliance/wasmtime/blob/v0.37.0/ci/qemu-madvise.patch
-[4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/madvise.c?h=v5.19-rc3#n1368
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
----
-
-v1: https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg03572.html
-v1 -> v2:
-* Make get_errno() extern.
-* Simplify errno handling (Laurent).
-
- linux-user/mmap.c           | 64 +++++++++++++++++++++++++++++++++++++
- linux-user/syscall.c        |  8 ++---
- linux-user/user-internals.h |  1 +
- linux-user/user-mmap.h      |  1 +
- 4 files changed, 68 insertions(+), 6 deletions(-)
-
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 48e1373796..4e7a6be6ee 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -835,3 +835,67 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-     mmap_unlock();
-     return new_addr;
- }
-+
-+static bool can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
-+{
-+    ulong addr;
-+
-+    if ((start | end) & ~qemu_host_page_mask) {
-+        return false;
-+    }
-+
-+    for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
-+        if (!(page_get_flags(addr) & PAGE_ANON)) {
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
-+
-+abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
-+{
-+    abi_ulong len, end;
-+    int ret = 0;
-+
-+    if (start & ~TARGET_PAGE_MASK) {
-+        return -TARGET_EINVAL;
-+    }
-+    len = TARGET_PAGE_ALIGN(len_in);
-+
-+    if (len_in && !len) {
-+        return -TARGET_EINVAL;
-+    }
-+
-+    end = start + len;
-+    if (end < start) {
-+        return -TARGET_EINVAL;
-+    }
-+
-+    if (end == start) {
-+        return 0;
-+    }
-+
-+    if (!guest_range_valid_untagged(start, len)) {
-+        return -TARGET_EINVAL;
-+    }
-+
-+    /*
-+     * A straight passthrough may not be safe because qemu sometimes turns
-+     * private file-backed mappings into anonymous mappings.
-+     *
-+     * This is a hint, so ignoring and returning success is ok.
-+     *
-+     * This breaks MADV_DONTNEED, completely implementing which is quite
-+     * complicated. However, there is one low-hanging fruit: host-page-aligned
-+     * anonymous mappings. In this case passthrough is safe, so do it.
-+     */
-+    mmap_lock();
-+    if ((advice & MADV_DONTNEED) &&
-+        can_passthrough_madv_dontneed(start, end)) {
-+        ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
-+    }
-+    mmap_unlock();
-+
-+    return ret;
-+}
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f55cdebee5..8f68f255c0 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -538,7 +538,7 @@ static inline int target_to_host_errno(int target_errno)
-     }
- }
- 
--static inline abi_long get_errno(abi_long ret)
-+abi_long get_errno(abi_long ret)
- {
-     if (ret == -1)
-         return -host_to_target_errno(errno);
-@@ -11807,11 +11807,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
- 
- #ifdef TARGET_NR_madvise
-     case TARGET_NR_madvise:
--        /* A straight passthrough may not be safe because qemu sometimes
--           turns private file-backed mappings into anonymous mappings.
--           This will break MADV_DONTNEED.
--           This is a hint, so ignoring and returning success is ok.  */
--        return 0;
-+        return target_madvise(arg1, arg2, arg3);
- #endif
- #ifdef TARGET_NR_fcntl64
-     case TARGET_NR_fcntl64:
-diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
-index 6175ce53db..0280e76add 100644
---- a/linux-user/user-internals.h
-+++ b/linux-user/user-internals.h
-@@ -65,6 +65,7 @@ abi_long do_syscall(CPUArchState *cpu_env, int num, abi_long arg1,
-                     abi_long arg8);
- extern __thread CPUState *thread_cpu;
- G_NORETURN void cpu_loop(CPUArchState *env);
-+abi_long get_errno(abi_long ret);
- const char *target_strerror(int err);
- int get_osversion(void);
- void init_qemu_uname_release(void);
-diff --git a/linux-user/user-mmap.h b/linux-user/user-mmap.h
-index d1dec99c02..480ce1c114 100644
---- a/linux-user/user-mmap.h
-+++ b/linux-user/user-mmap.h
-@@ -25,6 +25,7 @@ int target_munmap(abi_ulong start, abi_ulong len);
- abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-                        abi_ulong new_size, unsigned long flags,
-                        abi_ulong new_addr);
-+abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice);
- extern unsigned long last_brk;
- extern abi_ulong mmap_next_start;
- abi_ulong mmap_find_vma(abi_ulong, abi_ulong, abi_ulong);
--- 
-2.35.3
-
+r~
 
