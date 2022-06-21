@@ -2,106 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9861C552F73
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 12:08:26 +0200 (CEST)
-Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0321552F8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 12:17:15 +0200 (CEST)
+Received: from localhost ([::1]:47964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ao5-0008SP-N9
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 06:08:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46070)
+	id 1o3awc-0003ss-DN
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 06:17:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1o3afr-0007UR-Td; Tue, 21 Jun 2022 05:59:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52934
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1)
+ (envelope-from <prvs=16408edfd=anthony.perard@citrix.com>)
+ id 1o3avB-0002VC-M0; Tue, 21 Jun 2022 06:15:45 -0400
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:13246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1o3afq-00011F-86; Tue, 21 Jun 2022 05:59:55 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25L9iDSD001881;
- Tue, 21 Jun 2022 09:59:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=96JJ5yLbcImjxw3vX70+OTqVoqhsu+B1GB3UJuuf62o=;
- b=UGaowMs6gHOAHowYW668JLn65eUX5xqdPVVY3L98rOek7REzzbQ394YtEnboy+0HfG6R
- 8qWLZltg79MF9ztiLXiRbqkBRGc6Zq5oLzn+r4wa317YzNZuY30OxYIrTcNGiJh1so1R
- mKLLW8WUN74frL8uAK1KhLB3FvB3/g0QmhQxeEfd6i+cuQmQW6niwcTNJXGDp4/jpopW
- /gGN31sKca98B3yc8MjgyGCxTSJQSuDzYqUnXSBfVWoN/ie0RohHVCP5RVhqGs2w2Ibe
- z4RHue5zdRwLGyTvsqbUNt5RBSMEWYj/dxpx49HmTN9vrMALHf5mOiV16hHmxFJYQGXh jQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gubm3gb48-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jun 2022 09:59:44 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25L9wa8W031331;
- Tue, 21 Jun 2022 09:59:44 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gubm3gb3q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jun 2022 09:59:44 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25L9qCkd032492;
- Tue, 21 Jun 2022 09:59:42 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 3gs6b93syg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jun 2022 09:59:42 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25L9xdZ421758446
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 21 Jun 2022 09:59:40 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E2C6811C04C;
- Tue, 21 Jun 2022 09:59:39 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9468211C04A;
- Tue, 21 Jun 2022 09:59:39 +0000 (GMT)
-Received: from [9.145.155.216] (unknown [9.145.155.216])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 21 Jun 2022 09:59:39 +0000 (GMT)
-Message-ID: <ce768474-4da6-68b8-67bf-5cd17ee63f6c@linux.ibm.com>
-Date: Tue, 21 Jun 2022 11:59:39 +0200
+ (Exim 4.90_1)
+ (envelope-from <prvs=16408edfd=anthony.perard@citrix.com>)
+ id 1o3av9-0003eW-5I; Tue, 21 Jun 2022 06:15:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1655806543;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QcSpgKS225JamIFv9EzQROZ047pLLv+YqmxHeJjalYQ=;
+ b=CHdOSs0HPhcuFBIlcoC+UtiNTZl9b9GRn9yygo864QiZjgRT6fI/huyC
+ Q12zLHCNBeneeaYCpWjHTxy6jp1W1j1xmQUH3LcrLM90nWiZLHZ0EAh10
+ 3R+CphAtC9O7IHgyTz4NtHVPFTVbQEyVqkDNclfQ4llNOye6zQ3VcNbyY w=;
+Authentication-Results: esa1.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 5.1
+X-MesageID: 74479126
+X-Ironport-Server: esa1.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:Cy6BZa5aSvgBW2sqn/pT8QxRtCLHchMFZxGqfqrLsTDasY5as4F+v
+ jQdWD/Xb/yDYGXweN9+bN+yo0hUv8WEndBqSQNuryhkHi5G8cbLO4+Ufxz6V8+wwmwvb67FA
+ +E2MISowBUcFyeEzvuVGuG96yE6j8lkf5KkYAL+EnkZqTRMFWFw03qPp8Zj2tQy2YbjWlvU0
+ T/Pi5a31GGNimYc3l08s8pvmDs31BglkGpF1rCWTakjUG72zxH5PrpGTU2CByKQrr1vNvy7X
+ 47+IISRpQs1yfuP5uSNyd4XemVSKlLb0JPnZnB+A8BOiTAazsA+PzpS2FPxpi67hh3Q9+2dx
+ umhurThd1gmF7LVmdgaXkRUTx9iZJdL27b+dC3XXcy7lyUqclPpyvRqSko3IZcZ6qB8BmQmG
+ f4wcW5XKErZ3qTvnez9GrIEascLdaEHOKsWvG1gyjfIS+4rW5nZT43B5MNC3Sd2jcdLdRrbT
+ 5VFNWU+NU6eC/FJEnwRWMoVsuuKvEvUcwII73iwmq0bvGeGmWSd15CyaYGIK7RmX/59h0udu
+ yfa5WXnAxgeHNqYzzWD7zSrnOCntTjgRIsYGbm89/hrqF6e3GoeDFsRT1TTieGwl0qWS99Zb
+ UsO9UIGp7I59FGgTcvVVhq85nWDu3Y0QtdVDqg25R+AzoLS5ACWAHVCSSROAPQ2uclzSTE02
+ 1uhm9LyGScpoLCTUWia9LqfsXW1Iyd9EIMZTXZaF01fuYCl+dxtyEKUJjp+LEKrpozLRj7Z3
+ CmLkC8z2rlPs9JS7aiY9GmS1lpAuaP1oh4JChT/Bzz4s1wmOd77OORE+nCAs68ecd/xok2p+
+ SFdxpPAtL1m4YSlznTlfQkbIF2+Cx9p2hX4iEUnIZQu/i/FF5WLLdEJu2EWyKuE3685ld7Vj
+ Kz741o5CGd7ZifCUEOOS9vZ5z4W5abhD8/5cfvfc8BDZJN8HCfeonwzOhPIhz+3yRlz+U3aB
+ Xt8WZ/0ZUv29Iw9lGbmLwvj+eRDKt8CKZP7GsmgkkXPPUu2b3+JU7YVWGazghQCxPrc+m39q
+ o8HX+PTkkU3eLCvOUH/rN9MRW3m2FBmXPgaXeQMLr7dSuencUl8Y8LsLUQJIdc6xP4KzLmWo
+ xlQmCZwkTLCuJEOEi3SAlgLVV8ldcwnxZ7nFUTA5WqV5kU=
+IronPort-HdrOrdr: A9a23:7qOdMqH/+cPYMaaRpLqE6MeALOsnbusQ8zAXP0AYc3Jom+ij5q
+ STdZUgpHrJYVkqNU3I9ertBEDEewK6yXcX2/hyAV7BZmnbUQKTRekIh7cKgQeQeBEWntQts5
+ uIGJIeNDSfNzdHsfo=
+X-IronPort-AV: E=Sophos;i="5.92,209,1650945600"; d="scan'208";a="74479126"
+Date: Tue, 21 Jun 2022 11:15:05 +0100
+To: Chuck Zmudzinski <brchuckz@aol.com>
+CC: <qemu-devel@nongnu.org>, <xen-devel@lists.xenproject.org>,
+ <qemu-trivial@nongnu.org>, Stefano Stabellini <sstabellini@kernel.org>, Paul
+ Durrant <paul@xen.org>
+Subject: Re: [PATCH v2] xen/pass-through: don't create needless register group
+Message-ID: <YrGaKdx+af+7g2HY@perard.uk.xensource.com>
+References: <4d4b58473beb0565876687e9d8a53b76a7cf3fbb.1655490576.git.brchuckz.ref@aol.com>
+ <4d4b58473beb0565876687e9d8a53b76a7cf3fbb.1655490576.git.brchuckz@aol.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 9/9] ppc/pnv: remove 'INTERFACE_PCIE_DEVICE' from phb4
- root bus
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220618110202.87735-1-danielhb413@gmail.com>
- <20220618110202.87735-10-danielhb413@gmail.com>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220618110202.87735-10-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: fQtUE-Z9YN0817NX5XtlT0QtOVAHurad
-X-Proofpoint-GUID: iB6ysvz1h5qlVoSoHoTr1D8utVDfMJwi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-21_04,2022-06-17_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
- priorityscore=1501 adultscore=0 spamscore=0 bulkscore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206210041
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <4d4b58473beb0565876687e9d8a53b76a7cf3fbb.1655490576.git.brchuckz@aol.com>
+Received-SPF: pass client-ip=216.71.145.142;
+ envelope-from=prvs=16408edfd=anthony.perard@citrix.com;
+ helo=esa1.hc3370-68.iphmx.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,38 +92,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-
-
-On 18/06/2022 13:02, Daniel Henrique Barboza wrote:
-> It's unneeded. No other PCIE_BUS implements this interface.
+On Fri, Jun 17, 2022 at 03:13:33PM -0400, Chuck Zmudzinski wrote:
+> Currently we are creating a register group for the Intel IGD OpRegion
+> for every device we pass through, but the XEN_PCI_INTEL_OPREGION
+> register group is only valid for an Intel IGD. Add a check to make
+> sure the device is an Intel IGD and a check that the administrator has
+> enabled gfx_passthru in the xl domain configuration. Require both checks
+> to be true before creating the register group. Use the existing
+> is_igd_vga_passthrough() function to check for a graphics device from
+> any vendor and that the administrator enabled gfx_passthru in the xl
+> domain configuration, but further require that the vendor be Intel,
+> because only Intel IGD devices have an Intel OpRegion. These are the
+> same checks hvmloader and libxl do to determine if the Intel OpRegion
+> needs to be mapped into the guest's memory. Also, move the comment
+> about trapping 0xfc for the Intel OpRegion where it belongs after
+> applying this patch.
 > 
-> Fixes: 4f9924c4d4cf ("ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge")
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
+> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
 
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Thanks,
 
-   Fred
-
-
->   hw/pci-host/pnv_phb4.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 61b45fe33c..81f7c1fe8f 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1751,10 +1751,6 @@ static const TypeInfo pnv_phb4_root_bus_info = {
->       .name = TYPE_PNV_PHB4_ROOT_BUS,
->       .parent = TYPE_PCIE_BUS,
->       .class_init = pnv_phb4_root_bus_class_init,
-> -    .interfaces = (InterfaceInfo[]) {
-> -        { INTERFACE_PCIE_DEVICE },
-> -        { }
-> -    },
->   };
->   
->   static void pnv_phb4_root_port_reset(DeviceState *dev)
+-- 
+Anthony PERARD
 
