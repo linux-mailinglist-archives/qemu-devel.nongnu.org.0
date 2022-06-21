@@ -2,104 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDBA553BCD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 22:48:03 +0200 (CEST)
-Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8181553BE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 22:50:18 +0200 (CEST)
+Received: from localhost ([::1]:50334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3kn4-0006NT-8X
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 16:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53232)
+	id 1o3kpF-0000MI-Om
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 16:50:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o3kkY-00056N-UY
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:45:26 -0400
-Received: from esa3.hc2706-39.iphmx.com ([68.232.154.118]:47099)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o3kkV-0000mb-Nd
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:45:25 -0400
-X-IronPort-RemoteIP: 209.85.219.70
-X-IronPort-MID: 207000792
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:/6TleKqaVgiPruxMXN5Joq92pP5eBmKTZxIvgKrLsJaIsI4StFCzt
- garIBnVbqyMMWLwL4ggYNizpExVv5fcyYVjHVNq/39jF3wa85acVYWSI3mrAy7DdceroGCLT
- ik9hnssCOhuExcwcz/0auCJQUFUjP3OHvymYAL9EngZqTVMEU/Nsjo+3b9j6mJUqYLhWVnV5
- 4mr+5e31GKNgFaYDEpFs8pvlzsy5JweiBtA1rDpTakW1LN2vyB94KM3fMldHVOhKmVnNrfSq
- 9L48V2M1jixEyHBqz+Suu2TnkUiGtY+NOUV45Zcc/HKbhNq/0Te3kunXRa1hIg+ZzihxrhMJ
- NtxWZOYWy4wD5fqw/QmAzpqM3xOOY1ko5CaGC3q2SCT5xWun3rExvxvCAQvI9Rd9LkvR25J8
- vMcJXYGaRXra+CemurqDLkxwJ56fY+0ZOvzuVk5pd3dJf8iUZbPWY3A+JlV0CpYasVmR66BP
- 5JBNms1BPjGS0JVZVYOJ4sQpdaTpnynIzMEsHau4rVitgA/yyQ0itABKuH9Y9GPWIBZk1iVo
- krA+GL2BAxcM8aQoQdp6Vqpj+7L2DrlAcccS+X++fltj1megGcUDXX6SGeGnBVwsWbmM/o3F
- qDe0nNGQXQanKBzcuTAYg==
-IronPort-HdrOrdr: A9a23:y4xvJ6hbOQkF5GuP2APdHu82JnBQXgAji2hC6mlwRA09TyVXrb
- HLoB19726PtN91YhsdcL+7Sc+9qB/nhPxICOoqTMyftXfdyRKVxehZhOOIsl7d8kXFltK1vp
- 0QFJSWZueAaGRSvILRzDP9Pewd4OSqxoiVuMa29QYRceioUc1dBsVCZzpz3ncZeOA/P+tAKH
- NU3KUnmwad
-Received: from mail-qv1-f70.google.com ([209.85.219.70])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Jun 2022 16:45:14 -0400
-Received: by mail-qv1-f70.google.com with SMTP id
- b2-20020a0cb3c2000000b004703a79581dso8669258qvf.1
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 13:45:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=from:to:cc:subject:date:message-id:mime-version
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3klw-0006br-1u
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:46:57 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:55116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3klq-000151-64
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:46:51 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id cv13so11408707pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 13:46:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=S3flwv5H42e3u1sxBuf2Tsu7X5rDnxqMaIyq6OQiSss=;
- b=TIXozH5o5XmCymIAb5v64J4CZy8wQnb5J49LtwWZesdE/WspR5qQO33XedOz1LdO8O
- orssaHzl9ObnXPVpvmTxA1ZYsHcG5ubXA/vkdJf1W3GCsa9g7e76/lTGkTo5wy+jWstY
- 5ATA21NlKCzvBngcly3LLHD+xPJQ1uzPzsCD/cc4RAl9DBdveRGOB844Iotkfcn6OvKw
- fnQayrsOU91gFL5MWYcdIIyZUQIbL1T/wNhlUQUlhGN5CQwYl2pGxpvO3VHRN4f+trj6
- FazRO6nOnCn0Lu7MRU2EWvUtJcs5djA5woyPGr2mQ34+SkYnyMz//tar0xQQNnI8wwh8
- VMMw==
+ bh=1egIKG1EQvT+rizECCkKqqYfjsX4BF8LJJB+4bwXsfU=;
+ b=Cyk2FyWSV3FyebFRUi4Olfwau37amZQRvgKLBBNYPUw65K4Rfv4Y2IaxCEEMNmM0Z9
+ fZbpfgx14rW4/yg3s2PDV6ZngBHjKIIF+B9i3PRUY6NJM2KN+eH2KPGBei32nHRsvPGs
+ 7oz3ovUdVVM8INXMwFLjjJ0eBZnTmDau7kdIQO7+cVHlt+kOHO/7LUL8PljYm9Y146ix
+ W5PO+uhkVsNFs5b1gg3h9zdxyUsQhv5kfrR4w1N+BIhDr23wYcM28ecbLLJTqH9CG0vJ
+ MtgwJOpS/sl6p5UtWE6CrNpNxwyzRxbituui2Z6i31Tgru8t7WJxFFgJ4Ee8A1gpvjt5
+ zW0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=S3flwv5H42e3u1sxBuf2Tsu7X5rDnxqMaIyq6OQiSss=;
- b=FKS0Xaum/sLKZ0lPs5Xi19ysjjiPMdVA1Lu4sYkFs8qGg544N4wWD3yjiWP/IEY5q1
- pf3K95SjWUrxI0FXjjBJVoiiKzTxuAWOS1PNyakrqwwWONRlZdWI4VmFxqTfm4gEIlY5
- 2EQVtfRnuV8gX5KmZWccrQxkA/Cj8hqxje6uKk9w0onmasJ9vOC7h5TNrC7pSM+gcLgc
- BErlqZhivsr0/+vx/s75aCPijS4nj7CGwanzu2pi+WkOeXB+6X8C0M0HIME1azPosYdQ
- jF/AqDCwdZEzuawSobhsvRYDfYXhR8o3te2ol2PZAhb87wMZzU1DBpJsODQJDzjXDgHY
- wEGg==
-X-Gm-Message-State: AJIora/hwe5h7l8T6/DbSe8XA4RXu7cdFoDBAVwFdLx5cMZDYQsbgGf/
- i2CIKi6ulfiU1SUEizsSa47Wff7mPfOzclla0CMW3pBDq3TU0n2874jgHcYGrp3dNLQPcMIpWE8
- bF6NoUlcFk1WSAh6TyidFqwOWHgUsWQ==
-X-Received: by 2002:ac8:5d93:0:b0:305:2b38:af70 with SMTP id
- d19-20020ac85d93000000b003052b38af70mr78080qtx.383.1655844313650; 
- Tue, 21 Jun 2022 13:45:13 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tYlUb74zc4eDcMQhLvQJVKU9xvhgceLVkxoH1BYp6ngYg6YCb0TBm+ZiKnFYN8E60gTuizJA==
-X-Received: by 2002:ac8:5d93:0:b0:305:2b38:af70 with SMTP id
- d19-20020ac85d93000000b003052b38af70mr78058qtx.383.1655844313415; 
- Tue, 21 Jun 2022 13:45:13 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ bh=1egIKG1EQvT+rizECCkKqqYfjsX4BF8LJJB+4bwXsfU=;
+ b=JHDkqmE5MUrsh9xedNTBf3K0ja1jG7MxZEWHv3AaRFJuyMwuFdxl67VCiMzg/SxMkL
+ xkMyMNGcWDyxASsle3x753z4svmoPHnzRWtWBr/8KYUcE3OsL1nhyWNhr5Xe7Cax4Zxp
+ FdH3V86zxK/Fs7mmhbxJib7jDeV+101Agt5p5ktBj8kJSHgx7KSNZx9qI0TsNUq2+F+C
+ /IAhrGtJyNJHXhHcTpMFytomzTWcWsMrHX0EsKsP7C7r8ZeNxzj45IC7splddqED1a6g
+ Xvo6ReeBSc0Gm/OqiOESb52hR9B/TaGGW9RaasAOhJBASt4zy5sFaFZemujEZhIx03Sd
+ S5Og==
+X-Gm-Message-State: AJIora87YROiDioKPhSi0IgyKKJTRCkgqAOFqrt0wbIuTCgxPuDKhaKz
+ XWPTYnzkLpmORESSmOPx1gjwxLzIqx3axA==
+X-Google-Smtp-Source: AGRyM1tev7e2+74Se+NH/Uo66b4uwrPxa0Pjz3TtI3bDBpqTbL8sygoYET5vpwWEsZqrxDO1hcUjUg==
+X-Received: by 2002:a17:902:e749:b0:16a:2839:9e5 with SMTP id
+ p9-20020a170902e74900b0016a283909e5mr11481042plf.48.1655844404492; 
+ Tue, 21 Jun 2022 13:46:44 -0700 (PDT)
+Received: from stoup.. ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
  by smtp.gmail.com with ESMTPSA id
- g10-20020a05620a40ca00b006a6bb044740sm15724654qko.66.2022.06.21.13.45.12
+ p66-20020a625b45000000b005252defb016sm3649674pfb.122.2022.06.21.13.46.43
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 13:45:12 -0700 (PDT)
-From: Alexander Bulekov <alxndr@bu.edu>
+ Tue, 21 Jun 2022 13:46:44 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Alexander Bulekov <alxndr@bu.edu>
-Subject: [PATCH] build: improve -fsanitize-coverage-allowlist check
-Date: Tue, 21 Jun 2022 16:45:07 -0400
-Message-Id: <20220621204507.698711-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.27.0
+Subject: [PULL 0/9] tcg patch queue for 2022-06-21
+Date: Tue, 21 Jun 2022 13:46:34 -0700
+Message-Id: <20220621204643.371397-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=68.232.154.118; envelope-from=alxndr@bu.edu;
- helo=esa3.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,31 +87,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sancov filter check still fails when unused arguments are treated as
-errors. To work around that, add a SanitizerCoverage flag to the
-build-check.
+The following changes since commit c8b2d413761af732a0798d8df45ce968732083fe:
 
-Fixes: aa4f3a3b88 ("build: fix check for -fsanitize-coverage-allowlist")
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  Merge tag 'bsd-user-syscall-2022q2-pull-request' of ssh://github.com/qemu-bsd-user/qemu-bsd-user into staging (2022-06-19 13:56:13 -0700)
 
-diff --git a/meson.build b/meson.build
-index 9efcb175d1..1b255f91ef 100644
---- a/meson.build
-+++ b/meson.build
-@@ -212,7 +212,8 @@ if get_option('fuzzing')
- 
-   if cc.compiles('int main () { return 0; }',
-                   name: '-fsanitize-coverage-allowlist=/dev/null',
--                 args: ['-fsanitize-coverage-allowlist=/dev/null'] )
-+                 args: ['-fsanitize-coverage-allowlist=/dev/null',
-+                        '-fsanitize-coverage=trace-pc'] )
-     add_global_arguments('-fsanitize-coverage-allowlist=instrumentation-filter',
-                          native: false, language: ['c', 'cpp', 'objc'])
-   endif
--- 
-2.27.0
+are available in the Git repository at:
 
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220621
+
+for you to fetch changes up to c79a8e840c435bc26a251e34b043318e8b2081db:
+
+  util/cacheflush: Optimize flushing when ppc host has coherent icache (2022-06-21 09:28:41 -0700)
+
+----------------------------------------------------------------
+Speed empty timer list in qemu_clock_deadline_ns_all.
+Implement remainder for Power3.1 hosts.
+Optimize ppc host icache flushing.
+Cleanups to tcg_accel_ops_init.
+Fix mmio crash accessing unmapped physical memory.
+
+----------------------------------------------------------------
+Bin Meng (1):
+      target/avr: Drop avr_cpu_memory_rw_debug()
+
+Idan Horowitz (1):
+      qemu-timer: Skip empty timer lists before locking in qemu_clock_deadline_ns_all
+
+Matheus Kowalczuk Ferst (1):
+      tcg/ppc: implement rem[u]_i{32,64} with mod[su][wd]
+
+Nicholas Piggin (1):
+      util/cacheflush: Optimize flushing when ppc host has coherent icache
+
+Philippe Mathieu-Daudé (2):
+      accel/tcg: Init TCG cflags in vCPU thread handler
+      accel/tcg: Reorganize tcg_accel_ops_init()
+
+Richard Henderson (3):
+      softmmu: Always initialize xlat in address_space_translate_for_iotlb
+      util: Merge cacheflush.c and cacheinfo.c
+      util/cacheflush: Merge aarch64 ctr_el0 usage
+
+ target/avr/cpu.h                |   2 -
+ tcg/ppc/tcg-target.h            |   4 +-
+ accel/tcg/tcg-accel-ops-mttcg.c |   5 +-
+ accel/tcg/tcg-accel-ops-rr.c    |   7 +-
+ accel/tcg/tcg-accel-ops.c       |  15 +--
+ softmmu/physmem.c               |  13 ++-
+ target/avr/cpu.c                |   1 -
+ target/avr/helper.c             |   6 -
+ util/cacheflush.c               | 247 +++++++++++++++++++++++++++++++++++++---
+ util/cacheinfo.c                | 200 --------------------------------
+ util/qemu-timer.c               |   3 +
+ tcg/ppc/tcg-target.c.inc        |  22 ++++
+ util/meson.build                |   2 +-
+ 13 files changed, 284 insertions(+), 243 deletions(-)
+ delete mode 100644 util/cacheinfo.c
 
