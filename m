@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E79553432
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:08:55 +0200 (CEST)
-Received: from localhost ([::1]:52320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1215F55344E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:15:57 +0200 (CEST)
+Received: from localhost ([::1]:34494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3eYo-0005Hn-EN
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
+	id 1o3efc-00046r-5X
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:15:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3eVf-0003Ed-61
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:05:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36151)
+ id 1o3eVd-0003AK-AL
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:05:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3eVZ-00007a-0O
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:05:38 -0400
+ id 1o3eVb-00007n-My
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:05:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655820332;
+ s=mimecast20190719; t=1655820335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Ws13QdUcyYGFjbw70rrJhmkRqsVUGx4aeK7EIwM+OI=;
- b=HaVB/QXXbNEn6OKZlwMwQj8vtpzLioGa9fAwOAkcFtnBRk4OPUSfnqMfc6CwrjD86gZCAK
- /slzI8WsIHprRNuN48Ydd3iGjk5b5qvrWGdHE+r6EN7Y2/6l5BNMOMpskcRk0KGdRjlEMQ
- C2ldKEGR2IkO384ceWXCwrykrqk9Sos=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=J/MUBigceGvRp2LjYKVzNQe71uwZfeB9qhBxJavgDwQ=;
+ b=Qfza+HMlojvBSjCOmYhDJuvTbncm/S63OLnJ7Iwh4oEdPInipUSzlkdEOZjYA/JV/ySTW0
+ DmHqhxW8CLvJExfILMnigdYQEkAGkQVwXCNpLFiP5k+CmQpEmpjtNtdFXXFtz3wd1uE7+a
+ XIt4bWUOq2g3KxnrKPOoWwygHjR6Iqs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-571-1Q2-BpvaOUG2rxKroddsmg-1; Tue, 21 Jun 2022 10:05:26 -0400
-X-MC-Unique: 1Q2-BpvaOUG2rxKroddsmg-1
+ us-mta-159-V-YPGMMUP2OOav77oRoI7g-1; Tue, 21 Jun 2022 10:05:29 -0400
+X-MC-Unique: V-YPGMMUP2OOav77oRoI7g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 280B43C17F14;
- Tue, 21 Jun 2022 14:05:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3950D80B70A;
+ Tue, 21 Jun 2022 14:05:29 +0000 (UTC)
 Received: from secure.laptop (unknown [10.39.192.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 750E42166B26;
- Tue, 21 Jun 2022 14:05:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD5222166B29;
+ Tue, 21 Jun 2022 14:05:26 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>, Leonardo Bras <leobras@redhat.com>,
@@ -51,9 +51,10 @@ Cc: Juan Quintela <quintela@redhat.com>, Leonardo Bras <leobras@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH 3/5] migration: Simplify ram_find_and_save_block()
-Date: Tue, 21 Jun 2022 16:05:05 +0200
-Message-Id: <20220621140507.1246-4-quintela@redhat.com>
+Subject: [PATCH 4/5] migration: Make find_dirty_block() return a single
+ parameter
+Date: Tue, 21 Jun 2022 16:05:06 +0200
+Message-Id: <20220621140507.1246-5-quintela@redhat.com>
 In-Reply-To: <20220621140507.1246-1-quintela@redhat.com>
 References: <20220621140507.1246-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -83,51 +84,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will need later that find_dirty_block() return errors, so
-simplify the loop.
+We used to return two bools, just return a single int with the
+following meaning:
+
+old return / again / new return
+false        false   0
+false        true    1
+true         true    2  /* We don't care about again at all */
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ migration/ram.c | 37 +++++++++++++++++++------------------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 35816a3a0a..1d4ff3185b 100644
+index 1d4ff3185b..2c7289edad 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -2256,7 +2256,6 @@ static int ram_find_and_save_block(RAMState *rs)
+@@ -1481,13 +1481,16 @@ retry:
+  * find_dirty_block: find the next dirty page and update any state
+  * associated with the search process.
+  *
+- * Returns true if a page is found
++ * Returns:
++ *         0: no page found, give up
++ *         1: no page found, retry
++ *         2: page found
+  *
+  * @rs: current RAM state
+  * @pss: data about the state of the current dirty page scan
+  * @again: set to false if the search has scanned the whole of RAM
+  */
+-static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
++static int find_dirty_block(RAMState *rs, PageSearchStatus *pss)
  {
-     PageSearchStatus pss;
-     int pages = 0;
--    bool again, found;
+     /* This is not a postcopy requested page */
+     pss->postcopy_requested = false;
+@@ -1499,8 +1502,7 @@ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
+          * We've been once around the RAM and haven't found anything.
+          * Give up.
+          */
+-        *again = false;
+-        return false;
++        return 0;
+     }
+     if (!offset_in_ramblock(pss->block,
+                             ((ram_addr_t)pss->page) << TARGET_PAGE_BITS)) {
+@@ -1529,13 +1531,10 @@ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
+             }
+         }
+         /* Didn't find anything this time, but try again on the new block */
+-        *again = true;
+-        return false;
++        return 1;
+     } else {
+-        /* Can go around again, but... */
+-        *again = true;
+-        /* We've found something so probably don't need to */
+-        return true;
++        /* We've found something */
++        return 2;
+     }
+ }
  
-     /* No dirty page as there is zero RAM */
-     if (!ram_bytes_total()) {
-@@ -2272,18 +2271,17 @@ static int ram_find_and_save_block(RAMState *rs)
+@@ -2270,18 +2269,20 @@ static int ram_find_and_save_block(RAMState *rs)
+         pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
      }
  
-     do {
--        again = true;
--        found = get_queued_page(rs, &pss);
--
--        if (!found) {
-+        if (!get_queued_page(rs, &pss)) {
+-    do {
++    while (true){
+         if (!get_queued_page(rs, &pss)) {
              /* priority queue empty, so just search for something dirty */
--            found = find_dirty_block(rs, &pss, &again);
-+            bool again = true;
-+            if (!find_dirty_block(rs, &pss, &again)) {
-+                if (!again) {
-+                    break;
-+                }
-+            }
+-            bool again = true;
+-            if (!find_dirty_block(rs, &pss, &again)) {
+-                if (!again) {
+-                    break;
+-                }
+-            }
++            int res = find_dirty_block(rs, &pss);
++            if (res == 0) {
++                break;
++            } else if (res == 1)
++                continue;
          }
--
--        if (found) {
--            pages = ram_save_host_page(rs, &pss);
--        }
--    } while (!pages && again);
-+        pages = ram_save_host_page(rs, &pss);
-+    } while (!pages);
+         pages = ram_save_host_page(rs, &pss);
+-    } while (!pages);
++        if (pages) {
++            break;
++        }
++    }
  
      rs->last_seen_block = pss.block;
      rs->last_page = pss.page;
