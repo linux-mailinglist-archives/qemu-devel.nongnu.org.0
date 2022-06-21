@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379F85535B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:17:31 +0200 (CEST)
-Received: from localhost ([::1]:45108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1745535BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:19:32 +0200 (CEST)
+Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3fdB-0004VN-UH
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57784)
+	id 1o3ff9-0005n7-5q
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:19:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3fah-000310-PA
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:14:56 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:42961)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3fc4-0004ET-Fa
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:16:24 -0400
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:38752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3fae-0003ze-RZ
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:14:54 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- 73-20020a17090a0fcf00b001eaee69f600so13710956pjz.1
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:14:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3fc2-0004TY-Sc
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:16:20 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-3177f4ce3e2so110672457b3.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=wY027FWt2HRYDGxchv8sBD2vfGf0zJ6W0wUYLVB+K+4=;
- b=kFdpCGiohSvnCyp2T9n4f/aXIvtcMF+ZB9R+Z6/HweY8i0neD3uuuUQcyBXlyK6P+D
- j+NhNBj0BCQMaO8OI6y5mF4IKo8dxah0nRqpkbLlwy/A+DBwh3dDAVsUt4ZLRJ+h/8bW
- P5H9DBSDdoWdYXycdoBkxb70aBP83GZvAaDrcTE1+ISJd9Uwg00jTYIO7ZYw6YVZ3Vn3
- FTT5A2waiTM3vp33DIcXQ06VFLqyqLVU5ITymS43hFF08NbIrkE/CC+mtAyVjQ08bcmM
- YLfPjFGsy9cDhrecHxGRr0JeW5DGN3uIoFKJRsaJ00eSdhVT6LJAdN1rWFzZGbYnt4kI
- D7Ow==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Qu9VG2DWb9yDEii8UW7ZeZBFsFvGUAS9BUO3OKjlwV8=;
+ b=wVa0hBgVkUxz30tBRf8ElDaWL6mllpYt3jcO8Iey4MQpUe/rMm+zCx3wv7WISQc53D
+ l3RKhLIe15Jy62xeHwwiTXOm7zzs+xMCdMO665cqp/v97oJ6rZbVUZOeO6yHRv8BZNh8
+ fFLypVA/A5+58xRMn4bkfYlO0zfcUDfOgVeQlZMwLuXWkj6zkQNXg5o0wJ/92WbTcRXz
+ nbRssG8DIwDRWr8CAqrulYZ9VtDciR29GFjgAnZfGo7CTsfZv/nfGkamsPUYEzThji8+
+ 9BNp7ZsF0DMeUso84hZ7lZsRhnF1rcw0PYWczZyDQsU+pp/2ueKm3T9rzxf8Q1KiZOUn
+ XkhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wY027FWt2HRYDGxchv8sBD2vfGf0zJ6W0wUYLVB+K+4=;
- b=cqzPE3uVGOQsyniP7Rr8SWQYLV/asyzAe2bQuNSuHUHWGKZgO+2N1OWNFNixDyVD0F
- zmElEY6jE/mbdkA16CwqPk+raQsHncczhfp+hDO9REO/ASIz5EyEm8aV3DaIBiLoRQpF
- V0GhMMn7TViULqc5yHUh+6mt2jYaK43Y0chxtlIdeU2EH39YzPKanEowhSX1cYbltGcH
- eJ8lB28BqHRu3vR2ZpdmubR62oK508N6LNvxDgKuurxLvh66TJSa2eOfiJOVdaG5oI6R
- GYYIeJ9aBmrPyqiv4o4TOaf7b9Dd4yQUr1KAqluJ+BKRpAqUNJp9zXqVRHACua2ZhfIB
- jOWQ==
-X-Gm-Message-State: AJIora9UrkaHsyyePJ4wchlkcr2WQ+tlAC3g0RwjI5Ewq3y+EQJtGxrE
- hEx+6Qo94xWUONzOY5hDQTasiA==
-X-Google-Smtp-Source: AGRyM1uufPUV5YM0Zq0C0UCj3+rZdM+WrMx562lH/r4Hwk6WR53nfNrhJP51dFMWj51e1DTGl1MdCw==
-X-Received: by 2002:a17:902:cf4a:b0:169:a894:3465 with SMTP id
- e10-20020a170902cf4a00b00169a8943465mr2347301plg.56.1655824489455; 
- Tue, 21 Jun 2022 08:14:49 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49e:3c01:8adc:a144:6ec2:4d71?
- ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
- by smtp.gmail.com with ESMTPSA id
- f23-20020a17090a9b1700b001eaec8cea55sm10231954pjp.57.2022.06.21.08.14.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 08:14:48 -0700 (PDT)
-Message-ID: <a48a3698-377b-d7b0-008a-8d749bd1308c@linaro.org>
-Date: Tue, 21 Jun 2022 08:14:46 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Qu9VG2DWb9yDEii8UW7ZeZBFsFvGUAS9BUO3OKjlwV8=;
+ b=nVp3qBXie7u285JaHGFhyP2pvUXDB/1da9xWYyYnCK+oGKGGVtqTI7ouB6t2MuW/xS
+ /eVUt3Vsu2WmJ8NjOClC7ldGsPBeURGycIUkFiBlUafUsMhGbdY1AMwsFWuP6443DYMj
+ Kh63xLNit0QKcF13TauvFzZ6YMbfo+pqHudoPNEe4Uf3OcZu4R1797CBGI1/0htwIPI/
+ XsCr9gYIP5KYLDOekWRwynYL7Tx4UCeWnTyhOQqmCW9xZwmnTsD6WSX3W28hiMF52ySm
+ TjWQA6MjMDhzFqHQbHTbe+1rt9xkcoXnEg7YD8UnFZp2W3a4PKLsobFvZ40PSzG+mm2g
+ jFvQ==
+X-Gm-Message-State: AJIora8ULdS70vAN3HY0BU9trLlc4UIXLHJuunAvb76k7L9nGR2vqTCl
+ 5U9TNFtlVeAEjcbaAvV93TP5S4N3c+Y7OroUJqZW5g==
+X-Google-Smtp-Source: AGRyM1svy5ukNB7HoJH8ZEqX9ZsKs7tRt+tSgn+wvcHnAOGzHy3Z98VSt0LqdpEyyZ36hURZ5oFkwwmPkecKnTF+574=
+X-Received: by 2002:a0d:ca0f:0:b0:317:a2cc:aa2 with SMTP id
+ m15-20020a0dca0f000000b00317a2cc0aa2mr19040088ywd.347.1655824577618; Tue, 21
+ Jun 2022 08:16:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 4/6] configure, pc-bios/vof: pass cross CFLAGS correctly
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220621075147.36297-1-pbonzini@redhat.com>
- <20220621075147.36297-5-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220621075147.36297-5-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+References: <20220614212131.94696-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20220614212131.94696-1-akihiko.odaki@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jun 2022 16:15:40 +0100
+Message-ID: <CAFEAcA9H4G=t5c2F519Za7-X7yH4cZZyjspNLBu1z3=YeDw+Ww@mail.gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Fix clipboard text release
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,54 +83,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/22 00:51, Paolo Bonzini wrote:
-> Use the flags passed to the configure script for the ppc cross compiler,
-> which in fact default to those that are needed to get the 32-bit ISA.
-> Add the endianness flag so that it remains possible to use a ppc64le
-> compiler to compile VOF.
-> 
-> This also fixes compilation of TCG tests using a biarch compiler,
-> for example ppc64 tests on ppc64le.
-> 
-> Reported-by: Matheus Ferst <matheus.ferst@eldorado.org.br
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Tue, 14 Jun 2022 at 22:21, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>
+> [-NSPasteboard dataForType:] returns an autoreleased NSString,
+> and callings its release method will result in double-free when
+> the global autorelease pool is released. Use NSAutoreleasePool to
+> release it properly.
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Probably you missed this, but last night (gmt-7) I sent:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-make[1]: Entering directory `/home/rth/qemu/bld/pc-bios/vof'
-
-cc -m32 -mbig-endian -mcpu=power4 -c -o entry.o /home/rth/qemu/src/pc-bios/vof/entry.S
-
-cc1: error: ‘-m32’ not supported in this configuration
-
-make[1]: *** [entry.o] Error 1
-
-
-This with a compiler I built myself,
-
-$ cc -v
-
-Using built-in specs.
-
-COLLECT_GCC=gcc
-
-COLLECT_LTO_WRAPPER=/home/rth/gcc/run/libexec/gcc/powerpc64le-unknown-linux-gnu/11.0.1/lto-wrapper
-
-Target: powerpc64le-unknown-linux-gnu
-
-Configured with: ../git-gcc/configure --prefix=/home/rth/gcc/run
-
-Thread model: posix
-
-Supported LTO compression algorithms: zlib
-
-gcc version 11.0.1 20210321 (experimental) [master revision 
-19ff0b0:fca73fc:6af7b307f659a4f1845a9efd36ca37899515e234] (GCC)
-
-
-With default configure options, gcc is not biarch.
-It would be good to probe whether EXTRA_CFLAGS is actually usable.
-
-
-r~
+thanks
+-- PMM
 
