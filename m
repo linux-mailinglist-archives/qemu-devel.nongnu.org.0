@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A055535DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:24:20 +0200 (CEST)
-Received: from localhost ([::1]:55488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155A0553622
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:32:51 +0200 (CEST)
+Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3fjn-0003Ve-J8
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59360)
+	id 1o3fs0-0007XJ-T5
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fhs-00024u-6F
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:22:20 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:40607)
+ id 1o3fqj-0006Z0-EH
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:31:29 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:45697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fhn-0005Ip-Dt
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:22:19 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id e4so12377018ybq.7
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:22:14 -0700 (PDT)
+ id 1o3fqZ-00077K-Pm
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:31:29 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id n144so21024103ybf.12
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:31:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EdQIpJzj9XVVFasKHXpEbEDMCzS4LEkfWXtGvmEL+9c=;
- b=zWl5hNY8d4VxmXfcEbZ5ukCJm2WJoJETfA+goY2EOV3QaFRzS0ytR/XrC4wC3Ld7TC
- I3AhciNk/aY8XvaIDb9qndud4yUug86v65lISNQU4+1Yp9Pq+HVMA4GfCBcGBHcqtC+d
- U3EKAweR6e7cgNB2IMC+8pzIIOwtXBHYzSEcC+ixGFB69zyHsL7PYW57CmB2PvmX2Hlc
- xUzWPRyz6Wpyj7WBVG4aEZlI1DwUmEUlhtZoTDWRZ6vQdzL30hzMmYzZ3oC3lgkvnLgG
- /7M5s49x+4TTqFPiorPmxSvzj590S20J6iyDhzLCWy+CWNXjdgSH0klqPVApQ3dGUem9
- g9oQ==
+ :cc; bh=0d5VSY4EdS+SVp2wVG56KtAveY0Ghlq+Jw8HFnsLMLE=;
+ b=CmTBSuADb+ulcWzGdqsQpXAdOijysUO/94USIVgLqN/qN2Br8Up26anqasDUsJ1FTc
+ muvExS1ksth8cZdRrWFBro3QXKcaVWioe+Og5884cDyWQD8dsB5GdScE/o3RX5tccSWt
+ siC5+rL2A2YrYJyNUDtdrYVOPZTiTdQOAft0VMSKTg9CFAbeAe9+sgVWxfb8vDYqsulL
+ Vb0A3yVP4QKUoAG/3H1khn1LYb8haaoQhl2T6FcO6qFTkAl9+RwrBZvAiEl09O2Nuyn3
+ WnF8KaLKhAPXV/rFKBWoi9rViBhrIxjx4iioJE4NlzV13a7RrPEG45C+VYpHNPLqIfCh
+ KnUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EdQIpJzj9XVVFasKHXpEbEDMCzS4LEkfWXtGvmEL+9c=;
- b=Fx3aNo+BK3nibzeVGr6FIlm1LA8xRRQOaiI58iq+nDusbKp0TWPax8M9REP8vBrcel
- vO9lXzrYZzVytKetm1nRlr+47OnEvas2c+ExB4Jsn+Oa41SfhC8sX7/Ir5HOga86ULEZ
- e2aCUDszn89YC982iKSwLaKWtH21nU/tgxKKLA5Kd3bTn/7o5dyFOVTW1YzMHRq3x8dd
- m3SID+/F2zJEWG6t276TRgl06uOJghDIXkBC4NvNs/MN4YrzjbN0S2keeESUzsviUvly
- 10SsVZGjxLK+5Npu8VjvS4+Fx9x+xQw1ZORROZIrfdAVfcMtJf/i/f1xbISDwSu3Fh5k
- kV5g==
-X-Gm-Message-State: AJIora+s3e4oyOnVkrqvf16fVEzNhHk8WmWeocWGU9jGrEy0Ym8PyUKv
- aME5OQe2TSodlj6NPuQM1Ex3d+fdWAciOKHWLGHVmg==
-X-Google-Smtp-Source: AGRyM1vv5beIFZ4O/77ae546gYVvFCTzrZ8PG35AarKNmJCMCG16vNXF1bCxG/LZkwjFn6HMpBpmWMkZ2D+I1Oo8oL4=
+ bh=0d5VSY4EdS+SVp2wVG56KtAveY0Ghlq+Jw8HFnsLMLE=;
+ b=gHTH8PuBDm8d9G1EMrTxdvLXXrOaaRj8dkycqtkgycuqDUiqjOHu12fgEQfsFzGVIM
+ 7+eGTfcpXopu/D2EqeZYz+WTNjcYDHR5SvwPxlEOxZTQ67sEQhcWehb4/NmMkpAWRl53
+ ycO/Dz8igwpNbqMG2OM7RAvUU/TyIkF6JkNKJd/IK786DWA+vOvNPUOSvxflFkznyBzk
+ xgVldrqosvlt/5aK/G2+BRM7XE6O5sOsLZ/v8+DXM7bXe844jlKuLkSRbwLub8IP7z0B
+ qUPKodVy2SIpW6D7Ox6zKPtbpJR4a9nswO2Nj0FIk0YvJ7QTa/hQHShlbjWDl5JOaBeU
+ VgIw==
+X-Gm-Message-State: AJIora988xfMAbYfPZebCwTsR6RSm6BeZFqelx5FgTIy+kHHP5SUlY9w
+ eHRAZS8/ixibMrra3B1UAOg7eESxOaTajj5kVh7c4w==
+X-Google-Smtp-Source: AGRyM1ufQl7HkhkGiwFBjndgA0osmDQ/qllibHtLOiinZayvmMu+ilYKTKBUlqKMDV+Xzq31Gy4BTtJcegb0PuanVa4=
 X-Received: by 2002:a05:6902:1505:b0:668:c93b:d1d0 with SMTP id
- q5-20020a056902150500b00668c93bd1d0mr21647522ybu.140.1655824933200; Tue, 21
- Jun 2022 08:22:13 -0700 (PDT)
+ q5-20020a056902150500b00668c93bd1d0mr21693580ybu.140.1655825478136; Tue, 21
+ Jun 2022 08:31:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220621014837.189139-1-richard.henderson@linaro.org>
- <20220621014837.189139-4-richard.henderson@linaro.org>
-In-Reply-To: <20220621014837.189139-4-richard.henderson@linaro.org>
+References: <20220609135851.42193-1-alxndr@bu.edu>
+In-Reply-To: <20220609135851.42193-1-alxndr@bu.edu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jun 2022 16:21:36 +0100
-Message-ID: <CAFEAcA9JVzV2s157K6zw5PFzOYodQcRAcPvC29JPkqqCUXz1uQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] util/cacheflush: Optimize flushing when ppc host
- has coherent icache
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, npiggin@gmail.com, qemu-ppc@nongnu.org
+Date: Tue, 21 Jun 2022 16:30:40 +0100
+Message-ID: <CAFEAcA-QOqGWzeeQLLK2pH0WwABzXP2ZjFKxLY7d62bWhGRWxw@mail.gmail.com>
+Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Mauro Matteo Cascella <mcascell@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, 
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, 
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
  envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
@@ -83,20 +95,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jun 2022 at 02:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 9 Jun 2022 at 14:59, Alexander Bulekov <alxndr@bu.edu> wrote:
 >
-> From: Nicholas Piggin <npiggin@gmail.com>
+> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
+> This flag is set/checked prior to calling a device's MemoryRegion
+> handlers, and set when device code initiates DMA.  The purpose of this
+> flag is to prevent two types of DMA-based reentrancy issues:
 >
-> On linux, the AT_HWCAP bit PPC_FEATURE_ICACHE_SNOOP indicates
-> that we can use a simplified 3 instruction flush sequence.
+> 1.) mmio -> dma -> mmio case
+> 2.) bh -> dma write -> mmio case
 >
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> Message-Id: <20220519141131.29839-1-npiggin@gmail.com>
-> [rth: update after merging cacheflush.c and cacheinfo.c]
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> These issues have led to problems such as stack-exhaustion and
+> use-after-frees.
+>
+> Summary of the problem from Peter Maydell:
+> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 > ---
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>  include/hw/pci/pci.h   | 13 +++++++++++--
+>  include/hw/qdev-core.h |  3 +++
+>  softmmu/dma-helpers.c  | 12 ++++++++++++
+>  softmmu/memory.c       | 15 +++++++++++++++
+>  softmmu/trace-events   |  1 +
+>  5 files changed, 42 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 44dacfa224..ab1ad0f7a8 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+>                                       void *buf, dma_addr_t len,
+>                                       DMADirection dir, MemTxAttrs attrs)
+>  {
+> -    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+> -                         dir, attrs);
+> +    bool prior_engaged_state;
+> +    MemTxResult result;
+> +
+> +    prior_engaged_state = dev->qdev.engaged_in_io;
+> +
+> +    dev->qdev.engaged_in_io = true;
+> +    result = dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+> +                           dir, attrs);
+> +    dev->qdev.engaged_in_io = prior_engaged_state;
+> +
+> +    return result;
+
+Why do we need to do something in this pci-specific function ?
+I was expecting this to only need changes at the generic-to-all-devices
+level.
+
+
+> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
+> index 7820fec54c..7a4f1fb9b3 100644
+> --- a/softmmu/dma-helpers.c
+> +++ b/softmmu/dma-helpers.c
+> @@ -288,8 +288,16 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
+>      uint8_t *ptr = buf;
+>      dma_addr_t xresidual;
+>      int sg_cur_index;
+> +    DeviceState *dev;
+> +    bool prior_engaged_state;
+>      MemTxResult res = MEMTX_OK;
+>
+> +    dev = sg->dev;
+> +    if (dev) {
+> +        prior_engaged_state = dev->engaged_in_io;
+> +        dev->engaged_in_io = true;
+> +    }
+> +
+>      xresidual = sg->size;
+>      sg_cur_index = 0;
+>      len = MIN(len, xresidual);
+> @@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
+>          xresidual -= xfer;
+>      }
+>
+> +    if (dev) {
+> +        dev->engaged_in_io = prior_engaged_state;
+> +    }
+
+Not all DMA goes through dma_buf_rw() -- why does it need changes?
+
+> +
+>      if (residual) {
+>          *residual = xresidual;
+>      }
 
 thanks
 -- PMM
