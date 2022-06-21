@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5F8553902
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 19:37:51 +0200 (CEST)
-Received: from localhost ([::1]:40150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC91553919
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 19:43:57 +0200 (CEST)
+Received: from localhost ([::1]:47990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3hp0-00077E-U0
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 13:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
+	id 1o3huu-00045v-8c
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 13:43:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3hm7-0002xG-DX; Tue, 21 Jun 2022 13:34:51 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:40666)
+ id 1o3hm9-0002zC-Er; Tue, 21 Jun 2022 13:34:53 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:35541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3hm5-0002Ln-HZ; Tue, 21 Jun 2022 13:34:51 -0400
-Received: by mail-oi1-x229.google.com with SMTP id i25so17955543oii.7;
- Tue, 21 Jun 2022 10:34:48 -0700 (PDT)
+ id 1o3hm7-0002MI-RG; Tue, 21 Jun 2022 13:34:53 -0400
+Received: by mail-oi1-x229.google.com with SMTP id k24so17969763oij.2;
+ Tue, 21 Jun 2022 10:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4CmgoMB3Shkp28H9b7m3CMHpdU8T5H538qsF+/3DIrs=;
- b=pvVH2ajD1Z9nWhfwpGsVLhGT7p3jk460HLvALGWOOGQJtYrRWh8uwjGqkhyB94s2qC
- sCV/Dhsfo3LnE+XXZL2Mz8pzc5/RCUyxUp5awd2aYUv5NCCmILyRuuNPUPcbATM+D/TP
- NWEXJ+is8tIDFHlFbRzQpOxfH0zX1eluqJoKT0uF56HXviehLhvshHpw/GBZ+RA9V4Yr
- RPYYQUFjEpA5IRQ2HC47JZc9R3OlfvKstfeX+TvMz1iFcVZdUkSxYRNwgl1B18c+jeI4
- ypDtxCPp1bKBGuv+WfzVSgsDuXSH5s+FVze2utF1r6kg5Pf2Fgb+2c8TnfLvSKif3xpK
- w/4g==
+ bh=jNCrfeyPMijzRW6iJN0vEt6mhnSTXfUXk7S0j1xt9Zk=;
+ b=lyMYXI7ML7raekdgKNeuw6sbnhZ5JxkQ7Lk1XwXesZu99NLikZ9+kgMP4PC3GrAZ8C
+ R1FjdZyzcT9QcjVokdiobNsv0NLJEZLwScYzHW4613NDBasDi78HP2FDfJuGbSxoBYuj
+ gIyKgFFsIfnTtwgZpo7Q6u63GqumfxdRLI4eijddcU/ICqhsFRqJeKxWp4hRB7fAgZJc
+ BHZpJvyovdmf4NJnTwl4s85jMK5KTdkq4QUOyoTCZNNuksLTqAaoM26o4QvNcefiJvMD
+ njoYb9nG3Ncla057c6+DhmzcTSks6cb/gV/1Jx3pRNGLSZWaA3emPczxlRmyy+RBpt8M
+ EfXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4CmgoMB3Shkp28H9b7m3CMHpdU8T5H538qsF+/3DIrs=;
- b=DhvJ2ycJO+MD7PvmPR3seTR/u3s5FJqzBuvryHQhiC4T7pxhvqxNqvePklh/+9uRTI
- dNw/4lzTwjLa5lkwqA6auYLyXmAOXU9kuojtzPGCwLZ4nGBvzla/Afxmk6AKw9+r3Jt7
- ADM3nFPnrZckZQKyZ77TgIIHi/zEc4bY1I/RbCYW5vqDUwaGYa/Avz5yba6R6ElpJWCn
- cy2qUydTwyUktMOM5QuhB3kMLhz2UFS6WXIMULScxh0FBHDYByvfuLpSIzfWYMaIqTD5
- ahdAQ4NzU1OE9GjXJlVOjFIVOYJXMolHxuJqH0CeyCTTPPC3S/2pQA83SkXMpryxK+kg
- 4+4A==
-X-Gm-Message-State: AOAM530VGdv1vsRhoNBZ2xNoY3Naop5SepdODOrEwh3k0Vc8ZAkpS2VW
- KY4O0uFyqHyHEHffBE6uUEpR6LnHhkYmAw==
-X-Google-Smtp-Source: ABdhPJybtKeTp2zLHhV7xp+UntE8pdiiFx0Ha9+dxilIqQNpugqZSbgQ9iWcBkDMkgedOHRe9SnCvg==
-X-Received: by 2002:a05:6808:ecc:b0:322:319c:cd3 with SMTP id
- q12-20020a0568080ecc00b00322319c0cd3mr19728334oiv.148.1655832887867; 
- Tue, 21 Jun 2022 10:34:47 -0700 (PDT)
+ bh=jNCrfeyPMijzRW6iJN0vEt6mhnSTXfUXk7S0j1xt9Zk=;
+ b=W5Am4AA2LrtwLuZCnzkgX2t6RPb7cTMIDoKWo4BWOZg9nnEi3qcZA5xehL2o7HCk8U
+ /ZTd/cuh4rTDd9/aKGhrhld2HMdiU3h+AZ50MoFklSu9zPe+MRi4EpoGRhDT6+uS2/Hm
+ MaC6N0z2jSp3x1FJKksQkRBYU54fNUKhBdOKYRXVDACFE4QKPaSVDu26467WMrD4nTqH
+ rJdD0MIofukOR4nHCdLzei3N8RMNVJ63bSaFVgDoBIKg8tzTGrNTEBUvS84vt6nF/hzM
+ r5zKvDs0MB65TcVURht7BBPCisBAAiDT+gbKNzRJw+n3Eajtj+cpjsxtEGL2ON51roB0
+ UQCQ==
+X-Gm-Message-State: AJIora8RaFWJ2qjPAxIlXaC139/ED9UdLty4HW4404WVikjcJyvxFGYH
+ V/OhcDP9aW0b8u2wC2g9irNuMQ7PSGpchg==
+X-Google-Smtp-Source: AGRyM1vTEdHRyMin/M2pODvncsO/0f2KTjAPIHO9ZMKRPzJO5m8luIe+GtEQM0/8I+F1XIiC5bk8rA==
+X-Received: by 2002:aca:3bd6:0:b0:32f:e706:606 with SMTP id
+ i205-20020aca3bd6000000b0032fe7060606mr14345949oia.257.1655832890274; 
+ Tue, 21 Jun 2022 10:34:50 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z22-20020a056870385600b0010200e2828fsm2886556oal.30.2022.06.21.10.34.45
+ z22-20020a056870385600b0010200e2828fsm2886556oal.30.2022.06.21.10.34.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 10:34:47 -0700 (PDT)
+ Tue, 21 Jun 2022 10:34:49 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v3 3/8] ppc/pnv: assign pnv-phb-root-port chassis/slot earlier
-Date: Tue, 21 Jun 2022 14:34:31 -0300
-Message-Id: <20220621173436.165912-4-danielhb413@gmail.com>
+Subject: [PATCH v3 4/8] ppc/pnv: make pnv_ics_get() use the chip8->phbs[] array
+Date: Tue, 21 Jun 2022 14:34:32 -0300
+Message-Id: <20220621173436.165912-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621173436.165912-1-danielhb413@gmail.com>
 References: <20220621173436.165912-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
  envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
@@ -88,152 +89,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not advisable to execute an object_dynamic_cast() to poke into
-bus->qbus.parent and follow it up with a C cast into the PnvPHB type we
-think we got.
+The function is working today by getting all the child objects of the
+chip, interacting with each of them to check whether the child is a PHB,
+and then doing what needs to be done.
 
-In fact this is not needed. There is nothing sophisticated being done
-with the PHB object retrieved during root_port_realize() for both
-PHB3 and PHB4. We're retrieving a PHB reference PHB just to access
-phb->chip_id and phb->phb_id and use them to define the chassis/slot
-of the root port.
+We have all the chip PHBs in the phbs[] array so interacting with all
+child objects is unneeded. Open code pnv_ics_get_phb_ics() into
+pnv_ics_get() and remove both pnv_ics_get_phb_ics() and the
+ForeachPhb3Args struct.
 
-phb->phb_id is already being passed to pnv_phb_attach_root_port() via
-the 'index' parameter. Let's also add a 'chip_id' parameter to this
-function and assign chassis and slot right there. This will spare us
-from the hassle of accessing the PHB object inside realize().
-
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb3.c | 18 ++----------------
- hw/pci-host/pnv_phb4.c | 18 ++----------------
- hw/ppc/pnv.c           | 15 +++++++++++++--
- include/hw/ppc/pnv.h   |  3 ++-
- 4 files changed, 19 insertions(+), 35 deletions(-)
+ hw/ppc/pnv.c | 38 +++++++++++---------------------------
+ 1 file changed, 11 insertions(+), 27 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index 4ba660f8b9..afe5698167 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -1052,7 +1052,8 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
- 
-     pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
- 
--    pnv_phb_attach_root_port(pci, TYPE_PNV_PHB3_ROOT_PORT, phb->phb_id);
-+    pnv_phb_attach_root_port(pci, TYPE_PNV_PHB3_ROOT_PORT,
-+                             phb->phb_id, phb->chip_id);
- }
- 
- void pnv_phb3_update_regions(PnvPHB3 *phb)
-@@ -1139,23 +1140,8 @@ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
- {
-     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
-     PCIDevice *pci = PCI_DEVICE(dev);
--    PCIBus *bus = pci_get_bus(pci);
--    PnvPHB3 *phb = NULL;
-     Error *local_err = NULL;
- 
--    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
--                                          TYPE_PNV_PHB3);
--
--    if (!phb) {
--        error_setg(errp,
--"pnv_phb3_root_port devices must be connected to pnv-phb3 buses");
--        return;
--    }
--
--    /* Set unique chassis/slot values for the root port */
--    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
--    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
--
-     rpc->parent_realize(dev, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index ffd9d8a947..725b3d740b 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1585,7 +1585,8 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
-     pci->bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
- 
-     /* Add a single Root port if running with defaults */
--    pnv_phb_attach_root_port(pci, pecc->rp_model, phb->phb_id);
-+    pnv_phb_attach_root_port(pci, pecc->rp_model,
-+                             phb->phb_id, phb->chip_id);
- 
-     /* Setup XIVE Source */
-     if (phb->big_phb) {
-@@ -1781,23 +1782,8 @@ static void pnv_phb4_root_port_reset(DeviceState *dev)
- static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
- {
-     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
--    PCIDevice *pci = PCI_DEVICE(dev);
--    PCIBus *bus = pci_get_bus(pci);
--    PnvPHB4 *phb = NULL;
-     Error *local_err = NULL;
- 
--    phb = (PnvPHB4 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
--                                          TYPE_PNV_PHB4);
--
--    if (!phb) {
--        error_setg(errp, "%s must be connected to pnv-phb4 buses", dev->id);
--        return;
--    }
--
--    /* Set unique chassis/slot values for the root port */
--    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
--    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
--
-     rpc->parent_realize(dev, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 40e0cbd84d..c5e63bede7 100644
+index c5e63bede7..e6cea789f8 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1189,8 +1189,15 @@ static void pnv_chip_icp_realize(Pnv8Chip *chip8, Error **errp)
-     }
+@@ -1950,44 +1950,28 @@ PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
+     return NULL;
  }
  
--/* Attach a root port device */
--void pnv_phb_attach_root_port(PCIHostState *pci, const char *name, int index)
-+/*
-+ * Attach a root port device.
-+ *
-+ * 'index' will be used both as a PCIE slot value and to calculate
-+ * QOM id. 'chip_id' is going to be used as PCIE chassis for the
-+ * root port.
-+ */
-+void pnv_phb_attach_root_port(PCIHostState *pci, const char *name,
-+                              int index, int chip_id)
+-typedef struct ForeachPhb3Args {
+-    int irq;
+-    ICSState *ics;
+-} ForeachPhb3Args;
+-
+-static int pnv_ics_get_child(Object *child, void *opaque)
+-{
+-    ForeachPhb3Args *args = opaque;
+-    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
+-
+-    if (phb3) {
+-        if (ics_valid_irq(&phb3->lsis, args->irq)) {
+-            args->ics = &phb3->lsis;
+-        }
+-        if (ics_valid_irq(ICS(&phb3->msis), args->irq)) {
+-            args->ics = ICS(&phb3->msis);
+-        }
+-    }
+-    return args->ics ? 1 : 0;
+-}
+-
+ static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
  {
-     PCIDevice *root = pci_new(PCI_DEVFN(0, 0), name);
-     g_autofree char *default_id = g_strdup_printf("%s[%d]", name, index);
-@@ -1199,6 +1206,10 @@ void pnv_phb_attach_root_port(PCIHostState *pci, const char *name, int index)
-     object_property_add_child(OBJECT(pci->bus), dev_id ? dev_id : default_id,
-                               OBJECT(root));
+     PnvMachineState *pnv = PNV_MACHINE(xi);
+-    ForeachPhb3Args args = { irq, NULL };
+-    int i;
++    int i, j;
  
-+    /* Set unique chassis/slot values for the root port */
-+    qdev_prop_set_uint8(DEVICE(root), "chassis", chip_id);
-+    qdev_prop_set_uint16(DEVICE(root), "slot", index);
+     for (i = 0; i < pnv->num_chips; i++) {
+-        PnvChip *chip = pnv->chips[i];
+         Pnv8Chip *chip8 = PNV8_CHIP(pnv->chips[i]);
+ 
+         if (ics_valid_irq(&chip8->psi.ics, irq)) {
+             return &chip8->psi.ics;
+         }
+ 
+-        object_child_foreach(OBJECT(chip), pnv_ics_get_child, &args);
+-        if (args.ics) {
+-            return args.ics;
++        for (j = 0; j < chip8->num_phbs; j++) {
++            PnvPHB3 *phb3 = &chip8->phbs[j];
 +
-     pci_realize_and_unref(root, pci->bus, &error_fatal);
- }
- 
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 033890a23f..b991194223 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -189,7 +189,8 @@ DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER10,
-                          TYPE_PNV_CHIP_POWER10)
- 
- PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
--void pnv_phb_attach_root_port(PCIHostState *pci, const char *name, int index);
-+void pnv_phb_attach_root_port(PCIHostState *pci, const char *name,
-+                              int index, int chip_id);
- 
- #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
- typedef struct PnvMachineClass PnvMachineClass;
++            if (ics_valid_irq(&phb3->lsis, irq)) {
++                return &phb3->lsis;
++            }
++
++            if (ics_valid_irq(ICS(&phb3->msis), irq)) {
++                return ICS(&phb3->msis);
++            }
+         }
+     }
+     return NULL;
 -- 
 2.36.1
 
