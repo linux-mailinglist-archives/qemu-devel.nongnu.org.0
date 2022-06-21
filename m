@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AC5552861
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 01:44:08 +0200 (CEST)
-Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE68552914
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 03:41:58 +0200 (CEST)
+Received: from localhost ([::1]:55450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3R3u-0002qH-RL
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 19:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46584)
+	id 1o3Stx-0001sb-IA
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 21:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o3Qzh-0001Cq-Q1; Mon, 20 Jun 2022 19:39:45 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:46153)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3SqL-00016n-18
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 21:38:15 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:33433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o3QzY-00015y-UE; Mon, 20 Jun 2022 19:39:45 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- h9-20020a17090a648900b001ecb8596e43so2478360pjj.5; 
- Mon, 20 Jun 2022 16:39:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jPqxI9P58vdAhZok3bo7O/Xj+Ph9uTygruutVQ/fpgA=;
- b=noKR7i7IkAQtrhZ52gIgS+tmHBcLPkoui7u//6LPfjeAU2oNVd++QGTm4xw9lp3bYl
- I+047bakfOTWZk5VloychGS26ddRPVzE6+rOlRhTDZWJ5UFoduoG/tXYGNRmoKN4+Zy2
- o+KcKncgBRp9YQaEThBdo2t3Mflm5UPssJEjp6v2hwV6KrK4VzKJjlXf2LKIZ0MQ8vxS
- IMzO/yQ4tRmkd9x3aDtcd5usr6qfVCAroOwpfX+A3SYc/W7WbRE2HpIf5m0NUqmRZOPD
- PSC1xxZEYDfzaaGDZteMWKs3rAdueEmzMXRCAlG2J2j+UTxgW/C1BOsp+2n5ZsePV5ZS
- rxtw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3SqJ-0000N0-Ci
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 21:38:12 -0400
+Received: by mail-pf1-x429.google.com with SMTP id n12so4775001pfq.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 18:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=WaYjh8xGFkWw4BQ/Jv5pHMn5mngrYXOQLOUU1aF7yN8=;
+ b=SvzziwkbAYjv1kBdgbc35mohFrbHa40W1mBVgSPVlcaDeanVTWhsXXJPFCT57BYdmT
+ r+jo8MIh97gtakaGB+y3KEVAflYMs0qwE6EMN+nLAgAMhZ2+l8Z3K0rcn8D9y6mDetAa
+ GukBBrm2phRtTX6R5BOwNP23/IwN8/me/QXyKmztOD9wEWaGAbPn//NEkzmxZ0uPV9Hy
+ eMdI9N1vTgzMsW5d5oW7aswCt/l9gSrmVGMFGuzOqDzA0S1PbB1xRXE//lWoy6hbNFrL
+ xu0oBEP1T2/f0rjQjsLypD2RWc5aXBOfz87tNZCK0+I7gfJP2ZGgjd5sftBFTn822NYR
+ zohg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jPqxI9P58vdAhZok3bo7O/Xj+Ph9uTygruutVQ/fpgA=;
- b=7o7jHv5eWXgvaKavECzlnzs2Ts0yueWQah3HY1lF4nXD+zIjE4Zdrcojd8ZPPIWAZx
- c1lUqxjcp7ypGWtRDBUKGXxjZB/ingxSVT9i//mAiJXClRJtb0Hct5ndBZHR0wgL7XDq
- zbJLNt03oVpnYs1IM9wJ7sn38Ojj5YWbhURRO3j6iyVJb5fPBwEPnXHlRaUKvmrHcpdZ
- lYiQv15phUinUMm2RwQ/UEn7nLOb1gy7zHj5WYpJ4UOJRf4eUFMOfqudrSl4y87BTAw1
- cVK3jjDu/QzWri8zh9nB5CxKmMx8AmszR2wMoODy7Te8d7ah+tpiI/1YpzR3jQ1tfdqr
- fMrw==
-X-Gm-Message-State: AJIora+DA8Cl7YlazyQ8bH/W96Z0hPt3Ems7H66WheM735FJST7XdOwa
- mVIbq5flK0MPs4ZJhWspY+mxzy6Cf0WVCf4rBkw=
-X-Google-Smtp-Source: AGRyM1tmyh/jbbsg/wSEOhz+B0x5St2dODpQrRX3gPbVh7tZeiWxR8NgyDCI8e4VQGYdvPzt6REitUQZkYDSAllvW0M=
-X-Received: by 2002:a17:90a:7e82:b0:1ec:9d45:7759 with SMTP id
- j2-20020a17090a7e8200b001ec9d457759mr10939019pjl.166.1655768369700; Mon, 20
- Jun 2022 16:39:29 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WaYjh8xGFkWw4BQ/Jv5pHMn5mngrYXOQLOUU1aF7yN8=;
+ b=RiPCI2jbOt+rC2kPe0kswKd3RLiN3YTWeXDeUf2nuHJkrB1V9QkqhKvbMTSiqeV13P
+ 9KgLlkDZ4aBiZycPims9J8X84EKWp0l17Qg2JgqBgtq8G06y0LycZ9BhJeUs2/SUPKGz
+ y3VvbBVEhtxjkDuWSehgtRqbJudi/KqPRL7MNN6zlgYjr1M6SmGoPRk9LypdxfugqPpm
+ cZHvt0DGBgFFTfOP9uoD6C303uovgJDhU4GXzkvd1ncAEt5FZ4/0HwmnOayvYnSWnSmz
+ pzLGTyyDuHAJuZO6GgRVUM2ENTJA6rSmjlXx1ACvESQK+8HHbha21nGS+7ZpWFOlMauU
+ 9wjw==
+X-Gm-Message-State: AJIora/+zrPnq4l6RMLfTCiLJiC0lUs4eoyHOT5RWZ6UxOtRWwzVRTag
+ sH32O6frYMZkW5NFjxzStttqhw==
+X-Google-Smtp-Source: AGRyM1smx5N69YIQSbt/DLwxADogn4WXOlt4D0t3yq9EX/x02qBj4fhPsqDtWKB+qN27R9n1D6x+AQ==
+X-Received: by 2002:a63:6b02:0:b0:3fb:da3f:4926 with SMTP id
+ g2-20020a636b02000000b003fbda3f4926mr24605411pgc.346.1655775488681; 
+ Mon, 20 Jun 2022 18:38:08 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:a3e0:8a80:7b85:aea6?
+ ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
+ by smtp.gmail.com with ESMTPSA id
+ z16-20020a62d110000000b005253732ffd9sm135339pfg.24.2022.06.20.18.38.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jun 2022 18:38:08 -0700 (PDT)
+Message-ID: <4316bd3f-a3e4-fc0c-2a63-a19e7f8787cb@linaro.org>
+Date: Mon, 20 Jun 2022 18:38:05 -0700
 MIME-Version: 1.0
-References: <20220609044046.1903865-1-daolu@rivosinc.com>
- <20220609044046.1903865-2-daolu@rivosinc.com>
-In-Reply-To: <20220609044046.1903865-2-daolu@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 21 Jun 2022 09:39:02 +1000
-Message-ID: <CAKmqyKN91QyYdhse0jUTGCX1i31tPuKpxBk46qJQVur4+50_tA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] target/riscv: Add Zihintpause support
-To: Dao Lu <daolu@rivosinc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Heiko Stuebner <heiko@sntech.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 20/33] configure: handle host compiler in
+ probe_target_compiler
+Content-Language: en-US
+To: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>
+References: <20220601180537.2329566-1-alex.bennee@linaro.org>
+ <20220601180537.2329566-21-alex.bennee@linaro.org>
+ <c655723a-95df-82e4-2105-678cdea9e702@eldorado.org.br>
+ <CABgObfYEiV_TK4BDxG6+zZ1Qq06y6GtmnP1uF__eV31XDKggDA@mail.gmail.com>
+ <9273ee87-28f6-b6bb-81be-72795f0a645b@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <9273ee87-28f6-b6bb-81be-72795f0a645b@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,107 +102,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 9, 2022 at 2:42 PM Dao Lu <daolu@rivosinc.com> wrote:
->
-> Added support for RISC-V PAUSE instruction from Zihintpause extension,
-> enabled by default.
->
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Dao Lu <daolu@rivosinc.com>
-> ---
->  target/riscv/cpu.c                      |  2 ++
->  target/riscv/cpu.h                      |  1 +
->  target/riscv/insn32.decode              |  7 ++++++-
->  target/riscv/insn_trans/trans_rvi.c.inc | 18 ++++++++++++++++++
->  4 files changed, 27 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index ccacdee215..183fb37fdf 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> +    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
->      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> @@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->       *    extensions by an underscore.
->       */
->      struct isa_ext_data isa_edata_arr[] = {
-> +        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
->          ISA_EDATA_ENTRY(zfh, ext_zfh),
->          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
->          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index fe6c9a2c92..e466a04a59 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -394,6 +394,7 @@ struct RISCVCPUConfig {
->      bool ext_counters;
->      bool ext_ifencei;
->      bool ext_icsr;
-> +    bool ext_zihintpause;
->      bool ext_svinval;
->      bool ext_svnapot;
->      bool ext_svpbmt;
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 4033565393..595fdcdad8 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
->  sra      0100000 .....    ..... 101 ..... 0110011 @r
->  or       0000000 .....    ..... 110 ..... 0110011 @r
->  and      0000000 .....    ..... 111 ..... 0110011 @r
-> -fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
-> +
-> +{
-> +  pause  0000 0001   0000   00000 000 00000 0001111
-> +  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
-> +}
-> +
->  fence_i  ---- ----   ----   ----- 001 ----- 0001111
->  csrrw    ............     ..... 001 ..... 1110011 @csr
->  csrrs    ............     ..... 010 ..... 1110011 @csr
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> index f1342f30f8..ca75e05f4b 100644
-> --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -796,6 +796,24 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
->      return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
->  }
->
-> +static bool trans_pause(DisasContext *ctx, arg_pause *a)
-> +{
-> +    if (!ctx->cfg_ptr->ext_zihintpause) {
-> +        return false;
-> +    }
-> +
-> +    /*
-> +     * PAUSE is a no-op in QEMU,
-> +     * however we need to clear the reservation,
-> +     * end the TB and return to main loop
-> +     */
-> +    tcg_gen_movi_tl(load_res, -1);
+On 6/20/22 09:41, Matheus Kowalczuk Ferst wrote:
+> On 17/06/2022 07:12, Paolo Bonzini wrote:
+>> Hi Matheus,
+>>
+>> could you please test the tests-tcg-next branch at
+>> https://gitlab.com/bonzini/qemu?
+> 
+> At be6090bcac10, it works if no BE toolchain is present. Otherwise, the
+> script probes powerpc64-linux-gnu-gcc instead of the native tools for
+> ppc64le-linux-user, and then do_compiler fails because the
+> $target_cflags contains -mlittle-endian.
 
-I'm not clear why we need to clear the load_res? We don't do it for
-fence instruction
+Also testing this branch, -m32 may not be supported:
 
-Alistair
+make[1]: Entering directory `/home/rth/qemu/bld/pc-bios/vof'
 
-> +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> +    tcg_gen_exit_tb(NULL, 0);
-> +    ctx->base.is_jmp = DISAS_NORETURN;
-> +
-> +    return true;
-> +}
->
->  static bool trans_fence(DisasContext *ctx, arg_fence *a)
->  {
-> --
-> 2.25.1
->
->
+cc -m32 -mbig-endian -mcpu=power4 -c -o entry.o /home/rth/qemu/src/pc-bios/vof/entry.S
+
+cc1: error: ‘-m32’ not supported in this configuration
+
+make[1]: *** [entry.o] Error 1
+
+
+
+This is with a self-built compiler, rather than distro packaged, but with default 
+configure options to gcc.
+
+
+r~
 
