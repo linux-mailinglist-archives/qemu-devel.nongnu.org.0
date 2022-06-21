@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0243552F28
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:51:48 +0200 (CEST)
-Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8707C552F55
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 12:02:16 +0200 (CEST)
+Received: from localhost ([::1]:60896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3aXz-0001FC-SI
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:51:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43428)
+	id 1o3ai7-0008C4-LB
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 06:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aR6-0007sk-Vg; Tue, 21 Jun 2022 05:44:40 -0400
-Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:45022)
+ id 1o3aRE-000852-LO; Tue, 21 Jun 2022 05:44:48 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:34603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aR3-0007MW-UO; Tue, 21 Jun 2022 05:44:39 -0400
-Received: by mail-oo1-xc2c.google.com with SMTP id
- v33-20020a4a9764000000b0035f814bb06eso2594704ooi.11; 
- Tue, 21 Jun 2022 02:44:36 -0700 (PDT)
+ id 1o3aR9-0007Q8-L1; Tue, 21 Jun 2022 05:44:45 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id v4so16415756oiv.1;
+ Tue, 21 Jun 2022 02:44:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8j3mSBud8SR0reAw6KEwp2o8Neb26wSgmj15b5qeYag=;
- b=D7rYvkXRuR1pkowzpiyKq7CRtAOZ3UL3F7Bfre77TqUcE+IbmU8Jpm6YlSa3ExKJjS
- lRGFMKiuAJyIWc4rsCM0TMB24gJ0zswRWXAfEHRyzHbELxzoJ7nuSGyaDtOt2tl2cNps
- f5s2aqqPHmX94DkT6c/iR2/ccZ5Vu2Q7Np+CGwkF561QIk+tzDNdaOpRegK/IXyeT5Jx
- rxnYNLeqrhWZL9pYjNXCEN/AMQQTEII9FpHHEj7S1FTQWcUpzlr82Y4RsMFB2CZjpWuv
- MQNcIE4BTqMSy6YNejQ/8pY3GwLq25XdNPfzeab10M8xFfjO6xe2w0jIlrht64cgDgkS
- D9Sg==
+ bh=SlXraOtf2sbS3ADdQCtU+Ose4IYOB9EgS1SJhAMg7yI=;
+ b=fBuyB22Rn4o3ZcaNEiOnXqQQYywgDK01zLFZIoT2X+ku88zHtnGKbbrCOmnOdfnQ3g
+ ZcqHo9frpDNa5ve084HcGJK7/aIZDdB4WYQOkXETySZNtTIGcum9Mrdo+EVQNwGKRMf7
+ xy0++1lNFiZB+lSidCWhDxlqnCBpRJp51u/C5AljauLPfHes7FKP2j06aqeOAGQuTvZI
+ vZbKELjTnu8sZQrlVR08oCFoM0mIJDmoS9ZyVBEkJJD5iZOM7KdGqG/Gl1X4GFgpwvNz
+ RJjzPL7Idg0IFeU9j289w3fn7UPdZlg9BiPI3Ttb2NqB34i1kEixhMV2SqfeOC+csESS
+ 0nIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8j3mSBud8SR0reAw6KEwp2o8Neb26wSgmj15b5qeYag=;
- b=eEY5H9Km0UGIvWcs/AcDAW0J83uIqLRP/PoCLOtP1YVeMpt3xxzePC6fiuaTboaCAW
- a4tSzBtukADWDwH0jV4OkEOXM2YU88AyAhhMk7NkH2fwenJhU+1kkg9c2vLnxd0vTJeo
- +UPf0P35oM1djtyoDBa9I2Wv591KOXJ0xrr4mjlsQjwgQBkbeKFQ7xBxltgccTYqZtgS
- Prvqvdbflz0djQyGswD+C8lZjYihosZMrvlm7LtuWUu0xk4g6K72JHHXipIwLhjGSMj/
- 8Nopn0Z0HWTNmsCVtRlv5/cAgYx2hfL+UZMg2a5/WIqjW9fbX2zmzYD7nfkHSL65xhKf
- p/Dw==
-X-Gm-Message-State: AJIora+rrDDhH1HhahtFDw7oIhFxS3+q+Q979+t0xE4+on87qipzDI9E
- B8GR6rLY2BYzD0Jvnw/kmzgVzlGGGTTyDw==
-X-Google-Smtp-Source: AGRyM1sOrsNi5fhhk9ShTlHGKCoYU3pkAx4UyVRUyYFwqwj46/ub1Yw59Qth7aNd+0ZbfWWzycj3YQ==
-X-Received: by 2002:a05:6820:614:b0:41b:8f3f:a6c9 with SMTP id
- e20-20020a056820061400b0041b8f3fa6c9mr10844995oow.95.1655804676310; 
- Tue, 21 Jun 2022 02:44:36 -0700 (PDT)
+ bh=SlXraOtf2sbS3ADdQCtU+Ose4IYOB9EgS1SJhAMg7yI=;
+ b=wzZ7fbE0/Hv+o0IPs2tecgf1C+gMC4NjAXEMI9LRKIWzz5hN+OWX5SWjgO5l1+mO5m
+ XhHOpmLsXVNgQULqnM/1gkWp5/QWsIQjP/XMerjUaxIk6CTmakbzgPQ3jTCTBqRgwqoO
+ 9T4HPGCGllzjcSq57w6wvj1gJuQlKVNEsD3g8lGiH0tiD2rn7W8uMRlSn9J55CsnRF+H
+ CLcC5S9fJS7CYkbCIWeY+A1tlOP1Zqwla3GmSvZGexAEf5JflmHKYiPe2TrMn8GfvmEi
+ BY2qO/s0oKbJ1Dok6AgXaQETHjPSw612gftKYho6qjYkh8dQKuCmTpkrrnDma7f8PRk4
+ UMWA==
+X-Gm-Message-State: AOAM530iTpQFlOfIEv9/ZRZZO2qRBU1PniBkzXv4TXdKz4IrKka6HlDp
+ VQ1gBfT+hk1mENiXlHtp5k0AhpGCegJiTg==
+X-Google-Smtp-Source: ABdhPJw1kFieY7/epyMLEw4a9asrz9ztWYQ5vD2TIRnk3fJ3EvYrZXJ1I+RwW8moMY3UVyg2yoXbLw==
+X-Received: by 2002:a05:6808:e87:b0:32e:3cfb:fad7 with SMTP id
+ k7-20020a0568080e8700b0032e3cfbfad7mr19535657oil.197.1655804681193; 
+ Tue, 21 Jun 2022 02:44:41 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.34
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:36 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:40 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org,
- Lucas Mateus Castro <lucas.araujo@eldorado.org.br>
-Subject: [PULL 13/15] target/ppc: avoid int32 multiply overflow in int_helper.c
-Date: Tue, 21 Jun 2022 06:43:58 -0300
-Message-Id: <20220621094400.122800-14-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Frederic Barrat <fbarrat@linux.ibm.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 15/15] target/ppc: cpu_init: Clean up stop state on cpu reset
+Date: Tue, 21 Jun 2022 06:44:00 -0300
+Message-Id: <20220621094400.122800-16-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
 References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,54 +91,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity is not thrilled about the multiply operations being done in
-ger_rank8() and ger_rank2(), giving an error like the following:
+From: Frederic Barrat <fbarrat@linux.ibm.com>
 
-Integer handling issues  (OVERFLOW_BEFORE_WIDEN)
-    Potentially overflowing expression "sextract32(a, 4 * i, 4) *
-sextract32(b, 4 * i, 4)" with type "int" (32 bits, signed) is evaluated
-using 32-bit arithmetic, and then used in a context that expects an
-expression of type "int64_t" (64 bits, signed).
+The 'resume_as_sreset' attribute of a cpu is set when a thread is
+entering a stop state on ppc books. It causes the thread to be
+re-routed to vector 0x100 when woken up by an exception. So it must be
+cleared on reset or a thread might be re-routed unexpectedly after a
+reset, when it was not in a stop state and/or when the appropriate
+exception handler isn't set up yet.
 
-Fix both instances where this occur by adding an int64_t cast in the
-first operand, forcing the result to be 64 bit.
+Using skiboot, it can be tested by resetting the system when it is
+quiet and most threads are idle and in stop state.
 
-Fixes: Coverity CID 1489444, 1489443
-Fixes: 345531533f26 ("target/ppc: Implemented xvi*ger* instructions")
-Cc: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Message-Id: <20220602141449.118173-1-danielhb413@gmail.com>
+After the reset occurs, skiboot elects a primary thread and all the
+others wait in secondary_wait. The primary thread does all the system
+initialization from main_cpu_entry() and at some point, the
+decrementer interrupt starts ticking. The exception vector for the
+decrementer interrupt is in place, so that shouldn't be a
+problem. However, if that primary thread was in stop state prior to
+the reset, and because the resume_as_sreset parameters is still set,
+it is re-routed to exception vector 0x100. Which, at that time, is
+still defined as the entry point for BML. So that primary thread
+restarts as new and ends up being treated like any other secondary
+thread. All threads are now waiting in secondary_wait.
+
+It results in a full system hang with no message on the console, as
+the uart hasn't been init'ed yet. It's actually not obvious to realise
+what's happening if not tracing reset (-d cpu_reset). The fix is
+simply to clear the 'resume_as_sreset' attribute on reset.
+
+Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20220617095222.612212-1-fbarrat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/int_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/ppc/cpu_init.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 11871947bc..3ae03f73d3 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -789,7 +789,7 @@ static int64_t ger_rank8(uint32_t a, uint32_t b, uint32_t mask)
-     int64_t psum = 0;
-     for (int i = 0; i < 8; i++, mask >>= 1) {
-         if (mask & 1) {
--            psum += sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
-+            psum += (int64_t)sextract32(a, 4 * i, 4) * sextract32(b, 4 * i, 4);
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 0f891afa04..c16cb8dbe7 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -7186,6 +7186,9 @@ static void ppc_cpu_reset(DeviceState *dev)
          }
+         pmu_update_summaries(env);
      }
-     return psum;
-@@ -811,7 +811,8 @@ static int64_t ger_rank2(uint32_t a, uint32_t b, uint32_t mask)
-     int64_t psum = 0;
-     for (int i = 0; i < 2; i++, mask >>= 1) {
-         if (mask & 1) {
--            psum += sextract32(a, 16 * i, 16) * sextract32(b, 16 * i, 16);
-+            psum += (int64_t)sextract32(a, 16 * i, 16) *
-+                             sextract32(b, 16 * i, 16);
-         }
-     }
-     return psum;
++
++    /* clean any pending stop state */
++    env->resume_as_sreset = 0;
+ #endif
+     hreg_compute_hflags(env);
+     env->reserve_addr = (target_ulong)-1ULL;
 -- 
 2.36.1
 
