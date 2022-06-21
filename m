@@ -2,72 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC51553B99
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 22:27:04 +0200 (CEST)
-Received: from localhost ([::1]:39384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDBA553BCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 22:48:03 +0200 (CEST)
+Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3kSl-0008CG-8v
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 16:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49494)
+	id 1o3kn4-0006NT-8X
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 16:48:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=7171ca9011=irischenlj@fb.com>)
- id 1o3kQg-0005yd-U0; Tue, 21 Jun 2022 16:24:54 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:40504)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o3kkY-00056N-UY
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:45:26 -0400
+Received: from esa3.hc2706-39.iphmx.com ([68.232.154.118]:47099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=7171ca9011=irischenlj@fb.com>)
- id 1o3kQd-00065o-Qc; Tue, 21 Jun 2022 16:24:54 -0400
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25LIbKbZ031674;
- Tue, 21 Jun 2022 13:24:35 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=facebook; bh=IgXc0k+4f0L+/XD3WHCLdKypOU6paufXJWT/J1Pqojc=;
- b=VsOd+9RUxicZ/9BaZNcJUZjeUBkiHRU5XGzyZDL9HgJ0uHfvpJC2db91GPJl7hkSClDN
- jYdZR22qL6jjniQrzQrgNwez6I8H93dtBWiAQwfVHOap6GR8TnjOl4hQkN5Mja8OROTi
- DR3RT6+rQZ0io745ocGqVJkVhnUWzQ31JGw= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gukdwrq6d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 21 Jun 2022 13:24:35 -0700
-Received: from localhost (2620:10d:c0a8:1b::d) by mail.thefacebook.com
- (2620:10d:c0a8:83::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 21 Jun
- 2022 13:24:34 -0700
-From: Iris Chen <irischenlj@fb.com>
-To: 
-CC: <irischenlj@fb.com>, <pdel@fb.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>, <clg@kaod.org>, <patrick@stwcx.xyz>,
- <alistair@alistair23.me>, <kwolf@redhat.com>, <hreitz@redhat.com>,
- <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>,
- <qemu-block@nongnu.org>, <dz4list@gmail.com>, Iris Chen
- <irischenlj@gmail.com>
-Subject: [PATCH v4] hw: m25p80: add WP# pin and SRWD bit for write protection
-Date: Tue, 21 Jun 2022 13:24:27 -0700
-Message-ID: <20220621202427.2680413-1-irischenlj@fb.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o3kkV-0000mb-Nd
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:45:25 -0400
+X-IronPort-RemoteIP: 209.85.219.70
+X-IronPort-MID: 207000792
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:/6TleKqaVgiPruxMXN5Joq92pP5eBmKTZxIvgKrLsJaIsI4StFCzt
+ garIBnVbqyMMWLwL4ggYNizpExVv5fcyYVjHVNq/39jF3wa85acVYWSI3mrAy7DdceroGCLT
+ ik9hnssCOhuExcwcz/0auCJQUFUjP3OHvymYAL9EngZqTVMEU/Nsjo+3b9j6mJUqYLhWVnV5
+ 4mr+5e31GKNgFaYDEpFs8pvlzsy5JweiBtA1rDpTakW1LN2vyB94KM3fMldHVOhKmVnNrfSq
+ 9L48V2M1jixEyHBqz+Suu2TnkUiGtY+NOUV45Zcc/HKbhNq/0Te3kunXRa1hIg+ZzihxrhMJ
+ NtxWZOYWy4wD5fqw/QmAzpqM3xOOY1ko5CaGC3q2SCT5xWun3rExvxvCAQvI9Rd9LkvR25J8
+ vMcJXYGaRXra+CemurqDLkxwJ56fY+0ZOvzuVk5pd3dJf8iUZbPWY3A+JlV0CpYasVmR66BP
+ 5JBNms1BPjGS0JVZVYOJ4sQpdaTpnynIzMEsHau4rVitgA/yyQ0itABKuH9Y9GPWIBZk1iVo
+ krA+GL2BAxcM8aQoQdp6Vqpj+7L2DrlAcccS+X++fltj1megGcUDXX6SGeGnBVwsWbmM/o3F
+ qDe0nNGQXQanKBzcuTAYg==
+IronPort-HdrOrdr: A9a23:y4xvJ6hbOQkF5GuP2APdHu82JnBQXgAji2hC6mlwRA09TyVXrb
+ HLoB19726PtN91YhsdcL+7Sc+9qB/nhPxICOoqTMyftXfdyRKVxehZhOOIsl7d8kXFltK1vp
+ 0QFJSWZueAaGRSvILRzDP9Pewd4OSqxoiVuMa29QYRceioUc1dBsVCZzpz3ncZeOA/P+tAKH
+ NU3KUnmwad
+Received: from mail-qv1-f70.google.com ([209.85.219.70])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 21 Jun 2022 16:45:14 -0400
+Received: by mail-qv1-f70.google.com with SMTP id
+ b2-20020a0cb3c2000000b004703a79581dso8669258qvf.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 13:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S3flwv5H42e3u1sxBuf2Tsu7X5rDnxqMaIyq6OQiSss=;
+ b=TIXozH5o5XmCymIAb5v64J4CZy8wQnb5J49LtwWZesdE/WspR5qQO33XedOz1LdO8O
+ orssaHzl9ObnXPVpvmTxA1ZYsHcG5ubXA/vkdJf1W3GCsa9g7e76/lTGkTo5wy+jWstY
+ 5ATA21NlKCzvBngcly3LLHD+xPJQ1uzPzsCD/cc4RAl9DBdveRGOB844Iotkfcn6OvKw
+ fnQayrsOU91gFL5MWYcdIIyZUQIbL1T/wNhlUQUlhGN5CQwYl2pGxpvO3VHRN4f+trj6
+ FazRO6nOnCn0Lu7MRU2EWvUtJcs5djA5woyPGr2mQ34+SkYnyMz//tar0xQQNnI8wwh8
+ VMMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S3flwv5H42e3u1sxBuf2Tsu7X5rDnxqMaIyq6OQiSss=;
+ b=FKS0Xaum/sLKZ0lPs5Xi19ysjjiPMdVA1Lu4sYkFs8qGg544N4wWD3yjiWP/IEY5q1
+ pf3K95SjWUrxI0FXjjBJVoiiKzTxuAWOS1PNyakrqwwWONRlZdWI4VmFxqTfm4gEIlY5
+ 2EQVtfRnuV8gX5KmZWccrQxkA/Cj8hqxje6uKk9w0onmasJ9vOC7h5TNrC7pSM+gcLgc
+ BErlqZhivsr0/+vx/s75aCPijS4nj7CGwanzu2pi+WkOeXB+6X8C0M0HIME1azPosYdQ
+ jF/AqDCwdZEzuawSobhsvRYDfYXhR8o3te2ol2PZAhb87wMZzU1DBpJsODQJDzjXDgHY
+ wEGg==
+X-Gm-Message-State: AJIora/hwe5h7l8T6/DbSe8XA4RXu7cdFoDBAVwFdLx5cMZDYQsbgGf/
+ i2CIKi6ulfiU1SUEizsSa47Wff7mPfOzclla0CMW3pBDq3TU0n2874jgHcYGrp3dNLQPcMIpWE8
+ bF6NoUlcFk1WSAh6TyidFqwOWHgUsWQ==
+X-Received: by 2002:ac8:5d93:0:b0:305:2b38:af70 with SMTP id
+ d19-20020ac85d93000000b003052b38af70mr78080qtx.383.1655844313650; 
+ Tue, 21 Jun 2022 13:45:13 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tYlUb74zc4eDcMQhLvQJVKU9xvhgceLVkxoH1BYp6ngYg6YCb0TBm+ZiKnFYN8E60gTuizJA==
+X-Received: by 2002:ac8:5d93:0:b0:305:2b38:af70 with SMTP id
+ d19-20020ac85d93000000b003052b38af70mr78058qtx.383.1655844313415; 
+ Tue, 21 Jun 2022 13:45:13 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ g10-20020a05620a40ca00b006a6bb044740sm15724654qko.66.2022.06.21.13.45.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jun 2022 13:45:12 -0700 (PDT)
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Alexander Bulekov <alxndr@bu.edu>
+Subject: [PATCH] build: improve -fsanitize-coverage-allowlist check
+Date: Tue, 21 Jun 2022 16:45:07 -0400
+Message-Id: <20220621204507.698711-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [2620:10d:c0a8:1b::d]
-X-Proofpoint-GUID: 3kPgsaAF_VLiiBqptI0oC3sJPR2T_QVB
-X-Proofpoint-ORIG-GUID: 3kPgsaAF_VLiiBqptI0oC3sJPR2T_QVB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-21_09,2022-06-21_01,2022-02-23_01
-Received-SPF: pass client-ip=67.231.153.30;
- envelope-from=prvs=7171ca9011=irischenlj@fb.com;
- helo=mx0b-00082601.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=68.232.154.118; envelope-from=alxndr@bu.edu;
+ helo=esa3.hc2706-39.iphmx.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,170 +115,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Iris Chen <irischenlj@gmail.com>
+The sancov filter check still fails when unused arguments are treated as
+errors. To work around that, add a SanitizerCoverage flag to the
+build-check.
 
-Signed-off-by: Iris Chen <irischenlj@gmail.com>
+Fixes: aa4f3a3b88 ("build: fix check for -fsanitize-coverage-allowlist")
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
-Fixed .needed for subsection and suggestions from Francisco 
+ meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- hw/block/m25p80.c | 82 ++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 67 insertions(+), 15 deletions(-)
-
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 81ba3da4df..3045dda53b 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -472,11 +472,13 @@ struct Flash {
-     uint8_t spansion_cr2v;
-     uint8_t spansion_cr3v;
-     uint8_t spansion_cr4v;
-+    bool wp_level;
-     bool write_enable;
-     bool four_bytes_address_mode;
-     bool reset_enable;
-     bool quad_enable;
-     bool aai_enable;
-+    bool status_register_write_disabled;
-     uint8_t ear;
+diff --git a/meson.build b/meson.build
+index 9efcb175d1..1b255f91ef 100644
+--- a/meson.build
++++ b/meson.build
+@@ -212,7 +212,8 @@ if get_option('fuzzing')
  
-     int64_t dirty_page;
-@@ -723,6 +725,8 @@ static void complete_collecting_data(Flash *s)
-         flash_erase(s, s->cur_addr, s->cmd_in_progress);
-         break;
-     case WRSR:
-+        s->status_register_write_disabled = extract32(s->data[0], 7, 1);
-+
-         switch (get_man(s)) {
-         case MAN_SPANSION:
-             s->quad_enable = !!(s->data[1] & 0x02);
-@@ -1165,22 +1169,34 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         break;
- 
-     case WRSR:
--        if (s->write_enable) {
--            switch (get_man(s)) {
--            case MAN_SPANSION:
--                s->needed_bytes = 2;
--                s->state = STATE_COLLECTING_DATA;
--                break;
--            case MAN_MACRONIX:
--                s->needed_bytes = 2;
--                s->state = STATE_COLLECTING_VAR_LEN_DATA;
--                break;
--            default:
--                s->needed_bytes = 1;
--                s->state = STATE_COLLECTING_DATA;
--            }
--            s->pos = 0;
-+        /*
-+         * If WP# is low and status_register_write_disabled is high,
-+         * status register writes are disabled.
-+         * This is also called "hardware protected mode" (HPM). All other
-+         * combinations of the two states are called "software protected mode"
-+         * (SPM), and status register writes are permitted.
-+         */
-+        if ((s->wp_level == 0 && s->status_register_write_disabled)
-+            || !s->write_enable) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "M25P80: Status register write is disabled!\n");
-+            break;
-+        }
-+
-+        switch (get_man(s)) {
-+        case MAN_SPANSION:
-+            s->needed_bytes = 2;
-+            s->state = STATE_COLLECTING_DATA;
-+            break;
-+        case MAN_MACRONIX:
-+            s->needed_bytes = 2;
-+            s->state = STATE_COLLECTING_VAR_LEN_DATA;
-+            break;
-+        default:
-+            s->needed_bytes = 1;
-+            s->state = STATE_COLLECTING_DATA;
-         }
-+        s->pos = 0;
-         break;
- 
-     case WRDI:
-@@ -1195,6 +1211,8 @@ static void decode_new_cmd(Flash *s, uint32_t value)
- 
-     case RDSR:
-         s->data[0] = (!!s->write_enable) << 1;
-+        s->data[0] |= (!!s->status_register_write_disabled) << 7;
-+
-         if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
-             s->data[0] |= (!!s->quad_enable) << 6;
-         }
-@@ -1484,6 +1502,14 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
-     return r;
- }
- 
-+static void m25p80_write_protect_pin_irq_handler(void *opaque, int n, int level)
-+{
-+    Flash *s = M25P80(opaque);
-+    /* WP# is just a single pin. */
-+    assert(n == 0);
-+    s->wp_level = !!level;
-+}
-+
- static void m25p80_realize(SSIPeripheral *ss, Error **errp)
- {
-     Flash *s = M25P80(ss);
-@@ -1515,12 +1541,18 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
-         s->storage = blk_blockalign(NULL, s->size);
-         memset(s->storage, 0xFF, s->size);
-     }
-+
-+    qdev_init_gpio_in_named(DEVICE(s),
-+                            m25p80_write_protect_pin_irq_handler, "WP#", 1);
- }
- 
- static void m25p80_reset(DeviceState *d)
- {
-     Flash *s = M25P80(d);
- 
-+    s->wp_level = true;
-+    s->status_register_write_disabled = false;
-+
-     reset_memory(s);
- }
- 
-@@ -1587,6 +1619,25 @@ static const VMStateDescription vmstate_m25p80_aai_enable = {
-     }
- };
- 
-+static bool m25p80_wp_level_srwd_needed(void *opaque)
-+{
-+    Flash *s = (Flash *)opaque;
-+
-+    return !s->wp_level || s->status_register_write_disabled;
-+}
-+
-+static const VMStateDescription vmstate_m25p80_write_protect = {
-+    .name = "m25p80/write_protect",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = m25p80_wp_level_srwd_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_BOOL(wp_level, Flash),
-+        VMSTATE_BOOL(status_register_write_disabled, Flash),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static const VMStateDescription vmstate_m25p80 = {
-     .name = "m25p80",
-     .version_id = 0,
-@@ -1618,6 +1669,7 @@ static const VMStateDescription vmstate_m25p80 = {
-     .subsections = (const VMStateDescription * []) {
-         &vmstate_m25p80_data_read_loop,
-         &vmstate_m25p80_aai_enable,
-+        &vmstate_m25p80_write_protect,
-         NULL
-     }
- };
+   if cc.compiles('int main () { return 0; }',
+                   name: '-fsanitize-coverage-allowlist=/dev/null',
+-                 args: ['-fsanitize-coverage-allowlist=/dev/null'] )
++                 args: ['-fsanitize-coverage-allowlist=/dev/null',
++                        '-fsanitize-coverage=trace-pc'] )
+     add_global_arguments('-fsanitize-coverage-allowlist=instrumentation-filter',
+                          native: false, language: ['c', 'cpp', 'objc'])
+   endif
 -- 
-2.30.2
+2.27.0
 
 
