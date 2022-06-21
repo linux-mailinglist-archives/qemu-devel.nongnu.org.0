@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF762552F3F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:57:34 +0200 (CEST)
-Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0343C552F32
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:54:48 +0200 (CEST)
+Received: from localhost ([::1]:47038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3adZ-0001ve-Ts
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
+	id 1o3aas-0006oQ-PH
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQz-0007mz-DT; Tue, 21 Jun 2022 05:44:35 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:33767)
+ id 1o3aR1-0007nc-2H; Tue, 21 Jun 2022 05:44:35 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:46633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQx-0007OO-W7; Tue, 21 Jun 2022 05:44:33 -0400
-Received: by mail-oi1-x233.google.com with SMTP id s124so16459758oia.0;
- Tue, 21 Jun 2022 02:44:30 -0700 (PDT)
+ id 1o3aQz-0007Of-Hb; Tue, 21 Jun 2022 05:44:34 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id
+ 93-20020a9d02e6000000b0060c252ee7a4so10252842otl.13; 
+ Tue, 21 Jun 2022 02:44:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V7yhW9LpMmKGzBXwAjsWvLaDaxNgxsE3wMeuD2ea0AU=;
- b=H9UZYGLc6STaRXKWyKPbPSy5uS9++6V9Fp/gXV2XgG26SPBJu7aFpQ0l3rhYjhxAzf
- 0EY2azf9Ag6ANJrn1FlPqfJLrGRlcSPO2LdR82IDxCFs29YgOiO5tJSDQtmbFp/cOHxF
- 7wAxSUe9Fm9jEjdrZN7R7IdP+WgQwjNjIUDs05PUr2/OABvhRCAT75nSEYMcrjgKPrpl
- umV8UsxtA0+eyw2oTl013cBa5HpCNdakdMAvXnSwOxVDNeiAeFy+dhjp/pSroI0wKGl/
- S/UxierJDjO+SWowWGocZbjvU8e2hOzLKYlQd+6AIXoSLKLlaM2dqypMLq9rkJ8LQoIU
- G52g==
+ bh=svUkRWP5wlLbdXls872JxaD3X8JWFFzuJPhQ18Bbx7s=;
+ b=hDnJtOxmroGlHOodWkYzznQHuXsrPJpfcwUkNL+i56Qhpxl7xYGqVwJlhenGPGWTqm
+ FUmavQwmP0SCAgj0jTuw2aJsdlwHwDzjBdiFiuztR1+AdGrxAdmPLAi/YGqvrCYas7XO
+ QxmtNmgKFA3RwCaYw+KgmOVsmgu1ih44lIs0yi9eX49b2/ynzKNoDt/ntc9jYslA49m1
+ pCxRoWU5dUIxUXVNBUkLJiwA/mU+h175WCfXCfzePSjuZt1k4VBI9UEhzJFrMGaDvpqN
+ 0aAATZuS1c7MRHuKmH8aNXKvgo1a3UaBN6Gb12KgkWqwjC1GBG3q9wTA20DijL6ppGZ3
+ 1kMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V7yhW9LpMmKGzBXwAjsWvLaDaxNgxsE3wMeuD2ea0AU=;
- b=KpF5PRC4R7Yc1vxPwNtmNONrH/shp1KiGoX/yBAA2vYcgVTev6Bkcsf1CHdlF3Vavs
- ySFxFnup4KBO8tSuIIsIUEjox9kM+84oORLHb/SF1bbmL33Yf4sk0ZPdvBXCkfl2Bkrz
- VYbi9OuJWAkq1CZbPIvoZkodF0PBUZXx+eGHoZwVps6/EDxG5GiNREoDskI2jWJf2YVY
- NH3q9Bq4+IRI1K6uOFOcmHamunU6c+kKqogFBCbCS988YB3RV5xuF+Wy+VjvQ4gf6NlN
- 8DnRhqsIjbmFoG3ujHqXQMc+LTL64CRrETlraFWkf8sP/xAPPQ9ysQg+1xztjCbaxCml
- FnOg==
-X-Gm-Message-State: AJIora+Lj1z2Uou/T+wc43dliAkQUajpn1AsHIqVUYMFc9Mjo+ykY3Tk
- c6vWlTppH0TO7olKSU1g6cLKAbGfJKYcHg==
-X-Google-Smtp-Source: AGRyM1ukIgxQ1VNLUiYhfZ9yDj4D12XbxQjy80n8rgv7UW83cTRijAAXmAeWnJ27Qdx4qSDGf21ivw==
-X-Received: by 2002:a05:6808:18a6:b0:332:fae8:dbd7 with SMTP id
- bi38-20020a05680818a600b00332fae8dbd7mr8618340oib.172.1655804669541; 
- Tue, 21 Jun 2022 02:44:29 -0700 (PDT)
+ bh=svUkRWP5wlLbdXls872JxaD3X8JWFFzuJPhQ18Bbx7s=;
+ b=yRFUzXvqaqLrt+nuEYLMqblu4qJNOkcKnOu8Ica4wy6uTpunz8IoSlB+JdSfTmqbVn
+ B/emLOeWITY1MgAIGnsilDNshUuMIvTHgBBADHx7kBqO1EjE9pzZzZXOqWETa3MSI+83
+ MsBf99DMPLp/SN3zbS7rb17GtVoaN9FopLzLU2v1al/Hhano1/q7ZWtLtF8NxHeNjhTI
+ f3XP/KdiRFfDDsS6yj5bQ1FZzJy7leN1pSzsJo51W+lGXxQB7aBLaRRjoxOblC37qfu/
+ NY1KTxsulQITqj2aVcmdvRBMHtSdCPY57764bbwh0WWpI+dHrZeO5mWGItZXSRVIa/Ms
+ yoFg==
+X-Gm-Message-State: AJIora/xxUKlRLnhDDfPuxRBUr00lja5N9I0sSuWo2I/8DWg1blaHCDX
+ Jj+Eab8ittCgAegJvS1mGMiqv5QVigMliA==
+X-Google-Smtp-Source: AGRyM1sKMosk7RnxriQMYPCRKGgBTk22glWWgT21YOE+21P8PPnnh3IkuuU9ZSrVWOA4BlXJk20szw==
+X-Received: by 2002:a05:6830:43ab:b0:610:45bd:b8c8 with SMTP id
+ s43-20020a05683043ab00b0061045bdb8c8mr6478249otv.252.1655804671965; 
+ Tue, 21 Jun 2022 02:44:31 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.27
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:29 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:31 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PULL 10/15] target/ppc: fix vbpermd in big endian hosts
-Date: Tue, 21 Jun 2022 06:43:55 -0300
-Message-Id: <20220621094400.122800-11-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Frederic Barrat <fbarrat@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 11/15] pnv/xive2: Access direct mapped thread contexts from all
+ chips
+Date: Tue, 21 Jun 2022 06:43:56 -0300
+Message-Id: <20220621094400.122800-12-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
 References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x233.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,44 +92,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
 
-The extract64 arguments are not endian dependent as they are only used
-for bitwise operations. The current behavior in little-endian hosts is
-correct; since the indexes in VRB are in PowerISA-ordering, we should
-always invert the value before calling extract64. Also, using the VsrD
-macro, we can have a single EXTRACT_BIT definition for big and
-little-endian with the correct behavior.
+When accessing a thread context through the IC BAR, the offset of the
+page in the BAR identifies the CPU. From that offset, we can compute
+the PIR (processor ID register) of the CPU to do the data structure
+lookup. On P10, the current code assumes an access for node 0 when
+computing the PIR. Everything is almost in place to allow access for
+other nodes though. So this patch reworks how the PIR value is
+computed so that we can access all thread contexts through the IC BAR.
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220601125355.1266165-1-matheus.ferst@eldorado.org.br>
+The PIR is already correct on P9, so no need to modify anything there.
+
+Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20220602165310.558810-1-fbarrat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/int_helper.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/intc/pnv_xive2.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 16357c0900..11871947bc 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1413,14 +1413,13 @@ XXGENPCV(XXGENPCVDM, 8)
- #define VBPERMQ_INDEX(avr, i) ((avr)->u8[(i)])
- #define VBPERMD_INDEX(i) (i)
- #define VBPERMQ_DW(index) (((index) & 0x40) != 0)
--#define EXTRACT_BIT(avr, i, index) (extract64((avr)->u64[i], index, 1))
- #else
- #define VBPERMQ_INDEX(avr, i) ((avr)->u8[15 - (i)])
- #define VBPERMD_INDEX(i) (1 - i)
- #define VBPERMQ_DW(index) (((index) & 0x40) == 0)
--#define EXTRACT_BIT(avr, i, index) \
--        (extract64((avr)->u64[1 - i], 63 - index, 1))
- #endif
-+#define EXTRACT_BIT(avr, i, index) \
-+        (extract64((avr)->VsrD(i), 63 - index, 1))
- 
- void helper_vbpermd(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+index a39e070e82..f31c53c28d 100644
+--- a/hw/intc/pnv_xive2.c
++++ b/hw/intc/pnv_xive2.c
+@@ -1574,6 +1574,12 @@ static const MemoryRegionOps pnv_xive2_ic_sync_ops = {
+  * When the TM direct pages of the IC controller are accessed, the
+  * target HW thread is deduced from the page offset.
+  */
++static uint32_t pnv_xive2_ic_tm_get_pir(PnvXive2 *xive, hwaddr offset)
++{
++    /* On P10, the node ID shift in the PIR register is 8 bits */
++    return xive->chip->chip_id << 8 | offset >> xive->ic_shift;
++}
++
+ static XiveTCTX *pnv_xive2_get_indirect_tctx(PnvXive2 *xive, uint32_t pir)
  {
+     PnvChip *chip = xive->chip;
+@@ -1596,10 +1602,12 @@ static uint64_t pnv_xive2_ic_tm_indirect_read(void *opaque, hwaddr offset,
+                                               unsigned size)
+ {
+     PnvXive2 *xive = PNV_XIVE2(opaque);
+-    uint32_t pir = offset >> xive->ic_shift;
+-    XiveTCTX *tctx = pnv_xive2_get_indirect_tctx(xive, pir);
++    uint32_t pir;
++    XiveTCTX *tctx;
+     uint64_t val = -1;
+ 
++    pir = pnv_xive2_ic_tm_get_pir(xive, offset);
++    tctx = pnv_xive2_get_indirect_tctx(xive, pir);
+     if (tctx) {
+         val = xive_tctx_tm_read(NULL, tctx, offset, size);
+     }
+@@ -1611,9 +1619,11 @@ static void pnv_xive2_ic_tm_indirect_write(void *opaque, hwaddr offset,
+                                            uint64_t val, unsigned size)
+ {
+     PnvXive2 *xive = PNV_XIVE2(opaque);
+-    uint32_t pir = offset >> xive->ic_shift;
+-    XiveTCTX *tctx = pnv_xive2_get_indirect_tctx(xive, pir);
++    uint32_t pir;
++    XiveTCTX *tctx;
+ 
++    pir = pnv_xive2_ic_tm_get_pir(xive, offset);
++    tctx = pnv_xive2_get_indirect_tctx(xive, pir);
+     if (tctx) {
+         xive_tctx_tm_write(NULL, tctx, offset, val, size);
+     }
 -- 
 2.36.1
 
