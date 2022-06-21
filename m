@@ -2,63 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB3C553996
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 20:36:31 +0200 (CEST)
-Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD5C553A87
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 21:28:40 +0200 (CEST)
+Received: from localhost ([::1]:48876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ijm-0001sO-UV
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 14:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46540)
+	id 1o3jYE-00081f-Qv
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 15:28:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3igw-0008A2-HN
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 14:33:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:46969)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o3jXI-0007Mb-Vj
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 15:27:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3igt-0003pG-PP
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 14:33:34 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MofPt-1nJyjI1w3V-00p2Fd; Tue, 21 Jun 2022 20:33:29 +0200
-Message-ID: <3a7fc7a8-38c4-ebf5-a2dc-3dfb9637f6aa@vivier.eu>
-Date: Tue, 21 Jun 2022 20:33:28 +0200
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o3jXF-0006FK-Gj
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 15:27:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655839656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hoJA/FslyJ+XFAwQIG/MjhnNSoWyuOHD/exd9mTd3YM=;
+ b=hI9XlyXgeNfrxwV3hsvo5Yr2b2/b4XxO/QEEIapGH53MM3q69Oxp1EE9vxBF3HNNi56HPM
+ K1X9O1kWVdot208R7mr0Zzz+Siy9gKjWv642jr5DpnnCZcLm2AKiaoGg4AErJodSE0/Xdl
+ oauaPAQyjSAh74/s/NppYfdTjI01KPk=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-67-OQoGq0WMNh-jeiZDsA-0Ng-1; Tue, 21 Jun 2022 15:27:27 -0400
+X-MC-Unique: OQoGq0WMNh-jeiZDsA-0Ng-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ k188-20020a37a1c5000000b006a6c4ce2623so17507053qke.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 12:27:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hoJA/FslyJ+XFAwQIG/MjhnNSoWyuOHD/exd9mTd3YM=;
+ b=uUvmo2xQJsVzGIB72NkYaSAo5tZK0FsZ/8TQMB4lgR04khPvMEIU/dSH3DqIghb9qf
+ Mmcr6EiMrObotZVJhkIbU3b1JmXa7V0LBw+BAj+LBHDpCHPXXu1zEHlpXFqmGnRiErly
+ 8OUWYDfnpyDKxyzURkep9v3NYhSwCPNktDuXNBhZ1ZkZFJAp4HCAqHxSJ/TdtqL9n4wT
+ H3oeZpv63qeYRKUR6Ff8q9ipatHh9gON9Glzgwu7fv12UVuGjIT43tpjQpmglDLwcLr3
+ YuPBwt3zt82HAjYSDtzKE53G4wSr01RPjfy3/JLczpsQ1uvRuznuWa9UdfF+vYhPz7Uc
+ p9cQ==
+X-Gm-Message-State: AJIora/7QStsNF8DoizCcSTu9ExGMmLXSaT4bEWVCSaVvctpniXMQhE2
+ 79j9g/aVBlllCOjoDzfUK+nQ5FbT9PKZCRh929U+52TXNZ6KVWByiCzR2ltPzFeV7nu6W2/3xE5
+ vv5ug9IR17zjtWHU=
+X-Received: by 2002:a05:620a:1724:b0:6a7:6196:a651 with SMTP id
+ az36-20020a05620a172400b006a76196a651mr21388310qkb.613.1655839647303; 
+ Tue, 21 Jun 2022 12:27:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vmDmGORppWwDjrzfF9+ie9BGt0O8JCop1EZlF2fuR8aQj3Jr9ddeGVKZK2haSdyU5W5tPTXw==
+X-Received: by 2002:a05:620a:1724:b0:6a7:6196:a651 with SMTP id
+ az36-20020a05620a172400b006a76196a651mr21388285qkb.613.1655839646999; 
+ Tue, 21 Jun 2022 12:27:26 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ g17-20020ac87751000000b00304efddbd70sm12844833qtu.92.2022.06.21.12.27.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jun 2022 12:27:26 -0700 (PDT)
+Message-ID: <efce9c42-77f4-a2c0-e379-fc8b71e8e191@redhat.com>
+Date: Tue, 21 Jun 2022 21:27:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v3] linux-user: Adjust child_tidptr on set_tid_address()
- syscall
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-References: <YpH+2sw1PCRqx/te@p100>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <YpH+2sw1PCRqx/te@p100>
+Subject: Re: [RFC PATCH v3 04/11] qapi: net: add stream and dgram netdevs
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+References: <20220620101828.518865-1-lvivier@redhat.com>
+ <20220620101828.518865-5-lvivier@redhat.com> <874k0fz7gg.fsf@pond.sub.org>
+ <7eb9f5a3-5166-ee8d-86f8-1d05770331f6@redhat.com>
+ <87tu8ev1ta.fsf@pond.sub.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <87tu8ev1ta.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:UFapuZLl1EPg92tvxCHn94b53Nf9gq1ussLf/r/fiiSBkP204Xc
- pPClLBEvuHqs7UBuccVTZlO8THn/8utZb3YXJGFi72yixLk8VYilVHlpQYJGzjTrTRGF2YN
- GredCAHo2BRlhGO9QWLlggcyUMeRNiuX1ZIgevUV3fNO78GWg+nZMj9NCyNAdwOBMF+422I
- HeexK7LYEAaR1q7lLo5cA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mYX6NrRYLLo=:lcf3u9gA+oBLfn795BLZJR
- nG1JzEnYt8wLWGKra55je22yllRxT2fAIsEcsL3FIVVljQBNEKZvyriWl63clv236t8ghZvZS
- jo+TSs3mrKNKLgStHP+WG68/2fUpHLIAuQvdsHlo7P46u+PshNX0ndavFx+M9PKOSZ+KAiZfc
- zWmJI/U/fYyPu6slSoN9NP73m9xet6BnAcbbl37FABZ3GrY1KfL8ziwc858p/yL1FNMXr66g0
- JMDFU7yBW/SfcCQrateoS0Nj8sxJ0Gzwf8aLL9WNKrXpaojciJ3zW03fS9ndBPq9SED8xut7j
- 3VuCzsYTpFKrKqZ+8WQgqs0Oh1cSECGXmQRyNshCP6brGPJgUpdwhRaWXAUFMlsRbXXfNJL+K
- NZVzpwFcD8O36PSKGSrxZcpv81aX8g/7nIdmqrnVHeYr5UvJ2XQghafKEH8DBJJnAlmIww3W4
- oA+KYSHhCLDod/nRcL83hlm6Kkly6JpeYWR2Qx5R9y7YnD9uED/bO6LYegkFj7VOk2ZnJJUqD
- cKlWSaXOS9kz4jJWJeYYWhoBzDEQng6O6LIrOkP+YeOXX2dQLzGfMdahiKvv1gg3+rbhhMGjw
- lfQNJcsrnsYfxVeCw5uuCw0/y6k2G8r1mQeUyRQGybsjWoE1tjq6kXuxJUStqk01t76s9fZwj
- 3Tjygyrt54Aui/hNArj/yHKeimvON4AOnxBFZraSvTxcMAfdUYpqs0d2dbizcUy0pyEEAxFol
- Sux4tRRJ45HaRMA7xNaYyouhDb6oIt27D/cXAg==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,60 +109,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/05/2022 à 12:52, Helge Deller a écrit :
-> Keep track of the new child tidptr given by a set_tid_address() syscall.
+On 21/06/2022 10:49, Markus Armbruster wrote:
+> Laurent Vivier <lvivier@redhat.com> writes:
 > 
-> Do not call the host set_tid_address() syscall because we are emulating
-> the behaviour of writing to child_tidptr in the exit() path.
+>> On 20/06/2022 17:21, Markus Armbruster wrote:
+>>> Laurent Vivier <lvivier@redhat.com> writes:
+>>>
+>>>> Copied from socket netdev file and modified to use SocketAddress
+>>>> to be able to introduce new features like unix socket.
+>>>>
+>>>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
+>>>> according to the IP address type.
+>>>> "listen" and "connect" modes are managed by stream netdev. An optional
+>>>> parameter "server" defines the mode (server by default)
+>>>>
+>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>>> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+>>>> ---
 > 
-> Signed-off-by: Helge Deller<deller@gmx.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> [...]
 > 
-> --
-> v3:
-> - Respin of the patch because the v2 version was mungled in-between the
->    mail of the v1 version. Now it's possible to get correct patch with b4
-> - Rephrased commit message
-> - Added Richard's Reviewed-by
-> v2:
-> - was mungled in v1 mail thread
+>>>> diff --git a/net/net.c b/net/net.c
+>>>> index c337d3d753fe..440957b272ee 100644
+>>>> --- a/net/net.c
+>>>> +++ b/net/net.c
+>> ...
+>>>> @@ -1612,7 +1617,19 @@ void net_init_clients(void)
+>>>>     */
+>>>>    static bool netdev_is_modern(const char *optarg)
+>>>>    {
+>>>> -    return false;
+>>>> +    QDict *args;
+>>>> +    const char *type;
+>>>> +    bool is_modern;
+>>>> +
+>>>> +    args = keyval_parse(optarg, "type", NULL, NULL);
+>>>> +    if (!args) {
+>>>> +        return false;
+>>>> +    }
+>>>> +    type = qdict_get_try_str(args, "type");
+>>>> +    is_modern = !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
+>>>> +    qobject_unref(args);
+>>>> +
+>>>> +    return is_modern;
+>>>>    }
+>>>
+>>> You could use g_autoptr here:
+>>>
+>>>          g_autoptr(QDict) args = NULL;
+>>>          const char *type;
+>>>          bool is_modern;
+>>>
+>>>          args = keyval_parse(optarg, "type", NULL, NULL);
+>>>          if (!args) {
+>>>              return false;
+>>>          }
+>>>          type = qdict_get_try_str(args, "type");
+>>>          return !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
+>>>
+>>> Matter of taste; you decide.
+>>
+>> Looks good. We already had some series to convert existing code to g_autoptr(), so it
+>> seems the way to do.
+>>
+>>>
+>>> Now recall how this function is used: it decides whether to parse the
+>>> modern way (with qobject_input_visitor_new_str()) or the traditional way
+>>> (with qemu_opts_parse_noisily()).
+>>>
+>>> qemu_opts_parse_noisily() parses into a QemuOpts, for later use with the
+>>> opts visitor.
+>>>
+>>> qobject_input_visitor_new_str() supports both dotted keys and JSON.  The
+>>> former is parsed with keyval_parse(), the latter with
+>>> qobject_from_json().  It returns the resulting parse tree wrapped in a
+>>> suitable QAPI input visitor.
+>>>
+>>> Issue 1: since we get there only when keyval_parse() succeeds, JSON is
+>>> unreachable.  Reproducer:
+>>>
+>>>       $ qemu-system-x86_64 -netdev '{"id":"foo"}'
+>>>       upstream-qemu: -netdev {"id":"foo"}: Parameter 'id' is missing
+>>>
+>>> This is parsed with qemu_opts_parse_noisily(), resulting in a QemuOpts
+>>> with a single option 'type' with value '{"id":"foo"}'.  The error
+>>> message comes from the opts visitor.
+>>>
+>>> To fix this, make netdev_is_modern() return true when optarg[0] == '{'.
+>>> This matches how qobject_input_visitor_new_str() recognizes JSON.
+>>
+>> OK
+>>
+>>>
+>>> Issue 2: when keyval_parse() detects an error, we throw it away and fall
+>>> back to QemuOpts.  This is commonly what we want.  But not always.  For
+>>> instance:
+>>>
+>>>       $ qemu-system-x86_64 -netdev 'type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off'
+>>>
+>>> Note the typo "ipv4-off" instead of ipv4=off.  The error reporting is crap:
+>>>
+>>>       qemu-system-x86_64: -netdev type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off: warning: short-form boolean option 'addr.ipv4-off' deprecated
+>>>       Please use addr.ipv4-off=on instead
+>>>       qemu-system-x86_64: -netdev type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off: Parameter 'type' is missing
+>>>
+>>> We get this because netdev_is_modern() guesses wrongly: keyval_parse()
+>>> fails with the perfectly reasonable error message "Expected '=' after
+>>> parameter 'addr.ipv4-off'", but netdev_is_modern() ignores the error,
+>>> and fails.  We fall back to QemuOpts, and confusion ensues.
+>>>
+>>> I'm not sure we can do much better with reasonable effort.  If we decide
+>>> to accept this behavior, it should be documented at least in the source
+>>> code.
+>>
+>> What about using modern syntax by default?
+>>
+>>       args = keyval_parse(optarg, "type", NULL, NULL);
+>>       if (!args) {
+>>           /* cannot detect the syntax, use new style syntax */
+>>           return true;
+>>       }
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f55cdebee5..1166e9f014 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -320,9 +320,6 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
->   #ifdef __NR_exit_group
->   _syscall1(int,exit_group,int,error_code)
->   #endif
-> -#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
-> -_syscall1(int,set_tid_address,int *,tidptr)
-> -#endif
->   #if defined(__NR_futex)
->   _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
->             const struct timespec *,timeout,int *,uaddr2,int,val3)
-> @@ -12200,9 +12197,14 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->       }
->   #endif
+> As is, netdev_is_modern() has three cases:
 > 
-> -#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
-> +#if defined(TARGET_NR_set_tid_address)
->       case TARGET_NR_set_tid_address:
-> -        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
-> +    {
-> +        TaskState *ts = cpu->opaque;
-> +        ts->child_tidptr = arg1;
-> +        /* do not call host set_tid_address() syscall, instead return tid() */
-> +        return get_errno(sys_gettid());
-> +    }
->   #endif
+> 1. keyval_parse() fails
 > 
->       case TARGET_NR_tkill:
+> 2. keyval_parse() succeeds, but value of @type is not modern
 > 
+> 3. keyval_parse() succeeds, and value of @type is modern
+> 
+> In case 3. we're sure, because even if qemu_opts_parse_noisily() also
+> succeeded, it would result in the same value of @type.
+> 
+> In case 2, assuming traditional seems reasonable.  The assumption can be
+> wrong when the user intends modern, but fat-fingers the type=T part.
+> 
+> In case 1, we know nothing.
+> 
+> Guessing modern is wrong when the user intends traditional.  This
+> happens when a meant-to-be-traditional @optarg also parses as modern.
+> Quite possible.
 
-Applied to my linux-user-for-7.1 branch.
+I don't see why keyval_parse() fails in this case. Any example?
+
+> Guessing traditional is wrong when the user intends modern.  This
+> happens when a meant-to-be-modern @optarg fails to parse as modern,
+> i.e. whenever the user screws up modern syntax.
+
+This one is the example you gave (ipv4-off)
+
+> Which guess is less bad?  I'm not sure.  Thoughts?
+
+Perhaps we can simply fail if keyval_parse() fails?
+
+something like:
+
+     args = keyval_parse(optarg, "type", NULL, &error_fatal);
+     type = qdict_get_try_str(args, "type");
+     return !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
 
 Thanks,
 Laurent
+
+
 
 
