@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10E1552DCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:02:58 +0200 (CEST)
-Received: from localhost ([::1]:40910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5173552DE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:06:45 +0200 (CEST)
+Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Zmj-00062f-Uk
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:02:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
+	id 1o3ZqO-000844-UR
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3ZlS-0005IX-Sc
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 05:01:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3ZlN-00014S-B6
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 05:01:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655802091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Afmq+k/bXQBm7T4/OunrI3I39vW8mK/H0lX5xTOiXY=;
- b=SttuMXlWZEtLbZMr8CWx4r+TBXFlZE7vh9P2dtFJtz7or6SrAruzVkjwmSvuxf8G/4CYpt
- UxKdU4D7KBqyhw9DNBjRHNo/IPaJ4WJ/VxjRZS9Q/IX1BkNZdr2EzyxGhRalTtqbT4XeN8
- cuB75Rap1atB6TBfTIm8hlfBIEQ3B94=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-tS4mhjNdNziQ_uflcYJbNg-1; Tue, 21 Jun 2022 05:01:30 -0400
-X-MC-Unique: tS4mhjNdNziQ_uflcYJbNg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B96EC101E986;
- Tue, 21 Jun 2022 09:01:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FBD21121314;
- Tue, 21 Jun 2022 09:01:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4C22221E688E; Tue, 21 Jun 2022 11:01:28 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Delevoryas <pdel@fb.com>
-Cc: "samuel.thibault@ens-lyon.org" <samuel.thibault@ens-lyon.org>,
- "jasowang@redhat.com" <jasowang@redhat.com>,  "eblake@redhat.com"
- <eblake@redhat.com>,  Cameron Esfahani via <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 3/4] slirp: Add mfr-id to -netdev options
-References: <20220616010526.1895564-1-pdel@fb.com>
- <20220616010526.1895564-4-pdel@fb.com> <87k09b6bz1.fsf@pond.sub.org>
- <199AAE52-91F7-44A1-8862-ECCE1A347EFC@fb.com>
-Date: Tue, 21 Jun 2022 11:01:28 +0200
-In-Reply-To: <199AAE52-91F7-44A1-8862-ECCE1A347EFC@fb.com> (Peter Delevoryas's
- message of "Mon, 20 Jun 2022 21:27:38 +0000")
-Message-ID: <87pmj2v193.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o3Zoc-0007DR-OL
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 05:04:54 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:52001)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o3Zob-0001S1-8x
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 05:04:54 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id f16so11083967pjj.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 02:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=87qrlMPfD7KC3ZW5jZfyFYQwLsDffab9luG8oBhbw+o=;
+ b=pyiq52m80MdD7gneTWGUIZa4mAqgqFzMQ84qRFLIybqmqsVJN12GkSgNS1q1bO33nI
+ ayrXlyqiqKhlXVJjpgcBv3QRk+FyGXg53RLHT/OJ50RRpddGmQFSEXgdCMz4nLcqex/J
+ zJFlpXGg47QDPLcAY2frjdaQK2Yve5/P3VlPx2DXSzlnbjkZsXWiqLJDYOQy4Gs17uce
+ 8s856q3jjS1rXiNaPoflYkG9bFTjwNkOHfI9AF2sDiDPBFgKCrv2757eCbomE2qhhlcs
+ yby3f6Ako7aZ2CDD1MdE0dF9ZwCSyGHclaDpD+IKugZBKsOjlPvhIYuGdMd+OP1U1TA/
+ DxJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=87qrlMPfD7KC3ZW5jZfyFYQwLsDffab9luG8oBhbw+o=;
+ b=e3DaLgDXjI1gsKmwH7TNaRSwu6MSUyMA5ZZc3kWNkTPPqYa8eEpMec1PgxC7tzEaRE
+ hvy96Xm/TVl6R0b9miahBApytGvgEMGmfG5m4omNAwYkOrE30HawSWAGeP8ugdL0aqGv
+ +HW2pxh6m1X0c7KBz/IGVuUsBAn5x/PLY1Cyo3Uzf+fWJkKTM3hmLRABfXz+86hLlSnX
+ yYxXE2ZnfIFTsS0Yy0pqEmOtk6w9NYRLbFNrDMf/JQv63YXaNjyxj3j+A/mvfXYnwvg+
+ J0Zg3ijNgbmdK2wlYaAPd6MeoM8sOp0n0k/DQY3Z29Tv1bif7Nja29JabO2re6SYbtrE
+ XMVg==
+X-Gm-Message-State: AJIora9gS1d4sNCoxUKus57QEAPwcjSo2x5uN7kC2SCHQUM2TcuvMXo4
+ caSTASxFGEVWbd2jLc3CvWI=
+X-Google-Smtp-Source: AGRyM1sNWJLCQAmX6eBzDCQgMXZG676NX8n+fqNfmqWxhQDtTDsewZodFwaNWs5BeRnF6wupZbEv7A==
+X-Received: by 2002:a17:902:cf12:b0:169:f241:65ae with SMTP id
+ i18-20020a170902cf1200b00169f24165aemr23619790plg.107.1655802291654; 
+ Tue, 21 Jun 2022 02:04:51 -0700 (PDT)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ iz18-20020a170902ef9200b0016a275623c1sm3344444plb.219.2022.06.21.02.04.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jun 2022 02:04:51 -0700 (PDT)
+Message-ID: <cb947bf3-1c8e-a63f-d90f-b3e81d7eb51d@gmail.com>
+Date: Tue, 21 Jun 2022 18:04:47 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3] ui/cocoa: Take refresh rate into account
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20220620202921.21062-1-akihiko.odaki@gmail.com>
+ <CAFEAcA-xUnoM9NSuqdgx6i3n==fk+Uxr3_5dk3hqdWvucwZ6oQ@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <CAFEAcA-xUnoM9NSuqdgx6i3n==fk+Uxr3_5dk3hqdWvucwZ6oQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,47 +94,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Delevoryas <pdel@fb.com> writes:
+On 2022/06/21 17:51, Peter Maydell wrote:
+> On Mon, 20 Jun 2022 at 21:29, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>>
+>> Retreieve the refresh rate of the display and reflect it with
+>> dpy_set_ui_info() and update_displaychangelistener(), allowing the
+>> guest and DisplayChangeListener to consume the information.
+> 
+> But why? What goes wrong if we don't bother to do this?
+> 
+> thanks
+> -- PMM
 
-> On Jun 20, 2022, at 12:16 AM, Markus Armbruster <armbru@redhat.com<mailto=
-:armbru@redhat.com>> wrote:
+Regarding dpy_set_ui_info(), it depends on the guest. 
+update_displaychangelistener() would change the frequency of the calls 
+of the DisplayChangeListener.
 
-[...]
+I think it is obvious that delivering the refresh rate with 
+dpy_set_ui_info() and update_displaychangelistener() makes sense, 
+considering that those functions actually exist. They shouldn't exist at 
+first place if we don't have to bother to do this.
 
->> Documentation is rather terse.  It basically provides a bunch of
->> keywords you can throw at the search engine of your choice.  Can we cut
->> out that middle man and point straight to a suitable resource?
->
-> Erg, yeah, sorry about that, you=E2=80=99re right, it would probably be m=
-ore useful
-> to point to the NC-SI specification directly:
->
-> https://www.dmtf.org/sites/default/files/standards/documents/DSP0222_1.0.=
-0.pdf
->
-> Note: there have been some newer revisions to the specification lately, a=
-nd the
-> full list of spec versions is here:
->
-> https://www.dmtf.org/dsp/DSP0222
->
-> Get Version ID and the OEM Vendor extension are both specified in 1.0.0, =
-so I
-> think it should be ok to link to 1.0.0.
->
-> I=E2=80=99m not totally sure if I should directly link to the actual URL,=
- but I=E2=80=99ll
-> definitely say: =E2=80=9CThis is defined in DMTF NC-SI 1.0.0=E2=80=9D or =
-something like that.
-
-Works for me with the full name of the spec: "DMTF Network Controller
-Sideband Interface (NC-SI) Specification, version 1.0.0".  You can omit
-the version if there are no earlier ones.
-
-> Unless URL=E2=80=99s in the code would be preferred. Theoretically, the D=
-MTF
-> spec URL should be pretty long-lasting.
-
-Feel free to add URL, too.
-
+Regards,
+Akihiko Odaki
 
