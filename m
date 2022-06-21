@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18725532E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 15:05:29 +0200 (CEST)
-Received: from localhost ([::1]:34752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826B75532D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 15:04:10 +0200 (CEST)
+Received: from localhost ([::1]:32952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3dZO-0002NK-3p
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 09:05:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55248)
+	id 1o3dY9-0000w9-3J
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 09:04:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3dTs-0007fH-VW
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 08:59:44 -0400
-Received: from smtpout140.security-mail.net ([85.31.212.143]:33219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o3dTr-0005GT-Ck
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 08:59:44 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx403.security-mail.net (Postfix) with ESMTP id BA5EF9671C2
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 14:59:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1655816381;
- bh=XVWQIrqLfbq44o7nhRpky02WJ56xIVfQPbtuiuuMCOs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=XZnNB6jif7O/XT0d3MpSdi1tYfAG4yltW/UIH1aFcgwRw5AkmMLMHHZG7F/9Q0X+f
- obSzfb1yN2ouOoh0D4eGg7G3ey19fdJHeRn/UuTcyIYlV8O7t0vgiLLUOa7qIgU2wx
- xL9Yf7Xhz6oMGPdWijvX8KAaFd6OJsBWbeFG5D2M=
-Received: from fx403 (localhost [127.0.0.1])
- by fx403.security-mail.net (Postfix) with ESMTP id 567B59670D9;
- Tue, 21 Jun 2022 14:59:35 +0200 (CEST)
-X-Virus-Scanned: E-securemail
-Secumail-id: <400c.62b1c0b4.7ef03.0>
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
- by fx403.security-mail.net (Postfix) with ESMTPS id 80522967042;
- Tue, 21 Jun 2022 14:59:32 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTPS id 6048A27E04DA;
- Tue, 21 Jun 2022 14:59:32 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id 3EDD627E04F3;
- Tue, 21 Jun 2022 14:59:32 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 3EDD627E04F3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655816372;
- bh=noDv+i8A3nUMntl+CKPUJTHI8Qi4mLZXGmf4EwFwLlc=;
- h=From:To:Date:Message-Id;
- b=rGriRCxXG3ZC4w/7NtbqxCTMzcmsmut6bsLOzgw5+XaO6JnOF8dUQOGvoBhxxC4cV
- r0UB/NWpA3J0yoLJeOPsTWfrGU6CVoWVOlktjmvNNBY6HOZVM5R+pDeDtLBv/V6OQq
- Vd1FAzpkjP83A3GBD9/RZjH5Yt/1KjhOOTYwJZTc=
-Received: from zimbra2.kalray.eu ([127.0.0.1])
- by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id CLUe1MjpELFi; Tue, 21 Jun 2022 14:59:32 +0200 (CEST)
-Received: from ws2101.lin.mbt.kalray.eu (unknown [192.168.36.68])
- by zimbra2.kalray.eu (Postfix) with ESMTPSA id 1A73127E04EE;
- Tue, 21 Jun 2022 14:59:32 +0200 (CEST)
-From: Luc Michel <lmichel@kalray.eu>
-To: qemu-devel@nongnu.org
-Cc: Luc Michel <lmichel@kalray.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
- Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH v2 5/7] target/mips: use semihosting_exit_request on
- semihosted exit syscall
-Date: Tue, 21 Jun 2022 14:59:14 +0200
-Message-Id: <20220621125916.25257-6-lmichel@kalray.eu>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220621125916.25257-1-lmichel@kalray.eu>
-References: <20220621125916.25257-1-lmichel@kalray.eu>
-X-Virus-Scanned: by Secumail
-Received-SPF: pass client-ip=85.31.212.143; envelope-from=lmichel@kalray.eu;
- helo=smtpout140.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3dTc-00078U-SS
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 08:59:28 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:33419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3dTZ-0005EM-UC
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 08:59:28 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id v81so24370575ybe.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 05:59:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aHz7WQMmw7+ThFbAIB4Woi8phD9N9vPuPlC2jZ+3T3M=;
+ b=aQVsgVvTLfFp0PW/1Af8bqeCbl8MNn2lnyIfqoGwZl97om+uLuxggk9UhMNvrjZNfn
+ tqNGRhhcqq1+PL0bHecPyI4jSSYSDCXdyqXc2+BMeB+12XmsxOSEhUGGoG9UP+G4pZbf
+ wluxe12DsGrFCCJTfqI96s3eMDoLMJbY5fY9UySI+4MaPn1I3ZMhIUZANlvtTwy2dFsD
+ hC+sx4NH0iqTrhE25gsm6857UlrB15qDi9lmIZzpgzESq+Pfn7XFR/zrZw2vigRYxNti
+ YKsI8Rchta52ihMQ5zaFsti/mqO3YP5Sta9uiPR7rJP4u5aQgwoeXnunJlm/f3Z4Fo7T
+ eWaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aHz7WQMmw7+ThFbAIB4Woi8phD9N9vPuPlC2jZ+3T3M=;
+ b=fmWsUGWHphcXs8px8/SjxbJ707gP+vj322VwiaKlMdiDrnaBO1EVL4Q9RUbUZOw2Qm
+ SVFGbzg3ZC8Qtot5fgfcZyVWjMU9gVbwlsFBT8BRPWIJ/UzIJ2Sh6Js4ynfjTRL512ck
+ 4HHNck+h28m26GvQS6ZaxXWVGsq48nRY/XPfe1W9fjN9QowXVsn9r117rsjb9NoDKFof
+ NO2Nbh1rXCXwwhS0/UosNGD3Y/5hARpg8b+Z+Gff9LbgBzHoiSufIlC5blTLgy266UuA
+ AOkh4tl/oA0IsgbG8LUcWmJyzazw7gfg1CTMRhz5Gtdk71l0xuaJQ+I3ZWFCgi+EgQ09
+ q7TA==
+X-Gm-Message-State: AJIora9rr28f0cDf0/SwbQgs1h9ffqnG0irfR8+YwBdji6lTPYaiXXXX
+ uW/hXWVODm6wwoiATtlIlLvgnNVRmuVHFEXGLhp1BA==
+X-Google-Smtp-Source: AGRyM1tZrhgYWoQwvDubuiFdJn69cOPGClbUNZGsIEM0SQWyyFNmklatJr0vXObfCfvTi3h4nXf40jzXVL2Sfyx4UN8=
+X-Received: by 2002:a25:bcc7:0:b0:668:eb41:ddbc with SMTP id
+ l7-20020a25bcc7000000b00668eb41ddbcmr15785368ybm.67.1655816364803; Tue, 21
+ Jun 2022 05:59:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220617060703.951747-1-aik@ozlabs.ru>
+ <20220617060703.951747-2-aik@ozlabs.ru>
+In-Reply-To: <20220617060703.951747-2-aik@ozlabs.ru>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jun 2022 13:59:14 +0100
+Message-ID: <CAFEAcA9oBEH0CxQ0VnLSynscXXhDZk=XW29anpCOHGa-XqN3Wg@mail.gmail.com>
+Subject: Re: [PATCH qemu v2 1/2] ppc: Define SETFIELD for the ppc target
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,32 +84,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new semihosting_exit_request instead of a call to exit when
-handling a semihosted exit syscall.
+On Fri, 17 Jun 2022 at 07:20, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+>
+> It keeps repeating, move it to the header. This uses __builtin_ctzl() to
+> allow using the macros in #define.
+>
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+>  include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
+>  target/ppc/cpu.h                    |  5 +++++
+>  hw/intc/pnv_xive.c                  | 20 --------------------
+>  hw/intc/pnv_xive2.c                 | 20 --------------------
+>  hw/pci-host/pnv_phb4.c              | 16 ----------------
+>  5 files changed, 5 insertions(+), 72 deletions(-)
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 6d78078f379d..9a1f1e9999a3 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -47,6 +47,11 @@
+>                                   PPC_BIT32(bs))
+>  #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
+>
+> +#define GETFIELD(mask, word)   \
+> +    (((word) & (mask)) >> __builtin_ctzl(mask))
+> +#define SETFIELD(mask, word, val)   \
+> +    (((word) & ~(mask)) | (((uint64_t)(val) << __builtin_ctzl(mask)) & (mask)))
 
-Signed-off-by: Luc Michel <lmichel@kalray.eu>
----
- target/mips/tcg/sysemu/mips-semi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can we retain the explanatory comment that says why we don't
+use the standard QEMU mechanism for field extraction
+(ie the FIELD_EX*/FIELD_DP* macros and the extract64()/deposit64()
+functions) ?
 
-diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
-index b4a383ae90..94be486925 100644
---- a/target/mips/tcg/sysemu/mips-semi.c
-+++ b/target/mips/tcg/sysemu/mips-semi.c
-@@ -245,11 +245,11 @@ void helper_do_semihosting(CPUMIPSState *env)
-     char *p, *p2;
- 
-     switch (op) {
-     case UHI_exit:
-         qemu_log("UHI(%d): exit(%d)\n", op, (int)gpr[4]);
--        exit(gpr[4]);
-+        semihosting_exit_request(gpr[4]);
-     case UHI_open:
-         GET_TARGET_STRING(p, gpr[4]);
-         if (!strcmp("/dev/stdin", p)) {
-             gpr[2] = 0;
-         } else if (!strcmp("/dev/stdout", p)) {
--- 
-2.17.1
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * TODO: It might be better to use the existing extract64() and
+> - * deposit64() but this means that all the register definitions will
+> - * change and become incompatible with the ones found in skiboot.
+> - *
+> - * Keep it as it is for now until we find a common ground.
+> - */
 
+thanks
+-- PMM
 
