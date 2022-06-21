@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC59552F31
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:53:54 +0200 (CEST)
-Received: from localhost ([::1]:45322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDDF552F42
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:58:19 +0200 (CEST)
+Received: from localhost ([::1]:54422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3aa1-0005e3-Pt
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43332)
+	id 1o3aeI-0003YZ-VT
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:58:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQr-0007hv-4l; Tue, 21 Jun 2022 05:44:27 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:33535)
+ id 1o3aQs-0007iV-AX; Tue, 21 Jun 2022 05:44:27 -0400
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:36807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQp-0007Ll-FK; Tue, 21 Jun 2022 05:44:24 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-101d2e81bceso8873521fac.0; 
- Tue, 21 Jun 2022 02:44:20 -0700 (PDT)
+ id 1o3aQq-0007N5-4e; Tue, 21 Jun 2022 05:44:26 -0400
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-101ec2d6087so7202287fac.3; 
+ Tue, 21 Jun 2022 02:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Xv0EQkPs1+PTOr4msoUcihme/LmWUDVBAtgz7uWfQ70=;
- b=huSPgLTE0vqNY3baMaiDqffr86vrA26bYXfwRLzxyWKSsVei83bXbvgigXBCMPcKy8
- YRa9LhrrQ87JzCSgk8XtkBMg4VtCIXeoUEAmXnR5rgNLKDGz5WgXUxL/dUzf3gZn5/yU
- 9k+OT9nMtZ0kQNU5jlj0cChma25hibCnMgboV/Oqo6rMAyt2NgaN61SON84KUcq7Tcx/
- eO0vEMcpi3JMF+bKs3xIfiaWLpdE0yVocaEo600A5fUMuTVy9kMrRqDhQnflnibOoUSW
- OrR8WZenn6Xi0ZG8XxkYdxmzFhl2NOc2Vhk9KoPCni5LnBw5LghPWE22LMp5kvqgusq0
- KZFQ==
+ bh=qPWT3juBHtZ/QDmogkBLJLVVTuDNOQQhStTTzFMbikg=;
+ b=frQrqV8GVz6UrX1MfwEN7gd79LzIXcczuzL4zhPMG3UznEEdT694g9bVwhUWJd1Xin
+ 5VPQop8qGXSLlUMYnAHyX9JUYXfQIM+RCHZhcoDLGlUGrrSxZd30U8g9u5tGYkEBB+aB
+ alvOwDMIu6oUENyGcFHnZwVA/dUFBE2zMK4iZV6cUi8zRKt/C8lJsLMMEXh3949AuCdB
+ LaRwShkEgKA7wcLxvApxn/bK469Y5wEToWMXA/yRgVzpYIhlPz0vohVwe5fKml3XgieX
+ Ma2MS/wFSuH5h/uoB9q+0SAZM2PfTUvvqoMUEPtbCf4PviyJxrrLl2BJdDA7WsclsiDM
+ zPYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Xv0EQkPs1+PTOr4msoUcihme/LmWUDVBAtgz7uWfQ70=;
- b=GXxXv77dFFjf7aKbyoNfHHXfJx16EutrbN+aOlWQBBmls2wYZnFgr7GkPWYqgnCoZz
- YeuMc0HszgS9oEXMkUuBXy4RIR6qu3nuPN6eUPkUyTAthon+kDV5iKdtb6EZj3+yn4qs
- UFBlpRHB283fvEoRV4JbPI8A/zN4nvYsmLOnDWSR4Ni4eHkh5y8bbZLuyYBV6QelIvHW
- u/09lGgFsj8ZJ0gb9yObLFljLLARyKKqZuOCdTAn+ZLR2c/XV8P376PbPIsF5wLS2x98
- WR1wfUE3zdeGY+XTg9kRn25re1GWdnigaRiMpOd1l3I4JCkTWtbgdsuJ/sQsBiB+Keq7
- vZlA==
-X-Gm-Message-State: AJIora9AtFRVNAZ1Ofd0+AhZsJmxDODDicsWUfmWW/+EYz8R6pLNSbQk
- PWQZO1dV7J0ZDgtKyARXdJJYtKuaBCQEFg==
-X-Google-Smtp-Source: AGRyM1tWCy7hsYXjEOtEmXDpglaAvA+qHxfMD/t9GHEKZRZgQ8TiGGlzQEa9ZlBoy4TwkVu+3iaqcg==
-X-Received: by 2002:a05:6870:32d5:b0:101:1935:f1d1 with SMTP id
- r21-20020a05687032d500b001011935f1d1mr14861867oac.111.1655804660203; 
- Tue, 21 Jun 2022 02:44:20 -0700 (PDT)
+ bh=qPWT3juBHtZ/QDmogkBLJLVVTuDNOQQhStTTzFMbikg=;
+ b=UxKyQ15UY0hx/JX/xEE97KX2i8hgXvraxusVtofMWkGcUfJkvuDcBeyVTlnW8GOfUl
+ Oh61VYmn+veJQlMH9CSH3B2K51YIIkJ1O64deMrrBWIphyOea0t3q/sFo+/3UDUr4dJe
+ Jqa+hfHLGkbrOqyMaC6nOkPxI5EciGwa5wl8OOaBto8C4PoixcDD3jvRYV6oawm0K59W
+ Nkk3S2Wp32nIDF3i5cmT5yYt1PA0j0pakw+egDgKWjHayRgoyz90Zspop3d9eBnLCj23
+ SbInAKWcgNzI78PH8R5mfDT2F494HU1hrIvtB+qDJSpPBeiUDq4AVFht759A1yh1i+Xa
+ yUBg==
+X-Gm-Message-State: AJIora848DZElCugVCNog0tXr3K2p5ezvNJhBfSx1elmiZhE0oAMi7GC
+ zL7uwTVfqA/dkhHQHwdMjoE4m+FL0ZDQ2Q==
+X-Google-Smtp-Source: AGRyM1vBtCJ8T3g1WnWOE0l5SVtu2FS0dazATeNtZ+5W/0zSG1CWSP5wwNC4v7DK4Jdb+ByRDTCpyQ==
+X-Received: by 2002:a05:6870:f597:b0:101:342:9722 with SMTP id
+ eh23-20020a056870f59700b0010103429722mr14481240oab.54.1655804662452; 
+ Tue, 21 Jun 2022 02:44:22 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.18
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:20 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:22 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PULL 06/15] target/ppc: Implemented remaining vector divide extended
-Date: Tue, 21 Jun 2022 06:43:51 -0300
-Message-Id: <20220621094400.122800-7-danielhb413@gmail.com>
+Subject: [PULL 07/15] target/ppc: Implemented vector module word/doubleword
+Date: Tue, 21 Jun 2022 06:43:52 -0300
+Message-Id: <20220621094400.122800-8-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
 References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,139 +93,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vdivesd: Vector Divide Extended Signed Doubleword
-vdiveud: Vector Divide Extended Unsigned Doubleword
-vdivesq: Vector Divide Extended Signed Quadword
-vdiveuq: Vector Divide Extended Unsigned Quadword
+vmodsw: Vector Modulo Signed Word
+vmoduw: Vector Modulo Unsigned Word
+vmodsd: Vector Modulo Signed Doubleword
+vmodud: Vector Modulo Unsigned Doubleword
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220525134954.85056-7-lucas.araujo@eldorado.org.br>
+Message-Id: <20220525134954.85056-8-lucas.araujo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h                 |  4 ++
- target/ppc/insn32.decode            |  4 ++
- target/ppc/int_helper.c             | 64 +++++++++++++++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc |  4 ++
- 4 files changed, 76 insertions(+)
+ target/ppc/insn32.decode            |  5 +++++
+ target/ppc/translate/vmx-impl.c.inc | 10 ++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 9f33e589e0..e7624300df 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -177,6 +177,10 @@ DEF_HELPER_FLAGS_3(VMULOUH, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VMULOUW, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VDIVSQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VDIVUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VDIVESD, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VDIVEUD, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VDIVESQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VDIVEUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vslo, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vsro, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vsrv, TCG_CALL_NO_RWG, void, avr, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index f6d2d4b257..5b2d7824a0 100644
+index 5b2d7824a0..75fa206b39 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -798,3 +798,7 @@ VDIVUQ          000100 ..... ..... ..... 00000001011    @VX
- 
- VDIVESW         000100 ..... ..... ..... 01110001011    @VX
- VDIVEUW         000100 ..... ..... ..... 01010001011    @VX
-+VDIVESD         000100 ..... ..... ..... 01111001011    @VX
-+VDIVEUD         000100 ..... ..... ..... 01011001011    @VX
-+VDIVESQ         000100 ..... ..... ..... 01100001011    @VX
-+VDIVEUQ         000100 ..... ..... ..... 01000001011    @VX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 033718dc0e..42f0dcfc52 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1183,6 +1183,70 @@ void helper_VDIVUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-     }
- }
- 
-+void helper_VDIVESD(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    int i;
-+    int64_t high;
-+    uint64_t low;
-+    for (i = 0; i < 2; i++) {
-+        high = a->s64[i];
-+        low = 0;
-+        if (unlikely((high == INT64_MIN && b->s64[i] == -1) || !b->s64[i])) {
-+            t->s64[i] = a->s64[i]; /* Undefined behavior */
-+        } else {
-+            divs128(&low, &high, b->s64[i]);
-+            t->s64[i] = low;
-+        }
-+    }
-+}
+@@ -802,3 +802,8 @@ VDIVESD         000100 ..... ..... ..... 01111001011    @VX
+ VDIVEUD         000100 ..... ..... ..... 01011001011    @VX
+ VDIVESQ         000100 ..... ..... ..... 01100001011    @VX
+ VDIVEUQ         000100 ..... ..... ..... 01000001011    @VX
 +
-+void helper_VDIVEUD(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    int i;
-+    uint64_t high, low;
-+    for (i = 0; i < 2; i++) {
-+        high = a->u64[i];
-+        low = 0;
-+        if (unlikely(!b->u64[i])) {
-+            t->u64[i] = a->u64[i]; /* Undefined behavior */
-+        } else {
-+            divu128(&low, &high, b->u64[i]);
-+            t->u64[i] = low;
-+        }
-+    }
-+}
-+
-+void helper_VDIVESQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    Int128 high, low;
-+    Int128 int128_min = int128_make128(0, INT64_MIN);
-+    Int128 neg1 = int128_makes64(-1);
-+
-+    high = a->s128;
-+    low = int128_zero();
-+    if (unlikely(!int128_nz(b->s128) ||
-+                 (int128_eq(b->s128, neg1) && int128_eq(high, int128_min)))) {
-+        t->s128 = a->s128; /* Undefined behavior */
-+    } else {
-+        divs256(&low, &high, b->s128);
-+        t->s128 = low;
-+    }
-+}
-+
-+void helper_VDIVEUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    Int128 high, low;
-+
-+    high = a->s128;
-+    low = int128_zero();
-+    if (unlikely(!int128_nz(b->s128))) {
-+        t->s128 = a->s128; /* Undefined behavior */
-+    } else {
-+        divu256(&low, &high, b->s128);
-+        t->s128 = low;
-+    }
-+}
-+
- void helper_VPERM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
- {
-     ppc_avr_t result;
++VMODSW          000100 ..... ..... ..... 11110001011    @VX
++VMODUW          000100 ..... ..... ..... 11010001011    @VX
++VMODSD          000100 ..... ..... ..... 11111001011    @VX
++VMODUD          000100 ..... ..... ..... 11011001011    @VX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 8c542bcb29..f00aa64bf9 100644
+index f00aa64bf9..78277fb018 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -3367,6 +3367,10 @@ DIVU32(do_diveuw, do_diveu_i32)
+@@ -3365,6 +3365,11 @@ static void do_diveu_i32(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
+ DIVS32(do_divesw, do_dives_i32)
+ DIVU32(do_diveuw, do_diveu_i32)
  
++DIVS32(do_modsw, tcg_gen_rem_i32)
++DIVU32(do_moduw, tcg_gen_remu_i32)
++DIVS64(do_modsd, tcg_gen_rem_i64)
++DIVU64(do_modud, tcg_gen_remu_i64)
++
  TRANS_FLAGS2(ISA310, VDIVESW, do_vdiv_vmod, MO_32, do_divesw, NULL)
  TRANS_FLAGS2(ISA310, VDIVEUW, do_vdiv_vmod, MO_32, do_diveuw, NULL)
-+TRANS_FLAGS2(ISA310, VDIVESD, do_vx_helper, gen_helper_VDIVESD)
-+TRANS_FLAGS2(ISA310, VDIVEUD, do_vx_helper, gen_helper_VDIVEUD)
-+TRANS_FLAGS2(ISA310, VDIVESQ, do_vx_helper, gen_helper_VDIVESQ)
-+TRANS_FLAGS2(ISA310, VDIVEUQ, do_vx_helper, gen_helper_VDIVEUQ)
+ TRANS_FLAGS2(ISA310, VDIVESD, do_vx_helper, gen_helper_VDIVESD)
+@@ -3372,6 +3377,11 @@ TRANS_FLAGS2(ISA310, VDIVEUD, do_vx_helper, gen_helper_VDIVEUD)
+ TRANS_FLAGS2(ISA310, VDIVESQ, do_vx_helper, gen_helper_VDIVESQ)
+ TRANS_FLAGS2(ISA310, VDIVEUQ, do_vx_helper, gen_helper_VDIVEUQ)
  
++TRANS_FLAGS2(ISA310, VMODSW, do_vdiv_vmod, MO_32, do_modsw , NULL)
++TRANS_FLAGS2(ISA310, VMODUW, do_vdiv_vmod, MO_32, do_moduw, NULL)
++TRANS_FLAGS2(ISA310, VMODSD, do_vdiv_vmod, MO_64, NULL, do_modsd)
++TRANS_FLAGS2(ISA310, VMODUD, do_vdiv_vmod, MO_64, NULL, do_modud)
++
  #undef DIVS32
  #undef DIVU32
+ #undef DIVS64
 -- 
 2.36.1
 
