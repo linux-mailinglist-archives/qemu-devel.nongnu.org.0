@@ -2,145 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7EC45537A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 18:14:46 +0200 (CEST)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5658D5537BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 18:18:25 +0200 (CEST)
+Received: from localhost ([::1]:43728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3gWb-0002Cx-WC
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 12:14:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43320)
+	id 1o3ga8-00041H-1E
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 12:18:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1o3gUX-0001GU-Ja
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 12:12:37 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:14122)
+ id 1o3gYb-0003Kp-OB
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 12:16:49 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:15916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1o3gUU-0006IF-Hc
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 12:12:37 -0400
-Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25LC4FDo013526;
- Tue, 21 Jun 2022 09:12:32 -0700
+ id 1o3gYZ-000730-96
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 12:16:49 -0400
+Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25LCYbCV004084;
+ Tue, 21 Jun 2022 09:16:44 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=IxXP2/PKgT4B5lLOn+N0jbx0mGgh9EtBUjhDNQzMWas=;
- b=d1YA9R+RjAskyC/CZZGXAksAGuK4WFQzDJFCq304Mx7AOGu4tPsOBBRHfc7MTFqkblGX
- NwNSVm2tsaVdTkpxEeok1fZWkes/wGhgQHpFrYDl83xvKYkVQuJh2OSkdC6LFx2QrPAr
- 8Xc6eGbzWDxvCG5f3He8xsUfvurNmGc+1Jntz5zFPSBCsdBuHPviLI9YkZjr7t6S9TAf
- +NJwTgix8jipxaQgIFfJgz3qd8Ow3y3d4UgE91JBTqbdnQH3j27tIyT4BQTBqYdHbQae
- pl3exfbRnmJvM3l1WhVgIWjwwTnjvXwefcsYl0sVicOcw+hgG7mYhC5R8FcpUTZKkuk8 oQ== 
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam04lp2173.outbound.protection.outlook.com [104.47.73.173])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3gsama6kg3-1
+ bh=1Q7a2/PwSAX98ZOZSPgkLfbxq1IBoBU4pyFAkt9/M94=;
+ b=BObkTleOq8W7ZO5vDocwe17/Uvszlas4lJYNJYR7fv1XMXIYEbDlUdFwWPCuVSjpJaEF
+ pmm+UyWmRbyRbKhZOA58cXt7jassYw1ZJQ07/r9FzOX5qncsbhGYk9jjbVSNbidfibGX
+ XgFGeUEpfhoJ99gfEkLZ3N/t1pHAGHnuTq1XDIasYTQ/StyGISTFD1uEoDD9LT2Oq1ad
+ Cgrs2WWLAjc2IOUMi8g3Dpp4axk8rxtjiP+5jpJQahwI/gzqy06AZ2BJweJV6paOSZKg
+ 08Wo1Pr/HGAcJjv9VIJE9tWkhDM4ilXjeHotmPFWCmh8tFcn1HiRz7adf8LzlBBbXQr+ NA== 
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3gse8xxahm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jun 2022 09:12:32 -0700
+ Tue, 21 Jun 2022 09:16:43 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ntbLiwI7p3xz5vUGNLelVFtuTOYjz0FMvSkJQzaL/V29XgTaa2+ClFyHX9F4wZwwDm8ubsUoPelibob4o6Lk4LwAIf74dQDeHzwmlqVCM0mk8TQebmtRaYO+acLVM5ytkh7LGxfBvkelvvoGFXUf+DwgMbjdjzrgVzcNJ/NXqycOeFi34R1R7VA3w0PgXv54iP0HNoQxE1SfKBzbe1fhEI0HC9RCcgYmeU1QnpNJogoAAGO4sR9o6mH6x/m/UTfOet1DERQBsXELfkTuVwoPiZZe7znV+0uTQ763Q1ZlyLh1/4poLQtqMcCyw2vlOOSSbGTTVaZ5dqirwlurGolD0A==
+ b=BxS2siYz8ebDLXO7gZ2A6x/EuvLELwaHoSabNc6Lz/eY0W+gi/7PDk9sxka7c8O2lCMCF7FYj+o+e72rJH6ioyGE9N6jhvDoWbM80mmcelOuaVc+vAzSX/Cmtz5NaPEJjqA5U3k+1H5ZpwzZ6wCXzVBZpmhS1pEt4X2PbeJkwwPCtAG8Vjk4FTbkIdOsx2s/g8Sutdqn+qyFXpA8HjDMMMmsT023Z1dvZD0FzWASFgQqjC6Js91MngckqX/oBAXX4IPGbrVapXtfOFzB7yXD5B+FIdl6wgnXu8K3pVBe/sAFHp/J5xG4aP+DS3pxoBlVNzxk7A3hHwKYJ/iSA2kgnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IxXP2/PKgT4B5lLOn+N0jbx0mGgh9EtBUjhDNQzMWas=;
- b=WkAmxCDrcUiigofiKu6WporY/idx+I6TKejNRxLQBwEVkEzkzqcsKNlc0VRIpBAejlIzO6cKC9eCYxIQCJZWPK4rgty7TtN1jN9s44B2zQ1Z/mK6CGTpdqnubxuL0MLrgZS9q2fCW6gnUcNEEMd3OLwzOh+nNpKNEtG/Lu1M5JfBnG5+QQdEJ7ep+C0jYvlUbAOECDkT3pQkh7gy0RPtQr2HZu5K+wFN+SFD5R7l4PQcscP1K79iDrKVrME0tw2N67DiCCpEa7Vhmlvyi4lsj+5xdorDN+DHUzYMXMaCOnAxmhMNlzilWrvhi0E0aI8eSbyrhzFjBS4ICZ327HaYzQ==
+ bh=1Q7a2/PwSAX98ZOZSPgkLfbxq1IBoBU4pyFAkt9/M94=;
+ b=d0v09CvdgRssRqY0AzZ/J5MPUHJNWI2S23XYSBrm62eFbFTC66eGFTc8gpNVNS4gU7/Oos39+aVZJT/g7wIgWtlDhJKy1e80F/VVmTgagL6ybMMhMJs8Jo+HFqWIXK4sUP1oeL9BG9oXtsTguX6/CBoNUZb0HjuyeY/Th2b1iQJ/7jm0ND4d0Hb85IHEBAOgf/72rL3D+pMMFgt/6LukePxIScFO6iMJeQV2YhXkUQB4BH3sQzc1j8r086cmVJZ61bfLEZQ7rPwbkf3InHK0PvrW1w41YY4Xxb2Zgz1XLW9tgFR1oNtS/WZ2EX/y30Mr0XPRBC6pd1Zvt7TBTt+Rhw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
 Received: from PH0PR02MB7384.namprd02.prod.outlook.com (2603:10b6:510:12::12)
- by CY4PR02MB2456.namprd02.prod.outlook.com (2603:10b6:903:6b::20)
+ by BL0PR02MB4657.namprd02.prod.outlook.com (2603:10b6:208:54::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.18; Tue, 21 Jun
- 2022 16:12:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15; Tue, 21 Jun
+ 2022 16:16:41 +0000
 Received: from PH0PR02MB7384.namprd02.prod.outlook.com
  ([fe80::898c:892a:2385:3df6]) by PH0PR02MB7384.namprd02.prod.outlook.com
  ([fe80::898c:892a:2385:3df6%5]) with mapi id 15.20.5353.022; Tue, 21 Jun 2022
- 16:12:30 +0000
-Message-ID: <fc8a5438-136f-141d-e7dc-1418dea06459@nutanix.com>
-Date: Tue, 21 Jun 2022 21:42:20 +0530
+ 16:16:41 +0000
+Message-ID: <31929ad5-7cda-3820-4027-2b0b62941762@nutanix.com>
+Date: Tue, 21 Jun 2022 21:46:33 +0530
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH 4/4] Adding support for multi-FD connections dynamically
+Subject: Re: [PATCH 0/4] Multiple interface support on top of Multi-FD
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com, pbonzini@redhat.com,
- berrange@redhat.com, armbru@redhat.com, eblake@redhat.com
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Het Gala <het.gala@nutanix.com>, qemu-devel@nongnu.org,
+ quintela@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
+ eblake@redhat.com
 References: <20220609073305.142515-1-het.gala@nutanix.com>
- <20220609073305.142515-5-het.gala@nutanix.com> <Yqt6wH8+i+pDBHNU@work-vm>
+ <YqIWDoSJ/xQC8Vvt@redhat.com>
+ <7209116d-ef87-ee6f-5126-e23b55121f49@nutanix.com>
+ <YqoMMCbF3PBnYSn/@redhat.com> <YqrpVRJazpbMz/HE@redhat.com>
+ <YqtRYs1wGEQR4wfo@work-vm>
 From: "manish.mishra" <manish.mishra@nutanix.com>
-In-Reply-To: <Yqt6wH8+i+pDBHNU@work-vm>
+In-Reply-To: <YqtRYs1wGEQR4wfo@work-vm>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0331.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::6) To PH0PR02MB7384.namprd02.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0105.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::20) To PH0PR02MB7384.namprd02.prod.outlook.com
  (2603:10b6:510:12::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0fd1a186-8109-4139-47e6-08da53a0d793
-X-MS-TrafficTypeDiagnostic: CY4PR02MB2456:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR02MB2456ED2800380A3B567F10FAF6B39@CY4PR02MB2456.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 5c755df1-83cf-4ef1-c28a-08da53a16d68
+X-MS-TrafficTypeDiagnostic: BL0PR02MB4657:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR02MB4657F3A4AA28ED909B0CE273F6B39@BL0PR02MB4657.namprd02.prod.outlook.com>
 x-proofpoint-crosstenant: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8ap6J8hEN/E8iNWeIZ2wTj2MPK1DApO1YBo9ZR4z20zHyxTajMGcFBxx4EhMAbLaL+t0DWMftGXIGWMyk+SAToIXgE/A+ZRodeIVoBC7IgXUzUWFOpkXw1TdYaYs2fcQOqxbBYCI+BXfoYmR7cgc3bOdmpjzFwICI5GYaoBLfzUANNOx/na0OdkLfcKJ74fgY5hHL3Xz3dOIxchO8PnoX/4IhdoWx2DnpFxVNKQWqfzLIRBsS7RX6rWc+xetE9APrOUMQg4qGJ+o4+DHfi5yJNfM913bFdYs98mK97J3L06TOJs1GVsCqGJEfyhjALN2bjpYf9PNlwb0ujk+Q7iGvUxQ8Y0q+y/XyygPGXt0xOBz+Z+avX4Z4xGfHdeXm3Z6vTnOf+q2zE6a4mu6AnqccJ0GSHJm5mUAFDGxAE6NBcDQ4lXlAW7tIYu5kfwuJTUCOhKlHhcl8qPSidwxW89AiEeKiwrt5elKNkb+E/Z77V0oaj+/wUOWzaX1AvbmAOMf13bCKJMcy5affXBc8aVHu0x7dk9ndavp0Z8MEou6vOBJnI9t8XZbjT2a48F841EPYh+24U0Hb6/VVk8EEDyBCKRi9qTbhK3Myiy/RSkjyWQpV6dEao5fgrbbxLsi1iHfVYRVuImJMWtcXdlMHEL0rHdDNl0QVmYyLXbRLV5EublnwrafQwGO5eo5+YT4V3wl+zYtnvrBnzp9xry9NtT6nOWOai1pa229jelM0gYm57OJXbvGIpF8lukPDKYsMvtQ
+X-Microsoft-Antispam-Message-Info: 8poQLEQjFCRKKVN152i7muTf2BpmzrzBvQTOd1NHNQBT72J8h/yIdsyv9BD6lNq6hIuAvjcxebLJX62uLWT+YOss+NhQh6fJVng86lkjvazR5dLABa6aTKSG0/DIuemA0ycr8kxXigivL7Fq1A8ubKrHOZwJ/FVKdJjATQmoCnAs1/Sm+i4mToWRaKS4BHwRXswMsqIaHU+5n0aZIjkwlBECALEjvznxl585pPeOkdG6GbLGAO7PLLJKQsnZvt/Ix060xmjhDRUhPG2SK+l7uso0TD4BbcW5Njdm9eEk4jNcmEx/C/gCqqQ6aWxacRye/Vjpv0Jgy8l+NStkEVIFHcRtu75r6EOvg3pzy4bBc7kyi+uRDOM9S+0cs0rBKuQTrU/rGtJH2ySE3bwBMPUwSrRdIUlU89KQ1f0+RgQxXAc7//lbul98yprpQ9GpNVVVRyenLh+8otxU7PjSUz4yjZRr73WDOyF90rWRowX1MQjzz1AdQfJgNMOEvdOUT0Bs10+c6MyWRRl1GDgNQNjNWsK8ia2ybKkXFED6jJuzO3g951NRsWWS2KtE22vwKI7uTtpvMbaOcw0cKv7KB+awr1Am/ohVDS4GKvejCPmtUYzs+Nm77oh42OUZt+1IDMmnpi6vZBaXmwAbLjrWYEcS7J7Cdt6z7ST/54xj1i0eJtKH9y8rvasZsy/Wn5OeRzRt/+JfxbO84PVwBnN8urWYKJdP6Vc++DZMw2ZqJSpTIW0iSr6zgmYLoV7pJGJpzaBTXN83/XcqWtL/MjI6s5Qm1XHv2KsP61s8TTIITUxuwrAKXyfHHkJ0chpp4DYZqO3Sx9XhQ76gnIIdKAvL0n3gc4A9QRsvmcviP+rmiegK8i4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR02MB7384.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(396003)(39860400002)(346002)(136003)(376002)(366004)(4326008)(8676002)(41300700001)(110136005)(66476007)(2616005)(83380400001)(66946007)(66556008)(36756003)(31686004)(186003)(55236004)(2906002)(6512007)(38100700002)(26005)(6666004)(31696002)(6506007)(8936002)(5660300002)(53546011)(30864003)(316002)(86362001)(6636002)(6486002)(478600001)(45980500001)(43740500002);
+ SFS:(13230016)(136003)(376002)(39860400002)(366004)(346002)(396003)(31686004)(6666004)(86362001)(38100700002)(4326008)(26005)(36756003)(66476007)(66556008)(110136005)(316002)(2906002)(66946007)(8676002)(186003)(8936002)(478600001)(83380400001)(6486002)(53546011)(31696002)(6512007)(966005)(41300700001)(55236004)(6506007)(5660300002)(2616005)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1c1ZmY5RG1CNlRTTDhvaEdsNURUZmFOS3VPendMK3k3ZG9UOFl5TDhsRGtB?=
- =?utf-8?B?UHpIc1BxMlZ3SmxCMVR6ejI5Nm15clRaRTEzYTZORytqZ2Fxa0RFZytTR0hO?=
- =?utf-8?B?M0dsVko4RVhObHlmSHJ2NWtCa0xKMEErMTRLeTBNTjg0QUVyOFZTTnpnV25N?=
- =?utf-8?B?MzAzY09sZjdCeVRHV1hSRWluWWpPTWpQaXFmNzhCOUQrbXpoV3JXVEdRZVdY?=
- =?utf-8?B?WVJZMWN2NEozaFBRMk5yUTVuN1JkSEpkcWFzUEhCekgyZ1lrL0VQVHpwLzFB?=
- =?utf-8?B?M2VnYlJSc0xpTVJZZERkZW82NHg3bkJoRTFqOERnSGFPZVN5dEZVSERmOHV0?=
- =?utf-8?B?eDNDZXF1NnFDaWVTaDJza09mRFIyTXY4cFpvNTFqZEZSZUMrc1ZhVFlsc2JK?=
- =?utf-8?B?RURJeHo1ZEhlUzRiNGhyT2NRTXFWM0N5dkFHKzhtZ2xVL24vRVRId1pYUGsx?=
- =?utf-8?B?b1Rib1p3aytqOXdzMDRvbEZObm5DdzNRNEFoeGIzQlU0NloxaWxoQUJpZ1VX?=
- =?utf-8?B?bW8wdW15Zk8wenJ4SUM4WGZkMFZCZmxHUGt2TnhFVWtwaHd2d3oxSU5HZENF?=
- =?utf-8?B?dkRrZzRubjhIb2pUMDJEanRhK3p0ellMTjFZZnNqQWcrNUMrUjZHWlU4aTJL?=
- =?utf-8?B?Y2lBOWZFR1VLdXNxeEY4Z1NBNE9WN251RlVLMEVYNGo4YjRiMFQyNFdvcTVa?=
- =?utf-8?B?UVdEZlBaTHNrb3ZhR0laNUZONlUwa20zYlZ5NkMweGwvcGVKOW85TjBHL2NJ?=
- =?utf-8?B?T2pxVHRhcm1raHNpVS9wb2RiU29kL2FZcFNMNUtLbDNjWUkxRitEc0s1VnRR?=
- =?utf-8?B?Z1dBbVgyUnBoTFkyOUZJKy91SjBJMjdvbnRzczIwMXZTZUpad3lOcHFZZWlC?=
- =?utf-8?B?bkRrdU1Hc0JTZ0pRcEZEOGxOVHNXVVhzcTBuNTlSYzdCTkRwbmtwUk9uRjVy?=
- =?utf-8?B?cXdrcGwveW4xeU9UcU9PcjRjY3B4UUYwVGovdGdYMVYwNVZXSzdNcjlvRU96?=
- =?utf-8?B?bGJkSVY3TnVMWTBaWWxvZlFsLzdINTZhWUFrckM0RzFDVnl1Nm1Uc2hwcGdS?=
- =?utf-8?B?VnQ2WUt1RFcwblA4dDdEYlBWRWYrQWswYklxOVZzWWlqU0prT1RObHVSekZM?=
- =?utf-8?B?dVhQRTQ5T09xc2h2UklSNzhjQVl4UEx2YTA0WjQ0b1ZHQUxkOFpnanhub253?=
- =?utf-8?B?N2pmWFhHQzB2ZFVSVjhjcUcvQWxsRVdBYVpTSFZGRlpkU1JDUFBDSmo4WGdF?=
- =?utf-8?B?aVdtUzMwdDI3TGtuemo0WnVNOENvUGxCa21hT3dlaFV3aUhpNUh1RXprMm9M?=
- =?utf-8?B?MVBHZUtCMVJvQUZUUXdIcW5QVXV4OGdiY2JaNzZKdjBPazVnVU1ZU01oNWdk?=
- =?utf-8?B?NDF1TWpaVUdzUGt2a3Fxb0FhUDJVS2orMVp6TXNiNUJFbFJwU0g1QTgvVWhI?=
- =?utf-8?B?VUMxSXEyNUdwSkJjYjJWTzFzekNDMXhualRhYm5jby92dkVFaFBuYzJyZGlF?=
- =?utf-8?B?dnhMVDVuUlhISjJDa21IY2FxQjhBdDZVTEk2Tk1zaTlUSEJKeHRJODhXcU9p?=
- =?utf-8?B?bnR3TEpvSU4yRENldFhaczdhb2hNdEV0bUt0YkFCbDdUWVZKSDdrdWlqbURr?=
- =?utf-8?B?ZERZRjlxcnp0WFJqNEtiZDlDUnpjRWxTdVk3TWhmQmx4MmpxeEwyQTVuRXFu?=
- =?utf-8?B?NVpIWnVxbklRMjBiR1YrTUNRbHJNeU40QXI3bE9LZ2VJV3llZGFRTXVyRVM5?=
- =?utf-8?B?WUw4cDF0L01aZFVUelBBZEJBOGlKc0dZc25keGg5azhsUEVleXdUSGszTVRk?=
- =?utf-8?B?b3JOYTNlOWZWRitEaTNiVTNnSWNHd3EzTytXNTloRDAwTzBVbUZlTU9OamVi?=
- =?utf-8?B?SDhLM0E5UnJoS082RkgwR1ZrMHZueXgyNzBjOGNBbDhIa204dWJuaDRmdVlN?=
- =?utf-8?B?VmJTWjM4cjY0MGZEQm0rT1ZIdjNHWHVoYXFPZlB4OWZEc3VoR1E3NFdqbVlu?=
- =?utf-8?B?Ukh4Wkh5Y0FpQXUyMFVpYUo0ZmZsUGc3Vm1vaXkyT2lMNHBVQjl4NnVzQWlk?=
- =?utf-8?B?VFI0dHNITDd3TDRWL09KcnN1UWJYMUl4MStlRXJVbGhCNE9IQUl6dURKd0FS?=
- =?utf-8?B?akJMSjNSNVc4U3pEaUMyZktFWXVNQ2FDZkJtcm80VnhpaG1pVCtMcHpud0la?=
- =?utf-8?B?VGZiVVZuTnZiRVl3QXZnNThlV1NiTG9YNjlCSk9zaTJrN0NkTXpDUkNoUnhw?=
- =?utf-8?B?QTBTbWMzcTJzZ0tQWnlCN3BqWTVHUFRlOVlFREdrbzNEOEpReDZROEFCTzFu?=
- =?utf-8?B?bVZ6MHRtUzBBZzVTMlBSOE96TzA0Rk96bU5XdmdqNlEybkZrQ3RLMmluam5N?=
- =?utf-8?Q?A1iG7qghvHLYf+Ko=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WnUyVUtLc0xjcUt1SkQrOXJQemV1MENzcGJLL3g4L3RySnZQODV4QXZUZTFo?=
+ =?utf-8?B?Y3A5Qmt5d3c0RTdWQTRqaXVtc3F0MDFCSitIN2pvb0JsaTZZMFhUbnNlanJF?=
+ =?utf-8?B?WlY1dDd2UWFYaTViWU1OVjlGWVpzRXl0MHZmWlNkOGpqcUFnUjM0aUlHLzRF?=
+ =?utf-8?B?eDBHcWc3a2ppQ3V1QUtYMVVDdzVDTFhXN1pFdnhtRDNKWm00RWg1aURUQ0lL?=
+ =?utf-8?B?WXNMd0k1a1lEZjBBc3crcDl5QmRxMFhXb0RhVzZLY2hmZThIdkV5YjFTdXd5?=
+ =?utf-8?B?Z2dTU1lXckxMZGlIYlVmSncrOWc1cUhqN0dBNUdvWElZcGQ1clgzNWRlYzc0?=
+ =?utf-8?B?aUducDVqc21Ib0JSN2tUa3BFcll5bDBvbnQ2eXRXU2pXaEVaR24zeldHYkRV?=
+ =?utf-8?B?bmZHRzFhcjN3Z2hpRGJrbGp1QXoxbDJBenhTbnMyVlVHN1Nqa1R5TS9HRmtz?=
+ =?utf-8?B?NjlxOUQ2N0J6ZEtLRHdUUXJ0MDkvV2tidHpNZ01QY2JTVDhMdnNMcVZBYVBV?=
+ =?utf-8?B?dmxHMVVTTVpOTC9ia2EwMEpMWHBDQ0x2cVM0bDBLWS9IMzNCdnBrMkErRTFZ?=
+ =?utf-8?B?RUs4RC9ubk1mVW5vSDRCU1pFK2svc2VxMkxHM0lRajFXRE12b080cmhQMEZD?=
+ =?utf-8?B?TVE3V00yTWtIOGpqL2lqaEQ5Y29oaXZsQXJ0aUF3ZEszdzlVL1ZXb0sxWUtY?=
+ =?utf-8?B?M2dtK2Nya3RiVTZITXVhdXpob0Ixam1xc3FpaU0rSDhnenVFYVBhSUx0WHRE?=
+ =?utf-8?B?UVBRRlpRN3draHFQOHZQa0RrV1lhVGpLSXpza2ZWclVBNHh6Tkh0MGxRcVly?=
+ =?utf-8?B?LzlRQUQ1VHFYVmh3SThMbmxrT0tNMU1XSGh3cjZpcXBVTnVWcENuTm9LWXFM?=
+ =?utf-8?B?T1plQ1daRmJtems3WGxxTEN6N3BTWHZiMjRYZWJtNFJIUGJVenB4eEhIVlVE?=
+ =?utf-8?B?Y1YyN0c2Y1JhSE5BZVY1TWI4a0JIMmZlaU9FY3orOENOanNBWkRkK0hoMkh5?=
+ =?utf-8?B?QzU0OTYySEV5K0w3bFJjS2h5aStJNzRwUUdoZjZSbmVpMmVuMUZrN0RxR3RR?=
+ =?utf-8?B?SE1vQ084RHMxejRYS2dWRGloQUR4Zmp2T3VWQ0VxVS93NjVqWkFXWi9Jc0Nr?=
+ =?utf-8?B?OGFwcit5eHZ2QjdOb294akpCN1J3Z3BSTm5OR01KQmZCSnN0SXJJTDZFTmQ4?=
+ =?utf-8?B?OUM5enUrMHhMZGZVMnVHaEJ2aXd0VUdvVWZ4ZWFIWVJwSUxYdUl5Tk1oVHJZ?=
+ =?utf-8?B?MlIyemdZd1hrM1A5RFlDeXV0QmsyYWphV01saTBuY01OcFpTdjlCZkUyS3Jl?=
+ =?utf-8?B?S09pWW8yVm0zQUk4U2VTZENxZkNRa0p6b05pTFBSQ1FWSDJ5N2tCT1drL3k0?=
+ =?utf-8?B?ZWpXL2NCZzNUZjBhd3hDMXFiOVFuaTVZZ1NaR0R3ZWtSVkNQcmgwR29TQy93?=
+ =?utf-8?B?TjIzTldmRjZHRXJOaUhveHZHQk5CTi9Bd3JuenFacU03alZJRk5SMU4zVnMy?=
+ =?utf-8?B?cTBsMWJtNklmZVFuNDJmMDR6dDROZEt3NXZ6S1JMK2JZV1NtVDl5OCtBNktn?=
+ =?utf-8?B?ZWtIOUpYU2lrQUdybXJZSHc1VEp6Yk55T2ErNFZoL2UycjUrT2wwQ3dVMTNm?=
+ =?utf-8?B?NklZVks3ODBQTlpaWERBUEIzeWJ5SUVpRjBmcUFZMXRBWWU1Q3p1WVhnQmNJ?=
+ =?utf-8?B?RHBnRkRiZVMvUjUxRVpuVFEycjFuSkljd0R4WnJJYW9IbHJjVWM5THUwN3Zs?=
+ =?utf-8?B?TUZ1WGh0ZDFQV040a1NwUHFUcE4xcGk1U0pDem5paGxvVmVnOFExZDRKc2c0?=
+ =?utf-8?B?RU5FQ0J3MjNRY2ZuTldhcCtkaGxOUi9vV2NKRU9TeWxrR0x0U2tQT09JU0Zv?=
+ =?utf-8?B?blpIYTJHem1VUy9HaXl3eG9jSlBlMVI3Qkk5QzZ0VzRXYnZxRUk5Q2hOalc5?=
+ =?utf-8?B?REZlaHpsQmZDWGpLQmo4Z0dSbXMyQzhSVFNVMkpDNDA4c2FPQkkzQlVneVRZ?=
+ =?utf-8?B?SlF2TXhHaDFVUEphblhyUkV6R0dudW10REpqQ2tYNGh2NCtJUGVQTkF4TlNt?=
+ =?utf-8?B?ZlJpQ2FBTDBZS2xMdUMzaDJuVjg3RjNxdWtqTTRLVW5qL2l5YlIvZDJKcC9O?=
+ =?utf-8?B?MEpGVU9STm9SNVlBbDM4WktyeXF6aGwraFZIY083cFR2aWVBNVJMc1ZVdEJU?=
+ =?utf-8?B?NzQzcngzRXd5d1dmanF2ZzMzbUd6VkdwOGV1c0ltMit6SUkyYUYzWTNnNFFH?=
+ =?utf-8?B?eGNaUHV1THQ3SFg0L3RpUFpKUzEweEplMlprWSszaUkrODJ1UHBDaTJRNnZk?=
+ =?utf-8?B?TVY0ditSSmk3YU85cjY3K2NPdEtNaU9Mc2NzZDMrYzNXWWZHRStMY3lkYTBt?=
+ =?utf-8?Q?o8Fw2lhl/5k0HkJM=3D?=
 X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fd1a186-8109-4139-47e6-08da53a0d793
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c755df1-83cf-4ef1-c28a-08da53a16d68
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7384.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 16:12:30.4066 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 16:16:41.8018 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G2Z+aIOit8iVXENmAVCtpISn2Cav77hx+kalFiKlo9JDCALJyeQHPrLSpW3iRNMk9pbGUIbeuiVCxJYC2v9u1bEtJL3jRLD8DSHENaC1UeY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2456
-X-Proofpoint-GUID: hhImHc3xtJ8t3GraGgQyj4TO-vKpVVvZ
-X-Proofpoint-ORIG-GUID: hhImHc3xtJ8t3GraGgQyj4TO-vKpVVvZ
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bx6m44MKv6xczsMeEnOyomJb9ZBrdjwjn2Ed5z0dGdlyMDTv4ZT1NGg/au4NFZX0b/Kdbc7SH9E8vlLpxeX4MYE4QWEhKHaixw9Nzijm8yk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4657
+X-Proofpoint-ORIG-GUID: Pv8gTbt7ZICzsfO49u5Se3qr0Sm9Nq27
+X-Proofpoint-GUID: Pv8gTbt7ZICzsfO49u5Se3qr0Sm9Nq27
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
  definitions=2022-06-21_08,2022-06-21_01,2022-02-23_01
@@ -170,385 +174,102 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 17/06/22 12:17 am, Dr. David Alan Gilbert wrote:
-> * Het Gala (het.gala@nutanix.com) wrote:
->> i) Dynamically decide appropriate source and destination ip pairs for the
->>     corresponding multi-FD channel to be connected.
->>
->> ii) Removed the support for setting the number of multi-fd channels from qmp
->>      commands. As now all multiFD parameters will be passed via qmp: migrate
->>      command or incoming flag itself.
-> We can't do that, because it's part of the API already; what you'll need
-> to do is check that the number of entries in your list corresponds to
-> the value set there and error if it's different.
+On 16/06/22 9:20 pm, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+>> On Wed, Jun 15, 2022 at 05:43:28PM +0100, Daniel P. Berrangé wrote:
+>>> On Fri, Jun 10, 2022 at 05:58:31PM +0530, manish.mishra wrote:
+>>>> On 09/06/22 9:17 pm, Daniel P. Berrangé wrote:
+>>>>> On Thu, Jun 09, 2022 at 07:33:01AM +0000, Het Gala wrote:
+>>>>>> As of now, the multi-FD feature supports connection over the default network
+>>>>>> only. This Patchset series is a Qemu side implementation of providing multiple
+>>>>>> interfaces support for multi-FD. This enables us to fully utilize dedicated or
+>>>>>> multiple NICs in case bonding of NICs is not possible.
+>>>>>>
+>>>>>>
+>>>>>> Introduction
+>>>>>> -------------
+>>>>>> Multi-FD Qemu implementation currently supports connection only on the default
+>>>>>> network. This forbids us from advantages like:
+>>>>>> - Separating VM live migration traffic from the default network.
+>>>> Hi Daniel,
+>>>>
+>>>> I totally understand your concern around this approach increasing compexity inside qemu,
+>>>>
+>>>> when similar things can be done with NIC teaming. But we thought this approach provides
+>>>>
+>>>> much more flexibility to user in few cases like.
+>>>>
+>>>> 1. We checked our customer data, almost all of the host had multiple NIC, but LACP support
+>>>>
+>>>>      in their setups was very rare. So for those cases this approach can help in utilise multiple
+>>>>
+>>>>      NICs as teaming is not possible there.
+>>> AFAIK,  LACP is not required in order to do link aggregation with Linux.
+>>> Traditional Linux bonding has no special NIC hardware or switch requirements,
+>>> so LACP is merely a "nice to have" in order to simplify some aspects.
+>>>
+>>> IOW, migration with traffic spread across multiple NICs is already
+>>> possible AFAICT.
+>>>
+>>> I can understand that some people may not have actually configured
+>>> bonding on their hosts, but it is not unreasonable to request that
+>>> they do so, if they want to take advantage fo aggrated bandwidth.
+>>>
+>>> It has the further benefit that it will be fault tolerant. With
+>>> this proposal if any single NIC has a problem, the whole migration
+>>> will get stuck. With kernel level bonding, if any single NIC haus
+>>> a problem, it'll get offlined by the kernel and migration will
+>>> continue to  work across remaining active NICs.
+>>>
+>>>> 2. We have seen requests recently to separate out traffic of storage, VM netwrok, migration
+>>>>
+>>>>      over different vswitch which can be backed by 1 or more NICs as this give better
+>>>>
+>>>>      predictability and assurance. So host with multiple ips/vswitches can be very common
+>>>>
+>>>>      environment. In this kind of enviroment this approach gives per vm or migration level
+>>>>
+>>>>      flexibilty, like for critical VM we can still use bandwidth from all available vswitch/interface
+>>>>
+>>>>      but for normal VM they can keep live migration only on dedicated NICs without changing
+>>>>
+>>>>      complete host network topology.
+>>>>
+>>>>      At final we want it to be something like this [<ip-pair>, <multiFD-channels>, <bandwidth_control>]
+>>>>
+>>>>      to provide bandwidth_control per interface.
+>>> Again, it is already possible to separate migration traffic from storage
+>>> traffic, from other network traffic. The target IP given will influence
+>>> which NIC is used based on routing table and I know this is already
+>>> done widely with OpenStack deployments.
+>> Actually I should clarify this is only practical if the two NICs are
+>> using different IP subnets, otherwise routing rules are not viable.
+>> So needing to set source IP would be needed to select between a pair
+>> of NICs on the same IP subnet.
+> Yeh so I think that's one reason that the idea in this series is OK
+> (together with the idea for the NUMA stuff) and I suspect there are
+> other cases as well.
 >
 > Dave
 >
-thanks for review David. Yes, we will make sure in V2 that nothing existing breaks.
+yes, David multiFD per NUMA seems interesting idea, I was just curious
 
-- Manish Mishra
+how much throughput diff we can experience per multiFD channel
 
->> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
->> Signed-off-by: Het Gala <het.gala@nutanix.com>
->> ---
->>   migration/migration.c | 15 ---------------
->>   migration/migration.h |  1 -
->>   migration/multifd.c   | 42 +++++++++++++++++++++---------------------
->>   migration/socket.c    | 42 +++++++++++++++++++++++++++++++++---------
->>   migration/socket.h    |  4 +++-
->>   monitor/hmp-cmds.c    |  4 ----
->>   qapi/migration.json   |  6 ------
->>   7 files changed, 57 insertions(+), 57 deletions(-)
+with local vs remote NIC?
+
+thanks
+
+Manish Mishra
+
+>> Previous usage I've seen has always setup fully distinct IP subnets
+>> for generic vs storage vs migration network traffic.
 >>
->> diff --git a/migration/migration.c b/migration/migration.c
->> index 9b0ad732e7..57dd4494b4 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -1585,9 +1585,6 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
->>       if (params->has_block_incremental) {
->>           dest->block_incremental = params->block_incremental;
->>       }
->> -    if (params->has_multifd_channels) {
->> -        dest->multifd_channels = params->multifd_channels;
->> -    }
->>       if (params->has_multifd_compression) {
->>           dest->multifd_compression = params->multifd_compression;
->>       }
->> @@ -1702,9 +1699,6 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
->>       if (params->has_block_incremental) {
->>           s->parameters.block_incremental = params->block_incremental;
->>       }
->> -    if (params->has_multifd_channels) {
->> -        s->parameters.multifd_channels = params->multifd_channels;
->> -    }
->>       if (params->has_multifd_compression) {
->>           s->parameters.multifd_compression = params->multifd_compression;
->>       }
->> @@ -2686,15 +2680,6 @@ bool migrate_pause_before_switchover(void)
->>           MIGRATION_CAPABILITY_PAUSE_BEFORE_SWITCHOVER];
->>   }
->>   
->> -int migrate_multifd_channels(void)
->> -{
->> -    MigrationState *s;
->> -
->> -    s = migrate_get_current();
->> -
->> -    return s->parameters.multifd_channels;
->> -}
->> -
->>   MultiFDCompression migrate_multifd_compression(void)
->>   {
->>       MigrationState *s;
->> diff --git a/migration/migration.h b/migration/migration.h
->> index fa8717ec9e..9464de8ef7 100644
->> --- a/migration/migration.h
->> +++ b/migration/migration.h
->> @@ -372,7 +372,6 @@ bool migrate_validate_uuid(void);
->>   bool migrate_auto_converge(void);
->>   bool migrate_use_multifd(void);
->>   bool migrate_pause_before_switchover(void);
->> -int migrate_multifd_channels(void);
->>   MultiFDCompression migrate_multifd_compression(void);
->>   int migrate_multifd_zlib_level(void);
->>   int migrate_multifd_zstd_level(void);
->> diff --git a/migration/multifd.c b/migration/multifd.c
->> index 9282ab6aa4..ce017436fb 100644
->> --- a/migration/multifd.c
->> +++ b/migration/multifd.c
->> @@ -225,7 +225,7 @@ static int multifd_recv_initial_packet(QIOChannel *c, Error **errp)
->>           return -1;
->>       }
->>   
->> -    if (msg.id > migrate_multifd_channels()) {
->> +    if (msg.id > total_multifd_channels()) {
->>           error_setg(errp, "multifd: received channel version %u "
->>                      "expected %u", msg.version, MULTIFD_VERSION);
->>           return -1;
->> @@ -410,8 +410,8 @@ static int multifd_send_pages(QEMUFile *f)
->>        * using more channels, so ensure it doesn't overflow if the
->>        * limit is lower now.
->>        */
->> -    next_channel %= migrate_multifd_channels();
->> -    for (i = next_channel;; i = (i + 1) % migrate_multifd_channels()) {
->> +    next_channel %= total_multifd_channels();
->> +    for (i = next_channel;; i = (i + 1) % total_multifd_channels()) {
->>           p = &multifd_send_state->params[i];
->>   
->>           qemu_mutex_lock(&p->mutex);
->> @@ -422,7 +422,7 @@ static int multifd_send_pages(QEMUFile *f)
->>           }
->>           if (!p->pending_job) {
->>               p->pending_job++;
->> -            next_channel = (i + 1) % migrate_multifd_channels();
->> +            next_channel = (i + 1) % total_multifd_channels();
->>               break;
->>           }
->>           qemu_mutex_unlock(&p->mutex);
->> @@ -500,7 +500,7 @@ static void multifd_send_terminate_threads(Error *err)
->>           return;
->>       }
->>   
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDSendParams *p = &multifd_send_state->params[i];
->>   
->>           qemu_mutex_lock(&p->mutex);
->> @@ -521,14 +521,14 @@ void multifd_save_cleanup(void)
->>           return;
->>       }
->>       multifd_send_terminate_threads(NULL);
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDSendParams *p = &multifd_send_state->params[i];
->>   
->>           if (p->running) {
->>               qemu_thread_join(&p->thread);
->>           }
->>       }
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDSendParams *p = &multifd_send_state->params[i];
->>           Error *local_err = NULL;
->>   
->> @@ -594,7 +594,7 @@ int multifd_send_sync_main(QEMUFile *f)
->>   
->>       flush_zero_copy = migrate_use_zero_copy_send();
->>   
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDSendParams *p = &multifd_send_state->params[i];
->>   
->>           trace_multifd_send_sync_main_signal(p->id);
->> @@ -627,7 +627,7 @@ int multifd_send_sync_main(QEMUFile *f)
->>               }
->>           }
->>       }
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDSendParams *p = &multifd_send_state->params[i];
->>   
->>           trace_multifd_send_sync_main_wait(p->id);
->> @@ -903,7 +903,7 @@ int multifd_save_setup(Error **errp)
->>       int thread_count;
->>       uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
->>       uint8_t i;
->> -
->> +    int idx;
->>       if (!migrate_use_multifd()) {
->>           return 0;
->>       }
->> @@ -912,7 +912,7 @@ int multifd_save_setup(Error **errp)
->>           return -1;
->>       }
->>   
->> -    thread_count = migrate_multifd_channels();
->> +    thread_count = total_multifd_channels();
->>       multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
->>       multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
->>       multifd_send_state->pages = multifd_pages_init(page_count);
->> @@ -945,8 +945,8 @@ int multifd_save_setup(Error **errp)
->>           } else {
->>               p->write_flags = 0;
->>           }
->> -
->> -        socket_send_channel_create(multifd_new_send_channel_async, p);
->> +        idx = multifd_index(i);
->> +        socket_send_channel_create(multifd_new_send_channel_async, p, idx);
->>       }
->>   
->>       for (i = 0; i < thread_count; i++) {
->> @@ -991,7 +991,7 @@ static void multifd_recv_terminate_threads(Error *err)
->>           }
->>       }
->>   
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDRecvParams *p = &multifd_recv_state->params[i];
->>   
->>           qemu_mutex_lock(&p->mutex);
->> @@ -1017,7 +1017,7 @@ int multifd_load_cleanup(Error **errp)
->>           return 0;
->>       }
->>       multifd_recv_terminate_threads(NULL);
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDRecvParams *p = &multifd_recv_state->params[i];
->>   
->>           if (p->running) {
->> @@ -1030,7 +1030,7 @@ int multifd_load_cleanup(Error **errp)
->>               qemu_thread_join(&p->thread);
->>           }
->>       }
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDRecvParams *p = &multifd_recv_state->params[i];
->>   
->>           migration_ioc_unregister_yank(p->c);
->> @@ -1065,13 +1065,13 @@ void multifd_recv_sync_main(void)
->>       if (!migrate_use_multifd()) {
->>           return;
->>       }
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDRecvParams *p = &multifd_recv_state->params[i];
->>   
->>           trace_multifd_recv_sync_main_wait(p->id);
->>           qemu_sem_wait(&multifd_recv_state->sem_sync);
->>       }
->> -    for (i = 0; i < migrate_multifd_channels(); i++) {
->> +    for (i = 0; i < total_multifd_channels(); i++) {
->>           MultiFDRecvParams *p = &multifd_recv_state->params[i];
->>   
->>           WITH_QEMU_LOCK_GUARD(&p->mutex) {
->> @@ -1166,7 +1166,7 @@ int multifd_load_setup(Error **errp)
->>           error_setg(errp, "multifd is not supported by current protocol");
->>           return -1;
->>       }
->> -    thread_count = migrate_multifd_channels();
->> +    thread_count = total_multifd_channels();
->>       multifd_recv_state = g_malloc0(sizeof(*multifd_recv_state));
->>       multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
->>       qatomic_set(&multifd_recv_state->count, 0);
->> @@ -1204,7 +1204,7 @@ int multifd_load_setup(Error **errp)
->>   
->>   bool multifd_recv_all_channels_created(void)
->>   {
->> -    int thread_count = migrate_multifd_channels();
->> +    int thread_count = total_multifd_channels();
->>   
->>       if (!migrate_use_multifd()) {
->>           return true;
->> @@ -1259,5 +1259,5 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
->>                          QEMU_THREAD_JOINABLE);
->>       qatomic_inc(&multifd_recv_state->count);
->>       return qatomic_read(&multifd_recv_state->count) ==
->> -           migrate_multifd_channels();
->> +           total_multifd_channels();
->>   }
->> diff --git a/migration/socket.c b/migration/socket.c
->> index d0cb7cc6a6..c0ac6dbbe2 100644
->> --- a/migration/socket.c
->> +++ b/migration/socket.c
->> @@ -28,9 +28,6 @@
->>   #include "trace.h"
->>   
->>   
->> -struct SocketOutgoingArgs {
->> -    SocketAddress *saddr;
->> -} outgoing_args;
->>   
->>   struct SocketArgs {
->>       struct SrcDestAddr data;
->> @@ -43,20 +40,47 @@ struct OutgoingMigrateParams {
->>       uint64_t total_multifd_channel;
->>   } outgoing_migrate_params;
->>   
->> -void socket_send_channel_create(QIOTaskFunc f, void *data)
->> +
->> +int total_multifd_channels(void)
->> +{
->> +    return outgoing_migrate_params.total_multifd_channel;
->> +}
->> +
->> +int multifd_index(int i)
->> +{
->> +    int length = outgoing_migrate_params.length;
->> +    int j = 0;
->> +    int runn_sum = 0;
->> +    while (j < length) {
->> +        runn_sum += outgoing_migrate_params.socket_args[j].multifd_channels;
->> +        if (i >= runn_sum) {
->> +            j++;
->> +        } else {
->> +            break;
->> +        }
->> +    }
->> +    return j;
->> +}
->> +
->> +void socket_send_channel_create(QIOTaskFunc f, void *data, int idx)
->>   {
->>       QIOChannelSocket *sioc = qio_channel_socket_new();
->> -    qio_channel_socket_connect_async(sioc, outgoing_args.saddr,
->> -                                     f, data, NULL, NULL, NULL);
->> +    qio_channel_socket_connect_async(sioc,
->> +                       outgoing_migrate_params.socket_args[idx].data.dst_addr,
->> +                       f, data, NULL, NULL,
->> +                       outgoing_migrate_params.socket_args[idx].data.src_addr);
->>   }
->>   
->>   int socket_send_channel_destroy(QIOChannel *send)
->>   {
->>       /* Remove channel */
->>       object_unref(OBJECT(send));
->> -    if (outgoing_args.saddr) {
->> -        qapi_free_SocketAddress(outgoing_args.saddr);
->> -        outgoing_args.saddr = NULL;
->> +    if (outgoing_migrate_params.socket_args != NULL) {
->> +        g_free(outgoing_migrate_params.socket_args);
->> +        outgoing_migrate_params.socket_args = NULL;
->> +    }
->> +    if (outgoing_migrate_params.length) {
->> +        outgoing_migrate_params.length = 0;
->>       }
->>   
->>       if (outgoing_migrate_params.socket_args != NULL) {
->> diff --git a/migration/socket.h b/migration/socket.h
->> index b9e3699167..c8b9252384 100644
->> --- a/migration/socket.h
->> +++ b/migration/socket.h
->> @@ -27,7 +27,9 @@ struct SrcDestAddr {
->>       SocketAddress *src_addr;
->>   };
->>   
->> -void socket_send_channel_create(QIOTaskFunc f, void *data);
->> +int total_multifd_channels(void);
->> +int multifd_index(int i);
->> +void socket_send_channel_create(QIOTaskFunc f, void *data, int idx);
->>   int socket_send_channel_destroy(QIOChannel *send);
->>   
->>   void socket_start_incoming_migration(const char *str, uint8_t number,
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index 32a6b67d5f..9a3d76d6ba 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -1281,10 +1281,6 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
->>           p->has_block_incremental = true;
->>           visit_type_bool(v, param, &p->block_incremental, &err);
->>           break;
->> -    case MIGRATION_PARAMETER_MULTIFD_CHANNELS:
->> -        p->has_multifd_channels = true;
->> -        visit_type_uint8(v, param, &p->multifd_channels, &err);
->> -        break;
->>       case MIGRATION_PARAMETER_MULTIFD_COMPRESSION:
->>           p->has_multifd_compression = true;
->>           visit_type_MultiFDCompression(v, param, &p->multifd_compression,
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index 62a7b22d19..1b1c6d01d3 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -877,11 +877,6 @@
->>   #                     migrated and the destination must already have access to the
->>   #                     same backing chain as was used on the source.  (since 2.10)
->>   #
->> -# @multifd-channels: Number of channels used to migrate data in
->> -#                    parallel. This is the same number that the
->> -#                    number of sockets used for migration.  The
->> -#                    default value is 2 (since 4.0)
->> -#
->>   # @xbzrle-cache-size: cache size to be used by XBZRLE migration.  It
->>   #                     needs to be a multiple of the target page size
->>   #                     and a power of 2
->> @@ -965,7 +960,6 @@
->>               '*x-checkpoint-delay': { 'type': 'uint32',
->>                                        'features': [ 'unstable' ] },
->>               '*block-incremental': 'bool',
->> -            '*multifd-channels': 'uint8',
->>               '*xbzrle-cache-size': 'size',
->>               '*max-postcopy-bandwidth': 'size',
->>               '*max-cpu-throttle': 'uint8',
+>> With regards,
+>> Daniel
 >> -- 
->> 2.22.3
+>> |: https://urldefense.proofpoint.com/v2/url?u=https-3A__berrange.com&d=DwIDAw&c=s883GpUCOChKOHiocYtGcg&r=c4KON2DiMd-szjwjggQcuUvTsPWblztAL0gVzaHnNmc&m=qfclRDP-GXttuWQ3knJS2RHXmg2XjmG7Pju002cBrHugZE8hpO3DRbKdHphItFr-&s=1RKIz6cO82_JwgkJ-QLP3SRWaG2Lo6J8w4O0Z2YVJ4Q&e=       -o-    https://urldefense.proofpoint.com/v2/url?u=https-3A__www.flickr.com_photos_dberrange&d=DwIDAw&c=s883GpUCOChKOHiocYtGcg&r=c4KON2DiMd-szjwjggQcuUvTsPWblztAL0gVzaHnNmc&m=qfclRDP-GXttuWQ3knJS2RHXmg2XjmG7Pju002cBrHugZE8hpO3DRbKdHphItFr-&s=BkGiCLXloxlYYBJeJ_0XGRUgkUraRPJdIu26ukR6erI&e=  :|
+>> |: https://urldefense.proofpoint.com/v2/url?u=https-3A__libvirt.org&d=DwIDAw&c=s883GpUCOChKOHiocYtGcg&r=c4KON2DiMd-szjwjggQcuUvTsPWblztAL0gVzaHnNmc&m=qfclRDP-GXttuWQ3knJS2RHXmg2XjmG7Pju002cBrHugZE8hpO3DRbKdHphItFr-&s=KOz_zQXuQzFxwhNLINm-FrADPcBgnVjjmULmZ6iZTi4&e=          -o-            https://urldefense.proofpoint.com/v2/url?u=https-3A__fstop138.berrange.com&d=DwIDAw&c=s883GpUCOChKOHiocYtGcg&r=c4KON2DiMd-szjwjggQcuUvTsPWblztAL0gVzaHnNmc&m=qfclRDP-GXttuWQ3knJS2RHXmg2XjmG7Pju002cBrHugZE8hpO3DRbKdHphItFr-&s=Ez_j93m7dz0aJe9mjyynk8mJ122ZeXre2F-ylFXj2og&e=  :|
+>> |: https://urldefense.proofpoint.com/v2/url?u=https-3A__entangle-2Dphoto.org&d=DwIDAw&c=s883GpUCOChKOHiocYtGcg&r=c4KON2DiMd-szjwjggQcuUvTsPWblztAL0gVzaHnNmc&m=qfclRDP-GXttuWQ3knJS2RHXmg2XjmG7Pju002cBrHugZE8hpO3DRbKdHphItFr-&s=ID9hDsAkt6zO_o85XqDIjhoxLiwrOhyfAhEqJSukAbw&e=     -o-    https://urldefense.proofpoint.com/v2/url?u=https-3A__www.instagram.com_dberrange&d=DwIDAw&c=s883GpUCOChKOHiocYtGcg&r=c4KON2DiMd-szjwjggQcuUvTsPWblztAL0gVzaHnNmc&m=qfclRDP-GXttuWQ3knJS2RHXmg2XjmG7Pju002cBrHugZE8hpO3DRbKdHphItFr-&s=EK5bGerh1gLCXnMyUV1FlC8EyMN2lWa-r1MVxp6_A_s&e=  :|
 >>
 
