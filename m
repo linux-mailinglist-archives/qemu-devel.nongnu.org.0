@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9B7553BF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 22:53:29 +0200 (CEST)
-Received: from localhost ([::1]:59142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4D7553BF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 22:52:55 +0200 (CEST)
+Received: from localhost ([::1]:56652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ksK-0006Jj-GT
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 16:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54044)
+	id 1o3krm-0004a2-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 16:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3kly-0006bz-Vc
+ id 1o3kly-0006bx-Va
  for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:46:57 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:34645)
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:43697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3klv-00015F-Mr
+ id 1o3klv-00015c-N9
  for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:46:54 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id t21so7901455pfq.1
+Received: by mail-pj1-x102a.google.com with SMTP id
+ y13-20020a17090a154d00b001eaaa3b9b8dso14646474pja.2
  for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 13:46:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lmSLzTIbm+WJzToIYu7L7rIll0Ev3qx7GQceaN1q5e0=;
- b=ljeYoYnrjZKh9qVTzpI0plB0wMr5HaLuUw2dr+DaPGQ/X/vj89jXkWojVI/Ultcdfk
- umSmn4pHOyPSwY/fknaks2giMHEijfv169uJ5JVcohFlagoPshREAAOeZ7G2sMeT3LGX
- dK8kXuPCebebIZWa4m9eSy4S5YIZfS1KKLWGR3Cqa2DsfdrBYCMQg/Yx1I5wBCKzyQhi
- nhe47LJycLzR2uv4U8ZWUqIogzIQbYIO7Cc6NoJPozIBV1lHqpMoKIXDogitYmSGy8ym
- y5gnjq3LmVAPAgO4wVhv/haF11THElTMlDhXjla9eFETovruIfEdqvGw+EqSuAjcBJCu
- ++cw==
+ bh=Kk89pZiIJkjmY1JlrO1lZHXZp9wpAsiGbUykO8SGZ9s=;
+ b=NbMDupjoMKt3KOfb55M1c82xs2jU04MP8t0TUqU4INlrhXysp3kDXPOFVkOeyIxMjv
+ Y8bdiuXwzgVsSZWW01rV6Pt0ql6hRT8uztI2K6e7vG2y8fBW6Pivdlp56Jyep9865oBe
+ SGviWWqpONTvWSumsqHFmK9mg60jexnwjexo+K3suxu+bMBXcz4+lzsMQFkFTteOv0tz
+ riXwhvdJnHNYVodj+ssvzdXqJSAjOr7uVCjtVs63r0Xa3gin75R6sX2bA51mpKdCUc/H
+ yHNhHthL+Wola5zQfMtRiuO7MCXErAijUj1VlHW4fhocUVzXPzkvvZtT6lZIGefX36yX
+ BDiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lmSLzTIbm+WJzToIYu7L7rIll0Ev3qx7GQceaN1q5e0=;
- b=3igRJchG0QGkbuZML4vlzH6M0kqF1oc+1u5SUlJwEhtwy6N+qHfQ4STe3aONsJSxAS
- CcdLVF09WPNMOQLbE5SOgGn4WUSy6Enmsd591lOlLbsTBxWdQSlWe8yrmZ4ZZjcL037B
- TYDlVnt3AJ3v+Tl6GqFKRKzD0cgRo4A4RWcek8iD60vLiBS4AVy3YE9Gp0qIlOs2COe+
- kiZglj2o5gd6nWsM6WQ7pFo0Vwv8QERZC8WevCS0gD/+XUCbZTfmUWWseh0Br+bsb/yJ
- p7Cx+Z4jb5haKNDqvjnUX3TY1Idx0P4noMoTJ2UHcjsGfr/nn6a1znWgJpp8xlKhto0k
- 6lQQ==
-X-Gm-Message-State: AJIora8gC/7KBTrXwJIsXZ7sc/lyU6E+s9veuGQT105DZlEHNSJzWaJW
- 0msUrd3KfFC7oXPUXhYPbhgphe1pGl19JA==
-X-Google-Smtp-Source: AGRyM1vPSVyAHwV8znT86fNNQm6D92uh0evBumBLV5n30ixwRQiGO7j0mXB6nzTSI/UDIWDomHTz/w==
-X-Received: by 2002:a05:6a00:b81:b0:51c:3bfe:7d89 with SMTP id
- g1-20020a056a000b8100b0051c3bfe7d89mr31878592pfj.31.1655844406342; 
- Tue, 21 Jun 2022 13:46:46 -0700 (PDT)
+ bh=Kk89pZiIJkjmY1JlrO1lZHXZp9wpAsiGbUykO8SGZ9s=;
+ b=7VO1wYTxOM2WQm946MFli0xvaV9C4aGb+NWfOINCXymmuuuLCcwgmFh1dssNTAW/uu
+ j8liXUpsPFpZib8nEbX0RR3HBBA8L8oPrFhKERQP8RaS3FpaOiDBVEgXHRLpW0DSTL4H
+ 4frZNgesJhHBIbz8oQTENGhhutsbNIS6+AMskEhhT4F+JqcIxmF3gF+EAflgkKhCE7Xt
+ Fhq/01fiJanQUq1dg5KzNAa6dftfyxXoJKUSeQmN02eIp1SJXFq9oc4OGshRp9k7WkWY
+ XqRNBH2sI2ioOaZot0zjLqkSPGFX+EnNsBurawXVy3yNjTdiXi9ehtgMSEB04qcObY8u
+ j1rA==
+X-Gm-Message-State: AJIora9hJO+iV2xEaw/1p9o4Xjnkjb3zh3DGo5vG6K9c+Cnbr1Oq7I/M
+ rT2jpv0Q95vt6ZoR+zre5XKx2lwiZAfJEg==
+X-Google-Smtp-Source: AGRyM1t/eck57pK+6FB6POB3ScUIFIv6uLj1L80RQB6AFswkQZxl+DAS3+IV1mOeY+Q83nFwrYQABg==
+X-Received: by 2002:a17:902:7005:b0:163:ffe7:32eb with SMTP id
+ y5-20020a170902700500b00163ffe732ebmr30714459plk.18.1655844407035; 
+ Tue, 21 Jun 2022 13:46:47 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
  by smtp.gmail.com with ESMTPSA id
- p66-20020a625b45000000b005252defb016sm3649674pfb.122.2022.06.21.13.46.45
+ p66-20020a625b45000000b005252defb016sm3649674pfb.122.2022.06.21.13.46.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 13:46:45 -0700 (PDT)
+ Tue, 21 Jun 2022 13:46:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 2/9] target/avr: Drop avr_cpu_memory_rw_debug()
-Date: Tue, 21 Jun 2022 13:46:36 -0700
-Message-Id: <20220621204643.371397-3-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 3/9] accel/tcg: Init TCG cflags in vCPU thread handler
+Date: Tue, 21 Jun 2022 13:46:37 -0700
+Message-Id: <20220621204643.371397-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220621204643.371397-1-richard.henderson@linaro.org>
 References: <20220621204643.371397-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,64 +90,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-CPUClass::memory_rw_debug() holds a callback for GDB memory access.
-If not provided, cpu_memory_rw_debug() is used by the GDB stub.
-Drop avr_cpu_memory_rw_debug() which does nothing special.
+Move TCG cflags initialization to thread handler.
+Remove the duplicated assert checks.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220322095004.70682-1-bmeng.cn@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220323171751.78612-6-philippe.mathieu.daude@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/cpu.h    | 2 --
- target/avr/cpu.c    | 1 -
- target/avr/helper.c | 6 ------
- 3 files changed, 9 deletions(-)
+ accel/tcg/tcg-accel-ops-mttcg.c | 5 ++---
+ accel/tcg/tcg-accel-ops-rr.c    | 7 +++----
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index d304f33301..96419c0c2b 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -184,8 +184,6 @@ void avr_cpu_tcg_init(void);
+diff --git a/accel/tcg/tcg-accel-ops-mttcg.c b/accel/tcg/tcg-accel-ops-mttcg.c
+index d50239e0e2..ba997f6cfe 100644
+--- a/accel/tcg/tcg-accel-ops-mttcg.c
++++ b/accel/tcg/tcg-accel-ops-mttcg.c
+@@ -70,6 +70,8 @@ static void *mttcg_cpu_thread_fn(void *arg)
+     assert(tcg_enabled());
+     g_assert(!icount_enabled());
  
- void avr_cpu_list(void);
- int cpu_avr_exec(CPUState *cpu);
--int avr_cpu_memory_rw_debug(CPUState *cs, vaddr address, uint8_t *buf,
--                            int len, bool is_write);
- 
- enum {
-     TB_FLAGS_FULL_ACCESS = 1,
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 5d70e34dd5..05b992ff73 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -214,7 +214,6 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->has_work = avr_cpu_has_work;
-     cc->dump_state = avr_cpu_dump_state;
-     cc->set_pc = avr_cpu_set_pc;
--    cc->memory_rw_debug = avr_cpu_memory_rw_debug;
-     dc->vmsd = &vms_avr_cpu;
-     cc->sysemu_ops = &avr_sysemu_ops;
-     cc->disas_set_info = avr_cpu_disas_set_info;
-diff --git a/target/avr/helper.c b/target/avr/helper.c
-index c27f702901..db76452f9a 100644
---- a/target/avr/helper.c
-+++ b/target/avr/helper.c
-@@ -93,12 +93,6 @@ void avr_cpu_do_interrupt(CPUState *cs)
-     cs->exception_index = -1;
- }
- 
--int avr_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
--                            int len, bool is_write)
--{
--    return cpu_memory_rw_debug(cs, addr, buf, len, is_write);
--}
--
- hwaddr avr_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
++    tcg_cpu_init_cflags(cpu, current_machine->smp.max_cpus > 1);
++
+     rcu_register_thread();
+     force_rcu.notifier.notify = mttcg_force_rcu;
+     force_rcu.cpu = cpu;
+@@ -139,9 +141,6 @@ void mttcg_start_vcpu_thread(CPUState *cpu)
  {
-     return addr; /* I assume 1:1 address correspondence */
+     char thread_name[VCPU_THREAD_NAME_SIZE];
+ 
+-    g_assert(tcg_enabled());
+-    tcg_cpu_init_cflags(cpu, current_machine->smp.max_cpus > 1);
+-
+     cpu->thread = g_new0(QemuThread, 1);
+     cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+     qemu_cond_init(cpu->halt_cond);
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index 1a72149f0e..cc8adc2380 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -152,7 +152,9 @@ static void *rr_cpu_thread_fn(void *arg)
+     Notifier force_rcu;
+     CPUState *cpu = arg;
+ 
+-    assert(tcg_enabled());
++    g_assert(tcg_enabled());
++    tcg_cpu_init_cflags(cpu, false);
++
+     rcu_register_thread();
+     force_rcu.notify = rr_force_rcu;
+     rcu_add_force_rcu_notifier(&force_rcu);
+@@ -275,9 +277,6 @@ void rr_start_vcpu_thread(CPUState *cpu)
+     static QemuCond *single_tcg_halt_cond;
+     static QemuThread *single_tcg_cpu_thread;
+ 
+-    g_assert(tcg_enabled());
+-    tcg_cpu_init_cflags(cpu, false);
+-
+     if (!single_tcg_cpu_thread) {
+         cpu->thread = g_new0(QemuThread, 1);
+         cpu->halt_cond = g_new0(QemuCond, 1);
 -- 
 2.34.1
 
