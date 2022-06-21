@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469D15533E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 15:43:43 +0200 (CEST)
-Received: from localhost ([::1]:60156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6215533FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 15:49:09 +0200 (CEST)
+Received: from localhost ([::1]:38182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3eAQ-0007Ao-76
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 09:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35464)
+	id 1o3eFg-0003ES-EG
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 09:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e53-00004u-Ui
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:38:09 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:53727)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o3eEM-0002BN-5i; Tue, 21 Jun 2022 09:47:46 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:39964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e51-0003UY-LP
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:38:08 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M91Tq-1o0v3M3hV0-0069lj; Tue, 21 Jun 2022 15:37:39 +0200
-Message-ID: <d0d03b11-bcf9-46c7-0aaf-47ddb0909764@vivier.eu>
-Date: Tue, 21 Jun 2022 15:37:36 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o3eEI-00054x-H0; Tue, 21 Jun 2022 09:47:44 -0400
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 8D8582E1364;
+ Tue, 21 Jun 2022 16:47:20 +0300 (MSK)
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net [2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 6d8IMLLZfS-lJJeFQ57; Tue, 21 Jun 2022 16:47:20 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1655819240; bh=v7yC2qR67feWn/UH6RzGFYs1J4Hdg6j7RBJnnKWEK2c=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=uJRzyfmiYD9rITMT8E/sjiChtq5z9Qvt+VmdStSU9nrreSMjhtTBxVHhi+3FbvhbE
+ dDeAZEODC4OpVq83IHXe2oDGKsYz2KdryVatG9WEettQhIA5q4cHkd42C1dywBtmxd
+ NY+FafC9ReUengzcJr1EP1lHwMkuPCJ6W72KdtmQ=
+Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:23::1:8] (unknown [2a02:6b8:b081:23::1:8])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id QW4YEf2kAe-lJMusMmx; Tue, 21 Jun 2022 16:47:19 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <d055d894-ee11-5e3b-3215-d076ef838c7f@yandex-team.ru>
+Date: Tue, 21 Jun 2022 16:47:18 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 4/7] target/m68k: use semihosting_exit_request on
- semihosted exit syscall
-Content-Language: fr
-To: Luc Michel <lmichel@kalray.eu>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Aurelien Jarno
- <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
- Max Filippov <jcmvbkbc@gmail.com>
-References: <20220621125916.25257-1-lmichel@kalray.eu>
- <20220621125916.25257-5-lmichel@kalray.eu>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220621125916.25257-5-lmichel@kalray.eu>
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v7 01/18] job.c: make job_mutex and job_lock/unlock()
+ public
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220616131835.2004262-1-eesposit@redhat.com>
+ <20220616131835.2004262-2-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220616131835.2004262-2-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YXlJvO6xsaXWvxJ/g/H7/qTvN9n0P0VxCf9vl1zaFx53OhykIAg
- FDmULU2Qv8rnrWyB6LT6RCdOADoQtkpW9pXzZEWmPj9B/UPZNI48ugubvg4/fGPaDn0qPN0
- QmcQuABHoJbI9zwQ0Y4swJYbxCygnRpfqhJkDX5sXkeMRdSM7pEKjMiAbaxqgMNJGUgwZh1
- yVKi+m35o3MHvurz0gXkg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:p8976kyJIqA=:/MrMMfEftzsC6mqBX34oGy
- yDC2/kx+JjCYyp/jf+X16VT+h1Z3HrhVDTPbrQd8Xtl/4gieAI0INuXRsjgcWsdxM19/pktBT
- ZSull0T18T+VCF9oaanFQLPWbeSdBjTYTm7Vy//g8gF/j286vu9N2jbVYEzS7jUWcNGkCv/7Z
- SdPZc6StoIa2NhDNypESyByycCRrQRZYX8fGx8MY0LQO0U3NAJcAtUtKOOcDtFCA9cI71Yj8P
- SrrKWkJ5tIes3MTCpJGq7WApByEwEiVRchwbIEb5ZeGKBVKV6P9eguytvRZf3hTTikdhyT6yS
- 6jULLk/UUkX4n5wHBVmmWf9eDnoxmdNdbiLcCuR6tbn9b4IOFFyOgXWPGQ5MS8NHXOlK0uIvL
- 7qMwhhVjhxLuYjCPG+0+fpruvItBNLX1veSvgOLnPPVsJctnRAF6dhM4wAJ5KFpgcVhIXyNGk
- R2D3e3sdMqllwTKpkj3HOt9IM9M8t55Zvx25OVLq6qKMOqx2cW0RXHCwCZJqd7w4POnwN4QKt
- 1EcnI+Z+HSRXmKPMutZ7gmnd7jRQaR4T32m0dzi82b5dMYpnhL3dNm3diRToIba61MKtN7EHZ
- mrX7lzjflygc7HkZZG+z1skQv4ZD6qp5Xtm2odg1gky+99MXz+AVFLHafiPT+jwLCRXGr7c8b
- yliPbCZBh40tnus2PuhrPW9+9/qyUNs9WwRwu3Rg01aypbYo9PsjQ9Jjn6mX5Ph8x6UcI8+r2
- y0htJiGqgzQ4lGYlFKrc2CCkGnjbp++44shm2g==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,15 +88,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 21/06/2022 à 14:59, Luc Michel a écrit :
-> Use the new semihosting_exit_request instead of a call to exit when
-> handling a semihosted exit syscall.
+On 6/16/22 16:18, Emanuele Giuseppe Esposito wrote:
+> job mutex will be used to protect the job struct elements and list,
+> replacing AioContext locks.
 > 
-> Signed-off-by: Luc Michel <lmichel@kalray.eu>
-> ---
->   target/m68k/m68k-semi.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Right now use a shared lock for all jobs, in order to keep things
+> simple. Once the AioContext lock is gone, we can introduce per-job
+> locks.
+> 
+> To simplify the switch from aiocontext to job lock, introduce
+> *nop*  lock/unlock functions and macros.
+> We want to always call job_lock/unlock outside the AioContext locks,
+> and not vice-versa, otherwise we might get a deadlock. This is not
+> straightforward to do, and that's why we start with nop functions.
+> Once everything is protected by job_lock/unlock, we can change the nop into
+> an actual mutex and remove the aiocontext lock.
+> 
+> Since job_mutex is already being used, add static
+> real_job_{lock/unlock} for the existing usage.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
+-- 
+Best regards,
+Vladimir
 
