@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EBE5533CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 15:39:23 +0200 (CEST)
-Received: from localhost ([::1]:50172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469D15533E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 15:43:43 +0200 (CEST)
+Received: from localhost ([::1]:60156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3e6E-0000My-LQ
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 09:39:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
+	id 1o3eAQ-0007Ao-76
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 09:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e3h-00062W-Ju
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:36:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:33261)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e53-00004u-Ui
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:38:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:53727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e3g-0003Ig-1V
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:36:45 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e51-0003UY-LP
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:38:08 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MyK9U-1nkkkj3jLg-00yjW1; Tue, 21 Jun 2022 15:36:22 +0200
-Message-ID: <8b020b8f-b859-90ef-a795-6194d39ddf9e@vivier.eu>
-Date: Tue, 21 Jun 2022 15:36:20 +0200
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M91Tq-1o0v3M3hV0-0069lj; Tue, 21 Jun 2022 15:37:39 +0200
+Message-ID: <d0d03b11-bcf9-46c7-0aaf-47ddb0909764@vivier.eu>
+Date: Tue, 21 Jun 2022 15:37:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v2 7/7] target/xtensa: use semihosting_exit_request on
+Subject: Re: [PATCH v2 4/7] target/m68k: use semihosting_exit_request on
  semihosted exit syscall
 Content-Language: fr
 To: Luc Michel <lmichel@kalray.eu>, qemu-devel@nongnu.org
@@ -40,28 +40,28 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
  Max Filippov <jcmvbkbc@gmail.com>
 References: <20220621125916.25257-1-lmichel@kalray.eu>
- <20220621125916.25257-8-lmichel@kalray.eu>
+ <20220621125916.25257-5-lmichel@kalray.eu>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220621125916.25257-8-lmichel@kalray.eu>
+In-Reply-To: <20220621125916.25257-5-lmichel@kalray.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Z7pWryT+p5JrZUsmU2jCGbvsnaet8CFMu6WwvHAXtVdhfSNNF7M
- kv9+XV2XL9O1zeN6ggVr/iwvTQ610tMz0DKjkYUEtbOjD7HEh360zW4MESTb1o827ndDxv+
- pAcMV54k1flpUzUojINSN1UaBdizpGwd9j3j0d8Qov3Ydc84xAWhxqDmXleMtQTwejVFOWB
- ZHGJ2tmASIaCN0aelaHaA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G0+2KGDtNWg=:dfVCoxMzcK1S9G1J1CEA9r
- FHuNNbB+J12tyz1Jp34mV/M+XbvvvrEcs2h2q5repAGD0gbmPrM/YPoW9S/Tl/Rwmo28OEy4Z
- ERfH5nFj/lv9/3/lR4SoCYeZoWYl8/o7j3JqksWSLTRBJZQI4/HLwLdiLUoNbsXykMQ3eOgB1
- OS43zD/4ItysNJT4YeqYGqqYt5/fUg3DroaeMlJLecuX4jxCu7K4MDolcFy+11NC2WcG0/rUN
- 6APBK68IivfurePb4s71mAfJ2EZZ6u2p9erw7ezoMJrWcsANoTpN9D66mJ2TQGj5G0rF6XRkD
- sNLGOdCSAICIgotB41H9p2xDapf/1XeRqx3VnNDXSs1vPcGkQ8aZG98S4l5jFocZCVtxjitKN
- dq2CY1JKZ33pPhFiHHXC0VuJR5gUJ+dVeDzICsrhmX8MgzJ9lA5oQRhEeSR+eQHwD5nBPMOoU
- seACc76Zfz9eLSMBho4m8345vPog6nM7Tsbp7Ox4DbcXwnEhMlt5mUmWi7GxZuCKKpQgEO77s
- yMy0MxZXvZXSp4Yub1OO/ObaAwPsLf63Sq4uKAD1pfR/24omHFqybF83uUA2F0WMiW5VpKEyr
- YrJjVwmCzLNwt934s16wMEMkhsyDnJSSUZ+5VqtrDXqZRWYjf44ULtmwpN1Ea4MPl3We7vnqs
- 1MRyo07bOBTsanarlr2SzlIIv12988fevXxWAN6R7CXMSqQz/acHblGZ90b52iqs/9BUfbGyK
- s+5fmh7mkHlrxhFPcFxhcFRTT/alCbddfhh5PA==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:YXlJvO6xsaXWvxJ/g/H7/qTvN9n0P0VxCf9vl1zaFx53OhykIAg
+ FDmULU2Qv8rnrWyB6LT6RCdOADoQtkpW9pXzZEWmPj9B/UPZNI48ugubvg4/fGPaDn0qPN0
+ QmcQuABHoJbI9zwQ0Y4swJYbxCygnRpfqhJkDX5sXkeMRdSM7pEKjMiAbaxqgMNJGUgwZh1
+ yVKi+m35o3MHvurz0gXkg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:p8976kyJIqA=:/MrMMfEftzsC6mqBX34oGy
+ yDC2/kx+JjCYyp/jf+X16VT+h1Z3HrhVDTPbrQd8Xtl/4gieAI0INuXRsjgcWsdxM19/pktBT
+ ZSull0T18T+VCF9oaanFQLPWbeSdBjTYTm7Vy//g8gF/j286vu9N2jbVYEzS7jUWcNGkCv/7Z
+ SdPZc6StoIa2NhDNypESyByycCRrQRZYX8fGx8MY0LQO0U3NAJcAtUtKOOcDtFCA9cI71Yj8P
+ SrrKWkJ5tIes3MTCpJGq7WApByEwEiVRchwbIEb5ZeGKBVKV6P9eguytvRZf3hTTikdhyT6yS
+ 6jULLk/UUkX4n5wHBVmmWf9eDnoxmdNdbiLcCuR6tbn9b4IOFFyOgXWPGQ5MS8NHXOlK0uIvL
+ 7qMwhhVjhxLuYjCPG+0+fpruvItBNLX1veSvgOLnPPVsJctnRAF6dhM4wAJ5KFpgcVhIXyNGk
+ R2D3e3sdMqllwTKpkj3HOt9IM9M8t55Zvx25OVLq6qKMOqx2cW0RXHCwCZJqd7w4POnwN4QKt
+ 1EcnI+Z+HSRXmKPMutZ7gmnd7jRQaR4T32m0dzi82b5dMYpnhL3dNm3diRToIba61MKtN7EHZ
+ mrX7lzjflygc7HkZZG+z1skQv4ZD6qp5Xtm2odg1gky+99MXz+AVFLHafiPT+jwLCRXGr7c8b
+ yliPbCZBh40tnus2PuhrPW9+9/qyUNs9WwRwu3Rg01aypbYo9PsjQ9Jjn6mX5Ph8x6UcI8+r2
+ y0htJiGqgzQ4lGYlFKrc2CCkGnjbp++44shm2g==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -90,9 +90,8 @@ Le 21/06/2022 à 14:59, Luc Michel a écrit :
 > 
 > Signed-off-by: Luc Michel <lmichel@kalray.eu>
 > ---
->   target/xtensa/xtensa-semi.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+>   target/m68k/m68k-semi.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
