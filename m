@@ -2,99 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED71D553501
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:54:34 +0200 (CEST)
-Received: from localhost ([::1]:39924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAD0553524
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:03:38 +0200 (CEST)
+Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3fGz-0005d3-MZ
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:54:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52886)
+	id 1o3fPl-0004su-Lm
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3fEU-00046d-6H
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:51:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3fEP-0008Hx-JO
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:51:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655823109;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mPBZiq8rngDUsBl1yN0SK/JaGIajVgel4NQCuarwPls=;
- b=M7aNtCpI7DhgHIxgSv6LZAr+y5WzR1hw13pwePQVTpkS6v0G7Zl/6tB7MbSQnhgsa/fdJU
- QSqqKgjlnSb+U547UCVwyE379Cirvxcuj+Qq9VAqd1yjsfpisvwBEAJupr0PdElNpSW7Yl
- XwReQirqe6B17RojGn6N9aCPaOBbHAk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-130-ofSJo4QiMNiFkdcr1iju8g-1; Tue, 21 Jun 2022 10:51:48 -0400
-X-MC-Unique: ofSJo4QiMNiFkdcr1iju8g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so4395522wmr.0
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:51:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3fHT-0007Aw-I3
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:55:03 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:42987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3fHR-0000OB-RJ
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:55:03 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2ef5380669cso133546097b3.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9bhkY8kXiebZNvqcHn9b65DJsHCpLJ968VdKeVBvnYY=;
+ b=igBbk82LKh+gVWoKySah59dLW+Cv0XOXWbbY2zlMPp+d3YrJKGihp1wPosJ+jgOvLg
+ DKLC++v4U5/cWL9LTjiV7EaiFC+bvHdMRzAwmCyjK3b94xoI8JE7hvsDTLT1o50R1LPX
+ f0qs/eBUCFhxrIQvOW4t7kGhIYdHdn4362TyWbtFz2rbTZ5pQFhcMGML5rVCBdHgu4ll
+ vU1XUqwvAKJE2AHhJOIq1WYgppUkw899fbXLORh742lo1qwu7zucxFfeULGg5vajfHvi
+ F1NCPezSnNVH5pPwuvZHZqXUHneuQgOhAG8cUyZXXH+WufU9nD7b7U9DXkvTDHJWbr+L
+ WRcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mPBZiq8rngDUsBl1yN0SK/JaGIajVgel4NQCuarwPls=;
- b=CLf0j+HAy54+NW+G4USxPanX3xeEFE6ke+6Ab6Il9zxjoXjFb27fJkTaqEaCBwYh8G
- oKbQLY7nTmJeVmPb58LlADkOrnXAlON51DHRNmFFEaDAAAmlJ2J4sjDJ6f7yht+sxTLC
- +lJt5f59EpM2zzU/+3zos84tyWmNDI28I/riQ8cuY7M3RMIyqM3WX8nitB7lVViDyNt+
- 0eWPrUL97BeJcIAgTZAGuevs08fbJ2DJ+v9iiD+pTZdPQbEmlWs9psRt06J/5kN4glkF
- YmijTCKSB7G9zLW1mVuZodS0X51i0J5dKO1kaiVwsETV/sL331eBa6NQZKv5ik1OdShG
- DcXw==
-X-Gm-Message-State: AJIora8SWPya/5cOy35pqh07fAFXAkTJl52GO+fR3ciqiHH1HXCCg2mN
- kBS5yUp/uCR0ecAoqcJgms/XxWUW1SX0lcfnO5ufFgcXDNr7biXSBc6aLPw9x2rKfGa1MpJQYNh
- 0DTjONc8Ic35zc6o=
-X-Received: by 2002:a05:600c:35ce:b0:39c:7dc2:aec0 with SMTP id
- r14-20020a05600c35ce00b0039c7dc2aec0mr30986917wmq.33.1655823102274; 
- Tue, 21 Jun 2022 07:51:42 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tNhowo+YR06h6AnhlErHMlnVxJuqsE0xB0EUIKVZVBd5Qf2xS7KUrmyBpCtTI2tiR3pGXe9g==
-X-Received: by 2002:a05:600c:35ce:b0:39c:7dc2:aec0 with SMTP id
- r14-20020a05600c35ce00b0039c7dc2aec0mr30986893wmq.33.1655823102012; 
- Tue, 21 Jun 2022 07:51:42 -0700 (PDT)
-Received: from localhost ([31.4.180.61]) by smtp.gmail.com with ESMTPSA id
- c5-20020a5d63c5000000b0020c5253d8c2sm15645615wrw.14.2022.06.21.07.51.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 07:51:41 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Leonardo =?utf-8?Q?Br=C3=A1s?= <leobras@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>,  Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>,  "Daniel P." =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Markus Armbruster <armbru@redhat.com>,
- =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 3/4] migration: zero-copy flush only at the end of
- bitmap scanning
-In-Reply-To: <7fbc118dedbaf7d01dd72220255affc98abffc9d.camel@redhat.com>
- ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Tue, 21 Jun 2022 00:35:54
- -0300")
-References: <20220620053944.257547-1-leobras@redhat.com>
- <20220620053944.257547-4-leobras@redhat.com>
- <87wndb4riu.fsf@secure.mitica> <YrCV089JKhc067sm@xz-m1.local>
- <7fbc118dedbaf7d01dd72220255affc98abffc9d.camel@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 21 Jun 2022 16:51:39 +0200
-Message-ID: <875ykuvzlw.fsf@secure.mitica>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9bhkY8kXiebZNvqcHn9b65DJsHCpLJ968VdKeVBvnYY=;
+ b=XfT5fPF0Koy6X5Hcz13LuszEBrazQNVyn6KIzttHC+N28SgwHM7xvFO79pmsvKQeEM
+ Qe+p9BRYtom7XgELJOJhIuf6mmz8aO3hnAklL8uK8n0JBauz3Q1oeqoGhow2GWuN+1xB
+ l6N++4OFEAYcX4VcLyC47wvJmm08zIh74mkxoAX6tD967f/7wQfl39X8KyYz9hcqK23H
+ nnEX1rn31LdLvlJX+7r4PEA7Ke0i0vG1TMb4vemZiQ9+xA1TTEUfnfbSrJN9xrFJrNo4
+ 7iK/ThPeSaYgAvgXoCGzNJoenlVy2d4sAh2OjGNWjyvk/nsvnMEGut38sYFnqcPpHROk
+ bvOw==
+X-Gm-Message-State: AJIora9UbL+nyONVtwJ1rCluSKZHGPJKWN4gWiGWMn5VG9oIrRASWNAg
+ fM7KArN4bXF0wj5S6y1KPiOeXtVBe6wMrp3CALvx+A==
+X-Google-Smtp-Source: AGRyM1ssIqk8tcPjbAO+WwhU2zPCh+Dk3zC59wkIhdIyWuFBxq6sj+PifLoJOx8j70/HK7GUHrodIpbqmIYvtrb37lA=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr18118372ywg.329.1655823300742; Tue, 21
+ Jun 2022 07:55:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220422142851.28128-1-damien.hedde@greensocs.com>
+ <CAFEAcA9Dy0DXshrKHLAEkGV_Zy-vRMPAhd4t+S7fSGSCPuPJ1g@mail.gmail.com>
+In-Reply-To: <CAFEAcA9Dy0DXshrKHLAEkGV_Zy-vRMPAhd4t+S7fSGSCPuPJ1g@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jun 2022 15:54:23 +0100
+Message-ID: <CAFEAcA8avDj6is5hUvFJJMOed4fdqfcT3KgpG8xq7o-eV5Y0pQ@mail.gmail.com>
+Subject: Re: [PATCH] docs/devel: add doc about device life cycles
+To: Damien Hedde <damien.hedde@greensocs.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,102 +82,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
-> On Mon, 2022-06-20 at 11:44 -0400, Peter Xu wrote:
->> On Mon, Jun 20, 2022 at 11:23:53AM +0200, Juan Quintela wrote:
->> > Once discussed this, what I asked in the past is that you are having t=
-oo
->> > much dirty memory on zero_copy.=C2=A0 When you have a Multiterabyte gu=
-est, in
->> > a single round you have a "potentially" dirty memory on each channel o=
-f:
->> >=20
->> > =C2=A0=C2=A0 total_amount_memory / number of channels.
->> >=20
->> > In a Multiterabyte guest, this is going to be more that probably in the
->> > dozens of gigabytes.=C2=A0 As far as I know there is no card/driver th=
-at will
->> > benefit for so many pages in zero_copy, and kernel will move to
->> > synchronous copy at some point.=C2=A0 (In older threads, daniel showed=
- how to
->> > test for this case).
->>=20
->> I was wondering whether the kernel needs to cache a lot of messages for
->> zero copy if we don't flush it for a long time, as recvmsg(MSG_ERRQUEUE)
->> seems to be fetching one message from the kernel one at a time.=C2=A0 An=
-d,
->> whether that queue has a limit in length or something.
+On Tue, 21 Jun 2022 at 15:50, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> IIRC, if all messages look the same, it 'merges' them in a single message=
-, like,
-> 'this range has these flags and output'.
+> On Fri, 22 Apr 2022 at 15:29, Damien Hedde <damien.hedde@greensocs.com> wrote:
+> >
+> > Document the 3 life cycles cases that can happen with devices.
+> >
+> > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 >
-> So, if no issue happens, we should have a single message with the confirm=
-ation
-> of all sent buffers, meaning just a little memory is used for that.
+> Firstly, sorry it's taken me two months to get to this patch.
+> The underlying reason for this is that I'm not myself 100%
+> certain about how the QOM/qdev device lifecycle works and what
+> things should go in what lifecycle methods, so I didn't really
+> feel very confident about reviewing it...
 >
->>=20
->> Does it mean that when the kernel could have cached enough of these
->> messages then it'll fallback to the no-zero-copy mode?=C2=A0 And probabl=
-y that's
->> the way how kernel protects itself from using too much buffer for the er=
-ror
->> msgs?
+> To start with, I think we should definitely have some documentation
+> for this, and I like the structure you have here with:
+>  (1) the various ways devices are created and deleted
+>  (2) what the corresponding lifecycles are in terms of which
+>      methods get called
+>  (3) the concrete consequences for what a device should and
+>      should not do in each method
 >
-> Since it merges the messages, I don't think it uses a lot of space for th=
-at.
+> I'll try to get into some more detailed review below.
 >
-> IIRC, the kernel will fall back to copying only if the network adapter / =
-driver
-> does not support MSG_ZEROCOPY, like when it does not support scatter-gath=
-er.
-
-My understanding is that it will fallback when you have too much stuff
-inflight.
-
->>=20
->> This reminded me - Leo, have you considered adding the patch altogether =
-to
->> detect the "fallback to non-zero-copy" condition?=C2=A0 Because when wit=
-h it and
->> when the fallback happens at some point (e.g. when the guest memory is
->> larger than some value) we'll know.
+> > diff --git a/docs/devel/device.rst b/docs/devel/device.rst
+> > new file mode 100644
+> > index 0000000000..80e3016e80
+> > --- /dev/null
+> > +++ b/docs/devel/device.rst
 >
-> I still did not consider that, but sure, how do you see that working?
-
-send with zero_copy(1MB)
-send with zero_copy(1MB)
-.... (repeat)
-at some point kernel decides:
-sync all queue()
-send synchronously next package.
-
-we are not wondering if the kernel does this (it does).  What we are
-wondering is when it does it, i.e. after 1MB worth of writes, 2MB, 10MB
-....
-That is the thing that depends on kernel/network card/driver.
-
-
-> We can't just disable zero-copy-send because the user actually opted in, =
-so we
-> could instead add a one time error message for when it falls back to copy=
-ing, as
-> it should happen in the first try of zero-copy send.
-
-On your 1st (or second) series, Dan Berrange explained hew to use the
-error message interface to detect it.
-
-> Or we could fail the migration, stating the interface does not support
-> MSG_ZEROCOPY, since it should happen in the first sendmsg().
-
-> I would personally opt for the last option.
+> I think we should name the file device-lifecycle.rst -- we're
+> (hopefully) going to accumulate a bunch of documentation on devices
+> generally and we don't want it all to end up in this one file.
 >
-> What do you think?
+> > @@ -0,0 +1,111 @@
+> > +QEMU device life-cycle
+> > +======================
+> > +
+> > +This document details the specifics of devices.
+> > +
+> > +Devices can be created in two ways: either internally by code or through a
+> > +user interface:
+> > +
+> > ++ command line interface provides ``-device`` option
+> > ++ QAPI interface provides ``device_add`` command
+>
+> I think this bulleted list should list all the ways that devices
+> get created (and destroyed), so:
+>
+>  Devices can be created in several ways:
+>   + programmatically, by the C code that implements board and SoC models
+>   + on the command line, via the -device option
+>   + via the QMP and HMP device_add monitor commands
+>   + temporarily as part of the introspection of device objects
+>     when the user asks for help on a device type or about what
+>     properties it implements
+>  In some cases, devices will also be destroyed:
+>   + if a device is hot-unpluggable then after an 'unplug' it will
+>     be destroyed
+>   + the temporary objects created for introspection are destroyed
+>     after they have been examined
+>
+>  To do this, devices must implement at least some of these methods
+>  which are present on all QOM objects:
+>   + instance_init
+>   + instance_post_init
+>   + unparent
 
-Later, Juan.
+...actually, do devices themselves really need to implement unparent?
+If they don't we shouldn't list it here, that's confusing.
 
+>   + instance_finalize
+>  and these which are specific to devices:
+>   + realize
+>   + unrealize
+
+-- PMM
 
