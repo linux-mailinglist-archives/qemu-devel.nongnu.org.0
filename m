@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE68552914
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 03:41:58 +0200 (CEST)
-Received: from localhost ([::1]:55450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F7655291F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 03:50:51 +0200 (CEST)
+Received: from localhost ([::1]:32782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Stx-0001sb-IA
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 21:41:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32882)
+	id 1o3T2Y-00069k-JR
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 21:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3SqL-00016n-18
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 21:38:15 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:33433)
+ id 1o3T0T-0003R6-Mv
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 21:48:41 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:45773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3SqJ-0000N0-Ci
- for qemu-devel@nongnu.org; Mon, 20 Jun 2022 21:38:12 -0400
-Received: by mail-pf1-x429.google.com with SMTP id n12so4775001pfq.0
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 18:38:09 -0700 (PDT)
+ id 1o3T0S-0001tB-4z
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 21:48:41 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id d5so11204495plo.12
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 18:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=WaYjh8xGFkWw4BQ/Jv5pHMn5mngrYXOQLOUU1aF7yN8=;
- b=SvzziwkbAYjv1kBdgbc35mohFrbHa40W1mBVgSPVlcaDeanVTWhsXXJPFCT57BYdmT
- r+jo8MIh97gtakaGB+y3KEVAflYMs0qwE6EMN+nLAgAMhZ2+l8Z3K0rcn8D9y6mDetAa
- GukBBrm2phRtTX6R5BOwNP23/IwN8/me/QXyKmztOD9wEWaGAbPn//NEkzmxZ0uPV9Hy
- eMdI9N1vTgzMsW5d5oW7aswCt/l9gSrmVGMFGuzOqDzA0S1PbB1xRXE//lWoy6hbNFrL
- xu0oBEP1T2/f0rjQjsLypD2RWc5aXBOfz87tNZCK0+I7gfJP2ZGgjd5sftBFTn822NYR
- zohg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P4BA2iKdBEMkxE2ofwBmHASz6W3lmAQv7Fk+tiz3hJI=;
+ b=x1yB8kJJ7uRfUBSg6Cas/KSlJpF3t9KCifc5UlM48w0J1wwkVwnsPVUtzxZpLmLgwi
+ WIedAIomS1oduKoJeCmEys3TNZSypKquBxP4Ew5jayUi1DTCAs5FbCJKN5czZVhy2t3/
+ fjCeQB6VImkmrQqRxi6c0PWg6hzWkdjPDTv5tduWFGJKq5j/KklBwAbmCeeSjV2kBJHp
+ 1DUA9H74JduYF6S+hW2gounpr9hG7v+nW2xKPGrnsOe2C6qTXCUqFFHX9weKFwE7jUgt
+ a8TnBRkhNs9EJmdqwNjd/ZNX4catfKAxTutcPf9X+yCuWkyXa6KtfYB3bOw1ngzut2VD
+ NOaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=WaYjh8xGFkWw4BQ/Jv5pHMn5mngrYXOQLOUU1aF7yN8=;
- b=RiPCI2jbOt+rC2kPe0kswKd3RLiN3YTWeXDeUf2nuHJkrB1V9QkqhKvbMTSiqeV13P
- 9KgLlkDZ4aBiZycPims9J8X84EKWp0l17Qg2JgqBgtq8G06y0LycZ9BhJeUs2/SUPKGz
- y3VvbBVEhtxjkDuWSehgtRqbJudi/KqPRL7MNN6zlgYjr1M6SmGoPRk9LypdxfugqPpm
- cZHvt0DGBgFFTfOP9uoD6C303uovgJDhU4GXzkvd1ncAEt5FZ4/0HwmnOayvYnSWnSmz
- pzLGTyyDuHAJuZO6GgRVUM2ENTJA6rSmjlXx1ACvESQK+8HHbha21nGS+7ZpWFOlMauU
- 9wjw==
-X-Gm-Message-State: AJIora/+zrPnq4l6RMLfTCiLJiC0lUs4eoyHOT5RWZ6UxOtRWwzVRTag
- sH32O6frYMZkW5NFjxzStttqhw==
-X-Google-Smtp-Source: AGRyM1smx5N69YIQSbt/DLwxADogn4WXOlt4D0t3yq9EX/x02qBj4fhPsqDtWKB+qN27R9n1D6x+AQ==
-X-Received: by 2002:a63:6b02:0:b0:3fb:da3f:4926 with SMTP id
- g2-20020a636b02000000b003fbda3f4926mr24605411pgc.346.1655775488681; 
- Mon, 20 Jun 2022 18:38:08 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49e:3c01:a3e0:8a80:7b85:aea6?
- ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
+ bh=P4BA2iKdBEMkxE2ofwBmHASz6W3lmAQv7Fk+tiz3hJI=;
+ b=uOs6Rc7jo5XScNfZGPSzHP08ImeOcjrg67tYizkNbTg9NCHMUY7SxAgkazHuCW5x5q
+ ayVWSNEjl81pYsuDdVWQhPqaJ7UbbRbJOQ6MN/8QGnaJJNv+W+W7mg4p5fgqPvlu9Enb
+ SMhPfzSRZeckD9qjiWDBr3mSMX6Thfy3ScW3obLCjo2y9q+vExDvthqqK5PX9QcDnfDP
+ WlbxDwrChiHVJvI4xxFUWRzJNzIoxeMMVxVhUBx5D3tLrcGe9QC4O5Ijst34yIIE1UOD
+ Pbmv+OHadUx76jVKxVntnUNjRhlHQUdkCvKE/c8zSKJFWJgoOSkb0neQt/k2AbuNrVCX
+ JDxA==
+X-Gm-Message-State: AJIora9jkknaoj3gZf4xnfreVxlRbhlDrkn/wiPi5RtFapS0/IvbdNso
+ 0hglITsYEjcmOOgi15UUeWZJmmyGUQMZbQ==
+X-Google-Smtp-Source: AGRyM1uaVOWekIpp19nvVZUSnNb/ZROxBhoU3JL5CBlrQLfoGnCo4JTDAIQPtgasLET+G5aiS54/cg==
+X-Received: by 2002:a17:90a:8b8c:b0:1ec:711e:c426 with SMTP id
+ z12-20020a17090a8b8c00b001ec711ec426mr24408118pjn.17.1655776118596; 
+ Mon, 20 Jun 2022 18:48:38 -0700 (PDT)
+Received: from stoup.. ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a62d110000000b005253732ffd9sm135339pfg.24.2022.06.20.18.38.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 18:38:08 -0700 (PDT)
-Message-ID: <4316bd3f-a3e4-fc0c-2a63-a19e7f8787cb@linaro.org>
-Date: Mon, 20 Jun 2022 18:38:05 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 20/33] configure: handle host compiler in
- probe_target_compiler
-Content-Language: en-US
-To: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Leandro Lupori <leandro.lupori@eldorado.org.br>
-References: <20220601180537.2329566-1-alex.bennee@linaro.org>
- <20220601180537.2329566-21-alex.bennee@linaro.org>
- <c655723a-95df-82e4-2105-678cdea9e702@eldorado.org.br>
- <CABgObfYEiV_TK4BDxG6+zZ1Qq06y6GtmnP1uF__eV31XDKggDA@mail.gmail.com>
- <9273ee87-28f6-b6bb-81be-72795f0a645b@eldorado.org.br>
+ q11-20020a056a00084b00b0051bc3a2355csm9907875pfk.64.2022.06.20.18.48.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jun 2022 18:48:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <9273ee87-28f6-b6bb-81be-72795f0a645b@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-devel@nongnu.org
+Cc: npiggin@gmail.com,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v2 0/3] util: Optimize flushing when ppc host has coherent
+ icache
+Date: Mon, 20 Jun 2022 18:48:34 -0700
+Message-Id: <20220621014837.189139-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,33 +88,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/22 09:41, Matheus Kowalczuk Ferst wrote:
-> On 17/06/2022 07:12, Paolo Bonzini wrote:
->> Hi Matheus,
->>
->> could you please test the tests-tcg-next branch at
->> https://gitlab.com/bonzini/qemu?
-> 
-> At be6090bcac10, it works if no BE toolchain is present. Otherwise, the
-> script probes powerpc64-linux-gnu-gcc instead of the native tools for
-> ppc64le-linux-user, and then do_compiler fails because the
-> $target_cflags contains -mlittle-endian.
-
-Also testing this branch, -m32 may not be supported:
-
-make[1]: Entering directory `/home/rth/qemu/bld/pc-bios/vof'
-
-cc -m32 -mbig-endian -mcpu=power4 -c -o entry.o /home/rth/qemu/src/pc-bios/vof/entry.S
-
-cc1: error: ‘-m32’ not supported in this configuration
-
-make[1]: *** [entry.o] Error 1
-
-
-
-This is with a self-built compiler, rather than distro packaged, but with default 
-configure options to gcc.
+This is Nick's patch, with the merge of the two files
+as I suggested, and the aarch64 cleanup I promised.
 
 
 r~
+
+
+Nicholas Piggin (1):
+  util/cacheflush: Optimize flushing when ppc host has coherent icache
+
+Richard Henderson (2):
+  util: Merge cacheflush.c and cacheinfo.c
+  util/cacheflush: Merge aarch64 ctr_el0 usage
+
+ util/cacheflush.c | 247 +++++++++++++++++++++++++++++++++++++++++++---
+ util/cacheinfo.c  | 200 -------------------------------------
+ util/meson.build  |   2 +-
+ 3 files changed, 232 insertions(+), 217 deletions(-)
+ delete mode 100644 util/cacheinfo.c
+
+-- 
+2.34.1
+
 
