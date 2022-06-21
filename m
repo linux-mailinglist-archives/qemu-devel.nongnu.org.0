@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8707C552F55
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 12:02:16 +0200 (CEST)
-Received: from localhost ([::1]:60896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CD6552F59
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 12:02:56 +0200 (CEST)
+Received: from localhost ([::1]:34880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ai7-0008C4-LB
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 06:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
+	id 1o3ail-0001VV-12
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 06:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aRE-000852-LO; Tue, 21 Jun 2022 05:44:48 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:34603)
+ id 1o3aR9-00080h-Or; Tue, 21 Jun 2022 05:44:43 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:37548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aR9-0007Q8-L1; Tue, 21 Jun 2022 05:44:45 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id v4so16415756oiv.1;
- Tue, 21 Jun 2022 02:44:42 -0700 (PDT)
+ id 1o3aR7-0007Po-3w; Tue, 21 Jun 2022 05:44:43 -0400
+Received: by mail-oi1-x229.google.com with SMTP id j10so511110oih.4;
+ Tue, 21 Jun 2022 02:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SlXraOtf2sbS3ADdQCtU+Ose4IYOB9EgS1SJhAMg7yI=;
- b=fBuyB22Rn4o3ZcaNEiOnXqQQYywgDK01zLFZIoT2X+ku88zHtnGKbbrCOmnOdfnQ3g
- ZcqHo9frpDNa5ve084HcGJK7/aIZDdB4WYQOkXETySZNtTIGcum9Mrdo+EVQNwGKRMf7
- xy0++1lNFiZB+lSidCWhDxlqnCBpRJp51u/C5AljauLPfHes7FKP2j06aqeOAGQuTvZI
- vZbKELjTnu8sZQrlVR08oCFoM0mIJDmoS9ZyVBEkJJD5iZOM7KdGqG/Gl1X4GFgpwvNz
- RJjzPL7Idg0IFeU9j289w3fn7UPdZlg9BiPI3Ttb2NqB34i1kEixhMV2SqfeOC+csESS
- 0nIA==
+ bh=4men+xRdozA/VMBJA8BCK2Zs91riJ50H73TWq8v6YLM=;
+ b=ICbuL4SLRPSHR6PEGEQdTALc7skXBF0wJrh+5ipb1WxqcVB0Mio4GoZrlYn678fDkA
+ 3aUqxN6YzX6KnTwRA0mFQTW+lu7f6eQ/oSdcUJq1hzFg7OxZzL3nqPFKYNSJvF6kFYu7
+ Cei/ghyDwHaSo72zNgV49MDWLByqaY0KURvSH3GPw/ledKutk5VRPSOiPvGXvkwSZ1hT
+ wJjkmtrtujAgswlIkUdva6Uq0i4CCfnDqCeH1CGKHEYUWWkNCaOvTeVmoeVLhmTLs+zI
+ +BIRzOPotwK8VV+uwel8CH+0UMlbJkyM8YLSuwjK5nTp0OmJ5KzZ3RpV3168/+VwhLsx
+ 87Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SlXraOtf2sbS3ADdQCtU+Ose4IYOB9EgS1SJhAMg7yI=;
- b=wzZ7fbE0/Hv+o0IPs2tecgf1C+gMC4NjAXEMI9LRKIWzz5hN+OWX5SWjgO5l1+mO5m
- XhHOpmLsXVNgQULqnM/1gkWp5/QWsIQjP/XMerjUaxIk6CTmakbzgPQ3jTCTBqRgwqoO
- 9T4HPGCGllzjcSq57w6wvj1gJuQlKVNEsD3g8lGiH0tiD2rn7W8uMRlSn9J55CsnRF+H
- CLcC5S9fJS7CYkbCIWeY+A1tlOP1Zqwla3GmSvZGexAEf5JflmHKYiPe2TrMn8GfvmEi
- BY2qO/s0oKbJ1Dok6AgXaQETHjPSw612gftKYho6qjYkh8dQKuCmTpkrrnDma7f8PRk4
- UMWA==
-X-Gm-Message-State: AOAM530iTpQFlOfIEv9/ZRZZO2qRBU1PniBkzXv4TXdKz4IrKka6HlDp
- VQ1gBfT+hk1mENiXlHtp5k0AhpGCegJiTg==
-X-Google-Smtp-Source: ABdhPJw1kFieY7/epyMLEw4a9asrz9ztWYQ5vD2TIRnk3fJ3EvYrZXJ1I+RwW8moMY3UVyg2yoXbLw==
-X-Received: by 2002:a05:6808:e87:b0:32e:3cfb:fad7 with SMTP id
- k7-20020a0568080e8700b0032e3cfbfad7mr19535657oil.197.1655804681193; 
- Tue, 21 Jun 2022 02:44:41 -0700 (PDT)
+ bh=4men+xRdozA/VMBJA8BCK2Zs91riJ50H73TWq8v6YLM=;
+ b=PLnk3yGxSmCTw0UGW8iMfvXffNbZGEn6TLJhm822EGAYjNB2TneEEESQh2bl3yRYHn
+ EDl6YeoxhRRYGWBjarkDh2HWhxlmAH14UPM5T4JuuosmG4rEradOdIyeoUiggYt6DfIh
+ MCLvWK9xjDWWxo4EsGt9Ymuqx18sJ/dN/aqr2d3/jWWahEhEV3IGWh5D1FBGeRCVutUB
+ WAOduXqoMt8D2tHVYXsMZiu9dAWoVw6bhZc0uTwvjCm0yVFwsDz1ZCI4qrXex5fZT9PO
+ WY7imHt2oejwzWqzeFEsIKybhuNEncCXmVRtAefsZZ6pULoX/pbxzbUNa/XERUHJ1sNs
+ IL1w==
+X-Gm-Message-State: AJIora90OfrKhLsxvCE4c2qCHgoHK285AS+Y+9dNmbAjlESzecuFlRVR
+ tOye39Sy+ohZoKJFBfrKjethwkimFnmbSQ==
+X-Google-Smtp-Source: AGRyM1saUdJVoyyH9oxRVtROlFS8pieXd7WK+sqiA/ZtPhoaeDGd4oTJIZHxFRrSpMqgdcp29QGZug==
+X-Received: by 2002:a05:6808:1b0c:b0:32e:f087:b9a7 with SMTP id
+ bx12-20020a0568081b0c00b0032ef087b9a7mr13250526oib.273.1655804678538; 
+ Tue, 21 Jun 2022 02:44:38 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.38
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:40 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:38 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, Frederic Barrat <fbarrat@linux.ibm.com>,
- Fabiano Rosas <farosas@linux.ibm.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 15/15] target/ppc: cpu_init: Clean up stop state on cpu reset
-Date: Tue, 21 Jun 2022 06:44:00 -0300
-Message-Id: <20220621094400.122800-16-danielhb413@gmail.com>
+ richard.henderson@linaro.org,
+ Lucas Mateus Castro <lucas.araujo@eldorado.org.br>
+Subject: [PULL 14/15] target/ppc: fix unreachable code in fpu_helper.c
+Date: Tue, 21 Jun 2022 06:43:59 -0300
+Message-Id: <20220621094400.122800-15-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
 References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,58 +89,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frederic Barrat <fbarrat@linux.ibm.com>
+Commit c29018cc7395 added an env->fpscr OR operation using a ternary
+that checks if 'error' is not zero:
 
-The 'resume_as_sreset' attribute of a cpu is set when a thread is
-entering a stop state on ppc books. It causes the thread to be
-re-routed to vector 0x100 when woken up by an exception. So it must be
-cleared on reset or a thread might be re-routed unexpectedly after a
-reset, when it was not in a stop state and/or when the appropriate
-exception handler isn't set up yet.
+    env->fpscr |= error ? FP_FEX : 0;
 
-Using skiboot, it can be tested by resetting the system when it is
-quiet and most threads are idle and in stop state.
+However, in the current body of do_fpscr_check_status(), 'error' is
+granted to be always non-zero at that point. The result is that Coverity
+is less than pleased:
 
-After the reset occurs, skiboot elects a primary thread and all the
-others wait in secondary_wait. The primary thread does all the system
-initialization from main_cpu_entry() and at some point, the
-decrementer interrupt starts ticking. The exception vector for the
-decrementer interrupt is in place, so that shouldn't be a
-problem. However, if that primary thread was in stop state prior to
-the reset, and because the resume_as_sreset parameters is still set,
-it is re-routed to exception vector 0x100. Which, at that time, is
-still defined as the entry point for BML. So that primary thread
-restarts as new and ends up being treated like any other secondary
-thread. All threads are now waiting in secondary_wait.
+  Control flow issues  (DEADCODE)
+Execution cannot reach the expression "0ULL" inside this statement:
+"env->fpscr |= (error ? 1073...".
 
-It results in a full system hang with no message on the console, as
-the uart hasn't been init'ed yet. It's actually not obvious to realise
-what's happening if not tracing reset (-d cpu_reset). The fix is
-simply to clear the 'resume_as_sreset' attribute on reset.
+Remove the ternary and always make env->fpscr |= FP_FEX.
 
-Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220617095222.612212-1-fbarrat@linux.ibm.com>
+Cc: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Fixes: Coverity CID 1489442
+Fixes: c29018cc7395 ("target/ppc: Implemented xvf*ger*")
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Message-Id: <20220602191048.137511-1-danielhb413@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu_init.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/ppc/fpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 0f891afa04..c16cb8dbe7 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -7186,6 +7186,9 @@ static void ppc_cpu_reset(DeviceState *dev)
-         }
-         pmu_update_summaries(env);
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index fed0ce420a..7ab6beadad 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -464,7 +464,7 @@ static void do_fpscr_check_status(CPUPPCState *env, uintptr_t raddr)
      }
-+
-+    /* clean any pending stop state */
-+    env->resume_as_sreset = 0;
- #endif
-     hreg_compute_hflags(env);
-     env->reserve_addr = (target_ulong)-1ULL;
+     cs->exception_index = POWERPC_EXCP_PROGRAM;
+     env->error_code = error | POWERPC_EXCP_FP;
+-    env->fpscr |= error ? FP_FEX : 0;
++    env->fpscr |= FP_FEX;
+     /* Deferred floating-point exception after target FPSCR update */
+     if (fp_exceptions_enabled(env)) {
+         raise_exception_err_ra(env, cs->exception_index,
 -- 
 2.36.1
 
