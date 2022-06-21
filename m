@@ -2,156 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67754552990
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 05:00:06 +0200 (CEST)
-Received: from localhost ([::1]:47914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75855529B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 05:27:32 +0200 (CEST)
+Received: from localhost ([::1]:54906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3U7Z-00055F-1k
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 23:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55876)
+	id 1o3UY7-0005ep-8s
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 23:27:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=317189cffd=zhe.he@windriver.com>)
- id 1o3U5y-0004Jd-Lo; Mon, 20 Jun 2022 22:58:26 -0400
-Received: from mx0a-0064b401.pphosted.com ([205.220.166.238]:63166)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1o3UWx-0004yg-UJ
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 23:26:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=317189cffd=zhe.he@windriver.com>)
- id 1o3U5v-000695-Ur; Mon, 20 Jun 2022 22:58:26 -0400
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
- by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25L2qcB8025714;
- Mon, 20 Jun 2022 19:58:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=message-id : date
- : subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=t7WL4iWaoQaLBKHHDZSPk/PQw9i41Hc/btqhL0c82pY=;
- b=cYbNM8UN2DzzuoVh4UZWMDfGf35DQoH13g0n6uubf65hsFZUgxDYjiG6VP3BHyQ13omG
- XVWFYNZE+ll+aJZCMnf3KOiZvSfNzJVUBYtdPVjyWZnttpVCJQ8tYA6OZpl6MBrPpmrs
- 2wr8LVTBzX8Xnnndd7gbr6XzNCM8bk1TyIV06PrV26Z+oESY8Wdi/QqFy5pIvNn2VbcM
- cjU/DWjeqlLZl94lgGh00H/RZb9oMvoApraGlZjjMSCKLnZ/ezz4HEO+tuOnJG+Y5rO9
- qZEhCyJzaA7y1DlS5H/93mv01ZeZF3tDtLBmZ46Vlt2kNmZru0S4iJnbG69LiEtF1827 sQ== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3gse7ksnd8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jun 2022 19:58:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QrXlj1IXH8Fk5yft+IIu1huiP+uxj8N3/dgaqClM1V8DsH4sO7k3Llez6AiERQwlLaWjq9JlaVdQIJFumMd5BSYI1ov2dg9OGy+vgRGJ6NeIjTQJdEFgwlgsJsQCvGrdBCEtMBrfrl0DUJzVwAvK5MBrBbzuFFZUUSq1Q1lK9BWuOVlZm+fW3AStOKE4tQQxD5l6o2BT5e2zMUCJgqw4OmN9B9u/ldcUgxRl5KuOIZPZ5Kw+AVecQEUMTP1MH0RL/zoRHKQ29u9b2Gm26Yg97bMp8Dh+DXfhaZKPUJBGSrWudndwfSKHNEnUZyR9BsrBxWTfm4RUtwGL+LEm7dCouA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t7WL4iWaoQaLBKHHDZSPk/PQw9i41Hc/btqhL0c82pY=;
- b=MypDXLoq4l2tOYFVdeWIjMqDakwZ4MQf7tqY7a6vXfEKGEvNqrCIZj9G7pN2dZMXuyEbyWE6VU3gDUV8w/p9e9uNitXsWURZGyfGqVSGu47UFv/VLNg5sdTB5n4+hQniBQ+CWfWizpBmYusMB9bKlp1Kxvn9z8DGTd1viAwgUPdcWxKHC7cFROXcU3w45stsyuLRSbaBt5hdcTVF0r69MxTFDgxYqdKrTZnV8CiglSn1RKi7lUXCdxFnjTg8SRN1rEkHBTGs0j/S1c9Pa0fEvVa8f54SIzqpB1fge3IBrsBXdJBicniA8VGmWgPXlEogQUbu6ZAM6i+ckhnxB3yZjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from MWHPR11MB1358.namprd11.prod.outlook.com (2603:10b6:300:23::8)
- by BN9PR11MB5306.namprd11.prod.outlook.com (2603:10b6:408:137::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.13; Tue, 21 Jun
- 2022 02:58:10 +0000
-Received: from MWHPR11MB1358.namprd11.prod.outlook.com
- ([fe80::e962:2a9c:c503:db56]) by MWHPR11MB1358.namprd11.prod.outlook.com
- ([fe80::e962:2a9c:c503:db56%10]) with mapi id 15.20.5353.022; Tue, 21 Jun
- 2022 02:58:09 +0000
-Message-ID: <7538efd6-c943-7db0-8eda-5a61eae7f912@windriver.com>
-Date: Tue, 21 Jun 2022 10:57:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 0/2] target/arm: Fix issue 1078
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-References: <20220619001541.131672-1-richard.henderson@linaro.org>
-From: He Zhe <zhe.he@windriver.com>
-In-Reply-To: <20220619001541.131672-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2P153CA0037.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::6)
- To MWHPR11MB1358.namprd11.prod.outlook.com
- (2603:10b6:300:23::8)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1o3UWt-0001Ua-AM
+ for qemu-devel@nongnu.org; Mon, 20 Jun 2022 23:26:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655781974;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9S5FJ/dfzGEeaP4TO/s5YekO0wfMHWGV5FwyOccUVcQ=;
+ b=WwOdfFjkhbZlsDOm3ukMgV/e/ywfa0BLvu002cLjJ5RqHjnO0FDGG4tLX5MGNnEwK0zvt5
+ lXF/2tVywc4w3lvAtnR3wBkOQv1Dn73iYJRSQ/waqjmm8DiZCRn+D3Ge5IuQZBuDF9tOqZ
+ L0KHwo1gjAe3/ya05jjosdPLaF6bK9o=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-IwPggtzvNaem7_zXCJUdVg-1; Mon, 20 Jun 2022 23:26:12 -0400
+X-MC-Unique: IwPggtzvNaem7_zXCJUdVg-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ q3-20020a9d7c83000000b0060bf1abd2b0so6661086otn.23
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 20:26:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:content-transfer-encoding:user-agent:mime-version;
+ bh=9S5FJ/dfzGEeaP4TO/s5YekO0wfMHWGV5FwyOccUVcQ=;
+ b=lHO23T9V6m1WPxpBEjk88CzVpyV21D6Z8QnzcyuSBGYL7TjO4FDT/0xcJNotwulDGJ
+ 10oUpF2PM/fmixsi+xG3NZE9M/XyvJ27I0EfLevt9smFXHAgZCvA5XXdlLqDfD2l7tOg
+ 1iC9XtYTlNHEKG5LNiVcImRHoO7yEym3sNouAlNAe8s6dMASn4ZmYMn5TxGxrxB5VkSU
+ 8emsf3rrsaZo9w+kGLJsh4amm86C+5BpHmwpC9DqMRz2yc6lNHGMk4qjoSjpC1/7V/cj
+ 8EOutN8BzKxRo/OlRyhXZ2sWN8vg+gbLb7DOvjIQoL9p5GSSQRnR+TerFICugiRCs4ON
+ Gqtw==
+X-Gm-Message-State: AJIora//eEVpiy+/HMxWLk/SF4wx9NRSTP3M+Z7nJ1QShOmjddOGlIXT
+ 2u+CZare63rfHaXsQwyV+RdPrsd9W1ADw1pRF/mAIJY3qYhw0sGEZlXHW/TCJzxjqDDqSJ4zhw8
+ Qwukh3aPU96B+RNs=
+X-Received: by 2002:a05:6870:f146:b0:101:f885:5a4b with SMTP id
+ l6-20020a056870f14600b00101f8855a4bmr4091566oac.210.1655781971698; 
+ Mon, 20 Jun 2022 20:26:11 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sA/J6H8Gku+UATksUuK9KhsPo85eGicDAm4X4Uk6kG26wY73pTziP0fGikiJekTFlzCN7dMw==
+X-Received: by 2002:a05:6870:f146:b0:101:f885:5a4b with SMTP id
+ l6-20020a056870f14600b00101f8855a4bmr4091552oac.210.1655781971285; 
+ Mon, 20 Jun 2022 20:26:11 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7f0:d933:8f52:267a:639c:b4c0?
+ ([2804:431:c7f0:d933:8f52:267a:639c:b4c0])
+ by smtp.gmail.com with ESMTPSA id
+ y3-20020a056870e50300b000f1bc45ba21sm8346533oag.14.2022.06.20.20.26.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jun 2022 20:26:10 -0700 (PDT)
+Message-ID: <4df300ef7c26829032078632463350b2e7e3df55.camel@redhat.com>
+Subject: Re: [PATCH v4 3/4] migration: zero-copy flush only at the end of
+ bitmap scanning
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
+To: quintela@redhat.com
+Cc: Daniel =?ISO-8859-1?Q?P=2EBerrang=E9?= <berrange@redhat.com>, "Dr.
+ David Alan Gilbert"
+ <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ =?UTF-8?Q?=E5=BE=90=E9=97=AF?=
+ <xuchuangxclwt@bytedance.com>, qemu-devel@nongnu.org
+Date: Tue, 21 Jun 2022 00:26:06 -0300
+In-Reply-To: <87wndb4riu.fsf@secure.mitica>
+References: <20220620053944.257547-1-leobras@redhat.com>
+ <20220620053944.257547-4-leobras@redhat.com> <87wndb4riu.fsf@secure.mitica>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 58ca83a7-538a-431e-d280-08da5331df74
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5306:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR11MB53060E5AEC4EBB4A949F23AF8FB39@BN9PR11MB5306.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zPEDd4M+jQ5+08imYzlIn5SODi/q3DrGmufpOautuEzGtVB2CY+le6WibKpsB6q6bvTl3XwIxI4T010XqOwAAKXKVxva393zTXC6h96XFPhg7XBYw+NYE/+cScKa2WNJ1Zt5NSX5+OdXUp/K9QWmUidSS6ITW2UcIkp2+OSkcOUu2jWlLXlxI8210m0W88OdTX46Wq/I5KbSvsxTBJamju7tNEyxLKHuMmNiwqhQVEmQHNeaIA1p+hhUZTaN/mAna6lyaEjuQbf+jjUdXKmJ1qlQZ6Cu3kv0vp9IZsUWyvhMydiU6X2xB20PDxvqo/rLRUEuzXaKvJSto6kwj/cU+zenbjLrx2wMAuNw8cGI6qF6de27iEQBaYV2n9m54aBcE3bzW+9vLjBw6+UzHeFz3+juLpbYyzg9tTsJ+aUjITrPwu2CkCub5mBsv4BAQFC7TGACrd9roOZQaO30bUWQ4Wxck/GtMysYVRKFKzeKUAhQ2j4y1fvg3WpWe2vMay+8ej/2fPNuukPQgzHtcLm+W+qAryPvR02311FylN6RqSsO0O3LxYWwSxFbJbLLeHFmoK0o5v+0xjl/XGNDU+WyadGFa7JzIV04xPBa8U6V3W6WAUk9Vn18Z41ne7CMe+caBOzjursskwc0Soq/WJ7taT2KAcFsKSJC1OH9/AJvsTv3/PWwLbkNCpe6Vt6OkZmw4yC5T7V6550/013/MFsX+uboLTIwxz8Z34RNJ81byGvPZVrbJ6TYtL6y+WEPtYeZCkUbkNUAj5/odCRcpXEyNZCCgolW93C+XKJSeAPiO5Aig0mS/P6urgk+BIiWhpfv/PzcRjn0+d0rbyLGLJkoA1TcoieVaIYeelLWVyyFrWg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(396003)(39850400004)(346002)(136003)(366004)(6486002)(36756003)(31686004)(66556008)(4326008)(2906002)(66946007)(66476007)(186003)(83380400001)(966005)(8936002)(478600001)(316002)(38100700002)(8676002)(53546011)(31696002)(6512007)(4744005)(41300700001)(52116002)(2616005)(38350700002)(5660300002)(26005)(86362001)(6666004)(6506007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M29CZ1hkZ2FSVDdJK0x2UTBmU2RVaUxsSGZsckZwRUhqd1NOam5LZE4zV0Iz?=
- =?utf-8?B?UjFJWiswMk8vTkVZMk1ZK2diMHhFZllEc0kvNHE4TnJkVndhTi81QzJaZ1pz?=
- =?utf-8?B?QU93TVVMYVZSRDVqMTk3eHJUZVJoM1o1aHI5SlhGSzErVldJOW1yamZLdDVD?=
- =?utf-8?B?bkF3MCszWnVKTGxWczcxT0k4QUdYeG9BalJJUFJsaDRKTlkyaXZDWUF0ZEIr?=
- =?utf-8?B?ekhzWHhQNFhIc2NXODJrZnlqYXUrcHRXOU1rTEpkenAwVWVLYWxmZ2hFTHFu?=
- =?utf-8?B?ZHV3ak84NGhqM25rSm9EZ24rRGJKUlZNdUxZeG9NQjNOc2UxNzhyTmRUdGNl?=
- =?utf-8?B?M1dIMzBsa2VpRXZXRDNuaysxd0wyL0hjY3BySE9TVHNSOFE0VS9vVmpFaDBt?=
- =?utf-8?B?UTJGWk02b2ZuYjJXdGRyNVphU0JQcFhQbTBsQVRGSlNpcDFtd0RiN0x6QlpM?=
- =?utf-8?B?YTlGdGtlSE04SnV0cXExZlhsei81ak1WNytPZ3pSU3BURnFIMU9OYmxCVWZO?=
- =?utf-8?B?WkVnMG0rWWlhVHhsZ0Zpa1ZWOEFMSW1wYU82cWpUMzIyWVN5dThLcnIzK1hh?=
- =?utf-8?B?ZjJqVlEzYjc0QXNQKzIzWHM0TlhmNXlQRjhjL0I0Z2tPL1o3TklvdFNaUXRm?=
- =?utf-8?B?Z1U0ODdHQUlxUzJocTFYWS9oSlN4TWhuVnh0azJRZzNCQVdwdFZYS0s1TWRZ?=
- =?utf-8?B?S3lHbWJYa3lEeWlMYnN1OGlFZCtGK3lSRnUrZFU1aEo1K2JnVHRUY0JEdkor?=
- =?utf-8?B?aFRSeXIwYjRNTVRwcyt0dm9nYlJTYUNwbnZrN1pXUnBPWlRnb3BMd1hSVVlN?=
- =?utf-8?B?aVd6Q084TzlPN1huaGxjbXYxcTl0dFdFZE5nUFV6aHN1b0VBWnpsRVVuZDA4?=
- =?utf-8?B?dDZGL3JTSW8vZHNIVGVuRXoxZFF0cXkvNGIwdzQ1OEFuTnFsL01hTmdjRkJS?=
- =?utf-8?B?RzJvQXBVelI0UjFVdDhsaEhUcFFqYU9OK0ZUUmFEYjkzeHM4MS94M1o0YnRz?=
- =?utf-8?B?S050bGtVUjhvNkx6TitPUVNXNjdjNWNGYW9Rc2RwUk1QZk0vMWJsY0F5Y1lX?=
- =?utf-8?B?a3RHK2o3b0VTZi8rejRidzVycGtiblkwbHVEK1lVT2piVnc4eTVuaDZiZGJn?=
- =?utf-8?B?N2E3VFM3emNNWnprVG1XYUxWd1dhWmlrM09ueW5TRXNzY25pSlJ6ZFNzNGxN?=
- =?utf-8?B?dW5SK2M0Zm9sa1l5V3krMEF3RlRjVHJwMWQ4Ny9ibnVPWnowOXhEYU9Nb0g2?=
- =?utf-8?B?ZWhBUmVGaTIxOTZHdXhxWG4wU2FmazdZRk5BMXc1ZlhlNFNEangzMGdHM2p0?=
- =?utf-8?B?djlYMGdXV0lLVmswelRLSXBUZ1p4cTd5MTV0cDliam83cW15U1NZcS9RUjlz?=
- =?utf-8?B?VmVJcG5LWERQcVNReEFSZGowSDQrZDZsbG9OaGkzY2l0dU1aNDFRZzFubkI2?=
- =?utf-8?B?WkRSdUZWR2FJRFp4VEtJNThxamhQTHVhZzZoOGt3dkdPbVNkNEFFUDRhUHZ2?=
- =?utf-8?B?SDB6V2pvVTkxTmxYK3VIdWtCOUlWc3N3Y3lUMTdXYk04eGN3MzlPUUZ4QjhH?=
- =?utf-8?B?T0c3VlRmZWNCL0ZqVHhFNmUwbWdxVE1TU3AvRC81MndtODZRbXFJSFJZMy9C?=
- =?utf-8?B?Zk1XazM4bG9wenhqUXBUWk1zTDByS3NZb3BRMitsWGg4OG9Jamp3YlBma25L?=
- =?utf-8?B?cUxIMWptOUFuMzMrVXh6Yk1ZOVZ4SGJHY0p2UGtqeDdYQlg5U3BsWVF4K3pn?=
- =?utf-8?B?UlJGZlcwdDgvaUltNVFEYUExNERNZjlxa0RTV2MxTjFIQW5DVlMyZTFkZVN1?=
- =?utf-8?B?Z0JwZ0l3RkpOZGxhdFlZTlZZY1NacGNTczBER3lqbmpJYzhBOUxGWmdmdlVr?=
- =?utf-8?B?ZFRZQnl4cEFVMGJsVkdrUUFVZkczYStPbmplYk01UCszeWhZK1AxYlYzeUF4?=
- =?utf-8?B?cG1GdmFaeFlxeFJ2djRnTHJLK1p0UU1ZbG1TWVU1dFNtYUgwT2FYVVh1TTFP?=
- =?utf-8?B?NVdJUVdjdzQ5ZWxKcnplMzNvS3h3dEp5MUZrQU9uQllkOXVPWlF0K3RjUExy?=
- =?utf-8?B?RnU3NUFCdE1KM1o5K25NNXZ6TlhIaTVOb3dZbFFEZUVyem5jeEJSbVdGZzVS?=
- =?utf-8?B?RFdkNU9QdW9ueEttWk1QMkJPWVRIR01yZktCMTEwb2Q2bDZ0VUI0b2dGUFpy?=
- =?utf-8?B?M3Vsb3RTSWZEQloxbjBSMjhQNXRYaXUyUXc2bStOZ2c3dmFSTU1uVXM2UE5J?=
- =?utf-8?B?UU9GYU0xUUJSNlpncXRhY2ZIN0NhWHFFNGZyZkR3Y3RiWW4wZEZXYUFMTkRp?=
- =?utf-8?B?WHphUGsyZjZkU0RZVVUxRlV4UXJORWdDcWNJb09vdmIwRGdWREhsUT09?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58ca83a7-538a-431e-d280-08da5331df74
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1358.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 02:58:09.6793 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V1lC7IYI0WBKZc99Krnaq1qpIp+/6vF5eItTZ++OzXSLXSNo4bcxxPgCgCfTY0Ewj0osyaI+R/jIvbbydHM02w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5306
-X-Proofpoint-GUID: GtzJgWSGJOyFeVaKIWiMldSS-DEPzcst
-X-Proofpoint-ORIG-GUID: GtzJgWSGJOyFeVaKIWiMldSS-DEPzcst
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-21_01,2022-06-17_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- mlxscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 clxscore=1011
- spamscore=0 adultscore=0 impostorscore=0 mlxlogscore=926
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206210010
-Received-SPF: pass client-ip=205.220.166.238;
- envelope-from=prvs=317189cffd=zhe.he@windriver.com;
- helo=mx0a-0064b401.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -169,36 +107,486 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 2022-06-20 at 11:23 +0200, Juan Quintela wrote:
+> Leonardo Bras <leobras@redhat.com> wrote:
+> > When sending memory pages with MSG_ZEROCOPY, it's necessary to flush
+> > to make sure all dirty pages are sent before a future version of them
+> > happens to be sent.
+> >=20
+> > Currently, the flush happens every time at the end of ram_save_iterate(=
+),
+> > which usually happens around 20x per second, due to a timeout.
+> >=20
+> > Change so it flushes only after a whole scanning of the dirty bimap,
+> > so it never sends a newer version of a page before an older one, while
+> > avoiding unnecessary overhead.
+> >=20
+> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+>=20
+> I agree that previous one is too many flushes, but this one changes to to=
+o
+> much memory to be uncommitted, and that is important because otherwise we
+> have unlimited amount of dirty memory.
 
+I don't quite understand what you meant here.
+What does it mean to be uncommitted at this context?
+I don't see how we get unlimited amounts of dirty memory here.=20
 
-On 6/19/22 08:15, Richard Henderson wrote:
-> Nicely summarized by the reporter, but I thought it would be
-> nicer to pull all of the logic into arm_pamax, rather than
-> leave it separated.
+Zero-copy is not supposed to copy memory pages, so let's say all pages are =
+dirty
+and enqueued to send, but our network interface is stalling the send:
+All memory we should have allocated is VM ram pagecount x sizeof(iov), beca=
+use
+then we flush.
 
-Reported-by: He Zhe <zhe.he@windriver.com>
+Unless... are you referring to locked memory (as dirty enqueued memory -> l=
+ocked
+memory)?=C2=A0
+That would be a point: If we enqueue more memory than the locked memory amo=
+unt
+our user support, the migration will fail.=C2=A0
 
-I ran a quick test. qemu still hangs with these two commits applied.
+But that would mean a very fast CPU (lots of sendmsgs) and a very slow netw=
+ork
+interface.=20
 
-One fact that might help, qemu can boot up successfully if the change of the
-following commit is reverted.
-https://gitlab.com/qemu-project/qemu/-/commit/39a1fd25287f5dece59fdf4752491faf59310296
-The change had been moved to target/arm/ptw.c.
+>=20
+> > +/*
+> > + * Set zero_copy_flush =3D true for every multifd channel
+> > + *
+> > + * When using zero-copy, it's necessary to flush the pages before any =
+of
+> > + * the pages can be sent again, so we'll make sure the new version of =
+the
+> > + * pages will always arrive _later_ than the old pages.
+> > + *
+> > + * Should be called only after we finished one whole scanning of
+> > + * all the dirty bitmaps.
+> > + */
+> > +int multifd_zero_copy_flush(void)
+> > +{
+> > +=C2=A0=C2=A0=C2=A0 int i;
+> > +=C2=A0=C2=A0=C2=A0 Error *local_err =3D NULL;
+> > +
+> > +=C2=A0=C2=A0=C2=A0 if (!migrate_use_multifd()) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < migrate_multifd_channels(); i++) =
+{
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MultiFDSendParams *p =3D &m=
+ultifd_send_state->params[i];
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D qio_channel_flush(p=
+->c, &local_err);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 err=
+or_report_err(local_err);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
+urn ret;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0 return 0;
+> > +}
+>=20
+>=20
+> Here you flush every channel, Only at the end of a range you want to do t=
+his.
 
-Zhe
+Yes, the idea is to flush after a full scan of the dirty-bitmap.
 
->
->
-> r~
->
->
-> Richard Henderson (2):
->   target/arm: Extend arm_pamax to more than aarch64
->   target/arm: Check V7VE as well as LPAE in arm_pamax
->
->  hw/arm/virt.c    | 10 +---------
->  target/arm/ptw.c | 26 ++++++++++++++++++++------
->  2 files changed, 21 insertions(+), 15 deletions(-)
->
+>=20
+>=20
+> > =C2=A0int multifd_send_sync_main(QEMUFile *f)
+> > =C2=A0{
+> > =C2=A0=C2=A0=C2=A0=C2=A0 int i;
+> > -=C2=A0=C2=A0=C2=A0 bool flush_zero_copy;
+> > =C2=A0
+> > =C2=A0=C2=A0=C2=A0=C2=A0 if (!migrate_use_multifd()) {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > @@ -581,19 +613,6 @@ int multifd_send_sync_main(QEMUFile *f)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > =C2=A0=C2=A0=C2=A0=C2=A0 }
+> > =C2=A0
+> > -=C2=A0=C2=A0=C2=A0 /*
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 * When using zero-copy, it's necessary to flu=
+sh the pages before any
+> > of
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 * the pages can be sent again, so we'll make =
+sure the new version of
+> > the
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 * pages will always arrive _later_ than the o=
+ld pages.
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 *
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 * Currently we achieve this by flushing the z=
+ero-page requested writes
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 * per ram iteration, but in the future we cou=
+ld potentially optimize
+> > it
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 * to be less frequent, e.g. only after we fin=
+ished one whole scanning
+> > of
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 * all the dirty bitmaps.
+> > -=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > -
+> > -=C2=A0=C2=A0=C2=A0 flush_zero_copy =3D migrate_use_zero_copy_send();
+> > -
+> > =C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < migrate_multifd_channels(); =
+i++) {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MultiFDSendParams *p =
+=3D &multifd_send_state->params[i];
+> > =C2=A0
+> > @@ -615,17 +634,6 @@ int multifd_send_sync_main(QEMUFile *f)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ram_counters.transferr=
+ed +=3D p->packet_len;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_mutex_unlock(&p->=
+mutex);
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_sem_post(&p->sem)=
+;
+> > -
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (flush_zero_copy && p->c=
+) {
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int=
+ ret;
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Err=
+or *err =3D NULL;
+> > -
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
+ =3D qio_channel_flush(p->c, &err);
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+(ret < 0) {
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 error_report_err(err);
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 return -1;
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>=20
+> This synchronization already happens once every iteration through all
+> ram.
+>=20
+> </me checks how>
+>=20
+> And low and behold, it doesn't.
+>=20
+> The problem here is that we are calling multifd_send_sync_main() in the
+> wrong place, i.e. we are being too conservative.
+>=20
+> We need to call multifd_send_sync_main() just before doing
+> migration_bitmap_sync().=C2=A0 The reason that we need to call that funct=
+ion
+> is exactly the same that we need to flush for zero_copy.
+>=20
+> So, what we need to change is remove the call to
+> multifd_send_sync_main(), not how it handles zero_copy.
+
+So, IIUC, multifd have been syncing in a conservative way (i.e. more than
+actually needed), and we need to do the same improvement (sync less) for mu=
+ltifd
+too, instead of just changing it for zero-copy. Is that correct?
+
+>=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0 }
+> > =C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < migrate_multifd_channels(); =
+i++) {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MultiFDSendParams *p =
+=3D &multifd_send_state->params[i];
+> > diff --git a/migration/ram.c b/migration/ram.c
+> > index 5f5e37f64d..514584e44f 100644
+> > --- a/migration/ram.c
+> > +++ b/migration/ram.c
+> > @@ -2288,6 +2288,13 @@ static int ram_find_and_save_block(RAMState *rs)
+> > =C2=A0=C2=A0=C2=A0=C2=A0 rs->last_seen_block =3D pss.block;
+> > =C2=A0=C2=A0=C2=A0=C2=A0 rs->last_page =3D pss.page;
+> > =C2=A0
+> > +=C2=A0=C2=A0=C2=A0 if (pss.complete_round && migrate_use_zero_copy_sen=
+d()) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret =3D multifd_zero_co=
+py_flush();
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
+urn ret;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +
+>=20
+> This place is not right either, because we can have a sync in the middle
+> for other reasons.
+
+What do you mean by "in the middle" here?=20
+Does it mean we should not have multifd code in this function?
+
+>=20
+> We call migration_bitmap_sync() in save_live_pending(), and that is not
+> when we finish the complete_round.
+
+Agree.=20
+We could add/set a flag in multifd, say in the above area, and then sync/fl=
+ush
+in the correct place (in the future).
+
+But at my experience debugging my code, I found that the loop at
+ram_save_iterate() will not stop/break at "bitmap scan end", so we may end =
+up
+sending the same page twice before a flush, which is what we want to avoid.
+
+>=20
+> Once discussed this, what I asked in the past is that you are having too
+> much dirty memory on zero_copy.=C2=A0 When you have a Multiterabyte guest=
+, in
+> a single round you have a "potentially" dirty memory on each channel of:
+>=20
+> =C2=A0=C2=A0 total_amount_memory / number of channels.
+
+If dirty memory -> locked memory, yes, max_locked_memory =3D=3D guest_ram.
+
+>=20
+> In a Multiterabyte guest, this is going to be more that probably in the
+> dozens of gigabytes.=C2=A0 As far as I know there is no card/driver that =
+will
+> benefit for so many pages in zero_copy, and kernel will move to
+> synchronous copy at some point.=C2=A0 (In older threads, daniel showed ho=
+w to
+> test for this case).
+
+The idea of MSG_ZEROCOPY is to avoid copying the pages content over to the
+kernel space. I don't recall any reason a network card would drop to copyin=
+g
+instead of keep using zero-copy, unless it does not support it (scatter-gat=
+her
+not supported, for example), but in this case it would never use zero-copy =
+from
+the start.=20
+
+IIRC, as long as we have enough locked memory, there should be no problem f=
+or
+the driver to keep using zero-copy send.
+
+Well, unless you mean the gain of using zero-copy should be irrelevant comp=
+ared
+to the cost of locked memory in some scenarios, say very powerful CPU with =
+slow
+network interface, where using zero-copy should not interfere with migratio=
+n
+speed. But that is not a scenario for zero-copy anyway
+
+>=20
+> What I proposed is that you check in the migration_send_thread() how
+> much memory you have written since last synchronization.=C2=A0 Once that =
+it
+> is big enough (I don't know the limits for card, in the docs that you
+> showed suggested the size is a few megabytes), you just sync at that
+> point and continue.
+
+This would help us keep the locked memory under control? yes.
+But it would come with the cost of flushing *much* more often than needed.
+
+I mean, it would only be useful if the network card is completely stalling =
+the
+send, or if the cpu is scheduling more zero-copy sends than the network car=
+d can
+process.
+
+The point here is: we don't have to keep track of how much has been sent, b=
+ut
+instead of how much is enqueued (i.e. locked memory). Maybe there is cheap =
+way
+to track this value, and we could flush when we detect it's too high.
+
+>=20
+> You still need to synchronize all threads at bitmap sync, but as said,
+> that is handled by multifd_send_sync_main(), and we should fix that
+> instead of changing where zero_copy flushes.
+
+Ok, so we keep the zero-copy-flush inside the multifd_send_sync_main() and
+change where it's called in order to match the end of the dirty-bitmap scan=
+.
+Is that correct?
+
+>=20
+> /* Removed not relevant bits of the function */
+>=20
+> static void *multifd_send_thread(void *opaque)
+> {
+> =C2=A0=C2=A0=C2=A0 size_t zero_copy_bytes_sent =3D 0;
+>=20
+> =C2=A0=C2=A0=C2=A0 ...
+>=20
+> =C2=A0=C2=A0=C2=A0 while (true) {
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ....
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_=
+multifd_send(p->id, packet_num, p->normal_num, p->zero_num,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->flags, p->next_packet_size);
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (us=
+e_zero_copy_send) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 /* Send header first, without zerocopy */
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 ret =3D qio_channel_write_all(p->c, (void *)p->packet,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->packet_len, &local_err);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 if (ret !=3D 0) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 }
+>=20
+> ****** Note aside
+>=20
+> Did you answered my question here of what happens when you do:
+>=20
+> write_with_zero_copy(1MB); write_without_zero_copy(4KB);
+> write_with_zero_copy(1MB); write_without_zero_copy(4KB);
+>=20
+> My guess is that write_without_zero_copy(4KB) will just flush the
+> socket.=C2=A0 I can't think how it can work without doing that.
+
+To be honest, I did not follow the MSG_ZEROCOPY code to this extent.=20
+
+But it depends. If write_without_zero_copy() has MSG_DONTWAIT we could have
+everything being sent in a non-blocking way.
+
+But, of course, taking it into account that in multifd we are using a block=
+ing
+sendmsg(), I also agree that it is probably flushing the packets previously=
+ sent
+with MSG_ZEROCOPY (or we could have issues in the receiving part).
+
+But that's an assumption. I still need to dig the code in that aspect to be
+sure. I will work on that asap.
+
+> If so, we are not getting what we want.
+
+In fact yes, we are.
+We are avoiding copying the buffer, which is what we intend to do, and avoi=
+ding
+the cost of the 'flush' syscall happening too often.=20
+
+If we think multifd is supposed to have blocking sendmsg(), then we are doi=
+ng
+exactly that here, with zero-copy for the heavy part, which is ideal IMHO.
+
+We could try adding MSG_DONTWAIT to the sendmsg() in multifd (which would t=
+ake
+the blocking / synchronous send away), but I have no idea on the impact it =
+would
+have at multifd inner workings.
+
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else=
+ {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 /* Send header using the same writev call */
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 p->iov[0].iov_len =3D p->packet_len;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 p->iov[0].iov_base =3D p->packet;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =
+=3D qio_channel_writev_full_all(p->c, p->iov, p->iovs_num, NULL,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0, p->write_flags, &local_=
+err);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (re=
+t !=3D 0) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 break;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_m=
+utex_lock(&p->mutex);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->num=
+_packets++;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->tot=
+al_normal_pages +=3D p->normal_num;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->tot=
+al_zero_pages +=3D p->zero_num;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->pag=
+es->num =3D 0;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->pag=
+es->block =3D NULL;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->sen=
+t_bytes +=3D p->packet_len;;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->sen=
+t_bytes +=3D p->next_packet_size;
+>=20
+> **** Addition
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 zero_c=
+opy_bytes_sent +=3D p->packet_len + p->next_packet_size;
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p->pen=
+ding_job--;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_m=
+utex_unlock(&p->mutex);
+> ***** Addition
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ze=
+ro_copy_bytes_sent > Threshold) // 2MB/4MB?=C2=A0 I don't know
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D qio_channel_flush(p->c, =
+&local_err);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Handle error somehow
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0 If you want to be a pro=
+, just change the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Threshold depending on what t=
+he kernel answers.
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // If it has to revert to synchr=
+onous sent, just
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // decrease the threshold, other=
+wise increase it.
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (p-=
+>flags & MULTIFD_FLAG_SYNC) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 qemu_sem_post(&p->sem_sync);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_s=
+em_post(&multifd_send_state->channels_ready);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (p->quit) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_m=
+utex_unlock(&p->mutex);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_m=
+utex_unlock(&p->mutex);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* som=
+etimes there are spurious wakeups */
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> =C2=A0=C2=A0=C2=A0 }
+> =C2=A0=C2=A0=C2=A0 .............
+> }
+>=20
+> What do you think?
+
+It's a good idea to keep locked memory at bay, but I think flushing after N
+bytes sent is too often, and will kill the performance. Even more if we ass=
+ume
+the non-zerocopy blocking sendmsg() is already flushing for us.=20
+
+>=20
+> Later, Juan.
+>=20
+
+Thanks Juan!
+
+Best regards,
+Leo
 
 
