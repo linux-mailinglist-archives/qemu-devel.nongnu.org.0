@@ -2,91 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0AE5531CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 14:20:27 +0200 (CEST)
-Received: from localhost ([::1]:53204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333C8553222
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 14:36:05 +0200 (CEST)
+Received: from localhost ([::1]:37632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3crq-0007OU-D3
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 08:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46800)
+	id 1o3d6x-0000Qj-1f
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 08:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o3co3-0003pc-Dc
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 08:16:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36667)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3d5e-0007zW-FY
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 08:34:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o3cnx-0007A3-OH
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 08:16:29 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3d5a-0001Q2-QN
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 08:34:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655813783;
+ s=mimecast20190719; t=1655814877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=urWtuzewQhCtAL8Sii2UXFzHALGJlNRJFxHWUZZwbYo=;
- b=YVc028VGTOdPT88fiOwYsdIA3r68R0Vh0OlZRV1MM752qA8XK9qUubBxYHbUvrNlnLvEq0
- /wIgk/WI3ZgB1+msLqb9MJZOibLjS/pj8vzn9X3m3cyE//YPv9QmNgG5EAA+qOYHpjyFBJ
- PNYZdCSJIMyY/87YtO94eUyyYeOwkfQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uZaMgpqsrylzrmhJeWjIdOBq+mTgIExx9dUJ0C+bryo=;
+ b=L7SKcbCY/1CYu6SxR2gUCkJL7KuftbmKxGjxQ8tABwxDc/qdeiqaIFTO17JVg+j+mEs98t
+ 9FEBR4drtKTWIpe3mAdAFTfXg6j5F0M6Bt7aXZ8eI/rwWo9v15p5oZBa+5ALQP/bisNbQq
+ FrJfz8iojVHWIRqPUWGpv/Q6QFnsXiA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-529-drumY_rPNVawtEMgKv7u_A-1; Tue, 21 Jun 2022 08:16:22 -0400
-X-MC-Unique: drumY_rPNVawtEMgKv7u_A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j31-20020a05600c1c1f00b0039c481c4664so4227947wms.7
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 05:16:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=urWtuzewQhCtAL8Sii2UXFzHALGJlNRJFxHWUZZwbYo=;
- b=kMPQ4YlWbjcmh2774hLhlvyAkVqmNRkhUZHDQbbZTffWJomHOUCLp1vF5/hFnnOq1W
- dJa/4VJ1PPLaeg8qhXn7cus6NAZCV82XT6VqHKOFK9cp09k78tC+LAcsn3K1hhKZ99+7
- Gi/vv6D2iBktu4qdZoR089xRSGIDWVvc/YveYeZstX601C4DfL2HpyB2GuNIQ1i1wmaI
- 2wWTp0AWxeRLq7DhSyDdgzwbGVU4ZBct9ZLcGACEc4ytvbp+U23Wvi93Nnzx5+Lw8koU
- FJssEasn3AU2B2f6LCRTvANwv99ZegSUgaF8k5b7nSZO+EbZu5rbrbnBfXVB7ROdc0Hg
- i+Ow==
-X-Gm-Message-State: AJIora/z3jC4WHsyqyt5HzKWiwnPXwEqV5PHewlVDgLaJeW44G0dyiC2
- 3ZIsD9Mc6YKzrhucIdIdV2z6dNwbA17k8mUbfWm1MAuUuTgrUyinFHYlStC8M7FQXxJ6KyVlp/N
- 7KqQz+9hsLup38dA=
-X-Received: by 2002:adf:e903:0:b0:21b:9204:c0 with SMTP id
- f3-20020adfe903000000b0021b920400c0mr7822035wrm.443.1655813780951; 
- Tue, 21 Jun 2022 05:16:20 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1td5h1jtXj8/PuciMngMvYYii08bEgN6glE8bpaMSPQiIsrQkTBosH5uHlkDfplZITriXsssQ==
-X-Received: by 2002:adf:e903:0:b0:21b:9204:c0 with SMTP id
- f3-20020adfe903000000b0021b920400c0mr7822010wrm.443.1655813780731; 
- Tue, 21 Jun 2022 05:16:20 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c1d1200b0039c5642e430sm18124810wms.20.2022.06.21.05.16.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 05:16:20 -0700 (PDT)
-Date: Tue, 21 Jun 2022 13:16:18 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Ralph Schmieder <ralph.schmieder@gmail.com>,
- Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [RFC PATCH v3 00/11] qapi: net: add unix socket type support to
- netdev backend
-Message-ID: <YrG2ktpkLXWJL6R5@work-vm>
-References: <20220620101828.518865-1-lvivier@redhat.com>
- <YrC7U1XH0pGsn5Df@work-vm>
- <92fb6e19-342a-aab6-b610-79e755ac69d3@redhat.com>
- <YrGeCJzWCi+Je9cl@work-vm> <YrGjbf17VdVF/Zj3@redhat.com>
+ us-mta-154-5NOz2PxMNy2Zqy0BjkvKgA-1; Tue, 21 Jun 2022 08:34:35 -0400
+X-MC-Unique: 5NOz2PxMNy2Zqy0BjkvKgA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71E133C0D86B;
+ Tue, 21 Jun 2022 12:34:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37145404E4DF;
+ Tue, 21 Jun 2022 12:34:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C493921E688E; Tue, 21 Jun 2022 14:34:33 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Juan Quintela
+ <quintela@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>,  Peter Xu <peterx@redhat.com>,
+ =?utf-8?B?5b6Q6Zev?= <xuchuangxclwt@bytedance.com>,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 4/4] migration: Change zero_copy_send from migration
+ parameter to migration capability
+References: <20220620053944.257547-1-leobras@redhat.com>
+ <20220620053944.257547-5-leobras@redhat.com>
+Date: Tue, 21 Jun 2022 14:34:33 +0200
+In-Reply-To: <20220620053944.257547-5-leobras@redhat.com> (Leonardo Bras's
+ message of "Mon, 20 Jun 2022 02:39:45 -0300")
+Message-ID: <87fsjyry92.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YrGjbf17VdVF/Zj3@redhat.com>
-User-Agent: Mutt/2.2.5 (2022-05-16)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -110,80 +84,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Tue, Jun 21, 2022 at 11:31:36AM +0100, Dr. David Alan Gilbert wrote:
-> > * Laurent Vivier (lvivier@redhat.com) wrote:
-> > > On 20/06/2022 20:24, Dr. David Alan Gilbert wrote:
-> > > > * Laurent Vivier (lvivier@redhat.com) wrote:
-> > > > > "-netdev socket" only supports inet sockets.
-> > > > > 
-> > > > > It's not a complex task to add support for unix sockets, but
-> > > > > the socket netdev parameters are not defined to manage well unix
-> > > > > socket parameters.
-> > > > > 
-> > > > > As discussed in:
-> > > > > 
-> > > > >    "socket.c added support for unix domain socket datagram transport"
-> > > > >    https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
-> > > > > 
-> > > > > This series adds support of unix socket type using SocketAddress QAPI structure.
-> > > > > 
-> > > > > Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
-> > > > > backend but they use the SocketAddress QAPI to provide socket parameters.
-> > > > > And then they also implement unix sockets (TCP and UDP).
-> > > > 
-> > > > Had you considered a -netdev chardev?
-> > > > 
-> > > 
-> > > I think by definition a "chardev" doesn't behave like a "netdev". Moreover
-> > > "chardev" is already a frontend for several backends (socket, udp, ...),
-> > > this would mean we use the frontend "chardev" as a backend of a "netdev".
-> > > More and more layers...
-> > 
-> > Yeh definitely more layers; but perhaps avoiding some duplication.
-> > 
-> > > And in the case of "-netdev dgram", we can use unix socket and
-> > > sendto()/recv() while something like "-chardev udp,id=char0 -netdev
-> > > chardev,chardev=char0,id=net0" doesn't support unix (see
-> > > qio_channel_socket_dgram_sync()/socket_dgram()) and uses a
-> > > "connect()/sendmsg()/recv()" (that really changes the behaviour of the
-> > > backend)
-> > 
-> > It was -chardev socket, path=/unix/socket/path    that I was thinking
-> > of; -chardev socket supports both tcp and unix already.
-> 
-> IMHO we've over-used & abused chardevs in contexts where we really
-> should not have done. The chardev API is passable when all you need
-> is a persistent bidirectional channel, but is a really bad fit for
-> backends wanting to be aware of the dynamic connection oriented
-> semantics that sockets offer. The hoops we've had to jump through
-> in places to deal with having chardevs open asynchronously or deal
-> with automatic chardev re-connection is quite gross.
-> 
-> Chardev in the past was convenient to use, because we were not so
-> great at doing CLI syntax modelling & implementation, so it was
-> useful to re-use the chardev code for socket address handling on
-> the CLI.  We also didn't historically have nice APIs for dealing
-> with sockets - if you didn't use chardevs, you were stuck with
-> the raw sockets APIs. With our aim for CLI to be modelled &
-> implemented with QAPI these days, that benefit of re-using chardevs
-> for CLI is largely eliminated.  With our QIOChannel APIs, the
-> benefits of re-using chardevs from an impl POV is also largely
-> eliminated.
+Leonardo Bras <leobras@redhat.com> writes:
 
-OK, fair enough.
+> When originally implemented, zero_copy_send was designed as a Migration
+> paramenter.
+>
+> But taking into account how is that supposed to work, and how
+> the difference between a capability and a parameter, it only makes sense
+> that zero-copy-send would work better as a capability.
+>
+> Taking into account how recently the change got merged, it was decided
+> that it's still time to make it right, and convert zero_copy_send into
+> a Migration capability.
+>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-Dave
-
-> 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
