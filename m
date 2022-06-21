@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C673955313C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 13:43:49 +0200 (CEST)
-Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EEB553152
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 13:49:04 +0200 (CEST)
+Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3cIO-0007bu-DZ
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 07:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38780)
+	id 1o3cNT-00020L-VQ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 07:49:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3cGJ-0006uE-Dt
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:41:39 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:34547)
+ id 1o3cId-00008u-8U
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:44:03 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:43809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3cGH-0001Xn-BM
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:41:39 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-317803b61e5so102337217b3.1
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 04:41:36 -0700 (PDT)
+ id 1o3cIb-0001o6-Ow
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:44:02 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-3137316bb69so127559037b3.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 04:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IQy1JIWh4WPXb2aLzW6Ew09nHheJ1f2EfnQmZWItpgo=;
- b=aNkQd/zbPSQupLSImWbl6kcCEFJCd3/iHqIfcpokGzlroH01nuUWPpVSi37jHVm5xt
- 7jVbHOK1mVdGS1ZRlKOUQBShN+v2U1zaDJ5z7wcPgCRlqT0o03MbYk2j0RRaQx0K6v6e
- bB/rEwBNoqfvyMn0v5rg0ibLlsq3tWSHbg6ySWKVbsG+PErCbcvQjrFd3JbIezcXS4Zt
- YnoI/NXTkn1gHFfA1sxmNAzx/6a1hkTcmWDYF5PhTDhiv+4544jVPDb5xbSYNFTQblNU
- Eon2DsT9yM4QPjdSK4H9Kcq1A0LWAZMjQ713PXa//SPk2P45tqXpX1AaMf92avUc/OWw
- jz0A==
+ :cc:content-transfer-encoding;
+ bh=qCFE0oQKi5KiISWC+O/SiYq6V6ZHp3mmz5ArVUlbyQo=;
+ b=GJFTeGUiJ0AIdHpoWTJAjghRify9+gZELAc1ULxnaAhxDKd00a+/2C/eqChpeO613x
+ 1QONFCjkVF7XCLa89GH+pgkoOrGCd6GlOcUzu67lMN5gFlLHkfP3K8tBLASKpK6EhU2i
+ xNf7g0v+09vhnA0YSiNtcERICuWdI5SdfU/RGQJKgHykqh95A3SM2OZyBjPys5gTjeTk
+ pE7aH3erq/LaZ/1m8a5O+5ImEW0U//wBW+QOBRgpQZYscJDjziOUkyz5Zpf9VzLAq1A6
+ dKDKPvqwsUVAO3ZinNgFNob3FLVtiON1oPwv9fQ2iIVHVoBribw5uTl2TPeWENTW1G2p
+ yU9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IQy1JIWh4WPXb2aLzW6Ew09nHheJ1f2EfnQmZWItpgo=;
- b=JVoVoTIISYyBHLQ4jmWep1kN+vAZXsnVg4X0p29hAZIBzzwCzWErRjOGD3gzNQPpZm
- 22+l89RKJ7RPtniiq1iKQEMAu/o3BAhmztLYdWhdS5AeUHHEAvZ7Z1BWx22urRu/5MJO
- 4VhAvZ/nFZ5UgSlBo57BV54mu8hl8YZ30AN7Jh5iegsbJpTXVHPQd6I1kwGPOApF9uJ1
- YLK6y0P8WYRV7mDpPtzJbYnQTxl1HvQnN6eRWiAKxN4BWXLaaFwmG6nAUeG3lMMeX+j/
- lfdidy+m5P3bSwYY8yqwB3KWfd15C6W6Ay4OY2mSBBef09kykMhM5yCM2F+mP4CWWk1Q
- 4dTg==
-X-Gm-Message-State: AJIora/PQ6UvMzKzzY41fOH7nC0YLhneVA0qXBMEvUDmV7sGJ3YfzToE
- ieCnbOeuX0PlpWcvxyFvVubRgGpMwXkv7ApEUG+k7Q==
-X-Google-Smtp-Source: AGRyM1s2GIIL5Zv5/RpL4oPTCtryBhrYK1c6WrR50x8loCd2AKS4m2i1PXnovGiXsBRU6Hk73tV7hkL/uTqbFOWFf0k=
-X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
- 195-20020a8101cc000000b00317a0fa7a61mr17649343ywb.10.1655811695996; Tue, 21
- Jun 2022 04:41:35 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qCFE0oQKi5KiISWC+O/SiYq6V6ZHp3mmz5ArVUlbyQo=;
+ b=y2wxzzvaPM/xlehgPLLCELeGuOlBeCF9boXDwIfNqD3TwWUhWHt6Ukk+e9GpW92qkA
+ W6c2Jk3u+IN3Jm0kQw0ON0WWvItNOTLDEs7bZL+H/HwX8kvj2JpW2bx77Rhb6PQkTiXu
+ EeDd/vxvPKuR/kqYXA/8XowDbuKWj9yfrKXsnUtCOwZTsrWTb2fKG9Z2FOvh3ajNSIxL
+ 2PxlHa/eGiCj9MkbpTzFeFQRt9SL6NNySeOZlpV/ggirsIpks3itL8s5gE4g5jEILzSV
+ QUdGhblwCYV+pyPCR0EJ7OwQyyPdAusMGt9K9BG6o+GjjRuuKj3PSkkjEFGAabnjisYC
+ F2bg==
+X-Gm-Message-State: AJIora+kjCmHLg8D+iZgMBoZV6LENZEKXz69MIW0hchB8Qvzq39h8FiK
+ bELXUI+mud/F2LjBBzIDx7Bqz9VZmOiT4v6CCOmU0g==
+X-Google-Smtp-Source: AGRyM1s6VFxrUEUYdPCyCAc2sxD9ri6e1AiVSHJI/a7WZbuI3Gv9Tv5TCTsxFdPsOWZ60a7DIi8nG6MHN3XGAyd0ncE=
+X-Received: by 2002:a81:a047:0:b0:317:8761:14f8 with SMTP id
+ x68-20020a81a047000000b00317876114f8mr24395616ywg.469.1655811840732; Tue, 21
+ Jun 2022 04:44:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220620192242.70573-1-agraf@csgraf.de>
- <20220620192242.70573-2-agraf@csgraf.de>
-In-Reply-To: <20220620192242.70573-2-agraf@csgraf.de>
+References: <20220621083420.66365-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220621083420.66365-1-marcandre.lureau@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jun 2022 12:41:25 +0100
-Message-ID: <CAFEAcA8=ThZ_texhcH2vqMicpAxOR9G1jtpCyBDbz9gbk5yg=w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] target/arm: Catch invalid kvm state also for hvf
-To: Alexander Graf <agraf@csgraf.de>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 21 Jun 2022 12:43:49 +0100
+Message-ID: <CAFEAcA9SyfaMYkH2RvELExUJF_V-XbnhCmJa_m7RA0rOTOvEQQ@mail.gmail.com>
+Subject: Re: [PATCH] tests: fix test-cutils leaks
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,28 +84,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Jun 2022 at 20:22, Alexander Graf <agraf@csgraf.de> wrote:
+On Tue, 21 Jun 2022 at 09:36, <marcandre.lureau@redhat.com> wrote:
 >
-> Some features such as running in EL3 or running M profile code are
-> incompatible with virtualization as QEMU implements it today. To prevent
-> users from picking invalid configurations on other virt solutions like
-> Hvf, let's run the same checks there too.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1073
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-
-
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1490,7 +1490,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->          }
->      }
+> Reported by ASAN.
 >
-> -    if (kvm_enabled()) {
-> +    if (!tcg_enabled()) {
+> Fixes commit cfb34489 ("cutils: add functions for IEC and SI prefixes").
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-I'm a bit surprised we don't need to also have "&& !qtest_enabled()",
-but I guess if "make check" works then we're fine :-)
+g_autofree would be neater, but this works, so:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
 -- PMM
 
