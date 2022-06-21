@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43726552F25
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:50:58 +0200 (CEST)
-Received: from localhost ([::1]:37112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA069552F1A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:48:17 +0200 (CEST)
+Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3aXB-0008VW-CA
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43294)
+	id 1o3aUa-0002Zq-RM
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQp-0007dp-B9; Tue, 21 Jun 2022 05:44:23 -0400
-Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:45022)
+ id 1o3aQr-0007hq-0P; Tue, 21 Jun 2022 05:44:25 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:37400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQj-0007MW-6I; Tue, 21 Jun 2022 05:44:19 -0400
-Received: by mail-oo1-xc2c.google.com with SMTP id
- v33-20020a4a9764000000b0035f814bb06eso2594704ooi.11; 
- Tue, 21 Jun 2022 02:44:16 -0700 (PDT)
+ id 1o3aQp-0007Mk-DT; Tue, 21 Jun 2022 05:44:24 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ l9-20020a056830268900b006054381dd35so10274251otu.4; 
+ Tue, 21 Jun 2022 02:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Xw/traBkJK4WZrtB3Zd7lj1xKpe3oozUBGfzbgYPUGw=;
- b=ZdzfO1Z9kLGNLenUXdhCZMv48SNT+PtQYAbnQBh1rO6MGtiTTGt8+b9H8TahkUcvBi
- wB64xcsPdka2OczZS8n+gf5JdJFhGbJszGjglSOiYDI4OzLve6Hch/T4EGW4mOLVQTUq
- 5sE8chSd1VcLvegkNBeF434B72qexVN51s0IFCkoI6CfzAYaRFKXEB2E0MQTSlUv2umd
- DVdtAsifSpfP/NrGvBaVVwZ0p+hCTAR0aRX6dsjb5ObDwGsyrfrELfp8qVZboImUKQsF
- rtnTetPrSgvo4R8lP5icH3n4B4WcySaoaoBRW7fYdbkEuBvGoNE3bl3BUA8WZByXvw/0
- wFIQ==
+ bh=6RJDvDPS1MFWVDLMbLiQZhvWhw1KQ6ONZCt9Aye1gJ4=;
+ b=Ixq26HJh6mBCFMIO4gDACSHS93xYtEgd+dMTTiEgtvKE6ajRYLGD2GyToFArOfDo7j
+ JpjJpQMvK2qTP9t4MIfkz/9R1NDZiqrMP+m6iPycMbyN+5wCKti5OpHpItP5As3mk5iS
+ SjX5h0YozvS3nhJXRBCtssGTahsZr+orQ1pYtUzaou389LyCpWbDjHjNLaZZv41uD9Cd
+ KUnGbVPCEtireQzKIhYJLxGDzYi2byL+ot3U3jX6ag1WdbMAHbCs3Jr+6z1XR/wZLUtV
+ 3O8jMlGnZbK8I+pQV2Rw3ZcuRiXW1ENtpzizQ1XsoX/KtkE7gahraxciN9N503jZPgJI
+ WXtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Xw/traBkJK4WZrtB3Zd7lj1xKpe3oozUBGfzbgYPUGw=;
- b=RV+bq/V6c4s1r8xky166Yd+bjf2ldGreKm0y+MaB+2KzqvOIvL78awG6ynBTNSf7by
- gTJafEonK1naAdbddgIujbuwMiIJXTGzqHUhRSvLFwjVL4PZCVm8oTn//14PcNrzXF7W
- m4babmdE5JYuRHxm4sR9Y9en5867ZrtyJZUGMUYgNwH+DIA3Qa/qMGMHlYX0ThgiEZOm
- L234DjRmcJ97a8/QLWgQBK99pOCQGbK98vJeR1yhrDTQ2/9tmqV62IMdalFcUVhtXckb
- lGhbmI9NvAJfZP+CE8XX6kxu5swI/2FcDe8MaELSgqM6BnE8bymSpCinf5Um/h6rjZ+K
- fa6A==
-X-Gm-Message-State: AJIora85OCjaxu76SkS722mWPWTzhKoBCnkDUmw59t4VP09+fZUgCToa
- niglCa6JYOQew883lq/oUHlBbjYhZLBmWA==
-X-Google-Smtp-Source: AGRyM1se+nPf7BL1o+BSjTbRk+2KJSOzMw4sGnJLtF0pAk8FnsM3jJiNIe9mG6qA38ePXcELJSQt2Q==
-X-Received: by 2002:a05:6820:56:b0:41b:928a:406f with SMTP id
- v22-20020a056820005600b0041b928a406fmr10835064oob.56.1655804655522; 
- Tue, 21 Jun 2022 02:44:15 -0700 (PDT)
+ bh=6RJDvDPS1MFWVDLMbLiQZhvWhw1KQ6ONZCt9Aye1gJ4=;
+ b=oHRKRJfVLMyPtzH+ZQGJyvGcrvgHq5eIEIJbXSSLjSUCZEi7liHaqu2n7ls5BvIlZa
+ Mz8Q/a3q4cJMklYXzmUds/6uhsTO0NT+tFm5eC61E69+iCC6f9N/nWZ4pd1g9NEWBvno
+ I8RfygNMosnhN2FgipzrDXwz0w0y74xI42V5EowMDatA8bnlq+Up2DxOjtCBukFoWm97
+ VLOTfPNUNv8cAiBeziiCGwl/8aaZY303d3KGb+AbIjeBlMSnWQaiYjdsO7uHY79X3MAJ
+ JnfiI1AYK5+bu+oE82rVUd95oPAJxT0AbHngxf6xu2+bd8Rp7Qk/peER4ZJS0uMDsmlZ
+ 6kuQ==
+X-Gm-Message-State: AJIora8ltJoVt8VHF1ZruDEm/1ELxzJe9Nt8mfFIrv4dLf5rT57Pnb4O
+ 30H97rh3mYo9tfUGjD1X6w7ap90jfXdL5Q==
+X-Google-Smtp-Source: AGRyM1s6vsm7xscNGWu5Qfyxv/a1ij5LrTS1zBDSvGNv4UCclbm+vcTe9InWMZtQeUT/z0PTU/zqiA==
+X-Received: by 2002:a05:6830:1e3c:b0:60c:a24:d064 with SMTP id
+ t28-20020a0568301e3c00b0060c0a24d064mr11293231otr.48.1655804657863; 
+ Tue, 21 Jun 2022 02:44:17 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.13
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:15 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:17 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PULL 04/15] host-utils: Implemented unsigned 256-by-128 division
-Date: Tue, 21 Jun 2022 06:43:49 -0300
-Message-Id: <20220621094400.122800-5-danielhb413@gmail.com>
+Subject: [PULL 05/15] host-utils: Implemented signed 256-by-128 division
+Date: Tue, 21 Jun 2022 06:43:50 -0300
+Message-Id: <20220621094400.122800-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
 References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,252 +92,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Based on already existing QEMU implementation, created an unsigned 256
-bit by 128 bit division needed to implement the vector divide extended
-unsigned instruction from PowerISA3.1
+Based on already existing QEMU implementation created a signed
+256 bit by 128 bit division needed to implement the vector divide
+extended signed quadword instruction from PowerISA 3.1
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220525134954.85056-5-lucas.araujo@eldorado.org.br>
+Message-Id: <20220525134954.85056-6-lucas.araujo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- include/qemu/host-utils.h |   2 +
- include/qemu/int128.h     |  38 +++++++++++
- util/host-utils.c         | 129 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 169 insertions(+)
+ include/qemu/host-utils.h |  1 +
+ util/host-utils.c         | 51 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
 
 diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index f19bd29105..9767af7573 100644
+index 9767af7573..bc743f5e32 100644
 --- a/include/qemu/host-utils.h
 +++ b/include/qemu/host-utils.h
-@@ -32,6 +32,7 @@
+@@ -851,4 +851,5 @@ static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
+ }
  
- #include "qemu/compiler.h"
- #include "qemu/bswap.h"
-+#include "qemu/int128.h"
- 
- #ifdef CONFIG_INT128
- static inline void mulu64(uint64_t *plow, uint64_t *phigh,
-@@ -849,4 +850,5 @@ static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
+ Int128 divu256(Int128 *plow, Int128 *phigh, Int128 divisor);
++Int128 divs256(Int128 *plow, Int128 *phigh, Int128 divisor);
  #endif
- }
- 
-+Int128 divu256(Int128 *plow, Int128 *phigh, Int128 divisor);
- #endif
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index ef71f56e3f..d2b76ca6ac 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -128,11 +128,21 @@ static inline bool int128_ge(Int128 a, Int128 b)
-     return a >= b;
- }
- 
-+static inline bool int128_uge(Int128 a, Int128 b)
-+{
-+    return ((__uint128_t)a) >= ((__uint128_t)b);
-+}
-+
- static inline bool int128_lt(Int128 a, Int128 b)
- {
-     return a < b;
- }
- 
-+static inline bool int128_ult(Int128 a, Int128 b)
-+{
-+    return (__uint128_t)a < (__uint128_t)b;
-+}
-+
- static inline bool int128_le(Int128 a, Int128 b)
- {
-     return a <= b;
-@@ -177,6 +187,15 @@ static inline Int128 bswap128(Int128 a)
- #endif
- }
- 
-+static inline int clz128(Int128 a)
-+{
-+    if (a >> 64) {
-+        return __builtin_clzll(a >> 64);
-+    } else {
-+        return (a) ? __builtin_clzll((uint64_t)a) + 64 : 128;
-+    }
-+}
-+
- static inline Int128 int128_divu(Int128 a, Int128 b)
- {
-     return (__uint128_t)a / (__uint128_t)b;
-@@ -373,11 +392,21 @@ static inline bool int128_ge(Int128 a, Int128 b)
-     return a.hi > b.hi || (a.hi == b.hi && a.lo >= b.lo);
- }
- 
-+static inline bool int128_uge(Int128 a, Int128 b)
-+{
-+    return (uint64_t)a.hi > (uint64_t)b.hi || (a.hi == b.hi && a.lo >= b.lo);
-+}
-+
- static inline bool int128_lt(Int128 a, Int128 b)
- {
-     return !int128_ge(a, b);
- }
- 
-+static inline bool int128_ult(Int128 a, Int128 b)
-+{
-+    return !int128_uge(a, b);
-+}
-+
- static inline bool int128_le(Int128 a, Int128 b)
- {
-     return int128_ge(b, a);
-@@ -418,6 +447,15 @@ static inline Int128 bswap128(Int128 a)
-     return int128_make128(bswap64(a.hi), bswap64(a.lo));
- }
- 
-+static inline int clz128(Int128 a)
-+{
-+    if (a.hi) {
-+        return __builtin_clzll(a.hi);
-+    } else {
-+        return (a.lo) ? __builtin_clzll(a.lo) + 64 : 128;
-+    }
-+}
-+
- Int128 int128_divu(Int128, Int128);
- Int128 int128_remu(Int128, Int128);
- Int128 int128_divs(Int128, Int128);
 diff --git a/util/host-utils.c b/util/host-utils.c
-index 96d5dc0bed..93dfb1b6ab 100644
+index 93dfb1b6ab..fb91bcba82 100644
 --- a/util/host-utils.c
 +++ b/util/host-utils.c
-@@ -266,3 +266,132 @@ void ulshift(uint64_t *plow, uint64_t *phigh, int32_t shift, bool *overflow)
-         *plow = *plow << shift;
+@@ -395,3 +395,54 @@ Int128 divu256(Int128 *plow, Int128 *phigh, Int128 divisor)
+         return rem;
      }
  }
 +
 +/*
-+ * Unsigned 256-by-128 division.
-+ * Returns the remainder via r.
-+ * Returns lower 128 bit of quotient.
-+ * Needs a normalized divisor (most significant bit set to 1).
-+ *
-+ * Adapted from include/qemu/host-utils.h udiv_qrnnd,
-+ * from the GNU Multi Precision Library - longlong.h __udiv_qrnnd
-+ * (https://gmplib.org/repo/gmp/file/tip/longlong.h)
-+ *
-+ * Licensed under the GPLv2/LGPLv3
-+ */
-+static Int128 udiv256_qrnnd(Int128 *r, Int128 n1, Int128 n0, Int128 d)
-+{
-+    Int128 d0, d1, q0, q1, r1, r0, m;
-+    uint64_t mp0, mp1;
-+
-+    d0 = int128_make64(int128_getlo(d));
-+    d1 = int128_make64(int128_gethi(d));
-+
-+    r1 = int128_remu(n1, d1);
-+    q1 = int128_divu(n1, d1);
-+    mp0 = int128_getlo(q1);
-+    mp1 = int128_gethi(q1);
-+    mulu128(&mp0, &mp1, int128_getlo(d0));
-+    m = int128_make128(mp0, mp1);
-+    r1 = int128_make128(int128_gethi(n0), int128_getlo(r1));
-+    if (int128_ult(r1, m)) {
-+        q1 = int128_sub(q1, int128_one());
-+        r1 = int128_add(r1, d);
-+        if (int128_uge(r1, d)) {
-+            if (int128_ult(r1, m)) {
-+                q1 = int128_sub(q1, int128_one());
-+                r1 = int128_add(r1, d);
-+            }
-+        }
-+    }
-+    r1 = int128_sub(r1, m);
-+
-+    r0 = int128_remu(r1, d1);
-+    q0 = int128_divu(r1, d1);
-+    mp0 = int128_getlo(q0);
-+    mp1 = int128_gethi(q0);
-+    mulu128(&mp0, &mp1, int128_getlo(d0));
-+    m = int128_make128(mp0, mp1);
-+    r0 = int128_make128(int128_getlo(n0), int128_getlo(r0));
-+    if (int128_ult(r0, m)) {
-+        q0 = int128_sub(q0, int128_one());
-+        r0 = int128_add(r0, d);
-+        if (int128_uge(r0, d)) {
-+            if (int128_ult(r0, m)) {
-+                q0 = int128_sub(q0, int128_one());
-+                r0 = int128_add(r0, d);
-+            }
-+        }
-+    }
-+    r0 = int128_sub(r0, m);
-+
-+    *r = r0;
-+    return int128_or(int128_lshift(q1, 64), q0);
-+}
-+
-+/*
-+ * Unsigned 256-by-128 division.
-+ * Returns the remainder.
++ * Signed 256-by-128 division.
 + * Returns quotient via plow and phigh.
 + * Also returns the remainder via the function return value.
 + */
-+Int128 divu256(Int128 *plow, Int128 *phigh, Int128 divisor)
++Int128 divs256(Int128 *plow, Int128 *phigh, Int128 divisor)
 +{
-+    Int128 dhi = *phigh;
-+    Int128 dlo = *plow;
-+    Int128 rem, dhighest;
-+    int sh;
++    bool neg_quotient = false, neg_remainder = false;
++    Int128 unsig_hi = *phigh, unsig_lo = *plow;
++    Int128 rem;
 +
-+    if (!int128_nz(divisor) || !int128_nz(dhi)) {
-+        *plow  = int128_divu(dlo, divisor);
-+        *phigh = int128_zero();
-+        return int128_remu(dlo, divisor);
-+    } else {
-+        sh = clz128(divisor);
++    if (!int128_nonneg(*phigh)) {
++        neg_quotient = !neg_quotient;
++        neg_remainder = !neg_remainder;
 +
-+        if (int128_ult(dhi, divisor)) {
-+            if (sh != 0) {
-+                /* normalize the divisor, shifting the dividend accordingly */
-+                divisor = int128_lshift(divisor, sh);
-+                dhi = int128_or(int128_lshift(dhi, sh),
-+                                int128_urshift(dlo, (128 - sh)));
-+                dlo = int128_lshift(dlo, sh);
-+            }
-+
-+            *phigh = int128_zero();
-+            *plow = udiv256_qrnnd(&rem, dhi, dlo, divisor);
++        if (!int128_nz(unsig_lo)) {
++            unsig_hi = int128_neg(unsig_hi);
 +        } else {
-+            if (sh != 0) {
-+                /* normalize the divisor, shifting the dividend accordingly */
-+                divisor = int128_lshift(divisor, sh);
-+                dhighest = int128_rshift(dhi, (128 - sh));
-+                dhi = int128_or(int128_lshift(dhi, sh),
-+                                int128_urshift(dlo, (128 - sh)));
-+                dlo = int128_lshift(dlo, sh);
-+
-+                *phigh = udiv256_qrnnd(&dhi, dhighest, dhi, divisor);
-+            } else {
-+                /*
-+                 * dhi >= divisor
-+                 * Since the MSB of divisor is set (sh == 0),
-+                 * (dhi - divisor) < divisor
-+                 *
-+                 * Thus, the high part of the quotient is 1, and we can
-+                 * calculate the low part with a single call to udiv_qrnnd
-+                 * after subtracting divisor from dhi
-+                 */
-+                dhi = int128_sub(dhi, divisor);
-+                *phigh = int128_one();
-+            }
-+
-+            *plow = udiv256_qrnnd(&rem, dhi, dlo, divisor);
++            unsig_hi = int128_not(unsig_hi);
++            unsig_lo = int128_neg(unsig_lo);
 +        }
++    }
 +
-+        /*
-+         * since the dividend/divisor might have been normalized,
-+         * the remainder might also have to be shifted back
-+         */
-+        rem = int128_urshift(rem, sh);
++    if (!int128_nonneg(divisor)) {
++        neg_quotient = !neg_quotient;
++
++        divisor = int128_neg(divisor);
++    }
++
++    rem = divu256(&unsig_lo, &unsig_hi, divisor);
++
++    if (neg_quotient) {
++        if (!int128_nz(unsig_lo)) {
++            *phigh = int128_neg(unsig_hi);
++            *plow = int128_zero();
++        } else {
++            *phigh = int128_not(unsig_hi);
++            *plow = int128_neg(unsig_lo);
++        }
++    } else {
++        *phigh = unsig_hi;
++        *plow = unsig_lo;
++    }
++
++    if (neg_remainder) {
++        return int128_neg(rem);
++    } else {
 +        return rem;
 +    }
 +}
