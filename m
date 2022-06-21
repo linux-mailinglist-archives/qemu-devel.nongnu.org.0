@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D549552C71
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 09:56:40 +0200 (CEST)
-Received: from localhost ([::1]:47770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3C9552C70
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 09:56:37 +0200 (CEST)
+Received: from localhost ([::1]:47684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3YkY-0006dW-T0
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 03:56:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44836)
+	id 1o3YkW-0006b0-Mj
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 03:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o3Yg6-00030T-Ud
+ id 1o3Yg6-00030I-Sz
  for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:52:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37432)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o3Yg3-0005v3-9T
+ id 1o3Yg5-0005vF-An
  for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:52:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655797918;
+ s=mimecast20190719; t=1655797920;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pm+OaO7P0DHdX0xOLqNO9AxjhVX2HalJiFlLI/sz0ao=;
- b=Q+d0e3NdLZIqCYcjnS/zPgXVHjCRhoe7a2dVo9HHZ9yO5pquWOJuKDHWKUwhlsMpmDYcAM
- 5cIadmJbZX8BL/cU6ZqZo6t9JwjCeKMGKlzOgUVJKh3i/RWEFDKvSMfQ2+sZZkli8/gH7t
- 4R86Cp7G4SWDp78uo9eEWesYcBXWVDY=
+ bh=hUDEvAYpas2OIeLZAuNbCzfYxc2UpJhMF/Rl8lVm3ss=;
+ b=BY+A/AT7P61Uekics15DgpK5+3qgPQDCweGmIO5GeExUqDJNtg5+A86kXUhOCb1kXfWAMV
+ WfOXuihRh00+Xs+2FHtw9HYyDPYToiHz9XIDUOeqJLU1JNSQrB5vwEXsA9xiL/dGLxlHEs
+ iOsNPOL7mFJmK74+2vUWN5nGM8DMG7k=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-LDI5SDTTPfWZvtjvgFLv5g-1; Tue, 21 Jun 2022 03:51:57 -0400
-X-MC-Unique: LDI5SDTTPfWZvtjvgFLv5g-1
+ us-mta-435-qerNNhmLNgOHU5kX1RvgZA-1; Tue, 21 Jun 2022 03:51:58 -0400
+X-MC-Unique: qerNNhmLNgOHU5kX1RvgZA-1
 Received: by mail-ed1-f69.google.com with SMTP id
- z4-20020a05640240c400b004358a7d5a1dso3000629edb.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 00:51:56 -0700 (PDT)
+ x15-20020a05640226cf00b004318eab9feaso10363314edd.12
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 00:51:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Pm+OaO7P0DHdX0xOLqNO9AxjhVX2HalJiFlLI/sz0ao=;
- b=LeNPcyq49okWNDrvw2XY2tn3LAhoiHDaAePPCV1T6cOHr1/ktluTY/TS5iA9YnabZL
- brNUhlSy45L+6ldfUEN2JfVlXSWf3OWr1jd+5YDjTVsDLWsUU3o6f/Vg9Y3LKlwAruYl
- 9vM11kN6dwV3nWaY39yS//1bnVInnh9L+26KO5a781nEjiEquD7V3+qflJviDOmeKco9
- +dTtVgWm+uKRQxFdCBuYxt3m8gfo0ORjWTT5rf0rrh++cGD3dFurm3LxkxAiVK9xZKPE
- Qeg4SvzHrwFpoQHjid5dw0jIRgBLoPshb/xiojIJpKj8PwEhqbGd5qDQ4jxwQDb4QkvQ
- Z3JA==
-X-Gm-Message-State: AJIora+3FSIvFpdIVTg/VgMeVM/+KrFL3K3zV3cGw/ztMBbCaY0WwYWt
- jefdQRBr8SCPXcXKCc1pwIo/MPW2CeFrV+xksFoZJdMq+1oLxRnOIo6NmJMYjsamZYbQSi51QUy
- EthwZ5X1/uVGfLfIjEJCWh+Ff1VgX+j6Q/IpsJDO5EF/IxipbF0K923NfeKSm0j+TCT4=
-X-Received: by 2002:a50:c8cd:0:b0:435:688d:6c59 with SMTP id
- k13-20020a50c8cd000000b00435688d6c59mr21626344edh.271.1655797915607; 
- Tue, 21 Jun 2022 00:51:55 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tTEfcldqdZEdc4rHqxC74zriSUsEhWCC32/RfdH3TfwEEg9zPpu8OJCJdu8/aOBx6c75iFpg==
-X-Received: by 2002:a50:c8cd:0:b0:435:688d:6c59 with SMTP id
- k13-20020a50c8cd000000b00435688d6c59mr21626315edh.271.1655797915238; 
- Tue, 21 Jun 2022 00:51:55 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- w13-20020a056402268d00b004359202969esm1601924edd.4.2022.06.21.00.51.54
+ bh=hUDEvAYpas2OIeLZAuNbCzfYxc2UpJhMF/Rl8lVm3ss=;
+ b=7vL/lClm/BtK76+yAjN+3PhusA9dwNa2OltndGQRRDmm2tcGAcuxVldDShbKhpwKGh
+ qQ+Jl9qwXqh/SmDULnZlZPzKvO8jHygACI2cHY4lMp8FJlQcKEwtG/104EouFmjNyvuv
+ /ZczlS2BFlAqCkXgKJ1Ek1A5vAx+PhabemaWT+O2vM3AtCWD1ulH1yQYRkNd2BiVmYmq
+ 0F7jabTEl4M6+3sAB8z3ydRfwoyONJzZl9xeEnEwu0qCpDNREKh7IkobBL6lLVbc0k53
+ Je00TbW1sTbZi4TnTyprfBA1zoFpE/NzKQqAcGxZ/9DuoAiF9B3t6q9RYmQflUGT2GuX
+ kB3g==
+X-Gm-Message-State: AJIora/QfgU88BSsRNkIgiUSS5UpSdDHOYjROlyadZwhzod8LJFPzs42
+ V1F0jfi2IU0sCzpRoRvJ1LCg0xQGrU1JkcXJLDrvJqAcupFf12j1Hm2qZrs6/Qc0brYo4XEbwyn
+ P219628+Lj88+i71rS0mN7l3Hu7FaOIo6oNKf6cy4yqzHN8eJgmE3qnprFgGJM2qXOa4=
+X-Received: by 2002:a17:907:a410:b0:70b:db4d:784d with SMTP id
+ sg16-20020a170907a41000b0070bdb4d784dmr23813978ejc.185.1655797917029; 
+ Tue, 21 Jun 2022 00:51:57 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1urVsIdXxFSuFM17sykPy3j01xRKQWmPskUNCE6GXgGvc87+ukoheruOGuQ9vTpHS5UVk5DeQ==
+X-Received: by 2002:a17:907:a410:b0:70b:db4d:784d with SMTP id
+ sg16-20020a170907a41000b0070bdb4d784dmr23813959ejc.185.1655797916652; 
+ Tue, 21 Jun 2022 00:51:56 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ g12-20020a056402424c00b0043589eba83bsm3481415edb.58.2022.06.21.00.51.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 00:51:54 -0700 (PDT)
+ Tue, 21 Jun 2022 00:51:56 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] configure, pc-bios/s390-ccw: pass cross CFLAGS correctly
-Date: Tue, 21 Jun 2022 09:51:44 +0200
-Message-Id: <20220621075147.36297-4-pbonzini@redhat.com>
+Subject: [PATCH 4/6] configure, pc-bios/vof: pass cross CFLAGS correctly
+Date: Tue, 21 Jun 2022 09:51:45 +0200
+Message-Id: <20220621075147.36297-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621075147.36297-1-pbonzini@redhat.com>
 References: <20220621075147.36297-1-pbonzini@redhat.com>
@@ -98,102 +99,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU_CFLAGS is not available in pc-bios/s390-ccw/netboot.mak, but the Makefile
-needs to access the flags passed to the configure script for the s390x
-cross compiler.  Fix everything and rename QEMU_CFLAGS to EXTRA_CFLAGS for
-consistency with tests/tcg.
+Use the flags passed to the configure script for the ppc cross compiler,
+which in fact default to those that are needed to get the 32-bit ISA.
+Add the endianness flag so that it remains possible to use a ppc64le
+compiler to compile VOF.
 
+This also fixes compilation of TCG tests using a biarch compiler,
+for example ppc64 tests on ppc64le.
+
+Reported-by: Matheus Ferst <matheus.ferst@eldorado.org.br
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                    |  1 +
- pc-bios/s390-ccw/Makefile    | 20 ++++++++++----------
- pc-bios/s390-ccw/netboot.mak |  6 +++---
- 3 files changed, 14 insertions(+), 13 deletions(-)
+ configure            | 13 ++++---------
+ pc-bios/vof/Makefile |  8 +++-----
+ 2 files changed, 7 insertions(+), 14 deletions(-)
 
 diff --git a/configure b/configure
-index 3d00b361d7..bf9282e2a1 100755
+index bf9282e2a1..8f3401a23e 100755
 --- a/configure
 +++ b/configure
-@@ -2290,6 +2290,7 @@ if test -n "$target_cc" && test "$softmmu" = yes; then
-     config_mak=pc-bios/s390-ccw/config-host.mak
+@@ -1858,7 +1858,7 @@ fi
+ : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
+ : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
+ : ${cross_cc_cflags_i386="-m32"}
+-: ${cross_cc_cflags_ppc="-m32"}
++: ${cross_cc_cflags_ppc="-m32 -mbig-endian"}
+ : ${cross_cc_cflags_ppc64="-m64 -mbig-endian"}
+ : ${cross_cc_ppc64le="$cross_cc_ppc64"}
+ : ${cross_cc_cflags_ppc64le="-m64 -mlittle-endian"}
+@@ -2059,6 +2059,7 @@ probe_target_compiler() {
+   compute_target_variable $1 target_strip strip
+   case "$1:$cpu" in
+     i386:x86_64 | \
++    ppc*:ppc64 | \
+     "$cpu:$cpu")
+       : ${target_cc:=$cc}
+       : ${target_ccas:=$ccas}
+@@ -2084,13 +2085,6 @@ probe_target_compiler() {
+   fi
+ }
+ 
+-probe_target_compilers() {
+-  for i; do
+-    probe_target_compiler $i
+-    test -n "$target_cc" && return 0
+-  done
+-}
+-
+ write_target_makefile() {
+   if test -n "$target_cc"; then
+     echo "CC=$target_cc"
+@@ -2265,12 +2259,13 @@ if test -n "$target_cc" &&
+     fi
+ fi
+ 
+-probe_target_compilers ppc ppc64
++probe_target_compiler ppc
+ if test -n "$target_cc" && test "$softmmu" = yes; then
+     roms="$roms pc-bios/vof"
+     config_mak=pc-bios/vof/config.mak
      echo "# Automatically generated by configure - do not modify" > $config_mak
-     echo "SRC_PATH=$source_path/pc-bios/s390-ccw" >> $config_mak
+     echo "SRC_DIR=$source_path/pc-bios/vof" >> $config_mak
 +    echo "EXTRA_CFLAGS=$target_cflags" >> $config_mak
      write_target_makefile >> $config_mak
-     # SLOF is required for building the s390-ccw firmware on s390x,
-     # since it is using the libnet code from SLOF for network booting.
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index 6eb713bf37..26ad40f94e 100644
---- a/pc-bios/s390-ccw/Makefile
-+++ b/pc-bios/s390-ccw/Makefile
-@@ -18,11 +18,11 @@ $(call set-vpath, $(SRC_PATH))
- QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+ fi
  
- %.o: %.c
--	$(call quiet-command,$(CC) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
-+	$(call quiet-command,$(CC) $(EXTRA_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
- 	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
+diff --git a/pc-bios/vof/Makefile b/pc-bios/vof/Makefile
+index 391ac0d600..8809c82768 100644
+--- a/pc-bios/vof/Makefile
++++ b/pc-bios/vof/Makefile
+@@ -2,15 +2,13 @@ include config.mak
+ VPATH=$(SRC_DIR)
+ all: vof.bin
+ 
+-CC ?= $(CROSS)gcc
+-LD ?= $(CROSS)ld
+-OBJCOPY ?= $(CROSS)objcopy
++EXTRA_CFLAGS += -mcpu=power4
  
  %.o: %.S
--	$(call quiet-command,$(CCAS) $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
-+	$(call quiet-command,$(CCAS) $(EXTRA_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
- 	       -c -o $@ $<,"CCAS","$(TARGET_DIR)$@")
+-	$(CC) -m32 -mbig-endian -mcpu=power4 -c -o $@ $<
++	$(CC) $(EXTRA_CFLAGS) -c -o $@ $<
  
- .PHONY : all clean build-all
-@@ -30,14 +30,14 @@ QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
- OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
- 	  virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
+ %.o: %.c
+-	$(CC) -m32 -mbig-endian -mcpu=power4 -c -fno-stack-protector -o $@ $<
++	$(CC) $(EXTRA_CFLAGS) -c -fno-stack-protector -o $@ $<
  
--QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
--QEMU_CFLAGS += $(call cc-option,-Werror $(QEMU_CFLAGS),-Wno-stringop-overflow)
--QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
--QEMU_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
--QEMU_CFLAGS += -msoft-float
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS),-march=z900,-march=z10)
--QEMU_CFLAGS += -std=gnu99
-+EXTRA_CFLAGS := $(EXTRA_CFLAGS) -Wall
-+EXTRA_CFLAGS += $(call cc-option,-Werror $(EXTRA_CFLAGS),-Wno-stringop-overflow)
-+EXTRA_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
-+EXTRA_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
-+EXTRA_CFLAGS += $(call cc-option, $(EXTRA_CFLAGS), -fno-stack-protector)
-+EXTRA_CFLAGS += -msoft-float
-+EXTRA_CFLAGS += $(call cc-option, $(EXTRA_CFLAGS),-march=z900,-march=z10)
-+EXTRA_CFLAGS += -std=gnu99
- LDFLAGS += -Wl,-pie -nostdlib
- 
- build-all: s390-ccw.img s390-netboot.img
-diff --git a/pc-bios/s390-ccw/netboot.mak b/pc-bios/s390-ccw/netboot.mak
-index 1a06befa4b..ee59a5f4de 100644
---- a/pc-bios/s390-ccw/netboot.mak
-+++ b/pc-bios/s390-ccw/netboot.mak
-@@ -8,7 +8,7 @@ LIBNET_INC := -I$(SLOF_DIR)/lib/libnet
- 
- NETLDFLAGS := $(LDFLAGS) -Wl,-Ttext=0x7800000
- 
--$(NETOBJS): QEMU_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
-+$(NETOBJS): EXTRA_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
- 
- s390-netboot.elf: $(NETOBJS) libnet.a libc.a
- 	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $^,"BUILD","$(TARGET_DIR)$@")
-@@ -18,7 +18,7 @@ s390-netboot.img: s390-netboot.elf
- 
- # libc files:
- 
--LIBC_CFLAGS = $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
-+LIBC_CFLAGS = $(EXTRA_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
- 	      -MMD -MP -MT $@ -MF $(@:%.o=%.d)
- 
- CTYPE_OBJS = isdigit.o isxdigit.o toupper.o
-@@ -52,7 +52,7 @@ libc.a: $(LIBCOBJS)
- 
- LIBNETOBJS := args.o dhcp.o dns.o icmpv6.o ipv6.o tcp.o udp.o bootp.o \
- 	      dhcpv6.o ethernet.o ipv4.o ndp.o tftp.o pxelinux.o
--LIBNETCFLAGS = $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
-+LIBNETCFLAGS = $(EXTRA_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
- 	       -DDHCPARCH=0x1F -MMD -MP -MT $@ -MF $(@:%.o=%.d)
- 
- %.o : $(SLOF_DIR)/lib/libnet/%.c
+ vof.elf: entry.o main.o ci.o bootmem.o libc.o
+ 	$(LD) -nostdlib -e_start -T$(SRC_DIR)/vof.lds -EB -o $@ $^
 -- 
 2.36.1
 
