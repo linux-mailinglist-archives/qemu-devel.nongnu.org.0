@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D861553842
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 18:56:01 +0200 (CEST)
-Received: from localhost ([::1]:48690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35498553844
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 18:57:28 +0200 (CEST)
+Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3hAW-0004VR-Cg
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 12:56:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51296)
+	id 1o3hBv-0006j5-8i
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 12:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1o3h7W-00037H-KJ; Tue, 21 Jun 2022 12:52:54 -0400
-Received: from [187.72.171.209] (port=59659 helo=outlook.eldorado.org.br)
+ id 1o3h8r-00047U-PJ; Tue, 21 Jun 2022 12:54:17 -0400
+Received: from [187.72.171.209] (port=26559 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1o3h7U-00044K-7u; Tue, 21 Jun 2022 12:52:54 -0400
+ id 1o3h8p-0004Cw-Pu; Tue, 21 Jun 2022 12:54:16 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 21 Jun 2022 13:52:42 -0300
+ Tue, 21 Jun 2022 13:53:10 -0300
 Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id BB50080012C;
- Tue, 21 Jun 2022 13:52:41 -0300 (-03)
-Message-ID: <49a2892b-6f8c-c69f-26ab-b61d172f5b97@eldorado.org.br>
-Date: Tue, 21 Jun 2022 13:52:41 -0300
+ by p9ibm (Postfix) with ESMTPS id 881EF80012C;
+ Tue, 21 Jun 2022 13:53:10 -0300 (-03)
+Message-ID: <77257e47-5e6a-8a2e-3c30-cd8f148c8f39@eldorado.org.br>
+Date: Tue, 21 Jun 2022 13:53:10 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 05/11] target/ppc: Move slbia to decodetree
+Subject: Re: [PATCH 06/11] target/ppc: Move slbmte to decodetree
 Content-Language: en-US
 To: Lucas Coutinho <lucas.coutinho@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org
 References: <20220615192006.3075821-1-lucas.coutinho@eldorado.org.br>
- <20220615192006.3075821-6-lucas.coutinho@eldorado.org.br>
+ <20220615192006.3075821-7-lucas.coutinho@eldorado.org.br>
 From: Leandro Lupori <leandro.lupori@eldorado.org.br>
-In-Reply-To: <20220615192006.3075821-6-lucas.coutinho@eldorado.org.br>
+In-Reply-To: <20220615192006.3075821-7-lucas.coutinho@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 21 Jun 2022 16:52:42.0192 (UTC)
- FILETIME=[52B63500:01D8858F]
+X-OriginalArrivalTime: 21 Jun 2022 16:53:11.0007 (UTC)
+ FILETIME=[63E306F0:01D8858F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
