@@ -2,73 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5705537EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 18:35:58 +0200 (CEST)
-Received: from localhost ([::1]:52238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35DA553820
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 18:44:19 +0200 (CEST)
+Received: from localhost ([::1]:57598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3gr7-0003Ig-DV
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 12:35:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47924)
+	id 1o3gzC-0007Ve-6p
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 12:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1o3gpA-0002Rf-G5
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 12:33:57 -0400
-Received: from mga02.intel.com ([134.134.136.20]:40152)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1o3gtX-0004TC-Pb
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 12:38:28 -0400
+Received: from mail-sn1anam02on2107.outbound.protection.outlook.com
+ ([40.107.96.107]:6659 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1o3gp7-0001AC-Ll
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 12:33:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655829233; x=1687365233;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=qjtZ61mO7E/p4LeTtwZakHRfvZOzx/T8I2Br7hllx6g=;
- b=ehnB1Z8w/Ebr/Gyma0IfMej/Mlj+Ubqj62KoFjIZ352+hEG+kc71Kx9d
- nenzJNaz/7vE81dQ1s37cZKxS1flvvUWI51t5lGM0+ZCUPCebsrSZJQk0
- F34wxqf1YXRK5dxjNYZtIRxY8rdljXGi1N4nxnvEjld+H1bpW/gg7dNMw
- ZYoGofv4D1NxvRo6ZuL7tCQt3HXoWK9brHsaVyJZAyey54nTRNFKYfaIn
- G9ON/fCtvUmkF9PozcKsOl4DoN2+ErePkJBYulz2dbGAlkzGSvmVITvlE
- wCQJoUV+C0Mjor+t4Vy1bwLkY3VhrmKFbZBHvvCGOl8iotzFQma0xWfGm Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="268883470"
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="268883470"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 09:33:37 -0700
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="833649699"
-Received: from dongwonk-mobl.amr.corp.intel.com ([10.212.82.132])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 09:33:36 -0700
-Date: Tue, 21 Jun 2022 09:33:35 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v2 2/2] ui/gtk: a new array param monitor to specify the
- target displays
-Message-ID: <20220621163335.GA21@dongwonk-MOBL.amr.corp.intel.com>
-References: <20220615231942.29981-1-dongwon.kim@intel.com>
- <20220615231942.29981-3-dongwon.kim@intel.com>
- <87o7yn6cfb.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1o3gtH-0001pa-3b
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 12:38:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hIDxehC9wQfp4KLjxm2ZDU7111ljBw5cmP6p6tLZc15SA/oArY0RYboAXp8Q9Cgpft0fnVbyjt6Hj2xi+00jmCM+5y421gM8PEKWzd5w7XGHH+160BxbfebkEG//oFR5hlBaHeu4lTSkEnPFOtVOA5vMUPjhefqPDqCQosP1xrsWyi1M++Tbzndh0rfe5RvuQXuuPQb8hIBkupfp+vMVYuBVm6v/Y/w4NlDPVMbWbWOTUse9R2fiSv+VvWy5rpsoB1j09If0F3ak1iFDR7apJmKrm/VIeIdEjVfmVZ866w299B0rPhELHENmKe9Dc/8sKKGOQALtQnWvqCy6qLRiKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tXauHDI3ses6r/43uQHzn197osiS7WqZBhDVQu0bHY0=;
+ b=WbEZ3m5764QLvjmlmjr6E0PrqIiYPJ4Pw7clrVIHkFB6YZfoi9Pcns8IM55pfSSwNQ6C5wpFV8Uap+wW/eeND4A4pWMKfYcQ9FXP4Itqz0x7+nNiXaNKqz+HCiAlVtqi5N5sw3RqvXRTdFXye8V6ADFb4seprjLrHI7XAx6eDZrAUBA5fDHEmncd5w2+GHaVmRK5qOBChg4vxZ83xH2olLVMaG8M7iF0dUrzYIR7OxTDxrlnF8hucoLkXQFqw+unHzNgNF/V/lsrpqTgePTMHcK57RJtGtUSDujG+Z0EjnFdX+93uWoo+UIS45DOHFswYv0vKUWP5w5Q/EbHlQvvyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
+ header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tXauHDI3ses6r/43uQHzn197osiS7WqZBhDVQu0bHY0=;
+ b=GWFbA0zeC4UpNVa4U9XROV0SGmiFTV4Rj8nJVW9DFCQq+O+hTSv+ix9Wzhg+yaUA7YHYkYHkUiA4hJpqnCCxrhVdMfEYCc8Y6/Vbwh818l0RY42FYrhLWQpdeMY4OPON9Tz84SRiHQqig3xCjq1K+RaiWO+EUFlW3qc9zMvQko/AvWpm1J8SwFL8iIRFvczGyXgzjYdxegZBPN3VqIYJkXtLTVPK5kNcWKT+dC7eFy7t57J07jsWfwk6TXpRVIogPkEESF61vy23NySzEo4p5721KVsJ45/hGmzLTrUZH8/GP3zFxlp8KiyHYC39ts/up7tQPf6Sgmc6XwqmeiDftQ==
+Received: from CP2PR80MB3969.lamprd80.prod.outlook.com (2603:10d6:102:3d::17)
+ by SC1PR80MB4639.lamprd80.prod.outlook.com (2603:10d6:300::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5353.15; Tue, 21 Jun 2022 16:38:03 +0000
+Received: from CP2PR80MB3969.lamprd80.prod.outlook.com
+ ([fe80::e50a:4522:5dff:2f1a]) by CP2PR80MB3969.lamprd80.prod.outlook.com
+ ([fe80::e50a:4522:5dff:2f1a%5]) with mapi id 15.20.5353.022; Tue, 21 Jun 2022
+ 16:38:03 +0000
+From: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>
+To: Paolo Bonzini <pbonzini@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 0/6] Fix support for biarch compilers and cross cflags
+Thread-Topic: [PATCH 0/6] Fix support for biarch compilers and cross cflags
+Thread-Index: AQHYhUSDmdFhmoH7mUuTIJ+6/uaG6K1aD+0A
+Date: Tue, 21 Jun 2022 16:38:03 +0000
+Message-ID: <fd21c891-91c9-1926-00f7-2ca9edadbc02@eldorado.org.br>
+References: <20220621075147.36297-1-pbonzini@redhat.com>
+In-Reply-To: <20220621075147.36297-1-pbonzini@redhat.com>
+Accept-Language: pt-BR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=eldorado.org.br;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e29ac767-d418-4352-f31e-08da53a4696a
+x-ms-traffictypediagnostic: SC1PR80MB4639:EE_
+x-microsoft-antispam-prvs: <SC1PR80MB4639DA5C1D6B2EF3AB5A4A76A1B39@SC1PR80MB4639.lamprd80.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: sEdol5VyaVcpGpl4P3Dqkm9EQBOAH5rFTJSAb4q5X41lm20s8Gvp8j9eojiVroymGW+szBmB//vTF1XSNJTlOGkMhLh5qd4Q2Vo9qoqwTotv0JivmxzZz9oA2IMPNjKOjmi+5GkZYd7lPJca8Lz3pfA47nMCtanw9KfQEVPozx4S1vm8aLbia42Rv0C7xKq1Vaq8jYfZctVSHk35Lb3YbkgPh6EiBdBfoB2b8CCaoOGzrIawwfViRyMQ1MLki5GqVB5IKFJqrnn2LPUFg2jwZffOj+y8eRZDRNc09N1Ph8ItfJDoo5ahCrmnhqXcBlDPeXH9XdNGzKIsy7cdbhy4mjTIFA4FdMxIHXUi0C1ZOMMKIpf3BkEMgIowo+L4Kq1N4+uKP+FBu1eya43w/fAG/ANF198/f5L0WwFZsl5qj1SV5mteHN2soVbTRU/5QRYbIpxRAT0+9qiDIzlkK/idO95lSIEVpmQ0n6ESNz9x1y7ghLfa05uj7LgJby6h3nYGsRPX7dbJqGkC9gmnvDdQBfo1CpTgj9RNW+O3/Iw04QSDZdJJN9G5cookRneUFsL5gvTJXHIfK6sCSP50bgyxUamHDQQC99Q6XIy9F4TwuI9ipV+Y/lgFzQZbdKivHqxB8cEQxPajHC3hAm2VMQ29yFoxKCeGIzzFDsGbgpnlONYCmGxCxTY6fPPg8ZYDdSSwLIrmi3RqitsU6mEXk6AJkC2TqfSjF+SbumGoJ8V+ONCLBiHTGy15Suj/ZJ2TwIhvc+aF7RgAB7WVa8dF199BvZrSkNZROE5ETeQn7ERX8r7KkTBD4PF3RX+/q1L1uAJ7FZ6V+RS97PJaCngBhpBnJmwcOE/C37/VIdAikcKfkyYKxtA29BLofWtWVSkVsqmsnPW5UF9F14MogYDpfwr1ZQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CP2PR80MB3969.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(346002)(366004)(396003)(136003)(376002)(39850400004)(6486002)(53546011)(71200400001)(110136005)(66946007)(31696002)(6512007)(66446008)(316002)(8676002)(5660300002)(478600001)(31686004)(36756003)(64756008)(2906002)(41300700001)(2616005)(66556008)(26005)(86362001)(76116006)(66476007)(8936002)(83380400001)(186003)(6506007)(38070700005)(38100700002)(122000001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WWJyZGdZWWJaWVg2K2t5cDJxZ3hMYXIveXVQZk9BT1YxUm03NEtkSzBRS1ZV?=
+ =?utf-8?B?cGFxaDRXczgwKzkxOEtNdjBEMHpoNzhZaThkNFNFT05NNG1iT3V4dXZCb1N1?=
+ =?utf-8?B?aEpjcXNNb0FUY1JKWnI0SGFXZi9UWTlMbEhFZ3VyUytEL1pubjBDN2xsaVh1?=
+ =?utf-8?B?MUhCUFQ5c3ZZTzRxL1lwZzlBOVZyZVA1MHhlZTZaSkJnTEdOb1V3NXNzdTJi?=
+ =?utf-8?B?Tjd3WDBCS0pxRnNoWEhNZ0lOOHBIVFlBMWlPVDBQblZoVTZ6MzBvTWVPbis0?=
+ =?utf-8?B?dTFmRU92R2l2QTU3a3FXampwWXNQMHFlMmtac0ZTY3RycmxzQ2QyUGt6RkY1?=
+ =?utf-8?B?eHdpS203ZndnYmlqMmpWSUM1Q2xVczAzelJFNFlrL1ZEQjEyRWVNWHdEVitq?=
+ =?utf-8?B?cTVVdkRjTlFrM3RHalVCYmZvS1R3RzZoZFJuUncrYnp6SHRpRHY3WlhmMENh?=
+ =?utf-8?B?RHhUOHg1RWZwcDcxcHhjdmt6UnN4ODBaS1RCaWpDR010MzUyVXZseDU5YXpO?=
+ =?utf-8?B?QUlZZDNLOWNpdGpQNUxpL3dOS2dldUJuSFFkcFpmQjJNSFRIR2hWaVcza3VC?=
+ =?utf-8?B?c3FNaCt5bVYvbU5aRXNxVXY1ZmdiV3BSVytrQ043c3RPQ0xuYjdmWkN3RG8x?=
+ =?utf-8?B?OXNRVUovZ1grYW15anpMMVhOMlk4UmFScUgxODRGMys0WXRyWVZINU5COC9p?=
+ =?utf-8?B?VjJPajAyanpBbHBoeWh1Sko1ZlQyL2JSekUxWTA4aklxbDBOYUxvdTRuS2lS?=
+ =?utf-8?B?MmZmV3l3OGdXQ0JLcWJNUjYrMDB1Y29ZeDhDVVNtMTRHQ1hUbENWL3FsRi9h?=
+ =?utf-8?B?N1B4UDlwaFVNOW1lYm02VWpJRlNabEw3R0Y3TkVTT2hUODNFdGxsa2FlUlFB?=
+ =?utf-8?B?SDNoazZ2eHh5WHNIc0w3eDNhWGtkaE41bGYvcUNpWno0cGZ3alhYWXZ2Mmsw?=
+ =?utf-8?B?ZW9FeXI4bnkyV29VckkxREgxR212RzNOVWRzTG9uT3d4ck14N0JRUnFVUnA2?=
+ =?utf-8?B?NU1jNXI0cVhQZXJnVE80QzdkTXZGWGwzQ3BkWENmM05JQ0lVYTRoT0p0MFVh?=
+ =?utf-8?B?eWlaLzE2SEwzN0pFaEJla1FkV3BJWnlpYTJCWEl6K3kxWmJ0MUZVeWlqQnlQ?=
+ =?utf-8?B?ZCtQeDJ1R21QdklMdnh5Z2JGNEVxU0E3TjR3am9FRFo0K3BxSU9MMHlQeERU?=
+ =?utf-8?B?ZkZkTnV1SVVNOXFoWkZlZFVNbS95aElPNTZvYTFxdmh6a2toKzJrekpvcjZk?=
+ =?utf-8?B?Q0ttRDA3VHplZ0xSbGthYkE3MDQ3S1hzdjlwSTZoeHpJU3dXNCtRa0toR2ND?=
+ =?utf-8?B?aElxUExYZ2t5K1pwZjYveHYxV3hxTXovKytjd3hrdGlxRnRERTFiUUpkSWRH?=
+ =?utf-8?B?aE5jWkhVVE9pQVEyUHlSN1kyMG1tUHhlUWRNWlduWlBlWHdwNXBPcURiRXd2?=
+ =?utf-8?B?Q09VVmVFVWJNNkllVWVZNEx5Y0xHcnhNY0x1b2JhZWdGVGwyQkx5TzRSYmg0?=
+ =?utf-8?B?UGxFbUVyZUh6bUdJamFzeU82TlpSNTZmdXdreFJkYVAxS09wR0Y1QjR1Tk9Y?=
+ =?utf-8?B?T2owdys4RXJmUlRRSkI0ZjgvYTAxYVhtbXFTa3FTZW51dW4vRWZDSmRFMkxM?=
+ =?utf-8?B?NmZLK1JteFdMaDZSSnQwdGF4UXlrMVBhTTdTdExxLzZ1VlBXRXVXRU5CbzBv?=
+ =?utf-8?B?TU5FMnhSUlYvbXQyR0pySnhjbG1oYXVWUExEbk5sSVFLaDRtT3F3YmxQNzlH?=
+ =?utf-8?B?WWI0SW5sMUVaU3loYWhMTkxJelN2dXR6YTZWV3lPS1UxYkhVNktJR2hKbDVR?=
+ =?utf-8?B?NGFOeERMdG5BQ0JxVFJaclUzRlRYTVkzeXpTQ1NzQUhqYnRzUTZZaFZ5V3pk?=
+ =?utf-8?B?MUdHYVlzSVM5dDZibDlndDdGaXgwakt5Ly81NWdXVm5OSEdhd1hXZ3BmaVY4?=
+ =?utf-8?B?aWZxbFJLYlYzUHNvSk9LTjlXUkxCaEZSWitRWkYwUFFsYWttWThNVVBCbGlj?=
+ =?utf-8?B?RVhCMXdIUUoxRTd5SlBydng3VmNnVlpiUjdPMWVjRmlrRlh1b3lQU25yOGYv?=
+ =?utf-8?B?VkVSQkdONFpGeDBiRm9HYmpRcko5MWdJUGJIaEFtUkRscXkxcjMzN2F6MFJB?=
+ =?utf-8?B?WUpJT3JCaDNyY0NDYm1jOU5Hbk5RQXJPZ3lvR2tSM1JCczBOengySmQyN2Vy?=
+ =?utf-8?B?WUpFWFlWT0JjVUVhc3NBV2I2TU11YnAvMlV4ODlCYkg4WTR4ZmY3ZmRya2tG?=
+ =?utf-8?B?VC9laGZiNDRWY0NmdGhBbkdaY3lQbGJpRG0xUlpMeW5QMkpvdTQvblRNZVB5?=
+ =?utf-8?B?WlJkZ3BCTTlPb1FTRC9ITWVNVFhnTTZRMndQNzZJbyt3M1BnN05BditFSUc2?=
+ =?utf-8?Q?YmXvyjmWjiMnHSBlA7kD5MW2ZpUlS9m6I4viH?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6D8AB835ACB8A44396D40138A51C0905@lamprd80.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87o7yn6cfb.fsf@pond.sub.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.20;
- envelope-from=dongwon.kim@intel.com; helo=mga02.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-OriginatorOrg: eldorado.org.br
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CP2PR80MB3969.lamprd80.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e29ac767-d418-4352-f31e-08da53a4696a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2022 16:38:03.4080 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MsjVMwFSl4CGXY0VVpRIcQ7fJ4APjupphYO0gyWTMqO4H6DA10iLOCpmNni72Qkq94C4rBDw2wgJd5MkZtVdolHk3JBPTEl2fANztjbW5Dk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SC1PR80MB4639
+Received-SPF: pass client-ip=40.107.96.107;
+ envelope-from=matheus.ferst@eldorado.org.br;
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,186 +154,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
-
-On Mon, Jun 20, 2022 at 09:07:04AM +0200, Markus Armbruster wrote:
-> Dongwon Kim <dongwon.kim@intel.com> writes:
-> 
-> > New integer array parameter, 'monitor' is for specifying the target
-> > displays where individual QEMU windows are placed upon launching.
-> >
-> > The array contains a series of numbers representing the monitor where
-> > QEMU windows are placed.
-> >
-> > Numbers in the array are mapped to QEMU windows like,
-> >
-> > [1st detached window, 2nd detached window,.... Main window]
-> >
-> > Usage example: -display gtk,monitor.0=0,monitor.1=1.....
-> >
-> > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > Cc: Markus Armbruster <armbru@redhat.com>
-> > Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> > ---
-> >  qapi/ui.json    |  7 ++++++-
-> >  qemu-options.hx |  2 +-
-> >  ui/gtk.c        | 32 +++++++++++++++++++++++++++++++-
-> >  3 files changed, 38 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/qapi/ui.json b/qapi/ui.json
-> > index 413371d5e8..5980f30c7f 100644
-> > --- a/qapi/ui.json
-> > +++ b/qapi/ui.json
-> > @@ -1195,12 +1195,17 @@
-> >  #               assuming the guest will resize the display to match
-> >  #               the window size then.  Otherwise it defaults to "off".
-> >  #               Since 3.1
-> > +# @monitor:     Array of numbers, each of which represents physical
-> > +#               monitor where individual QEMU window is placed in case
-> > +#               there are multiple of them
-> 
-> End you sentence with a period, and ...
-> 
-> > +#               since 7.1
-> 
-> ... start the next phrase with a capital letter.
-> 
-> The documentation text feels vague.  Possibly because I lack familiarity
-> with this part of the user interface.  What are the "individual QEMU
-> windows"?  How are they numbered?
-> 
-
-Will rework on the phrase. So there is only one QEMU window normally
-when you start the guest os. And this window usually contains multiple
-virtual consoles by default. You can detach any of them by clicking detach
-menu item from UI. In this case, a new window will be created for the
-detached VC. By doing this, we could have primary window and newly
-created n number of windows. Individual windows means these windows.
-
-In this patch, VC number is being used as windows number. The primary
-one - guest display is '0'. The guest's secondary display will be '1'
-and so on.
-
-Thanks for the feedback.
-
-> >  #
-> >  # Since: 2.12
-> >  ##
-> >  { 'struct'  : 'DisplayGTK',
-> >    'data'    : { '*grab-on-hover' : 'bool',
-> > -                '*zoom-to-fit'   : 'bool'  } }
-> > +                '*zoom-to-fit'   : 'bool',
-> > +                '*monitor'       : ['uint16']  } }
-> >  
-> >  ##
-> >  # @DisplayEGLHeadless:
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 377d22fbd8..f79f533e9d 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -1938,7 +1938,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
-> >  #endif
-> >  #if defined(CONFIG_GTK)
-> >      "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
-> > -    "            [,show-cursor=on|off][,window-close=on|off]\n"
-> > +    "            [,monitor.<order>=<value>][,show-cursor=on|off][,window-close=on|off]\n"
-> >  #endif
-> >  #if defined(CONFIG_VNC)
-> >      "-display vnc=<display>[,<optargs>]\n"
-> > diff --git a/ui/gtk.c b/ui/gtk.c
-> > index e6878c3209..fc9bf04680 100644
-> > --- a/ui/gtk.c
-> > +++ b/ui/gtk.c
-> > @@ -2316,6 +2316,10 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-> >      GtkDisplayState *s = g_malloc0(sizeof(*s));
-> >      GdkDisplay *window_display;
-> >      GtkIconTheme *theme;
-> > +    GtkWidget *win;
-> > +    GdkRectangle dest;
-> > +    uint16List *mon;
-> > +    int n_mon;
-> >      int i;
-> >      char *dir;
-> >  
-> > @@ -2393,7 +2397,33 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-> >              gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
-> >          }
-> >      }
-> > -    if (opts->has_full_screen &&
-> > +    if (opts->u.gtk.has_monitor) {
-> > +        i = 0;
-> > +        n_mon = gdk_display_get_n_monitors(window_display);
-> > +        for (mon = opts->u.gtk.monitor; mon; mon = mon->next) {
-> > +            if (mon->value < n_mon) {
-> > +                for (; i < s->nb_vcs; i++) {
-> > +                    win = s->vc[i].window ? s->vc[i].window : s->window;
-> > +                    if (opts->has_full_screen && opts->full_screen) {
-> > +                        gtk_window_fullscreen_on_monitor(
-> > +                            GTK_WINDOW(win),
-> > +                            gdk_display_get_default_screen(window_display),
-> > +                            mon->value);
-> > +                    } else {
-> > +                        gdk_monitor_get_geometry(
-> > +                            gdk_display_get_monitor(window_display, mon->value),
-> > +                            &dest);
-> > +                        gtk_window_move(GTK_WINDOW(win),
-> > +                                        dest.x, dest.y);
-> > +                    }
-> > +                    i++;
-> > +                    break;
-> > +                }
-> 
-> This loop is odd.  It's of the form
-> 
->                    for (; COND; STEP) {
->                        ...
->                        break;
->                    }
-> 
-> STEP is unreachable.  The whole thing boils down to
-> 
->                    if (COND) {
->                        ....
->                    }
-> 
-> doesn't it?
-
-You are definitely right. if (COND) should be the one here. I will fix this in the
-next version.
-
-> 
-> > +            }
-> > +        }
-> > +    }
-> > +    if (!opts->u.gtk.has_monitor &&
-> > +        opts->has_full_screen &&
-> >          opts->full_screen) {
-> >          gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
-> >      }
-> 
-> 
-> This is
-> 
->        if (COND1) {
->            ...
->        }
->        if (!COND1 && COND2) {
->            ...
->        }
-> 
-> I'd prefer
-> 
->        if (COND1) {
->            ...
->        } else if (COND2) {
->            ...
->        }
-> 
-
-I will take a look at this as well.
-
+T24gMjEvMDYvMjAyMiAwNDo1MSwgUGFvbG8gQm9uemluaSB3cm90ZToNCj4gVGhpcyBzZXJpZXMg
+Zml4ZXMgdHdvIGJ1Z3Mgd2l0aCBjb25maWd1cmUncyBjcm9zcyBjb21waWxhdGlvbiBkZXRlY3Rp
+b246DQo+IA0KPiAtIGZpcnN0LCAtLWNyb3NzLWNmbGFncyBpcyBub3Qgb2JleWVkIGJ5IHBjLWJp
+b3MvIGNvbXBpbGF0aW9uDQo+IA0KPiAtIHNlY29uZCwgb24gYSBwcGM2NGxlIG1hY2hpbmUsIHRo
+ZSBob3N0IGNvbXBpbGVyIGNhbiBiZSB1c2VkIGZvciBwcGM2NA0KPiAgICB0ZXN0cy90Y2c7DQoN
+ClRoYXQgbWF5IGJlIHRydWUgZm9yIHRoZSBjb21waWxlciwgYnV0IHRoZSBjb21wbGV0ZSB0b29s
+Y2hhaW4gaXMgdXN1YWxseSANCnNpbmdsZSBlbmRpYW4uIEZvciBpbnN0YW5jZSwgRGViaWFuL1Vi
+dW50dSwgRmVkb3JhLCBhbmQgRnJlZUJTRCBsYWNrIA0KbGliYyBhbmQgY3J0Ki5vIGZvciB0aGUg
+Zm9yZWlnbiBlbmRpYW5uZXNzLiBTbyB3ZSdkIGJlIGFibGUgdG8gYnVpbGQgDQpwcGM2NC1zb2Z0
+bW11IHRlc3RzICh3aGljaCBhcmUgbm90IHVwc3RyZWFtIHlldCkgYnV0IG5vdCANCnBwYzY0LWxp
+bnV4LXVzZXIgaW4gcHBjNjRsZSBob3N0cy4NCg0KPiBob3dldmVyLCB0aGlzIGlzIG5vdCBiZWlu
+ZyBkb25lIGJlY2F1c2UgJGNwdSBkb2VzIG5vdA0KPiAgICBtYXRjaCB0aGUgdGFyZ2V0LiAgTGlr
+ZXdpc2UsIG9uIGFuIHg4Nl82NCBtYWNoaW5lIHRoZSBob3N0IGNvbXBpbGVyDQo+ICAgIGNhbiBi
+ZSB1c2VkIHRvIGJ1aWxkIGJvdGggaTM4NiB0ZXN0cy90Y2cgYW5kIHBjLWJpb3Mvb3B0aW9ucm9t
+LCBidXQNCj4gICAgdGhlIHNwZWNpYWwgY2FzaW5nIGRvbmUgYnkgdGhlIGNvbmZpZ3VyZSBzY3Jp
+cHQgb25seSBjb3ZlcnMgdGhlIGxhdHRlci4NCj4gDQo+IFRoZSB0d28gYXJlIHJlbGF0ZWQgYmVj
+YXVzZSwgaWYgb25seSB0aGUgZmlyc3Qgd2FzIGZpeGVkLCBwYy1iaW9zL29wdGlvbnJvbQ0KPiB3
+b3VsZCB1c2UgZWl0aGVyIHRoZSBpMzg2IG9yIHRoZSB4ODZfNjQgY2ZsYWdzIGRlcGVuZGluZyBv
+biB3aGljaCBjcm9zcw0KPiBjb21waWxlciB3YXMgZm91bmQuICBTbyBwYXRjaGVzIDItNCB0YWNr
+bGUgbm90IGp1c3QgdGhlIGNyb3NzIENGTEFHUw0KPiBwcm9ibGVtIHdpdGggcGMtYmlvcywgYnV0
+IGFsc28gdGhlIGJpYXJjaCBjb21waWxlciBwcm9ibGVtIHdpdGggaTM4Ng0KPiBhbmQgcHBjLiAg
+UGF0Y2ggNSB0aGVuIGNvdmVycyB0aGUgb3RoZXIgYmlhcmNoIGNvbXBpbGVycy4NCj4gDQo+IFRo
+ZSBvdGhlciB0d28gcGF0Y2hlcyBhcmUganVzdCBjbGVhbnVwcy4NCj4gDQo+IFN1cGVyc2VkZXM6
+IDwyMDIyMDYwNzA5NDAzMS4xMjI3NzE0LTEtcGJvbnppbmlAcmVkaGF0LmNvbT4NCj4gDQo+IFBh
+b2xvIEJvbnppbmkgKDYpOg0KPiAgICBwYy1iaW9zL29wdGlvbnJvbTogdXNlIC1tMTYgdW5jb25k
+aXRpb25hbGx5DQo+ICAgIGNvbmZpZ3VyZSwgcGMtYmlvcy9vcHRpb25yb206IHBhc3MgY3Jvc3Mg
+Q0ZMQUdTIGNvcnJlY3RseQ0KPiAgICBjb25maWd1cmUsIHBjLWJpb3MvczM5MC1jY3c6IHBhc3Mg
+Y3Jvc3MgQ0ZMQUdTIGNvcnJlY3RseQ0KPiAgICBjb25maWd1cmUsIHBjLWJpb3Mvdm9mOiBwYXNz
+IGNyb3NzIENGTEFHUyBjb3JyZWN0bHkNCj4gICAgY29uZmlndXJlOiBhbGxvdyBtb3JlIGhvc3Qv
+dGFyZ2V0IGNvbWJvcyB0byB1c2UgdGhlIGhvc3QgY29tcGlsZXINCj4gICAgY29uZmlndXJlOiB3
+cml0ZSBFWFRSQV9DRkxBR1MgZm9yIGFsbCBzdWItTWFrZWZpbGVzDQo+IA0KPiAgIGNvbmZpZ3Vy
+ZSAgICAgICAgICAgICAgICAgICAgIHwgNTAgKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0t
+LS0tLS0NCj4gICBwYy1iaW9zL29wdGlvbnJvbS9NYWtlZmlsZSAgICB8IDE1ICstLS0tLS0tLS0t
+DQo+ICAgcGMtYmlvcy9vcHRpb25yb20vY29kZTE2Z2NjLmggfCAgMyAtLS0NCj4gICBwYy1iaW9z
+L3MzOTAtY2N3L01ha2VmaWxlICAgICB8IDIwICsrKysrKystLS0tLS0tDQo+ICAgcGMtYmlvcy9z
+MzkwLWNjdy9uZXRib290Lm1hayAgfCAgNiArKy0tLQ0KPiAgIHBjLWJpb3Mvdm9mL01ha2VmaWxl
+ICAgICAgICAgIHwgIDggKysrLS0tDQo+ICAgNiBmaWxlcyBjaGFuZ2VkLCA0MyBpbnNlcnRpb25z
+KCspLCA1OSBkZWxldGlvbnMoLSkNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgcGMtYmlvcy9vcHRp
+b25yb20vY29kZTE2Z2NjLmgNCj4gDQo+IC0tDQo+IDIuMzYuMQ0KPiANCj4gDQoNCg0KVGhhbmtz
+LA0KTWF0aGV1cyBLLiBGZXJzdA0KSW5zdGl0dXRvIGRlIFBlc3F1aXNhcyBFTERPUkFETyA8aHR0
+cDovL3d3dy5lbGRvcmFkby5vcmcuYnIvPg0KQW5hbGlzdGEgZGUgU29mdHdhcmUNCkF2aXNvIExl
+Z2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIu
+aHRtbD4=
 
