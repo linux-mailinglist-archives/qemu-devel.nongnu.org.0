@@ -2,78 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEC7553BFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 22:55:24 +0200 (CEST)
-Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42C4553C51
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 23:06:10 +0200 (CEST)
+Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3kuB-00011q-7H
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 16:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54164)
+	id 1o3l4b-0000ET-Fd
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 17:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3km2-0006dj-W8
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:47:01 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:41911)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3kly-00016r-GU
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 16:46:58 -0400
-Received: by mail-pf1-x432.google.com with SMTP id i64so14160581pfc.8
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 13:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=h3YLx19yslSTTaLGcQTbBkJC0TNZDbNOKWylq2WnPkw=;
- b=wXRAJgeu88VAK0d4jbnRHsKr/e7hSkdPgzlcz+QpmuqS3cVaooJ6wm/+BVotY672p+
- 80WHm1MqqCa9zvwk9gRaKKsK9yK1R5IrolEeLuFXBQAUUmJgzgdRuGbhuENnRe9srWTF
- EcJ4/V2jJYwLkH/Z4J1oL6KfnnaPy0tP8AjZkbbMP3M0lgQGjZ0KCDQJFdm7fkfsKNUn
- gAx158K3//zxJe1xJ8MO1yEAI6tTlzBtiBHG/7P3fakZcDssy0qJHd/xtnhXoEKpUZ8k
- msjJfq71ufwwyDG+e81YG0qW2+r4Edgp5KOfE+vp5tXo2Sum2QdR26VtLCwcuDXLY0iv
- 3mfQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1o3l2Z-0007oD-D3
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 17:04:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33247)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1o3l2V-0003Y8-9F
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 17:04:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655845438;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=KXKn49rZGTzIIaEjVA5c+LgKDuUr4Fd2P/H61EIaKss=;
+ b=D60gu9aD0vUnVLWIa+b+uViP/rX6lENmg3EZSD17BLQYE0h/5lxJTiC5c6BqP8YephwDJN
+ 2PhyUnYPsYSRBGomAdlSeVmQYIvE85GAc7FWBxvp5yBD4fJDSdXHtKYjhDQGteGLRH44RV
+ oAtdSqvKyQlNK8vajMR6nUCak0/wsnE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-640-NtWVuX4IOeCEioJG6imrBQ-1; Tue, 21 Jun 2022 17:03:56 -0400
+X-MC-Unique: NtWVuX4IOeCEioJG6imrBQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k34-20020a05600c1ca200b0039c7db490c8so6745625wms.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 14:03:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=h3YLx19yslSTTaLGcQTbBkJC0TNZDbNOKWylq2WnPkw=;
- b=cX547mwzw2D9UzfYtIidO32h1ZylcVWDcL4hGsB+V7k4kPG9QNSgO+XAr3xMadGLLN
- fx6uzQ4rCQISXj6ukUrxd7WUSPoibcSODZa6IDY2ad1/2CbXRhCyno3gg1KlNq7uYCdt
- SHu3Pw+DLbrOXJwSNcHiqPWgwbth6IN28V0VSOaFxceLq3zybA9kH4lYtlOp2W3A+MZq
- LjJzIeJVCmdxtSMdDWvpyx++Z/uvlsucSiHfHexaHsPPMB+/XO23FBVPG724h28Pj0Wa
- +cpGzfKJCfpWDpxmGAU4WRbxB8uC5pnTyOgYcOocg6bCW2uV8h7tlDWON71wQi2qvYIu
- 8yIw==
-X-Gm-Message-State: AJIora/QpmM2dYuI4RWY6LEapxe+UMzLFJUrRu/ERys9rV+wwoWK0PKx
- tBpdi5pbqYB2bkqu00R1FXfT3hOfisCCRg==
-X-Google-Smtp-Source: AGRyM1vp/f24bvHX1yf0CJTqSf9XxQ/54rp66jKQeYax1Q5pi8oQWWl1WNSMRuMUkmrvBAylQb2Ntw==
-X-Received: by 2002:a63:4b02:0:b0:3fc:a31a:304 with SMTP id
- y2-20020a634b02000000b003fca31a0304mr27235325pga.121.1655844413118; 
- Tue, 21 Jun 2022 13:46:53 -0700 (PDT)
-Received: from stoup.. ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=KXKn49rZGTzIIaEjVA5c+LgKDuUr4Fd2P/H61EIaKss=;
+ b=XOVuxF4CI9xLWMCDMEtqBp1LfELxlKCERIC+F60ywfOqG2UyUonwlh0jKhSzYtQLEf
+ IIVmwdG2cSj3q29slAz7GxHfgBHPDGHA8PyplSFt/6FkwxJEvWrCk+uZiWboGyMgJP0J
+ qRyHDHIJ+Lvl3d8fu5gvWrqpVdatJ8qIzzPZJPhKdhF2p5xkXZvs697v8+Nvwb+Z2Of6
+ cNy1vA7BnEOjoEKuNFApBPNBp6kUsdrGkjRhw5LfSz0tY1P7yD9i/jOrEIxKsmw+G+LM
+ FJE6W+m14OBOHrPRaqsPkQKGfP6xPSkUd60Atk/QJF0bkXjJPs9ZHshh+YX+7UyYHXgm
+ mHKA==
+X-Gm-Message-State: AJIora+TMmOaFUI0J8E2vJsbR/ahJnfCjDXQwMm4lA8YIRR68csLXSCJ
+ WufECfDuY3UQj68QzJNn7/dXVb9PV6nBQDK+s6Bxp4wxvFBUoLQdzvQbgdMx32J2/sL7++qfQxq
+ ttsa+KSdxV8BUNjI=
+X-Received: by 2002:adf:d084:0:b0:21b:8a7c:d260 with SMTP id
+ y4-20020adfd084000000b0021b8a7cd260mr15769461wrh.68.1655845435579; 
+ Tue, 21 Jun 2022 14:03:55 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tF5dHI28Uu7lqxi6k4PkwAvqQcMomZw8ul3/QQiTgNAbbmKp7TM+grx6wEOsh9xFO+Zz8uKw==
+X-Received: by 2002:adf:d084:0:b0:21b:8a7c:d260 with SMTP id
+ y4-20020adfd084000000b0021b8a7cd260mr15769439wrh.68.1655845435309; 
+ Tue, 21 Jun 2022 14:03:55 -0700 (PDT)
+Received: from localhost (84.125.73.40.dyn.user.ono.com. [84.125.73.40])
  by smtp.gmail.com with ESMTPSA id
- p66-20020a625b45000000b005252defb016sm3649674pfb.122.2022.06.21.13.46.52
+ o20-20020a1c7514000000b0039c4ec6fdacsm19219263wmc.40.2022.06.21.14.03.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 13:46:52 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Nicholas Piggin <npiggin@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 9/9] util/cacheflush: Optimize flushing when ppc host has
- coherent icache
-Date: Tue, 21 Jun 2022 13:46:43 -0700
-Message-Id: <20220621204643.371397-10-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220621204643.371397-1-richard.henderson@linaro.org>
-References: <20220621204643.371397-1-richard.henderson@linaro.org>
+ Tue, 21 Jun 2022 14:03:54 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
+ <lsoaresp@redhat.com>,  "Daniel P . Berrange" <berrange@redhat.com>,  "Dr
+ . David Alan Gilbert" <dgilbert@redhat.com>,  Manish Mishra
+ <manish.mishra@nutanix.com>
+Subject: Re: [PATCH v7 01/14] migration: Add postcopy-preempt capability
+In-Reply-To: <20220524221151.18225-2-peterx@redhat.com> (Peter Xu's message of
+ "Tue, 24 May 2022 18:11:38 -0400")
+References: <20220524221151.18225-1-peterx@redhat.com>
+ <20220524221151.18225-2-peterx@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 21 Jun 2022 23:03:53 +0200
+Message-ID: <87v8stvidi.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,75 +99,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicholas Piggin <npiggin@gmail.com>
+Peter Xu <peterx@redhat.com> wrote:
+> Firstly, postcopy already preempts precopy due to the fact that we do
+> unqueue_page() first before looking into dirty bits.
+>
+> However that's not enough, e.g., when there're host huge page enabled, when
+> sending a precopy huge page, a postcopy request needs to wait until the whole
+> huge page that is sending to finish.  That could introduce quite some delay,
+> the bigger the huge page is the larger delay it'll bring.
+>
+> This patch adds a new capability to allow postcopy requests to preempt existing
+> precopy page during sending a huge page, so that postcopy requests can be
+> serviced even faster.
+>
+> Meanwhile to send it even faster, bypass the precopy stream by providing a
+> standalone postcopy socket for sending requested pages.
+>
+> Since the new behavior will not be compatible with the old behavior, this will
+> not be the default, it's enabled only when the new capability is set on both
+> src/dst QEMUs.
+>
+> This patch only adds the capability itself, the logic will be added in follow
+> up patches.
+>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/migration.c | 23 +++++++++++++++++++++++
+>  migration/migration.h |  1 +
+>  qapi/migration.json   |  8 +++++++-
+>  3 files changed, 31 insertions(+), 1 deletion(-)
+>
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 31739b2af9..f15e1593ac 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1240,6 +1240,11 @@ static bool migrate_caps_check(bool *cap_list,
+>              error_setg(errp, "Postcopy is not compatible with ignore-shared");
+>              return false;
+>          }
+> +
+> +        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
+> +            error_setg(errp, "Multifd is not supported in postcopy");
+> +            return false;
+> +        }
+>      }
 
-On linux, the AT_HWCAP bit PPC_FEATURE_ICACHE_SNOOP indicates
-that we can use a simplified 3 instruction flush sequence.
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20220519141131.29839-1-npiggin@gmail.com>
-[rth: update after merging cacheflush.c and cacheinfo.c]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220621014837.189139-4-richard.henderson@linaro.org>
----
- util/cacheflush.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+Multifd is supported with postcopy.  We just switch to old precopy when
+we switch to postcopy.
 
-diff --git a/util/cacheflush.c b/util/cacheflush.c
-index 01b6cb7583..2c2c73e085 100644
---- a/util/cacheflush.c
-+++ b/util/cacheflush.c
-@@ -117,6 +117,10 @@ static void sys_cache_info(int *isize, int *dsize)
-  * Architecture (+ OS) specific cache detection mechanisms.
-  */
- 
-+#if defined(__powerpc__)
-+static bool have_coherent_icache;
-+#endif
-+
- #if defined(__aarch64__) && !defined(CONFIG_DARWIN)
- /* Apple does not expose CTR_EL0, so we must use system interfaces. */
- static uint64_t save_ctr_el0;
-@@ -156,6 +160,7 @@ static void arch_cache_info(int *isize, int *dsize)
-     if (*dsize == 0) {
-         *dsize = qemu_getauxval(AT_DCACHEBSIZE);
-     }
-+    have_coherent_icache = qemu_getauxval(AT_HWCAP) & PPC_FEATURE_ICACHE_SNOOP;
- }
- 
- #else
-@@ -298,8 +303,24 @@ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
-     uintptr_t p, b, e;
--    size_t dsize = qemu_dcache_linesize;
--    size_t isize = qemu_icache_linesize;
-+    size_t dsize, isize;
-+
-+    /*
-+     * Some processors have coherent caches and support a simplified
-+     * flushing procedure.  See
-+     *   POWER9 UM, 4.6.2.2 Instruction Cache Block Invalidate (icbi) 
-+     *   https://ibm.ent.box.com/s/tmklq90ze7aj8f4n32er1mu3sy9u8k3k
-+     */
-+    if (have_coherent_icache) {
-+        asm volatile ("sync\n\t"
-+                      "icbi 0,%0\n\t"
-+                      "isync"
-+                      : : "r"(rx) : "memory");
-+        return;
-+    }
-+
-+    dsize = qemu_dcache_linesize;
-+    isize = qemu_icache_linesize;
- 
-     b = rw & ~(dsize - 1);
-     e = (rw + len + dsize - 1) & ~(dsize - 1);
--- 
-2.34.1
+I am dropping that chunk.
+
+For the rest:
+
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+
+>  
+>      if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
+> @@ -1283,6 +1288,13 @@ static bool migrate_caps_check(bool *cap_list,
+>          return false;
+>      }
+>  
+> +    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
+> +        if (!cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
+> +            error_setg(errp, "Postcopy preempt requires postcopy-ram");
+> +            return false;
+> +        }
+> +    }
+> +
+>      return true;
+>  }
+>  
+> @@ -2669,6 +2681,15 @@ bool migrate_background_snapshot(void)
+>      return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
+>  }
+>  
+> +bool migrate_postcopy_preempt(void)
+> +{
+> +    MigrationState *s;
+> +
+> +    s = migrate_get_current();
+> +
+> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT];
+> +}
+> +
+>  /* migration thread support */
+>  /*
+>   * Something bad happened to the RP stream, mark an error
+> @@ -4283,6 +4304,8 @@ static Property migration_properties[] = {
+>      DEFINE_PROP_MIG_CAP("x-compress", MIGRATION_CAPABILITY_COMPRESS),
+>      DEFINE_PROP_MIG_CAP("x-events", MIGRATION_CAPABILITY_EVENTS),
+>      DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
+> +    DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
+> +                        MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
+>      DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
+>      DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
+>      DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 485d58b95f..d2269c826c 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -400,6 +400,7 @@ int migrate_decompress_threads(void);
+>  bool migrate_use_events(void);
+>  bool migrate_postcopy_blocktime(void);
+>  bool migrate_background_snapshot(void);
+> +bool migrate_postcopy_preempt(void);
+>  
+>  /* Sending on the return path - generic and then for each message type */
+>  void migrate_send_rp_shut(MigrationIncomingState *mis,
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 6130cd9fae..d8c3810ba2 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -461,6 +461,12 @@
+>  #                       procedure starts. The VM RAM is saved with running VM.
+>  #                       (since 6.0)
+>  #
+> +# @postcopy-preempt: If enabled, the migration process will allow postcopy
+> +#                    requests to preempt precopy stream, so postcopy requests
+> +#                    will be handled faster.  This is a performance feature and
+> +#                    should not affect the correctness of postcopy migration.
+> +#                    (since 7.1)
+> +#
+>  # Features:
+>  # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+>  #
+> @@ -474,7 +480,7 @@
+>             'block', 'return-path', 'pause-before-switchover', 'multifd',
+>             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+>             { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+> -           'validate-uuid', 'background-snapshot'] }
+> +           'validate-uuid', 'background-snapshot', 'postcopy-preempt'] }
+>  
+>  ##
+>  # @MigrationCapabilityStatus:
 
 
