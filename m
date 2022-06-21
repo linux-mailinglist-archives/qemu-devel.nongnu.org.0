@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C105552B97
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 09:17:06 +0200 (CEST)
-Received: from localhost ([::1]:59598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE06C552C7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 09:58:57 +0200 (CEST)
+Received: from localhost ([::1]:52332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3Y8F-0000nl-Nh
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 03:17:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36660)
+	id 1o3Ymm-0001cL-S5
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 03:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3Y5v-00004v-Cw
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:14:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58401)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1o3Yg2-0002tA-9E
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:51:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3Y5s-0008Gm-20
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:14:37 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1o3Yfy-0005u4-K0
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:51:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655795675;
+ s=mimecast20190719; t=1655797913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4GKK6NNUfPhawrOhxOEb7cjf1QSg9pxpZm8H0PBIG9I=;
- b=LLgyajY8cqXhL2UoVKlqT0oZgeWemOfwAUIlgKFJN2HqFRPE8CYpADuF8++Ftu8yRRyJwa
- ZXOXaBe9U92WpgiN1lUCAdjUxGDz5ylEuz4Bu1ctCNJKwEI2nPriUk16NlknVrKPHE4S13
- /+k4wUZnsDWrwBuF6sR5JkXVnWw9ts0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZPg6q3cZSFidkWLC4CukDvn1U2U7ZhMnI3HepZoLJZA=;
+ b=BdSvENLU9qeIxxyiP42DhDNIiGrhWrjIZ1VrtARBiA+I4AO+hhQjUKGUa7XQBqtZlHGKXY
+ 8ob9yg4OmFXPVTT+1cOLO7PL5FtTotzDqoRVahavJcMbgYhsVlsZBPrmZvcGQ+UIQ0L6pW
+ rooABjyackIqtP0PAq8XQoYzsSUKBdI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-6Yh6NJvvNoKWyoOrDl7aOQ-1; Tue, 21 Jun 2022 03:14:31 -0400
-X-MC-Unique: 6Yh6NJvvNoKWyoOrDl7aOQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E10A3801756
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:14:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB1E040334D;
- Tue, 21 Jun 2022 07:14:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7C70C21E688E; Tue, 21 Jun 2022 09:14:29 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: libvir-list@redhat.com,  John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [libvirt PATCH v2] tools: add virt-qmp-proxy for proxying QMP
- clients to libvirt QEMU guests
-References: <20220620171950.1416742-1-berrange@redhat.com>
-Date: Tue, 21 Jun 2022 09:14:29 +0200
-In-Reply-To: <20220620171950.1416742-1-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Mon, 20 Jun 2022 18:19:50
- +0100")
-Message-ID: <8735fywkru.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-249-ERk99PlcO_uyYrxq2HRjbQ-1; Tue, 21 Jun 2022 03:51:51 -0400
+X-MC-Unique: ERk99PlcO_uyYrxq2HRjbQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ g7-20020a056402424700b0042dee9d11d0so10277146edb.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 00:51:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZPg6q3cZSFidkWLC4CukDvn1U2U7ZhMnI3HepZoLJZA=;
+ b=PYUxLTJoR3Sjl3cmTHbEQqAeSmFESXKXY+hGuLQjtQIGrBFp4gr6ssPFs2jWCW119g
+ LO71vCJauaLPtAe07masiDFZPGRuv3pgNC84NpGvYHjAbHAk6ecElYBQxiSgnzd1DOYR
+ 3LMYrpMvci9WZ8oiPsoB62gqFJQBPfM5y6S7GdheU47VcDyBDlnRYPB5XRweAD95/lE0
+ 4jGf15hekcuTmYc2hm8g4cLUezpHKBFFF2nUNuBdWGs1vei3RF46Z8qIacJha0opuHp3
+ GHn1DM5SjXhabsDRO8MM8AbCLNEykvKvi4TCI/MeOHOgE8vahMwIkI7Nk5tFDy+0BmEE
+ MRnA==
+X-Gm-Message-State: AJIora9fGYZKheiJoBH89upqfq3i5CLqxdaxhqYDOftIJLHtX8ssjvF/
+ GC2CCK8E0/fqi5yxoGFbNpFe9FvLEcMM+w2KDsqx7NXvXU/BQJn3YIVbd64oauXrVZriaw2OBMR
+ r89NCfoSrxpGMDLN9nxL6wioNHJXiNQ8z26Gb3p61qsXPf5xrQ1camfCJdxldDXnhVxU=
+X-Received: by 2002:a17:907:2d0c:b0:711:e835:f80c with SMTP id
+ gs12-20020a1709072d0c00b00711e835f80cmr24195131ejc.257.1655797910224; 
+ Tue, 21 Jun 2022 00:51:50 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u2u0lIg6jcj1b3sS8JRCSNgy7Gwnp3LomAnbpJ/vLElvYfQD+yTn7Kh9gFpOMuseGwFn6ylA==
+X-Received: by 2002:a17:907:2d0c:b0:711:e835:f80c with SMTP id
+ gs12-20020a1709072d0c00b00711e835f80cmr24195110ejc.257.1655797909776; 
+ Tue, 21 Jun 2022 00:51:49 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ f23-20020a056402329700b004357cec7e48sm5400326eda.13.2022.06.21.00.51.48
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jun 2022 00:51:49 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] Fix support for biarch compilers and cross cflags
+Date: Tue, 21 Jun 2022 09:51:41 +0200
+Message-Id: <20220621075147.36297-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,46 +96,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+This series fixes two bugs with configure's cross compilation detection:
 
-> Libvirt provides QMP passthrough APIs for the QEMU driver and these are
-> exposed in virsh. It is not especially pleasant, however, using the raw
-> QMP JSON syntax. QEMU has a tool 'qmp-shell' which can speak QMP and
-> exposes a human friendly interactive shell. It is not possible to use
-> this with libvirt managed guest, however, since only one client can
-> attach to he QMP socket at any point in time.
+- first, --cross-cflags is not obeyed by pc-bios/ compilation
 
-On the other hand, you can configure multiple QMP monitors.
+- second, on a ppc64le machine, the host compiler can be used for ppc64
+  tests/tcg; however, this is not being done because $cpu does not
+  match the target.  Likewise, on an x86_64 machine the host compiler
+  can be used to build both i386 tests/tcg and pc-bios/optionrom, but
+  the special casing done by the configure script only covers the latter.
 
-Regardless, users get to do with QMP what users find useful.  No
-objections from me.
+The two are related because, if only the first was fixed, pc-bios/optionrom
+would use either the i386 or the x86_64 cflags depending on which cross
+compiler was found.  So patches 2-4 tackle not just the cross CFLAGS
+problem with pc-bios, but also the biarch compiler problem with i386
+and ppc.  Patch 5 then covers the other biarch compilers.
 
-> The virt-qmp-proxy tool aims to solve this problem. It opens a UNIX
-> socket and listens for incoming client connections, speaking QMP on
-> the connected socket. It will forward any QMP commands received onto
-> the running libvirt QEMU guest, and forward any replies back to the
-> QMP client.
->
->   $ virsh start demo
->   $ virt-qmp-proxy demo demo.qmp &
->   $ qmp-shell demo.qmp
->   Welcome to the QMP low-level shell!
->   Connected to QEMU 6.2.0
->
->   (QEMU) query-kvm
->   {
->       "return": {
->           "enabled": true,
->           "present": true
->       }
->   }
->
-> Note this tool of course has the same risks as the raw libvirt
-> QMP passthrough. It is safe to run query commands to fetch information
-> but commands which change the QEMU state risk disrupting libvirt's
-> management of QEMU, potentially resulting in data loss/corruption in
-> the worst case.
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+The other two patches are just cleanups.
+
+Supersedes: <20220607094031.1227714-1-pbonzini@redhat.com>
+
+Paolo Bonzini (6):
+  pc-bios/optionrom: use -m16 unconditionally
+  configure, pc-bios/optionrom: pass cross CFLAGS correctly
+  configure, pc-bios/s390-ccw: pass cross CFLAGS correctly
+  configure, pc-bios/vof: pass cross CFLAGS correctly
+  configure: allow more host/target combos to use the host compiler
+  configure: write EXTRA_CFLAGS for all sub-Makefiles
+
+ configure                     | 50 ++++++++++++++++++-----------------
+ pc-bios/optionrom/Makefile    | 15 +----------
+ pc-bios/optionrom/code16gcc.h |  3 ---
+ pc-bios/s390-ccw/Makefile     | 20 +++++++-------
+ pc-bios/s390-ccw/netboot.mak  |  6 ++---
+ pc-bios/vof/Makefile          |  8 +++---
+ 6 files changed, 43 insertions(+), 59 deletions(-)
+ delete mode 100644 pc-bios/optionrom/code16gcc.h
+
+-- 
+2.36.1
 
 
