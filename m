@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CE15535CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:20:49 +0200 (CEST)
-Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72155535DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 17:22:06 +0200 (CEST)
+Received: from localhost ([::1]:52302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3fgO-0007kc-CT
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
+	id 1o3fhd-00019B-9H
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 11:22:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fdC-0005Yy-37
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:17:30 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:46602)
+ id 1o3fgQ-0008S0-Ii
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:20:50 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:38781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o3fdA-0004Z1-Ky
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:17:29 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id l11so24974329ybu.13
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:17:28 -0700 (PDT)
+ id 1o3fgP-00056D-5Z
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 11:20:50 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-3177f4ce3e2so110799727b3.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 08:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P7ELnSGNP1ouk/cYYICG2CVGGvfbKa/Z1F0ptBKCkX4=;
- b=HJxJWvglWG6yxfm45wJBNJu6o0aaw+WnGwmnePzCV+mEHr5DkScQs+NmLigKGpz8C6
- +tltCG1E/ch2zD/9qMV/YdzkqIrwyxuQcI5z1UpBAScvAdheauvs+fKaW1o55mltNcfK
- Gp2z6+brTvof+uSrp16KcYSQJSCAhSHKOpt7rqsQ7xa0Qp9rTvryG6la3/41nHT66Z23
- 8mnlLEG6o+N9/aJOJwbKchyWtBcrdnACyK+gKCVloVl4rVNIP1PuHbAtQxczPaY4eikF
- LvnIYexcv/tKZ9Aps0jOkzFIZuvqWP5YD47otV5aYFxIkc/MreF/jkg9yzRxzUiPB+u8
- rJjQ==
+ :cc; bh=TanvPNz//G2FIjNQ4Kdi5rgHo4s6889iGmjShpKYkOU=;
+ b=RTMy/3S0tLea/ZHDHvwPuIqPlbr3hXnBr3Q6Bh8g14wMyTSS8Ouk4OOtenliwgFTQg
+ diose0TfYD6hO7vN7wfCvIvCUYNir6mg4chEWpRCGZcgfRRH8mHqPoPhtKOR4l1/jnei
+ wHJHEIx59CDLc8nzkjS/9hE/1YC2KKz1PqP0pgt6GYrgsIOgakirlmNZwKkPX1Z2QWYH
+ eDHAnIeQAVH1q7adXY85nW1ysvGWOWqQLarKhRPrKduwCkaLUQ4b6FbwHeZUvwPykdy0
+ NEyb1creQAaoc3qBx10qUyfXj/gytbAm7c5tmlzRVQkIcaFakHIuruelJ0udP2t/K8oU
+ W4PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=P7ELnSGNP1ouk/cYYICG2CVGGvfbKa/Z1F0ptBKCkX4=;
- b=Gbn1r5RTLnzdcNbOSOJMC/FEtRmCq0DMdqyah59JRrz6QHZEoDe+QkafjBoWLC9kgK
- ZBsSuCzEE4ogsezqWLz/k0Waye+mFUeK9597CVTMZMsv4A8Ko2nhlqkGStkfSGe8xbeG
- CqrTb8K8eN8Faqossgtuw0DsUlbMT1wVu+3Hnz7EWRW7cmSBG0DOkCazCdtUdXp84DMF
- RPT56lcPnCmmC9BoWRO8gTg8w49jNdGJ8XrBT20kCFhl3ov5wxTnQpHlK7vkxNnf6wb1
- QKWHXe7t4h/a8SK/R3mz4FSG5KVWw9FFyoJ1jZjXMUd2MyvD+qbinMcDc4fSpqtY+0/W
- Vgkw==
-X-Gm-Message-State: AJIora/F7ZiLGF3+phhWzr0D93KuT9AdLeHhTS11eaz1bhCZbnemiK/d
- Kad1hJl07YGuQTBdWqh81vtEY9plOUArG8fECEGNPw==
-X-Google-Smtp-Source: AGRyM1uSSqTSyS/Hds9jH+//92xcXQNybLH36P+BAEo828LylS3CQ+LBWR9NfjC4dfCaK3KICDNAPneiq7E8DeDOac8=
-X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
- t18-20020a5b0dd2000000b00668fc4a9403mr13639747ybr.39.1655824647309; Tue, 21
- Jun 2022 08:17:27 -0700 (PDT)
+ bh=TanvPNz//G2FIjNQ4Kdi5rgHo4s6889iGmjShpKYkOU=;
+ b=a0bwhhVLyTJZZ7+ISobaT6e4wkw9x0uPx2dHKSP8y3fmlYiA81UFCoCR/Df5D24phU
+ TzP/ctFQM7gGvVP/vo7A0EUJgGTYtsvcFzYQ4oMJulWiS4QP4isOa+JueTdVXrHLQcjT
+ +S7PU9KDwjiUJhdCrbFJwuA4iuFUNvTN8MBxCfVq6bKSghx7tLslxpHpayBx/gp12N61
+ pgPHcUdh5dKPhPgLOrNgz322Si/lenvNQQiYiXx8euILfhm3DQuXDq62pveEdsxgJsVF
+ 9yjphbxWI2S4VLqalW4F1fm7Hun/xfp32lJrgv4IXO34qKAb3eIzn6+HVuULNJjjQI4H
+ 2pjw==
+X-Gm-Message-State: AJIora+4wDnHNU6l33Bo8PEFxooC/JYDKWrwvCGWPPz4+YewVW94n72N
+ jHt0vrGYIih8CSCzMIsL/BFx9343w2zm+w8sjV8W5Q==
+X-Google-Smtp-Source: AGRyM1sRe4Kx4AF02RuEoS9cfOuXMFiLNBkuXfdkiwqZeNYEBJ18jlqVBavSye0bw9F7eeZUnJ/fU3GbSTdvQVrS7E0=
+X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
+ 195-20020a8101cc000000b00317a0fa7a61mr18862645ywb.10.1655824847040; Tue, 21
+ Jun 2022 08:20:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220621014837.189139-1-richard.henderson@linaro.org>
- <20220621014837.189139-2-richard.henderson@linaro.org>
-In-Reply-To: <20220621014837.189139-2-richard.henderson@linaro.org>
+ <20220621014837.189139-3-richard.henderson@linaro.org>
+In-Reply-To: <20220621014837.189139-3-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Jun 2022 16:16:50 +0100
-Message-ID: <CAFEAcA-Fiviv00Npv-xxF-nX3DPJJ4S3e8dSyU29uezD5WRKng@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] util: Merge cacheflush.c and cacheinfo.c
+Date: Tue, 21 Jun 2022 16:20:09 +0100
+Message-ID: <CAFEAcA-v=RvRhzqudg8Vff5yUhnhtbsv7ipmn=8kHvPNv+2xOw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] util/cacheflush: Merge aarch64 ctr_el0 usage
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, npiggin@gmail.com, qemu-ppc@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,12 +86,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 21 Jun 2022 at 02:51, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Combine the two files into cacheflush.c.  There's a couple of bits
-> that would be helpful to share between the two, and combining them
-> seems better than exporting the bits.
+> Merge init_ctr_el0 into arch_cache_info.  In flush_idcache_range,
+> use the pre-computed line sizes from the global variables.
+> Use CONFIG_DARWIN in preference to __APPLE__.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
