@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB38552F2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:52:24 +0200 (CEST)
-Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802B5552F35
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:55:50 +0200 (CEST)
+Received: from localhost ([::1]:49026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3aYa-0003QJ-2v
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
+	id 1o3abt-0008AQ-Jx
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQg-0007Sf-It; Tue, 21 Jun 2022 05:44:14 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:33535)
+ id 1o3aQi-0007X9-Gu; Tue, 21 Jun 2022 05:44:16 -0400
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:35688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQe-0007Ll-Kv; Tue, 21 Jun 2022 05:44:14 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-101d2e81bceso8873521fac.0; 
- Tue, 21 Jun 2022 02:44:11 -0700 (PDT)
+ id 1o3aQg-0007MB-P2; Tue, 21 Jun 2022 05:44:16 -0400
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-101d96fe0a5so8193214fac.2; 
+ Tue, 21 Jun 2022 02:44:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VGrU/66nhnRlMdpQWIYgIzyzKeLNIFZKefQjC8mDfUM=;
- b=cvs/74UEG6V5RnMKBx5C9A+SFRqHNIWyLWEUN3aq/iAd1zyk0BvmX3FvsSz0W3+/AG
- 6p+U1Uhf4Zr6tMYOvO4wlVRkK1itIku014EXxHLx79n/CWkBUdKtWwndCpEAUW0BDXav
- hR7XW+QyvIJ+UsRixV7QYtp6PE9w+9Bk5XcYL8DafYp3hRM7u+J4TWynZWcJqDOFjE4n
- iG86V9AujLBLJQZj8CgXqslKEC2B3wK9fQqwGINpY99ql1QbCzMN1UkG+ZydpX2MGseB
- 9An6qv9mYc4qji4VnWcOf8RFQH9YaikonIYOfZgNYFLin+7X2HLABU7oh4vzu/MUQTeH
- c9rA==
+ bh=NnuoROyHKu2bv6b6bZ7glEpm6RtuZ7ViLbUXr26vFr0=;
+ b=C7h5SAQb3Erc1JJ/ehbqaO1IFgpItB3dxQAiqTcyj1jbf+Q9niE4lZXLlkaGZ1lqOu
+ kyeapBlbq86x5A/gJ1w3w9kt+K71eBZiGUqfovQ50OhAhJ7AhgttfraJa+Cq8mJP9/+n
+ EjIcYu1fN9JUf573vE5SPBpvoMnX7MtSScBqp3Ltw4aHjr+sKkkse9YtEW64K1EObhXw
+ zZsghVZl7jtDLQWFg9b56gbHxDIxakKRZLXEU4fZRCQnwMqSJUbCLciuzq388aS9z8T0
+ iUFf2xxoo3zoe6yo5E70TF/a506hNR467Z4z3H9zFd1F+FcgLykaNPCAobWcG0EOUWsL
+ DzCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VGrU/66nhnRlMdpQWIYgIzyzKeLNIFZKefQjC8mDfUM=;
- b=fP/xEN7io1BTF+bTjiIOtfLp82BqKaQhusjccp0f9Zl70t6CB9WBQvX/1FSAUio7Mh
- XMxHCL3jaGShYToL2oRum495xOZN+TnAy2mh7cMfpX487wWHfSqcZ1Crqs3/4w516YsP
- nPhshDcMaDQ+bVPaCBkcCgzmTR+iJ6+Kx7tjM1l+N04EfCmxWE0QKKgAblUHTqI6UXm8
- fBlU7qvZaRcFfqnGrOwjRb0S+kGb1ugFSkGAQMVa8qoTk+w8OBU0C5vX0AhE6WCNexcV
- VJgxFv6m36DvAGfKVHDjTStfuKvcVLEsi40oamdifEY06ksVj0KnIRRi21SHlwW49RgC
- ztdQ==
-X-Gm-Message-State: AJIora87PwcRoty7URytaIqp9Ru6IBvCFTROtCU8nW2ts/5txyqgP4AL
- gKJ+Gv+IIx7DzZql45y6DdVpTvHVKLo0YA==
-X-Google-Smtp-Source: AGRyM1tYyuzcPoih0+8u71YVVPz14QzS2+ZqHiTTnN087XeY2jxx0a9aPo/spVdoGiwIfZQQz3Svyw==
-X-Received: by 2002:a05:6870:5b81:b0:101:b256:b7d with SMTP id
- em1-20020a0568705b8100b00101b2560b7dmr10943608oab.198.1655804650923; 
- Tue, 21 Jun 2022 02:44:10 -0700 (PDT)
+ bh=NnuoROyHKu2bv6b6bZ7glEpm6RtuZ7ViLbUXr26vFr0=;
+ b=DUeVv32FnY91V2MT4Ef0FMn/4Zt1i2N87G37qowzNGc+uUqigdfglsUY4awAGvWGtt
+ vgj12ZfrPhB2Q3dzNwPGwojJCLFpvw/cIB/qiZmskAa1bYBcAnaxw2s/UDiKFZRJECA8
+ w2lvGBbWDCUIW71LXNLWGh9lr8ySzg+++YdlbRjwm6q70sV1b9NCftHHf1G5uxZ0HJ6B
+ 04znqISOQjOMg2e2XYnaqTUKvTjJLKIWWcYa0qTtvxqO8Fp8O0C+iAWR8cHCLODCjOiW
+ ECcjKZZKqrPuxTB4YGY3kIRDcPolJIDN/NR1s0PGUkNKf3ynJNqmOov1AHz5wNYT36KP
+ kHjA==
+X-Gm-Message-State: AJIora/HxQivWMvjv3SYvGmxNSOqtwBvaqf2gHMQqrpjiMGzc0g/J3BK
+ aBxMjnmVFqXGUrpkptT/8mPamiI8pAHaqA==
+X-Google-Smtp-Source: AGRyM1toDcngmxa6/jKXdQkNkG5Hax27h2BOS/jqhQOlJufHY/b34GdJGiRH+AIUm1Fm4ux8X2xV4Q==
+X-Received: by 2002:a05:6870:b605:b0:f3:375:fdba with SMTP id
+ cm5-20020a056870b60500b000f30375fdbamr15346665oab.123.1655804653151; 
+ Tue, 21 Jun 2022 02:44:13 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.08
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:10 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:12 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PULL 02/15] target/ppc: Implemented vector divide quadword
-Date: Tue, 21 Jun 2022 06:43:47 -0300
-Message-Id: <20220621094400.122800-3-danielhb413@gmail.com>
+Subject: [PULL 03/15] target/ppc: Implemented vector divide extended word
+Date: Tue, 21 Jun 2022 06:43:48 -0300
+Message-Id: <20220621094400.122800-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
 References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,88 +93,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vdivsq: Vector Divide Signed Quadword
-vdivuq: Vector Divide Unsigned Quadword
+vdivesw: Vector Divide Extended Signed Word
+vdiveuw: Vector Divide Extended Unsigned Word
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220525134954.85056-3-lucas.araujo@eldorado.org.br>
+Message-Id: <20220525134954.85056-4-lucas.araujo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h                 |  2 ++
- target/ppc/insn32.decode            |  2 ++
- target/ppc/int_helper.c             | 21 +++++++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc |  2 ++
- 4 files changed, 27 insertions(+)
+ target/ppc/insn32.decode            |  3 ++
+ target/ppc/translate/vmx-impl.c.inc | 48 +++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 6233e28d85..9f33e589e0 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -175,6 +175,8 @@ DEF_HELPER_FLAGS_3(VMULOSW, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VMULOUB, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VMULOUH, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VMULOUW, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VDIVSQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VDIVUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vslo, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vsro, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vsrv, TCG_CALL_NO_RWG, void, avr, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 6df405e398..01bfde8c5e 100644
+index 01bfde8c5e..f6d2d4b257 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -793,3 +793,5 @@ VDIVSW          000100 ..... ..... ..... 00110001011    @VX
- VDIVUW          000100 ..... ..... ..... 00010001011    @VX
- VDIVSD          000100 ..... ..... ..... 00111001011    @VX
+@@ -795,3 +795,6 @@ VDIVSD          000100 ..... ..... ..... 00111001011    @VX
  VDIVUD          000100 ..... ..... ..... 00011001011    @VX
-+VDIVSQ          000100 ..... ..... ..... 00100001011    @VX
-+VDIVUQ          000100 ..... ..... ..... 00000001011    @VX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 105b626d1b..033718dc0e 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1162,6 +1162,27 @@ void helper_XXPERMX(ppc_vsr_t *t, ppc_vsr_t *s0, ppc_vsr_t *s1, ppc_vsr_t *pcv,
-     *t = tmp;
- }
- 
-+void helper_VDIVSQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    Int128 neg1 = int128_makes64(-1);
-+    Int128 int128_min = int128_make128(0, INT64_MIN);
-+    if (likely(int128_nz(b->s128) &&
-+              (int128_ne(a->s128, int128_min) || int128_ne(b->s128, neg1)))) {
-+        t->s128 = int128_divs(a->s128, b->s128);
-+    } else {
-+        t->s128 = a->s128; /* Undefined behavior */
-+    }
-+}
+ VDIVSQ          000100 ..... ..... ..... 00100001011    @VX
+ VDIVUQ          000100 ..... ..... ..... 00000001011    @VX
 +
-+void helper_VDIVUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    if (int128_nz(b->s128)) {
-+        t->s128 = int128_divu(a->s128, b->s128);
-+    } else {
-+        t->s128 = a->s128; /* Undefined behavior */
-+    }
-+}
-+
- void helper_VPERM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
- {
-     ppc_avr_t result;
++VDIVESW         000100 ..... ..... ..... 01110001011    @VX
++VDIVEUW         000100 ..... ..... ..... 01010001011    @VX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 4c0b1a32ec..22572e6a79 100644
+index 22572e6a79..8c542bcb29 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -3317,6 +3317,8 @@ TRANS_FLAGS2(ISA310, VDIVSW, do_vdiv_vmod, MO_32, do_divsw, NULL)
- TRANS_FLAGS2(ISA310, VDIVUW, do_vdiv_vmod, MO_32, do_divuw, NULL)
- TRANS_FLAGS2(ISA310, VDIVSD, do_vdiv_vmod, MO_64, NULL, do_divsd)
- TRANS_FLAGS2(ISA310, VDIVUD, do_vdiv_vmod, MO_64, NULL, do_divud)
-+TRANS_FLAGS2(ISA310, VDIVSQ, do_vx_helper, gen_helper_VDIVSQ)
-+TRANS_FLAGS2(ISA310, VDIVUQ, do_vx_helper, gen_helper_VDIVUQ)
+@@ -3320,6 +3320,54 @@ TRANS_FLAGS2(ISA310, VDIVUD, do_vdiv_vmod, MO_64, NULL, do_divud)
+ TRANS_FLAGS2(ISA310, VDIVSQ, do_vx_helper, gen_helper_VDIVSQ)
+ TRANS_FLAGS2(ISA310, VDIVUQ, do_vx_helper, gen_helper_VDIVUQ)
  
++static void do_dives_i32(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
++{
++    TCGv_i64 val1, val2;
++
++    val1 = tcg_temp_new_i64();
++    val2 = tcg_temp_new_i64();
++
++    tcg_gen_ext_i32_i64(val1, a);
++    tcg_gen_ext_i32_i64(val2, b);
++
++    /* (a << 32)/b */
++    tcg_gen_shli_i64(val1, val1, 32);
++    tcg_gen_div_i64(val1, val1, val2);
++
++    /* if quotient doesn't fit in 32 bits the result is undefined */
++    tcg_gen_extrl_i64_i32(t, val1);
++
++    tcg_temp_free_i64(val1);
++    tcg_temp_free_i64(val2);
++}
++
++static void do_diveu_i32(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
++{
++    TCGv_i64 val1, val2;
++
++    val1 = tcg_temp_new_i64();
++    val2 = tcg_temp_new_i64();
++
++    tcg_gen_extu_i32_i64(val1, a);
++    tcg_gen_extu_i32_i64(val2, b);
++
++    /* (a << 32)/b */
++    tcg_gen_shli_i64(val1, val1, 32);
++    tcg_gen_divu_i64(val1, val1, val2);
++
++    /* if quotient doesn't fit in 32 bits the result is undefined */
++    tcg_gen_extrl_i64_i32(t, val1);
++
++    tcg_temp_free_i64(val1);
++    tcg_temp_free_i64(val2);
++}
++
++DIVS32(do_divesw, do_dives_i32)
++DIVU32(do_diveuw, do_diveu_i32)
++
++TRANS_FLAGS2(ISA310, VDIVESW, do_vdiv_vmod, MO_32, do_divesw, NULL)
++TRANS_FLAGS2(ISA310, VDIVEUW, do_vdiv_vmod, MO_32, do_diveuw, NULL)
++
  #undef DIVS32
  #undef DIVU32
+ #undef DIVS64
 -- 
 2.36.1
 
