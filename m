@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6450552921
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 03:50:53 +0200 (CEST)
-Received: from localhost ([::1]:33008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CEC5552920
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 03:50:52 +0200 (CEST)
+Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3T2a-0006J9-Pf
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 21:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34902)
+	id 1o3T2Z-0006B6-7e
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jun 2022 21:50:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3T0V-0003Rd-OW
+ id 1o3T0V-0003RM-G6
  for qemu-devel@nongnu.org; Mon, 20 Jun 2022 21:48:43 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:45969)
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:55246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3T0T-0001tS-0P
+ id 1o3T0T-0001ta-Ol
  for qemu-devel@nongnu.org; Mon, 20 Jun 2022 21:48:43 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id 128so4724768pfv.12
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 18:48:40 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id cv13so8984332pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 18:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hdUixK1qVAGQKnIWY1i2054HTiVYBkI7oMMXQEZ8rSg=;
- b=Zw4s6uwFQ1aNI0Ew9FV5K9zY9/jyEMJ35DXBp/tfRgF8DrmIWh7cHWt7nilZWttQKz
- CWZ4sAXgEnggOtoFInNx9u5avkUtx7bvUSb8TvOuTbxDpJn4L31uMSPtwEaD/rtcweNc
- uahRKkibVlryO6CCZGQr+oZ7RXZOftpP39s/CTUjua+gZ0fWXku5PWY824CH+fOOGvlQ
- j/algNnsh34OoELjjjJKybPME3M149CdRr0m1YBG+iCnQ62xZ2ODg6PCCFLjRXNsjJuU
- FhveUDhHy3F/1ZkLLT54ZWuBf8asHLtRzFpPkAKvBA9L9mFRQswNgFGMBIH0kXThsP5T
- VInw==
+ bh=L5ak+zhha2NejqhbdG/upUYuAV+/wGYDkUJ8k4RZozs=;
+ b=JvVQs7i60aH4yf2xGlaVdht5d12XserxVPEhwGxZ1N/LTj/dkhDokaiP4gZ395NR64
+ ZOkYKuYIYf2U1cQRa3LcwFdzjWvfT01XtZodCHHmGyfsBrxkcGl7TJMO+jLAD4EoLdQ2
+ ytX+SEO808o/S7r6EQN9u/qscAWWGSeEjy3TGQEyhbqIn5sXgB20KLwZmbCLLEE/Nk7d
+ PVlxZJokSR12EJZSsxkYjrCwdt6dKnemwCWZNbBjZr3LKkEo1M/8x+V3prNeUSXkz8wL
+ P9pZHiOTNka9zqLbNaGBsbKCrdmQx8QuizF0w7ytN8OIUfqafyxwBoZNSAgV3uqHZVEH
+ JoLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hdUixK1qVAGQKnIWY1i2054HTiVYBkI7oMMXQEZ8rSg=;
- b=Ok9bkHIybTyWL/rhhIzzXElWYcurMhBZRHZQx68JMpoBtPryItVEA9/d641wIhWVxo
- wVPoj1y5wmPeV/KgvdxOaf9HmLy1tjQcy2SqwViJ/aPFC5vWKhr/XWLyYbtETL40GSgB
- bbu/OxaN/C1YraFuKEeYM+J7HSnK6J3UQaTkjonNw/d33XovEsaC9X6ZBNq5vhLGKN0U
- FRLd+QL6xFIJaOY7DLY9u2dpbtcaCEg+vTVl7js7QyKGrYBLcjKvLp/bcEAeUTiJlS+1
- 8BMLcosJSN45Emhv1vL0Nvq02IGgQMGpfm8PajM9QJbcrTB1d1+BySFmRL5pD3+rkuzh
- 8Yhg==
-X-Gm-Message-State: AJIora+VVTSxFLfmtBzj+yc7r5IuZeFbVmUzNlde+OYhVU5cZBj1Urk9
- 8HD1QYQ/3UxSwYSXSrWkTqSoTqOQkhDDuQ==
-X-Google-Smtp-Source: AGRyM1v4G4zWJ2t0b7Z1NJR3GGMG2zuR0gB+f91Jy3E0q0vIjIACVKf/SrTua/VKvCqnURsmgtfUfQ==
-X-Received: by 2002:aa7:97b6:0:b0:525:20b4:be8 with SMTP id
- d22-20020aa797b6000000b0052520b40be8mr9290999pfq.7.1655776119406; 
- Mon, 20 Jun 2022 18:48:39 -0700 (PDT)
+ bh=L5ak+zhha2NejqhbdG/upUYuAV+/wGYDkUJ8k4RZozs=;
+ b=0iXsaZWp+lsGsNJ0d0e5ZVhg6bjZe7ZaHyy/rZihhYtkoPHj093nGZ6i7NgTJ4bGM3
+ KlqoD5sYf0asmb05CqewRlE0zvoeOwYPhPT3piDHNwD97Z8tn0pBLlmtpxu81iBc5miv
+ lnYLkHPXGRlakn6dBfqxlu+UDwfIS55swiQtS50ppXH1MDZxXCpf7Q9GE8CVvVRSkEHA
+ wPOZ6vBEueJIHy4fpicvsBX2j6SEq9reG2zfZlZKiMCm25kA8Rv1cYhzbkJwFOCNPn4Z
+ MzczNcMSiypMz59Gqhta/s3GI0uMv0aC4P5RDDQcJqmmxQKCtoiNEBBa9IrUGCczS5/A
+ eS1A==
+X-Gm-Message-State: AJIora+NJSb8zD4iAk3xjCA8+AlWsDj3LuyO7ZS+NgtyTBqbDgd/X82Z
+ 0ALWFD6kEHHF04eiiPUqbQ4ktvwX1wMtow==
+X-Google-Smtp-Source: AGRyM1vQzPZ8Mv1bJKeNAvo2bWpAX8Go5ULA7Yz/IDkW+Nt7F7L4AgA93UUkMl/fRuS6a4ZUeiflVQ==
+X-Received: by 2002:a17:902:d652:b0:168:bffe:e5fe with SMTP id
+ y18-20020a170902d65200b00168bffee5femr27193143plh.81.1655776120396; 
+ Mon, 20 Jun 2022 18:48:40 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49e:3c01:a3e0:8a80:7b85:aea6])
  by smtp.gmail.com with ESMTPSA id
- q11-20020a056a00084b00b0051bc3a2355csm9907875pfk.64.2022.06.20.18.48.38
+ q11-20020a056a00084b00b0051bc3a2355csm9907875pfk.64.2022.06.20.18.48.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 18:48:39 -0700 (PDT)
+ Mon, 20 Jun 2022 18:48:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: npiggin@gmail.com,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 1/3] util: Merge cacheflush.c and cacheinfo.c
-Date: Mon, 20 Jun 2022 18:48:35 -0700
-Message-Id: <20220621014837.189139-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 2/3] util/cacheflush: Merge aarch64 ctr_el0 usage
+Date: Mon, 20 Jun 2022 18:48:36 -0700
+Message-Id: <20220621014837.189139-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220621014837.189139-1-richard.henderson@linaro.org>
 References: <20220621014837.189139-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,457 +89,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Combine the two files into cacheflush.c.  There's a couple of bits
-that would be helpful to share between the two, and combining them
-seems better than exporting the bits.
+Merge init_ctr_el0 into arch_cache_info.  In flush_idcache_range,
+use the pre-computed line sizes from the global variables.
+Use CONFIG_DARWIN in preference to __APPLE__.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/cacheflush.c | 202 +++++++++++++++++++++++++++++++++++++++++++++-
- util/cacheinfo.c  | 200 ---------------------------------------------
- util/meson.build  |   2 +-
- 3 files changed, 202 insertions(+), 202 deletions(-)
- delete mode 100644 util/cacheinfo.c
+ util/cacheflush.c | 44 +++++++++++++++++++-------------------------
+ 1 file changed, 19 insertions(+), 25 deletions(-)
 
 diff --git a/util/cacheflush.c b/util/cacheflush.c
-index 4b57186d89..8096afd33c 100644
+index 8096afd33c..01b6cb7583 100644
 --- a/util/cacheflush.c
 +++ b/util/cacheflush.c
-@@ -1,5 +1,5 @@
- /*
-- * Flush the host cpu caches.
-+ * Info about, and flushing the host cpu caches.
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-@@ -9,8 +9,208 @@
- #include "qemu/cacheflush.h"
- #include "qemu/cacheinfo.h"
- #include "qemu/bitops.h"
-+#include "qemu/host-utils.h"
-+#include "qemu/atomic.h"
+@@ -70,7 +70,7 @@ static void sys_cache_info(int *isize, int *dsize)
+     g_free(buf);
+ }
  
- 
-+int qemu_icache_linesize = 0;
-+int qemu_icache_linesize_log;
-+int qemu_dcache_linesize = 0;
-+int qemu_dcache_linesize_log;
-+
-+/*
-+ * Operating system specific cache detection mechanisms.
-+ */
-+
-+#if defined(_WIN32)
-+
-+static void sys_cache_info(int *isize, int *dsize)
-+{
-+    SYSTEM_LOGICAL_PROCESSOR_INFORMATION *buf;
-+    DWORD size = 0;
-+    BOOL success;
-+    size_t i, n;
-+
-+    /*
-+     * Check for the required buffer size first.  Note that if the zero
-+     * size we use for the probe results in success, then there is no
-+     * data available; fail in that case.
-+     */
-+    success = GetLogicalProcessorInformation(0, &size);
-+    if (success || GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
-+        return;
-+    }
-+
-+    n = size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
-+    size = n * sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
-+    buf = g_new0(SYSTEM_LOGICAL_PROCESSOR_INFORMATION, n);
-+    if (!GetLogicalProcessorInformation(buf, &size)) {
-+        goto fail;
-+    }
-+
-+    for (i = 0; i < n; i++) {
-+        if (buf[i].Relationship == RelationCache
-+            && buf[i].Cache.Level == 1) {
-+            switch (buf[i].Cache.Type) {
-+            case CacheUnified:
-+                *isize = *dsize = buf[i].Cache.LineSize;
-+                break;
-+            case CacheInstruction:
-+                *isize = buf[i].Cache.LineSize;
-+                break;
-+            case CacheData:
-+                *dsize = buf[i].Cache.LineSize;
-+                break;
-+            default:
-+                break;
-+            }
-+        }
-+    }
-+ fail:
-+    g_free(buf);
-+}
-+
-+#elif defined(__APPLE__)
-+# include <sys/sysctl.h>
-+static void sys_cache_info(int *isize, int *dsize)
-+{
-+    /* There's only a single sysctl for both I/D cache line sizes.  */
-+    long size;
-+    size_t len = sizeof(size);
-+    if (!sysctlbyname("hw.cachelinesize", &size, &len, NULL, 0)) {
-+        *isize = *dsize = size;
-+    }
-+}
-+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-+# include <sys/sysctl.h>
-+static void sys_cache_info(int *isize, int *dsize)
-+{
-+    /* There's only a single sysctl for both I/D cache line sizes.  */
-+    int size;
-+    size_t len = sizeof(size);
-+    if (!sysctlbyname("machdep.cacheline_size", &size, &len, NULL, 0)) {
-+        *isize = *dsize = size;
-+    }
-+}
-+#else
-+/* POSIX */
-+
-+static void sys_cache_info(int *isize, int *dsize)
-+{
-+# ifdef _SC_LEVEL1_ICACHE_LINESIZE
-+    int tmp_isize = (int) sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
-+    if (tmp_isize > 0) {
-+        *isize = tmp_isize;
-+    }
-+# endif
-+# ifdef _SC_LEVEL1_DCACHE_LINESIZE
-+    int tmp_dsize = (int) sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
-+    if (tmp_dsize > 0) {
-+        *dsize = tmp_dsize;
-+    }
-+# endif
-+}
-+#endif /* sys_cache_info */
-+
-+
-+/*
-+ * Architecture (+ OS) specific cache detection mechanisms.
-+ */
-+
-+#if defined(__aarch64__)
-+
-+static void arch_cache_info(int *isize, int *dsize)
-+{
-+    if (*isize == 0 || *dsize == 0) {
-+        uint64_t ctr;
-+
-+        /*
-+         * The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
-+         * but (at least under Linux) these are marked protected by the
-+         * kernel.  However, CTR_EL0 contains the minimum linesize in the
-+         * entire hierarchy, and is used by userspace cache flushing.
-+         */
-+        asm volatile("mrs\t%0, ctr_el0" : "=r"(ctr));
-+        if (*isize == 0) {
-+            *isize = 4 << (ctr & 0xf);
-+        }
-+        if (*dsize == 0) {
-+            *dsize = 4 << ((ctr >> 16) & 0xf);
-+        }
-+    }
-+}
-+
-+#elif defined(_ARCH_PPC) && defined(__linux__)
-+# include "elf.h"
-+
-+static void arch_cache_info(int *isize, int *dsize)
-+{
-+    if (*isize == 0) {
-+        *isize = qemu_getauxval(AT_ICACHEBSIZE);
-+    }
-+    if (*dsize == 0) {
-+        *dsize = qemu_getauxval(AT_DCACHEBSIZE);
-+    }
-+}
-+
-+#else
-+static void arch_cache_info(int *isize, int *dsize) { }
-+#endif /* arch_cache_info */
-+
-+/*
-+ * ... and if all else fails ...
-+ */
-+
-+static void fallback_cache_info(int *isize, int *dsize)
-+{
-+    /* If we can only find one of the two, assume they're the same.  */
-+    if (*isize) {
-+        if (*dsize) {
-+            /* Success! */
-+        } else {
-+            *dsize = *isize;
-+        }
-+    } else if (*dsize) {
-+        *isize = *dsize;
-+    } else {
-+#if defined(_ARCH_PPC)
-+        /*
-+         * For PPC, we're going to use the cache sizes computed for
-+         * flush_idcache_range.  Which means that we must use the
-+         * architecture minimum.
-+         */
-+        *isize = *dsize = 16;
-+#else
-+        /* Otherwise, 64 bytes is not uncommon.  */
-+        *isize = *dsize = 64;
-+#endif
-+    }
-+}
-+
-+static void __attribute__((constructor)) init_cache_info(void)
-+{
-+    int isize = 0, dsize = 0;
-+
-+    sys_cache_info(&isize, &dsize);
-+    arch_cache_info(&isize, &dsize);
-+    fallback_cache_info(&isize, &dsize);
-+
-+    assert((isize & (isize - 1)) == 0);
-+    assert((dsize & (dsize - 1)) == 0);
-+
-+    qemu_icache_linesize = isize;
-+    qemu_icache_linesize_log = ctz32(isize);
-+    qemu_dcache_linesize = dsize;
-+    qemu_dcache_linesize_log = ctz32(dsize);
-+
-+    qatomic64_init();
-+}
-+
-+
-+/*
-+ * Architecture (+ OS) specific cache flushing mechanisms.
-+ */
-+
- #if defined(__i386__) || defined(__x86_64__) || defined(__s390__)
- 
- /* Caches are coherent and do not require flushing; symbol inline. */
-diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-deleted file mode 100644
-index ab1644d490..0000000000
---- a/util/cacheinfo.c
-+++ /dev/null
-@@ -1,200 +0,0 @@
--/*
-- * cacheinfo.c - helpers to query the host about its caches
-- *
-- * Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
-- * License: GNU GPL, version 2 or later.
-- *   See the COPYING file in the top-level directory.
-- */
--
--#include "qemu/osdep.h"
--#include "qemu/host-utils.h"
--#include "qemu/atomic.h"
--#include "qemu/cacheinfo.h"
--
--int qemu_icache_linesize = 0;
--int qemu_icache_linesize_log;
--int qemu_dcache_linesize = 0;
--int qemu_dcache_linesize_log;
--
--/*
-- * Operating system specific detection mechanisms.
-- */
--
--#if defined(_WIN32)
--
--static void sys_cache_info(int *isize, int *dsize)
--{
--    SYSTEM_LOGICAL_PROCESSOR_INFORMATION *buf;
--    DWORD size = 0;
--    BOOL success;
--    size_t i, n;
--
--    /* Check for the required buffer size first.  Note that if the zero
--       size we use for the probe results in success, then there is no
--       data available; fail in that case.  */
--    success = GetLogicalProcessorInformation(0, &size);
--    if (success || GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
--        return;
--    }
--
--    n = size / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
--    size = n * sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
--    buf = g_new0(SYSTEM_LOGICAL_PROCESSOR_INFORMATION, n);
--    if (!GetLogicalProcessorInformation(buf, &size)) {
--        goto fail;
--    }
--
--    for (i = 0; i < n; i++) {
--        if (buf[i].Relationship == RelationCache
--            && buf[i].Cache.Level == 1) {
--            switch (buf[i].Cache.Type) {
--            case CacheUnified:
--                *isize = *dsize = buf[i].Cache.LineSize;
--                break;
--            case CacheInstruction:
--                *isize = buf[i].Cache.LineSize;
--                break;
--            case CacheData:
--                *dsize = buf[i].Cache.LineSize;
--                break;
--            default:
--                break;
--            }
--        }
--    }
-- fail:
--    g_free(buf);
--}
--
 -#elif defined(__APPLE__)
--# include <sys/sysctl.h>
--static void sys_cache_info(int *isize, int *dsize)
--{
--    /* There's only a single sysctl for both I/D cache line sizes.  */
--    long size;
--    size_t len = sizeof(size);
--    if (!sysctlbyname("hw.cachelinesize", &size, &len, NULL, 0)) {
--        *isize = *dsize = size;
--    }
--}
--#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
--# include <sys/sysctl.h>
--static void sys_cache_info(int *isize, int *dsize)
--{
--    /* There's only a single sysctl for both I/D cache line sizes.  */
--    int size;
--    size_t len = sizeof(size);
--    if (!sysctlbyname("machdep.cacheline_size", &size, &len, NULL, 0)) {
--        *isize = *dsize = size;
--    }
--}
--#else
--/* POSIX */
--
--static void sys_cache_info(int *isize, int *dsize)
--{
--# ifdef _SC_LEVEL1_ICACHE_LINESIZE
--    int tmp_isize = (int) sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
--    if (tmp_isize > 0) {
--        *isize = tmp_isize;
--    }
--# endif
--# ifdef _SC_LEVEL1_DCACHE_LINESIZE
--    int tmp_dsize = (int) sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
--    if (tmp_dsize > 0) {
--        *dsize = tmp_dsize;
--    }
--# endif
--}
--#endif /* sys_cache_info */
--
--/*
-- * Architecture (+ OS) specific detection mechanisms.
-- */
--
++#elif defined(CONFIG_DARWIN)
+ # include <sys/sysctl.h>
+ static void sys_cache_info(int *isize, int *dsize)
+ {
+@@ -117,20 +117,25 @@ static void sys_cache_info(int *isize, int *dsize)
+  * Architecture (+ OS) specific cache detection mechanisms.
+  */
+ 
 -#if defined(__aarch64__)
 -
--static void arch_cache_info(int *isize, int *dsize)
--{
++#if defined(__aarch64__) && !defined(CONFIG_DARWIN)
++/* Apple does not expose CTR_EL0, so we must use system interfaces. */
++static uint64_t save_ctr_el0;
+ static void arch_cache_info(int *isize, int *dsize)
+ {
 -    if (*isize == 0 || *dsize == 0) {
 -        uint64_t ctr;
--
--        /* The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
--           but (at least under Linux) these are marked protected by the
--           kernel.  However, CTR_EL0 contains the minimum linesize in the
--           entire hierarchy, and is used by userspace cache flushing.  */
--        asm volatile("mrs\t%0, ctr_el0" : "=r"(ctr));
--        if (*isize == 0) {
--            *isize = 4 << (ctr & 0xf);
--        }
--        if (*dsize == 0) {
--            *dsize = 4 << ((ctr >> 16) & 0xf);
--        }
--    }
--}
--
--#elif defined(_ARCH_PPC) && defined(__linux__)
--# include "elf.h"
--
--static void arch_cache_info(int *isize, int *dsize)
--{
--    if (*isize == 0) {
--        *isize = qemu_getauxval(AT_ICACHEBSIZE);
--    }
--    if (*dsize == 0) {
--        *dsize = qemu_getauxval(AT_DCACHEBSIZE);
--    }
--}
--
--#else
--static void arch_cache_info(int *isize, int *dsize) { }
--#endif /* arch_cache_info */
--
--/*
-- * ... and if all else fails ...
-- */
--
--static void fallback_cache_info(int *isize, int *dsize)
--{
--    /* If we can only find one of the two, assume they're the same.  */
--    if (*isize) {
--        if (*dsize) {
--            /* Success! */
--        } else {
--            *dsize = *isize;
--        }
--    } else if (*dsize) {
--        *isize = *dsize;
--    } else {
--#if defined(_ARCH_PPC)
++    uint64_t ctr;
+ 
 -        /*
--         * For PPC, we're going to use the cache sizes computed for
--         * flush_idcache_range.  Which means that we must use the
--         * architecture minimum.
+-         * The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
+-         * but (at least under Linux) these are marked protected by the
+-         * kernel.  However, CTR_EL0 contains the minimum linesize in the
+-         * entire hierarchy, and is used by userspace cache flushing.
 -         */
--        *isize = *dsize = 16;
--#else
--        /* Otherwise, 64 bytes is not uncommon.  */
--        *isize = *dsize = 64;
--#endif
--    }
--}
--
--static void __attribute__((constructor)) init_cache_info(void)
+-        asm volatile("mrs\t%0, ctr_el0" : "=r"(ctr));
++    /*
++     * The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
++     * but (at least under Linux) these are marked protected by the
++     * kernel.  However, CTR_EL0 contains the minimum linesize in the
++     * entire hierarchy, and is used by userspace cache flushing.
++     *
++     * We will also use this value in flush_idcache_range.
++     */
++    asm volatile("mrs\t%0, ctr_el0" : "=r"(ctr));
++    save_ctr_el0 = ctr;
++
++    if (*isize == 0 || *dsize == 0) {
+         if (*isize == 0) {
+             *isize = 4 << (ctr & 0xf);
+         }
+@@ -228,17 +233,6 @@ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ }
+ #else
+ 
+-/*
+- * TODO: unify this with cacheinfo.c.
+- * We want to save the whole contents of CTR_EL0, so that we
+- * have more than the linesize, but also IDC and DIC.
+- */
+-static uint64_t save_ctr_el0;
+-static void __attribute__((constructor)) init_ctr_el0(void)
 -{
--    int isize = 0, dsize = 0;
--
--    sys_cache_info(&isize, &dsize);
--    arch_cache_info(&isize, &dsize);
--    fallback_cache_info(&isize, &dsize);
--
--    assert((isize & (isize - 1)) == 0);
--    assert((dsize & (dsize - 1)) == 0);
--
--    qemu_icache_linesize = isize;
--    qemu_icache_linesize_log = ctz32(isize);
--    qemu_dcache_linesize = dsize;
--    qemu_dcache_linesize_log = ctz32(dsize);
--
--    qatomic64_init();
+-    asm volatile("mrs\t%0, ctr_el0" : "=r"(save_ctr_el0));
 -}
-diff --git a/util/meson.build b/util/meson.build
-index 8f16018cd4..4939b0b91c 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -27,7 +27,7 @@ util_ss.add(files('envlist.c', 'path.c', 'module.c'))
- util_ss.add(files('host-utils.c'))
- util_ss.add(files('bitmap.c', 'bitops.c'))
- util_ss.add(files('fifo8.c'))
--util_ss.add(files('cacheinfo.c', 'cacheflush.c'))
-+util_ss.add(files('cacheflush.c'))
- util_ss.add(files('error.c', 'error-report.c'))
- util_ss.add(files('qemu-print.c'))
- util_ss.add(files('id.c'))
+-
+ /*
+  * This is a copy of gcc's __aarch64_sync_cache_range, modified
+  * to fit this three-operand interface.
+@@ -248,8 +242,8 @@ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+     const unsigned CTR_IDC = 1u << 28;
+     const unsigned CTR_DIC = 1u << 29;
+     const uint64_t ctr_el0 = save_ctr_el0;
+-    const uintptr_t icache_lsize = 4 << extract64(ctr_el0, 0, 4);
+-    const uintptr_t dcache_lsize = 4 << extract64(ctr_el0, 16, 4);
++    const uintptr_t icache_lsize = qemu_icache_linesize;
++    const uintptr_t dcache_lsize = qemu_dcache_linesize;
+     uintptr_t p;
+ 
+     /*
 -- 
 2.34.1
 
