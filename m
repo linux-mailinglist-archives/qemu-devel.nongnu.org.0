@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC67552F1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:49:30 +0200 (CEST)
-Received: from localhost ([::1]:32856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20B7552F15
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 11:47:53 +0200 (CEST)
+Received: from localhost ([::1]:55864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3aVl-0005dH-C1
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43226)
+	id 1o3aUC-00022H-Fy
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 05:47:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQf-0007Ql-7u; Tue, 21 Jun 2022 05:44:13 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:39708)
+ id 1o3aQf-0007Qk-84; Tue, 21 Jun 2022 05:44:13 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:44758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o3aQd-0007LT-Gf; Tue, 21 Jun 2022 05:44:12 -0400
-Received: by mail-ot1-x334.google.com with SMTP id
- 111-20020a9d0378000000b0060c2db66d44so10258465otv.6; 
- Tue, 21 Jun 2022 02:44:07 -0700 (PDT)
+ id 1o3aQd-0007Lc-H1; Tue, 21 Jun 2022 05:44:12 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id h65so15954926oia.11;
+ Tue, 21 Jun 2022 02:44:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Y30YAq9I6fVgs147wab9vg/3/AVWl6HU49zlNRg6CDA=;
- b=hoHWI7mSkLF7u0cc6UozWl4X14UXuB9UB9imNYlT+eta0sDnTywUsGfN46P3yhunyl
- VFKxTsp8aPzf7IeURc4fjx4R9+Zf2EWTyPYzP3AQTx4z7ul1OBUCPmh0B5+0kIb25J2h
- F1dCljBVH0lKUlTOW751QGHjc4bvr3Imjnigk0f9Ur5yfaUr2YEN/Zy4zH7xbQZVWw3w
- p6YwFsZhndbtvd2qtuucZ5DQeQEpfUuO9ER/A61SSfJJ5X+8yIMnvAL6PD+kax3qb4sR
- pbMO6sdM8zJSaM6SqDrah+bcQ6K42fRMRPT7AyyHS3PhcufnA5nMRiJmZRxreEweDdzn
- eATw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5oF3ZxrdLxJnDLEJTp838Mko4uONefYWsE38B6sxYYI=;
+ b=XMOB2zXnk7KNiGSiVmcKvbs5UQKrYGRDLBGnpm8MSQBAo/fTjwDE9TkcdzAKgsc1kj
+ 2D/zAAzmPgyiBRqPs8/6FFVwNGrDL+3DtNDoyWeC3ldDm8rybVO51r2KCmwDI8YV5USA
+ fjCrbY1sapZvytyOH8laERZSM041rpoKku3aJWBuo/kbqtwDyRTDQqwvVDVpXiTcJb8N
+ 6Eg+YesYLxyTk3xjWc02PnNSXWR0J+ZaLe9kNqKbyfU8V1El7OKtzWFOxdBjE+MjIzHO
+ SELSbr/hORE0BbF7UwuypJqx3/eMhvlhpd30BuyTrRDIk4sYT6zOejDVNc/BTnadORmg
+ 5naw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Y30YAq9I6fVgs147wab9vg/3/AVWl6HU49zlNRg6CDA=;
- b=gE/wmZdWsrGUknqlMbM2ldFKxjlI83EmoyXa9bh4/EL4T0oIiGbNcPPi2/0yz6ZLc7
- 2yel+N6ZpzQtGJ/DPm6PNFA5BBSgEx0S9m1IGMtwLmAOhfZ1jssBnM6d7b5pBn3/veLO
- HYW+tZ+e5YvscPBUaM676eQNDMliE49lN7bUVVLWAfx+r1FvniiHFwnji6+7HrdjNpHe
- SKSkuP24b61ZJVx41lNqz6NqZSgDdPjWZyuNFsDpWAZWgyVDoLRjK+ralSDoqrz67OXX
- pq2uUy/Dioi5gHDYQWEl5ZyEYhkDwMuawPGovuBLj80DrDijDPaXe1VUGpGUyTm3h2lU
- NYYw==
-X-Gm-Message-State: AJIora+T5D1mko2/pRJ7KVcS1CJONF88AhfzQ9cOXBjSL2eWeFXOyA2Y
- b7v+YFuijO8ZWPvwGzRN8HvMXkayIH+Wmg==
-X-Google-Smtp-Source: AGRyM1s5Hg7QF9snA8JYzlYO6fNdBJWZvyw+10O76sfNfN0ZU39Z+ROmil3+kTP2bs19AZsh6Vmv+A==
-X-Received: by 2002:a9d:7e8c:0:b0:60b:f6d0:6fa4 with SMTP id
- m12-20020a9d7e8c000000b0060bf6d06fa4mr10793379otp.4.1655804646324; 
- Tue, 21 Jun 2022 02:44:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5oF3ZxrdLxJnDLEJTp838Mko4uONefYWsE38B6sxYYI=;
+ b=WbXd4hwQsAfPygo6EZJUFr8jeOc7Cf0oxry1ujjF9DTJFGnLUwbAP+RZfK1btbtDX9
+ 08FYDifZtg6OdH0jRgSzsMnolhX+7mFlt++e+0vwjnC79zX+CKSjbRJBwpgyGY+NyZxX
+ LdQRPsEJHzn1+p3OXNm6ccPOD58lHVIKffngESgWnnQtANfS7C1lc+/T3acuRuYjJfNp
+ BZgzsg/UMI9p0oihtOq01qrjTKoJLIjFOwAb6OYD9yNgmjB4JfVaTF2T7Tyq0ILSteFS
+ eMZwBjnub+RPWNbCCrLM2G4Os+6n5R1y23SiRFkfNwpN+w4zqyoJs8Rl69jcaXZUPU1v
+ ZRSg==
+X-Gm-Message-State: AJIora/GZHLA0AqcNUo+THy30kHUO4KU7wbMbEpXBJwhZNAdQFNXhQSD
+ fcyTuYcv6PmgXJtBO/qtLLLOhE/WOtt4KA==
+X-Google-Smtp-Source: AGRyM1syD/CKs7peruujV/ZNqUb1wPeXyS/jcyOe5OwJXF3JndB/HWOI9BCzZ3USY5LTWLDNoI/Xeg==
+X-Received: by 2002:a05:6808:1a0c:b0:32f:6a3b:5164 with SMTP id
+ bk12-20020a0568081a0c00b0032f6a3b5164mr13752197oib.227.1655804648510; 
+ Tue, 21 Jun 2022 02:44:08 -0700 (PDT)
 Received: from balboa.ibmuc.com ([187.34.29.129])
  by smtp.gmail.com with ESMTPSA id
- z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.04
+ z9-20020a9d7a49000000b0061020865f1asm7555119otm.50.2022.06.21.02.44.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:44:06 -0700 (PDT)
+ Tue, 21 Jun 2022 02:44:08 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org
-Subject: [PULL 00/15] ppc queue
-Date: Tue, 21 Jun 2022 06:43:45 -0300
-Message-Id: <20220621094400.122800-1-danielhb413@gmail.com>
+ richard.henderson@linaro.org,
+ "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+Subject: [PULL 01/15] target/ppc: Implemented vector divide instructions
+Date: Tue, 21 Jun 2022 06:43:46 -0300
+Message-Id: <20220621094400.122800-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220621094400.122800-1-danielhb413@gmail.com>
+References: <20220621094400.122800-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,67 +89,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c8b2d413761af732a0798d8df45ce968732083fe:
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-  Merge tag 'bsd-user-syscall-2022q2-pull-request' of ssh://github.com/qemu-bsd-user/qemu-bsd-user into staging (2022-06-19 13:56:13 -0700)
+Implement the following PowerISA v3.1 instructions:
+vdivsw: Vector Divide Signed Word
+vdivuw: Vector Divide Unsigned Word
+vdivsd: Vector Divide Signed Doubleword
+vdivud: Vector Divide Unsigned Doubleword
 
-are available in the Git repository at:
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220525134954.85056-2-lucas.araujo@eldorado.org.br>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/insn32.decode            |  7 +++
+ target/ppc/translate/vmx-impl.c.inc | 85 +++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
 
-  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20220621
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 18a94fa3b5..6df405e398 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -786,3 +786,10 @@ XVF64GERPP      111011 ... -- .... 0 ..... 00111010 ..-  @XX3_at xa=%xx_xa_pair
+ XVF64GERPN      111011 ... -- .... 0 ..... 10111010 ..-  @XX3_at xa=%xx_xa_pair
+ XVF64GERNP      111011 ... -- .... 0 ..... 01111010 ..-  @XX3_at xa=%xx_xa_pair
+ XVF64GERNN      111011 ... -- .... 0 ..... 11111010 ..-  @XX3_at xa=%xx_xa_pair
++
++## Vector Division Instructions
++
++VDIVSW          000100 ..... ..... ..... 00110001011    @VX
++VDIVUW          000100 ..... ..... ..... 00010001011    @VX
++VDIVSD          000100 ..... ..... ..... 00111001011    @VX
++VDIVUD          000100 ..... ..... ..... 00011001011    @VX
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index d7524c3204..4c0b1a32ec 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -3238,6 +3238,91 @@ TRANS(VMULHSD, do_vx_mulh, true , do_vx_vmulhd_i64)
+ TRANS(VMULHUW, do_vx_mulh, false, do_vx_vmulhw_i64)
+ TRANS(VMULHUD, do_vx_mulh, false, do_vx_vmulhd_i64)
+ 
++static bool do_vdiv_vmod(DisasContext *ctx, arg_VX *a, const int vece,
++                         void (*func_32)(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b),
++                         void (*func_64)(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b))
++{
++    const GVecGen3 op = {
++        .fni4 = func_32,
++        .fni8 = func_64,
++        .vece = vece
++    };
++
++    REQUIRE_VECTOR(ctx);
++
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                   avr_full_offset(a->vrb), 16, 16, &op);
++
++    return true;
++}
++
++#define DIVU32(NAME, DIV)                                               \
++static void NAME(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)                    \
++{                                                                       \
++    TCGv_i32 zero = tcg_constant_i32(0);                                \
++    TCGv_i32 one = tcg_constant_i32(1);                                 \
++    tcg_gen_movcond_i32(TCG_COND_EQ, b, b, zero, one, b);               \
++    DIV(t, a, b);                                                       \
++}
++
++#define DIVS32(NAME, DIV)                                               \
++static void NAME(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)                    \
++{                                                                       \
++    TCGv_i32 t0 = tcg_temp_new_i32();                                   \
++    TCGv_i32 t1 = tcg_temp_new_i32();                                   \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t0, a, INT32_MIN);                \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t1, b, -1);                       \
++    tcg_gen_and_i32(t0, t0, t1);                                        \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t1, b, 0);                        \
++    tcg_gen_or_i32(t0, t0, t1);                                         \
++    tcg_gen_movi_i32(t1, 0);                                            \
++    tcg_gen_movcond_i32(TCG_COND_NE, b, t0, t1, t0, b);                 \
++    DIV(t, a, b);                                                       \
++    tcg_temp_free_i32(t0);                                              \
++    tcg_temp_free_i32(t1);                                              \
++}
++
++#define DIVU64(NAME, DIV)                                               \
++static void NAME(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)                    \
++{                                                                       \
++    TCGv_i64 zero = tcg_constant_i64(0);                                \
++    TCGv_i64 one = tcg_constant_i64(1);                                 \
++    tcg_gen_movcond_i64(TCG_COND_EQ, b, b, zero, one, b);               \
++    DIV(t, a, b);                                                       \
++}
++
++#define DIVS64(NAME, DIV)                                               \
++static void NAME(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)                    \
++{                                                                       \
++    TCGv_i64 t0 = tcg_temp_new_i64();                                   \
++    TCGv_i64 t1 = tcg_temp_new_i64();                                   \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t0, a, INT64_MIN);                \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t1, b, -1);                       \
++    tcg_gen_and_i64(t0, t0, t1);                                        \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t1, b, 0);                        \
++    tcg_gen_or_i64(t0, t0, t1);                                         \
++    tcg_gen_movi_i64(t1, 0);                                            \
++    tcg_gen_movcond_i64(TCG_COND_NE, b, t0, t1, t0, b);                 \
++    DIV(t, a, b);                                                       \
++    tcg_temp_free_i64(t0);                                              \
++    tcg_temp_free_i64(t1);                                              \
++}
++
++DIVS32(do_divsw, tcg_gen_div_i32)
++DIVU32(do_divuw, tcg_gen_divu_i32)
++DIVS64(do_divsd, tcg_gen_div_i64)
++DIVU64(do_divud, tcg_gen_divu_i64)
++
++TRANS_FLAGS2(ISA310, VDIVSW, do_vdiv_vmod, MO_32, do_divsw, NULL)
++TRANS_FLAGS2(ISA310, VDIVUW, do_vdiv_vmod, MO_32, do_divuw, NULL)
++TRANS_FLAGS2(ISA310, VDIVSD, do_vdiv_vmod, MO_64, NULL, do_divsd)
++TRANS_FLAGS2(ISA310, VDIVUD, do_vdiv_vmod, MO_64, NULL, do_divud)
++
++#undef DIVS32
++#undef DIVU32
++#undef DIVS64
++#undef DIVU64
++
+ #undef GEN_VR_LDX
+ #undef GEN_VR_STX
+ #undef GEN_VR_LVE
+-- 
+2.36.1
 
-for you to fetch changes up to 609b1c866925049f22a79623021076192f7a6595:
-
-  target/ppc: cpu_init: Clean up stop state on cpu reset (2022-06-20 08:38:59 -0300)
-
-----------------------------------------------------------------
-ppc patch queue for 2022-06-21:
-
-- tcg and target/ppc: vector divide instructions and a vbpermd fix for
-  BE hosts
-- ppc440_uc.c: fix boot of sam460ex machine
-- target/ppc: fix stop state on cpu reset
-- xive2: Access direct mapped thread contexts from all chips
-- a couple of Coverity fixes
-
-----------------------------------------------------------------
-Daniel Henrique Barboza (3):
-      ppc/pnv: fix extra indent spaces with DEFINE_PROP*
-      target/ppc: avoid int32 multiply overflow in int_helper.c
-      target/ppc: fix unreachable code in fpu_helper.c
-
-Frederic Barrat (2):
-      pnv/xive2: Access direct mapped thread contexts from all chips
-      target/ppc: cpu_init: Clean up stop state on cpu reset
-
-Lucas Mateus Castro (alqotel) (8):
-      target/ppc: Implemented vector divide instructions
-      target/ppc: Implemented vector divide quadword
-      target/ppc: Implemented vector divide extended word
-      host-utils: Implemented unsigned 256-by-128 division
-      host-utils: Implemented signed 256-by-128 division
-      target/ppc: Implemented remaining vector divide extended
-      target/ppc: Implemented vector module word/doubleword
-      target/ppc: Implemented vector module quadword
-
-Matheus Ferst (1):
-      target/ppc: fix vbpermd in big endian hosts
-
-Michael S. Tsirkin (1):
-      ppc: fix boot with sam460ex
-
- hw/intc/pnv_xive2.c                 |  18 +++-
- hw/pci-host/pnv_phb3.c              |   8 +-
- hw/pci-host/pnv_phb4.c              |  10 +-
- hw/pci-host/pnv_phb4_pec.c          |  10 +-
- hw/ppc/ppc440_uc.c                  |   8 ++
- include/qemu/host-utils.h           |   3 +
- include/qemu/int128.h               |  38 ++++++++
- target/ppc/cpu_init.c               |   3 +
- target/ppc/fpu_helper.c             |   2 +-
- target/ppc/helper.h                 |   8 ++
- target/ppc/insn32.decode            |  23 +++++
- target/ppc/int_helper.c             | 116 ++++++++++++++++++++++-
- target/ppc/translate/vmx-impl.c.inc | 151 ++++++++++++++++++++++++++++++
- util/host-utils.c                   | 180 ++++++++++++++++++++++++++++++++++++
- 14 files changed, 554 insertions(+), 24 deletions(-)
 
