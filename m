@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B12553073
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 13:07:53 +0200 (CEST)
-Received: from localhost ([::1]:57220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C673955313C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 13:43:49 +0200 (CEST)
+Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3bjc-0001O2-Uq
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 07:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59728)
+	id 1o3cIO-0007bu-DZ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 07:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o3bhP-0007ek-UW
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:05:36 -0400
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:60493)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o3bhN-0003W0-DW
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:05:35 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.235])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6237621D99;
- Tue, 21 Jun 2022 11:05:23 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 21 Jun
- 2022 13:05:22 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R00346fa7e42-6a7e-466e-987f-d4d8db1ca5a9,
- 968046EEA762EFF7637E46B232C9329570CD0A04) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <5c93bc68-be10-5d47-717f-91964e00e251@kaod.org>
-Date: Tue, 21 Jun 2022 13:05:22 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3cGJ-0006uE-Dt
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:41:39 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:34547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o3cGH-0001Xn-BM
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:41:39 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-317803b61e5so102337217b3.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 04:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IQy1JIWh4WPXb2aLzW6Ew09nHheJ1f2EfnQmZWItpgo=;
+ b=aNkQd/zbPSQupLSImWbl6kcCEFJCd3/iHqIfcpokGzlroH01nuUWPpVSi37jHVm5xt
+ 7jVbHOK1mVdGS1ZRlKOUQBShN+v2U1zaDJ5z7wcPgCRlqT0o03MbYk2j0RRaQx0K6v6e
+ bB/rEwBNoqfvyMn0v5rg0ibLlsq3tWSHbg6ySWKVbsG+PErCbcvQjrFd3JbIezcXS4Zt
+ YnoI/NXTkn1gHFfA1sxmNAzx/6a1hkTcmWDYF5PhTDhiv+4544jVPDb5xbSYNFTQblNU
+ Eon2DsT9yM4QPjdSK4H9Kcq1A0LWAZMjQ713PXa//SPk2P45tqXpX1AaMf92avUc/OWw
+ jz0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IQy1JIWh4WPXb2aLzW6Ew09nHheJ1f2EfnQmZWItpgo=;
+ b=JVoVoTIISYyBHLQ4jmWep1kN+vAZXsnVg4X0p29hAZIBzzwCzWErRjOGD3gzNQPpZm
+ 22+l89RKJ7RPtniiq1iKQEMAu/o3BAhmztLYdWhdS5AeUHHEAvZ7Z1BWx22urRu/5MJO
+ 4VhAvZ/nFZ5UgSlBo57BV54mu8hl8YZ30AN7Jh5iegsbJpTXVHPQd6I1kwGPOApF9uJ1
+ YLK6y0P8WYRV7mDpPtzJbYnQTxl1HvQnN6eRWiAKxN4BWXLaaFwmG6nAUeG3lMMeX+j/
+ lfdidy+m5P3bSwYY8yqwB3KWfd15C6W6Ay4OY2mSBBef09kykMhM5yCM2F+mP4CWWk1Q
+ 4dTg==
+X-Gm-Message-State: AJIora/PQ6UvMzKzzY41fOH7nC0YLhneVA0qXBMEvUDmV7sGJ3YfzToE
+ ieCnbOeuX0PlpWcvxyFvVubRgGpMwXkv7ApEUG+k7Q==
+X-Google-Smtp-Source: AGRyM1s2GIIL5Zv5/RpL4oPTCtryBhrYK1c6WrR50x8loCd2AKS4m2i1PXnovGiXsBRU6Hk73tV7hkL/uTqbFOWFf0k=
+X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
+ 195-20020a8101cc000000b00317a0fa7a61mr17649343ywb.10.1655811695996; Tue, 21
+ Jun 2022 04:41:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 1/3] ppc: Check partition and process table alignment
-Content-Language: en-US
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>, 
- <qemu-ppc@nongnu.org>
-CC: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>, <groug@kaod.org>
-References: <20220620202704.78978-1-leandro.lupori@eldorado.org.br>
- <20220620202704.78978-2-leandro.lupori@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220620202704.78978-2-leandro.lupori@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b8437f77-70c1-495e-aae0-0ebacb86d7b7
-X-Ovh-Tracer-Id: 11957901439202134822
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeffedgfeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220620192242.70573-1-agraf@csgraf.de>
+ <20220620192242.70573-2-agraf@csgraf.de>
+In-Reply-To: <20220620192242.70573-2-agraf@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jun 2022 12:41:25 +0100
+Message-ID: <CAFEAcA8=ThZ_texhcH2vqMicpAxOR9G1jtpCyBDbz9gbk5yg=w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] target/arm: Catch invalid kvm state also for hvf
+To: Alexander Graf <agraf@csgraf.de>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,136 +84,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/22 22:27, Leandro Lupori wrote:
-> Check if partition and process tables are properly aligned, in
-> their size, according to PowerISA 3.1B, Book III 6.7.6 programming
-> note. Hardware and KVM also raise an exception in these cases.
-> 
-> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-> ---
->   hw/ppc/spapr.c             |  5 +++++
->   hw/ppc/spapr_hcall.c       |  9 +++++++++
->   target/ppc/mmu-book3s-v3.c |  5 +++++
->   target/ppc/mmu-radix64.c   | 17 +++++++++++++----
->   4 files changed, 32 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index fd4942e881..4b1f346087 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1329,6 +1329,11 @@ static bool spapr_get_pate(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
->           patb = spapr->nested_ptcr & PTCR_PATB;
->           pats = spapr->nested_ptcr & PTCR_PATS;
->   
-> +        /* Check if partition table is properly aligned */
-> +        if (patb & MAKE_64BIT_MASK(0, pats + 12)) {
-> +            return false;
-> +        }
-> +
->           /* Calculate number of entries */
->           pats = 1ull << (pats + 12 - 4);
->           if (pats <= lpid) {
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index d761a7d0c3..2a73ba8a1d 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -920,6 +920,7 @@ static target_ulong h_register_process_table(PowerPCCPU *cpu,
->       target_ulong page_size = args[2];
->       target_ulong table_size = args[3];
->       target_ulong update_lpcr = 0;
-> +    target_ulong table_byte_size;
->       uint64_t cproc;
->   
->       if (flags & ~FLAGS_MASK) { /* Check no reserved bits are set */
-> @@ -927,6 +928,14 @@ static target_ulong h_register_process_table(PowerPCCPU *cpu,
->       }
->       if (flags & FLAG_MODIFY) {
->           if (flags & FLAG_REGISTER) {
-> +            /* Check process table alignment */
-> +            table_byte_size = 1ULL << (table_size + 12);
-> +            if (proc_tbl & (table_byte_size - 1)) {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                    "%s: process table not properly aligned: "
-> +                    "proc_tbl 0x%lx proc_tbl_size 0x%lx\n",
-> +                    __func__, proc_tbl, table_byte_size);
-> +            }
-I think you might need to use some define for the format. Looks good
-otherwise.
-
-Thanks,
-
-C.
+On Mon, 20 Jun 2022 at 20:22, Alexander Graf <agraf@csgraf.de> wrote:
+>
+> Some features such as running in EL3 or running M profile code are
+> incompatible with virtualization as QEMU implements it today. To prevent
+> users from picking invalid configurations on other virt solutions like
+> Hvf, let's run the same checks there too.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1073
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
 
 
->               if (flags & FLAG_RADIX) { /* Register new RADIX process table */
->                   if (proc_tbl & 0xfff || proc_tbl >> 60) {
->                       return H_P2;
-> diff --git a/target/ppc/mmu-book3s-v3.c b/target/ppc/mmu-book3s-v3.c
-> index f4985bae78..c8f69b3df9 100644
-> --- a/target/ppc/mmu-book3s-v3.c
-> +++ b/target/ppc/mmu-book3s-v3.c
-> @@ -28,6 +28,11 @@ bool ppc64_v3_get_pate(PowerPCCPU *cpu, target_ulong lpid, ppc_v3_pate_t *entry)
->       uint64_t patb = cpu->env.spr[SPR_PTCR] & PTCR_PATB;
->       uint64_t pats = cpu->env.spr[SPR_PTCR] & PTCR_PATS;
->   
-> +    /* Check if partition table is properly aligned */
-> +    if (patb & MAKE_64BIT_MASK(0, pats + 12)) {
-> +        return false;
-> +    }
-> +
->       /* Calculate number of entries */
->       pats = 1ull << (pats + 12 - 4);
->       if (pats <= lpid) {
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 21ac958e48..9a8a2e2875 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -383,7 +383,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->   {
->       CPUState *cs = CPU(cpu);
->       CPUPPCState *env = &cpu->env;
-> -    uint64_t offset, size, prtbe_addr, prtbe0, base_addr, nls, index, pte;
-> +    uint64_t offset, size, prtb, prtbe_addr, prtbe0, base_addr, nls, index, pte;
->       int fault_cause = 0, h_page_size, h_prot;
->       hwaddr h_raddr, pte_addr;
->       int ret;
-> @@ -393,9 +393,18 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->                     __func__, access_str(access_type),
->                     eaddr, mmu_idx, pid);
->   
-> +    prtb = (pate.dw1 & PATE1_R_PRTB);
-> +    size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
-> +    if (prtb & (size - 1)) {
-> +        /* Process Table not properly aligned */
-> +        if (guest_visible) {
-> +            ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_R_BADCONFIG);
-> +        }
-> +        return 1;
-> +    }
-> +
->       /* Index Process Table by PID to Find Corresponding Process Table Entry */
->       offset = pid * sizeof(struct prtb_entry);
-> -    size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
->       if (offset >= size) {
->           /* offset exceeds size of the process table */
->           if (guest_visible) {
-> @@ -403,7 +412,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->           }
->           return 1;
->       }
-> -    prtbe_addr = (pate.dw1 & PATE1_R_PRTB) + offset;
-> +    prtbe_addr = prtb + offset;
->   
->       if (vhyp_flat_addressing(cpu)) {
->           prtbe0 = ldq_phys(cs->as, prtbe_addr);
-> @@ -568,7 +577,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
->           return false;
->       }
->   
-> -    /* Get Process Table */
-> +    /* Get Partition Table */
->       if (cpu->vhyp) {
->           PPCVirtualHypervisorClass *vhc;
->           vhc = PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1490,7 +1490,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>          }
+>      }
+>
+> -    if (kvm_enabled()) {
+> +    if (!tcg_enabled()) {
 
+I'm a bit surprised we don't need to also have "&& !qtest_enabled()",
+but I guess if "make check" works then we're fine :-)
+
+-- PMM
 
