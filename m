@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D81552AC9
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 08:09:19 +0200 (CEST)
-Received: from localhost ([::1]:47852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C105552B97
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 09:17:06 +0200 (CEST)
+Received: from localhost ([::1]:59598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3X4f-0005RY-Iv
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 02:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51584)
+	id 1o3Y8F-0000nl-Nh
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 03:17:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o3X0Q-00041y-0J
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 02:04:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47321)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3Y5v-00004v-Cw
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:14:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o3X0K-0006HY-L3
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 02:04:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3Y5s-0008Gm-20
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 03:14:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655791485;
+ s=mimecast20190719; t=1655795675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VYoffPdFnO3usAS2921ioqyhgWLZyrEuOEOT+pfB4AY=;
- b=TFh0DGutlMxC/AFqZ+UE7p76BNQcLSnXSYs/xyNZ6PMX87dXdASsZDmiT/tyw0ol3Zr0VT
- SSdQSBO6lLbjPoycObbNN3omzsKk3xIWQ8CNddashfRUijnEaLF/1hviFHlvwiL/AJ2RIf
- 3FOpN6rtEJXNjocmaAwC5ZZ37X69Thw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4GKK6NNUfPhawrOhxOEb7cjf1QSg9pxpZm8H0PBIG9I=;
+ b=LLgyajY8cqXhL2UoVKlqT0oZgeWemOfwAUIlgKFJN2HqFRPE8CYpADuF8++Ftu8yRRyJwa
+ ZXOXaBe9U92WpgiN1lUCAdjUxGDz5ylEuz4Bu1ctCNJKwEI2nPriUk16NlknVrKPHE4S13
+ /+k4wUZnsDWrwBuF6sR5JkXVnWw9ts0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-281-x_2WaXutN8KVEhCFENZijQ-1; Tue, 21 Jun 2022 02:04:44 -0400
-X-MC-Unique: x_2WaXutN8KVEhCFENZijQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l17-20020a05600c4f1100b0039c860db521so5908799wmq.5
- for <qemu-devel@nongnu.org>; Mon, 20 Jun 2022 23:04:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=VYoffPdFnO3usAS2921ioqyhgWLZyrEuOEOT+pfB4AY=;
- b=mI8cy7DZRpwAuBluEqExugADTg0LtytX8i49jtel4CtFraVkIVb+VQ4ZUJJWBo7Oqv
- 92Zedq3koX05Nqad9U0BHjKRUbw/jN10HEFOLHB/LzRddeeAW2hTM/Jc0oRpkrMW6lek
- 4Vz5X0oG8ZeH9iYjx+EOwOVPsTadAsxJA4VV/08Hqp5IsGHmNfpvcZmu1dCTUDvaKICK
- j/qh0A6OZmS7UfiDJX3d2VgYQPkgAwmQjdyLL9+4WIcin7kNAN9djFQMjMMtrLDSDK/4
- FcnA8DDBy/7pk4H799cEQoCB+x0d8GnTfyh5fKmzx9BXHTD4Iaf1M3eU5JjwdDlUUT9J
- n5wQ==
-X-Gm-Message-State: AJIora+7jqmsqg9TKqFfnwEChpH4PIuVG2efHWlJDJ4IRuGFLLtcgSYZ
- uSkX/w0oMsvYvUSfpvQFKHtvGcioEyvPXrk4fKbdQ4D8p+6i1cjG+AXE4kjIDphj2QdFtpssQnR
- IvwmEKLqTCS+BPPY=
-X-Received: by 2002:a1c:29c1:0:b0:39d:86c0:3ece with SMTP id
- p184-20020a1c29c1000000b0039d86c03ecemr27544417wmp.138.1655791483017; 
- Mon, 20 Jun 2022 23:04:43 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uE9/FObnpSIyFONNTOs3CtPZQpGbBc1WZTEu9kmlraLfmFaw6oO6qCdjmfg7NWG8id4HWQLg==
-X-Received: by 2002:a1c:29c1:0:b0:39d:86c0:3ece with SMTP id
- p184-20020a1c29c1000000b0039d86c03ecemr27544400wmp.138.1655791482740; 
- Mon, 20 Jun 2022 23:04:42 -0700 (PDT)
-Received: from redhat.com ([2.53.15.87]) by smtp.gmail.com with ESMTPSA id
- k7-20020a7bc407000000b0039c747a1e8fsm22733232wmi.7.2022.06.20.23.04.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 23:04:42 -0700 (PDT)
-Date: Tue, 21 Jun 2022 02:04:37 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffman <kraxel@redhat.com>
-Cc: Dionna Glaze <dionnaglaze@google.com>, qemu-devel@nongnu.org,
- Xu@google.com, Min M <min.m.xu@intel.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>,
- Thomas Lendacky <Thomas.Lendacky@amd.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] hw/i386: Add unaccepted memory configuration
-Message-ID: <20220621020150-mutt-send-email-mst@kernel.org>
-References: <20220620223300.1555849-1-dionnaglaze@google.com>
- <20220621053702.oqzkmij4b4jm4ysd@sirius.home.kraxel.org>
+ us-mta-622-6Yh6NJvvNoKWyoOrDl7aOQ-1; Tue, 21 Jun 2022 03:14:31 -0400
+X-MC-Unique: 6Yh6NJvvNoKWyoOrDl7aOQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E10A3801756
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:14:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB1E040334D;
+ Tue, 21 Jun 2022 07:14:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7C70C21E688E; Tue, 21 Jun 2022 09:14:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com,  John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [libvirt PATCH v2] tools: add virt-qmp-proxy for proxying QMP
+ clients to libvirt QEMU guests
+References: <20220620171950.1416742-1-berrange@redhat.com>
+Date: Tue, 21 Jun 2022 09:14:29 +0200
+In-Reply-To: <20220620171950.1416742-1-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Mon, 20 Jun 2022 18:19:50
+ +0100")
+Message-ID: <8735fywkru.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220621053702.oqzkmij4b4jm4ysd@sirius.home.kraxel.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -103,31 +84,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 21, 2022 at 07:37:02AM +0200, Gerd Hoffman wrote:
-> On Mon, Jun 20, 2022 at 10:33:00PM +0000, Dionna Glaze wrote:
-> > For SEV-SNP, an OS is "SEV-SNP capable" without supporting this UEFI
-> > v2.9 memory type. In order for OVMF to be able to avoid pre-validating
-> > potentially hundreds of gibibytes of data before booting, it needs to
-> > know if the guest OS can support its use of the new type of memory in
-> > the memory map.
-> 
-> I think this should be wired up via sev-guest object (see
-> SevGuestProperties in qapi/qom.json and target/i386/sev.c),
-> i.e.
-> 
-> qemu -object sev-guest,accept-all-memory=true,$args
-> 
-> (and likewise for -object tdx-guest once merged).
-> 
-> take care,
->   Gerd
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Right. As written the patch would allow the flag without SEV-SNP too -
-but does it make any sense outside SEV-SNP? It's better not to allow
-flag combinations that make no sense since they tend to
-become part of ABI that we then need to support.
+> Libvirt provides QMP passthrough APIs for the QEMU driver and these are
+> exposed in virsh. It is not especially pleasant, however, using the raw
+> QMP JSON syntax. QEMU has a tool 'qmp-shell' which can speak QMP and
+> exposes a human friendly interactive shell. It is not possible to use
+> this with libvirt managed guest, however, since only one client can
+> attach to he QMP socket at any point in time.
 
--- 
-MST
+On the other hand, you can configure multiple QMP monitors.
+
+Regardless, users get to do with QMP what users find useful.  No
+objections from me.
+
+> The virt-qmp-proxy tool aims to solve this problem. It opens a UNIX
+> socket and listens for incoming client connections, speaking QMP on
+> the connected socket. It will forward any QMP commands received onto
+> the running libvirt QEMU guest, and forward any replies back to the
+> QMP client.
+>
+>   $ virsh start demo
+>   $ virt-qmp-proxy demo demo.qmp &
+>   $ qmp-shell demo.qmp
+>   Welcome to the QMP low-level shell!
+>   Connected to QEMU 6.2.0
+>
+>   (QEMU) query-kvm
+>   {
+>       "return": {
+>           "enabled": true,
+>           "present": true
+>       }
+>   }
+>
+> Note this tool of course has the same risks as the raw libvirt
+> QMP passthrough. It is safe to run query commands to fetch information
+> but commands which change the QEMU state risk disrupting libvirt's
+> management of QEMU, potentially resulting in data loss/corruption in
+> the worst case.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
