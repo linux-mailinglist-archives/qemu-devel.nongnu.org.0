@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E07755343C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:12:10 +0200 (CEST)
-Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1D15534A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:37:35 +0200 (CEST)
+Received: from localhost ([::1]:49732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ebx-00012I-Ms
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42464)
+	id 1o3f0W-000073-9b
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:37:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3eVg-0003I5-IE
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:05:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21444)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o3eVe-000084-Tx
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:05:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655820338;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uJg/WFGZVTtU9gkUoEDGA71eYp5/Sv32u/ewLvjUnxA=;
- b=Otm7FdKMfM4cJ1HftubTqkn9uTyCg/ehjnGS8laaQ0EjxRr56jDxPaUbjVgCvH3ib640FO
- ZWLqVz3i6bYwsLdOqnc/dxreSzT+0hnvvSiIX++UIDKqJtGX84C2vlUvAEoMSDpLUXab4X
- eqyjA07WbubkELqLGOC9e0bEwcP7xqc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-vGX8YB88O_CZ-pbxGFXSAQ-1; Tue, 21 Jun 2022 10:05:33 -0400
-X-MC-Unique: vGX8YB88O_CZ-pbxGFXSAQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83B4C101E986;
- Tue, 21 Jun 2022 14:05:32 +0000 (UTC)
-Received: from secure.laptop (unknown [10.39.192.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A571E2166B26;
- Tue, 21 Jun 2022 14:05:29 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Leonardo Bras <leobras@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH 5/5] multifd: Only sync once each full round of memory
-Date: Tue, 21 Jun 2022 16:05:07 +0200
-Message-Id: <20220621140507.1246-6-quintela@redhat.com>
-In-Reply-To: <20220621140507.1246-1-quintela@redhat.com>
-References: <20220621140507.1246-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3ecA-0002YE-BO
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:12:22 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:36526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o3ec8-00019n-MC
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:12:22 -0400
+Received: by mail-pl1-x632.google.com with SMTP id m2so5398114plx.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:12:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=s6A3oTSWq0J7hhHpyOtJeyY++etwnlURlQTr2A0tir4=;
+ b=k4W5lC49/WLdTiQ4MgxjIU2WZxk1jFITeHUV+AsgA1xyKo33WAYkz8bkdPrmBio7VV
+ 6DlZgFvYRi6rXNiBpVOnDkH1tVZUT2RPh7Nb+vFzkP2Vh5wLTyuWDoc34IfR7/2nN634
+ c/J9SETqBAwj5ea4MZaij08UHv7hl2dzS3VENYDUw7Kp6/XQPckGYd3HgDKdlWs2u/n8
+ /LTBQ8km1wf0F8gNi5Hp3Gvj9KZDcvpbFVfffPLmGcBsvwiShJyGz+a9nAQULGj1zv5s
+ dMd0bMgaceEVKGzx5t/ES77l5UltZ4WMWPHNCGjhL+Gn/qr4ahUb/zBsslHHG/KN0tNi
+ O6tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=s6A3oTSWq0J7hhHpyOtJeyY++etwnlURlQTr2A0tir4=;
+ b=PR9sZCMUFky5DJqTVZbv8ZIl6I4pgsNC9tnOzF/Wp8ZNtzV9E3iiAD8l9YzGhwZRcs
+ GJJePI+Nzbu3rA3R9Os1rb8DggsJsH++Lj5BSMkTyaHFvu4tnZ15PMoP76jMIe806r8Q
+ 9cQ7fxP/ZPC1gRhoZB2QBCXXy9TzvTio5PxywfGyxsp8PaC/zWnqr+CS+1yGJwXsb9PC
+ 7z1SmryaOW6TrwQE1H8pwn+9UGJtmu/EOGIAxwwcJR2inNGxDIhbvRuibcLWkk5QgyHU
+ meXAgErVpIEy/rwoFgCvFAGbiJMY+CzoydsdPY5mE4w7An1xY4OfBmwrK1kr/d362K//
+ QCGg==
+X-Gm-Message-State: AJIora/EtKCEgjv/O16EGIZD39WffIuLLxzNa3qw8eBNgMBKfvz2qllO
+ v1nGAG0sOudC+xCruisse3BAAw==
+X-Google-Smtp-Source: AGRyM1sg9WOqym7bAfwOsJ0MGwGJh7+VBfhYnxUA9pbCRNw33oFchXUiR/v1W17Otmedxw+du4sXkA==
+X-Received: by 2002:a17:903:1105:b0:168:fa61:147f with SMTP id
+ n5-20020a170903110500b00168fa61147fmr28170559plh.72.1655820738849; 
+ Tue, 21 Jun 2022 07:12:18 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49e:3c01:8adc:a144:6ec2:4d71?
+ ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
+ by smtp.gmail.com with ESMTPSA id
+ p11-20020a170903248b00b001618b70dcc9sm10761304plw.101.2022.06.21.07.12.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jun 2022 07:12:18 -0700 (PDT)
+Message-ID: <ddfbcffc-dabd-d7e7-03fc-924e8048de42@linaro.org>
+Date: Tue, 21 Jun 2022 07:12:16 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v18 02/13] linux-user: Add LoongArch signal support
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20220620093401.3727352-1-gaosong@loongson.cn>
+ <20220620093401.3727352-3-gaosong@loongson.cn>
+ <60e4b2f3-8e62-bd81-7ef3-298863afe16c@linaro.org>
+ <978a16a0-8d4b-411d-5235-475aa2804857@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <978a16a0-8d4b-411d-5235-475aa2804857@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,134 +96,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to add a new flag to mean to sync at that point.
-Notice that we still synchronize at the end of setup and at the end of
-complete stages.
+On 6/20/22 20:56, gaosong wrote:
+>> This is missing lock_user/unlock_user somewhere.
+>> You can't use the double-underscore __get/__put_user without having done that.
+>>
+> My understanding is that the struct exctx need lock_user_struct/unlock_user_struct,  then 
+> we can use __get/__put the struct extctx.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/migration.c |  2 +-
- migration/ram.c       | 42 ++++++++++++++++++++++++++++++------------
- 2 files changed, 31 insertions(+), 13 deletions(-)
+No, extctx does not exist in target memory.  It is purely local to the signal 
+implementation as a way of tracking the layout.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 3f79df0b70..6627787fc2 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -4283,7 +4283,7 @@ static Property migration_properties[] = {
-                       DEFAULT_MIGRATE_ANNOUNCE_STEP),
-     /* We will change to false when we introduce the new mechanism */
-     DEFINE_PROP_BOOL("multifd-sync-each-iteration", MigrationState,
--                      multifd_sync_each_iteration, true),
-+                      multifd_sync_each_iteration, false),
- 
-     /* Migration capabilities */
-     DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
-diff --git a/migration/ram.c b/migration/ram.c
-index 2c7289edad..6792986565 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -81,6 +81,7 @@
- #define RAM_SAVE_FLAG_XBZRLE   0x40
- /* 0x80 is reserved in migration.h start with 0x100 next */
- #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
-+#define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
- 
- XBZRLECacheStats xbzrle_counters;
- 
-@@ -1482,6 +1483,7 @@ retry:
-  * associated with the search process.
-  *
-  * Returns:
-+ *        <0: An error happened
-  *         0: no page found, give up
-  *         1: no page found, retry
-  *         2: page found
-@@ -1510,6 +1512,13 @@ static int find_dirty_block(RAMState *rs, PageSearchStatus *pss)
-         pss->page = 0;
-         pss->block = QLIST_NEXT_RCU(pss->block, next);
-         if (!pss->block) {
-+            if (!migrate_multifd_sync_each_iteration()) {
-+                int ret = multifd_send_sync_main(rs->f);
-+                if (ret < 0) {
-+                    return ret;
-+                }
-+                qemu_put_be64(rs->f, RAM_SAVE_FLAG_MULTIFD_SYNC);
-+            }
-             /*
-              * If memory migration starts over, we will meet a dirtied page
-              * which may still exists in compression threads's ring, so we
-@@ -2273,7 +2282,8 @@ static int ram_find_and_save_block(RAMState *rs)
-         if (!get_queued_page(rs, &pss)) {
-             /* priority queue empty, so just search for something dirty */
-             int res = find_dirty_block(rs, &pss);
--            if (res == 0) {
-+            if (res <= 0) {
-+                pages = res;
-                 break;
-             } else if (res == 1)
-                 continue;
-@@ -2943,11 +2953,13 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
-     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
- 
--    if (migrate_multifd_sync_each_iteration()) {
--        ret =  multifd_send_sync_main(f);
--        if (ret < 0) {
--            return ret;
--        }
-+    ret =  multifd_send_sync_main(f);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    if (!migrate_multifd_sync_each_iteration()) {
-+        qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_SYNC);
-     }
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-     qemu_fflush(f);
-@@ -3127,13 +3139,14 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         return ret;
-     }
- 
--    if (migrate_multifd_sync_each_iteration()) {
--        ret = multifd_send_sync_main(rs->f);
--        if (ret < 0) {
--            return ret;
--        }
-+    ret = multifd_send_sync_main(rs->f);
-+    if (ret < 0) {
-+        return ret;
-     }
- 
-+    if (migrate_multifd_sync_each_iteration()) {
-+        qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_SYNC);
-+    }
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-     qemu_fflush(f);
- 
-@@ -3800,7 +3813,9 @@ int ram_load_postcopy(QEMUFile *f)
-             }
-             decompress_data_with_multi_threads(f, page_buffer, len);
-             break;
--
-+        case RAM_SAVE_FLAG_MULTIFD_SYNC:
-+            multifd_recv_sync_main();
-+            break;
-         case RAM_SAVE_FLAG_EOS:
-             /* normal exit */
-             if (migrate_multifd_sync_each_iteration()) {
-@@ -4079,6 +4094,9 @@ static int ram_load_precopy(QEMUFile *f)
-                 break;
-             }
-             break;
-+        case RAM_SAVE_FLAG_MULTIFD_SYNC:
-+            multifd_recv_sync_main();
-+            break;
-         case RAM_SAVE_FLAG_EOS:
-             /* normal exit */
-             if (migrate_multifd_sync_each_iteration()) {
--- 
-2.34.1
+>> This is why I suggested statically allocating the extra
+>> pieces of the signal frame *on write*.  You obviously
+>> cannot rely on the signal frame being identical on
+>> signal return -- the guest is allowed to create any valid
+>> context to give to rt_sigreturn.
+>>
+> I don’t know if my understanding is correct,
+> 
+> we can put the exctx or target_fpu_context into target_rt_sigframe, like this:
+> struct target_rt_sigframe {
+>      struct target_siginfo rs_info;
+>      struct target_ucontext rs_uc;
+>      struct extctx_layout rs_ext;
+> };
 
+No.
+
+You need to look at what the code in setup_extcontext does.
+It allocates two sctx_info and one fpu_context on the stack.
+Thus the structure would look like
+
+struct target_rt_sigframe {
+     struct target_siginfo rs_info;
+     struct target_ucontext rs_uc;
+     struct sctx_info rs_fpu_info QEMU_ALIGNED(16);
+     struct target_fp_context rs_fpu;
+     struct sctx_info rs_end_info QEMU_ALIGNED(16);
+};
+
+
+r~
 
