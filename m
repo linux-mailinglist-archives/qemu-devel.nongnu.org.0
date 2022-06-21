@@ -2,104 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA69552D26
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 10:37:02 +0200 (CEST)
-Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AD1552D65
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 10:51:19 +0200 (CEST)
+Received: from localhost ([::1]:57900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ZNd-00071O-Mx
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 04:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59174)
+	id 1o3ZbR-0004c9-MG
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 04:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o3ZLZ-0005WR-RN
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 04:34:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24646)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o3ZZJ-0003gy-R3; Tue, 21 Jun 2022 04:49:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11732
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o3ZLW-0005SL-64
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 04:34:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655800489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x4/NKdx4Jn5+aeFXNZGDiz07xT21Ef0fnieRcXglp9w=;
- b=EUBIOiGQ03fZVejJUKKhW8kZ7+7utkE5Y0bGbMFpAeO2ZHK6LKeJjQlgsXX17p5wHJ1hmA
- Ag9DYf+lUTnlsF1Dh7VQE/3M9pw8MFF8me1noriS3GXlmPKXYcF5k2elTfIHbdQ5fAoDqP
- SzWwQuBleqCQH5WarOCDgqVwMKNsNOs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-hSQcwH9zNwCembjXHoIw-A-1; Tue, 21 Jun 2022 04:34:47 -0400
-X-MC-Unique: hSQcwH9zNwCembjXHoIw-A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l4-20020a05600c1d0400b0039c60535405so4026725wms.6
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 01:34:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=x4/NKdx4Jn5+aeFXNZGDiz07xT21Ef0fnieRcXglp9w=;
- b=CvWYNAbwKT6Z5UGlGL/HR+DVaQf+2uy8A39N/Dz3X0kg9bOgjZtzq8BLSikiXw+k4v
- zS48z4l/6HP/a8o6C2op1FnvFo8V84BK07bCTrIOurLNeedN2KMvTpHLC/mrHlwsnJdd
- JtQBLNoO2RUcY+AkmBkL4sZC5vgaKr/VbTncE14pNMK1+TXi90rgfqI/eycLHdR6+WTG
- ev3om9RgTYl65LxkYv6e85c6Y40XxRhkw863GlA0KD5oM8L2kCCaNCiiv2ntvqwm+v7y
- UEaKPsvZn5nKH9aWMVK3FJSJkWFK6YjAZjX72dIUukoSRgeKEGuK2Gnj13fvi7C3bXKc
- 77MA==
-X-Gm-Message-State: AJIora8f1fwd2m5pHNVr6g6s9JWa9ZxzhjVrckpWxz5R/52jx0ssG+3l
- qLUAOPNj+wHtVxyDh9DSvx5K12OC6NRZJydJuOq6fdcCu7JdUVaY59SpS7LLWCXtg3RRNSeN9OP
- lk6KAinhlzWbubYw=
-X-Received: by 2002:a7b:cc87:0:b0:3a0:19f0:e275 with SMTP id
- p7-20020a7bcc87000000b003a019f0e275mr6891011wma.70.1655800486669; 
- Tue, 21 Jun 2022 01:34:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u8q+lh6VfpvUizmj0lzxUZwSAwPfknIX4WAhllLyzEd9Dur98nFjOK2qOGXjUl4dEabVgCJw==
-X-Received: by 2002:a7b:cc87:0:b0:3a0:19f0:e275 with SMTP id
- p7-20020a7bcc87000000b003a019f0e275mr6890976wma.70.1655800486358; 
- Tue, 21 Jun 2022 01:34:46 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f04:2500:cdb0:9b78:d423:43f?
- (p200300d82f042500cdb09b78d423043f.dip0.t-ipconnect.de.
- [2003:d8:2f04:2500:cdb0:9b78:d423:43f])
- by smtp.gmail.com with ESMTPSA id
- bn19-20020a056000061300b002103a7c5c91sm12965934wrb.43.2022.06.21.01.34.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 01:34:45 -0700 (PDT)
-Message-ID: <05eab126-b789-ccdf-6d99-f80ffab0c00a@redhat.com>
-Date: Tue, 21 Jun 2022 10:34:42 +0200
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o3ZZH-0007TR-9N; Tue, 21 Jun 2022 04:49:05 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25L8hMWa000334;
+ Tue, 21 Jun 2022 08:48:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Imsqd4YQPkQbGT3qlwlhrbAqLc5aXL3ko5e5l2IHQ9c=;
+ b=RIc6xc1tUFeMewxueQP92Q3I3WIaUait1yHe36N27q9dYa6rsckjoVD7cklsSBYey4wI
+ 7zpZfMK6CcJjUL6ZqA9O40ycv4tg88ZlD99MzD1Ui0qfh0c6FhPL66vFJKdEyVDOl3GC
+ FilTecRsWj3HEeq9Ad5M3OsfxotKYnBiYJXf687VtXQfxuG3M451lT8qlvRGKfDR5B4K
+ lxBa3etGrJT3iyJAXEoHGtWhdExDeMQRm9Z1Eopw4LjwRfatA8PL3WElWUQu3MVe9PWy
+ SkAFUlgc3Hv4Zz6O3ucbXIdUdqsrgX6SFkxeoNGPRvpaz08VDlS2b3SnrvAS4WNo14Pg Mw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3guaqnr5nk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 08:48:58 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25L8hhX6001033;
+ Tue, 21 Jun 2022 08:48:58 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3guaqnr5m9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 08:48:58 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25L8b7Sf020863;
+ Tue, 21 Jun 2022 08:48:56 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma02fra.de.ibm.com with ESMTP id 3gs6b8tw57-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jun 2022 08:48:56 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 25L8mxPF21561846
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Jun 2022 08:48:59 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DAE5C11C054;
+ Tue, 21 Jun 2022 08:48:53 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9580411C050;
+ Tue, 21 Jun 2022 08:48:53 +0000 (GMT)
+Received: from [9.145.155.216] (unknown [9.145.155.216])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 21 Jun 2022 08:48:53 +0000 (GMT)
+Message-ID: <6d522359-1c33-6cd1-c4c0-05d5d7509693@linux.ibm.com>
+Date: Tue, 21 Jun 2022 10:48:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 5/9] ppc/pnv: make pnv_ics_get() use the chip8->phbs[]
+ array
 Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-References: <20220609135851.42193-1-alxndr@bu.edu>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220609135851.42193-1-alxndr@bu.edu>
-Content-Type: text/plain; charset=UTF-8
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org
+References: <20220618110202.87735-1-danielhb413@gmail.com>
+ <20220618110202.87735-6-danielhb413@gmail.com>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <20220618110202.87735-6-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: s1AK81sb7kQ_cNvhEL6ukjEoCmWPHeRH
+X-Proofpoint-GUID: 77rvAQmj53f8c4UkQTFv-eOk4Eq2NcCo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-21_03,2022-06-17_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ suspectscore=0 mlxlogscore=602 spamscore=0 lowpriorityscore=0
+ malwarescore=0 adultscore=0 mlxscore=0 bulkscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206210036
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,139 +118,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.06.22 15:58, Alexander Bulekov wrote:
-> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> This flag is set/checked prior to calling a device's MemoryRegion
-> handlers, and set when device code initiates DMA.  The purpose of this
-> flag is to prevent two types of DMA-based reentrancy issues:
+
+
+On 18/06/2022 13:01, Daniel Henrique Barboza wrote:
+> The function is working today by getting all the child objects of the
+> chip, interacting with each of them to check whether the child is a PHB,
+> and then doing what needs to be done.
 > 
-> 1.) mmio -> dma -> mmio case
-> 2.) bh -> dma write -> mmio case
+> We have all the chip PHBs in the phbs[] array so interacting with all
+> child objects is unneeded. Open code pnv_ics_get_phb_ics() into
+> pnv_ics_get() and remove both pnv_ics_get_phb_ics() and the
+> ForeachPhb3Args struct.
 > 
-> These issues have led to problems such as stack-exhaustion and
-> use-after-frees.
-> 
-> Summary of the problem from Peter Maydell:
-> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  include/hw/pci/pci.h   | 13 +++++++++++--
->  include/hw/qdev-core.h |  3 +++
->  softmmu/dma-helpers.c  | 12 ++++++++++++
->  softmmu/memory.c       | 15 +++++++++++++++
->  softmmu/trace-events   |  1 +
->  5 files changed, 42 insertions(+), 2 deletions(-)
+
+
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+
+   Fred
+
+
+>   hw/ppc/pnv.c | 38 +++++++++++---------------------------
+>   1 file changed, 11 insertions(+), 27 deletions(-)
 > 
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 44dacfa224..ab1ad0f7a8 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
->                                       void *buf, dma_addr_t len,
->                                       DMADirection dir, MemTxAttrs attrs)
->  {
-> -    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-> -                         dir, attrs);
-> +    bool prior_engaged_state;
-> +    MemTxResult result;
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 40e0cbd84d..ff7f803662 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1939,44 +1939,28 @@ PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
+>       return NULL;
+>   }
+>   
+> -typedef struct ForeachPhb3Args {
+> -    int irq;
+> -    ICSState *ics;
+> -} ForeachPhb3Args;
+> -
+> -static int pnv_ics_get_child(Object *child, void *opaque)
+> -{
+> -    ForeachPhb3Args *args = opaque;
+> -    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
+> -
+> -    if (phb3) {
+> -        if (ics_valid_irq(&phb3->lsis, args->irq)) {
+> -            args->ics = &phb3->lsis;
+> -        }
+> -        if (ics_valid_irq(ICS(&phb3->msis), args->irq)) {
+> -            args->ics = ICS(&phb3->msis);
+> -        }
+> -    }
+> -    return args->ics ? 1 : 0;
+> -}
+> -
+>   static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
+>   {
+>       PnvMachineState *pnv = PNV_MACHINE(xi);
+> -    ForeachPhb3Args args = { irq, NULL };
+> -    int i;
+> +    int i, j;
+>   
+>       for (i = 0; i < pnv->num_chips; i++) {
+> -        PnvChip *chip = pnv->chips[i];
+>           Pnv8Chip *chip8 = PNV8_CHIP(pnv->chips[i]);
+>   
+>           if (ics_valid_irq(&chip8->psi.ics, irq)) {
+>               return &chip8->psi.ics;
+>           }
+>   
+> -        object_child_foreach(OBJECT(chip), pnv_ics_get_child, &args);
+> -        if (args.ics) {
+> -            return args.ics;
+> +        for (j = 0; j < chip8->num_phbs; j++) {
+> +            PnvPHB3 *phb3 = &chip8->phbs[j];
 > +
-> +    prior_engaged_state = dev->qdev.engaged_in_io;
+> +            if (ics_valid_irq(&phb3->lsis, irq)) {
+> +                return &phb3->lsis;
+> +            }
 > +
-> +    dev->qdev.engaged_in_io = true;
-> +    result = dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-> +                           dir, attrs);
-> +    dev->qdev.engaged_in_io = prior_engaged_state;
-> +
-> +    return result;
->  }
->  
->  /**
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 92c3d65208..6474dc51fa 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -193,6 +193,9 @@ struct DeviceState {
->      int instance_id_alias;
->      int alias_required_for_version;
->      ResettableState reset;
-> +
-> +    /* Is the device currently in mmio/pio/dma? Used to prevent re-entrancy */
-> +    int engaged_in_io;
->  };
->  
->  struct DeviceListener {
-> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-> index 7820fec54c..7a4f1fb9b3 100644
-> --- a/softmmu/dma-helpers.c
-> +++ b/softmmu/dma-helpers.c
-> @@ -288,8 +288,16 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
->      uint8_t *ptr = buf;
->      dma_addr_t xresidual;
->      int sg_cur_index;
-> +    DeviceState *dev;
-> +    bool prior_engaged_state;
->      MemTxResult res = MEMTX_OK;
->  
-> +    dev = sg->dev;
-> +    if (dev) {
-> +        prior_engaged_state = dev->engaged_in_io;
-> +        dev->engaged_in_io = true;
-> +    }
-> +
->      xresidual = sg->size;
->      sg_cur_index = 0;
->      len = MIN(len, xresidual);
-> @@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
->          xresidual -= xfer;
->      }
->  
-> +    if (dev) {
-> +        dev->engaged_in_io = prior_engaged_state;
-> +    }
-> +
->      if (residual) {
->          *residual = xresidual;
->      }
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 7ba2048836..44a14bb4f5 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -532,6 +532,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
->      uint64_t access_mask;
->      unsigned access_size;
->      unsigned i;
-> +    DeviceState *dev = NULL;
->      MemTxResult r = MEMTX_OK;
->  
->      if (!access_size_min) {
-> @@ -541,6 +542,17 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
->          access_size_max = 4;
->      }
->  
-> +    /* Do not allow more than one simultanous access to a device's IO Regions */
-> +    if (mr->owner &&
-> +        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
-
-Would it make sense to define some helper function like
-memory_region_is_XXX (I assume XXX -> DEVICE_IO), to make that code
-easier to be consumed by humans?
-
-Unfortunately I cannot really comment on the sanity of the approach,
-because the underlying problem isn't completely clear to me (I think
-other people on CC were involved in the discussions around DMA reentry
-and failed attempts in the past). Having that said, that approach
-doesn't look wrong to me.
-
--- 
-Thanks,
-
-David / dhildenb
-
+> +            if (ics_valid_irq(ICS(&phb3->msis), irq)) {
+> +                return ICS(&phb3->msis);
+> +            }
+>           }
+>       }
+>       return NULL;
 
