@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440D05533CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 15:39:38 +0200 (CEST)
-Received: from localhost ([::1]:50826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8385533C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 15:38:34 +0200 (CEST)
+Received: from localhost ([::1]:47676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3e6T-0000mi-8O
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 09:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35012)
+	id 1o3e5R-00077O-8q
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 09:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e2S-0004BA-6r
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:35:28 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:55593)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e2w-0004lF-AZ
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:35:58 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:46273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e2P-00033Y-LJ
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:35:27 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o3e2u-0003A0-KB
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 09:35:58 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mq2vS-1nHiHE2lT0-00nAMp; Tue, 21 Jun 2022 15:34:46 +0200
-Message-ID: <da574ddf-69ad-311d-6c64-366072cb6dc2@vivier.eu>
-Date: Tue, 21 Jun 2022 15:34:45 +0200
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N7xml-1nYy8g3dMR-014xfC; Tue, 21 Jun 2022 15:35:22 +0200
+Message-ID: <5290985a-426d-09ad-5ba6-484cc343d300@vivier.eu>
+Date: Tue, 21 Jun 2022 15:35:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v2 3/7] semihosting/arm-compat-semi: use
- semihosting_exit_request
+Subject: Re: [PATCH v2 5/7] target/mips: use semihosting_exit_request on
+ semihosted exit syscall
 Content-Language: fr
 To: Luc Michel <lmichel@kalray.eu>, qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -40,35 +40,35 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
  Max Filippov <jcmvbkbc@gmail.com>
 References: <20220621125916.25257-1-lmichel@kalray.eu>
- <20220621125916.25257-4-lmichel@kalray.eu>
+ <20220621125916.25257-6-lmichel@kalray.eu>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220621125916.25257-4-lmichel@kalray.eu>
+In-Reply-To: <20220621125916.25257-6-lmichel@kalray.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MYIPAxgT9OHmXYsukPw4cUDLSxKLNLdcs65Hm3ajNqTPpMr9Wh/
- xzIbztiFImjBO3rKBRcgOgDiLRICTjGQOXcMyacgXPOR4iwcYpRbSdx7BFvhlItZKVQaHPo
- 7R290ftJMf8KgS28oXdOJz9S93tvB13ZmVKX3MiaLD+fVY7Rvc9ZdpND227vwdLhi5Z7AAN
- zZx9cTU4FmJqJxrgOrQfA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mpv1RCIctA8=:sopaBQEnU7ZRXz+kvjI5cy
- CQE8eYV7ImJ4u2tTW6moC8ouuEBDDC0tVkVbUXonSaX8U00xLDx1+hFKGNpdiQDXN1xgo1OaR
- TlusimiM+dWP7MfjXWl58iPJ+6CCM1oWnNugcNhqBsHeqUA9qq3q1NXM0DZ7s+Ts9QNdAfRuW
- VoWNaMsNKGaikXhyqc1pBfaVxx6WQ+g4t2CV8och3EPrfj2jl0AtCvQuatagkCpSFRfx2NhYt
- Rv/0SAl37GkYJ3PJ+v6zvzHk8GrA+9fr+/W2UlID4U9DWBNfKeVysxG+Y77b2cPU6+gcNQYe5
- UfcL0BdykP3tkLLqqZn6Kw+iToumoVuhEaDRbiMKsTlH67FUHbodbaT9qojSoygvhiRULo13H
- EyW4OmVIfRjHrltVOwRuVWfHe5uo8SkRmoK6lcTraSLQbIJ/s8cyLlFbQ3kYzNGeXuQWj5DWe
- KstgeFn8hc7fJmJnLFcxNzd3uMM7zQfE7iR/w5PhYVchmrfN2VTvG+Qea5HT35HnDX0mEH1Qk
- z7C9pRRGh7DDv7n7AB6lLZZOrnUsHFjhR2Sl+7zDloaQ6JwFJ0Em77l5ahoKflW1muS9vmo9r
- gPHrhYF9hDvEDsBt6zN+5L8n3gxIJPY6nfOpFTWhB9FvHAoiPEeROSDDR5V0VOsp5qS/fiV1i
- tjlj/5cpG/RgtdUsVufm4ZO4eQUhE0S0FlwE4IHFjAhyAT7L0qpz3du2J0j0iUDbUqynMOJRb
- hlvJ7pnB5U30P1RamQb/7M4WpnWoMWEuPoGyzQ==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:H8OZSm930imy9zVoNwO01gYl2iQysaqzSzp3SoGB2kceDJw7gIZ
+ 3nJ0JmOsp3EhOdGLwP2SOM2h9+1YTPJtedUX0IQc6W2/qFhicwCJGz26TdGV/RjXVO6uiiC
+ mnvhrO1NVRvojZFpYXnrq7KhiLxWUFkrPYPIp6hpdBmuZo4wPwu/qIV96h3w4NwiLtWXE4b
+ hMicEpAcQMTzLQTC3kJkg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:R0qzEm48q44=:Zm/LcKyfADQ04suT1QzP02
+ gAEwbdpJZWD6SzKYj6zqZwWPXLm1O/sQGJ0OPC8kwPimmd8olSiZyqdhqAR42dOlsU6UVFJHK
+ PpHiQkrmc29exRDGm3Rt6vcCfaqo3mdKoYgpuCawYBKjRp973EFhgHZByn/wCYcD4PqiEIHGe
+ Wf9uZN8NM+/tWLLxbKhNN73DVk9fl55VKAJqkVv7zmVXF8sw2eraQxWswSmtbkFOdnnGsu0LT
+ jkIEZVx/nbC0WoDkonrmoxkeP32eh5NkT632YSLDvWaTiy1LPAkpo+L520/jTrT/U/8ek2z+e
+ gCWTP6AHjTB4xYa0vjNdPFVqw07KnKu5G6rRWbBRz/PcJopgmNyb+8fupbwF8c5avuOzY67pV
+ R0hF9W9vSmsUOuhovgeWz+kfzCRVaFPjFPQRm20Y1rc+e96nvJVzVflq+sPpp5f4noYwOeGsv
+ iviyIF2P4zJetlb8lPyGrEYOFd/Kpgp6SD7cqUtLaWO0x2kWRvhROyfQx4v6yFTnQ4EBvwJch
+ MAXYTDVRw8spf10yMq0UVUg2Z4bjXmPTvfNZXAbbpaft26Qr/ReKngRwqBX059pRj4OKQBwLF
+ eHphtc6vQSZD7WNfHTDShQrrkTmJxxdUhyB2kL8Ok6cyIa49C+Q8+Pj7Vd1L8ZJYHD2v2gMXL
+ n4gfc6nwx0mE/VLQ87F7BLYEIAKjWXnlfIDwk4xajMVs3jFfTKjX8dxwh6UXug/PjfNIX2hYD
+ w00wjt+lEfMdh6fbx5/YKzB76bJ41pf79pBUTA==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,10 +90,27 @@ Le 21/06/2022 à 14:59, Luc Michel a écrit :
 > 
 > Signed-off-by: Luc Michel <lmichel@kalray.eu>
 > ---
->   semihosting/arm-compat-semi.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   target/mips/tcg/sysemu/mips-semi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+> index b4a383ae90..94be486925 100644
+> --- a/target/mips/tcg/sysemu/mips-semi.c
+> +++ b/target/mips/tcg/sysemu/mips-semi.c
+> @@ -245,11 +245,11 @@ void helper_do_semihosting(CPUMIPSState *env)
+>       char *p, *p2;
+>   
+>       switch (op) {
+>       case UHI_exit:
+>           qemu_log("UHI(%d): exit(%d)\n", op, (int)gpr[4]);
+> -        exit(gpr[4]);
+> +        semihosting_exit_request(gpr[4]);
+>       case UHI_open:
+>           GET_TARGET_STRING(p, gpr[4]);
+>           if (!strcmp("/dev/stdin", p)) {
+>               gpr[2] = 0;
+>           } else if (!strcmp("/dev/stdout", p)) {
+
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
 
