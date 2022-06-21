@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7405534DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:49:03 +0200 (CEST)
-Received: from localhost ([::1]:60158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65776553505
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 16:54:48 +0200 (CEST)
+Received: from localhost ([::1]:40256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3fBe-0008ID-BT
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49560)
+	id 1o3fHB-0005qM-LR
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 10:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3f0H-0000rT-R8
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:37:19 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:44712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3f0F-0005ob-1K
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 10:37:16 -0400
-Received: by mail-pf1-x432.google.com with SMTP id s37so13274765pfg.11
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 07:37:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=HtijAlC2ssuSuNeWFYcM+8XrkjoqLwcagm9dONp2Zxo=;
- b=fHlO0hHeZapBo8L4bkhY2aYhIuVSAN2vwyVw6n7oB6s+tNjtxNc8QG2ip3H9kOQp0p
- 0wC6OUdOX4WqDohZtrgtuJhv9wywCUA6kIsLVCplv+sSIIDNCyLPtJkrXcyuheRyj22z
- mIAGaaUUqnIlkpANLtj+5XfGmB5iVxjT+OjxdxElCBGCaY0Gn9+0SmvEK3GyNlVOG3cd
- ALU7jkZjwughoQFexsk2o06YvpcMS/uN9mvJo+KTXeD8MPjw8dIxP6KQcu56839Rkvms
- s/vYLwjWaDUd82vD7hZqJWwjRWJLkFJSh7x+oqqudJ2ygUXGZhmrX3/c4NhImFKTP2qt
- 5rZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HtijAlC2ssuSuNeWFYcM+8XrkjoqLwcagm9dONp2Zxo=;
- b=o8AZ8biK+VYsVVVJp+3Sdbr2fjzdbKidRObP9zoa1gvv887GbueqBljET6FF42RJQc
- RoNk9GvdwtfZFKDjQsToqCXFDRcokgKtV/8yQjqT6ppJ3ZJt/3v45VGnM7DxBGFuJLtp
- l/Tap8I7XLHvo5GTk6g5z5hR4/mOdAYADdU0oFSon2EDeknHseJCHmu+fWm1PO40GtDf
- duSbn3vrFHXuwpIXpZ+chKJZ65Cs5IY1jx+UZ909v20vr8jimHkB+YWN/92uiyG5b/ZZ
- aGHfUiz22Q8LF8SrnoqBmunWvc2kUVZOcVue+6tDNwV9W5R8oQznjD0w80y6o9jcgjur
- wyew==
-X-Gm-Message-State: AJIora/QLy+E8V9Z+/YcfAq/RHK6GGY0L26nrnz8OG5UceFclAaZafw5
- PuZJZHwXN83tArzZx18iW4XCRg==
-X-Google-Smtp-Source: AGRyM1tgfVMMw2NJLPmLoSlS6hmxUXWpHa5zc6LPUy5oGms0TrN7j/6xHGrgPytVj9xizaPlgmqI4g==
-X-Received: by 2002:a05:6a00:b8b:b0:51c:2487:57b5 with SMTP id
- g11-20020a056a000b8b00b0051c248757b5mr30457285pfj.56.1655822233374; 
- Tue, 21 Jun 2022 07:37:13 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49e:3c01:8adc:a144:6ec2:4d71?
- ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
- by smtp.gmail.com with ESMTPSA id
- jh5-20020a170903328500b0015e8d4eb2a8sm5510347plb.242.2022.06.21.07.37.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 07:37:12 -0700 (PDT)
-Message-ID: <3ead4d24-8d14-5862-b9db-268139a83bec@linaro.org>
-Date: Tue, 21 Jun 2022 07:37:11 -0700
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o3f4N-0003D3-0N; Tue, 21 Jun 2022 10:41:31 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:56218)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o3f42-0006QJ-N1; Tue, 21 Jun 2022 10:41:26 -0400
+Received: from sas2-6a1db1376cb6.qloud-c.yandex.net
+ (sas2-6a1db1376cb6.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bb0f:0:640:6a1d:b137])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 9BA282E1386;
+ Tue, 21 Jun 2022 17:40:52 +0300 (MSK)
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net [2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by sas2-6a1db1376cb6.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ dSAOF6AADp-elJemmDs; Tue, 21 Jun 2022 17:40:52 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1655822452; bh=u3oJxhZsEUUguTOlOgJA4tMkJCLl2Q4ixmsNRsk/ssA=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=LqfQ55EJgv3YL47oUlcYdQoek+mYl9zUFIFl3Sh3qGyWgGGxlFwbjSfi6qrfegVdT
+ CGZEjxXkKsHIs0rG/LuPpOQrS3pK8cwmjBtoz7oYjsUVOcTmiEtmDblDftvojDjBf1
+ SjiJf0+NugqUPfGEXOx42CKbDVqJttU//EcWUHSk=
+Authentication-Results: sas2-6a1db1376cb6.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:23::1:8] (unknown [2a02:6b8:b081:23::1:8])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id oY9TONWULA-elNK1bW5; Tue, 21 Jun 2022 17:40:47 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <eb88b86e-f455-5f28-11f5-6eecdda4c784@yandex-team.ru>
+Date: Tue, 21 Jun 2022 17:40:46 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 0/7] semihosting: proper QEMU exit on semihosted exit
- syscall
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v7 04/18] aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
 Content-Language: en-US
-To: Luc Michel <lmichel@kalray.eu>, qemu-devel@nongnu.org
-References: <20220621125916.25257-1-lmichel@kalray.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220621125916.25257-1-lmichel@kalray.eu>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220616131835.2004262-1-eesposit@redhat.com>
+ <20220616131835.2004262-5-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220616131835.2004262-5-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,19 +86,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/22 05:59, Luc Michel wrote:
-> v2:
->    - fix linux-user compilation. Declare semihosting_exit_request "static
->      inline G_NORETURN" on CONFIG_USER_ONLY side. Use
->      g_assert_not_reached() to enforce the G_NORETURN since this function
->      is unused in linux-user mode.
+On 6/16/22 16:18, Emanuele Giuseppe Esposito wrote:
+> Same as AIO_WAIT_WHILE macro, but if we are in the Main loop
+> do not release and then acquire ctx_ 's aiocontext.
+> 
+> Once all Aiocontext locks go away, this macro will replace
+> AIO_WAIT_WHILE.
+> 
+> Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
 
-Not true.  It *is* used with semihosting linux-user.
+A bit strange that you put r-b marks above your s-o-b.
 
-Anyway, before you go too far down this road, see
+Usually, marks goes in historical order:
+1. your s-o-b
+2. reviewers r-b marks
+3. maintainer's s-o-b mark
 
-https://patchew.org/QEMU/20220607204557.658541-1-richard.henderson@linaro.org/
 
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-r~
+-- 
+Best regards,
+Vladimir
 
