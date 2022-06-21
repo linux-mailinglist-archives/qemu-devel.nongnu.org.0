@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6F8553158
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 13:49:54 +0200 (CEST)
-Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBD6553161
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jun 2022 13:51:42 +0200 (CEST)
+Received: from localhost ([::1]:56976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3cOH-0003vk-Ks
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 07:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39168)
+	id 1o3cPz-00066l-NZ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 07:51:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o3cJ9-0000be-CB; Tue, 21 Jun 2022 07:44:35 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:60494)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o3cJ5-0001qe-6g; Tue, 21 Jun 2022 07:44:33 -0400
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 8048F2E1FA7;
- Tue, 21 Jun 2022 14:44:20 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 5KA8Zf4AV6-iKJupR8T; Tue, 21 Jun 2022 14:44:20 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1655811860; bh=tMU84CYGCMFNKPMhoF/9/jTZ9UIe2mVIxyY3O3ULww4=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=F0zZKI95KD1fmDkSJeqUlMSjej/SKJ1Hj/kHRdtQKhwUBtTEnZ6R53zCsY3Oe7M/o
- r2/OgDvBWXooQT/K0QTlNmDIqA6qhaSkcx9mWpsnqRtiwqR3mKzIAszFmDSLLaa47s
- 9qHnn6f3rEhmFLQmJ3y5IPX+6/7KNnmWgzzGT+Z0=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:23::1:8] (unknown [2a02:6b8:b081:23::1:8])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id vasW4jStEt-iJMekbYf; Tue, 21 Jun 2022 14:44:20 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <bdbb0662-1d29-06ce-1858-4fae33c9ea65@yandex-team.ru>
-Date: Tue, 21 Jun 2022 14:44:19 +0300
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o3cOU-0005N6-Od
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:50:06 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:37726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o3cOT-0002hJ-5M
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 07:50:06 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id t24so9688859lfr.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 04:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a6nj/SWnKef09eovYrUdgRarEPgXF/jHK0JP65uKHjM=;
+ b=JQT0g3jSNQx+E1RyX+dZFswjMoe+lRMxY9qmjT5C0jZOJXY3YKE8GlGSILuvwsGk+I
+ Soh6899RF6HdPOvqNgEXhqxSn1EHltr7hmO/VgVLvJewkgjX//pjwYOKfrq1E1t3/Frt
+ ydXqUKfkkSNT4rfFpSh4aCG50aWSMe/XCIRFBQxdeIzBmvNgSthR0oyiFswC2IvWJ30j
+ LNXClOV01ekgHm0uCl7Dp0j0ZTrFGnk7wpcRiTfTX+DgbBmrgR+YPJtJKrCsv1JrW4x/
+ XMygJpesnhSYQ3UeycGv1j3fKG/JblM1sUWZOGofovGDhWylx5ZCpJbDhF3OVVN5OI6H
+ m7Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a6nj/SWnKef09eovYrUdgRarEPgXF/jHK0JP65uKHjM=;
+ b=jV2OGlE850zEZ4YJ8yy8ywl/TNywXmC/ehD/7oIl+wqW063mpNQBA18t0aDQn6Qatd
+ nYBTmGXZikQyIlG9O5MPG9Ncs8NkUUruRPU1HStudwbafs4tV6A4JsSl2LE8YhsstIlg
+ kGafSTuiF5nGgwc/5n66GTphuCEMn+MlSb0wFAo5NFpTHuePtOY1Wi9v78idukxlzsdz
+ PmaGyOi1D4kai4Xw7BGE2A3NeW+JoXBbmDlqz7+jOPgyQgjaNpLOlSq3Qf0fMIrVJy48
+ Ci7zz6VqoxExEoRtJzmuTixuSj3VX8mq3PqJjYqlBZOrhcPa2wZjQ+l/aLgKkjRfs05X
+ Smgg==
+X-Gm-Message-State: AJIora9VZXz/bsYZ6WsDSZ6jXPAW37knA64D5sxngz5nTBbQjHGpbkYI
+ L+Szr72hNnbGenkoEN70oHhmOBz1+jVga9Kh4L4=
+X-Google-Smtp-Source: AGRyM1tr5wHavmbPOGe1Jp4vV6nqYZM4hFWTaz21iSWRwnI1AxICPRs86fTYODl3g/bpiPbpibpTqFjetB8mW3sKdIk=
+X-Received: by 2002:a05:6512:3f27:b0:47f:77d9:f23b with SMTP id
+ y39-20020a0565123f2700b0047f77d9f23bmr3744155lfa.94.1655812202712; Tue, 21
+ Jun 2022 04:50:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v5 21/45] block: add bdrv_try_set_aio_context_tran
- transaction action
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, vsementsov@openvz.org,
- v.sementsov-og@mail.ru
-References: <20220330212902.590099-1-vsementsov@openvz.org>
- <20220330212902.590099-22-vsementsov@openvz.org>
- <80b132a2-bf15-4335-c8fa-048d2b7a83ec@redhat.com>
- <b9bfb45e-821e-a832-68a9-f7cf5bacda58@yandex-team.ru>
- <690b7c71-7719-bffe-ea65-ae021cb49b47@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <690b7c71-7719-bffe-ea65-ae021cb49b47@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+References: <20220621083420.66365-1-marcandre.lureau@redhat.com>
+ <CAFEAcA9SyfaMYkH2RvELExUJF_V-XbnhCmJa_m7RA0rOTOvEQQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA9SyfaMYkH2RvELExUJF_V-XbnhCmJa_m7RA0rOTOvEQQ@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 21 Jun 2022 15:49:50 +0400
+Message-ID: <CAJ+F1C+AYGZmT0RVfc4Vc2o+sw2dcRXOmvCO3vZXUf3Np5zENA@mail.gmail.com>
+Subject: Re: [PATCH] tests: fix test-cutils leaks
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000028530905e1f3d268"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,49 +82,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/22 14:04, Hanna Reitz wrote:
-> On 20.06.22 22:57, Vladimir Sementsov-Ogievskiy wrote:
->> On 6/13/22 10:46, Hanna Reitz wrote:
->>> On 30.03.22 23:28, Vladimir Sementsov-Ogievskiy wrote:
->>>> To be used in further commit.
->>>>
->>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
->>>> ---
->>>>   block.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>   1 file changed, 48 insertions(+)
->>>>
->>>> diff --git a/block.c b/block.c
->>>> index be19964f89..1900cdf277 100644
->>>> --- a/block.c
->>>> +++ b/block.c
->>>> @@ -2907,6 +2907,54 @@ static void bdrv_child_free(BdrvChild *child)
->>>>       g_free(child);
->>>>   }
->>>> +typedef struct BdrvTrySetAioContextState {
->>>> +    BlockDriverState *bs;
->>>> +    AioContext *old_ctx;
->>>> +} BdrvTrySetAioContextState;
->>>> +
->>>> +static void bdrv_try_set_aio_context_abort(void *opaque)
->>>> +{
->>>> +    BdrvTrySetAioContextState *s = opaque;
->>>> +
->>>> +    if (bdrv_get_aio_context(s->bs) != s->old_ctx) {
->>>> +        bdrv_try_set_aio_context(s->bs, s->old_ctx, &error_abort);
->>>
->>> As far as I understand, users of this transaction will need to do a bit of AioContext lock shuffling: To set the context, they need to hold old_ctx, but not new_ctx; but in case of abort, they need to release old_ctx and acquire new_ctx before the abort handlers are called.  (Due to the constraints on bdrv_set_aio_context_ignore().)
->>>
->>> If that’s true, I think that should be documented somewhere.
->>>
->>
->> Hmm.. Actually, I think that bdrv_try_set_aio_context_abort() should do this shuffling by it self. The only hope to correctly rollback a transaction, is operation in assumption that on .abort() we are exactly on the same state as on .prepare(), regardless of other actions. And this means that old_ctx is acquired and new_ctx is not.
-> 
-> But if old_ctx is acquired and new_ctx is not, you cannot invoke bdrv_try_set_aio_context(bs, old_ctx), because that requires the current context (bdrv_get_aio_context(bs)) to be held, but not old_ctx (the “new” context for this call).
-> 
+--00000000000028530905e1f3d268
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes and that means that .abort() should release old_ctx and acquire new_ctx before calling bdrv_try_set_aio_context(). And release new_ctx and acquire back old_ctx. Does it make sense?
+Hi
 
--- 
-Best regards,
-Vladimir
+On Tue, Jun 21, 2022 at 3:46 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Tue, 21 Jun 2022 at 09:36, <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Reported by ASAN.
+> >
+> > Fixes commit cfb34489 ("cutils: add functions for IEC and SI prefixes")=
+.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> g_autofree would be neater, but this works, so:
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+>
+sadly, not really, since you have to call g_free() before new
+assignments... (yes it makes me sad too :)
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000028530905e1f3d268
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 21, 2022 at 3:46 PM Pet=
+er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
+naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Tue, 21 Jun 2022 at 09:36, &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<=
+br>
+&gt;<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Reported by ASAN.<br>
+&gt;<br>
+&gt; Fixes commit cfb34489 (&quot;cutils: add functions for IEC and SI pref=
+ixes&quot;).<br>
+&gt;<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+<br>
+g_autofree would be neater, but this works, so:<br>
+Reviewed-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" =
+target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+<br></blockquote><div><br></div><div>sadly, not really, since you have to c=
+all g_free() before new assignments... (yes it makes me sad too :)<br></div=
+><br clear=3D"all"></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signatu=
+re">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000028530905e1f3d268--
 
