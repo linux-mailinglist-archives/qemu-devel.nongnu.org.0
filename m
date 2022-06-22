@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F6C55459C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:07:59 +0200 (CEST)
-Received: from localhost ([::1]:42412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907155545A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:14:01 +0200 (CEST)
+Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3yDG-0000zq-B5
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:07:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50214)
+	id 1o3yJ6-0002I2-NP
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:14:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3y0Q-0006YD-08; Wed, 22 Jun 2022 06:54:42 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37926)
+ id 1o3y0U-0006nf-7P; Wed, 22 Jun 2022 06:54:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3y0O-0005Wj-Gf; Wed, 22 Jun 2022 06:54:41 -0400
+ id 1o3y0S-0005XC-Pg; Wed, 22 Jun 2022 06:54:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=oyEp14tUYmofAxvrBjLPsWtJ3UbhKgLh+SGK8upG3gI=; b=dRdi6lZ19UtaxPcZBWSmlsK8RY
- 1qKpyqdRBpLRHYQ7Wn/cAhSRFtxyCTTPSsCvU3WZT1XAyw/vMoL5ZDjxWbFvi6OmgaVezZHENGXmM
- h4qkZaf5Fznd727vmiCiKSpC7dfBTkqlEkSK6gcR6RSPWiKuZKepYhmJLEa4Lxtcy8ehJbnpLdEdI
- LauIg3N9wlyJ+etZJ4bo6WXtiNR5i4HiDVebpuEdvmT0deR9kW8CvwF5edb0V8tx/EEwgvTT/S/Bl
- xF/fY1jl7l/Egy/x6HCI83ftzaRdMiiq8wQzJSXiT2nlBD1Kk8DKQqUXEMZw86v8jiOb/5SaomMgG
- tiQClNd4nObFviQ0tpOtyyZcodB+y2To1E1riwSlryJK1o4Me/N6jvs/kHhbPQoKh7EJ+eu+/Z1YN
- /KDynyOG53+Ev5kjnKtRR7hx2WmjRjyNTqCQJuUvKjwmSXJyVRqgIos3uzjoLzMhUI3EzDVmrG6qg
- qev8QchQlLbWR/imQNOOB77hlwZ69q0euO9nvqeb4j0cMMc7Mv/Sh4xIZAa/Wr+0uKBLtfVBxCYPJ
- PDS/z5CFD6++qMTnxGZ4lr2vUYUEa6+UrJNIamMe67+YDiuBCSdnO0yuEXc07aKdeEXOhWSNQcb7s
- gkU0ShbWym0hdbM8isqZNRDf5V2IKcwRBgKI13OLk=;
+ bh=CUqoJupH2M+KQg+RIoBU+fI0+vwRBIrvqmU7RnFHdLs=; b=m2WUjgBPNHFVSd3Y3caxcjILlS
+ 1lbJyVcF5knAFvmwuFp1cCJBljceI+7kbBUFu0xGRU0mDqeb6urlJ4wVsmjUlZJ4IRCCr7ausf+nP
+ 2Cf2UJ9PvLZu3ZvCLqovbObprBLt77z1ae39hrmC1VKy/U+y+TjR8BubaZ66a5WoQ3GbVIyL5Tknn
+ S/Y1+U50LYN5jVvdZjw53W5rvpnyWzhUyrMSiWJK47u7wLdHoUsZ6sXUmRr8sdrEvGSwyokh7K97b
+ Lgd7pBTI1K31FW/0dZHnrQ1j8ZWFsh8pkMw0Cww5ffNMekk7z8JtTCQ8PD+UV9Px6pE7Gl4RQsLlj
+ Q0uvvdo89pXTZKmqgAm9MiDtkoAK8TbgKhWy6/1VmGsx7SMWH/cDxhUlYAbh89XW+N9hmHQVpX1KR
+ Uj2ZM5rjso282O/dwg7pPo0IFzaI7wsHk2cuFn9dqoHntSFhgtDTTeEf+uWIrgf38+4KdG6zbf41P
+ beRIRK4gjHYXQPfQZC7ZFqLrDQfHYKnNuEcQwqMTafT5bq1J74+zJ67lp23va7HFeE+AWlCsyDSbz
+ pUXL9gv7NHQ6/gXBeZKSJmz4hbsb90GOnKu4e/jFuktRXZHh5X7PPAoasCiYs8YLo8N3BlbsIksdo
+ 0veKKuSNZEJSrbd/0wq+PSxQa08VtpUAYkLujEMGY=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xyq-000CTX-49; Wed, 22 Jun 2022 11:53:07 +0100
+ id 1o3xyt-000CTX-VR; Wed, 22 Jun 2022 11:53:12 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
-Date: Wed, 22 Jun 2022 11:53:13 +0100
-Message-Id: <20220622105314.802852-14-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 22 Jun 2022 11:53:14 +0100
+Message-Id: <20220622105314.802852-15-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
 References: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
@@ -49,8 +49,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 13/14] q800: add default vendor and product information for
- scsi-hd devices
+Subject: [PATCH v3 14/14] q800: add default vendor and product information for
+ scsi-cd devices
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -76,9 +76,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Apple HD SC Setup program uses a SCSI INQUIRY command to check that any SCSI
-hard disks detected match a whitelist of vendors and products before allowing
-the "Initialise" button to prepare an empty disk.
+The MacOS CDROM driver uses a SCSI INQUIRY command to check that any SCSI CDROMs
+detected match a whitelist of vendors and products before adding them to the
+list of available devices.
 
 Add known-good default vendor and product information using the existing
 compat_prop mechanism so the user doesn't have to use long command lines to set
@@ -91,19 +91,19 @@ Reviewed-by: Laurent Vivier <laurent@vivier.eu>
  1 file changed, 3 insertions(+)
 
 diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 3254ffb5c4..dccf192e55 100644
+index dccf192e55..101ab0f803 100644
 --- a/hw/m68k/q800.c
 +++ b/hw/m68k/q800.c
-@@ -688,6 +688,9 @@ static void q800_init(MachineState *machine)
- 
- static GlobalProperty hw_compat_q800[] = {
-     { "scsi-hd", "quirk_mode_page_vendor_specific_apple", "on"},
-+    { "scsi-hd", "vendor", " SEAGATE" },
-+    { "scsi-hd", "product", "          ST225N" },
-+    { "scsi-hd", "ver", "1.0 " },
-     { "scsi-cd", "quirk_mode_page_apple_vendor", "on"},
+@@ -695,6 +695,9 @@ static GlobalProperty hw_compat_q800[] = {
      { "scsi-cd", "quirk_mode_sense_rom_use_dbd", "on"},
      { "scsi-cd", "quirk_mode_page_vendor_specific_apple", "on"},
+     { "scsi-cd", "quirk_mode_page_truncated", "on"},
++    { "scsi-cd", "vendor", "MATSHITA" },
++    { "scsi-cd", "product", "CD-ROM CR-8005" },
++    { "scsi-cd", "ver", "1.0k" },
+ };
+ static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
+ 
 -- 
 2.30.2
 
