@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C268556DB4
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 23:07:50 +0200 (CEST)
-Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C22556E4C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 00:06:43 +0200 (CEST)
+Received: from localhost ([::1]:47668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o47Zl-0006yl-Cj
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 17:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52342)
+	id 1o48Uk-0006Pa-Gm
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 18:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o47XB-0004uw-1i
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 17:05:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21151)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o47X8-0006sK-Rl
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 17:05:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655931906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qscJvtSZRMxHSucHbL93M3Z9P/mSWHnvfp6jXmZwEsk=;
- b=XmJW37TvAkHKypOFpFr0LUqnDoJ/xGgTtiZhEwXPyO6/heovvhbpmuBPOgUAIixZ0RWnP5
- ZSRcEAdeApYUW/Pg4uCPHtxUgTRlVdOMNRnFCPxhLTi0GgT1PE5CigCGZyo571UtCtjQkM
- /eWfWFLkZcALNqPyKmvBOd9mOc/ZC0w=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-HiG67qSGOxKMC3S_8o4dtw-1; Wed, 22 Jun 2022 17:05:04 -0400
-X-MC-Unique: HiG67qSGOxKMC3S_8o4dtw-1
-Received: by mail-il1-f198.google.com with SMTP id
- f18-20020a056e020c7200b002d949d97ed9so1082890ilj.7
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 14:05:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qscJvtSZRMxHSucHbL93M3Z9P/mSWHnvfp6jXmZwEsk=;
- b=2n0kXsfc2sz1CegxC8/1TG8bvh0cVCjKqG1GZ86Fi/3oXX7ed6abEBuhAt12hYb3/w
- pMEMrJOf53pJY6BHuuSqWIn8VCjaNVFOXo3nh+6Ktx4ym3526IU12HImMtnIQrWzhq3K
- i4sDykVO32AuYlIvI/zV1szvFwkm0hO/c8hcrCENNOF5j2qFkkergvzOIXs2XUYIgW2I
- vWWCM8nWDN288+Zo6PIx3uN1cJVY+PgawpAPvVoLYisWeTCR9QpVdYO+EVH4EfRTW3SY
- 2V9uVcN7ai9El5NmRi/74zAfqucUiEZjgeTGePLDQTDm8jDtOw0IUNZGk3aPcPvrjCrA
- u7qQ==
-X-Gm-Message-State: AJIora+xIODecSTbdzaKFWGzv1B+R/a5/LHitnshzD1yoP7DAlXsShaL
- oPJu/B9SqwZ3rGFHh6BSSORkoLpSH3vIkqBKorPD7+Jfnj6bviTctBm0v57Lba5kMiCxCtXCjRC
- Tshuf6ncWRWbVzyo=
-X-Received: by 2002:a05:6e02:1909:b0:2d9:461f:3339 with SMTP id
- w9-20020a056e02190900b002d9461f3339mr2247456ilu.128.1655931903816; 
- Wed, 22 Jun 2022 14:05:03 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u2v9v9Y0Suzs/BxBdYv5KntELhNpWZCUSwODBSJVJir/i+esGQHenRI8WffAsr5bqIsf70Cw==
-X-Received: by 2002:a05:6e02:1909:b0:2d9:461f:3339 with SMTP id
- w9-20020a056e02190900b002d9461f3339mr2247448ilu.128.1655931903560; 
- Wed, 22 Jun 2022 14:05:03 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- x66-20020a0294c8000000b00339dd803fddsm1094758jah.174.2022.06.22.14.05.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 14:05:02 -0700 (PDT)
-Date: Wed, 22 Jun 2022 17:05:00 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, david@redhat.com,
- f4bug@amsat.org
-Subject: Re: [PATCH] memory: Fix wrong end address dump
-Message-ID: <YrOD/HIj7+mDlMeg@xz-m1.local>
-References: <20220622095912.3430583-1-zhenzhong.duan@intel.com>
+ (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
+ id 1o48Sr-0004ue-8R; Wed, 22 Jun 2022 18:04:46 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:56170)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
+ id 1o48Sn-0007D5-TO; Wed, 22 Jun 2022 18:04:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1655935481; x=1687471481;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=uHRd7TkuzOMjgLA8Oi6i6lW6r0fsP37LWClYU4ygYak=;
+ b=SF02xNmm686Szgx/jM1MfUmEi0EBQWeSEMH1dhPrub5lk4+5C/YSdtfM
+ asDaYOP5uQUbWPpK+oi+CrQJ0aq3VDQmYTaHZjNtSSX1M/B4kiudqIQqd
+ hxAN9ywd95dgt0KWYV4kBsx+sTzKm2tOznNAewDwBSzNl3+HsqaSbgwbT k=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Jun 2022 15:04:39 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 15:04:38 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 22 Jun 2022 15:04:38 -0700
+Received: from [10.110.81.137] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 22 Jun
+ 2022 15:04:37 -0700
+Message-ID: <ba7cda55-1f6b-8cda-ea1a-1d4e71de8b3a@quicinc.com>
+Date: Wed, 22 Jun 2022 15:04:27 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220622095912.3430583-1-zhenzhong.duan@intel.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 5/9] hw/i2c: pmbus: Page #255 is valid page for read
+ requests.
+Content-Language: en-US
+To: Titus Rwantare <titusr@google.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goate?=
+ =?UTF-8?Q?r?= <clg@kaod.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley
+ <joel@jms.id.au>, Graeme Gregory <quic_ggregory@quicinc.com>, "Maheswara
+ Kurapati" <quic_mkurapat@quicinc.com>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
+ <20220622172830.101210-6-quic_jaehyoo@quicinc.com>
+ <CAMvPwGp6Rr3g5Rn3jAU1ZK_99oxrx6z=4ggUWFheL_ipQnJfHQ@mail.gmail.com>
+From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+In-Reply-To: <CAMvPwGp6Rr3g5Rn3jAU1ZK_99oxrx6z=4ggUWFheL_ipQnJfHQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=quic_jaehyoo@quicinc.com; helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,34 +89,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 22, 2022 at 05:59:12PM +0800, Zhenzhong Duan wrote:
-> The end address of memory region section isn't correctly calculated
-> which leads to overflowed mtree dump:
-> 
->   Dispatch
->     Physical sections
->       ......
->       #70 @0000000000002000..0000000000011fff io [ROOT]
->       #71 @0000000000005000..0000000000005fff (noname)
->       #72 @0000000000005000..0000000000014fff io [ROOT]
->       #73 @0000000000005658..0000000000005658 vmport
->       #74 @0000000000005659..0000000000015658 io [ROOT]
->       #75 @0000000000006000..0000000000015fff io [ROOT]
-> 
-> After fix:
->       #70 @0000000000002000..0000000000004fff io [ROOT]
->       #71 @0000000000005000..0000000000005fff (noname)
->       #72 @0000000000005000..0000000000005657 io [ROOT]
->       #73 @0000000000005658..0000000000005658 vmport
->       #74 @0000000000005659..0000000000005fff io [ROOT]
->       #75 @0000000000006000..000000000000ffff io [ROOT]
-> 
-> Fixes: 5e8fd947e2670 ("memory: Rework "info mtree" to print flat views and dispatch trees")
-> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Hello Titus,
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+On 6/22/2022 1:49 PM, Titus Rwantare wrote:
+> On Wed, 22 Jun 2022 at 10:29, Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wrote:
+>>
+>> From: Maheswara Kurapati <quic_mkurapat@quicinc.com>
+>>
+>> Current implementation of the pmbus core driver treats the read request
+>> for page 255 as invalid request and sets the invalid command bit (bit 7) in the
+>> STATUS_CML register. As per the PMBus specification it is a valid request.
+>>
+>> Refer to the PMBus specification, revision 1.3.1, section 11.10 PAGE, on the page 58:
+>> "Setting the PAGE to FFh means that all subsequent comands are to be applied to
+>>   all outputs.
+>>
+>>   Some commands, such as READ_TEMPERATURE, may use a common sensor but be
+>>   available on all pages of a device.  Such implementations are the decision of
+>>   each device manufacturer or are specified in a PMBus Application Profile. Consult
+>>   the manufacturer's socuments or the Applicatin Profile Specification as needed."
+>>
+> Thanks for this, the copy of the spec I used was older.
+> 
+> 
+>> For e.g.,
+>> The VOUT_MODE is a valid command for page 255 for maxim 31785 device.
+>> refer to Table 1. PMBus Command Codes on page 14 in the datasheet.
+>> https://datasheets.maximintegrated.com/en/ds/MAX31785.pdf
+>>
+>> Fixes: 38870253f1d1 ("hw/i2c: pmbus: fix error returns and guard against out of range accesses")
+>>
+>> Signed-off-by: Maheswara Kurapati <quic_mkurapat@quicinc.com>
+>> ---
+>>   hw/i2c/pmbus_device.c | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+>> index 62885fa6a15e..7db3343a83b6 100644
+>> --- a/hw/i2c/pmbus_device.c
+>> +++ b/hw/i2c/pmbus_device.c
+>> @@ -291,7 +291,6 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+>>           qemu_log_mask(LOG_GUEST_ERROR,
+>>                         "%s: tried to read from all pages\n",
+>>                         __func__);
+>> -        pmbus_cml_error(pmdev);
+>>       } else if (pmdev->page > pmdev->num_pages - 1) {
+>>           qemu_log_mask(LOG_GUEST_ERROR,
+>>                         "%s: page %d is out of range\n",
+>> --
+>> 2.25.1
+>>
+> 
+> Please also update the stale comment just above, since this is now
+> specified behaviour.
 
--- 
-Peter Xu
+Right. The error log printing also needs to be removed so I'll revise 
+this fix like below in v2.
 
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+index 62885fa6a15e..749a33af827b 100644
+--- a/hw/i2c/pmbus_device.c
++++ b/hw/i2c/pmbus_device.c
+@@ -284,14 +284,10 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+
+      /*
+       * Reading from all pages will return the value from page 0,
+-     * this is unspecified behaviour in general.
++     * means that all subsequent commands are to be applied to all output.
+       */
+      if (pmdev->page == PB_ALL_PAGES) {
+          index = 0;
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: tried to read from all pages\n",
+-                      __func__);
+-        pmbus_cml_error(pmdev);
+      } else if (pmdev->page > pmdev->num_pages - 1) {
+          qemu_log_mask(LOG_GUEST_ERROR,
+                        "%s: page %d is out of range\n",
+
+> Reviewed-by: Titus Rwantare <titusr@google.com>
+
+Thank you so much for your review.
+
+Regards,
+Jae
 
