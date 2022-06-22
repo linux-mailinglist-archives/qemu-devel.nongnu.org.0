@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABF155459A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:06:59 +0200 (CEST)
-Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BF2554575
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 12:59:10 +0200 (CEST)
+Received: from localhost ([::1]:51716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3yCI-0007wn-TJ
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1o3y4i-0004NQ-7V
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 06:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xzY-0003ZO-Im; Wed, 22 Jun 2022 06:53:48 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37824)
+ id 1o3xzY-0003ZN-Ip; Wed, 22 Jun 2022 06:53:48 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xzX-0005Rg-2P; Wed, 22 Jun 2022 06:53:48 -0400
+ id 1o3xzX-0005Ri-79; Wed, 22 Jun 2022 06:53:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VJ8memk3OEaFs/fHyCocfyjLGPsn2s817p2kBMOunq8=; b=aLWPVDxE2sP3s3mVN6brpFVhJj
- ASwGeLvGOjDCXf94ol05KBpCemjGxnf/+490tZWM3PA8o3qC82Z7C9SOH8p6M2LkygvZTL57bz8NK
- WJhJMroQS4LLqgFGdBLY+wN5eDiiW6KvLSN1WZJ46uns4F4P3r6nvJSIkticrf7d+MuOkshd/UQ4e
- WvHVbAec6bsyBtd/+JV3eXX6HO2bmo61z/AZ+wIK9eFsmM4yLM6lki1tcfUNCsuAoNDoEjqaxkjW+
- kOGzUBl7JLAdsj+BTp/Gop7ie3dqc61jhZh3QRBscGAb0sr6VnrW5ABGW0GhdDA5zfTHMrGFcrhza
- obUBRbkMMCztcexz5urIjzOgoKMKCc4sNgeK0FS9JVecgIjg2mZx1kh1NbymkLonJ014zy/qoiYKA
- qWVNIREor/bajYtWtgiVW2iZCDbBFTMDKXWBvHmhw8AmJKwviG4ydA6s9i6kJRir28eCbE79MHOVn
- wgd7B8TAofjxp4iR8RB2g0yLOb01GKoPOoW6jxuUaXB7eAj/IhwGradCZRNL5RoC2bOhd8TWaqBQI
- QIjAmJbOi2CtJu0ovnSCk21XfHFlX4BlEcMdnG8owRpLuszaxVsYfvr/LMqm1Qi2gAfOMJS+n2l19
- duv72u2O7Jp1E1MJUAMIrDWc0btHr2M9mLPGoPDO0=;
+ bh=mKmsDgbA3n34jb7Qo8bj3PSUQhXK5nQ7TWNJ8rMuoo8=; b=S85nOwackOuiYupVPK1cHfpyFT
+ kdYdXnT+0BkONsH9v50G7kdqOzImaEzE9y+/jcvvKdNkwrnY35r4L4QKZW2IOTMo5m1+6GYEgVO5n
+ 8lDVyxznUwpnCT/qrMYJgiOtDCJiubx15jzmsLJC+puCsPVjvFvah91ABI74I/sscfYN+68vWF9FS
+ bjq5z+/sIRyahaDWHi3UvMvcFQOlqyR4AfiePGo0uY0golUXX+KxfpllxJ39Qea6s+9KIxrPXB1IE
+ 1FgACC0BLxAt6sIS6IamKxd+4ruhFvbCVwPkr5iYOG6a6yib7NjZ7xXJOoQd/5TruBlqEc15z9/bw
+ EOi1mMjeyamLonZw8vdDLWFEhQ9UFDD4RIN4gaVszO/tyfAfpRtHx1nJ2VmV6pfsIgWJF+nhsgVDP
+ fwbLj9E8as2O5Eg+uMDNzKv7gSHbpXohB2Ovfvs5SkKj884yU8C9o8N9+dW9U3oJYA7TFBB3RpOFM
+ hYOZ0DodaVp2CNdQFVzQ9GiGf73FpkK4qyb32xOOhYzXgxRv3yFYjppvFDKMmpqW6pMhBSHDEux4x
+ 1rnkbq4QxhX3Vsfr6YMvqRk13QhWTjWYEzG6neg7vJMNUr0VDuh1CjOP1DDlZfY1D/ZG308BP6K5R
+ QXwJen4SmWu/OwNnCTL3qjO+wQUf8zbv43/h8bCho=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xyH-000CTX-7n; Wed, 22 Jun 2022 11:52:33 +0100
+ id 1o3xyL-000CTX-Fu; Wed, 22 Jun 2022 11:52:33 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
-Date: Wed, 22 Jun 2022 11:53:02 +0100
-Message-Id: <20220622105314.802852-3-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 22 Jun 2022 11:53:03 +0100
+Message-Id: <20220622105314.802852-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
 References: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
@@ -49,8 +49,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 02/14] scsi-disk: add MODE_PAGE_APPLE_VENDOR quirk for
- Macintosh
+Subject: [PATCH v3 03/14] q800: implement compat_props to enable
+ quirk_mode_page_apple_vendor for scsi-cd devices
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -76,89 +76,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One of the mechanisms MacOS uses to identify CDROM drives compatible with MacOS
-is to send a custom MODE SELECT command for page 0x30 to the drive. The
-response to this is a hard-coded manufacturer string which must match in order
-for the CDROM to be usable within MacOS.
-
-Add an implementation of the MODE SELECT page 0x30 response guarded by a newly
-defined SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR quirk bit so that CDROM drives
-attached to non-Apple machines function exactly as before.
+By default quirk_mode_page_apple_vendor should be enabled for all scsi-cd devices
+connected to the q800 machine to enable MacOS to detect and use them.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/scsi-disk.c      | 17 +++++++++++++++++
- include/hw/scsi/scsi.h   |  3 +++
- include/scsi/constants.h |  1 +
- 3 files changed, 21 insertions(+)
+ hw/m68k/q800.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 8c28dd8566..64f9418dc9 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1085,6 +1085,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
-         [MODE_PAGE_R_W_ERROR]              = (1 << TYPE_DISK) | (1 << TYPE_ROM),
-         [MODE_PAGE_AUDIO_CTL]              = (1 << TYPE_ROM),
-         [MODE_PAGE_CAPABILITIES]           = (1 << TYPE_ROM),
-+        [MODE_PAGE_APPLE_VENDOR]           = (1 << TYPE_ROM),
-     };
- 
-     uint8_t *p = *p_outbuf + 2;
-@@ -1229,6 +1230,20 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
-         p[19] = (16 * 176) & 0xff;
-         break;
- 
-+     case MODE_PAGE_APPLE_VENDOR:
-+        if (s->quirks & (1 << SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR)) {
-+            length = 0x1e;
-+            if (page_control == 1) { /* Changeable Values */
-+                break;
-+            }
-+
-+            memset(p, 0, length);
-+            strcpy((char *)p + 8, "APPLE COMPUTER, INC   ");
-+            break;
-+        } else {
-+            return -1;
-+        }
-+
-     default:
-         return -1;
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 099a758c6f..6fabd35529 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -686,6 +686,11 @@ static void q800_init(MachineState *machine)
      }
-@@ -3086,6 +3101,8 @@ static Property scsi_cd_properties[] = {
-                        DEFAULT_MAX_IO_SIZE),
-     DEFINE_PROP_INT32("scsi_version", SCSIDiskState, qdev.default_scsi_version,
-                       5),
-+    DEFINE_PROP_BIT("quirk_mode_page_apple_vendor", SCSIDiskState, quirks,
-+                    SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
+ }
  
-diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-index 1ffb367f94..e090ea1b40 100644
---- a/include/hw/scsi/scsi.h
-+++ b/include/hw/scsi/scsi.h
-@@ -226,4 +226,7 @@ SCSIDevice *scsi_device_get(SCSIBus *bus, int channel, int target, int lun);
- /* scsi-generic.c. */
- extern const SCSIReqOps scsi_generic_req_ops;
- 
-+/* scsi-disk.c */
-+#define SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR             0
++static GlobalProperty hw_compat_q800[] = {
++    { "scsi-cd", "quirk_mode_page_apple_vendor", "on"},
++};
++static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
 +
- #endif
-diff --git a/include/scsi/constants.h b/include/scsi/constants.h
-index 2a32c08b5e..891aa0f45c 100644
---- a/include/scsi/constants.h
-+++ b/include/scsi/constants.h
-@@ -234,6 +234,7 @@
- #define MODE_PAGE_FAULT_FAIL                  0x1c
- #define MODE_PAGE_TO_PROTECT                  0x1d
- #define MODE_PAGE_CAPABILITIES                0x2a
-+#define MODE_PAGE_APPLE_VENDOR                0x30
- #define MODE_PAGE_ALLS                        0x3f
- /* Not in Mt. Fuji, but in ATAPI 2.6 -- deprecated now in favor
-  * of MODE_PAGE_SENSE_POWER */
+ static void q800_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -695,6 +700,7 @@ static void q800_machine_class_init(ObjectClass *oc, void *data)
+     mc->max_cpus = 1;
+     mc->block_default_type = IF_SCSI;
+     mc->default_ram_id = "m68k_mac.ram";
++    compat_props_add(mc->compat_props, hw_compat_q800, hw_compat_q800_len);
+ }
+ 
+ static const TypeInfo q800_machine_typeinfo = {
 -- 
 2.30.2
 
