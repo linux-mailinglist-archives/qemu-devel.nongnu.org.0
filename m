@@ -2,55 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECBA554549
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 12:28:03 +0200 (CEST)
-Received: from localhost ([::1]:59682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E84C655454A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 12:29:47 +0200 (CEST)
+Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3xac-0004wi-Is
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 06:28:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39650)
+	id 1o3xcI-0006rq-R1
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 06:29:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=05Ho=W5=kaod.org=clg@ozlabs.org>)
- id 1o3x63-00070M-Is; Wed, 22 Jun 2022 05:56:31 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:47631)
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1o3xFl-00050v-Iv
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 06:06:29 -0400
+Received: from mga12.intel.com ([192.55.52.136]:54159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=05Ho=W5=kaod.org=clg@ozlabs.org>)
- id 1o3x5x-0004rR-44; Wed, 22 Jun 2022 05:56:27 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LSf0b4PTbz4xYD;
- Wed, 22 Jun 2022 19:56:15 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LSf0Y2dcQz4xD9;
- Wed, 22 Jun 2022 19:56:13 +1000 (AEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Iris Chen <irischenlj@fb.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 19/19] hw: m25p80: fixing individual test failure when tests
- are running in isolation
-Date: Wed, 22 Jun 2022 11:55:20 +0200
-Message-Id: <20220622095520.3683321-20-clg@kaod.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220622095520.3683321-1-clg@kaod.org>
-References: <20220622095520.3683321-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1o3xFi-0006cs-FK
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 06:06:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655892386; x=1687428386;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MNlUHG0wC8dyue6athWWQfrzm2nSNw0NPO5SypbCtGE=;
+ b=UF9rV5398wv005qk0rMQGpV7mEyHf1w+GcQ3S33HSeXzI45KploJPnjx
+ 9gs7/Lz8h6Mi0GbTHmJ0FSgNS026+eTNA/bamZodUJF4ynjinHOdd96Hk
+ ytMrBsgxXiW0nfAm+I3BVL8tZzCC4DoTiL3B5BfWd1Ml1/vnSDkCQwJS8
+ y7DRzk+Kg2U19Gao5hsNJ2rqlNzyJ9HZmMBvLQStGNJQUzWgN88lyIwyk
+ 8A5iI8Y+LXVliK5MvVK9GKNkHbLaRkjb6TJxDEElPKOh6qxWx62w8rwYj
+ nChHxizVqnm21LE0HyzeflGssaqNYErt+EVcgRcJfh2QSaBqn5iO0mk8F A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="260196695"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="260196695"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 03:06:24 -0700
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="592112686"
+Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 03:06:22 -0700
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, peterx@redhat.com, david@redhat.com, f4bug@amsat.org
+Subject: [PATCH] memory: Fix wrong end address dump
+Date: Wed, 22 Jun 2022 17:59:12 +0800
+Message-Id: <20220622095912.3430583-1-zhenzhong.duan@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=05Ho=W5=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.136;
+ envelope-from=zhenzhong.duan@intel.com; helo=mga12.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,146 +73,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Iris Chen <irischenlj@fb.com>
+The end address of memory region section isn't correctly calculated
+which leads to overflowed mtree dump:
 
-Signed-off-by: Iris Chen <irischenlj@fb.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+  Dispatch
+    Physical sections
+      ......
+      #70 @0000000000002000..0000000000011fff io [ROOT]
+      #71 @0000000000005000..0000000000005fff (noname)
+      #72 @0000000000005000..0000000000014fff io [ROOT]
+      #73 @0000000000005658..0000000000005658 vmport
+      #74 @0000000000005659..0000000000015658 io [ROOT]
+      #75 @0000000000006000..0000000000015fff io [ROOT]
+
+After fix:
+      #70 @0000000000002000..0000000000004fff io [ROOT]
+      #71 @0000000000005000..0000000000005fff (noname)
+      #72 @0000000000005000..0000000000005657 io [ROOT]
+      #73 @0000000000005658..0000000000005658 vmport
+      #74 @0000000000005659..0000000000005fff io [ROOT]
+      #75 @0000000000006000..000000000000ffff io [ROOT]
+
+Fixes: 5e8fd947e2670 ("memory: Rework "info mtree" to print flat views and dispatch trees")
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
 ---
- tests/qtest/aspeed_smc-test.c | 74 +++++++++++++++++++++++++++++------
- 1 file changed, 63 insertions(+), 11 deletions(-)
+ softmmu/physmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-index ec233315e6c6..b1e682db6545 100644
---- a/tests/qtest/aspeed_smc-test.c
-+++ b/tests/qtest/aspeed_smc-test.c
-@@ -135,6 +135,9 @@ static void flash_reset(void)
-     spi_ctrl_start_user();
-     writeb(ASPEED_FLASH_BASE, RESET_ENABLE);
-     writeb(ASPEED_FLASH_BASE, RESET_MEMORY);
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    writeb(ASPEED_FLASH_BASE, BULK_ERASE);
-+    writeb(ASPEED_FLASH_BASE, WRDI);
-     spi_ctrl_stop_user();
- 
-     spi_conf_remove(CONF_ENABLE_W0);
-@@ -195,21 +198,41 @@ static void test_erase_sector(void)
- 
-     spi_conf(CONF_ENABLE_W0);
- 
-+    /*
-+     * Previous page should be full of 0xffs after backend is
-+     * initialized
-+     */
-+    read_page(some_page_addr - FLASH_PAGE_SIZE, page);
-+    for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-+        g_assert_cmphex(page[i], ==, 0xffffffff);
-+    }
-+
-     spi_ctrl_start_user();
--    writeb(ASPEED_FLASH_BASE, WREN);
-     writeb(ASPEED_FLASH_BASE, EN_4BYTE_ADDR);
--    writeb(ASPEED_FLASH_BASE, ERASE_SECTOR);
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    writeb(ASPEED_FLASH_BASE, PP);
-     writel(ASPEED_FLASH_BASE, make_be32(some_page_addr));
-+
-+    /* Fill the page with its own addresses */
-+    for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-+        writel(ASPEED_FLASH_BASE, make_be32(some_page_addr + i * 4));
-+    }
-     spi_ctrl_stop_user();
- 
--    /* Previous page should be full of zeroes as backend is not
--     * initialized */
--    read_page(some_page_addr - FLASH_PAGE_SIZE, page);
-+    /* Check the page is correctly written */
-+    read_page(some_page_addr, page);
-     for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
--        g_assert_cmphex(page[i], ==, 0x0);
-+        g_assert_cmphex(page[i], ==, some_page_addr + i * 4);
-     }
- 
--    /* But this one was erased */
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    writeb(ASPEED_FLASH_BASE, EN_4BYTE_ADDR);
-+    writeb(ASPEED_FLASH_BASE, ERASE_SECTOR);
-+    writel(ASPEED_FLASH_BASE, make_be32(some_page_addr));
-+    spi_ctrl_stop_user();
-+
-+    /* Check the page is erased */
-     read_page(some_page_addr, page);
-     for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-         g_assert_cmphex(page[i], ==, 0xffffffff);
-@@ -226,11 +249,31 @@ static void test_erase_all(void)
- 
-     spi_conf(CONF_ENABLE_W0);
- 
--    /* Check some random page. Should be full of zeroes as backend is
--     * not initialized */
-+    /*
-+     * Previous page should be full of 0xffs after backend is
-+     * initialized
-+     */
-+    read_page(some_page_addr - FLASH_PAGE_SIZE, page);
-+    for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-+        g_assert_cmphex(page[i], ==, 0xffffffff);
-+    }
-+
-+    spi_ctrl_start_user();
-+    writeb(ASPEED_FLASH_BASE, EN_4BYTE_ADDR);
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    writeb(ASPEED_FLASH_BASE, PP);
-+    writel(ASPEED_FLASH_BASE, make_be32(some_page_addr));
-+
-+    /* Fill the page with its own addresses */
-+    for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-+        writel(ASPEED_FLASH_BASE, make_be32(some_page_addr + i * 4));
-+    }
-+    spi_ctrl_stop_user();
-+
-+    /* Check the page is correctly written */
-     read_page(some_page_addr, page);
-     for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
--        g_assert_cmphex(page[i], ==, 0x0);
-+        g_assert_cmphex(page[i], ==, some_page_addr + i * 4);
-     }
- 
-     spi_ctrl_start_user();
-@@ -238,7 +281,7 @@ static void test_erase_all(void)
-     writeb(ASPEED_FLASH_BASE, BULK_ERASE);
-     spi_ctrl_stop_user();
- 
--    /* Recheck that some random page */
-+    /* Check the page is erased */
-     read_page(some_page_addr, page);
-     for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-         g_assert_cmphex(page[i], ==, 0xffffffff);
-@@ -299,6 +342,14 @@ static void test_read_page_mem(void)
-     spi_conf(CONF_ENABLE_W0);
-     spi_ctrl_start_user();
-     writeb(ASPEED_FLASH_BASE, EN_4BYTE_ADDR);
-+    writeb(ASPEED_FLASH_BASE, WREN);
-+    writeb(ASPEED_FLASH_BASE, PP);
-+    writel(ASPEED_FLASH_BASE, make_be32(my_page_addr));
-+
-+    /* Fill the page with its own addresses */
-+    for (i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-+        writel(ASPEED_FLASH_BASE, make_be32(my_page_addr + i * 4));
-+    }
-     spi_ctrl_stop_user();
-     spi_conf_remove(CONF_ENABLE_W0);
- 
-@@ -417,6 +468,7 @@ int main(int argc, char **argv)
-     qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
-     qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
- 
-+    flash_reset();
-     ret = g_test_run();
- 
-     qtest_quit(global_qtest);
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 214cb04c8fc3..cbabd10ac0bf 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -3701,7 +3701,7 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
+                     " %s%s%s%s%s",
+             i,
+             s->offset_within_address_space,
+-            s->offset_within_address_space + MR_SIZE(s->mr->size),
++            s->offset_within_address_space + MR_SIZE(s->size),
+             s->mr->name ? s->mr->name : "(noname)",
+             i < ARRAY_SIZE(names) ? names[i] : "",
+             s->mr == root ? " [ROOT]" : "",
 -- 
-2.35.3
+2.25.1
 
 
