@@ -2,95 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3E05544AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 10:41:36 +0200 (CEST)
-Received: from localhost ([::1]:36334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6A15544B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 10:47:36 +0200 (CEST)
+Received: from localhost ([::1]:38908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3vvb-0001on-Qk
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 04:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48580)
+	id 1o3w1P-0003sw-KA
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 04:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1o3vtQ-000179-Vy
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 04:39:21 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42668)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1o3vtM-0001Fu-DP
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 04:39:20 -0400
-Received: by mail-ed1-x533.google.com with SMTP id z11so16690780edp.9
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 01:39:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fRyxePKYW8wrGsIUj5EH/iCxrh44EYGi59DDEfsp1yI=;
- b=DGBwyiSh7GBNeYPuVLRcxB2FKC823Jmk25PfHsIaS09Khxr3QfVDLrxM8elmL+fsbY
- YhSuvi+KgBg7EByxpSyw8/xk3jkOIJJvcyaW3x40vzYH/Bv734flwz2BWE4WcRBIyn7q
- fO7Zherip9r4/gCDCxTRh9PS3QmpI59gO3NITzc0Zg6T9bSpj+HYPdE8ibl38OzlIOXq
- Faj5kP156fj6s8QKR2iZyHRxjLxsZ3INpjOhe162AInxv3bOT5SbCrBqEkMNqo/kllrb
- W0as0WYl7INKm43G/kvNQSUF1A1iEyhofqiGA+5aBfAptwScvXFRLrCqPY52gElbFgNz
- BqfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fRyxePKYW8wrGsIUj5EH/iCxrh44EYGi59DDEfsp1yI=;
- b=uQx1C9IS/J5YtnyPXcqNZPxeXwA9jg5RUnepU6TggQYhrod4bcpwxrEWiFrTHzRhgv
- L0Zo2rRbPvyUA7uM0JRtPEQKbiVDeQu6WvP0Sx7Jfz6rLCzn4230jvO1Zue84Jb05qeX
- HwyhkzGY0BgeGVer5tFBv4YQLpLIzB1sg4wzqhPwtMP4BEHAQydG+J9tsGrF1JgXRhMc
- bWNThMZpceF6TutgY48K7Y4lJakJ3uPpG4ORI6JaTUBNvUHXhUPOHMV2qlKjjf7x+OdI
- 4l9GWIw5rkI1SxcqxwslO7YGe8SATlNHF7swevvq8nMC2SAVwU1X2qYWrzF88LviAlZA
- pYow==
-X-Gm-Message-State: AJIora9Eckc6yai9tRQSNaQqaqbKw2akzZYYvpBNn9jXtQgKp2uqK9fH
- cTZJPnrj/NBRPGAOo21P8WU=
-X-Google-Smtp-Source: AGRyM1uaWbHC+q432/6fy4iOa7oynev79rNyD0q2uCS+JnJ71Xn1U5sYoUaBumaRNqDmOULrKVP3YA==
-X-Received: by 2002:a05:6402:2708:b0:431:45d1:3aa0 with SMTP id
- y8-20020a056402270800b0043145d13aa0mr2809770edd.408.1655887154893; 
- Wed, 22 Jun 2022 01:39:14 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- u6-20020a05640207c600b004355cb1e77esm12249486edy.91.2022.06.22.01.39.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 01:39:13 -0700 (PDT)
-Message-ID: <a28f5766-2460-f88f-7d5d-2232f113f1cc@redhat.com>
-Date: Wed, 22 Jun 2022 10:39:13 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o3vze-00038I-9v; Wed, 22 Jun 2022 04:45:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22072
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o3vzc-0002Gy-9X; Wed, 22 Jun 2022 04:45:46 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25M8hojG002213;
+ Wed, 22 Jun 2022 08:45:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=eCW7hPcTUQ1ORXP5aGH3idnEELQfmhYbixrEb6pCaNw=;
+ b=WHyU8VGjaeJyMYXXKp0odT//RQm4X9ap3GyVKldCkE7oJR1n0bvc4QiFpalLwdXNbJ50
+ UyQJtjVi3hI7O0GNq+/DXR/RDO9hOHL/gj/SkPCpWzh4PtQcZt9Lq9Rb34FFL2Uh675J
+ P7jr1/kihiZmwBwvE7J2ty67LZF6qExuV6W4ZdbP6OquWftg7V7qzYcVTZz+mSh2OUuI
+ HZgZxS67EwsAmLzX3z3IntQmIWTOLpHSa512DfX8Gy3gB+R9HO3C8vlAABTMUlDkWMNG
+ tLEUo7QmA4bqNpqZvYVQZcSQSqIjRTfsWbBoU+lrjU4d0HTz0ki0m9Muha0MvqsIvFUm cA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3guytrr15p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jun 2022 08:45:42 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25M8iAjt003308;
+ Wed, 22 Jun 2022 08:45:41 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3guytrr14s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jun 2022 08:45:41 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25M8ZBX6009223;
+ Wed, 22 Jun 2022 08:45:39 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma02fra.de.ibm.com with ESMTP id 3gs6b8v5hm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jun 2022 08:45:39 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25M8jaMV23724440
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Jun 2022 08:45:36 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 280A74204B;
+ Wed, 22 Jun 2022 08:45:36 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6026042041;
+ Wed, 22 Jun 2022 08:45:35 +0000 (GMT)
+Received: from [9.171.38.79] (unknown [9.171.38.79])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Jun 2022 08:45:35 +0000 (GMT)
+Message-ID: <a39b5023-8db2-fb13-8afd-67c18fbe7d53@linux.ibm.com>
+Date: Wed, 22 Jun 2022 10:50:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PULL 20/33] configure: handle host compiler in
- probe_target_compiler
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v7 8/8] s390x/s390-virtio-ccw: add zpcii-disable machine
+ property
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Leandro Lupori <leandro.lupori@eldorado.org.br>
-References: <20220601180537.2329566-1-alex.bennee@linaro.org>
- <20220601180537.2329566-21-alex.bennee@linaro.org>
- <c655723a-95df-82e4-2105-678cdea9e702@eldorado.org.br>
- <CABgObfYEiV_TK4BDxG6+zZ1Qq06y6GtmnP1uF__eV31XDKggDA@mail.gmail.com>
- <9273ee87-28f6-b6bb-81be-72795f0a645b@eldorado.org.br>
- <b49f2611-55f5-ba8b-df9f-13ab13bbad09@redhat.com>
- <c11648fe-7bff-41df-f11f-bdb46f8a672c@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <c11648fe-7bff-41df-f11f-bdb46f8a672c@linaro.org>
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
+ thuth@redhat.com, farman@linux.ibm.com, richard.henderson@linaro.org,
+ david@redhat.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
+ mst@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+References: <20220606203614.110928-1-mjrosato@linux.ibm.com>
+ <20220606203614.110928-9-mjrosato@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <20220606203614.110928-9-mjrosato@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: pE2EZ41IEr5ahrwobLX3paSjssnL-eyd
+X-Proofpoint-ORIG-GUID: tISO2IhQJ0aK9Y2OKKmReVM5sK9Yx_jM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-21_11,2022-06-21_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=999
+ adultscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206220041
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,43 +121,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/22 20:30, Richard Henderson wrote:
-> On 6/21/22 09:58, Paolo Bonzini wrote:
->> On 6/20/22 18:41, Matheus Kowalczuk Ferst wrote:
->>> On 17/06/2022 07:12, Paolo Bonzini wrote:
->>>> Hi Matheus,
->>>>
->>>> could you please test the tests-tcg-next branch at
->>>> https://gitlab.com/bonzini/qemu?
->>> At be6090bcac10, it works if no BE toolchain is present. Otherwise, the
->>> script probes powerpc64-linux-gnu-gcc instead of the native tools for
->>> ppc64le-linux-user, and then do_compiler fails because the
->>> $target_cflags contains -mlittle-endian.
->>>
->>
->> So the problem in that case is that powerpc64-linux-gnu-gcc is _not_
->> biarch and thus does not support -mlittle-endian?  (I thought PPC
->> compilers were all 32/64-bit and bi-endian).
+
+
+On 6/6/22 22:36, Matthew Rosato wrote:
+> The zpcii-disable machine property can be used to force-disable the use
+> of zPCI interpretation facilities for a VM.  By default, this setting
+> will be off for machine 7.1 and newer.
 > 
-> Nit: this is ppc64le-linux-gnu-gcc, built for gcc135, a power9 ppc64le 
-> host.  It *does* support -mbig-endian, but not -m32.
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>   hw/s390x/s390-pci-kvm.c            |  4 +++-
+>   hw/s390x/s390-virtio-ccw.c         | 24 ++++++++++++++++++++++++
+>   include/hw/s390x/s390-virtio-ccw.h |  1 +
+>   qemu-options.hx                    |  8 +++++++-
+>   util/qemu-config.c                 |  4 ++++
+>   5 files changed, 39 insertions(+), 2 deletions(-)
 > 
-> At least gcc11 as release was not biarch, with no special configure 
-> arguments.  I can try upgrading to the current gcc12 release to see if 
-> that changed...
+> diff --git a/hw/s390x/s390-pci-kvm.c b/hw/s390x/s390-pci-kvm.c
+> index 9134fe185f..5eb7fd12e2 100644
+> --- a/hw/s390x/s390-pci-kvm.c
+> +++ b/hw/s390x/s390-pci-kvm.c
+> @@ -22,7 +22,9 @@
+>   
+>   bool s390_pci_kvm_interp_allowed(void)
+>   {
+> -    return kvm_s390_get_zpci_op() && !s390_is_pv();
+> +    return (kvm_s390_get_zpci_op() && !s390_is_pv() &&
+> +            !object_property_get_bool(OBJECT(qdev_get_machine()),
+> +                                      "zpcii-disable", NULL));
+>   }
 
-Ok, yesterday I had tested with RHEL and there the ppc64le compiler is 
-bi-arch and bi-endian, but multilibs are disabled.  So it cannot build 
-32-bit hosted binaries like those for tests/tcg, only freestanding 
-binaries (vof).
+Isn't it a duplication of machine_get_zpcii_disable?
 
-On the other hand the powerpc64-linux-gnu-gcc binary from the cross-gcc 
-package is theoretically multilib-friendly, but it cannot find the CRT 
-files on the host because they are not in the .../le multilib subdirectory.
+Wouldn't it better go to hw/s390x/kvm/ ?
 
-The simplest way out is to just test both native and cross.  There is 
-already code to check for a working compiler in the tests/tcg stanza, 
-and it can be moved to probe_target_compiler.
+There get the MachineState *ms = MACHINE(qdev_get_machine()) and return 
+the ms->zpcii_disable
 
-Paolo
+?
+
+>   
+>   int s390_pci_kvm_aif_enable(S390PCIBusDevice *pbdev, ZpciFib *fib, bool assist)
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index cc3097bfee..70229b102b 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -645,6 +645,21 @@ static inline void machine_set_dea_key_wrap(Object *obj, bool value,
+>       ms->dea_key_wrap = value;
+>   }
+>   
+> +static inline bool machine_get_zpcii_disable(Object *obj, Error **errp)
+> +{
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> +
+> +    return ms->zpcii_disable;
+> +}
+> +
+> +static inline void machine_set_zpcii_disable(Object *obj, bool value,
+> +                                             Error **errp)
+> +{
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> +
+> +    ms->zpcii_disable = value;
+> +}
+> +
+>   static S390CcwMachineClass *current_mc;
+>   
+>   /*
+> @@ -740,6 +755,13 @@ static inline void s390_machine_initfn(Object *obj)
+>               "Up to 8 chars in set of [A-Za-z0-9. ] (lower case chars converted"
+>               " to upper case) to pass to machine loader, boot manager,"
+>               " and guest kernel");
+> +
+> +    object_property_add_bool(obj, "zpcii-disable",
+> +                             machine_get_zpcii_disable,
+> +                             machine_set_zpcii_disable);
+> +    object_property_set_description(obj, "zpcii-disable",
+> +            "disable zPCI interpretation facilties");
+> +    object_property_set_bool(obj, "zpcii-disable", false, NULL);
+>   }
+>   
+>   static const TypeInfo ccw_machine_info = {
+> @@ -804,9 +826,11 @@ DEFINE_CCW_MACHINE(7_1, "7.1", true);
+>   static void ccw_machine_7_0_instance_options(MachineState *machine)
+>   {
+>       static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
+>   
+>       ccw_machine_7_1_instance_options(machine);
+>       s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+> +    ms->zpcii_disable = true;
+>   }
+>   
+>   static void ccw_machine_7_0_class_options(MachineClass *mc)
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index 3331990e02..8a0090a071 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -27,6 +27,7 @@ struct S390CcwMachineState {
+>       bool aes_key_wrap;
+>       bool dea_key_wrap;
+>       bool pv;
+> +    bool zpcii_disable;
+>       uint8_t loadparm[8];
+>   };
+>   
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 60cf188da4..fafe335b4a 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -36,7 +36,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>       "                nvdimm=on|off controls NVDIMM support (default=off)\n"
+>       "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
+>       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+> -    "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n",
+> +    "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
+> +    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
+>       QEMU_ARCH_ALL)
+>   SRST
+>   ``-machine [type=]name[,prop=value[,...]]``
+> @@ -124,6 +125,11 @@ SRST
+>               -object memory-backend-ram,id=pc.ram,size=512M,x-use-canonical-path-for-ramblock-id=off
+>               -machine memory-backend=pc.ram
+>               -m 512M
+> +
+> +    ``zpcii-disable=on|off``
+> +        Disables zPCI interpretation facilties on s390-ccw hosts.
+
+s/facilties/facility/
+
+> +        This feature can be used to disable hardware virtual assists
+> +        related to zPCI devices. The default is off.
+>   ERST
+>   
+>   DEF("M", HAS_ARG, QEMU_OPTION_M,
+> diff --git a/util/qemu-config.c b/util/qemu-config.c
+> index 433488aa56..5325f6bf80 100644
+> --- a/util/qemu-config.c
+> +++ b/util/qemu-config.c
+> @@ -236,6 +236,10 @@ static QemuOptsList machine_opts = {
+>               .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
+>                       " converted to upper case) to pass to machine"
+>                       " loader, boot manager, and guest kernel",
+> +        },{
+> +            .name = "zpcii-disable",
+> +            .type = QEMU_OPT_BOOL,
+> +            .help = "disable zPCI interpretation facilities",
+>           },
+>           { /* End of list */ }
+>       }
+> 
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
