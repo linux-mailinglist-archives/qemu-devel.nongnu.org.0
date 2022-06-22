@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143305545DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:50:18 +0200 (CEST)
-Received: from localhost ([::1]:35792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52DE5545E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:57:23 +0200 (CEST)
+Received: from localhost ([::1]:38502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3ysC-0002Nd-Sq
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35820)
+	id 1o3yz4-0004gN-KU
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:57:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3ypo-0000fH-5x
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 07:47:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o3ypk-0007cq-Va
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 07:47:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655898463;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jlFe2q3ftxTarDNb4Pq5wFaEsY6doNu1E/eP48D+MSg=;
- b=CVcSxORA6NyAeWjuF9GV/4wuXkECXhhmwQQPrZUux+DnogbD2jMCdVQfHoesKX+RM5XY4x
- 5nJ7do9Totb0BxdakVL3PNJgaFM7a3jg3sZi5sMQBnoL9k07q/3mSATsr7qvE3fm7fImVS
- ZXwTTWGr13s1y8PNqY7WY+uX8hBGujw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-curqY8fUNfiyGVGRbRebFw-1; Wed, 22 Jun 2022 07:47:40 -0400
-X-MC-Unique: curqY8fUNfiyGVGRbRebFw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3AAA811E7A
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 11:47:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 817584619F5;
- Wed, 22 Jun 2022 11:47:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4C4EE21E690D; Wed, 22 Jun 2022 13:47:38 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Jason Wang
- <jasowang@redhat.com>,  Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [RFC PATCH v3 04/11] qapi: net: add stream and dgram netdevs
-References: <20220620101828.518865-1-lvivier@redhat.com>
- <20220620101828.518865-5-lvivier@redhat.com>
- <874k0fz7gg.fsf@pond.sub.org>
- <7eb9f5a3-5166-ee8d-86f8-1d05770331f6@redhat.com>
- <87tu8ev1ta.fsf@pond.sub.org>
- <efce9c42-77f4-a2c0-e379-fc8b71e8e191@redhat.com>
-Date: Wed, 22 Jun 2022 13:47:38 +0200
-In-Reply-To: <efce9c42-77f4-a2c0-e379-fc8b71e8e191@redhat.com> (Laurent
- Vivier's message of "Tue, 21 Jun 2022 21:27:22 +0200")
-Message-ID: <87fsjwncmd.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1o3yxl-0003up-HQ
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 07:56:01 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56280)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1o3yxh-0000Zb-MU
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 07:56:00 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id a10so9080483wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 04:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=U5e7GvEv15GkUdahdUQkaX7HOO1N37RGN+0M2Lj82oE=;
+ b=ywgAudJEjqfjZzTf/O2ha+HenwjBx599ZNLQaEGIaDVw+EF4J9yRsgmR/J4aGgBFKY
+ BfPjXqWJ1IEWEpqTHx3vClzFdI1Yxt5lynpJZA+0SDAVVSbQvDin3kywkJhknpeztEqu
+ y6B6ZB21CScU5LBBTLmf1Pnc0B83u4eHAPJpcvm0vPKp3OMxwfYVMncTaj1qeZHwurtY
+ yK71wvRTjE1Rf0f8JEAmXpGUpa30A8DxD6D78IEFmKZZYA25u4qD751MJ210/Sqf1pz3
+ j9zTR2O3SaN5/HnQAP8D+zKK0KUmPkC4GzPT+aJgeAf4/KKZ4/Oi+b42mGAWK6YWoAfS
+ r7Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=U5e7GvEv15GkUdahdUQkaX7HOO1N37RGN+0M2Lj82oE=;
+ b=VCf8qhoXekv3zYCSSH1CCXoUmbB/NypWkkT1ZZ1OawWthrPjDscQxAfnL4+6Cb+Oly
+ 0YHlt1ly+IhtoqFhGXRUmOILDFdSYjzt/MJyg5Jc1fS3Eu8hJycG7AuvhMS/eJc5E944
+ G7XT6SQObrL0tSRgk4pNK5rK16x+gqWOyqB6v3LeKtFy0JLFVP05DTaR1bsmhXNV0KfC
+ 8UM8Rez4lW7TkHbr9cXyp6TApaH6PJb5Cn1eRvhN/rsPOPnoLl29db4pfJjiElAAikcD
+ yr/OORxXm2ufRdqcIURVGtskW6ESODw+EFadA0rqoBdhUFtbRgSZownZAn669ACGF1jh
+ NZ/w==
+X-Gm-Message-State: AOAM530hPUItibM76fH1X0zMcaEPXSUsQ5Gj00wPu+x8HfnndkWEAas/
+ gODM3RoICGX3SQha8GqEV/u72Q==
+X-Google-Smtp-Source: ABdhPJzTb6TgPRAsPEHcaHS9tYlL4hKeQlfy49dbrV2Pmx05l9TdwXubBoezg0SIc6gNu2qEd57+8w==
+X-Received: by 2002:a7b:c4cb:0:b0:39c:35b3:e8c1 with SMTP id
+ g11-20020a7bc4cb000000b0039c35b3e8c1mr46153412wmk.183.1655898955117; 
+ Wed, 22 Jun 2022 04:55:55 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
+ m188-20020a1c26c5000000b0039c4945c753sm24990889wmm.39.2022.06.22.04.55.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jun 2022 04:55:54 -0700 (PDT)
+Date: Wed, 22 Jun 2022 12:55:31 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-devel@nongnu.org,
+ mst@redhat.com
+Subject: Re: [PATCH v2] virtio-iommu: Fix the partial copy of probe request
+Message-ID: <YrMDMzfXAiEgFU+d@myrica>
+References: <20220617062024.3168331-1-zhenzhong.duan@intel.com>
+ <0f4f26de-1402-5c3a-9903-389fef9b234f@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0f4f26de-1402-5c3a-9903-389fef9b234f@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,246 +90,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+Hi,
 
-> On 21/06/2022 10:49, Markus Armbruster wrote:
->> Laurent Vivier <lvivier@redhat.com> writes:
->> 
->>> On 20/06/2022 17:21, Markus Armbruster wrote:
->>>> Laurent Vivier <lvivier@redhat.com> writes:
->>>>
->>>>> Copied from socket netdev file and modified to use SocketAddress
->>>>> to be able to introduce new features like unix socket.
->>>>>
->>>>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
->>>>> according to the IP address type.
->>>>> "listen" and "connect" modes are managed by stream netdev. An optional
->>>>> parameter "server" defines the mode (server by default)
->>>>>
->>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>>> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
->>>>> ---
->> 
->> [...]
->> 
->>>>> diff --git a/net/net.c b/net/net.c
->>>>> index c337d3d753fe..440957b272ee 100644
->>>>> --- a/net/net.c
->>>>> +++ b/net/net.c
->>> ...
->>>>> @@ -1612,7 +1617,19 @@ void net_init_clients(void)
->>>>>     */
->>>>>    static bool netdev_is_modern(const char *optarg)
->>>>>    {
->>>>> -    return false;
->>>>> +    QDict *args;
->>>>> +    const char *type;
->>>>> +    bool is_modern;
->>>>> +
->>>>> +    args = keyval_parse(optarg, "type", NULL, NULL);
->>>>> +    if (!args) {
->>>>> +        return false;
->>>>> +    }
->>>>> +    type = qdict_get_try_str(args, "type");
->>>>> +    is_modern = !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
->>>>> +    qobject_unref(args);
->>>>> +
->>>>> +    return is_modern;
->>>>>    }
->>>>
->>>> You could use g_autoptr here:
->>>>
->>>>          g_autoptr(QDict) args = NULL;
->>>>          const char *type;
->>>>          bool is_modern;
->>>>
->>>>          args = keyval_parse(optarg, "type", NULL, NULL);
->>>>          if (!args) {
->>>>              return false;
->>>>          }
->>>>          type = qdict_get_try_str(args, "type");
->>>>          return !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
->>>>
->>>> Matter of taste; you decide.
->>>
->>> Looks good. We already had some series to convert existing code to g_autoptr(), so it
->>> seems the way to do.
->>>
->>>>
->>>> Now recall how this function is used: it decides whether to parse the
->>>> modern way (with qobject_input_visitor_new_str()) or the traditional way
->>>> (with qemu_opts_parse_noisily()).
->>>>
->>>> qemu_opts_parse_noisily() parses into a QemuOpts, for later use with the
->>>> opts visitor.
->>>>
->>>> qobject_input_visitor_new_str() supports both dotted keys and JSON.  The
->>>> former is parsed with keyval_parse(), the latter with
->>>> qobject_from_json().  It returns the resulting parse tree wrapped in a
->>>> suitable QAPI input visitor.
->>>>
->>>> Issue 1: since we get there only when keyval_parse() succeeds, JSON is
->>>> unreachable.  Reproducer:
->>>>
->>>>       $ qemu-system-x86_64 -netdev '{"id":"foo"}'
->>>>       upstream-qemu: -netdev {"id":"foo"}: Parameter 'id' is missing
->>>>
->>>> This is parsed with qemu_opts_parse_noisily(), resulting in a QemuOpts
->>>> with a single option 'type' with value '{"id":"foo"}'.  The error
->>>> message comes from the opts visitor.
->>>>
->>>> To fix this, make netdev_is_modern() return true when optarg[0] == '{'.
->>>> This matches how qobject_input_visitor_new_str() recognizes JSON.
->>>
->>> OK
->>>
->>>>
->>>> Issue 2: when keyval_parse() detects an error, we throw it away and fall
->>>> back to QemuOpts.  This is commonly what we want.  But not always.  For
->>>> instance:
->>>>
->>>>       $ qemu-system-x86_64 -netdev 'type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off'
->>>>
->>>> Note the typo "ipv4-off" instead of ipv4=off.  The error reporting is crap:
->>>>
->>>>       qemu-system-x86_64: -netdev type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off: warning: short-form boolean option 'addr.ipv4-off' deprecated
->>>>       Please use addr.ipv4-off=on instead
->>>>       qemu-system-x86_64: -netdev type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off: Parameter 'type' is missing
->>>>
->>>> We get this because netdev_is_modern() guesses wrongly: keyval_parse()
->>>> fails with the perfectly reasonable error message "Expected '=' after
->>>> parameter 'addr.ipv4-off'", but netdev_is_modern() ignores the error,
->>>> and fails.  We fall back to QemuOpts, and confusion ensues.
->>>>
->>>> I'm not sure we can do much better with reasonable effort.  If we decide
->>>> to accept this behavior, it should be documented at least in the source
->>>> code.
->>>
->>> What about using modern syntax by default?
->>>
->>>       args = keyval_parse(optarg, "type", NULL, NULL);
->>>       if (!args) {
->>>           /* cannot detect the syntax, use new style syntax */
->>>           return true;
->>>       }
->> 
->> As is, netdev_is_modern() has three cases:
->> 
->> 1. keyval_parse() fails
->> 
->> 2. keyval_parse() succeeds, but value of @type is not modern
->> 
->> 3. keyval_parse() succeeds, and value of @type is modern
->> 
->> In case 3. we're sure, because even if qemu_opts_parse_noisily() also
->> succeeded, it would result in the same value of @type.
->> 
->> In case 2, assuming traditional seems reasonable.  The assumption can be
->> wrong when the user intends modern, but fat-fingers the type=T part.
->> 
->> In case 1, we know nothing.
->> 
->> Guessing modern is wrong when the user intends traditional.  This
->> happens when a meant-to-be-traditional @optarg also parses as modern.
->> Quite possible.
+On Wed, Jun 22, 2022 at 12:20:45PM +0200, Eric Auger wrote:
+> Hi,
+> 
+> On 6/17/22 08:20, Zhenzhong Duan wrote:
+> > The structure of probe request doesn't include the tail, this leads
+> > to a few field missed to be copied. Currently this isn't an issue as
+> > those missed field belong to reserved field, just in case reserved
+> > field will be used in the future.
+> >
+> > Fixes: 1733eebb9e75b ("virtio-iommu: Implement RESV_MEM probe request")
+> > Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+> nice catch.
+> 
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> 
+> the spec is pretty confusing here though (virtio-v1.2-csd01.pdf) as it
+> presents the struct as follows:
+> 
+> struct virtio_iommu_req_probe {
+> struct virtio_iommu_req_head head;
+> /* Device-readable */
+> le32 endpoint;
+> u8 reserved[64];
 >
-> I don't see why keyval_parse() fails in this case. Any example?
+> /* Device-writable */
+> u8 properties[probe_size];
+> struct virtio_iommu_req_tail tail;
+> };
 
-Brain cramp on my part, I'm afraid %-}  Let me start over.
+Hm, which part is confusing?  Yes it's not valid C since probe_size is
+defined dynamically ('probe_size' in the device config), but I thought it
+would be nicer to show the whole request layout this way. Besides, at
+least virtio-blk and virtio-scsi have similar variable-sized arrays in
+their definitions
 
-Guessing modern is wrong when the user intends traditional.  Two
-sub-cases then:
+> 
+> Adding Jean in the loop ...
+> 
+> Thanks!
+> 
+> Eric
+> 
+> 
+> 
+> 
+> > ---
+> >  v2: keep bugfix change and drop cleanup change
+> >
+> >  hw/virtio/virtio-iommu.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> > index 7c122ab95780..195f909620ab 100644
+> > --- a/hw/virtio/virtio-iommu.c
+> > +++ b/hw/virtio/virtio-iommu.c
+> > @@ -708,7 +708,8 @@ static int virtio_iommu_handle_probe(VirtIOIOMMU *s,
+> >                                       uint8_t *buf)
+> >  {
+> >      struct virtio_iommu_req_probe req;
+> > -    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req));
+> > +    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req,
+> > +                    sizeof(req) + sizeof(struct virtio_iommu_req_tail));
 
-* @optarg parses fine as traditional.  For instance,
+Not sure this is correct, because what we are doing here is reading the
+device-readable part of the property from the request. That part is only
+composed of fields 'head', 'endpoint' and 'reserved[64]' and its size is
+indeed sizeof(struct virtio_iommu_req_probe).
 
-    $ qemu-system-x86_64 -netdev type=user,id=foo,ipv4
+The 'properties' and 'tail' fields shouldn't be read by the device here,
+they are instead written later. It is virtio_iommu_handle_command() that
+copies both of them into the request:
 
-  parses with a warning:
+            output_size = s->config.probe_size + sizeof(tail);
+            buf = g_malloc0(output_size);
 
-    option 'ipv4' deprecated
-    Please use ipv4=on instead
+            ptail = (struct virtio_iommu_req_tail *)
+                        (buf + s->config.probe_size);
+            ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
+	    // and virtio_iommu_probe() fills 'properties' as needed
+	    ...
 
-  This is how current master behaves.
+	// then copy the lot
+        sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
+                          buf ? buf : &tail, output_size);
 
-  Guessing modern makes this fail instead:
+So I think the current code is correct, as all fields are accounted for
 
-    qemu-system-x86_64: -netdev type=user,id=foo,ipv4: Expected '=' after parameter 'ipv4'
+Thanks,
+Jean
 
-  Regression.
-
-* @optarg fails to parse traditional, too.  The error reporting is for
-  modern even though the user intends traditional.  Can be misleading.
-  Example:
-
-    $ qemu-system-x86_64 -netdev type=user,id=_,ipv4
-
-  Current master:
-
-    qemu-system-x86_64: -netdev type=user,id=_,ipv4: Parameter 'id' expects an identifier
-    Identifiers consist of letters, digits, '-', '.', '_', starting with a letter.
-
-  Guessing modern instead:
-
-    qemu-system-x86_64: -netdev type=user,id=_,ipv4: Expected '=' after parameter 'ipv4'
-
-  This should be rare in practice, as traditional parsing detects very
-  few errors.
-
->> Guessing traditional is wrong when the user intends modern.  This
->> happens when a meant-to-be-modern @optarg fails to parse as modern,
->> i.e. whenever the user screws up modern syntax.
->
-> This one is the example you gave (ipv4-off)
-
-Two sub-cases then:
-
-* @optarg parses fine as traditional.  The parse result is unlikely to
-  make sense, though.  For instance,
-
-    $ qemu-system-x86_64 -netdev type=stream,id=foo,server
-
-  parses with a warning:
-
-    qemu-system-x86_64: -netdev type=stream,id=foo,server: warning: short-form boolean option 'server' deprecated
-    Please use server=on instead
-
-  But the result fails in the opts visitor:
-
-    qemu-system-x86_64: -netdev type=stream,id=foo,server: Parameter 'type' is missing
-
-  In this case, we're better off with guessing modern:
-
-    qemu-system-x86_64: -netdev type=stream,id=foo,server: Expected '=' after parameter
-
-* @optarg fails to parse traditional, too.  The error reporting is for
-  traditional even though the user intends modern.  Can be misleading.
-
-  This is my ipv4-off example.
-
-Can't win.  Parsers simply don't compose that way.
-
->> Which guess is less bad?  I'm not sure.  Thoughts?
->
-> Perhaps we can simply fail if keyval_parse() fails?
->
-> something like:
->
->      args = keyval_parse(optarg, "type", NULL, &error_fatal);
->      type = qdict_get_try_str(args, "type");
->      return !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
-
-This rejects working option arguments that don't also parse as modern,
-such as "-netdev type=user,id=foo,ipv4".
-
-Guessing traditional seems to be the least bad solution so far.
-
-Supporting both traditional and modern syntax in an option argument is a
-swamp.  Can we bypass it somehow?
-
--object uses traditional QemuOpts parsing for key=value,..., and modern
-parsing for JSON.  Sticking to traditional sidesteps compatibility
-issues.  But you have to use JSON for things traditional can't express.
-
-Thoughts?
-
+> >  
+> >      return ret ? ret : virtio_iommu_probe(s, &req, buf);
+> >  }
+> 
 
