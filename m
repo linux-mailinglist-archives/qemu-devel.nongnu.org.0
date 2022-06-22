@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1541B55459B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:07:00 +0200 (CEST)
-Received: from localhost ([::1]:40402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E11554577
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 12:59:35 +0200 (CEST)
+Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3yCJ-0007zp-3m
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50048)
+	id 1o3y58-0005Cm-KF
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 06:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xzt-0004oe-Tf; Wed, 22 Jun 2022 06:54:09 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37876)
+ id 1o3xzx-00051k-AJ; Wed, 22 Jun 2022 06:54:13 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xzs-0005UF-AY; Wed, 22 Jun 2022 06:54:09 -0400
+ id 1o3xzv-0005Ue-Gx; Wed, 22 Jun 2022 06:54:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=nGNOWG6fop6xkocURliDQI+5P2GkAVoxMSMGWwzk5Ho=; b=zTe5wfud2UOJrvRkpZnGDnX2by
- o9AwjNzS1XFVxQBAV4deAA93siyOOw3WOHTtMz41/YzFac8EkFJ3px6c/ksrdCXc4BbxP3exfimT5
- VH0PbIjV54AlBmvMGUcCnwpL7fcp0aZu8qatcTBBUrq2/TV6VbkcAuaYFpMPizmxSY7RYZ+yp+SpX
- XdhDM/WWXzupGnfnfJ3vwY8Y4Gr8tYiUHfZ5/r/KN6vNuHYjnS6/98b3mpugqOjfZg+AQNWooQZm3
- HU/ltfxPALKvmhvaNhT2hY2lkS+KJjBfUQUUh+4NQoi8YhfbIIZdUGqOfyIWUeUPxy5ryRNttbPbc
- nKMM8aHOpBusoYJdX0+ZkK42za8CogYD7yywu41DkeO6NXCR4ZYER8WO3/nPYdacAou5Bpjlb2YKd
- a9EKCsbpgDmUExKO4yhAN7TtpI0O3ruYlzGrmNrDiUa5u1azIjOkN+2yAJ54pwBMNzrwrt12GkikF
- cLGGKONE3rEEDBl5mFqET2RJydNY3lF6UORf/wllxt2BARhXzllfPYDqvsr8nu6H2ewPJGCvl/+dt
- MmyezSLhzUJC4//SORqyuLIcaumfFcZ/oqkrg34WyAb2r4b3aIV+IBvt3ChamCDV0kLmKM0nJ5MsG
- 8kIUw7jc/bJxElwMTdEpjNg1Z1085fsXevBRcr1sg=;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bhsUdSsraJqovbQCxXheYzofNcvtG8Qou8t2HxOQhCM=; b=HK1IB9r7zM1JN5Qy7Aar3EWGe5
+ FuHiZ3MiMGedV8ijidvv/b0KivdtYB41XeVPIQ3Gy6FjLB2Y/lu1Fk0JDCnpGkVB2Y2Fznx1maHeD
+ vLiL0U7eGC2ka9Ez6K5PABNmCKIFqoIvjXSQFIhXXkDs5qF3MOAYEMfXZxAAPjDvfBcUvt557B4gh
+ nt6K3NuaGJxilgzvelDM20Yatkziuw+orxAsp/L12Ao6MZXCYfv/d/0W1W7uJLtsULYwT3o44LpCm
+ 70/TSjNnC2x0lM/gG7r9sWIAVt0sWboC6AUcsW2I/ID5hW/vzrCwQt+oDB7x6DaJS1WEpYdebU9Ps
+ 9nVC3ReIn+onIVvFkSqP3UB6n9t1OSvXkg+RH+xwx43LBCfQwrsccflHpc94WQ22O1idgtPSlb59/
+ D6TnkUrfVwk/DXSQDemVsJru9GHsSiLDrVLJcf64CZSWarghYEIvBXhQJKbFX4nhtp14H7RXEOMIq
+ tZzzGe3HjMGH205ylWPcWLmNk5h3zFoCzDw208m8h7KkOhERNqQgqupDQss/6kHOVv2xxef3exR78
+ DjNz0CT02Dx6yWthHDtBeUSGsIXoUTV6NFvy/2X9Q4p1BsWMwJ4h/Sujhlr8s5CdwEaB11izlWOdL
+ qdqNW7D4gHnEjytgldCVo5syYjkGTOgkuoCZGnWB0=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xyc-000CTX-DE; Wed, 22 Jun 2022 11:52:54 +0100
+ id 1o3xyg-000CTX-N8; Wed, 22 Jun 2022 11:52:58 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
-Date: Wed, 22 Jun 2022 11:53:08 +0100
-Message-Id: <20220622105314.802852-9-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 22 Jun 2022 11:53:09 +0100
+Message-Id: <20220622105314.802852-10-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
 References: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 08/14] scsi-disk: add FORMAT UNIT command
+Subject: [PATCH v3 09/14] scsi-disk: add SCSI_DISK_QUIRK_MODE_PAGE_TRUNCATED
+ quirk for Macintosh
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -76,51 +76,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When initialising a drive ready to install MacOS, Apple HD SC Setup first attempts
-to format the drive. Add a simple FORMAT UNIT command which simply returns success
-to allow the format to succeed.
+When A/UX configures the CDROM device it sends a truncated MODE SELECT request
+for page 1 (MODE_PAGE_R_W_ERROR) which is only 6 bytes in length rather than
+10. This seems to be due to bug in Apple's code which calculates the CDB message
+length incorrectly.
+
+The work at [1] suggests that this truncated request is accepted on real
+hardware whereas in QEMU it generates an INVALID_PARAM_LEN sense code which
+causes A/UX to get stuck in a loop retrying the command in an attempt to succeed.
+
+Alter the mode page request length check so that truncated requests are allowed
+if the SCSI_DISK_QUIRK_MODE_PAGE_TRUNCATED quirk is enabled, whilst also adding a
+trace event to enable the condition to be detected.
+
+[1] https://68kmla.org/bb/index.php?threads/scsi2sd-project-anyone-interested.29040/page-7#post-316444
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/scsi/scsi-disk.c  | 4 ++++
- hw/scsi/trace-events | 1 +
- 2 files changed, 5 insertions(+)
+ hw/scsi/scsi-disk.c    | 7 ++++++-
+ hw/scsi/trace-events   | 1 +
+ include/hw/scsi/scsi.h | 1 +
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index ce915f326e..f09c1acae2 100644
+index f09c1acae2..b225ec1a4c 100644
 --- a/hw/scsi/scsi-disk.c
 +++ b/hw/scsi/scsi-disk.c
-@@ -2180,6 +2180,9 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
-         trace_scsi_disk_emulate_command_WRITE_SAME(
-                 req->cmd.buf[0] == WRITE_SAME_10 ? 10 : 16, r->req.cmd.xfer);
-         break;
-+    case FORMAT_UNIT:
-+        trace_scsi_disk_emulate_command_FORMAT_UNIT(r->req.cmd.xfer);
-+        break;
-     default:
-         trace_scsi_disk_emulate_command_UNKNOWN(buf[0],
-                                                 scsi_command_name(buf[0]));
-@@ -2586,6 +2589,7 @@ static const SCSIReqOps *const scsi_disk_reqops_dispatch[256] = {
-     [VERIFY_10]                       = &scsi_disk_emulate_reqops,
-     [VERIFY_12]                       = &scsi_disk_emulate_reqops,
-     [VERIFY_16]                       = &scsi_disk_emulate_reqops,
-+    [FORMAT_UNIT]                     = &scsi_disk_emulate_reqops,
+@@ -1552,7 +1552,10 @@ static int mode_select_pages(SCSIDiskReq *r, uint8_t *p, int len, bool change)
+             goto invalid_param;
+         }
+         if (page_len > len) {
+-            goto invalid_param_len;
++            if (!(s->quirks & SCSI_DISK_QUIRK_MODE_PAGE_TRUNCATED)) {
++                goto invalid_param_len;
++            }
++            trace_scsi_disk_mode_select_page_truncated(page, page_len, len);
+         }
  
-     [READ_6]                          = &scsi_disk_dma_reqops,
-     [READ_10]                         = &scsi_disk_dma_reqops,
+         if (!change) {
+@@ -3152,6 +3155,8 @@ static Property scsi_cd_properties[] = {
+     DEFINE_PROP_BIT("quirk_mode_page_vendor_specific_apple", SCSIDiskState,
+                     quirks, SCSI_DISK_QUIRK_MODE_PAGE_VENDOR_SPECIFIC_APPLE,
+                     0),
++    DEFINE_PROP_BIT("quirk_mode_page_truncated", SCSIDiskState, quirks,
++                    SCSI_DISK_QUIRK_MODE_PAGE_TRUNCATED, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
-index 20fb0dc162..03b2640934 100644
+index 03b2640934..8e927ff62d 100644
 --- a/hw/scsi/trace-events
 +++ b/hw/scsi/trace-events
-@@ -334,6 +334,7 @@ scsi_disk_emulate_command_UNMAP(size_t xfer) "Unmap (len %zd)"
- scsi_disk_emulate_command_VERIFY(int bytchk) "Verify (bytchk %d)"
- scsi_disk_emulate_command_WRITE_SAME(int cmd, size_t xfer) "WRITE SAME %d (len %zd)"
- scsi_disk_emulate_command_UNKNOWN(int cmd, const char *name) "Unknown SCSI command (0x%2.2x=%s)"
-+scsi_disk_emulate_command_FORMAT_UNIT(size_t xfer) "Format Unit (len %zu)"
- scsi_disk_dma_command_READ(uint64_t lba, uint32_t len) "Read (sector %" PRId64 ", count %u)"
+@@ -339,6 +339,7 @@ scsi_disk_dma_command_READ(uint64_t lba, uint32_t len) "Read (sector %" PRId64 "
  scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int len) "Write %s(sector %" PRId64 ", count %u)"
  scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Command: lun=%d tag=0x%x data=%s"
+ scsi_disk_aio_sgio_command(uint32_t tag, uint8_t cmd, uint64_t lba, int len, uint32_t timeout) "disk aio sgio: tag=0x%x cmd=0x%x (sector %" PRId64 ", count %d) timeout=%u"
++scsi_disk_mode_select_page_truncated(int page, int len, int page_len) "page %d expected length %d but received length %d"
+ 
+ # scsi-generic.c
+ scsi_generic_command_complete_noio(void *req, uint32_t tag, int statuc) "Command complete %p tag=0x%x status=%d"
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index 011cb84753..e284e3a4ec 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -230,5 +230,6 @@ extern const SCSIReqOps scsi_generic_req_ops;
+ #define SCSI_DISK_QUIRK_MODE_PAGE_APPLE_VENDOR             0
+ #define SCSI_DISK_QUIRK_MODE_SENSE_ROM_USE_DBD             1
+ #define SCSI_DISK_QUIRK_MODE_PAGE_VENDOR_SPECIFIC_APPLE    2
++#define SCSI_DISK_QUIRK_MODE_PAGE_TRUNCATED                3
+ 
+ #endif
 -- 
 2.30.2
 
