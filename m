@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA8E554071
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 04:15:52 +0200 (CEST)
-Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32DA55408C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 04:29:13 +0200 (CEST)
+Received: from localhost ([::1]:48336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3puJ-0001iQ-Dk
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 22:15:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
+	id 1o3q7E-0004fP-9i
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jun 2022 22:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3psj-0000u1-MR
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 22:14:13 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46732)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1o3q5G-0003nW-Av
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 22:27:10 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:43957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o3psh-0003zx-Tj
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 22:14:13 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id l4so14769867pgh.13
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 19:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0xQJTo9KkzIicemKCzafNMJ0fqHld8s6eBA9gHPg3pE=;
- b=xzetnbuZFJZLXX1//QqCMZIfPjLVD3E6mmbO38Xrk4i0t5l98HzwBdTmRz67ZY30l/
- oIRlzJjm8xCOozhierQsOENW32mRcICVrUB+B+BrThYS6GT9DKYupcMeb9jWyQrV/hsK
- Ysyi79SP6hA9Wzm8jGgjAbm0JV0jT+xbzdo/rnENA7zSE7Fne7KYbUY+82i+DkSwAT7V
- 9BokFhhtCpnmC9L+lQ7PAkcajS/4NFaasWRYSJFulQ6TIr8VLDSc3jOYCsZyTvxZ9xuu
- lW/xDV/jNAfcx1UaMeJrea6wDYQqjqcJQQIF8TFbYPp2U+POHr9H4wzOC5w4/gZjeW5b
- kjWw==
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1o3q5D-0005u5-BV
+ for qemu-devel@nongnu.org; Tue, 21 Jun 2022 22:27:10 -0400
+Received: by mail-pf1-x429.google.com with SMTP id k127so9578011pfd.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 19:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:to:cc:references
+ :content-language:from:in-reply-to:content-transfer-encoding;
+ bh=XKmtGALngWrENfLXa97/do1nuSWXZqQI8PbYdiIRBjI=;
+ b=2sxWZZgQiUg1Ukw3NU5lPF9jUYTjgcDLEGdQKdxYkYUFZ1NDG5wdQeTvtWQeRmKOx2
+ 5iLVn6A3+S7jaEgUosFLpVTZFHUKQo2Ou3cFg3OY2MsWcA6f60AsLSyZQC8EQJ64dnMd
+ 2CIus/thzsB6DVjJoT30MTZxR4FVkFksDmd1J8BJyNOkeelQcnV6RXlaHJ/XYodfOyOT
+ bMA8QBzBcqkwchR9WGlcYVfKBb3JHQXYcw4nFHpILbIfD75pQ9G8QrxRx+HDz7qLF3Vj
+ zuY+Q7Kk2SaLr7yn8Qb20q5XZq/2Ri53bdZA8LYnv1NlECL/0dgDcBsPRfPb4fYy4P/R
+ V+7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :to:cc:references:content-language:from:in-reply-to
  :content-transfer-encoding;
- bh=0xQJTo9KkzIicemKCzafNMJ0fqHld8s6eBA9gHPg3pE=;
- b=G6YxqGadVWn2iCcIMGVl+a0IpDJ8bFkxkkGC1cBMyHoCCguFppNEjtbC4iYal5yEOr
- h3a0e8N3kQCmEKUfH+ib6kHcNU9o8LDQCcOCDExrdrgQ1He/s/00mRA0r7QfupIonIYj
- 4q+QKX+aHWy6ihfLB8AWR7KI9rf4DcF6jk8Tf3Po1hBWAwe+dk55XoSY4jPU9DKxbSM7
- U8W14f+mqXrO+JWoPM532m99maMfidjAEOx5VYl9QnhpBgkjNSdCkSwcrUJcjTmXYzpc
- wS6plhl3a0k7DKmnqSNJ3oR1yKNvoA1OulSId5BiWLJaJpbshUxlWtPV3MxM0N8qKFc/
- Ataw==
-X-Gm-Message-State: AJIora+eq9UUwqW2umejvL3KQsETtcx+Bu9jTkxwbVT5ZPmYv3wv7Aku
- vTNiggzHCrocSQRKtwiRUkFXzA==
-X-Google-Smtp-Source: AGRyM1vqrN6EVZvWriBJXKVbPOnwna3fzkwcNvZvgFGR1kVHWZBj5HQGGr+CQuLBCKgHZT8hfH1zAA==
-X-Received: by 2002:a05:6a00:1a56:b0:51b:f1af:c2e8 with SMTP id
- h22-20020a056a001a5600b0051bf1afc2e8mr32705332pfv.48.1655864049711; 
- Tue, 21 Jun 2022 19:14:09 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49e:3c01:8adc:a144:6ec2:4d71?
- ([2602:47:d49e:3c01:8adc:a144:6ec2:4d71])
- by smtp.gmail.com with ESMTPSA id
- l18-20020a17090a409200b001eb162ffaa3sm9847528pjg.25.2022.06.21.19.14.08
+ bh=XKmtGALngWrENfLXa97/do1nuSWXZqQI8PbYdiIRBjI=;
+ b=52PHt4qp3oLeKkwQpr2m8Tmgdx93Ji1fvKHVfgEtSU5CSoOCmXTEZZloL/+X0Yd9yz
+ 4dbTtfqRcxvzWNz4UApIm6Hz0J7xQOf5+dLE6KVCJJ3GEQHlIm/lEwP/gEbALPk1+wGT
+ XEqHNrxz2cmZSer6/wTJ3s/9OFkvdKGobKP2UUPqAO5DO/SA1eELdq/Ws5mZ3qIywwNv
+ lKpyL8xGk+F+gf94H11HgD/3Igo8Ozr3U2ePMpFdRclBZFeSDb7rRTezcyjeywOIdyLo
+ fkAkZ7ubDqJtLWd/gE9SkipEYrPo+zjHBvCpOjDQRoY+sUfz2wyjSO4ZTR6ip1gJdZ67
+ GvPA==
+X-Gm-Message-State: AJIora8McGfSVIm3P2Pg8Yg+VSMUjWyfhQYlMlcGqviOiRcQCWz7o2rX
+ 0+RO9DKTZ/gz/mZKnET7Tbr4Rg==
+X-Google-Smtp-Source: AGRyM1sI+zZUchuSKV4CH4Tlpm+FyO98iQEhhmf1z0b5OEkskpYb7kb1HY+nKRe13+NsRLTs3q1H+g==
+X-Received: by 2002:a63:af56:0:b0:40d:2430:8fa3 with SMTP id
+ s22-20020a63af56000000b0040d24308fa3mr909183pgo.376.1655864823813; 
+ Tue, 21 Jun 2022 19:27:03 -0700 (PDT)
+Received: from [10.61.2.177] (110-175-254-242.static.tpgi.com.au.
+ [110.175.254.242]) by smtp.gmail.com with ESMTPSA id
+ i64-20020a628743000000b0051b930b7bbesm12085825pfe.135.2022.06.21.19.27.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 19:14:09 -0700 (PDT)
-Message-ID: <e3bb7c52-8c01-2a8c-765b-bd5eb49039a1@linaro.org>
-Date: Tue, 21 Jun 2022 19:14:07 -0700
+ Tue, 21 Jun 2022 19:27:02 -0700 (PDT)
+Message-ID: <90ca3cd7-c20b-0d08-9c2b-8abcc93a0620@ozlabs.ru>
+Date: Wed, 22 Jun 2022 12:26:57 +1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/25] Migration 20220621 patches
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.0
+Subject: Re: [PATCH qemu] spapr/ddw: Reset DMA when the last non-default
+ window is removed
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220620080109.998804-1-aik@ozlabs.ru>
+ <0493683a-47e8-ce26-0cd1-671928803f80@gmail.com>
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Hailiang Zhang <zhanghailiang@xfusion.com>, Eric Blake
- <eblake@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Fam Zheng <fam@euphon.net>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20220622002547.64784-1-quintela@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220622002547.64784-1-quintela@redhat.com>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <0493683a-47e8-ce26-0cd1-671928803f80@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=aik@ozlabs.ru; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,55 +93,240 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/22 17:25, Juan Quintela wrote:
-> The following changes since commit c8b2d413761af732a0798d8df45ce968732083fe:
-> 
->    Merge tag 'bsd-user-syscall-2022q2-pull-request' of ssh://github.com/qemu-bsd-user/qemu-bsd-user into staging (2022-06-19 13:56:13 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/juan.quintela/qemu.git tags/migration-20220621-pull-request
-> 
-> for you to fetch changes up to 720eceaa316f2a75a7930085bb305850831a065f:
-> 
->    migration: remove the QEMUFileOps abstraction (2022-06-21 18:06:55 +0200)
-> 
-> ----------------------------------------------------------------
-> Migration Pull request
-> 
-> Hi
-> 
-> In this today migration PULL request:
-> - dainiel Berrangé qemufileops cleanup
-> - Leonardo Brass cleanups for zero copy
-> - RDMA cleanups (me)
-
-Build failures:
-
-https://gitlab.com/qemu-project/qemu/-/jobs/2622407867
-https://gitlab.com/qemu-project/qemu/-/jobs/2622407794
-https://gitlab.com/qemu-project/qemu/-/jobs/2622407791
-
-../migration/migration.c:166:5: error: 'MIGRATION_CAPABILITY_ZERO_COPY_SEND' undeclared 
-here (not in a function); did you mean 'MIGRATION_CAPABILITY_ZERO_BLOCKS'?
-   166 |     MIGRATION_CAPABILITY_ZERO_COPY_SEND);
-       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../migration/migration.c:145:35: note: in definition of macro 'INITIALIZE_MIGRATE_CAPS_SET'
-   145 |         .size = sizeof((int []) { __VA_ARGS__ }) / sizeof(int), \
-       |                                   ^~~~~~~~~~~
-[1118/1665] Compiling C object libcommon.fa.p/migration_multifd.c.obj
 
 
-https://gitlab.com/qemu-project/qemu/-/jobs/2622407863
-https://gitlab.com/qemu-project/qemu/-/jobs/2622407862
-https://gitlab.com/qemu-project/qemu/-/jobs/2622407860
-https://gitlab.com/qemu-project/qemu/-/jobs/2622407811
+On 6/21/22 23:54, Daniel Henrique Barboza wrote:
+> 
+> 
+> On 6/20/22 05:01, Alexey Kardashevskiy wrote:
+>> PAPR+/LoPAPR says:
+>> ===
+>> The platform must restore the default DMA window for the PE on a call
+>> to the ibm,remove-pe-dma-window RTAS call when all of the following
+>> are true:
+>>   a. The call removes the last DMA window remaining for the PE.
+>>   b. The DMA window being removed is not the default window
+>>
+>> ===
+>>
+>> This resets DMA as PAPR mandates.
+>>
+>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>> ---
+> 
+> Looks good. One comment below:
+> 
+> 
+>>   include/hw/ppc/spapr.h  |  3 ++-
+>>   hw/ppc/spapr_iommu.c    |  8 +++++---
+>>   hw/ppc/spapr_pci.c      |  2 +-
+>>   hw/ppc/spapr_rtas_ddw.c | 17 ++++++++++++++++-
+>>   hw/ppc/spapr_vio.c      |  3 ++-
+>>   5 files changed, 26 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>> index 072dda2c7265..0adbe1566d40 100644
+>> --- a/include/hw/ppc/spapr.h
+>> +++ b/include/hw/ppc/spapr.h
+>> @@ -902,6 +902,7 @@ struct SpaprTceTable {
+>>       bool bypass;
+>>       bool need_vfio;
+>>       bool skipping_replay;
+>> +    bool def_win;
+>>       int fd;
+>>       MemoryRegion root;
+>>       IOMMUMemoryRegion iommu;
+>> @@ -928,7 +929,7 @@ void spapr_check_mmu_mode(bool guest_radix);
+>>   SpaprTceTable *spapr_tce_new_table(DeviceState *owner, uint32_t liobn);
+>>   void spapr_tce_table_enable(SpaprTceTable *tcet,
+>>                               uint32_t page_shift, uint64_t bus_offset,
+>> -                            uint32_t nb_table);
+>> +                            uint32_t nb_table, bool def_win);
+> 
+> Do we need to add 'def_win' to spapr_tce_table_enable()? I see that 
+> you're using
+> the 'def_win' var to assign
+> 
+> +    tcet->def_win = def_win;
+> 
+> but the only case where def_win will be other than 'false' is:
+> 
+> - the function is called by spapr_tce_post_load(), but in that case it's 
+> being
+> callied like this:
+> 
+>      spapr_tce_table_enable(tcet, old_page_shift, old_bus_offset,
+>                             tcet->mig_nb_table, tcet->def_win);
+> 
+> which results in the function doing tcet->def_win = tcet->def_win, which is
+> uneeded.
+> 
+> 
+> - the function is called by spapr_phb_dma_reset(). In this case I believe
+> we can just do "tcet->def_win = true" before calling 
+> spapr_tce_table_enable():
+> 
+> 
+>>       /* Register default 32bit DMA window */
+>>       tcet = spapr_tce_find_by_liobn(sphb->dma_liobn[0]);
+>> +     tcet->def_win = true;
+>>       spapr_tce_table_enable(tcet, SPAPR_TCE_PAGE_SHIFT, 
+>> sphb->dma_win_addr,
+>>                              sphb->dma_win_size >> SPAPR_TCE_PAGE_SHIFT);
+>>   }
+> 
+> All other calls to spapr_tce_table_enable() are passing 'false' to 
+> def_win and
+> can be left alone.
+> 
+> Assuming that there's no way a created DMA window becomes the default 
+> window, or
+> the default DMA window is demoted to non-default, I think we can leave
+> spapr_tce_table_enable() untouched and just set tcet->def_win to true 
+> inside
+> spapr_phb_dma_reset().
 
-../io/channel-socket.c:589:9: error: implicit declaration of function 
-'g_assert_unreachable' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-         g_assert_unreachable();
-         ^
 
+I can definitely do this. Thanks for the review, I'll repost.
 
-r~
+> 
+> 
+> Thanks,
+> 
+> 
+> Daniel
+> 
+> 
+> 
+>>   void spapr_tce_table_disable(SpaprTceTable *tcet);
+>>   void spapr_tce_set_need_vfio(SpaprTceTable *tcet, bool need_vfio);
+>> diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
+>> index 81e5a1aea3a6..f8c1627d0782 100644
+>> --- a/hw/ppc/spapr_iommu.c
+>> +++ b/hw/ppc/spapr_iommu.c
+>> @@ -242,7 +242,7 @@ static int spapr_tce_table_post_load(void *opaque, 
+>> int version_id)
+>>       if (tcet->mig_nb_table) {
+>>           if (!tcet->nb_table) {
+>>               spapr_tce_table_enable(tcet, old_page_shift, 
+>> old_bus_offset,
+>> -                                   tcet->mig_nb_table);
+>> +                                   tcet->mig_nb_table, tcet->def_win);
+>>           }
+>>           memcpy(tcet->table, tcet->mig_table,
+>> @@ -279,7 +279,7 @@ static const VMStateDescription 
+>> vmstate_spapr_tce_table_ex = {
+>>   static const VMStateDescription vmstate_spapr_tce_table = {
+>>       .name = "spapr_iommu",
+>> -    .version_id = 2,
+>> +    .version_id = 3,
+>>       .minimum_version_id = 2,
+>>       .pre_save = spapr_tce_table_pre_save,
+>>       .post_load = spapr_tce_table_post_load,
+>> @@ -292,6 +292,7 @@ static const VMStateDescription 
+>> vmstate_spapr_tce_table = {
+>>           VMSTATE_BOOL(bypass, SpaprTceTable),
+>>           VMSTATE_VARRAY_UINT32_ALLOC(mig_table, SpaprTceTable, 
+>> mig_nb_table, 0,
+>>                                       vmstate_info_uint64, uint64_t),
+>> +        VMSTATE_BOOL_V(def_win, SpaprTceTable, 3),
+>>           VMSTATE_END_OF_LIST()
+>>       },
+>> @@ -380,7 +381,7 @@ SpaprTceTable *spapr_tce_new_table(DeviceState 
+>> *owner, uint32_t liobn)
+>>   void spapr_tce_table_enable(SpaprTceTable *tcet,
+>>                               uint32_t page_shift, uint64_t bus_offset,
+>> -                            uint32_t nb_table)
+>> +                            uint32_t nb_table, bool def_win)
+>>   {
+>>       if (tcet->nb_table) {
+>>           warn_report("trying to enable already enabled TCE table");
+>> @@ -390,6 +391,7 @@ void spapr_tce_table_enable(SpaprTceTable *tcet,
+>>       tcet->bus_offset = bus_offset;
+>>       tcet->page_shift = page_shift;
+>>       tcet->nb_table = nb_table;
+>> +    tcet->def_win = def_win;
+>>       tcet->table = spapr_tce_alloc_table(tcet->liobn,
+>>                                           tcet->page_shift,
+>>                                           tcet->bus_offset,
+>> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+>> index b2f5fbef0c83..e1dbccfc7547 100644
+>> --- a/hw/ppc/spapr_pci.c
+>> +++ b/hw/ppc/spapr_pci.c
+>> @@ -2066,7 +2066,7 @@ void spapr_phb_dma_reset(SpaprPhbState *sphb)
+>>       /* Register default 32bit DMA window */
+>>       tcet = spapr_tce_find_by_liobn(sphb->dma_liobn[0]);
+>>       spapr_tce_table_enable(tcet, SPAPR_TCE_PAGE_SHIFT, 
+>> sphb->dma_win_addr,
+>> -                           sphb->dma_win_size >> SPAPR_TCE_PAGE_SHIFT);
+>> +                           sphb->dma_win_size >> 
+>> SPAPR_TCE_PAGE_SHIFT, true);
+>>   }
+>>   static void spapr_phb_reset(DeviceState *qdev)
+>> diff --git a/hw/ppc/spapr_rtas_ddw.c b/hw/ppc/spapr_rtas_ddw.c
+>> index 13d339c807c1..4fe41b0c4539 100644
+>> --- a/hw/ppc/spapr_rtas_ddw.c
+>> +++ b/hw/ppc/spapr_rtas_ddw.c
+>> @@ -182,7 +182,7 @@ static void 
+>> rtas_ibm_create_pe_dma_window(PowerPCCPU *cpu,
+>>        */
+>>       tcet->skipping_replay = true;
+>>       spapr_tce_table_enable(tcet, page_shift, win_addr,
+>> -                           1ULL << (window_shift - page_shift));
+>> +                           1ULL << (window_shift - page_shift), false);
+>>       tcet->skipping_replay = false;
+>>       if (!tcet->nb_table) {
+>>           goto hw_error_exit;
+>> @@ -215,6 +215,7 @@ static void 
+>> rtas_ibm_remove_pe_dma_window(PowerPCCPU *cpu,
+>>       SpaprPhbState *sphb;
+>>       SpaprTceTable *tcet;
+>>       uint32_t liobn;
+>> +    bool def_win_removed;
+>>       if ((nargs != 1) || (nret != 1)) {
+>>           goto param_error_exit;
+>> @@ -231,9 +232,23 @@ static void 
+>> rtas_ibm_remove_pe_dma_window(PowerPCCPU *cpu,
+>>           goto param_error_exit;
+>>       }
+>> +    def_win_removed = tcet->def_win;
+>>       spapr_tce_table_disable(tcet);
+>>       trace_spapr_iommu_ddw_remove(liobn);
+>> +    /*
+>> +     * PAPR+/LoPAPR says:
+>> +     * The platform must restore the default DMA window for the PE on 
+>> a call
+>> +     * to the ibm,remove-pe-dma-window RTAS call when all of the 
+>> following
+>> +     * are true:
+>> +     * a. The call removes the last DMA window remaining for the PE.
+>> +     * b. The DMA window being removed is not the default window
+>> +     */
+>> +    if (spapr_phb_get_active_win_num(sphb) == 0 && !def_win_removed) {
+>> +        spapr_phb_dma_reset(sphb);
+>> +        trace_spapr_iommu_ddw_reset(sphb->buid, 0);
+>> +    }
+>> +
+>>       rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>>       return;
+>> diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+>> index 9d4fec2c04d8..14506df19d62 100644
+>> --- a/hw/ppc/spapr_vio.c
+>> +++ b/hw/ppc/spapr_vio.c
+>> @@ -533,7 +533,8 @@ static void spapr_vio_busdev_realize(DeviceState 
+>> *qdev, Error **errp)
+>>           dev->tcet = spapr_tce_new_table(qdev, liobn);
+>>           spapr_tce_table_enable(dev->tcet, SPAPR_TCE_PAGE_SHIFT, 0,
+>> -                               pc->rtce_window_size >> 
+>> SPAPR_TCE_PAGE_SHIFT);
+>> +                               pc->rtce_window_size >> 
+>> SPAPR_TCE_PAGE_SHIFT,
+>> +                               false);
+>>           dev->tcet->vdev = dev;
+>>           memory_region_add_subregion_overlap(&dev->mrroot, 0,
+>>                                               
+>> spapr_tce_get_iommu(dev->tcet), 2);
+
+-- 
+Alexey
 
