@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717515553B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 20:54:27 +0200 (CEST)
-Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8CE15553EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 21:02:28 +0200 (CEST)
+Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o45Ug-0002yA-IS
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 14:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56360)
+	id 1o45cR-0005zo-QG
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 15:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o45GZ-0007vS-SV
+ id 1o45GY-0007tv-0R
  for qemu-devel@nongnu.org; Wed, 22 Jun 2022 14:39:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45533)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o45GU-0002FK-KR
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 14:39:50 -0400
+ id 1o45GT-0002FF-Rk
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 14:39:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655923185;
+ s=mimecast20190719; t=1655923184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cy2aE0ONl6TzmpKKKIFIhMcllMqaFaV5ep/oapj6t4o=;
- b=IbHHNp9fNKCoWduEM4nav/SEWwswYFiBQS3rDjuZP2GBCKaBzeYxj4a9I0izbSjPGDjWD7
- ODcmL5Sgj7aPVwPBgrFnQWfd1zdQbwjD41vtZiUO0QcexGK/3KDn4Anf/nvziNnDdcSGqo
- UVsRLdo96MqbJUMf0cIDW8JyspU6Izg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vnuuJxp1JQdRXdU3c7OwH3ZR1JMW18zg+RAsQ+upqKY=;
+ b=AJVypBhCDnAKuHnWfgnpkC6FmDrocvlkJlItLdNPPq8bXp6jcz8+rZ8ZtC/8VTPR6LD/3/
+ QWElHBDH8t6sGQqccuyAqWpFGvcIIjBea4avC322KS1cVH8cJsdJFoiWWmhgExAM367p/x
+ ElUsHzkB1s34OapvZ65uBRVflQQZGrM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-ef7SmOhRO-KFnTJHkMRrSA-1; Wed, 22 Jun 2022 14:39:42 -0400
-X-MC-Unique: ef7SmOhRO-KFnTJHkMRrSA-1
+ us-mta-663-TWclLxEqP5ymNL492YFOSw-1; Wed, 22 Jun 2022 14:39:43 -0400
+X-MC-Unique: TWclLxEqP5ymNL492YFOSw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C72DF3831C46;
- Wed, 22 Jun 2022 18:39:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB31581B915;
+ Wed, 22 Jun 2022 18:39:42 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8BE41131D;
- Wed, 22 Jun 2022 18:39:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 05AFF1131D;
+ Wed, 22 Jun 2022 18:39:41 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 16/33] migration: hardcode assumption that QEMUFile is backed
- with QIOChannel
-Date: Wed, 22 Jun 2022 19:39:00 +0100
-Message-Id: <20220622183917.155308-17-dgilbert@redhat.com>
+Subject: [PULL 17/33] migration: introduce new constructors for QEMUFile
+Date: Wed, 22 Jun 2022 19:39:01 +0100
+Message-Id: <20220622183917.155308-18-dgilbert@redhat.com>
 In-Reply-To: <20220622183917.155308-1-dgilbert@redhat.com>
 References: <20220622183917.155308-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -83,163 +82,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-The only callers of qemu_fopen_ops pass 'true' for the 'has_ioc'
-parameter, so hardcode this assumption in QEMUFile, by passing in
-the QIOChannel object as a non-opaque parameter.
+Prepare for the elimination of QEMUFileOps by introducing a pair of new
+constructors. This lets us distinguish between an input and output file
+object explicitly rather than via the existance of specific callbacks.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-   dgilbert: Fixed long line
 ---
  migration/qemu-file-channel.c |  4 ++--
- migration/qemu-file.c         | 35 +++++++++++++++++------------------
- migration/qemu-file.h         |  2 +-
- 3 files changed, 20 insertions(+), 21 deletions(-)
+ migration/qemu-file.c         | 18 ++++++++++++++++--
+ migration/qemu-file.h         |  3 ++-
+ 3 files changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-index bb5a5752df..ce8eced417 100644
+index ce8eced417..5cb8ac93c0 100644
 --- a/migration/qemu-file-channel.c
 +++ b/migration/qemu-file-channel.c
 @@ -184,11 +184,11 @@ static const QEMUFileOps channel_output_ops = {
  QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc)
  {
      object_ref(OBJECT(ioc));
--    return qemu_fopen_ops(ioc, &channel_input_ops, true);
-+    return qemu_fopen_ops(ioc, &channel_input_ops);
+-    return qemu_fopen_ops(ioc, &channel_input_ops);
++    return qemu_file_new_input(ioc, &channel_input_ops);
  }
  
  QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
  {
      object_ref(OBJECT(ioc));
--    return qemu_fopen_ops(ioc, &channel_output_ops, true);
-+    return qemu_fopen_ops(ioc, &channel_output_ops);
+-    return qemu_fopen_ops(ioc, &channel_output_ops);
++    return qemu_file_new_output(ioc, &channel_output_ops);
  }
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index cdcb6e1788..30e2160041 100644
+index 30e2160041..2d6ceb53af 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -37,7 +37,7 @@
- struct QEMUFile {
+@@ -38,6 +38,7 @@ struct QEMUFile {
      const QEMUFileOps *ops;
      const QEMUFileHooks *hooks;
--    void *opaque;
-+    QIOChannel *ioc;
+     QIOChannel *ioc;
++    bool is_writable;
  
      /*
       * Maximum amount of data in bytes to transfer during one
-@@ -65,8 +65,6 @@ struct QEMUFile {
-     Error *last_error_obj;
-     /* has the file has been shutdown */
-     bool shutdown;
--    /* Whether opaque points to a QIOChannel */
--    bool has_ioc;
- };
- 
- /*
-@@ -81,7 +79,7 @@ int qemu_file_shutdown(QEMUFile *f)
-     if (!f->ops->shut_down) {
-         return -ENOSYS;
-     }
--    ret = f->ops->shut_down(f->opaque, true, true, NULL);
-+    ret = f->ops->shut_down(f->ioc, true, true, NULL);
- 
-     if (!f->last_error) {
-         qemu_file_set_error(f, -EIO);
-@@ -98,7 +96,7 @@ QEMUFile *qemu_file_get_return_path(QEMUFile *f)
-     if (!f->ops->get_return_path) {
-         return NULL;
-     }
--    return f->ops->get_return_path(f->opaque);
-+    return f->ops->get_return_path(f->ioc);
- }
- 
- bool qemu_file_mode_is_not_valid(const char *mode)
-@@ -113,15 +111,15 @@ bool qemu_file_mode_is_not_valid(const char *mode)
+@@ -111,7 +112,9 @@ bool qemu_file_mode_is_not_valid(const char *mode)
      return false;
  }
  
--QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops, bool has_ioc)
-+QEMUFile *qemu_fopen_ops(QIOChannel *ioc, const QEMUFileOps *ops)
+-QEMUFile *qemu_fopen_ops(QIOChannel *ioc, const QEMUFileOps *ops)
++static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
++                                    const QEMUFileOps *ops,
++                                    bool is_writable)
  {
      QEMUFile *f;
  
-     f = g_new0(QEMUFile, 1);
+@@ -119,10 +122,21 @@ QEMUFile *qemu_fopen_ops(QIOChannel *ioc, const QEMUFileOps *ops)
  
--    f->opaque = opaque;
-+    f->ioc = ioc;
+     f->ioc = ioc;
      f->ops = ops;
--    f->has_ioc = has_ioc;
-+
++    f->is_writable = is_writable;
+ 
      return f;
  }
  
-@@ -242,7 +240,7 @@ void qemu_fflush(QEMUFile *f)
-     }
-     if (f->iovcnt > 0) {
-         expect = iov_size(f->iov, f->iovcnt);
--        ret = f->ops->writev_buffer(f->opaque, f->iov, f->iovcnt,
-+        ret = f->ops->writev_buffer(f->ioc, f->iov, f->iovcnt,
-                                     f->total_transferred, &local_error);
++QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops)
++{
++    return qemu_file_new_impl(ioc, ops, true);
++}
++
++QEMUFile *qemu_file_new_input(QIOChannel *ioc, const QEMUFileOps *ops)
++{
++    return qemu_file_new_impl(ioc, ops, false);
++}
++
  
-         qemu_iovec_release_ram(f);
-@@ -358,7 +356,7 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
-         return 0;
-     }
- 
--    len = f->ops->get_buffer(f->opaque, f->buf + pending, f->total_transferred,
-+    len = f->ops->get_buffer(f->ioc, f->buf + pending, f->total_transferred,
-                              IO_BUF_SIZE - pending, &local_error);
-     if (len > 0) {
-         f->buf_size += len;
-@@ -394,7 +392,7 @@ int qemu_fclose(QEMUFile *f)
-     ret = qemu_file_get_error(f);
- 
-     if (f->ops->close) {
--        int ret2 = f->ops->close(f->opaque, NULL);
-+        int ret2 = f->ops->close(f->ioc, NULL);
-         if (ret >= 0) {
-             ret = ret2;
-         }
-@@ -861,18 +859,19 @@ void qemu_put_counted_string(QEMUFile *f, const char *str)
- void qemu_file_set_blocking(QEMUFile *f, bool block)
+ void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks)
  {
-     if (f->ops->set_blocking) {
--        f->ops->set_blocking(f->opaque, block, NULL);
-+        f->ops->set_blocking(f->ioc, block, NULL);
-     }
+@@ -181,7 +195,7 @@ void qemu_file_set_error(QEMUFile *f, int ret)
+ 
+ bool qemu_file_is_writable(QEMUFile *f)
+ {
+-    return f->ops->writev_buffer;
++    return f->is_writable;
  }
  
- /*
-- * Return the ioc object if it's a migration channel.  Note: it can return NULL
-- * for callers passing in a non-migration qemufile.  E.g. see qemu_fopen_bdrv()
-- * and its usage in e.g. load_snapshot().  So we need to check against NULL
-- * before using it.  If without the check, migration_incoming_state_destroy()
-- * could fail for load_snapshot().
-+ * qemu_file_get_ioc:
-+ *
-+ * Get the ioc object for the file, without incrementing
-+ * the reference count.
-+ *
-+ * Returns: the ioc object
-  */
- QIOChannel *qemu_file_get_ioc(QEMUFile *file)
- {
--    return file->has_ioc ? QIO_CHANNEL(file->opaque) : NULL;
-+    return file->ioc;
- }
+ static void qemu_iovec_release_ram(QEMUFile *f)
 diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 277f1d5a62..3a1ecc0e34 100644
+index 3a1ecc0e34..3c93a27978 100644
 --- a/migration/qemu-file.h
 +++ b/migration/qemu-file.h
-@@ -118,7 +118,7 @@ typedef struct QEMUFileHooks {
+@@ -118,7 +118,8 @@ typedef struct QEMUFileHooks {
      QEMURamSaveFunc *save_page;
  } QEMUFileHooks;
  
--QEMUFile *qemu_fopen_ops(void *opaque, const QEMUFileOps *ops, bool has_ioc);
-+QEMUFile *qemu_fopen_ops(QIOChannel *ioc, const QEMUFileOps *ops);
+-QEMUFile *qemu_fopen_ops(QIOChannel *ioc, const QEMUFileOps *ops);
++QEMUFile *qemu_file_new_input(QIOChannel *ioc, const QEMUFileOps *ops);
++QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops);
  void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks);
  int qemu_get_fd(QEMUFile *f);
  int qemu_fclose(QEMUFile *f);
