@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC0D555272
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 19:33:10 +0200 (CEST)
-Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC083555273
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 19:33:12 +0200 (CEST)
+Received: from localhost ([::1]:40902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o44E1-0001gR-5d
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 13:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43648)
+	id 1o44E3-0001sE-Nb
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 13:33:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o44AU-00078z-8D; Wed, 22 Jun 2022 13:29:30 -0400
+ id 1o44Ae-0007KP-AB; Wed, 22 Jun 2022 13:29:40 -0400
 Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:52156)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o44AS-0000aZ-3J; Wed, 22 Jun 2022 13:29:29 -0400
+ id 1o44AU-0000aZ-JK; Wed, 22 Jun 2022 13:29:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655918968; x=1687454968;
+ t=1655918970; x=1687454970;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4TMmuSs0tpeZrpniB1q8VYEUn26OxnBpeVS/MTt5lOQ=;
- b=j/HBfyuYDejAjPqD2Iekq4Mdj4IaLiZ/r5G47DNlEgpTb5quHHQKjw6k
- b4y/0RnBuQSQFirgOBXZZsW+DjhN+Ly3wsFYyNAmTwQbW5DQNdIFRbNh+
- xEF2pbrRh0qCSFJc2QjAFxMe9q8/YVi9su3YRR9wDbwaek7399vtrkxNS A=;
+ bh=Kfo21d2V2hZ6VkabDF3oziwAl/QVbs4icI4O1SqVqSU=;
+ b=nrsosTVTjLnCNWl+57VKnr3odLRJGxX2IU7W/LTZTo3ou2TKlp9DoC/m
+ LPXeOwSC/XGdiJD6UD5aRX7ZppV+zARKgul02aoJXZTyDELU8tMiKWrIe
+ ER04Gl+0AtoD8tpEvGdMaqyCeDfIa+Gty7OqanAwjErfaH3lSQrGW4Krp g=;
 Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Jun 2022 10:29:23 -0700
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Jun 2022 10:29:24 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 10:29:23 -0700
+ 22 Jun 2022 10:29:24 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -47,10 +47,9 @@ To: Peter Maydell <peter.maydell@linaro.org>,
  <joel@jms.id.au>
 CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
  <quic_mkurapat@quicinc.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH 4/9] hw/arm/aspeed: add Qualcomm Firework machine and FRU
- device
-Date: Wed, 22 Jun 2022 10:28:25 -0700
-Message-ID: <20220622172830.101210-5-quic_jaehyoo@quicinc.com>
+Subject: [PATCH 5/9] hw/i2c: pmbus: Page #255 is valid page for read requests.
+Date: Wed, 22 Jun 2022 10:28:26 -0700
+Message-ID: <20220622172830.101210-6-quic_jaehyoo@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
 References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
@@ -84,94 +83,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Graeme Gregory <quic_ggregory@quicinc.com>
+From: Maheswara Kurapati <quic_mkurapat@quicinc.com>
 
-Add base for Qualcomm Firework machine and add its FRU device which is
-defined by DC-SCM to be fixed address 0x50.
+Current implementation of the pmbus core driver treats the read request
+for page 255 as invalid request and sets the invalid command bit (bit 7) in the
+STATUS_CML register. As per the PMBus specification it is a valid request.
 
-Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
+Refer to the PMBus specification, revision 1.3.1, section 11.10 PAGE, on the page 58:
+"Setting the PAGE to FFh means that all subsequent comands are to be applied to
+ all outputs.
+
+ Some commands, such as READ_TEMPERATURE, may use a common sensor but be
+ available on all pages of a device.  Such implementations are the decision of
+ each device manufacturer or are specified in a PMBus Application Profile. Consult
+ the manufacturer's socuments or the Applicatin Profile Specification as needed."
+
+For e.g.,
+The VOUT_MODE is a valid command for page 255 for maxim 31785 device.
+refer to Table 1. PMBus Command Codes on page 14 in the datasheet.
+https://datasheets.maximintegrated.com/en/ds/MAX31785.pdf
+
+Fixes: 38870253f1d1 ("hw/i2c: pmbus: fix error returns and guard against out of range accesses")
+
+Signed-off-by: Maheswara Kurapati <quic_mkurapat@quicinc.com>
 ---
- hw/arm/aspeed.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ hw/i2c/pmbus_device.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 36d6b2c33e48..0e6edd2be4fa 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -1017,6 +1017,35 @@ static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
-     qcom_dc_scm_fru_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x53, 128 * 1024);
- }
- 
-+static void qcom_firework_fru_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
-+{
-+    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
-+    DeviceState *dev = DEVICE(i2c_dev);
-+    /* Use First Index for DC-SCM FRU */
-+    DriveInfo *dinfo = drive_get(IF_NONE, 0, 1);
-+
-+    qdev_prop_set_uint32(dev, "rom-size", rsize);
-+
-+    if (dinfo) {
-+        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
-+    }
-+
-+    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
-+}
-+
-+static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
-+{
-+    AspeedSoCState *soc = &bmc->soc;
-+
-+    /* Create the generic DC-SCM hardware */
-+    qcom_dc_scm_bmc_i2c_init(bmc);
-+
-+    /* Now create the Firework specific hardware */
-+
-+    /* I2C4 */
-+    qcom_firework_fru_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x50, 128 * 1024);
-+}
-+
- static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
- {
-     return ASPEED_MACHINE(obj)->mmio_exec;
-@@ -1489,6 +1518,26 @@ static void aspeed_machine_qcom_dc_scm_v1_class_init(ObjectClass *oc,
-         aspeed_soc_num_cpus(amc->soc_name);
- };
- 
-+static void aspeed_machine_qcom_firework_class_init(ObjectClass *oc,
-+                                                    void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "Qualcomm DC-SCM V1/Firework BMC (Cortex A7)";
-+    amc->soc_name  = "ast2600-a3";
-+    amc->hw_strap1 = QCOM_DC_SCM_V1_BMC_HW_STRAP1;
-+    amc->hw_strap2 = QCOM_DC_SCM_V1_BMC_HW_STRAP2;
-+    amc->fmc_model = "n25q512a";
-+    amc->spi_model = "n25q512a";
-+    amc->num_cs    = 2;
-+    amc->macs_mask = ASPEED_MAC2_ON | ASPEED_MAC3_ON;
-+    amc->i2c_init  = qcom_dc_scm_firework_i2c_init;
-+    mc->default_ram_size = 1 * GiB;
-+    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-+        aspeed_soc_num_cpus(amc->soc_name);
-+};
-+
- static const TypeInfo aspeed_machine_types[] = {
-     {
-         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
-@@ -1534,6 +1583,10 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = MACHINE_TYPE_NAME("qcom-dc-scm-v1-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
-         .class_init    = aspeed_machine_qcom_dc_scm_v1_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("qcom-firework"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_qcom_firework_class_init,
-     }, {
-         .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+index 62885fa6a15e..7db3343a83b6 100644
+--- a/hw/i2c/pmbus_device.c
++++ b/hw/i2c/pmbus_device.c
+@@ -291,7 +291,6 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: tried to read from all pages\n",
+                       __func__);
+-        pmbus_cml_error(pmdev);
+     } else if (pmdev->page > pmdev->num_pages - 1) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: page %d is out of range\n",
 -- 
 2.25.1
 
