@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE3C55559D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 22:59:57 +0200 (CEST)
-Received: from localhost ([::1]:43732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A9D55559E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 23:00:02 +0200 (CEST)
+Received: from localhost ([::1]:44200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o47S8-0005Ci-NJ
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 16:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49330)
+	id 1o47SD-0005VI-1t
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 17:00:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1o47IT-0003Dg-1R
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 16:49:58 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:34679)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1o47IR-0004KL-AI
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 16:49:56 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id o10so25598617edi.1
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 13:49:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sx9rq8Lf7HbGyLSlOoc6WGlEoy++zzAiZ3xvimjEBBY=;
- b=P4Af5xeANsQI1sqhFHztffNJ9D5cNzT1vSTsgOn7St5LBkcYmm7r4/BSAE5PY6o0KG
- SwnK9T1hyvZshMTLE5E8uBS3LaKUS74xv6vd+iKQCQBxjvJXBMvMJIRuE5pAhw+oj+aa
- 5gmBirimx32Z9aNOAwur4suYccwFnBGjBscMxN2Js9Kl5uvQaDUxLzv7sKUpGEdKcprA
- mX3XdxKr4wgK5XZOyUOjDPO25vAlJmGd9UHQn/hjLOENqCAEY6EvadlYSYdqG2txhIXt
- 9zy7TGaQ2s+Qm3P/3Ht3wy/aI/m44ous7WcwiGMOWZIJf7MXEH7/VmzBR4bmAnV6zsPr
- I1ow==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o47IQ-00035m-Cg
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 16:49:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o47IO-0004KG-O1
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 16:49:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655930992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jwUnbHjViPt/gSGud2YLDmF4j1h1MIToXoGJAjea+To=;
+ b=P191s2JQSCfBSpW0mBl1kcTj+K11+2v7xUB+SscqhRkBjgwMSpcwn4qTJa8oVuGYsQFZ32
+ qeQH93ytFh8bFBhDh8ckRcaGc+VhL7t7maJUwiU9D6KNwI5XbaFWnyedhKTHkTzsUVdVK3
+ iRyoXi0Q0L/CDweOtQLXAYrBT1QJCTc=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-140-r0nd15bXOmmbRWbIkEqICg-1; Wed, 22 Jun 2022 16:49:51 -0400
+X-MC-Unique: r0nd15bXOmmbRWbIkEqICg-1
+Received: by mail-il1-f197.google.com with SMTP id
+ u8-20020a056e021a4800b002d3a5419d1bso11693802ilv.12
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 13:49:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Sx9rq8Lf7HbGyLSlOoc6WGlEoy++zzAiZ3xvimjEBBY=;
- b=T+Mwmrtzt63DqnKgSHl5mfTQXObyjwUhppG79pk4wMsLKs5uRkN6Pxtrwj+d8/c5K3
- jQchQUQ4aD+Vsyvylgn9jkJI4D0w1uTX8P3rm8fdOrz77hnW88G7AlEBe/AQZkroAEBY
- FTA++KfkwHOSoJKstqBjwdEg8noR6ixCSOmZ7te6cARcaK2FQB5HU/JXZc9AN0N+FEGd
- +UrjCGyEa6BWYBL0zmlotLMUX95o88c23gnuoaesmXMPBPT2M5felBZm8qczYffZOwy1
- g+vJIgHe0e7IvCNANJPFYtsPaBg5TK0JByBuNYs6QJzObUHoNkl9JzcY0eofWXZAwAue
- VNTw==
-X-Gm-Message-State: AJIora8k6ZZEZZC3ozY2lfXb01djTm2kpJevYOUKFBvivdAoWT8t3Uo3
- 3xRHu42WTD6QiEQGePstnRJ5CuMJazjG+i3WQ9Yt4Q==
-X-Google-Smtp-Source: AGRyM1syAxpYdjaRfhww4dN7Fvg/fzA2x8Gr+v3K3NaxC0DW9yO97bdlA3o8A7aYNekl+u/jqsIdvzfJMYhWe0VN48c=
-X-Received: by 2002:a05:6402:1d51:b0:41f:cf6c:35a5 with SMTP id
- dz17-20020a0564021d5100b0041fcf6c35a5mr6411817edb.25.1655930992180; Wed, 22
- Jun 2022 13:49:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jwUnbHjViPt/gSGud2YLDmF4j1h1MIToXoGJAjea+To=;
+ b=6pvB9NV0Ifsuilp8H7vWQnliXMZ600q8RXB7U2hh8gucOUQ+AXXrB4skSHcx+6VZrh
+ +8mpM10WcOKqJ8ClH2VWLFKzWsfpU86wd6F83jO1J8B/CKVNvOdf1Vf47v06Xs7QQ9dN
+ /nwmSuYnoNlAAwHdg5QoKK34bsMDDxM21LWh3XHY8XDfSifuz+5YBxUt1vYCrucMzBXf
+ SMnkOTq7ZwZnPIPOJZQj0CT9Fi260elOwPnzs3aldn+njo1seUpQkyc3qp410VX0dn70
+ BoDB+c0kIuqvVPTxA0JYbjejdQA/AsQiSYNNpNtPO2MEZ04/OMe5pJ1VtfTETAbWdKAY
+ Jl8g==
+X-Gm-Message-State: AJIora8IewPXkJbDHc+TprSkUj2yRqGIegARgyOwKmEKrK40TGfNuptI
+ E4bqxXmBhLrPKzoDHgpzAJKh0PwVn3a3ZJcepz+gKozEYrlrLRorMoiAHJK+dFggpf/jmPjPe98
+ dMZPa6qR9Og8CKMSGjvKL/WTG7hlMTAGRau/gh4QYUB2ftPV/yeUsCXTp/nhcp+3L
+X-Received: by 2002:a92:dd82:0:b0:2d9:126:5bed with SMTP id
+ g2-20020a92dd82000000b002d901265bedmr3206599iln.97.1655930989942; 
+ Wed, 22 Jun 2022 13:49:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vuRMp0myrBZZL44gPpSENolylrrZTuWzsjUDiLT0/JMg3FBJOXhiuXxZrqKB9IHcPbywInMQ==
+X-Received: by 2002:a92:dd82:0:b0:2d9:126:5bed with SMTP id
+ g2-20020a92dd82000000b002d901265bedmr3206584iln.97.1655930989652; 
+ Wed, 22 Jun 2022 13:49:49 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ b44-20020a0295af000000b0032b3a7817a7sm8920323jai.107.2022.06.22.13.49.46
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 22 Jun 2022 13:49:48 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Daniel P . Berrange" <berrange@redhat.com>, peterx@redhat.com,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH v8 10/15] migration: Enable TLS for preempt channel
+Date: Wed, 22 Jun 2022 16:49:15 -0400
+Message-Id: <20220622204920.79061-11-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220622204920.79061-1-peterx@redhat.com>
+References: <20220622204920.79061-1-peterx@redhat.com>
 MIME-Version: 1.0
-References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
- <20220622172830.101210-6-quic_jaehyoo@quicinc.com>
-In-Reply-To: <20220622172830.101210-6-quic_jaehyoo@quicinc.com>
-From: Titus Rwantare <titusr@google.com>
-Date: Wed, 22 Jun 2022 13:49:15 -0700
-Message-ID: <CAMvPwGp6Rr3g5Rn3jAU1ZK_99oxrx6z=4ggUWFheL_ipQnJfHQ@mail.gmail.com>
-Subject: Re: [PATCH 5/9] hw/i2c: pmbus: Page #255 is valid page for read
- requests.
-To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
- Graeme Gregory <quic_ggregory@quicinc.com>,
- Maheswara Kurapati <quic_mkurapat@quicinc.com>, 
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=titusr@google.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,56 +102,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jun 2022 at 10:29, Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wrote:
->
-> From: Maheswara Kurapati <quic_mkurapat@quicinc.com>
->
-> Current implementation of the pmbus core driver treats the read request
-> for page 255 as invalid request and sets the invalid command bit (bit 7) in the
-> STATUS_CML register. As per the PMBus specification it is a valid request.
->
-> Refer to the PMBus specification, revision 1.3.1, section 11.10 PAGE, on the page 58:
-> "Setting the PAGE to FFh means that all subsequent comands are to be applied to
->  all outputs.
->
->  Some commands, such as READ_TEMPERATURE, may use a common sensor but be
->  available on all pages of a device.  Such implementations are the decision of
->  each device manufacturer or are specified in a PMBus Application Profile. Consult
->  the manufacturer's socuments or the Applicatin Profile Specification as needed."
->
-Thanks for this, the copy of the spec I used was older.
+This patch is based on the async preempt channel creation.  It continues
+wiring up the new channel with TLS handshake to destionation when enabled.
 
+Note that only the src QEMU needs such operation; the dest QEMU does not
+need any change for TLS support due to the fact that all channels are
+established synchronously there, so all the TLS magic is already properly
+handled by migration_tls_channel_process_incoming().
 
-> For e.g.,
-> The VOUT_MODE is a valid command for page 255 for maxim 31785 device.
-> refer to Table 1. PMBus Command Codes on page 14 in the datasheet.
-> https://datasheets.maximintegrated.com/en/ds/MAX31785.pdf
->
-> Fixes: 38870253f1d1 ("hw/i2c: pmbus: fix error returns and guard against out of range accesses")
->
-> Signed-off-by: Maheswara Kurapati <quic_mkurapat@quicinc.com>
-> ---
->  hw/i2c/pmbus_device.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
-> index 62885fa6a15e..7db3343a83b6 100644
-> --- a/hw/i2c/pmbus_device.c
-> +++ b/hw/i2c/pmbus_device.c
-> @@ -291,7 +291,6 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: tried to read from all pages\n",
->                        __func__);
-> -        pmbus_cml_error(pmdev);
->      } else if (pmdev->page > pmdev->num_pages - 1) {
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: page %d is out of range\n",
-> --
-> 2.25.1
->
+Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ migration/postcopy-ram.c | 57 ++++++++++++++++++++++++++++++++++------
+ migration/trace-events   |  1 +
+ 2 files changed, 50 insertions(+), 8 deletions(-)
 
-Please also update the stale comment just above, since this is now
-specified behaviour.
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 70b21e9d51..b9a37ef255 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -36,6 +36,7 @@
+ #include "socket.h"
+ #include "qemu-file.h"
+ #include "yank_functions.h"
++#include "tls.h"
+ 
+ /* Arbitrary limit on size of each discard command,
+  * keeps them around ~200 bytes
+@@ -1552,15 +1553,15 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
+     return true;
+ }
+ 
++/*
++ * Setup the postcopy preempt channel with the IOC.  If ERROR is specified,
++ * setup the error instead.  This helper will free the ERROR if specified.
++ */
+ static void
+-postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
++postcopy_preempt_send_channel_done(MigrationState *s,
++                                   QIOChannel *ioc, Error *local_err)
+ {
+-    MigrationState *s = opaque;
+-    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
+-    Error *local_err = NULL;
+-
+-    if (qio_task_propagate_error(task, &local_err)) {
+-        /* Something wrong happened.. */
++    if (local_err) {
+         migrate_set_error(s, local_err);
+         error_free(local_err);
+     } else {
+@@ -1574,7 +1575,47 @@ postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
+      * postcopy_qemufile_src to know whether it failed or not.
+      */
+     qemu_sem_post(&s->postcopy_qemufile_src_sem);
+-    object_unref(OBJECT(ioc));
++}
++
++static void
++postcopy_preempt_tls_handshake(QIOTask *task, gpointer opaque)
++{
++    g_autoptr(QIOChannel) ioc = QIO_CHANNEL(qio_task_get_source(task));
++    MigrationState *s = opaque;
++    Error *local_err = NULL;
++
++    qio_task_propagate_error(task, &local_err);
++    postcopy_preempt_send_channel_done(s, ioc, local_err);
++}
++
++static void
++postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
++{
++    g_autoptr(QIOChannel) ioc = QIO_CHANNEL(qio_task_get_source(task));
++    MigrationState *s = opaque;
++    QIOChannelTLS *tioc;
++    Error *local_err = NULL;
++
++    if (qio_task_propagate_error(task, &local_err)) {
++        goto out;
++    }
++
++    if (migrate_channel_requires_tls_upgrade(ioc)) {
++        tioc = migration_tls_client_create(s, ioc, s->hostname, &local_err);
++        if (!tioc) {
++            goto out;
++        }
++        trace_postcopy_preempt_tls_handshake();
++        qio_channel_set_name(QIO_CHANNEL(tioc), "migration-tls-preempt");
++        qio_channel_tls_handshake(tioc, postcopy_preempt_tls_handshake,
++                                  s, NULL, NULL);
++        /* Setup the channel until TLS handshake finished */
++        return;
++    }
++
++out:
++    /* This handles both good and error cases */
++    postcopy_preempt_send_channel_done(s, ioc, local_err);
+ }
+ 
+ /* Returns 0 if channel established, -1 for error. */
+diff --git a/migration/trace-events b/migration/trace-events
+index 0e385c3a07..a34afe7b85 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -287,6 +287,7 @@ postcopy_request_shared_page(const char *sharer, const char *rb, uint64_t rb_off
+ postcopy_request_shared_page_present(const char *sharer, const char *rb, uint64_t rb_offset) "%s already %s offset 0x%"PRIx64
+ postcopy_wake_shared(uint64_t client_addr, const char *rb) "at 0x%"PRIx64" in %s"
+ postcopy_page_req_del(void *addr, int count) "resolved page req %p total %d"
++postcopy_preempt_tls_handshake(void) ""
+ postcopy_preempt_new_channel(void) ""
+ postcopy_preempt_thread_entry(void) ""
+ postcopy_preempt_thread_exit(void) ""
+-- 
+2.32.0
 
-Reviewed-by: Titus Rwantare <titusr@google.com>
 
