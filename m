@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E676554C2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 16:06:58 +0200 (CEST)
-Received: from localhost ([::1]:58564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8A1554CBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 16:20:20 +0200 (CEST)
+Received: from localhost ([::1]:39070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o410S-0008Eo-Tq
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 10:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53152)
+	id 1o41DP-0006ih-8H
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 10:20:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o40xP-0007Lv-Je
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 10:03:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o40xH-0001hA-3o
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 10:03:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655906618;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=LIWjinE2AJh0qaz5Kku0jJs1fQUMaBcf4Q9GPcpSMDI=;
- b=agZA0NdQrC99CMe2/pcAxjHAckHNtBBB5FR033zUu1vbW+sEISH3tTKOIQk80elYJ9hTM3
- 7O3SnKEnDuQCtd+K9dbAZQvLdBhldJ87xY1UAHFypa0x0IrcsOy6WamCoAM4BF6VQYubXp
- BgIdEjNo9Ec/aANl1xGzklMZR17X+L8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-WjjHLPqIPSuh1Q6j6DUjSA-1; Wed, 22 Jun 2022 10:03:33 -0400
-X-MC-Unique: WjjHLPqIPSuh1Q6j6DUjSA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 316068117B0;
- Wed, 22 Jun 2022 14:03:33 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C4FE1121314;
- Wed, 22 Jun 2022 14:03:31 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Riku Voipio <riku.voipio@iki.fi>
-Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-trivial@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] common-user: Only compile the common user code if have_user
- is set
-Date: Wed, 22 Jun 2022 16:03:28 +0200
-Message-Id: <20220622140328.383961-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o41BN-0005p0-4R
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 10:18:13 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:34311)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o41BL-0003vo-DD
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 10:18:12 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id i15so25594416ybp.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 07:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=n3HCKnC31xjnQ2vCDiF8v3K/a9NsvNS6SnXNcsCPHRs=;
+ b=inpn1KZF6sCoZ4t5FS86zH16HwglDE/PY7d3ec8l/eW+LSBwD0d2mhiZMZzGv7Cfwe
+ lFMumYk87oezz5u+lPLidIhgsQkqCod8dEqaqLieZ39he4OwU8ej2FzLkZDGTkXTXR6b
+ TbiQWquJM/RZkRE/akozePHtT9i4FwFrf2CWozIup5P+soow8sfMc7fDX6ZL++QuLhu5
+ jJr/rfJZ1nURSVhueWfgSgoDXzg5c3Af+fhfstRDXYBqlulDyvPypWkgJWsNR4Lc2S0t
+ zNkTuZHuVzU85TohCZdqvu/sXs8PiqUGyM8Zg+p2/bpTzOC+QIP1p8WkhZKu+rByjwE3
+ D/Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=n3HCKnC31xjnQ2vCDiF8v3K/a9NsvNS6SnXNcsCPHRs=;
+ b=PEPPgT0NBpFXFMkuiim3YFxU98xVXoQT0W/NUX5TvTwvIAChYd1ePxKk8wLNQwzOsH
+ esJNvf6ULWDZd0yzPJcvigMrClb+/QXn8uLpQXYB+NRTkNOFRZpEGzqoq99vZGls3VVu
+ hsZ8kwTVqSoDUCAxmB7+Nt6p2mtRqhRnvQp1yOJC3zdd1xq2CUQKfzGDEm7ovn3iIVT6
+ ApquIiGrpyBcBA83L00xfrKTeay7GyVqa/iatta+uH2n57axf6+Yt6zN/VeeEMlnO5zt
+ ea9oyFov/RpsaFqL51cw2sTLk9EBDx5XPF8OoTNka5sUypMFyxazXy7PGBAy/j4wLCDU
+ NYZQ==
+X-Gm-Message-State: AJIora+oenbZByI7FVDbLrr3yiDmgwieoKbQjv6toY7bQBs1Jr+5UK2f
+ G7aW+n0CJlgdacxSj5PHjqT2j9pgjZIP+Da2+gnkkA==
+X-Google-Smtp-Source: AGRyM1t7hqEFQ0i1+JHIlDemDyMZLQB5LMwmwx6dh/TFSLrW4taTAA2QjlSrX1Hcbib4ComqalbssOG2sYSS+BMIMMc=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr3991363ybr.39.1655907489909; Wed, 22
+ Jun 2022 07:18:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20220622123305.3971169-1-alex.bennee@linaro.org>
+In-Reply-To: <20220622123305.3971169-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 22 Jun 2022 15:17:32 +0100
+Message-ID: <CAFEAcA_v+VM1kd=_D2Tm7DkkS=i+3k26aaM-YGjnTT6-zsPDxg@mail.gmail.com>
+Subject: Re: [RFC PATCH] gitlab: add a binary build to project registry
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Anders Roxell <anders.roxell@linaro.org>, 
+ Remi Duraffort <remi.duraffort@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,31 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need to waste cycles here if we only compile the system
-binaries or tools. Additionally, this change is even a hard requirement
-for building the tools on systems that do not have an entry in the
-common-user/host/ folder (since common-user/meson.build is trying
-to add such a path via the include_directories() command).
+On Wed, 22 Jun 2022 at 13:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> There have been requests from other projects such LKFT to have
+> "official" docker images with pre-built QEMU binaries. These could
+> then be consumed by downstream CI systems by pulling directly from the
+> qemu-project container registry. The final image could then be run by
+> doing:
+>
+>   docker run --rm -it \
+>     registry.gitlab.com/qemu-project/qemu/qemu/debian-amd64-binaries \
+>     /opt/bin/qemu-system-aarch64 $ARGS
+>
+> To keep the build time down we skip user-mode, documents, plugins and
+> a selection of the more esoteric hardware emulations. Even so it still
+> takes over an hour to build and install everything.
 
-Reported-by: Michael Tokarev <mjt@tls.msk.ru>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- common-user/meson.build | 4 ++++
- 1 file changed, 4 insertions(+)
+> This is very much an RFC for now as we have traditionally not provided
+> binaries for our users except for the slightly special case of
+> Windows. As currently structured this will rebuild the binaries on
+> every merge but we could change the generation rules to only trigger
+> for tagged or stable branch pushes. We also wouldn't be testing these
+> binaries so we are basically assuming they are OK by the nature of
+> being built from master which in theory never breaks.
 
-diff --git a/common-user/meson.build b/common-user/meson.build
-index 26212dda5c..ac9de5b9e3 100644
---- a/common-user/meson.build
-+++ b/common-user/meson.build
-@@ -1,3 +1,7 @@
-+if not have_user
-+   subdir_done()
-+endif
-+
- common_user_inc += include_directories('host/' / host_arch)
- 
- user_ss.add(files(
--- 
-2.31.1
+I'm a bit uncertain about providing "official" docker images
+or other pre-built binaries, because it might give the impression
+that these are OK to use with KVM, when in fact they won't necessarily
+get security fixes in a timely manner, and almost all users of QEMU for
+KVM purposes are better off with the distro QEMU.
 
+thanks
+-- PMM
 
