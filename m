@@ -2,109 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DEB5544A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 10:33:24 +0200 (CEST)
-Received: from localhost ([::1]:60992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3E05544AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 10:41:36 +0200 (CEST)
+Received: from localhost ([::1]:36334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3vnf-0007RC-C3
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 04:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46014)
+	id 1o3vvb-0001on-Qk
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 04:41:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1o3vlz-0006Ti-7r; Wed, 22 Jun 2022 04:31:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9858
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1o3vlw-0008Ix-VY; Wed, 22 Jun 2022 04:31:38 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25M7k06Y004919;
- Wed, 22 Jun 2022 08:31:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=wl3ZF7qtvxsSXSZkAdDbi5qBMul+2/bNZ2Fuv0GYqRw=;
- b=i8Ncp/ouX6GaCnYCWa7AtJZwxyaP9EUHNlCgnUwpEs+DEIXMBD+52Hi7obKzZy7v6b3v
- k1bi4SVQo/m/dwLnIiGRGFqY7jtB5Fr5Kp7ds8YQBvjLNRZVNgPyj036jXt9auc8n1t2
- NfCEoziPGxfZN5V09+IgiwjccOvUDdsEnfX5bEH2VXLvSl/hDIB4QwCXAud7JgCuDIU4
- MJ1fVpuYscFnlvfKujXOh6VYkyU+z5twJUcQf1uLf6qTM3Jqr+OHTlK+M2vI7SNvrVKy
- JdA6FDDp8kQkt9MbddBkwwvun0GykCO7ryjOpE5GaJIB6MLLICox2tvkkwHWk91C5igH wQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3guxyw16pj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jun 2022 08:31:32 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25M8R5kB032317;
- Wed, 22 Jun 2022 08:31:31 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3guxyw16ny-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jun 2022 08:31:31 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25M8KvU3003911;
- Wed, 22 Jun 2022 08:31:29 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3gs5yhnaee-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Jun 2022 08:31:29 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25M8VQ5l20709810
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Jun 2022 08:31:26 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 764D94204B;
- Wed, 22 Jun 2022 08:31:26 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B6A4F42049;
- Wed, 22 Jun 2022 08:31:25 +0000 (GMT)
-Received: from [9.171.38.79] (unknown [9.171.38.79])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 22 Jun 2022 08:31:25 +0000 (GMT)
-Message-ID: <ea3daac0-875d-dd9d-7ad0-65a0aed2aaed@linux.ibm.com>
-Date: Wed, 22 Jun 2022 10:35:50 +0200
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o3vtQ-000179-Vy
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 04:39:21 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42668)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o3vtM-0001Fu-DP
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 04:39:20 -0400
+Received: by mail-ed1-x533.google.com with SMTP id z11so16690780edp.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 01:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fRyxePKYW8wrGsIUj5EH/iCxrh44EYGi59DDEfsp1yI=;
+ b=DGBwyiSh7GBNeYPuVLRcxB2FKC823Jmk25PfHsIaS09Khxr3QfVDLrxM8elmL+fsbY
+ YhSuvi+KgBg7EByxpSyw8/xk3jkOIJJvcyaW3x40vzYH/Bv734flwz2BWE4WcRBIyn7q
+ fO7Zherip9r4/gCDCxTRh9PS3QmpI59gO3NITzc0Zg6T9bSpj+HYPdE8ibl38OzlIOXq
+ Faj5kP156fj6s8QKR2iZyHRxjLxsZ3INpjOhe162AInxv3bOT5SbCrBqEkMNqo/kllrb
+ W0as0WYl7INKm43G/kvNQSUF1A1iEyhofqiGA+5aBfAptwScvXFRLrCqPY52gElbFgNz
+ BqfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fRyxePKYW8wrGsIUj5EH/iCxrh44EYGi59DDEfsp1yI=;
+ b=uQx1C9IS/J5YtnyPXcqNZPxeXwA9jg5RUnepU6TggQYhrod4bcpwxrEWiFrTHzRhgv
+ L0Zo2rRbPvyUA7uM0JRtPEQKbiVDeQu6WvP0Sx7Jfz6rLCzn4230jvO1Zue84Jb05qeX
+ HwyhkzGY0BgeGVer5tFBv4YQLpLIzB1sg4wzqhPwtMP4BEHAQydG+J9tsGrF1JgXRhMc
+ bWNThMZpceF6TutgY48K7Y4lJakJ3uPpG4ORI6JaTUBNvUHXhUPOHMV2qlKjjf7x+OdI
+ 4l9GWIw5rkI1SxcqxwslO7YGe8SATlNHF7swevvq8nMC2SAVwU1X2qYWrzF88LviAlZA
+ pYow==
+X-Gm-Message-State: AJIora9Eckc6yai9tRQSNaQqaqbKw2akzZYYvpBNn9jXtQgKp2uqK9fH
+ cTZJPnrj/NBRPGAOo21P8WU=
+X-Google-Smtp-Source: AGRyM1uaWbHC+q432/6fy4iOa7oynev79rNyD0q2uCS+JnJ71Xn1U5sYoUaBumaRNqDmOULrKVP3YA==
+X-Received: by 2002:a05:6402:2708:b0:431:45d1:3aa0 with SMTP id
+ y8-20020a056402270800b0043145d13aa0mr2809770edd.408.1655887154893; 
+ Wed, 22 Jun 2022 01:39:14 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ u6-20020a05640207c600b004355cb1e77esm12249486edy.91.2022.06.22.01.39.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jun 2022 01:39:13 -0700 (PDT)
+Message-ID: <a28f5766-2460-f88f-7d5d-2232f113f1cc@redhat.com>
+Date: Wed, 22 Jun 2022 10:39:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v7 3/8] s390x/pci: enable for load/store intepretation
+ Thunderbird/91.10.0
+Subject: Re: [PULL 20/33] configure: handle host compiler in
+ probe_target_compiler
 Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
- thuth@redhat.com, farman@linux.ibm.com, richard.henderson@linaro.org,
- david@redhat.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- mst@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-References: <20220606203614.110928-1-mjrosato@linux.ibm.com>
- <20220606203614.110928-4-mjrosato@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <20220606203614.110928-4-mjrosato@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>
+References: <20220601180537.2329566-1-alex.bennee@linaro.org>
+ <20220601180537.2329566-21-alex.bennee@linaro.org>
+ <c655723a-95df-82e4-2105-678cdea9e702@eldorado.org.br>
+ <CABgObfYEiV_TK4BDxG6+zZ1Qq06y6GtmnP1uF__eV31XDKggDA@mail.gmail.com>
+ <9273ee87-28f6-b6bb-81be-72795f0a645b@eldorado.org.br>
+ <b49f2611-55f5-ba8b-df9f-13ab13bbad09@redhat.com>
+ <c11648fe-7bff-41df-f11f-bdb46f8a672c@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <c11648fe-7bff-41df-f11f-bdb46f8a672c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: kxOU667y70SB8KgBkKdh9r2NuWJCmh4t
-X-Proofpoint-GUID: fVZJya9Zv6ca5PYnOMhyFI13fbomoW2E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-21_11,2022-06-21_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 adultscore=0
- clxscore=1015 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206220039
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,88 +106,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 6/6/22 22:36, Matthew Rosato wrote:
-> If the ZPCI_OP ioctl reports that is is available and usable, then the
-> underlying KVM host will enable load/store intepretation for any guest
-> device without a SHM bit in the guest function handle.  For a device that
-> will be using interpretation support, ensure the guest function handle
-> matches the host function handle; this value is re-checked every time the
-> guest issues a SET PCI FN to enable the guest device as it is the only
-> opportunity to reflect function handle changes.
+On 6/21/22 20:30, Richard Henderson wrote:
+> On 6/21/22 09:58, Paolo Bonzini wrote:
+>> On 6/20/22 18:41, Matheus Kowalczuk Ferst wrote:
+>>> On 17/06/2022 07:12, Paolo Bonzini wrote:
+>>>> Hi Matheus,
+>>>>
+>>>> could you please test the tests-tcg-next branch at
+>>>> https://gitlab.com/bonzini/qemu?
+>>> At be6090bcac10, it works if no BE toolchain is present. Otherwise, the
+>>> script probes powerpc64-linux-gnu-gcc instead of the native tools for
+>>> ppc64le-linux-user, and then do_compiler fails because the
+>>> $target_cflags contains -mlittle-endian.
+>>>
+>>
+>> So the problem in that case is that powerpc64-linux-gnu-gcc is _not_
+>> biarch and thus does not support -mlittle-endian?  (I thought PPC
+>> compilers were all 32/64-bit and bi-endian).
 > 
-> By default, unless interpret=off is specified, interpretation support will
-> always be assumed and exploited if the necessary ioctl and features are
-> available on the host kernel.  When these are unavailable, we will silently
-> revert to the interception model; this allows existing guest configurations
-> to work unmodified on hosts with and without zPCI interpretation support,
-> allowing QEMU to choose the best support model available.
+> Nit: this is ppc64le-linux-gnu-gcc, built for gcc135, a power9 ppc64le 
+> host.  It *does* support -mbig-endian, but not -m32.
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->   hw/s390x/meson.build            |  1 +
->   hw/s390x/s390-pci-bus.c         | 66 ++++++++++++++++++++++++++++++++-
->   hw/s390x/s390-pci-inst.c        | 16 ++++++++
->   hw/s390x/s390-pci-kvm.c         | 22 +++++++++++
->   include/hw/s390x/s390-pci-bus.h |  1 +
->   include/hw/s390x/s390-pci-kvm.h | 24 ++++++++++++
->   target/s390x/kvm/kvm.c          |  7 ++++
->   target/s390x/kvm/kvm_s390x.h    |  1 +
->   8 files changed, 137 insertions(+), 1 deletion(-)
->   create mode 100644 hw/s390x/s390-pci-kvm.c
->   create mode 100644 include/hw/s390x/s390-pci-kvm.h
-> 
-> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-> index feefe0717e..f291016fee 100644
-> --- a/hw/s390x/meson.build
-> +++ b/hw/s390x/meson.build
-> @@ -23,6 +23,7 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
->     's390-skeys-kvm.c',
->     's390-stattrib-kvm.c',
->     'pv.c',
-> +  's390-pci-kvm.c',
->   ))
+> At least gcc11 as release was not biarch, with no special configure 
+> arguments.  I can try upgrading to the current gcc12 release to see if 
+> that changed...
 
-Here...
+Ok, yesterday I had tested with RHEL and there the ppc64le compiler is 
+bi-arch and bi-endian, but multilibs are disabled.  So it cannot build 
+32-bit hosted binaries like those for tests/tcg, only freestanding 
+binaries (vof).
 
-> diff --git a/hw/s390x/s390-pci-kvm.c b/hw/s390x/s390-pci-kvm.c
-> new file mode 100644
-> index 0000000000..0f16104a74
-> --- /dev/null
-> +++ b/hw/s390x/s390-pci-kvm.c
+On the other hand the powerpc64-linux-gnu-gcc binary from the cross-gcc 
+package is theoretically multilib-friendly, but it cannot find the CRT 
+files on the host because they are not in the .../le multilib subdirectory.
 
-...and here:
+The simplest way out is to just test both native and cross.  There is 
+already code to check for a working compiler in the tests/tcg stanza, 
+and it can be moved to probe_target_compiler.
 
-Shouldn't this file go in target/s390x/kvm ?
-
-
-> @@ -0,0 +1,22 @@
-> +/*
-> + * s390 zPCI KVM interfaces
-> + *
-> + * Copyright 2022 IBM Corp.
-> + * Author(s): Matthew Rosato <mjrosato@linux.ibm.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "kvm/kvm_s390x.h"
-> +#include "hw/s390x/pv.h"
-> +#include "hw/s390x/s390-pci-kvm.h"
-> +#include "cpu_models.h"
-> +
-> +bool s390_pci_kvm_interp_allowed(void)
-> +{
-> +    return kvm_s390_get_zpci_op() && !s390_is_pv();
-> +}
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Paolo
 
