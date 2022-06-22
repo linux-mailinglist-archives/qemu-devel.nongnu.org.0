@@ -2,68 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F273554FD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 17:51:52 +0200 (CEST)
-Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A8755500C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 17:53:29 +0200 (CEST)
+Received: from localhost ([::1]:44160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o42dx-0008PF-Mv
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 11:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
+	id 1o42fY-0001Z0-77
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 11:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1o42bi-0007h2-FF
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:49:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47908)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o42dR-0000MB-U5
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:51:18 -0400
+Received: from esa3.hc2706-39.iphmx.com ([68.232.154.118]:20064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1o42bf-0002GU-PV
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:49:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655912966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ldY6/iG5i/0pXuxfR/jL2psxba3h5n9Op9LJJ67u9SE=;
- b=DZJHmGcOa4K+C1Jr9yN5kGEAQ96OqS6IoRP3/RQrsB9F+n0AwpJP4NymQw8D+/fh6tDY0l
- kiQP1bF5d5Br1kEmoopy4eDVNy75nOgwmURIUlmueZdCNqVTjGLNWj1QhLkdE8OhQJw1TA
- t3Q9JRP8d0nlg/PGly0yP45WMGfmDm8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-r6p_o8D-PY2wK-BPzW4Qsg-1; Wed, 22 Jun 2022 11:49:23 -0400
-X-MC-Unique: r6p_o8D-PY2wK-BPzW4Qsg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CB4F802D1C;
- Wed, 22 Jun 2022 15:49:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB7441121314;
- Wed, 22 Jun 2022 15:49:21 +0000 (UTC)
-From: marcandre.lureau@redhat.com
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o42dP-0002gz-Se
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:51:17 -0400
+X-IronPort-RemoteIP: 209.85.219.72
+X-IronPort-MID: 207167379
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:proT+6zZAynwoBeL6b96t+e8xCrEfRIJ4+MujC+fZmUNrF6WrkUAx
+ mRNWz2BOPnYM2agcot1bY6zp05S6sXWx4VlHVFu+y00HyNBpPSeOdnIdU2Y0wF+jyHgoOCLy
+ +1EN7Es+ehtFie0Si+Fa+Sn9T8mvU2xbuKU5NTsY0idfic5DnZ74f5fs7Rh2NQw34LjW1nlV
+ e7a+KUzBnf0g1aYDUpJs8pvmDs31BglkGpF1rCWTakjUG72zhH5PrpGTU2CByKQrr1vIwKPb
+ 72rIIdVX4/u10xF5tuNyt4Xe6CRK1LYFVHmZnF+AsBOjvXez8CbP2lS2Pc0MC9qZzu1c99Z4
+ chCqL+eWRkSIY7okeo+bDhVSiRcBPgTkFPHCSDXXc27ykTHdz713awrAh5se4If/elzDCdF8
+ vlwxDIlNEjSwbLrhujiG68z3KzPL+GyVG8bknhk3TfVF94sXNbOT7iiCdpwhm9v354RRqmPD
+ yYfQQphQxmdTBFgBm0SUag5scXy2lPHYSIN/Tp5ooJyuQA/1jdZybXoLZ/Zd8KHQe1TmUCXo
+ H+A+H72aiz2L/SawDuBt2uy36rBwnm9V4UVG7m1sPVthTV/21AuNfHfbnPjydHRt6J0c403x
+ 5A8ksb2kZUPyQ==
+IronPort-HdrOrdr: A9a23:sqOmOKwmjLQcP80duJ06KrPw9r1zdoMgy1knxilNoNJuA6ilfq
+ eV7Y4mPHrP4gr5N0tQ/+xoVJPwI080lqQFmrX5Q43SJTUO0VHAROoSjrcKqweBJ8SUzJ876U
+ 4PSdkaNPTASXJXt4LV2jWZLvoX6OW70cmT9JrjJrRWIT2CqZsM0+60MGim+zVNNXF77FMCe/
+ uh2vY=
+Received: from mail-qv1-f72.google.com ([209.85.219.72])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 22 Jun 2022 11:50:38 -0400
+Received: by mail-qv1-f72.google.com with SMTP id
+ x18-20020a0ce252000000b004703cbb92ebso10492566qvl.21
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 08:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=alV3veEVLq3l6rhyfa2SDb0TamyeFKfvcX8noGrvH4k=;
+ b=jRAwYqAaFPasVLb5eHoQb93bGjdkqXYAJjkIVINpqbzWspJS54tRfMbTOvL0bQ058q
+ rzy0AiMUmXlOFiuhJ0pK+v4P84gR/sLwwWlPQgfQ0GUMybZRjlMoYHALrhg9F1gAVWsv
+ tO/35QWQQdKC3X5CH9J6T4DDGn472pUE0nO543G+tmwaWGKuhJWhrZfsHn+th0OTCgMP
+ 9qhY3yoAUwQnF1gEtT45Zab5c/61/JvuzLVvwIW+Y7WV+SnPE+TRGtT2JFZF8mpiqw8O
+ tNPu7AkFdtebz2wWZ6xAiNJy4KrJDADZoBjDjw9o/t1RAxFnFk8cVeNi+7zXwlvyPs/+
+ ny8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=alV3veEVLq3l6rhyfa2SDb0TamyeFKfvcX8noGrvH4k=;
+ b=NfG47HbevXXwZ1KogiqcDtn0VwMmfPdVcxO7u52EHEaU0cTa7rEtoGwfQXmS+rL9L5
+ rxDZsGqC42bS8RrTduiMhPNhLa9TUaR6wTytfgwCt6rizB5Ph1C0fBqt49HOXw6b5Ew4
+ 2vVoNgQsBVTfAap6rq3hd3Wl96h04VRxw62zN69vB3Gdmy3JBuxNaaBzZIquCUCpbGTL
+ mWmdKQ+4JWZSk2jX1Gt3VZ38xZlfhSiqbafIZVEGlMAl7PDIpZzF5oDzAhNy5UnCkbMj
+ SIs0fLpyZSbpDAhCSO9SfJsRT7go5gTFKIj8674MByOK8co4deDqA+OMxY3zY6EgZx3w
+ CJQA==
+X-Gm-Message-State: AJIora/ehec/cCU/+SkLnkgAojayjXH/rsYV7pPLUH9IB/WEE61aumxs
+ H8dFlx0OmN7snlpe2mcHH2DTVHDN+/IJ7sXWEj3siYp+9EOZ5Om8NwebggIcs0MBApZZfSzHtS+
+ fH3/cqX0HF2OAwyBHmTj3g+F9L8QpIA==
+X-Received: by 2002:ac8:7d85:0:b0:316:80e9:d792 with SMTP id
+ c5-20020ac87d85000000b0031680e9d792mr2158153qtd.590.1655913037726; 
+ Wed, 22 Jun 2022 08:50:37 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t6sIROhytSw7Pc7bEzhiHPM4ZIQsFGLjh6BBBJMXdvKTCZXQsOU6G7+jfYs2mimsBPaGxNgQ==
+X-Received: by 2002:ac8:7d85:0:b0:316:80e9:d792 with SMTP id
+ c5-20020ac87d85000000b0031680e9d792mr2158130qtd.590.1655913037452; 
+ Wed, 22 Jun 2022 08:50:37 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ m14-20020a05620a290e00b006a6b498e23esm18017427qkp.81.2022.06.22.08.50.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jun 2022 08:50:36 -0700 (PDT)
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Cc: f4bug@amsat.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] audio/dbus: fix building
-Date: Wed, 22 Jun 2022 19:49:18 +0400
-Message-Id: <20220622154918.560870-1-marcandre.lureau@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>
+Subject: [PATCH] fuzz: only use generic-fuzz targets on oss-fuzz
+Date: Wed, 22 Jun 2022 11:50:28 -0400
+Message-Id: <20220622155028.2086196-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=68.232.154.118; envelope-from=alxndr@bu.edu;
+ helo=esa3.hc2706-39.iphmx.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,49 +117,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+The non-generic-fuzz targets often time-out, or run out of memory.
+Additionally, they create unreproducible bug-reports. It is possible
+that this is resulting in failing coverage-reports on OSS-Fuzz. In the
+future, these test-cases should be fixed, or removed.
 
-Commit c9c847481 broken dbus audio module compilation with bad
-'CONFIG_GIO' usage. Furthermore, it implied extra dependency on audio
-module which aren't necessary.
-
-The problem was that 'dbus_display' is not correctly automatically set
-on MacOS, because opengl dependency wasn't taken into account.
-
-Fixes: c9c847481 ("audio/dbus: Fix building with modules on macOS")
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- meson.build       | 2 ++
- audio/meson.build | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ scripts/oss-fuzz/build.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 9efcb175d161..1aaf77e3dcbc 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1652,6 +1652,8 @@ dbus_display = get_option('dbus_display') \
-            error_message: '-display dbus requires --enable-modules') \
-   .require(gdbus_codegen.found(),
-            error_message: '-display dbus requires gdbus-codegen') \
-+  .require(opengl.found(),
-+           error_message: '-display dbus requires epoxy/egl') \
-   .allowed()
- 
- have_virtfs = get_option('virtfs') \
-diff --git a/audio/meson.build b/audio/meson.build
-index 94dab16891d5..3abee908602a 100644
---- a/audio/meson.build
-+++ b/audio/meson.build
-@@ -28,7 +28,7 @@ endforeach
- 
- if dbus_display
-     module_ss = ss.source_set()
--    module_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'], if_true: files('dbusaudio.c'))
-+    module_ss.add(when: gio, if_true: files('dbusaudio.c'))
-     audio_modules += {'dbus': module_ss}
- endif
- 
+diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+index 98b56e0521..d8b4446d24 100755
+--- a/scripts/oss-fuzz/build.sh
++++ b/scripts/oss-fuzz/build.sh
+@@ -105,7 +105,7 @@ do
+     # to be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets
+     # that are thin wrappers around this target that set the required
+     # environment variables according to predefined configs.
+-    if [ "$target" != "generic-fuzz" ]; then
++    if echo "$target" | grep -q "generic-fuzz-"; then
+         ln  $base_copy \
+             "$DEST_DIR/qemu-fuzz-i386-target-$target"
+     fi
 -- 
-2.37.0.rc0
+2.27.0
 
 
