@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907155545A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:14:01 +0200 (CEST)
-Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1DC5545DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:48:27 +0200 (CEST)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3yJ6-0002I2-NP
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:14:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
+	id 1o3yqQ-0000Q7-96
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:48:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3y0U-0006nf-7P; Wed, 22 Jun 2022 06:54:46 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37934)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=9o3N=W5=zx2c4.com=Jason@kernel.org>)
+ id 1o3ynw-0007z7-Q8
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 07:45:52 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:37752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3y0S-0005XC-Pg; Wed, 22 Jun 2022 06:54:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CUqoJupH2M+KQg+RIoBU+fI0+vwRBIrvqmU7RnFHdLs=; b=m2WUjgBPNHFVSd3Y3caxcjILlS
- 1lbJyVcF5knAFvmwuFp1cCJBljceI+7kbBUFu0xGRU0mDqeb6urlJ4wVsmjUlZJ4IRCCr7ausf+nP
- 2Cf2UJ9PvLZu3ZvCLqovbObprBLt77z1ae39hrmC1VKy/U+y+TjR8BubaZ66a5WoQ3GbVIyL5Tknn
- S/Y1+U50LYN5jVvdZjw53W5rvpnyWzhUyrMSiWJK47u7wLdHoUsZ6sXUmRr8sdrEvGSwyokh7K97b
- Lgd7pBTI1K31FW/0dZHnrQ1j8ZWFsh8pkMw0Cww5ffNMekk7z8JtTCQ8PD+UV9Px6pE7Gl4RQsLlj
- Q0uvvdo89pXTZKmqgAm9MiDtkoAK8TbgKhWy6/1VmGsx7SMWH/cDxhUlYAbh89XW+N9hmHQVpX1KR
- Uj2ZM5rjso282O/dwg7pPo0IFzaI7wsHk2cuFn9dqoHntSFhgtDTTeEf+uWIrgf38+4KdG6zbf41P
- beRIRK4gjHYXQPfQZC7ZFqLrDQfHYKnNuEcQwqMTafT5bq1J74+zJ67lp23va7HFeE+AWlCsyDSbz
- pUXL9gv7NHQ6/gXBeZKSJmz4hbsb90GOnKu4e/jFuktRXZHh5X7PPAoasCiYs8YLo8N3BlbsIksdo
- 0veKKuSNZEJSrbd/0wq+PSxQa08VtpUAYkLujEMGY=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xyt-000CTX-VR; Wed, 22 Jun 2022 11:53:12 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Date: Wed, 22 Jun 2022 11:53:14 +0100
-Message-Id: <20220622105314.802852-15-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
-References: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=9o3N=W5=zx2c4.com=Jason@kernel.org>)
+ id 1o3ynu-0007KM-Oc
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 07:45:52 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 386BE61705;
+ Wed, 22 Jun 2022 11:45:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43F53C34114;
+ Wed, 22 Jun 2022 11:45:40 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="SgQ/A6hK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1655898338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c6zeBGUvw+slSLWmpUrVML59rfJPYwSVd+GNl0CKGOw=;
+ b=SgQ/A6hKhecuoPDxFYBPNQhvnbnHRwugM76N7EwDyUL1Ue+7tqul+Frd9b2P0AFTaJE3tA
+ N2zBE7yv89Fsai7OM1vGJZOWM6Gr4xG+5TWAll6QlA1NuTcJBuVhbhbX89jhOeSmoSIG+Q
+ QpHhyl13DE8QNqUhNwSuWXYTDFF42Ac=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id cf779c80
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Wed, 22 Jun 2022 11:45:38 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Stafford Horne <shorne@gmail.com>
+Subject: [PATCH v2] hw/openrisc: virt: pass random seed to fdt
+Date: Wed, 22 Jun 2022 13:45:13 +0200
+Message-Id: <20220622114513.293882-1-Jason@zx2c4.com>
+In-Reply-To: <CAHmME9o_Oq7TKFXx-rxRxpVR-akE+gVCutK879Tp_ubVwEu=TA@mail.gmail.com>
+References: <CAHmME9o_Oq7TKFXx-rxRxpVR-akE+gVCutK879Tp_ubVwEu=TA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 14/14] q800: add default vendor and product information for
- scsi-cd devices
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=9o3N=W5=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,35 +79,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MacOS CDROM driver uses a SCSI INQUIRY command to check that any SCSI CDROMs
-detected match a whitelist of vendors and products before adding them to the
-list of available devices.
+If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+initialize early. Set this using the usual guest random number
+generation function. This is confirmed to successfully initialize the
+RNG on Linux 5.19-rc2.
 
-Add known-good default vendor and product information using the existing
-compat_prop mechanism so the user doesn't have to use long command lines to set
-the qdev properties manually.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Cc: Stafford Horne <shorne@gmail.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/m68k/q800.c | 3 +++
- 1 file changed, 3 insertions(+)
+Changes v1->v2:
+- This is rebased on top of your "or1k-virt-2" branch.
+- It makes the change to the new "virt" platform, since that's where it
+  makes most sense to have.
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index dccf192e55..101ab0f803 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -695,6 +695,9 @@ static GlobalProperty hw_compat_q800[] = {
-     { "scsi-cd", "quirk_mode_sense_rom_use_dbd", "on"},
-     { "scsi-cd", "quirk_mode_page_vendor_specific_apple", "on"},
-     { "scsi-cd", "quirk_mode_page_truncated", "on"},
-+    { "scsi-cd", "vendor", "MATSHITA" },
-+    { "scsi-cd", "product", "CD-ROM CR-8005" },
-+    { "scsi-cd", "ver", "1.0k" },
- };
- static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
+ hw/openrisc/virt.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/hw/openrisc/virt.c b/hw/openrisc/virt.c
+index 13b0a1d7dc..f1d62fcb7d 100644
+--- a/hw/openrisc/virt.c
++++ b/hw/openrisc/virt.c
+@@ -19,6 +19,7 @@
  
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
++#include "qemu/guest-random.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "exec/address-spaces.h"
+@@ -141,6 +142,7 @@ static void openrisc_create_fdt(OR1KVirtState *state,
+     void *fdt;
+     int cpu;
+     char *nodename;
++    uint8_t rng_seed[32];
+ 
+     fdt = state->fdt = create_device_tree(&state->fdt_size);
+     if (!fdt) {
+@@ -197,6 +199,10 @@ static void openrisc_create_fdt(OR1KVirtState *state,
+         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+     }
+ 
++    /* Pass seed to RNG. */
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
++
+     /* Create aliases node for use by devices. */
+     qemu_fdt_add_subnode(fdt, "/aliases");
+ }
 -- 
-2.30.2
+2.35.1
 
 
