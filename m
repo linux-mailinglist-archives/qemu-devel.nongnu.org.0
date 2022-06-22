@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD78554567
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 12:53:29 +0200 (CEST)
-Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0057554596
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 13:02:29 +0200 (CEST)
+Received: from localhost ([::1]:59198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3xzE-00027J-Ls
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 06:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
+	id 1o3y7w-0001HS-RR
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 07:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1o3xvt-00080b-Jm
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 06:50:01 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:55336 helo=loongson.cn)
+ id 1o3xvu-00082u-JP
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 06:50:02 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:55334 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1o3xvr-0004kr-Ah
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 06:50:01 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1o3xvr-0004kq-Fd
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 06:50:02 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0838rJi+BtUAA--.28846S2; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxL0838rJi+BtUAA--.28846S3; 
  Wed, 22 Jun 2022 18:43:03 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org,
- chenhuacai@loongson.cn, zhaotianrui <zhaotianrui@loongson.cn>
-Subject: [PATCH 00/10] Add functions for LoongArch virt machine
-Date: Wed, 22 Jun 2022 18:42:51 +0800
-Message-Id: <20220622104301.804447-1-yangxiaojuan@loongson.cn>
+ chenhuacai@loongson.cn
+Subject: [PATCH 01/10] hw/loongarch: rename macro prefix LS_PCI to LS7A_PCI
+Date: Wed, 22 Jun 2022 18:42:52 +0800
+Message-Id: <20220622104301.804447-2-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220622104301.804447-1-yangxiaojuan@loongson.cn>
+References: <20220622104301.804447-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxL0838rJi+BtUAA--.28846S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF1UuFyDZry3Jr4DuF4fGrg_yoW8GFWDpa
- y7uF15Jr4kCrZrJr9xX3sxWr98AFn7Gr42v3W3try8CrW3tryUZr1Iyas0vFyUJa48Jryv
- vr1rCw1UWF4DJa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9DxL0838rJi+BtUAA--.28846S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxJr15JF4UXFy5Gr47Ww48JFb_yoW8Xw4kpr
+ nxCF97KrW0kFs7JF1vyF12gr1DJayqk3W7ua1xZw4FkFZ7Zr1DZwnrJan8tFWUJF4kXr90
+ qa4vkw4Sg3WDJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -61,42 +63,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: zhaotianrui <zhaotianrui@loongson.cn>
+Rename macro LS_PCIECFG_xxx to LS7A_PCI_CFG_xxx to keep consistency
+with other macros.
 
-This series add some functions for LoongArch virt machine,
-such as support fw_cfg table, loading uefi bios and linux kernel, etc.
-Also fix some bugs of ipi device, ECFG reg, etc.
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+---
+ hw/loongarch/loongson3.c   | 4 ++--
+ include/hw/pci-host/ls7a.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Xiaojuan Yang (10):
-  hw/loongarch: rename macro prefix LS_PCI to LS7A_PCI
-  hw/loongarch: Add fw_cfg table support
-  hw/loongarch: Add uefi bios loading support
-  hw/loongarch: Add linux kernel booting support
-  hw/loongarch: Add smbios support
-  hw/loongarch: Add acpi ged support
-  hw/loongarch: Add fdt support
-  hw/loongarch: Fix ipi device access of 64bits
-  target/loongarch: Fix the meaning of ECFG reg's VS field
-  target/loongarch: Add lock when writing timer clear reg
-
- hw/intc/loongarch_ipi.c         |  85 +++--
- hw/loongarch/Kconfig            |   3 +
- hw/loongarch/acpi-build.c       | 609 ++++++++++++++++++++++++++++++++
- hw/loongarch/fw_cfg.c           |  33 ++
- hw/loongarch/fw_cfg.h           |  15 +
- hw/loongarch/loongson3.c        | 443 +++++++++++++++++++++--
- hw/loongarch/meson.build        |   4 +
- include/hw/intc/loongarch_ipi.h |   8 +-
- include/hw/loongarch/virt.h     |  25 ++
- include/hw/pci-host/ls7a.h      |   8 +-
- target/loongarch/cpu.c          |   5 +
- target/loongarch/cpu.h          |   3 +
- target/loongarch/csr_helper.c   |   2 +
- 13 files changed, 1187 insertions(+), 56 deletions(-)
- create mode 100644 hw/loongarch/acpi-build.c
- create mode 100644 hw/loongarch/fw_cfg.c
- create mode 100644 hw/loongarch/fw_cfg.h
-
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+index bd20ebbb78..18cb2f61da 100644
+--- a/hw/loongarch/loongson3.c
++++ b/hw/loongarch/loongson3.c
+@@ -121,8 +121,8 @@ static void loongarch_devices_init(DeviceState *pch_pic)
+     ecam_alias = g_new0(MemoryRegion, 1);
+     ecam_reg = sysbus_mmio_get_region(d, 0);
+     memory_region_init_alias(ecam_alias, OBJECT(gpex_dev), "pcie-ecam",
+-                             ecam_reg, 0, LS_PCIECFG_SIZE);
+-    memory_region_add_subregion(get_system_memory(), LS_PCIECFG_BASE,
++                             ecam_reg, 0, LS7A_PCI_CFG_SIZE);
++    memory_region_add_subregion(get_system_memory(), LS7A_PCI_CFG_BASE,
+                                 ecam_alias);
+ 
+     /* Map PCI mem space */
+diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+index 08c5f78be2..53e9b18f3a 100644
+--- a/include/hw/pci-host/ls7a.h
++++ b/include/hw/pci-host/ls7a.h
+@@ -18,8 +18,8 @@
+ #define LS7A_PCI_MEM_BASE        0x40000000UL
+ #define LS7A_PCI_MEM_SIZE        0x40000000UL
+ #define LS7A_PCI_IO_OFFSET      0x4000
+-#define LS_PCIECFG_BASE         0x20000000
+-#define LS_PCIECFG_SIZE         0x08000000
++#define LS7A_PCI_CFG_BASE         0x20000000
++#define LS7A_PCI_CFG_SIZE         0x08000000
+ #define LS7A_PCI_IO_BASE        0x18004000UL
+ #define LS7A_PCI_IO_SIZE        0xC000
+ 
 -- 
 2.31.1
 
