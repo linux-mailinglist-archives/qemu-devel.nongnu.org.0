@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF47F554EB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 17:08:11 +0200 (CEST)
-Received: from localhost ([::1]:43572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E250E554EB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 17:08:41 +0200 (CEST)
+Received: from localhost ([::1]:45450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o41xi-00052S-F4
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 11:08:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39064)
+	id 1o41yC-0006Pt-OK
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 11:08:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o41uw-00043A-B6
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:05:18 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:43927)
+ id 1o41vd-0004ka-4Z
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:06:02 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:46843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o41uu-00038k-Pb
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:05:18 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id 68so10910524pgb.10
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 08:05:16 -0700 (PDT)
+ id 1o41vZ-0003IS-VQ
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:06:00 -0400
+Received: by mail-pf1-x429.google.com with SMTP id a15so9163415pfv.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 08:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VbXWPXtSqYniO/KkPa0pjcqsfjrgY2Qzrj3A8+GB4Qg=;
- b=q++VRDuQP7zf8VahoPxxdt3DGA/QK2g+h+XmqQ8YTrcMEiWktT2oIdHixWL+EQFkXs
- Y+5sTSyi3CgVCeDo6nkmMruRMHPrmJ7pycgHtwZQ1UEE2ANof0TMhQ9ruDt3AgfXvec4
- 0RtaBoVPRb4Fzm419pw+hb/Naiw/Vw/ygbAxzcVGi0bbhw/zCJC6oy0npgAb6EBc5upJ
- gMjY/3ABAElQIbFSw3p8Fv7n40+uHqofDR+np6Nc59zlUYyRoiLNYSDBRU703NuURKT2
- 1gy2b4F+VMSYaWwToPp8ORfWTaRM71+mVIrDywjDt9Gs6K3DiyADBvwe/9bNQfwVqgE6
- fWPg==
+ bh=RgEcfu5iF2PeT5ldbl7AOT3ermnbl9DaSetCOW3P3Tg=;
+ b=kifRaW4ByHxImE9Cn5bi/e3m9MNY9T0HNJ7nKMdQejx7ftG7726B74v4qk7v9RZhRe
+ zbnlOj45nA81HnYaMj8iG1hh9t8furOsBZeoLx4c2Akyr3TmdyN0CNhg42Ooam9J97kV
+ gtx9da2Mgtno5OTBhwWTGdUglqQo+vUbB/3MWunXkzUTzZZ65SL/Vl7nlBGwUhe5dved
+ Y/wW8bXWzk5+V4FIT7aQz3fqZgYouizDpUP9sWLE130d/Ah6r9R627FW+k6s+Cm//ulX
+ Yn4QFixeVlMZfLRanp6LxPbII0gJLSk28t/34et73PNog0MEyYS4fxv897W+qU3NI5xk
+ 3LHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VbXWPXtSqYniO/KkPa0pjcqsfjrgY2Qzrj3A8+GB4Qg=;
- b=ZWsEgC9B7/+1e6B/rLiKPKcj/A457ZjsZ2JkSYWMDFpj26RndRxtDHgOxflWsDqE3L
- cNjLOSyJ/D2R4/tpd9oRTDAJ/fl9bLct3slQcm63Zx5EjZnlrDWdFpat2h2RJRaKL0bO
- h1ZJIzH2qmkhyvajCo7ToxxI1AD3sXphFZPM49ZvRkIn64KXBv2b62gEEhB1C5kima8V
- DPn8TUsjR8PKPjsWj97isbUDOV3EfOBLXm4DW98JjTTalxa3NDqPAC0nGRwMiBbZGYN7
- cg4LGAgnPfsQPp0WT5mXdJgEDvJnvSsrYwpoEaK7WjyPFOZZYmUkogQukb5G9tsMPYVu
- zEug==
-X-Gm-Message-State: AJIora+q6yyT5EWIMbbNhzJO9RT/oWXvypk+zCCL1DK9ZYcChPlXd6Sw
- n+9e5g9n0ktR9mFvBC/Yby/lt8bsTA7HYQ==
-X-Google-Smtp-Source: AGRyM1sEAbG6gQPdblxLHNyBq22txpWvFcwv62Cew9VhDHwkpjnkA8Mo5qwpo9tEb7R2eGXZRZZLBA==
-X-Received: by 2002:a63:6f8c:0:b0:408:bdc6:7726 with SMTP id
- k134-20020a636f8c000000b00408bdc67726mr3407338pgc.110.1655910314776; 
- Wed, 22 Jun 2022 08:05:14 -0700 (PDT)
+ bh=RgEcfu5iF2PeT5ldbl7AOT3ermnbl9DaSetCOW3P3Tg=;
+ b=gwH08ssjSka4qmyL4qwQa4/E7Fv/5p0iwIAnzS0Jg93zbkDYextwepOr+vm/zSRAaF
+ WMeRjpaq1XyEVmh5G6I68c609WmCVVR3i+FgVoi6KsrVuxWTxprQEMKcMBeESTpqePMq
+ WyYsNqrkUErOzdS7tRcrUbKW6CkquPUvp9zw8PNoxgQvfZHrkdFs8DGr0yeygKC0zNdM
+ klfkzNNER5ab+RWo7hDmx5jGiK3ags37MI9Gf7y3jtVqIGGelluUQDvIz8iXSPLuV0ks
+ aq0SzqwONSAIU3DF4WNabBcinE8jSiqpI59OFmeRp7mSAd6kKl3XgsvB7vGLmf+zgfZ3
+ vh6A==
+X-Gm-Message-State: AJIora8tY2uD0sSULqihy6HNMWHa4NR+o9UkrcemCYA2oR6Fek7odaqs
+ yS8PHX0YDglXh6Xe4Skd7EZMpQ==
+X-Google-Smtp-Source: AGRyM1syhAC73qArHBEqps4tWON6NN49Z7fe+Cdayp6hRVJnXRD0uEJqVj6K3VIEdzOLGvX9S/NRgA==
+X-Received: by 2002:a63:4d65:0:b0:408:9e5c:f7b7 with SMTP id
+ n37-20020a634d65000000b004089e5cf7b7mr3272699pgl.553.1655910352013; 
+ Wed, 22 Jun 2022 08:05:52 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1543:f001:4bf9:2153:b33e:91d?
  ([2602:ae:1543:f001:4bf9:2153:b33e:91d])
  by smtp.gmail.com with ESMTPSA id
- ay1-20020a056a00300100b005252433bdbdsm6747009pfb.95.2022.06.22.08.05.13
+ g12-20020a62f94c000000b0050dc76281f8sm13604061pfm.210.2022.06.22.08.05.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 08:05:14 -0700 (PDT)
-Message-ID: <b94b96f6-5109-f518-9fa8-1a52f99ae6bf@linaro.org>
-Date: Wed, 22 Jun 2022 08:05:12 -0700
+ Wed, 22 Jun 2022 08:05:51 -0700 (PDT)
+Message-ID: <e4fa2ebb-643c-35cb-c433-284a0deec9ef@linaro.org>
+Date: Wed, 22 Jun 2022 08:05:49 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v4 27/53] semihosting: Split out semihost_sys_open
+Subject: Re: [PATCH 01/10] hw/loongarch: rename macro prefix LS_PCI to LS7A_PCI
 Content-Language: en-US
-To: Luc Michel <lmichel@kalray.eu>
-Cc: qemu-devel@nongnu.org
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-28-richard.henderson@linaro.org>
- <20220622093509.GE28991@ws2101.lin.mbt.kalray.eu>
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
+ peter.maydell@linaro.org, chenhuacai@loongson.cn
+References: <20220622104301.804447-1-yangxiaojuan@loongson.cn>
+ <20220622104301.804447-2-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220622093509.GE28991@ws2101.lin.mbt.kalray.eu>
+In-Reply-To: <20220622104301.804447-2-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,45 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/22/22 02:35, Luc Michel wrote:
-> On 13:45 Tue 07 Jun     , Richard Henderson wrote:
->> Split out the non-ARM specific portions of SYS_OPEN to a
->> reusable function.  This handles gdb and host file i/o.
->>
->> Add helpers to validate the length of the filename string.
->> Prepare for usage by other semihosting by allowing the
->> filename length parameter to be 0, and calling strlen.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   include/semihosting/syscalls.h |  25 ++++++
->>   semihosting/arm-compat-semi.c  |  52 ++---------
->>   semihosting/guestfd.c          |   5 ++
->>   semihosting/syscalls.c         | 156 +++++++++++++++++++++++++++++++++
->>   semihosting/meson.build        |   1 +
->>   5 files changed, 193 insertions(+), 46 deletions(-)
->>   create mode 100644 include/semihosting/syscalls.h
->>   create mode 100644 semihosting/syscalls.c
->>
+On 6/22/22 03:42, Xiaojuan Yang wrote:
+> Rename macro LS_PCIECFG_xxx to LS7A_PCI_CFG_xxx to keep consistency
+> with other macros.
 > 
-> [...]
-> 
->>           } else {
->> -            hostfd = open(s, open_modeflags[arg1], 0644);
->> -            if (hostfd < 0) {
->> -                ret = -1;
->> -                err = errno;
->> -            } else {
->> -                ret = alloc_guestfd();
->> -                associate_guestfd(ret, hostfd);
->> -            }
->> +            semihost_sys_open(cs, common_semi_cb, arg0, arg2 + 1,
->> +                              gdb_open_modeflags[arg1], 0644);
-> 
-> You're missing a unlock_user(s, arg0, 0); here
+> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
+> ---
+>   hw/loongarch/loongson3.c   | 4 ++--
+>   include/hw/pci-host/ls7a.h | 4 ++--
+>   2 files changed, 4 insertions(+), 4 deletions(-)
 
-Good catch.  Fixed.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
