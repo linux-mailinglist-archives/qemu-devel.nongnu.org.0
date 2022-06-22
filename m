@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E00C555410
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 21:13:13 +0200 (CEST)
-Received: from localhost ([::1]:34860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553EE55541C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 21:16:03 +0200 (CEST)
+Received: from localhost ([::1]:40920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o45mq-0003eH-CK
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 15:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60730)
+	id 1o45pa-0007le-DV
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 15:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o45hW-00088I-Vw
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 15:07:43 -0400
-Received: from smtpout30.security-mail.net ([85.31.212.35]:24588)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o45hU-0006TE-H8
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 15:07:42 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx305.security-mail.net (Postfix) with ESMTP id 9048630FD40
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 21:07:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1655924857;
- bh=eYY1NZVxUnXZ3Xcx9FRNnG+Szn7QK8MakrL7LT1IcEY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=NzdhvV8PiHgQ/bD94k2pb2Zt9FrtqD4dg1oDgDqPt4klSOVM8QgEp0b9+S5ayZsL2
- zN0WHfumGgOzMyGbac+3w5Sjr6gT7yksvU3rskyCHLmKMRvmNF4zEa2FHphB6H8Yvs
- YM4/ryJgfPeiWyNF3axBHavrHCgARKvU8yVFxg6E=
-Received: from fx305 (localhost [127.0.0.1]) by fx305.security-mail.net
- (Postfix) with ESMTP id 32A0D30FD0B; Wed, 22 Jun 2022 21:07:37 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx305.security-mail.net (Postfix) with ESMTPS id 7B68E30FD6B; Wed, 22 Jun
- 2022 21:07:36 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 5F9BC27E04CD; Wed, 22 Jun 2022
- 21:07:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 491BA27E04EF; Wed, 22 Jun 2022 21:07:36 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- BCJtAgEu0wwo; Wed, 22 Jun 2022 21:07:36 +0200 (CEST)
-Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id 2C63127E04CD; Wed, 22 Jun 2022 21:07:36 +0200
- (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <7cdd.62b36878.7a033.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 491BA27E04EF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655924856;
- bh=LGgYxhCxw9OEoEIrdrc6wI++zR0+QMsMCk3xuILlxC0=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=NYdaQYTXFUn8yNy5dGZPv/bYosnm/aqGFbZTKfpM/Cks3U50Eq6VzVmExfaIYKtdf
- ypqp3nCTZg370D/Z5XK9/0Euwm1khId73kQ+PYE96MexGrC1arL20TtLJRaCxAXqvp
- bqCS7vepbJwuyj0KoyrkMLkMgjB7dfobUUsc3qQo=
-Date: Wed, 22 Jun 2022 21:07:35 +0200
-From: Luc Michel <lmichel@kalray.eu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 28/53] semihosting: Split out semihost_sys_close
-Message-ID: <20220622190713.GG28991@ws2101.lin.mbt.kalray.eu>
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-29-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o45k1-0001j5-Gk
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 15:10:20 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:34782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o45jy-0006sP-Iz
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 15:10:16 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id i15so26981243ybp.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 12:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ak9sN1BAn4FVJM2F3FhYCLi35aKf+SYvy9iT3y/iS6o=;
+ b=EC6xjxXit2GlcKSvaK6rUL04N5NUNXHs96SOUtfDUbdLVpppd6eLHDHP+SYIdMdELh
+ uJumYyTeaQxs12guhWa10BpUP4Jy9sd0ZyBU+tz+x1zlNNmBwdz1gDVg4mtWrj6deMAU
+ YcbehYkhMU+iZVIhzGaWwYQUJtOXXZnLQRClIyykBJwnkY6SUmU+vq0z2RgUzYUPOhbX
+ DVWKF6gQ/Lr1K2MD8IN8XD4eVXdP4j461+Cgr+nVVUnIuvRquSPyI7yGNwlElUg6JPZr
+ N55t6Z0/4Z8wup1nJz8LenLKixgRO7CVQn367oAAm0wi64dJ/4cm8oeehzi1MT3ct9QV
+ goUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ak9sN1BAn4FVJM2F3FhYCLi35aKf+SYvy9iT3y/iS6o=;
+ b=ava0kmAFN2Rc1VMZ8RKOP4AsAYNw+K3mqDr2vOymR7T9vdfpdcbO/PDnO78KlwQLxV
+ 7KH3sqeJDCL0mD4w1tKwHW957A2hYgQBOjlQc1p2uQSYldTCJdHloESioog7etR3MDkD
+ PjKI54OT+ivaHEr0icuGtPCIAMU3rYibesrO27sJo/e3TG+uLMuCT74qukUvULMnK13E
+ gRATQUzWJmAKySTuwl3Sj0UcthLzhx32uMJ/PRaIawi5QPBCMFonmzJ+Ze7dpBwqgye3
+ cM1ydw0QlKmFyupxrIT1QP2ZJZ4qIGj6sYz8G9PrUtbP94wLlueAmuSPG1jZg0aAFbdO
+ 9S1A==
+X-Gm-Message-State: AJIora//0gYX4n8p5dNg7FIegbF9ypHV7xek9zA70NhDg74MN0rARQf4
+ CEn0h5oh1nrrrVXOiLVHbM3IbuX7dU5vgSmgHv3aLA==
+X-Google-Smtp-Source: AGRyM1s9EXyoYOtovHtyxZ3goS8y4/YUZ2u4lASC9JkVdJoeaPbZ6mKB/p0rG0RI3/flluWqGTATBsLvyJ43zzwzsts=
+X-Received: by 2002:a25:d9c3:0:b0:668:cd48:e56 with SMTP id
+ q186-20020a25d9c3000000b00668cd480e56mr5369439ybg.288.1655925011787; Wed, 22
+ Jun 2022 12:10:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-29-richard.henderson@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.35; envelope-from=lmichel@kalray.eu;
- helo=smtpout30.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220621125916.25257-1-lmichel@kalray.eu>
+ <20220621125916.25257-3-lmichel@kalray.eu>
+In-Reply-To: <20220621125916.25257-3-lmichel@kalray.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 22 Jun 2022 20:09:34 +0100
+Message-ID: <CAFEAcA-Z=rYWnpceM-Ojvi2QoxkmZzSZqnjKgH1WFdwCDi9O3A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] semihosting: add the semihosting_exit_request
+ function
+To: Luc Michel <lmichel@kalray.eu>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,240 +92,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> Split out the non-ARM specific portions of SYS_CLOSE to a
-> reusable function.  This handles all GuestFD.
-> 
-> Note that gdb_do_syscall %x reads target_ulong, not int.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, 21 Jun 2022 at 13:59, Luc Michel <lmichel@kalray.eu> wrote:
+>
+> Add the semihosting_exit_request function to be used by targets when
+> handling an `exit' semihosted syscall. This function calls gdb_exit to
+> close existing GDB connections, and qemu_system_shutdown_request with
+> the new `guest-semi-exit' exit reason. It sets the QEMU exit status
+> given by the exit syscall parameter. Finally it stops the CPU to prevent
+> further execution, and exit the CPU loop as the syscall caller expects
+> this syscall to not return.
+>
+> This function is meant to be used in place of a raw exit() call when
+> handling semihosted `exit' syscalls. Such a call is not safe because
+> it does not allow other CPU threads to exit properly, leading to e.g.
+> at_exit callbacks being called while other CPUs still run. This can lead
+> to strange bugs, especially in plugins with a registered at_exit function.
 
-Reviewed-by: Luc Michel <lmichel@kalray.eu>
+This is mixing up two things:
+ (1) fixing bugs with the plugin code when code (semihosting or
+     otherwise) calls exit()
+ (2) reporting to the monitor when the guest exits because it
+     asked to via semihosting
 
-> ---
->  include/semihosting/syscalls.h |  3 +++
->  semihosting/arm-compat-semi.c  | 41 +----------------------------
->  semihosting/guestfd.c          |  7 ++++-
->  semihosting/syscalls.c         | 47 ++++++++++++++++++++++++++++++++++
->  4 files changed, 57 insertions(+), 41 deletions(-)
-> 
-> diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-> index 991658bf79..00e718f11d 100644
-> --- a/include/semihosting/syscalls.h
-> +++ b/include/semihosting/syscalls.h
-> @@ -22,4 +22,7 @@ void semihost_sys_open(CPUState *cs, gdb_syscall_complete_cb complete,
->                         target_ulong fname, target_ulong fname_len,
->                         int gdb_flags, int mode);
->  
-> +void semihost_sys_close(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                        int fd);
-> +
->  #endif /* SEMIHOSTING_SYSCALLS_H */
-> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-> index 3239eda513..a6dddb2aa2 100644
-> --- a/semihosting/arm-compat-semi.c
-> +++ b/semihosting/arm-compat-semi.c
-> @@ -276,7 +276,6 @@ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
->   * do the work and return the required return value to the guest
->   * via common_semi_cb.
->   */
-> -typedef void sys_closefn(CPUState *cs, GuestFD *gf);
->  typedef void sys_writefn(CPUState *cs, GuestFD *gf,
->                           target_ulong buf, uint32_t len);
->  typedef void sys_readfn(CPUState *cs, GuestFD *gf,
-> @@ -285,23 +284,6 @@ typedef void sys_isattyfn(CPUState *cs, GuestFD *gf);
->  typedef void sys_seekfn(CPUState *cs, GuestFD *gf, target_ulong offset);
->  typedef void sys_flenfn(CPUState *cs, GuestFD *gf);
->  
-> -static void host_closefn(CPUState *cs, GuestFD *gf)
-> -{
-> -    int ret;
-> -    /*
-> -     * Only close the underlying host fd if it's one we opened on behalf
-> -     * of the guest in SYS_OPEN.
-> -     */
-> -    if (gf->hostfd == STDIN_FILENO ||
-> -        gf->hostfd == STDOUT_FILENO ||
-> -        gf->hostfd == STDERR_FILENO) {
-> -        ret = 0;
-> -    } else {
-> -        ret = close(gf->hostfd);
-> -    }
-> -    common_semi_cb(cs, ret, ret ? errno : 0);
-> -}
-> -
->  static void host_writefn(CPUState *cs, GuestFD *gf,
->                           target_ulong buf, uint32_t len)
->  {
-> @@ -362,11 +344,6 @@ static void host_flenfn(CPUState *cs, GuestFD *gf)
->      }
->  }
->  
-> -static void gdb_closefn(CPUState *cs, GuestFD *gf)
-> -{
-> -    gdb_do_syscall(common_semi_cb, "close,%x", gf->hostfd);
-> -}
-> -
->  static void gdb_writefn(CPUState *cs, GuestFD *gf,
->                          target_ulong buf, uint32_t len)
->  {
-> @@ -414,12 +391,6 @@ static const uint8_t featurefile_data[] = {
->      SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
->  };
->  
-> -static void staticfile_closefn(CPUState *cs, GuestFD *gf)
-> -{
-> -    /* Nothing to do */
-> -    common_semi_cb(cs, 0, 0);
-> -}
-> -
->  static void staticfile_writefn(CPUState *cs, GuestFD *gf,
->                                 target_ulong buf, uint32_t len)
->  {
-> @@ -468,7 +439,6 @@ static void staticfile_flenfn(CPUState *cs, GuestFD *gf)
->  }
->  
->  typedef struct GuestFDFunctions {
-> -    sys_closefn *closefn;
->      sys_writefn *writefn;
->      sys_readfn *readfn;
->      sys_isattyfn *isattyfn;
-> @@ -478,7 +448,6 @@ typedef struct GuestFDFunctions {
->  
->  static const GuestFDFunctions guestfd_fns[] = {
->      [GuestFDHost] = {
-> -        .closefn = host_closefn,
->          .writefn = host_writefn,
->          .readfn = host_readfn,
->          .isattyfn = host_isattyfn,
-> @@ -486,7 +455,6 @@ static const GuestFDFunctions guestfd_fns[] = {
->          .flenfn = host_flenfn,
->      },
->      [GuestFDGDB] = {
-> -        .closefn = gdb_closefn,
->          .writefn = gdb_writefn,
->          .readfn = gdb_readfn,
->          .isattyfn = gdb_isattyfn,
-> @@ -494,7 +462,6 @@ static const GuestFDFunctions guestfd_fns[] = {
->          .flenfn = gdb_flenfn,
->      },
->      [GuestFDStatic] = {
-> -        .closefn = staticfile_closefn,
->          .writefn = staticfile_writefn,
->          .readfn = staticfile_readfn,
->          .isattyfn = staticfile_isattyfn,
-> @@ -585,13 +552,7 @@ void do_common_semihosting(CPUState *cs)
->  
->      case TARGET_SYS_CLOSE:
->          GET_ARG(0);
-> -
-> -        gf = get_guestfd(arg0);
-> -        if (!gf) {
-> -            goto do_badf;
-> -        }
-> -        guestfd_fns[gf->type].closefn(cs, gf);
-> -        dealloc_guestfd(arg0);
-> +        semihost_sys_close(cs, common_semi_cb, arg0);
->          break;
->  
->      case TARGET_SYS_WRITEC:
-> diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
-> index 7ac2e147a8..e3122ebba9 100644
-> --- a/semihosting/guestfd.c
-> +++ b/semihosting/guestfd.c
-> @@ -49,6 +49,11 @@ int alloc_guestfd(void)
->      return i;
->  }
->  
-> +static void do_dealloc_guestfd(GuestFD *gf)
-> +{
-> +    gf->type = GuestFDUnused;
-> +}
-> +
->  /*
->   * Look up the guestfd in the data structure; return NULL
->   * for out of bounds, but don't check whether the slot is unused.
-> @@ -119,5 +124,5 @@ void dealloc_guestfd(int guestfd)
->      GuestFD *gf = do_get_guestfd(guestfd);
->  
->      assert(gf);
-> -    gf->type = GuestFDUnused;
-> +    do_dealloc_guestfd(gf);
->  }
-> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-> index 9f9d19a59a..3648b9dd49 100644
-> --- a/semihosting/syscalls.c
-> +++ b/semihosting/syscalls.c
-> @@ -94,6 +94,12 @@ static void gdb_open(CPUState *cs, gdb_syscall_complete_cb complete,
->                     fname, len, (target_ulong)gdb_flags, (target_ulong)mode);
->  }
->  
-> +static void gdb_close(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                      GuestFD *gf)
-> +{
-> +    gdb_do_syscall(complete, "close,%x", (target_ulong)gf->hostfd);
-> +}
-> +
->  /*
->   * Host semihosting syscall implementations.
->   */
-> @@ -140,6 +146,23 @@ static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
->      unlock_user(p, fname, 0);
->  }
->  
-> +static void host_close(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                       GuestFD *gf)
-> +{
-> +    /*
-> +     * Only close the underlying host fd if it's one we opened on behalf
-> +     * of the guest in SYS_OPEN.
-> +     */
-> +    if (gf->hostfd != STDIN_FILENO &&
-> +        gf->hostfd != STDOUT_FILENO &&
-> +        gf->hostfd != STDERR_FILENO &&
-> +        close(gf->hostfd) < 0) {
-> +        complete(cs, -1, errno);
-> +    } else {
-> +        complete(cs, 0, 0);
-> +    }
-> +}
-> +
->  /*
->   * Syscall entry points.
->   */
-> @@ -154,3 +177,27 @@ void semihost_sys_open(CPUState *cs, gdb_syscall_complete_cb complete,
->          host_open(cs, complete, fname, fname_len, gdb_flags, mode);
->      }
->  }
-> +
-> +void semihost_sys_close(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
-> +{
-> +    GuestFD *gf = get_guestfd(fd);
-> +
-> +    if (!gf) {
-> +        complete(cs, -1, EBADF);
-> +        return;
-> +    }
-> +    switch (gf->type) {
-> +    case GuestFDGDB:
-> +        gdb_close(cs, complete, gf);
-> +        break;
-> +    case GuestFDHost:
-> +        host_close(cs, complete, gf);
-> +        break;
-> +    case GuestFDStatic:
-> +        complete(cs, 0, 0);
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +    dealloc_guestfd(fd);
-> +}
-> -- 
-> 2.34.1
-> 
+I remain unconvinced that this series is actually fixing (1),
+I think it's just working around the most common cause of it.
+For (2), maybe we want it, but that should I think be a
+separate patchset with justification of why it's useful to
+tell the monitor about it. I think on balance it probably
+is a good idea, but I disagree about (1) and would like to
+see these two things not tangled up in the same series.
 
-
-
-
+thanks
+-- PMM
 
