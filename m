@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1256C555422
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 21:22:06 +0200 (CEST)
-Received: from localhost ([::1]:47082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E00C555410
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 21:13:13 +0200 (CEST)
+Received: from localhost ([::1]:34860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o45vR-0003c4-4c
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 15:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
+	id 1o45mq-0003eH-CK
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 15:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o45Gq-0008KN-2Z
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 14:40:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24838)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o45hW-00088I-Vw
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 15:07:43 -0400
+Received: from smtpout30.security-mail.net ([85.31.212.35]:24588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o45Gl-0002PQ-J5
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 14:40:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655923203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=02bsooRW+muNZAOrkp1FfrnPEavTqzUd2wxFwS1LpsA=;
- b=Enp91roCJO4QA2E3uwXdBXU1UrC+DJEyQD0UnMxhlGG4y8S8m9/H49jSaprqsnRjqRxtHs
- lvaQP3hyo+GyZv/lDS3y7Tg5kZJNDL9rvdEbXKXHiSPwgxVRMwjkUvDRp4cNyuD5ANJoGd
- 56MGFrKLZSqogesvlpaDPe04F6tA/D4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-OUbsYp4tPo-sQIOzJWolhQ-1; Wed, 22 Jun 2022 14:40:00 -0400
-X-MC-Unique: OUbsYp4tPo-sQIOzJWolhQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A5C43831C4D;
- Wed, 22 Jun 2022 18:40:00 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.33.36.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7968E1131D;
- Wed, 22 Jun 2022 18:39:59 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
- quintela@redhat.com, leobras@redhat.com
-Cc: jdenemar@redhat.com
-Subject: [PULL 33/33] tests: Add dirty page rate limit test
-Date: Wed, 22 Jun 2022 19:39:17 +0100
-Message-Id: <20220622183917.155308-34-dgilbert@redhat.com>
-In-Reply-To: <20220622183917.155308-1-dgilbert@redhat.com>
-References: <20220622183917.155308-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o45hU-0006TE-H8
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 15:07:42 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by fx305.security-mail.net (Postfix) with ESMTP id 9048630FD40
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 21:07:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+ s=sec-sig-email; t=1655924857;
+ bh=eYY1NZVxUnXZ3Xcx9FRNnG+Szn7QK8MakrL7LT1IcEY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=NzdhvV8PiHgQ/bD94k2pb2Zt9FrtqD4dg1oDgDqPt4klSOVM8QgEp0b9+S5ayZsL2
+ zN0WHfumGgOzMyGbac+3w5Sjr6gT7yksvU3rskyCHLmKMRvmNF4zEa2FHphB6H8Yvs
+ YM4/ryJgfPeiWyNF3axBHavrHCgARKvU8yVFxg6E=
+Received: from fx305 (localhost [127.0.0.1]) by fx305.security-mail.net
+ (Postfix) with ESMTP id 32A0D30FD0B; Wed, 22 Jun 2022 21:07:37 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx305.security-mail.net (Postfix) with ESMTPS id 7B68E30FD6B; Wed, 22 Jun
+ 2022 21:07:36 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 5F9BC27E04CD; Wed, 22 Jun 2022
+ 21:07:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 491BA27E04EF; Wed, 22 Jun 2022 21:07:36 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ BCJtAgEu0wwo; Wed, 22 Jun 2022 21:07:36 +0200 (CEST)
+Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
+ (Postfix) with ESMTPSA id 2C63127E04CD; Wed, 22 Jun 2022 21:07:36 +0200
+ (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <7cdd.62b36878.7a033.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 491BA27E04EF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655924856;
+ bh=LGgYxhCxw9OEoEIrdrc6wI++zR0+QMsMCk3xuILlxC0=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=NYdaQYTXFUn8yNy5dGZPv/bYosnm/aqGFbZTKfpM/Cks3U50Eq6VzVmExfaIYKtdf
+ ypqp3nCTZg370D/Z5XK9/0Euwm1khId73kQ+PYE96MexGrC1arL20TtLJRaCxAXqvp
+ bqCS7vepbJwuyj0KoyrkMLkMgjB7dfobUUsc3qQo=
+Date: Wed, 22 Jun 2022 21:07:35 +0200
+From: Luc Michel <lmichel@kalray.eu>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 28/53] semihosting: Split out semihost_sys_close
+Message-ID: <20220622190713.GG28991@ws2101.lin.mbt.kalray.eu>
+References: <20220607204557.658541-1-richard.henderson@linaro.org>
+ <20220607204557.658541-29-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
+In-Reply-To: <20220607204557.658541-29-richard.henderson@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-ALTERMIMEV2_out: done
+Received-SPF: pass client-ip=85.31.212.35; envelope-from=lmichel@kalray.eu;
+ helo=smtpout30.security-mail.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,358 +92,240 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On 13:45 Tue 07 Jun     , Richard Henderson wrote:
+> Split out the non-ARM specific portions of SYS_CLOSE to a
+> reusable function.  This handles all GuestFD.
+> 
+> Note that gdb_do_syscall %x reads target_ulong, not int.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Add dirty page rate limit test if kernel support dirty ring.
+Reviewed-by: Luc Michel <lmichel@kalray.eu>
 
-The following qmp commands are covered by this test case:
-"calc-dirty-rate", "query-dirty-rate", "set-vcpu-dirty-limit",
-"cancel-vcpu-dirty-limit" and "query-vcpu-dirty-limit".
+> ---
+>  include/semihosting/syscalls.h |  3 +++
+>  semihosting/arm-compat-semi.c  | 41 +----------------------------
+>  semihosting/guestfd.c          |  7 ++++-
+>  semihosting/syscalls.c         | 47 ++++++++++++++++++++++++++++++++++
+>  4 files changed, 57 insertions(+), 41 deletions(-)
+> 
+> diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
+> index 991658bf79..00e718f11d 100644
+> --- a/include/semihosting/syscalls.h
+> +++ b/include/semihosting/syscalls.h
+> @@ -22,4 +22,7 @@ void semihost_sys_open(CPUState *cs, gdb_syscall_complete_cb complete,
+>                         target_ulong fname, target_ulong fname_len,
+>                         int gdb_flags, int mode);
+>  
+> +void semihost_sys_close(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                        int fd);
+> +
+>  #endif /* SEMIHOSTING_SYSCALLS_H */
+> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+> index 3239eda513..a6dddb2aa2 100644
+> --- a/semihosting/arm-compat-semi.c
+> +++ b/semihosting/arm-compat-semi.c
+> @@ -276,7 +276,6 @@ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
+>   * do the work and return the required return value to the guest
+>   * via common_semi_cb.
+>   */
+> -typedef void sys_closefn(CPUState *cs, GuestFD *gf);
+>  typedef void sys_writefn(CPUState *cs, GuestFD *gf,
+>                           target_ulong buf, uint32_t len);
+>  typedef void sys_readfn(CPUState *cs, GuestFD *gf,
+> @@ -285,23 +284,6 @@ typedef void sys_isattyfn(CPUState *cs, GuestFD *gf);
+>  typedef void sys_seekfn(CPUState *cs, GuestFD *gf, target_ulong offset);
+>  typedef void sys_flenfn(CPUState *cs, GuestFD *gf);
+>  
+> -static void host_closefn(CPUState *cs, GuestFD *gf)
+> -{
+> -    int ret;
+> -    /*
+> -     * Only close the underlying host fd if it's one we opened on behalf
+> -     * of the guest in SYS_OPEN.
+> -     */
+> -    if (gf->hostfd == STDIN_FILENO ||
+> -        gf->hostfd == STDOUT_FILENO ||
+> -        gf->hostfd == STDERR_FILENO) {
+> -        ret = 0;
+> -    } else {
+> -        ret = close(gf->hostfd);
+> -    }
+> -    common_semi_cb(cs, ret, ret ? errno : 0);
+> -}
+> -
+>  static void host_writefn(CPUState *cs, GuestFD *gf,
+>                           target_ulong buf, uint32_t len)
+>  {
+> @@ -362,11 +344,6 @@ static void host_flenfn(CPUState *cs, GuestFD *gf)
+>      }
+>  }
+>  
+> -static void gdb_closefn(CPUState *cs, GuestFD *gf)
+> -{
+> -    gdb_do_syscall(common_semi_cb, "close,%x", gf->hostfd);
+> -}
+> -
+>  static void gdb_writefn(CPUState *cs, GuestFD *gf,
+>                          target_ulong buf, uint32_t len)
+>  {
+> @@ -414,12 +391,6 @@ static const uint8_t featurefile_data[] = {
+>      SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
+>  };
+>  
+> -static void staticfile_closefn(CPUState *cs, GuestFD *gf)
+> -{
+> -    /* Nothing to do */
+> -    common_semi_cb(cs, 0, 0);
+> -}
+> -
+>  static void staticfile_writefn(CPUState *cs, GuestFD *gf,
+>                                 target_ulong buf, uint32_t len)
+>  {
+> @@ -468,7 +439,6 @@ static void staticfile_flenfn(CPUState *cs, GuestFD *gf)
+>  }
+>  
+>  typedef struct GuestFDFunctions {
+> -    sys_closefn *closefn;
+>      sys_writefn *writefn;
+>      sys_readfn *readfn;
+>      sys_isattyfn *isattyfn;
+> @@ -478,7 +448,6 @@ typedef struct GuestFDFunctions {
+>  
+>  static const GuestFDFunctions guestfd_fns[] = {
+>      [GuestFDHost] = {
+> -        .closefn = host_closefn,
+>          .writefn = host_writefn,
+>          .readfn = host_readfn,
+>          .isattyfn = host_isattyfn,
+> @@ -486,7 +455,6 @@ static const GuestFDFunctions guestfd_fns[] = {
+>          .flenfn = host_flenfn,
+>      },
+>      [GuestFDGDB] = {
+> -        .closefn = gdb_closefn,
+>          .writefn = gdb_writefn,
+>          .readfn = gdb_readfn,
+>          .isattyfn = gdb_isattyfn,
+> @@ -494,7 +462,6 @@ static const GuestFDFunctions guestfd_fns[] = {
+>          .flenfn = gdb_flenfn,
+>      },
+>      [GuestFDStatic] = {
+> -        .closefn = staticfile_closefn,
+>          .writefn = staticfile_writefn,
+>          .readfn = staticfile_readfn,
+>          .isattyfn = staticfile_isattyfn,
+> @@ -585,13 +552,7 @@ void do_common_semihosting(CPUState *cs)
+>  
+>      case TARGET_SYS_CLOSE:
+>          GET_ARG(0);
+> -
+> -        gf = get_guestfd(arg0);
+> -        if (!gf) {
+> -            goto do_badf;
+> -        }
+> -        guestfd_fns[gf->type].closefn(cs, gf);
+> -        dealloc_guestfd(arg0);
+> +        semihost_sys_close(cs, common_semi_cb, arg0);
+>          break;
+>  
+>      case TARGET_SYS_WRITEC:
+> diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
+> index 7ac2e147a8..e3122ebba9 100644
+> --- a/semihosting/guestfd.c
+> +++ b/semihosting/guestfd.c
+> @@ -49,6 +49,11 @@ int alloc_guestfd(void)
+>      return i;
+>  }
+>  
+> +static void do_dealloc_guestfd(GuestFD *gf)
+> +{
+> +    gf->type = GuestFDUnused;
+> +}
+> +
+>  /*
+>   * Look up the guestfd in the data structure; return NULL
+>   * for out of bounds, but don't check whether the slot is unused.
+> @@ -119,5 +124,5 @@ void dealloc_guestfd(int guestfd)
+>      GuestFD *gf = do_get_guestfd(guestfd);
+>  
+>      assert(gf);
+> -    gf->type = GuestFDUnused;
+> +    do_dealloc_guestfd(gf);
+>  }
+> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+> index 9f9d19a59a..3648b9dd49 100644
+> --- a/semihosting/syscalls.c
+> +++ b/semihosting/syscalls.c
+> @@ -94,6 +94,12 @@ static void gdb_open(CPUState *cs, gdb_syscall_complete_cb complete,
+>                     fname, len, (target_ulong)gdb_flags, (target_ulong)mode);
+>  }
+>  
+> +static void gdb_close(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                      GuestFD *gf)
+> +{
+> +    gdb_do_syscall(complete, "close,%x", (target_ulong)gf->hostfd);
+> +}
+> +
+>  /*
+>   * Host semihosting syscall implementations.
+>   */
+> @@ -140,6 +146,23 @@ static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
+>      unlock_user(p, fname, 0);
+>  }
+>  
+> +static void host_close(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                       GuestFD *gf)
+> +{
+> +    /*
+> +     * Only close the underlying host fd if it's one we opened on behalf
+> +     * of the guest in SYS_OPEN.
+> +     */
+> +    if (gf->hostfd != STDIN_FILENO &&
+> +        gf->hostfd != STDOUT_FILENO &&
+> +        gf->hostfd != STDERR_FILENO &&
+> +        close(gf->hostfd) < 0) {
+> +        complete(cs, -1, errno);
+> +    } else {
+> +        complete(cs, 0, 0);
+> +    }
+> +}
+> +
+>  /*
+>   * Syscall entry points.
+>   */
+> @@ -154,3 +177,27 @@ void semihost_sys_open(CPUState *cs, gdb_syscall_complete_cb complete,
+>          host_open(cs, complete, fname, fname_len, gdb_flags, mode);
+>      }
+>  }
+> +
+> +void semihost_sys_close(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
+> +{
+> +    GuestFD *gf = get_guestfd(fd);
+> +
+> +    if (!gf) {
+> +        complete(cs, -1, EBADF);
+> +        return;
+> +    }
+> +    switch (gf->type) {
+> +    case GuestFDGDB:
+> +        gdb_close(cs, complete, gf);
+> +        break;
+> +    case GuestFDHost:
+> +        host_close(cs, complete, gf);
+> +        break;
+> +    case GuestFDStatic:
+> +        complete(cs, 0, 0);
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +    dealloc_guestfd(fd);
+> +}
+> -- 
+> 2.34.1
+> 
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Acked-by: Peter Xu <peterx@redhat.com>
-Message-Id: <81ecb7b473d8ee2adf414a1f69ce8b7bd678c558.1652931128.git.huangy81@chinatelecom.cn>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tests/qtest/migration-helpers.c |  22 +++
- tests/qtest/migration-helpers.h |   2 +
- tests/qtest/migration-test.c    | 255 ++++++++++++++++++++++++++++++++
- 3 files changed, 279 insertions(+)
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index a6aa59e4e6..4849cba720 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -75,6 +75,28 @@ QDict *wait_command(QTestState *who, const char *command, ...)
-     return ret;
- }
- 
-+/*
-+ * Execute the qmp command only
-+ */
-+QDict *qmp_command(QTestState *who, const char *command, ...)
-+{
-+    va_list ap;
-+    QDict *resp, *ret;
-+
-+    va_start(ap, command);
-+    resp = qtest_vqmp(who, command, ap);
-+    va_end(ap);
-+
-+    g_assert(!qdict_haskey(resp, "error"));
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    ret = qdict_get_qdict(resp, "return");
-+    qobject_ref(ret);
-+    qobject_unref(resp);
-+
-+    return ret;
-+}
-+
- /*
-  * Send QMP command "migrate".
-  * Arguments are built from @fmt... (formatted like
-diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-index 78587c2b82..59561898d0 100644
---- a/tests/qtest/migration-helpers.h
-+++ b/tests/qtest/migration-helpers.h
-@@ -23,6 +23,8 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...);
- G_GNUC_PRINTF(2, 3)
- QDict *wait_command(QTestState *who, const char *command, ...);
- 
-+QDict *qmp_command(QTestState *who, const char *command, ...);
-+
- G_GNUC_PRINTF(3, 4)
- void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...);
- 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index d33e8060f9..f59d31b2ef 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -24,6 +24,7 @@
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/qobject-output-visitor.h"
- #include "crypto/tlscredspsk.h"
-+#include "qapi/qmp/qlist.h"
- 
- #include "migration-helpers.h"
- #include "tests/migration/migration-test.h"
-@@ -58,6 +59,11 @@ static bool uffd_feature_thread_id;
- #include <sys/eventfd.h>
- #include <sys/ioctl.h>
- #include <linux/userfaultfd.h>
-+/*
-+ * Dirtylimit stop working if dirty page rate error
-+ * value less than DIRTYLIMIT_TOLERANCE_RANGE
-+ */
-+#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
- 
- static bool ufd_version_check(void)
- {
-@@ -2070,6 +2076,253 @@ static void test_multifd_tcp_cancel(void)
-     test_migrate_end(from, to2, true);
- }
- 
-+static void calc_dirty_rate(QTestState *who, uint64_t calc_time)
-+{
-+    qobject_unref(qmp_command(who,
-+                  "{ 'execute': 'calc-dirty-rate',"
-+                  "'arguments': { "
-+                  "'calc-time': %ld,"
-+                  "'mode': 'dirty-ring' }}",
-+                  calc_time));
-+}
-+
-+static QDict *query_dirty_rate(QTestState *who)
-+{
-+    return qmp_command(who, "{ 'execute': 'query-dirty-rate' }");
-+}
-+
-+static void dirtylimit_set_all(QTestState *who, uint64_t dirtyrate)
-+{
-+    qobject_unref(qmp_command(who,
-+                  "{ 'execute': 'set-vcpu-dirty-limit',"
-+                  "'arguments': { "
-+                  "'dirty-rate': %ld } }",
-+                  dirtyrate));
-+}
-+
-+static void cancel_vcpu_dirty_limit(QTestState *who)
-+{
-+    qobject_unref(qmp_command(who,
-+                  "{ 'execute': 'cancel-vcpu-dirty-limit' }"));
-+}
-+
-+static QDict *query_vcpu_dirty_limit(QTestState *who)
-+{
-+    QDict *rsp;
-+
-+    rsp = qtest_qmp(who, "{ 'execute': 'query-vcpu-dirty-limit' }");
-+    g_assert(!qdict_haskey(rsp, "error"));
-+    g_assert(qdict_haskey(rsp, "return"));
-+
-+    return rsp;
-+}
-+
-+static bool calc_dirtyrate_ready(QTestState *who)
-+{
-+    QDict *rsp_return;
-+    gchar *status;
-+
-+    rsp_return = query_dirty_rate(who);
-+    g_assert(rsp_return);
-+
-+    status = g_strdup(qdict_get_str(rsp_return, "status"));
-+    g_assert(status);
-+
-+    return g_strcmp0(status, "measuring");
-+}
-+
-+static void wait_for_calc_dirtyrate_complete(QTestState *who,
-+                                             int64_t time_s)
-+{
-+    int max_try_count = 10000;
-+    usleep(time_s * 1000000);
-+
-+    while (!calc_dirtyrate_ready(who) && max_try_count--) {
-+        usleep(1000);
-+    }
-+
-+    /*
-+     * Set the timeout with 10 s(max_try_count * 1000us),
-+     * if dirtyrate measurement not complete, fail test.
-+     */
-+    g_assert_cmpint(max_try_count, !=, 0);
-+}
-+
-+static int64_t get_dirty_rate(QTestState *who)
-+{
-+    QDict *rsp_return;
-+    gchar *status;
-+    QList *rates;
-+    const QListEntry *entry;
-+    QDict *rate;
-+    int64_t dirtyrate;
-+
-+    rsp_return = query_dirty_rate(who);
-+    g_assert(rsp_return);
-+
-+    status = g_strdup(qdict_get_str(rsp_return, "status"));
-+    g_assert(status);
-+    g_assert_cmpstr(status, ==, "measured");
-+
-+    rates = qdict_get_qlist(rsp_return, "vcpu-dirty-rate");
-+    g_assert(rates && !qlist_empty(rates));
-+
-+    entry = qlist_first(rates);
-+    g_assert(entry);
-+
-+    rate = qobject_to(QDict, qlist_entry_obj(entry));
-+    g_assert(rate);
-+
-+    dirtyrate = qdict_get_try_int(rate, "dirty-rate", -1);
-+
-+    qobject_unref(rsp_return);
-+    return dirtyrate;
-+}
-+
-+static int64_t get_limit_rate(QTestState *who)
-+{
-+    QDict *rsp_return;
-+    QList *rates;
-+    const QListEntry *entry;
-+    QDict *rate;
-+    int64_t dirtyrate;
-+
-+    rsp_return = query_vcpu_dirty_limit(who);
-+    g_assert(rsp_return);
-+
-+    rates = qdict_get_qlist(rsp_return, "return");
-+    g_assert(rates && !qlist_empty(rates));
-+
-+    entry = qlist_first(rates);
-+    g_assert(entry);
-+
-+    rate = qobject_to(QDict, qlist_entry_obj(entry));
-+    g_assert(rate);
-+
-+    dirtyrate = qdict_get_try_int(rate, "limit-rate", -1);
-+
-+    qobject_unref(rsp_return);
-+    return dirtyrate;
-+}
-+
-+static QTestState *dirtylimit_start_vm(void)
-+{
-+    QTestState *vm = NULL;
-+    g_autofree gchar *cmd = NULL;
-+    const char *arch = qtest_get_arch();
-+    g_autofree char *bootpath = NULL;
-+
-+    assert((strcmp(arch, "x86_64") == 0));
-+    bootpath = g_strdup_printf("%s/bootsect", tmpfs);
-+    assert(sizeof(x86_bootsect) == 512);
-+    init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
-+
-+    cmd = g_strdup_printf("-accel kvm,dirty-ring-size=4096 "
-+                          "-name dirtylimit-test,debug-threads=on "
-+                          "-m 150M -smp 1 "
-+                          "-serial file:%s/vm_serial "
-+                          "-drive file=%s,format=raw ",
-+                          tmpfs, bootpath);
-+
-+    vm = qtest_init(cmd);
-+    return vm;
-+}
-+
-+static void dirtylimit_stop_vm(QTestState *vm)
-+{
-+    qtest_quit(vm);
-+    cleanup("bootsect");
-+    cleanup("vm_serial");
-+}
-+
-+static void test_vcpu_dirty_limit(void)
-+{
-+    QTestState *vm;
-+    int64_t origin_rate;
-+    int64_t quota_rate;
-+    int64_t rate ;
-+    int max_try_count = 20;
-+    int hit = 0;
-+
-+    /* Start vm for vcpu dirtylimit test */
-+    vm = dirtylimit_start_vm();
-+
-+    /* Wait for the first serial output from the vm*/
-+    wait_for_serial("vm_serial");
-+
-+    /* Do dirtyrate measurement with calc time equals 1s */
-+    calc_dirty_rate(vm, 1);
-+
-+    /* Sleep calc time and wait for calc dirtyrate complete */
-+    wait_for_calc_dirtyrate_complete(vm, 1);
-+
-+    /* Query original dirty page rate */
-+    origin_rate = get_dirty_rate(vm);
-+
-+    /* VM booted from bootsect should dirty memory steadily */
-+    assert(origin_rate != 0);
-+
-+    /* Setup quota dirty page rate at half of origin */
-+    quota_rate = origin_rate / 2;
-+
-+    /* Set dirtylimit */
-+    dirtylimit_set_all(vm, quota_rate);
-+
-+    /*
-+     * Check if set-vcpu-dirty-limit and query-vcpu-dirty-limit
-+     * works literally
-+     */
-+    g_assert_cmpint(quota_rate, ==, get_limit_rate(vm));
-+
-+    /* Sleep a bit to check if it take effect */
-+    usleep(2000000);
-+
-+    /*
-+     * Check if dirtylimit take effect realistically, set the
-+     * timeout with 20 s(max_try_count * 1s), if dirtylimit
-+     * doesn't take effect, fail test.
-+     */
-+    while (--max_try_count) {
-+        calc_dirty_rate(vm, 1);
-+        wait_for_calc_dirtyrate_complete(vm, 1);
-+        rate = get_dirty_rate(vm);
-+
-+        /*
-+         * Assume hitting if current rate is less
-+         * than quota rate (within accepting error)
-+         */
-+        if (rate < (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
-+            hit = 1;
-+            break;
-+        }
-+    }
-+
-+    g_assert_cmpint(hit, ==, 1);
-+
-+    hit = 0;
-+    max_try_count = 20;
-+
-+    /* Check if dirtylimit cancellation take effect */
-+    cancel_vcpu_dirty_limit(vm);
-+    while (--max_try_count) {
-+        calc_dirty_rate(vm, 1);
-+        wait_for_calc_dirtyrate_complete(vm, 1);
-+        rate = get_dirty_rate(vm);
-+
-+        /*
-+         * Assume dirtylimit be canceled if current rate is
-+         * greater than quota rate (within accepting error)
-+         */
-+        if (rate > (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
-+            hit = 1;
-+            break;
-+        }
-+    }
-+
-+    g_assert_cmpint(hit, ==, 1);
-+    dirtylimit_stop_vm(vm);
-+}
-+
- static bool kvm_dirty_ring_supported(void)
- {
- #if defined(__linux__) && defined(HOST_X86_64)
-@@ -2215,6 +2468,8 @@ int main(int argc, char **argv)
-     if (kvm_dirty_ring_supported()) {
-         qtest_add_func("/migration/dirty_ring",
-                        test_precopy_unix_dirty_ring);
-+        qtest_add_func("/migration/vcpu_dirty_limit",
-+                       test_vcpu_dirty_limit);
-     }
- 
-     ret = g_test_run();
--- 
-2.36.1
+
 
 
