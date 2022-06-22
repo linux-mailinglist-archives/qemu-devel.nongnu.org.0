@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D4D554BD0
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 15:52:45 +0200 (CEST)
-Received: from localhost ([::1]:45646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBEB554BF5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 15:59:36 +0200 (CEST)
+Received: from localhost ([::1]:54418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o40mi-000783-Q4
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 09:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48898)
+	id 1o40tK-00057e-7q
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 09:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o40i4-0004KO-Pc
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 09:47:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55406)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o40i1-0007Vj-7H
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 09:47:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655905672;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yeGDow+8EVhQawKYaDDy5JAqCFmtRtZztZWE2S3CuuI=;
- b=azzezhkQJOfBiI8KG3GzKTlL4RzVKx5L5cm4uyAKcG7RIQ7w6JbnkDjMSiapmrN4BluqSo
- uRbFMR5+k0KmIUifOOPpSWm58Io8iQTmKn6SkuRzYoiNm8fTQi4U0WrhQCNESqKOXh4d08
- yPLhzvXvOPPy6URXt0ziIXeV4VhMguc=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-DQsfFY24N5KGu_3CcFiMgw-1; Wed, 22 Jun 2022 09:47:50 -0400
-X-MC-Unique: DQsfFY24N5KGu_3CcFiMgw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- oz40-20020a1709077da800b00722ef1e93bdso1089175ejc.17
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 06:47:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1o40sK-0004Ar-A0
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 09:58:32 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36459)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1o40sI-0000qL-GM
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 09:58:31 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id cw10so10714103ejb.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 06:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Sevq3SC5xYAArbklGC1y031cIzTVPOX0TQIf5PL3t8g=;
+ b=qbgRVg/jyCyMyjTqWleYDxk4R/rB+bKQIUCaY/qRiDFr6iBYsookeqqUfDotg32Ej1
+ 0+O4U6hCifEgw3PklZctqseOuGbOaCnV3IuWNRwDBRmUitg+GLMBLRN3BZr+69LOEC8S
+ dQAd9EkpLWBolYnSLLih+qtbrrowkwTbKub8mMSjbp2Nq6xM6AkmuzDrDhAqRAyEEsbq
+ arcRyud14g1R09G6H3p7a92EQcei7DA6vlydtdE9pzwZttlLLFQHALVHN+mm7iSL18il
+ lKrpR6c8K8awbhBSzaASgpa5TU32sS7XWZwoLRAsth5Y4W22Ifl6n/P4r3GB4ae5FHzL
+ MHNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yeGDow+8EVhQawKYaDDy5JAqCFmtRtZztZWE2S3CuuI=;
- b=j/h17oXmobCoSR+AHtVWJNRRebegu7ZaxIIRwgouTczr4/SzmY/pNu0qrVD756Q3pU
- StZGk7A5zQlkBWkgadqOPIjuSiFHs9cw/cqW+kFQRZ+ifb3FmcRdf/Ir6/z583q8nw8j
- m3JoRX62hqYBmPGCPCE2cVev/3QyM2EI1+UmaiPbbTHm9e3MnD684LCGzCjKPj5h23Zo
- 95CS8DhfeupDYpc/X7FZpwDVbGgQthdguTdAKy5jMFBrJo02htHofiyJAEaTDBMBIj7T
- Gh6FR34LQgBCTBV1Dh82WBxF340y3yMPc183ouclNJ1QpFd/aWv7glnWlN+nVES51/OH
- +Zsg==
-X-Gm-Message-State: AJIora8KK5VwO3dWU3McdqHGxhei/r55WwSPJiHpByXp9BJ3uW3WJ81b
- PJno6c2ZtJ2j+iFXqPQsAeDhdBF/qxsnIXeSlyCBp5G6iKkt6BxrFe+iwBy1cN4vOIhEIkzypGZ
- 0L+zEEIUbrYjCJ7t/E1biRWQ6CrPfhPHEzs6NP9mblsNRq7QYoGxD8CRN2Qj/l4/JZDw=
-X-Received: by 2002:a05:6402:e83:b0:435:a9bd:8134 with SMTP id
- h3-20020a0564020e8300b00435a9bd8134mr4124780eda.243.1655905668765; 
- Wed, 22 Jun 2022 06:47:48 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ssxYB4g6h/RtUwRvA/4DgGfu4xwDkFqigExnD34HD/ZumvibXQeRKjKWExnNFODv1pF36tKg==
-X-Received: by 2002:a05:6402:e83:b0:435:a9bd:8134 with SMTP id
- h3-20020a0564020e8300b00435a9bd8134mr4124751eda.243.1655905668480; 
- Wed, 22 Jun 2022 06:47:48 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- os6-20020a170906af6600b007101f6f0720sm9172350ejb.120.2022.06.22.06.47.47
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Sevq3SC5xYAArbklGC1y031cIzTVPOX0TQIf5PL3t8g=;
+ b=juElIWHJH3hlL82/xYhuJ02s871AUFoIJMjVkD4X4JJ7kGZcPSopvL73uCVxyL2mIH
+ rsku0Tw1JLU0t9nWMxUPc2fel1m4qaHzaFsaklBhBmAFNZH4H/9FFGg0X4rmmquBsWDT
+ ipJyg2phk8dTgQTRCBElw+zOVzoRdlgs2xs9+VZXG0JhmqKJc2KmHhHITOKsmsE6s5qa
+ NVimL0W6SNhJraB+8yfVhI+YnUo0ckDzzShzjzXoUx1TeBxSPiq+FXN7Rs0YfjDXZI7H
+ fvBNLUMDUJiU1TPxN38YERWVL3PR76OYbmsXo+h90YaNDFroyvsjLeL0nDyYXv07vUgZ
+ n2Rg==
+X-Gm-Message-State: AJIora+O/Njrqx68ZpjdPFUwAS3iKdzcaemUfdGi53OzKsxD3qTmV0it
+ h7ledlr4otgiyHCqTPPvT91IMw==
+X-Google-Smtp-Source: AGRyM1vs/kJtGFR8jYIonG49P2NPIMjUUoV6bXUH3nZzpI62MuSbnsurTvcyxlQmJ+qZCf8X9gb8HQ==
+X-Received: by 2002:a17:907:8a03:b0:711:f3c3:71a6 with SMTP id
+ sc3-20020a1709078a0300b00711f3c371a6mr3380941ejc.659.1655906308694; 
+ Wed, 22 Jun 2022 06:58:28 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
+ c1-20020a17090618a100b006fea2705d18sm9353742ejf.210.2022.06.22.06.58.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 06:47:47 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, matheus.ferst@eldorado.org.br,
- alex.bennee@linaro.org
-Subject: [PATCH 2/2] build: try both native and cross compilers for linux-user
- tests
-Date: Wed, 22 Jun 2022 15:47:42 +0200
-Message-Id: <20220622134742.139306-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220622134742.139306-1-pbonzini@redhat.com>
-References: <20220622134742.139306-1-pbonzini@redhat.com>
+ Wed, 22 Jun 2022 06:58:28 -0700 (PDT)
+Date: Wed, 22 Jun 2022 14:58:04 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-devel@nongnu.org,
+ mst@redhat.com
+Subject: Re: [PATCH v2] virtio-iommu: Fix the partial copy of probe request
+Message-ID: <YrMf7I8mFGVyt9fS@myrica>
+References: <20220617062024.3168331-1-zhenzhong.duan@intel.com>
+ <0f4f26de-1402-5c3a-9903-389fef9b234f@redhat.com>
+ <YrMDMzfXAiEgFU+d@myrica>
+ <5471e06f-b1f2-d582-3558-b775af72a0fd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5471e06f-b1f2-d582-3558-b775af72a0fd@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,262 +92,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Configure is trying to fall back on cross compilers for targets that
-can have bi-arch or bi-endian toolchains, but there are many corner
-cases where just checking the name can go wrong.  For example, the RHEL
-ppc64le compiler is bi-arch and bi-endian, but multilibs are disabled.
-Therefore it cannot be used to build 32-bit hosted binaries like the
-linux-user TCG tests.
+On Wed, Jun 22, 2022 at 02:22:18PM +0200, Eric Auger wrote:
+> >> the spec is pretty confusing here though (virtio-v1.2-csd01.pdf) as it
+> >> presents the struct as follows:
+> >>
+> >> struct virtio_iommu_req_probe {
+> >> struct virtio_iommu_req_head head;
+> >> /* Device-readable */
+> >> le32 endpoint;
+> >> u8 reserved[64];
+> >>
+> >> /* Device-writable */
+> >> u8 properties[probe_size];
+> >> struct virtio_iommu_req_tail tail;
+> >> };
+> > Hm, which part is confusing?  Yes it's not valid C since probe_size is
+> > defined dynamically ('probe_size' in the device config), but I thought it
+> > would be nicer to show the whole request layout this way. Besides, at
+> > least virtio-blk and virtio-scsi have similar variable-sized arrays in
+> > their definitions
+> the fact "struct virtio_iommu_req_tail tail;" was part of the
+> 
+> virtio_iommu_req_probe struct
 
-Trying the cross compiler first also does not work, and an example for
-this is also ppc64le.  The powerpc64-linux-gnu-gcc binary from the
-cross-gcc package is theoretically multilib-friendly, but it cannot
-find the CRT files on a ppc64le host, because they are not in the .../le
-multilib subdirectory.
+Right, it would have been better to use a different name than
+virtio_iommu_req_probe in virtio_iommu.h, to make the pitfall clear.
 
-This can be fixed by testing both the native compiler and the cross
-compiler, and proceeding with the first one that works.  To do this,
-move the compiler usability check from the tests/tcg snippet to inside
-probe_target_compiler and, while at it, restrict it to just the user-mode
-emulation tests; if a compiler is not able to build nostdlib freestanding
-binaries the installation is broken.
----
- configure | 166 ++++++++++++++++++++++++++++++++----------------------
- 1 file changed, 100 insertions(+), 66 deletions(-)
+The larger problem is using C structs across the virtio spec instead of an
+abstract format. Someone implementing the device in another language would
+already not encounter this problem since they would read the spec as an
+abstract format. For documentation purposes I do prefer displaying the
+whole struct like this rather than working around limitations of C, which
+may be more confusing.
 
-diff --git a/configure b/configure
-index 0fd2838e82..e719afb80b 100755
---- a/configure
-+++ b/configure
-@@ -1868,6 +1868,7 @@ fi
- : ${cross_cc_cflags_x86_64="-m64"}
- 
- compute_target_variable() {
-+  eval "$2="
-   if eval test -n "\"\${cross_prefix_$1}\""; then
-     if eval has "\"\${cross_prefix_$1}\$3\""; then
-       eval "$2=\"\${cross_prefix_$1}\$3\""
-@@ -1875,8 +1876,21 @@ compute_target_variable() {
-   fi
- }
- 
-+# probe_target_compiler TARGET TEST-PROGRAM
-+#
-+# Look for a compiler for the given target, either native or cross.
-+# Set variables target_* if a compiler is found, and container_cross_*
-+# if a Docker-based cross-compiler image is known for the target.
-+# Set got_cross_cc to yes/no depending on whether a non-container-based
-+# compiler was found.
-+#
-+# If TEST-PROGRAM is present, use it to test the usability of the
-+# compiler, and also set build_static to "y" if static linking is
-+# possible.
-+#
- probe_target_compiler() {
-   # reset all output variables
-+  got_cross_cc=no
-   container_image=
-   container_hosts=
-   container_cross_cc=
-@@ -1887,14 +1901,6 @@ probe_target_compiler() {
-   container_cross_objcopy=
-   container_cross_ranlib=
-   container_cross_strip=
--  target_cc=
--  target_ar=
--  target_as=
--  target_ld=
--  target_nm=
--  target_objcopy=
--  target_ranlib=
--  target_strip=
- 
-   case $1 in
-     aarch64) container_hosts="x86_64 aarch64" ;;
-@@ -2041,22 +2047,8 @@ probe_target_compiler() {
-     : ${container_cross_strip:=${container_cross_prefix}strip}
-   done
- 
--  eval "target_cflags=\${cross_cc_cflags_$1}"
--  if eval test -n "\"\${cross_cc_$1}\""; then
--    if eval has "\"\${cross_cc_$1}\""; then
--      eval "target_cc=\"\${cross_cc_$1}\""
--    fi
--  else
--    compute_target_variable $1 target_cc gcc
--  fi
--  target_ccas=$target_cc
--  compute_target_variable $1 target_ar ar
--  compute_target_variable $1 target_as as
--  compute_target_variable $1 target_ld ld
--  compute_target_variable $1 target_nm nm
--  compute_target_variable $1 target_objcopy objcopy
--  compute_target_variable $1 target_ranlib ranlib
--  compute_target_variable $1 target_strip strip
-+  local t try
-+  try=cross
-   case "$1:$cpu" in
-     aarch64_be:aarch64 | \
-     armeb:arm | \
-@@ -2065,27 +2057,89 @@ probe_target_compiler() {
-     ppc*:ppc64 | \
-     sparc:sparc64 | \
-     "$cpu:$cpu")
--      : ${target_cc:=$cc}
--      : ${target_ccas:=$ccas}
--      : ${target_as:=$as}
--      : ${target_ld:=$ld}
--      : ${target_ar:=$ar}
--      : ${target_as:=$as}
--      : ${target_ld:=$ld}
--      : ${target_nm:=$nm}
--      : ${target_objcopy:=$objcopy}
--      : ${target_ranlib:=$ranlib}
--      : ${target_strip:=$strip}
--      ;;
-+      try='native cross' ;;
-   esac
--  if test -n "$target_cc"; then
--    case $1 in
--      i386|x86_64)
--        if $target_cc --version | grep -qi "clang"; then
--          unset target_cc
-+  eval "target_cflags=\${cross_cc_cflags_$1}"
-+  for t in $try; do
-+    case $t in
-+    native)
-+      target_cc=$cc
-+      target_ccas=$ccas
-+      target_ar=$ar
-+      target_as=$as
-+      target_ld=$ld
-+      target_nm=$nm
-+      target_objcopy=$objcopy
-+      target_ranlib=$ranlib
-+      target_strip=$strip
-+      ;;
-+    cross)
-+      target_cc=
-+      if eval test -n "\"\${cross_cc_$1}\""; then
-+        if eval has "\"\${cross_cc_$1}\""; then
-+          eval "target_cc=\"\${cross_cc_$1}\""
-         fi
--        ;;
-+      else
-+        compute_target_variable $1 target_cc gcc
-+      fi
-+      target_ccas=$target_cc
-+      compute_target_variable $1 target_ar ar
-+      compute_target_variable $1 target_as as
-+      compute_target_variable $1 target_ld ld
-+      compute_target_variable $1 target_nm nm
-+      compute_target_variable $1 target_objcopy objcopy
-+      compute_target_variable $1 target_ranlib ranlib
-+      compute_target_variable $1 target_strip strip
-+      ;;
-     esac
-+
-+    if test -n "$target_cc"; then
-+      case $1 in
-+        i386|x86_64)
-+          if $target_cc --version | grep -qi "clang"; then
-+            continue
-+          fi
-+          ;;
-+      esac
-+    elif test -n "$target_as" && test -n "$target_ld"; then
-+      # Special handling for assembler only targets
-+      case $target in
-+        tricore-softmmu)
-+          build_static=
-+          got_cross_cc=yes
-+          break
-+          ;;
-+        *)
-+          continue
-+          ;;
-+      esac
-+    else
-+      continue
-+    fi
-+
-+    if test $# = 2 && do_compiler "$target_cc" $target_cflags -o $TMPE $TMPC -static ; then
-+      build_static=y
-+      got_cross_cc=yes
-+      break
-+    fi
-+    if test $# = 1 || do_compiler "$target_cc" $target_cflags -o $TMPE $TMPC ; then
-+      build_static=
-+      got_cross_cc=yes
-+      break
-+    fi
-+  done
-+  if test $got_cross_cc != yes; then
-+    build_static=
-+    target_cc=
-+    target_ccas=
-+    target_cflags=
-+    target_ar=
-+    target_as=
-+    target_ld=
-+    target_nm=
-+    target_objcopy=
-+    target_ranlib=
-+    target_strip=
-   fi
- }
- 
-@@ -2488,9 +2542,10 @@ tcg_tests_targets=
- for target in $target_list; do
-   arch=${target%%-*}
- 
--  probe_target_compiler ${arch}
-   config_target_mak=tests/tcg/config-$target.mak
- 
-+  write_c_skeleton
-+
-   echo "# Automatically generated by configure - do not modify" > $config_target_mak
-   echo "TARGET_NAME=$arch" >> $config_target_mak
-   case $target in
-@@ -2501,35 +2556,14 @@ for target in $target_list; do
-     *-softmmu)
-       test -f $source_path/tests/tcg/$arch/Makefile.softmmu-target || continue
-       qemu="qemu-system-$arch"
-+      probe_target_compiler ${arch}
-       ;;
-     *-linux-user|*-bsd-user)
-       qemu="qemu-$arch"
-+      probe_target_compiler ${arch} $TMPC
-       ;;
-   esac
- 
--  got_cross_cc=no
--  unset build_static
--
--  if test -n "$target_cc"; then
--      write_c_skeleton
--      if ! do_compiler "$target_cc" $target_cflags \
--           -o $TMPE $TMPC -static ; then
--          # For host systems we might get away with building without -static
--          if do_compiler "$target_cc" $target_cflags \
--                         -o $TMPE $TMPC ; then
--              got_cross_cc=yes
--          fi
--      else
--          got_cross_cc=yes
--          build_static=y
--      fi
--  elif test -n "$target_as" && test -n "$target_ld"; then
--      # Special handling for assembler only tests
--      case $target in
--          tricore-softmmu) got_cross_cc=yes ;;
--      esac
--  fi
--
-   if test $got_cross_cc = yes; then
-       # Test for compiler features for optional tests. We only do this
-       # for cross compilers because ensuring the docker containers based
--- 
-2.36.1
 
+> >>> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> >>> index 7c122ab95780..195f909620ab 100644
+> >>> --- a/hw/virtio/virtio-iommu.c
+> >>> +++ b/hw/virtio/virtio-iommu.c
+> >>> @@ -708,7 +708,8 @@ static int virtio_iommu_handle_probe(VirtIOIOMMU *s,
+> >>>                                       uint8_t *buf)
+> >>>  {
+> >>>      struct virtio_iommu_req_probe req;
+> >>> -    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req));
+> >>> +    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req,
+> >>> +                    sizeof(req) + sizeof(struct virtio_iommu_req_tail));
+> > Not sure this is correct, because what we are doing here is reading the
+> > device-readable part of the property from the request. That part is only
+> > composed of fields 'head', 'endpoint' and 'reserved[64]' and its size is
+> > indeed sizeof(struct virtio_iommu_req_probe).
+> >
+> > The 'properties' and 'tail' fields shouldn't be read by the device here,
+> > they are instead written later. It is virtio_iommu_handle_command() that
+> > copies both of them into the request:
+> >
+> >             output_size = s->config.probe_size + sizeof(tail);
+> >             buf = g_malloc0(output_size);
+> >
+> >             ptail = (struct virtio_iommu_req_tail *)
+> >                         (buf + s->config.probe_size);
+> >             ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
+> > 	    // and virtio_iommu_probe() fills 'properties' as needed
+> > 	    ...
+> >
+> > 	// then copy the lot
+> >         sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
+> >                           buf ? buf : &tail, output_size);
+> >
+> > So I think the current code is correct, as all fields are accounted for
+> 
+> In virtio_iommu_iov_to_req(), payload_sz is computed as
+> 
+> payload_sz = req_sz - sizeof(struct virtio_iommu_req_tail);
+> 
+> sz = iov_to_buf(iov, iov_cnt, 0, req, payload_sz);
+> 
+> This works for other command structs but not for probe one.
+
+Aah right sorry. The resulting code may be less confusing if we moved
+"- sizeof(struct virtio_iommu_req_tail)" to virtio_iommu_handle_req()
+
+Thanks,
+Jean
 
