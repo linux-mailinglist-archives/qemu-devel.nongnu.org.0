@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68867556DBA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 23:09:01 +0200 (CEST)
-Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C268556DB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 23:07:50 +0200 (CEST)
+Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o47au-0001Eo-El
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 17:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51952)
+	id 1o47Zl-0006yl-Cj
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 17:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o47VC-00023t-R0
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 17:03:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49430)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o47XB-0004uw-1i
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 17:05:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o47V9-0006Ut-T4
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 17:03:05 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o47X8-0006sK-Rl
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 17:05:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655931782;
+ s=mimecast20190719; t=1655931906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HjzMRaYC9pJyjURYFqrVeTHEz2DdXe/+0ge9TwUOf2Q=;
- b=QLeYdt6YBwg9jGWHQHUx947l2qVH9SX703WnF9Bcyqzp/XVvmfInzOuOuCgrL84wTbVhIc
- z5fJYsbiCrtci83sYQd5GOYrEBdJwXlDjEvv3vqR60YJCNoUlhuM+s1r9wlsG2LYIgeAzI
- MzCzHjqpJLvrGph5TQhGVccWAR105pc=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qscJvtSZRMxHSucHbL93M3Z9P/mSWHnvfp6jXmZwEsk=;
+ b=XmJW37TvAkHKypOFpFr0LUqnDoJ/xGgTtiZhEwXPyO6/heovvhbpmuBPOgUAIixZ0RWnP5
+ ZSRcEAdeApYUW/Pg4uCPHtxUgTRlVdOMNRnFCPxhLTi0GgT1PE5CigCGZyo571UtCtjQkM
+ /eWfWFLkZcALNqPyKmvBOd9mOc/ZC0w=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-1DNrObtjPzqxmEmdsIpaeA-1; Wed, 22 Jun 2022 17:03:01 -0400
-X-MC-Unique: 1DNrObtjPzqxmEmdsIpaeA-1
-Received: by mail-il1-f197.google.com with SMTP id
- g11-20020a056e021e0b00b002d1b5e8389bso11759015ila.2
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 14:03:01 -0700 (PDT)
+ us-mta-164-HiG67qSGOxKMC3S_8o4dtw-1; Wed, 22 Jun 2022 17:05:04 -0400
+X-MC-Unique: HiG67qSGOxKMC3S_8o4dtw-1
+Received: by mail-il1-f198.google.com with SMTP id
+ f18-20020a056e020c7200b002d949d97ed9so1082890ilj.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 14:05:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=HjzMRaYC9pJyjURYFqrVeTHEz2DdXe/+0ge9TwUOf2Q=;
- b=20djb5lZVLYNm7F5B5k10tYoEL40zbU2sUCv1c4xmesVS2oX+n7m+3Y+lOwTdsk8yg
- c+eJyIQjH49VkRdQOqWmoC/eHrxlhSNxUjxI4MqnPibPc38fhYf4enxtTAQbYXJvtnXZ
- smtn4m2JnD/2AeJsHXeTKfPXQR5bWrVtw/KaJWFI9PjcQ0RjVs7rp85l57NVLwXzh0/v
- 5aKy744iwWeZ7vaoSWLIi3hgi2DwmKPz5GDq8b/8+UCg7Nj0MEOCHIOpodufzgLcFC62
- 6Xrcx8q/oVYHNnCTHuvxFtKkOIIonZ7AGNYnehrEaeAaYrz6qQEnLZtEk78Q5dSv2bDk
- wSlw==
-X-Gm-Message-State: AJIora+pEvkZHpKlBA9CkCOGlIzuSqinReTJfbvW0abciAfMvQIggtrm
- bRZnDCQXRo5aYrhwCsaGzhvujh5OdgjzHXPD/PG5cLCzqIMlhPUPr5AjaSIThriNf5EuWmd7lAe
- u4waNlJvcTh4vRkU=
-X-Received: by 2002:a05:6638:1608:b0:331:c83a:cc24 with SMTP id
- x8-20020a056638160800b00331c83acc24mr3039743jas.143.1655931780472; 
- Wed, 22 Jun 2022 14:03:00 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sRovHJ4SqE0EEbDQaXJoVjXe/4znloI+Jpsb2HRCVr4fWp9+JxLmKvnyANuSS06sb2nSvIMA==
-X-Received: by 2002:a05:6638:1608:b0:331:c83a:cc24 with SMTP id
- x8-20020a056638160800b00331c83acc24mr3039734jas.143.1655931780239; 
- Wed, 22 Jun 2022 14:03:00 -0700 (PDT)
+ bh=qscJvtSZRMxHSucHbL93M3Z9P/mSWHnvfp6jXmZwEsk=;
+ b=2n0kXsfc2sz1CegxC8/1TG8bvh0cVCjKqG1GZ86Fi/3oXX7ed6abEBuhAt12hYb3/w
+ pMEMrJOf53pJY6BHuuSqWIn8VCjaNVFOXo3nh+6Ktx4ym3526IU12HImMtnIQrWzhq3K
+ i4sDykVO32AuYlIvI/zV1szvFwkm0hO/c8hcrCENNOF5j2qFkkergvzOIXs2XUYIgW2I
+ vWWCM8nWDN288+Zo6PIx3uN1cJVY+PgawpAPvVoLYisWeTCR9QpVdYO+EVH4EfRTW3SY
+ 2V9uVcN7ai9El5NmRi/74zAfqucUiEZjgeTGePLDQTDm8jDtOw0IUNZGk3aPcPvrjCrA
+ u7qQ==
+X-Gm-Message-State: AJIora+xIODecSTbdzaKFWGzv1B+R/a5/LHitnshzD1yoP7DAlXsShaL
+ oPJu/B9SqwZ3rGFHh6BSSORkoLpSH3vIkqBKorPD7+Jfnj6bviTctBm0v57Lba5kMiCxCtXCjRC
+ Tshuf6ncWRWbVzyo=
+X-Received: by 2002:a05:6e02:1909:b0:2d9:461f:3339 with SMTP id
+ w9-20020a056e02190900b002d9461f3339mr2247456ilu.128.1655931903816; 
+ Wed, 22 Jun 2022 14:05:03 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u2v9v9Y0Suzs/BxBdYv5KntELhNpWZCUSwODBSJVJir/i+esGQHenRI8WffAsr5bqIsf70Cw==
+X-Received: by 2002:a05:6e02:1909:b0:2d9:461f:3339 with SMTP id
+ w9-20020a056e02190900b002d9461f3339mr2247448ilu.128.1655931903560; 
+ Wed, 22 Jun 2022 14:05:03 -0700 (PDT)
 Received: from xz-m1.local
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- h35-20020a022b23000000b003322997dbf2sm8848520jaa.169.2022.06.22.14.02.58
+ x66-20020a0294c8000000b00339dd803fddsm1094758jah.174.2022.06.22.14.05.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 14:02:59 -0700 (PDT)
-Date: Wed, 22 Jun 2022 17:02:56 -0400
+ Wed, 22 Jun 2022 14:05:02 -0700 (PDT)
+Date: Wed, 22 Jun 2022 17:05:00 -0400
 From: Peter Xu <peterx@redhat.com>
 To: Zhenzhong Duan <zhenzhong.duan@intel.com>
 Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, david@redhat.com,
  f4bug@amsat.org
-Subject: Re: [PATCH] softmmu/physmem: Fix input parameters for
- flatview_access_allowed()
-Message-ID: <YrODgKNyoKF3l1Rp@xz-m1.local>
-References: <20220622012839.3419865-1-zhenzhong.duan@intel.com>
+Subject: Re: [PATCH] memory: Fix wrong end address dump
+Message-ID: <YrOD/HIj7+mDlMeg@xz-m1.local>
+References: <20220622095912.3430583-1-zhenzhong.duan@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220622012839.3419865-1-zhenzhong.duan@intel.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <20220622095912.3430583-1-zhenzhong.duan@intel.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,19 +97,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 22, 2022 at 09:28:39AM +0800, Zhenzhong Duan wrote:
-> The comment of flatview_access_allowed() suggests to pass address
-> within that memory region, this isn't ture in some call sites.
+On Wed, Jun 22, 2022 at 05:59:12PM +0800, Zhenzhong Duan wrote:
+> The end address of memory region section isn't correctly calculated
+> which leads to overflowed mtree dump:
 > 
-> This makes qemu log in flatview_access_allowed() confusing and
-> potential risk if the input parameter will be checked in the future.
+>   Dispatch
+>     Physical sections
+>       ......
+>       #70 @0000000000002000..0000000000011fff io [ROOT]
+>       #71 @0000000000005000..0000000000005fff (noname)
+>       #72 @0000000000005000..0000000000014fff io [ROOT]
+>       #73 @0000000000005658..0000000000005658 vmport
+>       #74 @0000000000005659..0000000000015658 io [ROOT]
+>       #75 @0000000000006000..0000000000015fff io [ROOT]
 > 
-> Fixes: 3ab6fdc91b72 ("softmmu/physmem: Introduce MemTxAttrs::memory field and MEMTX_ACCESS_ERROR")
+> After fix:
+>       #70 @0000000000002000..0000000000004fff io [ROOT]
+>       #71 @0000000000005000..0000000000005fff (noname)
+>       #72 @0000000000005000..0000000000005657 io [ROOT]
+>       #73 @0000000000005658..0000000000005658 vmport
+>       #74 @0000000000005659..0000000000005fff io [ROOT]
+>       #75 @0000000000006000..000000000000ffff io [ROOT]
+> 
+> Fixes: 5e8fd947e2670 ("memory: Rework "info mtree" to print flat views and dispatch trees")
 > Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
-
-Thanks,
 
 -- 
 Peter Xu
