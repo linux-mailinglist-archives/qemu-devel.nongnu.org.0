@@ -2,81 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045955541FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 07:07:04 +0200 (CEST)
-Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76D7554209
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 07:11:17 +0200 (CEST)
+Received: from localhost ([::1]:52386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3sZy-0008No-JY
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 01:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33290)
+	id 1o3se4-00021r-Jx
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 01:11:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o3sYi-0007ho-IO
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 01:05:44 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o3sYg-0001yp-HS
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 01:05:44 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id w17so21659185wrg.7
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 22:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=zh4gXytghVEuiXS6XTFcK41jggTkHaLkJ9UBzSqVguA=;
- b=ypZNm6CSFrBZSg1mETZN2f+DLqm7Zt7dtkUbqMKd3kZaJft2AVA7Nn9GdiUu2i9tyR
- +H20m/abg1PTdSZjfaOkE5UiP6Hc4dQ2I2A/Ph70ZKsxxJxF9QBVSsfCqZ2f5hgo2cP8
- aqBP00BRv+ra3DR37TUpuBwwiWk9DGfb0a7ZZMHbNo+Jlee27Gt+zvyJzkYx0tSzM2ls
- rkslVSyF8nizjmXzDFKO4l8GzXd98fMHiLTl9EmPE5HX0CDoKLxgrE/6ncA5AXZjUHyx
- 8P+BeAr1VMqeJvu/XJdAOn+om5YhkSLl/Yo9tZum9tqZtkepNXEAn9VRSndnOhwplP8E
- 5ypQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=zh4gXytghVEuiXS6XTFcK41jggTkHaLkJ9UBzSqVguA=;
- b=PZ0sGTQYWLL2iYtqPRTZAiu+BgMJPox3cYFvuWJe1x6gGbUltzXBj0jTnBJ08OPQVS
- BCBWu73Xj+sJoSecfatiaw0rZBg8LK4GsEcSlXQScWFaXmHRBbjZco0sCkAnVsvIB8g/
- x1ZpDrI9YceLPwaY5QfpqSJKfAhjEl5OAnvRnfEJP7R0z9dQ4azD+Mm+JwjdII/CB+LC
- 6pkoDlNMuRMOT29MZONtkNAd9ZwTRcduMXOO0VG46Cwi+7OeEDVYHXiVVcMOhgNUMtzy
- pBfJQGnhKvWzlGFyMCdHtIwxnXCKkpFiUHBxp6bSQeaEgwiAqrVNpn1qyePtcoFXLISN
- L6HA==
-X-Gm-Message-State: AJIora/AD/LtTU2s47JTTLxxDKEgsXBvTp6UC2fM2mE7u51WpCYgCJza
- wLXlPsPcuiEdiUVwokMxY8yDWQ==
-X-Google-Smtp-Source: AGRyM1uxotBA5ZX1LEog1JIoxb7Q93ski7sup+MM/rPVVXHAh6u0rw1lKVXeTTg7BgIm65enWh22zQ==
-X-Received: by 2002:adf:e448:0:b0:21b:80e4:e0e2 with SMTP id
- t8-20020adfe448000000b0021b80e4e0e2mr1271161wrm.133.1655874340102; 
- Tue, 21 Jun 2022 22:05:40 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- c5-20020adffb05000000b002102b16b9a4sm8506wrr.110.2022.06.21.22.05.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 22:05:38 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6118A1FFB7;
- Wed, 22 Jun 2022 06:05:38 +0100 (BST)
-References: <dbf7e57b-a57e-8ed8-67b9-6d43c534a317@linaro.org>
-User-agent: mu4e 1.7.27; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Luis Machado <luis.machado@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [RESOLVED] aarch64 edk2 + linux kernel crash with gicv4
-Date: Wed, 22 Jun 2022 06:03:54 +0100
-In-reply-to: <dbf7e57b-a57e-8ed8-67b9-6d43c534a317@linaro.org>
-Message-ID: <87tu8dqod9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>)
+ id 1o3sbq-00019y-Ca; Wed, 22 Jun 2022 01:08:58 -0400
+Received: from ozlabs.ru ([107.174.27.60]:60364)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <aik@ozlabs.ru>)
+ id 1o3sbn-0002Fd-QS; Wed, 22 Jun 2022 01:08:57 -0400
+Received: from fstn1-p1.ozlabs.ibm.com. (localhost [IPv6:::1])
+ by ozlabs.ru (Postfix) with ESMTP id 0F85780521;
+ Wed, 22 Jun 2022 01:08:47 -0400 (EDT)
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: qemu-ppc@nongnu.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH qemu v2] ppc: Define SETFIELD for the ppc target
+Date: Wed, 22 Jun 2022 15:08:44 +1000
+Message-Id: <20220622050844.1067391-1-aik@ozlabs.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=107.174.27.60; envelope-from=aik@ozlabs.ru;
+ helo=ozlabs.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,39 +53,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It keeps repeating, move it to the header. This uses __builtin_ffsl() to
+allow using the macros in #define.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+This is not using the QEMU's FIELD macros as this would require changing
+all such macros found in skiboot (the PPC PowerNV firmware).
 
-> Hi Luis,
->
-> Cc'ing qemu-devel just in case someone else runs into this problem:
->
-> The symptom is an early-ish crash booting the linux kernel -- without
-> earlycon there is no output at all.  Reproducing it requires both
-> -bios QEMU_EFI.fd and -kernel Image.gz. Using only one of the two
-> options works.
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+---
+Changes:
+v2:
+* preserved the comment about skiboot
+* copied the actual macros from skiboot:
+https://github.com/open-power/skiboot/blob/master/include/bitutils.h#L31
+---
+ include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
+ target/ppc/cpu.h                    | 12 ++++++++++++
+ hw/intc/pnv_xive.c                  | 20 --------------------
+ hw/intc/pnv_xive2.c                 | 20 --------------------
+ hw/pci-host/pnv_phb4.c              | 16 ----------------
+ 5 files changed, 12 insertions(+), 72 deletions(-)
 
-What should the combination of the two options mean? Usually the
-firmware loads the kernel and -kernel is a shortcut hack to avoid the
-firmware setup. If you specify both does the firmware still run but
-somehow find the kernel mapped in memory?
+diff --git a/include/hw/pci-host/pnv_phb3_regs.h b/include/hw/pci-host/pnv_phb3_regs.h
+index a174ef1f7045..38f8ce9d7406 100644
+--- a/include/hw/pci-host/pnv_phb3_regs.h
++++ b/include/hw/pci-host/pnv_phb3_regs.h
+@@ -12,22 +12,6 @@
+ 
+ #include "qemu/host-utils.h"
+ 
+-/*
+- * QEMU version of the GETFIELD/SETFIELD macros
+- *
+- * These are common with the PnvXive model.
+- */
+-static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+-{
+-    return (word & mask) >> ctz64(mask);
+-}
+-
+-static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+-                                uint64_t value)
+-{
+-    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+-}
+-
+ /*
+  * PBCQ XSCOM registers
+  */
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 6d78078f379d..e45cc7a8c115 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -47,6 +47,18 @@
+                                  PPC_BIT32(bs))
+ #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
+ 
++/*
++ * QEMU version of the GETFIELD/SETFIELD macros
++ *
++ * It might be better to use the existing extract64() and
++ * deposit64() but this means that all the register definitions will
++ * change and become incompatible with the ones found in skiboot.
++ */
++#define MASK_TO_LSH(m)          (__builtin_ffsl(m) - 1)
++#define GETFIELD(m, v)          (((v) & (m)) >> MASK_TO_LSH(m))
++#define SETFIELD(m, v, val) \
++        (((v) & ~(m)) | ((((typeof(v))(val)) << MASK_TO_LSH(m)) & (m)))
++
+ /*****************************************************************************/
+ /* Exception vectors definitions                                             */
+ enum {
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 1ce1d7b07d63..c7b75ed12ee0 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -66,26 +66,6 @@ static const XiveVstInfo vst_infos[] = {
+     qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
+                   (xive)->chip->chip_id, ## __VA_ARGS__);
+ 
+-/*
+- * QEMU version of the GETFIELD/SETFIELD macros
+- *
+- * TODO: It might be better to use the existing extract64() and
+- * deposit64() but this means that all the register definitions will
+- * change and become incompatible with the ones found in skiboot.
+- *
+- * Keep it as it is for now until we find a common ground.
+- */
+-static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+-{
+-    return (word & mask) >> ctz64(mask);
+-}
+-
+-static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+-                                uint64_t value)
+-{
+-    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+-}
+-
+ /*
+  * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
+  * field overrides the hardwired chip ID in the Powerbus operations
+diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+index f31c53c28dd2..f22ce5ca59ae 100644
+--- a/hw/intc/pnv_xive2.c
++++ b/hw/intc/pnv_xive2.c
+@@ -75,26 +75,6 @@ static const XiveVstInfo vst_infos[] = {
+     qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
+                   (xive)->chip->chip_id, ## __VA_ARGS__);
+ 
+-/*
+- * QEMU version of the GETFIELD/SETFIELD macros
+- *
+- * TODO: It might be better to use the existing extract64() and
+- * deposit64() but this means that all the register definitions will
+- * change and become incompatible with the ones found in skiboot.
+- *
+- * Keep it as it is for now until we find a common ground.
+- */
+-static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+-{
+-    return (word & mask) >> ctz64(mask);
+-}
+-
+-static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+-                                uint64_t value)
+-{
+-    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+-}
+-
+ /*
+  * TODO: Document block id override
+  */
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index 6594016121a3..5d72c0c432b2 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -31,22 +31,6 @@
+     qemu_log_mask(LOG_GUEST_ERROR, "phb4_pec[%d:%d]: " fmt "\n",        \
+                   (pec)->chip_id, (pec)->index, ## __VA_ARGS__)
+ 
+-/*
+- * QEMU version of the GETFIELD/SETFIELD macros
+- *
+- * These are common with the PnvXive model.
+- */
+-static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+-{
+-    return (word & mask) >> ctz64(mask);
+-}
+-
+-static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+-                                uint64_t value)
+-{
+-    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+-}
+-
+ static PCIDevice *pnv_phb4_find_cfg_dev(PnvPHB4 *phb)
+ {
+     PCIHostState *pci = PCI_HOST_BRIDGE(phb);
+-- 
+2.30.2
 
->
-> I tracked the crash to the qemu commit that enabled GICv4.  So I tried
-> using -M gic-version=3D3, and that works.
->
-> I wondered if the problem is that the edk2 image from Ubuntu 20.04 is
-> too old and can't properly handle GICv4, leaving the device in an
-> inconsistent state for the kernel.  So I tried an image from
-> https://retrage.github.io/edk2-nightly/ with gic-version=3Dmax, and that
-> works.
->
-> So... solved.
->
->
-> r~
-
-
---=20
-Alex Benn=C3=A9e
 
