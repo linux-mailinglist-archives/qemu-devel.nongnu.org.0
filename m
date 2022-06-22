@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAA5554570
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 12:55:41 +0200 (CEST)
-Received: from localhost ([::1]:42870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8F155456D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 12:55:38 +0200 (CEST)
+Received: from localhost ([::1]:42612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o3y1M-0006bc-GD
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 06:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49854)
+	id 1o3y1J-0006Qh-Jg
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 06:55:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xzU-0003Xw-Jl; Wed, 22 Jun 2022 06:53:45 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37798)
+ id 1o3xzU-0003Xv-Jg; Wed, 22 Jun 2022 06:53:45 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xzS-0005Qu-TE; Wed, 22 Jun 2022 06:53:44 -0400
+ id 1o3xzS-0005R5-TO; Wed, 22 Jun 2022 06:53:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=s4D+74/x79Kbi0ytDFlXUpFXd8T6H404uDYoAwj07o0=; b=Z6DQyCTv0Qqm7s0zjRCNRHcMup
- XIIdOImcpGlgWmrJUQVeYgFwqz8vcn5ESn6JJQ3nS9k9L6EHauQRYMSDo3aPwaEqX2JlIVRoJkCE5
- XOCylbThbaLsXh/6CDp7CnzVDmmFe0xsAsmGbcFVQGD2QK7xZm1ch7oI0x+un77x5U6KG88FOjICh
- /S87xDaB/XqXnw4j1yyoQ11EKX+s5Vc6OAWDhrujJ82mT/PYIsA6omshU4ib2UFnWQuGL/xHrh1lv
- kVYvsnrINK3JP/XoiabWWfpnwCCnKc3itGMokKn1GFZrqvE4QoXRIEBgNz13upEWhXZtCjfgF+lLn
- yuavc2rK/iFy5Qjoeb+JZt6fJyyOCCVG0OQiZbRrHnr+qQX3kNcDYVY2ss+piOoPakNyPu67dQZGN
- OsiJq136EfWCiILW6dDvqHm4fWwerd9BIZ+Fl0F0akdjNVF1c4DRQIdyhFR9A4rWxiKZ8KP0ax6Ep
- fiGGnvzWQKZCdPAtlYLDMlrPWuiiTic35ZfFkdVg4tJRoIG2phFB+26+xKcI3Xybp31jp+Y1NgcOF
- dyNDiY17qktRQaVU33h9w4SlcWZ3GOmNbVKt/eIRvwmyzf89LVhSimvifU9EwTpoGgFQtBjTBFmH6
- baMDAblUt5BMdPgB+fJ42sP6Ps0qha1TH2e/NtvwM=;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=XBW7Pn4aogUXe0Mh+FwaA6VfGnoQ/OTbXuLlU+sKvQM=; b=I+2ttPpEAa2i0xc6qhUOq8hzch
+ 9yos4Yoz7/vbmludZB8Ke8ArXIu0hvHZMBJo4VtnH0cwtl7EVQeNZVEq25kIp+tL6WLDepiKVxHVp
+ 5PdM8b+IHuuDMgU7/ja8I8j+N1kGtUYe7YNtt24As0DOLD5n1kLw2P0ICkLmeU9Bh4R0PZkEocEMM
+ qq7CC0aESSuN272iDM7sE6v96IRX2f/GuBdMnO4/FuJSGAl2MOCpbtCCHAr4FZqXt4/ZJIrrVQ71i
+ 2eiot2Z/61nGUa0ldHgpbc1U22y2Pg9L7CArmCEolHK2nCcZUj5ZUsJPTpGFz6vSD/z5OzEb3Ib6/
+ XRiDASqgKUWg/3uXd5UownDMiVn1NBhGZjZqsAQHsX0Ttaw1qx1NvfN5N4+rs0trVWBnmreyuTWCC
+ tdrvHCDRoxtEQ9gkrQf59Cz5tECKndWQ1nWD5M38BqsB2sIusWI6xxvvv36EWzcHiwV2ddQUk/nHE
+ Go882czxnfwzKS4Wu2psp1ErLuTO8tgigJu/7No6svhQ1TH0nE/3WOLipT5tKuqFDSoiTJWpmJ67+
+ l8X3ugF6eisHb0VvmNHhKTH9EwZBgwDYgHmaT2I88Nq8IogjJ7bdYCChmnM7Yl8Oq/Vub3VMUud/7
+ HW5U6Pxti3R4pI6q/ZoZXMQB9DPApMUCt85v8/iyk=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o3xy8-000CTX-L9; Wed, 22 Jun 2022 11:52:24 +0100
+ id 1o3xyD-000CTX-0I; Wed, 22 Jun 2022 11:52:29 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
-Date: Wed, 22 Jun 2022 11:53:00 +0100
-Message-Id: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 22 Jun 2022 11:53:01 +0100
+Message-Id: <20220622105314.802852-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
+References: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 00/14] scsi: add quirks and features to support m68k Macs
+Subject: [PATCH v3 01/14] scsi-disk: add new quirks bitmap to SCSIDiskState
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -74,112 +75,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here are the next set of patches from my ongoing work to allow the q800
-machine to boot MacOS related to SCSI devices.
+Since the MacOS SCSI implementation is quite old (and Apple added some firmware
+customisations to their drives for m68k Macs) there is need to add a mechanism
+to correctly handle Apple-specific quirks.
 
-Patch 1 adds a new quirks bitmap to SCSIDiskState to allow buggy and/or
-legacy features to enabled on an individual device basis. Once the quirks
-bitmap has been added, patch 2 uses the quirks feature to implement an
-Apple-specific mode page which is required to allow the disk to be recognised
-and used by Apple HD SC Setup.
-
-Patch 3 adds compat_props to the q800 machine which enable the new
-MODE_PAGE_APPLE_VENDOR quirk for all scsi-cd devices attached to the machine.
-
-Patch 4 adds a new quirk to force SCSI CDROMs to always honour the block
-descriptor for a MODE SENSE command which is expected by A/UX, whilst patch 5
-enables the quirk for all scsi-cd devices on the q800 machine.
-
-Patches 6 and 7 implement a new MODE_PAGE_VENDOR_SPECIFIC_APPLE quirk to
-allow PF=0 MODE SELECT requests which are used by both MacOS and A/UX, along
-with a MODE_PAGE_VENDOR_SPECIFIC (0x0) mode page compatible with MacOS. Once
-again this quirk is only enabled for SCSI devices on the q800 machine.
-
-Patch 8 implements a dummy FORMAT UNIT command which is used by the Apple HD SC
-Setup program when preparing an empty disk to install MacOS.
-
-Patches 9 and 10 add support for allowing truncated MODE SELECT requests which are
-sent by A/UX when enumerating a SCSI CDROM device. Allowing these broken requests
-is protected by a new MODE_PAGE_TRUNCATED quirk which is only enabled for SCSI
-CDROM devices attached to the q800 machine.
-
-Patch 11 allows the MODE_PAGE_R_W_ERROR AWRE bit to be changeable since the A/UX
-MODE SELECT request sets this bit to 0 rather than the QEMU default which is 1.
-
-Patch 12 adds support for setting the SCSI block size via a MODE SELECT request
-which is most commonly used by older CDROMs to allow the block size to be changed
-from the default of 2048 bytes to 512 bytes for compatibility purposes. This is
-used by A/UX which otherwise fails with SCSI errors if the block size is not set
-to 512 bytes when accessing CDROMs.
-
-Finally patches 13 and 14 augment the compat_props to set the default vendor,
-product and version information for all scsi-hd and scsi-cd devices attached
-to the q800 machine, taken from real drives. This is because MacOS will only
-allow a known set of SCSI devices to be detected and initialised during the
-installation process.
+Add a new quirks bitmap to SCSIDiskState that can be used to enable these
+features as required.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/scsi/scsi-disk.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-v3:
-[Note from v2: this series has changed in structure and functionality based upon
-bug reports from Howard off-list regarding detection/changing of CDROM media in
-both A/UX and MacOS]
-
-- Rearrange order to aid bisecting differences between CDROM and DISK quirks
-- Add R-B tags from Laurent and Phil
-- Replace %zd with %zu in trace-events in patch 8
-- Add a new SCSI_DISK_QUIRK_MODE_PAGE_TRUNCATED quirk to handle truncated MODE SELECT
-  requests
-- Rename SCSI_DISK_QUIRK_MODE_SENSE_ROM_FORCE_DBD quirk to
-  SCSI_DISK_QUIRK_MODE_SENSE_ROM_USE_DBD since due to additional changes in this series
-  the DBD bit can be honoured rather than forced off
-- Add support for PF=0 MODE SELECT commands a and new MODE_PAGE_VENDOR_SPECIFIC (0x0) page
-  with a suitable implementation for MacOS protected by a new
-  SCSI_DISK_QUIRK_MODE_PAGE_VENDOR_SPECIFIC_APPLE quirk (this fixes detection of CDROM
-  media in some cases)
-- Allow the SCSI block size to be set for both CDROMs and DISKs as requested by Paolo
-
-v2:
-- Change patchset title from "scsi: add support for FORMAT UNIT command and quirks"
-  to "scsi: add quirks and features to support m68k Macs"
-- Fix missing shift in patch 2 as pointed out by Fam
-- Rename MODE_PAGE_APPLE to MODE_PAGE_APPLE_VENDOR
-- Add SCSI_DISK_QUIRK_MODE_SENSE_ROM_FORCE_DBD quirk
-- Add support for truncated MODE SELECT requests
-- Allow MODE_PAGE_R_W_ERROR AWRE bit to be changeable for CDROM devices
-- Allow the MODE SELECT block descriptor to set the CDROM block size
-
-
-Mark Cave-Ayland (14):
-  scsi-disk: add new quirks bitmap to SCSIDiskState
-  scsi-disk: add MODE_PAGE_APPLE_VENDOR quirk for Macintosh
-  q800: implement compat_props to enable quirk_mode_page_apple_vendor
-    for scsi-cd devices
-  scsi-disk: add SCSI_DISK_QUIRK_MODE_SENSE_ROM_USE_DBD quirk for
-    Macintosh
-  q800: implement compat_props to enable quirk_mode_sense_rom_use_dbd
-    for scsi-cd devices
-  scsi-disk: add SCSI_DISK_QUIRK_MODE_PAGE_VENDOR_SPECIFIC_APPLE quirk
-    for Macintosh
-  q800: implement compat_props to enable
-    quirk_mode_page_vendor_specific_apple for scsi devices
-  scsi-disk: add FORMAT UNIT command
-  scsi-disk: add SCSI_DISK_QUIRK_MODE_PAGE_TRUNCATED quirk for Macintosh
-  q800: implement compat_props to enable quirk_mode_page_truncated for
-    scsi-cd devices
-  scsi-disk: allow the MODE_PAGE_R_W_ERROR AWRE bit to be changeable for
-    CDROM drives
-  scsi-disk: allow MODE SELECT block descriptor to set the block size
-  q800: add default vendor and product information for scsi-hd devices
-  q800: add default vendor and product information for scsi-cd devices
-
- hw/m68k/q800.c           | 16 +++++++
- hw/scsi/scsi-disk.c      | 96 +++++++++++++++++++++++++++++++++++++---
- hw/scsi/trace-events     |  3 ++
- include/hw/scsi/scsi.h   |  6 +++
- include/scsi/constants.h |  2 +
- 5 files changed, 116 insertions(+), 7 deletions(-)
-
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 072686ed58..8c28dd8566 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -94,6 +94,7 @@ struct SCSIDiskState {
+     uint16_t port_index;
+     uint64_t max_unmap_size;
+     uint64_t max_io_size;
++    uint32_t quirks;
+     QEMUBH *bh;
+     char *version;
+     char *serial;
 -- 
 2.30.2
 
