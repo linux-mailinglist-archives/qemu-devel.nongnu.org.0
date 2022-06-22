@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220F1554AC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 15:16:40 +0200 (CEST)
-Received: from localhost ([::1]:48280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB856554AC0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 15:16:30 +0200 (CEST)
+Received: from localhost ([::1]:47900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o40Dn-0004vA-6Z
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 09:16:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46934)
+	id 1o40Dd-0004ff-CE
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 09:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bfalk@gamozolabs.com>)
- id 1o3qLn-0007G3-CX
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 22:44:15 -0400
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:35733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bfalk@gamozolabs.com>)
- id 1o3qLl-0008Ah-Im
- for qemu-devel@nongnu.org; Tue, 21 Jun 2022 22:44:15 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id a29so25484994lfk.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jun 2022 19:44:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gamozolabs.com; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=rFIz3Fm6AKUkXuGkM0uP0CqAvlgEGKrnuP3/8N+6K2g=;
- b=S98Z4wXJ0fP3mts5Y7g09T2v4A8egkHNkhoPFD/Qhi9XalnaGCoFtJtw1E8kZ/3HQH
- 2kPMYuByGftQiwMDoUfG1r5/q1TTbWm3DUfbai/apXXBmXFZBI/+d4E2NlzrmVU5dTAd
- G97zQusDp++/AEaiAlWa4io6Njd8SLvG7YC4w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=rFIz3Fm6AKUkXuGkM0uP0CqAvlgEGKrnuP3/8N+6K2g=;
- b=GsA1Km5z7e9+JfSH61IlMj5Oi4vDaJWAG0RG59Ivff9P5qZqR+EvPpvFVthC6I2W+h
- hc1PI3Ff1aSrS3ZQrJ87Fj6A6fyCEEwK0YiGMGQE6q3dO8z2ZLkNXjFy/QCqDmUM2hOX
- wvuQ3w6SiaMO22mXKqMbEDz/OtjEb01MuPq3ZQQeLDX3H6+I24IIkUWL/gkv62RAyXUC
- CLbKwP+ktKRJC4JbBAVN0NbAn93goaAOH+W9qoqeHDZ2JZ4l6RpL9Myfa/uqf2lnO5u6
- j9LFr9paKuO+nQAHjyZ/lpMM2PjiI9x3+qVuFbecPlGDqrvoWlvvt2paVlF3S/ALxNRs
- NfTA==
-X-Gm-Message-State: AJIora+2O0eU7SMKLW46jiXdMMmuP1nu7iJOREygXcbHu3dluEUdJVSm
- gz0kCBFHxpYv2oh3XumnM5GXaq76pVCMs7E5r0V8hl+5bFFQNw==
-X-Google-Smtp-Source: AGRyM1s50jfwpRQjbDj1KBaeOT1lLWVWUAZl9XCy4jOv791x2s7/ORXNMMY6KT6xKb1lzMVQ3GIMUirVvgaLtd1iM2E=
-X-Received: by 2002:a05:6512:3ba8:b0:47e:ce:2a08 with SMTP id
- g40-20020a0565123ba800b0047e00ce2a08mr769236lfv.558.1655865850348; Tue, 21
- Jun 2022 19:44:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pade@trifox.com>)
+ id 1o3qy1-0003o1-DW; Tue, 21 Jun 2022 23:23:45 -0400
+Received: from 50-247-71-33-static.hfc.comcastbusiness.net
+ ([50.247.71.33]:56985 helo=mail.trifox.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pade@trifox.com>)
+ id 1o3qxz-0004tI-Bh; Tue, 21 Jun 2022 23:23:45 -0400
+Received: from TRI225 (tri225.trifox.com [192.0.2.225])
+ by mail.trifox.com (Postfix) with ESMTPA id E89903CA;
+ Tue, 21 Jun 2022 13:59:43 -0700 (PDT)
+From: "Paul Dembry" <pade@trifox.com>
+To: "'Daniel Henrique Barboza'" <danielhb413@gmail.com>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <00d101d88588$173538c0$459faa40$@trifox.com>
+ <b2f5539f-2504-3c20-1f2b-5b7f03f2ea52@gmail.com>
+In-Reply-To: <b2f5539f-2504-3c20-1f2b-5b7f03f2ea52@gmail.com>
+Subject: RE: AIX 7.2 guest, Windows 10 host, networking, qemu 6.0.50.
+Date: Tue, 21 Jun 2022 20:23:40 -0700
+Organization: Trifox, Inc.
+Message-ID: <001501d885e7$77e6bea0$67b43be0$@trifox.com>
 MIME-Version: 1.0
-From: Brandon Falk <bfalk@gamozolabs.com>
-Date: Tue, 21 Jun 2022 19:43:59 -0700
-Message-ID: <CAK9+cJVrgAew_DjQaEg56ywJAt4bLGgzyZsJqHg3SZVngmq81A@mail.gmail.com>
-Subject: [PATCH] Added error message for qemu-user fake_open which clears up
- misleading open() errors which are caused by QEMU interception of open()
- rather than the linux-user's open()
-To: qemu-devel@nongnu.org
-Content-Type: multipart/mixed; boundary="000000000000ce8eb505e2004f1d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=bfalk@gamozolabs.com; helo=mail-lf1-x12d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIOPk4JtLjrNmH8eDNWY04tgZ0DtAIIyaxarN76xLA=
+Content-Language: en-us
+Received-SPF: pass client-ip=50.247.71.33; envelope-from=pade@trifox.com;
+ helo=mail.trifox.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_ILLEGAL_IP=1.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Wed, 22 Jun 2022 09:13:11 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,62 +59,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: pade@trifox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ce8eb505e2004f1d
-Content-Type: multipart/alternative; boundary="000000000000ce8eb305e2004f1b"
+Hi Daniel,
+  Thank your for your information. I decided to try to get this working =
+on my linux esxi guest because qemu AIX comes up in 5 minutes vs 10-12 =
+on my Windows machine and I am rebooting often. I used your -device =
+spapr-vlan and -netdev tap options. My complete qemu startup is
 
---000000000000ce8eb305e2004f1b
-Content-Type: text/plain; charset="UTF-8"
+/usr/local/bin/qemu-system-ppc64 -cpu POWER8 -machine pseries -m 3072 =
+-serial stdio \
+ -drive =
+file=3D/usr2/qemu/aix72/aix.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
+ -device virtio-scsi-pci,id=3Dscsi -device =
+scsi-hd,drive=3Ddrive-virtio-disk0 \
+ -drive =
+file=3D/usr2/qemu/aix72/aix1.img,if=3Dnone,id=3Ddrive-virtio-disk1 \
+ -device scsi-hd,drive=3Ddrive-virtio-disk1 \
+ -display vnc=3D:1 -g 1280x1024 \
+ -cdrom /usr2/qemu/aix72/cdrom.iso \
+ -prom-env "boot-command=3Dboot disk:" \
+ -device spapr-vlan,netdev=3Dnet0,mac=3D52:54:00:49:53:14 \
+ -netdev =
+tap,id=3Dnet0,helper=3D/usr/local/libexec/qemu-bridge-helper,br=3Dvirbr0
 
-Add error message for fake open calls when failing to create a temporary
-file. I spent some time debugging an issue where for some reason I thought
-/proc was misbehaving in the linux-user chroot environment, but it was
-rather QEMU silently failing (and passing through an error) to the guest
-application, even though it was a QEMU issue related to creating a
-temporary file in the chrooted environment.
+Linux host (192.0.2.186) shows
+ens160: flags=3D4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.0.2.186  netmask 255.255.255.0  broadcast 192.0.2.255
+        inet6 fe80::20c:29ff:fef6:5732  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:f6:57:32  txqueuelen 1000  (Ethernet)
+        RX packets 11506150  bytes 30643403943 (30.6 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1626763  bytes 21619253603 (21.6 GB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
---000000000000ce8eb305e2004f1b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+lo: flags=3D73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 2118  bytes 202514 (202.5 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2118  bytes 202514 (202.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
-<div dir=3D"ltr">Add error message for fake open calls when failing to crea=
-te a temporary file. I spent some time debugging an issue where for some re=
-ason I thought /proc was misbehaving in the linux-user chroot environment, =
-but it was rather QEMU silently failing (and passing through an error) to t=
-he guest application, even though it was a QEMU issue related to creating a=
- temporary file in the chrooted environment.<br></div>
+tap0: flags=3D4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::fc04:20ff:fe9d:ee6d  prefixlen 64  scopeid =
+0x20<link>
+        ether 32:3b:ac:a5:d6:5f  txqueuelen 1000  (Ethernet)
+        RX packets 12  bytes 976 (976.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 4032  bytes 210056 (210.0 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
---000000000000ce8eb305e2004f1b--
+virbr0: flags=3D4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast =
+192.168.122.255
+        ether 52:54:00:29:24:24  txqueuelen 1000  (Ethernet)
+        RX packets 262  bytes 21672 (21.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2  bytes 84 (84.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
---000000000000ce8eb505e2004f1d
-Content-Type: application/octet-stream; name=patch
-Content-Disposition: attachment; filename=patch
-Content-Transfer-Encoding: base64
-Content-ID: <f_l4ozpllu0>
-X-Attachment-Id: f_l4ozpllu0
+vnet10: flags=3D4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet6 fe80::b842:6ff:fe28:d7d4  prefixlen 64  scopeid 0x20<link>
+        ether ba:42:06:28:d7:d4  txqueuelen 1000  (Ethernet)
+        RX packets 36  bytes 1956 (1.9 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 25  bytes 1914 (1.9 KB)
+        TX errors 0  dropped 5 overruns 0  carrier 0  collisions 0
+(I think vnet10 is a leftover from some of my attempts)
 
-RnJvbSA4ZjM1YTg5MzE3NmI2MWNkOWRlODJiZjgwYzYwMDQ5YzA1NTk3ZTdhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCcmFuZG9uIEZhbGsgPGJmYWxrQGdhbW96b2xhYnMuY29tPgpE
-YXRlOiBUdWUsIDIxIEp1biAyMDIyIDE4OjQ3OjI0IC0wNzAwClN1YmplY3Q6IFtQQVRDSF0gQWRk
-ZWQgZXJyb3IgbWVzc2FnZSBmb3IgcWVtdS11c2VyIGZha2Vfb3BlbiB3aGljaCBjbGVhcnMgdXAK
-IG1pc2xlYWRpbmcgb3BlbigpIGVycm9ycyB3aGljaCBhcmUgY2F1c2VkIGJ5IFFFTVUgaW50ZXJj
-ZXB0aW9uIG9mIG9wZW4oKQogcmF0aGVyIHRoYW4gdGhlIGxpbnV4LXVzZXIncyBvcGVuKCkKClNp
-Z25lZC1vZmYtYnk6IEJyYW5kb24gRmFsayA8YmZhbGtAZ2Ftb3pvbGFicy5jb20+Ci0tLQogbGlu
-dXgtdXNlci9zeXNjYWxsLmMgfCA0ICsrKysKIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMo
-KykKCmRpZmYgLS1naXQgYS9saW51eC11c2VyL3N5c2NhbGwuYyBiL2xpbnV4LXVzZXIvc3lzY2Fs
-bC5jCmluZGV4IGY1NWNkZWJlZTUuLmFjZDdiMjA2M2UgMTAwNjQ0Ci0tLSBhL2xpbnV4LXVzZXIv
-c3lzY2FsbC5jCisrKyBiL2xpbnV4LXVzZXIvc3lzY2FsbC5jCkBAIC04MjYzLDYgKzgyNjMsMTAg
-QEAgc3RhdGljIGludCBkb19vcGVuYXQoQ1BVQXJjaFN0YXRlICpjcHVfZW52LCBpbnQgZGlyZmQs
-IGNvbnN0IGNoYXIgKnBhdGhuYW1lLCBpbnQKICAgICAgICAgc25wcmludGYoZmlsZW5hbWUsIHNp
-emVvZihmaWxlbmFtZSksICIlcy9xZW11LW9wZW4uWFhYWFhYIiwgdG1wZGlyKTsKICAgICAgICAg
-ZmQgPSBta3N0ZW1wKGZpbGVuYW1lKTsKICAgICAgICAgaWYgKGZkIDwgMCkgeworICAgICAgICAg
-ICAgZnByaW50ZihzdGRlcnIsCisgICAgICAgICAgICAgICAgICAgICJxZW11LXVzZXI6IENvdWxk
-IG5vdCBjcmVhdGUgdGVtcG9yYXJ5IGZpbGUgZm9yICIKKyAgICAgICAgICAgICAgICAgICAgImZh
-a2Vfb3Blbiwgc2V0ICRUTVBESVIgdG8gYSB2YWxpZCBwYXRoIG9yIGNyZWF0ZSAvdG1wLiAiCisg
-ICAgICAgICAgICAgICAgICAgICJSZXR1cm5pbmcgZXJyb3IgZm9yIG9wZW4oKSBvZiAlc1xuIiwg
-cGF0aG5hbWUpOwogICAgICAgICAgICAgcmV0dXJuIGZkOwogICAgICAgICB9CiAgICAgICAgIHVu
-bGluayhmaWxlbmFtZSk7Ci0tIAoyLjM1LjEKCg==
---000000000000ce8eb505e2004f1d--
+/usr/local/etc/qemu/bridge.conf has
+allow virbr0
+
+netstat -r shows
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt =
+Iface
+default         _gateway        0.0.0.0         UG        0 0          0 =
+ens160
+192.0.2.0       0.0.0.0         255.255.255.0   U         0 0          0 =
+ens160
+192.0.2.96      0.0.0.0         255.255.255.255 UH        0 0          0 =
+vnet10
+192.168.122.0   0.0.0.0         255.255.255.0   U         0 0          0 =
+virbr0
+
+(tri862 =3D 192.0.2.186)
+
+AIX shows:
+# /usr/sbin/ifconfig -a
+en0: =
+flags=3De084863,480<UP,BROADCAST,NOTRAILERS,RUNNING,SIMPLEX,MULTICAST,GRO=
+UPRT,64BIT,CHAIN>
+        inet 192.0.2.96 netmask 0xffffff00 broadcast 192.0.2.255
+         tcp_sendspace 262144 tcp_recvspace 262144 rfc1323 1
+lo0: =
+flags=3De08084b,c0<UP,BROADCAST,LOOPBACK,RUNNING,SIMPLEX,MULTICAST,GROUPR=
+T,64BIT,LARGESEND,CHAIN>
+        inet 127.0.0.1 netmask 0xff000000 broadcast 127.255.255.255
+        inet6 ::1%1/64
+         tcp_sendspace 131072 tcp_recvspace 131072 rfc1323 1
+
+netstat -r shows
+
+# netstat -r
+Routing tables
+Destination        Gateway           Flags   Refs     Use  If   Exp  =
+Groups
+
+Route Tree for Protocol Family 2 (Internet):
+127/8              loopback          U         4      1676 lo0      -    =
+  -  =20
+192.0.2.0          tri6qemu          UHSb      0         0 en0      -    =
+  -   =3D>
+192.0.2/24         tri6qemu          U         0        13 en0      -    =
+  -  =20
+tri6qemu           loopback          UGHS      0         2 lo0      -    =
+  -  =20
+192.0.2.255        tri6qemu          UHSb      0         0 en0      -    =
+  -  =20
+
+(tri6qemu =3D 192.0.2.96).
+
+1. It seems to me that host linux needs to "connect" a route between =
+virbr0 and 192.0.2.96 so that packets heading to Aix guest get routed to =
+virbr0. Not clear where vibr0 got 192.168.122.1? Maybe assign 192.0.2.96 =
+<-> 192.168.122.0 gateway?
+2. And somehow guest AIX needs a gateway that somehow connects to virbr0 =
+so that packets heading to Linux host get routed to virbr0.
+3. I think this picture might do it: =
+https://www.jazakallah.info/post/how-to-setup-network-for-ibm-aix-vm-acce=
+ss-in-qemu? AIX guest doesn't have to be 192.0.2.x, I can make it =
+whatever it takes just so I can transfer files and xterm from it to my =
+system.=20
+
+I do not recall the command line I used to create the AIX images. I did =
+it last year on Windows and when networking didn't work, I put it aside =
+but my disk files are from that period. What really perplexes me is that =
+this must have somehow worked at one point because my AIX disk images =
+have the xlc v13 and v16 compilers which do not come with the base OS. =
+Somehow I got the tar files to the AIX sytem to do those installs.
+Regards,
+Paul
+
+-----Original Message-----
+From: Daniel Henrique Barboza <danielhb413@gmail.com>=20
+Sent: Tuesday, June 21, 2022 3:05 PM
+To: pade@trifox.com; qemu-ppc@nongnu.org; qemu-devel@nongnu.org
+Subject: Re: AIX 7.2 guest, Windows 10 host, networking, qemu 6.0.50.
+
+Hi Paul,
+
+I'm CC'ing the overall QEMU mailing list as well to increase the chance =
+of finding someone that runs QEMU on Windows.
+
+On 6/21/22 13:00, Paul Dembry wrote:
+> I have AIX 7.2 installed and running fine however I cannot get any =
+access to it via my LAN. I have tried multiple variations of -netdev and =
+-device, the AIX system =E2=80=9Csees=E2=80=9D en0, but nothing more.
+
+
+This is a working example of an AIX guest with network using the =
+spapr-vlan net device:
+
+-M pseries,ic-mode=3Dxics -cpu POWER9 -smp 2 \ -device =
+spapr-vlan,netdev=3Dnet0,mac=3D52:54:00:49:53:14 \ -netdev =
+tap,id=3Dnet0,helper=3D/usr/libexec/qemu-bridge-helper,br=3Dvirbr0 \ =
+-device virtio-scsi,id=3Dscsi0 \ -drive =
+file=3D./disk.qcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,format=3Dqcow2,cache=
+=3Dnone \ -device =
+scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Ddrive-scsi0=
+-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1
+
+
+
+> The examples I have found all use a linux host which I can use however =
+when I set up the bridge device, I lost LAN connectivity to my linux =
+machine (ESXi guest). What I want to accomplish is the AIX system =
+appearing like any other machine on my LAN with bi-directional =
+connectivity. Failing that, it would be ok if it spoke only to the =
+Windows host because I could move files to/from the Windows host and AIX =
+guest. Has anyone been successful at this at doing this or have any =
+ideas of how I can accomplish this feat? This would be very handy =
+because my =E2=80=9Creal=E2=80=9D AIX box does not have an HMC and so I =
+cannot remote boot it.
+
+I've never tried to run QEMU using Windows. I'll give a try when I have =
+the chance. I guess that one core difference is how you'll create the =
+network bridge for the guest.
+
+
+Which command line did you use to create the AIX guest?
+
+
+>=20
+> That fact that AIX 7.2 even comes up on qemu ppc64 is a tremendous =
+achievement =F0=9F=98=8A!!
+
+An even greater achievement would be to make it work under a Windows 10 =
+host :D
+
+
+Take care,
+
+
+Daniel
+
+>=20
+> Paul
+>=20
+
 
