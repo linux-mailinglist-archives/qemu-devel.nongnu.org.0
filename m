@@ -2,161 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29735550FC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 18:12:59 +0200 (CEST)
-Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1F655512E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 18:20:42 +0200 (CEST)
+Received: from localhost ([::1]:41214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o42yP-0007Z6-Lp
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 12:12:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55266)
+	id 1o435t-0003Xd-D8
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 12:20:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1o42pE-00012m-Gj
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 12:03:31 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:20054)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o434G-0002Kk-26
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 12:19:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1o42pA-0004VX-R6
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 12:03:28 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25MFV9hL009498;
- Wed, 22 Jun 2022 16:03:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : content-type :
- mime-version; s=corp-2021-07-09;
- bh=TW2dG9KXy3hM5KaJoa5kA3IU1Qy6y48bXowyPOmH8jc=;
- b=sBCeTZR2JJzUCZHDzrOO2LR/g3o1FQUKMF+plfEyA4VXUaVC3ER0jsiWbjeVzpeTobXd
- Yr/7c7gsIw00FbQY1g5c6SMvJ7FHRyfuJXiiMi3O9lHVUTDWgER0tuxbtA8rA3yvx6sP
- rjz+R9EitI5uo/mFA35uRNzxkQPE8JbkQhG+q4Yp5+8iHl2zEudP2Gb7SWEKX8CBzX8U
- Z2OS3eJg3QemnjYj43Qzcn11R7cguM/Qj3grOP8vQsM9m7DU+qoi+WxtkgXGQJJEF+VY
- 01ZXDT2s0ae6K1UrACG6XTuSzMRo/osKJZQ+ci2AsaRJp7Q57hbDJ5NR/aUOQ6kOg4Sh bQ== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs5g20yq2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Jun 2022 16:03:16 +0000
-Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 25MFu0ha020004; Wed, 22 Jun 2022 16:03:16 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam04lp2044.outbound.protection.outlook.com [104.47.74.44])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3gtkfvsfj0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Jun 2022 16:03:16 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PV14DcOnEH9Ns6u2+HEvICOG/WVwkLVAqRIdTOUwIu2dO25GiYKkyGVm7CA/1d9CfNdh7gUUzWCHx+Ua0O0/mWTCVXRYMv1YtlBLKxWzrF+1Mdd1n5PTMLJ0c56VW2N2a7V4rOwMMHZ1rNjJZO67SsM+TQkEqDs9L+h8YiM1ncibK5Py0J5Tn4MOOYr/rV9tqZG/NG1VRSLdaj77DkB1PyLPIQG7Sp8bF4tAOaEaOm1N0OkyfxLadOSZj8ldGg8nFV381jjG0KLXD4z2rr/2/jeWoDYIJUwf8KmVGDN+KJMevBDse13viXFF2TsHd408Ag5LsN16kE+6rwsPRUwZsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TW2dG9KXy3hM5KaJoa5kA3IU1Qy6y48bXowyPOmH8jc=;
- b=IDJ9r05RM+djmKFQQmV7sJHnHXsCbav9Np1NTgGtsX9ePtI/KEWGqfmXTyMcau/G2uV80AXXx+XP/jZzaOYpvF/NgrSWL3VJ/tIS+9otjO8zt5LcIXbOU/ZEop3PokCW2P+ib7SkwGJi2j6vB/A56hg0L/kkSj3thj9FcLDpyepxowQ5P0rxkPYuOSUalxZh3n9/ZgfI+v/R4BidzM7Ze8pT+N+9yNhoWcIY2wlQEhIwGpGuld8eLzWDuxTdzlADmQ4+bsSz57cQAPlA2XzStyqtBxT45sQYnnZx6w5m+myimgyRcyUYUqdRg3/1joYdfQ1+yD9eWowVyieMYTsRyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TW2dG9KXy3hM5KaJoa5kA3IU1Qy6y48bXowyPOmH8jc=;
- b=KVxkiNE3IAS8Sm8RGnDpz/T0I5tesSiHAonPo1gm7p/TTwISZndWdxw+5zGSBJE7jMvObJPrSsN837tJMOXq9S7X4OWAPLDFsRmVParaa8HfdXLQurgyZHhwVZ96K5hsLLbvO7UZK4p7skfhsXXHOExSa0Jgn6DhNR6ZiQX/ZUU=
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
- by BYAPR10MB3271.namprd10.prod.outlook.com (2603:10b6:a03:152::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.19; Wed, 22 Jun
- 2022 16:03:14 +0000
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::f0d3:c8b:c303:e02e]) by BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::f0d3:c8b:c303:e02e%5]) with mapi id 15.20.5373.015; Wed, 22 Jun 2022
- 16:03:14 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Thomas
- Huth <thuth@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: Re: [PATCH] fuzz: only use generic-fuzz targets on oss-fuzz
-In-Reply-To: <20220622155028.2086196-1-alxndr@bu.edu>
-References: <20220622155028.2086196-1-alxndr@bu.edu>
-Date: Wed, 22 Jun 2022 17:03:10 +0100
-Message-ID: <m2sfnwk7nl.fsf@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: DBBPR09CA0024.eurprd09.prod.outlook.com
- (2603:10a6:10:c0::36) To BLAPR10MB5138.namprd10.prod.outlook.com
- (2603:10b6:208:322::8)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o434D-0006uv-Iq
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 12:18:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655914736;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/Z5k+RjlFjQ8c3YlWLRfgXpkKGp/PIDAnrk7qIb1iV0=;
+ b=HOTXHKTc1vQkD7uErC/RbKciSWpH05nYqRgCXFwhPl1lTEmrNJK0pW5+fh7psqYKUbR7HN
+ SiZcDd7yvW0xeUR1HhXn87+BMxjhTw4G73lD5lp77R1WiUpHgZTF1BNoZfMGAz5lKi0Ugg
+ X9tp78fMRchlNLCN3qU0hczWLSl22+Q=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-339-7tCIwqwkMIuZmImZ8Oy7sg-1; Wed, 22 Jun 2022 12:18:55 -0400
+X-MC-Unique: 7tCIwqwkMIuZmImZ8Oy7sg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ bv8-20020a0560001f0800b002183c5d5c26so4197326wrb.20
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 09:18:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/Z5k+RjlFjQ8c3YlWLRfgXpkKGp/PIDAnrk7qIb1iV0=;
+ b=sIO0RGBNaisRc1ZtErwFuYpxdpqK8PENzXsUHBsJdEjALBfTN1zjCKj8lZkR4OYuob
+ TYaG1eyHmskhcCmYrC0Idq/5PvWOhP7dAcekWr1LWBJI/qyUrPjtHyoXZHqsIcdYPGQJ
+ rRIY4TL6d+mqPYUphPAHDReFRJ1yzGl9DMMAxaxvGUmRttUe/TUXEhdKSBtzp8NZKGcK
+ G95HIWScGiZ0iUbTW84j7oF5TEcK1EwZTbyICYsT8OLmjEZdd56awyjL5XikHFGKg6ln
+ nWUYuM8AJZff0mgW1ntJKrhDzQt4aAtrJBaWUSFX5U0DBXhMrRsRbdznrurh2vGnBXI5
+ a33w==
+X-Gm-Message-State: AOAM5310BAONJy/tsTZ0F4tH/fIUDqM8PbXFLErHS7pIpUYT0sxqspeo
+ qmqohtbb4paL7Lhmj0x6I+VdY7j6nFrAwlGZDu3OwOWxnmtUmtiuIx4ZyAnT2GqovS1HLCvmo3c
+ MuPB/xUEUBiYlvpU=
+X-Received: by 2002:a05:600c:1906:b0:39c:7f82:3090 with SMTP id
+ j6-20020a05600c190600b0039c7f823090mr47041530wmq.152.1655914734002; 
+ Wed, 22 Jun 2022 09:18:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4K1GY1KSDRWeuW0TqBomWO8qtkAKhQ0qm9YeHjga8vCc+lsEfVKp9aNwT6So3C4dgRGVYXA==
+X-Received: by 2002:a05:600c:1906:b0:39c:7f82:3090 with SMTP id
+ j6-20020a05600c190600b0039c7f823090mr47041489wmq.152.1655914733541; 
+ Wed, 22 Jun 2022 09:18:53 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ r15-20020a05600c35cf00b0039c4ff5e0a7sm23263043wmq.38.2022.06.22.09.18.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jun 2022 09:18:52 -0700 (PDT)
+Message-ID: <21b7263e-a4d9-8cf8-575d-0c309c46876e@redhat.com>
+Date: Wed, 22 Jun 2022 18:18:50 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a19d0efd-12fd-482b-d6db-08da5468b64d
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3271:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3271DA5545682A3F43DF2C9BF4B29@BYAPR10MB3271.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XCQpj2xtxJ0dZzAcgd4DZhYSBcuswz/2N0wWbi/X7NQaPhDzbChk8CZsxxo+a1u6FyBwdsETIvHYFOj1JXYzuxUP0D9OjnOZ/3uKFVgBjGThQ5gFtfdzUB+0uxQkl1lJw2PVv2qDWYJeooE07Bb7JFbDH3vHZCrtvHQLe0iFxIh6LSFQeg+kaRk3ARJx47lejEJ2at8X6NMHfelPCRcW/2pj5onnLtWSFGaTurMsrXBoLkcMke3kCsUOGdKoJ6hj8pcXuVDsZKd6YpHVWhcVBiCUE/Uv2/YE6l/hqxigGDFSQXlx/VqtFvmbGoQQB8cJyjZdgb4aoRhs5xTulE2AmIvVhrFQ45e0k9raEnf22fmW2GSTjhFooUA7WrOVTgW0Uy8vZhL/iUMD8yjHCok3UwVNu9uYDYppy96i8t3sa0+d6Xvy2zSmjMYd/awkLh5EFlTgjjNJUYkm3RNXw/8fypcVLVnIG4xCJ5Y6UcOY0AeLrQta2Cm1wVAYbA0RB6jzTLs4/qfwxfOnCXwuAlItcS31fQHTHjmqq44jnrOSDCh1QmO1xcyilDMGEkpGKkzO4xk2SE1srlvufUJoThIpruYV2wGx6Ho+iwXjTFP2vJsUYhU2s8o484DHgc3jE8IVl1pSP26S3goZsFKBccKYW/Ar9A8Fw6kZl57yXev7B1yl/iohYqXQ1TrtjEqSvcjHCTzBFTQWCph7ryJS4L//wBV2kKilIA+DVvKSNR4hCcvYq/pbVnok+BXyBzRQS/Ri
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(346002)(366004)(39860400002)(376002)(136003)(396003)(8676002)(38100700002)(8936002)(316002)(66476007)(83380400001)(5660300002)(66556008)(186003)(2616005)(66946007)(54906003)(4326008)(6486002)(86362001)(6666004)(6506007)(2906002)(6512007)(36756003)(44832011)(26005)(41300700001)(478600001)(41533002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QUd26hrqF60TnkDfLrYOC7OiRBx+HuyU2qbj5TI3CDMdv5JAdZcGyMv2mpvY?=
- =?us-ascii?Q?DYGGfe1wPvpTunB1nw+VVLsl0PhErKe+f0W1IMWbACNOv9ZDemg/TMmvwf6t?=
- =?us-ascii?Q?trpJVMxXFdZYh/hkNf7al4ql6Y1/Zcp6TJNODFTZinki5joRmc0FKPs9c/iX?=
- =?us-ascii?Q?Y9bxdkqUjpEIog2DY8th2uYGYzqnA3btCrnW9baUaF/neh8mcXdNH3mdmUOA?=
- =?us-ascii?Q?yXXzprZ5V94dPlFwJlzhpDEyY/kZZuD67k7Aj503W8FHMYQQ11BGvm8bYMVp?=
- =?us-ascii?Q?rjTscv7sN1R1P6wEDVHsb8TIupIRVFzq/Spet3cUESYOdoF7CpCgUYG5bZzA?=
- =?us-ascii?Q?e9CelRKvSUGkxoOrquSrbvvinpqSBntzhuyYQAyn1jE/3BNpHHzsd4uO4roP?=
- =?us-ascii?Q?+pEMOeiInso82JI8RlB8hDzjNHLpL73CvPmmefNqsD/UUxzqqUTNTh/clLiM?=
- =?us-ascii?Q?l5+abce6tTP2iZ9EEG5zvV3oyT78KoikMXy/m9hPyaPLycv8uwtt9Y3XfTrn?=
- =?us-ascii?Q?YELEz+swWTmhkTDEUxM2HGbJqF+lPoVtJgPOy3PF4LGbkHda78WRUvzceFff?=
- =?us-ascii?Q?OtrNTQqy/1hOYK58yiz3q2iLYehhnhH6XetOPyDHsaypVrZBgVYwHOA4xxQN?=
- =?us-ascii?Q?WBOzr96dF9JlxwgzUvp33g0ez2fpprLI6RR+f+VnNl4FNAcGkL32pl0VIR0l?=
- =?us-ascii?Q?d02WWavpCxa049/mUU5siLMNeyXi7OpxVmZ976VMfh/hkJn4ioTsaSm+m6eR?=
- =?us-ascii?Q?7xaQGS5kXZuzUDDKkN/srBy4OWv3kQnEy0DZQHa3bThgT2oGVxpPMgjcZhiU?=
- =?us-ascii?Q?/uEjXdSju6OvlDRJN9SD7+46CB2Gb8ifxG1vT6KCQrgIpjVtjoxnKNOGYY/r?=
- =?us-ascii?Q?JO7Lu/fMJaojhw+KCBotmKU7XzRzdu340eTGyAJLwqsHISNtZdukUXc+axU+?=
- =?us-ascii?Q?8022a78jA9ZEJQmXx0F8MPRbnl06+zdYOQrzhq0C4dCd42bqiwiho6gAiYAo?=
- =?us-ascii?Q?oCtnXc06QYjb7nu3E+2GvsBuOcHs/OY0HQ/KKYG4SSZjEbsPdDHZ7fn6X7jL?=
- =?us-ascii?Q?H6A689Uh/XxoMpVF8/dSG7GjOfjIffYch3a6tWRdfIYvl85BqsB4hTmdhof0?=
- =?us-ascii?Q?/nbfFHoQhVdRVvxIc5YMrHAkgx2sNUDEhrFYjgLLPCr0hPhWCIyBSM+Aajig?=
- =?us-ascii?Q?uU49hOU+d2jl/cqw02Y9QVaMiY3ww1wt8zVfDbd41DJvUR8U9z+YUTfRYQRr?=
- =?us-ascii?Q?zer4eFwfYGLMjZo8kMKhNOPkW7s6QBR/s5GC8Gv+ERWlv3gDER3arorlPq8q?=
- =?us-ascii?Q?eHvIhB6JPyGMAxvtSYizGJfnoxGSlRoKCkLvLrRSoe8ZPfTVG7xbRubtL5AI?=
- =?us-ascii?Q?lvuJSaV/7/Dna/fbpvq6aqRsbGlhOqut5A7sW0CC0l9QPU8U1+tWIo4W9gg+?=
- =?us-ascii?Q?/grZLfvaT1NErRzfacMxUxNj7B2clwjQms9KyhrCAoOzoN0xY6vSm4ib6vIo?=
- =?us-ascii?Q?h6OBi6WP2HCWKtcbFR2NHArlShxGFzZkYcsfrNXsU2EoR7aHLgUecdpYK2Si?=
- =?us-ascii?Q?tuZK6tGKQ93XlA3vUiPCxRI8H3xcZFRiG8VjzHuWl3Affa1dQ3CS5fM80ziZ?=
- =?us-ascii?Q?Aizz+wv5fR5NiRMUQaCO/svqihy3pUx8yig0beQswG3qW/EAQVN6BxwGJw7l?=
- =?us-ascii?Q?DDqQqxfCWhpu1Zce1l+4S3VAdFOdqM6LfFpHIzr9GTmOiQsDbHWJxzzkHvHf?=
- =?us-ascii?Q?whN5JzXUyiT0Kd2nKzGYZpnOJADWcf0=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a19d0efd-12fd-482b-d6db-08da5468b64d
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2022 16:03:14.0732 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Jc4cXma8kNYECFp+2Zqn9OdK8OLz/TW884s8+MQqMwxDrDbVr5aDx83xE56vSG1TmXPSS8qmJwUuQk67maFLog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3271
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
- definitions=2022-06-22_04:2022-06-22,
- 2022-06-22 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- malwarescore=0
- mlxlogscore=999 suspectscore=0 adultscore=0 phishscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206220078
-X-Proofpoint-GUID: yl49uu3NiV-WAQfAB5Fx6-USRGw0wExn
-X-Proofpoint-ORIG-GUID: yl49uu3NiV-WAQfAB5Fx6-USRGw0wExn
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC PATCH v3 04/11] qapi: net: add stream and dgram netdevs
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+References: <20220620101828.518865-1-lvivier@redhat.com>
+ <20220620101828.518865-5-lvivier@redhat.com> <874k0fz7gg.fsf@pond.sub.org>
+ <7eb9f5a3-5166-ee8d-86f8-1d05770331f6@redhat.com>
+ <87tu8ev1ta.fsf@pond.sub.org>
+ <efce9c42-77f4-a2c0-e379-fc8b71e8e191@redhat.com>
+ <87fsjwncmd.fsf@pond.sub.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <87fsjwncmd.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -173,49 +111,294 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On 22/06/2022 13:47, Markus Armbruster wrote:
+> Laurent Vivier <lvivier@redhat.com> writes:
+> 
+>> On 21/06/2022 10:49, Markus Armbruster wrote:
+>>> Laurent Vivier <lvivier@redhat.com> writes:
+>>>
+>>>> On 20/06/2022 17:21, Markus Armbruster wrote:
+>>>>> Laurent Vivier <lvivier@redhat.com> writes:
+>>>>>
+>>>>>> Copied from socket netdev file and modified to use SocketAddress
+>>>>>> to be able to introduce new features like unix socket.
+>>>>>>
+>>>>>> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
+>>>>>> according to the IP address type.
+>>>>>> "listen" and "connect" modes are managed by stream netdev. An optional
+>>>>>> parameter "server" defines the mode (server by default)
+>>>>>>
+>>>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>>>>> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+>>>>>> ---
+>>>
+>>> [...]
+>>>
+>>>>>> diff --git a/net/net.c b/net/net.c
+>>>>>> index c337d3d753fe..440957b272ee 100644
+>>>>>> --- a/net/net.c
+>>>>>> +++ b/net/net.c
+>>>> ...
+>>>>>> @@ -1612,7 +1617,19 @@ void net_init_clients(void)
+>>>>>>      */
+>>>>>>     static bool netdev_is_modern(const char *optarg)
+>>>>>>     {
+>>>>>> -    return false;
+>>>>>> +    QDict *args;
+>>>>>> +    const char *type;
+>>>>>> +    bool is_modern;
+>>>>>> +
+>>>>>> +    args = keyval_parse(optarg, "type", NULL, NULL);
+>>>>>> +    if (!args) {
+>>>>>> +        return false;
+>>>>>> +    }
+>>>>>> +    type = qdict_get_try_str(args, "type");
+>>>>>> +    is_modern = !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
+>>>>>> +    qobject_unref(args);
+>>>>>> +
+>>>>>> +    return is_modern;
+>>>>>>     }
+>>>>>
+>>>>> You could use g_autoptr here:
+>>>>>
+>>>>>           g_autoptr(QDict) args = NULL;
+>>>>>           const char *type;
+>>>>>           bool is_modern;
+>>>>>
+>>>>>           args = keyval_parse(optarg, "type", NULL, NULL);
+>>>>>           if (!args) {
+>>>>>               return false;
+>>>>>           }
+>>>>>           type = qdict_get_try_str(args, "type");
+>>>>>           return !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
+>>>>>
+>>>>> Matter of taste; you decide.
+>>>>
+>>>> Looks good. We already had some series to convert existing code to g_autoptr(), so it
+>>>> seems the way to do.
+>>>>
+>>>>>
+>>>>> Now recall how this function is used: it decides whether to parse the
+>>>>> modern way (with qobject_input_visitor_new_str()) or the traditional way
+>>>>> (with qemu_opts_parse_noisily()).
+>>>>>
+>>>>> qemu_opts_parse_noisily() parses into a QemuOpts, for later use with the
+>>>>> opts visitor.
+>>>>>
+>>>>> qobject_input_visitor_new_str() supports both dotted keys and JSON.  The
+>>>>> former is parsed with keyval_parse(), the latter with
+>>>>> qobject_from_json().  It returns the resulting parse tree wrapped in a
+>>>>> suitable QAPI input visitor.
+>>>>>
+>>>>> Issue 1: since we get there only when keyval_parse() succeeds, JSON is
+>>>>> unreachable.  Reproducer:
+>>>>>
+>>>>>        $ qemu-system-x86_64 -netdev '{"id":"foo"}'
+>>>>>        upstream-qemu: -netdev {"id":"foo"}: Parameter 'id' is missing
+>>>>>
+>>>>> This is parsed with qemu_opts_parse_noisily(), resulting in a QemuOpts
+>>>>> with a single option 'type' with value '{"id":"foo"}'.  The error
+>>>>> message comes from the opts visitor.
+>>>>>
+>>>>> To fix this, make netdev_is_modern() return true when optarg[0] == '{'.
+>>>>> This matches how qobject_input_visitor_new_str() recognizes JSON.
+>>>>
+>>>> OK
+>>>>
+>>>>>
+>>>>> Issue 2: when keyval_parse() detects an error, we throw it away and fall
+>>>>> back to QemuOpts.  This is commonly what we want.  But not always.  For
+>>>>> instance:
+>>>>>
+>>>>>        $ qemu-system-x86_64 -netdev 'type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off'
+>>>>>
+>>>>> Note the typo "ipv4-off" instead of ipv4=off.  The error reporting is crap:
+>>>>>
+>>>>>        qemu-system-x86_64: -netdev type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off: warning: short-form boolean option 'addr.ipv4-off' deprecated
+>>>>>        Please use addr.ipv4-off=on instead
+>>>>>        qemu-system-x86_64: -netdev type=stream,id=foo,addr.type=inet,addr.host=localhost,addr.port=1234,addr.ipv4-off: Parameter 'type' is missing
+>>>>>
+>>>>> We get this because netdev_is_modern() guesses wrongly: keyval_parse()
+>>>>> fails with the perfectly reasonable error message "Expected '=' after
+>>>>> parameter 'addr.ipv4-off'", but netdev_is_modern() ignores the error,
+>>>>> and fails.  We fall back to QemuOpts, and confusion ensues.
+>>>>>
+>>>>> I'm not sure we can do much better with reasonable effort.  If we decide
+>>>>> to accept this behavior, it should be documented at least in the source
+>>>>> code.
+>>>>
+>>>> What about using modern syntax by default?
+>>>>
+>>>>        args = keyval_parse(optarg, "type", NULL, NULL);
+>>>>        if (!args) {
+>>>>            /* cannot detect the syntax, use new style syntax */
+>>>>            return true;
+>>>>        }
+>>>
+>>> As is, netdev_is_modern() has three cases:
+>>>
+>>> 1. keyval_parse() fails
+>>>
+>>> 2. keyval_parse() succeeds, but value of @type is not modern
+>>>
+>>> 3. keyval_parse() succeeds, and value of @type is modern
+>>>
+>>> In case 3. we're sure, because even if qemu_opts_parse_noisily() also
+>>> succeeded, it would result in the same value of @type.
+>>>
+>>> In case 2, assuming traditional seems reasonable.  The assumption can be
+>>> wrong when the user intends modern, but fat-fingers the type=T part.
+>>>
+>>> In case 1, we know nothing.
+>>>
+>>> Guessing modern is wrong when the user intends traditional.  This
+>>> happens when a meant-to-be-traditional @optarg also parses as modern.
+>>> Quite possible.
+>>
+>> I don't see why keyval_parse() fails in this case. Any example?
+> 
+> Brain cramp on my part, I'm afraid %-}  Let me start over.
+> 
+> Guessing modern is wrong when the user intends traditional.  Two
+> sub-cases then:
+> 
+> * @optarg parses fine as traditional.  For instance,
+> 
+>      $ qemu-system-x86_64 -netdev type=user,id=foo,ipv4
+> 
+>    parses with a warning:
+> 
+>      option 'ipv4' deprecated
+>      Please use ipv4=on instead
+> 
+>    This is how current master behaves.
+> 
+>    Guessing modern makes this fail instead:
+> 
+>      qemu-system-x86_64: -netdev type=user,id=foo,ipv4: Expected '=' after parameter 'ipv4'
+> 
+>    Regression.
+> 
+> * @optarg fails to parse traditional, too.  The error reporting is for
+>    modern even though the user intends traditional.  Can be misleading.
+>    Example:
+> 
+>      $ qemu-system-x86_64 -netdev type=user,id=_,ipv4
+> 
+>    Current master:
+> 
+>      qemu-system-x86_64: -netdev type=user,id=_,ipv4: Parameter 'id' expects an identifier
+>      Identifiers consist of letters, digits, '-', '.', '_', starting with a letter.
+> 
+>    Guessing modern instead:
+> 
+>      qemu-system-x86_64: -netdev type=user,id=_,ipv4: Expected '=' after parameter 'ipv4'
+> 
+>    This should be rare in practice, as traditional parsing detects very
+>    few errors.
+> 
+>>> Guessing traditional is wrong when the user intends modern.  This
+>>> happens when a meant-to-be-modern @optarg fails to parse as modern,
+>>> i.e. whenever the user screws up modern syntax.
+>>
+>> This one is the example you gave (ipv4-off)
+> 
+> Two sub-cases then:
+> 
+> * @optarg parses fine as traditional.  The parse result is unlikely to
+>    make sense, though.  For instance,
+> 
+>      $ qemu-system-x86_64 -netdev type=stream,id=foo,server
+> 
+>    parses with a warning:
+> 
+>      qemu-system-x86_64: -netdev type=stream,id=foo,server: warning: short-form boolean option 'server' deprecated
+>      Please use server=on instead
+> 
+>    But the result fails in the opts visitor:
+> 
+>      qemu-system-x86_64: -netdev type=stream,id=foo,server: Parameter 'type' is missing
+> 
+>    In this case, we're better off with guessing modern:
+> 
+>      qemu-system-x86_64: -netdev type=stream,id=foo,server: Expected '=' after parameter
+> 
+> * @optarg fails to parse traditional, too.  The error reporting is for
+>    traditional even though the user intends modern.  Can be misleading.
+> 
+>    This is my ipv4-off example.
+> 
+> Can't win.  Parsers simply don't compose that way.
+> 
+>>> Which guess is less bad?  I'm not sure.  Thoughts?
+>>
+>> Perhaps we can simply fail if keyval_parse() fails?
+>>
+>> something like:
+>>
+>>       args = keyval_parse(optarg, "type", NULL, &error_fatal);
+>>       type = qdict_get_try_str(args, "type");
+>>       return !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
+> 
+> This rejects working option arguments that don't also parse as modern,
+> such as "-netdev type=user,id=foo,ipv4".
+> 
+> Guessing traditional seems to be the least bad solution so far.
+> 
+> Supporting both traditional and modern syntax in an option argument is a
+> swamp.  Can we bypass it somehow?
+> 
+> -object uses traditional QemuOpts parsing for key=value,..., and modern
+> parsing for JSON.  Sticking to traditional sidesteps compatibility
+> issues.  But you have to use JSON for things traditional can't express.
+> 
+> Thoughts?
+> 
 
-This looks good to me, so:
+I don't want to force user to switch to JSON to ease move from "-netdev socket" to 
+"-netdev stream" and "-netdev dgram".
+But I need to be able to parse SocketAddress to specify unix and inet socket address.
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+As we want to keep the same behavior on error cases (it's what I understand from your 
+analysis), perhaps we can rely on traditional mechanism to detect the type: qemu_opts_parse()?
 
-But, if it is at all possible to use Bash glob in a '[[ ... ]]' test
-such as:
+bool netdev_is_modern(const char *optarg)
+{
+     QemuOpts *opts;
+     bool is_modern;
+     const char *type;
+     static QemuOptsList dummy_opts = {
+         .name = "netdev",
+         .implied_opt_name = "type",
+         .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
+         .desc = { { } },
+     };
 
-  if [[ $target == generic-fuzz-* ]]; then
+     if (optarg[0] == '{') {
+         return true;
+     }
 
-that might read better - but it seems the default is that we don't
-assume that, or am I wrong? (This is probably a question for others on
-the CC-list)
+     opts = qemu_opts_parse(&dummy_opts, optarg, true, &error_fatal);
+     type = qemu_opt_get(opts, "type");
+     is_modern = !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
+
+     qemu_opts_reset(&dummy_opts);
+
+     return is_modern;
+}
+
+The errors are directly reported by qemu_opts_parse(..., &error_fatal), and are the ones 
+expected in the traditional case.
+
+But the error reported for the modern case are not correct anymore.
+
+I really don't think there is a good solution to our problem.
+
+We must accept an incorrect error report in one of these cases.
+
+To not break existing error report seems to be the way to go (qemu_opt_parse()).
 
 Thanks,
+Laurent
 
-Darren.
-
-On Wednesday, 2022-06-22 at 11:50:28 -04, Alexander Bulekov wrote:
-> The non-generic-fuzz targets often time-out, or run out of memory.
-> Additionally, they create unreproducible bug-reports. It is possible
-> that this is resulting in failing coverage-reports on OSS-Fuzz. In the
-> future, these test-cases should be fixed, or removed.
->
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->  scripts/oss-fuzz/build.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-> index 98b56e0521..d8b4446d24 100755
-> --- a/scripts/oss-fuzz/build.sh
-> +++ b/scripts/oss-fuzz/build.sh
-> @@ -105,7 +105,7 @@ do
->      # to be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets
->      # that are thin wrappers around this target that set the required
->      # environment variables according to predefined configs.
-> -    if [ "$target" != "generic-fuzz" ]; then
-> +    if echo "$target" | grep -q "generic-fuzz-"; then
->          ln  $base_copy \
->              "$DEST_DIR/qemu-fuzz-i386-target-$target"
->      fi
-> -- 
-> 2.27.0
 
