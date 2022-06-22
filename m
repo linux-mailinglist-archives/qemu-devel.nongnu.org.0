@@ -2,106 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A8755500C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 17:53:29 +0200 (CEST)
-Received: from localhost ([::1]:44160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A899D555022
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 17:54:13 +0200 (CEST)
+Received: from localhost ([::1]:46812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o42fY-0001Z0-77
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 11:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51804)
+	id 1o42gG-0003Kp-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 11:54:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o42dR-0000MB-U5
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:51:18 -0400
-Received: from esa3.hc2706-39.iphmx.com ([68.232.154.118]:20064)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o42dP-0002gz-Se
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:51:17 -0400
-X-IronPort-RemoteIP: 209.85.219.72
-X-IronPort-MID: 207167379
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:proT+6zZAynwoBeL6b96t+e8xCrEfRIJ4+MujC+fZmUNrF6WrkUAx
- mRNWz2BOPnYM2agcot1bY6zp05S6sXWx4VlHVFu+y00HyNBpPSeOdnIdU2Y0wF+jyHgoOCLy
- +1EN7Es+ehtFie0Si+Fa+Sn9T8mvU2xbuKU5NTsY0idfic5DnZ74f5fs7Rh2NQw34LjW1nlV
- e7a+KUzBnf0g1aYDUpJs8pvmDs31BglkGpF1rCWTakjUG72zhH5PrpGTU2CByKQrr1vIwKPb
- 72rIIdVX4/u10xF5tuNyt4Xe6CRK1LYFVHmZnF+AsBOjvXez8CbP2lS2Pc0MC9qZzu1c99Z4
- chCqL+eWRkSIY7okeo+bDhVSiRcBPgTkFPHCSDXXc27ykTHdz713awrAh5se4If/elzDCdF8
- vlwxDIlNEjSwbLrhujiG68z3KzPL+GyVG8bknhk3TfVF94sXNbOT7iiCdpwhm9v354RRqmPD
- yYfQQphQxmdTBFgBm0SUag5scXy2lPHYSIN/Tp5ooJyuQA/1jdZybXoLZ/Zd8KHQe1TmUCXo
- H+A+H72aiz2L/SawDuBt2uy36rBwnm9V4UVG7m1sPVthTV/21AuNfHfbnPjydHRt6J0c403x
- 5A8ksb2kZUPyQ==
-IronPort-HdrOrdr: A9a23:sqOmOKwmjLQcP80duJ06KrPw9r1zdoMgy1knxilNoNJuA6ilfq
- eV7Y4mPHrP4gr5N0tQ/+xoVJPwI080lqQFmrX5Q43SJTUO0VHAROoSjrcKqweBJ8SUzJ876U
- 4PSdkaNPTASXJXt4LV2jWZLvoX6OW70cmT9JrjJrRWIT2CqZsM0+60MGim+zVNNXF77FMCe/
- uh2vY=
-Received: from mail-qv1-f72.google.com ([209.85.219.72])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Jun 2022 11:50:38 -0400
-Received: by mail-qv1-f72.google.com with SMTP id
- x18-20020a0ce252000000b004703cbb92ebso10492566qvl.21
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 08:50:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=alV3veEVLq3l6rhyfa2SDb0TamyeFKfvcX8noGrvH4k=;
- b=jRAwYqAaFPasVLb5eHoQb93bGjdkqXYAJjkIVINpqbzWspJS54tRfMbTOvL0bQ058q
- rzy0AiMUmXlOFiuhJ0pK+v4P84gR/sLwwWlPQgfQ0GUMybZRjlMoYHALrhg9F1gAVWsv
- tO/35QWQQdKC3X5CH9J6T4DDGn472pUE0nO543G+tmwaWGKuhJWhrZfsHn+th0OTCgMP
- 9qhY3yoAUwQnF1gEtT45Zab5c/61/JvuzLVvwIW+Y7WV+SnPE+TRGtT2JFZF8mpiqw8O
- tNPu7AkFdtebz2wWZ6xAiNJy4KrJDADZoBjDjw9o/t1RAxFnFk8cVeNi+7zXwlvyPs/+
- ny8g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o42eh-0001cC-Ho
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:52:35 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o42ee-0002rY-UC
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 11:52:34 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ t3-20020a17090a510300b001ea87ef9a3dso59066pjh.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 08:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=pqbUpJm2J/cy/kumBh1N+prFFjTQEoM2sBbD+5p3VgU=;
+ b=YwnoeaOLdNyLe4QORXzSQ6MDz8/2hP4AZUmvU9fjEYnF7RyKP4F/Y6GJf4WJXZrhJH
+ JrtNgzyiR/NVWrdZ6JFga0JfGq1NmxIcFeqaMtRZO8zpuA3ZKtPRdFOv1PPVbvRXkIAz
+ Qu1LUSyrcI2bULvqU6JvbZdCSfsqLO4scj4b9iaivAooQ9tT3kPOmYgfNoPYUgOXVlro
+ BoA/BDE+UtvK2V4tEpQYfg2gZKOYJMQfoeHYILv6CrSihiXSj+tCjMl91j0zC65MZB6k
+ 59nSaqzzObpwrAzh84eTkPcH8L4ZLj2hmLQF7N5qUWvT0/iOBwj/wR0SEkmvx6boU9xz
+ wfRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=alV3veEVLq3l6rhyfa2SDb0TamyeFKfvcX8noGrvH4k=;
- b=NfG47HbevXXwZ1KogiqcDtn0VwMmfPdVcxO7u52EHEaU0cTa7rEtoGwfQXmS+rL9L5
- rxDZsGqC42bS8RrTduiMhPNhLa9TUaR6wTytfgwCt6rizB5Ph1C0fBqt49HOXw6b5Ew4
- 2vVoNgQsBVTfAap6rq3hd3Wl96h04VRxw62zN69vB3Gdmy3JBuxNaaBzZIquCUCpbGTL
- mWmdKQ+4JWZSk2jX1Gt3VZ38xZlfhSiqbafIZVEGlMAl7PDIpZzF5oDzAhNy5UnCkbMj
- SIs0fLpyZSbpDAhCSO9SfJsRT7go5gTFKIj8674MByOK8co4deDqA+OMxY3zY6EgZx3w
- CJQA==
-X-Gm-Message-State: AJIora/ehec/cCU/+SkLnkgAojayjXH/rsYV7pPLUH9IB/WEE61aumxs
- H8dFlx0OmN7snlpe2mcHH2DTVHDN+/IJ7sXWEj3siYp+9EOZ5Om8NwebggIcs0MBApZZfSzHtS+
- fH3/cqX0HF2OAwyBHmTj3g+F9L8QpIA==
-X-Received: by 2002:ac8:7d85:0:b0:316:80e9:d792 with SMTP id
- c5-20020ac87d85000000b0031680e9d792mr2158153qtd.590.1655913037726; 
- Wed, 22 Jun 2022 08:50:37 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t6sIROhytSw7Pc7bEzhiHPM4ZIQsFGLjh6BBBJMXdvKTCZXQsOU6G7+jfYs2mimsBPaGxNgQ==
-X-Received: by 2002:ac8:7d85:0:b0:316:80e9:d792 with SMTP id
- c5-20020ac87d85000000b0031680e9d792mr2158130qtd.590.1655913037452; 
- Wed, 22 Jun 2022 08:50:37 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ bh=pqbUpJm2J/cy/kumBh1N+prFFjTQEoM2sBbD+5p3VgU=;
+ b=UCQkwTW8Kp6N/6i0i4Gf6gbrWiJ9tyLfZznYHDh6yzRt9Npv66o8PGAhzDUJKHSmI2
+ UPNjf1q+NxZuxfWZee85BfRamD7IeZ3iyG9ST3PJznoFtfkStRFigU9RNWQ8YbAm3Uyl
+ 1ASu2PbsEunfvrOvuCC+EQ4l17HKtK/rm+te4HIE8pZj35o+aVryCB3JIVfc7csLWnkH
+ rlK9vpqZTe0QoPC+ByubWI0DkysvBOd+Oi9q6xVj0+gzwvPo0WEdbIMUV7++7I4PWsic
+ parAkXknKevtmBKv4XpwujOBhB2E6ScjKzMlsei/2HOcpnFuZvsV0OdSMwBMirkrM3nV
+ oWlw==
+X-Gm-Message-State: AJIora9stedEo7Tv09MQF8H8hPi53uwbtmqdcLXX58AGDXHOLvg/VB+6
+ aiFf9lnOeKJBhbgLmtVjGrZJXA==
+X-Google-Smtp-Source: AGRyM1vd5zZmVbePYLdodftc9TGx8EA6svXHzDgZuRmVukGmzFuV7XsSA/Gz8zo7NMCq0LO3lt8Vjw==
+X-Received: by 2002:a17:902:e5c9:b0:168:baf0:ec7c with SMTP id
+ u9-20020a170902e5c900b00168baf0ec7cmr35062959plf.62.1655913151229; 
+ Wed, 22 Jun 2022 08:52:31 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1543:f001:4bf9:2153:b33e:91d?
+ ([2602:ae:1543:f001:4bf9:2153:b33e:91d])
  by smtp.gmail.com with ESMTPSA id
- m14-20020a05620a290e00b006a6b498e23esm18017427qkp.81.2022.06.22.08.50.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 08:50:36 -0700 (PDT)
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: [PATCH] fuzz: only use generic-fuzz targets on oss-fuzz
-Date: Wed, 22 Jun 2022 11:50:28 -0400
-Message-Id: <20220622155028.2086196-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.27.0
+ mp15-20020a17090b190f00b001ec92c52285sm7777146pjb.21.2022.06.22.08.52.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jun 2022 08:52:30 -0700 (PDT)
+Message-ID: <75d442e1-8ad7-a4e2-21ca-5ad809a6a7aa@linaro.org>
+Date: Wed, 22 Jun 2022 08:52:28 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/19] aspeed queue
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220622095520.3683321-1-clg@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220622095520.3683321-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=68.232.154.118; envelope-from=alxndr@bu.edu;
- helo=esa3.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,30 +95,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The non-generic-fuzz targets often time-out, or run out of memory.
-Additionally, they create unreproducible bug-reports. It is possible
-that this is resulting in failing coverage-reports on OSS-Fuzz. In the
-future, these test-cases should be fixed, or removed.
+On 6/22/22 02:55, Cédric Le Goater wrote:
+> The following changes since commit f200ff158d5abcb974a6b597a962b6b2fbea2b06:
+> 
+>    Merge tag 'pull-tcg-20220621' of https://gitlab.com/rth7680/qemu into staging (2022-06-21 13:47:20 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/legoater/qemu/ tags/pull-aspeed-20220622
+> 
+> for you to fetch changes up to 92a45bde8cf4257f755ce718fbf7db5f2d607a15:
+> 
+>    hw: m25p80: fixing individual test failure when tests are running in isolation (2022-06-22 09:49:34 +0200)
+> 
+> ----------------------------------------------------------------
+> aspeed queue:
+> 
+> * Extra avocado tests using buildroot images
+> * Conversion of the I2C model to the registerfield interface
+> * Support for the I2C new register interface on AST2600
+> * Various I2C enhancements
+> * I2C support for the AST1030
+> * Improvement of the Aspeed SMC and m25p80 qtest
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- scripts/oss-fuzz/build.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 98b56e0521..d8b4446d24 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -105,7 +105,7 @@ do
-     # to be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets
-     # that are thin wrappers around this target that set the required
-     # environment variables according to predefined configs.
--    if [ "$target" != "generic-fuzz" ]; then
-+    if echo "$target" | grep -q "generic-fuzz-"; then
-         ln  $base_copy \
-             "$DEST_DIR/qemu-fuzz-i386-target-$target"
-     fi
--- 
-2.27.0
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Cédric Le Goater (8):
+>        aspeed: Remove fake RTC device on ast2500-evb
+>        test/avocado/machine_aspeed.py: Move OpenBMC tests
+>        test/avocado/machine_aspeed.py: Add tests using buildroot images
+>        test/avocado/machine_aspeed.py: Add I2C tests to ast2500-evb
+>        test/avocado/machine_aspeed.py: Add I2C tests to ast2600-evb
+>        test/avocado/machine_aspeed.py: Add an I2C RTC test
+>        aspeed/i2c: Add ast1030 controller models
+>        aspeed/i2c: Enable SLAVE_ADDR_RX_MATCH always
+> 
+> Iris Chen (1):
+>        hw: m25p80: fixing individual test failure when tests are running in isolation
+> 
+> Joe Komlodi (6):
+>        hw/registerfields: Add shared fields macros
+>        aspeed: i2c: Migrate to registerfields API
+>        aspeed: i2c: Use reg array instead of individual vars
+>        aspeed: i2c: Add new mode support
+>        aspeed: i2c: Add PKT_DONE IRQ to trace
+>        aspeed: i2c: Move regs and helpers to header file
+> 
+> Joel Stanley (1):
+>        aspeed/hace: Add missing newlines to unimp messages
+> 
+> Klaus Jensen (2):
+>        hw/i2c/aspeed: rework raise interrupt trace event
+>        hw/i2c/aspeed: add DEV_ADDR in old register mode
+> 
+> Troy Lee (1):
+>        aspeed: Add I2C buses to AST1030 model
+> 
+>   include/hw/i2c/aspeed_i2c.h         | 289 ++++++++++++-
+>   include/hw/registerfields.h         |  70 +++
+>   hw/arm/aspeed.c                     |  17 +-
+>   hw/arm/aspeed_ast10x0.c             |  18 +
+>   hw/i2c/aspeed_i2c.c                 | 820 ++++++++++++++++++++++--------------
+>   hw/misc/aspeed_hace.c               |   4 +-
+>   tests/qtest/aspeed_smc-test.c       |  74 +++-
+>   hw/i2c/trace-events                 |   2 +-
+>   tests/avocado/boot_linux_console.py |  43 --
+>   tests/avocado/machine_aspeed.py     | 136 ++++++
+>   10 files changed, 1095 insertions(+), 378 deletions(-)
 
 
