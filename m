@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A72554DEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 16:51:56 +0200 (CEST)
-Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AD7554DF9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jun 2022 16:53:50 +0200 (CEST)
+Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o41hy-0006Yh-M6
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 10:51:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35990)
+	id 1o41jp-0000Nv-OW
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 10:53:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o41fW-0004i1-AJ
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 10:49:22 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:43553)
+ id 1o41hj-0006yH-83
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 10:51:39 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o41fU-0000r3-Bs
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 10:49:22 -0400
-Received: by mail-ej1-x634.google.com with SMTP id u15so7115275ejc.10
- for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 07:49:19 -0700 (PDT)
+ id 1o41hh-0001Ez-CO
+ for qemu-devel@nongnu.org; Wed, 22 Jun 2022 10:51:38 -0400
+Received: by mail-wr1-x436.google.com with SMTP id o8so23796425wro.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Jun 2022 07:51:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=/U++XC8k8QJ2raWvek6wr8W/eA0ssZP6VfDG16NKfc8=;
- b=IeMMc08OcSXVo4BpTvhNwG3Up00gpjHLT0HoHRHX03cBF9kpYykrdRMMjR9OBTmeF8
- 3vfZ0rQ67dBEgiJrG5KeWUf5de+ds5ObLU9v/+MA1bwyPhqaX4B9IJ7x4/iG3+49mxMP
- csUqAKqloG6aIMyIVgS3ha8Tc7XU6hk55AC+X7jRCdFbwTL96eiPA3cr/Wo2X1MUUkvi
- DdL/0Fxodr40Gxpgw+4EJs1PgAUScm7QTboEi2oL0ep0raNDq+bW5u+aEbdXga2/b/Cd
- ais3ITNBcG1rELFHsbSuNaJyhAZwdwUw/KauWTCm9zeYkg8CSboLxpAC9RMIxdd19OCT
- qGLg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AMocS6L1qwHpmbFESWio4zzDBe8eQUr43gocqOuiXc8=;
+ b=zHjnIGebfGPXlJz8q551msoxX/3inlRyYvFi+HF0s11jW6zURzvtX9jDbpXxnH+t0K
+ hZyD4gIfjgwrW6qxSA35b6Z8vqjjuc3VU97tmAy4xBoxdY8txos+UqK/YjazEV7Jv3pA
+ GEYCugLp817IbeMqs7iidfNDIgnpClJaLqQWtwzmTj0av25DKO1pD23V1Hmt9X1GMvqA
+ lEo+VhO++6K/CYF+LX+I6bwzzx6ighDR7QeiCU6UShLnZ9AJgnZxEQJIUQih5JjAEGZ9
+ PU4mEcREaPFoHYgMmlKhifw/xA8G2oBlpziqAXe+luEhRhVfLtBVqq+tjxwGcxPbYV/T
+ FIbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=/U++XC8k8QJ2raWvek6wr8W/eA0ssZP6VfDG16NKfc8=;
- b=EFcx+TdDoT8jO5ikjo5KdqahhloeFB2oxW2cJRjysaT0xcBQCeJJ9BUGb6EbTEhdNx
- 2pQtWxonRkq0xso4r3DaZxxKMJr29oklSA7Gqaafa+fm4+wJUqAFdjBuDJCCPZmbtBkQ
- gjRAmuXh72yft0Y+1czbT5VrU2xA5NXEtTzSu9fiILxhMr6YS41rhWsdMYi+eYggY5X5
- IVHePTTjj5dS+5HgkZgCOz5KVrdmoX/JJahGYM59Hgn9FmBp9JfX0LaywHGMuTe3b7QV
- GM/JpKBSzKmcCJal7L8SBv5fC26zgiChQygCdp1HhlPHEjlfG5CIULsO95TT8ltW4ko+
- LEcQ==
-X-Gm-Message-State: AJIora9u7tt6QTKdda02TGf1qDXO+0ppq+d/4Ttslf/NuBI+x/UFBwjF
- iM/foYYyo3UlfXTuz74iTFHXww==
-X-Google-Smtp-Source: AGRyM1uPQd87IrjgWUBVlVG4etqsHzSF/FVfFbNtnHhbOw7miYk/T4+uDk7zcm11A2FmeRSD+4CUlA==
-X-Received: by 2002:a17:907:6e8f:b0:710:865b:9c90 with SMTP id
- sh15-20020a1709076e8f00b00710865b9c90mr3314539ejc.27.1655909358515; 
- Wed, 22 Jun 2022 07:49:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AMocS6L1qwHpmbFESWio4zzDBe8eQUr43gocqOuiXc8=;
+ b=vtHslXkBO+UggjYVzRDUzHGEsCg71/TgVb8s2YluvMgMymiTGYD806NP/SUe50yT9i
+ 92A/zBTiinaiH7yvf4IyDRtWoYUY71X4AupkXiFrHPEUJCo+dKpfbP/FjKiP02gQQf7R
+ +K2hKPG2Kbwrry4vEAacoXFJPGZmpK4YDom/+mTESMi4vs+fPTG4dkaV2WsdiNes2Wv4
+ 3se4YCxR+sx2Vu1HHnn4Bag8ZKCmu7Hegd9wiJZUJeqbJ44ejvXUrX6kJlpnKKkCrms3
+ Hh+0UsFALxU8cNuErADZb3ORFtmQc/u0bYgGsBItm2TSWULFLONHKsujJCPXwGDrNnIY
+ U0cQ==
+X-Gm-Message-State: AJIora/tKkan1M1ZdCJFlMrkYa7hDQ4TuQl8CJlhV1p4JD4YntYfx8Si
+ pc6cUkgh7EHGzgyQePgUXgPgRg==
+X-Google-Smtp-Source: AGRyM1uLMuchfeGz0uL0pygPBhUnOtRcqCYsV9ogIKPbWCK1jnDaCKi99HVN6oc2gr3zvzchVNQi1w==
+X-Received: by 2002:a5d:64ab:0:b0:219:ab70:c4ea with SMTP id
+ m11-20020a5d64ab000000b00219ab70c4eamr3593378wrp.479.1655909495528; 
+ Wed, 22 Jun 2022 07:51:35 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- eg40-20020a05640228a800b004356d82b129sm10991120edb.80.2022.06.22.07.49.17
+ f6-20020a1c6a06000000b003a0231af43csm3151064wmc.48.2022.06.22.07.51.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 07:49:17 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DC9741FFB7;
- Wed, 22 Jun 2022 15:49:16 +0100 (BST)
-References: <20220622123305.3971169-1-alex.bennee@linaro.org>
- <CAFEAcA_v+VM1kd=_D2Tm7DkkS=i+3k26aaM-YGjnTT6-zsPDxg@mail.gmail.com>
-User-agent: mu4e 1.7.27; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Anders Roxell <anders.roxell@linaro.org>, Remi
- Duraffort <remi.duraffort@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?=
- <f4bug@amsat.org>, Thomas Huth <thuth@redhat.com>, Wainer dos Santos
- Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH] gitlab: add a binary build to project registry
-Date: Wed, 22 Jun 2022 15:43:54 +0100
-In-reply-to: <CAFEAcA_v+VM1kd=_D2Tm7DkkS=i+3k26aaM-YGjnTT6-zsPDxg@mail.gmail.com>
-Message-ID: <87bkukrbwz.fsf@linaro.org>
+ Wed, 22 Jun 2022 07:51:34 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BD1421FFB7;
+ Wed, 22 Jun 2022 15:51:33 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [RFC PATCH] qemu-options: bring the kernel and image options together
+Date: Wed, 22 Jun 2022 15:50:52 +0100
+Message-Id: <20220622145052.4012981-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,61 +91,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+How to control the booting of QEMU is often a source of confusion for
+users. Bring the options that control this together in the manual
+pages and add some verbiage to describe when each option is
+appropriate.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Cédric Le Goater <clg@kaod.org>
+---
+ qemu-options.hx | 80 ++++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 62 insertions(+), 18 deletions(-)
 
-> On Wed, 22 Jun 2022 at 13:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> There have been requests from other projects such LKFT to have
->> "official" docker images with pre-built QEMU binaries. These could
->> then be consumed by downstream CI systems by pulling directly from the
->> qemu-project container registry. The final image could then be run by
->> doing:
->>
->>   docker run --rm -it \
->>     registry.gitlab.com/qemu-project/qemu/qemu/debian-amd64-binaries \
->>     /opt/bin/qemu-system-aarch64 $ARGS
->>
->> To keep the build time down we skip user-mode, documents, plugins and
->> a selection of the more esoteric hardware emulations. Even so it still
->> takes over an hour to build and install everything.
->
->> This is very much an RFC for now as we have traditionally not provided
->> binaries for our users except for the slightly special case of
->> Windows. As currently structured this will rebuild the binaries on
->> every merge but we could change the generation rules to only trigger
->> for tagged or stable branch pushes. We also wouldn't be testing these
->> binaries so we are basically assuming they are OK by the nature of
->> being built from master which in theory never breaks.
->
-> I'm a bit uncertain about providing "official" docker images
-> or other pre-built binaries, because it might give the impression
-> that these are OK to use with KVM, when in fact they won't necessarily
-> get security fixes in a timely manner, and almost all users of QEMU for
-> KVM purposes are better off with the distro QEMU.
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 377d22fbd8..9b0242f0ef 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1585,13 +1585,6 @@ SRST
+     Use file as SecureDigital card image.
+ ERST
+ 
+-DEF("pflash", HAS_ARG, QEMU_OPTION_pflash,
+-    "-pflash file    use 'file' as a parallel flash image\n", QEMU_ARCH_ALL)
+-SRST
+-``-pflash file``
+-    Use file as a parallel flash image.
+-ERST
+-
+ DEF("snapshot", 0, QEMU_OPTION_snapshot,
+     "-snapshot       write to temporary files instead of disk image files\n",
+     QEMU_ARCH_ALL)
+@@ -3680,12 +3673,51 @@ DEFHEADING()
+ 
+ #endif
+ 
+-DEFHEADING(Linux/Multiboot boot specific:)
++DEFHEADING(Boot Image or Kernel specific:)
++SRST
++There are broadly 4 ways you can boot a system with QEMU.
++
++ - specify a firmware and let it control finding a kernel
++ - specify a firmware and pass a hint to the kernel to boot
++ - direct kernel image boot
++ - manually load files into the guests address space
++
++The last method is useful for quickly testing kernels but as there is
++no firmware to pass configuration information to the kernel it must
++either be built for the exact configuration or be handed a DTB blob
++which tells the kernel what drivers it needs.
++
++ERST
++
++SRST
++
++For x86 machines ``-bios`` will generally do the right thing with
++whatever it is given. For non-x86 machines the more strict ``-pflash``
++option needs an image that is sized for the flash device for the given
++machine type.
++
++ERST
++
++DEF("bios", HAS_ARG, QEMU_OPTION_bios, \
++    "-bios file      set the filename for the BIOS\n", QEMU_ARCH_ALL)
++SRST
++``-bios file``
++    Set the filename for the BIOS.
++ERST
++
++DEF("pflash", HAS_ARG, QEMU_OPTION_pflash,
++    "-pflash file    use 'file' as a parallel flash image\n", QEMU_ARCH_ALL)
++SRST
++``-pflash file``
++    Use file as a parallel flash image.
++ERST
++
+ SRST
+-When using these options, you can use a given Linux or Multiboot kernel
+-without installing it in the disk image. It can be useful for easier
+-testing of various kernels.
+ 
++The kernel options were designed to work with Linux kernels although
++other things (like hypervisors) can be packaged up as a kernel
++executable image. The exact format of a executable image is usually
++architecture specific.
+ 
+ ERST
+ 
+@@ -3725,6 +3757,25 @@ SRST
+     kernel on boot.
+ ERST
+ 
++SRST
++
++Finally you can also manually load images directly into the address
++space of the guest. This is most useful for developers who already
++know the layout of their guest and take care to ensure something sane
++will happen when the reset vector executes.
++
++The generic loader can be invoked by using the loader device:
++
++``-device loader,addr=<addr>,data=<data>,data-len=<data-len>[,data-be=<data-be>][,cpu-num=<cpu-num>]``
++
++there is also the guest loader which operates in a similar way but
++tweaks the DTB so a hypervisor loaded via ``-kernel`` can find where
++the guest image is:
++
++``-device guest-loader,addr=<addr>[,kernel=<path>,[bootargs=<arguments>]][,initrd=<path>]``
++
++ERST
++
+ DEFHEADING()
+ 
+ DEFHEADING(Debug/Expert options:)
+@@ -4175,13 +4226,6 @@ SRST
+     To list all the data directories, use ``-L help``.
+ ERST
+ 
+-DEF("bios", HAS_ARG, QEMU_OPTION_bios, \
+-    "-bios file      set the filename for the BIOS\n", QEMU_ARCH_ALL)
+-SRST
+-``-bios file``
+-    Set the filename for the BIOS.
+-ERST
+-
+ DEF("enable-kvm", 0, QEMU_OPTION_enable_kvm, \
+     "-enable-kvm     enable KVM full virtualization support\n",
+     QEMU_ARCH_ARM | QEMU_ARCH_I386 | QEMU_ARCH_MIPS | QEMU_ARCH_PPC |
+-- 
+2.30.2
 
-Do we have any sort of idea how long it takes from a CVE being fixed in
-a distro kernel to the eventual merge of a patch in master?
-
-Anyway the main use case for this is emulation where we want to get new
-features under -cpu max into the CI loops as soon as possible. I think
-the LKFT guys are testing KVM as well though and again want to see new
-KVM features as soon as possible.
-
-I'm not proposing these images are uploaded to docker.io so less likely
-to be hit by the default:
-
-  docker run qemu:latest
-
-(they instead get 6 year old things packages by someone calling
-themselves qemu: https://hub.docker.com/u/qemu)
-
->
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
