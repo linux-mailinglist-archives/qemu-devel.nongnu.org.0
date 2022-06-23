@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B8F557A62
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 14:34:22 +0200 (CEST)
-Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E5C557AA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 14:48:34 +0200 (CEST)
+Received: from localhost ([::1]:56978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4M2O-0007mt-OL
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 08:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54330)
+	id 1o4MG8-0003uC-Qv
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 08:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4LzA-0005uO-VI
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:31:02 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:39556)
+ id 1o4MBw-0002ew-M4
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:44:12 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:41636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4Lz9-0002zJ-De
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:31:00 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-3178acf2a92so158303567b3.6
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 05:30:58 -0700 (PDT)
+ id 1o4MBu-0005CK-K7
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:44:12 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id 23so35618845ybe.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 05:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h4FAaAxDkft/GYKrZH8p1e5O8Z/g+GpcmXs91Mv5s28=;
- b=w/PZidQ07LR5n2YGfOx4cK5vDAtot3ycJ9M2vvnvf/oz5ZzRvdaWSE+BXZ7jBdESwQ
- nmeqNxjz8XVaem0TXV8wZO+8wR3PN0WwfA97V3e//IHNwjVyXW7ASm71/Gjxa94C5wbc
- dC6kr0uvE6l1jO73LuFVv7vB7rrGjzVowPS9o0cwFTBg3ynaZ51CTt37XY3WqCchNQzf
- npTyXNGPxP7wSQUdDtxXdFIEeGQgdOQkVPtrLeqdwndaaJBGrKrEFavDLy7KvmhofpTH
- 1OpH+ApP6ejgyZoP9UzJTaMqofMlGZoMEIG7iL9LPpmLqpgZDWmCQ7MCx6rkmtWhXDXq
- dGSQ==
+ :cc:content-transfer-encoding;
+ bh=YQN1Knn5+PyLSPJ6sjytn6j4rOC0oCPWQdrwudef9bQ=;
+ b=Uy9LQGuWg5gzJxYLMciqG/vRPUdMrQZLS6kzhWMRMCUa6Ejj9w47HoXRXOM6F5gNo2
+ w91QIcQN73XWuSEnZCfChtY5p/fTAQDjmmTqTq6uEO+OTBoQ7F26izc4+mx3+WuPi4Ia
+ BsmxJxPGYyogiOcRSGSvXVt7iDFCFiz/KYRMYYQlc2R+iegA4cTHtp8IarNdzndbJ97p
+ sjPmDl5OWYSZqXmVtRr6ydk/45JDgH7xpO0ntv/YQ1DG3a0f8aEakI7eG/WQebPYMYiJ
+ q+conURiAdyldXpIUlswfjP82bS+xOlFGP2Y0x12zS3lOoORaezpJ1tlHA7x7mJKHKXv
+ OtnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h4FAaAxDkft/GYKrZH8p1e5O8Z/g+GpcmXs91Mv5s28=;
- b=VJu7ehL2AWQiqv+xJ57ORmqrMAl4uHRrWVF2Ak7wsPJyiAvt/05ffG+mxTa05En4T2
- mAbWiZlis5odmhVkhwixOwXuimYZf/yUaQ0QdRkbuKC7gY51XwtHXca5VkGXyxp6AMl2
- P0ETm3E3BJc6D+sFzwAZ5Ja1iCN2g6OOax+l3yiHpz1HcbM7jjDt3xGfnRGlxu3n2Tfi
- jU5+UPOr6fqhKDRTvECzuZ/PQCe7I7zSG1e/enDGWC2yr8Ago6+VqgkBgJMB8caSkO/I
- MM7jAXXp7lxAj9w8eceXESyvlGEffumXdJAMDKGn0AmQciG/gBl9Os8ivzhWeM4hjWeo
- 6k+Q==
-X-Gm-Message-State: AJIora9uJ9Uqjlqg8Ynf4TXt6FjQO9lFZY9qfaMGWsVD4gTftNOYVgHW
- 6HWqMB9VOW9R+RzEGIs728/LMhjx24qv0tkcXJjUYg==
-X-Google-Smtp-Source: AGRyM1vy9K/iFLl5trhp+WIivaF6gz7O/mzMR28cDbyBiwMAjJBEksTqDzrSIrfDMZqHbUruV7+BTzJY5o4dIPToknY=
-X-Received: by 2002:a0d:ca0f:0:b0:317:a2cc:aa2 with SMTP id
- m15-20020a0dca0f000000b00317a2cc0aa2mr10658496ywd.347.1655987457511; Thu, 23
- Jun 2022 05:30:57 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YQN1Knn5+PyLSPJ6sjytn6j4rOC0oCPWQdrwudef9bQ=;
+ b=koLH2TiUnwGqNyvBK08ONuia3BNsCMqXkcimnh8SVq4BOxxHlotJCYceGC075UjBfN
+ Cza9UXK0CIpKLKkqfPqcmx59y58VMDCS9+b+oVii+EksoM3GF/KHIXZK+j+jFn8D7EiH
+ I0fjnqEEjVpgA0M813SJ6MOPbEva2lEArTr7zATkIUOg/GyIIzCLXx0tsVxvyIW72sZG
+ wcMaaWI7+Nef9KxHGqcuvLxMHl53I4s+O8ITnAcUDKZuairtKjpUNvEEE5hblsm4ufc6
+ nVYkOTOhH0n1CLmfoxeIYm4JO6/cv+Rw8Y1AVTkkSoLEzZo2666fbhp16KmAMmzQ59B+
+ Wayw==
+X-Gm-Message-State: AJIora99Efjp97sKlPZ9N2705lprKODNyKEcdF5GNRQceRdhBNnim7WT
+ en6wuwbo3hJQ6/zSD2sbOIM4kdoxN05fK3Mws93t+w==
+X-Google-Smtp-Source: AGRyM1vbFA9okkycphssedHVhNtYVCrAXsOzd57dlzU10a7nK0Q3OpvpGKOfdDwHzpjt4t7xt6hYU6GkDj3/RdIpHvk=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr9249212ybr.39.1655988242237; Thu, 23
+ Jun 2022 05:44:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220623095825.2038562-1-pdel@fb.com>
- <20220623095825.2038562-7-pdel@fb.com>
-In-Reply-To: <20220623095825.2038562-7-pdel@fb.com>
+References: <20220622145052.4012981-1-alex.bennee@linaro.org>
+In-Reply-To: <20220622145052.4012981-1-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jun 2022 13:30:46 +0100
-Message-ID: <CAFEAcA-F59JEVBVYSdGX4KcS5d+EB4dNoZ2iE1aitSvo3B7Yfw@mail.gmail.com>
-Subject: Re: [PATCH 06/14] aspeed: Add system-memory QOM link to SoC
-To: Peter Delevoryas <pdel@fb.com>
-Cc: clg@kaod.org, andrew@aj.id.au, joel@jms.id.au, pbonzini@redhat.com, 
- berrange@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com, 
- richard.henderson@linaro.org, f4bug@amsat.org, ani@anisinha.ca, 
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, kvm@vger.kernel.org
+Date: Thu, 23 Jun 2022 13:43:51 +0100
+Message-ID: <CAFEAcA-bisQy_WmRTi-L37XhGNtvdL4XnLj5+=HfbRqj6cQJsA@mail.gmail.com>
+Subject: Re: [RFC PATCH] qemu-options: bring the kernel and image options
+ together
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,22 +84,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jun 2022 at 12:31, Peter Delevoryas <pdel@fb.com> wrote:
+On Wed, 22 Jun 2022 at 15:53, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> Right now it's just defined as the regular global system memory. If we
-> migrate all the SoC code to use this property instead of directly calling
-> get_system_memory(), then we can restrict the memory container for the SoC,
-> which will be useful for multi-SoC machines.
+> How to control the booting of QEMU is often a source of confusion for
+> users. Bring the options that control this together in the manual
+> pages and add some verbiage to describe when each option is
+> appropriate.
+
+https://stackoverflow.com/a/58434837/4499941 is my answer to
+this common user question, though it's a bit more conversational
+in tone than we want for the manual :-)
+
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  qemu-options.hx | 80 ++++++++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 62 insertions(+), 18 deletions(-)
 >
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 377d22fbd8..9b0242f0ef 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1585,13 +1585,6 @@ SRST
+>      Use file as SecureDigital card image.
+>  ERST
+>
+> -DEF("pflash", HAS_ARG, QEMU_OPTION_pflash,
+> -    "-pflash file    use 'file' as a parallel flash image\n", QEMU_ARCH_=
+ALL)
+> -SRST
+> -``-pflash file``
+> -    Use file as a parallel flash image.
+> -ERST
+> -
+>  DEF("snapshot", 0, QEMU_OPTION_snapshot,
+>      "-snapshot       write to temporary files instead of disk image file=
+s\n",
+>      QEMU_ARCH_ALL)
+> @@ -3680,12 +3673,51 @@ DEFHEADING()
+>
+>  #endif
+>
+> -DEFHEADING(Linux/Multiboot boot specific:)
+> +DEFHEADING(Boot Image or Kernel specific:)
+> +SRST
+> +There are broadly 4 ways you can boot a system with QEMU.
+> +
+> + - specify a firmware and let it control finding a kernel
+> + - specify a firmware and pass a hint to the kernel to boot
+> + - direct kernel image boot
+> + - manually load files into the guests address space
 
->  static Property aspeed_soc_properties[] = {
-> +    DEFINE_PROP_LINK("system-memory", AspeedSoCState, system_memory,
-> +                     TYPE_MEMORY_REGION, MemoryRegion *),
+"guest's"
 
-To the extent that we have a convention, we tend to call this
-property on an SoC or CPU "memory", I think. (Better suggestions
-welcome...)
+> +
+> +The last method
 
+Do you mean the third method? The last method isn't usually
+used to load kernels, but rather bare-metal binaries.
+
+ is useful for quickly testing kernels but as there is
+> +no firmware to pass configuration information to the kernel it must
+> +either be built for the exact configuration or be handed a DTB blob
+> +which tells the kernel what drivers it needs.
+
+This is all somewhat architecture specific: you don't necessarily
+need to do either of those if the hardware is probeable.
+
+
+You should also mention that all of this is board specific.
+
+> +
+> +ERST
+> +
+> +SRST
+> +
+> +For x86 machines ``-bios`` will generally do the right thing with
+> +whatever it is given. For non-x86 machines the more strict ``-pflash``
+> +option needs an image that is sized for the flash device for the given
+> +machine type.
+
+-bios works for some non-x86 machine types too.
+
+Ideally we would:
+ * have all our machine types have some documentation
+ * have the documentation for each machine type say whether
+   it supports -bios or not, and what it does
+
+> +
+> +ERST
+> +
+> +DEF("bios", HAS_ARG, QEMU_OPTION_bios, \
+> +    "-bios file      set the filename for the BIOS\n", QEMU_ARCH_ALL)
+> +SRST
+> +``-bios file``
+> +    Set the filename for the BIOS.
+> +ERST
+> +
+> +DEF("pflash", HAS_ARG, QEMU_OPTION_pflash,
+> +    "-pflash file    use 'file' as a parallel flash image\n", QEMU_ARCH_=
+ALL)
+> +SRST
+> +``-pflash file``
+> +    Use file as a parallel flash image.
+> +ERST
+> +
+>  SRST
+> -When using these options, you can use a given Linux or Multiboot kernel
+> -without installing it in the disk image. It can be useful for easier
+> -testing of various kernels.
+>
+> +The kernel options were designed to work with Linux kernels although
+> +other things (like hypervisors) can be packaged up as a kernel
+> +executable image. The exact format of a executable image is usually
+> +architecture specific.
+>
+>  ERST
+>
+> @@ -3725,6 +3757,25 @@ SRST
+>      kernel on boot.
+>  ERST
+>
+> +SRST
+> +
+> +Finally you can also manually load images directly into the address
+> +space of the guest. This is most useful for developers who already
+> +know the layout of their guest and take care to ensure something sane
+> +will happen when the reset vector executes.
+
+We should say that this is the favoured option for "I want to
+run a bare-metal binary", and we should also say that this
+option works the same way on any architecture and machine.
+
+> +
+> +The generic loader can be invoked by using the loader device:
+> +
+> +``-device loader,addr=3D<addr>,data=3D<data>,data-len=3D<data-len>[,data=
+-be=3D<data-be>][,cpu-num=3D<cpu-num>]``
+> +
+> +there is also the guest loader which operates in a similar way but
+> +tweaks the DTB so a hypervisor loaded via ``-kernel`` can find where
+> +the guest image is:
+> +
+> +``-device guest-loader,addr=3D<addr>[,kernel=3D<path>,[bootargs=3D<argum=
+ents>]][,initrd=3D<path>]``
+> +
+> +ERST
+> +
+>  DEFHEADING()
+
+thanks
 -- PMM
 
