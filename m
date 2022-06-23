@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA30B558131
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:58:00 +0200 (CEST)
-Received: from localhost ([::1]:51470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4A8558165
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:59:40 +0200 (CEST)
+Received: from localhost ([::1]:57664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Q9X-0001vm-Qt
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60164)
+	id 1o4QB9-00069X-I9
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:59:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q5l-0005kk-1l
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44552)
+ id 1o4Q5n-0005mr-Iv
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q5i-0005vk-H4
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:04 -0400
+ id 1o4Q5k-0005vr-P6
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656003241;
+ s=mimecast20190719; t=1656003244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=z/3iSpJw0PENAfWyBSBWbje40wlbdbjmpjWzBew6xsM=;
- b=L6DnX/juN3CSA19iY9tDMvJAxjH810dC5fuqgT7U53hcPljmpPgWyLvcH0LTuBIDG68M3f
- BublB+vQuweEq9aiXhBOajn+FfuDJFk5JjNco0lndp5SlC62acCczrcEHVeKquPwRe7Jon
- 9hDjEBRixrUqhmh7MxkeB/Z+T/t1D50=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f01KN6D3ybCuZtXxqbhgGmA11QdmFrIBHP/8pOhtUDc=;
+ b=EaHK4y7u/weTec/GntaAI9n1atMOzKToiaq0+5RCJeflHi6mE7gYHBHFDjf9q9Z4z8ZUn9
+ /OEaxcf5wOtUas/j/uJZLhq9e0fOCvpxYaKt0XRVJO9GCA/SdKfQgozR3Rs4eoTP3gVVQU
+ C+Jm6BeYOgLeDe+o/zkCarIS/HV/ph8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-mFAMWlhTPFuhW3s_nmaiPg-1; Thu, 23 Jun 2022 12:54:00 -0400
-X-MC-Unique: mFAMWlhTPFuhW3s_nmaiPg-1
+ us-mta-515-L6XG_Al1P9CxD60jOEVPyw-1; Thu, 23 Jun 2022 12:54:03 -0400
+X-MC-Unique: L6XG_Al1P9CxD60jOEVPyw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7531929AA389;
- Thu, 23 Jun 2022 16:54:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A331A800882;
+ Thu, 23 Jun 2022 16:54:01 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DEC92026D07;
- Thu, 23 Jun 2022 16:53:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A811C2026D64;
+ Thu, 23 Jun 2022 16:54:00 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 00/25] migration queue
-Date: Thu, 23 Jun 2022 17:53:29 +0100
-Message-Id: <20220623165354.197792-1-dgilbert@redhat.com>
+Subject: [PULL 01/25] migration: Remove RDMA_UNREGISTRATION_EXAMPLE
+Date: Thu, 23 Jun 2022 17:53:30 +0100
+Message-Id: <20220623165354.197792-2-dgilbert@redhat.com>
+In-Reply-To: <20220623165354.197792-1-dgilbert@redhat.com>
+References: <20220623165354.197792-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,101 +80,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Juan Quintela <quintela@redhat.com>
 
-The following changes since commit 2b049d2c8dc01de750410f8f1a4eac498c04c723:
+Nobody has ever showed up to unregister individual pages, and another
+set of patches written by Daniel P. Berrangé <berrange@redhat.com>
+just remove qemu_rdma_signal_unregister() function needed here.
 
-  Merge tag 'pull-aspeed-20220622' of https://github.com/legoater/qemu into staging (2022-06-22 07:27:06 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220623b
-
-for you to fetch changes up to 77ef2dc1c8c6a482fd06fdf3b59d0647f0850e3e:
-
-  migration: remove the QEMUFileOps abstraction (2022-06-23 10:18:13 +0100)
-
-----------------------------------------------------------------
-[v3] Migration pull 2022-06-23
-
-This replaces my and Juan's earlier pulls over the last 2 days;
-4th time lucky?
-
-Compared to my pull earlier:
-  Removed Hyman's dirty ring set
-
-In this migration PULL request:
-- Dainiel Berrangé - qemufileops cleanup
-- Leonardo Bras  - cleanups for zero copy
-- Juan Quintela  - RDMA cleanups
-
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ migration/rdma.c | 41 -----------------------------------------
+ 1 file changed, 41 deletions(-)
 
-----------------------------------------------------------------
-Daniel P. Berrangé (21):
-      io: add a QIOChannelNull equivalent to /dev/null
-      migration: switch to use QIOChannelNull for dummy channel
-      migration: remove unreachble RDMA code in save_hook impl
-      migration: rename rate limiting fields in QEMUFile
-      migration: rename 'pos' field in QEMUFile to 'bytes_processed'
-      migration: rename qemu_ftell to qemu_file_total_transferred
-      migration: rename qemu_update_position to qemu_file_credit_transfer
-      migration: rename qemu_file_update_transfer to qemu_file_acct_rate_limit
-      migration: introduce a QIOChannel impl for BlockDriverState VMState
-      migration: convert savevm to use QIOChannelBlock for VMState
-      migration: stop passing 'opaque' parameter to QEMUFile hooks
-      migration: hardcode assumption that QEMUFile is backed with QIOChannel
-      migration: introduce new constructors for QEMUFile
-      migration: remove unused QEMUFileGetFD typedef / qemu_get_fd method
-      migration: remove the QEMUFileOps 'shut_down' callback
-      migration: remove the QEMUFileOps 'set_blocking' callback
-      migration: remove the QEMUFileOps 'close' callback
-      migration: remove the QEMUFileOps 'get_buffer' callback
-      migration: remove the QEMUFileOps 'writev_buffer' callback
-      migration: remove the QEMUFileOps 'get_return_path' callback
-      migration: remove the QEMUFileOps abstraction
-
-Juan Quintela (1):
-      migration: Remove RDMA_UNREGISTRATION_EXAMPLE
-
-Leonardo Bras (3):
-      QIOChannelSocket: Introduce assert and reduce ifdefs to improve readability
-      QIOChannelSocket: Fix zero-copy send so socket flush works
-      migration: Change zero_copy_send from migration parameter to migration capability
-
- include/io/channel-null.h         |  55 +++++++++
- io/channel-null.c                 | 237 ++++++++++++++++++++++++++++++++++++++
- io/channel-socket.c               |  19 ++-
- io/meson.build                    |   1 +
- io/trace-events                   |   3 +
- migration/block.c                 |  10 +-
- migration/channel-block.c         | 195 +++++++++++++++++++++++++++++++
- migration/channel-block.h         |  59 ++++++++++
- migration/channel.c               |   4 +-
- migration/colo.c                  |   5 +-
- migration/meson.build             |   2 +-
- migration/migration.c             |  68 +++++------
- migration/multifd.c               |   4 +-
- migration/qemu-file-channel.c     | 194 -------------------------------
- migration/qemu-file-channel.h     |  32 -----
- migration/qemu-file.c             | 193 ++++++++++++++++++-------------
- migration/qemu-file.h             | 125 +++++++++-----------
- migration/ram.c                   |   8 +-
- migration/rdma.c                  | 185 ++++++-----------------------
- migration/savevm.c                |  55 ++-------
- migration/vmstate.c               |   5 +-
- monitor/hmp-cmds.c                |   6 -
- qapi/migration.json               |  33 ++----
- tests/unit/meson.build            |   1 +
- tests/unit/test-io-channel-null.c |  95 +++++++++++++++
- tests/unit/test-vmstate.c         |   5 +-
- 26 files changed, 928 insertions(+), 671 deletions(-)
- create mode 100644 include/io/channel-null.h
- create mode 100644 io/channel-null.c
- create mode 100644 migration/channel-block.c
- create mode 100644 migration/channel-block.h
- delete mode 100644 migration/qemu-file-channel.c
- delete mode 100644 migration/qemu-file-channel.h
- create mode 100644 tests/unit/test-io-channel-null.c
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 672d1958a9..8504152f39 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -1370,30 +1370,6 @@ const char *print_wrid(int wrid)
+     return wrid_desc[wrid];
+ }
+ 
+-/*
+- * RDMA requires memory registration (mlock/pinning), but this is not good for
+- * overcommitment.
+- *
+- * In preparation for the future where LRU information or workload-specific
+- * writable writable working set memory access behavior is available to QEMU
+- * it would be nice to have in place the ability to UN-register/UN-pin
+- * particular memory regions from the RDMA hardware when it is determine that
+- * those regions of memory will likely not be accessed again in the near future.
+- *
+- * While we do not yet have such information right now, the following
+- * compile-time option allows us to perform a non-optimized version of this
+- * behavior.
+- *
+- * By uncommenting this option, you will cause *all* RDMA transfers to be
+- * unregistered immediately after the transfer completes on both sides of the
+- * connection. This has no effect in 'rdma-pin-all' mode, only regular mode.
+- *
+- * This will have a terrible impact on migration performance, so until future
+- * workload information or LRU information is available, do not attempt to use
+- * this feature except for basic testing.
+- */
+-/* #define RDMA_UNREGISTRATION_EXAMPLE */
+-
+ /*
+  * Perform a non-optimized memory unregistration after every transfer
+  * for demonstration purposes, only if pin-all is not requested.
+@@ -1571,18 +1547,6 @@ static uint64_t qemu_rdma_poll(RDMAContext *rdma, struct ibv_cq *cq,
+         if (rdma->nb_sent > 0) {
+             rdma->nb_sent--;
+         }
+-
+-        if (!rdma->pin_all) {
+-            /*
+-             * FYI: If one wanted to signal a specific chunk to be unregistered
+-             * using LRU or workload-specific information, this is the function
+-             * you would call to do so. That chunk would then get asynchronously
+-             * unregistered later.
+-             */
+-#ifdef RDMA_UNREGISTRATION_EXAMPLE
+-            qemu_rdma_signal_unregister(rdma, index, chunk, wc.wr_id);
+-#endif
+-        }
+     } else {
+         trace_qemu_rdma_poll_other(print_wrid(wr_id), wr_id, rdma->nb_sent);
+     }
+@@ -2137,11 +2101,6 @@ retry:
+ 
+     chunk_end = ram_chunk_end(block, chunk + chunks);
+ 
+-    if (!rdma->pin_all) {
+-#ifdef RDMA_UNREGISTRATION_EXAMPLE
+-        qemu_rdma_unregister_waiting(rdma);
+-#endif
+-    }
+ 
+     while (test_bit(chunk, block->transit_bitmap)) {
+         (void)count;
+-- 
+2.36.1
 
 
