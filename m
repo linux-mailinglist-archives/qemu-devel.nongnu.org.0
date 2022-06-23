@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A305558A68
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 22:55:46 +0200 (CEST)
-Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 673C1558A97
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:20:13 +0200 (CEST)
+Received: from localhost ([::1]:52250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Trc-00042X-UP
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 16:55:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46708)
+	id 1o4UFI-00088A-7T
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1o4Tpv-00034I-0D
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 16:53:59 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:33664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1o4Tpt-0008Ix-JL
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 16:53:58 -0400
-Received: by mail-pg1-x536.google.com with SMTP id z14so583034pgh.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 13:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=RkzWATpHOSCJk5c/Lw2XsExokuGokHQlbIGxQhIndUU=;
- b=Cs1qiWoUOf55vawigxLg0WF8gW7V6jTHpZvp1Vc/ssEDsygtHtplt0x3+FZW6YsPvu
- 6j2U0tmx3k30AezIYBFbh6MzDAWb3RcJaAoQTiDlZncAF3TjWN89k4Gpm4xS8sbIxaFr
- sCWhzTxH2YpfhfEUuow3JHOp3lykme5qqwm5m1vC9ujSZpJRg/uhLXGG39c3VlUDePAP
- Wo3SgXWYgq/wJE3RmRcDTa3MQw6bbRXBqBGNKhGlJotpape+QCq0qhfjKNWsRObmOR5i
- NX/xP/SCDpjwU80VudQts/wr6AZShnuuvFbdRQpaBnqKtwITm/gVagQTo9NsiQcu6skj
- bOnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RkzWATpHOSCJk5c/Lw2XsExokuGokHQlbIGxQhIndUU=;
- b=iEHY63Klp8oajl9GZNgnWvzRnn5OURRDj2dcftsp3adFgl8cILfjOAxdhvD3n8pTQG
- 50SMcu7PCso0yxRLkzWpynZ1chtorlmrxPvin0jx1SuMyk051U1YM9Wwh3/niySj/K+H
- JX6Onm2W0KBYxd/gIf5fwWlZv9uUOxOZ0aOtgzZgGROEZigotAiSbe++h7+R4lSwcR0C
- kJu1C/LWFhgzM73Gi471jCZsEzI6RLoVyY6WyGqFgrHRs2MANohvi7BYtdHRUGcZMbNX
- hF8rKH87NEjzrsf4ofwEALRjb9jmB+b39gFCAOS4yYxu4CQCOx5ZJPhSkWtXL4a1scP1
- 3vdw==
-X-Gm-Message-State: AJIora/J5TZmudfKyjbU9NXzcV4KWJ5+TTDQUzZoOxSyKTqYBLmmoehn
- JNki2uzERANufhxAXOM5Obmp9gDVLTE=
-X-Google-Smtp-Source: AGRyM1um3kL1G2b8vAnKaz6beUVMK474rj1d7tXYv95+fem37+J+KFkkz+pZ7y1xyaI/2C21bGA4OQ==
-X-Received: by 2002:a63:84c8:0:b0:40c:7d4a:ac66 with SMTP id
- k191-20020a6384c8000000b0040c7d4aac66mr9101896pgd.424.1656017635343; 
- Thu, 23 Jun 2022 13:53:55 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- c12-20020a17090a1d0c00b001ec92575e83sm178330pjd.4.2022.06.23.13.53.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 13:53:54 -0700 (PDT)
-Date: Fri, 24 Jun 2022 05:53:53 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] hw/openrisc: virt: pass random seed to fdt
-Message-ID: <YrTS4RuT9XlljAtc@antec>
-References: <CAHmME9o_Oq7TKFXx-rxRxpVR-akE+gVCutK879Tp_ubVwEu=TA@mail.gmail.com>
- <20220622114513.293882-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1o4UDg-0005bW-PV; Thu, 23 Jun 2022 17:18:32 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:41735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1o4UDe-000443-9i; Thu, 23 Jun 2022 17:18:32 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id BAA3832007BE;
+ Thu, 23 Jun 2022 17:18:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 23 Jun 2022 17:18:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1656019105; x=1656105505; bh=S4
+ U91liIMzavhJlcUBWlB16qpSfD43zSyZovZPIvjWg=; b=T0sOUHnAcxIBJlswcN
+ 8nzdy2bJEPMqPAgVJqp+GTwb7rGUPFunSp2LyyNqEoRY965qKGLNhXYPkwMb4VXc
+ rgoq4atzhtyPQgCR5Uh6GNndQF6bq7KVbmZq+WFol5qzyVDzg9Q5nY+eqH1dlxem
+ a/chVEmLL1Oc5bI5xLKqs7Hi1f/7pP8mWDjB8KBF14JPdiQWSnzPTPRdhHZohk4Y
+ A1hyxzTVx/dLl6IYPNy7iEySaJyKmsZlyojZcDXhm2HybEVrJOLtqAofFTkvxSRP
+ J9in4KoD4/W+sBW/PEN3tbxl9bndMkVcSUDuPk+qV9MkwJ3Vk5+hsGL+wtWuyhsh
+ 3JbQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1656019105; x=1656105505; bh=S4U91liIMzavh
+ JlcUBWlB16qpSfD43zSyZovZPIvjWg=; b=QEjTBRxg/T9yYlDAPev7Ai0bKzMl+
+ qo83if8QlDLYotCMaBwVlR9QgVq1K2yRG5UdLjE/bEYAeKa0VIlPxp1qqK4To+Rh
+ atfnThwKkod6pQ303qYPhqUEOesb+Q79ZUykpkC6DP4NKURwKk+OV1tREm028CRa
+ 1xpO6Avo/4Y/aigutK6MCeJP5yLAW0Wc+ipeeP8FCSgs8dRT8z5nxv16DhSAbyaS
+ t/RIRm45wAjKqtEcKnql65hbANYRerffrTOf8P5MrWor14BCpdWZjQLtd+S3GH8W
+ RBIJ0ocf/je+yFVAY7QI+qZgF6WQUFtzODqY1nftG3fCiAkvj+JSAnxdg==
+X-ME-Sender: <xms:oNi0YgZ0kdsj9gCn-l4ItedTKqp3kJWv2wmGtBbzeySsIlhrVNMfHw>
+ <xme:oNi0YrbmqZyMxaNYRR2m63WMuA97sRucJcL8xDU0UmNEOheN1Gf4432QrtnM1dTKh
+ YbVajR7nJXkZYfxlWk>
+X-ME-Received: <xmr:oNi0Yq8Xx9RBSh4Choma4O4RjGCNlcUe19g4bX1BTq4GBV2Yw8Tvf_a3DdqDb5F6R--ONXlP9TwbBnK_hDgH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeiudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvfevufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepieehteejvdejkeelueehhffhffefuddvjeevleeijeeuheejgfettdfhteef
+ hfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:oNi0Yqq7Q1TNLxNlN1OXZRWFeROEzFw84LrXAcYRl54YIyx78ayfbg>
+ <xmx:oNi0YrpnbWSL3ZERHzSKMbTrhRrtN1VvzZUAwtQB5HCaXvt5FqNkmw>
+ <xmx:oNi0YoTiJHpzm7r5YA0YfJx3g7V76DKUyh0Z_4RDRtWW461OxUOS6A>
+ <xmx:odi0YqWULUYH-agcPl1c7mpq1H0DsqLlknaktXAOuzvCYLAFA1Q2OQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Jun 2022 17:18:23 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH 00/12] hw/nvme: misc fixes and updates
+Date: Thu, 23 Jun 2022 23:18:09 +0200
+Message-Id: <20220623211821.50534-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.36.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220622114513.293882-1-Jason@zx2c4.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=shorne@gmail.com; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,21 +99,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 22, 2022 at 01:45:13PM +0200, Jason A. Donenfeld wrote:
-> If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
-> initialize early. Set this using the usual guest random number
-> generation function. This is confirmed to successfully initialize the
-> RNG on Linux 5.19-rc2.
-> 
-> Cc: Stafford Horne <shorne@gmail.com>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
-> Changes v1->v2:
-> - This is rebased on top of your "or1k-virt-2" branch.
-> - It makes the change to the new "virt" platform, since that's where it
->   makes most sense to have.
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Thanks I have placed this on my or1k-virt-2 branch.
-
--Stafford
+This series includes a couple of misc fixes as well as some cleanup=0D
+pertaining to the aio handling in flush, dsm, copy and zone reset. As=0D
+Jinhao gets around to iothread stuff, it might come in handy to have=0D
+this stuff cleaned up a bit.=0D
+=0D
+Dmitrys fix (nvme-next commit "hw/nvme: add missing return statement")=0D
+for dsm prompted me to audit the flush, dsm, zone reset and copy code=0D
+and that resulted in the discovery of some bugs and some general clean=0D
+up.=0D
+=0D
+Klaus Jensen (12):=0D
+  hw/nvme: fix incorrect use of errp/local_err=0D
+  hw/nvme: remove redundant passing of PCIDevice=0D
+  hw/nvme: cleanup error reporting in nvme_init_pci()=0D
+  hw/nvme: fix numzrwa handling=0D
+  hw/nvme: fix accidental reintroduction of redundant code=0D
+  hw/nvme: fix cancellation of format operations=0D
+  hw/nvme: fix flush cancel=0D
+  hw/nvme: rework flush bh scheduling=0D
+  hw/nvme: improve cancellation handling in zone reset=0D
+  hw/nvme: improve cancellation handling in dsm=0D
+  hw/nvme: simplify copy command error handling=0D
+  hw/nvme: align logic of format with flush=0D
+=0D
+ hw/nvme/ctrl.c | 252 +++++++++++++++++++++++--------------------------=0D
+ hw/nvme/ns.c   |   4 +-=0D
+ 2 files changed, 119 insertions(+), 137 deletions(-)=0D
+=0D
+-- =0D
+2.36.1=0D
+=0D
 
