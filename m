@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8329F5578B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 13:30:19 +0200 (CEST)
-Received: from localhost ([::1]:33880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2646A5578B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 13:30:38 +0200 (CEST)
+Received: from localhost ([::1]:34498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4L2Q-00050J-38
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 07:30:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
+	id 1o4L2i-0005U6-Qo
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 07:30:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4KxN-000349-DU
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 07:25:09 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:36837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4KxJ-0008BQ-1k
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 07:25:03 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id u9so25127149ybq.3
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 04:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AOH6eIuL0aIpPL+ItqXK2B9mSn8bjv/xgbmvR4pYTiU=;
- b=WkRznGrv59P/wrtQR62iESf/26lcWdObJsnXgSz9a81vytwuU1zDuLU+VHzOz9vE20
- fiQhOWU+21aClmxpLcufpjaBL95LPx4zCJdgHyAFDUpza+ry95I4qnpny52SMT/ZKYhi
- AVU9/nOM3rJ6eIh98HWY7gvUag8FPnG6or60gyHi2FaGj3QKxd1UDE5dBWE3bblu3L31
- xD2hbciIjBFtzUvg7JElRXJ0rvPhYXqPDgzXL1MnTGkYEminvdk5neupgbMtI6DyuMYA
- b6PwnoMPN3/nxXxFSWlvqOm5LjYHADx5gYtHfTHHMKzoosAaiORdyrldWu+p41H/TuuL
- swaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AOH6eIuL0aIpPL+ItqXK2B9mSn8bjv/xgbmvR4pYTiU=;
- b=DwIOOubsJtpefGU+EM3UpJaSvMLGMcdMyZYW5OwoFxZNdN3QqcjM9qaz4xsIA7gSQ3
- bA1RjodOvS2qNhnK2nhI3Hc99kzALIx+rvjSx4riptYAJqqRD/JgjBy59C2BGSn8ofeQ
- EPHA2foFNFsxaMQSRuR5jM+JGZ6rQ3VpB04rAjeK1OsmCGxrgp9b44Xdup203pTltqrU
- QPudpPxEDYuLZX57Cmb1XcLZBAL+0I2F07n/MRWhCfn5preN1ALAM1WmQ0IvgpyYPoMG
- 3p5jQPRe0NlK7rZrtnTm2DuF+Of+rLg/XYYM8tuSUq+Pfe47tFqwSLMz/RrkRcgu7IOg
- LYLg==
-X-Gm-Message-State: AJIora+NrxnR9VbgSHlmUXX0UxcCUJaTqgpEFcMzosU1dqtr5V1X9I3I
- lcovNmUB72GTt1o7ahpETEp+esT4JEKF2byceou6PA==
-X-Google-Smtp-Source: AGRyM1sE63Ei8AHBDiGXfuu0DdqdNZb6YiDhGsVivC0yMNoofN8E9jJAni9ztzLuMKRyVyJVgL1Kvt1JAnHajDCzTos=
-X-Received: by 2002:a05:6902:1505:b0:668:c93b:d1d0 with SMTP id
- q5-20020a056902150500b00668c93bd1d0mr8764321ybu.140.1655983499639; Thu, 23
- Jun 2022 04:24:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o4KxW-00035H-Vr
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 07:25:15 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o4KxU-0008C2-CS
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 07:25:14 -0400
+Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LTHvz40r0z689Mk;
+ Thu, 23 Jun 2022 19:24:31 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Thu, 23 Jun 2022 13:24:59 +0200
+Received: from localhost (10.202.226.42) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 23 Jun
+ 2022 12:24:59 +0100
+Date: Thu, 23 Jun 2022 12:24:57 +0100
+To: Brice Goglin <Brice.Goglin@inria.fr>
+CC: Igor Mammedov <imammedo@redhat.com>, <qemu-devel@nongnu.org>, "Eduardo
+ Habkost" <eduardo@habkost.net>, Liu Jingqi <jingqi.liu@intel.com>, Tao Xu
+ <tao3.xu@intel.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <f4bug@amsat.org>, Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH] hmat acpi: Don't require initiator value in -numa when
+ hmat=on
+Message-ID: <20220623122457.0000646b@Huawei.com>
+In-Reply-To: <7eb4ef82-1e03-1135-2160-9673d2576849@inria.fr>
+References: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
+ <20220620152757.5dd721b9@redhat.com>
+ <76154956-85a5-9031-0168-1770d70adddc@inria.fr>
+ <20220620180549.787983ec@redhat.com>
+ <7eb4ef82-1e03-1135-2160-9673d2576849@inria.fr>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-References: <20220620175235.60881-1-richard.henderson@linaro.org>
- <20220620175235.60881-26-richard.henderson@linaro.org>
-In-Reply-To: <20220620175235.60881-26-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jun 2022 12:24:48 +0100
-Message-ID: <CAFEAcA-_Cof12Oe=4HTJx_4Nmtfq1Oj7BRdFmzv989H13kUVTg@mail.gmail.com>
-Subject: Re: [PATCH v3 25/51] target/arm: Implement SME MOVA
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.226.42]
+X-ClientProxiedBy: lhreml712-chm.china.huawei.com (10.201.108.63) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,105 +76,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Mon, 20 Jun 2022 at 19:20, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We can reuse the SVE functions for implementing moves to/from
-> horizontal tile slices, but we need new ones for moves to/from
-> vertical tile slices.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper-sme.h    |  11 ++++
->  target/arm/helper-sve.h    |   2 +
->  target/arm/translate-a64.h |   9 +++
->  target/arm/translate.h     |   5 ++
->  target/arm/sme.decode      |  15 +++++
->  target/arm/sme_helper.c    | 110 ++++++++++++++++++++++++++++++++++++-
->  target/arm/sve_helper.c    |  12 ++++
->  target/arm/translate-a64.c |  19 +++++++
->  target/arm/translate-sme.c | 105 +++++++++++++++++++++++++++++++++++
->  9 files changed, 287 insertions(+), 1 deletion(-)
->
-> diff --git a/target/arm/helper-sme.h b/target/arm/helper-sme.h
-> index c4ee1f09e4..600346e08c 100644
-> --- a/target/arm/helper-sme.h
-> +++ b/target/arm/helper-sme.h
-> @@ -21,3 +21,14 @@ DEF_HELPER_FLAGS_2(set_pstate_sm, TCG_CALL_NO_RWG, void, env, i32)
->  DEF_HELPER_FLAGS_2(set_pstate_za, TCG_CALL_NO_RWG, void, env, i32)
->
->  DEF_HELPER_FLAGS_3(sme_zero, TCG_CALL_NO_RWG, void, env, i32, i32)
-> +
-> +DEF_HELPER_FLAGS_4(sme_mova_avz_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-> +DEF_HELPER_FLAGS_4(sme_mova_zav_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+On Tue, 21 Jun 2022 12:49:09 +0200
+Brice Goglin <Brice.Goglin@inria.fr> wrote:
 
-What do the 'avz' and 'zav' stand for here? I thought that
-'zav' might mean "from the ZA storage to a Vector", but
-then what is 'avz' ?
+> Le 20/06/2022 =E0 18:05, Igor Mammedov a =E9crit=A0:
+> > On Mon, 20 Jun 2022 17:24:18 +0200
+> > Brice Goglin <Brice.Goglin@inria.fr> wrote:
+> > =20
+> >> Le 20/06/2022 =E0 15:27, Igor Mammedov a =E9crit Machine (2966MB total=
+) +
+> >> Package P#0 =20
+> >>>>      NUMANode P#2 (979MB)
+> >>>>      Group0
+> >>>>        NUMANode P#0 (980MB)
+> >>>>        Core P#0 + PU P#0
+> >>>>        Core P#1 + PU P#1
+> >>>>      Group0
+> >>>>        NUMANode P#1 (1007MB)
+> >>>>        Core P#2 + PU P#2
+> >>>>        Core P#3 + PU P#3 =20
+> >>> here should be a dis-assembled dump of generated HMAT table =20
+> >>
+> >> Hello
+> >>
+> >> Like what I added at the end of
+> >> https://github.com/bgoglin/qemu/commit/d9b3f5cb1514adafa644afcc2a363f2=
+dc9795a32
+> >> ? =20
+> > yep, only full version including headers. =20
+>=20
+>=20
+> Thanks,
+>=20
+> I split the patch adding the new test in 3 patches, reduced memory to=20
+> 128M total, etc.
+>=20
+> I am not sure I understood what I am supposed to put in commit messages.=
+=20
+> Can you check the 4 patches on top of=20
+> https://github.com/bgoglin/qemu/commits/hmat-noinitiator before I resend=
+=20
+> them to the list?
+>=20
+> Brice
+>=20
 
+I left a couple of trivial comments on github, but basically looks good
+to me.
 
-> +static TCGv_ptr get_tile_rowcol(DisasContext *s, int esz, int rs,
-> +                                int tile_index, bool vertical)
-> +{
-> +    int tile = tile_index >> (4 - esz);
-> +    int index = esz == MO_128 ? 0 : extract32(tile_index, 0, 4 - esz);
-> +    int pos, len, offset;
-> +    TCGv_i32 t_index;
-> +    TCGv_ptr addr;
-> +
-> +    /* Resolve tile.size[index] to an untyped ZA slice index. */
-> +    t_index = tcg_temp_new_i32();
-> +    tcg_gen_trunc_tl_i32(t_index, cpu_reg(s, rs));
-> +    tcg_gen_addi_i32(t_index, t_index, index);
-> +
-> +    len = ctz32(s->svl) - esz;
-> +    pos = esz;
-> +    offset = tile;
-> +
-> +    /*
-> +     * Horizontal slice.  Index row N, column 0.
-> +     * The helper will iterate by the element size.
-> +     */
-> +    if (!vertical) {
-> +        pos += ctz32(sizeof(ARMVectorReg));
-> +        offset *= sizeof(ARMVectorReg);
-> +    }
-> +    offset += offsetof(CPUARMState, zarray);
-> +
-> +    tcg_gen_deposit_z_i32(t_index, t_index, pos, len);
-> +    tcg_gen_addi_i32(t_index, t_index, offset);
-> +
-> +    /*
-> +     * Vertical tile slice.  Index row 0, column N.
-> +     * The helper will iterate by the row spacing in the array.
-> +     * Need to adjust addressing for elements smaller than uint64_t for BE.
-> +     */
-> +    if (HOST_BIG_ENDIAN && vertical && esz < MO_64) {
-> +        tcg_gen_xori_i32(t_index, t_index, 8 - (1 << esz));
-> +    }
-> +
-> +    addr = tcg_temp_new_ptr();
-> +    tcg_gen_ext_i32_ptr(addr, t_index);
-> +    tcg_temp_free_i32(t_index);
-> +    tcg_gen_add_ptr(addr, addr, cpu_env);
-> +
-> +    return addr;
-> +}
-
-This is too confusing -- I spent half an hour looking at it and
-couldn't figure out if it was correct or not. I can see roughly
-what it's supposed to be doing but I don't really want to try
-to reverse engineer the details from the sequence of operations.
-Eg the way we sometimes just add in the tile number and sometimes
-add in the tile number * the size of a vector reg looks very
-strange; I figured out that the deposit op is doing the equivalent
-of the pseudocode's "MOD dim" on the slice index but it doesn't
-say so and the calculation of len and pos is kind of obscure to me.
-
-Perhaps (a) more commentary and (b) separating out the
-horizontal and vertical cases would help ?
-
-thanks
--- PMM
+Jonathan
 
