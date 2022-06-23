@@ -2,105 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80D555765F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:12:37 +0200 (CEST)
-Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E063F5576BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:36:30 +0200 (CEST)
+Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4ItA-0007ng-LW
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40772)
+	id 1o4JGH-0004o3-Qa
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o4Ip3-0004rv-U9
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:08:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60038)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o4J8U-0008MX-5d
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o4Ioz-0001dy-Pe
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:08:20 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o4J8M-0004rc-NI
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655975297;
+ s=mimecast20190719; t=1655976497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=io7d/fo3T42Q+Pu4D9NRIJWchSJ+wHaY4efzB5PoxTU=;
- b=ENGFW4RkfQKWzn7lwMMPyJVQ46/xj45/ydw3ugZsrK/kWXh7CEm2mrTtb89kMUto7szvKW
- g8EG34WOED18tiOAUCbH0Sv5GACh/P/GiJ7shDPDbuZmAIdPXMslNm5sfbVtkv4VOuk4fj
- cbk68GS8QDlU7SyMc6hEFsmnFYhnBQs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eiuEQprXzq9lYCw9QQh7yyu+IOLldRXEZVym3TgbrRk=;
+ b=W+/eXPTPHdUR4seIzv4R/S1PBZpkAFZcTzJJu1L9poe1qr2quEgAPhJ2CaW3DvhcdOwVo6
+ pSzdd2GOA3KQ9JnCgp7rZR3rvzWbhNQYBLMgK3fD8TJj4jqI1p1q9VRlfb/ghMcFexqgmk
+ HZqhHBH7PmGcAJhFJCGGbI46jKZ1Krs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-26-iMg1j8ZyOzWeWfEYxqalbg-1; Thu, 23 Jun 2022 05:08:15 -0400
-X-MC-Unique: iMg1j8ZyOzWeWfEYxqalbg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- i184-20020a1c3bc1000000b003a026f48333so1853113wma.4
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 02:08:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=io7d/fo3T42Q+Pu4D9NRIJWchSJ+wHaY4efzB5PoxTU=;
- b=N+ozQORTOrnkzJ0irBYxJiVb7OXcs7imx97/C9p1inSPnB+8pgiqXBgVb8n+C3Qr8Y
- 0eFisJR+OcXhUYo4YLfc0f0/HGMmEazW3iUfPRQzul8nGMtzvKYebDVBWx1+GeKT1f0e
- FuCDdVgKOwYzPAyalWa9LtqGuvkO1X9y0eOqhs+hXC3k5svwhilIkfpFNGJ3brGIrTjz
- hUUadegO3V3FygQtf6Md8aHTGnCX2I/WBu8VmpcCMScE7OreSAR9rgfBIrX4/HosbHpy
- G18lob1pZjgMY4eJbiZAsVGFIn+/dBfI+z63mj8Bu6D/bdsIwMi8ccMWOxglcyNtsp7z
- Cuiw==
-X-Gm-Message-State: AJIora9JBQFxRaCNPJWdREOXl6MqnzCIPYLwMQdMw7KivWg7HJrHqBl9
- d4MCX0rvx0ix8Te4JcjU1GruHhwsUOPmisme92QQqOyxBPPcxXC5YgygzqbrlsgwtftG3IByRG3
- IiNggEQiQpCnok2E=
-X-Received: by 2002:a5d:5107:0:b0:21b:8c5d:1072 with SMTP id
- s7-20020a5d5107000000b0021b8c5d1072mr7190550wrt.378.1655975294429; 
- Thu, 23 Jun 2022 02:08:14 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sm8+eUQs4aNZBUk771C7bH90x6TNBwzdBt7I4z9Z5KErDGTk+ZQjK33zqqc55jguiXx7CH2A==
-X-Received: by 2002:a5d:5107:0:b0:21b:8c5d:1072 with SMTP id
- s7-20020a5d5107000000b0021b8c5d1072mr7190496wrt.378.1655975294013; 
- Thu, 23 Jun 2022 02:08:14 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- c14-20020adffb4e000000b0021b8863514fsm15188863wrs.79.2022.06.23.02.08.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 02:08:13 -0700 (PDT)
-Message-ID: <f59f2894-667c-8940-cc34-2407783b5699@redhat.com>
-Date: Thu, 23 Jun 2022 11:08:12 +0200
+ us-mta-605-BWzzKdDsO4q-cZCqg9FtNA-1; Thu, 23 Jun 2022 05:28:16 -0400
+X-MC-Unique: BWzzKdDsO4q-cZCqg9FtNA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3377918E6C40;
+ Thu, 23 Jun 2022 09:28:16 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 324CB404E4DC;
+ Thu, 23 Jun 2022 09:28:15 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
+ quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
+Cc: jdenemar@redhat.com
+Subject: [PULL 00/33] migration queue
+Date: Thu, 23 Jun 2022 10:27:37 +0100
+Message-Id: <20220623092810.96234-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v7 10/18] jobs: rename static functions called with
- job_mutex held
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220616131835.2004262-1-eesposit@redhat.com>
- <20220616131835.2004262-11-eesposit@redhat.com>
- <c0401616-f246-ce1d-2a0f-b7e23dd55ab8@yandex-team.ru>
- <0aaa344b-aecb-13de-f82f-cad27a768ba9@redhat.com>
- <c234668d-0156-548b-e1e8-d1fda1b85ad7@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <c234668d-0156-548b-e1e8-d1fda1b85ad7@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,168 +77,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
+The following changes since commit 2b049d2c8dc01de750410f8f1a4eac498c04c723:
 
-Am 22/06/2022 um 20:38 schrieb Vladimir Sementsov-Ogievskiy:
-> On 6/22/22 17:26, Emanuele Giuseppe Esposito wrote:
->>
->>
->> Am 21/06/2022 um 19:26 schrieb Vladimir Sementsov-Ogievskiy:
->>> On 6/16/22 16:18, Emanuele Giuseppe Esposito wrote:
->>>> With the*nop*  job_lock/unlock placed, rename the static
->>>> functions that are always under job_mutex, adding "_locked" suffix.
->>>>
->>>> List of functions that get this suffix:
->>>> job_txn_ref           job_txn_del_job
->>>> job_txn_apply           job_state_transition
->>>> job_should_pause       job_event_cancelled
->>>> job_event_completed       job_event_pending
->>>> job_event_ready           job_event_idle
->>>> job_do_yield           job_timer_not_pending
->>>> job_do_dismiss           job_conclude
->>>> job_update_rc           job_commit
->>>> job_abort           job_clean
->>>> job_finalize_single       job_cancel_async
->>>> job_completed_txn_abort       job_prepare
->>>> job_needs_finalize       job_do_finalize
->>>> job_transition_to_pending  job_completed_txn_success
->>>> job_completed           job_cancel_err
->>>> job_force_cancel_err
->>>>
->>>> Note that "locked" refers to the*nop*  job_lock/unlock, and not
->>>> real_job_lock/unlock.
->>>>
->>>> No functional change intended.
->>>>
->>>> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
->>>
->>>
->>> Hmm. Maybe it was already discussed.. But for me it seems, that it would
->>> be simpler to review previous patches, that fix job_ API users to use
->>> locking properly, if this renaming go earlier.
->>>
->>> Anyway, in this series, we can't update everything at once. So patch to
->>> patch, we make the code more and more correct. (yes I remember that
->>> lock() is a noop, but I should review thinking that it real, otherwise,
->>> how to review?)
->>>
->>> So, I'm saying about formal correctness of using lock() unlock()
->>> function in connection with introduced _locked prifixes and in
->>> connection with how it should finally work.
->>>
->>> You do:
->>>
->>> 05. introduce some _locked functions, that just duplicates, and
->>> job_pause_point_locked() is formally inconsistent, as I said.
->>>
->>> 06. Update a lot of places, to give them their final form (but not
->>> final, as some functions will be renamed to _locked, some not, hard to
->>> imagine)
->>>
->>> 07,08,09. Update some more, and even more places. very hard to track
->>> formal correctness of using locks
->>>
->>> 10-...: rename APIs.
->>>
->>>
->>> What do you think about the following:
->>>
->>> 1. Introduce noop lock, and some internal _locked() versions, and keep
->>> formal consistency inside job.c, considering all public interfaces as
->>> unlocked:
->>>
->>>   at this point:
->>>    - everything correct inside job.c
->>>    - no public interfaces with _locked prefix
->>>    - all public interfaces take mutex internally
->>>    - no external user take mutex by hand
->>>
->>> We can rename all internal static functions at this step too.
->>>
->>> 2. Introduce some public _locked APIs, that we'll use in next patches
->>>
->>> 3. Now start fixing external users in several patches:
->>>      - protect by mutex direct use of job fields
->>>    - make wider locks and move to _locked APIs inside them where needed
->>>
->>>
->>> In this scenario, every updated unit becomes formally correct after
->>> update, and after all steps everything is formally correct, and we can
->>> move to turning-on the mutex.
->>>
->>
->> I don't understand your logic also here, sorry :(
->>
->> I assume you want to keep patch 1-4, then the problem is assing job_lock
->> and renaming functions in _locked.
->> So I would say the problem is in patch 5-6-10-11-12-13. All the others
->> should be self contained.
->>
->> I understand patch 5 is a little hard to follow.
->>
->> Now, I am not sure what you propose here but it seems that the end goal
->> is to just have the same result, but with additional intermediate steps
->> that are just "do this just because in the next patch will be useful".
->> I think the problem is that we are going to miss the "why we need the
->> lock" logic in the patches if we do so.
->>
->> The logic I tried to convey in this order is the following:
->> - job.h: add _locked duplicates for job API functions called with and
->> without job_mutex
->>     Just create duplicates of functions
->>
->> - jobs: protect jobs with job_lock/unlock
->>     QMP and monitor functions call APIs that assume lock is taken,
->>     drivers must take explicitly the lock
->>
->> - jobs: rename static functions called with job_mutex held
->> - job.h: rename job API functions called with job_mutex held
->> - block_job: rename block_job functions called with job_mutex held
->>     *given* that some functions are always under lock, transform
->>     them in _locked. Requires the job_lock/unlock patch
->>
->> - job.h: define unlocked functions
->>     Comments on the public functions that are not _locked
->>
->>
->> @Kevin, since you also had some feedbacks on the patch ordering, do you
->> agree with this ordering or you have some other ideas?
->>
->> Following your suggestion, we could move patches 10-11-12-13 before
->> patch 6 "jobs: protect jobs with job_lock/unlock".
->>
->> (Apologies for changing my mind, but being the second complain I am
->> starting to reconsider reordering the patches).
->>
-> 
-> In two words, what I mean: let's keep the following invariant from patch
-> to patch:
-> 
-> 1. Function that has _locked() prefix is always called with lock held
-> 2. Function that has _locked() prefix never calls functions that take
-> lock by themselves so that would dead-lock
-> 3. Function that is documented as "called with lock not held" is never
-> called with lock held
-> 
-> That what I mean by "formal correctness": yes, we know that lock is
-> noop, but still let's keep code logic to correspond function naming and
-> comments that we add.
-> 
+  Merge tag 'pull-aspeed-20220622' of https://github.com/legoater/qemu into staging (2022-06-22 07:27:06 -0700)
 
-Ok I get what you mean, but then we have useless changes for public
-functions that eventually will only be _locked() like job_next_locked:
+are available in the Git repository at:
 
-The function is always called in a loop, so it is pointless to take the
-lock inside. Therefore the patch would be "incorrect" on its own anyways.
+  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220623a
 
-Then, we would have a patch where we add the lock guard inside, and
-another one where we remove it and rename to _locked and take the lock
-outside. Seems unnecessary to me.
+for you to fetch changes up to 5df0eaff8e24223974bf2516e6dc773695603017:
 
-Again, I understand it is difficult to review as it is now, but this
-won't make it better IMO.
+  tests: Add dirty page rate limit test (2022-06-23 10:18:14 +0100)
 
-Thank you,
-Emanuele
+----------------------------------------------------------------
+Migration pull 2022-06-23
+
+This replaces my pull from yesterday, and Juan's from the day before.
+
+Compared to my pull eysterday:
+  A one character fix in get_buffer patch spotted by Peter Xu
+
+Compared to Juan's pull:
+  a) Hopefully fixed non-Linux builds
+    (Local build test on mingw64 works
+    Note: the zero-copy capability is now
+    defined on non-Linux systems)
+  b) Added Hyman's series - it had been
+    on queue for a while (sorry for the delay)
+
+In this today migration PULL request:
+- Dainiel Berrangé - qemufileops cleanup
+- Leonardo Bras  - cleanups for zero copy
+- Juan Quintela  - RDMA cleanups
+- Hyman Huang - per-vcpu dirty ring work
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Daniel P. Berrangé (21):
+      io: add a QIOChannelNull equivalent to /dev/null
+      migration: switch to use QIOChannelNull for dummy channel
+      migration: remove unreachble RDMA code in save_hook impl
+      migration: rename rate limiting fields in QEMUFile
+      migration: rename 'pos' field in QEMUFile to 'bytes_processed'
+      migration: rename qemu_ftell to qemu_file_total_transferred
+      migration: rename qemu_update_position to qemu_file_credit_transfer
+      migration: rename qemu_file_update_transfer to qemu_file_acct_rate_limit
+      migration: introduce a QIOChannel impl for BlockDriverState VMState
+      migration: convert savevm to use QIOChannelBlock for VMState
+      migration: stop passing 'opaque' parameter to QEMUFile hooks
+      migration: hardcode assumption that QEMUFile is backed with QIOChannel
+      migration: introduce new constructors for QEMUFile
+      migration: remove unused QEMUFileGetFD typedef / qemu_get_fd method
+      migration: remove the QEMUFileOps 'shut_down' callback
+      migration: remove the QEMUFileOps 'set_blocking' callback
+      migration: remove the QEMUFileOps 'close' callback
+      migration: remove the QEMUFileOps 'get_buffer' callback
+      migration: remove the QEMUFileOps 'writev_buffer' callback
+      migration: remove the QEMUFileOps 'get_return_path' callback
+      migration: remove the QEMUFileOps abstraction
+
+Hyman Huang (8):
+      accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
+      cpus: Introduce cpu_list_generation_id
+      migration/dirtyrate: Refactor dirty page rate calculation
+      softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
+      accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
+      softmmu/dirtylimit: Implement virtual CPU throttle
+      softmmu/dirtylimit: Implement dirty page rate limit
+      tests: Add dirty page rate limit test
+
+Juan Quintela (1):
+      migration: Remove RDMA_UNREGISTRATION_EXAMPLE
+
+Leonardo Bras (3):
+      QIOChannelSocket: Introduce assert and reduce ifdefs to improve readability
+      QIOChannelSocket: Fix zero-copy send so socket flush works
+      migration: Change zero_copy_send from migration parameter to migration capability
+
+ accel/kvm/kvm-all.c               |  46 ++-
+ accel/stubs/kvm-stub.c            |   5 +
+ cpus-common.c                     |   8 +
+ hmp-commands-info.hx              |  13 +
+ hmp-commands.hx                   |  32 ++
+ include/exec/cpu-common.h         |   1 +
+ include/exec/memory.h             |   5 +-
+ include/hw/core/cpu.h             |   6 +
+ include/io/channel-null.h         |  55 ++++
+ include/monitor/hmp.h             |   3 +
+ include/sysemu/dirtylimit.h       |  37 +++
+ include/sysemu/dirtyrate.h        |  28 ++
+ include/sysemu/kvm.h              |   2 +
+ io/channel-null.c                 | 237 +++++++++++++++
+ io/channel-socket.c               |  19 +-
+ io/meson.build                    |   1 +
+ io/trace-events                   |   3 +
+ migration/block.c                 |  10 +-
+ migration/channel-block.c         | 195 +++++++++++++
+ migration/channel-block.h         |  59 ++++
+ migration/channel.c               |   4 +-
+ migration/colo.c                  |   5 +-
+ migration/dirtyrate.c             | 227 ++++++++------
+ migration/dirtyrate.h             |   7 +-
+ migration/meson.build             |   2 +-
+ migration/migration.c             |  68 ++---
+ migration/multifd.c               |   4 +-
+ migration/qemu-file-channel.c     | 194 ------------
+ migration/qemu-file-channel.h     |  32 --
+ migration/qemu-file.c             | 193 ++++++------
+ migration/qemu-file.h             | 125 ++++----
+ migration/ram.c                   |   8 +-
+ migration/rdma.c                  | 185 +++---------
+ migration/savevm.c                |  55 +---
+ migration/vmstate.c               |   5 +-
+ monitor/hmp-cmds.c                |   6 -
+ qapi/migration.json               | 113 +++++--
+ softmmu/dirtylimit.c              | 601 ++++++++++++++++++++++++++++++++++++++
+ softmmu/meson.build               |   1 +
+ softmmu/trace-events              |   7 +
+ tests/qtest/migration-helpers.c   |  22 ++
+ tests/qtest/migration-helpers.h   |   2 +
+ tests/qtest/migration-test.c      | 255 ++++++++++++++++
+ tests/qtest/qmp-cmd-test.c        |   2 +
+ tests/unit/meson.build            |   1 +
+ tests/unit/test-io-channel-null.c |  95 ++++++
+ tests/unit/test-vmstate.c         |   5 +-
+ 47 files changed, 2219 insertions(+), 770 deletions(-)
+ create mode 100644 include/io/channel-null.h
+ create mode 100644 include/sysemu/dirtylimit.h
+ create mode 100644 include/sysemu/dirtyrate.h
+ create mode 100644 io/channel-null.c
+ create mode 100644 migration/channel-block.c
+ create mode 100644 migration/channel-block.h
+ delete mode 100644 migration/qemu-file-channel.c
+ delete mode 100644 migration/qemu-file-channel.h
+ create mode 100644 softmmu/dirtylimit.c
+ create mode 100644 tests/unit/test-io-channel-null.c
 
 
