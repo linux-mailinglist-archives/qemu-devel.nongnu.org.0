@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003E1557828
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 12:51:09 +0200 (CEST)
-Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A685577BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 12:21:25 +0200 (CEST)
+Received: from localhost ([::1]:33420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4KQW-0005ZJ-3q
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 06:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53400)
+	id 1o4Jxk-0003Y6-Pr
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 06:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4JpF-0007Su-5u
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 06:12:37 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:41595)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4JpD-0003VR-C9
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 06:12:36 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-31780ad7535so162850097b3.8
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 03:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GP08PTu0ONM+UgapC4xwFQOe8C7WZnhuELMj1bD7rRE=;
- b=sQEfLJdh5I/U1AIrWFlb4kuCkHfLtbjzVFjmJoP//Qd5zJcxEBpqMrFk1KiKhCJIk0
- oQ1RxhLcAp5qdOhH0I+5otfwvFQMvBbqFG5NnMDwhaCzoSmDDTEUF5vo7+oYNivM/QzW
- ZbmBIqEL5Is1i4zcHGM4ceJnvMJMzamwhZY3/4BRgSBWi1HFaeEuqHLPh4kxV01qnErQ
- TY+Fy+Q6yIuLBfhVyum1aGESTi6e7b8D88sBZFG+LXh3LJOx4ywlow/430JzOzRMKQpF
- zLl6sW1yFyrge5YCZHH/fr21+w+MaWxF83+HoNiMzBGL7va5Gel1c9OcoUw9Udfgvkx+
- 6AeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GP08PTu0ONM+UgapC4xwFQOe8C7WZnhuELMj1bD7rRE=;
- b=KHTX1p4QJQRUAWLsqLOXBgrv/TqCbaVQMvKwKW6DiKX3WINxH9vpS1jKrquAyqP8vZ
- Q2isRZO35ZKmM1ZCJ2PDASzrYl+sIFPmcCVwKGiEklUVjqAtmDpfBnenJZMxusjawt/W
- QjvL2d81bbm2voFc+L6h3eGWpUMYAyRsDZgjkwRdkcVVNCkuWXLGt9epDstU1K7VvQNO
- GYRakrp+b6wm6EG5fnm4hASsNFTMfbuHkNt9ujGMv4iRxBQ/yaSpvi0dj2awouP4NNkQ
- 1TOjivtvnoATpJfu3ZsSxHI9nv8LvrIFqI27X5EgJMCHo2rXH5evPP8un4k4x2+I+yUh
- OU3A==
-X-Gm-Message-State: AJIora8ip1Tx+zRLmq/MfI9HxabAUm8CokmKyYRvRBBEL1Pf/ubVkjiL
- T6j/SkWqdrAivFNHAgRKdMt86GkHpeTEDyImEj0BntTeKO4=
-X-Google-Smtp-Source: AGRyM1up8hnGBuwCpNZfSoE2GoeboXsBGF68+7JUGw+nThUPt/SXCkhZJkP1Q4sY7gJKUTKse50krT0SdQhmCp+q4es=
-X-Received: by 2002:a81:8486:0:b0:317:a4af:4e0a with SMTP id
- u128-20020a818486000000b00317a4af4e0amr9663470ywf.455.1655979154063; Thu, 23
- Jun 2022 03:12:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o4Jq7-00083p-Ms
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 06:13:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o4Jq3-0003ck-6g
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 06:13:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655979206;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GJsov3FRHExvTrVt+NnDWqd4nVtfkI9+w+0xLT0hCHo=;
+ b=RjKZgDUuK7ZMR/HMGN1pqBRgGiqPcCBMyOUa8gsf9bTsP6o6MNux3wQCDWIeoL47Vd/k7h
+ ywDeonA0U26kdsx5WMauVJQrAvfebzwxzD4INUm0IOMDxaSbif9e+pbqGG4lWLFzHZLlqO
+ bAZDEg3p8sZtpFpDIrzvdua5/y9hpOg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-251-kD77fO9fPdurIGvswOT3Aw-1; Thu, 23 Jun 2022 06:13:23 -0400
+X-MC-Unique: kD77fO9fPdurIGvswOT3Aw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A316629DD9B8;
+ Thu, 23 Jun 2022 10:13:22 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EE66C2810D;
+ Thu, 23 Jun 2022 10:13:22 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/2] pc-bios/s390-ccw/virtio: Read device config after
+ feature negotiation
+In-Reply-To: <749f88c5-379c-6284-f3c7-c8074191c8a9@redhat.com>
+Organization: Red Hat GmbH
+References: <20220623071131.412457-1-thuth@redhat.com>
+ <20220623071131.412457-3-thuth@redhat.com> <87bkuj93b6.fsf@redhat.com>
+ <749f88c5-379c-6284-f3c7-c8074191c8a9@redhat.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Thu, 23 Jun 2022 12:13:21 +0200
+Message-ID: <878rpn8z7i.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20220620175235.60881-1-richard.henderson@linaro.org>
- <20220620175235.60881-24-richard.henderson@linaro.org>
- <CAFEAcA_f1dtuiTLuwZL+MTeNsJc1fiWUZmRzvZBHAFpbDzu4hg@mail.gmail.com>
- <a2848fea-8d1f-03eb-2168-3cf5c1eb2de0@linaro.org>
-In-Reply-To: <a2848fea-8d1f-03eb-2168-3cf5c1eb2de0@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jun 2022 11:12:23 +0100
-Message-ID: <CAFEAcA_RyLCeVTtGKbo-1P0pisXJY7PwYvob9wJUfbFftAuWtQ@mail.gmail.com>
-Subject: Re: [PATCH v3 23/51] target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,48 +81,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jun 2022 at 01:58, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, Jun 23 2022, Thomas Huth <thuth@redhat.com> wrote:
+
+> On 23/06/2022 10.44, Cornelia Huck wrote:
+>> On Thu, Jun 23 2022, Thomas Huth <thuth@redhat.com> wrote:
+>> 
+>>> Feature negotiation should be done first, since some fields in the
+>>> config area can depend on the negotiated features and thus should
+>>> rather be read afterwards.
+>> 
+>> I suppose we don't negotiate any features that might affect the size of
+>> the config space? Anyway, restricting ourselves to the minimum length
+>> should be fine.
 >
-> On 6/21/22 10:23, Peter Maydell wrote:
-> >> +static bool trans_RDSVL(DisasContext *s, arg_RDSVL *a)
-> >> +{
-> >> +    if (!dc_isar_feature(aa64_sme, s)) {
-> >> +        return false;
-> >> +    }
-> >> +    if (sme_enabled_check(s)) {
-> >> +        TCGv_i64 reg = cpu_reg(s, a->rd);
-> >> +        tcg_gen_movi_i64(reg, a->imm * s->svl);
-> >> +    }
-> >> +    return true;
-> >> +}
-> >
-> > I think we should define functions that parallel the SVE
-> > vec_full_reg_size() and pred_full_reg_size() rather than directly
-> > looking at s->svl, for consistency with how we did the SVE code.
->
-> I had actually been thinking of removing vec_full_reg_size, at least within SVE.
-> However... done.  I've propagated the new predicates forward through the following patches
-> as well.
+> Actually, even the virtio spec 0.9.5 already talks about 
+> VIRTIO_BLK_F_BLK_SIZE and VIRTIO_BLK_F_GEOMETRY being necessary to get the 
+> corresponding values in the config space ... so we're currently depending on 
+> the good will of QEMU to also provide the values without these feature bits. 
 
-I don't strongly care whether we use vec_full_reg_size() or
-look at s->vl, as long as we do the same thing in both SVE
-and SME.
+Eww. The bad thing about QEMU being so relaxed is that you don't catch
+issues like that... but if it works for now, there's at least no
+pressure.
 
-I do think that it's worth wrapping up the '/ 8' in a
-function that describes what it's doing, so the other
-option I guess would be to use s->vl and s->svl directly
-when we want the vector length, and have a function like
+> I'm already thinking about providing a patch to properly request these 
+> feature bits in the s390-ccw bios ... but the whole code there is so ugly 
+> that I need some time to think about the right steps to clean it up first.
 
-/* Predicates have 1 bit per byte in the vector */
-static int veclen_to_predlen(int veclen)
-{
-    return veclen / 8;
-}
+It's not ugly, it has grown organically :) (just like that overgrown
+spot in my garden ;)
 
-and then use veclen_to_predlen(s->svl);
-(Adjust function name, types, / 8 vs >> 3, to taste.)
-
-thanks
--- PMM
 
