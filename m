@@ -2,50 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D9755763A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:04:26 +0200 (CEST)
-Received: from localhost ([::1]:58858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7705555766C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:16:59 +0200 (CEST)
+Received: from localhost ([::1]:54226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4IlF-0006B5-Cd
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38676)
+	id 1o4IxO-0005Nt-Da
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1o4Icy-0006HV-7G
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:52 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:52446 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1o4Icw-0008Tc-6U
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:51 -0400
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP0x_KrRiTjVWAA--.30922S15; 
- Thu, 23 Jun 2022 16:55:36 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, laurent@vivier.eu, gaosong@loongson.cn,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PATCH v19 13/13] target/loongarch: Update README
-Date: Thu, 23 Jun 2022 16:55:26 +0800
-Message-Id: <20220623085526.1678168-14-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220623085526.1678168-1-gaosong@loongson.cn>
-References: <20220623085526.1678168-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o4Icr-0005zB-Oc
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30949)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o4Icp-0008Vt-VF
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655974543;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CoQhp+8e4ubD8QyCa9K4AzPgXearmQ+G0MVD70upAZE=;
+ b=bHf6DM62A91+r3v4gqH1yawNRDLG3pNpel+ghhyx33XnuHl5zkgQ1Fy3+yA9uDOGANgsdp
+ GiY2m7OG6hiXwFjCNSAfAuuOXbgODUqEfUBaVRCe8cxQ7gMQ2Vt3zdg4UYEQF33ijbkHnn
+ bTUvjhECTxMvkoNUkSFu5QLM+XzBVII=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-410-ZohMQ3iAMMqEEOOxjrGEVQ-1; Thu, 23 Jun 2022 04:55:41 -0400
+X-MC-Unique: ZohMQ3iAMMqEEOOxjrGEVQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ e5-20020adff345000000b0021b9f00e882so898720wrp.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 01:55:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=CoQhp+8e4ubD8QyCa9K4AzPgXearmQ+G0MVD70upAZE=;
+ b=b6Tdv2LsAU9+jXNxTJK+Gya3392NvaZauYQXh8LUnUjNWwUxwOMsbpyHVb/63u5ugf
+ dEF9Y/EqkZljubhHNivSzFoIz62dDo4ZydESDCFL7mikMycS6xi7DvT1vMnUXucgZo5O
+ 9yXyA6NBhPEJsNaX3QxmWu+Ga0ptLmLromSAsgsChpb+D8UQ8h2hmcJNtIR+nrWpR/2G
+ esAOPx+W0m4CHwpJr4I21sdRytit8xS/lSkPIeUWbqF/CApG0KyGeaF9pCMS2pE5qzZJ
+ pCDH4Gi7dCuvLeCYfOhB/yRz7SfA/fKyF6hHBUmATSfZJ+cptu532QvPoUd+nJC8V4ux
+ O7cg==
+X-Gm-Message-State: AJIora+KCRbLhPsLjaDfJoS3rA4klvPYJU62JD8g61kqUm43VtQEqkPI
+ zVLiFmD7xlaa1fP4ABsAoLgc9jcQgYgi9wMkDmQPPa9GiZJU1lupVJ8YrA7IqUYKxlxNZ9V+lDb
+ pdU/cGhfHjEg/CMM=
+X-Received: by 2002:a05:600c:385:b0:3a0:2319:9a20 with SMTP id
+ w5-20020a05600c038500b003a023199a20mr2950852wmd.18.1655974540754; 
+ Thu, 23 Jun 2022 01:55:40 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vw0UfpUzmwSdNoOlRO/+BRa6uFqnmE4tMZMnNNR/08HtSwZ66b4QwzOVpedm2/jznM8W099A==
+X-Received: by 2002:a05:600c:385:b0:3a0:2319:9a20 with SMTP id
+ w5-20020a05600c038500b003a023199a20mr2950833wmd.18.1655974540549; 
+ Thu, 23 Jun 2022 01:55:40 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ y2-20020a05600c364200b003974d0d981dsm2207995wmq.35.2022.06.23.01.55.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jun 2022 01:55:39 -0700 (PDT)
+Date: Thu, 23 Jun 2022 09:55:37 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
+ huangy81@chinatelecom.cn, quintela@redhat.com, leobras@redhat.com,
+ jdenemar@redhat.com
+Subject: Re: [PULL 22/33] migration: remove the QEMUFileOps 'get_buffer'
+ callback
+Message-ID: <YrQqiT3DS0hu2nO1@work-vm>
+References: <20220622183917.155308-1-dgilbert@redhat.com>
+ <20220622183917.155308-23-dgilbert@redhat.com>
+ <YrNu3KesFVVvoWVb@xz-m1.local> <YrQm5dWbuy2l3vE8@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxP0x_KrRiTjVWAA--.30922S15
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4fGw17XFW8Kr45KFg_yoW5JF48pr
- 1fuFy3KrW8X3sxtwnxWas5uFyFqrs3Gr1aqan3tw48urZrAr9F9an3ta4ktF17Z34fXryq
- vry8Cw1UW3WUG3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <YrQm5dWbuy2l3vE8@redhat.com>
+User-Agent: Mutt/2.2.5 (2022-05-16)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,73 +106,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add linux-user emulation introduction
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Wed, Jun 22, 2022 at 03:34:52PM -0400, Peter Xu wrote:
+> > On Wed, Jun 22, 2022 at 07:39:06PM +0100, Dr. David Alan Gilbert (git) wrote:
+> > > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> > > index 74f919de67..e206b05550 100644
+> > > --- a/migration/qemu-file.c
+> > > +++ b/migration/qemu-file.c
+> > > @@ -377,8 +377,22 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+> > >          return 0;
+> > >      }
+> > >  
+> > > -    len = f->ops->get_buffer(f->ioc, f->buf + pending, f->total_transferred,
+> > > -                             IO_BUF_SIZE - pending, &local_error);
+> > > +    do {
+> > > +        len = qio_channel_read(f->ioc,
+> > > +                               (char *)f->buf + pending,
+> > > +                               IO_BUF_SIZE - pending,
+> > > +                               &local_error);
+> > > +        if (len == QIO_CHANNEL_ERR_BLOCK) {
+> > > +            if (qemu_in_coroutine()) {
+> > > +                qio_channel_yield(f->ioc, G_IO_IN);
+> > > +            } else {
+> > > +                qio_channel_wait(f->ioc, G_IO_IN);
+> > > +            }
+> > > +        } else if (len < 0) {
+> > > +            len = EIO;
+> > 
+> > This should be -EIO.
+> 
+> Yes, that's correct change. /facepalm
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/loongarch/README | 39 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+I'll resend with that fixed.
 
-diff --git a/target/loongarch/README b/target/loongarch/README
-index 4dcd0f1682..9f5edd10c8 100644
---- a/target/loongarch/README
-+++ b/target/loongarch/README
-@@ -24,9 +24,9 @@
- 
-     Download cross-tools.
- 
--      wget https://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-20211202-cross-tools.tar.xz
-+      wget https://github.com/loongson/build-tools/releases/download/2022.05.29/loongarch64-clfs-5.0-cross-tools-gcc-full.tar.xz
- 
--      tar -vxf loongarch64-clfs-20211202-cross-tools.tar.xz -C /opt
-+      tar -vxf loongarch64-clfs-5.0-cross-tools-gcc-full.tar.xz -C /opt
- 
-     Config cross-tools env.
- 
-@@ -60,5 +60,40 @@
- 
-     ./build/qemu-system-loongarch64 -machine virt -m 4G -cpu Loongson-3A5000 -smp 1 -kernel build/tests/tcg/loongarch64-softmmu/hello -monitor none -display none -chardev file,path=hello.out,id=output -serial chardev:output
- 
-+- Linux-user emulation
-+
-+  We already support Linux user emulation. We can use LoongArch cross-tools to build LoongArch executables on X86 machines,
-+  and We can also use qemu-loongarch64 to run LoongArch executables.
-+
-+  1. Config cross-tools env.
-+
-+     see System emulation.
-+
-+  2. Test tests/tcg/multiarch.
-+
-+     ./configure  --static  --prefix=/usr  --disable-werror --target-list="loongarch64-linux-user" --enable-debug
-+
-+     cd build
-+
-+     make && make check-tcg
-+
-+  3. Run LoongArch system basic command with loongarch-clfs-system.
-+
-+     - Config clfs env.
-+
-+       wget https://github.com/loongson/build-tools/releases/download/2022.05.29/loongarch64-clfs-system-5.0.tar.bz2
-+
-+       tar -vxf loongarch64-clfs-system-5.0.tar.bz2 -C /opt/clfs
-+
-+       cp /opt/clfs/lib64/ld-linux-loongarch-lp64d.so.1  /lib64
-+
-+       export LD_LIBRARY_PATH="/opt/clfs/lib64"
-+
-+     - Run LoongArch system basic command.
-+
-+       ./qemu-loongarch64  /opt/clfs/usr/bin/bash
-+       ./qemu-loongarch64  /opt/clfs/usr/bin/ls
-+       ./qemu-loongarch64  /opt/clfs/usr/bin/pwd
-+
- - Note.
-   We can get the latest LoongArch documents or LoongArch tools at https://github.com/loongson/
+Dave
+
+> 
+> > 
+> > > +        }
+> > > +    } while (len == QIO_CHANNEL_ERR_BLOCK);
+> > 
+> > It's failing only with the new TLS test I added for postcopy somehow (at
+> > least /x86_64/migration/postcopy/recovery/tls).. I also verified after the
+> > change it'll work again.
+> 
+> Yeah, I guess this is a rare failure condition that's not easily hit
+> in our tests. Makes sense that recovery tests could hit it though.
+> 
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
