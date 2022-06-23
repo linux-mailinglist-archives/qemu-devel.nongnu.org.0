@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA875581B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 19:04:15 +0200 (CEST)
-Received: from localhost ([::1]:40772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121065581B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 19:04:13 +0200 (CEST)
+Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4QFa-0005eN-Cv
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 13:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60302)
+	id 1o4QFY-0005XB-58
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 13:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q5v-0005vX-WA
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57492)
+ id 1o4Q5y-0005yN-UD
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q5t-0005xF-KU
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:14 -0400
+ id 1o4Q5v-0005xh-Q1
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656003253;
+ s=mimecast20190719; t=1656003254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5iuQG1I55xP1cM/emunkwVVX+jDe6tIbx145oh9Czg4=;
- b=GAd5jAqveDvpgtysYH/JS+wlnH5NHjbdnIAmTAhiLdZAS8i8QxFu69eOr4KRjMl2FYyZyH
- GT8YPPMgDR6W/nFsicxMcuB4cRhouY9TC4iFzJFy0b0h+IfkUlQkWmwflzIrXowigw2pjf
- 3tVOb8ctWzVoYO0rZP5ymZBxWyJQtYk=
+ bh=XzYOGcOy1v/w7qlG3QUq+c89iqqIhsvwCuZxC/PtYlM=;
+ b=gascZ9jMhgDJ4wFLe+e9rRUe2Z2gCLOlyEsTBve1tsuR/Hp8xyxN2nAotBlunan602HXVr
+ 9weTRcaYHZGK2v+7lydYlYv+qt6LctIwk95ijzTWA1xxFvQsNaK6SI+Ry0z1B2v+ChTATT
+ uvr6oBLf3myw971Q6PFUd8qHSxXWRbg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-UvQVKgUrO1uOknn6wROCHA-1; Thu, 23 Jun 2022 12:54:10 -0400
-X-MC-Unique: UvQVKgUrO1uOknn6wROCHA-1
+ us-mta-610-sGOZMaJZOje_tbCtF9FVtw-1; Thu, 23 Jun 2022 12:54:11 -0400
+X-MC-Unique: sGOZMaJZOje_tbCtF9FVtw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEC1B811E7A;
- Thu, 23 Jun 2022 16:54:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2757B811E7A;
+ Thu, 23 Jun 2022 16:54:11 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F287F2026D64;
- Thu, 23 Jun 2022 16:54:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C1F72026D64;
+ Thu, 23 Jun 2022 16:54:10 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 08/25] migration: rename rate limiting fields in QEMUFile
-Date: Thu, 23 Jun 2022 17:53:37 +0100
-Message-Id: <20220623165354.197792-9-dgilbert@redhat.com>
+Subject: [PULL 09/25] migration: rename 'pos' field in QEMUFile to
+ 'bytes_processed'
+Date: Thu, 23 Jun 2022 17:53:38 +0100
+Message-Id: <20220623165354.197792-10-dgilbert@redhat.com>
 In-Reply-To: <20220623165354.197792-1-dgilbert@redhat.com>
 References: <20220623165354.197792-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -82,119 +83,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-This renames the following QEMUFile fields
+The field name 'pos' gives the misleading impression that the QEMUFile
+objects are seekable. This is not the case, as in general we just
+have an opaque stream. The users of this method are only interested
+in the total bytes processed. This switches to a new name that
+reflects the intended usage.
 
- * bytes_xfer -> rate_limit_used
- * xfer_limit -> rate_limit_max
+Every QIOChannel backed impl of QEMUFile is currently ignoring the
+'pos' field.
 
-The intent is to make it clear that 'bytes_xfer' is specifically related
-to rate limiting of data and applies to data queued, which need not have
-been transferred on the wire yet if a flush hasn't taken place.
+The only QEMUFile impl using 'pos' as an offset for I/O is the block
+device vmstate. A later patch is introducing a QIOChannel impl for the
+vmstate, and to handle this it is tracking a file offset itself
+internally to the QIOChannel impl. So when we later eliminate the
+QEMUFileOps callbacks later, the 'pos' field will no longer be used
+from any I/O read/write methods.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  dgilbert: Fixed long line
 ---
- migration/qemu-file.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ migration/qemu-file.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 1479cddad9..03f0b13a55 100644
+index 03f0b13a55..eabc2d7c6e 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -39,8 +39,16 @@ struct QEMUFile {
-     const QEMUFileHooks *hooks;
-     void *opaque;
+@@ -50,8 +50,9 @@ struct QEMUFile {
+      */
+     int64_t rate_limit_used;
  
--    int64_t bytes_xfer;
--    int64_t xfer_limit;
-+    /*
-+     * Maximum amount of data in bytes to transfer during one
-+     * rate limiting time window
-+     */
-+    int64_t rate_limit_max;
-+    /*
-+     * Total amount of data in bytes queued for transfer
-+     * during this rate limiting time window
-+     */
-+    int64_t rate_limit_used;
+-    int64_t pos; /* start of buffer when writing, end of buffer
+-                    when reading */
++    /* The sum of bytes transferred on the wire */
++    int64_t total_transferred;
++
+     int buf_index;
+     int buf_size; /* 0 when writing */
+     uint8_t buf[IO_BUF_SIZE];
+@@ -241,14 +242,14 @@ void qemu_fflush(QEMUFile *f)
+     }
+     if (f->iovcnt > 0) {
+         expect = iov_size(f->iov, f->iovcnt);
+-        ret = f->ops->writev_buffer(f->opaque, f->iov, f->iovcnt, f->pos,
+-                                    &local_error);
++        ret = f->ops->writev_buffer(f->opaque, f->iov, f->iovcnt,
++                                    f->total_transferred, &local_error);
  
-     int64_t pos; /* start of buffer when writing, end of buffer
-                     when reading */
-@@ -304,7 +312,7 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
-         int ret = f->hooks->save_page(f, f->opaque, block_offset,
-                                       offset, size, bytes_sent);
-         if (ret != RAM_SAVE_CONTROL_NOT_SUPP) {
--            f->bytes_xfer += size;
-+            f->rate_limit_used += size;
-         }
- 
-         if (ret != RAM_SAVE_CONTROL_DELAYED &&
-@@ -457,7 +465,7 @@ void qemu_put_buffer_async(QEMUFile *f, const uint8_t *buf, size_t size,
-         return;
+         qemu_iovec_release_ram(f);
      }
  
--    f->bytes_xfer += size;
-+    f->rate_limit_used += size;
-     add_to_iovec(f, buf, size, may_free);
- }
- 
-@@ -475,7 +483,7 @@ void qemu_put_buffer(QEMUFile *f, const uint8_t *buf, size_t size)
-             l = size;
-         }
-         memcpy(f->buf + f->buf_index, buf, l);
--        f->bytes_xfer += l;
-+        f->rate_limit_used += l;
-         add_buf_to_iovec(f, l);
-         if (qemu_file_get_error(f)) {
-             break;
-@@ -492,7 +500,7 @@ void qemu_put_byte(QEMUFile *f, int v)
+     if (ret >= 0) {
+-        f->pos += ret;
++        f->total_transferred += ret;
+     }
+     /* We expect the QEMUFile write impl to send the full
+      * data set we requested, so sanity check that.
+@@ -357,11 +358,11 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+         return 0;
      }
  
-     f->buf[f->buf_index] = v;
--    f->bytes_xfer++;
-+    f->rate_limit_used++;
-     add_buf_to_iovec(f, 1);
- }
+-    len = f->ops->get_buffer(f->opaque, f->buf + pending, f->pos,
++    len = f->ops->get_buffer(f->opaque, f->buf + pending, f->total_transferred,
+                              IO_BUF_SIZE - pending, &local_error);
+     if (len > 0) {
+         f->buf_size += len;
+-        f->pos += len;
++        f->total_transferred += len;
+     } else if (len == 0) {
+         qemu_file_set_error_obj(f, -EIO, local_error);
+     } else if (len != -EAGAIN) {
+@@ -375,7 +376,7 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
  
-@@ -674,7 +682,7 @@ int qemu_file_rate_limit(QEMUFile *f)
-     if (qemu_file_get_error(f)) {
-         return 1;
-     }
--    if (f->xfer_limit > 0 && f->bytes_xfer > f->xfer_limit) {
-+    if (f->rate_limit_max > 0 && f->rate_limit_used > f->rate_limit_max) {
-         return 1;
-     }
-     return 0;
-@@ -682,22 +690,22 @@ int qemu_file_rate_limit(QEMUFile *f)
- 
- int64_t qemu_file_get_rate_limit(QEMUFile *f)
+ void qemu_update_position(QEMUFile *f, size_t size)
  {
--    return f->xfer_limit;
-+    return f->rate_limit_max;
+-    f->pos += size;
++    f->total_transferred += size;
  }
  
- void qemu_file_set_rate_limit(QEMUFile *f, int64_t limit)
+ /** Closes the file
+@@ -658,7 +659,7 @@ int qemu_get_byte(QEMUFile *f)
+ 
+ int64_t qemu_ftell_fast(QEMUFile *f)
  {
--    f->xfer_limit = limit;
-+    f->rate_limit_max = limit;
- }
+-    int64_t ret = f->pos;
++    int64_t ret = f->total_transferred;
+     int i;
  
- void qemu_file_reset_rate_limit(QEMUFile *f)
+     for (i = 0; i < f->iovcnt; i++) {
+@@ -671,7 +672,7 @@ int64_t qemu_ftell_fast(QEMUFile *f)
+ int64_t qemu_ftell(QEMUFile *f)
  {
--    f->bytes_xfer = 0;
-+    f->rate_limit_used = 0;
+     qemu_fflush(f);
+-    return f->pos;
++    return f->total_transferred;
  }
  
- void qemu_file_update_transfer(QEMUFile *f, int64_t len)
- {
--    f->bytes_xfer += len;
-+    f->rate_limit_used += len;
- }
- 
- void qemu_put_be16(QEMUFile *f, unsigned int v)
+ int qemu_file_rate_limit(QEMUFile *f)
 -- 
 2.36.1
 
