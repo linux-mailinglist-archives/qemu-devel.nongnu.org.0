@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4923B558AAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:23:10 +0200 (CEST)
-Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA50558ABC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:29:44 +0200 (CEST)
+Received: from localhost ([::1]:46564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4UI9-0004ZS-Cn
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51206)
+	id 1o4UOV-0006eC-IC
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:29:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UDq-00060M-I9; Thu, 23 Jun 2022 17:18:42 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:41257)
+ id 1o4UDt-00067O-2Z; Thu, 23 Jun 2022 17:18:45 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:36895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UDp-00045O-2O; Thu, 23 Jun 2022 17:18:42 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 2329B320091E;
- Thu, 23 Jun 2022 17:18:38 -0400 (EDT)
+ id 1o4UDr-00045h-GR; Thu, 23 Jun 2022 17:18:44 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 91DB73200901;
+ Thu, 23 Jun 2022 17:18:40 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 23 Jun 2022 17:18:38 -0400
+ by compute5.internal (MEProxy); Thu, 23 Jun 2022 17:18:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656019117; x=
- 1656105517; bh=OwfQlYYQ1qwecaHdTXnsn9x20hUfPTiXgdnaRcXv18w=; b=D
- j5M/Qm/TgctsHjNKyYMJL7yia7VGIo0ZQ0/QM+WcZIKnAMaIN4p95X9jUyO6NzjP
- SmSKPSunm6Jcz05wRfmtf0raoOXPLt1iEScju06cZze5t9PddQPzrm96dF5IRK3h
- qqpvQH5Huyo7XeDTkGVFYORxK0985qoWMIopuB2A7RJAv1wL0JF5BnPozK++86LI
- yN/vbpg8G1md18bUAHZw53FoDOXsSMp7b1NuNYp64hxSdgzxyZTf+scew0EWag2j
- JhQCPmNa0ujomylwMdK7vCcpAedp7oIjR/+gUI768AhI3m7iCMBX/cZE431rJ2ku
- C7ip5xJgQKvmC+HYXOGfA==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656019120; x=
+ 1656105520; bh=rtJSyEain9X10ZJ9y4MMHJr4bL5seuQJHeojW/t6nqc=; b=k
+ DyfzyZbQDjf7MByM+vzw9avgWKLdMDei0CQkYgrYRwxwZrbDSWtXQGMNucQ0Jm6J
+ PZTadDI8UsfesjLYeV40lOz9NZ8cF7GHZB7yrnGGfxYrBPbC/OLVKITDzgnbrJnX
+ oXUdW+uExeH8Oi0bVtNm4Nc+Kbuj4GBGle3WVusghBSUrbMxgW8ztezBHvqoInhY
+ 4Iw7ZUNdakM967UtCdPO29CkNLssvZac8lwvbVZ1FV68vr6gw8TG45GYJMDdRPK+
+ k7C8u1/aBCdEd+B5EnYkTAMKXJd2vcxuveMi9bOh4w/XLRA7zj7M7QVOuYgepRa3
+ 0ldFxiPPQrETpbSaWNYOw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656019117; x=1656105517; bh=OwfQlYYQ1qwec
- aHdTXnsn9x20hUfPTiXgdnaRcXv18w=; b=bF0QKekyQUyjy0J+OXqZJOHQaw8UN
- 89vPrPCnnoB0rdP96LXWtop3hLeRtgoc61QnDFNGHs8apeUvliI0CEUStRWxccjh
- KgZx1M2rUveKArN6gcr139um1jM2koW060YG9ONvU9fRURTOte+KWY9uIzYPduKn
- Ff7k3yMD6KrT62rFvr6JBY6Rhu959QgEv9w7vjiC0druMOAT/aYezyNIjwEpkijy
- RynThdO9Z4jXQjHd7jLJg/IHZVcZpvKKfx75OnTifPXqaUB5Gc26QJYOwquyEogx
- JViEdWABEfznBqFx1Rel+tnHJEJoOwqlD1bHlaw4uN/yq+spsSjBUNHTw==
-X-ME-Sender: <xms:rdi0YrWQWp4V4mTrUtTvDCyDl1Q5NypG9bd-m-SX30XjDYImu6LN0Q>
- <xme:rdi0YjlXZG-zaV_RcGXrvCatxlyKJs7XIh9wSKXc5w4sl2J2soZgt8k0Cp8yw5xpg
- W7P_U5vLlKt3SUSR4o>
-X-ME-Received: <xmr:rdi0YnaxAmIuGytz_QqGZ_8aS02IYLAm12lzeK6yJ2AjgK2ZflOQiZg5v1pXSKvdlnO8hUpY_xWR6CJLPXfl>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeitdcutefuodetggdotefrod
+ :x-sasl-enc; s=fm2; t=1656019120; x=1656105520; bh=rtJSyEain9X10
+ ZJ9y4MMHJr4bL5seuQJHeojW/t6nqc=; b=ih4v7UhyNpPUiu4B+8joiRaIA6pIZ
+ OqC1/QGrb1s/IwmcfkTlSbfnIzVDQG2nmNg0oYuv8euyjq0KlvVDLdSgvZcHoo21
+ L/gFB7o0kBe8296Zkg5ph2KbGTedgF7t23oyoExUe1EA+ZtRzG86OL7aEoxUMJNY
+ YGHeUpBfDYWBMK81sY9J2Q13d57At0tHdMaNMZZsEq13sS8Yt1c4QmpGsBq3Wk5j
+ B8CDsYtYGjpqsQ6QxLCnqSZUeN/GMkoh5tSvMV/OSRPszYUMMmXeC4C+aNN0raLf
+ nEK8D7DGiSC5QoYqtqb0ad/m6NU5JAqUQvALysbxNRHrjc8lfOg0K6kVA==
+X-ME-Sender: <xms:r9i0YqvBSCEmw7aPl5Uu2LGb3RAzIrlXh4U-RSjjAi4jF3or9KU42w>
+ <xme:r9i0YvczlKVrRygq6dzDA0ykBsQYBsU41zjil_Dg_aeIHu8cb1NpwNQsdgRnmLN7z
+ uJZN4phcAb8_XdKLtI>
+X-ME-Received: <xmr:r9i0Ylxi3reJWk4k24tOsLf4Y_Nt02veQaasUUP7USN9mYP99dHlPOqHxAn7M_bHz68_ydmQ7wGFDtEdxfzA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeiudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgr
  uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
  htthgvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedu
- jedugeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ jedugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:rdi0YmX_QFjLtXL1ZeHr9zZpNeXl0AKNkrQOVw9JZm65C5eqpQkcPQ>
- <xmx:rdi0YllAgTwvkie7RReG5XNnKLZiiaOt_69kYCOclzZ2oYXRbsR8dQ>
- <xmx:rdi0Yjf4yuMBCm4AEbc6Uj9hVE1CabHmITklMNPEsDpukYlypAwHQQ>
- <xmx:rdi0YriN71txoRtV6c6NNFXEXUSezudniEAwA519GsUqMOEWh08OaA>
+X-ME-Proxy: <xmx:r9i0YlP1wc8VHBTFF1N2EwLTDUG2g3FFgKYdjW1Eaf0MsCbbOojFPA>
+ <xmx:r9i0Yq_KxRZywDVzP2kQgd1GttrLBuAvRLDVOFySOnIJsRICbFyCNQ>
+ <xmx:r9i0YtUii4K6s8mXbANgcpadZeb1YzS_nBSGcvmf1SF7mRLxEeGOHA>
+ <xmx:sNi0YhYuA3igy8iRukHoodv0odRevCXAp49LGR40NrDOTaddA8_frw>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jun 2022 17:18:36 -0400 (EDT)
+ 23 Jun 2022 17:18:38 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 05/12] hw/nvme: fix accidental reintroduction of redundant code
-Date: Thu, 23 Jun 2022 23:18:14 +0200
-Message-Id: <20220623211821.50534-6-its@irrelevant.dk>
+Subject: [PATCH 06/12] hw/nvme: fix cancellation of format operations
+Date: Thu, 23 Jun 2022 23:18:15 +0200
+Message-Id: <20220623211821.50534-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220623211821.50534-1-its@irrelevant.dk>
 References: <20220623211821.50534-1-its@irrelevant.dk>
@@ -102,41 +102,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Commit 44219b6029fc ("hw/nvme: 64-bit pi support") accidentially
-reintroduced code that was removed in commit a6de6ed5092c ("hw/nvme:
-move format parameter parsing").
+Cancelling a format operation neglects to set iocb->ret as well as
+clearing the iocb->aiocb after cancelling the underlying aiocb.
 
-It is beneign, but get rid of it anyway.
+Fix this.
 
-Fixes: 44219b6029fc ("hw/nvme: 64-bit pi support")
+Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow cancellation")
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/nvme/ctrl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index a09700455c02..f10334fc1d3f 100644
+index f10334fc1d3f..a85eabfa8bfd 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -5725,9 +5725,6 @@ static void nvme_format_bh(void *opaque)
-     NvmeFormatAIOCB *iocb = opaque;
-     NvmeRequest *req = iocb->req;
-     NvmeCtrl *n = nvme_ctrl(req);
--    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
--    uint8_t lbaf = dw10 & 0xf;
--    uint8_t pi = (dw10 >> 5) & 0x7;
-     uint16_t status;
-     int i;
+@@ -5640,8 +5640,11 @@ static void nvme_format_cancel(BlockAIOCB *aiocb)
+ {
+     NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
  
-@@ -5749,7 +5746,7 @@ static void nvme_format_bh(void *opaque)
-         goto done;
++    iocb->ret = -ECANCELED;
++
+     if (iocb->aiocb) {
+         blk_aio_cancel_async(iocb->aiocb);
++        iocb->aiocb = NULL;
      }
+ }
  
--    status = nvme_format_check(iocb->ns, lbaf, pi);
-+    status = nvme_format_check(iocb->ns, iocb->lbaf, iocb->pi);
-     if (status) {
-         req->status = status;
-         goto done;
 -- 
 2.36.1
 
