@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8C6558BBA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 01:30:31 +0200 (CEST)
-Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE21558BC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 01:35:57 +0200 (CEST)
+Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4WHN-0000XI-Lt
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 19:30:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48474)
+	id 1o4WMe-0003vs-Cv
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 19:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o4WFg-0008Fu-Vi
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 19:28:45 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:40458)
+ id 1o4WL4-0003Fe-0h
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 19:34:18 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:34641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o4WFe-0006cj-Q8
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 19:28:44 -0400
-Received: by mail-pl1-x631.google.com with SMTP id k7so574657plg.7
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 16:28:42 -0700 (PDT)
+ id 1o4WL2-0007QT-Ak
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 19:34:17 -0400
+Received: by mail-pf1-x434.google.com with SMTP id t21so1035937pfq.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 16:34:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=P5yx4X3muUe4gCrwEJlKH2DHWIiaQzQHpNpOh0nj4Ms=;
- b=rtM4syaTtXvG3iIOTCP2IZj0/NbjkTnRYgkfnq/FNCnq7v7H2urdNSGUySArv+dZrF
- KitTGGR/r6u5ORcLEvOV+JLxgoeG2YLNxbe6ufeBV1odBLCn3/NfsePAeMllnsYYoCQo
- 9KDBoZyYYfxvDUX5bSACPHDiuV0HPJDZPM7CtmGx7iNU2v9DK3+w3nhUj9WhuujW4j6R
- cmkwceVAdVHIHZ27qTllLAewSLSQ5kQmTH7Pw/BH4QuYCQNx5TXQ5KU06l5FRDIjYBzC
- lHX43IRQK5miPh+Q0LzGXW+flrxuK1+nMxp+glY44G20W9VHdvDobjzszZb3GsMNeJMj
- 3CpQ==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=P2BnB1G8m2iLx1wEmHXoCOUvvMo9JEwc/ccKKLTU/mA=;
+ b=Z1S9bv8cybVKa5PvyeU2JPWkBYP0E0Y6YlYZqzNYbBt4r33jyMMJdj4odBPy/TSf2p
+ hgempgOZVHNHlGblACNUJPDtu5riY5AAeID5ETyjWyvP64Exr/DyQBww7ea6VDhawwar
+ pNrxZ+Lq/KarRa/XS0YANh8VurEcy+yDnbzjO1fEV2bcIUxvDUtXRYCRKfuUv1Wv0xEH
+ BhowBx4NqIAeCso0O+JKses8+aAbK5FAWj79RfynKCWYW49IhfbPETfy3afL0Gelpp0i
+ FYt+kt5sicl1q4PenzV1aSE1/gb9ExXt/zEH5tdWbwImgR3JqH2IMIWSuh+hc/g5hinS
+ Zjmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=P5yx4X3muUe4gCrwEJlKH2DHWIiaQzQHpNpOh0nj4Ms=;
- b=Czrpl9OTbt4j6UxUn7jA8bO8qV5s4bnYC8vcw0w0WJSK2mQpHvUpexKe6u7qq4S9n0
- x6isuHN1DU2AVRlj/nP2YArvGSm1lUh8ZvTmNV2W2FmPkflpu6VXE7XjN0PcFzFwPtAB
- Gv/uewcakimtrjKejyiZW6gT5IOhO+WMrLXMNcH/TMNW2pomt9meUgdryOvV3tc0zxW9
- qNDiGAdhykU9Hh0TgVZraYlGyPvYC7PWl7CUTXhG9PQu/ezdt6cByAZs0zfACVCe4+d2
- YQ8gMZDm9Y7sIgUqA0dIY8BfzV04AIveaAp3ND88FRecQkYkh+YPH8M6sbcKEYNx4VVd
- bqJg==
-X-Gm-Message-State: AJIora+lwEiVuxE3FGG+h0U+VA95Pj6oX6RwgUjTFoorRhvho/5NhFrV
- ZvBRFAsPsozeRkoLDysDbQU+uov7MCfKCg==
-X-Google-Smtp-Source: AGRyM1u0Hel9caiBj/4GtWzurlPuleaFYRaFh3G0ns84+ML5Is1Pa5KfJMO3b/wBNgdhjjQsnbzyHA==
-X-Received: by 2002:a17:903:291:b0:168:c6b3:1976 with SMTP id
- j17-20020a170903029100b00168c6b31976mr41042422plr.9.1656026921212; 
- Thu, 23 Jun 2022 16:28:41 -0700 (PDT)
+ bh=P2BnB1G8m2iLx1wEmHXoCOUvvMo9JEwc/ccKKLTU/mA=;
+ b=TH7183dsThf4hD/K8NF1/M8skyou9HVI/uuDIkdJPbihU/p0WFml3pnllIS2lKy8L/
+ 8xOl8xxHZ/gZkJRDUPKQWIGKr13Hkm0rCMe/o/ZGF1hUsCWF5gOi/vKMDJqkp6HuwZMg
+ 8HjF4y9dRAAa2JMKrBc8ZEPsGaDWkCZt3Cg1z5yZ29UGTg1U2s9SenGvA3x5hjG8r7zS
+ GEd4lK4RLrgwTVcgcsRCBO9SfwWmZqVTuAoAxidrb9wcjkRvEcxufRLXhM5cfQcchOy0
+ BcqOmOWsXZ6sQeLed3dWy7uSfPssGchqEybu12Q7WMxr0zFoSv3yatXGtz2zyc2nbCKU
+ ehqg==
+X-Gm-Message-State: AJIora9jrUWuvcha+nk4RCNG5v19BBPo3wRobHbFjPeaauq91jgzzdGw
+ tqPp2kX/+3Lk/shzftqcmS3++g==
+X-Google-Smtp-Source: AGRyM1tgz7kfGbOZg2FVhbKEdsMggVOmm7jQlbdnHdNT4JErqT4pNdU6O4Qgi4owypJlfM5ndKEFkA==
+X-Received: by 2002:a63:91c1:0:b0:40d:33cb:3d57 with SMTP id
+ l184-20020a6391c1000000b0040d33cb3d57mr8239167pge.10.1656027254390; 
+ Thu, 23 Jun 2022 16:34:14 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1543:f001:2a1c:c7:9c03:6173?
  ([2602:ae:1543:f001:2a1c:c7:9c03:6173])
  by smtp.gmail.com with ESMTPSA id
- 33-20020a630d61000000b0040d1eb90d67sm153424pgn.93.2022.06.23.16.28.39
+ x3-20020aa79ac3000000b0051c09cdd71fsm200778pfp.72.2022.06.23.16.34.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 16:28:40 -0700 (PDT)
-Message-ID: <f963d3d7-c15a-cca3-7b4f-ce3531a3de4c@linaro.org>
-Date: Thu, 23 Jun 2022 16:28:37 -0700
+ Thu, 23 Jun 2022 16:34:13 -0700 (PDT)
+Message-ID: <fe3d36d7-2ad1-94d1-dd06-e650916b37fd@linaro.org>
+Date: Thu, 23 Jun 2022 16:34:11 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PULL 00/15] hw/nvme updates
+Subject: Re: [PATCH v19 02/13] linux-user: Add LoongArch signal support
 Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-References: <20220623213442.67789-1-its@irrelevant.dk>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20220623085526.1678168-1-gaosong@loongson.cn>
+ <20220623085526.1678168-3-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220623213442.67789-1-its@irrelevant.dk>
+In-Reply-To: <20220623085526.1678168-3-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,71 +94,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/22 14:34, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Hi,
-> 
-> The following changes since commit 7db86fe2ed220c196061824e652b94e7a2acbabf:
-> 
->    Merge tag 'pull-migration-20220623b' of https://gitlab.com/dagrh/qemu into staging (2022-06-23 10:14:20 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
-> 
-> for you to fetch changes up to 98836e8e012a959ec515c041e4fdd7f2ae87ae16:
-> 
->    hw/nvme: clear aen mask on reset (2022-06-23 23:24:29 +0200)
-> 
-> ----------------------------------------------------------------
-> hw/nvme updates
-> 
-> - sriov functionality
-> - odd fixes
+On 6/23/22 01:55, Song Gao wrote:
+> +static void setup_sigcontext(CPULoongArchState *env,
+> +                             struct target_sigcontext *sc,
+> +                             struct extctx_layout *extctx)
+> +{
+> +    int i;
+> +
+> +    if (extctx->flags & SC_USED_FP) {
+> +        __put_user(extctx->fpu.addr, &sc->sc_extcontext[0]);
+> +    } else {
+> +        __put_user(extctx->end.addr, &sc->sc_extcontext[0]);
+> +    }
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+This is incorrect.  Where did this come from?  It certainly doesn't appear in the kernel's 
+version of setup_sigcontext.  The only reason the result works for you is that this is 
+overwritten by copy_fpu_to_sigframe within setup_sigframe.
 
 
 r~
-
-
-
-> 
-> ----------------------------------------------------------------
-> 
-> Klaus Jensen (3):
->    hw/nvme: clean up CC register write logic
->    Revert "hw/block/nvme: add support for sgl bit bucket descriptor"
->    hw/nvme: clear aen mask on reset
-> 
-> Lukasz Maniak (4):
->    hw/nvme: Add support for SR-IOV
->    hw/nvme: Add support for Primary Controller Capabilities
->    hw/nvme: Add support for Secondary Controller List
->    docs: Add documentation for SR-IOV and Virtualization Enhancements
-> 
-> Łukasz Gieryk (8):
->    hw/nvme: Implement the Function Level Reset
->    hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
->    hw/nvme: Remove reg_size variable and update BAR0 size calculation
->    hw/nvme: Calculate BAR attributes in a function
->    hw/nvme: Initialize capability structures for primary/secondary
->      controllers
->    hw/nvme: Add support for the Virtualization Management command
->    hw/nvme: Update the initalization place for the AER queue
->    hw/acpi: Make the PCI hot-plug aware of SR-IOV
-> 
->   docs/system/devices/nvme.rst |  82 ++++
->   hw/acpi/pcihp.c              |   6 +-
->   hw/nvme/ctrl.c               | 743 ++++++++++++++++++++++++++++++-----
->   hw/nvme/ns.c                 |   2 +-
->   hw/nvme/nvme.h               |  55 ++-
->   hw/nvme/subsys.c             |  75 +++-
->   hw/nvme/trace-events         |   6 +
->   include/block/nvme.h         |  65 +++
->   include/hw/pci/pci_ids.h     |   1 +
->   9 files changed, 933 insertions(+), 102 deletions(-)
-> 
-
 
