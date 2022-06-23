@@ -2,64 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5400F557F71
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:09:35 +0200 (CEST)
-Received: from localhost ([::1]:48470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6A6557F74
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:10:03 +0200 (CEST)
+Received: from localhost ([::1]:49780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4POg-0000iy-3w
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46300)
+	id 1o4PP9-0001il-14
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:10:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o4P9T-0005iW-0e
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 11:53:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59395)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1o4PIn-0005OF-IF
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:03:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o4P9Q-00052y-K1
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 11:53:50 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1o4PIj-0006Qd-Mr
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:03:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655999624;
+ s=mimecast20190719; t=1656000204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hzQEl6Oah2Xo3zMJ/YTxqBMp3VN5aG6zKPl5WMrBrEk=;
- b=LEgak4dbkiPAPFyikG7/iPx6RXJPH5V95zLpMyBcBh4Oe5PB3G1BuX/iZB9YCxtGxLDkhl
- raAHigVriq4w7HQ34pNfoSXaFSQmLLGLUkcCEnvrubtJCPWbJG7u9KHZ0KhaMZqI8i1cTT
- hU8vpCaQcwrUr8/WYhe6yNZMo9i9/H0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=286CcSAJbtLPz7XQhLGhpuwyPa0xL05tGY3LK3CemXU=;
+ b=SE7z2IM8eSacj62IKtmy8Y9iFoDHMcaa+ik4kRh+oO+1P5iXZ7MBavsso76co4y9ziWebT
+ qy1qd3QNQL8BkgvAkjFvkA3Bz9giYSM5sVVXVSgeRe+qKcln2zEvz31dUotw1enHPiCnPi
+ h9BsvQn7xb9k8QUZiIjqZ3wR9R6QweY=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-mVe2RKpLO4aPeLOhIB1HOA-1; Thu, 23 Jun 2022 11:53:42 -0400
-X-MC-Unique: mVe2RKpLO4aPeLOhIB1HOA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A81781D9CA
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 15:53:42 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.193.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8763EC15D42;
- Thu, 23 Jun 2022 15:53:40 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: [RFC PATCH v4 11/11] net: stream: move to QIO
-Date: Thu, 23 Jun 2022 17:53:17 +0200
-Message-Id: <20220623155317.675932-12-lvivier@redhat.com>
-In-Reply-To: <20220623155317.675932-1-lvivier@redhat.com>
-References: <20220623155317.675932-1-lvivier@redhat.com>
+ us-mta-169-ICWdWeI1N6Gg2HwFEe3PHg-1; Thu, 23 Jun 2022 12:03:21 -0400
+X-MC-Unique: ICWdWeI1N6Gg2HwFEe3PHg-1
+Received: by mail-io1-f69.google.com with SMTP id
+ m3-20020a6bbc03000000b0067277968473so2142714iof.19
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 09:03:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=286CcSAJbtLPz7XQhLGhpuwyPa0xL05tGY3LK3CemXU=;
+ b=s37BLZntJQ93isVV66/V22AX9xWqPaYBLRqEXml+NVhmFj3JIx1TZjCD+uNgDgCnaF
+ aXFq7jCMBcmNu3q6EIlmitQb1fE+PUG7Np6H5wajKVVHdVOnEChFp1p9LZpbXie25YNO
+ ohxsZXgVoIIZ9GKC/bNhQUtAUI0hBk79n5dKU/ImAtudIgWfQ+eQsIK4U/4sDISdk+6f
+ 0H/xt3us6MKMHSx5gUx1C85Kk3cWNWTRvonNOb29eaFumwKhvf3F08pIvn4Cu8UYS0sj
+ /E9aoFNBj1q/w+hii1s0/z4pdF/uR5rMfBX8+EUReM/ScRsxyiOJa7VQUeeGTL87WDRo
+ WiJw==
+X-Gm-Message-State: AJIora8ZoLPCFDcJ5uY0awDKIjv1dkQLvgrLhzBN/UkelLwubEHTqVgw
+ EMr3RAwmty/MpM4nl/oqpAtjP56to+Ov0UEifKC8qGla5NbUrqdlRLz5Khbztl92q7fwzheb3Or
+ M0TPALsp1nbiRdhY=
+X-Received: by 2002:a92:c24a:0:b0:2d9:4891:a049 with SMTP id
+ k10-20020a92c24a000000b002d94891a049mr4372877ilo.29.1656000200670; 
+ Thu, 23 Jun 2022 09:03:20 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tyQIa2qBQRP1mweCLmlRHBvlODuk5i9/TcJ4+tUFw7aVqSXtRF7GwhdRENZom83sTp+W34Gg==
+X-Received: by 2002:a92:c24a:0:b0:2d9:4891:a049 with SMTP id
+ k10-20020a92c24a000000b002d94891a049mr4372859ilo.29.1656000200336; 
+ Thu, 23 Jun 2022 09:03:20 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ q17-20020a056638041100b00335b403c3b4sm9943493jap.48.2022.06.23.09.03.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jun 2022 09:03:19 -0700 (PDT)
+Date: Thu, 23 Jun 2022 10:03:18 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Igor Mammedov <imammedo@redhat.com>, Suravee
+ Suthikulpanit <suravee.suthikulpanit@amd.com>, wei.huang2@amd.com, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v5 0/5] i386/pc: Fix creation of >= 1010G guests on AMD
+ systems with IOMMU
+Message-ID: <20220623100318.4f768681.alex.williamson@redhat.com>
+In-Reply-To: <5bcd894f-ad8e-2b39-c4a0-33814eacd85d@oracle.com>
+References: <20220520104532.9816-1-joao.m.martins@oracle.com>
+ <20220622163750.12424dc3.alex.williamson@redhat.com>
+ <5bcd894f-ad8e-2b39-c4a0-33814eacd85d@oracle.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,635 +109,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use QIOChannel, QIOChannelSocket and QIONetListener.
+On Thu, 23 Jun 2022 00:18:06 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- net/stream.c | 475 ++++++++++++++++++---------------------------------
- 1 file changed, 165 insertions(+), 310 deletions(-)
+> On 6/22/22 23:37, Alex Williamson wrote:
+> > On Fri, 20 May 2022 11:45:27 +0100
+> > Joao Martins <joao.m.martins@oracle.com> wrote:  
+> >> v4[5] -> v5:
+> >> * Fixed the 32-bit build(s) (patch 1, Michael Tsirkin)
+> >> * Fix wrong reference (patch 4) to TCG_PHYS_BITS in code comment and
+> >> commit message;
+> >>
+> >> ---
+> >>
+> >> This series lets Qemu spawn i386 guests with >= 1010G with VFIO,
+> >> particularly when running on AMD systems with an IOMMU.
+> >>
+> >> Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
+> >> will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
+> >> affected by this extra validation. But AMD systems with IOMMU have a hole in
+> >> the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
+> >> here: FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
+> >> section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
+> >>
+> >> VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
+> >>  -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
+> >> of the failure:
+> >>
+> >> qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
+> >> qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
+> >> 	failed to setup container for group 258: memory listener initialization failed:
+> >> 		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
+> >>
+> >> Prior to v5.4, we could map to these IOVAs *but* that's still not the right thing
+> >> to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
+> >> spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
+> >> as documented on the links down below.
+> >>
+> >> This small series tries to address that by dealing with this AMD-specific 1Tb hole,
+> >> but rather than dealing like the 4G hole, it instead relocates RAM above 4G
+> >> to be above the 1T if the maximum RAM range crosses the HT reserved range.
+> >> It is organized as following:
+> >>
+> >> patch 1: Introduce a @above_4g_mem_start which defaults to 4 GiB as starting
+> >>          address of the 4G boundary
+> >>
+> >> patches 2-3: Move pci-host qdev creation to be before pc_memory_init(),
+> >> 	     to get accessing to pci_hole64_size. The actual pci-host
+> >> 	     initialization is kept as is, only the qdev_new.
+> >>
+> >> patch 4: Change @above_4g_mem_start to 1TiB /if we are on AMD and the max
+> >> possible address acrosses the HT region. Errors out if the phys-bits is too
+> >> low, which is only the case for >=1010G configurations or something that
+> >> crosses the HT region.
+> >>
+> >> patch 5: Ensure valid IOVAs only on new machine types, but not older
+> >> ones (<= v7.0.0)
+> >>
+> >> The 'consequence' of this approach is that we may need more than the default
+> >> phys-bits e.g. a guest with >1010G, will have most of its RAM after the 1TB
+> >> address, consequently needing 41 phys-bits as opposed to the default of 40
+> >> (TCG_PHYS_ADDR_BITS). Today there's already a precedent to depend on the user to
+> >> pick the right value of phys-bits (regardless of this series), so we warn in
+> >> case phys-bits aren't enough. Finally, CMOS loosing its meaning of the above 4G
+> >> ram blocks, but it was mentioned over RFC that CMOS is only useful for very
+> >> old seabios. 
+> >>
+> >> Additionally, the reserved region is added to E820 if the relocation is done.  
+> > 
+> > I was helping a user on irc yesterday who was assigning a bunch of GPUs
+> > on an AMD system and was not specifying an increased PCI hole and
+> > therefore was not triggering the relocation.  The result was that the
+> > VM doesn't know about this special range and given their guest RAM
+> > size, firmware was mapping GPU BARs overlapping this reserved range
+> > anyway.  I didn't see any evidence that this user was doing anything
+> > like booting with pci=nocrs to blatantly ignore the firmware provided
+> > bus resources.
+> > 
+> > To avoid this sort of thing, shouldn't this hypertransport range always
+> > be marked reserved regardless of whether the relocation is done?
+> >   
+> Yeap, I think that's the right thing to do. We were alluding to that in patch 4.
+> 
+> I can switch said patch to IS_AMD() together with a phys-bits check to add the
+> range to e820.
+> 
+> But in practice, right now, this is going to be merely informative and doesn't
+> change the outcome, as OVMF ignores reserved ranges if I understood that code
+> correctly.
 
-diff --git a/net/stream.c b/net/stream.c
-index 7df3bb2691a8..6e9952c7c3ef 100644
---- a/net/stream.c
-+++ b/net/stream.c
-@@ -34,48 +34,36 @@
- #include "qemu/iov.h"
- #include "qemu/main-loop.h"
- #include "qemu/cutils.h"
-+#include "io/channel.h"
-+#include "io/channel-socket.h"
-+#include "io/net-listener.h"
- 
- typedef struct NetStreamState {
-     NetClientState nc;
--    int listen_fd;
--    int fd;
-+    QIOChannel *listen_ioc;
-+    QIONetListener *listener;
-+    QIOChannel *ioc;
-+    guint ioc_read_tag;
-+    guint ioc_write_tag;
-     SocketReadState rs;
-     unsigned int send_index;      /* number of bytes sent*/
--    IOHandler *send_fn;
--    bool read_poll;               /* waiting to receive data? */
--    bool write_poll;              /* waiting to transmit data? */
- } NetStreamState;
- 
--static void net_stream_accept(void *opaque);
--static void net_stream_writable(void *opaque);
-+static void net_stream_listen(QIONetListener *listener,
-+                              QIOChannelSocket *cioc,
-+                              void *opaque);
- 
--static void net_stream_update_fd_handler(NetStreamState *s)
-+static gboolean net_stream_writable(QIOChannel *ioc,
-+                                    GIOCondition condition,
-+                                    gpointer data)
- {
--    qemu_set_fd_handler(s->fd,
--                        s->read_poll ? s->send_fn : NULL,
--                        s->write_poll ? net_stream_writable : NULL,
--                        s);
--}
--
--static void net_stream_read_poll(NetStreamState *s, bool enable)
--{
--    s->read_poll = enable;
--    net_stream_update_fd_handler(s);
--}
--
--static void net_stream_write_poll(NetStreamState *s, bool enable)
--{
--    s->write_poll = enable;
--    net_stream_update_fd_handler(s);
--}
--
--static void net_stream_writable(void *opaque)
--{
--    NetStreamState *s = opaque;
-+    NetStreamState *s = data;
- 
--    net_stream_write_poll(s, false);
-+    s->ioc_write_tag = 0;
- 
-     qemu_flush_queued_packets(&s->nc);
-+
-+    return G_SOURCE_REMOVE;
- }
- 
- static ssize_t net_stream_receive(NetClientState *nc, const uint8_t *buf,
-@@ -92,12 +80,15 @@ static ssize_t net_stream_receive(NetClientState *nc, const uint8_t *buf,
-             .iov_len  = size,
-         },
-     };
-+    struct iovec local_iov[2];
-+    unsigned int nlocal_iov;
-     size_t remaining;
-     ssize_t ret;
- 
--    remaining = iov_size(iov, 2) - s->send_index;
--    ret = iov_send(s->fd, iov, 2, s->send_index, remaining);
- 
-+    remaining = iov_size(iov, 2) - s->send_index;
-+    nlocal_iov = iov_copy(local_iov, 2, iov, 2, s->send_index, remaining);
-+    ret = qio_channel_writev(s->ioc, local_iov, nlocal_iov, NULL);
-     if (ret == -1 && errno == EAGAIN) {
-         ret = 0; /* handled further down */
-     }
-@@ -107,19 +98,25 @@ static ssize_t net_stream_receive(NetClientState *nc, const uint8_t *buf,
-     }
-     if (ret < (ssize_t)remaining) {
-         s->send_index += ret;
--        net_stream_write_poll(s, true);
-+        s->ioc_write_tag = qio_channel_add_watch(s->ioc, G_IO_OUT,
-+                                                 net_stream_writable, s, NULL);
-         return 0;
-     }
-     s->send_index = 0;
-     return size;
- }
- 
-+static gboolean net_stream_send(QIOChannel *ioc,
-+                                GIOCondition condition,
-+                                gpointer data);
-+
- static void net_stream_send_completed(NetClientState *nc, ssize_t len)
- {
-     NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
- 
--    if (!s->read_poll) {
--        net_stream_read_poll(s, true);
-+    if (!s->ioc_read_tag) {
-+        s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN,
-+                                                net_stream_send, s, NULL);
-     }
- }
- 
-@@ -130,19 +127,24 @@ static void net_stream_rs_finalize(SocketReadState *rs)
-     if (qemu_send_packet_async(&s->nc, rs->buf,
-                                rs->packet_len,
-                                net_stream_send_completed) == 0) {
--        net_stream_read_poll(s, false);
-+        if (s->ioc_read_tag) {
-+            g_source_remove(s->ioc_read_tag);
-+            s->ioc_read_tag = 0;
-+        }
-     }
- }
- 
--static void net_stream_send(void *opaque)
-+static gboolean net_stream_send(QIOChannel *ioc,
-+                                GIOCondition condition,
-+                                gpointer data)
- {
--    NetStreamState *s = opaque;
-+    NetStreamState *s = data;
-     int size;
-     int ret;
--    uint8_t buf1[NET_BUFSIZE];
--    const uint8_t *buf;
-+    char buf1[NET_BUFSIZE];
-+    const char *buf;
- 
--    size = recv(s->fd, buf1, sizeof(buf1), 0);
-+    size = qio_channel_read(s->ioc, buf1, sizeof(buf1), NULL);
-     if (size < 0) {
-         if (errno != EWOULDBLOCK) {
-             goto eoc;
-@@ -150,52 +152,63 @@ static void net_stream_send(void *opaque)
-     } else if (size == 0) {
-         /* end of connection */
-     eoc:
--        net_stream_read_poll(s, false);
--        net_stream_write_poll(s, false);
--        if (s->listen_fd != -1) {
--            qemu_set_fd_handler(s->listen_fd, net_stream_accept, NULL, s);
-+        s->ioc_read_tag = 0;
-+        if (s->ioc_write_tag) {
-+            g_source_remove(s->ioc_write_tag);
-+            s->ioc_write_tag = 0;
-+        }
-+        if (s->listener) {
-+            qio_net_listener_set_client_func(s->listener, net_stream_listen,
-+                                             s, NULL);
-         }
--        closesocket(s->fd);
-+        object_unref(OBJECT(s->ioc));
-+        s->ioc = NULL;
- 
--        s->fd = -1;
-         net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
-         s->nc.link_down = true;
-         memset(s->nc.info_str, 0, sizeof(s->nc.info_str));
- 
--        return;
-+        return G_SOURCE_REMOVE;
-     }
-     buf = buf1;
- 
--    ret = net_fill_rstate(&s->rs, buf, size);
-+    ret = net_fill_rstate(&s->rs, (const uint8_t *)buf, size);
- 
-     if (ret == -1) {
-         goto eoc;
-     }
-+
-+    return G_SOURCE_CONTINUE;
- }
- 
- static void net_stream_cleanup(NetClientState *nc)
- {
-     NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
--    if (s->fd != -1) {
--        net_stream_read_poll(s, false);
--        net_stream_write_poll(s, false);
--        close(s->fd);
--        s->fd = -1;
-+    if (s->ioc) {
-+        if (QIO_CHANNEL_SOCKET(s->ioc)->fd != -1) {
-+            if (s->ioc_read_tag) {
-+                g_source_remove(s->ioc_read_tag);
-+                s->ioc_read_tag = 0;
-+            }
-+            if (s->ioc_write_tag) {
-+                g_source_remove(s->ioc_write_tag);
-+                s->ioc_write_tag = 0;
-+            }
-+        }
-+        object_unref(OBJECT(s->ioc));
-+        s->ioc = NULL;
-     }
--    if (s->listen_fd != -1) {
--        qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
--        closesocket(s->listen_fd);
--        s->listen_fd = -1;
-+    if (s->listen_ioc) {
-+        if (s->listener) {
-+            qio_net_listener_disconnect(s->listener);
-+            object_unref(OBJECT(s->listener));
-+            s->listener = NULL;
-+        }
-+        object_unref(OBJECT(s->listen_ioc));
-+        s->listen_ioc = NULL;
-     }
- }
- 
--static void net_stream_connect(void *opaque)
--{
--    NetStreamState *s = opaque;
--    s->send_fn = net_stream_send;
--    net_stream_read_poll(s, true);
--}
--
- static NetClientInfo net_stream_info = {
-     .type = NET_CLIENT_DRIVER_STREAM,
-     .size = sizeof(NetStreamState),
-@@ -203,77 +216,64 @@ static NetClientInfo net_stream_info = {
-     .cleanup = net_stream_cleanup,
- };
- 
--static NetStreamState *net_stream_fd_init_stream(NetClientState *peer,
--                                                 const char *model,
--                                                 const char *name,
--                                                 int fd, int is_connected)
-+static void net_stream_listen(QIONetListener *listener,
-+                              QIOChannelSocket *cioc,
-+                              void *opaque)
- {
--    NetClientState *nc;
--    NetStreamState *s;
-+    NetStreamState *s = opaque;
-+    SocketAddress *addr;
-+    char *uri;
- 
--    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
-+    object_ref(OBJECT(cioc));
- 
--    snprintf(nc->info_str, sizeof(nc->info_str), "fd=%d", fd);
-+    qio_net_listener_set_client_func(s->listener, NULL, s, NULL);
- 
--    s = DO_UPCAST(NetStreamState, nc, nc);
-+    s->ioc = QIO_CHANNEL(cioc);
-+    qio_channel_set_name(s->ioc, "stream-server");
-+    s->nc.link_down = false;
- 
--    s->fd = fd;
--    s->listen_fd = -1;
--    net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
-+    s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN, net_stream_send,
-+                                            s, NULL);
- 
--    /* Disable Nagle algorithm on TCP sockets to reduce latency */
--    socket_set_nodelay(fd);
-+    addr = qio_channel_socket_get_remote_address(cioc, NULL);
-+    g_assert(addr != NULL);
-+    uri = socket_uri(addr);
-+    pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), uri);
-+    g_free(uri);
-+    qapi_free_SocketAddress(addr);
- 
--    if (is_connected) {
--        net_stream_connect(s);
--    } else {
--        qemu_set_fd_handler(s->fd, NULL, net_stream_connect, s);
--    }
--    return s;
- }
- 
--static void net_stream_accept(void *opaque)
-+static void net_stream_server_listening(QIOTask *task, gpointer opaque)
- {
-     NetStreamState *s = opaque;
--    struct sockaddr_storage saddr;
--    socklen_t len;
--    int fd;
--
--    for (;;) {
--        len = sizeof(saddr);
--        fd = qemu_accept(s->listen_fd, (struct sockaddr *)&saddr, &len);
--        if (fd < 0 && errno != EINTR) {
--            return;
--        } else if (fd >= 0) {
--            qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
--            break;
--        }
--    }
--
--    s->fd = fd;
--    s->nc.link_down = false;
--    net_stream_connect(s);
--    switch (saddr.ss_family) {
--    case AF_INET: {
--        struct sockaddr_in *saddr_in = (struct sockaddr_in *)&saddr;
-+    QIOChannelSocket *listen_sioc = QIO_CHANNEL_SOCKET(s->listen_ioc);
-+    SocketAddress *addr;
-+    int ret;
- 
--        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--                 "connection from %s:%d",
--                 inet_ntoa(saddr_in->sin_addr), ntohs(saddr_in->sin_port));
--        break;
-+    if (listen_sioc->fd < 0) {
-+        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "connection error");
-+        return;
-     }
--    case AF_UNIX: {
--        struct sockaddr_un saddr_un;
- 
--        len = sizeof(saddr_un);
--        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
-+    addr = qio_channel_socket_get_local_address(listen_sioc, NULL);
-+    g_assert(addr != NULL);
-+    ret = qemu_socket_try_set_nonblock(listen_sioc->fd);
-+    if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
-         snprintf(s->nc.info_str, sizeof(s->nc.info_str),
--                 "connect from %s", saddr_un.sun_path);
--        break;
--    }
--    default:
--        g_assert_not_reached();
-+                 "can't use file descriptor %s (errno %d)",
-+                 addr->u.fd.str, -ret);
-+        return;
-     }
-+    g_assert(ret == 0);
-+    qapi_free_SocketAddress(addr);
-+
-+    s->nc.link_down = true;
-+    s->listener = qio_net_listener_new();
-+
-+    net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
-+    qio_net_listener_set_client_func(s->listener, net_stream_listen, s, NULL);
-+    qio_net_listener_add(s->listener, listen_sioc);
- }
- 
- static int net_stream_server_init(NetClientState *peer,
-@@ -284,103 +284,55 @@ static int net_stream_server_init(NetClientState *peer,
- {
-     NetClientState *nc;
-     NetStreamState *s;
--    int fd, ret;
-+    QIOChannelSocket *listen_sioc = qio_channel_socket_new();
- 
--    switch (addr->type) {
--    case SOCKET_ADDRESS_TYPE_INET: {
--        struct sockaddr_in saddr_in;
-+    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
-+    s = DO_UPCAST(NetStreamState, nc, nc);
- 
--        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet.port,
--                              errp) < 0) {
--            return -1;
--        }
-+    s->listen_ioc = QIO_CHANNEL(listen_sioc);
-+    qio_channel_socket_listen_async(listen_sioc, addr, 0,
-+                                    net_stream_server_listening, s,
-+                                    NULL, NULL);
- 
--        fd = qemu_socket(PF_INET, SOCK_STREAM, 0);
--        if (fd < 0) {
--            error_setg_errno(errp, errno, "can't create stream socket");
--            return -1;
--        }
--        qemu_socket_set_nonblock(fd);
-+    return 0;
-+}
- 
--        socket_set_fast_reuse(fd);
-+static void net_stream_client_connected(QIOTask *task, gpointer opaque)
-+{
-+    NetStreamState *s = opaque;
-+    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(s->ioc);
-+    SocketAddress *addr;
-+    gchar *uri;
-+    int ret;
- 
--        ret = bind(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_in));
--        if (ret < 0) {
--            error_setg_errno(errp, errno, "can't bind ip=%s to socket",
--                             inet_ntoa(saddr_in.sin_addr));
--            closesocket(fd);
--            return -1;
--        }
--        break;
-+    if (sioc->fd < 0) {
-+        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "connection error");
-+        return;
-     }
--    case SOCKET_ADDRESS_TYPE_UNIX: {
--        struct sockaddr_un saddr_un;
--
--        ret = unlink(addr->u.q_unix.path);
--        if (ret < 0 && errno != ENOENT) {
--            error_setg_errno(errp, errno, "failed to unlink socket %s",
--                             addr->u.q_unix.path);
--            return -1;
--        }
--
--        saddr_un.sun_family = PF_UNIX;
--        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
--                       addr->u.q_unix.path);
--        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
--            error_setg(errp, "UNIX socket path '%s' is too long",
--                       addr->u.q_unix.path);
--            error_append_hint(errp, "Path must be less than %zu bytes\n",
--                              sizeof(saddr_un.sun_path));
--        }
- 
--        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
--        if (fd < 0) {
--            error_setg_errno(errp, errno, "can't create stream socket");
--            return -1;
--        }
--        qemu_socket_set_nonblock(fd);
--
--        ret = bind(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
--        if (ret < 0) {
--            error_setg_errno(errp, errno, "can't create socket with path: %s",
--                             saddr_un.sun_path);
--            closesocket(fd);
--            return -1;
--        }
--        break;
--    }
--    case SOCKET_ADDRESS_TYPE_FD:
--        fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
--        if (fd == -1) {
--            return -1;
--        }
--        ret = qemu_socket_try_set_nonblock(fd);
--        if (ret < 0) {
--            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
--                             name, fd);
--            return -1;
--        }
--        break;
--    default:
--        g_assert_not_reached();
--    }
-+    addr = qio_channel_socket_get_remote_address(sioc, NULL);
-+    g_assert(addr != NULL);
-+    uri = socket_uri(addr);
-+    pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), uri);
-+    g_free(uri);
- 
--    ret = listen(fd, 0);
--    if (ret < 0) {
--        error_setg_errno(errp, errno, "can't listen on socket");
--        closesocket(fd);
--        return -1;
-+    ret = qemu_socket_try_set_nonblock(sioc->fd);
-+    if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
-+        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-+                 "can't use file descriptor %s (errno %d)",
-+                 addr->u.fd.str, -ret);
-+        return;
-     }
-+    g_assert(ret == 0);
-+    qapi_free_SocketAddress(addr);
- 
--    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
--    s = DO_UPCAST(NetStreamState, nc, nc);
--    s->fd = -1;
--    s->listen_fd = fd;
--    s->nc.link_down = true;
-     net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
- 
--    qemu_set_fd_handler(s->listen_fd, net_stream_accept, NULL, s);
--    return 0;
-+    /* Disable Nagle algorithm on TCP sockets to reduce latency */
-+    qio_channel_set_delay(s->ioc, false);
-+
-+    s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN, net_stream_send,
-+                                            s, NULL);
- }
- 
- static int net_stream_client_init(NetClientState *peer,
-@@ -390,114 +342,17 @@ static int net_stream_client_init(NetClientState *peer,
-                                   Error **errp)
- {
-     NetStreamState *s;
--    int fd, connected, ret;
--    gchar *info_str;
--
--    switch (addr->type) {
--    case SOCKET_ADDRESS_TYPE_INET: {
--        struct sockaddr_in saddr_in;
--
--        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet.port,
--                              errp) < 0) {
--            return -1;
--        }
--
--        fd = qemu_socket(PF_INET, SOCK_STREAM, 0);
--        if (fd < 0) {
--            error_setg_errno(errp, errno, "can't create stream socket");
--            return -1;
--        }
--        qemu_socket_set_nonblock(fd);
--
--        connected = 0;
--        for (;;) {
--            ret = connect(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_in));
--            if (ret < 0) {
--                if (errno == EINTR || errno == EWOULDBLOCK) {
--                    /* continue */
--                } else if (errno == EINPROGRESS ||
--                           errno == EALREADY) {
--                    break;
--                } else {
--                    error_setg_errno(errp, errno, "can't connect socket");
--                    closesocket(fd);
--                    return -1;
--                }
--            } else {
--                connected = 1;
--                break;
--            }
--        }
--        info_str = g_strdup_printf("connect to %s:%d",
--                                   inet_ntoa(saddr_in.sin_addr),
--                                   ntohs(saddr_in.sin_port));
--        break;
--    }
--    case SOCKET_ADDRESS_TYPE_UNIX: {
--        struct sockaddr_un saddr_un;
--
--        saddr_un.sun_family = PF_UNIX;
--        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
--                       addr->u.q_unix.path);
--        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
--            error_setg(errp, "UNIX socket path '%s' is too long",
--                       addr->u.q_unix.path);
--            error_append_hint(errp, "Path must be less than %zu bytes\n",
--                              sizeof(saddr_un.sun_path));
--        }
-+    NetClientState *nc;
-+    QIOChannelSocket *sioc = qio_channel_socket_new();
- 
--        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
--        if (fd < 0) {
--            error_setg_errno(errp, errno, "can't create stream socket");
--            return -1;
--        }
--        qemu_socket_set_nonblock(fd);
--
--        connected = 0;
--        for (;;) {
--            ret = connect(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
--            if (ret < 0) {
--                if (errno == EINTR || errno == EWOULDBLOCK) {
--                    /* continue */
--                } else if (errno == EAGAIN ||
--                           errno == EALREADY) {
--                    break;
--                } else {
--                    error_setg_errno(errp, errno, "can't connect socket");
--                    closesocket(fd);
--                    return -1;
--                }
--            } else {
--                connected = 1;
--                break;
--            }
--        }
--        info_str = g_strdup_printf(" connect to %s", saddr_un.sun_path);
--        break;
--    }
--    case SOCKET_ADDRESS_TYPE_FD:
--        fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
--        if (fd == -1) {
--            return -1;
--        }
--        ret = qemu_socket_try_set_nonblock(fd);
--        if (ret < 0) {
--            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
--                             name, fd);
--            return -1;
--        }
--        connected = 1;
--        info_str = g_strdup_printf("connect to fd %d", fd);
--        break;
--    default:
--        error_setg(errp, "only support inet, unix or fd type");
--        return -1;
--    }
-+    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
-+    s = DO_UPCAST(NetStreamState, nc, nc);
- 
--    s = net_stream_fd_init_stream(peer, model, name, fd, connected);
-+    s->ioc = QIO_CHANNEL(sioc);
- 
--    pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), info_str);
--    g_free(info_str);
-+    qio_channel_socket_connect_async(sioc, addr,
-+                                     net_stream_client_connected, s,
-+                                     NULL, NULL);
- 
-     return 0;
- }
--- 
-2.36.1
+:-\
+
+> relocation is most effective at avoiding this reserved-range overlapping issue
+> on guests with less than a 1010GiB.
+
+Do we need to do the relocation by default?
+
+> > vfio-pci won't generate a fatal error when MMIO mappings fail, so this
+> > scenario can be rather subtle.  NB, it also did not resolve this user's
+> > problem to specify the PCI hole size and activate the relocation, so
+> > this was not necessarily the issue they were fighting, but I noted it
+> > as an apparent gap in this series.  Thanks,  
+> 
+> So I take it that even after the user expanded the PCI hole64 size and thus
+> the GPU BARS were placed in a non-reserved range... still saw the MMIO
+> mappings fail?
+
+No, the mapping failures are resolved if the hole64 size is set, it's
+just that there seem to be remaining issues that a device occasionally
+gets into a bad state that isn't resolved by restarting the VM.
+AFAICT, p2p mappings are not being used, so the faults were more of a
+nuisance than actually contributing to the issues this user is working
+through.  Thanks,
+
+Alex
 
 
