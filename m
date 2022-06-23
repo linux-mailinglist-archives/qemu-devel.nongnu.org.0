@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB29557A15
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 14:15:47 +0200 (CEST)
-Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480EA557A38
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 14:23:55 +0200 (CEST)
+Received: from localhost ([::1]:44046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4LkP-0004It-Ns
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 08:15:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50252)
+	id 1o4LsH-00015W-Qo
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 08:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4Ler-0001QB-8L
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:10:03 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:46840)
+ id 1o4Lgc-000320-H2
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:11:50 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:45740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4Lep-0007ml-LK
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:10:00 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-3178ea840easo153733397b3.13
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 05:09:59 -0700 (PDT)
+ id 1o4Lga-0008LD-PW
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:11:50 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-3177e60d980so170077747b3.12
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 05:11:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Rj2IQIRXEwPO3MqdpLjbc2Opunh49LwrJk1NZLdjUA0=;
- b=qOxVxK5b14uQCqT5tdHZOo8VILOVSdjdE2TuIRKvnDEnD7HjwP9kfRqbUx9jnZZptC
- IqRhbxc4Oz1T2vhU0cLlKtOy4QNi6avs9VpMLX3eRY2uGLdzMucyDeMhR1sUvUjdniyb
- /QAXcMX65NkF0UpDSCnZrsASMm6pWR6bHQ+jfpBZkDbSyx1j5NfGz49+MdGp0TL5DBB9
- CGbXAK9qZcjabJW5LE/d4yLbKcP1KsOc6seyt6Z+++RF7se6HKXlKsJt7CoGKLAgctbU
- HJcpX0JtcyoR/oLIDFknhKYW6d7VN1NBIRTViwPo9Im1b53ZEySoLr3UZ1hy9C6ylhQ5
- 1XHg==
+ :cc; bh=S7K6L24c+Y1b2KwK/Q66A3sSE8CSQ8aoyDZ6Ql0AsV0=;
+ b=sSpGHUTCswvHhT4H1B5KfzqfwiD7oQxtmXZiGYZWoxAyeQ53n3xZie+Ig2mwn4fCKe
+ Xkk5l8mFLX0kRrjF8NztrOQAuU52WLUKrooX1ha86jVcPQT+lVHJJzr3EiJ+UF7TjqFM
+ nqdYctf2D2InwbxppBsCmKuKQpNw34cClqkrbhhan/C7GZWJQrWrENeasaFTmg0tWRFp
+ g/2Ucg8+GEoDhWWrC6Nrg6Fi/50TmkWKpcFMB9baLyloRj6wdJU9WXjRf1SB3ztDT0cg
+ FKJhzLt3sFIqvSV/cOBVRkiQZLYWTjptf9Q+C/PdBnkfcBF+uIqQeDB+soTPzUrdXTPY
+ stZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Rj2IQIRXEwPO3MqdpLjbc2Opunh49LwrJk1NZLdjUA0=;
- b=izednlC4+G1Ss2rj3eJkXHX9ceM0xlwj2zhpKCdNlhEEcbRcIKKUqyA6MXZcVvd22Z
- nF6K08WR1yP726Yq8kCZZAodzcb/+Rc3wZHp4tG8RS3FVKY9E2N+ZrrEzruuZDnYw7r8
- vorUs+E+o/pRLRkn/Hzp0wSPDGIGPSgC3REst8Wg5d3UzGy3wKodP60tSgzsKM3nUma+
- Ddzeicrmy4QKw+TXaZuQ7w7EHt1qTD9bw0ERqrZG8vAGTntQM6KYZ41xDBZIbl66RWA0
- QsUGGRQvvpcGiBu4mr9FGhIFk8uCG/wi+rXqkhyBXZrOF0MtrwxTBf91aGdDKFwOHHhu
- s8Ng==
-X-Gm-Message-State: AJIora+TwtH/0ccXpt0ChwX2ccPiJ0DNK1CSsCTLAWcBRo3gMItN7X1B
- 6uGXWwSWpZ5Sbm+bTVc7Lps0qJVgitvr8PFpmX3r4Q==
-X-Google-Smtp-Source: AGRyM1tyJZqd/fnzLf/54TmRZs9xPiMmG1239b969IpTCsQivjCPiQc3gp2HtcId9tsJQiw71gBsdhWaAE22bNhNfDE=
+ bh=S7K6L24c+Y1b2KwK/Q66A3sSE8CSQ8aoyDZ6Ql0AsV0=;
+ b=EUrFUb0uwrgO5c/BZWTuSOtLiVnO6NMqRzR+W/yr6bh2iXerfxTB83vcTfWhxNmeB5
+ fwh/KhBJJHpTH/wjDZTmIKQAO7Z3mWjuMseNfrqIz9UPo/7IZn4Q3GUOPNy7B7V4Gvfd
+ 1bxMo1zafdZMWwb5XSSly8yZzxRZu41yPtPJn4khr/D6sWwxrBq4sw2iPaiCP88Ive76
+ iKqvd+GPDDdVBk5mXYEPMI202m/QG7Sd/yWNscMOQHTLczPrKnXb4pbuLtOybpF78ojV
+ Z6BWQEjB7vkFlqkbz5csWnpg226WCLkP74oSWuioOag/2m3EK9xqX6uw5kwfbKBcYOZi
+ 3HcA==
+X-Gm-Message-State: AJIora+0Y5pBxhSF29UUG0PZX5kq8Ua0B2ImxOnxFd0SeETRTWOjZzP0
+ ep88ggRGtpTjyWoQy3d0D3h67d6P6tUStGWA1qzMAA==
+X-Google-Smtp-Source: AGRyM1tHM2PH06jLutpzWpAloSsRpnBlSBJrLzjiiLlW8Jb+1R5M99HLQ2wspI2xTF78Np9POqoBFx6jx+SutF94Y5w=
 X-Received: by 2002:a81:8486:0:b0:317:a4af:4e0a with SMTP id
- u128-20020a818486000000b00317a4af4e0amr10191655ywf.455.1655986198507; Thu, 23
- Jun 2022 05:09:58 -0700 (PDT)
+ u128-20020a818486000000b00317a4af4e0amr10199573ywf.455.1655986307630; Thu, 23
+ Jun 2022 05:11:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220623095825.2038562-1-pdel@fb.com>
- <20220623095825.2038562-2-pdel@fb.com>
-In-Reply-To: <20220623095825.2038562-2-pdel@fb.com>
+References: <20220623102617.2164175-1-pdel@fb.com>
+ <20220623102617.2164175-3-pdel@fb.com>
+In-Reply-To: <20220623102617.2164175-3-pdel@fb.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jun 2022 13:09:47 +0100
-Message-ID: <CAFEAcA_V5m4dfmKgO9vgPHr5cg_MWp_MqOsZNJcGnA9t1JmS=A@mail.gmail.com>
-Subject: Re: [PATCH 01/14] sysbus: Remove sysbus_mmio_unmap
+Date: Thu, 23 Jun 2022 13:11:36 +0100
+Message-ID: <CAFEAcA9k_gW7GDDDiLf7gp-wX=_OCKzKeMHe5Rr5ZZe167kaYA@mail.gmail.com>
+Subject: Re: [PATCH 02/14] sysbus: Remove sysbus_address_space
 To: Peter Delevoryas <pdel@fb.com>
 Cc: clg@kaod.org, andrew@aj.id.au, joel@jms.id.au, pbonzini@redhat.com, 
  berrange@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com, 
  richard.henderson@linaro.org, f4bug@amsat.org, ani@anisinha.ca, 
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, kvm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,20 +86,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jun 2022 at 11:59, Peter Delevoryas <pdel@fb.com> wrote:
+On Thu, 23 Jun 2022 at 11:56, Peter Delevoryas <pdel@fb.com> wrote:
 >
-> Cedric removed usage of this function in a previous commit.
+> sysbus_address_space returns the address space associated with a
+> SysBusDevice.
 >
-> Fixes: 981b1c6266c6 ("spapr/xive: rework the mapping the KVM memory regions")
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> That address space is always the global singleton "system_memory", which
+> is retrieved through get_system_memory().
+>
+> This abstraction isn't very useful. Users of the sysbus API (machine
+> authors) should know that sysbus_mmio_map et al. are mapping devices
+> into the global singleton memory region, not into a specific container
+> or some memory region specific to the device's parent bus.
+>
+> Lastly, only a few uses of this function exist. They can all be
+> refactored to just use get_system_memory() directly.
 
-We only added this function for the XIVE in the first place
-so I guess it makes sense to remove it now it's unused.
-(People doing complicated stuff that needs to unmap MRs
-should probably not be using sysbus_mmio_map()/unmap()
-anyway...)
+Yeah, we definitely don't need two functions doing the same
+thing here.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
 -- PMM
 
