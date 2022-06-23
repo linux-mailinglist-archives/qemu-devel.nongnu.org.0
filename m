@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E24558877
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 21:15:29 +0200 (CEST)
-Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5F55588EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 21:33:11 +0200 (CEST)
+Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4SIZ-0007vB-M1
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 15:15:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58148)
+	id 1o4SZi-0005YD-3U
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 15:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o4SH6-0007Ba-Rg
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 15:13:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o4SGs-0001hQ-NO
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 15:13:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656011621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4HbOx7NtOCRHvRKKTsiS4u3GFHV72/I3MuXcBBBw3zo=;
- b=eix13p/wVd+b7UEPJUvNAcl9Ye0NsgHqTkGUCfcJv/Jd7kCUG67k67K9CdPW2R57mz3OtM
- JfkYfBxW5hinsH1s359yBsK4/1kyWJPhdV8QPgXutG4hORrdrhTMEZENOueGaCeSnGZRjL
- 6qNQHDS0sPbhGgGkskxw6PdU5AQcAYw=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-513-k2HUIs1NMNOZN6SunZf5GA-1; Thu, 23 Jun 2022 15:13:40 -0400
-X-MC-Unique: k2HUIs1NMNOZN6SunZf5GA-1
-Received: by mail-il1-f200.google.com with SMTP id
- x9-20020a92dc49000000b002d95bdbcb3fso1225088ilq.21
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 12:13:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o4SXl-0004Il-Px
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 15:31:09 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:34501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o4SXf-0004es-8r
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 15:31:09 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id i15so817312ybp.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 12:31:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WwePLIT928gsV+QuavVvVXgXAJxXenGkNsUer6Z5uho=;
+ b=ZtfbC0N0iLgmzbxkqtMF7KoIqtabuklCxTDaZ3FIbHgfys3Aqv/34qMyKT52IPe8Nx
+ IZ5ZV2EY38EzdS+q+SHZV7SmN0jhjC79qTD1+s20/aVtv5I1i+o9YLWd9O07XuqHCz/l
+ vAM0cfIGj1i+lAl2Gv2TVbwXU1oTtYWKw7HCA8tCPlRN2nqphU719BfEYo6S6SrtQngm
+ c8jbbSAMBtvDObsyqxoPvI5ITbFDyGAyu+YUGI1rrMBYaOsMt8/6Sq/KIQ6XaZr5G13n
+ PbZkyYEmzw7KRlAEe4h4mSjeC5cRNh8c+5PEbik1Pd7VKbipbCPk58KnvyNP6sFjEDUW
+ Dkxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=4HbOx7NtOCRHvRKKTsiS4u3GFHV72/I3MuXcBBBw3zo=;
- b=7vL4gE4lioVoFKXQLIT4wREVjs+FuEMTToKFKt6TakZ4qgh77jDMfOLfyisMETgFpb
- 7/F4Z8qgFiO973Y2NEacBkg6CatQt3XwPyaL2NIsQwptxDyEkD0UWNPDn/wYDKEYdaYB
- ZzaOccl6l10oPdjGrAh4XuJsNxmFsudOmvSG70LZ9D7v4YTmNDBgT4rMB0VqovhOBdRx
- EFOKfF1cDHF58g1dLVQ5iVr5ENiuVEKE0KaZRRv106DSVSXPB+X2hBTR02kuOnpev7BN
- ClpUQ2t3DKnTalf0H7YgmHbYeVYEoxsU60y3gVUHSiLfablGl/oKF2WIXD1TwHeMYFTp
- Xtbg==
-X-Gm-Message-State: AJIora/1n1q+2hoqpnnCIu5nYyB+CAS+iaTmaSdQ/+gvpNqmwIIZH7ed
- 6qSmSAtdbjtDL9gMs4xHBU+V21/zMP4Tmx788W+I27034Vk9JKhjOLSevtGKAhNrz42Hz2JC7XM
- 5Bj8i3OIAmn++MHs=
-X-Received: by 2002:a05:6638:2113:b0:339:e689:6fb3 with SMTP id
- n19-20020a056638211300b00339e6896fb3mr3676232jaj.169.1656011619501; 
- Thu, 23 Jun 2022 12:13:39 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vZW99bO24wkm6qVcD2yxML0kCW22zoy+/demBmHX8FQpgBJvdgefodV+YrJgXPqYpKAOCseA==
-X-Received: by 2002:a05:6638:2113:b0:339:e689:6fb3 with SMTP id
- n19-20020a056638211300b00339e6896fb3mr3676217jaj.169.1656011619220; 
- Thu, 23 Jun 2022 12:13:39 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- s16-20020a5d9290000000b00672f405e911sm115083iom.38.2022.06.23.12.13.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 12:13:38 -0700 (PDT)
-Date: Thu, 23 Jun 2022 15:13:36 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, huangy81@chinatelecom.cn,
- quintela@redhat.com, leobras@redhat.com, jdenemar@redhat.com
-Subject: Re: [PULL 22/33] migration: remove the QEMUFileOps 'get_buffer'
- callback
-Message-ID: <YrS7YHglHhhDMvbP@xz-m1.local>
-References: <20220622183917.155308-1-dgilbert@redhat.com>
- <20220622183917.155308-23-dgilbert@redhat.com>
- <YrNu3KesFVVvoWVb@xz-m1.local> <YrN381XWrhTFStlp@xz-m1.local>
- <YrQot90/2gzdh/gt@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WwePLIT928gsV+QuavVvVXgXAJxXenGkNsUer6Z5uho=;
+ b=0sbCUEjdetTlHrGumN5U4UFX6POTgkR4zP8vntp/xIG+f63pptb3/+Ck5D3NFqg4Xp
+ EPkM9O9uROMuhBi7cvcGKKU+6/DqEEQxpNzqFaCIIEKcXWJ36+OYiBSFEgaUxs8sTSWq
+ Ge0my+1umZCZxLSdIWANOOya1JZ+ldyip1Tz/e+9XWh6DbzPjdGv0pD4kcMktKauAVUB
+ FeFFDO7Uanq60VPL48e7ulcMN2pzkYFAZhA0TfNCHeocCP56oLmJc3dHGJ9BZGYrbNHW
+ CeP4LQakgjKuddrVkVWtg2+z+59c275mTz7qmnVevV9hadlcJaYVNywMOMXaf0/YafzM
+ dr9Q==
+X-Gm-Message-State: AJIora8uKsSaUhxMgnNKi152kz2tVJz7DwkkXP0JlEWvDdic72cZpunW
+ ef0Einu6rhzk/Ly5/nLMb6SsgNsdLYm1NpW5cMMuVg==
+X-Google-Smtp-Source: AGRyM1vbAdW3v05gSqkTHU2bd9L7ijpqHW0yCkgvW93U1HiGHLkGhoI3cnSldNjkXhfpjuPls32XkwnsNRDvX1G1N2I=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr11147925ybr.39.1656012661642; Thu, 23
+ Jun 2022 12:31:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YrQot90/2gzdh/gt@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220623164051.506316-1-thuth@redhat.com>
+In-Reply-To: <20220623164051.506316-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jun 2022 20:30:24 +0100
+Message-ID: <CAFEAcA-k73D5fPfp5XnD2gtRO0pTXpAt_xTG51dGnzji+=NGqA@mail.gmail.com>
+Subject: Re: [RFC PATCH] include/qemu/host-utils: Remove the *_overflow
+ wrappers
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,42 +85,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 23, 2022 at 09:47:51AM +0100, Daniel P. Berrangé wrote:
-> > Hmm, when I wanted to run the whole bunch of the migration-test again I
-> > found that precopy tls test hangs (/x86_64/migration/precopy/unix/tls/psk).
-> > Though for this time it also hangs for me even with the master branch, so
-> > maybe not anything wrong with this specific pull req but still something
-> > needs fixing..
-> 
-> That pre-existing test has been runnnig by default in CI for a while
-> now, under different OS builds, so I'm surprised. Is there anything
-> especially unusual / different about your setup that could explain
-> why you see hang that we don't get anywhere else ?
+On Thu, 23 Jun 2022 at 17:41, Thomas Huth <thuth@redhat.com> wrote:
+>
+> According to commit cec07c0b612975 these wrappers were required
+> for GCC < 5.0 and Clang < 3.8. We don't support such old compilers
+> at all anymore, so we can remove the wrappers now.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  Not sure whether it's nicer to remove these to get rid of some lines
+>  of code, or whether it's nicer to keep them for the more explicit names...
+>
+>  include/qemu/host-utils.h    | 235 +----------------------------------
+>  accel/tcg/tcg-runtime-gvec.c |  16 +--
+>  fpu/softfloat.c              |  10 +-
+>  libdecnumber/decNumber.c     |   4 +-
+>  target/arm/mve_helper.c      |  18 +--
+>  5 files changed, 29 insertions(+), 254 deletions(-)
+>
+> diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
+> index bc743f5e32..6224815629 100644
+> --- a/include/qemu/host-utils.h
+> +++ b/include/qemu/host-utils.h
+> @@ -366,231 +366,6 @@ static inline uint64_t uabs64(int64_t v)
+>      return v < 0 ? -v : v;
+>  }
+>
+> -/**
+> - * sadd32_overflow - addition with overflow indication
+> - * @x, @y: addends
+> - * @ret: Output for sum
+> - *
+> - * Computes *@ret = @x + @y, and returns true if and only if that
+> - * value has been truncated.
+> - */
+> -static inline bool sadd32_overflow(int32_t x, int32_t y, int32_t *ret)
+> -{
+> -#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
+> -    return __builtin_add_overflow(x, y, ret);
+> -#else
+> -    *ret = x + y;
+> -    return ((*ret ^ x) & ~(x ^ y)) < 0;
+> -#endif
+> -}
 
-TL;DR: I think it's not run in CI?
+I think I'd prefer to keep the wrapper functions and just delete
+the fallback ifdeffery, but I guess I don't feel really strongly
+about it. Richard, do you have an opinion?
 
-Please see ufd_version_check(), as when uffd not detected we'll skip the
-whole thing.
-
-We really need to apply this patch, soon-ish..
-
-  https://lore.kernel.org/all/20210615175523.439830-2-peterx@redhat.com/
-
-I can easily reproduce the hang on two x86_64 hosts I have, with current
-master commit (2b049d2c8dc01de750410f8f1a4eac498c04c723).  Or am I the only
-one?
-
-So I think it also means we don't run migration unit tests on non-Linux
-OSes for sure because uffd was never there, meanwhile it also requires
-(mostly) root privilege even for Linux hosts so if the sysctl knob was not
-set properly (on sysctl.unprivileged_userfaultfd=1) the test can be skipped
-too.
-
-When I was changing migration code in the past few months (at least after
-I'm aware CI was probably not running it), I ran migration-test manually
-with root, but that's not ideal...
-
--- 
-Peter Xu
-
+-- PMM
 
