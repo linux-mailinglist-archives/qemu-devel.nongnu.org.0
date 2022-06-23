@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8995575B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 10:42:13 +0200 (CEST)
-Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1395575C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 10:44:33 +0200 (CEST)
+Received: from localhost ([::1]:33892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4IPk-0003i2-IO
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 04:42:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35866)
+	id 1o4IS0-0005Uk-PK
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 04:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o4INr-0002b5-2h
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:40:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26840)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o4INp-0006Ey-7P
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:40:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655973612;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=6fnolT6Hd8Ux+10kME6lcVnFcw5aelrzGj/RNiR2DLg=;
- b=Qj3uMC3kCloZEsR/M8EklMyriQdplbtryuhwmzhC+sKkznABY4PeXIhik/yB+EZQDDb1Qg
- dNqN8/JhvLAEFZG6Dd8t8ICxpKSFKs4hKqzNmSj7ARRnEQq5IrOHDjBEhktAOrIeXpa7J+
- 1bG5LKlFI8pOb/Gy735Zmfzq5ZOCpSk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-cBIhTLdFMvS-Z5WtJwQ1Tg-1; Thu, 23 Jun 2022 04:40:09 -0400
-X-MC-Unique: cBIhTLdFMvS-Z5WtJwQ1Tg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34AB718188A1;
- Thu, 23 Jun 2022 08:40:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DEB6C111F5;
- Thu, 23 Jun 2022 08:40:07 +0000 (UTC)
-Date: Thu, 23 Jun 2022 09:40:05 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, huangy81@chinatelecom.cn,
- quintela@redhat.com, leobras@redhat.com, jdenemar@redhat.com
-Subject: Re: [PULL 22/33] migration: remove the QEMUFileOps 'get_buffer'
- callback
-Message-ID: <YrQm5dWbuy2l3vE8@redhat.com>
-References: <20220622183917.155308-1-dgilbert@redhat.com>
- <20220622183917.155308-23-dgilbert@redhat.com>
- <YrNu3KesFVVvoWVb@xz-m1.local>
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1o4IP6-0003ms-My
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:41:32 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1o4IP4-0006RA-Vw
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:41:32 -0400
+Received: by mail-wr1-x432.google.com with SMTP id o16so26875400wra.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 01:41:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4jW8j4N69H2ZjZlJjB5ufMjtW3EpLyV2huJcE2kkVDo=;
+ b=qaLr+1mb+lSFOk4s/H+R/I7yo6ofduizsk9NcIL2eejIEzai+WskyLkjlVIonm08R+
+ vFKg4bcdqV/m6qABD4vDjkOd4ZW1ialUUWhpIXdWm6MZ5Aol4N4rjT0vA9zgt/ZMfFFi
+ /N6pcEn1uaxGHGBWJks87j7M/4QJEC5YXV0b++SLlFCWv/KsF434VssX+RXc4cvZ2lGe
+ TDVR7EbWXRIT8FPh09cy3EFLWbN9LWclnYgSGwP6Odn1r0WSjA/pdezP+NUW+kVAYOIi
+ YiLoyxoLZF9GiSHYGKVx7L1KwzI6KpZurBy/68fLWS8Ev4FLu4xFNqA+Lgu7xxQzMor2
+ 7uSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4jW8j4N69H2ZjZlJjB5ufMjtW3EpLyV2huJcE2kkVDo=;
+ b=yA6uRPqzr4zTZDaZhSCLx40y267zoW3IUnoNT/x/Izt59RfDhRFQx9+SP27UzKHy0l
+ SFEgzn9wH6YeBb6FZY/IZsIKAnljCuBA5XGFIPDDn2brirCU9dCVKrxtxgi8jBzCmo+m
+ homLKjj6cfyKCeynh8kjwr4XFyCVIavP4Nvkx+dgJToyDUrHrR00lT/HkmRCNb9MLYiw
+ 8da+BsKBqcda+RmgkoyF/IE14PN2ORwL+rMZNNuPLGofJD6TdpFBKrji0ae3gdWXI+Ox
+ KT9e0k24WM1y9yIj9f8Ob2yFjgta6x7ChsU88efERl8a6MrqTaLgRnEbd6qXLb/wNlfY
+ 7dJQ==
+X-Gm-Message-State: AJIora8Wd08aFsWtchSSQzjBsKcibH8fgm7lS5i40bI/Xi/fXxO4t+d4
+ 0qAID8aviSYuCk0Z9kwg6jC8xA==
+X-Google-Smtp-Source: AGRyM1vm9a/MCYPbDxyjI8oTOp6gU9iaGMZEtB2f9yxL9nOpNFatAP9dv5cV7zapj+yO/hGwD7XZ1g==
+X-Received: by 2002:a5d:67cf:0:b0:21b:9fb8:e6d6 with SMTP id
+ n15-20020a5d67cf000000b0021b9fb8e6d6mr7053078wrw.205.1655973689323; 
+ Thu, 23 Jun 2022 01:41:29 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
+ o21-20020a05600c2e1500b003a02b135747sm2094372wmf.46.2022.06.23.01.41.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jun 2022 01:41:28 -0700 (PDT)
+Date: Thu, 23 Jun 2022 09:41:05 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>
+Cc: Eric Auger <eric.auger@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>
+Subject: Re: [PATCH v2] virtio-iommu: Fix the partial copy of probe request
+Message-ID: <YrQnIfNpOIhmMPKS@myrica>
+References: <20220617062024.3168331-1-zhenzhong.duan@intel.com>
+ <0f4f26de-1402-5c3a-9903-389fef9b234f@redhat.com>
+ <YrMDMzfXAiEgFU+d@myrica>
+ <5471e06f-b1f2-d582-3558-b775af72a0fd@redhat.com>
+ <YrMf7I8mFGVyt9fS@myrica>
+ <MWHPR1101MB2110E6A7F68546E2232E5A5E92B59@MWHPR1101MB2110.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YrNu3KesFVVvoWVb@xz-m1.local>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <MWHPR1101MB2110E6A7F68546E2232E5A5E92B59@MWHPR1101MB2110.namprd11.prod.outlook.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,57 +92,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 22, 2022 at 03:34:52PM -0400, Peter Xu wrote:
-> On Wed, Jun 22, 2022 at 07:39:06PM +0100, Dr. David Alan Gilbert (git) wrote:
-> > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> > index 74f919de67..e206b05550 100644
-> > --- a/migration/qemu-file.c
-> > +++ b/migration/qemu-file.c
-> > @@ -377,8 +377,22 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
-> >          return 0;
-> >      }
-> >  
-> > -    len = f->ops->get_buffer(f->ioc, f->buf + pending, f->total_transferred,
-> > -                             IO_BUF_SIZE - pending, &local_error);
-> > +    do {
-> > +        len = qio_channel_read(f->ioc,
-> > +                               (char *)f->buf + pending,
-> > +                               IO_BUF_SIZE - pending,
-> > +                               &local_error);
-> > +        if (len == QIO_CHANNEL_ERR_BLOCK) {
-> > +            if (qemu_in_coroutine()) {
-> > +                qio_channel_yield(f->ioc, G_IO_IN);
-> > +            } else {
-> > +                qio_channel_wait(f->ioc, G_IO_IN);
-> > +            }
-> > +        } else if (len < 0) {
-> > +            len = EIO;
+On Thu, Jun 23, 2022 at 01:40:58AM +0000, Duan, Zhenzhong wrote:
 > 
-> This should be -EIO.
-
-Yes, that's correct change. /facepalm
-
-
 > 
-> > +        }
-> > +    } while (len == QIO_CHANNEL_ERR_BLOCK);
-> 
-> It's failing only with the new TLS test I added for postcopy somehow (at
-> least /x86_64/migration/postcopy/recovery/tls).. I also verified after the
-> change it'll work again.
+> >-----Original Message-----
+> >From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> >Sent: Wednesday, June 22, 2022 9:58 PM
+> >To: Eric Auger <eric.auger@redhat.com>
+> >Cc: Duan, Zhenzhong <zhenzhong.duan@intel.com>; qemu-
+> >devel@nongnu.org; mst@redhat.com
+> >Subject: Re: [PATCH v2] virtio-iommu: Fix the partial copy of probe request
+> >
+> >On Wed, Jun 22, 2022 at 02:22:18PM +0200, Eric Auger wrote:
+> >> >> the spec is pretty confusing here though (virtio-v1.2-csd01.pdf) as
+> >> >> it presents the struct as follows:
+> >> >>
+> >> >> struct virtio_iommu_req_probe {
+> >> >> struct virtio_iommu_req_head head;
+> >> >> /* Device-readable */
+> >> >> le32 endpoint;
+> >> >> u8 reserved[64];
+> >> >>
+> >> >> /* Device-writable */
+> >> >> u8 properties[probe_size];
+> >> >> struct virtio_iommu_req_tail tail;
+> >> >> };
+> >> > Hm, which part is confusing?  Yes it's not valid C since probe_size
+> >> > is defined dynamically ('probe_size' in the device config), but I
+> >> > thought it would be nicer to show the whole request layout this way.
+> >> > Besides, at least virtio-blk and virtio-scsi have similar
+> >> > variable-sized arrays in their definitions
+> >> the fact "struct virtio_iommu_req_tail tail;" was part of the
+> >>
+> >> virtio_iommu_req_probe struct
+> >
+> >Right, it would have been better to use a different name than
+> >virtio_iommu_req_probe in virtio_iommu.h, to make the pitfall clear.
+> >
+> Maybe virtio_iommu_req_probe_no_tail?
 
-Yeah, I guess this is a rare failure condition that's not easily hit
-in our tests. Makes sense that recovery tests could hit it though.
+Yes, we can't change the probe struct anymore since it's API, but we could
+use the no_tail prefix on future structs
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Thanks,
+Jean
 
