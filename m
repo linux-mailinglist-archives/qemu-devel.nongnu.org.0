@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B575576D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:42:08 +0200 (CEST)
-Received: from localhost ([::1]:58098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5684F55770B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:47:38 +0200 (CEST)
+Received: from localhost ([::1]:38370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4JLj-0002ZS-TA
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45000)
+	id 1o4JR3-000065-CN
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4J8U-0008MY-FL
+ id 1o4J8U-0008Pb-RV
  for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29259)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4J8N-0004ru-Uj
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:22 -0400
+ id 1o4J8S-0004s2-A0
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655976499;
+ s=mimecast20190719; t=1655976500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f01KN6D3ybCuZtXxqbhgGmA11QdmFrIBHP/8pOhtUDc=;
- b=GyBmc+sHxMpowyz72IWX+sv9rUTpz5BZlTG1J2zHiWokHGlOJXotIsl1HvpUsaFD7rFoUW
- GNPTF+MzThhBHtxUH5r2kyxoH5lOrDpCWk0899+HYuBkNl0q5bIw4VbVK1Z8CuydVUloZI
- kiUCG/jSxbNz5TklTK+7kB0Aq/R57M8=
+ bh=rdC8wzK3qRlsTGe76YoR1juFzydDpgy+3C0yW+4L/1Q=;
+ b=QYgKPyrNDbPeOkzjq479rTBVKq9lKfaFUV1O8E/lGXrtxIqQ1r1E4bICgAuv+0zx68dTx7
+ xthCXgikfqK1rFWqY9StP0ceq+eJ9DCgPZTXTA7EEv1Abl9y5VUfRGPCPwVQy03FqWvEsm
+ PlMpWdQeZ78jEd8AoO5QDd40HxYW9+Q=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-FMUErxrSNFipANk52ksR_A-1; Thu, 23 Jun 2022 05:28:17 -0400
-X-MC-Unique: FMUErxrSNFipANk52ksR_A-1
+ us-mta-622-mCl5eQ41Oy6anyb72Kxe4Q-1; Thu, 23 Jun 2022 05:28:19 -0400
+X-MC-Unique: mCl5eQ41Oy6anyb72Kxe4Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6454E29ABA0A;
- Thu, 23 Jun 2022 09:28:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93FD729ABA07;
+ Thu, 23 Jun 2022 09:28:18 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6613940D2853;
- Thu, 23 Jun 2022 09:28:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9866140C1289;
+ Thu, 23 Jun 2022 09:28:17 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 01/33] migration: Remove RDMA_UNREGISTRATION_EXAMPLE
-Date: Thu, 23 Jun 2022 10:27:38 +0100
-Message-Id: <20220623092810.96234-2-dgilbert@redhat.com>
+Subject: [PULL 02/33] QIOChannelSocket: Introduce assert and reduce ifdefs to
+ improve readability
+Date: Thu, 23 Jun 2022 10:27:39 +0100
+Message-Id: <20220623092810.96234-3-dgilbert@redhat.com>
 In-Reply-To: <20220623092810.96234-1-dgilbert@redhat.com>
 References: <20220623092810.96234-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -80,85 +81,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Juan Quintela <quintela@redhat.com>
+From: Leonardo Bras <leobras@redhat.com>
 
-Nobody has ever showed up to unregister individual pages, and another
-set of patches written by Daniel P. Berrangé <berrange@redhat.com>
-just remove qemu_rdma_signal_unregister() function needed here.
+During implementation of MSG_ZEROCOPY feature, a lot of #ifdefs were
+introduced, particularly at qio_channel_socket_writev().
 
+Rewrite some of those changes so it's easier to read.
+
+Also, introduce an assert to help detect incorrect zero-copy usage is when
+it's disabled on build.
+
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  dgilbert: Fixed up thinko'd g_assert_unreachable->g_assert_not_reached
 ---
- migration/rdma.c | 41 -----------------------------------------
- 1 file changed, 41 deletions(-)
+ io/channel-socket.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 672d1958a9..8504152f39 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -1370,30 +1370,6 @@ const char *print_wrid(int wrid)
-     return wrid_desc[wrid];
- }
- 
--/*
-- * RDMA requires memory registration (mlock/pinning), but this is not good for
-- * overcommitment.
-- *
-- * In preparation for the future where LRU information or workload-specific
-- * writable writable working set memory access behavior is available to QEMU
-- * it would be nice to have in place the ability to UN-register/UN-pin
-- * particular memory regions from the RDMA hardware when it is determine that
-- * those regions of memory will likely not be accessed again in the near future.
-- *
-- * While we do not yet have such information right now, the following
-- * compile-time option allows us to perform a non-optimized version of this
-- * behavior.
-- *
-- * By uncommenting this option, you will cause *all* RDMA transfers to be
-- * unregistered immediately after the transfer completes on both sides of the
-- * connection. This has no effect in 'rdma-pin-all' mode, only regular mode.
-- *
-- * This will have a terrible impact on migration performance, so until future
-- * workload information or LRU information is available, do not attempt to use
-- * this feature except for basic testing.
-- */
--/* #define RDMA_UNREGISTRATION_EXAMPLE */
--
- /*
-  * Perform a non-optimized memory unregistration after every transfer
-  * for demonstration purposes, only if pin-all is not requested.
-@@ -1571,18 +1547,6 @@ static uint64_t qemu_rdma_poll(RDMAContext *rdma, struct ibv_cq *cq,
-         if (rdma->nb_sent > 0) {
-             rdma->nb_sent--;
-         }
--
--        if (!rdma->pin_all) {
--            /*
--             * FYI: If one wanted to signal a specific chunk to be unregistered
--             * using LRU or workload-specific information, this is the function
--             * you would call to do so. That chunk would then get asynchronously
--             * unregistered later.
--             */
--#ifdef RDMA_UNREGISTRATION_EXAMPLE
--            qemu_rdma_signal_unregister(rdma, index, chunk, wc.wr_id);
--#endif
--        }
-     } else {
-         trace_qemu_rdma_poll_other(print_wrid(wr_id), wr_id, rdma->nb_sent);
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index dc9c165de1..b8c13dba7c 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -578,11 +578,17 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+         memcpy(CMSG_DATA(cmsg), fds, fdsize);
      }
-@@ -2137,11 +2101,6 @@ retry:
  
-     chunk_end = ram_chunk_end(block, chunk + chunks);
- 
--    if (!rdma->pin_all) {
--#ifdef RDMA_UNREGISTRATION_EXAMPLE
--        qemu_rdma_unregister_waiting(rdma);
--#endif
+-#ifdef QEMU_MSG_ZEROCOPY
+     if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
++#ifdef QEMU_MSG_ZEROCOPY
+         sflags = MSG_ZEROCOPY;
 -    }
++#else
++        /*
++         * We expect QIOChannel class entry point to have
++         * blocked this code path already
++         */
++        g_assert_not_reached();
+ #endif
++    }
  
-     while (test_bit(chunk, block->transit_bitmap)) {
-         (void)count;
+  retry:
+     ret = sendmsg(sioc->fd, &msg, sflags);
+@@ -592,15 +598,13 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+             return QIO_CHANNEL_ERR_BLOCK;
+         case EINTR:
+             goto retry;
+-#ifdef QEMU_MSG_ZEROCOPY
+         case ENOBUFS:
+-            if (sflags & MSG_ZEROCOPY) {
++            if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
+                 error_setg_errno(errp, errno,
+                                  "Process can't lock enough memory for using MSG_ZEROCOPY");
+                 return -1;
+             }
+             break;
+-#endif
+         }
+ 
+         error_setg_errno(errp, errno,
 -- 
 2.36.1
 
