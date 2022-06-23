@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48519558AF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:50:26 +0200 (CEST)
-Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AA5558AF8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:55:01 +0200 (CEST)
+Received: from localhost ([::1]:38770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4UiW-0007nu-U7
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:50:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
+	id 1o4Umy-0006rh-Eo
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UUL-00054R-2I; Thu, 23 Jun 2022 17:35:45 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37405)
+ id 1o4UUO-00055r-F6; Thu, 23 Jun 2022 17:35:49 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:57607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UUI-0006hB-3i; Thu, 23 Jun 2022 17:35:43 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 3CE8C3200980;
- Thu, 23 Jun 2022 17:35:39 -0400 (EDT)
+ id 1o4UUM-0006hT-Lm; Thu, 23 Jun 2022 17:35:48 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id C08BD320098C;
+ Thu, 23 Jun 2022 17:35:43 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 23 Jun 2022 17:35:40 -0400
+ by compute3.internal (MEProxy); Thu, 23 Jun 2022 17:35:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656020138; x=
- 1656106538; bh=dFOpANDDNYBPxrDO7dEroeNRMyqlauLrX98CaBQGQiQ=; b=Q
- E5Dy+RhWlh4Oc5rz+4LMT8TtBN0crE1OGjrQcBrK359FYj+rvnmLMZshvOLW+zAq
- loF2E0aQ36K49zDcXDNPSts66vghnjlnr7pWndfb999dlfYb/zeS0hZKyYqHkwuZ
- mb7h5A6MmlT2d1Q4E5FSD3940QtLx0mD4nEymPScr80dBck3md9hYkjJJ/JusxEh
- Kyr7a0IJHjB92c3TkZxikXlBHw9YUUXNM1q3AeRbkJP8lLvS7w1/We/E6cmKcuDS
- CHVQje6CCoA5DdkSZW04JtT7lA6vfO9HBr72+Ckt0Ln0tKBskqGV7/qb691vRG46
- u5EFRnJUlu3f/eNo1bK0w==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656020143; x=
+ 1656106543; bh=h4o7AOFZwCbAGKNwqBDwSEl4y0eFfp1Y4AdI/3OaUNQ=; b=g
+ NIZuiAmN1ihdaVcTuWF3TBjfPZXosiL2OCRTO5UhiBx1Mz60K1LccbK52Rl2+Zwj
+ EMngF8hrY1qm4QxN4fuyfy80qI/HxmjoK/HRZpyv80XsCbxXjncB6ycTMmquD062
+ r5sAHY2y9t/oLM5fkMyNlUM7VS/M/N/GiTvk5UZHB5I7U2pJmWMNBKDySBiC/3wi
+ RmUG5f2A1pubFb4uVWxL67ykvX2bausfX1g3P8PrHtpZ+iFmIwZd4oASr2tmWwTZ
+ A5inzZ0j8Hu3pid4zmpMfRcO1Q3cndRndiikS7VhylCwl5v2IYw9P9edIv8aaR6a
+ spOUugigEJr+hArSj0NzA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656020138; x=
- 1656106538; bh=dFOpANDDNYBPxrDO7dEroeNRMyqlauLrX98CaBQGQiQ=; b=s
- 8LSfPEK2NV4rT0oEWv/v887n0rAKYNJm3j9xOvHRfbBHD2eu+tojU+bQT8GuGd+c
- KvI38TIpnY6rrZ4zIEFUKoY7b2pcLhyZwJLeuvaQdZzqbAYOoMLTXDqc/F7+5I28
- sGil3t2gWPGE6Woe6CaTE6G35gJ7mIRU7ONhGjql7QuLMCJBlTQZDm9hJITJ/LXy
- Sm3S1oSdPbPXdv6mdfognbS/Sy73f6B3GLdaxffH7m/hS9iPODqVbKV6X9gxMyOf
- eK8c6H1rW6efxUZ8w4IbxbRhXptSFW9WYXX9XBezFlD1ruOAhjeipU9PRcMgRI7H
- Ly2ltKvKFKnArnKCykAGA==
-X-ME-Sender: <xms:qty0Yr8GlvsegL_hsyHBti_mN_9IVP8rSwVaPzLg2UUOcMcGc-UtXg>
- <xme:qty0YnuV-goLrsdFErcFKo8ZAZlm-h6wSFMX72rlvUwwJY2W7LV5Laq3O5_Fa8rAR
- uarwEUno693xFGXR84>
-X-ME-Received: <xmr:qty0YpB_wj2zLD8iwq25iJxZCCqyvQwNO6O2Kw8JfUN1LjbGr7W96qkQSZ-fji8DCW_BYMlVA0fRfrJtruN->
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeigecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhl
- rghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrf
- grthhtvghrnhepfeevtdeuteeuudffvefggfdtfedtueelfffhieegffekgeefjeefffet
- jeeihfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:qty0YnccD8gkGzW0t4UBQbtOZhzicApudM1SW7EMGAyHnXc69tvHhA>
- <xmx:qty0YgPN-W30FERkEPkaa3eGFRM7HrY7o50XARJIZdefq8u9JHzi5w>
- <xmx:qty0YpmYN1stXyx0irD8fQUJpgrMO4-AqZgOol2NaKB817_z_nGn_A>
- <xmx:qty0Ynn5IvO-QMRskwKx_T1yPgU0G81EOxqA6Or78DlhExYXUjZ-Og>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656020143; x=
+ 1656106543; bh=h4o7AOFZwCbAGKNwqBDwSEl4y0eFfp1Y4AdI/3OaUNQ=; b=u
+ ppeQCRcUkYLIWAFugaPlbKlOh9BGt/HD0G4VlA6Vk5ZacmJ/YLYY/v1JRaxvVsgV
+ q1Fe/L0q6xB2kTh9vDss7ykYEM/SPv2l/jWGFKI3HqtQ/LFNiDI1mWHSq961HSMW
+ euO+KimWUyUej96wYF1uf706osy+4bwCJLfhp6z0zHvlhMz38fqDAOUWdwmPOBrW
+ SXmqEOzktnJxsX0V/wfkEfU2EpvzintqQ0gFSvvC9494Q6c6GtE/qO7H0Lp559M0
+ ZJjqxgCtuQEVXmz7Yc5MNQI1zPfE3RzAd23tLfhZpRK8ykA3tElc4mzZDPyY49Zg
+ yafhaUiCp97nZH2IegBcg==
+X-ME-Sender: <xms:r9y0YjPlJwKaHQwIEGRA-nho_85aUBTCBTtaFB9uNGJyzk5k551YBA>
+ <xme:r9y0Yt-E4o9kd5nSYy7DKP3nPRWWlek_NaQSaeeaux2WS7mKPOBXKMif9RemADB9u
+ I87lkPUewCvi1mkx4U>
+X-ME-Received: <xmr:r9y0YiRFx53j8X0LRrLXEKGFZntzZHqxTZJr9CW3RAAPHVBqa6ycN1Dnc5W_Ea8HfuVBPSm6P2HaEGfQBkbP>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefkecutefuodetggdotefrodftvfcurf
+ hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepfeevtdeuteeuudffvefggfdtfedtueelfffhieegffekgeefjeefffetjeeihfdv
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:r9y0Yns0CnC8eOEg7r8JoJL1mEEgHf5SArIjpnP6rQOXeS3lG5UuPQ>
+ <xmx:r9y0YreeJid5NJY0_EwPWoSvGioUmQqdcagqXPsx0PrjNmBkblwtZA>
+ <xmx:r9y0Yj2apOFlrt7yJnl8E_NwI7wfI1hs5PRlLgVX1x-vG-FFEn3m5A>
+ <xmx:r9y0Ym3XzowEz76YVWVJIwUyG2HdpEZi3uY5NF95sOqrXVEwJmoCfQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jun 2022 17:35:36 -0400 (EDT)
+ 23 Jun 2022 17:35:40 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -77,9 +77,9 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 11/15] hw/nvme: Update the initalization place for the AER queue
-Date: Thu, 23 Jun 2022 23:34:38 +0200
-Message-Id: <20220623213442.67789-12-its@irrelevant.dk>
+Subject: [PULL 12/15] hw/acpi: Make the PCI hot-plug aware of SR-IOV
+Date: Thu, 23 Jun 2022 23:34:39 +0200
+Message-Id: <20220623213442.67789-13-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220623213442.67789-1-its@irrelevant.dk>
 References: <20220623213442.67789-1-its@irrelevant.dk>
@@ -112,51 +112,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-This patch updates the initialization place for the AER queue, so it’s
-initialized once, at controller initialization, and not every time
-controller is enabled.
+PCI device capable of SR-IOV support is a new, still-experimental
+feature with only a single working example of the Nvme device.
 
-While the original version works for a non-SR-IOV device, as it’s hard
-to interact with the controller if it’s not enabled, the multiple
-reinitialization is not necessarily correct.
+This patch in an attempt to fix a double-free problem when a
+SR-IOV-capable Nvme device is hot-unplugged in the following scenario:
 
-With the SR/IOV feature enabled a segfault can happen: a VF can have its
-controller disabled, while a namespace can still be attached to the
-controller through the parent PF. An event generated in such case ends
-up on an uninitialized queue.
+Qemu CLI:
+---------
+-device pcie-root-port,slot=0,id=rp0
+-device nvme-subsys,id=subsys0
+-device nvme,id=nvme0,bus=rp0,serial=deadbeef,subsys=subsys0,sriov_max_vfs=1,sriov_vq_flexible=2,sriov_vi_flexible=1
 
-While it’s an interesting question whether a VF should support AER in
-the first place, I don’t think it must be answered today.
+Guest OS:
+---------
+sudo nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
+sudo nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
+echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
+sleep 1
+echo 1 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
+nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
+nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
+sleep 2
+echo 01:00.1 > /sys/bus/pci/drivers/nvme/bind
+
+Qemu monitor:
+-------------
+device_del nvme0
+
+Explanation of the problem and the proposed solution:
+
+1) The current SR-IOV implementation assumes it’s the PhysicalFunction
+   that creates and deletes VirtualFunctions.
+2) It’s a design decision (the Nvme device at least) for the VFs to be
+   of the same class as PF. Effectively, they share the dc->hotpluggable
+   value.
+3) When a VF is created, it’s added as a child node to PF’s PCI bus
+   slot.
+4) Monitor/device_del triggers the ACPI mechanism. The implementation is
+   not aware of SR/IOV and ejects PF’s PCI slot, directly unrealizing all
+   hot-pluggable (!acpi_pcihp_pc_no_hotplug) children nodes.
+5) VFs are unrealized directly, and it doesn’t work well with (1).
+   SR/IOV structures are not updated, so when it’s PF’s turn to be
+   unrealized, it works on stale pointers to already-deleted VFs.
+
+The proposed fix is to make the PCI ACPI code aware of SR/IOV.
 
 Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/acpi/pcihp.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 20f1a7399592..658584d417fe 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -6328,8 +6328,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index bf65bbea4940..84d75e6b846f 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -192,8 +192,12 @@ static bool acpi_pcihp_pc_no_hotplug(AcpiPciHpState *s, PCIDevice *dev)
+      * ACPI doesn't allow hotplug of bridge devices.  Don't allow
+      * hot-unplug of bridge devices unless they were added by hotplug
+      * (and so, not described by acpi).
++     *
++     * Don't allow hot-unplug of SR-IOV Virtual Functions, as they
++     * will be removed implicitly, when Physical Function is unplugged.
+      */
+-    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable;
++    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable ||
++           pci_is_vf(dev);
+ }
  
-     nvme_set_timestamp(n, 0ULL);
- 
--    QTAILQ_INIT(&n->aer_queue);
--
-     nvme_select_iocs(n);
- 
-     return 0;
-@@ -6989,6 +6987,7 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
-     n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-     n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
-+    QTAILQ_INIT(&n->aer_queue);
- 
-     list->numcntl = cpu_to_le16(max_vfs);
-     for (i = 0; i < max_vfs; i++) {
+ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slots)
 -- 
 2.36.1
 
