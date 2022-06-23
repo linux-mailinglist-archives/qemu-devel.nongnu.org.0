@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797CC55729C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 07:39:21 +0200 (CEST)
-Received: from localhost ([::1]:44314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1328E557298
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 07:35:40 +0200 (CEST)
+Received: from localhost ([::1]:41774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4FYm-0003K8-8j
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 01:39:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32888)
+	id 1o4FV3-0001MB-7B
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 01:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o4FNK-0007KW-Au; Thu, 23 Jun 2022 01:27:30 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33585)
+ id 1o4FOh-0007xd-RQ; Thu, 23 Jun 2022 01:28:55 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o4FNI-00023d-PB; Thu, 23 Jun 2022 01:27:30 -0400
-Received: by mail-wr1-x436.google.com with SMTP id i10so22515515wrc.0;
- Wed, 22 Jun 2022 22:27:27 -0700 (PDT)
+ id 1o4FOg-000270-AY; Thu, 23 Jun 2022 01:28:55 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id r20so5857954wra.1;
+ Wed, 22 Jun 2022 22:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hd//IKengoQDseyXtqsqh8Bu5uUyi1meP0Nyo4qw+Wo=;
- b=lQ0k1rKDw4Q481QSPrpnKs1omLecrE2XpV/NoHKgk4zfAlm6qlzXa9hUUcPBMuXdqX
- E+e1EOt2Cbr9YCb/jDhSnnfBu4YGfnGpwe4FowRrFjmJZAeyEl3tIWbbndIrq36M5yvX
- 9owk0zQBP9lgZ8czKAEeG7PMgkNGSH+19TpGQ=
+ :cc; bh=rHeQ9F9gRYAU6ZPZSUiPL6Cm2BUKBsqOpVipP9lZqww=;
+ b=k5aHX8ZT9bLLgO+L7GWX9C4+L1X/P8CHfiASQ7L6IadUNJM0+zasyGt6aHqJpXEGOa
+ +HfH4qLDdcNNVvt/7YRfsfEwvhxo8nizex7LpTVagPeKd3Y99u8y7mC4w2OGdU73pV7N
+ YXiOo3+0ExTmd1wPx4vhHb5/6dckx6YyhUVMM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hd//IKengoQDseyXtqsqh8Bu5uUyi1meP0Nyo4qw+Wo=;
- b=idNavUoxlH49OErHInKipTaAGkRYKz9g32kfC8pS2sc2nuQVsgfTQGX+QsZWDi70om
- JMsSLym/IWwZ+cutRrt8qUdY1COff8opZyZnAgRheaCkFiGNDi38GklG1iDTEHMH3run
- KFim2Pvf45REF3TKYRIpBh/76aJNO0Xi4hbk3J/pw7F9T6TLe39tSib9VAhj6d/ahgpZ
- OP+wQutS55QYaMj8nfXVFypiyisurOdMQ4c+pUs1E1iU+a/TqedDGUBymIJnbMW1wfyg
- nwQUaWtI+A76c6OCNUu43mY31TLZUm2793Tfsmh7YQ52yNqEDFLxUMnuC570jnDLhhbS
- HKKQ==
-X-Gm-Message-State: AJIora/3HO0jz4LA9MM8jqsn7Fr3v6n+YzibRiHsqRs+qKhJFBpq4RJ5
- AYQ8G+4/xbsyBH7REogbnbwUpuHpqj66k1HnLro=
-X-Google-Smtp-Source: AGRyM1uLbHDxSxBVxmzFwLQkjnKXp61asR1uUPBYp1Bft5pa+Zl8F+X9B3lNA6QCfb0VgC5DgfjBu4KLPqcFIrj+lWI=
-X-Received: by 2002:a5d:47c9:0:b0:20f:e7da:6a48 with SMTP id
- o9-20020a5d47c9000000b0020fe7da6a48mr6583913wrc.315.1655962047045; Wed, 22
- Jun 2022 22:27:27 -0700 (PDT)
+ bh=rHeQ9F9gRYAU6ZPZSUiPL6Cm2BUKBsqOpVipP9lZqww=;
+ b=5gt4YOAmJV9tpGW5exnruqf1hTmYzrkfGyym3HgWGGg1D7x89Ef/3PjWcXRt2t7Xwo
+ K0nFV6wKMe0hH5b5MCIABPhyHf07gAsahx2FeFyzheyBEca2eVJXYwr+1bXcbwjOdoyC
+ 2U8H3KxAW/FBMs7f7293yU1iRI6jaOPAi7Snlitug/Y2YQ2GurDH2NYbVH/pGzaFD2yO
+ JabzHrkih0PIFVoey53Zck+dAIrWUukBASKlavkKyySjc8IN3wcSqQ3jq3BCFBVKR8o6
+ L0M75UWJeSqAwVin1egZ4GqlVsfAmgW9TTA9KkAZTVF3FLZheTO4DtYTyFbvjVcEtdaP
+ pQ3w==
+X-Gm-Message-State: AJIora9hwVrUTcr5tawSsT7+gZZeC+0XNlLRSz7pIs5MXRJBPPVwVCrN
+ vdPKquc8RJrqCTI0Vlge86LQIp3bsCjM6utt9jo=
+X-Google-Smtp-Source: AGRyM1uTSYOsP5j+YHBzjhPp300yn2LRDftS+/5JtSy8BJLuejpSs5COxFMaH8v2nxKiljsjkzzNXN2WJjScrlofPA0=
+X-Received: by 2002:adf:9d88:0:b0:21b:8a7a:30c5 with SMTP id
+ p8-20020adf9d88000000b0021b8a7a30c5mr6334773wre.606.1655962132464; Wed, 22
+ Jun 2022 22:28:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
- <20220622172830.101210-10-quic_jaehyoo@quicinc.com>
-In-Reply-To: <20220622172830.101210-10-quic_jaehyoo@quicinc.com>
+ <20220622172830.101210-4-quic_jaehyoo@quicinc.com>
+In-Reply-To: <20220622172830.101210-4-quic_jaehyoo@quicinc.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 23 Jun 2022 05:27:14 +0000
-Message-ID: <CACPK8XdtsfsV8_L9C_XZ+AHZ0wAwdxgXmSxW5bZ3YHOr72Qvkg@mail.gmail.com>
-Subject: Re: [PATCH 9/9] hw/arm/aspeed: firework: add I2C MUXes for VR channels
+Date: Thu, 23 Jun 2022 05:28:40 +0000
+Message-ID: <CACPK8XdBVanZ8D8sR77KnfOw=KD8LPGrNY2KeEx7HWcMwxP-Wg@mail.gmail.com>
+Subject: Re: [PATCH 3/9] hw/arm/aspeed: qcom-dc-scm-v1: add block backed FRU
+ device
 To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
@@ -58,8 +59,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Maheswara Kurapati <quic_mkurapat@quicinc.com>, 
  qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=joel.stan@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=joel.stan@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,70 +86,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 22 Jun 2022 at 17:29, Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wrote:
 >
-> Add 2-level cascaded I2C MUXes for SOC VR channels into the Firework
-> machine.
+> From: Graeme Gregory <quic_ggregory@quicinc.com>
 >
-> Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+> The FRU device uses the index 0 device on bus IF_NONE.
+>
+> -drive file=$FRU,format=raw,if=none
+>
+> file must match FRU size of 128k
+>
+> Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
 > ---
->  hw/arm/aspeed.c | 30 +++++++++++++++++++-----------
->  1 file changed, 19 insertions(+), 11 deletions(-)
+>  hw/arm/aspeed.c | 22 +++++++++++++++++-----
+>  1 file changed, 17 insertions(+), 5 deletions(-)
 >
 > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 526f3b651a9f..866a60cf7b4e 100644
+> index 785cc543d046..36d6b2c33e48 100644
 > --- a/hw/arm/aspeed.c
 > +++ b/hw/arm/aspeed.c
-> @@ -1038,7 +1038,7 @@ static void qcom_firework_fru_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
->  static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
+> @@ -992,17 +992,29 @@ static void fby35_i2c_init(AspeedMachineState *bmc)
+>       */
+>  }
+>
+> +static void qcom_dc_scm_fru_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
+> +{
+> +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
+> +    DeviceState *dev = DEVICE(i2c_dev);
+> +    /* Use First Index for DC-SCM FRU */
+> +    DriveInfo *dinfo = drive_get(IF_NONE, 0, 0);
+> +
+> +    qdev_prop_set_uint32(dev, "rom-size", rsize);
+> +
+> +    if (dinfo) {
+> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+> +    }
+> +
+> +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+> +}
+> +
+>  static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
 >  {
 >      AspeedSoCState *soc = &bmc->soc;
-> -    I2CSlave *mux;
-> +    I2CSlave *therm_mux, *cpuvr_mux;
 >
->      /* Create the generic DC-SCM hardware */
->      qcom_dc_scm_bmc_i2c_init(bmc);
-> @@ -1048,16 +1048,24 @@ static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
->      /* I2C4 */
->      qcom_firework_fru_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x50, 128 * 1024);
+>      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 15), "tmp105", 0x4d);
 >
-> -    /* I2C - 8 Thermal Diodes*/
-> -    mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9548",
-> -                                  0x70);
-> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 0), TYPE_LM75, 0x4C);
-> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 1), TYPE_LM75, 0x4C);
-> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 2), TYPE_TMP75, 0x48);
-> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 3), TYPE_TMP75, 0x48);
-> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 4), TYPE_TMP75, 0x48);
-> -
+> -    uint8_t *eeprom_buf = g_malloc0(128 * 1024);
+> -    if (eeprom_buf) {
+> -        smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 15), 0x53,
+> -                              eeprom_buf);
+> -    }
 
-You only just added this. If you modify the previous patch to call the
-"mux" variable "therm_mux" then you don't need to modify it in this
-patch.
+Again, it's strange to see code that was just added being removed. If
+you want the FRU to be in its own patch then remove the eeprom from
+the previous patch.
 
-or just squash them both together. I don't think there's much value in
-having two separate patches.
-
-> -    /* I2C-9 Fan Controller (MAX31785) */
-> +    /* I2C7 CPUVR MUX */
-> +    cpuvr_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7),
-> +                                        "pca9546", 0x70);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 0), "pca9548", 0x72);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 1), "pca9548", 0x72);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 2), "pca9548", 0x72);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 3), "pca9548", 0x72);
-> +
-> +    /* I2C8 Thermal Diodes*/
-> +    therm_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8),
-> +                                        "pca9548", 0x70);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 0), TYPE_LM75, 0x4C);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 1), TYPE_LM75, 0x4C);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 2), TYPE_LM75, 0x48);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 3), TYPE_LM75, 0x48);
-> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 4), TYPE_LM75, 0x48);
-> +
-> +    /* I2C9 Fan Controller (MAX31785) */
->      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "max31785", 0x52);
->      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "max31785", 0x54);
+> +    qcom_dc_scm_fru_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x53, 128 * 1024);
 >  }
+>
+>  static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
 > --
 > 2.25.1
 >
