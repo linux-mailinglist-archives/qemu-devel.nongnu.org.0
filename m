@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9584D558A9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:21:48 +0200 (CEST)
-Received: from localhost ([::1]:54838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777B4558AAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:25:24 +0200 (CEST)
+Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4UGp-0001TB-Mv
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51298)
+	id 1o4UKJ-000841-JT
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:25:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UDz-0006Nq-GU; Thu, 23 Jun 2022 17:18:51 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:34495)
+ id 1o4UE1-0006Wo-TH; Thu, 23 Jun 2022 17:18:53 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:46257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UDx-00046X-SY; Thu, 23 Jun 2022 17:18:51 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id F3D3E3200957;
- Thu, 23 Jun 2022 17:18:47 -0400 (EDT)
+ id 1o4UE0-00046o-7l; Thu, 23 Jun 2022 17:18:53 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 4F6FA320091E;
+ Thu, 23 Jun 2022 17:18:50 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 23 Jun 2022 17:18:48 -0400
+ by compute4.internal (MEProxy); Thu, 23 Jun 2022 17:18:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656019127; x=
- 1656105527; bh=5AJzH0OZXxYlk0dkZeJQPFlyIp8WXctBx49EIQxU/Zw=; b=A
- EhB+xWdvJeZxLgoz6ZTyYE/IZ8aXOozpMRY+MNZH+JMWh4IquWkHP9z6jnTS1snL
- sD+o2uh3UMTpycZ5CkpowXZmT4V+1kY/fBDPdGa1OtciiT3qqbrnefQ1X4YXuLOI
- rZWTUt0XRwZB6hrB6ErM66CB3nXnWjgZiygQvkTppQCxaEOAhS0WR/X8bJ1zACzo
- iazF+qb8RCe+8+TSuwgQLfSgYFMffeRMxrxR8clXFMt0WVJmlsn5aU4qX91AvZWF
- XtRFq4+QkRpJkyjDU8XlgheEgOKca1p133Xbom7bU7CXiJJxUxRjV7gxWvAr/EuL
- hbtNBzlPT2KXKdAKsC+3g==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656019129; x=
+ 1656105529; bh=Uw4Beh3GJ2Y977GWAS5ev7RKpWmRWIWeTXSBJIX0XOg=; b=g
+ A2jnaZi0+0z3wJKL8FDdNV3OAqG8hY5iItXfj1a+b0iWiKX+zWqvyAUw2neEFttW
+ nXhlJg7LGDF5hEwgfDtCpw1Y5KhtVOrUZ9E707U7k8qU4dlMxuFFpXxUY4Oil6Et
+ 0Yx+11BvStoywfxlqHT3P8Jcfgb6IiHv5t9PlJ3jkB9jmixw2dszgy0BLpblQCub
+ 9KbxE2Sf3gJj9SEy5Wnm03uHfVsFwbB44YdpQLNXpIIDWbrsLNeyv45R3/rM1Bra
+ zXj1KUFWQw4uLUIBpYkOg1slKE/8+mrWKH43OMz613Wn7mXvkBXwSc/pPytGsmrV
+ XpzW+WmuZbYxcjJHxtO3w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656019127; x=1656105527; bh=5AJzH0OZXxYlk
- 0dkZeJQPFlyIp8WXctBx49EIQxU/Zw=; b=aBTMM6YviYLy5qptugnRkhRdkBeGU
- 9MfdXyKH0Owvc0lWVivTb1lvfQTfTGfO4Ewf0PLVTMK9d36giyLY08Sr/Sh2iQi8
- DFN/VW6krLoblLaEM4Gd26ip7YKhPzK+mGp8hsaZvXZG8OYhNvdmSvxkZNBawGOc
- N1/NwRu3twX5+yXfz/z55FMt2gqhe5MVNDgAW3yQmLswgVuwuo3NKoj4gQ2AOo/x
- jh+HH/0SSFw+utoklrOZaetopw90+VDXIkwmtn8gurCluzMZOugH8ckR4YgFD67p
- zhpkW/QmaWdTgiZMqpvmPjRaSRhEeL9TyMvY7kfsK/TWJePe0g8u5z4rw==
-X-ME-Sender: <xms:t9i0YmjBjFYNpR7SqfVClEkPH1TAV2HWbv8z1XTvUkA0lNvZLYaQpQ>
- <xme:t9i0YnDlhxP-PmVueI2rJXdgbsnfdMYenCQYldmY_rpkjr8PoYvPfKeZ_ngs8b5sK
- nZQtycNrBZJVgdlbg4>
-X-ME-Received: <xmr:t9i0YuGonwMu0T2gxEJUTUd_a_9YxjKxQavPdTOCUKzr27Qkt-2ZeA1Cfk3r3jp1t0CyzdqrwowE5yghZNEG>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeitdcutefuodetggdotefrod
+ :x-sasl-enc; s=fm2; t=1656019129; x=1656105529; bh=Uw4Beh3GJ2Y97
+ 7GWAS5ev7RKpWmRWIWeTXSBJIX0XOg=; b=hV6ljQLvdKgB5+YcQXO9se7X2un6m
+ NMhiLje3dqYChdR/u0c1j9fkM1CaNnUvTZEBADvYTUXyd6kM19J5HE8JGGSxXsWi
+ ikPAQIUlF26Ps5XdkAOL5WL4KdgEfHciTgFW77gXaF1Ze3wMtbZoOfPQrOEgSDUr
+ nW43T5+PQSe+MmLzdHBgYh9sVX5dX7IHSCUnYt4SSk3sF8RSAtU4oi2cDGdNa0f2
+ meRiYEZwjQKjPRQzRVEFWu4LP7G6SwMLIGfFbepv/FvDS1toCTXZ85kHu3aqfNA7
+ xF/0TmWaeSiDUY380utC6GfcszQ6cloueVSxOKQxe9hiEXLALeG9MtXVw==
+X-ME-Sender: <xms:udi0YmpBJKZn9mqgpNUcdT-eKkMR3hlj2mSMnoNBPdwpBnygRR5bzg>
+ <xme:udi0Ykoy49Edy3yh8LZcEuB5kmfHAIpPiv3DsVRyI1NWRKo87FR8xYw9fnonsafCV
+ BmD4Mp-KU6iKsqNV3k>
+X-ME-Received: <xmr:udi0YrM9g_w0YvJkMWe4N6MiPnciWLiOCZhPIVqcz7wyDqHcpX9giIzo_hOsDJj8eaqixzMqBE0fraOpu6ey>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeiudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgr
  uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
  htthgvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedu
- jedugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ jedugeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:t9i0YvR5BA8nIY38pJKGzBzsVfs-8niiBW5NS2skGZyi-FxgJIDJoA>
- <xmx:t9i0YjzprKukRLt283x4SFbpUOcPMnbIkhSsU2ltQZQMUjqU6X5a8g>
- <xmx:t9i0Yt7SYf6vjxVn5TIO7gkE7iBmVpAgj79EiTqAaXs_slTwwx3OLA>
- <xmx:t9i0Yj92Us6S_t61XhutYD7Uh8l9yUPIuOESuyhcopRNO1ERdgegDA>
+X-ME-Proxy: <xmx:udi0Yl6DN81Uv9prG224SLz9Tfrwp4hJHXpqzgKosz502K1_aZ0qwA>
+ <xmx:udi0Yl4nlRtmN0O9tDc7wy6rf_SLmQgp2U7_nHLXe5b4IpiFsKmU6w>
+ <xmx:udi0YljTbg98tsL3bpIGoHpbUE-KydCLn1Al3ZmYL1WpBAEr_67LLQ>
+ <xmx:udi0YvlL7etICMDzMyb62NWrZe85vnCnUgmYnT4vKAzzY4S1qtHGJQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jun 2022 17:18:46 -0400 (EDT)
+ 23 Jun 2022 17:18:48 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 09/12] hw/nvme: improve cancellation handling in zone reset
-Date: Thu, 23 Jun 2022 23:18:18 +0200
-Message-Id: <20220623211821.50534-10-its@irrelevant.dk>
+Subject: [PATCH 10/12] hw/nvme: improve cancellation handling in dsm
+Date: Thu, 23 Jun 2022 23:18:19 +0200
+Message-Id: <20220623211821.50534-11-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220623211821.50534-1-its@irrelevant.dk>
 References: <20220623211821.50534-1-its@irrelevant.dk>
@@ -102,49 +102,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-If the zone reset operation is cancelled but the block unmap operation
-completes normally, the callback will continue resetting the next zone
-since it neglects to check iocb->ret which will have been set to
--ECANCELED. Make sure that this is checked and bail out if an error is
-present.
+When the DSM operation is cancelled asynchronously, we set iocb->ret to
+-ECANCELED. However, the callback function only checks the return value
+of the completed aio, which may have completed succesfully prior to the
+cancellation and thus the callback ends up continuing the dsm operation
+instead of bailing out. Fix this.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ hw/nvme/ctrl.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 1acf88d9e8c7..9add74753fd8 100644
+index 9add74753fd8..5eee730ed0cf 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -3760,14 +3760,8 @@ static void nvme_zone_reset_epilogue_cb(void *opaque, int ret)
-     int64_t moff;
-     int count;
+@@ -2367,16 +2367,10 @@ static void nvme_dsm_md_cb(void *opaque, int ret)
+     uint64_t slba;
+     uint32_t nlb;
  
 -    if (ret < 0) {
--        nvme_zone_reset_cb(iocb, ret);
+-        iocb->ret = ret;
++    if (ret < 0 || iocb->ret < 0 || !ns->lbaf.ms) {
+         goto done;
+     }
+ 
+-    if (!ns->lbaf.ms) {
+-        nvme_dsm_cb(iocb, 0);
 -        return;
 -    }
 -
--    if (!ns->lbaf.ms) {
--        nvme_zone_reset_cb(iocb, 0);
--        return;
-+    if (ret < 0 || iocb->ret < 0 || !ns->lbaf.ms) {
-+        goto out;
-     }
+     range = &iocb->range[iocb->idx - 1];
+     slba = le64_to_cpu(range->slba);
+     nlb = le32_to_cpu(range->nlb);
+@@ -2389,7 +2383,6 @@ static void nvme_dsm_md_cb(void *opaque, int ret)
+     ret = nvme_block_status_all(ns, slba, nlb, BDRV_BLOCK_ZERO);
+     if (ret) {
+         if (ret < 0) {
+-            iocb->ret = ret;
+             goto done;
+         }
  
-     moff = nvme_moff(ns, iocb->zone->d.zslba);
-@@ -3777,6 +3771,9 @@ static void nvme_zone_reset_epilogue_cb(void *opaque, int ret)
-                                         BDRV_REQ_MAY_UNMAP,
-                                         nvme_zone_reset_cb, iocb);
+@@ -2403,8 +2396,7 @@ static void nvme_dsm_md_cb(void *opaque, int ret)
      return;
-+
-+out:
-+    nvme_zone_reset_cb(iocb, ret);
+ 
+ done:
+-    iocb->aiocb = NULL;
+-    qemu_bh_schedule(iocb->bh);
++    nvme_dsm_cb(iocb, ret);
  }
  
- static void nvme_zone_reset_cb(void *opaque, int ret)
-@@ -3788,6 +3785,8 @@ static void nvme_zone_reset_cb(void *opaque, int ret)
+ static void nvme_dsm_cb(void *opaque, int ret)
+@@ -2420,6 +2412,8 @@ static void nvme_dsm_cb(void *opaque, int ret)
      if (ret < 0) {
          iocb->ret = ret;
          goto done;
@@ -152,7 +161,7 @@ index 1acf88d9e8c7..9add74753fd8 100644
 +        goto done;
      }
  
-     if (iocb->zone) {
+ next:
 -- 
 2.36.1
 
