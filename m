@@ -2,104 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B09D557D51
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 15:53:11 +0200 (CEST)
-Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F1E557D49
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 15:48:14 +0200 (CEST)
+Received: from localhost ([::1]:48668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4NGf-0002Xu-Ut
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 09:53:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42760)
+	id 1o4NBt-0006Nt-NN
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 09:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1o4NED-0000bU-PX; Thu, 23 Jun 2022 09:50:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22072
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o4NAB-0005UK-0d; Thu, 23 Jun 2022 09:46:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1o4NE8-0000qP-Ch; Thu, 23 Jun 2022 09:50:36 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NCJFxu027944;
- Thu, 23 Jun 2022 13:50:27 GMT
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o4NA8-0000Cz-GP; Thu, 23 Jun 2022 09:46:26 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NDWtK5022466;
+ Thu, 23 Jun 2022 13:46:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=nmOOaxIA7+p9g0LUXcxoGpgokON6Qku+27CXA5ImbSM=;
- b=nqHeAuEVxDqhHhIpAhGkazldpNCHicwPUnnnELO9zL4pwugnzJJMn33pZHnI2TX08Mgm
- oeHcKJIeBoBwe3n9My4RoYThX+QicITxNJoC49+eIXZKYwQ4SbAjmj2y99qusNvA534T
- HncDkWQzp5gB5/1L6XQiAbKI1iRHEjgfsoIpJiPVo8jFafqSylUnU0X+SKJ67N+6Z8xH
- s9+mgP6CZvJP52XKNPfF46ce9OcIY31ysv6SISKVwKrKUdAvEMtKzpxB6Cxjl5meVVUF
- PhpepgFLMmA1Mm+2SX0nOTRx2iKKvw2YSbHgYGQellCxFqivObuBczSDqfkjUEba7jdc mQ== 
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=PZZDf+63CUXTDJ70UmWwLm2+Ijvm1sO72iJLvf9EOGw=;
+ b=LwtlSfX8ZT1X2cLdyZOhwvvqQKNTZM5z6WNUYZ3UexayPd6Gb1BZktuCUnqhRcT+wzFu
+ 1UVo//cYgLL7kR8Or3tCjWybS57BgvCgOL037afnAlY/bQq7LiGU9pfns2U39s4AI4hd
+ FvqxOdlRdrIo0wd3EcU4/oxD5XdMCR0sxO4iPZmpyx+t45qqmXRf5/j0+sp0BTXwBDBc
+ yDTevQRvbAY8MwRl9K8QUQwg1BTKN7nBtCfElKLuVz/CFj++6kMTqNRqCLBuHo9aqQ7t
+ ruACE1AMrTnf1W905hO22s2hlOywx8i0jsBej49uTTS0Fk9/Ku4wxuUgHTHPpNQCz6gz CA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gvmfhrvd0-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gvs5grakt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Jun 2022 13:50:26 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25NDeHZn005624;
- Thu, 23 Jun 2022 13:50:26 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gvmfhrvcb-1
+ Thu, 23 Jun 2022 13:46:21 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25NDYis7027192;
+ Thu, 23 Jun 2022 13:46:20 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gvs5grakc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Jun 2022 13:50:26 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25NDnfs8006796;
- Thu, 23 Jun 2022 13:50:25 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma03dal.us.ibm.com with ESMTP id 3gs6ba5gcy-1
+ Thu, 23 Jun 2022 13:46:20 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25NDaZDI023385;
+ Thu, 23 Jun 2022 13:46:18 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3gv9r717nn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Jun 2022 13:50:25 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25NDoOK935127706
+ Thu, 23 Jun 2022 13:46:18 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25NDkFl220185358
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Jun 2022 13:50:24 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 76A4DB2066;
- Thu, 23 Jun 2022 13:50:24 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 203ACB205F;
- Thu, 23 Jun 2022 13:50:23 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.211.98.153])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 23 Jun 2022 13:50:22 +0000 (GMT)
-Message-ID: <972ff995edf1e503f93187edd815adcbb5c2ba67.camel@linux.ibm.com>
-Subject: Re: [PATCH 1/2] pc-bios/s390-ccw/virtio: Set missing status bits
- while initializing
-From: Eric Farman <farman@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: qemu-devel@nongnu.org
-Date: Thu, 23 Jun 2022 09:50:21 -0400
-In-Reply-To: <20220623071131.412457-2-thuth@redhat.com>
-References: <20220623071131.412457-1-thuth@redhat.com>
- <20220623071131.412457-2-thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+ Thu, 23 Jun 2022 13:46:15 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5E90FA4053;
+ Thu, 23 Jun 2022 13:46:15 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CE52FA404D;
+ Thu, 23 Jun 2022 13:46:14 +0000 (GMT)
+Received: from [9.152.222.245] (unknown [9.152.222.245])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Jun 2022 13:46:14 +0000 (GMT)
+Message-ID: <5c6bd37d-45b3-026a-aa2c-e9d6c3349cf9@linux.ibm.com>
+Date: Thu, 23 Jun 2022 15:50:39 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v7 8/8] s390x/s390-virtio-ccw: add zpcii-disable machine
+ property
+Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
+ thuth@redhat.com, farman@linux.ibm.com, richard.henderson@linaro.org,
+ david@redhat.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
+ mst@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+References: <20220606203614.110928-1-mjrosato@linux.ibm.com>
+ <20220606203614.110928-9-mjrosato@linux.ibm.com>
+ <a39b5023-8db2-fb13-8afd-67c18fbe7d53@linux.ibm.com>
+ <3ac2e525-87b4-b906-9830-5d89f5d006df@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <3ac2e525-87b4-b906-9830-5d89f5d006df@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 5g1eE4ekpt8r6_lFJb_OXdn-XqR5nDH9
-X-Proofpoint-ORIG-GUID: wDHJwrNX7A2r02rSwkXT2Mm9FLFmhaOD
+X-Proofpoint-GUID: bH9k_uy0NUR7qiAZ5hnqaauvUCBKECPl
+X-Proofpoint-ORIG-GUID: ovSq5EkzSU9g1FyCKHtzquKiOFDYTlbO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-06-23_05,2022-06-23_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1011
- priorityscore=1501 spamscore=0 mlxlogscore=999 suspectscore=0
- lowpriorityscore=0 mlxscore=0 impostorscore=0 malwarescore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 mlxlogscore=999
+ adultscore=0 phishscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2204290000 definitions=main-2206230055
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,79 +123,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2022-06-23 at 09:11 +0200, Thomas Huth wrote:
-> According chapter "3.1.1 Driver Requirements: Device Initialization"
-> of the Virtio specification (v1.1), a driver for a device has to set
-> the ACKNOWLEDGE and DRIVER bits in the status field after resetting
-> the device. The s390-ccw bios skipped these steps so far and seems
-> like QEMU never cared. Anyway, it's better to follow the spec, so
-> let's set these bits now in the right spots, too.
+
+
+On 6/22/22 17:20, Matthew Rosato wrote:
+> On 6/22/22 4:50 AM, Pierre Morel wrote:
+>>
+>>
+>> On 6/6/22 22:36, Matthew Rosato wrote:
+>>> The zpcii-disable machine property can be used to force-disable the use
+>>> of zPCI interpretation facilities for a VM.  By default, this setting
+>>> will be off for machine 7.1 and newer.
+>>>
+>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>> ---
+>>>   hw/s390x/s390-pci-kvm.c            |  4 +++-
+>>>   hw/s390x/s390-virtio-ccw.c         | 24 ++++++++++++++++++++++++
+>>>   include/hw/s390x/s390-virtio-ccw.h |  1 +
+>>>   qemu-options.hx                    |  8 +++++++-
+>>>   util/qemu-config.c                 |  4 ++++
+>>>   5 files changed, 39 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/s390x/s390-pci-kvm.c b/hw/s390x/s390-pci-kvm.c
+>>> index 9134fe185f..5eb7fd12e2 100644
+>>> --- a/hw/s390x/s390-pci-kvm.c
+>>> +++ b/hw/s390x/s390-pci-kvm.c
+>>> @@ -22,7 +22,9 @@
+>>>   bool s390_pci_kvm_interp_allowed(void)
+>>>   {
+>>> -    return kvm_s390_get_zpci_op() && !s390_is_pv();
+>>> +    return (kvm_s390_get_zpci_op() && !s390_is_pv() &&
+>>> +            !object_property_get_bool(OBJECT(qdev_get_machine()),
+>>> +                                      "zpcii-disable", NULL));
+>>>   }
+>>
+>> Isn't it a duplication of machine_get_zpcii_disable?
+>>
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> No, this will actually trigger machine_get_zpcii_disable -- it was setup 
+> as the 'getter' routine in s390_machine_initfn() -- see below:
 
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
+OK, I did not explain myself correctly:
+I was curious why we do not use directly ms->zpci_disabled and use the 
+getter.
 
-> ---
->  pc-bios/s390-ccw/virtio.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+Does not mean it is false. Far from.
+
 > 
-> diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
-> index 5d2c6e3381..4e85a2eb82 100644
-> --- a/pc-bios/s390-ccw/virtio.c
-> +++ b/pc-bios/s390-ccw/virtio.c
-> @@ -220,7 +220,7 @@ int virtio_run(VDev *vdev, int vqid, VirtioCmd
-> *cmd)
->  void virtio_setup_ccw(VDev *vdev)
->  {
->      int i, rc, cfg_size = 0;
-> -    unsigned char status = VIRTIO_CONFIG_S_DRIVER_OK;
-> +    uint8_t status;
->      struct VirtioFeatureDesc {
->          uint32_t features;
->          uint8_t index;
-> @@ -234,6 +234,10 @@ void virtio_setup_ccw(VDev *vdev)
->  
->      run_ccw(vdev, CCW_CMD_VDEV_RESET, NULL, 0, false);
->  
-> +    status = VIRTIO_CONFIG_S_ACKNOWLEDGE;
-> +    rc = run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status,
-> sizeof(status), false);
-> +    IPL_assert(rc == 0, "Could not write ACKNOWLEDGE status to
-> host");
-> +
->      switch (vdev->senseid.cu_model) {
->      case VIRTIO_ID_NET:
->          vdev->nr_vqs = 2;
-> @@ -253,6 +257,11 @@ void virtio_setup_ccw(VDev *vdev)
->      default:
->          panic("Unsupported virtio device\n");
->      }
-> +
-> +    status |= VIRTIO_CONFIG_S_DRIVER;
-> +    rc = run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status,
-> sizeof(status), false);
-> +    IPL_assert(rc == 0, "Could not write DRIVER status to host");
-> +
->      IPL_assert(
->          run_ccw(vdev, CCW_CMD_READ_CONF, &vdev->config, cfg_size,
-> false) == 0,
->         "Could not get block device configuration");
-> @@ -291,9 +300,10 @@ void virtio_setup_ccw(VDev *vdev)
->              run_ccw(vdev, CCW_CMD_SET_VQ, &info, sizeof(info),
-> false) == 0,
->              "Cannot set VQ info");
->      }
-> -    IPL_assert(
-> -        run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status, sizeof(status),
-> false) == 0,
-> -        "Could not write status to host");
-> +
-> +    status |= VIRTIO_CONFIG_S_DRIVER_OK;
-> +    rc = run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status,
-> sizeof(status), false);
-> +    IPL_assert(rc == 0, "Could not write DRIVER_OK status to host");
->  }
->  
->  bool virtio_is_supported(SubChannelId schid)
+>> Wouldn't it better go to hw/s390x/kvm/ ?
+>>
+>> There get the MachineState *ms = MACHINE(qdev_get_machine()) and 
+>> return the ms->zpcii_disable
+>>
+>> ?
+>>
+>>>   int s390_pci_kvm_aif_enable(S390PCIBusDevice *pbdev, ZpciFib *fib, 
+>>> bool assist)
+>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>>> index cc3097bfee..70229b102b 100644
+>>> --- a/hw/s390x/s390-virtio-ccw.c
+>>> +++ b/hw/s390x/s390-virtio-ccw.c
+>>> @@ -645,6 +645,21 @@ static inline void 
+>>> machine_set_dea_key_wrap(Object *obj, bool value,
+>>>       ms->dea_key_wrap = value;
+>>>   }
+>>> +static inline bool machine_get_zpcii_disable(Object *obj, Error **errp)
+>>> +{
+>>> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+>>> +
+>>> +    return ms->zpcii_disable;
+>>> +}
+>>> +
+>>> +static inline void machine_set_zpcii_disable(Object *obj, bool value,
+>>> +                                             Error **errp)
+>>> +{
+>>> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+>>> +
+>>> +    ms->zpcii_disable = value;
+>>> +}
+>>> +
+>>>   static S390CcwMachineClass *current_mc;
+>>>   /*
+>>> @@ -740,6 +755,13 @@ static inline void s390_machine_initfn(Object *obj)
+>>>               "Up to 8 chars in set of [A-Za-z0-9. ] (lower case 
+>>> chars converted"
+>>>               " to upper case) to pass to machine loader, boot manager,"
+>>>               " and guest kernel");
+>>> +
+>>> +    object_property_add_bool(obj, "zpcii-disable",
+>>> +                             machine_get_zpcii_disable,
+> 
+> ^^ Here.
 
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
