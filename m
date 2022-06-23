@@ -2,76 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77BC6557D3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 15:44:53 +0200 (CEST)
-Received: from localhost ([::1]:46068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B09D557D51
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 15:53:11 +0200 (CEST)
+Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4N8e-0004MN-3d
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 09:44:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41012)
+	id 1o4NGf-0002Xu-Ut
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 09:53:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o4N7K-0003Ty-HM
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 09:43:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26133)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1o4NED-0000bU-PX; Thu, 23 Jun 2022 09:50:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22072
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o4N7H-00083Z-QO
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 09:43:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655991806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Be9Gz/+F/NYjiKyhTsbK11ZiEWP/Dvs0YF1Qu3gipHQ=;
- b=cvj1hNTrNfNNK3pEwSIHTPsVt1KrE5IIRKQkZsiG0m9qkZ/OEK5TkJoklj3bVrHwIvqM4m
- 6MLNEXcx/n0SPwSCfhDXcPVaJtjjcfYYYePGDNPEdbh1rxm2qdfpsN2wy9eSpN4GV7PiZh
- 9C7oprW7XLikvu8cIj33ENBD3a6f8AQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-XtmsgNp4NKieA4uRR1DQpA-1; Thu, 23 Jun 2022 09:43:23 -0400
-X-MC-Unique: XtmsgNp4NKieA4uRR1DQpA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7051811E75;
- Thu, 23 Jun 2022 13:43:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FE432026D64;
- Thu, 23 Jun 2022 13:43:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CFEF321E690D; Thu, 23 Jun 2022 15:43:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Kevin Wolf
- <kwolf@redhat.com>,  Laurent Vivier <laurent@vivier.eu>,  Warner Losh
- <imp@bsdimp.com>,  Kyle Evans <kevans@freebsd.org>,  Hanna Reitz
- <hreitz@redhat.com>,  Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>,  Fam Zheng <fam@euphon.net>,  Eric Blake
- <eblake@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,  qemu-block@nongnu.org
-Subject: Re: [PATCH 9/9] scripts/qapi: add required system includes to visitor
-References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
- <20220616124034.3381391-10-marcandre.lureau@redhat.com>
-Date: Thu, 23 Jun 2022 15:43:20 +0200
-In-Reply-To: <20220616124034.3381391-10-marcandre.lureau@redhat.com>
- (marcandre lureau's message of "Thu, 16 Jun 2022 16:40:34 +0400")
-Message-ID: <87h74bfqbr.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1o4NE8-0000qP-Ch; Thu, 23 Jun 2022 09:50:36 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NCJFxu027944;
+ Thu, 23 Jun 2022 13:50:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=nmOOaxIA7+p9g0LUXcxoGpgokON6Qku+27CXA5ImbSM=;
+ b=nqHeAuEVxDqhHhIpAhGkazldpNCHicwPUnnnELO9zL4pwugnzJJMn33pZHnI2TX08Mgm
+ oeHcKJIeBoBwe3n9My4RoYThX+QicITxNJoC49+eIXZKYwQ4SbAjmj2y99qusNvA534T
+ HncDkWQzp5gB5/1L6XQiAbKI1iRHEjgfsoIpJiPVo8jFafqSylUnU0X+SKJ67N+6Z8xH
+ s9+mgP6CZvJP52XKNPfF46ce9OcIY31ysv6SISKVwKrKUdAvEMtKzpxB6Cxjl5meVVUF
+ PhpepgFLMmA1Mm+2SX0nOTRx2iKKvw2YSbHgYGQellCxFqivObuBczSDqfkjUEba7jdc mQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gvmfhrvd0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Jun 2022 13:50:26 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25NDeHZn005624;
+ Thu, 23 Jun 2022 13:50:26 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gvmfhrvcb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Jun 2022 13:50:26 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25NDnfs8006796;
+ Thu, 23 Jun 2022 13:50:25 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma03dal.us.ibm.com with ESMTP id 3gs6ba5gcy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Jun 2022 13:50:25 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25NDoOK935127706
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Jun 2022 13:50:24 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 76A4DB2066;
+ Thu, 23 Jun 2022 13:50:24 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 203ACB205F;
+ Thu, 23 Jun 2022 13:50:23 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.211.98.153])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Jun 2022 13:50:22 +0000 (GMT)
+Message-ID: <972ff995edf1e503f93187edd815adcbb5c2ba67.camel@linux.ibm.com>
+Subject: Re: [PATCH 1/2] pc-bios/s390-ccw/virtio: Set missing status bits
+ while initializing
+From: Eric Farman <farman@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
+Date: Thu, 23 Jun 2022 09:50:21 -0400
+In-Reply-To: <20220623071131.412457-2-thuth@redhat.com>
+References: <20220623071131.412457-1-thuth@redhat.com>
+ <20220623071131.412457-2-thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5g1eE4ekpt8r6_lFJb_OXdn-XqR5nDH9
+X-Proofpoint-ORIG-GUID: wDHJwrNX7A2r02rSwkXT2Mm9FLFmhaOD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-23_05,2022-06-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1011
+ priorityscore=1501 spamscore=0 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206230055
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,48 +116,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+On Thu, 2022-06-23 at 09:11 +0200, Thomas Huth wrote:
+> According chapter "3.1.1 Driver Requirements: Device Initialization"
+> of the Virtio specification (v1.1), a driver for a device has to set
+> the ACKNOWLEDGE and DRIVER bits in the status field after resetting
+> the device. The s390-ccw bios skipped these steps so far and seems
+> like QEMU never cared. Anyway, it's better to follow the spec, so
+> let's set these bits now in the right spots, too.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The generated visitor code includes abort() & assert(), we shouldn't
-> rely on the global "-i" headers to include the necessary system headers.
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
 
-Suggest ", even though the default qemu/osdep.h always does.
-
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  scripts/qapi/visit.py | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-> index 1ff464c0360f..d686df17f4b6 100644
-> --- a/scripts/qapi/visit.py
-> +++ b/scripts/qapi/visit.py
-> @@ -326,6 +326,8 @@ def __init__(self, prefix: str, include: List[str]):
->      def _begin_builtin_module(self) -> None:
->          self._genc.preamble_add(mcgen('''
->  %(include)s
-> +#include <assert.h>
-> +#include <stdlib.h>
->=20=20
->  #include "qapi/error.h"
->  #include "qapi/qapi-builtin-visit.h"
-> @@ -342,6 +344,8 @@ def _begin_user_module(self, name: str) -> None:
->          visit =3D self._module_basename('qapi-visit', name)
->          self._genc.preamble_add(mcgen('''
->  %(include)s
-> +#include <assert.h>
-> +#include <stdlib.h>
->=20=20
->  #include "qapi/error.h"
->  #include "qapi/qmp/qerror.h"
-
-Mildly irritating, because we normally kill such includes as redundant
-on sight.
-
-The builtin module (qapi-builtin-visit.c) doesn't actually need these
-headers.  I guess you include them just in case that changes.
+>  pc-bios/s390-ccw/virtio.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
+> index 5d2c6e3381..4e85a2eb82 100644
+> --- a/pc-bios/s390-ccw/virtio.c
+> +++ b/pc-bios/s390-ccw/virtio.c
+> @@ -220,7 +220,7 @@ int virtio_run(VDev *vdev, int vqid, VirtioCmd
+> *cmd)
+>  void virtio_setup_ccw(VDev *vdev)
+>  {
+>      int i, rc, cfg_size = 0;
+> -    unsigned char status = VIRTIO_CONFIG_S_DRIVER_OK;
+> +    uint8_t status;
+>      struct VirtioFeatureDesc {
+>          uint32_t features;
+>          uint8_t index;
+> @@ -234,6 +234,10 @@ void virtio_setup_ccw(VDev *vdev)
+>  
+>      run_ccw(vdev, CCW_CMD_VDEV_RESET, NULL, 0, false);
+>  
+> +    status = VIRTIO_CONFIG_S_ACKNOWLEDGE;
+> +    rc = run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status,
+> sizeof(status), false);
+> +    IPL_assert(rc == 0, "Could not write ACKNOWLEDGE status to
+> host");
+> +
+>      switch (vdev->senseid.cu_model) {
+>      case VIRTIO_ID_NET:
+>          vdev->nr_vqs = 2;
+> @@ -253,6 +257,11 @@ void virtio_setup_ccw(VDev *vdev)
+>      default:
+>          panic("Unsupported virtio device\n");
+>      }
+> +
+> +    status |= VIRTIO_CONFIG_S_DRIVER;
+> +    rc = run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status,
+> sizeof(status), false);
+> +    IPL_assert(rc == 0, "Could not write DRIVER status to host");
+> +
+>      IPL_assert(
+>          run_ccw(vdev, CCW_CMD_READ_CONF, &vdev->config, cfg_size,
+> false) == 0,
+>         "Could not get block device configuration");
+> @@ -291,9 +300,10 @@ void virtio_setup_ccw(VDev *vdev)
+>              run_ccw(vdev, CCW_CMD_SET_VQ, &info, sizeof(info),
+> false) == 0,
+>              "Cannot set VQ info");
+>      }
+> -    IPL_assert(
+> -        run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status, sizeof(status),
+> false) == 0,
+> -        "Could not write status to host");
+> +
+> +    status |= VIRTIO_CONFIG_S_DRIVER_OK;
+> +    rc = run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status,
+> sizeof(status), false);
+> +    IPL_assert(rc == 0, "Could not write DRIVER_OK status to host");
+>  }
+>  
+>  bool virtio_is_supported(SubChannelId schid)
 
 
