@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CADD55823A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 19:13:01 +0200 (CEST)
-Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D07E558269
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 19:14:06 +0200 (CEST)
+Received: from localhost ([::1]:37184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4QO4-0004MW-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 13:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60488)
+	id 1o4QP6-0005io-US
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 13:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q66-0006CM-KF
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37954)
+ id 1o4Q69-0006JY-T2
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q64-0005zh-VK
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:26 -0400
+ id 1o4Q68-00060C-7p
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656003264;
+ s=mimecast20190719; t=1656003267;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T1xN+11P1k1HT8e/kdMnxGNyNbGhYmDHd2rNAaVdSkY=;
- b=TU9xpPnmiHAz9OC+wAAxqhhXIBF5GFEVFyq0PgCLraWmo7Nd3D0d7oJS49/9NPpaO4Yeav
- ggfRJzHA6TksqVbpdZ0g3mGTLsUPP3IR0SRJAISL6wmrTe/BXsvViezcrMttObb753ep8Y
- /Oh4k/mArOK14358FJ2KWm4oBFqERFw=
+ bh=4axUKHaIIzvzWlrJsA5rLvfS1C75sXnDRQj3DDCmvRE=;
+ b=POItB1AqoWe8GjAVxgUNX0+eMF6PwKv6ME1QodeXOAy5ZD3YgGlb26Yl3r5AQiabeq0vYT
+ 9WM8z0IZzF6Ist1cMQjIEjOu9dTOeEKiMHxo6KsCPx4NxVGXPvpOJ5aJov4Pa14f0O4CUn
+ y/v8h4ZKZEfZVJZ1FXL99FtCvKgOqQk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-JdM5PfxnNQ6HDQQPdpDuog-1; Thu, 23 Jun 2022 12:54:23 -0400
-X-MC-Unique: JdM5PfxnNQ6HDQQPdpDuog-1
+ us-mta-508-KI3AGW-CM5iKnc1rzMmE3A-1; Thu, 23 Jun 2022 12:54:24 -0400
+X-MC-Unique: KI3AGW-CM5iKnc1rzMmE3A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22BFD101E985;
- Thu, 23 Jun 2022 16:54:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5520B8117B0;
+ Thu, 23 Jun 2022 16:54:24 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 278A42026D64;
- Thu, 23 Jun 2022 16:54:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56B1C2026D64;
+ Thu, 23 Jun 2022 16:54:23 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 19/25] migration: remove the QEMUFileOps 'shut_down' callback
-Date: Thu, 23 Jun 2022 17:53:48 +0100
-Message-Id: <20220623165354.197792-20-dgilbert@redhat.com>
+Subject: [PULL 20/25] migration: remove the QEMUFileOps 'set_blocking' callback
+Date: Thu, 23 Jun 2022 17:53:49 +0100
+Message-Id: <20220623165354.197792-21-dgilbert@redhat.com>
 In-Reply-To: <20220623165354.197792-1-dgilbert@redhat.com>
 References: <20220623165354.197792-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -82,7 +82,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-This directly implements the shutdown logic using QIOChannel APIs.
+This directly implements the set_blocking logic using QIOChannel APIs.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
@@ -90,121 +90,88 @@ Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/qemu-file-channel.c | 27 ---------------------------
- migration/qemu-file.c         | 13 ++++++++++---
- migration/qemu-file.h         | 10 ----------
- 3 files changed, 10 insertions(+), 40 deletions(-)
+ migration/qemu-file-channel.c | 14 --------------
+ migration/qemu-file.c         |  4 +---
+ migration/qemu-file.h         |  5 -----
+ 3 files changed, 1 insertion(+), 22 deletions(-)
 
 diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-index 5cb8ac93c0..80f05dc371 100644
+index 80f05dc371..0350d367ec 100644
 --- a/migration/qemu-file-channel.c
 +++ b/migration/qemu-file-channel.c
-@@ -112,31 +112,6 @@ static int channel_close(void *opaque, Error **errp)
+@@ -112,18 +112,6 @@ static int channel_close(void *opaque, Error **errp)
  }
  
  
--static int channel_shutdown(void *opaque,
--                            bool rd,
--                            bool wr,
--                            Error **errp)
+-static int channel_set_blocking(void *opaque,
+-                                bool enabled,
+-                                Error **errp)
 -{
 -    QIOChannel *ioc = QIO_CHANNEL(opaque);
 -
--    if (qio_channel_has_feature(ioc,
--                                QIO_CHANNEL_FEATURE_SHUTDOWN)) {
--        QIOChannelShutdown mode;
--        if (rd && wr) {
--            mode = QIO_CHANNEL_SHUTDOWN_BOTH;
--        } else if (rd) {
--            mode = QIO_CHANNEL_SHUTDOWN_READ;
--        } else {
--            mode = QIO_CHANNEL_SHUTDOWN_WRITE;
--        }
--        if (qio_channel_shutdown(ioc, mode, errp) < 0) {
--            return -EIO;
--        }
+-    if (qio_channel_set_blocking(ioc, enabled, errp) < 0) {
+-        return -1;
 -    }
 -    return 0;
 -}
 -
--
- static int channel_set_blocking(void *opaque,
-                                 bool enabled,
-                                 Error **errp)
-@@ -166,7 +141,6 @@ static QEMUFile *channel_get_output_return_path(void *opaque)
+ static QEMUFile *channel_get_input_return_path(void *opaque)
+ {
+     QIOChannel *ioc = QIO_CHANNEL(opaque);
+@@ -141,7 +129,6 @@ static QEMUFile *channel_get_output_return_path(void *opaque)
  static const QEMUFileOps channel_input_ops = {
      .get_buffer = channel_get_buffer,
      .close = channel_close,
--    .shut_down = channel_shutdown,
-     .set_blocking = channel_set_blocking,
+-    .set_blocking = channel_set_blocking,
      .get_return_path = channel_get_input_return_path,
  };
-@@ -175,7 +149,6 @@ static const QEMUFileOps channel_input_ops = {
+ 
+@@ -149,7 +136,6 @@ static const QEMUFileOps channel_input_ops = {
  static const QEMUFileOps channel_output_ops = {
      .writev_buffer = channel_writev_buffer,
      .close = channel_close,
--    .shut_down = channel_shutdown,
-     .set_blocking = channel_set_blocking,
+-    .set_blocking = channel_set_blocking,
      .get_return_path = channel_get_output_return_path,
  };
+ 
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 2d6ceb53af..d71bcb6c9c 100644
+index d71bcb6c9c..95d5db9dd6 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -71,16 +71,23 @@ struct QEMUFile {
- /*
-  * Stop a file from being read/written - not all backing files can do this
-  * typically only sockets can.
-+ *
-+ * TODO: convert to propagate Error objects instead of squashing
-+ * to a fixed errno value
+@@ -879,9 +879,7 @@ void qemu_put_counted_string(QEMUFile *f, const char *str)
   */
- int qemu_file_shutdown(QEMUFile *f)
+ void qemu_file_set_blocking(QEMUFile *f, bool block)
  {
--    int ret;
-+    int ret = 0;
+-    if (f->ops->set_blocking) {
+-        f->ops->set_blocking(f->ioc, block, NULL);
+-    }
++    qio_channel_set_blocking(f->ioc, block, NULL);
+ }
  
-     f->shutdown = true;
--    if (!f->ops->shut_down) {
-+    if (!qio_channel_has_feature(f->ioc,
-+                                 QIO_CHANNEL_FEATURE_SHUTDOWN)) {
-         return -ENOSYS;
-     }
--    ret = f->ops->shut_down(f->ioc, true, true, NULL);
-+
-+    if (qio_channel_shutdown(f->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL) < 0) {
-+        ret = -EIO;
-+    }
- 
-     if (!f->last_error) {
-         qemu_file_set_error(f, -EIO);
+ /*
 diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index fe1b2d1c00..9fa92c1998 100644
+index 9fa92c1998..7793e765f2 100644
 --- a/migration/qemu-file.h
 +++ b/migration/qemu-file.h
-@@ -89,22 +89,12 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
+@@ -46,10 +46,6 @@ typedef ssize_t (QEMUFileGetBufferFunc)(void *opaque, uint8_t *buf,
   */
- typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
+ typedef int (QEMUFileCloseFunc)(void *opaque, Error **errp);
  
--/*
-- * Stop any read or write (depending on flags) on the underlying
-- * transport on the QEMUFile.
-- * Existing blocking reads/writes must be woken
-- * Returns 0 on success, -err on error
+-/* Called to change the blocking mode of the file
 - */
--typedef int (QEMUFileShutdownFunc)(void *opaque, bool rd, bool wr,
--                                   Error **errp);
+-typedef int (QEMUFileSetBlocking)(void *opaque, bool enabled, Error **errp);
 -
+ /*
+  * This function writes an iovec to file. The handler must write all
+  * of the data or return a negative errno value.
+@@ -92,7 +88,6 @@ typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
  typedef struct QEMUFileOps {
      QEMUFileGetBufferFunc *get_buffer;
      QEMUFileCloseFunc *close;
-     QEMUFileSetBlocking *set_blocking;
+-    QEMUFileSetBlocking *set_blocking;
      QEMUFileWritevBufferFunc *writev_buffer;
      QEMURetPathFunc *get_return_path;
--    QEMUFileShutdownFunc *shut_down;
  } QEMUFileOps;
- 
- typedef struct QEMUFileHooks {
 -- 
 2.36.1
 
