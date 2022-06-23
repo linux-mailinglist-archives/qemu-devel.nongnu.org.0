@@ -2,63 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91C8557124
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 04:42:23 +0200 (CEST)
-Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A36A855715B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 06:17:06 +0200 (CEST)
+Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4CnW-00024m-DX
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jun 2022 22:42:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43256)
+	id 1o4EHB-0002jg-8l
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 00:17:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1o4ClH-0001Gt-IC
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 22:40:03 -0400
-Received: from mga05.intel.com ([192.55.52.43]:39338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1o4ClD-0003Nv-8g
- for qemu-devel@nongnu.org; Wed, 22 Jun 2022 22:40:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655951999; x=1687487999;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fb3PgNrJbycZBknPv2N81nor5H78OvRGhnoQwAiIhdM=;
- b=WWoTt1DvYdnO5MAQx9bYcfrfNPT5fs1qAMdWaw+0+LRVs44U47KSRwbt
- tCKdDabqjU1xZqw4gNww5dTjC38Ld+e89LXClBbF2739mJParrFIQsWmG
- pg0k5JtULTIE2GqdVmdcGqNjNkNoNeyZX8pHWS0nENofBVA0tFa4VSRS3
- TgZE7TR5n0td9JpnfgS81XSPW5NF1Ndzu7z0dOAkuWUMPDW82YWX9O0Hn
- CxNZ0OdABGS0Zp2Q5zeVyLa3KkVINy2vnyVM0uuBKhQC5+T23j3KdZG2q
- VCPCGBu0/+2U4xNBowZq2O/5pR/flIc/F1kETVjISCsxrOKSvxTPnHZOc Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="366925491"
-X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; d="scan'208";a="366925491"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 19:39:38 -0700
-X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; d="scan'208";a="644504560"
-Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 19:39:36 -0700
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
-To: qemu-devel@nongnu.org
-Cc: eric.auger@redhat.com,
-	mst@redhat.com,
-	jean-philippe@linaro.org
-Subject: [PATCH v3] virtio-iommu: Fix the partial copy of probe request
-Date: Thu, 23 Jun 2022 10:31:52 +0800
-Message-Id: <20220623023152.3473231-1-zhenzhong.duan@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o4EFD-0001t3-UB; Thu, 23 Jun 2022 00:15:03 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o4EFC-0008Og-00; Thu, 23 Jun 2022 00:15:03 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id d129so17977055pgc.9;
+ Wed, 22 Jun 2022 21:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eN6dbIbFIVd3cwePYcnosVGmg3QBrIR12t+VTFoleF8=;
+ b=HVhNEmdIU7JhwKJ3T1Gcu8GQk3zMHoYlJM5PKDUnE8bMxjDX+oL3T6pYbUGGYX3HKp
+ eqgAcswqsvcLlA+kjrOqb6NdNMzVcJqfhYTSHcy0oiV3CsQqTO+ycOUMmpyAHDvhQUnW
+ yCXjU2B2ZAcGHpZsoBdI8QxPdZckHkxrnrpffbWzLQDzC6dwQYyRBVjtzUeZQc8As1Y7
+ FXX2cGOuGX4V20B8BAv0vgisyzxfLio/LEpSFPii2TIjLlSgzdzjtiTtCYdlaaxJz1M+
+ a+TBQRdv1wRk5eO3q2B7KsGBJFEBOoWfOoMpr+qmaC/5XOokA9BjT5BQFOqIe6oLw58O
+ CaDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eN6dbIbFIVd3cwePYcnosVGmg3QBrIR12t+VTFoleF8=;
+ b=Dt2yP35JivbFb0H0rsm/PMNVDJBfU8GZ5hJtaJ6UZUgE0sNsPg/6n+lj54TZ39rh4E
+ mgG7KSfAm13HPsx6eIiyJTGgNePlwuRsr5IU+AaNdeH1XIJDF0A2UPSJfX+7ba2PMym0
+ 5oaWEMGS1MbVXwFcRZQR71b9mH6nofpDgTXjqiQXMQdxZ9toQqyhkM0g3cz+VK0eOWNR
+ AmtobuZJdpIFlqNKLBC9HTuo88m0PFoFwQ0l4zP9TMG1xqBmiZaHmo9b3H9qMrfoPIOs
+ Rz1IRemNV9Aosn///LIUk0FESSAcJ3oAReCHLQqm7RJq+gtoRr7mKR0EZns+1Vlpn7fp
+ sG9A==
+X-Gm-Message-State: AJIora+zhc2PDzxhGljGSWEOiAyOAgJ2ZBrClw3oRdNF6PYa1MIEPpFd
+ kVMT7McVAIymnQMtqhDRzVm0UVFzFvUSn0pyWw8=
+X-Google-Smtp-Source: AGRyM1t8SbHPSJPD/+x5lE1dBQlfdy/sEtHefuPEQB2rAoTzwhkiaJBrBD1LZPMJ6CFIyFEUljnZvC/2RyyBGudJrcI=
+X-Received: by 2002:a05:6a00:1306:b0:512:ca3d:392f with SMTP id
+ j6-20020a056a00130600b00512ca3d392fmr39204028pfu.79.1655957698578; Wed, 22
+ Jun 2022 21:14:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43;
- envelope-from=zhenzhong.duan@intel.com; helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220608062015.317894-1-alistair.francis@opensource.wdc.com>
+ <CAEUhbmXukS+zH=pjiF9NQWBkYguGCDiDAjOOjeZteOzR6xWK=Q@mail.gmail.com>
+In-Reply-To: <CAEUhbmXukS+zH=pjiF9NQWBkYguGCDiDAjOOjeZteOzR6xWK=Q@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 23 Jun 2022 14:14:32 +1000
+Message-ID: <CAKmqyKOAZZRVherNSu__i0rtS3w15cZ2QAutw4=Qp5y5b_N0rw@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: boot: Reduce FDT address alignment constraints
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ Atish Patra <atishp@rivosinc.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,52 +87,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The structure of probe request doesn't include the tail, this leads
-to a few field missed to be copied. Currently this isn't an issue as
-those missed field belong to reserved field, just in case reserved
-field will be used in the future.
+On Wed, Jun 8, 2022 at 4:41 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> +Atish
+>
+> On Wed, Jun 8, 2022 at 2:20 PM Alistair Francis
+> <alistair.francis@opensource.wdc.com> wrote:
+> >
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > We previously stored the device tree at a 16MB alignment from the end of
+> > memory (or 3GB). This means we need at least 16MB of memory to be able
+> > to do this. We don't actually need the FDT to be 16MB aligned, so let's
+> > drop it down to 2MB so that we can support systems with less memory,
+> > while also allowing FDT size expansion.
+> >
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/992
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  hw/riscv/boot.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> > index 57a41df8e9..e476d8f491 100644
+> > --- a/hw/riscv/boot.c
+> > +++ b/hw/riscv/boot.c
+> > @@ -226,11 +226,11 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+> >      /*
+> >       * We should put fdt as far as possible to avoid kernel/initrd overwriting
+> >       * its content. But it should be addressable by 32 bit system as well.
+> > -     * Thus, put it at an 16MB aligned address that less than fdt size from the
+> > +     * Thus, put it at an 2MB aligned address that less than fdt size from the
+> >       * end of dram or 3GB whichever is lesser.
+> >       */
+> >      temp = (dram_base < 3072 * MiB) ? MIN(dram_end, 3072 * MiB) : dram_end;
+> > -    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
+> > +    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+> >
+>
+> @Atish Patra  may have some pointers about the 16MiB alignment requirement.
 
-Changed 4th parameter of virtio_iommu_iov_to_req() to receive size
-of device-readable part.
+Any thoughts?
 
-Fixes: 1733eebb9e75b ("virtio-iommu: Implement RESV_MEM probe request")
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
----
- v3: moved "- sizeof(struct virtio_iommu_req_tail)" to virtio_iommu_handle_req() per Jean
- v2: keep bugfix change and drop cleanup change
+Alistair
 
- hw/virtio/virtio-iommu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 7c122ab95780..08b227e828f8 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -675,11 +675,10 @@ static int virtio_iommu_probe(VirtIOIOMMU *s,
- 
- static int virtio_iommu_iov_to_req(struct iovec *iov,
-                                    unsigned int iov_cnt,
--                                   void *req, size_t req_sz)
-+                                   void *req, size_t payload_sz)
- {
--    size_t sz, payload_sz = req_sz - sizeof(struct virtio_iommu_req_tail);
-+    size_t sz = iov_to_buf(iov, iov_cnt, 0, req, payload_sz);
- 
--    sz = iov_to_buf(iov, iov_cnt, 0, req, payload_sz);
-     if (unlikely(sz != payload_sz)) {
-         return VIRTIO_IOMMU_S_INVAL;
-     }
-@@ -692,7 +691,8 @@ static int virtio_iommu_handle_ ## __req(VirtIOIOMMU *s,                \
-                                          unsigned int iov_cnt)          \
- {                                                                       \
-     struct virtio_iommu_req_ ## __req req;                              \
--    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req)); \
-+    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req,               \
-+                    sizeof(req) - sizeof(struct virtio_iommu_req_tail));\
-                                                                         \
-     return ret ? ret : virtio_iommu_ ## __req(s, &req);                 \
- }
--- 
-2.25.1
-
+>
+> Regards,
+> Bin
 
