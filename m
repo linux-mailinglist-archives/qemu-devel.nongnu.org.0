@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0973C558133
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:58:14 +0200 (CEST)
-Received: from localhost ([::1]:52072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117A255818F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 19:03:34 +0200 (CEST)
+Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Q9l-0002N2-4O
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
+	id 1o4QEv-0003r7-1W
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 13:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q5r-0005tY-QE
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60819)
+ id 1o4Q5t-0005uW-GA
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q5o-0005wM-UQ
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:11 -0400
+ id 1o4Q5q-0005wa-Hx
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656003248;
+ s=mimecast20190719; t=1656003250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FLPVE62NxXG9LH47QW/57qaPPZAVyugkyDQy6DkO4CU=;
- b=TBcYqYcXoDGoK3y5djY9MWLl4dVgw3/GK+WcDHcB+uG8XMbcftsmn4fvBX1CqRpnX4i3Vq
- xl1QNoQ2940TOu96EFL97tkW836Vq9gXQ9bo/6gpxvJFWf/5fmGQU2DZ3qrxUMY96mI7Y4
- dOpa9hVqrHSJJy8hhxz6tW0ZcIKXXpk=
+ bh=g3lQjZ+KWEOw/oCbODdfnixrOec0JnPiAumb/enPmJg=;
+ b=VmB6R32XIcwZW7w8ctjLxMIa3utyThJXdWuD41qcxCgV8M9FCq5nKy9qlSaE0eYN0fI/tF
+ XDoGwMA/93a88Fpqs8e5bhnveOnRyoe3c2FJfaPdVnbu+Dp+WqdxpFkS5oo4d8dqhfRJeZ
+ sgQpN1lLcXYIl4Avb8jSiOVuRUUmMB8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-9ELxwNQWM7ulgN3OfCiadw-1; Thu, 23 Jun 2022 12:54:05 -0400
-X-MC-Unique: 9ELxwNQWM7ulgN3OfCiadw-1
+ us-mta-539-ISE4C4p0NdOUvdYd2yKihw-1; Thu, 23 Jun 2022 12:54:06 -0400
+X-MC-Unique: ISE4C4p0NdOUvdYd2yKihw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3623F3806709;
- Thu, 23 Jun 2022 16:54:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64A0F3C0D19F;
+ Thu, 23 Jun 2022 16:54:06 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D1DB2026D64;
- Thu, 23 Jun 2022 16:54:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69E702026D64;
+ Thu, 23 Jun 2022 16:54:05 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 04/25] migration: Change zero_copy_send from migration
- parameter to migration capability
-Date: Thu, 23 Jun 2022 17:53:33 +0100
-Message-Id: <20220623165354.197792-5-dgilbert@redhat.com>
+Subject: [PULL 05/25] io: add a QIOChannelNull equivalent to /dev/null
+Date: Thu, 23 Jun 2022 17:53:34 +0100
+Message-Id: <20220623165354.197792-6-dgilbert@redhat.com>
 In-Reply-To: <20220623165354.197792-1-dgilbert@redhat.com>
 References: <20220623165354.197792-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,275 +80,470 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Bras <leobras@redhat.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-When originally implemented, zero_copy_send was designed as a Migration
-paramenter.
+This is for code which needs a portable equivalent to a QIOChannelFile
+connected to /dev/null.
 
-But taking into account how is that supposed to work, and how
-the difference between a capability and a parameter, it only makes sense
-that zero-copy-send would work better as a capability.
-
-Taking into account how recently the change got merged, it was decided
-that it's still time to make it right, and convert zero_copy_send into
-a Migration capability.
-
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  dgilbert: always define the capability, even on non-Linux but error if
-set; avoids build problems with the capability
 ---
- migration/migration.c | 58 +++++++++++++++++++------------------------
- monitor/hmp-cmds.c    |  6 -----
- qapi/migration.json   | 33 +++++++-----------------
- 3 files changed, 34 insertions(+), 63 deletions(-)
+ include/io/channel-null.h         |  55 +++++++
+ io/channel-null.c                 | 237 ++++++++++++++++++++++++++++++
+ io/meson.build                    |   1 +
+ io/trace-events                   |   3 +
+ tests/unit/meson.build            |   1 +
+ tests/unit/test-io-channel-null.c |  95 ++++++++++++
+ 6 files changed, 392 insertions(+)
+ create mode 100644 include/io/channel-null.h
+ create mode 100644 io/channel-null.c
+ create mode 100644 tests/unit/test-io-channel-null.c
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 31739b2af9..5863af1b13 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -163,7 +163,8 @@ INITIALIZE_MIGRATE_CAPS_SET(check_caps_background_snapshot,
-     MIGRATION_CAPABILITY_COMPRESS,
-     MIGRATION_CAPABILITY_XBZRLE,
-     MIGRATION_CAPABILITY_X_COLO,
--    MIGRATION_CAPABILITY_VALIDATE_UUID);
-+    MIGRATION_CAPABILITY_VALIDATE_UUID,
-+    MIGRATION_CAPABILITY_ZERO_COPY_SEND);
- 
- /* When we add fault tolerance, we could have several
-    migrations at once.  For now we don't need to add
-@@ -910,10 +911,6 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
-     params->multifd_zlib_level = s->parameters.multifd_zlib_level;
-     params->has_multifd_zstd_level = true;
-     params->multifd_zstd_level = s->parameters.multifd_zstd_level;
--#ifdef CONFIG_LINUX
--    params->has_zero_copy_send = true;
--    params->zero_copy_send = s->parameters.zero_copy_send;
--#endif
-     params->has_xbzrle_cache_size = true;
-     params->xbzrle_cache_size = s->parameters.xbzrle_cache_size;
-     params->has_max_postcopy_bandwidth = true;
-@@ -1275,6 +1272,24 @@ static bool migrate_caps_check(bool *cap_list,
-         }
-     }
- 
-+#ifdef CONFIG_LINUX
-+    if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND] &&
-+        (!cap_list[MIGRATION_CAPABILITY_MULTIFD] ||
-+         migrate_use_compression() ||
-+         migrate_use_tls())) {
-+        error_setg(errp,
-+                   "Zero copy only available for non-compressed non-TLS multifd migration");
-+        return false;
-+    }
-+#else
-+    if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND]) {
-+        error_setg(errp,
-+                   "Zero copy currently only available on Linux");
-+        return false;
-+    }
-+#endif
+diff --git a/include/io/channel-null.h b/include/io/channel-null.h
+new file mode 100644
+index 0000000000..f6d54e63cf
+--- /dev/null
++++ b/include/io/channel-null.h
+@@ -0,0 +1,55 @@
++/*
++ * QEMU I/O channels null driver
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#ifndef QIO_CHANNEL_FILE_H
++#define QIO_CHANNEL_FILE_H
++
++#include "io/channel.h"
++#include "qom/object.h"
++
++#define TYPE_QIO_CHANNEL_NULL "qio-channel-null"
++OBJECT_DECLARE_SIMPLE_TYPE(QIOChannelNull, QIO_CHANNEL_NULL)
 +
 +
-     /* incoming side only */
-     if (runstate_check(RUN_STATE_INMIGRATE) &&
-         !migrate_multi_channels_is_allowed() &&
-@@ -1497,16 +1512,6 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
-         error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
-         return false;
-     }
--#ifdef CONFIG_LINUX
--    if (params->zero_copy_send &&
--        (!migrate_use_multifd() ||
--         params->multifd_compression != MULTIFD_COMPRESSION_NONE ||
--         (params->tls_creds && *params->tls_creds))) {
--        error_setg(errp,
--                   "Zero copy only available for non-compressed non-TLS multifd migration");
--        return false;
--    }
--#endif
-     return true;
- }
++/**
++ * QIOChannelNull:
++ *
++ * The QIOChannelNull object provides a channel implementation
++ * that discards all writes and returns EOF for all reads.
++ */
++
++struct QIOChannelNull {
++    QIOChannel parent;
++    bool closed;
++};
++
++
++/**
++ * qio_channel_null_new:
++ *
++ * Create a new IO channel object that discards all writes
++ * and returns EOF for all reads.
++ *
++ * Returns: the new channel object
++ */
++QIOChannelNull *
++qio_channel_null_new(void);
++
++#endif /* QIO_CHANNEL_NULL_H */
+diff --git a/io/channel-null.c b/io/channel-null.c
+new file mode 100644
+index 0000000000..75e3781507
+--- /dev/null
++++ b/io/channel-null.c
+@@ -0,0 +1,237 @@
++/*
++ * QEMU I/O channels null driver
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "io/channel-null.h"
++#include "io/channel-watch.h"
++#include "qapi/error.h"
++#include "trace.h"
++#include "qemu/iov.h"
++
++typedef struct QIOChannelNullSource QIOChannelNullSource;
++struct QIOChannelNullSource {
++    GSource parent;
++    QIOChannel *ioc;
++    GIOCondition condition;
++};
++
++
++QIOChannelNull *
++qio_channel_null_new(void)
++{
++    QIOChannelNull *ioc;
++
++    ioc = QIO_CHANNEL_NULL(object_new(TYPE_QIO_CHANNEL_NULL));
++
++    trace_qio_channel_null_new(ioc);
++
++    return ioc;
++}
++
++
++static void
++qio_channel_null_init(Object *obj)
++{
++    QIOChannelNull *ioc = QIO_CHANNEL_NULL(obj);
++    ioc->closed = false;
++}
++
++
++static ssize_t
++qio_channel_null_readv(QIOChannel *ioc,
++                       const struct iovec *iov,
++                       size_t niov,
++                       int **fds G_GNUC_UNUSED,
++                       size_t *nfds G_GNUC_UNUSED,
++                       Error **errp)
++{
++    QIOChannelNull *nioc = QIO_CHANNEL_NULL(ioc);
++
++    if (nioc->closed) {
++        error_setg_errno(errp, EINVAL,
++                         "Channel is closed");
++        return -1;
++    }
++
++    return 0;
++}
++
++
++static ssize_t
++qio_channel_null_writev(QIOChannel *ioc,
++                        const struct iovec *iov,
++                        size_t niov,
++                        int *fds G_GNUC_UNUSED,
++                        size_t nfds G_GNUC_UNUSED,
++                        int flags G_GNUC_UNUSED,
++                        Error **errp)
++{
++    QIOChannelNull *nioc = QIO_CHANNEL_NULL(ioc);
++
++    if (nioc->closed) {
++        error_setg_errno(errp, EINVAL,
++                         "Channel is closed");
++        return -1;
++    }
++
++    return iov_size(iov, niov);
++}
++
++
++static int
++qio_channel_null_set_blocking(QIOChannel *ioc G_GNUC_UNUSED,
++                              bool enabled G_GNUC_UNUSED,
++                              Error **errp G_GNUC_UNUSED)
++{
++    return 0;
++}
++
++
++static off_t
++qio_channel_null_seek(QIOChannel *ioc G_GNUC_UNUSED,
++                      off_t offset G_GNUC_UNUSED,
++                      int whence G_GNUC_UNUSED,
++                      Error **errp G_GNUC_UNUSED)
++{
++    return 0;
++}
++
++
++static int
++qio_channel_null_close(QIOChannel *ioc,
++                       Error **errp G_GNUC_UNUSED)
++{
++    QIOChannelNull *nioc = QIO_CHANNEL_NULL(ioc);
++
++    nioc->closed = true;
++    return 0;
++}
++
++
++static void
++qio_channel_null_set_aio_fd_handler(QIOChannel *ioc G_GNUC_UNUSED,
++                                    AioContext *ctx G_GNUC_UNUSED,
++                                    IOHandler *io_read G_GNUC_UNUSED,
++                                    IOHandler *io_write G_GNUC_UNUSED,
++                                    void *opaque G_GNUC_UNUSED)
++{
++}
++
++
++static gboolean
++qio_channel_null_source_prepare(GSource *source G_GNUC_UNUSED,
++                                gint *timeout)
++{
++    *timeout = -1;
++
++    return TRUE;
++}
++
++
++static gboolean
++qio_channel_null_source_check(GSource *source G_GNUC_UNUSED)
++{
++    return TRUE;
++}
++
++
++static gboolean
++qio_channel_null_source_dispatch(GSource *source,
++                                 GSourceFunc callback,
++                                 gpointer user_data)
++{
++    QIOChannelFunc func = (QIOChannelFunc)callback;
++    QIOChannelNullSource *ssource = (QIOChannelNullSource *)source;
++
++    return (*func)(ssource->ioc,
++                   ssource->condition,
++                   user_data);
++}
++
++
++static void
++qio_channel_null_source_finalize(GSource *source)
++{
++    QIOChannelNullSource *ssource = (QIOChannelNullSource *)source;
++
++    object_unref(OBJECT(ssource->ioc));
++}
++
++
++GSourceFuncs qio_channel_null_source_funcs = {
++    qio_channel_null_source_prepare,
++    qio_channel_null_source_check,
++    qio_channel_null_source_dispatch,
++    qio_channel_null_source_finalize
++};
++
++
++static GSource *
++qio_channel_null_create_watch(QIOChannel *ioc,
++                              GIOCondition condition)
++{
++    GSource *source;
++    QIOChannelNullSource *ssource;
++
++    source = g_source_new(&qio_channel_null_source_funcs,
++                          sizeof(QIOChannelNullSource));
++    ssource = (QIOChannelNullSource *)source;
++
++    ssource->ioc = ioc;
++    object_ref(OBJECT(ioc));
++
++    ssource->condition = condition;
++
++    return source;
++}
++
++
++static void
++qio_channel_null_class_init(ObjectClass *klass,
++                            void *class_data G_GNUC_UNUSED)
++{
++    QIOChannelClass *ioc_klass = QIO_CHANNEL_CLASS(klass);
++
++    ioc_klass->io_writev = qio_channel_null_writev;
++    ioc_klass->io_readv = qio_channel_null_readv;
++    ioc_klass->io_set_blocking = qio_channel_null_set_blocking;
++    ioc_klass->io_seek = qio_channel_null_seek;
++    ioc_klass->io_close = qio_channel_null_close;
++    ioc_klass->io_create_watch = qio_channel_null_create_watch;
++    ioc_klass->io_set_aio_fd_handler = qio_channel_null_set_aio_fd_handler;
++}
++
++
++static const TypeInfo qio_channel_null_info = {
++    .parent = TYPE_QIO_CHANNEL,
++    .name = TYPE_QIO_CHANNEL_NULL,
++    .instance_size = sizeof(QIOChannelNull),
++    .instance_init = qio_channel_null_init,
++    .class_init = qio_channel_null_class_init,
++};
++
++
++static void
++qio_channel_null_register_types(void)
++{
++    type_register_static(&qio_channel_null_info);
++}
++
++type_init(qio_channel_null_register_types);
+diff --git a/io/meson.build b/io/meson.build
+index bbcd3c53a4..283b9b2bdb 100644
+--- a/io/meson.build
++++ b/io/meson.build
+@@ -3,6 +3,7 @@ io_ss.add(files(
+   'channel-buffer.c',
+   'channel-command.c',
+   'channel-file.c',
++  'channel-null.c',
+   'channel-socket.c',
+   'channel-tls.c',
+   'channel-util.c',
+diff --git a/io/trace-events b/io/trace-events
+index c5e814eb44..3cc5cf1efd 100644
+--- a/io/trace-events
++++ b/io/trace-events
+@@ -10,6 +10,9 @@ qio_task_thread_result(void *task) "Task thread result task=%p"
+ qio_task_thread_source_attach(void *task, void *source) "Task thread source attach task=%p source=%p"
+ qio_task_thread_source_cancel(void *task, void *source) "Task thread source cancel task=%p source=%p"
  
-@@ -1580,11 +1585,6 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
-     if (params->has_multifd_compression) {
-         dest->multifd_compression = params->multifd_compression;
-     }
--#ifdef CONFIG_LINUX
--    if (params->has_zero_copy_send) {
--        dest->zero_copy_send = params->zero_copy_send;
--    }
--#endif
-     if (params->has_xbzrle_cache_size) {
-         dest->xbzrle_cache_size = params->xbzrle_cache_size;
-     }
-@@ -1697,11 +1697,6 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
-     if (params->has_multifd_compression) {
-         s->parameters.multifd_compression = params->multifd_compression;
-     }
--#ifdef CONFIG_LINUX
--    if (params->has_zero_copy_send) {
--        s->parameters.zero_copy_send = params->zero_copy_send;
--    }
--#endif
-     if (params->has_xbzrle_cache_size) {
-         s->parameters.xbzrle_cache_size = params->xbzrle_cache_size;
-         xbzrle_cache_resize(params->xbzrle_cache_size, errp);
-@@ -2593,7 +2588,7 @@ bool migrate_use_zero_copy_send(void)
- 
-     s = migrate_get_current();
- 
--    return s->parameters.zero_copy_send;
-+    return s->enabled_capabilities[MIGRATION_CAPABILITY_ZERO_COPY_SEND];
- }
- #endif
- 
-@@ -4249,10 +4244,6 @@ static Property migration_properties[] = {
-     DEFINE_PROP_UINT8("multifd-zstd-level", MigrationState,
-                       parameters.multifd_zstd_level,
-                       DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL),
--#ifdef CONFIG_LINUX
--    DEFINE_PROP_BOOL("zero_copy_send", MigrationState,
--                      parameters.zero_copy_send, false),
--#endif
-     DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
-                       parameters.xbzrle_cache_size,
-                       DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
-@@ -4290,6 +4281,10 @@ static Property migration_properties[] = {
-     DEFINE_PROP_MIG_CAP("x-multifd", MIGRATION_CAPABILITY_MULTIFD),
-     DEFINE_PROP_MIG_CAP("x-background-snapshot",
-             MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT),
-+#ifdef CONFIG_LINUX
-+    DEFINE_PROP_MIG_CAP("x-zero-copy-send",
-+            MIGRATION_CAPABILITY_ZERO_COPY_SEND),
-+#endif
- 
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -4350,9 +4345,6 @@ static void migration_instance_init(Object *obj)
-     params->has_multifd_compression = true;
-     params->has_multifd_zlib_level = true;
-     params->has_multifd_zstd_level = true;
--#ifdef CONFIG_LINUX
--    params->has_zero_copy_send = true;
--#endif
-     params->has_xbzrle_cache_size = true;
-     params->has_max_postcopy_bandwidth = true;
-     params->has_max_cpu_throttle = true;
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 47a27326ee..ca98df0495 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1311,12 +1311,6 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         p->has_multifd_zstd_level = true;
-         visit_type_uint8(v, param, &p->multifd_zstd_level, &err);
-         break;
--#ifdef CONFIG_LINUX
--    case MIGRATION_PARAMETER_ZERO_COPY_SEND:
--        p->has_zero_copy_send = true;
--        visit_type_bool(v, param, &p->zero_copy_send, &err);
--        break;
--#endif
-     case MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE:
-         p->has_xbzrle_cache_size = true;
-         if (!visit_type_size(v, param, &cache_size, &err)) {
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 6130cd9fae..7102e474a6 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -461,6 +461,13 @@
- #                       procedure starts. The VM RAM is saved with running VM.
- #                       (since 6.0)
- #
-+# @zero-copy-send: Controls behavior on sending memory pages on migration.
-+#                  When true, enables a zero-copy mechanism for sending
-+#                  memory pages, if host supports it.
-+#                  Requires that QEMU be permitted to use locked memory
-+#                  for guest RAM pages.
-+#                  (since 7.1)
-+#
- # Features:
- # @unstable: Members @x-colo and @x-ignore-shared are experimental.
- #
-@@ -474,7 +481,8 @@
-            'block', 'return-path', 'pause-before-switchover', 'multifd',
-            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
-            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
--           'validate-uuid', 'background-snapshot'] }
-+           'validate-uuid', 'background-snapshot',
-+           'zero-copy-send'] }
- 
- ##
- # @MigrationCapabilityStatus:
-@@ -738,12 +746,6 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
--# @zero-copy-send: Controls behavior on sending memory pages on migration.
--#                  When true, enables a zero-copy mechanism for sending
--#                  memory pages, if host supports it.
--#                  Requires that QEMU be permitted to use locked memory
--#                  for guest RAM pages.
--#                  Defaults to false. (Since 7.1)
- #
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
-@@ -784,7 +786,6 @@
-            'xbzrle-cache-size', 'max-postcopy-bandwidth',
-            'max-cpu-throttle', 'multifd-compression',
-            'multifd-zlib-level' ,'multifd-zstd-level',
--           { 'name': 'zero-copy-send', 'if' : 'CONFIG_LINUX'},
-            'block-bitmap-mapping' ] }
- 
- ##
-@@ -911,13 +912,6 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
--# @zero-copy-send: Controls behavior on sending memory pages on migration.
--#                  When true, enables a zero-copy mechanism for sending
--#                  memory pages, if host supports it.
--#                  Requires that QEMU be permitted to use locked memory
--#                  for guest RAM pages.
--#                  Defaults to false. (Since 7.1)
--#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -972,7 +966,6 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
--            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
- 
- ##
-@@ -1119,13 +1112,6 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
--# @zero-copy-send: Controls behavior on sending memory pages on migration.
--#                  When true, enables a zero-copy mechanism for sending
--#                  memory pages, if host supports it.
--#                  Requires that QEMU be permitted to use locked memory
--#                  for guest RAM pages.
--#                  Defaults to false. (Since 7.1)
--#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -1178,7 +1164,6 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
--            '*zero-copy-send': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
- 
- ##
++# channel-null.c
++qio_channel_null_new(void *ioc) "Null new ioc=%p"
++
+ # channel-socket.c
+ qio_channel_socket_new(void *ioc) "Socket new ioc=%p"
+ qio_channel_socket_new_fd(void *ioc, int fd) "Socket new ioc=%p fd=%d"
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 287b367ec3..b497a41378 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -88,6 +88,7 @@ if have_block
+     'test-io-channel-file': ['io-channel-helpers.c', io],
+     'test-io-channel-command': ['io-channel-helpers.c', io],
+     'test-io-channel-buffer': ['io-channel-helpers.c', io],
++    'test-io-channel-null': [io],
+     'test-crypto-ivgen': [io],
+     'test-crypto-afsplit': [io],
+     'test-crypto-block': [io],
+diff --git a/tests/unit/test-io-channel-null.c b/tests/unit/test-io-channel-null.c
+new file mode 100644
+index 0000000000..b3aab17ccc
+--- /dev/null
++++ b/tests/unit/test-io-channel-null.c
+@@ -0,0 +1,95 @@
++/*
++ * QEMU I/O channel null test
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "io/channel-null.h"
++#include "qapi/error.h"
++
++static gboolean test_io_channel_watch(QIOChannel *ioc,
++                                      GIOCondition condition,
++                                      gpointer opaque)
++{
++    GIOCondition *gotcond = opaque;
++    *gotcond = condition;
++    return G_SOURCE_REMOVE;
++}
++
++static void test_io_channel_null_io(void)
++{
++    g_autoptr(QIOChannelNull) null = qio_channel_null_new();
++    char buf[1024];
++    GIOCondition gotcond = 0;
++    Error *local_err = NULL;
++
++    g_assert(qio_channel_write(QIO_CHANNEL(null),
++                               "Hello World", 11,
++                               &error_abort) == 11);
++
++    g_assert(qio_channel_read(QIO_CHANNEL(null),
++                              buf, sizeof(buf),
++                              &error_abort) == 0);
++
++    qio_channel_add_watch(QIO_CHANNEL(null),
++                          G_IO_IN,
++                          test_io_channel_watch,
++                          &gotcond,
++                          NULL);
++
++    g_main_context_iteration(NULL, false);
++
++    g_assert(gotcond == G_IO_IN);
++
++    qio_channel_add_watch(QIO_CHANNEL(null),
++                          G_IO_IN | G_IO_OUT,
++                          test_io_channel_watch,
++                          &gotcond,
++                          NULL);
++
++    g_main_context_iteration(NULL, false);
++
++    g_assert(gotcond == (G_IO_IN | G_IO_OUT));
++
++    qio_channel_close(QIO_CHANNEL(null), &error_abort);
++
++    g_assert(qio_channel_write(QIO_CHANNEL(null),
++                               "Hello World", 11,
++                               &local_err) == -1);
++    g_assert_nonnull(local_err);
++
++    g_clear_pointer(&local_err, error_free);
++
++    g_assert(qio_channel_read(QIO_CHANNEL(null),
++                              buf, sizeof(buf),
++                              &local_err) == -1);
++    g_assert_nonnull(local_err);
++
++    g_clear_pointer(&local_err, error_free);
++}
++
++int main(int argc, char **argv)
++{
++    module_call_init(MODULE_INIT_QOM);
++
++    g_test_init(&argc, &argv, NULL);
++
++    g_test_add_func("/io/channel/null/io", test_io_channel_null_io);
++
++    return g_test_run();
++}
 -- 
 2.36.1
 
