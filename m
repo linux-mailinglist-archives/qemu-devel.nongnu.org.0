@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBB3557E77
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 17:12:02 +0200 (CEST)
-Received: from localhost ([::1]:35596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B36B4557E78
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 17:12:21 +0200 (CEST)
+Received: from localhost ([::1]:36286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4OUz-0001R8-Sz
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 11:12:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34770)
+	id 1o4OVG-0001ue-SD
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 11:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4OSv-0008Qd-Aq
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 11:09:53 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:44859)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o4OT8-0000Dr-5y; Thu, 23 Jun 2022 11:10:06 -0400
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:40497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4OSt-0005vi-5d
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 11:09:52 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4DE1611059C02;
- Thu, 23 Jun 2022 17:09:46 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o4OT4-0005xT-LR; Thu, 23 Jun 2022 11:10:05 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.131])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C76B0231E2;
+ Thu, 23 Jun 2022 15:09:57 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 23 Jun
- 2022 17:09:45 +0200
+ 2022 17:09:56 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0059f4c54c9-d024-45c3-8745-8ed4cc28c296,
+ (GARM-99G00387f07116-a976-436d-9488-f78a9ccc6e13,
  1905447EDF4A6B95D61F03ED56167C5A36471571) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <faba2fe7-0296-2e76-9f20-e41e159f359d@kaod.org>
-Date: Thu, 23 Jun 2022 17:09:44 +0200
+Message-ID: <e5f51f14-fe75-0d55-6588-a3ca2565f760@kaod.org>
+Date: Thu, 23 Jun 2022 17:09:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Subject: Re: [PATCH 01/14] sysbus: Remove sysbus_mmio_unmap
+Subject: Re: [PATCH 12/14] aspeed: Make aspeed_board_init_flashes public
 To: Peter Delevoryas <pdel@fb.com>
 CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
  <pbonzini@redhat.com>, <berrange@redhat.com>, <eduardo@habkost.net>,
  <"i.mitsyanko@gmail.com.mst"@redhat.com>, <marcel.apfelbaum@gmail.com>,
  <richard.henderson@linaro.org>, <f4bug@amsat.org>, <ani@anisinha.ca>,
  <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <kvm@vger.kernel.org>
-References: <20220623095825.2038562-1-pdel@fb.com>
- <20220623095825.2038562-2-pdel@fb.com>
+References: <20220623102617.2164175-1-pdel@fb.com>
+ <20220623102617.2164175-13-pdel@fb.com>
 Content-Language: en-US
-In-Reply-To: <20220623095825.2038562-2-pdel@fb.com>
+In-Reply-To: <20220623102617.2164175-13-pdel@fb.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 808c79e5-f4c2-4436-ac52-07d2351cc492
-X-Ovh-Tracer-Id: 9383812776294583169
+X-Ovh-Tracer-GUID: 2dbb2037-39f1-45b4-b5ec-fe71b9aca839
+X-Ovh-Tracer-Id: 9386908999118261121
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedvhffhvdehgfelvddtjeeuleevfeettdejgeetuedtveettedufeefueefvdetgfenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehvdel
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeghfeuudfftdduleetkeegffdtiefgkeejgeektdeggeegueelhfefieehjeevkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepkhhvmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheegke
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,55 +78,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/22 11:58, Peter Delevoryas wrote:
-> Cedric removed usage of this function in a previous commit.
-> 
-> Fixes: 981b1c6266c6 ("spapr/xive: rework the mapping the KVM memory regions")
+On 6/23/22 12:26, Peter Delevoryas wrote:
 > Signed-off-by: Peter Delevoryas <pdel@fb.com>
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Let's start simple without flash support. We should be able to
+load FW blobs in each CPU address space using loader devices.
 
 Thanks,
 
 C.
 
 > ---
->   hw/core/sysbus.c    | 10 ----------
->   include/hw/sysbus.h |  1 -
->   2 files changed, 11 deletions(-)
+>   hw/arm/aspeed.c             | 25 -------------------------
+>   hw/arm/aspeed_soc.c         | 26 ++++++++++++++++++++++++++
+>   include/hw/arm/aspeed_soc.h |  2 ++
+>   3 files changed, 28 insertions(+), 25 deletions(-)
 > 
-> diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-> index 05c1da3d31..637e18f247 100644
-> --- a/hw/core/sysbus.c
-> +++ b/hw/core/sysbus.c
-> @@ -154,16 +154,6 @@ static void sysbus_mmio_map_common(SysBusDevice *dev, int n, hwaddr addr,
->       }
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 3aa74e88fb..c893ce84d7 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -278,31 +278,6 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
+>       rom_add_blob_fixed("aspeed.boot_rom", storage, rom_size, addr);
 >   }
 >   
-> -void sysbus_mmio_unmap(SysBusDevice *dev, int n)
+> -static void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+> -                                      unsigned int count, int unit0)
 > -{
-> -    assert(n >= 0 && n < dev->num_mmio);
+> -    int i;
 > -
-> -    if (dev->mmio[n].addr != (hwaddr)-1) {
-> -        memory_region_del_subregion(get_system_memory(), dev->mmio[n].memory);
-> -        dev->mmio[n].addr = (hwaddr)-1;
+> -    if (!flashtype) {
+> -        return;
+> -    }
+> -
+> -    for (i = 0; i < count; ++i) {
+> -        DriveInfo *dinfo = drive_get(IF_MTD, 0, unit0 + i);
+> -        qemu_irq cs_line;
+> -        DeviceState *dev;
+> -
+> -        dev = qdev_new(flashtype);
+> -        if (dinfo) {
+> -            qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+> -        }
+> -        qdev_realize_and_unref(dev, BUS(s->spi), &error_fatal);
+> -
+> -        cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
+> -        sysbus_connect_irq(SYS_BUS_DEVICE(s), i + 1, cs_line);
 > -    }
 > -}
 > -
->   void sysbus_mmio_map(SysBusDevice *dev, int n, hwaddr addr)
+>   static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
 >   {
->       sysbus_mmio_map_common(dev, n, addr, false, 0);
-> diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
-> index 3564b7b6a2..153ef20695 100644
-> --- a/include/hw/sysbus.h
-> +++ b/include/hw/sysbus.h
-> @@ -82,7 +82,6 @@ qemu_irq sysbus_get_connected_irq(SysBusDevice *dev, int n);
->   void sysbus_mmio_map(SysBusDevice *dev, int n, hwaddr addr);
->   void sysbus_mmio_map_overlap(SysBusDevice *dev, int n, hwaddr addr,
->                                int priority);
-> -void sysbus_mmio_unmap(SysBusDevice *dev, int n);
->   void sysbus_add_io(SysBusDevice *dev, hwaddr addr,
->                      MemoryRegion *mem);
->   MemoryRegion *sysbus_address_space(SysBusDevice *dev);
+>           DeviceState *card;
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index b7e8506f28..33bfc06ed8 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -20,6 +20,7 @@
+>   #include "hw/i2c/aspeed_i2c.h"
+>   #include "net/net.h"
+>   #include "sysemu/sysemu.h"
+> +#include "sysemu/blockdev.h"
+>   
+>   #define ASPEED_SOC_IOMEM_SIZE       0x00200000
+>   
+> @@ -579,3 +580,28 @@ void aspeed_soc_uart_init(AspeedSoCState *s)
+>                          serial_hd(i), DEVICE_LITTLE_ENDIAN);
+>       }
+>   }
+> +
+> +void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+> +                               unsigned int count, int unit0)
+> +{
+> +    int i;
+> +
+> +    if (!flashtype) {
+> +        return;
+> +    }
+> +
+> +    for (i = 0; i < count; ++i) {
+> +        DriveInfo *dinfo = drive_get(IF_MTD, 0, unit0 + i);
+> +        qemu_irq cs_line;
+> +        DeviceState *dev;
+> +
+> +        dev = qdev_new(flashtype);
+> +        if (dinfo) {
+> +            qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+> +        }
+> +        qdev_realize_and_unref(dev, BUS(s->spi), &error_fatal);
+> +
+> +        cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(s), i + 1, cs_line);
+> +    }
+> +}
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index c68395ddbb..270d85d5de 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -166,5 +166,7 @@ enum {
+>   
+>   qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
+>   void aspeed_soc_uart_init(AspeedSoCState *s);
+> +void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+> +                               unsigned int count, int unit0);
+>   
+>   #endif /* ASPEED_SOC_H */
 
 
