@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0227C558AF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:51:04 +0200 (CEST)
-Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F83558AE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:44:04 +0200 (CEST)
+Received: from localhost ([::1]:41854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Uj8-0000Mg-Ol
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:51:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55066)
+	id 1o4UcN-0006XM-Kx
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UTw-0004dS-P5; Thu, 23 Jun 2022 17:35:20 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:43511)
+ id 1o4UU1-0004k3-4x; Thu, 23 Jun 2022 17:35:26 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:55627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UTu-0006e8-I1; Thu, 23 Jun 2022 17:35:20 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 9AC3E320097C;
- Thu, 23 Jun 2022 17:35:15 -0400 (EDT)
+ id 1o4UTz-0006fK-Du; Thu, 23 Jun 2022 17:35:24 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 8FB883200959;
+ Thu, 23 Jun 2022 17:35:20 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 23 Jun 2022 17:35:17 -0400
+ by compute1.internal (MEProxy); Thu, 23 Jun 2022 17:35:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656020115; x=
- 1656106515; bh=ezkYm9EDGpTe/unPxklpx6mjGWwbgQ86K8FY51Uf7e8=; b=h
- fwdO3nEB7PLxQXHDKwEGbYnN3/bldzwKX08OEXOXQEsbMQKbJAcpPJwJHxBh4wrY
- 1qp38NvxPtT3MyQeV1oPZ41zntsrixMFJ/wNqwMc68XFeAfnfjtycns7PhO0//a3
- 5gwAzhwG2ZJfOfDE7nFNPRZ++JpYKSfwzpWDXux00TZdi/TxqaQwMV3cpP14yXE2
- pz/1UJPGT1zwz1CvVjfbEAjlJv18Kc6Erj4mc3KgV3SMvBfTbSHcoeMassXCcmEo
- wgtrR7isHfVlSMw2PGPRMr4RpV8R1kq+15zqhXZ2ZgwxiXdqV2q6mLT9uc/802OK
- j6g1NTbKn3Smblq64w6Uw==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656020119; x=
+ 1656106519; bh=SR+ZHQlbF+eJKjbFaAHZZQT7pYhR+T55DYI4EXrTytY=; b=S
+ Y+7BqQgHm7BIGbP7eNylkK+d65eqVqaqjbPhihaNQkjXdMj3P0/ghTMfvR295j1e
+ 0Sr9CG3ry5qcM2Ok+7QbW8Z2XbfAuZRc8Q/GEc4AghAeYNUWtq7g5tBOB3WwuF1i
+ d6Akts5WQeTEntbbI7HdqC44cf+05/l+VDPKCjZYe3Q0eTYMNTBsn4rFgtzhuZgT
+ vvREWJz1llKEjaTk0vve6k7RQZX6EnXe6kz0K/hAosCtO7iRLGSM1sAJGh1jBjI9
+ N3f61eLqafvmmay6rvQxFKtaC8FIqosTu4MKjsxW3Mi1+nNPems+lyU7CpKV0aro
+ QDKZqwiFfdfxUHJt9YKmg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656020115; x=
- 1656106515; bh=ezkYm9EDGpTe/unPxklpx6mjGWwbgQ86K8FY51Uf7e8=; b=L
- kaQ4OjifazR0tRnhhVCvx7BmgCPTwJV6ctbvKgqzTc3dzcFwSe7l9I4pA1lroDko
- xf+tiAm2+JsLDWHP4Qahm8a4lsEXeVUPjvTikaToVj6UKA4ggs26mHI4aZlUp6Kb
- u7Nz1ouLDwoa5XwOGpJ2zH2K6eo9HHmoEvy6gn5bnRdtOzzXZ2XZN8zbW/uukERa
- hkemgugtwjkbE8rjSBjYSNU2nE7lc8Ws6DwfY69IlKZLUIdWp5DCZq2sXLvyXSbd
- YuLhXCIVYQrd0rIMMm/ebkAHGXBbmKHDgVb4vfnWz775Ek6aAqraicvsYCR/Yk/W
- pTYs4cpLk1csdyvIElTTQ==
-X-ME-Sender: <xms:kty0YnwrNesHKmBDPWT-Yny5VwFdtZQ9N5Dkqdyy-dvrnsuaajonDA>
- <xme:kty0YvQH-9AvBIgFcZ7DgLaOavAuynyARlgCtnxfp0i1dpTIJOG8EO6XsXOzHnPhD
- Nm68Q4mmf-8Cjx_WLg>
-X-ME-Received: <xmr:kty0YhXzV2js-NfZnQLzuRkMFP5AdTL7xVEwiPoBSSNC2zvM9fNyZQQ0H2W6ktYC9qZasJuscw7wolqn-dnw>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656020119; x=
+ 1656106519; bh=SR+ZHQlbF+eJKjbFaAHZZQT7pYhR+T55DYI4EXrTytY=; b=u
+ terYj5QqtBa5P/U/74I3dU+DYjBtdBxPssQsFxfMPgS36cXrJUFBGEUF6LSNp7/n
+ G+WjkJZAX87TeBS2I7dvINmkK/hEgFujS7L8rWfquvcTQPd3ci3MXDss6cQslQeC
+ VbLHWlgBicOyunX6GtnBXO8vLL47LZj7tFa+MWY7cj+orlyceFzsqqARGRC9Mvgb
+ W+HeBGA0pS+haZg/4wR78KfxBC9V+ujfcv084qvq8HEjG9p+Z6+3IlJCxsrOwrPv
+ 52Cb2j7/twXI62avEMmhK/OWKN40FSaV4hFSTsJCY+kQ8EqkIsMSzfPCWHQPtsxa
+ x3ggIh4vYslxYnEJF+45A==
+X-ME-Sender: <xms:l9y0YihEmTz6_GRVPxuwovk1R4OYBWHVUUwROu9fsymm6MiIaQA4uw>
+ <xme:l9y0YjARVE3u2Xk61plUW-zPCNmZDHwc3HcZ6qmM-lxF7FQOf2ZneAjl7SPN9G7rG
+ Ccnfbgbq-mPQeQOZnU>
+X-ME-Received: <xmr:l9y0YqHJ3OMd1TWK4XpUuCN7bYgjmUtuqkw-1Wd8fSJPv0RNNgVdPAeV61UewEebeDg4UydbkosEHC81FjR5>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeifecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhl
  rghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrf
  grthhtvghrnhepfeevtdeuteeuudffvefggfdtfedtueelfffhieegffekgeefjeefffet
- jeeihfdvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
+ jeeihfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:k9y0YhjKFgStFGLhXEnSsJfHG48dd7MGh7KoiZ4d8QGjLVk8WziFww>
- <xmx:k9y0YpBgqZFsNQrdQUuDr3-rtLX5ilVvXd_sBoc20QcBxCVhnznQPQ>
- <xmx:k9y0YqIZhpcJM7uDS9Itzbsl0gKqOR-EcerISaWuyL8b0eeTotU0ZA>
- <xmx:k9y0Yhaqsyw2fpeijPB36u3ef8M-XZR2ySoafAfidjYFVx-JVPK3Yg>
+X-ME-Proxy: <xmx:l9y0YrTrdyU3snho0KsVENnqz63qfMV7rCHh5qVpIxW7-Lc-dTM4sA>
+ <xmx:l9y0YvzXBlDZVabgR4J0Fmxhshd4n4-xY6wf0I_tfxw4amhocpUz2g>
+ <xmx:l9y0Yp76LF5Hvr7ZxqkLxqzYyOmxEfH-WkVbV1844Qtz2meogbWxLg>
+ <xmx:l9y0YkKPPmjlJ7w4K3zK364u63hsOfqKcMEBxdkO_7yhdX_E7Bg9NA>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jun 2022 17:35:12 -0400 (EDT)
+ 23 Jun 2022 17:35:17 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -77,10 +77,9 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 06/15] hw/nvme: Remove reg_size variable and update BAR0 size
- calculation
-Date: Thu, 23 Jun 2022 23:34:33 +0200
-Message-Id: <20220623213442.67789-7-its@irrelevant.dk>
+Subject: [PULL 07/15] hw/nvme: Calculate BAR attributes in a function
+Date: Thu, 23 Jun 2022 23:34:34 +0200
+Message-Id: <20220623213442.67789-8-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220623213442.67789-1-its@irrelevant.dk>
 References: <20220623213442.67789-1-its@irrelevant.dk>
@@ -113,87 +112,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-The n->reg_size parameter unnecessarily splits the BAR0 size calculation
-in two phases; removed to simplify the code.
-
-With all the calculations done in one place, it seems the pow2ceil,
-applied originally to reg_size, is unnecessary. The rounding should
-happen as the last step, when BAR size includes Nvme registers, queue
-registers, and MSIX-related space.
-
-Finally, the size of the mmio memory region is extended to cover the 1st
-4KiB padding (see the map below). Access to this range is handled as
-interaction with a non-existing queue and generates an error trace, so
-actually nothing changes, while the reg_size variable is no longer needed.
-
-    --------------------
-    |      BAR0        |
-    --------------------
-    [Nvme Registers    ]
-    [Queues            ]
-    [power-of-2 padding] - removed in this patch
-    [4KiB padding (1)  ]
-    [MSIX TABLE        ]
-    [4KiB padding (2)  ]
-    [MSIX PBA          ]
-    [power-of-2 padding]
+An NVMe device with SR-IOV capability calculates the BAR size
+differently for PF and VF, so it makes sense to extract the common code
+to a separate function.
 
 Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 10 +++++-----
- hw/nvme/nvme.h |  1 -
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ hw/nvme/ctrl.c | 45 +++++++++++++++++++++++++++++++--------------
+ 1 file changed, 31 insertions(+), 14 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index e970234a2c87..9f07a730d341 100644
+index 9f07a730d341..3315e5c3de0a 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -6671,9 +6671,6 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->conf_ioqpairs = n->params.max_ioqpairs;
-     n->conf_msix_qsize = n->params.msix_qsize;
+@@ -6730,6 +6730,34 @@ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
+     memory_region_set_enabled(&n->pmr.dev->mr, false);
+ }
  
--    /* add one to max_ioqpairs to account for the admin queue pair */
--    n->reg_size = pow2ceil(sizeof(NvmeBar) +
--                           2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
-     n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
-     n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
-     n->temperature = NVME_TEMPERATURE;
-@@ -6797,7 +6794,10 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-         pcie_ari_init(pci_dev, 0x100, 1);
++static uint64_t nvme_bar_size(unsigned total_queues, unsigned total_irqs,
++                              unsigned *msix_table_offset,
++                              unsigned *msix_pba_offset)
++{
++    uint64_t bar_size, msix_table_size, msix_pba_size;
++
++    bar_size = sizeof(NvmeBar) + 2 * total_queues * NVME_DB_SIZE;
++    bar_size = QEMU_ALIGN_UP(bar_size, 4 * KiB);
++
++    if (msix_table_offset) {
++        *msix_table_offset = bar_size;
++    }
++
++    msix_table_size = PCI_MSIX_ENTRY_SIZE * total_irqs;
++    bar_size += msix_table_size;
++    bar_size = QEMU_ALIGN_UP(bar_size, 4 * KiB);
++
++    if (msix_pba_offset) {
++        *msix_pba_offset = bar_size;
++    }
++
++    msix_pba_size = QEMU_ALIGN_UP(total_irqs, 64) / 8;
++    bar_size += msix_pba_size;
++
++    bar_size = pow2ceil(bar_size);
++    return bar_size;
++}
++
+ static void nvme_init_sriov(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t offset,
+                             uint64_t bar_size)
+ {
+@@ -6769,7 +6797,7 @@ static int nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
+ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+ {
+     uint8_t *pci_conf = pci_dev->config;
+-    uint64_t bar_size, msix_table_size, msix_pba_size;
++    uint64_t bar_size;
+     unsigned msix_table_offset, msix_pba_offset;
+     int ret;
+ 
+@@ -6795,19 +6823,8 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
      }
  
--    bar_size = QEMU_ALIGN_UP(n->reg_size, 4 * KiB);
-+    /* add one to max_ioqpairs to account for the admin queue pair */
-+    bar_size = sizeof(NvmeBar) +
-+               2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE;
-+    bar_size = QEMU_ALIGN_UP(bar_size, 4 * KiB);
-     msix_table_offset = bar_size;
-     msix_table_size = PCI_MSIX_ENTRY_SIZE * n->params.msix_qsize;
- 
-@@ -6811,7 +6811,7 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+     /* add one to max_ioqpairs to account for the admin queue pair */
+-    bar_size = sizeof(NvmeBar) +
+-               2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE;
+-    bar_size = QEMU_ALIGN_UP(bar_size, 4 * KiB);
+-    msix_table_offset = bar_size;
+-    msix_table_size = PCI_MSIX_ENTRY_SIZE * n->params.msix_qsize;
+-
+-    bar_size += msix_table_size;
+-    bar_size = QEMU_ALIGN_UP(bar_size, 4 * KiB);
+-    msix_pba_offset = bar_size;
+-    msix_pba_size = QEMU_ALIGN_UP(n->params.msix_qsize, 64) / 8;
+-
+-    bar_size += msix_pba_size;
+-    bar_size = pow2ceil(bar_size);
++    bar_size = nvme_bar_size(n->params.max_ioqpairs + 1, n->params.msix_qsize,
++                             &msix_table_offset, &msix_pba_offset);
  
      memory_region_init(&n->bar0, OBJECT(n), "nvme-bar0", bar_size);
      memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n, "nvme",
--                          n->reg_size);
-+                          msix_table_offset);
-     memory_region_add_subregion(&n->bar0, 0, &n->iomem);
- 
-     if (pci_is_vf(pci_dev)) {
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index aab4962fb857..d9deb0b1ec43 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -429,7 +429,6 @@ typedef struct NvmeCtrl {
-     uint16_t    max_prp_ents;
-     uint16_t    cqe_size;
-     uint16_t    sqe_size;
--    uint32_t    reg_size;
-     uint32_t    max_q_ents;
-     uint8_t     outstanding_aers;
-     uint32_t    irq_status;
 -- 
 2.36.1
 
