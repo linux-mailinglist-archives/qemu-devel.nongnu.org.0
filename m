@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E222558AB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:28:07 +0200 (CEST)
-Received: from localhost ([::1]:41088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38AE558AE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:40:56 +0200 (CEST)
+Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4UMw-0002y3-8b
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51344)
+	id 1o4UZL-0007uz-9h
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UE4-0006f2-D7; Thu, 23 Jun 2022 17:18:56 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:38647)
+ id 1o4UEQ-0007Qi-OD; Thu, 23 Jun 2022 17:19:18 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:46583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UE2-00047E-JY; Thu, 23 Jun 2022 17:18:56 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id BA92E3200953;
- Thu, 23 Jun 2022 17:18:52 -0400 (EDT)
+ id 1o4UEP-00047a-0o; Thu, 23 Jun 2022 17:19:18 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 2819D320025E;
+ Thu, 23 Jun 2022 17:18:55 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 23 Jun 2022 17:18:53 -0400
+ by compute5.internal (MEProxy); Thu, 23 Jun 2022 17:18:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656019132; x=
- 1656105532; bh=URNdkGQ8Jhh3C9CNzgiSYcZOTDyRV0EKShg68E0eQCw=; b=b
- FQXeFiuTZbLjgvDR7+pxwBpg2apm4giODTBakR19fBZzH/8ADSAt7/0mYpm19y0T
- DeGmJtwmIuAeaQyE/0hAvXM/Sz3jf/GqSSsNVQufRP/zhEjlDyBaOMsGA0nVHrGT
- 9zf5ub8d628pXbE0Zmww8tdYA8Oxn9byvn/BBoplFcHdX83BduLpZctwJMVEkyUc
- UHcSGPys4WlVCbzUhmJuXiEX7l/CYDsb8FctWIcGQY6bfscmieEbL3xnfY22N7J3
- PwlgVGzhlsUlS/NERdb0waz0mx5BpB9cWpGxKfNjYuQLt+RkqNMoXrBEDYwyTOJ1
- H8gFC5bCHWRHZ5bmWXcjg==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656019134; x=
+ 1656105534; bh=RdetYxis/WUrSIhNp79V8/GQNGJ3LxpRdXFX7z5KRpE=; b=N
+ aAUeoQPAEFv1pOtCfvWDtkvwoUNeuUzdhmSQmcgYn2JChNCKwVKUJmRmgoj6Hq1R
+ P7sIqNscQhDc0YD45uy5JfYbHIk9yntycMS45tL5g9Yrf0ZYtAoxdVSedkqAn4MX
+ V0TTtdJ6VlpqLi6HLtwQh++4sopuec/vD7DnT4z8c4pZlorJuc8pkvUrJpz5vs0e
+ AwrkdVJKVZWkcwFE3Z0wpX43Dll34+4bhiylahiCuk6icQ2+PdJhzWjcFZ1PYvpd
+ 8hf41EXRdvSIjDRav1au6Xv5XBFbwXM+nvvRJF3+p2pw6O3jYN9boLgwzM1QnJiO
+ Yd4ApOs2+j6fSmg+k7+YQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656019132; x=1656105532; bh=URNdkGQ8Jhh3C
- 9CNzgiSYcZOTDyRV0EKShg68E0eQCw=; b=FEUcdBWNcKNEFcn7kxPt8Xgcgg8u9
- b9j/vy7IXC+Wyo5ebySG2nwcDlPpmsJV1eHo8ucdmhHrcblx2sNBKXPRTbRU0/mK
- VEx7HiUAJTYjLE8yQ0fXVmPbLCnTT9zYL1JQt907rHm4KKE/N0Gw5OB4AzrTRFXE
- UtsqiMWFs2EcEnACLjvGGGX94Ui6q0AVLuNv2fgNBmX0+BtfmYtI3bLmCYdyAkAG
- EuBQvlWm6wUNvBkcuvhlWKPPi5iG1p9WtGX1Xk9yJBHXw4vIrenxWREW3mVybaMh
- hgmsILeLlNttlODm32Aj4TrvDkNC1NOr85eTaPgoXmA+IMpJnFkaG+5Kw==
-X-ME-Sender: <xms:vNi0Yr_uVCKT4Hb5CWB2guzjlXvcEc51PtvYPv3gYdaTXoFG40WnqQ>
- <xme:vNi0Yntds-41xizizPU_3I0mqZn8gTz2LCcqbOQr0n0X6L-cIoXal3Ki_Slbm1axD
- sKegrnpewRWqlJaWnk>
-X-ME-Received: <xmr:vNi0YpCnH5cYcKpGmA6oX2E1_ZqdCETg4r3Vtqd2vgUR7pASKLfxFLFg_AucEbKFAE1W9LlJDrluYsfeeSVH>
+ :x-sasl-enc; s=fm2; t=1656019134; x=1656105534; bh=RdetYxis/WUrS
+ IhNp79V8/GQNGJ3LxpRdXFX7z5KRpE=; b=CLnCGbEtC/SkR9qM6JkZ39EqqaKuT
+ w6/ML/hUOCvcNISjGtnpRnD/4vmNohHzCeY/6HARsp55v6eLBtftJmxFTatZrv3I
+ xETpjuc4V2WvM8VlQLpxLh/roUvolcChrSYqpcWiLuK+hMLFEdjgn4Ulqyh1R3pj
+ b7aqtJ3VXE8KBxMrDEoHPLOuFRJGFv5lg8SaZ6tMEAIRQKHg13CSNratBiy9Mgqp
+ d8Btij1ktOqiVIJQCXtd4iHlKI1/pYlwdLxnpwtHxeWmHZ1Lhr59mSIJ2vfcIijR
+ d6G/xLxwhvUEAxF5OLc3vu1wWoOAxATjlyN5k+AZWc6DPLc5+kLBLajGQ==
+X-ME-Sender: <xms:vti0YoQllHbfVPEqR2c07Z1iUkjnD1ugBcxo0zMDhgb5jnBpVV7lHA>
+ <xme:vti0YlytbuwN4UP1KlKEeXNhziZ6_vEYjUP2QrSTinfzIQWIgTb1Gt-aBne3E1Cga
+ vNX9URJp6GLAG0UTJQ>
+X-ME-Received: <xmr:vti0Yl3QEKtdz1SNSGVnjlwOZ9oV0br-YqL8_mi1YTYgwweG4Cn8zDMT0kQCTz37aBPJAJUpEjBfvJgY3nUi>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeiudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -57,20 +57,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeiudcutefuodetgg
  htthgvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedu
  jedugeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:vNi0YnckqWZMrTWFC1Hv0knkCV2pA_I9hL2jgdZrvIgIOVYSzltTBA>
- <xmx:vNi0YgM1v7jTLHJgZqyC-n-TIue98EnjZMF6DYMcDCliL25fXq0Csw>
- <xmx:vNi0YpngtGyFj34d1WEW2jPZ4vwKdxyC2_ZLinWGtzTyg0HDHMVa5Q>
- <xmx:vNi0Ylpglb3Vme3DeJldVNZslM3qjUd5bsfZRssdgGO9g6aSHbBDvg>
+X-ME-Proxy: <xmx:vti0YsCx-_FZ7C3lmFj1yrL0aYzhiXtpVLgm8kSTV_gXUqhhiKubjQ>
+ <xmx:vti0YhjzIMPSpvJYzto4D6Pq6a6r3FfFVBHdYCLy-mwIkJrBgKEw-g>
+ <xmx:vti0YoqtdRpxWmd5fbHiYhbyrL_r2iOCztrUVD69gYhbO8yRxZbL7Q>
+ <xmx:vti0Ymt6jjDz93ZDWdnH1KEujrXZIg77529k58FoM68m69YDeZu-LQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jun 2022 17:18:51 -0400 (EDT)
+ 23 Jun 2022 17:18:53 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 11/12] hw/nvme: simplify copy command error handling
-Date: Thu, 23 Jun 2022 23:18:20 +0200
-Message-Id: <20220623211821.50534-12-its@irrelevant.dk>
+Subject: [PATCH 12/12] hw/nvme: align logic of format with flush
+Date: Thu, 23 Jun 2022 23:18:21 +0200
+Message-Id: <20220623211821.50534-13-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220623211821.50534-1-its@irrelevant.dk>
 References: <20220623211821.50534-1-its@irrelevant.dk>
@@ -102,149 +102,142 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Move error handling down in the call stack to simplify the control flow.
+Use the same logic in format as in flush, saving a bh scheduling at the
+start of the operation and moving completion handling to a separately
+invoked bottom halve.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 50 ++++++++++++--------------------------------------
- 1 file changed, 12 insertions(+), 38 deletions(-)
+ hw/nvme/ctrl.c | 43 ++++++++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 17 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 5eee730ed0cf..4d6b4c9f00ba 100644
+index 4d6b4c9f00ba..0e6f4d71134b 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -2614,7 +2614,7 @@ static void nvme_copy_bh(void *opaque)
-     qemu_aio_unref(iocb);
- }
+@@ -5608,8 +5608,6 @@ typedef struct NvmeFormatAIOCB {
+     uint8_t pil;
+ } NvmeFormatAIOCB;
  
--static void nvme_copy_cb(void *opaque, int ret);
-+static void nvme_do_copy(NvmeCopyAIOCB *iocb);
- 
- static void nvme_copy_source_range_parse_format0(void *ranges, int idx,
-                                                  uint64_t *slba, uint32_t *nlb,
-@@ -2726,7 +2726,7 @@ static void nvme_copy_out_completed_cb(void *opaque, int ret)
-     iocb->idx++;
-     iocb->slba += nlb;
- out:
--    nvme_copy_cb(iocb, iocb->ret);
-+    nvme_do_copy(iocb);
- }
- 
- static void nvme_copy_out_cb(void *opaque, int ret)
-@@ -2738,16 +2738,8 @@ static void nvme_copy_out_cb(void *opaque, int ret)
-     size_t mlen;
-     uint8_t *mbounce;
- 
--    if (ret < 0) {
--        iocb->ret = ret;
-+    if (ret < 0 || iocb->ret < 0 || !ns->lbaf.ms) {
-         goto out;
--    } else if (iocb->ret < 0) {
--        goto out;
--    }
+-static void nvme_format_bh(void *opaque);
 -
--    if (!ns->lbaf.ms) {
--        nvme_copy_out_completed_cb(iocb, 0);
--        return;
-     }
- 
-     nvme_copy_source_range_parse(iocb->ranges, iocb->idx, iocb->format, NULL,
-@@ -2766,7 +2758,7 @@ static void nvme_copy_out_cb(void *opaque, int ret)
-     return;
- 
- out:
--    nvme_copy_cb(iocb, ret);
-+    nvme_copy_out_completed_cb(iocb, ret);
- }
- 
- static void nvme_copy_in_completed_cb(void *opaque, int ret)
-@@ -2860,15 +2852,9 @@ static void nvme_copy_in_completed_cb(void *opaque, int ret)
- 
- invalid:
-     req->status = status;
--    iocb->aiocb = NULL;
--    if (iocb->bh) {
--        qemu_bh_schedule(iocb->bh);
--    }
--
--    return;
--
-+    iocb->ret = -1;
- out:
--    nvme_copy_cb(iocb, ret);
-+    nvme_do_copy(iocb);
- }
- 
- static void nvme_copy_in_cb(void *opaque, int ret)
-@@ -2879,16 +2865,8 @@ static void nvme_copy_in_cb(void *opaque, int ret)
-     uint64_t slba;
-     uint32_t nlb;
- 
--    if (ret < 0) {
--        iocb->ret = ret;
-+    if (ret < 0 || iocb->ret < 0 || !ns->lbaf.ms) {
-         goto out;
--    } else if (iocb->ret < 0) {
--        goto out;
--    }
--
--    if (!ns->lbaf.ms) {
--        nvme_copy_in_completed_cb(iocb, 0);
--        return;
-     }
- 
-     nvme_copy_source_range_parse(iocb->ranges, iocb->idx, iocb->format, &slba,
-@@ -2904,12 +2882,11 @@ static void nvme_copy_in_cb(void *opaque, int ret)
-     return;
- 
- out:
--    nvme_copy_cb(iocb, iocb->ret);
-+    nvme_copy_in_completed_cb(iocb, ret);
- }
- 
--static void nvme_copy_cb(void *opaque, int ret)
-+static void nvme_do_copy(NvmeCopyAIOCB *iocb)
+ static void nvme_format_cancel(BlockAIOCB *aiocb)
  {
--    NvmeCopyAIOCB *iocb = opaque;
-     NvmeRequest *req = iocb->req;
-     NvmeNamespace *ns = req->ns;
-     uint64_t slba;
-@@ -2917,10 +2894,7 @@ static void nvme_copy_cb(void *opaque, int ret)
-     size_t len;
-     uint16_t status;
+     NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
+@@ -5628,6 +5626,17 @@ static const AIOCBInfo nvme_format_aiocb_info = {
+     .get_aio_context = nvme_get_aio_context,
+ };
  
--    if (ret < 0) {
--        iocb->ret = ret;
--        goto done;
--    } else if (iocb->ret < 0) {
-+    if (iocb->ret < 0) {
++static void nvme_format_bh(void *opaque)
++{
++    NvmeFormatAIOCB *iocb = opaque;
++
++    iocb->common.cb(iocb->common.opaque, iocb->ret);
++
++    qemu_bh_delete(iocb->bh);
++    iocb->bh = NULL;
++    qemu_aio_unref(iocb);
++}
++
+ static void nvme_format_set(NvmeNamespace *ns, uint8_t lbaf, uint8_t mset,
+                             uint8_t pi, uint8_t pil)
+ {
+@@ -5642,6 +5651,8 @@ static void nvme_format_set(NvmeNamespace *ns, uint8_t lbaf, uint8_t mset,
+     nvme_ns_init_format(ns);
+ }
+ 
++static void nvme_do_format(NvmeFormatAIOCB *iocb);
++
+ static void nvme_format_ns_cb(void *opaque, int ret)
+ {
+     NvmeFormatAIOCB *iocb = opaque;
+@@ -5651,6 +5662,8 @@ static void nvme_format_ns_cb(void *opaque, int ret)
+     if (ret < 0) {
+         iocb->ret = ret;
          goto done;
++    } else if (iocb->ret < 0) {
++        goto done;
      }
  
-@@ -2967,6 +2941,7 @@ static void nvme_copy_cb(void *opaque, int ret)
+     assert(ns);
+@@ -5672,8 +5685,7 @@ static void nvme_format_ns_cb(void *opaque, int ret)
+     iocb->offset = 0;
  
- invalid:
-     req->status = status;
-+    iocb->ret = -1;
  done:
-     iocb->aiocb = NULL;
-     if (iocb->bh) {
-@@ -2974,7 +2949,6 @@ done:
-     }
+-    iocb->aiocb = NULL;
+-    qemu_bh_schedule(iocb->bh);
++    nvme_do_format(iocb);
  }
  
--
- static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
+ static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
+@@ -5697,16 +5709,15 @@ static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
+     return NVME_SUCCESS;
+ }
+ 
+-static void nvme_format_bh(void *opaque)
++static void nvme_do_format(NvmeFormatAIOCB *iocb)
  {
-     NvmeNamespace *ns = req->ns;
-@@ -3060,7 +3034,7 @@ static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
-                      BLOCK_ACCT_WRITE);
+-    NvmeFormatAIOCB *iocb = opaque;
+     NvmeRequest *req = iocb->req;
+     NvmeCtrl *n = nvme_ctrl(req);
+     uint16_t status;
+     int i;
+ 
+     if (iocb->ret < 0) {
+-        goto done;
++        goto out;
+     }
+ 
+     if (iocb->broadcast) {
+@@ -5720,26 +5731,23 @@ static void nvme_format_bh(void *opaque)
+     }
+ 
+     if (!iocb->ns) {
+-        goto done;
++        goto out;
+     }
+ 
+     status = nvme_format_check(iocb->ns, iocb->lbaf, iocb->pi);
+     if (status) {
+         req->status = status;
+-        goto done;
++        goto out;
+     }
+ 
+     iocb->ns->status = NVME_FORMAT_IN_PROGRESS;
+     nvme_format_ns_cb(iocb, 0);
+     return;
+ 
+-done:
+-    qemu_bh_delete(iocb->bh);
+-    iocb->bh = NULL;
+-
+-    iocb->common.cb(iocb->common.opaque, iocb->ret);
+-
+-    qemu_aio_unref(iocb);
++out:
++    if (iocb->bh) {
++        qemu_bh_schedule(iocb->bh);
++    }
+ }
+ 
+ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
+@@ -5786,7 +5794,7 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
+     }
  
      req->aiocb = &iocb->common;
--    nvme_copy_cb(iocb, 0);
-+    nvme_do_copy(iocb);
+-    qemu_bh_schedule(iocb->bh);
++    nvme_do_format(iocb);
  
      return NVME_NO_COMPLETE;
+ 
+@@ -5794,6 +5802,7 @@ out:
+     qemu_bh_delete(iocb->bh);
+     iocb->bh = NULL;
+     qemu_aio_unref(iocb);
++
+     return status;
+ }
  
 -- 
 2.36.1
