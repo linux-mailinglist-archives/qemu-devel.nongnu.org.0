@@ -2,68 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F545573AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 09:14:04 +0200 (CEST)
-Received: from localhost ([::1]:39306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2BF5573BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 09:18:31 +0200 (CEST)
+Received: from localhost ([::1]:45498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4H2R-0000So-Oe
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 03:14:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47652)
+	id 1o4H6j-0004iA-PD
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 03:18:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4H0F-0007Ia-TB
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 03:11:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53341)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4H5F-00041l-12
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 03:16:57 -0400
+Received: from smtpout30.security-mail.net ([85.31.212.34]:54167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4H0E-0000gV-GD
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 03:11:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655968305;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G4hnB+qNhP5HS7EHkMO9asfdSECW8SxufAr4DoHdN6A=;
- b=E+UN3jKP2i2eXx/MpSFr96WGcLeIoOMQwmYuLB8fYVa5Z4qih9UPXl9ebH50mnB9u3OdC/
- CokO5G6jkELv90F3cKABqOfdu2aKfSht/XLUeNI6FwidVbM6hrIjMrW8N8bEHBI3ym2DeK
- RHTlBWbYYpHLA1i/zqYq9CqH+xN9t6A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-s_BbO330O3WK7mvYRNByOQ-1; Thu, 23 Jun 2022 03:11:39 -0400
-X-MC-Unique: s_BbO330O3WK7mvYRNByOQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BE66101AA52;
- Thu, 23 Jun 2022 07:11:39 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7EA8C40334F;
- Thu, 23 Jun 2022 07:11:37 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] pc-bios/s390-ccw/virtio: Read device config after feature
- negotiation
-Date: Thu, 23 Jun 2022 09:11:31 +0200
-Message-Id: <20220623071131.412457-3-thuth@redhat.com>
-In-Reply-To: <20220623071131.412457-1-thuth@redhat.com>
-References: <20220623071131.412457-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4H5C-0001QB-D5
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 03:16:56 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by fx304.security-mail.net (Postfix) with ESMTP id DE0A3628C7
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 09:16:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+ s=sec-sig-email; t=1655968609;
+ bh=dgwmjKDMGy1CQmp+g/3Ly7W1BOQjJ6L+d+CAaTvF35g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=4r6LGK1XaNnDUfhlBKrrNvBtR3VSBA88xy+muAypxpzDaHCP5D50yXal/3rX04yLK
+ ZRNvcUfgveMBg+kfX5ODBlScQ6vmCCaSK8LSgL8stOdrogxlhI2QRQLrCVz9eNzffr
+ 75rpEqIZdUL5osmqS8/JJ9anbpz9lZL4vKpv+Obs=
+Received: from fx304 (localhost [127.0.0.1]) by fx304.security-mail.net
+ (Postfix) with ESMTP id 31E21628BC; Thu, 23 Jun 2022 09:16:46 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx304.security-mail.net (Postfix) with ESMTPS id 9490F62815; Thu, 23 Jun
+ 2022 09:16:45 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 7273A27E04F3; Thu, 23 Jun 2022
+ 09:16:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 57ACC27E04EF; Thu, 23 Jun 2022 09:16:45 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ otGbyOYm21iy; Thu, 23 Jun 2022 09:16:45 +0200 (CEST)
+Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
+ (Postfix) with ESMTPSA id 384D227E04CD; Thu, 23 Jun 2022 09:16:45 +0200
+ (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <3a9b.62b4135d.9405c.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 57ACC27E04EF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1655968605;
+ bh=EezAvu70wegqdTdE47oftajkVB2BV9+eIlh4X7JxD/U=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=h3jwz6TO3rawopbijVZnEFULMo3TeI50wJO/KJtXMcDpnEL5Sl1ddUnMCZJn0qOPl
+ 5xSZWkzE1vKt+sYw1jXT38sfsPMMdJUsoK8PzTd7XnCLHn+fARI9CbJShnsA6Hqsa1
+ lEECpKlCz/jnQsWz0RjwLD1G8igTozkjkVM9gx7o=
+Date: Thu, 23 Jun 2022 09:16:44 +0200
+From: Luc Michel <lmichel@kalray.eu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?b?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Alex =?utf-8?b?QmVubsOpZQ==?=
+ <alex.bennee@linaro.org>, Eric Blake <eblake@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno
+ <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Aleksandar
+ Rikalo <aleksandar.rikalo@syrmia.com>, Chris Wulff <crwulff@gmail.com>,
+ Marek Vasut <marex@denx.de>, Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: [PATCH v2 2/7] semihosting: add the semihosting_exit_request
+ function
+Message-ID: <20220623071644.GA31252@ws2101.lin.mbt.kalray.eu>
+References: <20220621125916.25257-1-lmichel@kalray.eu>
+ <20220621125916.25257-3-lmichel@kalray.eu>
+ <CAFEAcA-Z=rYWnpceM-Ojvi2QoxkmZzSZqnjKgH1WFdwCDi9O3A@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-Z=rYWnpceM-Ojvi2QoxkmZzSZqnjKgH1WFdwCDi9O3A@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-ALTERMIMEV2_out: done
+Received-SPF: pass client-ip=85.31.212.34; envelope-from=lmichel@kalray.eu;
+ helo=smtpout30.security-mail.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,41 +100,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Feature negotiation should be done first, since some fields in the
-config area can depend on the negotiated features and thus should
-rather be read afterwards.
+On 20:09 Wed 22 Jun     , Peter Maydell wrote:
+> On Tue, 21 Jun 2022 at 13:59, Luc Michel <lmichel@kalray.eu> wrote:
+> >
+> > Add the semihosting_exit_request function to be used by targets when
+> > handling an `exit' semihosted syscall. This function calls gdb_exit to
+> > close existing GDB connections, and qemu_system_shutdown_request with
+> > the new `guest-semi-exit' exit reason. It sets the QEMU exit status
+> > given by the exit syscall parameter. Finally it stops the CPU to prevent
+> > further execution, and exit the CPU loop as the syscall caller expects
+> > this syscall to not return.
+> >
+> > This function is meant to be used in place of a raw exit() call when
+> > handling semihosted `exit' syscalls. Such a call is not safe because
+> > it does not allow other CPU threads to exit properly, leading to e.g.
+> > at_exit callbacks being called while other CPUs still run. This can lead
+> > to strange bugs, especially in plugins with a registered at_exit function.
+> 
+> This is mixing up two things:
+>  (1) fixing bugs with the plugin code when code (semihosting or
+>      otherwise) calls exit()
+>  (2) reporting to the monitor when the guest exits because it
+>      asked to via semihosting
+> 
+> I remain unconvinced that this series is actually fixing (1),
+> I think it's just working around the most common cause of it.
+> For (2), maybe we want it, but that should I think be a
+> separate patchset with justification of why it's useful to
+> tell the monitor about it. I think on balance it probably
+> is a good idea, but I disagree about (1) and would like to
+> see these two things not tangled up in the same series.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- pc-bios/s390-ccw/virtio.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+OK. I'll rework this once Richard's semihosting cleanup series is
+merged.
 
-diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
-index 4e85a2eb82..0e92e994df 100644
---- a/pc-bios/s390-ccw/virtio.c
-+++ b/pc-bios/s390-ccw/virtio.c
-@@ -262,10 +262,6 @@ void virtio_setup_ccw(VDev *vdev)
-     rc = run_ccw(vdev, CCW_CMD_WRITE_STATUS, &status, sizeof(status), false);
-     IPL_assert(rc == 0, "Could not write DRIVER status to host");
- 
--    IPL_assert(
--        run_ccw(vdev, CCW_CMD_READ_CONF, &vdev->config, cfg_size, false) == 0,
--       "Could not get block device configuration");
--
-     /* Feature negotiation */
-     for (i = 0; i < ARRAY_SIZE(vdev->guest_features); i++) {
-         feats.features = 0;
-@@ -278,6 +274,9 @@ void virtio_setup_ccw(VDev *vdev)
-         IPL_assert(rc == 0, "Could not set features bits");
-     }
- 
-+    rc = run_ccw(vdev, CCW_CMD_READ_CONF, &vdev->config, cfg_size, false);
-+    IPL_assert(rc == 0, "Could not get block device configuration");
-+
-     for (i = 0; i < vdev->nr_vqs; i++) {
-         VqInfo info = {
-             .queue = (unsigned long long) ring_area + (i * VIRTIO_RING_SIZE),
+thanks.
+
+Luc
+
+> 
+> thanks
+> -- PMM
+> 
+> 
+> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=11a39.62b36915.466b.0&r=lmichel%40kalray.eu&s=peter.maydell%40linaro.org&o=Re%3A+%5BPATCH+v2+2%2F7%5D+semihosting%3A+add+the+semihosting_exit_request+function&verdict=C&c=b75eec0eae9b68db747812558b665a75218eca91
+> 
+
 -- 
-2.31.1
+
+
+
 
 
