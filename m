@@ -2,91 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA2C557663
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:12:52 +0200 (CEST)
-Received: from localhost ([::1]:46524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551C355764C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:08:05 +0200 (CEST)
+Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4ItP-0000AZ-Jz
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38636)
+	id 1o4Iom-0002xj-8Z
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Icr-0005wl-9E
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Icn-0008VA-GH
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655974540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YnLjGjUim6ssuMo2+M8HBTPe4Zol4w+W6fDcOaqA6O8=;
- b=fgDx41ktWiCyfrLbXbR57z8RzG6d9JpeRQJ/eSOg7WFHxgV2PqzsDxE+2s8OQ+ysUtSfzL
- VYPI9KIvju24CFMHQo2jdqJZhcv8Dz29LLE5s/ITFtw4dWYcmxB1OI4o+O2rN5vTWql9YU
- UCS1a9Znq+q+S6fCS5NrqeL6i+DLOnE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-AsknxYZ5PsK-bh3N5FpgsA-1; Thu, 23 Jun 2022 04:55:29 -0400
-X-MC-Unique: AsknxYZ5PsK-bh3N5FpgsA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l3-20020a05600c1d0300b0039c7efa2526so1107278wms.3
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 01:55:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=YnLjGjUim6ssuMo2+M8HBTPe4Zol4w+W6fDcOaqA6O8=;
- b=45vvY40hsoRROFKnzcTwmYRjxCHbh4bfqgv0/5Wtb/5Cr5dpuPGctRa5/m+JnIf8Yc
- IND9lMW1SKQMiYYW58BKYzD2XqnQ60aMa0DpTWRrHv6PGjPssW/ndL2sWdt5PI+AeAHc
- aTqfxBqo4XdozIGTM4/2N1nLGGTux86CcQ0STnbpKUKnXWByPWCdWiOJSp0ePbRvJqrm
- ji8K6uecsuMyKr1lC0HX4XDMOC4rCexjmpwidov7QtSH9ZA1OhfZ7+e0wvfBlXYLVcpn
- SBcLxz7pEXwRJGSw3P0RoRkFGuBzttHAGJfauNRphuM56feYHCu7qajvHjYnk160VI/f
- DlAA==
-X-Gm-Message-State: AJIora+aae41C5PuhXA4X+eGnJMxlCQE6YDldN4BmRUwTlogYS4CQQhd
- Zd79PVqfIpaKIcPg53SDhb2E7ebg0MSsuWikSFKkb27WNZwpzwew6j/XbwGh1v2jaWkQuzJaJbu
- 0s5R1gPWyPNhvX0owpIJ2OOeKJj0qeK4vvxPilPd5KrL4DegUU6IdhMbCd1fngFqcxtI=
-X-Received: by 2002:a05:6000:69d:b0:21a:395e:572c with SMTP id
- bo29-20020a056000069d00b0021a395e572cmr7011848wrb.559.1655974527525; 
- Thu, 23 Jun 2022 01:55:27 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1veC/756JYDCcHKAFOdLo9oIdEYoFP5Y0LEHpZ+KiQTJVTEEyFmCMLC6YvQ3dSpSsB/xiRUGA==
-X-Received: by 2002:a05:6000:69d:b0:21a:395e:572c with SMTP id
- bo29-20020a056000069d00b0021a395e572cmr7011827wrb.559.1655974527244; 
- Thu, 23 Jun 2022 01:55:27 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- bg24-20020a05600c3c9800b003974b95d897sm2450502wmb.37.2022.06.23.01.55.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 01:55:25 -0700 (PDT)
-Date: Thu, 23 Jun 2022 09:55:23 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
- quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
-Cc: jdenemar@redhat.com
-Subject: Re: [PULL 00/33] migration queue
-Message-ID: <YrQqe38wUDNVlnFS@work-vm>
-References: <20220622183917.155308-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1o4Icy-0006HY-88
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:52 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:52398 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1o4Icu-0008TQ-Rl
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:51 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP0x_KrRiTjVWAA--.30922S13; 
+ Thu, 23 Jun 2022 16:55:35 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, laurent@vivier.eu, gaosong@loongson.cn,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Subject: [PATCH v19 11/13] target/loongarch: Adjust functions and structure to
+ support user-mode
+Date: Thu, 23 Jun 2022 16:55:24 +0800
+Message-Id: <20220623085526.1678168-12-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220623085526.1678168-1-gaosong@loongson.cn>
+References: <20220623085526.1678168-1-gaosong@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220622183917.155308-1-dgilbert@redhat.com>
-User-Agent: Mutt/2.2.5 (2022-05-16)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf9DxP0x_KrRiTjVWAA--.30922S13
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4ftr4DWw4xtr1xJr15XFb_yoWfZry8pr
+ y7Zr1ayw48trZ7Jas7J390gFn8XF1I9342va13KryS9a17XF1DXr18t3s0gFWDG3y8WryI
+ gF10ya4UZ3WUJ3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,149 +62,293 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> The following changes since commit 2b049d2c8dc01de750410f8f1a4eac498c04c723:
-> 
->   Merge tag 'pull-aspeed-20220622' of https://github.com/legoater/qemu into staging (2022-06-22 07:27:06 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220622b
-> 
-> for you to fetch changes up to 9c6eb6dc3785a280b504195d308da082641af2a7:
-> 
->   tests: Add dirty page rate limit test (2022-06-22 19:33:43 +0100)
+Some functions and member of the structure are different with softmmu-mode
+So we need adjust them to support user-mode.
 
-NACK - Peter spotted a 1 character typo; I'll resend.
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/loongarch/cpu.c                        | 21 ++++++++++-
+ target/loongarch/cpu.h                        |  6 ++++
+ target/loongarch/helper.h                     |  2 ++
+ .../insn_trans/trans_privileged.c.inc         | 36 +++++++++++++++++++
+ target/loongarch/internals.h                  |  2 ++
+ target/loongarch/op_helper.c                  |  6 ++++
+ 6 files changed, 72 insertions(+), 1 deletion(-)
 
-Dave
-
-> ----------------------------------------------------------------
-> Migration pull 2022-06-22
-> 
-> Compared to Juan's pull:
->   a) Hopefully fixed non-Linux builds
->     (Local build test on mingw64 works
->     Note: the zero-copy capability is now
->     defined on non-Linux systems)
->   b) Added Hyman's series - it had been
->     on queue for a while (sorry for the delay)
->   c) Fixed up a whole bunch of check-patch failures
->     - please use it!
-> 
-> In this today migration PULL request:
-> - Dainiel Berrangé - qemufileops cleanup
-> - Leonardo Bras  - cleanups for zero copy
-> - Juan Quintela  - RDMA cleanups
-> - Hyman Huang - per-vcpu dirty ring work
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Daniel P. Berrangé (21):
->       io: add a QIOChannelNull equivalent to /dev/null
->       migration: switch to use QIOChannelNull for dummy channel
->       migration: remove unreachble RDMA code in save_hook impl
->       migration: rename rate limiting fields in QEMUFile
->       migration: rename 'pos' field in QEMUFile to 'bytes_processed'
->       migration: rename qemu_ftell to qemu_file_total_transferred
->       migration: rename qemu_update_position to qemu_file_credit_transfer
->       migration: rename qemu_file_update_transfer to qemu_file_acct_rate_limit
->       migration: introduce a QIOChannel impl for BlockDriverState VMState
->       migration: convert savevm to use QIOChannelBlock for VMState
->       migration: stop passing 'opaque' parameter to QEMUFile hooks
->       migration: hardcode assumption that QEMUFile is backed with QIOChannel
->       migration: introduce new constructors for QEMUFile
->       migration: remove unused QEMUFileGetFD typedef / qemu_get_fd method
->       migration: remove the QEMUFileOps 'shut_down' callback
->       migration: remove the QEMUFileOps 'set_blocking' callback
->       migration: remove the QEMUFileOps 'close' callback
->       migration: remove the QEMUFileOps 'get_buffer' callback
->       migration: remove the QEMUFileOps 'writev_buffer' callback
->       migration: remove the QEMUFileOps 'get_return_path' callback
->       migration: remove the QEMUFileOps abstraction
-> 
-> Hyman Huang (8):
->       accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
->       cpus: Introduce cpu_list_generation_id
->       migration/dirtyrate: Refactor dirty page rate calculation
->       softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
->       accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
->       softmmu/dirtylimit: Implement virtual CPU throttle
->       softmmu/dirtylimit: Implement dirty page rate limit
->       tests: Add dirty page rate limit test
-> 
-> Juan Quintela (1):
->       migration: Remove RDMA_UNREGISTRATION_EXAMPLE
-> 
-> Leonardo Bras (3):
->       QIOChannelSocket: Introduce assert and reduce ifdefs to improve readability
->       QIOChannelSocket: Fix zero-copy send so socket flush works
->       migration: Change zero_copy_send from migration parameter to migration capability
-> 
->  accel/kvm/kvm-all.c               |  46 ++-
->  accel/stubs/kvm-stub.c            |   5 +
->  cpus-common.c                     |   8 +
->  hmp-commands-info.hx              |  13 +
->  hmp-commands.hx                   |  32 ++
->  include/exec/cpu-common.h         |   1 +
->  include/exec/memory.h             |   5 +-
->  include/hw/core/cpu.h             |   6 +
->  include/io/channel-null.h         |  55 ++++
->  include/monitor/hmp.h             |   3 +
->  include/sysemu/dirtylimit.h       |  37 +++
->  include/sysemu/dirtyrate.h        |  28 ++
->  include/sysemu/kvm.h              |   2 +
->  io/channel-null.c                 | 237 +++++++++++++++
->  io/channel-socket.c               |  19 +-
->  io/meson.build                    |   1 +
->  io/trace-events                   |   3 +
->  migration/block.c                 |  10 +-
->  migration/channel-block.c         | 195 +++++++++++++
->  migration/channel-block.h         |  59 ++++
->  migration/channel.c               |   4 +-
->  migration/colo.c                  |   5 +-
->  migration/dirtyrate.c             | 227 ++++++++------
->  migration/dirtyrate.h             |   7 +-
->  migration/meson.build             |   2 +-
->  migration/migration.c             |  68 ++---
->  migration/multifd.c               |   4 +-
->  migration/qemu-file-channel.c     | 194 ------------
->  migration/qemu-file-channel.h     |  32 --
->  migration/qemu-file.c             | 193 ++++++------
->  migration/qemu-file.h             | 125 ++++----
->  migration/ram.c                   |   8 +-
->  migration/rdma.c                  | 185 +++---------
->  migration/savevm.c                |  55 +---
->  migration/vmstate.c               |   5 +-
->  monitor/hmp-cmds.c                |   6 -
->  qapi/migration.json               | 113 +++++--
->  softmmu/dirtylimit.c              | 601 ++++++++++++++++++++++++++++++++++++++
->  softmmu/meson.build               |   1 +
->  softmmu/trace-events              |   7 +
->  tests/qtest/migration-helpers.c   |  22 ++
->  tests/qtest/migration-helpers.h   |   2 +
->  tests/qtest/migration-test.c      | 255 ++++++++++++++++
->  tests/qtest/qmp-cmd-test.c        |   2 +
->  tests/unit/meson.build            |   1 +
->  tests/unit/test-io-channel-null.c |  95 ++++++
->  tests/unit/test-vmstate.c         |   5 +-
->  47 files changed, 2219 insertions(+), 770 deletions(-)
->  create mode 100644 include/io/channel-null.h
->  create mode 100644 include/sysemu/dirtylimit.h
->  create mode 100644 include/sysemu/dirtyrate.h
->  create mode 100644 io/channel-null.c
->  create mode 100644 migration/channel-block.c
->  create mode 100644 migration/channel-block.h
->  delete mode 100644 migration/qemu-file-channel.c
->  delete mode 100644 migration/qemu-file-channel.h
->  create mode 100644 softmmu/dirtylimit.c
->  create mode 100644 tests/unit/test-io-channel-null.c
-> 
-> 
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index bf163a8dce..47c0bdd1ac 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -82,6 +82,7 @@ static void loongarch_cpu_set_pc(CPUState *cs, vaddr value)
+     env->pc = value;
+ }
+ 
++#ifndef CONFIG_USER_ONLY
+ #include "hw/loongarch/virt.h"
+ 
+ void loongarch_cpu_set_irq(void *opaque, int irq, int level)
+@@ -295,6 +296,7 @@ static bool loongarch_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     }
+     return false;
+ }
++#endif
+ 
+ #ifdef CONFIG_TCG
+ static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
+@@ -309,6 +311,9 @@ static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
+ 
+ static bool loongarch_cpu_has_work(CPUState *cs)
+ {
++#ifdef CONFIG_USER_ONLY
++    return true;
++#else
+     LoongArchCPU *cpu = LOONGARCH_CPU(cs);
+     CPULoongArchState *env = &cpu->env;
+     bool has_work = false;
+@@ -319,6 +324,7 @@ static bool loongarch_cpu_has_work(CPUState *cs)
+     }
+ 
+     return has_work;
++#endif
+ }
+ 
+ static void loongarch_la464_initfn(Object *obj)
+@@ -467,7 +473,9 @@ static void loongarch_cpu_reset(DeviceState *dev)
+         env->CSR_DMW[n] = FIELD_DP64(env->CSR_DMW[n], CSR_DMW, PLV3, 0);
+     }
+ 
++#ifndef CONFIG_USER_ONLY
+     env->pc = 0x1c000000;
++#endif
+ 
+     restore_fp_status(env);
+     cs->exception_index = -1;
+@@ -498,6 +506,7 @@ static void loongarch_cpu_realizefn(DeviceState *dev, Error **errp)
+     lacc->parent_realize(dev, errp);
+ }
+ 
++#ifndef CONFIG_USER_ONLY
+ static void loongarch_qemu_write(void *opaque, hwaddr addr,
+                                  uint64_t val, unsigned size)
+ {
+@@ -532,13 +541,16 @@ static const MemoryRegionOps loongarch_qemu_ops = {
+         .max_access_size = 8,
+     },
+ };
++#endif
+ 
+ static void loongarch_cpu_init(Object *obj)
+ {
+     LoongArchCPU *cpu = LOONGARCH_CPU(obj);
+-    CPULoongArchState *env = &cpu->env;
+ 
+     cpu_set_cpustate_pointers(cpu);
++
++#ifndef CONFIG_USER_ONLY
++    CPULoongArchState *env = &cpu->env;
+     qdev_init_gpio_in(DEVICE(cpu), loongarch_cpu_set_irq, N_IRQS);
+     timer_init_ns(&cpu->timer, QEMU_CLOCK_VIRTUAL,
+                   &loongarch_constant_timer_cb, cpu);
+@@ -548,6 +560,7 @@ static void loongarch_cpu_init(Object *obj)
+     memory_region_init_io(&env->iocsr_mem, OBJECT(cpu), &loongarch_qemu_ops,
+                           NULL, "iocsr_misc", 0x428);
+     memory_region_add_subregion(&env->system_iocsr, 0, &env->iocsr_mem);
++#endif
+ }
+ 
+ static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
+@@ -615,18 +628,22 @@ static struct TCGCPUOps loongarch_tcg_ops = {
+     .initialize = loongarch_translate_init,
+     .synchronize_from_tb = loongarch_cpu_synchronize_from_tb,
+ 
++#ifndef CONFIG_USER_ONLY
+     .tlb_fill = loongarch_cpu_tlb_fill,
+     .cpu_exec_interrupt = loongarch_cpu_exec_interrupt,
+     .do_interrupt = loongarch_cpu_do_interrupt,
+     .do_transaction_failed = loongarch_cpu_do_transaction_failed,
++#endif
+ };
+ #endif /* CONFIG_TCG */
+ 
++#ifndef CONFIG_USER_ONLY
+ #include "hw/core/sysemu-cpu-ops.h"
+ 
+ static const struct SysemuCPUOps loongarch_sysemu_ops = {
+     .get_phys_page_debug = loongarch_cpu_get_phys_page_debug,
+ };
++#endif
+ 
+ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+ {
+@@ -642,8 +659,10 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+     cc->has_work = loongarch_cpu_has_work;
+     cc->dump_state = loongarch_cpu_dump_state;
+     cc->set_pc = loongarch_cpu_set_pc;
++#ifndef CONFIG_USER_ONLY
+     dc->vmsd = &vmstate_loongarch_cpu;
+     cc->sysemu_ops = &loongarch_sysemu_ops;
++#endif
+     cc->disas_set_info = loongarch_cpu_disas_set_info;
+     cc->gdb_read_register = loongarch_cpu_gdb_read_register;
+     cc->gdb_write_register = loongarch_cpu_gdb_write_register;
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index 4b4fbcdc71..d141ec9b5d 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -301,6 +301,7 @@ typedef struct CPUArchState {
+     uint64_t CSR_DERA;
+     uint64_t CSR_DSAVE;
+ 
++#ifndef CONFIG_USER_ONLY
+     LoongArchTLB  tlb[LOONGARCH_TLB_MAX];
+ 
+     AddressSpace address_space_iocsr;
+@@ -308,6 +309,7 @@ typedef struct CPUArchState {
+     MemoryRegion iocsr_mem;
+     bool load_elf;
+     uint64_t elf_address;
++#endif
+ } CPULoongArchState;
+ 
+ /**
+@@ -358,12 +360,16 @@ struct LoongArchCPUClass {
+ 
+ static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
+ {
++#ifdef CONFIG_USER_ONLY
++    return MMU_USER_IDX;
++#else
+     uint8_t pg = FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PG);
+ 
+     if (!pg) {
+         return MMU_DA_IDX;
+     }
+     return FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PLV);
++#endif
+ }
+ 
+ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+index 85c11a60d4..cbbe008f32 100644
+--- a/target/loongarch/helper.h
++++ b/target/loongarch/helper.h
+@@ -95,6 +95,7 @@ DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_RWG, void, env, i32)
+ 
+ DEF_HELPER_1(rdtime_d, i64, env)
+ 
++#ifndef CONFIG_USER_ONLY
+ /* CSRs helper */
+ DEF_HELPER_1(csrrd_pgd, i64, env)
+ DEF_HELPER_1(csrrd_tval, i64, env)
+@@ -128,3 +129,4 @@ DEF_HELPER_4(lddir, tl, env, tl, tl, i32)
+ DEF_HELPER_4(ldpte, void, env, tl, tl, i32)
+ DEF_HELPER_1(ertn, void, env)
+ DEF_HELPER_1(idle, void, env)
++#endif
+diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
+index 53596c4f77..9c4dcbfcfb 100644
+--- a/target/loongarch/insn_trans/trans_privileged.c.inc
++++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+@@ -7,6 +7,41 @@
+ 
+ #include "cpu-csr.h"
+ 
++#ifdef CONFIG_USER_ONLY
++
++#define GEN_FALSE_TRANS(name)   \
++static bool trans_##name(DisasContext *ctx, arg_##name * a)  \
++{   \
++    return false;   \
++}
++
++GEN_FALSE_TRANS(csrrd)
++GEN_FALSE_TRANS(csrwr)
++GEN_FALSE_TRANS(csrxchg)
++GEN_FALSE_TRANS(iocsrrd_b)
++GEN_FALSE_TRANS(iocsrrd_h)
++GEN_FALSE_TRANS(iocsrrd_w)
++GEN_FALSE_TRANS(iocsrrd_d)
++GEN_FALSE_TRANS(iocsrwr_b)
++GEN_FALSE_TRANS(iocsrwr_h)
++GEN_FALSE_TRANS(iocsrwr_w)
++GEN_FALSE_TRANS(iocsrwr_d)
++GEN_FALSE_TRANS(tlbsrch)
++GEN_FALSE_TRANS(tlbrd)
++GEN_FALSE_TRANS(tlbwr)
++GEN_FALSE_TRANS(tlbfill)
++GEN_FALSE_TRANS(tlbclr)
++GEN_FALSE_TRANS(tlbflush)
++GEN_FALSE_TRANS(invtlb)
++GEN_FALSE_TRANS(cacop)
++GEN_FALSE_TRANS(ldpte)
++GEN_FALSE_TRANS(lddir)
++GEN_FALSE_TRANS(ertn)
++GEN_FALSE_TRANS(dbcl)
++GEN_FALSE_TRANS(idle)
++
++#else
++
+ typedef void (*GenCSRRead)(TCGv dest, TCGv_ptr env);
+ typedef void (*GenCSRWrite)(TCGv dest, TCGv_ptr env, TCGv src);
+ 
+@@ -464,3 +499,4 @@ static bool trans_idle(DisasContext *ctx, arg_idle *a)
+     ctx->base.is_jmp = DISAS_NORETURN;
+     return true;
+ }
++#endif
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+index 9d50fbdd81..ea227362b6 100644
+--- a/target/loongarch/internals.h
++++ b/target/loongarch/internals.h
+@@ -33,6 +33,7 @@ const char *loongarch_exception_name(int32_t exception);
+ 
+ void restore_fp_status(CPULoongArchState *env);
+ 
++#ifndef CONFIG_USER_ONLY
+ extern const VMStateDescription vmstate_loongarch_cpu;
+ 
+ void loongarch_cpu_set_irq(void *opaque, int irq, int level);
+@@ -48,6 +49,7 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                             bool probe, uintptr_t retaddr);
+ 
+ hwaddr loongarch_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++#endif /* !CONFIG_USER_ONLY */
+ 
+ int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n);
+ int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n);
+diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+index df049cec59..4b429b6699 100644
+--- a/target/loongarch/op_helper.c
++++ b/target/loongarch/op_helper.c
+@@ -86,6 +86,9 @@ target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
+ 
+ uint64_t helper_rdtime_d(CPULoongArchState *env)
+ {
++#ifdef CONFIG_USER_ONLY
++    return cpu_get_host_ticks();
++#else
+     uint64_t plv;
+     LoongArchCPU *cpu = env_archcpu(env);
+ 
+@@ -95,8 +98,10 @@ uint64_t helper_rdtime_d(CPULoongArchState *env)
+     }
+ 
+     return cpu_loongarch_get_constant_timer_counter(cpu);
++#endif
+ }
+ 
++#ifndef CONFIG_USER_ONLY
+ void helper_ertn(CPULoongArchState *env)
+ {
+     uint64_t csr_pplv, csr_pie;
+@@ -131,3 +136,4 @@ void helper_idle(CPULoongArchState *env)
+     cs->halted = 1;
+     do_raise_exception(env, EXCP_HLT, 0);
+ }
++#endif
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.31.1
 
 
