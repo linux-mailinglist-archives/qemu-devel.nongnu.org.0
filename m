@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E0C55774A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:59:36 +0200 (CEST)
-Received: from localhost ([::1]:58696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814B255773C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:56:50 +0200 (CEST)
+Received: from localhost ([::1]:53864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Jcd-0006Kp-Ld
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45490)
+	id 1o4JZx-0002za-J0
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4J8u-0000iH-V1
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37841)
+ id 1o4J91-0000uo-Vq
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:29:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4J8s-0004zj-Ka
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:52 -0400
+ id 1o4J8z-00051E-Pj
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655976530;
+ s=mimecast20190719; t=1655976537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PY4fpvxGdjp1+fbi8zA9Qa+gNZHE10i6nQK1m8jqQU0=;
- b=cgv/UNI4W+wmI/J49rPFn2aHt3MInHKaoPGD2HMT8THatrdbAanVQ0N6nCNMfXYD1K0Hfg
- JG5cX1pFDNM/72NNtuUsPi+APEcu4/keid2yfAOegrF5+hMO5JhJ+JFRqQV0rQbc6xNToQ
- UTumzf9OTSr6Y/lGhYWF5j5bcaiQuGI=
+ bh=Pp4Me2eDe7bsV/UvhVVYE1AU87VI+nsWkt7eVDLn984=;
+ b=XDTe45yh4w0i5swxH2vUJkWoqGsvJo7OenAGOK4tHpQA8fEX6GU3EEfARdF2x1l7s1ViP3
+ Ud/Nx/OiBPGcDfRShzkwI85WaXyuX0Z9CFjuFVy9A2MARavvJY7V1nWQgSboSZrX/GxsrD
+ O+uYmO1RKAIPjBEikMGfyZUPRNZTiow=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-196-V8L9GLgUPMKtutoqIz28eA-1; Thu, 23 Jun 2022 05:28:46 -0400
-X-MC-Unique: V8L9GLgUPMKtutoqIz28eA-1
+ us-mta-568-y_fQ3jpbOxi5ELc3fslqnA-1; Thu, 23 Jun 2022 05:28:55 -0400
+X-MC-Unique: y_fQ3jpbOxi5ELc3fslqnA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76F2E101E985;
- Thu, 23 Jun 2022 09:28:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 84B3380174C;
+ Thu, 23 Jun 2022 09:28:55 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DA1940C1289;
- Thu, 23 Jun 2022 09:28:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8967040D282F;
+ Thu, 23 Jun 2022 09:28:54 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 25/33] migration: remove the QEMUFileOps abstraction
-Date: Thu, 23 Jun 2022 10:28:02 +0100
-Message-Id: <20220623092810.96234-26-dgilbert@redhat.com>
+Subject: [PULL 32/33] softmmu/dirtylimit: Implement dirty page rate limit
+Date: Thu, 23 Jun 2022 10:28:09 +0100
+Message-Id: <20220623092810.96234-33-dgilbert@redhat.com>
 In-Reply-To: <20220623092810.96234-1-dgilbert@redhat.com>
 References: <20220623092810.96234-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -80,449 +80,431 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Now that all QEMUFile callbacks are removed, the entire concept can be
-deleted.
+Implement dirtyrate calculation periodically basing on
+dirty-ring and throttle virtual CPU until it reachs the quota
+dirty page rate given by user.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
+Introduce qmp commands "set-vcpu-dirty-limit",
+"cancel-vcpu-dirty-limit", "query-vcpu-dirty-limit"
+to enable, disable, query dirty page limit for virtual CPU.
+
+Meanwhile, introduce corresponding hmp commands
+"set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit",
+"info vcpu_dirty_limit" so the feature can be more usable.
+
+"query-vcpu-dirty-limit" success depends on enabling dirty
+page rate limit, so just add it to the list of skipped
+command to ensure qmp-cmd-test run successfully.
+
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <80195172e377e3d96394b5b94425098260380bfa.1652931128.git.huangy81@chinatelecom.cn>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/channel.c           |  4 +--
- migration/colo.c              |  5 ++--
- migration/meson.build         |  1 -
- migration/migration.c         |  7 ++---
- migration/qemu-file-channel.c | 53 -----------------------------------
- migration/qemu-file-channel.h | 32 ---------------------
- migration/qemu-file.c         | 20 ++++++-------
- migration/qemu-file.h         |  7 ++---
- migration/ram.c               |  3 +-
- migration/rdma.c              |  5 ++--
- migration/savevm.c            | 13 ++++-----
- tests/unit/test-vmstate.c     |  5 ++--
- 12 files changed, 27 insertions(+), 128 deletions(-)
- delete mode 100644 migration/qemu-file-channel.c
- delete mode 100644 migration/qemu-file-channel.h
+ hmp-commands-info.hx       |  13 +++
+ hmp-commands.hx            |  32 ++++++
+ include/monitor/hmp.h      |   3 +
+ qapi/migration.json        |  80 +++++++++++++++
+ softmmu/dirtylimit.c       | 194 +++++++++++++++++++++++++++++++++++++
+ tests/qtest/qmp-cmd-test.c |   2 +
+ 6 files changed, 324 insertions(+)
 
-diff --git a/migration/channel.c b/migration/channel.c
-index a162d00fea..90087d8986 100644
---- a/migration/channel.c
-+++ b/migration/channel.c
-@@ -14,7 +14,7 @@
- #include "channel.h"
- #include "tls.h"
- #include "migration.h"
--#include "qemu-file-channel.h"
-+#include "qemu-file.h"
- #include "trace.h"
- #include "qapi/error.h"
- #include "io/channel-tls.h"
-@@ -85,7 +85,7 @@ void migration_channel_connect(MigrationState *s,
-                 return;
-             }
-         } else {
--            QEMUFile *f = qemu_fopen_channel_output(ioc);
-+            QEMUFile *f = qemu_file_new_output(ioc);
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 3ffa24bd67..188d9ece3b 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -865,6 +865,19 @@ SRST
+     Display the vcpu dirty rate information.
+ ERST
  
-             migration_ioc_register_yank(ioc);
- 
-diff --git a/migration/colo.c b/migration/colo.c
-index 5f7071b3cd..2b71722fd6 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -14,7 +14,6 @@
- #include "sysemu/sysemu.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-migration.h"
--#include "qemu-file-channel.h"
- #include "migration.h"
- #include "qemu-file.h"
- #include "savevm.h"
-@@ -559,7 +558,7 @@ static void colo_process_checkpoint(MigrationState *s)
-         goto out;
-     }
-     bioc = qio_channel_buffer_new(COLO_BUFFER_BASE_SIZE);
--    fb = qemu_fopen_channel_output(QIO_CHANNEL(bioc));
-+    fb = qemu_file_new_output(QIO_CHANNEL(bioc));
-     object_unref(OBJECT(bioc));
- 
-     qemu_mutex_lock_iothread();
-@@ -873,7 +872,7 @@ void *colo_process_incoming_thread(void *opaque)
-     colo_incoming_start_dirty_log();
- 
-     bioc = qio_channel_buffer_new(COLO_BUFFER_BASE_SIZE);
--    fb = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
-+    fb = qemu_file_new_input(QIO_CHANNEL(bioc));
-     object_unref(OBJECT(bioc));
- 
-     qemu_mutex_lock_iothread();
-diff --git a/migration/meson.build b/migration/meson.build
-index 8d309f5849..690487cf1a 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -4,7 +4,6 @@ migration_files = files(
-   'xbzrle.c',
-   'vmstate-types.c',
-   'vmstate.c',
--  'qemu-file-channel.c',
-   'qemu-file.c',
-   'yank_functions.c',
- )
-diff --git a/migration/migration.c b/migration/migration.c
-index 6d56eb1617..78f5057373 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -30,7 +30,6 @@
- #include "migration/misc.h"
- #include "migration.h"
- #include "savevm.h"
--#include "qemu-file-channel.h"
- #include "qemu-file.h"
- #include "migration/vmstate.h"
- #include "block/block.h"
-@@ -723,7 +722,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
- 
-     if (!mis->from_src_file) {
-         /* The first connection (multifd may have multiple) */
--        QEMUFile *f = qemu_fopen_channel_input(ioc);
-+        QEMUFile *f = qemu_file_new_input(ioc);
- 
-         if (!migration_incoming_setup(f, errp)) {
-             return;
-@@ -3076,7 +3075,7 @@ static int postcopy_start(MigrationState *ms)
-      */
-     bioc = qio_channel_buffer_new(4096);
-     qio_channel_set_name(QIO_CHANNEL(bioc), "migration-postcopy-buffer");
--    fb = qemu_fopen_channel_output(QIO_CHANNEL(bioc));
-+    fb = qemu_file_new_output(QIO_CHANNEL(bioc));
-     object_unref(OBJECT(bioc));
- 
-     /*
-@@ -3966,7 +3965,7 @@ static void *bg_migration_thread(void *opaque)
-      */
-     s->bioc = qio_channel_buffer_new(512 * 1024);
-     qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
--    fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
-+    fb = qemu_file_new_output(QIO_CHANNEL(s->bioc));
-     object_unref(OBJECT(s->bioc));
- 
-     update_iteration_initial_status(s);
-diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-deleted file mode 100644
-index 51717c1137..0000000000
---- a/migration/qemu-file-channel.c
-+++ /dev/null
-@@ -1,53 +0,0 @@
--/*
-- * QEMUFile backend for QIOChannel objects
-- *
-- * Copyright (c) 2015-2016 Red Hat, Inc
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--#include "qemu/osdep.h"
--#include "qemu-file-channel.h"
--#include "qemu-file.h"
--#include "io/channel-socket.h"
--#include "io/channel-tls.h"
--#include "qemu/iov.h"
--#include "qemu/yank.h"
--#include "yank_functions.h"
--
--
--static const QEMUFileOps channel_input_ops = {
--};
--
--
--static const QEMUFileOps channel_output_ops = {
--};
--
--
--QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc)
--{
--    object_ref(OBJECT(ioc));
--    return qemu_file_new_input(ioc, &channel_input_ops);
--}
--
--QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
--{
--    object_ref(OBJECT(ioc));
--    return qemu_file_new_output(ioc, &channel_output_ops);
--}
-diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
-deleted file mode 100644
-index 0028a09eb6..0000000000
---- a/migration/qemu-file-channel.h
-+++ /dev/null
-@@ -1,32 +0,0 @@
--/*
-- * QEMUFile backend for QIOChannel objects
-- *
-- * Copyright (c) 2015-2016 Red Hat, Inc
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--#ifndef QEMU_FILE_CHANNEL_H
--#define QEMU_FILE_CHANNEL_H
--
--#include "io/channel.h"
--
--QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
--QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
--#endif
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index fad0e33164..1e80d496b7 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -35,7 +35,6 @@
- #define MAX_IOV_SIZE MIN_CONST(IOV_MAX, 64)
- 
- struct QEMUFile {
--    const QEMUFileOps *ops;
-     const QEMUFileHooks *hooks;
-     QIOChannel *ioc;
-     bool is_writable;
-@@ -107,16 +106,14 @@ bool qemu_file_mode_is_not_valid(const char *mode)
-     return false;
- }
- 
--static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
--                                    const QEMUFileOps *ops,
--                                    bool is_writable)
-+static QEMUFile *qemu_file_new_impl(QIOChannel *ioc, bool is_writable)
- {
-     QEMUFile *f;
- 
-     f = g_new0(QEMUFile, 1);
- 
-+    object_ref(ioc);
-     f->ioc = ioc;
--    f->ops = ops;
-     f->is_writable = is_writable;
- 
-     return f;
-@@ -128,21 +125,19 @@ static QEMUFile *qemu_file_new_impl(QIOChannel *ioc,
-  */
- QEMUFile *qemu_file_get_return_path(QEMUFile *f)
- {
--    object_ref(f->ioc);
--    return qemu_file_new_impl(f->ioc, f->ops, !f->is_writable);
-+    return qemu_file_new_impl(f->ioc, !f->is_writable);
- }
- 
--QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops)
-+QEMUFile *qemu_file_new_output(QIOChannel *ioc)
- {
--    return qemu_file_new_impl(ioc, ops, true);
-+    return qemu_file_new_impl(ioc, true);
- }
- 
--QEMUFile *qemu_file_new_input(QIOChannel *ioc, const QEMUFileOps *ops)
-+QEMUFile *qemu_file_new_input(QIOChannel *ioc)
- {
--    return qemu_file_new_impl(ioc, ops, false);
-+    return qemu_file_new_impl(ioc, false);
- }
- 
--
- void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks)
- {
-     f->hooks = hooks;
-@@ -238,6 +233,7 @@ static void qemu_iovec_release_ram(QEMUFile *f)
-     memset(f->may_free, 0, sizeof(f->may_free));
- }
- 
++    {
++        .name       = "vcpu_dirty_limit",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show dirty page limit information of all vCPU",
++        .cmd        = hmp_info_vcpu_dirty_limit,
++    },
 +
- /**
-  * Flushes QEMUFile buffer
-  *
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index fe8f9766d1..96e72d8bd8 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -55,9 +55,6 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
-                                  size_t size,
-                                  uint64_t *bytes_sent);
++SRST
++  ``info vcpu_dirty_limit``
++    Display the vcpu dirty page limit information.
++ERST
++
+ #if defined(TARGET_I386)
+     {
+         .name       = "sgx",
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index c9d465735a..182e639d14 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1768,3 +1768,35 @@ ERST
+                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
+         .cmd        = hmp_calc_dirty_rate,
+     },
++
++SRST
++``set_vcpu_dirty_limit``
++  Set dirty page rate limit on virtual CPU, the information about all the
++  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
++  command.
++ERST
++
++    {
++        .name       = "set_vcpu_dirty_limit",
++        .args_type  = "dirty_rate:l,cpu_index:l?",
++        .params     = "dirty_rate [cpu_index]",
++        .help       = "set dirty page rate limit, use cpu_index to set limit"
++                      "\n\t\t\t\t\t on a specified virtual cpu",
++        .cmd        = hmp_set_vcpu_dirty_limit,
++    },
++
++SRST
++``cancel_vcpu_dirty_limit``
++  Cancel dirty page rate limit on virtual CPU, the information about all the
++  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
++  command.
++ERST
++
++    {
++        .name       = "cancel_vcpu_dirty_limit",
++        .args_type  = "cpu_index:l?",
++        .params     = "[cpu_index]",
++        .help       = "cancel dirty page rate limit, use cpu_index to cancel"
++                      "\n\t\t\t\t\t limit on a specified virtual cpu",
++        .cmd        = hmp_cancel_vcpu_dirty_limit,
++    },
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 2e89a97bd6..a618eb1e4e 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -131,6 +131,9 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_seek(Monitor *mon, const QDict *qdict);
+ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
+ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
++void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
++void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
++void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+ void hmp_human_readable_text_helper(Monitor *mon,
+                                     HumanReadableText *(*qmp_handler)(Error **));
+ void hmp_info_stats(Monitor *mon, const QDict *qdict);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 7102e474a6..e552ee4f43 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1868,6 +1868,86 @@
+ ##
+ { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
  
--typedef struct QEMUFileOps {
--} QEMUFileOps;
--
- typedef struct QEMUFileHooks {
-     QEMURamHookFunc *before_ram_iterate;
-     QEMURamHookFunc *after_ram_iterate;
-@@ -65,8 +62,8 @@ typedef struct QEMUFileHooks {
-     QEMURamSaveFunc *save_page;
- } QEMUFileHooks;
- 
--QEMUFile *qemu_file_new_input(QIOChannel *ioc, const QEMUFileOps *ops);
--QEMUFile *qemu_file_new_output(QIOChannel *ioc, const QEMUFileOps *ops);
-+QEMUFile *qemu_file_new_input(QIOChannel *ioc);
-+QEMUFile *qemu_file_new_output(QIOChannel *ioc);
- void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks);
- int qemu_fclose(QEMUFile *f);
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index bf321e1e72..01f9cc1d72 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -38,7 +38,6 @@
- #include "migration.h"
- #include "migration/register.h"
- #include "migration/misc.h"
--#include "migration/qemu-file-channel.h"
- #include "qemu-file.h"
- #include "postcopy-ram.h"
- #include "page_cache.h"
-@@ -569,7 +568,7 @@ static int compress_threads_save_setup(void)
-         /* comp_param[i].file is just used as a dummy buffer to save data,
-          * set its ops to empty.
-          */
--        comp_param[i].file = qemu_fopen_channel_output(
-+        comp_param[i].file = qemu_file_new_output(
-             QIO_CHANNEL(qio_channel_null_new()));
-         comp_param[i].done = true;
-         comp_param[i].quit = false;
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 26a0cbbf40..94a55dd95b 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -21,7 +21,6 @@
- #include "migration.h"
- #include "qemu-file.h"
- #include "ram.h"
--#include "qemu-file-channel.h"
- #include "qemu/error-report.h"
++##
++# @DirtyLimitInfo:
++#
++# Dirty page rate limit information of a virtual CPU.
++#
++# @cpu-index: index of a virtual CPU.
++#
++# @limit-rate: upper limit of dirty page rate (MB/s) for a virtual
++#              CPU, 0 means unlimited.
++#
++# @current-rate: current dirty page rate (MB/s) for a virtual CPU.
++#
++# Since: 7.1
++#
++##
++{ 'struct': 'DirtyLimitInfo',
++  'data': { 'cpu-index': 'int',
++            'limit-rate': 'uint64',
++            'current-rate': 'uint64' } }
++
++##
++# @set-vcpu-dirty-limit:
++#
++# Set the upper limit of dirty page rate for virtual CPUs.
++#
++# Requires KVM with accelerator property "dirty-ring-size" set.
++# A virtual CPU's dirty page rate is a measure of its memory load.
++# To observe dirty page rates, use @calc-dirty-rate.
++#
++# @cpu-index: index of a virtual CPU, default is all.
++#
++# @dirty-rate: upper limit of dirty page rate (MB/s) for virtual CPUs.
++#
++# Since: 7.1
++#
++# Example:
++#   {"execute": "set-vcpu-dirty-limit"}
++#    "arguments": { "dirty-rate": 200,
++#                   "cpu-index": 1 } }
++#
++##
++{ 'command': 'set-vcpu-dirty-limit',
++  'data': { '*cpu-index': 'int',
++            'dirty-rate': 'uint64' } }
++
++##
++# @cancel-vcpu-dirty-limit:
++#
++# Cancel the upper limit of dirty page rate for virtual CPUs.
++#
++# Cancel the dirty page limit for the vCPU which has been set with
++# set-vcpu-dirty-limit command. Note that this command requires
++# support from dirty ring, same as the "set-vcpu-dirty-limit".
++#
++# @cpu-index: index of a virtual CPU, default is all.
++#
++# Since: 7.1
++#
++# Example:
++#   {"execute": "cancel-vcpu-dirty-limit"}
++#    "arguments": { "cpu-index": 1 } }
++#
++##
++{ 'command': 'cancel-vcpu-dirty-limit',
++  'data': { '*cpu-index': 'int'} }
++
++##
++# @query-vcpu-dirty-limit:
++#
++# Returns information about virtual CPU dirty page rate limits, if any.
++#
++# Since: 7.1
++#
++# Example:
++#   {"execute": "query-vcpu-dirty-limit"}
++#
++##
++{ 'command': 'query-vcpu-dirty-limit',
++  'returns': [ 'DirtyLimitInfo' ] }
++
+ ##
+ # @snapshot-save:
+ #
+diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+index 76d0b44e02..c5ea24120e 100644
+--- a/softmmu/dirtylimit.c
++++ b/softmmu/dirtylimit.c
+@@ -14,8 +14,12 @@
+ #include "qapi/error.h"
  #include "qemu/main-loop.h"
- #include "qemu/module.h"
-@@ -4052,12 +4051,12 @@ static QEMUFile *qemu_fopen_rdma(RDMAContext *rdma, const char *mode)
-     rioc = QIO_CHANNEL_RDMA(object_new(TYPE_QIO_CHANNEL_RDMA));
- 
-     if (mode[0] == 'w') {
--        rioc->file = qemu_fopen_channel_output(QIO_CHANNEL(rioc));
-+        rioc->file = qemu_file_new_output(QIO_CHANNEL(rioc));
-         rioc->rdmaout = rdma;
-         rioc->rdmain = rdma->return_path;
-         qemu_file_set_hooks(rioc->file, &rdma_write_hooks);
-     } else {
--        rioc->file = qemu_fopen_channel_input(QIO_CHANNEL(rioc));
-+        rioc->file = qemu_file_new_input(QIO_CHANNEL(rioc));
-         rioc->rdmain = rdma;
-         rioc->rdmaout = rdma->return_path;
-         qemu_file_set_hooks(rioc->file, &rdma_read_hooks);
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 3e9612121a..e8a1b96fcd 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -37,7 +37,6 @@
- #include "migration/global_state.h"
- #include "migration/channel-block.h"
- #include "ram.h"
--#include "qemu-file-channel.h"
- #include "qemu-file.h"
- #include "savevm.h"
- #include "postcopy-ram.h"
-@@ -134,11 +133,9 @@ static struct mig_cmd_args {
- static QEMUFile *qemu_fopen_bdrv(BlockDriverState *bs, int is_writable)
- {
-     if (is_writable) {
--        return qemu_fopen_channel_output(
--                   QIO_CHANNEL(qio_channel_block_new(bs)));
-+        return qemu_file_new_output(QIO_CHANNEL(qio_channel_block_new(bs)));
-     } else {
--        return qemu_fopen_channel_input(
--                   QIO_CHANNEL(qio_channel_block_new(bs)));
-+        return qemu_file_new_input(QIO_CHANNEL(qio_channel_block_new(bs)));
+ #include "qapi/qapi-commands-migration.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/error.h"
+ #include "sysemu/dirtyrate.h"
+ #include "sysemu/dirtylimit.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
+ #include "exec/memory.h"
+ #include "hw/boards.h"
+ #include "sysemu/kvm.h"
+@@ -405,3 +409,193 @@ void dirtylimit_vcpu_execute(CPUState *cpu)
+         usleep(cpu->throttle_us_per_full);
      }
  }
- 
-@@ -2161,7 +2158,7 @@ static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
-     bioc->usage += length;
-     trace_loadvm_handle_cmd_packaged_received(ret);
- 
--    QEMUFile *packf = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
-+    QEMUFile *packf = qemu_file_new_input(QIO_CHANNEL(bioc));
- 
-     ret = qemu_loadvm_state_main(packf, mis);
-     trace_loadvm_handle_cmd_packaged_main(ret);
-@@ -2919,7 +2916,7 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-         goto the_end;
-     }
-     qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
--    f = qemu_fopen_channel_output(QIO_CHANNEL(ioc));
-+    f = qemu_file_new_output(QIO_CHANNEL(ioc));
-     object_unref(OBJECT(ioc));
-     ret = qemu_save_device_state(f);
-     if (ret < 0 || qemu_fclose(f) < 0) {
-@@ -2966,7 +2963,7 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
-         return;
-     }
-     qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-load-state");
--    f = qemu_fopen_channel_input(QIO_CHANNEL(ioc));
-+    f = qemu_file_new_input(QIO_CHANNEL(ioc));
-     object_unref(OBJECT(ioc));
- 
-     ret = qemu_loadvm_state(f);
-diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
-index 6a417bb102..72077b5780 100644
---- a/tests/unit/test-vmstate.c
-+++ b/tests/unit/test-vmstate.c
-@@ -28,7 +28,6 @@
- #include "migration/vmstate.h"
- #include "migration/qemu-file-types.h"
- #include "../migration/qemu-file.h"
--#include "../migration/qemu-file-channel.h"
- #include "../migration/savevm.h"
- #include "qemu/coroutine.h"
- #include "qemu/module.h"
-@@ -52,9 +51,9 @@ static QEMUFile *open_test_file(bool write)
-     }
-     ioc = QIO_CHANNEL(qio_channel_file_new_fd(fd));
-     if (write) {
--        f = qemu_fopen_channel_output(ioc);
-+        f = qemu_file_new_output(ioc);
-     } else {
--        f = qemu_fopen_channel_input(ioc);
-+        f = qemu_file_new_input(ioc);
-     }
-     object_unref(OBJECT(ioc));
-     return f;
++
++static void dirtylimit_init(void)
++{
++    dirtylimit_state_initialize();
++    dirtylimit_change(true);
++    vcpu_dirty_rate_stat_initialize();
++    vcpu_dirty_rate_stat_start();
++}
++
++static void dirtylimit_cleanup(void)
++{
++    vcpu_dirty_rate_stat_stop();
++    vcpu_dirty_rate_stat_finalize();
++    dirtylimit_change(false);
++    dirtylimit_state_finalize();
++}
++
++void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
++                                 int64_t cpu_index,
++                                 Error **errp)
++{
++    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
++        return;
++    }
++
++    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
++        error_setg(errp, "incorrect cpu index specified");
++        return;
++    }
++
++    if (!dirtylimit_in_service()) {
++        return;
++    }
++
++    dirtylimit_state_lock();
++
++    if (has_cpu_index) {
++        dirtylimit_set_vcpu(cpu_index, 0, false);
++    } else {
++        dirtylimit_set_all(0, false);
++    }
++
++    if (!dirtylimit_state->limited_nvcpu) {
++        dirtylimit_cleanup();
++    }
++
++    dirtylimit_state_unlock();
++}
++
++void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
++{
++    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
++    Error *err = NULL;
++
++    qmp_cancel_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
++                   "dirty limit for virtual CPU]\n");
++}
++
++void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
++                              int64_t cpu_index,
++                              uint64_t dirty_rate,
++                              Error **errp)
++{
++    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
++        error_setg(errp, "dirty page limit feature requires KVM with"
++                   " accelerator property 'dirty-ring-size' set'");
++        return;
++    }
++
++    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
++        error_setg(errp, "incorrect cpu index specified");
++        return;
++    }
++
++    if (!dirty_rate) {
++        qmp_cancel_vcpu_dirty_limit(has_cpu_index, cpu_index, errp);
++        return;
++    }
++
++    dirtylimit_state_lock();
++
++    if (!dirtylimit_in_service()) {
++        dirtylimit_init();
++    }
++
++    if (has_cpu_index) {
++        dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
++    } else {
++        dirtylimit_set_all(dirty_rate, true);
++    }
++
++    dirtylimit_state_unlock();
++}
++
++void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
++{
++    int64_t dirty_rate = qdict_get_int(qdict, "dirty_rate");
++    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
++    Error *err = NULL;
++
++    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
++                   "dirty limit for virtual CPU]\n");
++}
++
++static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
++{
++    DirtyLimitInfo *info = NULL;
++
++    info = g_malloc0(sizeof(*info));
++    info->cpu_index = cpu_index;
++    info->limit_rate = dirtylimit_vcpu_get_state(cpu_index)->quota;
++    info->current_rate = vcpu_dirty_rate_get(cpu_index);
++
++    return info;
++}
++
++static struct DirtyLimitInfoList *dirtylimit_query_all(void)
++{
++    int i, index;
++    DirtyLimitInfo *info = NULL;
++    DirtyLimitInfoList *head = NULL, **tail = &head;
++
++    dirtylimit_state_lock();
++
++    if (!dirtylimit_in_service()) {
++        dirtylimit_state_unlock();
++        return NULL;
++    }
++
++    for (i = 0; i < dirtylimit_state->max_cpus; i++) {
++        index = dirtylimit_state->states[i].cpu_index;
++        if (dirtylimit_vcpu_get_state(index)->enabled) {
++            info = dirtylimit_query_vcpu(index);
++            QAPI_LIST_APPEND(tail, info);
++        }
++    }
++
++    dirtylimit_state_unlock();
++
++    return head;
++}
++
++struct DirtyLimitInfoList *qmp_query_vcpu_dirty_limit(Error **errp)
++{
++    if (!dirtylimit_in_service()) {
++        return NULL;
++    }
++
++    return dirtylimit_query_all();
++}
++
++void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
++{
++    DirtyLimitInfoList *limit, *head, *info = NULL;
++    Error *err = NULL;
++
++    if (!dirtylimit_in_service()) {
++        monitor_printf(mon, "Dirty page limit not enabled!\n");
++        return;
++    }
++
++    info = qmp_query_vcpu_dirty_limit(&err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    head = info;
++    for (limit = head; limit != NULL; limit = limit->next) {
++        monitor_printf(mon, "vcpu[%"PRIi64"], limit rate %"PRIi64 " (MB/s),"
++                            " current rate %"PRIi64 " (MB/s)\n",
++                            limit->value->cpu_index,
++                            limit->value->limit_rate,
++                            limit->value->current_rate);
++    }
++
++    g_free(info);
++}
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index 056b40e67f..af00712458 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -110,6 +110,8 @@ static bool query_is_ignored(const char *cmd)
+         "query-sev-capabilities",
+         "query-sgx",
+         "query-sgx-capabilities",
++        /* Success depends on enabling dirty page rate limit */
++        "query-vcpu-dirty-limit",
+         NULL
+     };
+     int i;
 -- 
 2.36.1
 
