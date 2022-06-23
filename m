@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B900C557916
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 13:54:04 +0200 (CEST)
-Received: from localhost ([::1]:46280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC42557934
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 13:57:30 +0200 (CEST)
+Received: from localhost ([::1]:50100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4LPP-0006dW-7K
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 07:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43966)
+	id 1o4LSj-0000xf-Q0
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 07:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4LEX-0002O7-Em
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 07:42:49 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:37646)
+ id 1o4LIl-0004BH-Bh
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 07:47:12 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:40511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4LEV-00033O-Tl
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 07:42:49 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id w6so35362330ybl.4
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 04:42:47 -0700 (PDT)
+ id 1o4LIi-0003l6-0x
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 07:47:09 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id e4so22700787ybq.7
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 04:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y8t4huc/a/R+d/eHo98icgB9bpiDx5ZVRL2x6ofh6pc=;
- b=e7b9/KAPCrgfUpcBUj+JKe+YD98jikX75shHPXOpvwkLiqshRpVVlY7dNzSWmCsA8P
- kdj2ZwR8EQuwb/Vtuh7XQhpEvRBz14ELLuoxsLAthTlIwc7kRYX/xu9mUxc98vV7Pgme
- eekffeCndzDtLaHLiZ1vv/olwNdcq3UgGuKw+zx4xPKqXF6g/9jQoEzlK0zTlKZtYegt
- h8L08vyoDxwy6XeJgAFgEvsJtDrZL0x1yUeRxYm95xMLY65Ol5obWRitM0s1GbvBm4k/
- zfpx234ftg027bG9qjwoHzjpzUUwmY2pleWBglu9aRXxFwFvNbNarNMz/GTBOAj9SOKi
- Yk7Q==
+ :cc; bh=b2vozZk82MWrSg5nOJlYytZcI0E9xK26TawTM1Kq6DY=;
+ b=p801a0acgNSeV/+tXpkGVxjx8eLfGl6Gaek9cdzLMZeduTM/rp+GHPEH0R8VSlYSmM
+ i2/6B/wOb8YFDXrxncoI/Q8xafu8Pw8Wk8R8WtZCVZucRDu4tYXnbUg2feKYnB+vCgkV
+ O6O4YrPg8zBREUpHPCzrSrtm0ZRNtDTNEB3yJ6bV7B7rLrqJg3/zkJcuLub8CRVEze4A
+ RsljfOB0f7VGZEvwY8Bh2lYBB1UqqsfBtoPMkPWfLCswnkvpFU9xN3aUZXiA1gYdUgEm
+ YbFCnC+2lZgDiMPAN5irg9UDwa0ie/yCrTW2xdRh0dyfmSPEUoqBmqlgT8mfScrlVxh5
+ 9OxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=y8t4huc/a/R+d/eHo98icgB9bpiDx5ZVRL2x6ofh6pc=;
- b=40Fvfe7yuRZa2DfRXHJN5tmZcob8fIN+QIkNIaNGBObstefBAR7bYokRUo+WCMYpO6
- D+8+Rlvgp8vWQCvXP5UziCEf1kqVwqa7m4mnoug2K1POKEPr1b72nArCHPhM9uE3uYy8
- f2AUvl2TZXclbfpZFyeEmh0pIY063AwvL3qA+RefD0PS0JLgpmFtjZzNLDJ2jVUgvuMm
- /wq+zi2nSYZuKNcmUeXEpgeZvDNK0+xJF5Qdb3E3X3Y7+lrtP1tGk9zjFdTkw+vJncgo
- D0V8snOowU/1cpV4APYqaLuIHif6Ao/1Pn0r+vdv+dreGhdMQuXuL2X6/uvC/0DVU0Xs
- IUdQ==
-X-Gm-Message-State: AJIora85PHL9wZ3Mr6dGQY1ct2EIKinCiFWukuy1AG2LrCCuaxHMEptG
- PiM0Tiyw30QiGpa1XynUZZTTIuC5NqTCfDyakhjcLg==
-X-Google-Smtp-Source: AGRyM1te4uqsQVCgiKUOZ5LXs2BjWY1hqHtfC9JE28CUxibwUgdv119MM7yDSZd01kBzLSeTY/0lWFhL060wGuW/luE=
-X-Received: by 2002:a25:d288:0:b0:669:12e2:b561 with SMTP id
- j130-20020a25d288000000b0066912e2b561mr8827983ybg.193.1655984566983; Thu, 23
- Jun 2022 04:42:46 -0700 (PDT)
+ bh=b2vozZk82MWrSg5nOJlYytZcI0E9xK26TawTM1Kq6DY=;
+ b=6TzR5qr5XeHd5BqlJpRIaO3mwxKJl4rRhGasR0JBc5+qPHyimb5mWB3J/svaX0LuJp
+ fuZGGqFQ4pflOeIrUA1nx3+QUGHUDoYRQPgqmyGWq0XBClFOj/QuFYalS3XRJPshLjNa
+ upCofJM+Xy6NnA4cT+zwwNsCfIG4o9tKSNyo/AnCTDPzKdsz+Cp4bP1PcfTs4kHLBNGp
+ t5V49gdo4tv22YEjNiqJYdiycROZg8Tox43YXP1OIwj1C3Ln6u8CgKTa3kB6R28LwVWJ
+ 7kf3Q7oXKRZmq2oupINjtAgsngPOL78B7atBPBIE3HBFT3IBol5F5CXtV8PyRQq4G9/t
+ Btlw==
+X-Gm-Message-State: AJIora/7Ln76za7N8Pde+xdBI2i1jAJCchXIfWiXMOs6Ab8S0tsYeRwf
+ 2CLSyktX5ix/t5mkckxpEaGBfAV5evMkjhOFw94vKQaU4rA=
+X-Google-Smtp-Source: AGRyM1tXCCuGvdaYtfVT9p91Ikgoh+Dyp0wcVOvM+LhE8VYKCsdFM08fgV2xTyZHTIgwunzPO1HtHXMNX+tnu+My9f4=
+X-Received: by 2002:a25:810a:0:b0:669:9f30:7f1e with SMTP id
+ o10-20020a25810a000000b006699f307f1emr5964158ybk.479.1655984826909; Thu, 23
+ Jun 2022 04:47:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220620175235.60881-1-richard.henderson@linaro.org>
- <20220620175235.60881-28-richard.henderson@linaro.org>
-In-Reply-To: <20220620175235.60881-28-richard.henderson@linaro.org>
+ <20220620175235.60881-29-richard.henderson@linaro.org>
+In-Reply-To: <20220620175235.60881-29-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jun 2022 12:42:36 +0100
-Message-ID: <CAFEAcA9ac=P6Ggb+tTMxz6FkOzepfGUNBXUcu_xbUNE5+JVDaA@mail.gmail.com>
-Subject: Re: [PATCH v3 27/51] target/arm: Export unpredicated ld/st from
- translate-sve.c
+Date: Thu, 23 Jun 2022 12:46:56 +0100
+Message-ID: <CAFEAcA8y4iiB2jeSHzi437Bvs7CdV6fKtKNV9BDjqLNmVN7dYQ@mail.gmail.com>
+Subject: Re: [PATCH v3 28/51] target/arm: Implement SME LDR, STR
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,15 +82,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Jun 2022 at 19:12, Richard Henderson
+On Mon, 20 Jun 2022 at 19:24, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Add a TCGv_ptr base argument, which will be cpu_env for SVE.
-> We will reuse this for SME save and restore array insns.
+> We can reuse the SVE functions for LDR and STR, passing in the
+> base of the ZA vector and a zero offset.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-
+>  target/arm/sme.decode      |  7 +++++++
+>  target/arm/translate-sme.c | 23 +++++++++++++++++++++++
+>  2 files changed, 30 insertions(+)
+>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
