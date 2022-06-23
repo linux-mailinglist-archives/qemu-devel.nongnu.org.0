@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE4F558AAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:25:10 +0200 (CEST)
-Received: from localhost ([::1]:35960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCAB558AB4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:28:00 +0200 (CEST)
+Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4UK5-0007sF-Q9
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:25:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51152)
+	id 1o4UMp-0002go-PY
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UDk-0005ix-Ly; Thu, 23 Jun 2022 17:18:36 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:43763)
+ id 1o4UDn-0005rr-7k; Thu, 23 Jun 2022 17:18:40 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:39333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UDj-00044d-48; Thu, 23 Jun 2022 17:18:36 -0400
+ id 1o4UDl-00044y-IE; Thu, 23 Jun 2022 17:18:38 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 38A3C320025E;
- Thu, 23 Jun 2022 17:18:33 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id A69833200957;
+ Thu, 23 Jun 2022 17:18:35 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 23 Jun 2022 17:18:33 -0400
+ by compute2.internal (MEProxy); Thu, 23 Jun 2022 17:18:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656019112; x=
- 1656105512; bh=lmRxgq4fNcetwf7/k+ccoS3T0J+r+c9ZMkTA0GefQO4=; b=D
- Y7OPYRm1cXopoIVlPR0waRGDrBOzF6wxh6J9FWub7L/QWaZkuOAhJiAO8zt6chHD
- iUNv5iJ9MSMnz0np72WgbryaxEKgGTkB2h+ohYLSTFO4p8z5DUjyvhBqF0Zy4N5T
- tEeDiuaEg6SIkyAor/ejydP1IYlG9VSUDwjwFj3OQbwYYZkppJP7kcQzRPIEYzuJ
- BLEYjafk8IRCXGqwyNQrvB4thw8S1nDE7q7XLIOWizvQ4AVx3RqwpxBPY8mkH5ek
- Tr381tuHg98/HV+TpFY3n6yu/j/iff/U5guCwsfGldwDJ0dqAjar+NddEN1RfJa9
- h5XdtAusCbYXX7HkBsU5w==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656019115; x=
+ 1656105515; bh=Gu/2ZQo53SQ5H+1IizNlQZ3toC12z2U/p2E4Ue6509c=; b=Y
+ iu6n7lwBCOMnl1vOMaBjY+37vrAAk9pxrXzpxm2+lR70Fm9yQw5Z0gJho2cGH+uf
+ kCQKN0vs+bitY7XbbpW79t+WuXz7sDwWu+XDnsUa40HaOyU/cs3ZUNrcUzkI9xGx
+ /sPjWCFgHtwCQ8oHwgEltM+2Yv0pGz5/Ah8kAJrmc9Eq0aAyAnb+Fj4zGkZJQIAD
+ i8wyeGtyBg+eHwYyFD1UhekO4gkd905XtbId1k/eml6UX5rXSkcQxch5pR1G2Ly6
+ 2JE9kHbSOQHOlFZhxs3Bwv/ezcxec3boi0ECG4sm8xPTXv8/4a4t5/+wnWOrWw+l
+ JjbQ1JMT6uR71YguikxUg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656019112; x=1656105512; bh=lmRxgq4fNcetw
- f7/k+ccoS3T0J+r+c9ZMkTA0GefQO4=; b=ZK+E696Cagri4Czao1423gXs1Rn23
- evnkVW33W8VrBMrpprHibWWk+9x7bL9Cq/83WVOm0UFxybMdPtVzH5h02a7UNLVU
- MzxArKkAHLYCbL0XVIBilji4+g1WwcQS07cPGKwVyKw/5E8Zjv8+Os/uDDK/zV9v
- RtkxoDM0qnWxsxEqmHlYWNr7ApCBn8Ry/3L25M9RAPFQg8vHWpJrkAMmI59G4t6M
- lqRCVwkdCvcsE6Mel0gPy1EyLJ6OVIN9x/LijQ5T1pdOiZ6QQXvG8DRHqDccBAwU
- mKh/dYI4IHAjQTXlbF/4cxAXoI6bSIod4Fw6zNUZo9GLzbtEcoZi33Kcw==
-X-ME-Sender: <xms:qNi0YjEQKPTS_c1FlXelwGtMqX4C4td5FTzFO-6vlPcAIq0ocnGbDw>
- <xme:qNi0YgUHvab9CeE4M1sML4Pql9EsUW8QJxp_zdviYhk3kJCdBe7nO3GLIflUcwhK5
- wPmdbAdfaaE_rxilDU>
-X-ME-Received: <xmr:qNi0YlLTxpg5Mum3uTuov1Pr56ORwUirp6detzxInlt1M9USSrxkHejX9mInoftLm131oTfbdDltyOvz6qn7>
+ :x-sasl-enc; s=fm2; t=1656019115; x=1656105515; bh=Gu/2ZQo53SQ5H
+ +1IizNlQZ3toC12z2U/p2E4Ue6509c=; b=TeIqED5PGxwrg/PAAgV7PwEam3ucL
+ itnQX4OFMGV/0v4odpMSgpjYM4FtZoGtf+m63fud14wrl9uF4InTZECdAQo4Tq8i
+ fHbT5ayXqdF1nnpvzdRwfZdGeNTtIilbZMsORqnVF1fr+o7FJ4NV7RK8UBf/qN9X
+ ZNqiKBosgoLRsMjVaiymnJr6lQ3U48rJYfpbvbZJA4VsEtkVGgNUtjtb8nC2EIDK
+ NvCHz8/dSqgzZyYTCeywMImZisJlD6DCgKLPcvpBKjmq0+Y98RXPWVBEVNLnhc2/
+ 2HrIg5LIVNBWXtcdRu5GusYwBE1kkib2MbmZSDbjW2KSD5ukCDsU3NtDg==
+X-ME-Sender: <xms:q9i0YkCYxGe7AjBcdA-0-jhwrzGfi9yAr7JOr4oKcsEf4YYrWyxvaQ>
+ <xme:q9i0YmhvdPJ_ExhYKhqC8VxtgUPJGlZI63Lvu65TdsgmNuTGOZvdgO4ja1jLb-TmE
+ fLPAlYn_gKNmdkAaA8>
+X-ME-Received: <xmr:q9i0Ynk367JnPLCWR1iM6MRsc2BIppE2XY8rzD3TlygALgzIhlklGRBggw6Huhrj22HX1mFO2YPRfvYgXsJU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeitdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgr
  uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
  htthgvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedu
- jedugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ jedugeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:qNi0YhES_94y8hxpGzvLvCIIyZjagBYiNr-CnyHqrKCq33Pe1x0uSA>
- <xmx:qNi0YpW7xb7ZNo8ysL05DIeeNGPdHOuqVhpETzZh0fI0ci_YaK3pag>
- <xmx:qNi0YsNY-4QKAveie3TVlZ3DcmpdSTOV6eFDN6dJf9nXllCA2W9dDw>
- <xmx:qNi0YsTzXhcW6p9IWOLSpjFqaynD2bmeD6mvlZUTNKyCpFbTCjsYkw>
+X-ME-Proxy: <xmx:q9i0YqzAbNgoyUNS_EyfOqAilsHmKasVdwLpyI495qm-UlfBOVgq_A>
+ <xmx:q9i0YpRVPN4mJ2TA0dR0S2grf7wvf9F2LEz4XPWhoJAFdbU93L2VaA>
+ <xmx:q9i0YlYE6pFp0DMiI-eAB76mu5FJwa7RfXuQv5RUTaQ6OUvS7V8vTg>
+ <xmx:q9i0Yrde8hfrLMcKKPsPLjm6ALeSBvtg2JxZC5xj-IcFXC4cieX4fA>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jun 2022 17:18:31 -0400 (EDT)
+ 23 Jun 2022 17:18:34 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 03/12] hw/nvme: cleanup error reporting in nvme_init_pci()
-Date: Thu, 23 Jun 2022 23:18:12 +0200
-Message-Id: <20220623211821.50534-4-its@irrelevant.dk>
+Subject: [PATCH 04/12] hw/nvme: fix numzrwa handling
+Date: Thu, 23 Jun 2022 23:18:13 +0200
+Message-Id: <20220623211821.50534-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220623211821.50534-1-its@irrelevant.dk>
 References: <20220623211821.50534-1-its@irrelevant.dk>
@@ -102,52 +102,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Replace the local Error variable with errp and ERRP_GUARD().
+Number of ZRWA Resources should be initialized to Max Active Resources,
+and not the total number of zones.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/nvme/ctrl.c | 8 ++------
+ hw/nvme/ns.c   | 4 ++--
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index b688afccbe5a..af82daa304bf 100644
+index af82daa304bf..a09700455c02 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -7120,14 +7120,14 @@ static int nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
+@@ -1765,9 +1765,7 @@ static uint16_t nvme_zrm_finish(NvmeNamespace *ns, NvmeZone *zone)
  
- static int nvme_init_pci(NvmeCtrl *n, Error **errp)
- {
-+    ERRP_GUARD();
-+
-     PCIDevice *pci_dev = PCI_DEVICE(n);
-     uint8_t *pci_conf = pci_dev->config;
-     uint64_t bar_size;
-     unsigned msix_table_offset, msix_pba_offset;
-     int ret;
- 
--    Error *err = NULL;
--
-     pci_conf[PCI_INTERRUPT_PIN] = 1;
-     pci_config_set_prog_interface(pci_conf, 0x2);
- 
-@@ -7164,13 +7164,13 @@ static int nvme_init_pci(NvmeCtrl *n, Error **errp)
-     }
-     ret = msix_init(pci_dev, n->params.msix_qsize,
-                     &n->bar0, 0, msix_table_offset,
--                    &n->bar0, 0, msix_pba_offset, 0, &err);
-+                    &n->bar0, 0, msix_pba_offset, 0, errp);
-     if (ret < 0) {
-         if (ret == -ENOTSUP) {
--            warn_report_err(err);
-+            warn_report_err(*errp);
-+            *errp = NULL;
-         } else {
--            error_propagate(errp, err);
--            return ret;
-+            return -1;
+         if (zone->d.za & NVME_ZA_ZRWA_VALID) {
+             zone->d.za &= ~NVME_ZA_ZRWA_VALID;
+-            if (ns->params.numzrwa) {
+-                ns->zns.numzrwa++;
+-            }
++            ns->zns.numzrwa++;
          }
-     }
  
+         /* fallthrough */
+@@ -1807,9 +1805,7 @@ static uint16_t nvme_zrm_reset(NvmeNamespace *ns, NvmeZone *zone)
+         nvme_aor_dec_active(ns);
+ 
+         if (zone->d.za & NVME_ZA_ZRWA_VALID) {
+-            if (ns->params.numzrwa) {
+-                ns->zns.numzrwa++;
+-            }
++            ns->zns.numzrwa++;
+         }
+ 
+         /* fallthrough */
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 870c3ca1a2f0..b9b35b3c3bc9 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -286,7 +286,7 @@ static void nvme_ns_init_zoned(NvmeNamespace *ns)
+ 
+     if (ns->params.zrwas) {
+         ns->zns.numzrwa = ns->params.numzrwa ?
+-            ns->params.numzrwa : ns->num_zones;
++            ns->params.numzrwa : ns->params.max_active_zones;
+ 
+         ns->zns.zrwas = ns->params.zrwas >> ns->lbaf.ds;
+         ns->zns.zrwafg = ns->params.zrwafg >> ns->lbaf.ds;
+@@ -294,7 +294,7 @@ static void nvme_ns_init_zoned(NvmeNamespace *ns)
+         id_ns_z->ozcs |= NVME_ID_NS_ZONED_OZCS_ZRWASUP;
+         id_ns_z->zrwacap = NVME_ID_NS_ZONED_ZRWACAP_EXPFLUSHSUP;
+ 
+-        id_ns_z->numzrwa = cpu_to_le32(ns->params.numzrwa);
++        id_ns_z->numzrwa = cpu_to_le32(ns->zns.numzrwa - 1);
+         id_ns_z->zrwas = cpu_to_le16(ns->zns.zrwas);
+         id_ns_z->zrwafg = cpu_to_le16(ns->zns.zrwafg);
+     }
 -- 
 2.36.1
 
