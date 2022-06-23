@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98D1557612
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 10:58:24 +0200 (CEST)
-Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F60557686
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 11:22:28 +0200 (CEST)
+Received: from localhost ([::1]:34274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4IfP-000076-Vk
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 04:58:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38558)
+	id 1o4J2h-0002qh-N7
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 05:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1o4Ico-0005r8-55
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:42 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:52346 helo=loongson.cn)
+ id 1o4IjC-0005g9-W6
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:02:19 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:54922 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1o4Icj-0008T5-6n
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 04:55:41 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1o4Ij9-0000q4-Lp
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:02:17 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP0x_KrRiTjVWAA--.30922S11; 
- Thu, 23 Jun 2022 16:55:34 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxP0x_KrRiTjVWAA--.30922S12; 
+ Thu, 23 Jun 2022 16:55:35 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, laurent@vivier.eu, gaosong@loongson.cn,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PATCH v19 09/13] target/loongarch: Fix helper_asrtle_d/asrtgt_d
- raise wrong exception
-Date: Thu, 23 Jun 2022 16:55:22 +0800
-Message-Id: <20220623085526.1678168-10-gaosong@loongson.cn>
+Subject: [PATCH v19 10/13] target/loongarch: remove unused include hw/loader.h
+Date: Thu, 23 Jun 2022 16:55:23 +0800
+Message-Id: <20220623085526.1678168-11-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220623085526.1678168-1-gaosong@loongson.cn>
 References: <20220623085526.1678168-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxP0x_KrRiTjVWAA--.30922S11
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4fuw43JFy5CF4xAr1fWFg_yoW8AFWkpF
- 9ru347KFW8GFZ8Aw1kXayYgrn8W3y7Gr42qan7Aa40kw4Sqr9YvF4kt3909F15Gay5Wry2
- vFZ5Zw1jva18WFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxP0x_KrRiTjVWAA--.30922S12
+X-Coremail-Antispam: 1UD129KBjvdXoW5KryfurWrtFW7WF1kWFWrAFb_yoWxWwb_Xa
+ 4Ivw1kur4Duasrtw1FgrZ8Jw1Fvw18CFnI9Fs3Xw4xG3Zxtr4Ykw4Dt3WfZw12grW5ZFs3
+ XFZ7JrW5C3yYkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -62,57 +61,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Raise EXCCODE_BCE instead of EXCCODE_ADEM for helper_asrtle_d/asrtgt_d.
-
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/cpu.c       | 2 ++
- target/loongarch/op_helper.c | 4 ++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ target/loongarch/cpu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index e32d4cc269..0013582a3a 100644
+index 0013582a3a..bf163a8dce 100644
 --- a/target/loongarch/cpu.c
 +++ b/target/loongarch/cpu.c
-@@ -51,6 +51,7 @@ static const char * const excp_names[] = {
-     [EXCCODE_IPE] = "Instruction privilege error",
-     [EXCCODE_FPE] = "Floating Point Exception",
-     [EXCCODE_DBP] = "Debug breakpoint",
-+    [EXCCODE_BCE] = "Bound Check Exception",
- };
+@@ -18,7 +18,6 @@
+ #include "fpu/softfloat-helpers.h"
+ #include "cpu-csr.h"
+ #include "sysemu/reset.h"
+-#include "hw/loader.h"
  
- const char *loongarch_exception_name(int32_t exception)
-@@ -176,6 +177,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-     case EXCCODE_INE:
-     case EXCCODE_IPE:
-     case EXCCODE_FPE:
-+    case EXCCODE_BCE:
-         env->CSR_BADV = env->pc;
-         QEMU_FALLTHROUGH;
-     case EXCCODE_ADEM:
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index d87049851f..df049cec59 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -49,14 +49,14 @@ target_ulong helper_bitswap(target_ulong v)
- void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
- {
-     if (rj > rk) {
--        do_raise_exception(env, EXCCODE_ADEM, GETPC());
-+        do_raise_exception(env, EXCCODE_BCE, 0);
-     }
- }
- 
- void helper_asrtgt_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
- {
-     if (rj <= rk) {
--        do_raise_exception(env, EXCCODE_ADEM, GETPC());
-+        do_raise_exception(env, EXCCODE_BCE, 0);
-     }
- }
- 
+ const char * const regnames[32] = {
+     "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
 -- 
 2.31.1
 
