@@ -2,105 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F47557C53
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 14:58:12 +0200 (CEST)
-Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9B6557C5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 14:59:33 +0200 (CEST)
+Received: from localhost ([::1]:37884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4MPS-0001L6-6y
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 08:58:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58746)
+	id 1o4MQm-0002gj-64
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 08:59:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o4MMk-0000Ap-2d
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:55:22 -0400
-Received: from esa14.hc2706-39.iphmx.com ([216.71.140.199]:34404)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o4MMh-0007hs-KL
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:55:21 -0400
-X-IronPort-RemoteIP: 209.85.219.69
-X-IronPort-MID: 225061284
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:kPNS8qxzCDVcQhsWe+B6t+e8xCrEfRIJ4+MujC+fZmUNrF6WrkVUy
- DAeXjiEbKqLZTbxeNkjOo62oE9TsZ6EztJiHAdr+S00HyNBpPSeOdnIdU2Y0wF+jyHgoOCLy
- +1EN7Es+ehtFie0Si+Fa+Sn9T8mvU2xbuKU5NTsY0idfic5DnZ74f5fs7Rh2NQw34LiW1rlV
- e7a+KUzBnf0g1aYDUpJs8pvmDs31BglkGpF1rCWTakjUG72zhH5PrpGTU2CByKQrr1vIwKPb
- 72rIIdVX4/u10xF5tuNyt4Xe6CRK1LYFVHmZnF+AsBOjvXez8CbP2lS2Pc0MC9qZzu1c99Zi
- 8xwn6fpaD8QGILDoOkFbkABLj8lIvgTkFPHCSDXXc27ykTHdz713awrAh9ne4If/elzDCdF8
- vlwxDIlNEjSwbLrhujiG68y16zPL+GyVG8bknhk3TfVF94sXNbOT7iiCdpwhm1t3p4XR6aCD
- yYfQSZPMEv9QUYRAVtNUMk9sfnri2XzaQQN/Tp5ooJyuQA/1jdZybXoLZ/Zd8KHQe1TmUCXo
- H+A+H72aiz2L/SawDuBt2uy36rBw3K9V4UVG7m1sPVthTV/21AuNfHfbnPjydHRt6J0c483x
- 5A8ksb2kZUPyQ==
-IronPort-HdrOrdr: A9a23:eYFXfq9Ze6B6+YScKORuk+ACI+orL9Y04lQ7vn2ZhyYlFvBw8P
- re5sjzsCWftN9/YgBHpTntAtjjfZq+z+8P3WBuB8baYOCOggLBR/AA0WKL+V3d8kbFh4lgPM
- lbAs1DIey1J3RByejB3CmEP+AJ/OSnmZrY+Ns2DE0AceipUcxdBstCZDpzancGPDWuzKBXda
- ah2g==
-Received: from mail-qv1-f69.google.com ([209.85.219.69])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 23 Jun 2022 08:55:12 -0400
-Received: by mail-qv1-f69.google.com with SMTP id
- b2-20020a0cb3c2000000b004703a79581dso13502147qvf.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 05:55:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=l6g+CHctbKDq0rrReMS5PtJdAKseL7Gn/6RVysn7YOQ=;
- b=E/Xyd4jJuYCjXgE7dQEyfJXGiDImkf1etn2aTBoj0EgTSSq7ZgSUaG6OIr5KTKEdVa
- dkXNizIkr1033Qrk5iWdy+nwf87ya6XS61FMXHQ75CVdYexSD0modcJivvUWeWXf/PEX
- Hbz0C+sC+gKxmp0RqzUDER1aYjod5cNBTITIAbdFoTKT4DZG5/kqAYPd/3dQVW4JcYER
- thal6xYkJSyfJUArMJPs9hYe5/ctRm9tr1OJygRnzhvL59Hy1VYRkvZqgab8kCu08gXp
- OlKiq0acer0H2Gcp902cmsS4NyM69phY3/mY3kNkxteJQLpIYsJYGcLroL6DIom/Y/hd
- zkrQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o4MNn-0000pd-OI
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:56:28 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:42697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o4MNm-0007wX-6s
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 08:56:27 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-2ef5380669cso192870167b3.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 05:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R61v/iPwH5KRi9bjTWRa7Tpm/TZZ3nQfs1k5tUMicU0=;
+ b=CfyAChadOteldYBSZO3K48+sg5Z2V+tqrHjV/80mmrJJ2o5mH2AY8xnSUFq15GkPgZ
+ hjqe/TeBLJgEj4U1teQ6SehfoJGiDSJgCpsBHEH/ctk0uB7aoZoF8/KnuMEul40oev7z
+ RrtkLOjjP5k1T1iohMMZj5DdEzXRINS0V6bIqke2DPKwuzeU93kofmrcCxfs8YfeoqOJ
+ ADDL9CQs1cQ9GKVlnqBrfiHzNvlplV2NmZamszXAAur+TUPLbEEVCzLsty7tI6ZortIH
+ 2O5I1YQwvN8nBOF/aDzokpZzB7zGxI9mhJfifp4pR6Rs8F/OOw+6TS95PuzxVJZ4Chbt
+ uKVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=l6g+CHctbKDq0rrReMS5PtJdAKseL7Gn/6RVysn7YOQ=;
- b=wtA+2vte5AwNyxJ/wKxYgozr0mq6+ZGrlmgo/A5QJb6ZuRtoshtHc928OSAt67Ws1Q
- M1pvS0SMWQgMnvyEKCF7bNfNYzcCJw+JmqPcUjzEoXUHLY/IS4w+PEUkaTZ+pgZnGjpk
- Aik/gOa7GMB7/vdnucdo5YLpQRx9fwMBrjSbmrah8dVGvy4Uy1aFOmEkcJNHuYhPCcU+
- 7s/hCoCeoVhj0AVeBo0phkOWF7OhxvQAqoSg4DHMxgse7YLkCFzxpyEDaf0dQZLWFZXw
- 4etPkzOUdkvkxWbdiAVfRv3i+kdxZHVVt5WhR8sbLuk0tLLpykcwiMW140xpXYoWjQyK
- vnjQ==
-X-Gm-Message-State: AJIora+dhRwG5ztddNnW65i03x0XhlamXk51hgWavTRPVNREQVcq5TUb
- Es3ZDm0bfvh9c/SEtCavg582FWGmuF1kaqmzqJN/gw7fRvU6J0wtMqJQkWB+u1p0U/WvsCz0SG5
- 248pu4D5vmWHHBN20X1rVCFsYu/5YNg==
-X-Received: by 2002:a05:620a:2546:b0:6a7:a299:15cf with SMTP id
- s6-20020a05620a254600b006a7a29915cfmr6098634qko.28.1655988911410; 
- Thu, 23 Jun 2022 05:55:11 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tOickmNp+wycna5fJ02/TYqqKDurPAk0/wc/+8hylJh/+h5KdwwDDX3deAojKfaJUy6D375Q==
-X-Received: by 2002:a05:620a:2546:b0:6a7:a299:15cf with SMTP id
- s6-20020a05620a254600b006a7a29915cfmr6098608qko.28.1655988911117; 
- Thu, 23 Jun 2022 05:55:11 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- p12-20020ac8740c000000b003162a22f8f4sm2740138qtq.49.2022.06.23.05.55.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 05:55:10 -0700 (PDT)
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: [PATCH v2] fuzz: only use generic-fuzz targets on oss-fuzz
-Date: Thu, 23 Jun 2022 08:55:05 -0400
-Message-Id: <20220623125505.2137534-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R61v/iPwH5KRi9bjTWRa7Tpm/TZZ3nQfs1k5tUMicU0=;
+ b=iNgUR/GFFdZXVyh8edLZvcLtL74IU0vfPGTP+lJxau2YjD4wrgT1AckHMDtCNn42Su
+ uJ7ZjSF1fjQvZl1WFyIM+ewZZKB9Ob/kbDGoW7lnJS2CoXkc53jK+iopSojFbROG9Lg5
+ To9uTr2rpF27C7gp5ocFXoX25JRaXS658lihHWcIvjb0xNbqVUP0PENO5ExqwMoT2fp+
+ 3jFjjjcH1SExab56x9M4NKrL4inBtJxuWUmOCkE3OyPxqfW3Y38TX7DmQoGcqObRU/rA
+ COVmUvpNLmlDD+TBzDbJWKSM3JT0+/xVjFgeQSRuOjTvKZtAv7wuhTuuuTD3+Kb/olaj
+ ibEA==
+X-Gm-Message-State: AJIora9Y/9iDmi0gJ2RqoXpzW8bB0ixzMJtaH3ryYBD7EPM71bKAJ8rQ
+ 6zqLRXUo3tHZanHDkRxmWNgI/Bi84Mlm7yAbHnxRdA==
+X-Google-Smtp-Source: AGRyM1tVLx+H9rwH/n7tGiouqh3J6vgw+U3Yf+geex4bbUsIf922YiYLwp2hXt6Igq1GKIGOrIMA0Gm+U4XJPpcdFxg=
+X-Received: by 2002:a0d:d712:0:b0:317:a108:9778 with SMTP id
+ z18-20020a0dd712000000b00317a1089778mr10304575ywd.64.1655988985132; Thu, 23
+ Jun 2022 05:56:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.199; envelope-from=alxndr@bu.edu;
- helo=esa14.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220623095825.2038562-1-pdel@fb.com>
+ <20220623095825.2038562-12-pdel@fb.com>
+In-Reply-To: <20220623095825.2038562-12-pdel@fb.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jun 2022 13:56:14 +0100
+Message-ID: <CAFEAcA_iOeL50nGaTSNRa23P0GKH8_0fpiSOxktAOA22CGgZvA@mail.gmail.com>
+Subject: Re: [PATCH 11/14] aspeed: Switch to create_unimplemented_device_in
+To: Peter Delevoryas <pdel@fb.com>
+Cc: clg@kaod.org, andrew@aj.id.au, joel@jms.id.au, pbonzini@redhat.com, 
+ berrange@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com, 
+ richard.henderson@linaro.org, f4bug@amsat.org, ani@anisinha.ca, 
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, kvm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,37 +86,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The non-generic-fuzz targets often time-out, or run out of memory.
-Additionally, they create unreproducible bug-reports. It is possible
-that this is resulting in failing coverage-reports on OSS-Fuzz. In the
-future, these test-cases should be fixed, or removed.
+On Thu, 23 Jun 2022 at 13:04, Peter Delevoryas <pdel@fb.com> wrote:
+>
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> ---
+>  hw/arm/aspeed_ast10x0.c | 10 ++++------
+>  hw/arm/aspeed_ast2600.c | 19 ++++++++++---------
+>  hw/arm/aspeed_soc.c     |  9 +++++----
+>  3 files changed, 19 insertions(+), 19 deletions(-)
+>
+> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+> index d259d30fc0..4e6688cc68 100644
+> --- a/hw/arm/aspeed_ast10x0.c
+> +++ b/hw/arm/aspeed_ast10x0.c
+> @@ -158,12 +158,10 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>      }
+>
+>      /* General I/O memory space to catch all unimplemented device */
+> -    create_unimplemented_device("aspeed.sbc",
+> -                                sc->memmap[ASPEED_DEV_SBC],
+> -                                0x40000);
+> -    create_unimplemented_device("aspeed.io",
+> -                                sc->memmap[ASPEED_DEV_IOMEM],
+> -                                ASPEED_SOC_IOMEM_SIZE);
+> +    create_unimplemented_device_in("aspeed.sbc", sc->memmap[ASPEED_DEV_SBC],
+> +                                   0x40000, s->system_memory);
+> +    create_unimplemented_device_in("aspeed.io", sc->memmap[ASPEED_DEV_IOMEM],
+> +                                   ASPEED_SOC_IOMEM_SIZE, s->system_memory);
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- scripts/oss-fuzz/build.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This is SoC code, so it should probably be handling its unimplemented
+devices by creating and mapping TYPE_UNIMPLEMENTED_DEVICE child
+objects directly, the same way it handles all its other child devices.
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 98b56e0521..aaf485cb55 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -1,4 +1,4 @@
--#!/bin/sh -e
-+#!/bin/bash -e
- #
- # OSS-Fuzz build script. See:
- # https://google.github.io/oss-fuzz/getting-started/new-project-guide/#buildsh
-@@ -105,7 +105,7 @@ do
-     # to be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets
-     # that are thin wrappers around this target that set the required
-     # environment variables according to predefined configs.
--    if [ "$target" != "generic-fuzz" ]; then
-+    if [[ $target == "generic-fuzz-"* ]]; then
-         ln  $base_copy \
-             "$DEST_DIR/qemu-fuzz-i386-target-$target"
-     fi
--- 
-2.27.0
-
+thanks
+-- PMM
 
