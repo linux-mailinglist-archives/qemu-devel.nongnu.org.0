@@ -2,77 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F44557D9A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 16:14:54 +0200 (CEST)
-Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7621557DBA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 16:27:14 +0200 (CEST)
+Received: from localhost ([::1]:33044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Nbh-0003nR-Mo
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 10:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48890)
+	id 1o4Nnd-0001l2-CT
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 10:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o4NZT-0001jQ-Q4; Thu, 23 Jun 2022 10:12:35 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:32532)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o4NZQ-0005Bf-2V; Thu, 23 Jun 2022 10:12:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655993552; x=1687529552;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=E/b7m1t7XpSGo9m9F9Yu/PB+h7o53HbGU3H1eOvmAck=;
- b=GTvfZv/1jg/766Dv4iRGL4Wb56+G60vpWT9yXzJoIlDgVNqSA+s5zMMz
- V3Bf1Zdrp+9n04FbwITe3QWy8AbaVuAchEuHUoiNYvGqq7ybtR8r2xgJZ
- xLPv+JXvNmPFZL1oiaMs8UlfINL3BYjAcOR/ZWfMfyzGy6alDznB1EtbH M=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 23 Jun 2022 07:12:30 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2022 07:12:30 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 23 Jun 2022 07:12:29 -0700
-Received: from [10.110.34.96] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 23 Jun
- 2022 07:12:28 -0700
-Message-ID: <6bf03439-83d9-8a03-7290-439d41d02a13@quicinc.com>
-Date: Thu, 23 Jun 2022 07:12:28 -0700
+ (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1o4Nl8-0000OV-37; Thu, 23 Jun 2022 10:24:38 -0400
+Received: from [187.72.171.209] (port=43568 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1o4Nl6-00073W-2D; Thu, 23 Jun 2022 10:24:37 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 23 Jun 2022 11:24:30 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id D0048800150;
+ Thu, 23 Jun 2022 11:24:29 -0300 (-03)
+Message-ID: <3b668ffb-da6b-09c9-dd3a-6649f8a9e3ea@eldorado.org.br>
+Date: Thu, 23 Jun 2022 11:24:29 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 0/9] Add Qualcomm BMC machines
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/3] ppc: Check partition and process table alignment
 Content-Language: en-US
-To: Graeme Gregory <quic_ggregory@quicinc.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-CC: Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- Titus Rwantare <titusr@google.com>, Andrew Jeffery <andrew@aj.id.au>,
- Maheswara Kurapati <quic_mkurapat@quicinc.com>, qemu-arm
- <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
- <CACPK8Xcfyu0BxEhVZDQ=mfw0OcPgSm6nVSzpmT5nviq7X+rFTA@mail.gmail.com>
- <2780eff7-17de-0496-7a5b-f3ede706794a@kaod.org>
- <20220623102421.nj56xcmrpnoc5wbg@ggregory-linuxws>
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-In-Reply-To: <20220623102421.nj56xcmrpnoc5wbg@ggregory-linuxws>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: danielhb413@gmail.com, david@gibson.dropbear.id.au, groug@kaod.org
+References: <20220620202704.78978-1-leandro.lupori@eldorado.org.br>
+ <20220620202704.78978-2-leandro.lupori@eldorado.org.br>
+ <5c93bc68-be10-5d47-717f-91964e00e251@kaod.org>
+From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+In-Reply-To: <5c93bc68-be10-5d47-717f-91964e00e251@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-Received-SPF: pass client-ip=199.106.114.39;
- envelope-from=quic_jaehyoo@quicinc.com; helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 23 Jun 2022 14:24:30.0227 (UTC)
+ FILETIME=[F3838630:01D8870C]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,77 +66,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/2022 3:24 AM, Graeme Gregory wrote:
-> On Thu, Jun 23, 2022 at 08:48:49AM +0200, Cédric Le Goater wrote:
->> On 6/23/22 07:25, Joel Stanley wrote:
->>> On Wed, 22 Jun 2022 at 17:29, Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wrote:
->>>>
->>>> Hello,
->>>>
->>>> I'm sending a series to add Qualcomm BMC machines that are equipped with
->>>> Aspeed AST2600 SoC. Also, this series adds MAX31785 fan controller device
->>>> emulation. Please help to review.
->>>
->>> Thanks for the MAX31785 model, that's handy to have.
->>>
->>> I'm all for more emulation and testing using Qemu models, but I wonder
->>> if you need to add all three of your boards. They seem to be a
->>> progression (evb-proto -> dc-scm -> firework). Could you get away with
->>> just one or two of those?
->>
->> I am not sure the evb-proto-bmc is useful to upstream. The other two
->> are fine.
->>
->> Thanks,
->>
+On 6/21/22 08:05, Cédric Le Goater wrote:
+> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você 
+> possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de 
+> e-mail suspeito entre imediatamente em contato com o DTI.
 > 
-> I am happy with dropping the evb-proto-bmc machine. We used that
-> internally before actual hardware was available.
+> On 6/20/22 22:27, Leandro Lupori wrote:
+>> Check if partition and process tables are properly aligned, in
+>> their size, according to PowerISA 3.1B, Book III 6.7.6 programming
+>> note. Hardware and KVM also raise an exception in these cases.
+>>
+>> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+>> ---
+>>   hw/ppc/spapr.c             |  5 +++++
+>>   hw/ppc/spapr_hcall.c       |  9 +++++++++
+>>   target/ppc/mmu-book3s-v3.c |  5 +++++
+>>   target/ppc/mmu-radix64.c   | 17 +++++++++++++----
+>>   4 files changed, 32 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index fd4942e881..4b1f346087 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -1329,6 +1329,11 @@ static bool spapr_get_pate(PPCVirtualHypervisor 
+>> *vhyp, PowerPCCPU *cpu,
+>>           patb = spapr->nested_ptcr & PTCR_PATB;
+>>           pats = spapr->nested_ptcr & PTCR_PATS;
+>>
+>> +        /* Check if partition table is properly aligned */
+>> +        if (patb & MAKE_64BIT_MASK(0, pats + 12)) {
+>> +            return false;
+>> +        }
+>> +
+>>           /* Calculate number of entries */
+>>           pats = 1ull << (pats + 12 - 4);
+>>           if (pats <= lpid) {
+>> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+>> index d761a7d0c3..2a73ba8a1d 100644
+>> --- a/hw/ppc/spapr_hcall.c
+>> +++ b/hw/ppc/spapr_hcall.c
+>> @@ -920,6 +920,7 @@ static target_ulong 
+>> h_register_process_table(PowerPCCPU *cpu,
+>>       target_ulong page_size = args[2];
+>>       target_ulong table_size = args[3];
+>>       target_ulong update_lpcr = 0;
+>> +    target_ulong table_byte_size;
+>>       uint64_t cproc;
+>>
+>>       if (flags & ~FLAGS_MASK) { /* Check no reserved bits are set */
+>> @@ -927,6 +928,14 @@ static target_ulong 
+>> h_register_process_table(PowerPCCPU *cpu,
+>>       }
+>>       if (flags & FLAG_MODIFY) {
+>>           if (flags & FLAG_REGISTER) {
+>> +            /* Check process table alignment */
+>> +            table_byte_size = 1ULL << (table_size + 12);
+>> +            if (proc_tbl & (table_byte_size - 1)) {
+>> +                qemu_log_mask(LOG_GUEST_ERROR,
+>> +                    "%s: process table not properly aligned: "
+>> +                    "proc_tbl 0x%lx proc_tbl_size 0x%lx\n",
+>> +                    __func__, proc_tbl, table_byte_size);
+>> +            }
+> I think you might need to use some define for the format. Looks good
+> otherwise.
+> 
 
-Okay. I'll drop the evb-proto-bmc in v2.
+Right, TARGET_FMT_lx seems more appropriate.
 
 Thanks,
-Jae
+Leandro
 
-> Graeme
+> Thanks,
 > 
->> C.
+> C.
+> 
+> 
+>>               if (flags & FLAG_RADIX) { /* Register new RADIX process 
+>> table */
+>>                   if (proc_tbl & 0xfff || proc_tbl >> 60) {
+>>                       return H_P2;
+>> diff --git a/target/ppc/mmu-book3s-v3.c b/target/ppc/mmu-book3s-v3.c
+>> index f4985bae78..c8f69b3df9 100644
+>> --- a/target/ppc/mmu-book3s-v3.c
+>> +++ b/target/ppc/mmu-book3s-v3.c
+>> @@ -28,6 +28,11 @@ bool ppc64_v3_get_pate(PowerPCCPU *cpu, 
+>> target_ulong lpid, ppc_v3_pate_t *entry)
+>>       uint64_t patb = cpu->env.spr[SPR_PTCR] & PTCR_PATB;
+>>       uint64_t pats = cpu->env.spr[SPR_PTCR] & PTCR_PATS;
 >>
+>> +    /* Check if partition table is properly aligned */
+>> +    if (patb & MAKE_64BIT_MASK(0, pats + 12)) {
+>> +        return false;
+>> +    }
+>> +
+>>       /* Calculate number of entries */
+>>       pats = 1ull << (pats + 12 - 4);
+>>       if (pats <= lpid) {
+>> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+>> index 21ac958e48..9a8a2e2875 100644
+>> --- a/target/ppc/mmu-radix64.c
+>> +++ b/target/ppc/mmu-radix64.c
+>> @@ -383,7 +383,7 @@ static int 
+>> ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+>>   {
+>>       CPUState *cs = CPU(cpu);
+>>       CPUPPCState *env = &cpu->env;
+>> -    uint64_t offset, size, prtbe_addr, prtbe0, base_addr, nls, index, 
+>> pte;
+>> +    uint64_t offset, size, prtb, prtbe_addr, prtbe0, base_addr, nls, 
+>> index, pte;
+>>       int fault_cause = 0, h_page_size, h_prot;
+>>       hwaddr h_raddr, pte_addr;
+>>       int ret;
+>> @@ -393,9 +393,18 @@ static int 
+>> ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+>>                     __func__, access_str(access_type),
+>>                     eaddr, mmu_idx, pid);
 >>
+>> +    prtb = (pate.dw1 & PATE1_R_PRTB);
+>> +    size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+>> +    if (prtb & (size - 1)) {
+>> +        /* Process Table not properly aligned */
+>> +        if (guest_visible) {
+>> +            ppc_radix64_raise_si(cpu, access_type, eaddr, 
+>> DSISR_R_BADCONFIG);
+>> +        }
+>> +        return 1;
+>> +    }
+>> +
+>>       /* Index Process Table by PID to Find Corresponding Process 
+>> Table Entry */
+>>       offset = pid * sizeof(struct prtb_entry);
+>> -    size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+>>       if (offset >= size) {
+>>           /* offset exceeds size of the process table */
+>>           if (guest_visible) {
+>> @@ -403,7 +412,7 @@ static int 
+>> ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+>>           }
+>>           return 1;
+>>       }
+>> -    prtbe_addr = (pate.dw1 & PATE1_R_PRTB) + offset;
+>> +    prtbe_addr = prtb + offset;
 >>
->>>
->>>
->>>>
->>>> Thanks,
->>>>
->>>> Jae
->>>>
->>>> Graeme Gregory (2):
->>>>     hw/arm/aspeed: qcom-dc-scm-v1: add block backed FRU device
->>>>     hw/arm/aspeed: add Qualcomm Firework machine and FRU device
->>>>
->>>> Jae Hyun Yoo (3):
->>>>     hw/arm/aspeed: add support for the Qualcomm EVB proto board
->>>>     hw/arm/aspeed: add support for the Qualcomm DC-SCM v1 board
->>>>     hw/arm/aspeed: firework: add I2C MUXes for VR channels
->>>>
->>>> Maheswara Kurapati (4):
->>>>     hw/i2c: pmbus: Page #255 is valid page for read requests.
->>>>     hw/sensor: add Maxim MAX31785 device
->>>>     hw/arm/aspeed: firework: Add MAX31785 Fan controllers
->>>>     hw/arm/aspeed: firework: Add Thermal Diodes
->>>>
->>>>    hw/arm/Kconfig        |   1 +
->>>>    hw/arm/aspeed.c       | 158 +++++++++++-
->>>>    hw/i2c/pmbus_device.c |   1 -
->>>>    hw/sensor/Kconfig     |   4 +
->>>>    hw/sensor/max31785.c  | 580 ++++++++++++++++++++++++++++++++++++++++++
->>>>    hw/sensor/meson.build |   1 +
->>>>    6 files changed, 742 insertions(+), 3 deletions(-)
->>>>    create mode 100644 hw/sensor/max31785.c
->>>>
->>>> --
->>>> 2.25.1
->>>>
+>>       if (vhyp_flat_addressing(cpu)) {
+>>           prtbe0 = ldq_phys(cs->as, prtbe_addr);
+>> @@ -568,7 +577,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU 
+>> *cpu, vaddr eaddr,
+>>           return false;
+>>       }
 >>
+>> -    /* Get Process Table */
+>> +    /* Get Partition Table */
+>>       if (cpu->vhyp) {
+>>           PPCVirtualHypervisorClass *vhc;
+>>           vhc = PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+> 
+
 
