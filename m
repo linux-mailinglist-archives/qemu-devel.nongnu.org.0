@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5743557292
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 07:30:11 +0200 (CEST)
-Received: from localhost ([::1]:39116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797CC55729C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 07:39:21 +0200 (CEST)
+Received: from localhost ([::1]:44314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4FPu-0007nC-4l
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 01:30:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60706)
+	id 1o4FYm-0003K8-8j
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 01:39:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o4FLX-0006YK-Sq; Thu, 23 Jun 2022 01:25:40 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38633)
+ id 1o4FNK-0007KW-Au; Thu, 23 Jun 2022 01:27:30 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o4FLT-0001qP-Fw; Thu, 23 Jun 2022 01:25:38 -0400
-Received: by mail-wr1-x436.google.com with SMTP id v14so26282456wra.5;
- Wed, 22 Jun 2022 22:25:33 -0700 (PDT)
+ id 1o4FNI-00023d-PB; Thu, 23 Jun 2022 01:27:30 -0400
+Received: by mail-wr1-x436.google.com with SMTP id i10so22515515wrc.0;
+ Wed, 22 Jun 2022 22:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YMYfBYFBtSZQ/UGSiZfn6+vx30kd6A0Eim4w7N+lFig=;
- b=O0NKP20LyFM0izRlYZMNZt6xvpVhWYNIla0QDimPMYGK3UgVrB51JOlPgR0OqrPTPF
- iSiR4g2PPb7Az9CP5KZBFlzmxrXMYsJsxS+0t5xFuvoCmsneaSVCW0k8qrbjYOS/hy21
- 3XUTFopvGQDNvq/nKalqKciOAmfZ4/yHsF6NM=
+ :cc; bh=hd//IKengoQDseyXtqsqh8Bu5uUyi1meP0Nyo4qw+Wo=;
+ b=lQ0k1rKDw4Q481QSPrpnKs1omLecrE2XpV/NoHKgk4zfAlm6qlzXa9hUUcPBMuXdqX
+ E+e1EOt2Cbr9YCb/jDhSnnfBu4YGfnGpwe4FowRrFjmJZAeyEl3tIWbbndIrq36M5yvX
+ 9owk0zQBP9lgZ8czKAEeG7PMgkNGSH+19TpGQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YMYfBYFBtSZQ/UGSiZfn6+vx30kd6A0Eim4w7N+lFig=;
- b=bru8B6f253+4c/L1Nrf2XIU4rDMHPMScrWPyehhpSTjnrxFp6EYacACvCqAv3JuODf
- 513Wu6IvkFgL8jCuFzk6Zm18li1Dp+kENkdAsE0ALnfuQBICVIOumd3fmQLz4cT9U+xu
- ptgwXOVadkH8lpdYh5pddIreXfci4CghngIop2G5a6TQ7TUnpZ1qgp+fqB7Iqe875kNg
- v+8uvrqlWdcHAea/Y08hvwBUy10mLkT+TtaJvpILC58GtodhfFZ5Q/yTJoNTCqXeP8vi
- IHlsNNTYJM5GbOuqxgQqshQUU/pRrG82Mudf8iSpQbUXJ8FSlM/eIm5b3Y52KXH4UqoO
- rX3g==
-X-Gm-Message-State: AJIora/hJeIUdFlHFGRuoO8W8tgNLchWLg1FeiedKGnJr2grZ0CGx/sx
- HS0QcFX6+J1COeLe6yf7MpcFuXdC5Bcwlciz0ds=
-X-Google-Smtp-Source: AGRyM1vq8g6sG6jR6v3z+6Fs3HVorXRpCXxtDFVXN5wWfWdt4iud1kScG3E+3/FQVNybBIeAjK5gt8cD7QEAdUtDxKQ=
-X-Received: by 2002:a05:6000:993:b0:21b:8f16:5b3f with SMTP id
- by19-20020a056000099300b0021b8f165b3fmr6488340wrb.628.1655961931637; Wed, 22
- Jun 2022 22:25:31 -0700 (PDT)
+ bh=hd//IKengoQDseyXtqsqh8Bu5uUyi1meP0Nyo4qw+Wo=;
+ b=idNavUoxlH49OErHInKipTaAGkRYKz9g32kfC8pS2sc2nuQVsgfTQGX+QsZWDi70om
+ JMsSLym/IWwZ+cutRrt8qUdY1COff8opZyZnAgRheaCkFiGNDi38GklG1iDTEHMH3run
+ KFim2Pvf45REF3TKYRIpBh/76aJNO0Xi4hbk3J/pw7F9T6TLe39tSib9VAhj6d/ahgpZ
+ OP+wQutS55QYaMj8nfXVFypiyisurOdMQ4c+pUs1E1iU+a/TqedDGUBymIJnbMW1wfyg
+ nwQUaWtI+A76c6OCNUu43mY31TLZUm2793Tfsmh7YQ52yNqEDFLxUMnuC570jnDLhhbS
+ HKKQ==
+X-Gm-Message-State: AJIora/3HO0jz4LA9MM8jqsn7Fr3v6n+YzibRiHsqRs+qKhJFBpq4RJ5
+ AYQ8G+4/xbsyBH7REogbnbwUpuHpqj66k1HnLro=
+X-Google-Smtp-Source: AGRyM1uLbHDxSxBVxmzFwLQkjnKXp61asR1uUPBYp1Bft5pa+Zl8F+X9B3lNA6QCfb0VgC5DgfjBu4KLPqcFIrj+lWI=
+X-Received: by 2002:a5d:47c9:0:b0:20f:e7da:6a48 with SMTP id
+ o9-20020a5d47c9000000b0020fe7da6a48mr6583913wrc.315.1655962047045; Wed, 22
+ Jun 2022 22:27:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
-In-Reply-To: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
+ <20220622172830.101210-10-quic_jaehyoo@quicinc.com>
+In-Reply-To: <20220622172830.101210-10-quic_jaehyoo@quicinc.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 23 Jun 2022 05:25:19 +0000
-Message-ID: <CACPK8Xcfyu0BxEhVZDQ=mfw0OcPgSm6nVSzpmT5nviq7X+rFTA@mail.gmail.com>
-Subject: Re: [PATCH 0/9] Add Qualcomm BMC machines
+Date: Thu, 23 Jun 2022 05:27:14 +0000
+Message-ID: <CACPK8XdtsfsV8_L9C_XZ+AHZ0wAwdxgXmSxW5bZ3YHOr72Qvkg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] hw/arm/aspeed: firework: add I2C MUXes for VR channels
 To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
@@ -84,49 +85,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 22 Jun 2022 at 17:29, Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wrote:
 >
-> Hello,
+> Add 2-level cascaded I2C MUXes for SOC VR channels into the Firework
+> machine.
 >
-> I'm sending a series to add Qualcomm BMC machines that are equipped with
-> Aspeed AST2600 SoC. Also, this series adds MAX31785 fan controller device
-> emulation. Please help to review.
+> Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+> ---
+>  hw/arm/aspeed.c | 30 +++++++++++++++++++-----------
+>  1 file changed, 19 insertions(+), 11 deletions(-)
+>
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 526f3b651a9f..866a60cf7b4e 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -1038,7 +1038,7 @@ static void qcom_firework_fru_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
+>  static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
+>  {
+>      AspeedSoCState *soc = &bmc->soc;
+> -    I2CSlave *mux;
+> +    I2CSlave *therm_mux, *cpuvr_mux;
+>
+>      /* Create the generic DC-SCM hardware */
+>      qcom_dc_scm_bmc_i2c_init(bmc);
+> @@ -1048,16 +1048,24 @@ static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
+>      /* I2C4 */
+>      qcom_firework_fru_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x50, 128 * 1024);
+>
+> -    /* I2C - 8 Thermal Diodes*/
+> -    mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9548",
+> -                                  0x70);
+> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 0), TYPE_LM75, 0x4C);
+> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 1), TYPE_LM75, 0x4C);
+> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 2), TYPE_TMP75, 0x48);
+> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 3), TYPE_TMP75, 0x48);
+> -    i2c_slave_create_simple(pca954x_i2c_get_bus(mux, 4), TYPE_TMP75, 0x48);
+> -
 
-Thanks for the MAX31785 model, that's handy to have.
+You only just added this. If you modify the previous patch to call the
+"mux" variable "therm_mux" then you don't need to modify it in this
+patch.
 
-I'm all for more emulation and testing using Qemu models, but I wonder
-if you need to add all three of your boards. They seem to be a
-progression (evb-proto -> dc-scm -> firework). Could you get away with
-just one or two of those?
+or just squash them both together. I don't think there's much value in
+having two separate patches.
 
-
->
-> Thanks,
->
-> Jae
->
-> Graeme Gregory (2):
->   hw/arm/aspeed: qcom-dc-scm-v1: add block backed FRU device
->   hw/arm/aspeed: add Qualcomm Firework machine and FRU device
->
-> Jae Hyun Yoo (3):
->   hw/arm/aspeed: add support for the Qualcomm EVB proto board
->   hw/arm/aspeed: add support for the Qualcomm DC-SCM v1 board
->   hw/arm/aspeed: firework: add I2C MUXes for VR channels
->
-> Maheswara Kurapati (4):
->   hw/i2c: pmbus: Page #255 is valid page for read requests.
->   hw/sensor: add Maxim MAX31785 device
->   hw/arm/aspeed: firework: Add MAX31785 Fan controllers
->   hw/arm/aspeed: firework: Add Thermal Diodes
->
->  hw/arm/Kconfig        |   1 +
->  hw/arm/aspeed.c       | 158 +++++++++++-
->  hw/i2c/pmbus_device.c |   1 -
->  hw/sensor/Kconfig     |   4 +
->  hw/sensor/max31785.c  | 580 ++++++++++++++++++++++++++++++++++++++++++
->  hw/sensor/meson.build |   1 +
->  6 files changed, 742 insertions(+), 3 deletions(-)
->  create mode 100644 hw/sensor/max31785.c
->
+> -    /* I2C-9 Fan Controller (MAX31785) */
+> +    /* I2C7 CPUVR MUX */
+> +    cpuvr_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7),
+> +                                        "pca9546", 0x70);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 0), "pca9548", 0x72);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 1), "pca9548", 0x72);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 2), "pca9548", 0x72);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 3), "pca9548", 0x72);
+> +
+> +    /* I2C8 Thermal Diodes*/
+> +    therm_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8),
+> +                                        "pca9548", 0x70);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 0), TYPE_LM75, 0x4C);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 1), TYPE_LM75, 0x4C);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 2), TYPE_LM75, 0x48);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 3), TYPE_LM75, 0x48);
+> +    i2c_slave_create_simple(pca954x_i2c_get_bus(therm_mux, 4), TYPE_LM75, 0x48);
+> +
+> +    /* I2C9 Fan Controller (MAX31785) */
+>      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "max31785", 0x52);
+>      i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "max31785", 0x54);
+>  }
 > --
 > 2.25.1
 >
