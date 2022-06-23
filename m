@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877A1558AF3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:51:43 +0200 (CEST)
-Received: from localhost ([::1]:59570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48519558AF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 23:50:26 +0200 (CEST)
+Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Ujm-0001nO-Jn
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55164)
+	id 1o4UiW-0007nu-U7
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 17:50:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UUF-000528-6k; Thu, 23 Jun 2022 17:35:40 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:56791)
+ id 1o4UUL-00054R-2I; Thu, 23 Jun 2022 17:35:45 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o4UUD-0006gQ-Ei; Thu, 23 Jun 2022 17:35:38 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 84FA23200984;
- Thu, 23 Jun 2022 17:35:34 -0400 (EDT)
+ id 1o4UUI-0006hB-3i; Thu, 23 Jun 2022 17:35:43 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 3CE8C3200980;
+ Thu, 23 Jun 2022 17:35:39 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 23 Jun 2022 17:35:35 -0400
+ by compute2.internal (MEProxy); Thu, 23 Jun 2022 17:35:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656020134; x=
- 1656106534; bh=xB85BpHO8WPRA7kFCn2WZ19G2Wh0p1AexZXvQjcGgcQ=; b=b
- fGYg3PNJ/d9rQ3M6VU0ijxEFYaIqUd0fST3xTSeooxyDHRhMuRUkVIxab4dL2VRF
- mezVoJDKsEVPs+TjgieDfvqaR55w/2xNBNUsJg8pjkm5yYJoLV1PNoP2pRyvZo59
- oEVuy4cJhoJjT+WjRzTkNoxRgfhgh5kOgw5o15AQVmwGpeWGealbxC5l5Jjpbrbi
- YqAaEW8VQRNFQrDReVXWdc3f7Eb01dqMvPUbJUkNznyBYf+T0tH5nUP0wlASH7oz
- V3qiiLL46xbGf8FL2IImoTS9FUSepdu/7SHJ4xIkpe1/tTOIVJWV35ukFglrt1r0
- TEB8yHulQRWJHlapLWHgw==
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656020138; x=
+ 1656106538; bh=dFOpANDDNYBPxrDO7dEroeNRMyqlauLrX98CaBQGQiQ=; b=Q
+ E5Dy+RhWlh4Oc5rz+4LMT8TtBN0crE1OGjrQcBrK359FYj+rvnmLMZshvOLW+zAq
+ loF2E0aQ36K49zDcXDNPSts66vghnjlnr7pWndfb999dlfYb/zeS0hZKyYqHkwuZ
+ mb7h5A6MmlT2d1Q4E5FSD3940QtLx0mD4nEymPScr80dBck3md9hYkjJJ/JusxEh
+ Kyr7a0IJHjB92c3TkZxikXlBHw9YUUXNM1q3AeRbkJP8lLvS7w1/We/E6cmKcuDS
+ CHVQje6CCoA5DdkSZW04JtT7lA6vfO9HBr72+Ckt0Ln0tKBskqGV7/qb691vRG46
+ u5EFRnJUlu3f/eNo1bK0w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656020134; x=1656106534; bh=xB85BpHO8WPRA
- 7kFCn2WZ19G2Wh0p1AexZXvQjcGgcQ=; b=D9B30MvHUwBqbj6SxdqgvlBx5R0HE
- w13iRmAvxrw+3DEKxPL5L857CU6Gz2nvP7Kymxd3ThRSvnUJSdXd4q5YYMArye6H
- aJBVk6KlhRjR6RqHQE+PhbzJMv7w7trCmQqNH83eA0HKMWj6BmCU8vW7sIgIhuvz
- VuuUWUf2eFtItqFNGsr3OwbSi97FI2PLENLVaBmXnvQzEvz9BwlpTTIHRxvHcQUL
- cVbjl+yfnoLlS67NVrV/kq+WTDf/lA5Oo7x/Os/gCOrjeJpUPAXXtVlW5jN8hQ1D
- 1rHF6fKJhji9FFkXwk7YS4tulpBE7ierUvdvEfUbnWJfTM6LcJ395CE1g==
-X-ME-Sender: <xms:pdy0YnxjRY6pFpl-7plVsZdEWljpxCpc1Q1i5hKyYrzyGRJUfTgLng>
- <xme:pdy0YvTfMnHrZLbytPMTUfMoeJvr5d142049Cw4QF6WxG97Bgw6wD1ya5B-Maytai
- 3TLZAMZdc5qfrE3vhk>
-X-ME-Received: <xmr:pdy0YhXrLuzsAS4EOAaNuR_5ngM9MK9MSq037oDXSns5gXuy_KlXgPAxBkmAJ1NkwfMD5pRbIlKyNn6Y1xBQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeifecutefuodetggdotefrod
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656020138; x=
+ 1656106538; bh=dFOpANDDNYBPxrDO7dEroeNRMyqlauLrX98CaBQGQiQ=; b=s
+ 8LSfPEK2NV4rT0oEWv/v887n0rAKYNJm3j9xOvHRfbBHD2eu+tojU+bQT8GuGd+c
+ KvI38TIpnY6rrZ4zIEFUKoY7b2pcLhyZwJLeuvaQdZzqbAYOoMLTXDqc/F7+5I28
+ sGil3t2gWPGE6Woe6CaTE6G35gJ7mIRU7ONhGjql7QuLMCJBlTQZDm9hJITJ/LXy
+ Sm3S1oSdPbPXdv6mdfognbS/Sy73f6B3GLdaxffH7m/hS9iPODqVbKV6X9gxMyOf
+ eK8c6H1rW6efxUZ8w4IbxbRhXptSFW9WYXX9XBezFlD1ruOAhjeipU9PRcMgRI7H
+ Ly2ltKvKFKnArnKCykAGA==
+X-ME-Sender: <xms:qty0Yr8GlvsegL_hsyHBti_mN_9IVP8rSwVaPzLg2UUOcMcGc-UtXg>
+ <xme:qty0YnuV-goLrsdFErcFKo8ZAZlm-h6wSFMX72rlvUwwJY2W7LV5Laq3O5_Fa8rAR
+ uarwEUno693xFGXR84>
+X-ME-Received: <xmr:qty0YpB_wj2zLD8iwq25iJxZCCqyvQwNO6O2Kw8JfUN1LjbGr7W96qkQSZ-fji8DCW_BYMlVA0fRfrJtruN->
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgudeigecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedu
- jedugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:pdy0YhhibumMuua4DU1tkNkFrL0LJzJxacJcnXGVGaDgrYg-_TNNZQ>
- <xmx:pdy0YpAYhQq29ckf_cij5Jflx1xpnbxCRh_3D9mwsABRB0b_zDEZFQ>
- <xmx:pdy0YqJxYxQYs-k0lvo9abTf38xM1JXDW175_LK_VkGZ1GpAHEQ4Sw>
- <xmx:pty0Yhbi0HI7Uzoun_2_6T_kZK2tHONBvdFlEdQ_EpZn6OlqyvUD7Q>
+ enucfjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhl
+ rghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrf
+ grthhtvghrnhepfeevtdeuteeuudffvefggfdtfedtueelfffhieegffekgeefjeefffet
+ jeeihfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:qty0YnccD8gkGzW0t4UBQbtOZhzicApudM1SW7EMGAyHnXc69tvHhA>
+ <xmx:qty0YgPN-W30FERkEPkaa3eGFRM7HrY7o50XARJIZdefq8u9JHzi5w>
+ <xmx:qty0YpmYN1stXyx0irD8fQUJpgrMO4-AqZgOol2NaKB817_z_nGn_A>
+ <xmx:qty0Ynn5IvO-QMRskwKx_T1yPgU0G81EOxqA6Or78DlhExYXUjZ-Og>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jun 2022 17:35:31 -0400 (EDT)
+ 23 Jun 2022 17:35:36 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -74,16 +75,16 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Lukasz Maniak <lukasz.maniak@linux.intel.com>,
+ =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 10/15] docs: Add documentation for SR-IOV and Virtualization
- Enhancements
-Date: Thu, 23 Jun 2022 23:34:37 +0200
-Message-Id: <20220623213442.67789-11-its@irrelevant.dk>
+Subject: [PULL 11/15] hw/nvme: Update the initalization place for the AER queue
+Date: Thu, 23 Jun 2022 23:34:38 +0200
+Message-Id: <20220623213442.67789-12-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220623213442.67789-1-its@irrelevant.dk>
 References: <20220623213442.67789-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
  helo=wout5-smtp.messagingengine.com
@@ -109,117 +110,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-Documentation describes 5 new parameters being added regarding SR-IOV:
-sriov_max_vfs
-sriov_vq_flexible
-sriov_vi_flexible
-sriov_max_vi_per_vf
-sriov_max_vq_per_vf
+This patch updates the initialization place for the AER queue, so it’s
+initialized once, at controller initialization, and not every time
+controller is enabled.
 
-The description also includes the simplest possible QEMU invocation
-and the series of NVMe commands required to enable SR-IOV support.
+While the original version works for a non-SR-IOV device, as it’s hard
+to interact with the controller if it’s not enabled, the multiple
+reinitialization is not necessarily correct.
 
-Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+With the SR/IOV feature enabled a segfault can happen: a VF can have its
+controller disabled, while a namespace can still be attached to the
+controller through the parent PF. An event generated in such case ends
+up on an uninitialized queue.
+
+While it’s an interesting question whether a VF should support AER in
+the first place, I don’t think it must be answered today.
+
+Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- docs/system/devices/nvme.rst | 82 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+ hw/nvme/ctrl.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
-index b5acb2a9c19d..aba253304e46 100644
---- a/docs/system/devices/nvme.rst
-+++ b/docs/system/devices/nvme.rst
-@@ -239,3 +239,85 @@ The virtual namespace device supports DIF- and DIX-based protection information
-   to ``1`` to transfer protection information as the first eight bytes of
-   metadata. Otherwise, the protection information is transferred as the last
-   eight bytes.
-+
-+Virtualization Enhancements and SR-IOV (Experimental Support)
-+-------------------------------------------------------------
-+
-+The ``nvme`` device supports Single Root I/O Virtualization and Sharing
-+along with Virtualization Enhancements. The controller has to be linked to
-+an NVM Subsystem device (``nvme-subsys``) for use with SR-IOV.
-+
-+A number of parameters are present (**please note, that they may be
-+subject to change**):
-+
-+``sriov_max_vfs`` (default: ``0``)
-+  Indicates the maximum number of PCIe virtual functions supported
-+  by the controller. Specifying a non-zero value enables reporting of both
-+  SR-IOV and ARI (Alternative Routing-ID Interpretation) capabilities
-+  by the NVMe device. Virtual function controllers will not report SR-IOV.
-+
-+``sriov_vq_flexible``
-+  Indicates the total number of flexible queue resources assignable to all
-+  the secondary controllers. Implicitly sets the number of primary
-+  controller's private resources to ``(max_ioqpairs - sriov_vq_flexible)``.
-+
-+``sriov_vi_flexible``
-+  Indicates the total number of flexible interrupt resources assignable to
-+  all the secondary controllers. Implicitly sets the number of primary
-+  controller's private resources to ``(msix_qsize - sriov_vi_flexible)``.
-+
-+``sriov_max_vi_per_vf`` (default: ``0``)
-+  Indicates the maximum number of virtual interrupt resources assignable
-+  to a secondary controller. The default ``0`` resolves to
-+  ``(sriov_vi_flexible / sriov_max_vfs)``
-+
-+``sriov_max_vq_per_vf`` (default: ``0``)
-+  Indicates the maximum number of virtual queue resources assignable to
-+  a secondary controller. The default ``0`` resolves to
-+  ``(sriov_vq_flexible / sriov_max_vfs)``
-+
-+The simplest possible invocation enables the capability to set up one VF
-+controller and assign an admin queue, an IO queue, and a MSI-X interrupt.
-+
-+.. code-block:: console
-+
-+   -device nvme-subsys,id=subsys0
-+   -device nvme,serial=deadbeef,subsys=subsys0,sriov_max_vfs=1,
-+    sriov_vq_flexible=2,sriov_vi_flexible=1
-+
-+The minimum steps required to configure a functional NVMe secondary
-+controller are:
-+
-+  * unbind flexible resources from the primary controller
-+
-+.. code-block:: console
-+
-+   nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
-+   nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
-+
-+  * perform a Function Level Reset on the primary controller to actually
-+    release the resources
-+
-+.. code-block:: console
-+
-+   echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
-+
-+  * enable VF
-+
-+.. code-block:: console
-+
-+   echo 1 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
-+
-+  * assign the flexible resources to the VF and set it ONLINE
-+
-+.. code-block:: console
-+
-+   nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
-+   nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
-+   nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
-+
-+  * bind the NVMe driver to the VF
-+
-+.. code-block:: console
-+
-+   echo 0000:01:00.1 > /sys/bus/pci/drivers/nvme/bind
-\ No newline at end of file
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 20f1a7399592..658584d417fe 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -6328,8 +6328,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+ 
+     nvme_set_timestamp(n, 0ULL);
+ 
+-    QTAILQ_INIT(&n->aer_queue);
+-
+     nvme_select_iocs(n);
+ 
+     return 0;
+@@ -6989,6 +6987,7 @@ static void nvme_init_state(NvmeCtrl *n)
+     n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
+     n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+     n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
++    QTAILQ_INIT(&n->aer_queue);
+ 
+     list->numcntl = cpu_to_le16(max_vfs);
+     for (i = 0; i < max_vfs; i++) {
 -- 
 2.36.1
 
