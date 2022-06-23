@@ -2,95 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5175580EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:54:40 +0200 (CEST)
-Received: from localhost ([::1]:44048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA30B558131
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:58:00 +0200 (CEST)
+Received: from localhost ([::1]:51470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Q6J-00057S-9K
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60054)
+	id 1o4Q9X-0001vm-Qt
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1o4Q4N-0003Vm-0r
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:52:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52629)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o4Q5l-0005kk-1l
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1o4Q4J-0005qS-71
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:52:36 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o4Q5i-0005vk-H4
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656003153;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3AWtPdlVA1nj0Hig7sWBw+5nsPke3eKap1rqVL/+rDQ=;
- b=CYws4Z+LwLMffoFitvrCK5uYy3c/bYKgBsjcZYc88KrKC+CDtxdIiC12OmDRuCgP5zEcF9
- 8qxa9LOuUbA56hLensP2W1HXpVZ7oKgUNWZouxTU2AkQvCiUvd8a3RUVfFGKXZqX3zJIQB
- +lFBEY3Ly2gnzAz26PSTLdTZeitadaQ=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1656003241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=z/3iSpJw0PENAfWyBSBWbje40wlbdbjmpjWzBew6xsM=;
+ b=L6DnX/juN3CSA19iY9tDMvJAxjH810dC5fuqgT7U53hcPljmpPgWyLvcH0LTuBIDG68M3f
+ BublB+vQuweEq9aiXhBOajn+FfuDJFk5JjNco0lndp5SlC62acCczrcEHVeKquPwRe7Jon
+ 9hDjEBRixrUqhmh7MxkeB/Z+T/t1D50=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-4SlYVo8fOQC5L57NKglflQ-1; Thu, 23 Jun 2022 12:52:31 -0400
-X-MC-Unique: 4SlYVo8fOQC5L57NKglflQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- e10-20020a0ce3ca000000b004702b8819beso148607qvl.4
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 09:52:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3AWtPdlVA1nj0Hig7sWBw+5nsPke3eKap1rqVL/+rDQ=;
- b=kradCE84HhwdH1tLDrAIGWbmlHE5L+Y6LkAsnLTgPK2VLaOTVnJATBxJlyf2d3GJ8H
- Gk9d/ZuKZ195c4DDYfoSypvqkhznZ3/9gh0HltICz3aHQ5osN+r5l6wM3GBa4YzCrMAe
- oe7j31ZIUrGg2rj0qBgE4Rd++o5Rfn7OX52Sm2ljt/+dmO7uQppfPZy5SuoEKBc2p7CU
- orjSZnmRPxT+OD3LrfG+xXP6Fkf65kAFp71LFL+vXqKRIKaiAyx/x2vG3ezXoHJwAtjU
- wZsxvcG2VGUPP2b0AmP2HwkeYxZclhfB/qzY5a+FiKLc42vPF3zX07fipa88dbmCkN4G
- hT8A==
-X-Gm-Message-State: AJIora/h1p2H2rV2e+5eTmbosg5wTLAivKU2zYUW6n/f3+j9q+Kh81tA
- LSNsQWEbFgcVAy3qGFFrZCbk4F1Yx1ENEvjU9QZseFjQ9zrFHcCzlgCSNLpmGVpRgk1i5P4ws7N
- uj0GfTrYnoVhyONM=
-X-Received: by 2002:ac8:7f94:0:b0:305:19c:f9b9 with SMTP id
- z20-20020ac87f94000000b00305019cf9b9mr8893631qtj.563.1656003151473; 
- Thu, 23 Jun 2022 09:52:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sH09/elLjA553V56t11bJsDrqwhVPjpcBROfKtUSuPlMkl82ooFfQs25kle4wA9+PdkAfrkw==
-X-Received: by 2002:ac8:7f94:0:b0:305:19c:f9b9 with SMTP id
- z20-20020ac87f94000000b00305019cf9b9mr8893604qtj.563.1656003151223; 
- Thu, 23 Jun 2022 09:52:31 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- z23-20020ac87117000000b0031778b5567asm1396686qto.63.2022.06.23.09.52.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 09:52:30 -0700 (PDT)
-Message-ID: <88019eba-fae7-71d4-47ec-6c3084a45b16@redhat.com>
-Date: Thu, 23 Jun 2022 18:52:27 +0200
+ us-mta-44-mFAMWlhTPFuhW3s_nmaiPg-1; Thu, 23 Jun 2022 12:54:00 -0400
+X-MC-Unique: mFAMWlhTPFuhW3s_nmaiPg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7531929AA389;
+ Thu, 23 Jun 2022 16:54:00 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DEC92026D07;
+ Thu, 23 Jun 2022 16:53:59 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
+ quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
+Cc: jdenemar@redhat.com
+Subject: [PULL 00/25] migration queue
+Date: Thu, 23 Jun 2022 17:53:29 +0100
+Message-Id: <20220623165354.197792-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 0/3] Add bypass mode support to assigned device
-Content-Language: en-US
-To: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, jean-philippe@linaro.org,
- pbonzini@redhat.com, yu.c.zhang@intel.com, chuanxiao.dong@intel.com,
- tina.zhang@intel.com
-References: <20220613061010.2674054-1-zhenzhong.duan@intel.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20220613061010.2674054-1-zhenzhong.duan@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,59 +74,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Duan,
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-On 6/13/22 08:10, Zhenzhong Duan wrote:
-> Currently virtio-iommu's logic to support bypass mode works only for
-> emulated device. For assigned device, no GPA -> HPA mapping is setup
-> in IOMMU page table.
->
-> Host report below error:
-> [3713481.750944] dmar_fault: 191 callbacks suppressed
-> [3713481.750953] DMAR: DRHD: handling fault status reg 302
-> [3713481.750962] DMAR: [DMA Read NO_PASID] Request device [2f:00.1] fault addr 0x7ebb0000 [fault reason 0x06] PTE Read access is not set
-> [3713481.751003] DMAR: DRHD: handling fault status reg 402
-> [3713481.751007] DMAR: [DMA Read NO_PASID] Request device [2f:00.1] fault addr 0x7ebb0000 [fault reason 0x06] PTE Read access is not set
-> [3713481.751023] DMAR: DRHD: handling fault status reg 502
-> [3713481.751026] DMAR: [DMA Write NO_PASID] Request device [2f:00.1] fault addr 0x7ebb0000 [fault reason 0x05] PTE Write access is not set
-> [3713481.751072] DMAR: DRHD: handling fault status reg 602
->
-> Guest kernel report below error:
-> [    3.461716] i40e: Intel(R) Ethernet Connection XL710 Network Driver
-> [    3.462605] i40e: Copyright (c) 2013 - 2019 Intel Corporation.
-> [    3.464630] i40e 0000:00:04.0: Adding to iommu group 5
-> [    3.482093] i40e 0000:00:04.0: fw 0.0.00000 api 0.0 nvm 0.00 0x176953ce 28.50.1 [8086:37d3] [8086:35d0]
-> [    3.484295] i40e 0000:00:04.0: eeprom check failed (-62), Tx/Rx traffic disabled
-> [    3.487268] i40e 0000:00:04.0: configure_lan_hmc failed: -49
-> [    3.489066] i40e: probe of 0000:00:04.0 failed with error -2
->
-> Fix it by adding switch beween bypass and iommu address space just like
-> the virtual VT-d implementation, so that in bypass mode, vfio mapping
-> is setup.
->
-> Tested with four combination of qemu's virtio-iommu.boot-bypass=true/false
-> with guest kernel's iommu=pt/nopt on x86_64 platform.
+The following changes since commit 2b049d2c8dc01de750410f8f1a4eac498c04c723:
 
-I know this has already landed uptream (I was off last week) but I have
-few comments/questions related to the series.
->
-> Zhenzhong Duan (3):
->   virtio-iommu: Add bypass mode support to assigned device
->   virtio-iommu: Use recursive lock to avoid deadlock
-This patch may have been squashed into the previous one, as
-"virtio-iommu: Add bypass mode support to assigned device" deadlocks.
+  Merge tag 'pull-aspeed-20220622' of https://github.com/legoater/qemu into staging (2022-06-22 07:27:06 -0700)
 
-Eric
->   virtio-iommu: Add an assert check in translate routine
->
->  hw/virtio/trace-events           |   1 +
->  hw/virtio/virtio-iommu.c         | 135 ++++++++++++++++++++++++++++---
->  include/hw/virtio/virtio-iommu.h |   4 +-
->  3 files changed, 130 insertions(+), 10 deletions(-)
->
+are available in the Git repository at:
+
+  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220623b
+
+for you to fetch changes up to 77ef2dc1c8c6a482fd06fdf3b59d0647f0850e3e:
+
+  migration: remove the QEMUFileOps abstraction (2022-06-23 10:18:13 +0100)
+
+----------------------------------------------------------------
+[v3] Migration pull 2022-06-23
+
+This replaces my and Juan's earlier pulls over the last 2 days;
+4th time lucky?
+
+Compared to my pull earlier:
+  Removed Hyman's dirty ring set
+
+In this migration PULL request:
+- Dainiel Berrangé - qemufileops cleanup
+- Leonardo Bras  - cleanups for zero copy
+- Juan Quintela  - RDMA cleanups
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Daniel P. Berrangé (21):
+      io: add a QIOChannelNull equivalent to /dev/null
+      migration: switch to use QIOChannelNull for dummy channel
+      migration: remove unreachble RDMA code in save_hook impl
+      migration: rename rate limiting fields in QEMUFile
+      migration: rename 'pos' field in QEMUFile to 'bytes_processed'
+      migration: rename qemu_ftell to qemu_file_total_transferred
+      migration: rename qemu_update_position to qemu_file_credit_transfer
+      migration: rename qemu_file_update_transfer to qemu_file_acct_rate_limit
+      migration: introduce a QIOChannel impl for BlockDriverState VMState
+      migration: convert savevm to use QIOChannelBlock for VMState
+      migration: stop passing 'opaque' parameter to QEMUFile hooks
+      migration: hardcode assumption that QEMUFile is backed with QIOChannel
+      migration: introduce new constructors for QEMUFile
+      migration: remove unused QEMUFileGetFD typedef / qemu_get_fd method
+      migration: remove the QEMUFileOps 'shut_down' callback
+      migration: remove the QEMUFileOps 'set_blocking' callback
+      migration: remove the QEMUFileOps 'close' callback
+      migration: remove the QEMUFileOps 'get_buffer' callback
+      migration: remove the QEMUFileOps 'writev_buffer' callback
+      migration: remove the QEMUFileOps 'get_return_path' callback
+      migration: remove the QEMUFileOps abstraction
+
+Juan Quintela (1):
+      migration: Remove RDMA_UNREGISTRATION_EXAMPLE
+
+Leonardo Bras (3):
+      QIOChannelSocket: Introduce assert and reduce ifdefs to improve readability
+      QIOChannelSocket: Fix zero-copy send so socket flush works
+      migration: Change zero_copy_send from migration parameter to migration capability
+
+ include/io/channel-null.h         |  55 +++++++++
+ io/channel-null.c                 | 237 ++++++++++++++++++++++++++++++++++++++
+ io/channel-socket.c               |  19 ++-
+ io/meson.build                    |   1 +
+ io/trace-events                   |   3 +
+ migration/block.c                 |  10 +-
+ migration/channel-block.c         | 195 +++++++++++++++++++++++++++++++
+ migration/channel-block.h         |  59 ++++++++++
+ migration/channel.c               |   4 +-
+ migration/colo.c                  |   5 +-
+ migration/meson.build             |   2 +-
+ migration/migration.c             |  68 +++++------
+ migration/multifd.c               |   4 +-
+ migration/qemu-file-channel.c     | 194 -------------------------------
+ migration/qemu-file-channel.h     |  32 -----
+ migration/qemu-file.c             | 193 ++++++++++++++++++-------------
+ migration/qemu-file.h             | 125 +++++++++-----------
+ migration/ram.c                   |   8 +-
+ migration/rdma.c                  | 185 ++++++-----------------------
+ migration/savevm.c                |  55 ++-------
+ migration/vmstate.c               |   5 +-
+ monitor/hmp-cmds.c                |   6 -
+ qapi/migration.json               |  33 ++----
+ tests/unit/meson.build            |   1 +
+ tests/unit/test-io-channel-null.c |  95 +++++++++++++++
+ tests/unit/test-vmstate.c         |   5 +-
+ 26 files changed, 928 insertions(+), 671 deletions(-)
+ create mode 100644 include/io/channel-null.h
+ create mode 100644 io/channel-null.c
+ create mode 100644 migration/channel-block.c
+ create mode 100644 migration/channel-block.h
+ delete mode 100644 migration/qemu-file-channel.c
+ delete mode 100644 migration/qemu-file-channel.h
+ create mode 100644 tests/unit/test-io-channel-null.c
 
 
