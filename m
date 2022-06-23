@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A112557357
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 08:51:35 +0200 (CEST)
-Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13578557362
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 08:58:47 +0200 (CEST)
+Received: from localhost ([::1]:57662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Gge-0004hL-E7
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 02:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
+	id 1o4Gnb-0001Xs-DO
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 02:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4GYn-0002d3-JU
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 02:43:28 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:47255)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4Ge9-0004wH-2W
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 02:48:57 -0400
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:40821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4GYi-0004dq-LH
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 02:43:23 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.149])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1AE931101FD3A;
- Thu, 23 Jun 2022 08:43:16 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4Ge6-0005Zo-Nv
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 02:48:56 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2573222C87;
+ Thu, 23 Jun 2022 06:48:50 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 23 Jun
- 2022 08:43:15 +0200
+ 2022 08:48:50 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-104R00549fc49f9-30f6-43f5-9105-cd4b0cb432f7,
+ (GARM-106R006f3ddc5b8-5ee0-48a1-b826-90c025d94000,
  1905447EDF4A6B95D61F03ED56167C5A36471571) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <1f050a11-b1ab-12ef-c83a-c0061d36aae9@kaod.org>
-Date: Thu, 23 Jun 2022 08:43:14 +0200
+Message-ID: <2780eff7-17de-0496-7a5b-f3ede706794a@kaod.org>
+Date: Thu, 23 Jun 2022 08:48:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH 4/9] hw/arm/aspeed: add Qualcomm Firework machine and FRU
- device
+Subject: Re: [PATCH 0/9] Add Qualcomm BMC machines
 Content-Language: en-US
-To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, Peter Maydell
- <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>, Andrew
- Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
-CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
- <quic_mkurapat@quicinc.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+To: Joel Stanley <joel@jms.id.au>, Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, Titus Rwantare
+ <titusr@google.com>, Andrew Jeffery <andrew@aj.id.au>, Graeme Gregory
+ <quic_ggregory@quicinc.com>, Maheswara Kurapati <quic_mkurapat@quicinc.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
- <20220622172830.101210-5-quic_jaehyoo@quicinc.com>
+ <CACPK8Xcfyu0BxEhVZDQ=mfw0OcPgSm6nVSzpmT5nviq7X+rFTA@mail.gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220622172830.101210-5-quic_jaehyoo@quicinc.com>
+In-Reply-To: <CACPK8Xcfyu0BxEhVZDQ=mfw0OcPgSm6nVSzpmT5nviq7X+rFTA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 28b0fbf7-4654-4298-aaee-25d24d1c132f
-X-Ovh-Tracer-Id: 829506758654987055
+X-Ovh-Tracer-GUID: fc3418cd-75c8-4d9e-ac53-508798d0da0c
+X-Ovh-Tracer-Id: 923800874689596207
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefiedgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefiedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegke
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,103 +77,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/22/22 19:28, Jae Hyun Yoo wrote:
-> From: Graeme Gregory <quic_ggregory@quicinc.com>
+On 6/23/22 07:25, Joel Stanley wrote:
+> On Wed, 22 Jun 2022 at 17:29, Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wrote:
+>>
+>> Hello,
+>>
+>> I'm sending a series to add Qualcomm BMC machines that are equipped with
+>> Aspeed AST2600 SoC. Also, this series adds MAX31785 fan controller device
+>> emulation. Please help to review.
 > 
-> Add base for Qualcomm Firework machine and add its FRU device which is
-> defined by DC-SCM to be fixed address 0x50.
+> Thanks for the MAX31785 model, that's handy to have.
 > 
-> Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
-> ---
->   hw/arm/aspeed.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 53 insertions(+)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 36d6b2c33e48..0e6edd2be4fa 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -1017,6 +1017,35 @@ static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
->       qcom_dc_scm_fru_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x53, 128 * 1024);
->   }
->   
-> +static void qcom_firework_fru_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
-> +{
-> +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
-> +    DeviceState *dev = DEVICE(i2c_dev);
-> +    /* Use First Index for DC-SCM FRU */
-> +    DriveInfo *dinfo = drive_get(IF_NONE, 0, 1);
-> +
-> +    qdev_prop_set_uint32(dev, "rom-size", rsize);
-> +
-> +    if (dinfo) {
-> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
-> +    }
-> +
-> +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
-> +}
-> +
-> +static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
-> +{
-> +    AspeedSoCState *soc = &bmc->soc;
-> +
-> +    /* Create the generic DC-SCM hardware */
-> +    qcom_dc_scm_bmc_i2c_init(bmc);
-> +
-> +    /* Now create the Firework specific hardware */
-> +
-> +    /* I2C4 */
-> +    qcom_firework_fru_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x50, 128 * 1024);
-> +}
-> +
->   static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
->   {
->       return ASPEED_MACHINE(obj)->mmio_exec;
-> @@ -1489,6 +1518,26 @@ static void aspeed_machine_qcom_dc_scm_v1_class_init(ObjectClass *oc,
->           aspeed_soc_num_cpus(amc->soc_name);
->   };
->   
-> +static void aspeed_machine_qcom_firework_class_init(ObjectClass *oc,
-> +                                                    void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-> +
-> +    mc->desc       = "Qualcomm DC-SCM V1/Firework BMC (Cortex A7)";
-> +    amc->soc_name  = "ast2600-a3";
-> +    amc->hw_strap1 = QCOM_DC_SCM_V1_BMC_HW_STRAP1;
-> +    amc->hw_strap2 = QCOM_DC_SCM_V1_BMC_HW_STRAP2;
-> +    amc->fmc_model = "n25q512a";
-> +    amc->spi_model = "n25q512a";
-> +    amc->num_cs    = 2;
-> +    amc->macs_mask = ASPEED_MAC2_ON | ASPEED_MAC3_ON;
-> +    amc->i2c_init  = qcom_dc_scm_firework_i2c_init;
-> +    mc->default_ram_size = 1 * GiB;
-> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-> +        aspeed_soc_num_cpus(amc->soc_name);
-> +};
-> +
->   static const TypeInfo aspeed_machine_types[] = {
->       {
->           .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
-> @@ -1534,6 +1583,10 @@ static const TypeInfo aspeed_machine_types[] = {
->           .name          = MACHINE_TYPE_NAME("qcom-dc-scm-v1-bmc"),
->           .parent        = TYPE_ASPEED_MACHINE,
->           .class_init    = aspeed_machine_qcom_dc_scm_v1_class_init,
-> +    }, {
-> +        .name          = MACHINE_TYPE_NAME("qcom-firework"),
+> I'm all for more emulation and testing using Qemu models, but I wonder
+> if you need to add all three of your boards. They seem to be a
+> progression (evb-proto -> dc-scm -> firework). Could you get away with
+> just one or two of those?
 
-We should add the "-bmc" prefix to this machine name to be consistent
-with the other BMCs. A "qcom-firework" machine would model the whole
-system, host side included.
+I am not sure the evb-proto-bmc is useful to upstream. The other two
+are fine.
 
 Thanks,
 
 C.
 
-> +        .parent        = TYPE_ASPEED_MACHINE,
-> +        .class_init    = aspeed_machine_qcom_firework_class_init,
->       }, {
->           .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
->           .parent        = TYPE_ASPEED_MACHINE,
+
+
+> 
+> 
+>>
+>> Thanks,
+>>
+>> Jae
+>>
+>> Graeme Gregory (2):
+>>    hw/arm/aspeed: qcom-dc-scm-v1: add block backed FRU device
+>>    hw/arm/aspeed: add Qualcomm Firework machine and FRU device
+>>
+>> Jae Hyun Yoo (3):
+>>    hw/arm/aspeed: add support for the Qualcomm EVB proto board
+>>    hw/arm/aspeed: add support for the Qualcomm DC-SCM v1 board
+>>    hw/arm/aspeed: firework: add I2C MUXes for VR channels
+>>
+>> Maheswara Kurapati (4):
+>>    hw/i2c: pmbus: Page #255 is valid page for read requests.
+>>    hw/sensor: add Maxim MAX31785 device
+>>    hw/arm/aspeed: firework: Add MAX31785 Fan controllers
+>>    hw/arm/aspeed: firework: Add Thermal Diodes
+>>
+>>   hw/arm/Kconfig        |   1 +
+>>   hw/arm/aspeed.c       | 158 +++++++++++-
+>>   hw/i2c/pmbus_device.c |   1 -
+>>   hw/sensor/Kconfig     |   4 +
+>>   hw/sensor/max31785.c  | 580 ++++++++++++++++++++++++++++++++++++++++++
+>>   hw/sensor/meson.build |   1 +
+>>   6 files changed, 742 insertions(+), 3 deletions(-)
+>>   create mode 100644 hw/sensor/max31785.c
+>>
+>> --
+>> 2.25.1
+>>
 
 
