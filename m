@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13578557362
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 08:58:47 +0200 (CEST)
-Received: from localhost ([::1]:57662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF06D5573A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 09:13:58 +0200 (CEST)
+Received: from localhost ([::1]:39066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Gnb-0001Xs-DO
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 02:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44052)
+	id 1o4H2L-0000IU-LI
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 03:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4Ge9-0004wH-2W
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 02:48:57 -0400
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:40821)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4H0C-0007GI-6f
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 03:11:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4Ge6-0005Zo-Nv
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 02:48:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2573222C87;
- Thu, 23 Jun 2022 06:48:50 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 23 Jun
- 2022 08:48:50 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006f3ddc5b8-5ee0-48a1-b826-90c025d94000,
- 1905447EDF4A6B95D61F03ED56167C5A36471571) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <2780eff7-17de-0496-7a5b-f3ede706794a@kaod.org>
-Date: Thu, 23 Jun 2022 08:48:49 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4H0A-0000fw-5Q
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 03:11:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655968301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mpKKvvCTjFJ1iZTT6P26pnuI2xciuyis3rDX1BY0BlE=;
+ b=e3EMPdhKwPY52XGlc41bsT61v4Gh00yRjn9DHorT0yQWT3hYGk/w12JE3fDhi1B8zOefHC
+ tde17eQlRyOHHjWjuYlWZU8b5K7CFfdMmwjuhZTqh9KUomlPSJGxz1IYIrdu/RI8EMJ4DF
+ EVcrJUOpw4a87n7S5r/PdAfd+euJmeM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-633-JMsdbXDsPPeHJrJ5wkamAA-1; Thu, 23 Jun 2022 03:11:35 -0400
+X-MC-Unique: JMsdbXDsPPeHJrJ5wkamAA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 36E8A3810788;
+ Thu, 23 Jun 2022 07:11:35 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D716A40C5BF;
+ Thu, 23 Jun 2022 07:11:33 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] pc-bios/s390-ccw: Two fixes for the virtio initialization
+Date: Thu, 23 Jun 2022 09:11:29 +0200
+Message-Id: <20220623071131.412457-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 0/9] Add Qualcomm BMC machines
-Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>, Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-CC: Peter Maydell <peter.maydell@linaro.org>, Titus Rwantare
- <titusr@google.com>, Andrew Jeffery <andrew@aj.id.au>, Graeme Gregory
- <quic_ggregory@quicinc.com>, Maheswara Kurapati <quic_mkurapat@quicinc.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
- <CACPK8Xcfyu0BxEhVZDQ=mfw0OcPgSm6nVSzpmT5nviq7X+rFTA@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CACPK8Xcfyu0BxEhVZDQ=mfw0OcPgSm6nVSzpmT5nviq7X+rFTA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: fc3418cd-75c8-4d9e-ac53-508798d0da0c
-X-Ovh-Tracer-Id: 923800874689596207
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefiedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,64 +75,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/22 07:25, Joel Stanley wrote:
-> On Wed, 22 Jun 2022 at 17:29, Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wrote:
->>
->> Hello,
->>
->> I'm sending a series to add Qualcomm BMC machines that are equipped with
->> Aspeed AST2600 SoC. Also, this series adds MAX31785 fan controller device
->> emulation. Please help to review.
-> 
-> Thanks for the MAX31785 model, that's handy to have.
-> 
-> I'm all for more emulation and testing using Qemu models, but I wonder
-> if you need to add all three of your boards. They seem to be a
-> progression (evb-proto -> dc-scm -> firework). Could you get away with
-> just one or two of those?
+Two minor fixes for the virtio initialization that I spotted while
+looking at the code. These currently do not fix any problem (since
+QEMU is quite forgiving here when doing things wrong), but we should
+anyway try to follow the virtio specification here.
 
-I am not sure the evb-proto-bmc is useful to upstream. The other two
-are fine.
+Thomas Huth (2):
+  pc-bios/s390-ccw/virtio: Set missing status bits while initializing
+  pc-bios/s390-ccw/virtio: Read device config after feature negotiation
 
-Thanks,
+ pc-bios/s390-ccw/virtio.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-C.
-
-
-
-> 
-> 
->>
->> Thanks,
->>
->> Jae
->>
->> Graeme Gregory (2):
->>    hw/arm/aspeed: qcom-dc-scm-v1: add block backed FRU device
->>    hw/arm/aspeed: add Qualcomm Firework machine and FRU device
->>
->> Jae Hyun Yoo (3):
->>    hw/arm/aspeed: add support for the Qualcomm EVB proto board
->>    hw/arm/aspeed: add support for the Qualcomm DC-SCM v1 board
->>    hw/arm/aspeed: firework: add I2C MUXes for VR channels
->>
->> Maheswara Kurapati (4):
->>    hw/i2c: pmbus: Page #255 is valid page for read requests.
->>    hw/sensor: add Maxim MAX31785 device
->>    hw/arm/aspeed: firework: Add MAX31785 Fan controllers
->>    hw/arm/aspeed: firework: Add Thermal Diodes
->>
->>   hw/arm/Kconfig        |   1 +
->>   hw/arm/aspeed.c       | 158 +++++++++++-
->>   hw/i2c/pmbus_device.c |   1 -
->>   hw/sensor/Kconfig     |   4 +
->>   hw/sensor/max31785.c  | 580 ++++++++++++++++++++++++++++++++++++++++++
->>   hw/sensor/meson.build |   1 +
->>   6 files changed, 742 insertions(+), 3 deletions(-)
->>   create mode 100644 hw/sensor/max31785.c
->>
->> --
->> 2.25.1
->>
+-- 
+2.31.1
 
 
