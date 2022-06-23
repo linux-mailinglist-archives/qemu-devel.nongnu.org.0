@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBCF55812B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:56:55 +0200 (CEST)
-Received: from localhost ([::1]:49248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9179558132
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 18:58:07 +0200 (CEST)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Q8U-0000Me-GQ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
+	id 1o4Q9e-00028c-UG
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 12:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q5n-0005mq-8B
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40987)
+ id 1o4Q5q-0005r4-5n
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4Q5l-0005vt-P0
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:07 -0400
+ id 1o4Q5o-0005wG-4e
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 12:54:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656003244;
+ s=mimecast20190719; t=1656003247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rdC8wzK3qRlsTGe76YoR1juFzydDpgy+3C0yW+4L/1Q=;
- b=HKOLTU7o7l3DgZb0BBUP191jf8j6KsnS4G8Veua8AnZiu5z908qPZMX9NCRXIX9EbozRBt
- QTtSOqPv79tbCMnaxi4yQ951pDYZIQbK2uDedWaxVY2Hhhfhp+JOStbamiDJaqj7wnqsPV
- yzqeazlIdrvtNGXZ4VWP9Oz2r+kq1Ww=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rZS2Qj8OGgQg6pZYnLbW8umeBCQiTi5i+/MP8qAvgLE=;
+ b=SZG31PAhd59Q0sJyID7G2uK1dcpVlJsBOtPBJlwtKpk8eANb42XxsGV/R3MvVqyfcCoD/p
+ tDD0oEFxwEDgul2dJ9pUFiCeFLl1FbDdSfN0dyRjDz1bO4+blBUeBeDfeqqv8JkW/sB8Lh
+ VM386TyTyQW94FpbfA8QGkCIOrfto5c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-197-PV9-Y_uLOMiBFjo35S9tCw-1; Thu, 23 Jun 2022 12:54:03 -0400
-X-MC-Unique: PV9-Y_uLOMiBFjo35S9tCw-1
+ us-mta-402-MnRnrhiPOBWoOzh8yoPuUg-1; Thu, 23 Jun 2022 12:54:04 -0400
+X-MC-Unique: MnRnrhiPOBWoOzh8yoPuUg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0C42801E80;
- Thu, 23 Jun 2022 16:54:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A09D3806709;
+ Thu, 23 Jun 2022 16:54:04 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6E342026D64;
- Thu, 23 Jun 2022 16:54:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FF6F2026614;
+ Thu, 23 Jun 2022 16:54:02 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 02/25] QIOChannelSocket: Introduce assert and reduce ifdefs to
- improve readability
-Date: Thu, 23 Jun 2022 17:53:31 +0100
-Message-Id: <20220623165354.197792-3-dgilbert@redhat.com>
+Subject: [PULL 03/25] QIOChannelSocket: Fix zero-copy send so socket flush
+ works
+Date: Thu, 23 Jun 2022 17:53:32 +0100
+Message-Id: <20220623165354.197792-4-dgilbert@redhat.com>
 In-Reply-To: <20220623165354.197792-1-dgilbert@redhat.com>
 References: <20220623165354.197792-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,66 +83,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Leonardo Bras <leobras@redhat.com>
 
-During implementation of MSG_ZEROCOPY feature, a lot of #ifdefs were
-introduced, particularly at qio_channel_socket_writev().
+Somewhere between v6 and v7 the of the zero-copy-send patchset a crucial
+part of the flushing mechanism got missing: incrementing zero_copy_queued.
 
-Rewrite some of those changes so it's easier to read.
+Without that, the flushing interface becomes a no-op, and there is no
+guarantee the buffer is really sent.
 
-Also, introduce an assert to help detect incorrect zero-copy usage is when
-it's disabled on build.
+This can go as bad as causing a corruption in RAM during migration.
 
+Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
+Reported-by: 徐闯 <xuchuangxclwt@bytedance.com>
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  dgilbert: Fixed up thinko'd g_assert_unreachable->g_assert_not_reached
 ---
- io/channel-socket.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ io/channel-socket.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/io/channel-socket.c b/io/channel-socket.c
-index dc9c165de1..b8c13dba7c 100644
+index b8c13dba7c..4466bb1cd4 100644
 --- a/io/channel-socket.c
 +++ b/io/channel-socket.c
-@@ -578,11 +578,17 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-         memcpy(CMSG_DATA(cmsg), fds, fdsize);
+@@ -611,6 +611,11 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+                          "Unable to write to socket");
+         return -1;
      }
- 
--#ifdef QEMU_MSG_ZEROCOPY
-     if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-+#ifdef QEMU_MSG_ZEROCOPY
-         sflags = MSG_ZEROCOPY;
--    }
-+#else
-+        /*
-+         * We expect QIOChannel class entry point to have
-+         * blocked this code path already
-+         */
-+        g_assert_not_reached();
- #endif
++
++    if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
++        sioc->zero_copy_queued++;
 +    }
- 
-  retry:
-     ret = sendmsg(sioc->fd, &msg, sflags);
-@@ -592,15 +598,13 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-             return QIO_CHANNEL_ERR_BLOCK;
-         case EINTR:
-             goto retry;
--#ifdef QEMU_MSG_ZEROCOPY
-         case ENOBUFS:
--            if (sflags & MSG_ZEROCOPY) {
-+            if (flags & QIO_CHANNEL_WRITE_FLAG_ZERO_COPY) {
-                 error_setg_errno(errp, errno,
-                                  "Process can't lock enough memory for using MSG_ZEROCOPY");
-                 return -1;
-             }
-             break;
--#endif
-         }
- 
-         error_setg_errno(errp, errno,
++
+     return ret;
+ }
+ #else /* WIN32 */
 -- 
 2.36.1
 
