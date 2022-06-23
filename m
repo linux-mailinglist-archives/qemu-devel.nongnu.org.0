@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C4555777D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 12:10:15 +0200 (CEST)
-Received: from localhost ([::1]:48060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C0B5577F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 12:35:43 +0200 (CEST)
+Received: from localhost ([::1]:49040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4Jmw-0001lS-O5
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 06:10:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45532)
+	id 1o4KBZ-0006Tf-Q1
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 06:35:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4J8z-0000qO-7F
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35101)
+ id 1o4J92-0000vJ-FA
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:29:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o4J8x-00050Z-Ip
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:28:56 -0400
+ id 1o4J90-00051I-6J
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 05:29:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655976535;
+ s=mimecast20190719; t=1655976537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G5KkPhs3W9VvOQn89FxTsY+0TbY1HOXYtgWOM7Ij0ug=;
- b=bXaeuFUWQv56YXULOH+NIzliiNJG59OKjp3gMp5cLCv7oEgR5p36LDPO1ytCK2GeMT7LwL
- 3MUt/q/09WjPvjt3QeZgMc1JiB+ts9VQHylv6zcKULoma8s024Y/5C/3pIVKGcovLIlcpR
- S1LLc9XCzX0tglAvF2FnfXh1eZApGXk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4zaK4XjYkrgZyedXAOkQQiejEv8zKTgTVcrHGJYtipY=;
+ b=XJB2I4aUJUf7Vmrwh5l5HiVE57k69Vy+jbaHSuNmsY/yuR9FUNhFWB2yH4bT+I5Vxgq13x
+ AvADK0gQYgCpVj/jMsz3pTAkHuC6Pq6Nh1NLPuPtd797tkd31YEElWtfNr5JvGUJVdSRNQ
+ dWB1uYiD3ip8YPHWoTb0uIIkXP2HiCU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-pkW_-Ek1M5C_s53zH2a-vA-1; Thu, 23 Jun 2022 05:28:53 -0400
-X-MC-Unique: pkW_-Ek1M5C_s53zH2a-vA-1
+ us-mta-186-9bCKz8YNMn2uNHHa9bppag-1; Thu, 23 Jun 2022 05:28:54 -0400
+X-MC-Unique: 9bCKz8YNMn2uNHHa9bppag-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 240853C138AF;
- Thu, 23 Jun 2022 09:28:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5402E101E986;
+ Thu, 23 Jun 2022 09:28:54 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27A9240D2962;
- Thu, 23 Jun 2022 09:28:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57C8740D2962;
+ Thu, 23 Jun 2022 09:28:53 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, huangy81@chinatelecom.cn,
  quintela@redhat.com, leobras@redhat.com, peterx@redhat.com
 Cc: jdenemar@redhat.com
-Subject: [PULL 30/33] accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
-Date: Thu, 23 Jun 2022 10:28:07 +0100
-Message-Id: <20220623092810.96234-31-dgilbert@redhat.com>
+Subject: [PULL 31/33] softmmu/dirtylimit: Implement virtual CPU throttle
+Date: Thu, 23 Jun 2022 10:28:08 +0100
+Message-Id: <20220623092810.96234-32-dgilbert@redhat.com>
 In-Reply-To: <20220623092810.96234-1-dgilbert@redhat.com>
 References: <20220623092810.96234-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,60 +82,463 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Introduce kvm_dirty_ring_size util function to help calculate
-dirty ring ful time.
+Setup a negative feedback system when vCPU thread
+handling KVM_EXIT_DIRTY_RING_FULL exit by introducing
+throttle_us_per_full field in struct CPUState. Sleep
+throttle_us_per_full microseconds to throttle vCPU
+if dirtylimit is in service.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Acked-by: Peter Xu <peterx@redhat.com>
-Message-Id: <c99e7851c2e2b99312cfbabe4d1f6379a3da8a44.1652931128.git.huangy81@chinatelecom.cn>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <ec26c4bc4874b2c72141a98b028b431404975219.1652931128.git.huangy81@chinatelecom.cn>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  dgilbert: Fixed up excess #endif
 ---
- accel/kvm/kvm-all.c    | 5 +++++
- accel/stubs/kvm-stub.c | 5 +++++
- include/sysemu/kvm.h   | 2 ++
- 3 files changed, 12 insertions(+)
+ accel/kvm/kvm-all.c         |  20 ++-
+ include/hw/core/cpu.h       |   6 +
+ include/sysemu/dirtylimit.h |  15 ++
+ softmmu/dirtylimit.c        | 291 ++++++++++++++++++++++++++++++++++++
+ softmmu/trace-events        |   7 +
+ 5 files changed, 338 insertions(+), 1 deletion(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 672ed004ab..59b8ea1a05 100644
+index 59b8ea1a05..18e67af833 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -2318,6 +2318,11 @@ static void query_stats_cb(StatsResultList **result, StatsTarget target,
-                            strList *names, strList *targets, Error **errp);
- static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
+@@ -45,6 +45,7 @@
+ #include "qemu/guest-random.h"
+ #include "sysemu/hw_accel.h"
+ #include "kvm-cpus.h"
++#include "sysemu/dirtylimit.h"
  
-+uint32_t kvm_dirty_ring_size(void)
-+{
-+    return kvm_state->kvm_dirty_ring_size;
-+}
+ #include "hw/boards.h"
+ #include "monitor/stats.h"
+@@ -477,6 +478,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
+     cpu->kvm_state = s;
+     cpu->vcpu_dirty = true;
+     cpu->dirty_pages = 0;
++    cpu->throttle_us_per_full = 0;
+ 
+     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
+     if (mmap_size < 0) {
+@@ -1470,6 +1472,11 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
+          */
+         sleep(1);
+ 
++        /* keep sleeping so that dirtylimit not be interfered by reaper */
++        if (dirtylimit_in_service()) {
++            continue;
++        }
 +
- static int kvm_init(MachineState *ms)
+         trace_kvm_dirty_ring_reaper("wakeup");
+         r->reaper_state = KVM_DIRTY_RING_REAPER_REAPING;
+ 
+@@ -2975,8 +2982,19 @@ int kvm_cpu_exec(CPUState *cpu)
+              */
+             trace_kvm_dirty_ring_full(cpu->cpu_index);
+             qemu_mutex_lock_iothread();
+-            kvm_dirty_ring_reap(kvm_state, NULL);
++            /*
++             * We throttle vCPU by making it sleep once it exit from kernel
++             * due to dirty ring full. In the dirtylimit scenario, reaping
++             * all vCPUs after a single vCPU dirty ring get full result in
++             * the miss of sleep, so just reap the ring-fulled vCPU.
++             */
++            if (dirtylimit_in_service()) {
++                kvm_dirty_ring_reap(kvm_state, cpu);
++            } else {
++                kvm_dirty_ring_reap(kvm_state, NULL);
++            }
+             qemu_mutex_unlock_iothread();
++            dirtylimit_vcpu_execute(cpu);
+             ret = 0;
+             break;
+         case KVM_EXIT_SYSTEM_EVENT:
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 996f94059f..500503da13 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -418,6 +418,12 @@ struct CPUState {
+      */
+     bool throttle_thread_scheduled;
+ 
++    /*
++     * Sleep throttle_us_per_full microseconds once dirty ring is full
++     * if dirty page rate limit is enabled.
++     */
++    int64_t throttle_us_per_full;
++
+     bool ignore_memory_transaction_failures;
+ 
+     /* Used for user-only emulation of prctl(PR_SET_UNALIGN). */
+diff --git a/include/sysemu/dirtylimit.h b/include/sysemu/dirtylimit.h
+index da459f03d6..8d2c1f3a6b 100644
+--- a/include/sysemu/dirtylimit.h
++++ b/include/sysemu/dirtylimit.h
+@@ -19,4 +19,19 @@ void vcpu_dirty_rate_stat_start(void);
+ void vcpu_dirty_rate_stat_stop(void);
+ void vcpu_dirty_rate_stat_initialize(void);
+ void vcpu_dirty_rate_stat_finalize(void);
++
++void dirtylimit_state_lock(void);
++void dirtylimit_state_unlock(void);
++void dirtylimit_state_initialize(void);
++void dirtylimit_state_finalize(void);
++bool dirtylimit_in_service(void);
++bool dirtylimit_vcpu_index_valid(int cpu_index);
++void dirtylimit_process(void);
++void dirtylimit_change(bool start);
++void dirtylimit_set_vcpu(int cpu_index,
++                         uint64_t quota,
++                         bool enable);
++void dirtylimit_set_all(uint64_t quota,
++                        bool enable);
++void dirtylimit_vcpu_execute(CPUState *cpu);
+ #endif
+diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+index 6102e8c76f..76d0b44e02 100644
+--- a/softmmu/dirtylimit.c
++++ b/softmmu/dirtylimit.c
+@@ -18,6 +18,26 @@
+ #include "sysemu/dirtylimit.h"
+ #include "exec/memory.h"
+ #include "hw/boards.h"
++#include "sysemu/kvm.h"
++#include "trace.h"
++
++/*
++ * Dirtylimit stop working if dirty page rate error
++ * value less than DIRTYLIMIT_TOLERANCE_RANGE
++ */
++#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
++/*
++ * Plus or minus vcpu sleep time linearly if dirty
++ * page rate error value percentage over
++ * DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT.
++ * Otherwise, plus or minus a fixed vcpu sleep time.
++ */
++#define DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT     50
++/*
++ * Max vcpu sleep time percentage during a cycle
++ * composed of dirty ring full and sleep time.
++ */
++#define DIRTYLIMIT_THROTTLE_PCT_MAX 99
+ 
+ struct {
+     VcpuStat stat;
+@@ -25,6 +45,30 @@ struct {
+     QemuThread thread;
+ } *vcpu_dirty_rate_stat;
+ 
++typedef struct VcpuDirtyLimitState {
++    int cpu_index;
++    bool enabled;
++    /*
++     * Quota dirty page rate, unit is MB/s
++     * zero if not enabled.
++     */
++    uint64_t quota;
++} VcpuDirtyLimitState;
++
++struct {
++    VcpuDirtyLimitState *states;
++    /* Max cpus number configured by user */
++    int max_cpus;
++    /* Number of vcpu under dirtylimit */
++    int limited_nvcpu;
++} *dirtylimit_state;
++
++/* protect dirtylimit_state */
++static QemuMutex dirtylimit_mutex;
++
++/* dirtylimit thread quit if dirtylimit_quit is true */
++static bool dirtylimit_quit;
++
+ static void vcpu_dirty_rate_stat_collect(void)
  {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 3345882d85..2ac5f9c036 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -148,3 +148,8 @@ bool kvm_dirty_ring_enabled(void)
+     VcpuStat stat;
+@@ -54,6 +98,9 @@ static void *vcpu_dirty_rate_stat_thread(void *opaque)
+ 
+     while (qatomic_read(&vcpu_dirty_rate_stat->running)) {
+         vcpu_dirty_rate_stat_collect();
++        if (dirtylimit_in_service()) {
++            dirtylimit_process();
++        }
+     }
+ 
+     /* stop log sync */
+@@ -86,9 +133,11 @@ void vcpu_dirty_rate_stat_start(void)
+ void vcpu_dirty_rate_stat_stop(void)
  {
-     return false;
+     qatomic_set(&vcpu_dirty_rate_stat->running, 0);
++    dirtylimit_state_unlock();
+     qemu_mutex_unlock_iothread();
+     qemu_thread_join(&vcpu_dirty_rate_stat->thread);
+     qemu_mutex_lock_iothread();
++    dirtylimit_state_lock();
+ }
+ 
+ void vcpu_dirty_rate_stat_initialize(void)
+@@ -114,3 +163,245 @@ void vcpu_dirty_rate_stat_finalize(void)
+     free(vcpu_dirty_rate_stat);
+     vcpu_dirty_rate_stat = NULL;
  }
 +
-+uint32_t kvm_dirty_ring_size(void)
++void dirtylimit_state_lock(void)
 +{
-+    return 0;
++    qemu_mutex_lock(&dirtylimit_mutex);
 +}
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a783c78868..efd6dee818 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -582,4 +582,6 @@ bool kvm_cpu_check_are_resettable(void);
- bool kvm_arch_cpu_check_are_resettable(void);
- 
- bool kvm_dirty_ring_enabled(void);
 +
-+uint32_t kvm_dirty_ring_size(void);
- #endif
++void dirtylimit_state_unlock(void)
++{
++    qemu_mutex_unlock(&dirtylimit_mutex);
++}
++
++static void
++__attribute__((__constructor__)) dirtylimit_mutex_init(void)
++{
++    qemu_mutex_init(&dirtylimit_mutex);
++}
++
++static inline VcpuDirtyLimitState *dirtylimit_vcpu_get_state(int cpu_index)
++{
++    return &dirtylimit_state->states[cpu_index];
++}
++
++void dirtylimit_state_initialize(void)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    int max_cpus = ms->smp.max_cpus;
++    int i;
++
++    dirtylimit_state = g_malloc0(sizeof(*dirtylimit_state));
++
++    dirtylimit_state->states =
++            g_malloc0(sizeof(VcpuDirtyLimitState) * max_cpus);
++
++    for (i = 0; i < max_cpus; i++) {
++        dirtylimit_state->states[i].cpu_index = i;
++    }
++
++    dirtylimit_state->max_cpus = max_cpus;
++    trace_dirtylimit_state_initialize(max_cpus);
++}
++
++void dirtylimit_state_finalize(void)
++{
++    free(dirtylimit_state->states);
++    dirtylimit_state->states = NULL;
++
++    free(dirtylimit_state);
++    dirtylimit_state = NULL;
++
++    trace_dirtylimit_state_finalize();
++}
++
++bool dirtylimit_in_service(void)
++{
++    return !!dirtylimit_state;
++}
++
++bool dirtylimit_vcpu_index_valid(int cpu_index)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++
++    return !(cpu_index < 0 ||
++             cpu_index >= ms->smp.max_cpus);
++}
++
++static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
++{
++    static uint64_t max_dirtyrate;
++    uint32_t dirty_ring_size = kvm_dirty_ring_size();
++    uint64_t dirty_ring_size_meory_MB =
++        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
++
++    if (max_dirtyrate < dirtyrate) {
++        max_dirtyrate = dirtyrate;
++    }
++
++    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
++}
++
++static inline bool dirtylimit_done(uint64_t quota,
++                                   uint64_t current)
++{
++    uint64_t min, max;
++
++    min = MIN(quota, current);
++    max = MAX(quota, current);
++
++    return ((max - min) <= DIRTYLIMIT_TOLERANCE_RANGE) ? true : false;
++}
++
++static inline bool
++dirtylimit_need_linear_adjustment(uint64_t quota,
++                                  uint64_t current)
++{
++    uint64_t min, max;
++
++    min = MIN(quota, current);
++    max = MAX(quota, current);
++
++    return ((max - min) * 100 / max) > DIRTYLIMIT_LINEAR_ADJUSTMENT_PCT;
++}
++
++static void dirtylimit_set_throttle(CPUState *cpu,
++                                    uint64_t quota,
++                                    uint64_t current)
++{
++    int64_t ring_full_time_us = 0;
++    uint64_t sleep_pct = 0;
++    uint64_t throttle_us = 0;
++
++    if (current == 0) {
++        cpu->throttle_us_per_full = 0;
++        return;
++    }
++
++    ring_full_time_us = dirtylimit_dirty_ring_full_time(current);
++
++    if (dirtylimit_need_linear_adjustment(quota, current)) {
++        if (quota < current) {
++            sleep_pct = (current - quota) * 100 / current;
++            throttle_us =
++                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
++            cpu->throttle_us_per_full += throttle_us;
++        } else {
++            sleep_pct = (quota - current) * 100 / quota;
++            throttle_us =
++                ring_full_time_us * sleep_pct / (double)(100 - sleep_pct);
++            cpu->throttle_us_per_full -= throttle_us;
++        }
++
++        trace_dirtylimit_throttle_pct(cpu->cpu_index,
++                                      sleep_pct,
++                                      throttle_us);
++    } else {
++        if (quota < current) {
++            cpu->throttle_us_per_full += ring_full_time_us / 10;
++        } else {
++            cpu->throttle_us_per_full -= ring_full_time_us / 10;
++        }
++    }
++
++    /*
++     * TODO: in the big kvm_dirty_ring_size case (eg: 65536, or other scenario),
++     *       current dirty page rate may never reach the quota, we should stop
++     *       increasing sleep time?
++     */
++    cpu->throttle_us_per_full = MIN(cpu->throttle_us_per_full,
++        ring_full_time_us * DIRTYLIMIT_THROTTLE_PCT_MAX);
++
++    cpu->throttle_us_per_full = MAX(cpu->throttle_us_per_full, 0);
++}
++
++static void dirtylimit_adjust_throttle(CPUState *cpu)
++{
++    uint64_t quota = 0;
++    uint64_t current = 0;
++    int cpu_index = cpu->cpu_index;
++
++    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
++    current = vcpu_dirty_rate_get(cpu_index);
++
++    if (!dirtylimit_done(quota, current)) {
++        dirtylimit_set_throttle(cpu, quota, current);
++    }
++
++    return;
++}
++
++void dirtylimit_process(void)
++{
++    CPUState *cpu;
++
++    if (!qatomic_read(&dirtylimit_quit)) {
++        dirtylimit_state_lock();
++
++        if (!dirtylimit_in_service()) {
++            dirtylimit_state_unlock();
++            return;
++        }
++
++        CPU_FOREACH(cpu) {
++            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
++                continue;
++            }
++            dirtylimit_adjust_throttle(cpu);
++        }
++        dirtylimit_state_unlock();
++    }
++}
++
++void dirtylimit_change(bool start)
++{
++    if (start) {
++        qatomic_set(&dirtylimit_quit, 0);
++    } else {
++        qatomic_set(&dirtylimit_quit, 1);
++    }
++}
++
++void dirtylimit_set_vcpu(int cpu_index,
++                         uint64_t quota,
++                         bool enable)
++{
++    trace_dirtylimit_set_vcpu(cpu_index, quota);
++
++    if (enable) {
++        dirtylimit_state->states[cpu_index].quota = quota;
++        if (!dirtylimit_vcpu_get_state(cpu_index)->enabled) {
++            dirtylimit_state->limited_nvcpu++;
++        }
++    } else {
++        dirtylimit_state->states[cpu_index].quota = 0;
++        if (dirtylimit_state->states[cpu_index].enabled) {
++            dirtylimit_state->limited_nvcpu--;
++        }
++    }
++
++    dirtylimit_state->states[cpu_index].enabled = enable;
++}
++
++void dirtylimit_set_all(uint64_t quota,
++                        bool enable)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    int max_cpus = ms->smp.max_cpus;
++    int i;
++
++    for (i = 0; i < max_cpus; i++) {
++        dirtylimit_set_vcpu(i, quota, enable);
++    }
++}
++
++void dirtylimit_vcpu_execute(CPUState *cpu)
++{
++    if (dirtylimit_in_service() &&
++        dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled &&
++        cpu->throttle_us_per_full) {
++        trace_dirtylimit_vcpu_execute(cpu->cpu_index,
++                cpu->throttle_us_per_full);
++        usleep(cpu->throttle_us_per_full);
++    }
++}
+diff --git a/softmmu/trace-events b/softmmu/trace-events
+index 9c88887b3c..22606dc27b 100644
+--- a/softmmu/trace-events
++++ b/softmmu/trace-events
+@@ -31,3 +31,10 @@ runstate_set(int current_state, const char *current_state_str, int new_state, co
+ system_wakeup_request(int reason) "reason=%d"
+ qemu_system_shutdown_request(int reason) "reason=%d"
+ qemu_system_powerdown_request(void) ""
++
++#dirtylimit.c
++dirtylimit_state_initialize(int max_cpus) "dirtylimit state initialize: max cpus %d"
++dirtylimit_state_finalize(void)
++dirtylimit_throttle_pct(int cpu_index, uint64_t pct, int64_t time_us) "CPU[%d] throttle percent: %" PRIu64 ", throttle adjust time %"PRIi64 " us"
++dirtylimit_set_vcpu(int cpu_index, uint64_t quota) "CPU[%d] set dirty page rate limit %"PRIu64
++dirtylimit_vcpu_execute(int cpu_index, int64_t sleep_time_us) "CPU[%d] sleep %"PRIi64 " us"
 -- 
 2.36.1
 
