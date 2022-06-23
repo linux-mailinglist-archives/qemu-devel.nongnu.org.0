@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5F55588EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 21:33:11 +0200 (CEST)
-Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA885589F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jun 2022 22:21:54 +0200 (CEST)
+Received: from localhost ([::1]:48492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4SZi-0005YD-3U
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 15:33:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
+	id 1o4TKr-0007sk-6m
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 16:21:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4SXl-0004Il-Px
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 15:31:09 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:34501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4SXf-0004es-8r
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 15:31:09 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id i15so817312ybp.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 12:31:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WwePLIT928gsV+QuavVvVXgXAJxXenGkNsUer6Z5uho=;
- b=ZtfbC0N0iLgmzbxkqtMF7KoIqtabuklCxTDaZ3FIbHgfys3Aqv/34qMyKT52IPe8Nx
- IZ5ZV2EY38EzdS+q+SHZV7SmN0jhjC79qTD1+s20/aVtv5I1i+o9YLWd9O07XuqHCz/l
- vAM0cfIGj1i+lAl2Gv2TVbwXU1oTtYWKw7HCA8tCPlRN2nqphU719BfEYo6S6SrtQngm
- c8jbbSAMBtvDObsyqxoPvI5ITbFDyGAyu+YUGI1rrMBYaOsMt8/6Sq/KIQ6XaZr5G13n
- PbZkyYEmzw7KRlAEe4h4mSjeC5cRNh8c+5PEbik1Pd7VKbipbCPk58KnvyNP6sFjEDUW
- Dkxw==
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o4TJr-0006zQ-Dm
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 16:20:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o4TJm-0003TR-LJ
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 16:20:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656015645;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=h3+eg3WJ7fPMlLbYbl5p1/nEWBeCY9zAjgg3paAkfgs=;
+ b=ZPtkyLav8musFx7qMDv8uc4gIDdfNte3wqt+nM9282sAhxAwGnF2UjZsKqeqgH1xsrIrgM
+ Z0aShD6cNs/yzW64jQIOPXE/qHS3aYlpft+/tUEVBDeigw8zMxMlFxgjy8RWGELj29SLaD
+ fXtOWEq0BQ45nL4bZ+H9w8aGhqzlni0=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-452-McBmsD0TODWqc4TgH_Xwpg-1; Thu, 23 Jun 2022 16:20:44 -0400
+X-MC-Unique: McBmsD0TODWqc4TgH_Xwpg-1
+Received: by mail-il1-f199.google.com with SMTP id
+ i8-20020a056e020d8800b002d931252904so62325ilj.23
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 13:20:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=WwePLIT928gsV+QuavVvVXgXAJxXenGkNsUer6Z5uho=;
- b=0sbCUEjdetTlHrGumN5U4UFX6POTgkR4zP8vntp/xIG+f63pptb3/+Ck5D3NFqg4Xp
- EPkM9O9uROMuhBi7cvcGKKU+6/DqEEQxpNzqFaCIIEKcXWJ36+OYiBSFEgaUxs8sTSWq
- Ge0my+1umZCZxLSdIWANOOya1JZ+ldyip1Tz/e+9XWh6DbzPjdGv0pD4kcMktKauAVUB
- FeFFDO7Uanq60VPL48e7ulcMN2pzkYFAZhA0TfNCHeocCP56oLmJc3dHGJ9BZGYrbNHW
- CeP4LQakgjKuddrVkVWtg2+z+59c275mTz7qmnVevV9hadlcJaYVNywMOMXaf0/YafzM
- dr9Q==
-X-Gm-Message-State: AJIora8uKsSaUhxMgnNKi152kz2tVJz7DwkkXP0JlEWvDdic72cZpunW
- ef0Einu6rhzk/Ly5/nLMb6SsgNsdLYm1NpW5cMMuVg==
-X-Google-Smtp-Source: AGRyM1vbAdW3v05gSqkTHU2bd9L7ijpqHW0yCkgvW93U1HiGHLkGhoI3cnSldNjkXhfpjuPls32XkwnsNRDvX1G1N2I=
-X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
- t18-20020a5b0dd2000000b00668fc4a9403mr11147925ybr.39.1656012661642; Thu, 23
- Jun 2022 12:31:01 -0700 (PDT)
+ bh=h3+eg3WJ7fPMlLbYbl5p1/nEWBeCY9zAjgg3paAkfgs=;
+ b=i+Yb5+EoTfmG/Rjc0A3ChiGLZSzM1J9ZKnkxmT+1bTkuoYj/JX6/0Bd1+TAX3KR3IL
+ habv/i/WvQdxHgjAqSL3Q8WzhjL7I3801UK6Y6AyT/60ZYmwzzcOIFb+NtW0vw61MWgE
+ 5bPf18kRHq5RJeYDcdinbdwNKO4LH07ffXZzoCn6LdxqX5IbCNSiyLwDmaOrB1WJi9ab
+ 5CL71s9URyvkzdCnnLLFRZSqNh1Gx0mWOF3CcToYETzAqsRUFi6eCeiuu/OsBmbBa+L3
+ 7imEsVp1CWalmwzqtKOODPvzE0Pdl9DhZYtmGnYJ55pSHRV5pP9PRa2UubRQWgXZ3Pnc
+ iKdQ==
+X-Gm-Message-State: AJIora/fbREBXG6RwhuO3OIneqAuO4Lub703C9D8oyEctKOrsux9HgvB
+ 2siggl5RyTifLT9fklp8RgeW1/eW3ajGEf3PbtYw4qJneeF5GHCJrvTnhmhsnhUyML8b2caLkHK
+ Wlkj26cteG+v67UOQeqYQqueeJed4TDc=
+X-Received: by 2002:a05:6638:2605:b0:332:23c3:c4be with SMTP id
+ m5-20020a056638260500b0033223c3c4bemr6193552jat.129.1656015643513; 
+ Thu, 23 Jun 2022 13:20:43 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uSEJyIc5VWhjjIN/fpBQv99fQRc8ri6FwZUGw2mJnG2T2sH5MxHYMQioWkgRDDSIN5ZtMraJvPwKw3iS/9cx4=
+X-Received: by 2002:a05:6638:2605:b0:332:23c3:c4be with SMTP id
+ m5-20020a056638260500b0033223c3c4bemr6193531jat.129.1656015643346; Thu, 23
+ Jun 2022 13:20:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220623164051.506316-1-thuth@redhat.com>
-In-Reply-To: <20220623164051.506316-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jun 2022 20:30:24 +0100
-Message-ID: <CAFEAcA-k73D5fPfp5XnD2gtRO0pTXpAt_xTG51dGnzji+=NGqA@mail.gmail.com>
-Subject: Re: [RFC PATCH] include/qemu/host-utils: Remove the *_overflow
- wrappers
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <20220609152744.3891847-1-afaria@redhat.com>
+In-Reply-To: <20220609152744.3891847-1-afaria@redhat.com>
+From: Alberto Faria <afaria@redhat.com>
+Date: Thu, 23 Jun 2022 21:20:07 +0100
+Message-ID: <CAELaAXwNOCsrgFtxXhAvnU0RpY4p=wSedZXJ7YBf+w0usLZ5bw@mail.gmail.com>
+Subject: Re: [PATCH v5 00/10] Implement bdrv_{pread, pwrite, pwrite_sync,
+ pwrite_zeroes}() using generated_co_wrapper
+To: qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Ari Sundholm <ari@tuxera.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ "Denis V. Lunev" <den@openvz.org>, Fam Zheng <fam@euphon.net>,
+ Jeff Cody <codyprime@gmail.com>, 
+ qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, 
+ Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,53 +97,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jun 2022 at 17:41, Thomas Huth <thuth@redhat.com> wrote:
+On Thu, Jun 9, 2022 at 4:27 PM Alberto Faria <afaria@redhat.com> wrote:
+> Start by making the interfaces of analogous non-coroutine and coroutine
+> functions consistent with each other, then implement the non-coroutine
+> ones using generated_co_wrapper.
 >
-> According to commit cec07c0b612975 these wrappers were required
-> for GCC < 5.0 and Clang < 3.8. We don't support such old compilers
-> at all anymore, so we can remove the wrappers now.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Not sure whether it's nicer to remove these to get rid of some lines
->  of code, or whether it's nicer to keep them for the more explicit names...
->
->  include/qemu/host-utils.h    | 235 +----------------------------------
->  accel/tcg/tcg-runtime-gvec.c |  16 +--
->  fpu/softfloat.c              |  10 +-
->  libdecnumber/decNumber.c     |   4 +-
->  target/arm/mve_helper.c      |  18 +--
->  5 files changed, 29 insertions(+), 254 deletions(-)
->
-> diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-> index bc743f5e32..6224815629 100644
-> --- a/include/qemu/host-utils.h
-> +++ b/include/qemu/host-utils.h
-> @@ -366,231 +366,6 @@ static inline uint64_t uabs64(int64_t v)
->      return v < 0 ? -v : v;
->  }
->
-> -/**
-> - * sadd32_overflow - addition with overflow indication
-> - * @x, @y: addends
-> - * @ret: Output for sum
-> - *
-> - * Computes *@ret = @x + @y, and returns true if and only if that
-> - * value has been truncated.
-> - */
-> -static inline bool sadd32_overflow(int32_t x, int32_t y, int32_t *ret)
-> -{
-> -#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-> -    return __builtin_add_overflow(x, y, ret);
-> -#else
-> -    *ret = x + y;
-> -    return ((*ret ^ x) & ~(x ^ y)) < 0;
-> -#endif
-> -}
+> For the bdrv_pwrite_sync() case, also add the missing
+> bdrv_co_pwrite_sync() function.
 
-I think I'd prefer to keep the wrapper functions and just delete
-the fallback ifdeffery, but I guess I don't feel really strongly
-about it. Richard, do you have an opinion?
+A gentle ping.
 
--- PMM
 
