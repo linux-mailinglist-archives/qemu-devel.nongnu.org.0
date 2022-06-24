@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F512559711
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:56:33 +0200 (CEST)
-Received: from localhost ([::1]:42526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA43559710
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:56:28 +0200 (CEST)
+Received: from localhost ([::1]:42166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4g3E-0001ia-Cs
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:56:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55764)
+	id 1o4g39-0001To-9E
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o4fwk-0002sw-7z
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:49:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:44729)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o4g0f-0008NQ-7J
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:53:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o4fwi-0001af-Ke
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:49:49 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MfYHQ-1nT9GM1Yfg-00fxfr; Fri, 24
- Jun 2022 11:49:46 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>, Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 3/3] linux-user: Adjust child_tidptr on set_tid_address()
- syscall
-Date: Fri, 24 Jun 2022 11:49:43 +0200
-Message-Id: <20220624094943.729568-4-laurent@vivier.eu>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220624094943.729568-1-laurent@vivier.eu>
-References: <20220624094943.729568-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o4g0b-0002JI-Ry
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:53:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656064428;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TpgWEwO747QnaYNtIKBe9kEpUGqw6c8srgHJ7Tsgxbs=;
+ b=YDf6A8ZZeWrUBsGfA4oxPEctBQQpxBpXFDxcvPshCkpJmo0rbKdCgSJFnOjNzt5IFQUNzI
+ hEDoSuOA2e5Qgx3dxMFP7yMd2J9LxIuaC2ihzJP+kmb7ckoTJByUZNyb6vAZ3H8AqZQyFL
+ ZHLcOBKZMPEZz+6UWedoydurjSr4mW0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-77-DaO7D2N-MeSP1H1p3zxLfA-1; Fri, 24 Jun 2022 05:53:47 -0400
+X-MC-Unique: DaO7D2N-MeSP1H1p3zxLfA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F13518188A2
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 09:53:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D57C3C28124;
+ Fri, 24 Jun 2022 09:53:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 979F721E690D; Fri, 24 Jun 2022 11:53:45 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [RFC PATCH v4 04/11] qapi: net: add stream and dgram netdevs
+References: <20220623155317.675932-1-lvivier@redhat.com>
+ <20220623155317.675932-5-lvivier@redhat.com>
+Date: Fri, 24 Jun 2022 11:53:45 +0200
+In-Reply-To: <20220623155317.675932-5-lvivier@redhat.com> (Laurent Vivier's
+ message of "Thu, 23 Jun 2022 17:53:10 +0200")
+Message-ID: <87zgi29yl2.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Jdy6tD60Ahty6TTV1vrldTjxdWN0gFC2Vs6320oKES/XUHpaXkc
- sfFYy4sTt0lux+94tmlo+qbuldx+vEEe1zzb7+VRf4cD16uz5LSPSq1oSKyZ32d7iplInWv
- 6uTLE2NlE0vTzaQ5il/LtqMq0FRUV0olFcDXtIGWz6oA9hIoDKc1Meq1L+yCJ6fM+CzmMpi
- UZnE7Wyn4rNGk4Z315VYw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WlsqVm8ndWY=:XQAKj8MWmWSMHWd/KlGMoN
- Z+TOgBxWZLP8e7vR5fLGh3Wdal4/U2rHu0GgNEPDLiWYjRyJGFiMTdCL9OrSQB5mq7rN3x4bt
- trwfSmoJkPX/5CXSZbMXe7Ks6an6OHTozFVqdl6Ria81zR2gCb0lAV3aPxJ2zS/78Mz2bQANN
- 0014zM2v1fyejTdCYwVtl5U77DeRKQYyfKYJTEk/5xHRUte0LtixRAIycsvcIke7HPVBG2OL5
- xmJIUIbDxXta2PQkdrDDx0U0jMu9S/+glQPJq4pllEEJ1w2otaM+DHHjDq2BTb8/eDsDBhvZP
- bCI4tjBLm2U/5kwmSGnn9hI3FtZusDizALcjHver882z6RhU7fOeI7weLXt6SR5jC1pCiwcb6
- A945fUYg/gztPoJYgNlwtsC1EsyfeJNP9k+XjKvgnDP6VHACTTzEBVobiArM4hqyFxqcYg6Qc
- hhMWcqIf9AuRoGel3/1P+QbGk6UmOmJ12Ys+R0/tfKXAWpNuBU9kX/3ArnwLbrDeLCqwjNb0C
- fRpp77Qz4Qz/uGqb70GE/LMiIYyBo5dqO16Q2MDX/cEVqExjhXkebIe7yKp1es2gISdh57ktV
- WvUUGm7rUw/KlRC8RD1uxhOqVsv5Ee9SR6Hkfc7RpC0HAZTAls6Pc/yYMRnp1zEoenIOTxHkB
- FWEczD0H60zQXXzvSs6iCeC7YxR0l/NgM3tw9VXS9SoTsUKJuPAhJNJ/hV+g3nNNZ4FJrPUp6
- XX8PQeBSeeLB0QFOYDTIFlEiOneaXAh4wh5d3Q==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,54 +83,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Helge Deller <deller@gmx.de>
+Laurent Vivier <lvivier@redhat.com> writes:
 
-Keep track of the new child tidptr given by a set_tid_address() syscall.
+> Copied from socket netdev file and modified to use SocketAddress
+> to be able to introduce new features like unix socket.
+>
+> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
+> according to the IP address type.
+> "listen" and "connect" modes are managed by stream netdev. An optional
+> parameter "server" defines the mode (server by default)
+>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+> ---
 
-Do not call the host set_tid_address() syscall because we are emulating
-the behaviour of writing to child_tidptr in the exit() path.
+[...]
 
-Signed-off-by: Helge Deller<deller@gmx.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <YpH+2sw1PCRqx/te@p100>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/syscall.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+> diff --git a/net/hub.c b/net/hub.c
+> index 1375738bf121..67ca53485638 100644
+> --- a/net/hub.c
+> +++ b/net/hub.c
+> @@ -313,6 +313,8 @@ void net_hub_check_clients(void)
+>              case NET_CLIENT_DRIVER_USER:
+>              case NET_CLIENT_DRIVER_TAP:
+>              case NET_CLIENT_DRIVER_SOCKET:
+> +            case NET_CLIENT_DRIVER_STREAM:
+> +            case NET_CLIENT_DRIVER_DGRAM:
+>              case NET_CLIENT_DRIVER_VDE:
+>              case NET_CLIENT_DRIVER_VHOST_USER:
+>                  has_host_dev = 1;
+> diff --git a/net/meson.build b/net/meson.build
+> index 754e2d1d405c..896d86d43914 100644
+> --- a/net/meson.build
+> +++ b/net/meson.build
+> @@ -13,6 +13,8 @@ softmmu_ss.add(files(
+>    'net.c',
+>    'queue.c',
+>    'socket.c',
+> +  'stream.c',
+> +  'dgram.c',
+>    'util.c',
+>  ))
+>  
+> diff --git a/net/net.c b/net/net.c
+> index 531e6c5d2056..1295eb946b7a 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -48,6 +48,7 @@
+>  #include "qemu/qemu-print.h"
+>  #include "qemu/main-loop.h"
+>  #include "qemu/option.h"
+> +#include "qemu/keyval.h"
+>  #include "qapi/error.h"
+>  #include "qapi/opts-visitor.h"
+>  #include "sysemu/runstate.h"
+> @@ -1014,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+>  #endif
+>          [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
+>          [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
+> +        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
+> +        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
+>  #ifdef CONFIG_VDE
+>          [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
+>  #endif
+> @@ -1101,6 +1104,8 @@ void show_netdevs(void)
+>      int idx;
+>      const char *available_netdevs[] = {
+>          "socket",
+> +        "stream",
+> +        "dgram",
+>          "hubport",
+>          "tap",
+>  #ifdef CONFIG_SLIRP
+> @@ -1612,7 +1617,34 @@ void net_init_clients(void)
+>   */
+>  bool netdev_is_modern(const char *optarg)
+>  {
+> -    return false;
+> +    QemuOpts *opts;
+> +    bool is_modern;
+> +    const char *type;
+> +    static QemuOptsList dummy_opts = {
+> +        .name = "netdev",
+> +        .implied_opt_name = "type",
+> +        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
+> +        .desc = { { } },
+> +    };
+> +
+> +    if (optarg[0] == '{') {
+> +        /*
+> +         * detect JSON syntax. It is supported by
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8f68f255c0d9..669add74c11a 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -320,9 +320,6 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
- #ifdef __NR_exit_group
- _syscall1(int,exit_group,int,error_code)
- #endif
--#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
--_syscall1(int,set_tid_address,int *,tidptr)
--#endif
- #if defined(__NR_futex)
- _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
-           const struct timespec *,timeout,int *,uaddr2,int,val3)
-@@ -12196,9 +12193,14 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-     }
- #endif
- 
--#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
-+#if defined(TARGET_NR_set_tid_address)
-     case TARGET_NR_set_tid_address:
--        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
-+    {
-+        TaskState *ts = cpu->opaque;
-+        ts->child_tidptr = arg1;
-+        /* do not call host set_tid_address() syscall, instead return tid() */
-+        return get_errno(sys_gettid());
-+    }
- #endif
- 
-     case TARGET_NR_tkill:
--- 
-2.36.1
+Start the sentence with a capital letter.
+
+Maybe: /* This is JSON, which means it's modern syntax */
+
+> +         * qobject_input_visitor_new_str() (modern style syntax)
+> +         * but not by qemu_opts_parse_noisily() (old style syntax)
+> +         */
+> +        return true;
+> +    }
+> +
+> +    opts = qemu_opts_create(&dummy_opts, NULL, false, &error_abort);
+> +    qemu_opts_do_parse(opts, optarg, dummy_opts.implied_opt_name,
+> +                       &error_abort);
+> +    type = qemu_opt_get(opts, "type");
+> +    is_modern = !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
+> +
+> +    qemu_opts_reset(&dummy_opts);
+> +
+> +    return is_modern;
+>  }
+>  
+>  /*
+
+[...]
 
 
