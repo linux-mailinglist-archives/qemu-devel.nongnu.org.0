@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FAB559BBD
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 16:37:09 +0200 (CEST)
-Received: from localhost ([::1]:38834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CF7559BB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 16:36:00 +0200 (CEST)
+Received: from localhost ([::1]:33776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4kQm-0002mE-60
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 10:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
+	id 1o4kPf-0007mw-HD
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 10:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4jby-0004kJ-TF; Fri, 24 Jun 2022 09:44:38 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42424)
+ id 1o4jbz-0004kn-2Z; Fri, 24 Jun 2022 09:44:39 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4jbx-0005YF-8t; Fri, 24 Jun 2022 09:44:38 -0400
+ id 1o4jbx-0005Yp-JR; Fri, 24 Jun 2022 09:44:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=o/lW2eWZx4LqE1DvQuo0JJdSeAJLLCYY4C0qv1ETs9Y=; b=y7l2y4G6zbtwZy1PPEaU34Rk7g
- 5kBYx+FuVzmoBtMdSrevLmjX+UKZ9C20guH40pWJu4WoXIHNhBDlfO02CUniojbDATAtHsSmRu3Hw
- BU912vHlE3b0ncO71k/SB0tMNa11Yu1E27fm/biUq3jmk+BZZbcmTGAhh8rJNBXPgg/gd8JMbx0oN
- OgXYSAaRlqKDDnpsf4IJNQVWGE0DlisKM2/gD5nErgMQ7gnMvTsfH9XehpdaVylY3d+wY7aei54Vb
- 2Tg/CxvZNspU7mAAVFskU2kvbrQ2TwNarLWE9t9gvQW65nt3JA2pzukpKMGEWb/S0JuMZ9eqd9P7e
- fwqOIwAFOCrvR2kw2v5lRzy5wcN3xM61CL33q62eOAPHbYeUypcYMea/vNnHpx8zAVn1ECY+/IzP8
- PljZXdrRDT9mAO+otixp0KOXYay1i+D2puVtCfV+7QXV2QWcMmQliFug3hpMaIvOA8bo4d36G+QOO
- qunLR2lwZAMgQm682ymsEMK2ewQEifEVbSgG9ZiF2bnvbeps6zQbDuStatHziocUxbXNnKQaJ0sFF
- 3tDkCyqsCOdoDVGWsdAKqcXEl7yhf/W+T/ZH9gVlzHGHAok5ylfMXA2Y0mCIYycoCSb9JRTsh6Q4W
- ZAHPMz1ZNHd/WByjYt8gw4JTjrizBX1bSecLDiKPw=;
+ bh=pRgYgcKMk+LVeHplmBy38/Am3SUcdxIiwa0Zs40FFZo=; b=F+MtvwHxZHCtRXcyzZ6g28u6he
+ PLQYpQX5WaDxwjcZiBDUJ6Yp29o+9e00pk8oH5xxbp25kel9hpCFJY49EV0S2RChImT6K7LoQEH30
+ tFx7XpHV2hSSdyu6SgP8fwF29oFcF0bAlG02ZViLo9ycVoVElU4S06CK0X7s4ZIs68ND/3+b8whhJ
+ F17sPrM2IpnaDp5mulFPZ3TWPfHMimbPhsUzIXwYMdKuVWVp6OIUnx/98H9PPSkgRDqX5oHVkqIs4
+ QCoSKvIW1o02ZIODdqiAZ3h62micyU503EPSLbt66+4MtCLiaEweV45nuR1Gi/ViLUjKe36sS2rwt
+ vNhW71t84odoZHS7OrR5B1zCNT5RL1TtB/c/NyfVUmHaXhf+MuUTzBFNtpirWcuHzi7wjQuU7XjcV
+ MGE77eT1Ko0huQP+Xz4OtQ5WCmufvshWs2gE/Me0FbkOb6le+og411qdSsEIJ5+rxegV7l9b20TzL
+ E0dnx9NP6TbvKDQJ48YOfu3nBhWSyrbGN96S8ThAIVxMIWTt5BXVBG6sXQRE7yED5FzdcXCJhVC5W
+ 5TVede+x09k2repZr8YzaDJsCAA9pkGaCbB/+8g9FW5MMvrtoT179nX6XrEqc+W4cUZ0V+FQnQdBU
+ Drc3AJKbJGJkDyVXDtf8p3VRNYMmbNjhoDZVIE/v8=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4jaJ-00037t-3a; Fri, 24 Jun 2022 14:42:59 +0100
+ id 1o4jaN-00037t-Fz; Fri, 24 Jun 2022 14:42:59 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Date: Fri, 24 Jun 2022 14:41:02 +0100
-Message-Id: <20220624134109.881989-48-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 24 Jun 2022 14:41:03 +0100
+Message-Id: <20220624134109.881989-49-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220624134109.881989-1-mark.cave-ayland@ilande.co.uk>
 References: <20220624134109.881989-1-mark.cave-ayland@ilande.co.uk>
@@ -51,8 +51,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 47/54] lasips2: switch over from update_irq() function to
- PS2 device gpio
+Subject: [PATCH v2 48/54] lasips2: add QEMU interface comment
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,76 +77,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a qdev gpio input in lasips2_init() by taking the existing lasips2_port_set_irq()
-function, updating it accordingly and then renaming to lasips2_set_irq(). Use these
-new qdev gpio inputs to wire up the PS2 keyboard and mouse devices.
-
-At the same time set update_irq() and update_arg to NULL in ps2_kbd_init() and
-ps2_mouse_init() to ensure that any accidental attempt to use the legacy update_irq()
-function will cause a NULL pointer dereference.
+This describes the LASI PS2 device interface implemented within QEMU.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Acked-by: Helge Deller <deller@gmx.de>
 ---
- hw/input/lasips2.c | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
+ include/hw/input/lasips2.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-index bd72505411..e1a8a7e34b 100644
---- a/hw/input/lasips2.c
-+++ b/hw/input/lasips2.c
-@@ -237,9 +237,19 @@ static const MemoryRegionOps lasips2_reg_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
--static void lasips2_port_set_irq(void *opaque, int level)
-+static void lasips2_set_kbd_irq(void *opaque, int n, int level)
- {
--    LASIPS2Port *port = opaque;
-+    LASIPS2State *s = LASIPS2(opaque);
-+    LASIPS2Port *port = &s->kbd;
+diff --git a/include/hw/input/lasips2.h b/include/hw/input/lasips2.h
+index 7e4437b925..03f0c9e9f9 100644
+--- a/include/hw/input/lasips2.h
++++ b/include/hw/input/lasips2.h
+@@ -4,6 +4,20 @@
+  * Copyright (c) 2019 Sven Schnelle
+  *
+  */
 +
-+    port->irq = level;
-+    lasips2_update_irq(port->parent);
-+}
++/*
++ * QEMU interface:
++ * + sysbus MMIO region 0: MemoryRegion defining the LASI PS2 keyboard
++ *   registers
++ * + sysbus MMIO region 1: MemoryRegion defining the LASI PS2 mouse
++ *   registers
++ * + sysbus IRQ 0: LASI PS2 output irq
++ * + Named GPIO input "ps2-kbd-input-irq": set to 1 if the downstream PS2
++ *   keyboard device has asserted its irq
++ * + Named GPIO input "ps2-mouse-input-irq": set to 1 if the downstream PS2
++ *   mouse device has asserted its irq
++ */
 +
-+static void lasips2_set_mouse_irq(void *opaque, int n, int level)
-+{
-+    LASIPS2State *s = LASIPS2(opaque);
-+    LASIPS2Port *port = &s->mouse;
+ #ifndef HW_INPUT_LASIPS2_H
+ #define HW_INPUT_LASIPS2_H
  
-     port->irq = level;
-     lasips2_update_irq(port->parent);
-@@ -264,8 +274,14 @@ static void lasips2_realize(DeviceState *dev, Error **errp)
- 
-     vmstate_register(NULL, s->base, &vmstate_lasips2, s);
- 
--    s->kbd.dev = ps2_kbd_init(lasips2_port_set_irq, &s->kbd);
--    s->mouse.dev = ps2_mouse_init(lasips2_port_set_irq, &s->mouse);
-+    s->kbd.dev = ps2_kbd_init(NULL, NULL);
-+    qdev_connect_gpio_out(DEVICE(s->kbd.dev), PS2_DEVICE_IRQ,
-+                          qdev_get_gpio_in_named(dev, "ps2-kbd-input-irq",
-+                                                 0));
-+    s->mouse.dev = ps2_mouse_init(NULL, NULL);
-+    qdev_connect_gpio_out(DEVICE(s->mouse.dev), PS2_DEVICE_IRQ,
-+                          qdev_get_gpio_in_named(dev, "ps2-mouse-input-irq",
-+                                                 0));
- }
- 
- static void lasips2_init(Object *obj)
-@@ -286,6 +302,12 @@ static void lasips2_init(Object *obj)
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mouse.reg);
- 
-     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
-+
-+    qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
-+    qdev_init_gpio_in_named(DEVICE(obj), lasips2_set_kbd_irq,
-+                            "ps2-kbd-input-irq", 1);
-+    qdev_init_gpio_in_named(DEVICE(obj), lasips2_set_mouse_irq,
-+                            "ps2-mouse-input-irq", 1);
- }
- 
- static Property lasips2_properties[] = {
 -- 
 2.30.2
 
