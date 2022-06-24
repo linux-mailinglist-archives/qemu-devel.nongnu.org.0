@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E59559CA9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 16:50:21 +0200 (CEST)
-Received: from localhost ([::1]:43742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C255D559CAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 16:55:10 +0200 (CEST)
+Received: from localhost ([::1]:54850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4kdX-0008PK-T1
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 10:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51482)
+	id 1o4kiD-0007pE-Ri
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 10:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1o4kUB-0002hq-S7
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 10:40:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1o4kU8-0006Eu-Re
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 10:40:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656081636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=n/Ld4MJ8F58aU4WR8h84iq6VwsNtL3FBRQCaOyozcsY=;
- b=XHqOELnvIlpgFNuEyh12/KZsJ8MK84WZQaILp/jhutdqoi9BpWC6ZKVhKpvbqpTMPvH+bT
- NGSXbsuafZr4rXm+Rc9daAx+8fM2XofMCG2Ni6cHETvukPOH7n6q3kANw/Ae8nFG7wk+vH
- PTVFl5TchaLYc5D3e6G7Q7V/3udF/Xs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-POzoTNMxNH2CjA4IOKVDTQ-1; Fri, 24 Jun 2022 10:40:33 -0400
-X-MC-Unique: POzoTNMxNH2CjA4IOKVDTQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD3E01C05143;
- Fri, 24 Jun 2022 14:40:32 +0000 (UTC)
-Received: from f35-work.redhat.com (unknown [10.39.193.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FA45492C3B;
- Fri, 24 Jun 2022 14:40:31 +0000 (UTC)
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mcascell@redhat.com, jiri@resnulli.us, jasowang@redhat.com,
- arayz_w@icloud.com
-Subject: [PATCH] hw/net/rocker: avoid NULL pointer dereference in
- of_dpa_cmd_add_l2_flood
-Date: Fri, 24 Jun 2022 16:39:12 +0200
-Message-Id: <20220624143912.1234427-1-mcascell@redhat.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o4ke9-0001sV-HP
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 10:50:57 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:36764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o4ke5-0000Rx-EA
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 10:50:56 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id s185so2646001pgs.3
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 07:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WND5E8S/ihgmjUjyuS3yRTyE65sxcjyybPxJL9g5LSA=;
+ b=iCbG6wEJZok8T5BSB+83c75QFxti8qeMVXQXD8bwLWMqHrlHYtSpeNxK9LcpHv18ax
+ oCs8SXJfqKU2pwgOkFP6spluM2n8W72ywkkGCOinoHzHvcKXXc3oWLUBIFnhoMx80fyx
+ iTmnW40dtp2on5sW+8fVNIZJDKQUfT6Xqxi7jwxAlfn5MtJjfnak9oSnFZfJJCFwUiLU
+ 16sh4GSXvWRTU666Lir6t59u+ZveBBXoG08BwNNygnaSGRHXILbi40PhAYDlwyqAXIg0
+ 8MwGwM0Re2OLRD429d6ZvkDI+2WLeBiWiQD1wbzGVv5ZJbXoEjxtRUnaZbTce/uZOD/v
+ hfmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WND5E8S/ihgmjUjyuS3yRTyE65sxcjyybPxJL9g5LSA=;
+ b=DOwn70Qkzz5/o4aojCa3irh0Gk5eKUTZnzugzMIhBkYVia/tjHVhmjV3rSknhHevCr
+ PvANzujdbl7eDIavl720sJlqv4TA5AxYBLV6gGUXT3J50ILHL8Sxo2Z/1M2y9RMMYndl
+ W8fZ44syosW90PhaCsH/TYV2Kh+4UA0rrdQB99Z/zOPGX8f7gkZCIoUCytpCjd3YXjFX
+ Efbx5QksKGlSXOkGVBC2jXj21P0IJbg0riN5W5dMcxuAUY+RrB8VfYxKnXCdrh9g2BR0
+ gtIAuurz0BUWPwNwgQN7bz8H55D7jABTIZiiL5A1a2vqpbw4/K/hfdbspXEpbVuvHiKD
+ RsLQ==
+X-Gm-Message-State: AJIora8+weWBaA0MsM6r3aphpLQKp1fGcavWXX5PmGex2x24kBu4yByr
+ uEhAHOaDEq0gDpy5i0SJmCc=
+X-Google-Smtp-Source: AGRyM1v4EMVyQjzGdpkOiOu9Y8wakwQu1yIqMvgUpEyPiLhrrtc99C2imbPj8C/wHnODXVGODv+1lg==
+X-Received: by 2002:a63:2c90:0:b0:40c:fe76:59ef with SMTP id
+ s138-20020a632c90000000b0040cfe7659efmr11906075pgs.288.1656082249726; 
+ Fri, 24 Jun 2022 07:50:49 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:80ba:2fd0:a1d1:c891])
+ by smtp.gmail.com with ESMTPSA id
+ 20-20020a170902ee5400b001690a7df347sm1921125plo.96.2022.06.24.07.50.46
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 24 Jun 2022 07:50:49 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: [PATCH v8 0/4] cutils: Introduce bundle mechanism
+Date: Fri, 24 Jun 2022 23:50:35 +0900
+Message-Id: <20220624145039.49929-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,33 +97,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-rocker_tlv_parse_nested could return early because of no group ids in
-the group_tlvs. In such case tlvs is NULL; tlvs[i + 1] in the next
-for-loop will deref the NULL pointer.
+Developers often run QEMU without installing. The bundle mechanism
+allows to look up files which should be present in installation even in
+such a situation.
 
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Reported-by: <arayz_w@icloud.com>
----
- hw/net/rocker/rocker_of_dpa.c | 5 +++++
- 1 file changed, 5 insertions(+)
+It is a general mechanism and can find any files located relative
+to the installation tree. The build tree must have a new directory,
+qemu-bundle, to represent what files the installation tree would
+have for reference by the executables.
 
-diff --git a/hw/net/rocker/rocker_of_dpa.c b/hw/net/rocker/rocker_of_dpa.c
-index b3b8c5bb6d..1611b79227 100644
---- a/hw/net/rocker/rocker_of_dpa.c
-+++ b/hw/net/rocker/rocker_of_dpa.c
-@@ -2039,6 +2039,11 @@ static int of_dpa_cmd_add_l2_flood(OfDpa *of_dpa, OfDpaGroup *group,
-     rocker_tlv_parse_nested(tlvs, group->l2_flood.group_count,
-                             group_tlvs[ROCKER_TLV_OF_DPA_GROUP_IDS]);
- 
-+    if (!tlvs) {
-+        err = -ROCKER_EINVAL;
-+        goto err_out;
-+    }
-+
-     for (i = 0; i < group->l2_flood.group_count; i++) {
-         group->l2_flood.group_ids[i] = rocker_tlv_get_le32(tlvs[i + 1]);
-     }
+Note that this abandons compatibility with Windows older than 8 to use
+PathCchSkipRoot(). The extended support for the prior version, 7 ended
+more than 2 years ago, and it is unlikely that anyone would like to run
+the latest QEMU on such an old system.
+
+v8:
+* Pass absolute paths to get_relocated_path() (Paolo Bonzini)
+* Use meson introspection (Paolo Bonzini)
+* Drop "qga: Relocate a path emitted in the help text" as it is no longer
+  relevant for the bundle mechanism.
+
+v7: Properly fix --firmwarepath (Daniel P. Berrangé)
+
+v6: Reuse get_relocated_path() in find_bundle() (Paolo Bonzini)
+
+v5:
+* Prefer qemu-bundle if it exists. (Daniel P. Berrangé)
+* Check install_blobs option before installing BIOSes (Paolo Bonzini)
+* Add common code to set up qemu-bundle to the top level meson.build
+  (Paolo Bonzini)
+
+v4:
+* Add Daniel P. Berrangé to CC. Hopefully this helps merging his patch:
+  https://mail.gnu.org/archive/html/qemu-devel/2022-06/msg02276.html
+* Rebased to the latest QEMU.
+
+v3:
+* Note that the bundle mechanism is for any files located relative to the
+  installation tree including but not limited to datadir. (Peter Maydell)
+* Fix "bridge" typo (Philippe Mathieu-Daudé)
+
+v2: Rebased to the latest QEMU.
+
+Akihiko Odaki (3):
+  cutils: Introduce bundle mechanism
+  datadir: Use bundle mechanism
+  module: Use bundle mechanism
+
+Paolo Bonzini (1):
+  tests/vm: do not specify -bios option
+
+ .travis.yml                     |  2 +-
+ docs/about/build-platforms.rst  |  2 +-
+ include/qemu/cutils.h           | 18 +++++++--
+ meson.build                     |  4 ++
+ pc-bios/keymaps/meson.build     | 21 +++-------
+ pc-bios/meson.build             | 13 ++-----
+ scripts/oss-fuzz/build.sh       |  2 +-
+ scripts/symlink-install-tree.py | 37 ++++++++++++++++++
+ softmmu/datadir.c               | 22 +----------
+ tests/qtest/fuzz/fuzz.c         | 15 --------
+ tests/vm/fedora                 |  1 -
+ tests/vm/freebsd                |  1 -
+ tests/vm/netbsd                 |  1 -
+ tests/vm/openbsd                |  1 -
+ util/cutils.c                   | 68 +++++++++++++++++++++++----------
+ util/meson.build                |  1 +
+ util/module.c                   |  1 -
+ 17 files changed, 117 insertions(+), 93 deletions(-)
+ create mode 100755 scripts/symlink-install-tree.py
+
 -- 
-2.35.3
+2.32.1 (Apple Git-133)
 
 
