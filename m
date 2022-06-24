@@ -2,76 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF51D559D26
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:21:30 +0200 (CEST)
-Received: from localhost ([::1]:54434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FA1559D44
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:28:10 +0200 (CEST)
+Received: from localhost ([::1]:37222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4l7h-0004xk-ST
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:21:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33924)
+	id 1o4lE9-0004JR-Ei
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4kzU-0002R4-ON
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:13:00 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:33630)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4kzT-00041a-7y
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:13:00 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-317710edb9dso28334137b3.0
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:12:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lbDSbubxl3XKcu6DS0t3+SygjIjOCQ84yNRhq13faLY=;
- b=MpHBQSYzZ2PvN6wU4WB2E8T/LWyf9QKS9reFcO3zv4saFsKQ6R8yrecPJVF7n/ZmlA
- u0pKZHIatleFAPH5VOao953O4+OUorlquIqOvanqwgJxOKM6wVeM7pgITVYCorepeQvk
- WD7bJSvYRP4YPKcQr/Y1I2mvwFHbGMDSGVFrykeRYFLb2MpcK+cVar4QnlpIxuL799sd
- LuLWQcNpL14dOv22NX3HgQQn8z0T5mKMBEtxfobIJYRwIl6yZDmFmv7wBWGTwe9F1GGT
- Zh2o9tfvqilxrqbVkGS2u9LkRXumy8SDptT+ZBT3A0Rsj+N2U44lZ3/inkOlwDrftw3b
- ld2w==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4lCV-0001RM-RC
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:26:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53999)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4lCS-0006b0-GD
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:26:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656084380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nSEKYOFtyRN1L0qTB7i20oQSSJeAR9fV3qwMI1Nzwkw=;
+ b=gL9jWizY1DZeqBFx9v/lv7dlFJYHV+iGE+rblCyLCPgSQX1+WX8Hu9LGb1n4QmxbsRfD65
+ RzNQRWDZkZeJ8Npat8ofnPO4FSch/1VSRg4xENyt04rERINFmMGs/8KLXCW7lC7pbDoPOd
+ IX09TDvy6JyStCY0r69bD5m7dbxDgJ0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-125-z7SUatZ_OOm98GktCl0ccg-1; Fri, 24 Jun 2022 11:26:16 -0400
+X-MC-Unique: z7SUatZ_OOm98GktCl0ccg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ m7-20020adfa3c7000000b0021b94088ba2so421316wrb.9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:26:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lbDSbubxl3XKcu6DS0t3+SygjIjOCQ84yNRhq13faLY=;
- b=HXIaWtDVkJ75whK3WehoDpTBdN3rsusGNnXSiS9/qJJbEOQxyoBcpIwzXUQPsB0VW8
- LL0CMg63rVdVkX8OhmHHq5hSOKs+SK8fGGK6vl5eczpb+Tg1SZ2lwXDw7IObh3nZHYwj
- KbwDTs+zDQidfl+MIpAUpOs5vxJJMcBdx8+B5+IPX7UAI2arNNtxbMSYOGqZBwh0fWvR
- 7oXSmUae9jB0qJBs+8GnOmHfKoI/6QYc0EgUGkbQPyTSkV0RptdSaDHnOL590/ZSYieg
- dAMVcOVlzrsiJQWSKBzEiSXd8aSPH/41SAUB3ad/nq+Z/zGgM2s9f4Oqb6XHYTBO55Ju
- aw6A==
-X-Gm-Message-State: AJIora87XZgj0ceTr7zYW91JOKzKFfMqfMFGzkb/NSPXeX81x9jS6XOu
- Fj/DeuNNajtaxNEaulo5+Dc2SHmdpHxbeFJPcEaEaw==
-X-Google-Smtp-Source: AGRyM1s+6xe9smZHpvjWO9Vcf+x3YqTqaU93RDpSCHk07CFQUD7TAR5GMSTy9JjFR8EvdeH29kBmRE+UfPv6NSNg1B8=
-X-Received: by 2002:a0d:d712:0:b0:317:a108:9778 with SMTP id
- z18-20020a0dd712000000b00317a1089778mr17504693ywd.64.1656083578007; Fri, 24
- Jun 2022 08:12:58 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nSEKYOFtyRN1L0qTB7i20oQSSJeAR9fV3qwMI1Nzwkw=;
+ b=Fu9K3Bu+VjJrRgwYyxwxijR2MCWOZWxUpmJ/sb/VFLCYIs/el+Y9PpVhhTIYEon35h
+ 5w9w7fcg8/o0aN+k9duR8iwGE5tnMdUGKGjM3ExiissxlI8VRgnMc8vmrGPrxlTgzSlo
+ p0HgXI62AGc88RBXEGGav/Axq+Idh+1Hsec4aByIDeyzgtIO8WJ3XM5FsPaTLk9tpV3q
+ qb6FaEOJXuGEWlj1m4SILUm4t97yLYKDOE19682TnrAyqIUCFc4EcWQnqimPj7RlmJPd
+ mBrlrdoU8RoUHClpqndBo64WJJvKeZLSnZUFU8wTKnlvMfTBGLwa2gYSk6QfRr9BS2tC
+ fBeA==
+X-Gm-Message-State: AJIora8TqZAOLe8UAmE2mfxFMkIKv3Yd8Cn4ldoleFZuDcCTkaC7nh1v
+ WWSm2GoUPirM4SMcom0ijq4fvIaI1bI/soygcqFX9mjAbbiDX6hZeHwEUew8BWO4Nnp73jVHsI2
+ gcJQEp5/dNzpymPo=
+X-Received: by 2002:a7b:c450:0:b0:3a0:32ec:efa9 with SMTP id
+ l16-20020a7bc450000000b003a032ecefa9mr4457726wmi.12.1656084375643; 
+ Fri, 24 Jun 2022 08:26:15 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vbuJmBd+FQJ6QE1o8OCUtnbzSFsDyIStoACUT7QDh2UuI+zg1cwrBXTN5uLRzaRCLsD1nczw==
+X-Received: by 2002:a7b:c450:0:b0:3a0:32ec:efa9 with SMTP id
+ l16-20020a7bc450000000b003a032ecefa9mr4457690wmi.12.1656084375375; 
+ Fri, 24 Jun 2022 08:26:15 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-39.customers.d1-online.com.
+ [80.187.98.39]) by smtp.gmail.com with ESMTPSA id
+ m34-20020a05600c3b2200b003a03ae64f57sm3044661wms.8.2022.06.24.08.26.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Jun 2022 08:26:14 -0700 (PDT)
+Message-ID: <a70890d9-6a1b-709c-f672-1e7473ac7804@redhat.com>
+Date: Fri, 24 Jun 2022 17:26:13 +0200
 MIME-Version: 1.0
-References: <20220624134109.881989-1-mark.cave-ayland@ilande.co.uk>
- <20220624134109.881989-54-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220624134109.881989-54-mark.cave-ayland@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Jun 2022 16:12:20 +0100
-Message-ID: <CAFEAcA_Wqv9n7C0cSoycZHC8zLtnrOzLWu_ktNjN_pL+CS_Riw@mail.gmail.com>
-Subject: Re: [PATCH v2 53/54] pckbd: add QEMU interface comment for I8042
- device
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com, 
- pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, 
- f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v8 2/4] cutils: Introduce bundle mechanism
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang
+ <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+References: <20220624145039.49929-1-akihiko.odaki@gmail.com>
+ <20220624145039.49929-3-akihiko.odaki@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220624145039.49929-3-akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,19 +109,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Jun 2022 at 14:54, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> This describes the I8042 device interface implemented within QEMU.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On 24/06/2022 16.50, Akihiko Odaki wrote:
+> Developers often run QEMU without installing. The bundle mechanism
+> allows to look up files which should be present in installation even in
+> such a situation.
+> 
+> It is a general mechanism and can find any files in the installation
+> tree. The build tree will have a new directory, qemu-bundle, to
+> represent what files the installation tree would have for reference by
+> the executables.
+> 
+> Note that it abandons compatibility with Windows older than 8. The
+> extended support for the prior version, 7 ended more than 2 years ago,
+> and it is unlikely that someone would like to run the latest QEMU on
+> such an old system.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  include/hw/input/i8042.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
+>   docs/about/build-platforms.rst  |  2 +-
+>   include/qemu/cutils.h           | 18 +++++++--
+>   meson.build                     |  4 ++
+>   scripts/symlink-install-tree.py | 37 ++++++++++++++++++
+>   util/cutils.c                   | 68 +++++++++++++++++++++++----------
+>   util/meson.build                |  1 +
+>   6 files changed, 105 insertions(+), 25 deletions(-)
+>   create mode 100755 scripts/symlink-install-tree.py
+> 
+> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+> index 1958edb4305..ebde20f9815 100644
+> --- a/docs/about/build-platforms.rst
+> +++ b/docs/about/build-platforms.rst
+> @@ -88,7 +88,7 @@ Windows
+>   
+>   The project aims to support the two most recent versions of Windows that are
+>   still supported by the vendor. The minimum Windows API that is currently
+> -targeted is "Windows 7", so theoretically the QEMU binaries can still be run
+> +targeted is "Windows 8", so theoretically the QEMU binaries can still be run
+>   on older versions of Windows, too. However, such old versions of Windows are
+>   not tested anymore, so it is recommended to use one of the latest versions of
+>   Windows instead.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Please update _WIN32_WINNT in include/qemu/osdep.h accordingly.
 
-thanks
--- PMM
+Thanks,
+  Thomas
+
 
