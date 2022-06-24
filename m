@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AC5559D5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:31:19 +0200 (CEST)
-Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1B3559D5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:30:32 +0200 (CEST)
+Received: from localhost ([::1]:43972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4lHC-0000vf-Ux
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:31:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37564)
+	id 1o4lGR-0000NI-DI
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:30:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
- id 1o4lDQ-00048H-Tv
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:27:24 -0400
-Received: from mail-108-mta0.mxroute.com ([136.175.108.0]:46487)
+ id 1o4lDf-0004qk-UB
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:27:39 -0400
+Received: from mail-108-mta16.mxroute.com ([136.175.108.16]:33141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
- id 1o4lDP-0006en-3N
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:27:24 -0400
+ id 1o4lDd-0006fl-DT
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:27:39 -0400
 Received: from filter006.mxroute.com ([140.82.40.27] filter006.mxroute.com)
  (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta0.mxroute.com (ZoneMTA) with ESMTPSA id 1819653230500028a7.002
+ by mail-108-mta16.mxroute.com (ZoneMTA) with ESMTPSA id 18196534fc900028a7.002
  for <qemu-devel@nongnu.org>
  (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256);
- Fri, 24 Jun 2022 15:27:19 +0000
-X-Zone-Loop: 872a4eab8dd1b4dff377a70685c94e77e937553f303b
+ Fri, 24 Jun 2022 15:27:31 +0000
+X-Zone-Loop: 46311864f7bb84992b755e2cefb2b5597deac933356d
 X-Originating-IP: [140.82.40.27]
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mkfssion.com; s=x; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date
- :Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ d=mkfssion.com; s=x; h=Content-Transfer-Encoding:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EqNlKr6yIv9MTP6XJewjMRBR6Y+N7XbK9fI0jnMDGvY=; b=s6gcQDCn+NwKv0RRVIbZyLsMAV
- O1eSo09f3+bswbql3TYmKCBqS87xEgHurTAK8y4ELETL99SsHLlKc4q33u5TZscZXux3eA1l61qGp
- IexbB/fkfXxIAPYSmRCVQoDywG7IBqByjCSkgmILeDzmbaD72ibYelUrBw4sZEv/VlGKm/sI0Nqfo
- A0yd2CaOiNFy8N4g0bXSYqhZVOefZsfVvKb+Q8DM876AIebLg41HgYrXP76NI0LuV+VA+xMs2ekfE
- Zrukl/4gNKI60lJ31mtDLBCrJHx95QiYR3d108ktPUjY0KI+ajn3nszNkprmymJXWsguCXVT22FAt
- RfVubYsg==;
+ bh=lsj4poOhkRXMO+Ri5SPBvoTEDMYzgBAursYt1KkJfpE=; b=aleDj7eV7VADYCVy5DgIhA55Ps
+ 4OtRzdugITf8vLRpiTQKlISbRNcPC7lX6tcdDpWnZs9sGmmKddIssAgTj3DqshVafIQ/Ulxyw3dij
+ YhRRI5NBPLGsi0imYwYCrIziKv9FsRAJDc14XImHlob260n8C07HgUyKW8YChaMWa2AnPfCL8GjYl
+ kt8kxUAX9ME1N975GxLRk5o5RB5uwGnfrul5jf0Fks4jepE9n42odcjK/ZoPeB8tDf0uI3MgTGir3
+ FQP8499Taf7zk0+9eONINBRtCAxV0pd4/RbwqLQ6x/glxzVOr9GbrPWNyjNb2+zT4JC1j3NbO2dS1
+ NnFdwVFA==;
 From: MkfsSion <mkfssion@mkfssion.com>
 To: qemu-devel@nongnu.org
 Cc: MkfsSion <mkfssion@mkfssion.com>, Hongren Zheng <i@zenithal.me>,
- "Canokeys.org" <contact@canokeys.org>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 1/2] hw: canokey: Remove HS support as not compliant to the
- spec
-Date: Fri, 24 Jun 2022 23:26:25 +0800
-Message-Id: <20220624152626.11565-1-mkfssion@mkfssion.com>
+ "Canokeys.org" <contact@canokeys.org>
+Subject: [PATCH v2 2/2] docs/system/devices/canokey: Document limitations on
+ usb-ehci
+Date: Fri, 24 Jun 2022 23:26:26 +0800
+Message-Id: <20220624152626.11565-2-mkfssion@mkfssion.com>
+In-Reply-To: <20220624152626.11565-1-mkfssion@mkfssion.com>
+References: <20220624152626.11565-1-mkfssion@mkfssion.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-AuthUser: mkfssion@mkfssion.com
-Received-SPF: pass client-ip=136.175.108.0; envelope-from=mkfssion@mkfssion.com;
- helo=mail-108-mta0.mxroute.com
+Received-SPF: pass client-ip=136.175.108.16;
+ envelope-from=mkfssion@mkfssion.com; helo=mail-108-mta16.mxroute.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -73,52 +75,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Canokey core currently using 16 bytes as maximum packet size for
-control endpoint, but to run the device in high-speed a 64 bytes
-maximum packet size is required according to USB 2.0 specification.
-Since we don't acutally need to run the device in high-speed, simply
-don't assign high member in USBDesc.
-
-When canokey-qemu is used with xhci, xhci would drive canokey
-in high speed mode, since the bcdUSB in canokey-core is 2.1,
-yet canokey-core set bMaxPacketSize0 to be 16, this is out
-of the spec as the spec said that ``The allowable maximum
-control transfer data payload sizes...for high-speed devices,
-it is 64 bytes''.
-
-In this case, usb device validation in Windows 10 LTSC 2021
-as the guest would fail. It would complain
-USB\DEVICE_DESCRIPTOR_VALIDATION_FAILURE.
-
-Note that bcdUSB only identifies the spec version the device
-complies, but it has no indication of its speed. So it is
-allowed for the device to run in FS but comply the 2.1 spec.
-
-To solve the issue we decided to just drop the high
-speed support. This only affects usb-ehci as usb-ehci would
-complain speed mismatch when FS device is attached to a HS port.
-That's why the .high member was initialized in the first place.
-Meanwhile, xhci is not affected as it works well with FS device.
-Since everyone is now using xhci, it does no harm to most users.
-
 Suggested-by: Hongren (Zenithal) Zheng <i@zenithal.me>
-Signed-off-by: YuanYang Meng <mkfssion@mkfssion.com>
+Signed-off-by: MkfsSion <mkfssion@mkfssion.com>
 ---
- hw/usb/canokey.c | 1 -
- 1 file changed, 1 deletion(-)
+ docs/system/devices/canokey.rst | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/hw/usb/canokey.c b/hw/usb/canokey.c
-index 4a08b1cbd7..6a7ab965a5 100644
---- a/hw/usb/canokey.c
-+++ b/hw/usb/canokey.c
-@@ -56,7 +56,6 @@ static const USBDesc desc_canokey = {
-         .iSerialNumber     = STR_SERIALNUMBER,
-     },
-     .full = &desc_device_canokey,
--    .high = &desc_device_canokey,
-     .str  = desc_strings,
- };
+diff --git a/docs/system/devices/canokey.rst b/docs/system/devices/canokey.rst
+index 169f99b8eb..650702ad8a 100644
+--- a/docs/system/devices/canokey.rst
++++ b/docs/system/devices/canokey.rst
+@@ -146,15 +146,9 @@ multiple CanoKey QEMU running, namely you can not
+ Also, there is no lock on canokey-file, thus two CanoKey QEMU instance
+ can not read one canokey-file at the same time.
  
+-Another limitation is that this device is not compatible with ``qemu-xhci``,
+-in that this device would hang when there are FIDO2 packets (traffic on
+-interrupt endpoints). If you do not use FIDO2 then it works as intended,
+-but for full functionality you should use old uhci/ehci bus and attach canokey
+-to it, for example
+-
+-.. parsed-literal::
+-
+-   |qemu_system| -device piix3-usb-uhci,id=uhci -device canokey,bus=uhci.0
++Another limitation is that this device is not compatible with ``usb-ehci``
++since we removed high-speed mode support. When a full-speed device attach
++to a high-speed port, ``usb-ehci`` would complain about speed mismatch.
+ 
+ References
+ ==========
 -- 
 2.36.1
 
