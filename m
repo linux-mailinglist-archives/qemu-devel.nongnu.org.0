@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888E1559A5A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 15:29:55 +0200 (CEST)
-Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D9C559A5F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 15:33:53 +0200 (CEST)
+Received: from localhost ([::1]:35718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4jNi-0007KJ-Lh
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 09:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35134)
+	id 1o4jRY-0001qO-Oy
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 09:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4jMW-0006G8-7v; Fri, 24 Jun 2022 09:28:40 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41386)
+ id 1o4jQB-0000uZ-26; Fri, 24 Jun 2022 09:32:27 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4jMU-0002Uk-Oi; Fri, 24 Jun 2022 09:28:40 -0400
+ id 1o4jQ9-0003Ha-Ac; Fri, 24 Jun 2022 09:32:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:References:Cc:To:From:MIME-Version:Date:Message-ID:Sender:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hPVCKdGsDA57z0x6GJijWzBj0TpPu6hl6+8W6ZSBlFk=; b=giXxg3utz5m736jvqbHMM4V60i
- OOK7dO6mOQ7NX3hE/rQ2qryZObd+dnU1kQ1q1lmjUN+synV9ua0RL611ANO1GNgalzKkK38VknxLj
- 3OK7ddikXRvUPqs0dhaePmQleqt8cZgrxjUHHV+x/P/ESdIM12qQcSmglcNVO776CxM6zYGjrIQxq
- vUpmMexJga/kLDa6RawXmPga+fRNO3vEY7NpMUH0Bks657yY7Fl7QhohNKu9CRdi5QZJe4uebVAkI
- fcUeSjNF4SHNCFEkur0eiEgO4S8UkKzMjGqZk/2HdMPf+5wuR1IGYVi9eaM4EhhMDnaqZL7RSH4ra
- LOyHVf62MrhNaK3K2yzRftBckrSDDDZ9K3RmbyxbqXM0qxuWRz/h27OtV3HWjBySeVd6zzNk3md4c
- KCVKc0ojL8vP2MGKvPeuxMtFygOoCvSKXgGg5pRfCxvF+rLPpcmdB3V+l0ve8b0SS+6/IU2ILFRDI
- cAV/pUZ+kQwmdkvp0REPzFi5IeiJXZt1JztezvMl82Q91tDoxmBMpUTU3IHp4mcF9Ua+rfjpVk2gw
- KpYcQ3zjsbpMsKNvmPvM9aY4Prmj5qZm3Sqn5b2GQzzawQDw0E509QpqpqrCXC6haA39Ds83en2AY
- pg/nXu0wuH5EiS4AB0VZPofYosOJ6QBYz4NJ983JM=;
+ bh=juW11aS3P8iUB06dpWXOs27VO1b4ci38WWDiyrb7+LU=; b=SJdInpKvpXD30ADbsjS5nKZp9x
+ 0p5DCNMCUFQ0dYM4+8BAnOFty9amPg/zTKdAKFYYK3z7vkRai/NUsLnqTEQ7NlFl5Jnt3R5NNa83y
+ 3OrYSG98ToUeTZkkeU1gN2xA4wtNRMLBB3OeGKo3GroCRZfb685lmbQI74KFZZtPpeNLDVrCy4Uyr
+ GBc2detfbpD1ZaMzYNQHuLijHk5VeG//1W7T1POtHqtpIr9ngw0DSbmtMkOqZBh+4xZQO8JcrWCJT
+ I94dYntEVoh/VMILIBWct5wLh+B7MYaKQFZFe7/GJ8hStWMXcHJjcGuXq1bO/AtPUlJfHYqp+Sqjn
+ v/vNKn5gNeQ+YTKtsaj8ZmqnoLFswiZN2ntSiYTa8uRnbNDuzrcA3T90dLzIX7rR1xzwGAowIRCMv
+ /08PZrqlF+/Kpj82ZjfA1B+NBgVDJWsgk8xp325ul5k8H7eBu/MK+YuqWCoWccaj71dAWkMI3ch7p
+ A4Dzv6KoZUVdajk+unY0SoewkD6z4wpw4VjPRNd16uxf7LE4/Dk0fcegAiQ9RgXE7P8wxmXJcRb2w
+ NntH3qP/BHxd8E4nNX5IeeCZ20bIzit4F8PZB/jmXjLqEuwWaBX9qsCRPgNyiQo9Fmj+2K8k10r6R
+ WuFtJud7iEFRjvxRF/JrZtGeeU51yk8h91kwoVGJ4=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4jL5-0002xg-G5; Fri, 24 Jun 2022 14:27:15 +0100
-Message-ID: <1b95daf6-8a51-1ae3-4a55-a2136c3278e5@ilande.co.uk>
-Date: Fri, 24 Jun 2022 14:28:20 +0100
+ id 1o4jOo-0002zc-28; Fri, 24 Jun 2022 14:31:06 +0100
+Message-ID: <792ebc6d-b1e8-6b1b-2aae-123a472d85d0@ilande.co.uk>
+Date: Fri, 24 Jun 2022 14:32:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Content-Language: en-US
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
  f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
- <20220522181836.864-28-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA8Rp9ta7zvcpxeg7YrgYD_EDp+t1CMU67pHDQHr2JeQXw@mail.gmail.com>
- <39580972-c586-4822-b761-4b99772c8ed6@ilande.co.uk>
-In-Reply-To: <39580972-c586-4822-b761-4b99772c8ed6@ilande.co.uk>
+ <20220522181836.864-46-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA9CxLKNZzfvaoUFSRtykEymu23er+zj=7GA1V2nRtcU9A@mail.gmail.com>
+ <939ffd58-3a89-ea5b-157d-d4a9bd4dffa4@ilande.co.uk>
+ <a425db75-5636-8b29-26d2-9bef52c8eb25@ilande.co.uk>
+ <CAFEAcA-F_v_S3TMbtQvboBCzg9OsXM3YZ-Bs6yVabTpE9_yJ5Q@mail.gmail.com>
+ <ee98844e-93e6-1c43-ae1c-57af166d9beb@ilande.co.uk>
+ <CAFEAcA-5P+45sZeprHCsEWiXCQ_pojdPG9U042nmJEmr=Wi-_w@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAFEAcA-5P+45sZeprHCsEWiXCQ_pojdPG9U042nmJEmr=Wi-_w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 27/50] pckbd: alter i8042_mm_init() to return a I8042_MMIO
- device
+Subject: Re: [PATCH 45/50] lasips2: use qdev gpio for output IRQ
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -86,41 +89,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/06/2022 08:04, Mark Cave-Ayland wrote:
+On 20/06/2022 15:13, Peter Maydell wrote:
 
-> On 09/06/2022 11:58, Peter Maydell wrote:
-> 
->> On Sun, 22 May 2022 at 19:19, Mark Cave-Ayland
->> <mark.cave-ayland@ilande.co.uk> wrote:
->>>
->>> This exposes the I8042_MMIO device to the caller to allow the register memory
->>> region to be mapped outside of i8042_mm_init().
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> On Mon, 20 Jun 2022 at 14:22, Mark Cave-Ayland
+> <mark.cave-ayland@ilande.co.uk> wrote:
 >>
->> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> On 20/06/2022 11:17, Peter Maydell wrote:
+>>> Well, I think that "unnamed GPIO out" lines should be for
+>>> actual GPIO lines, ie on a GPIO controller or similar.
+>>> If you want an outbound IRQ line and don't want to name it,
+>>> that's what sysbus IRQ lines do. Otherwise, name the GPIO line.
 >>
->> I'm not sure where best to put this review comment in the patchseries,
->> so I'll just note it here: I see that at the end of the series we end
->> up with an i8042_mm_init() which is just "create a device with qdev_new,
->> set properties, realize it, and connect its gpio lines". Since that
->> function has exactly one callsite (in hw/mips/jazz.c) I think we should
->> add a patch on the end that gets rid of i8042_mm_init() entirely in
->> favour of the board doing all the "create and wire up device" code inline.
+>> That's interesting - I've always been under the impression that this was the other
+>> way around, i.e. for a TYPE_DEVICE then unnamed gpios are equivalent to IRQs, and
+>> that gpio lines for any other non-IRQ purpose should be named :/
 > 
-> I actually have a patch to do this in the follow-up part 2 series locally. The aim 
-> was to get part 1 merged first (which is removing the update callback and the 
-> opaque), and then finish tidying up the QOM modelling of the devices in part 2.
-> 
-> However since part 1 has been posted, both Hervé and Helge have mentioned that they 
-> wouldn't mind if there was a migration break for the hppa and MIPS magnum machines. 
-> As this does save a bit of work for the I8042_MMIO device, I'll see if it is easy 
-> enough to bring forward into part 1.
+> Well, named GPIO lines are relatively new, so if you look at older
+> devices you'll probably find plenty that use unnamed GPIO lines
+> for various things including IRQ lines. But I think that for clarity
+> if you create something called "gpio_out" the obvious thing is that
+> that's a GPIO output, and if you create something called "sysbus_irq"
+> the obvious thing is that that's an IRQ line, and if you want to
+> do something that's neither of those then the clearest thing is
+> to name the GPIO.
 
-After a bit of experimentation I think deferring this to part 2 is the easiest 
-solution here: even though there is a patch to remove the "base" property again for 
-the I8042_MMIO_DEVICE, that solution still feels cleaner than scattering the 
-migration compatibility across multiple series.
+Ultimately I'm not too concerned about the choice between sysbus IRQs instead of gpio 
+outputs, since making the change later is quite trivial. I've gone ahead and updated 
+this patch to use a sysbus IRQ instead of an unnamed gpio out for v2.
 
 
 ATB,
