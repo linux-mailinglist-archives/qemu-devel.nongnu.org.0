@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C48559CF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:05:52 +0200 (CEST)
-Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD587559CFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:08:19 +0200 (CEST)
+Received: from localhost ([::1]:48920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4ksZ-0002Cp-Cw
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
+	id 1o4kuv-0006nB-1H
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o4kpz-0000Mq-2Y
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:03:11 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:41497)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o4kpx-0002Sf-Hg
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:03:10 -0400
-Received: by mail-pg1-x535.google.com with SMTP id 23so2657257pgc.8
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KHVAnKap8arAL/CJ/RRCZLqAxsImPdNLBj2NT1+94XQ=;
- b=N5yO4QFcO5dzUdjyYVrJU3vDAWCSqKtT4esSopwTz5IeUKPiEYbpwYzZ64mD5okDJN
- pY+jh4OP46vDeglLAMrajER4ivmVEKsr1+BqTdfMIzFjyLmMn0w1ITEx1it33B2nePfN
- mIypoRCPcm/2OITs0FuOeuzXtlLm/Bb+waf68Tay5zSjH06B9qQTBkJr1V2rXDXw28G5
- LbYaKZ/AHkRaAWJac2fXQblhVoRehBob2h4thu5s4iG2fi8hHo6sqln20JsEIhj2uOFu
- 6oEMMLcLPnKDBHEWdTqgTkM8z7+LjE3mkJUbacNteayz596kokZbR2eAS5d+2gsLqtVj
- kxBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KHVAnKap8arAL/CJ/RRCZLqAxsImPdNLBj2NT1+94XQ=;
- b=QtWRbuZ3BKODtdvDdAU5ShXBQffGVC2QWi3RwBMtvvmiPeBWUNPyU3CeONqJRnABb3
- GIsLEO8kh+PRSIDd3WCNSadwxl/1F7g3q1tz/6gqS/U+4SRhrN0cky0+AamWw6vGG9RH
- MwJ3OdeW1zsxaH6vdUL3cY9LgDxRyEanmNEFMSOZK0wp8hL1pcu7etHHhNEQbO6djGrw
- nvCGwzVwmI3I0/UL2/U6NRUzNAPMmLlZmSZm8id4vY+yJ4RZ5GHkcGM9nMSzbBduZ5sV
- V9ggsYmSQr2gSEGmWPEtuZNTg+Yk1CVr7BlDcNYpZhhVglI/3H7flnIdg48eSrcg2xzl
- ey7g==
-X-Gm-Message-State: AJIora8/Rg/4xp1IWIHUeeJehHche0mb2VfC8qmXSy46XvLccFSfchqG
- Gm+nDsHY3TvWvE21e/lJ+J8=
-X-Google-Smtp-Source: AGRyM1tHnHR+PWbhlUqGOpDrpxYsiDr8FDrKuqfyMJ/tqZBSSg67Q8Opkq34X1Wmlmy3Dtmzm7Ly2w==
-X-Received: by 2002:a63:2c15:0:b0:408:a75e:340a with SMTP id
- s21-20020a632c15000000b00408a75e340amr12540117pgs.313.1656082988188; 
- Fri, 24 Jun 2022 08:03:08 -0700 (PDT)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:80ba:2fd0:a1d1:c891])
- by smtp.gmail.com with ESMTPSA id
- u10-20020a170902714a00b001693bd7427asm1951253plm.170.2022.06.24.08.03.04
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 24 Jun 2022 08:03:06 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH] build: Do not depend on pc-bios for config-host.mak
-Date: Sat, 25 Jun 2022 00:02:58 +0900
-Message-Id: <20220624150258.50449-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o4krc-0002a3-37
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:04:52 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o4krZ-0002di-Nf
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:04:51 -0400
+Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LV0l26y7tz67yRq;
+ Fri, 24 Jun 2022 23:04:14 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 24 Jun 2022 17:04:46 +0200
+Received: from localhost (10.81.207.131) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 24 Jun
+ 2022 16:04:45 +0100
+Date: Fri, 24 Jun 2022 16:04:42 +0100
+To: Brice Goglin <Brice.Goglin@inria.fr>
+CC: QEMU Developers <qemu-devel@nongnu.org>, Liu Jingqi
+ <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>, "Marcel
+ Apfelbaum" <marcel.apfelbaum@gmail.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
+ =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Yanan Wang
+ <wangyanan55@huawei.com>, Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 0/4] hmat acpi: Don't require initiator value in -numa
+Message-ID: <20220624160442.00002af2@Huawei.com>
+In-Reply-To: <d7e41f9c-745d-3ef2-31c3-c5e5921fc025@inria.fr>
+References: <d7e41f9c-745d-3ef2-31c3-c5e5921fc025@inria.fr>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.81.207.131]
+X-ClientProxiedBy: lhreml735-chm.china.huawei.com (10.201.108.86) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,29 +72,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Commit 45f1eecdd63f9e4fa93fef01dd826e7706ac6d7b removed the dependency
-from configure to pc-bios
+On Thu, 23 Jun 2022 16:56:58 +0200
+Brice Goglin <Brice.Goglin@inria.fr> wrote:
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Brice Goglin (4):
+>    hmat acpi: Don't require initiator value in -numa
+>    tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
+>    tests: acpi: q35: add test for hmat nodes without initiators
+>    tests: acpi: q35: update expected blobs *.hmat-noinitiators]
+Hi Brice,
 
-diff --git a/Makefile b/Makefile
-index 3c0d89057eb..2e95d473b3e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -87,7 +87,7 @@ x := $(shell rm -rf meson-private meson-info meson-logs)
- endif
- 
- # 1. ensure config-host.mak is up-to-date
--config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/scripts/meson-buildoptions.sh $(SRC_PATH)/pc-bios $(SRC_PATH)/VERSION
-+config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/scripts/meson-buildoptions.sh $(SRC_PATH)/VERSION
- 	@echo config-host.mak is out-of-date, running configure
- 	@if test -f meson-private/coredata.dat; then \
- 	  ./config.status --skip-meson; \
--- 
-2.32.1 (Apple Git-133)
+Given I reviewed on your github prior to you sending this and you've addressed
+the few minor things I raised.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Nice to tidy this up.
+
+Jonathan
+
+> 
+>   hw/core/machine.c                             |   4 +-
+>   tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
+>   tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
+>   tests/data/acpi/q35/FACP.acpihmat-noinitiator | Bin 0 -> 244 bytes
+>   tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
+>   tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
+>   tests/qtest/bios-tables-test.c                |  45 ++++++++++++++++++
+>   7 files changed, 46 insertions(+), 3 deletions(-)
+>   create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
+>   create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
+>   create mode 100644 tests/data/acpi/q35/FACP.acpihmat-noinitiator
+>   create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
+>   create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
+> 
 
 
