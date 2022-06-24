@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AD1559608
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:08:57 +0200 (CEST)
-Received: from localhost ([::1]:54002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5345A55964A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:18:53 +0200 (CEST)
+Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4fJA-0007aH-Nm
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:08:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43630)
+	id 1o4fSm-000523-Dk
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o4f0f-0002HE-MA; Fri, 24 Jun 2022 04:49:51 -0400
-Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35]:44970)
+ id 1o4f0h-0002IK-RM; Fri, 24 Jun 2022 04:49:52 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:43672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o4f0d-0000DC-Lp; Fri, 24 Jun 2022 04:49:48 -0400
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-101e1a33fe3so2865316fac.11; 
- Fri, 24 Jun 2022 01:49:46 -0700 (PDT)
+ id 1o4f0f-0000DV-Ps; Fri, 24 Jun 2022 04:49:50 -0400
+Received: by mail-oi1-x236.google.com with SMTP id q11so2749796oih.10;
+ Fri, 24 Jun 2022 01:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6tobjUbMb29uwSnXni9OsSycNwK5t9rHZx8r0rP3SZc=;
- b=ahayYoGfFy+x5oukpr5STG3Q/d7Lnl5a43v8W8tmM+uPdD2lZlwVE/DikMQOZMOzGH
- Pr4l7HsyAdUbryAyl0k0xaDwmEnKI0qu6vuogev0xX7/rm1IhI5m4bTfFWlPL0s8okFc
- QBHPiB5uHDVLaAktWGqm1OrE2bk5ApWV+ThkW/FO7icgj7PpHcmm0apk0dpYoIZb2Rnu
- XAo9q4HInzfat2cmrT+0zHUsQwUG4Qkper6C2ryh/eyXkcFFI9m4+ZoR70IvQBkFXnub
- tw0lelgKrAolxmXBgGQPDQbXQ29Xw/GCrTdsozhWxiWFRkcP1WHEiA+1DDSjbugiyHLl
- kyXw==
+ bh=9D0tUD26PSk86Xf2Qt6CGYPzLAH9wbOoYCVimWLzjX4=;
+ b=HbEPoWqPBHhYK12tA9bzEMY1al98YIf5Z/vVO7nh3MAEx4+GgBa4R6J8/OpgUrOiiq
+ rGbztraeFxkYAbv2U59iBfapLEYPEqep7a43z84gwUWoFt3uu9NtAvQX3UHPznOZBcYt
+ 6OGguo0tSeZlrt84EIGYGPjPr9WVVWHCYb7l9YAmRLIHKXuuKhVj0Xk0KYF1JM8y8S6L
+ jGKoIBDSjr7VdpQRqL7vd5JLQ3BsOZgZzhHfqXLl1bYAv9VZ0pr5MKUKzIXyUBczOgBc
+ EmZ2AmZXfaLmoLz8MHlG3ho/MTFIAxm6SbdXlCu0DbEXVldniFPkkruK51Nhffo+/4aj
+ VIxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6tobjUbMb29uwSnXni9OsSycNwK5t9rHZx8r0rP3SZc=;
- b=M2RvL9pnmTf/VzuaiH/YLGsx3jDjr+z6Vb1TxeynTZiR7ZeC8pRp0ru4XCtAxowSi1
- f47+1r3PO8qbI05D9R7so+T185JBU0z3hyVRXueslWf5qgcOtbcX8ErFMj5/My7QICLF
- MUeB+68DtTXZyyYAGNmiEChi9bhcyBh8p0ASGgKYydPtMPUcx0wngNEutVHx7gE2UupR
- PwoXG5jWQ2kBnSRs17oZe9cq/K4yB7nM+7ilOjiogctWQIuhc6Ggtx8Z3YtijONqH1FT
- vFbCWxk9SwMAK0nDHjtCDjV5+VFiAETh3z/fJQZU94BNHuWByPvHaF9A6/645eO2e19O
- OH9w==
-X-Gm-Message-State: AJIora/b3Jwg9tdbTZFXa85dv5xrYNF8Fmk0To09ufMx5GiDwrXaqcZ0
- YVv727IVQEdCsjKeu1vyQX7Z/hf82lU=
-X-Google-Smtp-Source: AGRyM1sYnExJDBb/y1eMNfDsYFufPBtLVyE8cd4xTvB0mWrfZ2niK3l3+rKWC+79Quv/Qqd27W6s5g==
-X-Received: by 2002:a05:6870:e2ce:b0:101:a7c3:49cb with SMTP id
- w14-20020a056870e2ce00b00101a7c349cbmr1339011oad.197.1656060585730; 
- Fri, 24 Jun 2022 01:49:45 -0700 (PDT)
+ bh=9D0tUD26PSk86Xf2Qt6CGYPzLAH9wbOoYCVimWLzjX4=;
+ b=b+I0Ngwg4gRkUG+LR3ys3ApP/I3KBHj+lj2BywXg4KSqfRI9OvUUAro6CkqyeuUmR6
+ Jzdhs0f1GXHvRCiwdBv4leSj+szuKncvVV47vdLCNcjNWHbFJ0u6WYL7j1rp24XagsNl
+ aNQrjf7jy5miM27Dpj6dD3apQ1CoE/EG//jYVdbX9SMB9RfQ1zBlfUMHhH3iU/Ud5IXA
+ sw1AENMhgP6uzqwG4yIA3auObFIhenkgvjnB9qBNeA6enRIt6Oczv93GfubY9IffWRka
+ xkECpxl0T7PqxfunyB9tptnrwgn/kJaqwVMxX/8p4RLWgO4aABL12+29BcMOC/dWSvi4
+ v6HQ==
+X-Gm-Message-State: AJIora/iv8Ic9+z9QxYnhElADGExIogQxmoFgKqADJXGsUdZHxaHMZ1P
+ rcoc9xNxyEihuOpB4Pp05hCI1+skwRo=
+X-Google-Smtp-Source: AGRyM1urpJVsylywnhVhMz9PdahvuAtkXdR4BKOqgPHZvpYBkNYSf8fU1SEio1TInj/IbVyeWkfjPQ==
+X-Received: by 2002:a05:6808:1919:b0:335:370d:280d with SMTP id
+ bf25-20020a056808191900b00335370d280dmr1308069oib.117.1656060587616; 
+ Fri, 24 Jun 2022 01:49:47 -0700 (PDT)
 Received: from balboa.ibmmodules.com ([191.193.1.105])
  by smtp.gmail.com with ESMTPSA id
- u8-20020a056830230800b0061698ef90e5sm1192768ote.31.2022.06.24.01.49.43
+ u8-20020a056830230800b0061698ef90e5sm1192768ote.31.2022.06.24.01.49.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 01:49:45 -0700 (PDT)
+ Fri, 24 Jun 2022 01:49:47 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v3 09/12] ppc/pnv: remove root port name from
- pnv_phb_attach_root_port()
-Date: Fri, 24 Jun 2022 05:49:18 -0300
-Message-Id: <20220624084921.399219-10-danielhb413@gmail.com>
+Subject: [PATCH v3 10/12] ppc/pnv: remove pecc->rp_model
+Date: Fri, 24 Jun 2022 05:49:19 -0300
+Message-Id: <20220624084921.399219-11-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220624084921.399219-1-danielhb413@gmail.com>
 References: <20220624084921.399219-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::35;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,88 +88,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We support only a single root port, PNV_PHB_ROOT_PORT.
+The attribute is unused.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb.c | 7 +------
- hw/ppc/pnv.c          | 9 +++++----
- include/hw/ppc/pnv.h  | 3 +--
- 3 files changed, 7 insertions(+), 12 deletions(-)
+ hw/pci-host/pnv_phb4_pec.c     | 2 --
+ include/hw/pci-host/pnv_phb4.h | 1 -
+ 2 files changed, 3 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
-index da729e89e7..cc15a949c9 100644
---- a/hw/pci-host/pnv_phb.c
-+++ b/hw/pci-host/pnv_phb.c
-@@ -24,7 +24,6 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
-     PnvPHB *phb = PNV_PHB(dev);
-     PCIHostState *pci = PCI_HOST_BRIDGE(dev);
-     g_autofree char *phb_typename = NULL;
--    g_autofree char *phb_rootport_typename = NULL;
- 
-     if (!phb->version) {
-         error_setg(errp, "version not specified");
-@@ -34,15 +33,12 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
-     switch (phb->version) {
-     case 3:
-         phb_typename = g_strdup(TYPE_PNV_PHB3);
--        phb_rootport_typename = g_strdup(TYPE_PNV_PHB_ROOT_PORT);
-         break;
-     case 4:
-         phb_typename = g_strdup(TYPE_PNV_PHB4);
--        phb_rootport_typename = g_strdup(TYPE_PNV_PHB_ROOT_PORT);
-         break;
-     case 5:
-         phb_typename = g_strdup(TYPE_PNV_PHB5);
--        phb_rootport_typename = g_strdup(TYPE_PNV_PHB_ROOT_PORT);
-         break;
-     default:
-         g_assert_not_reached();
-@@ -73,8 +69,7 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
-         pnv_phb4_bus_init(dev, PNV_PHB4(phb->backend));
-     }
- 
--    pnv_phb_attach_root_port(pci, phb_rootport_typename,
--                             phb->phb_id, phb->chip_id);
-+    pnv_phb_attach_root_port(pci, phb->phb_id, phb->chip_id);
+diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+index 0ef66b9a9b..8dc363d69c 100644
+--- a/hw/pci-host/pnv_phb4_pec.c
++++ b/hw/pci-host/pnv_phb4_pec.c
+@@ -260,7 +260,6 @@ static void pnv_pec_class_init(ObjectClass *klass, void *data)
+     pecc->version = PNV_PHB4_VERSION;
+     pecc->phb_type = TYPE_PNV_PHB4;
+     pecc->num_phbs = pnv_pec_num_phbs;
+-    pecc->rp_model = TYPE_PNV_PHB_ROOT_PORT;
  }
  
- static const char *pnv_phb_root_bus_path(PCIHostState *host_bridge,
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 159899103e..5b7cbfc699 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1199,11 +1199,12 @@ static void pnv_chip_icp_realize(Pnv8Chip *chip8, Error **errp)
-  * QOM id. 'chip_id' is going to be used as PCIE chassis for the
-  * root port.
-  */
--void pnv_phb_attach_root_port(PCIHostState *pci, const char *name,
--                              int index, int chip_id)
-+void pnv_phb_attach_root_port(PCIHostState *pci, int index, int chip_id)
- {
--    PCIDevice *root = pci_new(PCI_DEVFN(0, 0), name);
--    g_autofree char *default_id = g_strdup_printf("%s[%d]", name, index);
-+    PCIDevice *root = pci_new(PCI_DEVFN(0, 0), TYPE_PNV_PHB_ROOT_PORT);
-+    g_autofree char *default_id = g_strdup_printf("%s[%d]",
-+                                                  TYPE_PNV_PHB_ROOT_PORT,
-+                                                  index);
-     const char *dev_id = DEVICE(root)->id;
+ static const TypeInfo pnv_pec_type_info = {
+@@ -313,7 +312,6 @@ static void pnv_phb5_pec_class_init(ObjectClass *klass, void *data)
+     pecc->version = PNV_PHB5_VERSION;
+     pecc->phb_type = TYPE_PNV_PHB5;
+     pecc->num_phbs = pnv_phb5_pec_num_stacks;
+-    pecc->rp_model = TYPE_PNV_PHB_ROOT_PORT;
+ }
  
-     object_property_add_child(OBJECT(pci->bus), dev_id ? dev_id : default_id,
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 33b7b52f45..fbad11d6a7 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -190,8 +190,7 @@ DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER10,
-                          TYPE_PNV_CHIP_POWER10)
+ static const TypeInfo pnv_phb5_pec_type_info = {
+diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+index 29c49ac79c..61a0cb9989 100644
+--- a/include/hw/pci-host/pnv_phb4.h
++++ b/include/hw/pci-host/pnv_phb4.h
+@@ -200,7 +200,6 @@ struct PnvPhb4PecClass {
+     uint64_t version;
+     const char *phb_type;
+     const uint32_t *num_phbs;
+-    const char *rp_model;
+ };
  
- PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
--void pnv_phb_attach_root_port(PCIHostState *pci, const char *name,
--                              int index, int chip_id);
-+void pnv_phb_attach_root_port(PCIHostState *pci, int index, int chip_id);
- 
- #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
- typedef struct PnvMachineClass PnvMachineClass;
+ /*
 -- 
 2.36.1
 
