@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58B5559576
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:30:31 +0200 (CEST)
-Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B095559593
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:42:38 +0200 (CEST)
+Received: from localhost ([::1]:37202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4ehy-0007KD-P8
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:30:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39232)
+	id 1o4eth-0000my-H2
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4ee8-0004br-Ti
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:26:32 -0400
-Received: from mxout.security-mail.net ([85.31.212.42]:52490)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1o4efA-0005j5-03
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:27:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4ee4-0005Co-VX
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:26:32 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx302.security-mail.net (Postfix) with ESMTP id 02BEC3D3B0D2
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:26:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656059187;
- bh=uzFQXW8IfbPFyuQQSEx2mK+M9UYpVEqCcbXXGozebyE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=FNto5OrjlzC2KU+8JKQG1ZCA/k9fq9IHpfOgvHwZjbcrwv++ScIE8CQN7xV2YZMsK
- 3+Gu/3ojGzlZMuBBGaAGhUBoegqKrHTLz6mneoUOLg18g1N4XezUjhaMtWFzN0P7Ai
- ZQaleb1yPAF6tf84NIzqXEhjPaSFHTRV8QTxao9w=
-Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
- (Postfix) with ESMTP id A62323D3B0C7; Fri, 24 Jun 2022 10:26:26 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx302.security-mail.net (Postfix) with ESMTPS id 217CF3D3B0B8; Fri, 24 Jun
- 2022 10:26:26 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 0633427E04FD; Fri, 24 Jun 2022
- 10:26:26 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id E4BB227E04FB; Fri, 24 Jun 2022 10:26:25 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- iYk5f-JmqtqR; Fri, 24 Jun 2022 10:26:25 +0200 (CEST)
-Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id CC3FB27E04F8; Fri, 24 Jun 2022 10:26:25 +0200
- (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <1ac5.62b57532.210f2.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu E4BB227E04FB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656059185;
- bh=J5UaBcwvx8XObd4EAfsuLP0NvJwQpwwpSArpC7N/nE4=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=eRpat1iPzLtudPLC5BNG5gU0fZwOH/geHasUyPowblhz+yfrNV93v2kKxuYOA27u6
- ZfVlu4Y69cuEY35DJA2zBvuZPO5vcL+lnHRsA/i8biY9sFxJ6Cm8uy9kI0K1Hvf1m7
- Zluixf1FAGBjNXNj0OeEpy2vgH7ygl/4m0d4tna4=
-Date: Fri, 24 Jun 2022 10:26:25 +0200
-From: Luc Michel <lmichel@kalray.eu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 39/53] semihosting: Create semihost_sys_gettimeofday
-Message-ID: <20220624082625.GG25499@ws2101.lin.mbt.kalray.eu>
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-40-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1o4ef6-0005Mp-Hc
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:27:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656059250;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9zuLzxb27Hexp30bOKDN361bTLs6dYdnocSwc3Bu4Og=;
+ b=HfpVez0+THL7k/t6RKOooT4s6DzfVxD/RxeqfStcMTJ++9dGrXNQrU+ToMa1AA4zCbq9XO
+ db3j1sTrakZn5WT7u2B+l5uIpSynG2eFkGQoy3/7VrbVXPPh4qeEWNgkaAqHU2wymHXU+N
+ +e8jcTxV6hfZDKRt5iOfNMouqD4kv6M=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-604-QI9FXeZoMrqBatSbo9aYTw-1; Fri, 24 Jun 2022 04:27:28 -0400
+X-MC-Unique: QI9FXeZoMrqBatSbo9aYTw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ t14-20020a056402524e00b0043595a18b91so1354903edd.13
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 01:27:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9zuLzxb27Hexp30bOKDN361bTLs6dYdnocSwc3Bu4Og=;
+ b=03pyXAwftWv2JTkW6x670ViyDCSVW8IdGmiYU5rG0A7w9j1feoZgyyowiQ2+pqg3gJ
+ NUJlEmEAPxftlOP+r++kzFwM/CtjC0UfW5wqp4ZHIjCDxQnv/wYgURQ4+h3O65B2Sbft
+ JVE98/+ZwEpLgrNtMRSnZIX5R6A4Xu+7MDZEt/Q0QNaa1hsPw0voOf4KSLEr3XaPsdzO
+ M/JFh+m+Qv4d2hXvB6dkyCuvggUxcGaCqF1eg+tOdcLCUwBpompJ5vLnhPMJPLL1acXS
+ QysMKFh31zXLwbtKX4g+b+vl0HjFzzFVz6gTekPfkO8WKUy/cKJYH+8392TqivZ6GaxF
+ sAcQ==
+X-Gm-Message-State: AJIora/V9RwGiQTgh2dcOVyqon2V2yjuUgJnStJuSxxUalwn7mDtcfeN
+ SKgWxEsWu8PXAxDZZgNKgRFoSoe9Ubt2Pvt5mHFEVDGVd2UwXJEFTWJc6DOf4ZHbiWbY4lI/bOd
+ ta9QrZG4nv99zfuIPKHCaaU3bQGwsSeAbdBGK7p+7fE0HKGADgGZIekG5vmE9scu+t0s=
+X-Received: by 2002:a17:906:2245:b0:715:7c81:e39d with SMTP id
+ 5-20020a170906224500b007157c81e39dmr12213410ejr.262.1656059247145; 
+ Fri, 24 Jun 2022 01:27:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tqpfrPY6Yyab5AE1R8a8dOr2PiUPVGFJ2J7uGpkAzoXYS/OPWUyOXiCvOK1QNR8P8TFdjLFA==
+X-Received: by 2002:a17:906:2245:b0:715:7c81:e39d with SMTP id
+ 5-20020a170906224500b007157c81e39dmr12213384ejr.262.1656059246754; 
+ Fri, 24 Jun 2022 01:27:26 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ k20-20020a1709063fd400b00722f66fb36csm696024ejj.112.2022.06.24.01.27.25
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jun 2022 01:27:25 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/14] (Mostly) build system changes for 2022-06-24
+Date: Fri, 24 Jun 2022 10:27:10 +0200
+Message-Id: <20220624082724.246839-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-40-richard.henderson@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.42; envelope-from=lmichel@kalray.eu;
- helo=mxout.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,106 +96,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> This syscall will be used by m68k and nios2 semihosting.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+The following changes since commit 2b049d2c8dc01de750410f8f1a4eac498c04c723:
 
-Reviewed-by: Luc Michel <lmichel@kalray.eu>
+  Merge tag 'pull-aspeed-20220622' of https://github.com/legoater/qemu into staging (2022-06-22 07:27:06 -0700)
 
-> ---
->  include/semihosting/syscalls.h |  3 +++
->  semihosting/syscalls.c         | 42 ++++++++++++++++++++++++++++++++++
->  2 files changed, 45 insertions(+)
-> 
-> diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-> index ecc97751a9..347200cb9f 100644
-> --- a/include/semihosting/syscalls.h
-> +++ b/include/semihosting/syscalls.h
-> @@ -66,4 +66,7 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
->  void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
->                           target_ulong cmd, target_ulong cmd_len);
->  
-> +void semihost_sys_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                               target_ulong tv_addr, target_ulong tz_addr);
-> +
->  #endif /* SEMIHOSTING_SYSCALLS_H */
-> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-> index d21064716d..db1e9f6cc9 100644
-> --- a/semihosting/syscalls.c
-> +++ b/semihosting/syscalls.c
-> @@ -236,6 +236,12 @@ static void gdb_system(CPUState *cs, gdb_syscall_complete_cb complete,
->      gdb_do_syscall(complete, "system,%s", cmd, len);
->  }
->  
-> +static void gdb_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                             target_ulong tv_addr, target_ulong tz_addr)
-> +{
-> +    gdb_do_syscall(complete, "gettimeofday,%x,%x", tv_addr, tz_addr);
-> +}
-> +
->  /*
->   * Host semihosting syscall implementations.
->   */
-> @@ -487,6 +493,32 @@ static void host_system(CPUState *cs, gdb_syscall_complete_cb complete,
->      unlock_user(p, cmd, 0);
->  }
->  
-> +static void host_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                              target_ulong tv_addr, target_ulong tz_addr)
-> +{
-> +    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-> +    struct gdb_timeval *p;
-> +    int64_t rt;
-> +
-> +    /* GDB fails on non-null TZ, so be consistent. */
-> +    if (tz_addr != 0) {
-> +        complete(cs, -1, EINVAL);
-> +        return;
-> +    }
-> +
-> +    p = lock_user(VERIFY_WRITE, tv_addr, sizeof(struct gdb_timeval), 0);
-> +    if (!p) {
-> +        complete(cs, -1, EFAULT);
-> +        return;
-> +    }
-> +
-> +    /* TODO: Like stat, gdb always produces big-endian results; match it. */
-> +    rt = g_get_real_time();
-> +    p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
-> +    p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
-> +    unlock_user(p, tv_addr, sizeof(struct gdb_timeval));
-> +}
-> +
->  /*
->   * Static file semihosting syscall implementations.
->   */
-> @@ -796,3 +828,13 @@ void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
->          host_system(cs, complete, cmd, cmd_len);
->      }
->  }
-> +
-> +void semihost_sys_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                               target_ulong tv_addr, target_ulong tz_addr)
-> +{
-> +    if (use_gdb_syscalls()) {
-> +        gdb_gettimeofday(cs, complete, tv_addr, tz_addr);
-> +    } else {
-> +        host_gettimeofday(cs, complete, tv_addr, tz_addr);
-> +    }
-> +}
-> -- 
-> 2.34.1
-> 
-> 
-> 
-> 
-> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=c119.629fd54f.4e3dd.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+39%2F53%5D+semihosting%3A+Create+semihost_sys_gettimeofday&verdict=C&c=72ff7ee6d62e9655defaed81c32535afbc86c0b7
-> 
+are available in the Git repository at:
 
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 72da35fec9a9ba91a5b2cb9ee00843a94fa9413d:
+
+  accel: kvm: Fix memory leak in find_stats_descriptors (2022-06-24 10:19:17 +0200)
+
+----------------------------------------------------------------
+* fuzzing fixes
+* fix cross compilation CFLAGS and compiler choice
+* do not specify -bios option for tests/vm
+* miscellaneous fixes
+
+----------------------------------------------------------------
+Alexander Bulekov (2):
+      build: improve -fsanitize-coverage-allowlist check
+      fuzz: only use generic-fuzz targets on oss-fuzz
+
+Marc-André Lureau (1):
+      audio/dbus: fix building
+
+Miaoqian Lin (1):
+      accel: kvm: Fix memory leak in find_stats_descriptors
+
+Paolo Bonzini (9):
+      tests/vm: do not specify -bios option
+      pc-bios/optionrom: use -m16 unconditionally
+      configure, pc-bios/optionrom: pass cross CFLAGS correctly
+      configure, pc-bios/s390-ccw: pass cross CFLAGS correctly
+      configure, pc-bios/vof: pass cross CFLAGS correctly
+      configure: allow more host/target combos to use the host compiler
+      configure: write EXTRA_CFLAGS for all sub-Makefiles
+      tests/tcg: compile system emulation tests as freestanding
+      build: try both native and cross compilers for linux-user tests
+
+Thomas Huth (1):
+      meson.build: Require a recent version of libpng
+
+ accel/kvm/kvm-all.c                    |   1 +
+ audio/meson.build                      |   2 +-
+ configure                              | 188 ++++++++++++++++++++-------------
+ meson.build                            |   7 +-
+ pc-bios/optionrom/Makefile             |  15 +--
+ pc-bios/optionrom/code16gcc.h          |   3 -
+ pc-bios/s390-ccw/Makefile              |  20 ++--
+ pc-bios/s390-ccw/netboot.mak           |   6 +-
+ pc-bios/vof/Makefile                   |   8 +-
+ scripts/oss-fuzz/build.sh              |   4 +-
+ tests/tcg/Makefile.target              |   1 +
+ tests/tcg/aarch64/system/pauth-3.c     |   2 +-
+ tests/tcg/aarch64/system/semiconsole.c |   2 +-
+ tests/tcg/aarch64/system/semiheap.c    |   2 +-
+ tests/tcg/multiarch/system/memory.c    |   2 +-
+ tests/vm/fedora                        |   1 -
+ tests/vm/freebsd                       |   1 -
+ tests/vm/netbsd                        |   1 -
+ tests/vm/openbsd                       |   1 -
+ 19 files changed, 143 insertions(+), 124 deletions(-)
+ delete mode 100644 pc-bios/optionrom/code16gcc.h
 -- 
-
-
-
+2.36.1
 
 
